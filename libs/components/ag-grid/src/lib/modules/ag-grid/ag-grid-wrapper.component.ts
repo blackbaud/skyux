@@ -14,8 +14,8 @@ import {
 import { SkyThemeService } from '@skyux/theme';
 
 import { AgGridAngular } from 'ag-grid-angular';
-import { DetailGridInfo } from 'ag-grid-community';
-import { Subject } from 'rxjs';
+import { CellEditingStartedEvent, DetailGridInfo } from 'ag-grid-community';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
@@ -38,6 +38,7 @@ export class SkyAgGridWrapperComponent
   public afterAnchorId: string;
   public beforeAnchorId: string;
   public gridId: string;
+  public wrapperClasses$: Observable<string[]>;
 
   public get viewkeeperClasses(): string[] {
     return this._viewkeeperClasses;
@@ -48,12 +49,11 @@ export class SkyAgGridWrapperComponent
     this.changeDetector.markForCheck();
   }
 
-  public agThemeClass = 'ag-theme-sky-default';
-
   private _viewkeeperClasses: string[] = [];
 
   #ngUnsubscribe = new Subject<void>();
   #themeSvc: SkyThemeService | undefined;
+  #wrapperClasses = new BehaviorSubject<string[]>([`ag-theme-sky-default`]);
 
   constructor(
     private adapterService: SkyAgGridAdapterService,
@@ -67,6 +67,7 @@ export class SkyAgGridWrapperComponent
     this.beforeAnchorId = 'sky-ag-grid-nav-anchor-before-' + idIndex;
     this.gridId = 'sky-ag-grid-' + idIndex;
     this.#themeSvc = themeSvc;
+    this.wrapperClasses$ = this.#wrapperClasses.asObservable();
   }
 
   public ngAfterContentInit(): void {
@@ -93,6 +94,29 @@ export class SkyAgGridWrapperComponent
       .subscribe(() => {
         this.#moveHorizontalScroll();
       });
+    this.agGrid.cellEditingStarted
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((params: CellEditingStartedEvent) => {
+        if (params.colDef.type) {
+          const types = Array.isArray(params.colDef.type)
+            ? params.colDef.type
+            : [params.colDef.type];
+          const addClasses = types.map((t) => `sky-ag-grid-cell-editing-${t}`);
+          this.#wrapperClasses.next([
+            ...this.#wrapperClasses.getValue(),
+            ...addClasses,
+          ]);
+        }
+      });
+    this.agGrid.cellEditingStopped
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe(() => {
+        this.#wrapperClasses.next(
+          this.#wrapperClasses
+            .getValue()
+            .filter((c) => c.startsWith('ag-theme-'))
+        );
+      });
   }
 
   public ngOnDestroy(): void {
@@ -104,12 +128,18 @@ export class SkyAgGridWrapperComponent
     this.#themeSvc?.settingsChange
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((settings) => {
+        let agThemeClass: string;
         if (settings.currentSettings.theme.name === 'modern') {
-          this.agThemeClass = `ag-theme-sky-modern-${settings.currentSettings.mode.name}`;
+          agThemeClass = `ag-theme-sky-modern-${settings.currentSettings.mode.name}`;
         } else {
-          this.agThemeClass = `ag-theme-sky-default`;
+          agThemeClass = `ag-theme-sky-default`;
         }
-        this.changeDetector.markForCheck();
+        this.#wrapperClasses.next([
+          ...this.#wrapperClasses
+            .getValue()
+            .filter((c) => !c.startsWith('ag-theme-')),
+          agThemeClass,
+        ]);
       });
   }
 

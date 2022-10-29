@@ -9,6 +9,8 @@ import {
 
 import { AgGridAngular } from 'ag-grid-angular';
 import {
+  CellEditingStartedEvent,
+  CellEditingStoppedEvent,
   Column,
   ColumnApi,
   DetailGridInfo,
@@ -42,6 +44,8 @@ describe('SkyAgGridWrapperComponent', () => {
     gridReady: new Subject<GridReadyEvent>(),
     rowDataUpdated: new Subject<RowDataUpdatedEvent>(),
     firstDataRendered: new Subject<FirstDataRenderedEvent>(),
+    cellEditingStarted: new Subject<CellEditingStartedEvent>(),
+    cellEditingStopped: new Subject<CellEditingStartedEvent>(),
   } as AgGridAngular;
 
   beforeEach(() => {
@@ -95,7 +99,9 @@ describe('SkyAgGridWrapperComponent', () => {
   });
 
   it('should apply ag-theme', async () => {
-    expect(gridWrapperComponent.agThemeClass).toEqual('ag-theme-sky-default');
+    expect(
+      gridWrapperNativeElement.querySelector('.sky-ag-grid')
+    ).toHaveCssClass('ag-theme-sky-default');
 
     mockThemeSvc.settingsChange.next({
       currentSettings: {
@@ -105,9 +111,9 @@ describe('SkyAgGridWrapperComponent', () => {
       previousSettings: undefined,
     });
     gridWrapperFixture.detectChanges();
-    expect(gridWrapperComponent.agThemeClass).toEqual(
-      'ag-theme-sky-modern-light'
-    );
+    expect(
+      gridWrapperNativeElement.querySelector('.sky-ag-grid')
+    ).toHaveCssClass('ag-theme-sky-modern-light');
 
     mockThemeSvc.settingsChange.next({
       currentSettings: {
@@ -117,9 +123,9 @@ describe('SkyAgGridWrapperComponent', () => {
       previousSettings: undefined,
     });
     gridWrapperFixture.detectChanges();
-    expect(gridWrapperComponent.agThemeClass).toEqual(
-      'ag-theme-sky-modern-dark'
-    );
+    expect(
+      gridWrapperNativeElement.querySelector('.sky-ag-grid')
+    ).toHaveCssClass('ag-theme-sky-modern-dark');
 
     mockThemeSvc.settingsChange.next({
       currentSettings: {
@@ -129,7 +135,42 @@ describe('SkyAgGridWrapperComponent', () => {
       previousSettings: undefined,
     });
     gridWrapperFixture.detectChanges();
-    expect(gridWrapperComponent.agThemeClass).toEqual('ag-theme-sky-default');
+    expect(
+      gridWrapperNativeElement.querySelector('.sky-ag-grid')
+    ).toHaveCssClass('ag-theme-sky-default');
+  });
+
+  it('should add and remove the cell editing class', () => {
+    agGrid.cellEditingStarted.next({ colDef: {} } as CellEditingStartedEvent);
+    agGrid.cellEditingStopped.next({} as CellEditingStoppedEvent);
+    agGrid.cellEditingStarted.next({
+      colDef: {
+        type: 'test',
+      },
+    } as CellEditingStartedEvent);
+    gridWrapperFixture.detectChanges();
+    expect(
+      gridWrapperNativeElement.querySelector('.sky-ag-grid')
+    ).toHaveCssClass('sky-ag-grid-cell-editing-test');
+    agGrid.cellEditingStopped.next({} as CellEditingStoppedEvent);
+    gridWrapperFixture.detectChanges();
+    expect(
+      gridWrapperNativeElement.querySelector('.sky-ag-grid')
+    ).not.toHaveCssClass('sky-ag-grid-cell-editing-test');
+    agGrid.cellEditingStarted.next({
+      colDef: {
+        type: ['test'],
+      },
+    } as CellEditingStartedEvent);
+    gridWrapperFixture.detectChanges();
+    expect(
+      gridWrapperNativeElement.querySelector('.sky-ag-grid')
+    ).toHaveCssClass('sky-ag-grid-cell-editing-test');
+    agGrid.cellEditingStopped.next({} as CellEditingStoppedEvent);
+    gridWrapperFixture.detectChanges();
+    expect(
+      gridWrapperNativeElement.querySelector('.sky-ag-grid')
+    ).not.toHaveCssClass('sky-ag-grid-cell-editing-test');
   });
 
   describe('onGridKeydown', () => {

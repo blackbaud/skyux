@@ -11,7 +11,7 @@
     agGrid?.gridOptions?.context &&
     agGrid?.gridOptions?.context['enableTopScroll']
   "
-  [ngClass]="agThemeClass"
+  [ngClass]="wrapperClasses$ | async"
   tabindex="0"
   [id]="gridId"
   [skyViewkeeper]="viewkeeperClasses"
