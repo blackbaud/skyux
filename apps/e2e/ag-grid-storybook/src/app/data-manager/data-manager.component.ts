@@ -5,7 +5,7 @@ import {
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import {
   SkyDataManagerConfig,
@@ -18,6 +18,11 @@ import { BehaviorSubject, timer } from 'rxjs';
 import { first } from 'rxjs/operators';
 
 import { columnDefinitions, data } from '../shared/baseball-players-data';
+
+type GridSettingsType = {
+  enableTopScroll: FormControl<boolean>;
+  domLayout: FormControl<'normal' | 'autoHeight' | 'print'>;
+};
 
 @Component({
   selector: 'app-data-manager',
@@ -80,19 +85,19 @@ export class DataManagerComponent implements OnInit {
   public settingsKey = 'ag-grid-storybook-data-manager';
   public gridOptions: GridOptions;
   public isActive$ = new BehaviorSubject(true);
-  public gridSettings: UntypedFormGroup;
+  public gridSettings: FormGroup<GridSettingsType>;
   public ready = new BehaviorSubject(false);
 
   constructor(
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private dataManagerService: SkyDataManagerService,
     private agGridService: SkyAgGridService
   ) {}
 
   public ngOnInit(): void {
-    this.gridSettings = this.formBuilder.group({
-      enableTopScroll: this.enableTopScroll,
-      domLayout: this.domLayout,
+    this.gridSettings = this.formBuilder.group<GridSettingsType>({
+      enableTopScroll: this.formBuilder.control(this.enableTopScroll),
+      domLayout: this.formBuilder.control(this.domLayout),
     });
 
     this.applyGridOptions();

@@ -1,5 +1,6 @@
 @use 'node_modules/ag-grid-community/styles' as ag;
 @use 'libs/components/theme/src/lib/styles/variables' as variables;
+@use './variables' as sky-ag-grid-variables;
 
 @include ag.grid-styles(
   (
@@ -156,6 +157,8 @@
 }
 
 ag-grid-angular {
+  border-top: sky-ag-grid-variables.$sky-standard-border;
+
   input:focus {
     border: none;
     outline: none;
