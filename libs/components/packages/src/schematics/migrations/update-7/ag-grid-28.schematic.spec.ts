@@ -7,20 +7,13 @@ import { UPDATE_TO_VERSION } from './ag-grid-28.schematic';
 
 describe('ag-grid-28.schematic', () => {
   let tree: Tree;
-  const angularJson = {
-    version: 1,
-    projects: {
-      test: {
-        projectType: 'application',
-        root: '',
-        architect: {},
-      },
-    },
-  };
+  const runner = new SchematicTestRunner(
+    'schematics',
+    require.resolve('../migration-collection.json')
+  );
 
   function setupTest(packageJson: { [key: string]: any } = {}) {
     tree = Tree.empty();
-    tree.create('/angular.json', JSON.stringify(angularJson));
     tree.create('/package.json', JSON.stringify(packageJson));
   }
 
@@ -33,19 +26,20 @@ describe('ag-grid-28.schematic', () => {
         'ag-grid-enterprise': UPDATE_TO_VERSION,
       },
     });
-    const runner = new SchematicTestRunner(
-      'schematics',
-      require.resolve('../migration-collection.json')
-    );
-    runner.runSchematicAsync('ag-grid-28', {}, tree).subscribe((updatedTree) =>
-      expect(JSON.parse(updatedTree.readText('/package.json'))).toEqual({
-        dependencies: {
-          'ag-grid-community': UPDATE_TO_VERSION,
-          'ag-grid-angular': UPDATE_TO_VERSION,
-          'ag-grid-enterprise': UPDATE_TO_VERSION,
-        },
-      })
-    );
+    await runner
+      .runSchematicAsync('ag-grid-28', {}, tree)
+      .pipe(
+        map((updatedTree) =>
+          expect(JSON.parse(updatedTree.readText('/package.json'))).toEqual({
+            dependencies: {
+              'ag-grid-community': UPDATE_TO_VERSION,
+              'ag-grid-angular': UPDATE_TO_VERSION,
+              'ag-grid-enterprise': UPDATE_TO_VERSION,
+            },
+          })
+        )
+      )
+      .toPromise();
   });
 
   it('should noop', async () => {
@@ -55,17 +49,18 @@ describe('ag-grid-28.schematic', () => {
         other: '27.1.1',
       },
     });
-    const runner = new SchematicTestRunner(
-      'schematics',
-      require.resolve('../migration-collection.json')
-    );
-    runner.runSchematicAsync('ag-grid-28', {}, tree).subscribe((updatedTree) =>
-      expect(JSON.parse(updatedTree.readText('/package.json'))).toEqual({
-        dependencies: {
-          other: '27.1.1',
-        },
-      })
-    );
+    await runner
+      .runSchematicAsync('ag-grid-28', {}, tree)
+      .pipe(
+        map((updatedTree) =>
+          expect(JSON.parse(updatedTree.readText('/package.json'))).toEqual({
+            dependencies: {
+              other: '27.1.1',
+            },
+          })
+        )
+      )
+      .toPromise();
   });
 
   it('should swap @ag-grid-community/all-modules', async () => {
@@ -76,31 +71,20 @@ describe('ag-grid-28.schematic', () => {
         '@ag-grid-enterprise/all-modules': '27.1.1',
       },
     });
-    tree.overwrite(
-      '/angular.json',
-      JSON.stringify({
-        ...angularJson,
-        projects: {
-          test: {
-            ...angularJson.projects.test,
-            sourceRoot: 'src',
-          },
-        },
-      })
-    );
-    const runner = new SchematicTestRunner(
-      'schematics',
-      require.resolve('../migration-collection.json')
-    );
-    runner.runSchematicAsync('ag-grid-28', {}, tree).subscribe((updatedTree) =>
-      expect(JSON.parse(updatedTree.readText('/package.json'))).toEqual({
-        devDependencies: {
-          'ag-grid-community': UPDATE_TO_VERSION,
-          'ag-grid-angular': UPDATE_TO_VERSION,
-          'ag-grid-enterprise': UPDATE_TO_VERSION,
-        },
-      })
-    );
+    await runner
+      .runSchematicAsync('ag-grid-28', {}, tree)
+      .pipe(
+        map((updatedTree) =>
+          expect(JSON.parse(updatedTree.readText('/package.json'))).toEqual({
+            devDependencies: {
+              'ag-grid-community': UPDATE_TO_VERSION,
+              'ag-grid-angular': UPDATE_TO_VERSION,
+              'ag-grid-enterprise': UPDATE_TO_VERSION,
+            },
+          })
+        )
+      )
+      .toPromise();
   });
 
   it('should remove @ag-grid-community/all-modules', async () => {
@@ -141,12 +125,8 @@ describe('ag-grid-28.schematic', () => {
       'node_modules/@ag-grid-community/all-modules/index.d.ts',
       `file content`
     );
-    const runner = new SchematicTestRunner(
-      'schematics',
-      require.resolve('../migration-collection.json')
-    );
     const warnSpy = jest.fn();
-    runner.logger.subscribe((log) => {
+    const logSubscription = runner.logger.subscribe((log) => {
       if (log.level === 'warn') {
         warnSpy(log.message);
       }
@@ -170,6 +150,7 @@ describe('ag-grid-28.schematic', () => {
         })
       )
       .toPromise();
+    logSubscription.unsubscribe();
   });
 
   it('should remove @ag-grid-community/all-modules when already on v28', async () => {
@@ -196,10 +177,8 @@ describe('ag-grid-28.schematic', () => {
         })
         export class AppModule {}`
     );
-    const runner = new SchematicTestRunner(
-      'schematics',
-      require.resolve('../migration-collection.json')
-    );
+    // File that does not end in .ts so it should not be changed.
+    tree.create('src/app/app.component.css', `code { display: none; }`);
     await runner
       .runSchematicAsync('ag-grid-28', {}, tree)
       .pipe(
@@ -240,10 +219,6 @@ describe('ag-grid-28.schematic', () => {
           ],
         })
         export class AppModule {}`
-    );
-    const runner = new SchematicTestRunner(
-      'schematics',
-      require.resolve('../migration-collection.json')
     );
     await runner
       .runSchematicAsync('ag-grid-28', {}, tree)
@@ -301,10 +276,6 @@ describe('ag-grid-28.schematic', () => {
     tree.create(
       'src/app/no-change.component.ts',
       `export class NoChangeComponent {}`
-    );
-    const runner = new SchematicTestRunner(
-      'schematics',
-      require.resolve('../migration-collection.json')
     );
     await runner
       .runSchematicAsync('ag-grid-28', {}, tree)

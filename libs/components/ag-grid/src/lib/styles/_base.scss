@@ -164,12 +164,10 @@ ag-grid-angular {
   input::-ms-clear {
     display: none;
   }
-
   .sky-ag-grid-cell-number,
   .sky-ag-grid-cell-currency {
     text-align: right;
     padding-right: 12px;
-    font-variant-numeric: tabular-nums;
   }
 
   .sky-ag-grid-cell-row-selector {
