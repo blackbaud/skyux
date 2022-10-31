@@ -138,7 +138,7 @@
     "@percy/cypress": "3.1.2",
     "@ryansonshine/commitizen": "4.2.8",
     "@ryansonshine/cz-conventional-changelog": "3.3.4",
-    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#2.1.2",
+    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#2.2.0",
     "@storybook/addon-a11y": "6.5.12",
     "@storybook/addon-essentials": "6.5.12",
     "@storybook/angular": "6.5.12",
@@ -186,6 +186,7 @@
     "sb": "6.5.12",
     "storybook-addon-angular-router": "1.6.0",
     "ts-jest": "28.0.8",
+    "typedoc": "0.22.18",
     "typescript": "4.7.4"
   }
 }
