@@ -14,25 +14,25 @@ export class SkySummaryActionBarFixture {
    * The cancel action model.
    */
   public get cancelAction(): SkySummaryActionBarFixtureAction {
-    const cancelBtn = this.getCancelButton();
-    return this.buildActionModel(cancelBtn);
+    const cancelBtn = this.#getCancelButton();
+    return this.#buildActionModel(cancelBtn);
   }
 
   /**
    * The primary action model.
    */
   public get primaryAction(): SkySummaryActionBarFixtureAction {
-    const primaryBtn = this.getPrimaryActionButton();
-    return this.buildActionModel(primaryBtn);
+    const primaryBtn = this.#getPrimaryActionButton();
+    return this.#buildActionModel(primaryBtn);
   }
 
   /**
    * The collection of secondary action models.
    */
   public get secondaryActions(): SkySummaryActionBarFixtureAction[] {
-    const secondaryBtns = this.getSecondaryActionButtons();
+    const secondaryBtns = this.#getSecondaryActionButtons();
     return secondaryBtns.map((btn: HTMLButtonElement) =>
-      this.buildActionModel(btn)
+      this.#buildActionModel(btn)
     );
   }
 
@@ -40,20 +40,23 @@ export class SkySummaryActionBarFixture {
    * A flag indicating whether or not the summary content is visible.
    */
   public get summaryBodyIsVisible(): boolean {
-    const summaryEl = this.getSummaryElement();
+    const summaryEl = this.#getSummaryElement();
     return summaryEl.clientHeight > 0;
   }
 
-  private debugEl: DebugElement;
-
-  private get isResponsiveMode(): boolean {
+  get #isResponsiveMode(): boolean {
     const toggleButton =
-      this.getSummaryCollapseButton() ?? this.getSummaryExpandButton();
+      this.#getSummaryCollapseButton() ?? this.#getSummaryExpandButton();
     return toggleButton !== undefined;
   }
 
-  constructor(private fixture: ComponentFixture<any>, skyTestId: string) {
-    this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
+  #debugEl: DebugElement;
+  #fixture: ComponentFixture<unknown>;
+
+  constructor(fixture: ComponentFixture<unknown>, skyTestId: string) {
+    this.#fixture = fixture;
+
+    this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
       'sky-summary-action-bar'
@@ -64,16 +67,16 @@ export class SkySummaryActionBarFixture {
    * Toggles the secondary action dropdown open or closed, if in responsive mode.
    */
   public async toggleSecondaryActionDropdown(): Promise<void> {
-    const toggleButton = this.getSecondaryActionsDropdownButton();
+    const toggleButton = this.#getSecondaryActionsDropdownButton();
 
     if (toggleButton !== undefined) {
       toggleButton.click();
 
-      this.fixture.detectChanges();
-      await this.fixture.whenStable();
+      this.#fixture.detectChanges();
+      await this.#fixture.whenStable();
 
-      this.fixture.detectChanges();
-      return this.fixture.whenStable();
+      this.#fixture.detectChanges();
+      return this.#fixture.whenStable();
     }
   }
 
@@ -82,16 +85,16 @@ export class SkySummaryActionBarFixture {
    */
   public async toggleSummaryContentVisibility(): Promise<void> {
     const toggleButton =
-      this.getSummaryCollapseButton() ?? this.getSummaryExpandButton();
+      this.#getSummaryCollapseButton() ?? this.#getSummaryExpandButton();
 
     if (toggleButton !== undefined) {
       toggleButton.click();
 
-      this.fixture.detectChanges();
-      await this.fixture.whenStable();
+      this.#fixture.detectChanges();
+      await this.#fixture.whenStable();
 
-      this.fixture.detectChanges();
-      return this.fixture.whenStable();
+      this.#fixture.detectChanges();
+      return this.#fixture.whenStable();
     }
   }
 
@@ -101,7 +104,7 @@ export class SkySummaryActionBarFixture {
    * @param query The selector query to use.
    */
   public querySummaryBody(query: string): HTMLElement {
-    return this.querySummaryBodyElement(query);
+    return this.#querySummaryBodyElement(query);
   }
 
   /**
@@ -115,33 +118,36 @@ export class SkySummaryActionBarFixture {
 
   //#region helpers
 
-  private buildActionModel(buttonEl: HTMLButtonElement) {
+  #buildActionModel(
+    buttonEl: HTMLButtonElement
+  ): SkySummaryActionBarFixtureAction {
     return {
       buttonText: SkyAppTestUtility.getText(buttonEl),
       isDisabled: buttonEl.disabled,
 
-      click: () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      click: (): Promise<any> => {
         buttonEl.click();
-        this.fixture.detectChanges();
-        return this.fixture.whenStable();
+        this.#fixture.detectChanges();
+        return this.#fixture.whenStable();
       },
     };
   }
 
-  private getCancelButton(): HTMLButtonElement {
-    return this.debugEl.query(By.css('sky-summary-action-bar-cancel .sky-btn'))
+  #getCancelButton(): HTMLButtonElement {
+    return this.#debugEl.query(By.css('sky-summary-action-bar-cancel .sky-btn'))
       ?.nativeElement;
   }
 
-  private getPrimaryActionButton(): HTMLButtonElement {
-    return this.debugEl.query(
+  #getPrimaryActionButton(): HTMLButtonElement {
+    return this.#debugEl.query(
       By.css('sky-summary-action-bar-primary-action .sky-btn')
     )?.nativeElement;
   }
 
-  private getSecondaryActionButtons(): HTMLButtonElement[] {
+  #getSecondaryActionButtons(): HTMLButtonElement[] {
     // get the secondary action buttons from the dropdown overlay in responsive mode
-    if (this.isResponsiveMode) {
+    if (this.#isResponsiveMode) {
       const resultNodes = document.querySelectorAll(
         'sky-overlay sky-summary-action-bar-secondary-action .sky-btn'
       );
@@ -149,42 +155,42 @@ export class SkySummaryActionBarFixture {
     }
 
     // otherwise grab them from the component's debug element
-    return this.debugEl
+    return this.#debugEl
       .queryAll(By.css('sky-summary-action-bar-secondary-action .sky-btn'))
       .map((debugEl: DebugElement) => debugEl.nativeElement);
   }
 
-  private getSecondaryActionsDropdownButton(): HTMLButtonElement {
-    return this.debugEl.query(
+  #getSecondaryActionsDropdownButton(): HTMLButtonElement {
+    return this.#debugEl.query(
       By.css('sky-summary-action-bar-secondary-actions .sky-dropdown-button')
     )?.nativeElement;
   }
 
-  private getSummaryElement(): HTMLButtonElement {
-    return this.debugEl.query(By.css('.sky-summary-action-bar-summary'))
+  #getSummaryElement(): HTMLButtonElement {
+    return this.#debugEl.query(By.css('.sky-summary-action-bar-summary'))
       ?.nativeElement;
   }
 
-  private getSummaryCollapseButton(): HTMLButtonElement {
-    return this.debugEl.query(
+  #getSummaryCollapseButton(): HTMLButtonElement {
+    return this.#debugEl.query(
       By.css('.sky-summary-action-bar-details-collapse button')
     )?.nativeElement;
   }
 
-  private getSummaryExpandButton(): HTMLButtonElement {
-    return this.debugEl.query(
+  #getSummaryExpandButton(): HTMLButtonElement {
+    return this.#debugEl.query(
       By.css('.sky-summary-action-bar-details-expand button')
     )?.nativeElement;
   }
 
-  private querySummaryBodyElement(query: string): HTMLElement {
-    return this.debugEl.nativeElement.querySelector(
+  #querySummaryBodyElement(query: string): HTMLElement {
+    return this.#debugEl.nativeElement.querySelector(
       `sky-summary-action-bar-summary ${query}`
     );
   }
 
-  private queryAllSummaryBodyElement(query: string): NodeList {
-    return this.debugEl.nativeElement.querySelectorAll(
+  queryAllSummaryBodyElement(query: string): NodeList {
+    return this.#debugEl.nativeElement.querySelectorAll(
       `sky-summary-action-bar-summary ${query}`
     );
   }

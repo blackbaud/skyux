@@ -9,7 +9,7 @@ import { SkySummaryActionBarComponent } from '../summary-action-bar.component';
 })
 export class SkySummaryActionBarModalTestComponent {
   @ViewChild(SkySummaryActionBarComponent)
-  public summaryActionBar: SkySummaryActionBarComponent;
+  public summaryActionBar: SkySummaryActionBarComponent | undefined;
 
   constructor(public instance: SkyModalInstance) {}
 }

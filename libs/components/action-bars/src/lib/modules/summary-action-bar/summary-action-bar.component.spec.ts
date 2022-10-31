@@ -54,7 +54,7 @@ describe('Summary Action Bar component', () => {
       ?.nativeElement;
   }
 
-  function getModalHost(): HTMLElement {
+  function getModalHost(): HTMLElement | null {
     return document.querySelector('sky-modal-host');
   }
 
@@ -75,6 +75,25 @@ describe('Summary Action Bar component', () => {
     debugElement
       .query(By.css('#action-bar-modal-trigger'))
       ?.nativeElement.click();
+  }
+
+  function validateCollapsible(
+    parentEl: HTMLElement | null,
+    expected: boolean
+  ): void {
+    expect(parentEl).not.toBeNull();
+
+    let expectActionBar = expect(
+      parentEl?.querySelector('.sky-summary-action-bar')
+    );
+
+    if (!expected) {
+      expectActionBar = expectActionBar.not;
+    }
+
+    expectActionBar.toHaveCssClass(
+      'sky-summary-action-bar-summary-collapsible'
+    );
   }
 
   let mockMediaQueryService: MockSkyMediaQueryService;
@@ -173,19 +192,22 @@ describe('Summary Action Bar component', () => {
     describe('summary recognition', () => {
       it('should recognize when the summary has content', () => {
         fixture.detectChanges();
-        expect(cmp.summaryActionBar.summaryContentExists()).toBeTruthy();
+        expect(cmp.summaryActionBar).toBeTruthy();
+        expect(cmp.summaryActionBar?.summaryContentExists()).toBeTruthy();
       });
 
       it('should recognize when the summary no has content', () => {
         cmp.noSummaryContent = true;
         fixture.detectChanges();
-        expect(cmp.summaryActionBar.summaryContentExists()).toBeFalsy();
+        expect(cmp.summaryActionBar).toBeTruthy();
+        expect(cmp.summaryActionBar?.summaryContentExists()).toBeFalsy();
       });
 
       it('should recognize when the summary tag does not exist', () => {
         cmp.noSummary = true;
         fixture.detectChanges();
-        expect(cmp.summaryActionBar.summaryContentExists()).toBeFalsy();
+        expect(cmp.summaryActionBar).toBeTruthy();
+        expect(cmp.summaryActionBar?.summaryContentExists()).toBeFalsy();
       });
 
       it('should recognize when the summary tag when it is toggled externally', () => {
@@ -254,7 +276,7 @@ describe('Summary Action Bar component', () => {
     describe('media queries', () => {
       it('should set isSummaryCollapsible to false when on a large screen', () => {
         fixture.detectChanges();
-        expect(cmp.summaryActionBar.isSummaryCollapsible).toBeFalsy();
+        validateCollapsible(debugElement.nativeElement, false);
       });
 
       it('should set isSummaryCollapsible to true when on a large screen but normal modal', () => {
@@ -262,9 +284,8 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         openStandardModal(debugElement);
         fixture.detectChanges();
-        expect(
-          cmp.openedModal.summaryActionBar.isSummaryCollapsible
-        ).toBeTruthy();
+
+        validateCollapsible(getModalHost(), true);
       });
 
       it('should set isSummaryCollapsible to false when on a large screen and full screen modal', () => {
@@ -272,16 +293,14 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         openFullScreenModal(debugElement);
         fixture.detectChanges();
-        expect(
-          cmp.openedModal.summaryActionBar.isSummaryCollapsible
-        ).toBeFalsy();
+        validateCollapsible(getModalHost(), false);
       });
 
       it('should set isSummaryCollapsible to true when on a xs screen', () => {
         fixture.detectChanges();
         mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
-        expect(cmp.summaryActionBar.isSummaryCollapsible).toBeTruthy();
+        validateCollapsible(debugElement.nativeElement, true);
       });
 
       it('should recognize when the summary tag when it is toggled externally when on a xs screen', () => {
@@ -304,9 +323,7 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
-        expect(
-          cmp.openedModal.summaryActionBar.isSummaryCollapsible
-        ).toBeTruthy();
+        validateCollapsible(getModalHost(), true);
       });
 
       it('should set isSummaryCollapsible to true when on a xs screen and full screen modal', () => {
@@ -316,19 +333,21 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
-        expect(
-          cmp.openedModal.summaryActionBar.isSummaryCollapsible
-        ).toBeTruthy();
+        expect(cmp.openedModal?.summaryActionBar).toBeTruthy();
+        validateCollapsible(getModalHost(), true);
       });
 
       it('should set isSummaryCollapsed to false when moving from a xs screen to a large screen', () => {
         fixture.detectChanges();
         mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
-        cmp.summaryActionBar.isSummaryCollapsed = true;
+        expect(cmp.summaryActionBar).toBeTruthy();
+        (
+          cmp.summaryActionBar as SkySummaryActionBarComponent
+        ).isSummaryCollapsed = true;
         mockMediaQueryService.fire(SkyMediaBreakpoints.lg);
         fixture.detectChanges();
-        expect(cmp.summaryActionBar.isSummaryCollapsed).toBeFalsy();
+        expect(cmp.summaryActionBar?.isSummaryCollapsed).toBeFalsy();
       });
 
       it('should set isSummaryCollapsed to false when moving from a xs screen to a large screen in a full screen modal', () => {
@@ -337,11 +356,22 @@ describe('Summary Action Bar component', () => {
         openFullScreenModal(debugElement);
         fixture.detectChanges();
         mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+        expect(cmp.openedModal).toBeTruthy();
+
         fixture.detectChanges();
-        cmp.openedModal.summaryActionBar.isSummaryCollapsed = true;
+
+        const summaryActionBar = cmp.openedModal
+          ?.summaryActionBar as SkySummaryActionBarComponent;
+        expect(summaryActionBar).toBeTruthy();
+
+        summaryActionBar.isSummaryCollapsed = true;
         mockMediaQueryService.fire(SkyMediaBreakpoints.lg);
+
         fixture.detectChanges();
-        expect(cmp.openedModal.summaryActionBar.isSummaryCollapsed).toBeFalsy();
+
+        expect(
+          cmp.openedModal?.summaryActionBar?.isSummaryCollapsed
+        ).toBeFalsy();
       });
     });
 
@@ -350,14 +380,15 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
-        expect(cmp.summaryActionBar.isSummaryCollapsed).toBeFalsy();
-        expect(cmp.summaryActionBar.slideDirection).toBe('down');
+        expect(cmp.summaryActionBar).toBeTruthy();
+        expect(cmp.summaryActionBar?.isSummaryCollapsed).toBeFalsy();
+        expect(cmp.summaryActionBar?.slideDirection).toBe('down');
         clickCollapseButton(debugElement);
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
-        expect(cmp.summaryActionBar.isSummaryCollapsed).toBeTruthy();
-        expect(cmp.summaryActionBar.slideDirection).toBe('up');
+        expect(cmp.summaryActionBar?.isSummaryCollapsed).toBeTruthy();
+        expect(cmp.summaryActionBar?.slideDirection).toBe('up');
       }));
 
       it('should update slide direction and isSummaryCollapsed when expanding the summary', fakeAsync(() => {
@@ -368,14 +399,15 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
-        expect(cmp.summaryActionBar.isSummaryCollapsed).toBeTruthy();
-        expect(cmp.summaryActionBar.slideDirection).toBe('up');
+        expect(cmp.summaryActionBar).toBeTruthy();
+        expect(cmp.summaryActionBar?.isSummaryCollapsed).toBeTruthy();
+        expect(cmp.summaryActionBar?.slideDirection).toBe('up');
         clickExpandButton(debugElement);
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
-        expect(cmp.summaryActionBar.isSummaryCollapsed).toBeFalsy();
-        expect(cmp.summaryActionBar.slideDirection).toBe('down');
+        expect(cmp.summaryActionBar?.isSummaryCollapsed).toBeFalsy();
+        expect(cmp.summaryActionBar?.slideDirection).toBe('down');
       }));
 
       it(`should move focus to the collapsed summary's chevron after collapsing`, async () => {
@@ -433,7 +465,7 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
-        expect(cmp.summaryActionBar.isSummaryCollapsible).toBeTruthy();
+        validateCollapsible(debugElement.nativeElement, true);
       });
     });
 
@@ -692,7 +724,7 @@ describe('Summary Action Bar component', () => {
     describe('body stylings', () => {
       it('should set a margin on the split view workspace content if the action bar is displayed on intial load', (done) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        spyOn(window as any, 'setTimeout').and.callFake((fun) => {
+        spyOn(window as any, 'setTimeout').and.callFake((fun: () => void) => {
           fun();
         });
         fixture.detectChanges();

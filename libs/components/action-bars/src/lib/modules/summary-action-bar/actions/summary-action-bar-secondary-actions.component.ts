@@ -27,47 +27,54 @@ export class SkySummaryActionBarSecondaryActionsComponent
   implements AfterContentInit, OnDestroy
 {
   @ContentChildren(SkySummaryActionBarSecondaryActionComponent)
-  public secondaryActionComponents: QueryList<SkySummaryActionBarSecondaryActionComponent>;
+  public secondaryActionComponents:
+    | QueryList<SkySummaryActionBarSecondaryActionComponent>
+    | undefined;
 
   public isMobile = false;
 
   public dropdownMessageStream = new Subject<SkyDropdownMessage>();
 
-  private mediaQuerySubscription: Subscription;
-  private actionChanges: Subscription;
-  private actionClicks: Subscription[] = [];
+  #mediaQuerySubscription: Subscription | undefined;
+  #actionChanges: Subscription | undefined;
+  #actionClicks: Subscription[] = [];
+  #changeDetector: ChangeDetectorRef;
+  #mediaQueryService: SkyMediaQueryService;
 
   constructor(
-    private changeDetector: ChangeDetectorRef,
-    private mediaQueryService: SkyMediaQueryService
-  ) {}
+    changeDetector: ChangeDetectorRef,
+    mediaQueryService: SkyMediaQueryService
+  ) {
+    this.#changeDetector = changeDetector;
+    this.#mediaQueryService = mediaQueryService;
+  }
 
   public ngAfterContentInit(): void {
-    this.mediaQuerySubscription = this.mediaQueryService.subscribe(
+    this.#mediaQuerySubscription = this.#mediaQueryService.subscribe(
       (args: SkyMediaBreakpoints) => {
         this.isMobile = args === SkyMediaBreakpoints.xs;
-        this.checkAndUpdateChildrenType();
+        this.#checkAndUpdateChildrenType();
       }
     );
 
-    this.actionChanges = this.secondaryActionComponents.changes.subscribe(
+    this.#actionChanges = this.secondaryActionComponents?.changes.subscribe(
       () => {
-        this.checkAndUpdateChildrenType();
+        this.#checkAndUpdateChildrenType();
       }
     );
-    if (this.mediaQueryService.current === SkyMediaBreakpoints.xs) {
+    if (this.#mediaQueryService.current === SkyMediaBreakpoints.xs) {
       this.isMobile = true;
     }
-    this.checkAndUpdateChildrenType();
+    this.#checkAndUpdateChildrenType();
   }
 
   public ngOnDestroy(): void {
-    this.mediaQuerySubscription.unsubscribe();
-    this.actionChanges.unsubscribe();
-    this.actionClicks.forEach((actionClick) => actionClick.unsubscribe());
+    this.#mediaQuerySubscription?.unsubscribe();
+    this.#actionChanges?.unsubscribe();
+    this.#actionClicks.forEach((actionClick) => actionClick.unsubscribe());
   }
 
-  private checkAndUpdateChildrenType() {
+  #checkAndUpdateChildrenType(): void {
     /* istanbul ignore else */
     if (this.secondaryActionComponents) {
       let isDropdown = false;
@@ -76,7 +83,7 @@ export class SkySummaryActionBarSecondaryActionsComponent
       }
       this.secondaryActionComponents.forEach((action) => {
         action.isDropdown = isDropdown;
-        this.actionClicks.push(
+        this.#actionClicks.push(
           action.actionClick.subscribe(() => {
             this.dropdownMessageStream.next({
               type: SkyDropdownMessageType.Close,
@@ -85,6 +92,6 @@ export class SkySummaryActionBarSecondaryActionsComponent
         );
       });
     }
-    this.changeDetector.detectChanges();
+    this.#changeDetector.detectChanges();
   }
 }
