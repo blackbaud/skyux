@@ -79,6 +79,7 @@ export class SkyFuzzyDatepickerInputDirective
     }
   }
 
+  // TODO: Refactor to not have getter logic
   public get dateFormat(): string | undefined {
     return (
       this.#_dateFormat ||
@@ -177,6 +178,7 @@ export class SkyFuzzyDatepickerInputDirective
     this.#onValidatorChange();
   }
 
+  // TODO: Refactor to not have getter logic
   public get startingDay(): number {
     return this.#_startingDay || this.#configService.startingDay;
   }

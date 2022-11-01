@@ -74,6 +74,7 @@ export class SkyDatepickerInputDirective
     }
   }
 
+  // TODO: Refactor to not have getter logic
   public get dateFormat(): string | undefined {
     return (
       this.#_dateFormat ||
@@ -121,6 +122,7 @@ export class SkyDatepickerInputDirective
     this.#onValidatorChange();
   }
 
+  // TODO: Refactor to not have getter logic
   public get maxDate(): Date | undefined {
     return this.#_maxDate || this.#configService.maxDate;
   }
@@ -137,6 +139,7 @@ export class SkyDatepickerInputDirective
     this.#onValidatorChange();
   }
 
+  // TODO: Refactor to not have getter logic
   public get minDate(): Date | undefined {
     return this.#_minDate || this.#configService.minDate;
   }
@@ -183,6 +186,7 @@ export class SkyDatepickerInputDirective
     this.#onValidatorChange();
   }
 
+  // TODO: Refactor to not have getter logic
   public get startingDay(): number {
     return this.#_startingDay || this.#configService.startingDay;
   }
