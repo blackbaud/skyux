@@ -3,8 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AlertDemoComponent as AlertBasicDemoComponent } from '../code-examples/indicators/alert/basic/alert-demo.component';
 import { AlertDemoModule as AlertBasicDemoModule } from '../code-examples/indicators/alert/basic/alert-demo.module';
-import { KeyInfoDemoComponent } from '../code-examples/indicators/key-info/basic/key-info-demo.component';
-import { KeyInfoDemoModule } from '../code-examples/indicators/key-info/basic/key-info-demo.module';
+import { KeyInfoDemoComponent as KeyInfoBasicDemoComponent } from '../code-examples/indicators/key-info/basic/key-info-demo.component';
+import { KeyInfoDemoModule as KeyInfoBasicDemoModule } from '../code-examples/indicators/key-info/basic/key-info-demo.module';
+import { KeyInfoDemoComponent as KeyInfoInlineHelpDemoComponent } from '../code-examples/indicators/key-info/inline-help/key-info-demo.component';
+import { KeyInfoDemoModule as KeyInfoInlineHelpDemoModule } from '../code-examples/indicators/key-info/inline-help/key-info-demo.module';
 import { LabelDemoComponent } from '../code-examples/indicators/label/basic/label-demo.component';
 import { LabelDemoModule } from '../code-examples/indicators/label/basic/label-demo.module';
 import { StatusIndicatorDemoComponent } from '../code-examples/indicators/status-indicator/basic/status-indicator-demo.component';
@@ -27,7 +29,11 @@ const routes: Routes = [
   },
   {
     path: 'key-info/basic',
-    component: KeyInfoDemoComponent,
+    component: KeyInfoBasicDemoComponent,
+  },
+  {
+    path: 'key-info/inline-help',
+    component: KeyInfoInlineHelpDemoComponent,
   },
   {
     path: 'label/basic',
@@ -58,7 +64,8 @@ export class IndicatorsFeatureRoutingModule {}
     IndicatorsFeatureRoutingModule,
     AlertBasicDemoModule,
     StatusIndicatorDemoModule,
-    KeyInfoDemoModule,
+    KeyInfoBasicDemoModule,
+    KeyInfoInlineHelpDemoModule,
     LabelDemoModule,
     TextHighlightDemoModule,
     TokensBasicDemoModule,

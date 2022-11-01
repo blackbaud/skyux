@@ -5,6 +5,10 @@ import { CheckboxDemoComponent as CheckboxBasicDemoComponent } from '../code-exa
 import { CheckboxDemoModule as CheckboxBasicDemoModule } from '../code-examples/forms/checkbox/basic/checkbox-demo.module';
 import { CheckboxDemoComponent as InlineHelpCheckboxDemoComponent } from '../code-examples/forms/checkbox/inline-help/checkbox-demo.component';
 import { CheckboxDemoModule as InlineHelpCheckboxDemoModule } from '../code-examples/forms/checkbox/inline-help/checkbox-demo.module';
+import { FileAttachmentDemoComponent as BasicFileAttachmentDemoComponent } from '../code-examples/forms/file-attachment/basic/file-attachment-demo.component';
+import { SkyFileAttachmentDemoModule as BasicSkyFileAttachmentDemoModule } from '../code-examples/forms/file-attachment/basic/file-attachment-demo.module';
+import { FileAttachmentDemoComponent as InlineHelpFileAttachmentDemoComponent } from '../code-examples/forms/file-attachment/inline-help/file-attachment-demo.component';
+import { SkyFileAttachmentDemoModule as InlineHelpSkyFileAttachmentDemoModule } from '../code-examples/forms/file-attachment/inline-help/file-attachment-demo.module';
 import { InputBoxDemoComponent } from '../code-examples/forms/input-box/basic/input-box-demo.component';
 import { InputBoxDemoModule } from '../code-examples/forms/input-box/basic/input-box-demo.module';
 import { RadioDemoComponent as InlineHelpRadioDemoComponent } from '../code-examples/forms/radio/inline-help/radio-demo.component';
@@ -45,6 +49,14 @@ const routes: Routes = [
     path: 'input-box/basic',
     component: InputBoxDemoComponent,
   },
+  {
+    path: 'file-attachment/basic',
+    component: BasicFileAttachmentDemoComponent,
+  },
+  {
+    path: 'file-attachment/inline-help',
+    component: InlineHelpFileAttachmentDemoComponent,
+  },
 ];
 
 @NgModule({
@@ -63,6 +75,8 @@ export class FormsRoutingModule {}
     InlineHelpRadioDemoModule,
     InlineHelpToggleSwitchModule,
     InputBoxDemoModule,
+    BasicSkyFileAttachmentDemoModule,
+    InlineHelpSkyFileAttachmentDemoModule,
   ],
 })
 export class FormsModule {}

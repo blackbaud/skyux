@@ -6,4 +6,8 @@ import { Component } from '@angular/core';
 })
 export class KeyInfoDemoComponent {
   public layout = 'vertical';
+
+  public onActionClick(): void {
+    alert('Help inline button clicked!');
+  }
 }
