@@ -2,7 +2,7 @@
  * @internal
  */
 export interface SkySummaryActionBarFixtureAction {
-  buttonText: string;
+  buttonText?: string;
   isDisabled: boolean;
 
   click(): Promise<void>;

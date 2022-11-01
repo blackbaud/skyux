@@ -112,7 +112,6 @@ jobs:
           # Uses https://github.com/actions/toolkit
           script: |
             await exec.exec('npx nx run', ['${{ matrix.project }}:build-storybook:ci']);
-            await exec.exec('npx sb extract', ['./dist/storybook/${{ matrix.project }}']);
         if: ${{ matrix.project != 'skip' }}
       - name: Upload storybook artifact
         uses: actions/upload-artifact@v3
