@@ -401,6 +401,7 @@ export class SkyRepeaterComponent
     const hasInteraction =
       this.reorderable ||
       this.items?.some((item) => item.isCollapsible) ||
+      this.items?.some((item) => !!item.selectable) ||
       !!(this.#elementRef.nativeElement as HTMLElement).querySelector(
         interactionSelector
       );
@@ -408,9 +409,6 @@ export class SkyRepeaterComponent
     if (hasInteraction) {
       // If the repeater matches interaction selector https://www.w3.org/TR/wai-aria-practices-1.1/#grid
       autoRole = 'grid';
-    } else if (this.items?.some((item) => !!item.selectable)) {
-      // If the only interaction is select https://www.w3.org/TR/wai-aria-practices-1.1/#Listbox
-      autoRole = 'listbox';
     }
 
     if (this.role !== autoRole) {

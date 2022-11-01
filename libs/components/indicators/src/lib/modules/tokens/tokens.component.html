@@ -1,11 +1,11 @@
 <div
   class="sky-tokens"
   [@blockAnimationOnLoad]
-  [attr.role]="tokens.length ? 'list' : null"
+  [attr.role]="tokens.length ? 'grid' : null"
 >
   <sky-token
     *ngFor="let token of tokens; let i = index; trackBy: trackTokenFn"
-    role="listitem"
+    role="row"
     [@.disabled]="!trackWith"
     [@dismiss]
     [disabled]="disabled"

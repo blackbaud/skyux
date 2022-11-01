@@ -21,4 +21,7 @@ export const rootMain: StorybookConfig = {
   core: {
     builder: 'webpack5',
   },
+  features: {
+    buildStoriesJson: true,
+  },
 };

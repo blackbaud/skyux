@@ -820,6 +820,15 @@ describe('Repeater item component', () => {
       fixture.detectChanges();
       await fixture.whenStable();
       await expectAsync(fixture.nativeElement).toBeAccessible();
+
+      // Confirm elements are using appropriate roles.
+      const repeaterEl = fixture.nativeElement.querySelector('.sky-repeater');
+      expect(repeaterEl.getAttribute('role')).toEqual('grid');
+      expect(
+        repeaterEl
+          .querySelector('sky-repeater-item:first-child > .sky-repeater-item')
+          .getAttribute('role')
+      ).toEqual('row');
     });
 
     it('should update the isSelected property when the user clicks the checkbox', fakeAsync(() => {
@@ -1639,7 +1648,7 @@ describe('Repeater item component', () => {
       cmp.showItemWithNoContent = true;
       detectChangesAndTick(fixture);
       const items: Element[] = Array.from(
-        el.querySelectorAll('sky-repeater-item')
+        el.querySelectorAll('.sky-repeater-item')
       );
       expect(items.length).toEqual(4);
       const sequence = [
@@ -1733,7 +1742,7 @@ describe('Repeater item component', () => {
         el.querySelector('.sky-repeater-item').getAttribute('role')
       ).toEqual('row');
       expect(
-        el.querySelector('.sky-repeater-item-title').getAttribute('role')
+        el.querySelector('.sky-repeater-item-header').getAttribute('role')
       ).toEqual('rowheader');
       expect(
         el.querySelector('.sky-repeater-item-content').getAttribute('role')

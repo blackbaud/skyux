@@ -221,11 +221,12 @@ export class SkyTokensComponent implements OnDestroy {
 
   constructor(changeDetector: ChangeDetectorRef) {
     this.#changeDetector = changeDetector;
+    this.#initMessageStream();
 
     // Angular calls the trackBy function without applying the component instance's scope.
     // Use a fat-arrow function so the current component instance's trackWith property can
     // be referenced.
-    this.trackTokenFn = (_index, item) => {
+    this.trackTokenFn = (_index, item): unknown => {
       if (this.trackWith) {
         return item.value[this.trackWith];
       }

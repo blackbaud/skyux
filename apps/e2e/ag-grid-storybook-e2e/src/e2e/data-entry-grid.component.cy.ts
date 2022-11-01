@@ -13,6 +13,9 @@ describe('ag-grid-storybook', () => {
           .should('exist')
           .end()
 
+          // Verify that fonts are loaded.
+          .waitForFaAndBbFonts()
+
           // Activate a lookup field.
           .get('#editLookup div[row-id="alexape01"] > div[col-id="name"]')
           .should('be.visible')
@@ -52,6 +55,12 @@ describe('ag-grid-storybook', () => {
             {
               overwrite: true,
               disableTimersAndAnimations: true,
+              onBeforeScreenshot: ($el: JQuery) => {
+                $el.css('caret-color', 'transparent');
+              },
+              onAfterScreenshot: ($el: JQuery) => {
+                $el.css('caret-color', 'initial');
+              },
             }
           );
       });
@@ -66,6 +75,9 @@ describe('ag-grid-storybook', () => {
         cy.get('#ready')
           .should('exist')
           .end()
+
+          // Verify that fonts are loaded.
+          .waitForFaAndBbFonts()
 
           // Activate a text field.
           .get('#editText div[row-id="bankser01"] > div[col-id="name"]')
@@ -158,6 +170,12 @@ describe('ag-grid-storybook', () => {
             {
               overwrite: true,
               disableTimersAndAnimations: true,
+              onBeforeScreenshot: ($el: JQuery) => {
+                $el.css('caret-color', 'transparent');
+              },
+              onAfterScreenshot: ($el: JQuery) => {
+                $el.css('caret-color', 'initial');
+              },
             }
           );
       });
