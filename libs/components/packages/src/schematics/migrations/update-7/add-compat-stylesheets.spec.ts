@@ -162,7 +162,7 @@ describe('Migrations > Add compat stylesheets', () => {
     );
   });
 
-  fit('should add a compat stylesheet for the layout library', async () => {
+  it('should add a compat stylesheet for the layout library', async () => {
     await validateCompatStylesheet(
       JSON.stringify({
         dependencies: {
