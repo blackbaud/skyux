@@ -34,6 +34,43 @@ describe('Migrations > Add compat stylesheets', () => {
 }
 `;
 
+  const descriptionListContents = `/*******************************************************************************
+ * TODO: The following component libraries introduced visual breaking changes
+ * in SKY UX 7. Each block of CSS reintroduces the styles that were changed or
+ * removed for backwards compatibility. You will need to do the following
+ * before migrating to the next major version of SKY UX:
+ * - Address each of the changes by following the instructions
+ *   in each block of CSS, then remove the block.
+ * - Delete this file after all blocks have been addressed.
+ * - Remove each occurrence of this file in your project's
+ *   angular.json file.
+*******************************************************************************/
+
+/*******************************************************************************
+ * COMPONENT: DESCRIPTION LIST
+*******************************************************************************/
+
+/*******************************************************************************
+ * The preset bottom margin has been removed from description list components
+ * in horizontal and vertical modes in default theme and vertical mode in
+ * modern. To implement the newly-recommended spacing, add the
+ * \`sky-margin-stacked-lg\` CSS class to each \`sky-description-list\` component
+ * in your application, then remove this block.
+*******************************************************************************/
+
+.sky-theme-default .sky-description-list-vertical-mode .sky-description-list-content:last-child {
+  margin-bottom: 15px;
+}
+
+.sky-theme-modern .sky-description-list-vertical-mode .sky-description-list-content:last-child {
+  margin-bottom: 20px;
+}
+
+.sky-theme-modern .sky-description-list-horizontal-mode {
+  margin-bottom: 0 !important;
+}
+`;
+
   const runner = new SchematicTestRunner(
     'migrations',
     join(__dirname, '../migration-collection.json')
@@ -121,6 +158,18 @@ describe('Migrations > Add compat stylesheets', () => {
         },
       }),
       alertContents,
+      []
+    );
+  });
+
+  fit('should add a compat stylesheet for the layout library', async () => {
+    await validateCompatStylesheet(
+      JSON.stringify({
+        dependencies: {
+          '@skyux/layout': '6.0.0',
+        },
+      }),
+      descriptionListContents,
       []
     );
   });
