@@ -20,6 +20,10 @@
     "dev:format": "npx prettier --write .",
     "dev:pristine": "skyux-dev pristine-commit"
   },
+  "engines": {
+    "node": "^16.13.0",
+    "npm": "^8.1.0"
+  },
   "config": {
     "commitizen": {
       "path": "./node_modules/@ryansonshine/cz-conventional-changelog",
