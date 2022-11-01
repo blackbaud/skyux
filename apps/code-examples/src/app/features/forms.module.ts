@@ -9,8 +9,10 @@ import { FileAttachmentDemoComponent as BasicFileAttachmentDemoComponent } from 
 import { SkyFileAttachmentDemoModule as BasicSkyFileAttachmentDemoModule } from '../code-examples/forms/file-attachment/basic/file-attachment-demo.module';
 import { FileAttachmentDemoComponent as InlineHelpFileAttachmentDemoComponent } from '../code-examples/forms/file-attachment/inline-help/file-attachment-demo.component';
 import { SkyFileAttachmentDemoModule as InlineHelpSkyFileAttachmentDemoModule } from '../code-examples/forms/file-attachment/inline-help/file-attachment-demo.module';
-import { InputBoxDemoComponent } from '../code-examples/forms/input-box/basic/input-box-demo.component';
-import { InputBoxDemoModule } from '../code-examples/forms/input-box/basic/input-box-demo.module';
+import { InputBoxDemoComponent as InputBoxBasicDemoComponent } from '../code-examples/forms/input-box/basic/input-box-demo.component';
+import { InputBoxDemoModule as InputBoxBasicDemoModule } from '../code-examples/forms/input-box/basic/input-box-demo.module';
+import { InputBoxDemoComponent as InputBoxInlineHelpDemoComponent } from '../code-examples/forms/input-box/inline-help/input-box-demo.component';
+import { InputBoxDemoModule as InputBoxInlineHelpDemoModule } from '../code-examples/forms/input-box/inline-help/input-box-demo.module';
 import { RadioDemoComponent as InlineHelpRadioDemoComponent } from '../code-examples/forms/radio/inline-help/radio-demo.component';
 import { RadioDemoModule as InlineHelpRadioDemoModule } from '../code-examples/forms/radio/inline-help/radio-demo.module';
 import { SingleFileAttachmentDemoComponent as BasicSingleFileAttachmentDemoComponent } from '../code-examples/forms/single-file-attachment/basic/single-file-attachment-demo.component';
@@ -47,7 +49,11 @@ const routes: Routes = [
   },
   {
     path: 'input-box/basic',
-    component: InputBoxDemoComponent,
+    component: InputBoxBasicDemoComponent,
+  },
+  {
+    path: 'input-box/inline-help',
+    component: InputBoxInlineHelpDemoComponent,
   },
   {
     path: 'file-attachment/basic',
@@ -74,7 +80,8 @@ export class FormsRoutingModule {}
     InlineHelpSkySingleFileAttachmentDemoModule,
     InlineHelpRadioDemoModule,
     InlineHelpToggleSwitchModule,
-    InputBoxDemoModule,
+    InputBoxBasicDemoModule,
+    InputBoxInlineHelpDemoModule,
     BasicSkyFileAttachmentDemoModule,
     InlineHelpSkyFileAttachmentDemoModule,
   ],

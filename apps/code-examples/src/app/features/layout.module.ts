@@ -7,6 +7,8 @@ import { BoxDemoComponent as InlineHelpBoxDemoComponent } from '../code-examples
 import { BoxDemoModule as InlineHelpBoxDemoModule } from '../code-examples/layout/box/inline-help/box-demo.module';
 import { DescriptionListDemoComponent as DescriptionListHorizontalDemoComponent } from '../code-examples/layout/description-list/horizontal/description-list-demo.component';
 import { DescriptionListDemoModule as DescriptionListHorizontalDemoModule } from '../code-examples/layout/description-list/horizontal/description-list-demo.module';
+import { DescriptionListDemoComponent as DescriptionListInlineHelpDemoComponent } from '../code-examples/layout/description-list/inline-help/description-list-demo.component';
+import { DescriptionListDemoModule as DescriptionListInlineHelpDemoModule } from '../code-examples/layout/description-list/inline-help/description-list-demo.module';
 import { DescriptionListDemoComponent as DescriptionListLongDescriptionDemoComponent } from '../code-examples/layout/description-list/long-description/description-list-demo.component';
 import { DescriptionListDemoModule as DescriptionListLongDescriptionDemoModule } from '../code-examples/layout/description-list/long-description/description-list-demo.module';
 import { DescriptionListDemoComponent as DescriptionListVerticalDemoComponent } from '../code-examples/layout/description-list/vertical/description-list-demo.component';
@@ -33,6 +35,10 @@ const routes: Routes = [
     path: 'description-list/vertical',
     component: DescriptionListVerticalDemoComponent,
   },
+  {
+    path: 'description-list/inline-help',
+    component: DescriptionListInlineHelpDemoComponent,
+  },
 ];
 
 @NgModule({
@@ -48,6 +54,7 @@ export class LayoutRoutingModule {}
     DescriptionListHorizontalDemoModule,
     DescriptionListLongDescriptionDemoModule,
     DescriptionListVerticalDemoModule,
+    DescriptionListInlineHelpDemoModule,
     LayoutRoutingModule,
   ],
 })

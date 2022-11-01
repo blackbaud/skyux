@@ -1,0 +1,159 @@
+<div class="input-box-demo">
+  <form [formGroup]="newMemberForm">
+    <sky-fluid-grid [disableMargin]="false" gutterSize="small">
+      <sky-row>
+        <sky-column [screenSmall]="12">
+          <h2>New member form</h2>
+        </sky-column>
+      </sky-row>
+      <sky-row>
+        <sky-column [screenSmall]="12" [screenMedium]="6">
+          <sky-input-box class="sky-margin-stacked-lg">
+            <label class="sky-control-label" [for]="firstNameInput.id">
+              First name
+            </label>
+            <sky-help-inline
+              class="sky-control-help"
+              (actionClick)="onActionClick()"
+            ></sky-help-inline>
+            <input
+              formControlName="firstName"
+              type="text"
+              spellcheck="false"
+              class="sky-form-control"
+              skyId
+              #firstNameInput="skyId"
+            />
+          </sky-input-box>
+        </sky-column>
+        <sky-column [screenSmall]="12" [screenMedium]="6">
+          <sky-input-box class="sky-margin-stacked-lg">
+            <label class="sky-control-label" [for]="lastNameInput.id">
+              Last name
+            </label>
+            <sky-help-inline
+              class="sky-control-help"
+              (actionClick)="onActionClick()"
+            ></sky-help-inline>
+            <input
+              formControlName="lastName"
+              type="text"
+              spellcheck="false"
+              class="sky-form-control"
+              [attr.aria-describedby]="lastNameError.id"
+              skyId
+              #lastNameInput="skyId"
+            />
+            <span class="sky-error-indicator" skyId #lastNameError="skyId">
+              <sky-status-indicator
+                *ngIf="
+                  (lastName.dirty || lastName.touched) &&
+                  lastName.errors &&
+                  lastName.errors.required
+                "
+                indicatorType="danger"
+                descriptionType="error"
+              >
+                Last name is required.
+              </sky-status-indicator>
+            </span>
+          </sky-input-box>
+        </sky-column>
+      </sky-row>
+      <sky-row>
+        <sky-column [screenSmall]="12">
+          <sky-input-box class="sky-margin-stacked-lg">
+            <label class="sky-control-label" [for]="bioInput.id"> Bio </label>
+            <sky-help-inline
+              class="sky-control-help"
+              (actionClick)="onActionClick()"
+            ></sky-help-inline>
+            <textarea
+              formControlName="bio"
+              class="sky-form-control"
+              skyId
+              #bioInput="skyId"
+            ></textarea>
+          </sky-input-box>
+        </sky-column>
+      </sky-row>
+      <sky-row>
+        <sky-column [screenSmall]="12" [screenMedium]="6">
+          <sky-input-box class="sky-margin-stacked-lg">
+            <label class="sky-control-label" [for]="emailInput.id">
+              Email address
+            </label>
+            <sky-help-inline
+              class="sky-control-help"
+              (actionClick)="onActionClick()"
+            ></sky-help-inline>
+            <input
+              class="sky-form-control"
+              formControlName="email"
+              [attr.aria-describedby]="emailError.id"
+              skyId
+              #emailInput="skyId"
+            />
+            <span class="sky-error-indicator" skyId #emailError="skyId">
+              <sky-status-indicator
+                *ngIf="
+                  (email.dirty || email.touched) &&
+                  email.errors &&
+                  email.errors.required
+                "
+                indicatorType="danger"
+                descriptionType="error"
+              >
+                Email is required.
+              </sky-status-indicator>
+              <sky-status-indicator
+                *ngIf="
+                  (email.dirty || email.touched) &&
+                  email.errors &&
+                  email.errors.skyEmail
+                "
+                indicatorType="danger"
+                descriptionType="error"
+              >
+                Enter a valid email in the "joe@abc.com" format.
+              </sky-status-indicator>
+            </span>
+          </sky-input-box>
+        </sky-column>
+        <sky-column [screenSmall]="12" [screenMedium]="6">
+          <sky-input-box class="sky-margin-stacked-lg">
+            <label class="sky-control-label" [for]="dobInput.id">
+              Date of birth
+            </label>
+            <sky-help-inline
+              class="sky-control-help"
+              (actionClick)="onActionClick()"
+            ></sky-help-inline>
+            <sky-datepicker>
+              <input
+                formControlName="dob"
+                [attr.aria-describedby]="dobError.id"
+                skyId
+                #dobInput="skyId"
+                skyDatepickerInput
+              />
+            </sky-datepicker>
+            <span class="sky-error-indicator" skyId #dobError="skyId">
+              <sky-status-indicator
+                *ngIf="
+                  (dob.dirty || dob.touched) &&
+                  dob.errors &&
+                  dob.errors.required
+                "
+                indicatorType="danger"
+                descriptionType="error"
+              >
+                Date of birth is required.
+              </sky-status-indicator>
+            </span>
+          </sky-input-box>
+        </sky-column>
+      </sky-row>
+    </sky-fluid-grid>
+  </form>
+</div>
