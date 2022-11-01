@@ -13,28 +13,27 @@ import { SkySummaryActionBarType } from './types/summary-action-bar-type';
  */
 @Injectable()
 export class SkySummaryActionBarAdapterService {
-  private renderer: Renderer2;
+  #renderer: Renderer2;
+  #windowRef: SkyAppWindowRef;
 
-  constructor(
-    private rendererFactory: RendererFactory2,
-    private windowRef: SkyAppWindowRef
-  ) {
-    this.renderer = this.rendererFactory.createRenderer(undefined, undefined);
+  constructor(rendererFactory: RendererFactory2, windowRef: SkyAppWindowRef) {
+    this.#windowRef = windowRef;
+    this.#renderer = rendererFactory.createRenderer(undefined, null);
   }
 
-  public focusChevron(chevronElement: ElementRef) {
-    chevronElement.nativeElement.querySelector('.sky-chevron').focus();
+  public focusChevron(chevronElement: ElementRef | undefined): void {
+    chevronElement?.nativeElement.querySelector('.sky-chevron').focus();
   }
 
   public styleBodyElementForActionBar(summaryActionBarRef: ElementRef): void {
-    const window = this.windowRef.nativeWindow;
+    const window = this.#windowRef.nativeWindow;
     const body = window.document.body;
     const actionBarEl = summaryActionBarRef.nativeElement.querySelector(
       '.sky-summary-action-bar'
     );
     /* istanbul ignore else */
     if (actionBarEl.style.visibility !== 'hidden') {
-      this.renderer.setStyle(
+      this.#renderer.setStyle(
         body,
         'margin-bottom',
         actionBarEl.offsetHeight + 'px'
@@ -56,19 +55,19 @@ export class SkySummaryActionBarAdapterService {
     );
     /* istanbul ignore else */
     if (actionBarEl.style.visibility !== 'hidden') {
-      this.renderer.setStyle(
+      this.#renderer.setStyle(
         splitViewWorkspaceContent,
         'padding-bottom',
         '20px'
       );
-      this.renderer.setStyle(splitViewWorkspaceFooter, 'padding', 0);
+      this.#renderer.setStyle(splitViewWorkspaceFooter, 'padding', 0);
     }
   }
 
   public revertBodyElementStyles(): void {
-    const window = this.windowRef.nativeWindow;
+    const window = this.#windowRef.nativeWindow;
     const body = window.document.body;
-    this.renderer.removeStyle(body, 'margin-bottom');
+    this.#renderer.removeStyle(body, 'margin-bottom');
   }
 
   public revertSplitViewElementStyles(): void {
@@ -78,8 +77,12 @@ export class SkySummaryActionBarAdapterService {
     const splitViewWorkspaceFooter = document.querySelector(
       '.sky-split-view-workspace-footer'
     );
-    this.renderer.setStyle(splitViewWorkspaceContent, 'padding-bottom', 'none');
-    this.renderer.setStyle(splitViewWorkspaceFooter, 'padding', '10px');
+    this.#renderer.setStyle(
+      splitViewWorkspaceContent,
+      'padding-bottom',
+      'none'
+    );
+    this.#renderer.setStyle(splitViewWorkspaceFooter, 'padding', '10px');
   }
 
   public styleModalFooter(summaryActionBarRef: ElementRef): void {
@@ -87,16 +90,16 @@ export class SkySummaryActionBarAdapterService {
       'sky-modal-footer-container'
     );
     for (let i = 0; i < modalFooterEls.length; i++) {
-      if (modalFooterEls.item(i).contains(summaryActionBarRef.nativeElement)) {
-        this.renderer.setStyle(modalFooterEls.item(i), 'padding', 0);
+      if (modalFooterEls.item(i)?.contains(summaryActionBarRef.nativeElement)) {
+        this.#renderer.setStyle(modalFooterEls.item(i), 'padding', 0);
       }
     }
   }
 
-  public getSummaryActionBarType(el: Element): SkySummaryActionBarType {
-    do {
+  public getSummaryActionBarType(el: Element | null): SkySummaryActionBarType {
+    while (el && el.nodeType === 1) {
       if (el.tagName.toLowerCase() === 'sky-modal-footer') {
-        while (el.tagName.toLowerCase() !== 'sky-modal') {
+        while (el && el.tagName.toLowerCase() !== 'sky-modal') {
           if (el.classList.contains('sky-modal-full-page')) {
             return SkySummaryActionBarType.FullPageModal;
           }
@@ -109,7 +112,7 @@ export class SkySummaryActionBarAdapterService {
         return SkySummaryActionBarType.SplitView;
       }
       el = el.parentElement;
-    } while (el !== null && el.nodeType === 1);
+    }
     return SkySummaryActionBarType.Page;
   }
 }

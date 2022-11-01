@@ -124,20 +124,33 @@ describe('Summary Action Bar action components', () => {
   describe('secondary actions', () => {
     it('should have secondary actions with isDropdown as false on large screens', () => {
       fixture.detectChanges();
-      cmp.secondaryActions.secondaryActionComponents.forEach((action) => {
+
+      expect(
+        cmp.secondaryActions?.secondaryActionComponents?.length
+      ).toBeTruthy();
+      cmp.secondaryActions?.secondaryActionComponents?.forEach((action) => {
         expect(action.isDropdown).toBeFalsy();
       });
     });
 
     it('should have secondary actions with isDropdown as false on large screens when there are five actions', () => {
       fixture.detectChanges();
-      cmp.secondaryActions.secondaryActionComponents.forEach((action) => {
+
+      expect(
+        cmp.secondaryActions?.secondaryActionComponents?.length
+      ).toBeTruthy();
+      cmp.secondaryActions?.secondaryActionComponents?.forEach((action) => {
         expect(action.isDropdown).toBeFalsy();
       });
+
       fixture.detectChanges();
       cmp.extraActions = true;
       fixture.detectChanges();
-      cmp.secondaryActions.secondaryActionComponents.forEach((action) => {
+
+      expect(
+        cmp.secondaryActions?.secondaryActionComponents?.length
+      ).toBeTruthy();
+      cmp.secondaryActions?.secondaryActionComponents?.forEach((action) => {
         expect(action.isDropdown).toBeTruthy();
       });
     });
@@ -145,7 +158,11 @@ describe('Summary Action Bar action components', () => {
     it('should have secondary actions with isDropdown as true on xs screens', () => {
       mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
       fixture.detectChanges();
-      cmp.secondaryActions.secondaryActionComponents.forEach((action) => {
+
+      expect(
+        cmp.secondaryActions?.secondaryActionComponents?.length
+      ).toBeTruthy();
+      cmp.secondaryActions?.secondaryActionComponents?.forEach((action) => {
         expect(action.isDropdown).toBeTruthy();
       });
     });
@@ -163,7 +180,7 @@ describe('Summary Action Bar action components', () => {
           'sky-dropdown-menu sky-summary-action-bar-secondary-action button'
         )
       ).toBeFalsy();
-      cmp.secondaryActions.dropdownMessageStream.next({
+      cmp.secondaryActions?.dropdownMessageStream.next({
         type: SkyDropdownMessageType.Open,
       });
       fixture.detectChanges();
@@ -173,7 +190,7 @@ describe('Summary Action Bar action components', () => {
           'sky-dropdown-menu sky-summary-action-bar-secondary-action button'
         )
       ).toBeTruthy();
-      cmp.secondaryActions.secondaryActionComponents.first.actionClick.emit();
+      cmp.secondaryActions?.secondaryActionComponents?.first.actionClick.emit();
       fixture.detectChanges();
       tick();
       expect(
