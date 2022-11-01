@@ -44,11 +44,11 @@ describe('Migrations > Add compat stylesheets', () => {
  * - Delete this file after all blocks have been addressed.
  * - Remove each occurrence of this file in your project's
  *   angular.json file.
-*******************************************************************************/
+ *******************************************************************************/
 
 /*******************************************************************************
  * COMPONENT: DESCRIPTION LIST
-*******************************************************************************/
+ *******************************************************************************/
 
 /*******************************************************************************
  * The preset bottom margin has been removed from description list components
@@ -56,7 +56,7 @@ describe('Migrations > Add compat stylesheets', () => {
  * modern. To implement the newly-recommended spacing, add the
  * \`sky-margin-stacked-lg\` CSS class to each \`sky-description-list\` component
  * in your application, then remove this block.
-*******************************************************************************/
+ *******************************************************************************/
 
 .sky-theme-default .sky-description-list-vertical-mode .sky-description-list-content:last-child {
   margin-bottom: 15px;
