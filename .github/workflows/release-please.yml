@@ -40,7 +40,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: node_modules
-          key: cache-node-modules-${{ hashFiles('package-lock.json') }}
+          key: cache-node-modules_node16_${{ hashFiles('package-lock.json') }}
       - name: npm install
         if: ${{ steps.release.outputs.release_created && steps.cache.outputs.cache-hit != 'true' }}
         run: npm ci
