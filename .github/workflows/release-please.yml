@@ -27,7 +27,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           cache: npm
-          node-version: '16'
+          node-version: '16.18.x'
       # Workaround to avoid "Post Run actions/setup-node" failures.
       # See: https://github.com/actions/setup-node/issues/317
       - name: Ensure cache directory exists
