@@ -8,17 +8,17 @@ export class SkyDatepickerConfigService {
    * Specifies the date format for the input.
    * @default "MM/DD/YYYY"
    */
-  public dateFormat: string;
+  public dateFormat: string | undefined;
 
   /**
    * Specifies the latest selectable date that is available in the calendar.
    */
-  public maxDate: Date;
+  public maxDate: Date | undefined;
 
   /**
    * Specifies the earliest selectable date that is available in the calendar.
    */
-  public minDate: Date;
+  public minDate: Date | undefined;
 
   /**
    * Specifies the starting day of the week in the calendar,

@@ -39,7 +39,7 @@ export class SkyDatepickerCalendarComponent implements AfterViewInit {
 
   /** currently selected date */
   @Input()
-  public selectedDate: Date;
+  public selectedDate: Date | undefined;
 
   /** starting day of the week from 0-6 (0=Sunday, ..., 6=Saturday) */
   @Input()
@@ -64,19 +64,11 @@ export class SkyDatepickerCalendarComponent implements AfterViewInit {
     undefined
   );
 
-  /**
-   * @internal
-   * Indicates if the calendar element's visibility property is 'visible'.
-   */
-  public get isVisible(): boolean {
-    return this.#adapter.elementIsVisible();
-  }
-
   @ViewChild(SkyDatepickerCalendarInnerComponent, {
     read: SkyDatepickerCalendarInnerComponent,
     static: true,
   })
-  public _datepicker: SkyDatepickerCalendarInnerComponent;
+  public datepicker: SkyDatepickerCalendarInnerComponent | undefined;
 
   protected _now: Date = new Date();
 
@@ -107,6 +99,14 @@ export class SkyDatepickerCalendarComponent implements AfterViewInit {
     Object.assign(this, this.#config);
   }
 
+  /**
+   * @internal
+   * Indicates if the calendar element's visibility property is 'visible'.
+   */
+  public isVisible(): boolean {
+    return this.#adapter.elementIsVisible();
+  }
+
   public onCalendarDateRangeChange(
     event: SkyDatepickerCalendarChange | undefined
   ): void {
@@ -121,22 +121,23 @@ export class SkyDatepickerCalendarComponent implements AfterViewInit {
     this.selectedDateChange.emit(event);
   }
 
-  public writeValue(value: Date): void {
+  public writeValue(value: Date | undefined): void {
     if (
       value !== undefined &&
       this.#formatter.dateIsValid(value) &&
       this.selectedDate !== undefined &&
-      this._datepicker.compareHandlerDay(value, this.selectedDate) === 0
+      this.datepicker?.compareHandlerDay &&
+      this.datepicker.compareHandlerDay(value, this.selectedDate) === 0
     ) {
       return;
     }
 
-    if (this.#formatter.dateIsValid(value)) {
+    if (value && this.#formatter.dateIsValid(value)) {
       this.selectedDate = value;
-      this._datepicker.select(value, false);
+      this.datepicker?.select(value, false);
     } else {
       this.selectedDate = new Date();
-      this._datepicker.select(new Date(), false);
+      this.datepicker?.select(new Date(), false);
     }
   }
 }

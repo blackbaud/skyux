@@ -15,31 +15,31 @@ import { SkyDatepickerComponent } from '../datepicker.component';
 export class DatepickerReactiveTestComponent implements OnInit {
   public datepickerForm: UntypedFormGroup;
 
-  public dateControl: UntypedFormControl;
+  public dateControl!: UntypedFormControl;
 
-  public dateFormat: string;
+  public dateFormat: string | undefined;
 
   public disableFormOnCreation = false;
 
-  public initialValue: Date | string;
+  public initialValue: Date | string | undefined;
 
-  public isDisabled: boolean;
+  public isDisabled: boolean | undefined;
 
-  public maxDate: Date;
+  public maxDate: Date | undefined;
 
-  public minDate: Date;
+  public minDate: Date | undefined;
 
   public noValidate = false;
 
   public startingDay = 0;
 
-  public strict: boolean;
+  public strict: boolean | undefined;
 
   @ViewChild(SkyDatepickerInputDirective)
-  public inputDirective: SkyDatepickerInputDirective;
+  public inputDirective!: SkyDatepickerInputDirective;
 
   @ViewChild(SkyDatepickerComponent)
-  public datepicker: SkyDatepickerComponent;
+  public datepicker!: SkyDatepickerComponent;
 
   #formBuilder: UntypedFormBuilder;
 

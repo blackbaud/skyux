@@ -55,7 +55,7 @@ export class SkyDatepickerCalendarInnerComponent
   public set selectedDate(value: Date | undefined) {
     if (this.dateFormatter.dateIsValid(value)) {
       this.#_selectedDate = value;
-      this.activeDate = value;
+      this.activeDate = value!;
     }
   }
 
@@ -71,8 +71,8 @@ export class SkyDatepickerCalendarInnerComponent
   @Output()
   public calendarModeChange: EventEmitter<string> = new EventEmitter<string>();
 
-  public activeDate: Date;
-  public activeDateId: string;
+  public activeDate = new Date();
+  public activeDateId = '';
 
   public minMode = 'day';
   public maxMode = 'year';
@@ -97,16 +97,16 @@ export class SkyDatepickerCalendarInnerComponent
   protected modes: string[] = ['day', 'month', 'year'];
   protected dateFormatter: SkyDateFormatter = new SkyDateFormatter();
 
-  public refreshViewHandlerDay: () => void;
-  public compareHandlerDay: DateComparator;
-  public refreshViewHandlerMonth: () => void;
-  public compareHandlerMonth: DateComparator;
-  public refreshViewHandlerYear: () => void;
-  public compareHandlerYear: DateComparator;
+  public refreshViewHandlerDay: (() => void) | undefined;
+  public compareHandlerDay: DateComparator | undefined;
+  public refreshViewHandlerMonth: (() => void) | undefined;
+  public compareHandlerMonth: DateComparator | undefined;
+  public refreshViewHandlerYear: (() => void) | undefined;
+  public compareHandlerYear: DateComparator | undefined;
 
-  public handleKeydownDay: KeyboardEventHandler;
-  public handleKeydownMonth: KeyboardEventHandler;
-  public handleKeydownYear: KeyboardEventHandler;
+  public handleKeydownDay: KeyboardEventHandler | undefined;
+  public handleKeydownMonth: KeyboardEventHandler | undefined;
+  public handleKeydownYear: KeyboardEventHandler | undefined;
 
   public keys: any = {
     13: 'enter',
@@ -158,6 +158,7 @@ export class SkyDatepickerCalendarInnerComponent
   }
 
   public compare(date1: Date, date2: Date): undefined | number {
+    /* istanbul ignore if */
     if (date1 === undefined || date2 === undefined) {
       return undefined;
     }
@@ -175,6 +176,9 @@ export class SkyDatepickerCalendarInnerComponent
     if (this.datepickerMode === 'year' && this.compareHandlerYear) {
       return this.compareHandlerYear(date1, date2);
     }
+
+    /* istanbul ignore next */
+    return undefined;
   }
 
   public setRefreshViewHandler(handler: () => void, type: string): void {
@@ -280,7 +284,8 @@ export class SkyDatepickerCalendarInnerComponent
     const dateObject: SkyDatepickerDate = {
       date: new Date(date.getFullYear(), date.getMonth(), date.getDate()),
       label: this.dateFilter(date, format),
-      selected: this.compare(date, this.selectedDate) === 0,
+      selected:
+        !!this.selectedDate && this.compare(date, this.selectedDate) === 0,
       disabled: this.isDisabled(date),
       current: this.compare(date, new Date()) === 0,
       secondary: isSecondary,
@@ -415,9 +420,9 @@ export class SkyDatepickerCalendarInnerComponent
   protected isDisabled(date: Date): boolean {
     const customDate = this.#getCustomDate(date);
     return (
-      (this.minDate && this.compare(date, this.minDate) < 0) ||
-      (this.maxDate && this.compare(date, this.maxDate) > 0) ||
-      (customDate && customDate.disabled)
+      (!!this.minDate && date && this.compare(date, this.minDate)! < 0) ||
+      (!!this.maxDate && date && this.compare(date, this.maxDate)! > 0) ||
+      (!!customDate && !!customDate.disabled)
     );
   }
   #getCustomDate(date: Date): SkyDatepickerCustomDate | undefined {
@@ -426,5 +431,6 @@ export class SkyDatepickerCalendarInnerComponent
         return customDate.date.getTime() === date.getTime();
       });
     }
+    return undefined;
   }
 }

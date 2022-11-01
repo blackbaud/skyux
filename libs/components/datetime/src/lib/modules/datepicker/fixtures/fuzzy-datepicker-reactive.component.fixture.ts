@@ -12,9 +12,9 @@ import { SkyFuzzyDatepickerInputDirective } from '../datepicker-input-fuzzy.dire
   templateUrl: './fuzzy-datepicker-reactive.component.fixture.html',
 })
 export class FuzzyDatepickerReactiveTestComponent implements OnInit {
-  public futureDisabled: boolean;
+  public futureDisabled: boolean | undefined;
 
-  public dateControl: UntypedFormControl;
+  public dateControl!: UntypedFormControl;
 
   public dateFormat: any;
 
@@ -22,7 +22,7 @@ export class FuzzyDatepickerReactiveTestComponent implements OnInit {
 
   public initialValue: any;
 
-  public isDisabled: boolean;
+  public isDisabled: boolean | undefined;
 
   public maxDate: any;
 
@@ -32,10 +32,10 @@ export class FuzzyDatepickerReactiveTestComponent implements OnInit {
 
   public startingDay = 0;
 
-  public yearRequired: boolean;
+  public yearRequired: boolean | undefined;
 
   @ViewChild(SkyFuzzyDatepickerInputDirective)
-  public inputDirective: SkyFuzzyDatepickerInputDirective;
+  public inputDirective!: SkyFuzzyDatepickerInputDirective;
 
   #formBuilder: UntypedFormBuilder;
 

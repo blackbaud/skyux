@@ -5,7 +5,7 @@ import { ElementRef, Injectable, Renderer2 } from '@angular/core';
  */
 @Injectable()
 export class SkyDatepickerAdapterService {
-  #el: HTMLElement;
+  #el: HTMLElement | undefined;
 
   #renderer: Renderer2;
 
@@ -20,13 +20,18 @@ export class SkyDatepickerAdapterService {
   public elementIsFocused(): boolean {
     const focusedEl = document.activeElement;
 
-    return this.#el.contains(focusedEl);
+    return !!this.#el && this.#el.contains(focusedEl);
   }
 
   public elementIsVisible(): boolean {
-    const styles = this.#el && getComputedStyle(this.#el);
+    /* istanbul ignore else */
+    if (this.#el) {
+      const styles = getComputedStyle(this.#el);
 
-    return styles && styles.visibility === 'visible';
+      return styles.visibility === 'visible';
+    } else {
+      return false;
+    }
   }
 
   public getPlaceholder(elementRef: ElementRef): string {

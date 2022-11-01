@@ -49,7 +49,7 @@ describe('datepicker calendar', () => {
       const secondaryEl = element.querySelector('tbody tr td .sky-btn-sm');
       expect(secondaryEl).toHaveText(firstSecondaryDate);
 
-      expect(secondaryEl.querySelector('span')).toHaveCssClass(
+      expect(secondaryEl?.querySelector('span')).toHaveCssClass(
         'sky-datepicker-secondary'
       );
     }
@@ -130,7 +130,7 @@ describe('datepicker calendar', () => {
 
   it('should be visible', () => {
     fixture.detectChanges();
-    expect(component.datepicker.isVisible).toBe(true);
+    expect(component.datepicker.isVisible()).toBe(true);
   });
 
   it('should show the appropriate daypicker with the selected date', () => {

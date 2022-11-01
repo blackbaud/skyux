@@ -33,7 +33,7 @@ export class SkyDayPickerCellComponent implements OnInit, OnDestroy {
    * Specifies the date this picker cell will represent on the calendar.
    */
   @Input()
-  public date: SkyDatepickerDate | undefined;
+  public date!: SkyDatepickerDate;
 
   public hasTooltip = false;
 
@@ -60,14 +60,16 @@ export class SkyDayPickerCellComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.hasTooltip =
-      this.date.keyDate &&
-      this.date.keyDateText &&
+      !!this.date &&
+      !!this.date.keyDate &&
+      !!this.date.keyDateText &&
       this.date.keyDateText.length > 0 &&
       this.date.keyDateText[0].length > 0;
 
     // show the tooltip if this is the active date and is not the
     // initial active date (activeDateHasChanged)
     if (
+      !!this.date &&
       this.#datepicker.isActive(this.date) &&
       this.activeDateHasChanged &&
       this.hasTooltip
@@ -86,7 +88,7 @@ export class SkyDayPickerCellComponent implements OnInit, OnDestroy {
             this.#activeUid = '';
           }
           // If this day has an open popover and they have moved off of the day close the popover.
-          if (this.date.uid !== this.#activeUid) {
+          if (this.date?.uid !== this.#activeUid) {
             this.#hideTooltip();
           }
         });
@@ -130,7 +132,12 @@ export class SkyDayPickerCellComponent implements OnInit, OnDestroy {
 
   public getKeyDateLabel(): string {
     if (this.hasTooltip) {
-      return this.date.keyDateText.join(', ');
+      // Safety check
+      /* istanbul ignore next */
+      const label = this.date?.keyDateText
+        ? this.date.keyDateText.join(', ')
+        : '';
+      return label;
     } else {
       return '';
     }
@@ -150,7 +157,7 @@ export class SkyDayPickerCellComponent implements OnInit, OnDestroy {
        * Delay 1/2 second before opening the popover as long as mouse hasn't moved off the date.
        */
       setTimeout(() => {
-        if (!this.#cancelPopover && this.#activeUid === this.date.uid) {
+        if (!this.#cancelPopover && this.#activeUid === this.date?.uid) {
           this.popoverController.next({ type: SkyPopoverMessageType.Open });
         }
       }, 500);

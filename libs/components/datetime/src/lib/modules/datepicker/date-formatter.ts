@@ -23,13 +23,13 @@ export class SkyDateFormatter {
     );
   }
 
-  public format(date: Date, format: string): string {
+  public format(date: Date, format?: string): string {
     return moment(date.getTime()).format(format);
   }
 
   public getDateFromString(
     dateString: string,
-    format: string,
+    format?: string,
     /* istanbul ignore next */
     strict: boolean = false
   ): Date {
@@ -42,9 +42,9 @@ export class SkyDateFormatter {
     return momentValue.toDate();
   }
 
-  public dateIsValid(date: Date): boolean {
+  public dateIsValid(date: Date | undefined): boolean {
     return (
-      date &&
+      !!date &&
       date instanceof Date &&
       !isNaN(date.valueOf()) &&
       !isNaN(new Date(date).getDate())

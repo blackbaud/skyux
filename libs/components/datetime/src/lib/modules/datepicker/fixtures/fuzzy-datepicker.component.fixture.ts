@@ -7,11 +7,11 @@ import { SkyFuzzyDatepickerInputDirective } from '../datepicker-input-fuzzy.dire
   templateUrl: './fuzzy-datepicker.component.fixture.html',
 })
 export class FuzzyDatepickerTestComponent {
-  public futureDisabled: boolean;
+  public futureDisabled: boolean | undefined;
 
-  public dateFormat: string;
+  public dateFormat: string | undefined;
 
-  public isDisabled: boolean;
+  public isDisabled: boolean | undefined;
 
   public maxDate: any;
 
@@ -25,8 +25,8 @@ export class FuzzyDatepickerTestComponent {
 
   public startingDay = 0;
 
-  public yearRequired: boolean;
+  public yearRequired: boolean | undefined;
 
   @ViewChild(SkyFuzzyDatepickerInputDirective)
-  public inputDirective: SkyFuzzyDatepickerInputDirective;
+  public inputDirective!: SkyFuzzyDatepickerInputDirective;
 }

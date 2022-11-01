@@ -8,16 +8,16 @@ import { SkyDatepickerCustomDate } from '../datepicker-custom-date';
   templateUrl: './datepicker-calendar.component.fixture.html',
 })
 export class DatepickerCalendarTestComponent {
-  public customDates: SkyDatepickerCustomDate[];
+  public customDates: SkyDatepickerCustomDate[] | undefined;
 
-  public minDate: Date;
+  public minDate: Date | undefined;
 
-  public maxDate: Date;
+  public maxDate: Date | undefined;
 
   public selectedDate: any;
 
-  public startingDay: number;
+  public startingDay: number | undefined;
 
   @ViewChild(SkyDatepickerCalendarComponent)
-  public datepicker: SkyDatepickerCalendarComponent;
+  public datepicker!: SkyDatepickerCalendarComponent;
 }

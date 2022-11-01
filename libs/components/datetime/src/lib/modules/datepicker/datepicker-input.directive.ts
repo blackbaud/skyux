@@ -74,7 +74,7 @@ export class SkyDatepickerInputDirective
     }
   }
 
-  public get dateFormat(): string {
+  public get dateFormat(): string | undefined {
     return (
       this.#_dateFormat ||
       this.#configService.dateFormat ||
@@ -88,7 +88,7 @@ export class SkyDatepickerInputDirective
    */
   @Input()
   public set disabled(value: boolean | undefined) {
-    this.#_disabled = value;
+    this.#_disabled = value || false;
     this.#datepickerComponent.disabled = value;
     this.#renderer.setProperty(
       this.#elementRef.nativeElement,
@@ -98,7 +98,7 @@ export class SkyDatepickerInputDirective
   }
 
   public get disabled(): boolean {
-    return this.#_disabled || false;
+    return this.#_disabled;
   }
 
   /**
@@ -121,7 +121,7 @@ export class SkyDatepickerInputDirective
     this.#onValidatorChange();
   }
 
-  public get maxDate(): Date {
+  public get maxDate(): Date | undefined {
     return this.#_maxDate || this.#configService.maxDate;
   }
 
@@ -137,7 +137,7 @@ export class SkyDatepickerInputDirective
     this.#onValidatorChange();
   }
 
-  public get minDate(): Date {
+  public get minDate(): Date | undefined {
     return this.#_minDate || this.#configService.minDate;
   }
 
@@ -212,18 +212,18 @@ export class SkyDatepickerInputDirective
     this.#updateValue(value);
   }
 
-  #control: AbstractControl;
+  #control: AbstractControl | undefined;
   #dateFormatter = new SkyDateFormatter();
   #initialPlaceholder: string;
-  #preferredShortDateFormat: string;
+  #preferredShortDateFormat: string | undefined;
   #ngUnsubscribe = new Subject<void>();
 
-  #_dateFormat: string;
-  #_disabled: boolean;
-  #_maxDate: Date;
-  #_minDate: Date;
-  #_startingDay: number;
-  #_strict: boolean;
+  #_dateFormat: string | undefined;
+  #_disabled = false;
+  #_maxDate: Date | undefined;
+  #_minDate: Date | undefined;
+  #_startingDay: number | undefined;
+  #_strict = false;
   #_value: any;
 
   #adapter: SkyDatepickerAdapterService;
@@ -310,7 +310,7 @@ export class SkyDatepickerInputDirective
     /* istanbul ignore else */
     if (this.#control && this.#control.parent) {
       setTimeout(() => {
-        this.#control.setValue(this.#value, {
+        this.#control?.setValue(this.#value, {
           emitEvent: false,
         });
 
@@ -344,7 +344,7 @@ export class SkyDatepickerInputDirective
     this.#_value = value;
     this.#onChange(value);
 
-    this.#control.setErrors({
+    this.#control?.setErrors({
       skyDate: {
         invalid: true,
       },
@@ -358,14 +358,14 @@ export class SkyDatepickerInputDirective
 
   @HostListener('input')
   public onInput(): void {
-    this.#control.markAsDirty();
+    this.#control?.markAsDirty();
   }
 
   public writeValue(value: any): void {
     this.#updateValue(value, false);
   }
 
-  public validate(control: AbstractControl): ValidationErrors {
+  public validate(control: AbstractControl): ValidationErrors | null {
     if (!this.#control) {
       this.#control = control;
       // Account for any date conversion that may have occurred prior to validation.
@@ -375,13 +375,13 @@ export class SkyDatepickerInputDirective
     }
 
     if (this.skyDatepickerNoValidate) {
-      return;
+      return null;
     }
 
     const value: unknown = control.value;
 
     if (!value) {
-      return;
+      return null;
     }
 
     if (value instanceof Date) {
@@ -437,6 +437,7 @@ export class SkyDatepickerInputDirective
         },
       };
     }
+    return null;
   }
 
   public registerOnChange(fn: (value: any) => void): void {
@@ -495,6 +496,7 @@ export class SkyDatepickerInputDirective
     } else if (typeof value === 'string') {
       return this.#getShortcutOrDateValue(value);
     }
+    return undefined;
   }
 
   /**
@@ -509,11 +511,11 @@ export class SkyDatepickerInputDirective
       if (value.length === 8) {
         const regex = new RegExp(/\b(MM)\b|\b(DD)\b|\b(YY)\b|\b(YYYY)\b/, 'g');
         const formatTokensOnly = this.dateFormat
-          .match(regex)
-          .join('')
+          ?.match(regex)
+          ?.join('')
           .replace(new RegExp(/Y+/), 'YYYY');
 
-        if (formatTokensOnly.length === 8) {
+        if (formatTokensOnly && formatTokensOnly.length === 8) {
           const date = this.#dateFormatter.getDateFromString(
             value,
             formatTokensOnly,
@@ -540,6 +542,7 @@ export class SkyDatepickerInputDirective
         return date;
       }
     }
+    return undefined;
   }
 
   /**
@@ -575,7 +578,7 @@ export class SkyDatepickerInputDirective
   #onValidatorChange = () => {};
 
   #updatePlaceholder(): void {
-    if (!this.#initialPlaceholder) {
+    if (!this.#initialPlaceholder && this.dateFormat) {
       this.#adapter.setPlaceholder(this.#elementRef, this.dateFormat);
     }
   }

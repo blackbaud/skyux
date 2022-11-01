@@ -33,7 +33,7 @@ interface SkyFuzzyDateRange {
   providedIn: 'root',
 })
 export class SkyFuzzyDateService implements OnDestroy {
-  #currentLocale: string;
+  #currentLocale = 'en-US';
 
   #ngUnsubscribe = new Subject<void>();
 
@@ -73,7 +73,7 @@ export class SkyFuzzyDateService implements OnDestroy {
    */
   public format(
     fuzzyDate: SkyFuzzyDate,
-    format: string,
+    format?: string,
     locale?: string
   ): string {
     if (!this.#isFuzzyDateValid(fuzzyDate)) {
@@ -86,7 +86,9 @@ export class SkyFuzzyDateService implements OnDestroy {
 
     const separator = this.#getDateSeparator(format);
     const dateParts: string[] = [];
-    const formatTokens: string[] = format.split(separator);
+    const formatTokens: string[] = separator
+      ? format.split(separator)
+      : [format];
     locale = locale || this.#currentLocale;
     const fuzzyDateMoment =
       this.getMomentFromFuzzyDate(fuzzyDate).locale(locale);
@@ -123,13 +125,14 @@ export class SkyFuzzyDateService implements OnDestroy {
    * If not provided, years will default to current year; months will default to January;
    * days will default to 1st of the month.
    */
-  public getMomentFromFuzzyDate(fuzzyDate: SkyFuzzyDate): any {
+  public getMomentFromFuzzyDate(fuzzyDate?: SkyFuzzyDate): any {
     if (!fuzzyDate) {
       return;
     }
 
     const year = fuzzyDate.year || this.#getDefaultYear(fuzzyDate);
-    const month = fuzzyDate.month > 0 ? fuzzyDate.month - 1 : 0;
+    const month =
+      fuzzyDate.month && fuzzyDate.month > 0 ? fuzzyDate.month - 1 : 0;
     const day = fuzzyDate.day || 1;
 
     return moment([year, month, day]);
@@ -140,9 +143,9 @@ export class SkyFuzzyDateService implements OnDestroy {
    * @deprecated Deprecated in favor of the `format` function.
    */
   public getStringFromFuzzyDate(
-    fuzzyDate: SkyFuzzyDate,
-    dateFormat: string
-  ): string {
+    fuzzyDate?: SkyFuzzyDate,
+    dateFormat?: string
+  ): string | undefined {
     if (!fuzzyDate || !dateFormat) {
       return;
     }
@@ -172,9 +175,9 @@ export class SkyFuzzyDateService implements OnDestroy {
   }
 
   public getFuzzyDateFromSelectedDate(
-    selectedDate: Date,
-    dateFormat: string
-  ): SkyFuzzyDate {
+    selectedDate?: Date,
+    dateFormat?: string
+  ): SkyFuzzyDate | undefined {
     if (!selectedDate || !dateFormat) {
       return;
     }
@@ -199,8 +202,8 @@ export class SkyFuzzyDateService implements OnDestroy {
 
   public getFuzzyDateFromString(
     date: string,
-    dateFormat: string
-  ): SkyFuzzyDate {
+    dateFormat?: string
+  ): SkyFuzzyDate | undefined {
     if (!date || !dateFormat) {
       return;
     }
@@ -360,8 +363,8 @@ export class SkyFuzzyDateService implements OnDestroy {
    * Accepted separators: ['/', '.', '-', ' '].
    * @param dateFormat
    */
-  #getDateSeparator(dateFormat: string): string {
-    let returnValue: string;
+  #getDateSeparator(dateFormat: string): string | undefined {
+    let returnValue: string | undefined;
     const separators = ['/', '.', '-', ' '];
 
     separators.forEach((separator) => {
@@ -373,27 +376,30 @@ export class SkyFuzzyDateService implements OnDestroy {
     return returnValue;
   }
 
-  #get4DigitYearFromDateString(date: string): number {
-    let year: string;
+  #get4DigitYearFromDateString(date: string): number | undefined {
+    let year: string | undefined;
     const separator = this.#getDateSeparator(date);
 
-    // Find the number value in the string that is 4 digits long.
-    date.split(separator).forEach((dateComponent) => {
-      if (!year && parseInt(dateComponent, 10).toString().length === 4) {
-        year = dateComponent;
-      }
-    });
+    if (separator) {
+      // Find the number value in the string that is 4 digits long.
+      date.split(separator).forEach((dateComponent) => {
+        if (!year && parseInt(dateComponent, 10).toString().length === 4) {
+          year = dateComponent;
+        }
+      });
+    }
 
     if (year && !isNaN(Number(year))) {
       return parseInt(year, 10);
     }
+    return undefined;
   }
 
   #isLeapYear(year: number): boolean {
     return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
   }
 
-  #getMonthNumber(month: string): number {
+  #getMonthNumber(month: string): number | undefined {
     let returnValue: number;
     const monthAsNumber = parseInt(month, 10);
 
@@ -426,7 +432,11 @@ export class SkyFuzzyDateService implements OnDestroy {
 
   #getDateComponents(date: string): string[] {
     const separator = this.#getDateSeparator(date);
-    return date.split(separator);
+    if (separator) {
+      return date.split(separator);
+    } else {
+      return [date];
+    }
   }
 
   // Returns the order of year, month, and day from the provided date format.
