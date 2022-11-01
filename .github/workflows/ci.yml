@@ -22,7 +22,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '16'
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
@@ -92,7 +92,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '16'
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
@@ -126,7 +126,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '16'
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
@@ -154,7 +154,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '16'
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
@@ -177,7 +177,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '16'
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
@@ -204,7 +204,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '16'
       - name: Retrieve node_modules cache
         uses: actions/cache@v3
         with:
