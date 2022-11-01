@@ -41,7 +41,7 @@ jobs:
             node_modules
             !node_modules\.cache\nx
             C:\Users\runneradmin\AppData\Local\Cypress\Cache
-          key: cache-pr-preview_node16_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: cache-pr-preview_node16.18_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: npm install
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
@@ -103,7 +103,7 @@ jobs:
             node_modules
             !node_modules\.cache\nx
             C:\Users\runneradmin\AppData\Local\Cypress\Cache
-          key: cache-pr-preview_node16_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: cache-pr-preview_node16.18_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
         if: ${{ matrix.project != 'skip' }}
       - name: Build ${{ matrix.project }}
         # https://github.com/actions/github-script
@@ -158,7 +158,7 @@ jobs:
             node_modules
             !node_modules\.cache\nx
             C:\Users\runneradmin\AppData\Local\Cypress\Cache
-          key: cache-pr-preview_node16_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: cache-pr-preview_node16.18_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
         if: ${{ github.event_name == 'pull_request' }}
       - name: Build ${{ matrix.app }}
         run: |
@@ -202,7 +202,7 @@ jobs:
             node_modules
             !node_modules\.cache\nx
             C:\Users\runneradmin\AppData\Local\Cypress\Cache
-          key: cache-pr-preview_node16_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: cache-pr-preview_node16.18_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -273,7 +273,7 @@ jobs:
             node_modules
             !node_modules\.cache\nx
             C:\Users\runneradmin\AppData\Local\Cypress\Cache
-          key: cache-pr-preview_node16_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: cache-pr-preview_node16.18_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: Percy ${{ matrix.project }}
         # Timing setting recommended by https://docs.percy.io/docs/cypress#missing-assets
         run: npx percy exec -t 350 -- nx e2e ${{ matrix.project }}-e2e --skip-nx-cache
