@@ -1,9 +1,6 @@
 import type { StorybookConfig } from '@storybook/core-common';
 
 export const rootMain: StorybookConfig = {
-  features: {
-    buildStoriesJson: true,
-  },
   stories: [],
   addons: [
     '@storybook/addon-a11y',
