@@ -50,44 +50,6 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
   @Input()
   public pickerClass: string | undefined = '';
 
-  /**
-   * @internal
-   * Indicates if the calendar button element or any of its children have focus.
-   * @deprecated This property will be removed in the next major version release.
-   */
-  public get buttonIsFocused(): boolean {
-    /* sanity check */
-    /* istanbul ignore if */
-    if (!this.triggerButtonRef) {
-      return false;
-    }
-    const activeEl = document.activeElement;
-    return this.triggerButtonRef.nativeElement === activeEl;
-  }
-
-  /**
-   * @internal
-   * Indicates if the calendar element or any of its children have focus.
-   * @deprecated This property will be removed in the next major version release.
-   */
-  public get calendarIsFocused(): boolean {
-    if (!this.calendarRef) {
-      return false;
-    }
-
-    const focusedEl = document.activeElement;
-    return this.calendarRef.nativeElement.contains(focusedEl);
-  }
-
-  /**
-   * @internal
-   * Indicates if the calendar element's visiblity property is 'visible'.
-   * @deprecated This property will be removed in the next major version release.
-   */
-  public get calendarIsVisible(): boolean {
-    return this.calendar ? this.calendar.isVisible() : false;
-  }
-
   public get disabled(): boolean | undefined {
     return this.#_disabled;
   }

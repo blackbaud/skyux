@@ -103,14 +103,6 @@ export class SkyDatepickerInputDirective
   }
 
   /**
-   * @internal
-   * Indicates if the input element or any of its children have focus.
-   */
-  public get inputIsFocused(): boolean {
-    return this.#adapter.elementIsFocused();
-  }
-
-  /**
    * Specifies the latest date that is available in the calendar. Place this attribute on
    * the `input` element to override the default in `SkyDatepickerConfigService`.
    */
@@ -321,8 +313,6 @@ export class SkyDatepickerInputDirective
         this.#changeDetector.markForCheck();
       });
     }
-
-    this.#adapter.init(this.#elementRef);
   }
 
   public ngOnDestroy(): void {

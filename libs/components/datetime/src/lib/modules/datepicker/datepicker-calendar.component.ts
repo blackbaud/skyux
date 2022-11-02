@@ -1,7 +1,5 @@
 import {
-  AfterViewInit,
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   Output,
@@ -24,7 +22,7 @@ import { SkyDatepickerCustomDate } from './datepicker-custom-date';
   styleUrls: ['./datepicker-calendar.component.scss'],
   providers: [SkyDatepickerAdapterService],
 })
-export class SkyDatepickerCalendarComponent implements AfterViewInit {
+export class SkyDatepickerCalendarComponent {
   @Input()
   public customDates: SkyDatepickerCustomDate[] | undefined;
 
@@ -76,35 +74,15 @@ export class SkyDatepickerCalendarComponent implements AfterViewInit {
 
   #_startingDay = 0;
 
-  #adapter: SkyDatepickerAdapterService;
   #config: SkyDatepickerConfigService;
-  #elementRef: ElementRef;
 
-  public constructor(
-    adapter: SkyDatepickerAdapterService,
-    config: SkyDatepickerConfigService,
-    elementRef: ElementRef
-  ) {
-    this.#adapter = adapter;
+  public constructor(config: SkyDatepickerConfigService) {
     this.#config = config;
-    this.#elementRef = elementRef;
     this.configureOptions();
-  }
-
-  public ngAfterViewInit(): void {
-    this.#adapter.init(this.#elementRef);
   }
 
   public configureOptions(): void {
     Object.assign(this, this.#config);
-  }
-
-  /**
-   * @internal
-   * Indicates if the calendar element's visibility property is 'visible'.
-   */
-  public isVisible(): boolean {
-    return this.#adapter.elementIsVisible();
   }
 
   public onCalendarDateRangeChange(
