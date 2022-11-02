@@ -12,18 +12,10 @@
   .sky-sort-btn-text {
     display: none;
   }
-
-  .sky-sort ::ng-deep .sky-dropdown-caret {
-    display: none;
-  }
 }
 
 @include mixins.sky-host-responsive-container-sm-min() {
   .sky-sort-btn-text {
     display: inline;
-  }
-
-  .sky-sort ::ng-deep .sky-dropdown-caret {
-    display: inline-block;
   }
 }
