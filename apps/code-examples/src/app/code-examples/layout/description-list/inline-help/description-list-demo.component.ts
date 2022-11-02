@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './description-list-demo.component.html',
 })
 export class DescriptionListDemoComponent {
-  public items: { term: string; description: string; showHelp?: boolean }[] = [
+  public items: { term: string; description: string }[] = [
     {
       term: 'College',
       description: 'Humanities and Social Sciences',
@@ -17,7 +17,6 @@ export class DescriptionListDemoComponent {
     {
       term: 'Advisor',
       description: 'Calandra Geer',
-      showHelp: true,
     },
     {
       term: 'Class year',

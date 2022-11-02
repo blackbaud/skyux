@@ -3,7 +3,6 @@
     <sky-description-list-term>
       {{ item.term }}
       <sky-help-inline
-        *ngIf="item.showHelp"
         class="sky-control-help"
         (actionClick)="onActionClick()"
       ></sky-help-inline>

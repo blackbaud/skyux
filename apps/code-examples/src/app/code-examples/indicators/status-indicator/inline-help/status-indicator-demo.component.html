@@ -1,17 +1,33 @@
 <sky-status-indicator descriptionType="error" indicatorType="danger">
   Danger status indicator
+  <sky-help-inline
+    class="sky-control-help"
+    (actionClick)="onActionClick()"
+  ></sky-help-inline>
 </sky-status-indicator>
 
 <sky-status-indicator descriptionType="important-info" indicatorType="info">
   Info status indicator
+  <sky-help-inline
+    class="sky-control-help"
+    (actionClick)="onActionClick()"
+  ></sky-help-inline>
 </sky-status-indicator>
 
 <sky-status-indicator descriptionType="completed" indicatorType="success">
   Success status indicator
+  <sky-help-inline
+    class="sky-control-help"
+    (actionClick)="onActionClick()"
+  ></sky-help-inline>
 </sky-status-indicator>
 
 <sky-status-indicator descriptionType="warning" indicatorType="warning">
   Warning status indicator
+  <sky-help-inline
+    class="sky-control-help"
+    (actionClick)="onActionClick()"
+  ></sky-help-inline>
 </sky-status-indicator>
 
 <sky-status-indicator
@@ -20,10 +36,6 @@
   customDescription="Custom warning"
 >
   Warning status indicator with custom screen reader description
-</sky-status-indicator>
-
-<sky-status-indicator descriptionType="error" indicatorType="danger">
-  Status indicator with help
   <sky-help-inline
     class="sky-control-help"
     (actionClick)="onActionClick()"
