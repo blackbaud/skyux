@@ -18,7 +18,7 @@ export class FuzzyDatepickerReactiveTestComponent implements OnInit {
 
   public dateFormat: any;
 
-  public datepickerForm: UntypedFormGroup;
+  public datepickerForm: UntypedFormGroup | undefined;
 
   public initialValue: any;
 

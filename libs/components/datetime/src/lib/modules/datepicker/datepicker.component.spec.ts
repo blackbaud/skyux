@@ -1211,7 +1211,7 @@ describe('datepicker', () => {
         component.disableFormOnCreation = true;
         detectChanges(fixture);
 
-        component.datepickerForm.enable();
+        component.datepickerForm?.enable();
         detectChanges(fixture);
 
         expect(getInputElementValue(fixture)).toBe('05/12/2017');

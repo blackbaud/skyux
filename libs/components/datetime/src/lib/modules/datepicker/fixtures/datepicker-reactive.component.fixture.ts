@@ -13,7 +13,7 @@ import { SkyDatepickerComponent } from '../datepicker.component';
   templateUrl: './datepicker-reactive.component.fixture.html',
 })
 export class DatepickerReactiveTestComponent implements OnInit {
-  public datepickerForm: UntypedFormGroup;
+  public datepickerForm: UntypedFormGroup | undefined;
 
   public dateControl!: UntypedFormControl;
 
