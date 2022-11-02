@@ -1,5 +1,26 @@
 # Changelog
 
+## [7.0.0-beta.10](https://github.com/blackbaud/skyux/compare/7.0.0-beta.9...7.0.0-beta.10) (2022-11-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/forms:** The radio component's `radioType` input was set to a type of `string`, but it really only accepts a handful of known string values. These values are represented by the new `SkyRadioType` string union. This might cause problems if you are setting the `radioType` input to a type of `string` in your consuming component's class.
+
+### Features
+
+* **components/autonumeric:** change autonumeric from a dependency to a peer dependency ([#741](https://github.com/blackbaud/skyux/issues/741)) ([b1e4706](https://github.com/blackbaud/skyux/commit/b1e47060e1f095c95b1753ce7a8248715c9f8618))
+* **components/forms:** change radio component's `radioType` input property to be more strongly typed ([34e9332](https://github.com/blackbaud/skyux/commit/34e933208706bea063ef95de57568a9b3488e706))
+* **sdk/testing:** change axe-core from a dependency to a peer dependency ([#746](https://github.com/blackbaud/skyux/issues/746)) ([bbef42a](https://github.com/blackbaud/skyux/commit/bbef42a2793ce8ac88e21a52e43a3ae41efa1e92))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** remove aria-label from currency cell renderer ([#750](https://github.com/blackbaud/skyux/issues/750)) ([1343d3d](https://github.com/blackbaud/skyux/commit/1343d3d7efaa649f092e1d1d6bd551012178108b))
+* **components/indicators:** use role 'grid' for tokens component ([#712](https://github.com/blackbaud/skyux/issues/712)) ([774eb3d](https://github.com/blackbaud/skyux/commit/774eb3dbd05469095da9197402e2507da0f8563c))
+* **components/lists:** use 'grid' role for selectable repeaters ([#751](https://github.com/blackbaud/skyux/issues/751)) ([64a4c86](https://github.com/blackbaud/skyux/commit/64a4c863b5619d508195643c90d7be1254dbfd3a))
+* **components/packages:** install `moment` only if `@skyux/datetime` is a dependency ([#743](https://github.com/blackbaud/skyux/issues/743)) ([11484e4](https://github.com/blackbaud/skyux/commit/11484e4040197cbb7c6d41ddb91d48eef7140599))
+
 ## [7.0.0-beta.9](https://github.com/blackbaud/skyux/compare/7.0.0-beta.8...7.0.0-beta.9) (2022-10-25)
 
 
