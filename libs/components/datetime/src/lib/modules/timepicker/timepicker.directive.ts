@@ -291,10 +291,13 @@ export class SkyTimepickerInputDirective
     }
   }
 
+  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+  private _onChange = (_: any): void => {};
+  /* istanbul ignore next */
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private _onChange = (_: any) => {};
+  private _onTouched = (): void => {};
+  /* istanbul ignore next */
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private _onTouched = () => {};
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private _validatorChange = () => {};
+  private _validatorChange = (): void => {};
 }

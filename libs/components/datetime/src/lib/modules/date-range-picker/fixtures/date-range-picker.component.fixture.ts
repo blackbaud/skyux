@@ -17,41 +17,45 @@ import { SkyDateRangeCalculatorId } from '../types/date-range-calculator-id';
   templateUrl: './date-range-picker.component.fixture.html',
 })
 export class DateRangePickerTestComponent implements OnInit, OnDestroy {
-  public get dateRange(): AbstractControl {
-    return this.reactiveForm.get('dateRange');
+  public get dateRange(): AbstractControl | undefined | null {
+    return this.reactiveForm?.get('dateRange');
   }
 
   @ViewChild('dateRangePicker', {
     read: SkyDateRangePickerComponent,
   })
-  public dateRangePicker: SkyDateRangePickerComponent;
+  public dateRangePicker!: SkyDateRangePickerComponent;
 
-  public calculatorIds: SkyDateRangeCalculatorId[];
-  public dateFormat: string;
+  public calculatorIds: SkyDateRangeCalculatorId[] | undefined;
+  public dateFormat: string | undefined;
   public disableReactiveOnInit = false;
   public endDateRequired = false;
   public initialDisabled = false;
-  public initialValue: SkyDateRangeCalculation;
-  public label: string;
+  public initialValue: SkyDateRangeCalculation | undefined;
+  public label: string | undefined;
   public numValueChangeNotifications = 0;
-  public reactiveForm: UntypedFormGroup;
+  public reactiveForm: UntypedFormGroup | undefined;
   public startDateRequired = false;
-  public templateDisable: boolean = undefined;
+  public templateDisable: boolean | undefined = undefined;
 
-  private ngUnsubscribe = new Subject<void>();
+  #ngUnsubscribe = new Subject<void>();
 
-  constructor(private formBuilder: UntypedFormBuilder) {}
+  #formBuilder: UntypedFormBuilder;
+
+  constructor(formBuilder: UntypedFormBuilder) {
+    this.#formBuilder = formBuilder;
+  }
 
   public ngOnInit(): void {
-    this.reactiveForm = this.formBuilder.group({
+    this.reactiveForm = this.#formBuilder.group({
       dateRange: [
         { value: this.initialValue, disabled: this.initialDisabled },
         [],
       ],
     });
 
-    this.dateRange.valueChanges
-      .pipe(takeUntil(this.ngUnsubscribe))
+    this.dateRange?.valueChanges
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         this.numValueChangeNotifications++;
       });
@@ -62,8 +66,8 @@ export class DateRangePickerTestComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   public setCalculatorIdsAsync(): void {

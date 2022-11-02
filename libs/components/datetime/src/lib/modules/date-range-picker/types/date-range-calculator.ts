@@ -20,13 +20,16 @@ export class SkyDateRangeCalculator {
    */
   public readonly type: SkyDateRangeCalculatorType;
 
+  #config: SkyDateRangeCalculatorConfig;
+
   constructor(
     /**
      * Provides a calculator ID to specify calculator objects that represent date ranges.
      */
     public readonly calculatorId: SkyDateRangeCalculatorId,
-    private config: SkyDateRangeCalculatorConfig
+    config: SkyDateRangeCalculatorConfig
   ) {
+    this.#config = config;
     this.type = config.type;
     this.shortDescription = config.shortDescription;
   }
@@ -37,19 +40,19 @@ export class SkyDateRangeCalculator {
    * @param endDateInput The end date.
    */
   public getValue(
-    startDateInput?: Date,
-    endDateInput?: Date
+    startDateInput?: Date | null,
+    endDateInput?: Date | null
   ): SkyDateRangeCalculation {
-    const result = this.config.getValue(startDateInput, endDateInput);
+    const result = this.#config.getValue(startDateInput, endDateInput);
 
-    let startDate: Date = null;
+    let startDate: Date | null = null;
     if (result.startDate instanceof Date) {
-      startDate = this.parseDateWithoutTime(result.startDate);
+      startDate = this.#parseDateWithoutTime(result.startDate);
     }
 
-    let endDate: Date = null;
+    let endDate: Date | null = null;
     if (result.endDate instanceof Date) {
-      endDate = this.parseDateWithoutTime(result.endDate);
+      endDate = this.#parseDateWithoutTime(result.endDate);
     }
 
     return {
@@ -62,19 +65,19 @@ export class SkyDateRangeCalculator {
   /**
    * Performs synchronous validation against the control.
    */
-  public validate(value?: SkyDateRange): ValidationErrors {
-    if (!this.config.validate) {
-      return;
+  public validate(value?: SkyDateRange): ValidationErrors | null {
+    if (!this.#config.validate) {
+      return null;
     }
 
-    return this.config.validate(value);
+    return this.#config.validate(value);
   }
 
   /**
    * Get a date object without time information.
    * See: https://stackoverflow.com/a/38050824/6178885
    */
-  private parseDateWithoutTime(date: Date): Date {
+  #parseDateWithoutTime(date: Date): Date {
     return new Date(date.getFullYear(), date.getMonth(), date.getDate());
   }
 }
