@@ -1,8 +1,15 @@
-<span class="sky-toggle-switch">
+<span
+  class="sky-toggle-switch"
+  [ngClass]="{
+    'sky-toggle-switch-with-label': hasLabelComponent
+  }"
+>
   <button
     class="sky-toggle-switch-button"
     role="switch"
     type="button"
+    skyId
+    #toggle="skyId"
     [attr.aria-checked]="checked"
     [attr.aria-label]="ariaLabel"
     [disabled]="disabled"
@@ -23,12 +30,15 @@
         >&nbsp;</i
       >
     </div>
-    <!-- Non-breaking space needed to align switch to baseline! -->
-    <span *ngIf="hasLabelComponent" class="sky-toggle-switch-label">
-      <ng-container *ngTemplateOutlet="labelContent"></ng-container>
-    </span></button></span
-><span class="sky-control-help-container"
-  ><ng-content select=".sky-control-help"></ng-content
+  </button>
+  <span
+    ><label
+      *ngIf="hasLabelComponent"
+      [for]="toggle.id"
+      class="sky-toggle-switch-label"
+      ><ng-container *ngTemplateOutlet="labelContent"></ng-container></label
+    ><span class="sky-control-help-container"
+      ><ng-content select=".sky-control-help"></ng-content></span></span
 ></span>
 
 <ng-template #labelContent>
