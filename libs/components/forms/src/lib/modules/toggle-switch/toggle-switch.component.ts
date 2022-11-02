@@ -9,6 +9,7 @@ import {
   OnDestroy,
   Output,
   QueryList,
+  ViewChild,
   forwardRef,
 } from '@angular/core';
 import {
@@ -19,6 +20,7 @@ import {
   ValidationErrors,
   Validator,
 } from '@angular/forms';
+import { SkyIdService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -102,11 +104,15 @@ export class SkyToggleSwitchComponent
   public toggleChange = new EventEmitter<SkyToggleSwitchChange>();
 
   public hasLabelComponent = false;
+  public labelId: string;
 
   public enableIndicatorAnimation = false;
 
   @ContentChildren(SkyToggleSwitchLabelComponent)
   public labelComponents: QueryList<SkyToggleSwitchLabelComponent> | undefined;
+
+  @ViewChild('toggleLabel')
+  public toggleLabelEl: HTMLLabelElement | undefined;
 
   #control: AbstractControl | undefined;
   #isFirstChange = true;
@@ -116,8 +122,9 @@ export class SkyToggleSwitchComponent
 
   #changeDetector: ChangeDetectorRef;
 
-  constructor(changeDetector: ChangeDetectorRef) {
+  constructor(changeDetector: ChangeDetectorRef, idService: SkyIdService) {
     this.#changeDetector = changeDetector;
+    this.labelId = idService.generateId();
   }
 
   public ngAfterContentInit(): void {
