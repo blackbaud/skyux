@@ -9,7 +9,6 @@
     role="switch"
     type="button"
     skyId
-    #toggle="skyId"
     [attr.aria-checked]="checked"
     [attr.aria-label]="ariaLabel"
     [attr.aria-labelledby]="hasLabelComponent ? labelId : null"
@@ -21,6 +20,7 @@
     [tabIndex]="tabIndex"
     (blur)="onButtonBlur()"
     (click)="onButtonClick($event)"
+    #toggle="skyId"
   >
     <div aria-hidden="true" class="sky-toggle-switch-switch">
       <i

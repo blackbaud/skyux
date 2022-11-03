@@ -9,7 +9,6 @@ import {
   OnDestroy,
   Output,
   QueryList,
-  ViewChild,
   forwardRef,
 } from '@angular/core';
 import {
@@ -110,9 +109,6 @@ export class SkyToggleSwitchComponent
 
   @ContentChildren(SkyToggleSwitchLabelComponent)
   public labelComponents: QueryList<SkyToggleSwitchLabelComponent> | undefined;
-
-  @ViewChild('toggleLabel')
-  public toggleLabelEl: HTMLLabelElement | undefined;
 
   #control: AbstractControl | undefined;
   #isFirstChange = true;

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { SkyToggleSwitchModule } from '@skyux/forms';
 import { SkyHelpInlineModule } from '@skyux/indicators';
 
@@ -11,7 +11,7 @@ import { ToggleSwitchDemoComponent } from './toggle-switch-demo.component';
     CommonModule,
     SkyHelpInlineModule,
     SkyToggleSwitchModule,
-    FormsModule,
+    ReactiveFormsModule,
   ],
   declarations: [ToggleSwitchDemoComponent],
   exports: [ToggleSwitchDemoComponent],
