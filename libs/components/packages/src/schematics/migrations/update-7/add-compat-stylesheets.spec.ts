@@ -67,7 +67,7 @@ describe('Migrations > Add compat stylesheets', () => {
 }
 
 :root {
-  --compat-description-list-margin-bottom: 0;
+  --sky-compat-description-list-margin-bottom: 0;
 }
 `;
 

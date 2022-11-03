@@ -43,7 +43,7 @@ The preset bottom margin has been removed from alert components. To implement th
 }
 
 :root {
-  --compat-description-list-margin-bottom: 0;
+  --sky-compat-description-list-margin-bottom: 0;
 }
 `,
               instructions: `
