@@ -27,6 +27,8 @@ import { SkyAgGridCellRendererCurrencyComponent } from './cell-renderers/cell-re
 import { SkyAgGridCellRendererLookupComponent } from './cell-renderers/cell-renderer-lookup/cell-renderer-lookup.component';
 import { SkyAgGridCellRendererRowSelectorComponent } from './cell-renderers/cell-renderer-row-selector/cell-renderer-row-selector.component';
 import { SkyAgGridCellRendererValidatorTooltipComponent } from './cell-renderers/cell-renderer-validator-tooltip/cell-renderer-validator-tooltip.component';
+import { SkyAgGridHeaderGroupComponent } from './header/header-group.component';
+import { SkyAgGridHeaderComponent } from './header/header.component';
 import { SkyCellClass } from './types/cell-class';
 import { SkyCellType } from './types/cell-type';
 import { SkyHeaderClass } from './types/header-class';
@@ -183,7 +185,7 @@ export class SkyAgGridService implements OnDestroy {
     defaultGridOptions: GridOptions,
     providedGridOptions: GridOptions
   ): GridOptions {
-    const mergedGridOptions = {
+    const mergedGridOptions: GridOptions = {
       ...defaultGridOptions,
       ...providedGridOptions,
       components: {
@@ -201,6 +203,10 @@ export class SkyAgGridService implements OnDestroy {
         ...providedGridOptions.defaultColDef,
         // allow consumers to override all defaultColDef properties except cellClassRules, which we reserve for styling
         cellClassRules: defaultGridOptions.defaultColDef.cellClassRules,
+      },
+      defaultColGroupDef: {
+        ...defaultGridOptions.defaultColGroupDef,
+        ...providedGridOptions.defaultColGroupDef,
       },
       icons: {
         ...defaultGridOptions.icons,
@@ -366,11 +372,15 @@ export class SkyAgGridService implements OnDestroy {
       },
       defaultColDef: {
         cellClassRules: editableCellClassRules,
+        headerComponent: SkyAgGridHeaderComponent,
         minWidth: 100,
         resizable: true,
         sortable: true,
         suppressKeyboardEvent: (keypress: SuppressKeyboardEventParams) =>
           this.suppressTab(keypress),
+      },
+      defaultColGroupDef: {
+        headerGroupComponent: SkyAgGridHeaderGroupComponent,
       },
       domLayout: 'autoHeight',
       enterMovesDownAfterEdit: true,
