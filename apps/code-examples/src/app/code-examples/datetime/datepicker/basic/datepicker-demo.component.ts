@@ -13,7 +13,7 @@ export class DatepickerDemoComponent {
   public myForm: UntypedFormGroup;
 
   constructor(formBuilder: UntypedFormBuilder) {
-    formBuilder.group({
+    this.myForm = formBuilder.group({
       myDate: new UntypedFormControl(new Date(1999, 10, 5)),
     });
   }
