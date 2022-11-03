@@ -9,9 +9,7 @@
     {{ context.constituentCode }}
   </sky-page-summary-subtitle>
   <sky-page-summary-status>
-    <sky-label
-      labelType="{{ context.status === 'Past due' ? 'danger' : 'success' }}"
-    >
+    <sky-label [labelType]="labelType">
       {{ context.status }}
     </sky-label>
   </sky-page-summary-status>

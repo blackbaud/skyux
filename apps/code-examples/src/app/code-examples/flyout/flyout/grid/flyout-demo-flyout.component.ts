@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SkyLabelType } from '@skyux/indicators';
 
 import { FlyoutDemoContext } from './flyout-demo-context';
 
@@ -7,5 +8,8 @@ import { FlyoutDemoContext } from './flyout-demo-context';
   templateUrl: `flyout-demo-flyout.component.html`,
 })
 export class FlyoutDemoFlyoutComponent {
-  constructor(public context: FlyoutDemoContext) {}
+  public labelType: SkyLabelType;
+  constructor(public context: FlyoutDemoContext) {
+    context.status === 'Past due' ? 'danger' : 'success';
+  }
 }

@@ -1,6 +1,6 @@
 <sky-list [data]="data">
   <sky-list-toolbar>
-    <sky-list-toolbar-item id="custom-item" index="0" location="left">
+    <sky-list-toolbar-item id="custom-item" [index]="0" location="left">
       <ng-template>
         <sky-dropdown buttonStyle="primary">
           <sky-dropdown-button (click)="onAddButtonClicked()">

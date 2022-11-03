@@ -22,6 +22,11 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'avatar',
+    loadChildren: () =>
+      import('./features/avatar.module').then((m) => m.AvatarFeatureModule),
+  },
+  {
     path: 'colorpicker',
     loadChildren: () =>
       import('./features/colorpicker.module').then(
@@ -37,6 +42,11 @@ const routes: Routes = [
     path: 'errors',
     loadChildren: () =>
       import('./features/errors.module').then((m) => m.ErrorsFeatureModule),
+  },
+  {
+    path: 'flyout',
+    loadChildren: () =>
+      import('./features/flyout.module').then((m) => m.FlyoutFeatureModule),
   },
   {
     path: 'forms',
@@ -56,9 +66,37 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'inline-form',
+    loadChildren: () =>
+      import('./features/inline-form.module').then(
+        (m) => m.InlineFormFeatureModule
+      ),
+  },
+  {
     path: 'layout',
     loadChildren: () =>
       import('./features/layout.module').then((m) => m.LayoutModule),
+  },
+  {
+    path: 'list-builder',
+    loadChildren: () =>
+      import('./features/list-builder.module').then(
+        (m) => m.ListBuilderFeatureModule
+      ),
+  },
+  {
+    path: 'list-builder-view-checklist',
+    loadChildren: () =>
+      import('./features/list-builder-view-checklist.module').then(
+        (m) => m.ListBuilderViewChecklistFeatureModule
+      ),
+  },
+  {
+    path: 'list-builder-view-grids',
+    loadChildren: () =>
+      import('./features/list-builder-view-grids.module').then(
+        (m) => m.ListBuilderViewGridsFeatureModule
+      ),
   },
   {
     path: 'lists',
@@ -74,6 +112,11 @@ const routes: Routes = [
     path: 'modals',
     loadChildren: () =>
       import('./features/modals.module').then((m) => m.ModalsFeatureModule),
+  },
+  {
+    path: 'navbar',
+    loadChildren: () =>
+      import('./features/navbar.module').then((m) => m.NavbarFeatureModule),
   },
   {
     path: 'phone-field',
@@ -93,9 +136,21 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'select-field',
+    loadChildren: () =>
+      import('./features/select-field.module').then(
+        (m) => m.SelectFieldFeatureModule
+      ),
+  },
+  {
     path: 'split-view',
     loadChildren: () =>
       import('./features/split-view.module').then((m) => m.SplitViewModule),
+  },
+  {
+    path: 'themes',
+    loadChildren: () =>
+      import('./features/themes.module').then((m) => m.ThemesFeatureModule),
   },
   {
     path: 'datetime',

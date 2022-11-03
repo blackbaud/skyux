@@ -31,4 +31,4 @@ import { ListFiltersDemoComponent } from './list-filters-demo.component';
   declarations: [ListFiltersDemoComponent, ListFilterDemoModalComponent],
   exports: [ListFiltersDemoComponent],
 })
-export class ListFiltersDemoModule {}
+export class ListFiltersModalModule {}
