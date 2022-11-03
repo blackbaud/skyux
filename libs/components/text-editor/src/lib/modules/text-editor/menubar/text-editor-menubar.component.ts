@@ -28,10 +28,7 @@ import { SkyTextEditorMergeField } from '../types/text-editor-merge-field';
 })
 export class SkyTextEditorMenubarComponent implements OnDestroy, OnInit {
   @Input()
-  public editorFocusStream = new Subject();
-
-  @Input()
-  public editorId: string;
+  public editorFocusStream = new Subject<void>();
 
   @Input()
   public menus: SkyTextEditorMenuType[] = [];
@@ -56,21 +53,25 @@ export class SkyTextEditorMenubarComponent implements OnDestroy, OnInit {
 
   public editDropdownStream = new Subject<SkyDropdownMessage>();
 
-  public editItems: {
-    function?: () => void;
-    isDivider?: boolean;
-    label?: string;
-    keyShortcut?: string;
-  }[];
+  public editItems:
+    | {
+        function?: () => void;
+        isDivider?: boolean;
+        label?: string;
+        keyShortcut?: string;
+      }[]
+    | undefined;
 
   public formatDropdownStream = new Subject<SkyDropdownMessage>();
 
-  public formatItems: {
-    function?: () => void;
-    isDivider?: boolean;
-    label?: string;
-    keyShortcut?: string;
-  }[];
+  public formatItems:
+    | {
+        function?: () => void;
+        isDivider?: boolean;
+        label?: string;
+        keyShortcut?: string;
+      }[]
+    | undefined;
 
   public mergeFieldDropdownStream = new Subject<SkyDropdownMessage>();
 
@@ -220,8 +221,8 @@ export class SkyTextEditorMenubarComponent implements OnDestroy, OnInit {
     this.ngUnsubscribe.complete();
   }
 
-  public execCommand(command: string, value: any = ''): void {
-    this.adapterService.execCommand(this.editorId, {
+  public execCommand(command: string, value = ''): void {
+    this.adapterService.execCommand({
       command: command,
       value: value,
     });
@@ -248,11 +249,10 @@ export class SkyTextEditorMenubarComponent implements OnDestroy, OnInit {
   }
 
   private clearFormat(): void {
-    const currentSelection = this.adapterService.getCurrentSelection(
-      this.editorId
-    );
+    const currentSelection = this.adapterService.getCurrentSelection();
     /* istanbul ignore else */
     if (
+      currentSelection &&
       currentSelection.rangeCount > 0 &&
       currentSelection.getRangeAt(0).toString().length <= 0
     ) {

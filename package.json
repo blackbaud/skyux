@@ -147,6 +147,7 @@
     "@storybook/manager-webpack5": "6.5.12",
     "@trivago/prettier-plugin-sort-imports": "3.2.0",
     "@types/cross-spawn": "6.0.2",
+    "@types/dompurify": "2.3.4",
     "@types/fontfaceobserver": "2.1.0",
     "@types/fs-extra": "9.0.13",
     "@types/jasmine": "4.0.3",
