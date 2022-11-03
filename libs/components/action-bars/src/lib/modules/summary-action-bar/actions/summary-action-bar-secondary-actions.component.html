@@ -1,5 +1,9 @@
 <div
-  *ngIf="!isMobile && secondaryActionComponents.length < 5"
+  *ngIf="
+    !isMobile &&
+    secondaryActionComponents &&
+    secondaryActionComponents.length < 5
+  "
   class="sky-summary-action-bar-secondary-buttons"
   role="menubar"
 >
@@ -7,7 +11,12 @@
     *ngTemplateOutlet="summaryActionBarSecondaryActions"
   ></ng-container>
 </div>
-<div *ngIf="isMobile || secondaryActionComponents.length > 4">
+<div
+  *ngIf="
+    isMobile ||
+    (secondaryActionComponents && secondaryActionComponents.length > 4)
+  "
+>
   <sky-dropdown
     buttonType="select"
     [attr.title]="'skyux_summary_action_bar_open_secondary' | skyLibResources"

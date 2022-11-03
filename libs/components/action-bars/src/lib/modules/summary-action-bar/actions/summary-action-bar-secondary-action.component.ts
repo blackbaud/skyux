@@ -24,13 +24,13 @@ export class SkySummaryActionBarSecondaryActionComponent {
   @Input()
   public disabled = false;
 
-  public set isDropdown(value: boolean) {
-    this._isDropdown = value;
-    this.changeDetector.detectChanges();
+  public set isDropdown(value: boolean | undefined) {
+    this.#_isDropdown = value;
+    this.#changeDetector.detectChanges();
   }
 
-  public get isDropdown() {
-    return this._isDropdown;
+  public get isDropdown(): boolean | undefined {
+    return this.#_isDropdown;
   }
 
   /**
@@ -39,9 +39,13 @@ export class SkySummaryActionBarSecondaryActionComponent {
   @Output()
   public actionClick = new EventEmitter<void>();
 
-  private _isDropdown: boolean;
+  #_isDropdown: boolean | undefined;
 
-  constructor(private changeDetector: ChangeDetectorRef) {}
+  #changeDetector: ChangeDetectorRef;
+
+  constructor(changeDetector: ChangeDetectorRef) {
+    this.#changeDetector = changeDetector;
+  }
 
   public onButtonClicked(): void {
     this.actionClick.emit();
