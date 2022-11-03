@@ -1,9 +1,8 @@
-@use '~ag-grid-community/src/styles/ag-grid';
-@use '~ag-grid-community/src/styles/ag-theme-base/sass/ag-theme-base-mixin' as
-  agGridBaseMixin;
-
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'node_modules/ag-grid-community/src/styles/ag-grid';
+@use 'node_modules/ag-grid-community/src/styles/ag-theme-base/sass/ag-theme-base-mixin'
+  as agGridBaseMixin;
 
 $sky-standard-border: 1px solid $sky-border-color-neutral-medium;
 $sky-standard-border-theme-modern: 1px solid
