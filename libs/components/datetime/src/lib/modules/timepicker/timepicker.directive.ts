@@ -16,6 +16,7 @@ import {
   ControlValueAccessor,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
+  ValidationErrors,
   Validator,
 } from '@angular/forms';
 import { SkyLibResourcesService } from '@skyux/i18n';
@@ -51,9 +52,10 @@ export class SkyTimepickerInputDirective
     OnChanges,
     AfterContentInit
 {
-  public pickerChangedSubscription: Subscription;
-  private _timeFormat = 'hh';
+  public pickerChangedSubscription: Subscription | undefined;
+  #_timeFormat = 'hh';
 
+  // TODO: In a future breaking change - grab the parent component through dependency injection and remove this setter.
   /**
    * Creates the timepicker input field and picker. Place this attribute on an `input` element,
    * and wrap the input in a `sky-timepicker` component.
@@ -61,26 +63,27 @@ export class SkyTimepickerInputDirective
    * @required
    */
   @Input()
-  public get skyTimepickerInput(): SkyTimepickerComponent {
-    return this._skyTimepickerInput;
+  public get skyTimepickerInput(): SkyTimepickerComponent | undefined {
+    return this.#_skyTimepickerInput;
   }
 
-  public set skyTimepickerInput(value: SkyTimepickerComponent) {
-    this._skyTimepickerInput = value;
-    this.updateTimepickerInput();
+  public set skyTimepickerInput(value: SkyTimepickerComponent | undefined) {
+    this.#_skyTimepickerInput = value;
+    this.#updateTimepickerInput();
   }
 
+  // TODO: In a future breaking change - make this more specific than "string"
   /**
    * Specifies the 12-hour `hh` or 24-hour `HH` time format for the input.
    * @default "hh"
    */
   @Input()
-  public set timeFormat(value: string) {
-    this._timeFormat = value;
+  public set timeFormat(value: string | undefined) {
+    this.#_timeFormat = value || 'hh';
   }
 
   public get timeFormat(): string {
-    return this._timeFormat || 'hh';
+    return this.#_timeFormat;
   }
 
   /**
@@ -88,7 +91,7 @@ export class SkyTimepickerInputDirective
    * see the [moment.js](https://momentjs.com/docs/#/displaying/format/) docs.
    */
   @Input()
-  public returnFormat: string;
+  public returnFormat: string | undefined;
 
   /**
    * Indicates whether to disable the timepicker.
@@ -96,61 +99,71 @@ export class SkyTimepickerInputDirective
    */
   @Input()
   public get disabled(): boolean {
-    return this._disabled || false;
+    return this.#_disabled;
   }
 
-  public set disabled(value: boolean) {
-    this._disabled = value;
+  public set disabled(value: boolean | undefined) {
+    this.#_disabled = value || false;
 
-    this.updateTimepickerInput();
+    this.#updateTimepickerInput();
 
-    this.renderer.setProperty(this.elRef.nativeElement, 'disabled', value);
+    this.#renderer.setProperty(this.#elRef.nativeElement, 'disabled', value);
   }
 
-  private get modelValue(): SkyTimepickerTimeOutput {
-    return this._modelValue;
+  get #modelValue(): SkyTimepickerTimeOutput | undefined {
+    return this.#_modelValue;
   }
 
-  private set modelValue(value: SkyTimepickerTimeOutput) {
-    if (value !== this._modelValue) {
-      this._modelValue = value;
-      this.updateTimepickerInput();
-      this.setInputValue(value);
-      this._validatorChange();
-      this._onChange(value);
+  set #modelValue(value: SkyTimepickerTimeOutput | undefined) {
+    if (value !== this.#_modelValue) {
+      this.#_modelValue = value;
+      this.#updateTimepickerInput();
+      this.#setInputValue(value);
+      this.#_validatorChange();
+      this.#_onChange(value);
     }
   }
 
-  private control: AbstractControl;
+  #control: AbstractControl | undefined;
 
-  private _disabled: boolean;
-  private _modelValue: SkyTimepickerTimeOutput;
-  private _skyTimepickerInput: SkyTimepickerComponent;
+  #_disabled = false;
+  #_modelValue: SkyTimepickerTimeOutput | undefined;
+  #_skyTimepickerInput: SkyTimepickerComponent | undefined;
+
+  #renderer: Renderer2;
+  #elRef: ElementRef;
+  #resourcesService: SkyLibResourcesService;
+  #changeDetector: ChangeDetectorRef;
 
   constructor(
-    private renderer: Renderer2,
-    private elRef: ElementRef,
-    private resourcesService: SkyLibResourcesService,
-    private changeDetector: ChangeDetectorRef
-  ) {}
+    renderer: Renderer2,
+    elRef: ElementRef,
+    resourcesService: SkyLibResourcesService,
+    changeDetector: ChangeDetectorRef
+  ) {
+    this.#renderer = renderer;
+    this.#elRef = elRef;
+    this.#resourcesService = resourcesService;
+    this.#changeDetector = changeDetector;
+  }
 
   public ngOnInit() {
-    this.renderer.addClass(this.elRef.nativeElement, 'sky-form-control');
+    this.#renderer.addClass(this.#elRef.nativeElement, 'sky-form-control');
     this.pickerChangedSubscription =
-      this.skyTimepickerInput.selectedTimeChanged.subscribe(
+      this.skyTimepickerInput?.selectedTimeChanged.subscribe(
         (newTime: string) => {
           this.writeValue(newTime);
-          this._onTouched();
+          this.#_onTouched();
         }
       );
 
     /* istanbul ignore else */
-    if (!this.elRef.nativeElement.getAttribute('aria-label')) {
-      this.resourcesService
+    if (!this.#elRef.nativeElement.getAttribute('aria-label')) {
+      this.#resourcesService
         .getString('skyux_timepicker_input_default_label')
         .subscribe((value: string) => {
-          this.renderer.setAttribute(
-            this.elRef.nativeElement,
+          this.#renderer.setAttribute(
+            this.#elRef.nativeElement,
             'aria-label',
             value
           );
@@ -161,11 +174,11 @@ export class SkyTimepickerInputDirective
   public ngAfterContentInit(): void {
     // Watch for the control to be added and initialize the value immediately.
     /* istanbul ignore else */
-    if (this.control && this.control.parent) {
-      this.control.setValue(this.modelValue, {
+    if (this.#control && this.#control.parent) {
+      this.#control.setValue(this.#modelValue, {
         emitEvent: false,
       });
-      this.changeDetector.markForCheck();
+      this.#changeDetector.markForCheck();
     }
   }
 
@@ -177,8 +190,10 @@ export class SkyTimepickerInputDirective
   }
 
   public ngOnChanges() {
-    this.skyTimepickerInput.setFormat(this.timeFormat);
-    this.skyTimepickerInput.returnFormat = this.returnFormat;
+    if (this.skyTimepickerInput) {
+      this.skyTimepickerInput.setFormat(this.timeFormat);
+      this.skyTimepickerInput.returnFormat = this.returnFormat;
+    }
   }
 
   @HostListener('change', ['$event'])
@@ -189,17 +204,17 @@ export class SkyTimepickerInputDirective
   /* istanbul ignore next */
   @HostListener('blur')
   public onBlur() {
-    this._onTouched();
+    this.#_onTouched();
   }
 
   public registerOnChange(fn: (value: any) => any): void {
-    this._onChange = fn;
+    this.#_onChange = fn;
   }
   public registerOnTouched(fn: () => any): void {
-    this._onTouched = fn;
+    this.#_onTouched = fn;
   }
   public registerOnValidatorChange(fn: () => void): void {
-    this._validatorChange = fn;
+    this.#_validatorChange = fn;
   }
 
   public setDisabledState(isDisabled: boolean) {
@@ -207,17 +222,17 @@ export class SkyTimepickerInputDirective
   }
 
   public writeValue(value: any) {
-    this.modelValue = this.formatter(value);
+    this.#modelValue = this.#formatter(value);
   }
 
-  public validate(control: AbstractControl): { [key: string]: any } {
-    if (!this.control) {
-      this.control = control;
+  public validate(control: AbstractControl): ValidationErrors | null {
+    if (!this.#control) {
+      this.#control = control;
     }
 
     const value = control.value;
     if (!value) {
-      return undefined;
+      return null;
     }
 
     /* istanbul ignore next */
@@ -229,10 +244,10 @@ export class SkyTimepickerInputDirective
       };
     }
 
-    return undefined;
+    return null;
   }
 
-  private setInputValue(value: SkyTimepickerTimeOutput): void {
+  #setInputValue(value: SkyTimepickerTimeOutput | undefined): void {
     let formattedValue = '';
     if (value) {
       const output = moment(value).format(value.customFormat);
@@ -242,14 +257,14 @@ export class SkyTimepickerInputDirective
       }
     }
 
-    this.renderer.setProperty(
-      this.elRef.nativeElement,
+    this.#renderer.setProperty(
+      this.#elRef.nativeElement,
       'value',
       formattedValue
     );
   }
 
-  private formatter(time: any) {
+  #formatter(time: any) {
     if (time && typeof time !== 'string' && 'local' in time) {
       return time;
     }
@@ -257,7 +272,7 @@ export class SkyTimepickerInputDirective
       if (time.length === 0) {
         return '';
       }
-      let currentFormat: string;
+      let currentFormat: string | undefined;
       if (this.timeFormat === 'hh') {
         currentFormat = 'h:mm A';
       }
@@ -265,7 +280,8 @@ export class SkyTimepickerInputDirective
         currentFormat = 'H:mm';
       }
       if (typeof this.returnFormat === 'undefined') {
-        this.returnFormat = currentFormat;
+        // TODO: Remove this non-null when the typing of the `timeFormat` input is made stricter.
+        this.returnFormat = currentFormat!;
       }
       const formatTime: SkyTimepickerTimeOutput = {
         hour: moment(time, currentFormat).hour(),
@@ -280,21 +296,24 @@ export class SkyTimepickerInputDirective
     }
   }
 
-  private updateTimepickerInput(): void {
+  #updateTimepickerInput(): void {
     if (this.skyTimepickerInput) {
       this.skyTimepickerInput.disabled = this.disabled;
 
       /* istanbul ignore else */
-      if (this.skyTimepickerInput.selectedTime !== this.modelValue) {
-        this.skyTimepickerInput.selectedTime = this.modelValue;
+      if (this.skyTimepickerInput.selectedTime !== this.#modelValue) {
+        this.skyTimepickerInput.selectedTime = this.#modelValue;
       }
     }
   }
 
+  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+  #_onChange = (_: any): void => {};
+  /* istanbul ignore next */
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private _onChange = (_: any) => {};
+  #_onTouched = (): void => {};
+  /* istanbul ignore next */
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private _onTouched = () => {};
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private _validatorChange = () => {};
+  #_validatorChange = (): void => {};
 }

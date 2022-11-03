@@ -416,7 +416,7 @@ describe('Timepicker', () => {
       meridies.item(0).click();
 
       expect(getInput(fixture).value).toBe('12:30 AM');
-      expect(component.selectedTime.local).toEqual('12:30 AM');
+      expect(component.selectedTime?.local).toEqual('12:30 AM');
       expect(meridies.item(0)).toHaveCssClass('sky-btn-active');
 
       flushTimers();
@@ -440,7 +440,7 @@ describe('Timepicker', () => {
       meridies.item(1).click();
 
       expect(getInput(fixture).value).toBe('12:30 PM');
-      expect(component.selectedTime.local).toEqual('12:30 PM');
+      expect(component.selectedTime?.local).toEqual('12:30 PM');
       expect(meridies.item(1)).toHaveCssClass('sky-btn-active');
 
       // Test 1:30 PM
@@ -449,7 +449,7 @@ describe('Timepicker', () => {
       meridies.item(1).click();
 
       expect(getInput(fixture).value).toBe('1:30 PM');
-      expect(component.selectedTime.local).toEqual('1:30 PM');
+      expect(component.selectedTime?.local).toEqual('1:30 PM');
       expect(meridies.item(1)).toHaveCssClass('sky-btn-active');
 
       flushTimers();
@@ -598,7 +598,7 @@ describe('Timepicker', () => {
       detectChangesAndTick(fixture);
 
       expect(getInput(fixture).value).toBe('12:30 PM');
-      expect(component.selectedTime.local).toEqual('12:30 PM');
+      expect(component.selectedTime?.local).toEqual('12:30 PM');
     }));
 
     it('should update model when input value is changed', fakeAsync(() => {
@@ -607,7 +607,7 @@ describe('Timepicker', () => {
       setInput('2:55 AM', fixture);
 
       expect(getInput(fixture).value).toBe('2:55 AM');
-      expect(component.selectedTime.local).toEqual('2:55 AM');
+      expect(component.selectedTime?.local).toEqual('2:55 AM');
     }));
 
     it('should handle undefined date', fakeAsync(() => {
@@ -696,17 +696,17 @@ describe('Timepicker', () => {
       detectChangesAndTick(fixture);
 
       expect(getInput(fixture).value).toBe('2:55 AM');
-      expect(component.timeControl.value.local).toEqual('2:55 AM');
+      expect(component.timeControl?.value.local).toEqual('2:55 AM');
     }));
 
     it('should update input value when form control is set programatically', fakeAsync(() => {
       detectChangesAndTick(fixture);
 
-      component.timeControl.setValue('12:30 PM');
+      component.timeControl?.setValue('12:30 PM');
       fixture.detectChanges();
 
       expect(getInput(fixture).value).toBe('12:30 PM');
-      expect(component.timeControl.value.local).toEqual('12:30 PM');
+      expect(component.timeControl?.value.local).toEqual('12:30 PM');
     }));
 
     it('should update form control when the input value is changed', fakeAsync(() => {
@@ -715,39 +715,39 @@ describe('Timepicker', () => {
       setInput('2:55 AM', fixture);
 
       expect(getInput(fixture).value).toBe('2:55 AM');
-      expect(component.timeControl.value.local).toEqual('2:55 AM');
+      expect(component.timeControl?.value.local).toEqual('2:55 AM');
     }));
 
     it('should handle an undefined date', fakeAsync(() => {
       detectChangesAndTick(fixture);
 
-      component.timeControl.setValue(undefined);
+      component.timeControl?.setValue(undefined);
       fixture.detectChanges();
 
       expect(getInput(fixture).value).toBe('');
       expect(getInput(fixture)).not.toHaveCssClass('ng-invalid');
-      expect(component.timeControl.value).toBeUndefined();
+      expect(component.timeControl?.value).toBeUndefined();
     }));
 
     it('should properly update form control state when required and undefined', fakeAsync(() => {
       detectChangesAndTick(fixture);
-      component.timeControl.setValidators(Validators.required);
+      component.timeControl?.setValidators(Validators.required);
       fixture.detectChanges();
 
-      expect(component.timeControl.valid).toEqual(true);
+      expect(component.timeControl?.valid).toEqual(true);
       expect(getInput(fixture)).not.toHaveCssClass('ng-invalid');
 
-      component.timeControl.setValue(undefined);
+      component.timeControl?.setValue(undefined);
       fixture.detectChanges();
 
-      expect(component.timeControl.valid).toEqual(false);
+      expect(component.timeControl?.valid).toEqual(false);
       expect(getInput(fixture)).toHaveCssClass('ng-invalid');
     }));
 
     it('should properly set disabled state on input and trigger button', fakeAsync(() => {
       detectChangesAndTick(fixture);
 
-      component.timeControl.disable();
+      component.timeControl?.disable();
       fixture.detectChanges();
 
       expect(
@@ -759,7 +759,7 @@ describe('Timepicker', () => {
       expect(getInput(fixture).disabled).toBeTruthy();
       expect(getTriggerButton(fixture).disabled).toBeTruthy();
 
-      component.timeControl.enable();
+      component.timeControl?.enable();
       fixture.detectChanges();
 
       expect(
