@@ -26,6 +26,33 @@ The preset bottom margin has been removed from alert components. To implement th
         },
       ],
     },
+    {
+      name: '@skyux/layout',
+      components: [
+        {
+          name: 'description list',
+          styles: [
+            {
+              css: `
+.sky-description-list-vertical-mode .sky-description-list-content:last-child {
+  margin-bottom: 15px;
+}
+
+.sky-theme-modern .sky-description-list-vertical-mode .sky-description-list-content:last-child {
+  margin-bottom: 20px;
+}
+
+:root {
+  --sky-compat-description-list-margin-bottom: 0;
+}
+`,
+              instructions: `
+The preset bottom margin has been removed from description list components in horizontal and vertical modes in default theme and vertical mode in modern. To implement the newly-recommended spacing, add the \`sky-margin-stacked-lg\` CSS class to each \`sky-description-list\` component in your application, then remove this block.`,
+            },
+          ],
+        },
+      ],
+    },
   ],
 };
 
