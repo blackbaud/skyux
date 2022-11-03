@@ -34,7 +34,7 @@ The preset bottom margin has been removed from alert components. To implement th
           styles: [
             {
               css: `
-.sky-theme-default .sky-description-list-vertical-mode .sky-description-list-content:last-child {
+.sky-description-list-vertical-mode .sky-description-list-content:last-child {
   margin-bottom: 15px;
 }
 
@@ -42,8 +42,8 @@ The preset bottom margin has been removed from alert components. To implement th
   margin-bottom: 20px;
 }
 
-.sky-theme-modern .sky-description-list-horizontal-mode {
-  margin-bottom: 0 !important;
+:root {
+  --compat-description-list-margin-bottom: 0;
 }
 `,
               instructions: `
