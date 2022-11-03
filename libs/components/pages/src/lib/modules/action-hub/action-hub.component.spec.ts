@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { expect } from '@skyux-sdk/testing';
-import { SkyKeyInfoModule } from '@skyux/indicators';
 import {
   SkyRecentlyAccessedLinkList,
   SkyRecentlyAccessedService,
@@ -9,9 +8,9 @@ import {
 
 import { AsyncSubject, of } from 'rxjs';
 
-import { SkyActionHubModule } from './action-hub.module';
 import { ActionHubAsyncFixtureComponent } from './fixtures/action-hub-async-fixture.component';
 import { ActionHubContentFixtureComponent } from './fixtures/action-hub-content-fixture.component';
+import { SkyActionHubFixtureModule } from './fixtures/action-hub-fixture.module';
 import { ActionHubInputsFixtureComponent } from './fixtures/action-hub-inputs-fixture.component';
 import { ActionHubRecentSvcFixtureComponent } from './fixtures/action-hub-recent-svc-fixture.component';
 import { ActionHubSyncFixtureComponent } from './fixtures/action-hub-sync-fixture.component';
@@ -49,8 +48,10 @@ describe('Action hub component', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [ActionHubSyncFixtureComponent],
-        imports: [SkyActionHubModule, RouterTestingModule.withRoutes([])],
+        imports: [
+          SkyActionHubFixtureModule,
+          RouterTestingModule.withRoutes([]),
+        ],
       });
       fixture = TestBed.createComponent(ActionHubSyncFixtureComponent);
     });
@@ -215,8 +216,10 @@ describe('Action hub component', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [ActionHubAsyncFixtureComponent],
-        imports: [SkyActionHubModule, RouterTestingModule.withRoutes([])],
+        imports: [
+          SkyActionHubFixtureModule,
+          RouterTestingModule.withRoutes([]),
+        ],
       });
       fixture = TestBed.createComponent(ActionHubAsyncFixtureComponent);
     });
@@ -270,8 +273,10 @@ describe('Action hub component', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [ActionHubInputsFixtureComponent],
-        imports: [SkyActionHubModule, RouterTestingModule.withRoutes([])],
+        imports: [
+          SkyActionHubFixtureModule,
+          RouterTestingModule.withRoutes([]),
+        ],
       });
       fixture = TestBed.createComponent(ActionHubInputsFixtureComponent);
     });
@@ -342,10 +347,8 @@ describe('Action hub component', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [ActionHubContentFixtureComponent],
         imports: [
-          SkyActionHubModule,
-          SkyKeyInfoModule,
+          SkyActionHubFixtureModule,
           RouterTestingModule.withRoutes([]),
         ],
       });
@@ -364,8 +367,8 @@ describe('Action hub component', () => {
 
   describe('with recently accessed service', () => {
     let fixture: ComponentFixture<ActionHubRecentSvcFixtureComponent>;
-    let mockRecentlyAccessedSvc: Partial<
-      jasmine.SpyObj<SkyRecentlyAccessedService>
+    let mockRecentlyAccessedSvc: jasmine.SpyObj<
+      Pick<SkyRecentlyAccessedService, 'getLinks'>
     >;
 
     beforeEach(() => {
@@ -374,8 +377,10 @@ describe('Action hub component', () => {
       };
 
       TestBed.configureTestingModule({
-        declarations: [ActionHubRecentSvcFixtureComponent],
-        imports: [SkyActionHubModule, RouterTestingModule.withRoutes([])],
+        imports: [
+          SkyActionHubFixtureModule,
+          RouterTestingModule.withRoutes([]),
+        ],
         providers: [
           {
             provide: SkyRecentlyAccessedService,
@@ -528,8 +533,8 @@ describe('Action hub component', () => {
 
   describe('without recently accessed service', () => {
     let fixture: ComponentFixture<ActionHubRecentSvcFixtureComponent>;
-    let mockRecentlyAccessedSvc: Partial<
-      jasmine.SpyObj<SkyRecentlyAccessedService>
+    let mockRecentlyAccessedSvc: jasmine.SpyObj<
+      Pick<SkyRecentlyAccessedService, 'getLinks'>
     >;
 
     beforeEach(() => {
@@ -538,8 +543,10 @@ describe('Action hub component', () => {
       };
 
       TestBed.configureTestingModule({
-        declarations: [ActionHubRecentSvcFixtureComponent],
-        imports: [SkyActionHubModule, RouterTestingModule.withRoutes([])],
+        imports: [
+          SkyActionHubFixtureModule,
+          RouterTestingModule.withRoutes([]),
+        ],
       });
 
       fixture = TestBed.createComponent(ActionHubRecentSvcFixtureComponent);

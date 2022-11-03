@@ -10,7 +10,7 @@ import { SkyActionHubNeedsAttention } from '../action-hub/types/action-hub-needs
 })
 export class SkyNeedsAttentionComponent {
   @Input()
-  public items: SkyActionHubNeedsAttention[];
+  public items: SkyActionHubNeedsAttention[] | undefined;
 
   public readonly gutterSize: SkyFluidGridGutterSizeType = 'large';
 }

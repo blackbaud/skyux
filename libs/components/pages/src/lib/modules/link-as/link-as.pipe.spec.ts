@@ -68,7 +68,7 @@ describe('LinkAsPipe', () => {
       pipe.transform({ label: 'Link', permalink: { url: '' } }, 'href')
     ).toBeTruthy();
     expect(
-      pipe.transform({ label: 'Link', permalink: undefined }, 'href')
+      pipe.transform({ label: 'Link', title: 'Title' }, 'href')
     ).toBeFalsy();
     expect(pipe.transform(undefined, 'href')).toBeFalsy();
   });
@@ -106,7 +106,7 @@ describe('LinkAsPipe', () => {
       )
     ).toBeFalsy();
     expect(
-      pipe.transform({ label: 'Link', permalink: undefined }, 'skyAppLink')
+      pipe.transform({ label: 'Link', title: 'Title' }, 'skyAppLink')
     ).toBeFalsy();
     expect(pipe.transform(undefined, 'skyAppLink')).toBeFalsy();
   });
@@ -132,7 +132,7 @@ describe('LinkAsPipe', () => {
       pipe.transform({ label: 'Link', permalink: { url: '' } }, 'skyHref')
     ).toBeFalsy();
     expect(
-      pipe.transform({ label: 'Link', permalink: undefined }, 'skyHref')
+      pipe.transform({ label: 'Link', title: 'Title' }, 'skyHref')
     ).toBeFalsy();
     expect(pipe.transform(undefined, 'skyHref')).toBeFalsy();
   });
