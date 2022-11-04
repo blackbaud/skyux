@@ -4,4 +4,8 @@ import { Component } from '@angular/core';
   selector: 'app-progress-indicator-passive-demo',
   templateUrl: './progress-indicator-passive-demo.component.html',
 })
-export class SkyProgressIndicatorPassiveDemoComponent {}
+export class SkyProgressIndicatorPassiveDemoComponent {
+  public onActionClick(): void {
+    alert('Help inline button clicked!');
+  }
+}
