@@ -40,16 +40,16 @@ export class SkyTextEditorMenubarComponent implements OnDestroy, OnInit {
   public set disabled(value: boolean) {
     const coercedValue = SkyFormsUtility.coerceBooleanProperty(value);
     if (coercedValue !== this.disabled) {
-      this._disabled = coercedValue;
-      this.changeDetector.markForCheck();
+      this.#_disabled = coercedValue;
+      this.#changeDetector.markForCheck();
     }
   }
 
   public get disabled(): boolean {
-    return this._disabled;
+    return this.#_disabled;
   }
 
-  private _disabled = false;
+  #_disabled = false;
 
   public editDropdownStream = new Subject<SkyDropdownMessage>();
 
@@ -75,73 +75,88 @@ export class SkyTextEditorMenubarComponent implements OnDestroy, OnInit {
 
   public mergeFieldDropdownStream = new Subject<SkyDropdownMessage>();
 
-  private ngUnsubscribe = new Subject<void>();
+  #ngUnsubscribe = new Subject<void>();
+  #adapterService: SkyTextEditorAdapterService;
+  #changeDetector: ChangeDetectorRef;
+  #resources: SkyLibResourcesService;
 
   constructor(
-    private adapterService: SkyTextEditorAdapterService,
-    private changeDetector: ChangeDetectorRef,
-    private resources: SkyLibResourcesService
-  ) {}
+    adapterService: SkyTextEditorAdapterService,
+    changeDetector: ChangeDetectorRef,
+    resources: SkyLibResourcesService
+  ) {
+    this.#adapterService = adapterService;
+    this.#changeDetector = changeDetector;
+    this.#resources = resources;
+  }
 
   public ngOnInit(): void {
-    this.editorFocusStream.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
-      this.closeDropdowns();
-    });
+    this.editorFocusStream
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe(() => {
+        this.#closeDropdowns();
+      });
 
     forkJoin([
       // Format menu strings.
-      this.resources.getString(
+      this.#resources.getString(
         'skyux_text_editor_format_menu_action_bold_label'
       ),
-      this.resources.getString(
+      this.#resources.getString(
         'skyux_text_editor_format_menu_action_bold_key_shortcut'
       ),
-      this.resources.getString(
+      this.#resources.getString(
         'skyux_text_editor_format_menu_action_italic_label'
       ),
-      this.resources.getString(
+      this.#resources.getString(
         'skyux_text_editor_format_menu_action_italic_key_shortcut'
       ),
-      this.resources.getString(
+      this.#resources.getString(
         'skyux_text_editor_format_menu_action_underline_label'
       ),
-      this.resources.getString(
+      this.#resources.getString(
         'skyux_text_editor_format_menu_action_underline_key_shortcut'
       ),
-      this.resources.getString(
+      this.#resources.getString(
         'skyux_text_editor_format_menu_action_strikethrough_label'
       ),
-      this.resources.getString(
+      this.#resources.getString(
         'skyux_text_editor_format_menu_action_clear_formatting_label'
       ),
 
       // Edit menu string - start at index 8.
-      this.resources.getString('skyux_text_editor_edit_menu_action_undo_label'),
-      this.resources.getString(
+      this.#resources.getString(
+        'skyux_text_editor_edit_menu_action_undo_label'
+      ),
+      this.#resources.getString(
         'skyux_text_editor_edit_menu_action_undo_key_shortcut'
       ),
-      this.resources.getString('skyux_text_editor_edit_menu_action_redo_label'),
-      this.resources.getString(
+      this.#resources.getString(
+        'skyux_text_editor_edit_menu_action_redo_label'
+      ),
+      this.#resources.getString(
         'skyux_text_editor_edit_menu_action_redo_key_shortcut'
       ),
-      this.resources.getString('skyux_text_editor_edit_menu_action_cut_label'),
-      this.resources.getString(
+      this.#resources.getString('skyux_text_editor_edit_menu_action_cut_label'),
+      this.#resources.getString(
         'skyux_text_editor_edit_menu_action_cut_key_shortcut'
       ),
-      this.resources.getString('skyux_text_editor_edit_menu_action_copy_label'),
-      this.resources.getString(
+      this.#resources.getString(
+        'skyux_text_editor_edit_menu_action_copy_label'
+      ),
+      this.#resources.getString(
         'skyux_text_editor_edit_menu_action_copy_key_shortcut'
       ),
-      this.resources.getString(
+      this.#resources.getString(
         'skyux_text_editor_edit_menu_action_paste_label'
       ),
-      this.resources.getString(
+      this.#resources.getString(
         'skyux_text_editor_edit_menu_action_paste_key_shortcut'
       ),
-      this.resources.getString(
+      this.#resources.getString(
         'skyux_text_editor_edit_menu_action_select_all_label'
       ),
-      this.resources.getString(
+      this.#resources.getString(
         'skyux_text_editor_edit_menu_action_select_all_key_shortcut'
       ),
     ])
@@ -171,7 +186,7 @@ export class SkyTextEditorMenubarComponent implements OnDestroy, OnInit {
             isDivider: true,
           },
           {
-            function: () => this.clearFormat(),
+            function: () => this.#clearFormat(),
             label: resources[7],
           },
         ];
@@ -217,12 +232,12 @@ export class SkyTextEditorMenubarComponent implements OnDestroy, OnInit {
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   public execCommand(command: string, value = ''): void {
-    this.adapterService.execCommand({
+    this.#adapterService.execCommand({
       command: command,
       value: value,
     });
@@ -237,19 +252,19 @@ export class SkyTextEditorMenubarComponent implements OnDestroy, OnInit {
         field.name +
         '" src="' +
         (field.previewImageUrl ||
-          this.adapterService.getMergeFieldDataURI(field.name)) +
+          this.#adapterService.getMergeFieldDataURI(field.name)) +
         '">'
     );
   }
 
-  private closeDropdowns(): void {
+  #closeDropdowns(): void {
     this.editDropdownStream.next({ type: SkyDropdownMessageType.Close });
     this.formatDropdownStream.next({ type: SkyDropdownMessageType.Close });
     this.mergeFieldDropdownStream.next({ type: SkyDropdownMessageType.Close });
   }
 
-  private clearFormat(): void {
-    const currentSelection = this.adapterService.getCurrentSelection();
+  #clearFormat(): void {
+    const currentSelection = this.#adapterService.getCurrentSelection();
     /* istanbul ignore else */
     if (
       currentSelection &&
