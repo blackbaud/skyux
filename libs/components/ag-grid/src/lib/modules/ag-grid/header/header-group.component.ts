@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ComponentRef,
   ElementRef,
   OnDestroy,
   ViewChild,
@@ -48,7 +47,6 @@ export class SkyAgGridHeaderGroupComponent
   #subscriptions = new Subscription();
   readonly #changeDetector: ChangeDetectorRef;
   readonly #dynamicComponentService: SkyDynamicComponentService;
-  #inlineHelpComponentRef: ComponentRef<unknown> | undefined;
   #viewInitialized = false;
   #agIntialized = false;
 
@@ -64,6 +62,7 @@ export class SkyAgGridHeaderGroupComponent
   public ngAfterViewInit(): void {
     this.#viewInitialized = true;
     this.#updateInlineHelp();
+    this.#changeDetector.markForCheck();
   }
 
   public ngOnDestroy(): void {
@@ -90,6 +89,7 @@ export class SkyAgGridHeaderGroupComponent
         )
       );
     }
+    this.#updateInlineHelp();
     this.#changeDetector.markForCheck();
   }
 
@@ -104,33 +104,21 @@ export class SkyAgGridHeaderGroupComponent
     const colGroupDef = this.params?.columnGroup?.getColGroupDef();
     const inlineHelpComponent =
       colGroupDef?.headerGroupComponentParams?.inlineHelpComponent;
-    if (
-      inlineHelpComponent &&
-      (!this.#inlineHelpComponentRef ||
-        this.#inlineHelpComponentRef.componentType !== inlineHelpComponent)
-    ) {
-      this.#dynamicComponentService.removeComponent(
-        this.#inlineHelpComponentRef
-      );
-      this.#inlineHelpComponentRef =
-        this.#dynamicComponentService.createComponent(inlineHelpComponent, {
-          providers: [
-            {
-              provide: SkyAgGridHeaderGroupInfo,
-              useValue: {
-                columnGroup: this.params.columnGroup,
-                context: this.params.context,
-                displayName: this.params.displayName,
-              } as SkyAgGridHeaderGroupInfo,
-            },
-          ],
-          referenceEl: this.inlineHelpContainer.nativeElement,
-          location: SkyDynamicComponentLocation.ElementBottom,
-        } as SkyDynamicComponentOptions);
-    } else if (!inlineHelpComponent) {
-      this.#dynamicComponentService.removeComponent(
-        this.#inlineHelpComponentRef
-      );
+    if (inlineHelpComponent) {
+      this.#dynamicComponentService.createComponent(inlineHelpComponent, {
+        providers: [
+          {
+            provide: SkyAgGridHeaderGroupInfo,
+            useValue: {
+              columnGroup: this.params.columnGroup,
+              context: this.params.context,
+              displayName: this.params.displayName,
+            } as SkyAgGridHeaderGroupInfo,
+          },
+        ],
+        referenceEl: this.inlineHelpContainer.nativeElement,
+        location: SkyDynamicComponentLocation.ElementBottom,
+      } as SkyDynamicComponentOptions);
     }
   }
 }

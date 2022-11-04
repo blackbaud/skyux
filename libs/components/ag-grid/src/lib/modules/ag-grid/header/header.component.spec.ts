@@ -1,4 +1,3 @@
-import { PortalModule } from '@angular/cdk/portal';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -16,6 +15,11 @@ import { SkyAgGridHeaderComponent } from './header.component';
 })
 class TestHelpComponent {}
 
+@Component({
+  template: `<span class="other-help-component">Other help text</span>`,
+})
+class OtherTestHelpComponent {}
+
 describe('HeaderComponent', () => {
   let component: SkyAgGridHeaderComponent;
   let fixture: ComponentFixture<SkyAgGridHeaderComponent>;
@@ -25,8 +29,12 @@ describe('HeaderComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SkyAgGridHeaderComponent, TestHelpComponent],
-      imports: [SkyIconModule, PortalModule, SkyThemeModule],
+      declarations: [
+        SkyAgGridHeaderComponent,
+        TestHelpComponent,
+        OtherTestHelpComponent,
+      ],
+      imports: [SkyIconModule, SkyThemeModule],
     });
     apiEvents = {};
     columnEvents = {};
@@ -158,14 +166,24 @@ describe('HeaderComponent', () => {
   });
 
   it('should inject help component', () => {
-    params = {
+    component.agInit({
       ...params,
       inlineHelpComponent: TestHelpComponent,
-    };
-    component.agInit(params);
+    });
     fixture.detectChanges();
     expect(
       fixture.debugElement.query(By.css('.test-help-component'))
+    ).toBeTruthy();
+    component.refresh({
+      ...params,
+      inlineHelpComponent: OtherTestHelpComponent,
+    });
+    fixture.detectChanges();
+    expect(
+      fixture.debugElement.query(By.css('.test-help-component'))
+    ).toBeFalsy();
+    expect(
+      fixture.debugElement.query(By.css('.other-help-component'))
     ).toBeTruthy();
   });
 });

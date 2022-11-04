@@ -1,4 +1,3 @@
-import { PortalModule } from '@angular/cdk/portal';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -65,7 +64,7 @@ describe('SkyAgGridHeaderGroupComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SkyAgGridHeaderGroupComponent, TestHelpComponent],
-      imports: [SkyI18nModule, SkyIconModule, PortalModule, SkyThemeModule],
+      imports: [SkyI18nModule, SkyIconModule, SkyThemeModule],
       providers: [],
     });
     events = {};

@@ -21,6 +21,6 @@ export class InlineHelpComponent {
   }
 
   public onHelpClick(): void {
-    console.log(`Help was clicked for ${this.#displayName}.`);
+    alert(`Help was clicked for ${this.#displayName}.`);
   }
 }

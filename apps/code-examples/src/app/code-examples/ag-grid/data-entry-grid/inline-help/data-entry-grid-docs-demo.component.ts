@@ -131,14 +131,13 @@ export class SkyDataEntryGridDemoComponent {
   public gridApi: GridApi | undefined;
   public gridOptions: GridOptions;
   public searchText = '';
-  public noRowsTemplate: string;
+  public noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
 
   constructor(
     private agGridService: SkyAgGridService,
     private modalService: SkyModalService,
     private changeDetection: ChangeDetectorRef
   ) {
-    this.noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
     this.gridOptions = {
       columnDefs: this.columnDefs,
       onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),

@@ -1,4 +1,4 @@
-import { ComponentType } from '@angular/cdk/portal';
+import { Type } from '@angular/core';
 
 import { IHeaderParams } from 'ag-grid-community/dist/lib/headerRendering/cells/column/headerComp';
 
@@ -8,5 +8,5 @@ import { IHeaderParams } from 'ag-grid-community/dist/lib/headerRendering/cells/
  * property on `ColDef`.
  */
 export interface SkyAgGridHeaderParams extends IHeaderParams {
-  inlineHelpComponent?: ComponentType<unknown>;
+  inlineHelpComponent?: Type<unknown>;
 }

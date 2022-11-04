@@ -38,10 +38,10 @@
         class="ag-header-label-icon"
       ></sky-icon>
       <span
-        *ngIf="sortIndexDisplay$ | async"
+        *ngIf="sortIndexDisplay$ | async as sortIndexDisplay"
         class="ag-sort-indicator-icon ag-sort-order"
         aria-hidden="true"
-        >{{ sortIndexDisplay$ | async }}</span
+        >{{ sortIndexDisplay }}</span
       >
     </span>
   </div>
