@@ -58,8 +58,7 @@
             <label class="sky-control-label" [for]="bioInput.id"> Bio </label>
             <sky-help-inline
               class="sky-control-help"
-              [skyPopover]="bioHelpPopover"
-              skyPopoverTrigger="click"
+              (actionClick)="onActionClick()"
             ></sky-help-inline>
             <textarea
               formControlName="bio"
@@ -142,7 +141,3 @@
     </sky-fluid-grid>
   </form>
 </div>
-
-<sky-popover popoverTitle="Tell us about yourself!" #bioHelpPopover>
-  What are some fun facts about you? What do you like to do in your free time?
-</sky-popover>

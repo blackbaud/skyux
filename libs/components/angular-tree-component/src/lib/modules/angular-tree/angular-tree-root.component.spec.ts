@@ -16,7 +16,7 @@ describe('tree view', () => {
 
   // #region helpers
   function getTreeWrapper(): HTMLElement | null {
-    return document.querySelector('.sky-angular-tree-wrapper');
+    return document.querySelector('.sky-angular-tree-root');
   }
 
   function getToolbar(): HTMLElement {
@@ -62,7 +62,7 @@ describe('tree view', () => {
   }
 
   function getNodeContentWrappers(): NodeListOf<HTMLElement> {
-    return document.querySelectorAll('.node-content-wrapper');
+    return document.querySelectorAll('.node-wrapper');
   }
 
   function getNodeContents(): NodeListOf<HTMLElement> {
@@ -1206,7 +1206,7 @@ describe('tree view', () => {
 
     it('should have role="treeitem" for each content wrapper', () => {
       fixture.detectChanges();
-      const nodes = document.querySelectorAll('.node-content-wrapper');
+      const nodes = document.querySelectorAll('.node-wrapper');
 
       const nodeList: Array<Element> = Array.prototype.slice.call(nodes);
       nodeList.forEach((node) => {
@@ -1228,7 +1228,7 @@ describe('tree view', () => {
     it('should have proper aria-expanded attributes for elements that contains children', () => {
       fixture.detectChanges();
       const buttons = getToggleChildrenButtons();
-      const nodes = document.querySelectorAll('.node-content-wrapper');
+      const nodes = document.querySelectorAll('.node-wrapper');
 
       expect(nodes[0].getAttribute('aria-expanded')).toEqual('true');
       expect(nodes[1].getAttribute('aria-expanded')).toBeNull();
@@ -1246,7 +1246,7 @@ describe('tree view', () => {
 
     it('should set aria-current to true for the active node and undefined for all other nodes', () => {
       fixture.detectChanges();
-      const nodes = document.querySelectorAll('.node-content-wrapper');
+      const nodes = document.querySelectorAll('.node-wrapper');
 
       expect(nodes[0].getAttribute('aria-current')).toBeNull();
       expect(nodes[1].getAttribute('aria-current')).toBeNull();
@@ -1289,7 +1289,7 @@ describe('tree view', () => {
     it('should set aria-selected to true for the selected node and undefined for all other nodes when in single-select mode', () => {
       setupSingleSelectMode();
       fixture.detectChanges();
-      const nodes = document.querySelectorAll('.node-content-wrapper');
+      const nodes = document.querySelectorAll('.node-wrapper');
 
       expect(nodes[0].getAttribute('aria-selected')).toBeNull();
       expect(nodes[1].getAttribute('aria-selected')).toBeNull();
@@ -1308,7 +1308,7 @@ describe('tree view', () => {
     it('should not have aria-selected attributes on parent nodes when in leaf-select-only mode', () => {
       setupLeafSelectOnlyMode();
       fixture.detectChanges();
-      const nodes = document.querySelectorAll('.node-content-wrapper');
+      const nodes = document.querySelectorAll('.node-wrapper');
 
       expect(nodes[0].getAttribute('aria-selected')).toBeNull();
       expect(nodes[1].getAttribute('aria-selected')).toEqual('false');
@@ -1327,7 +1327,7 @@ describe('tree view', () => {
     it('should set aria-selected to true for the selected node and undefined for all other nodes when in multi-select mode', () => {
       setupNonCascadingMode();
       fixture.detectChanges();
-      const nodes = document.querySelectorAll('.node-content-wrapper');
+      const nodes = document.querySelectorAll('.node-wrapper');
 
       expect(nodes[0].getAttribute('aria-selected')).toEqual('false');
       expect(nodes[1].getAttribute('aria-selected')).toEqual('false');
@@ -1347,7 +1347,7 @@ describe('tree view', () => {
     it('should set aria-selected to true for the selected node and undefined for all other nodes when in multi-select mode', () => {
       setupCascadingMode();
       fixture.detectChanges();
-      const nodes = document.querySelectorAll('.node-content-wrapper');
+      const nodes = document.querySelectorAll('.node-wrapper');
 
       expect(nodes[0].getAttribute('aria-selected')).toEqual('false');
       expect(nodes[1].getAttribute('aria-selected')).toEqual('false');
@@ -1361,20 +1361,6 @@ describe('tree view', () => {
       expect(nodes[2].getAttribute('aria-selected')).toEqual('true');
       expect(nodes[3].getAttribute('aria-selected')).toEqual('true');
       expect(nodes[4].getAttribute('aria-selected')).toEqual('true');
-    });
-
-    it('should set aria-owns for groups under child nodes', async () => {
-      setupCascadingMode();
-      fixture.detectChanges();
-      await fixture.whenStable();
-      const parentNodes = getNodeContentWrappers();
-      parentNodes.forEach((node) => {
-        if (node.getAttribute('aria-expanded') === null) {
-          expect(node.getAttribute('aria-owns')).toBeNull();
-        } else {
-          expect(node.getAttribute('aria-owns')).toBeDefined();
-        }
-      });
     });
 
     it('should pass accessibility in basic setup', async () => {
