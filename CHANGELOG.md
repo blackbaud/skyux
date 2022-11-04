@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.25.2](https://github.com/blackbaud/skyux/compare/6.25.1...6.25.2) (2022-11-04)
+
+
+### Bug Fixes
+
+* **components/forms:** allow toggle label to wrap ([#777](https://github.com/blackbaud/skyux/issues/777)) ([a3ff4b7](https://github.com/blackbaud/skyux/commit/a3ff4b7102d3069936e6527fd94bc85155774c4b))
+
 ## [6.25.1](https://github.com/blackbaud/skyux/compare/6.25.0...6.25.1) (2022-10-20)
 
 
