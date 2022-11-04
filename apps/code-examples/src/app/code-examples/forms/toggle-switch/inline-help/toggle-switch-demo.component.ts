@@ -6,27 +6,20 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
   templateUrl: './toggle-switch-demo.component.html',
 })
 export class ToggleSwitchDemoComponent {
-  public checked = false;
-  public disabled = true;
-
   public formGroup: FormGroup;
 
   constructor(formBuilder: FormBuilder) {
     this.formGroup = formBuilder.group({
-      dynamicToggle: new FormControl(true),
+      controlToggle: new FormControl(false),
+      dynamicToggle: new FormControl({ value: true, disabled: true }),
     });
-  }
-
-  public toggleDisabled(): void {
-    this.disabled = !this.disabled;
-
-    const control = this.formGroup.get('dynamicToggle');
-
-    if (control.disabled) {
-      control.enable();
-    } else {
-      control.disable();
-    }
+    this.formGroup.get('controlToggle').valueChanges.subscribe((value) => {
+      if (value) {
+        this.formGroup.get('dynamicToggle').enable();
+      } else {
+        this.formGroup.get('dynamicToggle').disable();
+      }
+    });
   }
 
   public onHelpClick() {
