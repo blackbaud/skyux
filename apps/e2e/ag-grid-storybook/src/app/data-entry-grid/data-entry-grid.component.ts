@@ -69,7 +69,7 @@ export class DataEntryGridComponent
   public ready = new BehaviorSubject(false);
   public skyTheme: SkyThemeSettings;
 
-  #gridsReady: { [_: string]: Observable<boolean> } = {};
+  readonly #gridsReady = new Map<string, Observable<boolean>>();
   #nameLookupData: { name: string; id: string }[];
   readonly #agGridService: SkyAgGridService;
   readonly #themeSvc: SkyThemeService;
@@ -98,10 +98,15 @@ export class DataEntryGridComponent
       };
     });
     this.dataSets.forEach((dataSet) => {
-      this.#gridsReady[dataSet.id] = new BehaviorSubject(false);
+      this.#gridsReady.set(`${dataSet.id}-ready`, new BehaviorSubject(false));
+      this.#gridsReady.set(
+        `${dataSet.id}-rendered`,
+        new BehaviorSubject(false)
+      );
     });
-    this.#gridsReady['theme'] = this.#themeSvc.settingsChange.pipe(
-      map(() => true)
+    this.#gridsReady.set(
+      'theme',
+      this.#themeSvc.settingsChange.pipe(map(() => true))
     );
     this.#ngUnsubscribe.add(
       this.#themeSvc.settingsChange.subscribe((settings) => {
@@ -178,9 +183,18 @@ export class DataEntryGridComponent
           suppressHorizontalScroll: true,
           suppressRowVirtualisation: true,
           onFirstDataRendered: () => {
-            (this.#gridsReady[dataSet.id] as BehaviorSubject<boolean>).next(
-              true
-            );
+            (
+              this.#gridsReady.get(
+                `${dataSet.id}-rendered`
+              ) as BehaviorSubject<boolean>
+            ).next(true);
+          },
+          onGridReady: () => {
+            (
+              this.#gridsReady.get(
+                `${dataSet.id}-ready`
+              ) as BehaviorSubject<boolean>
+            ).next(true);
           },
           rowData: (() => {
             if (dataSet.id.startsWith('editLookup')) {
@@ -205,7 +219,7 @@ export class DataEntryGridComponent
 
   public ngAfterViewInit(): void {
     this.#ngUnsubscribe.add(
-      combineLatest(Array.from(Object.values(this.#gridsReady)))
+      combineLatest(Array.from(this.#gridsReady.values()))
         .pipe(
           filter((gridsReady) => gridsReady.every((ready) => ready)),
           delay(1000)

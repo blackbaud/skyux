@@ -1,6 +1,6 @@
 @use 'libs/components/theme/src/lib/styles/variables' as variables;
 
-$sky-standard-border: 1px solid variables.$sky-border-color-neutral-medium;
+$sky-standard-border: 1px solid var(--sky-border-color-neutral-medium);
 $sky-standard-border-theme-modern: 1px solid
   var(--sky-border-color-neutral-medium);
 

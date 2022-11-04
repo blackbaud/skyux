@@ -11,9 +11,20 @@ describe('ag-grid-28.schematic', () => {
     'schematics',
     require.resolve('../migration-collection.json')
   );
+  const angularJson = {
+    version: 1,
+    projects: {
+      test: {
+        projectType: 'application',
+        root: '',
+        architect: {},
+      },
+    },
+  };
 
   function setupTest(packageJson: { [key: string]: any } = {}) {
     tree = Tree.empty();
+    tree.create('/angular.json', JSON.stringify(angularJson));
     tree.create('/package.json', JSON.stringify(packageJson));
   }
 
@@ -71,6 +82,18 @@ describe('ag-grid-28.schematic', () => {
         '@ag-grid-enterprise/all-modules': '27.1.1',
       },
     });
+    tree.overwrite(
+      '/angular.json',
+      JSON.stringify({
+        ...angularJson,
+        projects: {
+          test: {
+            ...angularJson.projects.test,
+            sourceRoot: 'src',
+          },
+        },
+      })
+    );
     await runner
       .runSchematicAsync('ag-grid-28', {}, tree)
       .pipe(

@@ -14,7 +14,9 @@ import {
   removePackageJsonDependency,
 } from '@schematics/angular/utility/dependencies';
 
-export const UPDATE_TO_VERSION = '28.2.0';
+import { getWorkspace } from '../../utility/workspace';
+
+export const UPDATE_TO_VERSION = '28.2.1';
 
 const ANY_MODULE = '@ag-grid-community/';
 const ENT_MODULE = '@ag-grid-enterprise/';
@@ -186,7 +188,7 @@ function renameColumnApiFunctionsInCode(updatedContent: string): string {
  * Visit all files and apply the changes.
  */
 function updateSourceFiles(): Rule {
-  return (tree: Tree, context: SchematicContext) => {
+  return async (tree: Tree, context: SchematicContext): Promise<void> => {
     const warned: string[] = [];
 
     function warnOnce(message: string) {
@@ -213,42 +215,45 @@ function updateSourceFiles(): Rule {
       return;
     }
 
-    ['src', 'projects'].forEach((sourceRoot) => {
-      tree.getDir(sourceRoot).visit((filePath: Path) => {
-        // If the file is not a TypeScript file, we can skip it.
-        if (!filePath.endsWith('.ts')) {
-          return;
-        }
-        const content = tree.readText(filePath);
-        let updatedContent = content;
+    const { workspace } = await getWorkspace(tree);
+    workspace.projects.forEach((project) => {
+      tree
+        .getDir(project.sourceRoot || project.root)
+        .visit((filePath: Path) => {
+          // If the file is not a TypeScript file, we can skip it.
+          if (!filePath.endsWith('.ts')) {
+            return;
+          }
+          const content = tree.readText(filePath);
+          let updatedContent = content;
 
-        // Prompt the user to moderate the use of AG Grid modules
-        if (
-          updatedContent.includes(ANY_MODULE) ||
-          updatedContent.includes(ENT_MODULE)
-        ) {
-          warnOnce(
-            `\n
+          // Prompt the user to moderate the use of AG Grid modules
+          if (
+            updatedContent.includes(ANY_MODULE) ||
+            updatedContent.includes(ENT_MODULE)
+          ) {
+            warnOnce(
+              `\n
           AG Grid recommends not mixing module and package imports.
           https://ag-grid.com/angular-data-grid/modules/\n\n`
+            );
+          }
+
+          updatedContent = swapModulesWithPackageInCode(
+            updatedContent,
+            agGridAllModules,
+            agGridAllModulesEnt
           );
-        }
+          updatedContent = removeWithComponentsStaticImportsCall(
+            filePath,
+            updatedContent
+          );
+          updatedContent = renameColumnApiFunctionsInCode(updatedContent);
 
-        updatedContent = swapModulesWithPackageInCode(
-          updatedContent,
-          agGridAllModules,
-          agGridAllModulesEnt
-        );
-        updatedContent = removeWithComponentsStaticImportsCall(
-          filePath,
-          updatedContent
-        );
-        updatedContent = renameColumnApiFunctionsInCode(updatedContent);
-
-        if (updatedContent !== content) {
-          tree.overwrite(filePath, updatedContent);
-        }
-      });
+          if (updatedContent !== content) {
+            tree.overwrite(filePath, updatedContent);
+          }
+        });
     });
   };
 }

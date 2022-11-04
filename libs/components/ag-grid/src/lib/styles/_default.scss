@@ -19,7 +19,7 @@
     }
 
     .ag-cell.sky-ag-grid-cell-invalid {
-      border: 1px solid variables.$sky-highlight-color-danger;
+      border: 1px solid var(--sky-highlight-color-danger);
     }
 
     .ag-row:not(.ag-row-first) {
@@ -88,11 +88,11 @@
     }
 
     .ag-cell.sky-ag-grid-cell-invalid {
-      border: 1px solid variables.$sky-highlight-color-danger;
+      border: 1px solid var(--sky-highlight-color-danger);
     }
 
     .sky-ag-grid-cell-editable {
-      background-color: variables.$sky-background-color-page-default;
+      background-color: var(--sky-background-color-page-default);
 
       .ag-select {
         .ag-picker-field-display {
@@ -103,7 +103,7 @@
     }
 
     .sky-ag-grid-cell-uneditable {
-      background-color: variables.$sky-background-color-neutral-light;
+      background-color: var(--sky-background-color-neutral-light);
     }
 
     .ag-row:not(.ag-row-first) {
