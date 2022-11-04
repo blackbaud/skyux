@@ -36,16 +36,22 @@ import { SkyDataEntryGridEditModalContext } from './data-entry-grid-docs-demo-ed
 })
 export class SkyDataEntryGridEditModalComponent {
   public columnDefs: ColDef[];
-  private gridApi: GridApi | undefined;
   public gridData: SkyAgGridDemoRow[];
   public gridOptions: GridOptions;
 
+  #gridApi: GridApi | undefined;
+  #agGridService: SkyAgGridService;
+  #changeDetector: ChangeDetectorRef;
+
   constructor(
-    private agGridService: SkyAgGridService,
     public context: SkyDataEntryGridEditModalContext,
     public instance: SkyModalInstance,
-    private changeDetector: ChangeDetectorRef
+    agGridService: SkyAgGridService,
+    changeDetector: ChangeDetectorRef
   ) {
+    this.#agGridService = agGridService;
+    this.#changeDetector = changeDetector;
+
     this.columnDefs = [
       {
         field: 'name',
@@ -113,14 +119,14 @@ export class SkyDataEntryGridEditModalComponent {
               selectionChange: (
                 change: SkyAutocompleteSelectionChange
               ): void => {
-                this.departmentSelectionChange(change, params.node);
+                this.#departmentSelectionChange(change, params.node);
               },
             },
           };
         },
         onCellValueChanged: (event: NewValueParams): void => {
           if (event.newValue !== event.oldValue) {
-            this.clearJobTitle(event.node);
+            this.#clearJobTitle(event.node);
           }
         },
       },
@@ -174,33 +180,33 @@ export class SkyDataEntryGridEditModalComponent {
       columnDefs: this.columnDefs,
       onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
     };
-    this.gridOptions = this.agGridService.getEditableGridOptions({
+    this.gridOptions = this.#agGridService.getEditableGridOptions({
       gridOptions: this.gridOptions,
     });
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
-    this.gridApi = gridReadyEvent.api;
-    this.gridApi.sizeColumnsToFit();
-    this.changeDetector.markForCheck();
+    this.#gridApi = gridReadyEvent.api;
+    this.#gridApi.sizeColumnsToFit();
+    this.#changeDetector.markForCheck();
   }
 
-  private departmentSelectionChange(
+  #departmentSelectionChange(
     change: SkyAutocompleteSelectionChange,
     node: RowNode
   ): void {
     if (change.selectedItem && change.selectedItem !== node.data.department) {
-      this.clearJobTitle(node);
+      this.#clearJobTitle(node);
     }
   }
 
-  private clearJobTitle(node: RowNode | null): void {
+  #clearJobTitle(node: RowNode | null): void {
     if (node) {
       node.data.jobTitle = undefined;
-      this.changeDetector.markForCheck();
-      if (this.gridApi) {
-        this.gridApi.refreshCells({ rowNodes: [node] });
+      this.#changeDetector.markForCheck();
+      if (this.#gridApi) {
+        this.#gridApi.refreshCells({ rowNodes: [node] });
       }
     }
   }

@@ -81,7 +81,7 @@ export class SkyDataEntryGridDemoComponent {
       field: 'endDate',
       headerName: 'End date',
       type: SkyCellType.Date,
-      valueFormatter: this.endDateFormatter,
+      valueFormatter: this.#endDateFormatter,
       headerComponentParams: {
         inlineHelpComponent: InlineHelpComponent,
       },
@@ -133,26 +133,34 @@ export class SkyDataEntryGridDemoComponent {
   public searchText = '';
   public noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
 
+  #agGridService: SkyAgGridService;
+  #modalService: SkyModalService;
+  #changeDetection: ChangeDetectorRef;
+
   constructor(
-    private agGridService: SkyAgGridService,
-    private modalService: SkyModalService,
-    private changeDetection: ChangeDetectorRef
+    agGridService: SkyAgGridService,
+    modalService: SkyModalService,
+    changeDetection: ChangeDetectorRef
   ) {
+    this.#agGridService = agGridService;
+    this.#modalService = modalService;
+    this.#changeDetection = changeDetection;
+
     this.gridOptions = {
       columnDefs: this.columnDefs,
       onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
     };
 
-    this.gridOptions = this.agGridService.getGridOptions({
+    this.gridOptions = this.#agGridService.getGridOptions({
       gridOptions: this.gridOptions,
     });
-    this.changeDetection.markForCheck();
+    this.#changeDetection.markForCheck();
   }
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.gridApi = gridReadyEvent.api;
     this.gridApi.sizeColumnsToFit();
-    this.changeDetection.markForCheck();
+    this.#changeDetection.markForCheck();
   }
 
   public openModal(): void {
@@ -167,7 +175,7 @@ export class SkyDataEntryGridDemoComponent {
       size: 'large',
     };
 
-    const modalInstance = this.modalService.open(
+    const modalInstance = this.#modalService.open(
       SkyDataEntryGridEditModalComponent,
       options
     );
@@ -202,7 +210,7 @@ export class SkyDataEntryGridDemoComponent {
     }
   }
 
-  private endDateFormatter(params: ValueFormatterParams): string {
+  #endDateFormatter(params: ValueFormatterParams): string {
     const dateConfig = { year: 'numeric', month: '2-digit', day: '2-digit' };
     return params.value
       ? params.value.toLocaleDateString('en-us', dateConfig)

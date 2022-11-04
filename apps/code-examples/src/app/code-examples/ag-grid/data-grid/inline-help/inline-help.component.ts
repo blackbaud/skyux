@@ -16,8 +16,8 @@ import { SkyAgGridHeaderInfo } from '@skyux/ag-grid';
 export class InlineHelpComponent {
   readonly #displayName: string;
 
-  constructor({ displayName }: SkyAgGridHeaderInfo) {
-    this.#displayName = displayName;
+  constructor(headerInfo: SkyAgGridHeaderInfo) {
+    this.#displayName = headerInfo.displayName;
   }
 
   public onHelpClick(): void {

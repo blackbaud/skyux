@@ -11,10 +11,10 @@ import { ICellRendererParams } from 'ag-grid-community';
 export class SkyDataEntryGridContextMenuComponent
   implements ICellRendererAngularComp
 {
-  private name = '';
+  #name = '';
 
   public agInit(params: ICellRendererParams): void {
-    this.name = params.data && params.data.name;
+    this.#name = params.data && params.data.#name;
   }
 
   public refresh(): boolean {
@@ -22,6 +22,6 @@ export class SkyDataEntryGridContextMenuComponent
   }
 
   public actionClicked(action: string): void {
-    alert(`${action} clicked for ${this.name}`);
+    alert(`${action} clicked for ${this.#name}`);
   }
 }

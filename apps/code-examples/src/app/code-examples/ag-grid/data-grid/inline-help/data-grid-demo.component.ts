@@ -56,7 +56,7 @@ export class DataGridDemoComponent {
       field: 'endDate',
       headerName: 'End date',
       type: SkyCellType.Date,
-      valueFormatter: this.endDateFormatter,
+      valueFormatter: this.#endDateFormatter,
       headerComponentParams: {
         inlineHelpComponent: InlineHelpComponent,
       },
@@ -85,24 +85,29 @@ export class DataGridDemoComponent {
   public searchText = '';
   public noRowsTemplate: string;
 
+  #agGridService: SkyAgGridService;
+  #changeDetector: ChangeDetectorRef;
+
   constructor(
-    private agGridService: SkyAgGridService,
-    private changeDetector: ChangeDetectorRef
+    agGridService: SkyAgGridService,
+    changeDetector: ChangeDetectorRef
   ) {
+    this.#agGridService = agGridService;
+    this.#changeDetector = changeDetector;
     this.noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
-    this.gridOptions = this.agGridService.getGridOptions({
+    this.gridOptions = this.#agGridService.getGridOptions({
       gridOptions: {
         columnDefs: this.columnDefs,
         onGridReady: this.onGridReady.bind(this),
       },
     });
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.gridApi = gridReadyEvent.api;
     this.gridApi.sizeColumnsToFit();
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   public searchApplied(searchText: string | void): void {
@@ -122,7 +127,7 @@ export class DataGridDemoComponent {
     }
   }
 
-  private endDateFormatter(params: ValueFormatterParams): string {
+  #endDateFormatter(params: ValueFormatterParams): string {
     const dateConfig = { year: 'numeric', month: '2-digit', day: '2-digit' };
     return params.value
       ? params.value.toLocaleDateString('en-us', dateConfig)
