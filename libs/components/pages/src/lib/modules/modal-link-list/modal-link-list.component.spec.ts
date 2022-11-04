@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyModalService } from '@skyux/modals';
 
 import { SkyModalLinkListComponent } from './modal-link-list.component';
+import { SkyModalLinkListModule } from './modal-link-list.module';
 
 describe('SkyModalLinkListComponent', () => {
   let component: SkyModalLinkListComponent;
@@ -11,7 +12,7 @@ describe('SkyModalLinkListComponent', () => {
   beforeEach(() => {
     openModalSpy = jasmine.createSpy();
     TestBed.configureTestingModule({
-      declarations: [SkyModalLinkListComponent],
+      imports: [SkyModalLinkListModule],
       providers: [
         {
           provide: SkyModalService,

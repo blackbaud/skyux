@@ -7,4 +7,8 @@ import { SkyModalInstance } from '@skyux/modals';
 })
 export class ModalDemoModalComponent {
   constructor(public instance: SkyModalInstance) {}
+
+  public onActionClick(): void {
+    alert('Help inline button clicked!');
+  }
 }

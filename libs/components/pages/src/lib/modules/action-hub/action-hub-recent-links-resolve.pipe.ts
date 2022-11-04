@@ -58,7 +58,7 @@ export class SkyActionHubRecentLinksResolvePipe
 
   #currentRecentLinksResolved: SkyRecentLinksResolved = [];
 
-  #recentlyAccessedSub: Subscription;
+  #recentlyAccessedSub: Subscription | undefined;
 
   #ngUnsubscribe = new Subject<void>();
 

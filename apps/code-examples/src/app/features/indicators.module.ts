@@ -3,12 +3,16 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AlertDemoComponent as AlertBasicDemoComponent } from '../code-examples/indicators/alert/basic/alert-demo.component';
 import { AlertDemoModule as AlertBasicDemoModule } from '../code-examples/indicators/alert/basic/alert-demo.module';
-import { KeyInfoDemoComponent } from '../code-examples/indicators/key-info/basic/key-info-demo.component';
-import { KeyInfoDemoModule } from '../code-examples/indicators/key-info/basic/key-info-demo.module';
+import { KeyInfoDemoComponent as KeyInfoBasicDemoComponent } from '../code-examples/indicators/key-info/basic/key-info-demo.component';
+import { KeyInfoDemoModule as KeyInfoBasicDemoModule } from '../code-examples/indicators/key-info/basic/key-info-demo.module';
+import { KeyInfoDemoComponent as KeyInfoInlineHelpDemoComponent } from '../code-examples/indicators/key-info/inline-help/key-info-demo.component';
+import { KeyInfoDemoModule as KeyInfoInlineHelpDemoModule } from '../code-examples/indicators/key-info/inline-help/key-info-demo.module';
 import { LabelDemoComponent } from '../code-examples/indicators/label/basic/label-demo.component';
 import { LabelDemoModule } from '../code-examples/indicators/label/basic/label-demo.module';
-import { StatusIndicatorDemoComponent } from '../code-examples/indicators/status-indicator/basic/status-indicator-demo.component';
-import { StatusIndicatorDemoModule } from '../code-examples/indicators/status-indicator/basic/status-indicator-demo.module';
+import { StatusIndicatorDemoComponent as StatusIndicatorBasicDemoComponent } from '../code-examples/indicators/status-indicator/basic/status-indicator-demo.component';
+import { StatusIndicatorDemoModule as StatusIndicatorBasicDemoModule } from '../code-examples/indicators/status-indicator/basic/status-indicator-demo.module';
+import { StatusIndicatorDemoComponent as StatusIndicatorInlineHelpDemoComponent } from '../code-examples/indicators/status-indicator/inline-help/status-indicator-demo.component';
+import { StatusIndicatorDemoModule as StatusIndicatorInlineHelpDemoModule } from '../code-examples/indicators/status-indicator/inline-help/status-indicator-demo.module';
 import { TextHighlightDemoComponent } from '../code-examples/indicators/text-highlight/basic/text-highlight-demo.component';
 import { TextHighlightDemoModule } from '../code-examples/indicators/text-highlight/basic/text-highlight-demo.module';
 import { TokensDemoComponent as TokensBasicDemoComponent } from '../code-examples/indicators/tokens/basic/tokens-demo.component';
@@ -23,11 +27,19 @@ const routes: Routes = [
   },
   {
     path: 'status-indicator/basic',
-    component: StatusIndicatorDemoComponent,
+    component: StatusIndicatorBasicDemoComponent,
+  },
+  {
+    path: 'status-indicator/inline-help',
+    component: StatusIndicatorInlineHelpDemoComponent,
   },
   {
     path: 'key-info/basic',
-    component: KeyInfoDemoComponent,
+    component: KeyInfoBasicDemoComponent,
+  },
+  {
+    path: 'key-info/inline-help',
+    component: KeyInfoInlineHelpDemoComponent,
   },
   {
     path: 'label/basic',
@@ -57,8 +69,10 @@ export class IndicatorsFeatureRoutingModule {}
   imports: [
     IndicatorsFeatureRoutingModule,
     AlertBasicDemoModule,
-    StatusIndicatorDemoModule,
-    KeyInfoDemoModule,
+    StatusIndicatorBasicDemoModule,
+    StatusIndicatorInlineHelpDemoModule,
+    KeyInfoBasicDemoModule,
+    KeyInfoInlineHelpDemoModule,
     LabelDemoModule,
     TextHighlightDemoModule,
     TokensBasicDemoModule,

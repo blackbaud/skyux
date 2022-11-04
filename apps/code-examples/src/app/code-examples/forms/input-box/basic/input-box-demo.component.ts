@@ -36,4 +36,8 @@ export class InputBoxDemoComponent implements OnInit {
       dob: this.dob,
     });
   }
+
+  public onActionClick(): void {
+    alert('Help inline button clicked!');
+  }
 }

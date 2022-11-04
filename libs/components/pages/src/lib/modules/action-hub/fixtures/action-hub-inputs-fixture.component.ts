@@ -9,10 +9,10 @@ import { SkyRecentLink } from '../types/recent-link';
   templateUrl: 'action-hub-inputs-fixture.component.html',
 })
 export class ActionHubInputsFixtureComponent {
-  public title: string;
-  public parentLink: SkyLink;
-  public recentLinks: SkyRecentLink[] | 'loading';
-  public relatedLinks: SkyLink[] | 'loading';
-  public needsAttention: SkyActionHubNeedsAttention[] | 'loading';
-  public loading: boolean;
+  public title: string | undefined;
+  public parentLink: SkyLink | undefined;
+  public recentLinks: SkyRecentLink[] | 'loading' | undefined;
+  public relatedLinks: SkyLink[] | 'loading' | undefined;
+  public needsAttention: SkyActionHubNeedsAttention[] | 'loading' | undefined;
+  public loading: boolean | undefined;
 }
