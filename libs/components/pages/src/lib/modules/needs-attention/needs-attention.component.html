@@ -15,7 +15,7 @@
       </sky-column>
       <sky-column
         *ngFor="let item of items; let isLast = last"
-        [screenSmall]="items.length > 6 ? 6 : 12"
+        [screenSmall]="items!.length > 6 ? 6 : 12"
         [screenXSmall]="12"
       >
         <ng-template #link>
@@ -35,17 +35,18 @@
           >
         </ng-template>
         <a
-          *ngIf="item | linkAs: 'skyAppLink'"
-          [skyAppLink]="item.permalink.route.commands"
-          [queryParams]="item.permalink.route.extras?.queryParams"
-          [queryParamsHandling]="
-            item.permalink.route.extras?.queryParamsHandling
+          *ngIf="
+            (item | linkAs: 'skyAppLink') &&
+            item.permalink?.route as permalinkRoute
           "
-          [fragment]="item.permalink.route.extras?.fragment"
-          [preserveFragment]="item.permalink.route.extras?.preserveFragment"
-          [skipLocationChange]="item.permalink.route.extras?.skipLocationChange"
-          [replaceUrl]="item.permalink.route.extras?.replaceUrl"
-          [state]="item.permalink.route.extras?.state"
+          [skyAppLink]="permalinkRoute.commands"
+          [queryParams]="permalinkRoute.extras?.queryParams"
+          [queryParamsHandling]="permalinkRoute.extras?.queryParamsHandling"
+          [fragment]="permalinkRoute.extras?.fragment"
+          [preserveFragment]="permalinkRoute.extras?.preserveFragment"
+          [skipLocationChange]="permalinkRoute.extras?.skipLocationChange"
+          [replaceUrl]="permalinkRoute.extras?.replaceUrl"
+          [state]="permalinkRoute.extras?.state"
           class="sky-needs-attention-item sky-padding-vertical-lg"
           [ngClass]="{
             'sky-border-bottom-row': !isLast
@@ -53,26 +54,28 @@
         >
           <ng-container *ngTemplateOutlet="link"></ng-container>
         </a>
-        <a
-          *ngIf="item | linkAs: 'skyHref'"
-          [skyHref]="item.permalink.url"
-          class="sky-needs-attention-item sky-padding-vertical-lg"
-          [ngClass]="{
-            'sky-border-bottom-row': !isLast
-          }"
-        >
-          <ng-container *ngTemplateOutlet="link"></ng-container>
-        </a>
-        <a
-          *ngIf="item | linkAs: 'href'"
-          [href]="item.permalink.url"
-          class="sky-needs-attention-item sky-padding-vertical-lg"
-          [ngClass]="{
-            'sky-border-bottom-row': !isLast
-          }"
-        >
-          <ng-container *ngTemplateOutlet="link"></ng-container>
-        </a>
+        <ng-container *ngIf="item.permalink as permalink">
+          <a
+            *ngIf="item | linkAs: 'skyHref'"
+            [skyHref]="permalink.url"
+            class="sky-needs-attention-item sky-padding-vertical-lg"
+            [ngClass]="{
+              'sky-border-bottom-row': !isLast
+            }"
+          >
+            <ng-container *ngTemplateOutlet="link"></ng-container>
+          </a>
+          <a
+            *ngIf="item | linkAs: 'href'"
+            [href]="permalink.url"
+            class="sky-needs-attention-item sky-padding-vertical-lg"
+            [ngClass]="{
+              'sky-border-bottom-row': !isLast
+            }"
+          >
+            <ng-container *ngTemplateOutlet="link"></ng-container>
+          </a>
+        </ng-container>
         <button
           *ngIf="item | linkAs: 'button'"
           class="sky-needs-attention-item sky-padding-vertical-lg sky-btn sky-btn-link-inline"
@@ -80,7 +83,7 @@
             'sky-border-bottom-row': !isLast
           }"
           type="button"
-          (click)="item.click({item})"
+          (click)="item?.click({item})"
         >
           <ng-container *ngTemplateOutlet="link"></ng-container>
         </button>

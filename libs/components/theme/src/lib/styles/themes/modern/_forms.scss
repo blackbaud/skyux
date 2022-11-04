@@ -1,10 +1,6 @@
 @use '../../variables' as *;
 
 .sky-theme-modern {
-  .sky-control-help-container:not(:empty) {
-    margin-left: var(--sky-margin-inline-sm);
-  }
-
   &.sky-theme-mode-dark {
     .sky-error-label {
       color: $sky-theme-modern-mode-dark-font-body-default-color;

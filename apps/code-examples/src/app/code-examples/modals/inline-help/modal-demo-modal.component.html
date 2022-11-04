@@ -1,7 +1,10 @@
 <sky-modal>
   <sky-modal-header>
     Modal title
-    <sky-help-inline class="sky-control-help"></sky-help-inline>
+    <sky-help-inline
+      class="sky-control-help"
+      (actionClick)="onActionClick()"
+    ></sky-help-inline>
   </sky-modal-header>
   <sky-modal-content></sky-modal-content>
   <sky-modal-footer>

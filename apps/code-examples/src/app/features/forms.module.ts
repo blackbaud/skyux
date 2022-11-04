@@ -5,8 +5,14 @@ import { CheckboxDemoComponent as CheckboxBasicDemoComponent } from '../code-exa
 import { CheckboxDemoModule as CheckboxBasicDemoModule } from '../code-examples/forms/checkbox/basic/checkbox-demo.module';
 import { CheckboxDemoComponent as InlineHelpCheckboxDemoComponent } from '../code-examples/forms/checkbox/inline-help/checkbox-demo.component';
 import { CheckboxDemoModule as InlineHelpCheckboxDemoModule } from '../code-examples/forms/checkbox/inline-help/checkbox-demo.module';
-import { InputBoxDemoComponent } from '../code-examples/forms/input-box/basic/input-box-demo.component';
-import { InputBoxDemoModule } from '../code-examples/forms/input-box/basic/input-box-demo.module';
+import { FileAttachmentDemoComponent as BasicFileAttachmentDemoComponent } from '../code-examples/forms/file-attachment/basic/file-attachment-demo.component';
+import { SkyFileAttachmentDemoModule as BasicSkyFileAttachmentDemoModule } from '../code-examples/forms/file-attachment/basic/file-attachment-demo.module';
+import { FileAttachmentDemoComponent as InlineHelpFileAttachmentDemoComponent } from '../code-examples/forms/file-attachment/inline-help/file-attachment-demo.component';
+import { SkyFileAttachmentDemoModule as InlineHelpSkyFileAttachmentDemoModule } from '../code-examples/forms/file-attachment/inline-help/file-attachment-demo.module';
+import { InputBoxDemoComponent as InputBoxBasicDemoComponent } from '../code-examples/forms/input-box/basic/input-box-demo.component';
+import { InputBoxDemoModule as InputBoxBasicDemoModule } from '../code-examples/forms/input-box/basic/input-box-demo.module';
+import { InputBoxDemoComponent as InputBoxInlineHelpDemoComponent } from '../code-examples/forms/input-box/inline-help/input-box-demo.component';
+import { InputBoxDemoModule as InputBoxInlineHelpDemoModule } from '../code-examples/forms/input-box/inline-help/input-box-demo.module';
 import { RadioDemoComponent as InlineHelpRadioDemoComponent } from '../code-examples/forms/radio/inline-help/radio-demo.component';
 import { RadioDemoModule as InlineHelpRadioDemoModule } from '../code-examples/forms/radio/inline-help/radio-demo.module';
 import { SelectionBoxDemoComponent as SelectionBoxCheckboxDemoComponent } from '../code-examples/forms/selection-box/checkbox/selection-box-demo.component';
@@ -47,7 +53,19 @@ const routes: Routes = [
   },
   {
     path: 'input-box/basic',
-    component: InputBoxDemoComponent,
+    component: InputBoxBasicDemoComponent,
+  },
+  {
+    path: 'input-box/inline-help',
+    component: InputBoxInlineHelpDemoComponent,
+  },
+  {
+    path: 'file-attachment/basic',
+    component: BasicFileAttachmentDemoComponent,
+  },
+  {
+    path: 'file-attachment/inline-help',
+    component: InlineHelpFileAttachmentDemoComponent,
   },
   {
     path: 'selection-box/checkbox',
@@ -74,7 +92,10 @@ export class FormsRoutingModule {}
     InlineHelpSkySingleFileAttachmentDemoModule,
     InlineHelpRadioDemoModule,
     InlineHelpToggleSwitchModule,
-    InputBoxDemoModule,
+    InputBoxBasicDemoModule,
+    InputBoxInlineHelpDemoModule,
+    BasicSkyFileAttachmentDemoModule,
+    InlineHelpSkyFileAttachmentDemoModule,
     SelectionBoxCheckboxDemoModule,
     SelectionBoxRadioDemoModule,
   ],
