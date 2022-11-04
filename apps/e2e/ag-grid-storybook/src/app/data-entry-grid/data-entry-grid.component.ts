@@ -20,6 +20,7 @@ import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { delay, filter, map } from 'rxjs/operators';
 
 import { columnDefinitions, data } from '../shared/baseball-players-data';
+import { InlineHelpComponent } from '../shared/inline-help/inline-help.component';
 
 type DataSet = { id: string; data: any[] };
 
@@ -134,6 +135,12 @@ export class DataEntryGridComponent
           columnDefs = columnDefinitions
             .slice(tripleCrownIndex, tripleCrownIndex + 3)
             .map((col) => {
+              if (col.field === 'mvp') {
+                col.headerComponentParams = {
+                  inlineHelpComponent: InlineHelpComponent,
+                };
+                col.initialSort = 'desc';
+              }
               return {
                 ...col,
                 editable: true,
