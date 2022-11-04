@@ -36,7 +36,7 @@ export class DateRangePickerTestComponent implements OnInit, OnDestroy {
   public numValueChangeNotifications = 0;
   public reactiveForm: UntypedFormGroup | undefined;
   public startDateRequired = false;
-  public templateDisable: boolean | undefined = undefined;
+  public templateDisable: boolean | undefined;
 
   #ngUnsubscribe = new Subject<void>();
 
