@@ -1,7 +1,10 @@
 // Source: https://github.com/metmuseum/openaccess
 import { SkyCellType } from '@skyux/ag-grid';
 
-import { ColDef } from 'ag-grid-community';
+import { ColDef, ColGroupDef } from 'ag-grid-community';
+
+import { GroupInlineHelpComponent } from './inline-help/group-inline-help.component';
+import { InlineHelpComponent } from './inline-help/inline-help.component';
 
 export const columnDefinitions: ColDef[] = [
   {
@@ -14,6 +17,9 @@ export const columnDefinitions: ColDef[] = [
     headerName: 'Object Number',
     type: [],
     sortable: true,
+    headerComponentParams: {
+      inlineHelpComponent: InlineHelpComponent,
+    },
   },
   {
     field: 'is_highlight',
@@ -32,24 +38,36 @@ export const columnDefinitions: ColDef[] = [
     headerName: 'Is Public Domain',
     type: [],
     sortable: true,
+    headerComponentParams: {
+      inlineHelpComponent: InlineHelpComponent,
+    },
   },
   {
     field: 'object_id',
     headerName: 'Object ID',
     type: [],
     sortable: true,
+    headerComponentParams: {
+      inlineHelpComponent: InlineHelpComponent,
+    },
   },
   {
     field: 'gallery_number',
     headerName: 'Gallery Number',
     type: [],
     sortable: true,
+    headerComponentParams: {
+      inlineHelpComponent: InlineHelpComponent,
+    },
   },
   {
     field: 'department',
     headerName: 'Department',
     type: [],
     sortable: true,
+    headerComponentParams: {
+      inlineHelpComponent: InlineHelpComponent,
+    },
   },
   {
     field: 'accessionyear',
@@ -62,12 +80,18 @@ export const columnDefinitions: ColDef[] = [
     headerName: 'Object Name',
     type: [],
     sortable: true,
+    headerComponentParams: {
+      inlineHelpComponent: InlineHelpComponent,
+    },
   },
   {
     field: 'title',
     headerName: 'Title',
     type: [],
     sortable: true,
+    headerComponentParams: {
+      inlineHelpComponent: InlineHelpComponent,
+    },
   },
   {
     field: 'culture',
@@ -122,12 +146,18 @@ export const columnDefinitions: ColDef[] = [
     headerName: 'Artist Display Name',
     type: [],
     sortable: true,
+    headerComponentParams: {
+      inlineHelpComponent: InlineHelpComponent,
+    },
   },
   {
     field: 'artist_display_bio',
     headerName: 'Artist Display Bio',
     type: [],
     sortable: true,
+    headerComponentParams: {
+      inlineHelpComponent: InlineHelpComponent,
+    },
   },
   {
     field: 'artist_suffix',
@@ -182,6 +212,9 @@ export const columnDefinitions: ColDef[] = [
     headerName: 'Object Date',
     type: [],
     sortable: true,
+    headerComponentParams: {
+      inlineHelpComponent: InlineHelpComponent,
+    },
   },
   {
     field: 'object_begin_date',
@@ -302,6 +335,9 @@ export const columnDefinitions: ColDef[] = [
     headerName: 'Object Wikidata URL',
     type: ['custom_link'],
     sortable: true,
+    headerComponentParams: {
+      inlineHelpComponent: InlineHelpComponent,
+    },
   },
   {
     field: 'metadata_date',
@@ -332,6 +368,237 @@ export const columnDefinitions: ColDef[] = [
     headerName: 'Tags Wikidata URL',
     type: ['custom_link'],
     sortable: true,
+  },
+];
+
+export const columnDefinitionsGrouped: ColGroupDef[] = [
+  {
+    headerName: 'Object Information',
+    headerGroupComponentParams: {
+      inlineHelpComponent: GroupInlineHelpComponent,
+    },
+    children: [
+      {
+        field: 'object_name',
+        headerName: 'Object Name',
+        type: [],
+        sortable: true,
+        headerComponentParams: {
+          inlineHelpComponent: InlineHelpComponent,
+        },
+      },
+      {
+        field: 'department',
+        headerName: 'Department',
+        type: [],
+        sortable: true,
+        headerComponentParams: {
+          inlineHelpComponent: InlineHelpComponent,
+        },
+      },
+      {
+        field: 'is_public_domain',
+        headerName: 'Is Public Domain',
+        type: [],
+        sortable: true,
+        columnGroupShow: 'open',
+      },
+    ],
+  },
+  {
+    headerName: 'Titular Information',
+    headerGroupComponentParams: {
+      inlineHelpComponent: GroupInlineHelpComponent,
+    },
+    children: [
+      {
+        field: 'title',
+        headerName: 'Title',
+        type: [],
+        sortable: true,
+      },
+      {
+        field: 'culture',
+        headerName: 'Culture',
+        type: [],
+        sortable: true,
+        columnGroupShow: 'open',
+      },
+      {
+        field: 'period',
+        headerName: 'Period',
+        type: [],
+        sortable: true,
+        columnGroupShow: 'open',
+      },
+    ],
+  },
+  {
+    headerName: 'Artist',
+    children: [
+      {
+        field: 'artist_role',
+        headerName: 'Artist Role',
+        type: [],
+        sortable: true,
+      },
+      {
+        field: 'artist_display_name',
+        headerName: 'Artist Display Name',
+        type: [],
+        sortable: true,
+      },
+      {
+        field: 'artist_display_bio',
+        headerName: 'Artist Display Bio',
+        type: [],
+        sortable: true,
+        columnGroupShow: 'open',
+      },
+      {
+        field: 'artist_suffix',
+        headerName: 'Artist Suffix',
+        type: [],
+        sortable: true,
+        columnGroupShow: 'open',
+      },
+      {
+        field: 'artist_nationality',
+        headerName: 'Artist Nationality',
+        type: [],
+        sortable: true,
+        columnGroupShow: 'open',
+      },
+      {
+        field: 'artist_wikidata_url',
+        headerName: 'Artist Wikidata URL',
+        type: ['custom_link'],
+        sortable: true,
+        columnGroupShow: 'open',
+      },
+    ],
+  },
+  {
+    headerName: 'Collection',
+    children: [
+      {
+        field: 'object_date',
+        headerName: 'Object Date',
+        type: [],
+        sortable: true,
+      },
+      {
+        field: 'object_begin_date',
+        headerName: 'Object Begin Date',
+        type: [],
+        sortable: true,
+      },
+      {
+        field: 'object_end_date',
+        headerName: 'Object End Date',
+        type: [],
+        sortable: true,
+        columnGroupShow: 'open',
+      },
+      {
+        field: 'medium',
+        headerName: 'Medium',
+        type: [],
+        sortable: true,
+        columnGroupShow: 'open',
+      },
+      {
+        field: 'dimensions',
+        headerName: 'Dimensions',
+        type: [],
+        sortable: true,
+        columnGroupShow: 'open',
+      },
+    ],
+  },
+  {
+    headerName: 'Geography & Classification',
+    children: [
+      {
+        field: 'geography_type',
+        headerName: 'Geography Type',
+        type: [],
+        sortable: true,
+      },
+      {
+        field: 'city',
+        headerName: 'City',
+        type: [],
+        sortable: true,
+      },
+      {
+        field: 'state',
+        headerName: 'State',
+        type: [],
+        sortable: true,
+        columnGroupShow: 'open',
+      },
+      {
+        field: 'county',
+        headerName: 'County',
+        type: [],
+        sortable: true,
+        columnGroupShow: 'open',
+      },
+      {
+        field: 'country',
+        headerName: 'Country',
+        type: [],
+        sortable: true,
+        columnGroupShow: 'open',
+      },
+    ],
+  },
+  {
+    headerName: 'Metadata',
+    children: [
+      {
+        field: 'classification',
+        headerName: 'Classification',
+        type: [],
+        sortable: true,
+      },
+      {
+        field: 'rights_and_reproduction',
+        headerName: 'Rights and Reproduction',
+        type: [],
+        sortable: true,
+        columnGroupShow: 'open',
+      },
+      {
+        field: 'link_resource',
+        headerName: 'Link Resource',
+        type: ['custom_link'],
+        sortable: true,
+        columnGroupShow: 'open',
+      },
+      {
+        field: 'object_wikidata_url',
+        headerName: 'Object Wikidata URL',
+        type: ['custom_link'],
+        sortable: true,
+        columnGroupShow: 'open',
+      },
+      {
+        field: 'metadata_date',
+        headerName: 'Metadata Date',
+        type: [],
+        sortable: true,
+        columnGroupShow: 'open',
+      },
+      {
+        field: 'tags_wikidata_url',
+        headerName: 'Tags Wikidata URL',
+        type: ['custom_link'],
+        sortable: true,
+        columnGroupShow: 'open',
+      },
+    ],
   },
 ];
 

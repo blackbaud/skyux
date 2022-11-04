@@ -631,7 +631,7 @@ ag-grid-angular {
     padding-right: 12px;
   }
 
-  .sky-ag-grid-header-right-aligned .ag-header-cell-label {
+  .ag-header-cell.sky-ag-grid-header-right-aligned {
     justify-content: flex-end;
   }
 }
