@@ -6,7 +6,7 @@ export interface SkyTileDashboardConfigReorderData {
   /**
    * Specifies the column for the tile.
    */
-  column: number;
+  column: number | undefined;
   /**
    * Specifies the position of the tile within the column.
    */

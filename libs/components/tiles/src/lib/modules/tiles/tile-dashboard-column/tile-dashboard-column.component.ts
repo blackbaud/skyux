@@ -1,6 +1,8 @@
 import {
   Component,
   ComponentFactoryResolver,
+  ComponentRef,
+  createComponent,
   Injector,
   ViewChild,
   ViewContainerRef,
@@ -27,17 +29,24 @@ export class SkyTileDashboardColumnComponent {
     read: ViewContainerRef,
     static: false,
   })
-  public content: ViewContainerRef;
+  public content: ViewContainerRef | undefined;
+
+  #dashboardService: SkyTileDashboardService;
 
   constructor(
     public resolver: ComponentFactoryResolver,
     public injector: Injector,
-    private dashboardService: SkyTileDashboardService
+    dashboardService: SkyTileDashboardService
   ) {
-    columnIdIndex++;
+    this.#dashboardService = dashboardService;
 
-    this.columnId = 'tile-dashboard-column-' + columnIdIndex;
+    this.columnId = `tile-dashboard-column-${++columnIdIndex}`;
 
-    this.bagId = this.dashboardService.bagId;
+    this.bagId = this.#dashboardService.bagId;
+
+    public createTileComponent<T>(componentType: T): ComponentRef<T> {
+      return createComponent(componentType, { })
+
+    }
   }
 }

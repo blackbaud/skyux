@@ -46,7 +46,7 @@ export class SkyTileComponent implements OnDestroy {
    * Specifies a human-readable name for the tile that is available for multiple purposes, such as accessibility and instrumentation. For example, the component uses the name to construct ARIA labels for tile controls to [support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    */
   @Input()
-  public tileName;
+  public tileName: any;
 
   /**
    * Fires when users select the settings button in the tile header. The settings
@@ -70,12 +70,12 @@ export class SkyTileComponent implements OnDestroy {
   public helpClick = new EventEmitter();
 
   public get isCollapsed(): boolean {
-    if (this.dashboardService) {
-      const configCollapsedState = this.dashboardService.tileIsCollapsed(this);
-      this._isCollapsed = configCollapsedState;
+    if (this.#dashboardService) {
+      const configCollapsedState = this.#dashboardService.tileIsCollapsed(this);
+      this.#_isCollapsed = configCollapsedState;
     }
 
-    return this._isCollapsed;
+    return this.#_isCollapsed;
   }
 
   /**
@@ -84,11 +84,11 @@ export class SkyTileComponent implements OnDestroy {
    */
   @Input()
   public set isCollapsed(value: boolean) {
-    if (this.dashboardService) {
-      this.dashboardService.setTileCollapsed(this, value);
+    if (this.#dashboardService) {
+      this.#dashboardService.setTileCollapsed(this, value);
     }
 
-    this._isCollapsed = value;
+    this.#_isCollapsed = value;
 
     this.isCollapsedChange.emit(value);
   }
@@ -101,44 +101,50 @@ export class SkyTileComponent implements OnDestroy {
     read: ElementRef,
     static: false,
   })
-  private grabHandle: ElementRef;
+  public grabHandle: ElementRef | undefined;
 
   @ViewChild('titleContainer', {
     read: ElementRef,
     static: false,
   })
-  private title: ElementRef;
+  public title: ElementRef | undefined;
 
-  private ngUnsubscribe = new Subject<void>();
+  #changeDetector: ChangeDetectorRef;
+  #dashboardService: SkyTileDashboardService | undefined;
+  #ngUnsubscribe = new Subject<void>();
 
-  private _isCollapsed = false;
+  #_isCollapsed = false;
 
   constructor(
     public elementRef: ElementRef,
-    private changeDetector: ChangeDetectorRef,
-    @Optional() private dashboardService?: SkyTileDashboardService
+    changeDetector: ChangeDetectorRef,
+    @Optional() dashboardService?: SkyTileDashboardService
   ) {
-    this.isInDashboardColumn = !!dashboardService;
+    this.#changeDetector = changeDetector;
+    this.#dashboardService = dashboardService;
+    this.isInDashboardColumn = !!this.#dashboardService;
 
-    if (this.dashboardService) {
-      this.ariaDescribedBy = `${this.dashboardService.bagId}-move-instructions`;
+    if (this.#dashboardService) {
+      this.ariaDescribedBy = `${
+        this.#dashboardService.bagId
+      }-move-instructions`;
 
       /**
        * This subscription ensures that if any values which come in from the dashboard service are
        * updated that the component will update if the tile's parent component utilizes OnPush
        * change detection.
        */
-      this.dashboardService.configChange
-        .pipe(takeUntil(this.ngUnsubscribe))
+      this.#dashboardService.configChange
+        .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe(() => {
-          this.changeDetector.markForCheck();
+          this.#changeDetector.markForCheck();
         });
     }
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   public settingsButtonClicked(): void {
@@ -167,7 +173,7 @@ export class SkyTileComponent implements OnDestroy {
 
   public moveTile(event: KeyboardEvent): void {
     /* istanbul ignore else */
-    if (this.isInDashboardColumn) {
+    if (this.#dashboardService) {
       const direction = event.key.toLowerCase().replace('arrow', '');
       /* istanbul ignore else */
       if (
@@ -176,7 +182,7 @@ export class SkyTileComponent implements OnDestroy {
         direction === 'left' ||
         direction === 'right'
       ) {
-        this.dashboardService.moveTileOnKeyDown(
+        this.#dashboardService.moveTileOnKeyDown(
           this,
           direction,
           this.title
@@ -184,12 +190,12 @@ export class SkyTileComponent implements OnDestroy {
             : /* istanbul ignore next */
               undefined
         );
-        this.focusHandle();
+        this.#focusHandle();
       }
     }
   }
 
-  private focusHandle(): void {
-    this.grabHandle.nativeElement.focus();
+  #focusHandle(): void {
+    this.grabHandle?.nativeElement.focus();
   }
 }
