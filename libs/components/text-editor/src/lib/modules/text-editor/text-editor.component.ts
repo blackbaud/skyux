@@ -102,7 +102,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
    * @default [{name: 'Blackbaud Sans', value: '"Blackbaud Sans", Arial, sans-serif'}, {name: 'Arial', value: 'Arial'}, {name: 'Arial Black', value: '"Arial Black"'}, {name: 'Courier New', value: '"Courier New"'}, {name: 'Georgia', value: 'Georgia, serif'}, {name: 'Tahoma', value: 'Tahoma, Geneva, sans-serif'}, {name: 'Times New Roman', value: '"Times New Roman"'}, {name: 'Trebuchet MS', value: '"Trebuchet MS", sans-serif'}, {name: 'Verdana', value: 'Verdana, Geneva, sans-serif'}]
    */
   @Input()
-  public set fontList(value: SkyTextEditorFont[]) {
+  public set fontList(value: SkyTextEditorFont[] | undefined) {
     this.#_fontList = value || FONT_LIST_DEFAULTS;
   }
 
@@ -115,7 +115,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
    * @default [6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 20, 22, 24, 26, 28, 36, 48]
    */
   @Input()
-  public set fontSizeList(value: number[]) {
+  public set fontSizeList(value: number[] | undefined) {
     this.#_fontSizeList = value || FONT_SIZE_LIST_DEFAULTS;
   }
 
@@ -128,7 +128,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
    * By default, the component generates a random ID.
    */
   @Input()
-  public set id(value: string) {
+  public set id(value: string | undefined) {
     this.#id = value || this.#defaultId;
   }
 
@@ -160,7 +160,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
    * @default [ 'edit', 'format' ]
    */
   @Input()
-  public set menus(value: SkyTextEditorMenuType[]) {
+  public set menus(value: SkyTextEditorMenuType[] | undefined) {
     this.#_menus = value || MENU_DEFAULTS;
   }
 
@@ -219,17 +219,22 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
   /**
    * The internal value of the control.
    */
-  public set value(value: string) {
+  public set value(value: string | undefined) {
     // Normalize value and set any empty state to an empty string.
-    let normalizedValue: string = value;
+    let normalizedValue: string;
+    const valueTrimmed = value?.trim();
+
     if (
       !value ||
-      value.trim() === '<p></p>' ||
-      value.trim() === '<br>' ||
-      value.trim() === '<p><br></p>'
+      valueTrimmed === '<p></p>' ||
+      valueTrimmed === '<br>' ||
+      valueTrimmed === '<p><br></p>'
     ) {
       normalizedValue = '';
+    } else {
+      normalizedValue = value;
     }
+
     normalizedValue = this.#sanitizationService
       .sanitize(normalizedValue)
       .trim();
@@ -239,13 +244,13 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
 
       // Update angular form control if model has been normalized.
       /* istanbul ignore else */
-      if (this.#ngControl && this.#ngControl.control) {
-        /* istanbul ignore else */
-        if (normalizedValue !== this.#ngControl.control.value) {
-          this.#ngControl.control.setValue(normalizedValue, {
-            emitModelToViewChange: false,
-          });
-        }
+      if (
+        this.#ngControl?.control &&
+        normalizedValue !== this.#ngControl.control.value
+      ) {
+        this.#ngControl.control.setValue(normalizedValue, {
+          emitModelToViewChange: false,
+        });
       }
 
       // Autofocus isn't testable in Firefox and IE.
