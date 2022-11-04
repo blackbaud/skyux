@@ -12,6 +12,10 @@
             <label class="sky-control-label" [for]="firstNameInput.id">
               First name
             </label>
+            <sky-help-inline
+              class="sky-control-help"
+              (actionClick)="onActionClick()"
+            ></sky-help-inline>
             <input
               formControlName="firstName"
               type="text"
@@ -27,6 +31,10 @@
             <label class="sky-control-label" [for]="lastNameInput.id">
               Last name
             </label>
+            <sky-help-inline
+              class="sky-control-help"
+              (actionClick)="onActionClick()"
+            ></sky-help-inline>
             <input
               formControlName="lastName"
               type="text"
@@ -75,6 +83,10 @@
             <label class="sky-control-label" [for]="emailInput.id">
               Email address
             </label>
+            <sky-help-inline
+              class="sky-control-help"
+              (actionClick)="onActionClick()"
+            ></sky-help-inline>
             <input
               class="sky-form-control"
               formControlName="email"
@@ -113,6 +125,10 @@
             <label class="sky-control-label" [for]="dobInput.id">
               Date of birth
             </label>
+            <sky-help-inline
+              class="sky-control-help"
+              (actionClick)="onActionClick()"
+            ></sky-help-inline>
             <sky-datepicker>
               <input
                 formControlName="dob"
