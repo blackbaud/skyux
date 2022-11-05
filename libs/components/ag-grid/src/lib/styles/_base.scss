@@ -175,8 +175,9 @@ ag-grid-angular {
     text-overflow: clip;
   }
 
-  .ag-header-cell.sky-ag-grid-header-right-aligned {
-    justify-content: flex-end;
+  .ag-header-cell.sky-ag-grid-header-right-aligned
+    > .ag-header-cell-comp-wrapper {
+    flex-direction: row-reverse;
   }
 }
 
