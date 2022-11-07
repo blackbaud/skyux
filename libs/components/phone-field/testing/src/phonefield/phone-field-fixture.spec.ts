@@ -84,8 +84,7 @@ class PhoneFieldTestComponent implements OnInit {
   public phoneControl: UntypedFormControl | undefined;
   public phoneForm: UntypedFormGroup | undefined;
 
-  // TODO: replace this with a fake spy
-  public selectedCountryChange(query: string): void {}
+  public selectedCountryChange = jasmine.createSpy();
 
   public ngOnInit(): void {
     this.phoneControl = new UntypedFormControl();
@@ -166,10 +165,7 @@ describe('PhoneField fixture', () => {
   });
 
   it('should use newly selected country', async () => {
-    const selectedCountryChangeSpy = spyOn(
-      fixture.componentInstance,
-      'selectedCountryChange'
-    );
+    fixture.componentInstance.selectedCountryChange.calls.reset();
 
     if (COUNTRY_AU.name) {
       // change the country
@@ -191,9 +187,9 @@ describe('PhoneField fixture', () => {
     if (COUNTRY_AU?.iso2 && countryIos2) {
       expect(countryIos2).toBe(COUNTRY_AU.iso2);
     }
-    expect(selectedCountryChangeSpy).toHaveBeenCalledWith(
-      jasmine.objectContaining(COUNTRY_AU)
-    );
+    expect(
+      fixture.componentInstance.selectedCountryChange
+    ).toHaveBeenCalledWith(jasmine.objectContaining(COUNTRY_AU));
 
     // enter a valid phone number for the new country
     await phonefieldFixture.setInputText(VALID_AU_NUMBER);
@@ -204,13 +200,9 @@ describe('PhoneField fixture', () => {
   });
 
   it('should return expected country search results', async () => {
-    // wait for initial country selection to finish before setting up the spy
     fixture.detectChanges();
     await fixture.whenStable();
-    const selectedCountryChangeSpy = spyOn(
-      fixture.componentInstance,
-      'selectedCountryChange'
-    );
+    fixture.componentInstance.selectedCountryChange.calls.reset();
 
     if (COUNTRY_AU.name) {
       // search for a country by name
@@ -220,7 +212,9 @@ describe('PhoneField fixture', () => {
       await fixture.whenStable();
 
       // ensure no country selection has taken place yet
-      expect(selectedCountryChangeSpy).toHaveBeenCalledTimes(0);
+      expect(
+        fixture.componentInstance.selectedCountryChange
+      ).toHaveBeenCalledTimes(0);
 
       // verify the country search results match the country
       expect(results.length).toBe(1);
