@@ -8,11 +8,14 @@ import {
   ElementRef,
   Inject,
   OnDestroy,
+  OnInit,
+  Optional,
 } from '@angular/core';
+import { SkyThemeService } from '@skyux/theme';
 
 import { AgGridAngular } from 'ag-grid-angular';
-import { DetailGridInfo } from 'ag-grid-community';
-import { Subject } from 'rxjs';
+import { CellEditingStartedEvent, DetailGridInfo } from 'ag-grid-community';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
@@ -24,7 +27,9 @@ let idIndex = 0;
   templateUrl: './ag-grid-wrapper.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyAgGridWrapperComponent implements AfterContentInit, OnDestroy {
+export class SkyAgGridWrapperComponent
+  implements AfterContentInit, OnDestroy, OnInit
+{
   @ContentChild(AgGridAngular, {
     static: true,
   })
@@ -33,6 +38,7 @@ export class SkyAgGridWrapperComponent implements AfterContentInit, OnDestroy {
   public afterAnchorId: string;
   public beforeAnchorId: string;
   public gridId: string;
+  public wrapperClasses$: Observable<string[]>;
 
   public get viewkeeperClasses(): string[] {
     return this._viewkeeperClasses;
@@ -46,17 +52,22 @@ export class SkyAgGridWrapperComponent implements AfterContentInit, OnDestroy {
   private _viewkeeperClasses: string[] = [];
 
   #ngUnsubscribe = new Subject<void>();
+  #themeSvc: SkyThemeService | undefined;
+  #wrapperClasses = new BehaviorSubject<string[]>([`ag-theme-sky-default`]);
 
   constructor(
     private adapterService: SkyAgGridAdapterService,
     private changeDetector: ChangeDetectorRef,
     private elementRef: ElementRef,
-    @Inject(DOCUMENT) private document: Document
+    @Inject(DOCUMENT) private document: Document,
+    @Optional() themeSvc?: SkyThemeService
   ) {
     idIndex++;
     this.afterAnchorId = 'sky-ag-grid-nav-anchor-after-' + idIndex;
     this.beforeAnchorId = 'sky-ag-grid-nav-anchor-before-' + idIndex;
     this.gridId = 'sky-ag-grid-' + idIndex;
+    this.#themeSvc = themeSvc;
+    this.wrapperClasses$ = this.#wrapperClasses.asObservable();
   }
 
   public ngAfterContentInit(): void {
@@ -78,16 +89,58 @@ export class SkyAgGridWrapperComponent implements AfterContentInit, OnDestroy {
       .subscribe(() => {
         this.#moveHorizontalScroll();
       });
-    this.agGrid.rowDataChanged
+    this.agGrid.rowDataUpdated
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         this.#moveHorizontalScroll();
+      });
+    this.agGrid.cellEditingStarted
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((params: CellEditingStartedEvent) => {
+        if (params.colDef.type) {
+          const types = Array.isArray(params.colDef.type)
+            ? params.colDef.type
+            : [params.colDef.type];
+          const addClasses = types.map((t) => `sky-ag-grid-cell-editing-${t}`);
+          this.#wrapperClasses.next([
+            ...this.#wrapperClasses.getValue(),
+            ...addClasses,
+          ]);
+        }
+      });
+    this.agGrid.cellEditingStopped
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe(() => {
+        this.#wrapperClasses.next(
+          this.#wrapperClasses
+            .getValue()
+            .filter((c) => c.startsWith('ag-theme-'))
+        );
       });
   }
 
   public ngOnDestroy(): void {
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
+  }
+
+  public ngOnInit(): void {
+    this.#themeSvc?.settingsChange
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((settings) => {
+        let agThemeClass: string;
+        if (settings.currentSettings.theme.name === 'modern') {
+          agThemeClass = `ag-theme-sky-modern-${settings.currentSettings.mode.name}`;
+        } else {
+          agThemeClass = `ag-theme-sky-default`;
+        }
+        this.#wrapperClasses.next([
+          ...this.#wrapperClasses
+            .getValue()
+            .filter((c) => !c.startsWith('ag-theme-')),
+          agThemeClass,
+        ]);
+      });
   }
 
   /**

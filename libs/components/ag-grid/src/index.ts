@@ -11,6 +11,10 @@ export * from './lib/modules/ag-grid/types/cell-type';
 export * from './lib/modules/ag-grid/types/currency-properties';
 export * from './lib/modules/ag-grid/types/datepicker-properties';
 export * from './lib/modules/ag-grid/types/header-class';
+export * from './lib/modules/ag-grid/types/header-group-info';
+export * from './lib/modules/ag-grid/types/header-group-params';
+export * from './lib/modules/ag-grid/types/header-info';
+export * from './lib/modules/ag-grid/types/header-params';
 export * from './lib/modules/ag-grid/types/lookup-properties';
 export * from './lib/modules/ag-grid/types/number-properties';
 export * from './lib/modules/ag-grid/types/sky-grid-options';
@@ -35,3 +39,5 @@ export { SkyAgGridRowDeleteDirective as λ13 } from './lib/modules/ag-grid/ag-gr
 export { SkyAgGridDataManagerAdapterDirective as λ14 } from './lib/modules/ag-grid/ag-grid-data-manager-adapter.directive';
 export { SkyAgGridCellEditorLookupComponent as λ15 } from './lib/modules/ag-grid/cell-editors/cell-editor-lookup/cell-editor-lookup.component';
 export { SkyAgGridCellRendererLookupComponent as λ16 } from './lib/modules/ag-grid/cell-renderers/cell-renderer-lookup/cell-renderer-lookup.component';
+export { SkyAgGridHeaderComponent as λ17 } from './lib/modules/ag-grid/header/header.component';
+export { SkyAgGridHeaderGroupComponent as λ18 } from './lib/modules/ag-grid/header/header-group.component';

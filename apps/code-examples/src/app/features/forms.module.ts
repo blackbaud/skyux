@@ -23,6 +23,8 @@ import { SingleFileAttachmentDemoComponent as BasicSingleFileAttachmentDemoCompo
 import { SkySingleFileAttachmentDemoModule as BasicSkySingleFileAttachmentDemoModule } from '../code-examples/forms/single-file-attachment/basic/single-file-attachment-demo.module';
 import { SingleFileAttachmentDemoComponent as InlineHelpSingleFileAttachmentDemoComponent } from '../code-examples/forms/single-file-attachment/inline-help/single-file-attachment-demo.component';
 import { SkySingleFileAttachmentDemoModule as InlineHelpSkySingleFileAttachmentDemoModule } from '../code-examples/forms/single-file-attachment/inline-help/single-file-attachment-demo.module';
+import { ToggleSwitchDemoComponent as BasicToggleSwitchComponent } from '../code-examples/forms/toggle-switch/basic/toggle-switch-demo.component';
+import { SkyToggleSwitchDemoModule as BasicToggleSwitchModule } from '../code-examples/forms/toggle-switch/basic/toggle-switch-demo.module';
 import { ToggleSwitchDemoComponent as InlineHelpToggleSwitchComponent } from '../code-examples/forms/toggle-switch/inline-help/toggle-switch-demo.component';
 import { SkyToggleSwitchDemoModule as InlineHelpToggleSwitchModule } from '../code-examples/forms/toggle-switch/inline-help/toggle-switch-demo.module';
 
@@ -46,6 +48,10 @@ const routes: Routes = [
   {
     path: 'single-file-attachment/inline-help',
     component: InlineHelpSingleFileAttachmentDemoComponent,
+  },
+  {
+    path: 'toggle-switch/basic',
+    component: BasicToggleSwitchComponent,
   },
   {
     path: 'toggle-switch/inline-help',
@@ -91,6 +97,7 @@ export class FormsRoutingModule {}
     BasicSkySingleFileAttachmentDemoModule,
     InlineHelpSkySingleFileAttachmentDemoModule,
     InlineHelpRadioDemoModule,
+    BasicToggleSwitchModule,
     InlineHelpToggleSwitchModule,
     InputBoxBasicDemoModule,
     InputBoxInlineHelpDemoModule,
