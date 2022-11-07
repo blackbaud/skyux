@@ -21,10 +21,54 @@
 <div class="sky-padding-even-large">
   <sky-toggle-switch [disabled]="true">
     <sky-toggle-switch-label>Disabled switch</sky-toggle-switch-label>
+    <sky-help-inline
+      *ngIf="showInlineHelp"
+      class="sky-control-help"
+    ></sky-help-inline>
   </sky-toggle-switch>
 </div>
 <div class="sky-padding-even-large">
   <sky-toggle-switch [checked]="true" [disabled]="true">
     <sky-toggle-switch-label>Disabled switch checked</sky-toggle-switch-label>
+    <sky-help-inline
+      *ngIf="showInlineHelp"
+      class="sky-control-help"
+    ></sky-help-inline>
+  </sky-toggle-switch>
+</div>
+
+<div class="sky-padding-even-large">
+  <sky-toggle-switch
+    class="sky-margin-inline-lg"
+    ariaLabel="Toggle switch without visible label"
+  >
+    <sky-help-inline
+      *ngIf="showInlineHelp"
+      class="sky-control-help"
+    ></sky-help-inline>
+  </sky-toggle-switch>
+  <span>Text after switch</span>
+</div>
+<div class="sky-padding-even-large">
+  <sky-toggle-switch
+    [disabled]="true"
+    ariaLabel="Disabled switch without visible label"
+  >
+    <sky-help-inline
+      *ngIf="showInlineHelp"
+      class="sky-control-help"
+    ></sky-help-inline>
+  </sky-toggle-switch>
+</div>
+<div class="sky-padding-even-large">
+  <sky-toggle-switch
+    [checked]="true"
+    [disabled]="true"
+    ariaLabel="Disabled switch checked without visible label"
+  >
+    <sky-help-inline
+      *ngIf="showInlineHelp"
+      class="sky-control-help"
+    ></sky-help-inline>
   </sky-toggle-switch>
 </div>

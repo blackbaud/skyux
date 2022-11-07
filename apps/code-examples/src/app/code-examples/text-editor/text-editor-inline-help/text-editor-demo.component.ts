@@ -21,4 +21,8 @@ export class TextEditorDemoComponent implements OnInit {
       myText: new UntypedFormControl(this.richText),
     });
   }
+
+  public onActionClick(): void {
+    alert('Help inline button clicked!');
+  }
 }

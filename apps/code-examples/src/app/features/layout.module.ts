@@ -11,8 +11,14 @@ import { BoxDemoComponent } from '../code-examples/layout/box/basic/box-demo.com
 import { BoxDemoModule } from '../code-examples/layout/box/basic/box-demo.module';
 import { BoxDemoComponent as InlineHelpBoxDemoComponent } from '../code-examples/layout/box/inline-help/box-demo.component';
 import { BoxDemoModule as InlineHelpBoxDemoModule } from '../code-examples/layout/box/inline-help/box-demo.module';
-import { DescriptionListDemoComponent } from '../code-examples/layout/description-list/horizontal/description-list-demo.component';
-import { DescriptionListDemoModule } from '../code-examples/layout/description-list/horizontal/description-list-demo.module';
+import { DescriptionListDemoComponent as DescriptionListHorizontalDemoComponent } from '../code-examples/layout/description-list/horizontal/description-list-demo.component';
+import { DescriptionListDemoModule as DescriptionListHorizontalDemoModule } from '../code-examples/layout/description-list/horizontal/description-list-demo.module';
+import { DescriptionListDemoComponent as DescriptionListInlineHelpDemoComponent } from '../code-examples/layout/description-list/inline-help/description-list-demo.component';
+import { DescriptionListDemoModule as DescriptionListInlineHelpDemoModule } from '../code-examples/layout/description-list/inline-help/description-list-demo.module';
+import { DescriptionListDemoComponent as DescriptionListLongDescriptionDemoComponent } from '../code-examples/layout/description-list/long-description/description-list-demo.component';
+import { DescriptionListDemoModule as DescriptionListLongDescriptionDemoModule } from '../code-examples/layout/description-list/long-description/description-list-demo.module';
+import { DescriptionListDemoComponent as DescriptionListVerticalDemoComponent } from '../code-examples/layout/description-list/vertical/description-list-demo.component';
+import { DescriptionListDemoModule as DescriptionListVerticalDemoModule } from '../code-examples/layout/description-list/vertical/description-list-demo.module';
 import { FormatDemoComponent } from '../code-examples/layout/format/format-demo.component';
 import { FormatDemoModule } from '../code-examples/layout/format/format-demo.module';
 import { PageDemoComponent } from '../code-examples/layout/page/layout-fit/page-demo.component';
@@ -39,7 +45,19 @@ const routes: Routes = [
   },
   {
     path: 'description-list',
-    component: DescriptionListDemoComponent,
+    component: DescriptionListHorizontalDemoComponent,
+  },
+  {
+    path: 'description-list/long-description',
+    component: DescriptionListLongDescriptionDemoComponent,
+  },
+  {
+    path: 'description-list/vertical',
+    component: DescriptionListVerticalDemoComponent,
+  },
+  {
+    path: 'description-list/inline-help',
+    component: DescriptionListInlineHelpDemoComponent,
   },
   {
     path: 'format',
@@ -72,7 +90,10 @@ export class LayoutRoutingModule {}
     BackToTopRepeaterDemoModule,
     BoxDemoModule,
     InlineHelpBoxDemoModule,
-    DescriptionListDemoModule,
+    DescriptionListHorizontalDemoModule,
+    DescriptionListLongDescriptionDemoModule,
+    DescriptionListVerticalDemoModule,
+    DescriptionListInlineHelpDemoModule,
     FormatDemoModule,
     LayoutRoutingModule,
     PageDemoModule,

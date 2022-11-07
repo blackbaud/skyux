@@ -20,7 +20,7 @@ export class SkyLinkListComponent {
   }
 
   @Input()
-  public title: string;
+  public title: string | undefined;
 
   public linksArray: SkyPageLink[] = [];
 

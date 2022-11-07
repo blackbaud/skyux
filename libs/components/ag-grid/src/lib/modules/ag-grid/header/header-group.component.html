@@ -1,0 +1,37 @@
+<span class="header-group-text" role="presentation">{{
+  params?.displayName
+}}</span>
+<button
+  *ngIf="isExpanded$ | async; else openIcons"
+  class="sky-btn sky-btn-icon-borderless"
+  (click)="setExpanded(false)"
+  [attr.aria-label]="
+    'sky_ag_grid_column_group_header_collapse_aria_label'
+      | skyLibResources: params?.displayName
+  "
+>
+  <sky-icon *skyThemeIf="'default'" icon="angle-double-left"></sky-icon>
+  <sky-icon
+    *skyThemeIf="'modern'"
+    icon="double-chevron-left"
+    iconType="skyux"
+  ></sky-icon>
+</button>
+<ng-template #openIcons>
+  <button
+    class="sky-btn sky-btn-icon-borderless"
+    (click)="setExpanded(true)"
+    [attr.aria-label]="
+      'sky_ag_grid_column_group_header_expand_aria_label'
+        | skyLibResources: params?.displayName
+    "
+  >
+    <sky-icon *skyThemeIf="'default'" icon="angle-double-right"></sky-icon>
+    <sky-icon
+      *skyThemeIf="'modern'"
+      icon="double-chevron-right"
+      iconType="skyux"
+    ></sky-icon>
+  </button>
+</ng-template>
+<span class="sky-control-help-container" #inlineHelpContainer></span>

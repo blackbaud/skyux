@@ -1,0 +1,31 @@
+<sky-modal>
+  <sky-modal-header> Edit employee information </sky-modal-header>
+  <sky-modal-content>
+    <div id="docs-edit-grid-modal-content">
+      <sky-ag-grid-wrapper>
+        <ag-grid-angular
+          class="sky-ag-grid-editable"
+          [gridOptions]="gridOptions"
+          [rowData]="gridData"
+        >
+        </ag-grid-angular>
+      </sky-ag-grid-wrapper>
+    </div>
+  </sky-modal-content>
+  <sky-modal-footer>
+    <button
+      class="sky-btn sky-btn-primary"
+      type="button"
+      (click)="instance.save(gridData)"
+    >
+      Save
+    </button>
+    <button
+      class="sky-btn sky-btn-link"
+      type="button"
+      (click)="instance.cancel()"
+    >
+      Cancel
+    </button>
+  </sky-modal-footer>
+</sky-modal>

@@ -35,6 +35,7 @@ import {
   EditableGridOption,
   EditableGridRow,
 } from './edit-complex-cells-data';
+import { InlineHelpComponent } from './inline-help/inline-help.component';
 
 @Component({
   selector: 'app-edit-complex-cells-visual',
@@ -92,6 +93,9 @@ export class EditComplexCellsComponent implements OnInit {
         minWidth: 220,
         editable: this.editMode,
         type: SkyCellType.Text,
+        headerComponentParams: {
+          inlineHelpComponent: InlineHelpComponent,
+        },
       },
       {
         colId: 'language',
@@ -103,6 +107,9 @@ export class EditComplexCellsComponent implements OnInit {
           values: ['English', 'Spanish', 'French', 'Portuguese', '(other)'],
         },
         editable: this.editMode,
+        headerComponentParams: {
+          inlineHelpComponent: InlineHelpComponent,
+        },
       },
       {
         colId: 'validationAutocomplete',
@@ -122,6 +129,8 @@ export class EditComplexCellsComponent implements OnInit {
             validatorMessage: 'Please choose an odd number option',
           },
         },
+        sortable: true,
+        filter: true,
       },
       {
         colId: 'validationCurrency',
@@ -130,6 +139,7 @@ export class EditComplexCellsComponent implements OnInit {
         maxWidth: 235,
         editable: this.editMode,
         type: [SkyCellType.CurrencyValidator],
+        sortable: true,
       },
       {
         colId: 'validationDate',
@@ -145,6 +155,7 @@ export class EditComplexCellsComponent implements OnInit {
             validatorMessage: 'Please enter a future date',
           },
         },
+        sortable: true,
       },
       {
         colId: 'lookupSingle',

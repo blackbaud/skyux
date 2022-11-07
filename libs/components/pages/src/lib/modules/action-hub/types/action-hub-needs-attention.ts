@@ -20,6 +20,7 @@ export interface SkyActionHubNeedsAttention {
    */
   permalink?: {
     route?: {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       commands: any[];
       extras?: NavigationExtras;
     };

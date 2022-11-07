@@ -24,5 +24,8 @@
 
 <sky-status-indicator descriptionType="error" indicatorType="danger">
   Status indicator with help
-  <sky-help-inline class="sky-control-help"></sky-help-inline>
+  <sky-help-inline
+    class="sky-control-help"
+    (actionClick)="onActionClick()"
+  ></sky-help-inline>
 </sky-status-indicator>
