@@ -136,13 +136,6 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'select-field',
-    loadChildren: () =>
-      import('./features/select-field.module').then(
-        (m) => m.SelectFieldFeatureModule
-      ),
-  },
-  {
     path: 'split-view',
     loadChildren: () =>
       import('./features/split-view.module').then((m) => m.SplitViewModule),
