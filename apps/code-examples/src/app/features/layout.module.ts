@@ -19,14 +19,14 @@ import { CardDemoComponent } from '../code-examples/layout/card/basic/card-demo.
 import { CardDemoModule } from '../code-examples/layout/card/basic/card-demo.module';
 import { DefinitionListDemoComponent } from '../code-examples/layout/definition-list/basic/definition-list-demo.component';
 import { DefinitionListDemoModule } from '../code-examples/layout/definition-list/basic/definition-list-demo.module';
-import { DescriptionListDemoComponent } from '../code-examples/layout/description-list/horizontal/description-list-demo.component';
-import { DescriptionListDemoModule } from '../code-examples/layout/description-list/horizontal/description-list-demo.module';
+import { DescriptionListDemoComponent as DescriptionListHorizontalDemoComponent } from '../code-examples/layout/description-list/horizontal/description-list-demo.component';
+import { DescriptionListDemoModule as DescriptionListHorizontalDemoModule } from '../code-examples/layout/description-list/horizontal/description-list-demo.module';
 import { DescriptionListDemoComponent as DescriptionListInlineHelpDemoComponent } from '../code-examples/layout/description-list/inline-help/description-list-demo.component';
 import { DescriptionListDemoModule as DescriptionListInlineHelpDemoModule } from '../code-examples/layout/description-list/inline-help/description-list-demo.module';
-import { DescriptionListDemoComponent as DescriptionListLongDescriptionComponent } from '../code-examples/layout/description-list/long-description/description-list-demo.component';
-import { DescriptionListDemoModule as DescriptionListLongDescriptionModule } from '../code-examples/layout/description-list/long-description/description-list-demo.module';
-import { DescriptionListDemoComponent as DescriptionListVerticalComponent } from '../code-examples/layout/description-list/vertical/description-list-demo.component';
-import { DescriptionListDemoModule as DescriptionListVerticalModule } from '../code-examples/layout/description-list/vertical/description-list-demo.module';
+import { DescriptionListDemoComponent as DescriptionListLongDescriptionDemoComponent } from '../code-examples/layout/description-list/long-description/description-list-demo.component';
+import { DescriptionListDemoModule as DescriptionListLongDescriptionDemoModule } from '../code-examples/layout/description-list/long-description/description-list-demo.module';
+import { DescriptionListDemoComponent as DescriptionListVerticalDemoComponent } from '../code-examples/layout/description-list/vertical/description-list-demo.component';
+import { DescriptionListDemoModule as DescriptionListVerticalDemoModule } from '../code-examples/layout/description-list/vertical/description-list-demo.module';
 import { FluidGridDemoComponent } from '../code-examples/layout/fluid-grid/fluid-grid-demo.component';
 import { FluidGridDemoModule } from '../code-examples/layout/fluid-grid/fluid-grid-demo.module';
 import { FormatDemoComponent } from '../code-examples/layout/format/format-demo.component';
@@ -85,7 +85,7 @@ const routes: Routes = [
   },
   {
     path: 'description-list/horizontal',
-    component: DescriptionListDemoComponent,
+    component: DescriptionListHorizontalDemoComponent,
   },
   {
     path: 'description-list/inline-help',
@@ -93,11 +93,11 @@ const routes: Routes = [
   },
   {
     path: 'description-list/vertical',
-    component: DescriptionListVerticalComponent,
+    component: DescriptionListVerticalDemoComponent,
   },
   {
     path: 'description-list/long-description',
-    component: DescriptionListLongDescriptionComponent,
+    component: DescriptionListLongDescriptionDemoComponent,
   },
   {
     path: 'fluid-grid',
@@ -163,7 +163,7 @@ export class LayoutRoutingModule {}
     BoxDemoModule,
     InlineHelpBoxDemoModule,
     DescriptionListInlineHelpDemoModule,
-    DescriptionListDemoModule,
+    DescriptionListHorizontalDemoModule,
     FormatDemoModule,
     LayoutRoutingModule,
     PageDemoModule,
@@ -173,8 +173,8 @@ export class LayoutRoutingModule {}
     ActionButtonPermalinkModule,
     CardDemoModule,
     DefinitionListDemoModule,
-    DescriptionListVerticalModule,
-    DescriptionListLongDescriptionModule,
+    DescriptionListVerticalDemoModule,
+    DescriptionListLongDescriptionDemoModule,
     FluidGridDemoModule,
     InlineDeleteDemoModule,
     InlineDeleteRepeaterDemoModule,
