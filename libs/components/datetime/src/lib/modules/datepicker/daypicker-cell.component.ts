@@ -33,7 +33,7 @@ export class SkyDayPickerCellComponent implements OnInit, OnDestroy {
    * Specifies the date this picker cell will represent on the calendar.
    */
   @Input()
-  public date!: SkyDatepickerDate;
+  public date: SkyDatepickerDate | undefined;
 
   public hasTooltip = false;
 
@@ -59,12 +59,13 @@ export class SkyDayPickerCellComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.hasTooltip =
-      !!this.date &&
-      !!this.date.keyDate &&
-      !!this.date.keyDateText &&
+    this.hasTooltip = !!(
+      this.date &&
+      this.date.keyDate &&
+      this.date.keyDateText &&
       this.date.keyDateText.length > 0 &&
-      this.date.keyDateText[0].length > 0;
+      this.date.keyDateText[0].length > 0
+    );
 
     // show the tooltip if this is the active date and is not the
     // initial active date (activeDateHasChanged)

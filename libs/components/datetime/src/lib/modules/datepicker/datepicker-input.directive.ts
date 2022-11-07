@@ -229,7 +229,7 @@ export class SkyDatepickerInputDirective
   #localeProvider: SkyAppLocaleProvider;
   #renderer: Renderer2;
   #resourcesService: SkyLibResourcesService;
-  #datepickerComponent!: SkyDatepickerComponent;
+  #datepickerComponent: SkyDatepickerComponent;
 
   constructor(
     adapter: SkyDatepickerAdapterService,
@@ -239,8 +239,14 @@ export class SkyDatepickerInputDirective
     localeProvider: SkyAppLocaleProvider,
     renderer: Renderer2,
     resourcesService: SkyLibResourcesService,
-    @Optional() datepickerComponent: SkyDatepickerComponent
+    @Optional() datepickerComponent?: SkyDatepickerComponent
   ) {
+    if (!datepickerComponent) {
+      throw new Error(
+        'You must wrap the `skyDatepickerInput` directive within a ' +
+          '`<sky-datepicker>` component!'
+      );
+    }
     this.#adapter = adapter;
     this.#changeDetector = changeDetector;
     this.#configService = configService;
@@ -264,13 +270,6 @@ export class SkyDatepickerInputDirective
   }
 
   public ngOnInit(): void {
-    if (!this.#datepickerComponent) {
-      throw new Error(
-        'You must wrap the `skyDatepickerInput` directive within a ' +
-          '`<sky-datepicker>` component!'
-      );
-    }
-
     const element = this.#elementRef.nativeElement;
 
     this.#renderer.addClass(element, 'sky-form-control');

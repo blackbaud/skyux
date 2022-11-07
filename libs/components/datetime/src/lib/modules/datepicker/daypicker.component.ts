@@ -42,9 +42,9 @@ export class SkyDayPickerComponent implements OnDestroy, OnInit {
   }
 
   @Output()
-  public calendarDateRangeChange: EventEmitter<
+  public calendarDateRangeChange = new EventEmitter<
     SkyDatepickerCalendarChange | undefined
-  > = new EventEmitter<SkyDatepickerCalendarChange | undefined>();
+  >();
 
   @Input()
   public isWaiting: boolean | undefined = false;
@@ -266,20 +266,20 @@ export class SkyDayPickerComponent implements OnDestroy, OnInit {
   }
 
   #dateRangeRowsAreEqual(
-    rangeA: SkyDateRange | undefined,
-    rangeB: SkyDateRange | undefined
+    rangeA?: SkyDateRange,
+    rangeB?: SkyDateRange
   ): boolean | undefined {
     /* istanbul ignore if */
     if (!rangeA && !rangeB) {
       return true;
-    } else if ((rangeA && !rangeB) || (!rangeA && rangeB)) {
+    } else if (rangeA && rangeB) {
+      return (
+        this.#compareDays(rangeA.startDate, rangeB.startDate) === 0 &&
+        this.#compareDays(rangeA.endDate, rangeB.endDate) === 0
+      );
+    } else {
       return false;
     }
-
-    return (
-      this.#compareDays(rangeA!.startDate, rangeB!.startDate) === 0 &&
-      this.#compareDays(rangeA!.endDate, rangeB!.endDate) === 0
-    );
   }
 
   #getDateRange(

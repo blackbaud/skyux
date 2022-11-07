@@ -260,7 +260,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.setFormat(this.timeFormat);
-    this.addKeydownListner();
+    this.addKeydownListener();
 
     if (this.inputBoxHostService) {
       this.inputBoxHostService.populate({
@@ -424,7 +424,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.addKeydownListner();
+    this.addKeydownListener();
 
     overlay.attachTemplate(this.timepickerTemplateRef);
 
@@ -439,7 +439,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
     }
   }
 
-  private addKeydownListner(): void {
+  private addKeydownListener(): void {
     this.overlayKeydownListner = fromEvent(window.document, 'keydown')
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((event: KeyboardEvent) => {

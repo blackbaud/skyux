@@ -33,11 +33,12 @@ interface SkyFuzzyDateRange {
   providedIn: 'root',
 })
 export class SkyFuzzyDateService implements OnDestroy {
-  #currentLocale = 'en-US';
+  #currentLocale: string;
 
   #ngUnsubscribe = new Subject<void>();
 
   constructor(localeProvider: SkyAppLocaleProvider) {
+    this.#currentLocale = localeProvider.defaultLocale;
     localeProvider
       .getLocaleInfo()
       .pipe(takeUntil(this.#ngUnsubscribe))

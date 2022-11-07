@@ -31,18 +31,16 @@ export class DatepickerComponent {
   public strict = false;
 
   constructor(formBuilder: UntypedFormBuilder) {
+    this.reactiveDate = new UntypedFormControl(
+      new Date(1955, 10, 5),
+      Validators.required
+    );
     this.reactiveForm = formBuilder.group({
-      selectedDate: new UntypedFormControl(
-        new Date(1955, 10, 5),
-        Validators.required
-      ),
+      selectedDate: this.reactiveDate,
     });
   }
 
-  public get reactiveDate(): AbstractControl {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return this.reactiveForm.get('selectedDate')!;
-  }
+  public reactiveDate: AbstractControl;
 
   public ngOnInit(): void {
     this.reactiveDate.statusChanges

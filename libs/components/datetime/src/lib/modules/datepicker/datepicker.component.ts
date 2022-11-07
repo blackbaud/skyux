@@ -244,9 +244,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
     }
   }
 
-  public onCalendarDateRangeChange(
-    event: SkyDatepickerCalendarChange | undefined
-  ): void {
+  public onCalendarDateRangeChange(event?: SkyDatepickerCalendarChange): void {
     /* istanbul ignore else */
     if (event) {
       this.#cancelCustomDatesSubscription();
@@ -354,7 +352,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
           }
         });
 
-      this.#addKeydownListner();
+      this.#addKeydownListener();
 
       overlay.attachTemplate(this.calendarTemplateRef);
 
@@ -370,11 +368,14 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
     }
   }
 
-  #addKeydownListner(): void {
-    this.#overlayKeydownListner = fromEvent(window.document, 'keydown')
+  #addKeydownListener(): void {
+    this.#overlayKeydownListner = fromEvent<KeyboardEvent>(
+      window.document,
+      'keydown'
+    )
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((event) => {
-        const key = (event as KeyboardEvent).key?.toLowerCase();
+        const key = event.key?.toLowerCase();
         if (key === 'escape' && this.isOpen) {
           this.#closePicker();
         }

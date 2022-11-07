@@ -42,7 +42,7 @@ export class SkyDatepickerCalendarComponent {
   /** starting day of the week from 0-6 (0=Sunday, ..., 6=Saturday) */
   @Input()
   public set startingDay(start: number | undefined) {
-    this.#_startingDay = start || 0;
+    this.#_startingDay = start ?? 0;
   }
 
   public get startingDay(): number {
@@ -50,17 +50,15 @@ export class SkyDatepickerCalendarComponent {
   }
 
   @Output()
-  public calendarDateRangeChange: EventEmitter<
+  public calendarDateRangeChange = new EventEmitter<
     SkyDatepickerCalendarChange | undefined
-  > = new EventEmitter<SkyDatepickerCalendarChange | undefined>();
+  >();
 
   @Output()
-  public calendarModeChange: EventEmitter<string> = new EventEmitter<string>();
+  public calendarModeChange = new EventEmitter<string>();
 
   @Output()
-  public selectedDateChange: EventEmitter<Date> = new EventEmitter<Date>(
-    undefined
-  );
+  public selectedDateChange = new EventEmitter<Date>(undefined);
 
   @ViewChild(SkyDatepickerCalendarInnerComponent, {
     read: SkyDatepickerCalendarInnerComponent,

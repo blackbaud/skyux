@@ -53,9 +53,9 @@ export class SkyDatepickerCalendarInnerComponent
 
   @Input()
   public set selectedDate(value: Date | undefined) {
-    if (this.dateFormatter.dateIsValid(value)) {
+    if (value && this.dateFormatter.dateIsValid(value)) {
       this.#_selectedDate = value;
-      this.activeDate = value!;
+      this.activeDate = value;
     }
   }
 
@@ -157,8 +157,10 @@ export class SkyDatepickerCalendarInnerComponent
     }
   }
 
-  public compare(date1: Date, date2: Date): undefined | number {
-    /* istanbul ignore if */
+  public compare(
+    date1: Date | undefined,
+    date2: Date | undefined
+  ): number | undefined {
     if (date1 === undefined || date2 === undefined) {
       return undefined;
     }
@@ -419,12 +421,16 @@ export class SkyDatepickerCalendarInnerComponent
    */
   protected isDisabled(date: Date): boolean {
     const customDate = this.#getCustomDate(date);
+    const minDateCompare = this.compare(date, this.minDate);
+    const maxDateCompare = this.compare(date, this.maxDate);
+
     return (
-      (!!this.minDate && date && this.compare(date, this.minDate)! < 0) ||
-      (!!this.maxDate && date && this.compare(date, this.maxDate)! > 0) ||
-      (!!customDate && !!customDate.disabled)
+      (minDateCompare !== undefined && minDateCompare < 0) ||
+      (maxDateCompare !== undefined && maxDateCompare > 0) ||
+      !!customDate?.disabled
     );
   }
+
   #getCustomDate(date: Date): SkyDatepickerCustomDate | undefined {
     if (this.customDates) {
       return this.customDates.find((customDate: SkyDatepickerCustomDate) => {

@@ -113,11 +113,11 @@ describe('daypicker cell', () => {
   });
 
   describe('showTooltip on Init', () => {
-    let controlerSpy: jasmine.Spy;
+    let controllerSpy: jasmine.Spy;
     let activeDateSpy: jasmine.Spy;
 
     beforeEach(() => {
-      controlerSpy = spyOn(
+      controllerSpy = spyOn(
         component.popoverController,
         'next'
       ).and.callThrough();
@@ -133,7 +133,7 @@ describe('daypicker cell', () => {
       fixture.detectChanges();
       tick(500);
 
-      expect(controlerSpy).not.toHaveBeenCalled();
+      expect(controllerSpy).not.toHaveBeenCalled();
     }));
 
     it('should not show tooltip when no tooltip', fakeAsync(() => {
@@ -141,7 +141,7 @@ describe('daypicker cell', () => {
       fixture.detectChanges();
       tick(500);
 
-      expect(controlerSpy).not.toHaveBeenCalled();
+      expect(controllerSpy).not.toHaveBeenCalled();
     }));
 
     it('should not show tooltip when active date has not changed', fakeAsync(() => {
@@ -149,22 +149,22 @@ describe('daypicker cell', () => {
       fixture.detectChanges();
       tick(500);
 
-      expect(controlerSpy).not.toHaveBeenCalled();
+      expect(controllerSpy).not.toHaveBeenCalled();
     }));
 
     it('should show tooltip', fakeAsync(() => {
       fixture.detectChanges();
       tick(500);
 
-      expect(controlerSpy).toHaveBeenCalled();
+      expect(controllerSpy).toHaveBeenCalled();
     }));
   });
 
   describe('datepickerService keyDatePopoverStream', () => {
-    let controlerSpy: jasmine.Spy;
+    let controllerSpy: jasmine.Spy;
 
     beforeEach(() => {
-      controlerSpy = spyOn(
+      controllerSpy = spyOn(
         component.popoverController,
         'next'
       ).and.callThrough();
@@ -178,7 +178,7 @@ describe('daypicker cell', () => {
       fixture.detectChanges();
       datepickerService.keyDatePopoverStream.next(undefined);
 
-      expect(controlerSpy).toHaveBeenCalledWith({
+      expect(controllerSpy).toHaveBeenCalledWith({
         type: SkyPopoverMessageType.Close,
       });
     }));
@@ -197,7 +197,7 @@ describe('daypicker cell', () => {
         uid: '2',
       });
 
-      expect(controlerSpy).toHaveBeenCalledWith({
+      expect(controllerSpy).toHaveBeenCalledWith({
         type: SkyPopoverMessageType.Close,
       });
     }));
@@ -206,19 +206,19 @@ describe('daypicker cell', () => {
       SkyAppTestUtility.fireDomEvent(getDaypickerCell(fixture), 'mouseenter');
       tick(500);
       fixture.detectChanges();
-      controlerSpy.calls.reset();
+      controllerSpy.calls.reset();
       datepickerService.keyDatePopoverStream.next(component.date);
 
-      expect(controlerSpy).not.toHaveBeenCalled();
+      expect(controllerSpy).not.toHaveBeenCalled();
     }));
   });
 
   describe('onDayMouseenter', () => {
-    let controlerSpy: jasmine.Spy;
+    let controllerSpy: jasmine.Spy;
     let nextDateSpy: jasmine.Spy;
 
     beforeEach(() => {
-      controlerSpy = spyOn(
+      controllerSpy = spyOn(
         component.popoverController,
         'next'
       ).and.callThrough();
@@ -238,7 +238,7 @@ describe('daypicker cell', () => {
       tick(500);
 
       expect(component.hasTooltip).toBeFalsy();
-      expect(controlerSpy).not.toHaveBeenCalled();
+      expect(controllerSpy).not.toHaveBeenCalled();
       expect(nextDateSpy).not.toHaveBeenCalled();
     }));
 
@@ -250,7 +250,7 @@ describe('daypicker cell', () => {
       tick(500);
 
       expect(component.hasTooltip).toBeTruthy();
-      expect(controlerSpy).toHaveBeenCalledWith({
+      expect(controllerSpy).toHaveBeenCalledWith({
         type: SkyPopoverMessageType.Open,
       });
       expect(nextDateSpy).toHaveBeenCalledWith(component.date);
@@ -258,11 +258,11 @@ describe('daypicker cell', () => {
   });
 
   describe('onDayMouseleave', () => {
-    let controlerSpy: jasmine.Spy;
+    let controllerSpy: jasmine.Spy;
     let nextDateSpy: jasmine.Spy;
 
     beforeEach(() => {
-      controlerSpy = spyOn(
+      controllerSpy = spyOn(
         component.popoverController,
         'next'
       ).and.callThrough();
@@ -282,7 +282,7 @@ describe('daypicker cell', () => {
       tick(500);
 
       expect(component.hasTooltip).toBeFalsy();
-      expect(controlerSpy).not.toHaveBeenCalled();
+      expect(controllerSpy).not.toHaveBeenCalled();
       expect(nextDateSpy).toHaveBeenCalledWith(undefined);
     }));
 
@@ -295,7 +295,7 @@ describe('daypicker cell', () => {
       component.onDayMouseleave();
 
       expect(component.hasTooltip).toBeTruthy();
-      expect(controlerSpy).toHaveBeenCalledWith({
+      expect(controllerSpy).toHaveBeenCalledWith({
         type: SkyPopoverMessageType.Close,
       });
       expect(nextDateSpy).toHaveBeenCalledWith(undefined);
@@ -303,10 +303,10 @@ describe('daypicker cell', () => {
   });
 
   describe('onPopoverOpen', () => {
-    let controlerSpy: jasmine.Spy;
+    let controllerSpy: jasmine.Spy;
 
     beforeEach(() => {
-      controlerSpy = spyOn(
+      controllerSpy = spyOn(
         component.popoverController,
         'next'
       ).and.callThrough();
@@ -318,7 +318,7 @@ describe('daypicker cell', () => {
 
       component.onPopoverOpened();
 
-      expect(controlerSpy).toHaveBeenCalledWith({
+      expect(controllerSpy).toHaveBeenCalledWith({
         type: SkyPopoverMessageType.Close,
       });
     });
@@ -347,10 +347,10 @@ describe('daypicker cell', () => {
   });
 
   describe('hideTooltip', () => {
-    let controlerSpy: jasmine.Spy;
+    let controllerSpy: jasmine.Spy;
 
     beforeEach(() => {
-      controlerSpy = spyOn(
+      controllerSpy = spyOn(
         component.popoverController,
         'next'
       ).and.callThrough();
@@ -364,7 +364,7 @@ describe('daypicker cell', () => {
 
       SkyAppTestUtility.fireDomEvent(getDaypickerCell(fixture), 'mouseleave');
 
-      expect(controlerSpy).toHaveBeenCalledWith({
+      expect(controllerSpy).toHaveBeenCalledWith({
         type: SkyPopoverMessageType.Close,
       });
     }));
@@ -373,15 +373,15 @@ describe('daypicker cell', () => {
       fixture.detectChanges();
       SkyAppTestUtility.fireDomEvent(getDaypickerCell(fixture), 'mouseleave');
 
-      expect(controlerSpy).not.toHaveBeenCalled();
+      expect(controllerSpy).not.toHaveBeenCalled();
     });
   });
 
   describe('showTooltip', () => {
-    let controlerSpy: jasmine.Spy;
+    let controllerSpy: jasmine.Spy;
 
     beforeEach(() => {
-      controlerSpy = spyOn(
+      controllerSpy = spyOn(
         component.popoverController,
         'next'
       ).and.callThrough();
@@ -395,7 +395,7 @@ describe('daypicker cell', () => {
       tick(500);
       fixture.detectChanges();
 
-      expect(controlerSpy).not.toHaveBeenCalled();
+      expect(controllerSpy).not.toHaveBeenCalled();
     }));
 
     it('should not open the tool tip if already open', fakeAsync(() => {
@@ -410,7 +410,7 @@ describe('daypicker cell', () => {
       tick(500);
       fixture.detectChanges();
 
-      expect(controlerSpy).toHaveBeenCalledTimes(1);
+      expect(controllerSpy).toHaveBeenCalledTimes(1);
     }));
 
     it('should not open the tool tip if cancelled', async () => {
@@ -424,7 +424,7 @@ describe('daypicker cell', () => {
       fixture.detectChanges();
 
       await fixture.whenStable();
-      expect(controlerSpy).not.toHaveBeenCalled();
+      expect(controllerSpy).not.toHaveBeenCalled();
     });
 
     it('should not open the tool tip if activeUid differs', fakeAsync(() => {
@@ -439,7 +439,7 @@ describe('daypicker cell', () => {
       tick(500);
       fixture.detectChanges();
 
-      expect(controlerSpy).not.toHaveBeenCalled();
+      expect(controllerSpy).not.toHaveBeenCalled();
     }));
 
     it('should open the tool tip', fakeAsync(() => {
@@ -451,7 +451,7 @@ describe('daypicker cell', () => {
       tick(500);
       fixture.detectChanges();
 
-      expect(controlerSpy).toHaveBeenCalledWith({
+      expect(controllerSpy).toHaveBeenCalledWith({
         type: SkyPopoverMessageType.Open,
       });
     }));

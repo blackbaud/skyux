@@ -43,8 +43,8 @@ export class SkyDateFormatter {
   }
 
   public dateIsValid(date: Date | undefined): boolean {
-    return (
-      !!date &&
+    return !!(
+      date &&
       date instanceof Date &&
       !isNaN(date.valueOf()) &&
       !isNaN(new Date(date).getDate())

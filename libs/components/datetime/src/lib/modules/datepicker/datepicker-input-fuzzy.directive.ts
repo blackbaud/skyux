@@ -209,7 +209,7 @@ export class SkyFuzzyDatepickerInputDirective
 
   #dateFormatter = new SkyDateFormatter();
 
-  #locale = 'en-US';
+  #locale: string;
 
   #preferredShortDateFormat: string | undefined;
 
@@ -235,11 +235,9 @@ export class SkyFuzzyDatepickerInputDirective
   #configService: SkyDatepickerConfigService;
   #elementRef: ElementRef;
   #fuzzyDateService: SkyFuzzyDateService;
-  #localeProvider: SkyAppLocaleProvider;
   #renderer: Renderer2;
   #resourcesService: SkyLibResourcesService;
-  // NOTE: Though it is marked as `@Optional` we throw a custom error in `ngOnInit` if this value is not injected.
-  #datepickerComponent!: SkyDatepickerComponent;
+  #datepickerComponent: SkyDatepickerComponent;
 
   constructor(
     changeDetector: ChangeDetectorRef,
@@ -249,18 +247,25 @@ export class SkyFuzzyDatepickerInputDirective
     localeProvider: SkyAppLocaleProvider,
     renderer: Renderer2,
     resourcesService: SkyLibResourcesService,
-    @Optional() datepickerComponent: SkyDatepickerComponent
+    @Optional() datepickerComponent?: SkyDatepickerComponent
   ) {
+    if (!datepickerComponent) {
+      throw new Error(
+        'You must wrap the `skyFuzzyDatepickerInput` directive within a ' +
+          '`<sky-datepicker>` component!'
+      );
+    }
+
     this.#changeDetector = changeDetector;
     this.#configService = configService;
     this.#elementRef = elementRef;
     this.#fuzzyDateService = fuzzyDateService;
-    this.#localeProvider = localeProvider;
     this.#renderer = renderer;
     this.#resourcesService = resourcesService;
     this.#datepickerComponent = datepickerComponent;
 
-    this.#localeProvider
+    this.#locale = localeProvider.defaultLocale;
+    localeProvider
       .getLocaleInfo()
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((localeInfo) => {
@@ -278,13 +283,6 @@ export class SkyFuzzyDatepickerInputDirective
           'You have configured conflicting settings. Year is required and dateFormat does not include year.'
         );
       }
-    }
-
-    if (!this.#datepickerComponent) {
-      throw new Error(
-        'You must wrap the `skyFuzzyDatepickerInput` directive within a ' +
-          '`<sky-datepicker>` component!'
-      );
     }
 
     const element = this.#elementRef.nativeElement;
@@ -527,8 +525,8 @@ export class SkyFuzzyDatepickerInputDirective
   /* istanbul ignore next */
   #fuzzyDatesEqual(dateA?: SkyFuzzyDate, dateB?: SkyFuzzyDate): boolean {
     return (
-      !!dateA &&
-      !!dateB &&
+      dateA !== undefined &&
+      dateB !== undefined &&
       ((!dateA.day && !dateB.day) || dateA.day === dateB.day) &&
       ((!dateA.month && !dateB.month) || dateA.month === dateB.month) &&
       ((!dateA.year && !dateB.year) || dateA.year === dateB.year)
@@ -551,7 +549,10 @@ export class SkyFuzzyDatepickerInputDirective
    * In these cases we do not want to fire `onChange` as it will cause extra `valueChange` and `statusChange` events and the status of the form should not be affected by these changes.
    */
   #updateValue(value: any, emitEvent = true): void {
-    if (this.#_value === value) {
+    if (
+      this.#_value === value ||
+      (this.#_value === undefined && value === null)
+    ) {
       return;
     }
 
