@@ -1,5 +1,37 @@
 # Changelog
 
+## [7.0.0-beta.12](https://github.com/blackbaud/skyux/compare/7.0.0-beta.11...7.0.0-beta.12) (2022-11-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/ag-grid:** upgrade to [AG Grid 28](https://www.ag-grid.com/changelog/?fixVersion=28.0.0), which includes breaking changes
+
+### Features
+
+* **components/ag-grid:** upgrade to AG Grid 28 ([#617](https://github.com/blackbaud/skyux/issues/617)) ([2c1e2ad](https://github.com/blackbaud/skyux/commit/2c1e2adfc3546b630e9d124eeaf9e95d9c9aa4fa))
+
+## [7.0.0-beta.11](https://github.com/blackbaud/skyux/compare/7.0.0-beta.10...7.0.0-beta.11) (2022-11-04)
+
+
+### Features
+
+* **components/ag-grid:** add inline help support using custom header components ([#787](https://github.com/blackbaud/skyux/issues/787)) ([809bac6](https://github.com/blackbaud/skyux/commit/809bac657cddcc5994ee140cd82910754baf8e3a))
+* **components/lists:** show sort button caret on small screens ([#774](https://github.com/blackbaud/skyux/issues/774)) ([2be4513](https://github.com/blackbaud/skyux/commit/2be4513b5d142d05d20bae4e3c98888563ddd0b5))
+
+
+### Bug Fixes
+
+* **components/angular-tree-component:** replace aria-owns with adjustments to the tree node markup ([#758](https://github.com/blackbaud/skyux/issues/758)) ([beb0a21](https://github.com/blackbaud/skyux/commit/beb0a21608d59f71c3d7ade80398efd0a619570b))
+* **components/forms:** allow toggle label to wrap ([#777](https://github.com/blackbaud/skyux/issues/777)) ([#789](https://github.com/blackbaud/skyux/issues/789)) ([1deaa9c](https://github.com/blackbaud/skyux/commit/1deaa9c0c0f700603d0f974b3b73196b9e18cf36))
+* **components/indicators:** adjust help inline margin to 5 px ([#780](https://github.com/blackbaud/skyux/issues/780)) ([08f1487](https://github.com/blackbaud/skyux/commit/08f148708f3d860a8984bfd316ee234d25906f59))
+* **components/layout:** remove bottom margin from description lists ([#767](https://github.com/blackbaud/skyux/issues/767)) ([ed9994b](https://github.com/blackbaud/skyux/commit/ed9994b74e95498e66af2968ccf50900209b7236))
+* **components/modals:** remove leading and trailing whitespace from confirm elements when `preserveWhiteSpace` is `true` ([#786](https://github.com/blackbaud/skyux/issues/786)) ([b001bea](https://github.com/blackbaud/skyux/commit/b001bea5916afe66863ca49b6d11d5a949a3c590))
+
+## [6.25.2](https://github.com/blackbaud/skyux/compare/6.25.1...6.25.2) (2022-11-04)
+
+* **components/forms:** allow toggle label to wrap ([#777](https://github.com/blackbaud/skyux/issues/777)) ([a3ff4b7](https://github.com/blackbaud/skyux/commit/a3ff4b7102d3069936e6527fd94bc85155774c4b))
+
 ## [7.0.0-beta.10](https://github.com/blackbaud/skyux/compare/7.0.0-beta.9...7.0.0-beta.10) (2022-11-01)
 
 

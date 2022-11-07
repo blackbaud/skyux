@@ -9,6 +9,7 @@ export class SkyToggleSwitchFixtureComponent {
   public customTabIndex = 0;
   public multiple = false;
   public showInlineHelp = false;
+  public showLabel = true;
   public ariaLabel: string | undefined;
   public buttonLabel: string | undefined = 'Simple toggle';
 
