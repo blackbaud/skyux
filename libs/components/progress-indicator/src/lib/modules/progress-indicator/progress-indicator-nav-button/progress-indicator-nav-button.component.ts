@@ -148,11 +148,11 @@ export class SkyProgressIndicatorNavButtonComponent
   #_progressIndicator: SkyProgressIndicatorComponent | undefined;
 
   #changeDetector: ChangeDetectorRef;
-  #parentComponent: SkyProgressIndicatorComponent;
+  #parentComponent: SkyProgressIndicatorComponent | undefined;
 
   constructor(
     changeDetector: ChangeDetectorRef,
-    @Optional() parentComponent: SkyProgressIndicatorComponent
+    @Optional() parentComponent?: SkyProgressIndicatorComponent
   ) {
     this.#changeDetector = changeDetector;
     this.#parentComponent = parentComponent;
