@@ -11,7 +11,7 @@ import { SkyThemeService } from '@skyux/theme';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyProgressIndicatorItemStatusType } from '../types/progress-indicator-item-status-type';
+import { SkyProgressIndicatorItemStatus } from '../types/progress-indicator-item-status';
 
 /**
  * Specifies the content to display in the status marker.
@@ -34,18 +34,22 @@ export class SkyProgressIndicatorStatusMarkerComponent implements OnDestroy {
   }
 
   @Input()
-  public set status(value: SkyProgressIndicatorItemStatusType) {
+  public set status(value: SkyProgressIndicatorItemStatus) {
     this.#_status = value;
+    this.isComplete = this.#_status === SkyProgressIndicatorItemStatus.Complete;
   }
 
-  public get status(): SkyProgressIndicatorItemStatusType {
+  public get status(): SkyProgressIndicatorItemStatus {
     return this.#_status;
   }
+
+  public isComplete = false;
 
   #ngUnsubscribe = new Subject<void>();
   #changeDetector: ChangeDetectorRef;
 
-  #_status: SkyProgressIndicatorItemStatusType = 'active';
+  #_status: SkyProgressIndicatorItemStatus =
+    SkyProgressIndicatorItemStatus.Active;
   #_displayMode: 'vertical' | 'horizontal' = 'vertical';
 
   constructor(

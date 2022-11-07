@@ -3,6 +3,7 @@ export * from './lib/modules/progress-indicator/types/progress-indicator-action-
 export * from './lib/modules/progress-indicator/types/progress-indicator-action-click-progress-handler';
 export * from './lib/modules/progress-indicator/types/progress-indicator-change';
 export * from './lib/modules/progress-indicator/types/progress-indicator-display-mode-type';
+export * from './lib/modules/progress-indicator/types/progress-indicator-item-status';
 export * from './lib/modules/progress-indicator/types/progress-indicator-message';
 export * from './lib/modules/progress-indicator/types/progress-indicator-message-type';
 export * from './lib/modules/progress-indicator/types/progress-indicator-mode';

@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { SkyProgressIndicatorItemStatusType } from '../types/progress-indicator-item-status-type';
+import { SkyProgressIndicatorItemStatus } from '../types/progress-indicator-item-status';
 
 @Pipe({
   name: 'skyProgressIndicatorMarkerClass',
@@ -8,8 +8,24 @@ import { SkyProgressIndicatorItemStatusType } from '../types/progress-indicator-
 export class SkyProgressIndicatorMarkerClassPipe implements PipeTransform {
   public transform(
     displayMode: string,
-    status: SkyProgressIndicatorItemStatusType
+    status: SkyProgressIndicatorItemStatus
   ): string {
-    return `sky-progress-indicator-status-marker-mode-${displayMode} sky-progress-indicator-status-marker-status-${status}`;
+    let statusName: string;
+
+    switch (status) {
+      case SkyProgressIndicatorItemStatus.Complete:
+        statusName = 'complete';
+        break;
+      case SkyProgressIndicatorItemStatus.Incomplete:
+        statusName = 'incomplete';
+        break;
+      case SkyProgressIndicatorItemStatus.Pending:
+        statusName = 'pending';
+        break;
+      default:
+        statusName = 'active';
+    }
+
+    return `sky-progress-indicator-status-marker-mode-${displayMode} sky-progress-indicator-status-marker-status-${statusName}`;
   }
 }

@@ -19,7 +19,7 @@ import { delay, takeUntil } from 'rxjs/operators';
 import { SkyProgressIndicatorItemComponent } from './progress-indicator-item/progress-indicator-item.component';
 import { SkyProgressIndicatorChange } from './types/progress-indicator-change';
 import { SkyProgressIndicatorDisplayModeType } from './types/progress-indicator-display-mode-type';
-import { SkyProgressIndicatorItemStatusType } from './types/progress-indicator-item-status-type';
+import { SkyProgressIndicatorItemStatus } from './types/progress-indicator-item-status';
 import { SkyProgressIndicatorMessage } from './types/progress-indicator-message';
 import { SkyProgressIndicatorMessageType } from './types/progress-indicator-message-type';
 import { SkyProgressIndicatorDisplayMode } from './types/progress-indicator-mode';
@@ -135,7 +135,7 @@ export class SkyProgressIndicatorComponent
     | undefined;
 
   public cssClassNames: string[] = [];
-  public itemStatuses: SkyProgressIndicatorItemStatusType[] = [];
+  public itemStatuses: SkyProgressIndicatorItemStatus[] = [];
 
   set #activeIndex(value: number | undefined) {
     const lastIndex = (this.itemComponents?.length || 0) - 1;
@@ -249,7 +249,7 @@ export class SkyProgressIndicatorComponent
     this.#activeIndex = this.#getLastIndex();
 
     this.itemComponents?.forEach((component) => {
-      component.status = 'complete';
+      component.status = SkyProgressIndicatorItemStatus.Complete;
     });
 
     this.#updateStatusesAndNotify({
@@ -275,17 +275,17 @@ export class SkyProgressIndicatorComponent
       component.isVisible = activeIndex === i || isVertical;
 
       // Set status.
-      let status: SkyProgressIndicatorItemStatusType;
+      let status: SkyProgressIndicatorItemStatus;
       if (activeIndex === i) {
         if (isPassiveAndVertical) {
-          status = 'pending';
+          status = SkyProgressIndicatorItemStatus.Pending;
         } else {
-          status = 'active';
+          status = SkyProgressIndicatorItemStatus.Active;
         }
       } else if (activeIndex > i) {
-        status = 'complete';
+        status = SkyProgressIndicatorItemStatus.Complete;
       } else {
-        status = 'incomplete';
+        status = SkyProgressIndicatorItemStatus.Incomplete;
       }
 
       component.status = status;

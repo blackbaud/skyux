@@ -6,9 +6,9 @@ import {
   OnInit,
 } from '@angular/core';
 
-import { SkyProgressIndicatorItemStatusType } from '../types/progress-indicator-item-status-type';
+import { SkyProgressIndicatorItemStatus } from '../types/progress-indicator-item-status';
 
-const STATUS_DEFAULT: SkyProgressIndicatorItemStatusType = 'incomplete';
+const STATUS_DEFAULT = SkyProgressIndicatorItemStatus.Incomplete;
 
 /**
  * Specifies a step to include in the progress indicator. Each step requires a label,
@@ -35,17 +35,20 @@ export class SkyProgressIndicatorItemComponent implements OnInit {
     return this.#_title;
   }
 
-  public set status(value: SkyProgressIndicatorItemStatusType | undefined) {
+  public set status(value: SkyProgressIndicatorItemStatus | undefined) {
     if (value === this.#_status) {
       return;
     }
 
     /* istanbul ignore next */
-    this.#_status = value || STATUS_DEFAULT;
+    this.#_status = value ?? STATUS_DEFAULT;
+    this.isPending = this.#_status === SkyProgressIndicatorItemStatus.Pending;
+    this.isIncomplete =
+      this.#_status === SkyProgressIndicatorItemStatus.Incomplete;
     this.#changeDetector.markForCheck();
   }
 
-  public get status(): SkyProgressIndicatorItemStatusType {
+  public get status(): SkyProgressIndicatorItemStatus {
     return this.#_status;
   }
 
@@ -53,6 +56,8 @@ export class SkyProgressIndicatorItemComponent implements OnInit {
   public isVisible = false;
   public showStatusMarker = true;
   public showTitle = true;
+  public isPending = false;
+  public isIncomplete = true;
 
   #titlePrefix: string | undefined;
   #changeDetector: ChangeDetectorRef;
