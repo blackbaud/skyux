@@ -78,27 +78,6 @@ const routes: Routes = [
       import('./features/layout.module').then((m) => m.LayoutModule),
   },
   {
-    path: 'list-builder',
-    loadChildren: () =>
-      import('./features/list-builder.module').then(
-        (m) => m.ListBuilderFeatureModule
-      ),
-  },
-  {
-    path: 'list-builder-view-checklist',
-    loadChildren: () =>
-      import('./features/list-builder-view-checklist.module').then(
-        (m) => m.ListBuilderViewChecklistFeatureModule
-      ),
-  },
-  {
-    path: 'list-builder-view-grids',
-    loadChildren: () =>
-      import('./features/list-builder-view-grids.module').then(
-        (m) => m.ListBuilderViewGridsFeatureModule
-      ),
-  },
-  {
     path: 'lists',
     loadChildren: () =>
       import('./features/lists.module').then((m) => m.ListsFeatureModule),
