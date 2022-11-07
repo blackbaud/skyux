@@ -5,6 +5,7 @@
       <sky-help-inline
         *ngIf="item.showHelp"
         class="sky-control-help"
+        (actionClick)="onActionClick()"
       ></sky-help-inline>
     </sky-description-list-term>
     <sky-description-list-description>

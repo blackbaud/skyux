@@ -9,32 +9,20 @@ import { SkyPageLink } from '../action-hub/types/page-link';
 export class LinkAsPipe implements PipeTransform {
   public transform(
     value: SkyActionHubNeedsAttention | SkyPageLink | undefined,
-    linkAs: 'button' | 'href' | 'skyHref' | 'skyAppLink'
+    linkAs: 'button' | 'href' | 'skyHref' | 'skyAppLink' | undefined
   ): boolean {
+    const permalink = value?.permalink;
+    const permalinkUrl = permalink?.url;
+
     switch (linkAs) {
       case 'button':
-        return (
-          (value as SkyActionHubNeedsAttention)?.click !== undefined &&
-          value.permalink === undefined
-        );
+        return !!(value as SkyActionHubNeedsAttention)?.click && !permalink;
       case 'href':
-        return (
-          value?.permalink !== undefined &&
-          value.permalink.url !== undefined &&
-          !value.permalink.url.includes('://')
-        );
+        return !!(permalinkUrl !== undefined && !permalinkUrl.includes('://'));
       case 'skyHref':
-        return (
-          value?.permalink !== undefined &&
-          value.permalink.url !== undefined &&
-          value.permalink.url.includes('://')
-        );
+        return !!(permalinkUrl !== undefined && permalinkUrl.includes('://'));
       case 'skyAppLink':
-        return (
-          value?.permalink !== undefined &&
-          value.permalink.url === undefined &&
-          value.permalink.route !== undefined
-        );
+        return !!(permalink && permalinkUrl === undefined && permalink.route);
       default:
         return false;
     }

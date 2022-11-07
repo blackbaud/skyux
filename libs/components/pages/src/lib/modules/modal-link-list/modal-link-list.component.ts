@@ -21,7 +21,7 @@ export class SkyModalLinkListComponent {
   }
 
   @Input()
-  public title: string;
+  public title: string | undefined;
 
   public linksArray: SkyPageModalLink[] = [];
 
@@ -30,6 +30,10 @@ export class SkyModalLinkListComponent {
   constructor(private modalService: SkyModalService) {}
 
   public openModal(link: SkyPageModalLink): void {
-    this.modalService.open(link.modal.component, link.modal.config);
+    const modal = link.modal;
+
+    if (modal) {
+      this.modalService.open(modal.component, modal.config);
+    }
   }
 }

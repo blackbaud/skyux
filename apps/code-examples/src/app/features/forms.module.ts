@@ -11,8 +11,12 @@ import { CheckboxDemoComponent as InlineHelpCheckboxDemoComponent } from '../cod
 import { CheckboxDemoModule as InlineHelpCheckboxDemoModule } from '../code-examples/forms/checkbox/inline-help/checkbox-demo.module';
 import { FileAttachmentDemoComponent } from '../code-examples/forms/file-attachment/basic/file-attachment-demo.component';
 import { SkyFileAttachmentDemoModule } from '../code-examples/forms/file-attachment/basic/file-attachment-demo.module';
+import { FileAttachmentDemoComponent as InlineHelpFileAttachmentDemoComponent } from '../code-examples/forms/file-attachment/inline-help/file-attachment-demo.component';
+import { SkyFileAttachmentDemoModule as InlineHelpSkyFileAttachmentDemoModule } from '../code-examples/forms/file-attachment/inline-help/file-attachment-demo.module';
 import { InputBoxDemoComponent } from '../code-examples/forms/input-box/basic/input-box-demo.component';
 import { InputBoxDemoModule } from '../code-examples/forms/input-box/basic/input-box-demo.module';
+import { InputBoxDemoComponent as InputBoxInlineHelpDemoComponent } from '../code-examples/forms/input-box/inline-help/input-box-demo.component';
+import { InputBoxDemoModule as InputBoxInlineHelpDemoModule } from '../code-examples/forms/input-box/inline-help/input-box-demo.module';
 import { RadioDemoComponent as IconRadioDemoComponent } from '../code-examples/forms/radio/icon/radio-demo.component';
 import { SkyRadioDemoModule as IconHelpRadioDemoModule } from '../code-examples/forms/radio/icon/radio-demo.module';
 import { RadioDemoComponent as InlineHelpRadioDemoComponent } from '../code-examples/forms/radio/inline-help/radio-demo.component';
@@ -54,8 +58,16 @@ const routes: Routes = [
     component: FileAttachmentDemoComponent,
   },
   {
+    path: 'file-attachment/inline-help',
+    component: InlineHelpFileAttachmentDemoComponent,
+  },
+  {
     path: 'input-box/basic',
     component: InputBoxDemoComponent,
+  },
+  {
+    path: 'input-box/inline-help',
+    component: InputBoxInlineHelpDemoComponent,
   },
   {
     path: 'radio/icon',
@@ -109,8 +121,11 @@ export class FormsRoutingModule {}
     BasicSkySingleFileAttachmentDemoModule,
     InlineHelpSkySingleFileAttachmentDemoModule,
     InlineHelpRadioDemoModule,
+    SkyToggleSwitchDemoModule,
     InlineHelpToggleSwitchModule,
     InputBoxDemoModule,
+    InputBoxInlineHelpDemoModule,
+    InlineHelpSkyFileAttachmentDemoModule,
     SelectionBoxCheckboxDemoModule,
     SelectionBoxRadioDemoModule,
     CheckboxIconGroupDemoModule,

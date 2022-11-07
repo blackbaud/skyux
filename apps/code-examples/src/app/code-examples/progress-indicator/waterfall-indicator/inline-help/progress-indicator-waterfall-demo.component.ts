@@ -97,4 +97,8 @@ export class WaterfallIndicatorDocsComponent {
       }
     });
   }
+
+  public onActionClick(): void {
+    alert('Help inline button clicked!');
+  }
 }

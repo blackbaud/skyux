@@ -334,6 +334,11 @@ describe('Confirm component', () => {
     expect(messageElem.classList).toContain('sky-confirm-preserve-white-space');
     expect(bodyElem.classList).toContain('sky-confirm-preserve-white-space');
 
+    // Check innerHTML directly instead of using `toHaveText()` to ensure
+    // extra whitespace is not added to the beginning or end of the content.
+    expect(messageElem.innerHTML).toBe('confirm message');
+    expect(bodyElem.innerHTML).toBe('additional text');
+
     buttons[0].click();
   });
 });

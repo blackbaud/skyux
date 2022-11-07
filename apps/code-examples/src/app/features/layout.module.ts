@@ -86,6 +86,10 @@ const routes: Routes = [
     component: DescriptionListDemoComponent,
   },
   {
+    path: 'description-list/inline-help',
+    component: DescriptionListInlineHelpDemoComponent,
+  },
+  {
     path: 'description-list/vertical',
     component: DescriptionListVerticalComponent,
   },
@@ -156,6 +160,7 @@ export class LayoutRoutingModule {}
     BackToTopRepeaterDemoModule,
     BoxDemoModule,
     InlineHelpBoxDemoModule,
+    DescriptionListInlineHelpDemoModule,
     DescriptionListDemoModule,
     FormatDemoModule,
     LayoutRoutingModule,

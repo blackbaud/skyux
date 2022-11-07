@@ -1,0 +1,17 @@
+:host {
+  display: flex;
+  max-width: 100%;
+  align-items: center;
+  align-content: center;
+}
+
+.ag-header-cell-label {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+button {
+  cursor: pointer;
+  flex-grow: 0;
+  flex-shrink: 0;
+}

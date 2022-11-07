@@ -101,7 +101,6 @@ describe('SkyCellEditorDatepickerComponent', () => {
   describe('agInit', () => {
     let cellEditorParams: SkyCellEditorDatepickerParams;
     let column: Column;
-    const columnWidth = 200;
     const rowNode = new RowNode({} as Beans);
     const dateString = '01/01/2019';
     const date = new Date(dateString);
@@ -116,8 +115,6 @@ describe('SkyCellEditorDatepickerComponent', () => {
         'col',
         true
       );
-
-      column.setActualWidth(columnWidth);
 
       cellEditorParams = {
         value: date,
@@ -332,6 +329,8 @@ describe('SkyCellEditorDatepickerComponent', () => {
     });
 
     it('should work with theme change', fakeAsync(() => {
+      spyOn(column, 'getActualWidth').and.returnValue(200);
+      spyOn(column, 'fireColumnWidthChangedEvent').and.returnValue();
       datepickerEditorComponent.agInit(cellEditorParams);
 
       const initialColumnWidthWithoutBorders =
@@ -370,7 +369,6 @@ describe('SkyCellEditorDatepickerComponent', () => {
   describe('afterGuiAttached', () => {
     let cellEditorParams: SkyCellEditorDatepickerParams;
     let column: Column;
-    const columnWidth = 200;
     const dateString = '01/01/2019';
     const date = new Date(dateString);
     const rowNode = new RowNode({} as Beans);
@@ -385,8 +383,6 @@ describe('SkyCellEditorDatepickerComponent', () => {
         'col',
         true
       );
-
-      column.setActualWidth(columnWidth);
 
       cellEditorParams = {
         value: date,
