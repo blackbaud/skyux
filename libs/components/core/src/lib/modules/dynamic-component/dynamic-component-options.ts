@@ -1,4 +1,4 @@
-import { StaticProvider } from '@angular/core';
+import { Injector, StaticProvider } from '@angular/core';
 
 import { SkyDynamicComponentLocation } from './dynamic-component-location';
 
@@ -20,4 +20,9 @@ export interface SkyDynamicComponentOptions {
    * The reference element used when using the `ElementTop` or `ElementBottom` locations.
    */
   referenceEl?: HTMLElement;
+
+  /**
+   * Parent injector to use instead of the dynamic component service's injector
+   */
+  parentInjector?: Injector;
 }
