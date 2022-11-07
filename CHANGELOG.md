@@ -1,5 +1,16 @@
 # Changelog
 
+## [7.0.0-beta.12](https://github.com/blackbaud/skyux/compare/7.0.0-beta.11...7.0.0-beta.12) (2022-11-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/ag-grid:** upgrade to [AG Grid 28](https://www.ag-grid.com/changelog/?fixVersion=28.0.0), which includes breaking changes
+
+### Features
+
+* **components/ag-grid:** upgrade to AG Grid 28 ([#617](https://github.com/blackbaud/skyux/issues/617)) ([2c1e2ad](https://github.com/blackbaud/skyux/commit/2c1e2adfc3546b630e9d124eeaf9e95d9c9aa4fa))
+
 ## [7.0.0-beta.11](https://github.com/blackbaud/skyux/compare/7.0.0-beta.10...7.0.0-beta.11) (2022-11-04)
 
 
