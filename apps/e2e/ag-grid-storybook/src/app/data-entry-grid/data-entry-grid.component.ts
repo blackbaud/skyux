@@ -98,13 +98,9 @@ export class DataEntryGridComponent
         name: player.name,
       };
     });
-    this.dataSets.forEach((dataSet) => {
-      this.#gridsReady.set(`${dataSet.id}-ready`, new BehaviorSubject(false));
-      this.#gridsReady.set(
-        `${dataSet.id}-rendered`,
-        new BehaviorSubject(false)
-      );
-    });
+    this.dataSets.forEach((dataSet) =>
+      this.#gridsReady.set(dataSet.id, new BehaviorSubject(false))
+    );
     this.#gridsReady.set(
       'theme',
       this.#themeSvc.settingsChange.pipe(map(() => true))
@@ -190,18 +186,9 @@ export class DataEntryGridComponent
           suppressHorizontalScroll: true,
           suppressRowVirtualisation: true,
           onFirstDataRendered: () => {
-            (
-              this.#gridsReady.get(
-                `${dataSet.id}-rendered`
-              ) as BehaviorSubject<boolean>
-            ).next(true);
-          },
-          onGridReady: () => {
-            (
-              this.#gridsReady.get(
-                `${dataSet.id}-ready`
-              ) as BehaviorSubject<boolean>
-            ).next(true);
+            (this.#gridsReady.get(dataSet.id) as BehaviorSubject<boolean>).next(
+              true
+            );
           },
           rowData: (() => {
             if (dataSet.id.startsWith('editLookup')) {

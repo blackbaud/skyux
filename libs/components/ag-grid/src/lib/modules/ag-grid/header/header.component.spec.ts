@@ -76,7 +76,7 @@ describe('HeaderComponent', () => {
       } as Column,
       enableSorting: false,
       columnApi: {
-        getAllColumns: () => [],
+        getColumns: () => [],
       } as ColumnApi,
     } as unknown as SkyAgGridHeaderParams;
 
@@ -123,7 +123,7 @@ describe('HeaderComponent', () => {
       } as unknown as Column,
       columnApi: {
         ...params.columnApi,
-        getAllColumns() {
+        getColumns() {
           return [
             {
               getColId: () => 'test',

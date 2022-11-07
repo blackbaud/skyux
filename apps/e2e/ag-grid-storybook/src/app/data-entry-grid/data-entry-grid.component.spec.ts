@@ -17,7 +17,6 @@ describe('DataEntryGridComponent', () => {
   let mockThemeSvc: {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
-  // let events: { [key: string]: (() => void)[] };
 
   ['date-and-lookup', 'edit-lookup'].forEach(
     (variation: 'date-and-lookup' | 'edit-lookup') => {
@@ -32,7 +31,6 @@ describe('DataEntryGridComponent', () => {
               previousSettings: undefined,
             }),
           };
-          // events = {};
           TestBed.configureTestingModule({
             imports: [DataEntryGridModule],
             providers: [

@@ -33,7 +33,7 @@ type DataSet = { id: string; data: any[] };
   encapsulation: ViewEncapsulation.None,
 })
 export class AgGridStoriesComponent
-  implements AfterViewInit, OnInit, OnDestroy
+  implements OnInit, AfterViewInit, OnDestroy
 {
   public dataSets: DataSet[] = [
     {
@@ -56,7 +56,7 @@ export class AgGridStoriesComponent
   public rowDeleteIds: string[] = [];
   public skyTheme: SkyThemeSettings;
 
-  #gridsReady: { [_: string]: Observable<boolean> } = {};
+  readonly #gridsReady = new Map<string, Observable<boolean>>();
   readonly #agGridService: SkyAgGridService;
   readonly #themeSvc: SkyThemeService;
   readonly #changeDetectorRef: ChangeDetectorRef;
@@ -84,11 +84,12 @@ export class AgGridStoriesComponent
       location: SkyDockLocation.ElementBottom,
       referenceEl: this.#doc.querySelector('#back-to-top'),
     });
-    this.dataSets.forEach((dataSet) => {
-      this.#gridsReady[dataSet.id] = new BehaviorSubject(false);
-    });
-    this.#gridsReady['theme'] = this.#themeSvc.settingsChange.pipe(
-      map(() => true)
+    this.dataSets.forEach((dataSet) =>
+      this.#gridsReady.set(dataSet.id, new BehaviorSubject(false))
+    );
+    this.#gridsReady.set(
+      'theme',
+      this.#themeSvc.settingsChange.pipe(map(() => true))
     );
     this.#ngUnsubscribe.add(
       this.#themeSvc.settingsChange.subscribe((settings) => {
@@ -179,7 +180,7 @@ export class AgGridStoriesComponent
             }
           },
           onFirstDataRendered: () => {
-            (this.#gridsReady[dataSet.id] as BehaviorSubject<boolean>).next(
+            (this.#gridsReady.get(dataSet.id) as BehaviorSubject<boolean>).next(
               true
             );
           },
@@ -191,7 +192,7 @@ export class AgGridStoriesComponent
 
   public ngAfterViewInit(): void {
     this.#ngUnsubscribe.add(
-      combineLatest(Array.from(Object.values(this.#gridsReady)))
+      combineLatest(Array.from(this.#gridsReady.values()))
         .pipe(
           filter((gridsReady) => gridsReady.every((ready) => ready)),
           delay(1000)
