@@ -5,13 +5,13 @@
   [tabIndex]="customTabIndex"
   (toggleChange)="checkChanged($event)"
 >
-  <sky-toggle-switch-label>
-    {{ buttonLabel }}
-    <sky-help-inline
-      *ngIf="showInlineHelp"
-      class="sky-control-help"
-    ></sky-help-inline>
-  </sky-toggle-switch-label>
+  <sky-toggle-switch-label *ngIf="showLabel"
+    >{{ buttonLabel }}</sky-toggle-switch-label
+  >
+  <sky-help-inline
+    *ngIf="showInlineHelp"
+    class="sky-control-help"
+  ></sky-help-inline>
 </sky-toggle-switch>
 
 <sky-toggle-switch *ngIf="multiple"> Option 2 </sky-toggle-switch>

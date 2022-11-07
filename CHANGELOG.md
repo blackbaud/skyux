@@ -1,5 +1,58 @@
 # Changelog
 
+## [7.0.0-beta.12](https://github.com/blackbaud/skyux/compare/7.0.0-beta.11...7.0.0-beta.12) (2022-11-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/ag-grid:** upgrade to [AG Grid 28](https://www.ag-grid.com/changelog/?fixVersion=28.0.0), which includes breaking changes
+
+### Features
+
+* **components/ag-grid:** upgrade to AG Grid 28 ([#617](https://github.com/blackbaud/skyux/issues/617)) ([2c1e2ad](https://github.com/blackbaud/skyux/commit/2c1e2adfc3546b630e9d124eeaf9e95d9c9aa4fa))
+
+## [7.0.0-beta.11](https://github.com/blackbaud/skyux/compare/7.0.0-beta.10...7.0.0-beta.11) (2022-11-04)
+
+
+### Features
+
+* **components/ag-grid:** add inline help support using custom header components ([#787](https://github.com/blackbaud/skyux/issues/787)) ([809bac6](https://github.com/blackbaud/skyux/commit/809bac657cddcc5994ee140cd82910754baf8e3a))
+* **components/lists:** show sort button caret on small screens ([#774](https://github.com/blackbaud/skyux/issues/774)) ([2be4513](https://github.com/blackbaud/skyux/commit/2be4513b5d142d05d20bae4e3c98888563ddd0b5))
+
+
+### Bug Fixes
+
+* **components/angular-tree-component:** replace aria-owns with adjustments to the tree node markup ([#758](https://github.com/blackbaud/skyux/issues/758)) ([beb0a21](https://github.com/blackbaud/skyux/commit/beb0a21608d59f71c3d7ade80398efd0a619570b))
+* **components/forms:** allow toggle label to wrap ([#777](https://github.com/blackbaud/skyux/issues/777)) ([#789](https://github.com/blackbaud/skyux/issues/789)) ([1deaa9c](https://github.com/blackbaud/skyux/commit/1deaa9c0c0f700603d0f974b3b73196b9e18cf36))
+* **components/indicators:** adjust help inline margin to 5 px ([#780](https://github.com/blackbaud/skyux/issues/780)) ([08f1487](https://github.com/blackbaud/skyux/commit/08f148708f3d860a8984bfd316ee234d25906f59))
+* **components/layout:** remove bottom margin from description lists ([#767](https://github.com/blackbaud/skyux/issues/767)) ([ed9994b](https://github.com/blackbaud/skyux/commit/ed9994b74e95498e66af2968ccf50900209b7236))
+* **components/modals:** remove leading and trailing whitespace from confirm elements when `preserveWhiteSpace` is `true` ([#786](https://github.com/blackbaud/skyux/issues/786)) ([b001bea](https://github.com/blackbaud/skyux/commit/b001bea5916afe66863ca49b6d11d5a949a3c590))
+
+## [6.25.2](https://github.com/blackbaud/skyux/compare/6.25.1...6.25.2) (2022-11-04)
+
+* **components/forms:** allow toggle label to wrap ([#777](https://github.com/blackbaud/skyux/issues/777)) ([a3ff4b7](https://github.com/blackbaud/skyux/commit/a3ff4b7102d3069936e6527fd94bc85155774c4b))
+
+## [7.0.0-beta.10](https://github.com/blackbaud/skyux/compare/7.0.0-beta.9...7.0.0-beta.10) (2022-11-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/forms:** The radio component's `radioType` input was set to a type of `string`, but it really only accepts a handful of known string values. These values are represented by the new `SkyRadioType` string union. This might cause problems if you are setting the `radioType` input to a type of `string` in your consuming component's class.
+
+### Features
+
+* **components/autonumeric:** change autonumeric from a dependency to a peer dependency ([#741](https://github.com/blackbaud/skyux/issues/741)) ([b1e4706](https://github.com/blackbaud/skyux/commit/b1e47060e1f095c95b1753ce7a8248715c9f8618))
+* **components/forms:** change radio component's `radioType` input property to be more strongly typed ([34e9332](https://github.com/blackbaud/skyux/commit/34e933208706bea063ef95de57568a9b3488e706))
+* **sdk/testing:** change axe-core from a dependency to a peer dependency ([#746](https://github.com/blackbaud/skyux/issues/746)) ([bbef42a](https://github.com/blackbaud/skyux/commit/bbef42a2793ce8ac88e21a52e43a3ae41efa1e92))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** remove aria-label from currency cell renderer ([#750](https://github.com/blackbaud/skyux/issues/750)) ([1343d3d](https://github.com/blackbaud/skyux/commit/1343d3d7efaa649f092e1d1d6bd551012178108b))
+* **components/indicators:** use role 'grid' for tokens component ([#712](https://github.com/blackbaud/skyux/issues/712)) ([774eb3d](https://github.com/blackbaud/skyux/commit/774eb3dbd05469095da9197402e2507da0f8563c))
+* **components/lists:** use 'grid' role for selectable repeaters ([#751](https://github.com/blackbaud/skyux/issues/751)) ([64a4c86](https://github.com/blackbaud/skyux/commit/64a4c863b5619d508195643c90d7be1254dbfd3a))
+* **components/packages:** install `moment` only if `@skyux/datetime` is a dependency ([#743](https://github.com/blackbaud/skyux/issues/743)) ([11484e4](https://github.com/blackbaud/skyux/commit/11484e4040197cbb7c6d41ddb91d48eef7140599))
+
 ## [7.0.0-beta.9](https://github.com/blackbaud/skyux/compare/7.0.0-beta.8...7.0.0-beta.9) (2022-10-25)
 
 

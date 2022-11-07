@@ -24,21 +24,14 @@ export class SkySortFixture {
   /**
    * The sort menu's properties.
    */
-  public get menu(): SkySortFixtureMenu | undefined {
-    const sortButtonTextEl = this.#getSortButtonTextEl();
-    const buttonText = SkyAppTestUtility.getText(sortButtonTextEl);
-    /* istanbul ignore else */
-    if (sortButtonTextEl && buttonText) {
-      return {
-        buttonText: buttonText,
-        isOpen: this.#getDropdownMenuEl() !== null,
-      };
-    } else {
-      return {
-        buttonText: '',
-        isOpen: this.#getDropdownMenuEl() !== null,
-      };
-    }
+  public get menu(): SkySortFixtureMenu {
+    /* istanbul ignore next */
+    const buttonText =
+      SkyAppTestUtility.getText(this.#getSortButtonTextEl()) || '';
+    return {
+      buttonText,
+      isOpen: this.#getDropdownMenuEl() !== null,
+    };
   }
 
   /**
@@ -48,7 +41,7 @@ export class SkySortFixture {
   public get menuItems(): SkySortFixtureMenuItem[] | undefined {
     // Return undefined when we can't determine what the options are.
     // We do this to avoid any confusion with an empty set of options.
-    if (!this.menu?.isOpen) {
+    if (!this.menu.isOpen) {
       return;
     }
 
@@ -78,7 +71,7 @@ export class SkySortFixture {
    */
   public async closeMenu(): Promise<void> {
     // if the menu is already closed, do nothing
-    if (!this.menu?.isOpen) {
+    if (!this.menu.isOpen) {
       return;
     }
 
@@ -99,7 +92,7 @@ export class SkySortFixture {
    */
   public async openMenu(): Promise<void> {
     // if the menu is already open, do nothing
-    if (this.menu?.isOpen) {
+    if (this.menu.isOpen) {
       return;
     }
 
@@ -172,7 +165,7 @@ export class SkySortFixture {
     selectionPredicate: (item: HTMLElement, index: number) => boolean
   ): Promise<void> {
     // make sure the sort menu is open
-    if (!this.menu?.isOpen) {
+    if (!this.menu.isOpen) {
       await this.openMenu();
     }
 
