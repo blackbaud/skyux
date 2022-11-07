@@ -161,7 +161,7 @@ export class SkyAgGridHeaderComponent
   #updateSortIndex(): void {
     const sortIndex = this.params.column.getSortIndex();
     const otherSortColumns = this.params.columnApi
-      .getAllColumns()
+      .getColumns()
       .some(
         (column) =>
           column.getColId() !== this.params.column.getColId() &&

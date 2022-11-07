@@ -1,17 +1,25 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
+import {
+  SkyTheme,
+  SkyThemeMode,
+  SkyThemeService,
+  SkyThemeSettingsChange,
+} from '@skyux/theme';
 
 import { AgGridAngular } from 'ag-grid-angular';
 import {
+  CellEditingStartedEvent,
+  CellEditingStoppedEvent,
   Column,
   ColumnApi,
   DetailGridInfo,
   FirstDataRenderedEvent,
   GridApi,
   GridReadyEvent,
-  RowDataChangedEvent,
+  RowDataUpdatedEvent,
 } from 'ag-grid-community';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
 import { SkyAgGridWrapperComponent } from './ag-grid-wrapper.component';
@@ -27,18 +35,38 @@ describe('SkyAgGridWrapperComponent', () => {
   let gridWrapperFixture: ComponentFixture<SkyAgGridWrapperComponent>;
   let gridWrapperComponent: SkyAgGridWrapperComponent;
   let gridWrapperNativeElement: HTMLElement;
+  let mockThemeSvc: {
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
+  };
 
   const agGrid: AgGridAngular = {
     api: new GridApi(),
     columnApi: new ColumnApi(),
     gridReady: new Subject<GridReadyEvent>(),
-    rowDataChanged: new Subject<RowDataChangedEvent>(),
+    rowDataUpdated: new Subject<RowDataUpdatedEvent>(),
     firstDataRendered: new Subject<FirstDataRenderedEvent>(),
+    cellEditingStarted: new Subject<CellEditingStartedEvent>(),
+    cellEditingStopped: new Subject<CellEditingStartedEvent>(),
   } as AgGridAngular;
 
   beforeEach(() => {
+    mockThemeSvc = {
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
+        currentSettings: {
+          theme: SkyTheme.presets.default,
+          mode: SkyThemeMode.presets.light,
+        },
+        previousSettings: undefined,
+      }),
+    };
     TestBed.configureTestingModule({
       imports: [SkyAgGridFixtureModule],
+      providers: [
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc,
+        },
+      ],
     });
 
     gridWrapperFixture = TestBed.createComponent(SkyAgGridWrapperComponent);
@@ -71,6 +99,81 @@ describe('SkyAgGridWrapperComponent', () => {
     ).not.toEqual(-1);
   });
 
+  it('should apply ag-theme', async () => {
+    expect(
+      gridWrapperNativeElement.querySelector('.sky-ag-grid')
+    ).toHaveCssClass('ag-theme-sky-default');
+
+    mockThemeSvc.settingsChange.next({
+      currentSettings: {
+        theme: SkyTheme.presets.modern,
+        mode: SkyThemeMode.presets.light,
+      },
+      previousSettings: undefined,
+    });
+    gridWrapperFixture.detectChanges();
+    expect(
+      gridWrapperNativeElement.querySelector('.sky-ag-grid')
+    ).toHaveCssClass('ag-theme-sky-modern-light');
+
+    mockThemeSvc.settingsChange.next({
+      currentSettings: {
+        theme: SkyTheme.presets.modern,
+        mode: SkyThemeMode.presets.dark,
+      },
+      previousSettings: undefined,
+    });
+    gridWrapperFixture.detectChanges();
+    expect(
+      gridWrapperNativeElement.querySelector('.sky-ag-grid')
+    ).toHaveCssClass('ag-theme-sky-modern-dark');
+
+    mockThemeSvc.settingsChange.next({
+      currentSettings: {
+        theme: SkyTheme.presets.default,
+        mode: SkyThemeMode.presets.light,
+      },
+      previousSettings: undefined,
+    });
+    gridWrapperFixture.detectChanges();
+    expect(
+      gridWrapperNativeElement.querySelector('.sky-ag-grid')
+    ).toHaveCssClass('ag-theme-sky-default');
+  });
+
+  it('should add and remove the cell editing class', () => {
+    agGrid.cellEditingStarted.next({ colDef: {} } as CellEditingStartedEvent);
+    agGrid.cellEditingStopped.next({} as CellEditingStoppedEvent);
+    agGrid.cellEditingStarted.next({
+      colDef: {
+        type: 'test',
+      },
+    } as CellEditingStartedEvent);
+    gridWrapperFixture.detectChanges();
+    expect(
+      gridWrapperNativeElement.querySelector('.sky-ag-grid')
+    ).toHaveCssClass('sky-ag-grid-cell-editing-test');
+    agGrid.cellEditingStopped.next({} as CellEditingStoppedEvent);
+    gridWrapperFixture.detectChanges();
+    expect(
+      gridWrapperNativeElement.querySelector('.sky-ag-grid')
+    ).not.toHaveCssClass('sky-ag-grid-cell-editing-test');
+    agGrid.cellEditingStarted.next({
+      colDef: {
+        type: ['test'],
+      },
+    } as CellEditingStartedEvent);
+    gridWrapperFixture.detectChanges();
+    expect(
+      gridWrapperNativeElement.querySelector('.sky-ag-grid')
+    ).toHaveCssClass('sky-ag-grid-cell-editing-test');
+    agGrid.cellEditingStopped.next({} as CellEditingStoppedEvent);
+    gridWrapperFixture.detectChanges();
+    expect(
+      gridWrapperNativeElement.querySelector('.sky-ag-grid')
+    ).not.toHaveCssClass('sky-ag-grid-cell-editing-test');
+  });
+
   describe('onGridKeydown', () => {
     let skyAgGridDivEl: HTMLElement;
     beforeEach(() => {
@@ -94,7 +197,7 @@ describe('SkyAgGridWrapperComponent', () => {
       const col = {} as Column;
       spyOn(gridAdapterService, 'setFocusedElementById');
       spyOn(agGrid.api, 'getEditingCells').and.returnValue([
-        { rowIndex: 0, column: col, rowPinned: '' },
+        { rowIndex: 0, column: col, rowPinned: undefined },
       ]);
 
       fireKeydownOnGrid('Tab', false);
@@ -303,6 +406,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       'ag-body-horizontal-scroll',
       'ag-floating-top',
       'ag-body-viewport',
+      'ag-sticky-top',
       'ag-floating-bottom',
       'ag-overlay',
     ]);
@@ -323,6 +427,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       'ag-header',
       'ag-floating-top',
       'ag-body-viewport',
+      'ag-sticky-top',
       'ag-floating-bottom',
       'ag-body-horizontal-scroll',
       'ag-overlay',
@@ -339,6 +444,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       'ag-body-horizontal-scroll',
       'ag-floating-top',
       'ag-body-viewport',
+      'ag-sticky-top',
       'ag-floating-bottom',
       'ag-overlay',
     ]);
@@ -346,13 +452,14 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
     gridWrapperFixture.componentInstance.gridOptions.context = {
       enableTopScroll: false,
     };
-    gridWrapperFixture.componentInstance.agGrid.rowDataChanged.emit();
+    gridWrapperFixture.componentInstance.agGrid.rowDataUpdated.emit();
 
     // Expect the scrollbar at the bottom.
     expect(getChildrenClassNames()).toEqual([
       'ag-header',
       'ag-floating-top',
       'ag-body-viewport',
+      'ag-sticky-top',
       'ag-floating-bottom',
       'ag-body-horizontal-scroll',
       'ag-overlay',

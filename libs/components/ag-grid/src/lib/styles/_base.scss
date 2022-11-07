@@ -1,0 +1,210 @@
+@use 'node_modules/ag-grid-community/styles' as ag;
+@use 'libs/components/theme/src/lib/styles/variables' as variables;
+@use './variables' as sky-ag-grid-variables;
+
+@include ag.grid-styles(
+  (
+    themes: (
+      sky-default: (
+        background-color: variables.$sky-color-gray-01,
+        row-hover-color: darken(variables.$sky-background-color-selected, 10%),
+        border-color: variables.$sky-border-color-neutral-medium,
+        cell-horizontal-padding: 12px,
+        font-family: variables.$sky-font-family,
+        font-size: 15px,
+        foreground-color: variables.$sky-text-color-default,
+        header-background-color: variables.$sky-background-color-page-default,
+        header-height: 37px,
+        input-focus-border-color: variables.$sky-highlight-color-info,
+        row-border-color: variables.$sky-border-color-neutral-medium,
+        row-height: 38px,
+        odd-row-background-color: variables.$sky-background-color-page-default,
+        range-selection-border-color: variables.$sky-highlight-color-info,
+        secondary-foreground-color: variables.$sky-text-color-deemphasized,
+      ),
+      sky-modern-light: (
+        border-color: variables.$sky-theme-modern-border-color-neutral-medium,
+        cell-horizontal-padding: 12px,
+        font-family: variables.$sky-font-family,
+        font-size: 16px,
+        foreground-color: variables.$sky-text-color-default,
+        header-background-color:
+          variables.$sky-theme-modern-background-color-page-default,
+        header-height: 60px,
+        input-focus-border-color:
+          variables.$sky-theme-modern-border-color-primary-dark,
+        row-border-color:
+          variables.$sky-theme-modern-border-color-neutral-medium,
+        row-height: 60px,
+        range-selection-border-color:
+          variables.$sky-theme-modern-border-color-primary-dark,
+        secondary-foreground-color:
+          variables.$sky-theme-modern-font-deemphasized-color,
+      ),
+      sky-modern-dark: (
+        extend-theme: 'alpine-dark',
+        cell-horizontal-padding: 12px,
+        font-family: variables.$sky-font-family,
+        font-size: 16px,
+        header-height: 60px,
+        row-height: 60px,
+      ),
+    ),
+  )
+);
+
+.ag-theme-sky-default,
+.ag-theme-sky-modern-light,
+.ag-theme-sky-modern-dark {
+  --ag-header-column-separator-display: block;
+  --ag-header-column-separator-color: var(--sky-border-color-neutral-medium);
+  --ag-header-column-separator-height: 100%;
+  --ag-header-column-resize-handle-display: block;
+  --ag-header-column-resize-handle-color: var(
+    --sky-border-color-neutral-medium
+  );
+  --ag-header-column-resize-handle-height: 100%;
+  --ag-input-disabled-background-color: transparent;
+
+  --ag-checkbox-background-color: transparent;
+  --ag-toggle-button-width: calc(var(--ag-toggle-button-height) * 2);
+
+  --ag-selected-row-background-color: var(--sky-background-color-selected);
+
+  --ag-input-focus-box-shadow: none;
+  --ag-input-focus-border-color: none;
+
+  --ag-grid-size: 4px;
+  --ag-icon-size: 12px;
+
+  --ag-card-shadow: none;
+
+  --ag-popup-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+
+  .ag-scrollbar-invisible.sky-viewkeeper-fixed {
+    box-shadow: none;
+  }
+
+  ag-grid-angular:not(.sky-ag-grid-editable) {
+    .ag-overlay-no-rows-wrapper.ag-layout-auto-height {
+      padding-top: var(--ag-row-height);
+    }
+  }
+
+  &.sky-ag-grid-cell-editing-skyCellLookup {
+    ag-grid-angular.sky-ag-grid-editable {
+      .ag-row .ag-cell.ag-cell-focus,
+      .ag-popup .ag-popup-editor {
+        outline: none;
+      }
+    }
+  }
+
+  .sky-ag-grid-editable {
+    --ag-cell-horizontal-border: 1px solid var(--ag-border-color);
+    --ag-odd-row-background-color: var(--sky-background-color-page-default);
+    --ag-popup-shadow: none;
+
+    .ag-cell.ag-cell-focus {
+      z-index: 1;
+
+      &.ag-cell-inline-editing,
+      &.ag-cell-popup-editing {
+        outline-offset: -2px;
+        outline: var(--ag-range-selection-border-color) solid 2px;
+        box-shadow: none;
+      }
+
+      &.ag-cell-popup-editing.sky-ag-grid-cell-lookup {
+        color: transparent;
+      }
+    }
+
+    .ag-popup {
+      .ag-popup-editor {
+        border: none;
+        box-shadow: none;
+        outline-offset: -2px;
+        outline: var(--ag-range-selection-border-color) solid 2px;
+        background: transparent;
+        min-height: var(--ag-row-height);
+      }
+    }
+  }
+}
+
+.sky-ag-grid.sky-ag-grid-top-scrollbar .ag-root {
+  > .ag-body-viewport {
+    .ag-center-cols-viewport {
+      /* Prevent a double scrollbar. */
+      scrollbar-width: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
+  .ag-body-horizontal-scroll.ag-scrollbar-invisible {
+    /* Value is overridden in SkyAgGridWrapperComponent to match the calculated value AG Grid uses. */
+    --sky-ag-body-horizontal-scroll-width: 15px;
+    position: relative;
+    z-index: 1;
+    bottom: revert;
+    margin-bottom: calc(var(--sky-ag-body-horizontal-scroll-width) * -1);
+  }
+}
+
+ag-grid-angular {
+  border-top: sky-ag-grid-variables.$sky-standard-border;
+
+  input:focus {
+    border: none;
+    outline: none;
+  }
+
+  input::-ms-clear {
+    display: none;
+  }
+  .sky-ag-grid-cell-number,
+  .sky-ag-grid-cell-currency {
+    text-align: right;
+    padding-right: 12px;
+  }
+
+  .sky-ag-grid-cell-row-selector {
+    text-overflow: clip;
+  }
+
+  .ag-header-cell.sky-ag-grid-header-right-aligned
+    > .ag-header-cell-comp-wrapper {
+    flex-direction: row-reverse;
+  }
+}
+
+.sky-theme-default sky-toolbar + sky-ag-grid-wrapper {
+  ag-grid-angular {
+    border-top: none !important;
+  }
+}
+
+.sky-theme-default .sky-ag-grid-row-delete .sky-btn {
+  padding: 4px 12px;
+}
+
+ag-grid-angular + sky-infinite-scroll {
+  .sky-infinite-scroll {
+    margin-top: 0 !important;
+  }
+}
+
+sky-ag-grid-wrapper + sky-infinite-scroll {
+  .sky-infinite-scroll {
+    margin-top: 0 !important;
+  }
+}
+
+.ag-theme-sky-default {
+  .ag-header .ag-header-cell .ag-header-cell-text {
+    font-weight: normal;
+  }
+}

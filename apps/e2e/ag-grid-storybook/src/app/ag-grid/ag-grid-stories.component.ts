@@ -16,12 +16,7 @@ import {
 import { SkyDockLocation, SkyDockService } from '@skyux/core';
 import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 
-import {
-  Events,
-  GridOptions,
-  RowNode,
-  RowSelectedEvent,
-} from 'ag-grid-community';
+import { GridOptions, RowNode, RowSelectedEvent } from 'ag-grid-community';
 import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { delay, filter, map } from 'rxjs/operators';
 
@@ -183,14 +178,10 @@ export class AgGridStoriesComponent
                 }
               );
             }
-
-            params.api.addEventListener(
-              Events.EVENT_FIRST_DATA_RENDERED,
-              () => {
-                (
-                  this.#gridsReady.get(dataSet.id) as BehaviorSubject<boolean>
-                ).next(true);
-              }
+          },
+          onFirstDataRendered: () => {
+            (this.#gridsReady.get(dataSet.id) as BehaviorSubject<boolean>).next(
+              true
             );
           },
           rowData: dataSet.data,

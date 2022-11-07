@@ -15,7 +15,7 @@ import {
   SkyThemeSettings,
 } from '@skyux/theme';
 
-import { ColDef, Events, GridOptions } from 'ag-grid-community';
+import { ColDef, GridOptions } from 'ag-grid-community';
 import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { delay, filter, map } from 'rxjs/operators';
 
@@ -185,14 +185,9 @@ export class DataEntryGridComponent
           suppressColumnVirtualisation: true,
           suppressHorizontalScroll: true,
           suppressRowVirtualisation: true,
-          onGridReady: (params) => {
-            params.api.addEventListener(
-              Events.EVENT_FIRST_DATA_RENDERED,
-              () => {
-                (
-                  this.#gridsReady.get(dataSet.id) as BehaviorSubject<boolean>
-                ).next(true);
-              }
+          onFirstDataRendered: () => {
+            (this.#gridsReady.get(dataSet.id) as BehaviorSubject<boolean>).next(
+              true
             );
           },
           rowData: (() => {
