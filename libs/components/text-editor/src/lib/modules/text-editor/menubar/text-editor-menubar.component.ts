@@ -9,13 +9,16 @@ import {
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyDropdownMessage, SkyDropdownMessageType } from '@skyux/popovers';
 
-import { Subject, forkJoin } from 'rxjs';
+import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
 import { SkyFormsUtility } from '../../shared/forms-utility';
 import { SkyTextEditorAdapterService } from '../services/text-editor-adapter.service';
 import { SkyTextEditorMenuType } from '../types/menu-type';
 import { SkyTextEditorMergeField } from '../types/text-editor-merge-field';
+
+const FORMAT_MENU_ACTION = 'skyux_text_editor_format_menu_action_';
+const EDIT_MENU_ACTION = 'skyux_text_editor_edit_menu_action_';
 
 /**
  * @internal
@@ -97,135 +100,95 @@ export class SkyTextEditorMenubarComponent implements OnDestroy, OnInit {
         this.#closeDropdowns();
       });
 
-    forkJoin([
-      // Format menu strings.
-      this.#resources.getString(
-        'skyux_text_editor_format_menu_action_bold_label'
-      ),
-      this.#resources.getString(
-        'skyux_text_editor_format_menu_action_bold_key_shortcut'
-      ),
-      this.#resources.getString(
-        'skyux_text_editor_format_menu_action_italic_label'
-      ),
-      this.#resources.getString(
-        'skyux_text_editor_format_menu_action_italic_key_shortcut'
-      ),
-      this.#resources.getString(
-        'skyux_text_editor_format_menu_action_underline_label'
-      ),
-      this.#resources.getString(
-        'skyux_text_editor_format_menu_action_underline_key_shortcut'
-      ),
-      this.#resources.getString(
-        'skyux_text_editor_format_menu_action_strikethrough_label'
-      ),
-      this.#resources.getString(
-        'skyux_text_editor_format_menu_action_clear_formatting_label'
-      ),
-
-      // Edit menu string - start at index 8.
-      this.#resources.getString(
-        'skyux_text_editor_edit_menu_action_undo_label'
-      ),
-      this.#resources.getString(
-        'skyux_text_editor_edit_menu_action_undo_key_shortcut'
-      ),
-      this.#resources.getString(
-        'skyux_text_editor_edit_menu_action_redo_label'
-      ),
-      this.#resources.getString(
-        'skyux_text_editor_edit_menu_action_redo_key_shortcut'
-      ),
-      this.#resources.getString('skyux_text_editor_edit_menu_action_cut_label'),
-      this.#resources.getString(
-        'skyux_text_editor_edit_menu_action_cut_key_shortcut'
-      ),
-      this.#resources.getString(
-        'skyux_text_editor_edit_menu_action_copy_label'
-      ),
-      this.#resources.getString(
-        'skyux_text_editor_edit_menu_action_copy_key_shortcut'
-      ),
-      this.#resources.getString(
-        'skyux_text_editor_edit_menu_action_paste_label'
-      ),
-      this.#resources.getString(
-        'skyux_text_editor_edit_menu_action_paste_key_shortcut'
-      ),
-      this.#resources.getString(
-        'skyux_text_editor_edit_menu_action_select_all_label'
-      ),
-      this.#resources.getString(
-        'skyux_text_editor_edit_menu_action_select_all_key_shortcut'
-      ),
-    ])
-      .pipe(take(1))
+    this.#resources
+      .getStrings({
+        bold: FORMAT_MENU_ACTION + 'bold_label',
+        boldShort: FORMAT_MENU_ACTION + 'bold_key_shortcut',
+        italic: FORMAT_MENU_ACTION + 'italic_label',
+        italicShort: FORMAT_MENU_ACTION + 'italic_key_shortcut',
+        underline: FORMAT_MENU_ACTION + 'underline_label',
+        underlineShort: FORMAT_MENU_ACTION + 'underline_key_shortcut',
+        strikethrough: FORMAT_MENU_ACTION + 'strikethrough_label',
+        clearFormatting: FORMAT_MENU_ACTION + 'clear_formatting_label',
+        undo: EDIT_MENU_ACTION + 'undo_label',
+        undoShort: EDIT_MENU_ACTION + 'undo_key_shortcut',
+        redo: EDIT_MENU_ACTION + 'redo_label',
+        redoShort: EDIT_MENU_ACTION + 'redo_key_shortcut',
+        cut: EDIT_MENU_ACTION + 'cut_label',
+        cutShort: EDIT_MENU_ACTION + 'cut_key_shortcut',
+        copy: EDIT_MENU_ACTION + 'copy_label',
+        copyShort: EDIT_MENU_ACTION + 'copy_key_shortcut',
+        paste: EDIT_MENU_ACTION + 'paste_label',
+        pasteShort: EDIT_MENU_ACTION + 'paste_key_shortcut',
+        selectAll: EDIT_MENU_ACTION + 'select_all_label',
+        selectAllShort: EDIT_MENU_ACTION + 'select_all_key_shortcut',
+      })
+      .pipe(take(1), takeUntil(this.#ngUnsubscribe))
       .subscribe((resources) => {
         this.formatItems = [
           {
             function: () => this.execCommand('bold'),
-            label: resources[0],
-            keyShortcut: resources[1],
+            label: resources.bold,
+            keyShortcut: resources.boldShort,
           },
           {
             function: () => this.execCommand('italic'),
-            label: resources[2],
-            keyShortcut: resources[3],
+            label: resources.italic,
+            keyShortcut: resources.italicShort,
           },
           {
             function: () => this.execCommand('underline'),
-            label: resources[4],
-            keyShortcut: resources[5],
+            label: resources.underline,
+            keyShortcut: resources.underlineShort,
           },
           {
             function: () => this.execCommand('strikethrough'),
-            label: resources[6],
+            label: resources.strikethrough,
           },
           {
             isDivider: true,
           },
           {
             function: () => this.#clearFormat(),
-            label: resources[7],
+            label: resources.clearFormatting,
           },
         ];
         this.editItems = [
           {
             function: () => this.execCommand('undo'),
-            label: resources[8],
-            keyShortcut: resources[9],
+            label: resources.undo,
+            keyShortcut: resources.undoShort,
           },
           {
             function: () => this.execCommand('redo'),
-            label: resources[10],
-            keyShortcut: resources[11],
+            label: resources.redo,
+            keyShortcut: resources.redoShort,
           },
           {
             isDivider: true,
           },
           {
             function: () => this.execCommand('cut'),
-            label: resources[12],
-            keyShortcut: resources[13],
+            label: resources.cut,
+            keyShortcut: resources.cutShort,
           },
           {
             function: () => this.execCommand('copy'),
-            label: resources[14],
-            keyShortcut: resources[15],
+            label: resources.copy,
+            keyShortcut: resources.copyShort,
           },
           {
             function: () => this.execCommand('paste'),
-            label: resources[16],
-            keyShortcut: resources[17],
+            label: resources.paste,
+            keyShortcut: resources.pasteShort,
           },
           {
             isDivider: true,
           },
           {
             function: () => this.execCommand('selectAll'),
-            label: resources[18],
-            keyShortcut: resources[19],
+            label: resources.selectAll,
+            keyShortcut: resources.selectAllShort,
           },
         ];
       });
