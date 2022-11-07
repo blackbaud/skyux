@@ -6,10 +6,6 @@ import { FlyoutDemoModule } from '../code-examples/flyout/flyout/basic/flyout-de
 import { FlyoutDemoComponent as FlyoutCustomDemoComponent } from '../code-examples/flyout/flyout/custom-headers/flyout-demo.component';
 import { FlyoutDemoModule as FlyoutCustomDemoModule } from '../code-examples/flyout/flyout/custom-headers/flyout-demo.module';
 
-// TODO: add story for grid
-// import { FlyoutDemoComponent as FlyoutGridDemoComponent } from '../code-examples/flyout/flyout/grid/flyout-demo.component';
-// import { FlyoutDemoModule as FlyoutGridDemoModule } from '../code-examples/flyout/flyout/grid/flyout-demo.module';
-
 const routes: Routes = [
   {
     path: 'basic',
@@ -19,10 +15,6 @@ const routes: Routes = [
     path: 'custom-headers',
     component: FlyoutCustomDemoComponent,
   },
-  // {
-  //   path: 'grid',
-  //   component: FlyoutGridDemoComponent,
-  // },
 ];
 
 @NgModule({
@@ -32,11 +24,6 @@ const routes: Routes = [
 export class FlyoutRoutingModule {}
 
 @NgModule({
-  imports: [
-    FlyoutRoutingModule,
-    FlyoutDemoModule,
-    FlyoutCustomDemoModule,
-    // FlyoutGridDemoModule,
-  ],
+  imports: [FlyoutRoutingModule, FlyoutDemoModule, FlyoutCustomDemoModule],
 })
 export class FlyoutFeatureModule {}

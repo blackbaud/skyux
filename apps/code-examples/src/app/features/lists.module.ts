@@ -5,9 +5,6 @@ import { FilterDemoComponent } from '../code-examples/lists/filter/inline/filter
 import { FilterDemoModule } from '../code-examples/lists/filter/inline/filter-demo.module';
 import { FilterDemoComponent as FilterModalComponent } from '../code-examples/lists/filter/modal/filter-demo.component';
 import { FilterDemoModule as FilterModalModule } from '../code-examples/lists/filter/modal/filter-demo.module';
-// TODO: add story for infinite scroll
-// import { InfiniteScrollDemoComponent } from '../code-examples/lists/infinite-scroll/list/infinite-scroll-demo.component';
-// import { InfiniteScrollDemoModule } from '../code-examples/lists/infinite-scroll/list/infinite-scroll-demo.module';
 import { InfiniteScrollDemoComponent as InfiniteScrollRepeaterComponent } from '../code-examples/lists/infinite-scroll/repeater/infinite-scroll-demo.component';
 import { InfiniteScrollDemoModule as InfiniteScrollRepeaterModule } from '../code-examples/lists/infinite-scroll/repeater/infinite-scroll-demo.module';
 import { PagingDemoComponent } from '../code-examples/lists/paging/basic/paging-demo.component';
@@ -28,10 +25,6 @@ const routes: Routes = [
     path: 'filter/modal',
     component: FilterModalComponent,
   },
-  // {
-  //   path: 'infinite-scroll/list',
-  //   component: InfiniteScrollDemoComponent,
-  // },
   {
     path: 'infinite-scroll/repeater',
     component: InfiniteScrollRepeaterComponent,
@@ -67,7 +60,6 @@ export class ListsFeatureRoutingModule {}
     RepeaterBasicDemoModule,
     FilterDemoModule,
     FilterModalModule,
-    // InfiniteScrollDemoModule,
     InfiniteScrollRepeaterModule,
     PagingDemoModule,
     SortDemoModule,
