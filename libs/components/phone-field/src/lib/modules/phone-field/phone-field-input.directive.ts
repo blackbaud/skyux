@@ -90,20 +90,21 @@ export class SkyPhoneFieldInputDirective
   public skyPhoneFieldNoValidate: boolean | undefined = false;
 
   set #modelValue(value: string | undefined) {
-    this.#_modelValue = value;
+    const valueOrDefault = value ?? '';
+    this.#_modelValue = valueOrDefault;
+    this.#adapterService?.setElementValue(this.#elRef, valueOrDefault);
 
-    if (value) {
-      this.#adapterService?.setElementValue(this.#elRef, value);
-      const formattedValue = this.#formatNumber(value.toString());
+    if (valueOrDefault) {
+      const formattedValue = this.#formatNumber(valueOrDefault.toString());
 
       this.#onChange(formattedValue);
     } else {
-      this.#onChange(value);
+      this.#onChange(valueOrDefault);
     }
     this.#validatorChange();
   }
 
-  get #modelValue(): string | undefined {
+  get #modelValue(): string {
     return this.#_modelValue;
   }
 
@@ -117,7 +118,7 @@ export class SkyPhoneFieldInputDirective
 
   #_disabled!: boolean;
 
-  #_modelValue: string | undefined;
+  #_modelValue = '';
 
   #changeDetector: ChangeDetectorRef;
   #elRef: ElementRef;
