@@ -9,6 +9,7 @@ import {
 import { SkyProgressIndicatorItemStatus } from '../types/progress-indicator-item-status';
 
 const STATUS_DEFAULT = SkyProgressIndicatorItemStatus.Incomplete;
+const STATUS_NAME_DEFAULT = 'incomplete';
 
 /**
  * Specifies a step to include in the progress indicator. Each step requires a label,
@@ -42,9 +43,22 @@ export class SkyProgressIndicatorItemComponent implements OnInit {
 
     /* istanbul ignore next */
     this.#_status = value ?? STATUS_DEFAULT;
-    this.isPending = this.#_status === SkyProgressIndicatorItemStatus.Pending;
-    this.isIncomplete =
-      this.#_status === SkyProgressIndicatorItemStatus.Incomplete;
+
+    switch (this.#_status) {
+      case SkyProgressIndicatorItemStatus.Active:
+        this.statusName = 'active';
+        break;
+      case SkyProgressIndicatorItemStatus.Complete:
+        this.statusName = 'complete';
+        break;
+      case SkyProgressIndicatorItemStatus.Incomplete:
+        this.statusName = 'incomplete';
+        break;
+      case SkyProgressIndicatorItemStatus.Pending:
+        this.statusName = 'pending';
+        break;
+    }
+
     this.#changeDetector.markForCheck();
   }
 
@@ -56,8 +70,7 @@ export class SkyProgressIndicatorItemComponent implements OnInit {
   public isVisible = false;
   public showStatusMarker = true;
   public showTitle = true;
-  public isPending = false;
-  public isIncomplete = true;
+  public statusName = STATUS_NAME_DEFAULT;
 
   #titlePrefix: string | undefined;
   #changeDetector: ChangeDetectorRef;

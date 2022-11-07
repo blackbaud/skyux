@@ -1,7 +1,7 @@
 <div
   *ngIf="isVisible"
   class="sky-progress-indicator-item"
-  [ngClass]="'sky-progress-indicator-item-status-' + status"
+  [ngClass]="'sky-progress-indicator-item-status-' + statusName"
 >
   <sky-progress-indicator-status-marker
     *ngIf="showStatusMarker"
@@ -16,7 +16,7 @@
       class="sky-progress-indicator-item-heading"
       role="heading"
       [ngClass]="{
-        'sky-deemphasized': isPending
+        'sky-deemphasized': statusName === 'pending'
       }"
       [skyThemeClass]="{
         'sky-font-display-3': 'modern'
@@ -29,7 +29,7 @@
       ></span>
     </div>
     <div class="sky-progress-indicator-item-body">
-      <ng-template [ngIf]="!isIncomplete">
+      <ng-template [ngIf]="statusName !== 'incomplete'">
         <ng-content></ng-content>
       </ng-template>
     </div>
