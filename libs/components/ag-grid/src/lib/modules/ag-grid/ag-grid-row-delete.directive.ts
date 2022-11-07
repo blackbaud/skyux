@@ -170,12 +170,6 @@ export class SkyAgGridRowDeleteDirective
       SkyAgGridRowDeleteComponent
     ).instance;
 
-    this.agGrid.rowDataChanged
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(() => {
-        this.updateRowDeleteStates();
-      });
-
     this.agGrid.rowDataUpdated
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {

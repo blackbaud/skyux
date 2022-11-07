@@ -19,6 +19,7 @@ import {
   ValidationErrors,
   Validator,
 } from '@angular/forms';
+import { SkyIdService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -102,6 +103,7 @@ export class SkyToggleSwitchComponent
   public toggleChange = new EventEmitter<SkyToggleSwitchChange>();
 
   public hasLabelComponent = false;
+  public labelId: string;
 
   public enableIndicatorAnimation = false;
 
@@ -116,8 +118,9 @@ export class SkyToggleSwitchComponent
 
   #changeDetector: ChangeDetectorRef;
 
-  constructor(changeDetector: ChangeDetectorRef) {
+  constructor(changeDetector: ChangeDetectorRef, idService: SkyIdService) {
     this.#changeDetector = changeDetector;
+    this.labelId = idService.generateId();
   }
 
   public ngAfterContentInit(): void {

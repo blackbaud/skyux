@@ -13,6 +13,9 @@ describe('ag-grid-storybook', () => {
           .should('exist')
           .end()
 
+          // Verify that fonts are loaded.
+          .waitForFaAndBbFonts()
+
           // Activate a lookup field.
           .get('#editLookup div[row-id="alexape01"] > div[col-id="name"]')
           .should('be.visible')
@@ -20,20 +23,20 @@ describe('ag-grid-storybook', () => {
           .end()
 
           // Activate a date field without the calendar.
-          .get('#editDate div[row-id="aparilu01"] > div[col-id="birthday"]')
+          .get('#editDate div[row-id="bankser01"] > div[col-id="birthday"]')
           .should('be.visible')
           .click()
           .end()
 
           // Activate a date field.
           .get(
-            '#editDateWithCalendar div[row-id="berrayo01"] > div[col-id="birthday"]'
+            '#editDateWithCalendar div[row-id="blylebe01"] > div[col-id="birthday"]'
           )
           .should('be.visible')
           .click()
           .end()
 
-          // Open the calendar.
+          // Open the calendar and verify 04/06/1951 is selected.
           .get(
             '#editDateWithCalendar .ag-popup-editor button[aria-label="Select date"]'
           )
@@ -42,7 +45,23 @@ describe('ag-grid-storybook', () => {
           .end()
           .get('.ag-custom-component-popup .sky-datepicker-btn-selected')
           .should('be.visible')
-          .should('contain.text', '12')
+          .should('contain.text', '06')
+          .end()
+
+          // Expect inline help buttons to be visible in three grids.
+          .get('#editDateWithCalendar [col-id="name"] button.sky-help-inline')
+          .should('exist')
+          .should('be.visible')
+          .end()
+
+          .get('#editDate [col-id="name"] button.sky-help-inline')
+          .should('exist')
+          .should('be.visible')
+          .end()
+
+          .get('#editLookup [col-id="name"] button.sky-help-inline')
+          .should('exist')
+          .should('be.visible')
           .end()
 
           // Screenshot the three grids with active editors.
@@ -73,8 +92,11 @@ describe('ag-grid-storybook', () => {
           .should('exist')
           .end()
 
+          // Verify that fonts are loaded.
+          .waitForFaAndBbFonts()
+
           // Activate a text field.
-          .get('#editText div[row-id="bankser01"] > div[col-id="name"]')
+          .get('#editText div[row-id="benchjo01"] > div[col-id="name"]')
           .should('be.visible')
           .click()
           .end()

@@ -22,6 +22,10 @@ describe(`ag-grid-storybook data manager`, () => {
             cy.get('#ready')
               .should('exist')
               .end()
+
+              // Verify that fonts are loaded.
+              .waitForFaAndBbFonts()
+
               .get('#root')
               .should('exist')
               .should('be.visible')

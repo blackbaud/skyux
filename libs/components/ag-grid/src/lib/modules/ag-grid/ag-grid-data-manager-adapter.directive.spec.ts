@@ -176,7 +176,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
     const columnDragged = {
       columnApi,
-    } as DragStartedEvent | DragStoppedEvent;
+    } as DragStartedEvent & DragStoppedEvent;
 
     agGridComponent.dragStarted.emit(columnDragged);
     colIds.reverse();
@@ -201,7 +201,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     };
     const columnDragged = {
       columnApi,
-    } as DragStartedEvent | DragStoppedEvent;
+    } as DragStartedEvent & DragStoppedEvent;
     agGridComponent.dragStopped.emit(columnDragged);
     spyOn(dataManagerService, 'updateDataState');
     agGridComponent.dragStopped.emit(columnDragged);
@@ -367,6 +367,7 @@ it('should move the horizontal scroll based on enableTopScroll check', async () 
     'ag-body-horizontal-scroll',
     'ag-floating-top',
     'ag-body-viewport',
+    'ag-sticky-top',
     'ag-floating-bottom',
     'ag-overlay',
   ]);
