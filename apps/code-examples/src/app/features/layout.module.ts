@@ -21,6 +21,8 @@ import { DefinitionListDemoComponent } from '../code-examples/layout/definition-
 import { DefinitionListDemoModule } from '../code-examples/layout/definition-list/basic/definition-list-demo.module';
 import { DescriptionListDemoComponent } from '../code-examples/layout/description-list/horizontal/description-list-demo.component';
 import { DescriptionListDemoModule } from '../code-examples/layout/description-list/horizontal/description-list-demo.module';
+import { DescriptionListDemoComponent as DescriptionListInlineHelpDemoComponent } from '../code-examples/layout/description-list/inline-help/description-list-demo.component';
+import { DescriptionListDemoModule as DescriptionListInlineHelpDemoModule } from '../code-examples/layout/description-list/inline-help/description-list-demo.module';
 import { DescriptionListDemoComponent as DescriptionListLongDescriptionComponent } from '../code-examples/layout/description-list/long-description/description-list-demo.component';
 import { DescriptionListDemoModule as DescriptionListLongDescriptionModule } from '../code-examples/layout/description-list/long-description/description-list-demo.module';
 import { DescriptionListDemoComponent as DescriptionListVerticalComponent } from '../code-examples/layout/description-list/vertical/description-list-demo.component';

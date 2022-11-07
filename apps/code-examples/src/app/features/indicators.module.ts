@@ -58,10 +58,6 @@ const routes: Routes = [
     component: KeyInfoInlineHelpDemoComponent,
   },
   {
-    path: 'key-info/inline-help',
-    component: KeyInfoInlineHelpComponent,
-  },
-  {
     path: 'label/basic',
     component: LabelDemoComponent,
   },
@@ -111,7 +107,6 @@ export class IndicatorsFeatureRoutingModule {}
     TokensCustomDemoModule,
     HelpInlineDemoModule,
     IconDemoModule,
-    KeyInfoInlineHelpModule,
     WaitDemoModule,
     WaitPageModule,
   ],
