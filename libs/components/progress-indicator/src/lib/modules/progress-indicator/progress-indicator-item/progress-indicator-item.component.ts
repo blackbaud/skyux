@@ -3,9 +3,13 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnInit,
 } from '@angular/core';
 
 import { SkyProgressIndicatorItemStatus } from '../types/progress-indicator-item-status';
+
+const STATUS_DEFAULT = SkyProgressIndicatorItemStatus.Incomplete;
+const STATUS_NAME_DEFAULT = 'incomplete';
 
 /**
  * Specifies a step to include in the progress indicator. Each step requires a label,
@@ -17,75 +21,82 @@ import { SkyProgressIndicatorItemStatus } from '../types/progress-indicator-item
   styleUrls: ['./progress-indicator-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyProgressIndicatorItemComponent {
+export class SkyProgressIndicatorItemComponent implements OnInit {
   /**
    * Specifies a step label for the step in the progress indicator.
    * @required
    */
   @Input()
-  public title: string;
-
-  public get formattedTitle(): string {
-    return `${this.titlePrefix}${this.title}`;
+  public set title(value: string | undefined) {
+    this.#_title = value;
+    this.#updateFormattedTitle();
   }
 
-  public get status(): SkyProgressIndicatorItemStatus {
-    /* istanbul ignore next */
-    if (this._status === undefined) {
-      return SkyProgressIndicatorItemStatus.Incomplete;
-    }
-
-    return this._status;
+  public get title(): string | undefined {
+    return this.#_title;
   }
 
-  public set status(value: SkyProgressIndicatorItemStatus) {
-    if (value === this._status) {
+  public set status(value: SkyProgressIndicatorItemStatus | undefined) {
+    if (value === this.#_status) {
       return;
     }
 
-    this._status = value;
-    this.changeDetector.markForCheck();
-  }
+    /* istanbul ignore next */
+    this.#_status = value ?? STATUS_DEFAULT;
 
-  public get statusName(): string {
-    let name: string;
-
-    switch (this.status) {
+    switch (this.#_status) {
       case SkyProgressIndicatorItemStatus.Active:
-        name = 'active';
+        this.statusName = 'active';
         break;
-
       case SkyProgressIndicatorItemStatus.Complete:
-        name = 'complete';
+        this.statusName = 'complete';
         break;
-
       case SkyProgressIndicatorItemStatus.Incomplete:
-        name = 'incomplete';
+        this.statusName = 'incomplete';
         break;
-
       case SkyProgressIndicatorItemStatus.Pending:
-        name = 'pending';
+        this.statusName = 'pending';
         break;
     }
 
-    return name;
+    this.#changeDetector.markForCheck();
   }
 
+  public get status(): SkyProgressIndicatorItemStatus {
+    return this.#_status;
+  }
+
+  public formattedTitle: string | undefined;
   public isVisible = false;
   public showStatusMarker = true;
   public showTitle = true;
+  public statusName = STATUS_NAME_DEFAULT;
 
-  private titlePrefix: string;
+  #titlePrefix: string | undefined;
+  #changeDetector: ChangeDetectorRef;
 
-  private _status: SkyProgressIndicatorItemStatus;
+  #_title: string | undefined;
+  #_status = STATUS_DEFAULT;
 
-  constructor(private changeDetector: ChangeDetectorRef) {}
+  constructor(changeDetector: ChangeDetectorRef) {
+    this.#changeDetector = changeDetector;
+  }
+
+  public ngOnInit(): void {
+    this.#updateFormattedTitle();
+  }
 
   public showStepNumber(step: number): void {
-    this.titlePrefix = `${step} - `;
+    this.#titlePrefix = `${step} - `;
+    this.#updateFormattedTitle();
   }
 
   public hideStepNumber(): void {
-    this.titlePrefix = '';
+    this.#titlePrefix = '';
+    this.#updateFormattedTitle();
+  }
+
+  #updateFormattedTitle(): void {
+    this.formattedTitle = `${this.#titlePrefix}${this.title}`;
   }
 }

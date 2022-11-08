@@ -30,81 +30,97 @@ export class SkyProgressIndicatorFixtureComponent {
   @ViewChild(SkyProgressIndicatorComponent, {
     static: true,
   })
-  public emptyProgressIndicator: SkyProgressIndicatorComponent;
+  public emptyProgressIndicator: SkyProgressIndicatorComponent | undefined;
 
   @ViewChild(SkyProgressIndicatorComponent, {
     static: true,
   })
-  public progressIndicator: SkyProgressIndicatorComponent;
+  public progressIndicator: SkyProgressIndicatorComponent | undefined;
 
   @ViewChild('progressIndicator', {
     read: TemplateRef,
     static: true,
   })
-  public progressIndicatorTemplateRef: TemplateRef<unknown>;
+  public progressIndicatorTemplateRef: TemplateRef<unknown> | undefined;
 
   @ViewChild(SkyProgressIndicatorResetButtonComponent, {
     static: true,
   })
-  public resetButtonComponentLegacy: SkyProgressIndicatorResetButtonComponent;
+  public resetButtonComponentLegacy:
+    | SkyProgressIndicatorResetButtonComponent
+    | undefined;
 
   @ViewChild('legacyResetButton', {
     read: ElementRef,
     static: false,
   })
-  public legacyResetButton: ElementRef;
+  public legacyResetButton: ElementRef | undefined;
 
   @ViewChild('legacyIsolatedResetButton', {
     read: ElementRef,
     static: false,
   })
-  public legacyIsolatedResetButton: ElementRef;
+  public legacyIsolatedResetButton: ElementRef | undefined;
 
   @ViewChild('defaultNavButton', {
     read: SkyProgressIndicatorNavButtonComponent,
     static: false,
   })
-  public defaultNavButtonComponent: SkyProgressIndicatorNavButtonComponent;
+  public defaultNavButtonComponent:
+    | SkyProgressIndicatorNavButtonComponent
+    | undefined;
 
   @ViewChild('defaultNavButton', {
     read: ElementRef,
     static: false,
   })
-  public defaultNavButtonElement: ElementRef;
+  public defaultNavButtonElement: ElementRef | undefined;
 
   @ViewChildren(SkyProgressIndicatorItemComponent)
-  public progressItems: QueryList<SkyProgressIndicatorItemComponent>;
+  public progressItems:
+    | QueryList<SkyProgressIndicatorItemComponent>
+    | undefined;
 
   @ViewChildren(SkyProgressIndicatorNavButtonComponent)
-  public navButtonComponents: QueryList<SkyProgressIndicatorNavButtonComponent>;
+  public navButtonComponents:
+    | QueryList<SkyProgressIndicatorNavButtonComponent>
+    | undefined;
 
   @ViewChildren(SkyProgressIndicatorNavButtonComponent, { read: ElementRef })
-  public navButtonElements: QueryList<ElementRef>;
+  public navButtonElements: QueryList<ElementRef> | undefined;
 
   // Progress indicator component inputs.
-  public displayMode: SkyProgressIndicatorDisplayModeType;
-  public isPassive: boolean;
-  public messageStream = new Subject<
-    SkyProgressIndicatorMessage | SkyProgressIndicatorMessageType
-  >();
-  public startingIndex: number;
+  public displayMode: SkyProgressIndicatorDisplayModeType | undefined;
+  public isPassive: boolean | undefined;
+  public messageStream:
+    | Subject<SkyProgressIndicatorMessage | SkyProgressIndicatorMessageType>
+    | undefined = new Subject();
+  public startingIndex: number | undefined;
 
   // Nav button inputs.
-  public disabled: boolean;
+  public disabled: boolean | undefined;
 
   // Template values.
   public buttonConfigs: {
     text?: string;
-    type: SkyProgressIndicatorNavButtonType;
+    type: SkyProgressIndicatorNavButtonType | undefined;
   }[];
-  public defaultNavButtonProgressIndicatorRef: SkyProgressIndicatorComponent;
-  public lastChange: SkyProgressIndicatorChange;
+  public defaultNavButtonProgressIndicatorRef:
+    | SkyProgressIndicatorComponent
+    | undefined;
+  public lastChange: SkyProgressIndicatorChange | undefined;
   public showNavButtons = false;
   public showIsolatedLegacyResetButton = false;
-  public progressIndicatorTemplateRefLegacy: SkyProgressIndicatorComponent;
+  public progressIndicatorTemplateRefLegacy:
+    | SkyProgressIndicatorComponent
+    | undefined;
   public showFourthItem = false;
 
-  constructor(private changeDetector: ChangeDetectorRef) {
+  #changeDetector: ChangeDetectorRef;
+
+  constructor(changeDetector: ChangeDetectorRef) {
+    this.#changeDetector = changeDetector;
+
     this.buttonConfigs = [
       {
         type: 'finish',
@@ -125,14 +141,15 @@ export class SkyProgressIndicatorFixtureComponent {
     this.lastChange = change;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   public onResetClick(): void {}
 
   public sendMessage(message: SkyProgressIndicatorMessage): void {
-    this.messageStream.next(message);
+    this.messageStream?.next(message);
   }
 
   public sendMessageLegacy(type: SkyProgressIndicatorMessageType): void {
-    this.messageStream.next(type);
+    this.messageStream?.next(type);
   }
 
   public setNavButtonText(): void {
@@ -158,11 +175,11 @@ export class SkyProgressIndicatorFixtureComponent {
 
   public displayFourthItem(): void {
     this.showFourthItem = true;
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   public hideFourthItem(): void {
     this.showFourthItem = false;
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 }

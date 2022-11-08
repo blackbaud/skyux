@@ -14,7 +14,7 @@ export class SkyProgressIndicatorProgressHandlerFixtureComponent {
   @ViewChild(SkyProgressIndicatorComponent, {
     static: true,
   })
-  public progressIndicator: SkyProgressIndicatorComponent;
+  public progressIndicator: SkyProgressIndicatorComponent | undefined;
 
   public isLoading = false;
 

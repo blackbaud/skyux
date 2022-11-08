@@ -26,75 +26,48 @@ import { SkyProgressIndicatorItemStatus } from '../types/progress-indicator-item
 export class SkyProgressIndicatorStatusMarkerComponent implements OnDestroy {
   @Input()
   public set displayMode(value: 'vertical' | 'horizontal') {
-    this._displayMode = value;
+    this.#_displayMode = value;
   }
 
   public get displayMode(): 'vertical' | 'horizontal' {
-    if (this._displayMode === undefined) {
-      return 'vertical';
-    }
-
-    return this._displayMode;
+    return this.#_displayMode;
   }
 
   @Input()
   public set status(value: SkyProgressIndicatorItemStatus) {
-    this._status = value;
-    this.changeDetector.markForCheck();
+    this.#_status = value;
+    this.isComplete = this.#_status === SkyProgressIndicatorItemStatus.Complete;
   }
 
-  public get cssClassNames(): string {
-    const classNames = [
-      `sky-progress-indicator-status-marker-mode-${this.displayMode}`,
-      `sky-progress-indicator-status-marker-status-${this.statusName}`,
-    ];
-
-    return classNames.join(' ');
+  public get status(): SkyProgressIndicatorItemStatus {
+    return this.#_status;
   }
 
-  public get statusName(): string {
-    let name: string;
+  public isComplete = false;
 
-    switch (this._status) {
-      case SkyProgressIndicatorItemStatus.Active:
-        name = 'active';
-        break;
+  #ngUnsubscribe = new Subject<void>();
+  #changeDetector: ChangeDetectorRef;
 
-      case SkyProgressIndicatorItemStatus.Complete:
-        name = 'complete';
-        break;
-
-      case SkyProgressIndicatorItemStatus.Incomplete:
-        name = 'incomplete';
-        break;
-
-      case SkyProgressIndicatorItemStatus.Pending:
-        name = 'pending';
-        break;
-    }
-
-    return name;
-  }
-
-  private ngUnsubscribe = new Subject<void>();
-
-  private _displayMode: 'vertical' | 'horizontal';
-  private _status: SkyProgressIndicatorItemStatus;
+  #_status: SkyProgressIndicatorItemStatus =
+    SkyProgressIndicatorItemStatus.Active;
+  #_displayMode: 'vertical' | 'horizontal' = 'vertical';
 
   constructor(
-    private changeDetector: ChangeDetectorRef,
+    changeDetector: ChangeDetectorRef,
     @Optional() themeSvc?: SkyThemeService
   ) {
+    this.#changeDetector = changeDetector;
+
     // Update icons when theme changes.
     themeSvc?.settingsChange
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
-        this.changeDetector.markForCheck();
+        this.#changeDetector.markForCheck();
       });
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 }
