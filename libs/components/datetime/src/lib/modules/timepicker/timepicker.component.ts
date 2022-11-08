@@ -52,12 +52,12 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
   public selectedTimeChanged: EventEmitter<SkyTimepickerTimeOutput> = new EventEmitter<SkyTimepickerTimeOutput>();
 
   public set disabled(value: boolean) {
-    this._disabled = value;
-    this.changeDetector.markForCheck();
+    this.#_disabled = value;
+    this.#changeDetector.markForCheck();
   }
 
   public get disabled(): boolean {
-    return this._disabled;
+    return this.#_disabled;
   }
 
   public set selectedHour(setHour: number) {
@@ -84,9 +84,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
     if (!this.is8601) {
       /* istanbul ignore next */
       return parseInt(moment(this.activeTime).format('h'), 0) || 1;
-    }
-    /* istanbul ignore else */
-    if (this.is8601) {
+    } else {
       return moment(this.activeTime).hour() + 0;
     }
   }
@@ -120,18 +118,18 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
     return moment(this.activeTime).minute() + 0;
   }
 
-  public set selectedTime(newTime: SkyTimepickerTimeOutput) {
+  public set selectedTime(newTime: SkyTimepickerTimeOutput | undefined) {
     if (typeof newTime !== 'undefined') {
       /* sanity check */
       /* istanbul ignore else */
       if (newTime.local !== 'Invalid date') {
         this.activeTime = newTime.iso8601;
-        this.changeDetector.markForCheck();
+        this.#changeDetector.markForCheck();
       }
     }
   }
 
-  public get selectedTime(): SkyTimepickerTimeOutput {
+  public get selectedTime(): SkyTimepickerTimeOutput | undefined {
     const time: SkyTimepickerTimeOutput = {
       hour: moment(this.activeTime).hour(),
       minute: moment(this.activeTime).minute(),
@@ -148,23 +146,23 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
     return time;
   }
 
-  public activeTime: Date;
+  public activeTime: Date = new Date();
 
-  public hours: Array<number>;
+  public hours: Array<number> = [];
 
   public is8601 = false;
 
-  public isOpen: boolean;
+  public isOpen = false;
 
-  public isVisible: boolean;
+  public isVisible = false;
 
-  public localeFormat: string;
+  public localeFormat = 'h:mm A';
 
-  public minutes: Array<number>;
+  public minutes: Array<number> = [];
 
-  public minuteMultiplier: number;
+  public minuteMultiplier: number | undefined;
 
-  public returnFormat: string;
+  public returnFormat: string | undefined;
 
   public timeFormat = 'hh';
 
@@ -175,94 +173,106 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
   @ViewChild('timepickerRef', {
     read: ElementRef,
   })
-  private set timepickerRef(value: ElementRef) {
+  public set timepickerRef(value: ElementRef | undefined) {
     if (value) {
-      this._timepickerRef = value;
+      this.#_timepickerRef = value;
 
       // Wait for the timepicker component to render before guaging dimensions.
       setTimeout(() => {
-        this.destroyAffixer();
-        this.createAffixer();
+        this.#destroyAffixer();
+        this.#createAffixer();
 
         setTimeout(() => {
-          this.coreAdapter.getFocusableChildrenAndApplyFocus(
-            this.timepickerRef,
-            '.sky-timepicker-content',
-            false
-          );
+          if (this.timepickerRef) {
+            this.#coreAdapter.getFocusableChildrenAndApplyFocus(
+              this.timepickerRef,
+              '.sky-timepicker-content',
+              false
+            );
+          }
 
           this.isVisible = true;
-          this.changeDetector.markForCheck();
+          this.#changeDetector.markForCheck();
         });
       });
     }
   }
 
-  private get timepickerRef(): ElementRef {
-    return this._timepickerRef;
+  public get timepickerRef(): ElementRef | undefined {
+    return this.#_timepickerRef;
   }
 
   @ViewChild('timepickerTemplateRef', {
     read: TemplateRef,
   })
-  private timepickerTemplateRef: TemplateRef<unknown>;
+  public timepickerTemplateRef: TemplateRef<unknown> | undefined;
 
   @ViewChild('triggerButtonRef', {
     read: ElementRef,
   })
-  private triggerButtonRef: ElementRef;
+  public triggerButtonRef: ElementRef | undefined;
 
   @ViewChild('inputTemplateRef', {
     read: TemplateRef,
     static: true,
   })
-  private inputTemplateRef: TemplateRef<unknown>;
+  public inputTemplateRef: TemplateRef<unknown> | undefined;
 
   @ViewChild('triggerButtonTemplateRef', {
     read: TemplateRef,
     static: true,
   })
-  private triggerButtonTemplateRef: TemplateRef<unknown>;
+  public triggerButtonTemplateRef: TemplateRef<unknown> | undefined;
 
-  private affixer: SkyAffixer;
+  #affixer: SkyAffixer | undefined;
 
-  private timepickerUnsubscribe: Subject<void>;
+  #timepickerUnsubscribe = new Subject<void>();
 
-  private ngUnsubscribe = new Subject<void>();
+  #ngUnsubscribe = new Subject<void>();
 
-  private overlay: SkyOverlayInstance;
+  #overlay: SkyOverlayInstance | undefined;
 
-  private overlayKeydownListner: Subscription;
+  #overlayKeydownListner: Subscription | undefined;
 
-  private _disabled: boolean;
+  #_disabled = false;
 
-  private _timepickerRef: ElementRef;
+  #_timepickerRef: ElementRef | undefined;
+
+  #affixService: SkyAffixService;
+  #changeDetector: ChangeDetectorRef;
+  #coreAdapter: SkyCoreAdapterService;
+  #overlayService: SkyOverlayService;
 
   constructor(
-    private affixService: SkyAffixService,
-    private changeDetector: ChangeDetectorRef,
-    private coreAdapter: SkyCoreAdapterService,
-    private overlayService: SkyOverlayService,
+    affixService: SkyAffixService,
+    changeDetector: ChangeDetectorRef,
+    coreAdapter: SkyCoreAdapterService,
+    overlayService: SkyOverlayService,
     @Optional() public inputBoxHostService?: SkyInputBoxHostService,
     @Optional() themeSvc?: SkyThemeService
   ) {
+    this.#affixService = affixService;
+    this.#changeDetector = changeDetector;
+    this.#coreAdapter = coreAdapter;
+    this.#overlayService = overlayService;
+
     const uniqueId = nextId++;
     this.timepickerId = `sky-timepicker-${uniqueId}`;
     this.triggerButtonId = `sky-timepicker-button-${uniqueId}`;
 
     // Update icons when theme changes.
     themeSvc?.settingsChange
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
-        this.changeDetector.markForCheck();
+        this.#changeDetector.markForCheck();
       });
   }
 
   public ngOnInit(): void {
     this.setFormat(this.timeFormat);
-    this.addKeydownListener();
+    this.#addKeydownListener();
 
-    if (this.inputBoxHostService) {
+    if (this.inputBoxHostService && this.inputTemplateRef) {
       this.inputBoxHostService.populate({
         inputTemplate: this.inputTemplateRef,
         buttonsTemplate: this.triggerButtonTemplateRef,
@@ -271,11 +281,11 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
-    this.removePickerEventListeners();
-    this.destroyAffixer();
-    this.destroyOverlay();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
+    this.#removePickerEventListeners();
+    this.#destroyAffixer();
+    this.#destroyOverlay();
   }
 
   public setFormat(format: string): void {
@@ -332,7 +342,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
   }
 
   public onCloseButtonCick(): void {
-    this.closePicker();
+    this.#closePicker();
   }
 
   public setTime(event: any): void {
@@ -355,110 +365,116 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
   }
 
   public onTriggerButtonClick(): void {
-    this.openPicker();
+    this.#openPicker();
   }
 
-  private closePicker() {
-    this.destroyAffixer();
-    this.destroyOverlay();
-    this.removePickerEventListeners();
-    this.triggerButtonRef.nativeElement.focus();
+  #closePicker() {
+    this.#destroyAffixer();
+    this.#destroyOverlay();
+    this.#removePickerEventListeners();
+    this.triggerButtonRef?.nativeElement.focus();
     this.isOpen = false;
   }
 
-  private openPicker(): void {
+  #openPicker(): void {
     this.isVisible = false;
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
 
-    this.removePickerEventListeners();
-    this.timepickerUnsubscribe = new Subject<void>();
-    this.destroyOverlay();
-    this.createOverlay();
+    this.#removePickerEventListeners();
+    this.#destroyOverlay();
+    this.#createOverlay();
 
     this.isOpen = true;
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
-  private createAffixer(): void {
-    const affixer = this.affixService.createAffixer(this.timepickerRef);
+  #createAffixer(): void {
+    if (this.timepickerRef && this.triggerButtonRef) {
+      const affixer = this.#affixService.createAffixer(this.timepickerRef);
 
-    // Hide timepicker when trigger button is scrolled off screen.
-    affixer.placementChange
-      .pipe(takeUntil(this.timepickerUnsubscribe))
-      .subscribe((change) => {
-        this.isVisible = change.placement !== null;
-        this.changeDetector.markForCheck();
+      // Hide timepicker when trigger button is scrolled off screen.
+      affixer.placementChange
+        .pipe(takeUntil(this.#timepickerUnsubscribe))
+        .subscribe((change) => {
+          this.isVisible = change.placement !== null;
+          this.#changeDetector.markForCheck();
+        });
+
+      affixer.affixTo(this.triggerButtonRef.nativeElement, {
+        autoFitContext: SkyAffixAutoFitContext.Viewport,
+        enableAutoFit: true,
+        horizontalAlignment: 'right',
+        isSticky: true,
+        placement: 'below',
       });
 
-    affixer.affixTo(this.triggerButtonRef.nativeElement, {
-      autoFitContext: SkyAffixAutoFitContext.Viewport,
-      enableAutoFit: true,
-      horizontalAlignment: 'right',
-      isSticky: true,
-      placement: 'below',
-    });
-
-    this.affixer = affixer;
-  }
-
-  private destroyAffixer(): void {
-    /*istanbul ignore else*/
-    if (this.affixer) {
-      this.affixer.destroy();
-      this.affixer = undefined;
+      this.#affixer = affixer;
     }
   }
 
-  private createOverlay(): void {
-    const overlay = this.overlayService.create({
-      enableClose: false,
-      enablePointerEvents: false,
-    });
-
-    overlay.backdropClick
-      .pipe(takeUntil(this.timepickerUnsubscribe))
-      .subscribe(() => {
-        /* istanbul ignore else */
-        if (this.isOpen) {
-          this.closePicker();
-        }
-      });
-
-    this.addKeydownListener();
-
-    overlay.attachTemplate(this.timepickerTemplateRef);
-
-    this.overlay = overlay;
-  }
-
-  private destroyOverlay(): void {
+  #destroyAffixer(): void {
     /*istanbul ignore else*/
-    if (this.overlay) {
-      this.overlayService.close(this.overlay);
-      this.overlay = undefined;
+    if (this.#affixer) {
+      this.#affixer.destroy();
+      this.#affixer = undefined;
     }
   }
 
-  private addKeydownListener(): void {
-    this.overlayKeydownListner = fromEvent(window.document, 'keydown')
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((event: KeyboardEvent) => {
+  #createOverlay(): void {
+    if (this.timepickerTemplateRef) {
+      const overlay = this.#overlayService.create({
+        enableClose: false,
+        enablePointerEvents: false,
+      });
+
+      overlay.backdropClick
+        .pipe(takeUntil(this.#timepickerUnsubscribe))
+        .subscribe(() => {
+          /* istanbul ignore else */
+          if (this.isOpen) {
+            this.#closePicker();
+          }
+        });
+
+      this.#addKeydownListener();
+
+      overlay.attachTemplate(this.timepickerTemplateRef);
+
+      this.#overlay = overlay;
+    }
+  }
+
+  #destroyOverlay(): void {
+    /*istanbul ignore else*/
+    if (this.#overlay) {
+      this.#overlayService.close(this.#overlay);
+      this.#overlay = undefined;
+    }
+  }
+
+  #addKeydownListener(): void {
+    this.#overlayKeydownListner = fromEvent<KeyboardEvent>(
+      window.document,
+      'keydown'
+    )
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((event) => {
         const key = event.key?.toLowerCase();
         /* istanbul ignore else */
         if (key === 'escape' && this.isOpen) {
-          this.closePicker();
+          this.#closePicker();
         }
       });
   }
 
-  private removePickerEventListeners(): void {
+  #removePickerEventListeners(): void {
     /* istanbul ignore else */
-    if (this.timepickerUnsubscribe) {
-      this.timepickerUnsubscribe.next();
-      this.timepickerUnsubscribe.complete();
-      this.timepickerUnsubscribe = undefined;
+    if (this.#timepickerUnsubscribe) {
+      this.#timepickerUnsubscribe.next();
+      this.#timepickerUnsubscribe.complete();
+      this.#timepickerUnsubscribe = new Subject<void>();
     }
     /* istanbul ignore next */
-    this.overlayKeydownListner?.unsubscribe();
+    this.#overlayKeydownListner?.unsubscribe();
   }
 }
