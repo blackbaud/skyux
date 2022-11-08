@@ -5,5 +5,5 @@ import { Component } from '@angular/core';
   templateUrl: './rich-text-display-fixture.component.html',
 })
 export class RichTextDisplayFixtureComponent {
-  public richText: string;
+  public richText: string | undefined;
 }
