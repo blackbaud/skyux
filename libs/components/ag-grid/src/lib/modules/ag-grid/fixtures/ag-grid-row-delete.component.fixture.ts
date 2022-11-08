@@ -6,6 +6,8 @@ import {
   GridOptions,
   GridReadyEvent,
 } from 'ag-grid-community';
+import { fromEvent } from 'rxjs';
+import { first, map } from 'rxjs/operators';
 
 import { SkyAgGridService } from '../ag-grid.service';
 import { SkyAgGridRowDeleteCancelArgs } from '../types/ag-grid-row-delete-cancel-args';
@@ -38,6 +40,7 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
       field: 'name',
       headerName: 'First Name',
       width: this.allColumnWidth,
+      filter: 'agTextColumnFilter',
     },
     {
       field: 'nickname',
@@ -108,7 +111,13 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
     this.gridData = SKY_AG_GRID_LONG_DATA;
   }
 
-  public filterName(): void {
+  public filterName(): Promise<void> {
+    const filterChangedPromise = fromEvent(this.gridApi, 'filterChanged')
+      .pipe(
+        first(),
+        map(() => undefined)
+      )
+      .toPromise();
     this.gridApi.setFilterModel({
       name: {
         filterType: 'text',
@@ -116,12 +125,18 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
         filter: 'Mar',
       },
     });
-    this.gridApi.onFilterChanged();
+    return filterChangedPromise;
   }
 
-  public clearFilter(): void {
-    this.gridApi.setFilterModel(undefined);
-    this.gridApi.onFilterChanged();
+  public clearFilter(): Promise<void> {
+    const filterChangedPromise = fromEvent(this.gridApi, 'filterChanged')
+      .pipe(
+        first(),
+        map(() => undefined)
+      )
+      .toPromise();
+    this.gridApi.destroyFilter('name');
+    return filterChangedPromise;
   }
 
   public finishRowDelete(confirmArgs: SkyAgGridRowDeleteConfirmArgs): void {
@@ -137,7 +152,13 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
     this.gridData = this.gridData.slice(1);
   }
 
-  public sortName(): void {
+  public sortName(): Promise<void> {
+    const sortChangedPromise = fromEvent(this.gridApi, 'sortChanged')
+      .pipe(
+        first(),
+        map(() => undefined)
+      )
+      .toPromise();
     this.columnApi.applyColumnState({
       state: [
         {
@@ -146,5 +167,6 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
         },
       ],
     });
+    return sortChangedPromise;
   }
 }

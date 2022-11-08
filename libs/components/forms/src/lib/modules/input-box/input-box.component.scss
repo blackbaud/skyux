@@ -99,6 +99,16 @@ sky-input-box {
       width: initial;
     }
   }
+
+  .sky-input-box-textarea-wrapper {
+    /* Setting line-height to 0 eliminates extra whitespace under the textarea */
+    line-height: 0;
+    width: 100%;
+
+    &:empty {
+      display: none;
+    }
+  }
 }
 
 .sky-theme-modern {
@@ -278,6 +288,17 @@ sky-input-box {
         }
       }
 
+      /*
+      Text inside a textarea displays over the textarea's padding instead of under it,
+      causing text to overlap with the input box's label element when scrolled. Use a
+      wrapping element around textarea with its own padding and negative margin instead.
+      */
+      .sky-form-control,
+      .sky-input-box-textarea-wrapper {
+        margin-top: -23px;
+        padding-top: 26px;
+      }
+
       .sky-form-control {
         background-color: transparent;
         border: none;
@@ -291,8 +312,9 @@ sky-input-box {
         */
         height: auto;
         line-height: 18px;
-        margin-top: -23px;
-        padding: 26px 15px 10px 15px;
+        padding-right: 15px;
+        padding-bottom: 10px;
+        padding-left: 15px;
         position: relative;
 
         &:first-line {
@@ -362,6 +384,8 @@ sky-input-box {
       }
 
       textarea.sky-form-control {
+        margin-top: 0;
+        padding-top: 0;
         resize: vertical;
       }
     }

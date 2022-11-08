@@ -34,6 +34,22 @@ describe(`ag-grid-storybook`, () => {
           .should('contain.text', 'Expected a number between 1 and 18.')
           .end()
 
+          // Expect inline help buttons to be visible in three grids.
+          .get('#row-delete [col-id="name"] button.sky-help-inline')
+          .should('exist')
+          .should('be.visible')
+          .end()
+
+          .get('#back-to-top [col-id="name"] button.sky-help-inline')
+          .should('exist')
+          .should('be.visible')
+          .end()
+
+          .get('#validation [col-id="name"] button.sky-help-inline')
+          .should('exist')
+          .should('be.visible')
+          .end()
+
           .get('#root')
           .should('exist')
           .should('be.visible')

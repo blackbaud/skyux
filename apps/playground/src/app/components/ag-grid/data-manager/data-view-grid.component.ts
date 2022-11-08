@@ -169,7 +169,7 @@ export class DataViewGridComponent implements OnInit {
   public sortItems(): void {
     const sortOption = this.dataState.activeSortOption;
     if (this.columnApi && sortOption) {
-      const allColumns = this.columnApi.getAllColumns();
+      const allColumns = this.columnApi.getColumns();
       allColumns.forEach((column) => {
         if (column.getColId() === sortOption.propertyName) {
           column.setSort(sortOption.descending ? 'desc' : 'asc');

@@ -1,0 +1,49 @@
+<div class="ag-cell-label-container" role="presentation">
+  <span
+    *ngIf="params?.enableMenu"
+    class="ag-header-icon ag-header-cell-menu-button"
+    aria-hidden="true"
+    (click)="onMenuClick($event)"
+  >
+    <sky-icon *skyThemeIf="'default'" icon="menu"></sky-icon>
+    <sky-icon *skyThemeIf="'modern'" icon="menu" iconType="skyux"></sky-icon>
+  </span>
+  <div
+    class="ag-header-cell-label"
+    role="presentation"
+    (click)="onSortRequested($event)"
+  >
+    <span class="ag-header-cell-text">{{ params?.displayName }}</span>
+    <span
+      *ngIf="filterEnabled$ | async"
+      class="ag-header-icon ag-header-label-icon ag-filter-icon"
+      aria-hidden="true"
+    >
+      <sky-icon *skyThemeIf="'default'" icon="filter"></sky-icon>
+      <sky-icon
+        *skyThemeIf="'modern'"
+        icon="filter"
+        iconType="skyux"
+      ></sky-icon>
+    </span>
+    <span *ngIf="params?.enableSorting" class="ag-sort-indicator-container">
+      <sky-icon
+        *ngIf="(sortOrder$ | async) === 'desc'"
+        icon="caret-down"
+        class="ag-header-label-icon"
+      ></sky-icon>
+      <sky-icon
+        *ngIf="(sortOrder$ | async) === 'asc'"
+        icon="caret-up"
+        class="ag-header-label-icon"
+      ></sky-icon>
+      <span
+        *ngIf="sortIndexDisplay$ | async as sortIndexDisplay"
+        class="ag-sort-indicator-icon ag-sort-order"
+        aria-hidden="true"
+        >{{ sortIndexDisplay }}</span
+      >
+    </span>
+  </div>
+</div>
+<span class="sky-control-help-container" #inlineHelpContainer></span>

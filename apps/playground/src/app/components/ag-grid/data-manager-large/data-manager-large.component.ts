@@ -17,7 +17,11 @@ import { GridOptions } from 'ag-grid-community';
 import { BehaviorSubject } from 'rxjs';
 
 import { CustomLinkComponent } from './custom-link/custom-link.component';
-import { columnDefinitions, data } from './data-set-large';
+import {
+  columnDefinitions,
+  columnDefinitionsGrouped,
+  data,
+} from './data-set-large';
 
 @Component({
   selector: 'app-data-manager-large',
@@ -69,6 +73,7 @@ export class DataManagerLargeComponent implements OnInit {
   public gridSettings: UntypedFormGroup;
   public domLayout: 'normal' | 'autoHeight' | 'print' = 'autoHeight';
   public enableTopScroll = true;
+  public useColumnGroups = false;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -77,6 +82,7 @@ export class DataManagerLargeComponent implements OnInit {
   ) {
     this.gridSettings = this.formBuilder.group({
       enableTopScroll: this.enableTopScroll,
+      useColumnGroups: this.useColumnGroups,
       domLayout: this.domLayout,
     });
   }
@@ -117,6 +123,7 @@ export class DataManagerLargeComponent implements OnInit {
     this.gridSettings.valueChanges.subscribe((value) => {
       this.isActive$.next(false);
       this.enableTopScroll = value.enableTopScroll;
+      this.useColumnGroups = value.useColumnGroups;
       this.domLayout = value.domLayout;
       this.applyGridOptions();
       setTimeout(() => this.isActive$.next(true));
@@ -126,7 +133,12 @@ export class DataManagerLargeComponent implements OnInit {
   private applyGridOptions() {
     this.gridOptions = this.agGridService.getGridOptions({
       gridOptions: {
-        columnDefs: columnDefinitions,
+        defaultColGroupDef: {
+          columnGroupShow: 'open',
+        },
+        columnDefs: this.useColumnGroups
+          ? columnDefinitionsGrouped
+          : columnDefinitions,
         columnTypes: {
           custom_link: {
             cellRendererFramework: CustomLinkComponent,
