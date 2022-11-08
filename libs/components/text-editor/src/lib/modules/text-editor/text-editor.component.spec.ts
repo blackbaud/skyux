@@ -24,6 +24,7 @@ import { MENU_DEFAULTS } from './defaults/menu-defaults';
 import { STYLE_STATE_DEFAULTS } from './defaults/style-state-defaults';
 import { TOOLBAR_ACTION_DEFAULTS } from './defaults/toolbar-action-defaults';
 import { TextEditorFixtureComponent } from './fixtures/text-editor.component.fixture';
+import { SkyTextEditorAdapterService } from './services/text-editor-adapter.service';
 import { SkyTextEditorComponent } from './text-editor.component';
 import { SkyTextEditorModule } from './text-editor.module';
 import { SkyTextEditorStyleState } from './types/style-state';
@@ -271,6 +272,18 @@ describe('Text editor', () => {
 
     fixture.detectChanges();
     tick();
+    fixture.detectChanges();
+  }
+
+  function insertMergeField(index: number): void {
+    openDropdown('.sky-text-editor-menu-merge-field');
+    expect(document.querySelector('.sky-dropdown-item')).toBeTruthy();
+
+    iframeDocument.body.focus();
+    const mergeFieldOption = document.querySelectorAll(
+      '.sky-dropdown-item button'
+    )[index];
+    SkyAppTestUtility.fireDomEvent(mergeFieldOption, 'click');
     fixture.detectChanges();
   }
 
@@ -653,24 +666,46 @@ describe('Text editor', () => {
       tick();
       fixture.detectChanges();
 
-      openDropdown('.sky-text-editor-menu-merge-field');
-      expect(document.querySelector('.sky-dropdown-item')).toBeTruthy();
-
-      iframeDocument.body.focus();
-      const mergeFieldOption = document.querySelectorAll(
-        '.sky-dropdown-item button'
-      )[2];
-      SkyAppTestUtility.fireDomEvent(mergeFieldOption, 'click');
-      fixture.detectChanges();
-      tick();
-      fixture.detectChanges();
-      tick();
-      fixture.detectChanges();
+      insertMergeField(2);
 
       expect(testComponent.value).toContain('data-fieldid="2"');
       expect(testComponent.value).toContain(
         'data-fielddisplay="A field that is really too long for its own good"'
       );
+    }));
+
+    it('should escape merge field attribute values', fakeAsync(() => {
+      testComponent.mergeFields = [
+        {
+          id: '"><',
+          name: '"><',
+        },
+      ];
+
+      fixture.detectChanges();
+
+      const adapterSvc = fixture.debugElement
+        .query(By.css('sky-text-editor'))
+        .injector.get(SkyTextEditorAdapterService);
+
+      spyOn(adapterSvc, 'execCommand').and.callThrough();
+
+      insertMergeField(0);
+
+      expect(adapterSvc.execCommand).toHaveBeenCalledOnceWith({
+        command: 'insertHTML',
+        value: jasmine.stringContaining('data-fieldid="&quot;&gt;&lt;'),
+      });
+
+      expect(adapterSvc.execCommand).toHaveBeenCalledOnceWith({
+        command: 'insertHTML',
+        value: jasmine.stringContaining('data-fielddisplay="&quot;&gt;&lt;'),
+      });
+
+      // The browser converts the escaped angle brackets back to their unescaped
+      // versions since they appear within quotes in an attribute value.
+      expect(testComponent.value).toContain('data-fieldid="&quot;><');
+      expect(testComponent.value).toContain('data-fielddisplay="&quot;><"');
     }));
 
     it('Toolbar values should update based on selection', fakeAsync(() => {

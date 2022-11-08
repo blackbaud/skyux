@@ -9,6 +9,7 @@ import {
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyDropdownMessage, SkyDropdownMessageType } from '@skyux/popovers';
 
+import he from 'he';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
@@ -210,9 +211,9 @@ export class SkyTextEditorMenubarComponent implements OnDestroy, OnInit {
     this.execCommand(
       'insertHTML',
       '<img style="display: inline; cursor: grab;" data-fieldid="' +
-        field.id +
+        he.escape(field.id) +
         '" data-fielddisplay="' +
-        field.name +
+        he.escape(field.name) +
         '" src="' +
         (field.previewImageUrl ||
           this.#adapterService.getMergeFieldDataURI(field.name)) +
