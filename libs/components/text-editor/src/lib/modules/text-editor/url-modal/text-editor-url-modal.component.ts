@@ -20,46 +20,49 @@ const queryStringParamKey = '?Subject=';
 })
 export class SkyTextEditorUrlModalComponent {
   public set activeTab(value: number) {
-    this._activeTab = value;
-    this.valid = this.isValid();
+    this.#_activeTab = value;
+    this.valid = this.#isValid();
   }
+
   public get activeTab(): number {
-    return this._activeTab;
+    return this.#_activeTab;
   }
+
   public set emailAddress(value: string) {
-    this._emailAddress = value;
-    this.valid = this.isValid();
+    this.#_emailAddress = value;
+    this.valid = this.#isValid();
   }
+
   public get emailAddress(): string {
-    return this._emailAddress;
+    return this.#_emailAddress;
   }
 
   public set url(value: string) {
-    this._url = value;
-    this.valid = this.isValid();
+    this.#_url = value;
+    this.valid = this.#isValid();
   }
+
   public get url(): string {
-    return this._url;
+    return this.#_url;
   }
 
   public emailAddressValid = false;
-
   public subject = '';
-
-  public target = 0;
-
+  public target: number | string = 0;
   public valid = false;
 
-  public _activeTab = 0;
+  #modalInstance: SkyModalInstance;
 
-  private _emailAddress = '';
-
-  private _url = 'https://';
+  #_activeTab = 0;
+  #_emailAddress = '';
+  #_url = 'https://';
 
   constructor(
-    private readonly modalInstance: SkyModalInstance,
+    modalInstance: SkyModalInstance,
     modalContext: SkyUrlModalContext
   ) {
+    this.#modalInstance = modalInstance;
+
     if (modalContext.urlResult) {
       if (modalContext.urlResult.url.startsWith(emailKey)) {
         this.emailAddress = modalContext.urlResult.url.replace(emailKey, '');
@@ -96,17 +99,17 @@ export class SkyTextEditorUrlModalComponent {
 
   public save(): void {
     /* istanbul ignore else */
-    if (this.isValid()) {
+    if (this.#isValid()) {
       if (this.activeTab === 0) {
-        this.modalInstance.save({
+        this.#modalInstance.save({
           url: this.url,
           target: this.target
-            ? parseInt(this.target as any, undefined)
+            ? parseInt(this.target as string, undefined)
             : UrlTarget.None,
         } as UrlModalResult);
       } else {
-        this.modalInstance.save({
-          url: this.getEmailUrl(),
+        this.#modalInstance.save({
+          url: this.#getEmailUrl(),
           target: UrlTarget.None,
         } as UrlModalResult);
       }
@@ -114,10 +117,10 @@ export class SkyTextEditorUrlModalComponent {
   }
 
   public cancel(): void {
-    this.modalInstance.cancel();
+    this.#modalInstance.cancel();
   }
 
-  private getEmailUrl(): string {
+  #getEmailUrl(): string {
     return (
       emailKey +
       this.emailAddress +
@@ -125,7 +128,7 @@ export class SkyTextEditorUrlModalComponent {
     );
   }
 
-  private isValid(): boolean {
+  #isValid(): boolean {
     if (this.activeTab === 0) {
       return !!this.url && SkyValidation.isUrl(this.url);
     }
