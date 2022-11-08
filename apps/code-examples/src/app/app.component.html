@@ -35,6 +35,11 @@
         </a>
       </li>
       <li>
+        <a routerLink="ag-grid/data-entry-grid/inline-help">
+          Data Entry Grid with inline help
+        </a>
+      </li>
+      <li>
         <a routerLink="ag-grid/data-grid/basic">Data Grid (basic)</a>
       </li>
       <li>
@@ -57,6 +62,11 @@
           Data Grid with top scrollbar
         </a>
       </li>
+      <li>
+        <a routerLink="ag-grid/data-grid/inline-help">
+          Data Grid with inline help
+        </a>
+      </li>
     </ul>
   </li>
   <li>
@@ -77,6 +87,12 @@
       </li>
       <li><a routerLink="autonumeric/options-provider">Options Provider</a></li>
       <li><a routerLink="autonumeric/preset">Preset</a></li>
+    </ul>
+  </li>
+  <li>
+    Avatar
+    <ul>
+      <li><a routerLink="avatar/basic">Basic</a></li>
     </ul>
   </li>
   <li>
@@ -104,9 +120,31 @@
     Datetime
     <ul>
       <li>
-        Datepicker
+        Date pipe
+        <ul>
+          <li><a routerLink="datetime/date-pipe/basic">Basic</a></li>
+        </ul>
+      </li>
+      <li>
+        Date range picker
+        <ul>
+          <li><a routerLink="datetime/date-range-picker/basic">Basic</a></li>
+        </ul>
+      </li>
+      <li>
+        Date picker
         <ul>
           <li><a routerLink="datetime/datepicker/basic">Basic</a></li>
+          <li>
+            <a routerLink="datetime/datepicker/custom-dates">Custom dates</a>
+          </li>
+          <li><a routerLink="datetime/datepicker/fuzzy">Fuzzy</a></li>
+        </ul>
+      </li>
+      <li>
+        Time custom-picker
+        <ul>
+          <li><a routerLink="datetime/timepicker/basic">Basic</a></li>
         </ul>
       </li>
     </ul>
@@ -119,54 +157,88 @@
     </ul>
   </li>
   <li>
+    Flyout
+    <ul>
+      <li><a routerLink="flyout/basic">Basic</a></li>
+      <li><a routerLink="flyout/custom-headers">Custom headers</a></li>
+    </ul>
+  </li>
+  <li>
     Forms
     <ul>
-      <li><a routerLink="forms/checkbox/basic">Checkbox (basic)</a></li>
+      <li><a routerLink="forms/character-count">Character count</a></li>
       <li>
-        <a routerLink="forms/file-attachment/inline-help">
-          File Attachment (inline-help)
-        </a>
+        Checkbox
+        <ul>
+          <li><a routerLink="forms/checkbox/basic">Basic</a></li>
+          <li><a routerLink="forms/checkbox/icon-group">Icon group</a></li>
+          <li><a routerLink="forms/checkbox/inline-help">Inline help</a></li>
+        </ul>
       </li>
       <li>
-        <a routerLink="forms/single-file-attachment/basic">
-          Single File Attachment (basic)
-        </a>
+        File Attachment
+        <ul>
+          <li><a routerLink="forms/file-attachment/basic">Basic</a></li>
+          <li>
+            <a routerLink="forms/file-attachment/inline-help">Inline help</a>
+          </li>
+        </ul>
       </li>
       <li>
-        <a routerLink="forms/single-file-attachment/inline-help">
-          Single File Attachment (inline-help)
-        </a>
-      </li>
-      <li><a routerLink="forms/radio/inline-help">Radio (inline-help)</a></li>
-      <li>
-        <a routerLink="forms/checkbox/inline-help">Checkbox (inline-help)</a>
+        Input Box
+        <ul>
+          <li><a routerLink="forms/input-box/basic">Basic</a></li>
+          <li><a routerLink="forms/input-box/inline-help">Inline help</a></li>
+        </ul>
       </li>
       <li>
-        <a routerLink="forms/toggle-switch/inline-help">
-          Toggle switch (inline-help)
-        </a>
+        Radio
+        <ul>
+          <li><a routerLink="forms/radio/icon">Icon</a></li>
+          <li><a routerLink="forms/radio/standard">Standard</a></li>
+          <li><a routerLink="forms/radio/inline-help">Inline help</a></li>
+        </ul>
       </li>
       <li>
-        <a routerLink="forms/input-box/basic">Input box</a>
+        Selection box
+        <ul>
+          <li><a routerLink="forms/selection-box/checkbox">Checkbox</a></li>
+          <li><a routerLink="forms/selection-box/radio">Radio</a></li>
+        </ul>
       </li>
       <li>
-        <a routerLink="forms/selection-box/checkbox"
-          >Selection box (checkbox)</a
-        >
+        Single file attachment
+        <ul>
+          <li><a routerLink="forms/single-file-attachment/basic">Basic</a></li>
+          <li>
+            <a routerLink="forms/single-file-attachment/inline-help"
+              >Inline help</a
+            >
+          </li>
+        </ul>
       </li>
       <li>
-        <a routerLink="forms/selection-box/radio">Selection box (radio)</a>
+        Toggle switch
+        <ul>
+          <li><a routerLink="forms/toggle-switch/basic">Basic</a></li>
+          <li>
+            <a routerLink="forms/toggle-switch/inline-help">Inline help</a>
+          </li>
+        </ul>
       </li>
     </ul>
   </li>
-
   <li>
     Grids
     <ul>
       <li>
         Grid
         <ul>
-          <li><a routerLink="grids/grid/basic">Grid (basic)</a></li>
+          <li><a routerLink="grids/grid/basic">Basic</a></li>
+          <li>
+            <a routerLink="grids/grid/column-template">Column template</a>
+          </li>
+          <li><a routerLink="grids/grid/multiselect">Multiselect</a></li>
         </ul>
       </li>
     </ul>
@@ -182,9 +254,19 @@
         </ul>
       </li>
       <li>
+        Help inline
+        <ul>
+          <li><a routerLink="indicators/help-inline/basic">Basic</a></li>
+        </ul>
+      </li>
+      <li><a routerLink="indicators/icon">Icon</a></li>
+      <li>
         Key Info
         <ul>
           <li><a routerLink="indicators/key-info/basic">Basic</a></li>
+          <li>
+            <a routerLink="indicators/key-info/inline-help">Inline help</a>
+          </li>
         </ul>
       </li>
       <li>
@@ -197,6 +279,11 @@
         Status indicator
         <ul>
           <li><a routerLink="indicators/status-indicator/basic">Basic</a></li>
+          <li>
+            <a routerLink="indicators/status-indicator/inline-help"
+              >Inline help</a
+            >
+          </li>
         </ul>
       </li>
       <li>
@@ -212,12 +299,34 @@
           <li><a routerLink="indicators/tokens/custom">Custom</a></li>
         </ul>
       </li>
+      <li>
+        Wait
+        <ul>
+          <li><a routerLink="indicators/wait/element">Element</a></li>
+          <li><a routerLink="indicators/wait/page">Page</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    Inline Form
+    <ul>
+      <li><a routerLink="inline-form/basic">Basic</a></li>
+      <li><a routerLink="inline-form/custom-buttons">Custom buttons</a></li>
+      <li><a routerLink="inline-form/repeaters">Repeaters</a></li>
     </ul>
   </li>
 
   <li>
     Layout
     <ul>
+      <li>
+        Action button
+        <ul>
+          <li><a routerLink="layout/action-button/basic">Basic</a></li>
+          <li><a routerLink="layout/action-button/permalink">Permalink</a></li>
+        </ul>
+      </li>
       <li>
         Back to top
         <ul>
@@ -233,20 +342,51 @@
       <li>
         Box
         <ul>
-          <li><a routerLink="layout/box/basic">Box (basic)</a></li>
-          <li><a routerLink="layout/box/inline-help">Box (inline help)</a></li>
+          <li><a routerLink="layout/box/basic">Basic</a></li>
+          <li><a routerLink="layout/box/inline-help">Inline help</a></li>
+        </ul>
+      </li>
+      <li>
+        Card
+        <ul>
+          <li><a routerLink="layout/card/basic">Basic</a></li>
+        </ul>
+      </li>
+      <li>
+        Definition List
+        <ul>
+          <li><a routerLink="layout/definition-list/basic">Basic</a></li>
         </ul>
       </li>
       <li>
         Description list
         <ul>
-          <li><a routerLink="layout/description-list">Description list</a></li>
+          <li>
+            <a routerLink="layout/description-list/horizontal">Horizontal</a>
+          </li>
+          <li><a routerLink="layout/description-list/vertical">Vertical</a></li>
+          <li>
+            <a routerLink="layout/description-list/long-description"
+              >Long description</a
+            >
+          </li>
+          <li>
+            <a routerLink="layout/description-list/inline-help">Inline help</a>
+          </li>
         </ul>
       </li>
       <li>
         Format
         <ul>
           <li><a routerLink="layout/format">Format</a></li>
+        </ul>
+      </li>
+      <li><a routerLink="layout/fluid-grid">Fluid grid</a></li>
+      <li>
+        Inline delete
+        <ul>
+          <li><a routerLink="layout/inline-delete/custom">Custom</a></li>
+          <li><a routerLink="layout/inline-delete/repeater">Repeater</a></li>
         </ul>
       </li>
       <li>
@@ -256,10 +396,18 @@
         </ul>
       </li>
       <li>
+        Page summary
+        <ul>
+          <li><a routerLink="layout/page-summary/basic">Basic</a></li>
+        </ul>
+      </li>
+      <li>
         Text expand
         <ul>
           <li>
-            <a routerLink="layout/text-expand">Text expand</a>
+            <a routerLink="layout/text-expand/inline">Inline</a>
+            <a routerLink="layout/text-expand/modal">Modal</a>
+            <a routerLink="layout/text-expand/newline">Newline</a>
           </li>
         </ul>
       </li>
@@ -271,6 +419,13 @@
           </li>
         </ul>
       </li>
+      <li>
+        Toolbar
+        <ul>
+          <li><a routerLink="layout/toolbar/basic">Basic</a></li>
+          <li><a routerLink="layout/toolbar/sectioned">Sectioned</a></li>
+        </ul>
+      </li>
     </ul>
   </li>
 
@@ -278,17 +433,41 @@
     Lists
     <ul>
       <li>
+        Filter
+        <ul>
+          <li><a routerLink="lists/filter/inline">Inline</a></li>
+          <li><a routerLink="lists/filter/modal">Modal</a></li>
+        </ul>
+      </li>
+      <li>
+        Infinite scroll
+        <ul>
+          <li><a routerLink="lists/infinite-scroll/repeater">Repeater</a></li>
+        </ul>
+      </li>
+      <li>
+        Paging
+        <ul>
+          <li><a routerLink="lists/paging/basic">Basic</a></li>
+        </ul>
+      </li>
+      <li>
         Repeater
         <ul>
-          <li><a routerLink="lists/repeater/basic">Repeater (basic)</a></li>
+          <li><a routerLink="lists/repeater/basic">Basic</a></li>
           <li>
-            <a routerLink="lists/repeater/add-remove">Repeater (add-remove)</a>
+            <a routerLink="lists/repeater/add-remove">Add remove</a>
           </li>
+        </ul>
+      </li>
+      <li>
+        Sort
+        <ul>
+          <li><a routerLink="lists/sort/basic">Basic</a></li>
         </ul>
       </li>
     </ul>
   </li>
-
   <li>
     Lookup
     <ul>
@@ -337,7 +516,12 @@
       </li>
     </ul>
   </li>
-
+  <li>
+    Navbar
+    <ul>
+      <li><a routerLink="navbar/navbar">navbar</a></li>
+    </ul>
+  </li>
   <li>
     Modals
     <ul>
@@ -457,9 +641,28 @@
   </li>
 
   <li>
+    Themes
+    <ul>
+      <li>
+        Box
+        <ul>
+          <li><a routerLink="themes/box/basic">Basic</a></li>
+        </ul>
+      </li>
+      <li>
+        Status indicator
+        <ul>
+          <li><a routerLink="themes/status-indicator/basic">Basic</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+
+  <li>
     Tiles
     <ul>
       <li><a routerLink="tiles/basic">Tiles (basic)</a></li>
+      <li><a routerLink="tiles/inline-help">Tiles (inline-help)</a></li>
     </ul>
   </li>
   <li>
@@ -470,6 +673,33 @@
     <ul>
       <li>
         <a routerLink="toast/custom-component">Toast (custom-component)</a>
+      </li>
+    </ul>
+  </li>
+  <li>
+    Validation
+    <ul>
+      <li>
+        Email
+        <ul>
+          <li>
+            <a routerLink="validation/email/control-validator"
+              >Control validator</a
+            >
+          </li>
+          <li><a routerLink="validation/email/directive">Directive</a></li>
+        </ul>
+      </li>
+      <li>
+        Url
+        <ul>
+          <li>
+            <a routerLink="validation/url/control-validator"
+              >Control validator</a
+            >
+          </li>
+          <li><a routerLink="validation/url/directive">Directive</a></li>
+        </ul>
       </li>
     </ul>
   </li>

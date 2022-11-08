@@ -38,4 +38,8 @@ export class AngularTreeDemoComponent {
       ],
     },
   ];
+
+  public onActionClick(): void {
+    alert('Help inline button clicked!');
+  }
 }

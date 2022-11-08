@@ -57,7 +57,6 @@ describe('SkyCellEditorNumberComponent', () => {
   describe('agInit', () => {
     let cellEditorParams: SkyCellEditorNumberParams;
     let column: Column;
-    const columnWidth = 200;
     const rowNode = new RowNode({} as Beans);
     rowNode.rowHeight = 37;
     const value = 15;
@@ -71,8 +70,6 @@ describe('SkyCellEditorNumberComponent', () => {
         'col',
         true
       );
-
-      column.setActualWidth(columnWidth);
 
       cellEditorParams = {
         value: value,
@@ -109,7 +106,6 @@ describe('SkyCellEditorNumberComponent', () => {
       expect(numberEditorComponent.editorForm.get('number').value).toEqual(
         value
       );
-      expect(numberEditorComponent.columnWidth).toEqual(columnWidth);
     });
 
     describe('cellStartedEdit is true', () => {
@@ -285,7 +281,6 @@ describe('SkyCellEditorNumberComponent', () => {
     describe('afterGuiAttached', () => {
       let cellEditorParams: SkyCellEditorNumberParams;
       let column: Column;
-      const columnWidth = 200;
       const rowNode = new RowNode({} as Beans);
       rowNode.rowHeight = 37;
       const value = 15;
@@ -299,8 +294,6 @@ describe('SkyCellEditorNumberComponent', () => {
           'col',
           true
         );
-
-        column.setActualWidth(columnWidth);
 
         cellEditorParams = {
           value: value,

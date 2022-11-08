@@ -16,12 +16,7 @@ import {
 import { SkyDockLocation, SkyDockService } from '@skyux/core';
 import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 
-import {
-  Events,
-  GridOptions,
-  RowNode,
-  RowSelectedEvent,
-} from 'ag-grid-community';
+import { GridOptions, RowNode, RowSelectedEvent } from 'ag-grid-community';
 import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { delay, filter, map } from 'rxjs/operators';
 
@@ -183,14 +178,10 @@ export class AgGridStoriesComponent
                 }
               );
             }
-
-            params.api.addEventListener(
-              Events.EVENT_FIRST_DATA_RENDERED,
-              () => {
-                (
-                  this.#gridsReady.get(dataSet.id) as BehaviorSubject<boolean>
-                ).next(true);
-              }
+          },
+          onFirstDataRendered: () => {
+            (this.#gridsReady.get(dataSet.id) as BehaviorSubject<boolean>).next(
+              true
             );
           },
           rowData: dataSet.data,
@@ -210,7 +201,7 @@ export class AgGridStoriesComponent
           // Scroll down to show the back-to-top button.
           this.#doc
             .querySelector(
-              '#back-to-top .sky-ag-grid-row-hunteca01 [col-id="name"]'
+              '#back-to-top .sky-ag-grid-row-johnsra05 [col-id="name"]'
             )
             .scrollIntoView();
 
@@ -226,7 +217,7 @@ export class AgGridStoriesComponent
               // Trigger validation popover to show up.
               this.#doc
                 .querySelector(
-                  '#validation [row-index="0"] [col-id="seasons_played"]'
+                  '#validation .sky-ag-grid-row-martipe02 [col-id="seasons_played"]'
                 )
                 .dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowUp' }));
 

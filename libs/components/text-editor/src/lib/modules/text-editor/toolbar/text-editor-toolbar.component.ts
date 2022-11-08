@@ -13,7 +13,8 @@ import {
 import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 import { SkyDropdownMessage, SkyDropdownMessageType } from '@skyux/popovers';
 
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { SkyFormsUtility } from '../../shared/forms-utility';
 import { STYLE_STATE_DEFAULTS } from '../defaults/style-state-defaults';
@@ -36,87 +37,91 @@ import { UrlTarget } from '../url-modal/text-editor-url-target';
 })
 export class SkyTextEditorToolbarComponent implements OnInit {
   @Input()
-  public editorFocusStream = new Subject();
-
-  @Input()
-  public editorId: string;
-
-  @Input()
-  public fontList: SkyTextEditorFont[];
-
-  @Input()
-  public fontSizeList: number[];
-
-  @Input()
-  public toolbarActions: SkyTextEditorToolbarActionType[];
-
-  @Input()
-  public get styleState(): SkyTextEditorStyleState {
-    return this._styleState;
+  public set editorFocusStream(value: Subject<void>) {
+    this.#_editorFocusStream = value;
+    this.#subscribeEditorFocus();
   }
+
+  public get editorFocusStream(): Subject<void> {
+    return this.#_editorFocusStream;
+  }
+
+  @Input()
+  public fontList: SkyTextEditorFont[] = [];
+
+  @Input()
+  public fontSizeList: number[] = [];
+
+  @Input()
+  public toolbarActions: SkyTextEditorToolbarActionType[] = [];
+
+  @Input()
   public set styleState(value: SkyTextEditorStyleState) {
-    this._styleState = value;
+    this.#_styleState = value;
     if (value.font !== this.styleStateFontName) {
       if (value.font === '"Blackbaud Sans", Arial, sans-serif') {
-        this.styleStateFontName = this.getFontName('Blackbaud Sans');
+        this.styleStateFontName = this.#getFontName('Blackbaud Sans');
       } else {
-        this.styleStateFontName = this.getFontName(value.font);
+        this.styleStateFontName = this.#getFontName(value.font);
       }
     }
+  }
+
+  public get styleState(): SkyTextEditorStyleState {
+    return this.#_styleState;
   }
 
   @Input()
   public set disabled(value: boolean) {
     const coercedValue = SkyFormsUtility.coerceBooleanProperty(value);
     if (coercedValue !== this.disabled) {
-      this._disabled = coercedValue;
-      this.changeDetector.markForCheck();
+      this.#_disabled = coercedValue;
+      this.#changeDetector.markForCheck();
     }
   }
 
   public get disabled(): boolean {
-    return this._disabled;
+    return this.#_disabled;
   }
 
   public backColorpickerStream = new Subject<SkyColorpickerMessage>();
-
   public colorpickerStream = new Subject<SkyColorpickerMessage>();
-
   public fontPickerStream = new Subject<SkyDropdownMessage>();
-
   public fontSizeStream = new Subject<SkyDropdownMessage>();
+  public styleStateFontName: string | undefined;
 
-  public styleStateFontName: string;
+  #editorFocusStreamSub: Subscription | undefined;
+  #adapterService: SkyTextEditorAdapterService;
+  #changeDetector: ChangeDetectorRef;
+  #modalService: SkyModalService;
+  #ngUnsubscribe = new Subject<void>();
 
-  private _disabled = false;
-
-  private _styleState = STYLE_STATE_DEFAULTS;
+  #_editorFocusStream = new Subject<void>();
+  #_disabled = false;
+  #_styleState = STYLE_STATE_DEFAULTS;
 
   constructor(
-    private adapterService: SkyTextEditorAdapterService,
-    private changeDetector: ChangeDetectorRef,
-    private modalService: SkyModalService
-  ) {}
-
-  public ngOnInit(): void {
-    this.editorFocusStream.subscribe(() => {
-      this.styleState = {
-        ...this._styleState,
-        ...(this.adapterService.getStyleState(this.editorId) as any),
-      };
-      this.closeDropdowns();
-      this.changeDetector.detectChanges();
-    });
+    adapterService: SkyTextEditorAdapterService,
+    changeDetector: ChangeDetectorRef,
+    modalService: SkyModalService
+  ) {
+    this.#adapterService = adapterService;
+    this.#changeDetector = changeDetector;
+    this.#modalService = modalService;
   }
 
-  public execCommand(command: string, value: any = ''): void {
-    this.adapterService.execCommand(this.editorId, {
+  public ngOnInit(): void {
+    this.#subscribeEditorFocus();
+  }
+
+  public execCommand(command: string, value = ''): void {
+    this.#adapterService.execCommand({
       command: command,
       value: value,
     });
     this.styleState = {
       ...this.styleState,
-      ...this.adapterService.getStyleState(this.editorId),
+      ...this.#adapterService.getStyleState(),
     };
   }
 
@@ -130,13 +135,13 @@ export class SkyTextEditorToolbarComponent implements OnInit {
     }
 
     // Force sky-checkbox to show changes on user's initial click.
-    this.changeDetector.detectChanges();
+    this.#changeDetector.detectChanges();
   }
 
   public link(): void {
-    const priorSelection = this.adapterService.saveSelection(this.editorId);
-    const currentLink = this.adapterService.getLink(this.editorId);
-    const inputModal = this.modalService.open(SkyTextEditorUrlModalComponent, [
+    const priorSelection = this.#adapterService.saveSelection();
+    const currentLink = this.#adapterService.getLink();
+    const inputModal = this.#modalService.open(SkyTextEditorUrlModalComponent, [
       {
         provide: SkyUrlModalContext,
         useValue: { urlResult: currentLink },
@@ -145,10 +150,11 @@ export class SkyTextEditorToolbarComponent implements OnInit {
     inputModal.closed.subscribe((result: SkyModalCloseArgs) => {
       if (result.reason === 'save' && priorSelection) {
         if (currentLink) {
-          const anchor = this.adapterService.getSelectedAnchorTag(
-            this.editorId
-          );
-          this.adapterService.selectElement(this.editorId, anchor);
+          const anchor = this.#adapterService.getSelectedAnchorTag();
+
+          if (anchor) {
+            this.#adapterService.selectElement(anchor);
+          }
         }
 
         this.execCommand('unlink');
@@ -157,7 +163,7 @@ export class SkyTextEditorToolbarComponent implements OnInit {
           this.execCommand('createLink', result.data.url);
         } else {
           // New Window
-          const sText = this.adapterService.getCurrentSelection(this.editorId);
+          const sText = this.#adapterService.getCurrentSelection();
           this.execCommand(
             'insertHTML',
             '<a href="' +
@@ -172,21 +178,23 @@ export class SkyTextEditorToolbarComponent implements OnInit {
   }
 
   public unlink(): void {
-    const currentSelectionRange = this.adapterService
-      .getCurrentSelection(this.editorId)
-      .getRangeAt(0);
-    if (currentSelectionRange.toString().length <= 0) {
-      const anchorTag = this.adapterService.getSelectedAnchorTag(this.editorId);
-      this.adapterService.selectElement(this.editorId, anchorTag);
+    const currentSelectionRange = this.#adapterService
+      .getCurrentSelection()
+      ?.getRangeAt(0);
+    if (currentSelectionRange && currentSelectionRange.toString().length <= 0) {
+      const anchorTag = this.#adapterService.getSelectedAnchorTag();
+      if (anchorTag) {
+        this.#adapterService.selectElement(anchorTag);
+      }
     }
     this.execCommand('unlink');
   }
 
   public changeFontSize(size: number): void {
-    this.adapterService.setFontSize(this.editorId, size);
+    this.#adapterService.setFontSize(size);
     this.styleState = {
       ...this.styleState,
-      ...this.adapterService.getStyleState(this.editorId),
+      ...this.#adapterService.getStyleState(),
     };
   }
 
@@ -197,7 +205,22 @@ export class SkyTextEditorToolbarComponent implements OnInit {
     this.execCommand(isBackground ? 'backColor' : 'foreColor', color.hex);
   }
 
-  private closeDropdowns(): void {
+  #subscribeEditorFocus(): void {
+    this.#editorFocusStreamSub?.unsubscribe();
+
+    this.#editorFocusStreamSub = this.editorFocusStream
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe(() => {
+        this.styleState = {
+          ...this.styleState,
+          ...this.#adapterService.getStyleState(),
+        };
+        this.#closeDropdowns();
+        this.#changeDetector.detectChanges();
+      });
+  }
+
+  #closeDropdowns(): void {
     const message: SkyColorpickerMessage = {
       type: SkyColorpickerMessageType.Close,
     };
@@ -207,11 +230,14 @@ export class SkyTextEditorToolbarComponent implements OnInit {
     this.fontSizeStream.next({ type: SkyDropdownMessageType.Close });
   }
 
-  private getFontName(fontName: string): string {
+  #getFontName(fontName: string): string | undefined {
     for (let i = 0; i < this.fontList.length; i++) {
       if (fontName.replace(/['"]+/g, '') === this.fontList[i].name) {
         return this.fontList[i].name;
       }
     }
+
+    /* istanbul ignore next */
+    return undefined;
   }
 }

@@ -1,7 +1,5 @@
 <div
   class="sky-angular-tree-wrapper"
-  role="tree"
-  [attr.aria-multiselectable]="multiselectable()"
   [class.sky-angular-tree-read-only]="readOnly"
 >
   <sky-angular-tree-toolbar
@@ -13,5 +11,11 @@
     (selectAllClick)="onSelectAllClick()"
   >
   </sky-angular-tree-toolbar>
-  <ng-content select="tree-root"></ng-content>
+  <div
+    class="sky-angular-tree-root"
+    role="tree"
+    [attr.aria-multiselectable]="multiselectable()"
+  >
+    <ng-content select="tree-root"></ng-content>
+  </div>
 </div>

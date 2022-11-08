@@ -2,6 +2,8 @@ import { SkyCellType } from '@skyux/ag-grid';
 
 import { ColDef } from 'ag-grid-community';
 
+import { InlineHelpComponent } from './inline-help/inline-help.component';
+
 export const columnDefinitions: ColDef[] = [
   {
     field: 'id',
@@ -16,6 +18,10 @@ export const columnDefinitions: ColDef[] = [
     sortable: true,
     type: SkyCellType.Text,
     minWidth: 200,
+    headerComponentParams: {
+      inlineHelpComponent: InlineHelpComponent,
+    },
+    initialSort: 'asc',
   },
   {
     field: 'birthday',
@@ -24,6 +30,9 @@ export const columnDefinitions: ColDef[] = [
     sortable: true,
     type: SkyCellType.Date,
     minWidth: 300,
+    headerComponentParams: {
+      inlineHelpComponent: InlineHelpComponent,
+    },
   },
   ...[
     ['seasons_played', 'Seasons Played'],

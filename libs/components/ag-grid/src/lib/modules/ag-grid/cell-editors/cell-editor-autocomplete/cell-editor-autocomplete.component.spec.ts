@@ -41,7 +41,6 @@ describe('SkyCellEditorAutocompleteComponent', () => {
   describe('agInit', () => {
     let cellEditorParams: SkyCellEditorAutocompleteParams;
     let column: Column;
-    const columnWidth = 200;
     const selection = data[0];
     const rowNode = new RowNode({} as Beans);
     rowNode.rowHeight = 37;
@@ -55,8 +54,6 @@ describe('SkyCellEditorAutocompleteComponent', () => {
         'col',
         true
       );
-
-      column.setActualWidth(columnWidth);
 
       cellEditorParams = {
         value: selection,
@@ -196,7 +193,6 @@ describe('SkyCellEditorAutocompleteComponent', () => {
   describe('afterGuiAttached', () => {
     let cellEditorParams: SkyCellEditorAutocompleteParams;
     let column: Column;
-    const columnWidth = 200;
     const selection = data[0];
     const rowNode = new RowNode({} as Beans);
     rowNode.rowHeight = 37;
@@ -210,8 +206,6 @@ describe('SkyCellEditorAutocompleteComponent', () => {
         'col',
         true
       );
-
-      column.setActualWidth(columnWidth);
 
       cellEditorParams = {
         value: selection,
