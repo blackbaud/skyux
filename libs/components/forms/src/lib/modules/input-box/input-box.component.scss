@@ -293,7 +293,7 @@ sky-input-box {
       causing text to overlap with the input box's label element when scrolled. Use a
       wrapping element around textarea with its own padding and negative margin instead.
       */
-      .sky-form-control:not(textarea),
+      .sky-form-control,
       .sky-input-box-textarea-wrapper {
         margin-top: -23px;
         padding-top: 26px;
@@ -384,6 +384,8 @@ sky-input-box {
       }
 
       textarea.sky-form-control {
+        margin-top: 0;
+        padding-top: 0;
         resize: vertical;
       }
     }
