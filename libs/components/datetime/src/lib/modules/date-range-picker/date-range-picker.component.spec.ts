@@ -349,20 +349,6 @@ describe('Date range picker', function () {
     verifyFormFieldsDisabledStatus(false);
   }));
 
-  it('should allow for disabling the control on initialization', fakeAsync(function () {
-    component.initialValue = {
-      calculatorId: SkyDateRangeCalculatorId.SpecificRange,
-    };
-    component.initialDisabled = true;
-
-    detectChanges();
-
-    const control = component.dateRange;
-
-    expect(control?.disabled).toBe(true);
-    verifyFormFieldsDisabledStatus(true);
-  }));
-
   it('should mark the control as touched when select is blurred', fakeAsync(function () {
     detectChanges();
 
@@ -440,11 +426,11 @@ describe('Date range picker', function () {
 
   it('should catch validation errors from selected calculator', fakeAsync(function () {
     // Invalidate the control by setting the start date after the end date.
-    component.initialValue = {
+    component.dateRange.setValue({
       calculatorId: SkyDateRangeCalculatorId.SpecificRange,
       startDate: new Date('1/2/2000'),
       endDate: new Date('1/1/2000'),
-    };
+    });
 
     detectChanges();
 
@@ -520,26 +506,6 @@ describe('Date range picker', function () {
 
     expect(control?.errors).toBeFalsy();
   }));
-
-  it('should catch validation errors from date picker on initialization', async function () {
-    component.initialValue = {
-      calculatorId: SkyDateRangeCalculatorId.SpecificRange,
-      startDate: 'invalid',
-    } as any;
-
-    fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    const control = component.dateRange;
-
-    expect(control?.errors).toEqual({
-      skyDate: {
-        invalid: 'invalid',
-      },
-    });
-  });
 
   it('should error when end date comes before start date', fakeAsync(function () {
     detectChanges();

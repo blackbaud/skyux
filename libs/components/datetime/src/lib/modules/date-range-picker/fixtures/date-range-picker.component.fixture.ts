@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   AbstractControl,
   UntypedFormBuilder,
+  UntypedFormControl,
   UntypedFormGroup,
 } from '@angular/forms';
 
@@ -9,7 +10,6 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyDateRangePickerComponent } from '../date-range-picker.component';
-import { SkyDateRangeCalculation } from '../types/date-range-calculation';
 import { SkyDateRangeCalculatorId } from '../types/date-range-calculator-id';
 
 @Component({
@@ -18,7 +18,7 @@ import { SkyDateRangeCalculatorId } from '../types/date-range-calculator-id';
 })
 export class DateRangePickerTestComponent implements OnInit, OnDestroy {
   public get dateRange(): AbstractControl | undefined | null {
-    return this.reactiveForm?.get('dateRange');
+    return this.reactiveForm.get('dateRange');
   }
 
   @ViewChild('dateRangePicker', {
@@ -30,30 +30,21 @@ export class DateRangePickerTestComponent implements OnInit, OnDestroy {
   public dateFormat: string | undefined;
   public disableReactiveOnInit = false;
   public endDateRequired = false;
-  public initialDisabled = false;
-  public initialValue: SkyDateRangeCalculation | undefined;
   public label: string | undefined;
   public numValueChangeNotifications = 0;
-  public reactiveForm: UntypedFormGroup | undefined;
+  public reactiveForm: UntypedFormGroup;
   public startDateRequired = false;
   public templateDisable: boolean | undefined;
 
   #ngUnsubscribe = new Subject<void>();
 
-  #formBuilder: UntypedFormBuilder;
-
   constructor(formBuilder: UntypedFormBuilder) {
-    this.#formBuilder = formBuilder;
+    this.reactiveForm = formBuilder.group({
+      dateRange: new UntypedFormControl(),
+    });
   }
 
   public ngOnInit(): void {
-    this.reactiveForm = this.#formBuilder.group({
-      dateRange: [
-        { value: this.initialValue, disabled: this.initialDisabled },
-        [],
-      ],
-    });
-
     this.dateRange?.valueChanges
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
