@@ -11,27 +11,27 @@ import { SkyTimepickerTimeOutput } from '../timepicker.interface';
 })
 export class TimepickerReactiveTestComponent implements AfterViewInit, OnInit {
   @ViewChild(SkyTimepickerComponent)
-  public timepickerComponent: SkyTimepickerComponent;
+  public timepickerComponent!: SkyTimepickerComponent;
 
   @ViewChild(SkyTimepickerInputDirective)
-  public timepickerDirective: SkyTimepickerInputDirective;
+  public timepickerDirective!: SkyTimepickerInputDirective;
 
-  public isDisabled: boolean;
+  public isDisabled: boolean | undefined;
 
-  public returnFormat: string;
+  public returnFormat: string | undefined;
 
-  public selectedTime: SkyTimepickerTimeOutput;
+  public selectedTime: SkyTimepickerTimeOutput | undefined;
 
-  public timeControl: UntypedFormControl;
+  public timeControl: UntypedFormControl | undefined;
 
   public timeControlValueAfterInit: any;
 
-  public timeFormat: string;
+  public timeFormat: string | undefined;
 
-  public timepickerForm: UntypedFormGroup;
+  public timepickerForm: UntypedFormGroup | undefined;
 
   public ngAfterViewInit(): void {
-    this.timeControlValueAfterInit = this.timeControl.value;
+    this.timeControlValueAfterInit = this.timeControl?.value;
   }
 
   public ngOnInit(): void {
