@@ -20,17 +20,19 @@ function getDaypickerCell(
   return fixture.nativeElement.querySelector('.sky-daypicker-cell');
 }
 
-function setActiveUid(component: any, uid: string): void {
-  const date: SkyDatepickerDate = {
-    date: new Date(),
-    label: 'foo',
-    selected: false,
-    disabled: false,
-    current: false,
-    secondary: false,
-    uid: uid,
-  };
-  TestBed.inject(SkyDatepickerService).keyDatePopoverStream.next(date);
+function setActiveUid(component: any, uid?: string): void {
+  if (uid) {
+    const date: SkyDatepickerDate = {
+      date: new Date(),
+      label: 'foo',
+      selected: false,
+      disabled: false,
+      current: false,
+      secondary: false,
+      uid: uid,
+    };
+    TestBed.inject(SkyDatepickerService).keyDatePopoverStream.next(date);
+  }
 }
 
 class MockSkyCalendarInnerComponent {
@@ -75,14 +77,18 @@ describe('daypicker cell', () => {
 
   describe('set hasTooltip', () => {
     it('should set hasTooltip to false if not a key date', () => {
-      component.date.keyDate = false;
+      if (component.date) {
+        component.date.keyDate = false;
+      }
       fixture.detectChanges();
 
       expect(component.hasTooltip).toBeFalsy();
     });
 
     it('should set hasTooltip to false if a key date and keyDateText undefined', () => {
-      component.date.keyDateText = undefined;
+      if (component.date) {
+        component.date.keyDateText = undefined;
+      }
 
       fixture.detectChanges();
 
@@ -90,7 +96,9 @@ describe('daypicker cell', () => {
     });
 
     it('should set hasTooltip to false if a key date and no keyDateText items', () => {
-      component.date.keyDateText = [];
+      if (component.date) {
+        component.date.keyDateText = [];
+      }
 
       fixture.detectChanges();
 
@@ -98,7 +106,9 @@ describe('daypicker cell', () => {
     });
 
     it('should set hasTooltip to false if a key date and keyDateText item empty', () => {
-      component.date.keyDateText = [''];
+      if (component.date) {
+        component.date.keyDateText = [''];
+      }
 
       fixture.detectChanges();
 
@@ -137,7 +147,9 @@ describe('daypicker cell', () => {
     }));
 
     it('should not show tooltip when no tooltip', fakeAsync(() => {
-      component.date.keyDate = false;
+      if (component.date) {
+        component.date.keyDate = false;
+      }
       fixture.detectChanges();
       tick(500);
 
@@ -230,7 +242,9 @@ describe('daypicker cell', () => {
     });
 
     it('should not call showTooltip if no tooltip', fakeAsync(() => {
-      component.date.keyDate = false;
+      if (component.date) {
+        component.date.keyDate = false;
+      }
       fixture.detectChanges();
 
       component.onDayMouseenter();
@@ -274,7 +288,9 @@ describe('daypicker cell', () => {
     });
 
     it('should not call controller if no tooltip', fakeAsync(() => {
-      component.date.keyDate = false;
+      if (component.date) {
+        component.date.keyDate = false;
+      }
       fixture.detectChanges();
 
       component.onDayMouseleave();
@@ -326,7 +342,9 @@ describe('daypicker cell', () => {
 
   describe('getKeyDateLabel', () => {
     it('should return empty string if no tooltip', () => {
-      component.date.keyDate = false;
+      if (component.date) {
+        component.date.keyDate = false;
+      }
       fixture.detectChanges();
 
       expect(component.getKeyDateLabel()).toBe('');
@@ -339,7 +357,10 @@ describe('daypicker cell', () => {
     });
 
     it('should return a comma delimited string if multiple keyDateTexts', () => {
-      component.date.keyDateText = ['important!', 'this too'];
+      if (component.date) {
+        component.date.keyDateText = ['important!', 'this too'];
+      }
+
       fixture.detectChanges();
 
       expect(component.getKeyDateLabel()).toBe('important!, this too');
@@ -388,7 +409,9 @@ describe('daypicker cell', () => {
     });
 
     it('should not open the tool tip if hasTooltip is false', fakeAsync(() => {
-      component.date.keyDate = false;
+      if (component.date) {
+        component.date.keyDate = false;
+      }
       fixture.detectChanges();
       SkyAppTestUtility.fireDomEvent(getDaypickerCell(fixture), 'mouseenter');
 
@@ -415,7 +438,7 @@ describe('daypicker cell', () => {
 
     it('should not open the tool tip if cancelled', async () => {
       fixture.detectChanges();
-      setActiveUid(component, component.date.uid);
+      setActiveUid(component, component.date?.uid);
 
       SkyAppTestUtility.fireDomEvent(getDaypickerCell(fixture), 'mouseenter');
       SkyAppTestUtility.fireDomEvent(getDaypickerCell(fixture), 'mouseleave');
@@ -444,7 +467,7 @@ describe('daypicker cell', () => {
 
     it('should open the tool tip', fakeAsync(() => {
       fixture.detectChanges();
-      setActiveUid(component, component.date.uid);
+      setActiveUid(component, component.date?.uid);
 
       SkyAppTestUtility.fireDomEvent(getDaypickerCell(fixture), 'mouseenter');
 
