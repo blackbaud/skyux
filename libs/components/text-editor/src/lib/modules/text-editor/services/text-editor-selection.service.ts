@@ -3,28 +3,30 @@ import { Injectable } from '@angular/core';
 /**
  * @internal
  */
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class SkyTextEditorSelectionService {
-  public isElementSelected(documentEl: Document, element: HTMLElement) {
-    const selectedNode = this.getCurrentSelection(documentEl)
-      .anchorNode as HTMLElement;
+  public isElementSelected(
+    documentEl: Document,
+    element: HTMLElement
+  ): boolean {
+    const selectedNode = this.getCurrentSelection(documentEl)?.anchorNode;
     /* istanbul ignore next */
-    return (
+    return !!(
       selectedNode &&
       (element.contains(selectedNode) ||
         (selectedNode.parentNode && element.contains(selectedNode.parentNode)))
     );
   }
 
-  public getCurrentSelection(documentEl: Document): Selection {
+  public getCurrentSelection(documentEl: Document): Selection | null {
     return documentEl.getSelection();
   }
 
-  public getCurrentSelectionParentElement(documentEl: Document): Element {
+  public getCurrentSelectionParentElement(
+    documentEl: Document
+  ): Element | null | undefined {
     const selection = this.getCurrentSelection(documentEl);
-    let selectedEl: Element;
+    let selectedEl: Element | null;
     /* istanbul ignore else */
     if (
       selection &&
@@ -34,8 +36,6 @@ export class SkyTextEditorSelectionService {
       selectedEl = selection.getRangeAt(0).commonAncestorContainer as Element;
       selectedEl =
         selectedEl.nodeType !== 1 ? selectedEl.parentElement : selectedEl;
-    } else if (selection && selection.type !== 'Control') {
-      selectedEl = (selection as any).createRange().parentElement();
     } else {
       return undefined;
     }
@@ -45,20 +45,20 @@ export class SkyTextEditorSelectionService {
   public getCurrentSelectionRange(
     documentEl: Document,
     windowEl: Window
-  ): Range {
+  ): Range | undefined {
     /* istanbul ignore else */
     if (windowEl.getSelection) {
       const sel = windowEl.getSelection();
       /* istanbul ignore else */
-      if (sel.getRangeAt && sel.rangeCount) {
+      if (sel && sel.getRangeAt && sel.rangeCount) {
         return sel.getRangeAt(0);
       }
-    } else if (
-      documentEl.getSelection() &&
-      documentEl.getSelection().getRangeAt
-    ) {
-      return documentEl.getSelection().getRangeAt(0);
+    } else if (documentEl.getSelection()?.getRangeAt) {
+      return documentEl.getSelection()?.getRangeAt(0);
     }
+
+    /* istanbul ignore next */
+    return undefined;
   }
 
   public selectElement(
@@ -71,16 +71,16 @@ export class SkyTextEditorSelectionService {
       /* istanbul ignore else */
       if (windowEl.getSelection) {
         const sel = windowEl.getSelection();
-        sel.removeAllRanges();
+        sel?.removeAllRanges();
         const range = documentEl.createRange();
         range.selectNodeContents(element);
-        sel.addRange(range);
+        sel?.addRange(range);
       } else if (documentEl.getSelection) {
         const sel = documentEl.getSelection();
-        sel.removeAllRanges();
+        sel?.removeAllRanges();
         const range = documentEl.createRange();
         range.selectNodeContents(element);
-        sel.addRange(range);
+        sel?.addRange(range);
       }
     }
   }

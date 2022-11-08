@@ -7,57 +7,57 @@ import { EditorSetting } from '../types/editor-setting';
 /**
  * @internal
  */
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class SkyTextEditorService {
   /**
    * A dictionary representing all active text editors and their settings.
    */
-  public editors: { [key: string]: EditorSetting } = {};
+  public set editor(value: EditorSetting) {
+    this.#_editor = value;
+  }
+
+  public get editor(): EditorSetting {
+    if (!this.#_editor) {
+      throw new Error('Editor has not been initialized.');
+    }
+
+    return this.#_editor;
+  }
+
+  #_editor: EditorSetting | undefined;
 
   /**
    * Returns the blur observable from the editor with the corresponding id.
    */
-  public blurListener(id: string): Observable<unknown> {
-    return this.editors[id].blurObservable;
+  public blurListener(): Observable<unknown> {
+    return this.editor.blurObservable;
   }
 
   /**
    * Returns the click observable from the editor with the corresponding id.
    */
-  public clickListener(id: string): Observable<unknown> {
-    return this.editors[id].clickObservable;
+  public clickListener(): Observable<unknown> {
+    return this.editor.clickObservable;
   }
 
   /**
    * Returns the command change observable from the editor with the corresponding id.
    */
-  public commandChangeListener(id: string): Observable<unknown> {
-    return this.editors[id].commandChangeObservable;
+  public commandChangeListener(): Observable<unknown> {
+    return this.editor.commandChangeObservable;
   }
 
   /**
    * Returns the input change observable from the editor with the corresponding id.
    */
-  public inputListener(id: string): Observable<unknown> {
-    return this.editors[id].inputObservable;
-  }
-
-  /**
-   * Removes editor from the `editors` index by id.
-   */
-  public removeEditor(id: string): void {
-    /* istanbul ignore else */
-    if (id in this.editors) {
-      delete this.editors[id];
-    }
+  public inputListener(): Observable<unknown> {
+    return this.editor.inputObservable;
   }
 
   /**
    * Returns the selection change observable from the editor with the corresponding id.
    */
-  public selectionChangeListener(id: string): Observable<unknown> {
-    return this.editors[id].selectionChangeObservable;
+  public selectionChangeListener(): Observable<unknown> {
+    return this.editor.selectionChangeObservable;
   }
 }

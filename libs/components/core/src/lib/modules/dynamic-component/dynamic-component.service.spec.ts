@@ -2,6 +2,7 @@ import {
   ApplicationRef,
   ComponentRef,
   EmbeddedViewRef,
+  Injector,
   StaticProvider,
 } from '@angular/core';
 import { TestBed, inject } from '@angular/core/testing';
@@ -18,7 +19,8 @@ describe('Dynamic component service', () => {
   function createTestComponent(
     location?: SkyDynamicComponentLocation,
     reference?: HTMLElement,
-    providers?: StaticProvider[]
+    providers?: StaticProvider[],
+    injector?: Injector
   ): ComponentRef<DynamicComponentTestComponent> {
     const svc: SkyDynamicComponentService = TestBed.inject(
       SkyDynamicComponentService
@@ -29,6 +31,7 @@ describe('Dynamic component service', () => {
         location: location,
         referenceEl: reference,
         providers,
+        parentInjector: injector,
       });
 
     cmpRef.changeDetectorRef.detectChanges();
@@ -151,6 +154,21 @@ describe('Dynamic component service', () => {
     createTestComponent(undefined, undefined, [
       { provide: 'greeting', useValue: 'My name is Pat.' },
     ]);
+
+    const el = getComponentEl(0);
+
+    expect(document.body.lastChild).toBe(el);
+    expect(el.querySelector('.component-test')).toHaveText(
+      'Hello world My name is Pat.'
+    );
+  });
+
+  it('should use a parent injector if supplied', () => {
+    const injector: Injector = Injector.create({
+      providers: [{ provide: 'greeting', useValue: 'My name is Pat.' }],
+      name: 'test injector',
+    });
+    createTestComponent(undefined, undefined, undefined, injector);
 
     const el = getComponentEl(0);
 
