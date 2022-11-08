@@ -3,6 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AlertDemoComponent as AlertBasicDemoComponent } from '../code-examples/indicators/alert/basic/alert-demo.component';
 import { AlertDemoModule as AlertBasicDemoModule } from '../code-examples/indicators/alert/basic/alert-demo.module';
+import { HelpInlineDemoComponent } from '../code-examples/indicators/help-inline/basic/help-inline-demo.component';
+import { HelpInlineDemoModule } from '../code-examples/indicators/help-inline/basic/help-inline-demo.module';
+import { IconDemoComponent } from '../code-examples/indicators/icon/icon-demo.component';
+import { IconDemoModule } from '../code-examples/indicators/icon/icon-demo.module';
 import { KeyInfoDemoComponent as KeyInfoBasicDemoComponent } from '../code-examples/indicators/key-info/basic/key-info-demo.component';
 import { KeyInfoDemoModule as KeyInfoBasicDemoModule } from '../code-examples/indicators/key-info/basic/key-info-demo.module';
 import { KeyInfoDemoComponent as KeyInfoInlineHelpDemoComponent } from '../code-examples/indicators/key-info/inline-help/key-info-demo.component';
@@ -19,11 +23,23 @@ import { TokensDemoComponent as TokensBasicDemoComponent } from '../code-example
 import { TokensDemoModule as TokensBasicDemoModule } from '../code-examples/indicators/tokens/basic/tokens-demo.module';
 import { TokensDemoComponent as TokensCustomDemoComponent } from '../code-examples/indicators/tokens/custom/tokens-demo.component';
 import { TokensDemoModule as TokensCustomDemoModule } from '../code-examples/indicators/tokens/custom/tokens-demo.module';
+import { WaitDemoComponent } from '../code-examples/indicators/wait/element/wait-demo.component';
+import { WaitDemoModule } from '../code-examples/indicators/wait/element/wait-demo.module';
+import { WaitDemoComponent as WaitPageComponent } from '../code-examples/indicators/wait/page/wait-demo.component';
+import { WaitDemoModule as WaitPageModule } from '../code-examples/indicators/wait/page/wait-demo.module';
 
 const routes: Routes = [
   {
     path: 'alert/basic',
     component: AlertBasicDemoComponent,
+  },
+  {
+    path: 'help-inline/basic',
+    component: HelpInlineDemoComponent,
+  },
+  {
+    path: 'icon',
+    component: IconDemoComponent,
   },
   {
     path: 'status-indicator/basic',
@@ -46,6 +62,10 @@ const routes: Routes = [
     component: LabelDemoComponent,
   },
   {
+    path: 'status-indicator/basic',
+    component: StatusIndicatorBasicDemoComponent,
+  },
+  {
     path: 'text-highlight/basic',
     component: TextHighlightDemoComponent,
   },
@@ -56,6 +76,14 @@ const routes: Routes = [
   {
     path: 'tokens/custom',
     component: TokensCustomDemoComponent,
+  },
+  {
+    path: 'wait/element',
+    component: WaitDemoComponent,
+  },
+  {
+    path: 'wait/page',
+    component: WaitPageComponent,
   },
 ];
 
@@ -77,6 +105,10 @@ export class IndicatorsFeatureRoutingModule {}
     TextHighlightDemoModule,
     TokensBasicDemoModule,
     TokensCustomDemoModule,
+    HelpInlineDemoModule,
+    IconDemoModule,
+    WaitDemoModule,
+    WaitPageModule,
   ],
 })
 export class IndicatorsFeatureModule {}
