@@ -426,7 +426,7 @@ describe('Date range picker', function () {
 
   it('should catch validation errors from selected calculator', fakeAsync(function () {
     // Invalidate the control by setting the start date after the end date.
-    component.dateRange.setValue({
+    component.dateRange?.setValue({
       calculatorId: SkyDateRangeCalculatorId.SpecificRange,
       startDate: new Date('1/2/2000'),
       endDate: new Date('1/1/2000'),
