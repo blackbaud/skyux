@@ -51,8 +51,8 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
   @Output()
   public selectedTimeChanged: EventEmitter<SkyTimepickerTimeOutput> = new EventEmitter<SkyTimepickerTimeOutput>();
 
-  public set disabled(value: boolean | undefined) {
-    this.#_disabled = value || false;
+  public set disabled(value: boolean) {
+    this.#_disabled = value;
     this.#changeDetector.markForCheck();
   }
 
@@ -270,7 +270,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.setFormat(this.timeFormat);
-    this.#addKeydownListner();
+    this.#addKeydownListener();
 
     if (this.inputBoxHostService && this.inputTemplateRef) {
       this.inputBoxHostService.populate({
@@ -436,7 +436,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
           }
         });
 
-      this.#addKeydownListner();
+      this.#addKeydownListener();
 
       overlay.attachTemplate(this.timepickerTemplateRef);
 
@@ -452,7 +452,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
     }
   }
 
-  #addKeydownListner(): void {
+  #addKeydownListener(): void {
     this.#overlayKeydownListner = fromEvent(window.document, 'keydown')
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((event: Event) => {

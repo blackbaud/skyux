@@ -272,17 +272,12 @@ export class SkyTimepickerInputDirective
       if (time.length === 0) {
         return '';
       }
-      let currentFormat: string | undefined;
-      if (this.timeFormat === 'hh') {
-        currentFormat = 'h:mm A';
-      }
-      if (this.timeFormat === 'HH') {
-        currentFormat = 'H:mm';
-      }
+      const currentFormat = this.timeFormat === 'HH' ? 'H:mm' : 'h:mm A';
+
       if (typeof this.returnFormat === 'undefined') {
-        // TODO: Remove this non-null when the typing of the `timeFormat` input is made stricter.
-        this.returnFormat = currentFormat!;
+        this.returnFormat = currentFormat;
       }
+
       const formatTime: SkyTimepickerTimeOutput = {
         hour: moment(time, currentFormat).hour(),
         minute: moment(time, currentFormat).minute(),
