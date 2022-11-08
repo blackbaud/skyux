@@ -11,7 +11,7 @@ import {
   OnInit,
   Optional,
 } from '@angular/core';
-import { SkyThemeService } from '@skyux/theme';
+import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 
 import { AgGridAngular } from 'ag-grid-angular';
 import { CellEditingStartedEvent, DetailGridInfo } from 'ag-grid-community';
@@ -54,6 +54,7 @@ export class SkyAgGridWrapperComponent
   #ngUnsubscribe = new Subject<void>();
   #themeSvc: SkyThemeService | undefined;
   #wrapperClasses = new BehaviorSubject<string[]>([`ag-theme-sky-default`]);
+  #currentTheme: SkyThemeSettings | undefined = undefined;
 
   constructor(
     private adapterService: SkyAgGridAdapterService,
@@ -140,6 +141,16 @@ export class SkyAgGridWrapperComponent
             .filter((c) => !c.startsWith('ag-theme-')),
           agThemeClass,
         ]);
+        if (!this.#currentTheme) {
+          // Initial theme settings.
+          this.#currentTheme = settings.currentSettings;
+        } else if (this.agGrid.api) {
+          // On subsequent theme changes, we need to call the api to re-render the grid.
+          this.#currentTheme = settings.currentSettings;
+          this.agGrid.api.setHeaderHeight(this.#getHeaderHeight());
+          this.agGrid.api.resetRowHeights();
+          this.agGrid.api.refreshCells();
+        }
       });
   }
 
@@ -243,5 +254,9 @@ export class SkyAgGridWrapperComponent
         }
       }
     }
+  }
+
+  #getHeaderHeight(): number {
+    return this.#currentTheme?.theme?.name === 'modern' ? 60 : 37;
   }
 }
