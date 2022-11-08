@@ -13,21 +13,21 @@ import { SkyPhoneFieldNumberReturnFormat } from '../types/number-return-format';
 export class PhoneFieldReactiveTestComponent implements OnInit {
   public allowExtensions = true;
 
-  public defaultCountry: string;
+  public defaultCountry: string | undefined;
 
-  public selectedCountry: SkyPhoneFieldCountry;
+  public selectedCountry: SkyPhoneFieldCountry | undefined;
 
-  public supportedCountryISOs: string[];
+  public supportedCountryISOs: string[] | undefined;
 
-  public initialValue: Date | string;
+  public initialValue: Date | string | undefined;
 
   public noValidate = false;
 
-  public phoneControl: UntypedFormControl;
+  public phoneControl: UntypedFormControl | undefined;
 
   public phoneForm: UntypedFormGroup;
 
-  public returnFormat: SkyPhoneFieldNumberReturnFormat;
+  public returnFormat: SkyPhoneFieldNumberReturnFormat | undefined;
 
   public showInvalidDirective = false;
 
@@ -39,22 +39,26 @@ export class PhoneFieldReactiveTestComponent implements OnInit {
     read: SkyPhoneFieldInputDirective,
     static: false,
   })
-  public inputDirective: SkyPhoneFieldInputDirective;
+  public inputDirective: SkyPhoneFieldInputDirective | undefined;
 
   @ViewChild(SkyPhoneFieldComponent, {
     read: SkyPhoneFieldComponent,
     static: false,
   })
-  public phoneFieldComponent: SkyPhoneFieldComponent;
+  public phoneFieldComponent: SkyPhoneFieldComponent | undefined;
 
-  public ngOnInit(): void {
-    this.phoneControl = new UntypedFormControl(this.initialValue);
+  constructor() {
+    this.phoneControl = new UntypedFormControl();
     this.phoneForm = new UntypedFormGroup({
       phone: this.phoneControl,
     });
   }
 
-  public setValue(value: string) {
-    this.phoneControl.setValue(value);
+  public ngOnInit(): void {
+    this.setValue(this.initialValue);
+  }
+
+  public setValue(value: string | Date | undefined): void {
+    this.phoneControl?.setValue(value);
   }
 }
