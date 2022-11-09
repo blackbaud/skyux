@@ -132,16 +132,9 @@ export class SkyDayPickerCellComponent implements OnInit, OnDestroy {
   }
 
   public getKeyDateLabel(): string {
-    if (this.hasTooltip) {
-      // Safety check
-      /* istanbul ignore next */
-      const label = this.date?.keyDateText
-        ? this.date.keyDateText.join(', ')
-        : '';
-      return label;
-    } else {
-      return '';
-    }
+    return this.hasTooltip && this.date?.keyDateText
+      ? this.date.keyDateText.join(', ')
+      : '';
   }
 
   #hideTooltip(): void {

@@ -56,6 +56,9 @@ export class SkyDatepickerCalendarInnerComponent
     if (value && this.dateFormatter.dateIsValid(value)) {
       this.#_selectedDate = value;
       this.activeDate = value;
+    } else {
+      this.#_selectedDate = undefined;
+      this.activeDate = new Date();
     }
   }
 
@@ -71,6 +74,7 @@ export class SkyDatepickerCalendarInnerComponent
   @Output()
   public calendarModeChange: EventEmitter<string> = new EventEmitter<string>();
 
+  // TODO: `activeDate` is very similar to `selectedDate` and at the very least should be able to be undefined. However, this would take considerable refactoring to do and thus has been deferred.
   public activeDate = new Date();
   public activeDateId = '';
 
