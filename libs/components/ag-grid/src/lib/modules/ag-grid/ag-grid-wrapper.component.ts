@@ -19,6 +19,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
+import { SkyAgGridService } from './ag-grid.service';
 
 let idIndex = 0;
 
@@ -51,6 +52,7 @@ export class SkyAgGridWrapperComponent
 
   private _viewkeeperClasses: string[] = [];
 
+  #agGridService: SkyAgGridService;
   #ngUnsubscribe = new Subject<void>();
   #themeSvc: SkyThemeService | undefined;
   #wrapperClasses = new BehaviorSubject<string[]>([`ag-theme-sky-default`]);
@@ -61,12 +63,14 @@ export class SkyAgGridWrapperComponent
     private changeDetector: ChangeDetectorRef,
     private elementRef: ElementRef,
     @Inject(DOCUMENT) private document: Document,
+    agGridService: SkyAgGridService,
     @Optional() themeSvc?: SkyThemeService
   ) {
     idIndex++;
     this.afterAnchorId = 'sky-ag-grid-nav-anchor-after-' + idIndex;
     this.beforeAnchorId = 'sky-ag-grid-nav-anchor-before-' + idIndex;
     this.gridId = 'sky-ag-grid-' + idIndex;
+    this.#agGridService = agGridService;
     this.#themeSvc = themeSvc;
     this.wrapperClasses$ = this.#wrapperClasses.asObservable();
   }
@@ -147,7 +151,9 @@ export class SkyAgGridWrapperComponent
         } else if (this.agGrid.api) {
           // On subsequent theme changes, we need to call the api to re-render the grid.
           this.#currentTheme = settings.currentSettings;
-          this.agGrid.api.setHeaderHeight(this.#getHeaderHeight());
+          this.agGrid.api.setHeaderHeight(
+            this.#agGridService.getHeaderHeight()
+          );
           this.agGrid.api.resetRowHeights();
           this.agGrid.api.refreshCells();
         }
@@ -254,9 +260,5 @@ export class SkyAgGridWrapperComponent
         }
       }
     }
-  }
-
-  #getHeaderHeight(): number {
-    return this.#currentTheme?.theme?.name === 'modern' ? 60 : 37;
   }
 }
