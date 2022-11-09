@@ -30,21 +30,24 @@ export class DateRangePickerDemoComponent implements OnInit, OnDestroy {
     return this.reactiveForm.get('lastDonation');
   }
 
-  private ngUnsubscribe = new Subject<void>();
+  #ngUnsubscribe = new Subject<void>();
 
-  constructor(
-    private dateRangeService: SkyDateRangeService,
-    private formBuilder: FormBuilder
-  ) {}
+  #dateRangeService: SkyDateRangeService;
+  #formBuilder: FormBuilder;
+
+  constructor(dateRangeService: SkyDateRangeService, formBuilder: FormBuilder) {
+    this.#dateRangeService = dateRangeService;
+    this.#formBuilder = formBuilder;
+  }
 
   public ngOnInit(): void {
-    this.reactiveForm = this.formBuilder.group({
+    this.reactiveForm = this.#formBuilder.group({
       lastDonation: new FormControl(),
     });
 
     // Watch for status changes.
     this.reactiveRange.statusChanges
-      .pipe(distinctUntilChanged(), takeUntil(this.ngUnsubscribe))
+      .pipe(distinctUntilChanged(), takeUntil(this.#ngUnsubscribe))
       .subscribe((status) => {
         console.log(
           'Date range status change:',
@@ -55,15 +58,15 @@ export class DateRangePickerDemoComponent implements OnInit, OnDestroy {
 
     // Watch for value changes.
     this.reactiveRange.valueChanges
-      .pipe(distinctUntilChanged(), takeUntil(this.ngUnsubscribe))
+      .pipe(distinctUntilChanged(), takeUntil(this.#ngUnsubscribe))
       .subscribe((value: SkyDateRangeCalculation) => {
         console.log('Date range value change:', value);
       });
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   public toggleDisabled(): void {
@@ -113,7 +116,7 @@ export class DateRangePickerDemoComponent implements OnInit, OnDestroy {
   }
 
   public setCalculatorIds(): void {
-    const calculator = this.dateRangeService.createCalculator({
+    const calculator = this.#dateRangeService.createCalculator({
       shortDescription: 'Since 1999',
       type: SkyDateRangeCalculatorType.Relative,
       getValue: () => {
