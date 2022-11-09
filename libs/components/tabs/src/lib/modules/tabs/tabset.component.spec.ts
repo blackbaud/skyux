@@ -1342,7 +1342,7 @@ describe('Tabset component', () => {
         tick();
         let el = debugElement.queryAll(By.css('.sky-btn-tab'))[1];
 
-        SkyAppTestUtility.fireDomEvent(el.nativeElement, 'keyup', {
+        SkyAppTestUtility.fireDomEvent(el.nativeElement, 'keydown', {
           keyboardEventInit: {
             key: 'enter',
           },
@@ -1353,7 +1353,7 @@ describe('Tabset component', () => {
         validateTabSelected(fixture.nativeElement, 1);
 
         el = debugElement.queryAll(By.css('.sky-btn-tab'))[2];
-        SkyAppTestUtility.fireDomEvent(el.nativeElement, 'keyup', {
+        SkyAppTestUtility.fireDomEvent(el.nativeElement, 'keydown', {
           keyboardEventInit: {
             key: 'enter',
           },
@@ -1371,7 +1371,7 @@ describe('Tabset component', () => {
         tick();
         let el = debugElement.queryAll(By.css('.sky-btn-tab'))[1];
 
-        SkyAppTestUtility.fireDomEvent(el.nativeElement, 'keyup', {
+        SkyAppTestUtility.fireDomEvent(el.nativeElement, 'keydown', {
           keyboardEventInit: {
             key: ' ',
           },
@@ -1382,7 +1382,7 @@ describe('Tabset component', () => {
         validateTabSelected(fixture.nativeElement, 1);
 
         el = debugElement.queryAll(By.css('.sky-btn-tab'))[2];
-        SkyAppTestUtility.fireDomEvent(el.nativeElement, 'keyup', {
+        SkyAppTestUtility.fireDomEvent(el.nativeElement, 'keydown', {
           keyboardEventInit: {
             key: ' ',
           },

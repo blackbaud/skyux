@@ -146,7 +146,7 @@ export class SkyTabButtonComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  public onTabButtonKeyUp(event: KeyboardEvent): void {
+  public onTabButtonKeyDown(event: KeyboardEvent): void {
     /*istanbul ignore else */
     if (event.key) {
       switch (event.key.toUpperCase()) {

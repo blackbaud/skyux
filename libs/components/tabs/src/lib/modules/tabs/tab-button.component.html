@@ -28,7 +28,7 @@
     }"
     [tabindex]="active ? '0' : '-1'"
     (click)="onButtonClick($event)"
-    (keyup)="onTabButtonKeyUp($event)"
+    (keydown)="onTabButtonKeyDown($event)"
     (focus)="onFocus()"
   >
     <span class="sky-tab-heading" [attr.aria-hidden]="true">
@@ -45,7 +45,7 @@
           'sky-btn-tab-close-disabled': disabled
         }"
         (click)="onCloseClick($event)"
-        (keyup.enter)="onCloseClick($event)"
+        (keydown.enter)="onCloseClick($event)"
       >
         <sky-icon icon="remove"></sky-icon>
       </span>
