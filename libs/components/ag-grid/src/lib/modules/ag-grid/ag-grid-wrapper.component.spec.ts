@@ -100,6 +100,9 @@ describe('SkyAgGridWrapperComponent', () => {
   });
 
   it('should apply ag-theme', async () => {
+    spyOn(agGrid.api, 'setHeaderHeight').and.returnValue(undefined);
+    spyOn(agGrid.api, 'resetRowHeights').and.returnValue(undefined);
+    spyOn(agGrid.api, 'refreshCells').and.returnValue(undefined);
     expect(
       gridWrapperNativeElement.querySelector('.sky-ag-grid')
     ).toHaveCssClass('ag-theme-sky-default');
