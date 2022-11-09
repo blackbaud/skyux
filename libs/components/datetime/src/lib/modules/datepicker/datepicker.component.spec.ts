@@ -59,17 +59,19 @@ function detectChanges(fixture: ComponentFixture<any>): void {
   tick();
 }
 
-function getTriggerButton(fixture: ComponentFixture<any>): HTMLButtonElement {
+function getTriggerButton(
+  fixture: ComponentFixture<any>
+): HTMLButtonElement | null {
   return fixture.nativeElement.querySelector(
     '.sky-input-group-datepicker-btn'
-  ) as HTMLButtonElement;
+  ) as HTMLButtonElement | null;
 }
 
 function clickTrigger(
   fixture: ComponentFixture<any>,
   isfakeAsync: boolean = true
 ): void {
-  getTriggerButton(fixture).click();
+  getTriggerButton(fixture)?.click();
   if (isfakeAsync) {
     detectChanges(fixture);
   }
@@ -90,7 +92,9 @@ function setInputElementValue(
   fixture: ComponentFixture<any>
 ): void {
   const inputEl = getInputElement(fixture);
-  inputEl.value = text;
+  if (inputEl) {
+    inputEl.value = text;
+  }
   fixture.detectChanges();
   SkyAppTestUtility.fireDomEvent(inputEl, 'change');
   detectChanges(fixture);
@@ -111,57 +115,65 @@ function setFormControlProperty(
   detectChanges(fixture);
 }
 
-function getInputElement(fixture: ComponentFixture<any>): HTMLInputElement {
-  return fixture.nativeElement.querySelector('input') as HTMLInputElement;
+function getInputElement(
+  fixture: ComponentFixture<any>
+): HTMLInputElement | null {
+  return fixture.nativeElement.querySelector(
+    'input'
+  ) as HTMLInputElement | null;
 }
 
-function getInputElementValue(fixture: ComponentFixture<any>): string {
-  return getInputElement(fixture).value;
+function getInputElementValue(
+  fixture: ComponentFixture<any>
+): string | undefined {
+  return getInputElement(fixture)?.value;
 }
 
-function getCalendar(): HTMLElement {
+function getCalendar(): HTMLElement | null {
   return document.querySelector('.sky-datepicker-calendar-container');
 }
 
 function getCalendarDayButton(
   index: number,
   fixture: ComponentFixture<any>
-): HTMLButtonElement {
+): HTMLButtonElement | null {
   return document
     .querySelectorAll('tbody tr td .sky-btn-default')
-    .item(index) as HTMLButtonElement;
+    .item(index) as HTMLButtonElement | null;
 }
 
 function clickCalendarDateButton(
   index: number,
   fixture: ComponentFixture<any>
 ): void {
-  getCalendarDayButton(index, fixture).click();
+  getCalendarDayButton(index, fixture)?.click();
   detectChanges(fixture);
 }
 
 function getCalendarColumn(
   index: number,
   fixture: ComponentFixture<any>
-): HTMLElement {
+): HTMLElement | null {
   return document
     .querySelectorAll('.sky-datepicker-center.sky-datepicker-weekdays')
-    .item(0) as HTMLElement;
+    .item(0) as HTMLElement | null;
 }
 
-function getCalendarTitle(fixture: ComponentFixture<any>): HTMLElement {
+function getCalendarTitle(fixture: ComponentFixture<any>): HTMLElement | null {
   return document.querySelector(
     '.sky-datepicker-calendar-title'
-  ) as HTMLElement;
+  ) as HTMLElement | null;
 }
 
 function clickCalendarTitle(fixture: ComponentFixture<any>): void {
-  getCalendarTitle(fixture).click();
+  getCalendarTitle(fixture)?.click();
   detectChanges(fixture);
 }
 
-function getSelectedCalendarItem(): HTMLElement {
-  return document.querySelector('.sky-datepicker-btn-selected') as HTMLElement;
+function getSelectedCalendarItem(): HTMLElement | null {
+  return document.querySelector(
+    '.sky-datepicker-btn-selected'
+  ) as HTMLElement | null;
 }
 // #endregion
 
@@ -245,12 +257,10 @@ describe('datepicker', () => {
     }));
 
     it('should throw an error if directive is added in isolation', function () {
-      try {
-        component.showInvalidDirective = true;
-        fixture.detectChanges();
-      } catch (err) {
-        expect(err.message).toContain('skyDatepickerInput');
-      }
+      component.showInvalidDirective = true;
+      expect(() => fixture.detectChanges()).toThrowError(
+        'You must wrap the `skyDatepickerInput` directive within a `<sky-datepicker>` component!'
+      );
     });
 
     it('should mark the control as dirty on input', function () {
@@ -276,17 +286,17 @@ describe('datepicker', () => {
     it('should apply aria-label to the datepicker input when none is provided', () => {
       fixture.detectChanges();
 
-      expect(getInputElement(fixture).getAttribute('aria-label')).toBe('Date');
+      expect(getInputElement(fixture)?.getAttribute('aria-label')).toBe('Date');
     });
 
     it('should not overwrite aria-label on the datepicker input when one is provided', () => {
-      getInputElement(fixture).setAttribute(
+      getInputElement(fixture)?.setAttribute(
         'aria-label',
         'This is a date field.'
       );
       fixture.detectChanges();
 
-      expect(getInputElement(fixture).getAttribute('aria-label')).toBe(
+      expect(getInputElement(fixture)?.getAttribute('aria-label')).toBe(
         'This is a date field.'
       );
     });
@@ -298,12 +308,12 @@ describe('datepicker', () => {
 
       const calendar = getCalendar();
       expect(calendar).not.toBeNull();
-      expect(calendar.getAttribute('hidden')).toBeNull();
+      expect(calendar?.getAttribute('hidden')).toBeNull();
 
       clickCalendarTitle(fixture);
 
       expect(calendar).not.toBeNull();
-      expect(calendar.getAttribute('hidden')).toBeNull();
+      expect(calendar?.getAttribute('hidden')).toBeNull();
     }));
 
     it('should pass date back when date is selected in calendar', fakeAsync(() => {
@@ -460,7 +470,7 @@ describe('datepicker', () => {
       component.selectedDate = undefined;
       detectChanges(fixture);
 
-      expect(getInputElement(fixture).getAttribute('placeholder')).toEqual(
+      expect(getInputElement(fixture)?.getAttribute('placeholder')).toEqual(
         'MM/DD/YYYY'
       );
     }));
@@ -471,17 +481,17 @@ describe('datepicker', () => {
       detectChanges(fixture);
       detectChanges(fixture);
 
-      expect(getInputElement(fixture).getAttribute('placeholder')).toBe(
+      expect(getInputElement(fixture)?.getAttribute('placeholder')).toBe(
         'DD/MM/YY'
       );
     }));
 
     it('should allow consumer to override the default placeholder', fakeAsync(() => {
       component.selectedDate = undefined;
-      getInputElement(fixture).setAttribute('placeholder', 'DD/MM/YY');
+      getInputElement(fixture)?.setAttribute('placeholder', 'DD/MM/YY');
       detectChanges(fixture);
 
-      expect(getInputElement(fixture).getAttribute('placeholder')).toBe(
+      expect(getInputElement(fixture)?.getAttribute('placeholder')).toBe(
         'DD/MM/YY'
       );
     }));
@@ -961,7 +971,7 @@ describe('datepicker', () => {
         clickTrigger(fixture);
 
         const firstDayCol = getCalendarColumn(0, fixture);
-        expect(firstDayCol.textContent).toContain('Fr');
+        expect(firstDayCol).toHaveText('Fr');
       }));
     });
 
@@ -1072,7 +1082,7 @@ describe('datepicker', () => {
           expect(
             fixture.debugElement.query(By.css('input')).nativeElement.disabled
           ).toBeTruthy();
-          expect(triggerButton.disabled).toBeTruthy();
+          expect(triggerButton?.disabled).toBeTruthy();
 
           component.isDisabled = false;
           fixture.detectChanges();
@@ -1082,7 +1092,7 @@ describe('datepicker', () => {
           expect(
             fixture.debugElement.query(By.css('input')).nativeElement.disabled
           ).toBeFalsy();
-          expect(triggerButton.disabled).toBeFalsy();
+          expect(triggerButton?.disabled).toBeFalsy();
         })
       );
     });
@@ -1097,7 +1107,9 @@ describe('datepicker', () => {
         expect(getInputElementValue(fixture)).toBe(initialDate);
         expect(component.selectedDate).toEqual(new Date(initialDate));
 
-        inputEl.value = newDate;
+        if (inputEl) {
+          inputEl.value = newDate;
+        }
 
         expect(getInputElementValue(fixture)).toBe(newDate);
         expect(component.selectedDate).toEqual(new Date(initialDate));
@@ -1124,7 +1136,7 @@ describe('datepicker', () => {
             setTimeout(() => {
               fixture.detectChanges();
               const calendar = getCalendar();
-              expect(calendar.contains(document.activeElement)).toEqual(true);
+              expect(calendar?.contains(document.activeElement)).toEqual(true);
               done();
             });
           });
@@ -1137,84 +1149,10 @@ describe('datepicker', () => {
         const trigger = getTriggerButton(fixture);
         const day = getCalendarDayButton(0, fixture);
 
-        day.click();
+        day?.click();
         detectChanges(fixture);
 
         expect(document.activeElement).toEqual(trigger);
-      }));
-
-      it('should properly update buttonIsFocused when the button focused state changes', fakeAsync(() => {
-        detectChanges(fixture);
-        const buttonEl = getTriggerButton(fixture);
-
-        expect(component.datepicker.buttonIsFocused).toBe(false);
-
-        buttonEl.focus();
-        fixture.detectChanges();
-
-        expect(component.datepicker.buttonIsFocused).toBe(true);
-      }));
-
-      // We've removed fakeAsync from this test because the neseted setTimeouts()
-      // in the setter for calendarRef have trouble with fakeAsync.
-      it('should properly update calendarIsFocused when the calendar focused state changes', (done) => {
-        fixture.detectChanges();
-        expect(component.datepicker.calendarIsFocused).toBe(false);
-
-        clickTrigger(fixture, false);
-
-        setTimeout(() => {
-          fixture.detectChanges();
-          setTimeout(() => {
-            fixture.detectChanges();
-            setTimeout(() => {
-              fixture.detectChanges();
-              // Calendar should be automatically focused after clicking the trigger button.
-              expect(component.datepicker.calendarIsFocused).toBe(true);
-
-              // Click document body to close the picker.
-              document.body.click();
-
-              setTimeout(() => {
-                fixture.detectChanges();
-                setTimeout(() => {
-                  fixture.detectChanges();
-                  setTimeout(() => {
-                    fixture.detectChanges();
-                    // Calendar should be automatically focused after clicking the trigger button.
-                    expect(component.datepicker.calendarIsFocused).toBe(false);
-                    done();
-                  });
-                });
-              });
-            });
-          });
-        });
-      });
-
-      it('should properly update inputIsFocused when the input focus state changes', fakeAsync(() => {
-        detectChanges(fixture);
-        const inputEl = getInputElement(fixture);
-
-        expect(inputEl).toBeDefined();
-        expect(component.inputDirective.inputIsFocused).toBe(false);
-
-        inputEl.focus();
-        fixture.detectChanges();
-
-        expect(component.inputDirective.inputIsFocused).toBe(true);
-      }));
-    });
-
-    describe('calendarIsVisible property', () => {
-      it('should reflect the visibility of the calendar element', fakeAsync(() => {
-        fixture.detectChanges();
-
-        expect(component.datepicker.calendarIsVisible).toBe(false);
-
-        clickTrigger(fixture);
-
-        expect(component.datepicker.calendarIsVisible).toBe(true);
       }));
     });
 
@@ -1273,7 +1211,7 @@ describe('datepicker', () => {
         component.disableFormOnCreation = true;
         detectChanges(fixture);
 
-        component.datepickerForm.enable();
+        component.datepickerForm?.enable();
         detectChanges(fixture);
 
         expect(getInputElementValue(fixture)).toBe('05/12/2017');
@@ -1456,7 +1394,7 @@ describe('datepicker', () => {
         expect(component.dateControl.touched).toBe(false);
 
         clickTrigger(fixture);
-        getSelectedCalendarItem().click();
+        getSelectedCalendarItem()?.click();
         detectChanges(fixture);
 
         expect(component.dateControl.valid).toBe(true);
@@ -1781,7 +1719,7 @@ describe('datepicker', () => {
         clickTrigger(fixture);
 
         const firstDayCol = getCalendarColumn(0, fixture);
-        expect(firstDayCol.textContent).toContain('Fr');
+        expect(firstDayCol).toHaveText('Fr');
       }));
     });
 
@@ -1802,7 +1740,7 @@ describe('datepicker', () => {
           expect(
             fixture.debugElement.query(By.css('input')).nativeElement.disabled
           ).toBeTruthy();
-          expect(triggerButton.disabled).toBeTruthy();
+          expect(triggerButton?.disabled).toBeTruthy();
 
           fixture.detectChanges();
           component.isDisabled = false;
@@ -1813,7 +1751,7 @@ describe('datepicker', () => {
           expect(
             fixture.debugElement.query(By.css('input')).nativeElement.disabled
           ).toBeFalsy();
-          expect(triggerButton.disabled).toBeFalsy();
+          expect(triggerButton?.disabled).toBeFalsy();
         }
       );
     });

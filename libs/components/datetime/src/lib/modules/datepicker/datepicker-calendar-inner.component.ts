@@ -34,27 +34,36 @@ export class SkyDatepickerCalendarInnerComponent
   implements OnDestroy, OnInit, OnChanges
 {
   @Input()
-  public customDates: SkyDatepickerCustomDate[];
+  public customDates: SkyDatepickerCustomDate[] | undefined;
 
   @Input()
-  public startingDay: number;
+  public set startingDay(value: number | undefined) {
+    this.#_startingDay = value || 0;
+  }
+
+  public get startingDay(): number {
+    return this.#_startingDay;
+  }
 
   @Input()
-  public minDate: Date;
+  public minDate: Date | undefined;
 
   @Input()
-  public maxDate: Date;
+  public maxDate: Date | undefined;
 
   @Input()
-  public set selectedDate(value: Date) {
-    if (this.dateFormatter.dateIsValid(value)) {
-      this._selectedDate = value;
+  public set selectedDate(value: Date | undefined) {
+    if (value && this.dateFormatter.dateIsValid(value)) {
+      this.#_selectedDate = value;
       this.activeDate = value;
+    } else {
+      this.#_selectedDate = undefined;
+      this.activeDate = new Date();
     }
   }
 
-  public get selectedDate(): Date {
-    return this._selectedDate;
+  public get selectedDate(): Date | undefined {
+    return this.#_selectedDate;
   }
 
   @Output()
@@ -65,8 +74,9 @@ export class SkyDatepickerCalendarInnerComponent
   @Output()
   public calendarModeChange: EventEmitter<string> = new EventEmitter<string>();
 
-  public activeDate: Date;
-  public activeDateId: string;
+  // TODO: `activeDate` is very similar to `selectedDate` and at the very least should be able to be undefined. However, this would take considerable refactoring to do and thus has been deferred.
+  public activeDate = new Date();
+  public activeDateId = '';
 
   public minMode = 'day';
   public maxMode = 'year';
@@ -91,16 +101,16 @@ export class SkyDatepickerCalendarInnerComponent
   protected modes: string[] = ['day', 'month', 'year'];
   protected dateFormatter: SkyDateFormatter = new SkyDateFormatter();
 
-  public refreshViewHandlerDay: () => void;
-  public compareHandlerDay: DateComparator;
-  public refreshViewHandlerMonth: () => void;
-  public compareHandlerMonth: DateComparator;
-  public refreshViewHandlerYear: () => void;
-  public compareHandlerYear: DateComparator;
+  public refreshViewHandlerDay: (() => void) | undefined;
+  public compareHandlerDay: DateComparator | undefined;
+  public refreshViewHandlerMonth: (() => void) | undefined;
+  public compareHandlerMonth: DateComparator | undefined;
+  public refreshViewHandlerYear: (() => void) | undefined;
+  public compareHandlerYear: DateComparator | undefined;
 
-  public handleKeydownDay: KeyboardEventHandler;
-  public handleKeydownMonth: KeyboardEventHandler;
-  public handleKeydownYear: KeyboardEventHandler;
+  public handleKeydownDay: KeyboardEventHandler | undefined;
+  public handleKeydownMonth: KeyboardEventHandler | undefined;
+  public handleKeydownYear: KeyboardEventHandler | undefined;
 
   public keys: any = {
     13: 'enter',
@@ -115,9 +125,10 @@ export class SkyDatepickerCalendarInnerComponent
     40: 'down',
   };
 
-  private ngUnsubscribe = new Subject<void>();
+  #ngUnsubscribe = new Subject<void>();
 
-  private _selectedDate: Date;
+  #_selectedDate: Date | undefined;
+  #_startingDay = 0;
 
   public ngOnInit(): void {
     if (this.selectedDate) {
@@ -132,8 +143,8 @@ export class SkyDatepickerCalendarInnerComponent
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   public setCompareHandler(handler: DateComparator, type: string): void {
@@ -150,7 +161,10 @@ export class SkyDatepickerCalendarInnerComponent
     }
   }
 
-  public compare(date1: Date, date2: Date): undefined | number {
+  public compare(
+    date1: Date | undefined,
+    date2: Date | undefined
+  ): number | undefined {
     if (date1 === undefined || date2 === undefined) {
       return undefined;
     }
@@ -168,6 +182,9 @@ export class SkyDatepickerCalendarInnerComponent
     if (this.datepickerMode === 'year' && this.compareHandlerYear) {
       return this.compareHandlerYear(date1, date2);
     }
+
+    /* istanbul ignore next */
+    return undefined;
   }
 
   public setRefreshViewHandler(handler: () => void, type: string): void {
@@ -268,12 +285,13 @@ export class SkyDatepickerCalendarInnerComponent
     isSecondary: boolean,
     id: string
   ): SkyDatepickerDate {
-    const customDateMatch = this.getCustomDate(date);
+    const customDateMatch = this.#getCustomDate(date);
 
     const dateObject: SkyDatepickerDate = {
       date: new Date(date.getFullYear(), date.getMonth(), date.getDate()),
       label: this.dateFilter(date, format),
-      selected: this.compare(date, this.selectedDate) === 0,
+      selected:
+        !!this.selectedDate && this.compare(date, this.selectedDate) === 0,
       disabled: this.isDisabled(date),
       current: this.compare(date, new Date()) === 0,
       secondary: isSecondary,
@@ -406,18 +424,23 @@ export class SkyDatepickerCalendarInnerComponent
    * 2. Date is marked as disabled in the customDates array.
    */
   protected isDisabled(date: Date): boolean {
-    const customDate = this.getCustomDate(date);
+    const customDate = this.#getCustomDate(date);
+    const minDateCompare = this.compare(date, this.minDate);
+    const maxDateCompare = this.compare(date, this.maxDate);
+
     return (
-      (this.minDate && this.compare(date, this.minDate) < 0) ||
-      (this.maxDate && this.compare(date, this.maxDate) > 0) ||
-      (customDate && customDate.disabled)
+      (minDateCompare !== undefined && minDateCompare < 0) ||
+      (maxDateCompare !== undefined && maxDateCompare > 0) ||
+      !!customDate?.disabled
     );
   }
-  private getCustomDate(date: Date): SkyDatepickerCustomDate | undefined {
+
+  #getCustomDate(date: Date): SkyDatepickerCustomDate | undefined {
     if (this.customDates) {
       return this.customDates.find((customDate: SkyDatepickerCustomDate) => {
         return customDate.date.getTime() === date.getTime();
       });
     }
+    return undefined;
   }
 }
