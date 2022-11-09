@@ -13,6 +13,3 @@ test.ts
 
 # The 'release-please' GitHub action is responsible for the changelog's content.
 CHANGELOG.md
-
-# Prettier cannot handle the following file, it will throw an error, possibly related to the import sorting plugin.
-/libs/components/packages/src/schematics/migrations/update-7/fix-mixed-case-imports.ts

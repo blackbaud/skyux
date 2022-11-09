@@ -1,14 +1,12 @@
 import { Path, dirname, join, split } from '@angular-devkit/core';
 import { Rule, Tree } from '@angular-devkit/schematics';
 import * as ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
+
 import * as path from 'path';
 
 import { getWorkspace } from '../../utility/workspace';
 
-function updateTypescriptImports(
-  filePath: string,
-  tree: Tree
-): void {
+function updateTypescriptImports(filePath: string, tree: Tree): void {
   const fileContent = tree.read(filePath)?.toString();
   if (!fileContent) {
     return;
@@ -41,13 +39,20 @@ function updateTypescriptImports(
       1,
       importPath.length - 1
     );
-    const absoluteImportPath = path.join(path.dirname(filePath), `${importPathWithoutQuotes}.ts`.replace(/\\/g, '/'));
+    const absoluteImportPath = path.join(
+      path.dirname(filePath),
+      `${importPathWithoutQuotes}.ts`.replace(/\\/g, '/')
+    );
     const fileEntry = tree.get(absoluteImportPath);
-    if (fileEntry && fileEntry.path === absoluteImportPath && !importPathWithoutQuotes.includes('\\')) {
+    if (
+      fileEntry &&
+      fileEntry.path === absoluteImportPath &&
+      !importPathWithoutQuotes.includes('\\')
+    ) {
       // File exists. Do nothing.
       return;
     }
-    const pathFragments = split(<Path>absoluteImportPath).slice(1);
+    const pathFragments = split(absoluteImportPath as Path).slice(1);
     const newPath: string[] = [];
     let dir = tree.root;
     for (const pathFragment of pathFragments) {
@@ -89,7 +94,7 @@ function updateTypescriptImports(
     }
     const newImportPathAbsolute = join(tree.root.path, ...newPath);
     let newImportPathRelative = path.relative(
-      dirname(<Path>filePath),
+      dirname(filePath as Path),
       newImportPathAbsolute
     );
     if (!newImportPathRelative.startsWith('.')) {
@@ -104,7 +109,10 @@ function updateTypescriptImports(
               node.decorators,
               node.modifiers,
               node.importClause,
-              transformationContext.factory.createStringLiteral(newImportPathRelative, true),
+              transformationContext.factory.createStringLiteral(
+                newImportPathRelative,
+                true
+              ),
               node.assertClause
             );
           }
@@ -115,17 +123,19 @@ function updateTypescriptImports(
     }
   });
   if (transformers.length > 0) {
-    const printer = ts.createPrinter({newLine: ts.NewLineKind.LineFeed});
+    const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
     const result = ts.transform([source], transformers);
-    const newContent = printer.printNode(ts.EmitHint.Unspecified, result.transformed[0], undefined as any);
+    const newContent = printer.printNode(
+      ts.EmitHint.Unspecified,
+      result.transformed[0],
+      undefined as any
+    );
     tree.overwrite(filePath, newContent);
   }
 }
 
-async function visitTypescriptFiles(
-  tree: Tree
-): Promise<void> {
-  const {workspace} = await getWorkspace(tree);
+async function visitTypescriptFiles(tree: Tree): Promise<void> {
+  const { workspace } = await getWorkspace(tree);
   workspace.projects.forEach((project) => {
     tree.getDir(project.root).visit((filePath) => {
       if (filePath.endsWith('.ts')) {
