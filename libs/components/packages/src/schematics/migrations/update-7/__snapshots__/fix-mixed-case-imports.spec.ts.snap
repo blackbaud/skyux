@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`fix mixed case imports should change import paths that are incorrect 1`] = `
+"import { A } from './a';
+import { C } from './Path/C';
+import { D } from './Path/d';
+import { NonExistent } from './non';
+export class B extends A {
+}
+"
+`;
