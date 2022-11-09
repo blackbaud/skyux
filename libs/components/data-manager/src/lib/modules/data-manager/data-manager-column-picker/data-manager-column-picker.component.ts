@@ -44,8 +44,8 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
     this.updateData();
   }
 
-  public columnData: Column[];
-  public displayedColumnData: Column[];
+  public columnData: Column[] = [];
+  public displayedColumnData: Column[] = [];
   public viewConfig: SkyDataViewConfig = {
     id: 'columnPicker',
     name: 'Column Picker',
@@ -58,7 +58,7 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
 
   private _dataState = new SkyDataManagerState({});
   private _ngUnsubscribe = new Subject<void>();
-  public isAnyDisplayedColumnSelected: boolean;
+  public isAnyDisplayedColumnSelected = false;
 
   constructor(
     public context: SkyDataManagerColumnPickerContext,

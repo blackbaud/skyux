@@ -11,7 +11,7 @@ export class SkyDataManagerState {
   /**
    * The selected SkyDataManagerSortOption to apply.
    */
-  public activeSortOption: SkyDataManagerSortOption;
+  public activeSortOption: SkyDataManagerSortOption | undefined;
   /**
    * An untyped property that tracks any state information that's relevant to a data
    * manager but that the existing properties do not cover.
@@ -20,20 +20,20 @@ export class SkyDataManagerState {
   /**
    * The state of the filters.
    */
-  public filterData: SkyDataManagerFilterData;
+  public filterData: SkyDataManagerFilterData | undefined;
   /**
    * Indicates whether to display only the selected rows or objects. The multiselect toolbar
    * uses this property.
    */
-  public onlyShowSelected: boolean;
+  public onlyShowSelected: boolean | undefined;
   /**
    * The search text to apply.
    */
-  public searchText: string;
+  public searchText: string | undefined;
   /**
    * The currently selected rows or objects.
    */
-  public selectedIds: string[];
+  public selectedIds: string[] | undefined;
   /**
    * The states of the individual views.
    */
@@ -77,7 +77,7 @@ export class SkyDataManagerState {
    * @param viewId The ID for the view.
    * @returns The `SkyDataViewState` for the specified view.
    */
-  public getViewStateById(viewId: string): SkyDataViewState {
+  public getViewStateById(viewId: string): SkyDataViewState | undefined {
     return this.views.find((view) => view.viewId === viewId);
   }
 

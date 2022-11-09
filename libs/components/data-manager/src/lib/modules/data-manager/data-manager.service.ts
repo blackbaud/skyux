@@ -36,7 +36,7 @@ export class SkyDataManagerService implements OnDestroy {
   private readonly activeViewId = new ReplaySubject<string>(1);
 
   private readonly dataManagerConfig =
-    new BehaviorSubject<SkyDataManagerConfig>(undefined);
+    new BehaviorSubject<SkyDataManagerConfig>({});
 
   private readonly views = new BehaviorSubject<SkyDataViewConfig[]>([]);
 
@@ -166,22 +166,21 @@ export class SkyDataManagerService implements OnDestroy {
 
           this.updateDataState(newDataState, this.initSource);
         } else {
-          const currentAvailableColumnIds = viewConfig.columnOptions?.map(
-            (columnOptions) => {
+          const currentAvailableColumnIds =
+            viewConfig.columnOptions?.map((columnOptions) => {
               return columnOptions.id;
-            }
-          );
+            }) || [];
 
           // Ensure that the view state's available columns match with the view config. Also,
           // add new columns to the `displayedColumnIds` as long as they are not `initialHide`.
           // We only add columns to `displayedColumnsIds` if we had previously tracked
           // `columnIds` to avoid breaking changes.
           if (currentViewState.columnIds.length > 0) {
-            let newColumnIds = currentAvailableColumnIds.filter(
+            let newColumnIds = currentAvailableColumnIds?.filter(
               (id) => currentViewState.columnIds.indexOf(id) < 0
             );
-            newColumnIds = newColumnIds.filter((columnId) => {
-              return viewConfig.columnOptions.find(
+            newColumnIds = newColumnIds?.filter((columnId) => {
+              return viewConfig.columnOptions?.find(
                 (columnOption) =>
                   columnOption.id === columnId && !columnOption.initialHide
               );
@@ -226,7 +225,7 @@ export class SkyDataManagerService implements OnDestroy {
         updateFilter.comparator
           ? distinctUntilChanged(updateFilter.comparator)
           : distinctUntilChanged(
-              this.getDefaultStateComparator(updateFilter.properties)
+              this.getDefaultStateComparator(updateFilter.properties || [])
             )
       );
     } else {
@@ -299,9 +298,9 @@ export class SkyDataManagerService implements OnDestroy {
    * Returns the `SkyDataViewConfig` for the given view ID.
    * @param viewId The ID of the view config to get.
    */
-  public getViewById(viewId: string): SkyDataViewConfig {
+  public getViewById(viewId: string): SkyDataViewConfig | undefined {
     const currentViews: SkyDataViewConfig[] = this.views.value;
-    const viewConfig: SkyDataViewConfig = currentViews.find(
+    const viewConfig: SkyDataViewConfig | undefined = currentViews.find(
       (view) => view.id === viewId
     );
 

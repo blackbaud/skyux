@@ -53,8 +53,8 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
   };
 
   private _isInitialized = false;
-  private _currentViewkeeperClasses: string[];
-  private activeViewId: string;
+  private _currentViewkeeperClasses: string[] = [];
+  private activeViewId: string | undefined;
   private allViewkeeperClasses: { [viewId: string]: string[] } = {};
   private ngUnsubscribe = new Subject<void>();
   private sourceId = 'dataManagerComponent';
@@ -74,7 +74,9 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((classes) => {
         this.allViewkeeperClasses = classes;
-        this.currentViewkeeperClasses = classes[this.activeViewId];
+        this.currentViewkeeperClasses = this.activeViewId
+          ? classes[this.activeViewId]
+          : [];
       });
 
     this.dataManagerService

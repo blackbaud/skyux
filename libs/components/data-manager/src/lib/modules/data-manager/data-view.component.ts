@@ -29,7 +29,7 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
    */
 
   @Input()
-  public viewId: string;
+  public viewId: string | undefined;
 
   public get isActive(): boolean {
     return this._isActive;
