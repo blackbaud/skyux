@@ -9,12 +9,12 @@
     -->
   <sky-token
     *ngFor="let token of tokens; let i = index; trackBy: trackTokenFn"
-    [role]="'row'"
     [@.disabled]="!trackWith"
     [@dismiss]
     [disabled]="disabled"
     [dismissible]="dismissible"
     [focusable]="focusable"
+    [role]="'row'"
     (dismiss)="removeToken(token)"
     (click)="onTokenClick(token)"
     (keydown)="onTokenKeyDown($event)"
