@@ -12,6 +12,7 @@
   --sky-alert-icon-default-display: initial;
   --sky-alert-icon-modern-display: none;
   --sky-alert-info-background-color: var(--sky-background-color-info);
+  --sky-alert-icon-inverse-color: #{$sky-color-white};
 }
 
 /* Modern theme */
@@ -26,10 +27,7 @@
     --sky-alert-icon-default-display: none;
     --sky-alert-icon-modern-display: initial;
     --sky-alert-info-background-color: var(--sky-background-color-info-light);
-
-    ::ng-deep &:not(.sky-alert-danger) .sky-icon-inverse {
-      color: $sky-text-color-default;
-    }
+    --sky-alert-icon-inverse-color: #{$sky-text-color-default};
   }
 }
 
@@ -60,6 +58,12 @@
     margin-left: auto;
     width: 32px;
     height: 32px;
+  }
+
+  &:not(.sky-alert-danger) {
+    ::ng-deep .sky-icon-inverse {
+      color: var(--sky-alert-icon-inverse-color);
+    }
   }
 
   &.sky-alert-info,
