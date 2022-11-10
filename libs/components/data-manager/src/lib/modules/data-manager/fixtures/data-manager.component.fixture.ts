@@ -12,6 +12,7 @@ import {
 import { SkyDataManagerComponent } from '../data-manager.component';
 
 import { DataViewRepeaterFixtureComponent } from './data-manager-repeater-view.component.fixture';
+import { DataManagerTestItem } from './data-manager-test-item';
 
 @Component({
   selector: 'sky-data-manager-fixture',
@@ -20,10 +21,10 @@ import { DataViewRepeaterFixtureComponent } from './data-manager-repeater-view.c
 })
 export class DataManagerFixtureComponent implements OnInit {
   @ViewChild(SkyDataManagerComponent)
-  public dataManagerComponent: SkyDataManagerComponent;
+  public dataManagerComponent!: SkyDataManagerComponent;
 
   @ViewChild(DataViewRepeaterFixtureComponent)
-  public repeaterView: DataViewRepeaterFixtureComponent;
+  public repeaterView!: DataViewRepeaterFixtureComponent;
 
   public activeViewId = 'repeaterView';
 
@@ -46,7 +47,7 @@ export class DataManagerFixtureComponent implements OnInit {
 
   public dataManagerSourceId = 'dataManagerFixture';
 
-  public items: any[] = [
+  public items: DataManagerTestItem[] = [
     {
       id: '1',
       name: 'Orange',
@@ -96,18 +97,18 @@ export class DataManagerFixtureComponent implements OnInit {
     },
   ];
 
-  public settingsKey: string = undefined;
+  public settingsKey: string | undefined;
 
   public get dataState(): SkyDataManagerState {
-    return this._dataState;
+    return this.#dataState;
   }
 
   public set dataState(value: SkyDataManagerState) {
-    this._dataState = value;
+    this.#dataState = value;
     this.dataManagerService.updateDataState(value, this.dataManagerSourceId);
   }
 
-  private _dataState: SkyDataManagerState = new SkyDataManagerState({
+  #dataState: SkyDataManagerState = new SkyDataManagerState({
     filterData: {
       filtersApplied: true,
       filters: {
@@ -120,7 +121,7 @@ export class DataManagerFixtureComponent implements OnInit {
     this.dataManagerService
       .getDataStateUpdates(this.dataManagerSourceId)
       .subscribe((state) => {
-        this._dataState = state;
+        this.#dataState = state;
       });
     this.dataManagerService
       .getActiveViewIdUpdates()
@@ -132,6 +133,7 @@ export class DataManagerFixtureComponent implements OnInit {
       activeViewId: this.activeViewId,
       dataManagerConfig: this.dataManagerConfig,
       defaultDataState: this.dataState,
+      settingsKey: this.settingsKey,
     });
   }
 }

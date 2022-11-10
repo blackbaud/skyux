@@ -6,7 +6,11 @@ import {
   OnInit,
 } from '@angular/core';
 import { SkyCheckboxChange } from '@skyux/forms';
-import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
+import {
+  SkyModalCloseArgs,
+  SkyModalConfigurationInterface,
+  SkyModalService,
+} from '@skyux/modals';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -33,123 +37,134 @@ import { SkyDataViewConfig } from '../models/data-view-config';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
-  public get activeSortOptionId(): string {
-    const activeSortOption = this.dataState && this.dataState.activeSortOption;
-    return activeSortOption && activeSortOption.id;
+  public get activeView(): SkyDataViewConfig | undefined {
+    return this.#_activeView;
   }
 
-  public get activeView(): SkyDataViewConfig {
-    return this._activeView;
+  public set activeView(value: SkyDataViewConfig | undefined) {
+    this.#_activeView = value;
+    this.#changeDetector.markForCheck();
   }
 
-  public set activeView(value: SkyDataViewConfig) {
-    this._activeView = value;
-    this.changeDetector.markForCheck();
+  public get dataManagerConfig(): SkyDataManagerConfig | undefined {
+    return this.#_dataManagerConfig;
   }
 
-  public get dataManagerConfig(): SkyDataManagerConfig {
-    return this._dataManagerConfig;
+  public set dataManagerConfig(value: SkyDataManagerConfig | undefined) {
+    this.#_dataManagerConfig = value;
+    this.#changeDetector.markForCheck();
   }
 
-  public set dataManagerConfig(value: SkyDataManagerConfig) {
-    this._dataManagerConfig = value;
-    this.changeDetector.markForCheck();
+  public get dataState(): SkyDataManagerState | undefined {
+    return this.#_dataState;
   }
 
-  public get dataState(): SkyDataManagerState {
-    return this._dataState;
-  }
-
-  public set dataState(value: SkyDataManagerState) {
-    this._dataState = value;
-    this.dataManagerService.updateDataState(value, this._source);
+  public set dataState(value: SkyDataManagerState | undefined) {
+    this.#_dataState = value;
+    if (value) {
+      this.#dataManagerService.updateDataState(value, this.#_source);
+    }
   }
 
   public get views(): SkyDataViewConfig[] {
-    return this._views;
+    return this.#_views;
   }
 
   public set views(value: SkyDataViewConfig[]) {
-    this._views = value;
-    this.changeDetector.markForCheck();
+    this.#_views = value;
+    this.#changeDetector.markForCheck();
   }
 
-  public onlyShowSelected: boolean;
+  public onlyShowSelected: boolean | undefined;
+
+  #ngUnsubscribe = new Subject<void>();
+  #changeDetector: ChangeDetectorRef;
+  #dataManagerService: SkyDataManagerService;
+  #modalService: SkyModalService;
+  #columnPickerService: SkyDataManagerColumnPickerService;
 
   // the source to provide for data state changes
-  private _source = 'toolbar';
-  private _activeView: SkyDataViewConfig;
-  private _dataManagerConfig: SkyDataManagerConfig;
-  private _dataState: SkyDataManagerState;
-  private _ngUnsubscribe = new Subject<void>();
-  private _views: SkyDataViewConfig[] = [];
+  #_source = 'toolbar';
+  #_activeView: SkyDataViewConfig | undefined;
+  #_dataManagerConfig: SkyDataManagerConfig | undefined;
+  #_dataState: SkyDataManagerState | undefined;
+  #_views: SkyDataViewConfig[] = [];
 
   constructor(
-    private changeDetector: ChangeDetectorRef,
-    private dataManagerService: SkyDataManagerService,
-    private modalService: SkyModalService,
-    private columnPickerService: SkyDataManagerColumnPickerService
-  ) {}
+    changeDetector: ChangeDetectorRef,
+    dataManagerService: SkyDataManagerService,
+    modalService: SkyModalService,
+    columnPickerService: SkyDataManagerColumnPickerService
+  ) {
+    this.#changeDetector = changeDetector;
+    this.#dataManagerService = dataManagerService;
+    this.#modalService = modalService;
+    this.#columnPickerService = columnPickerService;
+  }
 
   public ngOnInit(): void {
-    this.dataManagerService
+    this.#dataManagerService
       .getActiveViewIdUpdates()
-      .pipe(takeUntil(this._ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((activeViewId) => {
         /* istanbul ignore else */
         if (activeViewId) {
-          this.activeView = this.dataManagerService.getViewById(activeViewId);
-          this.changeDetector.markForCheck();
+          this.activeView = this.#dataManagerService.getViewById(activeViewId);
+          this.#changeDetector.markForCheck();
         }
       });
 
-    this.dataManagerService
+    this.#dataManagerService
       .getDataViewsUpdates()
-      .pipe(takeUntil(this._ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((views) => {
         this.views = views;
         if (this.activeView) {
-          this.activeView = this.dataManagerService.getViewById(
+          this.activeView = this.#dataManagerService.getViewById(
             this.activeView.id
           );
         }
-        this.changeDetector.markForCheck();
+        this.#changeDetector.markForCheck();
       });
 
-    this.dataManagerService
-      .getDataStateUpdates(this._source)
-      .pipe(takeUntil(this._ngUnsubscribe))
+    this.#dataManagerService
+      .getDataStateUpdates(this.#_source)
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((dataState) => {
-        this._dataState = dataState;
+        this.#_dataState = dataState;
         this.onlyShowSelected = dataState.onlyShowSelected;
-        this.changeDetector.markForCheck();
+        this.#changeDetector.markForCheck();
       });
 
-    this.dataManagerService
+    this.#dataManagerService
       .getDataManagerConfigUpdates()
-      .pipe(takeUntil(this._ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((config) => {
         this.dataManagerConfig = config;
       });
   }
 
   public ngOnDestroy(): void {
-    this._ngUnsubscribe.next();
-    this._ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   public sortSelected(sortOption: SkyDataManagerSortOption): void {
-    this.dataState.activeSortOption = sortOption;
-    this.dataManagerService.updateDataState(this.dataState, this._source);
+    if (this.dataState) {
+      this.dataState.activeSortOption = sortOption;
+      this.#dataManagerService.updateDataState(this.dataState, this.#_source);
+    }
   }
 
   public onViewChange(viewId: string): void {
-    this.dataManagerService.updateActiveViewId(viewId);
+    this.#dataManagerService.updateActiveViewId(viewId);
   }
 
   public searchApplied(text: string): void {
-    this.dataState.searchText = text;
-    this.dataManagerService.updateDataState(this.dataState, this._source);
+    if (this.dataState) {
+      this.dataState.searchText = text;
+      this.#dataManagerService.updateDataState(this.dataState, this.#_source);
+    }
   }
 
   public filterButtonClicked(): void {
@@ -157,9 +172,9 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
     const filterModal =
       this.dataManagerConfig && this.dataManagerConfig.filterModalComponent;
 
-    context.filterData = this.dataState && this.dataState.filterData;
+    context.filterData = this.dataState?.filterData;
 
-    const options: any = {
+    const options: SkyModalConfigurationInterface = {
       providers: [
         { provide: SkyDataManagerFilterModalContext, useValue: context },
       ],
@@ -167,72 +182,82 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
     };
 
     if (filterModal) {
-      const modalInstance = this.modalService.open(filterModal, options);
+      const modalInstance = this.#modalService.open(filterModal, options);
 
       modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {
-        if (result.reason === 'save') {
+        if (this.dataState && result.reason === 'save') {
           this.dataState.filterData = result.data;
-          this.dataManagerService.updateDataState(this.dataState, this._source);
+          this.#dataManagerService.updateDataState(
+            this.dataState,
+            this.#_source
+          );
         }
       });
     }
   }
 
   public openColumnPicker(): void {
-    const columnOptions = this.activeView && this.activeView.columnOptions;
-    const viewState = this.dataState.getViewStateById(this.activeView.id);
-    const context = new SkyDataManagerColumnPickerContext(
-      columnOptions,
-      viewState.displayedColumnIds
-    );
-
-    if (this.activeView.columnPickerSortStrategy) {
-      context.columnPickerSortStrategy =
-        this.activeView.columnPickerSortStrategy;
-    }
-
-    const options: any = {
-      providers: [
-        { provide: SkyDataManagerColumnPickerContext, useValue: context },
-      ],
-    };
-
-    const modalInstance = this.modalService.open(
-      this.columnPickerService.getComponentType(),
-      options
-    );
-
-    modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {
-      if (result.reason === 'save') {
-        const displayedColumnIds = result.data.map(
-          (col: SkyDataManagerColumnPickerOption) => col.id
+    if (this.dataState && this.activeView && this.activeView.columnOptions) {
+      const viewState = this.dataState.getViewStateById(this.activeView.id);
+      if (viewState) {
+        const context = new SkyDataManagerColumnPickerContext(
+          this.activeView.columnOptions,
+          viewState.displayedColumnIds
         );
 
-        viewState.displayedColumnIds = displayedColumnIds;
-        this.dataState = this.dataState.addOrUpdateView(
-          this.activeView.id,
-          viewState
+        if (this.activeView.columnPickerSortStrategy) {
+          context.columnPickerSortStrategy =
+            this.activeView.columnPickerSortStrategy;
+        }
+
+        const options: SkyModalConfigurationInterface = {
+          providers: [
+            { provide: SkyDataManagerColumnPickerContext, useValue: context },
+          ],
+        };
+
+        const modalInstance = this.#modalService.open(
+          this.#columnPickerService.getComponentType(),
+          options
         );
+
+        modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {
+          if (result.reason === 'save') {
+            const displayedColumnIds = result.data.map(
+              (col: SkyDataManagerColumnPickerOption) => col.id
+            );
+
+            viewState.displayedColumnIds = displayedColumnIds;
+            if (this.dataState && this.activeView) {
+              this.dataState = this.dataState.addOrUpdateView(
+                this.activeView.id,
+                viewState
+              );
+            }
+          }
+        });
       }
-    });
+    }
   }
 
   public selectAll(): void {
     /* istanbul ignore else */
-    if (this.activeView.onSelectAllClick) {
+    if (this.activeView?.onSelectAllClick) {
       this.activeView.onSelectAllClick();
     }
   }
 
   public clearAll(): void {
     /* istanbul ignore else */
-    if (this.activeView.onClearAllClick) {
+    if (this.activeView?.onClearAllClick) {
       this.activeView.onClearAllClick();
     }
   }
 
   public onOnlyShowSelected(event: SkyCheckboxChange): void {
-    this.dataState.onlyShowSelected = event.checked;
-    this.dataManagerService.updateDataState(this.dataState, this._source);
+    if (this.dataState) {
+      this.dataState.onlyShowSelected = !!event.checked;
+      this.#dataManagerService.updateDataState(this.dataState, this.#_source);
+    }
   }
 }
