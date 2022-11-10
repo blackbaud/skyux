@@ -5,9 +5,7 @@ import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 import {
   CellClassParams,
   EditableCallbackParams,
-  GridApi,
   GridOptions,
-  GridReadyEvent,
   ICellRendererParams,
   RowClassParams,
   SuppressKeyboardEventParams,
@@ -128,7 +126,6 @@ export class SkyAgGridService implements OnDestroy {
   private keyMap = new WeakMap<any, string>();
 
   #currentTheme: SkyThemeSettings | undefined = undefined;
-  #gridApi: GridApi | undefined = undefined;
 
   constructor(
     private agGridAdapterService: SkyAgGridAdapterService,
@@ -140,14 +137,7 @@ export class SkyAgGridService implements OnDestroy {
       themeSvc.settingsChange
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((settingsChange) => {
-          if (this.#currentTheme && this.#gridApi) {
-            this.#currentTheme = settingsChange.currentSettings;
-            this.#gridApi.setHeaderHeight(this.#getHeaderHeight());
-            this.#gridApi.resetRowHeights();
-            this.#gridApi.refreshCells();
-          } else {
-            this.#currentTheme = settingsChange.currentSettings;
-          }
+          this.#currentTheme = settingsChange.currentSettings;
         });
     }
   }
@@ -187,6 +177,10 @@ export class SkyAgGridService implements OnDestroy {
     return mergedGridOptions;
   }
 
+  public getHeaderHeight(): number {
+    return this.#currentTheme?.theme?.name === 'modern' ? 60 : 37;
+  }
+
   private mergeGridOptions(
     defaultGridOptions: GridOptions,
     providedGridOptions: GridOptions
@@ -217,12 +211,6 @@ export class SkyAgGridService implements OnDestroy {
       icons: {
         ...defaultGridOptions.icons,
         ...providedGridOptions.icons,
-      },
-      onGridReady: (params: GridReadyEvent): void => {
-        if (providedGridOptions.onGridReady) {
-          providedGridOptions.onGridReady(params);
-        }
-        defaultGridOptions.onGridReady(params);
       },
     };
 
@@ -421,7 +409,7 @@ export class SkyAgGridService implements OnDestroy {
           return undefined;
         }
       },
-      headerHeight: this.#getHeaderHeight(),
+      headerHeight: this.getHeaderHeight(),
       icons: {
         sortDescending: this.getIconTemplate('caret-down'),
         sortAscending: this.getIconTemplate('caret-up'),
@@ -432,9 +420,6 @@ export class SkyAgGridService implements OnDestroy {
         columnMovePin: this.getIconTemplate('arrows'),
       },
       onCellFocused: () => this.onCellFocused(),
-      onGridReady: (params: GridReadyEvent) => {
-        this.#gridApi = params.api;
-      },
       rowHeight: this.#getRowHeight(),
       getRowHeight: () => this.#getRowHeight(),
       rowMultiSelectWithClick: true,
@@ -566,10 +551,6 @@ export class SkyAgGridService implements OnDestroy {
       return true;
     }
     return false;
-  }
-
-  #getHeaderHeight(): number {
-    return this.#currentTheme?.theme?.name === 'modern' ? 60 : 37;
   }
 
   #getRowHeight(): number {

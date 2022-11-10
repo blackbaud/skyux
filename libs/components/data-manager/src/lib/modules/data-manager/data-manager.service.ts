@@ -29,33 +29,29 @@ import { SkyDataViewState } from './models/data-view-state';
  */
 @Injectable()
 export class SkyDataManagerService implements OnDestroy {
-  public viewkeeperClasses = new BehaviorSubject<{
-    [viewId: string]: string[];
-  }>({});
+  public viewkeeperClasses = new BehaviorSubject<Record<string, string[]>>({});
 
-  private readonly activeViewId = new ReplaySubject<string>(1);
+  readonly #activeViewId = new ReplaySubject<string>(1);
+  readonly #dataManagerConfig = new BehaviorSubject<SkyDataManagerConfig>({});
+  readonly #views = new BehaviorSubject<SkyDataViewConfig[]>([]);
+  readonly #dataStateChange = new ReplaySubject<SkyDataManagerStateChange>(1);
 
-  private readonly dataManagerConfig =
-    new BehaviorSubject<SkyDataManagerConfig>(undefined);
+  #isInitialized: boolean | undefined;
+  #ngUnsubscribe = new Subject<void>();
+  #initSource = 'dataManagerServiceInit';
+  #uiConfigService: SkyUIConfigService;
 
-  private readonly views = new BehaviorSubject<SkyDataViewConfig[]>([]);
-
-  private readonly dataStateChange =
-    new ReplaySubject<SkyDataManagerStateChange>(1);
-
-  private _ngUnsubscribe = new Subject<void>();
-  private initSource = 'dataManagerServiceInit';
-  private isInitialized = false;
-
-  constructor(private uiConfigService: SkyUIConfigService) {}
+  constructor(uiConfigService: SkyUIConfigService) {
+    this.#uiConfigService = uiConfigService;
+  }
 
   public ngOnDestroy(): void {
-    this.activeViewId.complete();
-    this.dataManagerConfig.complete();
-    this.views.complete();
-    this.dataStateChange.complete();
-    this._ngUnsubscribe.next();
-    this._ngUnsubscribe.complete();
+    this.#activeViewId.complete();
+    this.#dataManagerConfig.complete();
+    this.#views.complete();
+    this.#dataStateChange.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   /**
@@ -66,10 +62,12 @@ export class SkyDataManagerService implements OnDestroy {
    * and saves any state changes to the service.
    */
   public initDataManager(args: SkyDataManagerInitArgs): void {
-    if (this.isInitialized) {
+    if (this.#isInitialized) {
       console.warn('This data manager instance has already been initialized.');
       return;
     }
+
+    this.#isInitialized = true;
 
     const defaultDataState = args.defaultDataState;
     const settingsKey = args.settingsKey;
@@ -78,26 +76,26 @@ export class SkyDataManagerService implements OnDestroy {
     this.updateDataManagerConfig(args.dataManagerConfig);
 
     if (settingsKey) {
-      this.uiConfigService
+      this.#uiConfigService
         .getConfig(settingsKey, defaultDataState.getStateOptions())
         .pipe(take(1))
         .subscribe((config: SkyDataManagerStateOptions) => {
           this.updateDataState(
             new SkyDataManagerState(config),
-            this.initSource
+            this.#initSource
           );
         });
     } else {
-      this.updateDataState(defaultDataState, this.initSource);
+      this.updateDataState(defaultDataState, this.#initSource);
     }
 
     if (settingsKey) {
-      this.getDataStateUpdates(this.initSource)
-        .pipe(takeUntil(this._ngUnsubscribe))
+      this.getDataStateUpdates(this.#initSource)
+        .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((state: SkyDataManagerState) => {
-          this.uiConfigService
+          this.#uiConfigService
             .setConfig(settingsKey, state.getStateOptions())
-            .pipe(takeUntil(this._ngUnsubscribe))
+            .pipe(takeUntil(this.#ngUnsubscribe))
             .subscribe(
               // eslint-disable-next-line @typescript-eslint/no-empty-function
               () => {},
@@ -115,7 +113,7 @@ export class SkyDataManagerService implements OnDestroy {
    * @param viewConfig The SkyDataViewConfig settings for the view being registered.
    */
   public initDataView(viewConfig: SkyDataViewConfig): void {
-    const currentViews: SkyDataViewConfig[] = this.views.value;
+    const currentViews = this.#views.value;
 
     if (this.getViewById(viewConfig.id)) {
       console.warn(
@@ -125,15 +123,15 @@ export class SkyDataManagerService implements OnDestroy {
     }
 
     currentViews.push(viewConfig);
-    this.views.next(currentViews);
+    this.#views.next(currentViews);
 
     // When the initial activeViewId is set there are no views registered. We have to re-emit
     // the activeId so the newly registered view is notified that it is active.
-    this.activeViewId.pipe(take(1)).subscribe((id) => {
-      this.activeViewId.next(id);
+    this.#activeViewId.pipe(take(1)).subscribe((id) => {
+      this.#activeViewId.next(id);
     });
 
-    this.dataStateChange
+    this.#dataStateChange
       .pipe(take(1))
       .subscribe((change) => {
         const dataState = change.dataState;
@@ -164,24 +162,23 @@ export class SkyDataManagerService implements OnDestroy {
             newViewState
           );
 
-          this.updateDataState(newDataState, this.initSource);
+          this.updateDataState(newDataState, this.#initSource);
         } else {
-          const currentAvailableColumnIds = viewConfig.columnOptions?.map(
-            (columnOptions) => {
+          const currentAvailableColumnIds =
+            viewConfig.columnOptions?.map((columnOptions) => {
               return columnOptions.id;
-            }
-          );
+            }) || [];
 
           // Ensure that the view state's available columns match with the view config. Also,
           // add new columns to the `displayedColumnIds` as long as they are not `initialHide`.
           // We only add columns to `displayedColumnsIds` if we had previously tracked
           // `columnIds` to avoid breaking changes.
           if (currentViewState.columnIds.length > 0) {
-            let newColumnIds = currentAvailableColumnIds.filter(
+            let newColumnIds = currentAvailableColumnIds?.filter(
               (id) => currentViewState.columnIds.indexOf(id) < 0
             );
-            newColumnIds = newColumnIds.filter((columnId) => {
-              return viewConfig.columnOptions.find(
+            newColumnIds = newColumnIds?.filter((columnId) => {
+              return viewConfig.columnOptions?.find(
                 (columnOption) =>
                   columnOption.id === columnId && !columnOption.initialHide
               );
@@ -201,7 +198,7 @@ export class SkyDataManagerService implements OnDestroy {
             currentViewState
           );
 
-          this.updateDataState(newDataState, this.initSource);
+          this.updateDataState(newDataState, this.#initSource);
         }
       })
       .unsubscribe();
@@ -220,17 +217,19 @@ export class SkyDataManagerService implements OnDestroy {
   ): Observable<SkyDataManagerState> {
     // filter out events from the provided source and emit just the dataState
     if (updateFilter) {
-      return this.dataStateChange.pipe(
+      return this.#dataStateChange.pipe(
         filter((stateChange) => sourceId !== stateChange.source),
         map((stateChange) => stateChange.dataState),
         updateFilter.comparator
           ? distinctUntilChanged(updateFilter.comparator)
           : distinctUntilChanged(
-              this.getDefaultStateComparator(updateFilter.properties)
+              this.#getDefaultStateComparator(
+                updateFilter.properties as (keyof SkyDataManagerStateOptions)[]
+              )
             )
       );
     } else {
-      return this.dataStateChange.pipe(
+      return this.#dataStateChange.pipe(
         filter((stateChange) => sourceId !== stateChange.source),
         map((stateChange) => stateChange.dataState)
       );
@@ -248,21 +247,21 @@ export class SkyDataManagerService implements OnDestroy {
     const newState = new SkyDataManagerState(state.getStateOptions());
     const newStateChange = new SkyDataManagerStateChange(newState, sourceId);
 
-    this.dataStateChange.next(newStateChange);
+    this.#dataStateChange.next(newStateChange);
   }
 
   /**
    * Returns the current `SkyDataManagerConfig`.
    */
   public getCurrentDataManagerConfig(): SkyDataManagerConfig {
-    return this.dataManagerConfig.value;
+    return this.#dataManagerConfig.value;
   }
 
   /**
    * Returns an observable of data manager config changes that views and other data manager entities can subscribe to.
    */
   public getDataManagerConfigUpdates(): Observable<SkyDataManagerConfig> {
-    return this.dataManagerConfig;
+    return this.#dataManagerConfig;
   }
 
   /**
@@ -270,21 +269,21 @@ export class SkyDataManagerService implements OnDestroy {
    * @param value The new `SkyDataManagerConfig` value.
    */
   public updateDataManagerConfig(value: SkyDataManagerConfig): void {
-    this.dataManagerConfig.next(value);
+    this.#dataManagerConfig.next(value);
   }
 
   /**
    * Returns an observable of data view config changes that views and other data manager entities can subscribe to.
    */
   public getDataViewsUpdates(): Observable<SkyDataViewConfig[]> {
-    return this.views;
+    return this.#views;
   }
 
   /**
    * Returns an observable of the active view ID that views and other data manager entities can subscribe to.
    */
   public getActiveViewIdUpdates(): Observable<string> {
-    return this.activeViewId;
+    return this.#activeViewId;
   }
 
   /**
@@ -292,16 +291,16 @@ export class SkyDataManagerService implements OnDestroy {
    * @param id The new active view ID.
    */
   public updateActiveViewId(id: string): void {
-    this.activeViewId.next(id);
+    this.#activeViewId.next(id);
   }
 
   /**
    * Returns the `SkyDataViewConfig` for the given view ID.
    * @param viewId The ID of the view config to get.
    */
-  public getViewById(viewId: string): SkyDataViewConfig {
-    const currentViews: SkyDataViewConfig[] = this.views.value;
-    const viewConfig: SkyDataViewConfig = currentViews.find(
+  public getViewById(viewId: string): SkyDataViewConfig | undefined {
+    const currentViews: SkyDataViewConfig[] = this.#views.value;
+    const viewConfig: SkyDataViewConfig | undefined = currentViews.find(
       (view) => view.id === viewId
     );
 
@@ -315,7 +314,7 @@ export class SkyDataManagerService implements OnDestroy {
    * @param view The new `SkyDataViewConfig` containing all properties.
    */
   public updateViewConfig(view: SkyDataViewConfig): void {
-    const currentViews: SkyDataViewConfig[] = this.views.value;
+    const currentViews: SkyDataViewConfig[] = this.#views.value;
     const existingViewIndex = currentViews.findIndex(
       (currentView) => currentView.id === view.id
     );
@@ -324,7 +323,7 @@ export class SkyDataManagerService implements OnDestroy {
       console.error('A view with the id {id} does not exist.', view.id);
     } else {
       currentViews[existingViewIndex] = view;
-      this.views.next(currentViews);
+      this.#views.next(currentViews);
     }
   }
 
@@ -338,31 +337,39 @@ export class SkyDataManagerService implements OnDestroy {
     this.viewkeeperClasses.next(viewkeeperClasses);
   }
 
-  private filterDataStateProperties(
+  #filterDataStateProperties(
     state: SkyDataManagerState,
-    properties: string[]
-  ): SkyDataManagerStateOptions {
-    const stateProperties = state.getStateOptions() as { [key: string]: any };
-    const filteredStateProperties: any = {};
-    for (const property of properties) {
-      /* istanbul ignore else */
-      if (Object.prototype.hasOwnProperty.call(stateProperties, property)) {
-        filteredStateProperties[property] = stateProperties[property];
+    properties: (keyof SkyDataManagerStateOptions)[] | undefined
+  ): Record<string, unknown> {
+    const stateProperties = state.getStateOptions();
+    const filteredStateProperties: Record<string, unknown> = {};
+
+    if (properties) {
+      for (const property of properties) {
+        if (property in stateProperties) {
+          filteredStateProperties[property] = stateProperties[property];
+        }
       }
     }
 
     return filteredStateProperties;
   }
 
-  private getDefaultStateComparator(
-    properties: string[]
+  #getDefaultStateComparator(
+    properties: (keyof SkyDataManagerStateOptions)[] | undefined
   ): (state1: SkyDataManagerState, state2: SkyDataManagerState) => boolean {
     return (
       state1: SkyDataManagerState,
       state2: SkyDataManagerState
     ): boolean => {
-      const filteredState1 = this.filterDataStateProperties(state1, properties);
-      const filteredState2 = this.filterDataStateProperties(state2, properties);
+      const filteredState1 = this.#filterDataStateProperties(
+        state1,
+        properties
+      );
+      const filteredState2 = this.#filterDataStateProperties(
+        state2,
+        properties
+      );
       return JSON.stringify(filteredState1) === JSON.stringify(filteredState2);
     };
   }

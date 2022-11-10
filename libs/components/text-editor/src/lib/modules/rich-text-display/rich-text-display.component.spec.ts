@@ -1,10 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { expect } from '@skyux-sdk/testing';
@@ -12,20 +7,21 @@ import { expect } from '@skyux-sdk/testing';
 import { RichTextDisplayFixtureComponent } from './fixtures/rich-text-display-fixture.component';
 import { SkyRichTextDisplayModule } from './rich-text-display.module';
 
-//#region helpers
-function detectChanges(fixture: ComponentFixture<any>): void {
-  fixture.detectChanges();
-  tick();
-  fixture.detectChanges();
-}
-
-function getText(fixture: ComponentFixture<any>): HTMLElement {
-  return fixture.nativeElement.querySelector('.sky-rich-text-display-text');
-}
-//#endregion
-
 describe('Rich text display', () => {
   let fixture: ComponentFixture<RichTextDisplayFixtureComponent>;
+
+  function validate(
+    richText: string | undefined,
+    expectedSanitizedText: string
+  ): void {
+    fixture.componentInstance.richText = richText;
+    fixture.detectChanges();
+
+    const textEl = fixture.nativeElement.querySelector(
+      '.sky-rich-text-display-text'
+    );
+    expect(textEl.textContent).toBe(expectedSanitizedText);
+  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -41,24 +37,22 @@ describe('Rich text display', () => {
     fixture = TestBed.createComponent(RichTextDisplayFixtureComponent);
   });
 
-  it('Should display inline', fakeAsync(() => {
-    fixture.componentInstance.richText =
-      '<font style="font-size: 16px" color="#a25353"><b><i><u>Super styled text</u></i></b></font>';
-    detectChanges(fixture);
+  it('Should display inline', () => {
+    validate(
+      '<font style="font-size: 16px" color="#a25353"><b><i><u>Super styled text</u></i></b></font>',
+      'Super styled text'
+    );
+  });
 
-    const text = getText(fixture);
-    expect(text.textContent).toBe('Super styled text');
-  }));
+  it('Should remove malicious content', () => {
+    validate('<a id="hyperlink" href="javascript:alert(1)">foo</a>', 'foo');
 
-  it('Should remove malicious content', fakeAsync(() => {
-    fixture.componentInstance.richText =
-      '<a id="hyperlink" href="javascript:alert(1)">foo</a>';
-    detectChanges(fixture);
-
-    const text = getText(fixture);
-    expect(text.textContent).toBe('foo');
     expect(
       fixture.nativeElement.querySelector('#hyperlink').getAttribute('href')
     ).toBeNull();
-  }));
+  });
+
+  it('should handle undefined rich text', () => {
+    validate(undefined, '');
+  });
 });

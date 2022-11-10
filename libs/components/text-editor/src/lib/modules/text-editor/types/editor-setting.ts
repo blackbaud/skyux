@@ -6,11 +6,11 @@ import { Subject } from 'rxjs';
 export interface EditorSetting {
   blurListener: () => void;
 
-  blurObservable: Subject<unknown>;
+  blurObservable: Subject<void>;
 
   clickListener: () => void;
 
-  clickObservable: Subject<unknown>;
+  clickObservable: Subject<void>;
 
   commandChangeObservable: Subject<void>;
 
@@ -18,11 +18,11 @@ export interface EditorSetting {
 
   inputListener: () => void;
 
-  inputObservable: Subject<unknown>;
+  inputObservable: Subject<void>;
 
   pasteListener: (e: ClipboardEvent) => void;
 
-  selectionChangeObservable: Subject<unknown>;
+  selectionChangeObservable: Subject<void>;
 
   selectionListener: () => void;
 }

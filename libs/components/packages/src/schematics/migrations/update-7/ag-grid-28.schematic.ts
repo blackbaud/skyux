@@ -23,6 +23,7 @@ const ENT_MODULE = '@ag-grid-enterprise/';
 const AG_GRID = 'ag-grid-community';
 const AG_GRID_ENT = 'ag-grid-enterprise';
 const withComponents = 'AgGridModule.withComponents';
+const forRoot = 'AgGridModule.withComponents';
 
 /**
  * Check package.json for AG Grid dependencies.
@@ -144,27 +145,29 @@ function swapModulesWithPackageInCode(
 }
 
 /**
- * Remove `AgGridModule.withComponents` in module imports.
+ * Remove `AgGridModule.withComponents` and `AgGridModule.forRoot` in module imports.
  */
 function removeWithComponentsStaticImportsCall(
   filePath: Path,
   updatedContent: string
 ): string {
-  if (
-    (filePath.endsWith('module.ts') || filePath.endsWith('spec.ts')) &&
-    updatedContent.includes(withComponents)
-  ) {
-    let pos: number;
-    while ((pos = updatedContent.indexOf(withComponents)) !== -1) {
-      // Find closing parenthesis after `AgGridModule.withComponents`
-      const end = updatedContent.indexOf(')', pos);
-      // Leave `AgGridModule`, drop `.withComponents`.
-      updatedContent = [
-        updatedContent.substring(0, pos + 12),
-        updatedContent.substring(end + 1),
-      ].join('');
+  [withComponents, forRoot].forEach((staticModule) => {
+    if (
+      (filePath.endsWith('module.ts') || filePath.endsWith('spec.ts')) &&
+      updatedContent.includes(staticModule)
+    ) {
+      let pos: number;
+      while ((pos = updatedContent.indexOf(staticModule)) !== -1) {
+        // Find closing parenthesis after `AgGridModule.withComponents`
+        const end = updatedContent.indexOf(')', pos);
+        // Leave `AgGridModule`, drop `.withComponents` and `.forRoot`.
+        updatedContent = [
+          updatedContent.substring(0, pos + 12),
+          updatedContent.substring(end + 1),
+        ].join('');
+      }
     }
-  }
+  });
   return updatedContent;
 }
 
@@ -177,8 +180,27 @@ function renameColumnApiFunctionsInCode(updatedContent: string): string {
     updatedContent.includes('etSecondaryColumns(')
   ) {
     updatedContent = updatedContent.replace(
-      /(?<=columnApi)\.(get|set)SecondaryColumns\(/g,
+      /(?<=columnApi\s*)\.(get|set)SecondaryColumns\(/g,
       (_, x) => `.${x}PivotResultColumns(`
+    );
+  }
+  return updatedContent;
+}
+
+/**
+ * Grid option renamed suppressCellSelection to suppressCellFocus.
+ */
+function renameSuppressCellSelectionGridOptionInCode(
+  updatedContent: string
+): string {
+  if (
+    updatedContent.includes(AG_GRID) &&
+    updatedContent.match(/gridOptions/i) &&
+    updatedContent.includes('suppressCellSelection')
+  ) {
+    updatedContent = updatedContent.replace(
+      /\bsuppressCellSelection\b/g,
+      'suppressCellFocus'
     );
   }
   return updatedContent;
@@ -249,6 +271,8 @@ function updateSourceFiles(): Rule {
             updatedContent
           );
           updatedContent = renameColumnApiFunctionsInCode(updatedContent);
+          updatedContent =
+            renameSuppressCellSelectionGridOptionInCode(updatedContent);
 
           if (updatedContent !== content) {
             tree.overwrite(filePath, updatedContent);

@@ -15,5 +15,6 @@ export interface SkyDataViewStateOptions {
    * An untyped property that tracks any view-specific state information
    * that is relevant to a data manager but that existing properties do not cover.
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   additionalData?: any;
 }

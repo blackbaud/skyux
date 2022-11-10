@@ -38,6 +38,21 @@ exports[`ag-grid-28.schematic should remove @ag-grid-community/all-modules when 
         export class AppModule {}"
 `;
 
+exports[`ag-grid-28.schematic should remove @ag-grid-community/all-modules when already on v28 2`] = `
+"
+        import { AgGridModule } from 'ag-grid-community';
+
+        @NgModule({
+          imports: [
+            BrowserModule,
+            AgGridModule.forRoot([
+              OtherComponent,
+            ]),
+          ],
+        })
+        export class GridModule {}"
+`;
+
 exports[`ag-grid-28.schematic should remove @ag-grid-enterprise/all-modules when already on v28 1`] = `
 "
         import { AgGridModule } from 'ag-grid-enterprise';
@@ -73,6 +88,25 @@ exports[`ag-grid-28.schematic should update getSecondaryColumns and setSecondary
 
           public setSecondaryColumns() {
             this.#columnApi.setPivotResultColumns([]);
+          }
+        }"
+`;
+
+exports[`ag-grid-28.schematic should update suppressCellSelection 1`] = `
+"
+        import { SkyAgGridService } from '@skyux/ag-grid';
+        import { GridOptions } from 'ag-grid-community';
+
+        export class AppComponent {
+          public options: GridOptions;
+
+          constructor(private agGridService: SkyAgGridService) {
+            let customOptions: Partial<GridOptions> = {};
+            customOptions.suppressCellFocus = true;
+            this.options = this.agGridService.getGridOptions({
+              ...customOptions,
+              suppressCellFocus: true,
+            });
           }
         }"
 `;

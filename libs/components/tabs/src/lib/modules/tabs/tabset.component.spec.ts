@@ -287,7 +287,6 @@ describe('Tabset component', () => {
 
       const tab = el.querySelectorAll('.sky-btn-tab')[1];
       const closeBtn = el.querySelector('.sky-btn-tab-close');
-      expect(closeBtn.getAttribute('disabled')).toBe('');
       expect(closeBtn).toHaveCssClass('sky-btn-tab-close-disabled');
 
       tab.click();
