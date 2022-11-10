@@ -80,7 +80,7 @@ describe('Summary action bar fixture', () => {
       testComponent.primaryAction = {
         buttonText: 'some action',
         isDisabled: true,
-        click: () => testComponent.primaryActionClicked(),
+        click: (): Promise<void> => testComponent.primaryActionClicked(),
       };
       fixture.detectChanges();
 
@@ -142,7 +142,7 @@ describe('Summary action bar fixture', () => {
         {
           buttonText: 'some action',
           isDisabled: true,
-          click: () => testComponent.secondaryActionClicked(0),
+          click: (): Promise<void> => testComponent.secondaryActionClicked(0),
         },
       ];
       fixture.detectChanges();
@@ -197,7 +197,7 @@ describe('Summary action bar fixture', () => {
       testComponent.cancelAction = {
         buttonText: 'some action',
         isDisabled: true,
-        click: () => testComponent.cancelActionClicked(),
+        click: (): Promise<void> => testComponent.cancelActionClicked(),
       };
       fixture.detectChanges();
       await fixture.whenStable();
@@ -248,7 +248,7 @@ describe('Summary action bar fixture', () => {
       // verify the content matches
       // - we use textContent since safari/firefox won't populate innerText for hidden elements
       const summaryContent = summaryActionBarFixture.querySummaryBody('div');
-      expect(summaryContent.textContent.trim()).toEqual(
+      expect(summaryContent.textContent?.trim()).toEqual(
         testComponent.summaryBody
       );
     });

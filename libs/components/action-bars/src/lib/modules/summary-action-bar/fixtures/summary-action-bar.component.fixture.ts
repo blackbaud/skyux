@@ -24,65 +24,70 @@ export class SkySummaryActionBarTestComponent implements OnDestroy {
 
   public noSummaryContent = false;
 
-  public openedModal: SkySummaryActionBarModalTestComponent;
+  public openedModal: SkySummaryActionBarModalTestComponent | undefined;
 
   @ViewChild(SkySummaryActionBarSecondaryActionsComponent)
-  public secondaryActions: SkySummaryActionBarSecondaryActionsComponent;
+  public secondaryActions:
+    | SkySummaryActionBarSecondaryActionsComponent
+    | undefined;
 
   @ViewChild(SkySummaryActionBarComponent)
-  public summaryActionBar: SkySummaryActionBarComponent;
+  public summaryActionBar: SkySummaryActionBarComponent | undefined;
 
-  private modalInstance: SkyModalInstance;
+  #modalInstance: SkyModalInstance | undefined;
+  #modalService: SkyModalService;
 
-  constructor(private modalService: SkyModalService) {}
-
-  public ngOnDestroy(): void {
-    this.closeModal();
+  constructor(modalService: SkyModalService) {
+    this.#modalService = modalService;
   }
 
-  public clickHandler() {
+  public ngOnDestroy(): void {
+    this.#closeModal();
+  }
+
+  public clickHandler(): boolean {
     return true;
   }
 
-  public openActionBarModal() {
-    this.closeModal();
+  public openActionBarModal(): void {
+    this.#closeModal();
 
-    this.modalInstance = this.modalService.open(
+    this.#modalInstance = this.#modalService.open(
       SkySummaryActionBarModalTestComponent
     );
 
-    this.openedModal = this.modalInstance.componentInstance;
+    this.openedModal = this.#modalInstance.componentInstance;
   }
 
-  public openEmptyModal() {
-    this.closeModal();
+  public openEmptyModal(): void {
+    this.#closeModal();
 
-    this.modalInstance = this.modalService.open(
+    this.#modalInstance = this.#modalService.open(
       SkySummaryActionBarModalEmptyTestComponent
     );
 
-    this.openedModal = this.modalInstance.componentInstance;
+    this.openedModal = this.#modalInstance.componentInstance;
   }
 
-  public openFullScreenModal() {
-    this.closeModal();
+  public openFullScreenModal(): void {
+    this.#closeModal();
 
-    this.modalInstance = this.modalService.open(
+    this.#modalInstance = this.#modalService.open(
       SkySummaryActionBarModalTestComponent,
       { fullPage: true }
     );
 
-    this.openedModal = this.modalInstance.componentInstance;
+    this.openedModal = this.#modalInstance.componentInstance;
   }
 
   public toggleSummary(): void {
     this.noSummary = !this.noSummary;
   }
 
-  private closeModal(): void {
-    if (this.modalInstance) {
-      this.modalInstance.close();
-      this.modalInstance = undefined;
+  #closeModal(): void {
+    if (this.#modalInstance) {
+      this.#modalInstance.close();
+      this.#modalInstance = undefined;
       this.openedModal = undefined;
     }
   }

@@ -22,6 +22,11 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'avatar',
+    loadChildren: () =>
+      import('./features/avatar.module').then((m) => m.AvatarFeatureModule),
+  },
+  {
     path: 'colorpicker',
     loadChildren: () =>
       import('./features/colorpicker.module').then(
@@ -39,6 +44,11 @@ const routes: Routes = [
       import('./features/errors.module').then((m) => m.ErrorsFeatureModule),
   },
   {
+    path: 'flyout',
+    loadChildren: () =>
+      import('./features/flyout.module').then((m) => m.FlyoutFeatureModule),
+  },
+  {
     path: 'forms',
     loadChildren: () =>
       import('./features/forms.module').then((m) => m.FormsModule),
@@ -53,6 +63,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./features/indicators.module').then(
         (m) => m.IndicatorsFeatureModule
+      ),
+  },
+  {
+    path: 'inline-form',
+    loadChildren: () =>
+      import('./features/inline-form.module').then(
+        (m) => m.InlineFormFeatureModule
       ),
   },
   {
@@ -76,6 +93,11 @@ const routes: Routes = [
       import('./features/modals.module').then((m) => m.ModalsFeatureModule),
   },
   {
+    path: 'navbar',
+    loadChildren: () =>
+      import('./features/navbar.module').then((m) => m.NavbarFeatureModule),
+  },
+  {
     path: 'phone-field',
     loadChildren: () =>
       import('./features/phone-field.module').then((m) => m.PhoneModule),
@@ -96,6 +118,11 @@ const routes: Routes = [
     path: 'split-view',
     loadChildren: () =>
       import('./features/split-view.module').then((m) => m.SplitViewModule),
+  },
+  {
+    path: 'themes',
+    loadChildren: () =>
+      import('./features/themes.module').then((m) => m.ThemesFeatureModule),
   },
   {
     path: 'datetime',
@@ -149,7 +176,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

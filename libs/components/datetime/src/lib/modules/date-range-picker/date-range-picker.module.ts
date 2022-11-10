@@ -7,11 +7,17 @@ import { SkyI18nModule } from '@skyux/i18n';
 import { SkyDatepickerModule } from '../datepicker/datepicker.module';
 import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
 
+import { SkyDateRangePickerEndDateResourceKeyPipe } from './date-range-picker-end-date-resource-key.pipe';
+import { SkyDateRangePickerStartDateResourceKeyPipe } from './date-range-picker-start-date-resource-key.pipe';
 import { SkyDateRangePickerComponent } from './date-range-picker.component';
 import { SkyDateRangeService } from './date-range.service';
 
 @NgModule({
-  declarations: [SkyDateRangePickerComponent],
+  declarations: [
+    SkyDateRangePickerComponent,
+    SkyDateRangePickerEndDateResourceKeyPipe,
+    SkyDateRangePickerStartDateResourceKeyPipe,
+  ],
   imports: [
     CommonModule,
     FormsModule,

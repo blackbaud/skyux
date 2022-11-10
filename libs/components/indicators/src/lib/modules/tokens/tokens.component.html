@@ -1,16 +1,20 @@
 <div
   class="sky-tokens"
   [@blockAnimationOnLoad]
-  [attr.role]="tokens.length ? 'list' : null"
+  [attr.role]="tokens.length ? 'grid' : null"
 >
+  <!--
+      The role must use square brackets otherwise Angular sets the native 'role'
+      attribute as well as the input attribute of the token, which fails accessibility rules.
+    -->
   <sky-token
     *ngFor="let token of tokens; let i = index; trackBy: trackTokenFn"
-    role="listitem"
     [@.disabled]="!trackWith"
     [@dismiss]
     [disabled]="disabled"
     [dismissible]="dismissible"
     [focusable]="focusable"
+    [role]="'row'"
     (dismiss)="removeToken(token)"
     (click)="onTokenClick(token)"
     (keydown)="onTokenKeyDown($event)"

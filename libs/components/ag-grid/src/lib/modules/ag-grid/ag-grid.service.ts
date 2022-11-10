@@ -27,6 +27,8 @@ import { SkyAgGridCellRendererCurrencyComponent } from './cell-renderers/cell-re
 import { SkyAgGridCellRendererLookupComponent } from './cell-renderers/cell-renderer-lookup/cell-renderer-lookup.component';
 import { SkyAgGridCellRendererRowSelectorComponent } from './cell-renderers/cell-renderer-row-selector/cell-renderer-row-selector.component';
 import { SkyAgGridCellRendererValidatorTooltipComponent } from './cell-renderers/cell-renderer-validator-tooltip/cell-renderer-validator-tooltip.component';
+import { SkyAgGridHeaderGroupComponent } from './header/header-group.component';
+import { SkyAgGridHeaderComponent } from './header/header.component';
 import { SkyCellClass } from './types/cell-class';
 import { SkyCellType } from './types/cell-type';
 import { SkyHeaderClass } from './types/header-class';
@@ -119,28 +121,24 @@ let rowNodeId = -1;
   providedIn: 'any',
 })
 export class SkyAgGridService implements OnDestroy {
-  /**
-   * @internal
-   */
-  public currentTheme: SkyThemeSettings;
-
   private ngUnsubscribe = new Subject<void>();
 
   private keyMap = new WeakMap<any, string>();
 
+  #currentTheme: SkyThemeSettings | undefined = undefined;
+
   constructor(
     private agGridAdapterService: SkyAgGridAdapterService,
-    @Optional() private themeSvc?: SkyThemeService,
+    @Optional() themeSvc?: SkyThemeService,
     @Optional() private resources?: SkyLibResourcesService
   ) {
     /*istanbul ignore else*/
-    if (this.themeSvc) {
-      this.themeSvc.settingsChange
+    if (themeSvc) {
+      themeSvc.settingsChange
         .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe(
-          (settingsChange) =>
-            (this.currentTheme = settingsChange.currentSettings)
-        );
+        .subscribe((settingsChange) => {
+          this.#currentTheme = settingsChange.currentSettings;
+        });
     }
   }
 
@@ -179,11 +177,15 @@ export class SkyAgGridService implements OnDestroy {
     return mergedGridOptions;
   }
 
+  public getHeaderHeight(): number {
+    return this.#currentTheme?.theme?.name === 'modern' ? 60 : 37;
+  }
+
   private mergeGridOptions(
     defaultGridOptions: GridOptions,
     providedGridOptions: GridOptions
   ): GridOptions {
-    const mergedGridOptions = {
+    const mergedGridOptions: GridOptions = {
       ...defaultGridOptions,
       ...providedGridOptions,
       components: {
@@ -201,6 +203,10 @@ export class SkyAgGridService implements OnDestroy {
         ...providedGridOptions.defaultColDef,
         // allow consumers to override all defaultColDef properties except cellClassRules, which we reserve for styling
         cellClassRules: defaultGridOptions.defaultColDef.cellClassRules,
+      },
+      defaultColGroupDef: {
+        ...defaultGridOptions.defaultColGroupDef,
+        ...providedGridOptions.defaultColGroupDef,
       },
       icons: {
         ...defaultGridOptions.icons,
@@ -297,7 +303,7 @@ export class SkyAgGridService implements OnDestroy {
           },
           cellEditor: SkyAgGridCellEditorDatepickerComponent,
           comparator: dateComparator,
-          minWidth: this.currentTheme?.theme?.name === 'modern' ? 180 : 160,
+          minWidth: this.#currentTheme?.theme?.name === 'modern' ? 180 : 160,
           valueFormatter: (params: ValueFormatterParams) =>
             this.dateFormatter(params, args.locale),
         },
@@ -366,11 +372,15 @@ export class SkyAgGridService implements OnDestroy {
       },
       defaultColDef: {
         cellClassRules: editableCellClassRules,
+        headerComponent: SkyAgGridHeaderComponent,
         minWidth: 100,
         resizable: true,
         sortable: true,
         suppressKeyboardEvent: (keypress: SuppressKeyboardEventParams) =>
           this.suppressTab(keypress),
+      },
+      defaultColGroupDef: {
+        headerGroupComponent: SkyAgGridHeaderGroupComponent,
       },
       domLayout: 'autoHeight',
       enterMovesDownAfterEdit: true,
@@ -399,7 +409,7 @@ export class SkyAgGridService implements OnDestroy {
           return undefined;
         }
       },
-      headerHeight: this.currentTheme?.theme?.name === 'modern' ? 60 : 37,
+      headerHeight: this.getHeaderHeight(),
       icons: {
         sortDescending: this.getIconTemplate('caret-down'),
         sortAscending: this.getIconTemplate('caret-up'),
@@ -410,7 +420,8 @@ export class SkyAgGridService implements OnDestroy {
         columnMovePin: this.getIconTemplate('arrows'),
       },
       onCellFocused: () => this.onCellFocused(),
-      rowHeight: this.currentTheme?.theme?.name === 'modern' ? 60 : 38,
+      rowHeight: this.#getRowHeight(),
+      getRowHeight: () => this.#getRowHeight(),
       rowMultiSelectWithClick: true,
       rowSelection: 'multiple',
       singleClickEdit: true,
@@ -483,7 +494,7 @@ export class SkyAgGridService implements OnDestroy {
   ): GridOptions {
     const defaultGridOptions = this.getDefaultGridOptions(args);
 
-    defaultGridOptions.rowSelection = 'none';
+    defaultGridOptions.rowSelection = undefined;
 
     return defaultGridOptions;
   }
@@ -540,5 +551,9 @@ export class SkyAgGridService implements OnDestroy {
       return true;
     }
     return false;
+  }
+
+  #getRowHeight(): number {
+    return this.#currentTheme?.theme?.name === 'modern' ? 60 : 38;
   }
 }

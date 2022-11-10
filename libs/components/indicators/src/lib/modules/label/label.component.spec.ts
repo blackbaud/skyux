@@ -118,4 +118,40 @@ describe('Label component', () => {
       'fa-exclamation-circle'
     );
   });
+
+  describe('a11y', () => {
+    it('should be accessible when label type is info', async () => {
+      const fixture = TestBed.createComponent(LabelTestComponent);
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when label type is danger', async () => {
+      const fixture = TestBed.createComponent(LabelTestComponent);
+      const cmp = fixture.componentInstance as LabelTestComponent;
+      cmp.labelType = 'danger';
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when label type is succcess', async () => {
+      const fixture = TestBed.createComponent(LabelTestComponent);
+      const cmp = fixture.componentInstance as LabelTestComponent;
+      cmp.labelType = 'success';
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when label type is warning', async () => {
+      const fixture = TestBed.createComponent(LabelTestComponent);
+      const cmp = fixture.componentInstance as LabelTestComponent;
+      cmp.labelType = 'warning';
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+  });
 });

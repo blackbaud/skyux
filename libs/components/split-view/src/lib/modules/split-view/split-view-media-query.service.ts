@@ -31,7 +31,7 @@ export class SkySplitViewMediaQueryService {
     });
   }
 
-  public setBreakpointForWidth(width: number): void {
+  public setBreakpointForWidth(width: number | undefined): void {
     let breakpoint: SkyMediaBreakpoints;
 
     if (this.isWidthWithinBreakpoint(width, SkyMediaBreakpoints.xs)) {

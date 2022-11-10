@@ -13,40 +13,44 @@ import { SkyDatepickerComponent } from '../datepicker.component';
   templateUrl: './datepicker-reactive.component.fixture.html',
 })
 export class DatepickerReactiveTestComponent implements OnInit {
-  public datepickerForm: UntypedFormGroup;
+  public datepickerForm: UntypedFormGroup | undefined;
 
-  public dateControl: UntypedFormControl;
+  public dateControl!: UntypedFormControl;
 
-  public dateFormat: string;
+  public dateFormat: string | undefined;
 
   public disableFormOnCreation = false;
 
-  public initialValue: Date | string;
+  public initialValue: Date | string | undefined;
 
-  public isDisabled: boolean;
+  public isDisabled: boolean | undefined;
 
-  public maxDate: Date;
+  public maxDate: Date | undefined;
 
-  public minDate: Date;
+  public minDate: Date | undefined;
 
   public noValidate = false;
 
   public startingDay = 0;
 
-  public strict: boolean;
+  public strict: boolean | undefined;
 
   @ViewChild(SkyDatepickerInputDirective)
-  public inputDirective: SkyDatepickerInputDirective;
+  public inputDirective!: SkyDatepickerInputDirective;
 
   @ViewChild(SkyDatepickerComponent)
-  public datepicker: SkyDatepickerComponent;
+  public datepicker!: SkyDatepickerComponent;
 
-  constructor(private formBuilder: UntypedFormBuilder) {}
+  #formBuilder: UntypedFormBuilder;
+
+  constructor(formBuilder: UntypedFormBuilder) {
+    this.#formBuilder = formBuilder;
+  }
 
   public ngOnInit() {
     this.dateControl = new UntypedFormControl(this.initialValue);
 
-    this.datepickerForm = this.formBuilder.group({
+    this.datepickerForm = this.#formBuilder.group({
       date: this.dateControl,
     });
     if (this.disableFormOnCreation) {

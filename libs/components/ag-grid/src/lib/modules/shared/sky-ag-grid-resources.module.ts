@@ -28,9 +28,6 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     sky_ag_grid_cell_editor_autocomplete_aria_label: {
       message: 'Editable autocomplete {0} for row {1}',
     },
-    sky_ag_grid_cell_renderer_currency_aria_label: {
-      message: 'Editable currency {0} for row {1}',
-    },
     sky_ag_grid_cell_renderer_number_validator_message: {
       message: 'Enter a valid number.',
     },
@@ -40,6 +37,12 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     skyux_lookup_tokens_summary: { message: '{0} items selected' },
     sky_ag_grid_cell_editor_currency_aria_label: {
       message: 'Editable currency {0} for row {1}',
+    },
+    sky_ag_grid_column_group_header_expand_aria_label: {
+      message: 'Expand column group {0}',
+    },
+    sky_ag_grid_column_group_header_collapse_aria_label: {
+      message: 'Collapse column group {0}',
     },
   },
 };

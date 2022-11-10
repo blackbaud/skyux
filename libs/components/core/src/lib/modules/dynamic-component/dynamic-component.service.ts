@@ -64,7 +64,7 @@ export class SkyDynamicComponentService {
 
     const injector = Injector.create({
       providers: options.providers || [],
-      parent: this.#injector,
+      parent: options.parentInjector || this.#injector,
     });
 
     const componentRef = createComponent<T>(componentType, {

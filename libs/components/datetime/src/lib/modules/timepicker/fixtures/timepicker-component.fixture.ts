@@ -10,18 +10,18 @@ import { SkyTimepickerTimeOutput } from '../timepicker.interface';
 })
 export class TimepickerTestComponent {
   @ViewChild(SkyTimepickerComponent)
-  public timepickerComponent: SkyTimepickerComponent;
+  public timepickerComponent!: SkyTimepickerComponent;
 
   @ViewChild(SkyTimepickerInputDirective)
-  public timepicker: SkyTimepickerInputDirective;
+  public timepicker!: SkyTimepickerInputDirective;
 
-  public disabled: boolean;
+  public disabled: boolean | undefined;
 
-  public required: boolean;
+  public required: boolean | undefined;
 
-  public returnFormat: string;
+  public returnFormat: string | undefined;
 
-  public selectedTime: SkyTimepickerTimeOutput;
+  public selectedTime: SkyTimepickerTimeOutput | undefined;
 
-  public timeFormat = 'hh';
+  public timeFormat: string | undefined = 'hh';
 }

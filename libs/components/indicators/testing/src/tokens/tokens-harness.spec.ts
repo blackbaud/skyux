@@ -89,7 +89,7 @@ describe('Tokens harness', () => {
 
     await expectAsync(tokens[0].isDismissible()).toBeResolvedTo(false);
     await expectAsync(tokens[0].dismiss()).toBeRejectedWithError(
-      'Could not dismiss the token because it is not dismissable.'
+      'Could not dismiss the token because it is not dismissible.'
     );
   });
 
@@ -147,7 +147,9 @@ describe('Tokens harness', () => {
 
     await expectAsync(firstToken.isFocused()).toBeResolvedTo(false);
 
-    fixture.nativeElement.querySelectorAll('sky-token .sky-btn')[0].focus();
+    fixture.nativeElement
+      .querySelectorAll('sky-token .sky-token-btn')[0]
+      .focus();
 
     await expectAsync(firstToken.isFocused()).toBeResolvedTo(true);
   });

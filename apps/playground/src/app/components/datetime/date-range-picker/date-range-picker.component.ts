@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   AbstractControl,
   UntypedFormBuilder,
@@ -15,7 +15,7 @@ import {
   templateUrl: './date-range-picker.component.html',
   styleUrls: ['./date-range-picker.component.scss'],
 })
-export class DateRangePickerComponent implements OnInit {
+export class DateRangePickerComponent {
   public calculatorIds: SkyDateRangeCalculatorId[];
   public dateFormat: string;
   public disabled = false;
@@ -27,10 +27,8 @@ export class DateRangePickerComponent implements OnInit {
     return this.reactiveForm.get('lastDonation');
   }
 
-  constructor(private formBuilder: UntypedFormBuilder) {}
-
-  public ngOnInit(): void {
-    this.reactiveForm = this.formBuilder.group({
+  constructor(formBuilder: UntypedFormBuilder) {
+    this.reactiveForm = formBuilder.group({
       lastDonation: new UntypedFormControl(),
     });
     this.pickerFormControl.statusChanges.subscribe((status) => {

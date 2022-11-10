@@ -1,7 +1,8 @@
 <div
   class="sky-summary-action-bar"
   [ngClass]="{
-    'sky-summary-action-bar-summary-collapsible': isSummaryCollapsible,
+    'sky-summary-action-bar-summary-collapsible':
+      type | skySummaryActionBarCollapsible: mediaQueryService.current,
     'sky-summary-action-bar-modal': type === 1 || type === 2,
     'sky-summary-action-bar-split-view': type === 4
   }"
@@ -22,7 +23,11 @@
           <ng-content select="sky-summary-action-bar-summary"></ng-content>
         </div>
         <div
-          *ngIf="isSummaryCollapsible && !isSummaryCollapsed"
+          *ngIf="
+            (type
+              | skySummaryActionBarCollapsible: mediaQueryService.current) &&
+            !isSummaryCollapsed
+          "
           class="sky-summary-action-bar-details-collapse"
         >
           <ng-container *ngTemplateOutlet="chevron"></ng-container>
@@ -30,7 +35,10 @@
       </div>
     </div>
     <div
-      *ngIf="isSummaryCollapsible && isSummaryCollapsed"
+      *ngIf="
+        (type | skySummaryActionBarCollapsible: mediaQueryService.current) &&
+        isSummaryCollapsed
+      "
       class="sky-summary-action-bar-details-expand"
     >
       <ng-container *ngTemplateOutlet="chevron"></ng-container>
