@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Input,
   OnDestroy,
@@ -26,18 +27,30 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
    * The configuration for the view. See the `SkyDataViewConfig` interface.
    * @required
    */
-
   @Input()
   public viewId: string | undefined;
 
-  @Input()
-  public isActive: boolean | undefined;
+  public get isActive(): boolean {
+    return this.#_isActive;
+  }
+
+  public set isActive(value: boolean) {
+    this.#_isActive = value;
+    this.#changeDetector.markForCheck();
+  }
+
+  #_isActive = false;
 
   #ngUnsubscribe = new Subject<void>();
   #dataManagerService: SkyDataManagerService;
+  #changeDetector: ChangeDetectorRef;
 
-  constructor(dataManagerService: SkyDataManagerService) {
+  constructor(
+    dataManagerService: SkyDataManagerService,
+    changeDetector: ChangeDetectorRef
+  ) {
     this.#dataManagerService = dataManagerService;
+    this.#changeDetector = changeDetector;
   }
 
   public ngOnInit(): void {
