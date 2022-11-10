@@ -1,7 +1,6 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyDataManagerColumnPickerSortStrategy } from '@skyux/data-manager';
-import { SkyLibResourcesService } from '@skyux/i18n';
 import {
   SkyModalConfiguration,
   SkyModalHostService,
@@ -14,32 +13,34 @@ import { SkyDataManagerColumnPickerContext } from './data-manager-column-picker-
 import { SkyDataManagerColumnPickerComponent } from './data-manager-column-picker.component';
 
 class MockModalInstance {
-  public saveResult: any;
-  public cancelResult: any;
-  public closeResult: any;
-  public closeReason: any;
+  public saveResult: unknown | undefined;
+  public cancelResult: unknown | undefined;
+  public closeResult: unknown | undefined;
+  public closeReason: unknown | undefined;
 
-  public save(result: any): void {
+  public save(result: unknown): void {
     this.saveResult = result;
   }
 
-  public cancel(result: any): void {
+  public cancel(result: unknown): void {
     this.cancelResult = result;
   }
 
-  public close(result: any, reason: string): void {
+  public close(result: unknown, reason: string): void {
     this.closeResult = result;
     this.closeReason = reason;
   }
 }
 
 class MockModalHostService {
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   public getModalZIndex(): void {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   public onClose(): void {}
 }
 
 class MockModalConfiguration {
-  public fullPage: boolean;
+  public fullPage: boolean | undefined;
 }
 
 describe('SkyDataManagerColumnPickerComponent', () => {
@@ -126,22 +127,11 @@ describe('SkyDataManagerColumnPickerComponent', () => {
   });
 
   describe('column search', () => {
-    it('should display the expected title', waitForAsync(() => {
-      const libResources =
-        dataManagerColumnPickerFixture.debugElement.injector.get(
-          SkyLibResourcesService
-        );
-
-      libResources
-        .getString('skyux_data_manager_column_picker_title')
-        .subscribe((value) => {
-          console.log(value);
-        });
-
+    it('should display the expected title', () => {
       expect(
         dataManagerColumnPickerElement.querySelector('sky-modal-header')
       ).toHaveText('Choose columns to show in the list');
-    }));
+    });
 
     it('should return all columns when the data state search text is "col"', () => {
       dataManagerColumnPickerComponent.dataState.searchText = 'col';

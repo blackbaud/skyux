@@ -8,5 +8,5 @@ export class SkyDataManagerFilterModalContext {
   /**
    * Sets the state of the filters.
    */
-  public filterData!: SkyDataManagerFilterData;
+  public filterData: SkyDataManagerFilterData | undefined;
 }

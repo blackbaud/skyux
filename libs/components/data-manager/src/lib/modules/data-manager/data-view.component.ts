@@ -1,6 +1,5 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   Input,
   OnDestroy,
@@ -31,34 +30,27 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
   @Input()
   public viewId: string | undefined;
 
-  public get isActive(): boolean {
-    return this._isActive;
+  @Input()
+  public isActive: boolean | undefined;
+
+  #ngUnsubscribe = new Subject<void>();
+  #dataManagerService: SkyDataManagerService;
+
+  constructor(dataManagerService: SkyDataManagerService) {
+    this.#dataManagerService = dataManagerService;
   }
-
-  public set isActive(value: boolean) {
-    this._isActive = value;
-    this.changeDetector.markForCheck();
-  }
-
-  public _isActive = false;
-  private _ngUnsubscribe = new Subject<void>();
-
-  constructor(
-    private changeDetector: ChangeDetectorRef,
-    private dataManagerService: SkyDataManagerService
-  ) {}
 
   public ngOnInit(): void {
-    this.dataManagerService
+    this.#dataManagerService
       .getActiveViewIdUpdates()
-      .pipe(takeUntil(this._ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((activeViewId) => {
         this.isActive = this.viewId === activeViewId;
       });
   }
 
   public ngOnDestroy(): void {
-    this._ngUnsubscribe.next();
-    this._ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 }

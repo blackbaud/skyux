@@ -15,7 +15,7 @@
         <sky-sort [showButtonText]="activeView?.showSortButtonText">
           <sky-sort-item
             *ngFor="let item of dataManagerConfig?.sortOptions"
-            [active]="!!(activeSortOptionId && activeSortOptionId === item.id)"
+            [active]="!!(dataState?.activeSortOption?.id === item.id)"
             (itemSelect)="sortSelected(item)"
           >
             {{ item.label }}

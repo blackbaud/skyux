@@ -9,12 +9,14 @@ export interface SkyDataManagerConfig {
    * An untyped property that can track any config information relevant to a
    * data manager that existing options do not include.
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   additionalOptions?: any;
   /**
    * The modal component to launch when the filter button is selected. The same filter options are
    * used for all views, but views can use `SkyDataViewConfig` to indicate whether to display
    * the filter button. The modal receives the `filterData` in the data state as context.
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   filterModalComponent?: any;
   /**
    * The sort options displayed in the sort dropdown. The same sort options are used for all views,

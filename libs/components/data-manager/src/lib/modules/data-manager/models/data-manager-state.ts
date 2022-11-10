@@ -16,6 +16,7 @@ export class SkyDataManagerState {
    * An untyped property that tracks any state information that's relevant to a data
    * manager but that the existing properties do not cover.
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public additionalData: any;
   /**
    * The state of the filters.
