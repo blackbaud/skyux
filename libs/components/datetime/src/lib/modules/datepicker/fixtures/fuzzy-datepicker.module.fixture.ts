@@ -5,14 +5,12 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyDatepickerModule } from '../datepicker.module';
 import { SkyFuzzyDateService } from '../fuzzy-date.service';
 
-import { DatepickerCalendarTestComponent } from './datepicker-calendar.component.fixture';
 import { FuzzyDatepickerNoFormatTestComponent } from './fuzzy-datepicker-noformat.component.fixture';
 import { FuzzyDatepickerReactiveTestComponent } from './fuzzy-datepicker-reactive.component.fixture';
 import { FuzzyDatepickerTestComponent } from './fuzzy-datepicker.component.fixture';
 
 @NgModule({
   declarations: [
-    DatepickerCalendarTestComponent,
     FuzzyDatepickerNoFormatTestComponent,
     FuzzyDatepickerReactiveTestComponent,
     FuzzyDatepickerTestComponent,
@@ -25,7 +23,6 @@ import { FuzzyDatepickerTestComponent } from './fuzzy-datepicker.component.fixtu
   ],
   providers: [SkyFuzzyDateService],
   exports: [
-    DatepickerCalendarTestComponent,
     FuzzyDatepickerNoFormatTestComponent,
     FuzzyDatepickerReactiveTestComponent,
     FuzzyDatepickerTestComponent,

@@ -12,13 +12,13 @@ import { SkyDatepickerComponent } from '../datepicker.component';
   templateUrl: './datepicker.component.fixture.html',
 })
 export class DatepickerTestComponent {
-  public dateFormat: string;
+  public dateFormat: string | undefined;
 
-  public isDisabled: boolean;
+  public isDisabled: boolean | undefined;
 
-  public maxDate: Date;
+  public maxDate: Date | undefined;
 
-  public minDate: Date;
+  public minDate: Date | undefined;
 
   public noValidate = false;
 
@@ -30,13 +30,13 @@ export class DatepickerTestComponent {
 
   public startingDay = 0;
 
-  public strict: boolean;
+  public strict: boolean | undefined;
 
   @ViewChild(SkyDatepickerInputDirective)
-  public inputDirective: SkyDatepickerInputDirective;
+  public inputDirective!: SkyDatepickerInputDirective;
 
   @ViewChild(SkyDatepickerComponent)
-  public datepicker: SkyDatepickerComponent;
+  public datepicker!: SkyDatepickerComponent;
 
   public onCalendarDateRangeChange(event: SkyDatepickerCalendarChange): void {
     if (this.showCustomDates) {

@@ -453,10 +453,13 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
   }
 
   #addKeydownListener(): void {
-    this.#overlayKeydownListner = fromEvent(window.document, 'keydown')
+    this.#overlayKeydownListner = fromEvent<KeyboardEvent>(
+      window.document,
+      'keydown'
+    )
       .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((event: Event) => {
-        const key = (event as KeyboardEvent).key?.toLowerCase();
+      .subscribe((event) => {
+        const key = event.key?.toLowerCase();
         /* istanbul ignore else */
         if (key === 'escape' && this.isOpen) {
           this.#closePicker();
