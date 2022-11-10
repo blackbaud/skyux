@@ -111,6 +111,10 @@
   &.sky-btn-tab-disabled {
     background-color: transparent;
     @include compatMixins.sky-deemphasized;
+
+    .sky-btn-tab-close {
+      font-size: vars.$sky-theme-modern-font-body-default-size;
+    }
   }
 }
 

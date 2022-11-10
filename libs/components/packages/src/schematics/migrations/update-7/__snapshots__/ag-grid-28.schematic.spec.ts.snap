@@ -1,0 +1,112 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ag-grid-28.schematic should remove @ag-grid-community/all-modules 1`] = `
+"
+        import { AgGridModule } from 'ag-grid-community';
+        import { ExampleComponent } from 'ag-grid-angular';
+        import { AgGridEnterpriseModule } from 'ag-grid-enterprise';
+
+        @NgModule({
+          imports: [
+            BrowserModule,
+            AgGridModule,
+            AgGridEnterpriseModule,
+          ],
+        })
+        export class AppModule {}"
+`;
+
+exports[`ag-grid-28.schematic should remove @ag-grid-community/all-modules 2`] = `
+"
+
+          AG Grid recommends not mixing module and package imports.
+          https://ag-grid.com/angular-data-grid/modules/
+
+"
+`;
+
+exports[`ag-grid-28.schematic should remove @ag-grid-community/all-modules when already on v28 1`] = `
+"
+        import { AgGridModule } from 'ag-grid-community';
+
+        @NgModule({
+          imports: [
+            BrowserModule,
+            AgGridModule,
+          ],
+        })
+        export class AppModule {}"
+`;
+
+exports[`ag-grid-28.schematic should remove @ag-grid-community/all-modules when already on v28 2`] = `
+"
+        import { AgGridModule } from 'ag-grid-community';
+
+        @NgModule({
+          imports: [
+            BrowserModule,
+            AgGridModule.forRoot([
+              OtherComponent,
+            ]),
+          ],
+        })
+        export class GridModule {}"
+`;
+
+exports[`ag-grid-28.schematic should remove @ag-grid-enterprise/all-modules when already on v28 1`] = `
+"
+        import { AgGridModule } from 'ag-grid-enterprise';
+
+        @NgModule({
+          imports: [
+            BrowserModule,
+            AgGridModule,
+          ],
+        })
+        export class AppModule {}"
+`;
+
+exports[`ag-grid-28.schematic should update getSecondaryColumns and setSecondaryColumns 1`] = `
+"
+        import { ColumnApi } from 'ag-grid-community';
+
+        export class AppComponent {
+          #columnApi: ColumnApi;
+
+          public getSecondaryColumns() {
+            return this.#columnApi.getPivotResultColumns();
+          }
+        }"
+`;
+
+exports[`ag-grid-28.schematic should update getSecondaryColumns and setSecondaryColumns 2`] = `
+"
+        import { ColumnApi } from 'ag-grid-community';
+
+        export class GridComponent {
+          #columnApi: ColumnApi;
+
+          public setSecondaryColumns() {
+            this.#columnApi.setPivotResultColumns([]);
+          }
+        }"
+`;
+
+exports[`ag-grid-28.schematic should update suppressCellSelection 1`] = `
+"
+        import { SkyAgGridService } from '@skyux/ag-grid';
+        import { GridOptions } from 'ag-grid-community';
+
+        export class AppComponent {
+          public options: GridOptions;
+
+          constructor(private agGridService: SkyAgGridService) {
+            let customOptions: Partial<GridOptions> = {};
+            customOptions.suppressCellFocus = true;
+            this.options = this.agGridService.getGridOptions({
+              ...customOptions,
+              suppressCellFocus: true,
+            });
+          }
+        }"
+`;

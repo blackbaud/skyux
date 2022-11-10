@@ -33,13 +33,15 @@ Cypress.Commands.add('waitForFonts', (...fonts: string[]) => {
   return cy
     .document()
     .its('fonts.status', { timeout: 20000 })
-    .should('equal', 'loaded')
+    .should('equal', 'loaded', { timeout: 20000 })
     .end()
     .document()
     .then((doc) => {
       cy.wrap(doc.fonts).should('not.be.undefined');
       fonts.forEach((font) => {
-        cy.wrap(doc.fonts).invoke('check', `16px "${font}"`).should('be.true');
+        cy.wrap(doc.fonts)
+          .invoke('check', `16px "${font}"`)
+          .should('be.true', undefined, { timeout: 20000 });
       });
     })
     .end();

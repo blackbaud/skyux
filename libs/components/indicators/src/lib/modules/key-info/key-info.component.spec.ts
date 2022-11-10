@@ -51,4 +51,26 @@ describe('Key info component', () => {
     ).toBe(1);
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });
+
+  describe('a11y', () => {
+    it('should be accessible when vertical', async () => {
+      const fixture = TestBed.createComponent(KeyInfoTestComponent);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when horizontal', async () => {
+      const fixture = TestBed.createComponent(KeyInfoTestComponent);
+
+      const cmp = fixture.componentInstance as KeyInfoTestComponent;
+      cmp.layout = 'horizontal';
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+  });
 });

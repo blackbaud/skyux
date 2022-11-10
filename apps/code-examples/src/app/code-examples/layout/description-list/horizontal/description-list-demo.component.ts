@@ -24,4 +24,8 @@ export class DescriptionListDemoComponent {
       description: '2024',
     },
   ];
+
+  public onActionClick(): void {
+    alert('Help inline button clicked!');
+  }
 }

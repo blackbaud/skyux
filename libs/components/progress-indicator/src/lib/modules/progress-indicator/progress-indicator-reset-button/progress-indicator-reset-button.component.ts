@@ -27,13 +27,13 @@ export class SkyProgressIndicatorResetButtonComponent implements OnDestroy {
    * @default false
    */
   @Input()
-  public set disabled(value: boolean) {
+  public set disabled(value: boolean | undefined) {
     this._disabled = value;
     this.changeDetector.markForCheck();
   }
 
-  public get disabled(): boolean {
-    return this._disabled || false;
+  public get disabled(): boolean | undefined {
+    return this._disabled;
   }
 
   /**
@@ -41,16 +41,16 @@ export class SkyProgressIndicatorResetButtonComponent implements OnDestroy {
    * @required
    */
   @Input()
-  public progressIndicator: SkyProgressIndicatorComponent;
+  public progressIndicator: SkyProgressIndicatorComponent | undefined;
 
   /**
    * Fires when users select the reset button that marks all items as incomplete and sets the
    * first item as the active item.
    */
   @Output()
-  public resetClick = new EventEmitter<any>();
+  public resetClick = new EventEmitter<void>();
 
-  private _disabled: boolean;
+  private _disabled: boolean | undefined;
 
   constructor(private changeDetector: ChangeDetectorRef) {
     console.warn(
@@ -67,7 +67,7 @@ export class SkyProgressIndicatorResetButtonComponent implements OnDestroy {
   public onClick(): void {
     this.resetClick.emit();
 
-    this.progressIndicator.sendMessage({
+    this.progressIndicator?.sendMessage({
       type: SkyProgressIndicatorMessageType.Reset,
     });
   }

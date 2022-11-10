@@ -35,13 +35,13 @@ describe('Sort fixture', () => {
     lookupAction: (x: SkySortFixture) => any
   ): Promise<any> {
     // we want to leave the menu in its original state, so track if it needs to be closed again
-    const shouldCloseMenu = !sortFixture.menu?.isOpen;
+    const shouldCloseMenu = !sortFixture.menu.isOpen;
 
     // make sure the menu is open so we can access the menuItems property
-    if (!sortFixture.menu?.isOpen) {
+    if (!sortFixture.menu.isOpen) {
       await sortFixture.openMenu();
     }
-    expect(sortFixture.menu?.isOpen).toBeTrue();
+    expect(sortFixture.menu.isOpen).toBeTrue();
 
     // perform the lookup action
     const result = lookupAction(sortFixture);
@@ -50,7 +50,7 @@ describe('Sort fixture', () => {
       await sortFixture.closeMenu();
     }
 
-    expect(sortFixture.menu?.isOpen).toBe(!shouldCloseMenu);
+    expect(sortFixture.menu.isOpen).toBe(!shouldCloseMenu);
     return result;
   }
 
@@ -75,21 +75,21 @@ describe('Sort fixture', () => {
 
   describe('Sort menu', () => {
     it('should expose default menu properties', () => {
-      expect(sortFixture.menu?.buttonText).toEqual('Sort');
-      expect(sortFixture.menu?.isOpen).toBeFalse();
+      expect(sortFixture.menu.buttonText).toEqual('Sort');
+      expect(sortFixture.menu.isOpen).toBeFalse();
     });
   });
 
   describe('Menu items', () => {
     it('should return undefined for menu items when the menu is closed', () => {
-      expect(sortFixture.menu?.isOpen).toBeFalse();
+      expect(sortFixture.menu.isOpen).toBeFalse();
       expect(sortFixture.menuItems).toBeUndefined();
     });
 
     it('should expose menu item properties', async () => {
       // open the menu so we can access the menuItems property
       await sortFixture.openMenu();
-      expect(sortFixture.menu?.isOpen).toBeTrue();
+      expect(sortFixture.menu.isOpen).toBeTrue();
 
       // grab the menu items
       const menuItems = sortFixture.menuItems;
@@ -112,48 +112,48 @@ describe('Sort fixture', () => {
   describe('Open menu', () => {
     it('should do nothing when the menu is already open', async () => {
       // the menu should start closed
-      expect(sortFixture.menu?.isOpen).toBeFalse();
+      expect(sortFixture.menu.isOpen).toBeFalse();
 
       // open the menu
       await sortFixture.openMenu();
-      expect(sortFixture.menu?.isOpen).toBeTrue();
+      expect(sortFixture.menu.isOpen).toBeTrue();
 
       // opening the menu again should do nothing
       await sortFixture.openMenu();
-      expect(sortFixture.menu?.isOpen).toBeTrue();
+      expect(sortFixture.menu.isOpen).toBeTrue();
     });
 
     it('should open the menu when it is closed', async () => {
       // the menu should start closed
-      expect(sortFixture.menu?.isOpen).toBeFalse();
+      expect(sortFixture.menu.isOpen).toBeFalse();
 
       // open the menu
       await sortFixture.openMenu();
-      expect(sortFixture.menu?.isOpen).toBeTrue();
+      expect(sortFixture.menu.isOpen).toBeTrue();
     });
   });
 
   describe('Close menu', () => {
     it('should do nothing when the menu is already closed', async () => {
       // the menu should start closed
-      expect(sortFixture.menu?.isOpen).toBeFalse();
+      expect(sortFixture.menu.isOpen).toBeFalse();
 
       // closing it again should do nothing
       await sortFixture.closeMenu();
-      expect(sortFixture.menu?.isOpen).toBeFalse();
+      expect(sortFixture.menu.isOpen).toBeFalse();
     });
 
     it('should close the menu when it is open', async () => {
       // the menu should start closed
-      expect(sortFixture.menu?.isOpen).toBeFalse();
+      expect(sortFixture.menu.isOpen).toBeFalse();
 
       // we'll need to open it to test closing it
       await sortFixture.openMenu();
-      expect(sortFixture.menu?.isOpen).toBeTrue();
+      expect(sortFixture.menu.isOpen).toBeTrue();
 
       // close the menu
       await sortFixture.closeMenu();
-      expect(sortFixture.menu?.isOpen).toBeFalse();
+      expect(sortFixture.menu.isOpen).toBeFalse();
     });
   });
 
@@ -238,7 +238,7 @@ describe('Sort fixture', () => {
         expect(existingSelection.text).not.toEqual(newSelection.text);
 
         // ensure the menu is closed for our test case
-        expect(sortFixture.menu?.isOpen).toBeFalse();
+        expect(sortFixture.menu.isOpen).toBeFalse();
 
         // select the inactive option
         await parameter.selectMenuItem(newSelection);

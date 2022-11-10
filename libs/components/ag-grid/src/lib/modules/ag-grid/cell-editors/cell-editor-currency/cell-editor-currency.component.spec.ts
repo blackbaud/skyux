@@ -75,8 +75,6 @@ describe('SkyCellEditorCurrencyComponent', () => {
         true
       );
 
-      column.setActualWidth(columnWidth);
-
       cellEditorParams = {
         value: value,
         column,
@@ -107,6 +105,8 @@ describe('SkyCellEditorCurrencyComponent', () => {
         rowHeight: 100,
       };
 
+      spyOn(column, 'getActualWidth').and.returnValue(columnWidth);
+      spyOn(column, 'fireColumnWidthChangedEvent').and.returnValue();
       currencyEditorComponent.agInit(cellEditorParams);
 
       expect(currencyEditorComponent.columnWidth).toEqual(columnWidth);
@@ -142,7 +142,6 @@ describe('SkyCellEditorCurrencyComponent', () => {
     describe('afterGuiAttached', () => {
       let cellEditorParams: SkyCellEditorCurrencyParams;
       let column: Column;
-      const columnWidth = 200;
       const rowNode = new RowNode({} as Beans);
       rowNode.rowHeight = 37;
       const value = 15;
@@ -156,8 +155,6 @@ describe('SkyCellEditorCurrencyComponent', () => {
           'col',
           true
         );
-
-        column.setActualWidth(columnWidth);
 
         cellEditorParams = {
           value: value,

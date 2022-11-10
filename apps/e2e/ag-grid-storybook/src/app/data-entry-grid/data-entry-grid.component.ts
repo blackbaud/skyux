@@ -15,11 +15,12 @@ import {
   SkyThemeSettings,
 } from '@skyux/theme';
 
-import { ColDef, Events, GridOptions } from 'ag-grid-community';
+import { ColDef, GridOptions } from 'ag-grid-community';
 import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { delay, filter, map } from 'rxjs/operators';
 
 import { columnDefinitions, data } from '../shared/baseball-players-data';
+import { InlineHelpComponent } from '../shared/inline-help/inline-help.component';
 
 type DataSet = { id: string; data: any[] };
 
@@ -130,6 +131,12 @@ export class DataEntryGridComponent
           columnDefs = columnDefinitions
             .slice(tripleCrownIndex, tripleCrownIndex + 3)
             .map((col) => {
+              if (col.field === 'mvp') {
+                col.headerComponentParams = {
+                  inlineHelpComponent: InlineHelpComponent,
+                };
+                col.initialSort = 'desc';
+              }
               return {
                 ...col,
                 editable: true,
@@ -178,14 +185,9 @@ export class DataEntryGridComponent
           suppressColumnVirtualisation: true,
           suppressHorizontalScroll: true,
           suppressRowVirtualisation: true,
-          onGridReady: (params) => {
-            params.api.addEventListener(
-              Events.EVENT_FIRST_DATA_RENDERED,
-              () => {
-                (
-                  this.#gridsReady.get(dataSet.id) as BehaviorSubject<boolean>
-                ).next(true);
-              }
+          onFirstDataRendered: () => {
+            (this.#gridsReady.get(dataSet.id) as BehaviorSubject<boolean>).next(
+              true
             );
           },
           rowData: (() => {

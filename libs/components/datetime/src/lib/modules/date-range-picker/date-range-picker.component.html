@@ -1,4 +1,8 @@
-<div *ngIf="isReady" class="sky-date-range-picker" [formGroup]="formGroup">
+<div
+  *ngIf="isReady && formGroup"
+  class="sky-date-range-picker"
+  [formGroup]="formGroup"
+>
   <div class="sky-date-range-picker-form-group">
     <sky-input-box>
       <label
@@ -30,17 +34,25 @@
         [attr.for]="dateRangePickerId + '-start-date'"
         [ngClass]="{ 'sky-control-label-required': startDateRequired }"
       >
-        {{ startDateLabelResourceKey | skyLibResources }}
+        {{
+          selectedCalculator?.type
+            | skyDateRangePickerStartDateResourceKey
+            | skyLibResources
+        }}
       </label>
 
       <sky-datepicker>
         <input
           formControlName="startDate"
-          [attr.aria-label]="startDateLabelResourceKey | skyLibResources"
+          [attr.aria-label]="
+            selectedCalculator?.type
+              | skyDateRangePickerStartDateResourceKey
+              | skyLibResources
+          "
           [attr.id]="dateRangePickerId + '-start-date'"
-          [attr.placeholder]="dateFormat"
-          [required]="startDateRequired"
-          [dateFormat]="dateFormat"
+          [attr.placeholder]="dateFormatOrDefault"
+          [required]="!!startDateRequired"
+          [dateFormat]="dateFormatOrDefault"
           (blur)="onFieldBlur()"
           skyDatepickerInput
         />
@@ -55,18 +67,26 @@
         [attr.for]="dateRangePickerId + '-end-date'"
         [ngClass]="{ 'sky-control-label-required': endDateRequired }"
       >
-        {{ endDateLabelResourceKey | skyLibResources }}
+        {{
+          selectedCalculator?.type
+            | skyDateRangePickerEndDateResourceKey
+            | skyLibResources
+        }}
       </label>
 
       <sky-datepicker>
         <input
           formControlName="endDate"
           skyDatepickerInput
-          [attr.aria-label]="endDateLabelResourceKey | skyLibResources"
+          [attr.aria-label]="
+            selectedCalculator?.type
+              | skyDateRangePickerEndDateResourceKey
+              | skyLibResources
+          "
           [attr.id]="dateRangePickerId + '-end-date'"
-          [attr.placeholder]="dateFormat"
-          [dateFormat]="dateFormat"
-          [required]="endDateRequired"
+          [attr.placeholder]="dateFormatOrDefault"
+          [dateFormat]="dateFormatOrDefault"
+          [required]="!!endDateRequired"
           (blur)="onFieldBlur()"
         />
       </sky-datepicker>

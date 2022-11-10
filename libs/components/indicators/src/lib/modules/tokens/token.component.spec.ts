@@ -42,6 +42,37 @@ describe('Token component', () => {
     validateActive('sky-token-btn-close');
   });
 
+  it('should emit when token focused', () => {
+    const fixture = TestBed.createComponent(SkyTokenComponent);
+    const tokenEl = fixture.nativeElement.querySelector('.sky-token');
+
+    const focusSpy = spyOn(
+      fixture.componentInstance.tokenFocus,
+      'emit'
+    ).and.callThrough();
+
+    fixture.componentInstance.focusable = true;
+    fixture.detectChanges();
+
+    SkyAppTestUtility.fireDomEvent(tokenEl, 'focusin');
+    fixture.detectChanges();
+
+    // Ensure CSS class is added on focus.
+    expect(tokenEl).toHaveClass('sky-token-focused');
+    expect(focusSpy).toHaveBeenCalled();
+
+    SkyAppTestUtility.fireDomEvent(tokenEl, 'focusout', {
+      customEventInit: {
+        // Mock an element that is not a child of the token.
+        relatedTarget: document.createElement('div'),
+      },
+    });
+    fixture.detectChanges();
+
+    // Ensure CSS class is removed on blur.
+    expect(tokenEl).not.toHaveClass('sky-token-focused');
+  });
+
   it('should use the specified ARIA label', () => {
     const fixture = TestBed.createComponent(SkyTokenTestComponent);
 
@@ -58,5 +89,13 @@ describe('Token component', () => {
     fixture.detectChanges();
 
     expect(btnEl.getAttribute('aria-label')).toBe('Remove item');
+  });
+
+  it('should not have a role by default', () => {
+    const fixture = TestBed.createComponent(SkyTokenTestComponent);
+    fixture.detectChanges();
+    expect(
+      fixture.nativeElement.querySelector('.sky-token').getAttribute('role')
+    ).toBeNull();
   });
 });

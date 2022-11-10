@@ -9,4 +9,4 @@ import { FluidGridDemoComponent } from './fluid-grid-demo.component';
   declarations: [FluidGridDemoComponent],
   exports: [FluidGridDemoComponent],
 })
-export class FormatDemoModule {}
+export class FluidGridDemoModule {}

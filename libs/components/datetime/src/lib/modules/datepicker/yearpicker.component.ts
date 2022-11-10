@@ -16,7 +16,7 @@ export class SkyYearPickerComponent implements OnInit {
 
   public rows: Array<Array<SkyDatepickerDate>> = [];
 
-  public title: string;
+  public title = '';
 
   public constructor(datepicker: SkyDatepickerCalendarInnerComponent) {
     this.datepicker = datepicker;
@@ -26,13 +26,13 @@ export class SkyYearPickerComponent implements OnInit {
     this.datepicker.stepYear = { years: this.datepicker.yearRange };
 
     this.datepicker.setRefreshViewHandler(() => {
-      this.refreshYearView();
+      this.#refreshYearView();
     }, 'year');
 
-    this.datepicker.setCompareHandler(this.compareYears, 'year');
+    this.datepicker.setCompareHandler(this.#compareYears, 'year');
 
     this.datepicker.setKeydownHandler((key: string, event: KeyboardEvent) => {
-      this.keydownYears(key, event);
+      this.#keydownYears(key, event);
     }, 'year');
 
     this.datepicker.refreshView();
@@ -46,11 +46,11 @@ export class SkyYearPickerComponent implements OnInit {
     );
   }
 
-  private compareYears(date1: Date, date2: Date): number {
+  #compareYears(date1: Date, date2: Date): number {
     return date1.getFullYear() - date2.getFullYear();
   }
 
-  private refreshYearView() {
+  #refreshYearView() {
     const years: Array<SkyDatepickerDate> = new Array(
       this.datepicker.yearRange
     );
@@ -81,7 +81,7 @@ export class SkyYearPickerComponent implements OnInit {
     );
   }
 
-  private keydownYears(key: string, event: KeyboardEvent) {
+  #keydownYears(key: string, event: KeyboardEvent) {
     let date = this.datepicker.activeDate.getFullYear();
 
     /* istanbul ignore else */
