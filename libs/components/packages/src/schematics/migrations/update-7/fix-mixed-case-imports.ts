@@ -1,16 +1,21 @@
 import { Path, dirname, join, split } from '@angular-devkit/core';
-import { Rule, Tree } from '@angular-devkit/schematics';
+import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import * as ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 
 import * as path from 'path';
 
 import { getWorkspace } from '../../utility/workspace';
 
-function updateTypescriptImports(filePath: string, tree: Tree): void {
+function updateTypescriptImports(
+  filePath: string,
+  tree: Tree,
+  context: SchematicContext
+): void {
   const fileContent = tree.read(filePath)?.toString();
   if (!fileContent) {
     return;
   }
+  context.logger.debug(`Checking imports in ${filePath}...`);
   const source = ts.createSourceFile(
     filePath,
     fileContent,
@@ -32,7 +37,7 @@ function updateTypescriptImports(filePath: string, tree: Tree): void {
       return importPathWithoutQuotes.startsWith('.');
     }
   );
-  const transformers: ts.TransformerFactory<ts.SourceFile>[] = [];
+  const transformers: { find: string; replace: string }[] = [];
   localImportDeclarations.forEach((importDeclaration) => {
     const importPath = importDeclaration.moduleSpecifier.getText(source);
     const importPathWithoutQuotes = importPath.substring(
@@ -43,18 +48,10 @@ function updateTypescriptImports(filePath: string, tree: Tree): void {
       path.dirname(filePath),
       `${importPathWithoutQuotes}.ts`.replace(/\\/g, '/')
     );
-    const fileEntry = tree.get(absoluteImportPath);
-    if (
-      fileEntry &&
-      fileEntry.path === absoluteImportPath &&
-      !importPathWithoutQuotes.includes('\\')
-    ) {
-      // File exists. Do nothing.
-      return;
-    }
     const pathFragments = split(absoluteImportPath as Path).slice(1);
     const newPath: string[] = [];
     let dir = tree.root;
+    // Walk the path fragments and check if the case is correct. This approach works on both case-sensitive and case-insensitive file systems.
     for (const pathFragment of pathFragments) {
       if (pathFragment.endsWith('.ts')) {
         if (dir.subfiles.includes(pathFragment)) {
@@ -101,52 +98,43 @@ function updateTypescriptImports(filePath: string, tree: Tree): void {
       newImportPathRelative = `./${newImportPathRelative}`;
     }
     if (newImportPathRelative !== importPathWithoutQuotes) {
-      transformers.push((transformationContext) => (file) => {
-        const visitor = (node: ts.Node): ts.Node => {
-          if (ts.isImportDeclaration(node) && node === importDeclaration) {
-            return transformationContext.factory.updateImportDeclaration(
-              node as ts.ImportDeclaration,
-              node.decorators,
-              node.modifiers,
-              node.importClause,
-              transformationContext.factory.createStringLiteral(
-                newImportPathRelative,
-                true
-              ),
-              node.assertClause
-            );
-          }
-          return ts.visitEachChild(node, visitor, transformationContext);
-        };
-        return ts.visitNode(file, visitor);
+      context.logger.debug(
+        `Updating ${filePath} :: ${importPathWithoutQuotes} -> ${newImportPathRelative}`
+      );
+      transformers.push({
+        find: importPathWithoutQuotes,
+        replace: newImportPathRelative,
       });
     }
   });
   if (transformers.length > 0) {
-    const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
-    const result = ts.transform([source], transformers);
-    const newContent = printer.printNode(
-      ts.EmitHint.Unspecified,
-      result.transformed[0],
-      undefined as any
-    );
+    let newContent = fileContent;
+    transformers.forEach((transformer) => {
+      newContent = newContent.replace(transformer.find, transformer.replace);
+    });
     tree.overwrite(filePath, newContent);
   }
 }
 
-async function visitTypescriptFiles(tree: Tree): Promise<void> {
+async function visitTypescriptFiles(
+  tree: Tree,
+  context: SchematicContext
+): Promise<void> {
   const { workspace } = await getWorkspace(tree);
-  workspace.projects.forEach((project) => {
+  workspace.projects.forEach((project, projectName) => {
+    context.logger.debug(
+      `Looking for typescript files in project ${projectName}...`
+    );
     tree.getDir(project.root).visit((filePath) => {
       if (filePath.endsWith('.ts')) {
-        updateTypescriptImports(filePath, tree);
+        updateTypescriptImports(filePath, tree, context);
       }
     });
   });
 }
 
 export default function (): Rule {
-  return async (tree: Tree) => {
-    await visitTypescriptFiles(tree);
+  return async (tree: Tree, context: SchematicContext) => {
+    await visitTypescriptFiles(tree, context);
   };
 }
