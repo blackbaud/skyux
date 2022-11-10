@@ -1,3 +1,5 @@
+import { ValidationErrors } from '@angular/forms';
+
 import { SkyDateRangeCalculatorId } from './date-range-calculator-id';
 import { SkyDateRangeCalculatorType } from './date-range-calculator-type';
 import { SkyDateRangeDefaultCalculatorConfig } from './date-range-default-calculator-config';
@@ -34,8 +36,9 @@ export const SKY_DEFAULT_CALCULATOR_CONFIGS: SkyDateRangeDefaultCalculatorConfig
       shortDescriptionResourceKey:
         'skyux_date_range_picker_format_label_specific_range',
       getValue: (startDate, endDate) => ({ startDate, endDate }),
-      validate: (value) => {
+      validate: (value): ValidationErrors | null => {
         if (
+          value &&
           value.startDate &&
           value.endDate &&
           value.startDate > value.endDate
@@ -44,6 +47,7 @@ export const SKY_DEFAULT_CALCULATOR_CONFIGS: SkyDateRangeDefaultCalculatorConfig
             endDateBeforeStartDate: true,
           };
         }
+        return null;
       },
     },
 

@@ -1,5 +1,0 @@
-@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
-
-::ng-deep .sky-grid-table {
-  @include mixins.sky-border(dark, top);
-}

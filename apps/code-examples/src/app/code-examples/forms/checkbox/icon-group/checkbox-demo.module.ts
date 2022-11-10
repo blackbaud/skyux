@@ -10,4 +10,4 @@ import { CheckboxDemoComponent } from './checkbox-demo.component';
   declarations: [CheckboxDemoComponent],
   exports: [CheckboxDemoComponent],
 })
-export class SkyCheckboxDemoModule {}
+export class CheckboxDemoModule {}

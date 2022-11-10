@@ -177,7 +177,7 @@ describe('ag-grid-28.schematic', () => {
   });
 
   it('should remove @ag-grid-community/all-modules when already on v28', async () => {
-    expect.assertions(2);
+    expect.assertions(3);
     setupTest({
       dependencies: {
         '@ag-grid-community/all-modules': '27.1.1',
@@ -200,7 +200,22 @@ describe('ag-grid-28.schematic', () => {
         })
         export class AppModule {}`
     );
-    // File that does not end in .ts so it should not be changed.
+    tree.create(
+      'src/app/grid.module.ts',
+      `
+        import { AgGridModule } from '@ag-grid-community/all-modules';
+
+        @NgModule({
+          imports: [
+            BrowserModule,
+            AgGridModule.forRoot([
+              OtherComponent,
+            ]),
+          ],
+        })
+        export class GridModule {}`
+    );
+    // File that does not end in .ts and should not be changed.
     tree.create('src/app/app.component.css', `code { display: none; }`);
     await runner
       .runSchematicAsync('ag-grid-28', {}, tree)
@@ -214,6 +229,9 @@ describe('ag-grid-28.schematic', () => {
           });
           expect(
             updatedTree.readText('src/app/app.module.ts')
+          ).toMatchSnapshot();
+          expect(
+            updatedTree.readText('src/app/grid.module.ts')
           ).toMatchSnapshot();
         })
       )
@@ -309,6 +327,50 @@ describe('ag-grid-28.schematic', () => {
           ).toMatchSnapshot();
           expect(
             updatedTree.readText('src/app/grid.component.ts')
+          ).toMatchSnapshot();
+        })
+      )
+      .toPromise();
+  });
+
+  it('should update suppressCellSelection', async () => {
+    expect.assertions(1);
+    setupTest({
+      dependencies: {
+        '@skyux/ag-grid': '0.0.0',
+        'ag-grid-community': UPDATE_TO_VERSION,
+        'ag-grid-angular': UPDATE_TO_VERSION,
+      },
+    });
+    tree.create(
+      'src/app/app.component.ts',
+      `
+        import { SkyAgGridService } from '@skyux/ag-grid';
+        import { GridOptions } from 'ag-grid-community';
+
+        export class AppComponent {
+          public options: GridOptions;
+
+          constructor(private agGridService: SkyAgGridService) {
+            let customOptions: Partial<GridOptions> = {};
+            customOptions.suppressCellSelection = true;
+            this.options = this.agGridService.getGridOptions({
+              ...customOptions,
+              suppressCellSelection: true,
+            });
+          }
+        }`
+    );
+    tree.create(
+      'src/app/no-change.component.ts',
+      `export class NoChangeComponent {}`
+    );
+    await runner
+      .runSchematicAsync('ag-grid-28', {}, tree)
+      .pipe(
+        map((updatedTree) => {
+          expect(
+            updatedTree.readText('src/app/app.component.ts')
           ).toMatchSnapshot();
         })
       )

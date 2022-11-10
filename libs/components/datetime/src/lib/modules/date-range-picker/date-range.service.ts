@@ -18,15 +18,17 @@ export class SkyDateRangeService {
   // provided in the SkyDateRangeCalculatorId enum.
   private static lastId = 1000;
 
-  private calculatorReadyStream = new BehaviorSubject<boolean>(false);
+  #calculatorReadyStream = new BehaviorSubject<boolean>(false);
 
-  private calculatorConfigs: { [id: number]: SkyDateRangeCalculatorConfig } =
-    {};
+  #calculatorConfigs: { [id: number]: SkyDateRangeCalculatorConfig } = {};
 
-  private calculators: SkyDateRangeCalculator[] = [];
+  #calculators: SkyDateRangeCalculator[] = [];
 
-  constructor(private resourcesService: SkyLibResourcesService) {
-    this.createDefaultCalculators();
+  #resourcesService: SkyLibResourcesService;
+
+  constructor(resourcesService: SkyLibResourcesService) {
+    this.#resourcesService = resourcesService;
+    this.#createDefaultCalculators();
   }
 
   /**
@@ -39,7 +41,7 @@ export class SkyDateRangeService {
     const newId = SkyDateRangeService.lastId++;
     const calculator = new SkyDateRangeCalculator(newId, config);
 
-    this.calculators.push(calculator);
+    this.#calculators.push(calculator);
 
     return calculator;
   }
@@ -66,7 +68,7 @@ export class SkyDateRangeService {
     id: SkyDateRangeCalculatorId
   ): Promise<SkyDateRangeCalculator> {
     const calculatorId = parseInt(id as any, 10);
-    const found = this.calculators.find((calculator) => {
+    const found = this.#calculators.find((calculator) => {
       return calculator.calculatorId === calculatorId;
     });
 
@@ -76,13 +78,13 @@ export class SkyDateRangeService {
         return;
       }
 
-      this.calculatorReadyStream.pipe(first()).subscribe(() => {
+      this.#calculatorReadyStream.pipe(first()).subscribe(() => {
         resolve(found);
       });
     });
   }
 
-  private createDefaultCalculators(): void {
+  #createDefaultCalculators(): void {
     const tasks: Observable<void>[] = [];
 
     // Get resource strings for short descriptions.
@@ -95,7 +97,7 @@ export class SkyDateRangeService {
       };
 
       tasks.push(
-        this.resourcesService
+        this.#resourcesService
           .getString(defaultConfig.shortDescriptionResourceKey)
           .pipe(
             first(),
@@ -105,20 +107,20 @@ export class SkyDateRangeService {
           )
       );
 
-      this.calculatorConfigs[defaultConfig.calculatorId] = config;
+      this.#calculatorConfigs[defaultConfig.calculatorId] = config;
     });
 
     forkJoin(tasks)
       .pipe(first())
       .subscribe(() => {
-        const calculatorIds = Object.keys(this.calculatorConfigs);
+        const calculatorIds = Object.keys(this.#calculatorConfigs);
         const calculators = calculatorIds.map((calculatorId) => {
           const id = parseInt(calculatorId, 10);
-          return new SkyDateRangeCalculator(id, this.calculatorConfigs[id]);
+          return new SkyDateRangeCalculator(id, this.#calculatorConfigs[id]);
         });
 
-        this.calculators = calculators;
-        this.calculatorReadyStream.next(true);
+        this.#calculators = calculators;
+        this.#calculatorReadyStream.next(true);
       });
   }
 }
