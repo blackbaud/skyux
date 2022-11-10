@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -22,8 +23,6 @@ import {
 import { PhoneNumberFormat, PhoneNumberUtil } from 'google-libphonenumber';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
-
-import { SkyFormsUtility } from '../shared/forms-utility';
 
 import { SkyPhoneFieldAdapterService } from './phone-field-adapter.service';
 import { SkyPhoneFieldComponent } from './phone-field.component';
@@ -67,7 +66,7 @@ export class SkyPhoneFieldInputDirective
    */
   @Input()
   public set disabled(value: boolean | undefined) {
-    const coercedValue = SkyFormsUtility.coerceBooleanProperty(value);
+    const coercedValue = coerceBooleanProperty(value);
     if (this.#phoneFieldComponent) {
       this.#phoneFieldComponent.countrySelectDisabled = coercedValue;
       this.#adapterService?.setElementDisabledState(this.#elRef, coercedValue);
