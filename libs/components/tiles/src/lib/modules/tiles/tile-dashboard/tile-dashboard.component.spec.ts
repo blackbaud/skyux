@@ -1,5 +1,6 @@
 import { QueryList } from '@angular/core';
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyUIConfigService } from '@skyux/core';
@@ -250,21 +251,25 @@ describe('Tile dashboard component', () => {
   it(`should allow context to be provided to a tile`, fakeAsync(() => {
     const fixture = TestBed.createComponent(TileDashboardTestComponent);
 
+    const dashboardService = fixture.debugElement
+      .query(By.directive(SkyTileDashboardComponent))
+      .injector.get(SkyTileDashboardService);
+
     fixture.detectChanges();
     tick();
 
-    const cmp = fixture.componentInstance;
-
     const tileComponentRef =
-      cmp.dashboardComponent['dashboardService'].getTileComponent(
-        'sky-test-tile-2'
-      );
+      dashboardService.getTileComponent('sky-test-tile-2');
 
-    expect(tileComponentRef.instance.context.id).toBe(3);
+    expect(tileComponentRef?.instance.context.id).toBe(3);
   }));
 
   it(`should render tiles properly when the parent component's change detection strategy is OnPush`, fakeAsync(() => {
-    const fixture = TestBed.createComponent(TileDashboardOnPushTestComponent);
+    const fixture = TestBed.createComponent(TileDashboardTestComponent);
+
+    const dashboardService = fixture.debugElement
+      .query(By.directive(SkyTileDashboardComponent))
+      .injector.get(SkyTileDashboardService);
 
     fixture.detectChanges();
     tick();
@@ -273,33 +278,26 @@ describe('Tile dashboard component', () => {
     fixture.detectChanges();
     tick();
 
-    const cmp = fixture.componentInstance;
-
     const tileComponentRef =
-      cmp.dashboardComponent['dashboardService'].getTileComponent(
-        'sky-test-tile-1'
-      );
+      dashboardService.getTileComponent('sky-test-tile-1');
 
-    const tileEl = tileComponentRef.location.nativeElement;
+    const tileEl = tileComponentRef?.location.nativeElement;
 
     expect(tileEl.querySelector('.sky-tile-title')).toHaveText('Tile 1');
   }));
 
   it('should expand all tiles when the message stream sends the expand all message type', fakeAsync(() => {
     const fixture = TestBed.createComponent(TileDashboardTestComponent);
-
-    fixture.detectChanges();
-    tick();
-
     const cmp = fixture.componentInstance;
-    spyOn(cmp.dashboardComponent.configChange, 'emit').and.callThrough();
     spyOn(mockUIConfigService, 'getConfig').and.callFake(() => {
-      return of();
+      return of({});
     });
     spyOn(mockUIConfigService, 'setConfig').and.callThrough();
     cmp.enableStickySettings();
     fixture.detectChanges();
-
+    tick();
+    fixture.detectChanges();
+    spyOn(cmp.dashboardComponent!.configChange, 'emit').and.callThrough();
     expect(
       document.querySelector('.sky-test-tile-1 .sky-tile-collapsed')
     ).not.toBeNull();
@@ -414,16 +412,16 @@ describe('Tile dashboard component', () => {
 
   it('should collapse all tiles when the message stream sends the collapse all message type', fakeAsync(() => {
     const fixture = TestBed.createComponent(TileDashboardTestComponent);
+    const cmp = fixture.componentInstance;
+    spyOn(mockUIConfigService, 'setConfig').and.callThrough();
 
     fixture.detectChanges();
     tick();
 
-    const cmp = fixture.componentInstance;
     spyOn(cmp.dashboardComponent.configChange, 'emit').and.callThrough();
-    spyOn(mockUIConfigService, 'setConfig').and.callThrough();
 
     expect(
-      document.querySelector('.sky-test-tile-1 .sky-tile-collapsed')
+      document.querySelector('.sky-test-tile-2 .sky-tile-collapsed')
     ).toBeNull();
 
     cmp.collapseAll();
@@ -527,7 +525,7 @@ describe('Tile dashboard component', () => {
     };
 
     expect(
-      document.querySelector('.sky-test-tile-1 .sky-tile-collapsed')
+      document.querySelector('.sky-test-tile-2 .sky-tile-collapsed')
     ).not.toBeNull();
     expect(cmp.dashboardConfig).toEqual(expectedDashboardConfig);
     expect(cmp.dashboardComponent.configChange.emit).toHaveBeenCalled();

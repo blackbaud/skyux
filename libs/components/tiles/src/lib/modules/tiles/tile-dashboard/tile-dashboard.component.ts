@@ -94,7 +94,7 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
   #ngUnsubscribe = new Subject<void>();
   #resourcesService: SkyLibResourcesService | undefined;
   #viewReady = false;
-  #_config: SkyTileDashboardConfig;
+  #_config!: SkyTileDashboardConfig;
 
   constructor(
     dashboardService: SkyTileDashboardService,
@@ -164,14 +164,16 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
   }
 
   private checkReady(): void {
-    if (this.#viewReady && this.config) {
+    if (this.#viewReady && this.config && this.columns && this.singleColumn) {
       setTimeout(() => {
-        this.#dashboardService.init(
-          this.config,
-          this.columns,
-          this.singleColumn,
-          this.settingsKey
-        );
+        if (this.config && this.columns && this.singleColumn) {
+          this.#dashboardService.init(
+            this.config,
+            this.columns,
+            this.singleColumn,
+            this.settingsKey
+          );
+        }
       }, 0);
     }
   }

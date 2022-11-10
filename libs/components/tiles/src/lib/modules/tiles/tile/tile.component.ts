@@ -83,14 +83,14 @@ export class SkyTileComponent implements OnDestroy {
    * @default false
    */
   @Input()
-  public set isCollapsed(value: boolean) {
+  public set isCollapsed(value: boolean | undefined) {
+    this.#_isCollapsed = !!value;
+
     if (this.#dashboardService) {
-      this.#dashboardService.setTileCollapsed(this, value);
+      this.#dashboardService.setTileCollapsed(this, this.#_isCollapsed);
     }
 
-    this.#_isCollapsed = value;
-
-    this.isCollapsedChange.emit(value);
+    this.isCollapsedChange.emit(this.#_isCollapsed);
   }
 
   public ariaDescribedBy: string | undefined;
@@ -112,7 +112,6 @@ export class SkyTileComponent implements OnDestroy {
   #changeDetector: ChangeDetectorRef;
   #dashboardService: SkyTileDashboardService | undefined;
   #ngUnsubscribe = new Subject<void>();
-
   #_isCollapsed = false;
 
   constructor(

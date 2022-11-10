@@ -8,7 +8,7 @@ import { SkyTileComponent } from '../tile.component';
 })
 export class TileTestComponent {
   @ViewChild(SkyTileComponent)
-  public tileComponent: SkyTileComponent | undefined;
+  public tileComponent!: SkyTileComponent;
 
   public collapsedOutputCalled = false;
 
