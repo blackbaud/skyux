@@ -7,7 +7,7 @@ describe(`ag-grid-storybook`, () => {
         cy.viewport(1300, 900).visit(
           `/iframe.html?globals=theme:${theme}&id=aggridstoriescomponent-aggridstories--ag-grid`
         );
-        cy.waitForBlackbaudSans();
+        cy.waitForFaAndBbFonts();
       });
 
       it('should render the component', () => {

@@ -2,7 +2,7 @@
 declare namespace Cypress {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface Chainable<Subject> {
-    waitForFonts(...fonts: string[]): Chainable<void>;
+    waitForFonts(weights: string[], ...fonts: string[]): Chainable<void>;
 
     /**
      * Wait for Font Awesome to be loaded.
@@ -29,32 +29,31 @@ declare namespace Cypress {
   }
 }
 
-Cypress.Commands.add('waitForFonts', (...fonts: string[]) => {
-  return cy
-    .document()
-    .its('fonts.status', { timeout: 20000 })
-    .should('equal', 'loaded', { timeout: 20000 })
-    .end()
-    .document()
-    .then((doc) => {
-      cy.wrap(doc.fonts).should('not.be.undefined');
-      fonts.forEach((font) => {
-        cy.wrap(doc.fonts)
-          .invoke('check', `16px "${font}"`)
-          .should('be.true', undefined, { timeout: 20000 });
-      });
-    })
-    .end();
-});
+Cypress.Commands.add(
+  'waitForFonts',
+  (weights: string[], ...fonts: string[]) => {
+    return cy
+      .document()
+      .its('fonts.status', { timeout: 20000 })
+      .should('equal', 'loaded', { timeout: 20000 })
+      .end()
+      .document()
+      .then((doc) => {
+        cy.wrap(doc.fonts).should('not.be.undefined');
+        fonts.forEach((font) => {
+          cy.wrap(doc.fonts)
+            .invoke('check', `16px "${font}"`)
+            .should('be.true', undefined, { timeout: 20000 });
+        });
+      })
+      .end();
+  }
+);
 
-Cypress.Commands.add('waitForFontAwesome', () =>
-  cy.waitForFonts('FontAwesome')
-);
-Cypress.Commands.add('waitForBlackbaudSans', () =>
-  cy.waitForFonts('BLKB Sans')
-);
 Cypress.Commands.add('waitForFaAndBbFonts', () =>
-  cy.waitForFonts('BLKB Sans', 'FontAwesome')
+  cy
+    .waitForFonts(['normal'], 'BLKB Sans', 'BLKB Sans Condensed', 'FontAwesome')
+    .waitForFonts(['300', '600'], 'BLKB Sans', 'BLKB Sans Condensed')
 );
 
 /**

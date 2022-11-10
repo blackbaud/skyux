@@ -7,7 +7,7 @@ describe('ag-grid-storybook', () => {
         cy.viewport(1300, 1200).visit(
           `/iframe.html?globals=theme:${theme}&id=dataentrygridcomponent-dataentrygrid--data-entry-grid-date-and-lookup`
         );
-        cy.waitForBlackbaudSans();
+        cy.waitForFaAndBbFonts();
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.get('#ready')
           .should('exist')
@@ -85,7 +85,7 @@ describe('ag-grid-storybook', () => {
         cy.viewport(1300, 1200).visit(
           `/iframe.html?globals=theme:${theme}&id=dataentrygridcomponent-dataentrygrid--data-entry-grid-edit-lookup`
         );
-        cy.waitForBlackbaudSans();
+        cy.waitForFaAndBbFonts();
         // Briefly wait between arrowing down.
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.get('#ready')

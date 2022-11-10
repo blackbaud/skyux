@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SkyAgGridModule } from '@skyux/ag-grid';
-import { SkyIconModule } from '@skyux/indicators';
 import { PreviewWrapperModule } from '@skyux/storybook';
 import { SkyThemeModule, SkyThemeService } from '@skyux/theme';
 
 import { AgGridModule } from 'ag-grid-angular';
+
+import { FontLoadingModule } from '../shared/font-loading/font-loading.module';
 
 import { DataEntryGridComponent } from './data-entry-grid.component';
 
@@ -20,7 +21,7 @@ const routes: Routes = [{ path: '', component: DataEntryGridComponent }];
     AgGridModule,
     SkyThemeModule,
     PreviewWrapperModule,
-    SkyIconModule,
+    FontLoadingModule,
   ],
   providers: [SkyThemeService],
   exports: [DataEntryGridComponent],

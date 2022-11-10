@@ -11,6 +11,7 @@ import { SkyCheckboxModule, SkyRadioModule } from '@skyux/forms';
 
 import { AgGridModule } from 'ag-grid-angular';
 
+import { FontLoadingModule } from '../shared/font-loading/font-loading.module';
 import { InlineHelpModule } from '../shared/inline-help/inline-help.module';
 
 import { DataManagerComponent } from './data-manager.component';
@@ -28,6 +29,7 @@ const routes: Routes = [{ path: '', component: DataManagerComponent }];
     ReactiveFormsModule,
     AgGridModule,
     InlineHelpModule,
+    FontLoadingModule,
   ],
   exports: [DataManagerComponent],
   providers: [SkyDataManagerService],

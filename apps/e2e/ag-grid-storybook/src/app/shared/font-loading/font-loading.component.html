@@ -1,0 +1,11 @@
+<sky-icon icon="check" iconType="fa"></sky-icon>
+<sky-icon icon="check" iconType="skyux"></sky-icon>
+<ng-container *ngFor="let family of fontFamilies">
+  <ng-container *ngFor="let weight of fontWeights">
+    <span
+      [attr.class]="family + ' ' + weight"
+      [attr.title]="family + ' ' + weight"
+      >X</span
+    >
+  </ng-container>
+</ng-container>
