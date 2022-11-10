@@ -1,19 +1,10 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "../../tsconfig.strict.json",
   "compilerOptions": {
     "sourceMap": false,
     "outDir": "../../dist/out-tsc",
     "allowJs": true,
-    "types": ["cypress", "node"],
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true
+    "types": ["cypress", "node"]
   },
-  "include": ["src/**/*.ts", "src/**/*.js", "cypress.config.ts"],
-  "angularCompilerOptions": {
-    "strictInjectionParameters": true,
-    "strictInputAccessModifiers": true,
-    "strictTemplates": true
-  }
+  "include": ["src/**/*.ts", "src/**/*.js", "cypress.config.ts"]
 }
