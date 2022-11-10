@@ -41,7 +41,7 @@ export class SkyValidators {
    */
   public static url(
     skyUrlValidationOptions: SkyUrlValidationOptions
-  ): ValidatorFn | null;
+  ): ValidatorFn;
 
   public static url(
     value: AbstractControl | SkyUrlValidationOptions
