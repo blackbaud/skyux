@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -119,7 +120,7 @@ export class SkyPhoneFieldFixture {
    */
   public async isDisabled(): Promise<boolean> {
     const disabled = this.#phoneFieldInput.getAttribute('disabled');
-    return this.#coerceBooleanProperty(await disabled);
+    return coerceBooleanProperty(disabled);
   }
 
   /**
@@ -188,9 +189,5 @@ export class SkyPhoneFieldFixture {
 
     this.#fixture.detectChanges();
     return this.#fixture.whenStable();
-  }
-
-  #coerceBooleanProperty(value: string | null): boolean {
-    return value != null && `${value}` !== 'false';
   }
 }
