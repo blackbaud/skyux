@@ -27,7 +27,6 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
    * The configuration for the view. See the `SkyDataViewConfig` interface.
    * @required
    */
-
   @Input()
   public viewId: string | undefined;
 
