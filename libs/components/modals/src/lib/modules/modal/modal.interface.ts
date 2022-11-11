@@ -46,6 +46,13 @@ export interface SkyModalConfigurationInterface {
   ariaLabelledBy?: string;
 
   /**
+   * Specifies an ARIA label for the modal. This sets the modal's `aria-label`
+   * attribute [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * If the `sky-modal-header` component displays a visible title, do not use this property.
+   */
+  ariaLabel?: string;
+
+  /**
    * Specifies an ARIA role for the modal
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility)
    * by indicating how the modal functions and what it controls. For information about

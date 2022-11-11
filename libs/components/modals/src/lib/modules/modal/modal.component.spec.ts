@@ -769,9 +769,10 @@ describe('Modal component', () => {
     closeModal(modalInstance);
   }));
 
-  it('should accept configuration options for role, aria-labelledBy, and aria-describedby', fakeAsync(() => {
+  it('should accept configuration options for role, aria-labelledBy, aria-label, and aria-describedby', fakeAsync(() => {
     const modalInstance = openModal(ModalTestComponent, {
       ariaLabelledBy: 'customlabelledby',
+      ariaLabel: 'customlabel',
       ariaDescribedBy: 'customdescribedby',
       ariaRole: 'alertdialog',
     });
@@ -779,6 +780,9 @@ describe('Modal component', () => {
     expect(getModalDialogElement().getAttribute('role')).toBe('alertdialog');
     expect(getModalDialogElement().getAttribute('aria-labelledby')).toBe(
       'customlabelledby'
+    );
+    expect(getModalDialogElement().getAttribute('aria-label')).toBe(
+      'customlabel'
     );
     expect(getModalDialogElement().getAttribute('aria-describedby')).toBe(
       'customdescribedby'

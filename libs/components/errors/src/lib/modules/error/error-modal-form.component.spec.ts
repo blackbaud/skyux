@@ -8,6 +8,7 @@ import { SkyModalModule } from '@skyux/modals';
 import { ErrorModalConfig } from './error-modal-config';
 import { SkyErrorModalFormComponent } from './error-modal-form.component';
 import { SkyErrorModule } from './error.module';
+import { ErrorTestComponent } from './fixtures/error.component.fixture';
 import { MockHostService, SkyModalInstanceMock } from './fixtures/mocks';
 
 describe('Error modal form component', () => {
@@ -24,6 +25,7 @@ describe('Error modal form component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      declarations: [ErrorTestComponent],
       imports: [SkyModalModule, SkyErrorModule],
       providers: [
         { provide: ErrorModalConfig, useValue: config },
@@ -64,7 +66,11 @@ describe('Error modal form component', () => {
   });
 
   it('should pass accessibility', async () => {
+    const fixture = TestBed.createComponent(ErrorTestComponent);
+    fixture.componentInstance.openErrorModal(config);
+    fixture.detectChanges();
+
     await fixture.whenStable();
-    await expectAsync(fixture.nativeElement).toBeAccessible();
+    await expectAsync(document.querySelector('.sky-modal')).toBeAccessible();
   });
 });

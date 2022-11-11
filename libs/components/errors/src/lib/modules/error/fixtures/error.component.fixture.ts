@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+import { ErrorModalConfig } from '../error-modal-config';
+import { SkyErrorModalService } from '../error-modal.service';
 import { SkyErrorType } from '../error-type';
 
 @Component({
@@ -23,8 +25,18 @@ export class ErrorTestComponent {
 
   public showImage = true;
 
+  #errorModalSvc: SkyErrorModalService;
+
+  constructor(errorModalSvc: SkyErrorModalService) {
+    this.#errorModalSvc = errorModalSvc;
+  }
+
   /* istanbul ignore next */
   public customAction(): void {
     console.log('custom action happened');
+  }
+
+  public openErrorModal(config: ErrorModalConfig): void {
+    this.#errorModalSvc.open(config);
   }
 }

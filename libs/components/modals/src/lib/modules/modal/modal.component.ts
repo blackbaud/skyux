@@ -69,6 +69,8 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
 
   public ariaLabelledBy: string;
 
+  public ariaLabel: string | undefined;
+
   public helpKey: string | undefined;
 
   public modalState = 'in';
@@ -119,6 +121,7 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
 
     this.ariaDescribedBy = config.ariaDescribedBy || this.modalContentId;
     this.ariaLabelledBy = config.ariaLabelledBy || this.modalHeaderId;
+    this.ariaLabel = config.ariaLabel;
     this.ariaRole = config.ariaRole;
     this.helpKey = config.helpKey;
     this.tiledBody = config.tiledBody;

@@ -37,6 +37,7 @@ export class SkyErrorModalService {
     const providers = [{ provide: ErrorModalConfig, useValue: config }];
 
     this.#modalSvc.open(SkyErrorModalFormComponent, {
+      ariaLabel: config.errorTitle,
       ariaRole: 'alertdialog',
       providers: providers,
     });
