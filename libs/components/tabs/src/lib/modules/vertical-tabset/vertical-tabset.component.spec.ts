@@ -245,9 +245,7 @@ describe('Vertical tabset component', () => {
 
     // check open tab content
     const tab = el.querySelector('sky-vertical-tab a');
-    const tabset = el.querySelector(
-      'sky-vertical-tabset .sky-vertical-tabset-group-container'
-    );
+    const tabset = el.querySelector('.sky-vertical-tabset-tablist');
     expect(tab?.id).toBe('some-tab');
     expect(tab?.getAttribute('aria-controls')).toBe('some-div');
     expect(tab?.getAttribute('id')).toBe('some-tab');

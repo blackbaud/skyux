@@ -7,12 +7,15 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  Optional,
   ViewChild,
 } from '@angular/core';
 import { SkyMediaQueryService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
+import { SkyTabIdService } from '../shared/tab-id.service';
 
 import { SkyVerticalTabMediaQueryService } from './vertical-tab-media-query.service';
 import { SkyVerticalTabsetAdapterService } from './vertical-tabset-adapter.service';
@@ -107,6 +110,7 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
   @Input()
   public set tabId(value: string | undefined) {
     this.#tabIdOrDefault = value || this.#defaultTabId;
+    this.#tabIdSvc?.register(this.#defaultTabId, this.#tabIdOrDefault);
   }
 
   public get tabId(): string {
@@ -154,18 +158,23 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
   #changeRef: ChangeDetectorRef;
   #tabsetService: SkyVerticalTabsetService;
   #verticalTabMediaQueryService: SkyVerticalTabMediaQueryService;
+  #tabIdSvc: SkyTabIdService | undefined;
 
   constructor(
     adapterService: SkyVerticalTabsetAdapterService,
     changeRef: ChangeDetectorRef,
     tabsetService: SkyVerticalTabsetService,
-    verticalTabMediaQueryService: SkyVerticalTabMediaQueryService
+    verticalTabMediaQueryService: SkyVerticalTabMediaQueryService,
+    @Optional() tabIdSvc?: SkyTabIdService
   ) {
     this.#adapterService = adapterService;
     this.#changeRef = changeRef;
     this.#tabsetService = tabsetService;
     this.#verticalTabMediaQueryService = verticalTabMediaQueryService;
+    this.#tabIdSvc = tabIdSvc;
+
     this.#tabIdOrDefault = this.#defaultTabId = `sky-vertical-tab-${++nextId}`;
+    this.tabId = this.#defaultTabId;
   }
 
   public ngOnInit(): void {
