@@ -2,7 +2,7 @@ import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 
 import { createTestApp } from '../../testing/scaffold';
 
-describe('fix mixed case imports', () => {
+describe('fix imports', () => {
   const runner = new SchematicTestRunner(
     'schematics',
     require.resolve('../migration-collection.json')
@@ -13,7 +13,7 @@ describe('fix mixed case imports', () => {
       projectName: 'my-app',
     });
     const runSchematicAsync = async () =>
-      runner.runSchematicAsync('fix-mixed-case-imports', {}, tree).toPromise();
+      runner.runSchematicAsync('fix-imports', {}, tree).toPromise();
     return { tree, runSchematicAsync };
   }
 
@@ -54,6 +54,50 @@ describe('fix mixed case imports', () => {
       import { D } from './Path/d';
       import { NonExistent } from './non';
       export class B extends A {}`
+    );
+  });
+
+  it('should change export paths that are incorrect', async () => {
+    const { tree, runSchematicAsync } = await setupTest();
+    tree.create(
+      '/src/index.ts',
+      `export * from './A';
+      export { C as Sea } from './path/c';
+      export * from './Path/D';
+      const value = 1;
+      export { value };
+      export * from './non';`
+    );
+    tree.create('/src/a.ts', `export class A {}`);
+    tree.create('/src/Path/C.ts', `export class C {}`);
+    tree.create('/src/Path/d.ts', `export class D {}`);
+    await runSchematicAsync();
+    expect(tree.readText('/src/index.ts')).toEqual(
+      `export * from './a';
+      export { C as Sea } from './Path/C';
+      export * from './Path/d';
+      const value = 1;
+      export { value };
+      export * from './non';`
+    );
+  });
+
+  it('should remove unnecessary core-js imports', async () => {
+    const { tree, runSchematicAsync } = await setupTest();
+    tree.create(
+      '/src/mod.ts',
+      `import { setTimeout } from 'core-js';
+      import values from 'core-js/features/object/values';
+
+      const corejs = {
+        values: values,
+      };`
+    );
+    await runSchematicAsync();
+    expect(tree.readText('/src/mod.ts').trim()).toEqual(
+      `const corejs = {
+        values: Object.values,
+      };`
     );
   });
 });
