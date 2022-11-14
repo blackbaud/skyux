@@ -202,6 +202,7 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
+    this.#tabIdSvc?.unregister(this.#defaultTabId);
     this.#mobileSubscription.unsubscribe();
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
