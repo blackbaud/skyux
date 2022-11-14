@@ -10,6 +10,7 @@ const CORE_JS_UNNECESSARY =
   /import \{ (Object|Date|setTimeout) } from 'core-js';\r?\n/;
 const CORE_JS_OBJECT_VALUES =
   /import values from 'core-js\/features\/object\/values';\r?\n/;
+const CORE_JS_OBJECT_VALUES_REQUIRE = `require('core-js/library/fn/object/values')`;
 
 function findChangesForLocalImports(
   localModulePaths: string[],
@@ -84,6 +85,64 @@ function findChangesForLocalImports(
   return transformers;
 }
 
+function findChangesForCoreJs(
+  sourceFile: ts.SourceFile,
+  coreJsImportDeclarations: ts.ImportDeclaration[],
+  context: SchematicContext,
+  filePath: string,
+  fileContent: string
+): { find: string; replace: string }[] {
+  const transformers: { find: string; replace: string }[] = [];
+  context.logger.debug(`Updating core-js imports in ${filePath}...`);
+  // Remove core-js imports that are not necessary.
+  const coreJsUnnecessaryImport = `${
+    CORE_JS_UNNECESSARY.exec(fileContent)?.[0]
+  }`;
+  if (coreJsUnnecessaryImport !== 'undefined') {
+    transformers.push({
+      find: coreJsUnnecessaryImport,
+      replace: '',
+    });
+  }
+
+  // Replace direct import from core-js/features/object/values with Object.values in some very specific cases.
+  const coreJsObjectValuesImport = `${
+    CORE_JS_OBJECT_VALUES.exec(fileContent)?.[0]
+  }`;
+  if (coreJsObjectValuesImport !== 'undefined') {
+    transformers.push({
+      find: coreJsObjectValuesImport,
+      replace: '',
+    });
+    transformers.push({
+      find: 'values: values,',
+      replace: 'values: Object.values,',
+    });
+  }
+  if (fileContent.includes(CORE_JS_OBJECT_VALUES_REQUIRE)) {
+    transformers.push({
+      find: CORE_JS_OBJECT_VALUES_REQUIRE,
+      replace: 'Object.values',
+    });
+  }
+
+  // Comment out polyfill core-js imports like `import 'core-js/es6';` or `import 'core-js/es7/reflect';`.
+  coreJsImportDeclarations
+    .filter((importDeclaration) => !importDeclaration.importClause)
+    .forEach((importDeclaration) => {
+      const importCode = fileContent.substring(
+        importDeclaration.getStart(sourceFile, false),
+        importDeclaration.getEnd()
+      );
+      transformers.push({
+        find: importCode,
+        replace: `// ${importCode}`,
+      });
+    });
+
+  return transformers;
+}
+
 function updateTypescriptImportsAndExports(
   filePath: string,
   tree: Tree,
@@ -98,7 +157,8 @@ function updateTypescriptImportsAndExports(
     filePath,
     fileContent,
     ts.ScriptTarget.Latest,
-    true
+    false,
+    ts.ScriptKind.TS
   );
   // Get all import declarations
   const importDeclarations = source.statements.filter(
@@ -131,32 +191,15 @@ function updateTypescriptImportsAndExports(
     return moduleSpecifier.startsWith('core-js');
   });
   if (coreJsImportDeclarations.length > 0) {
-    context.logger.debug(`Updating core-js imports in ${filePath}...`);
-    // Remove core-js imports that are not necessary.
-    const coreJsUnnecessaryImport = `${
-      CORE_JS_UNNECESSARY.exec(fileContent)?.[0]
-    }`;
-    if (coreJsUnnecessaryImport !== 'undefined') {
-      transformers.push({
-        find: coreJsUnnecessaryImport,
-        replace: '',
-      });
-    }
-
-    // Replace direct import from core-js/features/object/values with Object.values in some very specific cases.
-    const coreJsObjectValuesImport = `${
-      CORE_JS_OBJECT_VALUES.exec(fileContent)?.[0]
-    }`;
-    if (coreJsObjectValuesImport !== 'undefined') {
-      transformers.push({
-        find: coreJsObjectValuesImport,
-        replace: '',
-      });
-      transformers.push({
-        find: 'values: values,',
-        replace: 'values: Object.values,',
-      });
-    }
+    transformers.push(
+      ...findChangesForCoreJs(
+        source,
+        coreJsImportDeclarations,
+        context,
+        filePath,
+        fileContent
+      )
+    );
   }
 
   if (transformers.length > 0) {

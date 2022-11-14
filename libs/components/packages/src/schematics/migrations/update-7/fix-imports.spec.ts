@@ -91,13 +91,46 @@ describe('fix imports', () => {
 
       const corejs = {
         values: values,
+      };
+      const corejs2 = {
+        values: require('core-js/library/fn/object/values'),
       };`
+    );
+    tree.create(
+      '/src/polyfill.ts',
+      [
+        `// This is a polyfill for IE11.`,
+        ``,
+        `import 'core-js/es6';`,
+        `import 'core-js/es7/reflect';`,
+        `import 'zone.js/dist/zone';`,
+        `import 'ts-helpers';`,
+        ``,
+        `// Add global to window, assigning the value of window itself.`,
+        `(window as any).global = window;`,
+      ].join(`\n`)
     );
     await runSchematicAsync();
     expect(tree.readText('/src/mod.ts').trim()).toEqual(
       `const corejs = {
         values: Object.values,
+      };
+      const corejs2 = {
+        values: Object.values,
       };`
+    );
+    expect(tree.readText('/src/polyfill.ts')).toEqual(
+      [
+        `// This is a polyfill for IE11.`,
+        ``,
+        `// import 'core-js/es6';`,
+        `// import 'core-js/es7/reflect';`,
+        `import 'zone.js/dist/zone';`,
+        `import 'ts-helpers';`,
+        ``,
+        `// Add global to window, assigning the value of window itself.`,
+        `(window as any).global = window;`,
+      ].join(`\n`)
     );
   });
 });
