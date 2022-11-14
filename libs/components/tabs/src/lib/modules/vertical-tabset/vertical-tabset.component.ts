@@ -17,6 +17,8 @@ import { SkyLibResourcesService } from '@skyux/i18n';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
+import { SkyTabIdService } from '../shared/tab-id.service';
+
 import { SkyVerticalTabsetAdapterService } from './vertical-tabset-adapter.service';
 import {
   HIDDEN_STATE,
@@ -28,7 +30,7 @@ import {
   selector: 'sky-vertical-tabset',
   templateUrl: './vertical-tabset.component.html',
   styleUrls: ['./vertical-tabset.component.scss'],
-  providers: [SkyVerticalTabsetService],
+  providers: [SkyTabIdService, SkyVerticalTabsetService],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('tabGroupEnter', [
@@ -114,21 +116,31 @@ export class SkyVerticalTabsetComponent
   @ViewChild('contentContainerWrapper')
   public contentWrapper: ElementRef | undefined;
 
+  public ariaOwns: string | undefined;
+
   public isMobile = false;
   #ngUnsubscribe = new Subject<void>();
   #_ariaRole = 'tablist';
 
   #resources: SkyLibResourcesService;
   #changeRef: ChangeDetectorRef;
+  #tabIdSvc: SkyTabIdService;
 
   constructor(
     public adapterService: SkyVerticalTabsetAdapterService,
     public tabService: SkyVerticalTabsetService,
     resources: SkyLibResourcesService,
-    changeRef: ChangeDetectorRef
+    changeRef: ChangeDetectorRef,
+    tabIdSvc: SkyTabIdService
   ) {
     this.#resources = resources;
     this.#changeRef = changeRef;
+    this.#tabIdSvc = tabIdSvc;
+
+    this.#tabIdSvc.ids.pipe(takeUntil(this.#ngUnsubscribe)).subscribe((ids) => {
+      this.ariaOwns = ids.join(' ') || undefined;
+      this.#changeRef.markForCheck();
+    });
   }
 
   public ngOnInit() {
