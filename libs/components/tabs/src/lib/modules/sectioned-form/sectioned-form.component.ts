@@ -16,6 +16,8 @@ import {
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { SkyTabIdService } from '../shared/tab-id.service';
+
 import {
   HIDDEN_STATE,
   SkyVerticalTabsetService,
@@ -29,7 +31,7 @@ import {
   selector: 'sky-sectioned-form',
   templateUrl: './sectioned-form.component.html',
   styleUrls: ['./sectioned-form.component.scss'],
-  providers: [SkyVerticalTabsetService],
+  providers: [SkyTabIdService, SkyVerticalTabsetService],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('tabEnter', [
@@ -64,6 +66,8 @@ export class SkySectionedFormComponent
   @Output()
   public indexChanged: EventEmitter<number> = new EventEmitter();
 
+  public ariaOwns: string | undefined;
+
   public ariaRole: string | undefined = 'tablist';
 
   @ViewChild('skySectionSideContent')
@@ -72,12 +76,20 @@ export class SkySectionedFormComponent
   #ngUnsubscribe = new Subject<void>();
 
   #changeRef: ChangeDetectorRef;
+  #tabIdSvc: SkyTabIdService;
 
   constructor(
     public tabService: SkyVerticalTabsetService,
-    changeRef: ChangeDetectorRef
+    changeRef: ChangeDetectorRef,
+    tabIdSvc: SkyTabIdService
   ) {
     this.#changeRef = changeRef;
+    this.#tabIdSvc = tabIdSvc;
+
+    this.#tabIdSvc.ids.pipe(takeUntil(this.#ngUnsubscribe)).subscribe((ids) => {
+      this.ariaOwns = ids.join(' ') || undefined;
+      this.#changeRef.markForCheck();
+    });
   }
 
   public ngOnInit(): void {
