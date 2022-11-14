@@ -27,7 +27,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           cache: npm
-          node-version: '16.18.x'
+          node-version: '16.18.1'
       # Workaround to avoid "Post Run actions/setup-node" failures.
       # See: https://github.com/actions/setup-node/issues/317
       - name: Ensure cache directory exists
@@ -40,7 +40,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: node_modules
-          key: cache-node-modules_node16.18_${{ hashFiles('package-lock.json') }}
+          key: cache-node-modules_node16.18.1_${{ hashFiles('package-lock.json') }}
       - name: npm install
         if: ${{ steps.release.outputs.release_created && steps.cache.outputs.cache-hit != 'true' }}
         run: npm ci
