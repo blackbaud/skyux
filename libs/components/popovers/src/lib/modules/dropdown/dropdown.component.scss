@@ -18,6 +18,12 @@
   padding-top: 3px;
 }
 
+:host-context(.sky-toolbar-container) {
+  .sky-dropdown-button.sky-btn-link {
+    color: $sky-text-color-default;
+  }
+}
+
 .sky-dropdown-caret {
   margin-left: $sky-margin;
 }

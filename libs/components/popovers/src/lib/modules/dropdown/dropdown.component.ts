@@ -43,8 +43,8 @@ const DEFAULT_BUTTON_TYPE = 'select';
 })
 export class SkyDropdownComponent implements OnInit, OnDestroy {
   /**
-   * Specifies a background color for the dropdown button. Available values are `default` and
-   * `primary`. These values set the background color from the
+   * Specifies a background color for the dropdown button. Available values are `default`,
+   * `primary`, and `link`. These values set the background color and hover behavior from the
    * [secondary and primary button classes](https://developer.blackbaud.com/skyux/components/button) respectively.
    * @default "default"
    */
