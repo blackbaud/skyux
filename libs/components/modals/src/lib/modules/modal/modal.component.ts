@@ -67,6 +67,10 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
 
   public ariaDescribedBy: string;
 
+  /**
+   * @internal
+   */
+  @Input()
   public ariaLabelledBy: string;
 
   public helpKey: string | undefined;
