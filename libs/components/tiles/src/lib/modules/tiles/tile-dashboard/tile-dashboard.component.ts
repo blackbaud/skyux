@@ -46,7 +46,7 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  public get config(): SkyTileDashboardConfig {
+  public get config(): SkyTileDashboardConfig | undefined {
     return this.#_config;
   }
 
@@ -94,7 +94,7 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
   #ngUnsubscribe = new Subject<void>();
   #resourcesService: SkyLibResourcesService | undefined;
   #viewReady = false;
-  #_config!: SkyTileDashboardConfig;
+  #_config: SkyTileDashboardConfig | undefined;
 
   constructor(
     dashboardService: SkyTileDashboardService,
