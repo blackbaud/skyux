@@ -1,6 +1,6 @@
 export interface SkyAgGridValidatorProperties {
-  validator?: (value: any, data?: any, rowIndex?: number) => boolean;
+  validator?: (value: unknown, data?: unknown, rowIndex?: number) => boolean;
   validatorMessage?:
     | string
-    | ((value: any, data?: any, rowIndex?: number) => string);
+    | ((value: unknown, data?: unknown, rowIndex?: number) => string);
 }

@@ -4,6 +4,7 @@ import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 
 import {
   CellClassParams,
+  ColDef,
   EditableCallbackParams,
   GridOptions,
   ICellRendererParams,
@@ -53,13 +54,11 @@ function autocompleteComparator(
   return value1 ? 1 : -1;
 }
 
-function autocompleteFormatter(
-  params: ValueFormatterParams
-): string | undefined {
+function autocompleteFormatter(params: ValueFormatterParams): string {
   return params.value && params.value.name;
 }
 
-function dateComparator(date1: any, date2: any): number {
+function dateComparator(date1: Date | string, date2: Date | string): number {
   let date1value = date1;
   let date2value = date2;
 
@@ -86,8 +85,10 @@ function dateComparator(date1: any, date2: any): number {
   return date1value ? 1 : -1;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getValidatorCellRendererSelector(component: string, fallback?: any) {
-  return (params: ICellRendererParams) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return (params: ICellRendererParams): any => {
     if (
       params.colDef &&
       typeof params.colDef.cellRendererParams?.skyComponentProperties
@@ -121,30 +122,34 @@ let rowNodeId = -1;
   providedIn: 'any',
 })
 export class SkyAgGridService implements OnDestroy {
-  private ngUnsubscribe = new Subject<void>();
-
-  private keyMap = new WeakMap<any, string>();
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  #keyMap = new WeakMap<any, string>();
+  #ngUnsubscribe = new Subject<void>();
   #currentTheme: SkyThemeSettings | undefined = undefined;
+  #agGridAdapterService: SkyAgGridAdapterService;
+  #resources: SkyLibResourcesService | undefined;
 
   constructor(
-    private agGridAdapterService: SkyAgGridAdapterService,
+    agGridAdapterService: SkyAgGridAdapterService,
     @Optional() themeSvc?: SkyThemeService,
-    @Optional() private resources?: SkyLibResourcesService
+    @Optional() resources?: SkyLibResourcesService
   ) {
+    this.#agGridAdapterService = agGridAdapterService;
+    this.#resources = resources;
+
     /*istanbul ignore else*/
     if (themeSvc) {
       themeSvc.settingsChange
-        .pipe(takeUntil(this.ngUnsubscribe))
+        .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((settingsChange) => {
           this.#currentTheme = settingsChange.currentSettings;
         });
     }
   }
 
-  public ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+  public ngOnDestroy(): void {
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   /**
@@ -153,8 +158,8 @@ export class SkyAgGridService implements OnDestroy {
    * @returns
    */
   public getGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
-    const defaultGridOptions = this.getDefaultGridOptions(args);
-    const mergedGridOptions = this.mergeGridOptions(
+    const defaultGridOptions = this.#getDefaultGridOptions(args);
+    const mergedGridOptions = this.#mergeGridOptions(
       defaultGridOptions,
       args.gridOptions
     );
@@ -168,8 +173,8 @@ export class SkyAgGridService implements OnDestroy {
    * @returns
    */
   public getEditableGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
-    const defaultGridOptions = this.getDefaultEditableGridOptions(args);
-    const mergedGridOptions = this.mergeGridOptions(
+    const defaultGridOptions = this.#getDefaultEditableGridOptions(args);
+    const mergedGridOptions = this.#mergeGridOptions(
       defaultGridOptions,
       args.gridOptions
     );
@@ -181,7 +186,7 @@ export class SkyAgGridService implements OnDestroy {
     return this.#currentTheme?.theme?.name === 'modern' ? 60 : 37;
   }
 
-  private mergeGridOptions(
+  #mergeGridOptions(
     defaultGridOptions: GridOptions,
     providedGridOptions: GridOptions
   ): GridOptions {
@@ -202,7 +207,7 @@ export class SkyAgGridService implements OnDestroy {
         ...defaultGridOptions.defaultColDef,
         ...providedGridOptions.defaultColDef,
         // allow consumers to override all defaultColDef properties except cellClassRules, which we reserve for styling
-        cellClassRules: defaultGridOptions.defaultColDef.cellClassRules,
+        cellClassRules: defaultGridOptions.defaultColDef?.cellClassRules,
       },
       defaultColGroupDef: {
         ...defaultGridOptions.defaultColGroupDef,
@@ -222,9 +227,9 @@ export class SkyAgGridService implements OnDestroy {
     return mergedGridOptions;
   }
 
-  private getDefaultGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
+  #getDefaultGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
     // cellClassRules can be functions or string expressions
-    const cellClassRuleTrueExpression = () => true;
+    const cellClassRuleTrueExpression = (): boolean => true;
 
     function getEditableFn(
       isUneditable?: boolean
@@ -240,7 +245,7 @@ export class SkyAgGridService implements OnDestroy {
           } as EditableCallbackParams);
         }
 
-        return isUneditable ? !isEditable : isEditable;
+        return isUneditable ? !isEditable : !!isEditable;
       };
     }
 
@@ -305,7 +310,7 @@ export class SkyAgGridService implements OnDestroy {
           comparator: dateComparator,
           minWidth: this.#currentTheme?.theme?.name === 'modern' ? 180 : 160,
           valueFormatter: (params: ValueFormatterParams) =>
-            this.dateFormatter(params, args.locale),
+            this.#dateFormatter(params, args.locale),
         },
         [SkyCellType.Lookup]: {
           cellClassRules: {
@@ -317,10 +322,10 @@ export class SkyAgGridService implements OnDestroy {
           valueFormatter: (params) => {
             const lookupProperties = applySkyLookupPropertiesDefaults(params);
             return (params.value || [])
-              .map((value) => {
-                return value[lookupProperties.descriptorProperty];
+              .map((value: Record<string, unknown>) => {
+                return value[lookupProperties.descriptorProperty as string];
               })
-              .filter((value) => value !== '' && value !== undefined)
+              .filter((value: unknown) => value !== '' && value !== undefined)
               .join('; ');
           },
           minWidth: 185,
@@ -377,7 +382,7 @@ export class SkyAgGridService implements OnDestroy {
         resizable: true,
         sortable: true,
         suppressKeyboardEvent: (keypress: SuppressKeyboardEventParams) =>
-          this.suppressTab(keypress),
+          this.#suppressTab(keypress),
       },
       defaultColGroupDef: {
         headerGroupComponent: SkyAgGridHeaderGroupComponent,
@@ -397,10 +402,10 @@ export class SkyAgGridService implements OnDestroy {
         if (dataId !== undefined) {
           return `${params.data.id}`;
         }
-        if (!this.keyMap.has(params.data)) {
-          this.keyMap.set(params.data, `${rowNodeId--}`);
+        if (!this.#keyMap.has(params.data)) {
+          this.#keyMap.set(params.data, `${rowNodeId--}`);
         }
-        return this.keyMap.get(params.data);
+        return this.#keyMap.get(params.data) as string;
       },
       getRowClass: (params: RowClassParams) => {
         if (params.node.id) {
@@ -411,15 +416,15 @@ export class SkyAgGridService implements OnDestroy {
       },
       headerHeight: this.getHeaderHeight(),
       icons: {
-        sortDescending: this.getIconTemplate('caret-down'),
-        sortAscending: this.getIconTemplate('caret-up'),
-        columnMoveMove: this.getIconTemplate('arrows'),
-        columnMoveHide: this.getIconTemplate('arrows'),
-        columnMoveLeft: this.getIconTemplate('arrows'),
-        columnMoveRight: this.getIconTemplate('arrows'),
-        columnMovePin: this.getIconTemplate('arrows'),
+        sortDescending: this.#getIconTemplate('caret-down'),
+        sortAscending: this.#getIconTemplate('caret-up'),
+        columnMoveMove: this.#getIconTemplate('arrows'),
+        columnMoveHide: this.#getIconTemplate('arrows'),
+        columnMoveLeft: this.#getIconTemplate('arrows'),
+        columnMoveRight: this.#getIconTemplate('arrows'),
+        columnMovePin: this.#getIconTemplate('arrows'),
       },
-      onCellFocused: () => this.onCellFocused(),
+      onCellFocused: () => this.#onCellFocused(),
       rowHeight: this.#getRowHeight(),
       getRowHeight: () => this.#getRowHeight(),
       rowMultiSelectWithClick: true,
@@ -430,11 +435,16 @@ export class SkyAgGridService implements OnDestroy {
       suppressDragLeaveHidesColumns: true,
     };
 
-    defaultSkyGridOptions.columnTypes[SkyCellType.CurrencyValidator] = {
-      ...defaultSkyGridOptions.columnTypes[SkyCellType.Currency],
+    const columnTypes = defaultSkyGridOptions.columnTypes as Record<
+      string,
+      ColDef
+    >;
+
+    columnTypes[SkyCellType.CurrencyValidator] = {
+      ...columnTypes[SkyCellType.Currency],
       cellRendererParams: {
         skyComponentProperties: {
-          validator: (value: any, data: any, rowIndex: number) => {
+          validator: (value: string): boolean => {
             return !!`${value || ''}`.match(/^[^0-9]*(\d+[,.]?)+\d*[^0-9]*$/);
           },
           validatorMessage: 'Please enter a valid currency',
@@ -442,27 +452,26 @@ export class SkyAgGridService implements OnDestroy {
       },
     };
     /*istanbul ignore else*/
-    if (this.resources) {
-      this.resources
+    if (this.#resources) {
+      this.#resources
         .getString('sky_ag_grid_cell_renderer_currency_validator_message')
         .subscribe((value) => {
-          defaultSkyGridOptions.columnTypes[
+          columnTypes[
             SkyCellType.CurrencyValidator
           ].cellRendererParams.skyComponentProperties.validatorMessage = value;
         });
     }
 
-    defaultSkyGridOptions.columnTypes[SkyCellType.NumberValidator] = {
-      ...defaultSkyGridOptions.columnTypes[SkyCellType.Validator],
-      ...defaultSkyGridOptions.columnTypes[SkyCellType.Number],
+    columnTypes[SkyCellType.NumberValidator] = {
+      ...columnTypes[SkyCellType.Validator],
+      ...columnTypes[SkyCellType.Number],
       cellClassRules: {
-        ...defaultSkyGridOptions.columnTypes[SkyCellType.Validator]
-          .cellClassRules,
-        ...defaultSkyGridOptions.columnTypes[SkyCellType.Number].cellClassRules,
+        ...columnTypes[SkyCellType.Validator].cellClassRules,
+        ...columnTypes[SkyCellType.Number].cellClassRules,
       },
       cellRendererParams: {
         skyComponentProperties: {
-          validator: (value: any, data: any, rowIndex: number) => {
+          validator: (value: string): boolean => {
             return !!value && !isNaN(parseFloat(value));
           },
           validatorMessage: 'Please enter a valid number',
@@ -470,11 +479,11 @@ export class SkyAgGridService implements OnDestroy {
       },
     };
     /*istanbul ignore else*/
-    if (this.resources) {
-      this.resources
+    if (this.#resources) {
+      this.#resources
         .getString('sky_ag_grid_cell_renderer_number_validator_message')
         .subscribe((value) => {
-          defaultSkyGridOptions.columnTypes[
+          columnTypes[
             SkyCellType.NumberValidator
           ].cellRendererParams.skyComponentProperties.validatorMessage = value;
         });
@@ -483,26 +492,24 @@ export class SkyAgGridService implements OnDestroy {
     return defaultSkyGridOptions;
   }
 
-  private onCellFocused(): void {
-    const currentElement = this.agGridAdapterService.getFocusedElement();
+  #onCellFocused(): void {
+    const currentElement = this.#agGridAdapterService.getFocusedElement();
 
-    this.agGridAdapterService.focusOnFocusableChildren(currentElement);
+    this.#agGridAdapterService.focusOnFocusableChildren(currentElement);
   }
 
-  private getDefaultEditableGridOptions(
-    args: SkyGetGridOptionsArgs
-  ): GridOptions {
-    const defaultGridOptions = this.getDefaultGridOptions(args);
+  #getDefaultEditableGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
+    const defaultGridOptions = this.#getDefaultGridOptions(args);
 
     defaultGridOptions.rowSelection = undefined;
 
     return defaultGridOptions;
   }
 
-  private dateFormatter(
+  #dateFormatter(
     params: ValueFormatterParams,
     locale: string = 'en-us'
-  ): string | undefined {
+  ): string {
     const dateConfig = { year: 'numeric', month: '2-digit', day: '2-digit' };
     let date: Date = params.value;
 
@@ -518,30 +525,32 @@ export class SkyAgGridService implements OnDestroy {
     if (date && date.getTime && !isNaN(date.getTime())) {
       return formattedDate;
     }
+
+    return '';
   }
 
-  private getIconTemplate(iconName: string): string {
+  #getIconTemplate(iconName: string): string {
     return `<i class="fa fa-${iconName}"></i>`;
   }
 
-  private suppressTab(params: SuppressKeyboardEventParams): boolean {
+  #suppressTab(params: SuppressKeyboardEventParams): boolean {
     if (params.event.code === 'Tab') {
       if (params.editing) {
         const currentlyFocusedEl =
-          this.agGridAdapterService.getFocusedElement();
+          this.#agGridAdapterService.getFocusedElement();
         // inline cell editors have the 'ag-cell' class, while popup editors have the 'ag-popup-editor' class
-        const cellEl = this.agGridAdapterService.getElementOrParentWithClass(
+        const cellEl = this.#agGridAdapterService.getElementOrParentWithClass(
           currentlyFocusedEl,
           'ag-cell'
         );
-        const popupEl = this.agGridAdapterService.getElementOrParentWithClass(
+        const popupEl = this.#agGridAdapterService.getElementOrParentWithClass(
           currentlyFocusedEl,
           'ag-popup-editor'
         );
-        const parentEl = cellEl || popupEl;
+        const parentEl = cellEl || (popupEl as HTMLElement);
 
         const nextFocusableElementInCell =
-          this.agGridAdapterService.getNextFocusableElement(
+          this.#agGridAdapterService.getNextFocusableElement(
             currentlyFocusedEl,
             parentEl,
             params.event.shiftKey

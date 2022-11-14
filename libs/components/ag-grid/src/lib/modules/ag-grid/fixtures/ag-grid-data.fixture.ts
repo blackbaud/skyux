@@ -1,16 +1,16 @@
-export class SkyAgGridRow {
-  public id: string;
-  public name: string;
-  public nickname?: string;
-  public value?: number;
-  public target: number;
-  public date?: Date;
-  public selected: boolean;
-  public validNumber?: number;
-  public validCurrency?: string;
-  public validDate?: Date;
-  public lookupSingle?: { id: string; name: string }[];
-  public lookupMultiple?: { id: string; name: string }[];
+export interface SkyAgGridRow {
+  id: string;
+  name: string;
+  nickname?: string;
+  value?: number;
+  target: number;
+  date?: Date;
+  selected: boolean;
+  validNumber?: number;
+  validCurrency?: string;
+  validDate?: Date;
+  lookupSingle?: { id: string; name: string }[];
+  lookupMultiple?: { id: string; name: string }[];
 }
 
 export const SKY_AG_GRID_LOOKUP = Array.from(Array(50).keys()).map((i) => {

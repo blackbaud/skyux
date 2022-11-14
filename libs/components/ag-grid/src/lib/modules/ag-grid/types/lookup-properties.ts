@@ -9,10 +9,10 @@ import {
 } from '@skyux/lookup';
 
 export interface SkyAgGridLookupProperties {
-  addClick?: (args: SkyLookupAddClickEventArgs) => {};
+  addClick?: (args: SkyLookupAddClickEventArgs) => void;
   ariaLabel?: string;
   autocompleteAttribute?: string;
-  data: any[];
+  data?: unknown[];
   debounceTime?: number;
   descriptorProperty?: string;
   disabled?: boolean;
@@ -21,7 +21,7 @@ export interface SkyAgGridLookupProperties {
   placeholderText?: string;
   propertiesToSearch?: string[];
   search?: SkyAutocompleteSearchFunction;
-  searchAsync?: (args: SkyAutocompleteSearchAsyncArgs) => {};
+  searchAsync?: (args: SkyAutocompleteSearchAsyncArgs) => void;
   searchFilters?: SkyAutocompleteSearchFunctionFilter[];
   searchResultsLimit?: number;
   searchResultTemplate?: TemplateRef<unknown>;

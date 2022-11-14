@@ -25,58 +25,65 @@ import { SkyAgGridCellEditorUtils } from '../../types/cell-editor-utils';
 export class SkyAgGridCellEditorAutocompleteComponent
   implements ICellEditorAngularComp
 {
-  public columnHeader: string;
+  public columnHeader: string | undefined;
   public editorForm = new UntypedFormGroup({
     selection: new UntypedFormControl(),
   });
-  public rowNumber: number;
+  public rowNumber: number | undefined;
   public skyComponentProperties: SkyAgGridAutocompleteProperties = {};
-  private params: SkyCellEditorAutocompleteParams;
+  private params: SkyCellEditorAutocompleteParams | undefined;
 
-  #triggerType: SkyAgGridCellEditorInitialAction;
+  #triggerType: SkyAgGridCellEditorInitialAction | undefined;
 
   @ViewChild('skyCellEditorAutocomplete', { read: ElementRef })
-  public input: ElementRef;
+  public input: ElementRef | undefined;
 
-  public agInit(params: SkyCellEditorAutocompleteParams) {
+  public agInit(params: SkyCellEditorAutocompleteParams): void {
     this.params = params;
     this.#triggerType = SkyAgGridCellEditorUtils.getEditorInitialAction(params);
     const control = this.editorForm.get('selection');
-    switch (this.#triggerType) {
-      case SkyAgGridCellEditorInitialAction.Delete:
-        control.setValue(undefined);
-        break;
-      case SkyAgGridCellEditorInitialAction.Replace:
-      case SkyAgGridCellEditorInitialAction.Highlighted:
-      case SkyAgGridCellEditorInitialAction.Untouched:
-      default:
-        control.setValue(params.value);
-        break;
+    if (control) {
+      switch (this.#triggerType) {
+        case SkyAgGridCellEditorInitialAction.Delete:
+          control.setValue(undefined);
+          break;
+        case SkyAgGridCellEditorInitialAction.Replace:
+        case SkyAgGridCellEditorInitialAction.Highlighted:
+        case SkyAgGridCellEditorInitialAction.Untouched:
+        default:
+          control.setValue(params.value);
+          break;
+      }
     }
+
     this.columnHeader = this.params.colDef && this.params.colDef.headerName;
     this.rowNumber = this.params.rowIndex + 1;
     this.skyComponentProperties = this.params.skyComponentProperties || {};
   }
 
   public afterGuiAttached(): void {
-    this.input.nativeElement.focus();
-    if (this.#triggerType === SkyAgGridCellEditorInitialAction.Replace) {
-      this.input.nativeElement.select();
-      this.input.nativeElement.setRangeText(this.params.charPress);
-      // Ensure the cursor is at the end of the text.
-      this.input.nativeElement.setSelectionRange(
-        this.params.charPress.length,
-        this.params.charPress.length
-      );
-      this.input.nativeElement.dispatchEvent(new Event('input'));
-    }
-    if (this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted) {
-      this.input.nativeElement.select();
+    if (this.input) {
+      this.input.nativeElement.focus();
+      if (this.#triggerType === SkyAgGridCellEditorInitialAction.Replace) {
+        const charPress = this.params?.charPress as string;
+
+        this.input.nativeElement.select();
+        this.input.nativeElement.setRangeText(charPress);
+        // Ensure the cursor is at the end of the text.
+        this.input.nativeElement.setSelectionRange(
+          charPress.length,
+          charPress.length
+        );
+        this.input.nativeElement.dispatchEvent(new Event('input'));
+      }
+      if (this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted) {
+        this.input.nativeElement.select();
+      }
     }
   }
 
   public getValue(): any | undefined {
-    const val = this.editorForm.get('selection').value;
+    const val = this.editorForm.get('selection')?.value;
     return val !== undefined && val !== null ? val : undefined;
   }
 }

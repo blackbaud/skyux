@@ -25,62 +25,66 @@ import { SkyAgGridCellEditorUtils } from '../../types/cell-editor-utils';
 export class SkyAgGridCellEditorNumberComponent
   implements ICellEditorAngularComp
 {
-  public columnHeader: string;
-  public columnWidth: number;
+  public columnHeader: string | undefined;
+  public columnWidth: number | undefined;
   public editorForm = new UntypedFormGroup({
     number: new UntypedFormControl(),
   });
-  public rowHeightWithoutBorders: number;
-  public rowNumber: number;
-  public max: number;
-  public min: number;
-
-  private params: ICellEditorParams;
+  public rowHeightWithoutBorders: number | undefined;
+  public rowNumber: number | undefined;
+  public max: number | undefined;
+  public min: number | undefined;
 
   @ViewChild('skyCellEditorNumber', { read: ElementRef })
-  private input: ElementRef;
+  public input: ElementRef | undefined;
 
-  #triggerType: SkyAgGridCellEditorInitialAction;
+  #params: ICellEditorParams | undefined;
+  #triggerType: SkyAgGridCellEditorInitialAction | undefined;
 
   /**
    * agInit is called by agGrid once after the editor is created and provides the editor with the information it needs.
    * @param params The cell editor params that include data about the cell, column, row, and grid.
    */
   public agInit(params: SkyCellEditorNumberParams): void {
-    this.params = params;
+    this.#params = params;
 
     this.#triggerType = SkyAgGridCellEditorUtils.getEditorInitialAction(params);
     const control = this.editorForm.get('number');
-    switch (this.#triggerType) {
-      case SkyAgGridCellEditorInitialAction.Delete:
-        control.setValue(undefined);
-        break;
-      case SkyAgGridCellEditorInitialAction.Replace:
-        control.setValue(parseFloat(this.params.charPress) || undefined);
-        break;
-      case SkyAgGridCellEditorInitialAction.Highlighted:
-      case SkyAgGridCellEditorInitialAction.Untouched:
-      default:
-        control.setValue(params.value);
-        break;
+    if (control) {
+      switch (this.#triggerType) {
+        case SkyAgGridCellEditorInitialAction.Delete:
+          control.setValue(undefined);
+          break;
+        case SkyAgGridCellEditorInitialAction.Replace:
+          control.setValue(
+            parseFloat(this.#params?.charPress as string) || undefined
+          );
+          break;
+        case SkyAgGridCellEditorInitialAction.Highlighted:
+        case SkyAgGridCellEditorInitialAction.Untouched:
+        default:
+          control.setValue(params.value);
+          break;
+      }
     }
 
     this.max = params.skyComponentProperties?.max;
     this.min = params.skyComponentProperties?.min;
-    this.columnHeader = this.params.colDef.headerName;
-    this.rowNumber = this.params.rowIndex + 1;
-    this.columnWidth = this.params.column.getActualWidth();
-    this.rowHeightWithoutBorders =
-      this.params.node && this.params.node.rowHeight - 4;
+    this.columnHeader = this.#params.colDef.headerName;
+    this.rowNumber = this.#params.rowIndex + 1;
+    this.columnWidth = this.#params.column.getActualWidth();
+    this.rowHeightWithoutBorders = (this.#params.node.rowHeight as number) - 4;
   }
 
   /**
    * afterGuiAttached is called by agGrid after the editor is rendered in the DOM. Once it is attached the editor is ready to be focused on.
    */
   public afterGuiAttached(): void {
-    this.input.nativeElement.focus();
-    if (this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted) {
-      this.input.nativeElement.select();
+    if (this.input) {
+      this.input.nativeElement.focus();
+      if (this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted) {
+        this.input.nativeElement.select();
+      }
     }
   }
 
@@ -88,7 +92,7 @@ export class SkyAgGridCellEditorNumberComponent
    * getValue is called by agGrid when editing is stopped to get the new value of the cell.
    */
   public getValue(): number | undefined {
-    const val = this.editorForm.get('number').value;
+    const val = this.editorForm.get('number')?.value;
     return val !== undefined && val !== null ? val : undefined;
   }
 }

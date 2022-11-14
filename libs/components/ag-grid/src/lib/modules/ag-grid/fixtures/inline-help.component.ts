@@ -9,7 +9,7 @@ import { SkyAgGridHeaderInfo } from '@skyux/ag-grid';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FirstInlineHelpComponent {
-  public readonly displayName: string;
+  public readonly displayName: string | undefined;
 
   constructor({ displayName }: SkyAgGridHeaderInfo) {
     this.displayName = displayName;
@@ -26,7 +26,7 @@ export class FirstInlineHelpComponent {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SecondInlineHelpComponent {
-  public readonly displayName: string;
+  public readonly displayName: string | undefined;
 
   constructor({ displayName }: SkyAgGridHeaderInfo) {
     this.displayName = displayName;

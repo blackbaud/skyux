@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { NumericOptions } from '@skyux/core';
+import { SkyNumericOptions } from '@skyux/core';
 
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 
@@ -23,38 +23,38 @@ export class SkyAgGridCellRendererCurrencyComponent
     this.agInit(value);
   }
 
-  public columnHeader: string;
-  public columnWidth: number;
-  public rowHeightWithoutBorders: number;
-  public rowNumber: number;
-  public skyComponentProperties: NumericOptions & SkyAgGridValidatorProperties =
-    {};
-  public numericOptions: NumericOptions = {};
-  public value: number;
-
-  private _params: SkyCellRendererCurrencyParams;
+  public columnHeader: string | undefined;
+  public columnWidth: number | undefined;
+  public rowHeightWithoutBorders: number | undefined;
+  public rowNumber: number | undefined;
+  public skyComponentProperties: SkyNumericOptions &
+    SkyAgGridValidatorProperties = {};
+  public numericOptions: SkyNumericOptions = {};
+  public value: number | undefined;
 
   /**
    * agInit is called by agGrid once after the renderer is created and provides the renderer with the information it needs.
    * @param params The cell renderer params that include data about the cell, column, row, and grid.
    */
-  public agInit(params: SkyCellRendererCurrencyParams) {
-    this.updateProperties(params);
+  public agInit(params: SkyCellRendererCurrencyParams): void {
+    this.#updateProperties(params);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public refresh(params: SkyCellRendererCurrencyParams): boolean {
     return false;
   }
 
-  private updateProperties(params: SkyCellRendererCurrencyParams) {
-    this._params = params;
-    this.value = this._params.value;
-    this.columnHeader = this._params.colDef && this._params.colDef.headerName;
-    this.rowNumber = this._params.rowIndex + 1;
-    this.columnWidth = this._params.column?.getActualWidth();
+  #updateProperties(params: SkyCellRendererCurrencyParams): void {
+    this.value = params.value;
+    this.columnHeader = params.colDef?.headerName;
+    this.rowNumber = params.rowIndex + 1;
+    this.columnWidth = params.column?.getActualWidth();
     this.rowHeightWithoutBorders =
-      this._params.node && this._params.node.rowHeight - 4;
-    this.skyComponentProperties = this._params.skyComponentProperties || {};
+      typeof params.node?.rowHeight === 'number'
+        ? params.node?.rowHeight - 4
+        : undefined;
+    this.skyComponentProperties = params.skyComponentProperties || {};
     this.skyComponentProperties.format = 'currency';
     this.skyComponentProperties.minDigits = 2;
     this.skyComponentProperties.truncate = false;

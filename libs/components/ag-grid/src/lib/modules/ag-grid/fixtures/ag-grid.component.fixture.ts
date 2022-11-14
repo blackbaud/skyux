@@ -26,7 +26,7 @@ export const EnableTopScroll = new InjectionToken('EnableTopScroll');
 })
 export class SkyAgGridFixtureComponent implements OnInit {
   @ViewChild('agGrid', { static: true })
-  public agGrid: AgGridAngular;
+  public agGrid: AgGridAngular | undefined;
 
   public gridData = SKY_AG_GRID_DATA;
   public columnDefs: ColDef[] = [
@@ -110,7 +110,7 @@ export class SkyAgGridFixtureComponent implements OnInit {
       type: [SkyCellType.Date, SkyCellType.Validator],
       cellRendererParams: {
         skyComponentProperties: {
-          validator: (value: Date) => {
+          validator: (value: Date): boolean => {
             const dt = new Date(1985, 10, 5, 12);
             return !!value && value > dt;
           },

@@ -34,25 +34,30 @@ export class SkyAgGridCellEditorDatepickerComponent
   extends PopupComponent
   implements ICellEditorAngularComp
 {
-  public columnWidth: number;
-  public columnWidthWithoutBorders: number;
+  public columnWidth: number | undefined;
+  public columnWidthWithoutBorders: number | undefined;
   public editorForm = new UntypedFormGroup({
     date: new UntypedFormControl(),
   });
-  public rowHeightWithoutBorders: number;
+  public rowHeightWithoutBorders: number | null | undefined;
   public skyComponentProperties: SkyAgGridDatepickerProperties = {};
-  private params: SkyCellEditorDatepickerParams;
 
   @ViewChild('skyCellEditorDatepickerInput', { read: ElementRef })
-  private datepickerInput: ElementRef;
+  public datepickerInput: ElementRef | undefined;
 
-  #triggerType: SkyAgGridCellEditorInitialAction;
+  #params: SkyCellEditorDatepickerParams | undefined;
+  #triggerType: SkyAgGridCellEditorInitialAction | undefined;
+  #changeDetector: ChangeDetectorRef;
+  #themeSvc: SkyThemeService | undefined;
 
   constructor(
-    private changeDetector: ChangeDetectorRef,
-    @Optional() private themeSvc?: SkyThemeService
+    changeDetector: ChangeDetectorRef,
+    @Optional() themeSvc?: SkyThemeService
   ) {
     super();
+
+    this.#changeDetector = changeDetector;
+    this.#themeSvc = themeSvc;
   }
 
   /**
@@ -60,42 +65,44 @@ export class SkyAgGridCellEditorDatepickerComponent
    * @param params The cell editor params that include data about the cell, column, row, and grid.
    */
   public agInit(params: SkyCellEditorDatepickerParams): void {
-    this.params = params;
+    this.#params = params;
 
     this.#triggerType = SkyAgGridCellEditorUtils.getEditorInitialAction(params);
     const control = this.editorForm.get('date');
-    switch (this.#triggerType) {
-      case SkyAgGridCellEditorInitialAction.Delete:
-        control.setValue(undefined);
-        break;
-      case SkyAgGridCellEditorInitialAction.Replace:
-        control.setValue(params.charPress);
-        break;
-      case SkyAgGridCellEditorInitialAction.Highlighted:
-      case SkyAgGridCellEditorInitialAction.Untouched:
-      default:
-        control.setValue(params.value);
-        break;
-    }
-    if (this.params.skyComponentProperties?.disabled) {
-      control.disable();
-    }
-    this.changeDetector.markForCheck();
 
-    this.skyComponentProperties = this.params.skyComponentProperties || {};
-    this.columnWidth = this.params.column.getActualWidth();
+    if (control) {
+      switch (this.#triggerType) {
+        case SkyAgGridCellEditorInitialAction.Delete:
+          control.setValue(undefined);
+          break;
+        case SkyAgGridCellEditorInitialAction.Replace:
+          control.setValue(params.charPress);
+          break;
+        case SkyAgGridCellEditorInitialAction.Highlighted:
+        case SkyAgGridCellEditorInitialAction.Untouched:
+        default:
+          control.setValue(params.value);
+          break;
+      }
+      if (this.#params.skyComponentProperties?.disabled) {
+        control.disable();
+      }
+    }
+    this.#changeDetector.markForCheck();
+
+    this.skyComponentProperties = this.#params.skyComponentProperties || {};
+    this.columnWidth = this.#params.column.getActualWidth();
     this.columnWidthWithoutBorders = this.columnWidth - 2;
-    this.rowHeightWithoutBorders =
-      this.params.node && this.params.node.rowHeight - 3;
-    this.themeSvc?.settingsChange.subscribe((themeSettings) => {
+    this.rowHeightWithoutBorders = (this.#params.node.rowHeight as number) - 3;
+    this.#themeSvc?.settingsChange.subscribe((themeSettings) => {
       if (themeSettings.currentSettings.theme.name === 'modern') {
         this.columnWidthWithoutBorders = this.columnWidth;
-        this.rowHeightWithoutBorders =
-          this.params.node && this.params.node.rowHeight;
+        this.rowHeightWithoutBorders = this.#params?.node?.rowHeight;
       } else {
-        this.columnWidthWithoutBorders = this.columnWidth - 2;
+        this.columnWidthWithoutBorders =
+          this.columnWidth === undefined ? undefined : this.columnWidth - 2;
         this.rowHeightWithoutBorders =
-          this.params.node && this.params.node.rowHeight - 3;
+          (this.#params?.node.rowHeight as number) - 3;
       }
     });
   }
@@ -105,7 +112,7 @@ export class SkyAgGridCellEditorDatepickerComponent
    */
   public afterGuiAttached(): void {
     const datepickerInputEl = this.datepickerInput
-      .nativeElement as HTMLInputElement;
+      ?.nativeElement as HTMLInputElement;
     datepickerInputEl.focus();
 
     // Programatically set the value of in the input; however, do not do this via the form control so that the value is not formatted when editing starts.
@@ -117,12 +124,12 @@ export class SkyAgGridCellEditorDatepickerComponent
           datepickerInputEl.dispatchEvent(new Event('change'));
         });
       datepickerInputEl.select();
-      datepickerInputEl.setRangeText(this.params.charPress);
+
+      const charPress = this.#params?.charPress as string;
+
+      datepickerInputEl.setRangeText(charPress);
       // Ensure the cursor is at the end of the text.
-      datepickerInputEl.setSelectionRange(
-        this.params.charPress.length,
-        this.params.charPress.length
-      );
+      datepickerInputEl.setSelectionRange(charPress.length, charPress.length);
     }
 
     // this.changeDetector.markForCheck();
@@ -135,7 +142,7 @@ export class SkyAgGridCellEditorDatepickerComponent
    * getValue is called by agGrid when editing is stopped to get the new value of the cell.
    */
   public getValue(): Date {
-    this.datepickerInput.nativeElement.blur();
-    return this.editorForm.get('date').value;
+    this.datepickerInput?.nativeElement.blur();
+    return this.editorForm.get('date')?.value;
   }
 }

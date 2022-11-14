@@ -34,7 +34,7 @@ export class SkyAgGridWrapperComponent
   @ContentChild(AgGridAngular, {
     static: true,
   })
-  public agGrid: AgGridAngular;
+  public agGrid: AgGridAngular | undefined;
 
   public afterAnchorId: string;
   public beforeAnchorId: string;
@@ -42,30 +42,60 @@ export class SkyAgGridWrapperComponent
   public wrapperClasses$: Observable<string[]>;
 
   public get viewkeeperClasses(): string[] {
-    return this._viewkeeperClasses;
+    return this.#_viewkeeperClasses;
   }
 
   public set viewkeeperClasses(value: string[]) {
-    this._viewkeeperClasses = value;
-    this.changeDetector.markForCheck();
+    this.#_viewkeeperClasses = value;
+    this.#changeDetector.markForCheck();
   }
 
-  private _viewkeeperClasses: string[] = [];
+  get #isInEditMode(): boolean {
+    /* istanbul ignore else */
+    if (this.agGrid && this.agGrid.api) {
+      const primaryGridEditing = this.agGrid.api.getEditingCells().length > 0;
+      if (primaryGridEditing) {
+        return true;
+      } else {
+        let innerEditing = false;
+        this.agGrid.api.forEachDetailGridInfo((detailGrid: DetailGridInfo) => {
+          if (detailGrid?.api && detailGrid.api.getEditingCells().length > 0) {
+            innerEditing = true;
+          }
+        });
+
+        return innerEditing;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  #_viewkeeperClasses: string[] = [];
 
   #agGridService: SkyAgGridService;
   #ngUnsubscribe = new Subject<void>();
   #themeSvc: SkyThemeService | undefined;
   #wrapperClasses = new BehaviorSubject<string[]>([`ag-theme-sky-default`]);
   #currentTheme: SkyThemeSettings | undefined = undefined;
+  #adapterService: SkyAgGridAdapterService;
+  #changeDetector: ChangeDetectorRef;
+  #elementRef: ElementRef;
+  #document: Document;
 
   constructor(
-    private adapterService: SkyAgGridAdapterService,
-    private changeDetector: ChangeDetectorRef,
-    private elementRef: ElementRef,
-    @Inject(DOCUMENT) private document: Document,
+    adapterService: SkyAgGridAdapterService,
+    changeDetector: ChangeDetectorRef,
+    elementRef: ElementRef,
+    @Inject(DOCUMENT) document: Document,
     agGridService: SkyAgGridService,
     @Optional() themeSvc?: SkyThemeService
   ) {
+    this.#adapterService = adapterService;
+    this.#changeDetector = changeDetector;
+    this.#elementRef = elementRef;
+    this.#document = document;
+
     idIndex++;
     this.afterAnchorId = 'sky-ag-grid-nav-anchor-after-' + idIndex;
     this.beforeAnchorId = 'sky-ag-grid-nav-anchor-before-' + idIndex;
@@ -76,52 +106,61 @@ export class SkyAgGridWrapperComponent
   }
 
   public ngAfterContentInit(): void {
-    if (
-      this.agGrid.gridOptions &&
-      this.agGrid.gridOptions.domLayout === 'autoHeight'
-    ) {
-      if (this.agGrid.gridOptions.context?.enableTopScroll) {
-        this.viewkeeperClasses.push('.ag-header', '.ag-body-horizontal-scroll');
-      } else {
-        this.viewkeeperClasses.push('.ag-header');
-      }
-    }
-    this.agGrid.gridReady.pipe(takeUntil(this.#ngUnsubscribe)).subscribe(() => {
-      this.#moveHorizontalScroll();
-    });
-    this.agGrid.firstDataRendered
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe(() => {
-        this.#moveHorizontalScroll();
-      });
-    this.agGrid.rowDataUpdated
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe(() => {
-        this.#moveHorizontalScroll();
-      });
-    this.agGrid.cellEditingStarted
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((params: CellEditingStartedEvent) => {
-        if (params.colDef.type) {
-          const types = Array.isArray(params.colDef.type)
-            ? params.colDef.type
-            : [params.colDef.type];
-          const addClasses = types.map((t) => `sky-ag-grid-cell-editing-${t}`);
-          this.#wrapperClasses.next([
-            ...this.#wrapperClasses.getValue(),
-            ...addClasses,
-          ]);
+    if (this.agGrid) {
+      if (
+        this.agGrid.gridOptions &&
+        this.agGrid.gridOptions.domLayout === 'autoHeight'
+      ) {
+        if (this.agGrid.gridOptions.context?.enableTopScroll) {
+          this.viewkeeperClasses.push(
+            '.ag-header',
+            '.ag-body-horizontal-scroll'
+          );
+        } else {
+          this.viewkeeperClasses.push('.ag-header');
         }
-      });
-    this.agGrid.cellEditingStopped
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe(() => {
-        this.#wrapperClasses.next(
-          this.#wrapperClasses
-            .getValue()
-            .filter((c) => c.startsWith('ag-theme-'))
-        );
-      });
+      }
+      this.agGrid.gridReady
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe(() => {
+          this.#moveHorizontalScroll();
+        });
+      this.agGrid.firstDataRendered
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe(() => {
+          this.#moveHorizontalScroll();
+        });
+      this.agGrid.rowDataUpdated
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe(() => {
+          this.#moveHorizontalScroll();
+        });
+      this.agGrid.cellEditingStarted
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe((params: CellEditingStartedEvent) => {
+          if (params.colDef.type) {
+            const types = Array.isArray(params.colDef.type)
+              ? params.colDef.type
+              : [params.colDef.type];
+            const addClasses = types.map(
+              (t) => `sky-ag-grid-cell-editing-${t}`
+            );
+            this.#wrapperClasses.next([
+              ...this.#wrapperClasses.getValue(),
+              ...addClasses,
+            ]);
+          }
+        });
+      this.agGrid.cellEditingStopped
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe(() => {
+          this.#wrapperClasses.next(
+            this.#wrapperClasses
+              .getValue()
+              .filter((c) => c.startsWith('ag-theme-'))
+          );
+        });
+    }
   }
 
   public ngOnDestroy(): void {
@@ -148,7 +187,7 @@ export class SkyAgGridWrapperComponent
         if (!this.#currentTheme) {
           // Initial theme settings.
           this.#currentTheme = settings.currentSettings;
-        } else if (this.agGrid.api) {
+        } else if (this.agGrid?.api) {
           // On subsequent theme changes, we need to call the api to re-render the grid.
           this.#currentTheme = settings.currentSettings;
           this.agGrid.api.setHeaderHeight(
@@ -163,18 +202,18 @@ export class SkyAgGridWrapperComponent
   /**
    * Prevent closing a modal when focused in AG Grid.
    */
-  public onKeyUpEscape($event: Event) {
+  public onKeyUpEscape($event: Event): void {
     $event.stopPropagation();
-    this.agGrid.api.stopEditing(true);
+    this.agGrid?.api.stopEditing(true);
   }
 
   public onGridKeydown(event: KeyboardEvent): void {
-    if (this.agGrid && !this.isInEditMode && event.key === 'Tab') {
+    if (this.agGrid && !this.#isInEditMode && event.key === 'Tab') {
       const idToFocus = event.shiftKey
         ? this.beforeAnchorId
         : this.afterAnchorId;
-      this.adapterService.setFocusedElementById(
-        this.elementRef.nativeElement,
+      this.#adapterService.setFocusedElementById(
+        this.#elementRef.nativeElement,
         idToFocus
       );
     }
@@ -186,49 +225,27 @@ export class SkyAgGridWrapperComponent
     const previousFocusedId = relatedTarget && relatedTarget.id;
     const previousWasCell =
       relatedTarget &&
-      !!this.adapterService.getElementOrParentWithClass(
+      !!this.#adapterService.getElementOrParentWithClass(
         relatedTarget,
         'ag-cell'
       );
 
     if (previousFocusedId !== gridId && !previousWasCell) {
-      const columns = this.agGrid.columnApi.getAllDisplayedColumns();
-      const firstColumn = columns && columns[0];
-      const rowIndex = this.agGrid.api.getFirstDisplayedRow();
+      const columns = this.agGrid?.columnApi.getAllDisplayedColumns();
+      const firstColumn = columns?.[0];
+      const rowIndex = this.agGrid?.api.getFirstDisplayedRow();
 
-      if (firstColumn && rowIndex >= 0) {
-        this.agGrid.api.setFocusedCell(rowIndex, firstColumn);
+      if (firstColumn && rowIndex !== undefined && rowIndex >= 0) {
+        this.agGrid?.api.setFocusedCell(rowIndex, firstColumn);
       }
     }
   }
 
-  private get isInEditMode(): boolean {
-    /* Sanity check */
-    /* istanbul ignore else */
-    if (this.agGrid && this.agGrid.api) {
-      const primaryGridEditing = this.agGrid.api.getEditingCells().length > 0;
-      if (primaryGridEditing) {
-        return true;
-      } else {
-        let innerEditing = false;
-        this.agGrid.api.forEachDetailGridInfo((detailGrid: DetailGridInfo) => {
-          if (detailGrid.api.getEditingCells().length > 0) {
-            innerEditing = true;
-          }
-        });
-
-        return innerEditing;
-      }
-    } else {
-      return false;
-    }
-  }
-
-  #moveHorizontalScroll() {
+  #moveHorizontalScroll(): void {
     if (this.agGrid && this.agGrid.api) {
       const toTop = !!this.agGrid.gridOptions.context?.enableTopScroll;
       const root: HTMLElement =
-        this.elementRef.nativeElement.querySelector('.ag-root');
+        this.#elementRef.nativeElement.querySelector('.ag-root');
       const header: HTMLDivElement | null = root.querySelector('.ag-header');
       const floatingBottom: HTMLDivElement | null = root.querySelector(
         '.ag-floating-bottom'
@@ -250,11 +267,11 @@ export class SkyAgGridWrapperComponent
         }
         const isTop = !!root.children[1].matches('.ag-body-horizontal-scroll');
         if (toTop && !isTop) {
-          const fragment = this.document.createDocumentFragment();
+          const fragment = this.#document.createDocumentFragment();
           fragment.appendChild(scrollbar);
           header.after(fragment);
         } else if (!toTop && isTop) {
-          const fragment = this.document.createDocumentFragment();
+          const fragment = this.#document.createDocumentFragment();
           fragment.appendChild(scrollbar);
           floatingBottom.after(fragment);
         }

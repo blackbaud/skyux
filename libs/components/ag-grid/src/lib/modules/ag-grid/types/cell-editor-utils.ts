@@ -8,9 +8,9 @@ export class SkyAgGridCellEditorUtils {
    * @param params The editor's initializing parameters.
    */
   public static getEditorInitialAction(
-    params: ICellEditorParams
+    params: ICellEditorParams | undefined
   ): SkyAgGridCellEditorInitialAction {
-    if (params.cellStartedEdit) {
+    if (params?.cellStartedEdit) {
       if (
         params.eventKey === KeyCode.BACKSPACE ||
         params.eventKey === KeyCode.DELETE

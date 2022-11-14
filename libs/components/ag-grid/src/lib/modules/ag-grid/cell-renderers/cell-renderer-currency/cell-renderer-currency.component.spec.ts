@@ -7,7 +7,14 @@ import {
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { NumericOptions } from '@skyux/core';
 
-import { Beans, Column, RowNode } from 'ag-grid-community';
+import {
+  Beans,
+  Column,
+  GridApi,
+  ICellRenderer,
+  ICellRendererParams,
+  RowNode,
+} from 'ag-grid-community';
 
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
@@ -21,7 +28,11 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
   let currencyFixture: ComponentFixture<SkyAgGridCellRendererCurrencyComponent>;
   let currencyComponent: SkyAgGridCellRendererCurrencyComponent;
   let currencyNativeElement: HTMLElement;
-  let cellRendererParams: SkyCellRendererCurrencyParams;
+  let cellRendererParams: Partial<SkyCellRendererCurrencyParams> & {
+    skyComponentProperties:
+      | (NumericOptions & SkyAgGridValidatorProperties)
+      | undefined;
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,10 +48,16 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
       {
         colId: 'col',
       },
-      undefined,
+      null,
       'col',
       true
     );
+
+    const gridApi = new GridApi();
+
+    gridApi.getCellRendererInstances = (): ICellRenderer[] => {
+      return [];
+    };
 
     cellRendererParams = {
       value: 123,
@@ -50,17 +67,12 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
       columnApi: undefined,
       data: undefined,
       rowIndex: undefined,
-      api: {
-        getCellRendererInstances: () => {
-          return [];
-        },
-      },
+      api: gridApi,
       context: undefined,
       eGridCell: undefined,
       formatValue: undefined,
-      skyComponentProperties: {} as NumericOptions &
-        SkyAgGridValidatorProperties,
-    } as SkyCellRendererCurrencyParams;
+      skyComponentProperties: {},
+    };
   });
 
   it('renders a skyux numeric element in an ag grid', () => {
@@ -78,12 +90,14 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
   describe('agInit', () => {
     it('initializes the SkyAgGridCellRendererCurrencyComponent properties', fakeAsync(() => {
       cellRendererParams.value = 123;
-      cellRendererParams.skyComponentProperties.format = 'currency';
-      cellRendererParams.skyComponentProperties.iso = 'USD';
+      if (cellRendererParams.skyComponentProperties) {
+        cellRendererParams.skyComponentProperties.format = 'currency';
+        cellRendererParams.skyComponentProperties.iso = 'USD';
+      }
 
       expect(currencyComponent.value).toBeUndefined();
 
-      currencyComponent.agInit(cellRendererParams);
+      currencyComponent.agInit(cellRendererParams as ICellRendererParams);
 
       currencyFixture.detectChanges();
       tick();
@@ -92,9 +106,8 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
       expect(currencyComponent.value).toBe(123);
 
       cellRendererParams.skyComponentProperties = undefined;
-      // @ts-ignore
       cellRendererParams.column = undefined;
-      currencyComponent.agInit(cellRendererParams);
+      currencyComponent.agInit(cellRendererParams as ICellRendererParams);
 
       expect(currencyComponent.skyComponentProperties.format).toBe('currency');
     }));
@@ -103,12 +116,14 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
   describe('parameters', () => {
     it('sets the SkyAgGridCellRendererCurrencyComponent params', fakeAsync(() => {
       cellRendererParams.value = 123;
-      cellRendererParams.skyComponentProperties.format = 'currency';
-      cellRendererParams.skyComponentProperties.iso = 'USD';
+      if (cellRendererParams.skyComponentProperties) {
+        cellRendererParams.skyComponentProperties.format = 'currency';
+        cellRendererParams.skyComponentProperties.iso = 'USD';
+      }
 
       expect(currencyComponent.value).toBeUndefined();
 
-      currencyComponent.params = cellRendererParams;
+      currencyComponent.params = cellRendererParams as ICellRendererParams;
 
       currencyFixture.detectChanges();
       tick();
@@ -120,17 +135,21 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
 
   describe('refresh', () => {
     it('returns false', () => {
-      expect(currencyComponent.refresh(cellRendererParams)).toBe(false);
+      expect(
+        currencyComponent.refresh(cellRendererParams as ICellRendererParams)
+      ).toBe(false);
     });
 
     it('updates the value if the params have changed', fakeAsync(() => {
       cellRendererParams.value = 123;
-      cellRendererParams.skyComponentProperties.format = 'currency';
-      cellRendererParams.skyComponentProperties.iso = 'USD';
+      if (cellRendererParams.skyComponentProperties) {
+        cellRendererParams.skyComponentProperties.format = 'currency';
+        cellRendererParams.skyComponentProperties.iso = 'USD';
+      }
 
       expect(currencyComponent.value).toBeUndefined();
 
-      currencyComponent.agInit(cellRendererParams);
+      currencyComponent.agInit(cellRendererParams as ICellRendererParams);
 
       currencyFixture.detectChanges();
       tick();
@@ -139,7 +158,7 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
       expect(currencyComponent.value).toBe(123);
 
       cellRendererParams.value = 245;
-      currencyComponent.agInit(cellRendererParams);
+      currencyComponent.agInit(cellRendererParams as ICellRendererParams);
 
       currencyFixture.detectChanges();
       tick();
