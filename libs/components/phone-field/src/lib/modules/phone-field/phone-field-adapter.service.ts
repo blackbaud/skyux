@@ -10,34 +10,37 @@ import { takeUntil } from 'rxjs/operators';
  */
 @Injectable()
 export class SkyPhoneFieldAdapterService implements OnDestroy {
-  private ngUnsubscribe = new Subject<void>();
+  #ngUnsubscribe = new Subject<void>();
 
-  constructor(
-    private renderer: Renderer2,
-    private resourcesService: SkyLibResourcesService
-  ) {}
+  #renderer: Renderer2;
+  #resourcesService: SkyLibResourcesService;
+
+  constructor(renderer: Renderer2, resourcesService: SkyLibResourcesService) {
+    this.#renderer = renderer;
+    this.#resourcesService = resourcesService;
+  }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   public addElementClass(elementRef: ElementRef, className: string): void {
-    this.renderer.addClass(elementRef.nativeElement, className);
+    this.#renderer.addClass(elementRef.nativeElement, className);
   }
 
   public setElementDisabledState(
     elementRef: ElementRef,
     disabled: boolean
   ): void {
-    this.renderer.setProperty(elementRef.nativeElement, 'disabled', disabled);
+    this.#renderer.setProperty(elementRef.nativeElement, 'disabled', disabled);
   }
 
   public setElementPlaceholder(
     elementRef: ElementRef,
     placeholder: string
   ): void {
-    this.renderer.setAttribute(
+    this.#renderer.setAttribute(
       elementRef.nativeElement,
       'placeholder',
       placeholder
@@ -45,24 +48,22 @@ export class SkyPhoneFieldAdapterService implements OnDestroy {
   }
 
   public setElementType(elementRef: ElementRef): void {
-    this.renderer.setAttribute(elementRef.nativeElement, 'type', 'tel');
+    this.#renderer.setAttribute(elementRef.nativeElement, 'type', 'tel');
   }
 
   public setElementValue(elementRef: ElementRef, value: string): void {
-    if (value) {
-      this.renderer.setProperty(elementRef.nativeElement, 'value', value);
-    }
+    this.#renderer.setProperty(elementRef.nativeElement, 'value', value);
   }
 
   public setAriaLabel(element: ElementRef): void {
     /* Sanity check */
     /* istanbul ignore else */
     if (!element.nativeElement.getAttribute('aria-label')) {
-      this.resourcesService
+      this.#resourcesService
         .getString('skyux_phone_field_default_label')
-        .pipe(takeUntil(this.ngUnsubscribe))
+        .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((value: string) => {
-          this.renderer.setAttribute(
+          this.#renderer.setAttribute(
             element.nativeElement,
             'aria-label',
             value
@@ -72,14 +73,14 @@ export class SkyPhoneFieldAdapterService implements OnDestroy {
   }
 
   public focusCountrySearchElement(el: Element): void {
-    const input: HTMLElement = el.querySelector('textarea');
-    input.focus();
+    const input: HTMLElement | null = el.querySelector('textarea');
+    input?.focus();
   }
 
   public focusPhoneInput(el: Element): void {
-    const input: HTMLElement = el.querySelector(
+    const input: HTMLElement | null = el.querySelector(
       '.sky-phone-field-container input'
     );
-    input.focus();
+    input?.focus();
   }
 }
