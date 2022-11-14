@@ -9,6 +9,7 @@ import {
 } from '@skyux/data-manager';
 import { SkyCheckboxModule, SkyRadioModule } from '@skyux/forms';
 import { SkyHelpInlineModule, SkyIconModule } from '@skyux/indicators';
+import { SkyDropdownModule } from '@skyux/popovers';
 
 import { AgGridModule } from 'ag-grid-angular';
 
@@ -31,6 +32,7 @@ import { LocalStorageConfigService } from './local-storage-config.service';
     CommonModule,
     DataManagerLargeRoutingModule,
     SkyDataManagerModule,
+    SkyDropdownModule,
     SkyAgGridModule,
     SkyCheckboxModule,
     SkyIconModule,
