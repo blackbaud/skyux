@@ -202,7 +202,7 @@ jobs:
     name: Stop Nx Cloud agents
     runs-on: ubuntu-latest
     if: always()
-    needs: [lint, build, build-dist, coverage]
+    needs: [install-deps, lint, build, build-dist, coverage]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
