@@ -12,31 +12,31 @@ import { SkyPhoneFieldNumberReturnFormat } from '../types/number-return-format';
 export class PhoneFieldTestComponent {
   public allowExtensions = true;
 
-  public defaultCountry: string;
+  public defaultCountry: string | undefined;
 
   public isDisabled = false;
 
-  public modelValue: string;
+  public modelValue: string | undefined;
 
   public noValidate = false;
 
-  public returnFormat: SkyPhoneFieldNumberReturnFormat;
+  public returnFormat: SkyPhoneFieldNumberReturnFormat | undefined;
 
-  public selectedCountry: SkyPhoneFieldCountry;
+  public selectedCountry: SkyPhoneFieldCountry | undefined;
 
   public showInvalidDirective = false;
 
-  public supportedCountryISOs: string[];
+  public supportedCountryISOs: string[] | undefined;
 
   @ViewChild(SkyPhoneFieldInputDirective, {
     read: SkyPhoneFieldInputDirective,
     static: false,
   })
-  public inputDirective: SkyPhoneFieldInputDirective;
+  public inputDirective: SkyPhoneFieldInputDirective | undefined;
 
   @ViewChild(SkyPhoneFieldComponent, {
     read: SkyPhoneFieldComponent,
     static: false,
   })
-  public phoneFieldComponent: SkyPhoneFieldComponent;
+  public phoneFieldComponent: SkyPhoneFieldComponent | undefined;
 }

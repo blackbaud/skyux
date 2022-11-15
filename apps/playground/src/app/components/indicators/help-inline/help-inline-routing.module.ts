@@ -3,16 +3,16 @@ import { RouterModule } from '@angular/router';
 
 import { ComponentRouteInfo } from '../../../shared/component-info/component-route-info';
 
-import { BoxComponent } from './box.component';
+import { HelpInlineComponent } from './help-inline.component';
 
 const routes: ComponentRouteInfo[] = [
   {
     path: '',
-    component: BoxComponent,
+    component: HelpInlineComponent,
     data: {
-      name: 'Box',
-      icon: 'square-o',
-      library: 'layout',
+      name: 'Help inline',
+      icon: 'question',
+      library: 'indicators',
     },
   },
 ];
@@ -21,6 +21,6 @@ const routes: ComponentRouteInfo[] = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class BoxRoutingModule {
+export class HelpInlineRoutingModule {
   public static routes = routes;
 }
