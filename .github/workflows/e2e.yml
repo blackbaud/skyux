@@ -31,7 +31,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '16.18.1'
-          cache: 'npm'
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
       - name: Cache dependencies
@@ -40,14 +39,12 @@ jobs:
         with:
           path: |
             node_modules
-            !node_modules\.cache\nx
             C:\Users\runneradmin\AppData\Local\Cypress\Cache
           key: cache-pr-preview_node16.18.1_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: npm install
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        id: setSHAs
         uses: nrwl/nx-set-shas@v3
       - name: Set workflow parameters
         id: parameters
@@ -102,17 +99,11 @@ jobs:
         with:
           path: |
             node_modules
-            !node_modules\.cache\nx
             C:\Users\runneradmin\AppData\Local\Cypress\Cache
           key: cache-pr-preview_node16.18.1_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
         if: ${{ matrix.project != 'skip' }}
       - name: Build ${{ matrix.project }}
-        # https://github.com/actions/github-script
-        uses: actions/github-script@v6
-        with:
-          # Uses https://github.com/actions/toolkit
-          script: |
-            await exec.exec('npx nx run', ['${{ matrix.project }}:build-storybook:ci']);
+        run: npx nx run ${{ matrix.project }}:build-storybook:ci
         if: ${{ matrix.project != 'skip' }}
       - name: Upload storybook artifact
         uses: actions/upload-artifact@v3
@@ -157,7 +148,6 @@ jobs:
         with:
           path: |
             node_modules
-            !node_modules\.cache\nx
             C:\Users\runneradmin\AppData\Local\Cypress\Cache
           key: cache-pr-preview_node16.18.1_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
         if: ${{ github.event_name == 'pull_request' }}
@@ -201,7 +191,6 @@ jobs:
         with:
           path: |
             node_modules
-            !node_modules\.cache\nx
             C:\Users\runneradmin\AppData\Local\Cypress\Cache
           key: cache-pr-preview_node16.18.1_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: Download artifacts
@@ -272,7 +261,6 @@ jobs:
         with:
           path: |
             node_modules
-            !node_modules\.cache\nx
             C:\Users\runneradmin\AppData\Local\Cypress\Cache
           key: cache-pr-preview_node16.18.1_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: Verify Cypress
