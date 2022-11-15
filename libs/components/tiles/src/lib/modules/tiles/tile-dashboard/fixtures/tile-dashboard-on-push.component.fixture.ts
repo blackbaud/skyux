@@ -19,7 +19,7 @@ export class TileDashboardOnPushTestComponent {
     read: SkyTileDashboardComponent,
     static: false,
   })
-  public dashboardComponent: SkyTileDashboardComponent;
+  public dashboardComponent!: SkyTileDashboardComponent;
 
   public dashboardConfig: SkyTileDashboardConfig;
 

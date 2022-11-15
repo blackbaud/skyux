@@ -1,3 +1,3 @@
 export class TileTestContext {
-  public id: string;
+  public id: string | undefined;
 }
