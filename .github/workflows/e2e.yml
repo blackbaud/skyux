@@ -23,14 +23,16 @@ jobs:
     name: Install and cache dependencies
     runs-on: windows-latest
     outputs:
+      node-version: ${{ steps.setup-node.outputs.node-version }}
       parameters: ${{ steps.parameters.outputs.parameters }}
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - uses: actions/setup-node@v3
+        id: setup-node
         with:
-          node-version: '16.18.1'
+          node-version-file: '.nvmrc'
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
       - name: Cache dependencies
@@ -40,7 +42,7 @@ jobs:
           path: |
             node_modules
             C:\Users\runneradmin\AppData\Local\Cypress\Cache
-          key: cache-pr-preview_node16.18.1_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: npm install
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
@@ -89,7 +91,7 @@ jobs:
         if: ${{ matrix.project != 'skip' }}
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.18.1'
+          node-version-file: '.nvmrc'
         if: ${{ matrix.project != 'skip' }}
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
@@ -100,7 +102,7 @@ jobs:
           path: |
             node_modules
             C:\Users\runneradmin\AppData\Local\Cypress\Cache
-          key: cache-pr-preview_node16.18.1_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
         if: ${{ matrix.project != 'skip' }}
       - name: Build ${{ matrix.project }}
         run: npx nx run ${{ matrix.project }}:build-storybook:ci
@@ -138,7 +140,7 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.18.1'
+          node-version-file: '.nvmrc'
         if: ${{ github.event_name == 'pull_request' }}
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
@@ -149,7 +151,7 @@ jobs:
           path: |
             node_modules
             C:\Users\runneradmin\AppData\Local\Cypress\Cache
-          key: cache-pr-preview_node16.18.1_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
         if: ${{ github.event_name == 'pull_request' }}
       - name: Build ${{ matrix.app }}
         run: |
@@ -183,7 +185,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.18.1'
+          node-version-file: '.nvmrc'
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
       - name: Retrieve dependencies cache
@@ -192,7 +194,7 @@ jobs:
           path: |
             node_modules
             C:\Users\runneradmin\AppData\Local\Cypress\Cache
-          key: cache-pr-preview_node16.18.1_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -253,7 +255,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.18.1'
+          node-version-file: '.nvmrc'
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
       - name: Retrieve dependencies cache
@@ -262,7 +264,7 @@ jobs:
           path: |
             node_modules
             C:\Users\runneradmin\AppData\Local\Cypress\Cache
-          key: cache-pr-preview_node16.18.1_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Verify Cypress
         run: npx cypress verify
       - name: Percy ${{ matrix.project }}

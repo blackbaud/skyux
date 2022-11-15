@@ -1,10 +1,4 @@
-import {
-  Component,
-  ComponentFactoryResolver,
-  Injector,
-  ViewChild,
-  ViewContainerRef,
-} from '@angular/core';
+import { Component, ElementRef, Injector, ViewChild } from '@angular/core';
 
 import { SkyTileDashboardService } from '../tile-dashboard/tile-dashboard.service';
 
@@ -24,20 +18,21 @@ export class SkyTileDashboardColumnComponent {
   public columnId: string;
 
   @ViewChild('content', {
-    read: ViewContainerRef,
+    read: ElementRef,
     static: false,
   })
-  public content: ViewContainerRef;
+  public content: ElementRef | undefined;
+
+  #dashboardService: SkyTileDashboardService;
 
   constructor(
-    public resolver: ComponentFactoryResolver,
     public injector: Injector,
-    private dashboardService: SkyTileDashboardService
+    dashboardService: SkyTileDashboardService
   ) {
-    columnIdIndex++;
+    this.#dashboardService = dashboardService;
 
-    this.columnId = 'tile-dashboard-column-' + columnIdIndex;
+    this.columnId = `tile-dashboard-column-${++columnIdIndex}`;
 
-    this.bagId = this.dashboardService.bagId;
+    this.bagId = this.#dashboardService.bagId;
   }
 }

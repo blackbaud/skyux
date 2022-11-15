@@ -20,9 +20,9 @@ export class Tile2TestComponent {
     read: SkyTileComponent,
     static: false,
   })
-  public tile: SkyTileComponent;
+  public tile!: SkyTileComponent;
 
   constructor(@Optional() public context: TileTestContext) {}
 
-  public tileSettingsClick() {}
+  public tileSettingsClick(): void {}
 }

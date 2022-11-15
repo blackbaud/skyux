@@ -8,19 +8,19 @@ import { SkyTileComponent } from '../tile.component';
 })
 export class TileTestComponent {
   @ViewChild(SkyTileComponent)
-  public tileComponent: SkyTileComponent;
+  public tileComponent!: SkyTileComponent;
 
   public collapsedOutputCalled = false;
 
   public tileIsCollapsed = false;
 
-  public tileName = 'test';
+  public tileName: any = 'test';
 
-  public tileSettingsClick() {}
+  public tileSettingsClick(): void {}
 
-  public tileHelpClick() {}
+  public tileHelpClick(): void {}
 
-  public collapsedStateCallback(isCollapsed: boolean) {
+  public collapsedStateCallback(isCollapsed: boolean): void {
     this.collapsedOutputCalled = isCollapsed;
   }
 }
