@@ -21,7 +21,7 @@
     "dev:pristine": "skyux-dev pristine-commit"
   },
   "engines": {
-    "node": "^16.18.0",
+    "node": "^16.18.1",
     "npm": "^8.19.2"
   },
   "config": {
@@ -134,7 +134,7 @@
     "@nrwl/js": "14.7.6",
     "@nrwl/linter": "14.7.6",
     "@nrwl/node": "14.7.6",
-    "@nrwl/nx-cloud": "14.6.2",
+    "@nrwl/nx-cloud": "14.7.0",
     "@nrwl/nx-plugin": "14.7.6",
     "@nrwl/storybook": "14.7.6",
     "@nrwl/workspace": "14.7.6",
