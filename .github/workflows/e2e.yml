@@ -36,7 +36,9 @@ jobs:
         id: cache
         uses: actions/cache@v3
         with:
-          path: node_modules
+          path: |
+            node_modules
+            C:\Users\runneradmin\AppData\Local\Cypress\Cache
           key: cache-pr-preview_node16.18.1_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: npm install
         if: steps.cache.outputs.cache-hit != 'true'
@@ -94,7 +96,9 @@ jobs:
       - name: Retrieve dependencies cache
         uses: actions/cache@v3
         with:
-          path: node_modules
+          path: |
+            node_modules
+            C:\Users\runneradmin\AppData\Local\Cypress\Cache
           key: cache-pr-preview_node16.18.1_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
         if: ${{ matrix.project != 'skip' }}
       - name: Build ${{ matrix.project }}
@@ -141,7 +145,9 @@ jobs:
       - name: Retrieve dependencies cache
         uses: actions/cache@v3
         with:
-          path: node_modules
+          path: |
+            node_modules
+            C:\Users\runneradmin\AppData\Local\Cypress\Cache
           key: cache-pr-preview_node16.18.1_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
         if: ${{ github.event_name == 'pull_request' }}
       - name: Build ${{ matrix.app }}
@@ -182,7 +188,9 @@ jobs:
       - name: Retrieve dependencies cache
         uses: actions/cache@v3
         with:
-          path: node_modules
+          path: |
+            node_modules
+            C:\Users\runneradmin\AppData\Local\Cypress\Cache
           key: cache-pr-preview_node16.18.1_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: Download artifacts
         uses: actions/download-artifact@v3
@@ -250,7 +258,9 @@ jobs:
       - name: Retrieve dependencies cache
         uses: actions/cache@v3
         with:
-          path: node_modules
+          path: |
+            node_modules
+            C:\Users\runneradmin\AppData\Local\Cypress\Cache
           key: cache-pr-preview_node16.18.1_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: Percy ${{ matrix.project }}
         # Timing setting recommended by https://docs.percy.io/docs/cypress#missing-assets

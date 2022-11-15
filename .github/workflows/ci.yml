@@ -112,7 +112,7 @@ jobs:
       - name: Check code formatting
         run: npx prettier --check .
       - name: Run lint
-        run: npx nx affected:lint --quiet --silent --parallel=5
+        run: npx nx affected:lint --quiet --silent --parallel=3
 
   build:
     name: Build
@@ -140,7 +140,7 @@ jobs:
       - name: Run NGCC
         run: npx ngcc
       - name: Build
-        run: npx nx affected --target=build --parallel=5
+        run: npx nx affected --target=build --parallel=3
 
   build-dist:
     name: Build packages distribution
@@ -192,8 +192,8 @@ jobs:
         run: npx ngcc
       - name: Code coverage
         run: |
-          npx nx affected --target=test --browsers=ChromeHeadless --code-coverage --parallel=5 --progress=false --source-map --watch=false
-          npx nx affected --target=posttest --browsers=ChromeHeadless --parallel=5 --watch=false
+          npx nx affected --target=test --browsers=ChromeHeadless --code-coverage --parallel=3 --progress=false --source-map --watch=false
+          npx nx affected --target=posttest --browsers=ChromeHeadless --parallel=3 --watch=false
 
   stop-agents:
     name: Stop Nx Cloud agents
