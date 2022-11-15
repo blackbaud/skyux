@@ -31,7 +31,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '16.18.1'
-          cache: 'npm'
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
       - name: Cache dependencies
@@ -47,7 +46,6 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        id: setSHAs
         uses: nrwl/nx-set-shas@v3
       - name: Set workflow parameters
         id: parameters
@@ -88,7 +86,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          fetch-depth: 1
         if: ${{ matrix.project != 'skip' }}
       - uses: actions/setup-node@v3
         with:
@@ -143,7 +141,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          fetch-depth: 1
         if: ${{ github.event_name == 'pull_request' }}
       - uses: actions/setup-node@v3
         with:
@@ -190,7 +188,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          fetch-depth: 1
       - uses: actions/setup-node@v3
         with:
           node-version: '16.18.1'
@@ -261,7 +259,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          fetch-depth: 1
       - uses: actions/setup-node@v3
         with:
           node-version: '16.18.1'
