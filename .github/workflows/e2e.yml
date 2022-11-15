@@ -29,9 +29,9 @@ jobs:
         with:
           fetch-depth: 0
       - uses: actions/setup-node@v3
+        id: node
         with:
           node-version: '16.18.1'
-          cache: 'npm'
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
       - name: Cache dependencies
@@ -42,7 +42,7 @@ jobs:
             node_modules
             !node_modules\.cache\nx
             C:\Users\runneradmin\AppData\Local\Cypress\Cache
-          key: cache-pr-preview_node16.18.1_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: cache-pr-preview-node-${{ steps.node.outputs.node-version }}-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: npm install
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
@@ -91,6 +91,7 @@ jobs:
           fetch-depth: 0
         if: ${{ matrix.project != 'skip' }}
       - uses: actions/setup-node@v3
+        id: node
         with:
           node-version: '16.18.1'
         if: ${{ matrix.project != 'skip' }}
@@ -104,7 +105,7 @@ jobs:
             node_modules
             !node_modules\.cache\nx
             C:\Users\runneradmin\AppData\Local\Cypress\Cache
-          key: cache-pr-preview_node16.18.1_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: cache-pr-preview-node-${{ steps.node.outputs.node-version }}-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
         if: ${{ matrix.project != 'skip' }}
       - name: Build ${{ matrix.project }}
         # https://github.com/actions/github-script
@@ -146,6 +147,7 @@ jobs:
           fetch-depth: 0
         if: ${{ github.event_name == 'pull_request' }}
       - uses: actions/setup-node@v3
+        id: node
         with:
           node-version: '16.18.1'
         if: ${{ github.event_name == 'pull_request' }}
@@ -159,7 +161,7 @@ jobs:
             node_modules
             !node_modules\.cache\nx
             C:\Users\runneradmin\AppData\Local\Cypress\Cache
-          key: cache-pr-preview_node16.18.1_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: cache-pr-preview-node-${{ steps.node.outputs.node-version }}-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
         if: ${{ github.event_name == 'pull_request' }}
       - name: Build ${{ matrix.app }}
         # https://github.com/actions/github-script
@@ -201,6 +203,7 @@ jobs:
         with:
           fetch-depth: 0
       - uses: actions/setup-node@v3
+        id: node
         with:
           node-version: '16.18.1'
       - name: Rebase current branch
@@ -212,7 +215,7 @@ jobs:
             node_modules
             !node_modules\.cache\nx
             C:\Users\runneradmin\AppData\Local\Cypress\Cache
-          key: cache-pr-preview_node16.18.1_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: cache-pr-preview-node-${{ steps.node.outputs.node-version }}-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -277,6 +280,7 @@ jobs:
         with:
           fetch-depth: 0
       - uses: actions/setup-node@v3
+        id: node
         with:
           node-version: '16.18.1'
       - name: Rebase current branch
@@ -288,7 +292,7 @@ jobs:
             node_modules
             !node_modules\.cache\nx
             C:\Users\runneradmin\AppData\Local\Cypress\Cache
-          key: cache-pr-preview_node16.18.1_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: cache-pr-preview-node-${{ steps.node.outputs.node-version }}-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: Verify Cypress
         run: npx cypress verify
       - name: Percy ${{ matrix.project }}
