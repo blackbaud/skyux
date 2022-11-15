@@ -7,14 +7,10 @@ describe('ag-grid-storybook', () => {
         cy.viewport(1300, 1200).visit(
           `/iframe.html?globals=theme:${theme}&id=dataentrygridcomponent-dataentrygrid--data-entry-grid-date-and-lookup`
         );
-        cy.waitForFaAndBbFonts();
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.get('#ready')
           .should('exist')
           .end()
-
-          // Verify that fonts are loaded.
-          .waitForFaAndBbFonts()
 
           // Activate a lookup field.
           .get('#editLookup div[row-id="alexape01"] > div[col-id="name"]')
@@ -85,15 +81,11 @@ describe('ag-grid-storybook', () => {
         cy.viewport(1300, 1200).visit(
           `/iframe.html?globals=theme:${theme}&id=dataentrygridcomponent-dataentrygrid--data-entry-grid-edit-lookup`
         );
-        cy.waitForFaAndBbFonts();
         // Briefly wait between arrowing down.
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.get('#ready')
           .should('exist')
           .end()
-
-          // Verify that fonts are loaded.
-          .waitForFaAndBbFonts()
 
           // Activate a text field.
           .get('#editText div[row-id="benchjo01"] > div[col-id="name"]')
