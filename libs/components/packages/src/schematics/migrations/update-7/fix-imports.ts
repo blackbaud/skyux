@@ -6,10 +6,9 @@ import * as path from 'path';
 
 import { getWorkspace } from '../../utility/workspace';
 
-const CORE_JS_UNNECESSARY =
-  /import \{ (Object|Date|setTimeout) } from 'core-js';\r?\n/;
+const CORE_JS_UNNECESSARY = /imp[o]rt \{[^}]+} from 'core-js';\r?\n/;
 const CORE_JS_OBJECT_VALUES =
-  /import values from 'core-js\/features\/object\/values';\r?\n/;
+  /imp[o]rt values from 'core-js\/features\/object\/values';\r?\n/;
 const CORE_JS_OBJECT_VALUES_REQUIRE = `require('core-js/library/fn/object/values')`;
 
 function findChangesForLocalImports(
@@ -126,7 +125,7 @@ function findChangesForCoreJs(
     });
   }
 
-  // Comment out polyfill core-js imports like `import 'core-js/es6';` or `import 'core-js/es7/reflect';`.
+  // Comment out polyfill core-js imports like `'core-js/es6';` or `'core-js/es7/reflect';`.
   coreJsImportDeclarations
     .filter((importDeclaration) => !importDeclaration.importClause)
     .forEach((importDeclaration) => {
@@ -220,7 +219,7 @@ async function visitTypescriptFiles(
     context.logger.debug(
       `Looking for typescript files in project ${projectName}...`
     );
-    tree.getDir(project.root).visit((filePath) => {
+    tree.getDir(project.sourceRoot || project.root).visit((filePath) => {
       if (filePath.endsWith('.ts') && !filePath.includes('node_modules')) {
         updateTypescriptImportsAndExports(filePath, tree, context);
       }

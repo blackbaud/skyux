@@ -2,6 +2,8 @@ import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 
 import { createTestApp } from '../../testing/scaffold';
 
+const IMPORT = `import`;
+
 describe('fix imports', () => {
   const runner = new SchematicTestRunner(
     'schematics',
@@ -28,6 +30,11 @@ describe('fix imports', () => {
 
   it('should update import paths with backslashes', async () => {
     const { tree, runSchematicAsync } = await setupTest();
+    const angularJson = tree.readJson('angular.json') as { projects: any };
+    expect(angularJson).toHaveProperty('projects.my-app.sourceRoot');
+    const project = angularJson.projects['my-app'];
+    delete project.sourceRoot;
+    tree.overwrite('angular.json', JSON.stringify(angularJson));
     tree.create('/src/windows.ts', "import { A } from '.\\a';");
     tree.create('/src/a.ts', `export class A {}`);
     await runSchematicAsync();
@@ -86,8 +93,8 @@ describe('fix imports', () => {
     const { tree, runSchematicAsync } = await setupTest();
     tree.create(
       '/src/mod.ts',
-      `import { setTimeout } from 'core-js';
-      import values from 'core-js/features/object/values';
+      `${IMPORT} { setTimeout } from 'core-js';
+      ${IMPORT} values from 'core-js/features/object/values';
 
       const corejs = {
         values: values,
@@ -101,10 +108,10 @@ describe('fix imports', () => {
       [
         `// This is a polyfill for IE11.`,
         ``,
-        `import 'core-js/es6';`,
-        `import 'core-js/es7/reflect';`,
-        `import 'zone.js/dist/zone';`,
-        `import 'ts-helpers';`,
+        `${IMPORT} 'core-js/es6';`,
+        `${IMPORT} 'core-js/es7/reflect';`,
+        `${IMPORT} 'zone.js/dist/zone';`,
+        `${IMPORT} 'ts-helpers';`,
         ``,
         `// Add global to window, assigning the value of window itself.`,
         `(window as any).global = window;`,
@@ -123,10 +130,10 @@ describe('fix imports', () => {
       [
         `// This is a polyfill for IE11.`,
         ``,
-        `// import 'core-js/es6';`,
-        `// import 'core-js/es7/reflect';`,
-        `import 'zone.js/dist/zone';`,
-        `import 'ts-helpers';`,
+        `// ${IMPORT} 'core-js/es6';`,
+        `// ${IMPORT} 'core-js/es7/reflect';`,
+        `${IMPORT} 'zone.js/dist/zone';`,
+        `${IMPORT} 'ts-helpers';`,
         ``,
         `// Add global to window, assigning the value of window itself.`,
         `(window as any).global = window;`,
