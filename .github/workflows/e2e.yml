@@ -112,7 +112,7 @@ jobs:
         with:
           # Uses https://github.com/actions/toolkit
           script: |
-            await exec.exec('npx nx run', ['${{ matrix.project }}:build-storybook:ci']);
+            await exec.exec('npx nx run', ['${{ matrix.project }}:build-storybook:ci', '--verbose']);
         if: ${{ matrix.project != 'skip' }}
       - name: Upload storybook artifact
         uses: actions/upload-artifact@v3
@@ -163,7 +163,7 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
       - name: Build ${{ matrix.app }}
         run: |
-          npx nx build ${{ matrix.app }} --baseHref="https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/${{ matrix.app }}/"
+          npx nx build ${{ matrix.app }} --baseHref="https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/${{ matrix.app }}/" --verbose
         if: ${{ github.event_name == 'pull_request' && matrix.app != 'dep-graph' }}
       - name: Build ${{ matrix.app }}
         run: npx nx dep-graph --file=dist/apps/dep-graph/index.html
