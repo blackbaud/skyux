@@ -38,6 +38,7 @@ jobs:
         with:
           path: |
             node_modules
+            /home/runner/.cache/Cypress/10.7.0/Cypress/Cypress
           key: ${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: npm install
         if: steps.cache.outputs.cache-hit != 'true'
@@ -97,6 +98,7 @@ jobs:
         with:
           path: |
             node_modules
+            /home/runner/.cache/Cypress/10.7.0/Cypress/Cypress
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
         if: ${{ matrix.project != 'skip' }}
       - name: Build ${{ matrix.project }}
@@ -145,6 +147,7 @@ jobs:
         with:
           path: |
             node_modules
+            /home/runner/.cache/Cypress/10.7.0/Cypress/Cypress
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
         if: ${{ github.event_name == 'pull_request' }}
       - name: Build ${{ matrix.app }}
@@ -187,6 +190,7 @@ jobs:
         with:
           path: |
             node_modules
+            /home/runner/.cache/Cypress/10.7.0/Cypress/Cypress
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Download artifacts
         uses: actions/download-artifact@v3
@@ -256,6 +260,7 @@ jobs:
         with:
           path: |
             node_modules
+            /home/runner/.cache/Cypress/10.7.0/Cypress/Cypress
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Verify Cypress
         run: npx cypress verify
