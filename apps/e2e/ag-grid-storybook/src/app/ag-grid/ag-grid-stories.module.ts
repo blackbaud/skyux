@@ -9,7 +9,6 @@ import { SkyThemeModule, SkyThemeService } from '@skyux/theme';
 
 import { AgGridModule } from 'ag-grid-angular';
 
-import { FontLoadingModule } from '../shared/font-loading/font-loading.module';
 import { InlineHelpModule } from '../shared/inline-help/inline-help.module';
 
 import { AgGridStoriesComponent } from './ag-grid-stories.component';
@@ -28,7 +27,6 @@ const routes: Routes = [{ path: '', component: AgGridStoriesComponent }];
     SkyBackToTopModule,
     SkyThemeModule,
     PreviewWrapperModule,
-    FontLoadingModule,
   ],
   providers: [SkyThemeService],
   exports: [AgGridStoriesComponent, ContextMenuComponent],
