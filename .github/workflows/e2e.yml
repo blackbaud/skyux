@@ -7,6 +7,7 @@ on:
   pull_request:
 
 env:
+  CYPRESS_VERIFY_TIMEOUT: 120000
   GH_PAGES_OWNER: blackbaud
   PERCY_BROWSER_EXECUTABLE: C:\Program Files\Google\Chrome\Application\chrome.exe
   PUPPETEER_EXECUTABLE_PATH: C:\Program Files\Google\Chrome\Application\chrome.exe
@@ -262,6 +263,8 @@ jobs:
             node_modules
             C:\Users\runneradmin\AppData\Local\Cypress\Cache
           key: cache-pr-preview_node16.18.1_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+      - name: Verify Cypress
+        run: npx cypress verify
       - name: Percy ${{ matrix.project }}
         # Timing setting recommended by https://docs.percy.io/docs/cypress#missing-assets
         run: npx percy exec -t 350 -- nx e2e ${{ matrix.project }}-e2e --skip-nx-cache
