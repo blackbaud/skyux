@@ -117,7 +117,7 @@ jobs:
 
   build-apps:
     name: Build Apps
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: install-deps
     strategy:
       # If one build fails, do not cancel other builds.
@@ -168,7 +168,7 @@ jobs:
 
   publish:
     name: Publish
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs:
       - install-deps
       - build-storybook
@@ -235,7 +235,7 @@ jobs:
 
   e2e:
     name: End to end tests
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: install-deps
     if: ${{ fromJson(needs.install-deps.outputs.parameters).projectsJson != '[]' }}
     strategy:
