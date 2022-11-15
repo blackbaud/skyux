@@ -39,7 +39,7 @@ jobs:
           path: |
             node_modules
             /home/runner/.cache/Cypress/10.7.0/Cypress/Cypress
-          key: ${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
+          key: e2e-${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: npm install
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
@@ -99,7 +99,7 @@ jobs:
           path: |
             node_modules
             /home/runner/.cache/Cypress/10.7.0/Cypress/Cypress
-          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
+          key: e2e-${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
         if: ${{ matrix.project != 'skip' }}
       - name: Build ${{ matrix.project }}
         run: npx nx run ${{ matrix.project }}:build-storybook:ci
@@ -148,7 +148,7 @@ jobs:
           path: |
             node_modules
             /home/runner/.cache/Cypress/10.7.0/Cypress/Cypress
-          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
+          key: e2e-${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
         if: ${{ github.event_name == 'pull_request' }}
       - name: Build ${{ matrix.app }}
         run: |
@@ -191,7 +191,7 @@ jobs:
           path: |
             node_modules
             /home/runner/.cache/Cypress/10.7.0/Cypress/Cypress
-          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
+          key: e2e-${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -261,7 +261,7 @@ jobs:
           path: |
             node_modules
             /home/runner/.cache/Cypress/10.7.0/Cypress/Cypress
-          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
+          key: e2e-${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Verify Cypress
         run: npx cypress verify
       - name: Percy ${{ matrix.project }}
