@@ -12,7 +12,7 @@ export class MockTileDashboardService {
 
   public ready = new EventEmitter<SkyTileDashboardConfig>();
 
-  public config: SkyTileDashboardConfig;
+  public config!: SkyTileDashboardConfig;
 
   public configChange = new EventEmitter<SkyTileDashboardConfig>();
 
@@ -21,7 +21,7 @@ export class MockTileDashboardService {
     columns?: QueryList<SkyTileDashboardColumnComponent>,
     singleColumn?: SkyTileDashboardColumnComponent,
     settingsKey?: string
-  ) {
+  ): void {
     this.config = config;
   }
 
