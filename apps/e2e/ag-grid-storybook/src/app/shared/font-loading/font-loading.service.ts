@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { text } from '@blackbaud/skyux-design-tokens/json/design-tokens.json';
+import design from '@blackbaud/skyux-design-tokens/json/design-tokens.json';
 
 import FontFaceObserver from 'fontfaceobserver';
 import { Observable, from } from 'rxjs';
@@ -11,11 +11,11 @@ import { map } from 'rxjs/operators';
 export class FontLoadingService {
   public ready(): Observable<boolean> {
     const fonts: FontFaceObserver[] = [
-      text.weight.light,
-      text.weight.regular,
-      text.weight.semibold,
-      text.weight.condensed.light,
-      text.weight.condensed.semibold,
+      design.text.weight.light,
+      design.text.weight.regular,
+      design.text.weight.semibold,
+      design.text.weight.condensed.light,
+      design.text.weight.condensed.semibold,
     ].map(
       (weight) =>
         new FontFaceObserver(
