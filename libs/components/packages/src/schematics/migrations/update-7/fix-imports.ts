@@ -1,4 +1,4 @@
-import { Path, dirname, join, split } from '@angular-devkit/core';
+import { Path, dirname, join, normalize, split } from '@angular-devkit/core';
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import * as ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 
@@ -6,6 +6,7 @@ import * as path from 'path';
 
 import { getWorkspace } from '../../utility/workspace';
 
+// Obfuscate the import statement regexp to avoid flagging by the missing peer dependency check.
 const CORE_JS_UNNECESSARY = /imp[o]rt \{[^}]+} from 'core-js';\r?\n/;
 const CORE_JS_OBJECT_VALUES =
   /imp[o]rt values from 'core-js\/features\/object\/values';\r?\n/;
@@ -19,14 +20,22 @@ function findChangesForLocalImports(
 ): { find: string; replace: string }[] {
   const transformers: { find: string; replace: string }[] = [];
   localModulePaths.forEach((modulePath: string) => {
-    const absolutePath = path.normalize(
-      path.join(path.dirname(filePath), `${modulePath}.ts`.replace(/\\/g, '/'))
+    const endsWithSlash = !!modulePath.match(/[/\\]$/);
+    const normalizedModulePath = endsWithSlash
+      ? normalize(modulePath)
+      : normalize(modulePath + '.ts');
+    const absolutePath = normalize(
+      join(dirname(normalize(filePath)), normalizedModulePath)
+    );
+    context.logger.debug(
+      `Looking for local module ${modulePath} at ${absolutePath}...`
     );
     const pathFragments = split(absolutePath as Path).slice(1);
     const newPath: string[] = [];
     let dir = tree.root;
     // Walk the path fragments and check if the case is correct. This approach works on both case-sensitive and case-insensitive file systems.
-    for (const pathFragment of pathFragments) {
+    for (let i = 0; i < pathFragments.length; i++) {
+      const pathFragment = pathFragments[i];
       if (pathFragment.endsWith('.ts')) {
         if (dir.subfiles.includes(pathFragment)) {
           // File exists. We're done.
@@ -34,8 +43,8 @@ function findChangesForLocalImports(
           break;
         }
         // File does not exist. Try to find a file with the same name but different casing.
-        const matchingFile = dir.subfiles.find((subFile) =>
-          subFile.toLowerCase().includes(pathFragment.toLowerCase())
+        const matchingFile = dir.subfiles.find(
+          (subFile) => subFile.toLowerCase() === pathFragment.toLowerCase()
         );
         if (matchingFile) {
           // Found a matching file. Use it.
@@ -50,8 +59,8 @@ function findChangesForLocalImports(
           continue;
         }
         // Dir does not exist. Try to find a dir with the same name but different casing.
-        const matchingDir = dir.subdirs.find((subdir) =>
-          subdir.toLowerCase().includes(pathFragment.toLowerCase())
+        const matchingDir = dir.subdirs.find(
+          (subdir) => subdir.toLowerCase() === pathFragment.toLowerCase()
         );
         if (matchingDir) {
           // Found a matching dir. Use it.
@@ -70,6 +79,9 @@ function findChangesForLocalImports(
     );
     if (!newPathRelative.startsWith('.')) {
       newPathRelative = `./${newPathRelative}`;
+    }
+    if (endsWithSlash) {
+      newPathRelative = `${newPathRelative}/`;
     }
     if (newPathRelative !== modulePath) {
       context.logger.debug(

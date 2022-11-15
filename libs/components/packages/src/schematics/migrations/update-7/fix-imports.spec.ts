@@ -46,22 +46,41 @@ describe('fix imports', () => {
     tree.create(
       '/src/index.ts',
       `import { A } from './A';
+      import { Aaa } from './Aaa';
       import { C } from './path/c';
       import { D } from './Path/D';
+      import { Main } from './path/';
       import { NonExistent } from './non';
       export class B extends A {}`
     );
     tree.create('/src/a.ts', `export class A {}`);
+    tree.create('/src/aaa.ts', `export class Aaa {}`);
     tree.create('/src/Path/C.ts', `export class C {}`);
     tree.create('/src/Path/d.ts', `export class D {}`);
+    tree.create('/src/Path/index.ts', `export class Main {}`);
+    tree.create(
+      '/src/Path/With/Layers/e.ts',
+      `
+      import { Main } from '../../../path/';
+      import { C } from '../../c';
+      export class E extends Main {}
+    `
+    );
     await runSchematicAsync();
     expect(tree.readText('/src/index.ts')).toEqual(
       `import { A } from './a';
+      import { Aaa } from './aaa';
       import { C } from './Path/C';
       import { D } from './Path/d';
+      import { Main } from './Path/';
       import { NonExistent } from './non';
       export class B extends A {}`
     );
+    expect(tree.readText('/src/Path/With/Layers/e.ts')).toEqual(`
+      import { Main } from '../../';
+      import { C } from '../../C';
+      export class E extends Main {}
+    `);
   });
 
   it('should change export paths that are incorrect', async () => {
