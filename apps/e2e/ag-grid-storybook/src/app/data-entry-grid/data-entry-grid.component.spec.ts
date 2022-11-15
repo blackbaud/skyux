@@ -6,6 +6,7 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
+import FontFaceObserver from 'fontfaceobserver';
 import { BehaviorSubject } from 'rxjs';
 
 import { DataEntryGridComponent } from './data-entry-grid.component';
@@ -22,6 +23,10 @@ describe('DataEntryGridComponent', () => {
     (variation: 'date-and-lookup' | 'edit-lookup') => {
       describe(`variation: ${variation}`, () => {
         beforeEach(() => {
+          jest
+            .spyOn(FontFaceObserver.prototype, 'load')
+            .mockImplementation(() => Promise.resolve());
+
           mockThemeSvc = {
             settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
               currentSettings: {

@@ -6,6 +6,7 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
+import FontFaceObserver from 'fontfaceobserver';
 import { BehaviorSubject } from 'rxjs';
 
 import { AgGridStoriesComponent } from './ag-grid-stories.component';
@@ -19,6 +20,10 @@ describe('DataGridComponent', () => {
   };
 
   beforeEach(() => {
+    jest
+      .spyOn(FontFaceObserver.prototype, 'load')
+      .mockImplementation(() => Promise.resolve());
+
     mockThemeSvc = {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: {

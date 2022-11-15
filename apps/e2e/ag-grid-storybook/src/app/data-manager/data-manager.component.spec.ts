@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
+import FontFaceObserver from 'fontfaceobserver';
+
 import { DataManagerComponent } from './data-manager.component';
 import { DataManagerModule } from './data-manager.module';
 
@@ -9,6 +11,10 @@ describe('DataManagerComponent', () => {
   let fixture: ComponentFixture<DataManagerComponent>;
 
   beforeEach(() => {
+    jest
+      .spyOn(FontFaceObserver.prototype, 'load')
+      .mockImplementation(() => Promise.resolve());
+
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
       value: jest.fn().mockImplementation((query) => ({
