@@ -37,10 +37,7 @@ jobs:
         id: cache
         uses: actions/cache@v3
         with:
-          path: |
-            node_modules
-            !node_modules\.cache\nx
-            C:\Users\runneradmin\AppData\Local\Cypress\Cache
+          path: node_modules
           key: cache-pr-preview_node16.18.1_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: npm install
         if: steps.cache.outputs.cache-hit != 'true'
@@ -98,10 +95,7 @@ jobs:
       - name: Retrieve dependencies cache
         uses: actions/cache@v3
         with:
-          path: |
-            node_modules
-            !node_modules\.cache\nx
-            C:\Users\runneradmin\AppData\Local\Cypress\Cache
+          path: node_modules
           key: cache-pr-preview_node16.18.1_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
         if: ${{ matrix.project != 'skip' }}
       - name: Build ${{ matrix.project }}
@@ -148,10 +142,7 @@ jobs:
       - name: Retrieve dependencies cache
         uses: actions/cache@v3
         with:
-          path: |
-            node_modules
-            !node_modules\.cache\nx
-            C:\Users\runneradmin\AppData\Local\Cypress\Cache
+          path: node_modules
           key: cache-pr-preview_node16.18.1_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
         if: ${{ github.event_name == 'pull_request' }}
       - name: Build ${{ matrix.app }}
@@ -192,10 +183,7 @@ jobs:
       - name: Retrieve dependencies cache
         uses: actions/cache@v3
         with:
-          path: |
-            node_modules
-            !node_modules\.cache\nx
-            C:\Users\runneradmin\AppData\Local\Cypress\Cache
+          path: node_modules
           key: cache-pr-preview_node16.18.1_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: Download artifacts
         uses: actions/download-artifact@v3
@@ -263,10 +251,7 @@ jobs:
       - name: Retrieve dependencies cache
         uses: actions/cache@v3
         with:
-          path: |
-            node_modules
-            !node_modules\.cache\nx
-            C:\Users\runneradmin\AppData\Local\Cypress\Cache
+          path: node_modules
           key: cache-pr-preview_node16.18.1_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: Verify Cypress
         run: npx cypress verify
