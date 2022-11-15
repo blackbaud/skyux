@@ -25,7 +25,7 @@ jobs:
       - uses: actions/setup-node@v3
         id: setup-node
         with:
-          node-version-file: 'package.json'
+          node-version-file: '.nvmrc'
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
@@ -95,7 +95,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version-file: 'package.json'
+          node-version-file: '.nvmrc'
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
@@ -129,7 +129,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version-file: 'package.json'
+          node-version-file: '.nvmrc'
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
@@ -157,7 +157,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version-file: 'package.json'
+          node-version-file: '.nvmrc'
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
@@ -180,7 +180,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version-file: 'package.json'
+          node-version-file: '.nvmrc'
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
@@ -207,7 +207,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version-file: 'package.json'
+          node-version-file: '.nvmrc'
       - name: Retrieve node_modules cache
         uses: actions/cache@v3
         with:
