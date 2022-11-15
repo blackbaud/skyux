@@ -50,7 +50,7 @@ export class SkyTileDashboardService {
   #columns: QueryList<SkyTileDashboardColumnComponent> | undefined;
   #config: SkyTileDashboardConfig | undefined;
   #dragulaService: DragulaService;
-  #dynamicComponentService: SkyDynamicComponentService;
+  #dynamicComponentService: SkyDynamicComponentService | undefined;
   #mediaSubscription: Subscription | undefined;
   #mediaQuery: SkyMediaQueryService;
   #singleColumn: SkyTileDashboardColumnComponent | undefined;
@@ -72,7 +72,7 @@ export class SkyTileDashboardService {
     }
 
     this.#dragulaService = dragulaService;
-    this.#dynamicComponentService = dynamicComponentService!;
+    this.#dynamicComponentService = dynamicComponentService;
     this.#mediaQuery = mediaQuery;
     this.#uiConfigService = uiConfigService;
 
@@ -458,7 +458,7 @@ export class SkyTileDashboardService {
       const tile = this.#getTileOrRemoveFromLayout(layoutTile);
 
       /*istanbul ignore else */
-      if (tile) {
+      if (tile && this.#dynamicComponentService) {
         const componentType = tile.componentType;
         const providers = tile.providers /* istanbul ignore next */ || [];
 
