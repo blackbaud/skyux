@@ -31,9 +31,17 @@ export class SkyCharacterCounterInputDirective implements Validator {
    * `textarea` element.
    */
   @Input()
-  public skyCharacterCounterIndicator:
+  public get skyCharacterCounterIndicator():
     | SkyCharacterCounterIndicatorComponent
-    | undefined;
+    | undefined {
+    return this.#_skyCharacterCounterIndicator;
+  }
+  public set skyCharacterCounterIndicator(
+    value: SkyCharacterCounterIndicatorComponent | undefined
+  ) {
+    this.#_skyCharacterCounterIndicator = value;
+    this.#updateIndicatorLimit();
+  }
 
   /**
    * Specifies the maximum number of characters allowed in the input field. Place this directive
@@ -43,9 +51,12 @@ export class SkyCharacterCounterInputDirective implements Validator {
   @Input()
   public set skyCharacterCounterLimit(value: number | undefined) {
     this.#skyCharacterCounterLimitOrDefault = value ?? 0;
-    this.#updateIndicatorLimit(this.#skyCharacterCounterLimitOrDefault);
-    this.#validatorChange();
+    this.#updateIndicatorLimit();
   }
+
+  #_skyCharacterCounterIndicator:
+    | SkyCharacterCounterIndicatorComponent
+    | undefined;
 
   #skyCharacterCounterLimitOrDefault = 0;
 
@@ -82,12 +93,15 @@ export class SkyCharacterCounterInputDirective implements Validator {
     }
   }
 
-  #updateIndicatorLimit(limit: number): void {
+  #updateIndicatorLimit(): void {
     if (this.skyCharacterCounterIndicator) {
-      this.skyCharacterCounterIndicator.characterCountLimit = limit;
+      this.skyCharacterCounterIndicator.characterCountLimit =
+        this.#skyCharacterCounterLimitOrDefault;
     }
+
+    this.#validatorChange();
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  #validatorChange = () => {};
+  #validatorChange = (): void => {};
 }
