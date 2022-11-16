@@ -1,5 +1,6 @@
 name: Release Please
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -23,6 +24,7 @@ jobs:
           draft-pull-request: true
           include-v-in-tag: false
           token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
+      - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         id: setup-node
         with:
