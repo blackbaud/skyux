@@ -50,25 +50,10 @@ jobs:
         uses: nrwl/nx-set-shas@v3
       - name: Set workflow parameters
         id: parameters
-        # https://github.com/actions/github-script
-        uses: actions/github-script@v6
-        with:
-          # Uses https://github.com/actions/toolkit
-          script: |
-            const parameters = [];
-            await exec.exec(
-              'npx',
-              [
-                'skyux-dev',
-                'e2e-workflow'
-              ],
-              {
-                listeners: {
-                  stdout: (data) => parameters.push(data.toString())
-                }
-              }
-            );
-            core.setOutput('parameters', parameters.join(''));
+        shell: bash
+        run: |
+          echo -n parameters= >> $GITHUB_OUTPUT
+          npx skyux-dev e2e-workflow >> $GITHUB_OUTPUT
       - name: Show workflow parameters
         run: |
           echo 'Using workflow parameters:'
@@ -210,20 +195,11 @@ jobs:
             mv "./dist/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}/$app" "./dist/apps/$app"
           }
       - name: Generate Storybook Composition
-        # https://github.com/actions/github-script
-        uses: actions/github-script@v6
-        with:
-          # Uses https://github.com/actions/toolkit
-          script: |
-            await exec.exec('npx', [
-              'nx',
-              'g',
-              '@skyux-sdk/e2e-schematics:storybook-composition',
-              '--projectsJson',
-              '${{ fromJson(needs.install-deps.outputs.parameters).projectsJson }}',
-              '--baseUrl',
-              '../${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}'
-            ]);
+        shell: bash
+        run: |
+          npx nx g @skyux-sdk/e2e-schematics:storybook-composition \
+            --projectsJson='${{ fromJson(needs.install-deps.outputs.parameters).projectsJson }}' \
+            --baseUrl='../${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}'
       - name: Build Storybook Composition
         run: npx nx run storybook:build-storybook:ci --outputDir=dist/storybook
       - name: Checkout ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
