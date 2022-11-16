@@ -14,7 +14,6 @@ describe(`ag-grid-storybook data manager`, () => {
             cy.viewport(1300, 900).visit(
               `/iframe.html?globals=theme:${theme}&id=datamanagercomponent-datamanager--data-manager-${domLayout}`
             );
-            cy.waitForFaAndBbFonts();
           });
 
           it(`should render ag-grid with data manager, ${label} layout`, () => {
@@ -22,9 +21,6 @@ describe(`ag-grid-storybook data manager`, () => {
             cy.get('#ready')
               .should('exist')
               .end()
-
-              // Verify that fonts are loaded.
-              .waitForFaAndBbFonts()
 
               .get('#root')
               .should('exist')

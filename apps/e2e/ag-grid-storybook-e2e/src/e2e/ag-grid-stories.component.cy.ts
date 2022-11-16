@@ -7,16 +7,12 @@ describe(`ag-grid-storybook`, () => {
         cy.viewport(1300, 900).visit(
           `/iframe.html?globals=theme:${theme}&id=aggridstoriescomponent-aggridstories--ag-grid`
         );
-        cy.waitForBlackbaudSans();
       });
 
       it('should render the component', () => {
         cy.get('#ready')
           .should('exist')
           .end()
-
-          // Verify that fonts are loaded.
-          .waitForFaAndBbFonts()
 
           // The component has actions in ngAfterViewInit that scroll a grid to show back-to-top as well as activate a
           // validation popover. These assertions verify those have happened.
