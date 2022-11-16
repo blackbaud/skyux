@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.0.0-beta.15](https://github.com/blackbaud/skyux/compare/7.0.0-beta.14...7.0.0-beta.15) (2022-11-16)
+
+
+### Features
+
+* **components/popovers:** improve dropdown styling ([#818](https://github.com/blackbaud/skyux/issues/818)) ([da10e69](https://github.com/blackbaud/skyux/commit/da10e696d5b01d44df3f29d7b650d6f567703012))
+
 ## [7.0.0-beta.14](https://github.com/blackbaud/skyux/compare/7.0.0-beta.13...7.0.0-beta.14) (2022-11-15)
 
 
