@@ -59,7 +59,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
 
   /**
    * Specifies the type of button to render as the dropdown's trigger element. To display a button
-   * with text and a caret, specify `'select'` and then enter the button text in a
+   * with a caret, specify `'select'` and render the button text or icon in a
    * `sky-dropdown-button` element. To display a round button with an ellipsis, specify
    * `'context-menu'`.
    * @default "select"
