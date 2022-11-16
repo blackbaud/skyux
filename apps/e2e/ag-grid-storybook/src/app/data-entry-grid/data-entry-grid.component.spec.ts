@@ -6,8 +6,9 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import FontFaceObserver from 'fontfaceobserver';
 import { BehaviorSubject } from 'rxjs';
+
+import { FontLoadingTestingModule } from '../shared/font-loading/testing/font-loading-testing.module';
 
 import { DataEntryGridComponent } from './data-entry-grid.component';
 import { DataEntryGridModule } from './data-entry-grid.module';
@@ -23,10 +24,6 @@ describe('DataEntryGridComponent', () => {
     (variation: 'date-and-lookup' | 'edit-lookup') => {
       describe(`variation: ${variation}`, () => {
         beforeEach(() => {
-          jest
-            .spyOn(FontFaceObserver.prototype, 'load')
-            .mockImplementation(() => Promise.resolve());
-
           mockThemeSvc = {
             settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
               currentSettings: {
@@ -37,7 +34,7 @@ describe('DataEntryGridComponent', () => {
             }),
           };
           TestBed.configureTestingModule({
-            imports: [DataEntryGridModule],
+            imports: [DataEntryGridModule, FontLoadingTestingModule],
             providers: [
               {
                 provide: SkyThemeService,

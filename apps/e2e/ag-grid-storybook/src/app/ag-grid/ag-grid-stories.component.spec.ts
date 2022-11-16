@@ -6,8 +6,9 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import FontFaceObserver from 'fontfaceobserver';
 import { BehaviorSubject } from 'rxjs';
+
+import { FontLoadingTestingModule } from '../shared/font-loading/testing/font-loading-testing.module';
 
 import { AgGridStoriesComponent } from './ag-grid-stories.component';
 import { AgGridStoriesModule } from './ag-grid-stories.module';
@@ -20,10 +21,6 @@ describe('DataGridComponent', () => {
   };
 
   beforeEach(() => {
-    jest
-      .spyOn(FontFaceObserver.prototype, 'load')
-      .mockImplementation(() => Promise.resolve());
-
     mockThemeSvc = {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: {
@@ -34,7 +31,7 @@ describe('DataGridComponent', () => {
       }),
     };
     TestBed.configureTestingModule({
-      imports: [AgGridStoriesModule],
+      imports: [AgGridStoriesModule, FontLoadingTestingModule],
       providers: [
         {
           provide: SkyThemeService,
