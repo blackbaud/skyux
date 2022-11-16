@@ -1,5 +1,6 @@
 name: Release Please
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -17,12 +18,13 @@ jobs:
           package-name: 'skyux'
           pull-request-title-pattern: 'chore: release ${version}'
           labels: 'autorelease ${{ github.ref_name }}: pending'
-          release-as: 7.0.0-beta.14
+          release-as: 7.0.0-beta.15
           release-labels: 'autorelease ${{ github.ref_name }}: tagged'
           prerelease: true
           draft-pull-request: true
           include-v-in-tag: false
           token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
+      - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         id: setup-node
         with:

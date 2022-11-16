@@ -21,6 +21,7 @@ import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { delay, filter, map } from 'rxjs/operators';
 
 import { columnDefinitions, data } from '../shared/baseball-players-data';
+import { FontLoadingService } from '../shared/font-loading/font-loading.service';
 
 import { ContextMenuComponent } from './context-menu.component';
 
@@ -63,13 +64,15 @@ export class AgGridStoriesComponent
   readonly #dockService: SkyDockService;
   readonly #doc: Document;
   readonly #ngUnsubscribe: Subscription;
+  readonly #fontLoadingService: FontLoadingService;
 
   constructor(
     agGridService: SkyAgGridService,
     themeSvc: SkyThemeService,
     changeDetectorRef: ChangeDetectorRef,
     dockService: SkyDockService,
-    @Inject(DOCUMENT) doc: Document
+    @Inject(DOCUMENT) doc: Document,
+    fontLoadingService: FontLoadingService
   ) {
     this.#agGridService = agGridService;
     this.#themeSvc = themeSvc;
@@ -77,6 +80,7 @@ export class AgGridStoriesComponent
     this.#dockService = dockService;
     this.#doc = doc;
     this.#ngUnsubscribe = new Subscription();
+    this.#fontLoadingService = fontLoadingService;
   }
 
   public ngOnInit(): void {
@@ -91,6 +95,7 @@ export class AgGridStoriesComponent
       'theme',
       this.#themeSvc.settingsChange.pipe(map(() => true))
     );
+    this.#gridsReady.set('font', this.#fontLoadingService.ready());
     this.#ngUnsubscribe.add(
       this.#themeSvc.settingsChange.subscribe((settings) => {
         this.skyTheme = settings.currentSettings;

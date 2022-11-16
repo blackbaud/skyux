@@ -8,6 +8,8 @@ import {
 
 import { BehaviorSubject } from 'rxjs';
 
+import { FontLoadingTestingModule } from '../shared/font-loading/testing/font-loading-testing.module';
+
 import { DataEntryGridComponent } from './data-entry-grid.component';
 import { DataEntryGridModule } from './data-entry-grid.module';
 
@@ -32,7 +34,7 @@ describe('DataEntryGridComponent', () => {
             }),
           };
           TestBed.configureTestingModule({
-            imports: [DataEntryGridModule],
+            imports: [DataEntryGridModule, FontLoadingTestingModule],
             providers: [
               {
                 provide: SkyThemeService,

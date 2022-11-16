@@ -57,7 +57,8 @@
 
     & > a,
     & > button {
-      padding: $sky-theme-modern-padding-button-standard;
+      padding: $sky-padding $sky-padding-double;
+      border-radius: 6px;
       transition: box-shadow $sky-transition-time-short;
 
       &:hover {
