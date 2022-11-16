@@ -8,6 +8,11 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        id: setup-node
+        with:
+          node-version-file: '.nvmrc'
       - uses: google-github-actions/release-please-action@v3
         id: release
         with:
@@ -23,10 +28,6 @@ jobs:
           draft-pull-request: true
           include-v-in-tag: false
           token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
-      - uses: actions/setup-node@v3
-        id: setup-node
-        with:
-          node-version-file: '.nvmrc'
       # Workaround to avoid "Post Run actions/setup-node" failures.
       # See: https://github.com/actions/setup-node/issues/317
       - name: Ensure cache directory exists
