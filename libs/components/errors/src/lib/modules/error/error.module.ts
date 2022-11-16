@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { SkyIdModule } from '@skyux/core';
 import { SkyModalModule } from '@skyux/modals';
 
 import { SkyErrorsResourcesModule } from '../shared/sky-errors-resources.module';
@@ -20,7 +21,12 @@ import { SkyErrorComponent } from './error.component';
     SkyErrorActionComponent,
     SkyErrorModalFormComponent,
   ],
-  imports: [CommonModule, SkyErrorsResourcesModule, SkyModalModule],
+  imports: [
+    CommonModule,
+    SkyErrorsResourcesModule,
+    SkyIdModule,
+    SkyModalModule,
+  ],
   exports: [
     SkyErrorComponent,
     SkyErrorImageComponent,

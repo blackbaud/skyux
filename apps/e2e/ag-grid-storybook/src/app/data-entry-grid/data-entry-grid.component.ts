@@ -20,6 +20,7 @@ import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { delay, filter, map } from 'rxjs/operators';
 
 import { columnDefinitions, data } from '../shared/baseball-players-data';
+import { FontLoadingService } from '../shared/font-loading/font-loading.service';
 import { InlineHelpComponent } from '../shared/inline-help/inline-help.component';
 
 type DataSet = { id: string; data: any[] };
@@ -76,16 +77,19 @@ export class DataEntryGridComponent
   readonly #themeSvc: SkyThemeService;
   readonly #changeDetectorRef: ChangeDetectorRef;
   readonly #ngUnsubscribe: Subscription;
+  readonly #fontLoadingService: FontLoadingService;
 
   constructor(
     agGridService: SkyAgGridService,
     themeSvc: SkyThemeService,
-    changeDetectorRef: ChangeDetectorRef
+    changeDetectorRef: ChangeDetectorRef,
+    fontLoadingService: FontLoadingService
   ) {
     this.#agGridService = agGridService;
     this.#themeSvc = themeSvc;
     this.#changeDetectorRef = changeDetectorRef;
     this.#ngUnsubscribe = new Subscription();
+    this.#fontLoadingService = fontLoadingService;
   }
 
   public ngOnInit(): void {
@@ -105,6 +109,7 @@ export class DataEntryGridComponent
       'theme',
       this.#themeSvc.settingsChange.pipe(map(() => true))
     );
+    this.#gridsReady.set('font', this.#fontLoadingService.ready());
     this.#ngUnsubscribe.add(
       this.#themeSvc.settingsChange.subscribe((settings) => {
         if (settings.currentSettings.theme.name === 'modern') {

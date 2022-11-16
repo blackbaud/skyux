@@ -13,7 +13,7 @@ export class Tile1TestComponent {
     read: SkyTileComponent,
     static: false,
   })
-  public tile: SkyTileComponent;
+  public tile!: SkyTileComponent;
 
   public title = 'Tile 1';
 

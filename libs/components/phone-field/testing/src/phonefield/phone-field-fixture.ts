@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -15,21 +16,24 @@ export class SkyPhoneFieldFixture {
    * The value of the input field for the phone field.
    */
   public get inputText(): string {
-    return this.phoneFieldInput.value;
+    return this.#phoneFieldInput.value;
   }
 
   /**
-   * This property is lazy loaded and should be accessed via the private countryFixture property.
+   * This property is lazy loaded and should be accessed via the #getCountryFixture() function.
    */
-  private _countryFixture: SkyCountryFieldFixture;
+  #_countryFixture: SkyCountryFieldFixture | undefined;
 
-  private _debugEl: DebugElement;
+  #_debugEl: DebugElement;
 
-  constructor(
-    private fixture: ComponentFixture<any>,
-    private skyTestId: string
-  ) {
-    this._debugEl = SkyAppTestUtility.getDebugElementByTestId(
+  #fixture: ComponentFixture<unknown>;
+
+  #skyTestId: string;
+
+  constructor(fixture: ComponentFixture<unknown>, skyTestId: string) {
+    this.#fixture = fixture;
+    this.#skyTestId = skyTestId;
+    this.#_debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
       'sky-phone-field'
@@ -44,43 +48,43 @@ export class SkyPhoneFieldFixture {
    * Blurs the phone field input and returns a promise that indicates when the action is complete.
    */
   public async blur(): Promise<void> {
-    SkyAppTestUtility.fireDomEvent(this.phoneFieldInput, 'blur');
-    this.fixture.detectChanges();
-    return this.fixture.whenStable();
+    SkyAppTestUtility.fireDomEvent(this.#phoneFieldInput, 'blur');
+    this.#fixture.detectChanges();
+    return this.#fixture.whenStable();
   }
 
   /**
    * Returns the selected country iso2 code.
    */
-  public async getSelectedCountryIso2(): Promise<string> {
+  public async getSelectedCountryIso2(): Promise<string | null> {
     // Wait for the country field to initialize.
-    await this.fixture.whenStable();
-    return this.countryFlagButtonContainer.getAttribute('data-sky-test-iso2');
+    await this.#fixture.whenStable();
+    return this.#countryFlagButtonContainer.getAttribute('data-sky-test-iso2');
   }
 
   /**
    * Returns the selected country name.
    */
-  public async getSelectedCountryName(): Promise<string> {
+  public async getSelectedCountryName(): Promise<string | null> {
     // Wait for the country field to initialize.
-    await this.fixture.whenStable();
-    return this.countryFlagButtonContainer.getAttribute('data-sky-test-name');
+    await this.#fixture.whenStable();
+    return this.#countryFlagButtonContainer.getAttribute('data-sky-test-name');
   }
 
   /**
    * Sets the value of the input field for the phone field.
    */
   public async setInputText(inputText: string): Promise<void> {
-    const inputEl = this.phoneFieldInput;
+    const inputEl = this.#phoneFieldInput;
     inputEl.value = inputText;
 
     SkyAppTestUtility.fireDomEvent(inputEl, 'input');
-    this.fixture.detectChanges();
+    this.#fixture.detectChanges();
 
     SkyAppTestUtility.fireDomEvent(inputEl, 'change');
 
-    this.fixture.detectChanges();
-    return this.fixture.whenStable();
+    this.#fixture.detectChanges();
+    return this.#fixture.whenStable();
   }
 
   /**
@@ -89,12 +93,12 @@ export class SkyPhoneFieldFixture {
    * @returns The list of country names matching the search text.
    */
   public async searchCountry(searchText: string): Promise<string[]> {
-    await this.openCountrySelection();
+    await this.#openCountrySelection();
 
-    const countryFixture = await this.getCountryFixture();
+    const countryFixture = await this.#getCountryFixture();
     const results = await countryFixture.search(searchText);
 
-    await this.waitForCountrySelection();
+    await this.#waitForCountrySelection();
     return results;
   }
 
@@ -103,48 +107,45 @@ export class SkyPhoneFieldFixture {
    * @param searchText The name of the country to select.
    */
   public async selectCountry(searchText: string): Promise<void> {
-    await this.openCountrySelection();
+    await this.#openCountrySelection();
 
-    const countryFixture = await this.getCountryFixture();
+    const countryFixture = await this.#getCountryFixture();
     await countryFixture.searchAndSelectFirstResult(searchText);
 
-    return this.waitForCountrySelection();
+    return this.#waitForCountrySelection();
   }
 
   /**
    * Gets a boolean promise indicating if the phone field is disabled.
    */
   public async isDisabled(): Promise<boolean> {
-    const disabled = this.phoneFieldInput.getAttribute('disabled');
-    return this.coerceBooleanProperty(await disabled);
+    const disabled = this.#phoneFieldInput.getAttribute('disabled');
+    return coerceBooleanProperty(disabled);
   }
 
   /**
    * Gets a boolean promise indicating if the phone field is valid.
    */
   public async isValid(): Promise<boolean> {
-    if (!(await this.hasFormControl())) {
-      throw new Error(`Form control not found.`);
-    }
-    return this.phoneFieldInput.classList.contains('ng-valid');
+    return this.#phoneFieldInput.classList.contains('ng-valid');
   }
 
-  private get countryElement(): HTMLInputElement {
-    return this._debugEl.query(By.css('sky-country-field')).nativeElement;
+  get #countryElement(): HTMLInputElement {
+    return this.#_debugEl.query(By.css('sky-country-field')).nativeElement;
   }
 
-  private get countryFlagButtonContainer(): HTMLInputElement {
-    return this._debugEl.query(By.css('.sky-phone-field-country-btn'))
+  get #countryFlagButtonContainer(): HTMLInputElement {
+    return this.#_debugEl.query(By.css('.sky-phone-field-country-btn'))
       .nativeElement;
   }
 
-  private get countryFlagButton(): HTMLInputElement {
-    return this._debugEl.query(By.css('.sky-phone-field-country-btn .sky-btn'))
+  get #countryFlagButton(): HTMLInputElement {
+    return this.#_debugEl.query(By.css('.sky-phone-field-country-btn .sky-btn'))
       .nativeElement;
   }
 
-  private get phoneFieldInput(): HTMLInputElement {
-    return this._debugEl.query(By.css('input[skyPhoneFieldInput]'))
+  get #phoneFieldInput(): HTMLInputElement {
+    return this.#_debugEl.query(By.css('input[skyPhoneFieldInput]'))
       .nativeElement;
   }
 
@@ -153,56 +154,40 @@ export class SkyPhoneFieldFixture {
    * in our constructor, it's safest to do a lazy load of the country field to avoid any race
    * conditions where a test tries to access the sky-country-field element too quickly.
    */
-  private async getCountryFixture(): Promise<SkyCountryFieldFixture> {
-    if (this._countryFixture === undefined) {
+  async #getCountryFixture(): Promise<SkyCountryFieldFixture> {
+    if (this.#_countryFixture === undefined) {
       // tag the country field with a sky test id
-      const countrySkyTestId = `${this.skyTestId}-country`;
-      this.setSkyTestId(this.countryElement, countrySkyTestId);
+      const countrySkyTestId = `${this.#skyTestId}-country`;
+      this.#setSkyTestId(this.#countryElement, countrySkyTestId);
 
       // initialize the country fixture
-      this._countryFixture = new SkyCountryFieldFixture(
-        this.fixture,
+      this.#_countryFixture = new SkyCountryFieldFixture(
+        this.#fixture,
         countrySkyTestId
       );
 
-      this.fixture.detectChanges();
-      await this.fixture.whenStable();
+      this.#fixture.detectChanges();
+      await this.#fixture.whenStable();
     }
 
-    return this._countryFixture;
+    return this.#_countryFixture;
   }
 
-  private async openCountrySelection(): Promise<void> {
-    this.countryFlagButton.click();
-    return this.waitForCountrySelection();
+  async #openCountrySelection(): Promise<void> {
+    this.#countryFlagButton.click();
+    return this.#waitForCountrySelection();
   }
 
-  private setSkyTestId(element: HTMLElement, skyTestId: string): void {
+  #setSkyTestId(element: HTMLElement, skyTestId: string): void {
     element.setAttribute('data-sky-id', skyTestId);
   }
 
-  private async waitForCountrySelection(): Promise<void> {
+  async #waitForCountrySelection(): Promise<void> {
     // any country selection needs extra time to complete
-    this.fixture.detectChanges();
-    await this.fixture.whenStable();
+    this.#fixture.detectChanges();
+    await this.#fixture.whenStable();
 
-    this.fixture.detectChanges();
-    return this.fixture.whenStable();
-  }
-
-  /**
-   * Checks whether the form-field control has set up a form control.
-   */
-  private async hasFormControl(): Promise<boolean> {
-    // If no form "NgControl" is bound to the form-field control, the form-field
-    // is not able to forward any control status classes. Therefore if either the
-    // "ng-touched" or "ng-untouched" class is set, we know that it has a form control.
-    const isTouched = this.phoneFieldInput.classList.contains('ng-touched');
-    const isUntouched = this.phoneFieldInput.classList.contains('ng-untouched');
-    return isTouched || isUntouched;
-  }
-
-  private coerceBooleanProperty(value: any): boolean {
-    return value != null && `${value}` !== 'false';
+    this.#fixture.detectChanges();
+    return this.#fixture.whenStable();
   }
 }

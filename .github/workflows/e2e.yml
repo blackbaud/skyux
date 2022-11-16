@@ -9,10 +9,10 @@ on:
 env:
   CYPRESS_VERIFY_TIMEOUT: 120000
   GH_PAGES_OWNER: blackbaud
-  PERCY_BROWSER_EXECUTABLE: C:\Program Files\Google\Chrome\Application\chrome.exe
-  PUPPETEER_EXECUTABLE_PATH: C:\Program Files\Google\Chrome\Application\chrome.exe
+  PERCY_BROWSER_EXECUTABLE: /usr/bin/chromium
+  PUPPETEER_EXECUTABLE_PATH: /usr/bin/chromium
   PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
-  SB_CHROMIUM_PATH: C:\Program Files\Google\Chrome\Application\chrome.exe
+  SB_CHROMIUM_PATH: /usr/bin/chromium
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -21,17 +21,18 @@ concurrency:
 jobs:
   install-deps:
     name: Install and cache dependencies
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     outputs:
+      node-version: ${{ steps.setup-node.outputs.node-version }}
       parameters: ${{ steps.parameters.outputs.parameters }}
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - uses: actions/setup-node@v3
+        id: setup-node
         with:
-          node-version: '16.18.1'
-          cache: 'npm'
+          node-version-file: '.nvmrc'
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
       - name: Cache dependencies
@@ -40,36 +41,19 @@ jobs:
         with:
           path: |
             node_modules
-            !node_modules\.cache\nx
-            C:\Users\runneradmin\AppData\Local\Cypress\Cache
-          key: cache-pr-preview_node16.18.1_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+            /home/runner/.cache/Cypress
+          key: ${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: npm install
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        id: setSHAs
         uses: nrwl/nx-set-shas@v3
       - name: Set workflow parameters
         id: parameters
-        # https://github.com/actions/github-script
-        uses: actions/github-script@v6
-        with:
-          # Uses https://github.com/actions/toolkit
-          script: |
-            const parameters = [];
-            await exec.exec(
-              'npx',
-              [
-                'skyux-dev',
-                'e2e-workflow'
-              ],
-              {
-                listeners: {
-                  stdout: (data) => parameters.push(data.toString())
-                }
-              }
-            );
-            core.setOutput('parameters', parameters.join(''));
+        shell: bash
+        run: |
+          echo -n parameters= >> $GITHUB_OUTPUT
+          npx skyux-dev e2e-workflow >> $GITHUB_OUTPUT
       - name: Show workflow parameters
         run: |
           echo 'Using workflow parameters:'
@@ -78,7 +62,7 @@ jobs:
 
   build-storybook:
     name: Build Project Storybook
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: install-deps
     strategy:
       # If one build fails, do not cancel other builds.
@@ -92,7 +76,7 @@ jobs:
         if: ${{ matrix.project != 'skip' }}
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.18.1'
+          node-version-file: '.nvmrc'
         if: ${{ matrix.project != 'skip' }}
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
@@ -102,17 +86,11 @@ jobs:
         with:
           path: |
             node_modules
-            !node_modules\.cache\nx
-            C:\Users\runneradmin\AppData\Local\Cypress\Cache
-          key: cache-pr-preview_node16.18.1_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+            /home/runner/.cache/Cypress
+          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
         if: ${{ matrix.project != 'skip' }}
       - name: Build ${{ matrix.project }}
-        # https://github.com/actions/github-script
-        uses: actions/github-script@v6
-        with:
-          # Uses https://github.com/actions/toolkit
-          script: |
-            await exec.exec('npx nx run', ['${{ matrix.project }}:build-storybook:ci']);
+        run: npx nx run ${{ matrix.project }}:build-storybook:ci
         if: ${{ matrix.project != 'skip' }}
       - name: Upload storybook artifact
         uses: actions/upload-artifact@v3
@@ -129,7 +107,7 @@ jobs:
 
   build-apps:
     name: Build Apps
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: install-deps
     strategy:
       # If one build fails, do not cancel other builds.
@@ -147,7 +125,7 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.18.1'
+          node-version-file: '.nvmrc'
         if: ${{ github.event_name == 'pull_request' }}
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
@@ -157,9 +135,8 @@ jobs:
         with:
           path: |
             node_modules
-            !node_modules\.cache\nx
-            C:\Users\runneradmin\AppData\Local\Cypress\Cache
-          key: cache-pr-preview_node16.18.1_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+            /home/runner/.cache/Cypress
+          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
         if: ${{ github.event_name == 'pull_request' }}
       - name: Build ${{ matrix.app }}
         run: |
@@ -182,7 +159,7 @@ jobs:
 
   publish:
     name: Publish
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs:
       - install-deps
       - build-storybook
@@ -193,7 +170,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.18.1'
+          node-version-file: '.nvmrc'
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
       - name: Retrieve dependencies cache
@@ -201,9 +178,8 @@ jobs:
         with:
           path: |
             node_modules
-            !node_modules\.cache\nx
-            C:\Users\runneradmin\AppData\Local\Cypress\Cache
-          key: cache-pr-preview_node16.18.1_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+            /home/runner/.cache/Cypress
+          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -212,27 +188,19 @@ jobs:
         # All the artifacts are downloaded into one folder, so we need to move them into the correct folders.
         if: ${{ github.event_name == 'pull_request' }}
         # Setting the shell so this step can run as-is on Windows or Linux.
-        shell: pwsh
+        shell: bash
         run: |
-          md ./dist/apps -ea 0
-          ForEach($app in "code-examples", "integration", "playground", "dep-graph") {
-            mv "./dist/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}/$app" "./dist/apps/$app"
-          }
+          mkdir -p ./dist/apps
+          for app in code-examples dep-graph integration playground
+          do
+            mv ./dist/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}${app} ./dist/apps/$app
+          done
       - name: Generate Storybook Composition
-        # https://github.com/actions/github-script
-        uses: actions/github-script@v6
-        with:
-          # Uses https://github.com/actions/toolkit
-          script: |
-            await exec.exec('npx', [
-              'nx',
-              'g',
-              '@skyux-sdk/e2e-schematics:storybook-composition',
-              '--projectsJson',
-              '${{ fromJson(needs.install-deps.outputs.parameters).projectsJson }}',
-              '--baseUrl',
-              '../${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}'
-            ]);
+        shell: bash
+        run: |
+          npx nx g @skyux-sdk/e2e-schematics:storybook-composition \
+            --projectsJson='${{ fromJson(needs.install-deps.outputs.parameters).projectsJson }}' \
+            --baseUrl='../${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}'
       - name: Build Storybook Composition
         run: npx nx run storybook:build-storybook:ci --outputDir=dist/storybook
       - name: Checkout ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
@@ -251,7 +219,7 @@ jobs:
 
   e2e:
     name: End to end tests
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: install-deps
     if: ${{ fromJson(needs.install-deps.outputs.parameters).projectsJson != '[]' }}
     strategy:
@@ -264,7 +232,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.18.1'
+          node-version-file: '.nvmrc'
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
       - name: Retrieve dependencies cache
@@ -272,9 +240,8 @@ jobs:
         with:
           path: |
             node_modules
-            !node_modules\.cache\nx
-            C:\Users\runneradmin\AppData\Local\Cypress\Cache
-          key: cache-pr-preview_node16.18.1_-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+            /home/runner/.cache/Cypress
+          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Verify Cypress
         run: npx cypress verify
       - name: Percy ${{ matrix.project }}
