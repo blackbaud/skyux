@@ -1,8 +1,7 @@
 import { Path, dirname, join, normalize, split } from '@angular-devkit/core';
+import { relative, resolve } from '@angular-devkit/core/src/virtual-fs/path';
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import * as ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
-
-import * as path from 'path';
 
 import { getWorkspace } from '../../utility/workspace';
 
@@ -14,7 +13,7 @@ const CORE_JS_OBJECT_VALUES_REQUIRE = `require('core-js/library/fn/object/values
 
 function findChangesForLocalImports(
   localModulePaths: string[],
-  filePath: string,
+  filePath: Path,
   tree: Tree,
   context: SchematicContext
 ): { find: string; replace: string }[] {
@@ -24,9 +23,7 @@ function findChangesForLocalImports(
     const normalizedModulePath = endsWithSlash
       ? normalize(modulePath)
       : normalize(modulePath + '.ts');
-    const absolutePath = normalize(
-      join(dirname(normalize(filePath)), normalizedModulePath)
-    );
+    const absolutePath = resolve(dirname(filePath), normalizedModulePath);
     context.logger.debug(
       `Looking for local module ${modulePath} at ${absolutePath}...`
     );
@@ -73,10 +70,7 @@ function findChangesForLocalImports(
       return;
     }
     const newPathAbsolute = join(tree.root.path, ...newPath);
-    let newPathRelative = path.relative(
-      dirname(filePath as Path),
-      newPathAbsolute
-    );
+    let newPathRelative = `${relative(dirname(filePath), newPathAbsolute)}`;
     if (!newPathRelative.startsWith('.')) {
       newPathRelative = `./${newPathRelative}`;
     }
@@ -191,7 +185,12 @@ function updateTypescriptImportsAndExports(
     .filter((moduleSpecifier) => moduleSpecifier.startsWith('.'));
   if (localModulePaths.length > 0) {
     transformers.push(
-      ...findChangesForLocalImports(localModulePaths, filePath, tree, context)
+      ...findChangesForLocalImports(
+        localModulePaths,
+        filePath as Path,
+        tree,
+        context
+      )
     );
   }
 
