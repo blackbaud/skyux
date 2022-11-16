@@ -55,7 +55,10 @@ export class SkyAgGridCellEditorCurrencyComponent
     this.columnHeader = this.params.colDef.headerName;
     this.rowNumber = this.params.rowIndex + 1;
     this.columnWidth = this.params.column.getActualWidth();
-    this.rowHeightWithoutBorders = (this.params.node?.rowHeight as number) - 4;
+    this.rowHeightWithoutBorders = SkyAgGridCellEditorUtils.subtractOrZero(
+      this.params.node?.rowHeight,
+      4
+    );
     this.skyComponentProperties = this.params.skyComponentProperties || {
       decimalPlaces: 2,
       currencySymbol: '$',
@@ -82,13 +85,13 @@ export class SkyAgGridCellEditorCurrencyComponent
           break;
         case SkyAgGridCellEditorInitialAction.Replace:
           control.setValue(
-            parseFloat(this.params?.charPress as string) || undefined
+            parseFloat(String(this.params?.charPress)) || undefined
           );
           break;
         case SkyAgGridCellEditorInitialAction.Highlighted:
         case SkyAgGridCellEditorInitialAction.Untouched:
         default:
-          control.setValue(parseFloat(this.params?.value as string));
+          control.setValue(parseFloat(String(this.params?.value)));
           break;
       }
     }

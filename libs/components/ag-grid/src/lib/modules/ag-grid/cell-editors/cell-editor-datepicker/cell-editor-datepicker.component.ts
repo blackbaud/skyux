@@ -101,8 +101,10 @@ export class SkyAgGridCellEditorDatepickerComponent
       } else {
         this.columnWidthWithoutBorders =
           this.columnWidth === undefined ? undefined : this.columnWidth - 2;
-        this.rowHeightWithoutBorders =
-          (this.#params?.node.rowHeight as number) - 3;
+        this.rowHeightWithoutBorders = SkyAgGridCellEditorUtils.subtractOrZero(
+          this.#params?.node.rowHeight,
+          3
+        );
       }
     });
   }
@@ -111,30 +113,38 @@ export class SkyAgGridCellEditorDatepickerComponent
    * afterGuiAttached is called by agGrid after the editor is rendered in the DOM. Once it is attached the editor is ready to be focused on.
    */
   public afterGuiAttached(): void {
-    const datepickerInputEl = this.datepickerInput
-      ?.nativeElement as HTMLInputElement;
-    datepickerInputEl.focus();
+    const datepickerInputEl = this.datepickerInput?.nativeElement as
+      | HTMLInputElement
+      | undefined;
 
-    // Programatically set the value of in the input; however, do not do this via the form control so that the value is not formatted when editing starts.
-    // Watch for the first blur and fire a 'change' event as programatic changes won't queue a change event, but we need to do this so that formatting happens if the user tabs to the calendar button.
-    if (this.#triggerType === SkyAgGridCellEditorInitialAction.Replace) {
-      fromEvent(datepickerInputEl, 'blur')
-        .pipe(first())
-        .subscribe(() => {
-          datepickerInputEl.dispatchEvent(new Event('change'));
-        });
-      datepickerInputEl.select();
+    if (datepickerInputEl) {
+      datepickerInputEl.focus();
 
-      const charPress = this.#params?.charPress as string;
+      // Programatically set the value of in the input; however, do not do this via the form control so that the value is not formatted when editing starts.
+      // Watch for the first blur and fire a 'change' event as programatic changes won't queue a change event, but we need to do this so that formatting happens if the user tabs to the calendar button.
+      if (this.#triggerType === SkyAgGridCellEditorInitialAction.Replace) {
+        fromEvent(datepickerInputEl, 'blur')
+          .pipe(first())
+          .subscribe(() => {
+            datepickerInputEl.dispatchEvent(new Event('change'));
+          });
+        datepickerInputEl.select();
 
-      datepickerInputEl.setRangeText(charPress);
-      // Ensure the cursor is at the end of the text.
-      datepickerInputEl.setSelectionRange(charPress.length, charPress.length);
-    }
+        const charPress = this.#params?.charPress;
 
-    // this.changeDetector.markForCheck();
-    if (this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted) {
-      datepickerInputEl.select();
+        if (charPress) {
+          datepickerInputEl.setRangeText(charPress);
+          // Ensure the cursor is at the end of the text.
+          datepickerInputEl.setSelectionRange(
+            charPress.length,
+            charPress.length
+          );
+        }
+      }
+
+      if (this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted) {
+        datepickerInputEl.select();
+      }
     }
   }
 

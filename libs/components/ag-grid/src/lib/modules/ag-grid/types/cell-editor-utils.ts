@@ -29,4 +29,13 @@ export class SkyAgGridCellEditorUtils {
       return SkyAgGridCellEditorInitialAction.Untouched;
     }
   }
+
+  public static subtractOrZero(
+    minuend: number | null | undefined,
+    subtrahend: number
+  ): number {
+    // Swapping minuend with subtrahend when minuend is null or undefined results in
+    // the subtrahend being subtracted from itself, which will always be 0.
+    return (minuend ?? subtrahend) - subtrahend;
+  }
 }
