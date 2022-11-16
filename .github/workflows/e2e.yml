@@ -188,12 +188,13 @@ jobs:
         # All the artifacts are downloaded into one folder, so we need to move them into the correct folders.
         if: ${{ github.event_name == 'pull_request' }}
         # Setting the shell so this step can run as-is on Windows or Linux.
-        shell: pwsh
+        shell: bash
         run: |
-          md ./dist/apps -ea 0
-          ForEach($app in "code-examples", "integration", "playground", "dep-graph") {
-            mv "./dist/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}/$app" "./dist/apps/$app"
-          }
+          mkdir -p ./dist/apps
+          for app in code-examples dep-graph integration playground
+          do
+            mv ./dist/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}${app} ./dist/apps/$app
+          done
       - name: Generate Storybook Composition
         shell: bash
         run: |
