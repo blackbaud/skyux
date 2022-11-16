@@ -9,6 +9,8 @@
     "colorpicker",
     "compat",
     "datetime",
+    "ngcc",
+    "nrwl",
     "nvmrc",
     "skyux",
     "stylesheet",
