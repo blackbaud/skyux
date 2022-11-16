@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+env:
+  PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
+
 jobs:
   install-deps:
     name: Install and cache dependencies
