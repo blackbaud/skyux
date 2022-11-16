@@ -39,7 +39,7 @@ jobs:
         uses: nrwl/nx-set-shas@v3
       - name: Get affected projects
         id: affected-projects
-        run: echo "parameters=$(npx skyux-dev e2e-workflow" >> $GITHUB_OUTPUT
+        run: echo "parameters=$(npx skyux-dev e2e-workflow)" >> $GITHUB_OUTPUT
 
   e2e:
     name: Visual regression tests
