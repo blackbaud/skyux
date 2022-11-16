@@ -6,7 +6,10 @@ on:
       - main
 
 env:
+  PERCY_BROWSER_EXECUTABLE: /usr/local/share/chrome_driver
+  PUPPETEER_EXECUTABLE_PATH: /usr/local/share/chrome_driver
   PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
+  SB_CHROMIUM_PATH: /usr/local/share/chrome_driver
 
 jobs:
   install-deps:
