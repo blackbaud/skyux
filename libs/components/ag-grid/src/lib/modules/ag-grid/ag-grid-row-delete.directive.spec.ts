@@ -352,10 +352,12 @@ describe('SkyAgGridRowDeleteDirective', () => {
     await fixture.whenStable();
     fixture.detectChanges();
 
-    const overlays = Array.from(document.querySelectorAll('.sky-overlay'));
+    const overlays = Array.from(
+      document.querySelectorAll('.sky-overlay')
+    ) as HTMLElement[];
     // The `toString` here is to address IE returning a number but all other browsers
     // returning a string
-    overlays.forEach((overlay: HTMLElement) =>
+    overlays.forEach((overlay) =>
       expect(overlay.style.zIndex.toString()).toBe('998')
     );
     expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '1']);
@@ -367,10 +369,10 @@ describe('SkyAgGridRowDeleteDirective', () => {
     fixture.detectChanges();
 
     const columnWidths: number[] = [];
-    let columns = Array.from(document.querySelectorAll('.sky-grid-heading'));
-    columns.forEach((column: HTMLElement) =>
-      columnWidths.push(column.offsetWidth)
-    );
+    let columns = Array.from(
+      document.querySelectorAll('.sky-grid-heading')
+    ) as HTMLElement[];
+    columns.forEach((column) => columnWidths.push(column.offsetWidth));
     fixture.componentInstance.rowDeleteIds = ['0'];
 
     fixture.detectChanges();
@@ -392,10 +394,10 @@ describe('SkyAgGridRowDeleteDirective', () => {
     fixture.detectChanges();
 
     const columnWidths: number[] = [];
-    let columns = Array.from(document.querySelectorAll('.sky-grid-heading'));
-    columns.forEach((column: HTMLElement) =>
-      columnWidths.push(column.offsetWidth)
-    );
+    let columns = Array.from(
+      document.querySelectorAll('.sky-grid-heading')
+    ) as HTMLElement[];
+    columns.forEach((column) => columnWidths.push(column.offsetWidth));
     fixture.componentInstance.rowDeleteIds = ['0'];
 
     fixture.detectChanges();
@@ -426,10 +428,12 @@ describe('SkyAgGridRowDeleteDirective', () => {
     const row2Rect = fixture.nativeElement
       .querySelector('[row-id="1"] div')
       .getBoundingClientRect();
-    const inlineDelete1: HTMLElement =
-      document.querySelector('#row-delete-ref-0');
-    const inlineDelete2: HTMLElement =
-      document.querySelector('#row-delete-ref-1');
+    const inlineDelete1 = document.querySelector(
+      '#row-delete-ref-0'
+    ) as HTMLElement;
+    const inlineDelete2 = document.querySelector(
+      '#row-delete-ref-1'
+    ) as HTMLElement;
     expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '1']);
     expect(inlineDelete1.offsetLeft).toEqual(Math.round(row1Rect.left));
     expect(inlineDelete1.offsetTop).toEqual(Math.round(row1Rect.top));

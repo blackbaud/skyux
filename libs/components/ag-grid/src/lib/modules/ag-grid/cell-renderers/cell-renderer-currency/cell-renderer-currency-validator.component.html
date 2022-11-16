@@ -1,4 +1,7 @@
-<sky-ag-grid-cell-validator-tooltip [params]="cellRendererParams">
+<sky-ag-grid-cell-validator-tooltip
+  *ngIf="cellRendererParams"
+  [params]="cellRendererParams"
+>
   <sky-ag-grid-cell-renderer-currency
     *ngIf="isNumeric(cellRendererParams.value); else rawValue"
     [params]="cellRendererParams"

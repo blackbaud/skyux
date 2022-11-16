@@ -10,10 +10,11 @@ import { Column } from 'ag-grid-community';
  */
 @Injectable()
 export class SkyAgGridHeaderInfo {
-  column: Column;
-  displayName: string;
+  column: Column | undefined;
+  displayName: string | undefined;
   /**
    * Application context as set on `gridOptions.context`.
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   context: any;
 }

@@ -22,18 +22,18 @@ import { SkyCellRendererValidatorParams } from '../types/cell-renderer-validator
 })
 export class SkyAgGridCellValidatorTooltipComponent {
   @Input()
-  public set params(value: SkyCellRendererValidatorParams) {
+  public set params(value: SkyCellRendererValidatorParams | undefined) {
     this.cellRendererParams = value;
 
     /*istanbul ignore next*/
-    this.cellRendererParams.api?.addEventListener(
+    this.cellRendererParams?.api?.addEventListener(
       Events.EVENT_CELL_FOCUSED,
       (eventParams: CellFocusedEvent) => {
         // We want to close any popovers that are opened when other cells are focused, but open a popover if the current cell is focused.
         if (
           !(eventParams.column instanceof Column) ||
           eventParams.column.getColId() !==
-            this.cellRendererParams.column.getColId() ||
+            this.cellRendererParams?.column?.getColId() ||
           eventParams.rowIndex !== this.cellRendererParams.rowIndex
         ) {
           this.hidePopover();
@@ -42,7 +42,7 @@ export class SkyAgGridCellValidatorTooltipComponent {
     );
 
     /*istanbul ignore next*/
-    this.cellRendererParams.eGridCell?.addEventListener('keyup', (event) => {
+    this.cellRendererParams?.eGridCell?.addEventListener('keyup', (event) => {
       if (
         ['ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowUp'].includes(event.key)
       ) {
@@ -50,16 +50,16 @@ export class SkyAgGridCellValidatorTooltipComponent {
       }
     });
 
-    this.cellRendererParams.eGridCell?.addEventListener('mouseenter', () => {
-      this.scheduleDelayedPopover();
+    this.cellRendererParams?.eGridCell?.addEventListener('mouseenter', () => {
+      this.#scheduleDelayedPopover();
     });
 
-    this.cellRendererParams.eGridCell?.addEventListener('mouseleave', () => {
+    this.cellRendererParams?.eGridCell?.addEventListener('mouseleave', () => {
       this.hidePopover();
     });
 
     /*istanbul ignore next*/
-    this.cellRendererParams.api?.addEventListener(
+    this.cellRendererParams?.api?.addEventListener(
       Events.EVENT_CELL_EDITING_STARTED,
       () => {
         this.hidePopover();
@@ -67,7 +67,7 @@ export class SkyAgGridCellValidatorTooltipComponent {
     );
 
     if (
-      typeof this.cellRendererParams.skyComponentProperties
+      typeof this.cellRendererParams?.skyComponentProperties
         ?.validatorMessage === 'function'
     ) {
       this.validatorMessage =
@@ -78,45 +78,46 @@ export class SkyAgGridCellValidatorTooltipComponent {
         );
     } else {
       this.validatorMessage =
-        this.cellRendererParams.skyComponentProperties?.validatorMessage;
+        this.cellRendererParams?.skyComponentProperties?.validatorMessage;
     }
 
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   public popoverMessageStream = new Subject<SkyPopoverMessage>();
+  public validatorMessage: string | undefined;
+  public cellRendererParams: SkyCellRendererValidatorParams | undefined;
 
-  public validatorMessage: string;
+  #hoverTimeout: number | undefined;
+  #changeDetector: ChangeDetectorRef;
 
-  public cellRendererParams: SkyCellRendererValidatorParams;
-
-  private _hoverTimeout: number;
-
-  constructor(private changeDetector: ChangeDetectorRef) {}
+  constructor(changeDetector: ChangeDetectorRef) {
+    this.#changeDetector = changeDetector;
+  }
 
   public hidePopover(): void {
-    this.cancelDelayedPopover();
+    this.#cancelDelayedPopover();
     this.popoverMessageStream.next({ type: SkyPopoverMessageType.Close });
   }
 
   public showPopover(): void {
-    this.cancelDelayedPopover();
+    this.#cancelDelayedPopover();
     this.popoverMessageStream.next({ type: SkyPopoverMessageType.Open });
   }
 
-  private scheduleDelayedPopover() {
+  #scheduleDelayedPopover(): void {
     /* istanbul ignore else */
-    if (!this._hoverTimeout) {
-      this._hoverTimeout = window.setTimeout(() => {
+    if (!this.#hoverTimeout) {
+      this.#hoverTimeout = window.setTimeout(() => {
         this.showPopover();
       }, 300);
     }
   }
 
-  private cancelDelayedPopover() {
-    if (this._hoverTimeout) {
-      window.clearTimeout(this._hoverTimeout);
-      this._hoverTimeout = undefined;
+  #cancelDelayedPopover(): void {
+    if (this.#hoverTimeout) {
+      window.clearTimeout(this.#hoverTimeout);
+      this.#hoverTimeout = undefined;
     }
   }
 }

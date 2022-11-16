@@ -25,28 +25,31 @@ import {
 export class SkyAgGridCellRendererRowSelectorComponent
   implements ICellRendererAngularComp
 {
-  public checked: boolean;
-  public dataField: string;
-  public rowNode: RowNode;
-  public rowNumber: number;
+  public checked: boolean | undefined;
+  public dataField: string | undefined;
+  public rowNode: RowNode | undefined;
+  public rowNumber: number | undefined;
 
-  private params: ICellRendererParams;
+  #params: ICellRendererParams | undefined;
+  #changeDetector: ChangeDetectorRef;
 
-  constructor(private changeDetection: ChangeDetectorRef) {}
+  constructor(changeDetector: ChangeDetectorRef) {
+    this.#changeDetector = changeDetector;
+  }
 
   /**
    * agInit is called by agGrid once after the cell is created and provides the renderer with the information it needs.
    * @param params The cell renderer params that include data about the cell, column, row, and grid.
    */
   public agInit(params: ICellRendererParams): void {
-    this.params = params;
-    this.dataField = this.params.colDef && this.params.colDef.field;
-    this.rowNode = this.params.node;
-    this.rowNumber = this.params.rowIndex + 1;
+    this.#params = params;
+    this.dataField = this.#params.colDef?.field;
+    this.rowNode = this.#params.node;
+    this.rowNumber = this.#params.rowIndex + 1;
 
     if (this.dataField) {
-      this.checked = this.params.value;
-      this.rowNode.setSelected(this.checked);
+      this.checked = this.#params.value;
+      this.rowNode.setSelected(!!this.checked);
     } else {
       this.checked = this.rowNode.isSelected();
     }
@@ -54,7 +57,7 @@ export class SkyAgGridCellRendererRowSelectorComponent
     this.rowNode.addEventListener(
       RowNode.EVENT_ROW_SELECTED,
       (event: RowSelectedEvent) => {
-        this.rowSelectedListener(event);
+        this.#rowSelectedListener(event);
       }
     );
   }
@@ -69,20 +72,22 @@ export class SkyAgGridCellRendererRowSelectorComponent
   }
 
   public updateRow(): void {
-    this.rowNode.setSelected(this.checked);
+    if (this.rowNode) {
+      this.rowNode.setSelected(!!this.checked);
 
-    if (this.dataField) {
-      this.rowNode.data[this.dataField] = this.checked;
+      if (this.dataField) {
+        this.rowNode.data[this.dataField] = this.checked;
+      }
     }
   }
 
-  private rowSelectedListener(event: RowSelectedEvent): void {
+  #rowSelectedListener(event: RowSelectedEvent): void {
     this.checked = event.node.isSelected();
 
-    if (this.dataField) {
+    if (this.rowNode && this.dataField) {
       this.rowNode.data[this.dataField] = this.checked;
     }
 
-    this.changeDetection.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 }

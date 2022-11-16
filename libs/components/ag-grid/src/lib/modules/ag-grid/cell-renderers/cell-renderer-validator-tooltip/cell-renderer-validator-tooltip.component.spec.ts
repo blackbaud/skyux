@@ -2,9 +2,12 @@ import { TestBed } from '@angular/core/testing';
 
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
 import { SkyCellRendererValidatorParams } from '../../types/cell-renderer-validator-params';
-import { SkyAgGridValidatorProperties } from '../../types/validator-properties';
 
 import { SkyAgGridCellRendererValidatorTooltipComponent } from './cell-renderer-validator-tooltip.component';
+
+const NOOP = (): void => {
+  return;
+};
 
 describe('SkyAgGridCellRendererValidatorTooltipComponent', () => {
   beforeEach(() => {
@@ -18,30 +21,18 @@ describe('SkyAgGridCellRendererValidatorTooltipComponent', () => {
       SkyAgGridCellRendererValidatorTooltipComponent
     );
     fixture.componentInstance.cellRendererParams = {
-      addRenderedRowListener(): void {},
-      // @ts-ignore
-      api: undefined,
-      colDef: undefined,
-      // @ts-ignore
+      addRenderedRowListener: NOOP,
       column: {
         getActualWidth(): number {
           return -1;
         },
       },
-      columnApi: undefined,
-      context: undefined,
-      data: undefined,
-      eGridCell: undefined,
-      eParentOfValue: undefined,
-      formatValue(): any {},
-      getValue(): any {},
-      node: undefined,
-      refreshCell(): void {},
+      formatValue: NOOP,
+      getValue: NOOP,
+      refreshCell: NOOP,
       rowIndex: 0,
-      setValue(): void {},
-      skyComponentProperties: {} as SkyAgGridValidatorProperties,
-      value: undefined,
-      valueFormatted: undefined,
+      setValue: NOOP,
+      skyComponentProperties: {},
     } as unknown as SkyCellRendererValidatorParams;
     fixture.detectChanges();
     expect(fixture.componentInstance).toBeTruthy();
@@ -58,19 +49,12 @@ describe('SkyAgGridCellRendererValidatorTooltipComponent', () => {
       )
     ).toBeFalse();
 
-    const valueFormatter = (value: { [value: string]: any }) =>
-      `${value.value}`.toUpperCase();
+    const valueFormatter = jasmine.createSpy('valueFormatter');
+
     fixture.componentInstance.cellRendererParams.colDef = { valueFormatter };
-    spyOn(
-      fixture.componentInstance.cellRendererParams.colDef,
-      // @ts-ignore
-      'valueFormatter'
-    );
     fixture.componentInstance.agInit(
       fixture.componentInstance.cellRendererParams
     );
-    expect(
-      fixture.componentInstance.cellRendererParams.colDef.valueFormatter
-    ).toHaveBeenCalled();
+    expect(valueFormatter).toHaveBeenCalled();
   });
 });

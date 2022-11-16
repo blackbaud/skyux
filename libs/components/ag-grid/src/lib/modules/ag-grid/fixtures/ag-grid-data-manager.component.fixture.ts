@@ -21,7 +21,7 @@ import { SKY_AG_GRID_DATA } from './ag-grid-data.fixture';
 })
 export class SkyAgGridDataManagerFixtureComponent implements OnInit {
   @ViewChild(AgGridAngular)
-  public agGrid: AgGridAngular;
+  public agGrid: AgGridAngular | undefined;
 
   public columnDefs = [
     {
