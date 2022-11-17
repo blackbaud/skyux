@@ -19,6 +19,7 @@
 
 @include mixins.sky-theme-modern {
   .sky-help-inline {
+    // The button mixin sets the border radius to 6px but we only want 3px on help inline buttons.
     border-radius: 3px;
     ::ng-deep .fa-stack-2x {
       font-size: 16px;
@@ -28,6 +29,8 @@
       font-size: 10px;
     }
 
+    // The 0px and 5px padding is because we want 1px top/bottom and 6px left/right but the mixin
+    // adds a pixel to account for standard button drop shadows that do not exist on this button.
     @include modernMixins.sky-theme-modern-button-variant(
       $sky-text-color-action-primary,
       transparent,
