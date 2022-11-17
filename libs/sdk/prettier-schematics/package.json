@@ -24,6 +24,6 @@
     "@angular/cli": "^14.2.0"
   },
   "dependencies": {
-    "comment-json": "4.1.1"
+    "comment-json": "4.2.3"
   }
 }
