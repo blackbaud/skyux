@@ -1,5 +1,13 @@
 # Changelog
 
+## [7.0.0-beta.17](https://github.com/blackbaud/skyux/compare/7.0.0-beta.16...7.0.0-beta.17) (2022-11-17)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** remove `const` from `enum SkyCellClass` ([#844](https://github.com/blackbaud/skyux/issues/844)) ([4dcfa1e](https://github.com/blackbaud/skyux/commit/4dcfa1ee57dc77dd148e9518a452cd846fbfdfc3))
+* **components/packages:** remove package before installing it to prevent duplicates ([#839](https://github.com/blackbaud/skyux/issues/839)) ([89a990f](https://github.com/blackbaud/skyux/commit/89a990fb3d48edb0a70e5758d25dbd510b621fc1))
+
 ## [7.0.0-beta.16](https://github.com/blackbaud/skyux/compare/7.0.0-beta.15...7.0.0-beta.16) (2022-11-16)
 
 
