@@ -103,6 +103,9 @@ sky-toast {
 }
 
 .sky-theme-modern {
+  .sky-toast {
+    --sky-toast-icon-inverse-color: #{$sky-text-color-default};
+  }
   sky-toast {
     .sky-toast {
       align-items: flex-start;
@@ -111,7 +114,7 @@ sky-toast {
       padding: $sky-theme-modern-padding-even-md;
 
       &:not(.sky-toast-danger) .sky-icon-inverse {
-        color: $sky-text-color-default;
+        color: var(--sky-toast-icon-inverse-color);
       }
     }
 
