@@ -2,8 +2,13 @@ import { TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
+import { SkyCellRendererCurrencyParams } from '../../types/cell-renderer-currency-params';
 
 import { SkyAgGridCellRendererCurrencyValidatorComponent } from './cell-renderer-currency-validator.component';
+
+const NOOP = (): void => {
+  return;
+};
 
 describe('SkyAgGridCellRendererCurrencyValidatorComponent', () => {
   beforeEach(() => {
@@ -17,31 +22,19 @@ describe('SkyAgGridCellRendererCurrencyValidatorComponent', () => {
       SkyAgGridCellRendererCurrencyValidatorComponent
     );
     fixture.componentInstance.parameters = {
-      addRenderedRowListener(): void {},
-      // @ts-ignore
-      api: undefined,
+      addRenderedRowListener: NOOP,
       colDef: undefined,
-      // @ts-ignore
       column: {
         getActualWidth(): number {
           return -1;
         },
       },
-      columnApi: undefined,
-      context: undefined,
-      data: undefined,
-      eGridCell: undefined,
-      eParentOfValue: undefined,
-      formatValue(): any {},
-      getValue(): any {},
-      node: undefined,
-      refreshCell(): void {},
+      formatValue: NOOP,
+      getValue: NOOP,
+      refreshCell: NOOP,
       rowIndex: 0,
-      setValue(): void {},
-      skyComponentProperties: undefined,
-      value: undefined,
-      valueFormatted: undefined,
-    };
+      setValue: NOOP,
+    } as unknown as SkyCellRendererCurrencyParams;
     fixture.detectChanges();
     expect(fixture.componentInstance).toBeTruthy();
 

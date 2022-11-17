@@ -9,10 +9,10 @@ on:
 env:
   CYPRESS_VERIFY_TIMEOUT: 120000
   GH_PAGES_OWNER: blackbaud
-  PERCY_BROWSER_EXECUTABLE: C:\Program Files\Google\Chrome\Application\chrome.exe
-  PUPPETEER_EXECUTABLE_PATH: C:\Program Files\Google\Chrome\Application\chrome.exe
+  PERCY_BROWSER_EXECUTABLE: /usr/bin/chromium
+  PUPPETEER_EXECUTABLE_PATH: /usr/bin/chromium
   PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
-  SB_CHROMIUM_PATH: C:\Program Files\Google\Chrome\Application\chrome.exe
+  SB_CHROMIUM_PATH: /usr/bin/chromium
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -21,7 +21,7 @@ concurrency:
 jobs:
   install-deps:
     name: Install and cache dependencies
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     outputs:
       node-version: ${{ steps.setup-node.outputs.node-version }}
       parameters: ${{ steps.parameters.outputs.parameters }}
@@ -41,7 +41,7 @@ jobs:
         with:
           path: |
             node_modules
-            C:\Users\runneradmin\AppData\Local\Cypress\Cache
+            /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: npm install
         if: steps.cache.outputs.cache-hit != 'true'
@@ -62,7 +62,7 @@ jobs:
 
   build-storybook:
     name: Build Project Storybook
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: install-deps
     strategy:
       # If one build fails, do not cancel other builds.
@@ -86,7 +86,7 @@ jobs:
         with:
           path: |
             node_modules
-            C:\Users\runneradmin\AppData\Local\Cypress\Cache
+            /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
         if: ${{ matrix.project != 'skip' }}
       - name: Build ${{ matrix.project }}
@@ -107,7 +107,7 @@ jobs:
 
   build-apps:
     name: Build Apps
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: install-deps
     strategy:
       # If one build fails, do not cancel other builds.
@@ -135,7 +135,7 @@ jobs:
         with:
           path: |
             node_modules
-            C:\Users\runneradmin\AppData\Local\Cypress\Cache
+            /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
         if: ${{ github.event_name == 'pull_request' }}
       - name: Build ${{ matrix.app }}
@@ -159,7 +159,7 @@ jobs:
 
   publish:
     name: Publish
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs:
       - install-deps
       - build-storybook
@@ -178,7 +178,7 @@ jobs:
         with:
           path: |
             node_modules
-            C:\Users\runneradmin\AppData\Local\Cypress\Cache
+            /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Download artifacts
         uses: actions/download-artifact@v3
@@ -188,12 +188,13 @@ jobs:
         # All the artifacts are downloaded into one folder, so we need to move them into the correct folders.
         if: ${{ github.event_name == 'pull_request' }}
         # Setting the shell so this step can run as-is on Windows or Linux.
-        shell: pwsh
+        shell: bash
         run: |
-          md ./dist/apps -ea 0
-          ForEach($app in "code-examples", "integration", "playground", "dep-graph") {
-            mv "./dist/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}/$app" "./dist/apps/$app"
-          }
+          mkdir -p ./dist/apps
+          for app in code-examples dep-graph integration playground
+          do
+            mv ./dist/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}${app} ./dist/apps/$app
+          done
       - name: Generate Storybook Composition
         shell: bash
         run: |
@@ -218,7 +219,7 @@ jobs:
 
   e2e:
     name: End to end tests
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: install-deps
     if: ${{ fromJson(needs.install-deps.outputs.parameters).projectsJson != '[]' }}
     strategy:
@@ -239,7 +240,7 @@ jobs:
         with:
           path: |
             node_modules
-            C:\Users\runneradmin\AppData\Local\Cypress\Cache
+            /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Verify Cypress
         run: npx cypress verify

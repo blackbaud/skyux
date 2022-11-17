@@ -25,61 +25,64 @@ import { SkyAgGridCellEditorUtils } from '../../types/cell-editor-utils';
 export class SkyAgGridCellEditorTextComponent
   implements ICellEditorAngularComp
 {
-  public textInputLabel: string;
-  public columnHeader: string;
-  public columnWidth: number;
+  public textInputLabel: string | undefined;
+  public columnHeader: string | undefined;
+  public columnWidth: number | undefined;
   public editorForm = new UntypedFormGroup({
     text: new UntypedFormControl(),
   });
-  public rowHeightWithoutBorders: number;
-  public rowNumber: number;
-  public maxlength: number;
-
-  private params: ICellEditorParams;
+  public rowHeightWithoutBorders: number | undefined;
+  public rowNumber: number | undefined;
+  public maxlength: number | undefined;
 
   @ViewChild('skyCellEditorText', { read: ElementRef })
-  private input: ElementRef;
+  public input: ElementRef | undefined;
 
-  #triggerType: SkyAgGridCellEditorInitialAction;
+  #params: ICellEditorParams | undefined;
+  #triggerType: SkyAgGridCellEditorInitialAction | undefined;
 
   /**
    * agInit is called by agGrid once after the editor is created and provides the editor with the information it needs.
    * @param params The cell editor params that include data about the cell, column, row, and grid.
    */
   public agInit(params: SkyCellEditorTextParams): void {
-    this.params = params;
+    this.#params = params;
 
     this.#triggerType = SkyAgGridCellEditorUtils.getEditorInitialAction(params);
     const control = this.editorForm.get('text');
-    switch (this.#triggerType) {
-      case SkyAgGridCellEditorInitialAction.Delete:
-        control.setValue(undefined);
-        break;
-      case SkyAgGridCellEditorInitialAction.Replace:
-        control.setValue(params.charPress);
-        break;
-      case SkyAgGridCellEditorInitialAction.Highlighted:
-      case SkyAgGridCellEditorInitialAction.Untouched:
-      default:
-        control.setValue(params.value);
-        break;
+
+    if (control) {
+      switch (this.#triggerType) {
+        case SkyAgGridCellEditorInitialAction.Delete:
+          control.setValue(undefined);
+          break;
+        case SkyAgGridCellEditorInitialAction.Replace:
+          control.setValue(params.charPress);
+          break;
+        case SkyAgGridCellEditorInitialAction.Highlighted:
+        case SkyAgGridCellEditorInitialAction.Untouched:
+        default:
+          control.setValue(params.value);
+          break;
+      }
     }
 
     this.maxlength = params.skyComponentProperties?.maxlength;
-    this.columnHeader = this.params.colDef.headerName;
-    this.rowNumber = this.params.rowIndex + 1;
-    this.columnWidth = this.params.column.getActualWidth();
-    this.rowHeightWithoutBorders =
-      this.params.node && this.params.node.rowHeight - 4;
+    this.columnHeader = this.#params.colDef.headerName;
+    this.rowNumber = this.#params.rowIndex + 1;
+    this.columnWidth = this.#params.column.getActualWidth();
+    this.rowHeightWithoutBorders = (this.#params.node.rowHeight as number) - 4;
   }
 
   /**
    * afterGuiAttached is called by agGrid after the editor is rendered in the DOM. Once it is attached the editor is ready to be focused on.
    */
   public afterGuiAttached(): void {
-    this.input.nativeElement.focus();
-    if (this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted) {
-      this.input.nativeElement.select();
+    if (this.input) {
+      this.input.nativeElement.focus();
+      if (this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted) {
+        this.input.nativeElement.select();
+      }
     }
   }
 
@@ -87,6 +90,6 @@ export class SkyAgGridCellEditorTextComponent
    * getValue is called by agGrid when editing is stopped to get the new value of the cell.
    */
   public getValue(): string | undefined {
-    return this.editorForm.get('text').value || undefined;
+    return this.editorForm.get('text')?.value || undefined;
   }
 }

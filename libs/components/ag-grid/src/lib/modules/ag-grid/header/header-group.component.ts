@@ -19,7 +19,12 @@ import {
   Events,
   ProvidedColumnGroup,
 } from 'ag-grid-community';
-import { BehaviorSubject, Observable, Subscription, fromEvent } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  Subscription,
+  fromEventPattern,
+} from 'rxjs';
 
 import { SkyAgGridHeaderGroupInfo } from '../types/header-group-info';
 import { SkyAgGridHeaderGroupParams } from '../types/header-group-params';
@@ -37,10 +42,10 @@ export class SkyAgGridHeaderGroupComponent
   implements IHeaderGroupAngularComp, OnDestroy, AfterViewInit
 {
   @ViewChild('inlineHelpContainer', { read: ElementRef, static: true })
-  public inlineHelpContainer: ElementRef;
+  public inlineHelpContainer: ElementRef | undefined;
 
-  public params: SkyAgGridHeaderGroupParams | undefined = undefined;
-  public isExpanded$: Observable<boolean>;
+  protected params: SkyAgGridHeaderGroupParams | undefined = undefined;
+  protected isExpanded$: Observable<boolean>;
 
   #columnGroup: ProvidedColumnGroup | undefined = undefined;
   #isExpandedSubject = new BehaviorSubject<boolean>(false);
@@ -69,24 +74,33 @@ export class SkyAgGridHeaderGroupComponent
     this.#subscriptions.unsubscribe();
   }
 
-  public agInit(params: SkyAgGridHeaderGroupParams): void {
+  public agInit(params: SkyAgGridHeaderGroupParams | undefined): void {
     this.#agIntialized = true;
     this.params = params;
     this.#subscriptions.unsubscribe();
-    if (!this.params) {
+    if (!params) {
       return;
     }
     this.#subscriptions = new Subscription();
-    this.#columnGroup = this.params.columnGroup.getProvidedColumnGroup();
+    this.#columnGroup = params.columnGroup.getProvidedColumnGroup();
     if (this.#columnGroup.isExpandable()) {
       this.#subscriptions.add(
-        fromEvent(this.params.api, Events.EVENT_COLUMN_GROUP_OPENED).subscribe(
-          (event: ColumnGroupOpenedEvent) => {
-            if (event.columnGroup === this.#columnGroup) {
-              this.#isExpandedSubject.next(this.#columnGroup.isExpanded());
-            }
+        fromEventPattern<ColumnGroupOpenedEvent>(
+          (handler) =>
+            params.api.addEventListener(
+              Events.EVENT_COLUMN_GROUP_OPENED,
+              handler
+            ),
+          (handler) =>
+            params.api.removeEventListener(
+              Events.EVENT_COLUMN_GROUP_OPENED,
+              handler
+            )
+        ).subscribe((event) => {
+          if (event.columnGroup === this.#columnGroup) {
+            this.#isExpandedSubject.next(this.#columnGroup.isExpanded());
           }
-        )
+        })
       );
     }
     this.#updateInlineHelp();
@@ -94,7 +108,7 @@ export class SkyAgGridHeaderGroupComponent
   }
 
   public setExpanded($event: boolean): void {
-    this.params.setExpanded($event);
+    this.params?.setExpanded($event);
   }
 
   #updateInlineHelp(): void {
@@ -105,18 +119,19 @@ export class SkyAgGridHeaderGroupComponent
     const inlineHelpComponent =
       colGroupDef?.headerGroupComponentParams?.inlineHelpComponent;
     if (inlineHelpComponent) {
+      const headerGroupInfo = new SkyAgGridHeaderGroupInfo();
+      headerGroupInfo.columnGroup = this.params?.columnGroup;
+      headerGroupInfo.context = this.params?.context;
+      headerGroupInfo.displayName = this.params?.displayName;
+
       this.#dynamicComponentService.createComponent(inlineHelpComponent, {
         providers: [
           {
             provide: SkyAgGridHeaderGroupInfo,
-            useValue: {
-              columnGroup: this.params.columnGroup,
-              context: this.params.context,
-              displayName: this.params.displayName,
-            } as SkyAgGridHeaderGroupInfo,
+            useValue: headerGroupInfo,
           },
         ],
-        referenceEl: this.inlineHelpContainer.nativeElement,
+        referenceEl: this.inlineHelpContainer?.nativeElement,
         location: SkyDynamicComponentLocation.ElementBottom,
       } as SkyDynamicComponentOptions);
     }

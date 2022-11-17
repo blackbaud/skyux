@@ -77,7 +77,7 @@ describe('HeaderComponent', () => {
       enableSorting: false,
       columnApi: {
         getColumns: () => [],
-      } as ColumnApi,
+      } as Partial<ColumnApi>,
     } as unknown as SkyAgGridHeaderParams;
 
     fixture = TestBed.createComponent(SkyAgGridHeaderComponent);
@@ -98,7 +98,7 @@ describe('HeaderComponent', () => {
         .textContent
     ).toBe('Test Column');
     const sortSpy = spyOn(params, 'progressSort');
-    component.onSortRequested({ shiftKey: false });
+    component.onSortRequested({ shiftKey: false } as MouseEvent);
     expect(sortSpy).toHaveBeenCalled();
     const menuSpy = spyOn(params, 'showColumnMenu');
     component.onMenuClick({ target: {} } as Event);
@@ -107,7 +107,7 @@ describe('HeaderComponent', () => {
   });
 
   it('should handle events', async () => {
-    let useSort = 'asc';
+    let useSort: string | undefined = 'asc';
     params = {
       ...params,
       enableSorting: true,
@@ -126,12 +126,12 @@ describe('HeaderComponent', () => {
         getColumns() {
           return [
             {
-              getColId: () => 'test',
-              getSort: () => useSort,
+              getColId: (): string => 'test',
+              getSort: (): string | undefined => useSort,
             },
             {
-              getColId: () => 'other',
-              getSort: () => useSort,
+              getColId: (): string => 'other',
+              getSort: (): string | undefined => useSort,
             },
           ];
         },

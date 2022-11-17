@@ -16,7 +16,7 @@ import {
 
 import { IHeaderAngularComp } from 'ag-grid-angular';
 import { Events } from 'ag-grid-community';
-import { BehaviorSubject, Subscription, fromEvent } from 'rxjs';
+import { BehaviorSubject, Subscription, fromEventPattern } from 'rxjs';
 
 import { SkyAgGridHeaderInfo } from '../types/header-info';
 import { SkyAgGridHeaderParams } from '../types/header-params';
@@ -34,7 +34,7 @@ export class SkyAgGridHeaderComponent
   implements IHeaderAngularComp, OnDestroy, AfterViewInit
 {
   @ViewChild('inlineHelpContainer', { read: ElementRef, static: true })
-  public inlineHelpContainer: ElementRef;
+  public inlineHelpContainer: ElementRef | undefined;
 
   public params: SkyAgGridHeaderParams | undefined = undefined;
   public sorted = '';
@@ -68,17 +68,28 @@ export class SkyAgGridHeaderComponent
     this.#subscriptions.unsubscribe();
   }
 
-  public agInit(params: SkyAgGridHeaderParams): void {
+  public agInit(params: SkyAgGridHeaderParams | undefined): void {
     this.#agIntialized = true;
     this.params = params;
     this.#subscriptions.unsubscribe();
-    if (!this.params) {
+    if (!params) {
       return;
     }
     this.#subscriptions = new Subscription();
     if (params.column.isFilterAllowed()) {
       this.#subscriptions.add(
-        fromEvent(params.column, 'filterChanged').subscribe(() => {
+        fromEventPattern(
+          (handler) =>
+            params.column.addEventListener(
+              Events.EVENT_FILTER_CHANGED,
+              handler
+            ),
+          (handler) =>
+            params.column.removeEventListener(
+              Events.EVENT_FILTER_CHANGED,
+              handler
+            )
+        ).subscribe(() => {
           const isFilterActive = params.column.isFilterActive();
           if (isFilterActive !== this.filterEnabled$.getValue()) {
             this.filterEnabled$.next(isFilterActive);
@@ -89,13 +100,26 @@ export class SkyAgGridHeaderComponent
     if (params.enableSorting) {
       // Column sort state changes
       this.#subscriptions.add(
-        fromEvent(params.column, Events.EVENT_SORT_CHANGED).subscribe(() => {
+        fromEventPattern(
+          (handler) =>
+            params.column.addEventListener(Events.EVENT_SORT_CHANGED, handler),
+          (handler) =>
+            params.column.removeEventListener(
+              Events.EVENT_SORT_CHANGED,
+              handler
+            )
+        ).subscribe(() => {
           this.#updateSort();
         })
       );
       // Other column sort state changes, for multi-column sorting
       this.#subscriptions.add(
-        fromEvent(params.api, Events.EVENT_SORT_CHANGED).subscribe(() => {
+        fromEventPattern(
+          (handler) =>
+            params.api.addEventListener(Events.EVENT_SORT_CHANGED, handler),
+          (handler) =>
+            params.api.removeEventListener(Events.EVENT_SORT_CHANGED, handler)
+        ).subscribe(() => {
           this.#updateSortIndex();
         })
       );
@@ -107,11 +131,11 @@ export class SkyAgGridHeaderComponent
   }
 
   public onMenuClick($event: Event): void {
-    this.params.showColumnMenu($event.target as HTMLElement);
+    this.params?.showColumnMenu($event.target as HTMLElement);
   }
 
-  public onSortRequested(event): void {
-    this.params.progressSort(!!event.shiftKey);
+  public onSortRequested(event: MouseEvent): void {
+    this.params?.progressSort(!!event.shiftKey);
   }
 
   public refresh(params: SkyAgGridHeaderParams): boolean {
@@ -123,7 +147,7 @@ export class SkyAgGridHeaderComponent
     if (!this.#viewInitialized || !this.#agIntialized) {
       return;
     }
-    const inlineHelpComponent = this.params.inlineHelpComponent;
+    const inlineHelpComponent = this.params?.inlineHelpComponent;
     if (
       inlineHelpComponent &&
       (!this.#inlineHelpComponentRef ||
@@ -132,19 +156,21 @@ export class SkyAgGridHeaderComponent
       this.#dynamicComponentService.removeComponent(
         this.#inlineHelpComponentRef
       );
+
+      const headerInfo = new SkyAgGridHeaderInfo();
+      headerInfo.column = this.params?.column;
+      headerInfo.context = this.params?.context;
+      headerInfo.displayName = this.params?.displayName;
+
       this.#inlineHelpComponentRef =
         this.#dynamicComponentService.createComponent(inlineHelpComponent, {
           providers: [
             {
               provide: SkyAgGridHeaderInfo,
-              useValue: {
-                column: this.params.column,
-                context: this.params.context,
-                displayName: this.params.displayName,
-              } as SkyAgGridHeaderInfo,
+              useValue: headerInfo,
             },
           ],
-          referenceEl: this.inlineHelpContainer.nativeElement,
+          referenceEl: this.inlineHelpContainer?.nativeElement,
           location: SkyDynamicComponentLocation.ElementBottom,
         } as SkyDynamicComponentOptions);
     } else if (!inlineHelpComponent) {
@@ -155,16 +181,16 @@ export class SkyAgGridHeaderComponent
   }
 
   #updateSort(): void {
-    this.sortOrder$.next(this.params.column.getSort() || undefined);
+    this.sortOrder$.next(this.params?.column.getSort() || undefined);
   }
 
   #updateSortIndex(): void {
-    const sortIndex = this.params.column.getSortIndex();
-    const otherSortColumns = this.params.columnApi
-      .getColumns()
-      .some(
+    const sortIndex = this.params?.column.getSortIndex();
+    const otherSortColumns = this.params?.columnApi
+      ?.getColumns()
+      ?.some(
         (column) =>
-          column.getColId() !== this.params.column.getColId() &&
+          column.getColId() !== this.params?.column.getColId() &&
           !!column.getSort()
       );
     if (sortIndex !== undefined && sortIndex !== null && otherSortColumns) {

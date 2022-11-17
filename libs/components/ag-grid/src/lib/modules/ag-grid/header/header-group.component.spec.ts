@@ -29,8 +29,8 @@ describe('SkyAgGridHeaderGroupComponent', () => {
   let expanded: boolean;
   let providedColumnGroup: ProvidedColumnGroup;
   const baseProvidedColumnGroup = {
-    isExpanded: () => expanded,
-    isExpandable: () => true,
+    isExpanded: (): boolean => expanded,
+    isExpandable: (): boolean => true,
   };
   const baseParams = {
     displayName: 'Test Column',

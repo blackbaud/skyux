@@ -7,6 +7,10 @@ import { SkyCellRendererValidatorParams } from '../types/cell-renderer-validator
 
 import { SkyAgGridCellValidatorTooltipComponent } from './ag-grid-cell-validator-tooltip.component';
 
+const NOOP = (): void => {
+  return;
+};
+
 describe('SkyAgGridCellValidatorTooltipComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -19,30 +23,18 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
       SkyAgGridCellValidatorTooltipFixtureComponent
     );
     fixture.componentInstance.parameters = {
-      addRenderedRowListener(): void {},
-      api: undefined,
-      colDef: undefined,
-      // @ts-ignore
+      addRenderedRowListener: NOOP,
       column: {
         getActualWidth(): number {
           return -1;
         },
       },
-      columnApi: undefined,
-      context: undefined,
-      data: undefined,
-      eGridCell: undefined,
-      eParentOfValue: undefined,
-      formatValue(): any {},
-      getValue(): any {},
-      node: undefined,
-      refreshCell(): void {},
+      formatValue: NOOP,
+      getValue: NOOP,
+      refreshCell: NOOP,
       rowIndex: 0,
-      setValue(): void {},
-      skyComponentProperties: undefined,
-      value: undefined,
-      valueFormatted: undefined,
-    };
+      setValue: NOOP,
+    } as unknown as SkyCellRendererValidatorParams;
     fixture.detectChanges();
     expect(fixture.componentInstance).toBeTruthy();
   });
@@ -51,31 +43,21 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
     const fixture = TestBed.createComponent(
       SkyAgGridCellValidatorTooltipComponent
     );
-    const parameters: SkyCellRendererValidatorParams = {
-      addRenderedRowListener(): void {},
-      api: undefined,
-      colDef: undefined,
-      // @ts-ignore
+
+    const parameters = {
+      addRenderedRowListener: NOOP,
       column: {
         getActualWidth(): number {
           return -1;
         },
       },
-      columnApi: undefined,
-      context: undefined,
-      data: undefined,
-      eGridCell: undefined,
-      eParentOfValue: undefined,
-      formatValue(): any {},
-      getValue(): any {},
-      node: undefined,
-      refreshCell(): void {},
+      formatValue: NOOP,
+      getValue: NOOP,
+      refreshCell: NOOP,
       rowIndex: 0,
-      setValue(): void {},
-      skyComponentProperties: undefined,
-      value: undefined,
-      valueFormatted: undefined,
-    };
+      setValue: NOOP,
+    } as unknown as SkyCellRendererValidatorParams;
+
     fixture.componentInstance.params = {
       ...parameters,
       skyComponentProperties: {
@@ -91,7 +73,7 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
     fixture.componentInstance.params = {
       ...parameters,
       skyComponentProperties: {
-        validatorMessage: () => 'Test message XYZ',
+        validatorMessage: (): string => 'Test message XYZ',
       },
     };
     expect(fixture.componentInstance.validatorMessage).toBe('Test message XYZ');
@@ -103,37 +85,27 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
     );
     const eventHandlers: { [eventName: string]: (event: Event) => void } = {};
     fixture.componentInstance.params = {
-      addRenderedRowListener(): void {},
-      api: undefined,
-      colDef: undefined,
-      // @ts-ignore
+      addRenderedRowListener: NOOP,
       column: {
         getActualWidth(): number {
           return -1;
         },
       },
-      columnApi: undefined,
-      context: undefined,
-      data: undefined,
       eGridCell: {
-        addEventListener: (eventName, handler) => {
+        addEventListener: (eventName: string, handler: () => void) => {
           eventHandlers[eventName] = handler;
         },
       } as HTMLElement,
-      eParentOfValue: undefined,
-      formatValue(): any {},
-      getValue(): any {},
-      node: undefined,
-      refreshCell(): void {},
+      formatValue: NOOP,
+      getValue: NOOP,
+      refreshCell: NOOP,
       rowIndex: 0,
-      setValue(): void {},
-      value: undefined,
-      valueFormatted: undefined,
+      setValue: NOOP,
       skyComponentProperties: {
         validatorMessage: 'Test message ABC',
       },
-    };
-    const popover = () =>
+    } as unknown as SkyCellRendererValidatorParams;
+    const popover = (): HTMLElement | null =>
       (fixture.nativeElement as HTMLElement).ownerDocument.querySelector(
         'sky-popover-content'
       );

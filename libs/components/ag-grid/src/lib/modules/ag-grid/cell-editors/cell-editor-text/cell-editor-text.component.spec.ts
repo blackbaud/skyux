@@ -1,7 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
-import { Beans, Column, KeyCode, RowNode } from 'ag-grid-community';
+import {
+  Beans,
+  Column,
+  ICellEditorParams,
+  KeyCode,
+  RowNode,
+} from 'ag-grid-community';
 
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
@@ -54,7 +60,7 @@ describe('SkyCellEditorTextComponent', () => {
   });
 
   describe('agInit', () => {
-    let cellEditorParams: SkyCellEditorTextParams;
+    let cellEditorParams: Partial<SkyCellEditorTextParams>;
     let column: Column;
     const rowNode = new RowNode({} as Beans);
     rowNode.rowHeight = 37;
@@ -65,7 +71,7 @@ describe('SkyCellEditorTextComponent', () => {
         {
           colId: 'col',
         },
-        undefined,
+        null,
         'col',
         true
       );
@@ -74,21 +80,8 @@ describe('SkyCellEditorTextComponent', () => {
         value: value,
         column,
         node: rowNode,
-        key: undefined,
-        eventKey: undefined,
-        charPress: undefined,
         colDef: {},
-        columnApi: undefined,
-        data: undefined,
-        rowIndex: undefined,
-        api: undefined,
         cellStartedEdit: true,
-        onKeyDown: undefined,
-        context: undefined,
-        stopEditing: undefined,
-        eGridCell: undefined,
-        parseValue: undefined,
-        formatValue: undefined,
         skyComponentProperties: {
           maxlength: 50,
         },
@@ -96,73 +89,76 @@ describe('SkyCellEditorTextComponent', () => {
     });
 
     it('initializes the SkyCellEditorTextComponent properties', () => {
-      expect(textEditorComponent.editorForm.get('text').value).toBeNull();
+      expect(textEditorComponent.editorForm.get('text')?.value).toBeNull();
       expect(textEditorComponent.columnWidth).toBeUndefined();
 
-      textEditorComponent.agInit(cellEditorParams);
+      textEditorComponent.agInit(cellEditorParams as ICellEditorParams);
 
-      expect(textEditorComponent.editorForm.get('text').value).toEqual(value);
+      expect(textEditorComponent.editorForm.get('text')?.value).toEqual(value);
     });
 
     describe('cellStartedEdit is true', () => {
       it('initializes with a cleared value when Backspace triggers the edit', () => {
-        expect(textEditorComponent.editorForm.get('text').value).toBeNull();
+        expect(textEditorComponent.editorForm.get('text')?.value).toBeNull();
 
         textEditorComponent.agInit({
-          ...cellEditorParams,
+          ...(cellEditorParams as ICellEditorParams),
           eventKey: KeyCode.BACKSPACE,
         });
 
         expect(
-          textEditorComponent.editorForm.get('text').value
+          textEditorComponent.editorForm.get('text')?.value
         ).toBeUndefined();
       });
 
       it('initializes with a cleared value when Delete triggers the edit', () => {
-        expect(textEditorComponent.editorForm.get('text').value).toBeNull();
+        expect(textEditorComponent.editorForm.get('text')?.value).toBeNull();
 
         textEditorComponent.agInit({
-          ...cellEditorParams,
+          ...(cellEditorParams as ICellEditorParams),
           eventKey: KeyCode.DELETE,
         });
 
         expect(
-          textEditorComponent.editorForm.get('text').value
+          textEditorComponent.editorForm.get('text')?.value
         ).toBeUndefined();
       });
 
       it('initializes with the current value when F2 triggers the edit', () => {
-        expect(textEditorComponent.editorForm.get('text').value).toBeNull();
+        expect(textEditorComponent.editorForm.get('text')?.value).toBeNull();
 
         textEditorComponent.agInit({
-          ...cellEditorParams,
+          ...(cellEditorParams as ICellEditorParams),
           eventKey: KeyCode.F2,
         });
 
-        expect(textEditorComponent.editorForm.get('text').value).toBe(
+        expect(textEditorComponent.editorForm.get('text')?.value).toBe(
           'testing'
         );
       });
 
       it('initializes with the current value when Enter triggers the edit', () => {
-        expect(textEditorComponent.editorForm.get('text').value).toBeNull();
+        expect(textEditorComponent.editorForm.get('text')?.value).toBeNull();
 
         textEditorComponent.agInit({
-          ...cellEditorParams,
+          ...(cellEditorParams as ICellEditorParams),
           eventKey: KeyCode.ENTER,
         });
 
-        expect(textEditorComponent.editorForm.get('text').value).toBe(
+        expect(textEditorComponent.editorForm.get('text')?.value).toBe(
           'testing'
         );
       });
 
       it('initializes with the character pressed when a standard keyboard event triggers the edit', () => {
-        expect(textEditorComponent.editorForm.get('text').value).toBeNull();
+        expect(textEditorComponent.editorForm.get('text')?.value).toBeNull();
 
-        textEditorComponent.agInit({ ...cellEditorParams, charPress: 'a' });
+        textEditorComponent.agInit({
+          ...(cellEditorParams as ICellEditorParams),
+          charPress: 'a',
+        });
 
-        expect(textEditorComponent.editorForm.get('text').value).toBe('a');
+        expect(textEditorComponent.editorForm.get('text')?.value).toBe('a');
       });
     });
 
@@ -172,55 +168,58 @@ describe('SkyCellEditorTextComponent', () => {
       });
 
       it('initializes with current value when Backspace triggers the edit', () => {
-        expect(textEditorComponent.editorForm.get('text').value).toBeNull();
+        expect(textEditorComponent.editorForm.get('text')?.value).toBeNull();
 
         textEditorComponent.agInit({
-          ...cellEditorParams,
+          ...(cellEditorParams as ICellEditorParams),
           eventKey: KeyCode.BACKSPACE,
         });
 
-        expect(textEditorComponent.editorForm.get('text').value).toBe(value);
+        expect(textEditorComponent.editorForm.get('text')?.value).toBe(value);
       });
 
       it('initializes current value when Delete triggers the edit', () => {
-        expect(textEditorComponent.editorForm.get('text').value).toBeNull();
+        expect(textEditorComponent.editorForm.get('text')?.value).toBeNull();
 
         textEditorComponent.agInit({
-          ...cellEditorParams,
+          ...(cellEditorParams as ICellEditorParams),
           eventKey: KeyCode.DELETE,
         });
 
-        expect(textEditorComponent.editorForm.get('text').value).toBe(value);
+        expect(textEditorComponent.editorForm.get('text')?.value).toBe(value);
       });
 
       it('initializes with the current value when F2 triggers the edit', () => {
-        expect(textEditorComponent.editorForm.get('text').value).toBeNull();
+        expect(textEditorComponent.editorForm.get('text')?.value).toBeNull();
 
         textEditorComponent.agInit({
-          ...cellEditorParams,
+          ...(cellEditorParams as ICellEditorParams),
           eventKey: KeyCode.F2,
         });
 
-        expect(textEditorComponent.editorForm.get('text').value).toBe(value);
+        expect(textEditorComponent.editorForm.get('text')?.value).toBe(value);
       });
 
       it('initializes with the current value when Enter triggers the edit', () => {
-        expect(textEditorComponent.editorForm.get('text').value).toBeNull();
+        expect(textEditorComponent.editorForm.get('text')?.value).toBeNull();
 
         textEditorComponent.agInit({
-          ...cellEditorParams,
+          ...(cellEditorParams as ICellEditorParams),
           eventKey: KeyCode.ENTER,
         });
 
-        expect(textEditorComponent.editorForm.get('text').value).toBe(value);
+        expect(textEditorComponent.editorForm.get('text')?.value).toBe(value);
       });
 
       it('initializes with current value when a standard keyboard event triggers the edit', () => {
-        expect(textEditorComponent.editorForm.get('text').value).toBeNull();
+        expect(textEditorComponent.editorForm.get('text')?.value).toBeNull();
 
-        textEditorComponent.agInit({ ...cellEditorParams, charPress: 'a' });
+        textEditorComponent.agInit({
+          ...(cellEditorParams as ICellEditorParams),
+          charPress: 'a',
+        });
 
-        expect(textEditorComponent.editorForm.get('text').value).toBe(value);
+        expect(textEditorComponent.editorForm.get('text')?.value).toBe(value);
       });
     });
   });
@@ -228,7 +227,7 @@ describe('SkyCellEditorTextComponent', () => {
   describe('getValue', () => {
     it('returns the value if it is set', () => {
       const value = 'cat';
-      textEditorComponent.editorForm.get('text').setValue(value);
+      textEditorComponent.editorForm.get('text')?.setValue(value);
 
       textEditorFixture.detectChanges();
 
@@ -236,7 +235,7 @@ describe('SkyCellEditorTextComponent', () => {
     });
 
     describe('afterGuiAttached', () => {
-      let cellEditorParams: SkyCellEditorTextParams;
+      let cellEditorParams: Partial<SkyCellEditorTextParams>;
       let column: Column;
       const rowNode = new RowNode({} as Beans);
       rowNode.rowHeight = 37;
@@ -247,7 +246,7 @@ describe('SkyCellEditorTextComponent', () => {
           {
             colId: 'col',
           },
-          undefined,
+          null,
           'col',
           true
         );
@@ -256,21 +255,8 @@ describe('SkyCellEditorTextComponent', () => {
           value: value,
           column,
           node: rowNode,
-          key: undefined,
-          eventKey: undefined,
-          charPress: undefined,
           colDef: {},
-          columnApi: undefined,
-          data: undefined,
-          rowIndex: undefined,
-          api: undefined,
           cellStartedEdit: true,
-          onKeyDown: undefined,
-          context: undefined,
-          stopEditing: undefined,
-          eGridCell: undefined,
-          parseValue: undefined,
-          formatValue: undefined,
           skyComponentProperties: {
             maxlength: 50,
           },
@@ -280,7 +266,9 @@ describe('SkyCellEditorTextComponent', () => {
       it('focuses on the input after it attaches to the DOM', () => {
         textEditorFixture.detectChanges();
 
-        const input = textEditorNativeElement.querySelector('input');
+        const input = textEditorNativeElement.querySelector(
+          'input'
+        ) as HTMLInputElement;
         spyOn(input, 'focus');
 
         textEditorComponent.afterGuiAttached();
@@ -292,11 +280,13 @@ describe('SkyCellEditorTextComponent', () => {
       describe('cellStartedEdit is true', () => {
         it('does not select the input value if Backspace triggers the edit', () => {
           textEditorComponent.agInit({
-            ...cellEditorParams,
+            ...(cellEditorParams as ICellEditorParams),
             eventKey: KeyCode.BACKSPACE,
           });
           textEditorFixture.detectChanges();
-          const input = textEditorNativeElement.querySelector('input');
+          const input = textEditorNativeElement.querySelector(
+            'input'
+          ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
           textEditorComponent.afterGuiAttached();
@@ -307,11 +297,13 @@ describe('SkyCellEditorTextComponent', () => {
 
         it('does not select the input value if Delete triggers the edit', () => {
           textEditorComponent.agInit({
-            ...cellEditorParams,
+            ...(cellEditorParams as ICellEditorParams),
             eventKey: KeyCode.DELETE,
           });
           textEditorFixture.detectChanges();
-          const input = textEditorNativeElement.querySelector('input');
+          const input = textEditorNativeElement.querySelector(
+            'input'
+          ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
           textEditorComponent.afterGuiAttached();
@@ -322,11 +314,13 @@ describe('SkyCellEditorTextComponent', () => {
 
         it('does not select the input value if F2 triggers the edit', () => {
           textEditorComponent.agInit({
-            ...cellEditorParams,
+            ...(cellEditorParams as ICellEditorParams),
             eventKey: KeyCode.F2,
           });
           textEditorFixture.detectChanges();
-          const input = textEditorNativeElement.querySelector('input');
+          const input = textEditorNativeElement.querySelector(
+            'input'
+          ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
           textEditorComponent.afterGuiAttached();
@@ -337,11 +331,13 @@ describe('SkyCellEditorTextComponent', () => {
 
         it('selects the input value if Enter triggers the edit', () => {
           textEditorComponent.agInit({
-            ...cellEditorParams,
+            ...(cellEditorParams as ICellEditorParams),
             eventKey: KeyCode.ENTER,
           });
           textEditorFixture.detectChanges();
-          const input = textEditorNativeElement.querySelector('input');
+          const input = textEditorNativeElement.querySelector(
+            'input'
+          ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
           textEditorComponent.afterGuiAttached();
@@ -352,11 +348,13 @@ describe('SkyCellEditorTextComponent', () => {
 
         it('does not select the input value when a standard keyboard event triggers the edit', () => {
           textEditorComponent.agInit({
-            ...cellEditorParams,
+            ...(cellEditorParams as ICellEditorParams),
             charPress: 'a',
           });
           textEditorFixture.detectChanges();
-          const input = textEditorNativeElement.querySelector('input');
+          const input = textEditorNativeElement.querySelector(
+            'input'
+          ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
           textEditorComponent.afterGuiAttached();
@@ -373,11 +371,13 @@ describe('SkyCellEditorTextComponent', () => {
 
         it('does not select the input value if Backspace triggers the edit', () => {
           textEditorComponent.agInit({
-            ...cellEditorParams,
+            ...(cellEditorParams as ICellEditorParams),
             eventKey: KeyCode.BACKSPACE,
           });
           textEditorFixture.detectChanges();
-          const input = textEditorNativeElement.querySelector('input');
+          const input = textEditorNativeElement.querySelector(
+            'input'
+          ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
           textEditorComponent.afterGuiAttached();
@@ -388,11 +388,13 @@ describe('SkyCellEditorTextComponent', () => {
 
         it('does not select the input value if Delete triggers the edit', () => {
           textEditorComponent.agInit({
-            ...cellEditorParams,
+            ...(cellEditorParams as ICellEditorParams),
             eventKey: KeyCode.DELETE,
           });
           textEditorFixture.detectChanges();
-          const input = textEditorNativeElement.querySelector('input');
+          const input = textEditorNativeElement.querySelector(
+            'input'
+          ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
           textEditorComponent.afterGuiAttached();
@@ -403,11 +405,13 @@ describe('SkyCellEditorTextComponent', () => {
 
         it('does not select the input value if F2 triggers the edit', () => {
           textEditorComponent.agInit({
-            ...cellEditorParams,
+            ...(cellEditorParams as ICellEditorParams),
             eventKey: KeyCode.F2,
           });
           textEditorFixture.detectChanges();
-          const input = textEditorNativeElement.querySelector('input');
+          const input = textEditorNativeElement.querySelector(
+            'input'
+          ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
           textEditorComponent.afterGuiAttached();
@@ -418,11 +422,13 @@ describe('SkyCellEditorTextComponent', () => {
 
         it('should not select the input value if Enter triggers the edit', () => {
           textEditorComponent.agInit({
-            ...cellEditorParams,
+            ...(cellEditorParams as ICellEditorParams),
             eventKey: KeyCode.ENTER,
           });
           textEditorFixture.detectChanges();
-          const input = textEditorNativeElement.querySelector('input');
+          const input = textEditorNativeElement.querySelector(
+            'input'
+          ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
           textEditorComponent.afterGuiAttached();
@@ -433,11 +439,13 @@ describe('SkyCellEditorTextComponent', () => {
 
         it('does not select the input value when a standard keyboard event triggers the edit', () => {
           textEditorComponent.agInit({
-            ...cellEditorParams,
+            ...(cellEditorParams as ICellEditorParams),
             charPress: 'a',
           });
           textEditorFixture.detectChanges();
-          const input = textEditorNativeElement.querySelector('input');
+          const input = textEditorNativeElement.querySelector(
+            'input'
+          ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
           textEditorComponent.afterGuiAttached();

@@ -5,6 +5,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { SkyCheckboxFixture } from '@skyux/forms/testing';
 
 import {
@@ -28,7 +29,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
   let rowSelectorCellFixture: ComponentFixture<SkyAgGridCellRendererRowSelectorComponent>;
   let rowSelectorCellComponent: SkyAgGridCellRendererRowSelectorComponent;
   let rowSelectorCellNativeElement: HTMLElement;
-  let cellRendererParams: ICellRendererParams;
+  let cellRendererParams: Partial<ICellRendererParams>;
   const dataField = 'selected';
 
   beforeEach(() => {
@@ -42,25 +43,9 @@ describe('SkyCellRendererCheckboxComponent', () => {
     rowSelectorCellNativeElement = rowSelectorCellFixture.nativeElement;
     rowSelectorCellComponent = rowSelectorCellFixture.componentInstance;
     cellRendererParams = {
-      value: undefined,
-      node: undefined,
-      getValue: undefined,
-      setValue: undefined,
-      valueFormatted: undefined,
-      formatValue: undefined,
-      data: undefined,
       colDef: {
         field: dataField,
       },
-      column: undefined,
-      api: undefined,
-      columnApi: undefined,
-      rowIndex: undefined,
-      context: undefined,
-      refreshCell: undefined,
-      eGridCell: undefined,
-      eParentOfValue: undefined,
-      registerRowDragger: undefined,
     };
   });
 
@@ -94,7 +79,9 @@ describe('SkyCellRendererCheckboxComponent', () => {
       expect(checkbox.selected).toBe(false);
       expect(rowSelectorCellComponent.rowNode).toBeUndefined();
 
-      rowSelectorCellComponent.agInit(cellRendererParams);
+      rowSelectorCellComponent.agInit(
+        cellRendererParams as ICellRendererParams
+      );
 
       rowSelectorCellFixture.detectChanges();
       tick();
@@ -103,9 +90,9 @@ describe('SkyCellRendererCheckboxComponent', () => {
       expect(rowSelectorCellComponent.checked).toBe(checked);
       expect(checkbox.selected).toBe(true);
       expect(rowSelectorCellComponent.rowNode).toEqual(rowNode);
-      expect(rowSelectorCellComponent.rowNode.setSelected).toHaveBeenCalledWith(
-        true
-      );
+      expect(
+        rowSelectorCellComponent.rowNode?.setSelected
+      ).toHaveBeenCalledWith(true);
     }));
 
     it(`initializes the SkyuxCheckboxGridCellComponent properties and sets the checkbox to the node's selected
@@ -113,7 +100,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
       const rowNode = new RowNode({} as Beans);
       cellRendererParams.value = true;
       cellRendererParams.node = rowNode;
-      cellRendererParams.colDef.field = undefined;
+      (cellRendererParams.colDef as ColDef).field = undefined;
       spyOn(rowNode, 'setSelected');
 
       const checkbox = new SkyCheckboxFixture(
@@ -125,7 +112,9 @@ describe('SkyCellRendererCheckboxComponent', () => {
       expect(checkbox.selected).toBe(false);
       expect(rowSelectorCellComponent.rowNode).toBeUndefined();
 
-      rowSelectorCellComponent.agInit(cellRendererParams);
+      rowSelectorCellComponent.agInit(
+        cellRendererParams as ICellRendererParams
+      );
 
       rowSelectorCellFixture.detectChanges();
       tick();
@@ -135,7 +124,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
       expect(checkbox.selected).toBe(false);
       expect(rowSelectorCellComponent.rowNode).toEqual(rowNode);
       expect(
-        rowSelectorCellComponent.rowNode.setSelected
+        rowSelectorCellComponent.rowNode?.setSelected
       ).not.toHaveBeenCalled();
     }));
   });
@@ -151,33 +140,39 @@ describe('SkyCellRendererCheckboxComponent', () => {
       spyOn(rowNode, 'setSelected');
 
       rowSelectorCellFixture.detectChanges();
-      rowSelectorCellComponent.agInit(cellRendererParams);
+      rowSelectorCellComponent.agInit(
+        cellRendererParams as ICellRendererParams
+      );
 
       rowSelectorCellComponent.updateRow();
 
-      expect(rowSelectorCellComponent.rowNode.setSelected).toHaveBeenCalledWith(
-        true
-      );
-      expect(rowSelectorCellComponent.rowNode.data[dataField]).toBe(true);
+      expect(
+        rowSelectorCellComponent.rowNode?.setSelected
+      ).toHaveBeenCalledWith(true);
+      expect(rowSelectorCellComponent.rowNode?.data[dataField]).toBe(true);
     });
 
     it(`should set the rowNode selected property to the component's checked property value if no column field provided`, () => {
       const rowNode = new RowNode({} as Beans);
       rowNode.data = {};
       cellRendererParams.node = rowNode;
-      cellRendererParams.colDef.field = undefined;
+      cellRendererParams.colDef = {
+        field: undefined,
+      };
       spyOn(rowNode, 'isSelected').and.returnValue(true);
 
       rowSelectorCellFixture.detectChanges();
-      rowSelectorCellComponent.agInit(cellRendererParams);
+      rowSelectorCellComponent.agInit(
+        cellRendererParams as ICellRendererParams
+      );
 
       spyOn(rowNode, 'setSelected');
 
       rowSelectorCellComponent.updateRow();
 
-      expect(rowSelectorCellComponent.rowNode.setSelected).toHaveBeenCalledWith(
-        true
-      );
+      expect(
+        rowSelectorCellComponent.rowNode?.setSelected
+      ).toHaveBeenCalledWith(true);
     });
   });
 
@@ -189,14 +184,14 @@ describe('SkyCellRendererCheckboxComponent', () => {
 
   describe('row selection', () => {
     function testRowSelected(
-      colDefinition: ColDef,
+      colDefinition: ColDef | undefined,
       isSelectedValues: boolean[],
       dataPropertySet: boolean = false
-    ) {
-      let rowClickListener: Function;
+    ): void {
+      let rowClickListener: ((event: RowClickedEvent) => void) | undefined;
       const rowNode = new RowNode({} as Beans);
       rowNode.data = {};
-      const rowClickedEvent: RowClickedEvent = {
+      const rowClickedEvent: Partial<RowClickedEvent> = {
         node: rowNode,
         data: undefined,
         rowIndex: undefined,
@@ -214,7 +209,10 @@ describe('SkyCellRendererCheckboxComponent', () => {
       spyOn(rowNode, 'setSelected');
       spyOn(rowNode, 'isSelected').and.returnValues(...isSelectedValues);
 
-      rowNode.addEventListener = (event, listener) => {
+      rowNode.addEventListener = (
+        event: unknown,
+        listener: (event: RowClickedEvent) => void
+      ): void => {
         // set event listener
         rowClickListener = listener;
       };
@@ -228,13 +226,18 @@ describe('SkyCellRendererCheckboxComponent', () => {
         'row-checkbox'
       );
 
-      rowSelectorCellComponent.agInit(cellRendererParams);
+      rowSelectorCellComponent.agInit(
+        cellRendererParams as ICellRendererParams
+      );
 
       expect(rowSelectorCellComponent.checked).toBeFalsy();
       expect(checkbox.selected).toBe(false);
 
       // trigger the rowClickEventListner
-      rowClickListener(rowClickedEvent);
+      if (rowClickListener) {
+        rowClickListener(rowClickedEvent as RowClickedEvent);
+      }
+
       rowSelectorCellFixture.detectChanges();
       tick();
       rowSelectorCellFixture.detectChanges();
@@ -247,7 +250,10 @@ describe('SkyCellRendererCheckboxComponent', () => {
       expect(checkbox.selected).toBe(true);
 
       if (dataPropertySet) {
-        expect(rowNode.data[cellRendererParams.colDef.field]).toBe(true);
+        expect(
+          cellRendererParams?.colDef?.field &&
+            rowNode.data[cellRendererParams.colDef.field]
+        ).toBe(true);
       }
     }
 

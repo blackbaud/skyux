@@ -20,8 +20,8 @@ import { SkyCellRendererLookupParams } from '../../types/cell-renderer-lookup-pa
 export class SkyAgGridCellRendererLookupComponent
   implements ICellRendererAngularComp
 {
-  public value = '';
-  public summaryCount = 0;
+  protected value = '';
+  protected summaryCount = 0;
 
   constructor(private changeDetector: ChangeDetectorRef) {}
 
