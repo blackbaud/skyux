@@ -51,4 +51,33 @@ describe('Migrations > Add autonumeric as a dependency', () => {
 
     expect(tree.readJson('/package.json')).toEqual({});
   });
+
+  it('should install autonumeric in devDependencies', async () => {
+    const { runSchematic, tree } = await setupTest();
+
+    // Add autonumeric to both dependencies and devDependencies.
+    tree.overwrite(
+      '/package.json',
+      JSON.stringify({
+        dependencies: {
+          '@skyux/autonumeric': '*',
+          autonumeric: '*',
+        },
+        devDependencies: {
+          autonumeric: '*',
+        },
+      })
+    );
+
+    await runSchematic();
+
+    // The version listed in devDependencies should be removed.
+    expect(tree.readJson('/package.json')).toEqual({
+      dependencies: {
+        '@skyux/autonumeric': '*',
+        autonumeric: '4.6.0',
+      },
+      devDependencies: {},
+    });
+  });
 });
