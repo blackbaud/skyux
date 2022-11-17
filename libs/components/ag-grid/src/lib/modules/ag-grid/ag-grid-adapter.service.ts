@@ -16,6 +16,8 @@ export class SkyAgGridAdapterService {
     } else if (element.parentElement) {
       return this.getElementOrParentWithClass(element.parentElement, className);
     }
+
+    return undefined;
   }
 
   public setFocusedElementById(parentEl: HTMLElement, selector: string): void {
@@ -33,7 +35,7 @@ export class SkyAgGridAdapterService {
 
   public getNextFocusableElement(
     currentEl: HTMLElement,
-    parentEl: HTMLElement,
+    parentEl?: HTMLElement,
     moveFocusLeft?: boolean
   ): HTMLElement | undefined {
     if (parentEl) {
@@ -51,6 +53,8 @@ export class SkyAgGridAdapterService {
         return focusableChildren[nextIndex];
       }
     }
+
+    return undefined;
   }
 
   public focusOnFocusableChildren(element: HTMLElement): void {

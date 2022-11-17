@@ -75,6 +75,11 @@ export const componentRoutes: Routes = [
       ),
   },
   {
+    path: 'popovers',
+    loadChildren: () =>
+      import('./popovers/popovers.module').then((m) => m.PopoversModule),
+  },
+  {
     path: 'split-view',
     loadChildren: () =>
       import('./split-view/split-view.module').then((m) => m.SplitViewModule),

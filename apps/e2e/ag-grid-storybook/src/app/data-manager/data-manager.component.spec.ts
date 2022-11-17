@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
+import { FontLoadingTestingModule } from '../shared/font-loading/testing/font-loading-testing.module';
+
 import { DataManagerComponent } from './data-manager.component';
 import { DataManagerModule } from './data-manager.module';
 
@@ -24,7 +26,11 @@ describe('DataManagerComponent', () => {
     });
 
     TestBed.configureTestingModule({
-      imports: [DataManagerModule, NoopAnimationsModule],
+      imports: [
+        DataManagerModule,
+        FontLoadingTestingModule,
+        NoopAnimationsModule,
+      ],
     });
     fixture = TestBed.createComponent(DataManagerComponent);
     component = fixture.componentInstance;

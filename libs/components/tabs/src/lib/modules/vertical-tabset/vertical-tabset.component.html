@@ -1,14 +1,28 @@
-<div class="sky-vertical-tabset" (window:resize)="tabService.updateContent()">
-  <div
-    *ngIf="maintainTabContent || tabService.tabsVisible()"
+<div class="sky-vertical-tabset">
+  <!--
+    ARIA rules do not allow tabpanel elements to be children of a tablist element.
+    However, the markup for each sky-vertical-tab component includes both the tab button
+    and its panel, making the panel element a child of its tablist. Moreover, our
+    sky-vertical-tab components can be grouped within collapsible containers, which also
+    violates accessibility rules because only tab buttons can be children of a tablist.
+    To address this, we create an empty tablist element with an aria-owns attribute,
+    pointing to each tab element individually. That way, we don't have to worry about the
+    structure for each sky-vertical-tab component in order to satisfy accessibility
+    guidelines.
+  -->
+  <span
     aria-orientation="vertical"
-    class="sky-vertical-tabset-group-container"
-    [ngClass]="{ 'sky-vertical-tabset-hidden': !tabService.tabsVisible() }"
+    class="sky-vertical-tabset-tablist"
     [attr.aria-label]="ariaLabel"
     [attr.aria-labelledby]="ariaLabelledBy"
+    [attr.aria-owns]="ariaOwns"
     [attr.role]="isMobile ? undefined : ariaRole"
+  ></span>
+  <div
+    *ngIf="maintainTabContent || tabService.tabsVisible()"
+    class="sky-vertical-tabset-group-container"
     [@tabGroupEnter]="tabService.animationTabsVisibleState"
-    #groupContainerWrapper
+    [ngClass]="{ 'sky-vertical-tabset-hidden': !tabService.tabsVisible() }"
   >
     <ng-content></ng-content>
   </div>

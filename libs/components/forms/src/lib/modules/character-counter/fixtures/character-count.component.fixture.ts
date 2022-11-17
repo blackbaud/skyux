@@ -21,7 +21,9 @@ export class CharacterCountTestComponent {
   public testForm: UntypedFormGroup;
   public firstName: UntypedFormControl;
   public firstNameLabel = 'Field label';
+  public lastName: UntypedFormControl;
   public maxCharacterCount: number | undefined = 5;
+  public maxCharacterCountLastName: number | undefined = 5;
 
   @ViewChild(SkyCharacterCounterInputDirective)
   public inputDirective: SkyCharacterCounterInputDirective | undefined;
@@ -37,14 +39,17 @@ export class CharacterCountTestComponent {
     this.#changeDetector = changeDetector;
 
     this.firstName = this.#formBuilder.control('test');
+    this.lastName = this.#formBuilder.control('last');
 
     this.testForm = this.#formBuilder.group({
       firstName: this.firstName,
+      lastName: this.lastName,
     });
   }
 
   public setCharacterCountLimit(limit: number | undefined): void {
     this.maxCharacterCount = limit;
+    this.maxCharacterCountLastName = limit;
     this.#changeDetector.markForCheck();
   }
 }

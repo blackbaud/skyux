@@ -1,5 +1,52 @@
 # Changelog
 
+## [7.0.0-beta.16](https://github.com/blackbaud/skyux/compare/7.0.0-beta.15...7.0.0-beta.16) (2022-11-16)
+
+
+### Bug Fixes
+
+* imports schematic on Windows ([#837](https://github.com/blackbaud/skyux/issues/837)) ([d610573](https://github.com/blackbaud/skyux/commit/d61057362b9b7d9b53e1b206cf4758fb3234c0bd))
+
+## [7.0.0-beta.15](https://github.com/blackbaud/skyux/compare/7.0.0-beta.14...7.0.0-beta.15) (2022-11-16)
+
+
+### Features
+
+* **components/popovers:** improve dropdown styling ([#818](https://github.com/blackbaud/skyux/issues/818)) ([da10e69](https://github.com/blackbaud/skyux/commit/da10e696d5b01d44df3f29d7b650d6f567703012))
+
+## [7.0.0-beta.14](https://github.com/blackbaud/skyux/compare/7.0.0-beta.13...7.0.0-beta.14) (2022-11-15)
+
+
+### Features
+
+* **sdk/testing:** add support for `axe-core@^4.5.2` ([#822](https://github.com/blackbaud/skyux/issues/822)) ([095509a](https://github.com/blackbaud/skyux/commit/095509a86cb9b3b2c6542670d270c953993ab9ad))
+
+
+### Bug Fixes
+
+* adjust typescript exports and remove core-js imports ([#820](https://github.com/blackbaud/skyux/issues/820)) ([79c5989](https://github.com/blackbaud/skyux/commit/79c5989bc139a93f5c707cdf67ff6d4c06d2ca3a))
+* **components/data-manager:** mark for check when isActive changes ([#810](https://github.com/blackbaud/skyux/issues/810)) ([cf72fec](https://github.com/blackbaud/skyux/commit/cf72fec594ad05fa27da7247fe9a5c34f40e1505))
+* **components/errors:** set `ariaLabelledBy` for error modals to satisfy accessibility rules ([#819](https://github.com/blackbaud/skyux/issues/819)) ([ec7311a](https://github.com/blackbaud/skyux/commit/ec7311a76aebeedb02bcfdaefbff0e530368400f))
+* **components/forms:** allow character count indicator and limit to be set in either order ([#826](https://github.com/blackbaud/skyux/issues/826)) ([9b013f9](https://github.com/blackbaud/skyux/commit/9b013f99fe105aa72df5b096e2cb276aac4e5abc))
+* **components/tabs:** use 'aria-owns' to satisfy accessibility rules for vertical tab and sectioned form components ([#815](https://github.com/blackbaud/skyux/issues/815)) ([e5e3ac7](https://github.com/blackbaud/skyux/commit/e5e3ac70aeee35a18b0f205a87d42f5fcfd0053d))
+
+## [7.0.0-beta.13](https://github.com/blackbaud/skyux/compare/7.0.0-beta.12...7.0.0-beta.13) (2022-11-10)
+
+
+### Features
+
+* **components/core:** add ability to provide a parent injector when constructing components via the `SkyDynamicComponentService` ([#793](https://github.com/blackbaud/skyux/issues/793)) ([5b3fefa](https://github.com/blackbaud/skyux/commit/5b3fefab6b84e7144c641f97fe6668c9f4cf4b29))
+
+
+### Bug Fixes
+
+* adjust typescript imports to work on case sensitive filesystem ([#804](https://github.com/blackbaud/skyux/issues/804)) ([abec058](https://github.com/blackbaud/skyux/commit/abec0584c3c4afd0467eb9a501cfe6ed5025edbe))
+* **components/forms:** constrain input box textarea height to prevent text overlapping with label ([#796](https://github.com/blackbaud/skyux/issues/796)) ([502a2c2](https://github.com/blackbaud/skyux/commit/502a2c23ac07599dc667cb670f9649615c56de5d))
+* **components/indicators:** use attribute binding on the tokens component to avoid duplicate 'role' values ([#803](https://github.com/blackbaud/skyux/issues/803)) ([a48e94d](https://github.com/blackbaud/skyux/commit/a48e94d3853c16edeece5d632f7c49cef573a532))
+* **components/tabs:** address accessibility violations in tabset component ([#806](https://github.com/blackbaud/skyux/issues/806)) ([08ba3cf](https://github.com/blackbaud/skyux/commit/08ba3cfbe48321090600255c9b49c23822ef234d))
+* **components/text-editor:** escape merge field attribute values ([#797](https://github.com/blackbaud/skyux/issues/797)) ([5632dbd](https://github.com/blackbaud/skyux/commit/5632dbdc87677ec53267928761b21e17ea4ad9e5))
+* **components/validation:** correct return type for static `url` valdation function when called with validation options ([#809](https://github.com/blackbaud/skyux/issues/809)) ([dc8b6e4](https://github.com/blackbaud/skyux/commit/dc8b6e4c703ecc899aaefb2cb32ca2cca3c497ca))
+
 ## [7.0.0-beta.12](https://github.com/blackbaud/skyux/compare/7.0.0-beta.11...7.0.0-beta.12) (2022-11-07)
 
 

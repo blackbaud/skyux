@@ -27,38 +27,43 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
    * The configuration for the view. See the `SkyDataViewConfig` interface.
    * @required
    */
-
   @Input()
-  public viewId: string;
+  public viewId: string | undefined;
 
   public get isActive(): boolean {
-    return this._isActive;
+    return this.#_isActive;
   }
 
   public set isActive(value: boolean) {
-    this._isActive = value;
-    this.changeDetector.markForCheck();
+    this.#_isActive = value;
+    this.#changeDetector.markForCheck();
   }
 
-  public _isActive = false;
-  private _ngUnsubscribe = new Subject<void>();
+  #_isActive = false;
+
+  #ngUnsubscribe = new Subject<void>();
+  #dataManagerService: SkyDataManagerService;
+  #changeDetector: ChangeDetectorRef;
 
   constructor(
-    private changeDetector: ChangeDetectorRef,
-    private dataManagerService: SkyDataManagerService
-  ) {}
+    dataManagerService: SkyDataManagerService,
+    changeDetector: ChangeDetectorRef
+  ) {
+    this.#dataManagerService = dataManagerService;
+    this.#changeDetector = changeDetector;
+  }
 
   public ngOnInit(): void {
-    this.dataManagerService
+    this.#dataManagerService
       .getActiveViewIdUpdates()
-      .pipe(takeUntil(this._ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((activeViewId) => {
         this.isActive = this.viewId === activeViewId;
       });
   }
 
   public ngOnDestroy(): void {
-    this._ngUnsubscribe.next();
-    this._ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 }

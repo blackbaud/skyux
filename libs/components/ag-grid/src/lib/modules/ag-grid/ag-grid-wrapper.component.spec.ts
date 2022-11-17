@@ -39,7 +39,7 @@ describe('SkyAgGridWrapperComponent', () => {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
 
-  const agGrid: AgGridAngular = {
+  const agGrid = {
     api: new GridApi(),
     columnApi: new ColumnApi(),
     gridReady: new Subject<GridReadyEvent>(),
@@ -47,7 +47,7 @@ describe('SkyAgGridWrapperComponent', () => {
     firstDataRendered: new Subject<FirstDataRenderedEvent>(),
     cellEditingStarted: new Subject<CellEditingStartedEvent>(),
     cellEditingStopped: new Subject<CellEditingStartedEvent>(),
-  } as AgGridAngular;
+  } as unknown as AgGridAngular;
 
   beforeEach(() => {
     mockThemeSvc = {
@@ -182,7 +182,7 @@ describe('SkyAgGridWrapperComponent', () => {
     beforeEach(() => {
       skyAgGridDivEl = gridWrapperNativeElement.querySelector(
         `#${gridWrapperComponent.gridId}`
-      );
+      ) as HTMLElement;
     });
 
     function fireKeydownOnGrid(key: string, shiftKey: boolean): void {
@@ -289,7 +289,7 @@ describe('SkyAgGridWrapperComponent', () => {
     beforeEach(() => {
       skyAgGridDivEl = gridWrapperNativeElement.querySelector(
         `#${gridWrapperComponent.gridId}`
-      );
+      ) as HTMLElement;
     });
 
     function fireKeyupEscape(): void {
@@ -355,7 +355,7 @@ describe('SkyAgGridWrapperComponent', () => {
       spyOn(agGrid.columnApi, 'getAllDisplayedColumns').and.returnValue([
         column,
       ]);
-      spyOn(agGrid.api, 'getFirstDisplayedRow').and.returnValue(undefined);
+      spyOn(agGrid.api, 'getFirstDisplayedRow');
       spyOn(agGrid.api, 'setFocusedCell');
 
       focusOnAnchor(afterAnchorEl, afterButtonEl);
@@ -385,7 +385,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
   const getChildrenClassNames = () =>
     Array.from(
       gridWrapperNativeElement.querySelector('.ag-root')?.children || []
-    ).map((el: HTMLElement) => el.classList[0]);
+    ).map((el) => el.classList[0]);
 
   it('should move the horizontal scroll based on enableTopScroll check, static data', async () => {
     TestBed.configureTestingModule({
@@ -439,7 +439,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
     gridWrapperFixture.componentInstance.gridOptions.context = {
       enableTopScroll: true,
     };
-    gridWrapperFixture.componentInstance.agGrid.gridReady.emit();
+    gridWrapperFixture.componentInstance.agGrid?.gridReady.emit();
 
     // Expect the scrollbar below the header.
     expect(getChildrenClassNames()).toEqual([
@@ -455,7 +455,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
     gridWrapperFixture.componentInstance.gridOptions.context = {
       enableTopScroll: false,
     };
-    gridWrapperFixture.componentInstance.agGrid.rowDataUpdated.emit();
+    gridWrapperFixture.componentInstance.agGrid?.rowDataUpdated.emit();
 
     // Expect the scrollbar at the bottom.
     expect(getChildrenClassNames()).toEqual([
@@ -492,10 +492,10 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
     expect(
       gridWrapperNativeElement
         .querySelector(`[col-id="value"] .sky-control-help`)
-        .getAttribute('title')
+        ?.getAttribute('title')
     ).toEqual('Current Value help');
 
-    gridWrapperFixture.componentInstance.agGrid.api.setColumnDefs([
+    gridWrapperFixture.componentInstance.agGrid?.api.setColumnDefs([
       ...gridWrapperFixture.componentInstance.columnDefs.map((col) => {
         switch (col.field) {
           case 'name':
@@ -541,7 +541,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
     expect(
       gridWrapperNativeElement
         .querySelector(`[col-id="value"] .sky-control-help`)
-        .getAttribute('title')
+        ?.getAttribute('title')
     ).toEqual('Current Value help replaced');
   });
 });

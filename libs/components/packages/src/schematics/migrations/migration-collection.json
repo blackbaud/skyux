@@ -39,6 +39,11 @@
       "version": "7.0.0-beta.0",
       "factory": "./update-7/fix-scss-imports",
       "description": "Fix SCSS imports"
+    },
+    "fix-imports": {
+      "version": "7.0.0-beta.0",
+      "factory": "./update-7/fix-imports",
+      "description": "Fix import and export statements where the file case does not match the filesystem, and fix or warn about core-js imports"
     }
   }
 }

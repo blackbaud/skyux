@@ -3,6 +3,18 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: 'alert',
+    loadChildren: () =>
+      import('./alert/alert.module').then((m) => m.AlertModule),
+  },
+  {
+    path: 'help-inline',
+    loadChildren: () =>
+      import('./help-inline/help-inline.module').then(
+        (m) => m.HelpInlineModule
+      ),
+  },
+  {
     path: 'key-info',
     loadChildren: () =>
       import('./key-info/key-info.module').then((m) => m.KeyInfoModule),
@@ -17,11 +29,6 @@ const routes: Routes = [
   {
     path: 'wait',
     loadChildren: () => import('./wait/wait.module').then((m) => m.WaitModule),
-  },
-  {
-    path: 'alert',
-    loadChildren: () =>
-      import('./alert/alert.module').then((m) => m.AlertModule),
   },
   {
     path: 'label',

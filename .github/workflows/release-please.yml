@@ -1,5 +1,6 @@
 name: Release Please
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -17,7 +18,7 @@ jobs:
           package-name: 'skyux'
           pull-request-title-pattern: 'chore: release ${version}'
           labels: 'autorelease ${{ github.ref_name }}: pending'
-          release-as: 7.0.0-beta.13
+          release-as: 7.0.0-beta.16
           release-labels: 'autorelease ${{ github.ref_name }}: tagged'
           prerelease: true
           draft-pull-request: true
@@ -25,9 +26,9 @@ jobs:
           token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
+        id: setup-node
         with:
-          cache: npm
-          node-version: '16.18.x'
+          node-version-file: '.nvmrc'
       # Workaround to avoid "Post Run actions/setup-node" failures.
       # See: https://github.com/actions/setup-node/issues/317
       - name: Ensure cache directory exists
@@ -40,7 +41,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: node_modules
-          key: cache-node-modules_node16.18_${{ hashFiles('package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: npm install
         if: ${{ steps.release.outputs.release_created && steps.cache.outputs.cache-hit != 'true' }}
         run: npm ci

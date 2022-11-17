@@ -11,12 +11,14 @@ import {
 
 import {
   CellClassParams,
+  CellFocusedEvent,
   ColumnApi,
   GetRowIdParams,
   GridApi,
   GridOptions,
   RowClassParams,
   RowNode,
+  SuppressKeyboardEventParams,
   ValueFormatterFunc,
   ValueFormatterParams,
 } from 'ag-grid-community';
@@ -28,6 +30,8 @@ import { SkyAgGridService } from './ag-grid.service';
 import { SkyAgGridFixtureComponent } from './fixtures/ag-grid.component.fixture';
 import { SkyCellClass } from './types/cell-class';
 import { SkyCellType } from './types/cell-type';
+
+type comparator = (...args: unknown[]) => number;
 
 describe('SkyAgGridService', () => {
   let agGridService: SkyAgGridService;
@@ -70,7 +74,7 @@ describe('SkyAgGridService', () => {
       expect(defaultGridOptions.defaultColDef).toBeDefined();
     });
 
-    it('overrides non-nested properties from the given options', () => {
+    it('should override non-nested properties from the given options', () => {
       const newHeight = 1000;
       const overrideGridOptions = {
         headerHeight: newHeight,
@@ -86,7 +90,7 @@ describe('SkyAgGridService', () => {
       expect(mergedGridOptions.rowHeight).toEqual(newHeight);
     });
 
-    it('includes new provided columnTypes', () => {
+    it('should include new provided columnTypes', () => {
       const newColumnType = {
         width: 1000,
         sortable: false,
@@ -102,13 +106,13 @@ describe('SkyAgGridService', () => {
       });
       const mergedColumnTypes = mergedGridOptions.columnTypes;
 
-      expect(mergedColumnTypes.newType).toEqual(newColumnType);
-      expect(mergedColumnTypes[SkyCellType.Number]).toBeDefined();
-      expect(mergedColumnTypes[SkyCellType.Date]).toBeDefined();
-      expect(mergedColumnTypes[SkyCellType.RowSelector]).toBeDefined();
+      expect(mergedColumnTypes?.newType).toEqual(newColumnType);
+      expect(mergedColumnTypes?.[SkyCellType.Number]).toBeDefined();
+      expect(mergedColumnTypes?.[SkyCellType.Date]).toBeDefined();
+      expect(mergedColumnTypes?.[SkyCellType.RowSelector]).toBeDefined();
     });
 
-    it('does not overwrite the default grid options columnTypes', () => {
+    it('should not overwrite the default grid options columnTypes', () => {
       const overrideDateColumnType = {
         width: 1000,
         sortable: false,
@@ -116,7 +120,7 @@ describe('SkyAgGridService', () => {
         cellClass: 'random',
       };
       const defaultDateColumnType =
-        defaultGridOptions.columnTypes[SkyCellType.Date];
+        defaultGridOptions.columnTypes?.[SkyCellType.Date];
       const overrideGridOptions = {
         columnTypes: {
           [SkyCellType.Date]: overrideDateColumnType,
@@ -128,23 +132,23 @@ describe('SkyAgGridService', () => {
       });
       const mergedColumnTypes = mergedGridOptions.columnTypes;
 
-      expect(mergedColumnTypes[SkyCellType.Date].width).toEqual(
-        defaultDateColumnType.width
+      expect(mergedColumnTypes?.[SkyCellType.Date].width).toEqual(
+        defaultDateColumnType?.width
       );
-      expect(mergedColumnTypes[SkyCellType.Date].width).not.toEqual(
+      expect(mergedColumnTypes?.[SkyCellType.Date].width).not.toEqual(
         overrideDateColumnType.width
       );
-      expect(mergedColumnTypes[SkyCellType.Date].sortable).toEqual(
-        defaultDateColumnType.sortable
+      expect(mergedColumnTypes?.[SkyCellType.Date].sortable).toEqual(
+        defaultDateColumnType?.sortable
       );
-      expect(mergedColumnTypes[SkyCellType.Date].sortable).not.toEqual(
+      expect(mergedColumnTypes?.[SkyCellType.Date].sortable).not.toEqual(
         overrideDateColumnType.sortable
       );
-      expect(mergedColumnTypes[SkyCellType.Number]).toBeDefined();
-      expect(mergedColumnTypes[SkyCellType.RowSelector]).toBeDefined();
+      expect(mergedColumnTypes?.[SkyCellType.Number]).toBeDefined();
+      expect(mergedColumnTypes?.[SkyCellType.RowSelector]).toBeDefined();
     });
 
-    it('overrides defaultColDef options that are not cellClassRules', () => {
+    it('should override defaultColDef options that are not cellClassRules', () => {
       const overrideDefaultColDef = {
         sortable: false,
         resizable: false,
@@ -159,19 +163,21 @@ describe('SkyAgGridService', () => {
       });
       const mergedDefaultColDef = mergedGridOptions.defaultColDef;
 
-      expect(mergedDefaultColDef.sortable).not.toEqual(defaultColDef.sortable);
-      expect(mergedDefaultColDef.sortable).toEqual(
+      expect(mergedDefaultColDef?.sortable).not.toEqual(
+        defaultColDef?.sortable
+      );
+      expect(mergedDefaultColDef?.sortable).toEqual(
         overrideDefaultColDef.sortable
       );
-      expect(mergedDefaultColDef.resizable).not.toEqual(
-        defaultColDef.resizable
+      expect(mergedDefaultColDef?.resizable).not.toEqual(
+        defaultColDef?.resizable
       );
-      expect(mergedDefaultColDef.resizable).toEqual(
+      expect(mergedDefaultColDef?.resizable).toEqual(
         overrideDefaultColDef.resizable
       );
     });
 
-    it('does not override defaultColDef cellClassRules', () => {
+    it('should not override defaultColDef cellClassRules', () => {
       const overrideDefaultColDef = {
         cellClassRules: {
           'new-rule': 'true',
@@ -185,14 +191,14 @@ describe('SkyAgGridService', () => {
         gridOptions: overrideGridOptions,
       });
       const mergedCellClassRules =
-        mergedGridOptions.defaultColDef.cellClassRules;
+        mergedGridOptions.defaultColDef?.cellClassRules;
 
-      expect(mergedCellClassRules['new-rule']).toBeUndefined();
-      expect(mergedCellClassRules[SkyCellClass.Editable]).toBeDefined();
-      expect(mergedCellClassRules[SkyCellClass.Uneditable]).toBeDefined();
+      expect(mergedCellClassRules?.['new-rule']).toBeUndefined();
+      expect(mergedCellClassRules?.[SkyCellClass.Editable]).toBeDefined();
+      expect(mergedCellClassRules?.[SkyCellClass.Uneditable]).toBeDefined();
     });
 
-    it('sets rowHeight and headerHeight for modern theme', () => {
+    it('should set rowHeight and headerHeight for modern theme', () => {
       // Trigger change to modern theme
       mockThemeSvc.settingsChange.next({
         currentSettings: new SkyThemeSettings(
@@ -211,7 +217,7 @@ describe('SkyAgGridService', () => {
       expect(modernThemeGridOptions.headerHeight).toBe(60);
     });
 
-    it('unsubscribes from the theme service when destroyed', () => {
+    it('should unsubscribe from the theme service when destroyed', () => {
       const overrideOptions = { gridOptions: {} };
       let gridOptions = agGridService.getGridOptions(overrideOptions);
 
@@ -262,7 +268,7 @@ describe('SkyAgGridService', () => {
         'frameworkFoo',
       ]);
 
-      expect(Object.keys(options.components)).toEqual([
+      expect(Object.keys(options.components as string[])).toEqual([
         'sky-ag-grid-cell-renderer-currency',
         'sky-ag-grid-cell-renderer-currency-validator',
         'sky-ag-grid-cell-renderer-validator-tooltip',
@@ -278,7 +284,7 @@ describe('SkyAgGridService', () => {
         },
       });
 
-      expect(Object.keys(options.components)).toEqual([
+      expect(Object.keys(options.components as string[])).toEqual([
         'foo',
         'sky-ag-grid-cell-renderer-currency',
         'sky-ag-grid-cell-renderer-currency-validator',
@@ -298,7 +304,7 @@ describe('SkyAgGridService', () => {
   });
 
   describe('dateFormatter', () => {
-    let dateValueFormatter: Function;
+    let dateValueFormatter: ValueFormatterFunc;
     let dateValueFormatterParams: ValueFormatterParams;
 
     // remove the invisible characters IE11 includes in the output of toLocaleDateString
@@ -316,48 +322,41 @@ describe('SkyAgGridService', () => {
     }
 
     beforeEach(() => {
-      dateValueFormatter = defaultGridOptions.columnTypes[SkyCellType.Date]
-        .valueFormatter as Function;
+      dateValueFormatter = defaultGridOptions.columnTypes?.[SkyCellType.Date]
+        .valueFormatter as ValueFormatterFunc;
       dateValueFormatterParams = {
-        value: undefined,
-        node: undefined,
-        data: undefined,
-        colDef: undefined,
-        column: undefined,
         columnApi: new ColumnApi(),
-        api: undefined,
-        context: undefined,
-      };
+      } as ValueFormatterParams;
     });
 
-    it('returns undefined when no date value is provided', () => {
+    it('should return empty string when no date value is provided', () => {
       const formattedDate = dateValueFormatter(dateValueFormatterParams);
 
-      expect(formattedDate).toBeUndefined();
+      expect(formattedDate).toBe('');
     });
 
-    it('returns undefined when a string that is not a valid date is provided', () => {
+    it('should return empty string when a string that is not a valid date is provided', () => {
       dateValueFormatterParams.value = 'cat';
       const formattedDate = dateValueFormatter(dateValueFormatterParams);
 
-      expect(formattedDate).toBeUndefined();
+      expect(formattedDate).toBe('');
     });
 
-    it('returns undefined when a non-Date object is provided', () => {
+    it('should return empty string when a non-Date object is provided', () => {
       dateValueFormatterParams.value = {};
       const formattedDate = dateValueFormatter(dateValueFormatterParams);
 
-      expect(formattedDate).toBeUndefined();
+      expect(formattedDate).toBe('');
     });
 
-    it('returns a date string in the DD/MM/YYYY string format when a Date object and british english en-gb locale  are provided', () => {
+    it('should return a date string in the DD/MM/YYYY string format when a Date object and british english en-gb locale  are provided', () => {
       const britishGridOptions = agGridService.getGridOptions({
         gridOptions: {},
         locale: 'en-gb',
       });
-      const britishDateValueFormatter = britishGridOptions.columnTypes[
+      const britishDateValueFormatter = britishGridOptions.columnTypes?.[
         SkyCellType.Date
-      ].valueFormatter as Function;
+      ].valueFormatter as ValueFormatterFunc;
       dateValueFormatterParams.value = new Date('12/1/2019');
 
       const formattedDate = britishDateValueFormatter(dateValueFormatterParams);
@@ -366,14 +365,14 @@ describe('SkyAgGridService', () => {
       expect(fixedFormattedDate).toEqual('01/12/2019');
     });
 
-    it('returns a date string in the DD/MM/YYYY string format when a date string and british english en-gb locale  are provided', () => {
+    it('should return a date string in the DD/MM/YYYY string format when a date string and british english en-gb locale  are provided', () => {
       const britishGridOptions = agGridService.getGridOptions({
         gridOptions: {},
         locale: 'en-gb',
       });
-      const britishDateValueFormatter = britishGridOptions.columnTypes[
+      const britishDateValueFormatter = britishGridOptions.columnTypes?.[
         SkyCellType.Date
-      ].valueFormatter as Function;
+      ].valueFormatter as ValueFormatterFunc;
       dateValueFormatterParams.value = '3/1/2019';
 
       const formattedDate = britishDateValueFormatter(dateValueFormatterParams);
@@ -382,7 +381,7 @@ describe('SkyAgGridService', () => {
       expect(fixedFormattedDate).toEqual('01/03/2019');
     });
 
-    it('returns a date string in the MM/DD/YYYY format when only a Date object is provided', () => {
+    it('should return a date string in the MM/DD/YYYY format when only a Date object is provided', () => {
       dateValueFormatterParams.value = new Date('12/1/2019');
       const formattedDate = dateValueFormatter(dateValueFormatterParams);
       const fixedFormattedDate = fixLocaleDateString(formattedDate);
@@ -390,7 +389,7 @@ describe('SkyAgGridService', () => {
       expect(fixedFormattedDate).toEqual('12/01/2019');
     });
 
-    it('returns a date string in the MM/DD/YYYY format when only a date string is provided', () => {
+    it('should return a date string in the MM/DD/YYYY format when only a date string is provided', () => {
       dateValueFormatterParams.value = '3/1/2019';
       const formattedDate = dateValueFormatter(dateValueFormatterParams);
       const fixedFormattedDate = fixLocaleDateString(formattedDate);
@@ -400,15 +399,15 @@ describe('SkyAgGridService', () => {
   });
 
   describe('dateComparator', () => {
-    let dateComparator: Function;
+    let dateComparator: comparator;
     const earlyDateString = '1/1/19';
     const lateDateString = '12/1/19';
     const earlyDate = new Date(earlyDateString);
     const lateDate = new Date(lateDateString);
 
     beforeEach(() => {
-      dateComparator =
-        defaultGridOptions.columnTypes[SkyCellType.Date].comparator;
+      dateComparator = defaultGridOptions.columnTypes?.[SkyCellType.Date]
+        .comparator as comparator;
     });
 
     it('should return 1 when date1 (object) comes after date2 (string)', () => {
@@ -433,25 +432,19 @@ describe('SkyAgGridService', () => {
   });
 
   describe('autocompleteFormatter', () => {
-    let autocompleteValueFormatter: Function;
+    let autocompleteValueFormatter: ValueFormatterFunc;
     let autocompleteValueFormatterParams: ValueFormatterParams;
 
     beforeEach(() => {
-      autocompleteValueFormatter = defaultGridOptions.columnTypes[
+      autocompleteValueFormatter = defaultGridOptions.columnTypes?.[
         SkyCellType.Autocomplete
-      ].valueFormatter as Function;
+      ].valueFormatter as ValueFormatterFunc;
       autocompleteValueFormatterParams = {
-        value: undefined,
-        node: undefined,
-        data: undefined,
         colDef: {
           cellEditorParams: {},
         },
-        column: undefined,
         columnApi: new ColumnApi(),
-        api: undefined,
-        context: undefined,
-      };
+      } as ValueFormatterParams;
     });
 
     it('should return the name property of the value', () => {
@@ -464,7 +457,7 @@ describe('SkyAgGridService', () => {
       expect(formattedAutocomplete).toEqual('Bob');
     });
 
-    it('returns undefined when the cell does not have a value', () => {
+    it('should return undefined when the cell does not have a value', () => {
       const formattedAutocomplete = autocompleteValueFormatter(
         autocompleteValueFormatterParams
       );
@@ -474,13 +467,14 @@ describe('SkyAgGridService', () => {
   });
 
   describe('autocompleteComparator', () => {
-    let autocompleteComparator: Function;
+    let autocompleteComparator: (...args: unknown[]) => number;
     const cat = { id: '1', name: 'cat' };
     const dog = { id: '2', name: 'dog' };
 
     beforeEach(() => {
-      autocompleteComparator =
-        defaultGridOptions.columnTypes[SkyCellType.Autocomplete].comparator;
+      autocompleteComparator = defaultGridOptions.columnTypes?.[
+        SkyCellType.Autocomplete
+      ].comparator as (...args: unknown[]) => number;
     });
 
     it('should return 1 when value1.name comes after value2.name', () => {
@@ -506,20 +500,12 @@ describe('SkyAgGridService', () => {
 
   describe('lookup value formatter', () => {
     let lookupValueFormatter: ValueFormatterFunc;
-    const baseParameters = {
-      api: undefined,
-      colDef: undefined,
-      column: undefined,
-      columnApi: undefined,
-      context: undefined,
-      data: undefined,
-      node: undefined,
-      value: undefined,
-    };
+    const baseParameters = {} as ValueFormatterParams;
 
     beforeEach(() => {
-      lookupValueFormatter = defaultGridOptions.columnTypes[SkyCellType.Lookup]
-        .valueFormatter as ValueFormatterFunc;
+      lookupValueFormatter = defaultGridOptions.columnTypes?.[
+        SkyCellType.Lookup
+      ].valueFormatter as ValueFormatterFunc;
     });
 
     it('should format an empty value', () => {
@@ -538,15 +524,19 @@ describe('SkyAgGridService', () => {
 
   describe('suppressKeyboardEvent', () => {
     const mockEl = document.createElement('div');
-    let suppressKeypressFunction: Function;
+    let suppressKeypressFunction: (
+      params: SuppressKeyboardEventParams<any>
+    ) => boolean;
 
     beforeEach(() => {
-      suppressKeypressFunction =
-        defaultGridOptions.defaultColDef.suppressKeyboardEvent;
+      suppressKeypressFunction = defaultGridOptions.defaultColDef
+        ?.suppressKeyboardEvent as (
+        params: SuppressKeyboardEventParams<any>
+      ) => boolean;
     });
 
     it('should return true to suppress the event when the tab key is pressed and cells are not being edited', () => {
-      const params = { event: { code: 'Tab' } };
+      const params = { event: { code: 'Tab' } } as SuppressKeyboardEventParams;
       expect(suppressKeypressFunction(params)).toBe(true);
     });
 
@@ -556,7 +546,7 @@ describe('SkyAgGridService', () => {
         event: {
           code: 'Tab',
         },
-      };
+      } as SuppressKeyboardEventParams;
 
       spyOn(
         agGridAdapterService,
@@ -575,7 +565,7 @@ describe('SkyAgGridService', () => {
         event: {
           code: 'Tab',
         },
-      };
+      } as SuppressKeyboardEventParams;
 
       spyOn(
         agGridAdapterService,
@@ -589,23 +579,27 @@ describe('SkyAgGridService', () => {
     });
 
     it('should return false for non-tab keys to allow the keypress event', () => {
-      const params = { event: { code: 'Enter' } };
+      const params = {
+        event: { code: 'Enter' },
+      } as SuppressKeyboardEventParams;
       expect(suppressKeypressFunction(params)).toBe(false);
     });
   });
 
   describe('onCellFocused', () => {
-    let onCellFocusedFunction: Function;
+    let onCellFocusedFunction: (event: CellFocusedEvent) => void;
 
     beforeEach(() => {
-      onCellFocusedFunction = defaultGridOptions.onCellFocused;
+      onCellFocusedFunction = defaultGridOptions.onCellFocused as (
+        event: CellFocusedEvent
+      ) => void;
     });
 
     it('should get the currently focused cell and place focus on its children elements', () => {
       spyOn(agGridAdapterService, 'getFocusedElement');
       spyOn(agGridAdapterService, 'focusOnFocusableChildren');
 
-      onCellFocusedFunction();
+      onCellFocusedFunction({} as CellFocusedEvent);
 
       expect(agGridAdapterService.getFocusedElement).toHaveBeenCalled();
       expect(agGridAdapterService.focusOnFocusableChildren).toHaveBeenCalled();
@@ -618,59 +612,56 @@ describe('SkyAgGridService', () => {
 
     beforeEach(() => {
       const cellClassRuleEditable =
-        defaultGridOptions.defaultColDef.cellClassRules[SkyCellClass.Editable];
+        defaultGridOptions.defaultColDef?.cellClassRules?.[
+          SkyCellClass.Editable
+        ];
       if (typeof cellClassRuleEditable === 'function') {
         cellClassRuleEditableFunction = cellClassRuleEditable;
       }
 
       cellClassParams = {
-        column: undefined,
-        value: undefined,
-        data: undefined,
-        node: undefined,
-        rowIndex: undefined,
-        api: undefined,
         columnApi: new ColumnApi(),
-        context: undefined,
         colDef: {},
-      };
+      } as CellClassParams;
     });
 
-    it("returns true when the columnDefinion's editable property is true and checkinng for editable", () => {
+    it("should return true when the columnDefinion's editable property is true and checkinng for editable", () => {
       cellClassParams.colDef.editable = true;
       const editable = cellClassRuleEditableFunction(cellClassParams);
 
       expect(editable).toBeTruthy();
     });
 
-    it("returns false when the columnDefinion's editable property is false and checking for editable", () => {
+    it("should return false when the columnDefinion's editable property is false and checking for editable", () => {
       cellClassParams.colDef.editable = false;
       const editable = cellClassRuleEditableFunction(cellClassParams);
 
       expect(editable).toBeFalsy();
     });
 
-    it("returns false when the columnDefinion's editable property is undefined and checking for editable", () => {
+    it("should return false when the columnDefinion's editable property is undefined and checking for editable", () => {
       const editable = cellClassRuleEditableFunction(cellClassParams);
 
       expect(editable).toBeFalsy();
     });
 
-    it("returns the result of the function when the columnDefinion's editable property is a function and checking for editable", () => {
-      cellClassParams.colDef.editable = () => {
+    it("should return the result of the function when the columnDefinion's editable property is a function and checking for editable", () => {
+      cellClassParams.colDef.editable = (): boolean => {
         return true;
       };
-      spyOn(cellClassParams.columnApi, 'getColumn').and.returnValue(undefined);
+      spyOn(cellClassParams.columnApi, 'getColumn').and.returnValue(null);
       const editable = cellClassRuleEditableFunction(cellClassParams);
 
       expect(editable).toBeTruthy();
     });
 
-    it("returns false when the columnDefinion's editable property is true and checking for uneditable", () => {
-      let cellClassRuleUneditableFunction: Function;
+    it("should return false when the columnDefinion's editable property is true and checking for uneditable", () => {
+      let cellClassRuleUneditableFunction:
+        | ((params: CellClassParams) => boolean)
+        | undefined;
 
       const cellClassRuleUneditable =
-        defaultGridOptions.defaultColDef.cellClassRules[
+        defaultGridOptions.defaultColDef?.cellClassRules?.[
           SkyCellClass.Uneditable
         ];
       if (typeof cellClassRuleUneditable === 'function') {
@@ -678,37 +669,29 @@ describe('SkyAgGridService', () => {
       }
 
       cellClassParams.colDef.editable = true;
-      const editable = cellClassRuleUneditableFunction(cellClassParams);
+      const editable = cellClassRuleUneditableFunction?.(cellClassParams);
 
       expect(editable).toBeFalsy();
     });
   });
 
   describe('getDefaultGridOptions validator', () => {
-    let cellClassRuleValidatorFunction: Function;
+    let cellClassRuleValidatorFunction: (params: CellClassParams) => boolean;
     let cellClassParams: CellClassParams;
     let cellRendererParams: ICellRendererParams;
 
     beforeEach(() => {
       const cellClassRuleValidator =
-        defaultGridOptions.columnTypes[SkyCellType.Validator].cellClassRules[
-          SkyCellClass.Invalid
-        ];
+        defaultGridOptions.columnTypes?.[SkyCellType.Validator]
+          .cellClassRules?.[SkyCellClass.Invalid];
       if (typeof cellClassRuleValidator === 'function') {
         cellClassRuleValidatorFunction = cellClassRuleValidator;
       }
 
       cellClassParams = {
-        column: undefined,
-        value: undefined,
-        data: undefined,
-        node: undefined,
-        rowIndex: undefined,
-        api: undefined,
         columnApi: new ColumnApi(),
-        context: undefined,
         colDef: {},
-      };
+      } as CellClassParams;
 
       cellRendererParams = {
         addRenderedRowListener(): void {},
@@ -729,7 +712,7 @@ describe('SkyAgGridService', () => {
         setValue(): void {},
         value: 1.23,
         valueFormatted: undefined,
-      } as ICellRendererParams;
+      } as unknown as ICellRendererParams;
     });
 
     it('should return false when there is no validator function', () => {
@@ -762,10 +745,10 @@ describe('SkyAgGridService', () => {
 
     it('should select currency cell renderer when the validator function passes', () => {
       const cellRendererSelector =
-        defaultGridOptions.columnTypes[SkyCellType.CurrencyValidator]
+        defaultGridOptions.columnTypes?.[SkyCellType.CurrencyValidator]
           .cellRendererSelector;
       const validator =
-        defaultGridOptions.columnTypes[SkyCellType.CurrencyValidator]
+        defaultGridOptions.columnTypes?.[SkyCellType.CurrencyValidator]
           .cellRendererParams.skyComponentProperties.validator;
       const params = {
         ...cellRendererParams,
@@ -778,17 +761,17 @@ describe('SkyAgGridService', () => {
         },
         value: 1.23,
       } as ICellRendererParams;
-      expect(cellRendererSelector(params).component).toBe(
+      expect(cellRendererSelector?.(params)?.component).toBe(
         'sky-ag-grid-cell-renderer-currency'
       );
     });
 
     it('should select validator cell renderer when the validator function fails', () => {
       const cellRendererSelector =
-        defaultGridOptions.columnTypes[SkyCellType.NumberValidator]
+        defaultGridOptions.columnTypes?.[SkyCellType.NumberValidator]
           .cellRendererSelector;
       const validator =
-        defaultGridOptions.columnTypes[SkyCellType.NumberValidator]
+        defaultGridOptions.columnTypes?.[SkyCellType.NumberValidator]
           .cellRendererParams.skyComponentProperties.validator;
       const params = {
         ...cellRendererParams,
@@ -801,14 +784,14 @@ describe('SkyAgGridService', () => {
         },
         value: 'invalid',
       } as ICellRendererParams;
-      expect(cellRendererSelector(params).component).toBe(
+      expect(cellRendererSelector?.(params)?.component).toBe(
         'sky-ag-grid-cell-renderer-validator-tooltip'
       );
     });
 
     it('should select currency cell renderer when the validator function omitted', () => {
       const cellRendererSelector =
-        defaultGridOptions.columnTypes[SkyCellType.Currency]
+        defaultGridOptions.columnTypes?.[SkyCellType.Currency]
           .cellRendererSelector;
       const params = {
         ...cellRendererParams,
@@ -821,7 +804,7 @@ describe('SkyAgGridService', () => {
         },
         value: 1.23,
       } as ICellRendererParams;
-      expect(cellRendererSelector(params).component).toBe(
+      expect(cellRendererSelector?.(params)?.component).toBe(
         'sky-ag-grid-cell-renderer-currency'
       );
 
@@ -835,7 +818,7 @@ describe('SkyAgGridService', () => {
         value: 1.23,
       } as ICellRendererParams;
       expect(
-        cellRendererSelector(paramsWithEmptyComponentProperties).component
+        cellRendererSelector?.(paramsWithEmptyComponentProperties)?.component
       ).toBe('sky-ag-grid-cell-renderer-currency');
 
       const paramsWithoutComponentProperties = {
@@ -848,7 +831,7 @@ describe('SkyAgGridService', () => {
         value: 1.23,
       } as ICellRendererParams;
       expect(
-        cellRendererSelector(paramsWithoutComponentProperties).component
+        cellRendererSelector?.(paramsWithoutComponentProperties)?.component
       ).toBe('sky-ag-grid-cell-renderer-currency');
 
       const paramsWithoutRendererParams = {
@@ -858,17 +841,17 @@ describe('SkyAgGridService', () => {
         },
         value: 1.23,
       } as ICellRendererParams;
-      expect(cellRendererSelector(paramsWithoutRendererParams).component).toBe(
-        'sky-ag-grid-cell-renderer-currency'
-      );
+      expect(
+        cellRendererSelector?.(paramsWithoutRendererParams)?.component
+      ).toBe('sky-ag-grid-cell-renderer-currency');
     });
 
     it('should select validator cell renderer when the value is empty', () => {
       const cellRendererSelector =
-        defaultGridOptions.columnTypes[SkyCellType.CurrencyValidator]
+        defaultGridOptions.columnTypes?.[SkyCellType.CurrencyValidator]
           .cellRendererSelector;
       const validator =
-        defaultGridOptions.columnTypes[SkyCellType.CurrencyValidator]
+        defaultGridOptions.columnTypes?.[SkyCellType.CurrencyValidator]
           .cellRendererParams.skyComponentProperties.validator;
       const params = {
         ...cellRendererParams,
@@ -881,14 +864,14 @@ describe('SkyAgGridService', () => {
         },
         value: '',
       } as ICellRendererParams;
-      expect(cellRendererSelector(params).component).toBe(
+      expect(cellRendererSelector?.(params)?.component).toBe(
         'sky-ag-grid-cell-renderer-currency-validator'
       );
     });
 
     it('should pass data and rowId to validator', () => {
       const cellRendererSelector =
-        defaultGridOptions.columnTypes[SkyCellType.CurrencyValidator]
+        defaultGridOptions.columnTypes?.[SkyCellType.CurrencyValidator]
           .cellRendererSelector;
       const validator = (value: any, data: any, rowId: number) => {
         return value && data && rowId;
@@ -909,7 +892,7 @@ describe('SkyAgGridService', () => {
         },
         value: '',
       } as ICellRendererParams;
-      expect(cellRendererSelector(paramsInvalid).component).toBe(
+      expect(cellRendererSelector?.(paramsInvalid)?.component).toBe(
         'sky-ag-grid-cell-renderer-currency-validator'
       );
 
@@ -919,7 +902,7 @@ describe('SkyAgGridService', () => {
         rowIndex: 1,
         value: 'valuable',
       } as ICellRendererParams;
-      expect(cellRendererSelector(paramsValid).component).toBe(
+      expect(cellRendererSelector?.(paramsValid)?.component).toBe(
         'sky-ag-grid-cell-renderer-currency'
       );
     });
@@ -928,13 +911,13 @@ describe('SkyAgGridService', () => {
   describe('getRowId', () => {
     it('should use the id field when available', () => {
       expect(
-        defaultGridOptions.getRowId({ data: { id: 123 } } as GetRowIdParams)
+        defaultGridOptions.getRowId?.({ data: { id: 123 } } as GetRowIdParams)
       ).toEqual('123');
     });
 
     it('should generate an id regardless', () => {
       expect(
-        defaultGridOptions.getRowId({ data: {} } as GetRowIdParams)
+        defaultGridOptions.getRowId?.({ data: {} } as GetRowIdParams)
       ).toBeTruthy();
     });
 
@@ -959,18 +942,14 @@ describe('SkyAgGridService', () => {
   });
 
   describe('getRowClass', () => {
-    const params: RowClassParams = {
-      api: undefined,
-      columnApi: undefined,
-      context: undefined,
-      data: undefined,
+    const params = {
       node: {} as RowNode,
       rowIndex: 0,
-    };
+    } as RowClassParams;
 
     it('should use the row id for the row class', () => {
       expect(
-        defaultGridOptions.getRowClass({
+        defaultGridOptions.getRowClass?.({
           ...params,
           node: {
             id: '123',
@@ -980,7 +959,7 @@ describe('SkyAgGridService', () => {
     });
 
     it('should not generate a class without an id', () => {
-      expect(defaultGridOptions.getRowClass(params)).toBeFalsy();
+      expect(defaultGridOptions.getRowClass?.(params)).toBeFalsy();
     });
   });
 });
@@ -1017,7 +996,7 @@ describe('SkyAgGridService via fixture', () => {
     gridWrapperFixture.detectChanges();
     await gridWrapperFixture.whenStable();
 
-    const api: GridApi = gridWrapperFixture.componentInstance.agGrid.api;
+    const api = gridWrapperFixture?.componentInstance?.agGrid?.api as GridApi;
     const headerHeightSpy = spyOn(api, 'setHeaderHeight');
     const rowHeightSpy = spyOn(api, 'resetRowHeights');
     expect(api).toBeDefined();

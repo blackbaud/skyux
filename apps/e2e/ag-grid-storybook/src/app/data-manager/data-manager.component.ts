@@ -14,10 +14,11 @@ import {
 } from '@skyux/data-manager';
 
 import { GridOptions } from 'ag-grid-community';
-import { BehaviorSubject, timer } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { BehaviorSubject, Observable, combineLatest, timer } from 'rxjs';
+import { filter, first, map } from 'rxjs/operators';
 
 import { columnDefinitions, data } from '../shared/baseball-players-data';
+import { FontLoadingService } from '../shared/font-loading/font-loading.service';
 
 type GridSettingsType = {
   enableTopScroll: FormControl<boolean>;
@@ -86,13 +87,27 @@ export class DataManagerComponent implements OnInit {
   public gridOptions: GridOptions;
   public isActive$ = new BehaviorSubject(true);
   public gridSettings: FormGroup<GridSettingsType>;
-  public ready = new BehaviorSubject(false);
+  public ready: Observable<boolean>;
+
+  readonly #gridReady = new BehaviorSubject(false);
+  readonly #fontLoadingService: FontLoadingService;
 
   constructor(
     private formBuilder: FormBuilder,
     private dataManagerService: SkyDataManagerService,
-    private agGridService: SkyAgGridService
-  ) {}
+    private agGridService: SkyAgGridService,
+    fontLoadingService: FontLoadingService
+  ) {
+    this.#fontLoadingService = fontLoadingService;
+    this.ready = combineLatest([
+      this.#gridReady,
+      this.#fontLoadingService.ready(),
+    ]).pipe(
+      filter(([gridReady, fontsLoaded]) => gridReady && fontsLoaded),
+      first(),
+      map(() => true)
+    );
+  }
 
   public ngOnInit(): void {
     this.gridSettings = this.formBuilder.group<GridSettingsType>({
@@ -163,7 +178,7 @@ export class DataManagerComponent implements OnInit {
           // Delay to allow the grid to render before capturing the screenshot.
           timer(800)
             .pipe(first())
-            .subscribe(() => this.ready.next(true));
+            .subscribe(() => this.#gridReady.next(true));
         },
       },
     });

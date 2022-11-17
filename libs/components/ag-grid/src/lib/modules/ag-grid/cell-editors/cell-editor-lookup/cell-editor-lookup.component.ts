@@ -27,10 +27,10 @@ import { SkyAgGridLookupProperties } from '../../types/lookup-properties';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyAgGridCellEditorLookupComponent
-  implements ICellEditorAngularComp, IPopupComponent<any>
+  implements ICellEditorAngularComp, IPopupComponent<unknown>
 {
   @HostBinding('style.width.px')
-  public width: number;
+  public width: number | undefined;
 
   public skyComponentProperties?: SkyAgGridLookupProperties;
   public isAlive = false;
@@ -42,65 +42,72 @@ export class SkyAgGridCellEditorLookupComponent
   });
   public useAsyncSearch = false;
 
-  private params: SkyCellEditorLookupParams;
+  #params: SkyCellEditorLookupParams | undefined;
+  #triggerType: SkyAgGridCellEditorInitialAction | undefined;
+  #changeDetector: ChangeDetectorRef;
+  #elementRef: ElementRef;
 
-  #triggerType: SkyAgGridCellEditorInitialAction;
-
-  constructor(
-    private changeDetector: ChangeDetectorRef,
-    private elementRef: ElementRef
-  ) {}
+  constructor(changeDetector: ChangeDetectorRef, elementRef: ElementRef) {
+    this.#changeDetector = changeDetector;
+    this.#elementRef = elementRef;
+  }
 
   public agInit(params: SkyCellEditorLookupParams): void {
-    this.params = params;
-    if (!Array.isArray(this.params.value)) {
+    this.#params = params;
+    if (!Array.isArray(this.#params.value)) {
       throw new Error(`Lookup value must be an array`);
     }
 
     this.#triggerType = SkyAgGridCellEditorUtils.getEditorInitialAction(params);
     const control = this.editorForm.get('selection');
-    switch (this.#triggerType) {
-      case SkyAgGridCellEditorInitialAction.Delete:
-        control.setValue([]);
-        break;
-      case SkyAgGridCellEditorInitialAction.Replace:
-      case SkyAgGridCellEditorInitialAction.Highlighted:
-      case SkyAgGridCellEditorInitialAction.Untouched:
-      default:
-        control.setValue(params.value);
-        break;
+
+    if (control) {
+      switch (this.#triggerType) {
+        case SkyAgGridCellEditorInitialAction.Delete:
+          control.setValue([]);
+          break;
+        case SkyAgGridCellEditorInitialAction.Replace:
+        case SkyAgGridCellEditorInitialAction.Highlighted:
+        case SkyAgGridCellEditorInitialAction.Untouched:
+        default:
+          control.setValue(params.value);
+          break;
+      }
+
+      if (this.#params.skyComponentProperties?.disabled) {
+        control.disable();
+      }
     }
-    if (this.params.skyComponentProperties.disabled) {
-      control.disable();
-    }
-    this.skyComponentProperties = this.updateComponentProperties(this.params);
+
+    this.skyComponentProperties = this.#updateComponentProperties(this.#params);
     this.useAsyncSearch =
       typeof this.skyComponentProperties.searchAsync === 'function';
     this.isAlive = true;
-    this.width = this.params.column.getActualWidth();
-    this.params.column.addEventListener(
+    this.width = this.#params.column.getActualWidth();
+    this.#params.column.addEventListener(
       'uiColumnResized',
       (event: ColumnResizedEvent) => {
-        this.width = event.column.getActualWidth();
-        this.changeDetector.markForCheck();
+        this.width = event.column?.getActualWidth();
+        this.#changeDetector.markForCheck();
       }
     );
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   public isCancelAfterEnd(): boolean {
     // Shut down components to commit values before final value syncs to grid.
     this.isAlive = false;
-    this.changeDetector.detectChanges();
+    this.#changeDetector.detectChanges();
     return false;
   }
 
   public getGui(): HTMLElement {
-    return this.elementRef.nativeElement;
+    return this.#elementRef.nativeElement;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public getValue(): any[] {
-    return this.editorForm.get('selection').value;
+    return this.editorForm.get('selection')?.value;
   }
 
   public isPopup(): boolean {
@@ -109,11 +116,11 @@ export class SkyAgGridCellEditorLookupComponent
 
   public afterGuiAttached(): void {
     const lookupInput: HTMLTextAreaElement =
-      this.elementRef.nativeElement.querySelector('.sky-lookup-input');
+      this.#elementRef.nativeElement.querySelector('.sky-lookup-input');
     lookupInput.focus();
     if (this.#triggerType === SkyAgGridCellEditorInitialAction.Replace) {
       lookupInput.select();
-      lookupInput.setRangeText(this.params.charPress);
+      lookupInput.setRangeText(this.#params?.charPress as string);
       // Ensure the cursor is at the end of the text.
       lookupInput.setSelectionRange(
         lookupInput.value.length,
@@ -126,7 +133,7 @@ export class SkyAgGridCellEditorLookupComponent
     }
   }
 
-  private updateComponentProperties(
+  #updateComponentProperties(
     params: SkyCellEditorLookupParams
   ): SkyAgGridLookupProperties {
     const skyLookupProperties = params.skyComponentProperties;

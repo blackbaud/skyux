@@ -15,14 +15,17 @@ jobs:
   install-deps:
     name: Install and cache dependencies
     runs-on: ubuntu-latest
+    outputs:
+      node-version: ${{ steps.setup-node.outputs.node-version }}
     steps:
       - uses: actions/checkout@v3
         with:
           # We need to fetch all branches and commits so that Nx affected has a base to compare against.
           fetch-depth: 0
       - uses: actions/setup-node@v3
+        id: setup-node
         with:
-          node-version: '16.18.x'
+          node-version-file: '.nvmrc'
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
@@ -31,7 +34,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: node_modules
-          key: cache-node-modules_node16.18_${{ hashFiles('package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: npm install
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
@@ -73,7 +76,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: node_modules
-          key: cache-node-modules_node16.18_${{ hashFiles('package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       # Running ngcc after each agent is created to address the "ngcc is already running error".
       # Since we're running multiple builds in parallel, we need to pre-process our node_modules before starting the builds.
       - name: Run NGCC
@@ -92,7 +95,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.18.x'
+          node-version-file: '.nvmrc'
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
@@ -102,7 +105,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: node_modules
-          key: cache-node-modules_node16.18_${{ hashFiles('package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Check library dependencies
         run: npx skyux-dev check-lib-dependencies
       - name: Check library missing peers
@@ -126,7 +129,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.18.x'
+          node-version-file: '.nvmrc'
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
@@ -136,7 +139,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: node_modules
-          key: cache-node-modules_node16.18_${{ hashFiles('package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Run NGCC
         run: npx ngcc
       - name: Build
@@ -154,7 +157,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.18.x'
+          node-version-file: '.nvmrc'
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
@@ -162,7 +165,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: node_modules
-          key: cache-node-modules_node16.18_${{ hashFiles('package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Build packages dist
         run: npx skyux-dev create-packages-dist
 
@@ -177,7 +180,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.18.x'
+          node-version-file: '.nvmrc'
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
@@ -187,7 +190,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: node_modules
-          key: cache-node-modules_node16.18_${{ hashFiles('package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Run NGCC
         run: npx ngcc
       - name: Code coverage
@@ -199,16 +202,16 @@ jobs:
     name: Stop Nx Cloud agents
     runs-on: ubuntu-latest
     if: always()
-    needs: [lint, build, build-dist, coverage]
+    needs: [install-deps, lint, build, build-dist, coverage]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.18.x'
+          node-version-file: '.nvmrc'
       - name: Retrieve node_modules cache
         uses: actions/cache@v3
         with:
           path: node_modules
-          key: cache-node-modules_node16.18_${{ hashFiles('package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Stop Nx Cloud agents
         run: npx nx-cloud stop-all-agents

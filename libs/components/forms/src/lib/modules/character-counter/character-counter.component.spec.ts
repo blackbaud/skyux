@@ -35,6 +35,7 @@ describe('Character Counter component', () => {
     let nativeElement: HTMLElement;
     let characterCountComponent: SkyCharacterCounterIndicatorComponent;
     let characterCountLabel: HTMLLabelElement;
+    let characterCountLabelLastName: HTMLLabelElement;
 
     beforeEach(() => {
       fixture = TestBed.createComponent(CharacterCountTestComponent);
@@ -43,10 +44,13 @@ describe('Character Counter component', () => {
 
       fixture.detectChanges();
 
-      characterCountComponent =
-        component.inputDirective!.skyCharacterCounterIndicator!;
+      characterCountComponent = component.inputDirective
+        ?.skyCharacterCounterIndicator as SkyCharacterCounterIndicatorComponent;
       characterCountLabel = nativeElement.querySelector(
-        '.sky-character-count-label'
+        '.input-count-example-wrapper .sky-character-count-label'
+      ) as HTMLLabelElement;
+      characterCountLabelLastName = nativeElement.querySelector(
+        '.input-count-example-wrapper-last-name .sky-character-count-label'
       ) as HTMLLabelElement;
     });
 
@@ -145,6 +149,11 @@ describe('Character Counter component', () => {
 
       expect(characterCountComponent.characterCountLimit).toEqual(0);
     }));
+
+    it('should allow character limit and indicator to be set in any order', () => {
+      expect(characterCountComponent.characterCount).toBe(4);
+      expect(characterCountLabelLastName.innerText.trim()).toBe('4/5');
+    });
 
     it('should pass accessibility', async () => {
       fixture.detectChanges();

@@ -6,6 +6,7 @@ import {
   inject,
   tick,
 } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 import {
@@ -48,7 +49,7 @@ describe('Tile dashboard service', () => {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
 
-  function createDashboardTestComponent() {
+  function createDashboardTestComponent(): ComponentFixture<TileDashboardTestComponent> {
     return TestBed.overrideComponent(SkyTileDashboardComponent, {
       add: {
         providers: [
@@ -139,8 +140,9 @@ describe('Tile dashboard service', () => {
   it('should emit the config change event when a tile is moved', fakeAsync(() => {
     const fixture = createDashboardTestComponent();
     fixture.detectChanges();
-    const dashboardService =
-      fixture.componentInstance.dashboardComponent['dashboardService'];
+    const dashboardService = fixture.debugElement
+      .query(By.directive(SkyTileDashboardComponent))
+      .injector.get(SkyTileDashboardService);
     let configChanged = false;
 
     fixture.componentInstance.settingsKey = 'defaultSettings';
@@ -269,16 +271,20 @@ describe('Tile dashboard service', () => {
     const tile: Element = fixture.nativeElement.querySelector(
       'div.sky-test-tile-1'
     );
-    const handle: Element = tile.querySelector('.sky-tile-grab-handle i');
+    const handle = tile.querySelector('.sky-tile-grab-handle i');
     const setOptionsSpy = spyOn(mockDragulaService, 'createGroup').and.callFake(
       (name: string, options: DragulaOptions) => {
-        const result = options.moves(tile, undefined, handle);
-        expect(result).toBe(true);
+        if (options.moves && handle) {
+          const result = options.moves(tile, undefined, handle);
+          expect(result).toBe(true);
+        } else {
+          fail('Missing moves handler and/or handle');
+        }
         return {} as Group;
       }
     );
 
-    (function () {
+    (function (): SkyTileDashboardService {
       return new SkyTileDashboardService(
         mockDragulaService,
         mockMediaQueryService as any,
@@ -292,7 +298,7 @@ describe('Tile dashboard service', () => {
   function testIntercolumnNavigation(
     fixture: ComponentFixture<TileDashboardTestComponent>,
     keyName: string
-  ) {
+  ): void {
     const handle: HTMLElement = fixture.nativeElement.querySelector(
       'div.sky-test-tile-1 .sky-tile-grab-handle'
     );
@@ -366,8 +372,10 @@ describe('Tile dashboard service', () => {
     tick();
     fixture.detectChanges();
 
-    const dashboardService: SkyTileDashboardService =
-      fixture.componentInstance.dashboardComponent['dashboardService'];
+    const dashboardService = fixture.debugElement
+      .query(By.directive(SkyTileDashboardComponent))
+      .injector.get(SkyTileDashboardService);
+
     dashboardService.moveTileOnKeyDown(
       new SkyTileComponent(
         fixture.elementRef,
@@ -393,7 +401,7 @@ describe('Tile dashboard service', () => {
     keyName: string,
     expectedPosition: number,
     isSingleColumn = false
-  ) {
+  ): void {
     const handle = fixture.nativeElement.querySelector(
       'div.sky-test-tile-1 .sky-tile-grab-handle'
     );
