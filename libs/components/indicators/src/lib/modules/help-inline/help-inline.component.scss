@@ -1,5 +1,7 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/_public-api/themes/modern/_compat/mixins'
+  as modernMixins;
 
 .sky-help-inline {
   color: $sky-text-color-action-primary;
@@ -23,6 +25,7 @@
 
 @include mixins.sky-theme-modern {
   .sky-help-inline {
+    border-radius: 3px;
     ::ng-deep .fa-stack-2x {
       font-size: 16px;
     }
@@ -30,5 +33,13 @@
     ::ng-deep .fa-stack-1x {
       font-size: 10px;
     }
+
+    @include modernMixins.sky-theme-modern-button-variant(
+      $sky-text-color-action-primary,
+      transparent,
+      transparent,
+      $sky-theme-modern-background-color-primary-dark,
+      0px 5px
+    );
   }
 }
