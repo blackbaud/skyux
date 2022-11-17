@@ -52,7 +52,7 @@ describe('Migrations > Add autonumeric as a dependency', () => {
     expect(tree.readJson('/package.json')).toEqual({});
   });
 
-  it('should install autonumeric in devDependencies', async () => {
+  it('should force-install autonumeric in dependencies', async () => {
     const { runSchematic, tree } = await setupTest();
 
     // Add autonumeric to both dependencies and devDependencies.
