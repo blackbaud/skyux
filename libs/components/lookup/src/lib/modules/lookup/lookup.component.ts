@@ -421,10 +421,6 @@ export class SkyLookupComponent
         return token.value;
       });
       this.tokens = change;
-
-      this.#sendAutocompleteMessage(
-        SkyAutocompleteMessageType.RepositionDropdown
-      );
       this.onChange(this.#_value);
       this.onTouched();
     }
@@ -456,6 +452,12 @@ export class SkyLookupComponent
           break;
       }
     }
+  }
+
+  public onTokensRendered(): void {
+    this.#sendAutocompleteMessage(
+      SkyAutocompleteMessageType.RepositionDropdown
+    );
   }
 
   public writeValue(value: any[]): void {
