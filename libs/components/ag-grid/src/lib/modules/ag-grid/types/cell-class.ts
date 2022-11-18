@@ -1,7 +1,7 @@
 /**
  * @internal
  */
-export const enum SkyCellClass {
+export enum SkyCellClass {
   Autocomplete = 'sky-ag-grid-cell-autocomplete',
   Currency = 'sky-ag-grid-cell-currency',
   Date = 'sky-ag-grid-cell-date',

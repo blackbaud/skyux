@@ -57,6 +57,7 @@
   &.sky-btn-active {
     background-image: none;
   }
+  // TODO: Consider removing in a future change after visual tests are in place as these styles appear to have no effect.
   &.sky-btn-disabled,
   &[disabled],
   fieldset[disabled] & {
