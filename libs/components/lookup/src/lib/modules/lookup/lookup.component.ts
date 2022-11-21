@@ -461,7 +461,8 @@ export class SkyLookupComponent
   }
 
   public writeValue(value: any[]): void {
-    this.value = value ? value : [];
+    // Since we are dealing with arrays - clone the array being sent in to ensure we aren't modifying a consumers outer array
+    this.value = value ? value.slice() : [];
     this.#updateForSelectMode();
   }
 
