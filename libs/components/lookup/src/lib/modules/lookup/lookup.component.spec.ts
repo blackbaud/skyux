@@ -563,6 +563,8 @@ describe('Lookup component', function () {
           tick();
           fixture.detectChanges();
           tick();
+          // Ensure that we get a copy of the original array back and that we aren't modifying the original
+          expect(lookupComponent.value).not.toBe(friends);
           expect(lookupComponent.value).toEqual(friends);
         }));
 
@@ -3748,6 +3750,8 @@ describe('Lookup component', function () {
           tick();
           fixture.detectChanges();
           tick();
+          // Ensure that we get a copy of the original array back and that we aren't modifying the original
+          expect(lookupComponent.value).not.toBe(friends);
           expect(lookupComponent.value).toEqual(friends);
         }));
 
