@@ -183,6 +183,13 @@ export class SkyTokensComponent implements OnDestroy {
   @Output()
   public tokensChange = new EventEmitter<SkyToken[]>();
 
+  /**
+   * Fires when all animations on the tokens are complete.
+   * @internal
+   */
+  @Output()
+  public tokensRendered = new EventEmitter<void>();
+
   public get activeIndex(): number {
     return this.#_activeIndex;
   }
@@ -246,6 +253,10 @@ export class SkyTokensComponent implements OnDestroy {
     }
 
     this.#notifyTokenSelected(token);
+  }
+
+  public animationDone(): void {
+    this.tokensRendered.emit();
   }
 
   public onTokenKeyDown(event: KeyboardEvent): void {
