@@ -562,6 +562,7 @@ describe('Lookup component', function () {
           fixture.detectChanges();
           tick();
           fixture.detectChanges();
+          tick();
           expect(lookupComponent.value).toEqual(friends);
         }));
 
@@ -659,6 +660,7 @@ describe('Lookup component', function () {
 
           component.friends = [{ name: 'Fred' }, { name: 'Isaac' }];
           fixture.detectChanges();
+          tick();
 
           clickToken(0, fixture);
 
@@ -2212,6 +2214,7 @@ describe('Lookup component', function () {
               component.enableShowMore = true;
               component.friends = [{ name: 'Fred' }, { name: 'Isaac' }];
               fixture.detectChanges();
+              tick();
 
               clickToken(0, fixture);
 
@@ -2234,6 +2237,7 @@ describe('Lookup component', function () {
                 { name: 'Oliver' },
               ];
               fixture.detectChanges();
+              tick();
 
               clickToken(0, fixture);
 
@@ -2593,6 +2597,7 @@ describe('Lookup component', function () {
               component.enableShowMore = true;
               component.friends = [{ name: 'Fred' }, { name: 'Isaac' }];
               fixture.detectChanges();
+              tick();
 
               clickToken(0, fixture, true);
 
@@ -2615,6 +2620,7 @@ describe('Lookup component', function () {
                 { name: 'Oliver' },
               ];
               fixture.detectChanges();
+              tick();
 
               clickToken(0, fixture, true);
 
@@ -3741,6 +3747,7 @@ describe('Lookup component', function () {
           fixture.detectChanges();
           tick();
           fixture.detectChanges();
+          tick();
           expect(lookupComponent.value).toEqual(friends);
         }));
 
@@ -3843,6 +3850,7 @@ describe('Lookup component', function () {
           fixture.detectChanges();
           tick();
           fixture.detectChanges();
+          tick();
 
           clickToken(0, fixture);
 
@@ -5199,6 +5207,7 @@ describe('Lookup component', function () {
               fixture.detectChanges();
               tick();
               fixture.detectChanges();
+              tick();
 
               clickToken(0, fixture);
 
@@ -5223,6 +5232,7 @@ describe('Lookup component', function () {
               fixture.detectChanges();
               tick();
               fixture.detectChanges();
+              tick();
 
               clickToken(0, fixture);
 
@@ -5571,6 +5581,7 @@ describe('Lookup component', function () {
               fixture.detectChanges();
               tick();
               fixture.detectChanges();
+              tick();
 
               clickToken(0, fixture, true);
 
@@ -5595,6 +5606,7 @@ describe('Lookup component', function () {
               fixture.detectChanges();
               tick();
               fixture.detectChanges();
+              tick();
 
               clickToken(0, fixture, true);
 
