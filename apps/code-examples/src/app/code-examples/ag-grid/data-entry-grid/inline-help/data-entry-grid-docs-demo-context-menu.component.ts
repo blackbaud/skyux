@@ -14,7 +14,7 @@ export class SkyDataEntryGridContextMenuComponent
   #name = '';
 
   public agInit(params: ICellRendererParams): void {
-    this.#name = params.data && params.data.#name;
+    this.#name = params.data && params.data.name;
   }
 
   public refresh(): boolean {
