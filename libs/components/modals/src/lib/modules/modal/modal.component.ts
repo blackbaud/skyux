@@ -42,18 +42,11 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
   @HostBinding('class')
   public wrapperClass: string | undefined;
 
-  // Ignoring coverage as we only use the setter internally and do not export the class externally for users to be able to use the getter.
-  // istanbul ignore next
   /**
    * @internal
    */
   @Input()
-  public get ariaRole() {
-    return this.#_ariaRole;
-  }
-
   public set ariaRole(value: string | undefined) {
-    this.#_ariaRole = value;
     this.ariaRoleOrDefault = value || ARIA_ROLE_DEFAULT;
   }
 
@@ -99,8 +92,6 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
   #coreAdapter: SkyCoreAdapterService;
   #dockService: SkyDockService;
   #mediaQueryService: SkyResizeObserverMediaQueryService | undefined;
-
-  #_ariaRole: string | undefined;
 
   constructor(
     hostService: SkyModalHostService,
