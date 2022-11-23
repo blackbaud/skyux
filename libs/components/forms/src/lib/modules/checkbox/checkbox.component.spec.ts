@@ -61,7 +61,7 @@ class SingleCheckboxComponent implements AfterViewInit {
 
   public onDisabledChange(value: boolean): void {}
 
-  public checkboxChange($event: any) {
+  public checkboxChange($event: SkyCheckboxChange) {
     this.isChecked = $event.checked;
   }
 }
@@ -224,7 +224,10 @@ class CheckboxWithNameAttributeComponent {
 
 /** Simple test component with change event */
 @Component({
-  template: `<sky-checkbox (change)="lastEvent = $event"></sky-checkbox>`,
+  template: `<sky-checkbox
+    id="test-id"
+    (change)="lastEvent = $event"
+  ></sky-checkbox>`,
 })
 class CheckboxWithChangeEventComponent {
   public lastEvent: SkyCheckboxChange | undefined;
@@ -462,6 +465,7 @@ describe('Checkbox component', () => {
       // emitted value can be a DOM Event, which is not valid.
       // See angular/angular#4059
       expect(testComponent.lastEvent?.checked).toBe(true);
+      expect(testComponent.lastEvent?.source.id).toBe(`sky-checkbox-test-id`);
     });
   });
 
