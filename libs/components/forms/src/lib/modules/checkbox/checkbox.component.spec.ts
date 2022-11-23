@@ -46,7 +46,7 @@ class SingleCheckboxComponent implements AfterViewInit {
   public checkboxType: string | undefined;
   public icon = 'bold';
   public id: string | undefined = 'simple-check';
-  public isChecked = false;
+  public isChecked: boolean | undefined = false;
   public isDisabled = false;
   public showInlineHelp = false;
 
@@ -465,7 +465,7 @@ describe('Checkbox component', () => {
       // emitted value can be a DOM Event, which is not valid.
       // See angular/angular#4059
       expect(testComponent.lastEvent?.checked).toBe(true);
-      expect(testComponent.lastEvent?.source.id).toBe(`sky-checkbox-test-id`);
+      expect(testComponent.lastEvent?.source?.id).toBe(`sky-checkbox-test-id`);
     });
   });
 
