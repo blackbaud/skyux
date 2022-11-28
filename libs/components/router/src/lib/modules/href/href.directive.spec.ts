@@ -1,4 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { StaticProvider } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -6,7 +7,9 @@ import {
   flush,
   tick,
 } from '@angular/core/testing';
+import { Router, UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { SkyAppTestUtility } from '@skyux-sdk/testing';
 import { SkyAppConfig, SkyAppRuntimeConfigParamsProvider } from '@skyux/config';
 
 import { HrefDirectiveFixtureComponent } from './fixtures/href-fixture.component';
@@ -298,5 +301,137 @@ describe('SkyHref Directive', () => {
     expect(element.hidden).toBe(true);
     flush();
     expect(element.hidden).toBe(false);
+  }));
+});
+
+describe('anchor click event', () => {
+  function setupTest(options?: { provideSkyAppConfig?: boolean }): {
+    fixture: ComponentFixture<HrefDirectiveFixtureComponent>;
+  } {
+    options = { ...{ provideSkyAppConfig: true }, ...(options || {}) };
+
+    const providers: StaticProvider[] = [
+      {
+        provide: SkyHrefResolverService,
+        useClass: HrefResolverFixtureService,
+      },
+    ];
+
+    if (options?.provideSkyAppConfig) {
+      providers.push({
+        provide: SkyAppConfig,
+        useValue: {
+          runtime: {
+            app: {
+              base: 'example/',
+            },
+            params: new SkyAppRuntimeConfigParamsProvider(),
+          },
+          skyux: { host: { url: 'https://example.com/' } },
+        },
+      });
+    }
+
+    TestBed.configureTestingModule({
+      declarations: [HrefDirectiveFixtureComponent],
+      imports: [RouterTestingModule, SkyHrefModule, HttpClientTestingModule],
+      providers,
+    });
+
+    const fixture = TestBed.createComponent(HrefDirectiveFixtureComponent);
+
+    return { fixture };
+  }
+
+  function verifyAnchorClickPrevented(
+    fixture: ComponentFixture<HrefDirectiveFixtureComponent>,
+    selector: string,
+    expectedDefaultPrevented: boolean,
+    options?: { pointerEventInit?: PointerEventInit; target?: string }
+  ): void {
+    const parentEl = fixture.nativeElement.querySelector(
+      selector
+    ) as HTMLParagraphElement;
+    const anchorEl = parentEl.querySelector('a') as HTMLAnchorElement;
+
+    let actualDefaultPrevented = false;
+    parentEl.addEventListener('click', (e) => {
+      actualDefaultPrevented = e.defaultPrevented;
+    });
+
+    anchorEl.removeAttribute('href');
+    if (options?.target) {
+      anchorEl.setAttribute('target', options.target);
+    }
+
+    if (options?.pointerEventInit) {
+      SkyAppTestUtility.fireDomEvent(anchorEl, 'click', {
+        customEventInit: options.pointerEventInit,
+      });
+    } else {
+      anchorEl.click();
+    }
+
+    expect(actualDefaultPrevented).toEqual(expectedDefaultPrevented);
+  }
+
+  it('should abort click if user does not have access to the href', fakeAsync(() => {
+    const { fixture } = setupTest();
+
+    fixture.detectChanges();
+    tick();
+
+    verifyAnchorClickPrevented(fixture, '.noAccessLink', true);
+  }));
+
+  it('should allow click if user has access to the href', fakeAsync(() => {
+    const { fixture } = setupTest({
+      provideSkyAppConfig: false,
+    });
+
+    fixture.detectChanges();
+    tick();
+
+    verifyAnchorClickPrevented(fixture, '.simpleLink', false);
+  }));
+
+  it('should allow click if user has access to the href and opens in a new window', fakeAsync(() => {
+    const { fixture } = setupTest();
+
+    fixture.detectChanges();
+    tick();
+
+    verifyAnchorClickPrevented(fixture, '.simpleLink', false, {
+      pointerEventInit: { metaKey: true },
+    });
+  }));
+
+  it('should allow click if user has access to the href and target is not self', fakeAsync(() => {
+    const { fixture } = setupTest();
+
+    fixture.detectChanges();
+    tick();
+
+    verifyAnchorClickPrevented(fixture, '.simpleLink', false, {
+      target: 'foobar',
+    });
+  }));
+
+  it("should prevent the click and defer it to the anchor's route, if provided", fakeAsync(() => {
+    const { fixture } = setupTest();
+
+    const router = TestBed.inject(Router);
+    const urlTree = new UrlTree();
+    spyOn(router, 'parseUrl').and.returnValue(urlTree);
+    const navigateSpy = spyOn(router, 'navigateByUrl');
+
+    fixture.detectChanges();
+    tick();
+
+    // Confirm the default behavior of the anchor is prevented.
+    verifyAnchorClickPrevented(fixture, '.simpleLink', true);
+
+    // Confirm router navigation is called.
+    expect(navigateSpy).toHaveBeenCalledWith(urlTree);
   }));
 });
