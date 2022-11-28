@@ -8,7 +8,9 @@
   [(tokens)]="tokens"
   (focusIndexOverRange)="onFocusIndexOverRange()"
   (focusIndexUnderRange)="onFocusIndexUnderRange()"
+  (tokensChange)="onTokensChange($event)"
   (tokenSelected)="onTokenSelected($event)"
+  (tokensRendered)="onTokensRendered()"
 >
   INNER CONTENT
 </sky-tokens>

@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.25.3](https://github.com/blackbaud/skyux/compare/6.25.2...6.25.3) (2022-11-23)
+
+
+### Bug Fixes
+
+* **components/forms:** revert accidental breaking change of the checkbox component's id property ([#852](https://github.com/blackbaud/skyux/issues/852)) ([08bbcb8](https://github.com/blackbaud/skyux/commit/08bbcb81e6139ea9751bc0ba8aa041e3f0f77b3f))
+
 ## [7.0.0-beta.17](https://github.com/blackbaud/skyux/compare/7.0.0-beta.16...7.0.0-beta.17) (2022-11-17)
 
 
