@@ -6,7 +6,6 @@
     "declaration": false,
     "moduleResolution": "node",
     "noUnusedLocals": true,
-    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "ES2020",
