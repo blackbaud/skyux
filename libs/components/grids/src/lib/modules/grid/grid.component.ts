@@ -263,8 +263,7 @@ export class SkyGridComponent
    * that the consumer provides.
    */
   @Output()
-  public multiselectSelectionChange =
-    new EventEmitter<SkyGridSelectedRowsModelChange>();
+  public multiselectSelectionChange = new EventEmitter<SkyGridSelectedRowsModelChange>();
 
   /**
    * @internal

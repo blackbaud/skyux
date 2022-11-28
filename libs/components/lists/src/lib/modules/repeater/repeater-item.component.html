@@ -58,7 +58,7 @@
         [attr.aria-describedby]="contentId + '-reorder-instructions'"
         [attr.aria-label]="
           itemName
-            ? ('skyux_repeater_item_reorder_label' | skyLibResources : itemName)
+            ? ('skyux_repeater_item_reorder_label' | skyLibResources: itemName)
             : ('skyux_repeater_item_reorder_label_default' | skyLibResources)
         "
         (blur)="onReorderHandleBlur($event)"
@@ -74,7 +74,7 @@
       [checked]="isSelected"
       [label]="
         itemName
-          ? ('skyux_repeater_item_checkbox_label' | skyLibResources : itemName)
+          ? ('skyux_repeater_item_checkbox_label' | skyLibResources: itemName)
           : ('skyux_repeater_item_checkbox_label_default' | skyLibResources)
       "
       (change)="onCheckboxChange($event)"
@@ -108,7 +108,7 @@
         [attr.aria-label]="
           itemName
             ? ('skyux_repeater_item_reorder_top_label'
-              | skyLibResources : itemName)
+              | skyLibResources: itemName)
             : ('skyux_repeater_item_reorder_top_label_default'
               | skyLibResources)
         "
@@ -122,7 +122,7 @@
           [ariaControls]="contentId"
           [ariaLabel]="
             itemName
-              ? ('skyux_repeater_item_expand' | skyLibResources : itemName)
+              ? ('skyux_repeater_item_expand' | skyLibResources: itemName)
               : ('skyux_repeater_item_expand_default' | skyLibResources)
           "
           [direction]="isExpanded ? 'up' : 'down'"

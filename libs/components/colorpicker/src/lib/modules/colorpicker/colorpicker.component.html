@@ -246,7 +246,7 @@
           class="sky-colorpicker-preset-color-area"
         >
           <button
-            *ngFor="let color of presetColors | slice : 0 : 12; let i = index"
+            *ngFor="let color of presetColors | slice: 0:12; let i = index"
             type="button"
             [attr.aria-label]="
               ('skyux_colorpicker_preset_color' | skyLibResources) + ' ' + color

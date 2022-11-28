@@ -164,8 +164,7 @@ export class SkyCountryFieldComponent
    * Fires when the selected country changes.
    */
   @Output()
-  public selectedCountryChange: EventEmitter<SkyCountryFieldCountry> =
-    new EventEmitter<SkyCountryFieldCountry>();
+  public selectedCountryChange: EventEmitter<SkyCountryFieldCountry> = new EventEmitter<SkyCountryFieldCountry>();
 
   public countries: SkyCountryFieldCountry[] = [];
 

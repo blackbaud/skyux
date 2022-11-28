@@ -184,15 +184,13 @@ export class SkyListViewGridComponent
    * Fires when users cancel the deletion of a row.
    */
   @Output()
-  public rowDeleteCancel =
-    new EventEmitter<SkyListViewGridRowDeleteCancelArgs>();
+  public rowDeleteCancel = new EventEmitter<SkyListViewGridRowDeleteCancelArgs>();
 
   /**
    * Fires when users confirm the deletion of a row.
    */
   @Output()
-  public rowDeleteConfirm =
-    new EventEmitter<SkyListViewGridRowDeleteConfirmArgs>();
+  public rowDeleteConfirm = new EventEmitter<SkyListViewGridRowDeleteConfirmArgs>();
 
   /**
    * Fires when columns change. This includes changes to the displayed columns and changes

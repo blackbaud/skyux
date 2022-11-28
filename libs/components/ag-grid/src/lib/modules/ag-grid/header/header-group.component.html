@@ -7,7 +7,7 @@
   (click)="setExpanded(false)"
   [attr.aria-label]="
     'sky_ag_grid_column_group_header_collapse_aria_label'
-      | skyLibResources : params?.displayName
+      | skyLibResources: params?.displayName
   "
 >
   <sky-icon *skyThemeIf="'default'" icon="angle-double-left"></sky-icon>
@@ -23,7 +23,7 @@
     (click)="setExpanded(true)"
     [attr.aria-label]="
       'sky_ag_grid_column_group_header_expand_aria_label'
-        | skyLibResources : params?.displayName
+        | skyLibResources: params?.displayName
     "
   >
     <sky-icon *skyThemeIf="'default'" icon="angle-double-right"></sky-icon>
