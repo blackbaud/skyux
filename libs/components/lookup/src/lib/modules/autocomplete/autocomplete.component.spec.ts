@@ -645,9 +645,9 @@ describe('Autocomplete component', () => {
 
       const dropdownElement = getSearchResultsContainer();
       const autocompleteElement = getAutocompleteElement();
-      const formattedWidth = `${
-        autocompleteElement.getBoundingClientRect().width
-      }px`;
+      const formattedWidth = `${+autocompleteElement
+        .getBoundingClientRect()
+        .width.toFixed(2)}px`;
 
       expect(dropdownElement?.style.width).toEqual(formattedWidth);
     }));
@@ -674,9 +674,9 @@ describe('Autocomplete component', () => {
 
       const dropdownElement = getSearchResultsContainer();
       const autocompleteElement = getAutocompleteElement();
-      const formattedWidth = `${
-        autocompleteElement.getBoundingClientRect().width
-      }px`;
+      const formattedWidth = `${+autocompleteElement
+        .getBoundingClientRect()
+        .width.toFixed(2)}px`;
 
       expect(dropdownElement?.style.width).toEqual(formattedWidth);
     }));
