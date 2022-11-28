@@ -49,7 +49,8 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
    * Fires when the value in the timepicker input changes.
    */
   @Output()
-  public selectedTimeChanged: EventEmitter<SkyTimepickerTimeOutput> = new EventEmitter<SkyTimepickerTimeOutput>();
+  public selectedTimeChanged: EventEmitter<SkyTimepickerTimeOutput> =
+    new EventEmitter<SkyTimepickerTimeOutput>();
 
   public set disabled(value: boolean) {
     this.#_disabled = value;

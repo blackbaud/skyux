@@ -78,7 +78,9 @@
     modernCompatVars.$sky-theme-modern-tab-btn-padding-left-right;
   transition: box-shadow compatVars.$sky-transition-time-short;
 
-  &:hover:not(.sky-btn-tab-disabled):not(.sky-btn-tab-selected):not(.sky-dropdown-button-type-tab):not(:focus) {
+  &:hover:not(.sky-btn-tab-disabled):not(.sky-btn-tab-selected):not(
+      .sky-dropdown-button-type-tab
+    ):not(:focus) {
     background-color: transparent;
     border-bottom: solid 1px vars.$sky-highlight-color-info;
     color: var(--sky-text-color-default);

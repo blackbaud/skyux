@@ -27,7 +27,8 @@ import { SkyModalScrollShadowEventArgs } from './modal-scroll-shadow-event-args'
 })
 export class SkyModalScrollShadowDirective implements OnInit, OnDestroy {
   @Output()
-  public skyModalScrollShadow = new EventEmitter<SkyModalScrollShadowEventArgs>();
+  public skyModalScrollShadow =
+    new EventEmitter<SkyModalScrollShadowEventArgs>();
 
   #currentShadow: SkyModalScrollShadowEventArgs | undefined;
 
