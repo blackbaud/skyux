@@ -1,5 +1,22 @@
 # Changelog
 
+## [7.0.0-beta.18](https://github.com/blackbaud/skyux/compare/7.0.0-beta.17...7.0.0-beta.18) (2022-11-28)
+
+
+### Features
+
+* add support for Angular 14.2.11 ([#854](https://github.com/blackbaud/skyux/issues/854)) ([9277c58](https://github.com/blackbaud/skyux/commit/9277c58daebd9ec2c8f3a8a36d2cd77ac641e252))
+
+
+### Bug Fixes
+
+* **apps/code-examples:** fix data entry grid inline help example ([#853](https://github.com/blackbaud/skyux/issues/853)) ([0d55bf7](https://github.com/blackbaud/skyux/commit/0d55bf75720cee1f581c64ed9f2e207480ec793e))
+* **components/forms:** revert accidental breaking change of the checkbox component's id property ([#852](https://github.com/blackbaud/skyux/issues/852)) ([#856](https://github.com/blackbaud/skyux/issues/856)) ([9d8a5df](https://github.com/blackbaud/skyux/commit/9d8a5dfdffa3cf5c87ac9fa74aac6b8bd0a66066))
+* **components/layout:** add display: block to sky-box so spacing classes can be applied ([#846](https://github.com/blackbaud/skyux/issues/846)) ([2247099](https://github.com/blackbaud/skyux/commit/22470992507d658a5fadcebaef506fa0c28e408e))
+* **components/layout:** help inline modern theme styles follow design guidelines ([#845](https://github.com/blackbaud/skyux/issues/845)) ([76869f1](https://github.com/blackbaud/skyux/commit/76869f1fcd9a47a50674784595382faeb59a092a))
+* **components/lookup:** lookup control value accessor uses a copy of passed in arrays instead of using the original array directly ([#850](https://github.com/blackbaud/skyux/issues/850)) ([c0ebdab](https://github.com/blackbaud/skyux/commit/c0ebdab4d83719c82a9ce7f03c5d6327d15f49fd))
+* **components/lookup:** lookup dropdown repositions when multiline tokens are changed ([#849](https://github.com/blackbaud/skyux/issues/849)) ([71c8caa](https://github.com/blackbaud/skyux/commit/71c8caada9a4758daef61f6ef23cccfb3cc04517))
+
 ## [6.25.3](https://github.com/blackbaud/skyux/compare/6.25.2...6.25.3) (2022-11-23)
 
 
