@@ -17,7 +17,7 @@
   "homepage": "https://github.com/blackbaud/skyux#readme",
   "peerDependencies": {
     "@angular/animations": "^14.2.11",
-    "@angular/cdk": "^14.2.11",
+    "@angular/cdk": "^14.2.7",
     "@angular/common": "^14.2.11",
     "@angular/core": "^14.2.11",
     "@angular/platform-browser": "^14.2.11",
