@@ -1,4 +1,5 @@
 {
+  "name": "ag-grid-storybook",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "sourceRoot": "apps/e2e/ag-grid-storybook/src",
@@ -84,7 +85,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/e2e/ag-grid-storybook"],
+      "outputs": ["{workspaceRoot}/coverage/apps/e2e/ag-grid-storybook"],
       "options": {
         "jestConfig": "apps/e2e/ag-grid-storybook/jest.config.ts",
         "passWithNoTests": true

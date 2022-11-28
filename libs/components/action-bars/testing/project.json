@@ -1,4 +1,5 @@
 {
+  "name": "action-bars-testing",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/components/action-bars/testing/src",

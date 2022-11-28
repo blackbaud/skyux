@@ -1,4 +1,5 @@
 {
+  "name": "http",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/components/http/src",
@@ -6,7 +7,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/http"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/http"],
       "options": {
         "project": "libs/components/http/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false

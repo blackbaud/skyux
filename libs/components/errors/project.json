@@ -1,4 +1,5 @@
 {
+  "name": "errors",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/components/errors/src",
@@ -6,7 +7,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/errors"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/errors"],
       "options": {
         "project": "libs/components/errors/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false

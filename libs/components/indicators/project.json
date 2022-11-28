@@ -1,4 +1,5 @@
 {
+  "name": "indicators",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/components/indicators/src",
@@ -6,7 +7,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/indicators"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/indicators"],
       "options": {
         "project": "libs/components/indicators/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false
