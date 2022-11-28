@@ -55,10 +55,17 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   @Input()
   public set id(value: string | undefined) {
     if (value) {
-      this.inputId = `input-sky-checkbox-${value}`;
+      this.#_id = `sky-checkbox-${value}`;
     } else {
-      this.inputId = `input-${this.#defaultId}`;
+      this.#_id = `${this.#defaultId}`;
     }
+    this.inputId = `input-${this.#_id}`;
+  }
+
+  // TODO: In a future breaking change - remove this getter. It is not used - only the `inputId` is used;
+  // however, this component is returned by the `SkyCheckboxChange` and thus removing this would be a breaking change.
+  public get id(): string {
+    return this.#_id;
   }
 
   /**
@@ -216,6 +223,8 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   #_checkboxType = 'info';
 
   #_disabled = false;
+
+  #_id = '';
 
   #_name = '';
 
