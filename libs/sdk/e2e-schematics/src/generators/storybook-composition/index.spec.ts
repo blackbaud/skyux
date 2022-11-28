@@ -10,8 +10,24 @@ import configureStorybook from '../configure-storybook';
 import generateStorybookComposition from './index';
 
 describe('storybook-composition', () => {
-  it('should create composition', async () => {
+  function setupTest() {
     const tree = createTreeWithEmptyWorkspace();
+
+    tree.write(
+      'workspace.json',
+      JSON.stringify({
+        version: 2,
+        projects: {},
+      })
+    );
+
+    tree.write('.gitignore', '');
+
+    return { tree };
+  }
+
+  it('should create composition', async () => {
+    const { tree } = setupTest();
     tree.write('.gitignore', '#');
     for (const name of ['storybook', 'test-app']) {
       await applicationGenerator(tree, { name });
@@ -35,7 +51,7 @@ describe('storybook-composition', () => {
   });
 
   it('should skip non-storybook project', async () => {
-    const tree = createTreeWithEmptyWorkspace();
+    const { tree } = setupTest();
     tree.write('.gitignore', '#');
     for (const name of ['storybook', 'test-app']) {
       await applicationGenerator(tree, { name });
@@ -62,7 +78,7 @@ describe('storybook-composition', () => {
   });
 
   it('should error without storybook project', async () => {
-    const tree = createTreeWithEmptyWorkspace();
+    const { tree } = setupTest();
     const spy = jest.spyOn(console, 'error');
     await generateStorybookComposition(tree, {
       projectsJson: JSON.stringify(['test-app']),
@@ -100,7 +116,7 @@ describe('storybook-composition', () => {
   });
 
   it('should handle parameters without quotes', async () => {
-    const tree = createTreeWithEmptyWorkspace();
+    const { tree } = setupTest();
     tree.write('.gitignore', '#');
     for (const name of [
       'storybook',
