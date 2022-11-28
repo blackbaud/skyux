@@ -1,4 +1,5 @@
 {
+  "name": "packages",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/components/packages/src",
   "projectType": "library",
@@ -12,7 +13,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/components/packages"],
+      "outputs": ["{workspaceRoot}/coverage/libs/components/packages"],
       "options": {
         "jestConfig": "libs/components/packages/jest.config.ts",
         "passWithNoTests": true,

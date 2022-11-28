@@ -1,4 +1,5 @@
 {
+  "name": "list-builder",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/components/list-builder/src",
@@ -6,7 +7,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/list-builder"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/list-builder"],
       "options": {
         "project": "libs/components/list-builder/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false

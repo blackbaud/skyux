@@ -1,4 +1,5 @@
 {
+  "name": "modals-testing",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/components/modals/testing/src",

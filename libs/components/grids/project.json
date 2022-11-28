@@ -1,4 +1,5 @@
 {
+  "name": "grids",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/components/grids/src",
@@ -6,7 +7,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/grids"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/grids"],
       "options": {
         "project": "libs/components/grids/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false
