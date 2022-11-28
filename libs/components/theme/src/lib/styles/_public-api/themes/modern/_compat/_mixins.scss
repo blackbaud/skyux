@@ -54,8 +54,7 @@
 
 @mixin sky-theme-modern-btn-disabled($color, $background, $border) {
   &.sky-btn-disabled,
-  &[disabled],
-  fieldset[disabled] & {
+  &[disabled] {
     &,
     &:hover,
     &:focus,

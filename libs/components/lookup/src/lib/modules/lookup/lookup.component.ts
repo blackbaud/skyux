@@ -421,10 +421,6 @@ export class SkyLookupComponent
         return token.value;
       });
       this.tokens = change;
-
-      this.#sendAutocompleteMessage(
-        SkyAutocompleteMessageType.RepositionDropdown
-      );
       this.onChange(this.#_value);
       this.onTouched();
     }
@@ -458,8 +454,15 @@ export class SkyLookupComponent
     }
   }
 
+  public onTokensRendered(): void {
+    this.#sendAutocompleteMessage(
+      SkyAutocompleteMessageType.RepositionDropdown
+    );
+  }
+
   public writeValue(value: any[]): void {
-    this.value = value ? value : [];
+    // Since we are dealing with arrays - clone the array being sent in to ensure we aren't modifying a consumers outer array
+    this.value = value ? value.slice() : [];
     this.#updateForSelectMode();
   }
 

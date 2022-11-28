@@ -15,6 +15,7 @@
     [dismissible]="dismissible"
     [focusable]="focusable"
     [role]="'row'"
+    (@dismiss.done)="animationDone()"
     (dismiss)="removeToken(token)"
     (click)="onTokenClick(token)"
     (keydown)="onTokenKeyDown($event)"
