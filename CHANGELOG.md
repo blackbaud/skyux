@@ -17,6 +17,13 @@
 * **components/lookup:** lookup control value accessor uses a copy of passed in arrays instead of using the original array directly ([#850](https://github.com/blackbaud/skyux/issues/850)) ([c0ebdab](https://github.com/blackbaud/skyux/commit/c0ebdab4d83719c82a9ce7f03c5d6327d15f49fd))
 * **components/lookup:** lookup dropdown repositions when multiline tokens are changed ([#849](https://github.com/blackbaud/skyux/issues/849)) ([71c8caa](https://github.com/blackbaud/skyux/commit/71c8caada9a4758daef61f6ef23cccfb3cc04517))
 
+## [6.25.3](https://github.com/blackbaud/skyux/compare/6.25.2...6.25.3) (2022-11-23)
+
+
+### Bug Fixes
+
+* **components/forms:** revert accidental breaking change of the checkbox component's id property ([#852](https://github.com/blackbaud/skyux/issues/852)) ([08bbcb8](https://github.com/blackbaud/skyux/commit/08bbcb81e6139ea9751bc0ba8aa041e3f0f77b3f))
+
 ## [7.0.0-beta.17](https://github.com/blackbaud/skyux/compare/7.0.0-beta.16...7.0.0-beta.17) (2022-11-17)
 
 
