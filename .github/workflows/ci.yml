@@ -143,9 +143,7 @@ jobs:
       - name: Run NGCC
         run: npx ngcc
       - name: Build
-        run: |
-          npx nx affected --target=build --parallel=3
-          npx nx affected --target=postbuild --parallel=3
+        run: npx nx affected --target=build --parallel=3
 
   build-dist:
     name: Build packages distribution
