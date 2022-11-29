@@ -132,7 +132,7 @@ sky-repeater-item {
     cursor: -webkit-grab;
     cursor: -moz-grab;
     padding: 0;
-    margin-right: $sky-margin;
+    margin: $sky-margin-half $sky-margin $sky-margin-half 0;
   }
 
   &.sky-repeater-item-dragging {

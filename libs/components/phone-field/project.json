@@ -1,4 +1,5 @@
 {
+  "name": "phone-field",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/components/phone-field/src",
@@ -6,7 +7,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/phone-field"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/phone-field"],
       "options": {
         "project": "libs/components/phone-field/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false

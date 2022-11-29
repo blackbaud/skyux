@@ -1,4 +1,5 @@
 {
+  "name": "angular-tree-component",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/components/angular-tree-component/src",
@@ -6,7 +7,9 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/angular-tree-component"],
+      "outputs": [
+        "{workspaceRoot}/dist/libs/components/angular-tree-component"
+      ],
       "options": {
         "project": "libs/components/angular-tree-component/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false
