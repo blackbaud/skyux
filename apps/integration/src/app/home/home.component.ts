@@ -61,27 +61,30 @@ export class HomeComponent implements AfterViewInit {
     private changeDetector: ChangeDetectorRef,
     private dataManagerService: SkyDataManagerService
   ) {
-    const integrationsRoute = router.config.find(route => route.path === 'integrations');
+    const integrationsRoute = router.config.find(
+      (route) => route.path === 'integrations'
+    );
     if (integrationsRoute?.loadChildren) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (integrationsRoute.loadChildren() as Promise<any>)
-        .then((integrationsRoutes) => {
-          this.createComponentData(integrationsRoutes.routes, 'integrations').then(
-            () => {
-              this.dataManagerService.initDataManager({
-                activeViewId: 'integrations',
-                dataManagerConfig: this.dataManagerConfig,
-                defaultDataState: this.defaultDataState,
-              });
+      (integrationsRoute.loadChildren() as Promise<any>).then(
+        (integrationsRoutes) => {
+          this.createComponentData(
+            integrationsRoutes.routes,
+            'integrations'
+          ).then(() => {
+            this.dataManagerService.initDataManager({
+              activeViewId: 'integrations',
+              dataManagerConfig: this.dataManagerConfig,
+              defaultDataState: this.defaultDataState,
+            });
 
-              this.dataManagerService.initDataView(this.viewConfig);
+            this.dataManagerService.initDataView(this.viewConfig);
 
-              this.displayedItems = this.sortItems(
-                this.searchItems(this.integrationsData)
-              );
-              this.changeDetector.markForCheck();
-            }
-          );
+            this.displayedItems = this.sortItems(
+              this.searchItems(this.integrationsData)
+            );
+            this.changeDetector.markForCheck();
+          });
         }
       );
     }
@@ -142,10 +145,10 @@ export class HomeComponent implements AfterViewInit {
           sortProperty = sortOption.propertyName;
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        if ((<any>a)[sortProperty] > (<any>b)[sortProperty]) {
+        if ((a as any)[sortProperty] > (b as any)[sortProperty]) {
           return descending;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } else if ((<any>a)[sortProperty] < (<any>b)[sortProperty]) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } else if ((a as any)[sortProperty] < (b as any)[sortProperty]) {
           return -1 * descending;
         } else {
           return 0;
