@@ -1,4 +1,4 @@
-name: CI
+name: CI - Affected
 
 on:
   push:
@@ -14,14 +14,15 @@ jobs:
       number-of-agents: 3
       init-commands: |
         npx nx-cloud start-ci-run --stop-agents-after="build" --agent-count=3
+        npx ngcc
       parallel-commands: |
         npx nx-cloud record -- npx nx workspace-lint
         npx nx-cloud record -- npx nx format:check
       parallel-commands-on-agents: |
-        npx nx affected --target=lint --quiet --silent --parallel=3
-        npx nx affected --target=test --browsers=ChromeHeadless --code-coverage --parallel=3 --progress=false --source-map --watch=false
-        npx nx affected --target=posttest --browsers=ChromeHeadless --parallel=3 --watch=false --code-coverage
-        npx nx affected --target=build --parallel=3
+        npx nx affected --target=lint --quiet --silent --parallel
+        npx nx affected --target=test --browsers=ChromeHeadless --code-coverage --parallel --progress=false --source-map --watch=false
+        npx nx affected --target=posttest --browsers=ChromeHeadless --parallel --watch=false --code-coverage
+        npx nx affected --target=build --parallel
 
   agents:
     name: Nx Cloud - Agents
