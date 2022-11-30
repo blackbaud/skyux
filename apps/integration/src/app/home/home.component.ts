@@ -34,7 +34,7 @@ export class HomeComponent implements AfterViewInit {
     ],
   };
 
-  public dataState: SkyDataManagerState;
+  public dataState: SkyDataManagerState | undefined;
 
   public defaultDataState = new SkyDataManagerState({
     activeSortOption: this.dataManagerConfig.sortOptions[0],
@@ -61,32 +61,33 @@ export class HomeComponent implements AfterViewInit {
     private changeDetector: ChangeDetectorRef,
     private dataManagerService: SkyDataManagerService
   ) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (
-      router.config
-        .find((route) => route.path === 'integrations')
-        .loadChildren() as Promise<any>
-    ).then((integrationsRoutes) => {
-      this.createComponentData(integrationsRoutes.routes, 'integrations').then(
-        () => {
-          this.dataManagerService.initDataManager({
-            activeViewId: 'integrations',
-            dataManagerConfig: this.dataManagerConfig,
-            defaultDataState: this.defaultDataState,
-          });
+    const integrationsRoute = router.config.find(route => route.path === 'integrations');
+    if (integrationsRoute?.loadChildren) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (integrationsRoute.loadChildren() as Promise<any>)
+        .then((integrationsRoutes) => {
+          this.createComponentData(integrationsRoutes.routes, 'integrations').then(
+            () => {
+              this.dataManagerService.initDataManager({
+                activeViewId: 'integrations',
+                dataManagerConfig: this.dataManagerConfig,
+                defaultDataState: this.defaultDataState,
+              });
 
-          this.dataManagerService.initDataView(this.viewConfig);
+              this.dataManagerService.initDataView(this.viewConfig);
 
-          this.displayedItems = this.sortItems(
-            this.searchItems(this.integrationsData)
+              this.displayedItems = this.sortItems(
+                this.searchItems(this.integrationsData)
+              );
+              this.changeDetector.markForCheck();
+            }
           );
-          this.changeDetector.markForCheck();
         }
       );
-    });
+    }
   }
 
-  public ngAfterViewInit() {
+  public ngAfterViewInit(): void {
     this.dataManagerService
       .getDataStateUpdates('integrations')
       .subscribe((state) => {
@@ -100,18 +101,18 @@ export class HomeComponent implements AfterViewInit {
       });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private createComponentData(
     routes: IntegrationRouteInfo[],
     parentPath: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): Promise<any> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const promises: Promise<any>[] = [];
 
     for (const route of routes) {
       if (route.loadChildren) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         promises.push(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (route.loadChildren() as Promise<any>).then((newRoutes) => {
             if (newRoutes.routes instanceof Array) {
               return this.createComponentData(
@@ -119,6 +120,7 @@ export class HomeComponent implements AfterViewInit {
                 parentPath + '/' + route.path
               );
             }
+            return undefined;
           })
         );
       } else if (route.data) {
@@ -139,9 +141,11 @@ export class HomeComponent implements AfterViewInit {
         const descending = sortOption.descending ? -1 : 1,
           sortProperty = sortOption.propertyName;
 
-        if (a[sortProperty] > b[sortProperty]) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        if ((<any>a)[sortProperty] > (<any>b)[sortProperty]) {
           return descending;
-        } else if (a[sortProperty] < b[sortProperty]) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } else if ((<any>a)[sortProperty] < (<any>b)[sortProperty]) {
           return -1 * descending;
         } else {
           return 0;
@@ -159,9 +163,7 @@ export class HomeComponent implements AfterViewInit {
 
     if (searchText) {
       searchedItems = items.filter(function (item: IntegrationInfo) {
-        let property: unknown;
-
-        for (property in item) {
+        for (const property in item) {
           if (
             Object.prototype.hasOwnProperty.call(item, property) &&
             property === 'name'

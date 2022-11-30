@@ -9,7 +9,7 @@
       [open]="group1Open"
       [disabled]="group1Disabled"
     >
-      <sky-vertical-tab tabHeading="Group 1 Tab 1" tabHeaderCount="5">
+      <sky-vertical-tab tabHeading="Group 1 Tab 1" [tabHeaderCount]="5">
         <div style="max-height: 500px; overflow-y: scroll">
           Group 1 Tab 1 content
           <p skyBackToTop>Stuff</p>
@@ -237,19 +237,19 @@
       [open]="group2Open"
       [disabled]="group2Disabled"
     >
-      <sky-vertical-tab tabHeading="Group 2 Tab 1" tabHeaderCount="6">
+      <sky-vertical-tab tabHeading="Group 2 Tab 1" [tabHeaderCount]="6">
         Group 2 Tab 1 content
       </sky-vertical-tab>
       <sky-vertical-tab
         id="group2Tab2"
         tabHeading="Group 2 Tab 2"
-        tabHeaderCount="0"
+        [tabHeaderCount]="0"
       >
         Group 2 Tab 2 content
       </sky-vertical-tab>
       <sky-vertical-tab
         tabHeading="Group 2 Tab 2 - disabled"
-        tabHeaderCount="0"
+        [tabHeaderCount]="0"
         [disabled]="tabDisabled"
       >
         Group 2 Tab 3 content

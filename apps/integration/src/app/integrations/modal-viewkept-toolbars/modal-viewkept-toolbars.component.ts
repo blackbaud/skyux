@@ -9,7 +9,7 @@ import { ModalViewkeptToolbarsModalComponent } from './modal-viewkept-toolbars-m
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModalViewkeptToolbarsComponent {
-  #modalService: SkyModalService | undefined;
+  #modalService: SkyModalService;
 
   constructor(modalService: SkyModalService) {
     this.#modalService = modalService;
