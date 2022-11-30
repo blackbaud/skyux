@@ -39,7 +39,7 @@
     vars.$sky-theme-modern-border-color-neutral-medium
   );
 
-  &:focus {
+  &:focus-visible {
     outline: none;
 
     &:not(:active) {
@@ -57,7 +57,7 @@
   &[disabled] {
     &,
     &:hover,
-    &:focus,
+    &:focus-visible,
     &.sky-btn-focus,
     &:active,
     &.sky-btn-active {
@@ -78,7 +78,7 @@
     modernCompatVars.$sky-theme-modern-tab-btn-padding-left-right;
   transition: box-shadow compatVars.$sky-transition-time-short;
 
-  &:hover:not(.sky-btn-tab-disabled):not(.sky-btn-tab-selected):not(.sky-dropdown-button-type-tab):not(:focus) {
+  &:hover:not(.sky-btn-tab-disabled):not(.sky-btn-tab-selected):not(.sky-dropdown-button-type-tab):not(:focus-visible) {
     background-color: transparent;
     border-bottom: solid 1px vars.$sky-highlight-color-info;
     color: var(--sky-text-color-default);
@@ -86,7 +86,7 @@
       1px;
   }
 
-  &:focus {
+  &:focus-visible {
     background-color: transparent;
     color: var(--sky-text-color-default);
     outline: none;
@@ -148,7 +148,7 @@
     outline-offset: -1px;
   }
 
-  &:focus:not(:active) {
+  &:focus-visible:not(:active) {
     background-color: transparent;
     box-shadow: vars.$sky-theme-modern-elevation-3-shadow-size
       vars.$sky-theme-modern-elevation-3-shadow-color;
