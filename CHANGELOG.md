@@ -1,5 +1,17 @@
 # Changelog
 
+## [7.0.0-beta.19](https://github.com/blackbaud/skyux/compare/7.0.0-beta.18...7.0.0-beta.19) (2022-12-01)
+
+
+### Features
+
+* **components/lists:** sort and tabs dropdown style tweaks ([#851](https://github.com/blackbaud/skyux/issues/851)) ([d6c6a99](https://github.com/blackbaud/skyux/commit/d6c6a999299f935914523e8e2bf0e7fabc6143ec))
+
+
+### Bug Fixes
+
+* **components/lists:** adjust vertical alignment on repeater item drag controls ([#859](https://github.com/blackbaud/skyux/issues/859)) ([e1ed920](https://github.com/blackbaud/skyux/commit/e1ed9209f2a6fc906e0622210a8c79779da52410))
+
 ## [7.0.0-beta.18](https://github.com/blackbaud/skyux/compare/7.0.0-beta.17...7.0.0-beta.18) (2022-11-28)
 
 
