@@ -10,18 +10,21 @@ export class SettingsModalComponent {
   public form: UntypedFormGroup;
   public fields: string[] = [];
 
+  #fb: UntypedFormBuilder;
+
   constructor(
-    private fb: UntypedFormBuilder,
+    fb: UntypedFormBuilder,
     public modal: SkyModalInstance,
     @Inject('modalTitle') public title: string
   ) {
-    const controls = {};
+    this.#fb = fb;
+    const controls: { [key: string]: unknown } = {};
     for (let i = 1; i <= 5; i++) {
       const field = `${this.title} ${i}`;
       this.fields.push(field);
-      controls[field] = this.fb.control('');
+      controls[field] = this.#fb.control('');
     }
-    this.form = this.fb.group(controls);
+    this.form = this.#fb.group(controls);
     this.modal.closed.subscribe((args) => {
       if (args.reason === 'save') {
         console.log(this.form.value);

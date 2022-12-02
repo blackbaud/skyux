@@ -81,12 +81,12 @@ export class DataManagerComponent implements OnInit {
 
   public viewId = 'gridView';
 
-  public dataState: SkyDataManagerState;
+  public dataState: SkyDataManagerState | undefined;
   public items = data.slice(0, 50);
   public settingsKey = 'ag-grid-storybook-data-manager';
-  public gridOptions: GridOptions;
+  public gridOptions: GridOptions | undefined;
   public isActive$ = new BehaviorSubject(true);
-  public gridSettings: FormGroup<GridSettingsType>;
+  public gridSettings: FormGroup<GridSettingsType> | undefined;
   public ready: Observable<boolean>;
 
   readonly #gridReady = new BehaviorSubject(false);
@@ -111,11 +111,13 @@ export class DataManagerComponent implements OnInit {
 
   public ngOnInit(): void {
     this.gridSettings = this.formBuilder.group<GridSettingsType>({
-      enableTopScroll: this.formBuilder.control(this.enableTopScroll),
-      domLayout: this.formBuilder.control(this.domLayout),
+      enableTopScroll: this.formBuilder.nonNullable.control(
+        this.enableTopScroll
+      ),
+      domLayout: this.formBuilder.nonNullable.control(this.domLayout),
     });
 
-    this.applyGridOptions();
+    this.#applyGridOptions();
 
     this.dataManagerService.getActiveViewIdUpdates().subscribe((id) => {
       this.isActive$.next(id === this.viewId);
@@ -140,23 +142,23 @@ export class DataManagerComponent implements OnInit {
       showFilterButtonText: true,
       columnOptions: columnDefinitions.map((col) => {
         return {
-          id: col.field,
-          label: col.headerName,
-          alwaysDisplayed: ['select'].includes(col.field),
+          id: col.field ?? '',
+          label: col.headerName ?? '',
+          alwaysDisplayed: ['select'].includes(col.field ?? ''),
         };
       }),
     });
 
     this.gridSettings.valueChanges.subscribe((value) => {
       this.isActive$.next(false);
-      this.enableTopScroll = value.enableTopScroll;
-      this.domLayout = value.domLayout;
-      this.applyGridOptions();
+      this.enableTopScroll = !!value.enableTopScroll;
+      this.domLayout = value.domLayout ?? 'autoHeight';
+      this.#applyGridOptions();
       setTimeout(() => this.isActive$.next(true));
     });
   }
 
-  private applyGridOptions() {
+  #applyGridOptions() {
     this.gridOptions = this.agGridService.getGridOptions({
       gridOptions: {
         columnDefs: [
