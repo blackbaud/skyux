@@ -198,9 +198,7 @@ export class FoobarResourcesModule { }
       readRequiredFile(updatedTree, packageJsonPath)
     );
 
-    expect(packageJsonContents.peerDependencies['@skyux/i18n']).toEqual(
-      '^7.0.0-beta.0'
-    );
+    expect(packageJsonContents.peerDependencies['@skyux/i18n']).toEqual('^7');
   });
 
   it('should not add `@skyux/i18n` as a peer dependency if already exists', async () => {

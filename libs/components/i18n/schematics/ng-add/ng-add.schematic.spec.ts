@@ -47,7 +47,7 @@ describe('ng-add.schematic', () => {
     const packageJson = readPackageJson(updatedTree);
     expect(packageJson.dependencies).toEqual(
       jasmine.objectContaining({
-        '@skyux/assets': '^7.0.0-beta.0',
+        '@skyux/assets': '^7',
       })
     );
   });
