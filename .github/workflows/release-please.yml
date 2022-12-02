@@ -18,6 +18,8 @@ jobs:
           package-name: 'skyux'
           pull-request-title-pattern: 'chore: release ${version}'
           labels: 'autorelease ${{ github.ref_name }}: pending'
+          last-release-sha: 'bc28ca0df0183146f92482c396409d0369ae4532'
+          release-as: '7.0.0'
           release-labels: 'autorelease ${{ github.ref_name }}: tagged'
           draft-pull-request: true
           include-v-in-tag: false
