@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.0.0](https://github.com/blackbaud/skyux/compare/7.0.0-beta.19...7.0.0) (2022-12-05)
+
+
+### Features
+
+* trigger release for 7.0.0 ([#869](https://github.com/blackbaud/skyux/issues/869)) ([2b112c8](https://github.com/blackbaud/skyux/commit/2b112c81ad1ebc8cef19d941dead47281aa73237))
+
 ## [7.0.0-beta.19](https://github.com/blackbaud/skyux/compare/7.0.0-beta.18...7.0.0-beta.19) (2022-12-01)
 
 
