@@ -1,6 +1,10 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
     "rootDir": ".",
     "sourceMap": true,
     "declaration": false,
@@ -135,6 +139,11 @@
     },
     "resolveJsonModule": true,
     "esModuleInterop": true
+  },
+  "angularCompilerOptions": {
+    "strictTemplates": true,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true
   },
   "exclude": ["node_modules", "tmp"]
 }
