@@ -1,5 +1,5 @@
 {
-  "extends": "../../../tsconfig.base.json",
+  "extends": "../../../tsconfig.lax.json",
   "compilerOptions": {
     "sourceMap": false,
     "outDir": "../../../dist/out-tsc",
