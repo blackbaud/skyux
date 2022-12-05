@@ -11,6 +11,25 @@
 * **components/packages:** include `ng add` template files in public exports ([#1015](https://github.com/blackbaud/skyux/issues/1015)) ([b087324](https://github.com/blackbaud/skyux/commit/b087324015e58463f56bc9a94482bf11d287a5ec))
 * **components/text-editor:** content is only pasted once into the text editor ([#997](https://github.com/blackbaud/skyux/issues/997)) ([dd99d3c](https://github.com/blackbaud/skyux/commit/dd99d3cfbc08d2707210f264071ee1e2b13e3788))
 
+## [7.8.1](https://github.com/blackbaud/skyux/compare/7.8.0...7.8.1) (2023-02-27)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** adjust a11y test for ag-grid ([#1012](https://github.com/blackbaud/skyux/issues/1012)) ([0c7ba9e](https://github.com/blackbaud/skyux/commit/0c7ba9ed3b26703eb7e4bf95c1f878be2e3968ed))
+* **components/ag-grid:** support right-align header in AG Grid 28 ([#998](https://github.com/blackbaud/skyux/issues/998)) ([99c6cab](https://github.com/blackbaud/skyux/commit/99c6cab96186622d72e562bd65c8988c40a74728))
+* **components/core:** add clip-path option for overlay ([#980](https://github.com/blackbaud/skyux/issues/980)) ([1707f8d](https://github.com/blackbaud/skyux/commit/1707f8d4f4a5c9c82c81d86770511f58b6170430))
+* **components/forms:** only apply indeterminate styling to checkboxes ([#1016](https://github.com/blackbaud/skyux/issues/1016)) ([a0d2215](https://github.com/blackbaud/skyux/commit/a0d221547ce92529ebcb34a9ede6c7beb8933c08))
+* **components/text-editor:** content is only pasted once into the text editor ([#997](https://github.com/blackbaud/skyux/issues/997)) ([#1006](https://github.com/blackbaud/skyux/issues/1006)) ([902584b](https://github.com/blackbaud/skyux/commit/902584b13d79e2c807752004adbf48aa94959b31))
+
+## [7.8.0](https://github.com/blackbaud/skyux/compare/7.7.0...7.8.0) (2023-02-17)
+
+
+### Features
+
+* **components/theme:** update SKY UX icons version ([#1001](https://github.com/blackbaud/skyux/issues/1001)) ([8b4227c](https://github.com/blackbaud/skyux/commit/8b4227c7dbd406f5d82d45e8bfbf1d7ba11140ea))
+
+
 ## [8.0.0-alpha.0](https://github.com/blackbaud/skyux/compare/7.6.1...8.0.0-alpha.0) (2023-02-17)
 
 
