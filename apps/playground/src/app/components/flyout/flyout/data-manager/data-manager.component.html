@@ -1,0 +1,14 @@
+<sky-data-manager>
+  <sky-data-manager-toolbar>
+    <sky-data-manager-toolbar-left-item>
+      <button
+        class="sky-btn sky-btn-primary"
+        id="edit-btn"
+        (click)="openModal()"
+      >
+        Edit
+      </button>
+    </sky-data-manager-toolbar-left-item>
+  </sky-data-manager-toolbar>
+  <app-data-manager-view-grid [items]="items"></app-data-manager-view-grid>
+</sky-data-manager>

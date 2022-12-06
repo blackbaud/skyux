@@ -1,6 +1,8 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
+$header-height: 50px;
+
 .sky-flyout {
   position: fixed;
   right: 0;
@@ -98,8 +100,10 @@
   @include mixins.sky-border(dark, bottom);
   width: 100%;
   background: $sky-background-color-neutral-light;
-  height: 50px;
+  height: $header-height;
   display: flex;
+  position: fixed;
+  z-index: $sky-flyout-z-index;
   align-items: flex-start;
 }
 
@@ -123,7 +127,8 @@
 
 .sky-flyout-content {
   overflow-y: auto;
-  height: calc(100% - 50px);
+  margin-top: $header-height;
+  height: calc(100% - $header-height);
 }
 
 @include mixins.sky-theme-modern {
