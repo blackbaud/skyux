@@ -1,0 +1,11 @@
+<sky-data-view skyAgGridDataManagerAdapter [viewId]="viewConfig.id">
+  <sky-ag-grid-wrapper *ngIf="isActive && gridInitialized">
+    <ag-grid-angular
+      [gridOptions]="gridOptions"
+      [rowData]="displayedItems"
+      [overlayNoRowsTemplate]="noRowsTemplate"
+      (rowSelected)="onRowSelected($event)"
+    >
+    </ag-grid-angular>
+  </sky-ag-grid-wrapper>
+</sky-data-view>

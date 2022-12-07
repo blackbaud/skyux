@@ -4,6 +4,7 @@ import { SkyFlyoutInstance, SkyFlyoutService } from '@skyux/flyout';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { DataManagerFlyoutComponent } from './data-manager/data-manager-flyout.component';
 import { FlyoutDemoContext } from './flyout-demo-context';
 import { FlyoutDemoComponent } from './flyout-demo.component';
 import { FlyoutResponsiveDemoComponent } from './flyout-responsive-demo.component';
@@ -118,6 +119,12 @@ export class FlyoutComponent implements OnDestroy {
   public openResponsiveFlyout(width: number): void {
     this.flyout = this.#flyoutService.open(FlyoutResponsiveDemoComponent, {
       defaultWidth: width,
+      maxWidth: 5000,
+    });
+  }
+
+  public openDataManagerFlyout(): void {
+    this.flyout = this.#flyoutService.open(DataManagerFlyoutComponent, {
       maxWidth: 5000,
     });
   }
