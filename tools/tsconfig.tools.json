@@ -1,5 +1,5 @@
 {
-  "extends": "../tsconfig.lax.json",
+  "extends": "../tsconfig.no-strict.json",
   "compilerOptions": {
     "outDir": "../dist/out-tsc/tools",
     "rootDir": ".",

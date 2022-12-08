@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.lax.json",
+  "extends": "../../tsconfig.no-strict.json",
   "files": [],
   "include": [],
   "references": [
