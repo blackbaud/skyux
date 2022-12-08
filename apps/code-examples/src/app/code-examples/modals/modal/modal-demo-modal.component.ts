@@ -12,7 +12,7 @@ import { ModalDemoDataService } from './modal-demo-data.service';
 })
 export class ModalDemoModalComponent {
   public demoForm: FormGroup<{
-    value1?: FormControl<string>;
+    value1: FormControl<string | null | undefined>;
   }>;
 
   #dataSvc: ModalDemoDataService;
@@ -30,11 +30,13 @@ export class ModalDemoModalComponent {
     this.#waitSvc = waitSvc;
     this.#dataSvc = dataSvc;
 
-    this.demoForm = fb.group(context.data);
+    const value1 = fb.control(context.data.value1);
+    this.demoForm = fb.group({ value1 });
   }
 
   public saveForm(): void {
     // Use the data service to save the data.
+
     this.#waitSvc
       .blockingWrap(this.#dataSvc.save(this.demoForm.value))
       .subscribe((data) => {
