@@ -35,8 +35,8 @@
                   >
                     <sky-status-indicator
                       *ngIf="
-                        (firstName.touched || firstName.dirty) &&
-                        !firstName.valid
+                        (firstName?.touched || firstName?.dirty) &&
+                        !firstName?.valid
                       "
                       indicatorType="danger"
                       descriptionType="error"
@@ -82,7 +82,8 @@
                   >
                     <sky-status-indicator
                       *ngIf="
-                        (lastName.touched || lastName.dirty) && !lastName.valid
+                        (lastName?.touched || lastName?.dirty) &&
+                        !lastName?.valid
                       "
                       indicatorType="danger"
                       descriptionType="error"
@@ -121,8 +122,8 @@
                   >
                     <sky-status-indicator
                       *ngIf="
-                        (phoneNumber.touched || phoneNumber.dirty) &&
-                        !phoneNumber.valid
+                        (phoneNumber?.touched || phoneNumber?.dirty) &&
+                        !phoneNumber?.valid
                       "
                       indicatorType="danger"
                       descriptionType="error"
@@ -149,7 +150,7 @@
                   />
                   <span class="sky-error-indicator" skyId #emailError="skyId">
                     <sky-status-indicator
-                      *ngIf="(email.touched || email.dirty) && !email.valid"
+                      *ngIf="(email?.touched || email?.dirty) && !email?.valid"
                       indicatorType="danger"
                       descriptionType="error"
                     >

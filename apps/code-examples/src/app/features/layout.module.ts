@@ -5,8 +5,6 @@ import { ActionButtonDemoComponent } from '../code-examples/layout/action-button
 import { ActionButtonDemoModule } from '../code-examples/layout/action-button/basic/action-button-demo.module';
 import { ActionButtonDemoComponent as ActionButtonPermalinkComponent } from '../code-examples/layout/action-button/permalink/action-button-demo.component';
 import { ActionButtonDemoModule as ActionButtonPermalinkModule } from '../code-examples/layout/action-button/permalink/action-button-demo.module';
-import { BackToTopDemoComponent as BackToTopGridDemoComponent } from '../code-examples/layout/back-to-top/grid/back-to-top-demo.component';
-import { BackToTopDemoModule as BackToTopGridDemoModule } from '../code-examples/layout/back-to-top/grid/back-to-top-demo.module';
 import { BackToTopDemoComponent as BackToTopInfiniteScrollDemoComponent } from '../code-examples/layout/back-to-top/infinite-scroll/back-to-top-demo.component';
 import { BackToTopDemoModule as BackToTopInfiniteScrollDemoModule } from '../code-examples/layout/back-to-top/infinite-scroll/back-to-top-demo.module';
 import { BackToTopDemoComponent as BackToTopRepeaterDemoComponent } from '../code-examples/layout/back-to-top/repeater/back-to-top-demo.component';
@@ -61,7 +59,6 @@ const routes: Routes = [
     path: 'action-button/permalink',
     component: ActionButtonPermalinkComponent,
   },
-  { path: 'back-to-top/grid', component: BackToTopGridDemoComponent },
   {
     path: 'back-to-top/infinite-scroll',
     component: BackToTopInfiniteScrollDemoComponent,
@@ -157,7 +154,6 @@ export class LayoutRoutingModule {}
 
 @NgModule({
   imports: [
-    BackToTopGridDemoModule,
     BackToTopInfiniteScrollDemoModule,
     BackToTopRepeaterDemoModule,
     BoxDemoModule,

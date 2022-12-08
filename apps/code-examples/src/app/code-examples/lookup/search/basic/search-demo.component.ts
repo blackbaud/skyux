@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
 
+import { LookupDemoItem } from './lookup-demo-item';
+
 @Component({
   selector: 'app-search-demo',
   templateUrl: './search-demo.component.html',
 })
 export class SearchDemoComponent {
-  public displayedItems: any;
+  public displayedItems: LookupDemoItem[];
 
-  private items: any[] = [
+  private items: LookupDemoItem[] = [
     {
       title: 'Call Robert Hernandez',
       note: 'Robert recently gave a very generous gift. We should call to thank him.',
@@ -30,7 +32,7 @@ export class SearchDemoComponent {
     },
   ];
 
-  public searchText: string;
+  public searchText = '';
 
   constructor() {
     this.displayedItems = this.items;
@@ -41,8 +43,8 @@ export class SearchDemoComponent {
     this.searchText = searchText;
 
     if (searchText) {
-      filteredItems = this.items.filter(function (item: any) {
-        let property: any;
+      filteredItems = this.items.filter(function (item: LookupDemoItem) {
+        let property: keyof typeof item;
 
         for (property in item) {
           if (

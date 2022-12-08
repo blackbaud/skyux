@@ -22,6 +22,8 @@ import {
   ValueFormatterParams,
 } from 'ag-grid-community';
 
+import { SkyAgGridDemoRow } from '../basic/data-entry-grid-docs-demo-data';
+
 @Component({
   selector: 'app-data-manager-data-entry-grid-docs-demo-view-grid',
   templateUrl:
@@ -32,7 +34,7 @@ export class DataManagerDataEntryGridDocsDemoViewGridComponent
   implements OnInit
 {
   @Input()
-  public set items(value: any[]) {
+  public set items(value: SkyAgGridDemoRow[]) {
     this._items = value;
     this.changeDetector.markForCheck();
     if (this.gridApi) {
@@ -90,7 +92,8 @@ export class DataManagerDataEntryGridDocsDemoViewGridComponent
       type: [SkyCellType.Date, SkyCellType.Validator],
       cellRendererParams: {
         skyComponentProperties: {
-          validator: (value: Date) => !!value && value > new Date(1985, 9, 26),
+          validator: (value: Date): boolean =>
+            !!value && value > new Date(1985, 9, 26),
           validatorMessage: 'Please enter a future date',
         },
       },
@@ -100,7 +103,7 @@ export class DataManagerDataEntryGridDocsDemoViewGridComponent
   public dataState = new SkyDataManagerState({});
 
   public columnApi?: ColumnApi;
-  public displayedItems: any[] = [];
+  public displayedItems: SkyAgGridDemoRow[] = [];
   public gridApi?: GridApi;
   public gridInitialized = false;
   public gridOptions!: GridOptions;
@@ -165,7 +168,7 @@ export class DataManagerDataEntryGridDocsDemoViewGridComponent
     ],
   };
 
-  private _items: any[] = [];
+  private _items: SkyAgGridDemoRow[] = [];
 
   constructor(
     private agGridService: SkyAgGridService,
@@ -219,7 +222,7 @@ export class DataManagerDataEntryGridDocsDemoViewGridComponent
 
   public setInitialColumnOrder(): void {
     const viewState = this.dataState.getViewStateById(this.viewId);
-    const visibleColumns = viewState.displayedColumnIds;
+    const visibleColumns = viewState?.displayedColumnIds || [];
 
     this.columnDefs.sort((col1, col2) => {
       const col1Index = visibleColumns.findIndex(
@@ -272,20 +275,19 @@ export class DataManagerDataEntryGridDocsDemoViewGridComponent
     }
   }
 
-  public searchItems(items: any[]): any[] {
+  public searchItems(items: SkyAgGridDemoRow[]): SkyAgGridDemoRow[] {
     let searchedItems = items;
     const searchText = this.dataState && this.dataState.searchText;
 
     if (searchText) {
-      searchedItems = items.filter(function (item: any) {
-        let property: any;
-
+      searchedItems = items.filter(function (item: SkyAgGridDemoRow) {
+        let property: keyof typeof item;
         for (property in item) {
           if (
             Object.prototype.hasOwnProperty.call(item, property) &&
-            (property === 'name' || property === 'description')
+            property === 'name'
           ) {
-            const propertyText = item[property].toLowerCase();
+            const propertyText = item[property]?.toLowerCase();
             if (propertyText.indexOf(searchText) > -1) {
               return true;
             }
@@ -299,13 +301,13 @@ export class DataManagerDataEntryGridDocsDemoViewGridComponent
     return searchedItems;
   }
 
-  public filterItems(items: any[]): any[] {
+  public filterItems(items: SkyAgGridDemoRow[]): SkyAgGridDemoRow[] {
     let filteredItems = items;
     const filterData = this.dataState && this.dataState.filterData;
 
     if (filterData && filterData.filters) {
       const filters = filterData.filters;
-      filteredItems = items.filter((item: any) => {
+      filteredItems = items.filter((item: SkyAgGridDemoRow) => {
         return (
           ((filters.hideSales && item.department.name !== 'Sales') ||
             !filters.hideSales) &&

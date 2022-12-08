@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { SkyAutocompleteSearchFunctionFilter } from '@skyux/lookup';
 
@@ -6,8 +6,8 @@ import { SkyAutocompleteSearchFunctionFilter } from '@skyux/lookup';
   selector: 'app-autocomplete-demo',
   templateUrl: './autocomplete-demo.component.html',
 })
-export class AutocompleteDemoComponent implements OnInit {
-  public colors: any[] = [
+export class AutocompleteDemoComponent {
+  public colors: { name: string }[] = [
     { name: 'Red' },
     { name: 'Blue' },
     { name: 'Green' },
@@ -24,18 +24,12 @@ export class AutocompleteDemoComponent implements OnInit {
   public myForm: UntypedFormGroup;
 
   public searchFilters: SkyAutocompleteSearchFunctionFilter[] = [
-    (searchText: string, item: any): boolean => {
+    (searchText: string, item: { name: string }): boolean => {
       return item.name !== 'Red';
     },
   ];
 
-  constructor(private formBuilder: UntypedFormBuilder) {}
-
-  public ngOnInit(): void {
-    this.createForm();
-  }
-
-  private createForm(): void {
+  constructor(private formBuilder: UntypedFormBuilder) {
     this.myForm = this.formBuilder.group({
       favoriteColor: undefined,
     });

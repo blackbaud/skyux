@@ -14,22 +14,21 @@ import { LookupDemoPerson } from './lookup-demo-person';
 })
 export class LookupAsyncDemoComponent implements OnInit {
   public favoritesForm: FormGroup<{
-    favoriteNames: FormControl<LookupDemoPerson[]>;
+    favoriteNames: FormControl<LookupDemoPerson[] | null>;
   }>;
 
   #searchSvc: LookupAsyncDemoService;
 
-  constructor(formBuilder: FormBuilder, searchSvc: LookupAsyncDemoService) {
+  constructor(
+    private formBuilder: FormBuilder,
+    searchSvc: LookupAsyncDemoService
+  ) {
     this.#searchSvc = searchSvc;
 
-    this.favoritesForm = formBuilder.group({
-      favoriteNames: [
-        [
-          {
-            name: 'Shirley',
-          },
-        ],
-      ],
+    const names = new FormControl<LookupDemoPerson[]>([{ name: 'Shirley' }]);
+
+    this.favoritesForm = this.formBuilder.group({
+      favoriteNames: names,
     });
   }
 

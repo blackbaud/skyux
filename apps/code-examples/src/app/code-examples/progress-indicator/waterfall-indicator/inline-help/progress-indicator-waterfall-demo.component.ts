@@ -6,6 +6,7 @@ import {
 import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 import {
   SkyProgressIndicatorChange,
+  SkyProgressIndicatorMessage,
   SkyProgressIndicatorMessageType,
 } from '@skyux/progress-indicator';
 
@@ -21,9 +22,11 @@ import { SkyProgressIndicatorWaterfallDemoFormComponent } from './progress-indic
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WaterfallIndicatorDocsComponent {
-  public activeIndex = 0;
+  public activeIndex: number | undefined = 0;
 
-  public progressMessageStream = new Subject<SkyProgressIndicatorMessageType>();
+  public progressMessageStream = new Subject<
+    SkyProgressIndicatorMessage | SkyProgressIndicatorMessageType
+  >();
 
   constructor(
     private changeDetector: ChangeDetectorRef,

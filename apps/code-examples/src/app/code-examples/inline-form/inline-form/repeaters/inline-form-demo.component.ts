@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {
   SkyInlineFormButtonLayout,
@@ -13,8 +13,8 @@ import { InlineFormDemoItem } from './inline-form-demo-item';
   templateUrl: './inline-form-demo.component.html',
   styleUrls: ['./inline-form-demo.component.scss'],
 })
-export class InlineFormDemoComponent implements OnInit {
-  public activeInlineFormId: string;
+export class InlineFormDemoComponent {
+  public activeInlineFormId: string | undefined;
 
   public inlineFormConfig: SkyInlineFormConfig = {
     buttonLayout: SkyInlineFormButtonLayout.SaveCancel,
@@ -45,9 +45,7 @@ export class InlineFormDemoComponent implements OnInit {
 
   public myForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {}
-
-  public ngOnInit(): void {
+  constructor(private formBuilder: FormBuilder) {
     this.myForm = this.formBuilder.group({
       id: new FormControl(),
       title: new FormControl(),
@@ -68,8 +66,10 @@ export class InlineFormDemoComponent implements OnInit {
       const found = this.items.find(
         (item) => item.id === this.activeInlineFormId
       );
-      found.note = this.myForm.get('note').value;
-      found.title = this.myForm.get('title').value;
+      if (found) {
+        found.note = this.myForm.get('note')?.value;
+        found.title = this.myForm.get('title')?.value;
+      }
     }
 
     this.myForm.patchValue({

@@ -10,9 +10,9 @@ import { SkyModalInstance } from '@skyux/modals';
   templateUrl: './data-filter-modal.component.html',
 })
 export class DataManagerFiltersModalDemoComponent {
-  public fruitType: string;
+  public fruitType: string | undefined;
 
-  public hideOrange: boolean;
+  public hideOrange: boolean | undefined;
 
   constructor(
     public context: SkyDataManagerFilterModalContext,
@@ -25,7 +25,7 @@ export class DataManagerFiltersModalDemoComponent {
     }
   }
 
-  public applyFilters() {
+  public applyFilters(): void {
     const result: SkyDataManagerFilterData = {};
 
     result.filtersApplied = this.fruitType !== 'any' || this.hideOrange;
@@ -37,12 +37,12 @@ export class DataManagerFiltersModalDemoComponent {
     this.instance.save(result);
   }
 
-  public clearAllFilters() {
+  public clearAllFilters(): void {
     this.hideOrange = false;
     this.fruitType = 'any';
   }
 
-  public cancel() {
+  public cancel(): void {
     this.instance.cancel();
   }
 }

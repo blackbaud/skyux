@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SkyValidators } from '@skyux/validation';
 
@@ -7,7 +7,7 @@ import { SkyValidators } from '@skyux/validation';
   templateUrl: './input-box-demo.component.html',
   styleUrls: ['./input-box-demo.component.scss'],
 })
-export class InputBoxDemoComponent implements OnInit {
+export class InputBoxDemoComponent {
   public firstName: FormControl;
   public lastName: FormControl;
   public bio: FormControl;
@@ -15,7 +15,7 @@ export class InputBoxDemoComponent implements OnInit {
   public dob: FormControl;
   public newMemberForm: FormGroup;
 
-  public ngOnInit(): void {
+  constructor() {
     this.firstName = new FormControl('');
     this.lastName = new FormControl('', Validators.required);
     this.bio = new FormControl('');

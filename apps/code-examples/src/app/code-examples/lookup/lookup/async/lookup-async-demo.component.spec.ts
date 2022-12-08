@@ -1,5 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 import { SkyLookupHarness } from '@skyux/lookup/testing';
@@ -13,7 +13,10 @@ import { LookupAsyncDemoService } from './lookup-async-demo.service';
 describe('Lookup asynchronous search demo', () => {
   let mockSvc!: jasmine.SpyObj<LookupAsyncDemoService>;
 
-  async function setupTest() {
+  async function setupTest(): Promise<{
+    lookupHarness: SkyLookupHarness | null;
+    fixture: ComponentFixture<LookupAsyncDemoComponent>;
+  }> {
     const fixture = TestBed.createComponent(LookupAsyncDemoComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
@@ -45,7 +48,7 @@ describe('Lookup asynchronous search demo', () => {
   it('should set the expected initial value', async () => {
     const { lookupHarness } = await setupTest();
 
-    await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
+    await expectAsync(lookupHarness?.getSelectionsText()).toBeResolvedTo([
       'Shirley',
     ]);
   });
@@ -68,8 +71,8 @@ describe('Lookup asynchronous search demo', () => {
       })
     );
 
-    await lookupHarness.enterText('b');
-    await lookupHarness.selectSearchResult({
+    await lookupHarness?.enterText('b');
+    await lookupHarness?.selectSearchResult({
       text: 'Bernard',
     });
 

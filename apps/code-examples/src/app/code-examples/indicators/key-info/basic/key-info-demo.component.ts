@@ -9,10 +9,11 @@ export class KeyInfoDemoComponent {
   @Input()
   public set value(value: number | undefined) {
     this.#_value = value;
-    this.layout = this.#_value >= 100 ? 'vertical' : 'horizontal';
+    this.layout =
+      this.#_value && this.#_value >= 100 ? 'vertical' : 'horizontal';
   }
 
-  public get value(): number {
+  public get value(): number | undefined {
     return this.#_value;
   }
 

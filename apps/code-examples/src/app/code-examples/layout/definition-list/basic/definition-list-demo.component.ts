@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './definition-list-demo.component.html',
 })
 export class DefinitionListDemoComponent {
-  public items: { label: string; value: string }[] = [
+  public items: { label: string; value?: string }[] = [
     {
       label: 'Field 1',
       value: 'Field 1 value',

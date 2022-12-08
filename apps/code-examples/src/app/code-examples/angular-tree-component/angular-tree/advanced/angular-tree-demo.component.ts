@@ -13,6 +13,8 @@ import {
   TreeNode,
 } from '@circlon/angular-tree-component';
 
+import { AngularTreeDemoNode } from './angular-tree-demo-node';
+
 @Component({
   selector: 'app-angular-tree-component-demo',
   styleUrls: ['./angular-tree-demo.component.scss'],
@@ -68,7 +70,7 @@ export class AngularTreeDemoComponent implements OnInit {
     useTriState: false,
   };
 
-  public dropdownItems: any = [
+  public dropdownItems: { name: string; disabled: boolean }[] = [
     { name: 'Insert an item at this level', disabled: false },
     { name: 'Insert an item under this level', disabled: false },
     { name: 'Move up', disabled: false },
@@ -79,7 +81,7 @@ export class AngularTreeDemoComponent implements OnInit {
     { name: 'Delete', disabled: false },
   ];
 
-  public nodes: any[] = [
+  public nodes: AngularTreeDemoNode[] = [
     {
       name: 'Animals',
       isExpanded: true,
@@ -110,15 +112,11 @@ export class AngularTreeDemoComponent implements OnInit {
   public tree: TreeModel | undefined;
 
   #changeRef: ChangeDetectorRef;
-  #formBuilder: FormBuilder;
 
-  constructor(changeRef: ChangeDetectorRef, formBuilder: FormBuilder) {
+  constructor(changeRef: ChangeDetectorRef, private formBuilder: FormBuilder) {
     this.#changeRef = changeRef;
-    this.#formBuilder = formBuilder;
-  }
 
-  public ngOnInit(): void {
-    this.demoOptions = this.#formBuilder.group({
+    this.demoOptions = this.formBuilder.group({
       treeMode: new FormControl('navigation'),
       selectMode: new FormControl('multiSelect'),
       selectLeafNodesOnly: new FormControl(),
@@ -126,7 +124,9 @@ export class AngularTreeDemoComponent implements OnInit {
       showToolbar: new FormControl(),
       showContextMenus: new FormControl(),
     });
+  }
 
+  public ngOnInit(): void {
     this.demoOptions.valueChanges.subscribe((value) => {
       if (value.treeMode) {
         switch (value.treeMode) {

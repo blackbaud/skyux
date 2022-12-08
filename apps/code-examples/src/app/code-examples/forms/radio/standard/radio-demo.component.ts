@@ -16,8 +16,8 @@ export class RadioDemoComponent {
     { name: 'Option 3 is disabled', value: '3', disabled: true },
   ];
 
-  constructor(formBuilder: FormBuilder) {
-    this.myForm = formBuilder.group({
+  constructor(private formBuilder: FormBuilder) {
+    this.myForm = this.formBuilder.group({
       myOption: this.options[0].name,
     });
   }

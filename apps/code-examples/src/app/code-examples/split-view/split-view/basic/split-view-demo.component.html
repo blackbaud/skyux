@@ -1,5 +1,5 @@
 <sky-split-view [messageStream]="splitViewStream">
-  <sky-split-view-drawer [ariaLabel]="'Transaction list'" [width]="listWidth">
+  <sky-split-view-drawer [ariaLabel]="'Transaction list'">
     <sky-repeater [activeIndex]="activeIndex">
       <sky-repeater-item
         *ngFor="let item of items; let i = index"

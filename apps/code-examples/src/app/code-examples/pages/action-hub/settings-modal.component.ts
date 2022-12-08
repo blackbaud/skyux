@@ -1,5 +1,9 @@
 import { Component, Inject } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import {
+  AbstractControl,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+} from '@angular/forms';
 import { SkyModalInstance } from '@skyux/modals';
 
 @Component({
@@ -15,7 +19,7 @@ export class SettingsModalComponent {
     public modal: SkyModalInstance,
     @Inject('modalTitle') public title: string
   ) {
-    const controls = {};
+    const controls: Record<string, AbstractControl> = {};
     for (let i = 1; i <= 5; i++) {
       const field = `${this.title} ${i}`;
       this.fields.push(field);

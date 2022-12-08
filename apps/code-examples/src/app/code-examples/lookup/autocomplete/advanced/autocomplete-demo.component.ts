@@ -1,20 +1,26 @@
-import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { Component } from '@angular/core';
+import {
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 import {
   SkyAutocompleteSearchFunctionFilter,
   SkyAutocompleteSelectionChange,
 } from '@skyux/lookup';
 
+import { Planet } from './planet';
+
 @Component({
   selector: 'app-autocomplete-demo',
   templateUrl: './autocomplete-demo.component.html',
 })
-export class AutocompleteDemoComponent implements OnInit {
-  public farthestPlanet: any;
+export class AutocompleteDemoComponent {
+  public farthestPlanet: UntypedFormControl;
 
   public myForm: UntypedFormGroup;
 
-  public planets: any[] = [
+  public planets: Planet[] = [
     {
       name: 'Mercury',
       description: 'Mercury is a planet in our solar system.',
@@ -35,24 +41,19 @@ export class AutocompleteDemoComponent implements OnInit {
   ];
 
   public searchFilters: SkyAutocompleteSearchFunctionFilter[] = [
-    (searchText: string, item: any): boolean => {
+    (searchText: string, item: Planet): boolean => {
       return item.name !== 'Red';
     },
   ];
 
-  constructor(private formBuilder: UntypedFormBuilder) {}
-
-  public ngOnInit(): void {
-    this.createForm();
+  constructor(private formBuilder: UntypedFormBuilder) {
+    this.farthestPlanet = this.formBuilder.control({});
+    this.myForm = this.formBuilder.group({
+      farthestPlanet: this.farthestPlanet,
+    });
   }
 
   public onPlanetSelection(args: SkyAutocompleteSelectionChange): void {
     alert(`You selected ${args.selectedItem.name}`);
-  }
-
-  private createForm(): void {
-    this.myForm = this.formBuilder.group({
-      farthestPlanet: {},
-    });
   }
 }

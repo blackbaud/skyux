@@ -12,7 +12,7 @@ import { FlyoutDemoFlyoutComponent } from './flyout-demo-flyout.component';
   templateUrl: './flyout-demo.component.html',
 })
 export class FlyoutDemoComponent {
-  public flyout: SkyFlyoutInstance<any>;
+  public flyout: SkyFlyoutInstance<FlyoutDemoFlyoutComponent> | undefined;
 
   #flyoutService: SkyFlyoutService;
 

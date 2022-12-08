@@ -10,7 +10,7 @@ export class TileDemoTile2Component {
     alert('Help inline button clicked!');
   }
 
-  onHelpClick($event: MouseEvent) {
+  onHelpClick($event: MouseEvent): void {
     $event.stopPropagation();
   }
 }

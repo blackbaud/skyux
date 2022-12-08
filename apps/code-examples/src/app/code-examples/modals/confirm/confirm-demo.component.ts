@@ -34,7 +34,7 @@ export class ConfirmDemoComponent {
     });
   }
 
-  public openTwoActionConfirm() {
+  public openTwoActionConfirm(): void {
     const buttons: SkyConfirmButtonConfig[] = [
       { text: 'Finalize', action: 'save', styleType: 'primary' },
       { text: 'Cancel', action: 'cancel', styleType: 'link' },
@@ -59,7 +59,7 @@ export class ConfirmDemoComponent {
     });
   }
 
-  public openThreeActionConfirm() {
+  public openThreeActionConfirm(): void {
     const buttons: SkyConfirmButtonConfig[] = [
       { text: 'Save', action: 'save', styleType: 'primary' },
       { text: 'Delete', action: 'delete' },
@@ -84,7 +84,7 @@ export class ConfirmDemoComponent {
     });
   }
 
-  public openDeleteConfirm() {
+  public openDeleteConfirm(): void {
     const buttons: SkyConfirmButtonConfig[] = [
       { text: 'Delete', action: 'delete', styleType: 'danger' },
       { text: 'Cancel', action: 'cancel', styleType: 'link' },

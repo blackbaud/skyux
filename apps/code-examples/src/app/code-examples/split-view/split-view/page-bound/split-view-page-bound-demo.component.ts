@@ -12,6 +12,8 @@ import {
 
 import { Subject } from 'rxjs';
 
+import { SplitViewDemoRecord } from './split-view-demo-record';
+
 @Component({
   selector: 'app-split-view-page-bound-demo',
   templateUrl: './split-view-page-bound-demo.component.html',
@@ -28,9 +30,9 @@ export class SplitViewPageBoundDemoComponent {
     return this._activeIndex;
   }
 
-  public activeRecord: any;
+  public activeRecord: SplitViewDemoRecord;
 
-  public items = [
+  public items: SplitViewDemoRecord[] = [
     {
       id: 1,
       amount: 73.19,
@@ -114,8 +116,6 @@ export class SplitViewPageBoundDemoComponent {
     },
   ];
 
-  public listWidth: number;
-
   public splitViewDemoForm: FormGroup;
 
   public splitViewStream = new Subject<SkySplitViewMessage>();
@@ -127,6 +127,12 @@ export class SplitViewPageBoundDemoComponent {
   constructor(public confirmService: SkyConfirmService) {
     // Start with the first item selected.
     this.activeIndex = 0;
+    this.activeRecord = this.items[this.activeIndex];
+
+    this.splitViewDemoForm = new FormGroup({
+      approvedAmount: new FormControl(this.activeRecord.approvedAmount),
+      comments: new FormControl(this.activeRecord.comments),
+    });
   }
 
   public onItemClick(index: number): void {
@@ -147,7 +153,7 @@ export class SplitViewPageBoundDemoComponent {
     console.log('Denied clicked!');
   }
 
-  private loadFormGroup(record: any): void {
+  private loadFormGroup(record: SplitViewDemoRecord): void {
     this.splitViewDemoForm = new FormGroup({
       approvedAmount: new FormControl(record.approvedAmount),
       comments: new FormControl(record.comments),

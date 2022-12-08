@@ -43,15 +43,18 @@ export class InlineFormDemoComponent implements OnInit {
 
   public showForm = false;
 
-  constructor(private formBuilder: FormBuilder) {}
-
-  public ngOnInit(): void {
+  constructor(private formBuilder: FormBuilder) {
     this.myForm = this.formBuilder.group({
       myFirstName: new FormControl(),
     });
+  }
 
+  public ngOnInit(): void {
     this.myForm.valueChanges.subscribe(() => {
-      if (this.inlineFormConfig.buttons[0].disabled !== this.myForm.invalid) {
+      if (
+        this.inlineFormConfig.buttons &&
+        this.inlineFormConfig.buttons[0].disabled !== this.myForm.invalid
+      ) {
         this.inlineFormConfig.buttons[0].disabled = this.myForm.invalid;
         this.inlineFormConfig = { ...{}, ...this.inlineFormConfig };
       }
@@ -60,7 +63,7 @@ export class InlineFormDemoComponent implements OnInit {
 
   public onInlineFormClose(args: SkyInlineFormCloseArgs): void {
     if (args.reason === 'save') {
-      this.firstName = this.myForm.get('myFirstName').value;
+      this.firstName = this.myForm.get('myFirstName')?.value;
     }
 
     this.showForm = false;

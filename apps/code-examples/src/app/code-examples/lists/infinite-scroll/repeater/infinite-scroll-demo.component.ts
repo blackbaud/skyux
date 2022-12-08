@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { InfiniteScrollDemoItem } from './infinite-scroll-demo-item';
+
 let nextId = 0;
 
 @Component({
@@ -7,7 +9,7 @@ let nextId = 0;
   templateUrl: './infinite-scroll-demo.component.html',
 })
 export class InfiniteScrollDemoComponent implements OnInit {
-  public items: any[] = [];
+  public items: InfiniteScrollDemoItem[] = [];
 
   public itemsHaveMore = true;
 
@@ -22,14 +24,19 @@ export class InfiniteScrollDemoComponent implements OnInit {
   }
 
   private addData(): void {
-    this.mockRemote().then((result: any) => {
-      this.items = this.items.concat(result.data);
-      this.itemsHaveMore = result.hasMore;
-    });
+    this.mockRemote().then(
+      (result: { data: InfiniteScrollDemoItem[]; hasMore: boolean }) => {
+        this.items = this.items.concat(result.data);
+        this.itemsHaveMore = result.hasMore;
+      }
+    );
   }
 
-  private mockRemote(): Promise<any> {
-    const data: any[] = [];
+  private mockRemote(): Promise<{
+    data: InfiniteScrollDemoItem[];
+    hasMore: boolean;
+  }> {
+    const data: InfiniteScrollDemoItem[] = [];
 
     for (let i = 0; i < 8; i++) {
       data.push({
@@ -38,7 +45,7 @@ export class InfiniteScrollDemoComponent implements OnInit {
     }
 
     // Simulate async request.
-    return new Promise((resolve: any) => {
+    return new Promise((resolve) => {
       setTimeout(() => {
         resolve({
           data,

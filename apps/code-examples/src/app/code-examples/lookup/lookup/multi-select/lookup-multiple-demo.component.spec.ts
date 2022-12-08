@@ -1,5 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 import { SkyLookupHarness } from '@skyux/lookup/testing';
@@ -8,7 +8,10 @@ import { LookupMultipleSelectDemoComponent } from './lookup-multiple-demo.compon
 import { LookupMultipleSelectDemoModule } from './lookup-multiple-demo.module';
 
 describe('Lookup multi-select demo', () => {
-  async function setupTest() {
+  async function setupTest(): Promise<{
+    lookupHarness: SkyLookupHarness | null;
+    fixture: ComponentFixture<LookupMultipleSelectDemoComponent>;
+  }> {
     const fixture = TestBed.createComponent(LookupMultipleSelectDemoComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
@@ -30,7 +33,7 @@ describe('Lookup multi-select demo', () => {
   it('should set the expected initial value', async () => {
     const { lookupHarness } = await setupTest();
 
-    await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
+    await expectAsync(lookupHarness?.getSelectionsText()).toBeResolvedTo([
       'Shirley',
     ]);
   });
@@ -38,8 +41,8 @@ describe('Lookup multi-select demo', () => {
   it('should update the form control when a favorite name is selected', async () => {
     const { lookupHarness, fixture } = await setupTest();
 
-    await lookupHarness.enterText('vick');
-    await lookupHarness.selectSearchResult({
+    await lookupHarness?.enterText('vick');
+    await lookupHarness?.selectSearchResult({
       text: 'Vicki',
     });
 

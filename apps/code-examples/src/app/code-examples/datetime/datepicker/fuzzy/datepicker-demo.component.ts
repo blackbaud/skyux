@@ -8,13 +8,13 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 export class DatepickerDemoComponent {
   public myForm: FormGroup;
 
-  constructor(formBuilder: FormBuilder) {
-    this.myForm = formBuilder.group({
+  constructor(private formBuilder: FormBuilder) {
+    this.myForm = this.formBuilder.group({
       myDate: new FormControl(new Date(1955, 10, 5)),
     });
   }
 
   public get getFuzzyDateForDisplay(): string {
-    return JSON.stringify(this.myForm.get('myDate').value);
+    return JSON.stringify(this.myForm.get('myDate')?.value);
   }
 }

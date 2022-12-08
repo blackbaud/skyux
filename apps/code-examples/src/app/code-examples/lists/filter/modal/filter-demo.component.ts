@@ -5,8 +5,10 @@ import {
 } from '@angular/core';
 import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 
+import { Filter } from './filter';
 import { FilterDemoModalContext } from './filter-demo-modal-context';
 import { FilterDemoModalComponent } from './filter-demo-modal.component';
+import { Fruit } from './fruit';
 
 @Component({
   selector: 'app-filter-demo',
@@ -14,11 +16,11 @@ import { FilterDemoModalComponent } from './filter-demo-modal.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilterDemoComponent {
-  public appliedFilters: any[] = [];
+  public appliedFilters: Filter[] = [];
 
-  public filteredItems: any[];
+  public filteredItems: Fruit[];
 
-  public items: any[] = [
+  public items: Fruit[] = [
     {
       name: 'Orange',
       type: 'citrus',
@@ -83,7 +85,7 @@ export class FilterDemoComponent {
     });
   }
 
-  private fruitTypeFilterFailed(filter: any, item: any): boolean {
+  private fruitTypeFilterFailed(filter: Filter, item: Fruit): boolean {
     return (
       filter.name === 'fruitType' &&
       filter.value !== 'any' &&
@@ -91,7 +93,7 @@ export class FilterDemoComponent {
     );
   }
 
-  private itemIsShown(filters: any[], item: any[]): boolean {
+  private itemIsShown(filters: Filter[], item: Fruit): boolean {
     let passesFilter = true,
       j: number;
 
@@ -106,9 +108,9 @@ export class FilterDemoComponent {
     return passesFilter;
   }
 
-  private filterItems(items: any[], filters: any[]): any[] {
+  private filterItems(items: Fruit[], filters: Filter[]): Fruit[] {
     let i: number, passesFilter: boolean;
-    const result: any[] = [];
+    const result: Fruit[] = [];
 
     for (i = 0; i < items.length; i++) {
       passesFilter = this.itemIsShown(filters, items[i]);
@@ -120,9 +122,9 @@ export class FilterDemoComponent {
     return result;
   }
 
-  private orangeFilterFailed(filter: any, item: any): boolean {
+  private orangeFilterFailed(filter: Filter, item: Fruit): boolean {
     return (
-      filter.name === 'hideOrange' && filter.value && item.color === 'orange'
+      filter.name === 'hideOrange' && !!filter.value && item.color === 'orange'
     );
   }
 }

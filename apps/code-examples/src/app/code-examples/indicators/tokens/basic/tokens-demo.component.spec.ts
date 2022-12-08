@@ -1,5 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyToken } from '@skyux/indicators';
 import { SkyTokensHarness } from '@skyux/indicators/testing';
@@ -9,7 +9,10 @@ import { TokensDemoComponent } from './tokens-demo.component';
 import { TokensDemoModule } from './tokens-demo.module';
 
 describe('Tokens basic demo', () => {
-  async function setupTest() {
+  async function setupTest(): Promise<{
+    tokensHarness: SkyTokensHarness;
+    fixture: ComponentFixture<TokensDemoComponent>;
+  }> {
     const fixture = TestBed.createComponent(TokensDemoComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
 

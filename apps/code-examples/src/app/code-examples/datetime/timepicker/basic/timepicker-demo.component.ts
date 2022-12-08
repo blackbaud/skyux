@@ -17,8 +17,8 @@ export class TimepickerDemoComponent {
 
   public formGroup: FormGroup;
 
-  constructor(formBuilder: FormBuilder) {
-    this.formGroup = formBuilder.group({
+  constructor(private formBuilder: FormBuilder) {
+    this.formGroup = this.formBuilder.group({
       time: new FormControl('2:45', Validators.required),
     });
   }

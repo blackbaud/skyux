@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormControl,
@@ -20,7 +20,7 @@ import { AutonumericDemoOptionsProvider } from './autonumeric-demo-options-provi
     },
   ],
 })
-export class AutonumericDemoComponent implements OnInit {
+export class AutonumericDemoComponent {
   public donationOptions: SkyAutonumericOptions = {};
 
   public formGroup: UntypedFormGroup;
@@ -29,9 +29,7 @@ export class AutonumericDemoComponent implements OnInit {
     decimalPlaces: 0,
   };
 
-  constructor(private formBuilder: UntypedFormBuilder) {}
-
-  public ngOnInit(): void {
+  constructor(private formBuilder: UntypedFormBuilder) {
     this.formGroup = this.formBuilder.group({
       donationAmount: new UntypedFormControl(1234.5678, [Validators.required]),
       pledgeAmount: new UntypedFormControl(2345.6789, [Validators.required]),

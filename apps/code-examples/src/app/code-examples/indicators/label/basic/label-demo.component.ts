@@ -33,7 +33,7 @@ export class LabelDemoComponent {
   #_daysUntilDue = 14;
   #_submitted = false;
 
-  private updateLabelProperties(submitted: boolean, days: number) {
+  private updateLabelProperties(submitted: boolean, days: number): void {
     if (submitted) {
       this.labelType = 'success';
       this.descriptionType = 'completed';

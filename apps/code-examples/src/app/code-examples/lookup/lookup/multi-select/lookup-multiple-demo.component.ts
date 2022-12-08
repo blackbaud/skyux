@@ -11,10 +11,10 @@ import { LookupDemoPerson } from './lookup-demo-person';
 })
 export class LookupMultipleSelectDemoComponent implements OnInit {
   public favoritesForm: FormGroup<{
-    favoriteNames: FormControl<LookupDemoPerson[]>;
+    favoriteNames: FormControl<LookupDemoPerson[] | null>;
   }>;
 
-  public searchFilters: SkyAutocompleteSearchFunctionFilter[];
+  public searchFilters: SkyAutocompleteSearchFunctionFilter[] = [];
 
   public people: LookupDemoPerson[] = [
     { name: 'Abed' },
@@ -53,16 +53,16 @@ export class LookupMultipleSelectDemoComponent implements OnInit {
     });
 
     this.searchFilters = [
-      (_, item, args) => {
+      (_, item, args): boolean => {
         // When in the modal view, show all people in the search results, regardless if they have been chosen already.
-        if (args.context === 'modal') {
+        if (args?.context === 'modal') {
           return true;
         }
 
         const names = this.favoritesForm.value.favoriteNames;
 
         // When in the popover view (or in any other view), show people in the search results that have not been chosen already.
-        return !names.some((option) => option.name === item.name);
+        return !names?.some((option) => option.name === item.name);
       },
     ];
   }

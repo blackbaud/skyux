@@ -42,17 +42,21 @@ export class FileAttachmentDemoComponent {
     this.allItems = this.allItems.concat(result);
   }
 
-  public validateFile(file: SkyFileItem): string {
+  public validateFile(file: SkyFileItem): string | undefined {
     if (file.file.name.indexOf('a') === 0) {
       return 'You may not upload a file that begins with the letter "a."';
     }
+    return;
   }
 
   public onActionClick(): void {
     alert('Help inline button clicked!');
   }
 
-  private removeFromArray(items: any[], obj: SkyFileItem | SkyFileLink): void {
+  private removeFromArray(
+    items: (SkyFileItem | SkyFileLink)[],
+    obj: SkyFileItem | SkyFileLink
+  ): void {
     if (items) {
       const index = items.indexOf(obj);
 

@@ -1,5 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 import { SkyLookupHarness } from '@skyux/lookup/testing';
@@ -9,7 +9,10 @@ import { LookupResultTemplatesDemoModule } from './lookup-result-templates-demo.
 import { LookupResultTemplatesItemHarness } from './lookup-result-templates-item-harness';
 
 describe('Lookup result templates demo', () => {
-  async function setupTest() {
+  async function setupTest(): Promise<{
+    lookupHarness: SkyLookupHarness | null;
+    fixture: ComponentFixture<LookupResultTemplatesDemoComponent>;
+  }> {
     const fixture = TestBed.createComponent(LookupResultTemplatesDemoComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
@@ -31,7 +34,7 @@ describe('Lookup result templates demo', () => {
   it('should set the expected initial value', async () => {
     const { lookupHarness } = await setupTest();
 
-    await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
+    await expectAsync(lookupHarness?.getSelectionsText()).toBeResolvedTo([
       'Shirley',
     ]);
   });
@@ -39,15 +42,15 @@ describe('Lookup result templates demo', () => {
   it('should use the expected dropdown item template', async () => {
     const { lookupHarness } = await setupTest();
 
-    await lookupHarness.enterText('vick');
+    await lookupHarness?.enterText('vick');
 
-    const results = await lookupHarness.getSearchResults();
-    const templateItemHarness = await results[0].queryHarness(
-      LookupResultTemplatesItemHarness
-    );
+    const results = await lookupHarness?.getSearchResults();
+    const templateItemHarness =
+      results &&
+      (await results[0].queryHarness(LookupResultTemplatesItemHarness));
 
-    await expectAsync(templateItemHarness.getName()).toBeResolvedTo('Vicki');
-    await expectAsync(templateItemHarness.getFormalName()).toBeResolvedTo(
+    await expectAsync(templateItemHarness?.getName()).toBeResolvedTo('Vicki');
+    await expectAsync(templateItemHarness?.getFormalName()).toBeResolvedTo(
       'Ms. Jenkins'
     );
   });
@@ -55,18 +58,18 @@ describe('Lookup result templates demo', () => {
   it('should use the expected modal item template', async () => {
     const { lookupHarness } = await setupTest();
 
-    await lookupHarness.clickShowMoreButton();
+    await lookupHarness?.clickShowMoreButton();
 
-    const pickerHarness = await lookupHarness.getShowMorePicker();
-    await pickerHarness.enterSearchText('vick');
+    const pickerHarness = await lookupHarness?.getShowMorePicker();
+    await pickerHarness?.enterSearchText('vick');
 
-    const results = await pickerHarness.getSearchResults();
-    const templateItemHarness = await results[0].queryHarness(
-      LookupResultTemplatesItemHarness
-    );
+    const results = await pickerHarness?.getSearchResults();
+    const templateItemHarness =
+      results &&
+      (await results[0].queryHarness(LookupResultTemplatesItemHarness));
 
-    await expectAsync(templateItemHarness.getName()).toBeResolvedTo('Vicki');
-    await expectAsync(templateItemHarness.getFormalName()).toBeResolvedTo(
+    await expectAsync(templateItemHarness?.getName()).toBeResolvedTo('Vicki');
+    await expectAsync(templateItemHarness?.getFormalName()).toBeResolvedTo(
       'Ms. Jenkins'
     );
   });
@@ -74,10 +77,11 @@ describe('Lookup result templates demo', () => {
   it('should update the form control when a favorite name is selected', async () => {
     const { lookupHarness, fixture } = await setupTest();
 
-    await lookupHarness.enterText('vick');
+    await lookupHarness?.enterText('vick');
 
-    const firstResultHarness = (await lookupHarness.getSearchResults())[0];
-    await firstResultHarness.select();
+    const allResultHarnesses = await lookupHarness?.getSearchResults();
+    const firstResultHarness = allResultHarnesses && allResultHarnesses[0];
+    await firstResultHarness?.select();
 
     expect(
       fixture.componentInstance.favoritesForm.controls.favoriteNames.value
