@@ -1,5 +1,5 @@
 {
-  "extends": "../tsconfig.lax.json",
+  "extends": "../tsconfig.no-strict.json",
   "exclude": [
     "../**/*.spec.js",
     "../**/*.spec.ts",
