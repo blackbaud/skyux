@@ -39,7 +39,7 @@ Tabs.args = {
 };
 
 export const TabsDropdown = Template.bind({});
-TabsDropdown.title = 'Tabs condensed to dropdown';
+// TabsDropdown.title = 'Tabs condensed to dropdown';
 TabsDropdown.args = {
   active: 0,
   tabs: [
