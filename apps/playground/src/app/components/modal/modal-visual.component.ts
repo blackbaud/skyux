@@ -11,7 +11,6 @@ import { ModalContentDemoComponent } from './modal-content-demo.component';
 import { ModalDemoComponent } from './modal-demo.component';
 import { ModalFormDemoComponent } from './modal-form-demo.component';
 import { ModalFullPageDemoComponent } from './modal-fullpage-demo.component';
-import { ModalLargeDemoComponent } from './modal-large-demo.component';
 import { ModalTiledDemoComponent } from './modal-tiled-demo.component';
 
 @Component({
@@ -43,10 +42,6 @@ export class ModalVisualComponent {
     });
     instance.componentInstance.title =
       'This is a modal title with an extended header text that must wrap by default';
-  }
-
-  public openLargeModal(): void {
-    this.openModalInstance(ModalLargeDemoComponent, { providers: [] });
   }
 
   public openFullScreenModal(): void {
