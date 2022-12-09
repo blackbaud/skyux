@@ -42,6 +42,20 @@ describe('Viewkeeper', () => {
     }
   }
 
+  function contentEl(
+    height: string,
+    width: string,
+    color: string,
+    text: string
+  ): HTMLElement {
+    const content = document.createElement('div');
+    content.style.height = height;
+    content.style.width = width;
+    content.style.backgroundColor = color;
+    content.appendChild(document.createTextNode(text));
+    return content;
+  }
+
   describe('page viewkeepers', () => {
     beforeEach(() => {
       vks = [];
@@ -207,21 +221,29 @@ describe('Viewkeeper', () => {
       el = document.createElement('div');
       el.style.height = '30px';
       el.style.backgroundColor = 'red';
+      el.appendChild(document.createTextNode('Test'));
 
       scrollableHostEl = document.createElement('div');
       scrollableHostEl.style.overflowY = 'scroll';
       scrollableHostEl.style.marginTop = '10px';
       scrollableHostEl.style.width = '500px';
-      scrollableHostEl.style.height = window.innerHeight + 50 + 'px';
+      scrollableHostEl.style.height = '550px';
 
       boundaryEl = document.createElement('div');
       boundaryEl.style.marginTop = '10px';
       boundaryEl.style.width = '500px';
-      boundaryEl.style.height = window.innerHeight + 100 + 'px';
+      boundaryEl.style.height = '600px';
 
       scrollableHostEl.appendChild(boundaryEl);
       boundaryEl.appendChild(el);
+      scrollableHostEl.appendChild(
+        contentEl('800px', 'auto', '#b847ee', 'Scroll me')
+      );
 
+      document.body.insertBefore(
+        contentEl(window.outerHeight + 800 + 'px', 'auto', 'white', ' '),
+        document.body.firstChild
+      );
       document.body.insertBefore(scrollableHostEl, document.body.firstChild);
     });
 
@@ -243,6 +265,7 @@ describe('Viewkeeper', () => {
           boundaryEl,
           scrollableHost: scrollableHostEl,
           viewportMarginTop: 5,
+          setWidth: true,
         })
       );
 
@@ -368,6 +391,29 @@ describe('Viewkeeper', () => {
       vk.destroy();
 
       expect(removeEventListenerSpy).not.toHaveBeenCalled();
+    });
+
+    it('should clip the viewkeeper element when partially out of view', () => {
+      scrollableHostEl.appendChild(
+        contentEl('800px', '600px', '#d3d3d3', 'Below')
+      );
+
+      vks.push(
+        new SkyViewkeeper({
+          el,
+          boundaryEl,
+          scrollableHost: scrollableHostEl,
+          setWidth: true,
+        })
+      );
+
+      scrollScrollableHost(0, 20);
+      validatePinned(el, true, 10, 0);
+      expect(getComputedStyle(el).clipPath).toBe('none');
+
+      scrollScrollableHost(50, 890);
+      validatePinned(el, true, -300, 0);
+      expect(getComputedStyle(el).clipPath).toBe('inset(310px 0px 0px 50px)');
     });
   });
 });

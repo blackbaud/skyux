@@ -4,4 +4,8 @@ export interface SkyViewkeeperFixedStyles {
   elFixedTop: number;
 
   elFixedWidth: number;
+
+  elClipLeft: number;
+
+  elClipTop: number;
 }
