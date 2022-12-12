@@ -34,19 +34,33 @@ type GridSettingsType = {
 export class DataManagerComponent implements OnInit {
   @HostBinding('class.use-normal-dom-layout')
   public get useNormalDomLayout(): boolean {
-    return this.domLayout === 'normal';
+    return this.#domLayout === 'normal';
   }
 
   @HostBinding('class.use-auto-height-dom-layout')
   public get useAutoHeightDomLayout(): boolean {
-    return this.domLayout === 'autoHeight';
+    return this.#domLayout === 'autoHeight';
   }
 
   @Input()
-  public domLayout: 'normal' | 'autoHeight' | 'print' = 'autoHeight';
+  public get domLayout(): 'normal' | 'autoHeight' | 'print' {
+    return this.#domLayout;
+  }
+
+  public set domLayout(value: 'normal' | 'autoHeight' | 'print' | undefined) {
+    this.#domLayout = value ?? 'autoHeight';
+    this.gridSettings.get('domLayout')?.setValue(this.#domLayout);
+  }
 
   @Input()
-  public enableTopScroll = true;
+  public get enableTopScroll(): boolean {
+    return this.#enableTopScroll;
+  }
+
+  public set enableTopScroll(value: boolean | undefined) {
+    this.#enableTopScroll = !!value;
+    this.gridSettings.get('enableTopScroll')?.setValue(this.#enableTopScroll);
+  }
 
   public dataManagerConfig: SkyDataManagerConfig = {};
 
@@ -86,19 +100,31 @@ export class DataManagerComponent implements OnInit {
   public settingsKey = 'ag-grid-storybook-data-manager';
   public gridOptions: GridOptions | undefined;
   public isActive$ = new BehaviorSubject(true);
-  public gridSettings: FormGroup<GridSettingsType> | undefined;
+  public gridSettings: FormGroup<GridSettingsType>;
   public ready: Observable<boolean>;
 
+  #domLayout: 'normal' | 'autoHeight' | 'print' = 'autoHeight';
+  #enableTopScroll = true;
+
+  readonly #agGridService: SkyAgGridService;
+  readonly #dataManagerService: SkyDataManagerService;
   readonly #gridReady = new BehaviorSubject(false);
   readonly #fontLoadingService: FontLoadingService;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private dataManagerService: SkyDataManagerService,
-    private agGridService: SkyAgGridService,
+    formBuilder: FormBuilder,
+    dataManagerService: SkyDataManagerService,
+    agGridService: SkyAgGridService,
     fontLoadingService: FontLoadingService
   ) {
+    this.#agGridService = agGridService;
+    this.#dataManagerService = dataManagerService;
     this.#fontLoadingService = fontLoadingService;
+
+    this.gridSettings = formBuilder.group<GridSettingsType>({
+      enableTopScroll: formBuilder.nonNullable.control(this.#enableTopScroll),
+      domLayout: formBuilder.nonNullable.control(this.#domLayout),
+    });
     this.ready = combineLatest([
       this.#gridReady,
       this.#fontLoadingService.ready(),
@@ -110,27 +136,20 @@ export class DataManagerComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.gridSettings = this.formBuilder.group<GridSettingsType>({
-      enableTopScroll: this.formBuilder.nonNullable.control(
-        this.enableTopScroll
-      ),
-      domLayout: this.formBuilder.nonNullable.control(this.domLayout),
-    });
-
     this.#applyGridOptions();
 
-    this.dataManagerService.getActiveViewIdUpdates().subscribe((id) => {
+    this.#dataManagerService.getActiveViewIdUpdates().subscribe((id) => {
       this.isActive$.next(id === this.viewId);
     });
 
-    this.dataManagerService.initDataManager({
+    this.#dataManagerService.initDataManager({
       activeViewId: 'gridView',
       dataManagerConfig: this.dataManagerConfig,
       defaultDataState: this.defaultDataState,
       settingsKey: this.settingsKey,
     });
 
-    this.dataManagerService.initDataView({
+    this.#dataManagerService.initDataView({
       id: this.viewId,
       name: 'Grid View',
       icon: 'table',
@@ -151,15 +170,15 @@ export class DataManagerComponent implements OnInit {
 
     this.gridSettings.valueChanges.subscribe((value) => {
       this.isActive$.next(false);
-      this.enableTopScroll = !!value.enableTopScroll;
-      this.domLayout = value.domLayout ?? 'autoHeight';
+      this.#enableTopScroll = !!value.enableTopScroll;
+      this.#domLayout = value.domLayout ?? 'autoHeight';
       this.#applyGridOptions();
       setTimeout(() => this.isActive$.next(true));
     });
   }
 
   #applyGridOptions() {
-    this.gridOptions = this.agGridService.getGridOptions({
+    this.gridOptions = this.#agGridService.getGridOptions({
       gridOptions: {
         columnDefs: [
           {
@@ -171,9 +190,9 @@ export class DataManagerComponent implements OnInit {
           ...columnDefinitions,
         ],
         context: {
-          enableTopScroll: this.enableTopScroll,
+          enableTopScroll: this.#enableTopScroll,
         },
-        domLayout: this.domLayout,
+        domLayout: this.#domLayout,
         suppressColumnVirtualisation: true,
         suppressRowVirtualisation: true,
         onFirstDataRendered: () => {
