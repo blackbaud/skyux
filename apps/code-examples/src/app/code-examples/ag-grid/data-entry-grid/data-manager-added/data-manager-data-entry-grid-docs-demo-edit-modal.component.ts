@@ -140,7 +140,7 @@ export class SkyDataManagerDataEntryGridEditModalComponent {
           skyComponentProperties: {
             validator: (value: Date): boolean =>
               !!value && value > new Date(1985, 9, 26),
-            validatorMessage: 'Please enter a future date',
+            validatorMessage: 'Enter a future date.',
           },
         },
         editable: true,

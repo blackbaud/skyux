@@ -106,15 +106,19 @@
 
 .sky-modal-header {
   flex-shrink: 0;
+  position: relative;
   z-index: 2;
 }
 
 .sky-modal-content {
   overflow-y: auto;
+  position: relative;
+  z-index: 1;
 }
 
 .sky-modal-footer {
   flex-shrink: 0;
+  position: relative;
   z-index: 2;
 
   ::ng-deep .sky-btn + .sky-btn {
