@@ -77,7 +77,9 @@ function setElPosition(
   el.style.clipPath =
     clipTop || clipLeft ? `inset(${px(clipTop)} 0 0 ${px(clipLeft)})` : 'none';
 
-  if (width) {
+  /*istanbul ignore else*/
+  /* sanity check */
+  if (width !== null) {
     el.style.width = px(width);
   }
 }
