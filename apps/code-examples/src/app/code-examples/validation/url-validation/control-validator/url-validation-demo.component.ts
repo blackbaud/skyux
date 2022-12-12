@@ -19,8 +19,8 @@ export class UrlValidationDemoComponent {
 
   public formGroup: UntypedFormGroup;
 
-  constructor(private formBuilder: UntypedFormBuilder) {
-    this.formGroup = this.formBuilder.group({
+  constructor(formBuilder: UntypedFormBuilder) {
+    this.formGroup = formBuilder.group({
       url: new UntypedFormControl(undefined, [
         Validators.required,
         SkyValidators.url({

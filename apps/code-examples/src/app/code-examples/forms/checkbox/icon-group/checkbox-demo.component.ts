@@ -8,8 +8,8 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 export class CheckboxDemoComponent {
   public myForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
-    this.myForm = this.formBuilder.group({
+  constructor(formBuilder: FormBuilder) {
+    this.myForm = formBuilder.group({
       bold: new FormControl(false),
       italic: new FormControl(false),
       underline: new FormControl(false),

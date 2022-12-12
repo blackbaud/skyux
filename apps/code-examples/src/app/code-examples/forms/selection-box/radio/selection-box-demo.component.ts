@@ -31,8 +31,8 @@ export class SelectionBoxDemoComponent implements OnInit {
 
   public myForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
-    this.myForm = this.formBuilder.group({
+  constructor(formBuilder: FormBuilder) {
+    this.myForm = formBuilder.group({
       myOption: this.items[2].value,
     });
   }

@@ -34,12 +34,9 @@ export class DateRangePickerDemoComponent implements OnInit, OnDestroy {
 
   #dateRangeService: SkyDateRangeService;
 
-  constructor(
-    dateRangeService: SkyDateRangeService,
-    private formBuilder: FormBuilder
-  ) {
+  constructor(dateRangeService: SkyDateRangeService, formBuilder: FormBuilder) {
     this.#dateRangeService = dateRangeService;
-    this.reactiveForm = this.formBuilder.group({
+    this.reactiveForm = formBuilder.group({
       lastDonation: new UntypedFormControl(),
     });
   }

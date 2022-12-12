@@ -14,8 +14,8 @@ import { ToggleSwitchFormType } from './toggle-switch-form.type';
 export class ToggleSwitchDemoComponent {
   public formGroup: UntypedFormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
-    this.formGroup = this.formBuilder.group<ToggleSwitchFormType>({
+  constructor(formBuilder: FormBuilder) {
+    this.formGroup = formBuilder.group<ToggleSwitchFormType>({
       controlToggle: new UntypedFormControl(false),
       dynamicToggle: new UntypedFormControl({ value: true, disabled: true }),
     });

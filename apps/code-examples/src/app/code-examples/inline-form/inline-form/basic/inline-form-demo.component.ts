@@ -21,8 +21,8 @@ export class InlineFormDemoComponent {
 
   public showForm = false;
 
-  constructor(private formBuilder: FormBuilder) {
-    this.myForm = this.formBuilder.group({
+  constructor(formBuilder: FormBuilder) {
+    this.myForm = formBuilder.group({
       myFirstName: new FormControl(),
     });
   }

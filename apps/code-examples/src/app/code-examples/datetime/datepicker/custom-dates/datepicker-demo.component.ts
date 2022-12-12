@@ -15,8 +15,8 @@ import { delay } from 'rxjs/operators';
 export class DatepickerDemoComponent {
   public myForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
-    this.myForm = this.formBuilder.group({
+  constructor(formBuilder: FormBuilder) {
+    this.myForm = formBuilder.group({
       myDate: new FormControl(new Date(1999, 10, 5)),
     });
   }

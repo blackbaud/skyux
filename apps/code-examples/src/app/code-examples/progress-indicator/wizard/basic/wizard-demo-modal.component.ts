@@ -31,11 +31,8 @@ export class WizardDemoModalComponent {
     }
   }
 
-  constructor(
-    private formBuilder: FormBuilder,
-    public instance: SkyModalInstance
-  ) {
-    this.myForm = this.formBuilder.group({
+  constructor(formBuilder: FormBuilder, public instance: SkyModalInstance) {
+    this.myForm = formBuilder.group({
       requiredValue1: undefined,
       requiredValue2: undefined,
     });

@@ -19,15 +19,12 @@ export class LookupAsyncDemoComponent implements OnInit {
 
   #searchSvc: LookupAsyncDemoService;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    searchSvc: LookupAsyncDemoService
-  ) {
+  constructor(formBuilder: FormBuilder, searchSvc: LookupAsyncDemoService) {
     this.#searchSvc = searchSvc;
 
     const names = new FormControl<LookupDemoPerson[]>([{ name: 'Shirley' }]);
 
-    this.favoritesForm = this.formBuilder.group({
+    this.favoritesForm = formBuilder.group({
       favoriteNames: names,
     });
   }

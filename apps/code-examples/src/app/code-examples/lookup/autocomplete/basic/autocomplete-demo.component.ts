@@ -22,8 +22,8 @@ export class AutocompleteDemoComponent {
 
   public myForm: UntypedFormGroup;
 
-  constructor(private formBuilder: UntypedFormBuilder) {
-    this.myForm = this.formBuilder.group({
+  constructor(formBuilder: UntypedFormBuilder) {
+    this.myForm = formBuilder.group({
       favoriteColor: undefined,
     });
   }

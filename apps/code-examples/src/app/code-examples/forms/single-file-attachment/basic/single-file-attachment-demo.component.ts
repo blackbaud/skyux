@@ -29,9 +29,9 @@ export class SingleFileAttachmentDemoComponent {
 
   public reactiveUploadError: string | undefined;
 
-  constructor(private formBuilder: UntypedFormBuilder) {
+  constructor(formBuilder: UntypedFormBuilder) {
     this.attachment = new UntypedFormControl(undefined, Validators.required);
-    this.fileForm = this.formBuilder.group({
+    this.fileForm = formBuilder.group({
       attachment: this.attachment,
     });
   }

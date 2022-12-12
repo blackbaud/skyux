@@ -12,12 +12,12 @@ export class CharacterCountDemoComponent {
 
   public maxDescriptionCharacterCount = 50;
 
-  constructor(private formBuilder: FormBuilder) {
-    this.description = this.formBuilder.control(
+  constructor(formBuilder: FormBuilder) {
+    this.description = formBuilder.control(
       'Boys and Girls Club of South Carolina donation'
     );
 
-    this.characterCountForm = this.formBuilder.group({
+    this.characterCountForm = formBuilder.group({
       description: this.description,
     });
   }

@@ -29,8 +29,8 @@ export class AutonumericDemoComponent {
     decimalPlaces: 0,
   };
 
-  constructor(private formBuilder: UntypedFormBuilder) {
-    this.formGroup = this.formBuilder.group({
+  constructor(formBuilder: UntypedFormBuilder) {
+    this.formGroup = formBuilder.group({
       donationAmount: new UntypedFormControl(1234.5678, [Validators.required]),
       pledgeAmount: new UntypedFormControl(2345.6789, [Validators.required]),
     });

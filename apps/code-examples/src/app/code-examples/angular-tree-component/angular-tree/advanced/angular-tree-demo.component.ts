@@ -113,10 +113,10 @@ export class AngularTreeDemoComponent implements OnInit {
 
   #changeRef: ChangeDetectorRef;
 
-  constructor(changeRef: ChangeDetectorRef, private formBuilder: FormBuilder) {
+  constructor(changeRef: ChangeDetectorRef, formBuilder: FormBuilder) {
     this.#changeRef = changeRef;
 
-    this.demoOptions = this.formBuilder.group({
+    this.demoOptions = formBuilder.group({
       treeMode: new FormControl('navigation'),
       selectMode: new FormControl('multiSelect'),
       selectLeafNodesOnly: new FormControl(),

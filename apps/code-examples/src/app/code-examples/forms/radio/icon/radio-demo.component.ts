@@ -16,8 +16,8 @@ export class RadioDemoComponent {
     { icon: 'map-marker', label: 'Map', name: 'map' },
   ];
 
-  constructor(private formBuilder: FormBuilder) {
-    this.myForm = this.formBuilder.group({
+  constructor(formBuilder: FormBuilder) {
+    this.myForm = formBuilder.group({
       myView: this.views[0].name,
     });
   }

@@ -8,8 +8,8 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 export class DatepickerDemoComponent {
   public myForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
-    this.myForm = this.formBuilder.group({
+  constructor(formBuilder: FormBuilder) {
+    this.myForm = formBuilder.group({
       myDate: new FormControl(new Date(1955, 10, 5)),
     });
   }

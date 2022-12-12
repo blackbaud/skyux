@@ -12,8 +12,8 @@ import {
 export class CheckboxDemoComponent {
   public myForm: UntypedFormGroup;
 
-  constructor(private formBuilder: UntypedFormBuilder) {
-    this.myForm = this.formBuilder.group({
+  constructor(formBuilder: UntypedFormBuilder) {
+    this.myForm = formBuilder.group({
       email: new UntypedFormControl(false),
       phone: new UntypedFormControl(false),
       text: new UntypedFormControl(false),

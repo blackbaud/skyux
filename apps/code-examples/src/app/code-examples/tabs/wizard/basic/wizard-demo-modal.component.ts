@@ -15,7 +15,7 @@ import { SkyTabIndex } from '@skyux/tabs';
 export class WizardDemoModalComponent implements OnInit {
   constructor(
     public instance: SkyModalInstance,
-    private formBuilder: UntypedFormBuilder
+    formBuilder: UntypedFormBuilder
   ) {
     this.firstName = new UntypedFormControl('', Validators.required);
     this.middleName = new UntypedFormControl();
@@ -25,7 +25,7 @@ export class WizardDemoModalComponent implements OnInit {
     this.termsAccepted = new UntypedFormControl(false);
     this.mailingList = new UntypedFormControl(false);
 
-    this.newMemberForm = this.formBuilder.group({
+    this.newMemberForm = formBuilder.group({
       firstName: this.firstName,
       middleName: this.middleName,
       lastName: this.lastName,

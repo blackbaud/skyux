@@ -22,8 +22,8 @@ export class ColorpickerDemoComponent {
     '#DA9C9C',
   ];
 
-  constructor(private formBuilder: UntypedFormBuilder) {
-    this.reactiveForm = this.formBuilder.group({
+  constructor(formBuilder: UntypedFormBuilder) {
+    this.reactiveForm = formBuilder.group({
       favoriteColor: new UntypedFormControl('#f00'),
     });
   }

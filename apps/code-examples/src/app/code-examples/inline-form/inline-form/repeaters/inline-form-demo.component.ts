@@ -45,8 +45,8 @@ export class InlineFormDemoComponent {
 
   public myForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
-    this.myForm = this.formBuilder.group({
+  constructor(formBuilder: FormBuilder) {
+    this.myForm = formBuilder.group({
       id: new FormControl(),
       title: new FormControl(),
       note: new FormControl(),

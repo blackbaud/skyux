@@ -27,9 +27,9 @@ export class AutocompleteDemoComponent {
     { title: 'Pacific', id: 4 },
   ];
 
-  constructor(private formBuilder: UntypedFormBuilder) {
-    this.largestOcean = this.formBuilder.control({ title: 'Arctic', id: 1 });
-    this.myForm = this.formBuilder.group({
+  constructor(formBuilder: UntypedFormBuilder) {
+    this.largestOcean = formBuilder.control({ title: 'Arctic', id: 1 });
+    this.myForm = formBuilder.group({
       largestOcean: this.largestOcean,
     });
   }

@@ -19,8 +19,8 @@ export class EmailValidationDemoComponent {
 
   public formGroup: UntypedFormGroup;
 
-  constructor(private formBuilder: UntypedFormBuilder) {
-    this.formGroup = this.formBuilder.group({
+  constructor(formBuilder: UntypedFormBuilder) {
+    this.formGroup = formBuilder.group({
       email: new UntypedFormControl(undefined, [
         Validators.required,
         SkyValidators.email,

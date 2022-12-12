@@ -46,9 +46,9 @@ export class AutocompleteDemoComponent {
     },
   ];
 
-  constructor(private formBuilder: UntypedFormBuilder) {
-    this.farthestPlanet = this.formBuilder.control({});
-    this.myForm = this.formBuilder.group({
+  constructor(formBuilder: UntypedFormBuilder) {
+    this.farthestPlanet = formBuilder.control({});
+    this.myForm = formBuilder.group({
       farthestPlanet: this.farthestPlanet,
     });
   }
