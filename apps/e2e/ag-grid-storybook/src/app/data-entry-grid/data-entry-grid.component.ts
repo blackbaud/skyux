@@ -34,7 +34,7 @@ type DataSet = { id: string; data: any[] };
 export class DataEntryGridComponent
   implements AfterViewInit, OnInit, OnDestroy
 {
-  public variationId: 'date-and-lookup' | 'edit-lookup';
+  public variationId: 'date-and-lookup' | 'edit-lookup' | undefined;
 
   /**
    * Allow for multiple scenarios to share this component to test e.g. different overlays.
@@ -64,15 +64,15 @@ export class DataEntryGridComponent
     this.#changeDetectorRef.markForCheck();
   }
 
-  public dataSets: DataSet[];
+  public dataSets: DataSet[] | undefined;
   public gridOptions: { [_: string]: GridOptions } = {};
   public isActive$ = new BehaviorSubject(true);
   public addPreviewWrapper$ = new BehaviorSubject(false);
   public ready = new BehaviorSubject(false);
-  public skyTheme: SkyThemeSettings;
+  public skyTheme: SkyThemeSettings | undefined;
 
   readonly #gridsReady = new Map<string, Observable<boolean>>();
-  #nameLookupData: { name: string; id: string }[];
+  #nameLookupData: { name: string; id: string }[] | undefined;
   readonly #agGridService: SkyAgGridService;
   readonly #themeSvc: SkyThemeService;
   readonly #changeDetectorRef: ChangeDetectorRef;
@@ -102,7 +102,7 @@ export class DataEntryGridComponent
         name: player.name,
       };
     });
-    this.dataSets.forEach((dataSet) =>
+    this.dataSets?.forEach((dataSet) =>
       this.#gridsReady.set(dataSet.id, new BehaviorSubject(false))
     );
     this.#gridsReady.set(
@@ -112,10 +112,11 @@ export class DataEntryGridComponent
     this.#gridsReady.set('font', this.#fontLoadingService.ready());
     this.#ngUnsubscribe.add(
       this.#themeSvc.settingsChange.subscribe((settings) => {
-        if (settings.currentSettings.theme.name === 'modern') {
-          const editDateIndex = this.dataSets.findIndex(
-            (ds) => ds.id === 'editDateWithCalendar'
-          );
+        if (settings.currentSettings.theme.name === 'modern' && this.dataSets) {
+          const editDateIndex =
+            this.dataSets?.findIndex(
+              (ds) => ds.id === 'editDateWithCalendar'
+            ) ?? -1;
           if (editDateIndex > -1) {
             this.dataSets[editDateIndex].data = this.dataSets[
               editDateIndex
@@ -126,7 +127,7 @@ export class DataEntryGridComponent
         this.isActive$.next(true);
       })
     );
-    this.dataSets.forEach((dataSet) => {
+    this.dataSets?.forEach((dataSet) => {
       let columnDefs: ColDef[];
       const tripleCrownIndex = columnDefinitions.findIndex(
         (col) => col.field === 'triplecrown'

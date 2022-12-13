@@ -39,7 +39,7 @@
     vars.$sky-theme-modern-border-color-neutral-medium
   );
 
-  &:focus {
+  &:focus-visible {
     outline: none;
 
     &:not(:active) {
@@ -57,7 +57,7 @@
   &[disabled] {
     &,
     &:hover,
-    &:focus,
+    &:focus-visible,
     &.sky-btn-focus,
     &:active,
     &.sky-btn-active {
@@ -78,7 +78,7 @@
     modernCompatVars.$sky-theme-modern-tab-btn-padding-left-right;
   transition: box-shadow compatVars.$sky-transition-time-short;
 
-  &:hover:not(.sky-btn-tab-disabled):not(.sky-btn-tab-selected):not(.sky-dropdown-button-type-tab):not(:focus) {
+  &:hover:not(.sky-btn-tab-disabled):not(.sky-btn-tab-selected):not(.sky-dropdown-button-type-tab):not(:focus-visible) {
     background-color: transparent;
     border-bottom: solid 1px vars.$sky-highlight-color-info;
     color: var(--sky-text-color-default);
@@ -86,13 +86,13 @@
       1px;
   }
 
-  &:focus {
+  &:focus-visible {
     background-color: transparent;
     color: var(--sky-text-color-default);
     outline: none;
   }
 
-  &:focus:not(:active) {
+  &:focus-visible:not(:active) {
     color: var(--sky-text-color-default);
     outline: solid 2px vars.$sky-theme-modern-background-color-primary-dark;
     outline-offset: -2px;
@@ -101,7 +101,6 @@
   }
 
   &:active {
-    border-bottom: solid 3px vars.$sky-highlight-color-info;
     color: var(--sky-text-color-default);
     padding-bottom: modernCompatVars.$sky-theme-modern-tab-btn-padding-top-bottom -
       3px;
@@ -141,6 +140,7 @@
 }
 
 @mixin sky-theme-modern-btn-tab-dropdown-item {
+  border-radius: 6px;
   &:hover:not(.sky-btn-tab-disabled) {
     background-color: transparent;
     border-bottom: none;
@@ -148,7 +148,7 @@
     outline-offset: -1px;
   }
 
-  &:focus:not(:active) {
+  &:focus-visible:not(:active) {
     background-color: transparent;
     box-shadow: vars.$sky-theme-modern-elevation-3-shadow-size
       vars.$sky-theme-modern-elevation-3-shadow-color;
@@ -160,6 +160,7 @@
 @mixin sky-theme-modern-btn-tab-selected-dropdown-item {
   color: vars.$sky-text-color-default;
   border-bottom: none;
+  border-radius: 0 6px 6px 0;
   border-left: solid 3px vars.$sky-theme-modern-background-color-primary-dark;
   padding-bottom: modernCompatVars.$sky-theme-modern-tab-btn-padding-top-bottom;
   padding-left: compatVars.$sky-tab-btn-padding-left-right - 3px;

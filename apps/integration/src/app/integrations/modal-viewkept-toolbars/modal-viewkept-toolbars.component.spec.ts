@@ -15,23 +15,23 @@ import { ModalViewkeptToolbarsModule } from './modal-viewkept-toolbars.module';
 
 describe('Modals with viewkept toolbars', () => {
   function closeModal(): void {
-    getModalCloseButton().click();
+    getModalCloseButton()?.click();
     fixture.detectChanges();
   }
 
-  function getModalCloseButton(): HTMLElement {
+  function getModalCloseButton(): HTMLElement | null {
     return document.querySelector('#modal-viewkept-toolbars-modal-close');
   }
 
-  function getModalContent(): HTMLElement {
+  function getModalContent(): HTMLElement | null {
     return document.querySelector('.sky-modal-content');
   }
 
-  function getModalHeader(): HTMLElement {
+  function getModalHeader(): HTMLElement | null {
     return document.querySelector('.sky-modal-header');
   }
 
-  function getModalTrigger(): HTMLElement {
+  function getModalTrigger(): HTMLElement | null {
     return document.querySelector('#modal-viewkept-toolbars-modal-trigger');
   }
 
@@ -42,12 +42,12 @@ describe('Modals with viewkept toolbars', () => {
   }
 
   function openModal(): void {
-    getModalTrigger().click();
+    getModalTrigger()?.click();
     fixture.detectChanges;
   }
 
   async function scrollContentDown(): Promise<void> {
-    getModalContent().scrollTo({
+    getModalContent()?.scrollTo({
       top: 500,
     });
     SkyAppTestUtility.fireDomEvent(getModalContent(), 'scroll', {
@@ -81,7 +81,7 @@ describe('Modals with viewkept toolbars', () => {
     beforeEach(async () => {
       TestBed.inject(SkyThemeService).init(
         document.body,
-        TestBed.inject(RendererFactory2).createRenderer(undefined, undefined),
+        TestBed.inject(RendererFactory2).createRenderer(undefined, null),
         new SkyThemeSettings(
           SkyTheme.presets.modern,
           SkyThemeMode.presets.light
@@ -106,7 +106,9 @@ describe('Modals with viewkept toolbars', () => {
 
     it('should not have a modal header box shadow when scroll is active', async () => {
       await scrollContentDown();
-      expect(window.getComputedStyle(getModalHeader()).boxShadow).toBe('none');
+      expect(
+        window.getComputedStyle(getModalHeader() as Element).boxShadow
+      ).toBe('none');
     });
 
     it('should set the background color and padding correctly', async () => {

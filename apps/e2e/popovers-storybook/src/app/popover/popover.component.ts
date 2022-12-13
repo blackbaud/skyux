@@ -1,5 +1,9 @@
 import { AfterViewInit, Component, ViewEncapsulation } from '@angular/core';
-import { SkyPopoverMessage, SkyPopoverMessageType } from '@skyux/popovers';
+import {
+  SkyPopoverMessage,
+  SkyPopoverMessageType,
+  SkyPopoverPlacement,
+} from '@skyux/popovers';
 
 import { BehaviorSubject, Subject } from 'rxjs';
 
@@ -14,7 +18,11 @@ export class PopoverComponent implements AfterViewInit {
 
   public staticPopoverMessageStream = new Subject<SkyPopoverMessage>();
 
-  public configs = [
+  public configs: {
+    horizontalAlignment: string;
+    placement: SkyPopoverPlacement;
+    popoverTitle: string | undefined;
+  }[] = [
     {
       horizontalAlignment: 'center',
       placement: 'above',

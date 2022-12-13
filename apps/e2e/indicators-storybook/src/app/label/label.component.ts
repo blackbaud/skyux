@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SkyLabelType } from '@skyux/indicators';
 
 @Component({
   selector: 'app-label',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./label.component.scss'],
 })
 export class LabelComponent {
-  public types = ['info', 'success', 'warning', 'danger'];
+  public types: SkyLabelType[] = ['info', 'success', 'warning', 'danger'];
 }
