@@ -39,10 +39,6 @@
 
 @include mixins.sky-theme-modern {
   .sky-label {
-    --sky-label-icon-inverse-color: #{$sky-text-color-default};
-  }
-
-  .sky-label {
     align-items: center;
     display: inline-flex;
     line-height: 1;
@@ -62,9 +58,7 @@
     }
 
     &:not(.sky-label-danger) {
-      ::ng-deep .sky-icon-inverse {
-        color: var(--sky-label-icon-inverse-color);
-      }
+      --sky-top-icon-override: #{$sky-text-color-default};
     }
   }
 

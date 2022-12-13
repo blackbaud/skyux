@@ -36,6 +36,10 @@
   }
 }
 
+.sky-icon-inverse {
+  color: var(--sky-top-icon-override, $sky-text-color-on-dark);
+}
+
 @include mixins.sky-theme-modern-dark {
   .sky-icon-inverse {
     color: $sky-theme-modern-mode-dark-background-color-page-default;
