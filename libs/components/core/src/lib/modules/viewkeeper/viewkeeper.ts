@@ -67,11 +67,15 @@ function setElPosition(
   left: number | string,
   top: number | string,
   width: number | string,
-  marginTop: number | string
+  marginTop: number | string,
+  clipTop: number | string,
+  clipLeft: number | string
 ): void {
   el.style.top = px(top);
   el.style.left = px(left);
   el.style.marginTop = px(marginTop);
+  el.style.clipPath =
+    clipTop || clipLeft ? `inset(${px(clipTop)} 0 0 ${px(clipLeft)})` : 'none';
 
   /*istanbul ignore else*/
   /* sanity check */
@@ -119,11 +123,17 @@ export class SkyViewkeeper {
 
   #currentElFixedWidth: number | undefined;
 
+  #currentElClipLeft: number | undefined;
+
+  #currentElClipTop: number | undefined;
+
   #isDestroyed = false;
 
   #scrollableHost: HTMLElement | undefined;
 
   #syncElPositionHandler: () => void;
+
+  #intersectionObserver: IntersectionObserver | undefined;
 
   constructor(options: SkyViewkeeperOptions) {
     options = options || /* istanbul ignore next */ {};
@@ -199,6 +209,7 @@ export class SkyViewkeeper {
 
   public destroy(): void {
     if (!this.#isDestroyed) {
+      this.#intersectionObserver?.disconnect();
       window.removeEventListener('scroll', this.#syncElPositionHandler, true);
       window.removeEventListener('resize', this.#syncElPositionHandler);
       window.removeEventListener(
@@ -248,7 +259,7 @@ export class SkyViewkeeper {
       width = 'auto';
     }
 
-    setElPosition(el, '', '', width, '');
+    setElPosition(el, '', '', width, '', 0, 0);
   }
 
   #calculateVerticalOffset(): number {
@@ -294,21 +305,24 @@ export class SkyViewkeeper {
     // will be 0 (fully visible) unless the user is scrolling the boundary out of view.
     // In that case, the element should begin to scroll out of view with the
     // rest of the boundary by setting its top position to a negative value.
-    const elFixedTop = Math.min(
+    const elTop =
       boundaryInfo.boundaryBottom -
-        boundaryInfo.elHeight -
-        boundaryInfo.scrollTop,
-      verticalOffset
-    );
+      boundaryInfo.elHeight -
+      boundaryInfo.scrollTop;
+    const elClipTop = elTop < verticalOffset ? verticalOffset - elTop : 0;
+    const elFixedTop = Math.min(elTop, verticalOffset);
 
     const elFixedWidth = boundaryInfo.boundaryEl.getBoundingClientRect().width;
     const elFixedLeft =
       boundaryInfo.boundaryOffset.left - boundaryInfo.scrollLeft;
+    const elClipLeft = elFixedLeft < 0 ? 0 - elFixedLeft : 0;
 
     return {
       elFixedLeft,
       elFixedTop,
       elFixedWidth,
+      elClipLeft,
+      elClipTop,
     };
   }
 
@@ -320,6 +334,8 @@ export class SkyViewkeeper {
       (doFixEl &&
         this.#currentElFixedLeft === fixedStyles.elFixedLeft &&
         this.#currentElFixedTop === fixedStyles.elFixedTop &&
+        this.#currentElClipLeft === fixedStyles.elClipLeft &&
+        this.#currentElClipTop === fixedStyles.elClipTop &&
         this.#currentElFixedWidth === fixedStyles.elFixedWidth) ||
       (!doFixEl &&
         !(
@@ -360,6 +376,8 @@ export class SkyViewkeeper {
 
     this.#currentElFixedTop = fixedStyles.elFixedTop;
     this.#currentElFixedLeft = fixedStyles.elFixedLeft;
+    this.#currentElClipTop = fixedStyles.elClipTop;
+    this.#currentElClipLeft = fixedStyles.elClipLeft;
     this.#currentElFixedWidth = fixedStyles.elFixedWidth;
 
     let width = 0;
@@ -373,7 +391,9 @@ export class SkyViewkeeper {
       fixedStyles.elFixedLeft,
       fixedStyles.elFixedTop,
       width,
-      this.#viewportMarginTop
+      this.#viewportMarginTop,
+      fixedStyles.elClipTop,
+      fixedStyles.elClipLeft
     );
   }
 
