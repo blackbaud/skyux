@@ -23,7 +23,7 @@ export class SplitViewPageBoundDemoComponent {
   public set activeIndex(value: number) {
     this._activeIndex = value;
     this.activeRecord = this.items[this._activeIndex];
-    this.loadFormGroup(this.activeRecord);
+    this.#loadFormGroup(this.activeRecord);
   }
 
   public get activeIndex(): number {
@@ -153,7 +153,7 @@ export class SplitViewPageBoundDemoComponent {
     console.log('Denied clicked!');
   }
 
-  private loadFormGroup(record: SplitViewDemoRecord): void {
+  #loadFormGroup(record: SplitViewDemoRecord): void {
     this.splitViewDemoForm = new FormGroup({
       approvedAmount: new FormControl(record.approvedAmount),
       comments: new FormControl(record.comments),

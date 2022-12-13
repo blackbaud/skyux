@@ -33,7 +33,7 @@ export class ColorpickerDemoComponent {
   }
 
   public submit(): void {
-    const controlValue = this.reactiveForm?.get('favoriteColor')?.value;
+    const controlValue = this.reactiveForm.get('favoriteColor')?.value;
     const favoriteColor: string = controlValue.hex || controlValue;
     alert('Your favorite color is: \n' + favoriteColor);
   }
