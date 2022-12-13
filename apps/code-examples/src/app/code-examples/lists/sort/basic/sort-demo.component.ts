@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 
+import { RepeaterDemoItem } from './repeater-demo-item';
+import { SortOption } from './sort-option';
+
 @Component({
   selector: 'app-sort-demo',
   templateUrl: './sort-demo.component.html',
 })
 export class SortDemoComponent implements OnInit {
-  public initialState: number;
+  public initialState = 3;
 
-  public sortedItems: any[] = [
+  public sortedItems: RepeaterDemoItem[] = [
     {
       title: 'Call Robert Hernandez',
       note: 'Robert recently gave a very generous gift. We should call to thank him.',
@@ -40,7 +43,7 @@ export class SortDemoComponent implements OnInit {
     },
   ];
 
-  public sortOptions: any[] = [
+  public sortOptions: SortOption[] = [
     {
       id: 1,
       label: 'Assigned to (A - Z)',
@@ -80,14 +83,16 @@ export class SortDemoComponent implements OnInit {
   ];
 
   public ngOnInit(): void {
-    this.initialState = 3;
     this.sortItems(this.sortOptions[2]);
   }
 
-  public sortItems(item: any): void {
-    this.sortedItems = this.sortedItems.sort(function (a: any, b: any) {
-      const descending = item.descending ? -1 : 1;
-      const sortProperty = item.name;
+  public sortItems(option: SortOption): void {
+    this.sortedItems = this.sortedItems.sort(function (
+      a: RepeaterDemoItem,
+      b: RepeaterDemoItem
+    ) {
+      const descending = option.descending ? -1 : 1;
+      const sortProperty: keyof typeof a = option.name;
 
       if (a[sortProperty] > b[sortProperty]) {
         return descending;

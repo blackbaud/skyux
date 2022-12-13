@@ -14,9 +14,9 @@
       <span class="sky-error-indicator" skyId #emailError="skyId">
         <sky-status-indicator
           *ngIf="
-            emailControl.errors &&
-            emailControl.touched &&
-            emailControl.errors.required
+            emailControl?.errors &&
+            emailControl?.touched &&
+            emailControl?.errors?.required
           "
           indicatorType="danger"
           descriptionType="error"
@@ -25,10 +25,10 @@
         </sky-status-indicator>
         <sky-status-indicator
           *ngIf="
-            emailControl.errors &&
-            emailControl.touched &&
-            emailControl.errors.skyEmail &&
-            emailControl.dirty
+            emailControl?.errors &&
+            emailControl?.touched &&
+            emailControl?.errors?.skyEmail &&
+            emailControl?.dirty
           "
           indicatorType="danger"
           descriptionType="error"

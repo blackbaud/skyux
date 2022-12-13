@@ -86,7 +86,7 @@ export const SKY_JOB_TITLES: { [name: string]: SkyAutocompleteOption[] } = {
 };
 
 export interface SkyAgGridDemoRow {
-  selected: boolean;
+  selected?: boolean;
   name: string;
   age: number;
   startDate: Date;

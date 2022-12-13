@@ -22,6 +22,8 @@ import {
   RowSelectedEvent,
 } from 'ag-grid-community';
 
+import { SkyDataManangerDemoRow } from './data-manager-demo-data';
+
 @Component({
   selector: 'app-data-view-grid-demo',
   templateUrl: './data-view-grid.component.html',
@@ -29,7 +31,7 @@ import {
 })
 export class DataViewGridDemoComponent implements OnInit {
   @Input()
-  public items: any[] = [];
+  public items: SkyDataManangerDemoRow[] = [];
 
   public viewId = 'gridView';
 
@@ -88,7 +90,7 @@ export class DataViewGridDemoComponent implements OnInit {
   };
 
   public columnApi?: ColumnApi;
-  public displayedItems: any[] = [];
+  public displayedItems: SkyDataManangerDemoRow[] = [];
   public gridApi?: GridApi;
   public gridInitialized = false;
   public gridOptions!: GridOptions;
@@ -145,7 +147,7 @@ export class DataViewGridDemoComponent implements OnInit {
 
   public setInitialColumnOrder(): void {
     const viewState = this.dataState.getViewStateById(this.viewId);
-    const visibleColumns = viewState.displayedColumnIds;
+    const visibleColumns = viewState?.displayedColumnIds || [];
 
     this.columnDefs.sort((col1, col2) => {
       const col1Index = visibleColumns.findIndex(
@@ -198,13 +200,15 @@ export class DataViewGridDemoComponent implements OnInit {
     }
   }
 
-  public searchItems(items: any[]): any[] {
+  public searchItems(
+    items: SkyDataManangerDemoRow[]
+  ): SkyDataManangerDemoRow[] {
     let searchedItems = items;
     const searchText = this.dataState && this.dataState.searchText;
 
     if (searchText) {
-      searchedItems = items.filter(function (item: any) {
-        let property: any;
+      searchedItems = items.filter(function (item: SkyDataManangerDemoRow) {
+        let property: keyof typeof item;
 
         for (property in item) {
           if (
@@ -224,13 +228,15 @@ export class DataViewGridDemoComponent implements OnInit {
     return searchedItems;
   }
 
-  public filterItems(items: any[]): any[] {
+  public filterItems(
+    items: SkyDataManangerDemoRow[]
+  ): SkyDataManangerDemoRow[] {
     let filteredItems = items;
     const filterData = this.dataState && this.dataState.filterData;
 
     if (filterData && filterData.filters) {
       const filters = filterData.filters;
-      filteredItems = items.filter((item: any) => {
+      filteredItems = items.filter((item: SkyDataManangerDemoRow) => {
         return (
           ((filters.hideOrange && item.color !== 'orange') ||
             !filters.hideOrange) &&

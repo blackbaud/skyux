@@ -60,7 +60,7 @@ export class SkyBasicDataGridDemoComponent {
   constructor(private agGridService: SkyAgGridService) {
     this.gridOptions = {
       columnDefs: this.columnDefs,
-      onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
+      onGridReady: (gridReadyEvent): void => this.onGridReady(gridReadyEvent),
       rowSelection: 'single',
     };
     this.gridOptions = this.agGridService.getGridOptions({

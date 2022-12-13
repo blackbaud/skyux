@@ -39,6 +39,6 @@ export class SectionedFormModalDemoComponent {
   }
 
   public showTabs(): void {
-    this.sectionedFormComponent!.showTabs();
+    this.sectionedFormComponent?.showTabs();
   }
 }

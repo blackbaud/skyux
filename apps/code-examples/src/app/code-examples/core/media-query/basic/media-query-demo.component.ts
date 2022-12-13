@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './media-query-demo.component.html',
 })
 export class MediaQueryDemoComponent implements OnDestroy {
-  public currentBreakpoint: string;
+  public currentBreakpoint: string | undefined;
 
   private querySubscription: Subscription;
 

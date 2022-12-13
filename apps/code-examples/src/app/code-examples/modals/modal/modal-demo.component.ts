@@ -19,7 +19,7 @@ export class ModalDemoComponent implements OnDestroy {
 
   public modalSize = 'medium';
 
-  public demoValue: string | undefined;
+  public demoValue: string | null | undefined;
 
   #ngUnsubscribe = new Subject<void>();
 

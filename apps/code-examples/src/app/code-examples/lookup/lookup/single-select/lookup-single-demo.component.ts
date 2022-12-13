@@ -11,7 +11,7 @@ import { LookupDemoPerson } from './lookup-demo-person';
 })
 export class LookupSingleSelectDemoComponent implements OnInit {
   public favoritesForm: FormGroup<{
-    favoriteName: FormControl<LookupDemoPerson[]>;
+    favoriteName: FormControl<LookupDemoPerson[] | null>;
   }>;
 
   public searchFilters: SkyAutocompleteSearchFunctionFilter[];
@@ -47,11 +47,11 @@ export class LookupSingleSelectDemoComponent implements OnInit {
     });
 
     this.searchFilters = [
-      (_, item) => {
+      (_, item): boolean => {
         const names = this.favoritesForm.value.favoriteName;
 
         // Only show people in the search results that have not been chosen already.
-        return !names.some((option) => option.name === item.name);
+        return !names?.some((option) => option.name === item.name);
       },
     ];
   }

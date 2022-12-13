@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   AbstractControl,
   UntypedFormBuilder,
@@ -12,21 +12,15 @@ import { SkyValidators } from '@skyux/validation';
   selector: 'app-email-validation-demo',
   templateUrl: './email-validation-demo.component.html',
 })
-export class EmailValidationDemoComponent implements OnInit {
-  public get emailControl(): AbstractControl {
+export class EmailValidationDemoComponent {
+  public get emailControl(): AbstractControl | null {
     return this.formGroup.get('email');
   }
 
   public formGroup: UntypedFormGroup;
 
-  #formBuilder: UntypedFormBuilder;
-
   constructor(formBuilder: UntypedFormBuilder) {
-    this.#formBuilder = formBuilder;
-  }
-
-  public ngOnInit(): void {
-    this.formGroup = this.#formBuilder.group({
+    this.formGroup = formBuilder.group({
       email: new UntypedFormControl(undefined, [
         Validators.required,
         SkyValidators.email,

@@ -1,5 +1,9 @@
 import { Component, Inject } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import {
+  AbstractControl,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+} from '@angular/forms';
 import { SkyModalInstance } from '@skyux/modals';
 
 @Component({
@@ -11,17 +15,17 @@ export class SettingsModalComponent {
   public fields: string[] = [];
 
   constructor(
-    private fb: UntypedFormBuilder,
+    fb: UntypedFormBuilder,
     public modal: SkyModalInstance,
     @Inject('modalTitle') public title: string
   ) {
-    const controls = {};
+    const controls: Record<string, AbstractControl> = {};
     for (let i = 1; i <= 5; i++) {
       const field = `${this.title} ${i}`;
       this.fields.push(field);
-      controls[field] = this.fb.control('');
+      controls[field] = fb.control('');
     }
-    this.form = this.fb.group(controls);
+    this.form = fb.group(controls);
     this.modal.closed.subscribe((args) => {
       if (args.reason === 'save') {
         console.log(this.form.value);

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { SkyModalInstance } from '@skyux/modals';
 
+import { Filter } from './filter';
 import { FilterDemoModalContext } from './filter-demo-modal-context';
 
 @Component({
@@ -8,7 +9,7 @@ import { FilterDemoModalContext } from './filter-demo-modal-context';
   templateUrl: './filter-demo-modal.component.html',
 })
 export class FilterDemoModalComponent {
-  public hideOrange: boolean;
+  public hideOrange = false;
 
   public fruitType = 'any';
 
@@ -41,8 +42,8 @@ export class FilterDemoModalComponent {
     this.fruitType = 'any';
   }
 
-  private getAppliedFiltersArray(): any[] {
-    const appliedFilters: any[] = [];
+  private getAppliedFiltersArray(): Filter[] {
+    const appliedFilters: Filter[] = [];
     if (this.fruitType !== 'any') {
       appliedFilters.push({
         name: 'fruitType',
@@ -62,14 +63,14 @@ export class FilterDemoModalComponent {
     return appliedFilters;
   }
 
-  private setFormFilters(appliedFilters: any[]): void {
+  private setFormFilters(appliedFilters: Filter[]): void {
     for (let i = 0; i < appliedFilters.length; i++) {
       if (appliedFilters[i].name === 'fruitType') {
-        this.fruitType = appliedFilters[i].value;
+        this.fruitType = `${appliedFilters[i].value}`;
       }
 
       if (appliedFilters[i].name === 'hideOrange') {
-        this.hideOrange = appliedFilters[i].value;
+        this.hideOrange = !!appliedFilters[i].value;
       }
     }
   }

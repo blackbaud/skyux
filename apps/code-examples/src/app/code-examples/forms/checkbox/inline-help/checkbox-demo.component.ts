@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormControl,
@@ -9,17 +9,11 @@ import {
   selector: 'app-checkbox-demo',
   templateUrl: './checkbox-demo.component.html',
 })
-export class CheckboxDemoComponent implements OnInit {
+export class CheckboxDemoComponent {
   public myForm: UntypedFormGroup;
 
-  #formBuilder: UntypedFormBuilder;
-
   constructor(formBuilder: UntypedFormBuilder) {
-    this.#formBuilder = formBuilder;
-  }
-
-  public ngOnInit(): void {
-    this.myForm = this.#formBuilder.group({
+    this.myForm = formBuilder.group({
       email: new UntypedFormControl(false),
       phone: new UntypedFormControl(false),
       text: new UntypedFormControl(false),

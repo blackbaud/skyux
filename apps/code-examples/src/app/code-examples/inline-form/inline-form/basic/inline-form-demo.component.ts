@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {
   SkyInlineFormButtonLayout,
@@ -10,7 +10,7 @@ import {
   selector: 'app-inline-form-demo',
   templateUrl: './inline-form-demo.component.html',
 })
-export class InlineFormDemoComponent implements OnInit {
+export class InlineFormDemoComponent {
   public firstName = 'Jane';
 
   public myForm: FormGroup;
@@ -21,17 +21,15 @@ export class InlineFormDemoComponent implements OnInit {
 
   public showForm = false;
 
-  constructor(private formBuilder: FormBuilder) {}
-
-  public ngOnInit(): void {
-    this.myForm = this.formBuilder.group({
+  constructor(formBuilder: FormBuilder) {
+    this.myForm = formBuilder.group({
       myFirstName: new FormControl(),
     });
   }
 
   public onInlineFormClose(args: SkyInlineFormCloseArgs): void {
     if (args.reason === 'save') {
-      this.firstName = this.myForm.get('myFirstName').value;
+      this.firstName = this.myForm.get('myFirstName')?.value;
     }
 
     this.showForm = false;

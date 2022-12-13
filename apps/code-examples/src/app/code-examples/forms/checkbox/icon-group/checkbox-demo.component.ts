@@ -1,21 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-checkbox-demo',
   templateUrl: './checkbox-demo.component.html',
 })
-export class CheckboxDemoComponent implements OnInit {
+export class CheckboxDemoComponent {
   public myForm: FormGroup;
 
-  #formBuilder: FormBuilder;
-
   constructor(formBuilder: FormBuilder) {
-    this.#formBuilder = formBuilder;
-  }
-
-  public ngOnInit(): void {
-    this.myForm = this.#formBuilder.group({
+    this.myForm = formBuilder.group({
       bold: new FormControl(false),
       italic: new FormControl(false),
       underline: new FormControl(false),

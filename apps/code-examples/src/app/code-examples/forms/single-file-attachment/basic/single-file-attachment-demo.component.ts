@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   AbstractControl,
   UntypedFormBuilder,
@@ -16,20 +16,25 @@ import {
   selector: 'app-single-file-attachment-demo',
   templateUrl: './single-file-attachment-demo.component.html',
 })
-export class SingleFileAttachmentDemoComponent implements OnInit {
+export class SingleFileAttachmentDemoComponent {
   public attachment: UntypedFormControl;
 
   public fileForm: UntypedFormGroup;
 
   public maxFileSize = 4000000;
 
-  public get reactiveFile(): AbstractControl {
+  public get reactiveFile(): AbstractControl | null {
     return this.fileForm.get('attachment');
   }
 
-  public reactiveUploadError: string;
+  public reactiveUploadError: string | undefined;
 
-  constructor(private formBuilder: UntypedFormBuilder) {}
+  constructor(formBuilder: UntypedFormBuilder) {
+    this.attachment = new UntypedFormControl(undefined, Validators.required);
+    this.fileForm = formBuilder.group({
+      attachment: this.attachment,
+    });
+  }
 
   public fileClick($event: SkyFileAttachmentClick): void {
     const link = document.createElement('a');
@@ -38,24 +43,17 @@ export class SingleFileAttachmentDemoComponent implements OnInit {
     link.click();
   }
 
-  public ngOnInit(): void {
-    this.attachment = new UntypedFormControl(undefined, Validators.required);
-    this.fileForm = this.formBuilder.group({
-      attachment: this.attachment,
-    });
-  }
-
   public reactiveFileUpdated(result: SkyFileAttachmentChange): void {
     const file = result.file;
 
     if (file && file.errorType) {
-      this.reactiveFile.setValue(undefined);
+      this.reactiveFile?.setValue(undefined);
       this.reactiveUploadError = this.getErrorMessage(
         file.errorType,
         file.errorParam
       );
     } else {
-      this.reactiveFile.setValue(file);
+      this.reactiveFile?.setValue(file);
       this.reactiveUploadError = undefined;
     }
   }
@@ -68,7 +66,10 @@ export class SingleFileAttachmentDemoComponent implements OnInit {
     }
   }
 
-  private getErrorMessage(errorType: string, errorParam: string): string {
+  private getErrorMessage(
+    errorType: string,
+    errorParam?: string
+  ): string | undefined {
     if (errorType === 'fileType') {
       return `Please upload a file of type ${errorParam}.`;
     } else if (errorType === 'maxFileSize') {

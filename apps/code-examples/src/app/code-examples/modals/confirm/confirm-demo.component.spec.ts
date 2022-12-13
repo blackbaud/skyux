@@ -1,5 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SkyConfirmHarness } from '@skyux/modals/testing';
 
@@ -7,7 +7,10 @@ import { ConfirmDemoComponent } from './confirm-demo.component';
 import { ConfirmDemoModule } from './confirm-demo.module';
 
 describe('Confirm demo', () => {
-  async function setupTest(confirmBtnClass: string) {
+  async function setupTest(confirmBtnClass: string): Promise<{
+    confirmHarness: SkyConfirmHarness;
+    fixture: ComponentFixture<ConfirmDemoComponent>;
+  }> {
     const fixture = TestBed.createComponent(ConfirmDemoComponent);
     const openBtn = fixture.nativeElement.querySelector(confirmBtnClass);
 

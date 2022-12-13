@@ -39,9 +39,7 @@ export class SelectionBoxDemoComponent implements OnInit {
 
   constructor(formBuilder: FormBuilder) {
     this.#formBuilder = formBuilder;
-  }
 
-  public ngOnInit(): void {
     const checkboxArray = this.#buildCheckboxes();
 
     this.checkboxControls = checkboxArray.controls as FormControl[];
@@ -49,7 +47,9 @@ export class SelectionBoxDemoComponent implements OnInit {
     this.myForm = this.#formBuilder.group({
       checkboxes: checkboxArray,
     });
+  }
 
+  public ngOnInit(): void {
     this.myForm.valueChanges.subscribe((value) => console.log(value));
   }
 

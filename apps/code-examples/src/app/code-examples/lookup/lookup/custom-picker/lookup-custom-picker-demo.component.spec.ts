@@ -1,5 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 import { SkyLookupHarness } from '@skyux/lookup/testing';
@@ -9,7 +9,10 @@ import { LookupCustomPickerDemoModule } from './lookup-custom-picker-demo.module
 import { LookupCustomPickerHarness } from './lookup-custom-picker-harness';
 
 describe('Lookup custom picker demo', () => {
-  async function setupTest() {
+  async function setupTest(): Promise<{
+    lookupHarness: SkyLookupHarness | null;
+    fixture: ComponentFixture<LookupCustomPickerDemoComponent>;
+  }> {
     const fixture = TestBed.createComponent(LookupCustomPickerDemoComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
@@ -31,7 +34,7 @@ describe('Lookup custom picker demo', () => {
   it('should set the expected initial value', async () => {
     const { lookupHarness } = await setupTest();
 
-    await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
+    await expectAsync(lookupHarness?.getSelectionsText()).toBeResolvedTo([
       'Shirley',
     ]);
   });
@@ -39,10 +42,14 @@ describe('Lookup custom picker demo', () => {
   it('should update the form control when a favorite name is selected', async () => {
     const { lookupHarness, fixture } = await setupTest();
 
-    await lookupHarness.enterText('vick');
+    await lookupHarness?.enterText('vick');
 
-    const firstResultHarness = (await lookupHarness.getSearchResults())[0];
-    await firstResultHarness.select();
+    const allResultHarnesses = await lookupHarness?.getSearchResults();
+    const firstResultHarness = allResultHarnesses && allResultHarnesses[0];
+
+    if (firstResultHarness) {
+      await firstResultHarness.select();
+    }
 
     expect(fixture.componentInstance.favoritesForm.value.favoriteNames).toEqual(
       [
@@ -56,7 +63,7 @@ describe('Lookup custom picker demo', () => {
     const { lookupHarness, fixture } = await setupTest();
 
     // Show the custom picker.
-    await lookupHarness.clickShowMoreButton();
+    await lookupHarness?.clickShowMoreButton();
 
     // Use the custom picker harness to validate that selecting/deslecting items
     // updates the lookup form field.

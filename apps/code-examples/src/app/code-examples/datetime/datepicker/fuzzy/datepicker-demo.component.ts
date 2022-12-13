@@ -15,6 +15,6 @@ export class DatepickerDemoComponent {
   }
 
   public get getFuzzyDateForDisplay(): string {
-    return JSON.stringify(this.myForm.get('myDate').value);
+    return JSON.stringify(this.myForm.get('myDate')?.value);
   }
 }

@@ -1,11 +1,17 @@
 import { Component } from '@angular/core';
 
+interface InlineRepeaterDemoItem {
+  title: string;
+  cost: string;
+  description: string;
+}
+
 @Component({
   selector: 'app-inline-delete-repeater-demo',
   templateUrl: './inline-delete-repeater-demo.component.html',
 })
 export class InlineDeleteRepeaterDemoComponent {
-  public originalRepeaterDemoItems: any = [
+  public originalRepeaterDemoItems: InlineRepeaterDemoItem[] = [
     {
       title: 'Individual',
       cost: '$75.00',
@@ -23,32 +29,33 @@ export class InlineDeleteRepeaterDemoComponent {
     },
   ];
 
-  public repeaterDemoItems: any = this.originalRepeaterDemoItems;
+  public repeaterDemoItems: InlineRepeaterDemoItem[] =
+    this.originalRepeaterDemoItems;
 
   public repeaterDemoShownInlineDeletes: string[] = [];
 
-  public showInlineDelete(title: string) {
+  public showInlineDelete(title: string): void {
     this.repeaterDemoShownInlineDeletes.push(title);
   }
 
-  public deleteItem(title: string) {
+  public deleteItem(title: string): void {
     this.repeaterDemoItems = this.repeaterDemoItems.filter(
-      (demoItem: any) => demoItem.title !== title
+      (demoItem: InlineRepeaterDemoItem) => demoItem.title !== title
     );
     this.repeaterDemoShownInlineDeletes =
       this.repeaterDemoShownInlineDeletes.filter(
-        (demoItem: any) => demoItem !== title
+        (demoItem: string) => demoItem !== title
       );
   }
 
-  public cancelDeletion(title: string) {
+  public cancelDeletion(title: string): void {
     this.repeaterDemoShownInlineDeletes =
       this.repeaterDemoShownInlineDeletes.filter(
-        (demoItem: any) => demoItem !== title
+        (demoItem: string) => demoItem !== title
       );
   }
 
-  public onResetClick() {
+  public onResetClick(): void {
     this.repeaterDemoItems = this.originalRepeaterDemoItems;
     this.repeaterDemoShownInlineDeletes = [];
   }

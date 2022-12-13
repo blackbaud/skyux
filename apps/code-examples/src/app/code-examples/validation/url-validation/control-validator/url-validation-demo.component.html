@@ -12,9 +12,9 @@
       <span class="sky-error-indicator" skyId #urlError="skyId">
         <sky-status-indicator
           *ngIf="
-            urlControl.errors &&
-            urlControl.touched &&
-            urlControl.errors.required
+            urlControl?.errors &&
+            urlControl?.touched &&
+            urlControl?.errors?.required
           "
           indicatorType="danger"
           descriptionType="error"
@@ -23,10 +23,10 @@
         </sky-status-indicator>
         <sky-status-indicator
           *ngIf="
-            urlControl.errors &&
-            urlControl.touched &&
-            urlControl.errors.skyUrl &&
-            urlControl.dirty
+            urlControl?.errors &&
+            urlControl?.touched &&
+            urlControl?.errors?.skyUrl &&
+            urlControl?.dirty
           "
           indicatorType="danger"
           descriptionType="error"
