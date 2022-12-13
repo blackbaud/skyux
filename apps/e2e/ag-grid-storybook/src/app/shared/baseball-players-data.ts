@@ -61,7 +61,7 @@ export const columnDefinitions: ColDef[] = [
     headerName,
     sortable: false,
     cellClass: 'booleanType',
-    valueFormatter: (params) => (params.value ? 'Yes' : 'No'),
+    valueFormatter: (params: any) => (params.value ? 'Yes' : 'No'),
   })),
   {
     field: 'vote%',

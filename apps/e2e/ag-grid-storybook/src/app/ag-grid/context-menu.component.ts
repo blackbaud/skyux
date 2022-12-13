@@ -9,12 +9,12 @@ import { ICellRendererParams } from 'ag-grid-community';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContextMenuComponent implements ICellRendererAngularComp {
-  public goalName: string;
-  private params: ICellRendererParams;
+  public goalName: string | undefined;
+  #params!: ICellRendererParams;
 
   public agInit(params: ICellRendererParams): void {
-    this.params = params;
-    this.goalName = this.params.data && this.params.data.name;
+    this.#params = params;
+    this.goalName = this.#params.data && this.#params.data.name;
   }
 
   public refresh(): boolean {
@@ -26,8 +26,7 @@ export class ContextMenuComponent implements ICellRendererAngularComp {
   }
 
   public triggerRowDelete(): void {
-    this.params.context.rowDeleteIds = this.params.context.rowDeleteIds.concat(
-      this.params.data.id.toString()
-    );
+    this.#params.context.rowDeleteIds =
+      this.#params.context.rowDeleteIds.concat(this.#params.data.id.toString());
   }
 }

@@ -20,57 +20,57 @@ describe('DataEntryGridComponent', () => {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
 
-  ['date-and-lookup', 'edit-lookup'].forEach(
-    (variation: 'date-and-lookup' | 'edit-lookup') => {
-      describe(`variation: ${variation}`, () => {
-        beforeEach(() => {
-          mockThemeSvc = {
-            settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
-              currentSettings: {
-                theme: SkyTheme.presets.default,
-                mode: SkyThemeMode.presets.light,
-              },
-              previousSettings: undefined,
-            }),
-          };
-          TestBed.configureTestingModule({
-            imports: [DataEntryGridModule, FontLoadingTestingModule],
-            providers: [
-              {
-                provide: SkyThemeService,
-                useValue: mockThemeSvc,
-              },
-            ],
-          });
-          fixture = TestBed.createComponent(DataEntryGridComponent);
-          component = fixture.componentInstance;
-          component.variation = variation;
-          fixture.detectChanges();
+  (
+    ['date-and-lookup', 'edit-lookup'] as ('date-and-lookup' | 'edit-lookup')[]
+  ).forEach((variation: 'date-and-lookup' | 'edit-lookup') => {
+    describe(`variation: ${variation}`, () => {
+      beforeEach(() => {
+        mockThemeSvc = {
+          settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
+            currentSettings: {
+              theme: SkyTheme.presets.default,
+              mode: SkyThemeMode.presets.light,
+            },
+            previousSettings: undefined,
+          }),
+        };
+        TestBed.configureTestingModule({
+          imports: [DataEntryGridModule, FontLoadingTestingModule],
+          providers: [
+            {
+              provide: SkyThemeService,
+              useValue: mockThemeSvc,
+            },
+          ],
         });
-
-        it('should create', async () => {
-          expect(component).toBeTruthy();
-        });
-
-        if (variation === 'date-and-lookup') {
-          it('should use smaller dataset for calendar view in modern theme', async () => {
-            mockThemeSvc.settingsChange.next({
-              currentSettings: {
-                theme: SkyTheme.presets.modern,
-                mode: SkyThemeMode.presets.light,
-              },
-              previousSettings: undefined,
-            });
-            component.ngAfterViewInit();
-            fixture.detectChanges();
-            await fixture.whenStable();
-            expect(component).toBeTruthy();
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-            expect(component.ready.value).toBe(true);
-            expect(component.dataSets[0].data.length).toBe(7);
-          });
-        }
+        fixture = TestBed.createComponent(DataEntryGridComponent);
+        component = fixture.componentInstance;
+        component.variation = variation;
+        fixture.detectChanges();
       });
-    }
-  );
+
+      it('should create', async () => {
+        expect(component).toBeTruthy();
+      });
+
+      if (variation === 'date-and-lookup') {
+        it('should use smaller dataset for calendar view in modern theme', async () => {
+          mockThemeSvc.settingsChange.next({
+            currentSettings: {
+              theme: SkyTheme.presets.modern,
+              mode: SkyThemeMode.presets.light,
+            },
+            previousSettings: undefined,
+          });
+          component.ngAfterViewInit();
+          fixture.detectChanges();
+          await fixture.whenStable();
+          expect(component).toBeTruthy();
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+          expect(component.ready.value).toBe(true);
+          expect(component.dataSets?.[0].data.length).toBe(7);
+        });
+      }
+    });
+  });
 });

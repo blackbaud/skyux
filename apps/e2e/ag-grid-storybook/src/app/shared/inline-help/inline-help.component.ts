@@ -14,7 +14,7 @@ import { SkyAgGridHeaderInfo } from '@skyux/ag-grid';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InlineHelpComponent {
-  readonly #displayName: string;
+  readonly #displayName: string | undefined;
 
   constructor({ displayName }: SkyAgGridHeaderInfo) {
     this.#displayName = displayName;
