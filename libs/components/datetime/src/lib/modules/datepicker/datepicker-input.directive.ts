@@ -104,7 +104,7 @@ export class SkyDatepickerInputDirective
 
   /**
    * Specifies the latest date that is available in the calendar. Place this attribute on
-   * the `input` element to override the default in `SkyDatepickerConfigService`. The specified date should be set to midnight in the current users timezone.
+   * the `input` element to override the default in `SkyDatepickerConfigService`.
    */
   @Input()
   public set maxDate(value: Date | undefined) {
@@ -121,7 +121,7 @@ export class SkyDatepickerInputDirective
 
   /**
    * Specifies the earliest date that is available in the calendar. Place this attribute on
-   * the `input` element to override the default in `SkyDatepickerConfigService`. The specified date should be set to midnight in the current users timezone.
+   * the `input` element to override the default in `SkyDatepickerConfigService`. To avoid validation errors, the time associated with the minimum date must be midnight. This is necessary because the datepicker automatically sets the time on the `Date` object for selected dates to midnight in the current user's time zone.
    */
   @Input()
   public set minDate(value: Date | undefined) {
