@@ -111,7 +111,7 @@ sky-toast {
       padding: $sky-theme-modern-padding-even-md;
 
       &:not(.sky-toast-danger) .sky-icon-inverse {
-        --sky-top-icon-override: #{$sky-text-color-default};
+        --sky-icon-stack-top-icon-color-override: #{$sky-text-color-default};
       }
     }
 

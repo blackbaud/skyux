@@ -37,7 +37,7 @@
 }
 
 .sky-icon-inverse {
-  color: var(--sky-top-icon-override, $sky-text-color-on-dark);
+  color: var(--sky-icon-stack-top-icon-color-override, $sky-text-color-on-dark);
 }
 
 @include mixins.sky-theme-modern-dark {

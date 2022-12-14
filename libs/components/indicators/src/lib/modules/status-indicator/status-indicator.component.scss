@@ -33,7 +33,7 @@
 @include mixins.sky-theme-modern {
   .sky-status-indicator-icon {
     &:not(.sky-status-indicator-icon-danger) {
-      --sky-top-icon-override: #{$sky-text-color-default};
+      --sky-icon-stack-top-icon-color-override: #{$sky-text-color-default};
     }
   }
 

@@ -72,7 +72,7 @@
   }
 
   &:not(.sky-alert-danger) {
-    --sky-top-icon-override: #{$sky-text-color-default};
+    --sky-icon-stack-top-icon-color-override: #{$sky-text-color-default};
   }
 
   &.sky-alert-info {
