@@ -23,7 +23,7 @@ export class SkyVerticalTabsetService {
 
   public hidingTabs = new BehaviorSubject(false);
 
-  public indexChanged: ReplaySubject<number> = new ReplaySubject(1);
+  public indexChanged: ReplaySubject<number | undefined> = new ReplaySubject(1);
 
   public maintainTabContent: boolean | undefined = false;
 
@@ -70,7 +70,7 @@ export class SkyVerticalTabsetService {
     });
   }
 
-  public addTab(tab: SkyVerticalTabComponent) {
+  public addTab(tab: SkyVerticalTabComponent): void {
     const index = this.tabs.length;
     tab.index = index;
 
@@ -116,7 +116,7 @@ export class SkyVerticalTabsetService {
     }
   }
 
-  public activateTab(tab: SkyVerticalTabComponent) {
+  public activateTab(tab: SkyVerticalTabComponent): void {
     // unactivate active tab
     const activeTab = this.tabs.find((t) => t.index === this.activeIndex);
     if (activeTab && activeTab.index !== tab.index) {
@@ -133,11 +133,11 @@ export class SkyVerticalTabsetService {
     return this.tabs.find((t) => t.index === this.activeIndex);
   }
 
-  public isMobile() {
+  public isMobile(): boolean {
     return this.#isMobile;
   }
 
-  public updateContent() {
+  public updateContent(): void {
     if (!this.maintainTabContent) {
       if (!this.#contentAdded && this.contentVisible()) {
         // content needs to be moved
@@ -158,15 +158,15 @@ export class SkyVerticalTabsetService {
     }
   }
 
-  public tabsVisible() {
+  public tabsVisible(): boolean {
     return !this.isMobile() || this.#tabsVisible;
   }
 
-  public contentVisible() {
+  public contentVisible(): boolean {
     return !this.isMobile() || !this.#tabsVisible;
   }
 
-  public showTabs() {
+  public showTabs(): void {
     this.#tabsVisible = true;
     this.#contentAdded = false;
     this.animationTabsVisibleState = VISIBLE_STATE;
@@ -181,7 +181,7 @@ export class SkyVerticalTabsetService {
     this.content = undefined;
   }
 
-  #moveContent() {
+  #moveContent(): void {
     /* istanbul ignore else */
     if (this.content && !this.#contentAdded) {
       const activeTab = this.activeTab();
@@ -195,7 +195,7 @@ export class SkyVerticalTabsetService {
     }
   }
 
-  #updateTabClicked() {
+  #updateTabClicked(): void {
     this.#contentAdded = false;
 
     if (this.isMobile()) {

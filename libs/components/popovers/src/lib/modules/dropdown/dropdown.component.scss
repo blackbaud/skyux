@@ -59,6 +59,19 @@
   .sky-dropdown-caret {
     margin-left: $sky-theme-modern-margin-inline-sm;
   }
+
+  .sky-dropdown-button-type-context-menu {
+    border-radius: 6px;
+    padding-bottom: 3px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 3px;
+    background-color: transparent;
+
+    &:not(:hover):not(:focus-visible) {
+      box-shadow: none;
+    }
+  }
 }
 
 @include mixins.sky-theme-modern-dark {

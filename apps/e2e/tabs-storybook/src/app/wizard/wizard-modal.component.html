@@ -1,4 +1,4 @@
-<form [formGroup]="myForm" (ngSubmit)="onSave()">
+<form *ngIf="myForm" [formGroup]="myForm" (ngSubmit)="onSave()">
   <sky-modal>
     <sky-modal-header>
       {{ title }}

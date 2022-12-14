@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SkyKeyInfoLayoutType } from '@skyux/indicators';
 
 @Component({
   selector: 'app-key-info',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./key-info.component.scss'],
 })
 export class KeyInfoComponent {
-  public layouts = ['vertical', 'horizontal'];
+  public layouts: SkyKeyInfoLayoutType[] = ['vertical', 'horizontal'];
 }

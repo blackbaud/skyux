@@ -22,7 +22,7 @@ export interface SkyActionButtonPermalink {
    * [`routerLink`](https://angular.io/api/router/RouterLink)
    */
   route?: {
-    commands: any[];
+    commands?: any[] | string;
     extras?: NavigationExtras;
   };
   /**

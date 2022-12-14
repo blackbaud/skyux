@@ -16,7 +16,12 @@ import {
 import { SkyDockLocation, SkyDockService } from '@skyux/core';
 import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 
-import { GridOptions, RowNode, RowSelectedEvent } from 'ag-grid-community';
+import {
+  ColDef,
+  GridOptions,
+  RowNode,
+  RowSelectedEvent,
+} from 'ag-grid-community';
 import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { delay, filter, map } from 'rxjs/operators';
 
@@ -55,7 +60,7 @@ export class AgGridStoriesComponent
   public addPreviewWrapper$ = new BehaviorSubject(false);
   public ready = new BehaviorSubject(false);
   public rowDeleteIds: string[] = [];
-  public skyTheme: SkyThemeSettings;
+  public skyTheme: SkyThemeSettings | undefined;
 
   readonly #gridsReady = new Map<string, Observable<boolean>>();
   readonly #agGridService: SkyAgGridService;
@@ -86,7 +91,7 @@ export class AgGridStoriesComponent
   public ngOnInit(): void {
     this.#dockService.setDockOptions({
       location: SkyDockLocation.ElementBottom,
-      referenceEl: this.#doc.querySelector('#back-to-top'),
+      referenceEl: this.#doc.querySelector('#back-to-top') as HTMLElement,
     });
     this.dataSets.forEach((dataSet) =>
       this.#gridsReady.set(dataSet.id, new BehaviorSubject(false))
@@ -142,7 +147,10 @@ export class AgGridStoriesComponent
                     ? {
                         skyComponentProperties: {
                           validator: (value: unknown) =>
-                            !!value && value < 18 && value > 0,
+                            !!value &&
+                            typeof value === 'number' &&
+                            value < 18 &&
+                            value > 0,
                           validatorMessage:
                             'Expected a number between 1 and 18.',
                         },
@@ -157,7 +165,7 @@ export class AgGridStoriesComponent
                     ...additionalType,
                   ].filter((type) => !!type),
                   cellRendererParams,
-                };
+                } as ColDef;
               }),
           ],
           context: {
@@ -171,7 +179,7 @@ export class AgGridStoriesComponent
               params.api.addEventListener(
                 RowNode.EVENT_ROW_SELECTED,
                 ($event: RowSelectedEvent) => {
-                  if ($event.node.isSelected()) {
+                  if ($event.node.id && $event.node.isSelected()) {
                     this.rowDeleteIds = this.rowDeleteIds.concat([
                       $event.node.id,
                     ]);
@@ -208,7 +216,7 @@ export class AgGridStoriesComponent
             .querySelector(
               '#back-to-top .sky-ag-grid-row-johnsra05 [col-id="name"]'
             )
-            .scrollIntoView();
+            ?.scrollIntoView();
 
           setTimeout(() => {
             // Select a row to show the row delete button.
@@ -216,7 +224,7 @@ export class AgGridStoriesComponent
               .querySelector(
                 '#row-delete .sky-ag-grid-row-killeha01 [col-id="select"] label'
               )
-              .dispatchEvent(new MouseEvent('click'));
+              ?.dispatchEvent(new MouseEvent('click'));
 
             setTimeout(() => {
               // Trigger validation popover to show up.
@@ -224,7 +232,7 @@ export class AgGridStoriesComponent
                 .querySelector(
                   '#validation .sky-ag-grid-row-martipe02 [col-id="seasons_played"]'
                 )
-                .dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowUp' }));
+                ?.dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowUp' }));
 
               // Tell Cypress we're ready.
               setTimeout(() => this.ready.next(true), 100);
