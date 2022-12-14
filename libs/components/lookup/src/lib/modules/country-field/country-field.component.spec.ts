@@ -42,7 +42,7 @@ describe('Country Field Component', () => {
   function blurInput(fixture: ComponentFixture<any>): void {
     SkyAppTestUtility.fireDomEvent(getInputElement(), 'blur');
     fixture.detectChanges();
-    tick();
+    tick(25);
   }
 
   function enterSearch(newValue: string, fixture: ComponentFixture<any>): void {
@@ -1045,7 +1045,7 @@ describe('Country Field Component', () => {
         expect(component.countryForm?.touched).toEqual(false);
 
         SkyAppTestUtility.fireDomEvent(textAreaElement, 'blur');
-        tick();
+        tick(25);
         fixture.detectChanges();
 
         expect(component.countryForm?.touched).toEqual(true);

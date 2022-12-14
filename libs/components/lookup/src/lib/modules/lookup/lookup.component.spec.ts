@@ -744,7 +744,7 @@ describe('Lookup component', function () {
         expect(component.form.touched).toEqual(false);
 
         SkyAppTestUtility.fireDomEvent(inputElement, 'blur');
-        tick();
+        tick(25);
         fixture.detectChanges();
 
         expect(component.form.touched).toEqual(true);
@@ -1713,6 +1713,11 @@ describe('Lookup component', function () {
             fixture.detectChanges();
 
             performSearch('foo', fixture);
+            SkyAppTestUtility.fireDomEvent(
+              getInputElement(lookupComponent),
+              'blur'
+            );
+            fixture.detectChanges();
 
             clickSearchButton(fixture);
 
@@ -1847,6 +1852,11 @@ describe('Lookup component', function () {
             fixture.detectChanges();
 
             performSearch('foo', fixture, true);
+            SkyAppTestUtility.fireDomEvent(
+              getInputElement(asyncLookupComponent),
+              'blur'
+            );
+            fixture.detectChanges();
 
             clickSearchButton(fixture, true);
 
@@ -4691,6 +4701,11 @@ describe('Lookup component', function () {
             fixture.detectChanges();
 
             performSearch('foo', fixture);
+            SkyAppTestUtility.fireDomEvent(
+              getInputElement(lookupComponent),
+              'blur'
+            );
+            fixture.detectChanges();
 
             clickSearchButton(fixture);
 
@@ -4838,6 +4853,11 @@ describe('Lookup component', function () {
             fixture.detectChanges();
 
             performSearch('foo', fixture, true);
+            SkyAppTestUtility.fireDomEvent(
+              getInputElement(asyncLookupComponent),
+              'blur'
+            );
+            fixture.detectChanges();
 
             clickSearchButton(fixture, true);
 
