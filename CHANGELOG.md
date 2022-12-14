@@ -1,5 +1,21 @@
 # Changelog
 
+## [7.1.0](https://github.com/blackbaud/skyux/compare/7.0.0...7.1.0) (2022-12-14)
+
+
+### Features
+
+* **components/indicators:** update key-info to use css custom properties ([#884](https://github.com/blackbaud/skyux/issues/884)) ([31c661f](https://github.com/blackbaud/skyux/commit/31c661ff742ba3c05fccceebf1e73ca67c436f65))
+* **components/packages:** update package group versions ([#877](https://github.com/blackbaud/skyux/issues/877)) ([f932ed0](https://github.com/blackbaud/skyux/commit/f932ed09f5e0002e256c5536ccc1752dedc9db94))
+
+
+### Bug Fixes
+
+* **components/core:** hide viewkeeper overflow ([#880](https://github.com/blackbaud/skyux/issues/880)) ([60882fc](https://github.com/blackbaud/skyux/commit/60882fc7181f425b18a8d41ddb682f5541bf0d27))
+* **components/flyout:** viewkeeper z-index adjustment ([#873](https://github.com/blackbaud/skyux/issues/873)) ([a8d7393](https://github.com/blackbaud/skyux/commit/a8d73934fa8490c8c205b52819386d022763b902))
+* **components/indicators:** satisfy color contrast rules in modern theme ([#748](https://github.com/blackbaud/skyux/issues/748)) ([0a43a91](https://github.com/blackbaud/skyux/commit/0a43a9155bbc3aa12e7f9ed36f429572dfc23f8a))
+* **components/modals:** viewkeeper z-index adjustment ([#876](https://github.com/blackbaud/skyux/issues/876)) ([4925dd9](https://github.com/blackbaud/skyux/commit/4925dd98666e244e461a0811a40261066d4da67d))
+
 ## [7.0.0](https://github.com/blackbaud/skyux/compare/7.0.0-beta.19...7.0.0) (2022-12-05)
 
 
