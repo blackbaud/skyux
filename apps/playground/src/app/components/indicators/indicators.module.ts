@@ -30,6 +30,11 @@ const routes: Routes = [
     path: 'wait',
     loadChildren: () => import('./wait/wait.module').then((m) => m.WaitModule),
   },
+  {
+    path: 'label',
+    loadChildren: () =>
+      import('./label/label.module').then((m) => m.LabelModule),
+  },
 ];
 
 @NgModule({

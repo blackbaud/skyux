@@ -109,6 +109,10 @@ sky-toast {
       border-left-width: 7px;
       margin-bottom: $sky-theme-modern-margin-stacked-xl;
       padding: $sky-theme-modern-padding-even-md;
+
+      &:not(.sky-toast-danger) .sky-icon-inverse {
+        --sky-icon-stack-top-icon-color-override: #{$sky-text-color-default};
+      }
     }
 
     .sky-toast-content {

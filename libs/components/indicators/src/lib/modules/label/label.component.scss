@@ -56,6 +56,10 @@
     &.sky-label-danger {
       padding: 4px 15px 4px 9px;
     }
+
+    &:not(.sky-label-danger) {
+      --sky-icon-stack-top-icon-color-override: #{$sky-text-color-default};
+    }
   }
 
   .sky-label-icon-theme-default {

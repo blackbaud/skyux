@@ -31,6 +31,12 @@
 }
 
 @include mixins.sky-theme-modern {
+  .sky-status-indicator-icon {
+    &:not(.sky-status-indicator-icon-danger) {
+      --sky-icon-stack-top-icon-color-override: #{$sky-text-color-default};
+    }
+  }
+
   .sky-status-indicator-icon-default {
     display: none;
   }

@@ -71,6 +71,10 @@
     }
   }
 
+  &:not(.sky-alert-danger) {
+    --sky-icon-stack-top-icon-color-override: #{$sky-text-color-default};
+  }
+
   &.sky-alert-info {
     background-color: var(--sky-alert-info-background-color);
     border-color: var(--sky-highlight-color-info);
