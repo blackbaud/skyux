@@ -1,0 +1,10 @@
+:host {
+  display: block;
+}
+
+.dock {
+  border: 3px solid var(--sky-border-color-neutral-medium);
+  padding: 20px;
+  background-color: var(--sky-background-color-primary-dark);
+  color: var(--sky-text-color-on-dark);
+}
