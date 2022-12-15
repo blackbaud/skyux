@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { expect } from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import { SkyModalConfiguration } from '../modal/modal-configuration';
 import { SkyModalHostService } from '../modal/modal-host.service';
@@ -340,5 +340,229 @@ describe('Confirm component', () => {
     expect(bodyElem.innerHTML).toBe('additional text');
 
     buttons[0].click();
+  });
+
+  describe('accessibility', () => {
+    it('should be accessible when displaying an OK confirm', async () => {
+      const fixture = createConfirm({
+        message: 'confirm message',
+        type: SkyConfirmType.OK,
+      });
+
+      fixture.detectChanges();
+      const buttons = fixture.nativeElement.querySelectorAll(
+        '.sky-confirm-buttons .sky-btn'
+      );
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+      buttons[0].click();
+    });
+
+    it('should be accessible when displaying an OK confirm with body', async () => {
+      const fixture = createConfirm({
+        message: 'confirm message',
+        body: 'additional text',
+        type: SkyConfirmType.OK,
+      });
+
+      fixture.detectChanges();
+      const buttons = fixture.nativeElement.querySelectorAll(
+        '.sky-confirm-buttons .sky-btn'
+      );
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+      buttons[0].click();
+    });
+
+    it('should be accessible when displaying a YesCancel confirm', async () => {
+      const fixture = createConfirm({
+        message: 'confirm message',
+        type: SkyConfirmType.YesCancel,
+      });
+
+      fixture.detectChanges();
+      const buttons = fixture.nativeElement.querySelectorAll(
+        '.sky-confirm-buttons .sky-btn'
+      );
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+      buttons[0].click();
+    });
+
+    it('should be accessible when displaying a YesNoCancel confirm with body', async () => {
+      const fixture = createConfirm({
+        message: 'confirm message',
+        body: 'additional text',
+        type: SkyConfirmType.YesNoCancel,
+      });
+
+      fixture.detectChanges();
+      const buttons = fixture.nativeElement.querySelectorAll(
+        '.sky-confirm-buttons .sky-btn'
+      );
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+      buttons[0].click();
+    });
+
+    it('should be accessible when displaying a YesNoCancel confirm', async () => {
+      const fixture = createConfirm({
+        message: 'confirm message',
+        type: SkyConfirmType.YesNoCancel,
+      });
+
+      fixture.detectChanges();
+      const buttons = fixture.nativeElement.querySelectorAll(
+        '.sky-confirm-buttons .sky-btn'
+      );
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+      buttons[0].click();
+    });
+
+    it('should be accessible when displaying a YesNoCancel confirm with body', async () => {
+      const fixture = createConfirm({
+        message: 'confirm message',
+        body: 'additional text',
+        type: SkyConfirmType.YesNoCancel,
+      });
+
+      fixture.detectChanges();
+      const buttons = fixture.nativeElement.querySelectorAll(
+        '.sky-confirm-buttons .sky-btn'
+      );
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+      buttons[0].click();
+    });
+
+    it('should be accessible when displaying a custom confirm', async () => {
+      const fixture = createConfirm({
+        message: 'confirm message',
+        type: SkyConfirmType.Custom,
+        buttons: [
+          {
+            text: 'Custom label',
+            action: 'foo',
+          },
+        ],
+      });
+
+      fixture.detectChanges();
+      const buttons = fixture.nativeElement.querySelectorAll(
+        '.sky-confirm-buttons .sky-btn'
+      );
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+      buttons[0].click();
+    });
+
+    it('should be accessible when displaying a custom confirm with body', async () => {
+      const fixture = createConfirm({
+        message: 'confirm message',
+        body: 'additional text',
+        type: SkyConfirmType.Custom,
+        buttons: [
+          {
+            text: 'Custom label',
+            action: 'foo',
+          },
+        ],
+      });
+
+      fixture.detectChanges();
+      const buttons = fixture.nativeElement.querySelectorAll(
+        '.sky-confirm-buttons .sky-btn'
+      );
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+      buttons[0].click();
+    });
+
+    it('should be accessible when displaying a custom confirm with all button types', async () => {
+      const fixture = createConfirm({
+        message: 'confirm message',
+        body: 'additional text',
+        type: SkyConfirmType.Custom,
+        buttons: [
+          {
+            text: 'Custom label',
+            action: 'foo',
+          },
+          {
+            text: 'Custom label',
+            action: 'bar',
+            styleType: 'primary',
+          },
+          {
+            text: 'Custom label',
+            action: 'buz',
+            styleType: 'default',
+          },
+          {
+            text: 'Custom label',
+            action: 'baz',
+            styleType: 'link',
+          },
+        ],
+      });
+
+      fixture.detectChanges();
+      const buttons = fixture.nativeElement.querySelectorAll(
+        '.sky-confirm-buttons .sky-btn'
+      );
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+      buttons[0].click();
+    });
+
+    it('should be accessible when autofocus is specified on a button from the config', async () => {
+      const fixture = createConfirm({
+        message: 'confirm message',
+        type: SkyConfirmType.Custom,
+        buttons: [
+          {
+            text: 'foo',
+            action: 'foo',
+          },
+          {
+            text: 'bar',
+            action: 'bar',
+          },
+          {
+            text: 'baz',
+            action: 'baz',
+            autofocus: true,
+          },
+        ],
+      });
+
+      fixture.detectChanges();
+
+      const buttons = fixture.nativeElement.querySelectorAll(
+        '.sky-confirm-buttons .sky-btn'
+      );
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+      buttons[0].click();
+    });
+
+    it('should be accessible when preserving white space', async () => {
+      const fixture = createConfirm({
+        message: 'confirm message',
+        body: 'additional text',
+        preserveWhiteSpace: true,
+        type: SkyConfirmType.OK,
+      });
+
+      fixture.detectChanges();
+
+      const buttons = fixture.nativeElement.querySelectorAll(
+        '.sky-confirm-buttons .sky-btn'
+      );
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+
+      buttons[0].click();
+    });
   });
 });

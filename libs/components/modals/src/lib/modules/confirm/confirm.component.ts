@@ -1,4 +1,5 @@
 import { Component, Inject } from '@angular/core';
+import { SkyIdService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { Observable, ReplaySubject } from 'rxjs';
@@ -22,6 +23,7 @@ export class SkyConfirmComponent {
   public buttons: SkyConfirmButton[] | undefined;
   public message: string;
   public body: string | undefined;
+  public bodyId: string;
   public preserveWhiteSpace = false;
   public isOkType = false;
 
@@ -33,7 +35,8 @@ export class SkyConfirmComponent {
     @Inject(SKY_CONFIRM_CONFIG)
     config: SkyConfirmConfig,
     modal: SkyModalInstance,
-    resourcesService: SkyLibResourcesService
+    resourcesService: SkyLibResourcesService,
+    idService: SkyIdService
   ) {
     this.#config = config;
     this.#modal = modal;
@@ -55,6 +58,7 @@ export class SkyConfirmComponent {
 
     this.message = config.message;
     this.body = config.body;
+    this.bodyId = idService.generateId();
     this.preserveWhiteSpace = !!config.preserveWhiteSpace;
     this.isOkType = config.type === SkyConfirmType.OK;
   }

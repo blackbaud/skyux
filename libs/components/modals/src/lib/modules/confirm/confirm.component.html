@@ -1,5 +1,9 @@
 <div class="sky-confirm" [ngClass]="{ 'sky-confirm-type-ok': isOkType }">
-  <sky-modal ariaRole="alertdialog">
+  <sky-modal
+    ariaRole="alertdialog"
+    [ariaLabelledBy]="confirmMessage.id"
+    [ariaDescribedBy]="body ? bodyId : undefined"
+  >
     <sky-modal-content class="sky-confirm-content">
       <!--
         The following "magic comment" keeps Prettier from adding line breaks
@@ -17,6 +21,8 @@
           'sky-emphasized': 'default',
           'sky-font-heading-1 sky-font-display-3': 'modern'
         }"
+        skyId
+        #confirmMessage="skyId"
         >{{ message }}</div
       >
 
@@ -30,6 +36,7 @@
       <div
         *ngIf="body"
         class="sky-confirm-body"
+        [id]="bodyId"
         [ngClass]="{
           'sky-confirm-preserve-white-space': preserveWhiteSpace
         }"

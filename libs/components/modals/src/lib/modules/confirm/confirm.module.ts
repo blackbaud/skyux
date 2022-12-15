@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { SkyIdModule } from '@skyux/core';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyModalModule } from '../modal/modal.module';
@@ -11,6 +12,7 @@ import { SkyConfirmComponent } from './confirm.component';
   declarations: [SkyConfirmComponent],
   imports: [
     CommonModule,
+    SkyIdModule,
     SkyModalModule,
     SkyModalsResourcesModule,
     SkyThemeModule,
