@@ -744,6 +744,7 @@ describe('Lookup component', function () {
         expect(component.form.touched).toEqual(false);
 
         SkyAppTestUtility.fireDomEvent(inputElement, 'blur');
+        // Our blur listener has a delay of 25ms. This tick accounts for that.
         tick(25);
         fixture.detectChanges();
 
