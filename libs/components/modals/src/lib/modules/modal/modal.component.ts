@@ -58,13 +58,29 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
   @Input()
   public tiledBody: boolean | undefined;
 
-  public ariaDescribedBy: string;
+  /**
+   * @internal
+   */
+  @Input()
+  public set ariaDescribedBy(id: string | undefined) {
+    this.#_ariaDescribedBy = id || this.modalContentId;
+  }
+
+  public get ariaDescribedBy(): string {
+    return this.#_ariaDescribedBy;
+  }
 
   /**
    * @internal
    */
   @Input()
-  public ariaLabelledBy: string;
+  public set ariaLabelledBy(id: string | undefined) {
+    this.#_ariaLabelledBy = id || this.modalHeaderId;
+  }
+
+  public get ariaLabelledBy(): string {
+    return this.#_ariaLabelledBy;
+  }
 
   public helpKey: string | undefined;
 
@@ -93,6 +109,9 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
   #dockService: SkyDockService;
   #mediaQueryService: SkyResizeObserverMediaQueryService | undefined;
 
+  #_ariaDescribedBy = this.modalContentId;
+  #_ariaLabelledBy = this.modalHeaderId;
+
   constructor(
     hostService: SkyModalHostService,
     config: SkyModalConfiguration,
@@ -112,8 +131,8 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
     this.#dockService = dockService;
     this.#mediaQueryService = mediaQueryService;
 
-    this.ariaDescribedBy = config.ariaDescribedBy || this.modalContentId;
-    this.ariaLabelledBy = config.ariaLabelledBy || this.modalHeaderId;
+    this.ariaDescribedBy = config.ariaDescribedBy;
+    this.ariaLabelledBy = config.ariaLabelledBy;
     this.ariaRole = config.ariaRole;
     this.helpKey = config.helpKey;
     this.tiledBody = config.tiledBody;
