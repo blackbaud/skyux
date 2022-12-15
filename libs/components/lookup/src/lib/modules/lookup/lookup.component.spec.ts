@@ -744,7 +744,8 @@ describe('Lookup component', function () {
         expect(component.form.touched).toEqual(false);
 
         SkyAppTestUtility.fireDomEvent(inputElement, 'blur');
-        tick();
+        // Our blur listener has a delay of 25ms. This tick accounts for that.
+        tick(25);
         fixture.detectChanges();
 
         expect(component.form.touched).toEqual(true);
@@ -1713,6 +1714,11 @@ describe('Lookup component', function () {
             fixture.detectChanges();
 
             performSearch('foo', fixture);
+            SkyAppTestUtility.fireDomEvent(
+              getInputElement(lookupComponent),
+              'blur'
+            );
+            fixture.detectChanges();
 
             clickSearchButton(fixture);
 
@@ -1847,6 +1853,11 @@ describe('Lookup component', function () {
             fixture.detectChanges();
 
             performSearch('foo', fixture, true);
+            SkyAppTestUtility.fireDomEvent(
+              getInputElement(asyncLookupComponent),
+              'blur'
+            );
+            fixture.detectChanges();
 
             clickSearchButton(fixture, true);
 
@@ -3289,7 +3300,8 @@ describe('Lookup component', function () {
             );
 
             inputElement.focus();
-            tick();
+            // Our blur listener has a delay of 25ms. This tick accounts for that.
+            tick(25);
             fixture.detectChanges();
           }
 
@@ -4691,6 +4703,11 @@ describe('Lookup component', function () {
             fixture.detectChanges();
 
             performSearch('foo', fixture);
+            SkyAppTestUtility.fireDomEvent(
+              getInputElement(lookupComponent),
+              'blur'
+            );
+            fixture.detectChanges();
 
             clickSearchButton(fixture);
 
@@ -4838,6 +4855,11 @@ describe('Lookup component', function () {
             fixture.detectChanges();
 
             performSearch('foo', fixture, true);
+            SkyAppTestUtility.fireDomEvent(
+              getInputElement(asyncLookupComponent),
+              'blur'
+            );
+            fixture.detectChanges();
 
             clickSearchButton(fixture, true);
 
@@ -6248,6 +6270,18 @@ describe('Lookup component', function () {
         }));
 
         it('should focus the last token if arrowleft or backspace pressed', fakeAsync(function () {
+          function validateFocusedToken(key: string): void {
+            triggerKeyPress(inputElement, key, fixture);
+            expect(document.activeElement).toEqual(
+              tokenElements.item(tokenElements.length - 1)
+            );
+
+            inputElement.focus();
+            // Our blur listener has a delay of 25ms. This tick accounts for that.
+            tick(25);
+            fixture.detectChanges();
+          }
+
           component.selectedFriends = [{ name: 'Rachel' }];
           fixture.detectChanges();
           tick();
@@ -6256,23 +6290,9 @@ describe('Lookup component', function () {
           const tokenElements = getTokenElements();
           const inputElement = getInputElement(lookupComponent);
 
-          triggerKeyPress(inputElement, 'ArrowLeft', fixture);
-          expect(document.activeElement).toEqual(
-            tokenElements.item(tokenElements.length - 1)
-          );
-
-          inputElement.focus();
-          tick();
-          fixture.detectChanges();
-
-          triggerKeyPress(inputElement, 'Backspace', fixture);
-          expect(document.activeElement).toEqual(
-            tokenElements.item(tokenElements.length - 1)
-          );
-
-          inputElement.focus();
-          tick();
-          fixture.detectChanges();
+          validateFocusedToken('ArrowLeft');
+          validateFocusedToken('Backspace');
+          validateFocusedToken('Left');
 
           triggerKeyPress(inputElement, 'Space', fixture);
           expect(document.activeElement).toEqual(inputElement);

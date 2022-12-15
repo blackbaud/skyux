@@ -42,7 +42,8 @@ describe('Country Field Component', () => {
   function blurInput(fixture: ComponentFixture<any>): void {
     SkyAppTestUtility.fireDomEvent(getInputElement(), 'blur');
     fixture.detectChanges();
-    tick();
+    // Our blur listener has a delay of 25ms. This tick accounts for that.
+    tick(25);
   }
 
   function enterSearch(newValue: string, fixture: ComponentFixture<any>): void {
@@ -1045,7 +1046,8 @@ describe('Country Field Component', () => {
         expect(component.countryForm?.touched).toEqual(false);
 
         SkyAppTestUtility.fireDomEvent(textAreaElement, 'blur');
-        tick();
+        // Our blur listener has a delay of 25ms. This tick accounts for that.
+        tick(25);
         fixture.detectChanges();
 
         expect(component.countryForm?.touched).toEqual(true);
