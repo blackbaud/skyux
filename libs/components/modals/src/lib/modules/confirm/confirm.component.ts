@@ -58,7 +58,7 @@ export class SkyConfirmComponent {
 
     this.message = config.message;
     this.body = config.body;
-    // Using the service here instead of the directive due to the body element being conditional and thus a template variable being unavailable at an outer scope
+    // Using the service here instead of the directive due to the confirm component's "body" container being conditional and thus a template variable being unavailable at an outer scope
     this.bodyId = idService.generateId();
     this.preserveWhiteSpace = !!config.preserveWhiteSpace;
     this.isOkType = config.type === SkyConfirmType.OK;
