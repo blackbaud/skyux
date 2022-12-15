@@ -105,7 +105,9 @@ describe('Autocomplete component', () => {
     tick();
     SkyAppTestUtility.fireDomEvent(element, 'blur');
     fixture.detectChanges();
-    tick();
+    // Our blur listener has a delay of 25ms. This tick accounts for that.
+    tick(25);
+    fixture.detectChanges();
   }
 
   function searchAndSelect(
@@ -613,19 +615,18 @@ describe('Autocomplete component', () => {
       }
     }));
 
-    it('should handle missing skyAutocomplete directive on change', fakeAsync(() => {
+    it('should handle missing skyAutocomplete directive on change', async () => {
       fixture.detectChanges();
 
       component.hideInput = true;
 
       expect(() => {
-        tick();
         fixture.detectChanges();
       }).toThrowError(
         'The SkyAutocompleteComponent requires a ContentChild input or textarea bound with the SkyAutocomplete directive. ' +
           'For example: `<input type="text" skyAutocomplete>`.'
       );
-    }));
+    });
 
     it('should set the width of the dropdown when a search is performed', fakeAsync(() => {
       const adapterService = getAdapterService(fixture);

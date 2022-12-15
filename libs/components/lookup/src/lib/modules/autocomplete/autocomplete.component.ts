@@ -30,7 +30,14 @@ import {
   fromEvent as observableFromEvent,
   of,
 } from 'rxjs';
-import { debounceTime, map, switchMap, take, takeUntil } from 'rxjs/operators';
+import {
+  debounceTime,
+  delay,
+  map,
+  switchMap,
+  take,
+  takeUntil,
+} from 'rxjs/operators';
 
 import { normalizeDiacritics } from '../shared/sky-lookup-string-utils';
 
@@ -364,8 +371,9 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
           this.#searchTextChanged(change.value);
         });
 
+      // We delay this listener by 25ms to give things watching the value time to respond (such as the search button).
       this.#_inputDirective.blur
-        .pipe(takeUntil(this.#inputDirectiveUnsubscribe))
+        .pipe(delay(25), takeUntil(this.#inputDirectiveUnsubscribe))
         .subscribe(() => {
           directive.restoreInputTextValueToPreviousState();
           this.#closeDropdown();
