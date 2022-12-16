@@ -11,7 +11,7 @@ describe('core-storybook', () => {
       it('should render the component', () => {
         cy.get('sky-dock').should('exist').should('be.visible');
         cy.screenshot(`dockcomponent-dock--dock-${theme}`, {
-          capture: 'viewport',
+          capture: 'fullPage',
         }).percySnapshot(`dockcomponent-dock--dock-${theme}`, {
           widths: E2eVariations.DISPLAY_WIDTHS,
         });
