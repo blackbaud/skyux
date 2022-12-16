@@ -98,6 +98,13 @@ function flushTimers(): void {
   flush();
 }
 
+function blurInput(fixture: ComponentFixture<any>): void {
+  const inputElement = fixture.nativeElement.querySelectorAll('input').item(0);
+  SkyAppTestUtility.fireDomEvent(inputElement, 'blur');
+  fixture.detectChanges();
+  tick();
+}
+
 function setInput(text: string, fixture: ComponentFixture<any>): void {
   const inputElement = fixture.nativeElement.querySelectorAll('input').item(0);
   inputElement.value = text;
@@ -106,6 +113,8 @@ function setInput(text: string, fixture: ComponentFixture<any>): void {
   SkyAppTestUtility.fireDomEvent(inputElement, 'change');
   fixture.detectChanges();
   tick();
+
+  blurInput(fixture);
 }
 
 function verifyTimepicker(fixture: ComponentFixture<any>): void {
@@ -697,6 +706,22 @@ describe('Timepicker', () => {
 
       expect(getInput(fixture).value).toBe('2:55 AM');
       expect(component.timeControl?.value.local).toEqual('2:55 AM');
+      expect(component.timeControl?.dirty).toBeFalse();
+      expect(component.timeControl?.touched).toBeFalse();
+    }));
+
+    it('should set the control to touched on blur', fakeAsync(() => {
+      detectChangesAndTick(fixture);
+
+      expect(getInput(fixture).value).toBe('2:55 AM');
+      expect(component.timeControl?.value.local).toEqual('2:55 AM');
+      expect(component.timeControl?.dirty).toBeFalse();
+      expect(component.timeControl?.touched).toBeFalse();
+
+      blurInput(fixture);
+
+      expect(component.timeControl?.dirty).toBeFalse();
+      expect(component.timeControl?.touched).toBeTrue();
     }));
 
     it('should update input value when form control is set programatically', fakeAsync(() => {
@@ -716,6 +741,8 @@ describe('Timepicker', () => {
 
       expect(getInput(fixture).value).toBe('2:55 AM');
       expect(component.timeControl?.value.local).toEqual('2:55 AM');
+      expect(component.timeControl?.dirty).toBeTrue();
+      expect(component.timeControl?.touched).toBeTrue();
     }));
 
     it('should handle an undefined date', fakeAsync(() => {

@@ -11,15 +11,6 @@ module.exports = function (config) {
     coverageReporter: {
       ...baseConfig.coverageReporter,
       dir: join(__dirname, '../../../coverage/libs/components/datetime'),
-      // TODO: remove these threshold overrides to meet 100% coverage!
-      check: {
-        global: {
-          statements: 99,
-          branches: 99,
-          functions: 99,
-          lines: 99,
-        },
-      },
     },
   });
 };
