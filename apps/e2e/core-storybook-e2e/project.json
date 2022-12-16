@@ -1,0 +1,31 @@
+{
+  "name": "core-storybook-e2e",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/e2e/core-storybook-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/e2e/core-storybook-e2e/cypress.config.ts",
+        "devServerTarget": "core-storybook:storybook",
+        "testingType": "e2e",
+        "baseUrl": "http://localhost:4400"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "core-storybook:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/e2e/core-storybook-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["core-storybook"]
+}
