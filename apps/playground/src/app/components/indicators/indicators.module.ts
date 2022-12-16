@@ -20,6 +20,11 @@ const routes: Routes = [
       import('./key-info/key-info.module').then((m) => m.KeyInfoModule),
   },
   {
+    path: 'label',
+    loadChildren: () =>
+      import('./label/label-demo.module').then((m) => m.LabelDemoModule),
+  },
+  {
     path: 'status-indicator',
     loadChildren: () =>
       import('./status-indicator/status-indicator.module').then(
