@@ -816,13 +816,18 @@ describe('fuzzy datepicker input', () => {
         flush();
       }));
 
-      // TODO: should this expect something?
-      it('should handle calendar date on invalid date', fakeAsync(() => {
+      it('should open the calendar to the current date when an invalid date is input', fakeAsync(() => {
         detectChanges(fixture);
 
         setInputElementValue(fixture.nativeElement, 'abcdebf', fixture);
 
         clickDatepickerButton(fixture);
+
+        const today = new Date();
+        const todayDateString = moment().format('MMMM YYYY');
+
+        expect(getCalendarTitle()).toHaveText(todayDateString);
+        expect(getSelectedCalendarItem()).toHaveText(`${today.getDate()}`);
 
         flush();
       }));
@@ -1532,13 +1537,18 @@ describe('fuzzy datepicker input', () => {
         flush();
       }));
 
-      // TODO: Should this test expect something?
-      it('should handle calendar date on invalid date', fakeAsync(() => {
+      it('should open the calendar to the current date when an invalid date is input', fakeAsync(() => {
         detectChanges(fixture);
 
         setInputElementValue(fixture.nativeElement, 'abcdebf', fixture);
 
         clickDatepickerButton(fixture);
+
+        const today = new Date();
+        const todayDateString = moment().format('MMMM YYYY');
+
+        expect(getCalendarTitle()).toHaveText(todayDateString);
+        expect(getSelectedCalendarItem()).toHaveText(`${today.getDate()}`);
 
         flush();
       }));
