@@ -19,6 +19,8 @@
     "colorpicker-testing": "libs/components/colorpicker/testing",
     "config": "libs/components/config",
     "core": "libs/components/core",
+    "core-storybook": "apps/e2e/core-storybook",
+    "core-storybook-e2e": "apps/e2e/core-storybook-e2e",
     "core-testing": "libs/components/core/testing",
     "data-manager": "libs/components/data-manager",
     "datetime": "libs/components/datetime",
