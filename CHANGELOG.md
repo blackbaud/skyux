@@ -1,5 +1,13 @@
 # Changelog
 
+## [7.1.1](https://github.com/blackbaud/skyux/compare/7.1.0...7.1.1) (2022-12-16)
+
+
+### Bug Fixes
+
+* **components/lookup:** show more modal populates with current search text when triggered via the search button ([#885](https://github.com/blackbaud/skyux/issues/885)) ([da86ddf](https://github.com/blackbaud/skyux/commit/da86ddfb40702c27d9959a3e3a37c3cd1bab4d48))
+* **components/modals:** ensure confirmation modals include accessibility labels ([#888](https://github.com/blackbaud/skyux/issues/888)) ([2225c3a](https://github.com/blackbaud/skyux/commit/2225c3a65c5c3732803f83f67379d07f54ec3919))
+
 ## [7.1.0](https://github.com/blackbaud/skyux/compare/7.0.0...7.1.0) (2022-12-14)
 
 
