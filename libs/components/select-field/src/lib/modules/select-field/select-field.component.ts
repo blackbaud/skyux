@@ -331,6 +331,7 @@ export class SkySelectFieldComponent
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
+  /* istanbul ignore next */
   private _registeredTouchCallback = () => {};
 
   private setTokensFromValue() {
