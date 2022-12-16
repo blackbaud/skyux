@@ -1,0 +1,149 @@
+<h1>Box/Elevation</h1>
+<section class="box-elevation">
+  <div class="elevation-test sky-box sky-elevation-0-bordered">
+    Elevation 0 (bordered)
+  </div>
+  <div class="elevation-test sky-box sky-elevation-1">Elevation 1</div>
+  <div class="elevation-test sky-box sky-elevation-1-bordered">
+    Elevation 1 (bordered)
+  </div>
+  <div class="elevation-test sky-box sky-elevation-3">Elevation 3</div>
+  <div class="elevation-test sky-box sky-elevation-4">Elevation 4</div>
+  <div class="elevation-test sky-box sky-elevation-8">Elevation 8</div>
+  <div class="elevation-test sky-box sky-elevation-16">Elevation 16</div>
+  <div class="elevation-test sky-box sky-elevation-24">Elevation 24</div>
+</section>
+
+<h1>Conditional elements</h1>
+<section class="conditional-elements">
+  <ng-template [skyThemeIf]="'modern'">
+    <h2>Modern Theme Element</h2>
+  </ng-template>
+  <ng-template [skyThemeIf]="'default'">
+    <h2>Default Theme Element</h2>
+  </ng-template>
+  <p>
+    <i *skyThemeIf="'default'" class="fa fa-check"></i>
+    <i *skyThemeIf="'modern'" class="fa fa-clock-o"></i>
+    {{ ' ' }}
+    <app-on-push
+      *skyThemeIf="'default'"
+      displayText="On-push default theme conditional element"
+    ></app-on-push>
+    <app-on-push
+      *skyThemeIf="'modern'"
+      displayText="On-push modern theme conditional element"
+    ></app-on-push>
+  </p>
+</section>
+
+<h1>Headers</h1>
+<section class="headers">
+  <h1>Heading 1</h1>
+  <h2>Heading 2</h2>
+  <h3>Heading 3</h3>
+  <h4>Heading 4</h4>
+  <h5>Heading 5</h5>
+  <h2 class="sky-font-heading-1">Heading 1 (by CSS class)</h2>
+  <h2 class="sky-font-heading-2">Heading 2 (by CSS class)</h2>
+  <h2 class="sky-font-heading-3">Heading 3 (by CSS class)</h2>
+  <h2 class="sky-font-heading-4">Heading 4 (by CSS class)</h2>
+  <h2 class="sky-font-heading-5">Heading 5 (by CSS class)</h2>
+</section>
+
+<h1>Margin</h1>
+<section class="margin">
+  <span class="margin-test sky-margin-inline-xs"
+    >Margin inline extra-small</span
+  >
+  <span class="margin-test sky-margin-inline-sm">Margin inline small</span>
+  <span class="margin-test sky-margin-inline-md">Margin inline medium</span>
+  <span class="margin-test sky-margin-inline-lg">Margin inline large</span>
+  <span class="margin-test sky-margin-inline-xl"
+    >Margin inline extra-large</span
+  >
+  <span class="margin-test sky-margin-inline-xxl"
+    >Margin inline extra-extra-large</span
+  >
+
+  <div class="margin-test sky-margin-stacked-xs">
+    Margin stacked extra-small
+  </div>
+  <div class="margin-test sky-margin-stacked-sm">Margin stacked small</div>
+  <div class="margin-test sky-margin-stacked-md">Margin stacked medium</div>
+  <div class="margin-test sky-margin-stacked-lg">Margin stacked large</div>
+  <div class="margin-test sky-margin-stacked-xl">
+    Margin stacked extra-large
+  </div>
+  <div class="margin-test sky-margin-stacked-xxl">
+    Margin stacked extra-extra large
+  </div>
+
+  <div class="margin-test"></div>
+</section>
+
+<h1>Padding</h1>
+<section class="padding">
+  <div class="padding-test sky-padding-even-sm">Padding even small</div>
+  <div class="padding-test sky-padding-even-md">Padding even medium</div>
+  <div class="padding-test sky-padding-even-lg">Padding even large</div>
+  <div class="padding-test sky-padding-even-xl">Padding even extra-large</div>
+  <div class="padding-test sky-padding-vertical-md">
+    Padding vertical medium
+  </div>
+  <div class="padding-test sky-padding-vertical-lg">Padding vertical large</div>
+  <div class="padding-test sky-padding-horizontal-sm">
+    Padding horizontal small
+  </div>
+  <div class="padding-test sky-padding-horizontal-md">
+    Padding horizontal medium
+  </div>
+  <div class="padding-test sky-padding-horizontal-xl">
+    Padding horizontal extra-large
+  </div>
+</section>
+
+<h1>Paragraph</h1>
+<section class="paragraph">
+  <div class="sky-paragraph">
+    Paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
+    fermentum ante massa, nec hendrerit dui pulvinar vel. Interdum et malesuada
+    fames ac ante ipsum primis in faucibus. Vestibulum ac bibendum purus. Morbi
+    dapibus id purus et egestas. Nulla sollicitudin vestibulum consequat. Aenean
+    sagittis tortor tempus magna pellentesque tristique.
+  </div>
+</section>
+
+<h1>Text</h1>
+<section class="text">
+  <div class="sky-font-body-default">Body default</div>
+  <div class="sky-font-body-sm">Body small</div>
+  <div class="sky-font-body-lg">Body large</div>
+  <div class="sky-font-field-label">Field label</div>
+  <div class="sky-font-display-1">Display 1</div>
+  <div class="sky-font-display-2">Display 2</div>
+  <div class="sky-font-display-3">Display 3</div>
+  <div class="sky-font-display-4">Display 4</div>
+  <div class="sky-font-emphasized">Emphasized text</div>
+  <div class="sky-font-deemphasized">De-emphasized text</div>
+  <div class="sky-headline">Headline</div>
+  <div id="placeholder-test">
+    <input
+      type="text"
+      name="fname"
+      class="sky-form-control"
+      placeholder="Enter a name."
+    />
+  </div>
+</section>
+
+<h1>Unstyled list</h1>
+<section class="unstyled-list">
+  <div class="sky-font-body-default">Text above</div>
+  <ul class="sky-list-unstyled">
+    <li>Unstyled list item 1</li>
+    <li>Unstyled list item 2</li>
+    <li>Unstyled list item 3</li>
+  </ul>
+  <div class="sky-font-body-default">Text below</div>
+</section>
