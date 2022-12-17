@@ -13,12 +13,14 @@ export class SkySplitViewMediaQueryService {
     return this.#_current;
   }
 
-  #currentSubject = new BehaviorSubject<SkyMediaBreakpoints>(this.current);
+  #currentSubject: BehaviorSubject<SkyMediaBreakpoints>;
 
   #_current = SkyMediaBreakpoints.xs;
 
   constructor() {
-    this.#currentSubject.next(this.#_current);
+    this.#currentSubject = new BehaviorSubject<SkyMediaBreakpoints>(
+      this.#_current
+    );
   }
 
   public subscribe(listener: SkyMediaQueryListener): Subscription {

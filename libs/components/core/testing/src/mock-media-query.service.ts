@@ -18,18 +18,18 @@ export class MockSkyMediaQueryService extends SkyMediaQueryService {
   public static lg = '(min-width: 1200px)';
 
   public get current(): SkyMediaBreakpoints {
-    return this._currentBreakpoints;
+    return this.currentBreakpoints;
   }
 
   public set current(breakpoints: SkyMediaBreakpoints) {
-    this._currentBreakpoints = breakpoints;
+    this.currentBreakpoints = breakpoints;
   }
 
   public currentMockSubject = new BehaviorSubject<SkyMediaBreakpoints>(
     this.current
   );
 
-  private _currentBreakpoints = SkyMediaBreakpoints.md;
+  protected currentBreakpoints = SkyMediaBreakpoints.md;
 
   constructor() {
     super(
@@ -48,8 +48,8 @@ export class MockSkyMediaQueryService extends SkyMediaQueryService {
   }
 
   public fire(args: SkyMediaBreakpoints): void {
-    this._currentBreakpoints = args;
-    this.currentMockSubject.next(this._currentBreakpoints);
+    this.currentBreakpoints = args;
+    this.currentMockSubject.next(this.currentBreakpoints);
   }
 
   /* istanbul ignore next */
