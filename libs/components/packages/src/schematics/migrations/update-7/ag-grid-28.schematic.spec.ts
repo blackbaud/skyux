@@ -350,8 +350,10 @@ describe('ag-grid-28.schematic', () => {
 
         export class AppComponent {
           public options: GridOptions;
+          #agGridService: SkyAgGridService;
 
-          constructor(private agGridService: SkyAgGridService) {
+          constructor(agGridService: SkyAgGridService) {
+            this.#agGridService = agGridService;
             let customOptions: Partial<GridOptions> = {};
             customOptions.suppressCellSelection = true;
             this.options = this.agGridService.getGridOptions({

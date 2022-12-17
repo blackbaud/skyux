@@ -8,15 +8,14 @@ import { SkyAppTestUtility } from '@skyux-sdk/testing';
  * @internal
  */
 export class SkyTimepickerFixture {
-  private debugEl: DebugElement;
+  #debugEl: DebugElement;
+  #fixture: ComponentFixture<any>;
 
-  constructor(
-    private fixture: ComponentFixture<any>,
-    private skyTestId: string
-  ) {
-    this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
-      this.fixture,
-      this.skyTestId,
+  constructor(fixture: ComponentFixture<any>, skyTestId: string) {
+    this.#fixture = fixture;
+    this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
+      fixture,
+      skyTestId,
       'sky-timepicker'
     );
   }
@@ -25,45 +24,45 @@ export class SkyTimepickerFixture {
    * The timepicker's currently selected time.
    */
   public get value(): string {
-    return this.getTimepickerInputEl().nativeElement.value;
+    return this.#getTimepickerInputEl().nativeElement.value;
   }
 
   /**
    * Set the timepicker's selected time.
    */
   public set value(value: string) {
-    const timepickerInputEl = this.getTimepickerInputEl().nativeElement;
+    const timepickerInputEl = this.#getTimepickerInputEl().nativeElement;
     timepickerInputEl.value = value;
-    this.fixture.detectChanges();
+    this.#fixture.detectChanges();
 
     SkyAppTestUtility.fireDomEvent(timepickerInputEl, 'change');
-    this.fixture.detectChanges();
+    this.#fixture.detectChanges();
   }
 
   /**
    * Flag indicating if timepicker input is disabled.
    */
   public get isDisabled(): boolean {
-    return this.getTimepickerInputEl().nativeElement.disabled;
+    return this.#getTimepickerInputEl().nativeElement.disabled;
   }
 
   /**
    * Set the timepicker's disabled value
    */
   public set isDisabled(value: boolean) {
-    this.getTimepickerInputEl().nativeElement.disabled = value;
+    this.#getTimepickerInputEl().nativeElement.disabled = value;
   }
 
   /**
    * Flag indicating if timepicker input is valid.
    */
   public get isValid(): boolean {
-    return !this.getTimepickerInputEl().nativeElement.classList.contains(
+    return !this.#getTimepickerInputEl().nativeElement.classList.contains(
       'ng-invalid'
     );
   }
 
-  private getTimepickerInputEl(): DebugElement {
-    return this.debugEl.query(By.css('.sky-timepicker input'));
+  #getTimepickerInputEl(): DebugElement {
+    return this.#debugEl.query(By.css('.sky-timepicker input'));
   }
 }

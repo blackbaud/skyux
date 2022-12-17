@@ -10,7 +10,11 @@ import { SkyIconVariantType } from './types/icon-variant-type';
   name: 'skyIconClassList',
 })
 export class SkyIconClassListPipe implements PipeTransform {
-  constructor(private resolver: SkyIconResolverService) {}
+  #resolver: SkyIconResolverService;
+
+  constructor(resolver: SkyIconResolverService) {
+    this.#resolver = resolver;
+  }
 
   public transform(
     icon: string,
@@ -22,7 +26,7 @@ export class SkyIconClassListPipe implements PipeTransform {
     let classList: string[];
 
     if (iconType === 'skyux') {
-      const resolvedIcon = this.resolver.resolveIcon(icon, variant);
+      const resolvedIcon = this.#resolver.resolveIcon(icon, variant);
       classList = ['sky-i-' + resolvedIcon];
     } else {
       classList = ['fa', 'fa-' + icon];

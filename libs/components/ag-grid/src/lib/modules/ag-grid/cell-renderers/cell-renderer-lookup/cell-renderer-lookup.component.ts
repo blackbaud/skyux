@@ -23,12 +23,16 @@ export class SkyAgGridCellRendererLookupComponent
   protected value = '';
   protected summaryCount = 0;
 
-  constructor(private changeDetector: ChangeDetectorRef) {}
+  #changeDetector: ChangeDetectorRef;
+
+  constructor(changeDetector: ChangeDetectorRef) {
+    this.#changeDetector = changeDetector;
+  }
 
   public agInit(params: SkyCellRendererLookupParams): void {
     this.summaryCount = params.value?.length || 0;
     this.value = `${params.valueFormatted}`;
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   public refresh(params: SkyCellRendererLookupParams): boolean {

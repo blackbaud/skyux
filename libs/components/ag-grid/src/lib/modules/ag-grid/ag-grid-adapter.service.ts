@@ -5,7 +5,11 @@ import { SkyCoreAdapterService } from '@skyux/core';
   providedIn: 'root',
 })
 export class SkyAgGridAdapterService {
-  constructor(private skyAdapterService: SkyCoreAdapterService) {}
+  #skyAdapterService: SkyCoreAdapterService;
+
+  constructor(skyAdapterService: SkyCoreAdapterService) {
+    this.#skyAdapterService = skyAdapterService;
+  }
 
   public getElementOrParentWithClass(
     element: HTMLElement,
@@ -40,7 +44,7 @@ export class SkyAgGridAdapterService {
   ): HTMLElement | undefined {
     if (parentEl) {
       const focusableChildren =
-        this.skyAdapterService.getFocusableChildren(parentEl);
+        this.#skyAdapterService.getFocusableChildren(parentEl);
       const currentElementIndex = focusableChildren.indexOf(currentEl);
       const nextIndex = moveFocusLeft
         ? currentElementIndex - 1
@@ -59,7 +63,7 @@ export class SkyAgGridAdapterService {
 
   public focusOnFocusableChildren(element: HTMLElement): void {
     const focusableChildren =
-      this.skyAdapterService.getFocusableChildren(element);
+      this.#skyAdapterService.getFocusableChildren(element);
 
     if (focusableChildren.length) {
       focusableChildren[0].focus();

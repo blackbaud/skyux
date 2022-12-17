@@ -27,13 +27,17 @@ export class SkyModalLinkListComponent {
 
   #_links: SkyPageModalLinksInput | undefined;
 
-  constructor(private modalService: SkyModalService) {}
+  #modalService: SkyModalService;
+
+  constructor(modalService: SkyModalService) {
+    this.#modalService = modalService;
+  }
 
   public openModal(link: SkyPageModalLink): void {
     const modal = link.modal;
 
     if (modal) {
-      this.modalService.open(modal.component, modal.config);
+      this.#modalService.open(modal.component, modal.config);
     }
   }
 }

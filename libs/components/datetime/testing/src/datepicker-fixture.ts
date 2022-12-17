@@ -8,10 +8,10 @@ import { SkyAppTestUtility } from '@skyux-sdk/testing';
  * @internal
  */
 export class SkyDatepickerFixture {
-  private debugEl: DebugElement;
+  #debugEl: DebugElement;
 
   constructor(fixture: ComponentFixture<any>, skyTestId: string) {
-    this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
+    this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
       'sky-datepicker'
@@ -22,21 +22,21 @@ export class SkyDatepickerFixture {
    * The datepicker's currently selected date.
    */
   public get date(): string {
-    return this.getDatepickerInputEl().nativeElement.value;
+    return this.#getDatepickerInputEl().nativeElement.value;
   }
 
   /**
    * Flag indicating if datepicker input is disabled.
    */
   public get disabled(): boolean {
-    return this.getDatepickerInputEl().nativeElement.disabled;
+    return this.#getDatepickerInputEl().nativeElement.disabled;
   }
 
   /**
    * The datepicker's calendar element.
    */
   public get calendarEl(): any {
-    const button = this.debugEl.query(
+    const button = this.#debugEl.query(
       By.css('.sky-datepicker .sky-input-group-datepicker-btn')
     ).nativeElement;
 
@@ -52,7 +52,7 @@ export class SkyDatepickerFixture {
    * Click the calendar button to open or close calendar.
    */
   public clickDatepickerCalenderButtonEl(): void {
-    this.debugEl
+    this.#debugEl
       .query(By.css('.sky-datepicker .sky-input-group-datepicker-btn'))
       .nativeElement.click();
   }
@@ -69,7 +69,7 @@ export class SkyDatepickerFixture {
     dayEl.click();
   }
 
-  private getDatepickerInputEl(): DebugElement {
-    return this.debugEl.query(By.css('.sky-datepicker input'));
+  #getDatepickerInputEl(): DebugElement {
+    return this.#debugEl.query(By.css('.sky-datepicker input'));
   }
 }

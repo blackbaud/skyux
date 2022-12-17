@@ -49,7 +49,7 @@ export class SkyToastComponent implements OnInit, OnDestroy {
   public set toastType(value: SkyToastType | undefined) {
     this.toastTypeOrDefault =
       value === undefined ? SKY_TOAST_TYPE_DEFAULT : value;
-    this.updateForToastType();
+    this.#updateForToastType();
   }
 
   /**
@@ -74,20 +74,26 @@ export class SkyToastComponent implements OnInit, OnDestroy {
   #isOpen = false;
   #ngUnsubscribe = new Subject<void>();
 
+  #changeDetector: ChangeDetectorRef;
+  #toasterService: SkyToasterService | undefined;
+
   constructor(
-    private changeDetector: ChangeDetectorRef,
-    @Optional() private toasterService?: SkyToasterService
-  ) {}
+    changeDetector: ChangeDetectorRef,
+    @Optional() toasterService?: SkyToasterService
+  ) {
+    this.#changeDetector = changeDetector;
+    this.#toasterService = toasterService;
+  }
 
   public ngOnInit(): void {
     this.#isOpen = true;
 
     this.startAutoCloseTimer();
 
-    if (this.toasterService) {
+    if (this.#toasterService) {
       combineLatest([
-        this.toasterService.focusIn,
-        this.toasterService.mouseOver,
+        this.#toasterService.focusIn,
+        this.#toasterService.mouseOver,
       ])
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe(([hasFocus, hasMouseOver]) => {
@@ -99,7 +105,7 @@ export class SkyToastComponent implements OnInit, OnDestroy {
         });
     }
 
-    this.updateForToastType();
+    this.#updateForToastType();
   }
 
   public ngOnDestroy(): void {
@@ -120,15 +126,15 @@ export class SkyToastComponent implements OnInit, OnDestroy {
     this.stopAutoCloseTimer();
 
     this.#isOpen = false;
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   public startAutoCloseTimer(): void {
     if (
       this.autoClose &&
-      (!this.toasterService ||
-        (!this.toasterService.focusIn.getValue() &&
-          !this.toasterService.mouseOver.getValue()))
+      (!this.#toasterService ||
+        (!this.#toasterService.focusIn.getValue() &&
+          !this.#toasterService.mouseOver.getValue()))
     ) {
       this.stopAutoCloseTimer();
 
@@ -144,7 +150,7 @@ export class SkyToastComponent implements OnInit, OnDestroy {
     }
   }
 
-  private updateForToastType(): void {
+  #updateForToastType(): void {
     let icon: string;
     let baseIcon: string;
     let topIcon: string;

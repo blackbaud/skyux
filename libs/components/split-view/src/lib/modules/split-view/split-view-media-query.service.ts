@@ -10,21 +10,19 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 @Injectable()
 export class SkySplitViewMediaQueryService {
   public get current(): SkyMediaBreakpoints {
-    return this._current;
+    return this.#_current;
   }
 
-  private currentSubject = new BehaviorSubject<SkyMediaBreakpoints>(
-    this.current
-  );
+  #currentSubject = new BehaviorSubject<SkyMediaBreakpoints>(this.current);
 
-  private _current = SkyMediaBreakpoints.xs;
+  #_current = SkyMediaBreakpoints.xs;
 
   constructor() {
-    this.currentSubject.next(this._current);
+    this.#currentSubject.next(this.#_current);
   }
 
   public subscribe(listener: SkyMediaQueryListener): Subscription {
-    return this.currentSubject.subscribe({
+    return this.#currentSubject.subscribe({
       next: (breakpoints: SkyMediaBreakpoints) => {
         listener(breakpoints);
       },
@@ -44,8 +42,8 @@ export class SkySplitViewMediaQueryService {
       breakpoint = SkyMediaBreakpoints.lg;
     }
 
-    this._current = breakpoint;
-    this.currentSubject.next(this._current);
+    this.#_current = breakpoint;
+    this.#currentSubject.next(this.#_current);
   }
 
   public isWidthWithinBreakpoint(
@@ -80,6 +78,6 @@ export class SkySplitViewMediaQueryService {
   }
 
   public destroy(): void {
-    this.currentSubject.complete();
+    this.#currentSubject.complete();
   }
 }
