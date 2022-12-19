@@ -24,23 +24,19 @@ describe('theme-storybook', () => {
           .should('be.visible')
           .focus()
           .end()
-          .get('#textInputActive')
+          .get('#free-space')
           .should('exist')
           .should('be.visible')
-          .then(($el) => {
-            $el.attr('autofocus', 'autofocus');
-          })
+          .click()
+          .end()
+          .document()
+          .screenshot(`validationcomponent-validation--validation-${theme}`)
           .percySnapshot(
             `validationcomponent-validation--validation-${theme}`,
             {
               widths: E2eVariations.MOBILE_WIDTHS,
             }
-          )
-          .get('#textInputActive')
-          .click()
-          .end()
-          .document()
-          .screenshot(`validationcomponent-validation--validation-${theme}`);
+          );
       });
     });
   });
