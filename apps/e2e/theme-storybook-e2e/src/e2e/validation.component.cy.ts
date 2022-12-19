@@ -27,16 +27,20 @@ describe('theme-storybook', () => {
           .get('#textInputActive')
           .should('exist')
           .should('be.visible')
-          .click()
-          .end()
-          .document()
-          .screenshot(`validationcomponent-validation--validation-${theme}`)
+          .then(($el) => {
+            $el.attr('autofocus', 'autofocus');
+          })
           .percySnapshot(
             `validationcomponent-validation--validation-${theme}`,
             {
               widths: E2eVariations.MOBILE_WIDTHS,
             }
-          );
+          )
+          .get('#textInputActive')
+          .click()
+          .end()
+          .document()
+          .screenshot(`validationcomponent-validation--validation-${theme}`);
       });
     });
   });
