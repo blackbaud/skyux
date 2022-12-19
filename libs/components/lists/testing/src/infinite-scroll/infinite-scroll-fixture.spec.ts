@@ -25,11 +25,11 @@ const DATA_SKY_ID = 'test-infinite-scroll';
 })
 class InfiniteScrollTestComponent {
   public items: string[] = [];
-  private i: number = 1;
+  #i = 1;
   public loadMore() {
     return new Promise(() => {
       for (let j = 1; j <= 10; j++) {
-        this.items.push(`Item ${this.i++}`);
+        this.items.push(`Item ${this.#i++}`);
       }
     });
   }

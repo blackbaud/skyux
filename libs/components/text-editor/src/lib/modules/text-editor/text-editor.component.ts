@@ -348,14 +348,14 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public registerOnChange(fn: (value: any) => void): void {
-    this._onChange = fn;
+    this.#_onChange = fn;
   }
 
   /**
    * Implemented as part of ControlValueAccessor.
    */
   public registerOnTouched(fn: () => void): void {
-    this._onTouched = fn;
+    this.#_onTouched = fn;
   }
 
   /**
@@ -413,7 +413,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
         // Angular doesn't run change detection for changes originating inside an iframe,
         // so we have to run markForCheck() inside the NgZone to force change propigation to consuming components.
         this.#zone.run(() => {
-          this._onTouched();
+          this.#_onTouched();
         });
       });
 
@@ -439,17 +439,17 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
     this.value = this.#adapterService.getEditorInnerHtml();
     /* istanbul ignore else */
     if (emitChange) {
-      this._onChange(this.#_value);
+      this.#_onChange(this.#_value);
     }
   }
 
   /* istanbul ignore next */
-  private _onTouched = (): void => {
+  #_onTouched = (): void => {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
   };
 
   /* istanbul ignore next */
-  private _onChange: (
+  #_onChange: (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     value: any
   ) => void = () => {

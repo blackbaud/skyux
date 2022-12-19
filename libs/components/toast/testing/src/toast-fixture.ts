@@ -12,14 +12,14 @@ export class SkyToastFixture {
    * The toast's current text.
    */
   public get text(): string | undefined {
-    return SkyAppTestUtility.getText(this.debugEl);
+    return SkyAppTestUtility.getText(this.#debugEl);
   }
 
   /**
    * The toast's current type.
    */
   public get toastType(): string {
-    const clsList = this.getToastEl().nativeElement.classList;
+    const clsList = this.#getToastEl().nativeElement.classList;
 
     if (clsList.contains('sky-toast-danger')) {
       return 'danger';
@@ -36,10 +36,10 @@ export class SkyToastFixture {
     return 'info';
   }
 
-  private debugEl: DebugElement;
+  #debugEl: DebugElement;
 
   constructor(fixture: ComponentFixture<any>, skyTestId: string) {
-    this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
+    this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
       'sky-toast'
@@ -50,16 +50,16 @@ export class SkyToastFixture {
    * Clicks the toast's close button.
    */
   public clickCloseButton(): void {
-    const closeBtnEl = this.getCloseBtnEl();
+    const closeBtnEl = this.#getCloseBtnEl();
 
     closeBtnEl.triggerEventHandler('click', {});
   }
 
-  private getToastEl(): DebugElement {
-    return this.debugEl.query(By.css('.sky-toast'));
+  #getToastEl(): DebugElement {
+    return this.#debugEl.query(By.css('.sky-toast'));
   }
 
-  private getCloseBtnEl(): DebugElement {
-    return this.debugEl.query(By.css('.sky-toast-btn-close'));
+  #getCloseBtnEl(): DebugElement {
+    return this.#debugEl.query(By.css('.sky-toast-btn-close'));
   }
 }

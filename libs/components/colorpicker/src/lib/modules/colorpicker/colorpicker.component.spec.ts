@@ -8,6 +8,7 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyAffixer, SkyOverlayService } from '@skyux/core';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -1205,8 +1206,8 @@ describe('Colorpicker Component', () => {
       tick();
 
       const overlaySpy = spyOn(
-        component.colorpickerComponent as any,
-        'createOverlay'
+        TestBed.inject(SkyOverlayService),
+        'create'
       ).and.callThrough();
 
       component.sendMessage(SkyColorpickerMessageType.Open);
@@ -1235,8 +1236,8 @@ describe('Colorpicker Component', () => {
       verifyMenuVisibility();
 
       const overlaySpy = spyOn(
-        component.colorpickerComponent as any,
-        'destroyOverlay'
+        SkyAffixer.prototype,
+        'destroy'
       ).and.callThrough();
 
       component.sendMessage(SkyColorpickerMessageType.Close);

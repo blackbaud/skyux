@@ -35,21 +35,27 @@ export class DataViewCardFixtureComponent implements OnInit {
     showSortButtonText: true,
   };
 
+  #changeDetector: ChangeDetectorRef;
+  #dataManagerService: SkyDataManagerService;
+
   constructor(
-    private changeDetector: ChangeDetectorRef,
-    private dataManagerService: SkyDataManagerService
-  ) {}
+    changeDetector: ChangeDetectorRef,
+    dataManagerService: SkyDataManagerService
+  ) {
+    this.#changeDetector = changeDetector;
+    this.#dataManagerService = dataManagerService;
+  }
 
   public ngOnInit(): void {
     this.displayedItems = this.items;
 
-    this.dataManagerService.initDataView(this.viewConfig);
+    this.#dataManagerService.initDataView(this.viewConfig);
 
-    this.dataManagerService
+    this.#dataManagerService
       .getDataStateUpdates(this.viewId)
       .subscribe((state) => {
         this.dataState = state;
-        this.changeDetector.detectChanges();
+        this.#changeDetector.detectChanges();
       });
   }
 }

@@ -31,7 +31,7 @@ export class SkyDockComponent {
     read: ViewContainerRef,
     static: true,
   })
-  private target: ViewContainerRef | undefined;
+  public target: ViewContainerRef | undefined;
 
   #changeDetector: ChangeDetectorRef;
 

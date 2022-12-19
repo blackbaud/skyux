@@ -11,11 +11,13 @@ import { SkyListsFilterFixtureButton } from './lists-filter-fixture-button';
  * @internal
  */
 export class SkyFilterFixtureButton {
-  private debugElement: DebugElement;
+  #debugElement: DebugElement;
+  #fixture: ComponentFixture<any>;
 
-  constructor(private fixture: ComponentFixture<any>, skyTestId: string) {
-    this.debugElement = SkyAppTestUtility.getDebugElementByTestId(
-      this.fixture,
+  constructor(fixture: ComponentFixture<any>, skyTestId: string) {
+    this.#fixture = fixture;
+    this.#debugElement = SkyAppTestUtility.getDebugElementByTestId(
+      fixture,
       skyTestId,
       'sky-filter-button'
     );
@@ -29,8 +31,8 @@ export class SkyFilterFixtureButton {
     if (button instanceof HTMLButtonElement && !button.disabled) {
       button.click();
     }
-    this.fixture.detectChanges();
-    return this.fixture.whenStable();
+    this.#fixture.detectChanges();
+    return this.#fixture.whenStable();
   }
 
   public get button(): SkyListsFilterFixtureButton {
@@ -51,7 +53,7 @@ export class SkyFilterFixtureButton {
   }
 
   #getButtonElement(): HTMLButtonElement | null {
-    return this.debugElement.nativeElement.querySelector('.sky-filter-btn');
+    return this.#debugElement.nativeElement.querySelector('.sky-filter-btn');
   }
 
   #normalizeText(text: string | undefined): string {

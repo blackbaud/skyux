@@ -27,7 +27,11 @@ export class SkyAgGridCellRendererCurrencyValidatorComponent
 
   protected cellRendererParams: SkyCellRendererCurrencyParams | undefined;
 
-  constructor(private changeDetector: ChangeDetectorRef) {}
+  #changeDetector: ChangeDetectorRef;
+
+  constructor(changeDetector: ChangeDetectorRef) {
+    this.#changeDetector = changeDetector;
+  }
 
   /**
    * agInit is called by agGrid once after the renderer is created and provides the renderer with the information it needs.
@@ -35,7 +39,7 @@ export class SkyAgGridCellRendererCurrencyValidatorComponent
    */
   public agInit(params: SkyCellRendererCurrencyParams): void {
     this.cellRendererParams = params;
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -34,13 +34,13 @@ export class SkyDatePipe implements OnDestroy, PipeTransform {
 
   #ngUnsubscribe = new Subject<void>();
 
-  constructor(private localeProvider: SkyAppLocaleProvider) {
-    this.localeProvider
+  constructor(localeProvider: SkyAppLocaleProvider) {
+    localeProvider
       .getLocaleInfo()
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((localeInfo: SkyAppLocaleInfo) => {
         this.#defaultLocale = localeInfo.locale;
-        this.updateFormattedValue();
+        this.#updateFormattedValue();
       });
   }
 
@@ -62,12 +62,12 @@ export class SkyDatePipe implements OnDestroy, PipeTransform {
     this.#format = format;
     this.#locale = locale;
 
-    this.updateFormattedValue();
+    this.#updateFormattedValue();
 
     return this.#formattedValue ?? '';
   }
 
-  private updateFormattedValue(): void {
+  #updateFormattedValue(): void {
     const locale = this.#locale || this.#defaultLocale;
     const format = this.#format || this.#defaultFormat;
 

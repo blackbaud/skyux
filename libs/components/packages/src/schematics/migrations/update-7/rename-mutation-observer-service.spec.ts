@@ -42,12 +42,15 @@ import {
 import { MutationObserverService } from '@skyux/core';
 
 #mutationObserverSvc: MutationObserverService;
+#mutationObserverSvc2: MutationObserverService;
 
 constructor(
   mutationObserverSvc1: SkyMutationObserverService,
-  private mutationObserverSvc2: MutationObserverService,
+  mutationObserverSvc2: MutationObserverService,
   public mutationObserverSvc3: MutationObserverService
-) {}
+) {
+  this.#mutationObserverSvc2 = mutationObserverSvc2;
+}
 `
     );
 
@@ -66,12 +69,15 @@ import {
 import { SkyMutationObserverService } from '@skyux/core';
 
 #mutationObserverSvc: SkyMutationObserverService;
+#mutationObserverSvc2: SkyMutationObserverService;
 
 constructor(
   mutationObserverSvc1: SkyMutationObserverService,
-  private mutationObserverSvc2: SkyMutationObserverService,
+  mutationObserverSvc2: SkyMutationObserverService,
   public mutationObserverSvc3: SkyMutationObserverService
-) {}
+) {
+  this.#mutationObserverSvc2 = mutationObserverSvc2;
+}
 `);
   });
 });

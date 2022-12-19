@@ -57,8 +57,10 @@ export class SkySortFixture {
   }
 
   #debugEl: DebugElement;
+  #fixture: ComponentFixture<any>;
 
-  constructor(private fixture: ComponentFixture<any>, skyTestId: string) {
+  constructor(fixture: ComponentFixture<any>, skyTestId: string) {
+    this.#fixture = fixture;
     this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
@@ -79,11 +81,11 @@ export class SkySortFixture {
     if (menu !== undefined && !menu.disabled) {
       menu.click();
 
-      this.fixture.detectChanges();
-      await this.fixture.whenStable();
+      this.#fixture.detectChanges();
+      await this.#fixture.whenStable();
 
-      this.fixture.detectChanges();
-      return this.fixture.whenStable();
+      this.#fixture.detectChanges();
+      return this.#fixture.whenStable();
     }
   }
 
@@ -101,11 +103,11 @@ export class SkySortFixture {
     if (menu !== undefined && !menu.disabled) {
       menu.click();
 
-      this.fixture.detectChanges();
-      await this.fixture.whenStable();
+      this.#fixture.detectChanges();
+      await this.#fixture.whenStable();
 
-      this.fixture.detectChanges();
-      return this.fixture.whenStable();
+      this.#fixture.detectChanges();
+      return this.#fixture.whenStable();
     }
   }
 
@@ -181,8 +183,8 @@ export class SkySortFixture {
       const targetButton = targetItem.querySelector('button');
       targetButton?.click();
 
-      this.fixture.detectChanges();
-      return this.fixture.whenStable();
+      this.#fixture.detectChanges();
+      return this.#fixture.whenStable();
     }
   }
 

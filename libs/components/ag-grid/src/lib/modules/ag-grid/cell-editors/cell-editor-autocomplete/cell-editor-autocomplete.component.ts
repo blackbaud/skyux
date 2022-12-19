@@ -31,15 +31,15 @@ export class SkyAgGridCellEditorAutocompleteComponent
   });
   public rowNumber: number | undefined;
   public skyComponentProperties: SkyAgGridAutocompleteProperties = {};
-  private params: SkyCellEditorAutocompleteParams | undefined;
 
   #triggerType: SkyAgGridCellEditorInitialAction | undefined;
+  #params: SkyCellEditorAutocompleteParams | undefined;
 
   @ViewChild('skyCellEditorAutocomplete', { read: ElementRef })
   public input: ElementRef | undefined;
 
   public agInit(params: SkyCellEditorAutocompleteParams): void {
-    this.params = params;
+    this.#params = params;
     this.#triggerType = SkyAgGridCellEditorUtils.getEditorInitialAction(params);
     const control = this.editorForm.get('selection');
     if (control) {
@@ -56,16 +56,16 @@ export class SkyAgGridCellEditorAutocompleteComponent
       }
     }
 
-    this.columnHeader = this.params.colDef && this.params.colDef.headerName;
-    this.rowNumber = this.params.rowIndex + 1;
-    this.skyComponentProperties = this.params.skyComponentProperties || {};
+    this.columnHeader = this.#params.colDef && this.#params.colDef.headerName;
+    this.rowNumber = this.#params.rowIndex + 1;
+    this.skyComponentProperties = this.#params.skyComponentProperties || {};
   }
 
   public afterGuiAttached(): void {
     if (this.input) {
       this.input.nativeElement.focus();
       if (this.#triggerType === SkyAgGridCellEditorInitialAction.Replace) {
-        const charPress = this.params?.charPress as string;
+        const charPress = this.#params?.charPress as string;
 
         this.input.nativeElement.select();
         this.input.nativeElement.setRangeText(charPress);

@@ -17,13 +17,17 @@ export class FuzzyDatePipeTestComponent {
 
   public locale: string | undefined;
 
-  constructor(private fuzzyDatePipe: SkyFuzzyDatePipe) {}
+  #fuzzyDatePipe: SkyFuzzyDatePipe;
+
+  constructor(fuzzyDatePipe: SkyFuzzyDatePipe) {
+    this.#fuzzyDatePipe = fuzzyDatePipe;
+  }
 
   public getFuzzyDatePipeResult(
     value: SkyFuzzyDate,
     format: string,
     locale: string
   ): string {
-    return this.fuzzyDatePipe.transform(value, format, locale);
+    return this.#fuzzyDatePipe.transform(value, format, locale);
   }
 }

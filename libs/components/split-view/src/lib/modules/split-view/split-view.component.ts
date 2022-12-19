@@ -184,7 +184,7 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
     this.messageStream
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((message: SkySplitViewMessage) => {
-        this.handleIncomingMessages(message);
+        this.#handleIncomingMessages(message);
       });
   }
 
@@ -202,7 +202,7 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
     this.#animationComplete.next();
   }
 
-  private applyAutofocus(): void {
+  #applyAutofocus(): void {
     const applyAutoFocus = this.#coreAdapterService.applyAutoFocus(
       this.#elementRef
     );
@@ -215,7 +215,7 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
     }
   }
 
-  private handleIncomingMessages(message: SkySplitViewMessage): void {
+  #handleIncomingMessages(message: SkySplitViewMessage): void {
     switch (message.type) {
       case SkySplitViewMessageType.FocusWorkspace:
         // If mobile, wait until animation is complete then set focus on workspace panel.
@@ -223,10 +223,10 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
         if (!this.workspaceVisible) {
           this.drawerVisible = false;
           this.#animationComplete.pipe(take(1)).subscribe(() => {
-            this.applyAutofocus();
+            this.#applyAutofocus();
           });
         } else {
-          this.applyAutofocus();
+          this.#applyAutofocus();
         }
         this.#changeDetectorRef.markForCheck();
         break;

@@ -29,12 +29,16 @@ describe('SkyAppLinkExternal Directive', () => {
   let debugElement: DebugElement;
 
   class MockWindowService {
-    constructor(private name?: string) {}
+    #name: string | undefined;
+
+    constructor(name?: string) {
+      this.#name = name;
+    }
 
     public get nativeWindow(): any {
       return {
         window: {
-          name: this.name,
+          name: this.#name,
         },
       };
     }

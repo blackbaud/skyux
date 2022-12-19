@@ -33,7 +33,11 @@ export class ScrollableHostFixtureComponent implements OnDestroy {
 
   public ngUnsubscribe = new Subject<void>();
 
-  constructor(private scrollableHostService: SkyScrollableHostService) {}
+  #scrollableHostService: SkyScrollableHostService;
+
+  constructor(scrollableHostService: SkyScrollableHostService) {
+    this.#scrollableHostService = scrollableHostService;
+  }
 
   public ngOnDestroy(): void {
     this.ngUnsubscribe.next();
@@ -41,7 +45,7 @@ export class ScrollableHostFixtureComponent implements OnDestroy {
   }
 
   public getScrollableHost(alernative?: ElementRef): HTMLElement | Window {
-    return this.scrollableHostService.getScrollableHost(
+    return this.#scrollableHostService.getScrollableHost(
       alernative || this.target
     );
   }
@@ -53,7 +57,7 @@ export class ScrollableHostFixtureComponent implements OnDestroy {
   public watchScrollableHost(
     alternativeTarget?: ElementRef
   ): Observable<HTMLElement | Window> {
-    return this.scrollableHostService
+    return this.#scrollableHostService
       .watchScrollableHost(alternativeTarget || this.target)
       .pipe(takeUntil(this.ngUnsubscribe));
   }
@@ -61,7 +65,7 @@ export class ScrollableHostFixtureComponent implements OnDestroy {
   public watchScrollableHostScrollEvents(
     alternativeTarget?: ElementRef
   ): Observable<void> {
-    return this.scrollableHostService
+    return this.#scrollableHostService
       .watchScrollableHostScrollEvents(alternativeTarget || this.target)
       .pipe(takeUntil(this.ngUnsubscribe));
   }

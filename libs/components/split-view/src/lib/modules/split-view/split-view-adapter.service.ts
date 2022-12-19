@@ -40,13 +40,13 @@ export class SkySplitViewAdapterService {
     /*istanbul ignore else*/
     if (elementRef.nativeElement.offsetParent === document.body) {
       this.#observer = this.#observerSvc.create(() => {
-        this.setSplitViewBoundHeights(elementRef);
+        this.#setSplitViewBoundHeights(elementRef);
       });
 
       fromEvent(this.#windowRef.nativeWindow, 'resize')
         .pipe(takeUntil(unsubscribeSubject))
         .subscribe(() => {
-          this.setSplitViewBoundHeights(elementRef);
+          this.#setSplitViewBoundHeights(elementRef);
         });
 
       const config = {
@@ -59,7 +59,7 @@ export class SkySplitViewAdapterService {
       // This observer makes sure that the split view reacts if the body styling is change but thing
       // such as the action bar.
       this.#observer.observe(document.body, config);
-      this.setSplitViewBoundHeights(elementRef);
+      this.#setSplitViewBoundHeights(elementRef);
 
       unsubscribeSubject.pipe(take(1)).subscribe(() => {
         this.#observer?.disconnect();
@@ -71,7 +71,7 @@ export class SkySplitViewAdapterService {
     }
   }
 
-  private setSplitViewBoundHeights(elementRef: ElementRef): void {
+  #setSplitViewBoundHeights(elementRef: ElementRef): void {
     const splitViewElement =
       elementRef.nativeElement.querySelector('.sky-split-view');
     const offsetTop = splitViewElement.offsetTop;

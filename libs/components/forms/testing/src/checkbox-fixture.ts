@@ -9,10 +9,10 @@ import { SkyAppTestUtility } from '@skyux-sdk/testing';
  * @deprecated Use `SkyCheckboxHarness` instead.
  */
 export class SkyCheckboxFixture {
-  private debugEl: DebugElement;
+  #debugEl: DebugElement;
 
   constructor(fixture: ComponentFixture<any>, skyTestId: string) {
-    this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
+    this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
       'sky-checkbox'
@@ -23,7 +23,7 @@ export class SkyCheckboxFixture {
    * A flag indicating whether the checkbox is currently selected.
    */
   public get selected(): boolean {
-    return this.getCheckboxInputEl().nativeElement.checked;
+    return this.#getCheckboxInputEl().nativeElement.checked;
   }
 
   /**
@@ -31,7 +31,7 @@ export class SkyCheckboxFixture {
    */
   public get labelText(): string | undefined {
     return SkyAppTestUtility.getText(
-      this.debugEl.query(By.css('label.sky-checkbox-wrapper'))
+      this.#debugEl.query(By.css('label.sky-checkbox-wrapper'))
     );
   }
 
@@ -39,7 +39,7 @@ export class SkyCheckboxFixture {
    * The checkbox's icon type
    */
   public get iconType(): string | undefined {
-    const classList = this.debugEl.query(By.css('.fa.sky-icon'))?.nativeElement
+    const classList = this.#debugEl.query(By.css('.fa.sky-icon'))?.nativeElement
       .classList;
 
     for (let i = 0, n = classList?.length; i < n; i++) {
@@ -56,7 +56,7 @@ export class SkyCheckboxFixture {
    * The checkbox's type.
    */
   public get checkboxType(): string | undefined {
-    const classList = this.getCheckboxBoxEl().nativeElement.classList;
+    const classList = this.#getCheckboxBoxEl().nativeElement.classList;
 
     if (classList.contains('sky-switch-control-danger')) {
       return 'danger';
@@ -81,7 +81,7 @@ export class SkyCheckboxFixture {
    * A flag indicating whether the checkbox is currently disabled.
    */
   public get disabled(): boolean {
-    return this.getCheckboxInputEl().nativeElement.disabled;
+    return this.#getCheckboxInputEl().nativeElement.disabled;
   }
 
   /**
@@ -89,7 +89,7 @@ export class SkyCheckboxFixture {
    */
   public select(): void {
     if (!this.selected) {
-      this.clickCheckboxLabelEl();
+      this.#clickCheckboxLabelEl();
     }
   }
 
@@ -98,21 +98,21 @@ export class SkyCheckboxFixture {
    */
   public deselect(): void {
     if (this.selected) {
-      this.clickCheckboxLabelEl();
+      this.#clickCheckboxLabelEl();
     }
   }
 
-  private clickCheckboxLabelEl(): void {
-    this.debugEl
+  #clickCheckboxLabelEl(): void {
+    this.#debugEl
       .query(By.css('label.sky-checkbox-wrapper'))
       .nativeElement.click();
   }
 
-  private getCheckboxInputEl(): DebugElement {
-    return this.debugEl.query(By.css('.sky-checkbox-wrapper input'));
+  #getCheckboxInputEl(): DebugElement {
+    return this.#debugEl.query(By.css('.sky-checkbox-wrapper input'));
   }
 
-  private getCheckboxBoxEl(): DebugElement {
-    return this.debugEl.query(By.css('label.sky-checkbox-wrapper span'));
+  #getCheckboxBoxEl(): DebugElement {
+    return this.#debugEl.query(By.css('label.sky-checkbox-wrapper span'));
   }
 }
