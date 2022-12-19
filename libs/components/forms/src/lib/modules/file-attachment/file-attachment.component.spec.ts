@@ -637,7 +637,7 @@ describe('File attachment', () => {
     fileAttachmentInstance.writeValue(undefined);
     fixture.detectChanges();
 
-    expect(getFileNameText()).toBe('No file chosen');
+    expect(getFileNameText()).toBe('No file chosen.');
     expect(fileAttachmentInstance.fileName).toBe('');
 
     // File with no name and truncated url

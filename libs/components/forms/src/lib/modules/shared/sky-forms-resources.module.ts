@@ -20,7 +20,7 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     skyux_character_count_over_limit: {
       message: 'You are over the character limit.',
     },
-    skyux_file_attachment_button_label_choose_file: { message: 'Choose file' },
+    skyux_file_attachment_button_label_choose_file: { message: 'Attach file' },
     skyux_file_attachment_button_label_replace_file: {
       message: 'Replace file',
     },
@@ -58,7 +58,7 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
       message: 'Paste a link to a file',
     },
     skyux_file_attachment_file_upload_paste_link_done: { message: 'Done' },
-    skyux_file_attachment_label_no_file_chosen: { message: 'No file chosen' },
+    skyux_file_attachment_label_no_file_chosen: { message: 'No file chosen.' },
   },
 };
 
