@@ -83,10 +83,14 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
 
   public rowDeleteIds: string[] | undefined;
 
-  constructor(private gridService: SkyAgGridService) {}
+  #gridService: SkyAgGridService;
+
+  constructor(gridService: SkyAgGridService) {
+    this.#gridService = gridService;
+  }
 
   public ngOnInit(): void {
-    this.gridOptions = this.gridService.getEditableGridOptions({
+    this.gridOptions = this.#gridService.getEditableGridOptions({
       gridOptions: this.gridOptions,
     });
   }

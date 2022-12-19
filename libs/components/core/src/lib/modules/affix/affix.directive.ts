@@ -124,7 +124,7 @@ export class SkyAffixDirective implements OnInit, OnChanges, OnDestroy {
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((change) => this.affixPlacementChange.emit(change));
 
-    this.updateAlignment();
+    this.#updateAlignment();
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -138,7 +138,7 @@ export class SkyAffixDirective implements OnInit, OnChanges, OnDestroy {
       changes.affixPlacement ||
       changes.affixVerticalAlignment
     ) {
-      this.updateAlignment();
+      this.#updateAlignment();
     }
   }
 
@@ -156,7 +156,7 @@ export class SkyAffixDirective implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  private updateAlignment(): void {
+  #updateAlignment(): void {
     if (this.skyAffixTo && this.#affixer) {
       this.#affixer.affixTo(this.skyAffixTo, {
         autoFitContext: this.affixAutoFitContext,

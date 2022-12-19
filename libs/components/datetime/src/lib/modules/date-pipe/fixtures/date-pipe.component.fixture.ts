@@ -11,13 +11,17 @@ export class DatePipeTestComponent {
   public format: string | undefined;
   public locale: string | undefined;
 
-  constructor(private datePipe: SkyDatePipe) {}
+  #datePipe: SkyDatePipe;
+
+  constructor(datePipe: SkyDatePipe) {
+    this.#datePipe = datePipe;
+  }
 
   public getDatePipeResult(
     value: Date,
     format: string,
     locale: string
   ): string {
-    return this.datePipe.transform(value, format, locale);
+    return this.#datePipe.transform(value, format, locale);
   }
 }

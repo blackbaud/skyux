@@ -62,10 +62,16 @@ export class SkyActionHubRecentLinksResolvePipe
 
   #ngUnsubscribe = new Subject<void>();
 
+  #changeDetector: ChangeDetectorRef;
+  #recentlyAccessedSvc: SkyRecentlyAccessedService | undefined;
+
   constructor(
-    private changeDetector: ChangeDetectorRef,
-    @Optional() private recentlyAccessedSvc?: SkyRecentlyAccessedService
-  ) {}
+    changeDetector: ChangeDetectorRef,
+    @Optional() recentlyAccessedSvc?: SkyRecentlyAccessedService
+  ) {
+    this.#changeDetector = changeDetector;
+    this.#recentlyAccessedSvc = recentlyAccessedSvc;
+  }
 
   public transform(recentLinks: SkyRecentLinksInput): SkyRecentLinksResolved {
     if (recentLinks !== this.#currentRecentLinks) {
@@ -93,10 +99,10 @@ export class SkyActionHubRecentLinksResolvePipe
   }
 
   #resolveRequestedRoutes(args: SkyRecentlyAccessedGetLinksArgs): void {
-    if (this.recentlyAccessedSvc) {
+    if (this.#recentlyAccessedSvc) {
       this.#updateRecentLinksResolved('loading');
 
-      this.#recentlyAccessedSub = this.recentlyAccessedSvc
+      this.#recentlyAccessedSub = this.#recentlyAccessedSvc
         .getLinks(args)
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((result) => {
@@ -123,6 +129,6 @@ export class SkyActionHubRecentLinksResolvePipe
     this.#currentRecentLinksResolved =
       getRecentLinksSorted(recentLinksResolved);
 
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 }

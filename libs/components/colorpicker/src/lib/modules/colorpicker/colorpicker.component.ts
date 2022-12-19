@@ -389,7 +389,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     this.#ngUnsubscribe.complete();
     this.#removePickerEventListeners();
     this.#destroyAffixer();
-    this.destroyOverlay();
+    this.#destroyOverlay();
   }
 
   public onTriggerButtonClick(): void {
@@ -398,7 +398,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
 
   public closePicker(): void {
     this.#destroyAffixer();
-    this.destroyOverlay();
+    this.#destroyOverlay();
     this.#removePickerEventListeners();
     this.triggerButtonRef?.nativeElement.focus();
     this.isOpen = false;
@@ -486,8 +486,8 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   #openPicker(): void {
     this.isPickerVisible = false;
     this.#removePickerEventListeners();
-    this.destroyOverlay();
-    this.createOverlay();
+    this.#destroyOverlay();
+    this.#createOverlay();
     this.isOpen = true;
   }
 
@@ -558,7 +558,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     }
   }
 
-  private createOverlay(): void {
+  #createOverlay(): void {
     if (this.colorpickerTemplateRef) {
       const overlay = this.#overlaySvc.create({
         enableClose: false,
@@ -572,7 +572,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     }
   }
 
-  private destroyOverlay(): void {
+  #destroyOverlay(): void {
     /*istanbul ignore else*/
     if (this.#overlay) {
       this.#overlaySvc.close(this.#overlay);

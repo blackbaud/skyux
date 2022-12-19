@@ -19,10 +19,12 @@ export class SkyResizeObserverService implements OnDestroy {
   #resizeObserver: ResizeObserver;
 
   #tracking: ResizeObserverTracking[] = [];
+  #zone: NgZone;
 
-  constructor(private zone: NgZone) {
+  constructor(zone: NgZone) {
+    this.#zone = zone;
     this.#resizeObserver = new ResizeObserver((entries) => {
-      entries.forEach((entry) => this.callback(entry));
+      entries.forEach((entry) => this.#callback(entry));
     });
   }
 
@@ -34,10 +36,10 @@ export class SkyResizeObserverService implements OnDestroy {
    * Create rxjs observable to get size changes for an element ref.
    */
   public observe(element: ElementRef): Observable<ResizeObserverEntry> {
-    return this.observeAndTrack(element).subjectObservable;
+    return this.#observeAndTrack(element).subjectObservable;
   }
 
-  private observeAndTrack(element: ElementRef): ResizeObserverTracking {
+  #observeAndTrack(element: ElementRef): ResizeObserverTracking {
     const checkTracking = this.#tracking.findIndex((value) => {
       return !value.subject.closed && value.element === element.nativeElement;
     });
@@ -75,7 +77,7 @@ export class SkyResizeObserverService implements OnDestroy {
     return tracking;
   }
 
-  private callback(entry: ResizeObserverEntry): void {
+  #callback(entry: ResizeObserverEntry): void {
     this.#tracking
       .filter((value) => !(value.subject.closed || value.subject.isStopped))
       .forEach((value) => {
@@ -83,7 +85,7 @@ export class SkyResizeObserverService implements OnDestroy {
         if (value.element === entry.target) {
           // Execute the callback within NgZone because Angular does not "monkey patch"
           // ResizeObserver like it does for other features in the DOM.
-          this.zone.run(() => {
+          this.#zone.run(() => {
             value.subject.next(entry);
           });
         }

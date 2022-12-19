@@ -105,7 +105,7 @@ export class DataManagerFixtureComponent implements OnInit {
 
   public set dataState(value: SkyDataManagerState) {
     this.#dataState = value;
-    this.dataManagerService.updateDataState(value, this.dataManagerSourceId);
+    this.#dataManagerService.updateDataState(value, this.dataManagerSourceId);
   }
 
   #dataState: SkyDataManagerState = new SkyDataManagerState({
@@ -117,19 +117,22 @@ export class DataManagerFixtureComponent implements OnInit {
     },
   });
 
-  constructor(private dataManagerService: SkyDataManagerService) {
-    this.dataManagerService
+  #dataManagerService: SkyDataManagerService;
+
+  constructor(dataManagerService: SkyDataManagerService) {
+    this.#dataManagerService = dataManagerService;
+    dataManagerService
       .getDataStateUpdates(this.dataManagerSourceId)
       .subscribe((state) => {
         this.#dataState = state;
       });
-    this.dataManagerService
+    dataManagerService
       .getActiveViewIdUpdates()
       .subscribe((activeViewId) => (this.activeViewId = activeViewId));
   }
 
   public ngOnInit(): void {
-    this.dataManagerService.initDataManager({
+    this.#dataManagerService.initDataManager({
       activeViewId: this.activeViewId,
       dataManagerConfig: this.dataManagerConfig,
       defaultDataState: this.dataState,

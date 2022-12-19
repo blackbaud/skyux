@@ -99,8 +99,10 @@ exports[`ag-grid-28.schematic should update suppressCellSelection 1`] = `
 
         export class AppComponent {
           public options: GridOptions;
+          #agGridService: SkyAgGridService;
 
-          constructor(private agGridService: SkyAgGridService) {
+          constructor(agGridService: SkyAgGridService) {
+            this.#agGridService = agGridService;
             let customOptions: Partial<GridOptions> = {};
             customOptions.suppressCellFocus = true;
             this.options = this.agGridService.getGridOptions({

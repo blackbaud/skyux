@@ -8,16 +8,16 @@ import { BehaviorSubject, Observable } from 'rxjs';
 @Injectable()
 export class SkyDescriptionListService implements OnDestroy {
   public get defaultDescription(): Observable<string> {
-    return this._defaultDescription.asObservable();
+    return this.#_defaultDescription.asObservable();
   }
 
-  private _defaultDescription = new BehaviorSubject<string>('');
+  #_defaultDescription = new BehaviorSubject<string>('');
 
   public ngOnDestroy(): void {
-    this._defaultDescription.complete();
+    this.#_defaultDescription.complete();
   }
 
   public updateDefaultDescription(value: string): void {
-    this._defaultDescription.next(value);
+    this.#_defaultDescription.next(value);
   }
 }
