@@ -1,4 +1,20 @@
 <div class="sky-margin-stacked-default">
+  <label
+    for="textInputActive"
+    class="sky-control-label sky-control-label-required"
+  >
+    Text Input Active
+  </label>
+  <input
+    type="text"
+    id="textInputActive"
+    name="textInputActive"
+    [(ngModel)]="textInput"
+    class="sky-form-control"
+    required
+  />
+</div>
+<div class="sky-margin-stacked-default">
   <label for="textInput" class="sky-control-label sky-control-label-required">
     Text Input
   </label>
@@ -22,7 +38,7 @@
     type="text"
     id="textInputTouched"
     name="textInputTouched"
-    [(ngModel)]="textInputTouched"
+    [(ngModel)]="textInput"
     class="sky-form-control"
     required
   />
@@ -60,9 +76,4 @@
     <option value="1">Option 1</option>
     <option value="2">Option 2</option>
   </select>
-</div>
-<div class="sky-margin-stacked-separate">
-  <br />
-  <br />
-  <p id="text" class="sky-paragraph">Text</p>
 </div>

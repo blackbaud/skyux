@@ -6,11 +6,6 @@ import { AppComponent } from './app.component';
 
 const routes: Route[] = [
   {
-    path: 'validation',
-    loadChildren: () =>
-      import('./validation/validation.module').then((m) => m.ValidationModule),
-  },
-  {
     path: 'borders',
     loadChildren: () =>
       import('./borders/borders.module').then((m) => m.BordersModule),
@@ -38,9 +33,9 @@ const routes: Route[] = [
       import('./theming/theming.module').then((m) => m.ThemingModule),
   },
   {
-    path: 'inputs',
+    path: 'validation',
     loadChildren: () =>
-      import('./inputs/inputs.module').then((m) => m.InputsModule),
+      import('./validation/validation.module').then((m) => m.ValidationModule),
   },
 ];
 if (routes.length > 0 && routes.findIndex((r) => r.path === '') === -1) {

@@ -24,7 +24,7 @@ describe('theme-storybook', () => {
           .should('be.visible')
           .focus()
           .end()
-          .get('#text')
+          .get('#textInputActive')
           .should('exist')
           .should('be.visible')
           .click()
