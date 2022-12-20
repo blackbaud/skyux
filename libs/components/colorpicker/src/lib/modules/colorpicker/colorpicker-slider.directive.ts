@@ -31,7 +31,10 @@ export class SkyColorpickerSliderDirective {
   #listenerMove: (event: MouseEvent | TouchEvent) => void;
   #listenerStop: () => void;
 
-  constructor(private el: ElementRef) {
+  #el: ElementRef;
+
+  constructor(el: ElementRef) {
+    this.#el = el;
     this.#listenerMove = (event) => {
       this.move(event);
     };
@@ -51,8 +54,8 @@ export class SkyColorpickerSliderDirective {
   }
 
   #setCursor(event: MouseEvent | TouchEvent) {
-    const height = this.el.nativeElement.offsetHeight;
-    const width = this.el.nativeElement.offsetWidth;
+    const height = this.#el.nativeElement.offsetHeight;
+    const width = this.#el.nativeElement.offsetWidth;
     const xAxis = Math.max(0, Math.min(this.getX(event), width));
     const yAxis = Math.max(0, Math.min(this.getY(event), height));
     if (this.xAxis !== undefined && this.yAxis !== undefined) {
@@ -91,7 +94,7 @@ export class SkyColorpickerSliderDirective {
     /* istanbul ignore next */
     return (
       ('pageX' in event ? event.pageX : event.touches[0].pageX) -
-      this.el.nativeElement.getBoundingClientRect().left -
+      this.#el.nativeElement.getBoundingClientRect().left -
       window.pageXOffset
     );
   }
@@ -100,7 +103,7 @@ export class SkyColorpickerSliderDirective {
     /* istanbul ignore next */
     return (
       ('pageY' in event ? event.pageY : event.touches[0].pageY) -
-      this.el.nativeElement.getBoundingClientRect().top -
+      this.#el.nativeElement.getBoundingClientRect().top -
       window.pageYOffset
     );
   }

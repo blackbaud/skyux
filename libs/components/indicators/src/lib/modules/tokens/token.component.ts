@@ -81,7 +81,7 @@ export class SkyTokenComponent {
   public tokenFocus = new EventEmitter<void>();
 
   @ViewChild('actionButton', { read: ElementRef, static: true })
-  private actionButtonRef: ElementRef | undefined;
+  public actionButtonRef: ElementRef | undefined;
 
   public isFocused = false;
   public tokenActive = false;

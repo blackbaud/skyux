@@ -75,19 +75,19 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
     read: ElementRef,
     static: true,
   })
-  private overlayContentRef: ElementRef | undefined;
+  public overlayContentRef: ElementRef | undefined;
 
   @ViewChild('overlayRef', {
     read: ElementRef,
     static: true,
   })
-  private overlayRef: ElementRef | undefined;
+  public overlayRef: ElementRef | undefined;
 
   @ViewChild('target', {
     read: ViewContainerRef,
     static: true,
   })
-  private targetRef: ViewContainerRef | undefined;
+  public targetRef: ViewContainerRef | undefined;
 
   #backdropClick: Subject<void>;
 

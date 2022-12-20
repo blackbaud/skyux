@@ -180,15 +180,19 @@ export class SkyAgGridFixtureComponent implements OnInit {
     },
   };
 
+  #gridService: SkyAgGridService;
+
   constructor(
-    private gridService: SkyAgGridService,
+    gridService: SkyAgGridService,
     @Optional()
     @Inject(EnableTopScroll)
     public enableTopScroll: boolean | undefined
-  ) {}
+  ) {
+    this.#gridService = gridService;
+  }
 
   public ngOnInit(): void {
-    this.gridOptions = this.gridService.getEditableGridOptions({
+    this.gridOptions = this.#gridService.getEditableGridOptions({
       gridOptions: this.gridOptions,
     });
   }

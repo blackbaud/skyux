@@ -69,7 +69,7 @@ export class AffixFixtureComponent {
   public scrollTargetToLeft(offset: number = 0): void {
     const baseElement: HTMLDivElement = this.baseRef.nativeElement;
     const overflowParent: HTMLDivElement = this.overflowParentRef.nativeElement;
-    overflowParent.scrollTop = this.getParentCenterY();
+    overflowParent.scrollTop = this.#getParentCenterY();
     overflowParent.scrollLeft = baseElement.offsetLeft - offset;
   }
 
@@ -79,7 +79,7 @@ export class AffixFixtureComponent {
     const baseRect = baseElement.getBoundingClientRect();
     const overflowRect = overflowParent.getBoundingClientRect();
 
-    overflowParent.scrollTop = this.getParentCenterY();
+    overflowParent.scrollTop = this.#getParentCenterY();
     overflowParent.scrollLeft =
       baseElement.offsetLeft +
       baseRect.width -
@@ -93,7 +93,7 @@ export class AffixFixtureComponent {
     const top = baseRef.offsetTop;
     const overflowParent = this.overflowParentRef.nativeElement;
     overflowParent.scrollTop = top - offset;
-    overflowParent.scrollLeft = this.getParentCenterX();
+    overflowParent.scrollLeft = this.#getParentCenterX();
   }
 
   public scrollTargetToBottom(offset: number = 0): void {
@@ -105,7 +105,7 @@ export class AffixFixtureComponent {
       baseElement.clientHeight -
       overflowParent.getBoundingClientRect().height -
       offset;
-    overflowParent.scrollLeft = this.getParentCenterX();
+    overflowParent.scrollLeft = this.#getParentCenterX();
   }
 
   public scrollTargetIntoView(): void {
@@ -144,7 +144,7 @@ export class AffixFixtureComponent {
     parent.scrollLeft = 0;
   }
 
-  private getParentCenterX(): number {
+  #getParentCenterX(): number {
     const overflowParent: HTMLDivElement = this.overflowParentRef.nativeElement;
     const baseElement: HTMLDivElement = this.baseRef.nativeElement;
     return (
@@ -155,7 +155,7 @@ export class AffixFixtureComponent {
     );
   }
 
-  private getParentCenterY(): number {
+  #getParentCenterY(): number {
     const overflowParent: HTMLDivElement = this.overflowParentRef.nativeElement;
     const baseElement: HTMLDivElement = this.baseRef.nativeElement;
     return (

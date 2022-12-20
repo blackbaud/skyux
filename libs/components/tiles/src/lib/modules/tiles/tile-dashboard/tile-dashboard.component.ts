@@ -42,7 +42,7 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
     if (value && !this.#configSet) {
       this.#_config = value;
       this.#configSet = true;
-      this.checkReady();
+      this.#checkReady();
     }
   }
 
@@ -150,11 +150,11 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
     this.messageStream
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((message: SkyTileDashboardMessage) => {
-        this.handleIncomingMessages(message);
+        this.#handleIncomingMessages(message);
       });
 
     this.#viewReady = true;
-    this.checkReady();
+    this.#checkReady();
   }
 
   public ngOnDestroy(): void {
@@ -163,7 +163,7 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
     this.#dashboardService.destroy();
   }
 
-  private checkReady(): void {
+  #checkReady(): void {
     if (this.#viewReady && this.config && this.columns && this.singleColumn) {
       setTimeout(() => {
         if (this.config && this.columns && this.singleColumn) {
@@ -178,7 +178,7 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  private handleIncomingMessages(message: SkyTileDashboardMessage): void {
+  #handleIncomingMessages(message: SkyTileDashboardMessage): void {
     switch (message.type) {
       case SkyTileDashboardMessageType.ExpandAll:
         this.#dashboardService.setAllTilesCollapsed(false);

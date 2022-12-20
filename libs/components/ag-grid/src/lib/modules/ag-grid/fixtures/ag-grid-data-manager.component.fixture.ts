@@ -76,22 +76,28 @@ export class SkyAgGridDataManagerFixtureComponent implements OnInit {
     ],
   });
 
+  #dataManagerService: SkyDataManagerService;
+  #gridService: SkyAgGridService;
+
   constructor(
-    private dataManagerService: SkyDataManagerService,
-    private gridService: SkyAgGridService
-  ) {}
+    dataManagerService: SkyDataManagerService,
+    gridService: SkyAgGridService
+  ) {
+    this.#dataManagerService = dataManagerService;
+    this.#gridService = gridService;
+  }
 
   public ngOnInit(): void {
-    this.gridOptions = this.gridService.getEditableGridOptions({
+    this.gridOptions = this.#gridService.getEditableGridOptions({
       gridOptions: this.gridOptions,
     });
-    this.dataManagerService.initDataManager({
+    this.#dataManagerService.initDataManager({
       dataManagerConfig: this.dataConfig,
       defaultDataState: this.initialDataState,
       activeViewId: this.viewConfig.id,
       settingsKey: 'test',
     });
 
-    this.dataManagerService.initDataView(this.viewConfig);
+    this.#dataManagerService.initDataView(this.viewConfig);
   }
 }

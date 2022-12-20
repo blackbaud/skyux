@@ -29,7 +29,11 @@ export class SkyAgGridCellRendererValidatorTooltipComponent
   public cellRendererParams: SkyCellRendererValidatorParams | undefined;
   public value: unknown;
 
-  constructor(private changeDetector: ChangeDetectorRef) {}
+  #changeDetector: ChangeDetectorRef;
+
+  constructor(changeDetector: ChangeDetectorRef) {
+    this.#changeDetector = changeDetector;
+  }
 
   public agInit(params: SkyCellRendererValidatorParams): void {
     this.cellRendererParams = params;
@@ -38,7 +42,7 @@ export class SkyAgGridCellRendererValidatorTooltipComponent
     } else {
       this.value = params.value;
     }
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

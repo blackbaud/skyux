@@ -28,12 +28,12 @@ export class SkyProgressIndicatorResetButtonComponent implements OnDestroy {
    */
   @Input()
   public set disabled(value: boolean | undefined) {
-    this._disabled = value;
-    this.changeDetector.markForCheck();
+    this.#_disabled = value;
+    this.#changeDetector.markForCheck();
   }
 
   public get disabled(): boolean | undefined {
-    return this._disabled;
+    return this.#_disabled;
   }
 
   /**
@@ -50,9 +50,11 @@ export class SkyProgressIndicatorResetButtonComponent implements OnDestroy {
   @Output()
   public resetClick = new EventEmitter<void>();
 
-  private _disabled: boolean | undefined;
+  #_disabled: boolean | undefined;
+  #changeDetector: ChangeDetectorRef;
 
-  constructor(private changeDetector: ChangeDetectorRef) {
+  constructor(changeDetector: ChangeDetectorRef) {
+    this.#changeDetector = changeDetector;
     console.warn(
       '[Deprecation warning] The `<sky-progress-indicator-reset-button>` component is ' +
         'deprecated. Please use the `<sky-progress-indicator-nav-button>` component instead, with ' +

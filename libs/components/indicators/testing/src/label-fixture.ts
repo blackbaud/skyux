@@ -12,7 +12,7 @@ export class SkyLabelFixture {
    * The label's current type.
    */
   public get labelType(): string | undefined {
-    const clsList = this.getLabelEl().nativeElement.classList;
+    const clsList = this.#getLabelEl().nativeElement.classList;
 
     if (clsList.contains('sky-label-danger')) {
       return 'danger';
@@ -37,22 +37,22 @@ export class SkyLabelFixture {
    * The label's current text.
    */
   public get text(): string | undefined {
-    const labelEl = this.getLabelEl();
+    const labelEl = this.#getLabelEl();
 
     return SkyAppTestUtility.getText(labelEl);
   }
 
-  private debugEl: DebugElement;
+  #debugEl: DebugElement;
 
   constructor(fixture: ComponentFixture<any>, skyTestId: string) {
-    this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
+    this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
       'sky-label'
     );
   }
 
-  private getLabelEl(): DebugElement {
-    return this.debugEl.query(By.css('.sky-label'));
+  #getLabelEl(): DebugElement {
+    return this.#debugEl.query(By.css('.sky-label'));
   }
 }

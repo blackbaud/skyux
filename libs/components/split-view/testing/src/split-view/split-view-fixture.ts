@@ -44,7 +44,10 @@ export class SkySplitViewFixture {
     };
   }
 
-  constructor(private fixture: ComponentFixture<unknown>, skyTestId: string) {
+  #fixture: ComponentFixture<unknown>;
+
+  constructor(fixture: ComponentFixture<unknown>, skyTestId: string) {
+    this.#fixture = fixture;
     this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
@@ -63,8 +66,8 @@ export class SkySplitViewFixture {
     const backButton = this.#getBackToListButton();
     if (backButton !== undefined) {
       backButton.click();
-      this.fixture.detectChanges();
-      await this.fixture.whenStable();
+      this.#fixture.detectChanges();
+      await this.#fixture.whenStable();
     }
   }
 
@@ -100,11 +103,11 @@ export class SkySplitViewFixture {
   }
 
   async #waitForComponent(): Promise<void> {
-    this.fixture.detectChanges();
-    await this.fixture.whenStable();
+    this.#fixture.detectChanges();
+    await this.#fixture.whenStable();
 
-    this.fixture.detectChanges();
-    return this.fixture.whenStable();
+    this.#fixture.detectChanges();
+    return this.#fixture.whenStable();
   }
 
   // #endregion

@@ -19,6 +19,13 @@ export const componentRoutes: Routes = [
       import('./ag-grid/ag-grid.module').then((m) => m.AgGridModule),
   },
   {
+    path: 'angular-tree-component',
+    loadChildren: () =>
+      import('./angular-tree-component/angular-tree-component.module').then(
+        (m) => m.AngularTreeComponentModule
+      ),
+  },
+  {
     path: 'core',
     loadChildren: () => import('./core/core.module').then((m) => m.CoreModule),
   },
