@@ -1,65 +1,37 @@
-<div id="screenshot-responsive">
-  <div id="screen-queries">
-    <h3>Responsive based on screen size</h3>
-    <p>
-      Current screen breakpoint: <b>{{ currentScreenBreakpoint }}</b>
-    </p>
-    <app-responsive-content></app-responsive-content>
-  </div>
+<div class="resize-observer-examples">
+  <h3>Responsive behavior based on element size</h3>
   <div
-    id="container-queries"
-    [class]="'sky-responsive-container-' + currentContainerBreakpoint"
+    *ngFor="let containerBreakpoint of containerBreakpoints"
+    [class]="'example-container example-container-' + containerBreakpoint"
+    #exampleContainer
   >
-    <h3>Responsive based on container class</h3>
-    <p>
-      Current container breakpoint: <b>{{ currentContainerBreakpoint }}</b>
-    </p>
-    <app-responsive-content></app-responsive-content>
+    <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+      <rect width="50" height="50" />
+      <text
+        style="fill-opacity: 0.4; font-size: 32px; text-anchor: middle"
+        transform="matrix(0.866025, -0.5, 0.5, 0.866025, 2.190507, 14.238924)"
+        x="13.07"
+        y="29.535"
+      >
+        {{ containerBreakpoint }}
+      </text>
+    </svg>
+    <div>
+      <span
+        >Container max-size: <b>{{ ' ' + containerBreakpoint }}</b></span
+      >
+    </div>
   </div>
 </div>
-<div id="button-container">
-  <button
-    class="sky-btn sky-btn-primary"
-    id="xs-toggle"
-    type="button"
-    (click)="setClass('xs')"
-  >
-    Set xs container
-  </button>
-  <button
-    class="sky-btn sky-btn-primary"
-    id="sm-toggle"
-    type="button"
-    (click)="setClass('sm')"
-  >
-    Set sm container
-  </button>
-  <button
-    class="sky-btn sky-btn-primary"
-    id="md-toggle"
-    type="button"
-    (click)="setClass('md')"
-  >
-    Set md container
-  </button>
-  <button
-    class="sky-btn sky-btn-primary"
-    id="lg-toggle"
-    type="button"
-    (click)="setClass('lg')"
-  >
-    Set lg container
-  </button>
-</div>
-<br />
-<div id="containers" class="container-queries-examples">
-  <h3>Responsive based on container class</h3>
+
+<div class="container-queries-examples">
+  <h3>Responsive behavior based on container class</h3>
   <div
     *ngFor="let containerBreakpoint of containerBreakpoints"
     [class]="'sky-responsive-container-' + containerBreakpoint"
   >
     <p>
-      Container breakpoint: <b>{{ containerBreakpoint }}</b>
+      Container breakpoint: <b>{{ ' ' + containerBreakpoint }}</b>
     </p>
     <app-responsive-content></app-responsive-content>
   </div>
