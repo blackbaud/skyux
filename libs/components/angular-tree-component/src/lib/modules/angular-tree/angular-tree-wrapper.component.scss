@@ -69,14 +69,6 @@
     margin: 0 8px 0 0;
   }
 
-  // TODO: Remove me when checkboxes support indeterminate!
-  .sky-checkbox-indeterminate .fa-check:before {
-    content: '\f0c8';
-    position: relative;
-    top: -0.25px;
-    font-size: 14px;
-  }
-
   // Context Menus
   .sky-angular-tree-context-menu {
     margin: 0 $sky-margin 0 0;

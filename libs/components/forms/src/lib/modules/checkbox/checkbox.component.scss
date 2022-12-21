@@ -14,12 +14,14 @@
     display: inline;
   }
 
-  .sky-checkbox-icon-modern-checked {
+  .sky-checkbox-icon-modern-checked,
+  .sky-checkbox-icon-modern-indeterminate {
     color: $sky-theme-modern-background-color-primary-dark;
   }
 
   .sky-checkbox-input:disabled + .sky-switch-control {
-    .sky-checkbox-icon-modern-checked {
+    .sky-checkbox-icon-modern-checked,
+    .sky-checkbox-icon-modern-indeterminate {
       color: $sky-text-color-default;
     }
   }
