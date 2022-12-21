@@ -89,6 +89,8 @@
     "testing": "libs/sdk/testing",
     "text-editor": "libs/components/text-editor",
     "theme": "libs/components/theme",
+    "theme-storybook": "apps/e2e/theme-storybook",
+    "theme-storybook-e2e": "apps/e2e/theme-storybook-e2e",
     "tiles": "libs/components/tiles",
     "tiles-storybook": "apps/e2e/tiles-storybook",
     "tiles-storybook-e2e": "apps/e2e/tiles-storybook-e2e",
