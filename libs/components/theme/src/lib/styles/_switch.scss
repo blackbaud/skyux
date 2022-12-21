@@ -106,6 +106,12 @@ $sky-switch-size: 22px !default;
   min-width: 0;
 }
 
+.sky-control-label-required {
+  .sky-switch-label {
+    margin-right: 0;
+  }
+}
+
 .sky-switch-icon-group {
   display: flex;
 
