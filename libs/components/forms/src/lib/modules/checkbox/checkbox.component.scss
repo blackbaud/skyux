@@ -5,6 +5,10 @@
   display: none;
 }
 
+.sky-checkbox-icon-indeterminate {
+  font-size: 14px;
+}
+
 @include mixins.sky-theme-modern {
   .sky-checkbox-icon-default {
     display: none;

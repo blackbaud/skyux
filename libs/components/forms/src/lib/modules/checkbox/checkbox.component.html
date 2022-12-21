@@ -40,7 +40,7 @@
     </sky-icon>
     <sky-icon
       *ngIf="!icon && indeterminate"
-      class="sky-checkbox-icon-default"
+      class="sky-checkbox-icon-indeterminate sky-checkbox-icon-default"
       [fixedWidth]="true"
       [icon]="'square'"
     >
@@ -63,7 +63,7 @@
         </sky-icon>
         <sky-icon
           *ngIf="indeterminate"
-          class="sky-checkbox-icon-modern-indeterminate"
+          class="sky-checkbox-icon-indeterminate sky-checkbox-icon-modern-indeterminate"
           [fixedWidth]="true"
           icon="square"
         >
