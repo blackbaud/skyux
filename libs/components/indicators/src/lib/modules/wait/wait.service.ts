@@ -99,7 +99,7 @@ export class SkyWaitService {
    */
   public blockingWrap<T>(args: SkyWaitBlockingWrapArgs<T>): Observable<T>;
   /**
-   * @deprecated
+   * @deprecated Use the version which takes in `SkyWaitBlockingWrapArgs` instead
    */
   public blockingWrap<T>(observable: Observable<T>): Observable<T>;
   public blockingWrap<T>(
@@ -132,7 +132,7 @@ export class SkyWaitService {
    */
   public nonBlockingWrap<T>(args: SkyWaitNonBlockingWrapArgs<T>): Observable<T>;
   /**
-   * @deprecated
+   * @deprecated Use the version which takes in `SkyWaitNonBlockingWrapArgs` instead
    */
   public nonBlockingWrap<T>(observable: Observable<T>): Observable<T>;
   public nonBlockingWrap<T>(
