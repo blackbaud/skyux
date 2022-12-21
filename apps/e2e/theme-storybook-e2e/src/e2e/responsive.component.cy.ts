@@ -6,13 +6,13 @@ describe('theme-storybook', () => {
   E2eVariations.RESPONSIVE_WIDTHS.forEach((width) => {
     describe(`at ${width}px`, () => {
       beforeEach(() => {
-        cy.viewport(width, 1400);
+        cy.viewport(width, 960);
         cy.visit(
           `/iframe.html?globals=theme:${theme}&id=responsivecomponent-responsive--responsive`
         );
       });
       it('should render the component', () => {
-        cy.get('.resize-observer-examples')
+        cy.get('.media-queries-examples')
           .should('exist')
           .should('be.visible')
           .end()
@@ -21,11 +21,14 @@ describe('theme-storybook', () => {
           .should('be.visible')
           .end()
           .document()
-          .screenshot(`responsivecomponent-responsive--responsive-${theme}`)
+          .screenshot(
+            `responsivecomponent-responsive--responsive-${theme}-${width}px`
+          )
           .percySnapshot(
-            `responsivecomponent-responsive--responsive-${theme}`,
+            `responsivecomponent-responsive--responsive-${theme}-${width}px`,
             {
               widths: [width],
+              minHeight: 960,
             }
           );
       });

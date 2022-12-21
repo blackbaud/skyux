@@ -1,27 +1,6 @@
-<div class="resize-observer-examples">
-  <h3>Responsive behavior based on element size</h3>
-  <div
-    *ngFor="let containerBreakpoint of containerBreakpoints"
-    [class]="'example-container example-container-' + containerBreakpoint"
-    #exampleContainer
-  >
-    <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
-      <rect width="50" height="50" />
-      <text
-        style="fill-opacity: 0.4; font-size: 32px; text-anchor: middle"
-        transform="matrix(0.866025, -0.5, 0.5, 0.866025, 2.190507, 14.238924)"
-        x="13.07"
-        y="29.535"
-      >
-        {{ containerBreakpoint }}
-      </text>
-    </svg>
-    <div>
-      <span
-        >Container max-size: <b>{{ ' ' + containerBreakpoint }}</b></span
-      >
-    </div>
-  </div>
+<div class="media-queries-examples">
+  <h3>Responsive behavior based on media query</h3>
+  <app-responsive-content></app-responsive-content>
 </div>
 
 <div class="container-queries-examples">
@@ -31,7 +10,8 @@
     [class]="'sky-responsive-container-' + containerBreakpoint"
   >
     <p>
-      Container breakpoint: <b>{{ ' ' + containerBreakpoint }}</b>
+      Container breakpoint:
+      <code>sky-responsive-container-{{ containerBreakpoint }}</code>
     </p>
     <app-responsive-content></app-responsive-content>
   </div>

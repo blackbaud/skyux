@@ -7,7 +7,7 @@
 
 .box-1,
 .box-2 {
-  height: 200px;
+  height: 100px;
 }
 
 @include mixins.sky-host-responsive-container-xs-min() {

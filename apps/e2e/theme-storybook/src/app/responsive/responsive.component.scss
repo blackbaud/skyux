@@ -8,60 +8,19 @@
   margin: 10px;
 }
 
-.example-container {
-  display: flex;
-  flex-direction: row;
-  border: 3px black solid;
-  margin-bottom: 20px;
-
-  > svg {
-    width: 50px;
-    flex-shrink: 0;
-    flex-grow: 0;
-    background-color: currentColor;
-
-    rect {
-      fill: currentColor;
-    }
-  }
-
-  > div {
-    display: flex;
-    padding: 10px;
-    align-items: center;
-  }
-}
-
-.example-container-xs {
+.container-queries-examples > .sky-responsive-container-xs {
   max-width: vars.$sky-screen-xs-max;
-
-  > svg {
-    color: red;
-  }
 }
 
-.example-container-sm {
+.container-queries-examples > .sky-responsive-container-sm {
   max-width: vars.$sky-screen-sm-max;
-
-  > svg {
-    color: #00ff59;
-  }
 }
 
-.example-container-md {
+.container-queries-examples > .sky-responsive-container-md {
   max-width: vars.$sky-screen-md-max;
-
-  > svg {
-    color: #4b71ff;
-  }
 }
 
-.example-container-lg {
-  > svg {
-    color: #cb00ff;
-  }
-}
-
+.media-queries-examples,
 .container-queries-examples {
   margin: 10px;
 
@@ -72,11 +31,4 @@
   ::ng-deep .box-2 {
     background-color: rgb(65, 141, 2);
   }
-}
-
-#containers {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  height: 1100px;
 }
