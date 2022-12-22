@@ -1,12 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  SkyHref,
-  SkyHrefModule,
-  SkyHrefResolverArgs,
-  SkyHrefResolverService,
-} from '@skyux/router';
+import { SkyHrefModule, SkyHrefResolverService } from '@skyux/router';
 
 import { CustomSkyHrefResolverComponent } from './custom-resolver/custom-sky-href-resolver.component';
+import { MockResolverService } from './fixtures/mock-resolver-service';
 import { SkyHrefDemoComponent } from './sky-href-demo.component';
 
 describe('SkyHrefDemoComponent', () => {
@@ -20,10 +16,7 @@ describe('SkyHrefDemoComponent', () => {
       providers: [
         {
           provide: SkyHrefResolverService,
-          useValue: {
-            resolveHref: ({ url }: SkyHrefResolverArgs): Promise<SkyHref> =>
-              Promise.resolve({ url, userHasAccess: true }),
-          },
+          useClass: MockResolverService,
         },
       ],
     });
