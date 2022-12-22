@@ -1,14 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SkyIdModule } from '@skyux/core';
-import { SkyHrefModule } from '@skyux/router';
+import { SkyHrefModule, SkyHrefResolverService } from '@skyux/router';
 
-import { CustomSkyHrefResolverComponent } from './custom-resolver/custom-sky-href-resolver.component';
+import { CustomSkyHrefResolverService } from './custom-resolver/custom-sky-href-resolver.service';
 import { SkyHrefDemoComponent } from './sky-href-demo.component';
 
 @NgModule({
-  declarations: [SkyHrefDemoComponent, CustomSkyHrefResolverComponent],
-  imports: [CommonModule, SkyHrefModule, SkyIdModule],
+  declarations: [SkyHrefDemoComponent],
+  imports: [CommonModule, SkyHrefModule],
   exports: [SkyHrefDemoComponent],
+  providers: [
+    {
+      provide: SkyHrefResolverService,
+      useClass: CustomSkyHrefResolverService,
+    },
+  ],
 })
 export class SkyHrefDemoModule {}

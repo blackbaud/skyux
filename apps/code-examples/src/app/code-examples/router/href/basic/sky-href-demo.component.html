@@ -1,25 +1,26 @@
 <p>
   <span>Link where the user has access:</span>
-  <a skyHref="https://example.com" skyId>Example.com</a>
+  <a skyHref="https://example.com">Example.com</a>
 </p>
-
-<app-custom-sky-href-resolver>
-  <p>
-    <span>Link where the user has access, translated:</span>
-    <a skyHref="allow://example.com">Example.com with “allow” protocol</a>
-  </p>
-  <p>
-    <span>Link where the user does not have access, hidden by default:</span>
-    <a skyHref="deny://example.com">Example.com with “deny” protocol</a>
-  </p>
-  <p>
-    <span>Link where the user does not have access, shown as plain text:</span>
-    <a skyHref="deny://example.com" skyHrefElse="unlink"
-      >Example.com with “deny” protocol</a
-    >
-  </p>
-  <p>
-    <span>Link completely rewritten:</span>
-    <a skyHref="1bb-nav://spa-nav/route/in/spa?query=value">1bb-nav link</a>
-  </p>
-</app-custom-sky-href-resolver>
+<p>
+  <span>Link where the user has access, translated:</span>
+  <a id="allow" skyHref="allow://example.com"
+    >Example.com with “allow” protocol</a
+  >
+</p>
+<p>
+  <span>Link where the user does not have access, hidden by default:</span>
+  <a id="hidden" skyHref="deny://example.com"
+    >Example.com with “deny” protocol</a
+  >
+</p>
+<p>
+  <span>Link where the user does not have access, shown as plain text:</span>
+  <a id="unlinked" skyHref="deny://example.com" skyHrefElse="unlink"
+    >Example.com with “deny” protocol</a
+  >
+</p>
+<p>
+  <span>Link completely rewritten:</span>
+  <a skyHref="1bb-nav://spa-nav/route/in/spa?query=value">1bb-nav link</a>
+</p>
