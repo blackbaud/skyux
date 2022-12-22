@@ -460,7 +460,7 @@ describe('tree view', () => {
 
       // Expect the parent checkbox to be checked but also indeterminate.
       expect(parentCheckbox?.checked).toBe(true);
-      expect(skyCheckboxes[0]).toHaveCssClass('sky-checkbox-indeterminate');
+      expect(parentCheckbox?.indeterminate).toBe(true);
     });
 
     it('should select nodes when node content is clicked', () => {

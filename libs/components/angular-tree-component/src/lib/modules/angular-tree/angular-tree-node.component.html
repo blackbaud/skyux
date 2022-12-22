@@ -76,7 +76,7 @@
         [checked]="isSelected"
         [id]="node.data.id"
         [label]="node.data.name"
-        [ngClass]="{ 'sky-checkbox-indeterminate': isPartiallySelected }"
+        [indeterminate]="isPartiallySelected"
         (change)="node.mouseAction('checkboxClick', $event)"
       >
       </sky-checkbox>
