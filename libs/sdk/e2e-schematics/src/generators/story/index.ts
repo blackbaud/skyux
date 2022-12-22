@@ -137,7 +137,7 @@ export default async function (tree: Tree, options: ComponentGeneratorSchema) {
     })
     .filter((change) => !previouslyCreated.includes(change.path))
     .filter((change) =>
-      change.path.match(/\.component\.(ts|spec\.ts|html|s?css)$/)
+      change.path.match(/\.component\.(ts|cy\.ts|spec\.ts|html|s?css)$/)
     )
     .map((change) => change.path);
   const componentFilePath = componentFilePaths.find((filepath) =>

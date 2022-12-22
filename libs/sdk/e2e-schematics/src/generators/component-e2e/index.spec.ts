@@ -3,7 +3,11 @@ import {
   applicationGenerator,
   libraryGenerator,
 } from '@nrwl/angular/generators';
-import { ProjectConfiguration, readProjectConfiguration } from '@nrwl/devkit';
+import {
+  ProjectConfiguration,
+  readJson,
+  readProjectConfiguration,
+} from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Linter } from '@nrwl/linter';
 
@@ -152,5 +156,37 @@ describe('component-e2e', () => {
     await componentE2eGenerator(tree, { name: 'test-component' });
     const config = readProjectConfiguration(tree, 'test-component-storybook');
     expect(config.root).toEqual('apps/e2e/test-component-storybook');
+  });
+
+  it('should maintain storybook version', async () => {
+    const { tree } = setupTest();
+    const sbVersion = '6.5.13';
+    tree.write(
+      'package.json',
+      JSON.stringify({
+        devDependencies: {
+          '@storybook/addon-a11y': sbVersion,
+          '@storybook/addon-actions': sbVersion,
+          '@storybook/addon-controls': sbVersion,
+          '@storybook/addon-toolbars': sbVersion,
+          '@storybook/addon-viewport': sbVersion,
+          '@storybook/angular': sbVersion,
+          '@storybook/builder-webpack5': sbVersion,
+          '@storybook/core-server': sbVersion,
+          '@storybook/manager-webpack5': sbVersion,
+        },
+      })
+    );
+    await libraryGenerator(tree, {
+      name: 'storybook',
+      routing: false,
+      unitTestRunner: UnitTestRunner.None,
+      linter: Linter.None,
+    });
+    await componentE2eGenerator(tree, { name: 'test-component' });
+    const packageJson = readJson(tree, 'package.json');
+    expect(packageJson.devDependencies['@storybook/angular']).toEqual(
+      sbVersion
+    );
   });
 });
