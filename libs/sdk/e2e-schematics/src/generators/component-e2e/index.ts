@@ -1,8 +1,5 @@
 import { SchematicsAngularApplicationStyle } from '@angular/cli/lib/config/workspace-schema';
-import {
-  applicationGenerator,
-  storybookConfigurationGenerator,
-} from '@nrwl/angular/generators';
+import { applicationGenerator } from '@nrwl/angular/generators';
 import {
   ProjectConfiguration,
   Tree,
@@ -15,6 +12,7 @@ import {
   removeDependenciesFromPackageJson,
   updateProjectConfiguration,
 } from '@nrwl/devkit';
+import { addDependenciesToPackageJson } from '@nrwl/devkit/src/utils/package-json';
 import { Linter } from '@nrwl/linter';
 import { moveGenerator } from '@nrwl/workspace';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
@@ -162,6 +160,7 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       strict: options.strict,
       prefix: options.prefix,
       directory: BASE_PATH,
+      skipPackageJson: true,
       standaloneConfig: true,
     });
     simplifyWorkspaceName(tree, options.storybookAppName);
@@ -202,11 +201,9 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       'app/app.component.ts',
       'app/nx-welcome.component.ts',
     ].forEach((file) => tree.delete(`${projectConfig.sourceRoot}/${file}`));
-    [
-      'fixtures/example.json',
-      'integration/app.spec.ts',
-      'support/app.po.ts',
-    ].forEach((file) => tree.delete(`${e2eProjectConfig.sourceRoot}/${file}`));
+    ['e2e/app.cy.ts', 'fixtures/example.json', 'support/app.po.ts'].forEach(
+      (file) => tree.delete(`${e2eProjectConfig.sourceRoot}/${file}`)
+    );
     // Create an empty app.
     generateFiles(
       tree,
@@ -214,12 +211,11 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       `${projectConfig.sourceRoot}/app`,
       {}
     );
-    tree.write(`${e2eProjectConfig.sourceRoot}/integration/.gitkeep`, ``);
+    tree.write(`${e2eProjectConfig.sourceRoot}/e2e/.gitkeep`, ``);
   }
 
   /* istanbul ignore next */
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  let storybookGenerator = () => {};
   if (
     createProject ||
     !(
@@ -227,11 +223,11 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       tree.isFile(`${projectConfig.root}/.storybook/main.ts`)
     )
   ) {
-    storybookGenerator = await storybookConfigurationGenerator(tree, {
+    const { configurationGenerator } = await import('@nrwl/storybook');
+    await configurationGenerator(tree, {
       name: options.storybookAppName,
-      generateStories: false,
+      uiFramework: '@storybook/angular',
       configureCypress: true,
-      generateCypressSpecs: false,
       linter: Linter.EsLint,
     });
   } else if (!moveProject) {
@@ -246,19 +242,33 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
     await configurePercy(tree, { name: `${options.storybookAppName}-e2e` });
   }
 
-  // Do not add explicit dependencies for ts-node or webpack.
+  // @storybook/addon-essentials includes docs, which requires several other dependencies.
+  // We install only the dependencies we need, and the storybook version is different than the one
+  // that NX forces.
+  const packageJson = readJson(tree, 'package.json');
+  const storybookVersion =
+    packageJson.devDependencies['@storybook/addon-toolbars'];
+  if (storybookVersion) {
+    addDependenciesToPackageJson(
+      tree,
+      {},
+      {
+        '@storybook/angular': storybookVersion,
+        '@storybook/builder-webpack5': storybookVersion,
+        '@storybook/core-server': storybookVersion,
+        '@storybook/manager-webpack5': storybookVersion,
+      }
+    );
+  }
+  // Do not add explicit dependencies for @storybook/addon-essentials or webpack.
   const updateDependencies = removeDependenciesFromPackageJson(
     tree,
     [],
-    ['ts-node', 'webpack']
+    ['@storybook/addon-essentials', 'webpack']
   );
 
   /* istanbul ignore next */
-  return runTasksInSerial(
-    initTasks,
-    appGenerator,
-    storybookGenerator,
-    updateDependencies,
-    () => formatFiles(tree)
+  return runTasksInSerial(initTasks, appGenerator, updateDependencies, () =>
+    formatFiles(tree)
   );
 }
