@@ -13,7 +13,7 @@
     border-radius: 0;
 
     &:focus-visible:not(:active) {
-      box-shadow: 0 0 0 2px $sky-theme-modern-background-color-primary-dark,
+      box-shadow: 0 0 0 2px var(--sky-background-color-primary-dark),
         0 1px 8px 2px $sky-theme-modern-elevation-3-shadow-color;
     }
   }
@@ -34,7 +34,7 @@
 
   h3,
   .sky-font-heading-3 {
-    color: $sky-text-color-default;
+    color: var(--sky-text-color-default);
     font-size: $sky-theme-modern-font-heading-3-size;
     font-weight: $sky-theme-modern-font-heading-3-weight;
   }

@@ -4,6 +4,7 @@
   /* color */
   --sky-background-color-page-default: #{$sky-theme-modern-background-color-page-default};
   --sky-background-color-neutral-light: #{$sky-theme-modern-background-color-page-default};
+  --sky-background-color-neutral-medium: #{$sky-theme-modern-background-color-neutral-medium};
   --sky-background-color-primary-dark: #{$sky-theme-modern-background-color-primary-dark};
   --sky-background-color-disabled: #{$sky-theme-modern-background-color-disabled};
 
@@ -14,6 +15,7 @@
   --sky-highlight-color-warning: #{$sky-highlight-color-warning};
   --sky-highlight-color-danger: #{$sky-highlight-color-danger};
 
+  --sky-text-color-deemphasized: #{$sky-theme-modern-font-deemphasized-color};
   --sky-text-color-action-primary: #{$sky-theme-modern-text-color-action-primary};
   --sky-text-color-action-primary-hover: #{darken(
       $sky-theme-modern-text-color-action-primary,

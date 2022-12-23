@@ -9,7 +9,7 @@
 
   // Placeholder text
   ::placeholder {
-    color: $sky-theme-modern-font-deemphasized-color;
+    color: var(--sky-text-color-deemphasized);
     font-style: $sky-theme-modern-font-deemphasized-style;
     opacity: 1;
   }

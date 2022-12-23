@@ -103,17 +103,17 @@
 @mixin sky-field-status($status) {
   @if ($status == 'active') {
     box-shadow: 0 0 8px rgba(vars.$sky-highlight-color-info, 0.6);
-    border: 1px solid vars.$sky-highlight-color-info;
+    border: 1px solid var(--sky-highlight-color-info);
     outline: none;
   }
   @if ($status == 'invalid') {
     box-shadow: 0 0 8px rgba(vars.$sky-highlight-color-danger, 0.6);
-    border: 1px solid vars.$sky-highlight-color-danger;
+    border: 1px solid var(--sky-highlight-color-danger);
     outline: none;
   }
   @if ($status == 'success') {
     box-shadow: 0 0 8px rgba(vars.$sky-highlight-color-success, 0.6);
-    border: 1px solid vars.$sky-highlight-color-success;
+    border: 1px solid var(--sky-highlight-color-success);
     outline: none;
   }
 }
