@@ -3,7 +3,7 @@
 
 @mixin sky-deemphasized {
   font-family: compatVars.$sky-font-family;
-  color: vars.$sky-text-color-deemphasized;
+  color: var(--sky-text-color-deemphasized);
   font-weight: 400;
   font-size: compatVars.$sky-font-size-base;
   font-style: italic;
@@ -13,7 +13,7 @@
   background-color: transparent;
   border: none;
   border-radius: 4px 4px 0 0;
-  color: vars.$sky-text-color-deemphasized;
+  color: var(--sky-text-color-deemphasized);
   cursor: pointer;
   display: inline-block;
   font-weight: 600;
@@ -22,20 +22,20 @@
     compatVars.$sky-tab-btn-padding-left-right;
 
   &:hover:not(.sky-btn-tab-disabled) {
-    background-color: vars.$sky-background-color-neutral-light;
-    color: vars.$sky-text-color-default;
+    background-color: var(--sky-background-color-neutral-light);
+    color: var(--sky-text-color-default);
     text-decoration: none;
   }
 
   &.sky-btn-tab-disabled {
-    background-color: vars.$sky-background-color-disabled;
+    background-color: var(--sky-background-color-disabled);
     cursor: not-allowed;
     pointer-events: none;
     outline: none;
     text-decoration: none;
 
     &:hover {
-      color: vars.$sky-text-color-deemphasized;
+      color: var(--sky-text-color-deemphasized);
       cursor: default;
       text-decoration: none;
     }
@@ -43,12 +43,12 @@
 }
 
 @mixin sky-btn-tab-selected {
-  background-color: vars.$sky-background-color-primary-dark;
-  color: #fff;
+  background-color: var(--sky-background-color-primary-dark);
+  color: var(--sky-text-color-on-dark);
 
   &:hover:not(.sky-btn-tab-disabled) {
-    background-color: vars.$sky-background-color-primary-dark;
-    color: #fff;
+    background-color: var(--sky-background-color-primary-dark);
+    color: var(--sky-text-color-on-dark);
   }
 }
 
@@ -56,7 +56,7 @@
   content: '\f071';
   font-family: FontAwesome;
   margin-right: 5px;
-  color: vars.$sky-highlight-color-danger;
+  color: var(--sky-highlight-color-danger);
 }
 
 @mixin sky-dropdown-item() {
@@ -70,7 +70,7 @@
 
   &.sky-dropdown-item-active,
   &:hover {
-    background-color: vars.$sky-background-color-neutral-light;
+    background-color: var(--sky-background-color-neutral-light);
   }
 
   &.sky-dropdown-item-disabled {
@@ -83,7 +83,7 @@
   ::ng-deep > button {
     background-color: transparent;
     border: none;
-    color: vars.$sky-text-color-default;
+    color: var(--sky-text-color-default);
     cursor: pointer;
     display: block;
     padding: 3px compatVars.$sky-padding-double;
@@ -91,7 +91,7 @@
     width: 100%;
 
     &[disabled] {
-      color: vars.$sky-text-color-deemphasized;
+      color: var(--sky-text-color-deemphasized);
 
       &:hover {
         cursor: default;
@@ -138,7 +138,7 @@
 
 @mixin sky-required-field {
   content: '*';
-  color: vars.$sky-highlight-color-danger;
+  color: var(--sky-highlight-color-danger);
   padding-left: compatVars.$sky-padding-half;
 }
 
@@ -158,7 +158,7 @@
 
 @mixin sky-subsection-heading {
   font-family: compatVars.$sky-font-family;
-  color: vars.$sky-text-color-deemphasized;
+  color: var(--sky-text-color-deemphasized);
   font-weight: 300;
   font-size: 19px;
 }

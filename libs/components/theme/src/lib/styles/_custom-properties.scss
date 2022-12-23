@@ -33,6 +33,10 @@
   --sky-text-color-deemphasized: #{$sky-text-color-deemphasized};
   --sky-text-color-on-dark: #{$sky-text-color-on-dark};
   --sky-text-color-action-primary: #{$sky-text-color-action-primary};
+  --sky-text-color-action-primary-hover: #{darken(
+      $sky-text-color-action-primary,
+      10%
+    )};
 
   /* margin */
   --sky-margin-inline-xs: #{$sky-space-xs};
@@ -57,4 +61,7 @@
   --sky-viewport-top: 0;
   --sky-viewport-right: 0;
   --sky-viewport-bottom: 0;
+
+  /* border */
+  --sky-border-radius: #{$sky-border-radius};
 }

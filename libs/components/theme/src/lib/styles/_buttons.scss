@@ -15,8 +15,8 @@ button {
 .sky-btn {
   background-color: transparent;
   @include mixins.sky-border(dark, top, bottom, left, right);
-  border-radius: $sky-border-radius;
-  color: $sky-text-color-default;
+  border-radius: var(--sky-border-radius);
+  color: var(--sky-text-color-default);
   cursor: pointer;
   display: inline-block;
   white-space: nowrap;
@@ -26,7 +26,7 @@ button {
 
   &:hover {
     @include mixins.sky-border(light, top, bottom, left, right);
-    color: $sky-text-color-default;
+    color: var(--sky-text-color-default);
   }
 
   &.sky-btn-disabled,
@@ -144,7 +144,7 @@ a.sky-btn {
 .sky-btn-tab-wizard {
   background-color: $sky-color-white;
   @include mixins.sky-border(light, top, bottom, left, right);
-  border-radius: $sky-border-radius;
+  border-radius: var(--sky-border-radius);
   font-weight: 400;
   color: $sky-text-color-default;
   line-height: 1.6em;

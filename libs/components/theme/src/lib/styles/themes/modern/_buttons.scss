@@ -5,7 +5,6 @@
 .sky-theme-modern {
   .sky-btn {
     border: none;
-    border-radius: $sky-theme-modern-border-radius-md;
     font-size: $sky-theme-modern-font-body-default-size;
     transition: box-shadow $sky-transition-time-short;
   }
@@ -126,10 +125,6 @@
   }
 
   &.sky-theme-mode-dark {
-    .sky-btn {
-      color: $sky-theme-modern-mode-dark-font-body-default-color;
-    }
-
     .sky-btn-default {
       @include mixins.sky-button-variant(
         $sky-theme-modern-mode-dark-font-body-default-color,
