@@ -45,6 +45,9 @@ describe('configure-storybook', () => {
     await configureStorybook(tree, { name: 'test-app' });
     expect(tree.exists(`apps/test-app/.storybook/preview.js`)).toBeFalsy();
     expect(tree.exists(`apps/test-app/.storybook/preview.ts`)).toBeTruthy();
+    expect(tree.read(`apps/test-app/.storybook/preview.ts`, 'utf-8')).toContain(
+      `import { moduleMetadata } from '@storybook/angular';`
+    );
     const e2eConfig = readProjectConfiguration(tree, `test-app-e2e`);
     expect(e2eConfig.targets?.e2e.options.devServerTarget).toEqual(
       `test-app:storybook`
