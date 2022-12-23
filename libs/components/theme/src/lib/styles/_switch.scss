@@ -36,7 +36,7 @@ $sky-switch-size: 22px !default;
 
   &:checked + .sky-switch-control,
   &:indeterminate + .sky-switch-control {
-    background-color: var(--sky-background-color-info)-light;
+    background-color: var(--sky-background-color-info-light);
     border-color: var(--sky-highlight-color-info);
     border-width: 2px;
 

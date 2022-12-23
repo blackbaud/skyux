@@ -54,7 +54,7 @@ $sky-switch-size-modern: 26px !default;
     .sky-switch-input {
       &:checked + .sky-switch-control,
       &:indeterminate + .sky-switch-control {
-        background-color: var(--sky-background-color-info)-light;
+        background-color: var(--sky-background-color-info-light);
       }
 
       &:disabled + .sky-switch-control {
