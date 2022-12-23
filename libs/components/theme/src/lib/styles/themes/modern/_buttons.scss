@@ -5,6 +5,7 @@
 .sky-theme-modern {
   .sky-btn {
     border: none;
+    border-radius: var(--sky-border-radius);
     font-size: $sky-theme-modern-font-body-default-size;
     transition: box-shadow $sky-transition-time-short;
   }
