@@ -11,7 +11,7 @@ import { Component, Input } from '@angular/core';
 })
 export class SkyNavbarItemComponent {
   /**
-   * Indicates whether the navigation item is active.
+   * Whether the navigation item is active.
    * @default false
    */
   @Input()

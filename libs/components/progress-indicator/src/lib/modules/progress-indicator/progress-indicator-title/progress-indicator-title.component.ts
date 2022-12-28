@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
- * Specifies a header to display above the progress indicator.
+ * A header to display above the progress indicator.
  */
 @Component({
   selector: 'sky-progress-indicator-title',

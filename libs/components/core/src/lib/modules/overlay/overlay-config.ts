@@ -1,31 +1,31 @@
 export interface SkyOverlayConfig {
   /**
-   * Specifies if the overlay should be closed after a navigation change.
+   * If the overlay should be closed after a navigation change.
    */
   closeOnNavigation?: boolean;
 
   /**
-   * Specifies if the overlay should be closed when a user clicks outside the overlay's content.
+   * If the overlay should be closed when a user clicks outside the overlay's content.
    */
   enableClose?: boolean;
 
   /**
-   * Specifies if mouse interactions should be allowed below the backdrop.
+   * If mouse interactions should be allowed below the backdrop.
    */
   enablePointerEvents?: boolean;
 
   /**
-   * Specifies if window scrolling should be enabled when the overlay is opened.
+   * If window scrolling should be enabled when the overlay is opened.
    */
   enableScroll?: boolean;
 
   /**
-   * Specifies if the overlay's backdrop should be visible.
+   * If the overlay's backdrop should be visible.
    */
   showBackdrop?: boolean;
 
   /**
-   * Specifies extra CSS classes to be added to the overlay's wrapper element.
+   * Extra CSS classes to be added to the overlay's wrapper element.
    */
   wrapperClass?: string;
 }

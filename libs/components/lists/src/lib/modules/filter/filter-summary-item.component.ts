@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 
 /**
- * Specifies a filter that was applied.
+ * A filter that was applied.
  */
 @Component({
   selector: 'sky-filter-summary-item',
@@ -17,7 +17,7 @@ import {
 })
 export class SkyFilterSummaryItemComponent {
   /**
-   * Indicates whether the filter summary item has a close button.
+   * Whether the filter summary item has a close button.
    */
   @Input()
   public get dismissible(): boolean {

@@ -1,5 +1,5 @@
 /**
- * Indicates the types of calculations available for a date range calculator.
+ * The types of calculations available for a date range calculator.
  */
 export enum SkyDateRangeCalculatorType {
   /**

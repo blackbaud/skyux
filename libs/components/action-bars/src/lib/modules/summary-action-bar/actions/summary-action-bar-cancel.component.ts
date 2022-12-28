@@ -17,7 +17,7 @@ import {
 })
 export class SkySummaryActionBarCancelComponent {
   /**
-   * Indicates whether to disable the cancel action.
+   * Whether to disable the cancel action.
    */
   @Input()
   public disabled = false;

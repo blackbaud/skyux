@@ -11,7 +11,7 @@ import { Component, Input } from '@angular/core';
 })
 export class SkyExpansionIndicatorComponent {
   /**
-   * Specifies whether the chevron points up or down.
+   * Whether the chevron points up or down.
    */
   @Input()
   public set direction(value: string | undefined) {

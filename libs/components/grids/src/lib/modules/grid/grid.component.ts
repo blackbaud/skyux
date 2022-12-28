@@ -83,7 +83,7 @@ export class SkyGridComponent
   implements OnInit, AfterContentInit, AfterViewInit, OnChanges, OnDestroy
 {
   /**
-   * Specifies columns and column properties for the grid.
+   * Columns and column properties for the grid.
    */
   @Input()
   public set columns(newColumns: Array<SkyGridColumnModel>) {
@@ -102,14 +102,14 @@ export class SkyGridComponent
   }
 
   /**
-   * Specifies the data for the grid. Each item requires an `id` and a property that maps
+   * The data for the grid. Each item requires an `id` and a property that maps
    * to the `field` or `id` property of each column in the grid.
    */
   @Input()
   public data: Array<any>;
 
   /**
-   * Indicates whether to enable the multiselect feature to display a column of
+   * Whether to enable the multiselect feature to display a column of
    * checkboxes on the left side of the grid. You can specify a unique ID with
    * the `multiselectRowId` property, but multiselect defaults to the `id` property on
    * the `data` object.
@@ -119,7 +119,7 @@ export class SkyGridComponent
   public enableMultiselect = false;
 
   /**
-   * Specifies how the grid fits to its parent. The valid options are `width`,
+   * How the grid fits to its parent. The valid options are `width`,
    * which fits the grid to the parent's full width, and `scroll`, which allows the grid
    * to exceed the parent's width. If the grid does not have enough columns to fill
    * the parent's width, it always stretches to the parent's full width.
@@ -129,39 +129,39 @@ export class SkyGridComponent
   public fit = 'width';
 
   /**
-   * Indicates whether to display a toolbar with the grid.
+   * Whether to display a toolbar with the grid.
    */
   @Input()
   public hasToolbar = false;
 
   /**
-   * Specifies the height of the grid.
+   * The height of the grid.
    */
   @Input()
   public height: number;
 
   /**
-   * Specifies text to highlight within the grid.
+   * Text to highlight within the grid.
    * Typically, this property is used in conjunction with search.
    */
   @Input()
   public highlightText: string;
 
   /**
-   * Provides an observable to send commands to the grid.
+   * An observable to send commands to the grid.
    */
   @Input()
   public messageStream = new Subject<SkyGridMessage>();
 
   /**
-   * Specifies a unique ID that matches a property on the `data` object.
+   * A unique ID that matches a property on the `data` object.
    * By default, this property uses the `id` property.
    */
   @Input()
   public multiselectRowId: string;
 
   /**
-   * Specifies the ID of the row to highlight. The ID matches the `id` property
+   * The ID of the row to highlight. The ID matches the `id` property
    * of the `data` object. Typically, this property is used in conjunction with
    * the flyout component to indicate the currently selected row.
    */
@@ -169,7 +169,7 @@ export class SkyGridComponent
   public rowHighlightedId: string;
 
   /**
-   * Specifies the columns to display in the grid based on the `id` or `field` properties
+   * The columns to display in the grid based on the `id` or `field` properties
    * of the columns. If no columns are specified, then the grid displays all columns.
    */
   @Input()
@@ -206,7 +206,7 @@ export class SkyGridComponent
   }
 
   /**
-   * Specifies a set of IDs for the rows to select in a multiselect grid.
+   * A set of IDs for the rows to select in a multiselect grid.
    * The IDs match the `id` properties of the `data` objects.
    * Rows with IDs that are not included are de-selected in the grid.
    */
@@ -224,7 +224,7 @@ export class SkyGridComponent
   }
 
   /**
-   * Specifies a unique key for the UI Config Service to retrieve stored settings from a database.
+   * A unique key for the UI Config Service to retrieve stored settings from a database.
    * The UI Config Service saves configuration settings for users and returns
    * `selectedColumnIds` to preserve the columns to display and the preferred column order. You  must provide `id` values for your `sky-grid-column` elements because the UI Config Service depends on those values to organize columns based on user settings. For more information about the UI Config Service, see [the sticky settings documentation](https://developer.blackbaud.com/skyux/learn/get-started/sticky-settings).
    */
@@ -237,14 +237,14 @@ export class SkyGridComponent
    * This property accepts a `ListSortFieldSelectorModel` value with the following properties:
    * - `fieldSelector` Represents the current sort field. This property accepts `string` values.
    * - `descending` Indicates whether to sort in descending order. The caret that visually
-   * indicates the sort order points down for descending order and up for ascending order.
+   * The sort order points down for descending order and up for ascending order.
    * This property accepts `boolean` values. Default is `false`.
    */
   @Input()
   public sortField: ListSortFieldSelectorModel;
 
   /**
-   * Specifies the width of the grid in pixels.
+   * The width of the grid in pixels.
    */
   @Input()
   public width: number;

@@ -5,7 +5,7 @@ import { SkyDataViewState } from './data-view-state';
 import { SkyDataViewStateOptions } from './data-view-state-options';
 
 /**
- * Provides options that control which data to display.
+ * Options that control which data to display.
  */
 export class SkyDataManagerState {
   /**
@@ -23,7 +23,7 @@ export class SkyDataManagerState {
    */
   public filterData: SkyDataManagerFilterData | undefined;
   /**
-   * Indicates whether to display only the selected rows or objects. The multiselect toolbar
+   * Whether to display only the selected rows or objects. The multiselect toolbar
    * uses this property.
    */
   public onlyShowSelected: boolean | undefined;

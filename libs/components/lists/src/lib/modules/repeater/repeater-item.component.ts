@@ -87,7 +87,7 @@ export class SkyRepeaterItemComponent
   }
 
   /**
-   * Specifies a human-readable name for the repeater item that is available for multiple purposes,
+   * A human-readable name for the repeater item that is available for multiple purposes,
    * such as accessibility and instrumentation. For example, the component uses the name to
    * construct ARIA labels for the repeater item controls
    * to [support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
@@ -96,7 +96,7 @@ export class SkyRepeaterItemComponent
   public itemName: string | undefined;
 
   /**
-   * Specifies configuration options for the buttons to display on an inline form
+   * Configuration options for the buttons to display on an inline form
    * within the repeater. This property accepts
    * [a `SkyInlineFormConfig` object](https://developer.blackbaud.com/skyux/components/inline-form#skyinlineformconfig-properties).
    */
@@ -111,7 +111,7 @@ export class SkyRepeaterItemComponent
   public inlineFormTemplate: TemplateRef<unknown> | undefined;
 
   /**
-   * Indicates whether the repeater item is expanded.
+   * Whether the repeater item is expanded.
    * @default true
    */
   @Input()
@@ -124,7 +124,7 @@ export class SkyRepeaterItemComponent
   }
 
   /**
-   * Indicates whether the repeater item's checkbox is selected.
+   * Whether the repeater item's checkbox is selected.
    * When users select the repeater item, the specified property on your model is updated accordingly.
    * @default false
    */
@@ -141,27 +141,27 @@ export class SkyRepeaterItemComponent
   }
 
   /**
-   * Indicates whether users can change the order of the repeater item.
+   * Whether users can change the order of the repeater item.
    * The repeater component's `reorderable` property must also be set to `true`.
    */
   @Input()
   public reorderable: boolean | undefined = false;
 
   /**
-   * Indicates whether to display a checkbox in the left of the repeater item.
+   * Whether to display a checkbox in the left of the repeater item.
    */
   @Input()
   public selectable: boolean | undefined = false;
 
   /**
-   * Indicates whether to display an inline form within the repeater.
+   * Whether to display an inline form within the repeater.
    * Users can toggle between displaying and hiding the inline form.
    */
   @Input()
   public showInlineForm: boolean | undefined = false;
 
   /**
-   * Specifies an object that the repeater component returns for this repeater item
+   * An object that the repeater component returns for this repeater item
    * when the `orderChange` event fires. This is required
    * if you set the `reorderable` property to `true`.
    */

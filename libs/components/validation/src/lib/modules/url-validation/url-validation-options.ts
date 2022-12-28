@@ -1,9 +1,9 @@
 /**
- * Specifies options for the URL validator component.
+ * Options for the URL validator component.
  */
 export interface SkyUrlValidationOptions {
   /**
-   * Indicates the ruleset to use for URL validation. Ruleset 1 uses a regular expression and ruleset 2 uses the third-party [validator.js library](https://github.com/validatorjs/validator.js/).
+   * The ruleset to use for URL validation. Ruleset 1 uses a regular expression and ruleset 2 uses the third-party [validator.js library](https://github.com/validatorjs/validator.js/).
    */
   rulesetVersion: 1 | 2;
 }

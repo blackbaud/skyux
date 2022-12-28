@@ -17,7 +17,7 @@ import { takeUntil } from 'rxjs/operators';
 import { SkyTileDashboardService } from '../tile-dashboard/tile-dashboard.service';
 
 /**
- * Provides a common look-and-feel for tab content.
+ * A common look-and-feel for tab content.
  */
 @Component({
   selector: 'sky-tile',
@@ -27,7 +27,7 @@ import { SkyTileDashboardService } from '../tile-dashboard/tile-dashboard.servic
 })
 export class SkyTileComponent implements OnDestroy {
   /**
-   * Indicates whether to display a settings button in the tile header. To display the
+   * Whether to display a settings button in the tile header. To display the
    * button, you must also listen for the `settingsClick` event.
    * @default true
    */
@@ -35,7 +35,7 @@ export class SkyTileComponent implements OnDestroy {
   public showSettings = true;
 
   /**
-   * Indicates whether to display a help button in the tile header. To display the
+   * Whether to display a help button in the tile header. To display the
    * button, you must also listen for the `helpClick` event.
    * @default true
    */
@@ -43,7 +43,7 @@ export class SkyTileComponent implements OnDestroy {
   public showHelp = true;
 
   /**
-   * Specifies a human-readable name for the tile that is available for multiple purposes, such as accessibility and instrumentation. For example, the component uses the name to construct ARIA labels for tile controls to [support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * A human-readable name for the tile that is available for multiple purposes, such as accessibility and instrumentation. For example, the component uses the name to construct ARIA labels for tile controls to [support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    */
   @Input()
   public tileName: string | undefined;
@@ -79,7 +79,7 @@ export class SkyTileComponent implements OnDestroy {
   }
 
   /**
-   * Indicates whether the tile is in a collapsed state.
+   * Whether the tile is in a collapsed state.
    * @default false
    */
   @Input()

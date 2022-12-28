@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 /**
- * Specifies a header to display on an action button.
+ * A header to display on an action button.
  */
 @Component({
   selector: 'sky-action-button-header',

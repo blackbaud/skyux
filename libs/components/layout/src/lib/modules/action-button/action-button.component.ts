@@ -26,7 +26,7 @@ export class SkyActionButtonComponent {
   public hidden = false;
 
   /**
-   * Specifies a link for the action button.
+   * A link for the action button.
    */
   @Input()
   public permalink: SkyActionButtonPermalink | undefined;

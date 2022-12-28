@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 /**
- * Specifies a description to display on an action button.
+ * A description to display on an action button.
  */
 @Component({
   selector: 'sky-action-button-details',

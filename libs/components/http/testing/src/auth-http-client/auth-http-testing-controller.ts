@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { SkyAuthTokenMockProvider } from './auth-token-mock-provider';
 
 /**
- * Provides methods for testing HTTP requests when using `SkyAuthHttpClientModule`.
+ * Methods for testing HTTP requests when using `SkyAuthHttpClientModule`.
  * @internal
  */
 @Injectable()

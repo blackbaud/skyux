@@ -1,7 +1,7 @@
 /**
  * @internal
  * @deprecated Use `SkyIconVariantType` instead.
- * Indicates the icon variant to display.
+ * The icon variant to display.
  */
 export const enum SkyIconVariant {
   /**

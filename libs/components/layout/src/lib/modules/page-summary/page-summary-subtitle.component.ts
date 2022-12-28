@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 /**
- * Specifies a subtitle to identify the page content.
+ * A subtitle to identify the page content.
  * @deprecated
  */
 @Component({

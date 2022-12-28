@@ -41,7 +41,7 @@ export class SkyRepeaterComponent
   implements AfterContentInit, OnChanges, OnDestroy, OnInit
 {
   /**
-   * Specifies the index of the repeater item to visually highlight as active.
+   * The index of the repeater item to visually highlight as active.
    * For example, use this property in conjunction with the
    * [split view component](https://developer.blackbaud.com/skyux/components/split-view)
    * to highlight a repeater item while users edit it. Only one item can be active at a time.
@@ -50,7 +50,7 @@ export class SkyRepeaterComponent
   public activeIndex: number | undefined;
 
   /**
-   * Specifies an ARIA label for the repeater list.
+   * An ARIA label for the repeater list.
    * This sets the repeater list's `aria-label` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * @default "List of items"
@@ -59,7 +59,7 @@ export class SkyRepeaterComponent
   public ariaLabel: string | undefined;
 
   /**
-   * Indicates whether users can change the order of items in the repeater list.
+   * Whether users can change the order of items in the repeater list.
    * Each repeater item also has `reorderable` property to indicate whether
    * users can change its order.
    */
@@ -67,7 +67,7 @@ export class SkyRepeaterComponent
   public reorderable: boolean | undefined = false;
 
   /**
-   * Specifies a layout to determine which repeater items are expanded by default and whether
+   * A layout to determine which repeater items are expanded by default and whether
    * repeater items are expandable and collapsible. Collapsed items display titles only.
    * The valid options are `multiple`, `none`, and `single`.
    * - `multiple` loads repeater items in an expanded state unless `isExpanded` is set to

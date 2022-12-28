@@ -1,11 +1,11 @@
 import { SkyColorpickerMessageType } from './colorpicker-message-type';
 
 /**
- * Provides commands for the colorpicker through a message stream.
+ * Commands for the colorpicker through a message stream.
  */
 export interface SkyColorpickerMessage {
   /**
-   * Specifies the message type.
+   * The message type.
    */
   type?: SkyColorpickerMessageType;
 }

@@ -25,7 +25,7 @@ import { SkySplitViewService } from './split-view.service';
 let skySplitViewNextId = 0;
 
 /**
- * Specifies the content to display in the split view's list panel.
+ * The content to display in the split view's list panel.
  */
 @Component({
   selector: 'sky-split-view-drawer',
@@ -43,7 +43,7 @@ export class SkySplitViewDrawerComponent
   implements AfterViewInit, OnInit, OnDestroy
 {
   /**
-   * Specifies an ARIA label for the list panel. This sets the panel's `aria-label` attribute
+   * An ARIA label for the list panel. This sets the panel's `aria-label` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    */
   @Input()

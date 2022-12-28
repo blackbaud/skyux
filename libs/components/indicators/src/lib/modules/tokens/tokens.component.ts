@@ -63,7 +63,7 @@ const DISPLAY_WITH_DEFAULT = 'name';
 })
 export class SkyTokensComponent implements OnDestroy {
   /**
-   * Indicates whether to disable the tokens list to prevent users from selecting tokens,
+   * Whether to disable the tokens list to prevent users from selecting tokens,
    * dismissing tokens, or navigating through the list with the arrow keys. When the tokens list
    * is disabled, users can still place focus on items in the list using the `Tab` key.
    * @default false
@@ -78,7 +78,7 @@ export class SkyTokensComponent implements OnDestroy {
   }
 
   /**
-   * Indicates whether users can remove a token from the list by selecting a token's close button.
+   * Whether users can remove a token from the list by selecting a token's close button.
    * @default true
    */
   @Input()
@@ -91,7 +91,7 @@ export class SkyTokensComponent implements OnDestroy {
   }
 
   /**
-   * Specifies the token property to display for each item in the tokens list.
+   * The token property to display for each item in the tokens list.
    * @default "name"
    */
   @Input()
@@ -104,14 +104,14 @@ export class SkyTokensComponent implements OnDestroy {
   }
 
   /**
-   * Specifies the token property that represents the token's unique identifier. When this property
+   * The token property that represents the token's unique identifier. When this property
    * is set, animations are enabled when dismissing tokens.
    */
   @Input()
   public trackWith: string | undefined;
 
   /**
-   * Indicates whether users can focus on items in the list using the `Tab` key.
+   * Whether users can focus on items in the list using the `Tab` key.
    * This does not affect the ability of users to select tokens, dismiss tokens,
    * or navigate through the list with the arrow keys.
    * @default true
@@ -126,7 +126,7 @@ export class SkyTokensComponent implements OnDestroy {
   }
 
   /**
-   * Specifies an array of tokens to include in the list.
+   * An array of tokens to include in the list.
    */
   @Input()
   public set tokens(value: SkyToken[] | undefined) {
@@ -143,7 +143,7 @@ export class SkyTokensComponent implements OnDestroy {
   }
 
   /**
-   * Specifies an observable of `SkyTokensMessage` that can place focus on a
+   * An observable of `SkyTokensMessage` that can place focus on a
    * particular token or remove the active token from the list.
    */
   @Input()

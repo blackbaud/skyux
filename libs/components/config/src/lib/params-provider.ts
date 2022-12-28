@@ -4,7 +4,7 @@ import { SkyAppConfigParams } from './app-config-params';
 import { SkyAppRuntimeConfigParams } from './params';
 
 /**
- * Provides methods to interact with runtime config query parameters.
+ * Methods to interact with runtime config query parameters.
  * @deprecated Use `SkyAppConfig.runtime.params` instead.
  */
 @Injectable({

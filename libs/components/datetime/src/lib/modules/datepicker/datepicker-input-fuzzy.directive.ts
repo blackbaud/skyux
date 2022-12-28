@@ -60,7 +60,7 @@ export class SkyFuzzyDatepickerInputDirective
     Validator
 {
   /**
-   * Specifies the date format for the input. Place this attribute on the `input` element
+   * The date format for the input. Place this attribute on the `input` element
    * to override the default in `SkyDatepickerConfigService`.
    * @default "MM/DD/YYYY"
    */
@@ -89,7 +89,7 @@ export class SkyFuzzyDatepickerInputDirective
   }
 
   /**
-   * Indicates whether to disable the datepicker.
+   * Whether to disable the datepicker.
    * @default false
    */
   @Input()
@@ -109,7 +109,7 @@ export class SkyFuzzyDatepickerInputDirective
   }
 
   /**
-   * Indicates whether to prevent users from specifying dates that are in the future.
+   * Whether to prevent users from specifying dates that are in the future.
    * Place this attribute on the `input` element.
    * @default false
    */
@@ -124,7 +124,7 @@ export class SkyFuzzyDatepickerInputDirective
   }
 
   /**
-   * Specifies the latest fuzzy date allowed. Place this attribute on the `input` element
+   * The latest fuzzy date allowed. Place this attribute on the `input` element
    * to prevent fuzzy dates after a specified date. This property accepts
    * a `SkyFuzzyDate` value that includes numeric month, day, and year values.
    * For example: `{ month: 1, day: 1, year: 2027 }`.
@@ -141,7 +141,7 @@ export class SkyFuzzyDatepickerInputDirective
   }
 
   /**
-   * Specifies the earliest fuzzy date allowed. Place this attribute on the `input` element
+   * The earliest fuzzy date allowed. Place this attribute on the `input` element
    * to prevent fuzzy dates before a specified date. This property accepts a `SkyFuzzyDate` value
    * that includes numeric month, day, and year values.
    * For example: `{ month: 1, day: 1, year: 2007 }`.
@@ -158,14 +158,14 @@ export class SkyFuzzyDatepickerInputDirective
   }
 
   /**
-   * Indicates whether to disable date validation on the fuzzy datepicker input.
+   * Whether to disable date validation on the fuzzy datepicker input.
    * @default false
    */
   @Input()
   public skyDatepickerNoValidate: boolean | undefined = false;
 
   /**
-   * Specifies the starting day of the week in the calendar, where `0` sets the starting day
+   * The starting day of the week in the calendar, where `0` sets the starting day
    * to Sunday. Place this attribute on the `input` element to override the default
    * in `SkyDatepickerConfigService`.
    * @default 0
@@ -184,7 +184,7 @@ export class SkyFuzzyDatepickerInputDirective
   }
 
   /**
-   * Indicates whether to require the year in fuzzy dates.
+   * Whether to require the year in fuzzy dates.
    * @default false
    */
   @Input()

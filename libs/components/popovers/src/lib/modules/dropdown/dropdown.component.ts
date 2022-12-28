@@ -43,7 +43,7 @@ const DEFAULT_BUTTON_TYPE = 'select';
 })
 export class SkyDropdownComponent implements OnInit, OnDestroy {
   /**
-   * Specifies a background color for the dropdown button. Available values are `default`,
+   * A background color for the dropdown button. Available values are `default`,
    * `primary`, and `link`. These values set the background color and hover behavior from the
    * [secondary and primary button classes](https://developer.blackbaud.com/skyux/components/button) respectively.
    * @default "default"
@@ -58,7 +58,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Specifies the type of button to render as the dropdown's trigger element. To display a button
+   * The type of button to render as the dropdown's trigger element. To display a button
    * with a caret, specify `'select'` and render the button text or icon in a
    * `sky-dropdown-button` element. To display a round button with an ellipsis, specify
    * `'context-menu'`.
@@ -85,14 +85,14 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Indicates whether to disable the dropdown button.
+   * Whether to disable the dropdown button.
    * @default false
    */
   @Input()
   public disabled: boolean | undefined = false;
 
   /**
-   * Indicates whether to close the dropdown when users click away from the menu.
+   * Whether to close the dropdown when users click away from the menu.
    * @default true
    */
   @Input()
@@ -105,14 +105,14 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Specifies an ARIA label for the dropdown. This sets the dropdown's `aria-label` attribute
+   * An ARIA label for the dropdown. This sets the dropdown's `aria-label` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    */
   @Input()
   public label: string | undefined;
 
   /**
-   * Specifies the horizontal alignment of the dropdown menu in relation to the dropdown button.
+   * The horizontal alignment of the dropdown menu in relation to the dropdown button.
    * @default "left"
    */
   @Input()
@@ -127,7 +127,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Provides an observable to send commands to the dropdown. The commands should respect
+   * An observable to send commands to the dropdown. The commands should respect
    * the [[SkyDropdownMessage]] type.
    * @internal
    */
@@ -136,13 +136,13 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     new Subject<SkyDropdownMessage>();
 
   /**
-   * Specifies a title to display in a tooltip when users hover the mouse over the dropdown button.
+   * A title to display in a tooltip when users hover the mouse over the dropdown button.
    */
   @Input()
   public title: string | undefined;
 
   /**
-   * Specifies how users interact with the dropdown button to expose the dropdown menu.
+   * How users interact with the dropdown button to expose the dropdown menu.
    * We recommend the default `click` value because the `hover` value can pose
    * [accessibility](https://developer.blackbaud.com/skyux/learn/accessibility) issues
    * for users on touch devices such as phones and tablets.

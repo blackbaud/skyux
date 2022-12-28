@@ -18,7 +18,7 @@ export interface SkyDataManagerStateOptions {
    */
   filterData?: SkyDataManagerFilterData;
   /**
-   * Indicates whether to display only the selected rows or objects. The multiselect toolbar
+   * Whether to display only the selected rows or objects. The multiselect toolbar
    * uses this property.
    */
   onlyShowSelected?: boolean;

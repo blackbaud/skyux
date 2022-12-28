@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { SkyErrorService } from './error.service';
 
 /**
- * Specifies a description to provide additional details about the error.
+ * A description to provide additional details about the error.
  */
 @Component({
   selector: 'sky-error-description',
@@ -11,7 +11,7 @@ import { SkyErrorService } from './error.service';
 })
 export class SkyErrorDescriptionComponent {
   /**
-   * Indicates whether to replace the default description. If `false`, the content
+   * Whether to replace the default description. If `false`, the content
    * from this component is added after the default description.
    * @default false
    */

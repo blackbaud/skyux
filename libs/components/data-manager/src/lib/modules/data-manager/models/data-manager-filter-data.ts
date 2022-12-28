@@ -1,6 +1,6 @@
 export interface SkyDataManagerFilterData {
   /**
-   * Indicates whether any filters are applied.
+   * Whether any filters are applied.
    */
   filtersApplied?: boolean;
   /**

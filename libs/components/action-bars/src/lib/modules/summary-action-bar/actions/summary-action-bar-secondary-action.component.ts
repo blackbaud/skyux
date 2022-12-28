@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 
 /**
- * Specifies secondary actions.
+ * Secondary actions.
  */
 @Component({
   selector: 'sky-summary-action-bar-secondary-action',
@@ -18,7 +18,7 @@ import {
 })
 export class SkySummaryActionBarSecondaryActionComponent {
   /**
-   * Indicates whether to disable a secondary action.
+   * Whether to disable a secondary action.
    * @default false
    */
   @Input()

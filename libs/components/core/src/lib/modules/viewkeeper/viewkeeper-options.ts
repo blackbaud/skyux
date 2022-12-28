@@ -15,13 +15,13 @@ export interface SkyViewkeeperOptions {
   el?: HTMLElement;
 
   /**
-   * Specifies a scrollable parent which the viewkeeper resides in and should listen to and be
+   * A scrollable parent which the viewkeeper resides in and should listen to and be
    * positioned within.
    */
   scrollableHost?: HTMLElement;
 
   /**
-   * Specifies whether to set the width of the viewkeeper element to the width of its
+   * Whether to set the width of the viewkeeper element to the width of its
    * host element. Otherwise, if the element does not have an explicit width specified,
    * the element would collapse horizontally as a result of fixing the element to the top
    * of the viewport.

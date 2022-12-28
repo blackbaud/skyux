@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 /**
- * Specifies content to display in the tile's title.
+ * Content to display in the tile's title.
  */
 @Component({
   selector: 'sky-tile-title',

@@ -2,7 +2,7 @@ import { ComponentFixture } from '@angular/core/testing';
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
 /**
- * Provides information for and interaction with a SKY UX popover component.
+ * Information for and interaction with a SKY UX popover component.
  * By using the fixture API, a test insulates itself against updates to the internals
  * of a component, such as changing its DOM structure.
  * @internal
@@ -43,7 +43,7 @@ export class SkyPopoverFixture {
   }
 
   /**
-   * Indicates if the popover is open and visible.
+   * If the popover is open and visible.
    */
   public get popoverIsVisible(): boolean {
     return this.#contentElement !== undefined;

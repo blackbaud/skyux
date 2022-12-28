@@ -3,20 +3,20 @@ import { NavigationExtras } from '@angular/router';
 import { SkyActionHubNeedsAttentionClickHandler } from './action-hub-needs-attention-click-handler';
 
 /**
- * Specifies action items that require attention and directs users to pages
+ * Action items that require attention and directs users to pages
  * where they can resolve them.
  */
 export interface SkyActionHubNeedsAttention {
   /**
-   * Specifies a bold title to display at the start of the action item.
+   * A bold title to display at the start of the action item.
    */
   title: string;
   /**
-   * Specifies de-emphasized text to display after the title.
+   * De-emphasized text to display after the title.
    */
   message?: string;
   /**
-   * Specifies a link to resolve the action item.
+   * A link to resolve the action item.
    */
   permalink?: {
     route?: {
@@ -27,7 +27,7 @@ export interface SkyActionHubNeedsAttention {
     url?: string;
   };
   /**
-   * Specifies a click handler for the action item.
+   * A click handler for the action item.
    */
   click?: SkyActionHubNeedsAttentionClickHandler;
 }

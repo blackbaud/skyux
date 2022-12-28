@@ -3,7 +3,7 @@ import { ComponentFixture } from '@angular/core/testing';
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
 /**
- * Provides information for and interaction with a SKY UX infinite scroll component.
+ * Information for and interaction with a SKY UX infinite scroll component.
  * By using the fixture API, a test insulates itself against updates to the internals
  * of a component, such as changing its DOM structure.
  * @deprecated Use `SkyInfiniteScrollHarness` instead.

@@ -25,7 +25,7 @@ let nextId = 0;
 })
 export class SkyTabComponent implements OnChanges, OnDestroy {
   /**
-   * Indicates whether the tab is active when the tabset loads. After initialization, the `active`
+   * Whether the tab is active when the tabset loads. After initialization, the `active`
    * property on the tabset component should be used to set the active tab.
    * @default false
    */
@@ -46,14 +46,14 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
   }
 
   /**
-   * Indicates whether to disable the tab.
+   * Whether to disable the tab.
    * @default false
    */
   @Input()
   public disabled: boolean | undefined;
 
   /**
-   * Specifies a custom query parameter value for the tab.
+   * A custom query parameter value for the tab.
    * This works in conjunction with the tabset's `permalinkId` to distinguish
    * the tab's unique state in the URL by generating a query parameter that is
    * written as `?<queryParam>-active-tab=<sanitized-tab-heading`.
@@ -79,7 +79,7 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
   public tabHeaderCount: string | undefined;
 
   /**
-   * Specifies the tab header.
+   * The tab header.
    * When using tabs as the main navigation on a page,
    * use [the Angular `Title` service](https://angular.io/docs/ts/latest/cookbook/set-document-title.html)
    * and [the SKY UX `title` configuration property](https://developer.blackbaud.com/skyux/learn/reference/configuration#app)
@@ -98,7 +98,7 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
   }
 
   /**
-   * Specifies a unique identifier for the tab.
+   * A unique identifier for the tab.
    * If not defined, the identifier is set to the position of the tab on load, starting with `0`.
    */
   @Input()

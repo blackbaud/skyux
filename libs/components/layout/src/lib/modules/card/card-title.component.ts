@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 /**
- * Specifies a title to identify what the card represents.
+ * A title to identify what the card represents.
  * @deprecated
  */
 @Component({

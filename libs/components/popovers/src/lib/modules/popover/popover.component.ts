@@ -25,7 +25,7 @@ import { SkyPopoverType } from './types/popover-type';
 })
 export class SkyPopoverComponent implements OnDestroy {
   /**
-   * Specifies the horizontal alignment of the popover in relation to the trigger element.
+   * The horizontal alignment of the popover in relation to the trigger element.
    * The `skyPopoverAlignment` property on the popover directive takes precedence over this property when specified.
    * @default "center"
    */
@@ -39,7 +39,7 @@ export class SkyPopoverComponent implements OnDestroy {
   }
 
   /**
-   * Indicates whether to close the popover when it loses focus.
+   * Whether to close the popover when it loses focus.
    * To require users to click a trigger button to close the popover, set this input to false.
    * @default true
    */
@@ -53,7 +53,7 @@ export class SkyPopoverComponent implements OnDestroy {
   }
 
   /**
-   * Specifies the placement of the popover in relation to the trigger element.
+   * The placement of the popover in relation to the trigger element.
    * The `skyPopoverPlacement` property on the popover directive takes precedence over this property when specified.
    * @default "above"
    */
@@ -67,13 +67,13 @@ export class SkyPopoverComponent implements OnDestroy {
   }
 
   /**
-   * Specifies a title for the popover.
+   * A title for the popover.
    */
   @Input()
   public popoverTitle: string | undefined;
 
   /**
-   * Specifies the type of popover.
+   * The type of popover.
    * @default "info"
    */
   @Input()
@@ -98,7 +98,7 @@ export class SkyPopoverComponent implements OnDestroy {
   public popoverOpened = new EventEmitter<SkyPopoverComponent>();
 
   /**
-   * Indicates that the popover is in the process of being opened or closed.
+   * That the popover is in the process of being opened or closed.
    * @internal
    */
   public isActive = false;

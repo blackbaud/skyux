@@ -5,7 +5,7 @@ import { SkyGridMessageType } from './grid-message-type';
  */
 export interface SkyGridMessage {
   /**
-   * Indicates what type of message is being sent.
+   * What type of message is being sent.
    */
   type: SkyGridMessageType;
 

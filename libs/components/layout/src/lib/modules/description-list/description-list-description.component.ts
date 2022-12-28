@@ -16,7 +16,7 @@ import { takeUntil } from 'rxjs/operators';
 import { SkyDescriptionListService } from './description-list.service';
 
 /**
- * Specifies the description in a term-description pair.
+ * The description in a term-description pair.
  */
 @Component({
   selector: 'sky-description-list-description',

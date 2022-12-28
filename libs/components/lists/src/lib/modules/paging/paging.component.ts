@@ -16,31 +16,31 @@ import {
 })
 export class SkyPagingComponent implements OnChanges {
   /**
-   * Specifies the page number of the current page. Page numbers start at 1 and increment.
+   * The page number of the current page. Page numbers start at 1 and increment.
    */
   @Input()
   public currentPage = 1;
 
   /**
-   * Specifies the total number of items across all pages.
+   * The total number of items across all pages.
    */
   @Input()
   public itemCount = 0;
 
   /**
-   * Specifies the maximum number of pages to display in the pagination control.
+   * The maximum number of pages to display in the pagination control.
    */
   @Input()
   public maxPages = 5;
 
   /**
-   * Specifies the number of items to display per page.
+   * The number of items to display per page.
    */
   @Input()
   public pageSize = 10;
 
   /**
-   * Specifies a label for the pagination control when an application includes
+   * A label for the pagination control when an application includes
    * multiple paging components on the same page. The label should be unique and descriptive
    * to help users of assistive technology differentiate pagination controls
    * and understand what each one does.

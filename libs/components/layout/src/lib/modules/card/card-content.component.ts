@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 /**
- * Specifies the content to display in the body of the card.
+ * The content to display in the body of the card.
  * @deprecated
  */
 @Component({

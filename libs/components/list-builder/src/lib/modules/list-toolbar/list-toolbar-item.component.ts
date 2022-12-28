@@ -18,16 +18,16 @@ let idIndex = 0;
 })
 export class SkyListToolbarItemComponent {
   /**
-   * Specifies the ID of the item.
+   * The ID of the item.
    */
   @Input() public id = `sky-list-toolbar-item-${++idIndex}`;
   /**
-   * Specifies the index of the item at the given item location.
+   * The index of the item at the given item location.
    * @default -1
    */
   @Input() public index = -1;
   /**
-   * Specifies the toolbar location of the item. The valid options are `"left"`,
+   * The toolbar location of the item. The valid options are `"left"`,
    * `"center"`, and `"right"`.
    * @default "left"
    */

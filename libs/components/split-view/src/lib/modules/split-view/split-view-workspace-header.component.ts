@@ -11,7 +11,7 @@ import { takeUntil } from 'rxjs/operators';
 import { SkySplitViewService } from './split-view.service';
 
 /**
- * Specifies the header to display in the split view's workspace panel.
+ * The header to display in the split view's workspace panel.
  */
 @Component({
   selector: 'sky-split-view-workspace-header',

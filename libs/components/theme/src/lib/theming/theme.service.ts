@@ -6,7 +6,7 @@ import { SkyThemeSettings } from './theme-settings';
 import { SkyThemeSettingsChange } from './theme-settings-change';
 
 /**
- * Provides methods for updating and handling changes to the current theme.
+ * Methods for updating and handling changes to the current theme.
  */
 @Injectable()
 export class SkyThemeService {
@@ -48,7 +48,7 @@ export class SkyThemeService {
 
   /**
    * Destroys the current theme service. This should only be called from a host component that
-   * provides its own theme to child components.
+   * Its own theme to child components.
    */
   public destroy(): void {
     this.#settings.complete();

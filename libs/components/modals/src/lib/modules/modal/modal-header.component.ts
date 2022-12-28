@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 /**
- * Specifies a header for the modal.
+ * A header for the modal.
  */
 @Component({
   selector: 'sky-modal-header',

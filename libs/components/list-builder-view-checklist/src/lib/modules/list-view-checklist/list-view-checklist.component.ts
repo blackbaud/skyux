@@ -64,7 +64,7 @@ export class SkyListViewChecklistComponent
   implements OnInit, OnDestroy, OnChanges
 {
   /**
-   * Specifies the name of the view.
+   * The name of the view.
    * @required
    */
   @Input()
@@ -73,7 +73,7 @@ export class SkyListViewChecklistComponent
   }
 
   /**
-   * Specifies a search function to apply on the view data.
+   * A search function to apply on the view data.
    * The default function searches view data on label, description,
    * and category if field selectors are defined for the given field.
    * @default default search function
@@ -83,7 +83,7 @@ export class SkyListViewChecklistComponent
     this.searchFunction();
 
   /**
-   * Specifies the name of the label field selector.
+   * The name of the label field selector.
    * @default "label"
    */
   // eslint-disable-next-line @angular-eslint/no-input-rename
@@ -91,14 +91,14 @@ export class SkyListViewChecklistComponent
   public labelFieldSelector = 'label';
 
   /**
-   * Specifies the name of the description field selector.
+   * The name of the description field selector.
    * @default "description"
    */
   @Input()
   public description = 'description';
 
   /**
-   * Specifies how many items users can select.
+   * How many items users can select.
    * `"single"` allows users to select one item in the checklist, while `"multiple"`
    * allows users to select multiple items in the checklist.
    * @default "multiple"
@@ -122,7 +122,7 @@ export class SkyListViewChecklistComponent
   }
 
   /**
-   * Indicates whether to display selected items only.
+   * Whether to display selected items only.
    * @default false
    */
   @Input()

@@ -8,7 +8,7 @@ import { SkyPopoversFixtureDropdownItem } from './popovers-fixture-dropdown-item
 import { SkyPopoversFixtureDropdownMenu } from './popovers-fixture-dropdown-menu';
 
 /**
- * Provides information for and interaction with a SKY UX dropdown component.
+ * Information for and interaction with a SKY UX dropdown component.
  * By using the fixture API, a test insulates itself against updates to the internals
  * of a component, such as changing its DOM structure.
  * @internal
@@ -51,7 +51,7 @@ export class SkyDropdownFixture {
   }
 
   /**
-   * Indicates if the dropdown menu is open and visible.
+   * If the dropdown menu is open and visible.
    */
   public get dropdownMenuIsVisible(): boolean {
     return this.getDropdownMenuContent() !== undefined;

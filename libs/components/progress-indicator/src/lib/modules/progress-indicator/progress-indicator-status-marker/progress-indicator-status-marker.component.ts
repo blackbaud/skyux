@@ -14,7 +14,7 @@ import { takeUntil } from 'rxjs/operators';
 import { SkyProgressIndicatorItemStatus } from '../types/progress-indicator-item-status';
 
 /**
- * Specifies the content to display in the status marker.
+ * The content to display in the status marker.
  * @internal
  */
 @Component({

@@ -41,7 +41,7 @@ export class SkyAutocompleteInputDirective
   implements OnInit, OnDestroy, ControlValueAccessor, Validator
 {
   /**
-   * Specifies the value for the `autocomplete` attribute on the form input.
+   * The value for the `autocomplete` attribute on the form input.
    * @default "off"
    */
   @Input()
@@ -64,7 +64,7 @@ export class SkyAutocompleteInputDirective
   }
 
   /**
-   * Indicates whether to disable the autocomplete field.
+   * Whether to disable the autocomplete field.
    * @default false
    */
   @Input()

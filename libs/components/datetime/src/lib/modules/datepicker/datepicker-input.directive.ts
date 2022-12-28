@@ -61,7 +61,7 @@ export class SkyDatepickerInputDirective
     Validator
 {
   /**
-   * Specifies the date format for the input. Place this attribute on the `input` element
+   * The date format for the input. Place this attribute on the `input` element
    * to override the default in the `SkyDatepickerConfigService`.
    * @default "MM/DD/YYYY"
    */
@@ -84,7 +84,7 @@ export class SkyDatepickerInputDirective
   }
 
   /**
-   * Indicates whether to disable the datepicker.
+   * Whether to disable the datepicker.
    * @default false
    */
   @Input()
@@ -103,7 +103,7 @@ export class SkyDatepickerInputDirective
   }
 
   /**
-   * Specifies the latest date that is available in the calendar. Place this attribute on
+   * The latest date that is available in the calendar. Place this attribute on
    * the `input` element to override the default in `SkyDatepickerConfigService`.
    */
   @Input()
@@ -120,7 +120,7 @@ export class SkyDatepickerInputDirective
   }
 
   /**
-   * Specifies the earliest date that is available in the calendar. Place this attribute on
+   * The earliest date that is available in the calendar. Place this attribute on
    * the `input` element to override the default in `SkyDatepickerConfigService`. To avoid validation errors, the time associated with the minimum date must be midnight. This is necessary because the datepicker automatically sets the time on the `Date` object for selected dates to midnight in the current user's time zone.
    */
   @Input()
@@ -158,14 +158,14 @@ export class SkyDatepickerInputDirective
   }
 
   /**
-   * Indicates whether to disable date validation on the datepicker input.
+   * Whether to disable date validation on the datepicker input.
    * @default false
    */
   @Input()
   public skyDatepickerNoValidate: boolean | undefined = false;
 
   /**
-   * Specifies the starting day of the week in the calendar, where `0` sets the starting day
+   * The starting day of the week in the calendar, where `0` sets the starting day
    * to Sunday. Place this attribute on the `input` element to override the default
    * in `SkyDatepickerConfigService`.
    * @default 0
@@ -184,7 +184,7 @@ export class SkyDatepickerInputDirective
   }
 
   /**
-   * Indicates whether the format of the date value must match the format from the `dateFormat` value.
+   * Whether the format of the date value must match the format from the `dateFormat` value.
    * If this property is `true` and the datepicker input directive cannot find an exact match, then
    * the input is marked as invalid.
    * If this property is `false` and the datepicker input directive cannot find an exact match, then

@@ -74,7 +74,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   //#region public_api
 
   /**
-   * Specifies the HTML element ID (without the leading `#`) of the element that labels
+   * The HTML element ID (without the leading `#`) of the element that labels
    * the autocomplete text input. This sets the input's `aria-labelledby` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    */
@@ -82,7 +82,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   public ariaLabelledBy: string | undefined;
 
   /**
-   * Specifies a static data source for the autocomplete component to search
+   * A static data source for the autocomplete component to search
    * when users enter text. For a dynamic data source such as an array that
    * changes due to server calls, use `search` or `searchAsync` instead.
    */
@@ -96,7 +96,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   }
 
   /**
-   * Specifies how many milliseconds to wait before searching while users
+   * How many milliseconds to wait before searching while users
    * enter text in the autocomplete field.
    * @default 0
    */
@@ -110,7 +110,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   }
 
   /**
-   * Specifies an object property to display in the text input after users
+   * An object property to display in the text input after users
    * select an item in the dropdown list.
    * @default "name"
    */
@@ -125,13 +125,13 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   /**
    * @internal
-   * Indicates whether to display a button in the dropdown that opens a picker where users can view all options.
+   * Whether to display a button in the dropdown that opens a picker where users can view all options.
    */
   @Input()
   public enableShowMore: boolean | undefined = false;
 
   /**
-   * Specifies an observable of `SkyAutocompleteMessage` that can close the dropdown.
+   * An observable of `SkyAutocompleteMessage` that can close the dropdown.
    * @internal
    */
   @Input()
@@ -151,7 +151,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   public wrapperClass: string | undefined;
 
   /**
-   * Specifies the object properties to search.
+   * The object properties to search.
    * @default ["name"]
    * @deprecated We recommend against using this property. To search specific properties, use the `searchAsync` event instead.
    */
@@ -167,7 +167,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   }
 
   /**
-   * Specifies a function to dynamically manage the data source when users
+   * A function to dynamically manage the data source when users
    * change the text in the autocomplete field. The search function must return
    * an array or a promise of an array. The `search` property is particularly
    * useful when the data source does not live in the source code.
@@ -189,7 +189,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   }
 
   /**
-   * Specifies a template to format each search result in the dropdown list.
+   * A template to format each search result in the dropdown list.
    * The autocomplete component injects search result values into the template
    * as `item` variables that reference all of the object properties of the search results.
    */
@@ -197,7 +197,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   public searchResultTemplate: TemplateRef<unknown> | undefined;
 
   /**
-   * Specifies the minimum number of characters that users must enter before
+   * The minimum number of characters that users must enter before
    * the autocomplete component searches the data source and displays search
    * results in the dropdown list.
    * @default 1
@@ -212,7 +212,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   }
 
   /**
-   * Specifies an array of functions to call against each search result in order
+   * An array of functions to call against each search result in order
    * to filter the search results when using the default search function. When
    * using the `search` property to specify a custom search function, you must
    * manually apply filters inside that function. The function must return `true`
@@ -235,7 +235,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   }
 
   /**
-   * Specifies the maximum number of search results to display in the dropdown list.
+   * The maximum number of search results to display in the dropdown list.
    * By default, the component displays all matching results.
    */
   @Input()
@@ -249,14 +249,14 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   /**
    * @internal
-   * Indicates whether to display a button that lets users add options to the data source.
+   * Whether to display a button that lets users add options to the data source.
    * @default false
    */
   @Input()
   public showAddButton: boolean | undefined = false;
 
   /**
-   * Specifies the text to display when no search results are found.
+   * The text to display when no search results are found.
    * @default "No matches found"
    */
   @Input()

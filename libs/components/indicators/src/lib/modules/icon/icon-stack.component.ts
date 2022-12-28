@@ -12,7 +12,7 @@ import { SkyIconStackItem } from './icon-stack-item';
 })
 export class SkyIconStackComponent {
   /**
-   * Specifies the size of the icon using
+   * The size of the icon using
    * [Font Awesome sizes](https://fontawesome.com/how-to-use/on-the-web/styling/sizing-icons).
    */
   @Input()

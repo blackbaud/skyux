@@ -12,7 +12,7 @@ import { SkyAuthTokenContextArgs } from './auth-token-context-args';
 //#endregion
 
 /**
- * Provides methods for getting JWT tokens from the Blackbaud authentication service.
+ * Methods for getting JWT tokens from the Blackbaud authentication service.
  */
 @Injectable()
 export class SkyAuthTokenProvider {

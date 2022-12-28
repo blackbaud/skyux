@@ -109,7 +109,7 @@ export interface SkyuxConfigHostCsp {
 }
 
 /**
- * Blackbaud Only - Specifies configuration options for communication with SKY UX Host.
+ * Blackbaud Only - Configuration options for communication with SKY UX Host.
  */
 export interface SkyuxConfigHost {
   bbCheckout?: SkyuxConfigHostBBCheckout;
