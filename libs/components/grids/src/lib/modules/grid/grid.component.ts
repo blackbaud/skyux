@@ -237,7 +237,7 @@ export class SkyGridComponent
    * This property accepts a `ListSortFieldSelectorModel` value with the following properties:
    * - `fieldSelector` Represents the current sort field. This property accepts `string` values.
    * - `descending` Indicates whether to sort in descending order. The caret that visually
-   * The sort order points down for descending order and up for ascending order.
+   * indicates the sort order points down for descending order and up for ascending order.
    * This property accepts `boolean` values. Default is `false`.
    */
   @Input()

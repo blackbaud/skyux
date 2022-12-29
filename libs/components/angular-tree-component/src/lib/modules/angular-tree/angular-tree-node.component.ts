@@ -15,7 +15,7 @@ import { SkyAngularTreeWrapperComponent } from './angular-tree-wrapper.component
 
 /**
  * Replaces the default tree node template with a SKY UX node as part of the `SkyAngularTreeModule` that
- * SKY UX components and styles to complement the `angular-tree-component` library and apply SKY UX
+ * provides SKY UX components and styles to complement the `angular-tree-component` library and apply SKY UX
  * themes and functionality to hierarchical list views. You must wrap this component in an `ng-template`
  * tag with the template reference variable `#treeNodeFullTemplate`. For information about tree node templates,
  * see the [Angular tree component documentation](https://angular2-tree.readme.io/docs/templates).
