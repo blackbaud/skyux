@@ -1,4 +1,4 @@
-import { HttpClient, HttpEvent } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -6,7 +6,7 @@ import {
 import { Injectable } from '@angular/core';
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { SkyAppConfig } from '@skyux/config';
-import { SkyAuthTokenProvider, skyAuthHttpOptions } from '@skyux/http';
+import { SkyAuthTokenProvider, skyAuthHttpJsonOptions } from '@skyux/http';
 
 import { Observable } from 'rxjs';
 
@@ -23,13 +23,10 @@ class HttpConsumingService {
     public httpClient: HttpClient
   ) {}
 
-  public doSomething<T>(): Observable<HttpEvent<T>> {
-    return this.httpClient.get<T>(
+  public doSomething(): Observable<unknown> {
+    return this.httpClient.get(
       'https://www.example.com/',
-      skyAuthHttpOptions({
-        observe: 'events',
-        responseType: 'json',
-      })
+      skyAuthHttpJsonOptions()
     );
   }
 }
