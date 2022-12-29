@@ -25,7 +25,7 @@ class HttpConsumingService {
 
   public doSomething<T>(): Observable<HttpEvent<T>> {
     return this.httpClient.get<T>(
-      'https://www.example.com',
+      'https://www.example.com/',
       skyAuthHttpOptions({
         observe: 'events',
         responseType: 'json',
@@ -70,8 +70,8 @@ describe('Auth HTTP client controller', () => {
   it('should assert that the request was authenticated', fakeAsync(() => {
     const subscription = service.doSomething().subscribe();
     tick();
-    const req = httpTestingController.expectOne('https://www.example.com');
-    expect(req.request.headers.has('Authorization')).toBe(true);
+    const req = httpTestingController.expectOne('https://www.example.com/');
+    expect(req.request.headers.has('Authorization')).toBeTrue();
     skyAuthHttpTestingController.expectAuth(req);
     httpTestingController.verify();
     const mockProvider = TestBed.inject(SkyAuthTokenMockProvider);
@@ -99,13 +99,19 @@ describe('Auth HTTP client controller', () => {
 
   it('should error when the request is not authenticated', fakeAsync(() => {
     const client = TestBed.inject(HttpClient);
-    const req = client.get('https://www.example.com');
+    client.get('https://www.example.com/').subscribe();
     tick();
-    expect(() => skyAuthHttpTestingController.expectAuth(req)).toThrowError();
+    const req = httpTestingController.expectOne('https://www.example.com/');
+    expect(req.request.headers.has('Authorization')).toBeFalse();
+    expect(() => skyAuthHttpTestingController.expectAuth(req)).toThrowError(
+      'The specified request does not contain the expected BBID Authorization header.'
+    );
   }));
 
   it('should error when the request is invalid', fakeAsync(() => {
     const req = {} as any;
-    expect(() => skyAuthHttpTestingController.expectAuth(req)).toThrowError();
+    expect(() => skyAuthHttpTestingController.expectAuth(req)).toThrowError(
+      'The specified request does not contain the expected BBID Authorization header.'
+    );
   }));
 });
