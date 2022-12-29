@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { SkyErrorService } from './error.service';
 
 /**
- * A description to provide additional details about the error.
+ * Specifies a description to provide additional details about the error.
  */
 @Component({
   selector: 'sky-error-description',

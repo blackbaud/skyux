@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 /**
- * A value to display in larger, bold text.
+ * Specifies a value to display in larger, bold text.
  * @required
  */
 @Component({

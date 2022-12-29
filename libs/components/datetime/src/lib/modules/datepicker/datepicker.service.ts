@@ -10,7 +10,7 @@ import { SkyDatepickerDate } from './datepicker-date';
 @Injectable()
 export class SkyDatepickerService {
   /**
-   * If a key date popover is currently displayed.
+   * Specifies if a key date popover is currently displayed.
    * Useful for communicating across all daypicker siblings when a popover is displayed.
    */
   public keyDatePopoverStream: Subject<SkyDatepickerDate | undefined> =

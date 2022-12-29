@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { SkyDatepickerCustomDate } from './datepicker-custom-date';
 
 /**
- * Changes in the datepicker calendar.
+ * Specifies changes in the datepicker calendar.
  */
 export interface SkyDatepickerCalendarChange {
   /**

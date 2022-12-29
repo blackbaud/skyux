@@ -8,7 +8,7 @@ import { SkyuxConfigParams } from './config-params';
 @Injectable()
 export class SkyAppParamsConfigArgs {
   /**
-   * A list of query parameters that are allowed at runtime.
+   * Specifies a list of query parameters that are allowed at runtime.
    */
   public params?: SkyuxConfigParams;
 }

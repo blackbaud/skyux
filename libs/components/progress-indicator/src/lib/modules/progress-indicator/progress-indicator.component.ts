@@ -34,7 +34,7 @@ export class SkyProgressIndicatorComponent
   implements OnInit, AfterContentInit, OnDestroy
 {
   /**
-   * Whether to display the progress indicator vertically or horizontally.
+   * Specifies whether to display the progress indicator vertically or horizontally.
    * For [passive progress indicators](https://developer.blackbaud.com/skyux-progress-indicator/docs/passive-indicator)
    * and [waterfall progress indicators](https://developer.blackbaud.com/skyux/components/progress-indicator/waterfall-progress-indicator),
    * use the vertical display mode. For [modal wizards](https://developer.blackbaud.com/skyux/components/wizard),
@@ -87,7 +87,7 @@ export class SkyProgressIndicatorComponent
   }
 
   /**
-   * An observable of `SkyProgressIndicatorMessage` that determines the status to
+   * Specifies an observable of `SkyProgressIndicatorMessage` that determines the status to
    * display for items in the progress indicator. The message stream is a queue of
    * commanding messages to change the state of the progress indicator based on the message type.
    */
@@ -102,7 +102,7 @@ export class SkyProgressIndicatorComponent
   }
 
   /**
-   * The index for the item to make active when the progress indicator
+   * Specifies the index for the item to make active when the progress indicator
    * loads. All steps that precede the active item are marked as complete, and all steps
    * that follow the active item are marked as incomplete.
    */

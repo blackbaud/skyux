@@ -13,7 +13,7 @@ import { SkyDatepickerDate } from './datepicker-date';
 })
 export class SkyDayPickerButtonComponent {
   /**
-   * The date this picker button will represent on the calendar.
+   * Specifies the date this picker button will represent on the calendar.
    */
   @Input()
   public date: SkyDatepickerDate | undefined;

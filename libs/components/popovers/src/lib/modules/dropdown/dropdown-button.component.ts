@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 /**
- * The button for the dropdown menu.
+ * Specifies the button for the dropdown menu.
  */
 @Component({
   selector: 'sky-dropdown-button',

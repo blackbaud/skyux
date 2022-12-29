@@ -1,5 +1,5 @@
 /**
- * Options for the URL validator component.
+ * Specifies options for the URL validator component.
  */
 export interface SkyUrlValidationOptions {
   /**

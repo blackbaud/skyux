@@ -10,19 +10,19 @@ import { Component, Input } from '@angular/core';
 })
 export class SkyListToolbarSortComponent {
   /**
-   * A label for a sort option.
+   * Specifies a label for a sort option.
    * @required
    */
   @Input()
   public label: string;
   /**
-   * The data field to sort the list on.
+   * Specifies the data field to sort the list on.
    * @required
    */
   @Input()
   public field: string;
   /**
-   * The data type of the data field to sort the list on.
+   * Specifies the data type of the data field to sort the list on.
    * @required
    */
   @Input()

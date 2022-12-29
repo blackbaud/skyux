@@ -38,7 +38,7 @@ export class SkyActionButtonContainerComponent
   implements AfterViewInit, OnDestroy, OnInit
 {
   /**
-   * How to display the action buttons inside the action button container.
+   * Specifies how to display the action buttons inside the action button container.
    * Options are `"center"` or `"left"`.
    * @default "center"
    */

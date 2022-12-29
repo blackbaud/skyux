@@ -3,20 +3,20 @@ import { ListSortFieldSelectorModel } from '@skyux/list-builder-common';
 import { ListSortLabelModel } from './label.model';
 
 /**
- * A set of fields to sort by.
+ * Specifies a set of fields to sort by.
  * @deprecated
  */
 export class ListSortModel {
   /**
-   * The list of available views to sort.
+   * Specifies the list of available views to sort.
    */
   public available: Array<ListSortLabelModel> = [];
   /**
-   * Whether the sort applies to all list views.
+   * Specifies whether the sort applies to all list views.
    */
   public global: Array<ListSortLabelModel> = [];
   /**
-   * The fields to sort.
+   * Specifies the fields to sort.
    * For information about `ListSortFieldSelectorModel`, see the
    * [shared classes for lists](https://developer.blackbaud.com/skyux-list-builder-common/docs/list-builder-common).
    */

@@ -51,13 +51,13 @@ export class SkyVerticalTabsetComponent
   implements OnInit, AfterViewChecked, OnDestroy
 {
   /**
-   * The text to display on the show tabs button on mobile devices.
+   * Specifies the text to display on the show tabs button on mobile devices.
    */
   @Input()
   public showTabsText: string | undefined;
 
   /**
-   * An ARIA label for the tabset. This sets the tabset's `aria-label` attribute
+   * Specifies an ARIA label for the tabset. This sets the tabset's `aria-label` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the tabset includes a visible label, use `ariaLabelledBy` instead.
    */
@@ -65,7 +65,7 @@ export class SkyVerticalTabsetComponent
   public ariaLabel: string | undefined;
 
   /**
-   * The HTML element ID (without the leading `#`) of the element that labels
+   * Specifies the HTML element ID (without the leading `#`) of the element that labels
    * the tabset. This sets the tabset's `aria-labelledby` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the tabset does not include a visible label, use `ariaLabel` instead.
@@ -74,7 +74,7 @@ export class SkyVerticalTabsetComponent
   public ariaLabelledBy: string | undefined;
 
   /**
-   * An ARIA role for the vertical tabset
+   * Specifies an ARIA role for the vertical tabset
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility)
    * by indicating how the tabset functions and what it controls. For information about how
    * an ARIA role indicates what an item represents on a web page, see the

@@ -1,21 +1,21 @@
 export interface SkyTextEditorStyleState {
   /**
-   * The background color. Accepts any CSS color value.
+   * Specifies the background color. Accepts any CSS color value.
    */
   backColor: string;
 
   /**
-   * The font color. Accepts any CSS color value.
+   * Specifies the font color. Accepts any CSS color value.
    */
   fontColor: string;
 
   /**
-   * The font size in pixels.
+   * Specifies the font size in pixels.
    */
   fontSize: number;
 
   /**
-   * The font family. Available values: `"Blackbaud Sans"`,
+   * Specifies the font family. Available values: `"Blackbaud Sans"`,
    * `"Arial"`, `"sans-serif"`, `"Arial Black"`, `"Courier New"`, and `"Times New Roman"`.
    */
   font: string;

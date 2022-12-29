@@ -27,7 +27,7 @@ const INDICATOR_TYPE_DEFAULT: SkyIndicatorIconType = 'warning';
 })
 export class SkyStatusIndicatorComponent implements OnInit {
   /**
-   * A style for the status indicator to determine the icon.
+   * Specifies a style for the status indicator to determine the icon.
    * @default "warning"
    */
   @Input()
@@ -39,7 +39,7 @@ export class SkyStatusIndicatorComponent implements OnInit {
   }
 
   /**
-   * The predefined text to be read by screen readers for users
+   * Specifies the predefined text to be read by screen readers for users
    * who cannot see the indicator icon.
    * @required
    */
@@ -54,7 +54,7 @@ export class SkyStatusIndicatorComponent implements OnInit {
   }
 
   /**
-   * The text to be read by screen readers for users who cannot see
+   * Specifies the text to be read by screen readers for users who cannot see
    * the indicator icon when `descriptionType` is `custom`.
    */
   @Input()

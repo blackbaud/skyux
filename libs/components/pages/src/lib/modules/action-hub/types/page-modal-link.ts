@@ -8,7 +8,7 @@ import { SkyPageLinkInterface } from './page-link-interface';
  */
 export interface SkyPageModalLink extends SkyPageLinkInterface {
   /**
-   * The link destination.
+   * Specifies the link destination.
    */
   permalink?: {
     route?: {
@@ -18,7 +18,7 @@ export interface SkyPageModalLink extends SkyPageLinkInterface {
     url?: string;
   };
   /**
-   * The modal parameters.
+   * Specifies the modal parameters.
    */
   modal?: {
     component: any;

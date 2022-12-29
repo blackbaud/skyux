@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 
 /**
- * Content to display in the modal's body.
+ * Specifies content to display in the modal's body.
  */
 @Component({
   selector: 'sky-modal-content',

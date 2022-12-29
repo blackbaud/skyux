@@ -11,7 +11,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class SkyChevronComponent {
   /**
-   * The element whose contents are controlled by the chevron.
+   * Specifies the element whose contents are controlled by the chevron.
    * This sets the chevron's aria-controls attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    */
@@ -19,14 +19,14 @@ export class SkyChevronComponent {
   public ariaControls: string | undefined;
 
   /**
-   * An ARIA label for the chevron. This sets the chevron's aria-label attribute
+   * Specifies an ARIA label for the chevron. This sets the chevron's aria-label attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    */
   @Input()
   public ariaLabel: string | undefined;
 
   /**
-   * Whether the chevron points up or down.
+   * Specifies whether the chevron points up or down.
    */
   @Input()
   public set direction(value: string | undefined) {

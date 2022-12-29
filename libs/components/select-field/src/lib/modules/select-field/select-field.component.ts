@@ -44,7 +44,7 @@ export class SkySelectFieldComponent
   implements ControlValueAccessor, OnDestroy
 {
   /**
-   * An ARIA label for the text input or button. This sets the `aria-label` attribute
+   * Specifies an ARIA label for the text input or button. This sets the `aria-label` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the input or button includes a visible label, use `ariaLabelledBy` instead.
    */
@@ -52,7 +52,7 @@ export class SkySelectFieldComponent
   public ariaLabel: string;
 
   /**
-   * The HTML element ID (without the leading `#`) of the element that labels
+   * Specifies the HTML element ID (without the leading `#`) of the element that labels
    * the text input or button. This sets the `aria-labelledby` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the input or button does not include a visible label, use `ariaLabel` instead.
@@ -70,14 +70,14 @@ export class SkySelectFieldComponent
   public data: Observable<SkySelectField[]>;
 
   /**
-   * A `SkySelectFieldCustomPicker` object to display a custom UI when users
+   * Specifies a `SkySelectFieldCustomPicker` object to display a custom UI when users
    * select the select field button.
    */
   @Input()
   public customPicker: SkySelectFieldCustomPicker;
 
   /**
-   * A property to highlight in the picker with bold text. The valid options are
+   * Specifies a property to highlight in the picker with bold text. The valid options are
    * the values that the `data` property injects into the component: `"id"`, `"label"`, and `"category"`.
    * @default "label"
    */
@@ -105,7 +105,7 @@ export class SkySelectFieldComponent
   }
 
   /**
-   * The selection mode that determines whether users can select one item
+   * Specifies the selection mode that determines whether users can select one item
    * or multiple items. The valid options are `single`, which displays a text input,
    * and `multiple`, which displays a button.
    * @default "multiple"
@@ -120,7 +120,7 @@ export class SkySelectFieldComponent
   }
 
   /**
-   * A label for the button when `selectMode` is set to `multiple`.
+   * Specifies a label for the button when `selectMode` is set to `multiple`.
    * @default "Select values"
    */
   @Input()
@@ -136,7 +136,7 @@ export class SkySelectFieldComponent
   public inMemorySearchEnabled: boolean;
 
   /**
-   * Tooltip text for the icon that clears the text input when `selectMode`
+   * Specifies tooltip text for the icon that clears the text input when `selectMode`
    * is set to `"single"`. The clear icon appears after users select an item.
    * @default "Clear selection"
    */
@@ -144,14 +144,14 @@ export class SkySelectFieldComponent
   public singleSelectClearButtonTitle: string;
 
   /**
-   * Tooltip text for the text input when `selectMode` is set to `"single"`.
+   * Specifies tooltip text for the text input when `selectMode` is set to `"single"`.
    * @default "Click to select a value"
    */
   @Input()
   public singleSelectOpenButtonTitle: string;
 
   /**
-   * Placeholder text to display in the text input when `selectMode` is set to
+   * Specifies placeholder text to display in the text input when `selectMode` is set to
    * `"single"` and no item is selected.
    * @default "Select a value"
    */
@@ -159,7 +159,7 @@ export class SkySelectFieldComponent
   public singleSelectPlaceholderText: string;
 
   /**
-   * A header for the picker. When `selectMode` is set to `"single"`, the default
+   * Specifies a header for the picker. When `selectMode` is set to `"single"`, the default
    * header is "Select a value." When `selectMode` is set to `"multiple"`, the default header
    * is "Select values."
    */

@@ -2,7 +2,7 @@ import { SkyProgressIndicatorItemStatus } from './progress-indicator-item-status
 
 export interface SkyProgressIndicatorChange {
   /**
-   * The active item.
+   * Specifies the active item.
    */
   activeIndex?: number;
 
@@ -12,7 +12,7 @@ export interface SkyProgressIndicatorChange {
   isComplete?: boolean;
 
   /**
-   * An array with the status of each item.
+   * Specifies an array with the status of each item.
    */
   itemStatuses?: SkyProgressIndicatorItemStatus[];
 }

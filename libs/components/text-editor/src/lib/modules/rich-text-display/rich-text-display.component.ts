@@ -9,7 +9,7 @@ import { SkyTextSanitizationService } from '../text-editor/services/text-sanitiz
 })
 export class SkyRichTextDisplayComponent {
   /**
-   * The rich text to display.
+   * Specifies the rich text to display.
    */
   @Input()
   public set richText(value: string | undefined) {

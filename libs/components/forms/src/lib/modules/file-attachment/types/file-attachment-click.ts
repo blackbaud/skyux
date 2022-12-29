@@ -2,7 +2,7 @@ import { SkyFileItem } from '../file-item';
 
 export interface SkyFileAttachmentClick {
   /**
-   * The file that was clicked.
+   * Specifies the file that was clicked.
    */
   file: SkyFileItem;
 }

@@ -26,7 +26,7 @@ import { SkyCharacterCounterIndicatorComponent } from './character-counter-indic
 })
 export class SkyCharacterCounterInputDirective implements Validator {
   /**
-   * The character count indicator component that displays the character count,
+   * Specifies the character count indicator component that displays the character count,
    * character limit, and over-the-limit indicator. Place this directive on an `input` or
    * `textarea` element.
    */
@@ -44,7 +44,7 @@ export class SkyCharacterCounterInputDirective implements Validator {
   }
 
   /**
-   * The maximum number of characters allowed in the input field. Place this directive
+   * Specifies the maximum number of characters allowed in the input field. Place this directive
    * on an `input` or `textarea` element. This property accepts `number` values.
    * @required
    */

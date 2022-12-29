@@ -5,28 +5,28 @@
  */
 export interface SkySelectField {
   /**
-   * A category for an item.
+   * Specifies a category for an item.
    */
   category?: string;
 
   /**
-   * A description to display below an item's label when `selectMode`
+   * Specifies a description to display below an item's label when `selectMode`
    * is set to `multiple`.
    */
   description?: string;
 
   /**
-   * An ID for an item.
+   * Specifies an ID for an item.
    */
   id?: string;
 
   /**
-   * A label for an item.
+   * Specifies a label for an item.
    */
   label?: string;
 
   /**
-   * All other properties for an item.
+   * Specifies all other properties for an item.
    */
   [index: string]: any;
 }

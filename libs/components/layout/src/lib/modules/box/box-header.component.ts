@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 
 /**
- * A header for the box.
+ * Specifies a header for the box.
  */
 @Component({
   selector: 'sky-box-header',

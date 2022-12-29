@@ -3,7 +3,7 @@
  */
 export interface SkyPageLinkInterface {
   /**
-   * The link text.
+   * Specifies the link text.
    */
   label: string;
 }

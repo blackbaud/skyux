@@ -12,7 +12,7 @@ const STATUS_DEFAULT = SkyProgressIndicatorItemStatus.Incomplete;
 const STATUS_NAME_DEFAULT = 'incomplete';
 
 /**
- * A step to include in the progress indicator. Each step requires a label,
+ * Specifies a step to include in the progress indicator. Each step requires a label,
  * and you can also specify step details within the `sky-progress-indicator-item` element.
  */
 @Component({
@@ -23,7 +23,7 @@ const STATUS_NAME_DEFAULT = 'incomplete';
 })
 export class SkyProgressIndicatorItemComponent implements OnInit {
   /**
-   * A step label for the step in the progress indicator.
+   * Specifies a step label for the step in the progress indicator.
    * @required
    */
   @Input()

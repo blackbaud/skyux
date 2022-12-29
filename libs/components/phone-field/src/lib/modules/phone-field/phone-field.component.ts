@@ -121,7 +121,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   #_allowExtensions = true;
 
   /**
-   * The
+   * Specifies the
    * [International Organization for Standardization Alpha 2](https://www.nationsonline.org/oneworld/country_code_list.htm)
    * country code for the default country. The country selector button displays a flag
    * icon for this default country until users select a different country.
@@ -143,7 +143,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   }
 
   /**
-   * The format for validated phone numbers.
+   * Specifies the format for validated phone numbers.
    * Options include: `"default"`, `"international"`, and `"national"`.
    * @default "default"
    */
@@ -159,7 +159,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   #_returnFormat: SkyPhoneFieldNumberReturnFormat = 'default';
 
   /**
-   * The [International Organization for Standardization Alpha 2](https://www.nationsonline.org/oneworld/country_code_list.htm)
+   * Specifies the [International Organization for Standardization Alpha 2](https://www.nationsonline.org/oneworld/country_code_list.htm)
    * country codes for the countries that users can select. By default, all countries are available.
    */
   @Input()
@@ -186,7 +186,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   }>;
 
   /**
-   * The currently selected country to validate against.
+   * Specifies the currently selected country to validate against.
    */
   @Input()
   public set selectedCountry(newCountry: SkyPhoneFieldCountry | undefined) {

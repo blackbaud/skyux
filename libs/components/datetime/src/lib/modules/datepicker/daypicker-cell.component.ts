@@ -24,13 +24,13 @@ import { SkyDatepickerService } from './datepicker.service';
 })
 export class SkyDayPickerCellComponent implements OnInit, OnDestroy {
   /**
-   * If the active date has been changed.
+   * Specifies if the active date has been changed.
    */
   @Input()
   public activeDateHasChanged: boolean | undefined;
 
   /**
-   * The date this picker cell will represent on the calendar.
+   * Specifies the date this picker cell will represent on the calendar.
    */
   @Input()
   public date: SkyDatepickerDate | undefined;

@@ -1,6 +1,6 @@
 export interface SkyTileDashboardConfigLayoutTile {
   /**
-   * The ID of a tile to display in the dashboard.
+   * Specifies the ID of a tile to display in the dashboard.
    */
   id: string;
   /**

@@ -11,7 +11,7 @@ import { SkyAutonumericOptions } from './autonumeric-options';
 })
 export class SkyAutonumericOptionsProvider {
   /**
-   * The value for a settings object to pass to the autoNumeric utility.
+   * Specifies the value for a settings object to pass to the autoNumeric utility.
    * This overrides any default options specified by the `skyAutonumeric` attribute.
    */
   public getConfig(): SkyAutonumericOptions {

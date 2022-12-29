@@ -42,21 +42,21 @@ export class SkyListPagingComponent
   implements OnInit
 {
   /**
-   * The number of list items per page.
+   * Specifies the number of list items per page.
    * @default 10
    */
   @Input()
   public pageSize: Observable<number> | number = 10;
 
   /**
-   * The maximum pages to display.
+   * Specifies the maximum pages to display.
    * @default 5
    */
   @Input()
   public maxPages: Observable<number> | number = 5;
 
   /**
-   * The current page number.
+   * Specifies the current page number.
    * @default 1
    */
   @Input()

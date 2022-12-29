@@ -26,7 +26,7 @@ export class SkyFlyoutInstance<T> {
   public closed = new EventEmitter<void>();
 
   /**
-   * The instance of the component to display in the flyout.
+   * Specifies the instance of the component to display in the flyout.
    */
   public componentInstance!: T;
 

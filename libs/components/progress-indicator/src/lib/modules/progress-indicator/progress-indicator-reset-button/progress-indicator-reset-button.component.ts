@@ -37,7 +37,7 @@ export class SkyProgressIndicatorResetButtonComponent implements OnDestroy {
   }
 
   /**
-   * The progress indicator component to associate with the reset button.
+   * Specifies the progress indicator component to associate with the reset button.
    * @required
    */
   @Input()

@@ -98,7 +98,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * The fonts to include in the font picker.
+   * Specifies the fonts to include in the font picker.
    * @default [{name: 'Blackbaud Sans', value: '"Blackbaud Sans", Arial, sans-serif'}, {name: 'Arial', value: 'Arial'}, {name: 'Arial Black', value: '"Arial Black"'}, {name: 'Courier New', value: '"Courier New"'}, {name: 'Georgia', value: 'Georgia, serif'}, {name: 'Tahoma', value: 'Tahoma, Geneva, sans-serif'}, {name: 'Times New Roman', value: '"Times New Roman"'}, {name: 'Trebuchet MS', value: '"Trebuchet MS", sans-serif'}, {name: 'Verdana', value: 'Verdana, Geneva, sans-serif'}]
    */
   @Input()
@@ -111,7 +111,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * The font sizes to include in the font size picker.
+   * Specifies the font sizes to include in the font size picker.
    * @default [6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 20, 22, 24, 26, 28, 36, 48]
    */
   @Input()
@@ -124,7 +124,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * A unique ID attribute for the text editor.
+   * Specifies a unique ID attribute for the text editor.
    * By default, the component generates a random ID.
    */
   @Input()
@@ -137,7 +137,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * The initial styles for all content, including background color, font size, and link state.
+   * Specifies the initial styles for all content, including background color, font size, and link state.
    */
   @Input()
   public set initialStyleState(state: SkyTextEditorStyleState | undefined) {
@@ -156,7 +156,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * The menus to include in the menu bar.
+   * Specifies the menus to include in the menu bar.
    * @default [ 'edit', 'format' ]
    */
   @Input()
@@ -169,7 +169,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * The merge fields to include in the merge field menu.
+   * Specifies the merge fields to include in the merge field menu.
    */
   @Input()
   public set mergeFields(value: SkyTextEditorMergeField[] | undefined) {
@@ -181,7 +181,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * Placeholder text to display when the text entry area is empty.
+   * Specifies placeholder text to display when the text entry area is empty.
    */
   @Input()
   public set placeholder(value: string | undefined) {
@@ -199,7 +199,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * The actions to include in the toolbar and determines their order.
+   * Specifies the actions to include in the toolbar and determines their order.
    * @default [ 'font-family', 'font-size', 'font-style', 'color', 'list', 'link ]
    */
   @Input()

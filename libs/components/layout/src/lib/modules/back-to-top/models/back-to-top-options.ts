@@ -1,5 +1,5 @@
 /**
- * Options for the back to top component.
+ * Specifies options for the back to top component.
  */
 export interface SkyBackToTopOptions {
   /**

@@ -60,7 +60,7 @@ export class SkyFuzzyDatepickerInputDirective
     Validator
 {
   /**
-   * The date format for the input. Place this attribute on the `input` element
+   * Specifies the date format for the input. Place this attribute on the `input` element
    * to override the default in `SkyDatepickerConfigService`.
    * @default "MM/DD/YYYY"
    */
@@ -124,7 +124,7 @@ export class SkyFuzzyDatepickerInputDirective
   }
 
   /**
-   * The latest fuzzy date allowed. Place this attribute on the `input` element
+   * Specifies the latest fuzzy date allowed. Place this attribute on the `input` element
    * to prevent fuzzy dates after a specified date. This property accepts
    * a `SkyFuzzyDate` value that includes numeric month, day, and year values.
    * For example: `{ month: 1, day: 1, year: 2027 }`.
@@ -141,7 +141,7 @@ export class SkyFuzzyDatepickerInputDirective
   }
 
   /**
-   * The earliest fuzzy date allowed. Place this attribute on the `input` element
+   * Specifies the earliest fuzzy date allowed. Place this attribute on the `input` element
    * to prevent fuzzy dates before a specified date. This property accepts a `SkyFuzzyDate` value
    * that includes numeric month, day, and year values.
    * For example: `{ month: 1, day: 1, year: 2007 }`.
@@ -165,7 +165,7 @@ export class SkyFuzzyDatepickerInputDirective
   public skyDatepickerNoValidate: boolean | undefined = false;
 
   /**
-   * The starting day of the week in the calendar, where `0` sets the starting day
+   * Specifies the starting day of the week in the calendar, where `0` sets the starting day
    * to Sunday. Place this attribute on the `input` element to override the default
    * in `SkyDatepickerConfigService`.
    * @default 0

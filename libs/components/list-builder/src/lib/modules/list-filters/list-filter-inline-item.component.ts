@@ -19,27 +19,27 @@ import { ListItemModel } from '@skyux/list-builder-common';
 })
 export class SkyListFilterInlineItemComponent implements OnInit {
   /**
-   * The name of the filter.
+   * Specifies the name of the filter.
    * @required
    */
   @Input()
   public name: string;
 
   /**
-   * The current value of the filter.
+   * Specifies the current value of the filter.
    */
   @Input()
   public value: any;
 
   /**
-   * The default value of the filter. If the value of the filter
+   * Specifies the default value of the filter. If the value of the filter
    * is set to the default value, then the filter is not applied.
    */
   @Input()
   public defaultValue: any;
 
   /**
-   * The function to apply to determine whether an item is filtered.
+   * Specifies the function to apply to determine whether an item is filtered.
    * This property is required when using an in-memory data provider. For information
    * about `ListItemModel`, see the
    * [shared classes for lists](https://developer.blackbaud.com/skyux-list-builder-common/docs/list-builder-common).
@@ -49,7 +49,7 @@ export class SkyListFilterInlineItemComponent implements OnInit {
   public filterFunction: (item: ListItemModel, filter: any) => boolean;
 
   /**
-   * The template for the filter. The template can access the `filter`
+   * Specifies the template for the filter. The template can access the `filter`
    * variable that contains the `value` of the filter control, which should be bound to
    * `ngModel`, and the `changed` function, which should be called when the model changes.
    * @required

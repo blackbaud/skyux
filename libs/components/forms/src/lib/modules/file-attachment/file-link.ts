@@ -1,6 +1,6 @@
 export interface SkyFileLink {
   /**
-   * The URL for the linked file.
+   * Specifies the URL for the linked file.
    */
   url: string;
 }

@@ -8,27 +8,27 @@ import { ListSortModel } from './state/sort/sort.model';
  */
 export class ListDataRequestModel {
   /**
-   * A function to determine whether items are filtered.
+   * Specifies a function to determine whether items are filtered.
    * This property is required when using an in-memory data provider.
    */
   public filters: ListFilterModel[];
   /**
-   * The number of items to display per page.
+   * Specifies the number of items to display per page.
    */
   public pageSize: number;
   /**
-   * The current page number.
+   * Specifies the current page number.
    */
   public pageNumber: number;
   /**
-   * A function to dynamically manage the data source when users
+   * Specifies a function to dynamically manage the data source when users
    * change the text in the list field. The search function must return an
    * array or a promise of an array. The `search` property is particularly useful
    * when the data source does not live in the source code.
    */
   public search: ListSearchModel;
   /**
-   * A set of fields to sort by.
+   * Specifies a set of fields to sort by.
    */
   public sort: ListSortModel;
   /**

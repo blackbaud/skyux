@@ -1,5 +1,5 @@
 /**
- * The type of inline delete that is shown.
+ * Specifies the type of inline delete that is shown.
  * @internal
  */
 export enum SkyInlineDeleteType {

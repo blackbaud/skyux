@@ -1,7 +1,7 @@
 import { SkyPopoverMessageType } from './popover-message-type';
 
 /**
- * Messages to be sent to the popover component.
+ * Specifies messages to be sent to the popover component.
  */
 export interface SkyPopoverMessage {
   /**

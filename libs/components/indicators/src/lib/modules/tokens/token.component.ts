@@ -31,7 +31,7 @@ export class SkyTokenComponent {
   }
 
   /**
-   * An ARIA label for the token's close button. This sets the button's `aria-label`
+   * Specifies an ARIA label for the token's close button. This sets the button's `aria-label`
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * @default "Remove item"
    */

@@ -9,35 +9,35 @@ import { SkyColorpickerRgba } from './colorpicker-rgba';
  */
 export interface SkyColorpickerOutput {
   /**
-   * An HSLA text value for the selected color.
+   * Specifies an HSLA text value for the selected color.
    */
   hslaText: string;
   /**
-   * An RGBA text value for the selected color.
+   * Specifies an RGBA text value for the selected color.
    */
   rgbaText: string;
   /**
-   * A CMYK text value for the selected color.
+   * Specifies a CMYK text value for the selected color.
    */
   cmykText: string;
   /**
-   * The HSVA values for the selected color.
+   * Specifies the HSVA values for the selected color.
    */
   hsva: SkyColorpickerHsva;
   /**
-   * The RGBA values for the selected color.
+   * Specifies the RGBA values for the selected color.
    */
   rgba: SkyColorpickerRgba;
   /**
-   * The HSLA values for the selected color.
+   * Specifies the HSLA values for the selected color.
    */
   hsla: SkyColorpickerHsla;
   /**
-   * The CMYK values for the selected color.
+   * Specifies the CMYK values for the selected color.
    */
   cmyk: SkyColorpickerCmyk;
   /**
-   * The hex value for the selected color.
+   * Specifies the hex value for the selected color.
    */
   hex: string;
 }

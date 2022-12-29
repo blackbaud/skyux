@@ -1,5 +1,5 @@
 /**
- * How to display the term-description pairs within a description list.
+ * Specifies how to display the term-description pairs within a description list.
  */
 export type SkyDescriptionListModeType =
   | 'horizontal'

@@ -60,13 +60,13 @@ export class SkyCountryFieldComponent
   implements AfterViewInit, ControlValueAccessor, OnDestroy, OnInit, Validator
 {
   /**
-   * The value for the `autocomplete` attribute on the form input.
+   * Specifies the value for the `autocomplete` attribute on the form input.
    */
   @Input()
   public autocompleteAttribute: string | undefined;
 
   /**
-   * The [International Organization for Standardization Alpha 2](https://www.nationsonline.org/oneworld/country_code_list.htm)
+   * Specifies the [International Organization for Standardization Alpha 2](https://www.nationsonline.org/oneworld/country_code_list.htm)
    * country code for the default country.
    * When search results include the default country, it appears at the top of the list.
    * @default "us"
@@ -142,7 +142,7 @@ export class SkyCountryFieldComponent
   }
 
   /**
-   * The [International Organization for Standardization Alpha 2](https://www.nationsonline.org/oneworld/country_code_list.htm)
+   * Specifies the [International Organization for Standardization Alpha 2](https://www.nationsonline.org/oneworld/country_code_list.htm)
    * country codes for the countries that users can select. By default, all countries are available.
    */
   @Input()

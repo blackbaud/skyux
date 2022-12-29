@@ -31,7 +31,7 @@ export class SkySectionedFormSectionComponent implements OnInit, OnDestroy {
   public sectionContentId = `sky-sectioned-form-section-${++nextId}`;
 
   /**
-   * The section header.
+   * Specifies the section header.
    * @required
    */
   @Input()

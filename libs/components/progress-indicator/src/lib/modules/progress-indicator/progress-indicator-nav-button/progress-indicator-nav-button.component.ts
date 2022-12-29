@@ -35,14 +35,14 @@ export class SkyProgressIndicatorNavButtonComponent
   implements AfterViewInit, OnDestroy
 {
   /**
-   * The label to display on the nav button.
+   * Specifies the label to display on the nav button.
    * @default "Next"
    */
   @Input()
   public buttonText: string | undefined;
 
   /**
-   * The type of nav button to include.
+   * Specifies the type of nav button to include.
    * The valid options are `"finish"`, `"next"`, `"previous"`, and `"reset"`.
    * @default "next"
    */
@@ -70,7 +70,7 @@ export class SkyProgressIndicatorNavButtonComponent
   }
 
   /**
-   * The progress indicator component to associate with the nav button.
+   * Specifies the progress indicator component to associate with the nav button.
    * @required
    */
   @Input()

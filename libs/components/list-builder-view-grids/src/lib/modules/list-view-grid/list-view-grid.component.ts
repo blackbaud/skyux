@@ -84,7 +84,7 @@ export class SkyListViewGridComponent
   implements AfterContentInit, OnDestroy
 {
   /**
-   * The name of the view.
+   * Specifies the name of the view.
    * @required
    */
   @Input()
@@ -93,19 +93,19 @@ export class SkyListViewGridComponent
   }
 
   /**
-   * The columns to display by default based on the ID or field of the item.
+   * Specifies the columns to display by default based on the ID or field of the item.
    */
   @Input()
   public displayedColumns: Array<string> | Observable<Array<string>>;
 
   /**
-   * The columns to hide by default based on the ID or field of the item.
+   * Specifies the columns to hide by default based on the ID or field of the item.
    */
   @Input()
   public hiddenColumns: Array<string> | Observable<Array<string>>;
 
   /**
-   * How the grid fits to its parent. `"width"` fits the grid to the parent's full
+   * Specifies how the grid fits to its parent. `"width"` fits the grid to the parent's full
    * width, and `"scroll"` allows the grid to exceed the parent's width. If the grid does not have
    * enough columns to fill the parent's width, it always stretches to the parent's full width.
    * @default "width"
@@ -114,13 +114,13 @@ export class SkyListViewGridComponent
   public fit = 'width';
 
   /**
-   * The width of the grid.
+   * Specifies the width of the grid.
    */
   @Input()
   public width: number | Observable<number>;
 
   /**
-   * The height of the grid.
+   * Specifies the height of the grid.
    */
   @Input()
   public height: number | Observable<number>;
@@ -153,7 +153,7 @@ export class SkyListViewGridComponent
   }
 
   /**
-   * The ID of the row to highlight. The ID matches the `id` property of
+   * Specifies the ID of the row to highlight. The ID matches the `id` property of
    * the `data` object. Typically, this property is used in conjunction with the
    * [flyout component](https://developer.blackbaud.com/skyux/components/flyout) to
    * indicate the currently selected row.
@@ -172,7 +172,7 @@ export class SkyListViewGridComponent
   public enableMultiselect = false;
 
   /**
-   * A unique key for the UI Config Service to retrieve stored settings from
+   * Specifies a unique key for the UI Config Service to retrieve stored settings from
    * a database. The service saves configuration settings for users and returns `selectedColumnIds`
    * for the columns to display and the preferred column order. For more information, see the
    * [sticky settings documentation](https://developer.blackbaud.com/skyux/learn/get-started/advanced/sticky-settings).
@@ -238,7 +238,7 @@ export class SkyListViewGridComponent
   public multiselectSelectedIds: string[] = [];
 
   /**
-   * A search function to apply on the view data.
+   * Specifies a search function to apply on the view data.
    * @param data Specifies the data to search.
    * @param searchText Specifies a text string to search for.
    */

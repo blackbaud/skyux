@@ -61,7 +61,7 @@ export class SkyLookupComponent
   implements OnInit, AfterViewInit, OnDestroy, ControlValueAccessor
 {
   /**
-   * An ARIA label for the typeahead search input
+   * Specifies an ARIA label for the typeahead search input
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the input includes a visible label, use `ariaLabelledBy` instead.
    */
@@ -69,7 +69,7 @@ export class SkyLookupComponent
   public ariaLabel: string | undefined;
 
   /**
-   * The HTML element ID (without the leading `#`) of the element that labels
+   * Specifies the HTML element ID (without the leading `#`) of the element that labels
    * the typeahead search input. This sets the input's `aria-labelledby` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the input does not include a visible label, use `ariaLabel` instead.
@@ -78,13 +78,13 @@ export class SkyLookupComponent
   public ariaLabelledBy: string | undefined;
 
   /**
-   * The value for the `autocomplete` attribute on the form input.
+   * Specifies the value for the `autocomplete` attribute on the form input.
    */
   @Input()
   public autocompleteAttribute: string | undefined;
 
   /**
-   * A data source for the lookup component to search when users
+   * Specifies a data source for the lookup component to search when users
    * enter text. You can specify static data such as an array of objects, or
    * you can pull data from a database.
    * @default []
@@ -129,13 +129,13 @@ export class SkyLookupComponent
   }
 
   /**
-   * Placeholder text to display in the lookup field.
+   * Specifies placeholder text to display in the lookup field.
    */
   @Input()
   public placeholderText: string | undefined;
 
   /**
-   * An object property that represents the object's unique identifier.
+   * Specifies an object property that represents the object's unique identifier.
    * Specifying this property enables token animations and more efficient rendering.
    * This property is required when using `enableShowMore` and `searchAsync` together.
    */
@@ -156,13 +156,13 @@ export class SkyLookupComponent
   }
 
   /**
-   * Configuration options for the picker that displays all options.
+   * Specifies configuration options for the picker that displays all options.
    */
   @Input()
   public showMoreConfig: SkyLookupShowMoreConfig | undefined;
 
   /**
-   * Whether users can select one option or multiple options.
+   * Specifies whether users can select one option or multiple options.
    * @default "multiple"
    */
   @Input()

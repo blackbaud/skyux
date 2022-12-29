@@ -1,4 +1,4 @@
 /**
- * The user action that displays the popover.
+ * Specifies the user action that displays the popover.
  */
 export type SkyPopoverTrigger = 'click' | 'mouseenter';

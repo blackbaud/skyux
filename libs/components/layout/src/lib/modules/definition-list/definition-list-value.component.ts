@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { SkyDefinitionListService } from './definition-list.service';
 
 /**
- * The value in a label-value pair.
+ * Specifies the value in a label-value pair.
  */
 @Component({
   selector: 'sky-definition-list-value',

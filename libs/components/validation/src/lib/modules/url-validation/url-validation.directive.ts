@@ -26,7 +26,7 @@ const SKY_URL_VALIDATION_VALIDATOR = {
 })
 export class SkyUrlValidationDirective implements Validator {
   /**
-   * Configuration options for the URL validation component.
+   * Specifies configuration options for the URL validation component.
    */
   @Input()
   public set skyUrlValidation(value: SkyUrlValidationOptions | undefined) {

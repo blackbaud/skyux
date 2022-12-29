@@ -3,17 +3,17 @@
  */
 export interface SkyGridColumnWidthModelChange {
   /**
-   * The id of the column.
+   * Specifies the id of the column.
    */
   id?: string;
 
   /**
-   * The field of the column.
+   * Specifies the field of the column.
    */
   field?: string;
 
   /**
-   * The width of the column in pixels.
+   * Specifies the width of the column in pixels.
    */
   width: number;
 }

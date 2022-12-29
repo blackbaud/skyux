@@ -4,15 +4,15 @@
  */
 export class ListSortLabelModel {
   /**
-   * The text for the label.
+   * Specifies the text for the label.
    */
   public text: string;
   /**
-   * The label type.
+   * Specifies the label type.
    */
   public fieldType: string;
   /**
-   * The fields to sort.
+   * Specifies the fields to sort.
    */
   public fieldSelector: string;
   /**

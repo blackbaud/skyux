@@ -14,7 +14,7 @@ import { SkyPageThemeAdapterService } from './page-theme-adapter.service';
 })
 export class SkyPageComponent implements OnInit, OnDestroy {
   /**
-   * The page layout. Use `auto` to allow the page contents
+   * Specifies the page layout. Use `auto` to allow the page contents
    * to expand beyond the bottom of the browser window. Use `fit`
    * to constrain the page contents to the available viewport.
    */

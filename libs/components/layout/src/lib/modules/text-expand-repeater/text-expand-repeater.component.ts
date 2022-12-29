@@ -57,7 +57,7 @@ let nextId = 0;
 })
 export class SkyTextExpandRepeaterComponent implements AfterViewInit {
   /**
-   * The data to truncate.
+   * Specifies the data to truncate.
    */
   @Input()
   public set data(value: any[] | undefined) {
@@ -75,13 +75,13 @@ export class SkyTextExpandRepeaterComponent implements AfterViewInit {
   }
 
   /**
-   * A template for items in the list.
+   * Specifies a template for items in the list.
    */
   @Input()
   public itemTemplate: TemplateRef<unknown> | undefined;
 
   /**
-   * The style of bullet to use
+   * Specifies the style of bullet to use
    * @default "unordered"
    */
   @Input()
@@ -89,7 +89,7 @@ export class SkyTextExpandRepeaterComponent implements AfterViewInit {
     'unordered';
 
   /**
-   * The number of items to display before truncating the list. If not supplied, all items are shown.
+   * Specifies the number of items to display before truncating the list. If not supplied, all items are shown.
    */
   @Input()
   public set maxItems(value: number | undefined) {

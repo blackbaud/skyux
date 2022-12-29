@@ -35,7 +35,7 @@ export class SkyAgGridRowDeleteDirective
   implements AfterContentInit, OnDestroy
 {
   /**
-   * The ids of the data in the rows on which inline delete's should be shown.
+   * Specifies the ids of the data in the rows on which inline delete's should be shown.
    */
   @Input()
   public set rowDeleteIds(value: string[] | undefined) {

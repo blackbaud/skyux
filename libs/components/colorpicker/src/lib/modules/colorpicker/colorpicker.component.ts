@@ -53,21 +53,21 @@ let componentIdIndex = 0;
 })
 export class SkyColorpickerComponent implements OnInit, OnDestroy {
   /**
-   * The name of the [Font Awesome 4.7](https://fontawesome.com/v4.7/icons/) icon to overlay on top of the picker. Do not specify the `fa fa-` classes.
+   * Specifies the name of the [Font Awesome 4.7](https://fontawesome.com/v4.7/icons/) icon to overlay on top of the picker. Do not specify the `fa fa-` classes.
    * @internal
    */
   @Input()
   public pickerButtonIcon: string | undefined;
 
   /**
-   * The type of icon to display. Specifying `fa` will display a Font Awesome icon, while specifying `skyux` will display an icon from the custom SKY UX icon font. Note that the custom SKY UX icon font is currently in beta.
+   * Specifies the type of icon to display. Specifying `fa` will display a Font Awesome icon, while specifying `skyux` will display an icon from the custom SKY UX icon font. Note that the custom SKY UX icon font is currently in beta.
    * @internal
    */
   @Input()
   public pickerButtonIconType: SkyIconType = 'fa';
 
   /**
-   * An ARIA label for the colorpicker. This sets the colorpicker's `aria-label` attribute
+   * Specifies an ARIA label for the colorpicker. This sets the colorpicker's `aria-label` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/components/checkbox#accessibility)
    * when the colorpicker does not include a visible label. If the colorpicker includes a visible label, use `labelledBy` instead.
    * @default "Select color value"
@@ -76,7 +76,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   public label: string | undefined;
 
   /**
-   * The HTML element ID (without the leading `#`) of the element that labels the
+   * Specifies the HTML element ID (without the leading `#`) of the element that labels the
    * colorpicker. This sets the colorpicker's `aria-labelledby` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/components/checkbox#accessibility).
    * If the colorpicker does not include a visible label, use `label` instead.

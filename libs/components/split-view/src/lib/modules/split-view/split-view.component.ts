@@ -56,7 +56,7 @@ import { SkySplitViewMessageType } from './types/split-view-message-type';
 })
 export class SkySplitViewComponent implements OnInit, OnDestroy {
   /**
-   * A label for the button that appears in the workspace header in responsive mode.
+   * Specifies a label for the button that appears in the workspace header in responsive mode.
    * The button returns users to the list.
    * @default "Back to list"
    */
@@ -96,7 +96,7 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * How the split view should dock to its container. Use `fill` to dock
+   * Specifies how the split view should dock to its container. Use `fill` to dock
    * the split view to the container's size where the container is a `sky-page` component
    * with its `layout` input set to `fit`, or where the container is another element with
    * a relative or absolute position and a fixed size.

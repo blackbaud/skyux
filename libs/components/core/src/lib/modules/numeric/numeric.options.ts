@@ -3,32 +3,32 @@
  */
 export interface SkyNumericOptions {
   /**
-   * The maximum number of digits after the decimal separator.
+   * Specifies the maximum number of digits after the decimal separator.
    */
   digits?: number;
 
   /**
-   * How to format the number. Options are `currency` or `number`.
+   * Specifies how to format the number. Options are `currency` or `number`.
    */
   format?: string;
 
   /**
-   * The format of the currency.
+   * Specifies the format of the currency.
    */
   currencySign?: 'accounting' | 'standard';
 
   /**
-   * The ISO4217 currency code to use for currency formatting.
+   * Specifies the ISO4217 currency code to use for currency formatting.
    */
   iso?: string;
 
   /**
-   * The locale code to use when formatting.
+   * Specifies the locale code to use when formatting.
    */
   locale?: string;
 
   /**
-   * The minimum number of digits after the decimal separator. This property only applies
+   * Specifies the minimum number of digits after the decimal separator. This property only applies
    * when the `truncate` property is set to `false`. If `digits` specifies a maximum number of
    * digits, then `minDigits` must be less than that value.
    */
@@ -41,7 +41,7 @@ export interface SkyNumericOptions {
   truncate?: boolean;
 
   /**
-   * The minimum value at which numbers are shortened to rounded numbers and abbreviation characters. Values less than `1000` are not truncated.
+   * Specifies the minimum value at which numbers are shortened to rounded numbers and abbreviation characters. Values less than `1000` are not truncated.
    */
   truncateAfter?: number;
 }

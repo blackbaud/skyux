@@ -34,7 +34,7 @@ let nextId = 0;
 })
 export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   /**
-   * An ARIA label for the checkbox. This sets the checkbox's `aria-label` attribute
+   * Specifies an ARIA label for the checkbox. This sets the checkbox's `aria-label` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/components/checkbox#accessibility)
    * when the checkbox does not include a visible label. You must set this property for icon
    * checkboxes. If the checkbox includes a visible label, use `labelledBy` instead.
@@ -43,7 +43,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   public label: string | undefined;
 
   /**
-   * The HTML element ID (without the leading `#`) of the element that labels the
+   * Specifies the HTML element ID (without the leading `#`) of the element that labels the
    * checkbox. This sets the checkbox's `aria-labelledby` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/components/checkbox#accessibility).
    * If the checkbox does not include a visible label, use `label` instead.
@@ -52,7 +52,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   public labelledBy: string | undefined;
 
   /**
-   * An ID for the checkbox.
+   * Specifies an ID for the checkbox.
    * @default a unique, auto-incrementing integer. For example: `sky-checkbox-1`
    */
   @Input()
@@ -92,14 +92,14 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   }
 
   /**
-   * An index for the checkbox. If not defined, the index is set to the position of the
+   * Specifies an index for the checkbox. If not defined, the index is set to the position of the
    * checkbox on load.
    */
   @Input()
   public tabindex: number | undefined = 0;
 
   /**
-   * A name for a group of checkboxes.
+   * Specifies a name for a group of checkboxes.
    * @default a unique, auto-incrementing integer. For example: `sky-checkbox-1`
    */
   @Input()
@@ -123,7 +123,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   public change = new EventEmitter<SkyCheckboxChange>();
 
   /**
-   * An icon to display in place of the checkbox. To group icon checkboxes
+   * Specifies an icon to display in place of the checkbox. To group icon checkboxes
    * like in the demo, place the `sky-switch-icon-group` class on the direct parent
    * element of the checkboxes.
    */
@@ -131,7 +131,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   public icon: string | undefined;
 
   /**
-   * A type to set the background color after users select a checkbox where the
+   * Specifies a type to set the background color after users select a checkbox where the
    * `icon` property displays an icon in place of the checkbox. The valid options correspond to
    * [the label component's](https://developer.blackbaud.com/skyux/components/label)
    * label types. `"info"` creates a blue background, `"success"` creates a green

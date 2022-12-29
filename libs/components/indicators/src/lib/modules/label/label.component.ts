@@ -35,7 +35,7 @@ export class SkyLabelComponent implements OnDestroy, OnInit {
   }
 
   /**
-   * The predefined text to be read by screen readers for users who cannot see the indicator icon.
+   * Specifies the predefined text to be read by screen readers for users who cannot see the indicator icon.
    * This property is optional but will be required in future versions of SKY UX.
    */
   @Input()
@@ -45,7 +45,7 @@ export class SkyLabelComponent implements OnDestroy, OnInit {
   }
 
   /**
-   * The text to be read by screen readers for users who cannot see
+   * Specifies the text to be read by screen readers for users who cannot see
    * the indicator icon when `descriptionType` is `custom`.
    */
   @Input()

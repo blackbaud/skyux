@@ -43,7 +43,7 @@ const DEFAULT_BUTTON_TYPE = 'select';
 })
 export class SkyDropdownComponent implements OnInit, OnDestroy {
   /**
-   * A background color for the dropdown button. Available values are `default`,
+   * Specifies a background color for the dropdown button. Available values are `default`,
    * `primary`, and `link`. These values set the background color and hover behavior from the
    * [secondary and primary button classes](https://developer.blackbaud.com/skyux/components/button) respectively.
    * @default "default"
@@ -58,7 +58,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * The type of button to render as the dropdown's trigger element. To display a button
+   * Specifies the type of button to render as the dropdown's trigger element. To display a button
    * with a caret, specify `'select'` and render the button text or icon in a
    * `sky-dropdown-button` element. To display a round button with an ellipsis, specify
    * `'context-menu'`.
@@ -105,14 +105,14 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * An ARIA label for the dropdown. This sets the dropdown's `aria-label` attribute
+   * Specifies an ARIA label for the dropdown. This sets the dropdown's `aria-label` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    */
   @Input()
   public label: string | undefined;
 
   /**
-   * The horizontal alignment of the dropdown menu in relation to the dropdown button.
+   * Specifies the horizontal alignment of the dropdown menu in relation to the dropdown button.
    * @default "left"
    */
   @Input()
@@ -136,13 +136,13 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     new Subject<SkyDropdownMessage>();
 
   /**
-   * A title to display in a tooltip when users hover the mouse over the dropdown button.
+   * Specifies a title to display in a tooltip when users hover the mouse over the dropdown button.
    */
   @Input()
   public title: string | undefined;
 
   /**
-   * How users interact with the dropdown button to expose the dropdown menu.
+   * Specifies how users interact with the dropdown button to expose the dropdown menu.
    * We recommend the default `click` value because the `hover` value can pose
    * [accessibility](https://developer.blackbaud.com/skyux/learn/accessibility) issues
    * for users on touch devices such as phones and tablets.

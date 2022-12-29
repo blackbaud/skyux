@@ -1,7 +1,7 @@
 import { SkyTileDashboardMessageType } from './tile-dashboard-message-type';
 
 /**
- * The messages to be sent to the tile dashboard component.
+ * Specifies the messages to be sent to the tile dashboard component.
  */
 export interface SkyTileDashboardMessage {
   /**

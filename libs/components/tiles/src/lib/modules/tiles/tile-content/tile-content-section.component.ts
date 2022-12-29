@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 /**
- * Content to display inside a padded section of a SkyTileContentComponent.
+ * Specifies content to display inside a padded section of a SkyTileContentComponent.
  */
 @Component({
   selector: 'sky-tile-content-section',

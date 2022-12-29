@@ -32,7 +32,7 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
   public disabled: boolean | undefined;
 
   /**
-   * The header for the collapsible group of tabs.
+   * Specifies the header for the collapsible group of tabs.
    */
   @Input()
   public groupHeading: string | undefined;

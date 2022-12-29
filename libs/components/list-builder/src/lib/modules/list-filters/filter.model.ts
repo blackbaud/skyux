@@ -2,13 +2,13 @@ import { ListItemModel } from '@skyux/list-builder-common';
 
 export class ListFilterModel {
   /**
-   * The name of the filter.
+   * Specifies the name of the filter.
    * @required
    */
   public name: string;
 
   /**
-   * A label for the filter's summary item.
+   * Specifies a label for the filter's summary item.
    * The label defaults to the `value` of the filter.
    */
   public label: string;
@@ -20,18 +20,18 @@ export class ListFilterModel {
   public dismissible = true;
 
   /**
-   * The current value of the filter.
+   * Specifies the current value of the filter.
    */
   public value: any;
 
   /**
-   * The default value of the filter. When users do not set the
+   * Specifies the default value of the filter. When users do not set the
    * default value, the filter does not affect the list.
    */
   public defaultValue: any;
 
   /**
-   * A function to determine whether items are filtered.
+   * Specifies a function to determine whether items are filtered.
    * This property is required when using an in-memory data provider.
    * For information about `ListItemModel`, see the
    * [shared classes for lists](https://developer.blackbaud.com/skyux-list-builder-common/docs/list-builder-common).

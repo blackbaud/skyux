@@ -51,7 +51,7 @@ export class SkyFileAttachmentComponent
   implements AfterViewInit, AfterContentInit, OnInit, OnDestroy
 {
   /**
-   * A comma-delimited string literal of MIME types that users can attach.
+   * Specifies a comma-delimited string literal of MIME types that users can attach.
    * By default, all file types are allowed.
    * @required
    */
@@ -75,7 +75,7 @@ export class SkyFileAttachmentComponent
   }
 
   /**
-   * The maximum size in bytes for valid files.
+   * Specifies the maximum size in bytes for valid files.
    * @default 500000
    */
   @Input()
@@ -88,7 +88,7 @@ export class SkyFileAttachmentComponent
   }
 
   /**
-   * The minimum size in bytes for valid files.
+   * Specifies the minimum size in bytes for valid files.
    * @default 0
    */
   @Input()
@@ -101,7 +101,7 @@ export class SkyFileAttachmentComponent
   }
 
   /**
-   * A custom validation function. This validation runs alongside the internal
+   * Specifies a custom validation function. This validation runs alongside the internal
    * file validation. This function takes a `SkyFileItem` object as a parameter.
    */
   @Input()

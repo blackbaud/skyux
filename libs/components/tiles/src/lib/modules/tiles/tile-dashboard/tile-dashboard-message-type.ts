@@ -1,5 +1,5 @@
 /**
- * The type of message to send to the tile dashboard component.
+ * Specifies the type of message to send to the tile dashboard component.
  */
 export enum SkyTileDashboardMessageType {
   /**

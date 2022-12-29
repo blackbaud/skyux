@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 /**
- * The controls to display in upper right corner of the box. These buttons typically let users edit the box content.
+ * Specifies the controls to display in upper right corner of the box. These buttons typically let users edit the box content.
  */
 @Component({
   selector: 'sky-box-controls',

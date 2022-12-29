@@ -1,5 +1,5 @@
 /**
- * The commands to provide the colorpicker.
+ * Specifies the commands to provide the colorpicker.
  */
 export enum SkyColorpickerMessageType {
   /**

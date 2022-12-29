@@ -6,7 +6,7 @@ import { SkyDateRangeCalculatorId } from './date-range-calculator-id';
  */
 export interface SkyDateRangeCalculation extends SkyDateRange {
   /**
-   * The calculator that determines the dates in the date range.
+   * Specifies the calculator that determines the dates in the date range.
    */
   calculatorId: SkyDateRangeCalculatorId;
 }

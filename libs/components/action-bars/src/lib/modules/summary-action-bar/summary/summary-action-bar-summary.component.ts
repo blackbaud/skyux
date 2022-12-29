@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
- * The summary information to display.
+ * Specifies the summary information to display.
  */
 @Component({
   selector: 'sky-summary-action-bar-summary',

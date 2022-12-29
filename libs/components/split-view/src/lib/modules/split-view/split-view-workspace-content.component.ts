@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 
 /**
- * The content to display in the split view's workspace panel.
+ * Specifies the content to display in the split view's workspace panel.
  */
 @Component({
   selector: 'sky-split-view-workspace-content',

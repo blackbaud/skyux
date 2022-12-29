@@ -5,7 +5,7 @@ import { SkyColorpickerMessageType } from './colorpicker-message-type';
  */
 export interface SkyColorpickerMessage {
   /**
-   * The message type.
+   * Specifies the message type.
    */
   type?: SkyColorpickerMessageType;
 }

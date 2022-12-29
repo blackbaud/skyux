@@ -24,7 +24,7 @@ import { SkyTileDashboardMessageType } from './tile-dashboard-message-type';
 import { SkyTileDashboardService } from './tile-dashboard.service';
 
 /**
- * A container to group multiple tiles.
+ * Specifies a container to group multiple tiles.
  */
 @Component({
   selector: 'sky-tile-dashboard',
@@ -58,7 +58,7 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
   public messageStream = new Subject<SkyTileDashboardMessage>();
 
   /**
-   * A unique key for the UI Config Service to retrieve stored settings
+   * Specifies a unique key for the UI Config Service to retrieve stored settings
    * from a database. The UI Config Service saves configuration settings for users
    * to preserve the layout and collapsed state of tile dashboards. The UI Config Service relies on `id` values from the `config` property to maintain user settings. For more information
    * about the UI Config Service, see the

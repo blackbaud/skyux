@@ -2,7 +2,7 @@ import { SkyTheme } from './theme';
 import { SkyThemeMode } from './theme-mode';
 
 /**
- * The theme and mode to be applied to a host element.
+ * Specifies the theme and mode to be applied to a host element.
  */
 export class SkyThemeSettings {
   /**

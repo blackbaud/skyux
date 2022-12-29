@@ -26,7 +26,7 @@ import { SkyBackToTopOptions } from './models/back-to-top-options';
 })
 export class SkyBackToTopDirective implements AfterViewInit, OnDestroy {
   /**
-   * Configuration options for the back to top component.
+   * Specifies configuration options for the back to top component.
    */
   @Input()
   public set skyBackToTop(value: SkyBackToTopOptions | '' | undefined) {

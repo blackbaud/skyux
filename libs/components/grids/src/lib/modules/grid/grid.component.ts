@@ -83,7 +83,7 @@ export class SkyGridComponent
   implements OnInit, AfterContentInit, AfterViewInit, OnChanges, OnDestroy
 {
   /**
-   * Columns and column properties for the grid.
+   * Specifies columns and column properties for the grid.
    */
   @Input()
   public set columns(newColumns: Array<SkyGridColumnModel>) {
@@ -102,7 +102,7 @@ export class SkyGridComponent
   }
 
   /**
-   * The data for the grid. Each item requires an `id` and a property that maps
+   * Specifies the data for the grid. Each item requires an `id` and a property that maps
    * to the `field` or `id` property of each column in the grid.
    */
   @Input()
@@ -119,7 +119,7 @@ export class SkyGridComponent
   public enableMultiselect = false;
 
   /**
-   * How the grid fits to its parent. The valid options are `width`,
+   * Specifies how the grid fits to its parent. The valid options are `width`,
    * which fits the grid to the parent's full width, and `scroll`, which allows the grid
    * to exceed the parent's width. If the grid does not have enough columns to fill
    * the parent's width, it always stretches to the parent's full width.
@@ -135,13 +135,13 @@ export class SkyGridComponent
   public hasToolbar = false;
 
   /**
-   * The height of the grid.
+   * Specifies the height of the grid.
    */
   @Input()
   public height: number;
 
   /**
-   * Text to highlight within the grid.
+   * Specifies text to highlight within the grid.
    * Typically, this property is used in conjunction with search.
    */
   @Input()
@@ -154,14 +154,14 @@ export class SkyGridComponent
   public messageStream = new Subject<SkyGridMessage>();
 
   /**
-   * A unique ID that matches a property on the `data` object.
+   * Specifies a unique ID that matches a property on the `data` object.
    * By default, this property uses the `id` property.
    */
   @Input()
   public multiselectRowId: string;
 
   /**
-   * The ID of the row to highlight. The ID matches the `id` property
+   * Specifies the ID of the row to highlight. The ID matches the `id` property
    * of the `data` object. Typically, this property is used in conjunction with
    * the flyout component to indicate the currently selected row.
    */
@@ -169,7 +169,7 @@ export class SkyGridComponent
   public rowHighlightedId: string;
 
   /**
-   * The columns to display in the grid based on the `id` or `field` properties
+   * Specifies the columns to display in the grid based on the `id` or `field` properties
    * of the columns. If no columns are specified, then the grid displays all columns.
    */
   @Input()
@@ -206,7 +206,7 @@ export class SkyGridComponent
   }
 
   /**
-   * A set of IDs for the rows to select in a multiselect grid.
+   * Specifies a set of IDs for the rows to select in a multiselect grid.
    * The IDs match the `id` properties of the `data` objects.
    * Rows with IDs that are not included are de-selected in the grid.
    */
@@ -224,7 +224,7 @@ export class SkyGridComponent
   }
 
   /**
-   * A unique key for the UI Config Service to retrieve stored settings from a database.
+   * Specifies a unique key for the UI Config Service to retrieve stored settings from a database.
    * The UI Config Service saves configuration settings for users and returns
    * `selectedColumnIds` to preserve the columns to display and the preferred column order. You  must provide `id` values for your `sky-grid-column` elements because the UI Config Service depends on those values to organize columns based on user settings. For more information about the UI Config Service, see [the sticky settings documentation](https://developer.blackbaud.com/skyux/learn/get-started/sticky-settings).
    */
@@ -244,7 +244,7 @@ export class SkyGridComponent
   public sortField: ListSortFieldSelectorModel;
 
   /**
-   * The width of the grid in pixels.
+   * Specifies the width of the grid in pixels.
    */
   @Input()
   public width: number;

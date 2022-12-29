@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 /**
- * A wrapper for the inline filters.
+ * Specifies a wrapper for the inline filters.
  */
 @Component({
   selector: 'sky-filter-inline',

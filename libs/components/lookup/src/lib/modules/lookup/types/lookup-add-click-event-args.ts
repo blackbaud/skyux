@@ -1,7 +1,7 @@
 import { SkyLookupAddCallbackArgs } from './lookup-add-click-callback-args';
 
 /**
- * A callback function for the consumer to use to notify the lookup that a new item has been added.
+ * Specifies a callback function for the consumer to use to notify the lookup that a new item has been added.
  */
 export interface SkyLookupAddClickEventArgs {
   /**

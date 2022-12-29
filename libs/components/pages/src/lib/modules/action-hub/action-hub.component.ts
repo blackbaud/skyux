@@ -57,7 +57,7 @@ export class SkyActionHubComponent {
   public settingsLinks: SkyPageModalLinksInput = [];
 
   /**
-   * The page title.
+   * Specifies the page title.
    * @default ""
    */
   @Input()

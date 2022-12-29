@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
- * A wrapper for the filters that were applied.
+ * Specifies a wrapper for the filters that were applied.
  */
 @Component({
   selector: 'sky-filter-summary',

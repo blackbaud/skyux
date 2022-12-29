@@ -19,7 +19,7 @@ import { SkyFileLink } from './file-link';
 })
 export class SkyFileItemComponent implements DoCheck {
   /**
-   * The summary information to display about file attachments. For local files,
+   * Specifies the summary information to display about file attachments. For local files,
    * the default summary includes the file name, file size, file preview, and a delete button.
    * For external files, the default summary includes the URL and a delete button.
    * You can include additional inputs to display user-entered metadata.

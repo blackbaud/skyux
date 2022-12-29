@@ -6,25 +6,25 @@ import { SkyFlyoutConfig } from './flyout-config';
  */
 export interface SkyFlyoutConfigInternal extends SkyFlyoutConfig {
   /**
-   * The default width of the flyout container. If you do not provide a width,
+   * Specifies the default width of the flyout container. If you do not provide a width,
    * the flyout defaults to half the width of its container.
    */
   defaultWidth: number;
 
   /**
-   * The minimum resize width of the flyout container.
+   * Specifies the minimum resize width of the flyout container.
    * @default 320
    */
   minWidth: number;
 
   /**
-   * The maximum resize width of the flyout container.
+   * Specifies the maximum resize width of the flyout container.
    * @default defaultWidth
    */
   maxWidth: number;
 
   /**
-   * An array of custom providers to pass to the component's constructor.
+   * Specifies an array of custom providers to pass to the component's constructor.
    */
   providers: any[];
 }

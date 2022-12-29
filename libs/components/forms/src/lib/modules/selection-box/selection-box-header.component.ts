@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 /**
- * The header to display in a selection box.
+ * Specifies the header to display in a selection box.
  */
 @Component({
   selector: 'sky-selection-box-header',

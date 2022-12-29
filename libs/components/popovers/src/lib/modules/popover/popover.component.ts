@@ -25,7 +25,7 @@ import { SkyPopoverType } from './types/popover-type';
 })
 export class SkyPopoverComponent implements OnDestroy {
   /**
-   * The horizontal alignment of the popover in relation to the trigger element.
+   * Specifies the horizontal alignment of the popover in relation to the trigger element.
    * The `skyPopoverAlignment` property on the popover directive takes precedence over this property when specified.
    * @default "center"
    */
@@ -53,7 +53,7 @@ export class SkyPopoverComponent implements OnDestroy {
   }
 
   /**
-   * The placement of the popover in relation to the trigger element.
+   * Specifies the placement of the popover in relation to the trigger element.
    * The `skyPopoverPlacement` property on the popover directive takes precedence over this property when specified.
    * @default "above"
    */
@@ -67,13 +67,13 @@ export class SkyPopoverComponent implements OnDestroy {
   }
 
   /**
-   * A title for the popover.
+   * Specifies a title for the popover.
    */
   @Input()
   public popoverTitle: string | undefined;
 
   /**
-   * The type of popover.
+   * Specifies the type of popover.
    * @default "info"
    */
   @Input()

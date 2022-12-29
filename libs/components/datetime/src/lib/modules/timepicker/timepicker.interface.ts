@@ -1,36 +1,36 @@
 export interface SkyTimepickerTimeOutput {
   /**
-   * The hour.
+   * Specifies the hour.
    */
   hour: number;
 
   /**
-   * The minute.
+   * Specifies the minute.
    */
   minute: number;
 
   /**
-   * The meridian (`AM` or `PM`).
+   * Specifies the meridian (`AM` or `PM`).
    */
   meridie: string;
 
   /**
-   * The time zone.
+   * Specifies the time zone.
    */
   timezone: number;
 
   /**
-   * The date in [iso8601 format](https://www.iso.org/iso-8601-date-and-time-format.html).
+   * Specifies the date in [iso8601 format](https://www.iso.org/iso-8601-date-and-time-format.html).
    */
   iso8601: Date;
 
   /**
-   * The date in the current local time format.
+   * Specifies the date in the current local time format.
    */
   local: string;
 
   /**
-   * The time format string.
+   * Specifies the time format string.
    */
   customFormat: string;
 }

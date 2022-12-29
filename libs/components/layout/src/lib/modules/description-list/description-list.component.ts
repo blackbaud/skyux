@@ -34,7 +34,7 @@ export class SkyDescriptionListComponent
   implements AfterContentInit, OnDestroy
 {
   /**
-   * A default description to display when no description is provided
+   * Specifies a default description to display when no description is provided
    * for a term-description pair.
    * @default "None found"
    */
@@ -44,14 +44,14 @@ export class SkyDescriptionListComponent
   }
 
   /**
-   * The width of term-description pairs when `mode` is set to `"horizontal"`. By default,
+   * Specifies the width of term-description pairs when `mode` is set to `"horizontal"`. By default,
    * the width is responsive based on the width of the container element.
    */
   @Input()
   public listItemWidth: string | undefined;
 
   /**
-   * How to display term-description pairs within the description list.
+   * Specifies how to display term-description pairs within the description list.
    * Options include `"horizontal"`, `"longDescription"`, and `"vertical"`.
    * @default "vertical"
    */

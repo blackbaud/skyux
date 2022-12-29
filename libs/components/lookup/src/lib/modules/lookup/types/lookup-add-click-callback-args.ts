@@ -1,5 +1,5 @@
 /**
- * The information for the callback used when adding a new item to the lookup component.
+ * Specifies the information for the callback used when adding a new item to the lookup component.
  */
 export interface SkyLookupAddCallbackArgs {
   /**

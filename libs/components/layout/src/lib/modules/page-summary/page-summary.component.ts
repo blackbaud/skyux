@@ -21,7 +21,7 @@ import { SkyPageSummaryAdapterService } from './page-summary-adapter.service';
 import { SkyPageSummaryKeyInfoComponent } from './page-summary-key-info.component';
 
 /**
- * The components to display in the page summary.
+ * Specifies the components to display in the page summary.
  * @deprecated `SkyPageSummaryComponent` is deprecated. For page templates and techniques to summarize page content, see the page design guidelines. For more information, see https://developer.blackbaud.com/skyux/design/guidelines/page-layouts.
  */
 @Component({

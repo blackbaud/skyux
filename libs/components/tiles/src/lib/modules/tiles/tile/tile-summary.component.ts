@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 /**
- * Content to display in the tile's summary.
+ * Specifies content to display in the tile's summary.
  */
 @Component({
   selector: 'sky-tile-summary',

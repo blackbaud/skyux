@@ -38,7 +38,7 @@ export class SkyAvatarComponent {
   }
 
   /**
-   * The name of the record that the avatar represents.
+   * Specifies the name of the record that the avatar represents.
    * If the `src` property does not specify an image, the component displays
    * initials from the first and last words in the name. To ensure
    * that the component extracts the correct initials, specify a name with no prefix
@@ -55,7 +55,7 @@ export class SkyAvatarComponent {
   }
 
   /**
-   * An image to display to identify a record. This property is
+   * Specifies an image to display to identify a record. This property is
    * not required, but the component requires either the `name` or `src` property.
    */
   @Input()
@@ -68,13 +68,13 @@ export class SkyAvatarComponent {
   }
 
   /**
-   * The maximum file size for the image in bytes.
+   * Specifies the maximum file size for the image in bytes.
    */
   @Input()
   public maxFileSize: number | undefined = MAX_FILE_SIZE_DEFAULT;
 
   /**
-   * The size of the avatar.
+   * Specifies the size of the avatar.
    * Acceptable values are: `"small"`, `"medium"`, and `"large"`.
    * @default "large"
    */

@@ -36,7 +36,7 @@ import { SkyInlineFormConfig } from './types/inline-form-config';
 })
 export class SkyInlineFormComponent implements OnInit, OnDestroy {
   /**
-   * Configuration options for the buttons to display with the inline form.
+   * Specifies configuration options for the buttons to display with the inline form.
    * @required
    */
   @Input()
@@ -52,7 +52,7 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * A template to use to instantiate the inline form.
+   * Specifies a template to use to instantiate the inline form.
    * @required
    */
   @Input()

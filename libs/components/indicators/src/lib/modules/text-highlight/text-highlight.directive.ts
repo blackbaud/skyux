@@ -106,7 +106,7 @@ export class SkyTextHighlightDirective
   implements OnChanges, AfterViewInit, OnDestroy
 {
   /**
-   * The text to highlight.
+   * Specifies the text to highlight.
    */
   @Input()
   public set skyHighlight(value: string | string[] | undefined) {

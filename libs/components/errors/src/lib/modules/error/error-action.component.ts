@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 /**
- * An interactive element to include with the error message.
+ * Specifies an interactive element to include with the error message.
  * For example, you can include a button to reload the page or to refresh data.
  */
 @Component({

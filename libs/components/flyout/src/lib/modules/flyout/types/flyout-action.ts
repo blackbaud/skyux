@@ -1,11 +1,11 @@
 export interface SkyFlyoutAction {
   /**
-   * The button's label.
+   * Specifies the button's label.
    */
   label?: string;
 
   /**
-   * A callback function to execute when the button is clicked.
+   * Specifies a callback function to execute when the button is clicked.
    */
   callback?: () => void;
 

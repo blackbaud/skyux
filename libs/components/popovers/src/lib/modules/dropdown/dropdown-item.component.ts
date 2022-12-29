@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 
 /**
- * The items to display on the dropdown menu.
+ * Specifies the items to display on the dropdown menu.
  */
 @Component({
   selector: 'sky-dropdown-item',
@@ -21,7 +21,7 @@ import {
 })
 export class SkyDropdownItemComponent implements AfterViewInit {
   /**
-   * An ARIA role for the dropdown menu item
+   * Specifies an ARIA role for the dropdown menu item
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility)
    * by indicating how the item functions and what it controls. For information about
    * how an ARIA role indicates what an item represents on a web page, see the

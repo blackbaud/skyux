@@ -9,7 +9,7 @@ import { SkyKeyInfoLayoutType } from './key-info-layout-type';
 })
 export class SkyKeyInfoComponent {
   /**
-   * Whether to display key info in a vertical layout with the label under the
+   * Specifies whether to display key info in a vertical layout with the label under the
    * value or in a horizontal layout with the label beside the value.
    * @default "vertical"
    */

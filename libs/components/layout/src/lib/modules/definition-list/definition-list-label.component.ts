@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyDefinitionListService } from './definition-list.service';
 
 /**
- * The label in a label-value pair.
+ * Specifies the label in a label-value pair.
  */
 @Component({
   selector: 'sky-definition-list-label',

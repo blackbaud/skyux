@@ -7,7 +7,7 @@ import { SkySelectField } from './select-field';
  */
 export interface SkySelectFieldCustomPicker {
   /**
-   * A function to call when users select the text field or button.
+   * Specifies a function to call when users select the text field or button.
    * @param pickerContext A `SkySelectFieldPickerContext` object that provides values to the
    * custom picker.
    * @param updateValue A function that accepts an array of `SkySelectField` objects that
