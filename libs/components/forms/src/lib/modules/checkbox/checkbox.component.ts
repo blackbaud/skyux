@@ -1,11 +1,14 @@
 import {
+  ChangeDetectorRef,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnInit,
   Optional,
   Output,
   Self,
+  ViewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 
@@ -175,6 +178,24 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   }
 
   /**
+   * Indicates whether the checkbox is in the indeterminate state. This has no visual effect for icon checkboxes.
+   * @internal
+   */
+  @Input()
+  public set indeterminate(value: boolean | undefined) {
+    this.#_indeterminate = !!value;
+    this.#indeterminateChange.next(this.#_indeterminate);
+    if (this.inputEl) {
+      this.inputEl.nativeElement.indeterminate = this.#_indeterminate;
+      this.#changeDetector.markForCheck();
+    }
+  }
+
+  public get indeterminate(): boolean {
+    return this.#_indeterminate;
+  }
+
+  /**
    * Indicates whether the input is required for form validation.
    * When you set this property to `true`, the component adds `aria-required` and `required`
    * attributes to the input element so that forms display an invalid state until the input element
@@ -206,6 +227,27 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
     return this.#disabledChangeObs;
   }
 
+  /**
+   * Fires when the indeterminate state changes.
+   * @internal
+   */
+  @Output()
+  public get indeterminateChange(): Observable<boolean> {
+    return this.#indeterminateChangeObs;
+  }
+
+  @ViewChild('inputEl', { read: ElementRef })
+  public set inputEl(el: ElementRef | undefined) {
+    this.#_inputEl = el;
+    if (el && this.indeterminate) {
+      el.nativeElement.indeterminate = this.indeterminate;
+    }
+  }
+
+  public get inputEl(): ElementRef | undefined {
+    return this.#_inputEl;
+  }
+
   #checkedChange: BehaviorSubject<boolean>;
 
   #checkedChangeObs: Observable<boolean>;
@@ -215,6 +257,10 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   #disabledChange: BehaviorSubject<boolean>;
 
   #disabledChangeObs: Observable<boolean>;
+
+  #indeterminateChange: BehaviorSubject<boolean>;
+
+  #indeterminateChangeObs: Observable<boolean>;
 
   #isFirstChange = true;
 
@@ -226,13 +272,23 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
 
   #_id = '';
 
+  #_indeterminate = false;
+
+  #_inputEl: ElementRef | undefined;
+
   #_name = '';
 
   #_required = false;
 
+  #changeDetector: ChangeDetectorRef;
+
   #ngControl: NgControl | undefined;
 
-  constructor(@Self() @Optional() ngControl: NgControl) {
+  constructor(
+    changeDetector: ChangeDetectorRef,
+    @Self() @Optional() ngControl: NgControl
+  ) {
+    this.#changeDetector = changeDetector;
     this.#ngControl = ngControl;
     if (ngControl) {
       ngControl.valueAccessor = this;
@@ -240,9 +296,11 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
 
     this.#checkedChange = new BehaviorSubject<boolean>(this.checked);
     this.#disabledChange = new BehaviorSubject<boolean>(this.disabled);
+    this.#indeterminateChange = new BehaviorSubject<boolean>(this.disabled);
 
     this.#checkedChangeObs = this.#checkedChange.asObservable();
     this.#disabledChangeObs = this.#disabledChange.asObservable();
+    this.#indeterminateChangeObs = this.#indeterminateChange.asObservable();
 
     this.id = this.#defaultId;
     this.name = this.#defaultId;
@@ -295,6 +353,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
     event.stopPropagation();
 
     if (!this.disabled) {
+      this.indeterminate = false;
       this.#toggle();
       this.#emitChangeEvent();
     }

@@ -33,6 +33,7 @@ import { SkyCheckboxModule } from './checkbox.module';
       [disabled]="isDisabled"
       [icon]="icon"
       [id]="id"
+      [(indeterminate)]="indeterminate"
       (change)="checkboxChange($event)"
     >
       <sky-checkbox-label>
@@ -46,6 +47,7 @@ class SingleCheckboxComponent implements AfterViewInit {
   public checkboxType: string | undefined;
   public icon = 'bold';
   public id: string | undefined = 'simple-check';
+  public indeterminate = false;
   public isChecked: boolean | undefined = false;
   public isDisabled = false;
   public showInlineHelp = false;
@@ -376,6 +378,33 @@ describe('Checkbox component', () => {
       expect(checkboxInstance.checked).toBe(false);
       labelElement?.click();
       expect(checkboxInstance.checked).toBe(false);
+    });
+
+    it('should handle the indeterminate state not being set', () => {
+      fixture.detectChanges();
+
+      expect(inputElement?.indeterminate).toBeFalse();
+    });
+
+    it('should handle the indeterminate state being set', () => {
+      testComponent.indeterminate = true;
+      fixture.detectChanges();
+
+      expect(inputElement?.indeterminate).toBeTrue();
+    });
+
+    it('should turn off the indeterminate state if the checkbox is clicked after it is set', () => {
+      testComponent.indeterminate = true;
+      fixture.detectChanges();
+
+      expect(inputElement?.checked).toBeFalse();
+      expect(inputElement?.indeterminate).toBeTrue();
+      inputElement?.click();
+      fixture.detectChanges();
+
+      expect(inputElement?.checked).toBeTrue();
+      expect(inputElement?.indeterminate).toBeFalse();
+      expect(testComponent.indeterminate).toBeFalse();
     });
 
     it('should handle a user-provided id', () => {

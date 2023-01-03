@@ -1,5 +1,18 @@
 # Changelog
 
+## [7.1.2](https://github.com/blackbaud/skyux/compare/7.1.1...7.1.2) (2022-12-22)
+
+
+### Bug Fixes
+
+* **components/forms:** remove checkbox label margin when field is required ([#897](https://github.com/blackbaud/skyux/issues/897)) ([9241c55](https://github.com/blackbaud/skyux/commit/9241c55e41c53f0a89a63728e5f8b22951610341))
+* **components/forms:** update file attachment button label to match updated standards ([#894](https://github.com/blackbaud/skyux/issues/894)) ([8e642c6](https://github.com/blackbaud/skyux/commit/8e642c618932d1984504e140bdc14d7fa0003c5a))
+
+
+### Deprecations
+
+* **components/indicators:** `SkyWaitService`'s `blockingWrap` and `nonBlockingWrap` methods now take in argument objects and the versions which take in an `Observable` are deprecated ([#900](https://github.com/blackbaud/skyux/issues/900)) ([55faaa2](https://github.com/blackbaud/skyux/commit/55faaa28424e388271aa33a17de80d7f08e225cb))
+
 ## [7.1.1](https://github.com/blackbaud/skyux/compare/7.1.0...7.1.1) (2022-12-16)
 
 

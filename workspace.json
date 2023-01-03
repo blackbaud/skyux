@@ -3,6 +3,8 @@
   "version": 2,
   "projects": {
     "a11y": "libs/components/a11y",
+    "a11y-storybook": "apps/e2e/a11y-storybook",
+    "a11y-storybook-e2e": "apps/e2e/a11y-storybook-e2e",
     "action-bars": "libs/components/action-bars",
     "action-bars-testing": "libs/components/action-bars/testing",
     "ag-grid": "libs/components/ag-grid",
