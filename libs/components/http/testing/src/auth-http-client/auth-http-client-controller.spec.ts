@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
+  TestRequest,
 } from '@angular/common/http/testing';
 import { Injectable } from '@angular/core';
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
@@ -50,6 +51,10 @@ describe('Auth HTTP client controller', () => {
     service = TestBed.inject(HttpConsumingService);
   });
 
+  afterEach(() => {
+    httpTestingController.verify();
+  });
+
   it('should create the service', () => {
     expect(service).toBeTruthy();
   });
@@ -65,33 +70,27 @@ describe('Auth HTTP client controller', () => {
   });
 
   it('should assert that the request was authenticated', fakeAsync(() => {
-    const subscription = service.doSomething().subscribe();
+    service.doSomething().subscribe();
     tick();
     const req = httpTestingController.expectOne('https://www.example.com/');
     expect(req.request.headers.has('Authorization')).toBeTrue();
     skyAuthHttpTestingController.expectAuth(req);
     httpTestingController.verify();
     const mockProvider = TestBed.inject(SkyAuthTokenMockProvider);
-    mockProvider
-      .getDecodedToken()
-      .then((token) => {
-        expect(token).toEqual(jasmine.any(Object));
-        expect(token).toEqual(
-          jasmine.objectContaining({
-            iss: 'https://www.example.com/',
-          })
-        );
-        return mockProvider.getDecodedContextToken();
-      })
-      .then((token) => {
-        expect(token).toEqual(jasmine.any(Object));
-        expect(token).toEqual(
-          jasmine.objectContaining({
-            iss: 'https://www.example.com/',
-          })
-        );
-        subscription.unsubscribe();
-      });
+    mockProvider.getDecodedToken().then((token) => {
+      expect(token).toEqual(
+        jasmine.objectContaining({
+          iss: 'https://www.example.com/',
+        })
+      );
+    });
+    mockProvider.getDecodedContextToken().then((token) => {
+      expect(token).toEqual(
+        jasmine.objectContaining({
+          iss: 'https://www.example.com/',
+        })
+      );
+    });
   }));
 
   it('should error when the request is not authenticated', fakeAsync(() => {
@@ -105,10 +104,10 @@ describe('Auth HTTP client controller', () => {
     );
   }));
 
-  it('should error when the request is invalid', fakeAsync(() => {
-    const req = {} as any;
+  it('should error when the request is invalid', () => {
+    const req = {} as TestRequest;
     expect(() => skyAuthHttpTestingController.expectAuth(req)).toThrowError(
       'The specified request does not contain the expected BBID Authorization header.'
     );
-  }));
+  });
 });
