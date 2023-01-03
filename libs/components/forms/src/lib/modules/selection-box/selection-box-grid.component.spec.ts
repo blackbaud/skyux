@@ -1,6 +1,7 @@
+import { ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyCoreAdapterService } from '@skyux/core';
+import { SkyCoreAdapterService, SkyMediaBreakpoints } from '@skyux/core';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -41,6 +42,7 @@ describe('Selection box grid component', () => {
   let mockThemeSvc: {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
+  let setResponsiveClassSpy: jasmine.Spy;
 
   beforeEach(() => {
     mockThemeSvc = {
@@ -52,6 +54,11 @@ describe('Selection box grid component', () => {
         previousSettings: undefined,
       }),
     };
+
+    setResponsiveClassSpy = spyOn(
+      SkySelectionBoxAdapterService.prototype,
+      'setResponsiveClass'
+    );
 
     fixture = TestBed.configureTestingModule({
       imports: [SkySelectionBoxFixturesModule],
@@ -115,20 +122,55 @@ describe('Selection box grid component', () => {
   });
 
   it(`should update CSS responsive classes on window resize`, async () => {
-    const setResponsiveClassSpy = spyOn(
-      SkySelectionBoxAdapterService.prototype,
-      'setResponsiveClass'
-    );
     spyOn(
       SkySelectionBoxAdapterService.prototype,
       'getParentWidth'
     ).and.returnValue(300);
+    setResponsiveClassSpy.calls.reset();
     expect(setResponsiveClassSpy).not.toHaveBeenCalled();
 
     SkyAppTestUtility.fireDomEvent(window, 'resize');
     fixture.detectChanges();
 
     expect(setResponsiveClassSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should set responsive CSS class to large', () => {
+    spyOn(
+      SkySelectionBoxAdapterService.prototype,
+      'getParentWidth'
+    ).and.callThrough();
+    fixture.detectChanges();
+
+    expect(setResponsiveClassSpy).toHaveBeenCalledWith(
+      jasmine.any(ElementRef),
+      SkyMediaBreakpoints.lg
+    );
+  });
+
+  it('should set responsive CSS class to large when outer container is toggled', () => {
+    spyOn(
+      SkySelectionBoxAdapterService.prototype,
+      'getParentWidth'
+    ).and.callThrough();
+    fixture.detectChanges();
+
+    expect(setResponsiveClassSpy).toHaveBeenCalledWith(
+      jasmine.any(ElementRef),
+      SkyMediaBreakpoints.lg
+    );
+
+    setResponsiveClassSpy.calls.reset();
+    component.render = false;
+    fixture.detectChanges();
+
+    component.render = true;
+    fixture.detectChanges();
+
+    expect(setResponsiveClassSpy).toHaveBeenCalledWith(
+      jasmine.any(ElementRef),
+      SkyMediaBreakpoints.lg
+    );
   });
 
   it(`should recalculate heights when child DOM elements change`, async () => {
