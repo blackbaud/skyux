@@ -74,7 +74,7 @@ export class SkySelectionBoxAdapterService {
    * Returns the width of the `parentNode` of the provided `element`.
    */
   public getParentWidth(element: ElementRef): number {
-    return element.nativeElement.parentNode.getBoundingClientRect().width;
+    return element.nativeElement?.parentNode?.getBoundingClientRect()?.width;
   }
 
   /**
