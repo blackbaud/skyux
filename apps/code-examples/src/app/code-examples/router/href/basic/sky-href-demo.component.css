@@ -1,0 +1,16 @@
+:host {
+  display: block;
+}
+
+span {
+  display: inline-block;
+  margin-right: var(--sky-margin-inline-xs);
+}
+
+a[skyhref]::after {
+  display: block;
+  content: 'skyhref=“' attr(skyhref) '” ➜ href=“' attr(href) '”';
+  font-size: 10px;
+  color: var(--sky-text-color-deemphasized);
+  text-decoration: none;
+}
