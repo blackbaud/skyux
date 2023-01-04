@@ -12,13 +12,14 @@ describe('a11y-storybook', () => {
         cy.get('.sky-skip-link')
           .should('exist')
           .should('be.visible')
-          .should('be.focused');
-        cy.screenshot(`skiplinkcomponent-skiplink--skip-link-${theme}`, {
-          capture: 'fullPage',
-        }).percySnapshot(`skiplinkcomponent-skiplink--skip-link-${theme}`, {
-          enableJavaScript: true,
-          widths: E2eVariations.DISPLAY_WIDTHS,
-        });
+          .should('be.focused')
+          .screenshot(`skiplinkcomponent-skiplink--skip-link-${theme}`, {
+            capture: 'fullPage',
+          })
+          .percySnapshot(`skiplinkcomponent-skiplink--skip-link-${theme}`, {
+            enableJavaScript: true,
+            widths: E2eVariations.DISPLAY_WIDTHS,
+          });
       });
     });
   });
