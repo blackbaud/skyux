@@ -13,6 +13,7 @@ describe('a11y-storybook', () => {
           .should('exist')
           .should('be.visible')
           .should('be.focused')
+          .should('have.attr', 'autofocus')
           .screenshot(`skiplinkcomponent-skiplink--skip-link-${theme}`, {
             capture: 'fullPage',
           })
