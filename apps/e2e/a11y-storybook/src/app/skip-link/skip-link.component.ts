@@ -39,7 +39,10 @@ export class SkipLinkComponent implements AfterViewInit {
       });
 
       this.#changeDetector.detectChanges();
-      (document.querySelector('.sky-skip-link') as HTMLElement).focus();
+
+      setTimeout(() => {
+        (document.querySelector('.sky-skip-link') as HTMLElement).focus();
+      }, 100);
     }
   }
 }
