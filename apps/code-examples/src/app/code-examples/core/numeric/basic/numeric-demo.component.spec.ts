@@ -9,18 +9,18 @@ describe('Basic numeric options', () => {
   let fixture: ComponentFixture<NumericDemoComponent>;
 
   async function setupTest(options?: {
-    value1?: number;
-    value2?: number;
+    defaultValue?: number;
+    configuredValue?: number;
     config?: SkyNumericOptions;
   }): Promise<void> {
     fixture = TestBed.createComponent(NumericDemoComponent);
 
-    if (options?.value1 !== undefined) {
-      fixture.componentInstance.defaultValue = options.value1;
+    if (options?.defaultValue !== undefined) {
+      fixture.componentInstance.defaultValue = options.defaultValue;
     }
 
-    if (options?.value2 !== undefined) {
-      fixture.componentInstance.configuredValue = options.value2;
+    if (options?.configuredValue !== undefined) {
+      fixture.componentInstance.configuredValue = options.configuredValue;
     }
 
     if (options?.config !== undefined) {
@@ -38,7 +38,7 @@ describe('Basic numeric options', () => {
   });
 
   it('should show the expected number in the default format', async () => {
-    await setupTest({ value1: 123456 });
+    await setupTest({ defaultValue: 123456 });
     fixture.detectChanges();
 
     expect(
@@ -50,7 +50,7 @@ describe('Basic numeric options', () => {
 
   it('should show the expected number in a specified format', async () => {
     await setupTest({
-      value2: 5000000,
+      configuredValue: 5000000,
       config: { truncate: false },
     });
 
