@@ -13,6 +13,7 @@ describe('a11y-storybook', () => {
         cy.screenshot(`skiplinkcomponent-skiplink--skip-link-${theme}`, {
           capture: 'fullPage',
         }).percySnapshot(`skiplinkcomponent-skiplink--skip-link-${theme}`, {
+          enableJavaScript: true,
           widths: E2eVariations.DISPLAY_WIDTHS,
         });
       });
