@@ -13,9 +13,7 @@ describe('a11y-storybook', () => {
           .should('exist')
           .should('be.visible')
           .should('be.focused')
-          .should('have.attr', 'autofocus');
-
-        cy.get('.sky-skip-link')
+          .should('have.attr', 'autofocus')
           .screenshot(`skiplinkcomponent-skiplink--skip-link-${theme}`, {
             capture: 'fullPage',
           })
@@ -23,6 +21,8 @@ describe('a11y-storybook', () => {
             enableJavaScript: true,
             widths: E2eVariations.DISPLAY_WIDTHS,
           });
+
+        cy.get('.sky-skip-link').focus();
       });
     });
   });
