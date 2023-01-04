@@ -23,8 +23,6 @@ describe('a11y-storybook', () => {
             enableJavaScript: true,
             widths: E2eVariations.DISPLAY_WIDTHS,
           });
-
-        cy.get('.sky-skip-link').focus();
       });
     });
   });

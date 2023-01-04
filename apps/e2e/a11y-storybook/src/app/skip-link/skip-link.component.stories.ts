@@ -18,3 +18,11 @@ const Template: Story<SkipLinkComponent> = (args: SkipLinkComponent) => ({
 });
 export const SkipLink = Template.bind({});
 SkipLink.args = {};
+
+setTimeout(() => {
+  (document.querySelector('.sky-skip-link') as HTMLElement).focus();
+  (document.querySelector('.sky-skip-link') as HTMLElement).setAttribute(
+    'autofocus',
+    'autofocus'
+  );
+}, 5);
