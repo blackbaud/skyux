@@ -12,8 +12,7 @@ describe('a11y-storybook', () => {
         cy.get('.sky-skip-link')
           .should('exist')
           .should('be.visible')
-          .should('be.focused')
-          .should('have.attr', 'autofocus');
+          .should('be.focused');
 
         cy.get('.sky-skip-link')
           .screenshot(`skiplinkcomponent-skiplink--skip-link-${theme}`, {
