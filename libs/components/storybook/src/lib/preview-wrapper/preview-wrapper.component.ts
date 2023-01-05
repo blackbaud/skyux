@@ -6,6 +6,7 @@ import {
   OnDestroy,
   OnInit,
   Renderer2,
+  ViewEncapsulation,
 } from '@angular/core';
 import {
   SkyTheme,
@@ -19,7 +20,9 @@ import { PreviewWrapperThemeValue } from './preview-wrapper-theme-value';
 @Component({
   selector: 'sky-preview-wrapper',
   template: '<ng-content></ng-content>',
+  styleUrls: ['./preview-wrapper.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class PreviewWrapperComponent implements OnInit, OnDestroy {
   @Input()
