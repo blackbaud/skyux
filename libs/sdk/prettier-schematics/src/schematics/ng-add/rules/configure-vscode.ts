@@ -11,10 +11,18 @@ export function configureVSCode(): Rule {
     const settingsPath = `${vsCodePath}/settings.json`;
     const prettierExtensionName = 'esbenp.prettier-vscode';
 
-    if (tree.exists(extensionsPath) && tree.exists(settingsPath)) {
+    if (tree.getDir(vsCodePath).subfiles.length > 0) {
       context.logger.info(
-        `Found files in ${vsCodePath} folder. Configuring Visual Studio Code for Prettier extension...`
+        `Found ${vsCodePath} folder. Configuring Visual Studio Code for Prettier extension...`
       );
+
+      if (!tree.exists(extensionsPath)) {
+        tree.create(extensionsPath, '{}');
+      }
+
+      if (!tree.exists(settingsPath)) {
+        tree.create(settingsPath, '{}');
+      }
 
       const extensions = readJsonFile<VSCodeExtensions>(tree, extensionsPath);
       const settings = readJsonFile<VSCodeSettings>(tree, settingsPath);
@@ -40,6 +48,8 @@ export function configureVSCode(): Rule {
       settings['prettier.requireConfig'] = true;
 
       writeJsonFile(tree, settingsPath, settings);
+    } else {
+      console.log('NADA!');
     }
   };
 }
