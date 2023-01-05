@@ -10,6 +10,7 @@
         "cypressConfig": "apps/e2e/a11y-storybook-e2e/cypress.config.ts",
         "devServerTarget": "a11y-storybook:storybook",
         "testingType": "e2e",
+        "browser": "chrome",
         "baseUrl": "http://localhost:4400"
       },
       "configurations": {
