@@ -10,10 +10,10 @@ describe('a11y-storybook', () => {
       );
       it('should render the component', () => {
         cy.get('.sky-skip-link').should('exist').should('be.visible').focus();
-        cy.screenshot(`skiplinkcomponent-skiplink--skip-link-${theme}`, {
+        cy.skyVisualTest(`skiplinkcomponent-skiplink--skip-link-${theme}`, {
           capture: 'fullPage',
-        }).percySnapshot(`skiplinkcomponent-skiplink--skip-link-${theme}`, {
-          widths: E2eVariations.DISPLAY_WIDTHS,
+          overwrite: true,
+          disableTimersAndAnimations: true,
         });
       });
     });
