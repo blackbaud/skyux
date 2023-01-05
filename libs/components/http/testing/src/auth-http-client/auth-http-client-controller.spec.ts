@@ -16,7 +16,9 @@ import { SkyAuthHttpTestingController } from './auth-http-testing-controller';
 import { SkyAuthTokenMockProvider } from './auth-token-mock-provider';
 import { SkyMockAppConfig } from './mock-app-config';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 class HttpConsumingService {
   constructor(
     public skyAppConfig: SkyAppConfig,
@@ -40,11 +42,7 @@ describe('Auth HTTP client controller', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, SkyAuthHttpClientTestingModule],
-      providers: [
-        HttpConsumingService,
-        SkyAuthHttpTestingController,
-        SkyAuthTokenMockProvider,
-      ],
+      providers: [SkyAuthHttpTestingController, SkyAuthTokenMockProvider],
     });
     httpTestingController = TestBed.inject(HttpTestingController);
     skyAuthHttpTestingController = TestBed.inject(SkyAuthHttpTestingController);
@@ -75,21 +73,12 @@ describe('Auth HTTP client controller', () => {
     const req = httpTestingController.expectOne('https://www.example.com/');
     expect(req.request.headers.has('Authorization')).toBeTrue();
     skyAuthHttpTestingController.expectAuth(req);
-    httpTestingController.verify();
     const mockProvider = TestBed.inject(SkyAuthTokenMockProvider);
     mockProvider.getDecodedToken().then((token) => {
-      expect(token).toEqual(
-        jasmine.objectContaining({
-          iss: 'https://www.example.com/',
-        })
-      );
+      expect(token.iss).toEqual('https://www.example.com/');
     });
-    mockProvider.getDecodedContextToken().then((token) => {
-      expect(token).toEqual(
-        jasmine.objectContaining({
-          iss: 'https://www.example.com/',
-        })
-      );
+    mockProvider.getDecodedContextToken().then((contextToken) => {
+      expect(contextToken.iss).toEqual('https://www.example.com/');
     });
   }));
 
