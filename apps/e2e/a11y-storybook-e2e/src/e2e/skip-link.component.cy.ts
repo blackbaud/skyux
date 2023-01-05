@@ -4,9 +4,11 @@ describe('a11y-storybook', () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
-        cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=skiplinkcomponent-skiplink--skip-link`
-        )
+        cy
+          .viewport(500, 200)
+          .visit(
+            `/iframe.html?globals=theme:${theme}&id=skiplinkcomponent-skiplink--skip-link`
+          )
       );
       it('should render the component', () => {
         cy.get('.sky-skip-link').should('exist').should('be.visible').focus();
