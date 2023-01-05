@@ -3,7 +3,7 @@
  */
 export interface SkyDataManagerColumnPickerOption {
   /**
-   * That a column is always visible and should not be listed as an option in the column
+   * Whether a column is always visible and should not be listed as an option in the column
    * picker. For example, a context menu column may always be visible.
    */
   alwaysDisplayed?: boolean;

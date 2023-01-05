@@ -28,7 +28,7 @@ import { SkyCardTitleComponent } from './card-title.component';
 })
 export class SkyCardComponent implements AfterContentInit, OnDestroy {
   /**
-   * Specifies the size of the card. The valid options are `"large"` and `"small"`.
+   * The size of the card. The valid options are `"large"` and `"small"`.
    * @default "large"
    */
   @Input()

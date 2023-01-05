@@ -10,7 +10,7 @@ const DEFAULTS: SkyuxConfigHost = {
 };
 
 /**
- * Host configuration to components and applications.
+ * Provides host configuration to components and applications.
  * @deprecated Use `SkyAppConfig.skyux.host` instead.
  */
 @Injectable()

@@ -107,7 +107,7 @@ export class SkyConfirmHarness extends SkyComponentHarness {
   }
 
   /**
-   * If the whitespace is preserved on the confirom component.
+   * Whether the whitespace is preserved on the confirom component.
    */
   public async isWhiteSpacePreserved(): Promise<boolean> {
     return (await this.#getMessageEl()).hasClass(

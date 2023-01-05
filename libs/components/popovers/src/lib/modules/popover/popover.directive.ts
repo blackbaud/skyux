@@ -22,13 +22,13 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   public skyPopover: SkyPopoverComponent | undefined;
 
   /**
-   * Specifies the horizontal alignment of the popover in relation to the trigger element.
+   * The horizontal alignment of the popover in relation to the trigger element.
    */
   @Input()
   public skyPopoverAlignment: SkyPopoverAlignment | undefined;
 
   /**
-   * An RxJS `Subject` to send commands to the popover that respect the `SkyPopoverMessage` type.
+   * The RxJS `Subject` to send commands to the popover that respect the `SkyPopoverMessage` type.
    */
   @Input()
   public set skyPopoverMessageStream(
@@ -47,13 +47,13 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   #messageStreamSub: Subscription | undefined;
 
   /**
-   * Specifies the placement of the popover in relation to the trigger element.
+   * The placement of the popover in relation to the trigger element.
    */
   @Input()
   public skyPopoverPlacement: SkyPopoverPlacement | undefined;
 
   /**
-   * Specifies the user action that displays the popover.
+   * The user action that displays the popover.
    */
   @Input()
   public set skyPopoverTrigger(value: SkyPopoverTrigger | undefined) {

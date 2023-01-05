@@ -7,7 +7,7 @@ import { SkySplitViewFixtureDrawer } from './split-view-fixture-drawer';
 import { SkySplitViewFixtureWorkspace } from './split-view-fixture-workspace';
 
 /**
- * Information for and interaction with a SKY UX split view component.
+ * Provides information for and interaction with a SKY UX split view component.
  * By using the fixture API, a test insulates itself against updates to the internals
  * of a component, such as changing its DOM structure.
  * @internal

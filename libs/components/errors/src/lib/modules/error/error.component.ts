@@ -15,7 +15,7 @@ import { SkyErrorService } from './error.service';
 })
 export class SkyErrorComponent implements OnInit {
   /**
-   * Specifies a set of pre-defined values for the image,
+   * The set of pre-defined values for the image,
    * title, and description.
    */
   @Input()

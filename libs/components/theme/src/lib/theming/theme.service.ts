@@ -6,7 +6,7 @@ import { SkyThemeSettings } from './theme-settings';
 import { SkyThemeSettingsChange } from './theme-settings-change';
 
 /**
- * Methods for updating and handling changes to the current theme.
+ * Provides methods for updating and handling changes to the current theme.
  */
 @Injectable()
 export class SkyThemeService {

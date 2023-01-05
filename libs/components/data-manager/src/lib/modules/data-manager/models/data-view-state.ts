@@ -1,7 +1,7 @@
 import { SkyDataViewStateOptions } from './data-view-state-options';
 
 /**
- * Options for defining how data is displayed, such as which columns appear.
+ * Provides options for defining how data is displayed, such as which columns appear.
  */
 export class SkyDataViewState {
   /**

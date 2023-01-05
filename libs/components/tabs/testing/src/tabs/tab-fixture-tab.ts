@@ -4,7 +4,7 @@
  */
 export interface SkyTabsetFixtureTab {
   /**
-   * Whether the tab is the currently selected tab.
+   * Whether the tab is selected.
    */
   active: boolean;
 

@@ -61,7 +61,7 @@ export interface SkyDataViewConfig {
    */
   searchEnabled?: boolean;
   /**
-   * Specifies placeholder text to display in the search input until users enter search criteria.
+   * Placeholder text to display in the search input until users enter search criteria.
    * See the <a href="https://developer.blackbaud.com/skyux/components/search">search component</a> for the default value.
    */
   searchPlaceholderText?: string;

@@ -1,7 +1,7 @@
 import AutoNumeric from 'autonumeric';
 
 /**
- * Specifies custom options to provide directly to the underlying [autoNumeric utility](https://github.com/autoNumeric/autoNumeric).
+ * Custom options to provide directly to the underlying [autoNumeric utility](https://github.com/autoNumeric/autoNumeric).
  * The value can be set to `string`, which is an alias that represents
  * a [set of predefined set of options](https://github.com/autoNumeric/autoNumeric#predefined-options)
  * for a currency or language, or `Options`, which is a

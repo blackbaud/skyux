@@ -1,7 +1,7 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 
 /**
- * A common look-and-feel for box content with options to display a common box header, specify body content, and display common box controls.
+ * Provides a common look-and-feel for box content with options to display a common box header, specify body content, and display common box controls.
  */
 @Component({
   selector: 'sky-box',
@@ -11,7 +11,7 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
 })
 export class SkyBoxComponent {
   /**
-   * Specifies an ARIA label for the box. This sets the box's `aria-label` attribute
+   * The ARIA label for the box. This sets the box's `aria-label` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the box includes a visible label, use `ariaLabelledBy` instead.
    */
@@ -19,7 +19,7 @@ export class SkyBoxComponent {
   public ariaLabel: string | undefined;
 
   /**
-   * Specifies the HTML element ID (without the leading `#`) of the element that labels
+   * The HTML element ID (without the leading `#`) of the element that labels
    * the box. This sets the box's `aria-labelledby` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the box does not include a visible label, use `ariaLabel` instead.
@@ -28,7 +28,7 @@ export class SkyBoxComponent {
   public ariaLabelledBy: string | undefined;
 
   /**
-   * Specifies an ARIA role for the box
+   * The ARIA role for the box
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility)
    * by indicating what the box contains. For information about
    * how an ARIA role indicates what an item represents on a web page,

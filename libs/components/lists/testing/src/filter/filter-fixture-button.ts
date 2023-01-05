@@ -5,7 +5,7 @@ import { SkyAppTestUtility } from '@skyux-sdk/testing';
 import { SkyListsFilterFixtureButton } from './lists-filter-fixture-button';
 
 /**
- * Information for and interaction with a SKY UX filter button component.
+ * Provides information for and interaction with a SKY UX filter button component.
  * By using the fixture API, a test insulates itself against updates to the internals
  * of a component, such as changing its DOM structure.
  * @internal

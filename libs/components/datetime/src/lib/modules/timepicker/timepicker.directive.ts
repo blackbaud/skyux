@@ -74,7 +74,7 @@ export class SkyTimepickerInputDirective
 
   // TODO: In a future breaking change - make this more specific than "string"
   /**
-   * Specifies the 12-hour `hh` or 24-hour `HH` time format for the input.
+   * The 12-hour `hh` or 24-hour `HH` time format for the input.
    * @default "hh"
    */
   @Input()
@@ -87,7 +87,7 @@ export class SkyTimepickerInputDirective
   }
 
   /**
-   * Specifies a custom time format. For examples,
+   * The custom time format. For examples,
    * see the [moment.js](https://momentjs.com/docs/#/displaying/format/) docs.
    */
   @Input()

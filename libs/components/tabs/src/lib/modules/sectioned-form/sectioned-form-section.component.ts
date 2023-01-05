@@ -31,15 +31,14 @@ export class SkySectionedFormSectionComponent implements OnInit, OnDestroy {
   public sectionContentId = `sky-sectioned-form-section-${++nextId}`;
 
   /**
-   * Specifies the section header.
+   * The section header.
    * @required
    */
   @Input()
   public heading: string | undefined;
 
   /**
-   * The number of items within the section and displays a
-   * counter alongside the section header.
+   * The number of items within the section. A counter appears beside the section header.
    */
   @Input()
   public itemCount: number | undefined;

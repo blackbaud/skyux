@@ -5,7 +5,7 @@ import { SkyDataViewState } from './data-view-state';
 import { SkyDataViewStateOptions } from './data-view-state-options';
 
 /**
- * Options that control which data to display.
+ * Provides options that control which data to display.
  */
 export class SkyDataManagerState {
   /**

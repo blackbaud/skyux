@@ -88,7 +88,7 @@ export class SkyListToolbarComponent
   }
 
   /**
-   * Specifies placeholder text for the search bar that the list toolbar creates with
+   * Placeholder text for the search bar that the list toolbar creates with
    * a [search component](https://developer.blackbaud.com/skyux/components/search).
    * @default "Find in this list"
    */
@@ -125,7 +125,7 @@ export class SkyListToolbarComponent
   public toolbarType = 'standard';
 
   /**
-   * Specifies a text string to search with.
+   * The text string to search with.
    */
   @Input()
   public searchText: string | Observable<string>;

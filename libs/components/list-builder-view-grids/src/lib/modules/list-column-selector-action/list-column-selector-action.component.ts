@@ -34,7 +34,7 @@ import { ListViewDisplayedGridColumnsLoadAction } from '../list-view-grid/state/
 import { GridStateModel } from '../list-view-grid/state/grid-state.model';
 
 /**
- * A column selector modal for a list grid view when placed in a
+ * Provides a column selector modal for a list grid view when placed in a
  * [list toolbar](https://developer.blackbaud.com/skyux/components/list/toolbar).
  */
 @Component({
@@ -50,7 +50,7 @@ export class SkyListColumnSelectorActionComponent implements AfterContentInit {
   public gridView: SkyListViewGridComponent;
 
   /**
-   * Specifies a `helpKey` string and displays a help button in the grid header. When users select
+   * The `helpKey` string and displays a help button in the grid header. When users select
    * the button, the `helpOpened` event broadcasts the `helpKey` parameter.
    */
   @Input()

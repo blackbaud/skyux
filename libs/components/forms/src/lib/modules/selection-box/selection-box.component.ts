@@ -29,7 +29,7 @@ import { SkySelectionBoxAdapterService } from './selection-box-adapter.service';
 })
 export class SkySelectionBoxComponent implements OnDestroy {
   /**
-   * Specifies the radio button or checkbox to display in the selection box.
+   * The radio button or checkbox to display in the selection box.
    * @required
    */
   @Input()

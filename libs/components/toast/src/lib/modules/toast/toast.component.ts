@@ -43,7 +43,7 @@ export class SkyToastComponent implements OnInit, OnDestroy {
   public autoClose: boolean | undefined;
 
   /**
-   * Specifies a `SkyToastType` type for the toast to determine the color and icon to display.
+   * The `SkyToastType` type for the toast to determine the color and icon to display.
    */
   @Input()
   public set toastType(value: SkyToastType | undefined) {

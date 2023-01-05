@@ -7,7 +7,7 @@ import { SkyAppViewportReserveArgs } from './viewport-reserve-args';
 import { SkyAppViewportReservedPositionType } from './viewport-reserve-position-type';
 
 /**
- * Information about the state of the application's viewport.
+ * Provides information about the state of the application's viewport.
  */
 @Injectable({
   providedIn: 'root',

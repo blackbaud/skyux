@@ -17,7 +17,7 @@ import { takeUntil } from 'rxjs/operators';
 import { SkyTileDashboardService } from '../tile-dashboard/tile-dashboard.service';
 
 /**
- * A common look-and-feel for tab content.
+ * Provides a common look-and-feel for tab content.
  */
 @Component({
   selector: 'sky-tile',
@@ -43,7 +43,7 @@ export class SkyTileComponent implements OnDestroy {
   public showHelp = true;
 
   /**
-   * Specifies a human-readable name for the tile that is available for multiple purposes, such as accessibility and instrumentation. For example, the component uses the name to construct ARIA labels for tile controls to [support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * The human-readable name for the tile that is available for multiple purposes, such as accessibility and instrumentation. For example, the component uses the name to construct ARIA labels for tile controls to [support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    */
   @Input()
   public tileName: string | undefined;

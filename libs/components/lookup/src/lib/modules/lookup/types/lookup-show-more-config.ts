@@ -9,12 +9,12 @@ import { SkyLookupShowMoreNativePickerConfig } from './lookup-show-more-native-p
  */
 export interface SkyLookupShowMoreConfig {
   /**
-   * Specifies a configuration object to display a custom picker.
+   * The configuration object to display a custom picker.
    */
   customPicker?: SkyLookupShowMoreCustomPicker;
 
   /**
-   * Specifies configuration options for the native picker.
+   * Configuration options for the native picker.
    */
   nativePickerConfig?: SkyLookupShowMoreNativePickerConfig;
 }

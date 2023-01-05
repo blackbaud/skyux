@@ -8,15 +8,15 @@ import { SkyActionHubNeedsAttentionClickHandler } from './action-hub-needs-atten
  */
 export interface SkyActionHubNeedsAttention {
   /**
-   * Specifies a bold title to display at the start of the action item.
+   * The bold title to display at the start of the action item.
    */
   title: string;
   /**
-   * Specifies de-emphasized text to display after the title.
+   * De-emphasized text to display after the title.
    */
   message?: string;
   /**
-   * Specifies a link to resolve the action item.
+   * The link to resolve the action item.
    */
   permalink?: {
     route?: {
@@ -27,7 +27,7 @@ export interface SkyActionHubNeedsAttention {
     url?: string;
   };
   /**
-   * Specifies a click handler for the action item.
+   * The click handler for the action item.
    */
   click?: SkyActionHubNeedsAttentionClickHandler;
 }

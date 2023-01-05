@@ -9,7 +9,7 @@ import {
 import jwtDecode from 'jwt-decode';
 
 /**
- * A mock token to downstream consumers for unit testing purposes.
+ * Provides a mock token to downstream consumers for unit testing purposes.
  * @internal
  */
 @Injectable()

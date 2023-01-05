@@ -74,7 +74,7 @@ export class SkyDateRangePickerComponent
   implements OnInit, OnChanges, OnDestroy, ControlValueAccessor, Validator
 {
   /**
-   * Specifies IDs for the date range options to include in the picker's dropdown.
+   * IDs for the date range options to include in the picker's dropdown.
    * The options specify calculator objects that return two `Date` objects to represent date ranges.
    * By default, this property includes all `SkyDateRangeCalculatorId` values.
    */
@@ -111,7 +111,7 @@ export class SkyDateRangePickerComponent
   }
 
   /**
-   * Specifies a date format for
+   * The date format for
    * [the `sky-datepicker` components](https://developer.blackbaud.com/skyux/components/datepicker)
    * that make up the date range picker. The text input is a composite component of
    * up to two `sky-datepicker` components.
@@ -151,7 +151,7 @@ export class SkyDateRangePickerComponent
   }
 
   /**
-   * Specifies a label for the date range picker.
+   * The label for the date range picker.
    * @required
    */
   @Input()

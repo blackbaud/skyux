@@ -8,7 +8,7 @@ export class ListSortFieldSelectorModel {
   public descending = false;
 
   /**
-   * Specifies the fields to sort.
+   * The fields to sort.
    */
   public fieldSelector: string;
 

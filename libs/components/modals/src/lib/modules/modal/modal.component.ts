@@ -28,7 +28,7 @@ let skyModalUniqueIdentifier = 0;
 const ARIA_ROLE_DEFAULT = 'dialog';
 
 /**
- * A common look-and-feel for modal content with options to display
+ * Provides a common look-and-feel for modal content with options to display
  * a common modal header, specify body content, and display a common modal footer
  * and buttons.
  */

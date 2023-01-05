@@ -3,12 +3,12 @@
  */
 export class ListItemModel {
   /**
-   * Specifies the data for the item in the list.
+   * The data for the item in the list.
    */
   public data: any;
 
   /**
-   * Specifies the ID for the item in the list.
+   * The ID for the item in the list.
    * @required
    */
   public id: string;

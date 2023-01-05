@@ -3,16 +3,16 @@ import { SkyConfirmType } from './confirm-type';
 
 export interface SkyConfirmConfig {
   /**
-   * Specifies the message to display in bold at the top of the dialog.
+   * The message to display in bold at the top of the dialog.
    * @required
    */
   message: string;
   /**
-   * Specifies secondary text to display under the primary message.
+   * Secondary text to display under the primary message.
    */
   body?: string;
   /**
-   * Specifies a list of buttons to display when the `type` property is set to `SkyConfirmType.Custom`.
+   * The list of buttons to display when the `type` property is set to `SkyConfirmType.Custom`.
    */
   buttons?: SkyConfirmButtonConfig[];
   /**
@@ -21,7 +21,7 @@ export interface SkyConfirmConfig {
    */
   preserveWhiteSpace?: boolean;
   /**
-   * Specifies a preset button configuration for the dialog.
+   * The preset button configuration for the dialog.
    */
   type?: SkyConfirmType;
 }

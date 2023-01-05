@@ -1,5 +1,5 @@
 /**
- * Arguments for the number to format.
+ * Provides arguments for the number to format.
  */
 export interface SkyNumericOptions {
   /**
@@ -35,7 +35,7 @@ export interface SkyNumericOptions {
   minDigits?: number;
 
   /**
-   * Whether to shorten numbers to rounded numbers and abbreviation characters
+   * Indicates whether to shorten numbers to rounded numbers and abbreviation characters
    * such as K for thousands, M for millions, B for billions, and T for trillions.
    */
   truncate?: boolean;
@@ -47,7 +47,7 @@ export interface SkyNumericOptions {
 }
 
 /**
- * Arguments for the number to format.
+ * Provides arguments for the number to format.
  * @deprecated Use the `SkyNumericOptions` interface instead.
  */
 export class NumericOptions implements SkyNumericOptions {

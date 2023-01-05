@@ -87,7 +87,7 @@ export class SkyRepeaterItemComponent
   }
 
   /**
-   * Specifies a human-readable name for the repeater item that is available for multiple purposes,
+   * The human-readable name for the repeater item that is available for multiple purposes,
    * such as accessibility and instrumentation. For example, the component uses the name to
    * construct ARIA labels for the repeater item controls
    * to [support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
@@ -96,7 +96,7 @@ export class SkyRepeaterItemComponent
   public itemName: string | undefined;
 
   /**
-   * Specifies configuration options for the buttons to display on an inline form
+   * Configuration options for the buttons to display on an inline form
    * within the repeater. This property accepts
    * [a `SkyInlineFormConfig` object](https://developer.blackbaud.com/skyux/components/inline-form#skyinlineformconfig-properties).
    */
@@ -161,7 +161,7 @@ export class SkyRepeaterItemComponent
   public showInlineForm: boolean | undefined = false;
 
   /**
-   * Specifies an object that the repeater component returns for this repeater item
+   * The object that the repeater component returns for this repeater item
    * when the `orderChange` event fires. This is required
    * if you set the `reorderable` property to `true`.
    */

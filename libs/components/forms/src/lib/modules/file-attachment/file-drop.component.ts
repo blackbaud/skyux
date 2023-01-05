@@ -18,7 +18,7 @@ const MAX_FILE_SIZE_DEFAULT = 500000;
 const MIN_FILE_SIZE_DEFAULT = 0;
 
 /**
- * An element to attach multiple files where users can browse or drag and drop local files
+ * Provides an element to attach multiple files where users can browse or drag and drop local files
  * or provide hyperlinks to external files. You can leave the contents of the component
  * blank to display the drop zone's default UI, or you can specify custom content to
  * display instead. When the module initializes, it disables the ability to drag and
@@ -53,21 +53,21 @@ export class SkyFileDropComponent implements OnDestroy {
   public linkChanged = new EventEmitter<SkyFileLink>();
 
   /**
-   * Specifies an ARIA label for the file upload button. This provides a text equivalent for
+   * The ARIA label for the file upload button. This provides a text equivalent for
    * screen readers [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    */
   @Input()
   public fileUploadAriaLabel: string | undefined;
 
   /**
-   * Specifies an ARIA label for the link upload input. This provides a text equivalent for
+   * The ARIA label for the link upload input. This provides a text equivalent for
    * screen readers [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    */
   @Input()
   public linkUploadAriaLabel: string | undefined;
 
   /**
-   * Specifies the minimum size in bytes for valid files.
+   * The minimum size in bytes for valid files.
    * @default 0
    */
   @Input()
@@ -80,7 +80,7 @@ export class SkyFileDropComponent implements OnDestroy {
   }
 
   /**
-   * Specifies the maximum size in bytes for valid files.
+   * The maximum size in bytes for valid files.
    * @default 500000
    */
   @Input()
@@ -99,14 +99,14 @@ export class SkyFileDropComponent implements OnDestroy {
   public multiple: boolean | undefined = true;
 
   /**
-   * Specifies a custom validation function. This validation runs alongside the internal
+   * The custom validation function. This validation runs alongside the internal
    * file validation. This function takes a `SkyFileItem` object as a parameter.
    */
   @Input()
   public validateFn: SkyFileValidateFn | undefined;
 
   /**
-   * Specifies a comma-delimited string literal of MIME types that users can attach.
+   * The comma-delimited string literal of MIME types that users can attach.
    * By default, all file types are allowed.
    * @required
    */

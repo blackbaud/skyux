@@ -23,7 +23,7 @@ const STATUS_NAME_DEFAULT = 'incomplete';
 })
 export class SkyProgressIndicatorItemComponent implements OnInit {
   /**
-   * Specifies a step label for the step in the progress indicator.
+   * The step label for the step in the progress indicator.
    * @required
    */
   @Input()

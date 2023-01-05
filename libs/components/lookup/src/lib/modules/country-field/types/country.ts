@@ -15,7 +15,7 @@ export interface SkyCountryFieldCountry {
   name?: string;
 
   /**
-   * Specifies the country's international dial code.
+   * The country's international dial code.
    * This property will only be set if the `includePhoneInfo` input is set.
    */
   dialCode?: string;

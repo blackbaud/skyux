@@ -38,7 +38,7 @@ const MAX_FILE_SIZE_DEFAULT = 500000;
 const MIN_FILE_SIZE_DEFAULT = 0;
 
 /**
- * An element to attach a single local file.
+ * Provides an element to attach a single local file.
  */
 @Component({
   selector: 'sky-file-attachment',
@@ -51,7 +51,7 @@ export class SkyFileAttachmentComponent
   implements AfterViewInit, AfterContentInit, OnInit, OnDestroy
 {
   /**
-   * Specifies a comma-delimited string literal of MIME types that users can attach.
+   * The comma-delimited string literal of MIME types that users can attach.
    * By default, all file types are allowed.
    * @required
    */
@@ -75,7 +75,7 @@ export class SkyFileAttachmentComponent
   }
 
   /**
-   * Specifies the maximum size in bytes for valid files.
+   * The maximum size in bytes for valid files.
    * @default 500000
    */
   @Input()
@@ -88,7 +88,7 @@ export class SkyFileAttachmentComponent
   }
 
   /**
-   * Specifies the minimum size in bytes for valid files.
+   * The minimum size in bytes for valid files.
    * @default 0
    */
   @Input()
@@ -101,7 +101,7 @@ export class SkyFileAttachmentComponent
   }
 
   /**
-   * Specifies a custom validation function. This validation runs alongside the internal
+   * The custom validation function. This validation runs alongside the internal
    * file validation. This function takes a `SkyFileItem` object as a parameter.
    */
   @Input()

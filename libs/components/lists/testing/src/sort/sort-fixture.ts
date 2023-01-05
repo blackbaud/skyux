@@ -7,7 +7,7 @@ import { SkySortFixtureMenu } from './sort-fixture-menu';
 import { SkySortFixtureMenuItem } from './sort-fixture-menu-item';
 
 /**
- * Information for and interaction with a SKY UX sort component.
+ * Provides information for and interaction with a SKY UX sort component.
  * By using the fixture API, a test insulates itself against updates to the internals
  * of a component, such as changing its DOM structure.
  * @internal

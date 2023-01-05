@@ -5,7 +5,7 @@ import { SkyViewkeeperHostOptions } from './viewkeeper-host-options';
 import { SkyViewkeeperOptions } from './viewkeeper-options';
 
 /**
- * Methods for creating and destroying viewkeeper instances.
+ * Provides methods for creating and destroying viewkeeper instances.
  */
 @Injectable({
   providedIn: 'root',

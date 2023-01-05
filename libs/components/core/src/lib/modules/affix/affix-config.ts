@@ -20,7 +20,7 @@ export interface SkyAffixConfig {
   autoFitOverflowOffset?: SkyAffixOffset;
 
   /**
-   * If the affix service should try and find the best placement for the affixed element
+   * Whether the affix service should try and find the best placement for the affixed element
    * if the element would be hidden otherwise. If this setting is disabled, the affix service will
    * force the placement of the affixed element.
    */
@@ -32,7 +32,7 @@ export interface SkyAffixConfig {
   horizontalAlignment?: SkyAffixHorizontalAlignment;
 
   /**
-   * If the affixed element should remain affixed to the base element when the window is scrolled or resized.
+   * Whether the affixed element should remain affixed to the base element when the window is scrolled or resized.
    */
   isSticky?: boolean;
 

@@ -6,7 +6,7 @@ import { SkyThemeIconManifest } from './icon-manifest';
 const manifest: SkyThemeIconManifest = iconManifest;
 
 /**
- * A method for retrieving metadata about the SKY UX icon font.
+ * Provides a method for retrieving metadata about the SKY UX icon font.
  * @internal
  */
 @Injectable({

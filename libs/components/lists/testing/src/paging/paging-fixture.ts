@@ -6,7 +6,7 @@ import { SkyAppTestUtility } from '@skyux-sdk/testing';
 import { SkyPagingFixtureButton } from './paging-fixture-button';
 
 /**
- * Information for and interaction with a SKY UX paging component.
+ * Provides information for and interaction with a SKY UX paging component.
  * By using the fixture API, a test insulates itself against updates to the internals
  * of a component, such as changing its DOM structure.
  * @internal

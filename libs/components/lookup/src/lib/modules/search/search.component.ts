@@ -78,13 +78,13 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   public searchClear = new EventEmitter<void>();
 
   /**
-   * Specifies default search criteria for the input.
+   * Default search criteria for the input.
    */
   @Input()
   public searchText: string | undefined;
 
   /**
-   * Specifies the expand mode for the search input. The valid options
+   * The expand mode for the search input. The valid options
    * include `"responsive"` to collapse the search input into a button on
    * mobile devices, `"none"` to *not* collapse the search input on mobile
    * devices, and `"fit"` to extend the search input to fit the width of its container.
@@ -100,7 +100,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   }
 
   /**
-   * Specifies how many milliseconds to wait before searching after users enter text in the search input.
+   * How many milliseconds to wait before searching after users enter text in the search input.
    * @default 0
    */
   @Input()
@@ -127,7 +127,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   }
 
   /**
-   * Specifies placeholder text to display in the search input until users
+   * Placeholder text to display in the search input until users
    * enter search criteria.
    * @default "Find in this list"
    */

@@ -4,19 +4,19 @@
  */
 export interface SkyColorpickerCmyk {
   /**
-   * Specifies the percentage of cyan to use.
+   * The percentage of cyan to use.
    */
   cyan: number;
   /**
-   * Specifies the percentage of magenta to use.
+   * The percentage of magenta to use.
    */
   magenta: number;
   /**
-   * Specifies the percentage of yellow to use.
+   * The percentage of yellow to use.
    */
   yellow: number;
   /**
-   * Specifies the percentage of black to use.
+   * The percentage of black to use.
    */
   key: number;
 }

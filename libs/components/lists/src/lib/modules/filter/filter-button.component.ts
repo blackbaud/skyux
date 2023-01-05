@@ -16,7 +16,7 @@ let nextId = 0;
 })
 export class SkyFilterButtonComponent {
   /**
-   * Specifies an ID for the filter button.
+   * The ID for the filter button.
    */
   @Input()
   public get filterButtonId(): string {
@@ -27,7 +27,7 @@ export class SkyFilterButtonComponent {
   }
 
   /**
-   * Specifies an ID to identify the element that contains
+   * The ID to identify the element that contains
    * the filtering options that the filter button exposes.
    * To support [accessibility rules for disclosures](https://www.w3.org/TR/wai-aria-practices-1.1/#disclosure),
    * this property is necessary when using inline filters.
