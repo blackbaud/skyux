@@ -827,9 +827,7 @@ describe('fuzzy datepicker input', () => {
         const todayDateString = moment().format('MMMM YYYY');
 
         expect(getCalendarTitle()).toHaveText(todayDateString);
-        expect(getSelectedCalendarItem()).toHaveText(
-          today.getDate().toString().padStart(2, '0')
-        );
+        expect(getSelectedCalendarItem()).toHaveText(`${today.getDate()}`);
 
         flush();
       }));
@@ -1550,9 +1548,7 @@ describe('fuzzy datepicker input', () => {
         const todayDateString = moment().format('MMMM YYYY');
 
         expect(getCalendarTitle()).toHaveText(todayDateString);
-        expect(getSelectedCalendarItem()).toHaveText(
-          today.getDate().toString().padStart(2, '0')
-        );
+        expect(getSelectedCalendarItem()).toHaveText(`${today.getDate()}`);
 
         flush();
       }));

@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { SkySkipLinkService } from '@skyux/a11y';
 
 @Component({
@@ -16,15 +10,10 @@ export class SkipLinkComponent implements AfterViewInit {
   @ViewChild('skipLink', { read: ElementRef })
   public skipLink: ElementRef | undefined;
 
-  #changeDetector: ChangeDetectorRef;
   #skipLinkService: SkySkipLinkService;
 
-  constructor(
-    skipLinkService: SkySkipLinkService,
-    changeDetector: ChangeDetectorRef
-  ) {
+  constructor(skipLinkService: SkySkipLinkService) {
     this.#skipLinkService = skipLinkService;
-    this.#changeDetector = changeDetector;
   }
 
   public ngAfterViewInit(): void {
@@ -37,8 +26,6 @@ export class SkipLinkComponent implements AfterViewInit {
           },
         ],
       });
-
-      this.#changeDetector.detectChanges();
     }
   }
 }

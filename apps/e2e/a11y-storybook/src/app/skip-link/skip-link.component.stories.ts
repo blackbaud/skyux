@@ -18,11 +18,3 @@ const Template: Story<SkipLinkComponent> = (args: SkipLinkComponent) => ({
 });
 export const SkipLink = Template.bind({});
 SkipLink.args = {};
-
-setTimeout(() => {
-  document.body.insertAdjacentHTML(
-    'beforebegin',
-    '<script type="text/javascript">document.querySelector(".sky-skip-link").focus()</script>'
-  );
-  (document.querySelector('.sky-skip-link') as HTMLElement).focus();
-}, 5);

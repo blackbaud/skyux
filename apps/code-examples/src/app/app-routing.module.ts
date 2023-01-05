@@ -168,11 +168,6 @@ const routes: Routes = [
         (m) => m.TextEditorFeatureModule
       ),
   },
-  {
-    path: 'router',
-    loadChildren: () =>
-      import('./features/router.module').then((m) => m.RouterFeatureModule),
-  },
 ];
 
 @NgModule({
