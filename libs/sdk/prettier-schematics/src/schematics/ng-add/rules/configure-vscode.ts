@@ -48,8 +48,6 @@ export function configureVSCode(): Rule {
       settings['prettier.requireConfig'] = true;
 
       writeJsonFile(tree, settingsPath, settings);
-    } else {
-      console.log('NADA!');
     }
   };
 }

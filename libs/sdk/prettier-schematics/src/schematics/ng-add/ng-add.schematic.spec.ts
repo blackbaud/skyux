@@ -320,6 +320,7 @@ test.ts`);
   });
 
   it('should not configure VSCode if .vscode folder does not exist', async () => {
+    // Empty the .vscode folder.
     tree.getDir('.vscode').visit((file) => tree.delete(file));
 
     const updatedTree = await runSchematic(tree);
