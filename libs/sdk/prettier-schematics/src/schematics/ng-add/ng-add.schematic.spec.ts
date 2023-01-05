@@ -320,7 +320,8 @@ test.ts`);
   });
 
   it('should not configure VSCode if .vscode folder does not exist', async () => {
-    tree.delete('.vscode/extensions.json');
+    // Empty the .vscode folder.
+    tree.getDir('.vscode').visit((file) => tree.delete(file));
 
     const updatedTree = await runSchematic(tree);
 
@@ -328,8 +329,21 @@ test.ts`);
   });
 
   it('should configure VSCode', async () => {
-    tree.overwrite('.vscode/extensions.json', '{}');
-    tree.create('.vscode/settings.json', '{}');
+    const updatedTree = await runSchematic(tree);
+
+    validateJsonFile(updatedTree, '.vscode/extensions.json', {
+      recommendations: ['angular.ng-template', 'esbenp.prettier-vscode'],
+    });
+
+    validateJsonFile(updatedTree, '.vscode/settings.json', {
+      'editor.defaultFormatter': 'esbenp.prettier-vscode',
+      'editor.formatOnSave': true,
+      'prettier.requireConfig': true,
+    });
+  });
+
+  it('should handle missing extensions file', async () => {
+    tree.delete('.vscode/extensions.json');
 
     const updatedTree = await runSchematic(tree);
 
