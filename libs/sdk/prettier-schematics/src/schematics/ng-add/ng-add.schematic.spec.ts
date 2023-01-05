@@ -342,6 +342,22 @@ test.ts`);
     });
   });
 
+  it('should handle missing extensions file', async () => {
+    tree.delete('.vscode/extensions.json');
+
+    const updatedTree = await runSchematic(tree);
+
+    validateJsonFile(updatedTree, '.vscode/extensions.json', {
+      recommendations: ['esbenp.prettier-vscode'],
+    });
+
+    validateJsonFile(updatedTree, '.vscode/settings.json', {
+      'editor.defaultFormatter': 'esbenp.prettier-vscode',
+      'editor.formatOnSave': true,
+      'prettier.requireConfig': true,
+    });
+  });
+
   it('should ignore existing VSCode config', async () => {
     tree.overwrite(
       '.vscode/extensions.json',
