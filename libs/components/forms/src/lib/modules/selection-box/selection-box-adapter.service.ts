@@ -52,7 +52,11 @@ export class SkySelectionBoxAdapterService {
    * Returns a breakpoint based on the width.
    * @param width Width of the element in pixels.
    */
-  public getBreakpointForWidth(width: number): SkyMediaBreakpoints {
+  public getBreakpointForWidth(width: number | undefined): SkyMediaBreakpoints {
+    if (!width) {
+      return SkyMediaBreakpoints.lg;
+    }
+
     if (width <= BREAKPOINT_XS_MAX_PIXELS) {
       return SkyMediaBreakpoints.xs;
     } else if (
@@ -73,8 +77,10 @@ export class SkySelectionBoxAdapterService {
   /**
    * Returns the width of the `parentNode` of the provided `element`.
    */
-  public getParentWidth(element: ElementRef): number {
-    return element.nativeElement.parentNode.getBoundingClientRect().width;
+  public getParentWidth(element: ElementRef): number | undefined {
+    return (
+      element.nativeElement as HTMLElement | undefined
+    )?.parentElement?.getBoundingClientRect()?.width;
   }
 
   /**

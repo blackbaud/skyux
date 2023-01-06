@@ -14,6 +14,9 @@ export class SelectionBoxGridTestComponent {
 
   public dynamicDescription = 'description three';
 
+  // We had an issue where when there is an outer `ngIf` the internal responsive check may face a race condition. This allows us to test that.
+  public render = true;
+
   @ViewChild(SkySelectionBoxGridComponent, {
     read: SkySelectionBoxGridComponent,
     static: false,

@@ -11,8 +11,9 @@ export class SkyAuthHttpTestingController {
   /**
    * Validates whether the expected BBID Authorization header was added to the request.
    * @param request The Angular `TestRequest` object with the expected header.
+   * @throws Error if the expected header is not present.
    */
-  public expectAuth(request: any) {
+  public expectAuth(request: any): void {
     const headers = this.#getHeaders(request);
 
     if (
