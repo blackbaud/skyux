@@ -128,6 +128,9 @@ export interface SkyuxConfigAnyAllSet {
 export interface SkyuxConfig {
   $schema?: string;
   a11y?: SkyuxConfigA11y | boolean;
+  angularSettings?: {
+    defaultProject: string;
+  };
   app?: SkyuxConfigApp;
   appSettings?: any;
   auth?: boolean;
