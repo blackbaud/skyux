@@ -1,5 +1,6 @@
 import { Rule } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
+import { VERSION } from '@angular/cli';
 import {
   NodeDependencyType,
   addPackageJsonDependency,
@@ -12,7 +13,7 @@ export function installAngularCdk(): Rule {
     addPackageJsonDependency(tree, {
       type: NodeDependencyType.Default,
       name: '@angular/cdk',
-      version: '^13.0.0',
+      version: `^${VERSION.major}.0.0`,
       overwrite: true,
     });
   };
