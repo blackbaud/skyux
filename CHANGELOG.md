@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.1.4](https://github.com/blackbaud/skyux/compare/7.1.3...7.1.4) (2023-01-09)
+
+
+### Bug Fixes
+
+* **components/packages:** ng-add install current @angular/cdk ([#916](https://github.com/blackbaud/skyux/issues/916)) ([3b2118f](https://github.com/blackbaud/skyux/commit/3b2118f1ef6ed4d7da51f8fba8fd578795cb3bf3))
+
 ## [7.1.3](https://github.com/blackbaud/skyux/compare/7.1.2...7.1.3) (2023-01-06)
 
 
