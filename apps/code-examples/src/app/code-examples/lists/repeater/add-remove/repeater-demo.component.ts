@@ -32,7 +32,7 @@ export class RepeaterDemoComponent {
   }
 
   public changeItems(tags: RepeaterDemoItem[]): void {
-    this.items = tags;
+    console.log('Tags in order ', tags);
   }
 
   public onActionClicked(buttonText: string): void {
