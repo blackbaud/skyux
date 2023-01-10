@@ -70,9 +70,7 @@ async function validateWaitProperties(
     `${fixture.componentInstance.isFullPage ? 'Page l' : 'L'}oading.${
       fixture.componentInstance.isNonBlocking ? '' : ' Please wait.'
     }`;
-  await expectAsync(waitHarness.getAriaLabel()).toBeResolvedTo(
-    fixture.componentInstance.isWaiting ? label : null
-  );
+  await expectAsync(waitHarness.getAriaLabel()).toBeResolvedTo(label);
   fixture.componentInstance.isWaiting = false;
 }
 
@@ -129,6 +127,8 @@ describe('Wait harness', () => {
   it('should get a wait by its data-sky-id property', async () => {
     const { waitHarness } = await setupTest({ dataSkyId: 'wait-2' });
     // if isWaiting is false the wait mask doesn't exist, so there is no ARIA label
-    await expectAsync(waitHarness.getAriaLabel()).toBeResolvedTo(null);
+    await expectAsync(waitHarness.getAriaLabel()).toBeRejectedWithError(
+      'The wait component is not currently visible.'
+    );
   });
 });

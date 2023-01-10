@@ -25,13 +25,17 @@ export class SkyWaitHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the aria label for the wait component.
+   * Gets the aria label for the wait component or throws an error if not waiting.
    */
-  public async getAriaLabel(): Promise<string | null> {
+  public async getAriaLabel(): Promise<string> {
     const waitMask = await this.#getWaitMask();
     if (waitMask) {
-      return waitMask.getAttribute('aria-label');
+      return (
+        (await waitMask.getAttribute('aria-label')) ||
+        /* istanbul ignore next */
+        ''
+      );
     }
-    return null;
+    throw new Error('The wait component is not currently visible.');
   }
 }
