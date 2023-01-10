@@ -2,10 +2,6 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  template: `
-    <sky-preview-wrapper theme="modern-light">
-      <router-outlet></router-outlet>
-    </sky-preview-wrapper>
-  `,
+  template: `<router-outlet></router-outlet>`,
 })
 export class AppComponent {}

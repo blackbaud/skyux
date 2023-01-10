@@ -38,8 +38,8 @@ $sky-switch-size-modern: 26px !default;
   }
 
   .sky-switch-input:disabled + .sky-switch-control {
-    background-color: var(--sky-background-color-neutral-medium);
-    border: solid 1px var(--sky-background-color-disabled);
+    background-color: $sky-theme-modern-background-color-neutral-medium;
+    border: solid 1px $sky-theme-modern-background-color-disabled;
   }
 
   .sky-switch-disabled {
@@ -58,7 +58,7 @@ $sky-switch-size-modern: 26px !default;
       }
 
       &:disabled + .sky-switch-control {
-        background-color: var(--sky-background-color-neutral-medium);
+        background-color: $sky-theme-modern-background-color-neutral-medium;
         border: none;
         color: var(--sky-text-color-deemphasized);
       }
@@ -73,7 +73,7 @@ $sky-switch-size-modern: 26px !default;
 
     .sky-switch-control {
       border: none;
-      border-radius: var(--sky-border-radius);
+      border-radius: $sky-theme-modern-box-border-radius-default;
 
       &.sky-switch-control-icon {
         font-size: 20px;
@@ -91,7 +91,7 @@ $sky-switch-size-modern: 26px !default;
     }
 
     sky-radio .sky-switch-control-icon {
-      border-radius: var(--sky-border-radius);
+      border-radius: $sky-theme-modern-box-border-radius-default;
     }
   }
 

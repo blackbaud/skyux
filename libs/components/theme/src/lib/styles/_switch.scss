@@ -123,13 +123,13 @@ $sky-switch-size: 22px !default;
 
   sky-radio:first-of-type .sky-switch-control-icon,
   sky-checkbox:first-of-type .sky-switch-control-icon {
-    border-top-left-radius: var(--sky-border-radius);
-    border-bottom-left-radius: var(--sky-border-radius);
+    border-top-left-radius: $sky-border-radius;
+    border-bottom-left-radius: $sky-border-radius;
   }
 
   sky-radio:last-of-type .sky-switch-control-icon,
   sky-checkbox:last-of-type .sky-switch-control-icon {
-    border-top-right-radius: var(--sky-border-radius);
-    border-bottom-right-radius: var(--sky-border-radius);
+    border-top-right-radius: $sky-border-radius;
+    border-bottom-right-radius: $sky-border-radius;
   }
 }

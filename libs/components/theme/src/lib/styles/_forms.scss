@@ -38,7 +38,7 @@ textarea.ng-invalid.ng-touched {
 }
 
 .sky-error-label {
-  margin-top: var(--sky-margin-half);
+  margin-top: $sky-margin-half;
   color: var(--sky-text-color-default);
 }
 
@@ -52,7 +52,7 @@ textarea.ng-invalid.ng-touched {
 .sky-control-label {
   display: inline-block;
   font-weight: normal;
-  margin-bottom: var(--sky-margin-half);
+  margin-bottom: $sky-margin-half;
   max-width: 100%;
 }
 

@@ -4,7 +4,6 @@
   /* color */
   --sky-background-color-page-default: #{$sky-background-color-page-default};
   --sky-background-color-neutral-light: #{$sky-background-color-neutral-light};
-  --sky-background-color-neutral-medium: #{$sky-background-color-neutral-light};
   --sky-background-color-primary-dark: #{$sky-background-color-primary-dark};
   --sky-background-color-disabled: #{$sky-background-color-disabled};
   --sky-background-color-selected: #{$sky-background-color-selected};
@@ -52,8 +51,6 @@
   --sky-margin-stacked-xl: #{$sky-space-xl};
   --sky-margin-stacked-xxl: 40px;
 
-  --sky-margin-half: #{$sky-margin-half};
-
   /* padding */
   --sky-padding-even-md: #{$sky-space-lg};
   --sky-padding-even-xl: #{$sky-space-xl};
@@ -64,7 +61,4 @@
   --sky-viewport-top: 0;
   --sky-viewport-right: 0;
   --sky-viewport-bottom: 0;
-
-  /* border */
-  --sky-border-radius: #{$sky-border-radius};
 }

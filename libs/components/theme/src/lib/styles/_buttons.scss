@@ -15,7 +15,7 @@ button {
 .sky-btn {
   background-color: transparent;
   @include mixins.sky-border(dark, top, bottom, left, right);
-  border-radius: var(--sky-border-radius);
+  border-radius: $sky-border-radius;
   color: var(--sky-text-color-default);
   cursor: pointer;
   display: inline-block;
@@ -118,7 +118,7 @@ a.sky-btn {
   color: var(--sky-text-color-deemphasized);
   cursor: pointer;
   line-height: 1.4;
-  margin-left: var(--sky-margin-half);
+  margin-left: $sky-margin-half;
 
   &:hover {
     color: var(--sky-text-color-default);
@@ -129,7 +129,7 @@ a.sky-btn {
 .sky-tab-header-count {
   font-weight: 400;
   color: var(--sky-text-color-action-primary);
-  margin-left: var(--sky-margin-half);
+  margin-left: $sky-margin-half;
 }
 
 .sky-btn-tab-selected:not(.sky-btn-tab-disabled) {
@@ -144,11 +144,11 @@ a.sky-btn {
 .sky-btn-tab-wizard {
   background-color: $sky-color-white;
   @include mixins.sky-border(light, top, bottom, left, right);
-  border-radius: var(--sky-border-radius);
+  border-radius: $sky-border-radius;
   font-weight: 400;
   color: var(--sky-text-color-default);
   line-height: 1.6em;
-  margin-right: var(--sky-margin-half);
+  margin-right: $sky-margin-half;
   padding-bottom: $sky-padding-half;
   padding-top: $sky-padding-half;
 
