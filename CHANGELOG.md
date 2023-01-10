@@ -1,5 +1,23 @@
 # Changelog
 
+## [7.1.4](https://github.com/blackbaud/skyux/compare/7.1.3...7.1.4) (2023-01-09)
+
+
+### Bug Fixes
+
+* **components/packages:** ng-add install current @angular/cdk ([#916](https://github.com/blackbaud/skyux/issues/916)) ([3b2118f](https://github.com/blackbaud/skyux/commit/3b2118f1ef6ed4d7da51f8fba8fd578795cb3bf3))
+
+## [7.1.3](https://github.com/blackbaud/skyux/compare/7.1.2...7.1.3) (2023-01-06)
+
+
+### Bug Fixes
+
+* **components/config:** add `angularSettings` to `SkyuxConfig` ([#915](https://github.com/blackbaud/skyux/issues/915)) ([99a5d92](https://github.com/blackbaud/skyux/commit/99a5d929e42ad0ab25d0eeb3f04d7695e51f80e6))
+* **components/forms:** inline help within an input box now displays focus only around the help inline ([#899](https://github.com/blackbaud/skyux/issues/899)) ([1acb5c4](https://github.com/blackbaud/skyux/commit/1acb5c4c4a2c8b19cc28c7d787dd17e49892fcf3))
+* **components/forms:** selection box no longer errors if responsive classes are updated prior to Angular fully rendering parent elements ([#910](https://github.com/blackbaud/skyux/issues/910)) ([e08316c](https://github.com/blackbaud/skyux/commit/e08316c108a7e499610b5d5fcf1d2ee049fa0f27))
+* **sdk/e2e-schematics:** bug fixes during component-e2e and story generation ([#904](https://github.com/blackbaud/skyux/issues/904)) ([c2e54a8](https://github.com/blackbaud/skyux/commit/c2e54a83dfc6a0b64a10086aa48b7177e8130427))
+* **sdk/prettier-schematics:** configure Prettier if .vscode folder exists ([#914](https://github.com/blackbaud/skyux/issues/914)) ([17ba286](https://github.com/blackbaud/skyux/commit/17ba286193c0979531e5dd4d4466428da19fc3f2))
+
 ## [7.1.2](https://github.com/blackbaud/skyux/compare/7.1.1...7.1.2) (2022-12-22)
 
 
