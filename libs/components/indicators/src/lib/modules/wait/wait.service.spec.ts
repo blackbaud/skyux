@@ -194,9 +194,7 @@ describe('Wait service', () => {
   describe('wraps', () => {
     it('should wrap with blocking wait when the given observable is hot', fakeAsync(() => {
       const subject = new ReplaySubject();
-      waitSvc
-        .blockingWrap({ observable: subject.asObservable() })
-        .subscribe(NO_OP_FUNC);
+      waitSvc.blockingWrap(subject.asObservable()).subscribe(NO_OP_FUNC);
       subject.next('A');
       tick();
       applicationRef.tick();
@@ -209,7 +207,7 @@ describe('Wait service', () => {
 
     it('should not wrap with blocking wait when the given observable is cold', fakeAsync(() => {
       const subject = new ReplaySubject();
-      waitSvc.blockingWrap({ observable: subject.asObservable() });
+      waitSvc.blockingWrap(subject.asObservable());
       subject.next('A');
       tick();
       applicationRef.tick();
@@ -223,7 +221,7 @@ describe('Wait service', () => {
     it('should wrap with blocking wait when the given observable throws error', fakeAsync(() => {
       const subject = new ReplaySubject();
       waitSvc
-        .blockingWrap({ observable: subject.asObservable() })
+        .blockingWrap(subject.asObservable())
         .subscribe(NO_OP_FUNC, NO_OP_FUNC);
       subject.next('A');
       tick();
@@ -235,24 +233,9 @@ describe('Wait service', () => {
       verifyBlockingPageWaitExists(false);
     }));
 
-    it('should wrap with blocking wait when the given observable is given outside of args', fakeAsync(() => {
-      const subject = new ReplaySubject();
-      waitSvc.blockingWrap(subject.asObservable()).subscribe(NO_OP_FUNC);
-      subject.next('A');
-      tick();
-      applicationRef.tick();
-      verifyBlockingPageWaitExists(true);
-      subject.complete();
-      tick();
-      applicationRef.tick();
-      verifyBlockingPageWaitExists(false);
-    }));
-
     it('should wrap with nonblocking wait when the given observable is hot', fakeAsync(() => {
       const subject = new ReplaySubject();
-      waitSvc
-        .nonBlockingWrap({ observable: subject.asObservable() })
-        .subscribe(NO_OP_FUNC);
+      waitSvc.nonBlockingWrap(subject.asObservable()).subscribe(NO_OP_FUNC);
       subject.next('A');
       tick();
       applicationRef.tick();
@@ -265,7 +248,7 @@ describe('Wait service', () => {
 
     it('should not wrap with nonblocking wait when the given observable is cold', fakeAsync(() => {
       const subject = new ReplaySubject();
-      waitSvc.nonBlockingWrap({ observable: subject.asObservable() });
+      waitSvc.nonBlockingWrap(subject.asObservable());
       subject.next('A');
       tick();
       applicationRef.tick();
@@ -279,26 +262,13 @@ describe('Wait service', () => {
     it('should wrap with nonblocking wait when the given observable throws error', fakeAsync(() => {
       const subject = new ReplaySubject();
       waitSvc
-        .nonBlockingWrap({ observable: subject.asObservable() })
+        .nonBlockingWrap(subject.asObservable())
         .subscribe(NO_OP_FUNC, NO_OP_FUNC);
       subject.next('A');
       tick();
       applicationRef.tick();
       verifyNonBlockingPageWaitExists(true);
       subject.error('error');
-      tick();
-      applicationRef.tick();
-      verifyNonBlockingPageWaitExists(false);
-    }));
-
-    it('should wrap with nonblocking wait when the given observable is given outside of args', fakeAsync(() => {
-      const subject = new ReplaySubject();
-      waitSvc.nonBlockingWrap(subject.asObservable()).subscribe(NO_OP_FUNC);
-      subject.next('A');
-      tick();
-      applicationRef.tick();
-      verifyNonBlockingPageWaitExists(true);
-      subject.complete();
       tick();
       applicationRef.tick();
       verifyNonBlockingPageWaitExists(false);
@@ -336,9 +306,7 @@ describe('Wait service', () => {
 
     it('should be accessible when a blocking wait is added with a wrap', waitForAsync(async () => {
       const subject = new ReplaySubject();
-      waitSvc
-        .blockingWrap({ observable: subject.asObservable() })
-        .subscribe(NO_OP_FUNC);
+      waitSvc.blockingWrap(subject.asObservable()).subscribe(NO_OP_FUNC);
       subject.next('A');
       // Kick off the observable
       applicationRef.tick();
@@ -359,9 +327,7 @@ describe('Wait service', () => {
 
     it('should be accessible when a non-blocking wait is added with a wrap', waitForAsync(async () => {
       const subject = new ReplaySubject();
-      waitSvc
-        .nonBlockingWrap({ observable: subject.asObservable() })
-        .subscribe(NO_OP_FUNC);
+      waitSvc.nonBlockingWrap(subject.asObservable()).subscribe(NO_OP_FUNC);
       subject.next('A');
       // Kick off the observable
       applicationRef.tick();

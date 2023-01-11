@@ -9,7 +9,7 @@ $sky-switch-size: 22px !default;
   position: relative;
 
   &:hover .sky-switch-control {
-    border-color: $sky-highlight-color-info;
+    border-color: var(--sky-highlight-color-info);
     border-width: 2px;
   }
 }
@@ -36,28 +36,28 @@ $sky-switch-size: 22px !default;
 
   &:checked + .sky-switch-control,
   &:indeterminate + .sky-switch-control {
-    background-color: $sky-background-color-info-light;
-    border-color: $sky-highlight-color-info;
+    background-color: var(--sky-background-color-info-light);
+    border-color: var(--sky-highlight-color-info);
     border-width: 2px;
 
     &.sky-switch-control-success {
       background-color: lighten($sky-background-color-success, 10%);
-      border-color: $sky-highlight-color-success;
+      border-color: var(--sky-highlight-color-success);
     }
 
     &.sky-switch-control-warning {
       background-color: lighten($sky-background-color-warning, 10%);
-      border-color: $sky-highlight-color-warning;
+      border-color: var(--sky-highlight-color-warning);
     }
 
     &.sky-switch-control-danger {
       background-color: lighten($sky-background-color-danger, 10%);
-      border-color: $sky-highlight-color-danger;
+      border-color: var(--sky-highlight-color-danger);
     }
   }
 
   &:disabled + .sky-switch-control {
-    background-color: $sky-background-color-disabled;
+    background-color: var(--sky-background-color-disabled);
     border-color: transparent;
   }
 
@@ -76,7 +76,7 @@ $sky-switch-size: 22px !default;
   position: relative;
   border: 1px solid $sky-background-color-disabled;
   background-color: $sky-color-white;
-  color: $sky-text-color-default;
+  color: var(--sky-text-color-default);
   text-align: center;
   line-height: 1;
   align-items: center;
