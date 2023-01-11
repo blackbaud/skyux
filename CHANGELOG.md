@@ -1,5 +1,17 @@
 # Changelog
 
+## [7.2.0](https://github.com/blackbaud/skyux/compare/7.1.4...7.2.0) (2023-01-11)
+
+
+### Features
+
+* **components/theme:** switch to css custom properties ([#905](https://github.com/blackbaud/skyux/issues/905)) ([01381b7](https://github.com/blackbaud/skyux/commit/01381b705f7d7da276fd61270be824ec1ac4f195))
+
+
+### Reverts
+
+* **components/indicators:** `SkyWaitService`'s `blockingWrap` and `nonBlockingWrap` methods now take in argument objects and the versions which take in an `Observable` are deprecated ([#922](https://github.com/blackbaud/skyux/pull/922)) ([36bd04](https://github.com/blackbaud/skyux/commit/36bd04507058c925a68c4a2cd778356b843defac))
+
 ## [7.1.4](https://github.com/blackbaud/skyux/compare/7.1.3...7.1.4) (2023-01-09)
 
 

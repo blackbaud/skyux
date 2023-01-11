@@ -48,15 +48,16 @@
 
   .sky-btn-link-inline {
     border-radius: 0;
-    color: $sky-theme-modern-text-color-action-primary;
+    color: var(--sky-text-color-action-primary);
 
     &:focus-visible:not(:active) {
-      box-shadow: 0 0 0 2px $sky-theme-modern-background-color-primary-dark,
+      box-shadow: 0 0 0 2px var(--sky-background-color-primary-dark),
         0 1px 8px 2px $sky-theme-modern-elevation-3-shadow-color;
     }
 
+    &:hover,
     &:active {
-      color: darken($sky-theme-modern-text-color-action-primary, 10%);
+      color: var(--sky-text-color-action-primary-hover);
       text-decoration: underline;
     }
   }
@@ -71,7 +72,7 @@
   }
 
   .sky-btn-borderless-inline {
-    color: $sky-theme-modern-font-deemphasized-color;
+    color: var(--sky-text-color-deemphasized);
   }
 
   .sky-btn-icon {
@@ -111,7 +112,7 @@
   }
 
   .sky-tab-header-count {
-    color: $sky-text-color-deemphasized;
+    color: var(--sky-text-color-deemphasized);
     margin-left: $sky-theme-modern-margin-inline-sm;
   }
 
@@ -126,10 +127,6 @@
   }
 
   &.sky-theme-mode-dark {
-    .sky-btn {
-      color: $sky-theme-modern-mode-dark-font-body-default-color;
-    }
-
     .sky-btn-default {
       @include mixins.sky-button-variant(
         $sky-theme-modern-mode-dark-font-body-default-color,

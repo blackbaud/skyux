@@ -3,13 +3,11 @@ import {
   ComponentFactoryResolver,
   Injectable,
 } from '@angular/core';
-import { SkyAppWindowRef, SkyLogService } from '@skyux/core';
+import { SkyAppWindowRef } from '@skyux/core';
 
 import { Observable, defer as observableDefer } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
-import { SkyWaitBlockingWrapArgs } from './types/wait-blocking-wrap-args';
-import { SkyWaitNonBlockingWrapArgs } from './types/wait-non-blocking-wrap-args';
 import { SkyWaitPageAdapterService } from './wait-page-adapter.service';
 import { SkyWaitPageComponent } from './wait-page.component';
 
@@ -28,20 +26,17 @@ export class SkyWaitService {
   #appRef: ApplicationRef;
   #waitAdapter: SkyWaitPageAdapterService;
   #windowSvc: SkyAppWindowRef;
-  #logService: SkyLogService;
 
   constructor(
     resolver: ComponentFactoryResolver,
     appRef: ApplicationRef,
     waitAdapter: SkyWaitPageAdapterService,
-    windowSvc: SkyAppWindowRef,
-    logService: SkyLogService
+    windowSvc: SkyAppWindowRef
   ) {
     this.#resolver = resolver;
     this.#appRef = appRef;
     this.#waitAdapter = waitAdapter;
     this.#windowSvc = windowSvc;
-    this.#logService = logService;
   }
 
   /**
@@ -97,29 +92,7 @@ export class SkyWaitService {
   /**
    * Launches a page wait and automatically stops when the specific asynchronous event completes.
    */
-  public blockingWrap<T>(args: SkyWaitBlockingWrapArgs<T>): Observable<T>;
-  /**
-   * @deprecated Use the version which takes in `SkyWaitBlockingWrapArgs` instead
-   */
-  public blockingWrap<T>(observable: Observable<T>): Observable<T>;
-  public blockingWrap<T>(
-    value: SkyWaitBlockingWrapArgs<T> | Observable<T>
-  ): Observable<T> {
-    let observable: Observable<T> = value as Observable<T>;
-    const typeChecker = value as SkyWaitBlockingWrapArgs<T>;
-    if (typeChecker.observable !== undefined) {
-      observable = (value as SkyWaitBlockingWrapArgs<T>).observable;
-    } else {
-      this.#logService.deprecated(
-        'Use of the `blockingWrap` method with an `Observable<T> parameter',
-        {
-          deprecationMajorVersion: 7,
-          replacementRecommendation:
-            'Use the version of the `blockingWrap` function which takes in `SkyWaitBlockingWrapArgs`.',
-        }
-      );
-    }
-
+  public blockingWrap<T>(observable: Observable<T>): Observable<T> {
     return observableDefer(() => {
       this.beginBlockingPageWait();
       return observable.pipe(finalize(() => this.endBlockingPageWait()));
@@ -130,29 +103,7 @@ export class SkyWaitService {
    * Launches a non-blocking page wait and automatically stops when the specific
    * asynchronous event completes.
    */
-  public nonBlockingWrap<T>(args: SkyWaitNonBlockingWrapArgs<T>): Observable<T>;
-  /**
-   * @deprecated Use the version which takes in `SkyWaitNonBlockingWrapArgs` instead
-   */
-  public nonBlockingWrap<T>(observable: Observable<T>): Observable<T>;
-  public nonBlockingWrap<T>(
-    value: SkyWaitNonBlockingWrapArgs<T> | Observable<T>
-  ): Observable<T> {
-    let observable: Observable<T> = value as Observable<T>;
-    const typeChecker = value as SkyWaitNonBlockingWrapArgs<T>;
-    if (typeChecker.observable !== undefined) {
-      observable = (value as SkyWaitNonBlockingWrapArgs<T>).observable;
-    } else {
-      this.#logService.deprecated(
-        'Use of the `nonBlockingWrap` method with an `Observable<T> parameter',
-        {
-          deprecationMajorVersion: 7,
-          replacementRecommendation:
-            'Use the version of the `nonBlockingWrap` function which takes in `SkyWaitNonBlockingWrapArgs`.',
-        }
-      );
-    }
-
+  public nonBlockingWrap<T>(observable: Observable<T>): Observable<T> {
     return observableDefer(() => {
       this.beginNonBlockingPageWait();
       return observable.pipe(finalize(() => this.endNonBlockingPageWait()));
