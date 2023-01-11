@@ -1,19 +1,31 @@
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+
+.sky-skip-link {
+  --sky-skip-link-hidden-left-position: -999px;
+  --sky-skip-link-hidden-top-position: auto;
+  --sky-skip-link-shown-left-position: #{$sky-padding};
+  --sky-skip-link-shown-top-position: #{$sky-padding};
+  --sky-skip-link-hidden-width: 1px;
+  --sky-skip-link-hidden-height: 1px;
+  --sky-skip-link-shown-width: auto;
+  --sky-skip-link-shown-height: auto;
+  --sky-skip-link-shown-z-index: 10000;
+}
+
 .sky-skip-link {
   position: absolute;
-  left: -999px;
-  width: 1px;
-  height: 1px;
-  top: auto;
+  left: var(--sky-skip-link-hidden-left-position);
+  top: var(--sky-skip-link-hidden-top-position);
+  width: var(--sky-skip-link-hidden-width);
+  height: var(--sky-skip-link-hidden-height);
 
   &:focus,
   &:active {
     display: inline-block;
-    height: auto;
-    width: auto;
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    margin: auto;
-    z-index: 10000;
+    left: var(--sky-skip-link-shown-left-position);
+    top: var(--sky-skip-link-shown-top-position);
+    width: var(--sky-skip-link-shown-width);
+    height: var(--sky-skip-link-shown-height);
+    z-index: var(--sky-skip-link-shown-z-index  );
   }
 }
