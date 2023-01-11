@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.2.0](https://github.com/blackbaud/skyux/compare/7.1.4...7.2.0) (2023-01-11)
+
+
+### Features
+
+* **components/theme:** switch to css custom properties ([#905](https://github.com/blackbaud/skyux/issues/905)) ([01381b7](https://github.com/blackbaud/skyux/commit/01381b705f7d7da276fd61270be824ec1ac4f195))
+
 ## [7.1.4](https://github.com/blackbaud/skyux/compare/7.1.3...7.1.4) (2023-01-09)
 
 
