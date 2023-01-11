@@ -13,6 +13,7 @@ export class SkyWaitHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-wait';
 
   #getWaitMask = this.locatorForOptional('.sky-wait-mask');
+  #getWaitContainer = this.locatorFor('.sky-wait-container');
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -37,5 +38,26 @@ export class SkyWaitHarness extends SkyComponentHarness {
       );
     }
     throw new Error('The wait component is not currently visible.');
+  }
+
+  /**
+   * Gets the waiting state of the wait component.
+   */
+  public async isWaiting(): Promise<boolean> {
+    return !!(await this.#getWaitMask());
+  }
+
+  /**
+   * Gets the full page state of the wait component.
+   */
+  public async isFullPage(): Promise<boolean> {
+    return (await this.#getWaitContainer()).hasClass('sky-wait-full-page');
+  }
+
+  /**
+   * Gets the blocking state of the wait component.
+   */
+  public async isNonBlocking(): Promise<boolean> {
+    return (await this.#getWaitContainer()).hasClass('sky-wait-non-blocking');
   }
 }

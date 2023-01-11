@@ -34,9 +34,9 @@ import { SkyWaitHarness } from './wait-harness';
 class TestComponent {
   public ariaLabel: string | undefined;
 
-  public isFullPage: boolean | undefined = true;
+  public isFullPage: boolean | undefined;
 
-  public isNonBlocking: boolean | undefined = false;
+  public isNonBlocking: boolean | undefined;
 
   public isWaiting = false;
 }
@@ -45,25 +45,28 @@ class TestComponent {
 async function validateWaitProperties(
   waitHarness: SkyWaitHarness,
   fixture: ComponentFixture<TestComponent>,
-  isFullPage?: boolean,
-  isNonBlocking?: boolean,
+  isFullPage: boolean,
+  isNonBlocking: boolean,
   ariaLabel?: string
 ): Promise<void> {
   fixture.componentInstance.ariaLabel = undefined;
-  fixture.componentInstance.isFullPage = undefined;
-  fixture.componentInstance.isNonBlocking = undefined;
+
+  fixture.componentInstance.isFullPage = isFullPage;
+  fixture.componentInstance.isNonBlocking = isNonBlocking;
+
   if (ariaLabel) {
-    fixture.componentInstance.ariaLabel = ariaLabel;
-  }
-  if (isFullPage !== undefined) {
-    fixture.componentInstance.isFullPage = isFullPage;
-  }
-  if (isNonBlocking !== undefined) {
     fixture.componentInstance.ariaLabel = ariaLabel;
   }
 
   fixture.componentInstance.isWaiting = true;
   fixture.detectChanges();
+
+  // const waiting = await waitHarness.isWaiting();
+  // const fullPage = await waitHarness.isFullPage();
+  // const nonBlocking = await waitHarness.isNonBlocking();
+  // console.log(`Waiting: ${waiting}`);
+  // console.log(`FullPage: ${fullPage} (${isFullPage})`);
+  // console.log(`NonBlocking: ${nonBlocking} (${isNonBlocking})`);
 
   const label =
     fixture.componentInstance.ariaLabel ??
@@ -71,6 +74,11 @@ async function validateWaitProperties(
       fixture.componentInstance.isNonBlocking ? '' : ' Please wait.'
     }`;
   await expectAsync(waitHarness.getAriaLabel()).toBeResolvedTo(label);
+  await expectAsync(waitHarness.isWaiting()).toBeResolvedTo(true);
+  await expectAsync(waitHarness.isFullPage()).toBeResolvedTo(!!isFullPage);
+  await expectAsync(waitHarness.isNonBlocking()).toBeResolvedTo(
+    !!isNonBlocking
+  );
   fixture.componentInstance.isWaiting = false;
 }
 
@@ -111,8 +119,8 @@ describe('Wait harness', () => {
 
   it('should return the expected ARIA label', async () => {
     const { waitHarness, fixture } = await setupTest();
-    await validateWaitProperties(waitHarness, fixture);
-    await validateWaitProperties(waitHarness, fixture, false);
+    await validateWaitProperties(waitHarness, fixture, false, false);
+    await validateWaitProperties(waitHarness, fixture, true, false);
     await validateWaitProperties(waitHarness, fixture, false, true);
     await validateWaitProperties(waitHarness, fixture, true, true);
     await validateWaitProperties(
