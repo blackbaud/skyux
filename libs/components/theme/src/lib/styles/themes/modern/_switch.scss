@@ -7,12 +7,12 @@ $sky-switch-size-modern: 26px !default;
     &:checked + .sky-switch-control,
     &:indeterminate + .sky-switch-control,
     &:hover + .sky-switch-control {
-      border: solid 1px $sky-theme-modern-background-color-primary-dark;
+      border: solid 1px var(--sky-background-color-primary-dark);
     }
 
     &:focus + .sky-switch-control,
     &:active + .sky-switch-control {
-      border: solid 2px $sky-theme-modern-background-color-primary-dark;
+      border: solid 2px var(--sky-background-color-primary-dark);
     }
 
     &:focus:not(:active) + .sky-switch-control {
@@ -54,20 +54,20 @@ $sky-switch-size-modern: 26px !default;
     .sky-switch-input {
       &:checked + .sky-switch-control,
       &:indeterminate + .sky-switch-control {
-        background-color: $sky-background-color-info-light;
+        background-color: var(--sky-background-color-info-light);
       }
 
       &:disabled + .sky-switch-control {
         background-color: $sky-theme-modern-background-color-neutral-medium;
         border: none;
-        color: $sky-theme-modern-font-deemphasized-color;
+        color: var(--sky-text-color-deemphasized);
       }
 
       &:checked + .sky-switch-control,
       &:disabled:checked + .sky-switch-control,
       &:indeterminate + .sky-switch-control,
       &:disabled:indeterminate + .sky-switch-control {
-        color: $sky-theme-modern-background-color-primary-dark;
+        color: var(--sky-background-color-primary-dark);
       }
     }
 

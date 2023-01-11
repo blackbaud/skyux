@@ -16,7 +16,7 @@ button {
   background-color: transparent;
   @include mixins.sky-border(dark, top, bottom, left, right);
   border-radius: $sky-border-radius;
-  color: $sky-text-color-default;
+  color: var(--sky-text-color-default);
   cursor: pointer;
   display: inline-block;
   white-space: nowrap;
@@ -26,7 +26,7 @@ button {
 
   &:hover {
     @include mixins.sky-border(light, top, bottom, left, right);
-    color: $sky-text-color-default;
+    color: var(--sky-text-color-default);
   }
 
   &.sky-btn-disabled,
@@ -70,13 +70,13 @@ a.sky-btn {
 }
 
 .sky-btn-link {
-  color: $sky-text-color-action-primary;
+  color: var(--sky-text-color-action-primary);
   background-color: transparent;
   border-color: transparent;
 }
 
 .sky-btn-link:hover {
-  color: darken($sky-text-color-action-primary, 10%);
+  color: var(--sky-text-color-action-primary-hover);
   background-color: transparent;
   border-color: transparent;
   text-decoration: underline;
@@ -115,20 +115,20 @@ a.sky-btn {
 .sky-btn-tab-close {
   background-color: transparent;
   border: none;
-  color: $sky-text-color-deemphasized;
+  color: var(--sky-text-color-deemphasized);
   cursor: pointer;
   line-height: 1.4;
   margin-left: $sky-margin-half;
 
   &:hover {
-    color: $sky-text-color-default;
+    color: var(--sky-text-color-default);
     transition: color $sky-transition-time-short;
   }
 }
 
 .sky-tab-header-count {
   font-weight: 400;
-  color: $sky-text-color-action-primary;
+  color: var(--sky-text-color-action-primary);
   margin-left: $sky-margin-half;
 }
 
@@ -146,7 +146,7 @@ a.sky-btn {
   @include mixins.sky-border(light, top, bottom, left, right);
   border-radius: $sky-border-radius;
   font-weight: 400;
-  color: $sky-text-color-default;
+  color: var(--sky-text-color-default);
   line-height: 1.6em;
   margin-right: $sky-margin-half;
   padding-bottom: $sky-padding-half;
@@ -155,21 +155,21 @@ a.sky-btn {
   &:hover,
   &:focus {
     text-decoration: none;
-    color: $sky-text-color-default;
-    background-color: $sky-background-color-neutral-light;
+    color: var(--sky-text-color-default);
+    background-color: var(--sky-background-color-neutral-light);
   }
 
   &.sky-btn-tab-selected {
-    background-color: $sky-background-color-info;
-    border-color: $sky-background-color-info;
-    color: $sky-text-color-default;
+    background-color: var(--sky-background-color-info);
+    border-color: var(--sky-background-color-info);
+    color: var(--sky-text-color-default);
   }
 
   &.sky-btn-tab-disabled {
     cursor: not-allowed;
     pointer-events: none;
-    background-color: $sky-background-color-neutral-light;
-    color: $sky-text-color-deemphasized;
+    background-color: var(--sky-background-color-neutral-light);
+    color: var(--sky-text-color-deemphasized);
     box-shadow: none;
   }
 }

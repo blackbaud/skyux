@@ -3,14 +3,14 @@
 
 .sky-page-heading {
   font-family: $sky-font-family-condensed;
-  color: $sky-text-color-default;
+  color: var(--sky-text-color-default);
   font-weight: 300;
   font-size: 34px;
 }
 
 .sky-section-heading {
   font-family: $sky-font-family-condensed;
-  color: $sky-text-color-default;
+  color: var(--sky-text-color-default);
   font-weight: 300;
   font-size: 26px;
 }
@@ -21,14 +21,14 @@
 
 .sky-headline {
   font-family: $sky-font-family-condensed;
-  color: $sky-text-color-default;
+  color: var(--sky-text-color-default);
   font-weight: 600;
   font-size: 22px;
 }
 
 .sky-emphasized {
   font-family: $sky-font-family;
-  color: $sky-text-color-default;
+  color: var(--sky-text-color-default);
   font-weight: 600;
   font-size: 16px;
 }
@@ -39,47 +39,47 @@
 
 .sky-field-label {
   font-family: $sky-font-family;
-  color: $sky-text-color-deemphasized;
+  color: var(--sky-text-color-deemphasized);
   font-weight: 400;
   font-size: $sky-font-size-base;
 }
 
 // Status text
 .sky-text-info {
-  color: $sky-text-color-default;
+  color: var(--sky-text-color-default);
 
   &:before {
     content: '\f06a';
     font-family: FontAwesome;
     margin-right: 5px;
-    color: $sky-highlight-color-info;
+    color: var(--sky-highlight-color-info);
   }
 }
 
 .sky-text-success {
-  color: $sky-text-color-default;
+  color: var(--sky-text-color-default);
 
   &:before {
     content: '\f00c';
     font-family: FontAwesome;
     margin-right: 5px;
-    color: $sky-highlight-color-success;
+    color: var(--sky-highlight-color-success);
   }
 }
 
 .sky-text-warning {
-  color: $sky-text-color-default;
+  color: var(--sky-text-color-default);
 
   &:before {
     content: '\f071';
     font-family: FontAwesome;
     margin-right: 5px;
-    color: $sky-highlight-color-warning;
+    color: var(--sky-highlight-color-warning);
   }
 }
 
 .sky-text-danger {
-  color: $sky-text-color-default;
+  color: var(--sky-text-color-default);
 
   &:before {
     @include mixins.sky-danger;
@@ -91,31 +91,31 @@
 .sky-font-body-default {
   font-size: $sky-font-size-base;
   font-family: $sky-font-family;
-  color: $sky-text-color-default;
+  color: var(--sky-text-color-default);
 }
 
 .sky-font-body-sm {
   font-size: 13px;
   font-family: $sky-font-family;
-  color: $sky-text-color-default;
+  color: var(--sky-text-color-default);
 }
 
 .sky-font-body-lg {
   font-size: 16px;
   font-family: $sky-font-family;
-  color: $sky-text-color-default;
+  color: var(--sky-text-color-default);
 }
 
 .sky-font-field-label {
   font-family: $sky-font-family;
-  color: $sky-text-color-deemphasized;
+  color: var(--sky-text-color-deemphasized);
   font-weight: 400;
   font-size: $sky-font-size-base;
 }
 
 .sky-font-deemphasized {
   font-family: $sky-font-family;
-  color: $sky-text-color-deemphasized;
+  color: var(--sky-text-color-deemphasized);
   font-weight: 400;
   font-size: $sky-font-size-base;
   font-style: italic;
@@ -127,35 +127,35 @@
 
 .sky-font-heading-1 {
   font-family: $sky-font-family-condensed;
-  color: $sky-text-color-default;
+  color: var(--sky-text-color-default);
   font-weight: 300;
   font-size: 34px;
 }
 
 .sky-font-heading-2 {
   font-family: $sky-font-family-condensed;
-  color: $sky-text-color-default;
+  color: var(--sky-text-color-default);
   font-weight: 300;
   font-size: 26px;
 }
 
 .sky-font-heading-3 {
   font-family: $sky-font-family;
-  color: $sky-text-color-deemphasized;
+  color: var(--sky-text-color-deemphasized);
   font-weight: 300;
   font-size: 19px;
 }
 
 .sky-font-heading-4 {
   font-family: $sky-font-family;
-  color: $sky-text-color-default;
+  color: var(--sky-text-color-default);
   font-weight: 600;
   font-size: 16px;
 }
 
 .sky-font-heading-5 {
   font-family: $sky-font-family;
-  color: $sky-text-color-deemphasized;
+  color: var(--sky-text-color-deemphasized);
   font-weight: 400;
   font-size: $sky-font-size-base;
 }
@@ -166,28 +166,28 @@
 
 .sky-font-display-1 {
   font-family: $sky-font-family-condensed;
-  color: $sky-text-color-default;
+  color: var(--sky-text-color-default);
   font-weight: 300;
   font-size: 34px;
 }
 
 .sky-font-display-2 {
   font-family: $sky-font-family-condensed;
-  color: $sky-text-color-default;
+  color: var(--sky-text-color-default);
   font-weight: 300;
   font-size: 26px;
 }
 
 .sky-font-display-3 {
   font-family: $sky-font-family-condensed;
-  color: $sky-text-color-default;
+  color: var(--sky-text-color-default);
   font-weight: 600;
   font-size: 22px;
 }
 
 .sky-font-display-4 {
   font-family: $sky-font-family;
-  color: $sky-text-color-default;
+  color: var(--sky-text-color-default);
   font-weight: 600;
   font-size: 16px;
 }
@@ -198,7 +198,7 @@
 
 .sky-font-data-label {
   font-family: $sky-font-family;
-  color: $sky-text-color-deemphasized;
+  color: var(--sky-text-color-deemphasized);
   font-weight: 400;
   font-size: $sky-font-size-base;
 }
