@@ -68,10 +68,8 @@ async function validateWaitProperties(
     }`;
   await expectAsync(waitHarness.getAriaLabel()).toBeResolvedTo(label);
   await expectAsync(waitHarness.isWaiting()).toBeResolvedTo(true);
-  await expectAsync(waitHarness.isFullPage()).toBeResolvedTo(!!isFullPage);
-  await expectAsync(waitHarness.isNonBlocking()).toBeResolvedTo(
-    !!isNonBlocking
-  );
+  await expectAsync(waitHarness.isFullPage()).toBeResolvedTo(isFullPage);
+  await expectAsync(waitHarness.isNonBlocking()).toBeResolvedTo(isNonBlocking);
   fixture.componentInstance.isWaiting = false;
 }
 
