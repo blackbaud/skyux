@@ -61,13 +61,6 @@ async function validateWaitProperties(
   fixture.componentInstance.isWaiting = true;
   fixture.detectChanges();
 
-  // const waiting = await waitHarness.isWaiting();
-  // const fullPage = await waitHarness.isFullPage();
-  // const nonBlocking = await waitHarness.isNonBlocking();
-  // console.log(`Waiting: ${waiting}`);
-  // console.log(`FullPage: ${fullPage} (${isFullPage})`);
-  // console.log(`NonBlocking: ${nonBlocking} (${isNonBlocking})`);
-
   const label =
     fixture.componentInstance.ariaLabel ??
     `${fixture.componentInstance.isFullPage ? 'Page l' : 'L'}oading.${
