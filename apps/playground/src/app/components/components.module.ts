@@ -26,6 +26,13 @@ export const componentRoutes: Routes = [
       ),
   },
   {
+    path: 'colorpicker',
+    loadChildren: () =>
+      import('./colorpicker/colorpicker.module').then(
+        (m) => m.ColorpickerModule
+      ),
+  },
+  {
     path: 'core',
     loadChildren: () => import('./core/core.module').then((m) => m.CoreModule),
   },
