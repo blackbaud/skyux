@@ -1,4 +1,10 @@
-<div class="sky-wait-container">
+<div
+  class="sky-wait-container"
+  [ngClass]="{
+    'sky-wait-full-page': isFullPage,
+    'sky-wait-non-blocking': isNonBlocking
+  }"
+>
   <div
     *ngIf="isWaiting"
     class="sky-wait-mask"
