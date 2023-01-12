@@ -49,15 +49,9 @@ async function validateWaitProperties(
   isNonBlocking: boolean,
   ariaLabel?: string
 ): Promise<void> {
-  fixture.componentInstance.ariaLabel = undefined;
-
   fixture.componentInstance.isFullPage = isFullPage;
   fixture.componentInstance.isNonBlocking = isNonBlocking;
-
-  if (ariaLabel) {
-    fixture.componentInstance.ariaLabel = ariaLabel;
-  }
-
+  fixture.componentInstance.ariaLabel = ariaLabel;
   fixture.componentInstance.isWaiting = true;
   fixture.detectChanges();
 
