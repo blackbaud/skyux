@@ -4,7 +4,7 @@ import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyWaitHarnessFilters } from './wait-harness-filters';
 
 /**
- * Harness for interacting with an wait component in tests.
+ * Harness for interacting with a wait component in tests.
  */
 export class SkyWaitHarness extends SkyComponentHarness {
   /**
@@ -26,7 +26,7 @@ export class SkyWaitHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the aria label for the wait component or throws an error if not waiting.
+   * Gets the ARIA label for the wait component or throws an error if not waiting.
    */
   public async getAriaLabel(): Promise<string> {
     const waitMask = await this.#getWaitMask();
@@ -37,7 +37,9 @@ export class SkyWaitHarness extends SkyComponentHarness {
         ''
       );
     }
-    throw new Error('The wait component is not currently visible.');
+    throw new Error(
+      'An ARIA label cannot be determined because the wait component is not visible.'
+    );
   }
 
   /**

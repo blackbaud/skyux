@@ -22,10 +22,8 @@ import { SkyWaitHarness } from './wait-harness';
     </div>
     <div style="width: 200px; height: 100px">
       <sky-wait
-        [ariaLabel]="ariaLabel"
-        [isFullPage]="isFullPage"
-        [isNonBlocking]="isNonBlocking"
-        [isWaiting]="isWaiting"
+        ariaLabel="this is another wait"
+        [isWaiting]="isWaiting2"
         data-sky-id="wait-2"
       ></sky-wait>
     </div>
@@ -39,6 +37,8 @@ class TestComponent {
   public isNonBlocking: boolean | undefined;
 
   public isWaiting = false;
+
+  public isWaiting2 = false;
 }
 //#endregion Test component
 
@@ -108,7 +108,7 @@ describe('Wait harness', () => {
     return { waitHarness, fixture, loader };
   }
 
-  it('should return the expected ARIA label', async () => {
+  it('should return the expected wait component properties', async () => {
     const { waitHarness, fixture } = await setupTest();
     await validateWaitProperties(waitHarness, fixture, false, false);
     await validateWaitProperties(waitHarness, fixture, true, false);
@@ -124,10 +124,17 @@ describe('Wait harness', () => {
   });
 
   it('should get a wait by its data-sky-id property', async () => {
-    const { waitHarness } = await setupTest({ dataSkyId: 'wait-2' });
-    // if isWaiting is false the wait mask doesn't exist, so there is no ARIA label
+    const { waitHarness, fixture } = await setupTest({ dataSkyId: 'wait-2' });
+    fixture.componentInstance.isWaiting2 = true;
+    await expectAsync(waitHarness.getAriaLabel()).toBeResolvedTo(
+      'this is another wait'
+    );
+  });
+
+  it('should throw an error when trying to get the ARIA label while not waiting', async () => {
+    const { waitHarness } = await setupTest();
     await expectAsync(waitHarness.getAriaLabel()).toBeRejectedWithError(
-      'The wait component is not currently visible.'
+      'An ARIA label cannot be determined because the wait component is not visible.'
     );
   });
 });
