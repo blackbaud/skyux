@@ -15,6 +15,8 @@
         [ariaLabelledBy]="favoriteNamesLabel.id"
         [enableShowMore]="true"
         (searchAsync)="searchAsync($event)"
+        [showAddButton]="true"
+        (addClick)="addClick($event)"
       >
       </sky-lookup>
     </sky-input-box>

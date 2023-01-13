@@ -332,6 +332,9 @@ describe('Lookup component', function () {
   }
 
   function saveShowMoreModal(fixture: ComponentFixture<any>): void {
+    // Ensure the search async timer in the lookup fixture component is cleared
+    // before saving the form.
+    tick(200);
     (
       document.querySelector('.sky-lookup-show-more-modal-save') as HTMLElement
     ).click();
@@ -1249,8 +1252,6 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(0, fixture);
 
-              const originalDataLength = component.data?.length ?? 0;
-
               expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
               clickShowMore(fixture);
@@ -1267,10 +1268,6 @@ describe('Lookup component', function () {
               tick();
 
               expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
-              expect(lookupComponent.data[0]).not.toEqual({
-                name: 'New item',
-              });
-              expect(lookupComponent.data.length).toBe(originalDataLength);
             }));
           });
 
@@ -1293,12 +1290,9 @@ describe('Lookup component', function () {
                 { name: 'Isaac' },
                 { name: 'New item' },
               ]);
-              expect(asyncLookupComponent.data[0]).toEqual({
-                name: 'New item',
-              });
             }));
 
-            xit(`should add the item to the modal's selected items when a show more picker is open`, fakeAsync(() => {
+            it(`should add the item to the modal's selected items when a show more picker is open`, fakeAsync(() => {
               component.setMultiSelect();
               component.showAddButton = true;
               component.enableShowMore = true;
@@ -1326,12 +1320,9 @@ describe('Lookup component', function () {
                 { name: 'New item' },
                 { name: 'Isaac' },
               ]);
-              expect(asyncLookupComponent.data[0]).toEqual({
-                name: 'New item',
-              });
             }));
 
-            xit(`should add the item to the modal's selected items when a show more picker is open but should cancel back to the original selection`, fakeAsync(() => {
+            it(`should add the item to the modal's selected items when a show more picker is open but should cancel back to the original selection`, fakeAsync(() => {
               component.setMultiSelect();
               component.showAddButton = true;
               component.enableShowMore = true;
@@ -1356,43 +1347,6 @@ describe('Lookup component', function () {
               tick();
 
               expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
-              expect(asyncLookupComponent.data[0]).toEqual({
-                name: 'New item',
-              });
-            }));
-
-            xit(`should not add the item to the modal's selected items when a show more picker is open but the underlying data is not updated`, fakeAsync(() => {
-              component.setMultiSelect();
-              component.ignoreAddDataUpdate = true;
-              component.showAddButton = true;
-              component.enableShowMore = true;
-              fixture.detectChanges();
-
-              performSearch('s', fixture, true);
-              selectSearchResult(0, fixture);
-
-              const originalDataLength = component.data?.length ?? 0;
-
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
-
-              clickShowMore(fixture);
-              fixture.detectChanges();
-              tick();
-
-              clickShowMoreAddButton(fixture);
-              fixture.detectChanges();
-              tick();
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
-
-              saveShowMoreModal(fixture);
-              fixture.detectChanges();
-              tick();
-
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
-              expect(asyncLookupComponent.data[0]).not.toEqual({
-                name: 'New item',
-              });
-              expect(asyncLookupComponent.data.length).toBe(originalDataLength);
             }));
           });
         });
@@ -1489,8 +1443,6 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(0, fixture);
 
-              const originalDataLength = component.data?.length ?? 0;
-
               expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
               clickShowMore(fixture);
@@ -1507,10 +1459,6 @@ describe('Lookup component', function () {
               tick();
 
               expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
-              expect(lookupComponent.data[0]).not.toEqual({
-                name: 'New item',
-              });
-              expect(lookupComponent.data.length).toBe(originalDataLength);
             }));
           });
 
@@ -1532,12 +1480,9 @@ describe('Lookup component', function () {
               expect(asyncLookupComponent.value).toEqual([
                 { name: 'New item' },
               ]);
-              expect(asyncLookupComponent.data[0]).toEqual({
-                name: 'New item',
-              });
             }));
 
-            xit(`should add the item to the modal's selected items when a show more picker is open`, fakeAsync(() => {
+            it(`should add the item to the modal's selected items when a show more picker is saved`, fakeAsync(() => {
               component.setSingleSelect();
               component.showAddButton = true;
               component.enableShowMore = true;
@@ -1564,12 +1509,9 @@ describe('Lookup component', function () {
               expect(asyncLookupComponent.value).toEqual([
                 { name: 'New item' },
               ]);
-              expect(asyncLookupComponent.data[0]).toEqual({
-                name: 'New item',
-              });
             }));
 
-            xit(`should add the item to the modal's selected items when a show more picker is open but should cancel back to the original selection`, fakeAsync(() => {
+            it(`should add the item to the modal's selected items when a show more picker is open but should cancel back to the original selection`, fakeAsync(() => {
               component.setSingleSelect();
               component.showAddButton = true;
               component.enableShowMore = true;
@@ -1594,43 +1536,6 @@ describe('Lookup component', function () {
               tick();
 
               expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
-              expect(asyncLookupComponent.data[0]).toEqual({
-                name: 'New item',
-              });
-            }));
-
-            xit(`should not add the item to the modal's selected items when a show more picker is open but the underlying data is not updated`, fakeAsync(() => {
-              component.setSingleSelect();
-              component.ignoreAddDataUpdate = true;
-              component.showAddButton = true;
-              component.enableShowMore = true;
-              fixture.detectChanges();
-
-              performSearch('s', fixture, true);
-              selectSearchResult(0, fixture);
-
-              const originalDataLength = component.data?.length ?? 0;
-
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
-
-              clickShowMore(fixture);
-              fixture.detectChanges();
-              tick();
-
-              clickShowMoreAddButton(fixture);
-              fixture.detectChanges();
-              tick();
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
-
-              saveShowMoreModal(fixture);
-              fixture.detectChanges();
-              tick();
-
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
-              expect(asyncLookupComponent.data[0]).not.toEqual({
-                name: 'New item',
-              });
-              expect(asyncLookupComponent.data.length).toBe(originalDataLength);
             }));
           });
         });
@@ -4241,8 +4146,6 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(0, fixture);
 
-              const originalDataLength = component.data?.length ?? 0;
-
               expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
               clickShowMore(fixture);
@@ -4262,7 +4165,6 @@ describe('Lookup component', function () {
               expect(lookupComponent.data[0]).not.toEqual({
                 name: 'New item',
               });
-              expect(lookupComponent.data.length).toBe(originalDataLength);
             }));
           });
 
@@ -4285,12 +4187,9 @@ describe('Lookup component', function () {
                 { name: 'Isaac' },
                 { name: 'New item' },
               ]);
-              expect(asyncLookupComponent.data[0]).toEqual({
-                name: 'New item',
-              });
             }));
 
-            xit(`should add the item to the modal's selected items when a show more picker is open`, fakeAsync(() => {
+            it(`should add the item to the modal's selected items when a show more picker is saved`, fakeAsync(() => {
               component.setMultiSelect();
               component.showAddButton = true;
               component.enableShowMore = true;
@@ -4318,12 +4217,9 @@ describe('Lookup component', function () {
                 { name: 'New item' },
                 { name: 'Isaac' },
               ]);
-              expect(asyncLookupComponent.data[0]).toEqual({
-                name: 'New item',
-              });
             }));
 
-            xit(`should add the item to the modal's selected items when a show more picker is open but should cancel back to the original selection`, fakeAsync(() => {
+            it(`should add the item to the modal's selected items when a show more picker is open but should cancel back to the original selection`, fakeAsync(() => {
               component.setMultiSelect();
               component.showAddButton = true;
               component.enableShowMore = true;
@@ -4348,43 +4244,6 @@ describe('Lookup component', function () {
               tick();
 
               expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
-              expect(asyncLookupComponent.data[0]).toEqual({
-                name: 'New item',
-              });
-            }));
-
-            xit(`should not add the item to the modal's selected items when a show more picker is open but the underlying data is not updated`, fakeAsync(() => {
-              component.setMultiSelect();
-              component.ignoreAddDataUpdate = true;
-              component.showAddButton = true;
-              component.enableShowMore = true;
-              fixture.detectChanges();
-
-              performSearch('s', fixture, true);
-              selectSearchResult(0, fixture);
-
-              const originalDataLength = component.data?.length ?? 0;
-
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
-
-              clickShowMore(fixture);
-              fixture.detectChanges();
-              tick();
-
-              clickShowMoreAddButton(fixture);
-              fixture.detectChanges();
-              tick();
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
-
-              saveShowMoreModal(fixture);
-              fixture.detectChanges();
-              tick();
-
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
-              expect(asyncLookupComponent.data[0]).not.toEqual({
-                name: 'New item',
-              });
-              expect(asyncLookupComponent.data.length).toBe(originalDataLength);
             }));
           });
         });
@@ -4524,12 +4383,9 @@ describe('Lookup component', function () {
               expect(asyncLookupComponent.value).toEqual([
                 { name: 'New item' },
               ]);
-              expect(asyncLookupComponent.data[0]).toEqual({
-                name: 'New item',
-              });
             }));
 
-            xit(`should add the item to the modal's selected items when a show more picker is open`, fakeAsync(() => {
+            it(`should add the item to the modal's selected items when a show more picker is saved`, fakeAsync(() => {
               component.setSingleSelect();
               component.showAddButton = true;
               component.enableShowMore = true;
@@ -4556,12 +4412,9 @@ describe('Lookup component', function () {
               expect(asyncLookupComponent.value).toEqual([
                 { name: 'New item' },
               ]);
-              expect(asyncLookupComponent.data[0]).toEqual({
-                name: 'New item',
-              });
             }));
 
-            xit(`should add the item to the modal's selected items when a show more picker is open but should cancel back to the original selection`, fakeAsync(() => {
+            it(`should add the item to the modal's selected items when a show more picker is open but should cancel back to the original selection`, fakeAsync(() => {
               component.setSingleSelect();
               component.showAddButton = true;
               component.enableShowMore = true;
@@ -4586,43 +4439,6 @@ describe('Lookup component', function () {
               tick();
 
               expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
-              expect(asyncLookupComponent.data[0]).toEqual({
-                name: 'New item',
-              });
-            }));
-
-            xit(`should not add the item to the modal's selected items when a show more picker is open but the underlying data is not updated`, fakeAsync(() => {
-              component.setSingleSelect();
-              component.ignoreAddDataUpdate = true;
-              component.showAddButton = true;
-              component.enableShowMore = true;
-              fixture.detectChanges();
-
-              performSearch('s', fixture, true);
-              selectSearchResult(0, fixture);
-
-              const originalDataLength = component.data?.length ?? 0;
-
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
-
-              clickShowMore(fixture);
-              fixture.detectChanges();
-              tick();
-
-              clickShowMoreAddButton(fixture);
-              fixture.detectChanges();
-              tick();
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
-
-              saveShowMoreModal(fixture);
-              fixture.detectChanges();
-              tick();
-
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
-              expect(asyncLookupComponent.data[0]).not.toEqual({
-                name: 'New item',
-              });
-              expect(asyncLookupComponent.data.length).toBe(originalDataLength);
             }));
           });
         });

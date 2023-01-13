@@ -1,20 +1,19 @@
 import { SkyAutocompleteSearchAsyncFunction } from '../../autocomplete/types/autocomplete-search-async-function';
-
-import { SkyLookupSelectModeType } from './lookup-select-mode-type';
-import { SkyLookupShowMoreNativePickerConfig } from './lookup-show-more-native-picker-config';
+import { SkyLookupSelectModeType } from '../../lookup/types/lookup-select-mode-type';
+import { SkyLookupShowMoreNativePickerConfig } from '../../lookup/types/lookup-show-more-native-picker-config';
 
 /**
  * @internal
- * Context for the show more native picker. These values are provided by the lookup component.
+ * Context for the selection modal. These values are provided by the selection modal service.
  */
-export class SkyLookupShowMoreNativePickerAsyncContext {
+export class SkySelectionModalContext {
   public descriptorProperty: string;
 
   public idProperty: string;
 
   public initialSearch: string;
 
-  public initialValue: any[];
+  public initialValue: unknown[];
 
   public searchAsync: SkyAutocompleteSearchAsyncFunction;
 
@@ -28,7 +27,7 @@ export class SkyLookupShowMoreNativePickerAsyncContext {
     descriptorProperty: string,
     idProperty: string,
     initialSearch: string,
-    initialValue: any[],
+    initialValue: unknown[],
     searchAsync: SkyAutocompleteSearchAsyncFunction,
     selectMode: SkyLookupSelectModeType,
     showAddButton: boolean,

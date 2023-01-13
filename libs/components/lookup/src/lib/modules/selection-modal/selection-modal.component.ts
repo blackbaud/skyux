@@ -6,33 +6,32 @@ import {
   OnInit,
   TemplateRef,
 } from '@angular/core';
-import { SkyIdService, SkyLogService } from '@skyux/core';
+import { SkyIdService } from '@skyux/core';
 import { SkyModalInstance } from '@skyux/modals';
 
 import { Subject, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 
-import { SkyAutocompleteSearchAsyncResult } from '../autocomplete/types/autocomplete-search-async-result';
-
-import { SkyLookupShowMoreNativePickerAsyncContext } from './types/lookup-show-more-native-picker-async-context';
+import { SkySelectionModalContext } from './types/selection-modal-context';
+import { SkySelectionModalSearchResult } from './types/selection-modal-search-result';
 
 /**
  * @internal
- * Internal component to implement the native picker.
  */
 @Component({
-  selector: 'sky-lookup-show-more-async-modal',
-  templateUrl: './lookup-show-more-async-modal.component.html',
-  styleUrls: ['./lookup-show-more-async-modal.component.scss'],
+  selector: 'sky-selection-modal',
+  templateUrl: './selection-modal.component.html',
+  styleUrls: ['./selection-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
+export class SkySelectionModalComponent implements OnInit, OnDestroy {
   /**
    * @internal
    * Fires when users select the button to add new options to the list.
    */
   public addClick: Subject<void> = new Subject();
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public displayedItems: any[] = [];
 
   public hasMoreItems = false;
@@ -46,6 +45,7 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
 
   public isSearching = false;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public items: any[] = [];
 
   public onlyShowSelected = false;
@@ -64,30 +64,20 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
 
   #ngUnsubscribe = new Subject<void>();
 
-  #logSvc: SkyLogService;
-
   #offset = 0;
 
   constructor(
     public modalInstance: SkyModalInstance,
-    public context: SkyLookupShowMoreNativePickerAsyncContext,
+    public context: SkySelectionModalContext,
     changeDetector: ChangeDetectorRef,
-    idSvc: SkyIdService,
-    logSvc: SkyLogService
+    idSvc: SkyIdService
   ) {
     this.#changeDetector = changeDetector;
-    this.#logSvc = logSvc;
 
     this.id = idSvc.generateId();
   }
 
   public ngOnInit(): void {
-    if (this.context.idProperty === undefined) {
-      this.#logSvc.error(
-        "The lookup component's 'idProperty' input is required when `enableShowMore` and 'searchAsync' are used together."
-      );
-    }
-
     this.repeaterItemTemplate = this.context.userConfig.itemTemplate || null;
     this.searchText = this.context.initialSearch;
 
@@ -120,12 +110,23 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
     this.#changeDetector.markForCheck();
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public itemClick(selectedItem: any): void {
     if (this.context.selectMode === 'single') {
       this.onItemSelect(!selectedItem.selected, selectedItem);
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public addItem(itemToAdd: any): void {
+    // Add the selected item, then perform the search again in case the
+    // newly-added item should be displayed as a search results.
+    this.#offset = 0;
+    this.onItemSelect(true, itemToAdd);
+    this.#loadSearchResults();
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public onItemSelect(newSelectState: boolean, itemToSelect: any): void {
     const itemId = itemToSelect[this.context.idProperty];
 
@@ -149,7 +150,7 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
     this.updateDisplayedItems();
   }
 
-  public searchApplied(searchText: string) {
+  public searchApplied(searchText: string): void {
     this.#offset = 0;
     this.searchText = searchText;
 
@@ -219,19 +220,21 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
       this.isSearching = false;
       this.items = result.items;
     });
+
+    this.#changeDetector.markForCheck();
   }
 
   #createInitialSelectedItemsMap(): void {
     this.selectedIdMap = new Map(
       this.context.initialValue.map((item) => [
-        item[this.context.idProperty],
+        (item as Record<string, unknown>)[this.context.idProperty],
         item,
       ])
     );
   }
 
   #performSearch(
-    processResults: (result: SkyAutocompleteSearchAsyncResult) => void
+    processResults: (result: SkySelectionModalSearchResult) => void
   ): void {
     this.#currentSearchSub = this.context
       .searchAsync({

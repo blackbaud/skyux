@@ -49,4 +49,13 @@ export class LookupAsyncDemoService {
       totalCount: matchingPeople.length,
     }).pipe(delay(800));
   }
+
+  public addPerson(person: LookupDemoPerson): Observable<number> {
+    // Simulate adding a person with a netowrk call.
+    if (!people.some((item) => item.name === person.name)) {
+      people.unshift(person);
+    }
+
+    return of(1).pipe(delay(800));
+  }
 }
