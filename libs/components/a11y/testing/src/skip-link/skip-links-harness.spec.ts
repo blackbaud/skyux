@@ -8,7 +8,7 @@ import { SkySkipLinksHarness } from './skip-links-harness';
 
 //#region Test component
 @Component({
-  selector: 'sky-alert-test',
+  selector: 'sky-skip-link-test',
   template: `
     <div class="sky-container">
       <p>Press [tab] to see the links.</p>
