@@ -1,5 +1,18 @@
 # Changelog
 
+## [7.3.0](https://github.com/blackbaud/skyux/compare/7.2.0...7.3.0) (2023-01-13)
+
+
+### Features
+
+* **components/a11y:** skip link test harness ([#920](https://github.com/blackbaud/skyux/issues/920)) ([9964051](https://github.com/blackbaud/skyux/commit/9964051fd6df74272213c7463df27af5d3e50d68))
+* **components/indicators:** wait test harness ([#919](https://github.com/blackbaud/skyux/issues/919)) ([dcc958b](https://github.com/blackbaud/skyux/commit/dcc958bfac4558f92b444d97f94cc158a5b4b9f8))
+
+
+### Bug Fixes
+
+* **components/flyout:** flyout close button is visible ([#930](https://github.com/blackbaud/skyux/issues/930)) ([a2939e6](https://github.com/blackbaud/skyux/commit/a2939e6156c2f52ac059f85c09cd1ca80f4a3fcf))
+
 ## [7.2.0](https://github.com/blackbaud/skyux/compare/7.1.4...7.2.0) (2023-01-11)
 
 
