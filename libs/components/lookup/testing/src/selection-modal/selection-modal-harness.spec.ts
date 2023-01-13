@@ -9,6 +9,8 @@ import { SkySelectionModalHarness } from './selection-modal-harness';
 
 async function setupTest(options: {
   selectMode: 'multiple' | 'single';
+  showAddButton?: boolean;
+  addClick?: () => void;
 }): Promise<{
   fixture: ComponentFixture<SelectionModalHarnessTestComponent>;
   harness: SkySelectionModalHarness;
@@ -38,6 +40,8 @@ async function setupTest(options: {
       });
     },
     selectMode: options.selectMode,
+    showAddButton: options.showAddButton,
+    addClick: options.addClick,
   });
 
   const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
@@ -51,6 +55,53 @@ async function setupTest(options: {
 }
 
 describe('Selection modal harness', () => {
+  describe('showAddButton() method', () => {
+    it('should return true when the add button is visible', async () => {
+      const { harness } = await setupTest({
+        selectMode: 'single',
+        showAddButton: true,
+      });
+
+      await expectAsync(harness.hasAddButton()).toBeResolvedTo(true);
+    });
+
+    it('should return false when the add button is not visible', async () => {
+      const { harness } = await setupTest({
+        selectMode: 'single',
+      });
+
+      await expectAsync(harness.hasAddButton()).toBeResolvedTo(false);
+    });
+  });
+
+  describe('clickAddButton()', () => {
+    it('should click the add button when the add button is visible', async () => {
+      const addClickSpy = jasmine.createSpy('addClick');
+
+      const { harness } = await setupTest({
+        addClick: addClickSpy,
+        selectMode: 'single',
+        showAddButton: true,
+      });
+
+      await harness.clickAddButton();
+
+      expect(addClickSpy).toHaveBeenCalledOnceWith({
+        itemAdded: jasmine.any(Function),
+      });
+    });
+
+    it('should throw an error when the add button is not visible', async () => {
+      const { harness } = await setupTest({
+        selectMode: 'single',
+      });
+
+      await expectAsync(harness.clickAddButton()).toBeRejectedWithError(
+        'Could not click the add button because the button could not be found.'
+      );
+    });
+  });
+
   describe('single select', () => {
     it('should search and select results from the selection modal', async () => {
       const { fixture, harness } = await setupTest({

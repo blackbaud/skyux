@@ -35,6 +35,10 @@ export class SkySelectionModalHarness extends ComponentHarness {
     'button.sky-lookup-show-more-modal-select-all-btn'
   );
 
+  #getAddButton = this.locatorForOptional(
+    'button.sky-lookup-show-more-modal-add'
+  );
+
   /**
    * Clears the text of the search input.
    */
@@ -149,5 +153,27 @@ export class SkySelectionModalHarness extends ComponentHarness {
    */
   public async loadMore(): Promise<void> {
     return (await this.#getInfiniteScroll()).loadMore();
+  }
+
+  /**
+   * Whether the selection modal is configured to show the add button.
+   */
+  public async hasAddButton(): Promise<boolean> {
+    const button = await this.#getAddButton();
+    return !!button;
+  }
+
+  /**
+   * Clicks the add button.
+   */
+  public async clickAddButton(): Promise<void> {
+    const button = await this.#getAddButton();
+    if (!button) {
+      throw new Error(
+        'Could not click the add button because the button could not be found.'
+      );
+    }
+
+    await button.click();
   }
 }
