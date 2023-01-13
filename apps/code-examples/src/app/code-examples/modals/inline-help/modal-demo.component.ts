@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SkyModalConfiguration, SkyModalService } from '@skyux/modals';
+import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
 import { ModalDemoModalComponent } from './modal-demo-modal.component';
 
@@ -17,7 +17,7 @@ export class ModalDemoComponent {
   }
 
   public onOpenModalClick(): void {
-    const options: SkyModalConfiguration = {
+    const options: SkyModalConfigurationInterface = {
       size: this.modalSize,
     };
 
