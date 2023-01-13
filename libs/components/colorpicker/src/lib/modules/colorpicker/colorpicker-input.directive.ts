@@ -186,9 +186,8 @@ export class SkyColorpickerInputDirective
           if (newColor) {
             this.#modelValue = this.#formatter(newColor);
 
-            // TODO: This code assumed non-null pre-strict mode. Reevaluate in the future?
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            this.writeValue(this.#modelValue!);
+            // Write the new value to the reactive form control, which will update the template model
+            this.writeValue(newColor);
           }
         }
       );
