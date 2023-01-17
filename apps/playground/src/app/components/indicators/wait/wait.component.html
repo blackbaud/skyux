@@ -1,39 +1,36 @@
 <div class="sky-wait-demo">
   <button
-    class="sky-btn sky-btn-secondary sky-test-wait"
+    class="sky-btn sky-btn-primary sky-test-wait sky-margin-inline-sm"
     type="button"
-    [ngClass]="{
-      'sky-btn-secondary': !isWaiting,
-      'sky-btn-primary': isWaiting
-    }"
     (click)="isWaiting = !isWaiting"
   >
     Toggle wait
   </button>
 
   <button
-    class="sky-btn sky-btn-secondary sky-test-full-page"
+    class="sky-btn sky-btn-primary sky-test-full-page sky-margin-inline-sm"
     type="button"
-    [ngClass]="{
-      'sky-btn-secondary': !isFullPageWaiting,
-      'sky-btn-primary': isFullPageWaiting
-    }"
-    (click)="isFullPageWaiting = !isFullPageWaiting"
+    (click)="toggleFullPageWait()"
   >
-    Toggle full page wait
+    Toggle full page wait (5 seconds)
   </button>
 
   <button
-    class="sky-btn sky-btn-secondary sky-test-non-blocking"
+    class="sky-btn sky-btn-primary sky-test-full-page sky-margin-inline-sm"
+    type="button"
+    (click)="toggleFullPageWaitViaService()"
+  >
+    Toggle full page wait via SkyWaitService (5 seconds)
+  </button>
+
+  <button
+    class="sky-btn sky-btn-primary sky-test-non-blocking"
     style="margin-bottom: 10px"
     type="button"
-    [ngClass]="{
-      'sky-btn-secondary': isNonBlocking,
-      'sky-btn-primary': !isNonBlocking
-    }"
     (click)="isNonBlocking = !isNonBlocking"
   >
-    Toggle blocking
+    Toggle blocking (currently set to
+    {{ isNonBlocking ? 'non-blocking' : 'blocking' }})
   </button>
 
   <div class="sky-wait-demo-parent" style="width: 500px; height: 500px">

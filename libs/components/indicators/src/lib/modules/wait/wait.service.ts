@@ -1,9 +1,15 @@
 import {
   ApplicationRef,
   ComponentFactoryResolver,
+  ComponentRef,
   Injectable,
+  Optional,
 } from '@angular/core';
-import { SkyAppWindowRef } from '@skyux/core';
+import {
+  SkyAppWindowRef,
+  SkyDynamicComponentLocation,
+  SkyDynamicComponentService,
+} from '@skyux/core';
 
 import { Observable, defer as observableDefer } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -12,6 +18,7 @@ import { SkyWaitPageAdapterService } from './wait-page-adapter.service';
 import { SkyWaitPageComponent } from './wait-page.component';
 
 let waitComponent: SkyWaitPageComponent | undefined;
+let waitComponentRef: ComponentRef<SkyWaitPageComponent> | undefined;
 let pageWaitBlockingCount = 0;
 let pageWaitNonBlockingCount = 0;
 
@@ -26,17 +33,21 @@ export class SkyWaitService {
   #appRef: ApplicationRef;
   #waitAdapter: SkyWaitPageAdapterService;
   #windowSvc: SkyAppWindowRef;
+  #dynamicComponentService: SkyDynamicComponentService | undefined;
 
+  // TODO: Remove `Optional` in a future breaking change. When this is done - remove the `resolver` variable and any cases that account for it.
   constructor(
     resolver: ComponentFactoryResolver,
     appRef: ApplicationRef,
     waitAdapter: SkyWaitPageAdapterService,
-    windowSvc: SkyAppWindowRef
+    windowSvc: SkyAppWindowRef,
+    @Optional() dynamicComponentService: SkyDynamicComponentService
   ) {
     this.#resolver = resolver;
     this.#appRef = appRef;
     this.#waitAdapter = waitAdapter;
     this.#windowSvc = windowSvc;
+    this.#dynamicComponentService = dynamicComponentService;
   }
 
   /**
@@ -85,7 +96,12 @@ export class SkyWaitService {
       waitComponent = undefined;
       pageWaitBlockingCount = 0;
       pageWaitNonBlockingCount = 0;
-      this.#waitAdapter.removePageWaitEl();
+      // TODO: Remove if-statement and else case when `Optional` is removed from the constructor.
+      if (this.#dynamicComponentService) {
+        this.#dynamicComponentService.removeComponent(waitComponentRef);
+      } else {
+        this.#waitAdapter.removePageWaitEl();
+      }
     }
   }
 
@@ -132,12 +148,21 @@ export class SkyWaitService {
         // Ensuring here that we recheck this after the setTimeout is over so that we don't clash
         // with any other waits that are created.
         if (!waitComponent) {
-          const factory =
-            this.#resolver.resolveComponentFactory(SkyWaitPageComponent);
-          this.#waitAdapter.addPageWaitEl();
+          // TODO: Remove if-statement and else case when `Optional` is removed from the constructor.
+          if (this.#dynamicComponentService) {
+            waitComponentRef = this.#dynamicComponentService.createComponent(
+              SkyWaitPageComponent,
+              { location: SkyDynamicComponentLocation.BodyBottom }
+            );
+            waitComponent = waitComponentRef.instance;
+          } else {
+            const factory =
+              this.#resolver.resolveComponentFactory(SkyWaitPageComponent);
+            this.#waitAdapter.addPageWaitEl();
 
-          const cmpRef = this.#appRef.bootstrap(factory);
-          waitComponent = cmpRef.instance;
+            waitComponentRef = this.#appRef.bootstrap(factory);
+            waitComponent = waitComponentRef.instance;
+          }
         }
 
         this.#setWaitComponentProperties(isBlocking);
