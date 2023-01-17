@@ -98,7 +98,7 @@ $header-height: 50px;
 
 .sky-flyout-header {
   @include mixins.sky-border(dark, bottom);
-  width: 100%;
+  width: inherit;
   background: $sky-background-color-neutral-light;
   height: $header-height;
   display: flex;
