@@ -150,6 +150,11 @@ export class SkyLookupTestComponent {
       item: newItem,
       data: this.ignoreAddDataUpdate ? undefined : newItems,
     };
+
+    // Add the new item to the original data source so it will be returned in
+    // subsequent async searches.
+    this.data = [newItem, ...(this.data || [])];
+
     addButtonClickArgs.itemAdded(callbackArgs);
   }
 

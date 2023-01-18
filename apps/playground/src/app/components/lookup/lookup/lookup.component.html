@@ -120,7 +120,7 @@
           [searchResultTemplate]="itemTemplate"
           [showAddButton]="true"
           [showMoreConfig]="showMoreConfig"
-          (addClick)="addButtonClicked()"
+          (addClick)="addButtonClicked($event)"
         >
         </sky-lookup>
       </sky-input-box>
@@ -145,7 +145,7 @@
           [showAddButton]="true"
           [showMoreConfig]="showMoreConfig"
           (searchAsync)="bestFriendSearch($event)"
-          (addClick)="addButtonClicked()"
+          (addClick)="addButtonClicked($event)"
         >
         </sky-lookup>
       </sky-input-box>

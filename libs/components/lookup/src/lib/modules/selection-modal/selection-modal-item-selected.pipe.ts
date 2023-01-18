@@ -1,9 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
+/**
+ * @internal
+ */
 @Pipe({
-  name: 'skyLookupItemSelected',
+  name: 'skySelectionModalItemSelected',
 })
-export class SkyLookupItemSelectedPipe implements PipeTransform {
+export class SkySelectionModalItemSelectedPipe implements PipeTransform {
   public transform(id: unknown, selectedIdMap: Map<unknown, unknown>): boolean {
     return selectedIdMap.has(id);
   }

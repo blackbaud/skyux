@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { SkyAutocompleteSearchAsyncArgs } from '@skyux/lookup';
+import { SkyWaitService } from '@skyux/indicators';
+import {
+  SkyAutocompleteSearchAsyncArgs,
+  SkyLookupAddClickEventArgs,
+} from '@skyux/lookup';
 
 import { map } from 'rxjs/operators';
 
@@ -17,10 +21,16 @@ export class LookupAsyncDemoComponent implements OnInit {
     favoriteNames: FormControl<LookupDemoPerson[] | null>;
   }>;
 
-  #searchSvc: LookupAsyncDemoService;
+  #svc: LookupAsyncDemoService;
+  #waitSvc: SkyWaitService;
 
-  constructor(formBuilder: FormBuilder, searchSvc: LookupAsyncDemoService) {
-    this.#searchSvc = searchSvc;
+  constructor(
+    formBuilder: FormBuilder,
+    svc: LookupAsyncDemoService,
+    waitSvc: SkyWaitService
+  ) {
+    this.#svc = svc;
+    this.#waitSvc = waitSvc;
 
     const names = new FormControl<LookupDemoPerson[]>([{ name: 'Shirley' }]);
 
@@ -46,12 +56,24 @@ export class LookupAsyncDemoComponent implements OnInit {
     // created by calling HttpClient.get(). Assigning that Observable to the result
     // allows the lookup component to cancel the web request if it does not complete
     // before the user searches again.
-    args.result = this.#searchSvc.search(args.searchText).pipe(
+    args.result = this.#svc.search(args.searchText).pipe(
       map((result) => ({
         hasMore: result.hasMore,
         items: result.people,
         totalCount: result.totalCount,
       }))
     );
+  }
+
+  public addClick(args: SkyLookupAddClickEventArgs): void {
+    const person: LookupDemoPerson = {
+      name: 'Newman',
+    };
+
+    this.#waitSvc.blockingWrap(this.#svc.addPerson(person)).subscribe(() => {
+      args.itemAdded({
+        item: person,
+      });
+    });
   }
 }

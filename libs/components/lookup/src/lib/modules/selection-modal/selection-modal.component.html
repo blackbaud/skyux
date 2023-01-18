@@ -96,7 +96,8 @@
       <sky-repeater-item
         *ngFor="let item of displayedItems"
         [isSelected]="
-          item[context.idProperty] | skyLookupItemSelected: selectedIdMap
+          item[context.idProperty]
+            | skySelectionModalItemSelected: selectedIdMap
         "
         [selectable]="context.selectMode === 'multiple'"
         (click)="itemClick(item)"

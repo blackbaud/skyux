@@ -26,6 +26,16 @@ export * from './lib/modules/autocomplete/types/autocomplete-search-context';
 
 export * from './lib/modules/search/search.module';
 
+export * from './lib/modules/selection-modal/selection-modal.module';
+export * from './lib/modules/selection-modal/selection-modal.service';
+export * from './lib/modules/selection-modal/types/selection-modal-add-click-callback-args';
+export * from './lib/modules/selection-modal/types/selection-modal-add-click-event-args';
+export * from './lib/modules/selection-modal/types/selection-modal-close-args';
+export * from './lib/modules/selection-modal/types/selection-modal-open-args';
+export * from './lib/modules/selection-modal/types/selection-modal-result';
+export * from './lib/modules/selection-modal/types/selection-modal-search-args';
+export * from './lib/modules/selection-modal/types/selection-modal-search-result';
+
 // The following exports are needed internally by @skyux/list-builder.
 // TODO: Find a way to remove them in the next major version release.
 export * from './lib/modules/search/search.component';
