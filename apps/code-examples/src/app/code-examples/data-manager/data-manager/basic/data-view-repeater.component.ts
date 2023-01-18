@@ -11,7 +11,7 @@ import {
   SkyDataViewConfig,
 } from '@skyux/data-manager';
 
-import { SkyDataManangerDemoRow } from './data-manager-demo-data';
+import { SkyDataManagerDemoRow } from './data-manager-demo-data';
 
 @Component({
   selector: 'app-data-view-repeater-demo',
@@ -20,11 +20,11 @@ import { SkyDataManangerDemoRow } from './data-manager-demo-data';
 })
 export class DataViewRepeaterDemoComponent implements OnInit {
   @Input()
-  public items: SkyDataManangerDemoRow[] = [];
+  public items: SkyDataManagerDemoRow[] = [];
 
   public dataState = new SkyDataManagerState({});
 
-  public displayedItems: SkyDataManangerDemoRow[] = [];
+  public displayedItems: SkyDataManagerDemoRow[] = [];
 
   public isActive = false;
 
@@ -78,15 +78,13 @@ export class DataViewRepeaterDemoComponent implements OnInit {
     this.changeDetector.detectChanges();
   }
 
-  public searchItems(
-    items: SkyDataManangerDemoRow[]
-  ): SkyDataManangerDemoRow[] {
+  public searchItems(items: SkyDataManagerDemoRow[]): SkyDataManagerDemoRow[] {
     let searchedItems = items;
     const searchText =
       this.dataState && this.dataState.searchText?.toUpperCase();
 
     if (searchText) {
-      searchedItems = items.filter(function (item: SkyDataManangerDemoRow) {
+      searchedItems = items.filter(function (item: SkyDataManagerDemoRow) {
         let property: keyof typeof item;
 
         for (property in item) {
@@ -107,15 +105,13 @@ export class DataViewRepeaterDemoComponent implements OnInit {
     return searchedItems;
   }
 
-  public filterItems(
-    items: SkyDataManangerDemoRow[]
-  ): SkyDataManangerDemoRow[] {
+  public filterItems(items: SkyDataManagerDemoRow[]): SkyDataManagerDemoRow[] {
     let filteredItems = items;
     const filterData = this.dataState && this.dataState.filterData;
 
     if (filterData && filterData.filters) {
       const filters = filterData.filters;
-      filteredItems = items.filter((item: SkyDataManangerDemoRow) => {
+      filteredItems = items.filter((item: SkyDataManagerDemoRow) => {
         if (
           ((filters.hideOrange && item.color !== 'orange') ||
             !filters.hideOrange) &&
@@ -167,7 +163,7 @@ export class DataViewRepeaterDemoComponent implements OnInit {
     this.changeDetector.markForCheck();
   }
 
-  public onItemSelect(isSelected: boolean, item: SkyDataManangerDemoRow): void {
+  public onItemSelect(isSelected: boolean, item: SkyDataManagerDemoRow): void {
     const selectedItems = this.dataState.selectedIds || [];
     const itemIndex = selectedItems.indexOf(item.id);
 

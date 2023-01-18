@@ -8,7 +8,7 @@ import {
 import { DataManagerFiltersModalDemoComponent } from './data-filter-modal.component';
 import {
   SKY_DATA_MANAGER_DEMO_DATA,
-  SkyDataManangerDemoRow,
+  SkyDataManagerDemoRow,
 } from './data-manager-demo-data';
 
 @Component({
@@ -53,7 +53,7 @@ export class DataManagerDemoComponent implements OnInit {
 
   public dataState: SkyDataManagerState | undefined;
 
-  public items: SkyDataManangerDemoRow[] = SKY_DATA_MANAGER_DEMO_DATA;
+  public items: SkyDataManagerDemoRow[] = SKY_DATA_MANAGER_DEMO_DATA;
 
   public activeViewId = 'repeaterView';
 
