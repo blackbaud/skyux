@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Person } from './person';
+
 @Component({
   selector: 'app-back-to-top-demo',
   templateUrl: './back-to-top-demo.component.html',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 export class BackToTopDemoComponent implements OnInit {
   public hasMore = true;
 
-  public personList: any[] = [];
+  public personList: Person[] = [];
 
   public personDataSet = [
     {
@@ -126,18 +128,23 @@ export class BackToTopDemoComponent implements OnInit {
 
   private addData(start: number, rowSize: number): void {
     if (this.hasMore) {
-      this.mockRemote(start, rowSize).then((result: any) => {
-        this.personList = this.personList.concat(result.data);
-        this.hasMore = result.hasMore;
-      });
+      this.mockRemote(start, rowSize).then(
+        (result: { data: Person[]; hasMore: boolean }) => {
+          this.personList = this.personList.concat(result.data);
+          this.hasMore = result.hasMore;
+        }
+      );
     }
   }
 
   /**
    * Simulate a remote request.
    */
-  private mockRemote(start: number, rowSize: number): Promise<any> {
-    const data: any[] = [];
+  private mockRemote(
+    start: number,
+    rowSize: number
+  ): Promise<{ data: Person[]; hasMore: boolean }> {
+    const data: Person[] = [];
 
     for (let i = 0; i < rowSize; i++) {
       if (this.personDataSet[start + i]) {
@@ -145,7 +152,7 @@ export class BackToTopDemoComponent implements OnInit {
       }
     }
 
-    return new Promise((resolve: any) => {
+    return new Promise((resolve) => {
       setTimeout(() => {
         resolve({
           data,

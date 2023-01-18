@@ -8,15 +8,14 @@ import { SkyAppTestUtility } from '@skyux-sdk/testing';
  * @internal
  */
 export class SkyColorpickerFixture {
-  private debugEl: DebugElement;
+  #debugEl: DebugElement;
+  #fixture: ComponentFixture<unknown>;
 
-  constructor(
-    private fixture: ComponentFixture<unknown>,
-    private skyTestId: string
-  ) {
-    this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
-      this.fixture,
-      this.skyTestId,
+  constructor(fixture: ComponentFixture<unknown>, skyTestId: string) {
+    this.#fixture = fixture;
+    this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
+      fixture,
+      skyTestId,
       'sky-colorpicker'
     );
   }
@@ -25,7 +24,7 @@ export class SkyColorpickerFixture {
    * The colorpicker's currently selected color formatted to the `outputFormat`.
    */
   public get value(): string {
-    return this.getColorpickerInputEl().nativeElement.value;
+    return this.#getColorpickerInputEl().nativeElement.value;
   }
 
   /**
@@ -33,7 +32,7 @@ export class SkyColorpickerFixture {
    * @param hexValue The new color hex code. Must inculde '#'.
    */
   public async setValueFromHex(hexValue: string): Promise<void> {
-    await this.clickColorpickerButtonEl();
+    await this.#clickColorpickerButtonEl();
 
     const hexInput = document.querySelector(
       'input[id^=sky-colorpicker-hex-]'
@@ -42,9 +41,9 @@ export class SkyColorpickerFixture {
     hexInput.value = hexValue;
     SkyAppTestUtility.fireDomEvent(hexInput, 'input');
 
-    await this.clickColorpickerApplyButtonEl();
+    await this.#clickColorpickerApplyButtonEl();
 
-    return this.fixture.whenStable();
+    return this.#fixture.whenStable();
   }
 
   /**
@@ -60,7 +59,7 @@ export class SkyColorpickerFixture {
     blue: number,
     alpha: number
   ): Promise<void> {
-    await this.clickColorpickerButtonEl();
+    await this.#clickColorpickerButtonEl();
 
     const rInput = document.querySelector(
       'input[id^=sky-colorpicker-red-]'
@@ -85,9 +84,9 @@ export class SkyColorpickerFixture {
     SkyAppTestUtility.fireDomEvent(bInput, 'input');
     SkyAppTestUtility.fireDomEvent(aInput, 'input');
 
-    await this.clickColorpickerApplyButtonEl();
+    await this.#clickColorpickerApplyButtonEl();
 
-    return this.fixture.whenStable();
+    return this.#fixture.whenStable();
   }
 
   /**
@@ -95,7 +94,7 @@ export class SkyColorpickerFixture {
    * @param presetIndex The index of the color in the `presetColors` list to select.
    */
   public async setValueFromPresets(presetIndex: number): Promise<void> {
-    await this.clickColorpickerButtonEl();
+    await this.#clickColorpickerButtonEl();
 
     const presetColors = document.querySelectorAll(
       '.sky-colorpicker-preset-color-area button'
@@ -105,39 +104,39 @@ export class SkyColorpickerFixture {
 
     if (presetColor) {
       presetColor.click();
-      this.fixture.detectChanges();
+      this.#fixture.detectChanges();
     }
 
-    await this.clickColorpickerApplyButtonEl();
+    await this.#clickColorpickerApplyButtonEl();
 
-    return this.fixture.whenStable();
+    return this.#fixture.whenStable();
   }
 
-  private async clickColorpickerButtonEl(): Promise<void> {
-    const colorpickerButton = this.debugEl.query(
+  async #clickColorpickerButtonEl(): Promise<void> {
+    const colorpickerButton = this.#debugEl.query(
       By.css('sky-colorpicker button')
     ).nativeElement;
 
     colorpickerButton.click();
 
-    this.fixture.detectChanges();
+    this.#fixture.detectChanges();
 
-    return this.fixture.whenStable();
+    return this.#fixture.whenStable();
   }
 
-  private async clickColorpickerApplyButtonEl(): Promise<void> {
+  async #clickColorpickerApplyButtonEl(): Promise<void> {
     const applyButton = document.querySelector(
       '.sky-btn-colorpicker-apply'
     ) as HTMLButtonElement;
 
     applyButton.click();
 
-    this.fixture.detectChanges();
+    this.#fixture.detectChanges();
 
-    return this.fixture.whenStable();
+    return this.#fixture.whenStable();
   }
 
-  private getColorpickerInputEl(): DebugElement {
-    return this.debugEl.query(By.css('sky-colorpicker input'));
+  #getColorpickerInputEl(): DebugElement {
+    return this.#debugEl.query(By.css('sky-colorpicker input'));
   }
 }

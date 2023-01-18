@@ -79,9 +79,9 @@ export class SkyInputBoxComponent implements OnInit {
   public get hasErrorsComputed(): boolean {
     if (this.hasErrors === undefined) {
       return !!(
-        this.controlHasErrors(this.formControl) ||
-        this.controlHasErrors(this.formControlByName) ||
-        this.controlHasErrors(this.ngModel)
+        this.#controlHasErrors(this.formControl) ||
+        this.#controlHasErrors(this.formControlByName) ||
+        this.#controlHasErrors(this.ngModel)
       );
     }
 
@@ -146,7 +146,7 @@ export class SkyInputBoxComponent implements OnInit {
     });
   }
 
-  private controlHasErrors(control: AbstractControlDirective | undefined) {
+  #controlHasErrors(control: AbstractControlDirective | undefined) {
     return control && control.invalid && (control.dirty || control.touched);
   }
 }

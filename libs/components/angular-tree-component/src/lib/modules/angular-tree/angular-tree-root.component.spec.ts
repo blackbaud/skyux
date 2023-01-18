@@ -15,8 +15,8 @@ describe('tree view', () => {
   let fixture: ComponentFixture<SkyTreeViewFixtureComponent>;
 
   // #region helpers
-  function getTreeWrapper(): HTMLElement {
-    return document.querySelector('.sky-angular-tree-wrapper');
+  function getTreeWrapper(): HTMLElement | null {
+    return document.querySelector('.sky-angular-tree-root');
   }
 
   function getToolbar(): HTMLElement {
@@ -62,7 +62,7 @@ describe('tree view', () => {
   }
 
   function getNodeContentWrappers(): NodeListOf<HTMLElement> {
-    return document.querySelectorAll('.node-content-wrapper');
+    return document.querySelectorAll('.node-wrapper');
   }
 
   function getNodeContents(): NodeListOf<HTMLElement> {
@@ -116,12 +116,18 @@ describe('tree view', () => {
       expect(nodeWrappers[nodeIndex - 1]).toHaveCssClass(
         'sky-angular-tree-node-selected'
       );
-      expect(component.selectedLeafNodeIds[nodeIndex]).toEqual(true);
+      expect(
+        !!component.selectedLeafNodeIds &&
+          component.selectedLeafNodeIds[nodeIndex]
+      ).toEqual(true);
     } else {
       expect(nodeWrappers[nodeIndex - 1]).not.toHaveCssClass(
         'sky-angular-tree-node-selected'
       );
-      expect(!!component.selectedLeafNodeIds[nodeIndex]).toEqual(false);
+      expect(
+        !!component.selectedLeafNodeIds &&
+          !!component.selectedLeafNodeIds[nodeIndex]
+      ).toEqual(false);
     }
   }
 
@@ -198,19 +204,19 @@ describe('tree view', () => {
       fixture.detectChanges();
       const toggleChildrenButtons = getToggleChildrenButtons();
       const unitedStates =
-        toggleChildrenButtons[0].parentElement.parentElement.querySelector(
+        toggleChildrenButtons[0].parentElement?.parentElement?.querySelector(
           'tree-node-content'
         );
       const indiana =
-        toggleChildrenButtons[1].parentElement.parentElement.querySelector(
+        toggleChildrenButtons[1].parentElement?.parentElement?.querySelector(
           'tree-node-content'
         );
 
       expect(toggleChildrenButtons.length).toEqual(2);
       expect(unitedStates).toBeDefined();
       expect(indiana).toBeDefined();
-      expect(unitedStates.textContent).toEqual('United States');
-      expect(indiana.textContent).toEqual('Indiana');
+      expect(unitedStates?.textContent).toEqual('United States');
+      expect(indiana?.textContent).toEqual('Indiana');
     });
 
     it('should expand/collapse nodes when clicking on the toggle children button', () => {
@@ -218,17 +224,25 @@ describe('tree view', () => {
       const toggleChildrenButtons = getToggleChildrenButtons();
 
       // Expect both parent nodes to start out expanded (United States & Indiana).
-      expect(Object.keys(component.expandedNodeIds)).toEqual(['1', '3']);
-      expect(component.expandedNodeIds[1]).toEqual(true);
-      expect(component.expandedNodeIds[3]).toEqual(true);
+      expect(Object.keys(component.expandedNodeIds ?? {})).toEqual(['1', '3']);
+      expect(
+        !!component.expandedNodeIds && component.expandedNodeIds[1]
+      ).toEqual(true);
+      expect(
+        !!component.expandedNodeIds && component.expandedNodeIds[3]
+      ).toEqual(true);
 
       // Click United States toggle.
       toggleChildrenButtons[0].click();
 
       // Expect United States node to be collapsed.
-      expect(Object.keys(component.expandedNodeIds)).toEqual(['1', '3']);
-      expect(component.expandedNodeIds[1]).toEqual(false);
-      expect(component.expandedNodeIds[3]).toEqual(true);
+      expect(Object.keys(component.expandedNodeIds ?? {})).toEqual(['1', '3']);
+      expect(
+        !!component.expandedNodeIds && component.expandedNodeIds[1]
+      ).toEqual(false);
+      expect(
+        !!component.expandedNodeIds && component.expandedNodeIds[3]
+      ).toEqual(true);
     });
 
     it('should toggle between chevron icons when clicking on the toggle children button', () => {
@@ -321,7 +335,7 @@ describe('tree view', () => {
       clickSelectAll();
 
       const selectedNodeLength = Object.keys(
-        component.selectedLeafNodeIds
+        component.selectedLeafNodeIds ?? {}
       ).length;
       expect(selectedNodeLength).toEqual(6);
 
@@ -442,11 +456,11 @@ describe('tree view', () => {
       const childCheckbox = skyCheckboxes[1].querySelector('input');
 
       // Select a child of the first parent.
-      childCheckbox.click();
+      childCheckbox?.click();
 
       // Expect the parent checkbox to be checked but also indeterminate.
-      expect(parentCheckbox.checked).toBe(true);
-      expect(skyCheckboxes[0]).toHaveCssClass('sky-checkbox-indeterminate');
+      expect(parentCheckbox?.checked).toBe(true);
+      expect(parentCheckbox?.indeterminate).toBe(true);
     });
 
     it('should select nodes when node content is clicked', () => {
@@ -1020,26 +1034,38 @@ describe('tree view', () => {
       const nodes = getNodeContentWrappers();
 
       // Expect tree to start with both parent nodes expanded.
-      expect(Object.keys(component.expandedNodeIds)).toEqual(['1', '3']);
-      expect(component.expandedNodeIds[1]).toEqual(true);
-      expect(component.expandedNodeIds[3]).toEqual(true);
+      expect(Object.keys(component.expandedNodeIds ?? {})).toEqual(['1', '3']);
+      expect(component.expandedNodeIds && component.expandedNodeIds[1]).toEqual(
+        true
+      );
+      expect(component.expandedNodeIds && component.expandedNodeIds[3]).toEqual(
+        true
+      );
 
       // Press left arrow key on first node.
       SkyAppTestUtility.fireDomEvent(nodes[0], 'focus');
       keyDownOnElement(nodes[0], 'ArrowLeft', 37);
 
       // Expect first element to no longer be expanded.
-      expect(Object.keys(component.expandedNodeIds)).toEqual(['1', '3']);
-      expect(component.expandedNodeIds[1]).toEqual(false);
-      expect(component.expandedNodeIds[3]).toEqual(true);
+      expect(Object.keys(component.expandedNodeIds ?? {})).toEqual(['1', '3']);
+      expect(component.expandedNodeIds && component.expandedNodeIds[1]).toEqual(
+        false
+      );
+      expect(component.expandedNodeIds && component.expandedNodeIds[3]).toEqual(
+        true
+      );
 
       // Press right arrow key on first node.
       keyDownOnElement(nodes[0], 'ArrowRight', 39);
 
       // Expect first element to no longer be expanded.
-      expect(Object.keys(component.expandedNodeIds)).toEqual(['1', '3']);
-      expect(component.expandedNodeIds[1]).toEqual(true);
-      expect(component.expandedNodeIds[3]).toEqual(true);
+      expect(Object.keys(component.expandedNodeIds ?? {})).toEqual(['1', '3']);
+      expect(component.expandedNodeIds && component.expandedNodeIds[1]).toEqual(
+        true
+      );
+      expect(component.expandedNodeIds && component.expandedNodeIds[3]).toEqual(
+        true
+      );
 
       fixture.destroy();
       flush();
@@ -1175,12 +1201,12 @@ describe('tree view', () => {
       fixture.detectChanges();
       const tree = getTreeWrapper();
 
-      expect(tree.getAttribute('role')).toEqual('tree');
+      expect(tree?.getAttribute('role')).toEqual('tree');
     });
 
     it('should have role="treeitem" for each content wrapper', () => {
       fixture.detectChanges();
-      const nodes = document.querySelectorAll('.node-content-wrapper');
+      const nodes = document.querySelectorAll('.node-wrapper');
 
       const nodeList: Array<Element> = Array.prototype.slice.call(nodes);
       nodeList.forEach((node) => {
@@ -1202,7 +1228,7 @@ describe('tree view', () => {
     it('should have proper aria-expanded attributes for elements that contains children', () => {
       fixture.detectChanges();
       const buttons = getToggleChildrenButtons();
-      const nodes = document.querySelectorAll('.node-content-wrapper');
+      const nodes = document.querySelectorAll('.node-wrapper');
 
       expect(nodes[0].getAttribute('aria-expanded')).toEqual('true');
       expect(nodes[1].getAttribute('aria-expanded')).toBeNull();
@@ -1220,7 +1246,7 @@ describe('tree view', () => {
 
     it('should set aria-current to true for the active node and undefined for all other nodes', () => {
       fixture.detectChanges();
-      const nodes = document.querySelectorAll('.node-content-wrapper');
+      const nodes = document.querySelectorAll('.node-wrapper');
 
       expect(nodes[0].getAttribute('aria-current')).toBeNull();
       expect(nodes[1].getAttribute('aria-current')).toBeNull();
@@ -1241,7 +1267,7 @@ describe('tree view', () => {
       fixture.detectChanges();
       const tree = getTreeWrapper();
 
-      expect(tree.getAttribute('aria-multiselectable')).toBeNull();
+      expect(tree?.getAttribute('aria-multiselectable')).toBeNull();
     });
 
     it('should set aria-multiselectable to false when in single-select mode', () => {
@@ -1249,7 +1275,7 @@ describe('tree view', () => {
       fixture.detectChanges();
       const tree = getTreeWrapper();
 
-      expect(tree.getAttribute('aria-multiselectable')).toEqual('false');
+      expect(tree?.getAttribute('aria-multiselectable')).toEqual('false');
     });
 
     it('should set aria-multiselectable to true when in mult-select mode', () => {
@@ -1257,13 +1283,13 @@ describe('tree view', () => {
       fixture.detectChanges();
       const tree = getTreeWrapper();
 
-      expect(tree.getAttribute('aria-multiselectable')).toEqual('true');
+      expect(tree?.getAttribute('aria-multiselectable')).toEqual('true');
     });
 
     it('should set aria-selected to true for the selected node and undefined for all other nodes when in single-select mode', () => {
       setupSingleSelectMode();
       fixture.detectChanges();
-      const nodes = document.querySelectorAll('.node-content-wrapper');
+      const nodes = document.querySelectorAll('.node-wrapper');
 
       expect(nodes[0].getAttribute('aria-selected')).toBeNull();
       expect(nodes[1].getAttribute('aria-selected')).toBeNull();
@@ -1282,7 +1308,7 @@ describe('tree view', () => {
     it('should not have aria-selected attributes on parent nodes when in leaf-select-only mode', () => {
       setupLeafSelectOnlyMode();
       fixture.detectChanges();
-      const nodes = document.querySelectorAll('.node-content-wrapper');
+      const nodes = document.querySelectorAll('.node-wrapper');
 
       expect(nodes[0].getAttribute('aria-selected')).toBeNull();
       expect(nodes[1].getAttribute('aria-selected')).toEqual('false');
@@ -1301,7 +1327,7 @@ describe('tree view', () => {
     it('should set aria-selected to true for the selected node and undefined for all other nodes when in multi-select mode', () => {
       setupNonCascadingMode();
       fixture.detectChanges();
-      const nodes = document.querySelectorAll('.node-content-wrapper');
+      const nodes = document.querySelectorAll('.node-wrapper');
 
       expect(nodes[0].getAttribute('aria-selected')).toEqual('false');
       expect(nodes[1].getAttribute('aria-selected')).toEqual('false');
@@ -1321,7 +1347,7 @@ describe('tree view', () => {
     it('should set aria-selected to true for the selected node and undefined for all other nodes when in multi-select mode', () => {
       setupCascadingMode();
       fixture.detectChanges();
-      const nodes = document.querySelectorAll('.node-content-wrapper');
+      const nodes = document.querySelectorAll('.node-wrapper');
 
       expect(nodes[0].getAttribute('aria-selected')).toEqual('false');
       expect(nodes[1].getAttribute('aria-selected')).toEqual('false');
@@ -1339,33 +1365,29 @@ describe('tree view', () => {
 
     it('should pass accessibility in basic setup', async () => {
       fixture.detectChanges();
-      await fixture.whenStable().then(async () => {
-        await expectAsync(fixture.nativeElement).toBeAccessible();
-      });
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
     it('should pass accessibility in multi-select mode', async () => {
       setupCascadingMode();
       fixture.detectChanges();
-      await fixture.whenStable().then(async () => {
-        await expectAsync(fixture.nativeElement).toBeAccessible();
-      });
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
     it('should pass accessibility in single-select mode', async () => {
       setupSingleSelectMode();
       fixture.detectChanges();
-      await fixture.whenStable().then(async () => {
-        await expectAsync(fixture.nativeElement).toBeAccessible();
-      });
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
     it('should pass accessibility in leaf-select-only mode', async () => {
       setupLeafSelectOnlyMode();
       fixture.detectChanges();
-      await fixture.whenStable().then(async () => {
-        await expectAsync(fixture.nativeElement).toBeAccessible();
-      });
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
     });
   });
 });

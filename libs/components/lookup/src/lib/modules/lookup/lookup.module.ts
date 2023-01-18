@@ -16,20 +16,14 @@ import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyAutocompleteModule } from '../autocomplete/autocomplete.module';
 import { SkySearchModule } from '../search/search.module';
+import { SkySelectionModalModule } from '../selection-modal/selection-modal.module';
 import { SkyLookupResourcesModule } from '../shared/sky-lookup-resources.module';
 
-import { SkyLookupItemSelectedPipe } from './lookup-item-selected.pipe';
-import { SkyLookupShowMoreAsyncModalComponent } from './lookup-show-more-async-modal.component';
 import { SkyLookupShowMoreModalComponent } from './lookup-show-more-modal.component';
 import { SkyLookupComponent } from './lookup.component';
 
 @NgModule({
-  declarations: [
-    SkyLookupComponent,
-    SkyLookupItemSelectedPipe,
-    SkyLookupShowMoreAsyncModalComponent,
-    SkyLookupShowMoreModalComponent,
-  ],
+  declarations: [SkyLookupComponent, SkyLookupShowMoreModalComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -42,6 +36,7 @@ import { SkyLookupComponent } from './lookup.component';
     SkyModalModule,
     SkyRepeaterModule,
     SkySearchModule,
+    SkySelectionModalModule,
     SkyThemeModule,
     SkyTokensModule,
     SkyToolbarModule,

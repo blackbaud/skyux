@@ -169,13 +169,11 @@ describe('component generator', () => {
     ).toMatchSnapshot();
     // expect(appTree.listChanges().filter(c => c.path.includes('test-storybook')).map(c => c.path)).toEqual([]);
     expect(
-      appTree.isFile(
-        'apps/test-storybook-e2e/src/integration/example.component.spec.ts'
-      )
+      appTree.isFile('apps/test-storybook-e2e/src/e2e/example.component.cy.ts')
     ).toBeTruthy();
     expect(
       appTree.read(
-        'apps/test-storybook-e2e/src/integration/example.component.spec.ts',
+        'apps/test-storybook-e2e/src/e2e/example.component.cy.ts',
         'utf-8'
       )
     ).toMatchSnapshot();

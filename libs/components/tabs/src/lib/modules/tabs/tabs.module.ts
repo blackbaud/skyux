@@ -10,6 +10,7 @@ import { SkyTabsResourcesModule } from '../shared/sky-tabs-resources.module';
 
 import { SkyTabButtonComponent } from './tab-button.component';
 import { SkyTabComponent } from './tab.component';
+import { SkyTabsetNavButtonDisabledPipe } from './tabset-nav-button-disabled.pipe';
 import { SkyTabsetNavButtonComponent } from './tabset-nav-button.component';
 import { SkyTabsetComponent } from './tabset.component';
 
@@ -19,6 +20,7 @@ import { SkyTabsetComponent } from './tabset.component';
     SkyTabComponent,
     SkyTabsetComponent,
     SkyTabsetNavButtonComponent,
+    SkyTabsetNavButtonDisabledPipe,
   ],
   imports: [
     CommonModule,

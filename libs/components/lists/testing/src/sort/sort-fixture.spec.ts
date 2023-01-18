@@ -23,7 +23,7 @@ describe('Sort fixture', () => {
 
   async function lookupInactiveMenuItem(): Promise<SkySortFixtureMenuItem> {
     return menuLookup((sortFxtr: SkySortFixture) => {
-      return sortFxtr.menuItems.find((x) => !x.isActive);
+      return sortFxtr.menuItems?.find((x) => !x.isActive);
     });
   }
 
@@ -95,8 +95,8 @@ describe('Sort fixture', () => {
       const menuItems = sortFixture.menuItems;
 
       // verify the count is the same and each item is represented
-      expect(menuItems.length).toEqual(testComponent.sortOptions.length);
-      menuItems.forEach((item: SkySortFixtureMenuItem) => {
+      expect(menuItems?.length).toEqual(testComponent.sortOptions.length);
+      menuItems?.forEach((item: SkySortFixtureMenuItem) => {
         // there should be an associated sort option
         const option = testComponent.sortOptions.find(
           (x) => x.label === item.text
@@ -161,13 +161,13 @@ describe('Sort fixture', () => {
     const parameters = [
       {
         selectLabel: 'by text',
-        selectMenuItem: async (item: SkySortFixtureMenuItem) => {
+        selectMenuItem: async (item: SkySortFixtureMenuItem): Promise<void> => {
           await sortFixture.selectMenuItemByText(item.text);
         },
       },
       {
         selectLabel: 'by index',
-        selectMenuItem: async (item: SkySortFixtureMenuItem) => {
+        selectMenuItem: async (item: SkySortFixtureMenuItem): Promise<void> => {
           await sortFixture.selectMenuItemByIndex(item.index);
         },
       },

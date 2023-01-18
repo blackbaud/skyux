@@ -47,7 +47,11 @@ export class VerticalTabsetComponent {
     },
   ];
 
-  constructor(private modalService: SkyModalService) {}
+  #modalService: SkyModalService;
+
+  constructor(modalService: SkyModalService) {
+    this.#modalService = modalService;
+  }
 
   public onAddTabClick(): void {
     this.tabs.push({
@@ -63,6 +67,6 @@ export class VerticalTabsetComponent {
   }
 
   public openVerticalTabsetModal() {
-    this.modalService.open(VerticalTabsetModalComponent);
+    this.#modalService.open(VerticalTabsetModalComponent);
   }
 }

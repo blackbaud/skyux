@@ -1,4 +1,5 @@
 {
+  "name": "phone-field-testing",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/components/phone-field/testing/src",

@@ -33,6 +33,7 @@ import { SkyCheckboxModule } from './checkbox.module';
       [disabled]="isDisabled"
       [icon]="icon"
       [id]="id"
+      [(indeterminate)]="indeterminate"
       (change)="checkboxChange($event)"
     >
       <sky-checkbox-label>
@@ -46,7 +47,8 @@ class SingleCheckboxComponent implements AfterViewInit {
   public checkboxType: string | undefined;
   public icon = 'bold';
   public id: string | undefined = 'simple-check';
-  public isChecked = false;
+  public indeterminate = false;
+  public isChecked: boolean | undefined = false;
   public isDisabled = false;
   public showInlineHelp = false;
 
@@ -61,7 +63,7 @@ class SingleCheckboxComponent implements AfterViewInit {
 
   public onDisabledChange(value: boolean): void {}
 
-  public checkboxChange($event: any) {
+  public checkboxChange($event: SkyCheckboxChange) {
     this.isChecked = $event.checked;
   }
 }
@@ -224,7 +226,10 @@ class CheckboxWithNameAttributeComponent {
 
 /** Simple test component with change event */
 @Component({
-  template: `<sky-checkbox (change)="lastEvent = $event"></sky-checkbox>`,
+  template: `<sky-checkbox
+    id="test-id"
+    (change)="lastEvent = $event"
+  ></sky-checkbox>`,
 })
 class CheckboxWithChangeEventComponent {
   public lastEvent: SkyCheckboxChange | undefined;
@@ -375,6 +380,33 @@ describe('Checkbox component', () => {
       expect(checkboxInstance.checked).toBe(false);
     });
 
+    it('should handle the indeterminate state not being set', () => {
+      fixture.detectChanges();
+
+      expect(inputElement?.indeterminate).toBeFalse();
+    });
+
+    it('should handle the indeterminate state being set', () => {
+      testComponent.indeterminate = true;
+      fixture.detectChanges();
+
+      expect(inputElement?.indeterminate).toBeTrue();
+    });
+
+    it('should turn off the indeterminate state if the checkbox is clicked after it is set', () => {
+      testComponent.indeterminate = true;
+      fixture.detectChanges();
+
+      expect(inputElement?.checked).toBeFalse();
+      expect(inputElement?.indeterminate).toBeTrue();
+      inputElement?.click();
+      fixture.detectChanges();
+
+      expect(inputElement?.checked).toBeTrue();
+      expect(inputElement?.indeterminate).toBeFalse();
+      expect(testComponent.indeterminate).toBeFalse();
+    });
+
     it('should handle a user-provided id', () => {
       fixture.detectChanges();
       expect(inputElement?.id).toBe('input-sky-checkbox-simple-check');
@@ -462,6 +494,7 @@ describe('Checkbox component', () => {
       // emitted value can be a DOM Event, which is not valid.
       // See angular/angular#4059
       expect(testComponent.lastEvent?.checked).toBe(true);
+      expect(testComponent.lastEvent?.source?.id).toBe(`sky-checkbox-test-id`);
     });
   });
 

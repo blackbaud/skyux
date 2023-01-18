@@ -1,6 +1,7 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/variables';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+
+$header-height: 50px;
 
 .sky-flyout {
   position: fixed;
@@ -96,11 +97,13 @@
 }
 
 .sky-flyout-header {
-  @include sky-border(dark, bottom);
-  width: 100%;
+  @include mixins.sky-border(dark, bottom);
+  width: inherit;
   background: $sky-background-color-neutral-light;
-  height: 50px;
+  height: $header-height;
   display: flex;
+  position: fixed;
+  z-index: $sky-flyout-z-index;
   align-items: flex-start;
 }
 
@@ -124,10 +127,11 @@
 
 .sky-flyout-content {
   overflow-y: auto;
-  height: calc(100% - 50px);
+  margin-top: $header-height;
+  height: calc(100% - $header-height);
 }
 
-@include sky-theme-modern {
+@include mixins.sky-theme-modern {
   .sky-flyout {
     border-left: 0;
   }
@@ -145,7 +149,7 @@
   }
 }
 
-@include sky-theme-modern-dark {
+@include mixins.sky-theme-modern-dark {
   .sky-flyout {
     background: #000;
   }

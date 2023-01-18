@@ -258,44 +258,36 @@ describe('Inline form component', () => {
     component.showFormWithOutAutocomplete = true;
     showForm();
 
-    fixture.whenStable().then(() => {
-      expect(document.activeElement).toEqual(
-        document.querySelector('#demo-input-3')
-      );
-    });
+    expect(document.activeElement).toEqual(
+      document.querySelector('#demo-input-3')
+    );
   }));
 
   it('should focus the autofocus element when there is one present', fakeAsync(() => {
     component.showFormWithAutocomplete = true;
     showForm();
 
-    fixture.whenStable().then(() => {
-      expect(document.activeElement).toEqual(
-        document.querySelector('#demo-input-6')
-      );
-    });
+    expect(document.activeElement).toEqual(
+      document.querySelector('#demo-input-6')
+    );
   }));
 
   it('should focus the first element thats visible', fakeAsync(() => {
     component.showFormWithHiddenElements = true;
     showForm();
 
-    fixture.whenStable().then(() => {
-      expect(document.activeElement).toEqual(
-        document.querySelector('#demo-input-8')
-      );
-    });
+    expect(document.activeElement).toEqual(
+      document.querySelector('#demo-input-8')
+    );
   }));
 
   it('should not move focus if there are no focusable elements in the form', fakeAsync(() => {
     component.showFormWithNoElements = true;
     showForm();
 
-    fixture.whenStable().then(() => {
-      expect(document.activeElement).toEqual(
-        document.querySelector('#demo-input-1')
-      );
-    });
+    expect(document.activeElement).toEqual(
+      document.querySelector('#demo-input-1')
+    );
   }));
 
   it('should change the buttons when config input is changed', fakeAsync(() => {

@@ -16,7 +16,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
-import { SkyAppWindowRef } from '@skyux/core';
+import { SkyAppWindowRef, SkyLogService } from '@skyux/core';
 import { SkyInputBoxHostService } from '@skyux/forms';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import {
@@ -36,16 +36,16 @@ import { SkyAutocompleteMessageType } from '../autocomplete/types/autocomplete-m
 import { SkyAutocompleteSearchAsyncArgs } from '../autocomplete/types/autocomplete-search-async-args';
 import { SkyAutocompleteSelectionChange } from '../autocomplete/types/autocomplete-selection-change';
 import { SkyAutocompleteShowMoreArgs } from '../autocomplete/types/autocomplete-show-more-args';
+import { SkySelectionModalService } from '../selection-modal/selection-modal.service';
+import { SkySelectionModalInstance } from '../selection-modal/types/selection-modal-instance';
 
 import { SkyLookupAdapterService } from './lookup-adapter.service';
 import { SkyLookupAutocompleteAdapter } from './lookup-autocomplete-adapter';
-import { SkyLookupShowMoreAsyncModalComponent } from './lookup-show-more-async-modal.component';
 import { SkyLookupShowMoreModalComponent } from './lookup-show-more-modal.component';
 import { SkyLookupAddCallbackArgs } from './types/lookup-add-click-callback-args';
 import { SkyLookupAddClickEventArgs } from './types/lookup-add-click-event-args';
 import { SkyLookupSelectModeType } from './types/lookup-select-mode-type';
 import { SkyLookupShowMoreConfig } from './types/lookup-show-more-config';
-import { SkyLookupShowMoreNativePickerAsyncContext } from './types/lookup-show-more-native-picker-async-context';
 import { SkyLookupShowMoreNativePickerContext } from './types/lookup-show-more-native-picker-context';
 
 @Component({
@@ -79,7 +79,6 @@ export class SkyLookupComponent
 
   /**
    * Specifies the value for the `autocomplete` attribute on the form input.
-   * @default "off"
    */
   @Input()
   public autocompleteAttribute: string | undefined;
@@ -94,7 +93,7 @@ export class SkyLookupComponent
   public set data(value: any[] | undefined) {
     this.#_data = value;
 
-    if (this.#openNativePicker && this.searchAsync.observers.length === 0) {
+    if (this.#openNativePicker && !this.#hasSearchAsync()) {
       this.#openNativePicker.componentInstance.updateItemData(value);
     }
   }
@@ -105,15 +104,29 @@ export class SkyLookupComponent
 
   /**
    * Indicates whether to disable the lookup field.
+   * @default false
    */
   @Input()
-  public disabled = false;
+  public set disabled(value: boolean | undefined) {
+    this.#_disabled = value ?? false;
+  }
+
+  public get disabled(): boolean {
+    return this.#_disabled;
+  }
 
   /**
    * Indicates whether to enable users to open a picker where they can view all options.
+   * @default false
    */
   @Input()
-  public enableShowMore = false;
+  public set enableShowMore(value: boolean | undefined) {
+    this.#_enableShowMore = value ?? false;
+  }
+
+  public get enableShowMore(): boolean {
+    return this.#_enableShowMore;
+  }
 
   /**
    * Specifies placeholder text to display in the lookup field.
@@ -131,9 +144,16 @@ export class SkyLookupComponent
 
   /**
    * Indicates whether to display a button that lets users add options to the list.
+   * @default false
    */
   @Input()
-  public showAddButton = false;
+  public set showAddButton(value: boolean | undefined) {
+    this.#_showAddButton = value ?? false;
+  }
+
+  public get showAddButton(): boolean {
+    return this.#_showAddButton;
+  }
 
   /**
    * Specifies configuration options for the picker that displays all options.
@@ -211,7 +231,7 @@ export class SkyLookupComponent
   public set value(newValue: any[]) {
     this.#_value = newValue;
 
-    if (!this.#openNativePicker) {
+    if (!this.#pickerModalOpen()) {
       this.tokens = this.#parseTokens(newValue);
     }
 
@@ -228,12 +248,16 @@ export class SkyLookupComponent
     read: SkyAutocompleteInputDirective,
     static: false,
   })
-  private set autocompleteInputDirective(value: SkyAutocompleteInputDirective) {
+  public set autocompleteInputDirective(
+    value: SkyAutocompleteInputDirective | undefined
+  ) {
     this.#_autocompleteInputDirective = value;
     this.#updateForSelectMode();
   }
 
-  private get autocompleteInputDirective(): SkyAutocompleteInputDirective {
+  public get autocompleteInputDirective():
+    | SkyAutocompleteInputDirective
+    | undefined {
     return this.#_autocompleteInputDirective;
   }
 
@@ -241,53 +265,46 @@ export class SkyLookupComponent
     read: TemplateRef,
     static: true,
   })
-  private showMoreButtonTemplateRef!: TemplateRef<unknown>;
+  public showMoreButtonTemplateRef: TemplateRef<unknown> | undefined;
 
   @ViewChild('inputTemplateRef', {
     read: TemplateRef,
     static: true,
   })
-  private inputTemplateRef!: TemplateRef<unknown>;
+  public inputTemplateRef: TemplateRef<unknown> | undefined;
 
   @ViewChild('lookupWrapper', {
     read: ElementRef,
   })
-  private lookupWrapperRef!: ElementRef;
+  public lookupWrapperRef: ElementRef | undefined;
 
   @ViewChild('searchIconTemplateRef', {
     read: TemplateRef,
     static: true,
   })
-  private searchIconTemplateRef!: TemplateRef<unknown>;
+  public searchIconTemplateRef: TemplateRef<unknown> | undefined;
 
   #adapter: SkyLookupAdapterService;
-
   #elementRef: ElementRef;
-
   #changeDetector: ChangeDetectorRef;
-
   #idle = new Subject<void>();
-
   #markForTokenFocusOnKeyUp = false;
-
   #modalService: SkyModalService;
-
   #ngUnsubscribe = new Subject<void>();
-
   #openNativePicker: SkyModalInstance | undefined;
-
+  #openSelectionModal: SkySelectionModalInstance | undefined;
   #resourcesService: SkyLibResourcesService;
-
+  #selectionModalSvc: SkySelectionModalService;
   #windowRef: SkyAppWindowRef;
+  #logSvc: SkyLogService;
 
-  #_autocompleteInputDirective!: SkyAutocompleteInputDirective;
-
+  #_autocompleteInputDirective: SkyAutocompleteInputDirective | undefined;
   #_data: any[] | undefined;
-
+  #_disabled = false;
+  #_enableShowMore = false;
   #_selectMode: SkyLookupSelectModeType | undefined;
-
+  #_showAddButton = false;
   #_tokens: SkyToken[] | undefined;
-
   #_value: any[] | undefined;
 
   constructor(
@@ -297,6 +314,8 @@ export class SkyLookupComponent
     adapter: SkyLookupAdapterService,
     modalService: SkyModalService,
     resourcesService: SkyLibResourcesService,
+    selectionModalSvc: SkySelectionModalService,
+    logSvc: SkyLogService,
     @Self() @Optional() ngControl?: NgControl,
     @Optional() public inputBoxHostSvc?: SkyInputBoxHostService,
     @Optional() public themeSvc?: SkyThemeService
@@ -309,6 +328,8 @@ export class SkyLookupComponent
     this.#adapter = adapter;
     this.#modalService = modalService;
     this.#resourcesService = resourcesService;
+    this.#selectionModalSvc = selectionModalSvc;
+    this.#logSvc = logSvc;
 
     if (ngControl) {
       ngControl.valueAccessor = this;
@@ -316,7 +337,7 @@ export class SkyLookupComponent
   }
 
   public ngOnInit(): void {
-    if (this.inputBoxHostSvc) {
+    if (this.inputBoxHostSvc && this.inputTemplateRef) {
       this.inputBoxHostSvc.populate({
         inputTemplate: this.inputTemplateRef,
         buttonsTemplate: this.enableShowMore
@@ -391,10 +412,6 @@ export class SkyLookupComponent
         return token.value;
       });
       this.tokens = change;
-
-      this.#sendAutocompleteMessage(
-        SkyAutocompleteMessageType.RepositionDropdown
-      );
       this.onChange(this.#_value);
       this.onTouched();
     }
@@ -428,8 +445,15 @@ export class SkyLookupComponent
     }
   }
 
+  public onTokensRendered(): void {
+    this.#sendAutocompleteMessage(
+      SkyAutocompleteMessageType.RepositionDropdown
+    );
+  }
+
   public writeValue(value: any[]): void {
-    this.value = value ? value : [];
+    // Since we are dealing with arrays - clone the array being sent in to ensure we aren't modifying a consumers outer array
+    this.value = value ? value.slice() : [];
     this.#updateForSelectMode();
   }
 
@@ -460,8 +484,10 @@ export class SkyLookupComponent
   }
 
   public clearSearchText(): void {
-    this.autocompleteInputDirective.value = undefined;
-    this.autocompleteInputDirective.inputTextValue = '';
+    if (this.autocompleteInputDirective) {
+      this.autocompleteInputDirective.value = undefined;
+      this.autocompleteInputDirective.inputTextValue = '';
+    }
   }
 
   // Handles when to focus on the tokens.
@@ -527,15 +553,19 @@ export class SkyLookupComponent
     let isValueInTextBox = false;
     if (this.selectMode === 'single') {
       isValueInTextBox =
-        this.autocompleteInputDirective.value &&
+        this.autocompleteInputDirective?.value &&
         this.autocompleteInputDirective.inputTextValue ===
           this.autocompleteInputDirective.value[this.descriptorProperty];
     }
 
-    this.openPicker(
-      isValueInTextBox ? '' : this.autocompleteInputDirective.inputTextValue
-    );
-    this.autocompleteInputDirective.restoreInputTextValueToPreviousState();
+    let searchValue = '';
+
+    if (!isValueInTextBox && this.autocompleteInputDirective) {
+      searchValue = this.autocompleteInputDirective.inputTextValue;
+    }
+
+    this.openPicker(searchValue);
+    this.autocompleteInputDirective?.restoreInputTextValueToPreviousState();
   }
 
   public onShowMoreClick(event: SkyAutocompleteShowMoreArgs): void {
@@ -544,64 +574,6 @@ export class SkyLookupComponent
     if (event) {
       this.openPicker(event.inputValue);
     }
-  }
-
-  #createNativePickerInstance(initialSearch: string): SkyModalInstance {
-    const initialValue = this.value;
-    const modalConfig = this.showMoreConfig?.nativePickerConfig || {};
-
-    if (!modalConfig.itemTemplate) {
-      modalConfig.itemTemplate = this.searchResultTemplate;
-    }
-
-    let contextProviderType:
-      | typeof SkyLookupShowMoreNativePickerContext
-      | typeof SkyLookupShowMoreNativePickerAsyncContext;
-
-    let contextProviderValue:
-      | SkyLookupShowMoreNativePickerContext
-      | SkyLookupShowMoreNativePickerAsyncContext;
-
-    let modalComponentType:
-      | typeof SkyLookupShowMoreModalComponent
-      | typeof SkyLookupShowMoreAsyncModalComponent;
-
-    if (this.searchAsync.observers.length > 0) {
-      contextProviderType = SkyLookupShowMoreNativePickerAsyncContext;
-      modalComponentType = SkyLookupShowMoreAsyncModalComponent;
-
-      contextProviderValue = new SkyLookupShowMoreNativePickerAsyncContext();
-      contextProviderValue.idProperty = this.idProperty!;
-      contextProviderValue.searchAsync = (args) => {
-        this.searchAsync.emit(args);
-        return args.result!;
-      };
-    } else {
-      contextProviderType = SkyLookupShowMoreNativePickerContext;
-      modalComponentType = SkyLookupShowMoreModalComponent;
-
-      contextProviderValue = new SkyLookupShowMoreNativePickerContext();
-      contextProviderValue.items = this.data;
-      contextProviderValue.search = this.search;
-    }
-
-    contextProviderValue.descriptorProperty = this.descriptorProperty;
-    contextProviderValue.initialSearch = initialSearch;
-    contextProviderValue.initialValue = initialValue;
-    contextProviderValue.selectMode = this.selectMode;
-    contextProviderValue.showAddButton = this.showAddButton;
-    contextProviderValue.userConfig = modalConfig;
-
-    return this.#modalService.open(modalComponentType, {
-      providers: [
-        {
-          provide: contextProviderType,
-          useValue: contextProviderValue,
-        },
-      ],
-      size: 'large',
-      wrapperClass: this.wrapperClass,
-    });
   }
 
   public openPicker(initialSearch: string): void {
@@ -616,24 +588,33 @@ export class SkyLookupComponent
     } else {
       const initialValue = this.value;
 
-      this.#openNativePicker = this.#createNativePickerInstance(initialSearch);
+      if (this.#hasSearchAsync()) {
+        this.#openSelectionModal =
+          this.#createSelectionModalInstance(initialSearch);
 
-      this.showMorePickerId = this.#openNativePicker.componentInstance.id;
+        this.showMorePickerId = this.#openSelectionModal.id;
 
-      this.#openNativePicker.componentInstance.addClick.subscribe(() => {
-        this.addButtonClicked();
-      });
+        this.#openSelectionModal.closed.subscribe((closeArgs) => {
+          this.#processPickerResult(
+            closeArgs.reason === 'save' ? closeArgs.selectedItems : initialValue
+          );
+        });
+      } else {
+        this.#openNativePicker =
+          this.#createNativePickerInstance(initialSearch);
 
-      this.#openNativePicker.closed.subscribe((closeArgs) => {
-        this.#openNativePicker = undefined;
-        this.showMorePickerId = undefined;
+        this.showMorePickerId = this.#openNativePicker.componentInstance.id;
 
-        if (closeArgs.reason === 'save') {
-          let selectedItems: any[] = [];
+        this.#openNativePicker.componentInstance.addClick.subscribe(() => {
+          this.addButtonClicked();
+        });
 
-          if (this.searchAsync.observers.length > 0) {
-            selectedItems = closeArgs.data.map((item: any) => item.itemData);
-          } else {
+        this.#openNativePicker.closed.subscribe((closeArgs) => {
+          let selectedItems: any[];
+
+          if (closeArgs.reason === 'save') {
+            selectedItems = [];
+
             this.data.forEach((item: any, dataIndex: number) => {
               if (
                 closeArgs.data.some((savedItem: any) => {
@@ -643,19 +624,103 @@ export class SkyLookupComponent
                 selectedItems.push(item);
               }
             });
+          } else {
+            selectedItems = initialValue;
           }
 
-          this.writeValue(selectedItems);
-        } else {
-          this.writeValue(initialValue);
-        }
+          this.#processPickerResult(selectedItems);
+        });
 
-        this.#focusInput();
         this.#changeDetector.markForCheck();
-      });
-
-      this.#changeDetector.markForCheck();
+      }
     }
+  }
+
+  #createSelectionModalInstance(
+    initialSearch: string
+  ): SkySelectionModalInstance {
+    const initialValue = this.value;
+    const modalConfig = this.showMoreConfig?.nativePickerConfig || {};
+
+    if (!modalConfig.itemTemplate) {
+      modalConfig.itemTemplate = this.searchResultTemplate;
+    }
+
+    if (this.idProperty === undefined) {
+      this.#logSvc.error(
+        "The lookup component's 'idProperty' input is required when `enableShowMore` and 'searchAsync' are used together."
+      );
+    }
+
+    return this.#selectionModalSvc.open({
+      descriptorProperty: this.descriptorProperty,
+      idProperty: this.idProperty!,
+      searchAsync: (args) => {
+        const searchAsyncArgs: SkyAutocompleteSearchAsyncArgs = {
+          displayType: 'modal',
+          offset: args.offset,
+          searchText: args.searchText,
+          continuationData: args.continuationData,
+        };
+
+        this.searchAsync.emit(searchAsyncArgs);
+
+        return searchAsyncArgs.result;
+      },
+      selectMode: this.selectMode,
+      addClick: () => {
+        this.addButtonClicked();
+      },
+      initialSearch,
+      itemTemplate: modalConfig.itemTemplate,
+      showAddButton: this.showAddButton,
+      title: modalConfig.title,
+      value: initialValue,
+    });
+  }
+
+  #createNativePickerInstance(initialSearch: string): SkyModalInstance {
+    const initialValue = this.value;
+    const modalConfig = this.showMoreConfig?.nativePickerConfig || {};
+
+    if (!modalConfig.itemTemplate) {
+      modalConfig.itemTemplate = this.searchResultTemplate;
+    }
+
+    const contextProviderValue = new SkyLookupShowMoreNativePickerContext(
+      this.descriptorProperty,
+      initialSearch,
+      initialValue,
+      this.data,
+      this.searchOrDefault,
+      this.selectMode,
+      this.showAddButton,
+      modalConfig
+    );
+
+    return this.#modalService.open(SkyLookupShowMoreModalComponent, {
+      providers: [
+        {
+          provide: SkyLookupShowMoreNativePickerContext,
+          useValue: contextProviderValue,
+        },
+      ],
+      size: 'large',
+      wrapperClass: this.wrapperClass,
+    });
+  }
+
+  #processPickerResult(selectedItems: any[] | undefined): void {
+    this.#openSelectionModal = undefined;
+    this.#openNativePicker = undefined;
+    this.showMorePickerId = undefined;
+
+    /* istanbul ignore next */
+    selectedItems = selectedItems || [];
+
+    this.writeValue(selectedItems);
+    this.#focusInput();
+    this.#changeDetector.markForCheck();
   }
 
   public onSearchAsync(args: SkyAutocompleteSearchAsyncArgs): void {
@@ -701,7 +766,7 @@ export class SkyLookupComponent
   #focusInputOnHostClick(): void {
     let hostElement = !this.inputBoxHostSvc
       ? this.#elementRef.nativeElement
-      : this.lookupWrapperRef.nativeElement;
+      : this.lookupWrapperRef?.nativeElement;
     const documentObj = this.#windowRef.nativeWindow.document;
 
     // Handles focusing the input when the host is clicked.
@@ -713,7 +778,7 @@ export class SkyLookupComponent
       .subscribe((event) => {
         hostElement = !this.inputBoxHostSvc
           ? this.#elementRef.nativeElement
-          : this.lookupWrapperRef.nativeElement;
+          : this.lookupWrapperRef?.nativeElement;
         this.isInputFocused = hostElement.contains(event.target);
 
         this.#changeDetector.markForCheck();
@@ -724,7 +789,7 @@ export class SkyLookupComponent
       .subscribe((event) => {
         hostElement = !this.inputBoxHostSvc
           ? this.#elementRef.nativeElement
-          : this.lookupWrapperRef.nativeElement;
+          : this.lookupWrapperRef?.nativeElement;
         this.isInputFocused = hostElement.contains(event.target);
 
         this.#changeDetector.markForCheck();
@@ -741,27 +806,48 @@ export class SkyLookupComponent
   }
 
   #focusInput(): void {
-    this.#adapter.focusInput(this.lookupWrapperRef);
+    if (this.lookupWrapperRef) {
+      this.#adapter.focusInput(this.lookupWrapperRef);
+    }
   }
 
-  #onAddButtonComplete(args: SkyLookupAddCallbackArgs) {
-    if (args.data) {
-      this.data = args.data;
-    }
+  #onAddButtonComplete(args: SkyLookupAddCallbackArgs): void {
+    if (this.#openSelectionModal) {
+      // Notify the selection modal of the new item. The selection
+      // modal will decide whether the new item should be added
+      // to the value when the user confirms or cancels the
+      // selection modal.
+      this.#openSelectionModal.addItem(args.item);
+    } else {
+      let addItemToValue: boolean | undefined;
 
-    if (this.data.indexOf(args.item) >= 0) {
-      if (this.#openNativePicker) {
-        (
-          this.#openNativePicker
-            .componentInstance as SkyLookupShowMoreModalComponent
-        ).onItemSelect(true, { value: args.item, selected: false });
+      if (this.#hasSearchAsync()) {
+        addItemToValue = true;
       } else {
-        let newValue = this.value;
-        if (this.selectMode === 'multiple') {
-          newValue = this.value.concat(args.item);
-        } else {
-          newValue = [args.item];
+        if (args.data) {
+          this.data = args.data;
         }
+
+        if (this.data.indexOf(args.item) >= 0) {
+          if (this.#openNativePicker) {
+            // Notify the picker of the new item. The picker will
+            // decide whether the new item should be added to the
+            // value when the user confirms or cancels the picker.
+            (
+              this.#openNativePicker
+                .componentInstance as SkyLookupShowMoreModalComponent
+            ).onItemSelect(true, { value: args.item, selected: false });
+          } else {
+            addItemToValue = true;
+          }
+        }
+      }
+
+      if (addItemToValue) {
+        const newValue =
+          this.selectMode === 'multiple'
+            ? this.value.concat(args.item)
+            : [args.item];
         this.writeValue(newValue);
       }
     }
@@ -791,5 +877,13 @@ export class SkyLookupComponent
         this.clearSearchText();
       }
     }
+  }
+
+  #hasSearchAsync(): boolean {
+    return this.searchAsync.observers.length > 0;
+  }
+
+  #pickerModalOpen(): boolean {
+    return !!(this.#openNativePicker || this.#openSelectionModal);
   }
 }

@@ -7,6 +7,7 @@ import {
   getWorkspacePath,
   joinPathFragments,
   logger,
+  normalizePath,
   readProjectConfiguration,
   updateJson,
 } from '@nrwl/devkit';
@@ -115,7 +116,9 @@ export default async function (tree: Tree, schema: Schema) {
     }
 
     const projectRoot = project.root;
-    const relativeToRoot = relative(`/${projectRoot}/.storybook`, `/`);
+    const relativeToRoot = normalizePath(
+      relative(`/${projectRoot}/.storybook`, `/`)
+    );
 
     const tsconfigFile = `${projectRoot}/.storybook/tsconfig.json`;
     const tsconfigAppFile = `${projectRoot}/tsconfig.app.json`;
@@ -158,11 +161,14 @@ export default async function (tree: Tree, schema: Schema) {
       tree.delete(`${projectRoot}/.storybook/${file}.js`);
     });
 
-    if (!tree.isFile(`${projectRoot}/.storybook/preview.ts`)) {
+    if (
+      !tree.isFile(`${projectRoot}/.storybook/preview.ts`) ||
+      `${tree.read(`${projectRoot}/.storybook/preview.ts`, 'utf-8')}` === ''
+    ) {
       generateFiles(
         tree,
         joinPathFragments(__dirname, `./files`),
-        `${projectRoot}/.storybook/`,
+        `./${projectRoot}/.storybook`,
         {
           ...schema,
           relativeToRoot,

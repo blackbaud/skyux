@@ -20,3 +20,7 @@ export * from './search/search-fixture';
 export * from './search/search-harness';
 export * from './search/search-harness-filters';
 export * from './search/search-testing.module';
+
+export * from './selection-modal/selection-modal-harness';
+export * from './selection-modal/selection-modal-search-result-harness';
+export * from './selection-modal/selection-modal-search-result-harness-filters';

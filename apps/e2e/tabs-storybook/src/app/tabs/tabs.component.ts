@@ -4,7 +4,7 @@ type Tab = {
   tabHeading: string;
   tabContent: string;
   disabled?: boolean;
-  isPermamnent?: boolean;
+  isPermanent?: boolean;
   tabHeaderCount?: number;
 };
 @Component({
@@ -14,10 +14,10 @@ type Tab = {
 })
 export class TabsComponent {
   @Input()
-  public active = 0;
+  public active: number | undefined = 0;
 
   @Input()
-  public tabs: Tab[] = [];
+  public tabs: Tab[] | undefined = [];
 
   public onNewTabClick() {
     console.log('Add new tab click');
@@ -27,7 +27,7 @@ export class TabsComponent {
     console.log('Open tab click');
   }
 
-  public onCloseTab() {
-    console.log('Close tab click');
+  public onCloseTab(index: number) {
+    console.log(`Close tab ${index} click`);
   }
 }

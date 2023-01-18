@@ -17,7 +17,7 @@ import { LookupDemoPerson } from './lookup-demo-person';
 })
 export class LookupCustomPickerDemoComponent implements OnInit {
   public favoritesForm: FormGroup<{
-    favoriteNames: FormControl<LookupDemoPerson[]>;
+    favoriteNames: FormControl<LookupDemoPerson[] | null>;
   }>;
 
   public showMoreConfig: SkyLookupShowMoreConfig;
@@ -112,17 +112,17 @@ export class LookupCustomPickerDemoComponent implements OnInit {
     });
 
     this.searchFilters = [
-      (_, item) => {
+      (_, item): boolean => {
         const names = this.favoritesForm.value.favoriteNames;
 
         // Only show people in the search results that have not been chosen already.
-        return !names.some((option) => option.name === item.name);
+        return !names?.some((option) => option.name === item.name);
       },
     ];
 
     this.showMoreConfig = {
       customPicker: {
-        open: (context) => {
+        open: (context): void => {
           const instance = modalService.open(
             LookupCustomPickerDemoModalComponent,
             {

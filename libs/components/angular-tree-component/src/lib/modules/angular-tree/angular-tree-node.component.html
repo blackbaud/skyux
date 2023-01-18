@@ -1,4 +1,5 @@
 <div
+  *ngIf="node && index !== undefined"
   [class]="node.getClass()"
   [class.tree-node]="true"
   [class.tree-node-active]="node.isActive"
@@ -17,9 +18,30 @@
   <!-- #region <tree-node-wrapper> custom template --->
   <div
     class="node-wrapper"
+    role="treeitem"
+    [allowDragoverStyling]="node.allowDragoverStyling()"
+    [attr.aria-current]="node.isActive"
+    [attr.aria-expanded]="node.children?.length ? node.isExpanded : null"
+    [attr.aria-selected]="ariaSelected()"
+    [attr.data-node-id]="node.id"
+    [attr.tabindex]="tabIndex"
     [class.sky-angular-tree-node-active]="showActiveClass()"
     [class.sky-angular-tree-node-selected]="showSelectedClass()"
     [style.padding-left]="node.getNodePadding()"
+    [treeAllowDrop]="node.allowDrop"
+    [treeDrag]="node"
+    [treeDragEnabled]="node.allowDrag()"
+    (contextmenu)="node.mouseAction('contextMenu', $event)"
+    (dblclick)="node.mouseAction('dblClick', $event)"
+    (focus)="onFocus()"
+    (mousedown)="onMouseDown()"
+    (mouseup)="onMouseUp()"
+    (keydown)="onKeyDown($event)"
+    (treeDrop)="node.onDrop($event)"
+    (treeDropDragEnter)="node.mouseAction('dragEnter', $event)"
+    (treeDropDragLeave)="node.mouseAction('dragLeave', $event)"
+    (treeDropDragOver)="node.mouseAction('dragOver', $event)"
+    #nodeContentWrapper
   >
     <!-- #region <tree-node-expander> custom template --->
     <div class="sky-toggle-children-wrapper">
@@ -48,36 +70,13 @@
 
     <!-- Note: we've made changes to the click event, tabindex, and classes when compared to the original template. -->
     <!-- https://github.com/500tech/angular-tree-component/blob/master/lib/components/tree-node-wrapper.component.ts -->
-    <div
-      class="node-content-wrapper"
-      role="treeitem"
-      [allowDragoverStyling]="node.allowDragoverStyling()"
-      [attr.aria-current]="node.isActive"
-      [attr.aria-expanded]="node.isExpanded"
-      [attr.aria-selected]="ariaSelected()"
-      [attr.data-node-id]="node.id"
-      [attr.tabindex]="tabIndex"
-      [treeAllowDrop]="node.allowDrop"
-      [treeDrag]="node"
-      [treeDragEnabled]="node.allowDrag()"
-      (contextmenu)="node.mouseAction('contextMenu', $event)"
-      (dblclick)="node.mouseAction('dblClick', $event)"
-      (focus)="onFocus()"
-      (mousedown)="onMouseDown()"
-      (mouseup)="onMouseUp()"
-      (keydown)="onKeyDown($event)"
-      (treeDrop)="node.onDrop($event)"
-      (treeDropDragEnter)="node.mouseAction('dragEnter', $event)"
-      (treeDropDragLeave)="node.mouseAction('dragLeave', $event)"
-      (treeDropDragOver)="node.mouseAction('dragOver', $event)"
-      #nodeContentWrapper
-    >
+    <div class="node-content-wrapper">
       <sky-checkbox
         *ngIf="showCheckbox()"
         [checked]="isSelected"
         [id]="node.data.id"
         [label]="node.data.name"
-        [ngClass]="{ 'sky-checkbox-indeterminate': isPartiallySelected }"
+        [indeterminate]="isPartiallySelected"
         (change)="node.mouseAction('checkboxClick', $event)"
       >
       </sky-checkbox>
@@ -92,7 +91,10 @@
         [template]="templates?.treeNodeTemplate"
         (click)="node.mouseAction('click', $event)"
       >
-      </tree-node-content>
+      </tree-node-content
+      ><span class="sky-control-help-container"
+        ><ng-content select=".sky-control-help"></ng-content
+      ></span>
     </div>
   </div>
 

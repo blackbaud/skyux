@@ -1,0 +1,189 @@
+@use '../../../_compat/mixins' as compatMixins;
+@use '../../../_compat/variables' as compatVars;
+@use '../../../mixins' as mixins;
+@use '../../../variables' as vars;
+@use 'variables' as modernCompatVars;
+
+@mixin sky-theme-modern-button-variant(
+  $color,
+  $background,
+  $border,
+  $hover-border,
+  $padding: vars.$sky-theme-modern-padding-button-standard
+) {
+  @include mixins.sky-theme-modern-border($border);
+  background-color: $background;
+  color: $color;
+  padding: mixins.sky-theme-modern-border-padding($padding);
+
+  &:hover {
+    @include mixins.sky-theme-modern-border-hover($hover-border);
+    text-decoration: none;
+  }
+
+  &:hover,
+  &:active,
+  &.sky-btn-active {
+    color: $color;
+  }
+
+  &:active,
+  &.sky-btn-active {
+    @include mixins.sky-theme-modern-border-active($hover-border);
+    background-image: none;
+  }
+
+  @include sky-theme-modern-btn-disabled(
+    vars.$sky-theme-modern-font-deemphasized-color,
+    vars.$sky-theme-modern-border-color-neutral-light,
+    vars.$sky-theme-modern-border-color-neutral-medium
+  );
+
+  &:focus-visible {
+    outline: none;
+
+    &:not(:active) {
+      @include mixins.sky-theme-modern-border-focus(
+        $hover-border,
+        vars.$sky-theme-modern-elevation-3-shadow-size,
+        vars.$sky-theme-modern-elevation-3-shadow-color
+      );
+    }
+  }
+}
+
+@mixin sky-theme-modern-btn-disabled($color, $background, $border) {
+  &.sky-btn-disabled,
+  &[disabled] {
+    &,
+    &:hover,
+    &:focus-visible,
+    &.sky-btn-focus,
+    &:active,
+    &.sky-btn-active {
+      @include mixins.sky-theme-modern-border($border);
+      background-color: $background;
+      color: $color;
+      opacity: 1;
+    }
+  }
+}
+
+@mixin sky-theme-modern-btn-tab {
+  border: none;
+  border-radius: 0;
+  color: var(--sky-text-color-deemphasized);
+  font-weight: vars.$sky-theme-modern-font-body-default-weight;
+  padding: modernCompatVars.$sky-theme-modern-tab-btn-padding-top-bottom
+    modernCompatVars.$sky-theme-modern-tab-btn-padding-left-right;
+  transition: box-shadow compatVars.$sky-transition-time-short;
+
+  &:hover:not(.sky-btn-tab-disabled):not(.sky-btn-tab-selected):not(.sky-dropdown-button-type-tab):not(:focus-visible) {
+    background-color: transparent;
+    border-bottom: solid 1px var(--sky-highlight-color-info);
+    color: var(--sky-text-color-default);
+    padding-bottom: modernCompatVars.$sky-theme-modern-tab-btn-padding-top-bottom -
+      1px;
+  }
+
+  &:focus-visible {
+    background-color: transparent;
+    color: var(--sky-text-color-default);
+    outline: none;
+  }
+
+  &:focus-visible:not(:active) {
+    color: var(--sky-text-color-default);
+    outline: solid 2px var(--sky-background-color-primary-dark);
+    outline-offset: -2px;
+    box-shadow: vars.$sky-theme-modern-elevation-3-shadow-size
+      vars.$sky-theme-modern-elevation-3-shadow-color;
+  }
+
+  &:active {
+    color: var(--sky-text-color-default);
+    padding-bottom: modernCompatVars.$sky-theme-modern-tab-btn-padding-top-bottom -
+      3px;
+  }
+
+  &.sky-btn-tab-disabled {
+    background-color: transparent;
+    @include compatMixins.sky-deemphasized;
+
+    .sky-btn-tab-close {
+      font-size: vars.$sky-theme-modern-font-body-default-size;
+    }
+  }
+}
+
+@mixin sky-theme-modern-btn-tab-selected {
+  background-color: transparent;
+  color: var(--sky-text-color-default);
+  box-shadow: none;
+
+  &:not(:active) {
+    border-bottom: solid 3px
+      vars.$sky-theme-modern-background-color-primary-dark;
+    padding-bottom: modernCompatVars.$sky-theme-modern-tab-btn-padding-top-bottom -
+      3px;
+  }
+
+  &:hover:not(.sky-btn-tab-disabled) {
+    background-color: transparent;
+    color: var(--sky-text-color-default);
+  }
+
+  .sky-btn-tab-close,
+  .sky-tab-header-count {
+    color: var(--sky-text-color-deemphasized);
+  }
+}
+
+@mixin sky-theme-modern-btn-tab-dropdown-item {
+  border-radius: 6px;
+  &:hover:not(.sky-btn-tab-disabled) {
+    background-color: transparent;
+    border-bottom: none;
+    outline: solid 1px var(--sky-background-color-primary-dark);
+    outline-offset: -1px;
+  }
+
+  &:focus-visible:not(:active) {
+    background-color: transparent;
+    box-shadow: vars.$sky-theme-modern-elevation-3-shadow-size
+      vars.$sky-theme-modern-elevation-3-shadow-color;
+    outline: solid 2px var(--sky-background-color-primary-dark);
+    outline-offset: -2px;
+  }
+}
+
+@mixin sky-theme-modern-btn-tab-selected-dropdown-item {
+  color: var(--sky-text-color-default);
+  border-bottom: none;
+  border-radius: 0 6px 6px 0;
+  border-left: solid 3px var(--sky-background-color-primary-dark);
+  padding-bottom: modernCompatVars.$sky-theme-modern-tab-btn-padding-top-bottom;
+  padding-left: compatVars.$sky-tab-btn-padding-left-right - 3px;
+}
+
+@mixin sky-theme-modern-dark-btn-tab-selected {
+  color: #fff;
+
+  &:hover {
+    color: #fff;
+  }
+
+  .sky-btn-tab-close,
+  .sky-tab-header-count {
+    color: #efefef;
+  }
+}
+
+@mixin sky-theme-modern-dark-btn-tab-dropdown-item {
+  background-color: #252a2e;
+}
+
+@mixin sky-theme-modern-dark-btn-tab-selected-dropdown-item {
+  background-color: #252a2e;
+  color: #fff;
+}

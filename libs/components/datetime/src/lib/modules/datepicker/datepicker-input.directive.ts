@@ -66,19 +66,20 @@ export class SkyDatepickerInputDirective
    * @default "MM/DD/YYYY"
    */
   @Input()
-  public set dateFormat(value: string) {
+  public set dateFormat(value: string | undefined) {
     /* istanbul ignore else */
-    if (value !== this._dateFormat) {
-      this._dateFormat = value;
-      this.applyDateFormat();
+    if (value !== this.#_dateFormat) {
+      this.#_dateFormat = value;
+      this.#applyDateFormat();
     }
   }
 
-  public get dateFormat(): string {
+  // TODO: Refactor to not have getter logic
+  public get dateFormat(): string | undefined {
     return (
-      this._dateFormat ||
-      this.configService.dateFormat ||
-      this.preferredShortDateFormat
+      this.#_dateFormat ||
+      this.#configService.dateFormat ||
+      this.#preferredShortDateFormat
     );
   }
 
@@ -87,22 +88,18 @@ export class SkyDatepickerInputDirective
    * @default false
    */
   @Input()
-  public set disabled(value: boolean) {
-    this._disabled = value;
-    this.datepickerComponent.disabled = value;
-    this.renderer.setProperty(this.elementRef.nativeElement, 'disabled', value);
+  public set disabled(value: boolean | undefined) {
+    this.#_disabled = value || false;
+    this.#datepickerComponent.disabled = value;
+    this.#renderer.setProperty(
+      this.#elementRef.nativeElement,
+      'disabled',
+      value
+    );
   }
 
   public get disabled(): boolean {
-    return this._disabled || false;
-  }
-
-  /**
-   * @internal
-   * Indicates if the input element or any of its children have focus.
-   */
-  public get inputIsFocused(): boolean {
-    return this.adapter.elementIsFocused();
+    return this.#_disabled;
   }
 
   /**
@@ -110,31 +107,33 @@ export class SkyDatepickerInputDirective
    * the `input` element to override the default in `SkyDatepickerConfigService`.
    */
   @Input()
-  public set maxDate(value: Date) {
-    this._maxDate = value;
-    this.datepickerComponent.maxDate = this.maxDate;
+  public set maxDate(value: Date | undefined) {
+    this.#_maxDate = value;
+    this.#datepickerComponent.maxDate = this.maxDate;
 
-    this.onValidatorChange();
+    this.#onValidatorChange();
   }
 
-  public get maxDate(): Date {
-    return this._maxDate || this.configService.maxDate;
+  // TODO: Refactor to not have getter logic
+  public get maxDate(): Date | undefined {
+    return this.#_maxDate || this.#configService.maxDate;
   }
 
   /**
    * Specifies the earliest date that is available in the calendar. Place this attribute on
-   * the `input` element to override the default in `SkyDatepickerConfigService`.
+   * the `input` element to override the default in `SkyDatepickerConfigService`. To avoid validation errors, the time associated with the minimum date must be midnight. This is necessary because the datepicker automatically sets the time on the `Date` object for selected dates to midnight in the current user's time zone.
    */
   @Input()
-  public set minDate(value: Date) {
-    this._minDate = value;
-    this.datepickerComponent.minDate = this.minDate;
+  public set minDate(value: Date | undefined) {
+    this.#_minDate = value;
+    this.#datepickerComponent.minDate = this.minDate;
 
-    this.onValidatorChange();
+    this.#onValidatorChange();
   }
 
-  public get minDate(): Date {
-    return this._minDate || this.configService.minDate;
+  // TODO: Refactor to not have getter logic
+  public get minDate(): Date | undefined {
+    return this.#_minDate || this.#configService.minDate;
   }
 
   /**
@@ -163,7 +162,7 @@ export class SkyDatepickerInputDirective
    * @default false
    */
   @Input()
-  public skyDatepickerNoValidate = false;
+  public skyDatepickerNoValidate: boolean | undefined = false;
 
   /**
    * Specifies the starting day of the week in the calendar, where `0` sets the starting day
@@ -172,15 +171,16 @@ export class SkyDatepickerInputDirective
    * @default 0
    */
   @Input()
-  public set startingDay(value: number) {
-    this._startingDay = value;
-    this.datepickerComponent.startingDay = this.startingDay;
+  public set startingDay(value: number | undefined) {
+    this.#_startingDay = value;
+    this.#datepickerComponent.startingDay = this.startingDay;
 
-    this.onValidatorChange();
+    this.#onValidatorChange();
   }
 
+  // TODO: Refactor to not have getter logic
   public get startingDay(): number {
-    return this._startingDay || this.configService.startingDay;
+    return this.#_startingDay || this.#configService.startingDay;
   }
 
   /**
@@ -192,91 +192,107 @@ export class SkyDatepickerInputDirective
    * @default false
    */
   @Input()
-  public set strict(value: boolean) {
-    this._strict = value;
+  public set strict(value: boolean | undefined) {
+    this.#_strict = value || false;
   }
 
   public get strict(): boolean {
-    return this._strict || false;
+    return this.#_strict;
   }
 
-  private get value(): any {
-    return this._value;
+  get #value(): any {
+    return this.#_value;
   }
 
-  private set value(value: any) {
-    this.updateValue(value);
+  set #value(value: any) {
+    this.#updateValue(value);
   }
 
-  private control: AbstractControl;
-  private dateFormatter = new SkyDateFormatter();
-  private initialPlaceholder: string;
-  private preferredShortDateFormat: string;
-  private ngUnsubscribe = new Subject<void>();
+  #control: AbstractControl | undefined;
+  #dateFormatter = new SkyDateFormatter();
+  #initialPlaceholder: string;
+  #preferredShortDateFormat: string | undefined;
+  #ngUnsubscribe = new Subject<void>();
 
-  private _dateFormat: string;
-  private _disabled: boolean;
-  private _maxDate: Date;
-  private _minDate: Date;
-  private _startingDay: number;
-  private _strict: boolean;
-  private _value: any;
+  #_dateFormat: string | undefined;
+  #_disabled = false;
+  #_maxDate: Date | undefined;
+  #_minDate: Date | undefined;
+  #_startingDay: number | undefined;
+  #_strict = false;
+  #_value: any;
+
+  #adapter: SkyDatepickerAdapterService;
+  #changeDetector: ChangeDetectorRef;
+  #configService: SkyDatepickerConfigService;
+  #elementRef: ElementRef;
+  #localeProvider: SkyAppLocaleProvider;
+  #renderer: Renderer2;
+  #resourcesService: SkyLibResourcesService;
+  #datepickerComponent: SkyDatepickerComponent;
 
   constructor(
-    private adapter: SkyDatepickerAdapterService,
-    private changeDetector: ChangeDetectorRef,
-    private configService: SkyDatepickerConfigService,
-    private elementRef: ElementRef,
-    private localeProvider: SkyAppLocaleProvider,
-    private renderer: Renderer2,
-    private resourcesService: SkyLibResourcesService,
-    @Optional() private datepickerComponent: SkyDatepickerComponent
+    adapter: SkyDatepickerAdapterService,
+    changeDetector: ChangeDetectorRef,
+    configService: SkyDatepickerConfigService,
+    elementRef: ElementRef,
+    localeProvider: SkyAppLocaleProvider,
+    renderer: Renderer2,
+    resourcesService: SkyLibResourcesService,
+    @Optional() datepickerComponent?: SkyDatepickerComponent
   ) {
-    this.initialPlaceholder = this.adapter.getPlaceholder(this.elementRef);
-    this.updatePlaceholder();
-
-    this.localeProvider
-      .getLocaleInfo()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((localeInfo) => {
-        SkyDateFormatter.setLocale(localeInfo.locale);
-        this.preferredShortDateFormat =
-          SkyDateFormatter.getPreferredShortDateFormat();
-        this.applyDateFormat();
-      });
-  }
-
-  public ngOnInit(): void {
-    if (!this.datepickerComponent) {
+    if (!datepickerComponent) {
       throw new Error(
         'You must wrap the `skyDatepickerInput` directive within a ' +
           '`<sky-datepicker>` component!'
       );
     }
+    this.#adapter = adapter;
+    this.#changeDetector = changeDetector;
+    this.#configService = configService;
+    this.#elementRef = elementRef;
+    this.#localeProvider = localeProvider;
+    this.#renderer = renderer;
+    this.#resourcesService = resourcesService;
+    this.#datepickerComponent = datepickerComponent;
+    this.#initialPlaceholder = this.#adapter.getPlaceholder(this.#elementRef);
+    this.#updatePlaceholder();
 
-    const element = this.elementRef.nativeElement;
+    this.#localeProvider
+      .getLocaleInfo()
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((localeInfo) => {
+        SkyDateFormatter.setLocale(localeInfo.locale);
+        this.#preferredShortDateFormat =
+          SkyDateFormatter.getPreferredShortDateFormat();
+        this.#applyDateFormat();
+      });
+  }
 
-    this.renderer.addClass(element, 'sky-form-control');
+  public ngOnInit(): void {
+    const element = this.#elementRef.nativeElement;
+
+    this.#renderer.addClass(element, 'sky-form-control');
 
     const hasAriaLabel = element.getAttribute('aria-label');
 
     if (!hasAriaLabel) {
-      this.resourcesService
+      this.#resourcesService
         .getString('skyux_date_field_default_label')
-        .pipe(takeUntil(this.ngUnsubscribe))
+        .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((value: string) => {
-          this.renderer.setAttribute(element, 'aria-label', value);
+          this.#renderer.setAttribute(element, 'aria-label', value);
         });
     }
   }
 
   public ngAfterContentInit(): void {
-    this.datepickerComponent.dateChange
+    this.#datepickerComponent.dateChange
       .pipe(distinctUntilChanged())
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((value: Date) => {
-        this.value = value;
-        this.onTouched();
+        this.#value = value;
+        this.#onTouched();
       });
   }
 
@@ -287,22 +303,20 @@ export class SkyDatepickerInputDirective
     // Of note is the parent check which allows us to determine if the form is reactive.
     // Without this check there is a changed before checked error
     /* istanbul ignore else */
-    if (this.control && this.control.parent) {
+    if (this.#control && this.#control.parent) {
       setTimeout(() => {
-        this.control.setValue(this.value, {
+        this.#control?.setValue(this.#value, {
           emitEvent: false,
         });
 
-        this.changeDetector.markForCheck();
+        this.#changeDetector.markForCheck();
       });
     }
-
-    this.adapter.init(this.elementRef);
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   @HostListener('change', ['$event'])
@@ -310,20 +324,20 @@ export class SkyDatepickerInputDirective
     const value = event.target.value;
 
     if (this.skyDatepickerNoValidate) {
-      this.onValueChange(value);
+      this.#onValueChange(value);
       return;
     }
 
     // Don't try to parse the string value into a Date value if it is malformed.
-    if (this.isDateStringValid(value)) {
-      this.onValueChange(value);
+    if (this.#isDateStringValid(value)) {
+      this.#onValueChange(value);
       return;
     }
 
-    this._value = value;
-    this.onChange(value);
+    this.#_value = value;
+    this.#onChange(value);
 
-    this.control.setErrors({
+    this.#control?.setErrors({
       skyDate: {
         invalid: true,
       },
@@ -332,44 +346,44 @@ export class SkyDatepickerInputDirective
 
   @HostListener('blur')
   public onInputBlur(): void {
-    this.onTouched();
+    this.#onTouched();
   }
 
   @HostListener('input')
   public onInput(): void {
-    this.control.markAsDirty();
+    this.#control?.markAsDirty();
   }
 
   public writeValue(value: any): void {
-    this.updateValue(value, false);
+    this.#updateValue(value, false);
   }
 
-  public validate(control: AbstractControl): ValidationErrors {
-    if (!this.control) {
-      this.control = control;
+  public validate(control: AbstractControl): ValidationErrors | null {
+    if (!this.#control) {
+      this.#control = control;
       // Account for any date conversion that may have occurred prior to validation.
-      if (this.control.value !== this.value) {
-        this.control.patchValue(this.value, { emitEvent: false });
+      if (this.#control.value !== this.#value) {
+        this.#control.patchValue(this.#value, { emitEvent: false });
       }
     }
 
     if (this.skyDatepickerNoValidate) {
-      return;
+      return null;
     }
 
     const value: unknown = control.value;
 
     if (!value) {
-      return;
+      return null;
     }
 
     if (value instanceof Date) {
-      const isDateValid = this.dateFormatter.dateIsValid(value);
+      const isDateValid = this.#dateFormatter.dateIsValid(value);
 
       if (!isDateValid) {
         // Mark the invalid control as touched so that the input's invalid CSS styles appear.
         // (This is only required when the invalid value is set by the FormControl constructor.)
-        this.control.markAsTouched();
+        this.#control.markAsTouched();
 
         return {
           skyDate: {
@@ -382,7 +396,7 @@ export class SkyDatepickerInputDirective
 
       if (
         minDate &&
-        this.dateFormatter.dateIsValid(minDate) &&
+        this.#dateFormatter.dateIsValid(minDate) &&
         value < minDate
       ) {
         return {
@@ -396,7 +410,7 @@ export class SkyDatepickerInputDirective
 
       if (
         maxDate &&
-        this.dateFormatter.dateIsValid(maxDate) &&
+        this.#dateFormatter.dateIsValid(maxDate) &&
         value > maxDate
       ) {
         return {
@@ -408,7 +422,7 @@ export class SkyDatepickerInputDirective
     } else {
       // Mark the invalid control as touched so that the input's invalid CSS styles appear.
       // (This is only required when the invalid value is set by the FormControl constructor.)
-      this.control.markAsTouched();
+      this.#control.markAsTouched();
 
       return {
         skyDate: {
@@ -416,23 +430,24 @@ export class SkyDatepickerInputDirective
         },
       };
     }
+    return null;
   }
 
   public registerOnChange(fn: (value: any) => void): void {
-    this.onChange = fn;
+    this.#onChange = fn;
   }
 
   public registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
+    this.#onTouched = fn;
   }
 
   public registerOnValidatorChange(fn: () => void): void {
-    this.onValidatorChange = fn;
+    this.#onValidatorChange = fn;
   }
 
   public setDisabledState(disabled: boolean): void {
     this.disabled = disabled;
-    this.datepickerComponent.disabled = disabled;
+    this.#datepickerComponent.disabled = disabled;
   }
 
   /**
@@ -440,27 +455,27 @@ export class SkyDatepickerInputDirective
    * This is useful if you need to update the ngModel value before the input element loses focus.
    */
   public detectInputValueChange(): void {
-    this.onValueChange(this.elementRef.nativeElement.value);
+    this.#onValueChange(this.#elementRef.nativeElement.value);
   }
 
-  private applyDateFormat(): void {
-    this.updatePlaceholder();
-    if (this.value) {
-      const formattedDate = this.dateFormatter.format(
-        this.value,
+  #applyDateFormat(): void {
+    this.#updatePlaceholder();
+    if (this.#value) {
+      const formattedDate = this.#dateFormatter.format(
+        this.#value,
         this.dateFormat
       );
-      this.setInputElementValue(formattedDate);
-      this.changeDetector.markForCheck();
+      this.#setInputElementValue(formattedDate);
+      this.#changeDetector.markForCheck();
     }
   }
 
-  private onValueChange(newValue: string): void {
-    this.value = newValue;
+  #onValueChange(newValue: string): void {
+    this.#value = newValue;
   }
 
-  private setInputElementValue(value: string): void {
-    this.renderer.setProperty(this.elementRef.nativeElement, 'value', value);
+  #setInputElementValue(value: string): void {
+    this.#renderer.setProperty(this.#elementRef.nativeElement, 'value', value);
   }
 
   /**
@@ -468,12 +483,13 @@ export class SkyDatepickerInputDirective
    * Will not convert unconvertable dates or numbers outside of the current month's number of days.
    * Returns `undefined` if the value can not be converted.
    */
-  private getDateValue(value: unknown): Date | undefined {
+  #getDateValue(value: unknown): Date | undefined {
     if (value instanceof Date) {
       return value;
     } else if (typeof value === 'string') {
-      return this.getShortcutOrDateValue(value);
+      return this.#getShortcutOrDateValue(value);
     }
+    return undefined;
   }
 
   /**
@@ -481,24 +497,24 @@ export class SkyDatepickerInputDirective
    * It will also convert numeric input to a date if that number is within the current month's number of days.
    * If the string can not be converted, `undefined` be returned.
    */
-  private getShortcutOrDateValue(value: string): Date | undefined {
+  #getShortcutOrDateValue(value: string): Date | undefined {
     const num = Number(value);
     if (Number.isInteger(num)) {
       // We require 8 digits in order to know that we have all information needed to determine what part of the number is the month (2), day (2), and year (4).
       if (value.length === 8) {
         const regex = new RegExp(/\b(MM)\b|\b(DD)\b|\b(YY)\b|\b(YYYY)\b/, 'g');
         const formatTokensOnly = this.dateFormat
-          .match(regex)
-          .join('')
+          ?.match(regex)
+          ?.join('')
           .replace(new RegExp(/Y+/), 'YYYY');
 
-        if (formatTokensOnly.length === 8) {
-          const date = this.dateFormatter.getDateFromString(
+        if (formatTokensOnly && formatTokensOnly.length === 8) {
+          const date = this.#dateFormatter.getDateFromString(
             value,
             formatTokensOnly,
             true
           );
-          if (this.dateFormatter.dateIsValid(date)) {
+          if (this.#dateFormatter.dateIsValid(date)) {
             return date;
           }
         }
@@ -510,21 +526,22 @@ export class SkyDatepickerInputDirective
         return shortcutDate;
       }
     } else {
-      const date = this.dateFormatter.getDateFromString(
+      const date = this.#dateFormatter.getDateFromString(
         value,
         this.dateFormat,
         this.strict
       );
-      if (this.dateFormatter.dateIsValid(date)) {
+      if (this.#dateFormatter.dateIsValid(date)) {
         return date;
       }
     }
+    return undefined;
   }
 
   /**
    * Validates the input value to ensure it is formatted correctly.
    */
-  private isDateStringValid(value: string): boolean {
+  #isDateStringValid(value: string): boolean {
     if (!value || typeof value !== 'string') {
       return true;
     }
@@ -545,17 +562,17 @@ export class SkyDatepickerInputDirective
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   // istanbul ignore next
-  private onChange = (_: any) => {};
+  #onChange = (_: any) => {};
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   // istanbul ignore next
-  private onTouched = () => {};
+  #onTouched = () => {};
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   // istanbul ignore next
-  private onValidatorChange = () => {};
+  #onValidatorChange = () => {};
 
-  private updatePlaceholder(): void {
-    if (!this.initialPlaceholder) {
-      this.adapter.setPlaceholder(this.elementRef, this.dateFormat);
+  #updatePlaceholder(): void {
+    if (!this.#initialPlaceholder && this.dateFormat) {
+      this.#adapter.setPlaceholder(this.#elementRef, this.dateFormat);
     }
   }
 
@@ -564,55 +581,55 @@ export class SkyDatepickerInputDirective
    * @param emitEvent Denotes if we emit an event to the consumer's form control. We do not want to do this if the value is being updated via a `setValue` call or a `patchValue` call as this is already handled by Angular.
    * In these cases we do not want to fire `onChange` as it will cause extra `valueChange` and `statusChange` events and the status of the form should not be affected by these changes.
    */
-  private updateValue(value: any, emitEvent = true): void {
-    if (this._value === value) {
+  #updateValue(value: any, emitEvent = true): void {
+    if (this.#_value === value) {
       return;
     }
 
-    const isValidDateString = this.isDateStringValid(value);
+    const isValidDateString = this.#isDateStringValid(value);
 
     // If the string value supplied is malformed, do not set the value to its Date equivalent.
     // (JavaScript's Date parser will convert poorly formatted dates to Date objects, such as "abc 123", which isn't ideal.)
     if (!isValidDateString) {
-      this._value = value;
+      this.#_value = value;
       if (emitEvent) {
-        this.onChange(this._value);
+        this.#onChange(this.#_value);
       } else {
-        this.control?.setValue(this._value, { emitEvent: false });
+        this.#control?.setValue(this.#_value, { emitEvent: false });
       }
 
-      this.datepickerComponent.selectedDate = this._value;
+      this.#datepickerComponent.selectedDate = this.#_value;
 
-      this.setInputElementValue(value || '');
+      this.#setInputElementValue(value);
     } else {
       // This value represents the date value for the input if possible.
       // This value will take into account all shortcut functionality.
-      const dateValue: Date | undefined = this.getDateValue(value);
+      const dateValue: Date | undefined = this.#getDateValue(value);
 
       const areDatesEqual =
-        this._value instanceof Date &&
+        this.#_value instanceof Date &&
         dateValue &&
-        dateValue.getTime() === this._value.getTime();
+        dateValue.getTime() === this.#_value.getTime();
 
-      if (dateValue !== this._value || !areDatesEqual) {
-        this._value = dateValue || value;
+      if (dateValue !== this.#_value || !areDatesEqual) {
+        this.#_value = dateValue || value;
         if (emitEvent) {
-          this.onChange(this._value);
+          this.#onChange(this.#_value);
         } else {
-          this.control?.setValue(this._value, { emitEvent: false });
+          this.#control?.setValue(this.#_value, { emitEvent: false });
         }
 
-        this.datepickerComponent.selectedDate = this._value;
+        this.#datepickerComponent.selectedDate = this.#_value;
       }
 
       if (dateValue) {
-        const formattedDateString = this.dateFormatter.format(
+        const formattedDateString = this.#dateFormatter.format(
           dateValue,
           this.dateFormat
         );
-        this.setInputElementValue(formattedDateString);
+        this.#setInputElementValue(formattedDateString);
       } else {
-        this.setInputElementValue(value || '');
+        this.#setInputElementValue(value || '');
       }
     }
   }

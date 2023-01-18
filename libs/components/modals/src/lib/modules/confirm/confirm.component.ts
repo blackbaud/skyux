@@ -1,7 +1,8 @@
-import { Component, Inject, Optional } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { SkyIdService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
-import { Observable, ReplaySubject, zip as observableZip } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { SkyModalInstance } from '../modal/modal-instance';
@@ -22,6 +23,7 @@ export class SkyConfirmComponent {
   public buttons: SkyConfirmButton[] | undefined;
   public message: string;
   public body: string | undefined;
+  public bodyId: string;
   public preserveWhiteSpace = false;
   public isOkType = false;
 
@@ -33,11 +35,12 @@ export class SkyConfirmComponent {
     @Inject(SKY_CONFIRM_CONFIG)
     config: SkyConfirmConfig,
     modal: SkyModalInstance,
-    @Optional() resourcesService: SkyLibResourcesService
+    resourcesService: SkyLibResourcesService,
+    idService: SkyIdService
   ) {
     this.#config = config;
     this.#modal = modal;
-    this.#resourcesService = resourcesService!;
+    this.#resourcesService = resourcesService;
 
     if (
       config.type === SkyConfirmType.Custom &&
@@ -55,11 +58,13 @@ export class SkyConfirmComponent {
 
     this.message = config.message;
     this.body = config.body;
+    // Using the service here instead of the directive due to the confirm component's "body" container being conditional and thus a template variable being unavailable at an outer scope
+    this.bodyId = idService.generateId();
     this.preserveWhiteSpace = !!config.preserveWhiteSpace;
     this.isOkType = config.type === SkyConfirmType.OK;
   }
 
-  public close(button: SkyConfirmButton) {
+  public close(button: SkyConfirmButton): void {
     const result: SkyConfirmCloseEventArgs = {
       action: button.action,
     };
@@ -70,81 +75,51 @@ export class SkyConfirmComponent {
   #getPresetButtons(): Observable<SkyConfirmButton[]> {
     const emitter = new ReplaySubject<SkyConfirmButton[]>(1);
 
-    switch (this.#config.type) {
-      default:
-      case SkyConfirmType.OK:
-        this.#resourcesService
-          .getString('skyux_confirm_dialog_default_ok_text')
-          .subscribe((value: string) => {
-            emitter.next([
-              {
-                text: value,
-                autofocus: true,
-                styleType: 'primary',
-                action: 'ok',
-              },
-            ]);
-          });
-        break;
+    this.#resourcesService
+      .getStrings({
+        cancel: 'skyux_confirm_dialog_default_cancel_text',
+        no: 'skyux_confirm_dialog_default_no_text',
+        ok: 'skyux_confirm_dialog_default_ok_text',
+        yes: 'skyux_confirm_dialog_default_yes_text',
+      })
+      .subscribe((values) => {
+        const confirmButtons: SkyConfirmButton[] = [];
 
-      case SkyConfirmType.YesNoCancel:
-        observableZip(
-          this.#resourcesService.getString(
-            'skyux_confirm_dialog_default_yes_text'
-          ),
-          this.#resourcesService.getString(
-            'skyux_confirm_dialog_default_no_text'
-          ),
-          this.#resourcesService.getString(
-            'skyux_confirm_dialog_default_cancel_text'
-          )
-        ).subscribe((values: any) => {
-          emitter.next([
-            {
-              text: values[0],
+        switch (this.#config.type) {
+          case SkyConfirmType.YesNoCancel:
+          case SkyConfirmType.YesCancel:
+            confirmButtons.push({
+              text: values.yes,
               autofocus: true,
               styleType: 'primary',
               action: 'yes',
-            },
-            {
-              text: values[1],
-              styleType: 'default',
-              action: 'no',
-            },
-            {
-              text: values[2],
+            });
+
+            if (this.#config.type === SkyConfirmType.YesNoCancel) {
+              confirmButtons.push({
+                text: values.no,
+                styleType: 'default',
+                action: 'no',
+              });
+            }
+
+            confirmButtons.push({
+              text: values.cancel,
               styleType: 'link',
               action: 'cancel',
-            },
-          ]);
-        });
-        break;
-
-      case SkyConfirmType.YesCancel:
-        observableZip(
-          this.#resourcesService.getString(
-            'skyux_confirm_dialog_default_yes_text'
-          ),
-          this.#resourcesService.getString(
-            'skyux_confirm_dialog_default_cancel_text'
-          )
-        ).subscribe((values: any) => {
-          emitter.next([
-            {
-              text: values[0],
+            });
+            break;
+          default:
+            confirmButtons.push({
+              text: values.ok,
               autofocus: true,
               styleType: 'primary',
-              action: 'yes',
-            },
-            {
-              text: values[1],
-              styleType: 'link',
-              action: 'cancel',
-            },
-          ]);
-        });
-        break;
-    }
+              action: 'ok',
+            });
+        }
+
+        emitter.next(confirmButtons);
+      });
 
     return emitter.asObservable();
   }
@@ -152,17 +127,14 @@ export class SkyConfirmComponent {
   #getCustomButtons(
     buttonConfig: SkyConfirmButtonConfig[]
   ): SkyConfirmButton[] {
-    const buttons: SkyConfirmButton[] = [];
-
-    buttonConfig.forEach((config: SkyConfirmButtonConfig) => {
-      buttons.push({
-        text: config.text,
-        action: config.action,
-        styleType: config.styleType || 'default',
-        autofocus: config.autofocus || false,
-      } as SkyConfirmButton);
-    });
-
-    return buttons;
+    return buttonConfig.map(
+      (config) =>
+        ({
+          text: config.text,
+          action: config.action,
+          styleType: config.styleType || 'default',
+          autofocus: config.autofocus || false,
+        } as SkyConfirmButton)
+    );
   }
 }

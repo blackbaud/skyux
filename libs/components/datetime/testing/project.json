@@ -1,4 +1,5 @@
 {
+  "name": "datetime-testing",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/components/datetime/testing/src",

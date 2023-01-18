@@ -21,7 +21,7 @@
             <button
               *ngIf="!editItem.isDivider"
               type="button"
-              (click)="editItem.function()"
+              (click)="editItem?.function()"
             >
               {{ editItem.label }}
               <div
@@ -61,7 +61,7 @@
             <button
               *ngIf="!formatItem.isDivider"
               type="button"
-              (click)="formatItem.function()"
+              (click)="formatItem?.function()"
             >
               {{ formatItem.label }}
               <div

@@ -12,6 +12,8 @@ export class CheckboxComponent implements OnInit {
 
   public bar: boolean;
 
+  public indeterminate = false;
+
   public reactiveFormGroup: UntypedFormGroup;
 
   public required = true;
@@ -28,6 +30,10 @@ export class CheckboxComponent implements OnInit {
     this.reactiveFormGroup = this.#formBuilder.group({
       reactiveCheckbox: [undefined],
     });
+  }
+
+  public toggleIndeterminate(): void {
+    this.indeterminate = !this.indeterminate;
   }
 
   public toggleRequired(): void {

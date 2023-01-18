@@ -40,7 +40,7 @@ export class SkyDescriptionListComponent
    */
   @Input()
   public set defaultDescription(value: string) {
-    this.descriptionListService.updateDefaultDescription(value);
+    this.#descriptionListService.updateDefaultDescription(value);
   }
 
   /**
@@ -78,16 +78,24 @@ export class SkyDescriptionListComponent
   #ngUnsubscribe = new Subject<void>();
   #_mode: SkyDescriptionListModeType = 'vertical';
 
+  #adapterService: SkyDescriptionListAdapterService;
+  #changeDetector: ChangeDetectorRef;
+  #descriptionListService: SkyDescriptionListService;
+
   constructor(
-    private adapterService: SkyDescriptionListAdapterService,
-    private changeDetector: ChangeDetectorRef,
-    private descriptionListService: SkyDescriptionListService
-  ) {}
+    adapterService: SkyDescriptionListAdapterService,
+    changeDetector: ChangeDetectorRef,
+    descriptionListService: SkyDescriptionListService
+  ) {
+    this.#adapterService = adapterService;
+    this.#changeDetector = changeDetector;
+    this.#descriptionListService = descriptionListService;
+  }
 
   public ngAfterContentInit(): void {
     // Wait for all content to render before detecting parent width.
     setTimeout(() => {
-      this.updateResponsiveClass();
+      this.#updateResponsiveClass();
     });
 
     // istanbul ignore else
@@ -95,7 +103,7 @@ export class SkyDescriptionListComponent
       this.contentComponents.changes
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe(() => {
-          this.changeDetector.markForCheck();
+          this.#changeDetector.markForCheck();
         });
     }
   }
@@ -107,13 +115,13 @@ export class SkyDescriptionListComponent
 
   @HostListener('window:resize')
   public onWindowResize(): void {
-    this.updateResponsiveClass();
+    this.#updateResponsiveClass();
   }
 
-  private updateResponsiveClass(): void {
+  #updateResponsiveClass(): void {
     if (this.elementRef) {
-      this.adapterService.setResponsiveClass(this.elementRef);
-      this.changeDetector.markForCheck();
+      this.#adapterService.setResponsiveClass(this.elementRef);
+      this.#changeDetector.markForCheck();
     }
   }
 }

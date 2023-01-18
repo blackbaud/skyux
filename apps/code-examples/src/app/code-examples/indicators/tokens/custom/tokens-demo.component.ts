@@ -15,9 +15,9 @@ import { TokensDemoItem } from './tokens-demo-item';
   templateUrl: './tokens-demo.component.html',
 })
 export class TokensDemoComponent implements OnDestroy {
-  public myTokens: SkyToken<TokensDemoItem>[];
+  public myTokens: SkyToken<TokensDemoItem>[] | undefined;
   public tokensController = new Subject<SkyTokensMessage>();
-  public selectedToken = '';
+  public selectedToken: string | undefined = '';
 
   #defaultItems: TokensDemoItem[] = [
     { label: 'Canada' },
@@ -57,7 +57,7 @@ export class TokensDemoComponent implements OnDestroy {
   public onTokenSelected(
     args: SkyTokenSelectedEventArgs<TokensDemoItem>
   ): void {
-    this.selectedToken = args.token.value.label;
+    this.selectedToken = args.token?.value.label;
   }
 
   public onFocusIndexUnderRange(): void {

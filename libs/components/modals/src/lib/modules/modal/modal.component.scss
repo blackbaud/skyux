@@ -1,9 +1,8 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
-@import 'libs/components/theme/src/lib/styles/variables';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-modal {
-  @include sky-border(dark, top, bottom, left, right);
+  @include mixins.sky-border(dark, top, bottom, left, right);
   position: fixed;
   width: auto;
   left: 0;
@@ -72,7 +71,7 @@
   background-color: $sky-background-color-neutral-light;
 
   ::ng-deep .sky-tile-title {
-    @include sky-subsection-heading();
+    @include mixins.sky-subsection-heading();
   }
 }
 
@@ -87,7 +86,7 @@
 
   display: flex;
   align-items: baseline;
-  @include sky-border(light, bottom);
+  @include mixins.sky-border(light, bottom);
 }
 
 .sky-modal-header-buttons {
@@ -97,7 +96,7 @@
 
   .sky-btn {
     border: none;
-    @include sky-icon-button-borderless;
+    @include mixins.sky-icon-button-borderless;
   }
 }
 
@@ -107,15 +106,19 @@
 
 .sky-modal-header {
   flex-shrink: 0;
+  position: relative;
   z-index: 2;
 }
 
 .sky-modal-content {
   overflow-y: auto;
+  position: relative;
+  z-index: 1;
 }
 
 .sky-modal-footer {
   flex-shrink: 0;
+  position: relative;
   z-index: 2;
 
   ::ng-deep .sky-btn + .sky-btn {
@@ -154,7 +157,7 @@
   width: calc(100% + 30px);
 }
 
-@include sky-theme-modern {
+@include mixins.sky-theme-modern {
   .sky-modal-header {
     border: none;
     padding: $sky-theme-modern-space-lg $sky-theme-modern-space-xl;
@@ -199,7 +202,7 @@
   }
 }
 
-@include sky-theme-modern-dark {
+@include mixins.sky-theme-modern-dark {
   .sky-modal {
     border-color: $sky-theme-modern-mode-dark-background-color-page-default;
   }

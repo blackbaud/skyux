@@ -14,7 +14,7 @@
     (popoverOpened)="onPopoverOpened()"
     #dayInfoPopover
   >
-    <div *ngFor="let text of date.keyDateText">
+    <div *ngFor="let text of date?.keyDateText">
       {{ text }}
     </div>
   </sky-popover>

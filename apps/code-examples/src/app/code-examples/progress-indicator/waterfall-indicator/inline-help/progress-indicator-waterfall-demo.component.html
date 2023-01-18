@@ -10,7 +10,10 @@
   </sky-progress-indicator-title>
 
   <sky-progress-indicator-item title="Configure connection">
-    <sky-help-inline class="sky-control-help"></sky-help-inline>
+    <sky-help-inline
+      class="sky-control-help"
+      (actionClick)="onActionClick()"
+    ></sky-help-inline>
     <div>
       <button
         *ngIf="activeIndex === 0"
@@ -21,7 +24,7 @@
         Set up connection
       </button>
       <button
-        *ngIf="activeIndex > 0"
+        *ngIf="activeIndex && activeIndex > 0"
         class="sky-btn sky-btn-link"
         type="button"
         (click)="configureConnection(false)"
@@ -32,8 +35,11 @@
   </sky-progress-indicator-item>
 
   <sky-progress-indicator-item title="Select remote server">
-    <sky-help-inline class="sky-control-help"></sky-help-inline>
-    <div *ngIf="activeIndex >= 1">
+    <sky-help-inline
+      class="sky-control-help"
+      (actionClick)="onActionClick()"
+    ></sky-help-inline>
+    <div *ngIf="activeIndex && activeIndex >= 1">
       <button
         *ngIf="activeIndex === 1"
         class="sky-btn sky-btn-primary"
@@ -54,8 +60,11 @@
   </sky-progress-indicator-item>
 
   <sky-progress-indicator-item title="Test connection">
-    <sky-help-inline class="sky-control-help"></sky-help-inline>
-    <div *ngIf="activeIndex >= 2">
+    <sky-help-inline
+      class="sky-control-help"
+      (actionClick)="onActionClick()"
+    ></sky-help-inline>
+    <div *ngIf="activeIndex && activeIndex >= 2">
       <button
         *ngIf="activeIndex === 2"
         class="sky-btn sky-btn-primary"
@@ -76,8 +85,11 @@
   </sky-progress-indicator-item>
 
   <sky-progress-indicator-item title="Turn on connection">
-    <sky-help-inline class="sky-control-help"></sky-help-inline>
-    <div *ngIf="activeIndex >= 3">
+    <sky-help-inline
+      class="sky-control-help"
+      (actionClick)="onActionClick()"
+    ></sky-help-inline>
+    <div *ngIf="activeIndex && activeIndex >= 3">
       <button
         *ngIf="activeIndex === 3"
         class="sky-btn sky-btn-primary"

@@ -8,6 +8,7 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyAffixer, SkyOverlayService } from '@skyux/core';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -40,7 +41,7 @@ describe('Colorpicker Component', () => {
     return document.querySelector('.sky-colorpicker-container') as HTMLElement;
   }
 
-  function openColorpicker(element: HTMLElement) {
+  function openColorpicker(element: HTMLElement): void {
     tick();
     fixture.detectChanges();
     verifyMenuVisibility(false);
@@ -70,7 +71,7 @@ describe('Colorpicker Component', () => {
     return buttonElem.style.backgroundColor;
   }
 
-  function applyColorpicker() {
+  function applyColorpicker(): void {
     const buttonElem = getColorpickerContainer().querySelector(
       '.sky-btn-colorpicker-apply'
     ) as HTMLElement;
@@ -82,7 +83,7 @@ describe('Colorpicker Component', () => {
   function closeColorpicker(
     element: HTMLElement,
     compFixture: ComponentFixture<ColorpickerTestComponent>
-  ) {
+  ): void {
     const buttonElem = getColorpickerContainer().querySelector(
       '.sky-btn-colorpicker-close'
     ) as HTMLElement;
@@ -91,7 +92,7 @@ describe('Colorpicker Component', () => {
     fixture.detectChanges();
   }
 
-  function verifyMenuVisibility(isVisible = true) {
+  function verifyMenuVisibility(isVisible = true): void {
     const popoverElem = getColorpickerContainer();
 
     if (!isVisible) {
@@ -108,7 +109,7 @@ describe('Colorpicker Component', () => {
     element: HTMLElement,
     compFixture: ComponentFixture<any>,
     key: number
-  ) {
+  ): void {
     const container = getColorpickerContainer();
     const presetColors = container?.querySelectorAll(
       '.sky-preset-color'
@@ -122,7 +123,7 @@ describe('Colorpicker Component', () => {
     compFixture.detectChanges();
   }
 
-  function keyHelper(keyName: string | undefined) {
+  function keyHelper(keyName: string | undefined): void {
     SkyAppTestUtility.fireDomEvent(window.document, 'keydown', {
       customEventInit: {
         key: keyName,
@@ -130,7 +131,7 @@ describe('Colorpicker Component', () => {
     });
   }
 
-  function mouseHelper(x: number, y: number, event: string) {
+  function mouseHelper(x: number, y: number, event: string): void {
     const document = nativeElement.parentNode?.parentNode
       ?.parentNode as Document;
 
@@ -170,7 +171,7 @@ describe('Colorpicker Component', () => {
     element: HTMLElement,
     spaColor: string,
     test: string
-  ) {
+  ): void {
     fixture.detectChanges();
     fixture.whenStable();
     const inputElement: HTMLInputElement | null =
@@ -210,7 +211,7 @@ describe('Colorpicker Component', () => {
     element: HTMLElement,
     name: string,
     value: string
-  ) {
+  ): void {
     fixture.detectChanges();
     fixture.whenStable();
     const inputElement: NodeListOf<Element> =
@@ -1119,6 +1120,16 @@ describe('Colorpicker Component', () => {
       verifyColorpicker(nativeElement, '#2b7230', '43, 114, 48');
     }));
 
+    it('should update the reactive form value when the user applies a color change', fakeAsync(() => {
+      component.selectedOutputFormat = 'hex';
+      fixture.detectChanges();
+      openColorpicker(nativeElement);
+      setInputElementValue(nativeElement, 'hex', '#2B7230');
+      applyColorpicker();
+      fixture.whenStable();
+      expect(component.colorForm.get('colorModel')?.value.hex).toBe('#2b7230');
+    }));
+
     it('should reset colorpicker via reset button.', fakeAsync(() => {
       fixture.detectChanges();
       const spyOnResetColorPicker = spyOn(
@@ -1186,7 +1197,8 @@ describe('Colorpicker Component', () => {
 
     it('should only emit the form control valueChanged event once per change', (done) => {
       fixture.detectChanges();
-      const callback = function () {};
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      const callback = function (): void {};
       const callbackSpy = jasmine.createSpy('callback', callback);
       component.colorForm.valueChanges.subscribe(() => {
         callbackSpy();
@@ -1205,8 +1217,8 @@ describe('Colorpicker Component', () => {
       tick();
 
       const overlaySpy = spyOn(
-        component.colorpickerComponent as any,
-        'createOverlay'
+        TestBed.inject(SkyOverlayService),
+        'create'
       ).and.callThrough();
 
       component.sendMessage(SkyColorpickerMessageType.Open);
@@ -1235,8 +1247,8 @@ describe('Colorpicker Component', () => {
       verifyMenuVisibility();
 
       const overlaySpy = spyOn(
-        component.colorpickerComponent as any,
-        'destroyOverlay'
+        SkyAffixer.prototype,
+        'destroy'
       ).and.callThrough();
 
       component.sendMessage(SkyColorpickerMessageType.Close);

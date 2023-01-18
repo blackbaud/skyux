@@ -9,12 +9,13 @@ import {
 } from '@angular/core';
 
 import { AgGridAngular } from 'ag-grid-angular';
-import { GridOptions } from 'ag-grid-community';
+import { ColDef, GridOptions } from 'ag-grid-community';
 
 import { SkyAgGridService } from '../ag-grid.service';
 import { SkyCellType } from '../types/cell-type';
 
 import { SKY_AG_GRID_DATA, SKY_AG_GRID_LOOKUP } from './ag-grid-data.fixture';
+import { FirstInlineHelpComponent } from './inline-help.component';
 
 export const EnableTopScroll = new InjectionToken('EnableTopScroll');
 
@@ -25,10 +26,10 @@ export const EnableTopScroll = new InjectionToken('EnableTopScroll');
 })
 export class SkyAgGridFixtureComponent implements OnInit {
   @ViewChild('agGrid', { static: true })
-  public agGrid: AgGridAngular;
+  public agGrid: AgGridAngular | undefined;
 
   public gridData = SKY_AG_GRID_DATA;
-  public columnDefs = [
+  public columnDefs: ColDef[] = [
     {
       field: 'selected',
       headerName: '',
@@ -39,6 +40,9 @@ export class SkyAgGridFixtureComponent implements OnInit {
     {
       field: 'name',
       headerName: 'First Name',
+      headerComponentParams: {
+        inlineHelpComponent: FirstInlineHelpComponent,
+      },
     },
     {
       field: 'nickname',
@@ -51,35 +55,53 @@ export class SkyAgGridFixtureComponent implements OnInit {
       headerName: 'Current Value',
       editable: true,
       type: SkyCellType.Number,
+      headerComponentParams: {
+        inlineHelpComponent: FirstInlineHelpComponent,
+      },
     },
     {
       field: 'target',
       headerName: 'Goal',
       type: SkyCellType.Number,
+      headerComponentParams: {
+        inlineHelpComponent: FirstInlineHelpComponent,
+      },
     },
     {
       field: 'date',
       headerName: 'Completed Date',
       editable: true,
       type: SkyCellType.Date,
+      headerComponentParams: {
+        inlineHelpComponent: FirstInlineHelpComponent,
+      },
     },
     {
       field: 'currency',
       headerName: 'Currency amount',
       editable: true,
       type: SkyCellType.Currency,
+      headerComponentParams: {
+        inlineHelpComponent: FirstInlineHelpComponent,
+      },
     },
     {
       field: 'validNumber',
       headerName: 'Valid number',
       editable: true,
       type: SkyCellType.NumberValidator,
+      headerComponentParams: {
+        inlineHelpComponent: FirstInlineHelpComponent,
+      },
     },
     {
       field: 'validCurrency',
       headerName: 'Valid currency',
       editable: true,
       type: SkyCellType.Currency,
+      headerComponentParams: {
+        inlineHelpComponent: FirstInlineHelpComponent,
+      },
     },
     {
       field: 'validDate',
@@ -88,12 +110,15 @@ export class SkyAgGridFixtureComponent implements OnInit {
       type: [SkyCellType.Date, SkyCellType.Validator],
       cellRendererParams: {
         skyComponentProperties: {
-          validator: (value: Date) => {
+          validator: (value: Date): boolean => {
             const dt = new Date(1985, 10, 5, 12);
             return !!value && value > dt;
           },
           validatorMessage: 'Please enter a future date',
         },
+      },
+      headerComponentParams: {
+        inlineHelpComponent: FirstInlineHelpComponent,
       },
     },
     {
@@ -115,6 +140,9 @@ export class SkyAgGridFixtureComponent implements OnInit {
         skyComponentProperties: {
           descriptorProperty: 'name',
         },
+      },
+      headerComponentParams: {
+        inlineHelpComponent: FirstInlineHelpComponent,
       },
     },
     {
@@ -138,6 +166,9 @@ export class SkyAgGridFixtureComponent implements OnInit {
           descriptorProperty: 'name',
         },
       },
+      headerComponentParams: {
+        inlineHelpComponent: FirstInlineHelpComponent,
+      },
     },
   ];
 
@@ -149,15 +180,19 @@ export class SkyAgGridFixtureComponent implements OnInit {
     },
   };
 
+  #gridService: SkyAgGridService;
+
   constructor(
-    private gridService: SkyAgGridService,
+    gridService: SkyAgGridService,
     @Optional()
     @Inject(EnableTopScroll)
     public enableTopScroll: boolean | undefined
-  ) {}
+  ) {
+    this.#gridService = gridService;
+  }
 
   public ngOnInit(): void {
-    this.gridOptions = this.gridService.getEditableGridOptions({
+    this.gridOptions = this.#gridService.getEditableGridOptions({
       gridOptions: this.gridOptions,
     });
   }

@@ -26,11 +26,11 @@ const DATA_SKY_ID = 'test-paging';
   `,
 })
 class PagingTestComponent {
-  public currentPage: number = 1;
-  public itemCount: number = 8;
-  public maxPages: number = 3; // only show 3 pages in pager
-  public pageLabel: string;
-  public pageSize: number = 2; // 4 total pages
+  public currentPage = 1;
+  public itemCount = 8;
+  public maxPages = 3; // only show 3 pages in pager
+  public pageLabel: string | undefined;
+  public pageSize = 2; // 4 total pages
 
   public currentPageChange(currentPage: number): void {}
 }
@@ -43,14 +43,14 @@ describe('Paging fixture', () => {
 
   //#region helpers
 
-  function getLastPage() {
+  function getLastPage(): number {
     return Math.ceil(testComponent.itemCount / testComponent.pageSize);
   }
 
   function verifyActivePageLink(
     pages: SkyPagingFixtureButton[],
     expectedActivePageId: string | number
-  ) {
+  ): void {
     pages.forEach((page: SkyPagingFixtureButton) => {
       const shouldBeActive = page.id === expectedActivePageId.toString();
 
@@ -59,7 +59,7 @@ describe('Paging fixture', () => {
     });
   }
 
-  function verifyPagingState(expectedActivePageId: number) {
+  function verifyPagingState(expectedActivePageId: number): void {
     const pages = pagingFixture.pageLinks;
 
     // active page should be accurate
@@ -126,11 +126,10 @@ describe('Paging fixture', () => {
     await fixture.whenStable();
 
     // verify active page
-    expect(pagingFixture.activePageId).toBeUndefined();
+    expect(pagingFixture.activePageId).toBe('');
 
     // verify page list
     expect(pagingFixture.pageLinks.length).toBe(0);
-    expect(pagingFixture.activePageId).toBeUndefined();
 
     // actions should not fail
     await pagingFixture.selectNextPage();

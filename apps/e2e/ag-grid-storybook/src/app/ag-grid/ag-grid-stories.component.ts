@@ -1,17 +1,36 @@
+import { DOCUMENT } from '@angular/common';
 import {
+  AfterViewInit,
+  ChangeDetectorRef,
   Component,
-  HostBinding,
-  Input,
+  Inject,
+  OnDestroy,
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
-import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import {
+  SkyAgGridRowDeleteConfirmArgs,
+  SkyAgGridService,
+  SkyCellType,
+} from '@skyux/ag-grid';
+import { SkyDockLocation, SkyDockService } from '@skyux/core';
+import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 
-import { GridOptions } from 'ag-grid-community';
-import { BehaviorSubject, timer } from 'rxjs';
-import { first } from 'rxjs/operators';
+import {
+  ColDef,
+  GridOptions,
+  RowNode,
+  RowSelectedEvent,
+} from 'ag-grid-community';
+import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
+import { delay, filter, map } from 'rxjs/operators';
 
 import { columnDefinitions, data } from '../shared/baseball-players-data';
+import { FontLoadingService } from '../shared/font-loading/font-loading.service';
+
+import { ContextMenuComponent } from './context-menu.component';
+
+type DataSet = { id: string; data: any[] };
 
 @Component({
   selector: 'app-ag-grid-stories',
@@ -19,61 +38,222 @@ import { columnDefinitions, data } from '../shared/baseball-players-data';
   styleUrls: ['./ag-grid-stories.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class AgGridStoriesComponent implements OnInit {
-  @HostBinding('class.use-normal-dom-layout')
-  public get useNormalDomLayout(): boolean {
-    return this.domLayout === 'normal';
-  }
-
-  @HostBinding('class.use-auto-height-dom-layout')
-  public get useAutoHeightDomLayout(): boolean {
-    return this.domLayout === 'autoHeight';
-  }
-
-  @Input()
-  public domLayout: 'normal' | 'autoHeight' | 'print' = 'autoHeight';
-
-  @Input()
-  public enableTopScroll = true;
-
-  @Input()
-  public editable = true;
-
-  public items = data;
-  public gridOptions: GridOptions;
+export class AgGridStoriesComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
+  public dataSets: DataSet[] = [
+    {
+      id: 'back-to-top',
+      data: data.slice(40, 48),
+    },
+    {
+      id: 'row-delete',
+      data: data.slice(50, 53),
+    },
+    {
+      id: 'validation',
+      data: data.slice(60, 63),
+    },
+  ];
+  public gridOptions: { [_: string]: GridOptions } = {};
   public isActive$ = new BehaviorSubject(true);
+  public addPreviewWrapper$ = new BehaviorSubject(false);
   public ready = new BehaviorSubject(false);
+  public rowDeleteIds: string[] = [];
+  public skyTheme: SkyThemeSettings | undefined;
 
-  constructor(private agGridService: SkyAgGridService) {}
+  readonly #gridsReady = new Map<string, Observable<boolean>>();
+  readonly #agGridService: SkyAgGridService;
+  readonly #themeSvc: SkyThemeService;
+  readonly #changeDetectorRef: ChangeDetectorRef;
+  readonly #dockService: SkyDockService;
+  readonly #doc: Document;
+  readonly #ngUnsubscribe: Subscription;
+  readonly #fontLoadingService: FontLoadingService;
+
+  constructor(
+    agGridService: SkyAgGridService,
+    themeSvc: SkyThemeService,
+    changeDetectorRef: ChangeDetectorRef,
+    dockService: SkyDockService,
+    @Inject(DOCUMENT) doc: Document,
+    fontLoadingService: FontLoadingService
+  ) {
+    this.#agGridService = agGridService;
+    this.#themeSvc = themeSvc;
+    this.#changeDetectorRef = changeDetectorRef;
+    this.#dockService = dockService;
+    this.#doc = doc;
+    this.#ngUnsubscribe = new Subscription();
+    this.#fontLoadingService = fontLoadingService;
+  }
 
   public ngOnInit(): void {
-    this.gridOptions = this.agGridService.getGridOptions({
-      gridOptions: {
-        columnDefs: [
-          {
-            field: 'select',
-            headerName: '',
-            width: 30,
-            type: SkyCellType.RowSelector,
-          },
-          ...columnDefinitions,
-        ].map((colDef) => {
-          return {
-            ...colDef,
-            editable: this.editable,
-          };
-        }),
-        context: {
-          enableTopScroll: this.enableTopScroll,
-        },
-        domLayout: this.domLayout,
-        onGridReady: () => {
-          // Delay to allow the grid to render before capturing the screenshot.
-          timer(800)
-            .pipe(first())
-            .subscribe(() => this.ready.next(true));
-        },
-      },
+    this.#dockService.setDockOptions({
+      location: SkyDockLocation.ElementBottom,
+      referenceEl: this.#doc.querySelector('#back-to-top') as HTMLElement,
     });
+    this.dataSets.forEach((dataSet) =>
+      this.#gridsReady.set(dataSet.id, new BehaviorSubject(false))
+    );
+    this.#gridsReady.set(
+      'theme',
+      this.#themeSvc.settingsChange.pipe(map(() => true))
+    );
+    this.#gridsReady.set('font', this.#fontLoadingService.ready());
+    this.#ngUnsubscribe.add(
+      this.#themeSvc.settingsChange.subscribe((settings) => {
+        this.skyTheme = settings.currentSettings;
+        this.isActive$.next(true);
+      })
+    );
+    this.dataSets.forEach((dataSet) => {
+      this.gridOptions[dataSet.id] = this.#agGridService.getGridOptions({
+        gridOptions: {
+          columnDefs: [
+            ...(() =>
+              dataSet.id === 'row-delete'
+                ? [
+                    {
+                      field: 'select',
+                      headerName: '',
+                      sortable: false,
+                      width: 30,
+                      type: SkyCellType.RowSelector,
+                    },
+                    {
+                      colId: 'contextMenu',
+                      headerName: '',
+                      sortable: false,
+                      cellRenderer: ContextMenuComponent,
+                      maxWidth: 55,
+                    },
+                  ]
+                : [])(),
+            ...columnDefinitions
+              .slice(0, 10)
+              .filter(
+                (col) => col.field !== 'birthday' || dataSet.id !== 'validation'
+              )
+              .map((colDef) => {
+                const additionalType =
+                  colDef.field === 'seasons_played' &&
+                  dataSet.id === 'validation'
+                    ? [SkyCellType.NumberValidator]
+                    : [];
+                const cellRendererParams =
+                  colDef.field === 'seasons_played' &&
+                  dataSet.id === 'validation'
+                    ? {
+                        skyComponentProperties: {
+                          validator: (value: unknown) =>
+                            !!value &&
+                            typeof value === 'number' &&
+                            value < 18 &&
+                            value > 0,
+                          validatorMessage:
+                            'Expected a number between 1 and 18.',
+                        },
+                      }
+                    : undefined;
+                return {
+                  ...colDef,
+                  type: [
+                    ...(Array.isArray(colDef.type)
+                      ? colDef.type
+                      : [colDef.type]),
+                    ...additionalType,
+                  ].filter((type) => !!type),
+                  cellRendererParams,
+                } as ColDef;
+              }),
+          ],
+          context: {
+            rowDeleteIds: [],
+          },
+          suppressColumnVirtualisation: true,
+          suppressHorizontalScroll: true,
+          suppressRowVirtualisation: true,
+          onGridReady: (params) => {
+            if (dataSet.id === 'row-delete') {
+              params.api.addEventListener(
+                RowNode.EVENT_ROW_SELECTED,
+                ($event: RowSelectedEvent) => {
+                  if ($event.node.id && $event.node.isSelected()) {
+                    this.rowDeleteIds = this.rowDeleteIds.concat([
+                      $event.node.id,
+                    ]);
+                  } else {
+                    this.rowDeleteIds = this.rowDeleteIds.filter(
+                      (id) => id !== $event.node.id
+                    );
+                  }
+                }
+              );
+            }
+          },
+          onFirstDataRendered: () => {
+            (this.#gridsReady.get(dataSet.id) as BehaviorSubject<boolean>).next(
+              true
+            );
+          },
+          rowData: dataSet.data,
+        },
+      });
+    });
+  }
+
+  public ngAfterViewInit(): void {
+    this.#ngUnsubscribe.add(
+      combineLatest(Array.from(this.#gridsReady.values()))
+        .pipe(
+          filter((gridsReady) => gridsReady.every((ready) => ready)),
+          delay(1000)
+        )
+        .subscribe(() => {
+          // Scroll down to show the back-to-top button.
+          this.#doc
+            .querySelector(
+              '#back-to-top .sky-ag-grid-row-johnsra05 [col-id="name"]'
+            )
+            ?.scrollIntoView();
+
+          setTimeout(() => {
+            // Select a row to show the row delete button.
+            this.#doc
+              .querySelector(
+                '#row-delete .sky-ag-grid-row-killeha01 [col-id="select"] label'
+              )
+              ?.dispatchEvent(new MouseEvent('click'));
+
+            setTimeout(() => {
+              // Trigger validation popover to show up.
+              this.#doc
+                .querySelector(
+                  '#validation .sky-ag-grid-row-martipe02 [col-id="seasons_played"]'
+                )
+                ?.dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowUp' }));
+
+              // Tell Cypress we're ready.
+              setTimeout(() => this.ready.next(true), 100);
+            });
+          });
+        })
+    );
+    if (!this.skyTheme) {
+      this.isActive$.next(false);
+      this.addPreviewWrapper$.next(true);
+      setTimeout(() => {
+        this.#changeDetectorRef.markForCheck();
+      });
+    }
+  }
+
+  public ngOnDestroy(): void {
+    this.#ngUnsubscribe.unsubscribe();
+  }
+
+  public deleteConfirm($event: SkyAgGridRowDeleteConfirmArgs) {
+    console.log(`Delete ${$event.id}`);
   }
 }

@@ -64,7 +64,7 @@ export class SkyBasicMultiselectDataGridDemoComponent {
   constructor(private agGridService: SkyAgGridService) {
     this.gridOptions = {
       columnDefs: this.multiselectColumnDefs,
-      onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
+      onGridReady: (gridReadyEvent): void => this.onGridReady(gridReadyEvent),
       rowSelection: 'multiple',
     };
     this.gridOptions = this.agGridService.getGridOptions({

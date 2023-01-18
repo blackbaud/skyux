@@ -1,7 +1,14 @@
-<div class="sky-wait-container">
+<div
+  class="sky-wait-container"
+  [ngClass]="{
+    'sky-wait-full-page': isFullPage,
+    'sky-wait-non-blocking': isNonBlocking
+  }"
+>
   <div
     *ngIf="isWaiting"
     class="sky-wait-mask"
+    role="progressbar"
     [attr.aria-label]="ariaLabelStream | async"
     [ngClass]="{
       'sky-wait-mask-loading-fixed': isFullPage,

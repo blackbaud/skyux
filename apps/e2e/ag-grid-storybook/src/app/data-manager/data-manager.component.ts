@@ -5,7 +5,7 @@ import {
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import {
   SkyDataManagerConfig,
@@ -14,10 +14,16 @@ import {
 } from '@skyux/data-manager';
 
 import { GridOptions } from 'ag-grid-community';
-import { BehaviorSubject, timer } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { BehaviorSubject, Observable, combineLatest, timer } from 'rxjs';
+import { filter, first, map } from 'rxjs/operators';
 
 import { columnDefinitions, data } from '../shared/baseball-players-data';
+import { FontLoadingService } from '../shared/font-loading/font-loading.service';
+
+type GridSettingsType = {
+  enableTopScroll: FormControl<boolean>;
+  domLayout: FormControl<'normal' | 'autoHeight' | 'print'>;
+};
 
 @Component({
   selector: 'app-data-manager',
@@ -75,40 +81,62 @@ export class DataManagerComponent implements OnInit {
 
   public viewId = 'gridView';
 
-  public dataState: SkyDataManagerState;
-  public items = data;
+  public dataState: SkyDataManagerState | undefined;
+  public items = data.slice(0, 50);
   public settingsKey = 'ag-grid-storybook-data-manager';
-  public gridOptions: GridOptions;
+  public gridOptions: GridOptions = {};
   public isActive$ = new BehaviorSubject(true);
-  public gridSettings: UntypedFormGroup;
-  public ready = new BehaviorSubject(false);
+  public gridSettings: FormGroup<GridSettingsType>;
+  public ready: Observable<boolean>;
+
+  readonly #agGridService: SkyAgGridService;
+  readonly #dataManagerService: SkyDataManagerService;
+  readonly #gridReady = new BehaviorSubject(false);
+  readonly #fontLoadingService: FontLoadingService;
 
   constructor(
-    private formBuilder: UntypedFormBuilder,
-    private dataManagerService: SkyDataManagerService,
-    private agGridService: SkyAgGridService
-  ) {}
+    formBuilder: FormBuilder,
+    dataManagerService: SkyDataManagerService,
+    agGridService: SkyAgGridService,
+    fontLoadingService: FontLoadingService
+  ) {
+    this.#agGridService = agGridService;
+    this.#dataManagerService = dataManagerService;
+    this.#fontLoadingService = fontLoadingService;
+
+    this.gridSettings = formBuilder.group<GridSettingsType>({
+      enableTopScroll: formBuilder.nonNullable.control(this.enableTopScroll),
+      domLayout: formBuilder.nonNullable.control(this.domLayout),
+    });
+    this.ready = combineLatest([
+      this.#gridReady,
+      this.#fontLoadingService.ready(),
+    ]).pipe(
+      filter(([gridReady, fontsLoaded]) => gridReady && fontsLoaded),
+      first(),
+      map(() => true)
+    );
+  }
 
   public ngOnInit(): void {
-    this.gridSettings = this.formBuilder.group({
+    this.gridSettings.setValue({
       enableTopScroll: this.enableTopScroll,
       domLayout: this.domLayout,
     });
+    this.#applyGridOptions();
 
-    this.applyGridOptions();
-
-    this.dataManagerService.getActiveViewIdUpdates().subscribe((id) => {
+    this.#dataManagerService.getActiveViewIdUpdates().subscribe((id) => {
       this.isActive$.next(id === this.viewId);
     });
 
-    this.dataManagerService.initDataManager({
+    this.#dataManagerService.initDataManager({
       activeViewId: 'gridView',
       dataManagerConfig: this.dataManagerConfig,
       defaultDataState: this.defaultDataState,
       settingsKey: this.settingsKey,
     });
 
-    this.dataManagerService.initDataView({
+    this.#dataManagerService.initDataView({
       id: this.viewId,
       name: 'Grid View',
       icon: 'table',
@@ -120,24 +148,24 @@ export class DataManagerComponent implements OnInit {
       showFilterButtonText: true,
       columnOptions: columnDefinitions.map((col) => {
         return {
-          id: col.field,
-          label: col.headerName,
-          alwaysDisplayed: ['select'].includes(col.field),
+          id: col.field ?? '',
+          label: col.headerName ?? '',
+          alwaysDisplayed: ['select'].includes(col.field ?? ''),
         };
       }),
     });
 
     this.gridSettings.valueChanges.subscribe((value) => {
       this.isActive$.next(false);
-      this.enableTopScroll = value.enableTopScroll;
-      this.domLayout = value.domLayout;
-      this.applyGridOptions();
+      this.enableTopScroll = !!value.enableTopScroll;
+      this.domLayout = value.domLayout ?? 'autoHeight';
+      this.#applyGridOptions();
       setTimeout(() => this.isActive$.next(true));
     });
   }
 
-  private applyGridOptions() {
-    this.gridOptions = this.agGridService.getGridOptions({
+  #applyGridOptions() {
+    this.gridOptions = this.#agGridService.getGridOptions({
       gridOptions: {
         columnDefs: [
           {
@@ -152,11 +180,13 @@ export class DataManagerComponent implements OnInit {
           enableTopScroll: this.enableTopScroll,
         },
         domLayout: this.domLayout,
-        onGridReady: () => {
+        suppressColumnVirtualisation: true,
+        suppressRowVirtualisation: true,
+        onFirstDataRendered: () => {
           // Delay to allow the grid to render before capturing the screenshot.
           timer(800)
             .pipe(first())
-            .subscribe(() => this.ready.next(true));
+            .subscribe(() => this.#gridReady.next(true));
         },
       },
     });

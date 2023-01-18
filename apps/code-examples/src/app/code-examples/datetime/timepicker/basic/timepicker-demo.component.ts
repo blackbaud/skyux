@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -10,17 +10,15 @@ import {
   selector: 'app-timepicker-demo',
   templateUrl: './timepicker-demo.component.html',
 })
-export class TimepickerDemoComponent implements OnInit {
+export class TimepickerDemoComponent {
   public get timeControl(): FormControl {
     return this.formGroup.get('time') as FormControl;
   }
 
   public formGroup: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {}
-
-  public ngOnInit(): void {
-    this.formGroup = this.formBuilder.group({
+  constructor(formBuilder: FormBuilder) {
+    this.formGroup = formBuilder.group({
       time: new FormControl('2:45', Validators.required),
     });
   }

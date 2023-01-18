@@ -1,4 +1,5 @@
 {
+  "name": "integration-e2e",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/integration-e2e/src",
   "projectType": "application",
@@ -6,8 +7,9 @@
     "e2e": {
       "executor": "@nrwl/cypress:cypress",
       "options": {
-        "cypressConfig": "apps/integration-e2e/cypress.json",
-        "devServerTarget": "integration:serve:development"
+        "cypressConfig": "apps/integration-e2e/cypress.config.ts",
+        "devServerTarget": "integration:serve:development",
+        "testingType": "e2e"
       },
       "configurations": {
         "production": {

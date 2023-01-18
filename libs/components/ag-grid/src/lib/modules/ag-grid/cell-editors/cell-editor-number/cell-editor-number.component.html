@@ -8,8 +8,8 @@
     "
     [style.width.px]="columnWidth"
     [style.height.px]="rowHeightWithoutBorders"
-    [max]="max"
-    [min]="min"
+    [max]="max ?? null"
+    [min]="min ?? null"
     #skyCellEditorNumber
   />
 </ng-container>

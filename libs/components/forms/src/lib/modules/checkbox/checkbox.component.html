@@ -19,6 +19,7 @@
     [attr.aria-required]="required ? true : null"
     (blur)="onInputBlur()"
     (change)="onInteractionEvent($event)"
+    #inputEl
   />
   <span
     class="sky-switch-control sky-rounded-corners"
@@ -31,26 +32,40 @@
     }"
   >
     <sky-icon
-      *ngIf="icon || checked"
+      *ngIf="icon || (!indeterminate && checked)"
       class="sky-checkbox-icon-default"
       [fixedWidth]="true"
       [icon]="icon || 'check'"
     >
     </sky-icon>
+    <sky-icon
+      *ngIf="!icon && indeterminate"
+      class="sky-checkbox-icon-indeterminate sky-checkbox-icon-default"
+      [fixedWidth]="true"
+      [icon]="'square'"
+    >
+    </sky-icon>
     <div class="sky-checkbox-icon-modern">
       <sky-icon
-        *ngIf="icon; else checkedTemplate"
+        *ngIf="icon; else checkedOrIndeterminateTemplate"
         [fixedWidth]="true"
         [icon]="icon"
       >
       </sky-icon>
-      <ng-template #checkedTemplate>
+      <ng-template #checkedOrIndeterminateTemplate>
         <sky-icon
-          *ngIf="checked"
+          *ngIf="!indeterminate && checked"
           class="sky-checkbox-icon-modern-checked"
           [fixedWidth]="true"
           icon="check"
           iconType="skyux"
+        >
+        </sky-icon>
+        <sky-icon
+          *ngIf="indeterminate"
+          class="sky-checkbox-icon-indeterminate sky-checkbox-icon-modern-indeterminate"
+          [fixedWidth]="true"
+          icon="square"
         >
         </sky-icon>
       </ng-template>

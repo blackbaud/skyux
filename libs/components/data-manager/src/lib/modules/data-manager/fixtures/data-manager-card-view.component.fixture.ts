@@ -11,6 +11,8 @@ import {
   SkyDataViewConfig,
 } from '@skyux/data-manager';
 
+import { DataManagerTestItem } from './data-manager-test-item';
+
 @Component({
   selector: 'sky-data-view-cards-fixture',
   templateUrl: './data-manager-card-view.component.fixture.html',
@@ -18,10 +20,10 @@ import {
 })
 export class DataViewCardFixtureComponent implements OnInit {
   @Input()
-  public items: any[];
+  public items: DataManagerTestItem[] = [];
 
-  public dataState: SkyDataManagerState;
-  public displayedItems: any[];
+  public dataState: SkyDataManagerState | undefined;
+  public displayedItems: DataManagerTestItem[] = [];
   public viewId = 'cardsView';
   public viewConfig: SkyDataViewConfig = {
     id: this.viewId,
@@ -33,21 +35,27 @@ export class DataViewCardFixtureComponent implements OnInit {
     showSortButtonText: true,
   };
 
+  #changeDetector: ChangeDetectorRef;
+  #dataManagerService: SkyDataManagerService;
+
   constructor(
-    private changeDetector: ChangeDetectorRef,
-    private dataManagerService: SkyDataManagerService
-  ) {}
+    changeDetector: ChangeDetectorRef,
+    dataManagerService: SkyDataManagerService
+  ) {
+    this.#changeDetector = changeDetector;
+    this.#dataManagerService = dataManagerService;
+  }
 
   public ngOnInit(): void {
     this.displayedItems = this.items;
 
-    this.dataManagerService.initDataView(this.viewConfig);
+    this.#dataManagerService.initDataView(this.viewConfig);
 
-    this.dataManagerService
+    this.#dataManagerService
       .getDataStateUpdates(this.viewId)
       .subscribe((state) => {
         this.dataState = state;
-        this.changeDetector.detectChanges();
+        this.#changeDetector.detectChanges();
       });
   }
 }

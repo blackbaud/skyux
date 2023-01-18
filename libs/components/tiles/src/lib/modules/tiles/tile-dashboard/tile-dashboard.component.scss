@@ -1,8 +1,7 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/variables';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
-@include sky-host-responsive-container-xs-min() {
+@include mixins.sky-host-responsive-container-xs-min() {
   display: block;
   padding: 0;
 
@@ -21,7 +20,7 @@
   }
 }
 
-@include sky-host-responsive-container-sm-min() {
+@include mixins.sky-host-responsive-container-sm-min() {
   .sky-tile-dashboard-layout-single ::ng-deep .sky-tile,
   .sky-tile-dashboard-layout-multi ::ng-deep .sky-tile {
     margin-bottom: $sky-margin-double;
@@ -32,7 +31,7 @@
   }
 }
 
-@include sky-host-responsive-container-md-min() {
+@include mixins.sky-host-responsive-container-md-min() {
   display: flex;
   padding: 0 $sky-padding;
 
@@ -47,7 +46,7 @@
 
 .sky-assistive-text {
   @media screen {
-    @include sky-screen-reader-only();
+    @include mixins.sky-screen-reader-only();
   }
 }
 
@@ -55,8 +54,8 @@
   background-color: $sky-background-color-neutral-light;
 }
 
-@include sky-theme-modern {
-  @include sky-host-responsive-container-sm-min() {
+@include mixins.sky-theme-modern {
+  @include mixins.sky-host-responsive-container-sm-min() {
     .sky-tile-dashboard-layout-single ::ng-deep .sky-tile,
     .sky-tile-dashboard-layout-multi ::ng-deep .sky-tile {
       margin-bottom: $sky-theme-modern-space-xl;

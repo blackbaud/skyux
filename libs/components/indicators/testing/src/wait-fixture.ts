@@ -7,37 +7,39 @@ import { SkyAppTestUtility } from '@skyux-sdk/testing';
  */
 export class SkyWaitFixture {
   public get isWaiting(): boolean {
-    return this.innerWaitComponentContainsClass('.sky-wait-mask');
+    return this.#innerWaitComponentContainsClass('.sky-wait-mask');
   }
 
   public get isFullPage(): boolean {
-    return this.innerWaitComponentContainsClass('.sky-wait-mask-loading-fixed');
+    return this.#innerWaitComponentContainsClass(
+      '.sky-wait-mask-loading-fixed'
+    );
   }
 
   public get ariaLabel(): string {
-    const div = this.debugEl.nativeElement.querySelector('.sky-wait-mask');
+    const div = this.#debugEl.nativeElement.querySelector('.sky-wait-mask');
     return div.getAttribute('aria-label');
   }
 
   public get isNonBlocking(): boolean {
-    return this.innerWaitComponentContainsClass(
+    return this.#innerWaitComponentContainsClass(
       '.sky-wait-mask-loading-non-blocking'
     );
   }
 
-  private debugEl: DebugElement;
+  #debugEl: DebugElement;
 
   constructor(fixture: ComponentFixture<unknown>, skyTestId: string) {
-    this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
+    this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
       'sky-wait'
     );
   }
 
-  private innerWaitComponentContainsClass(className: string): boolean {
+  #innerWaitComponentContainsClass(className: string): boolean {
     const element: HTMLDivElement =
-      this.debugEl.nativeElement.querySelector(className);
+      this.#debugEl.nativeElement.querySelector(className);
     return element !== null;
   }
 }

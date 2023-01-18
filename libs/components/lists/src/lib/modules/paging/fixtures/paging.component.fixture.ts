@@ -6,19 +6,19 @@ import { SkyPagingComponent } from '../paging.component';
   selector: 'sky-test-cmp',
   templateUrl: './paging.component.fixture.html',
 })
-export class PagingTestComponent {
+export class SkyPagingTestComponent {
   @ViewChild(SkyPagingComponent, {
     read: SkyPagingComponent,
     static: true,
   })
-  public pagingComponent: SkyPagingComponent;
+  public pagingComponent!: SkyPagingComponent;
 
   public pageSize = 2;
   public maxPages = 3;
   public currentPage = 1;
   public itemCount = 8;
-  public label: string;
-  public currentPageChanged(currentPage: number) {
+  public label: string | undefined;
+  public currentPageChanged(currentPage: number): void {
     this.currentPage = currentPage;
   }
 }

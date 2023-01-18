@@ -1,13 +1,17 @@
 import {
   ComponentFixture,
   TestBed,
-  async,
   fakeAsync,
   inject,
   tick,
 } from '@angular/core/testing';
-import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
-import { SkyAffixConfig, SkyAffixService, SkyAffixer } from '@skyux/core';
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import {
+  SkyAffixConfig,
+  SkyAffixService,
+  SkyAffixer,
+  SkyLogService,
+} from '@skyux/core';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -224,6 +228,23 @@ describe('Dropdown component', function () {
     const button = getButtonElement();
     expect(button).toHaveCssClass('sky-btn-danger');
     expect(button).toHaveCssClass('sky-dropdown-button-type-context-menu');
+  }));
+
+  it('should log a deprecation warning when buttonType is set to a string value that is not one of the supported types', fakeAsync(function () {
+    const logService = TestBed.inject(SkyLogService);
+    const deprecatedLogSpy = spyOn(logService, 'deprecated').and.stub();
+
+    fixture.componentInstance.buttonType = 'filter';
+    detectChangesFakeAsync();
+
+    expect(deprecatedLogSpy).toHaveBeenCalledWith(
+      'SkyDropdownComponent.buttonType Font Awesome icon class option',
+      Object({
+        deprecationMajorVersion: 7,
+        replacementRecommendation:
+          'Set `buttonType` to `select` and render a `<sky-icon>` element within the `<sky-dropdown-button>` element.',
+      })
+    );
   }));
 
   it('should reposition the menu when number of menu items change', fakeAsync(() => {
@@ -1217,42 +1238,38 @@ describe('Dropdown component', function () {
       expect(button?.getAttribute('title')).toEqual('dropdown-title-override');
     }));
 
-    it('should be accessible when closed', async(() => {
+    it('should be accessible when closed', async () => {
       fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          expect(window.document.body).toBeAccessible(() => {}, {
-            rules: {
-              region: {
-                enabled: false,
-              },
-            },
-          });
-        });
+      await fixture.whenStable();
+      fixture.detectChanges();
+      await fixture.whenStable();
+      await expectAsync(window.document.body).toBeAccessible({
+        rules: {
+          region: {
+            enabled: false,
+          },
+        },
       });
-    }));
+    });
 
-    it('should be accessible when open', async(() => {
+    it('should be accessible when open', async () => {
       fixture.detectChanges();
 
-      fixture.whenStable().then(() => {
-        const button = getButtonElement();
+      await fixture.whenStable();
+      const button = getButtonElement();
 
-        button?.click();
+      button?.click();
 
-        fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          expect(window.document.body).toBeAccessible(() => {}, {
-            rules: {
-              region: {
-                enabled: false,
-              },
-            },
-          });
-        });
+      fixture.detectChanges();
+      await fixture.whenStable();
+      await expectAsync(window.document.body).toBeAccessible({
+        rules: {
+          region: {
+            enabled: false,
+          },
+        },
       });
-    }));
+    });
   });
 });
 

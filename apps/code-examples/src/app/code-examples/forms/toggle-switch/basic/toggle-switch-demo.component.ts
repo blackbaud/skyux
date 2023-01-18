@@ -1,31 +1,30 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+  FormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
+
+import { ToggleSwitchFormType } from './toggle-switch-form.type';
 
 @Component({
   selector: 'app-toggle-switch-demo',
   templateUrl: './toggle-switch-demo.component.html',
 })
 export class ToggleSwitchDemoComponent {
-  public checked = false;
-  public disabled = true;
-
-  public formGroup: FormGroup;
+  public formGroup: UntypedFormGroup;
 
   constructor(formBuilder: FormBuilder) {
-    this.formGroup = formBuilder.group({
-      dynamicToggle: new FormControl(true),
+    this.formGroup = formBuilder.group<ToggleSwitchFormType>({
+      controlToggle: new UntypedFormControl(false),
+      dynamicToggle: new UntypedFormControl({ value: true, disabled: true }),
     });
-  }
-
-  public toggleDisabled(): void {
-    this.disabled = !this.disabled;
-
-    const control = this.formGroup.get('dynamicToggle');
-
-    if (control.disabled) {
-      control.enable();
-    } else {
-      control.disable();
-    }
+    this.formGroup.get('controlToggle')?.valueChanges.subscribe((value) => {
+      if (value) {
+        this.formGroup.get('dynamicToggle')?.enable();
+      } else {
+        this.formGroup.get('dynamicToggle')?.disable();
+      }
+    });
   }
 }

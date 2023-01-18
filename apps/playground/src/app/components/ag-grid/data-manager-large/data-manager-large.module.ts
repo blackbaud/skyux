@@ -8,27 +8,37 @@ import {
   SkyDataManagerService,
 } from '@skyux/data-manager';
 import { SkyCheckboxModule, SkyRadioModule } from '@skyux/forms';
-import { SkyIconModule } from '@skyux/indicators';
+import { SkyHelpInlineModule, SkyIconModule } from '@skyux/indicators';
+import { SkyDropdownModule } from '@skyux/popovers';
 
 import { AgGridModule } from 'ag-grid-angular';
 
 import { CustomLinkComponent } from './custom-link/custom-link.component';
 import { DataManagerLargeRoutingModule } from './data-manager-large-routing.module';
 import { DataManagerLargeComponent } from './data-manager-large.component';
+import { GroupInlineHelpComponent } from './inline-help/group-inline-help.component';
+import { InlineHelpComponent } from './inline-help/inline-help.component';
 import { LocalStorageConfigService } from './local-storage-config.service';
 
 @NgModule({
-  declarations: [DataManagerLargeComponent, CustomLinkComponent],
+  declarations: [
+    DataManagerLargeComponent,
+    CustomLinkComponent,
+    GroupInlineHelpComponent,
+    InlineHelpComponent,
+  ],
   imports: [
     AgGridModule,
     CommonModule,
     DataManagerLargeRoutingModule,
     SkyDataManagerModule,
+    SkyDropdownModule,
     SkyAgGridModule,
     SkyCheckboxModule,
     SkyIconModule,
     SkyRadioModule,
     ReactiveFormsModule,
+    SkyHelpInlineModule,
   ],
   providers: [
     SkyDataManagerService,

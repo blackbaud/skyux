@@ -1,11 +1,10 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
-@import 'libs/components/theme/src/lib/styles/variables';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 sky-repeater-item {
   .sky-repeater-item {
     display: flex;
-    @include sky-border(row);
+    @include mixins.sky-border(row);
     padding-top: 0;
     position: relative;
     transition: box-shadow $sky-transition-time-short;
@@ -125,7 +124,7 @@ sky-repeater-item {
   }
 
   .sky-repeater-item-grab-handle {
-    @include sky-icon-button-borderless();
+    @include mixins.sky-icon-button-borderless();
     border: 0;
     width: 24px;
     height: 24px;
@@ -133,7 +132,7 @@ sky-repeater-item {
     cursor: -webkit-grab;
     cursor: -moz-grab;
     padding: 0;
-    margin-right: $sky-margin;
+    margin: $sky-margin-half $sky-margin $sky-margin-half 0;
   }
 
   &.sky-repeater-item-dragging {

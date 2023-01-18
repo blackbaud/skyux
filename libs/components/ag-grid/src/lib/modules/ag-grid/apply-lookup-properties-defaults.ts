@@ -4,10 +4,15 @@ import { SkyAgGridLookupProperties } from './types/lookup-properties';
  * @internal
  */
 export function applySkyLookupPropertiesDefaults(
-  skyLookupProperties: SkyAgGridLookupProperties
-) {
+  skyLookupProperties: SkyAgGridLookupProperties | undefined
+): SkyAgGridLookupProperties {
+  /* istanbul ignore if */
+  if (!skyLookupProperties) {
+    return {};
+  }
+
   return {
-    addClick: skyLookupProperties.addClick || undefined,
+    addClick: skyLookupProperties.addClick,
     ariaLabel: skyLookupProperties.ariaLabel || '',
     autocompleteAttribute: skyLookupProperties.autocompleteAttribute || 'off',
     data: skyLookupProperties.data || [],
@@ -15,17 +20,17 @@ export function applySkyLookupPropertiesDefaults(
     descriptorProperty: skyLookupProperties.descriptorProperty || 'name',
     disabled: skyLookupProperties.disabled || false,
     enableShowMore: skyLookupProperties.enableShowMore || false,
-    idProperty: skyLookupProperties.idProperty || undefined,
+    idProperty: skyLookupProperties.idProperty,
     placeholderText: skyLookupProperties.placeholderText || '',
-    propertiesToSearch: skyLookupProperties.propertiesToSearch || undefined,
-    search: skyLookupProperties.search || undefined,
-    searchAsync: skyLookupProperties.searchAsync || undefined,
+    propertiesToSearch: skyLookupProperties.propertiesToSearch,
+    search: skyLookupProperties.search,
+    searchAsync: skyLookupProperties.searchAsync,
     searchFilters: skyLookupProperties.searchFilters || [],
-    searchResultsLimit: skyLookupProperties.searchResultsLimit || undefined,
-    searchResultTemplate: skyLookupProperties.searchResultTemplate || undefined,
+    searchResultsLimit: skyLookupProperties.searchResultsLimit,
+    searchResultTemplate: skyLookupProperties.searchResultTemplate,
     searchTextMinimumCharacters:
       skyLookupProperties.searchTextMinimumCharacters || 1,
-    selectMode: skyLookupProperties.selectMode || undefined,
+    selectMode: skyLookupProperties.selectMode,
     showAddButton: skyLookupProperties.showAddButton || false,
     showMoreConfig: skyLookupProperties.showMoreConfig || {},
     wrapperClass: 'ag-custom-component-popup',

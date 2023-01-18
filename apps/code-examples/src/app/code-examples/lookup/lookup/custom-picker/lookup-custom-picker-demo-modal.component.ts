@@ -41,7 +41,8 @@ export class LookupCustomPickerDemoModalComponent {
   public save(): void {
     // Return a list of selected people to the lookup component.
     const selectedPeople = this.people.filter(
-      (_, index) => this.peopleForm.value.people[index]
+      (_, index) =>
+        this.peopleForm.value.people && this.peopleForm.value.people[index]
     );
 
     this.#modalInstance.save(selectedPeople);

@@ -183,6 +183,13 @@ export class SkyTokensComponent implements OnDestroy {
   @Output()
   public tokensChange = new EventEmitter<SkyToken[]>();
 
+  /**
+   * Fires when all animations on the tokens are complete.
+   * @internal
+   */
+  @Output()
+  public tokensRendered = new EventEmitter<void>();
+
   public get activeIndex(): number {
     return this.#_activeIndex;
   }
@@ -221,11 +228,12 @@ export class SkyTokensComponent implements OnDestroy {
 
   constructor(changeDetector: ChangeDetectorRef) {
     this.#changeDetector = changeDetector;
+    this.#initMessageStream();
 
     // Angular calls the trackBy function without applying the component instance's scope.
     // Use a fat-arrow function so the current component instance's trackWith property can
     // be referenced.
-    this.trackTokenFn = (_index, item) => {
+    this.trackTokenFn = (_index, item): unknown => {
       if (this.trackWith) {
         return item.value[this.trackWith];
       }
@@ -245,6 +253,10 @@ export class SkyTokensComponent implements OnDestroy {
     }
 
     this.#notifyTokenSelected(token);
+  }
+
+  public animationDone(): void {
+    this.tokensRendered.emit();
   }
 
   public onTokenKeyDown(event: KeyboardEvent): void {

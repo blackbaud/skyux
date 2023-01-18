@@ -1,6 +1,5 @@
 import {
   ApplicationRef,
-  ComponentFactoryResolver,
   ComponentRef,
   EmbeddedViewRef,
   Injectable,
@@ -8,6 +7,7 @@ import {
   Renderer2,
   RendererFactory2,
   Type,
+  createComponent,
 } from '@angular/core';
 
 import { SkyAppWindowRef } from '../window/window-ref';
@@ -27,23 +27,18 @@ import { SkyDynamicComponentOptions } from './dynamic-component-options';
 export class SkyDynamicComponentService {
   #applicationRef: ApplicationRef;
 
-  #componentFactoryResolver: ComponentFactoryResolver;
-
   #injector: Injector;
 
   #renderer: Renderer2;
 
   #windowRef: SkyAppWindowRef;
 
-  // TODO: Replace deprecated `ComponentFactoryResolver`.
   constructor(
-    componentFactoryResolver: ComponentFactoryResolver,
     applicationRef: ApplicationRef,
     injector: Injector,
     windowRef: SkyAppWindowRef,
     rendererFactory: RendererFactory2
   ) {
-    this.#componentFactoryResolver = componentFactoryResolver;
     this.#applicationRef = applicationRef;
     this.#injector = injector;
     this.#windowRef = windowRef;
@@ -58,7 +53,6 @@ export class SkyDynamicComponentService {
   /**
    * Creates an instance of the specified component and adds it to the specified location
    * on the page.
-   * @param options Options for creating the dynamic component.
    */
   public createComponent<T>(
     componentType: Type<T>,
@@ -70,12 +64,13 @@ export class SkyDynamicComponentService {
 
     const injector = Injector.create({
       providers: options.providers || [],
-      parent: this.#injector,
+      parent: options.parentInjector || this.#injector,
     });
 
-    const componentRef = this.#componentFactoryResolver
-      .resolveComponentFactory<T>(componentType)
-      .create(injector);
+    const componentRef = createComponent<T>(componentType, {
+      environmentInjector: this.#applicationRef.injector,
+      elementInjector: injector,
+    });
 
     this.#applicationRef.attachView(componentRef.hostView);
 

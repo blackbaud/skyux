@@ -37,13 +37,13 @@ import { SkyTabsetFixture } from './tabset-fixture';
   `,
 })
 class TestComponent {
-  public permalinkId: string;
+  public permalinkId: string | undefined;
 
-  public permalinkValueTab1: string;
+  public permalinkValueTab1: string | undefined;
 
-  public ariaLabel = 'Tabset ARIA label';
+  public ariaLabel: string | undefined = 'Tabset ARIA label';
 
-  public ariaLabelledBy: string;
+  public ariaLabelledBy: string | undefined;
 
   public onActiveChange(): void {}
 
@@ -84,6 +84,7 @@ describe('Tabset fixture', () => {
 
     fixture.detectChanges();
 
+    expect(tabset.ariaLabel).toBeUndefined();
     expect(tabset.ariaLabelledBy).toBe('Labelled by');
   }
 
@@ -164,15 +165,9 @@ describe('Tabset fixture', () => {
         .nativeElement
     ).toHaveCssClass('sky-btn-tab-selected');
 
-    let errorMessage: string;
-
-    try {
-      await tabset.clickTab(100);
-    } catch (err) {
-      errorMessage = err.message;
-    }
-
-    expect(errorMessage).toBe('There is no tab at index 100.');
+    await expectAsync(tabset.clickTab(100)).toBeRejectedWithError(
+      'There is no tab at index 100.'
+    );
   }
 
   async function validateTabClose(): Promise<void> {
@@ -187,15 +182,7 @@ describe('Tabset fixture', () => {
 
     expect(onTab1CloseSpy).toHaveBeenCalled();
 
-    let errorMessage: string;
-
-    try {
-      await tabset.clickTabClose(1);
-    } catch (err) {
-      errorMessage = err.message;
-    }
-
-    expect(errorMessage).toBe(
+    await expectAsync(tabset.clickTabClose(1)).toBeRejectedWithError(
       'The specified tab does not have a close button.'
     );
   }
@@ -234,7 +221,7 @@ describe('Tabset fixture', () => {
       fixture.detectChanges();
       await fixture.whenStable();
 
-      let el = fixture.nativeElement;
+      const el = fixture.nativeElement;
       el.style.width =
         el.querySelector('.sky-tabset-tabs').offsetWidth - 1 + 'px';
 

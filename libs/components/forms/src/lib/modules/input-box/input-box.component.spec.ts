@@ -1,12 +1,11 @@
 import {
   ComponentFixture,
   TestBed,
-  async,
   fakeAsync,
   tick,
 } from '@angular/core/testing';
 import { AbstractControl } from '@angular/forms';
-import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -250,6 +249,33 @@ describe('Input box component', () => {
       );
     });
 
+    it('should render the error label in the expected location', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+
+      fixture.detectChanges();
+
+      const inputBoxEl = getInputBoxEl(fixture, 'input-box-form-control-error');
+
+      const errorEl = inputBoxEl?.querySelector('.sky-error-label');
+
+      expect(errorEl).toBeVisible();
+    });
+
+    it('should render the error status indicator in the expected location', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+
+      fixture.detectChanges();
+
+      const inputBoxEl = getInputBoxEl(
+        fixture,
+        'input-box-form-control-error-status-indicator'
+      );
+
+      const errorEl = inputBoxEl?.querySelector('.sky-error-indicator');
+
+      expect(errorEl).toBeVisible();
+    });
+
     it('should allow a child to place template items inside the input box programmatically', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
 
@@ -284,15 +310,14 @@ describe('Input box component', () => {
       expect(inputBoxWrapperEl).toHaveCssClass('sky-input-box-disabled');
     });
 
-    it('should pass accessibility', async(() => {
+    it('should pass accessibility', async () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
 
       fixture.detectChanges();
 
-      fixture.whenStable().then(() => {
-        expect(fixture.nativeElement).toBeAccessible();
-      });
-    }));
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
   });
 
   describe('in modern theme', () => {
@@ -496,6 +521,33 @@ describe('Input box component', () => {
       );
     });
 
+    it('should render the error label in the expected location', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+
+      fixture.detectChanges();
+
+      const inputBoxEl = getInputBoxEl(fixture, 'input-box-form-control-error');
+
+      const errorEl = inputBoxEl?.querySelector('.sky-error-label');
+
+      expect(errorEl).toBeVisible();
+    });
+
+    it('should render the error status indicator in the expected location', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+
+      fixture.detectChanges();
+
+      const inputBoxEl = getInputBoxEl(
+        fixture,
+        'input-box-form-control-error-status-indicator'
+      );
+
+      const errorEl = inputBoxEl?.querySelector('.sky-error-indicator');
+
+      expect(errorEl).toBeVisible();
+    });
+
     it('should focus on the control when clicking on an inset icon', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       const spy = spyOn(
@@ -620,15 +672,14 @@ describe('Input box component', () => {
       expect(inputBoxWrapperEl).toHaveCssClass('sky-input-box-disabled');
     });
 
-    it('should pass accessibility', async(() => {
+    it('should pass accessibility', async () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
 
       fixture.detectChanges();
 
-      fixture.whenStable().then(() => {
-        expect(fixture.nativeElement).toBeAccessible();
-      });
-    }));
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
 
     it('should add an invalid CSS class when marked invalid with hasErrors property', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);

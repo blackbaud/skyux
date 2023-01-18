@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   templateUrl: './selection-box-demo.component.html',
 })
 export class SelectionBoxDemoComponent implements OnInit {
-  public items: any[] = [
+  public items: Record<string, string>[] = [
     {
       name: 'Save time and effort',
       icon: 'clock',
@@ -31,16 +31,13 @@ export class SelectionBoxDemoComponent implements OnInit {
 
   public myForm: FormGroup;
 
-  #formBuilder: FormBuilder;
-
   constructor(formBuilder: FormBuilder) {
-    this.#formBuilder = formBuilder;
+    this.myForm = formBuilder.group({
+      myOption: this.items[2].value,
+    });
   }
 
   public ngOnInit(): void {
-    this.myForm = this.#formBuilder.group({
-      myOption: this.items[2].value,
-    });
     this.myForm.valueChanges.subscribe((value) => console.log(value));
   }
 }

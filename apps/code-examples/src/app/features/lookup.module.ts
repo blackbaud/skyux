@@ -23,6 +23,8 @@ import { LookupSingleSelectDemoComponent } from '../code-examples/lookup/lookup/
 import { LookupSingleSelectDemoModule } from '../code-examples/lookup/lookup/single-select/lookup-single-demo.module';
 import { SearchDemoComponent } from '../code-examples/lookup/search/basic/search-demo.component';
 import { SearchDemoModule } from '../code-examples/lookup/search/basic/search-demo.module';
+import { SelectionModalDemoComponent } from '../code-examples/lookup/selection-modal/basic/selection-modal-demo.component';
+import { SelectionModalDemoModule } from '../code-examples/lookup/selection-modal/basic/selection-modal-demo.module';
 
 const routes: Routes = [
   {
@@ -69,6 +71,10 @@ const routes: Routes = [
     path: 'search/basic',
     component: SearchDemoComponent,
   },
+  {
+    path: 'selection-modal/basic',
+    component: SelectionModalDemoComponent,
+  },
 ];
 
 @NgModule({
@@ -90,6 +96,7 @@ export class LookupRoutingModule {}
     LookupResultTemplatesDemoModule,
     LookupSingleSelectDemoModule,
     SearchDemoModule,
+    SelectionModalDemoModule,
     LookupRoutingModule,
   ],
 })

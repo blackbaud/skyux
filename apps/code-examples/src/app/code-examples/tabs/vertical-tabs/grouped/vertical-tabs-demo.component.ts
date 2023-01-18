@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 
+import { VerticalTabsDemoGroup } from './vertical-tabs-demo-group';
+
 @Component({
   selector: 'app-vertical-tab-demo',
   templateUrl: './vertical-tabs-demo.component.html',
 })
 export class SkyVerticalTabsDemoComponent {
-  public groups: any[];
+  public groups: VerticalTabsDemoGroup[];
 
   constructor() {
     this.groups = [
@@ -46,9 +48,5 @@ export class SkyVerticalTabsDemoComponent {
         subTabs: [],
       },
     ];
-  }
-
-  public tabChanged(newIndex: any) {
-    console.log(`new active ${newIndex}`);
   }
 }

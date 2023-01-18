@@ -1,8 +1,7 @@
-@import 'libs/components/theme/src/lib/styles/variables';
-@import '../../styles/mixins';
+@use '../../styles/mixins' as popoverMixins;
 
 .sky-dropdown-menu {
-  @include popoverMaxHeight();
+  @include popoverMixins.popoverMaxHeight();
 
   display: flex;
   flex-direction: column;
@@ -15,6 +14,11 @@
 }
 
 .sky-theme-modern {
+  .sky-dropdown-menu {
+    border-radius: 6px;
+    padding: 10px 0;
+  }
+
   &.sky-theme-mode-dark {
     .sky-dropdown-menu {
       background-color: #252a2e;

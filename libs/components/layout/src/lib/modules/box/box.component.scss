@@ -1,15 +1,33 @@
-@import 'libs/components/theme/src/lib/styles/variables';
-@import 'libs/components/theme/src/lib/styles/themes/modern/_compat/variables';
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+
+/* Default theme */
+sky-box {
+  --sky-box-border-radius: initial;
+  --sky-box-overflow: initial;
+}
+
+/* Modern theme */
+.sky-theme-modern sky-box {
+  --sky-box-border-radius: $sky-theme-modern-box-border-radius-default;
+  --sky-box-overflow: hidden;
+}
+
+sky-box {
+  display: block;
+}
 
 .sky-box {
   background-color: #fff;
+  border-radius: var(--sky-box-border-radius);
+  overflow: var(--sky-box-overflow);
 
   .sky-box-header-content {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     align-items: baseline;
-    padding: $sky-space-xl $sky-space-xl 0 $sky-space-xl;
+    padding: var(--sky-padding-even-xl) var(--sky-padding-even-xl) 0
+      var(--sky-padding-even-xl);
 
     &:empty {
       display: none;
@@ -31,25 +49,7 @@
     order: 2;
 
     .sky-box-content {
-      padding: $sky-space-xl;
-    }
-  }
-}
-
-.sky-theme-modern {
-  .sky-box {
-    border-radius: $sky-theme-modern-box-border-radius-default;
-    overflow: hidden;
-
-    .sky-box-header-content {
-      padding: $sky-theme-modern-margin-inline-xl
-        $sky-theme-modern-margin-inline-xl 0 $sky-theme-modern-margin-inline-xl;
-    }
-
-    sky-box-content {
-      .sky-box-content {
-        padding: $sky-theme-modern-padding-even-xl;
-      }
+      padding: var(--sky-padding-even-xl);
     }
   }
 }

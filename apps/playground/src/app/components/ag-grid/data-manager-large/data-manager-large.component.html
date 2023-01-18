@@ -7,6 +7,11 @@
           icon="arrows-h"
           label="Top scroll"
         ></sky-checkbox>
+        <sky-checkbox
+          formControlName="useColumnGroups"
+          icon="object-group"
+          label="Use column groups"
+        ></sky-checkbox>
         <sky-radio-group ariaLabel="DOM layout" formControlName="domLayout">
           <div class="sky-switch-icon-group">
             <sky-radio
@@ -22,6 +27,19 @@
           </div>
         </sky-radio-group>
       </form>
+    </sky-data-manager-toolbar-primary-item>
+    <sky-data-manager-toolbar-primary-item>
+      <sky-dropdown buttonStyle="link">
+        <sky-dropdown-button> Show dropdown </sky-dropdown-button>
+        <sky-dropdown-menu>
+          <sky-dropdown-item>
+            <button type="button" click>Option 1</button>
+          </sky-dropdown-item>
+          <sky-dropdown-item>
+            <button type="button">Option 2</button>
+          </sky-dropdown-item>
+        </sky-dropdown-menu>
+      </sky-dropdown>
     </sky-data-manager-toolbar-primary-item>
   </sky-data-manager-toolbar>
   <sky-data-view skyAgGridDataManagerAdapter [viewId]="viewId">

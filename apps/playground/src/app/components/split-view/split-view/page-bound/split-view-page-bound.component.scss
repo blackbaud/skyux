@@ -17,3 +17,22 @@
   padding-right: 10px;
   padding-left: 10px;
 }
+
+.my-split-view {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.my-split-view-header {
+  flex-grow: 0;
+}
+
+.my-split-view-content {
+  flex-grow: 1;
+  position: relative;
+}

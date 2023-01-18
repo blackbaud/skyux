@@ -24,6 +24,8 @@ import {
   ValueFormatterParams,
 } from 'ag-grid-community';
 
+import { SkyAgGridDemoRow } from './data-manager-multiselect-data-grid-docs-demo-data';
+
 @Component({
   selector: 'app-data-manager-multiselect-data-grid-docs-demo-view-grid',
   templateUrl:
@@ -34,7 +36,7 @@ export class DataManagerMultiselectDataGridDocsDemoViewGridComponent
   implements OnInit
 {
   @Input()
-  public items: any[] = [];
+  public items: SkyAgGridDemoRow[] = [];
 
   public viewId = 'dataGridMultiselectWithDataManagerView';
 
@@ -118,7 +120,7 @@ export class DataManagerMultiselectDataGridDocsDemoViewGridComponent
   public dataState = new SkyDataManagerState({});
 
   public columnApi?: ColumnApi;
-  public displayedItems: any[] = [];
+  public displayedItems: SkyAgGridDemoRow[] = [];
   public gridApi?: GridApi;
   public isGridReadyForInitialization = false;
   public gridOptions!: GridOptions;
@@ -185,18 +187,18 @@ export class DataManagerMultiselectDataGridDocsDemoViewGridComponent
     }
   }
 
-  private searchItems(items: any[]): any[] {
+  private searchItems(items: SkyAgGridDemoRow[]): SkyAgGridDemoRow[] {
     let searchedItems = items;
     const searchText = this.dataState && this.dataState.searchText;
 
     if (searchText) {
-      searchedItems = items.filter(function (item: any) {
-        let property: any;
+      searchedItems = items.filter(function (item: SkyAgGridDemoRow) {
+        let property: keyof typeof item;
 
         for (property in item) {
           if (
             Object.prototype.hasOwnProperty.call(item, property) &&
-            (property === 'name' || property === 'description')
+            property === 'name'
           ) {
             const propertyText = item[property].toLowerCase();
             if (propertyText.indexOf(searchText) > -1) {
@@ -210,13 +212,13 @@ export class DataManagerMultiselectDataGridDocsDemoViewGridComponent
     return searchedItems;
   }
 
-  private filterItems(items: any[]): any[] {
+  private filterItems(items: SkyAgGridDemoRow[]): SkyAgGridDemoRow[] {
     let filteredItems = items;
     const filterData = this.dataState && this.dataState.filterData;
 
     if (filterData && filterData.filters) {
       const filters = filterData.filters;
-      filteredItems = items.filter((item: any) => {
+      filteredItems = items.filter((item: SkyAgGridDemoRow) => {
         return (
           ((filters.hideSales && item.department.name !== 'Sales') ||
             !filters.hideSales) &&
@@ -239,31 +241,32 @@ export class DataManagerMultiselectDataGridDocsDemoViewGridComponent
   }
 
   private updateColumnOrder(): void {
-    const viewState: SkyDataViewState = this.dataState.getViewStateById(
-      this.viewId
-    );
+    const viewState: SkyDataViewState | undefined =
+      this.dataState.getViewStateById(this.viewId);
 
-    this.columnDefinitions.sort((columnDefinition1, columnDefinition2) => {
-      const displayedColumnIdIndex1: number =
-        viewState.displayedColumnIds.findIndex(
-          (aDisplayedColumnId: string) =>
-            aDisplayedColumnId === columnDefinition1.field
-        );
-      const displayedColumnIdIndex2: number =
-        viewState.displayedColumnIds.findIndex(
-          (aDisplayedColumnId: string) =>
-            aDisplayedColumnId === columnDefinition2.field
-        );
+    if (viewState) {
+      this.columnDefinitions.sort((columnDefinition1, columnDefinition2) => {
+        const displayedColumnIdIndex1: number =
+          viewState.displayedColumnIds.findIndex(
+            (aDisplayedColumnId: string) =>
+              aDisplayedColumnId === columnDefinition1.field
+          );
+        const displayedColumnIdIndex2: number =
+          viewState.displayedColumnIds.findIndex(
+            (aDisplayedColumnId: string) =>
+              aDisplayedColumnId === columnDefinition2.field
+          );
 
-      if (displayedColumnIdIndex1 === -1) {
-        return 0;
-      } else if (displayedColumnIdIndex2 === -1) {
-        return 0;
-      } else {
-        return displayedColumnIdIndex1 - displayedColumnIdIndex2;
-      }
-    });
-    this.changeDetector.markForCheck();
+        if (displayedColumnIdIndex1 === -1) {
+          return 0;
+        } else if (displayedColumnIdIndex2 === -1) {
+          return 0;
+        } else {
+          return displayedColumnIdIndex1 - displayedColumnIdIndex2;
+        }
+      });
+      this.changeDetector.markForCheck();
+    }
   }
 
   private updateDisplayedItems(): void {

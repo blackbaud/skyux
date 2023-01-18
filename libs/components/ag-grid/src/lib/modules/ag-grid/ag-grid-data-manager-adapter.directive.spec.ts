@@ -46,7 +46,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
     agGridDataManagerFixture.detectChanges();
 
-    agGridComponent = agGridDataManagerFixtureComponent.agGrid;
+    agGridComponent = agGridDataManagerFixtureComponent.agGrid as AgGridAngular;
     dataViewEl = agGridDataManagerFixture.debugElement.query(
       By.directive(SkyAgGridDataManagerAdapterDirective)
     );
@@ -162,7 +162,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
     const colIds = ['col1', 'col2'];
     const columnApi = {
-      getColumnState: () => {
+      getColumnState: (): ColumnState[] => {
         return colIds.map((colId): ColumnState => {
           return {
             colId,
@@ -176,7 +176,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
     const columnDragged = {
       columnApi,
-    } as DragStartedEvent | DragStoppedEvent;
+    } as DragStartedEvent & DragStoppedEvent;
 
     agGridComponent.dragStarted.emit(columnDragged);
     colIds.reverse();
@@ -190,7 +190,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
     const colIds = ['col1', 'col2'];
     const columnApi = {
-      getColumnState: () => {
+      getColumnState: (): ColumnState[] => {
         return colIds.map((colId): ColumnState => {
           return {
             colId,
@@ -201,7 +201,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     };
     const columnDragged = {
       columnApi,
-    } as DragStartedEvent | DragStoppedEvent;
+    } as DragStartedEvent & DragStoppedEvent;
     agGridComponent.dragStopped.emit(columnDragged);
     spyOn(dataManagerService, 'updateDataState');
     agGridComponent.dragStopped.emit(columnDragged);
@@ -286,7 +286,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       const viewConfig = dataManagerService.getViewById(
         agGridDataManagerFixtureComponent.viewConfig.id
       );
-      viewConfig.onSelectAllClick();
+      viewConfig?.onSelectAllClick?.();
 
       expect(agGridComponent.api.selectAll).toHaveBeenCalled();
     });
@@ -300,7 +300,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       const viewConfig = dataManagerService.getViewById(
         agGridDataManagerFixtureComponent.viewConfig.id
       );
-      viewConfig.onClearAllClick();
+      viewConfig?.onClearAllClick?.();
 
       expect(agGridComponent.api.deselectAll).toHaveBeenCalled();
     });
@@ -317,29 +317,29 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   });
 
   it('should unregister the grid if no grids are rendered', () => {
-    expect(agGridDataManagerDirective.agGridList.length).toBe(1);
+    expect(agGridDataManagerDirective.agGridList?.length).toBe(1);
 
     agGridDataManagerFixtureComponent.displayFirstGrid = false;
     agGridDataManagerFixture.detectChanges();
 
-    expect(agGridDataManagerDirective.agGridList.length).toBe(0);
+    expect(agGridDataManagerDirective.agGridList?.length).toBe(0);
   });
 
   it('should register a grid if no other grids are rendered', () => {
-    expect(agGridDataManagerDirective.agGridList.length).toBe(1);
-    expect(agGridDataManagerDirective.skyAgGridWrapperList.length).toBe(1);
+    expect(agGridDataManagerDirective.agGridList?.length).toBe(1);
+    expect(agGridDataManagerDirective.skyAgGridWrapperList?.length).toBe(1);
 
     agGridDataManagerFixtureComponent.displayFirstGrid = false;
     agGridDataManagerFixture.detectChanges();
 
-    expect(agGridDataManagerDirective.agGridList.length).toBe(0);
-    expect(agGridDataManagerDirective.skyAgGridWrapperList.length).toBe(0);
+    expect(agGridDataManagerDirective.agGridList?.length).toBe(0);
+    expect(agGridDataManagerDirective.skyAgGridWrapperList?.length).toBe(0);
 
     agGridDataManagerFixtureComponent.displaySecondGrid = true;
     agGridDataManagerFixture.detectChanges();
 
-    expect(agGridDataManagerDirective.agGridList.length).toBe(1);
-    expect(agGridDataManagerDirective.skyAgGridWrapperList.length).toBe(1);
+    expect(agGridDataManagerDirective.agGridList?.length).toBe(1);
+    expect(agGridDataManagerDirective.skyAgGridWrapperList?.length).toBe(1);
   });
 });
 
@@ -355,18 +355,19 @@ it('should move the horizontal scroll based on enableTopScroll check', async () 
   };
   fixture.detectChanges();
   await fixture.whenStable();
-  fixture.componentInstance.agGrid.gridReady.emit();
+  fixture.componentInstance.agGrid?.gridReady.emit();
   fixture.detectChanges();
   await fixture.whenStable();
   const gridComponents: string[] = Array.from(
     fixture.nativeElement.querySelector('.ag-root')?.children || []
-  ).map((el: HTMLElement) => el.classList[0]);
+  ).map((el) => (el as HTMLElement).classList[0]);
   // Expect the scrollbar below the header.
   expect(gridComponents).toEqual([
     'ag-header',
     'ag-body-horizontal-scroll',
     'ag-floating-top',
     'ag-body-viewport',
+    'ag-sticky-top',
     'ag-floating-bottom',
     'ag-overlay',
   ]);

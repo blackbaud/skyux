@@ -30,7 +30,14 @@ import {
   fromEvent as observableFromEvent,
   of,
 } from 'rxjs';
-import { debounceTime, map, switchMap, take, takeUntil } from 'rxjs/operators';
+import {
+  debounceTime,
+  delay,
+  map,
+  switchMap,
+  take,
+  takeUntil,
+} from 'rxjs/operators';
 
 import { normalizeDiacritics } from '../shared/sky-lookup-string-utils';
 
@@ -81,11 +88,11 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    */
   @Input()
   public set data(value: any[] | undefined) {
-    this.#_data = value;
+    this.#_data = value ?? [];
   }
 
   public get data(): any[] {
-    return this.#_data || [];
+    return this.#_data;
   }
 
   /**
@@ -95,11 +102,11 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    */
   @Input()
   public set debounceTime(value: number | undefined) {
-    this.#_debounceTime = value;
+    this.#_debounceTime = value ?? 0;
   }
 
   public get debounceTime(): number {
-    return this.#_debounceTime || 0;
+    return this.#_debounceTime;
   }
 
   /**
@@ -109,11 +116,11 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    */
   @Input()
   public set descriptorProperty(value: string | undefined) {
-    this.#_descriptorProperty = value;
+    this.#_descriptorProperty = value || 'name';
   }
 
   public get descriptorProperty(): string {
-    return this.#_descriptorProperty || 'name';
+    return this.#_descriptorProperty;
   }
 
   /**
@@ -121,7 +128,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    * Indicates whether to display a button in the dropdown that opens a picker where users can view all options.
    */
   @Input()
-  public enableShowMore = false;
+  public enableShowMore: boolean | undefined = false;
 
   /**
    * Specifies an observable of `SkyAutocompleteMessage` that can close the dropdown.
@@ -146,37 +153,39 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   /**
    * Specifies the object properties to search.
    * @default ["name"]
+   * @deprecated We recommend against using this property. To search specific properties, use the `searchAsync` event instead.
    */
   @Input()
   public set propertiesToSearch(value: string[] | undefined) {
-    this.#_propertiesToSearch = value;
+    this.#_propertiesToSearch = value ?? ['name'];
+
+    this.#updateDefaultSearchOptions();
   }
 
   public get propertiesToSearch(): string[] {
-    return this.#_propertiesToSearch || ['name'];
+    return this.#_propertiesToSearch;
   }
 
   /**
    * Specifies a function to dynamically manage the data source when users
    * change the text in the autocomplete field. The search function must return
    * an array or a promise of an array. The `search` property is particularly
-   * useful when the data source does not live in the source code. If the
-   * search requires calling a remote data source, use `searchAsync` instead of
-   * `search`.
+   * useful when the data source does not live in the source code.
+   * @deprecated We recommend against using this property. To call a remote data source, use the `searchAsync` event instead.
    */
   @Input()
   public set search(value: SkyAutocompleteSearchFunction | undefined) {
     this.#_search = value;
-  }
-
-  public get search(): SkyAutocompleteSearchFunction {
-    return (
-      this.#_search ||
+    this.searchOrDefault =
+      value ||
       skyAutocompleteDefaultSearchFunction({
         propertiesToSearch: this.propertiesToSearch,
         searchFilters: this.searchFilters,
-      })
-    );
+      });
+  }
+
+  public get search(): SkyAutocompleteSearchFunction | undefined {
+    return this.#_search;
   }
 
   /**
@@ -195,14 +204,11 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    */
   @Input()
   public set searchTextMinimumCharacters(value: number | undefined) {
-    this.#_searchTextMinimumCharacters = value;
+    this.#_searchTextMinimumCharacters = value && value > 0 ? value : 1;
   }
 
   public get searchTextMinimumCharacters(): number {
-    return this.#_searchTextMinimumCharacters &&
-      this.#_searchTextMinimumCharacters > 0
-      ? this.#_searchTextMinimumCharacters
-      : 1;
+    return this.#_searchTextMinimumCharacters;
   }
 
   /**
@@ -211,9 +217,22 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    * using the `search` property to specify a custom search function, you must
    * manually apply filters inside that function. The function must return `true`
    * or `false` for each result to indicate whether to display it in the dropdown list.
+   * @deprecated We recommend against using this property. To filter results, use the `searchAsync` event instead.
    */
   @Input()
-  public searchFilters: SkyAutocompleteSearchFunctionFilter[] | undefined;
+  public set searchFilters(
+    value: SkyAutocompleteSearchFunctionFilter[] | undefined
+  ) {
+    this.#_searchFilters = value;
+
+    this.#updateDefaultSearchOptions();
+  }
+
+  public get searchFilters():
+    | SkyAutocompleteSearchFunctionFilter[]
+    | undefined {
+    return this.#_searchFilters;
+  }
 
   /**
    * Specifies the maximum number of search results to display in the dropdown list.
@@ -221,23 +240,20 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    */
   @Input()
   public set searchResultsLimit(value: number | undefined) {
-    this.#_searchResultsLimit = value;
+    this.#_searchResultsLimit = value || 0;
   }
 
-  public get searchResultsLimit(): number | undefined {
-    if (this.#_searchResultsLimit && this.#_searchResultsLimit > 0) {
-      return this.#_searchResultsLimit;
-    } else {
-      return this.enableShowMore ? 5 : this.#_searchResultsLimit;
-    }
+  public get searchResultsLimit(): number {
+    return this.#_searchResultsLimit;
   }
 
   /**
    * @internal
    * Indicates whether to display a button that lets users add options to the data source.
+   * @default false
    */
   @Input()
-  public showAddButton = false;
+  public showAddButton: boolean | undefined = false;
 
   /**
    * Specifies the text to display when no search results are found.
@@ -250,9 +266,10 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    * @internal
    * Allows async search to be disabled even when a listener is specified for
    * the `searchAsync` output.
+   * @default false
    */
   @Input()
-  public searchAsyncDisabled = false;
+  public searchAsyncDisabled: boolean | undefined = false;
 
   /**
    * @internal
@@ -310,7 +327,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   public searchText = '';
 
   public get showActionsArea(): boolean {
-    return this.showAddButton || this.enableShowMore;
+    return !!this.showAddButton || !!this.enableShowMore;
   }
 
   public isSearchingAsync = false;
@@ -320,7 +337,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   //#endregion
 
   @ContentChild(SkyAutocompleteInputDirective)
-  private set inputDirective(
+  public set inputDirective(
     directive: SkyAutocompleteInputDirective | undefined
   ) {
     if (!directive) {
@@ -354,8 +371,9 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
           this.#searchTextChanged(change.value);
         });
 
+      // We delay this listener by 25ms to give things watching the value time to respond (such as the search button).
       this.#_inputDirective.blur
-        .pipe(takeUntil(this.#inputDirectiveUnsubscribe))
+        .pipe(delay(25), takeUntil(this.#inputDirectiveUnsubscribe))
         .subscribe(() => {
           directive.restoreInputTextValueToPreviousState();
           this.#closeDropdown();
@@ -372,19 +390,19 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     }
   }
 
-  private get inputDirective(): SkyAutocompleteInputDirective | undefined {
+  public get inputDirective(): SkyAutocompleteInputDirective | undefined {
     return this.#_inputDirective;
   }
 
   @ViewChild('resultsTemplateRef', {
     read: TemplateRef,
   })
-  private resultsTemplateRef: TemplateRef<unknown> | undefined;
+  public resultsTemplateRef: TemplateRef<unknown> | undefined;
 
   @ViewChild('resultsRef', {
     read: ElementRef,
   })
-  private set resultsRef(value: ElementRef | undefined) {
+  public set resultsRef(value: ElementRef | undefined) {
     if (value) {
       this.#_resultsRef = value;
       this.#destroyAffixer();
@@ -392,9 +410,11 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     }
   }
 
-  private get resultsRef(): ElementRef | undefined {
+  public get resultsRef(): ElementRef | undefined {
     return this.#_resultsRef;
   }
+
+  public searchOrDefault: SkyAutocompleteSearchFunction;
 
   /**
    * Index that indicates which descendant of the overlay currently has focus.
@@ -432,11 +452,11 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   #currentSearchSub: Subscription | undefined;
 
-  #_data: any[] | undefined;
+  #_data: any[] = [];
 
-  #_debounceTime: number | undefined;
+  #_debounceTime = 0;
 
-  #_descriptorProperty: string | undefined;
+  #_descriptorProperty = 'name';
 
   #_highlightText: string[] | undefined;
 
@@ -444,17 +464,19 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   #_messageStream = new Subject<SkyAutocompleteMessage>();
 
-  #_propertiesToSearch: string[] | undefined;
+  #_propertiesToSearch = ['name'];
 
   #_resultsRef: ElementRef | undefined;
 
   #_search: SkyAutocompleteSearchFunction | undefined;
 
+  #_searchFilters: SkyAutocompleteSearchFunctionFilter[] | undefined;
+
   #_searchResults: SkyAutocompleteSearchResult[] | undefined;
 
-  #_searchResultsLimit: number | undefined;
+  #_searchResultsLimit = 0;
 
-  #_searchTextMinimumCharacters: number | undefined;
+  #_searchTextMinimumCharacters = 1;
 
   constructor(
     changeDetector: ChangeDetectorRef,
@@ -470,6 +492,11 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     this.#adapterService = adapterService;
     this.#overlayService = overlayService;
     this.#inputBoxHostSvc = inputBoxHostSvc;
+
+    this.searchOrDefault = skyAutocompleteDefaultSearchFunction({
+      propertiesToSearch: ['name'],
+      searchFilters: undefined,
+    });
 
     const id = ++uniqueId;
     this.resultsListId = `sky-autocomplete-list-${id}`;
@@ -713,7 +740,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       return searchAsyncArgs.result || of(undefined);
     }
 
-    const result = this.search(this.searchText, this.data, {
+    const result = this.searchOrDefault(this.searchText, this.data, {
       context: 'popover',
     });
 
@@ -968,6 +995,16 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
         'sky-autocomplete-descendant-focus'
       );
       this.#setActiveDescendant();
+    }
+  }
+
+  #updateDefaultSearchOptions(): void {
+    // Reset default search if it is what is being used.
+    if (this.search !== this.searchOrDefault) {
+      this.searchOrDefault = skyAutocompleteDefaultSearchFunction({
+        propertiesToSearch: this.propertiesToSearch,
+        searchFilters: this.searchFilters,
+      });
     }
   }
 }

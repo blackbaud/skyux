@@ -7,5 +7,5 @@ import { SkyCellRendererValidatorParams } from '../types/cell-renderer-validator
   templateUrl: 'ag-grid-cell-validator-tooltip.component.fixture.html',
 })
 export class SkyAgGridCellValidatorTooltipFixtureComponent {
-  public parameters: SkyCellRendererValidatorParams;
+  public parameters: SkyCellRendererValidatorParams | undefined;
 }

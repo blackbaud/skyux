@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 
+import { SkyTabsetStyle } from '../tabset-style';
 import { SkyTabsetComponent } from '../tabset.component';
 
 @Component({
@@ -7,17 +8,17 @@ import { SkyTabsetComponent } from '../tabset.component';
   templateUrl: './tabset.component.fixture.html',
 })
 export class TabsetTestComponent {
-  public ariaLabel: string;
+  public ariaLabel: string | undefined;
 
-  public ariaLabelledBy: string;
+  public ariaLabelledBy: string | undefined;
 
   public tab1Heading = 'Tab 1';
 
-  public tab1Content: string;
+  public tab1Content: string | undefined;
 
   public tab2Heading = 'Tab 2';
 
-  public tab2Content: string;
+  public tab2Content: string | undefined;
 
   public tab2Available = true;
 
@@ -25,18 +26,20 @@ export class TabsetTestComponent {
 
   public tab3Heading = 'Tab 3';
 
-  public tab3HeaderCount: number;
+  public tab3HeaderCount: string | undefined;
 
-  public tab3Content: string;
+  public tab3Content: string | undefined;
 
   public tab3Available = true;
+
+  public tabStyle: SkyTabsetStyle | undefined = 'tabs';
 
   public activeTab = 0;
 
   public tabMaxWidth = 2000;
 
   @ViewChild(SkyTabsetComponent)
-  public tabsetComponent: SkyTabsetComponent;
+  public tabsetComponent: SkyTabsetComponent | undefined;
 
   public newTab() {}
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 @Component({
@@ -6,12 +6,12 @@ import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
   templateUrl: './phone-field-demo.component.html',
   styleUrls: ['./phone-field-demo.component.scss'],
 })
-export class PhoneFieldDemoComponent implements OnInit {
+export class PhoneFieldDemoComponent {
   public phoneControl: UntypedFormControl;
 
   public phoneForm: UntypedFormGroup;
 
-  public ngOnInit(): void {
+  constructor() {
     this.phoneControl = new UntypedFormControl();
     this.phoneForm = new UntypedFormGroup({
       phoneControl: this.phoneControl,

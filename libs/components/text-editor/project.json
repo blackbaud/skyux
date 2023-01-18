@@ -1,4 +1,5 @@
 {
+  "name": "text-editor",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/components/text-editor/src",
@@ -6,7 +7,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/text-editor"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/text-editor"],
       "options": {
         "project": "libs/components/text-editor/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false

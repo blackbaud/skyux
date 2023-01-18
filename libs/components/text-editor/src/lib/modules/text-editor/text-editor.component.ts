@@ -11,7 +11,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
-import { SkyCoreAdapterService } from '@skyux/core';
+import { SkyCoreAdapterService, SkyIdService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -24,6 +24,7 @@ import { MENU_DEFAULTS } from './defaults/menu-defaults';
 import { STYLE_STATE_DEFAULTS } from './defaults/style-state-defaults';
 import { TOOLBAR_ACTION_DEFAULTS } from './defaults/toolbar-action-defaults';
 import { SkyTextEditorAdapterService } from './services/text-editor-adapter.service';
+import { SkyTextEditorSelectionService } from './services/text-editor-selection.service';
 import { SkyTextEditorService } from './services/text-editor.service';
 import { SkyTextSanitizationService } from './services/text-sanitization.service';
 import { SkyTextEditorFont } from './types/font-state';
@@ -31,11 +32,6 @@ import { SkyTextEditorMenuType } from './types/menu-type';
 import { SkyTextEditorStyleState } from './types/style-state';
 import { SkyTextEditorMergeField } from './types/text-editor-merge-field';
 import { SkyTextEditorToolbarActionType } from './types/toolbar-action-type';
-
-/**
- * Auto-incrementing integer used to generate unique ids for radio components.
- */
-let nextUniqueId = 0;
 
 /**
  * The text editor component lets users format and manipulate text.
@@ -46,90 +42,109 @@ let nextUniqueId = 0;
   styleUrls: ['./text-editor.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  providers: [
+    SkyTextEditorService,
+    SkyTextEditorSelectionService,
+    SkyTextEditorAdapterService,
+  ],
 })
 export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
   /**
    * Indicates whether to put focus on the editor after it renders.
    */
   @Input()
-  public autofocus = false;
+  public autofocus: boolean | undefined = false;
 
   /**
    * Indicates whether to disable the text editor.
    * @default false
    */
   @Input()
-  public set disabled(value: boolean) {
+  public set disabled(value: boolean | undefined) {
     const coercedValue = SkyFormsUtility.coerceBooleanProperty(value);
     if (coercedValue !== this.disabled) {
-      this._disabled = coercedValue;
+      this.#_disabled = coercedValue;
 
       // Update focusableChildren inside the iframe.
       let focusableChildren: HTMLElement[];
       /* istanbul ignore else */
       if (this.iframeRef) {
-        focusableChildren = this.coreAdapterService.getFocusableChildren(
+        focusableChildren = this.#coreAdapterService.getFocusableChildren(
           this.iframeRef.nativeElement.contentDocument.body,
           {
             ignoreVisibility: true,
             ignoreTabIndex: true,
           }
         );
-      }
 
-      if (this._disabled) {
-        this.adapterService.disableEditor(
-          this.id,
-          focusableChildren,
-          this.iframeRef.nativeElement
-        );
-      } else {
-        this.adapterService.enableEditor(
-          this.id,
-          focusableChildren,
-          this.iframeRef.nativeElement
-        );
+        if (this.#_disabled) {
+          this.#adapterService.disableEditor(
+            focusableChildren,
+            this.iframeRef.nativeElement
+          );
+        } else {
+          this.#adapterService.enableEditor(
+            focusableChildren,
+            this.iframeRef.nativeElement
+          );
+        }
+        this.#changeDetector.markForCheck();
       }
-      this.changeDetector.markForCheck();
     }
   }
 
-  public get disabled() {
-    return this._disabled;
+  public get disabled(): boolean {
+    return this.#_disabled;
   }
-
-  public editorFocusStream = new Subject<void>();
 
   /**
    * Specifies the fonts to include in the font picker.
    * @default [{name: 'Blackbaud Sans', value: '"Blackbaud Sans", Arial, sans-serif'}, {name: 'Arial', value: 'Arial'}, {name: 'Arial Black', value: '"Arial Black"'}, {name: 'Courier New', value: '"Courier New"'}, {name: 'Georgia', value: 'Georgia, serif'}, {name: 'Tahoma', value: 'Tahoma, Geneva, sans-serif'}, {name: 'Times New Roman', value: '"Times New Roman"'}, {name: 'Trebuchet MS', value: '"Trebuchet MS", sans-serif'}, {name: 'Verdana', value: 'Verdana, Geneva, sans-serif'}]
    */
   @Input()
-  public fontList: SkyTextEditorFont[] = FONT_LIST_DEFAULTS;
+  public set fontList(value: SkyTextEditorFont[] | undefined) {
+    this.#_fontList = value || FONT_LIST_DEFAULTS;
+  }
+
+  public get fontList(): SkyTextEditorFont[] {
+    return this.#_fontList;
+  }
 
   /**
    * Specifies the font sizes to include in the font size picker.
    * @default [6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 20, 22, 24, 26, 28, 36, 48]
    */
   @Input()
-  public fontSizeList: number[] = FONT_SIZE_LIST_DEFAULTS;
+  public set fontSizeList(value: number[] | undefined) {
+    this.#_fontSizeList = value || FONT_SIZE_LIST_DEFAULTS;
+  }
+
+  public get fontSizeList(): number[] {
+    return this.#_fontSizeList;
+  }
 
   /**
    * Specifies a unique ID attribute for the text editor.
    * By default, the component generates a random ID.
    */
   @Input()
-  public id = `sky-text-editor-${++nextUniqueId}`;
+  public set id(value: string | undefined) {
+    this.#id = value || this.#defaultId;
+  }
+
+  public get id(): string {
+    return this.#id;
+  }
 
   /**
    * Specifies the initial styles for all content, including background color, font size, and link state.
    */
   @Input()
-  public set initialStyleState(state: SkyTextEditorStyleState) {
+  public set initialStyleState(state: SkyTextEditorStyleState | undefined) {
     // Do not update the state after initialization has taken place
     /* istanbul ignore else */
-    if (!this.initialized) {
-      this._initialStyleState = {
+    if (!this.#initialized) {
+      this.#_initialStyleState = {
         ...STYLE_STATE_DEFAULTS,
         ...state,
       };
@@ -137,7 +152,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
   }
 
   public get initialStyleState(): SkyTextEditorStyleState {
-    return this._initialStyleState;
+    return this.#_initialStyleState;
   }
 
   /**
@@ -145,30 +160,42 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
    * @default [ 'edit', 'format' ]
    */
   @Input()
-  public menus: SkyTextEditorMenuType[] = MENU_DEFAULTS;
+  public set menus(value: SkyTextEditorMenuType[] | undefined) {
+    this.#_menus = value || MENU_DEFAULTS;
+  }
+
+  public get menus(): SkyTextEditorMenuType[] {
+    return this.#_menus;
+  }
 
   /**
    * Specifies the merge fields to include in the merge field menu.
    */
   @Input()
-  public mergeFields: SkyTextEditorMergeField[] = [];
+  public set mergeFields(value: SkyTextEditorMergeField[] | undefined) {
+    this.#_mergeFields = value || [];
+  }
+
+  public get mergeFields(): SkyTextEditorMergeField[] {
+    return this.#_mergeFields;
+  }
 
   /**
    * Specifies placeholder text to display when the text entry area is empty.
    */
   @Input()
-  public set placeholder(value: string) {
+  public set placeholder(value: string | undefined) {
     /* istanbul ignore else */
-    if (value !== this._placeholder) {
-      this._placeholder = value;
-      if (this.initialized) {
-        this.adapterService.setPlaceholder(this.id, value);
+    if (value !== this.#_placeholder) {
+      this.#_placeholder = value || '';
+      if (this.#initialized) {
+        this.#adapterService.setPlaceholder(value);
       }
     }
   }
 
   public get placeholder(): string {
-    return this._placeholder;
+    return this.#_placeholder;
   }
 
   /**
@@ -176,98 +203,129 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
    * @default [ 'font-family', 'font-size', 'font-style', 'color', 'list', 'link ]
    */
   @Input()
-  public toolbarActions: SkyTextEditorToolbarActionType[] = TOOLBAR_ACTION_DEFAULTS;
+  public set toolbarActions(
+    value: SkyTextEditorToolbarActionType[] | undefined
+  ) {
+    this.#_toolbarActions = value || TOOLBAR_ACTION_DEFAULTS;
+  }
+
+  public get toolbarActions(): SkyTextEditorToolbarActionType[] {
+    return this.#_toolbarActions;
+  }
+
+  @ViewChild('iframe')
+  public iframeRef: ElementRef | undefined;
 
   /**
    * The internal value of the control.
    */
-  public set value(value: string) {
+  public set value(value: string | undefined) {
     // Normalize value and set any empty state to an empty string.
-    let normalizedValue: string = value;
+    let normalizedValue: string;
+    const valueTrimmed = value?.trim();
+
     if (
       !value ||
-      value.trim() === '<p></p>' ||
-      value.trim() === '<br>' ||
-      value.trim() === '<p><br></p>'
+      valueTrimmed === '<p></p>' ||
+      valueTrimmed === '<br>' ||
+      valueTrimmed === '<p><br></p>'
     ) {
       normalizedValue = '';
+    } else {
+      normalizedValue = value;
     }
-    normalizedValue = this.sanitizationService.sanitize(normalizedValue).trim();
 
-    if (this._value !== normalizedValue) {
-      this._value = normalizedValue;
+    normalizedValue = this.#sanitizationService
+      .sanitize(normalizedValue)
+      .trim();
+
+    if (this.#_value !== normalizedValue) {
+      this.#_value = normalizedValue;
 
       // Update angular form control if model has been normalized.
       /* istanbul ignore else */
-      if (this.ngControl && this.ngControl.control) {
-        /* istanbul ignore else */
-        if (normalizedValue !== this.ngControl.control.value) {
-          this.ngControl.control.setValue(normalizedValue, {
-            emitModelToViewChange: false,
-          });
-        }
+      if (
+        this.#ngControl?.control &&
+        normalizedValue !== this.#ngControl.control.value
+      ) {
+        this.#ngControl.control.setValue(normalizedValue, {
+          emitModelToViewChange: false,
+        });
       }
 
       // Autofocus isn't testable in Firefox and IE.
       /* istanbul ignore next */
-      if (this.autofocus && !this.focusInitialized) {
-        this.adapterService.focusEditor(this.id);
-        this.focusInitialized = true;
+      if (this.autofocus && !this.#focusInitialized) {
+        this.#adapterService.focusEditor();
+        this.#focusInitialized = true;
       }
     }
   }
 
   public get value(): string {
-    return this._value;
+    return this.#_value;
   }
 
-  private focusInitialized = false;
+  public editorFocusStream = new Subject<void>();
 
-  @ViewChild('iframe')
-  private iframeRef: ElementRef;
+  #defaultId: string;
+  #id: string;
+  #focusInitialized = false;
+  #initialized = false;
+  #ngUnsubscribe = new Subject<void>();
+  #changeDetector: ChangeDetectorRef;
+  #coreAdapterService: SkyCoreAdapterService;
+  #adapterService: SkyTextEditorAdapterService;
+  #editorService: SkyTextEditorService;
+  #sanitizationService: SkyTextSanitizationService;
+  #ngControl: NgControl;
+  #zone: NgZone;
 
-  private initialized = false;
-
-  private ngUnsubscribe = new Subject<void>();
-
-  private _disabled = false;
-
-  private _initialStyleState = Object.assign({}, STYLE_STATE_DEFAULTS);
-
-  private _placeholder = '';
-
-  private _value = '<p></p>';
+  #_fontList = FONT_LIST_DEFAULTS;
+  #_fontSizeList = FONT_SIZE_LIST_DEFAULTS;
+  #_mergeFields: SkyTextEditorMergeField[] = [];
+  #_menus = MENU_DEFAULTS;
+  #_toolbarActions: SkyTextEditorToolbarActionType[] = TOOLBAR_ACTION_DEFAULTS;
+  #_disabled = false;
+  #_initialStyleState = Object.assign({}, STYLE_STATE_DEFAULTS);
+  #_placeholder = '';
+  #_value = '<p></p>';
 
   constructor(
-    private changeDetector: ChangeDetectorRef,
-    private coreAdapterService: SkyCoreAdapterService,
-    private adapterService: SkyTextEditorAdapterService,
-    private editorService: SkyTextEditorService,
-    private sanitizationService: SkyTextSanitizationService,
-    private ngControl: NgControl,
-    private zone: NgZone
+    changeDetector: ChangeDetectorRef,
+    coreAdapterService: SkyCoreAdapterService,
+    adapterService: SkyTextEditorAdapterService,
+    editorService: SkyTextEditorService,
+    sanitizationService: SkyTextSanitizationService,
+    ngControl: NgControl,
+    zone: NgZone,
+    idSvc: SkyIdService
   ) {
-    this.ngControl.valueAccessor = this;
+    this.#changeDetector = changeDetector;
+    this.#coreAdapterService = coreAdapterService;
+    this.#adapterService = adapterService;
+    this.#editorService = editorService;
+    this.#sanitizationService = sanitizationService;
+    this.#ngControl = ngControl;
+    this.#zone = zone;
+
+    this.#id = this.#defaultId = idSvc.generateId();
+
+    ngControl.valueAccessor = this;
   }
 
   public ngAfterViewInit(): void {
-    this.initIframe();
+    this.#initIframe();
   }
 
   public ngOnDestroy(): void {
-    this.adapterService.removeObservers(this.editorService.editors[this.id]);
-    this.editorService.removeEditor(this.id);
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#adapterService.removeObservers(this.#editorService.editor);
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   public onIframeLoad(): void {
-    // Remove editor if it already exists to cover situations where the text editor might have been moved in the DOM.
-    /* istanbul ignore else */
-    if (this.editorService.editors[this.id]) {
-      this.editorService.removeEditor(this.id);
-      this.initIframe();
-    }
+    this.#initIframe();
   }
 
   /**
@@ -277,24 +335,27 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
     this.value = value;
 
     // Update HTML if necessary.
-    const editorValue = this.adapterService.getEditorInnerHtml(this.id);
-    if (this.initialized && editorValue !== this._value) {
-      this.adapterService.setEditorInnerHtml(this.id, this._value);
+    if (this.#initialized) {
+      const editorValue = this.#adapterService.getEditorInnerHtml();
+      if (editorValue !== this.#_value) {
+        this.#adapterService.setEditorInnerHtml(this.#_value);
+      }
     }
   }
 
   /**
    * Implemented as part of ControlValueAccessor.
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public registerOnChange(fn: (value: any) => void): void {
-    this._onChange = fn;
+    this.#_onChange = fn;
   }
 
   /**
    * Implemented as part of ControlValueAccessor.
    */
   public registerOnTouched(fn: () => void): void {
-    this._onTouched = fn;
+    this.#_onTouched = fn;
   }
 
   /**
@@ -304,87 +365,94 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
     this.disabled = isDisabled;
   }
 
-  private updateStyle(): void {
-    this._initialStyleState = {
-      ...this._initialStyleState,
-      ...(this.adapterService.getStyleState(this.id) as any),
+  #updateStyle(): void {
+    this.#_initialStyleState = {
+      ...this.#_initialStyleState,
+      ...this.#adapterService.getStyleState(),
     };
   }
 
-  private initIframe(): void {
-    this.adapterService.addEditor(
+  #initIframe(): void {
+    this.#adapterService.initEditor(
       this.id,
-      this.iframeRef.nativeElement,
+      (this.iframeRef as ElementRef).nativeElement,
       this.initialStyleState,
       this.placeholder
     );
 
-    this.editorService
-      .inputListener(this.id)
-      .pipe(takeUntil(this.ngUnsubscribe))
+    this.#editorService
+      .inputListener()
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         // Angular doesn't run change detection for changes originating inside an iframe,
         // so we have to call the onChange() event inside NgZone to force change propigation to consuming components.
-        this.zone.run(() => {
-          this.ViewToModelUpdate();
+        this.#zone.run(() => {
+          this.#viewToModelUpdate();
         });
       });
 
-    this.editorService
-      .selectionChangeListener(this.id)
-      .pipe(takeUntil(this.ngUnsubscribe))
+    this.#editorService
+      .selectionChangeListener()
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
-        this.updateStyle();
+        this.#updateStyle();
         this.editorFocusStream.next();
       });
 
-    this.editorService
-      .clickListener(this.id)
-      .pipe(takeUntil(this.ngUnsubscribe))
+    this.#editorService
+      .clickListener()
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         this.editorFocusStream.next();
       });
 
-    this.editorService
-      .blurListener(this.id)
-      .pipe(takeUntil(this.ngUnsubscribe))
+    this.#editorService
+      .blurListener()
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         // Angular doesn't run change detection for changes originating inside an iframe,
         // so we have to run markForCheck() inside the NgZone to force change propigation to consuming components.
-        this.zone.run(() => {
-          this._onTouched();
+        this.#zone.run(() => {
+          this.#_onTouched();
         });
       });
 
-    this.editorService
-      .commandChangeListener(this.id)
-      .pipe(takeUntil(this.ngUnsubscribe))
+    this.#editorService
+      .commandChangeListener()
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
-        this.updateStyle();
-        this.ViewToModelUpdate();
+        this.#updateStyle();
+        this.#viewToModelUpdate();
       });
 
-    this.adapterService.setEditorInnerHtml(this.id, this._value);
+    this.#adapterService.setEditorInnerHtml(this.#_value);
 
     /* istanbul ignore next */
     if (this.autofocus) {
-      this.adapterService.focusEditor(this.id);
+      this.#adapterService.focusEditor();
     }
 
-    this.initialized = true;
+    this.#initialized = true;
   }
 
-  private ViewToModelUpdate(emitChange: boolean = true): void {
-    this.value = this.adapterService.getEditorInnerHtml(this.id);
+  #viewToModelUpdate(emitChange: boolean = true): void {
+    this.value = this.#adapterService.getEditorInnerHtml();
     /* istanbul ignore else */
     if (emitChange) {
-      this._onChange(this._value);
+      this.#_onChange(this.#_value);
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private _onTouched = () => {};
+  /* istanbul ignore next */
+  #_onTouched = (): void => {
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+  };
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private _onChange: (value: any) => void = () => {};
+  /* istanbul ignore next */
+  #_onChange: (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    value: any
+  ) => void = () => {
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+  };
 }

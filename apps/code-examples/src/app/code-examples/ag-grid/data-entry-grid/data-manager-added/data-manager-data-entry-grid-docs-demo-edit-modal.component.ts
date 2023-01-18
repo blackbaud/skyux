@@ -138,9 +138,9 @@ export class SkyDataManagerDataEntryGridEditModalComponent {
         type: [SkyCellType.Date, SkyCellType.Validator],
         cellRendererParams: {
           skyComponentProperties: {
-            validator: (value: Date) =>
+            validator: (value: Date): boolean =>
               !!value && value > new Date(1985, 9, 26),
-            validatorMessage: 'Please enter a future date',
+            validatorMessage: 'Enter a future date.',
           },
         },
         editable: true,
@@ -149,7 +149,7 @@ export class SkyDataManagerDataEntryGridEditModalComponent {
     this.gridData = this.context.gridData;
     this.gridOptions = {
       columnDefs: this.columnDefs,
-      onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
+      onGridReady: (gridReadyEvent): void => this.onGridReady(gridReadyEvent),
     };
     this.gridOptions = this.agGridService.getEditableGridOptions({
       gridOptions: this.gridOptions,

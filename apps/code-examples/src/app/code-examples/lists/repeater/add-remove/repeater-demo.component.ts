@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+import { RepeaterDemoItem } from './repeater-demo-item';
+
 let nextId = 0;
 
 @Component({
@@ -8,7 +10,7 @@ let nextId = 0;
   styleUrls: ['./repeater-demo.component.scss'],
 })
 export class RepeaterDemoComponent {
-  public items: any[] = [
+  public items: RepeaterDemoItem[] = [
     {
       title: 'Call Robert Hernandez',
       note: 'Robert recently gave a very generous gift.  We should call him to thank him.',
@@ -29,8 +31,8 @@ export class RepeaterDemoComponent {
     });
   }
 
-  public changeItems(tags: any): void {
-    this.items = tags;
+  public changeItems(tags: RepeaterDemoItem[]): void {
+    console.log('Tags in order ', tags);
   }
 
   public onActionClicked(buttonText: string): void {

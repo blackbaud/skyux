@@ -1,3 +1,5 @@
+import { StaticProvider } from '@angular/core';
+
 // TODO: defaults won't show in the generated docs until this work is done:
 // https://github.com/blackbaud/skyux-docs-tools/issues/38
 
@@ -22,8 +24,7 @@ export interface SkyModalConfigurationInterface {
    * In Angular, a provider is something that can create or deliver a service.
    * This property can be used to pass context values from the component that launches the modal to the modal component.
    */
-  // TODO: Change this to `StaticProvider[]` in a breaking change.
-  providers?: any[];
+  providers?: StaticProvider[];
 
   /**
    * Specifies the HTML element ID (without the leading `#`) of the element that describes

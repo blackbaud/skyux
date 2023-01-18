@@ -2,12 +2,11 @@ import { DebugElement } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
-  async,
   fakeAsync,
   tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { expect } from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
 import { SkyDropdownMessageType } from '@skyux/popovers';
@@ -125,20 +124,33 @@ describe('Summary Action Bar action components', () => {
   describe('secondary actions', () => {
     it('should have secondary actions with isDropdown as false on large screens', () => {
       fixture.detectChanges();
-      cmp.secondaryActions.secondaryActionComponents.forEach((action) => {
+
+      expect(
+        cmp.secondaryActions?.secondaryActionComponents?.length
+      ).toBeTruthy();
+      cmp.secondaryActions?.secondaryActionComponents?.forEach((action) => {
         expect(action.isDropdown).toBeFalsy();
       });
     });
 
     it('should have secondary actions with isDropdown as false on large screens when there are five actions', () => {
       fixture.detectChanges();
-      cmp.secondaryActions.secondaryActionComponents.forEach((action) => {
+
+      expect(
+        cmp.secondaryActions?.secondaryActionComponents?.length
+      ).toBeTruthy();
+      cmp.secondaryActions?.secondaryActionComponents?.forEach((action) => {
         expect(action.isDropdown).toBeFalsy();
       });
+
       fixture.detectChanges();
       cmp.extraActions = true;
       fixture.detectChanges();
-      cmp.secondaryActions.secondaryActionComponents.forEach((action) => {
+
+      expect(
+        cmp.secondaryActions?.secondaryActionComponents?.length
+      ).toBeTruthy();
+      cmp.secondaryActions?.secondaryActionComponents?.forEach((action) => {
         expect(action.isDropdown).toBeTruthy();
       });
     });
@@ -146,7 +158,11 @@ describe('Summary Action Bar action components', () => {
     it('should have secondary actions with isDropdown as true on xs screens', () => {
       mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
       fixture.detectChanges();
-      cmp.secondaryActions.secondaryActionComponents.forEach((action) => {
+
+      expect(
+        cmp.secondaryActions?.secondaryActionComponents?.length
+      ).toBeTruthy();
+      cmp.secondaryActions?.secondaryActionComponents?.forEach((action) => {
         expect(action.isDropdown).toBeTruthy();
       });
     });
@@ -164,7 +180,7 @@ describe('Summary Action Bar action components', () => {
           'sky-dropdown-menu sky-summary-action-bar-secondary-action button'
         )
       ).toBeFalsy();
-      cmp.secondaryActions.dropdownMessageStream.next({
+      cmp.secondaryActions?.dropdownMessageStream.next({
         type: SkyDropdownMessageType.Open,
       });
       fixture.detectChanges();
@@ -174,7 +190,7 @@ describe('Summary Action Bar action components', () => {
           'sky-dropdown-menu sky-summary-action-bar-secondary-action button'
         )
       ).toBeTruthy();
-      cmp.secondaryActions.secondaryActionComponents.first.actionClick.emit();
+      cmp.secondaryActions?.secondaryActionComponents?.first.actionClick.emit();
       fixture.detectChanges();
       tick();
       expect(
@@ -186,35 +202,31 @@ describe('Summary Action Bar action components', () => {
   });
 
   describe('a11y', () => {
-    it('should be accessible (standard lg setup)', async(() => {
+    it('should be accessible (standard lg setup)', async () => {
       fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(fixture.nativeElement).toBeAccessible();
-      });
-    }));
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
 
-    it('should be accessible (standard xs setup)', async(() => {
+    it('should be accessible (standard xs setup)', async () => {
       fixture.detectChanges();
       mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
       fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(fixture.nativeElement).toBeAccessible();
-      });
-    }));
+      fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
 
-    it('should be accessible (standard xs setup collapsed summary)', async(() => {
+    it('should be accessible (standard xs setup collapsed summary)', async () => {
       fixture.detectChanges();
       mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
       fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        debugElement
-          .query(By.css('.sky-summary-action-bar-details-collapse button'))
-          .nativeElement.click();
-        fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          expect(fixture.nativeElement).toBeAccessible();
-        });
-      });
-    }));
+      await fixture.whenStable();
+      debugElement
+        .query(By.css('.sky-summary-action-bar-details-collapse button'))
+        .nativeElement.click();
+      fixture.detectChanges();
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
   });
 });

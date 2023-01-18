@@ -7,19 +7,20 @@
         type="text"
         skyId
         [skyTimepickerInput]="timepicker"
+        [attr.aria-describedby]="timeError.id"
         #startTime="skyId"
       />
     </sky-timepicker>
-  </sky-input-box>
-
-  <p
-    *ngIf="timeControl.errors && (timeControl.dirty || timeControl.touched)"
-    class="sky-error-label"
-  >
-    <span [hidden]="timeControl.errors && !timeControl.invalid">
-      Select or enter a valid time.
+    <span class="sky-error-indicator" skyId #timeError="skyId">
+      <sky-status-indicator
+        *ngIf="timeControl.errors && (timeControl.dirty || timeControl.touched)"
+        indicatorType="danger"
+        descriptionType="error"
+      >
+        Select or enter a valid time.
+      </sky-status-indicator>
     </span>
-  </p>
+  </sky-input-box>
 </form>
 
 <button

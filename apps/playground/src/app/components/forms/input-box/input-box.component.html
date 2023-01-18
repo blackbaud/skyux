@@ -178,7 +178,7 @@ Value</textarea
           class="sky-control-label"
           [for]="inputBoxFormControlNameError.id"
         >
-          Form control by name error
+          Form control by name error with status indicator
         </label>
         <input
           class="sky-form-control"
@@ -187,7 +187,11 @@ Value</textarea
           type="text"
           #inputBoxFormControlNameError="skyId"
         />
-        <div class="sky-error-label">Field is required.</div>
+        <span class="sky-error-indicator">
+          <sky-status-indicator indicatorType="danger" descriptionType="error">
+            Field is required.
+          </sky-status-indicator>
+        </span>
       </sky-input-box>
     </form>
   </div>

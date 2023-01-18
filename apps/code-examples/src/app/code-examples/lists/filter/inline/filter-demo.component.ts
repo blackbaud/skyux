@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
 
+import { Filter } from './filter';
+import { Fruit } from './fruit';
+
 @Component({
   selector: 'app-filter-demo',
   templateUrl: './filter-demo.component.html',
 })
 export class FilterDemoComponent {
-  public appliedFilters: any[] = [];
+  public appliedFilters: Filter[] = [];
 
-  public filteredItems: any[];
+  public filteredItems: Fruit[];
 
   public filtersActive = false;
 
@@ -15,7 +18,7 @@ export class FilterDemoComponent {
 
   public hideOrange = false;
 
-  public items: any[] = [
+  public items: Fruit[] = [
     {
       name: 'Orange',
       type: 'citrus',
@@ -82,13 +85,13 @@ export class FilterDemoComponent {
     this.filteredItems = this.filterItems(this.items, this.appliedFilters);
   }
 
-  private orangeFilterFailed(filter: any, item: any): any {
+  private orangeFilterFailed(filter: Filter, item: Fruit): boolean {
     return (
-      filter.name === 'hideOrange' && filter.value && item.color === 'orange'
+      filter.name === 'hideOrange' && !!filter.value && item.color === 'orange'
     );
   }
 
-  private fruitTypeFilterFailed(filter: any, item: any): any {
+  private fruitTypeFilterFailed(filter: Filter, item: Fruit): boolean {
     return (
       filter.name === 'fruitType' &&
       filter.value !== 'any' &&
@@ -96,7 +99,7 @@ export class FilterDemoComponent {
     );
   }
 
-  private itemIsShown(filters: any[], item: any[]): boolean {
+  private itemIsShown(filters: Filter[], item: Fruit): boolean {
     let passesFilter = true,
       j: number;
 
@@ -111,9 +114,9 @@ export class FilterDemoComponent {
     return passesFilter;
   }
 
-  private filterItems(items: any[], filters: any[]): any[] {
+  private filterItems(items: Fruit[], filters: Filter[]): Fruit[] {
     let i: number, passesFilter: boolean;
-    const result: any[] = [];
+    const result: Fruit[] = [];
 
     for (i = 0; i < items.length; i++) {
       passesFilter = this.itemIsShown(filters, items[i]);

@@ -1,5 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyLabelHarness } from '@skyux/indicators/testing';
 
 import { LabelDemoComponent } from './label-demo.component';
@@ -9,7 +9,10 @@ describe('Basic label', () => {
   async function setupTest(options?: {
     daysUntilDue?: number;
     submitted?: boolean;
-  }) {
+  }): Promise<{
+    labelHarness: SkyLabelHarness;
+    fixture: ComponentFixture<LabelDemoComponent>;
+  }> {
     const fixture = TestBed.createComponent(LabelDemoComponent);
 
     if (options?.daysUntilDue !== undefined) {

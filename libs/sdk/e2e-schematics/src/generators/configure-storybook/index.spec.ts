@@ -15,8 +15,24 @@ import { updateJson } from '../../utils';
 import configureStorybook from './index';
 
 describe('configure-storybook', () => {
-  it('should configure storybook', async () => {
+  function setupTest() {
     const tree = createTreeWithEmptyWorkspace();
+
+    tree.write(
+      'workspace.json',
+      JSON.stringify({
+        version: 2,
+        projects: {},
+      })
+    );
+
+    tree.write('.gitignore', '');
+
+    return { tree };
+  }
+
+  it('should configure storybook', async () => {
+    const { tree } = setupTest();
     tree.write('.gitignore', '#');
     await applicationGenerator(tree, { name: `test-app` });
     await storybookConfigurationGenerator(tree, {
@@ -29,6 +45,9 @@ describe('configure-storybook', () => {
     await configureStorybook(tree, { name: 'test-app' });
     expect(tree.exists(`apps/test-app/.storybook/preview.js`)).toBeFalsy();
     expect(tree.exists(`apps/test-app/.storybook/preview.ts`)).toBeTruthy();
+    expect(tree.read(`apps/test-app/.storybook/preview.ts`, 'utf-8')).toContain(
+      `import { moduleMetadata } from '@storybook/angular';`
+    );
     const e2eConfig = readProjectConfiguration(tree, `test-app-e2e`);
     expect(e2eConfig.targets?.e2e.options.devServerTarget).toEqual(
       `test-app:storybook`
@@ -63,7 +82,7 @@ describe('configure-storybook', () => {
   });
 
   it('should configure storybook tsconfig', async () => {
-    const tree = createTreeWithEmptyWorkspace();
+    const { tree } = setupTest();
     tree.write('.gitignore', '#');
     await applicationGenerator(tree, { name: `test-app` });
     await storybookConfigurationGenerator(tree, {
@@ -91,7 +110,7 @@ describe('configure-storybook', () => {
   });
 
   it('should configure storybook tsconfig, add include and exclude', async () => {
-    const tree = createTreeWithEmptyWorkspace();
+    const { tree } = setupTest();
     tree.write('.gitignore', '#');
     await applicationGenerator(tree, { name: `test-app` });
     await storybookConfigurationGenerator(tree, {
@@ -123,7 +142,7 @@ describe('configure-storybook', () => {
   });
 
   it('should skip configuration for non-cypress e2e project', async () => {
-    const tree = createTreeWithEmptyWorkspace();
+    const { tree } = setupTest();
     tree.write('.gitignore', '#');
     await applicationGenerator(tree, { name: `test-app` });
     await storybookConfigurationGenerator(tree, {

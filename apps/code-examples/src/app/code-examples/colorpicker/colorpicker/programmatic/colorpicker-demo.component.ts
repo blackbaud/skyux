@@ -14,8 +14,6 @@ export class ColorpickerDemoComponent {
   public colorpickerController: Subject<SkyColorpickerMessage> =
     new Subject<SkyColorpickerMessage>();
 
-  public model: any;
-
   public showResetButton = false;
 
   public openColorpicker(): void {

@@ -20,8 +20,3 @@ const Template: Story<AgGridStoriesComponent> = (
 });
 
 export const AgGrid = Template.bind({});
-AgGrid.args = {
-  domLayout: 'autoHeight',
-  enableTopScroll: false,
-  editable: true,
-};

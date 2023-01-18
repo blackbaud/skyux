@@ -31,7 +31,7 @@ export class DataManagerDataGridDocsDemoFiltersModalComponent {
     }
   }
 
-  public applyFilters() {
+  public applyFilters(): void {
     const result: SkyDataManagerFilterData = {};
 
     result.filtersApplied = this.jobTitle !== 'any' || this.hideSales;
@@ -44,12 +44,12 @@ export class DataManagerDataGridDocsDemoFiltersModalComponent {
     this.instance.save(result);
   }
 
-  public clearAllFilters() {
+  public clearAllFilters(): void {
     this.hideSales = false;
     this.jobTitle = 'any';
   }
 
-  public cancel() {
+  public cancel(): void {
     this.instance.cancel();
   }
 }

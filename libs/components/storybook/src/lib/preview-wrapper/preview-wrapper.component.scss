@@ -1,0 +1,6 @@
+*,
+*::after,
+*::before {
+  transition-property: none !important;
+  animation: none !important;
+}

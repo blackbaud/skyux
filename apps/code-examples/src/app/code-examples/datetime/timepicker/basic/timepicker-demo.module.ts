@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
 import { SkyTimepickerModule } from '@skyux/datetime';
 import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyStatusIndicatorModule } from '@skyux/indicators';
 
 import { TimepickerDemoComponent } from './timepicker-demo.component';
 
@@ -14,6 +15,7 @@ import { TimepickerDemoComponent } from './timepicker-demo.component';
     ReactiveFormsModule,
     SkyIdModule,
     SkyInputBoxModule,
+    SkyStatusIndicatorModule,
     SkyTimepickerModule,
   ],
   exports: [TimepickerDemoComponent],

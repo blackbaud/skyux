@@ -15,13 +15,13 @@ export class RepeaterInlineFormFixtureComponent {
     read: SkyRepeaterComponent,
     static: true,
   })
-  public repeater: SkyRepeaterComponent;
+  public repeater: SkyRepeaterComponent | undefined;
 
   public showInlineForm = false;
 
-  public inlineFormConfig: SkyInlineFormConfig;
+  public inlineFormConfig: SkyInlineFormConfig | undefined;
 
-  public inlineFormCloseArgs: SkyInlineFormCloseArgs;
+  public inlineFormCloseArgs: SkyInlineFormCloseArgs | undefined;
 
   public onInlineFormClose(inlineFormCloseArgs: SkyInlineFormCloseArgs): void {
     this.inlineFormCloseArgs = inlineFormCloseArgs;

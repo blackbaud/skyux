@@ -13,17 +13,17 @@ import { SkySplitViewFixtureWorkspace } from './split-view-fixture-workspace';
  * @internal
  */
 export class SkySplitViewFixture {
-  private _debugEl: DebugElement;
+  #debugEl: DebugElement;
 
   /**
    * Returns information about the split view's drawer component.
    */
   public get drawer(): SkySplitViewFixtureDrawer {
-    const drawer = this.getDrawer();
+    const drawer = this.#getDrawer();
 
     return {
       ariaLabel: drawer.getAttribute('aria-label'),
-      isVisible: !this.drawerIsHidden(),
+      isVisible: !this.#drawerIsHidden(),
       width: drawer.style.width,
     };
   }
@@ -32,9 +32,9 @@ export class SkySplitViewFixture {
    * Returns information about the split view's workspace component.
    */
   public get workspace(): SkySplitViewFixtureWorkspace {
-    const workspace = this.getWorkspace();
-    const backButton = this.getBackToListButton();
-    const workspaceIsHidden = this.workspaceIsHidden();
+    const workspace = this.#getWorkspace();
+    const backButton = this.#getBackToListButton();
+    const workspaceIsHidden = this.#workspaceIsHidden();
 
     return {
       ariaLabel: workspace.getAttribute('aria-label'),
@@ -44,15 +44,18 @@ export class SkySplitViewFixture {
     };
   }
 
-  constructor(private fixture: ComponentFixture<any>, skyTestId: string) {
-    this._debugEl = SkyAppTestUtility.getDebugElementByTestId(
+  #fixture: ComponentFixture<unknown>;
+
+  constructor(fixture: ComponentFixture<unknown>, skyTestId: string) {
+    this.#fixture = fixture;
+    this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
       'sky-split-view'
     );
 
     // the component takes a while to initialize so we need to wait
-    this.waitForComponent();
+    this.#waitForComponent();
   }
 
   /**
@@ -60,51 +63,51 @@ export class SkySplitViewFixture {
    * button, if it is visible.
    */
   public async openDrawer(): Promise<void> {
-    const backButton = this.getBackToListButton();
+    const backButton = this.#getBackToListButton();
     if (backButton !== undefined) {
       backButton.click();
-      this.fixture.detectChanges();
-      await this.fixture.whenStable();
+      this.#fixture.detectChanges();
+      await this.#fixture.whenStable();
     }
   }
 
   // #region helpers
 
-  private getDrawer(): HTMLElement {
-    return this._debugEl.query(By.css('.sky-split-view-drawer')).nativeElement;
+  #getDrawer(): HTMLElement {
+    return this.#debugEl.query(By.css('.sky-split-view-drawer')).nativeElement;
   }
 
-  private drawerIsHidden(): boolean {
-    const drawer = this._debugEl.query(
+  #drawerIsHidden(): boolean {
+    const drawer = this.#debugEl.query(
       By.css('.sky-split-view-drawer-flex-container')
     ).nativeElement;
     return drawer.hasAttribute('hidden');
   }
 
-  private getWorkspace(): HTMLElement {
-    return this._debugEl.query(By.css('.sky-split-view-workspace'))
+  #getWorkspace(): HTMLElement {
+    return this.#debugEl.query(By.css('.sky-split-view-workspace'))
       .nativeElement;
   }
 
-  private workspaceIsHidden(): boolean {
-    const workspace = this._debugEl.query(
+  #workspaceIsHidden(): boolean {
+    const workspace = this.#debugEl.query(
       By.css('.sky-split-view-workspace-flex-container')
     ).nativeElement;
     return workspace.hasAttribute('hidden');
   }
 
-  private getBackToListButton(): HTMLButtonElement {
-    return this._debugEl.query(
+  #getBackToListButton(): HTMLButtonElement {
+    return this.#debugEl.query(
       By.css('.sky-split-view-workspace-header-content > button')
     )?.nativeElement as HTMLButtonElement;
   }
 
-  private async waitForComponent(): Promise<void> {
-    this.fixture.detectChanges();
-    await this.fixture.whenStable();
+  async #waitForComponent(): Promise<void> {
+    this.#fixture.detectChanges();
+    await this.#fixture.whenStable();
 
-    this.fixture.detectChanges();
-    return this.fixture.whenStable();
+    this.#fixture.detectChanges();
+    return this.#fixture.whenStable();
   }
 
   // #endregion

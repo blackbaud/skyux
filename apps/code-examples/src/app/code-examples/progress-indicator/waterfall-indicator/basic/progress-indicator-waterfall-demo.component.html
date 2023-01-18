@@ -20,7 +20,7 @@
         Set up connection
       </button>
       <button
-        *ngIf="activeIndex > 0"
+        *ngIf="activeIndex && activeIndex > 0"
         class="sky-btn sky-btn-link"
         type="button"
         (click)="configureConnection(false)"
@@ -31,7 +31,7 @@
   </sky-progress-indicator-item>
 
   <sky-progress-indicator-item title="Select remote server">
-    <div *ngIf="activeIndex >= 1">
+    <div *ngIf="activeIndex && activeIndex >= 1">
       <button
         *ngIf="activeIndex === 1"
         class="sky-btn sky-btn-primary"
@@ -52,7 +52,7 @@
   </sky-progress-indicator-item>
 
   <sky-progress-indicator-item title="Test connection">
-    <div *ngIf="activeIndex >= 2">
+    <div *ngIf="activeIndex && activeIndex >= 2">
       <button
         *ngIf="activeIndex === 2"
         class="sky-btn sky-btn-primary"
@@ -73,7 +73,7 @@
   </sky-progress-indicator-item>
 
   <sky-progress-indicator-item title="Turn on connection">
-    <div *ngIf="activeIndex >= 3">
+    <div *ngIf="activeIndex && activeIndex >= 3">
       <button
         *ngIf="activeIndex === 3"
         class="sky-btn sky-btn-primary"

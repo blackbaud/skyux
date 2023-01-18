@@ -25,23 +25,29 @@ export class SkyAgGridCellRendererCurrencyValidatorComponent
     this.agInit(value);
   }
 
-  public cellRendererParams: SkyCellRendererCurrencyParams;
+  protected cellRendererParams: SkyCellRendererCurrencyParams | undefined;
 
-  constructor(private changeDetector: ChangeDetectorRef) {}
+  #changeDetector: ChangeDetectorRef;
+
+  constructor(changeDetector: ChangeDetectorRef) {
+    this.#changeDetector = changeDetector;
+  }
 
   /**
    * agInit is called by agGrid once after the renderer is created and provides the renderer with the information it needs.
    * @param params The cell renderer params that include data about the cell, column, row, and grid.
    */
-  public agInit(params: SkyCellRendererCurrencyParams) {
+  public agInit(params: SkyCellRendererCurrencyParams): void {
     this.cellRendererParams = params;
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
-  public isNumeric(value: any) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public isNumeric(value: any): boolean {
     return !isNaN(parseFloat(value));
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public refresh(params: SkyCellRendererCurrencyParams): boolean {
     return false;
   }

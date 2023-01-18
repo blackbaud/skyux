@@ -8,6 +8,25 @@ const routes: Routes = [
       import('./features/action-bars.module').then((m) => m.ActionBarsModule),
   },
   {
+    path: 'angular-tree',
+    loadChildren: () =>
+      import('./features/angular-tree.modules').then(
+        (m) => m.AngularTreeFeatureModule
+      ),
+  },
+  {
+    path: 'autonumeric',
+    loadChildren: () =>
+      import('./features/autonumeric.module').then(
+        (m) => m.AutonumericFeatureModule
+      ),
+  },
+  {
+    path: 'avatar',
+    loadChildren: () =>
+      import('./features/avatar.module').then((m) => m.AvatarFeatureModule),
+  },
+  {
     path: 'colorpicker',
     loadChildren: () =>
       import('./features/colorpicker.module').then(
@@ -25,20 +44,27 @@ const routes: Routes = [
       import('./features/errors.module').then((m) => m.ErrorsFeatureModule),
   },
   {
+    path: 'flyout',
+    loadChildren: () =>
+      import('./features/flyout.module').then((m) => m.FlyoutFeatureModule),
+  },
+  {
     path: 'forms',
     loadChildren: () =>
       import('./features/forms.module').then((m) => m.FormsModule),
-  },
-  {
-    path: 'grids',
-    loadChildren: () =>
-      import('./features/grids.module').then((m) => m.GridsFeatureModule),
   },
   {
     path: 'indicators',
     loadChildren: () =>
       import('./features/indicators.module').then(
         (m) => m.IndicatorsFeatureModule
+      ),
+  },
+  {
+    path: 'inline-form',
+    loadChildren: () =>
+      import('./features/inline-form.module').then(
+        (m) => m.InlineFormFeatureModule
       ),
   },
   {
@@ -62,6 +88,11 @@ const routes: Routes = [
       import('./features/modals.module').then((m) => m.ModalsFeatureModule),
   },
   {
+    path: 'navbar',
+    loadChildren: () =>
+      import('./features/navbar.module').then((m) => m.NavbarFeatureModule),
+  },
+  {
     path: 'phone-field',
     loadChildren: () =>
       import('./features/phone-field.module').then((m) => m.PhoneModule),
@@ -77,6 +108,16 @@ const routes: Routes = [
       import('./features/progress-indicator.module').then(
         (m) => m.ProgressIndicatorFeatureModule
       ),
+  },
+  {
+    path: 'split-view',
+    loadChildren: () =>
+      import('./features/split-view.module').then((m) => m.SplitViewModule),
+  },
+  {
+    path: 'themes',
+    loadChildren: () =>
+      import('./features/themes.module').then((m) => m.ThemesFeatureModule),
   },
   {
     path: 'datetime',
@@ -104,13 +145,6 @@ const routes: Routes = [
       import('./features/validation.module').then((m) => m.ValidationModule),
   },
   {
-    path: 'autonumeric',
-    loadChildren: () =>
-      import('./features/autonumeric.module').then(
-        (m) => m.AutonumericFeatureModule
-      ),
-  },
-  {
     path: 'pages',
     loadChildren: () =>
       import('./features/pages.module').then((m) => m.PagesFeatureModule),
@@ -134,10 +168,15 @@ const routes: Routes = [
         (m) => m.TextEditorFeatureModule
       ),
   },
+  {
+    path: 'router',
+    loadChildren: () =>
+      import('./features/router.module').then((m) => m.RouterFeatureModule),
+  },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 
 import { SkyTokensComponent } from '../tokens.component';
 import { SkyToken } from '../types/token';
+import { SkyTokenSelectedEventArgs } from '../types/token-selected-event-args';
 import { SkyTokensMessage } from '../types/tokens-message';
 
 @Component({
@@ -44,7 +45,19 @@ export class SkyTokensTestComponent implements OnDestroy {
 
   public onFocusIndexUnderRange(): void {}
 
-  public onTokenSelected(): void {}
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public onTokensChange(args: SkyToken[]): void {
+    return;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public onTokenSelected(args: SkyTokenSelectedEventArgs): void {
+    return;
+  }
+
+  public onTokensRendered(): void {
+    return;
+  }
 
   public publishTokens(): void {
     this.tokens = this.data.map((value) => ({ value }));

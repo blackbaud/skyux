@@ -7,10 +7,14 @@ import { SkyConfirmService, SkyConfirmType } from '@skyux/modals';
   styleUrls: ['./confirm.component.scss'],
 })
 export class ConfirmComponent {
-  constructor(private confirmService: SkyConfirmService) {}
+  #confirmService: SkyConfirmService;
+
+  constructor(confirmService: SkyConfirmService) {
+    this.#confirmService = confirmService;
+  }
 
   public openOkConfirm(): void {
-    this.confirmService.open({
+    this.#confirmService.open({
       message: 'OK Confirm message',
       body: 'OK Confirm body',
       type: SkyConfirmType.OK,
@@ -18,7 +22,7 @@ export class ConfirmComponent {
   }
 
   public openCustomConfirm(): void {
-    this.confirmService.open({
+    this.#confirmService.open({
       message: 'Custom Confirm message',
       body: 'Custom Confirm body',
       type: SkyConfirmType.Custom,

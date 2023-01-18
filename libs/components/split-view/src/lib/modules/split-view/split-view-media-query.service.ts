@@ -10,48 +10,52 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 @Injectable()
 export class SkySplitViewMediaQueryService {
   public get current(): SkyMediaBreakpoints {
-    return this._current;
+    return this.#_current;
   }
 
-  private currentSubject = new BehaviorSubject<SkyMediaBreakpoints>(
-    this.current
-  );
+  #currentSubject: BehaviorSubject<SkyMediaBreakpoints>;
 
-  private _current = SkyMediaBreakpoints.xs;
+  #_current = SkyMediaBreakpoints.xs;
 
   constructor() {
-    this.currentSubject.next(this._current);
+    this.#currentSubject = new BehaviorSubject<SkyMediaBreakpoints>(
+      this.#_current
+    );
   }
 
   public subscribe(listener: SkyMediaQueryListener): Subscription {
-    return this.currentSubject.subscribe({
+    return this.#currentSubject.subscribe({
       next: (breakpoints: SkyMediaBreakpoints) => {
         listener(breakpoints);
       },
     });
   }
 
-  public setBreakpointForWidth(width: number): void {
+  public setBreakpointForWidth(width: number | undefined): void {
     let breakpoint: SkyMediaBreakpoints;
 
-    if (this.isWidthWithinBreakpiont(width, SkyMediaBreakpoints.xs)) {
+    if (this.isWidthWithinBreakpoint(width, SkyMediaBreakpoints.xs)) {
       breakpoint = SkyMediaBreakpoints.xs;
-    } else if (this.isWidthWithinBreakpiont(width, SkyMediaBreakpoints.sm)) {
+    } else if (this.isWidthWithinBreakpoint(width, SkyMediaBreakpoints.sm)) {
       breakpoint = SkyMediaBreakpoints.sm;
-    } else if (this.isWidthWithinBreakpiont(width, SkyMediaBreakpoints.md)) {
+    } else if (this.isWidthWithinBreakpoint(width, SkyMediaBreakpoints.md)) {
       breakpoint = SkyMediaBreakpoints.md;
     } else {
       breakpoint = SkyMediaBreakpoints.lg;
     }
 
-    this._current = breakpoint;
-    this.currentSubject.next(this._current);
+    this.#_current = breakpoint;
+    this.#currentSubject.next(this.#_current);
   }
 
-  public isWidthWithinBreakpiont(
-    width: number,
+  public isWidthWithinBreakpoint(
+    width: number | undefined,
     breakpoint: SkyMediaBreakpoints
   ): boolean {
+    if (width === undefined) {
+      return false;
+    }
+
     const xsBreakpointMaxPixels = 767;
     const smBreakpointMinPixels = 768;
     const smBreakpointMaxPixels = 991;
@@ -76,6 +80,6 @@ export class SkySplitViewMediaQueryService {
   }
 
   public destroy(): void {
-    this.currentSubject.complete();
+    this.#currentSubject.complete();
   }
 }

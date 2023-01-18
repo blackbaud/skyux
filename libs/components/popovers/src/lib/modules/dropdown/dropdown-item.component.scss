@@ -1,6 +1,5 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
-@import 'libs/components/theme/src/lib/styles/variables';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-dropdown-item {
   background-color: transparent;
@@ -58,7 +57,8 @@
 
     & > a,
     & > button {
-      padding: $sky-theme-modern-padding-button-standard;
+      padding: $sky-padding $sky-padding-double;
+      border-radius: 6px;
       transition: box-shadow $sky-transition-time-short;
 
       &:hover {
@@ -66,13 +66,13 @@
         outline-offset: -1px;
       }
 
-      &:focus,
+      &:focus-visible,
       &:active {
         outline: solid 2px $sky-theme-modern-background-color-primary-dark;
         outline-offset: -2px;
       }
 
-      &:focus:not(:active) {
+      &:focus-visible:not(:active) {
         box-shadow: $sky-theme-modern-elevation-3-shadow-size
           $sky-theme-modern-elevation-3-shadow-color;
       }

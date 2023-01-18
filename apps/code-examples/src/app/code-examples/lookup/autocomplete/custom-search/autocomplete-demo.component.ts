@@ -1,41 +1,48 @@
-import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { Component } from '@angular/core';
+import {
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 import {
   SkyAutocompleteSearchFunction,
   SkyAutocompleteSearchFunctionResponse,
 } from '@skyux/lookup';
 
+import { Ocean } from './ocean';
+
 @Component({
   selector: 'app-autocomplete-demo',
   templateUrl: './autocomplete-demo.component.html',
 })
-export class AutocompleteDemoComponent implements OnInit {
+export class AutocompleteDemoComponent {
   public myForm: UntypedFormGroup;
 
-  public largestOcean: any;
+  public largestOcean: UntypedFormControl;
 
-  public oceans: any[] = [
+  public oceans: Ocean[] = [
     { title: 'Arctic', id: 1 },
     { title: 'Atlantic', id: 2 },
     { title: 'Indian', id: 3 },
     { title: 'Pacific', id: 4 },
   ];
 
-  constructor(private formBuilder: UntypedFormBuilder) {}
-
-  public ngOnInit(): void {
-    this.createForm();
+  constructor(formBuilder: UntypedFormBuilder) {
+    this.largestOcean = formBuilder.control({ title: 'Arctic', id: 1 });
+    this.myForm = formBuilder.group({
+      largestOcean: this.largestOcean,
+    });
   }
 
   public getOceanSearchFunction(): SkyAutocompleteSearchFunction {
     const searchFunction = (
       searchText: string,
-      oceans: any[]
+      oceans: Ocean[]
     ): SkyAutocompleteSearchFunctionResponse => {
       return new Promise((resolve) => {
         const searchTextLower = searchText.toLowerCase();
 
-        const results = oceans.filter((ocean: any) => {
+        const results = oceans.filter((ocean: Ocean) => {
           const val = ocean.title;
           const isMatch =
             val && val.toString().toLowerCase().indexOf(searchTextLower) > -1;
@@ -50,11 +57,5 @@ export class AutocompleteDemoComponent implements OnInit {
     };
 
     return searchFunction;
-  }
-
-  private createForm(): void {
-    this.myForm = this.formBuilder.group({
-      largestOcean: { title: 'Arctic', id: 1 },
-    });
   }
 }

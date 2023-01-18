@@ -8,14 +8,16 @@
     >
     </sky-date-range-picker>
 
-    <ng-container *ngIf="reactiveRange.errors && reactiveRange.touched">
+    <ng-container *ngIf="reactiveRange?.errors && reactiveRange?.touched">
       <div
-        *ngIf="reactiveRange.errors.skyDateRange?.errors.endDateBeforeStartDate"
+        *ngIf="
+          reactiveRange?.errors?.skyDateRange?.errors.endDateBeforeStartDate
+        "
         class="sky-error-label"
       >
         Change the date range so that the from date is on or before the to date.
       </div>
-      <div *ngIf="reactiveRange.errors.skyDate" class="sky-error-label">
+      <div *ngIf="reactiveRange?.errors?.skyDate" class="sky-error-label">
         Enter valid dates.
       </div>
     </ng-container>
@@ -27,15 +29,15 @@
 <table>
   <tr>
     <th>Touched</th>
-    <td>{{ reactiveRange.touched }}</td>
+    <td>{{ reactiveRange?.touched }}</td>
   </tr>
   <tr>
     <th>Pristine</th>
-    <td>{{ reactiveRange.pristine }}</td>
+    <td>{{ reactiveRange?.pristine }}</td>
   </tr>
   <tr>
     <th>Valid</th>
-    <td>{{ reactiveRange.valid }}</td>
+    <td>{{ reactiveRange?.valid }}</td>
   </tr>
 </table>
 

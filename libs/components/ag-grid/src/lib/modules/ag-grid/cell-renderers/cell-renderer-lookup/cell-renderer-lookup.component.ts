@@ -20,15 +20,19 @@ import { SkyCellRendererLookupParams } from '../../types/cell-renderer-lookup-pa
 export class SkyAgGridCellRendererLookupComponent
   implements ICellRendererAngularComp
 {
-  public value = '';
-  public summaryCount = 0;
+  protected value = '';
+  protected summaryCount = 0;
 
-  constructor(private changeDetector: ChangeDetectorRef) {}
+  #changeDetector: ChangeDetectorRef;
+
+  constructor(changeDetector: ChangeDetectorRef) {
+    this.#changeDetector = changeDetector;
+  }
 
   public agInit(params: SkyCellRendererLookupParams): void {
     this.summaryCount = params.value?.length || 0;
     this.value = `${params.valueFormatted}`;
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   public refresh(params: SkyCellRendererLookupParams): boolean {

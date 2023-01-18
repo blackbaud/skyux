@@ -16,10 +16,10 @@
   },
   "homepage": "https://github.com/blackbaud/skyux#readme",
   "peerDependencies": {
-    "@angular/common": "^14.2.0",
-    "@angular/core": "^14.2.0",
-    "@angular/forms": "^14.2.0",
-    "@angular/platform-browser": "^14.2.0",
+    "@angular/common": "^14.2.11",
+    "@angular/core": "^14.2.11",
+    "@angular/forms": "^14.2.11",
+    "@angular/platform-browser": "^14.2.11",
     "@skyux/colorpicker": "0.0.0-PLACEHOLDER",
     "@skyux/core": "0.0.0-PLACEHOLDER",
     "@skyux/forms": "0.0.0-PLACEHOLDER",
@@ -33,7 +33,8 @@
     "@skyux/validation": "0.0.0-PLACEHOLDER"
   },
   "dependencies": {
-    "dompurify": "2.3.6",
+    "dompurify": "2.4.1",
+    "he": "1.2.0",
     "tslib": "^2.3.1"
   }
 }

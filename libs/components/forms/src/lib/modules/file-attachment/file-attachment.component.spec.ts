@@ -2,7 +2,6 @@ import { DebugElement } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
-  async,
   fakeAsync,
   tick,
 } from '@angular/core/testing';
@@ -638,7 +637,7 @@ describe('File attachment', () => {
     fileAttachmentInstance.writeValue(undefined);
     fixture.detectChanges();
 
-    expect(getFileNameText()).toBe('No file chosen');
+    expect(getFileNameText()).toBe('No file chosen.');
     expect(fileAttachmentInstance.fileName).toBe('');
 
     // File with no name and truncated url
@@ -990,7 +989,7 @@ describe('File attachment', () => {
       'You may not upload a file that begins with the letter "w."';
 
     fileAttachmentInstance.validateFn = function (
-      inputFile: any
+      inputFile: SkyFileItem
     ): string | undefined {
       if (inputFile.file.name.indexOf('w') === 0) {
         return errorMessage;
@@ -1191,14 +1190,14 @@ describe('File attachment', () => {
     expect(fileChangeActual?.file.url).toBe('$/url');
   });
 
-  it('shows the thumbnail if the item is an image', async(() => {
+  it('shows the thumbnail if the item is an image', () => {
     testImage('png');
     testImage('bmp');
     testImage('jpeg');
     testImage('gif');
-  }));
+  });
 
-  it('does not show an icon if it is not an image', async(() => {
+  it('does not show an icon if it is not an image', () => {
     testNonImageType('pdf', 'pdf');
     testNonImageType('gz', 'gz');
     testNonImageType('rar', 'rar');
@@ -1217,7 +1216,7 @@ describe('File attachment', () => {
     testNonImageType('tiff', 'image');
     testNonImageType('other', 'text');
     testNonImageType('mp4', 'video');
-  }));
+  });
 
   it('should not show an icon if file or type does not exist', () => {
     const imageEl = getImage();
@@ -1257,20 +1256,18 @@ describe('File attachment', () => {
     ).toBeTruthy();
   });
 
-  it('should pass accessibility', async(() => {
+  it('should pass accessibility', async () => {
     fixture.detectChanges();
-    fixture.whenStable().then(async () => {
-      await expectAsync(fixture.nativeElement).toBeAccessible();
-    });
-  }));
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 
-  it('should pass accessibility when label does not match the button text', async(() => {
+  it('should pass accessibility when label does not match the button text', async () => {
     fixture.componentInstance.labelText = 'Something different';
     fixture.detectChanges();
-    fixture.whenStable().then(async () => {
-      await expectAsync(fixture.nativeElement).toBeAccessible();
-    });
-  }));
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 });
 
 describe('File attachment (template-driven)', () => {

@@ -15,100 +15,127 @@ describe('SkyAgGridRowDeleteDirective', () => {
     fixture.detectChanges();
   });
 
-  it('should show row delete elements correctly', async () => {
-    fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
+  describe('show row delete elements correctly', () => {
+    it('should show for one row', async () => {
+      await fixture.whenStable();
 
-    expect(document.querySelector('.sky-inline-delete-standared')).toBeNull();
+      expect(document.querySelector('.sky-inline-delete-standared')).toBeNull();
 
-    fixture.componentInstance.rowDeleteIds = ['0'];
+      fixture.componentInstance.rowDeleteIds = ['0'];
+      fixture.detectChanges();
+      await fixture.whenStable();
 
-    fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
+      expect(document.querySelector('#row-delete-ref-0')).not.toBeNull();
+      expect(
+        document.querySelectorAll('.sky-inline-delete-standard').length
+      ).toBe(1);
+    });
 
-    expect(document.querySelector('#row-delete-ref-0')).not.toBeNull();
-    expect(
-      document.querySelectorAll('.sky-inline-delete-standard').length
-    ).toBe(1);
+    it('should show for multiple rows', async () => {
+      await fixture.whenStable();
 
-    fixture.componentInstance.rowDeleteIds = ['0', '2'];
+      expect(document.querySelector('.sky-inline-delete-standared')).toBeNull();
 
-    fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
+      fixture.componentInstance.rowDeleteIds = ['0', '2'];
+      fixture.detectChanges();
+      await fixture.whenStable();
 
-    expect(document.querySelector('#row-delete-ref-2')).not.toBeNull();
-    expect(
-      document.querySelectorAll('.sky-inline-delete-standard').length
-    ).toBe(2);
+      expect(document.querySelector('#row-delete-ref-2')).not.toBeNull();
+      expect(
+        document.querySelectorAll('.sky-inline-delete-standard').length
+      ).toBe(2);
+    });
 
-    fixture.componentInstance.addDataPoint();
+    it('should respond to data changes', async () => {
+      await fixture.whenStable();
 
-    fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
+      fixture.componentInstance.rowDeleteIds = ['0', '2'];
+      fixture.detectChanges();
+      await fixture.whenStable();
 
-    expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '2']);
-    expect(document.querySelector('#row-delete-ref-0')).not.toBeNull();
-    expect(document.querySelector('#row-delete-ref-2')).not.toBeNull();
-    expect(
-      document.querySelectorAll('.sky-inline-delete-standard').length
-    ).toBe(2);
+      fixture.componentInstance.addDataPoint();
 
-    fixture.componentInstance.sortName();
+      fixture.detectChanges();
+      await fixture.whenStable();
 
-    fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
+      expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '2']);
+      expect(document.querySelector('#row-delete-ref-0')).not.toBeNull();
+      expect(document.querySelector('#row-delete-ref-2')).not.toBeNull();
+      expect(
+        document.querySelectorAll('.sky-inline-delete-standard').length
+      ).toBe(2);
+    });
 
-    expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '2']);
-    expect(document.querySelector('#row-delete-ref-0')).not.toBeNull();
-    expect(document.querySelector('#row-delete-ref-2')).not.toBeNull();
-    expect(
-      document.querySelectorAll('.sky-inline-delete-standard').length
-    ).toBe(2);
+    it('should respond to sorting', async () => {
+      await fixture.whenStable();
 
-    fixture.componentInstance.filterName();
+      fixture.componentInstance.rowDeleteIds = ['0', '2'];
+      fixture.detectChanges();
+      await fixture.whenStable();
 
-    fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
+      await fixture.componentInstance.sortName();
 
-    expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '2']);
-    expect(document.querySelector('#row-delete-ref-0')).not.toBeNull();
-    expect(document.querySelector('#row-delete-ref-2')).not.toBeNull();
-    expect(
-      document.querySelectorAll('.sky-inline-delete-standard').length
-    ).toBe(2);
+      fixture.detectChanges();
+      await fixture.whenStable();
 
-    fixture.componentInstance.clearFilter();
-    fixture.componentInstance.changeToLongData();
+      expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '2']);
+      expect(document.querySelector('#row-delete-ref-0')).not.toBeNull();
+      expect(document.querySelector('#row-delete-ref-2')).not.toBeNull();
+      expect(
+        document.querySelectorAll('.sky-inline-delete-standard').length
+      ).toBe(2);
+    });
 
-    fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
+    it('should respond to filtering', async () => {
+      await fixture.whenStable();
 
-    expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '2']);
-    expect(document.querySelector('#row-delete-ref-0')).not.toBeNull();
-    expect(document.querySelector('#row-delete-ref-2')).not.toBeNull();
-    expect(
-      document.querySelectorAll('.sky-inline-delete-standard').length
-    ).toBe(2);
+      fixture.componentInstance.rowDeleteIds = ['0', '2'];
+      fixture.detectChanges();
+      await fixture.whenStable();
 
-    fixture.componentInstance.removeFirstItem();
+      await fixture.componentInstance.filterName();
 
-    fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
+      fixture.detectChanges();
+      await fixture.whenStable();
 
-    expect(fixture.componentInstance.rowDeleteIds).toEqual(['2']);
-    expect(document.querySelector('#row-delete-ref-0')).toBeNull();
-    expect(document.querySelector('#row-delete-ref-2')).not.toBeNull();
-    expect(
-      document.querySelectorAll('.sky-inline-delete-standard').length
-    ).toBe(1);
+      expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '2']);
+      expect(document.querySelector('#row-delete-ref-0')).not.toBeNull();
+      expect(document.querySelector('#row-delete-ref-2')).not.toBeNull();
+      expect(
+        document.querySelectorAll('.sky-inline-delete-standard').length
+      ).toBe(2);
+
+      await fixture.componentInstance.clearFilter();
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '2']);
+      expect(document.querySelector('#row-delete-ref-0')).not.toBeNull();
+      expect(document.querySelector('#row-delete-ref-2')).not.toBeNull();
+      expect(
+        document.querySelectorAll('.sky-inline-delete-standard').length
+      ).toBe(2);
+    });
+
+    it('should respond dataset changes', async () => {
+      await fixture.whenStable();
+
+      fixture.componentInstance.rowDeleteIds = ['0', '2'];
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      fixture.componentInstance.removeFirstItem();
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(fixture.componentInstance.rowDeleteIds).toEqual(['2']);
+      expect(document.querySelector('#row-delete-ref-0')).toBeNull();
+      expect(document.querySelector('#row-delete-ref-2')).not.toBeNull();
+      expect(
+        document.querySelectorAll('.sky-inline-delete-standard').length
+      ).toBe(1);
+    });
   });
 
   it('should cancel row delete elements correctly via them being removed from the id array', async () => {
@@ -325,10 +352,12 @@ describe('SkyAgGridRowDeleteDirective', () => {
     await fixture.whenStable();
     fixture.detectChanges();
 
-    const overlays = Array.from(document.querySelectorAll('.sky-overlay'));
+    const overlays = Array.from(
+      document.querySelectorAll('.sky-overlay')
+    ) as HTMLElement[];
     // The `toString` here is to address IE returning a number but all other browsers
     // returning a string
-    overlays.forEach((overlay: HTMLElement) =>
+    overlays.forEach((overlay) =>
       expect(overlay.style.zIndex.toString()).toBe('998')
     );
     expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '1']);
@@ -340,10 +369,10 @@ describe('SkyAgGridRowDeleteDirective', () => {
     fixture.detectChanges();
 
     const columnWidths: number[] = [];
-    let columns = Array.from(document.querySelectorAll('.sky-grid-heading'));
-    columns.forEach((column: HTMLElement) =>
-      columnWidths.push(column.offsetWidth)
-    );
+    let columns = Array.from(
+      document.querySelectorAll('.sky-grid-heading')
+    ) as HTMLElement[];
+    columns.forEach((column) => columnWidths.push(column.offsetWidth));
     fixture.componentInstance.rowDeleteIds = ['0'];
 
     fixture.detectChanges();
@@ -365,10 +394,10 @@ describe('SkyAgGridRowDeleteDirective', () => {
     fixture.detectChanges();
 
     const columnWidths: number[] = [];
-    let columns = Array.from(document.querySelectorAll('.sky-grid-heading'));
-    columns.forEach((column: HTMLElement) =>
-      columnWidths.push(column.offsetWidth)
-    );
+    let columns = Array.from(
+      document.querySelectorAll('.sky-grid-heading')
+    ) as HTMLElement[];
+    columns.forEach((column) => columnWidths.push(column.offsetWidth));
     fixture.componentInstance.rowDeleteIds = ['0'];
 
     fixture.detectChanges();
@@ -399,14 +428,16 @@ describe('SkyAgGridRowDeleteDirective', () => {
     const row2Rect = fixture.nativeElement
       .querySelector('[row-id="1"] div')
       .getBoundingClientRect();
-    const inlienDelete1: HTMLElement =
-      document.querySelector('#row-delete-ref-0');
-    const inlienDelete2: HTMLElement =
-      document.querySelector('#row-delete-ref-1');
+    const inlineDelete1 = document.querySelector(
+      '#row-delete-ref-0'
+    ) as HTMLElement;
+    const inlineDelete2 = document.querySelector(
+      '#row-delete-ref-1'
+    ) as HTMLElement;
     expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '1']);
-    expect(inlienDelete1.offsetLeft).toEqual(Math.round(row1Rect.left));
-    expect(inlienDelete1.offsetTop).toEqual(Math.round(row1Rect.top));
-    expect(inlienDelete2.offsetLeft).toEqual(Math.round(row2Rect.left));
-    expect(inlienDelete2.offsetTop).toEqual(Math.round(row2Rect.top));
+    expect(inlineDelete1.offsetLeft).toEqual(Math.round(row1Rect.left));
+    expect(inlineDelete1.offsetTop).toEqual(Math.round(row1Rect.top));
+    expect(inlineDelete2.offsetLeft).toEqual(Math.round(row2Rect.left));
+    expect(inlineDelete2.offsetTop).toEqual(Math.round(row2Rect.top));
   });
 });

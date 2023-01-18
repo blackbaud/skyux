@@ -12,17 +12,17 @@ import { SkyAutonumericOptions } from '@skyux/autonumeric';
   templateUrl: './autonumeric-demo.component.html',
 })
 export class AutonumericDemoComponent implements OnInit {
-  public autonumericOptions: SkyAutonumericOptions;
+  public autonumericOptions: SkyAutonumericOptions | undefined;
 
   public formGroup: UntypedFormGroup;
 
-  constructor(private formBuilder: UntypedFormBuilder) {}
-
-  public ngOnInit(): void {
-    this.formGroup = this.formBuilder.group({
+  constructor(formBuilder: UntypedFormBuilder) {
+    this.formGroup = formBuilder.group({
       donationAmount: new UntypedFormControl(1234.5678, [Validators.required]),
     });
+  }
 
+  public ngOnInit(): void {
     this.autonumericOptions = {
       currencySymbol: ' €',
       currencySymbolPlacement: 's',

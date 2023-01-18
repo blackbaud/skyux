@@ -2,13 +2,17 @@
   <sky-description-list-content>
     <sky-description-list-term> Default setup </sky-description-list-term>
     <sky-description-list-description>
-      {{ 100000 | skyNumeric }}
+      <span class="default-value">
+        {{ defaultValue | skyNumeric }}
+      </span>
     </sky-description-list-description>
   </sky-description-list-content>
   <sky-description-list-content>
     <sky-description-list-term> With options </sky-description-list-term>
     <sky-description-list-description>
-      {{ 1234567 | skyNumeric: numericOptions }}
+      <span class="configured-value">
+        {{ configuredValue | skyNumeric: numericOptions }}
+      </span>
     </sky-description-list-description>
   </sky-description-list-content>
 </sky-description-list>

@@ -28,7 +28,7 @@
           'sky-search-input-container-has-value': searchText?.trim()
         }"
       >
-        <sky-input-box>
+        <sky-input-box [disabled]="disabled">
           <input
             class="sky-form-control sky-search-input sky-rounded-corners"
             type="text"

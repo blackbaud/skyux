@@ -87,10 +87,18 @@
 </ng-template>
 
 <ng-template #inputTemplate>
-  <ng-content select=".sky-form-control"></ng-content>
+  <ng-content select=".sky-form-control:not(textarea)"></ng-content>
   <ng-container *ngIf="hostInputTemplate">
     <ng-container *ngTemplateOutlet="hostInputTemplate"></ng-container
   ></ng-container>
+  <!--
+    Text inside a textarea displays over the textarea's padding instead of under it,
+    causing text to overlap with the input box's label element when scrolled. Use a
+    wrapping element around textarea with its own padding and negative margin instead.
+  -->
+  <div class="sky-input-box-textarea-wrapper">
+    <ng-content select="textarea.sky-form-control"></ng-content>
+  </div>
 </ng-template>
 
 <ng-template #buttonsLeftTemplate>
@@ -146,5 +154,5 @@
 </ng-template>
 
 <ng-template #errorLabelTemplate>
-  <ng-content select=".sky-error-label"></ng-content>
+  <ng-content select=".sky-error-label,.sky-error-indicator"></ng-content>
 </ng-template>

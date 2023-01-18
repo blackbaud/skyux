@@ -9,7 +9,10 @@ import { TokensDemoModule } from './tokens-demo.module';
 describe('Tokens basic demo', () => {
   let initialTokenLabels: string[];
 
-  async function setupTest() {
+  async function setupTest(): Promise<{
+    tokensHarness: SkyTokensHarness;
+    fixture: ComponentFixture<TokensDemoComponent>;
+  }> {
     const fixture = TestBed.createComponent(TokensDemoComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
 

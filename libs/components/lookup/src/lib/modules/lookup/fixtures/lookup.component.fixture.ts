@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormControl,
@@ -24,7 +24,7 @@ import { SkyLookupShowMoreNativePickerConfig } from '../types/lookup-show-more-n
   selector: 'sky-test-cmp',
   templateUrl: './lookup.component.fixture.html',
 })
-export class SkyLookupTestComponent implements OnInit {
+export class SkyLookupTestComponent {
   @ViewChild('asyncLookup', {
     read: SkyLookupComponent,
     static: true,
@@ -47,7 +47,7 @@ export class SkyLookupTestComponent implements OnInit {
 
   public ariaLabelledBy: string | undefined;
 
-  public asyncForm!: UntypedFormGroup;
+  public asyncForm: UntypedFormGroup;
 
   public autocompleteAttribute: string | undefined;
 
@@ -55,17 +55,17 @@ export class SkyLookupTestComponent implements OnInit {
 
   public customSearchFilters: SkyAutocompleteSearchFunctionFilter[] | undefined;
 
-  public data: any[] = [];
+  public data: any[] | undefined = [];
 
   public descriptorProperty: string | undefined;
 
   public enabledSearchResultTemplate: TemplateRef<unknown> | undefined;
 
-  public enableShowMore = false;
+  public enableShowMore: boolean | undefined = false;
 
-  public form!: UntypedFormGroup;
+  public form: UntypedFormGroup;
 
-  public idProperty = 'name';
+  public idProperty: string | undefined = 'name';
 
   public ignoreAddDataUpdate = false;
 
@@ -75,9 +75,9 @@ export class SkyLookupTestComponent implements OnInit {
 
   public selectMode: SkyLookupSelectModeType | undefined;
 
-  public showAddButton = false;
+  public showAddButton: boolean | undefined = false;
 
-  public showMoreConfig: SkyLookupShowMoreConfig = {};
+  public showMoreConfig: SkyLookupShowMoreConfig | undefined = {};
 
   public get friends(): any[] {
     return this.#_friends;
@@ -94,15 +94,9 @@ export class SkyLookupTestComponent implements OnInit {
     }
   }
 
-  #formBuilder: UntypedFormBuilder;
-
   #_friends: any[] = [];
 
   constructor(formBuilder: UntypedFormBuilder) {
-    this.#formBuilder = formBuilder;
-  }
-
-  public ngOnInit(): void {
     this.data = [
       {
         name: 'Andy',
@@ -139,27 +133,39 @@ export class SkyLookupTestComponent implements OnInit {
       { name: 'Zack' },
     ];
 
-    this.#createForm();
+    this.asyncForm = formBuilder.group({
+      friends: new UntypedFormControl(this.friends),
+    });
+    this.form = formBuilder.group({
+      friends: new UntypedFormControl(this.friends),
+    });
   }
 
   public addButtonClicked(
     addButtonClickArgs: SkyLookupAddClickEventArgs
   ): void {
     const newItem = { name: 'New item' };
-    const newItems = [newItem].concat(this.data);
+    const newItems = [newItem].concat(this.data ?? []);
     const callbackArgs: SkyLookupAddCallbackArgs = {
       item: newItem,
       data: this.ignoreAddDataUpdate ? undefined : newItems,
     };
+
+    // Add the new item to the original data source so it will be returned in
+    // subsequent async searches.
+    this.data = [newItem, ...(this.data || [])];
+
     addButtonClickArgs.itemAdded(callbackArgs);
   }
 
   public enableCustomPicker(): void {
-    this.showMoreConfig.customPicker = {
-      open: (context: SkyLookupShowMoreCustomPickerContext) => {
-        return;
-      },
-    };
+    if (this.showMoreConfig) {
+      this.showMoreConfig.customPicker = {
+        open: (context: SkyLookupShowMoreCustomPickerContext) => {
+          return;
+        },
+      };
+    }
   }
 
   public enableLookup(): void {
@@ -219,7 +225,9 @@ export class SkyLookupTestComponent implements OnInit {
   public setShowMoreNativePickerConfig(
     config: SkyLookupShowMoreNativePickerConfig
   ): void {
-    this.showMoreConfig.nativePickerConfig = config;
+    if (this.showMoreConfig) {
+      this.showMoreConfig.nativePickerConfig = config;
+    }
   }
 
   public setSingleSelect(): void {
@@ -227,21 +235,14 @@ export class SkyLookupTestComponent implements OnInit {
   }
 
   public setValue(index: number): void {
-    this.asyncForm.controls.friends.setValue([this.data[index]]);
-    this.form.controls.friends.setValue([this.data[index]]);
+    if (this.data) {
+      this.asyncForm.controls.friends.setValue([this.data[index]]);
+      this.form.controls.friends.setValue([this.data[index]]);
+    }
   }
 
   public removeRequired(): void {
     this.asyncForm.controls.friends.setValidators([]);
     this.form.controls.friends.setValidators([]);
-  }
-
-  #createForm(): void {
-    this.asyncForm = this.#formBuilder.group({
-      friends: new UntypedFormControl(this.friends),
-    });
-    this.form = this.#formBuilder.group({
-      friends: new UntypedFormControl(this.friends),
-    });
   }
 }

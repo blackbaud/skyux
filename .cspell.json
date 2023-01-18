@@ -1,0 +1,43 @@
+{
+  "ignorePaths": [
+    "dist",
+    "coverage",
+    "karma.conf.js",
+    "package.json",
+    "package-lock.json",
+    "node_modules",
+    "nx.json",
+    "tmp",
+    "vscode-extension",
+    ".angular",
+    ".git/objects",
+    ".percy.json",
+    ".vscode",
+    ".vscode-insiders"
+  ],
+  "words": [
+    "autonumeric",
+    "blackbaud",
+    "buildable",
+    "circlon",
+    "colorpicker",
+    "datepicker",
+    "datetime",
+    "dragula",
+    "dompurify",
+    "nrwl",
+    "omnibar",
+    "postbuild",
+    "posttest",
+    "ruleset",
+    "skyhref",
+    "skyux",
+    "tabset",
+    "tabsets",
+    "timepicker",
+    "trackpad",
+    "tablist",
+    "viewkeeper",
+    "viewkept"
+  ]
+}

@@ -13,16 +13,16 @@ export class SkyTabsetFixture {
   /**
    * The tabset component's ARIA label.
    */
-  public get ariaLabel(): string {
-    const tabsetEl = this.getTabsetEl();
+  public get ariaLabel(): string | undefined {
+    const tabsetEl = this.#getTabsetEl();
     return tabsetEl.getAttribute('aria-label') || undefined;
   }
 
   /**
    * The tabset component's ARIA labelled by attribute.
    */
-  public get ariaLabelledBy(): string {
-    const tabsetEl = this.getTabsetEl();
+  public get ariaLabelledBy(): string | undefined {
+    const tabsetEl = this.#getTabsetEl();
     return tabsetEl.getAttribute('aria-labelledby') || undefined;
   }
 
@@ -30,7 +30,7 @@ export class SkyTabsetFixture {
    * The index of the currently selected tab.
    */
   public get activeTabIndex(): number {
-    const tabLinkEls = this.getTabLinkEls();
+    const tabLinkEls = this.#getTabLinkEls();
 
     for (let i = 0, n = tabLinkEls.length; i < n; i++) {
       if (tabLinkEls.item(i).classList.contains('sky-btn-tab-selected')) {
@@ -38,13 +38,17 @@ export class SkyTabsetFixture {
       }
     }
 
+    /* safety check */
+    /* istanbul ignore next */
     return -1;
   }
 
-  private debugEl: DebugElement;
+  #debugEl: DebugElement;
+  #fixture: ComponentFixture<any>;
 
-  constructor(private fixture: ComponentFixture<any>, skyTestId: string) {
-    this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
+  constructor(fixture: ComponentFixture<any>, skyTestId: string) {
+    this.#fixture = fixture;
+    this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
       'sky-tabset'
@@ -56,18 +60,18 @@ export class SkyTabsetFixture {
    * @param tabIndex The index of the tab.
    */
   public getTab(tabIndex: number): SkyTabsetFixtureTab {
-    const tabLinkEl = this.getTabLinkEl(tabIndex);
+    const tabLinkEl = this.#getTabLinkEl(tabIndex);
 
     const active = this.activeTabIndex === tabIndex;
     const disabled = tabLinkEl.classList.contains('sky-btn-tab-disabled');
-    const tabHeading = this.getTextContent(
-      tabLinkEl.querySelector('.sky-tab-heading').childNodes[0]
+    const tabHeading = this.#getTextContent(
+      tabLinkEl.querySelector('.sky-tab-heading')?.childNodes[0]
     );
-    const tabHeaderCount = this.getTextContent(
+    const tabHeaderCount = this.#getTextContent(
       tabLinkEl.querySelector('.sky-tab-header-count')
     );
 
-    let permalinkValue: string;
+    let permalinkValue: string | undefined;
 
     if (tabLinkEl.href) {
       const permalink = tabLinkEl.href.split('?')[1];
@@ -91,14 +95,14 @@ export class SkyTabsetFixture {
    * Clicks the tabset's "new" button.
    */
   public async clickNewButton(): Promise<any> {
-    return this.clickButton('sky-tabset-btn-new');
+    return this.#clickButton('sky-tabset-btn-new');
   }
 
   /**
    * Clicks the tabset's "open" button.
    */
   public async clickOpenButton(): Promise<any> {
-    return this.clickButton('sky-tabset-btn-open');
+    return this.#clickButton('sky-tabset-btn-open');
   }
 
   /**
@@ -106,16 +110,12 @@ export class SkyTabsetFixture {
    * @param tabIndex The index of the tab.
    */
   public async clickTab(tabIndex: number): Promise<any> {
-    const tabLinkEl = this.getTabLinkEl(tabIndex);
-
-    if (!tabLinkEl) {
-      throw new Error(`There is no tab at index ${tabIndex}.`);
-    }
+    const tabLinkEl = this.#getTabLinkEl(tabIndex);
 
     tabLinkEl.click();
 
-    this.fixture.detectChanges();
-    return this.fixture.whenStable();
+    this.#fixture.detectChanges();
+    return this.#fixture.whenStable();
   }
 
   /**
@@ -123,13 +123,9 @@ export class SkyTabsetFixture {
    * @param tabIndex The index of the tab.
    */
   public async clickTabClose(tabIndex: number): Promise<any> {
-    const tabWrapperEl = this.getTabsetEl().querySelectorAll(
+    const tabWrapperEl = this.#getTabsetEl().querySelectorAll(
       `.sky-tabset-tabs .sky-btn-tab-wrapper`
     )[tabIndex];
-
-    if (!tabWrapperEl) {
-      throw new Error(`There is no tab at index ${tabIndex}.`);
-    }
 
     const closeBtnEl = tabWrapperEl.querySelector(
       '.sky-btn-tab-close'
@@ -141,12 +137,12 @@ export class SkyTabsetFixture {
 
     closeBtnEl.click();
 
-    this.fixture.detectChanges();
-    return this.fixture.whenStable();
+    this.#fixture.detectChanges();
+    return this.#fixture.whenStable();
   }
 
-  private async clickButton(buttonCls: string): Promise<any> {
-    const tabsetEl = this.getTabsetEl();
+  async #clickButton(buttonCls: string): Promise<any> {
+    const tabsetEl = this.#getTabsetEl();
 
     const newButtonEl = tabsetEl.querySelector(
       `.sky-tabset-btns .${buttonCls}`
@@ -154,22 +150,24 @@ export class SkyTabsetFixture {
 
     newButtonEl.click();
 
-    this.fixture.detectChanges();
-    return this.fixture.whenStable();
+    this.#fixture.detectChanges();
+    return this.#fixture.whenStable();
   }
 
-  private getTabsetEl(): HTMLDivElement {
-    const tabsetEl = this.debugEl.query(By.css('.sky-tabset')).nativeElement;
+  #getTabsetEl(): HTMLDivElement {
+    const tabsetEl = this.#debugEl.query(By.css('.sky-tabset')).nativeElement;
 
     return tabsetEl;
   }
 
-  private getTabLinkEls(): NodeListOf<HTMLAnchorElement> {
-    return this.getTabsetEl().querySelectorAll(`.sky-tabset-tabs .sky-btn-tab`);
+  #getTabLinkEls(): NodeListOf<HTMLAnchorElement> {
+    return this.#getTabsetEl().querySelectorAll(
+      `.sky-tabset-tabs .sky-btn-tab`
+    );
   }
 
-  private getTabLinkEl(tabIndex: number): HTMLAnchorElement {
-    const tabLinkEl = this.getTabLinkEls().item(tabIndex);
+  #getTabLinkEl(tabIndex: number): HTMLAnchorElement {
+    const tabLinkEl = this.#getTabLinkEls().item(tabIndex);
 
     if (!tabLinkEl) {
       throw new Error(`There is no tab at index ${tabIndex}.`);
@@ -178,7 +176,7 @@ export class SkyTabsetFixture {
     return tabLinkEl;
   }
 
-  private getTextContent(el: Element | Node): string {
-    return (el && el.textContent.trim()) || undefined;
+  #getTextContent(el: Element | Node | undefined | null): string | undefined {
+    return (el && el.textContent?.trim()) || undefined;
   }
 }

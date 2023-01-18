@@ -1,0 +1,22 @@
+<sky-angular-tree-wrapper>
+  <tree-root [nodes]="nodes" #tree>
+    <ng-template
+      let-index="index"
+      let-node
+      let-templates="templates"
+      #treeNodeFullTemplate
+    >
+      <sky-angular-tree-node
+        [index]="index"
+        [node]="node"
+        [templates]="templates"
+      >
+        <sky-help-inline
+          *ngIf="node.data.showHelp"
+          class="sky-control-help"
+          (actionClick)="onActionClick()"
+        ></sky-help-inline>
+      </sky-angular-tree-node>
+    </ng-template>
+  </tree-root>
+</sky-angular-tree-wrapper>

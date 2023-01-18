@@ -14,7 +14,7 @@ import { LookupDemoPerson } from './lookup-demo-person';
 })
 export class LookupResultTemplatesDemoComponent implements OnInit {
   public favoritesForm: FormGroup<{
-    favoriteNames: FormControl<LookupDemoPerson[]>;
+    favoriteNames: FormControl<LookupDemoPerson[] | null>;
   }>;
 
   public searchFilters: SkyAutocompleteSearchFunctionFilter[];
@@ -108,7 +108,11 @@ export class LookupResultTemplatesDemoComponent implements OnInit {
 
   @ViewChild('modalItemTemplate')
   public set modalItemTemplate(template: TemplateRef<unknown>) {
-    this.showMoreConfig.nativePickerConfig.itemTemplate = template;
+    if (this.showMoreConfig.nativePickerConfig) {
+      this.showMoreConfig.nativePickerConfig.itemTemplate = template;
+    } else {
+      this.showMoreConfig.nativePickerConfig = { itemTemplate: template };
+    }
   }
 
   constructor(formBuilder: FormBuilder) {
@@ -117,11 +121,11 @@ export class LookupResultTemplatesDemoComponent implements OnInit {
     });
 
     this.searchFilters = [
-      (_, item) => {
+      (_, item): boolean => {
         const names = this.favoritesForm.value.favoriteNames;
 
         // Only show people in the search results that have not been chosen already.
-        return !names.some((option) => option.name === item.name);
+        return !names?.some((option) => option.name === item.name);
       },
     ];
   }

@@ -1,4 +1,4 @@
-@import '../../variables-public';
+@use '../../variables' as *;
 
 .sky-theme-modern {
   .sky-font-body-default {
@@ -29,7 +29,7 @@
   }
 
   .sky-font-deemphasized {
-    color: $sky-theme-modern-font-deemphasized-color;
+    color: var(--sky-text-color-deemphasized);
     font-style: $sky-theme-modern-font-deemphasized-style;
     font-size: inherit;
   }
@@ -72,14 +72,14 @@
     .sky-font-display-4,
     .sky-font-emphasized,
     .sky-headline {
-      color: $sky-theme-modern-mode-dark-font-body-default-color;
+      color: var(--sky-text-color-default);
     }
 
     .sky-font-deemphasized,
     .sky-field-label,
     .sky-font-data-label,
     .sky-font-field-label {
-      color: $sky-theme-modern-mode-dark-font-deemphasized-color;
+      color: var(--sky-text-color-deemphasized);
     }
   }
 }

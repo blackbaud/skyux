@@ -1,22 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { SkyCellRendererLookupParams } from '../../types/cell-renderer-lookup-params';
+
 import { SkyAgGridCellRendererLookupComponent } from './cell-renderer-lookup.component';
 
 describe('CellRendererLookupComponent', () => {
   let component: SkyAgGridCellRendererLookupComponent;
   let fixture: ComponentFixture<SkyAgGridCellRendererLookupComponent>;
-  const params = {
-    api: undefined,
-    columnApi: undefined,
-    context: undefined,
-    data: undefined,
-    eGridCell: undefined,
-    eParentOfValue: undefined,
-    node: undefined,
+  const params: Partial<SkyCellRendererLookupParams> = {
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     registerRowDragger(): void {},
     rowIndex: 0,
-    value: undefined,
-    valueFormatted: undefined,
     skyComponentProperties: {
       data: [],
       descriptorProperty: 'name',
@@ -40,14 +34,14 @@ describe('CellRendererLookupComponent', () => {
   });
 
   it('should initialize with empty value', () => {
-    component.agInit({ ...params });
+    component.agInit({ ...params } as SkyCellRendererLookupParams);
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should initialize with value', () => {
     component.agInit({
-      ...params,
+      ...(params as SkyCellRendererLookupParams),
       value: [{ name: 'hello world' }],
     });
     fixture.detectChanges();
@@ -56,7 +50,7 @@ describe('CellRendererLookupComponent', () => {
 
   it('should initialize with formatted value', () => {
     component.agInit({
-      ...params,
+      ...(params as SkyCellRendererLookupParams),
       valueFormatted: 'hello world',
     });
     fixture.detectChanges();
@@ -64,7 +58,7 @@ describe('CellRendererLookupComponent', () => {
   });
 
   it('should refresh', () => {
-    component.refresh({ ...params });
+    component.refresh({ ...params } as SkyCellRendererLookupParams);
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });

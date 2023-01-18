@@ -1,6 +1,7 @@
+import { ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyCoreAdapterService } from '@skyux/core';
+import { SkyCoreAdapterService, SkyMediaBreakpoints } from '@skyux/core';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -29,7 +30,7 @@ describe('Selection box grid component', () => {
 
   // Wait for the next change detection cycle. This avoids having nested setTimeout() calls
   // and using the Jasmine done() function.
-  function waitForMutationObserver() {
+  function waitForMutationObserver(): Promise<void> {
     return new Promise<void>((resolve) => {
       setTimeout(() => resolve());
     });
@@ -41,6 +42,7 @@ describe('Selection box grid component', () => {
   let mockThemeSvc: {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
+  let setResponsiveClassSpy: jasmine.Spy;
 
   beforeEach(() => {
     mockThemeSvc = {
@@ -52,6 +54,11 @@ describe('Selection box grid component', () => {
         previousSettings: undefined,
       }),
     };
+
+    setResponsiveClassSpy = spyOn(
+      SkySelectionBoxAdapterService.prototype,
+      'setResponsiveClass'
+    );
 
     fixture = TestBed.configureTestingModule({
       imports: [SkySelectionBoxFixturesModule],
@@ -75,7 +82,7 @@ describe('Selection box grid component', () => {
     );
   });
 
-  it('should set proper CSS classess when alignItems is set to center', () => {
+  it('should set proper CSS classes when alignItems is set to center', () => {
     component.alignItems = 'center';
     fixture.detectChanges();
 
@@ -87,7 +94,7 @@ describe('Selection box grid component', () => {
     );
   });
 
-  it('should set proper CSS classess when alignItems is set to left', () => {
+  it('should set proper CSS classes when alignItems is set to left', () => {
     component.alignItems = 'left';
     fixture.detectChanges();
 
@@ -115,20 +122,55 @@ describe('Selection box grid component', () => {
   });
 
   it(`should update CSS responsive classes on window resize`, async () => {
-    const setResponsiveClassSpy = spyOn(
-      SkySelectionBoxAdapterService.prototype,
-      'setResponsiveClass'
-    );
     spyOn(
       SkySelectionBoxAdapterService.prototype,
       'getParentWidth'
     ).and.returnValue(300);
+    setResponsiveClassSpy.calls.reset();
     expect(setResponsiveClassSpy).not.toHaveBeenCalled();
 
     SkyAppTestUtility.fireDomEvent(window, 'resize');
     fixture.detectChanges();
 
     expect(setResponsiveClassSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should set responsive CSS class to large', () => {
+    spyOn(
+      SkySelectionBoxAdapterService.prototype,
+      'getParentWidth'
+    ).and.callThrough();
+    fixture.detectChanges();
+
+    expect(setResponsiveClassSpy).toHaveBeenCalledWith(
+      jasmine.any(ElementRef),
+      SkyMediaBreakpoints.lg
+    );
+  });
+
+  it('should set responsive CSS class to large when outer container is toggled', () => {
+    spyOn(
+      SkySelectionBoxAdapterService.prototype,
+      'getParentWidth'
+    ).and.callThrough();
+    fixture.detectChanges();
+
+    expect(setResponsiveClassSpy).toHaveBeenCalledWith(
+      jasmine.any(ElementRef),
+      SkyMediaBreakpoints.lg
+    );
+
+    setResponsiveClassSpy.calls.reset();
+    component.render = false;
+    fixture.detectChanges();
+
+    component.render = true;
+    fixture.detectChanges();
+
+    expect(setResponsiveClassSpy).toHaveBeenCalledWith(
+      jasmine.any(ElementRef),
+      SkyMediaBreakpoints.lg
+    );
   });
 
   it(`should recalculate heights when child DOM elements change`, async () => {

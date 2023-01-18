@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 /**
  * @internal
  */
+// TODO: Remove when dynamic component service is no longer optional in a future breaking change.
 @Injectable({
   providedIn: 'root',
 })

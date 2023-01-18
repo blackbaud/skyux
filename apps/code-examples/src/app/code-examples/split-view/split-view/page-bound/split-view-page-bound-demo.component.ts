@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
   SkyConfirmCloseEventArgs,
@@ -12,25 +12,27 @@ import {
 
 import { Subject } from 'rxjs';
 
+import { SplitViewDemoRecord } from './split-view-demo-record';
+
 @Component({
   selector: 'app-split-view-page-bound-demo',
   templateUrl: './split-view-page-bound-demo.component.html',
   styleUrls: ['./split-view-page-bound-demo.component.scss'],
 })
-export class SplitViewPageBoundDemoComponent implements OnInit {
+export class SplitViewPageBoundDemoComponent {
   public set activeIndex(value: number) {
     this._activeIndex = value;
     this.activeRecord = this.items[this._activeIndex];
-    this.loadFormGroup(this.activeRecord);
+    this.#loadFormGroup(this.activeRecord);
   }
 
   public get activeIndex(): number {
     return this._activeIndex;
   }
 
-  public activeRecord: any;
+  public activeRecord: SplitViewDemoRecord;
 
-  public items = [
+  public items: SplitViewDemoRecord[] = [
     {
       id: 1,
       amount: 73.19,
@@ -114,10 +116,6 @@ export class SplitViewPageBoundDemoComponent implements OnInit {
     },
   ];
 
-  public listWidth: number;
-
-  public pageFlexOffsetTop: number;
-
   public splitViewDemoForm: FormGroup;
 
   public splitViewStream = new Subject<SkySplitViewMessage>();
@@ -129,12 +127,12 @@ export class SplitViewPageBoundDemoComponent implements OnInit {
   constructor(public confirmService: SkyConfirmService) {
     // Start with the first item selected.
     this.activeIndex = 0;
-  }
+    this.activeRecord = this.items[this.activeIndex];
 
-  public ngOnInit(): void {
-    // Make any adjustments to the page's offset top to accommodate fixed-positioned elements,
-    // such as a "sticky" navbar, etc.
-    this.pageFlexOffsetTop = 0;
+    this.splitViewDemoForm = new FormGroup({
+      approvedAmount: new FormControl(this.activeRecord.approvedAmount),
+      comments: new FormControl(this.activeRecord.comments),
+    });
   }
 
   public onItemClick(index: number): void {
@@ -155,7 +153,7 @@ export class SplitViewPageBoundDemoComponent implements OnInit {
     console.log('Denied clicked!');
   }
 
-  private loadFormGroup(record: any): void {
+  #loadFormGroup(record: SplitViewDemoRecord): void {
     this.splitViewDemoForm = new FormGroup({
       approvedAmount: new FormControl(record.approvedAmount),
       comments: new FormControl(record.comments),

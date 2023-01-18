@@ -19,13 +19,13 @@ export class TileDashboardTestComponent {
     read: SkyTileDashboardComponent,
     static: false,
   })
-  public dashboardComponent: SkyTileDashboardComponent;
+  public dashboardComponent!: SkyTileDashboardComponent;
 
   public dashboardConfig: SkyTileDashboardConfig;
 
   public messageStream = new Subject();
 
-  public settingsKey: string;
+  public settingsKey: string | undefined;
 
   constructor() {
     this.dashboardConfig = {
@@ -132,11 +132,5 @@ export class TileDashboardTestComponent {
 
   public enableStickySettings(): void {
     this.settingsKey = 'test';
-    this.dashboardComponent['dashboardService'].init(
-      this.dashboardConfig,
-      this.dashboardComponent['columns'],
-      this.dashboardComponent['singleColumn'],
-      this.settingsKey
-    );
   }
 }

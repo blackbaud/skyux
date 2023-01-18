@@ -1,14 +1,11 @@
-@import 'mixins-public';
-@import 'variables';
-@import '_compat/mixins';
+// This file is the entry point for commonly used internal-only SCSS mixins.
+// (Our components should @use this file in their SCSS file.)
 
-@mixin sky-deemphasized {
-  font-family: $sky-font-family;
-  color: $sky-text-color-deemphasized;
-  font-weight: 400;
-  font-size: $sky-font-size-base;
-  font-style: italic;
-}
+@forward '_public-api/_compat/mixins';
+@forward '_public-api/mixins';
+@forward 'node_modules/@blackbaud/skyux-design-tokens/scss/mixins';
+
+@use 'variables' as *;
 
 @mixin sky-experimental(
   $property,
@@ -61,6 +58,7 @@
   &.sky-btn-active {
     background-image: none;
   }
+  // TODO: Consider removing in a future change after visual tests are in place as these styles appear to have no effect.
   &.sky-btn-disabled,
   &[disabled],
   fieldset[disabled] & {

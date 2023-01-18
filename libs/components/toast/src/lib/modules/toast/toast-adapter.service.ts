@@ -6,11 +6,14 @@ import { SkyAppWindowRef } from '@skyux/core';
  */
 @Injectable()
 export class SkyToastAdapterService {
-  constructor(private windowRef: SkyAppWindowRef) {}
+  #windowRef: SkyAppWindowRef;
+  constructor(windowRef: SkyAppWindowRef) {
+    this.#windowRef = windowRef;
+  }
 
   public scrollBottom(elementRef: ElementRef): void {
     const element = elementRef.nativeElement;
-    this.windowRef.nativeWindow.setTimeout(() => {
+    this.#windowRef.nativeWindow.setTimeout(() => {
       element.scrollTop = element.scrollHeight;
     });
   }

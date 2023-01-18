@@ -1,13 +1,12 @@
 import {
   ComponentFixture,
   TestBed,
-  async,
   fakeAsync,
   tick,
 } from '@angular/core/testing';
 import { FormsModule, NgModel } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 
 import { SkyUrlValidationFixturesModule } from './fixtures/url-validation-fixtures.module';
 import { UrlValidationRulesetTestComponent } from './fixtures/url-validation-ruleset.component.fixture';
@@ -107,14 +106,13 @@ describe('URL validation via directive - ruleset v1 (implicit)', () => {
     expect(ngModel.control.touched).toBe(false);
   }));
 
-  it('should pass accessibility', async(() => {
+  it('should pass accessibility', async () => {
     fixture.detectChanges();
     setInput('[]awefhawenfc0293ejwf]', fixture);
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(fixture.nativeElement).toBeAccessible();
-    });
-  }));
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 });
 
 describe('URL validation via directive - ruleset v1 (explicit)', () => {
@@ -262,15 +260,15 @@ describe('URL validation via directive - ruleset v2', () => {
     expect(ngModel.control.touched).toBe(false);
   }));
 
-  it('should pass accessibility using ruleset version 2', async(() => {
+  it('should pass accessibility using ruleset version 2', async () => {
     fixture.detectChanges();
     setInput('[]awefhawenfc0293ejwf]', fixture);
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(fixture.nativeElement).toBeAccessible();
-    });
-  }));
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 });
+
 describe('URL validation via directive - non-onceability', () => {
   function setInput(text: string, compFixture: ComponentFixture<any>) {
     const params = {

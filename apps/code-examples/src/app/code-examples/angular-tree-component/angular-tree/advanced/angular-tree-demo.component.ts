@@ -13,20 +13,11 @@ import {
   TreeNode,
 } from '@circlon/angular-tree-component';
 
+import { AngularTreeDemoNode } from './angular-tree-demo-node';
+
 @Component({
   selector: 'app-angular-tree-component-demo',
-  styles: [
-    `
-      .app-demo-container {
-        border: 1px solid #cdcfd2;
-        padding: 20px;
-
-        .angular-tree-component {
-          background: #fff;
-        }
-      }
-    `,
-  ],
+  styleUrls: ['./angular-tree-demo.component.scss'],
   templateUrl: './angular-tree-demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -34,9 +25,9 @@ export class AngularTreeDemoComponent implements OnInit {
   public demoOptions: FormGroup;
 
   public set enableCascading(value: boolean) {
-    this.resetSelection();
+    this.#resetSelection();
     this.treeOptions.useTriState = value;
-    this._enableCascading = value;
+    this.#_enableCascading = value;
 
     if (value) {
       this.selectLeafNodesOnly = false;
@@ -44,7 +35,7 @@ export class AngularTreeDemoComponent implements OnInit {
   }
 
   public get enableCascading(): boolean {
-    return this._enableCascading;
+    return this.#_enableCascading;
   }
 
   public readOnly = false;
@@ -52,8 +43,8 @@ export class AngularTreeDemoComponent implements OnInit {
   public selectedSelectMode = 'multiSelect';
 
   public set selectLeafNodesOnly(value: boolean) {
-    this.resetSelection();
-    this._selectLeafNodesOnly = value;
+    this.#resetSelection();
+    this.#_selectLeafNodesOnly = value;
 
     if (value) {
       this.enableCascading = false;
@@ -61,7 +52,7 @@ export class AngularTreeDemoComponent implements OnInit {
   }
 
   public get selectLeafNodesOnly(): boolean {
-    return this._selectLeafNodesOnly;
+    return this.#_selectLeafNodesOnly;
   }
 
   public selectSingle = false;
@@ -70,16 +61,16 @@ export class AngularTreeDemoComponent implements OnInit {
 
   public showToolbar = false;
 
-  private _enableCascading = false;
+  #_enableCascading = false;
 
-  private _selectLeafNodesOnly = false;
+  #_selectLeafNodesOnly = false;
 
   public treeOptions: ITreeOptions = {
     animateExpand: true,
     useTriState: false,
   };
 
-  public dropdownItems: any = [
+  public dropdownItems: { name: string; disabled: boolean }[] = [
     { name: 'Insert an item at this level', disabled: false },
     { name: 'Insert an item under this level', disabled: false },
     { name: 'Move up', disabled: false },
@@ -90,7 +81,7 @@ export class AngularTreeDemoComponent implements OnInit {
     { name: 'Delete', disabled: false },
   ];
 
-  public nodes: any[] = [
+  public nodes: AngularTreeDemoNode[] = [
     {
       name: 'Animals',
       isExpanded: true,
@@ -118,15 +109,14 @@ export class AngularTreeDemoComponent implements OnInit {
   ];
 
   @ViewChild(TreeModel)
-  private tree: TreeModel;
+  public tree: TreeModel | undefined;
 
-  constructor(
-    private changeRef: ChangeDetectorRef,
-    private formBuilder: FormBuilder
-  ) {}
+  #changeRef: ChangeDetectorRef;
 
-  public ngOnInit(): void {
-    this.demoOptions = this.formBuilder.group({
+  constructor(changeRef: ChangeDetectorRef, formBuilder: FormBuilder) {
+    this.#changeRef = changeRef;
+
+    this.demoOptions = formBuilder.group({
       treeMode: new FormControl('navigation'),
       selectMode: new FormControl('multiSelect'),
       selectLeafNodesOnly: new FormControl(),
@@ -134,23 +124,25 @@ export class AngularTreeDemoComponent implements OnInit {
       showToolbar: new FormControl(),
       showContextMenus: new FormControl(),
     });
+  }
 
+  public ngOnInit(): void {
     this.demoOptions.valueChanges.subscribe((value) => {
       if (value.treeMode) {
         switch (value.treeMode) {
           case 'selection':
             this.readOnly = false;
-            this.enableSelection(true);
+            this.#enableSelection(true);
             break;
 
           case 'readOnly':
             this.readOnly = true;
-            this.enableSelection(false);
+            this.#enableSelection(false);
             break;
 
           case 'navigation':
             this.readOnly = false;
-            this.enableSelection(false);
+            this.#enableSelection(false);
             break;
 
           default:
@@ -161,13 +153,13 @@ export class AngularTreeDemoComponent implements OnInit {
       if (value.selectMode) {
         switch (value.selectMode) {
           case 'singleSelect':
-            this.resetSelection();
+            this.#resetSelection();
             this.selectSingle = true;
             this.enableCascading = false;
             break;
 
           case 'multiSelect':
-            this.resetSelection();
+            this.#resetSelection();
             this.selectSingle = false;
             this.enableCascading = false;
             break;
@@ -185,7 +177,7 @@ export class AngularTreeDemoComponent implements OnInit {
         this.selectLeafNodesOnly = value.selectLeafNodesOnly;
       }
 
-      this.changeRef.markForCheck();
+      this.#changeRef.markForCheck();
     });
   }
 
@@ -199,15 +191,17 @@ export class AngularTreeDemoComponent implements OnInit {
     console.log(treeModel);
   }
 
-  private enableSelection(value: boolean): void {
-    this.resetSelection();
+  #enableSelection(value: boolean): void {
+    this.#resetSelection();
     this.treeOptions.useCheckbox = value;
     this.selectLeafNodesOnly = false;
     this.enableCascading = false;
   }
 
-  private resetSelection(): void {
-    this.tree.selectedLeafNodeIds = {};
-    this.tree.activeNodeIds = {};
+  #resetSelection(): void {
+    if (this.tree) {
+      this.tree.selectedLeafNodeIds = {};
+      this.tree.activeNodeIds = {};
+    }
   }
 }

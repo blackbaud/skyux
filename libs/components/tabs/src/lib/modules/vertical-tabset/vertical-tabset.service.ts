@@ -1,7 +1,7 @@
 import { ElementRef, Injectable } from '@angular/core';
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 
 import { SkyVerticalTabComponent } from './vertical-tab.component';
 
@@ -13,17 +13,17 @@ export const HIDDEN_STATE = 'void';
  */
 @Injectable()
 export class SkyVerticalTabsetService {
-  public activeIndex: number = undefined;
+  public activeIndex: number | undefined = undefined;
 
-  public animationContentVisibleState: string;
+  public animationContentVisibleState: string | undefined;
 
-  public animationTabsVisibleState: string;
+  public animationTabsVisibleState: string | undefined;
 
   public content: ElementRef | undefined;
 
   public hidingTabs = new BehaviorSubject(false);
 
-  public indexChanged: BehaviorSubject<number> = new BehaviorSubject(undefined);
+  public indexChanged: ReplaySubject<number | undefined> = new ReplaySubject(1);
 
   public maintainTabContent: boolean | undefined = false;
 
@@ -35,39 +35,42 @@ export class SkyVerticalTabsetService {
 
   public tabAdded: Subject<SkyVerticalTabComponent> = new Subject();
 
-  public tabClicked: BehaviorSubject<boolean> = new BehaviorSubject(undefined);
+  public tabClicked: ReplaySubject<boolean> = new ReplaySubject(1);
 
-  private _contentAdded = false;
+  #contentAdded = false;
 
-  private _tabsVisible = false;
+  #tabsVisible = false;
 
-  private _isMobile = false;
+  #isMobile = false;
 
-  public constructor(private mediaQueryService: SkyMediaQueryService) {
-    this.mediaQueryService.subscribe((breakpoint) => {
+  #mediaQueryService: SkyMediaQueryService;
+
+  public constructor(mediaQueryService: SkyMediaQueryService) {
+    this.#mediaQueryService = mediaQueryService;
+    this.#mediaQueryService.subscribe((breakpoint) => {
       const nowMobile = breakpoint === SkyMediaBreakpoints.xs;
 
-      if (nowMobile && !this._isMobile) {
+      if (nowMobile && !this.#isMobile) {
         // switching to mobile
         this.switchingMobile.next(true);
 
-        if (!this._tabsVisible) {
+        if (!this.#tabsVisible) {
           this.hidingTabs.next(true);
         }
-      } else if (!nowMobile && this._isMobile) {
+      } else if (!nowMobile && this.#isMobile) {
         // switching to widescreen
         this.switchingMobile.next(false);
 
-        if (!this._tabsVisible) {
+        if (!this.#tabsVisible) {
           this.showingTabs.next(true);
         }
       }
 
-      this._isMobile = nowMobile;
+      this.#isMobile = nowMobile;
     });
   }
 
-  public addTab(tab: SkyVerticalTabComponent) {
+  public addTab(tab: SkyVerticalTabComponent): void {
     const index = this.tabs.length;
     tab.index = index;
 
@@ -90,9 +93,9 @@ export class SkyVerticalTabsetService {
       this.maintainTabContent &&
       tab.contentRendered &&
       /* istanbul ignore next */
-      this.content?.nativeElement.contains(tab.tabContent.nativeElement)
+      this.content?.nativeElement.contains(tab.tabContent?.nativeElement)
     ) {
-      this.content?.nativeElement.removeChild(tab.tabContent.nativeElement);
+      this.content?.nativeElement.removeChild(tab.tabContent?.nativeElement);
     }
 
     this.tabs.splice(tabIndex, 1);
@@ -101,7 +104,7 @@ export class SkyVerticalTabsetService {
 
     if (tab.active) {
       if (!this.maintainTabContent) {
-        this.destroyContent();
+        this.#destroyContent();
       }
       // Try selecting the next tab first, and if there's no next tab then
       // try selecting the previous one.
@@ -113,7 +116,7 @@ export class SkyVerticalTabsetService {
     }
   }
 
-  public activateTab(tab: SkyVerticalTabComponent) {
+  public activateTab(tab: SkyVerticalTabComponent): void {
     // unactivate active tab
     const activeTab = this.tabs.find((t) => t.index === this.activeIndex);
     if (activeTab && activeTab.index !== tab.index) {
@@ -123,78 +126,80 @@ export class SkyVerticalTabsetService {
 
     this.activeIndex = tab.index;
     this.tabClicked.next(true);
-    this.updateTabClicked();
+    this.#updateTabClicked();
   }
 
-  public activeTab(): SkyVerticalTabComponent {
+  public activeTab(): SkyVerticalTabComponent | undefined {
     return this.tabs.find((t) => t.index === this.activeIndex);
   }
 
-  public isMobile() {
-    return this._isMobile;
+  public isMobile(): boolean {
+    return this.#isMobile;
   }
 
-  public updateContent() {
+  public updateContent(): void {
     if (!this.maintainTabContent) {
-      if (!this._contentAdded && this.contentVisible()) {
+      if (!this.#contentAdded && this.contentVisible()) {
         // content needs to be moved
-        this.moveContent();
-      } else if (this._contentAdded && !this.contentVisible()) {
+        this.#moveContent();
+      } else if (this.#contentAdded && !this.contentVisible()) {
         // content hidden
-        this._contentAdded = false;
+        this.#contentAdded = false;
       }
     } else {
       this.tabs.forEach((tab) => {
         if (!tab.contentRendered) {
-          this.content?.nativeElement.appendChild(tab.tabContent.nativeElement);
+          this.content?.nativeElement.appendChild(
+            tab.tabContent?.nativeElement
+          );
           tab.contentRendered = true;
         }
       });
     }
   }
 
-  public tabsVisible() {
-    return !this.isMobile() || this._tabsVisible;
+  public tabsVisible(): boolean {
+    return !this.isMobile() || this.#tabsVisible;
   }
 
-  public contentVisible() {
-    return !this.isMobile() || !this._tabsVisible;
+  public contentVisible(): boolean {
+    return !this.isMobile() || !this.#tabsVisible;
   }
 
-  public showTabs() {
-    this._tabsVisible = true;
-    this._contentAdded = false;
+  public showTabs(): void {
+    this.#tabsVisible = true;
+    this.#contentAdded = false;
     this.animationTabsVisibleState = VISIBLE_STATE;
     this.animationContentVisibleState = HIDDEN_STATE;
     this.showingTabs.next(true);
   }
 
-  private destroyContent(): void {
+  #destroyContent(): void {
     if (this.content) {
       this.content.nativeElement.innerHTML = '';
     }
     this.content = undefined;
   }
 
-  private moveContent() {
+  #moveContent(): void {
     /* istanbul ignore else */
-    if (this.content && !this._contentAdded) {
+    if (this.content && !this.#contentAdded) {
       const activeTab = this.activeTab();
       const activeContent = activeTab ? activeTab.tabContent : undefined;
 
-      if (activeContent && activeContent.nativeElement) {
+      if (activeContent && activeTab && activeContent.nativeElement) {
         this.content.nativeElement.appendChild(activeContent.nativeElement);
         activeTab.contentRendered = true;
-        this._contentAdded = true;
+        this.#contentAdded = true;
       }
     }
   }
 
-  private updateTabClicked() {
-    this._contentAdded = false;
+  #updateTabClicked(): void {
+    this.#contentAdded = false;
 
     if (this.isMobile()) {
-      this._tabsVisible = false;
+      this.#tabsVisible = false;
       this.animationContentVisibleState = VISIBLE_STATE;
       this.animationTabsVisibleState = HIDDEN_STATE;
       this.hidingTabs.next(true);

@@ -137,7 +137,7 @@ export default async function (tree: Tree, options: ComponentGeneratorSchema) {
     })
     .filter((change) => !previouslyCreated.includes(change.path))
     .filter((change) =>
-      change.path.match(/\.component\.(ts|spec\.ts|html|s?css)$/)
+      change.path.match(/\.component\.(ts|cy\.ts|spec\.ts|html|s?css)$/)
     )
     .map((change) => change.path);
   const componentFilePath = componentFilePaths.find((filepath) =>
@@ -185,10 +185,10 @@ export default async function (tree: Tree, options: ComponentGeneratorSchema) {
   const expectedPaths = [
     `${normalizedOptions.projectDirectory}/app/${normalizedOptions.name}/`,
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    `${normalizedOptions.e2eSourceRoot}/integration/${componentFilePath
+    `${normalizedOptions.e2eSourceRoot}/e2e/${componentFilePath
       .split('/')
       .pop()!
-      .replace(/\.ts$/, '.spec.ts')}`,
+      .replace(/\.ts$/, '.cy.ts')}`,
   ];
 
   // nx g @skyux-sdk/e2e-schematics:stories

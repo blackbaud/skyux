@@ -23,11 +23,11 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
    * @required
    */
   @Input()
-  public get tabset(): SkyTabsetComponent {
+  public get tabset(): SkyTabsetComponent | undefined {
     return this.#_tabset;
   }
 
-  public set tabset(value: SkyTabsetComponent) {
+  public set tabset(value: SkyTabsetComponent | undefined) {
     this.#_tabset = value;
 
     if (this.#currentTabsetSub) {
@@ -35,11 +35,11 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
     }
 
     if (value) {
-      this.#currentTabsetSub = this.#_tabset.activeChange
+      this.#currentTabsetSub = value.activeChange
         .pipe(distinctUntilChanged(), takeUntil(this.#ngUnsubscribe))
         .subscribe((index: SkyTabIndex) => {
           this.#activeSkyTabIndex = index;
-          this.#tabCount = this.#_tabset.tabs.length;
+          this.#tabCount = this.#_tabset?.tabs?.length;
           this.#updateTabToSelect();
           this.#updateButtonVisibility();
           this.#updateButtonProperties();
@@ -56,11 +56,11 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
    * @required
    */
   @Input()
-  public get buttonType(): SkyTabsetNavButtonType | string {
+  public get buttonType(): SkyTabsetNavButtonType | string | undefined {
     return this.#_buttonType;
   }
 
-  public set buttonType(value: SkyTabsetNavButtonType | string) {
+  public set buttonType(value: SkyTabsetNavButtonType | string | undefined) {
     this.#_buttonType = value;
     this.#updateTabToSelect();
     this.#updateButtonProperties();
@@ -86,34 +86,29 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
    * and false for `finish`.
    */
   @Input()
-  public set disabled(value: boolean) {
+  public set disabled(value: boolean | undefined) {
     this.#_disabled = value;
   }
 
-  public get disabled(): boolean {
-    if (this.#_disabled !== undefined) {
-      return this.#_disabled;
-    } else if (this.buttonType === buttonTypeFinish) {
-      return false;
-    }
-
-    return !this.#tabToSelect || this.#tabToSelect.disabled;
+  public get disabled(): boolean | undefined {
+    return this.#_disabled;
   }
 
   public buttonClassName: string | undefined;
   public isVisible = false;
-  public type: 'submit' | 'button';
+  public type: 'submit' | 'button' = 'submit';
   public ariaControls: string | undefined;
 
-  #_buttonType: SkyTabsetNavButtonType | string;
+  protected tabToSelect: SkyTabComponent | undefined;
+
+  #_buttonType: SkyTabsetNavButtonType | string | undefined;
   #_disabled: boolean | undefined;
-  #_tabset: SkyTabsetComponent;
-  #activeIndexNumber: number;
-  #activeSkyTabIndex: SkyTabIndex;
-  #currentTabsetSub: Subscription;
+  #_tabset: SkyTabsetComponent | undefined;
+  #activeIndexNumber: number | undefined;
+  #activeSkyTabIndex: SkyTabIndex | undefined;
+  #currentTabsetSub: Subscription | undefined;
   #logger: SkyLogService;
-  #tabCount: number;
-  #tabToSelect: SkyTabComponent | undefined;
+  #tabCount: number | undefined;
   #ngUnsubscribe = new Subject<void>();
 
   constructor(logger: SkyLogService) {
@@ -127,13 +122,14 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
 
   public buttonClick() {
     /* istanbul ignore else */
-    if (this.#tabToSelect && !this.#tabToSelect.disabled) {
-      this.tabset.active = this.#tabToSelect.tabIndex;
+    if (this.tabToSelect && !this.tabToSelect.disabled && this.tabset) {
+      this.tabset.active = this.tabToSelect.tabIndex;
     }
   }
 
   #updateButtonVisibility(): void {
-    const isLastStep = this.#activeIndexNumber === this.#tabCount - 1;
+    const isLastStep =
+      !!this.#tabCount && this.#activeIndexNumber === this.#tabCount - 1;
 
     if (this.buttonType === buttonTypeFinish) {
       this.isVisible = isLastStep;
@@ -154,13 +150,13 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
       this.buttonClassName = 'sky-btn-default';
     }
 
-    this.ariaControls = this.#tabToSelect?.tabPanelId;
+    this.ariaControls = this.tabToSelect?.tabPanelId;
   }
 
   #updateTabToSelect(): void {
     if (this.tabset?.tabs) {
       const tabs = this.tabset.tabs.toArray();
-      this.#tabToSelect = undefined;
+      this.tabToSelect = undefined;
 
       // tab index can be a number or a string, but we need the actual number index
       this.#activeIndexNumber = tabs.findIndex(
@@ -170,9 +166,9 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
       /* istanbul ignore else */
       if (this.#activeIndexNumber !== undefined) {
         if (this.buttonType === buttonTypeNext) {
-          this.#tabToSelect = tabs[this.#activeIndexNumber + 1];
+          this.tabToSelect = tabs[this.#activeIndexNumber + 1];
         } else if (this.buttonType === buttonTypePrevious) {
-          this.#tabToSelect = tabs[this.#activeIndexNumber - 1];
+          this.tabToSelect = tabs[this.#activeIndexNumber - 1];
         }
       }
     }

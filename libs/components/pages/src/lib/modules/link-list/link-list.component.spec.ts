@@ -2,16 +2,15 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { expect } from '@skyux-sdk/testing';
 
-import { SkyActionHubModule } from '../action-hub/action-hub.module';
-
 import { SkyLinkListComponent } from './link-list.component';
+import { SkyLinkListModule } from './link-list.module';
 
 describe('Link list component', () => {
   let fixture: ComponentFixture<SkyLinkListComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyActionHubModule, RouterTestingModule.withRoutes([])],
+      imports: [SkyLinkListModule, RouterTestingModule.withRoutes([])],
     });
     fixture = TestBed.createComponent(SkyLinkListComponent);
   });

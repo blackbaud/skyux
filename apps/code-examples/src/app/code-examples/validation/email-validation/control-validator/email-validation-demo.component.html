@@ -7,22 +7,35 @@
       <input
         class="sky-form-control"
         formControlName="email"
+        [attr.aria-describedby]="emailError.id"
         skyId
         #emailInput="skyId"
       />
+      <span class="sky-error-indicator" skyId #emailError="skyId">
+        <sky-status-indicator
+          *ngIf="
+            emailControl?.errors &&
+            emailControl?.touched &&
+            emailControl?.errors?.required
+          "
+          indicatorType="danger"
+          descriptionType="error"
+        >
+          Email address is required.
+        </sky-status-indicator>
+        <sky-status-indicator
+          *ngIf="
+            emailControl?.errors &&
+            emailControl?.touched &&
+            emailControl?.errors?.skyEmail &&
+            emailControl?.dirty
+          "
+          indicatorType="danger"
+          descriptionType="error"
+        >
+          Enter a valid email in the "joe@abc.com" format.
+        </sky-status-indicator>
+      </span>
     </sky-input-box>
   </div>
-
-  <ng-container *ngIf="emailControl.errors && emailControl.touched">
-    <div *ngIf="emailControl.errors.required" class="sky-error-label">
-      Email address is required.
-    </div>
-
-    <div
-      *ngIf="emailControl.errors.skyEmail && emailControl.dirty"
-      class="sky-error-label"
-    >
-      Enter a valid email in the "joe@abc.com" format.
-    </div>
-  </ng-container>
 </form>

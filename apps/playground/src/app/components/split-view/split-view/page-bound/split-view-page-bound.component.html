@@ -1,61 +1,88 @@
-<div class="sky-padding-even-large">
-  <h3>Split view with page binding</h3>
+<sky-page layout="fit">
+  <div class="my-split-view">
+    <div class="my-split-view-header">
+      <sky-fluid-grid>
+        <sky-row>
+          <sky-column>
+            <h1>Split view with page binding</h1>
+          </sky-column>
+        </sky-row>
+      </sky-fluid-grid>
+    </div>
+    <div class="my-split-view-content">
+      <sky-split-view dock="fill" [messageStream]="splitViewStream">
+        <sky-split-view-drawer [width]="width">
+          <ul class="sky-visual-list">
+            <li
+              *ngFor="let item of items; let i = index"
+              (click)="onItemClick(i)"
+            >
+              {{ item.name }} <br />
+              {{ item.date }} <br />
+              {{ item.amount }}
+            </li>
+          </ul>
+        </sky-split-view-drawer>
 
-  <div style="height: 300px">
-    Intentional white space to help show page binding below.
+        <sky-split-view-workspace>
+          <sky-split-view-workspace-content class="sky-padding-even-sm">
+            <h3>Transaction for {{ activeRecord.name }}</h3>
+            <form>
+              <p>
+                <label>
+                  Post date
+                  <input
+                    name="date"
+                    type="text"
+                    [(ngModel)]="activeRecord.date"
+                  />
+                </label>
+              </p>
+              <p>
+                <label>
+                  Amount
+                  <input
+                    name="amount"
+                    type="text"
+                    [(ngModel)]="activeRecord.amount"
+                  />
+                </label>
+              </p>
+
+              <label>
+                <input
+                  name="unsavedWork"
+                  type="checkbox"
+                  [(ngModel)]="hasUnsavedWork"
+                />
+                Has unsaved work
+              </label>
+            </form>
+            <ng-container *ngIf="activeRecord.id === 7">
+              <app-lipsum></app-lipsum>
+              <app-lipsum></app-lipsum>
+              <app-lipsum></app-lipsum>
+              <app-lipsum></app-lipsum>
+              <app-lipsum></app-lipsum>
+              <app-data-manager></app-data-manager>
+              <app-lipsum></app-lipsum>
+              <app-lipsum></app-lipsum>
+              <app-lipsum></app-lipsum>
+              <app-lipsum></app-lipsum>
+              <app-lipsum></app-lipsum>
+            </ng-container>
+          </sky-split-view-workspace-content>
+          <sky-split-view-workspace-footer>
+            <button
+              class="sky-btn sky-btn-primary"
+              type="button"
+              (click)="submitForm()"
+            >
+              Save transaction
+            </button>
+          </sky-split-view-workspace-footer>
+        </sky-split-view-workspace>
+      </sky-split-view>
+    </div>
   </div>
-
-  <sky-split-view [bindHeightToWindow]="true" [messageStream]="splitViewStream">
-    <sky-split-view-drawer [width]="width">
-      <ul class="sky-visual-list">
-        <li *ngFor="let item of items; let i = index" (click)="onItemClick(i)">
-          {{ item.name }} <br />
-          {{ item.date }} <br />
-          {{ item.amount }}
-        </li>
-      </ul>
-    </sky-split-view-drawer>
-
-    <sky-split-view-workspace>
-      <sky-split-view-workspace-content>
-        <h3>Transaction for {{ activeRecord.name }}</h3>
-        <form>
-          <p>
-            <label>
-              Post date
-              <input name="date" type="text" [(ngModel)]="activeRecord.date" />
-            </label>
-          </p>
-          <p>
-            <label>
-              Amount
-              <input
-                name="amount"
-                type="text"
-                [(ngModel)]="activeRecord.amount"
-              />
-            </label>
-          </p>
-
-          <label>
-            <input
-              name="unsavedWork"
-              type="checkbox"
-              [(ngModel)]="hasUnsavedWork"
-            />
-            Has unsaved work
-          </label>
-        </form>
-      </sky-split-view-workspace-content>
-      <sky-split-view-workspace-footer>
-        <button
-          class="sky-btn sky-btn-primary"
-          type="button"
-          (click)="submitForm()"
-        >
-          Save transaction
-        </button>
-      </sky-split-view-workspace-footer>
-    </sky-split-view-workspace>
-  </sky-split-view>
-</div>
+</sky-page>

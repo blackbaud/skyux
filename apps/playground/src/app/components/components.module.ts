@@ -19,6 +19,20 @@ export const componentRoutes: Routes = [
       import('./ag-grid/ag-grid.module').then((m) => m.AgGridModule),
   },
   {
+    path: 'angular-tree-component',
+    loadChildren: () =>
+      import('./angular-tree-component/angular-tree-component.module').then(
+        (m) => m.AngularTreeComponentModule
+      ),
+  },
+  {
+    path: 'colorpicker',
+    loadChildren: () =>
+      import('./colorpicker/colorpicker.module').then(
+        (m) => m.ColorpickerModule
+      ),
+  },
+  {
     path: 'core',
     loadChildren: () => import('./core/core.module').then((m) => m.CoreModule),
   },
@@ -73,6 +87,11 @@ export const componentRoutes: Routes = [
       import('./phone-field/phone-field.module').then(
         (m) => m.PhoneFieldModule
       ),
+  },
+  {
+    path: 'popovers',
+    loadChildren: () =>
+      import('./popovers/popovers.module').then((m) => m.PopoversModule),
   },
   {
     path: 'split-view',

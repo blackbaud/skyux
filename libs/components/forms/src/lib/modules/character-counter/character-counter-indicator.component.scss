@@ -1,5 +1,4 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 
 :host {
   // Force the icon and counter text to not wrap with a long form label
@@ -17,5 +16,5 @@
 }
 
 .sky-screen-reader-only {
-  @include sky-screen-reader-only();
+  @include mixins.sky-screen-reader-only();
 }

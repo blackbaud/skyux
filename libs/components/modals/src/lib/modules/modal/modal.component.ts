@@ -42,18 +42,11 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
   @HostBinding('class')
   public wrapperClass: string | undefined;
 
-  // Ignoring coverage as we only use the setter internally and do not export the class externally for users to be able to use the getter.
-  // istanbul ignore next
   /**
    * @internal
    */
   @Input()
-  public get ariaRole() {
-    return this.#_ariaRole;
-  }
-
   public set ariaRole(value: string | undefined) {
-    this.#_ariaRole = value;
     this.ariaRoleOrDefault = value || ARIA_ROLE_DEFAULT;
   }
 
@@ -65,9 +58,29 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
   @Input()
   public tiledBody: boolean | undefined;
 
-  public ariaDescribedBy: string;
+  /**
+   * @internal
+   */
+  @Input()
+  public set ariaDescribedBy(id: string | undefined) {
+    this.#_ariaDescribedBy = id || this.modalContentId;
+  }
 
-  public ariaLabelledBy: string;
+  public get ariaDescribedBy(): string {
+    return this.#_ariaDescribedBy;
+  }
+
+  /**
+   * @internal
+   */
+  @Input()
+  public set ariaLabelledBy(id: string | undefined) {
+    this.#_ariaLabelledBy = id || this.modalHeaderId;
+  }
+
+  public get ariaLabelledBy(): string {
+    return this.#_ariaLabelledBy;
+  }
 
   public helpKey: string | undefined;
 
@@ -96,7 +109,8 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
   #dockService: SkyDockService;
   #mediaQueryService: SkyResizeObserverMediaQueryService | undefined;
 
-  #_ariaRole: string | undefined;
+  #_ariaDescribedBy = this.modalContentId;
+  #_ariaLabelledBy = this.modalHeaderId;
 
   constructor(
     hostService: SkyModalHostService,
@@ -117,8 +131,8 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
     this.#dockService = dockService;
     this.#mediaQueryService = mediaQueryService;
 
-    this.ariaDescribedBy = config.ariaDescribedBy || this.modalContentId;
-    this.ariaLabelledBy = config.ariaLabelledBy || this.modalHeaderId;
+    this.ariaDescribedBy = config.ariaDescribedBy;
+    this.ariaLabelledBy = config.ariaLabelledBy;
     this.ariaRole = config.ariaRole;
     this.helpKey = config.helpKey;
     this.tiledBody = config.tiledBody;

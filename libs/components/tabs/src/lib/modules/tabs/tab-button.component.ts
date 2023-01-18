@@ -19,7 +19,9 @@ import { SkyTabIndex } from './tab-index';
 import { SkyTabsetStyle } from './tabset-style';
 import { SkyTabsetService } from './tabset.service';
 
-const DEFAULT_ELEMENT_ROLE = 'tab';
+const DEFAULT_DISABLED = false;
+
+type SkyWizardStepState = 'completed' | 'current' | 'unavailable';
 
 /**
  * @internal
@@ -34,40 +36,59 @@ const DEFAULT_ELEMENT_ROLE = 'tab';
 })
 export class SkyTabButtonComponent implements AfterViewInit, OnDestroy {
   @Input()
-  public active: boolean;
+  public get active(): boolean | undefined {
+    return this.#_isActive;
+  }
+  public set active(value: boolean | undefined) {
+    this.#_isActive = value;
+    this.#updateWizardStepState();
+  }
 
   @Input()
-  public ariaControls: string;
+  public ariaControls: string | undefined;
 
   @Input()
-  public buttonHref: string;
+  public buttonHref: string | undefined;
 
   @Input()
-  public buttonId: string;
+  public buttonId: string | undefined;
 
   @Input()
-  public buttonText: string;
+  public buttonText: string | undefined;
 
   @Input()
   public buttonTextCount: string | undefined;
 
   @Input()
-  public closeable: boolean;
+  public closeable: boolean | undefined;
 
   @Input()
-  public disabled: boolean;
+  public get disabled(): boolean {
+    return this.#_isDisabled;
+  }
+
+  public set disabled(value: boolean | undefined) {
+    this.#_isDisabled = value ?? DEFAULT_DISABLED;
+    this.#updateWizardStepState();
+  }
 
   @Input()
-  public tabIndex: SkyTabIndex;
+  public tabIndex: SkyTabIndex | undefined;
 
   @Input()
-  public get tabStyle(): SkyTabsetStyle {
+  public tabNumber: number | undefined;
+
+  @Input()
+  public totalTabsCount: number | undefined;
+
+  @Input()
+  public get tabStyle(): SkyTabsetStyle | undefined {
     return this.#_tabStyle;
   }
 
   public set tabStyle(style: SkyTabsetStyle | undefined) {
     this.#_tabStyle = style;
-    this.elementRole = style === 'tabs' ? DEFAULT_ELEMENT_ROLE : undefined;
+    this.#updateWizardStepState();
   }
 
   @Output()
@@ -88,10 +109,11 @@ export class SkyTabButtonComponent implements AfterViewInit, OnDestroy {
     this.#tabsetService = tabsetService;
   }
 
-  public elementRole: string | undefined = DEFAULT_ELEMENT_ROLE;
   public closeBtnTabIndex = '-1';
-
-  #_tabStyle: SkyTabsetStyle;
+  public wizardStepState: SkyWizardStepState | undefined;
+  #_isActive: boolean | undefined = false;
+  #_isDisabled = DEFAULT_DISABLED;
+  #_tabStyle: SkyTabsetStyle | undefined;
   #adapterService: SkyTabButtonAdapterService;
   #changeDetectorRef: ChangeDetectorRef;
   #elementRef: ElementRef;
@@ -102,7 +124,7 @@ export class SkyTabButtonComponent implements AfterViewInit, OnDestroy {
     this.#tabsetService.focusedTabBtnIndex
       .pipe(distinctUntilChanged(), takeUntil(this.#ngUnsubscribe))
       .subscribe((focusedIndex) => {
-        if (focusedIndex === this.tabIndex) {
+        if (this.tabIndex !== undefined && focusedIndex === this.tabIndex) {
           this.closeBtnTabIndex = '0';
           this.focusBtn();
         } else {
@@ -153,6 +175,24 @@ export class SkyTabButtonComponent implements AfterViewInit, OnDestroy {
   }
 
   public onFocus(): void {
-    this.#tabsetService.setFocusedTabBtnIndex(this.tabIndex);
+    if (this.tabIndex !== undefined) {
+      this.#tabsetService.setFocusedTabBtnIndex(this.tabIndex);
+    }
+  }
+
+  #updateWizardStepState(): void {
+    if (this.tabStyle === 'tabs') {
+      this.wizardStepState = undefined;
+    } else {
+      if (this.active) {
+        this.wizardStepState = 'current';
+      } else if (!this.disabled) {
+        this.wizardStepState = 'completed';
+      } else {
+        this.wizardStepState = 'unavailable';
+      }
+    }
+
+    this.#changeDetectorRef.markForCheck();
   }
 }

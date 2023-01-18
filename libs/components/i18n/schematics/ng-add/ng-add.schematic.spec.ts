@@ -28,8 +28,8 @@ describe('ng-add.schematic', () => {
   }
 
   function readPackageJson(tree: UnitTestTree): {
-    scripts?: { [_: string]: string };
-    dependencies?: { [_: string]: string };
+    scripts?: Record<string, string>;
+    dependencies?: Record<string, string>;
   } {
     return JSON.parse(tree.readContent('package.json'));
   }
@@ -47,7 +47,7 @@ describe('ng-add.schematic', () => {
     const packageJson = readPackageJson(updatedTree);
     expect(packageJson.dependencies).toEqual(
       jasmine.objectContaining({
-        '@skyux/assets': '^7.0.0-beta.0',
+        '@skyux/assets': '^7',
       })
     );
   });

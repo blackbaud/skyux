@@ -1,4 +1,5 @@
 {
+  "name": "flyout",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/components/flyout/src",
@@ -6,7 +7,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/flyout"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/flyout"],
       "options": {
         "project": "libs/components/flyout/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false

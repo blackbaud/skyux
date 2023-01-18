@@ -15,16 +15,22 @@ import { take, takeUntil } from 'rxjs/operators';
  */
 @Injectable()
 export class SkySplitViewAdapterService {
-  private observer: MutationObserver;
-
-  private renderer: Renderer2;
+  #observer: MutationObserver | undefined;
+  #renderer: Renderer2;
+  #observerSvc: SkyMutationObserverService;
+  #rendererFactory: RendererFactory2;
+  #windowRef: SkyAppWindowRef;
 
   constructor(
-    private observerService: SkyMutationObserverService,
-    private rendererFactory: RendererFactory2,
-    private windowRef: SkyAppWindowRef
+    observerSvc: SkyMutationObserverService,
+    rendererFactory: RendererFactory2,
+    windowRef: SkyAppWindowRef
   ) {
-    this.renderer = this.rendererFactory.createRenderer(undefined, undefined);
+    this.#observerSvc = observerSvc;
+    this.#rendererFactory = rendererFactory;
+    this.#windowRef = windowRef;
+
+    this.#renderer = this.#rendererFactory.createRenderer(undefined, null);
   }
 
   public bindHeightToWindow(
@@ -33,16 +39,14 @@ export class SkySplitViewAdapterService {
   ): void {
     /*istanbul ignore else*/
     if (elementRef.nativeElement.offsetParent === document.body) {
-      this.observer = this.observerService.create(
-        (mutations: MutationRecord[]) => {
-          this.setSplitViewBoundHeights(elementRef);
-        }
-      );
+      this.#observer = this.#observerSvc.create(() => {
+        this.#setSplitViewBoundHeights(elementRef);
+      });
 
-      fromEvent(this.windowRef.nativeWindow, 'resize')
+      fromEvent(this.#windowRef.nativeWindow, 'resize')
         .pipe(takeUntil(unsubscribeSubject))
         .subscribe(() => {
-          this.setSplitViewBoundHeights(elementRef);
+          this.#setSplitViewBoundHeights(elementRef);
         });
 
       const config = {
@@ -54,31 +58,31 @@ export class SkySplitViewAdapterService {
 
       // This observer makes sure that the split view reacts if the body styling is change but thing
       // such as the action bar.
-      this.observer.observe(document.body, config);
-      this.setSplitViewBoundHeights(elementRef);
+      this.#observer.observe(document.body, config);
+      this.#setSplitViewBoundHeights(elementRef);
 
       unsubscribeSubject.pipe(take(1)).subscribe(() => {
-        this.observer.disconnect();
+        this.#observer?.disconnect();
         const splitViewElement =
           elementRef.nativeElement.querySelector('.sky-split-view');
-        this.renderer.removeStyle(splitViewElement, 'max-height');
-        this.renderer.removeStyle(splitViewElement, 'min-height');
+        this.#renderer.removeStyle(splitViewElement, 'max-height');
+        this.#renderer.removeStyle(splitViewElement, 'min-height');
       });
     }
   }
 
-  private setSplitViewBoundHeights(elementRef: ElementRef): void {
+  #setSplitViewBoundHeights(elementRef: ElementRef): void {
     const splitViewElement =
       elementRef.nativeElement.querySelector('.sky-split-view');
     const offsetTop = splitViewElement.offsetTop;
     const marginBottom = document.body.style.marginBottom
       ? document.body.style.marginBottom
       : '0px';
-    this.renderer.setStyle(
+    this.#renderer.setStyle(
       splitViewElement,
       'max-height',
       'calc(100vh - ' + offsetTop + 'px - ' + marginBottom + ')'
     );
-    this.renderer.setStyle(splitViewElement, 'min-height', '300px');
+    this.#renderer.setStyle(splitViewElement, 'min-height', '300px');
   }
 }

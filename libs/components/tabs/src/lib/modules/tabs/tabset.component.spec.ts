@@ -3,7 +3,6 @@ import { DebugElement } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
-  async,
   fakeAsync,
   tick,
 } from '@angular/core/testing';
@@ -26,6 +25,7 @@ import { TabsetActiveTestComponent } from './fixtures/tabset-active.component.fi
 import { MockTabsetAdapterService } from './fixtures/tabset-adapter.service.mock';
 import { TabsetLoopTestComponent } from './fixtures/tabset-loop.component.fixture';
 import { SkyTabsetPermalinksFixtureComponent } from './fixtures/tabset-permalinks.component.fixture';
+import { SkyWizardTestFormComponent } from './fixtures/tabset-wizard.component.fixture';
 import { TabsetTestComponent } from './fixtures/tabset.component.fixture';
 import { SkyTabsetAdapterService } from './tabset-adapter.service';
 import { SkyTabsetPermalinkService } from './tabset-permalink.service';
@@ -212,6 +212,23 @@ describe('Tabset component', () => {
     validateMargins('modern');
   });
 
+  it('should set the tabs style correctly', () => {
+    const fixture = TestBed.createComponent(TabsetTestComponent);
+    const cmp: TabsetTestComponent = fixture.componentInstance;
+    fixture.detectChanges();
+    const tabset = getTabset(fixture);
+
+    expect(tabset.classList).toContain('sky-tabset-style-tabs');
+
+    cmp.tabStyle = undefined;
+    fixture.detectChanges();
+    expect(tabset.classList).toContain('sky-tabset-style-tabs');
+
+    cmp.tabStyle = 'wizard';
+    fixture.detectChanges();
+    expect(tabset.classList).toContain('sky-tabset-style-wizard');
+  });
+
   describe('tabs with active attribute', () => {
     it('should change the active tab when tab active is set to true', fakeAsync(() => {
       const fixture = TestBed.createComponent(TabsetTestComponent);
@@ -270,7 +287,6 @@ describe('Tabset component', () => {
 
       const tab = el.querySelectorAll('.sky-btn-tab')[1];
       const closeBtn = el.querySelector('.sky-btn-tab-close');
-      expect(closeBtn.getAttribute('disabled')).toBe('');
       expect(closeBtn).toHaveCssClass('sky-btn-tab-close-disabled');
 
       tab.click();
@@ -548,7 +564,7 @@ describe('Tabset component', () => {
     const cmp: TabsetTestComponent = fixture.componentInstance;
     const el = fixture.nativeElement;
 
-    const count = 99;
+    const count = '99';
     cmp.tab3HeaderCount = count;
     fixture.detectChanges();
     tick();
@@ -565,7 +581,7 @@ describe('Tabset component', () => {
     const cmp: TabsetTestComponent = fixture.componentInstance;
     const el = fixture.nativeElement;
 
-    const count: number = undefined;
+    const count: number | undefined = undefined;
     cmp.tab3HeaderCount = count;
     fixture.detectChanges();
     tick();
@@ -582,7 +598,7 @@ describe('Tabset component', () => {
     const cmp: TabsetTestComponent = fixture.componentInstance;
     const el = fixture.nativeElement;
 
-    const count = 0;
+    const count = '0';
     cmp.tab3HeaderCount = count;
     fixture.detectChanges();
     tick();
@@ -654,13 +670,13 @@ describe('Tabset component', () => {
     expect(tabEl).not.toBeNull();
   }));
 
-  it('should be accessible', async(async () => {
+  it('should be accessible', async () => {
     const fixture = TestBed.createComponent(TabsetTestComponent);
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
     await expectAsync(fixture.nativeElement).toBeAccessible();
-  }));
+  });
 
   describe('when collapsed', () => {
     let fixture: ComponentFixture<TabsetTestComponent>;
@@ -835,14 +851,18 @@ describe('Tabset component', () => {
         'closeTab2'
       ).and.callThrough();
 
-      fixture.componentInstance.tabsetComponent.tabDisplayMode = 'dropdown';
+      if (fixture.componentInstance.tabsetComponent) {
+        fixture.componentInstance.tabsetComponent.tabDisplayMode = 'dropdown';
+      }
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
       tick();
 
-      const tabEl: HTMLElement = document.querySelector('.sky-dropdown-button');
-      tabEl.click();
+      const tabEl: HTMLElement | null = document.querySelector(
+        '.sky-dropdown-button'
+      );
+      tabEl?.click();
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -864,12 +884,12 @@ describe('Tabset component', () => {
       expect(closeSpy).toHaveBeenCalled();
     }));
 
-    it('should be accessible', async(async () => {
+    it('should be accessible', async () => {
       fixture.detectChanges();
       await fixture.whenStable();
       fixture.detectChanges();
       await expectAsync(fixture.nativeElement).toBeAccessible();
-    }));
+    });
   });
 
   describe('active state on tabset', () => {
@@ -1158,13 +1178,13 @@ describe('Tabset component', () => {
       validateTabSelected(fixture.nativeElement, 0);
     }));
 
-    it('should be accessible', async(async () => {
+    it('should be accessible', async () => {
       const fixture = TestBed.createComponent(TabsetActiveTestComponent);
       fixture.detectChanges();
       await fixture.whenStable();
       fixture.detectChanges();
       await expectAsync(fixture.nativeElement).toBeAccessible();
-    }));
+    });
   });
 
   describe('general accessibility', () => {
@@ -1200,7 +1220,7 @@ describe('Tabset component', () => {
         expect(tab.getAttribute('role')).toBe('tabpanel');
 
         // Each tab button have role="tab".
-        expect(tabButton.getAttribute('role')).toBe('tab');
+        expect(tabButton?.getAttribute('role')).toBe('tab');
       }
     }));
 
@@ -1239,9 +1259,9 @@ describe('Tabset component', () => {
         const tabButton = document.getElementById(`${tabId}-nav-btn`);
 
         expect(tab.getAttribute('aria-labelledby')).toBe(
-          tabButton.getAttribute('id')
+          tabButton?.getAttribute('id') ?? null
         );
-        expect(tabButton.getAttribute('aria-controls')).toBe(tabId);
+        expect(tabButton?.getAttribute('aria-controls')).toBe(tabId);
       }
     }));
 
@@ -1251,7 +1271,9 @@ describe('Tabset component', () => {
       fixture.detectChanges();
 
       /// Switch to mobile display
-      fixture.componentInstance.tabsetComponent.tabDisplayMode = 'dropdown';
+      if (fixture.componentInstance.tabsetComponent) {
+        fixture.componentInstance.tabsetComponent.tabDisplayMode = 'dropdown';
+      }
       fixture.detectChanges();
 
       const button = document.querySelector(
@@ -1266,14 +1288,14 @@ describe('Tabset component', () => {
 
       const tabs = getTabs(fixture);
       for (let i = 0; i < tabs.length; i++) {
-        const tab = tabs.item(i);
+        const tab: HTMLElement = tabs.item(i);
         const tabId = tab.getAttribute('id');
         const tabButton = document.getElementById(`${tabId}-nav-btn`);
 
         expect(tab.getAttribute('aria-labelledby')).toBe(
-          tabButton.getAttribute('id')
+          tabButton?.getAttribute('id') ?? null
         );
-        expect(tabButton.getAttribute('aria-controls')).toBe(tabId);
+        expect(tabButton?.getAttribute('aria-controls')).toBe(tabId);
       }
     }));
 
@@ -1429,7 +1451,9 @@ describe('Tabset component', () => {
         fixture.detectChanges();
         tick();
 
-        fixture.componentInstance.tabsetComponent.active = '3';
+        if (fixture.componentInstance.tabsetComponent) {
+          fixture.componentInstance.tabsetComponent.active = '3';
+        }
 
         fixture.detectChanges();
         tick();
@@ -1459,7 +1483,9 @@ describe('Tabset component', () => {
         fixture.detectChanges();
         tick();
 
-        fixture.componentInstance.tabsetComponent.active = 1;
+        if (fixture.componentInstance.tabsetComponent) {
+          fixture.componentInstance.tabsetComponent.active = 1;
+        }
 
         fixture.detectChanges();
         tick();
@@ -1489,7 +1515,9 @@ describe('Tabset component', () => {
         fixture.detectChanges();
         tick();
 
-        fixture.componentInstance.tabsetComponent.active = '3';
+        if (fixture.componentInstance.tabsetComponent) {
+          fixture.componentInstance.tabsetComponent.active = '3';
+        }
         fixture.componentInstance.tab2Disabled = true;
 
         fixture.detectChanges();
@@ -1542,7 +1570,9 @@ describe('Tabset component', () => {
         fixture.detectChanges();
         tick();
 
-        fixture.componentInstance.tabsetComponent.active = 1;
+        if (fixture.componentInstance.tabsetComponent) {
+          fixture.componentInstance.tabsetComponent.active = 1;
+        }
 
         fixture.detectChanges();
         tick();
@@ -1619,6 +1649,51 @@ describe('Tabset component', () => {
         tick();
 
         validateElFocused(tabBtn2);
+      }));
+    });
+
+    describe('button aria label', () => {
+      it('should indicate the current state of a wizard step', fakeAsync(() => {
+        const wizardFixture = TestBed.createComponent(
+          SkyWizardTestFormComponent
+        );
+
+        wizardFixture.detectChanges();
+        tick();
+        wizardFixture.detectChanges();
+        tick();
+
+        wizardFixture.componentInstance.requiredValue1 = 'test';
+        wizardFixture.componentInstance.selectedTab = 1;
+        wizardFixture.componentInstance.step3Disabled = true;
+
+        wizardFixture.detectChanges();
+        tick();
+        wizardFixture.detectChanges();
+        tick();
+
+        const tabBtns = wizardFixture.debugElement.queryAll(
+          By.css('.sky-btn-tab')
+        );
+        const tabBtn1 = tabBtns[0]?.nativeElement;
+        const tabBtn2 = tabBtns[1]?.nativeElement;
+        const tabBtn3 = tabBtns[2]?.nativeElement;
+
+        expect(tabBtn1?.ariaLabel).toEqual('Step 1 of 3, completed: Step 1');
+        expect(tabBtn2?.ariaLabel).toEqual('Step 2 of 3, current: Step 2');
+        expect(tabBtn3?.ariaLabel).toEqual('Step 3 of 3, unavailable: Step 3');
+      }));
+
+      it('should indicate the current tab number out of the total tabs', fakeAsync(() => {
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+
+        const tabBtns = debugElement.queryAll(By.css('.sky-btn-tab'));
+        const tabBtn1 = tabBtns[0]?.nativeElement;
+
+        expect(tabBtn1?.ariaLabel).toEqual('Tab 1 of 3: Tab 1');
       }));
     });
   });

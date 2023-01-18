@@ -53,7 +53,7 @@ export class SkyDataEntryGridEditModalComponent {
         type: SkyCellType.Text,
         cellRendererParams: {
           skyComponentProperties: {
-            validator: (value): boolean => String(value).length <= 10,
+            validator: (value: string): boolean => String(value).length <= 10,
             validatorMessage: `Value exceeds maximum length`,
           },
         },
@@ -70,7 +70,7 @@ export class SkyDataEntryGridEditModalComponent {
         type: SkyCellType.Number,
         cellRendererParams: {
           skyComponentProperties: {
-            validator: (value) => value >= 18,
+            validator: (value: number): boolean => value >= 18,
             validatorMessage: `Age must be 18+`,
           },
         },
@@ -161,7 +161,7 @@ export class SkyDataEntryGridEditModalComponent {
         type: [SkyCellType.Date, SkyCellType.Validator],
         cellRendererParams: {
           skyComponentProperties: {
-            validator: (value: Date) =>
+            validator: (value: Date): boolean =>
               !!value && value > new Date(1985, 9, 26),
             validatorMessage: 'Please enter a future date',
           },
@@ -172,7 +172,7 @@ export class SkyDataEntryGridEditModalComponent {
     this.gridData = this.context.gridData;
     this.gridOptions = {
       columnDefs: this.columnDefs,
-      onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
+      onGridReady: (gridReadyEvent): void => this.onGridReady(gridReadyEvent),
     };
     this.gridOptions = this.agGridService.getEditableGridOptions({
       gridOptions: this.gridOptions,

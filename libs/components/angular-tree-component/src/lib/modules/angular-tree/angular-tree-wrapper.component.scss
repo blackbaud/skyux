@@ -1,6 +1,5 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-angular-tree-wrapper ::ng-deep {
   .angular-tree-component {
@@ -34,7 +33,7 @@
 
   // Toggle indicator
   .sky-toggle-children {
-    @include sky-icon-button-borderless();
+    @include mixins.sky-icon-button-borderless();
     min-height: 19px;
     min-width: 20px;
     margin: 0 $sky-margin 0 0;
@@ -68,14 +67,6 @@
 
   .sky-switch-control {
     margin: 0 8px 0 0;
-  }
-
-  // TODO: Remove me when checkboxes support indeterminate!
-  .sky-checkbox-indeterminate .fa-check:before {
-    content: '\f0c8';
-    position: relative;
-    top: -0.25px;
-    font-size: 14px;
   }
 
   // Context Menus

@@ -52,11 +52,11 @@ describe('Autocomplete component', () => {
     }
   }
 
-  function getSearchResultsContainer(): HTMLElement {
+  function getSearchResultsContainer(): HTMLElement | null {
     return document.querySelector('.sky-autocomplete-results-container');
   }
 
-  function getSearchResultsSection(): Element {
+  function getSearchResultsSection(): Element | null {
     return document.querySelector('.sky-autocomplete-results');
   }
 
@@ -105,7 +105,9 @@ describe('Autocomplete component', () => {
     tick();
     SkyAppTestUtility.fireDomEvent(element, 'blur');
     fixture.detectChanges();
-    tick();
+    // Our blur listener has a delay of 25ms. This tick accounts for that.
+    tick(25);
+    fixture.detectChanges();
   }
 
   function searchAndSelect(
@@ -206,7 +208,9 @@ describe('Autocomplete component', () => {
 
   function updateNgModel(
     fixture: ComponentFixture<SkyAutocompleteFixtureComponent>,
-    selectedValue: { objectid?: string; name?: string; text?: string }
+    selectedValue:
+      | { objectid?: string; name?: string; text?: string }
+      | undefined
   ) {
     fixture.componentInstance.model.favoriteColor = selectedValue;
     fixture.detectChanges();
@@ -245,9 +249,10 @@ describe('Autocomplete component', () => {
     });
 
     it('should set defaults', () => {
-      expect(autocomplete.data).toEqual([]);
-
+      component.data = undefined;
       fixture.detectChanges();
+
+      expect(autocomplete.data).toEqual([]);
 
       const inputElement: HTMLInputElement = getInputElement();
 
@@ -260,10 +265,10 @@ describe('Autocomplete component', () => {
       expect(autocomplete.descriptorProperty).toEqual('name');
       expect(autocomplete.highlightText).toEqual([]);
       expect(autocomplete.propertiesToSearch).toEqual(['name']);
-      expect(autocomplete.search).toBeDefined();
+      expect(autocomplete.searchOrDefault).toBeDefined();
       expect(autocomplete.searchFilters).toBeUndefined();
       expect(autocomplete.searchResults).toEqual([]);
-      expect(autocomplete.searchResultsLimit).toBeUndefined();
+      expect(autocomplete.searchResultsLimit).toBe(0);
       expect(autocomplete.searchResultTemplate).toBeUndefined();
       expect(autocomplete.searchTextMinimumCharacters).toEqual(1);
     });
@@ -296,7 +301,7 @@ describe('Autocomplete component', () => {
 
     it('should search', fakeAsync(() => {
       fixture.detectChanges();
-      const spy = spyOn(autocomplete, 'search').and.callThrough();
+      const spy = spyOn(autocomplete, 'searchOrDefault').and.callThrough();
 
       enterSearch('r', fixture);
 
@@ -413,7 +418,7 @@ describe('Autocomplete component', () => {
       enterSearch('rasdasdlhasdjklh', fixture);
 
       const container = getSearchResultsSection();
-      expect(container.textContent.trim()).toBe(expectedMessage);
+      expect(container?.textContent?.trim()).toBe(expectedMessage);
 
       const actionsContainer = getActionsContainer();
       expect(actionsContainer).toBeNull();
@@ -431,7 +436,7 @@ describe('Autocomplete component', () => {
       expect(resultsContainer).toBeNull();
 
       const actionsContainer = getActionsContainer();
-      expect(actionsContainer.textContent.trim()).toBe(expectedMessage);
+      expect(actionsContainer?.textContent?.trim()).toBe(expectedMessage);
     }));
 
     it('should show a no results found message in the actions area if the show more button is shown', fakeAsync(() => {
@@ -445,7 +450,7 @@ describe('Autocomplete component', () => {
       expect(resultsContainer).toBeNull();
 
       const actionsContainer = getActionsContainer();
-      expect(actionsContainer.textContent.trim()).toBe(expectedMessage);
+      expect(actionsContainer?.textContent?.trim()).toBe(expectedMessage);
     }));
 
     it('should show a custom no results found message', fakeAsync(() => {
@@ -456,7 +461,7 @@ describe('Autocomplete component', () => {
       enterSearch('rasdasdlhasdjklh', fixture);
 
       const container = getSearchResultsSection();
-      expect(container.textContent.trim()).toBe(expectedMessage);
+      expect(container?.textContent?.trim()).toBe(expectedMessage);
     }));
 
     it('should allow custom search result template', fakeAsync(() => {
@@ -465,7 +470,7 @@ describe('Autocomplete component', () => {
 
       enterSearch('r', fixture);
 
-      const customElement = getSearchResultsContainer().querySelector(
+      const customElement = getSearchResultsContainer()?.querySelector(
         '.custom-search-result-id'
       ) as HTMLElement;
 
@@ -496,7 +501,7 @@ describe('Autocomplete component', () => {
     it('should not search if search text empty', fakeAsync(() => {
       fixture.detectChanges();
 
-      const spy = spyOn(autocomplete, 'search').and.callThrough();
+      const spy = spyOn(autocomplete, 'searchOrDefault').and.callThrough();
 
       enterSearch('', fixture);
 
@@ -507,7 +512,7 @@ describe('Autocomplete component', () => {
       component.searchTextMinimumCharacters = 3;
       fixture.detectChanges();
 
-      const spy = spyOn(autocomplete, 'search').and.callThrough();
+      const spy = spyOn(autocomplete, 'searchOrDefault').and.callThrough();
 
       // First, verify that the search will run with 3 characters.
       enterSearch('123', fixture);
@@ -523,10 +528,12 @@ describe('Autocomplete component', () => {
 
     it('should allow for custom search function', fakeAsync(() => {
       let customSearchCalled = false;
-      const customFunction: SkyAutocompleteSearchFunction = (): Promise<
-        [{ objectid?: string; name?: string; text?: string }]
-      > => {
+      let customSearchParameter: string | undefined;
+      const customFunction: SkyAutocompleteSearchFunction = (
+        searchText: string
+      ): Promise<[{ objectid?: string; name?: string; text?: string }]> => {
         return new Promise((resolve) => {
+          customSearchParameter = searchText;
           customSearchCalled = true;
           resolve([{ name: 'Red' }]);
         });
@@ -536,11 +543,9 @@ describe('Autocomplete component', () => {
 
       fixture.detectChanges();
 
-      const spy = spyOn(autocomplete, 'search').and.callThrough();
-
       enterSearch('r', fixture);
 
-      expect(spy.calls.argsFor(0)[0]).toEqual('r');
+      expect(customSearchParameter).toEqual('r');
       expect(customSearchCalled).toEqual(true);
     }));
 
@@ -553,7 +558,7 @@ describe('Autocomplete component', () => {
 
       fixture.detectChanges();
 
-      const spy = spyOn(autocomplete, 'search').and.callThrough();
+      const spy = spyOn(autocomplete, 'searchOrDefault').and.callThrough();
 
       enterSearch('r', fixture);
 
@@ -570,13 +575,25 @@ describe('Autocomplete component', () => {
 
       const inputElement: HTMLInputElement = getInputElement();
 
-      const spy = spyOn(autocomplete, 'search').and.callThrough();
+      const spy = spyOn(autocomplete, 'searchOrDefault').and.callThrough();
 
       enterSearch('r', fixture);
       blurInput(inputElement, fixture);
 
       expect(inputElement.disabled).toBeTruthy();
       expect(spy).not.toHaveBeenCalled();
+
+      component.disabled = undefined;
+
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      enterSearch('r', fixture);
+      blurInput(inputElement, fixture);
+
+      expect(inputElement.disabled).toBeFalsy();
+      expect(spy).toHaveBeenCalled();
     }));
 
     it('should handle missing skyAutocomplete directive on load', fakeAsync(() => {
@@ -585,6 +602,11 @@ describe('Autocomplete component', () => {
       try {
         fixture.detectChanges();
       } catch (e) {
+        if (!(e instanceof Error)) {
+          fail('should have thrown an Error');
+          return;
+        }
+
         expect(
           e.message.indexOf(
             'The SkyAutocompleteComponent requires a ContentChild input'
@@ -593,19 +615,18 @@ describe('Autocomplete component', () => {
       }
     }));
 
-    it('should handle missing skyAutocomplete directive on change', fakeAsync(() => {
+    it('should handle missing skyAutocomplete directive on change', async () => {
       fixture.detectChanges();
 
       component.hideInput = true;
 
       expect(() => {
-        tick();
         fixture.detectChanges();
       }).toThrowError(
         'The SkyAutocompleteComponent requires a ContentChild input or textarea bound with the SkyAutocomplete directive. ' +
           'For example: `<input type="text" skyAutocomplete>`.'
       );
-    }));
+    });
 
     it('should set the width of the dropdown when a search is performed', fakeAsync(() => {
       const adapterService = getAdapterService(fixture);
@@ -625,11 +646,11 @@ describe('Autocomplete component', () => {
 
       const dropdownElement = getSearchResultsContainer();
       const autocompleteElement = getAutocompleteElement();
-      const formattedWidth = `${
-        autocompleteElement.getBoundingClientRect().width
-      }px`;
+      const formattedWidth = `${+autocompleteElement
+        .getBoundingClientRect()
+        .width.toFixed(2)}px`;
 
-      expect(dropdownElement.style.width).toEqual(formattedWidth);
+      expect(dropdownElement?.style.width).toEqual(formattedWidth);
     }));
 
     it('should set the width of the dropdown on window resize', fakeAsync(() => {
@@ -654,11 +675,11 @@ describe('Autocomplete component', () => {
 
       const dropdownElement = getSearchResultsContainer();
       const autocompleteElement = getAutocompleteElement();
-      const formattedWidth = `${
-        autocompleteElement.getBoundingClientRect().width
-      }px`;
+      const formattedWidth = `${+autocompleteElement
+        .getBoundingClientRect()
+        .width.toFixed(2)}px`;
 
-      expect(dropdownElement.style.width).toEqual(formattedWidth);
+      expect(dropdownElement?.style.width).toEqual(formattedWidth);
     }));
 
     it('should search after debounce time', fakeAsync(() => {
@@ -667,7 +688,7 @@ describe('Autocomplete component', () => {
 
       const inputElement: HTMLInputElement = getInputElement();
 
-      const spy = spyOn(autocomplete, 'search').and.callThrough();
+      const spy = spyOn(autocomplete, 'searchOrDefault').and.callThrough();
 
       inputElement.value = 'r';
       SkyAppTestUtility.fireDomEvent(inputElement, 'input');
@@ -765,7 +786,17 @@ describe('Autocomplete component', () => {
       // Type 'r' to activate the autocomplete dropdown, then click the first result.
       enterSearch('r', fixture);
 
-      const addButton = getAddButton();
+      let addButton = getAddButton();
+      expect(addButton).toBeNull();
+      expect(addButtonSpy).not.toHaveBeenCalled();
+
+      component.showAddButton = undefined;
+      fixture.detectChanges();
+
+      // Type 'r' to activate the autocomplete dropdown, then click the first result.
+      enterSearch('r', fixture);
+
+      addButton = getAddButton();
       expect(addButton).toBeNull();
       expect(addButtonSpy).not.toHaveBeenCalled();
     }));
@@ -871,7 +902,17 @@ describe('Autocomplete component', () => {
       // Type 'r' to activate the autocomplete dropdown, then click the first result.
       enterSearch('r', fixture);
 
-      const showMoreButton = getShowMoreButton();
+      let showMoreButton = getShowMoreButton();
+      expect(showMoreButton).toBeNull();
+      expect(showMoreButtonSpy).not.toHaveBeenCalled();
+
+      component.enableShowMore = undefined;
+      fixture.detectChanges();
+
+      // Type 'r' to activate the autocomplete dropdown, then click the first result.
+      enterSearch('r', fixture);
+
+      showMoreButton = getShowMoreButton();
       expect(showMoreButton).toBeNull();
       expect(showMoreButtonSpy).not.toHaveBeenCalled();
     }));
@@ -1009,17 +1050,17 @@ describe('Autocomplete component', () => {
       fixture.detectChanges();
 
       const wrapper = document.querySelector('.sky-autocomplete');
-      expect(wrapper.getAttribute('aria-owns')).toBeNull();
+      expect(wrapper?.getAttribute('aria-owns')).toBeNull();
 
       enterSearch('r', fixture);
 
       const searchResultsContainer = getSearchResultsSection();
-      expect(wrapper.getAttribute('aria-owns')).toEqual(
-        searchResultsContainer.id
+      expect(wrapper?.getAttribute('aria-owns')).toEqual(
+        searchResultsContainer?.id
       );
 
       blurInput(getInputElement(), fixture);
-      expect(wrapper.getAttribute('aria-owns')).toBeNull();
+      expect(wrapper?.getAttribute('aria-owns')).toBeNull();
     }));
 
     describe('highlighting', () => {
@@ -1034,12 +1075,12 @@ describe('Autocomplete component', () => {
 
         expect(
           getSearchResultsContainer()
-            .querySelector('mark')
-            .innerHTML.trim()
+            ?.querySelector('mark')
+            ?.innerHTML.trim()
             .toLowerCase()
         ).toBe('r');
         expect(
-          getSearchResultsContainer().querySelectorAll('mark').length
+          getSearchResultsContainer()?.querySelectorAll('mark').length
         ).toBe(6);
       }));
 
@@ -1053,7 +1094,7 @@ describe('Autocomplete component', () => {
         fixture.detectChanges();
 
         expect(
-          getSearchResultsContainer().querySelectorAll('mark').length
+          getSearchResultsContainer()?.querySelectorAll('mark').length
         ).toBe(6);
 
         enterSearch('\u0305', fixture);
@@ -1061,7 +1102,7 @@ describe('Autocomplete component', () => {
         fixture.detectChanges();
 
         expect(
-          getSearchResultsContainer().querySelectorAll('mark').length
+          getSearchResultsContainer()?.querySelectorAll('mark').length
         ).toBe(0);
       }));
 
@@ -1075,7 +1116,7 @@ describe('Autocomplete component', () => {
         fixture.detectChanges();
 
         expect(
-          getSearchResultsContainer().querySelectorAll('mark').length
+          getSearchResultsContainer()?.querySelectorAll('mark').length
         ).toBe(0);
         enterSearch('red', fixture);
         tick();
@@ -1083,12 +1124,12 @@ describe('Autocomplete component', () => {
 
         expect(
           getSearchResultsContainer()
-            .querySelector('mark')
-            .innerHTML.trim()
+            ?.querySelector('mark')
+            ?.innerHTML.trim()
             .toLowerCase()
         ).toBe('red');
         expect(
-          getSearchResultsContainer().querySelectorAll('mark').length
+          getSearchResultsContainer()?.querySelectorAll('mark').length
         ).toBe(1);
       }));
 
@@ -1103,12 +1144,12 @@ describe('Autocomplete component', () => {
 
         expect(
           getSearchResultsContainer()
-            .querySelector('mark')
-            .innerHTML.trim()
+            ?.querySelector('mark')
+            ?.innerHTML.trim()
             .toLowerCase()
         ).toBe('bla');
         expect(
-          getSearchResultsContainer().querySelectorAll('mark').length
+          getSearchResultsContainer()?.querySelectorAll('mark').length
         ).toBe(1);
         enterSearch('bl', fixture);
         tick();
@@ -1116,12 +1157,12 @@ describe('Autocomplete component', () => {
 
         expect(
           getSearchResultsContainer()
-            .querySelector('mark')
-            .innerHTML.trim()
+            ?.querySelector('mark')
+            ?.innerHTML.trim()
             .toLowerCase()
         ).toBe('bl');
         expect(
-          getSearchResultsContainer().querySelectorAll('mark').length
+          getSearchResultsContainer()?.querySelectorAll('mark').length
         ).toBe(2);
       }));
 
@@ -1139,7 +1180,7 @@ describe('Autocomplete component', () => {
         enterSearch('mis', fixture);
 
         expect(
-          getSearchResultsContainer().querySelectorAll('mark').length
+          getSearchResultsContainer()?.querySelectorAll('mark').length
         ).toBe(2);
       }));
 
@@ -1157,12 +1198,12 @@ describe('Autocomplete component', () => {
 
         expect(['al', 'ål']).toContain(
           getSearchResultsContainer()
-            .querySelector('mark')
-            .innerHTML.trim()
+            ?.querySelector('mark')
+            ?.innerHTML.trim()
             .toLowerCase()
         );
         expect(
-          getSearchResultsContainer().querySelectorAll('mark').length
+          getSearchResultsContainer()?.querySelectorAll('mark').length
         ).toBe(2);
       }));
 
@@ -1183,12 +1224,12 @@ describe('Autocomplete component', () => {
 
         expect(
           getSearchResultsContainer()
-            .querySelector('mark')
-            .innerHTML.trim()
+            ?.querySelector('mark')
+            ?.innerHTML.trim()
             .toLowerCase()
         ).toContain('united');
         expect(
-          getSearchResultsContainer().querySelectorAll('mark').length
+          getSearchResultsContainer()?.querySelectorAll('mark').length
         ).toBe(2);
       }));
     });
@@ -1519,7 +1560,7 @@ describe('Autocomplete component', () => {
         const input: SkyAutocompleteInputDirective =
           component.autocompleteInput;
         const inputElement: HTMLInputElement = getInputElement();
-        const selectedValue: { name: string } = undefined;
+        const selectedValue: { name: string } | undefined = undefined;
 
         updateNgModel(fixture, selectedValue);
         blurInput(inputElement, fixture);
@@ -1837,24 +1878,24 @@ describe('Autocomplete component', () => {
       tick();
 
       // Expect untouched and pristine.
-      expect(component.reactiveForm.touched).toEqual(false);
-      expect(component.reactiveForm.untouched).toEqual(true);
-      expect(component.reactiveForm.dirty).toEqual(false);
-      expect(component.reactiveForm.pristine).toEqual(true);
+      expect(component.reactiveForm?.touched).toEqual(false);
+      expect(component.reactiveForm?.untouched).toEqual(true);
+      expect(component.reactiveForm?.dirty).toEqual(false);
+      expect(component.reactiveForm?.pristine).toEqual(true);
     }));
 
     it('should set form states properly when initialized with a value', fakeAsync(function () {
       fixture.detectChanges();
       tick();
-      component.reactiveForm.get('favoriteColor').patchValue({
+      component.reactiveForm?.get('favoriteColor')?.patchValue({
         name: 'Red',
       });
 
       // Expect untouched and pristine.
-      expect(component.reactiveForm.touched).toEqual(false);
-      expect(component.reactiveForm.untouched).toEqual(true);
-      expect(component.reactiveForm.dirty).toEqual(false);
-      expect(component.reactiveForm.pristine).toEqual(true);
+      expect(component.reactiveForm?.touched).toEqual(false);
+      expect(component.reactiveForm?.untouched).toEqual(true);
+      expect(component.reactiveForm?.dirty).toEqual(false);
+      expect(component.reactiveForm?.pristine).toEqual(true);
     }));
 
     it('should mark the control as touched on blur', fakeAsync(function () {
@@ -1864,10 +1905,10 @@ describe('Autocomplete component', () => {
       blurInput(inputElement, fixture);
 
       // Expect touched and pristine.
-      expect(component.reactiveForm.touched).toEqual(true);
-      expect(component.reactiveForm.untouched).toEqual(false);
-      expect(component.reactiveForm.dirty).toEqual(false);
-      expect(component.reactiveForm.pristine).toEqual(true);
+      expect(component.reactiveForm?.touched).toEqual(true);
+      expect(component.reactiveForm?.untouched).toEqual(false);
+      expect(component.reactiveForm?.dirty).toEqual(false);
+      expect(component.reactiveForm?.pristine).toEqual(true);
     }));
 
     it('should mark the control as dirty when search value changes', fakeAsync(function () {
@@ -1877,21 +1918,21 @@ describe('Autocomplete component', () => {
       enterSearch('r', fixture);
 
       // Expect untouched and pristine, because we haven't selected a search result yet.
-      expect(component.reactiveForm.touched).toEqual(false);
-      expect(component.reactiveForm.untouched).toEqual(true);
-      expect(component.reactiveForm.dirty).toEqual(false);
-      expect(component.reactiveForm.pristine).toEqual(true);
+      expect(component.reactiveForm?.touched).toEqual(false);
+      expect(component.reactiveForm?.untouched).toEqual(true);
+      expect(component.reactiveForm?.dirty).toEqual(false);
+      expect(component.reactiveForm?.pristine).toEqual(true);
 
       searchAndSelect('r', 0, fixture);
 
       // Expect touched and dirty.
-      expect(component.reactiveForm.touched).toEqual(true);
-      expect(component.reactiveForm.untouched).toEqual(false);
-      expect(component.reactiveForm.dirty).toEqual(true);
-      expect(component.reactiveForm.pristine).toEqual(false);
+      expect(component.reactiveForm?.touched).toEqual(true);
+      expect(component.reactiveForm?.untouched).toEqual(false);
+      expect(component.reactiveForm?.dirty).toEqual(true);
+      expect(component.reactiveForm?.pristine).toEqual(false);
 
       // Expect model to be set.
-      expect(component.reactiveForm.value).toEqual({
+      expect(component.reactiveForm?.value).toEqual({
         favoriteColor: { name: 'Red' },
       });
     }));
@@ -1899,20 +1940,20 @@ describe('Autocomplete component', () => {
     it('should mark the control as dirty when search value changes when initialized with a value', fakeAsync(function () {
       fixture.detectChanges();
       tick();
-      component.reactiveForm.get('favoriteColor').patchValue({
+      component.reactiveForm?.get('favoriteColor')?.patchValue({
         name: 'Purple',
       });
 
       searchAndSelect('r', 0, fixture);
 
       // Expect touched and dirty.
-      expect(component.reactiveForm.touched).toEqual(true);
-      expect(component.reactiveForm.untouched).toEqual(false);
-      expect(component.reactiveForm.dirty).toEqual(true);
-      expect(component.reactiveForm.pristine).toEqual(false);
+      expect(component.reactiveForm?.touched).toEqual(true);
+      expect(component.reactiveForm?.untouched).toEqual(false);
+      expect(component.reactiveForm?.dirty).toEqual(true);
+      expect(component.reactiveForm?.pristine).toEqual(false);
 
       // Expect model to be set.
-      expect(component.reactiveForm.value).toEqual({
+      expect(component.reactiveForm?.value).toEqual({
         favoriteColor: { name: 'Red' },
       });
     }));
@@ -1927,7 +1968,10 @@ describe('Autocomplete component', () => {
       tick();
       fixture.detectChanges();
 
-      const spy = spyOn(component.autocomplete, 'search').and.callThrough();
+      const spy = spyOn(
+        component.autocomplete,
+        'searchOrDefault'
+      ).and.callThrough();
 
       enterSearch('r', fixture);
       blurInput(inputElement, fixture);

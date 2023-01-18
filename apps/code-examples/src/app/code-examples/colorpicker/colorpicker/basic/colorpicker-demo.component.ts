@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormControl,
@@ -10,7 +10,7 @@ import { SkyColorpickerOutput } from '@skyux/colorpicker';
   selector: 'app-colorpicker-demo',
   templateUrl: './colorpicker-demo.component.html',
 })
-export class ColorpickerDemoComponent implements OnInit {
+export class ColorpickerDemoComponent {
   public reactiveForm: UntypedFormGroup;
 
   public swatches: string[] = [
@@ -22,10 +22,10 @@ export class ColorpickerDemoComponent implements OnInit {
     '#DA9C9C',
   ];
 
-  constructor(private formBuilder: UntypedFormBuilder) {}
-
-  public ngOnInit(): void {
-    this.createForm();
+  constructor(formBuilder: UntypedFormBuilder) {
+    this.reactiveForm = formBuilder.group({
+      favoriteColor: new UntypedFormControl('#f00'),
+    });
   }
 
   public onSelectedColorChanged(args: SkyColorpickerOutput): void {
@@ -33,14 +33,8 @@ export class ColorpickerDemoComponent implements OnInit {
   }
 
   public submit(): void {
-    const controlValue = this.reactiveForm.get('favoriteColor').value;
+    const controlValue = this.reactiveForm.get('favoriteColor')?.value;
     const favoriteColor: string = controlValue.hex || controlValue;
     alert('Your favorite color is: \n' + favoriteColor);
-  }
-
-  private createForm(): void {
-    this.reactiveForm = this.formBuilder.group({
-      favoriteColor: new UntypedFormControl('#f00'),
-    });
   }
 }

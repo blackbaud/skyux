@@ -1,12 +1,15 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
-@import 'libs/components/theme/src/lib/styles/variables';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 $indicator-size: 22px;
 
 .sky-toggle-switch {
   display: inline-flex;
   align-items: baseline;
+
+  &.sky-toggle-switch-with-label {
+    gap: $sky-margin;
+  }
 }
 
 .sky-toggle-switch-switch {
@@ -18,11 +21,6 @@ $indicator-size: 22px;
   line-height: $sky-line-height-base;
   width: $indicator-size * 2 + 2;
   display: inline-block;
-
-  & + .sky-toggle-switch-label {
-    margin-left: $sky-margin;
-    flex: 1 0 auto;
-  }
 }
 
 .sky-toggle-switch-button {
@@ -31,7 +29,6 @@ $indicator-size: 22px;
   margin: 0;
   padding: 0;
   outline: none;
-  white-space: nowrap;
 
   &:focus-visible .sky-toggle-switch-switch {
     outline: none;
@@ -97,7 +94,7 @@ $indicator-size: 22px;
   }
 }
 
-@include sky-theme-modern {
+@include mixins.sky-theme-modern {
   .sky-toggle-switch-button {
     .sky-toggle-switch-switch {
       background-color: $sky-color-white;
@@ -153,7 +150,7 @@ $indicator-size: 22px;
   }
 }
 
-@include sky-theme-modern-dark {
+@include mixins.sky-theme-modern-dark {
   .sky-toggle-switch-button {
     background-color: $sky-theme-modern-mode-dark-background-color-page-default;
   }

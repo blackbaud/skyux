@@ -1,6 +1,6 @@
 <div
   class="sky-tabset"
-  [attr.role]="elementRole"
+  role="tablist"
   [attr.aria-label]="ariaLabel"
   [attr.aria-labelledby]="ariaLabelledBy"
   [ngClass]="
@@ -94,6 +94,8 @@
     [disabled]="tabButton.disabled"
     [tabIndex]="tabButton.tabIndex"
     [tabStyle]="tabStyle"
+    [tabNumber]="tabButton.tabNumber"
+    [totalTabsCount]="tabButton.totalTabsCount"
     (buttonClick)="onTabButtonClick(tabButton)"
     (closeClick)="onTabCloseClick(tabButton)"
   ></sky-tab-button>

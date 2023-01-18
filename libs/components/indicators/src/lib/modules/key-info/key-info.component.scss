@@ -1,7 +1,3 @@
-@import 'libs/components/theme/src/lib/styles/variables';
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
-
 .sky-key-info {
   display: inline-block;
 
@@ -12,17 +8,7 @@
     }
 
     .sky-key-info-label {
-      padding: 0 0 0 $sky-space-xs;
-    }
-  }
-}
-
-@include sky-theme-modern {
-  .sky-key-info {
-    &.sky-key-info-horizontal {
-      .sky-key-info-label {
-        padding: 0 0 0 $sky-theme-modern-space-xs;
-      }
+      padding: 0 0 0 var(--sky-margin-inline-xs);
     }
   }
 }

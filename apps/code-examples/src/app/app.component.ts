@@ -1,5 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
+import {
+  SkyAppViewportService,
+  SkyTheme,
+  SkyThemeMode,
+  SkyThemeService,
+  SkyThemeSettings,
+} from '@skyux/theme';
 
 @Component({
   selector: 'app-root',
@@ -7,7 +14,25 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'code-examples';
+  public height = 60;
 
-  constructor(public router: Router) {}
+  constructor(
+    renderer: Renderer2,
+    public router: Router,
+    themeSvc: SkyThemeService,
+    viewportSvc: SkyAppViewportService
+  ) {
+    viewportSvc.reserveSpace({
+      id: 'controls',
+      position: 'top',
+      size: this.height,
+    });
+
+    const themeSettings = new SkyThemeSettings(
+      SkyTheme.presets['modern'],
+      SkyThemeMode.presets.light
+    );
+
+    themeSvc.init(document.body, renderer, themeSettings);
+  }
 }

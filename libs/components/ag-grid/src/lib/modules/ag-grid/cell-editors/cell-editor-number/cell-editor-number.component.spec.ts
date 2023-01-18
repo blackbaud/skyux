@@ -1,7 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
-import { Beans, Column, KeyCode, RowNode } from 'ag-grid-community';
+import {
+  Beans,
+  Column,
+  ICellEditorParams,
+  KeyCode,
+  RowNode,
+} from 'ag-grid-community';
 
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
@@ -55,9 +61,8 @@ describe('SkyCellEditorNumberComponent', () => {
   });
 
   describe('agInit', () => {
-    let cellEditorParams: SkyCellEditorNumberParams;
+    let cellEditorParams: Partial<SkyCellEditorNumberParams>;
     let column: Column;
-    const columnWidth = 200;
     const rowNode = new RowNode({} as Beans);
     rowNode.rowHeight = 37;
     const value = 15;
@@ -67,32 +72,17 @@ describe('SkyCellEditorNumberComponent', () => {
         {
           colId: 'col',
         },
-        undefined,
+        null,
         'col',
         true
       );
-
-      column.setActualWidth(columnWidth);
 
       cellEditorParams = {
         value: value,
         column,
         node: rowNode,
-        eventKey: undefined,
-        key: undefined,
-        charPress: undefined,
         colDef: {},
-        columnApi: undefined,
-        data: undefined,
-        rowIndex: undefined,
-        api: undefined,
         cellStartedEdit: true,
-        onKeyDown: undefined,
-        context: undefined,
-        stopEditing: undefined,
-        eGridCell: undefined,
-        parseValue: undefined,
-        formatValue: undefined,
         skyComponentProperties: {
           min: 0,
           max: 50,
@@ -101,85 +91,102 @@ describe('SkyCellEditorNumberComponent', () => {
     });
 
     it('initializes the SkyuxNumericCellEditorComponent properties', () => {
-      expect(numberEditorComponent.editorForm.get('number').value).toBeNull();
+      expect(numberEditorComponent.editorForm.get('number')?.value).toBeNull();
       expect(numberEditorComponent.columnWidth).toBeUndefined();
 
-      numberEditorComponent.agInit(cellEditorParams);
+      numberEditorComponent.agInit(cellEditorParams as ICellEditorParams);
 
-      expect(numberEditorComponent.editorForm.get('number').value).toEqual(
+      expect(numberEditorComponent.editorForm.get('number')?.value).toEqual(
         value
       );
-      expect(numberEditorComponent.columnWidth).toEqual(columnWidth);
     });
 
     describe('cellStartedEdit is true', () => {
       it('initializes with a cleared value when Backspace triggers the edit', () => {
-        expect(numberEditorComponent.editorForm.get('number').value).toBeNull();
+        expect(
+          numberEditorComponent.editorForm.get('number')?.value
+        ).toBeNull();
 
         numberEditorComponent.agInit({
-          ...cellEditorParams,
+          ...(cellEditorParams as ICellEditorParams),
           eventKey: KeyCode.BACKSPACE,
         });
 
         expect(
-          numberEditorComponent.editorForm.get('number').value
+          numberEditorComponent.editorForm.get('number')?.value
         ).toBeUndefined();
       });
 
       it('initializes with a cleared value when Delete triggers the edit', () => {
-        expect(numberEditorComponent.editorForm.get('number').value).toBeNull();
+        expect(
+          numberEditorComponent.editorForm.get('number')?.value
+        ).toBeNull();
 
         numberEditorComponent.agInit({
-          ...cellEditorParams,
+          ...(cellEditorParams as ICellEditorParams),
           eventKey: KeyCode.DELETE,
         });
 
         expect(
-          numberEditorComponent.editorForm.get('number').value
+          numberEditorComponent.editorForm.get('number')?.value
         ).toBeUndefined();
       });
 
       it('initializes with the current value when F2 triggers the edit', () => {
-        expect(numberEditorComponent.editorForm.get('number').value).toBeNull();
+        expect(
+          numberEditorComponent.editorForm.get('number')?.value
+        ).toBeNull();
 
         numberEditorComponent.agInit({
-          ...cellEditorParams,
+          ...(cellEditorParams as ICellEditorParams),
           eventKey: KeyCode.F2,
         });
 
-        expect(numberEditorComponent.editorForm.get('number').value).toBe(
+        expect(numberEditorComponent.editorForm.get('number')?.value).toBe(
           value
         );
       });
 
       it('initializes with the current value when Enter triggers the edit', () => {
-        expect(numberEditorComponent.editorForm.get('number').value).toBeNull();
+        expect(
+          numberEditorComponent.editorForm.get('number')?.value
+        ).toBeNull();
 
         numberEditorComponent.agInit({
-          ...cellEditorParams,
+          ...(cellEditorParams as ICellEditorParams),
           eventKey: KeyCode.ENTER,
         });
 
-        expect(numberEditorComponent.editorForm.get('number').value).toBe(
+        expect(numberEditorComponent.editorForm.get('number')?.value).toBe(
           value
         );
       });
 
       it('initializes with the character pressed when a standard keyboard event triggers the edit', () => {
-        expect(numberEditorComponent.editorForm.get('number').value).toBeNull();
+        expect(
+          numberEditorComponent.editorForm.get('number')?.value
+        ).toBeNull();
 
-        numberEditorComponent.agInit({ ...cellEditorParams, charPress: '4' });
+        numberEditorComponent.agInit({
+          ...(cellEditorParams as ICellEditorParams),
+          charPress: '4',
+        });
 
-        expect(numberEditorComponent.editorForm.get('number').value).toBe(4);
+        expect(numberEditorComponent.editorForm.get('number')?.value).toBe(4);
       });
 
       it('initializes with undefined when a non-numeric keyboard event triggers the edit', () => {
-        expect(numberEditorComponent.editorForm.get('number').value).toBeNull();
+        expect(
+          numberEditorComponent.editorForm.get('number')?.value
+        ).toBeNull();
 
-        numberEditorComponent.agInit({ ...cellEditorParams, charPress: 'a' });
+        numberEditorComponent.agInit({
+          ...(cellEditorParams as ICellEditorParams),
+          charPress: 'a',
+        });
 
         expect(
-          numberEditorComponent.editorForm.get('number').value
+          numberEditorComponent.editorForm.get('number')?.value
         ).toBeUndefined();
       });
     });
@@ -190,73 +197,91 @@ describe('SkyCellEditorNumberComponent', () => {
       });
 
       it('initializes with the current value when Backspace triggers the edit', () => {
-        expect(numberEditorComponent.editorForm.get('number').value).toBeNull();
+        expect(
+          numberEditorComponent.editorForm.get('number')?.value
+        ).toBeNull();
 
         numberEditorComponent.agInit({
-          ...cellEditorParams,
+          ...(cellEditorParams as ICellEditorParams),
           eventKey: KeyCode.BACKSPACE,
         });
 
-        expect(numberEditorComponent.editorForm.get('number').value).toBe(
+        expect(numberEditorComponent.editorForm.get('number')?.value).toBe(
           value
         );
       });
 
       it('initializes with the current value when Delete triggers the edit', () => {
-        expect(numberEditorComponent.editorForm.get('number').value).toBeNull();
+        expect(
+          numberEditorComponent.editorForm.get('number')?.value
+        ).toBeNull();
 
         numberEditorComponent.agInit({
-          ...cellEditorParams,
+          ...(cellEditorParams as ICellEditorParams),
           eventKey: KeyCode.DELETE,
         });
 
-        expect(numberEditorComponent.editorForm.get('number').value).toBe(
+        expect(numberEditorComponent.editorForm.get('number')?.value).toBe(
           value
         );
       });
 
       it('initializes with the current value when F2 triggers the edit', () => {
-        expect(numberEditorComponent.editorForm.get('number').value).toBeNull();
+        expect(
+          numberEditorComponent.editorForm.get('number')?.value
+        ).toBeNull();
 
         numberEditorComponent.agInit({
-          ...cellEditorParams,
+          ...(cellEditorParams as ICellEditorParams),
           eventKey: KeyCode.F2,
         });
 
-        expect(numberEditorComponent.editorForm.get('number').value).toBe(
+        expect(numberEditorComponent.editorForm.get('number')?.value).toBe(
           value
         );
       });
 
       it('initializes with the current value when Enter triggers the edit', () => {
-        expect(numberEditorComponent.editorForm.get('number').value).toBeNull();
+        expect(
+          numberEditorComponent.editorForm.get('number')?.value
+        ).toBeNull();
 
         numberEditorComponent.agInit({
-          ...cellEditorParams,
+          ...(cellEditorParams as ICellEditorParams),
           eventKey: KeyCode.ENTER,
         });
 
-        expect(numberEditorComponent.editorForm.get('number').value).toBe(
+        expect(numberEditorComponent.editorForm.get('number')?.value).toBe(
           value
         );
       });
 
       it('initializes with the current value when a standard keyboard event triggers the edit', () => {
-        expect(numberEditorComponent.editorForm.get('number').value).toBeNull();
+        expect(
+          numberEditorComponent.editorForm.get('number')?.value
+        ).toBeNull();
 
-        numberEditorComponent.agInit({ ...cellEditorParams, charPress: '4' });
+        numberEditorComponent.agInit({
+          ...(cellEditorParams as ICellEditorParams),
+          charPress: '4',
+        });
 
-        expect(numberEditorComponent.editorForm.get('number').value).toBe(
+        expect(numberEditorComponent.editorForm.get('number')?.value).toBe(
           value
         );
       });
 
       it('initializes with the current value when a non-numeric keyboard event triggers the edit', () => {
-        expect(numberEditorComponent.editorForm.get('number').value).toBeNull();
+        expect(
+          numberEditorComponent.editorForm.get('number')?.value
+        ).toBeNull();
 
-        numberEditorComponent.agInit({ ...cellEditorParams, charPress: 'a' });
+        numberEditorComponent.agInit({
+          ...(cellEditorParams as ICellEditorParams),
+          charPress: 'a',
+        });
 
-        expect(numberEditorComponent.editorForm.get('number').value).toBe(
+        expect(numberEditorComponent.editorForm.get('number')?.value).toBe(
           value
         );
       });
@@ -266,7 +291,7 @@ describe('SkyCellEditorNumberComponent', () => {
   describe('getValue', () => {
     it('returns the value if it is set', () => {
       const value = 7;
-      numberEditorComponent.editorForm.get('number').setValue(value);
+      numberEditorComponent.editorForm.get('number')?.setValue(value);
 
       numberEditorFixture.detectChanges();
 
@@ -275,7 +300,7 @@ describe('SkyCellEditorNumberComponent', () => {
 
     it('returns the value if it is 0', () => {
       const value = 0;
-      numberEditorComponent.editorForm.get('number').setValue(value);
+      numberEditorComponent.editorForm.get('number')?.setValue(value);
 
       numberEditorFixture.detectChanges();
 
@@ -283,9 +308,8 @@ describe('SkyCellEditorNumberComponent', () => {
     });
 
     describe('afterGuiAttached', () => {
-      let cellEditorParams: SkyCellEditorNumberParams;
+      let cellEditorParams: Partial<SkyCellEditorNumberParams>;
       let column: Column;
-      const columnWidth = 200;
       const rowNode = new RowNode({} as Beans);
       rowNode.rowHeight = 37;
       const value = 15;
@@ -295,32 +319,17 @@ describe('SkyCellEditorNumberComponent', () => {
           {
             colId: 'col',
           },
-          undefined,
+          null,
           'col',
           true
         );
-
-        column.setActualWidth(columnWidth);
 
         cellEditorParams = {
           value: value,
           column,
           node: rowNode,
-          eventKey: undefined,
-          key: undefined,
-          charPress: undefined,
           colDef: {},
-          columnApi: undefined,
-          data: undefined,
-          rowIndex: undefined,
-          api: undefined,
           cellStartedEdit: true,
-          onKeyDown: undefined,
-          context: undefined,
-          stopEditing: undefined,
-          eGridCell: undefined,
-          parseValue: undefined,
-          formatValue: undefined,
           skyComponentProperties: {
             min: 0,
             max: 50,
@@ -331,7 +340,9 @@ describe('SkyCellEditorNumberComponent', () => {
       it('focuses on the input after it attaches to the DOM', () => {
         numberEditorFixture.detectChanges();
 
-        const input = numberEditorNativeElement.querySelector('input');
+        const input = numberEditorNativeElement.querySelector(
+          'input'
+        ) as HTMLInputElement;
         spyOn(input, 'focus');
 
         numberEditorComponent.afterGuiAttached();
@@ -343,11 +354,13 @@ describe('SkyCellEditorNumberComponent', () => {
       describe('cellStartedEdit is true', () => {
         it('does not select the input value if Backspace triggers the edit', () => {
           numberEditorComponent.agInit({
-            ...cellEditorParams,
+            ...(cellEditorParams as ICellEditorParams),
             eventKey: KeyCode.BACKSPACE,
           });
           numberEditorFixture.detectChanges();
-          const input = numberEditorNativeElement.querySelector('input');
+          const input = numberEditorNativeElement.querySelector(
+            'input'
+          ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
           numberEditorComponent.afterGuiAttached();
@@ -358,11 +371,13 @@ describe('SkyCellEditorNumberComponent', () => {
 
         it('does not select the input value if Delete triggers the edit', () => {
           numberEditorComponent.agInit({
-            ...cellEditorParams,
+            ...(cellEditorParams as ICellEditorParams),
             eventKey: KeyCode.DELETE,
           });
           numberEditorFixture.detectChanges();
-          const input = numberEditorNativeElement.querySelector('input');
+          const input = numberEditorNativeElement.querySelector(
+            'input'
+          ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
           numberEditorComponent.afterGuiAttached();
@@ -373,11 +388,13 @@ describe('SkyCellEditorNumberComponent', () => {
 
         it('does not select the input value if F2 triggers the edit', () => {
           numberEditorComponent.agInit({
-            ...cellEditorParams,
+            ...(cellEditorParams as ICellEditorParams),
             eventKey: KeyCode.F2,
           });
           numberEditorFixture.detectChanges();
-          const input = numberEditorNativeElement.querySelector('input');
+          const input = numberEditorNativeElement.querySelector(
+            'input'
+          ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
           numberEditorComponent.afterGuiAttached();
@@ -388,11 +405,13 @@ describe('SkyCellEditorNumberComponent', () => {
 
         it('selects the input value if Enter triggers the edit', () => {
           numberEditorComponent.agInit({
-            ...cellEditorParams,
+            ...(cellEditorParams as ICellEditorParams),
             eventKey: KeyCode.ENTER,
           });
           numberEditorFixture.detectChanges();
-          const input = numberEditorNativeElement.querySelector('input');
+          const input = numberEditorNativeElement.querySelector(
+            'input'
+          ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
           numberEditorComponent.afterGuiAttached();
@@ -402,9 +421,14 @@ describe('SkyCellEditorNumberComponent', () => {
         });
 
         it('does not select the input value when a standard keyboard event triggers the edit', () => {
-          numberEditorComponent.agInit({ ...cellEditorParams, charPress: '4' });
+          numberEditorComponent.agInit({
+            ...(cellEditorParams as ICellEditorParams),
+            charPress: '4',
+          });
           numberEditorFixture.detectChanges();
-          const input = numberEditorNativeElement.querySelector('input');
+          const input = numberEditorNativeElement.querySelector(
+            'input'
+          ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
           numberEditorComponent.afterGuiAttached();
@@ -421,11 +445,13 @@ describe('SkyCellEditorNumberComponent', () => {
 
         it('does not select the input value if Backspace triggers the edit', () => {
           numberEditorComponent.agInit({
-            ...cellEditorParams,
+            ...(cellEditorParams as ICellEditorParams),
             eventKey: KeyCode.BACKSPACE,
           });
           numberEditorFixture.detectChanges();
-          const input = numberEditorNativeElement.querySelector('input');
+          const input = numberEditorNativeElement.querySelector(
+            'input'
+          ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
           numberEditorComponent.afterGuiAttached();
@@ -436,11 +462,13 @@ describe('SkyCellEditorNumberComponent', () => {
 
         it('does not select the input value if Delete triggers the edit', () => {
           numberEditorComponent.agInit({
-            ...cellEditorParams,
+            ...(cellEditorParams as ICellEditorParams),
             eventKey: KeyCode.DELETE,
           });
           numberEditorFixture.detectChanges();
-          const input = numberEditorNativeElement.querySelector('input');
+          const input = numberEditorNativeElement.querySelector(
+            'input'
+          ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
           numberEditorComponent.afterGuiAttached();
@@ -451,11 +479,13 @@ describe('SkyCellEditorNumberComponent', () => {
 
         it('does not select the input value if F2 triggers the edit', () => {
           numberEditorComponent.agInit({
-            ...cellEditorParams,
+            ...(cellEditorParams as ICellEditorParams),
             eventKey: KeyCode.F2,
           });
           numberEditorFixture.detectChanges();
-          const input = numberEditorNativeElement.querySelector('input');
+          const input = numberEditorNativeElement.querySelector(
+            'input'
+          ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
           numberEditorComponent.afterGuiAttached();
@@ -466,11 +496,13 @@ describe('SkyCellEditorNumberComponent', () => {
 
         it('does not select the input value if Enter triggers the edit', () => {
           numberEditorComponent.agInit({
-            ...cellEditorParams,
+            ...(cellEditorParams as ICellEditorParams),
             eventKey: KeyCode.ENTER,
           });
           numberEditorFixture.detectChanges();
-          const input = numberEditorNativeElement.querySelector('input');
+          const input = numberEditorNativeElement.querySelector(
+            'input'
+          ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
           numberEditorComponent.afterGuiAttached();
@@ -480,9 +512,14 @@ describe('SkyCellEditorNumberComponent', () => {
         });
 
         it('does not select the input value when a standard keyboard event triggers the edit', () => {
-          numberEditorComponent.agInit({ ...cellEditorParams, charPress: '4' });
+          numberEditorComponent.agInit({
+            ...(cellEditorParams as ICellEditorParams),
+            charPress: '4',
+          });
           numberEditorFixture.detectChanges();
-          const input = numberEditorNativeElement.querySelector('input');
+          const input = numberEditorNativeElement.querySelector(
+            'input'
+          ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
           numberEditorComponent.afterGuiAttached();

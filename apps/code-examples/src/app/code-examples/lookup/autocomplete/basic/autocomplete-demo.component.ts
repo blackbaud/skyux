@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-autocomplete-demo',
   templateUrl: './autocomplete-demo.component.html',
 })
-export class AutocompleteDemoComponent implements OnInit {
-  public colors: any[] = [
+export class AutocompleteDemoComponent {
+  public colors: { name: string }[] = [
     { name: 'Red' },
     { name: 'Blue' },
     { name: 'Green' },
@@ -22,14 +22,8 @@ export class AutocompleteDemoComponent implements OnInit {
 
   public myForm: UntypedFormGroup;
 
-  constructor(private formBuilder: UntypedFormBuilder) {}
-
-  public ngOnInit(): void {
-    this.createForm();
-  }
-
-  private createForm(): void {
-    this.myForm = this.formBuilder.group({
+  constructor(formBuilder: UntypedFormBuilder) {
+    this.myForm = formBuilder.group({
       favoriteColor: undefined,
     });
   }

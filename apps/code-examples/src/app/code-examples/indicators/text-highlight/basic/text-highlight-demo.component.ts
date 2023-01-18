@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './text-highlight-demo.component.html',
 })
 export class TextHighlightDemoComponent {
-  public searchTerm: string;
+  public searchTerm = '';
 
   public showAdditionalContent = false;
 }

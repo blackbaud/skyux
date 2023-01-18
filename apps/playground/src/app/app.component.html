@@ -1,4 +1,10 @@
-<div id="controls">
+<div
+  id="controls"
+  class="sky-margin-stacked-sm"
+  [ngStyle]="{
+    'height.px': height
+  }"
+>
   <div>
     <button
       *ngIf="!isHome()"
@@ -12,6 +18,11 @@
   <sky-theme-selector></sky-theme-selector>
 </div>
 
-<div id="content">
+<div
+  id="content"
+  [ngStyle]="{
+    height: 'calc(100vh - ' + height + 'px)'
+  }"
+>
   <router-outlet></router-outlet>
 </div>

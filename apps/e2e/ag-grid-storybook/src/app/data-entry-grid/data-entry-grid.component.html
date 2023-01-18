@@ -1,0 +1,33 @@
+<h1>Data Entry Grid</h1>
+
+<ng-template #gridTemplate>
+  <div [attr.id]="variationId">
+    <ng-container *ngFor="let dataSet of dataSets">
+      <sky-ag-grid-wrapper
+        [attr.id]="dataSet.id"
+        [ngStyle]="{ gridArea: dataSet.id }"
+      >
+        <ag-grid-angular
+          class="sky-ag-grid-editable"
+          [gridOptions]="gridOptions[dataSet.id]"
+        ></ag-grid-angular>
+      </sky-ag-grid-wrapper>
+    </ng-container>
+  </div>
+</ng-template>
+
+<ng-template #themeWrap>
+  <div *ngIf="skyTheme" [skyTheme]="skyTheme">
+    <ng-container *ngTemplateOutlet="gridTemplate"></ng-container>
+  </div>
+</ng-template>
+
+<ng-container
+  *ngIf="isActive$ | async; then gridTemplate; else themeWrap"
+></ng-container>
+
+<br />
+
+<span id="ready" *ngIf="ready | async"></span>
+
+<sky-preview-wrapper *ngIf="addPreviewWrapper$ | async"></sky-preview-wrapper>

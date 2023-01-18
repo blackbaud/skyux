@@ -36,7 +36,7 @@ export class SkyActionHubComponent {
    * Links back to a parent page.
    */
   @Input()
-  public parentLink: SkyPageLink;
+  public parentLink: SkyPageLink | undefined;
 
   /**
    * Provides a list of recently accessed links, or `"loading"` to display a wait indicator.

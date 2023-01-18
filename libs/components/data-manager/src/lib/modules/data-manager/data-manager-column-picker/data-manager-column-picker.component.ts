@@ -36,16 +36,16 @@ interface Column extends SkyDataManagerColumnPickerOption {
 })
 export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
   public get dataState(): SkyDataManagerState {
-    return this._dataState;
+    return this.#_dataState;
   }
 
   public set dataState(value: SkyDataManagerState) {
-    this._dataState = value;
+    this.#_dataState = value;
     this.updateData();
   }
 
-  public columnData: Column[];
-  public displayedColumnData: Column[];
+  public columnData: Column[] = [];
+  public displayedColumnData: Column[] = [];
   public viewConfig: SkyDataViewConfig = {
     id: 'columnPicker',
     name: 'Column Picker',
@@ -56,9 +56,11 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
     onClearAllClick: this.clearAll.bind(this),
   };
 
-  private _dataState = new SkyDataManagerState({});
-  private _ngUnsubscribe = new Subject<void>();
-  public isAnyDisplayedColumnSelected: boolean;
+  public isAnyDisplayedColumnSelected = false;
+
+  #ngUnsubscribe = new Subject<void>();
+
+  #_dataState = new SkyDataManagerState({});
 
   constructor(
     public context: SkyDataManagerColumnPickerContext,
@@ -74,19 +76,19 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
     });
     this.dataManagerService.initDataView(this.viewConfig);
 
-    this.columnData = this.formatColumnOptions();
+    this.columnData = this.#formatColumnOptions();
 
     this.dataManagerService
       .getDataStateUpdates('columnPicker')
-      .pipe(takeUntil(this._ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((state) => {
         this.dataState = state;
       });
   }
 
   public ngOnDestroy(): void {
-    this._ngUnsubscribe.next();
-    this._ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   public updateData(): void {
@@ -117,8 +119,7 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
             Object.prototype.hasOwnProperty.call(item, property) &&
             (property === 'label' || property === 'description')
           ) {
-            const propertyText: string =
-              item[property] && item[property].toUpperCase();
+            const propertyText = item[property]?.toUpperCase();
             if (propertyText && propertyText.indexOf(searchText) > -1) {
               return true;
             }
@@ -161,7 +162,7 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
     );
   }
 
-  private formatColumnOptions(): Column[] {
+  #formatColumnOptions(): Column[] {
     const allColumnOptions = this.context.columnOptions;
     const visibleColumnIds = this.context.displayedColumnIds;
     let formattedColumnOptions: Column[] = [];

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {
   SkyDatepickerCalendarChange,
@@ -12,13 +12,11 @@ import { delay } from 'rxjs/operators';
   selector: 'app-datepicker-demo',
   templateUrl: './datepicker-demo.component.html',
 })
-export class DatepickerDemoComponent implements OnInit {
+export class DatepickerDemoComponent {
   public myForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {}
-
-  public ngOnInit(): void {
-    this.myForm = this.formBuilder.group({
+  constructor(formBuilder: FormBuilder) {
+    this.myForm = formBuilder.group({
       myDate: new FormControl(new Date(1999, 10, 5)),
     });
   }
@@ -27,7 +25,7 @@ export class DatepickerDemoComponent implements OnInit {
     if (event) {
       // Bind observable to `customDates` argument and simulate delay for async process to finish.
       // Normally, `getCustomDates()` would be replaced by an async call to fetch data.
-      event.customDates = this.getCustomDates(event).pipe(delay(2000));
+      event.customDates = this.#getCustomDates(event).pipe(delay(2000));
     }
   }
 
@@ -35,7 +33,7 @@ export class DatepickerDemoComponent implements OnInit {
    * Generate fake custom dates based on the date range returned from the event.
    * This is for demonstration purposes only.
    */
-  private getCustomDates(
+  #getCustomDates(
     event: SkyDatepickerCalendarChange
   ): Observable<SkyDatepickerCustomDate[]> {
     const getNextDate = function (startDate: Date, daystoAdd: number): Date {

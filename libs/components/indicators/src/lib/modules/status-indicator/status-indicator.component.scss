@@ -1,4 +1,5 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-status-indicator {
   align-items: baseline;
@@ -29,7 +30,13 @@
   color: $sky-highlight-color-danger;
 }
 
-@include sky-theme-modern {
+@include mixins.sky-theme-modern {
+  .sky-status-indicator-icon {
+    &:not(.sky-status-indicator-icon-danger) {
+      --sky-icon-stack-top-icon-color-override: #{$sky-text-color-default};
+    }
+  }
+
   .sky-status-indicator-icon-default {
     display: none;
   }

@@ -1,4 +1,4 @@
-@import '../../mixins';
+@use '../../variables' as *;
 
 .sky-theme-modern,
 .sky-theme-modern form {
@@ -6,27 +6,15 @@
   font-weight: $sky-theme-modern-font-body-default-weight;
   transition: background-color $sky-transition-time-short,
     color $sky-transition-time-short;
-
-  &.sky-theme-mode-dark {
-    color: $sky-theme-modern-mode-dark-font-body-default-color;
-  }
 }
 
 .sky-theme-modern {
-  background-color: $sky-theme-modern-background-color-page-default;
-
   a {
     border-radius: 0;
-    color: $sky-theme-modern-text-color-action-primary;
 
-    &:focus:not(:active) {
-      box-shadow: 0 0 0 2px $sky-theme-modern-background-color-primary-dark,
+    &:focus-visible:not(:active) {
+      box-shadow: 0 0 0 2px var(--sky-background-color-primary-dark),
         0 1px 8px 2px $sky-theme-modern-elevation-3-shadow-color;
-    }
-
-    &:active {
-      color: darken($sky-theme-modern-text-color-action-primary, 10%);
-      text-decoration: underline;
     }
   }
 
@@ -46,7 +34,7 @@
 
   h3,
   .sky-font-heading-3 {
-    color: $sky-text-color-default;
+    color: var(--sky-text-color-default);
     font-size: $sky-theme-modern-font-heading-3-size;
     font-weight: $sky-theme-modern-font-heading-3-weight;
   }
@@ -72,13 +60,11 @@
   }
 
   mark.sky-highlight-mark {
-    background-color: $sky-background-color-danger-dark;
-    color: $sky-text-color-on-dark;
+    background-color: var(--sky-background-color-danger-dark);
+    color: var(--sky-text-color-on-dark);
   }
 
   &.sky-theme-mode-dark {
-    background-color: $sky-theme-modern-mode-dark-background-color-page-default;
-
     h1,
     h2,
     h3,
@@ -87,23 +73,14 @@
     .sky-font-heading-2,
     .sky-font-heading-3,
     .sky-font-heading-6 {
-      color: $sky-theme-modern-mode-dark-font-body-default-color;
+      color: var(--sky-text-color-default);
     }
 
     h4,
     h5,
     .sky-font-heading-4,
     .sky-font-heading-5 {
-      color: $sky-theme-modern-mode-dark-font-deemphasized-color;
-    }
-
-    a {
-      color: $sky-theme-modern-mode-dark-text-color-action-primary;
-
-      &.sky-href[href=''],
-      &.sky-href:not([href]) {
-        color: inherit;
-      }
+      color: var(--sky-text-color-deemphasized);
     }
   }
   .sky-rounded-corners {

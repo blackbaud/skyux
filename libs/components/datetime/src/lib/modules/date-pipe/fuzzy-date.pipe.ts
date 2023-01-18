@@ -17,7 +17,11 @@ import { SkyFuzzyDateService } from '../datepicker/fuzzy-date.service';
   pure: false,
 })
 export class SkyFuzzyDatePipe implements PipeTransform {
-  constructor(private fuzzyDateService: SkyFuzzyDateService) {}
+  #fuzzyDateService: SkyFuzzyDateService;
+
+  constructor(fuzzyDateService: SkyFuzzyDateService) {
+    this.#fuzzyDateService = fuzzyDateService;
+  }
 
   /**
    * Transforms fuzzy date values using two or more date tokens that represent the day, month,
@@ -39,9 +43,9 @@ export class SkyFuzzyDatePipe implements PipeTransform {
       return '';
     }
     const fuzzyDateFormat =
-      format || this.fuzzyDateService.getLocaleShortFormat(locale);
-    const fuzzyDateLocale = locale || this.fuzzyDateService.getCurrentLocale();
-    return this.fuzzyDateService.format(
+      format || this.#fuzzyDateService.getLocaleShortFormat(locale);
+    const fuzzyDateLocale = locale || this.#fuzzyDateService.getCurrentLocale();
+    return this.#fuzzyDateService.format(
       value,
       fuzzyDateFormat,
       fuzzyDateLocale

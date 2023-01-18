@@ -17,6 +17,15 @@
       ></sky-help-inline>
     </sky-checkbox-label>
   </sky-checkbox>
+  <sky-checkbox [checked]="false" [indeterminate]="true">
+    <sky-checkbox-label>
+      Indeterminate Checkbox [internal only]
+      <sky-help-inline
+        *ngIf="showInlineHelp"
+        class="sky-control-help"
+      ></sky-help-inline>
+    </sky-checkbox-label>
+  </sky-checkbox>
   <sky-checkbox [checked]="false" [disabled]="true">
     <sky-checkbox-label>
       Disabled Checkbox
@@ -29,6 +38,16 @@
   <sky-checkbox [checked]="true" [disabled]="true">
     <sky-checkbox-label>
       Disabled Checked Checkbox
+      <sky-help-inline
+        *ngIf="showInlineHelp"
+        class="sky-control-help"
+      ></sky-help-inline>
+    </sky-checkbox-label>
+  </sky-checkbox>
+
+  <sky-checkbox [checked]="false" [indeterminate]="true" [disabled]="true">
+    <sky-checkbox-label>
+      Disabled Indeterminate Checkbox [internal only]
       <sky-help-inline
         *ngIf="showInlineHelp"
         class="sky-control-help"
@@ -97,6 +116,7 @@
   <p>
     <sky-checkbox
       ngModel
+      [indeterminate]="indeterminate"
       [required]="required"
       #templateDrivenCheckbox="ngModel"
     >
@@ -130,7 +150,11 @@
   <h3>Reactive checkbox</h3>
 
   <form [formGroup]="reactiveFormGroup" novalidate>
-    <sky-checkbox [required]="required" formControlName="reactiveCheckbox">
+    <sky-checkbox
+      [indeterminate]="indeterminate"
+      [required]="required"
+      formControlName="reactiveCheckbox"
+    >
       <sky-checkbox-label>
         Check me
         <sky-help-inline
@@ -157,5 +181,25 @@
   </table>
 </div>
 
-<button (click)="toggleRequired()">Toggle required</button>
-<button (click)="toggleInlineHelp()">Toggle inline help</button>
+<button
+  class="sky-btn sky-btn-primary sky-margin-inline-xs"
+  type="button"
+  (click)="toggleRequired()"
+>
+  Toggle required
+</button>
+
+<button
+  class="sky-btn sky-btn-primary sky-margin-inline-xs"
+  type="button"
+  (click)="toggleIndeterminate()"
+>
+  Toggle indeterminate
+</button>
+<button
+  class="sky-btn sky-btn-primary"
+  type="button"
+  (click)="toggleInlineHelp()"
+>
+  Toggle inline help
+</button>
