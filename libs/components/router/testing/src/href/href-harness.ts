@@ -17,22 +17,24 @@ export class SkyHrefHarness extends SkyComponentHarness {
   }
 
   async getHref(): Promise<string | null> {
-    const link = await this.host();
-    return link.getAttribute('href');
+    return this.forceStabilize().then(async () => {
+      return await (await this.host()).getAttribute('href');
+    });
   }
 
   async getLinkText(): Promise<string> {
-    const link = await this.host();
-    return link.text();
+    return this.forceStabilize().then(async () => {
+      return await (await this.host()).text();
+    });
   }
 
   async isVisible(): Promise<boolean> {
-    const link = await this.host();
-    return link.matchesSelector('[hidden]').then((hidden) => !hidden);
+    return this.forceStabilize().then(async () => {
+      return await (await this.host()).matchesSelector('[hidden]').then((hidden) => !hidden);
+    });
   }
 
   async isLinked(): Promise<boolean> {
-    const link = await this.host();
-    return link.getAttribute('href').then((href) => !!href);
+    return this.getHref().then((href) => !!href);
   }
 }

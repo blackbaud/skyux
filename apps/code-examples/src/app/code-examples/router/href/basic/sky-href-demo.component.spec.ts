@@ -28,9 +28,9 @@ describe('SkyHrefDemoComponent', () => {
   });
 
   it('should show skyhref with access', async () => {
-    const { loader } = await setup(false);
+    const { loader } = await setup(true);
     const hrefHarness = await loader.getHarness(
-      SkyHrefHarness.with({ dataSkyId: 'my-href-2' })
+      SkyHrefHarness.with({ dataSkyId: 'my-href-allow' })
     );
     expect(await hrefHarness.getHref()).toEqual('https://example.com');
     expect(await hrefHarness.getLinkText()).toEqual(
@@ -43,9 +43,9 @@ describe('SkyHrefDemoComponent', () => {
   it('should hide skyhref without access', async () => {
     const { loader } = await setup(false);
     const hrefHarness = await loader.getHarness(
-      SkyHrefHarness.with({ dataSkyId: 'my-href-3' })
+      SkyHrefHarness.with({ dataSkyId: 'my-href-hidden' })
     );
-    expect(await hrefHarness.getHref()).toEqual('');
+    expect(await hrefHarness.getHref()).toBeFalsy();
     expect(await hrefHarness.getLinkText()).toEqual(
       'Example.com with “deny” protocol'
     );
@@ -56,9 +56,9 @@ describe('SkyHrefDemoComponent', () => {
   it('should unlink skyhref without access', async () => {
     const { loader } = await setup(false);
     const hrefHarness = await loader.getHarness(
-      SkyHrefHarness.with({ dataSkyId: 'my-href-4' })
+      SkyHrefHarness.with({ dataSkyId: 'my-href-unlinked' })
     );
-    expect(await hrefHarness.getHref()).toEqual('');
+    expect(await hrefHarness.getHref()).toBeFalsy();
     expect(await hrefHarness.getLinkText()).toEqual(
       'Example.com with “deny” protocol'
     );
