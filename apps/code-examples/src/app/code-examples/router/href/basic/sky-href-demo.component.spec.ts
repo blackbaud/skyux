@@ -1,33 +1,25 @@
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { SkyHrefModule, SkyHrefResolverService } from '@skyux/router';
+import { SkyHrefHarness, SkyHrefTestingModule } from '@skyux/router/testing';
 
-import { MockResolverService } from './fixtures/mock-resolver-service';
 import { SkyHrefDemoComponent } from './sky-href-demo.component';
 
 describe('SkyHrefDemoComponent', () => {
   let component: SkyHrefDemoComponent;
   let fixture: ComponentFixture<SkyHrefDemoComponent>;
-  let resolverService: MockResolverService;
 
-  async function setup(userHasAccess: boolean): Promise<void> {
-    resolverService = new MockResolverService(userHasAccess);
-
+  async function setup(userHasAccess: boolean) {
     TestBed.configureTestingModule({
       declarations: [SkyHrefDemoComponent],
-      imports: [SkyHrefModule],
-      providers: [
-        {
-          provide: SkyHrefResolverService,
-          useValue: resolverService,
-        },
-      ],
+      imports: [SkyHrefTestingModule.with({ userHasAccess })],
     });
 
     fixture = TestBed.createComponent(SkyHrefDemoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    return fixture.whenStable().then();
+    await fixture.whenStable();
+    const loader = TestbedHarnessEnvironment.loader(fixture);
+    return { fixture, loader };
   }
 
   it('should create', async () => {
@@ -36,35 +28,41 @@ describe('SkyHrefDemoComponent', () => {
   });
 
   it('should show skyhref with access', async () => {
-    await setup(true);
-    expect(fixture.debugElement.query(By.css('#allow'))).toBeTruthy();
-    expect(
-      fixture.debugElement.query(By.css('#allow')).attributes['href']
-    ).toBeTruthy();
-    expect(
-      fixture.debugElement.query(By.css('#allow')).attributes['hidden']
-    ).toBeFalsy();
+    const { loader } = await setup(false);
+    const hrefHarness = await loader.getHarness(
+      SkyHrefHarness.with({ dataSkyId: 'my-href-2' })
+    );
+    expect(await hrefHarness.getHref()).toEqual('https://example.com');
+    expect(await hrefHarness.getLinkText()).toEqual(
+      'Example.com with “allow” protocol'
+    );
+    expect(await hrefHarness.isLinked()).toBeTrue();
+    expect(await hrefHarness.isVisible()).toBeTrue();
   });
 
   it('should hide skyhref without access', async () => {
-    await setup(false);
-    expect(fixture.debugElement.query(By.css('#hidden'))).toBeTruthy();
-    expect(
-      fixture.debugElement.query(By.css('#hidden')).attributes['href']
-    ).toBeFalsy();
-    expect(
-      fixture.debugElement.query(By.css('#hidden')).attributes['hidden']
-    ).toBeTruthy();
+    const { loader } = await setup(false);
+    const hrefHarness = await loader.getHarness(
+      SkyHrefHarness.with({ dataSkyId: 'my-href-3' })
+    );
+    expect(await hrefHarness.getHref()).toEqual('');
+    expect(await hrefHarness.getLinkText()).toEqual(
+      'Example.com with “deny” protocol'
+    );
+    expect(await hrefHarness.isLinked()).toBeFalse();
+    expect(await hrefHarness.isVisible()).toBeFalse();
   });
 
   it('should unlink skyhref without access', async () => {
-    await setup(false);
-    expect(fixture.debugElement.query(By.css('#unlinked'))).toBeTruthy();
-    expect(
-      fixture.debugElement.query(By.css('#unlinked')).attributes['href']
-    ).toBeFalsy();
-    expect(
-      fixture.debugElement.query(By.css('#unlinked')).attributes['hidden']
-    ).toBeFalsy();
+    const { loader } = await setup(false);
+    const hrefHarness = await loader.getHarness(
+      SkyHrefHarness.with({ dataSkyId: 'my-href-4' })
+    );
+    expect(await hrefHarness.getHref()).toEqual('');
+    expect(await hrefHarness.getLinkText()).toEqual(
+      'Example.com with “deny” protocol'
+    );
+    expect(await hrefHarness.isLinked()).toBeFalse();
+    expect(await hrefHarness.isVisible()).toBeTrue();
   });
 });
