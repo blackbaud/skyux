@@ -1,10 +1,10 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
-import { SkyHrefTestingModule } from '@skyux/router/testing';
 
 import { HrefHarnessTestComponent } from './fixtures/href-harness-test.component';
 import { HrefHarnessTestModule } from './fixtures/href-harness-test.module';
 import { SkyHrefHarness } from './href-harness';
+import { SkyHrefTestingModule } from './href-testing.module';
 
 describe('SkyHrefHarness', () => {
   async function setupTest(options: {
@@ -29,17 +29,50 @@ describe('SkyHrefHarness', () => {
   }
 
   it('should be created', async () => {
-    const { loader } = await setupTest({
+    const { hrefHarness } = await setupTest({
       dataSkyId: 'my-href-1',
       userHasAccess: true,
     });
-    const hrefHarness = await loader.getHarness(SkyHrefHarness);
     expect(hrefHarness).toBeTruthy();
-    const href = await hrefHarness.getHref();
-    expect(href).toEqual('https://example.com/test1');
-    const text = await hrefHarness.getLinkText();
-    expect(text).toEqual('Link 1');
+    expect(await hrefHarness.getHref()).toEqual('https://example.com/test1');
+    expect(await hrefHarness.getLinkText()).toEqual('Link 1');
     expect(await hrefHarness.isLinked()).toBeTrue();
     expect(await hrefHarness.isVisible()).toBeTrue();
+  });
+
+  it('should work with multiple directives', async () => {
+    const { hrefHarness } = await setupTest({
+      dataSkyId: 'my-href-2',
+      userHasAccess: true,
+    });
+    expect(hrefHarness).toBeTruthy();
+    expect(await hrefHarness.getHref()).toEqual('https://example.com/test2');
+    expect(await hrefHarness.getLinkText()).toEqual('Link 2');
+    expect(await hrefHarness.isLinked()).toBeTrue();
+    expect(await hrefHarness.isVisible()).toBeTrue();
+  });
+
+  it('should work when the link is not active', async () => {
+    const { hrefHarness } = await setupTest({
+      dataSkyId: 'my-href-1',
+      userHasAccess: false,
+    });
+    expect(hrefHarness).toBeTruthy();
+    expect(await hrefHarness.getHref()).toBeFalsy();
+    expect(await hrefHarness.getLinkText()).toEqual('Link 1');
+    expect(await hrefHarness.isLinked()).toBeFalse();
+    expect(await hrefHarness.isVisible()).toBeTrue();
+  });
+
+  it('should work when the link is hidden', async () => {
+    const { hrefHarness } = await setupTest({
+      dataSkyId: 'my-href-2',
+      userHasAccess: false,
+    });
+    expect(hrefHarness).toBeTruthy();
+    expect(await hrefHarness.getHref()).toBeFalsy();
+    expect(await hrefHarness.getLinkText()).toEqual('Link 2');
+    expect(await hrefHarness.isLinked()).toBeFalse();
+    expect(await hrefHarness.isVisible()).toBeFalse();
   });
 });

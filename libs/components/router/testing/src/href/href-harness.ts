@@ -16,9 +16,9 @@ export class SkyHrefHarness extends SkyComponentHarness {
     return this.getDataSkyIdPredicate(filters);
   }
 
-  async getHref(): Promise<string> {
+  async getHref(): Promise<string | null> {
     const link = await this.host();
-    return link.getAttribute('href').then((href) => `${href}`);
+    return link.getAttribute('href');
   }
 
   async getLinkText(): Promise<string> {
