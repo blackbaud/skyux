@@ -8,10 +8,12 @@ describe('SkyHrefDemoComponent', () => {
   let component: SkyHrefDemoComponent;
   let fixture: ComponentFixture<SkyHrefDemoComponent>;
 
-  async function setup(userHasAccess: boolean) {
+  async function setup(options: { userHasAccess: boolean }) {
     TestBed.configureTestingModule({
       declarations: [SkyHrefDemoComponent],
-      imports: [SkyHrefTestingModule.with({ userHasAccess })],
+      imports: [
+        SkyHrefTestingModule.with({ userHasAccess: options.userHasAccess }),
+      ],
     });
 
     fixture = TestBed.createComponent(SkyHrefDemoComponent);
@@ -23,16 +25,16 @@ describe('SkyHrefDemoComponent', () => {
   }
 
   it('should create', async () => {
-    await setup(true);
+    await setup({ userHasAccess: true });
     expect(component).toBeTruthy();
   });
 
   it('should show skyhref with access', async () => {
-    const { loader } = await setup(true);
+    const { loader } = await setup({ userHasAccess: true });
     const hrefHarness = await loader.getHarness(
       SkyHrefHarness.with({ dataSkyId: 'my-href-allow' })
     );
-    expect(await hrefHarness.getHref()).toEqual('https://example.com');
+    expect(await hrefHarness.getHref()).toEqual('allow://example.com');
     expect(await hrefHarness.getLinkText()).toEqual(
       'Example.com with “allow” protocol'
     );
@@ -41,7 +43,7 @@ describe('SkyHrefDemoComponent', () => {
   });
 
   it('should hide skyhref without access', async () => {
-    const { loader } = await setup(false);
+    const { loader } = await setup({ userHasAccess: false });
     const hrefHarness = await loader.getHarness(
       SkyHrefHarness.with({ dataSkyId: 'my-href-hidden' })
     );
@@ -54,7 +56,7 @@ describe('SkyHrefDemoComponent', () => {
   });
 
   it('should unlink skyhref without access', async () => {
-    const { loader } = await setup(false);
+    const { loader } = await setup({ userHasAccess: false });
     const hrefHarness = await loader.getHarness(
       SkyHrefHarness.with({ dataSkyId: 'my-href-unlinked' })
     );

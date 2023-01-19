@@ -30,7 +30,9 @@ export class SkyHrefHarness extends SkyComponentHarness {
 
   async isVisible(): Promise<boolean> {
     return this.forceStabilize().then(async () => {
-      return await (await this.host()).matchesSelector('[hidden]').then((hidden) => !hidden);
+      return await (await this.host())
+        .matchesSelector('[hidden]')
+        .then((hidden) => !hidden);
     });
   }
 

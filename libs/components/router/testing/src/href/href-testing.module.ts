@@ -7,7 +7,7 @@ import {
 } from './href-resolver-mock.service';
 
 @NgModule({
-  imports: [SkyHrefModule],
+  exports: [SkyHrefModule],
   providers: [
     SkyHrefResolverMockService,
     {
