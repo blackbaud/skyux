@@ -3,18 +3,5 @@
   "editor.formatOnSave": true,
   "prettier.requireConfig": true,
   "coverage-gutters.showLineCoverage": true,
-  "cSpell.words": [
-    "Autonumeric",
-    "blackbaud",
-    "colorpicker",
-    "compat",
-    "datetime",
-    "nrwl",
-    "nvmrc",
-    "skyux",
-    "stylesheet",
-    "tabindex",
-    "tablist",
-    "tabset"
-  ]
+  "cSpell.enabled": true
 }
