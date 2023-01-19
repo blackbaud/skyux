@@ -28,11 +28,11 @@ export class ActionButtonTestComponent {
     },
   };
 
-  public bbNavlink1: SkyActionButtonPermalink = {
+  public bbNavLink1: SkyActionButtonPermalink = {
     url: '1bb-nav://yep/',
   };
 
-  public bbNavlink2: SkyActionButtonPermalink = {
+  public bbNavLink2: SkyActionButtonPermalink = {
     url: '1bb-nav://nope/',
   };
 

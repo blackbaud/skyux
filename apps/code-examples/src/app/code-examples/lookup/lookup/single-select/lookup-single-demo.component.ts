@@ -20,6 +20,7 @@ export class LookupSingleSelectDemoComponent implements OnInit {
     { name: 'Abed' },
     { name: 'Alex' },
     { name: 'Ben' },
+    /* spell-checker:disable-next-line */
     { name: 'Britta' },
     { name: 'Buzz' },
     { name: 'Craig' },

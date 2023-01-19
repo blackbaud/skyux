@@ -21,11 +21,13 @@ export class SkyRadioGroupReactiveFixtureComponent implements OnInit {
 
   public initialValue: unknown = null;
 
+  /* spell-checker:disable */
   public options: { name: string; disabled: boolean; id?: string }[] = [
     { name: 'Lillith Corharvest', disabled: false },
     { name: 'Harima Kenji', disabled: false },
     { name: 'Harry Mckenzie', disabled: false },
   ];
+  /* spell-checker:enable */
 
   public radioControl: UntypedFormControl | undefined;
   public radioForm: UntypedFormGroup | undefined;
@@ -57,11 +59,13 @@ export class SkyRadioGroupReactiveFixtureComponent implements OnInit {
   }
 
   public changeOptions(): void {
+    /* spell-checker:disable */
     this.options = [
       { name: 'Lillith Corharvest', disabled: false },
       { name: 'Hank Salizar', disabled: false },
       { name: 'Harima Kenji', disabled: false },
       { name: 'Harry Mckenzie', disabled: false },
     ];
+    /* spell-checker:enable */
   }
 }

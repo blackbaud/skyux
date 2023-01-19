@@ -4,6 +4,7 @@ import { SkyUrlValidationOptions } from '../url-validation/url-validation-option
 
 import { SkyValidators } from './validators';
 
+/* spell-checker:ignore awefhawenfc, ejwf */
 describe('FormControl Validators', () => {
   describe('Email', () => {
     it('should be valid on empty input (empty string)', () => {

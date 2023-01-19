@@ -581,10 +581,10 @@ describe('Flyout component', () => {
     expect(flyoutContentElement).toHaveText('Sally');
   }));
 
-  it('should accept configuration options for aria-labelledBy, aria-describedby, role, and width', fakeAsync(() => {
-    const expectedLabelledBy = 'customlabelledby';
-    const expectedDescribed = 'customdescribedby';
-    const expectedRole = 'customrole';
+  it('should accept configuration options for aria-labelledBy, aria-describedBy, role, and width', fakeAsync(() => {
+    const expectedLabelledBy = 'customLabelledBy';
+    const expectedDescribed = 'customDescribedBy';
+    const expectedRole = 'customRole';
     const expectedDefault = 500;
 
     openFlyout({
@@ -1047,7 +1047,7 @@ describe('Flyout component', () => {
   }));
 
   describe('permalink', () => {
-    it('should not show the permalink button if no permalink config peroperties are defined', fakeAsync(() => {
+    it('should not show the permalink button if no permalink config properties are defined', fakeAsync(() => {
       openFlyout({});
       const permaLinkButton = getPermalinkButtonElement();
       expect(permaLinkButton).toBeFalsy();

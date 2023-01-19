@@ -98,7 +98,7 @@ export class SkyTabsetPermalinkService implements OnDestroy {
   }
 
   /**
-   * Returns a relative URL that includes the provided query parameter. The value is inteded to be
+   * Returns a relative URL that includes the provided query parameter. The value is intended to be
    * used by an HTML anchor element.
    */
   public getParamHref(name: string | undefined, value: string): string | null {

@@ -3,6 +3,7 @@ import { Meta, Story, moduleMetadata } from '@storybook/angular';
 import { ValidationComponent } from './validation.component';
 import { ValidationModule } from './validation.module';
 
+/* spell-checker:ignore validationcomponent */
 export default {
   id: 'validationcomponent-validation',
   title: 'Components/Validation',

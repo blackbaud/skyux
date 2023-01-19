@@ -21,7 +21,7 @@ export class SkyTheme {
    * Creates a new theme.
    * @param name The name of the theme.
    * @param hostClass The class on the host element which child components should reference when
-   * adusting for a specified theme.
+   * adjusting for a specified theme.
    * @param supportsDarkMode A flag indicating whether the theme supports dark mode.
    */
   constructor(

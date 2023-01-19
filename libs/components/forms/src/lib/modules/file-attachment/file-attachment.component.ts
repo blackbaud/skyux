@@ -236,7 +236,7 @@ export class SkyFileAttachmentComponent
 
   public ngAfterViewInit(): void {
     // This is needed to address a bug in Angular 7.
-    // When a control value is set intially, its value is not represented on the view.
+    // When a control value is set initially, its value is not represented on the view.
     // See: https://github.com/angular/angular/issues/13792
     // Of note is the parent check which allows us to determine if the form is reactive.
     // Without this check there is a changed before checked error

@@ -1,6 +1,6 @@
 <button
   class="sky-btn sky-btn-primary"
-  tyoe="button"
+  type="button"
   (click)="toggleScrollableHost()"
 >
   Toggle scrollable parent
@@ -23,6 +23,7 @@
     <div class="el2"></div>
 
     <ng-container *ngFor="let number of [0, 1, 2, 3, 4, 5]">
+      <!-- spell-checker:disable -->
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
@@ -47,6 +48,7 @@
         quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo
         voluptas nulla pariatur?
       </p>
+      <!-- spell-checker:enable -->
     </ng-container>
   </div>
 </div>

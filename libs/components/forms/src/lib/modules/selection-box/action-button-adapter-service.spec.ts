@@ -10,7 +10,7 @@ import { SkySelectionBoxAdapterService } from './selection-box-adapter.service';
     <div [style.width]="parentWidth" #parent>
       <div #child>Hello world</div>
     </div>
-    <div #outisde>I'm outside the parent!</div>
+    <div #outside>I'm outside the parent!</div>
   `,
 })
 class SkySelectionBoxAdapterTestComponent {
@@ -22,7 +22,7 @@ class SkySelectionBoxAdapterTestComponent {
   })
   public childRef!: ElementRef;
 
-  @ViewChild('outisde', {
+  @ViewChild('outside', {
     read: ElementRef,
     static: true,
   })
@@ -38,7 +38,7 @@ class SkySelectionBoxAdapterTestComponent {
 describe('Action button adapter service', () => {
   let fixture: ComponentFixture<SkySelectionBoxAdapterTestComponent>;
   let inputRef: ElementRef;
-  let outisdeRef: ElementRef;
+  let outSideRef: ElementRef;
   let parentRef: ElementRef;
   let adapter: SkySelectionBoxAdapterService;
 
@@ -51,7 +51,7 @@ describe('Action button adapter service', () => {
     fixture = TestBed.createComponent(SkySelectionBoxAdapterTestComponent);
     fixture.detectChanges();
     inputRef = fixture.componentInstance.childRef;
-    outisdeRef = fixture.componentInstance.outsideRef;
+    outSideRef = fixture.componentInstance.outsideRef;
     parentRef = fixture.componentInstance.parentRef;
     adapter = TestBed.inject(SkySelectionBoxAdapterService);
   });
@@ -74,7 +74,7 @@ describe('Action button adapter service', () => {
   it('should return false when element is not a descendant', () => {
     const isDescendant = adapter.isDescendant(
       parentRef,
-      outisdeRef.nativeElement
+      outSideRef.nativeElement
     );
     expect(isDescendant).toBeFalse();
   });

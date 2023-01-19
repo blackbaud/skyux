@@ -3,6 +3,7 @@ import { Meta, Story, moduleMetadata } from '@storybook/angular';
 import { TileDashboardComponent } from './tile-dashboard.component';
 import { TileDashboardModule } from './tile-dashboard.module';
 
+/* spell-checker:ignore tiledashboardcomponent, tiledashboard */
 export default {
   id: 'tiledashboardcomponent-tiledashboard',
   title: 'Components/Tile Dashboard',

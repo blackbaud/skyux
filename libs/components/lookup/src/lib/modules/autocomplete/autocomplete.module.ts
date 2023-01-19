@@ -17,14 +17,14 @@ import { SkyThemeModule } from '@skyux/theme';
 import { SkyLookupResourcesModule } from '../shared/sky-lookup-resources.module';
 
 import { SkyAutocompleteInputDirective } from './autocomplete-input.directive';
-import { SkyAutcompleteSearchAsyncDisabledPipe } from './autocomplete-search-async-disabled.pipe';
+import { SkyAutocompleteSearchAsyncDisabledPipe } from './autocomplete-search-async-disabled.pipe';
 import { SkyAutocompleteComponent } from './autocomplete.component';
 
 @NgModule({
   declarations: [
     SkyAutocompleteComponent,
     SkyAutocompleteInputDirective,
-    SkyAutcompleteSearchAsyncDisabledPipe,
+    SkyAutocompleteSearchAsyncDisabledPipe,
   ],
   imports: [
     CommonModule,

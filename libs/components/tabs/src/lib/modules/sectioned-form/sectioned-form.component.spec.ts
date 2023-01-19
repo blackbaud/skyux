@@ -212,7 +212,7 @@ describe('Sectioned form component', () => {
     ).toBe('shown');
   });
 
-  it('should hide content and show tabs on mobile after calling showtabs function', () => {
+  it('should hide content and show tabs on mobile after calling showTabs function', () => {
     mockQueryService.fire(SkyMediaBreakpoints.xs);
     const fixture = createTestComponent();
     const el = fixture.nativeElement;

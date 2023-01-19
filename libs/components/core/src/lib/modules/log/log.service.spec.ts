@@ -408,7 +408,7 @@ describe('Log service', () => {
       );
     });
 
-    it('should log deprecations with a type and depcrecation version given correctly', () => {
+    it('should log deprecations with a type and deprecation version given correctly', () => {
       logService.deprecated('TestType', {
         deprecationMajorVersion: 6,
       });
@@ -426,7 +426,7 @@ describe('Log service', () => {
       );
     });
 
-    it('should log deprecations with a type and replacment type given correctly', () => {
+    it('should log deprecations with a type and replacement type given correctly', () => {
       logService.deprecated('TestType', {
         replacementRecommendation:
           'We recommend `TestReplacementType` instead.',

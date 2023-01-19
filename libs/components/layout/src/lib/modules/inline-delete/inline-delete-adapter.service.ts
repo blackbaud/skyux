@@ -1,6 +1,7 @@
 import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { SkyCoreAdapterService } from '@skyux/core';
 
+/* spell-checker:ignore unlisten */
 /**
  * @internal
  */
@@ -112,7 +113,7 @@ export class SkyInlineDeleteAdapterService {
   }
 
   #getFocusableElements(): HTMLElement[] {
-    // Keep this cached so we can reduce querys
+    // Keep this cached so we can reduce queries
     if (this.#focusableElements) {
       return this.#focusableElements;
     }

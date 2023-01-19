@@ -3,6 +3,7 @@ import { Meta, Story, moduleMetadata } from '@storybook/angular';
 import { PageComponent } from './page.component';
 import { PageModule } from './page.module';
 
+/* spell-checker:ignore pagecomponent */
 export default {
   id: 'pagecomponent-page',
   title: 'Components/Page',

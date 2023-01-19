@@ -235,7 +235,7 @@ describe('File attachment', () => {
     if (fileReaderSpyData.loadCallbacks[1]) {
       fileReaderSpyData.loadCallbacks[1]({
         target: {
-          result: 'newurl',
+          result: 'newUrl',
         },
       });
     }
@@ -330,7 +330,7 @@ describe('File attachment', () => {
   }
   //#endregion
 
-  it('should not have required class and aria-reqiured attribute when not required', fakeAsync(() => {
+  it('should not have required class and aria-required attribute when not required', fakeAsync(() => {
     fileAttachmentInstance.ngAfterViewInit();
     tick();
     fixture.detectChanges();
@@ -652,6 +652,7 @@ describe('File attachment', () => {
     fileAttachmentInstance.writeValue(testFile);
     fixture.detectChanges();
 
+    /* spell-checker:disable-next-line */
     expect(getFileNameText()).toBe('$/abcdefghijklmnopqrstuvwx...');
   });
 

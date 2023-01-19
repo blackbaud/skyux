@@ -108,7 +108,7 @@ describe('SplitView fixture', () => {
   });
 
   it('should expose workspace properties', async () => {
-    // non-reponsive mode
+    // non-responsive mode
     expect(splitViewFixture.workspace.ariaLabel).toBe(
       DEFAULT_WORKSPACE_ARIA_LABEL
     );

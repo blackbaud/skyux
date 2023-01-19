@@ -69,7 +69,7 @@ describe('Skip link host component', () => {
     validateSkipLink(links[1], skipLinkEls[1], testEl2);
   });
 
-  it('should be accssible', async () => {
+  it('should be accessible', async () => {
     const fixture = TestBed.createComponent(SkySkipLinkHostComponent);
 
     const links = [

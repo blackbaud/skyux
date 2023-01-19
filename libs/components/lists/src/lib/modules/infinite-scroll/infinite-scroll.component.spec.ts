@@ -213,7 +213,7 @@ describe('Infinite scroll', () => {
     scrollWindowBottom();
     expect(spy).not.toHaveBeenCalled();
 
-    // Component is done looading. Scrolling again should cause the scrollEnd event to fire.
+    // Component is done loading. Scrolling again should cause the scrollEnd event to fire.
     fixture.componentInstance.loading = false;
     fixture.detectChanges();
 

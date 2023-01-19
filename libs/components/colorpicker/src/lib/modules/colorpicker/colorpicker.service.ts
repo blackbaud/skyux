@@ -1,4 +1,4 @@
-// spell-checker:ignore hsva, hsla, cmyk, denormalize, colorpicker,Injectable
+/* spell-checker:ignore hsva, hsla, cmyk, denormalize, colorpicker,Injectable */
 import { Injectable } from '@angular/core';
 
 import { SkyColorpickerCmyk } from './types/colorpicker-cmyk';

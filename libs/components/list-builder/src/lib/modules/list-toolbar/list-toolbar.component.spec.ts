@@ -541,7 +541,7 @@ describe('List Toolbar Component', () => {
         expect(items.item(4)).toHaveText('Custom Item');
         expect(items.length).toBe(5);
 
-        component.showCutomItem1 = false;
+        component.showCustomItem1 = false;
 
         fixture.detectChanges();
         items = fixture.nativeElement.querySelectorAll('.sky-toolbar-item');
@@ -551,7 +551,7 @@ describe('List Toolbar Component', () => {
         expect(items.item(3)).toHaveText('Custom Item 2');
         expect(items.length).toBe(4);
 
-        component.showCutomItem1 = true;
+        component.showCustomItem1 = true;
 
         fixture.detectChanges();
         items = fixture.nativeElement.querySelectorAll('.sky-toolbar-item');
@@ -798,20 +798,20 @@ describe('List Toolbar Component', () => {
       fixture.detectChanges();
 
       dispatcher.next(
-        new ListViewsLoadAction([new ListViewModel('myview', 'view label')])
+        new ListViewsLoadAction([new ListViewModel('myView', 'view label')])
       );
       fixture.detectChanges();
 
       // activate the default view
-      dispatcher.next(new ListViewsSetActiveAction('myview'));
+      dispatcher.next(new ListViewsSetActiveAction('myView'));
       fixture.detectChanges();
 
       dispatcher.next(
         new ListToolbarItemsLoadAction([
           new ListToolbarItemModel({
-            id: 'newitem',
+            id: 'newItem',
             location: 'center',
-            view: 'myview',
+            view: 'myView',
             template: component.default,
           }),
         ])
@@ -830,9 +830,9 @@ describe('List Toolbar Component', () => {
       dispatcher.next(
         new ListToolbarItemsLoadAction([
           new ListToolbarItemModel({
-            id: 'newitem2',
+            id: 'newItem2',
             location: 'center',
-            view: 'myview1',
+            view: 'myView1',
             template: component.default,
           }),
         ])

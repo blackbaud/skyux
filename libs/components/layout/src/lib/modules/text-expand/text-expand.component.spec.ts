@@ -5,6 +5,7 @@ import { TextExpandTestComponent } from './fixtures/text-expand.component.fixtur
 import { TextExpandFixturesModule } from './fixtures/text-expand.module.fixture';
 
 describe('Text expand component', () => {
+  /* spell-checker:disable */
   const SHORT_TEXT =
     'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu';
   const SHORT_TEXT_WITH_NEWLINES =
@@ -19,6 +20,7 @@ describe('Text expand component', () => {
     'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies';
   const COLLAPSED_TEXT =
     'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec';
+  /* spell-checker:enable */
 
   let fixture: ComponentFixture<TextExpandTestComponent>;
   let cmp: TextExpandTestComponent;
@@ -452,7 +454,7 @@ describe('Text expand component', () => {
       expect(modal).toBeNull();
     });
 
-    it('should open a modal when the maximun newlines is exceeded', () => {
+    it('should open a modal when the maximum newlines is exceeded', () => {
       const expandedText = LONG_TEXT_WITH_NEWLINES;
       cmp.maxExpandedNewlines = 1;
       cmp.text = expandedText;

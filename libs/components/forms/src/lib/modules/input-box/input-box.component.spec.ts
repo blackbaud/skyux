@@ -462,10 +462,10 @@ describe('Input box component', () => {
 
       fixture.detectChanges();
 
-      const moderlEls = getModernEls(fixture, 'input-character-count');
+      const modernEls = getModernEls(fixture, 'input-character-count');
 
-      expect(moderlEls.characterCountEl).toExist();
-      expect(moderlEls.characterCountEl?.tagName).toBe(
+      expect(modernEls.characterCountEl).toExist();
+      expect(modernEls.characterCountEl?.tagName).toBe(
         'SKY-CHARACTER-COUNTER-INDICATOR'
       );
     });
@@ -686,6 +686,7 @@ describe('Input box component', () => {
 
       fixture.detectChanges();
 
+      /* spell-checker:disable-next-line */
       const inputBoxEl = getInputBoxEl(fixture, 'input-box-haserrors');
 
       validateInvalid('when hasErrors is undefined', inputBoxEl, false);
@@ -701,6 +702,7 @@ describe('Input box component', () => {
 
       fixture.detectChanges();
 
+      /* spell-checker:disable-next-line */
       const inputBoxEl = getInputBoxEl(fixture, 'input-box-ngmodel-error');
 
       validateControlValid(

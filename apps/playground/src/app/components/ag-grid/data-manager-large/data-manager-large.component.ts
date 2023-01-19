@@ -53,6 +53,7 @@ export class DataManagerLargeComponent implements OnInit {
           'title',
           'artist_display_name',
           'artist_display_bio',
+          /* spell-checker:disable-next-line */
           'accessionyear',
           'repository',
           'object_wikidata_url',

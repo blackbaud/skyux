@@ -34,12 +34,12 @@ describe('Trim directive', () => {
     await waitForMutationObserver();
   });
 
-  it('should trim white space in text nodes that are direct descendents on init', () => {
+  it('should trim white space in text nodes that are direct descendants on init', () => {
     const staticEl = fixture.nativeElement.querySelector('.static-text');
     expect(staticEl.textContent).toBe('Some static text');
   });
 
-  it('should leave white space in text nodes that are not direct descendents on init', () => {
+  it('should leave white space in text nodes that are not direct descendants on init', () => {
     const childEl = fixture.nativeElement.querySelector('.child-text');
     expect(childEl.textContent).toBe(' Child text ');
   });

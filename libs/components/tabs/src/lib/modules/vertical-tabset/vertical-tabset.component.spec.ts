@@ -429,7 +429,7 @@ describe('Vertical tabset component', () => {
 
     fixture.detectChanges();
 
-    // simulate screensize change switching to mobile
+    // simulate screen size change switching to mobile
     mockQueryService.fire(SkyMediaBreakpoints.xs);
     fixture.componentInstance.tabset?.tabService.updateContent();
     fixture.detectChanges();
@@ -457,7 +457,7 @@ describe('Vertical tabset component', () => {
 
     fixture.detectChanges();
 
-    // simulate screensize change switching to widescreen
+    // simulate screen size change switching to widescreen
     mockQueryService.fire(SkyMediaBreakpoints.lg);
     fixture.componentInstance.tabset?.tabService.updateContent();
     fixture.detectChanges();
@@ -820,7 +820,7 @@ describe('Vertical tabset component - with ngFor', () => {
     });
     fixture.detectChanges();
 
-    // New tab should be redered in DOM.
+    // New tab should be rendered in DOM.
     tabElements = getTabs(fixture);
     expect(tabElements.length).toBe(3);
 

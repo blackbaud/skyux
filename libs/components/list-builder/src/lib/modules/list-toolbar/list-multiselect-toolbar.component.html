@@ -21,7 +21,7 @@
     [attr.id]="multiselectToolbarId + '-select-all'"
     (click)="selectAll(); $event.preventDefault()"
   >
-    {{ 'skyux_list_mutliselect_select_all' | skyLibResources }}
+    {{ 'skyux_list_multiselect_select_all' | skyLibResources }}
   </button>
 </ng-template>
 
@@ -43,7 +43,7 @@
     (change)="changeVisibleItems($event)"
   >
     <sky-checkbox-label>
-      {{ 'skyux_list_mutliselect_show_selected' | skyLibResources }}
+      {{ 'skyux_list_multiselect_show_selected' | skyLibResources }}
     </sky-checkbox-label>
   </sky-checkbox>
 </ng-template>

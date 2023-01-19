@@ -3,6 +3,7 @@ import { Meta, Story, moduleMetadata } from '@storybook/angular';
 import { LabelComponent } from './label.component';
 import { LabelModule } from './label.module';
 
+/* spell-checker:ignore labelcomponent */
 export default {
   id: 'labelcomponent-label',
   title: 'Components/Label',

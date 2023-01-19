@@ -591,7 +591,7 @@ export class SkyRepeaterItemComponent
     if (this.#keyboardReorderingEnabled) {
       this.reorderState = this.#reorderStateDescription;
     } else {
-      // TODO: Needs improvement to be localizable
+      // TODO: Needs improvement to be localized
       this.reorderState = `${this.#reorderFinishText} ${
         this.#reorderCurrentIndex + 1
       } ${this.#reorderInstructions}`;

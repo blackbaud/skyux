@@ -65,7 +65,7 @@ export class SkyAgGridCellRendererRowSelectorComponent
   /**
    * Used by agGrid to update cell value after a user triggers a refresh. It updates the cell DOM and returns true when the refresh is
    * successful, or false if the cell should be destroyed and rerendered. If consumers have external logic that changes the value of a
-   * checkbox cell, rerendering it will gurantee the change applies without knowing the consumer's implementation.
+   * checkbox cell, rerendering it will guarantee the change applies without knowing the consumer's implementation.
    */
   public refresh(): boolean {
     return false;

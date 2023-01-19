@@ -104,7 +104,7 @@ export class SkyLogService {
 
   /**
    * Logs console information if the application's log level is `SkyLogLevel.Info` or above.
-   * @param message The infomational message
+   * @param message The informational message
    * @param params Optional parameters for the informational message.
    */
   public info(message: string, params?: unknown[]): void {

@@ -16,6 +16,7 @@ export class LookupMultipleSelectDemoComponent implements OnInit {
 
   public searchFilters: SkyAutocompleteSearchFunctionFilter[] = [];
 
+  /* spell-checker:disable */
   public people: LookupDemoPerson[] = [
     { name: 'Abed' },
     { name: 'Alex' },
@@ -38,6 +39,7 @@ export class LookupMultipleSelectDemoComponent implements OnInit {
     { name: 'Vaughn' },
     { name: 'Vicki' },
   ];
+  /* spell-checker:enable */
 
   constructor(formBuilder: FormBuilder) {
     this.favoritesForm = formBuilder.group({

@@ -115,8 +115,8 @@ describe('File drop component', () => {
     const errorCallbacks: (() => void)[] = [];
     const abortCallbacks: (() => void)[] = [];
 
-    const fileReadyerSpy = existingSpy ?? spyOn(window as any, 'FileReader');
-    fileReadyerSpy.and.returnValue({
+    const fileReaderSpy = existingSpy ?? spyOn(window as any, 'FileReader');
+    fileReaderSpy.and.returnValue({
       readAsDataURL: function () {},
       addEventListener: function (type: string, callback: () => void) {
         if (type === 'load') {
@@ -133,7 +133,7 @@ describe('File drop component', () => {
       loadCallbacks: loadCallbacks,
       errorCallbacks: errorCallbacks,
       abortCallbacks: abortCallbacks,
-      fileReaderSpy: fileReadyerSpy,
+      fileReaderSpy: fileReaderSpy,
     };
   }
 
@@ -172,7 +172,7 @@ describe('File drop component', () => {
     if (fileReaderSpyData.loadCallbacks[1]) {
       fileReaderSpyData.loadCallbacks[1]({
         target: {
-          result: 'newurl',
+          result: 'newUrl',
         },
       });
     }
@@ -284,7 +284,7 @@ describe('File drop component', () => {
     testClick(true);
   });
 
-  it('should prevent click when noclick is specified', () => {
+  it('should prevent click when noClick is specified', () => {
     componentInstance.noClick = true;
     fixture.detectChanges();
     testClick(false);
@@ -304,7 +304,7 @@ describe('File drop component', () => {
     expect(filesChangedActual?.files[0].file.name).toBe('foo.txt');
     expect(filesChangedActual?.files[0].file.size).toBe(1000);
 
-    expect(filesChangedActual?.files[1].url).toBe('newurl');
+    expect(filesChangedActual?.files[1].url).toBe('newUrl');
     expect(filesChangedActual?.files[1].file.name).toBe('woo.txt');
     expect(filesChangedActual?.files[1].file.size).toBe(2000);
   });
@@ -339,7 +339,7 @@ describe('File drop component', () => {
 
     fileReaderSpy.loadCallbacks[1]({
       target: {
-        result: 'anotherurl',
+        result: 'anotherUrl',
       },
     });
 
@@ -348,7 +348,7 @@ describe('File drop component', () => {
     fixture.detectChanges();
 
     expect(filesChangedActual?.files.length).toBe(1);
-    expect(filesChangedActual?.files[0].url).toBe('anotherurl');
+    expect(filesChangedActual?.files[0].url).toBe('anotherUrl');
     expect(filesChangedActual?.files[0].file.name).toBe('woo.txt');
     expect(filesChangedActual?.files[0].file.size).toBe(2000);
 
@@ -422,7 +422,7 @@ describe('File drop component', () => {
     expect(filesChangedActual?.files[0].url).toBe('url');
     expect(filesChangedActual?.files[1].file.name).toBe('woo.txt');
     expect(filesChangedActual?.files[1].file.size).toBe(2000);
-    expect(filesChangedActual?.files[1].url).toBe('newurl');
+    expect(filesChangedActual?.files[1].url).toBe('newUrl');
 
     // The `as` statement is needed as the analyzer does not know about the subscription that sets this back and causes issues with the future check.
     filesChangedActual = undefined as SkyFileDropChange | undefined;
@@ -457,7 +457,7 @@ describe('File drop component', () => {
     expect(filesChangedActual?.files[0].url).toBe('url');
     expect(filesChangedActual?.files[1].file.name).toBe('woo.txt');
     expect(filesChangedActual?.files[1].file.size).toBe(2000);
-    expect(filesChangedActual?.files[1].url).toBe('newurl');
+    expect(filesChangedActual?.files[1].url).toBe('newUrl');
   });
 
   it('should allow the user to specify a max file size', () => {
@@ -501,7 +501,7 @@ describe('File drop component', () => {
     expect(filesChangedActual?.files[0].url).toBe('url');
     expect(filesChangedActual?.files[1].file.name).toBe('woo.txt');
     expect(filesChangedActual?.files[1].file.size).toBe(2000);
-    expect(filesChangedActual?.files[1].url).toBe('newurl');
+    expect(filesChangedActual?.files[1].url).toBe('newUrl');
 
     // The `as` statement is needed as the analyzer does not know about the subscription that sets this back and causes issues with the future check.
     filesChangedActual = undefined as SkyFileDropChange | undefined;
@@ -536,7 +536,7 @@ describe('File drop component', () => {
     expect(filesChangedActual?.files[0].url).toBe('url');
     expect(filesChangedActual?.files[1].file.name).toBe('woo.txt');
     expect(filesChangedActual?.files[1].file.size).toBe(2000);
-    expect(filesChangedActual?.files[1].url).toBe('newurl');
+    expect(filesChangedActual?.files[1].url).toBe('newUrl');
   });
 
   it('should allow the user to specify a validation function', () => {
@@ -661,7 +661,7 @@ describe('File drop component', () => {
     expect(filesChangedActual?.files[0].url).toBe('url');
     expect(filesChangedActual?.files[0].file.name).toBe('foo.txt');
     expect(filesChangedActual?.files[0].file.size).toBe(1000);
-    expect(filesChangedActual?.files[1].url).toBe('newurl');
+    expect(filesChangedActual?.files[1].url).toBe('newUrl');
     expect(filesChangedActual?.files[1].file.name).toBe('woo.txt');
     expect(filesChangedActual?.files[1].file.size).toBe(2000);
   });

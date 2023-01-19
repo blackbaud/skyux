@@ -4,6 +4,7 @@ import { ColDef } from 'ag-grid-community';
 
 import { InlineHelpComponent } from './inline-help/inline-help.component';
 
+/* spell-checker:disable */
 export const columnDefinitions: ColDef[] = [
   {
     field: 'id',

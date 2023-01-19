@@ -27,11 +27,11 @@ export class SkyFlyoutMediaQueryService {
   public setBreakpointForWidth(width: number): void {
     let breakpoint: SkyMediaBreakpoints;
 
-    if (this.isWidthWithinBreakpiont(width, SkyMediaBreakpoints.xs)) {
+    if (this.isWidthWithinBreakpoint(width, SkyMediaBreakpoints.xs)) {
       breakpoint = SkyMediaBreakpoints.xs;
-    } else if (this.isWidthWithinBreakpiont(width, SkyMediaBreakpoints.sm)) {
+    } else if (this.isWidthWithinBreakpoint(width, SkyMediaBreakpoints.sm)) {
       breakpoint = SkyMediaBreakpoints.sm;
-    } else if (this.isWidthWithinBreakpiont(width, SkyMediaBreakpoints.md)) {
+    } else if (this.isWidthWithinBreakpoint(width, SkyMediaBreakpoints.md)) {
       breakpoint = SkyMediaBreakpoints.md;
     } else {
       breakpoint = SkyMediaBreakpoints.lg;
@@ -41,7 +41,7 @@ export class SkyFlyoutMediaQueryService {
     this.#currentSubject.next(this.current);
   }
 
-  public isWidthWithinBreakpiont(
+  public isWidthWithinBreakpoint(
     width: number,
     breakpoint: SkyMediaBreakpoints
   ): boolean {

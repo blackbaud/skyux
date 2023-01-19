@@ -78,7 +78,7 @@ describe('Tokens harness', () => {
     ]);
   });
 
-  it('should throw error if dismissing and undismissible token', async () => {
+  it('should throw error if dismissing and not dismissible token', async () => {
     const { fixture, tokensHarness } = await setupTest({
       dataSkyId: 'my-tokens',
     });

@@ -23,11 +23,12 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { SkyDatepickerConfigService } from './datepicker-config.service';
 import { SkyDatepickerComponent } from './datepicker.component';
 import { DatepickerInputBoxTestComponent } from './fixtures/datepicker-input-box.component.fixture';
-import { DatepickerNoFormatTestComponent } from './fixtures/datepicker-noformat.component.fixture';
+import { DatepickerNoFormatTestComponent } from './fixtures/datepicker-no-format.component.fixture';
 import { DatepickerReactiveTestComponent } from './fixtures/datepicker-reactive.component.fixture';
 import { DatepickerTestComponent } from './fixtures/datepicker.component.fixture';
 import { DatepickerTestModule } from './fixtures/datepicker.module.fixture';
 
+/* spell-checker:ignore abcdebf */
 // #region helpers
 export class MyLocaleProvider extends SkyAppLocaleProvider {
   public getLocaleInfo(): Observable<SkyAppLocaleInfo> {
@@ -44,6 +45,7 @@ export class MyLocaleProvider extends SkyAppLocaleProvider {
   }
 }
 
+/* spell-checker:disable-next-line */
 const isoFormat = 'YYYY-MM-DDTHH:mm:ss';
 
 const isoFormatWithOffset = 'YYYY-MM-DDThh:mm:ss.SZ';
@@ -69,10 +71,10 @@ function getTriggerButton(
 
 function clickTrigger(
   fixture: ComponentFixture<any>,
-  isfakeAsync: boolean = true
+  isFakeAsync: boolean = true
 ): void {
   getTriggerButton(fixture)?.click();
-  if (isfakeAsync) {
+  if (isFakeAsync) {
     detectChanges(fixture);
   }
 }
@@ -347,7 +349,7 @@ describe('datepicker', () => {
       expect(picker).toBeNull();
     }));
 
-    it('should close picker when clicking on a dackdrop', fakeAsync(() => {
+    it('should close picker when clicking on a backdrop', fakeAsync(() => {
       fixture.detectChanges();
       tick();
       clickTrigger(fixture);
@@ -762,7 +764,7 @@ describe('datepicker', () => {
         expect(ngModel.valid).toBe(false);
       }));
 
-      it('should validate properly when a non-convertable date is passed through input change', fakeAsync(() => {
+      it('should validate properly when a non-convertible date is passed through input change', fakeAsync(() => {
         detectChanges(fixture);
         setInputElementValue(nativeElement, '133320', fixture);
 
@@ -773,7 +775,7 @@ describe('datepicker', () => {
         expect(ngModel.touched).toBe(true);
       }));
 
-      it('should validate properly when a non-convertable date on initialization', fakeAsync(() => {
+      it('should validate properly when a non-convertible date on initialization', fakeAsync(() => {
         setInputProperty('133320', component, fixture);
 
         expect(getInputElementValue(fixture)).toBe('133320');
@@ -787,7 +789,7 @@ describe('datepicker', () => {
         expect(ngModel.touched).toBe(true);
       }));
 
-      it('should validate properly when a non-convertable date on model change', fakeAsync(() => {
+      it('should validate properly when a non-convertible date on model change', fakeAsync(() => {
         detectChanges(fixture);
 
         setInputProperty('133320', component, fixture);
@@ -1122,7 +1124,7 @@ describe('datepicker', () => {
     });
 
     describe('focus properties', () => {
-      // We've removed fakeAsync from this test because the neseted setTimeouts()
+      // We've removed fakeAsync from this test because the nested setTimeouts()
       // in the setter for calendarRef have trouble with fakeAsync.
       it('should focus on the calendar when the trigger button is clicked', (done) => {
         fixture.detectChanges();
@@ -1766,7 +1768,7 @@ describe('datepicker', () => {
       localProvider = p;
     }));
 
-    it('should fall back to default locale if the locale provider doesnt return a value', fakeAsync(() => {
+    it(`should fall back to default locale if the locale provider doesn't return a value`, fakeAsync(() => {
       spyOn(localProvider, 'getLocaleInfo').and.returnValue(
         of({
           locale: '',

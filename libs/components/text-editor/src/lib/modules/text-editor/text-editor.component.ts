@@ -385,7 +385,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         // Angular doesn't run change detection for changes originating inside an iframe,
-        // so we have to call the onChange() event inside NgZone to force change propigation to consuming components.
+        // so we have to call the onChange() event inside NgZone to force change propagation to consuming components.
         this.#zone.run(() => {
           this.#viewToModelUpdate();
         });
@@ -411,7 +411,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         // Angular doesn't run change detection for changes originating inside an iframe,
-        // so we have to run markForCheck() inside the NgZone to force change propigation to consuming components.
+        // so we have to run markForCheck() inside the NgZone to force change propagation to consuming components.
         this.#zone.run(() => {
           this.#_onTouched();
         });

@@ -345,6 +345,7 @@ describe('Search component', () => {
     });
 
     it('should set the clear button visibility when search binding changed', () => {
+      /* spell-checker:disable-next-line */
       component.searchText = 'whaddup';
       fixture.detectChanges();
       expect(
@@ -402,7 +403,7 @@ describe('Search component', () => {
           verifySearchOpenFullScreen();
         });
 
-        it('when searchtext binding is changed and screen is xsmall', async () => {
+        it('when searchText binding is changed and screen is xsmall', async () => {
           await triggerXsBreakpoint();
           fixture.detectChanges();
           component.searchText = 'my search text';
@@ -485,7 +486,7 @@ describe('Search component', () => {
     });
 
     describe('expandMode responsive', () => {
-      it('should beecome the selected mode when expandMode is cleared', async () => {
+      it('should become the selected mode when expandMode is cleared', async () => {
         component.expandMode = 'fit';
         fixture.detectChanges();
 

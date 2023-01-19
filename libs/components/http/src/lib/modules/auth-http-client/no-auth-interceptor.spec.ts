@@ -56,7 +56,7 @@ describe('No-auth interceptor', () => {
     });
   });
 
-  it('should pass through the existing request when a bb-authed request', () => {
+  it('should pass through the existing request when a bb-authenticated request', () => {
     const interceptor: SkyNoAuthInterceptor =
       TestBed.inject(SkyNoAuthInterceptor);
     const request = createRequest(true);

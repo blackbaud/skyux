@@ -11,6 +11,7 @@ export class BackToTopDemoComponent implements OnInit {
 
   public personList: Person[] = [];
 
+  /* spell-checker:disable */
   public personDataSet = [
     {
       name: 'Barbara Durr',
@@ -117,6 +118,7 @@ export class BackToTopDemoComponent implements OnInit {
       address: '8232 S. Augusta Street',
     },
   ];
+  /* spell-checker:enable */
 
   public ngOnInit(): void {
     this.addData(0, 5);

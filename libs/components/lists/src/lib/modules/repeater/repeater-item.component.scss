@@ -37,7 +37,7 @@ sky-repeater-item {
 
       .sky-inline-delete {
         margin-left: -$sky-nav-selected-border-width;
-        // NOTE: Unfoortunately, scss variables aren't compiled into calc functions. However, the
+        // NOTE: Unfortunately, scss variables aren't compiled into calc functions. However, the
         // added pixels should match 'sky-nav-selected-border-width'
         width: calc(100% + 4px);
       }

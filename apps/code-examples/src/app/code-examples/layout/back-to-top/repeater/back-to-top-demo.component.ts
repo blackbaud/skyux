@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+/* spell-checker:disable */
 @Component({
   selector: 'app-back-to-top-demo',
   templateUrl: './back-to-top-demo.component.html',

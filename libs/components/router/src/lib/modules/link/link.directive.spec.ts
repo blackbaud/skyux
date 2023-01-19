@@ -151,7 +151,7 @@ describe('SkyAppLink Directive', () => {
     ).toBeTrue();
   });
 
-  it('shoudl handle neither SkyAppConfig or SkyAppRuntimeConfigParamsProvider being provided', () => {
+  it('should handle neither SkyAppConfig or SkyAppRuntimeConfigParamsProvider being provided', () => {
     setup(
       {
         asdf: 123,

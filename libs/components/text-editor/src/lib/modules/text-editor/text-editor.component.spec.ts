@@ -33,6 +33,7 @@ import { SkyTextEditorMergeField } from './types/text-editor-merge-field';
 const HELLO_WORLD = '<p>Hello world</p>';
 const ID_DEFAULT = 'text-editor-test-id';
 
+/* spell-checker:ignore pharoah, Padoru */
 describe('Text editor', () => {
   let fixture: ComponentFixture<unknown>;
   let iframeElement: HTMLIFrameElement;
@@ -740,7 +741,7 @@ describe('Text editor', () => {
         '#c14040'
       );
 
-      // Firefox backcolor bug: https://bugzilla.mozilla.org/show_bug.cgi?id=547848
+      // Firefox backColor bug: https://bugzilla.mozilla.org/show_bug.cgi?id=547848
       // expect(toolbar.querySelector('.background-color-picker').value).toBe('#51b6ca');
     }));
 
@@ -959,7 +960,7 @@ describe('Text editor', () => {
       buttonExecCommandTest(getAlignmentButtons()[2], expectedCommand);
     }));
 
-    it('should set outdented', fakeAsync(() => {
+    it('should set outdent', fakeAsync(() => {
       fixture.detectChanges();
       const expectedCommand = 'outdent';
       buttonExecCommandTest(getIndentationButtons()[0], expectedCommand);
@@ -983,7 +984,7 @@ describe('Text editor', () => {
       buttonExecCommandTest(getUndoRedoButtons()[1], expectedCommand);
     }));
 
-    it('should create a link targetting the same window', fakeAsync(() => {
+    it('should create a link targeting the same window', fakeAsync(() => {
       testComponent.value = '<p>Click here</p>';
       fixture.detectChanges();
       tick();
@@ -1016,7 +1017,7 @@ describe('Text editor', () => {
       expect(testComponent.value).toContain('<a href="https://google.com">');
     }));
 
-    it('should create a link targetting a new window', fakeAsync(() => {
+    it('should create a link targeting a new window', fakeAsync(() => {
       testComponent.value = '<p>Click here</p>';
       fixture.detectChanges();
       tick();

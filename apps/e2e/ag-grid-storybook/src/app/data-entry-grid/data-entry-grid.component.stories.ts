@@ -3,6 +3,7 @@ import { Meta, Story, moduleMetadata } from '@storybook/angular';
 import { DataEntryGridComponent } from './data-entry-grid.component';
 import { DataEntryGridModule } from './data-entry-grid.module';
 
+/* spell-checker:ignore dataentrygridcomponent, dataentrygrid */
 export default {
   id: 'dataentrygridcomponent-dataentrygrid',
   title: 'Components/Data Entry Grid',

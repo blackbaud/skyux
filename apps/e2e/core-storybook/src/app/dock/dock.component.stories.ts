@@ -3,6 +3,7 @@ import { Meta, Story, moduleMetadata } from '@storybook/angular';
 import { DockComponent } from './dock.component';
 import { DockModule } from './dock.module';
 
+/* spell-checker:ignore dockcomponent */
 export default {
   id: 'dockcomponent-dock',
   title: 'Components/Dock',

@@ -152,7 +152,7 @@ export class GridTestComponent {
   public templates: QueryList<TemplateRef<unknown>>;
 
   @ViewChildren(TemplateRef)
-  public viewtemplates: QueryList<TemplateRef<unknown>>;
+  public viewTemplates: QueryList<TemplateRef<unknown>>;
 
   public _showWideColumn = false;
 

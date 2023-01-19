@@ -3,6 +3,7 @@ import { Meta, Story, moduleMetadata } from '@storybook/angular';
 import { ConfirmComponent } from './confirm.component';
 import { ConfirmModule } from './confirm.module';
 
+/* spell-checker:ignore confirmcomponent */
 export default {
   id: 'confirmcomponent-confirm',
   title: 'Components/Confirm',

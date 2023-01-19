@@ -192,7 +192,7 @@ describe('SkyAppRuntimeConfigParams', () => {
     expect(params.get('b')).toBe('/');
   });
 
-  it('should allow queryparam values to be required', () => {
+  it('should allow queryParam values to be required', () => {
     const params: SkyAppRuntimeConfigParams = new SkyAppRuntimeConfigParams(
       '',
       {

@@ -45,7 +45,7 @@ describe('Repeater item component', () => {
     );
   }
 
-  function getChrevronButtons(el: HTMLElement): NodeListOf<HTMLButtonElement> {
+  function getChevronButtons(el: HTMLElement): NodeListOf<HTMLButtonElement> {
     return el.querySelectorAll('.sky-repeater-item sky-chevron button');
   }
 
@@ -142,7 +142,7 @@ describe('Repeater item component', () => {
 
     const repeaterItemContent = el.querySelector('.sky-repeater-item-content');
 
-    expect(getChrevronButtons(el)[0].getAttribute('aria-controls')).toBe(
+    expect(getChevronButtons(el)[0].getAttribute('aria-controls')).toBe(
       repeaterItemContent.getAttribute('id')
     );
 
@@ -162,7 +162,7 @@ describe('Repeater item component', () => {
     const reorderHandles = getReorderHandles(el);
     const checkboxes = getCheckboxes(el);
     const reorderTopButtons = getReorderTopButtons(el);
-    const expandButtons = getChrevronButtons(el);
+    const expandButtons = getChevronButtons(el);
 
     expect(reorderHandles[0].getAttribute('aria-label')).toEqual('Reorder');
     expect(checkboxes[0].getAttribute('aria-label')).toEqual('Select row');
@@ -188,7 +188,7 @@ describe('Repeater item component', () => {
     const reorderHandles = getReorderHandles(el);
     const checkboxes = getCheckboxes(el);
     const reorderTopButtons = getReorderTopButtons(el);
-    const expandButtons = getChrevronButtons(el);
+    const expandButtons = getChevronButtons(el);
 
     expect(reorderHandles[0].getAttribute('aria-label')).toEqual(
       'Reorder Item 1'
@@ -267,7 +267,7 @@ describe('Repeater item component', () => {
 
     const itemWithNoContent =
       fixture.nativeElement.querySelectorAll('sky-repeater-item')[3];
-    expect(getChrevronButtons(itemWithNoContent)[0]).not.toExist();
+    expect(getChevronButtons(itemWithNoContent)[0]).not.toExist();
   }));
 
   it('should show/hide the chevron for dynamically added and removed content', fakeAsync(() => {
@@ -281,7 +281,7 @@ describe('Repeater item component', () => {
 
     const itemWithNoContent =
       fixture.nativeElement.querySelectorAll('sky-repeater-item')[3];
-    expect(getChrevronButtons(itemWithNoContent)[0]).toExist();
+    expect(getChevronButtons(itemWithNoContent)[0]).toExist();
 
     fixture.componentInstance.showDynamicContent = false;
 
@@ -289,7 +289,7 @@ describe('Repeater item component', () => {
     tick();
     fixture.detectChanges();
 
-    expect(getChrevronButtons(itemWithNoContent)[0]).not.toExist();
+    expect(getChevronButtons(itemWithNoContent)[0]).not.toExist();
   }));
 
   it('should be accessible', async () => {
@@ -399,7 +399,7 @@ describe('Repeater item component', () => {
       tick();
 
       let repeaterItems = cmp.repeater?.items?.toArray();
-      const chevronButton = getChrevronButtons(el)[0];
+      const chevronButton = getChevronButtons(el)[0];
       expect(repeaterItems?.[0].isExpanded).toBe(true);
       expect(chevronButton.getAttribute('aria-expanded')).toBe('true');
 
@@ -429,7 +429,7 @@ describe('Repeater item component', () => {
 
       expect(repeaterItems?.[0].isExpanded).toBe(true);
 
-      getChrevronButtons(el)[0].click();
+      getChevronButtons(el)[0].click();
 
       fixture.detectChanges();
 
@@ -488,7 +488,7 @@ describe('Repeater item component', () => {
       const repeaterItems = cmp.repeater?.items?.toArray();
       expect(repeaterItems?.[0].isExpanded).toBe(true);
 
-      getChrevronButtons(el).item(0).click();
+      getChevronButtons(el).item(0).click();
       fixture.detectChanges();
       tick();
 
@@ -497,7 +497,7 @@ describe('Repeater item component', () => {
       collapseSpy.calls.reset();
       expandSpy.calls.reset();
 
-      getChrevronButtons(el).item(0).click();
+      getChevronButtons(el).item(0).click();
       fixture.detectChanges();
       tick();
 
@@ -585,7 +585,7 @@ describe('Repeater item component', () => {
 
       expect(repeaterItems?.[0].isExpanded).toBe(true);
 
-      getChrevronButtons(el).item(0).click();
+      getChevronButtons(el).item(0).click();
 
       fixture.detectChanges();
 
@@ -666,7 +666,7 @@ describe('Repeater item component', () => {
 
       fixture.detectChanges();
 
-      let chevronEls = getChrevronButtons(el);
+      let chevronEls = getChevronButtons(el);
       expect(chevronEls.length).toBe(3);
 
       cmp.expandMode = 'none';
@@ -674,7 +674,7 @@ describe('Repeater item component', () => {
 
       tick();
 
-      chevronEls = getChrevronButtons(el);
+      chevronEls = getChevronButtons(el);
 
       expect(chevronEls.length).toBe(0);
 
@@ -769,7 +769,7 @@ describe('Repeater item component', () => {
     });
   });
 
-  describe('with selectability "true"', () => {
+  describe('with selectable "true"', () => {
     it('should add selected css class when selected', fakeAsync(() => {
       const fixture = TestBed.createComponent(RepeaterTestComponent);
       const cmp: RepeaterTestComponent = fixture.componentInstance;
@@ -850,7 +850,7 @@ describe('Repeater item component', () => {
       fixture.detectChanges();
       tick();
 
-      // Expect only last item to be selected, and input property (isSelected) to recieve new value.
+      // Expect only last item to be selected, and input property (isSelected) to receive new value.
       expect(repeaterItems?.[0].isSelected).toBeFalsy();
       expect(repeaterItems?.[1].isSelected).toBeFalsy();
       expect(repeaterItems?.[2].isSelected).toBeTrue();
@@ -937,7 +937,7 @@ describe('Repeater item component', () => {
       flushDropdownTimer();
     }));
 
-    it('should update active item if activeIndex is programatically set', fakeAsync(() => {
+    it('should update active item if activeIndex is programmatically set', fakeAsync(() => {
       cmp.showRepeaterWithActiveIndex = true;
       cmp.expandMode = 'none';
       cmp.activeIndex = 0;
@@ -1330,7 +1330,7 @@ describe('Repeater item component', () => {
 
       fixture.detectChanges();
       cmp.reorderable = true;
-      tick(); // Allow repeater-item.component to set tabindexes & render context dropdown.
+      tick(); // Allow repeater-item.component to set tabIndexes & render context dropdown.
       fixture.detectChanges();
     }));
 

@@ -3,6 +3,7 @@ import { Meta, Story, moduleMetadata } from '@storybook/angular';
 import { AlertComponent } from './alert.component';
 import { AlertModule } from './alert.module';
 
+/* spell-checker:ignore alertcomponent */
 export default {
   id: 'alertcomponent-alert',
   title: 'Components/Alert',

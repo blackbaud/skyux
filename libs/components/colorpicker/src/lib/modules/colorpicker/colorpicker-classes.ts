@@ -1,4 +1,4 @@
-// spell-checker:ignore colorpicker
+/* spell-checker:ignore colorpicker */
 
 /**
  * @internal

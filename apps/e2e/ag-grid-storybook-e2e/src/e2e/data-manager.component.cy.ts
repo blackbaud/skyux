@@ -1,5 +1,6 @@
 import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 
+/* spell-checker:ignore datamanagercomponent, datamanager */
 describe(`ag-grid-storybook data manager`, () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {

@@ -150,7 +150,7 @@ export class SkyModalHostComponent implements OnDestroy {
 
     this.#registerModalInstance(modalInstance);
 
-    // hidding all elements at the modal-host level from screenreaders when the a modal is opened
+    // hiding all elements at the modal-host level from screen readers when the a modal is opened
     this.#adapter.hideHostSiblingsFromScreenReaders(this.#elRef);
     if (
       SkyModalHostService.openModalCount > 1 &&

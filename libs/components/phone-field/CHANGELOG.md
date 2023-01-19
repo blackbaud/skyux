@@ -73,7 +73,7 @@
 
 # 4.1.0 (2020-08-10)
 
-- Added the ability to programatically set the phone field component's country value. [#51](https://github.com/blackbaud/skyux-phone-field/pull/51)
+- Added the ability to programmatically set the phone field component's country value. [#51](https://github.com/blackbaud/skyux-phone-field/pull/51)
 
 # 4.0.2 (2020-08-07)
 

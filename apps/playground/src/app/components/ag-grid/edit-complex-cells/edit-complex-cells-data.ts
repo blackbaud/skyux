@@ -55,6 +55,7 @@ export const EDITABLE_GRID_LOOKUP = Array.from(Array(50).keys()).map((i) => {
   return {
     id: `record_${i + 1}`,
     name: `Record ${i + 1}`,
+    /* spell-checker:disable-next-line */
     interestingFact: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec mattis venenatis enim, ut elementum ante pellentesque quis.`,
   };
 });

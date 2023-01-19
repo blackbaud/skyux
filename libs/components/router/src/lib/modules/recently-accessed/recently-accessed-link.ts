@@ -1,5 +1,5 @@
 /**
- * Resolved metsdata about a recently accessed link.
+ * Resolved metadata about a recently accessed link.
  */
 export interface SkyRecentlyAccessedLink {
   /**

@@ -23,7 +23,7 @@
     }
 
     .sky-toolbar-sectioned {
-      // !important is needed to override specificity from modern stylsheet in theme.
+      // !important is needed to override specificity from modern stylesheet in theme.
       border-left: 1px solid $sky-border-color-neutral-medium !important;
       border-right: 1px solid $sky-border-color-neutral-medium !important;
     }
@@ -63,7 +63,7 @@
       }
 
       .sky-toolbar-sectioned {
-        // !important is needed to override specificity from modern stylsheet in theme.
+        // !important is needed to override specificity from modern stylesheet in theme.
         border-top: 1px solid $sky-theme-modern-border-color-neutral-medium !important;
         border-left: 1px solid $sky-theme-modern-border-color-neutral-medium !important;
         border-right: 1px solid $sky-theme-modern-border-color-neutral-medium !important;

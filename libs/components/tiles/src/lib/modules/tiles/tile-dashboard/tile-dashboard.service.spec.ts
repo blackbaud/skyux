@@ -388,7 +388,7 @@ describe('Tile dashboard service', () => {
       'Tile 1'
     );
 
-    // Make sure eveything is still in the same spot
+    // Make sure everything is still in the same spot
     const columnEls = fixture.nativeElement.querySelectorAll(
       '.sky-tile-dashboard-column'
     );

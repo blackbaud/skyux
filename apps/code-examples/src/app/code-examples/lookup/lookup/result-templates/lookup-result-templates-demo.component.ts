@@ -19,6 +19,7 @@ export class LookupResultTemplatesDemoComponent implements OnInit {
 
   public searchFilters: SkyAutocompleteSearchFunctionFilter[];
 
+  /* spell-checker:disable */
   public people: LookupDemoPerson[] = [
     {
       name: 'Abed',
@@ -101,6 +102,7 @@ export class LookupResultTemplatesDemoComponent implements OnInit {
       formal: 'Ms. Jenkins',
     },
   ];
+  /* spell-checker:enable */
 
   public showMoreConfig: SkyLookupShowMoreConfig = {
     nativePickerConfig: {},

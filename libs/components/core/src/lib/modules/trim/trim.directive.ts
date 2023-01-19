@@ -19,7 +19,7 @@ export class SkyTrimDirective implements OnInit, OnDestroy {
     this.#obs = mutationObs.create((mutations: MutationRecord[]) => {
       const nodes: Node[] = [];
 
-      // Only trim white space inside direct descendents of the current element.
+      // Only trim white space inside direct descendants of the current element.
       for (const mutation of mutations) {
         if (mutation.target.parentNode === elRef.nativeElement) {
           nodes.push(mutation.target);

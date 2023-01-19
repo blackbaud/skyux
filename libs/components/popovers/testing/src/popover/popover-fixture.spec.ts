@@ -116,7 +116,7 @@ describe('Popover fixture', () => {
   });
 
   it('should honor dismissOnBlur flag', async () => {
-    // oveerride the dismissOnBlur default
+    // override the dismissOnBlur default
     testComponent.dismissOnBlur = false;
     fixture.detectChanges();
 

@@ -162,7 +162,7 @@ describe('Modal fixture', () => {
     expect(() => new SkyModalFixture(fixture, 'test-modal')).toThrowError();
   }));
 
-  it('should retun the `ariaDescribedBy` property correctly', fakeAsync(() => {
+  it('should return the `ariaDescribedBy` property correctly', fakeAsync(() => {
     fixture.componentInstance.ariaDescribedBy = 'describingID';
     const modal = launchTestModal();
 
@@ -180,7 +180,7 @@ describe('Modal fixture', () => {
     );
   }));
 
-  it('should retun the `ariaLabelledBy` property correctly', fakeAsync(() => {
+  it('should return the `ariaLabelledBy` property correctly', fakeAsync(() => {
     fixture.componentInstance.ariaLabelledBy = 'labellingID';
     const modal = launchTestModal();
 
@@ -198,7 +198,7 @@ describe('Modal fixture', () => {
     );
   }));
 
-  it('should retun the `ariaRole` property correctly', fakeAsync(() => {
+  it('should return the `ariaRole` property correctly', fakeAsync(() => {
     fixture.componentInstance.ariaRole = 'modalRole';
     const modal = launchTestModal();
 
@@ -216,7 +216,7 @@ describe('Modal fixture', () => {
     );
   }));
 
-  it('should retun the `fullPage` property correctly', fakeAsync(() => {
+  it('should return the `fullPage` property correctly', fakeAsync(() => {
     fixture.componentInstance.fullPage = true;
     const modal = launchTestModal();
 
@@ -235,7 +235,7 @@ describe('Modal fixture', () => {
     );
   }));
 
-  it('should retun the `size` property correctly', fakeAsync(() => {
+  it('should return the `size` property correctly', fakeAsync(() => {
     fixture.componentInstance.size = 'small';
     const modal = launchTestModal();
 
@@ -254,7 +254,7 @@ describe('Modal fixture', () => {
     );
   }));
 
-  it('should retun the `tiledBody` property correctly', fakeAsync(() => {
+  it('should return the `tiledBody` property correctly', fakeAsync(() => {
     fixture.componentInstance.tiledBody = true;
     const modal = launchTestModal();
 
