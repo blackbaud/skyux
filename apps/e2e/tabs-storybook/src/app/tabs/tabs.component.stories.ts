@@ -3,6 +3,7 @@ import { Meta, Story, moduleMetadata } from '@storybook/angular';
 import { TabsComponent } from './tabs.component';
 import { TabsModule } from './tabs.module';
 
+/* spell-checker:ignore tabscomponent */
 export default {
   id: 'tabscomponent-tabs',
   title: 'Components/Tabs',

@@ -64,6 +64,7 @@ export class DataManagerComponent implements OnInit {
           'birthday',
           'seasons_played',
           'all-star',
+          /* spell-checker:disable-next-line */
           'triplecrown',
           'mvp',
           'cya',

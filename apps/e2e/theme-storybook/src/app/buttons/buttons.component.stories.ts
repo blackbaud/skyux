@@ -3,6 +3,7 @@ import { Meta, Story, moduleMetadata } from '@storybook/angular';
 import { ButtonsComponent } from './buttons.component';
 import { ButtonsModule } from './buttons.module';
 
+/* spell-checker:ignore buttonscomponent */
 export default {
   id: 'buttonscomponent-buttons',
   title: 'Components/Buttons',

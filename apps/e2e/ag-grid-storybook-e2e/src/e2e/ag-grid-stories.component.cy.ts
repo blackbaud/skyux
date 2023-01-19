@@ -1,5 +1,6 @@
 import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 
+/* spell-checker:ignore aggridstoriescomponent, aggridstories */
 describe(`ag-grid-storybook`, () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {

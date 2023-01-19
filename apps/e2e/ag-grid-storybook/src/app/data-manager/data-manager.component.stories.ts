@@ -3,6 +3,7 @@ import { Meta, Story, moduleMetadata } from '@storybook/angular';
 import { DataManagerComponent } from './data-manager.component';
 import { DataManagerModule } from './data-manager.module';
 
+/* spell-checker:ignore datamanagercomponent, datamanager */
 export default {
   id: 'datamanagercomponent-datamanager',
   title: 'Components/Data Manager',
