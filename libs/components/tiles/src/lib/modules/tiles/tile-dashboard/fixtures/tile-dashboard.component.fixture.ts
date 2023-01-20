@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 
 import { SkyTileDashboardConfig } from '../../tile-dashboard-config/tile-dashboard-config';
 import { SkyTileDashboardComponent } from '../../tile-dashboard/tile-dashboard.component';
+import { SkyTileDashboardMessage } from '../tile-dashboard-message';
 import { SkyTileDashboardMessageType } from '../tile-dashboard-message-type';
 
 import { Tile1TestComponent } from './tile1.component.fixture';
@@ -23,7 +24,7 @@ export class TileDashboardTestComponent {
 
   public dashboardConfig: SkyTileDashboardConfig;
 
-  public messageStream = new Subject();
+  public messageStream = new Subject<SkyTileDashboardMessage>();
 
   public settingsKey: string | undefined;
 
