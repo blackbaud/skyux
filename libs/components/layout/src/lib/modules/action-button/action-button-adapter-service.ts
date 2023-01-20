@@ -23,11 +23,13 @@ export class SkyActionButtonAdapterService {
     this.#renderer = rendererFactory.createRenderer(undefined, null);
   }
 
-  public getParentWidth(element: ElementRef): number {
-    return element.nativeElement.parentNode.getBoundingClientRect().width;
+  public getParentWidth(element: ElementRef): number | undefined {
+    return (
+      element.nativeElement as HTMLElement
+    ).parentElement?.getBoundingClientRect().width;
   }
 
-  public setResponsiveClass(element: ElementRef, width: number): void {
+  public setResponsiveClass(element: ElementRef, width = 0): void {
     const el: any = element.nativeElement;
     const className = this.#getResponsiveClassName(width);
 
