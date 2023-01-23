@@ -1,6 +1,5 @@
 import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 
-/* spell-checker:ignore responsivecomponent */
 describe('theme-storybook', () => {
   const theme = 'default';
 

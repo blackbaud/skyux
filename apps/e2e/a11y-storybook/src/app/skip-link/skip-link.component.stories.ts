@@ -3,7 +3,6 @@ import { Meta, Story, moduleMetadata } from '@storybook/angular';
 import { SkipLinkComponent } from './skip-link.component';
 import { SkipLinkModule } from './skip-link.module';
 
-/* spell-checker:ignore skiplinkcomponent, skiplink */
 export default {
   id: 'skiplinkcomponent-skiplink',
   title: 'Components/Skip Link',

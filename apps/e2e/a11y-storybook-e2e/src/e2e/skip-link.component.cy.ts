@@ -1,6 +1,5 @@
 import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 
-/* spell-checker:ignore skiplinkcomponent, skiplink */
 describe('a11y-storybook', () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {

@@ -3,7 +3,6 @@ import { Meta, Story, moduleMetadata } from '@storybook/angular';
 import { BoxComponent } from './box.component';
 import { BoxModule } from './box.module';
 
-/* spell-checker:ignore boxcomponent */
 export default {
   id: 'boxcomponent-box',
   title: 'Components/Box',

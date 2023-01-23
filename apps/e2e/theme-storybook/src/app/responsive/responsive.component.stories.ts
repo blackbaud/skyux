@@ -3,7 +3,6 @@ import { Meta, Story, moduleMetadata } from '@storybook/angular';
 import { ResponsiveComponent } from './responsive.component';
 import { ResponsiveModule } from './responsive.module';
 
-/* spell-checker:ignore responsivecomponent */
 export default {
   id: 'responsivecomponent-responsive',
   title: 'Components/Responsive',
