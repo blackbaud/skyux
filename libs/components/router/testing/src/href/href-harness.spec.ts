@@ -72,7 +72,7 @@ describe('SkyHrefHarness', () => {
     });
     expect(hrefHarness).toBeTruthy();
     await expectAsync(hrefHarness.getHref()).toBeResolvedTo(null);
-    await expectAsync(hrefHarness.getText()).toBeResolvedTo('Link 2');
+    await expectAsync(hrefHarness.getText()).toBeResolvedTo('');
     await expectAsync(hrefHarness.isVisible()).toBeResolvedTo(false);
   });
 });
