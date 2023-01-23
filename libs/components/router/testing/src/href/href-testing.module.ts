@@ -6,6 +6,9 @@ import {
   SkyHrefResolverMockService,
 } from './href-resolver-mock.service';
 
+/**
+ * Testing module for the `SkyHref` directive and route resolver.
+ */
 @NgModule({
   exports: [SkyHrefModule],
   providers: [

@@ -34,10 +34,11 @@ describe('SkyHrefHarness', () => {
       userHasAccess: true,
     });
     expect(hrefHarness).toBeTruthy();
-    expect(await hrefHarness.getHref()).toEqual('https://example.com/test1');
-    expect(await hrefHarness.getLinkText()).toEqual('Link 1');
-    expect(await hrefHarness.isLinked()).toBeTrue();
-    expect(await hrefHarness.isVisible()).toBeTrue();
+    await expectAsync(hrefHarness.getHref()).toBeResolvedTo(
+      'https://example.com/test1'
+    );
+    await expectAsync(hrefHarness.getText()).toBeResolvedTo('Link 1');
+    await expectAsync(hrefHarness.isVisible()).toBeResolvedTo(true);
   });
 
   it('should work with multiple directives', async () => {
@@ -46,10 +47,11 @@ describe('SkyHrefHarness', () => {
       userHasAccess: true,
     });
     expect(hrefHarness).toBeTruthy();
-    expect(await hrefHarness.getHref()).toEqual('https://example.com/test2');
-    expect(await hrefHarness.getLinkText()).toEqual('Link 2');
-    expect(await hrefHarness.isLinked()).toBeTrue();
-    expect(await hrefHarness.isVisible()).toBeTrue();
+    await expectAsync(hrefHarness.getHref()).toBeResolvedTo(
+      'https://example.com/test2'
+    );
+    await expectAsync(hrefHarness.getText()).toBeResolvedTo('Link 2');
+    await expectAsync(hrefHarness.isVisible()).toBeResolvedTo(true);
   });
 
   it('should work when the link is not active', async () => {
@@ -58,10 +60,9 @@ describe('SkyHrefHarness', () => {
       userHasAccess: false,
     });
     expect(hrefHarness).toBeTruthy();
-    expect(await hrefHarness.getHref()).toBeFalsy();
-    expect(await hrefHarness.getLinkText()).toEqual('Link 1');
-    expect(await hrefHarness.isLinked()).toBeFalse();
-    expect(await hrefHarness.isVisible()).toBeTrue();
+    await expectAsync(hrefHarness.getHref()).toBeResolvedTo(null);
+    await expectAsync(hrefHarness.getText()).toBeResolvedTo('Link 1');
+    await expectAsync(hrefHarness.isVisible()).toBeResolvedTo(true);
   });
 
   it('should work when the link is hidden', async () => {
@@ -70,9 +71,8 @@ describe('SkyHrefHarness', () => {
       userHasAccess: false,
     });
     expect(hrefHarness).toBeTruthy();
-    expect(await hrefHarness.getHref()).toBeFalsy();
-    expect(await hrefHarness.getLinkText()).toEqual('Link 2');
-    expect(await hrefHarness.isLinked()).toBeFalse();
-    expect(await hrefHarness.isVisible()).toBeFalse();
+    await expectAsync(hrefHarness.getHref()).toBeResolvedTo(null);
+    await expectAsync(hrefHarness.getText()).toBeResolvedTo('Link 2');
+    await expectAsync(hrefHarness.isVisible()).toBeResolvedTo(false);
   });
 });
