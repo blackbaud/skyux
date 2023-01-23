@@ -254,8 +254,11 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
       }
 
       // Autofocus isn't testable in Firefox and IE.
+      // Don't set focus on the editor now if the iframe isn't initialized.
+      // #initIframe() will do another check later to see if the editor should
+      // receive focus.
       /* istanbul ignore next */
-      if (this.autofocus && !this.#focusInitialized) {
+      if (this.autofocus && this.#initialized && !this.#focusInitialized) {
         this.#adapterService.focusEditor();
         this.#focusInitialized = true;
       }
