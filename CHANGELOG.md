@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.4.2](https://github.com/blackbaud/skyux/compare/7.4.1...7.4.2) (2023-01-23)
+
+
+### Bug Fixes
+
+* **components/text-editor:** fix bug where setting autofocus and initial value before view init threw runtime error ([#947](https://github.com/blackbaud/skyux/issues/947)) ([2fc3cb4](https://github.com/blackbaud/skyux/commit/2fc3cb4d735d5735ed022299590d5c1635607a06))
+
 ## [7.4.1](https://github.com/blackbaud/skyux/compare/7.4.0...7.4.1) (2023-01-20)
 
 
