@@ -46,11 +46,13 @@ describe('SkyHrefDemoComponent', () => {
       dataSkyId: 'my-href-allow',
     });
     expect(hrefHarness).toBeTruthy();
-    expect(await hrefHarness.getHref()).toEqual('allow://example.com');
-    expect(await hrefHarness.getText()).toEqual(
+    await expectAsync(hrefHarness.getHref()).toBeResolvedTo(
+      'allow://example.com'
+    );
+    await expectAsync(hrefHarness.getText()).toBeResolvedTo(
       'Example.com with “allow” protocol'
     );
-    expect(await hrefHarness.isVisible()).toBeTrue();
+    await expectAsync(hrefHarness.isVisible()).toBeResolvedTo(true);
   });
 
   it('should hide skyhref without access', async () => {
@@ -59,9 +61,9 @@ describe('SkyHrefDemoComponent', () => {
       dataSkyId: 'my-href-hidden',
     });
     expect(hrefHarness).toBeTruthy();
-    expect(await hrefHarness.getHref()).toBeFalsy();
-    expect(await hrefHarness.getText()).toEqual('');
-    expect(await hrefHarness.isVisible()).toBeFalse();
+    await expectAsync(hrefHarness.getHref()).toBeResolvedTo(null);
+    await expectAsync(hrefHarness.getText()).toBeResolvedTo('');
+    await expectAsync(hrefHarness.isVisible()).toBeResolvedTo(false);
   });
 
   it('should unlink skyhref without access', async () => {
@@ -69,10 +71,10 @@ describe('SkyHrefDemoComponent', () => {
       userHasAccess: false,
       dataSkyId: 'my-href-unlinked',
     });
-    expect(await hrefHarness.getHref()).toBeFalsy();
-    expect(await hrefHarness.getText()).toEqual(
+    await expectAsync(hrefHarness.getHref()).toBeResolvedTo(null);
+    await expectAsync(hrefHarness.getText()).toBeResolvedTo(
       'Example.com with “deny” protocol'
     );
-    expect(await hrefHarness.isVisible()).toBeTrue();
+    await expectAsync(hrefHarness.isVisible()).toBeResolvedTo(true);
   });
 });

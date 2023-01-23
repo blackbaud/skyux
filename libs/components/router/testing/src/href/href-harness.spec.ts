@@ -1,5 +1,6 @@
+import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HrefHarnessTestComponent } from './fixtures/href-harness-test.component';
 import { HrefHarnessTestModule } from './fixtures/href-harness-test.module';
@@ -10,7 +11,11 @@ describe('SkyHrefHarness', () => {
   async function setupTest(options: {
     dataSkyId: string;
     userHasAccess: boolean;
-  }) {
+  }): Promise<{
+    fixture: ComponentFixture<HrefHarnessTestComponent>;
+    loader: HarnessLoader;
+    hrefHarness: SkyHrefHarness;
+  }> {
     TestBed.configureTestingModule({
       imports: [
         HrefHarnessTestModule,
