@@ -79,6 +79,7 @@
     "prettier-schematics": "libs/sdk/prettier-schematics",
     "progress-indicator": "libs/components/progress-indicator",
     "router": "libs/components/router",
+    "router-testing": "libs/components/router/testing",
     "select-field": "libs/components/select-field",
     "split-view": "libs/components/split-view",
     "split-view-storybook": "apps/e2e/split-view-storybook",
