@@ -8,7 +8,6 @@ import { SkyThemeService } from '@skyux/theme';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 // import { GreetingService } from './components/tiles/tile-dashboard/greeting/greeting.service';
-// import { GreetingService } from './components/tiles/tile-dashboard/greeting/greeting.service';
 import { SkyThemeSelectorModule } from './shared/theme-selector/theme-selector.module';
 
 @NgModule({
