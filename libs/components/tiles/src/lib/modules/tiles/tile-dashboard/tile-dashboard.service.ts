@@ -467,7 +467,7 @@ export class SkyTileDashboardService {
           {
             location: SkyDynamicComponentLocation.ElementBottom,
             providers: providers,
-            viewRef: column.content,
+            referenceEl: column.content?.nativeElement,
             parentInjector: column.injector,
           }
         );
@@ -644,7 +644,7 @@ export class SkyTileDashboardService {
   #getColumnEl(
     column: SkyTileDashboardColumnComponent | undefined
   ): Element | undefined {
-    return column?.content?.element.nativeElement.parentNode;
+    return column?.content?.nativeElement.parentNode;
   }
 
   #findTile(

@@ -1,4 +1,4 @@
-import { Injector, StaticProvider, ViewContainerRef } from '@angular/core';
+import { Injector, StaticProvider } from '@angular/core';
 
 import { SkyDynamicComponentLocation } from './dynamic-component-location';
 
@@ -20,11 +20,6 @@ export interface SkyDynamicComponentOptions {
    * The reference element used when using the `ElementTop` or `ElementBottom` locations.
    */
   referenceEl?: HTMLElement;
-
-  /**
-   * The view container reference where the new component should be appended.
-   */
-  viewRef?: ViewContainerRef;
 
   /**
    * Parent injector to use instead of the dynamic component service's injector

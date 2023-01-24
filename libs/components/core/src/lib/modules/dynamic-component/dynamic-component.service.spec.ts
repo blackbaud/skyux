@@ -4,7 +4,6 @@ import {
   EmbeddedViewRef,
   Injector,
   StaticProvider,
-  ViewContainerRef,
 } from '@angular/core';
 import { TestBed, inject } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
@@ -21,8 +20,7 @@ describe('Dynamic component service', () => {
     location?: SkyDynamicComponentLocation,
     reference?: HTMLElement,
     providers?: StaticProvider[],
-    injector?: Injector,
-    viewRef?: ViewContainerRef
+    injector?: Injector
   ): ComponentRef<DynamicComponentTestComponent> {
     const svc: SkyDynamicComponentService = TestBed.inject(
       SkyDynamicComponentService
@@ -34,7 +32,6 @@ describe('Dynamic component service', () => {
         referenceEl: reference,
         providers,
         parentInjector: injector,
-        viewRef,
       });
 
     cmpRef.changeDetectorRef.detectChanges();
@@ -118,25 +115,6 @@ describe('Dynamic component service', () => {
     createTestComponent(SkyDynamicComponentLocation.ElementTop, referenceEl);
 
     expect(referenceEl.firstChild).toBe(getComponentEl(1));
-  });
-
-  it('should allow components to be created with the ViewContainerRef of another element', () => {
-    const referenceRef = createTestComponent(
-      SkyDynamicComponentLocation.BodyTop
-    );
-    const referenceViewRef = referenceRef.instance.content;
-
-    createTestComponent(
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      referenceViewRef
-    );
-
-    expect(referenceRef.location.nativeElement.children[2]).toEqual(
-      getComponentEl(1)
-    );
   });
 
   it('should allow components to be created before another element', () => {
