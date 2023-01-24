@@ -108,6 +108,11 @@ export const componentRoutes: Routes = [
       import('./theme/theme.module').then((m) => m.ThemeModule),
   },
   {
+    path: 'tiles',
+    loadChildren: () =>
+      import('./tiles/tiles.module').then((m) => m.TilesModule),
+  },
+  {
     path: 'toast',
     loadChildren: () =>
       import('./toast/toast.module').then((m) => m.ToastModule),
