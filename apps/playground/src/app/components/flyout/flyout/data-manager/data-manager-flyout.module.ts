@@ -1,3 +1,4 @@
+/* spell-checker:ignore lipsum */
 import { NgModule } from '@angular/core';
 
 import { DataManagerModule } from '../../../../shared/data-manager/data-manager.module';

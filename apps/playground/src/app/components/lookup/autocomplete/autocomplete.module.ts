@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyAutocompleteModule } from '@skyux/lookup';
 
-import { AutocompleteRoutingModule } from './autocomplete-routiing.module';
+import { AutocompleteRoutingModule } from './autocomplete-routing.module';
 import { AutocompleteComponent } from './autocomplete.component';
 
 @NgModule({

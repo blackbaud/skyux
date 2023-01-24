@@ -83,7 +83,7 @@ export class AngularTreeComponentComponent {
     useTriState: true,
   };
 
-  public optionsNoncascading: ITreeOptions = {
+  public optionsNotCascading: ITreeOptions = {
     animateExpand: true,
     useCheckbox: true,
     useTriState: false,

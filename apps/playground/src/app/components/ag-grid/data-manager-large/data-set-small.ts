@@ -3,6 +3,7 @@ import { SkyCellType } from '@skyux/ag-grid';
 
 import { ColDef } from 'ag-grid-community';
 
+/* spell-checker:disable */
 export const columnDefinitions: ColDef[] = [
   {
     field: 'select',

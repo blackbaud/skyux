@@ -28,9 +28,11 @@ type ListItem = {
         position: absolute;
         top: 0;
         left: 140px;
+        /* spell-checker:disable */
         background: lightgray;
         border: 2px solid slategray;
         color: slategray;
+        /* spell-checker:enable */
         padding: 2px 4px;
         content: attr(role);
         z-index: 10;

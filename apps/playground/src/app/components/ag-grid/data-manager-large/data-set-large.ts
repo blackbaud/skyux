@@ -6,6 +6,7 @@ import { ColDef, ColGroupDef } from 'ag-grid-community';
 import { GroupInlineHelpComponent } from './inline-help/group-inline-help.component';
 import { InlineHelpComponent } from './inline-help/inline-help.component';
 
+/* spell-checker:disable */
 export const columnDefinitions: ColDef[] = [
   {
     field: 'select',
