@@ -24,6 +24,7 @@ import { SkyThemeSelectorModule } from './shared/theme-selector/theme-selector.m
   ],
   providers: [
     SkyThemeService,
+    // Uncomment to confirm that providing the service in root allows for DI to resolve.
     // {
     //   provide: GreetingService,
     //   useValue: new GreetingService({ greeting: 'AppModule' }),
