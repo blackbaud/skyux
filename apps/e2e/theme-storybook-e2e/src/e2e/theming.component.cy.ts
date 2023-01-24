@@ -1,7 +1,6 @@
 import { capitalize } from '@angular-devkit/core/src/utils/strings';
 import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 
-/* spell-checker:ignore themingcomponent */
 describe('theme-storybook', () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {

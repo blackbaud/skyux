@@ -3,7 +3,6 @@ import { Meta, Story, moduleMetadata } from '@storybook/angular';
 import { TokensComponent } from './tokens.component';
 import { TokensModule } from './tokens.module';
 
-/* spell-checker:ignore tokenscomponent */
 export default {
   id: 'tokenscomponent-tokens',
   title: 'Components/Tokens',

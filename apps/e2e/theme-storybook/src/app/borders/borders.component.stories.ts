@@ -3,7 +3,6 @@ import { Meta, Story, moduleMetadata } from '@storybook/angular';
 import { BordersComponent } from './borders.component';
 import { BordersModule } from './borders.module';
 
-/* spell-checker:ignore borderscomponent */
 export default {
   id: 'borderscomponent-borders',
   title: 'Components/Borders',

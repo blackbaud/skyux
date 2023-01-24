@@ -3,7 +3,6 @@ import { Meta, Story, moduleMetadata } from '@storybook/angular';
 import { PopoverComponent } from './popover.component';
 import { PopoverModule } from './popover.module';
 
-/* spell-checker:ignore popovercomponent */
 export default {
   id: 'popovercomponent-popover',
   title: 'Components/Popover',

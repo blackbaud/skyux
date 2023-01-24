@@ -3,7 +3,6 @@ import { Meta, Story, moduleMetadata } from '@storybook/angular';
 import { SplitViewDockFillComponent } from './split-view.component';
 import { SplitViewModule } from './split-view.module';
 
-/* spell-checker:ignore splitviewcomponent, splitview */
 export default {
   id: 'splitviewcomponent-splitview',
   title: 'Components/Split View',

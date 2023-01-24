@@ -3,7 +3,6 @@ import { Meta, Story, moduleMetadata } from '@storybook/angular';
 import { ThemingComponent } from './theming.component';
 import { ThemingModule } from './theming.module';
 
-/* spell-checker:ignore themingcomponent */
 export default {
   id: 'themingcomponent-theming',
   title: 'Components/Theming',

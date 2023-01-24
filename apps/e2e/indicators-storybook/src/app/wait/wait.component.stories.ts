@@ -3,7 +3,6 @@ import { Meta, Story, moduleMetadata } from '@storybook/angular';
 import { WaitComponent } from './wait.component';
 import { WaitModule } from './wait.module';
 
-/* spell-checker:ignore waitcomponent */
 export default {
   id: 'waitcomponent-wait',
   title: 'Components/Wait',
