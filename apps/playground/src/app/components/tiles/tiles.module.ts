@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { TileDashboardComponent } from './tile-dashboard/tile-dashboard.component';
-import { TileDashboardModule } from './tile-dashboard/tile-dashboard.module';
-
 const routes: Routes = [
   {
     path: 'tile-dashboard',
-    component: TileDashboardComponent,
+    loadChildren: () =>
+      import('./tile-dashboard/tile-dashboard.module').then(
+        (m) => m.TileDashboardModule
+      ),
   },
 ];
 
@@ -18,7 +18,7 @@ const routes: Routes = [
 export class TilesRoutingModule {}
 
 @NgModule({
-  imports: [TilesRoutingModule, TileDashboardModule],
+  imports: [TilesRoutingModule],
 })
 export class TilesModule {
   public static routes = routes;
