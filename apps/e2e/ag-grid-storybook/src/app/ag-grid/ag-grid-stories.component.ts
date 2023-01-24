@@ -214,6 +214,7 @@ export class AgGridStoriesComponent
           // Scroll down to show the back-to-top button.
           this.#doc
             .querySelector(
+              /* spell-checker: disable-next-line */
               '#back-to-top .sky-ag-grid-row-johnsra05 [col-id="name"]'
             )
             ?.scrollIntoView();
@@ -222,6 +223,7 @@ export class AgGridStoriesComponent
             // Select a row to show the row delete button.
             this.#doc
               .querySelector(
+                /* spell-checker: disable-next-line */
                 '#row-delete .sky-ag-grid-row-killeha01 [col-id="select"] label'
               )
               ?.dispatchEvent(new MouseEvent('click'));
@@ -230,6 +232,7 @@ export class AgGridStoriesComponent
               // Trigger validation popover to show up.
               this.#doc
                 .querySelector(
+                  /* spell-checker: disable-next-line */
                   '#validation .sky-ag-grid-row-martipe02 [col-id="seasons_played"]'
                 )
                 ?.dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowUp' }));
