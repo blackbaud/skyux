@@ -1,9 +1,15 @@
 <div class="sky-wait-page">
   <sky-wait
+    data-sky-id="page-wait-non-blocking"
     [isFullPage]="true"
     [isNonBlocking]="true"
     [isWaiting]="hasNonBlockingWait"
   >
   </sky-wait>
-  <sky-wait [isFullPage]="true" [isWaiting]="hasBlockingWait"> </sky-wait>
+  <sky-wait
+    data-sky-id="page-wait-blocking"
+    [isFullPage]="true"
+    [isWaiting]="hasBlockingWait"
+  >
+  </sky-wait>
 </div>

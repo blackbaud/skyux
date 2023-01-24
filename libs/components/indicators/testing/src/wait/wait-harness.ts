@@ -22,6 +22,15 @@ export class SkyWaitHarness extends SkyComponentHarness {
   public static with(
     filters: SkyWaitHarnessFilters
   ): HarnessPredicate<SkyWaitHarness> {
+    if (filters.globalPageWaitType === 'blocking') {
+      return SkyWaitHarness.getDataSkyIdPredicate({
+        dataSkyId: 'page-wait-blocking',
+      });
+    } else if (filters.globalPageWaitType === 'non-blocking') {
+      return SkyWaitHarness.getDataSkyIdPredicate({
+        dataSkyId: 'page-wait-non-blocking',
+      });
+    }
     return SkyWaitHarness.getDataSkyIdPredicate(filters);
   }
 
