@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { ComponentRouteInfo } from '../../../shared/component-info/component-route-info';
 
 import { SplitViewComponent } from './basic/split-view.component';
-import { SplitViewPageBoundComponent } from './page-bound/split-view-page-bound.compoennt';
+import { SplitViewPageBoundComponent } from './page-bound/split-view-page-bound.component';
 
 const routes: ComponentRouteInfo[] = [
   {

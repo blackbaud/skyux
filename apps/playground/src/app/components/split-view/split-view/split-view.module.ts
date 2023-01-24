@@ -15,7 +15,7 @@ import { DataManagerModule } from '../../../shared/data-manager/data-manager.mod
 import { LipsumModule } from '../../../shared/lipsum/lipsum.module';
 
 import { SplitViewComponent } from './basic/split-view.component';
-import { SplitViewPageBoundComponent } from './page-bound/split-view-page-bound.compoennt';
+import { SplitViewPageBoundComponent } from './page-bound/split-view-page-bound.component';
 import { SplitViewRoutingModule } from './split-view-routing.module';
 
 @NgModule({

@@ -130,7 +130,6 @@ export class DataEntryGridComponent
     this.dataSets?.forEach((dataSet) => {
       let columnDefs: ColDef[];
       const tripleCrownIndex = columnDefinitions.findIndex(
-        /* spell-checker: disable-next-line */
         (col) => col.field === 'triplecrown'
       );
       switch (dataSet.id) {

@@ -168,9 +168,9 @@ export class DatepickerComponent {
     }
   }
 
-  public getNextDate(startDate: Date, daystoAdd: number): Date {
+  public getNextDate(startDate: Date, daysToAdd: number): Date {
     const newDate = new Date(startDate);
-    newDate.setDate(newDate.getDate() + daystoAdd);
+    newDate.setDate(newDate.getDate() + daysToAdd);
     return newDate;
   }
 }
