@@ -11,7 +11,7 @@ export class SwitchControlsComponent {
 
   public checkboxOptions: any[] = [
     { label: 'Checked Checkbox', checked: true, disabled: false },
-    { label: 'Unhecked Checkbox', checked: false, disabled: false },
+    { label: 'Unchecked Checkbox', checked: false, disabled: false },
     { label: 'Disabled Checkbox', checked: false, disabled: true },
     { label: 'Disabled Checked Checkbox', checked: true, disabled: true },
   ];
