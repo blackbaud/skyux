@@ -19,6 +19,13 @@
     "*.template",
     "*.snap"
   ],
+  "patterns": [
+    {
+      "name": "lorem-ipsum",
+      "pattern": "/Lorem ipsum[\\s\\w\\r\\n,.?!;]+[<'`]/g"
+    }
+  ],
+  "ignoreRegExpList": ["lorem-ipsum"],
   "words": [
     "activedescendant",
     "alertdialog",
@@ -72,12 +79,16 @@
     "hoverbackground",
     "iframes",
     "intercolumn",
+    "ipsum",
     "keyinfo",
     "labelledby",
     "leid",
     "libphonenumber",
+    "lightgray",
+    "lipsum",
     "listbox",
     "listitem",
+    "lorem",
     "maxlength",
     "meridie",
     "meridies",
@@ -113,6 +124,7 @@
     "skyhref",
     "skyux",
     "skyuxconfig",
+    "slategray",
     "spacebar",
     "stackable",
     "storybookapp",
@@ -150,6 +162,7 @@
     "xdescribe",
     "xsmall",
     "yearpicker",
+    "zack",
     "الإمارات",
     "العربية",
     "المتحدة",

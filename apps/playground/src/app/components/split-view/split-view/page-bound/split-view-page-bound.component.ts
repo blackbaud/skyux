@@ -31,13 +31,13 @@ export class SplitViewPageBoundComponent {
   public hasUnsavedWork = false;
 
   public items = [
-    { id: 1, name: 'Jennifer Standley', amount: 12.45, date: '04/28/2019' },
-    { id: 2, name: 'Jennifer Standley', amount: 52.39, date: '04/22/2019' },
-    { id: 3, name: 'Jennifer Standley', amount: 9.12, date: '04/09/2019' },
-    { id: 4, name: 'Jennifer Standley', amount: 193.0, date: '03/27/2019' },
-    { id: 5, name: 'Jennifer Standley', amount: 19.89, date: '03/11/2019' },
-    { id: 6, name: 'Jennifer Standley', amount: 214.18, date: '02/17/2019' },
-    { id: 7, name: 'Jennifer Standley', amount: 4.53, date: '02/26/2019' },
+    { id: 1, name: 'Jennifer Stanley', amount: 12.45, date: '04/28/2019' },
+    { id: 2, name: 'Jennifer Stanley', amount: 52.39, date: '04/22/2019' },
+    { id: 3, name: 'Jennifer Stanley', amount: 9.12, date: '04/09/2019' },
+    { id: 4, name: 'Jennifer Stanley', amount: 193.0, date: '03/27/2019' },
+    { id: 5, name: 'Jennifer Stanley', amount: 19.89, date: '03/11/2019' },
+    { id: 6, name: 'Jennifer Stanley', amount: 214.18, date: '02/17/2019' },
+    { id: 7, name: 'Jennifer Stanley', amount: 4.53, date: '02/26/2019' },
   ];
 
   public splitViewStream = new Subject<SkySplitViewMessage>();
