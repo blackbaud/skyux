@@ -120,6 +120,9 @@
         "libs/components/progress-indicator/src/index.ts"
       ],
       "@skyux/router": ["libs/components/router/src/index.ts"],
+      "@skyux/router/testing": [
+        "libs/components/router/testing/src/public-api.ts"
+      ],
       "@skyux/select-field": ["libs/components/select-field/src/index.ts"],
       "@skyux/split-view": ["libs/components/split-view/src/index.ts"],
       "@skyux/split-view/testing": [

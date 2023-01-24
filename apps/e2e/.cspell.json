@@ -1,0 +1,14 @@
+{
+  "import": "../../.cspell.json",
+  "patterns": [
+    {
+      "name": "screenshot-selector",
+      "pattern": "/[\\`\\'][a-zA-Z-${}]*component[a-zA-Z-${}]*[\\`\\']/g"
+    },
+    {
+      "name": "screenshot-url",
+      "pattern": "/[\\`\\']/iframe\\.html\\?[a-zA-Z-${}=:&;]*component[a-zA-Z-${}=:&;]*[\\`\\']/g"
+    }
+  ],
+  "ignoreRegExpList": ["screenshot-selector", "screenshot-url"]
+}

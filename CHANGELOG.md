@@ -1,5 +1,22 @@
 # Changelog
 
+## [7.4.2](https://github.com/blackbaud/skyux/compare/7.4.1...7.4.2) (2023-01-23)
+
+
+### Bug Fixes
+
+* **components/text-editor:** fix bug where setting autofocus and initial value before view init threw runtime error ([#947](https://github.com/blackbaud/skyux/issues/947)) ([2fc3cb4](https://github.com/blackbaud/skyux/commit/2fc3cb4d735d5735ed022299590d5c1635607a06))
+
+## [7.4.1](https://github.com/blackbaud/skyux/compare/7.4.0...7.4.1) (2023-01-20)
+
+
+### Bug Fixes
+
+* **components/indicators:** add `display: block` to alert host component ([#939](https://github.com/blackbaud/skyux/issues/939)) ([4e9f744](https://github.com/blackbaud/skyux/commit/4e9f744d2bcaded42a489c5c34a8450fe0e3a688))
+* **components/layout:** set `sm` breakpoint for action buttons without parent elements ([#944](https://github.com/blackbaud/skyux/issues/944)) ([3a93a3d](https://github.com/blackbaud/skyux/commit/3a93a3d68e3ffa334fd8286a049d1f87492671a5))
+* **components/lookup:** make selection modal harness visible to docs ([#941](https://github.com/blackbaud/skyux/issues/941)) ([bca8e18](https://github.com/blackbaud/skyux/commit/bca8e185d5ce70a626379bf75398256f0873fe09))
+* **components/tiles:** render tile dashboard if config is set after init ([#943](https://github.com/blackbaud/skyux/issues/943)) ([ae8e305](https://github.com/blackbaud/skyux/commit/ae8e305f59a85a47f4479b2db82afda9f29fe863))
+
 ## [7.3.0](https://github.com/blackbaud/skyux/compare/7.2.0...7.3.0) (2023-01-13)
 
 

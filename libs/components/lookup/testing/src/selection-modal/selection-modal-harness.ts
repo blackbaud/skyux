@@ -11,7 +11,6 @@ import { SkySelectionModalSearchResultHarnessFilters } from './selection-modal-s
 
 /**
  * Harness for interacting with a selection modal in tests.
- * @internal
  */
 export class SkySelectionModalHarness extends ComponentHarness {
   /**

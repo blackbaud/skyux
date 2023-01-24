@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 
 import { SkyTileDashboardConfig } from '../../../tiles/tile-dashboard-config/tile-dashboard-config';
 import { SkyTileDashboardComponent } from '../../../tiles/tile-dashboard/tile-dashboard.component';
+import { SkyTileDashboardMessage } from '../tile-dashboard-message';
 
 import { Tile1TestComponent } from './tile1.component.fixture';
 import { Tile2TestComponent } from './tile2.component.fixture';
@@ -11,7 +12,7 @@ import { TileTestContext } from './tile-context.fixture';
 
 @Component({
   selector: 'sky-demo-app',
-  templateUrl: './tile-dashboard.component.fixture.html',
+  templateUrl: './tile-dashboard-on-push.component.fixture.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TileDashboardOnPushTestComponent {
@@ -23,7 +24,7 @@ export class TileDashboardOnPushTestComponent {
 
   public dashboardConfig: SkyTileDashboardConfig;
 
-  public messageStream = new Subject();
+  public messageStream = new Subject<SkyTileDashboardMessage>();
 
   constructor() {
     this.dashboardConfig = {

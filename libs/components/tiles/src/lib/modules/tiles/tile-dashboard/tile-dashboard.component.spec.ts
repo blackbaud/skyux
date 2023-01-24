@@ -22,6 +22,7 @@ import { MockSkyUIConfigService } from './fixtures/mock-ui-config.service';
 import { Tile1TestComponent } from './fixtures/tile1.component.fixture';
 import { Tile2TestComponent } from './fixtures/tile2.component.fixture';
 import { TileTestContext } from './fixtures/tile-context.fixture';
+import { TileDashboardAfterInitTestComponent } from './fixtures/tile-dashboard-after-init.component.fixture';
 import { SkyTileDashboardFixturesModule } from './fixtures/tile-dashboard-fixtures.module';
 import { TileDashboardOnPushTestComponent } from './fixtures/tile-dashboard-on-push.component.fixture';
 import { TileDashboardTestComponent } from './fixtures/tile-dashboard.component.fixture';
@@ -206,6 +207,70 @@ describe('Tile dashboard component', () => {
     tick();
 
     expect(initSpy).not.toHaveBeenCalled();
+  }));
+
+  it('should allow a config to be set by the parent once initialized if not already set', fakeAsync(() => {
+    const fixture = TestBed.overrideComponent(SkyTileDashboardComponent, {
+      add: {
+        providers: [
+          {
+            provide: SkyTileDashboardService,
+            useValue: mockTileDashboardService,
+          },
+        ],
+      },
+    }).createComponent(TileDashboardAfterInitTestComponent);
+
+    const cmp = fixture.componentInstance;
+    const newConfig: SkyTileDashboardConfig = {
+      tiles: [
+        {
+          id: 'tile-1',
+          componentType: Tile1TestComponent,
+        },
+      ],
+      layout: {
+        multiColumn: [
+          {
+            tiles: [
+              {
+                id: 'tile-1',
+                isCollapsed: false,
+              },
+            ],
+          },
+        ],
+        singleColumn: {
+          tiles: [
+            {
+              id: 'tile-1',
+              isCollapsed: false,
+            },
+          ],
+        },
+      },
+    };
+
+    const initSpy = spyOn(mockTileDashboardService, 'init');
+
+    fixture.detectChanges();
+    tick();
+
+    expect(initSpy).not.toHaveBeenCalled();
+
+    initSpy.calls.reset();
+
+    cmp.dashboardConfig = newConfig;
+
+    fixture.detectChanges();
+    tick();
+
+    expect(initSpy).toHaveBeenCalledWith(
+      newConfig,
+      jasmine.any(QueryList),
+      jasmine.any(SkyTileDashboardColumnComponent),
+      undefined
+    );
   }));
 
   it(`should release resources when the component is destroyed`, () => {

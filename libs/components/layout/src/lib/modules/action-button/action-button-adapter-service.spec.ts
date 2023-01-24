@@ -89,4 +89,28 @@ describe('Action button adapter service', () => {
       'sky-action-button-container-lg'
     );
   });
+
+  it('should set responsive sm class when parent element is null', () => {
+    // Remove element from the DOM so that it does  not have a parent element.
+    inputRef.nativeElement.parentElement.removeChild(inputRef.nativeElement);
+
+    fixture.detectChanges();
+
+    // Its parent width should now be undefined.
+    const width = adapter.getParentWidth(inputRef);
+    expect(width).toBeUndefined();
+
+    adapter.setResponsiveClass(inputRef, width);
+    fixture.detectChanges();
+
+    expect(inputRef.nativeElement).toHaveClass(
+      'sky-action-button-container-sm'
+    );
+    expect(inputRef.nativeElement).not.toHaveClass(
+      'sky-action-button-container-md'
+    );
+    expect(inputRef.nativeElement).not.toHaveClass(
+      'sky-action-button-container-lg'
+    );
+  });
 });

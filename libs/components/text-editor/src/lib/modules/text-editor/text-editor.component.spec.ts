@@ -1758,4 +1758,17 @@ describe('Text editor', () => {
       );
     });
   });
+
+  describe('with autofocus', () => {
+    it('should allow autofocus and value to be set on initialization', () => {
+      // A bug in the order of setting value, initializing the text editor
+      // and setting focus would cause this test to fail.
+      fixture = createComponent(TextEditorFixtureComponent);
+      const testComponent =
+        fixture.componentInstance as TextEditorFixtureComponent;
+      testComponent.autofocus = true;
+
+      fixture.detectChanges();
+    });
+  });
 });
