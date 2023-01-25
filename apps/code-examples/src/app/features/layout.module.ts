@@ -29,9 +29,9 @@ import { FluidGridDemoComponent } from '../code-examples/layout/fluid-grid/fluid
 import { FluidGridDemoModule } from '../code-examples/layout/fluid-grid/fluid-grid-demo.module';
 import { FormatDemoComponent } from '../code-examples/layout/format/format-demo.component';
 import { FormatDemoModule } from '../code-examples/layout/format/format-demo.module';
-import { InlineDeleteDemoComponent } from '../code-examples/layout/inline-delete/custom/inline-delete-demo.component';
+import { InlineDeleteDemoComponent } from '../code-examples/layout/inline-delete/custom/inilne-delete-demo.component';
 import { InlineDeleteDemoModule } from '../code-examples/layout/inline-delete/custom/inline-delete-demo.module';
-import { InlineDeleteRepeaterDemoComponent } from '../code-examples/layout/inline-delete/repeater/inline-delete-repeater-demo.component';
+import { InlineDeleteRepeaterDemoComponent } from '../code-examples/layout/inline-delete/repeater/inilne-delete-repeater-demo.component';
 import { InlineDeleteRepeaterDemoModule } from '../code-examples/layout/inline-delete/repeater/inline-delete-repeater-demo.module';
 import { PageSummaryDemoComponent } from '../code-examples/layout/page-summary/basic/page-summary-demo.component';
 import { PageSummaryDemoModule } from '../code-examples/layout/page-summary/basic/page-summary-demo.module';

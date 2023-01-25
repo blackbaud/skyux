@@ -4,7 +4,7 @@ import { SkyInlineDeleteModule } from '@skyux/layout';
 import { SkyRepeaterModule } from '@skyux/lists';
 import { SkyDropdownModule } from '@skyux/popovers';
 
-import { InlineDeleteRepeaterDemoComponent } from './inline-delete-repeater-demo.component';
+import { InlineDeleteRepeaterDemoComponent } from './inilne-delete-repeater-demo.component';
 
 @NgModule({
   imports: [

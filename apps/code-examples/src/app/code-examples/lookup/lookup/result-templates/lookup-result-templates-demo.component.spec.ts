@@ -42,7 +42,6 @@ describe('Lookup result templates demo', () => {
   it('should use the expected dropdown item template', async () => {
     const { lookupHarness } = await setupTest();
 
-    /* spell-checker:disable-next-line */
     await lookupHarness?.enterText('vick');
 
     const results = await lookupHarness?.getSearchResults();
@@ -62,7 +61,6 @@ describe('Lookup result templates demo', () => {
     await lookupHarness?.clickShowMoreButton();
 
     const pickerHarness = await lookupHarness?.getShowMorePicker();
-    /* spell-checker:disable-next-line */
     await pickerHarness?.enterSearchText('vick');
 
     const results = await pickerHarness?.getSearchResults();
@@ -79,7 +77,6 @@ describe('Lookup result templates demo', () => {
   it('should update the form control when a favorite name is selected', async () => {
     const { lookupHarness, fixture } = await setupTest();
 
-    /** spell-checker:disable-next-line */
     await lookupHarness?.enterText('vick');
 
     const allResultHarnesses = await lookupHarness?.getSearchResults();

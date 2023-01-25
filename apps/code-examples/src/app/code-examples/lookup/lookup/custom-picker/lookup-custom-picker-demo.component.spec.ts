@@ -42,7 +42,6 @@ describe('Lookup custom picker demo', () => {
   it('should update the form control when a favorite name is selected', async () => {
     const { lookupHarness, fixture } = await setupTest();
 
-    /* spell-checker:disable-next-line */
     await lookupHarness?.enterText('vick');
 
     const allResultHarnesses = await lookupHarness?.getSearchResults();
@@ -66,7 +65,7 @@ describe('Lookup custom picker demo', () => {
     // Show the custom picker.
     await lookupHarness?.clickShowMoreButton();
 
-    // Use the custom picker harness to validate that selecting/deselecting items
+    // Use the custom picker harness to validate that selecting/deslecting items
     // updates the lookup form field.
     const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
 
@@ -74,7 +73,6 @@ describe('Lookup custom picker demo', () => {
       LookupCustomPickerHarness
     );
 
-    /* spell-checker:disable-next-line */
     await customPickerHarness.checkItemAt(3); // Britta (Ms. Perry)
     await customPickerHarness.checkItemAt(7); // Garret (Mr. Lambert)
     await customPickerHarness.uncheckItemAt(15); // Shirley (Ms. Bennett)
@@ -83,7 +81,6 @@ describe('Lookup custom picker demo', () => {
 
     expect(fixture.componentInstance.favoritesForm.value.favoriteNames).toEqual(
       [
-        /* spell-checker:disable-next-line */
         { name: 'Britta', formal: 'Ms. Perry' },
         { name: 'Garrett', formal: 'Mr. Lambert' },
       ]

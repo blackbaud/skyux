@@ -27,7 +27,7 @@ export class FlyoutDemoComponent {
     this.flyout = undefined;
   }
 
-  public openFlyoutWithCustomWidth(): void {
+  public openFlyoutWithCutsomWidth(): void {
     const flyoutConfig: SkyFlyoutConfig = {
       ariaLabelledBy: 'flyout-title',
       ariaRole: 'dialog',

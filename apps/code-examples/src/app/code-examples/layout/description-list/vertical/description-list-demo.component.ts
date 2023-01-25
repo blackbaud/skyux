@@ -5,7 +5,6 @@ import { Component } from '@angular/core';
   templateUrl: './description-list-demo.component.html',
 })
 export class DescriptionListDemoComponent {
-  /* spell-checker:disable */
   public items: { term: string; description: string }[] = [
     {
       term: 'College',
@@ -24,5 +23,4 @@ export class DescriptionListDemoComponent {
       description: '2024',
     },
   ];
-  /* spell-checker:enable */
 }

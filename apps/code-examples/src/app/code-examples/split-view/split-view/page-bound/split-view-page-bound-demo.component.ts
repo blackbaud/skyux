@@ -32,7 +32,6 @@ export class SplitViewPageBoundDemoComponent {
 
   public activeRecord: SplitViewDemoRecord;
 
-  /* spell-checker:disable */
   public items: SplitViewDemoRecord[] = [
     {
       id: 1,
@@ -116,7 +115,6 @@ export class SplitViewPageBoundDemoComponent {
       comments: '',
     },
   ];
-  /* spell-checker:enable */
 
   public splitViewDemoForm: FormGroup;
 

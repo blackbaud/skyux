@@ -36,7 +36,6 @@ export class LookupComponent implements OnInit {
   public disabled = false;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  /* spell-checker:disable */
   public people: any[] = [
     { id: 1, name: 'Andy' },
     { id: 2, name: 'Beth' },
@@ -60,7 +59,6 @@ export class LookupComponent implements OnInit {
     { id: 20, name: 'Yolanda' },
     { id: 21, name: 'Zack' },
   ];
-  /* spell-checker:enable */
 
   public friends: any[] = [this.people[15], this.people[20]];
 

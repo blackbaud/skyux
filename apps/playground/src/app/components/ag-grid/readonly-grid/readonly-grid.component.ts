@@ -108,7 +108,6 @@ export class ReadonlyGridComponent implements OnInit {
 
   public mockRemote(): Observable<any> {
     const lorem =
-      /* spell-checker:disable-next-line */
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Convallis a cras semper auctor neque vitae tempus quam. Tempor orci eu lobortis elementum nibh tellus molestie. Tempus imperdiet nulla malesuada pellentesque elit.';
     const data: any[] = [];
 

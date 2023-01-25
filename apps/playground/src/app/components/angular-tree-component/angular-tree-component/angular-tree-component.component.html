@@ -49,7 +49,7 @@
     class="sky-padding-even-default"
   >
     <sky-angular-tree-wrapper>
-      <tree-root [nodes]="nodes" [options]="optionsNotCascading">
+      <tree-root [nodes]="nodes" [options]="optionsNonCascading">
         <ng-template
           let-index="index"
           let-node
@@ -111,7 +111,7 @@
     <sky-angular-tree-wrapper [showToolbar]="true">
       <tree-root
         [nodes]="nodes"
-        [options]="optionsNotCascading"
+        [options]="optionsNonCascading"
         #treeNonCascading
       >
         <ng-template
@@ -139,7 +139,7 @@
     <sky-angular-tree-wrapper [selectLeafNodesOnly]="true" [showToolbar]="true">
       <tree-root
         [nodes]="nodes"
-        [options]="optionsNotCascading"
+        [options]="optionsNonCascading"
         #treeLeafNodesOnly
       >
         <ng-template
@@ -164,7 +164,7 @@
     <sky-angular-tree-wrapper [selectSingle]="true" [showToolbar]="true">
       <tree-root
         [nodes]="nodes"
-        [options]="optionsNotCascading"
+        [options]="optionsNonCascading"
         #treeSingleNodeSelectionOnly
       >
         <ng-template
