@@ -1,3 +1,4 @@
+import { A11yModule } from '@angular/cdk/a11y';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -24,6 +25,7 @@ import { SkyModalComponent } from './modal.component';
     SkyModalScrollShadowDirective,
   ],
   imports: [
+    A11yModule,
     CommonModule,
     RouterModule,
     SkyIconModule,
