@@ -44,9 +44,9 @@ export class ScrollableHostFixtureComponent implements OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
-  public getScrollableHost(alernative?: ElementRef): HTMLElement | Window {
+  public getScrollableHost(alternative?: ElementRef): HTMLElement | Window {
     return this.#scrollableHostService.getScrollableHost(
-      alernative || this.target
+      alternative || this.target
     );
   }
 

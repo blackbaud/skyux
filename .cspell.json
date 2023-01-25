@@ -22,7 +22,7 @@
   "patterns": [
     {
       "name": "lorem-ipsum",
-      "pattern": "/Lorem ipsum[\\s\\w\\r\\n,.?!;]+[<'`]/g"
+      "pattern": "/Lorem ipsum[\\s\\w\\r\\n\\d,.?!;\\-\\+]+[<'`]/g"
     }
   ],
   "ignoreRegExpList": ["lorem-ipsum"],
@@ -43,6 +43,7 @@
     "blkb",
     "btns",
     "buildable",
+    "callout",
     "circlon",
     "colindex",
     "colorpicker",
@@ -56,6 +57,7 @@
     "datepicker",
     "datetime",
     "daypicker",
+    "ddthh",
     "decamelize",
     "denormalize",
     "describedby",
@@ -81,6 +83,7 @@
     "intercolumn",
     "ipsum",
     "keyinfo",
+    "konqueror",
     "labelledby",
     "leid",
     "libphonenumber",
@@ -120,6 +123,7 @@
     "rowheader",
     "ruleset",
     "rxstate",
+    "searchtext",
     "skiplink",
     "skyhref",
     "skyux",

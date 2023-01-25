@@ -508,7 +508,7 @@ describe('Timepicker', () => {
       expect(picker).not.toBeNull();
     }));
 
-    it('should close picker when clicking on a dackdrop', fakeAsync(() => {
+    it('should close picker when clicking on a backdrop', fakeAsync(() => {
       detectChangesAndTick(fixture);
       openTimepicker(fixture);
 
@@ -591,7 +591,7 @@ describe('Timepicker', () => {
       fixture.destroy();
     });
 
-    it('should update input value when form control is set programatically', fakeAsync(() => {
+    it('should update input value when form control is set programmatically', fakeAsync(() => {
       detectChangesAndTick(fixture);
 
       const newDate = moment({ hour: 12, minute: 30 }).toDate();
@@ -724,7 +724,7 @@ describe('Timepicker', () => {
       expect(component.timeControl?.touched).toBeTrue();
     }));
 
-    it('should update input value when form control is set programatically', fakeAsync(() => {
+    it('should update input value when form control is set programmatically', fakeAsync(() => {
       detectChangesAndTick(fixture);
 
       component.timeControl?.setValue('12:30 PM');

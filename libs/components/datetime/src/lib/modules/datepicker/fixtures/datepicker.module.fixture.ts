@@ -8,7 +8,7 @@ import { SkyDatepickerModule } from '../datepicker.module';
 
 import { DatepickerCalendarTestComponent } from './datepicker-calendar.component.fixture';
 import { DatepickerInputBoxTestComponent } from './datepicker-input-box.component.fixture';
-import { DatepickerNoFormatTestComponent } from './datepicker-noformat.component.fixture';
+import { DatepickerNoFormatTestComponent } from './datepicker-no-format.component.fixture';
 import { DatepickerReactiveTestComponent } from './datepicker-reactive.component.fixture';
 import { DatepickerTestComponent } from './datepicker.component.fixture';
 

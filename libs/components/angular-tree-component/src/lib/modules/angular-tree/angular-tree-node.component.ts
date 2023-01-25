@@ -167,7 +167,7 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
         this.#focusableChildren = this.#adapterService.getFocusableChildren(
           this.nodeContentWrapperRef.nativeElement
         );
-        this.#adapterService.setTabIndexOfFocusableElems(
+        this.#adapterService.setTabIndexOfFocusableEls(
           this.nodeContentWrapperRef.nativeElement,
           -1
         );
@@ -282,7 +282,7 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
 
         case 'right':
         case 'arrowright':
-          // Cyle forward through interactive child elements.
+          // Cycle forward through interactive child elements.
           // If user reaches the end, activate drill down.
           /* istanbul ignore else */
           if (

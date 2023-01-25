@@ -29,7 +29,7 @@ export class SkyColorpickerFixture {
 
   /**
    * Set the colorpicker's color hex code.
-   * @param hexValue The new color hex code. Must inculde '#'.
+   * @param hexValue The new color hex code. Must include '#'.
    */
   public async setValueFromHex(hexValue: string): Promise<void> {
     await this.#clickColorpickerButtonEl();

@@ -83,7 +83,7 @@ describe('Core adapter service', () => {
 
   describe('getFocusableChildrenAndApplyFocus', () => {
     it('should apply focus to the first element', () => {
-      const firstFocussableElement = nativeElement.querySelector(
+      const firstFocusableElement = nativeElement.querySelector(
         '#not-autofocus-input'
       );
 
@@ -92,10 +92,10 @@ describe('Core adapter service', () => {
         '#focusable-children-container'
       );
 
-      expect(document.activeElement).toEqual(firstFocussableElement);
+      expect(document.activeElement).toEqual(firstFocusableElement);
     });
 
-    it('should apply focus to the container if no focussable element is found', () => {
+    it('should apply focus to the container if no focusable element is found', () => {
       const container = nativeElement.querySelector('#paragraph-container');
 
       component.getFocusableChildrenAndApplyFocus(

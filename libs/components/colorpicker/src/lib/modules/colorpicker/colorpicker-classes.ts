@@ -1,5 +1,3 @@
-// spell-checker:ignore colorpicker
-
 /**
  * @internal
  */
