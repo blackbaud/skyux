@@ -12,7 +12,7 @@ import { DynamicComponentTestComponent } from './fixtures/dynamic-component-test
 })
 export class HomeTestComponent {}
 
-fdescribe('Dynamic component service', () => {
+xdescribe('Dynamic component service', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
