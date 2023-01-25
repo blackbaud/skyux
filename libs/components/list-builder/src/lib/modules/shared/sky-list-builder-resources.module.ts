@@ -18,8 +18,8 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
   'EN-US': {
     skyux_list_show_secondary_actions_button: { message: 'More' },
     skyux_list_multiselect_clear_all: { message: 'Clear all' },
-    skyux_list_mutliselect_select_all: { message: 'Select all' },
-    skyux_list_mutliselect_show_selected: {
+    skyux_list_multiselect_select_all: { message: 'Select all' },
+    skyux_list_multiselect_show_selected: {
       message: 'Only show selected items',
     },
     skyux_list_view_switcher_dropdown_title: { message: 'Select view' },

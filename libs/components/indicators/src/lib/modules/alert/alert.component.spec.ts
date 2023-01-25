@@ -75,7 +75,7 @@ describe('Alert component', () => {
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });
 
-  it('should allow the screen reader text for the close button to be localizable', async () => {
+  it('should allow the screen reader text for the close button to be localized', async () => {
     const fixture = TestBed.createComponent(AlertTestComponent);
     const cmp = fixture.componentInstance as AlertTestComponent;
     const el = fixture.nativeElement as HTMLElement;

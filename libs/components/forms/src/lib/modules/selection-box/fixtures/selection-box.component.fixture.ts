@@ -20,7 +20,7 @@ export class SelectionBoxTestComponent {
       iconType: 'skyux',
       header: 'Write an introduction',
       description:
-        'A brief one paragraph introduction about your organzation will help supporters identify with your cause',
+        'A brief one paragraph introduction about your organization will help supporters identify with your cause',
     },
     {
       icon: 'calendar',

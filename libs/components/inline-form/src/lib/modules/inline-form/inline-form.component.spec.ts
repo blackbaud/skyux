@@ -37,7 +37,7 @@ function getLinkButton(
   );
 }
 
-function verifyDoneButtonisDefined(
+function verifyDoneButtonIsDefined(
   fixture: ComponentFixture<SkyInlineFormFixtureComponent>,
   isDefined: boolean
 ): void {
@@ -51,7 +51,7 @@ function verifyDoneButtonisDefined(
   }
 }
 
-function verifySaveButtonisDefined(
+function verifySaveButtonIsDefined(
   fixture: ComponentFixture<SkyInlineFormFixtureComponent>,
   isDefined: boolean
 ): void {
@@ -114,9 +114,9 @@ describe('Inline form component', () => {
   it('should show Done/Cancel buttons as default if no SkyInlineFormConfig is defined', fakeAsync(() => {
     showForm();
 
-    verifyDoneButtonisDefined(fixture, true);
+    verifyDoneButtonIsDefined(fixture, true);
     verifyCancelButtonIsDefined(fixture, true);
-    verifySaveButtonisDefined(fixture, false);
+    verifySaveButtonIsDefined(fixture, false);
     verifyDeleteButtonIsDefined(fixture, false);
   }));
 
@@ -126,10 +126,10 @@ describe('Inline form component', () => {
     };
     showForm();
 
-    verifyDoneButtonisDefined(fixture, true);
+    verifyDoneButtonIsDefined(fixture, true);
     verifyDeleteButtonIsDefined(fixture, true);
     verifyCancelButtonIsDefined(fixture, true);
-    verifySaveButtonisDefined(fixture, false);
+    verifySaveButtonIsDefined(fixture, false);
   }));
 
   it('should show delete Save/Delete/Cancel buttons when SkyInlineFormConfig is defined', fakeAsync(() => {
@@ -138,10 +138,10 @@ describe('Inline form component', () => {
     };
     showForm();
 
-    verifySaveButtonisDefined(fixture, true);
+    verifySaveButtonIsDefined(fixture, true);
     verifyDeleteButtonIsDefined(fixture, true);
     verifyCancelButtonIsDefined(fixture, true);
-    verifyDoneButtonisDefined(fixture, false);
+    verifyDoneButtonIsDefined(fixture, false);
   }));
 
   it('should show delete Save/Cancel buttons when SkyInlineFormConfig is defined', fakeAsync(() => {
@@ -150,10 +150,10 @@ describe('Inline form component', () => {
     };
     showForm();
 
-    verifySaveButtonisDefined(fixture, true);
+    verifySaveButtonIsDefined(fixture, true);
     verifyCancelButtonIsDefined(fixture, true);
     verifyDeleteButtonIsDefined(fixture, false);
-    verifyDoneButtonisDefined(fixture, false);
+    verifyDoneButtonIsDefined(fixture, false);
   }));
 
   it('should emit when done button is clicked', fakeAsync(() => {

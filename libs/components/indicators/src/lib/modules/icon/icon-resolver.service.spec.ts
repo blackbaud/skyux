@@ -3,11 +3,11 @@ import { SkyThemeIconManifestService } from '@skyux/theme';
 import { SkyIconResolverService } from './icon-resolver.service';
 
 describe('Icon resolver service', () => {
-  let mockManfiestSvc: Partial<SkyThemeIconManifestService>;
+  let mockManifestSvc: Partial<SkyThemeIconManifestService>;
   let svc: SkyIconResolverService;
 
   beforeEach(() => {
-    mockManfiestSvc = {
+    mockManifestSvc = {
       getManifest() {
         return {
           cssPrefix: 'test-',
@@ -43,7 +43,7 @@ describe('Icon resolver service', () => {
       },
     };
 
-    svc = new SkyIconResolverService(mockManfiestSvc as any);
+    svc = new SkyIconResolverService(mockManifestSvc as any);
   });
 
   it('should resolve an icon by its name', () => {

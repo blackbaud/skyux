@@ -75,6 +75,7 @@ async function validateWaitProperties(
 
   const label =
     fixture.componentInstance.ariaLabel ??
+    /* spell-checker:disable-next-line */
     `${fixture.componentInstance.isFullPage ? 'Page l' : 'L'}oading.${
       fixture.componentInstance.isNonBlocking ? '' : ' Please wait.'
     }`;

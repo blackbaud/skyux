@@ -12,7 +12,7 @@ export class ListToolbarTestComponent {
   public searchEnabled: boolean;
   public sortEnabled: boolean;
   public searchText: string;
-  public showCutomItem1 = true;
+  public showCustomItem1 = true;
 
   @ViewChild(SkyListToolbarComponent, {
     read: SkyListToolbarComponent,

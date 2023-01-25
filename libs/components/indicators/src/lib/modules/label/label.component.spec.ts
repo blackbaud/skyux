@@ -136,7 +136,7 @@ describe('Label component', () => {
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
-    it('should be accessible when label type is succcess', async () => {
+    it('should be accessible when label type is success', async () => {
       const fixture = TestBed.createComponent(LabelTestComponent);
       const cmp = fixture.componentInstance as LabelTestComponent;
       cmp.labelType = 'success';

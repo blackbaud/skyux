@@ -308,7 +308,7 @@ describe('in memory data provider', () => {
       tick();
     }));
 
-    it('should handle sorting with nonstring values', fakeAsync(() => {
+    it('should handle sorting with non-string values', fakeAsync(() => {
       items = observableOf([
         {
           id: '1',
