@@ -22,26 +22,29 @@ describe('Page wait', () => {
   it('should show the page wait component when the user performs an action', async () => {
     const { rootLoader, fixture } = setupTest();
     const buttons = fixture.nativeElement.querySelectorAll('.sky-btn');
-    buttons[1].click();
 
-    let waitHarness = await rootLoader.getHarness(
-      SkyWaitHarness.with({ globalPageWaitType: 'non-blocking' })
-    );
-
-    await expectAsync(waitHarness.isWaiting()).toBeResolvedTo(true);
-    await expectAsync(waitHarness.isFullPage()).toBeResolvedTo(true);
-    await expectAsync(waitHarness.isNonBlocking()).toBeResolvedTo(true);
-
-    buttons[1].click();
-    fixture.detectChanges();
     buttons[0].click();
 
-    waitHarness = await rootLoader.getHarness(
+    const waitHarness = await rootLoader.getHarness(
       SkyWaitHarness.with({ globalPageWaitType: 'blocking' })
     );
 
     await expectAsync(waitHarness.isWaiting()).toBeResolvedTo(true);
     await expectAsync(waitHarness.isFullPage()).toBeResolvedTo(true);
     await expectAsync(waitHarness.isNonBlocking()).toBeResolvedTo(false);
+  });
+
+  it('should show the non-blocking page wait component when the user performs an action', async () => {
+    const { rootLoader, fixture } = setupTest();
+    const buttons = fixture.nativeElement.querySelectorAll('.sky-btn');
+    buttons[1].click();
+
+    const waitHarness = await rootLoader.getHarness(
+      SkyWaitHarness.with({ globalPageWaitType: 'non-blocking' })
+    );
+
+    await expectAsync(waitHarness.isWaiting()).toBeResolvedTo(true);
+    await expectAsync(waitHarness.isFullPage()).toBeResolvedTo(true);
+    await expectAsync(waitHarness.isNonBlocking()).toBeResolvedTo(true);
   });
 });

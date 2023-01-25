@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyWaitModule, SkyWaitService } from '@skyux/indicators';
 
@@ -33,7 +33,7 @@ import { SkyWaitHarness } from './wait-harness';
     </button>
   `,
 })
-class TestComponent {
+class TestComponent implements OnDestroy {
   public ariaLabel: string | undefined;
 
   public isFullPage: boolean | undefined;
@@ -45,6 +45,10 @@ class TestComponent {
   public isWaiting2 = false;
 
   constructor(public svc: SkyWaitService) {}
+
+  public ngOnDestroy(): void {
+    this.svc.dispose();
+  }
 
   public showPageWait(isBlocking: boolean) {
     if (isBlocking) {
