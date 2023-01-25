@@ -1,4 +1,3 @@
-/* spell-checker:ignore hsva,colorpicker */
 /**
  * Specifies colors as a combination of hue, saturation, and value with an alpha
  * channel that specifies the opacity of the color.

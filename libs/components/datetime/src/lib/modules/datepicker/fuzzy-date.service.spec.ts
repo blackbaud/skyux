@@ -442,8 +442,7 @@ describe('SkyFuzzyDateService', () => {
 
     it('returns null if the date provided is not valid.', () => {
       // arrange
-      /* spell-checker:disable-next-line */
-      const stringDate = 'fsfsafd';
+      const stringDate = 'abcdef';
 
       // act
       const actual = service.getFuzzyDateFromString(
