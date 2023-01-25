@@ -34,7 +34,7 @@ describe('Dynamic component service', () => {
         referenceEl: reference,
         providers,
         parentInjector: injector,
-        viewRef,
+        viewContainerRef: viewRef,
       });
 
     cmpRef.changeDetectorRef.detectChanges();

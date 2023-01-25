@@ -24,7 +24,7 @@ export interface SkyDynamicComponentOptions {
   /**
    * The view container reference where the new component should be appended.
    */
-  viewRef?: ViewContainerRef;
+  viewContainerRef?: ViewContainerRef;
 
   /**
    * Parent injector to use instead of the dynamic component service's injector

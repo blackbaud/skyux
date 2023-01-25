@@ -68,8 +68,8 @@ export class SkyDynamicComponentService {
     });
 
     let componentRef: ComponentRef<T>;
-    if (options.viewRef) {
-      componentRef = options.viewRef.createComponent(componentType, {
+    if (options.viewContainerRef) {
+      componentRef = options.viewContainerRef.createComponent(componentType, {
         injector: injector,
       });
     } else {
