@@ -28,7 +28,6 @@ import { DatepickerReactiveTestComponent } from './fixtures/datepicker-reactive.
 import { DatepickerTestComponent } from './fixtures/datepicker.component.fixture';
 import { DatepickerTestModule } from './fixtures/datepicker.module.fixture';
 
-/* spell-checker:ignore abcdebf */
 // #region helpers
 export class MyLocaleProvider extends SkyAppLocaleProvider {
   public getLocaleInfo(): Observable<SkyAppLocaleInfo> {
@@ -45,7 +44,6 @@ export class MyLocaleProvider extends SkyAppLocaleProvider {
   }
 }
 
-/* spell-checker:disable-next-line */
 const isoFormat = 'YYYY-MM-DDTHH:mm:ss';
 
 const isoFormatWithOffset = 'YYYY-MM-DDThh:mm:ss.SZ';

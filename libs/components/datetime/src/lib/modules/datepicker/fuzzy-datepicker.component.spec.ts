@@ -21,7 +21,6 @@ import { FuzzyDatepickerReactiveTestComponent } from './fixtures/fuzzy-datepicke
 import { FuzzyDatepickerTestComponent } from './fixtures/fuzzy-datepicker.component.fixture';
 import { FuzzyDatepickerTestModule } from './fixtures/fuzzy-datepicker.module.fixture';
 
-/* spell-checker:ignore abcdebf */
 // #region helpers
 function detectChanges(fixture: ComponentFixture<any>): void {
   fixture.detectChanges();

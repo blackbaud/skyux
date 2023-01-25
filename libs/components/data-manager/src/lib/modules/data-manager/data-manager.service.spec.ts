@@ -269,7 +269,6 @@ describe('SkyDataManagerService', () => {
       });
       describe('with comparator', () => {
         const firstDataState = new SkyDataManagerState({
-          /* spell-checker:disable-next-line */
           searchText: 'SEARCHTEXT',
         });
         const comparator = (
