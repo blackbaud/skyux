@@ -124,7 +124,7 @@ describe('Wait harness', () => {
       }
       fixture.detectChanges();
       waitHarness = await pageLoader.getHarness(
-        SkyWaitHarness.with({ globalPageWaitType: options.globalPageWaitType })
+        SkyWaitHarness.with({ servicePageWaitType: options.globalPageWaitType })
       );
     } else {
       waitHarness = await loader.getHarness(SkyWaitHarness);

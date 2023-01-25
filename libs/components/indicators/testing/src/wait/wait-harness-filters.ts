@@ -8,5 +8,5 @@ export interface SkyWaitHarnessFilters extends SkyHarnessFilters {
   /**
    * Only find blocking or non-blocking instances created by the `SkyWaitService`.
    */
-  globalPageWaitType?: 'blocking' | 'non-blocking';
+  servicePageWaitType?: 'blocking' | 'non-blocking';
 }
