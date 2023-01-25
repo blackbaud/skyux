@@ -1,26 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { SkyWaitService } from '@skyux/indicators';
 
 @Component({
   selector: 'app-wait-demo',
   templateUrl: './wait-demo.component.html',
 })
-export class WaitDemoComponent {
+export class WaitDemoComponent implements OnDestroy {
   public isWaiting = false;
 
   constructor(private waitSvc: SkyWaitService) {}
 
-  public showPageWait(isBlocking: boolean): void {
-    if (isBlocking) {
-      this.waitSvc.beginBlockingPageWait();
-      setTimeout(() => {
-        this.waitSvc.endBlockingPageWait();
-      }, 2000);
+  public ngOnDestroy(): void {
+    this.waitSvc.dispose();
+  }
+
+  public togglePageWait(isBlocking: boolean): void {
+    if (!this.isWaiting) {
+      if (isBlocking) {
+        this.waitSvc.beginBlockingPageWait();
+      } else {
+        this.waitSvc.beginNonBlockingPageWait();
+      }
     } else {
-      this.waitSvc.beginNonBlockingPageWait();
-      setTimeout(() => {
+      if (isBlocking) {
+        this.waitSvc.endBlockingPageWait();
+      } else {
         this.waitSvc.endNonBlockingPageWait();
-      }, 2000);
+      }
     }
+    this.isWaiting = !this.isWaiting;
   }
 }
