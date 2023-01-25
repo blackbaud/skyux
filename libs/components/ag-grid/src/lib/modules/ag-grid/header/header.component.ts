@@ -49,7 +49,7 @@ export class SkyAgGridHeaderComponent
   readonly #dynamicComponentService: SkyDynamicComponentService;
   #inlineHelpComponentRef: ComponentRef<unknown> | undefined;
   #viewInitialized = false;
-  #agIntialized = false;
+  #agInitialized = false;
 
   constructor(
     changeDetector: ChangeDetectorRef,
@@ -69,7 +69,7 @@ export class SkyAgGridHeaderComponent
   }
 
   public agInit(params: SkyAgGridHeaderParams | undefined): void {
-    this.#agIntialized = true;
+    this.#agInitialized = true;
     this.params = params;
     this.#subscriptions.unsubscribe();
     if (!params) {
@@ -144,7 +144,7 @@ export class SkyAgGridHeaderComponent
   }
 
   #updateInlineHelp(): void {
-    if (!this.#viewInitialized || !this.#agIntialized) {
+    if (!this.#viewInitialized || !this.#agInitialized) {
       return;
     }
     const inlineHelpComponent = this.params?.inlineHelpComponent;

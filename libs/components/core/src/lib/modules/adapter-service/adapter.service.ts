@@ -36,7 +36,7 @@ export class SkyCoreAdapterService {
   /**
    * Set the responsive container CSS class for a given element.
    *
-   * @param elementRef - The element that will recieve the new CSS class.
+   * @param elementRef - The element that will receive the new CSS class.
    * @param breakpoint - The SkyMediaBreakpoint will determine which class
    * gets set. For example a SkyMediaBreakpoint of `xs` will set a CSS class of `sky-responsive-container-xs`.
    */
@@ -120,9 +120,9 @@ export class SkyCoreAdapterService {
    *
    * @param elementRef - The element to search within.
    * @param containerSelector - A CSS selector indicating the container that should
-   * recieve focus if no focusable children are found.
+   * receive focus if no focusable children are found.
    * @param focusOnContainerIfNoChildrenFound - It set to `true`, the container will
-   * recieve focus if no focusable children are found.
+   * receive focus if no focusable children are found.
    */
   public getFocusableChildrenAndApplyFocus(
     elementRef: ElementRef,

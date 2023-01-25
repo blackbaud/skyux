@@ -353,7 +353,7 @@ export class SkyAffixer {
     const baseRect = baseElement.getBoundingClientRect();
 
     // A pixel value representing the leeway between the edge of the overflow parent and the edge
-    // of the base element before it dissapears from view.
+    // of the base element before it disappears from view.
     // If the visible portion of the base element is less than this pixel value, the auto-fit
     // functionality attempts to find another placement.
     const defaultPixelTolerance = 40;

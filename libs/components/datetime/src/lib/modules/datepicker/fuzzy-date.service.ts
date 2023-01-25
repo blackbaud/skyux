@@ -404,7 +404,7 @@ export class SkyFuzzyDateService implements OnDestroy {
     let returnValue: number;
     const monthAsNumber = parseInt(month, 10);
 
-    // If the month component is a string ("Janaury"), we check to see if it is a valid month
+    // If the month component is a string ("January"), we check to see if it is a valid month
     if (isNaN(monthAsNumber)) {
       if (!moment(month, 'MMMM').isValid()) {
         return;

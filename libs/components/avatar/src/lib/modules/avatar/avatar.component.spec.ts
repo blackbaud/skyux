@@ -147,7 +147,7 @@ describe('Avatar component', () => {
     const fixture = TestBed.createComponent(AvatarTestComponent);
 
     fixture.componentInstance.name = 'Robert Hernandez';
-    fixture.componentInstance.src = 'stff://fake(2).png/';
+    fixture.componentInstance.src = 'stuff://fake(2).png/';
 
     fixture.detectChanges();
 
@@ -156,7 +156,7 @@ describe('Avatar component', () => {
     expect(getPhotoEl(el)).toBeVisible();
     expect(getPlaceholderEl(el)).not.toBeVisible();
 
-    validateImageUrl(el, 'stff://fake(2).png/');
+    validateImageUrl(el, 'stuff://fake(2).png/');
   });
 
   it('should include screen reader text when an image URL is specified', () => {
@@ -277,7 +277,7 @@ describe('Avatar component', () => {
     validateImageUrl(el, 'blob:', true);
   });
 
-  it(`should clean up the current object URL created when the specified source is a Blbo object
+  it(`should clean up the current object URL created when the specified source is a Blob object
     and the scope is destroyed`, () => {
     const fixture = TestBed.createComponent(AvatarTestComponent);
 
