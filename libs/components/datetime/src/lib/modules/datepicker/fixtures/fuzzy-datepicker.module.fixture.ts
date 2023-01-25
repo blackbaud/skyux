@@ -5,7 +5,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyDatepickerModule } from '../datepicker.module';
 import { SkyFuzzyDateService } from '../fuzzy-date.service';
 
-import { FuzzyDatepickerNoFormatTestComponent } from './fuzzy-datepicker-noformat.component.fixture';
+import { FuzzyDatepickerNoFormatTestComponent } from './fuzzy-datepicker-no-format.component.fixture';
 import { FuzzyDatepickerReactiveTestComponent } from './fuzzy-datepicker-reactive.component.fixture';
 import { FuzzyDatepickerTestComponent } from './fuzzy-datepicker.component.fixture';
 

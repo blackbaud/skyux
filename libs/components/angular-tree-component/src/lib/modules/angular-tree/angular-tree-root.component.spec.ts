@@ -175,7 +175,7 @@ describe('tree view', () => {
     eventName: string,
     keyCode: number
   ): void {
-    // Note: We have to use a customEventInit, because the angular-tree-component library goess off of keyCode,
+    // Note: We have to use a customEventInit, because the angular-tree-component library goes off of keyCode,
     // which the keyboardEventInit doesn't support yet :( .
     SkyAppTestUtility.fireDomEvent(node, 'keydown', {
       customEventInit: {
@@ -430,7 +430,7 @@ describe('tree view', () => {
       expect(skyCheckboxes.length).toEqual(0);
     });
 
-    it('should show a checked sky-checkbox when nodes are selected programatically', () => {
+    it('should show a checked sky-checkbox when nodes are selected programmatically', () => {
       setupNonCascadingMode();
       fixture.detectChanges();
 
@@ -438,7 +438,7 @@ describe('tree view', () => {
       expectNodeToBeSelected(1, false);
       expectCheckboxToBeChecked(1, false);
 
-      // Programatically select a node using the 3rd party API.
+      // Programmatically select a node using the 3rd party API.
       fixture.nativeElement.querySelector('#updateStateButton').click();
       fixture.detectChanges();
 
@@ -933,7 +933,7 @@ describe('tree view', () => {
     it('should disable tabbing for all node children', fakeAsync(() => {
       component.showContextMenus = true;
       fixture.detectChanges();
-      tick(1000); // Allow angular-tree-node-component to set tabindexes & render context dropdown.
+      tick(1000); // Allow angular-tree-node-component to set tabIndexes & render context dropdown.
       const dropdownButtons = document.querySelectorAll(
         '.sky-dropdown-button'
       ) as NodeListOf<HTMLButtonElement>;
@@ -952,7 +952,7 @@ describe('tree view', () => {
       setupCascadingMode();
       component.showContextMenus = true;
       fixture.detectChanges();
-      tick(1000); // Allow angular-tree-node-component to set tabindexes & render context dropdown.
+      tick(1000); // Allow angular-tree-node-component to set tabIndexes & render context dropdown.
       const dropdownButtons = document.querySelectorAll(
         '.sky-dropdown-button'
       ) as NodeListOf<HTMLButtonElement>;
@@ -992,7 +992,7 @@ describe('tree view', () => {
       setupCascadingMode();
       component.showContextMenus = true;
       fixture.detectChanges();
-      tick(1000); // Allow angular-tree-node-component to set tabindexes & render context dropdown.
+      tick(1000); // Allow angular-tree-node-component to set tabIndexes & render context dropdown.
       const dropdownButtons = document.querySelectorAll(
         '.sky-dropdown-button'
       ) as NodeListOf<HTMLButtonElement>;
@@ -1030,7 +1030,7 @@ describe('tree view', () => {
 
     it('should expand nodes with left/right arrows', fakeAsync(() => {
       fixture.detectChanges();
-      tick(1000); // Allow angular-tree-node-component to set tabindexes & render context dropdown.
+      tick(1000); // Allow angular-tree-node-component to set tabIndexes & render context dropdown.
       const nodes = getNodeContentWrappers();
 
       // Expect tree to start with both parent nodes expanded.
@@ -1119,7 +1119,7 @@ describe('tree view', () => {
       component.showContextMenus = true;
       setupNonCascadingMode();
       fixture.detectChanges();
-      tick(1000); // Allow angular-tree-node-component to set tabindexes & render context dropdown.
+      tick(1000); // Allow angular-tree-node-component to set tabIndexes & render context dropdown.
       const dropdownButtons = document.querySelectorAll(
         '.sky-dropdown-button'
       ) as NodeListOf<HTMLButtonElement>;
@@ -1159,7 +1159,7 @@ describe('tree view', () => {
       component.showContextMenus = true;
       setupNonCascadingMode();
       fixture.detectChanges();
-      tick(1000); // Allow angular-tree-node-component to set tabindexes & render context dropdown.
+      tick(1000); // Allow angular-tree-node-component to set tabIndexes & render context dropdown.
       const dropdownButtons = document.querySelectorAll(
         '.sky-dropdown-button'
       ) as NodeListOf<HTMLButtonElement>;
@@ -1278,7 +1278,7 @@ describe('tree view', () => {
       expect(tree?.getAttribute('aria-multiselectable')).toEqual('false');
     });
 
-    it('should set aria-multiselectable to true when in mult-select mode', () => {
+    it('should set aria-multiselectable to true when in multi-select mode', () => {
       setupCascadingMode();
       fixture.detectChanges();
       const tree = getTreeWrapper();

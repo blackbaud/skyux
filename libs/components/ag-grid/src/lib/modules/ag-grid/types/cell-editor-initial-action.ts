@@ -1,4 +1,4 @@
-/** The intiial action that a cell editor should take when initialized. */
+/** The initial action that a cell editor should take when initialized. */
 export enum SkyAgGridCellEditorInitialAction {
   /** The cell should be cleared. */
   Delete = 0,

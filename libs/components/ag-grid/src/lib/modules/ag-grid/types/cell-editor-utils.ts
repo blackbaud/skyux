@@ -4,7 +4,7 @@ import { SkyAgGridCellEditorInitialAction } from './cell-editor-initial-action';
 
 export class SkyAgGridCellEditorUtils {
   /**
-   * Gets the intiial action that a cell editor should take when initialized.
+   * Gets the initial action that a cell editor should take when initialized.
    * @param params The editor's initializing parameters.
    */
   public static getEditorInitialAction(

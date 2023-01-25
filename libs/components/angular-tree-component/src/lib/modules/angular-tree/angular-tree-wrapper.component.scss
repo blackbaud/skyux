@@ -4,8 +4,10 @@
 .sky-angular-tree-wrapper ::ng-deep {
   .angular-tree-component {
     cursor: initial;
+    /* spell-checker:disable-next-line */
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Chrome/Safari/Opera */
+    /* spell-checker:disable-next-line */
     -khtml-user-select: none; /* Konqueror */
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* IE/Edge */

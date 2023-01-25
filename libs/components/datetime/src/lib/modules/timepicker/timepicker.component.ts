@@ -177,7 +177,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
     if (value) {
       this.#_timepickerRef = value;
 
-      // Wait for the timepicker component to render before guaging dimensions.
+      // Wait for the timepicker component to render before gauging dimensions.
       setTimeout(() => {
         this.#destroyAffixer();
         this.#createAffixer();
@@ -232,7 +232,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
 
   #overlay: SkyOverlayInstance | undefined;
 
-  #overlayKeydownListner: Subscription | undefined;
+  #overlayKeydownListener: Subscription | undefined;
 
   #_disabled = false;
 
@@ -341,7 +341,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
     this.minuteMultiplier = data.minuteMultiplier;
   }
 
-  public onCloseButtonCick(): void {
+  public onCloseButtonClick(): void {
     this.#closePicker();
   }
 
@@ -453,7 +453,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
   }
 
   #addKeydownListener(): void {
-    this.#overlayKeydownListner = fromEvent<KeyboardEvent>(
+    this.#overlayKeydownListener = fromEvent<KeyboardEvent>(
       window.document,
       'keydown'
     )
@@ -475,6 +475,6 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
       this.#timepickerUnsubscribe = new Subject<void>();
     }
     /* istanbul ignore next */
-    this.#overlayKeydownListner?.unsubscribe();
+    this.#overlayKeydownListener?.unsubscribe();
   }
 }

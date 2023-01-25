@@ -31,7 +31,7 @@ describe('Viewkeeper directive', () => {
     fixture: ComponentFixture<ViewkeeperTestComponent>
   ): void {
     const boundaryEl = getBoundaryEl(fixture);
-    const scrollabeHost = getScrollableHostEl(fixture);
+    const scrollableHost = getScrollableHostEl(fixture);
 
     let expectedCallCount = 2;
 
@@ -49,7 +49,7 @@ describe('Viewkeeper directive', () => {
       boundaryEl,
       el: document.querySelector('.el1'),
       setWidth: true,
-      scrollableHost: scrollabeHost !== undefined ? scrollabeHost : undefined,
+      scrollableHost: scrollableHost !== undefined ? scrollableHost : undefined,
       verticalOffsetEl: undefined,
     });
 
@@ -57,7 +57,7 @@ describe('Viewkeeper directive', () => {
       boundaryEl,
       el: document.querySelector('.el2'),
       setWidth: true,
-      scrollableHost: scrollabeHost !== undefined ? scrollabeHost : undefined,
+      scrollableHost: scrollableHost !== undefined ? scrollableHost : undefined,
       verticalOffsetEl: document.querySelector('.el1'),
     });
 
@@ -66,7 +66,8 @@ describe('Viewkeeper directive', () => {
         boundaryEl,
         el: document.querySelector('.el3'),
         setWidth: true,
-        scrollableHost: scrollabeHost !== undefined ? scrollabeHost : undefined,
+        scrollableHost:
+          scrollableHost !== undefined ? scrollableHost : undefined,
         verticalOffsetEl: document.querySelector('.el2'),
       });
     }
@@ -76,7 +77,8 @@ describe('Viewkeeper directive', () => {
         boundaryEl,
         el: document.querySelector('.el4'),
         setWidth: true,
-        scrollableHost: scrollabeHost !== undefined ? scrollabeHost : undefined,
+        scrollableHost:
+          scrollableHost !== undefined ? scrollableHost : undefined,
         verticalOffsetEl: document.querySelector(
           fixture.componentInstance.showEl3 ? '.el3' : '.el2'
         ),

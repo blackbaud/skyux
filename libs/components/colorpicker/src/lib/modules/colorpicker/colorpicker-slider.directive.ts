@@ -1,4 +1,4 @@
-// spell-checker:ignore Colorpicker
+/* spell-checker:ignore colorpicker */
 import {
   Directive,
   ElementRef,

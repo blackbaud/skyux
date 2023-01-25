@@ -16,11 +16,12 @@ import { of } from 'rxjs';
 
 import { SkyDatepickerConfigService } from './datepicker-config.service';
 import { SkyDatepickerComponent } from './datepicker.component';
-import { FuzzyDatepickerNoFormatTestComponent } from './fixtures/fuzzy-datepicker-noformat.component.fixture';
+import { FuzzyDatepickerNoFormatTestComponent } from './fixtures/fuzzy-datepicker-no-format.component.fixture';
 import { FuzzyDatepickerReactiveTestComponent } from './fixtures/fuzzy-datepicker-reactive.component.fixture';
 import { FuzzyDatepickerTestComponent } from './fixtures/fuzzy-datepicker.component.fixture';
 import { FuzzyDatepickerTestModule } from './fixtures/fuzzy-datepicker.module.fixture';
 
+/* spell-checker:ignore abcdebf */
 // #region helpers
 function detectChanges(fixture: ComponentFixture<any>): void {
   fixture.detectChanges();
@@ -39,10 +40,10 @@ function getTriggerButton(
 
 function clickDatepickerButton(
   fixture: ComponentFixture<any>,
-  isfakeAsync: boolean = true
+  isFakeAsync: boolean = true
 ): void {
   getTriggerButton(fixture)?.click();
-  if (isfakeAsync) {
+  if (isFakeAsync) {
     detectChanges(fixture);
   }
 }

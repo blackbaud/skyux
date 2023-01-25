@@ -74,7 +74,7 @@ describe('Date range service', function () {
   });
 
   it('should increment the IDs if multiple calculators are created', function () {
-    // Reset the autoincremented ID.
+    // Reset the auto-incremented ID.
     SkyDateRangeService['lastId'] = 1000;
 
     const calculator1 = service.createCalculator({

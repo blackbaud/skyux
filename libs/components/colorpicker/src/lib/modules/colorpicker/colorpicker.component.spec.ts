@@ -1077,7 +1077,7 @@ describe('Colorpicker Component', () => {
       expect(component.colorpickerComponent.lastAppliedColor).toEqual('#00f');
     }));
 
-    it('should populate correct information if model is given but an initfial color is also given', fakeAsync(() => {
+    it('should populate correct information if model is given but an initial color is also given', fakeAsync(() => {
       fixture.detectChanges();
       tick();
       expect(component.colorpickerComponent.initialColor).toBe('#2889e5');
