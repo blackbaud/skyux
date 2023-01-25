@@ -23,6 +23,7 @@ export class LookupCustomPickerDemoComponent implements OnInit {
   public showMoreConfig: SkyLookupShowMoreConfig;
   public searchFilters: SkyAutocompleteSearchFunctionFilter[];
 
+  /* spell-checker:disable */
   public people: LookupDemoPerson[] = [
     {
       name: 'Abed',
@@ -105,6 +106,7 @@ export class LookupCustomPickerDemoComponent implements OnInit {
       formal: 'Ms. Jenkins',
     },
   ];
+  /* spell-checker:enable */
 
   constructor(formBuilder: FormBuilder, modalService: SkyModalService) {
     this.favoritesForm = formBuilder.group({
