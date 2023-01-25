@@ -28,5 +28,6 @@ export class WaitDemoComponent implements OnDestroy {
         this.waitSvc.endNonBlockingPageWait();
       }
     }
+    this.isWaiting = !this.isWaiting;
   }
 }
