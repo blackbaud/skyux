@@ -1,4 +1,3 @@
-/* spell-checker:ignore colorpicker */
 import {
   Directive,
   EventEmitter,

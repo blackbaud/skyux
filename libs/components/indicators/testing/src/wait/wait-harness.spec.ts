@@ -1,8 +1,8 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkyWaitModule } from '@skyux/indicators';
+import { SkyWaitModule, SkyWaitService } from '@skyux/indicators';
 
 import { SkyWaitHarness } from './wait-harness';
 
@@ -27,9 +27,13 @@ import { SkyWaitHarness } from './wait-harness';
         data-sky-id="wait-2"
       ></sky-wait>
     </div>
+    <button type="button" (click)="showPageWait(true)">Show page wait</button>
+    <button type="button" (click)="showPageWait(false)">
+      Show non-blocking page wait
+    </button>
   `,
 })
-class TestComponent {
+class TestComponent implements OnDestroy {
   public ariaLabel: string | undefined;
 
   public isFullPage: boolean | undefined;
@@ -39,6 +43,20 @@ class TestComponent {
   public isWaiting = false;
 
   public isWaiting2 = false;
+
+  constructor(public svc: SkyWaitService) {}
+
+  public ngOnDestroy(): void {
+    this.svc.dispose();
+  }
+
+  public showPageWait(isBlocking: boolean) {
+    if (isBlocking) {
+      this.svc.beginBlockingPageWait();
+    } else {
+      this.svc.beginNonBlockingPageWait();
+    }
+  }
 }
 //#endregion Test component
 
@@ -70,11 +88,16 @@ async function validateWaitProperties(
 
 describe('Wait harness', () => {
   async function setupTest(
-    options: { dataSkyId?: string; ariaLabel?: string } = {}
+    options: {
+      dataSkyId?: string;
+      globalPageWaitType?: 'blocking' | 'non-blocking';
+      ariaLabel?: string;
+    } = {}
   ): Promise<{
     waitHarness: SkyWaitHarness;
     fixture: ComponentFixture<TestComponent>;
     loader: HarnessLoader;
+    pageLoader: HarnessLoader;
   }> {
     await TestBed.configureTestingModule({
       declarations: [TestComponent],
@@ -83,6 +106,7 @@ describe('Wait harness', () => {
 
     const fixture = TestBed.createComponent(TestComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
+    const pageLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
 
     let waitHarness: SkyWaitHarness;
 
@@ -92,6 +116,17 @@ describe('Wait harness', () => {
           dataSkyId: options.dataSkyId,
         })
       );
+    } else if (options.globalPageWaitType) {
+      const buttons = fixture.nativeElement.querySelectorAll('button');
+      if (options.globalPageWaitType === 'blocking') {
+        buttons[0].click();
+      } else {
+        buttons[1].click();
+      }
+      fixture.detectChanges();
+      waitHarness = await pageLoader.getHarness(
+        SkyWaitHarness.with({ servicePageWaitType: options.globalPageWaitType })
+      );
     } else {
       waitHarness = await loader.getHarness(SkyWaitHarness);
     }
@@ -100,7 +135,7 @@ describe('Wait harness', () => {
       fixture.componentInstance.ariaLabel = options.ariaLabel;
     }
 
-    return { waitHarness, fixture, loader };
+    return { waitHarness, fixture, loader, pageLoader };
   }
 
   it('should return the expected wait component properties', async () => {
@@ -124,6 +159,18 @@ describe('Wait harness', () => {
     await expectAsync(waitHarness.getAriaLabel()).toBeResolvedTo(
       'this is another wait'
     );
+  });
+
+  it('should get a blocking page wait by the globalPageWaitType property', async () => {
+    const { waitHarness } = await setupTest({ globalPageWaitType: 'blocking' });
+    await expectAsync(waitHarness.isWaiting()).toBeResolvedTo(true);
+  });
+
+  it('should get a non-blocking page wait by the globalPageWaitType property', async () => {
+    const { waitHarness } = await setupTest({
+      globalPageWaitType: 'non-blocking',
+    });
+    await expectAsync(waitHarness.isWaiting()).toBeResolvedTo(true);
   });
 
   it('should throw an error when trying to get the ARIA label while not waiting', async () => {

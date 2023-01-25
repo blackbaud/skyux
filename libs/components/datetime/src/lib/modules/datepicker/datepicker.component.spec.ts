@@ -719,20 +719,20 @@ describe('datepicker', () => {
 
       it('should validate properly when invalid date is passed through input change', fakeAsync(() => {
         detectChanges(fixture);
-        setInputElementValue(nativeElement, 'abcdebf', fixture);
+        setInputElementValue(nativeElement, 'abcdef', fixture);
 
-        expect(getInputElementValue(fixture)).toBe('abcdebf');
-        expect(component.selectedDate).toBe('abcdebf');
+        expect(getInputElementValue(fixture)).toBe('abcdef');
+        expect(component.selectedDate).toBe('abcdef');
         expect(ngModel.valid).toBe(false);
         expect(ngModel.pristine).toBe(false);
         expect(ngModel.touched).toBe(true);
       }));
 
       it('should validate properly when invalid date on initialization', fakeAsync(() => {
-        setInputProperty('abcdebf', component, fixture);
+        setInputProperty('abcdef', component, fixture);
 
-        expect(getInputElementValue(fixture)).toBe('abcdebf');
-        expect(component.selectedDate).toBe('abcdebf');
+        expect(getInputElementValue(fixture)).toBe('abcdef');
+        expect(component.selectedDate).toBe('abcdef');
         expect(ngModel.valid).toBe(false);
         expect(ngModel.touched).toBe(true);
 
@@ -745,16 +745,16 @@ describe('datepicker', () => {
       it('should validate properly when invalid string on model change', fakeAsync(() => {
         detectChanges(fixture);
 
-        setInputProperty('abcdebf', component, fixture);
+        setInputProperty('abcdef', component, fixture);
 
-        expect(getInputElementValue(fixture)).toBe('abcdebf');
-        expect(component.selectedDate).toBe('abcdebf');
+        expect(getInputElementValue(fixture)).toBe('abcdef');
+        expect(component.selectedDate).toBe('abcdef');
         expect(ngModel.valid).toBe(false);
       }));
 
       it('should validate properly when invalid date on model change', fakeAsync(() => {
         detectChanges(fixture);
-        const invalidDate = new Date('abcdebf');
+        const invalidDate = new Date('abcdef');
 
         component.selectedDate = invalidDate;
         detectChanges(fixture);
@@ -802,7 +802,7 @@ describe('datepicker', () => {
       it('should validate properly when input changed to empty string', fakeAsync(() => {
         detectChanges(fixture);
 
-        setInputElementValue(fixture.nativeElement, 'abcdebf', fixture);
+        setInputElementValue(fixture.nativeElement, 'abcdef', fixture);
         setInputElementValue(fixture.nativeElement, '', fixture);
 
         expect(getInputElementValue(fixture)).toBe('');
@@ -813,7 +813,7 @@ describe('datepicker', () => {
       it('should handle invalid and then valid date', fakeAsync(() => {
         detectChanges(fixture);
 
-        setInputElementValue(fixture.nativeElement, 'abcdebf', fixture);
+        setInputElementValue(fixture.nativeElement, 'abcdef', fixture);
         setInputElementValue(fixture.nativeElement, '2/12/2015', fixture);
 
         expect(getInputElementValue(fixture)).toBe('02/12/2015');
@@ -824,7 +824,7 @@ describe('datepicker', () => {
       it('should handle calendar date on invalid date', fakeAsync(() => {
         detectChanges(fixture);
 
-        setInputElementValue(fixture.nativeElement, 'abcdebf', fixture);
+        setInputElementValue(fixture.nativeElement, 'abcdef', fixture);
         clickTrigger(fixture);
 
         // Current day should be selected.
@@ -836,10 +836,10 @@ describe('datepicker', () => {
         component.noValidate = true;
         detectChanges(fixture);
 
-        setInputElementValue(fixture.nativeElement, 'abcdebf', fixture);
+        setInputElementValue(fixture.nativeElement, 'abcdef', fixture);
 
-        expect(getInputElementValue(fixture)).toBe('abcdebf');
-        expect(component.selectedDate).toBe('abcdebf');
+        expect(getInputElementValue(fixture)).toBe('abcdef');
+        expect(component.selectedDate).toBe('abcdef');
         expect(ngModel.valid).toBe(true);
       }));
     });
@@ -1409,10 +1409,10 @@ describe('datepicker', () => {
       it('should validate properly when invalid date is passed through input change', fakeAsync(() => {
         detectChanges(fixture);
 
-        setInputElementValue(nativeElement, 'abcdebf', fixture);
+        setInputElementValue(nativeElement, 'abcdef', fixture);
 
-        expect(getInputElementValue(fixture)).toBe('abcdebf');
-        expect(component.dateControl.value).toBe('abcdebf');
+        expect(getInputElementValue(fixture)).toBe('abcdef');
+        expect(component.dateControl.value).toBe('abcdef');
         expect(component.dateControl.valid).toBe(false);
         expect(component.dateControl.pristine).toBe(false);
         expect(component.dateControl.touched).toBe(true);
@@ -1421,10 +1421,10 @@ describe('datepicker', () => {
       it('should validate properly when invalid date on initialization', fakeAsync(() => {
         fixture.detectChanges();
 
-        setFormControlProperty('abcdebf', component, fixture);
+        setFormControlProperty('abcdef', component, fixture);
 
-        expect(getInputElementValue(fixture)).toBe('abcdebf');
-        expect(component.dateControl.value).toBe('abcdebf');
+        expect(getInputElementValue(fixture)).toBe('abcdef');
+        expect(component.dateControl.value).toBe('abcdef');
 
         expect(component.dateControl.valid).toBe(false);
         expect(component.dateControl.touched).toBe(true);
@@ -1438,16 +1438,16 @@ describe('datepicker', () => {
       it('should validate properly when invalid string on model change', fakeAsync(() => {
         detectChanges(fixture);
 
-        setFormControlProperty('abcdebf', component, fixture);
+        setFormControlProperty('abcdef', component, fixture);
 
-        expect(getInputElementValue(fixture)).toBe('abcdebf');
-        expect(component.dateControl.value).toBe('abcdebf');
+        expect(getInputElementValue(fixture)).toBe('abcdef');
+        expect(component.dateControl.value).toBe('abcdef');
         expect(component.dateControl.valid).toBe(false);
       }));
 
       it('should validate properly when invalid date on model change', fakeAsync(() => {
         detectChanges(fixture);
-        const invalidDate = new Date('abcdebf');
+        const invalidDate = new Date('abcdef');
 
         setFormControlProperty(invalidDate, component, fixture);
 
@@ -1459,7 +1459,7 @@ describe('datepicker', () => {
       it('should validate properly when input changed to empty string', fakeAsync(() => {
         detectChanges(fixture);
 
-        setInputElementValue(fixture.nativeElement, 'abcdebf', fixture);
+        setInputElementValue(fixture.nativeElement, 'abcdef', fixture);
         setInputElementValue(fixture.nativeElement, '', fixture);
 
         expect(getInputElementValue(fixture)).toBe('');
@@ -1470,7 +1470,7 @@ describe('datepicker', () => {
       it('should handle invalid and then valid date', fakeAsync(() => {
         detectChanges(fixture);
 
-        setInputElementValue(fixture.nativeElement, 'abcdebf', fixture);
+        setInputElementValue(fixture.nativeElement, 'abcdef', fixture);
         setInputElementValue(fixture.nativeElement, '2/12/2015', fixture);
 
         expect(getInputElementValue(fixture)).toBe('02/12/2015');
@@ -1481,7 +1481,7 @@ describe('datepicker', () => {
       it('should handle calendar date on invalid date', fakeAsync(() => {
         detectChanges(fixture);
 
-        setInputElementValue(fixture.nativeElement, 'abcdebf', fixture);
+        setInputElementValue(fixture.nativeElement, 'abcdef', fixture);
         clickTrigger(fixture);
 
         // Current day should be selected.
@@ -1493,10 +1493,10 @@ describe('datepicker', () => {
         component.noValidate = true;
         detectChanges(fixture);
 
-        setInputElementValue(fixture.nativeElement, 'abcdebf', fixture);
+        setInputElementValue(fixture.nativeElement, 'abcdef', fixture);
 
-        expect(getInputElementValue(fixture)).toBe('abcdebf');
-        expect(component.dateControl.value).toBe('abcdebf');
+        expect(getInputElementValue(fixture)).toBe('abcdef');
+        expect(component.dateControl.value).toBe('abcdef');
         expect(component.dateControl.valid).toBe(true);
       }));
     });

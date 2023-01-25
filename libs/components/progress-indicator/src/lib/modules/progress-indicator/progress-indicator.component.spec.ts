@@ -140,6 +140,23 @@ describe('Progress indicator component', () => {
     expect(progressIndicator.startingIndex).toEqual(0);
   }));
 
+  it('should show all steps in vertical display mode', fakeAsync(() => {
+    componentInstance.showFourthItem = true;
+    detectChanges();
+
+    expect(progressIndicator.displayMode).toEqual('vertical');
+    expect(getStepHeadingElements().length).toBe(4);
+  }));
+
+  it('should show only the active step in horizontal display mode', fakeAsync(() => {
+    componentInstance.showFourthItem = true;
+    componentInstance.displayMode = 'horizontal';
+    detectChanges();
+
+    expect(progressIndicator.displayMode).toEqual('horizontal');
+    expect(getStepHeadingElements().length).toBe(1);
+  }));
+
   it('should emit progress changes initially', fakeAsync(() => {
     const spy = spyOn(componentInstance, 'onProgressChanges').and.callThrough();
 

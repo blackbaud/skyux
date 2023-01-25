@@ -1,4 +1,3 @@
-/* spell-checker:ignore colorpicker */
 /**
  * Specifies colors as a combination of red, green, and blue with an alpha
  * channel that specifies the opacity of the color.
