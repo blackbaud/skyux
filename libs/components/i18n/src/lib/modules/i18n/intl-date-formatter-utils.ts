@@ -5,6 +5,7 @@
 
 type DateFormatterFn = (date: Date, locale: string) => string;
 
+/* spell-checker:disable */
 const DATE_FORMATS_SPLIT =
   /* spell-checker:disable-next-line */
   /((?:[^yMLdHhmsazZEwGjJ']+)|(?:'(?:[^']|'')*')|(?:E+|y+|M+|L+|d+|H+|h+|J+|j+|m+|s+|a|z|Z|G+|w+))(.*)/;

@@ -71,8 +71,7 @@ describe('Radio group component (reactive)', function () {
     clickCheckbox(fixture, 0);
 
     expect(componentInstance.radioForm?.value).toEqual({
-      /* spell-checker:disable-next-line */
-      radioGroup: { name: 'Lillith Corharvest', disabled: false },
+      radioGroup: { name: 'Lilly Corr', disabled: false },
     });
     expect(componentInstance.radioForm?.touched).toEqual(true);
     expect(componentInstance.radioForm?.pristine).toEqual(false);
@@ -85,8 +84,7 @@ describe('Radio group component (reactive)', function () {
     fixture.detectChanges();
 
     expect(componentInstance.radioForm?.value).toEqual({
-      /* spell-checker:disable-next-line */
-      radioGroup: { name: 'Lillith Corharvest', disabled: false },
+      radioGroup: { name: 'Lilly Corr', disabled: false },
     });
     expect(componentInstance.radioForm?.touched).toEqual(false);
     expect(componentInstance.radioForm?.pristine).toEqual(true);
@@ -95,8 +93,7 @@ describe('Radio group component (reactive)', function () {
     clickCheckbox(fixture, 1);
 
     expect(componentInstance.radioForm?.value).toEqual({
-      /* spell-checker:disable-next-line */
-      radioGroup: { name: 'Harima Kenji', disabled: false },
+      radioGroup: { name: 'Sherry Ken', disabled: false },
     });
     expect(componentInstance.radioForm?.touched).toEqual(true);
     expect(componentInstance.radioForm?.pristine).toEqual(false);
@@ -113,8 +110,7 @@ describe('Radio group component (reactive)', function () {
     fixture.detectChanges();
 
     expect(componentInstance.radioForm?.value).toEqual({
-      /* spell-checker:disable-next-line */
-      radioGroup: { name: 'Lillith Corharvest', disabled: false },
+      radioGroup: { name: 'Lilly Corr', disabled: false },
     });
     expect(componentInstance.radioForm?.touched).toEqual(false);
     expect(componentInstance.radioForm?.pristine).toEqual(true);
@@ -123,8 +119,7 @@ describe('Radio group component (reactive)', function () {
     clickCheckbox(fixture, 1);
 
     expect(componentInstance.radioForm?.value).toEqual({
-      /* spell-checker:disable-next-line */
-      radioGroup: { name: 'Harima Kenji', disabled: false },
+      radioGroup: { name: 'Sherry Ken', disabled: false },
     });
     expect(componentInstance.radioForm?.touched).toEqual(true);
     expect(componentInstance.radioForm?.pristine).toEqual(false);
@@ -156,18 +151,14 @@ describe('Radio group component (reactive)', function () {
     const value = componentInstance.radioForm?.value.radioGroup;
 
     expect(radios.item(1).checked).toBe(true);
-    /* spell-checker:disable-next-line */
-    expect(value.name).toEqual('Harima Kenji');
+    expect(value.name).toEqual('Sherry Ken');
     expect(componentInstance.radioControl?.value).toEqual(value);
   }));
 
   it('should update the radio buttons properly when the form is changed', fakeAsync(function () {
     fixture.detectChanges();
     clickCheckbox(fixture, 0);
-    expect(componentInstance.radioControl?.value.name).toEqual(
-      /* spell-checker:disable-next-line */
-      'Lillith Corharvest'
-    );
+    expect(componentInstance.radioControl?.value.name).toEqual('Lilly Corr');
 
     componentInstance.radioForm?.patchValue({
       radioGroup: componentInstance.options[1],
@@ -175,8 +166,7 @@ describe('Radio group component (reactive)', function () {
     fixture.detectChanges();
     tick();
 
-    /* spell-checker:disable-next-line */
-    expect(componentInstance.radioControl?.value.name).toEqual('Harima Kenji');
+    expect(componentInstance.radioControl?.value.name).toEqual('Sherry Ken');
   }));
 
   it('should not show a required state when not required', fakeAsync(() => {
@@ -242,17 +232,13 @@ describe('Radio group component (reactive)', function () {
   it('should update selected value when options change', fakeAsync(function () {
     fixture.detectChanges();
     clickCheckbox(fixture, 0);
-    expect(componentInstance.radioControl?.value.name).toEqual(
-      /* spell-checker:disable-next-line */
-      'Lillith Corharvest'
-    );
+    expect(componentInstance.radioControl?.value.name).toEqual('Lilly Corr');
 
     componentInstance.changeOptions();
 
     fixture.detectChanges();
     clickCheckbox(fixture, 1);
-    /* spell-checker:disable-next-line */
-    expect(componentInstance.radioControl?.value.name).toEqual('Hank Salizar');
+    expect(componentInstance.radioControl?.value.name).toEqual('Hank Smith');
   }));
 
   it('should set the radio name properties correctly', fakeAsync(() => {
@@ -307,8 +293,7 @@ describe('Radio group component (reactive)', function () {
     expect(radioDebugElement.componentInstance.checked).toBeTruthy();
 
     newValue = {
-      /* spell-checker:disable-next-line */
-      name: 'Sarah Jellyman',
+      name: 'Sarah Jo',
       disabled: false,
     };
 
@@ -411,8 +396,7 @@ describe('Radio group component (reactive)', function () {
     fixture.detectChanges();
 
     const expectedValue = {
-      /* spell-checker:disable-next-line */
-      radioGroup: { name: 'Lillith Corharvest', disabled: false },
+      radioGroup: { name: 'Lilly Corr', disabled: false },
     };
 
     expect(componentInstance.radioForm?.value).toEqual(expectedValue);

@@ -1,5 +1,19 @@
 # Changelog
 
+## [7.5.0](https://github.com/blackbaud/skyux/compare/7.4.2...7.5.0) (2023-01-25)
+
+
+### Features
+
+* **components/router:** test harness for skyhref ([#934](https://github.com/blackbaud/skyux/issues/934)) ([1a2d7ef](https://github.com/blackbaud/skyux/commit/1a2d7ef28e100a30d2a5d755b7a4532830d2e318))
+
+
+### Bug Fixes
+
+* **components/packages:** remove Stache libraries from `ng update` package group ([#946](https://github.com/blackbaud/skyux/issues/946)) ([24bb1a9](https://github.com/blackbaud/skyux/commit/24bb1a9281c479bc334c4b7aa65997e690b62d5f))
+* **components/progress-indicator:** all items are shown for waterfall progress indicators ([#954](https://github.com/blackbaud/skyux/issues/954)) ([05e7333](https://github.com/blackbaud/skyux/commit/05e7333a983b257624d68a2ba6e1f951c1235cde))
+* **components/tiles:** fix appending tile components with injected dependencies ([#945](https://github.com/blackbaud/skyux/issues/945)) ([ab99728](https://github.com/blackbaud/skyux/commit/ab9972882aa42916f83fd72640960cd037d8b487))
+
 ## [7.4.2](https://github.com/blackbaud/skyux/compare/7.4.1...7.4.2) (2023-01-23)
 
 
@@ -16,6 +30,18 @@
 * **components/layout:** set `sm` breakpoint for action buttons without parent elements ([#944](https://github.com/blackbaud/skyux/issues/944)) ([3a93a3d](https://github.com/blackbaud/skyux/commit/3a93a3d68e3ffa334fd8286a049d1f87492671a5))
 * **components/lookup:** make selection modal harness visible to docs ([#941](https://github.com/blackbaud/skyux/issues/941)) ([bca8e18](https://github.com/blackbaud/skyux/commit/bca8e185d5ce70a626379bf75398256f0873fe09))
 * **components/tiles:** render tile dashboard if config is set after init ([#943](https://github.com/blackbaud/skyux/issues/943)) ([ae8e305](https://github.com/blackbaud/skyux/commit/ae8e305f59a85a47f4479b2db82afda9f29fe863))
+
+## [7.4.0](https://github.com/blackbaud/skyux/compare/7.3.0...7.4.0) (2023-01-18)
+
+
+### Features
+
+* **components/lookup:** add selection modal service ([#931](https://github.com/blackbaud/skyux/issues/931)) ([7d6bc6e](https://github.com/blackbaud/skyux/commit/7d6bc6e40fdbee577353e82e48be756139b0f6b1))
+
+
+### Bug Fixes
+
+* **components/colorpicker:** colorpicker selection change updates both reactive forms and template forms ([#926](https://github.com/blackbaud/skyux/issues/926)) ([4e7b735](https://github.com/blackbaud/skyux/commit/4e7b73519320b705ca64fe842ede2a72c0adba5b))
 
 ## [7.3.0](https://github.com/blackbaud/skyux/compare/7.2.0...7.3.0) (2023-01-13)
 
