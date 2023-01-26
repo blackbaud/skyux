@@ -701,7 +701,6 @@ describe('Input box component', () => {
 
       fixture.detectChanges();
 
-      /* spell-checker:disable-next-line */
       const inputBoxEl = getInputBoxEl(fixture, 'input-box-ngmodel-error');
 
       validateControlValid(

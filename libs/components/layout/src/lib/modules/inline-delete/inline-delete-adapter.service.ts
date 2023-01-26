@@ -1,7 +1,6 @@
 import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { SkyCoreAdapterService } from '@skyux/core';
 
-/* spell-checker:ignore unlisten */
 /**
  * @internal
  */

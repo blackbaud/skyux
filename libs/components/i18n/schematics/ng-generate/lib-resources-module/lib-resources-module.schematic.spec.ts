@@ -8,7 +8,6 @@ import path from 'path';
 import { createTestApp, createTestLibrary } from '../../testing/scaffold';
 import { readRequiredFile } from '../../utility/tree';
 
-/* spell-checker:ignore defaultversion */
 describe('lib-resources-module.schematic', () => {
   const collectionPath = path.resolve(__dirname, '../../collection.json');
   const defaultProjectName = 'my-lib';
