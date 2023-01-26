@@ -9,7 +9,6 @@ import { ModalMockThemeService } from './mock-theme.service';
 import { ModalAutofocusTestComponent } from './modal-autofocus.component.fixture';
 import { ModalFooterTestComponent } from './modal-footer.component.fixture';
 import { ModalLauncherTestComponent } from './modal-launcher.component.fixture';
-import { ModalNoHeaderTestComponent } from './modal-no-header.component.fixture';
 import { ModalTiledBodyTestComponent } from './modal-tiled-body.component.fixture';
 import { ModalWithCloseConfirmTestComponent } from './modal-with-close-confirm.component.fixture';
 import { ModalWithFocusContentTestComponent } from './modal-with-focus-content.fixture';
@@ -23,7 +22,6 @@ import { ModalTestComponent } from './modal.component.fixture';
     ModalWithValuesTestComponent,
     ModalAutofocusTestComponent,
     ModalFooterTestComponent,
-    ModalNoHeaderTestComponent,
     ModalTiledBodyTestComponent,
     ModalWithFocusContentTestComponent,
     ModalWithCloseConfirmTestComponent,
