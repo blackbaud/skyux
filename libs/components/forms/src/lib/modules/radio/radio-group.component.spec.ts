@@ -71,7 +71,7 @@ describe('Radio group component (reactive)', function () {
     clickCheckbox(fixture, 0);
 
     expect(componentInstance.radioForm?.value).toEqual({
-      radioGroup: { name: 'Lily Corr', disabled: false },
+      radioGroup: { name: 'Lilly Corr', disabled: false },
     });
     expect(componentInstance.radioForm?.touched).toEqual(true);
     expect(componentInstance.radioForm?.pristine).toEqual(false);
@@ -84,7 +84,7 @@ describe('Radio group component (reactive)', function () {
     fixture.detectChanges();
 
     expect(componentInstance.radioForm?.value).toEqual({
-      radioGroup: { name: 'Lily Corr', disabled: false },
+      radioGroup: { name: 'Lilly Corr', disabled: false },
     });
     expect(componentInstance.radioForm?.touched).toEqual(false);
     expect(componentInstance.radioForm?.pristine).toEqual(true);
@@ -110,7 +110,7 @@ describe('Radio group component (reactive)', function () {
     fixture.detectChanges();
 
     expect(componentInstance.radioForm?.value).toEqual({
-      radioGroup: { name: 'Lily Corr', disabled: false },
+      radioGroup: { name: 'Lilly Corr', disabled: false },
     });
     expect(componentInstance.radioForm?.touched).toEqual(false);
     expect(componentInstance.radioForm?.pristine).toEqual(true);
@@ -158,7 +158,7 @@ describe('Radio group component (reactive)', function () {
   it('should update the radio buttons properly when the form is changed', fakeAsync(function () {
     fixture.detectChanges();
     clickCheckbox(fixture, 0);
-    expect(componentInstance.radioControl?.value.name).toEqual('Lily Corr');
+    expect(componentInstance.radioControl?.value.name).toEqual('Lilly Corr');
 
     componentInstance.radioForm?.patchValue({
       radioGroup: componentInstance.options[1],
@@ -232,7 +232,7 @@ describe('Radio group component (reactive)', function () {
   it('should update selected value when options change', fakeAsync(function () {
     fixture.detectChanges();
     clickCheckbox(fixture, 0);
-    expect(componentInstance.radioControl?.value.name).toEqual('Lily Corr');
+    expect(componentInstance.radioControl?.value.name).toEqual('Lilly Corr');
 
     componentInstance.changeOptions();
 
@@ -396,7 +396,7 @@ describe('Radio group component (reactive)', function () {
     fixture.detectChanges();
 
     const expectedValue = {
-      radioGroup: { name: 'Lily Corr', disabled: false },
+      radioGroup: { name: 'Lilly Corr', disabled: false },
     };
 
     expect(componentInstance.radioForm?.value).toEqual(expectedValue);

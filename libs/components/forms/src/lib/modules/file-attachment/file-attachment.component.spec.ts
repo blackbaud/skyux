@@ -652,7 +652,8 @@ describe('File attachment', () => {
     fileAttachmentInstance.writeValue(testFile);
     fixture.detectChanges();
 
-    expect(getFileNameText()).toBe('$/abcdefghijklmnopqrstuvwxyz...');
+    /* spell-checker:disable-next-line */
+    expect(getFileNameText()).toBe('$/abcdefghijklmnopqrstuvwx...');
   });
 
   it('should emit fileClick even when the uploaded file link is clicked', () => {
