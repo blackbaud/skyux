@@ -203,7 +203,7 @@ export class SkyAutonumericDirective
    * Due to AutoNumeric's hover logic - when AutoNumeric has a currency symbol, the value
    * that we get back on empty fields will be the currency symbol.
    * The following logic ensures that we don't accidentally set
-   * a form value when the only input was the programatically-added currency symbol.
+   * a form value when the only input was the programmatically-added currency symbol.
    */
   #isInputValueTheCurrencySymbol(inputValue: string): boolean {
     /* istanbul ignore next */

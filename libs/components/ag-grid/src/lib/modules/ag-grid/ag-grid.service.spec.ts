@@ -625,27 +625,27 @@ describe('SkyAgGridService', () => {
       } as CellClassParams;
     });
 
-    it("should return true when the columnDefinion's editable property is true and checkinng for editable", () => {
+    it("should return true when the columnDefinition's editable property is true and checking for editable", () => {
       cellClassParams.colDef.editable = true;
       const editable = cellClassRuleEditableFunction(cellClassParams);
 
       expect(editable).toBeTruthy();
     });
 
-    it("should return false when the columnDefinion's editable property is false and checking for editable", () => {
+    it("should return false when the columnDefinition's editable property is false and checking for editable", () => {
       cellClassParams.colDef.editable = false;
       const editable = cellClassRuleEditableFunction(cellClassParams);
 
       expect(editable).toBeFalsy();
     });
 
-    it("should return false when the columnDefinion's editable property is undefined and checking for editable", () => {
+    it("should return false when the columnDefinition's editable property is undefined and checking for editable", () => {
       const editable = cellClassRuleEditableFunction(cellClassParams);
 
       expect(editable).toBeFalsy();
     });
 
-    it("should return the result of the function when the columnDefinion's editable property is a function and checking for editable", () => {
+    it("should return the result of the function when the columnDefinition's editable property is a function and checking for editable", () => {
       cellClassParams.colDef.editable = (): boolean => {
         return true;
       };
@@ -655,7 +655,7 @@ describe('SkyAgGridService', () => {
       expect(editable).toBeTruthy();
     });
 
-    it("should return false when the columnDefinion's editable property is true and checking for uneditable", () => {
+    it("should return false when the columnDefinition's editable property is true and checking for uneditable", () => {
       let cellClassRuleUneditableFunction:
         | ((params: CellClassParams) => boolean)
         | undefined;

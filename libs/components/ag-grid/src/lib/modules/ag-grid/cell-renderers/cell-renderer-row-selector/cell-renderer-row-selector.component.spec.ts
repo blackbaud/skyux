@@ -233,7 +233,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
       expect(rowSelectorCellComponent.checked).toBeFalsy();
       expect(checkbox.selected).toBe(false);
 
-      // trigger the rowClickEventListner
+      // trigger the rowClickEventListener
       if (rowClickListener) {
         rowClickListener(rowClickedEvent as RowClickedEvent);
       }

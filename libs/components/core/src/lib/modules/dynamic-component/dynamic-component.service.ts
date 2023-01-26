@@ -72,53 +72,61 @@ export class SkyDynamicComponentService {
       parent: options.parentInjector || this.#injector,
     });
 
-    const componentRef = createComponent<T>(componentType, {
-      environmentInjector: this.#environmentInjector,
-      elementInjector: injector,
-    });
+    let componentRef: ComponentRef<T>;
 
-    this.#applicationRef.attachView(componentRef.hostView);
+    if (options.viewContainerRef) {
+      componentRef = options.viewContainerRef.createComponent(componentType, {
+        injector,
+      });
+    } else {
+      componentRef = createComponent<T>(componentType, {
+        environmentInjector: this.#environmentInjector,
+        elementInjector: injector,
+      });
 
-    const el = this.#getRootNode(componentRef);
+      this.#applicationRef.attachView(componentRef.hostView);
 
-    const bodyEl = this.#windowRef.nativeWindow.document.body;
+      const el = this.#getRootNode(componentRef);
 
-    switch (options.location) {
-      case SkyDynamicComponentLocation.BeforeElement:
-        if (!options.referenceEl) {
-          throw new Error(
-            '[SkyDynamicComponentService] Could not create a component at location `SkyDynamicComponentLocation.BeforeElement` because a reference element was not provided.'
+      const bodyEl = this.#windowRef.nativeWindow.document.body;
+
+      switch (options.location) {
+        case SkyDynamicComponentLocation.BeforeElement:
+          if (!options.referenceEl) {
+            throw new Error(
+              '[SkyDynamicComponentService] Could not create a component at location `SkyDynamicComponentLocation.BeforeElement` because a reference element was not provided.'
+            );
+          }
+
+          this.#renderer.insertBefore(
+            options.referenceEl.parentElement,
+            el,
+            options.referenceEl
           );
-        }
+          break;
+        case SkyDynamicComponentLocation.ElementTop:
+          if (!options.referenceEl) {
+            throw new Error(
+              '[SkyDynamicComponentService] Could not create a component at location `SkyDynamicComponentLocation.ElementTop` because a reference element was not provided.'
+            );
+          }
 
-        this.#renderer.insertBefore(
-          options.referenceEl.parentElement,
-          el,
-          options.referenceEl
-        );
-        break;
-      case SkyDynamicComponentLocation.ElementTop:
-        if (!options.referenceEl) {
-          throw new Error(
-            '[SkyDynamicComponentService] Could not create a component at location `SkyDynamicComponentLocation.ElementTop` because a reference element was not provided.'
+          this.#renderer.insertBefore(
+            options.referenceEl,
+            el,
+            options.referenceEl.firstChild
           );
-        }
-
-        this.#renderer.insertBefore(
-          options.referenceEl,
-          el,
-          options.referenceEl.firstChild
-        );
-        break;
-      case SkyDynamicComponentLocation.ElementBottom:
-        this.#renderer.appendChild(options.referenceEl, el);
-        break;
-      case SkyDynamicComponentLocation.BodyTop:
-        this.#renderer.insertBefore(bodyEl, el, bodyEl.firstChild);
-        break;
-      default:
-        this.#renderer.appendChild(bodyEl, el);
-        break;
+          break;
+        case SkyDynamicComponentLocation.ElementBottom:
+          this.#renderer.appendChild(options.referenceEl, el);
+          break;
+        case SkyDynamicComponentLocation.BodyTop:
+          this.#renderer.insertBefore(bodyEl, el, bodyEl.firstChild);
+          break;
+        default:
+          this.#renderer.appendChild(bodyEl, el);
+          break;
+      }
     }
 
     return componentRef;

@@ -16,15 +16,14 @@ export class SkyAngularTreeAdapterService {
     return this.#coreAdapterService.getFocusableChildren(element);
   }
 
-  public setTabIndexOfFocusableElems(
+  public setTabIndexOfFocusableEls(
     element: HTMLElement,
     tabIndex: number
   ): void {
-    const focusableElems =
-      this.#coreAdapterService.getFocusableChildren(element);
-    let index = focusableElems.length;
+    const focusableEls = this.#coreAdapterService.getFocusableChildren(element);
+    let index = focusableEls.length;
     while (index--) {
-      focusableElems[index].tabIndex = tabIndex;
+      focusableEls[index].tabIndex = tabIndex;
     }
   }
 }

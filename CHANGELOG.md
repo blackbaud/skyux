@@ -1,5 +1,19 @@
 # Changelog
 
+## [7.5.0](https://github.com/blackbaud/skyux/compare/7.4.2...7.5.0) (2023-01-25)
+
+
+### Features
+
+* **components/router:** test harness for skyhref ([#934](https://github.com/blackbaud/skyux/issues/934)) ([1a2d7ef](https://github.com/blackbaud/skyux/commit/1a2d7ef28e100a30d2a5d755b7a4532830d2e318))
+
+
+### Bug Fixes
+
+* **components/packages:** remove Stache libraries from `ng update` package group ([#946](https://github.com/blackbaud/skyux/issues/946)) ([24bb1a9](https://github.com/blackbaud/skyux/commit/24bb1a9281c479bc334c4b7aa65997e690b62d5f))
+* **components/progress-indicator:** all items are shown for waterfall progress indicators ([#954](https://github.com/blackbaud/skyux/issues/954)) ([05e7333](https://github.com/blackbaud/skyux/commit/05e7333a983b257624d68a2ba6e1f951c1235cde))
+* **components/tiles:** fix appending tile components with injected dependencies ([#945](https://github.com/blackbaud/skyux/issues/945)) ([ab99728](https://github.com/blackbaud/skyux/commit/ab9972882aa42916f83fd72640960cd037d8b487))
+
 ## [7.4.2](https://github.com/blackbaud/skyux/compare/7.4.1...7.4.2) (2023-01-23)
 
 

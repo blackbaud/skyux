@@ -292,7 +292,7 @@ describe('Numeric service', () => {
 
   // Adjusting test to expect either format of a negative.  MS browsers use system's Region
   // setting for Currency formatting.  For Negative currency, the windows default is parentheses
-  // around the number. All other browsers use a preceeding negative sign (-).
+  // around the number. All other browsers use a preceding negative sign (-).
   it('formats -15.50 as US dollar with 2 digits as -$15.50', () => {
     const value = -15.5;
     const options = new NumericOptions();

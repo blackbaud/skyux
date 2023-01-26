@@ -120,8 +120,8 @@ export class SkyAgGridCellEditorDatepickerComponent
     if (datepickerInputEl) {
       datepickerInputEl.focus();
 
-      // Programatically set the value of in the input; however, do not do this via the form control so that the value is not formatted when editing starts.
-      // Watch for the first blur and fire a 'change' event as programatic changes won't queue a change event, but we need to do this so that formatting happens if the user tabs to the calendar button.
+      // programmatically set the value of in the input; however, do not do this via the form control so that the value is not formatted when editing starts.
+      // Watch for the first blur and fire a 'change' event as programmatic changes won't queue a change event, but we need to do this so that formatting happens if the user tabs to the calendar button.
       if (this.#triggerType === SkyAgGridCellEditorInitialAction.Replace) {
         fromEvent(datepickerInputEl, 'blur')
           .pipe(first())

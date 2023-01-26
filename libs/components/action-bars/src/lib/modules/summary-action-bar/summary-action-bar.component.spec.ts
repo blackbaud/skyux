@@ -600,7 +600,7 @@ describe('Summary Action Bar component', () => {
     });
 
     describe('body stylings', () => {
-      it('should set a margin on the body if the action bar is displayed on intial load', (done) => {
+      it('should set a margin on the body if the action bar is displayed on initial load', (done) => {
         fixture.detectChanges();
         fixture.whenStable().then(() => {
           fixture.detectChanges();
@@ -617,7 +617,7 @@ describe('Summary Action Bar component', () => {
         });
       });
 
-      it('should not set a margin on the body if the action bar is not displayed on intial load', async () => {
+      it('should not set a margin on the body if the action bar is not displayed on initial load', async () => {
         cmp.showBar1 = false;
         cmp.showBar2 = true;
         fixture.detectChanges();
@@ -722,7 +722,7 @@ describe('Summary Action Bar component', () => {
     });
 
     describe('body stylings', () => {
-      it('should set a margin on the split view workspace content if the action bar is displayed on intial load', (done) => {
+      it('should set a margin on the split view workspace content if the action bar is displayed on initial load', (done) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         spyOn(window as any, 'setTimeout').and.callFake((fun: () => void) => {
           fun();
@@ -738,7 +738,7 @@ describe('Summary Action Bar component', () => {
         });
       });
 
-      it('should not set a margin on the body if the action bar is not displayed on intial load', async () => {
+      it('should not set a margin on the body if the action bar is not displayed on initial load', async () => {
         cmp.showBar = false;
         fixture.detectChanges();
         await fixture.whenStable();

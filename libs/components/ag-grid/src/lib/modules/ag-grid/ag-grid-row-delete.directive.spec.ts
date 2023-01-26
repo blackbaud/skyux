@@ -19,7 +19,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     it('should show for one row', async () => {
       await fixture.whenStable();
 
-      expect(document.querySelector('.sky-inline-delete-standared')).toBeNull();
+      expect(document.querySelector('.sky-inline-delete-standard')).toBeNull();
 
       fixture.componentInstance.rowDeleteIds = ['0'];
       fixture.detectChanges();
@@ -34,7 +34,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     it('should show for multiple rows', async () => {
       await fixture.whenStable();
 
-      expect(document.querySelector('.sky-inline-delete-standared')).toBeNull();
+      expect(document.querySelector('.sky-inline-delete-standard')).toBeNull();
 
       fixture.componentInstance.rowDeleteIds = ['0', '2'];
       fixture.detectChanges();
