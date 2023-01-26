@@ -345,8 +345,7 @@ describe('Search component', () => {
     });
 
     it('should set the clear button visibility when search binding changed', () => {
-      /* spell-checker:disable-next-line */
-      component.searchText = 'whaddup';
+      component.searchText = 'whatUp';
       fixture.detectChanges();
       expect(
         element.query(By.css('.sky-input-group-clear')).nativeElement

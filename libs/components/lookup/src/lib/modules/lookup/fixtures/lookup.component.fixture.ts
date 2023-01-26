@@ -128,7 +128,7 @@ export class SkyLookupTestComponent {
       { name: 'Sally' },
       { name: 'Susan' },
       { name: 'Vanessa' },
-      { name: 'Vinny' },
+      { name: 'Vin' },
       { name: 'Xavier' },
       { name: 'Yolanda' },
       { name: 'Zack' },

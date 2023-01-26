@@ -11,7 +11,7 @@ describe('Validation', () => {
     });
 
     it('should is incorrect input', () => {
-      const isEmailValid = SkyValidation.isEmail('[]awefhawenfc0293ejwf');
+      const isEmailValid = SkyValidation.isEmail('[]abcdefgh0293abcd');
       expect(isEmailValid).toBeFalsy();
     });
 
@@ -35,7 +35,7 @@ describe('Validation', () => {
     });
 
     it('should validate incorrect input in ruleset v1', () => {
-      const isUrlValid = SkyValidation.isUrl('[]awefhawenfc0293ejwf]');
+      const isUrlValid = SkyValidation.isUrl('[]abcdefgh0293abcd]');
       expect(isUrlValid).toBeFalsy();
     });
 
@@ -69,7 +69,7 @@ describe('Validation', () => {
         'www.domain,com',
         'amanda..test.com/alum/here?i=am',
         'domain.#anchor',
-        "domain.lyword&amp;$,.%25+'/\\",
+        "domain.lieWord&amp;$,.%25+'/\\",
       ];
       strings.forEach((string) => {
         const isUrlValid = SkyValidation.isUrl(string, optionsRulesetV2);
@@ -85,7 +85,7 @@ describe('Validation', () => {
         'http://test.test,com',
         'www.test.com,com',
         'www.domain,com',
-        "domain.lyword&amp;$,.%25+'/\\",
+        "domain.lieWord&amp;$,.%25+'/\\",
       ];
 
       strings.forEach((string) => {
