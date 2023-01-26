@@ -10,7 +10,6 @@ const people: SelectionModalDemoPerson[] = [
   { id: '1', name: 'Abed' },
   { id: '2', name: 'Alex' },
   { id: '3', name: 'Ben' },
-  /* spell-checker:disable-next-line */
   { id: '4', name: 'Britta' },
   { id: '5', name: 'Buzz' },
   { id: '6', name: 'Craig' },

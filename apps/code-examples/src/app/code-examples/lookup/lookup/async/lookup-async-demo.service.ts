@@ -6,7 +6,6 @@ import { delay } from 'rxjs/operators';
 import { LookupAsyncDemoSearchResults } from './lookup-async-demo-search-results';
 import { LookupDemoPerson } from './lookup-demo-person';
 
-/* spell-checker:disable */
 const people: LookupDemoPerson[] = [
   { name: 'Abed' },
   { name: 'Alex' },
@@ -29,7 +28,6 @@ const people: LookupDemoPerson[] = [
   { name: 'Vaughn' },
   { name: 'Vicki' },
 ];
-/* spell-checker:disable */
 
 @Injectable({
   providedIn: 'root',

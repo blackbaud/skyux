@@ -32,7 +32,6 @@ export class SplitViewPageBoundDemoComponent {
 
   public activeRecord: SplitViewDemoRecord;
 
-  /* spell-checker:disable */
   public items: SplitViewDemoRecord[] = [
     {
       id: 1,
@@ -74,8 +73,8 @@ export class SplitViewPageBoundDemoComponent {
       id: 5,
       amount: 456.24,
       date: '5/16/2020',
-      vendor: 'Kerblam',
-      receiptImage: 'kerblam-delivery-order.png',
+      vendor: 'Wish',
+      receiptImage: 'wish-delivery-order.png',
       approvedAmount: 456.24,
       comments: '',
     },
@@ -101,8 +100,8 @@ export class SplitViewPageBoundDemoComponent {
       id: 8,
       amount: 92.55,
       date: '5/18/2020',
-      vendor: 'Lowes',
-      receiptImage: 'lowes-order.png',
+      vendor: 'Home Depot',
+      receiptImage: 'home-depot-order.png',
       approvedAmount: 0.0,
       comments: '',
     },
@@ -116,7 +115,6 @@ export class SplitViewPageBoundDemoComponent {
       comments: '',
     },
   ];
-  /* spell-checker:enable */
 
   public splitViewDemoForm: FormGroup;
 

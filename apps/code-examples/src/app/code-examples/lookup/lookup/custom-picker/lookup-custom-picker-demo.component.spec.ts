@@ -42,8 +42,7 @@ describe('Lookup custom picker demo', () => {
   it('should update the form control when a favorite name is selected', async () => {
     const { lookupHarness, fixture } = await setupTest();
 
-    /* spell-checker:disable-next-line */
-    await lookupHarness?.enterText('vick');
+    await lookupHarness?.enterText('Be');
 
     const allResultHarnesses = await lookupHarness?.getSearchResults();
     const firstResultHarness = allResultHarnesses && allResultHarnesses[0];
@@ -55,7 +54,7 @@ describe('Lookup custom picker demo', () => {
     expect(fixture.componentInstance.favoritesForm.value.favoriteNames).toEqual(
       [
         { name: 'Shirley', formal: 'Ms. Bennett' },
-        { name: 'Vicki', formal: 'Ms. Jenkins' },
+        { name: 'Ben', formal: 'Mr. Chang' },
       ]
     );
   });
@@ -74,8 +73,7 @@ describe('Lookup custom picker demo', () => {
       LookupCustomPickerHarness
     );
 
-    /* spell-checker:disable-next-line */
-    await customPickerHarness.checkItemAt(3); // Britta (Ms. Perry)
+    await customPickerHarness.checkItemAt(2); // Ben (Mr. Chang)
     await customPickerHarness.checkItemAt(7); // Garret (Mr. Lambert)
     await customPickerHarness.uncheckItemAt(15); // Shirley (Ms. Bennett)
 
@@ -83,8 +81,7 @@ describe('Lookup custom picker demo', () => {
 
     expect(fixture.componentInstance.favoritesForm.value.favoriteNames).toEqual(
       [
-        /* spell-checker:disable-next-line */
-        { name: 'Britta', formal: 'Ms. Perry' },
+        { name: 'Ben', formal: 'Mr. Chang' },
         { name: 'Garrett', formal: 'Mr. Lambert' },
       ]
     );

@@ -39,14 +39,13 @@ describe('Lookup single select demo', () => {
   it('should update the form control when a favorite name is selected', async () => {
     const { lookupHarness, fixture } = await setupTest();
 
-    /* spell-checker:disable-next-line */
-    await lookupHarness?.enterText('vick');
+    await lookupHarness?.enterText('be');
     await lookupHarness?.selectSearchResult({
-      text: 'Vicki',
+      text: 'Ben',
     });
 
     expect(fixture.componentInstance.favoritesForm.value.favoriteName).toEqual([
-      { name: 'Vicki' },
+      { name: 'Ben' },
     ]);
   });
 });

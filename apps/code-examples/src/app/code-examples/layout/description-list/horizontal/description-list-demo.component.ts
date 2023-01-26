@@ -5,7 +5,6 @@ import { Component } from '@angular/core';
   templateUrl: './description-list-demo.component.html',
 })
 export class DescriptionListDemoComponent {
-  /* spell-checker:disable */
   public items: { term: string; description: string; showHelp?: boolean }[] = [
     {
       term: 'College',
@@ -17,7 +16,7 @@ export class DescriptionListDemoComponent {
     },
     {
       term: 'Advisor',
-      description: 'Calandra Geer',
+      description: 'Cathy Green',
       showHelp: true,
     },
     {
@@ -25,7 +24,6 @@ export class DescriptionListDemoComponent {
       description: '2024',
     },
   ];
-  /* spell-checker:enable */
 
   public onActionClick(): void {
     alert('Help inline button clicked!');
