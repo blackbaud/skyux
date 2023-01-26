@@ -1,7 +1,6 @@
 import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { SkyCoreAdapterService } from '@skyux/core';
 
-/* spell-checker:ignore unlisten */
 /**
  * @internal
  */
@@ -10,7 +9,7 @@ export class SkyInlineDeleteAdapterService {
   #element: HTMLElement | undefined;
   #focusableElements: HTMLElement[] | undefined;
   #parentEl: HTMLElement | null | undefined;
-  #parentElUnlistenFn: (() => void) | undefined;
+  #parentElClearListenerFn: (() => void) | undefined;
   #renderer: Renderer2;
 
   #coreAdapterService: SkyCoreAdapterService;
@@ -25,8 +24,8 @@ export class SkyInlineDeleteAdapterService {
 
   public clearListeners(): void {
     /* istanbul ignore else */
-    if (this.#parentElUnlistenFn) {
-      this.#parentElUnlistenFn();
+    if (this.#parentElClearListenerFn) {
+      this.#parentElClearListenerFn();
     }
   }
 
@@ -36,7 +35,7 @@ export class SkyInlineDeleteAdapterService {
 
     /* istanbul ignore else */
     if (this.#parentEl) {
-      this.#parentElUnlistenFn = this.#renderer.listen(
+      this.#parentElClearListenerFn = this.#renderer.listen(
         this.#parentEl,
         'focusin',
         (event: FocusEvent) => {

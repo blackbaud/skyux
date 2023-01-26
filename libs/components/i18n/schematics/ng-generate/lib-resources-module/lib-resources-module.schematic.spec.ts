@@ -8,7 +8,6 @@ import path from 'path';
 import { createTestApp, createTestLibrary } from '../../testing/scaffold';
 import { readRequiredFile } from '../../utility/tree';
 
-/* spell-checker:ignore defaultversion */
 describe('lib-resources-module.schematic', () => {
   const collectionPath = path.resolve(__dirname, '../../collection.json');
   const defaultProjectName = 'my-lib';
@@ -208,7 +207,7 @@ export class FoobarResourcesModule { }
       packageJsonPath,
       `{
   "peerDependencies": {
-    "@skyux/i18n": "defaultversion"
+    "@skyux/i18n": "defaultVersion"
   }
 }`
     );
@@ -220,7 +219,7 @@ export class FoobarResourcesModule { }
     );
 
     expect(packageJsonContents.peerDependencies['@skyux/i18n']).toEqual(
-      'defaultversion'
+      'defaultVersion'
     );
   });
 

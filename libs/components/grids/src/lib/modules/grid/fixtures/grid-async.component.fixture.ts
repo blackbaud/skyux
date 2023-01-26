@@ -17,8 +17,7 @@ export class GridAsyncTestComponent implements OnInit {
 
   public items: Array<any> = [
     { id: 1, name: 'Windstorm', email: 'windstorm@gmail.com' },
-    /* spell-checker:disable-next-line */
-    { id: 2, name: 'Bombasto', email: 'bombasto@gmail.com' },
+    { id: 2, name: 'Bombastic', email: 'Bombastic@gmail.com' },
     { id: 3, name: 'Magenta', email: 'magenta@gmail.com' },
     { id: 4, name: 'Tornado', email: 'tornado@gmail.com' },
   ];

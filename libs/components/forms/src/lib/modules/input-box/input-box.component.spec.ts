@@ -686,8 +686,7 @@ describe('Input box component', () => {
 
       fixture.detectChanges();
 
-      /* spell-checker:disable-next-line */
-      const inputBoxEl = getInputBoxEl(fixture, 'input-box-haserrors');
+      const inputBoxEl = getInputBoxEl(fixture, 'input-box-has-errors');
 
       validateInvalid('when hasErrors is undefined', inputBoxEl, false);
 
@@ -702,7 +701,6 @@ describe('Input box component', () => {
 
       fixture.detectChanges();
 
-      /* spell-checker:disable-next-line */
       const inputBoxEl = getInputBoxEl(fixture, 'input-box-ngmodel-error');
 
       validateControlValid(
