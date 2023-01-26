@@ -53,7 +53,7 @@ export class SkyAgGridHeaderGroupComponent
   readonly #changeDetector: ChangeDetectorRef;
   readonly #dynamicComponentService: SkyDynamicComponentService;
   #viewInitialized = false;
-  #agIntialized = false;
+  #agInitialized = false;
 
   constructor(
     changeDetector: ChangeDetectorRef,
@@ -75,7 +75,7 @@ export class SkyAgGridHeaderGroupComponent
   }
 
   public agInit(params: SkyAgGridHeaderGroupParams | undefined): void {
-    this.#agIntialized = true;
+    this.#agInitialized = true;
     this.params = params;
     this.#subscriptions.unsubscribe();
     if (!params) {
@@ -112,7 +112,7 @@ export class SkyAgGridHeaderGroupComponent
   }
 
   #updateInlineHelp(): void {
-    if (!this.#viewInitialized || !this.#agIntialized) {
+    if (!this.#viewInitialized || !this.#agInitialized) {
       return;
     }
     const colGroupDef = this.params?.columnGroup?.getColGroupDef();

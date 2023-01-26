@@ -8,7 +8,7 @@ import { take } from 'rxjs/operators';
 import { SkyFuzzyDate } from './fuzzy-date';
 import { SkyFuzzyDateService } from './fuzzy-date.service';
 
-describe('SkyFuzzyDateservice', () => {
+describe('SkyFuzzyDateService', () => {
   let service: SkyFuzzyDateService;
   let currentLocale: string;
   const defaultDateFormat = 'MM/DD/YYYY';
@@ -442,7 +442,7 @@ describe('SkyFuzzyDateservice', () => {
 
     it('returns null if the date provided is not valid.', () => {
       // arrange
-      const stringDate = 'fsfsafd';
+      const stringDate = 'abcdef';
 
       // act
       const actual = service.getFuzzyDateFromString(

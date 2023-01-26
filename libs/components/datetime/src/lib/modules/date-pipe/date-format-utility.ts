@@ -7,6 +7,7 @@ import { SkyIntlDateFormatter } from '@skyux/i18n';
 import moment from 'moment';
 
 export class SkyDateFormatUtility {
+  /* spell-checker:disable */
   private static _ALIASES: { [key: string]: string } = {
     medium: 'yMMMdjms',
     short: 'yMdjm',
@@ -17,6 +18,7 @@ export class SkyDateFormatUtility {
     mediumTime: 'jms',
     shortTime: 'jm',
   };
+  /* spell-checker:enable */
 
   public static format(
     locale: string,

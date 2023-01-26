@@ -344,7 +344,7 @@ export class SkyDatepickerCalendarInnerComponent
     );
 
     /*
-        Only actually select date if in minmode (day picker mode).
+        Only actually select date if in minMode (day picker mode).
         Otherwise, just change the active view for the datepicker.
     */
     if (this.datepickerMode === this.minMode) {

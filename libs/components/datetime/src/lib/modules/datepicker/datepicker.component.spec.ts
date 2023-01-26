@@ -23,7 +23,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { SkyDatepickerConfigService } from './datepicker-config.service';
 import { SkyDatepickerComponent } from './datepicker.component';
 import { DatepickerInputBoxTestComponent } from './fixtures/datepicker-input-box.component.fixture';
-import { DatepickerNoFormatTestComponent } from './fixtures/datepicker-noformat.component.fixture';
+import { DatepickerNoFormatTestComponent } from './fixtures/datepicker-no-format.component.fixture';
 import { DatepickerReactiveTestComponent } from './fixtures/datepicker-reactive.component.fixture';
 import { DatepickerTestComponent } from './fixtures/datepicker.component.fixture';
 import { DatepickerTestModule } from './fixtures/datepicker.module.fixture';
@@ -69,10 +69,10 @@ function getTriggerButton(
 
 function clickTrigger(
   fixture: ComponentFixture<any>,
-  isfakeAsync: boolean = true
+  isFakeAsync: boolean = true
 ): void {
   getTriggerButton(fixture)?.click();
-  if (isfakeAsync) {
+  if (isFakeAsync) {
     detectChanges(fixture);
   }
 }
@@ -347,7 +347,7 @@ describe('datepicker', () => {
       expect(picker).toBeNull();
     }));
 
-    it('should close picker when clicking on a dackdrop', fakeAsync(() => {
+    it('should close picker when clicking on a backdrop', fakeAsync(() => {
       fixture.detectChanges();
       tick();
       clickTrigger(fixture);
@@ -717,20 +717,20 @@ describe('datepicker', () => {
 
       it('should validate properly when invalid date is passed through input change', fakeAsync(() => {
         detectChanges(fixture);
-        setInputElementValue(nativeElement, 'abcdebf', fixture);
+        setInputElementValue(nativeElement, 'abcdef', fixture);
 
-        expect(getInputElementValue(fixture)).toBe('abcdebf');
-        expect(component.selectedDate).toBe('abcdebf');
+        expect(getInputElementValue(fixture)).toBe('abcdef');
+        expect(component.selectedDate).toBe('abcdef');
         expect(ngModel.valid).toBe(false);
         expect(ngModel.pristine).toBe(false);
         expect(ngModel.touched).toBe(true);
       }));
 
       it('should validate properly when invalid date on initialization', fakeAsync(() => {
-        setInputProperty('abcdebf', component, fixture);
+        setInputProperty('abcdef', component, fixture);
 
-        expect(getInputElementValue(fixture)).toBe('abcdebf');
-        expect(component.selectedDate).toBe('abcdebf');
+        expect(getInputElementValue(fixture)).toBe('abcdef');
+        expect(component.selectedDate).toBe('abcdef');
         expect(ngModel.valid).toBe(false);
         expect(ngModel.touched).toBe(true);
 
@@ -743,16 +743,16 @@ describe('datepicker', () => {
       it('should validate properly when invalid string on model change', fakeAsync(() => {
         detectChanges(fixture);
 
-        setInputProperty('abcdebf', component, fixture);
+        setInputProperty('abcdef', component, fixture);
 
-        expect(getInputElementValue(fixture)).toBe('abcdebf');
-        expect(component.selectedDate).toBe('abcdebf');
+        expect(getInputElementValue(fixture)).toBe('abcdef');
+        expect(component.selectedDate).toBe('abcdef');
         expect(ngModel.valid).toBe(false);
       }));
 
       it('should validate properly when invalid date on model change', fakeAsync(() => {
         detectChanges(fixture);
-        const invalidDate = new Date('abcdebf');
+        const invalidDate = new Date('abcdef');
 
         component.selectedDate = invalidDate;
         detectChanges(fixture);
@@ -762,7 +762,7 @@ describe('datepicker', () => {
         expect(ngModel.valid).toBe(false);
       }));
 
-      it('should validate properly when a non-convertable date is passed through input change', fakeAsync(() => {
+      it('should validate properly when a non-convertible date is passed through input change', fakeAsync(() => {
         detectChanges(fixture);
         setInputElementValue(nativeElement, '133320', fixture);
 
@@ -773,7 +773,7 @@ describe('datepicker', () => {
         expect(ngModel.touched).toBe(true);
       }));
 
-      it('should validate properly when a non-convertable date on initialization', fakeAsync(() => {
+      it('should validate properly when a non-convertible date on initialization', fakeAsync(() => {
         setInputProperty('133320', component, fixture);
 
         expect(getInputElementValue(fixture)).toBe('133320');
@@ -787,7 +787,7 @@ describe('datepicker', () => {
         expect(ngModel.touched).toBe(true);
       }));
 
-      it('should validate properly when a non-convertable date on model change', fakeAsync(() => {
+      it('should validate properly when a non-convertible date on model change', fakeAsync(() => {
         detectChanges(fixture);
 
         setInputProperty('133320', component, fixture);
@@ -800,7 +800,7 @@ describe('datepicker', () => {
       it('should validate properly when input changed to empty string', fakeAsync(() => {
         detectChanges(fixture);
 
-        setInputElementValue(fixture.nativeElement, 'abcdebf', fixture);
+        setInputElementValue(fixture.nativeElement, 'abcdef', fixture);
         setInputElementValue(fixture.nativeElement, '', fixture);
 
         expect(getInputElementValue(fixture)).toBe('');
@@ -811,7 +811,7 @@ describe('datepicker', () => {
       it('should handle invalid and then valid date', fakeAsync(() => {
         detectChanges(fixture);
 
-        setInputElementValue(fixture.nativeElement, 'abcdebf', fixture);
+        setInputElementValue(fixture.nativeElement, 'abcdef', fixture);
         setInputElementValue(fixture.nativeElement, '2/12/2015', fixture);
 
         expect(getInputElementValue(fixture)).toBe('02/12/2015');
@@ -822,7 +822,7 @@ describe('datepicker', () => {
       it('should handle calendar date on invalid date', fakeAsync(() => {
         detectChanges(fixture);
 
-        setInputElementValue(fixture.nativeElement, 'abcdebf', fixture);
+        setInputElementValue(fixture.nativeElement, 'abcdef', fixture);
         clickTrigger(fixture);
 
         // Current day should be selected.
@@ -834,10 +834,10 @@ describe('datepicker', () => {
         component.noValidate = true;
         detectChanges(fixture);
 
-        setInputElementValue(fixture.nativeElement, 'abcdebf', fixture);
+        setInputElementValue(fixture.nativeElement, 'abcdef', fixture);
 
-        expect(getInputElementValue(fixture)).toBe('abcdebf');
-        expect(component.selectedDate).toBe('abcdebf');
+        expect(getInputElementValue(fixture)).toBe('abcdef');
+        expect(component.selectedDate).toBe('abcdef');
         expect(ngModel.valid).toBe(true);
       }));
     });
@@ -1122,7 +1122,7 @@ describe('datepicker', () => {
     });
 
     describe('focus properties', () => {
-      // We've removed fakeAsync from this test because the neseted setTimeouts()
+      // We've removed fakeAsync from this test because the nested setTimeouts()
       // in the setter for calendarRef have trouble with fakeAsync.
       it('should focus on the calendar when the trigger button is clicked', (done) => {
         fixture.detectChanges();
@@ -1407,10 +1407,10 @@ describe('datepicker', () => {
       it('should validate properly when invalid date is passed through input change', fakeAsync(() => {
         detectChanges(fixture);
 
-        setInputElementValue(nativeElement, 'abcdebf', fixture);
+        setInputElementValue(nativeElement, 'abcdef', fixture);
 
-        expect(getInputElementValue(fixture)).toBe('abcdebf');
-        expect(component.dateControl.value).toBe('abcdebf');
+        expect(getInputElementValue(fixture)).toBe('abcdef');
+        expect(component.dateControl.value).toBe('abcdef');
         expect(component.dateControl.valid).toBe(false);
         expect(component.dateControl.pristine).toBe(false);
         expect(component.dateControl.touched).toBe(true);
@@ -1419,10 +1419,10 @@ describe('datepicker', () => {
       it('should validate properly when invalid date on initialization', fakeAsync(() => {
         fixture.detectChanges();
 
-        setFormControlProperty('abcdebf', component, fixture);
+        setFormControlProperty('abcdef', component, fixture);
 
-        expect(getInputElementValue(fixture)).toBe('abcdebf');
-        expect(component.dateControl.value).toBe('abcdebf');
+        expect(getInputElementValue(fixture)).toBe('abcdef');
+        expect(component.dateControl.value).toBe('abcdef');
 
         expect(component.dateControl.valid).toBe(false);
         expect(component.dateControl.touched).toBe(true);
@@ -1436,16 +1436,16 @@ describe('datepicker', () => {
       it('should validate properly when invalid string on model change', fakeAsync(() => {
         detectChanges(fixture);
 
-        setFormControlProperty('abcdebf', component, fixture);
+        setFormControlProperty('abcdef', component, fixture);
 
-        expect(getInputElementValue(fixture)).toBe('abcdebf');
-        expect(component.dateControl.value).toBe('abcdebf');
+        expect(getInputElementValue(fixture)).toBe('abcdef');
+        expect(component.dateControl.value).toBe('abcdef');
         expect(component.dateControl.valid).toBe(false);
       }));
 
       it('should validate properly when invalid date on model change', fakeAsync(() => {
         detectChanges(fixture);
-        const invalidDate = new Date('abcdebf');
+        const invalidDate = new Date('abcdef');
 
         setFormControlProperty(invalidDate, component, fixture);
 
@@ -1457,7 +1457,7 @@ describe('datepicker', () => {
       it('should validate properly when input changed to empty string', fakeAsync(() => {
         detectChanges(fixture);
 
-        setInputElementValue(fixture.nativeElement, 'abcdebf', fixture);
+        setInputElementValue(fixture.nativeElement, 'abcdef', fixture);
         setInputElementValue(fixture.nativeElement, '', fixture);
 
         expect(getInputElementValue(fixture)).toBe('');
@@ -1468,7 +1468,7 @@ describe('datepicker', () => {
       it('should handle invalid and then valid date', fakeAsync(() => {
         detectChanges(fixture);
 
-        setInputElementValue(fixture.nativeElement, 'abcdebf', fixture);
+        setInputElementValue(fixture.nativeElement, 'abcdef', fixture);
         setInputElementValue(fixture.nativeElement, '2/12/2015', fixture);
 
         expect(getInputElementValue(fixture)).toBe('02/12/2015');
@@ -1479,7 +1479,7 @@ describe('datepicker', () => {
       it('should handle calendar date on invalid date', fakeAsync(() => {
         detectChanges(fixture);
 
-        setInputElementValue(fixture.nativeElement, 'abcdebf', fixture);
+        setInputElementValue(fixture.nativeElement, 'abcdef', fixture);
         clickTrigger(fixture);
 
         // Current day should be selected.
@@ -1491,10 +1491,10 @@ describe('datepicker', () => {
         component.noValidate = true;
         detectChanges(fixture);
 
-        setInputElementValue(fixture.nativeElement, 'abcdebf', fixture);
+        setInputElementValue(fixture.nativeElement, 'abcdef', fixture);
 
-        expect(getInputElementValue(fixture)).toBe('abcdebf');
-        expect(component.dateControl.value).toBe('abcdebf');
+        expect(getInputElementValue(fixture)).toBe('abcdef');
+        expect(component.dateControl.value).toBe('abcdef');
         expect(component.dateControl.valid).toBe(true);
       }));
     });
@@ -1766,7 +1766,7 @@ describe('datepicker', () => {
       localProvider = p;
     }));
 
-    it('should fall back to default locale if the locale provider doesnt return a value', fakeAsync(() => {
+    it(`should fall back to default locale if the locale provider doesn't return a value`, fakeAsync(() => {
       spyOn(localProvider, 'getLocaleInfo').and.returnValue(
         of({
           locale: '',

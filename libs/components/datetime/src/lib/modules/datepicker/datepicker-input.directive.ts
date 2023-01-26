@@ -298,7 +298,7 @@ export class SkyDatepickerInputDirective
 
   public ngAfterViewInit(): void {
     // This is needed to address a bug in Angular 4.
-    // When a control value is set intially, its value is not represented on the view.
+    // When a control value is set initially, its value is not represented on the view.
     // See: https://github.com/angular/angular/issues/13792
     // Of note is the parent check which allows us to determine if the form is reactive.
     // Without this check there is a changed before checked error
@@ -480,7 +480,7 @@ export class SkyDatepickerInputDirective
 
   /**
    * Gets the date value from a value - if possible.
-   * Will not convert unconvertable dates or numbers outside of the current month's number of days.
+   * Will not convert unconvertible dates or numbers outside of the current month's number of days.
    * Returns `undefined` if the value can not be converted.
    */
   #getDateValue(value: unknown): Date | undefined {

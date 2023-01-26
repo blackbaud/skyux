@@ -72,15 +72,15 @@ describe('Scrollable host service', () => {
   // Using `done` here as with just `async` the test runner is moving the content when it shouldn't
   // which causes issues with finding the parent correctly.
   it('should update observable with new scrollable parent when it changes', (done) => {
-    let obserableCount = 0;
+    let observableCount = 0;
 
     const scrollableHostObservable = cmp.watchScrollableHost();
 
     scrollableHostObservable.pipe(take(2)).subscribe((scrollableHost) => {
-      if (obserableCount === 0) {
+      if (observableCount === 0) {
         expect(scrollableHost).toBe(cmp.parent.nativeElement);
         cmp.isParentScrollable = false;
-        obserableCount++;
+        observableCount++;
         fixture.detectChanges();
       } else {
         expect(scrollableHost).toBe(window);
@@ -95,15 +95,15 @@ describe('Scrollable host service', () => {
     cmp.isParentScrollable = false;
     fixture.detectChanges();
 
-    let obserableCount = 0;
+    let observableCount = 0;
 
     const scrollableHostObservable = cmp.watchScrollableHost();
 
     scrollableHostObservable.pipe(take(2)).subscribe((scrollableHost) => {
-      if (obserableCount === 0) {
+      if (observableCount === 0) {
         expect(scrollableHost).toBe(window);
         cmp.isParentScrollableStyle = true;
-        obserableCount++;
+        observableCount++;
         fixture.detectChanges();
       } else {
         expect(scrollableHost).toBe(cmp.parent.nativeElement);
@@ -115,15 +115,15 @@ describe('Scrollable host service', () => {
   // Using `done` here as with just `async` the test runner is moving the content when it shouldn't
   // which causes issues with finding the parent correctly.
   it('should update observable with new scrollable parent when parent is hidden using a class with "display: none"', (done) => {
-    let obserableCount = 0;
+    let observableCount = 0;
 
     const scrollableHostObservable = cmp.watchScrollableHost();
 
     scrollableHostObservable.pipe(take(2)).subscribe((scrollableHost) => {
-      if (obserableCount === 0) {
+      if (observableCount === 0) {
         expect(scrollableHost).toBe(cmp.parent.nativeElement);
         cmp.isParentDisplayNoneClass = true;
-        obserableCount++;
+        observableCount++;
         fixture.detectChanges();
       } else {
         expect(scrollableHost).toBeUndefined();
@@ -135,15 +135,15 @@ describe('Scrollable host service', () => {
   // Using `done` here as with just `async` the test runner is moving the content when it shouldn't
   // which causes issues with finding the parent correctly.
   it('should update observable with new scrollable parent when parent is hidden using "display: none" directly', (done) => {
-    let obserableCount = 0;
+    let observableCount = 0;
 
     const scrollableHostObservable = cmp.watchScrollableHost();
 
     scrollableHostObservable.pipe(take(2)).subscribe((scrollableHost) => {
-      if (obserableCount === 0) {
+      if (observableCount === 0) {
         expect(scrollableHost).toBe(cmp.parent.nativeElement);
         cmp.isParentDisplayNoneStyle = true;
-        obserableCount++;
+        observableCount++;
         fixture.detectChanges();
       } else {
         expect(scrollableHost).toBeUndefined();
@@ -155,15 +155,15 @@ describe('Scrollable host service', () => {
   // Using `done` here as with just `async` the test runner is moving the content when it shouldn't
   // which causes issues with finding the parent correctly.
   it('should update observable with new scrollable parent when parent is hidden using the "hidden" attribute', (done) => {
-    let obserableCount = 0;
+    let observableCount = 0;
 
     const scrollableHostObservable = cmp.watchScrollableHost();
 
     scrollableHostObservable.pipe(take(2)).subscribe((scrollableHost) => {
-      if (obserableCount === 0) {
+      if (observableCount === 0) {
         expect(scrollableHost).toBe(cmp.parent.nativeElement);
         cmp.isParentHidden = true;
-        obserableCount++;
+        observableCount++;
         fixture.detectChanges();
       } else {
         expect(scrollableHost).toBeUndefined();
@@ -327,12 +327,12 @@ describe('Scrollable host service', () => {
   });
 
   it('should return all scroll events from the current scrollable host when they are subscribed to', (done) => {
-    let obserableCount = 0;
+    let observableCount = 0;
     const scrollObservable = cmp.watchScrollableHostScrollEvents();
 
     scrollObservable.pipe(take(2)).subscribe(() => {
-      if (obserableCount === 0) {
-        obserableCount++;
+      if (observableCount === 0) {
+        observableCount++;
         fixture.detectChanges();
 
         SkyAppTestUtility.fireDomEvent(cmp.parent.nativeElement, 'scroll', {
@@ -348,13 +348,13 @@ describe('Scrollable host service', () => {
     });
   });
 
-  it('should notifify a subscriber when the scrollable parent changes via style changes when watching for scroll events', (done) => {
-    let obserableCount = 0;
+  it('should notify a subscriber when the scrollable parent changes via style changes when watching for scroll events', (done) => {
+    let observableCount = 0;
     const scrollObservable = cmp.watchScrollableHostScrollEvents();
 
     scrollObservable.pipe(take(2)).subscribe(() => {
-      if (obserableCount === 0) {
-        obserableCount++;
+      if (observableCount === 0) {
+        observableCount++;
         fixture.detectChanges();
 
         cmp.isParentScrollable = false;
@@ -370,13 +370,13 @@ describe('Scrollable host service', () => {
     });
   });
 
-  it('should notifify a subscriber when the scrollable parent changes via content being moved when watching for scroll events', (done) => {
-    let obserableCount = 0;
+  it('should notify a subscriber when the scrollable parent changes via content being moved when watching for scroll events', (done) => {
+    let observableCount = 0;
     const scrollObservable = cmp.watchScrollableHostScrollEvents();
 
     scrollObservable.pipe(take(2)).subscribe(() => {
-      if (obserableCount === 0) {
-        obserableCount++;
+      if (observableCount === 0) {
+        observableCount++;
         fixture.detectChanges();
 
         cmp.moveTarget();
