@@ -19,7 +19,7 @@ import { SkyAutocompleteFixtureComponent } from './fixtures/autocomplete.compone
 import { SkyAutocompleteMessageType } from './types/autocomplete-message-type';
 import { SkyAutocompleteSearchFunction } from './types/autocomplete-search-function';
 
-/* spell-checker:ignore Åland, rasdasdlhasdjklh */
+/* spell-checker:ignore Åland */
 describe('Autocomplete component', () => {
   //#region helpers
 
@@ -416,7 +416,7 @@ describe('Autocomplete component', () => {
       const expectedMessage = 'No matches found';
       fixture.detectChanges();
 
-      enterSearch('rasdasdlhasdjklh', fixture);
+      enterSearch('abcdefgh', fixture);
 
       const container = getSearchResultsSection();
       expect(container?.textContent?.trim()).toBe(expectedMessage);
@@ -431,7 +431,7 @@ describe('Autocomplete component', () => {
       const expectedMessage = 'No matches found  New';
       fixture.detectChanges();
 
-      enterSearch('rasdasdlhasdjklh', fixture);
+      enterSearch('abcdefgh', fixture);
 
       const resultsContainer = getSearchResultsSection();
       expect(resultsContainer).toBeNull();
@@ -445,7 +445,7 @@ describe('Autocomplete component', () => {
       const expectedMessage = 'No matches found';
       fixture.detectChanges();
 
-      enterSearch('rasdasdlhasdjklh', fixture);
+      enterSearch('abcdefgh', fixture);
 
       const resultsContainer = getSearchResultsSection();
       expect(resultsContainer).toBeNull();
@@ -459,7 +459,7 @@ describe('Autocomplete component', () => {
       component.customNoResultsMessage = expectedMessage;
       fixture.detectChanges();
 
-      enterSearch('rasdasdlhasdjklh', fixture);
+      enterSearch('abcdefgh', fixture);
 
       const container = getSearchResultsSection();
       expect(container?.textContent?.trim()).toBe(expectedMessage);
