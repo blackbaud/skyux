@@ -11,7 +11,6 @@ import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyEmailValidationFixturesModule } from './fixtures/email-validation-fixtures.module';
 import { EmailValidationTestComponent } from './fixtures/email-validation.component.fixture';
 
-/* spell-checker:ignore awefhawenfc, ejwf */
 describe('Email validation', () => {
   function getInputElement(
     fixture: ComponentFixture<EmailValidationTestComponent>
@@ -73,10 +72,10 @@ describe('Email validation', () => {
   it('should validate incorrect input', fakeAsync(() => {
     fixture.detectChanges();
     tick();
-    setInput('[]awefhawenfc0293ejwf]', fixture);
+    setInput('[]abcdefgh0293abcd]', fixture);
     fixture.detectChanges();
 
-    expect(getInputElement(fixture).value).toBe('[]awefhawenfc0293ejwf]');
+    expect(getInputElement(fixture).value).toBe('[]abcdefgh0293abcd]');
 
     expect(ngModel.control.valid).toBe(false);
     expect(ngModel.control.pristine).toBe(false);
@@ -99,7 +98,7 @@ describe('Email validation', () => {
   it('should handle invalid and then valid input', fakeAsync(() => {
     fixture.detectChanges();
     tick();
-    setInput('[]awefhawenfc0293ejwf]', fixture);
+    setInput('[[]abcdefgh0293abcd]', fixture);
     setInput('joe@abc.com', fixture);
 
     expect(getInputElement(fixture).value).toBe('joe@abc.com');
@@ -111,7 +110,7 @@ describe('Email validation', () => {
   }));
 
   it('should pass accessibility', async () => {
-    setInput('[]awefhawenfc0293ejwf]', fixture);
+    setInput('[[]abcdefgh0293abcd]', fixture);
     fixture.detectChanges();
     await fixture.whenStable();
     await expectAsync(fixture.nativeElement).toBeAccessible();

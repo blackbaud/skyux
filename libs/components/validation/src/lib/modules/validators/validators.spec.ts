@@ -4,7 +4,6 @@ import { SkyUrlValidationOptions } from '../url-validation/url-validation-option
 
 import { SkyValidators } from './validators';
 
-/* spell-checker:ignore awefhawenfc, ejwf */
 describe('FormControl Validators', () => {
   describe('Email', () => {
     it('should be valid on empty input (empty string)', () => {
@@ -32,7 +31,7 @@ describe('FormControl Validators', () => {
 
     it('should be invalid on incorrect input', () => {
       const control = new UntypedFormControl('', SkyValidators.email);
-      control.setValue('[]awefhawenfc0293ejwf');
+      control.setValue('[]abcdefgh0293abcd');
       expect(control.valid).toBeFalsy();
     });
 
@@ -75,7 +74,7 @@ describe('FormControl Validators', () => {
 
     it('should be invalid on text that is not a url', () => {
       const control = new UntypedFormControl('', SkyValidators.url);
-      control.setValue('[]awefhawenfc0293ejwf]');
+      control.setValue('[]abcdefgh0293abcd]');
       expect(control.valid).toBeFalsy();
     });
 
@@ -130,7 +129,7 @@ describe('FormControl Validators', () => {
         '',
         SkyValidators.url(optionsRulesetV1)
       );
-      control.setValue('[]awefhawenfc0293ejwf]');
+      control.setValue('[]abcdefgh0293abcd]');
       expect(control.valid).toBeFalsy();
     });
 
@@ -189,7 +188,7 @@ describe('FormControl Validators', () => {
         '',
         SkyValidators.url(optionsRulesetV2)
       );
-      control.setValue('[]awefhawenfc0293ejwf]');
+      control.setValue('[]abcdefgh0293abcd]');
       expect(control.valid).toBeFalsy();
     });
 

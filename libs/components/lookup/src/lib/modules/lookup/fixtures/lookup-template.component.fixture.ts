@@ -71,7 +71,6 @@ export class SkyLookupTemplateTestComponent implements OnInit {
   public showMoreConfig: SkyLookupShowMoreConfig | undefined = {};
 
   public ngOnInit(): void {
-    /* spell-checker:disable */
     this.data = [
       {
         name: 'Andy',
@@ -102,12 +101,11 @@ export class SkyLookupTemplateTestComponent implements OnInit {
       { name: 'Sally' },
       { name: 'Susan' },
       { name: 'Vanessa' },
-      { name: 'Vinny' },
+      { name: 'Vin' },
       { name: 'Xavier' },
       { name: 'Yolanda' },
       { name: 'Zack' },
     ];
-    /* spell-checker:enable */
   }
 
   public addButtonClicked(

@@ -28,7 +28,6 @@ export class SkyLookupInputBoxTestComponent {
   public form: UntypedFormGroup;
 
   constructor(formBuilder: UntypedFormBuilder) {
-    /* spell-checker:disable */
     this.data = [
       { id: 1, name: 'Andy' },
       { id: 2, name: 'Beth' },
@@ -48,7 +47,6 @@ export class SkyLookupInputBoxTestComponent {
       { id: 16, name: 'Yolanda' },
       { id: 17, name: 'Zack' },
     ];
-    /* spell-checker:enable */
 
     this.form = formBuilder.group({
       friends: new UntypedFormControl(this.friends),

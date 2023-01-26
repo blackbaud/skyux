@@ -33,7 +33,6 @@ import { SkyTextEditorMergeField } from './types/text-editor-merge-field';
 const HELLO_WORLD = '<p>Hello world</p>';
 const ID_DEFAULT = 'text-editor-test-id';
 
-/* spell-checker:ignore pharoah, Padoru */
 describe('Text editor', () => {
   let fixture: ComponentFixture<unknown>;
   let iframeElement: HTMLIFrameElement;
@@ -1221,7 +1220,7 @@ describe('Text editor', () => {
 
     it('should load in selected email link data', fakeAsync(() => {
       testComponent.value =
-        '<a href="mailto:nero.claudius@pharoah-emperors.gov?Subject=Padoru%20Padoru">Click here</a>';
+        '<a href="mailto:nero.claudius@pharaoh-emperors.gov?Subject=Pad%20Pad">Click here</a>';
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -1236,8 +1235,8 @@ describe('Text editor', () => {
       const inputs: NodeListOf<HTMLInputElement> =
         document.querySelectorAll('.sky-modal input');
       expect(document.querySelector('.sky-modal')).toBeTruthy();
-      expect(inputs[1].value).toBe('nero.claudius@pharoah-emperors.gov');
-      expect(inputs[2].value).toBe('Padoru Padoru');
+      expect(inputs[1].value).toBe('nero.claudius@pharaoh-emperors.gov');
+      expect(inputs[2].value).toBe('Pad Pad');
 
       const cancelButton = document.querySelector(
         '.sky-modal-footer-container .sky-btn-link'
@@ -1252,7 +1251,7 @@ describe('Text editor', () => {
 
     it('should load in selected email link data with case-sensitive "subject"', fakeAsync(() => {
       testComponent.value =
-        '<a href="mailto:nero.claudius@pharoah-emperors.gov?subject=Padoru%20Padoru">Click here</a>';
+        '<a href="mailto:nero.claudius@pharaoh-emperors.gov?subject=Pad%20Pad">Click here</a>';
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -1267,8 +1266,8 @@ describe('Text editor', () => {
       const inputs: NodeListOf<HTMLInputElement> =
         document.querySelectorAll('.sky-modal input');
       expect(document.querySelector('.sky-modal')).toBeTruthy();
-      expect(inputs[1].value).toBe('nero.claudius@pharoah-emperors.gov');
-      expect(inputs[2].value).toBe('Padoru Padoru');
+      expect(inputs[1].value).toBe('nero.claudius@pharaoh-emperors.gov');
+      expect(inputs[2].value).toBe('Pad Pad');
 
       const cancelButton = document.querySelector(
         '.sky-modal-footer-container .sky-btn-link'
