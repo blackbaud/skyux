@@ -207,7 +207,7 @@ export class FoobarResourcesModule { }
       packageJsonPath,
       `{
   "peerDependencies": {
-    "@skyux/i18n": "defaultversion"
+    "@skyux/i18n": "defaultVersion"
   }
 }`
     );
@@ -219,7 +219,7 @@ export class FoobarResourcesModule { }
     );
 
     expect(packageJsonContents.peerDependencies['@skyux/i18n']).toEqual(
-      'defaultversion'
+      'defaultVersion'
     );
   });
 

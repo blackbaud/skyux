@@ -225,7 +225,7 @@ export class SkyListViewGridComponent
 
   /**
    * Message stream for communicating with the internal grid instance
-   * @interal
+   * @internal
    */
   public gridMessageStream = new Subject<SkyGridMessage>();
 

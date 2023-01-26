@@ -1,5 +1,5 @@
 /**
- * Arguments used when closing a flyout programatically.
+ * Arguments used when closing a flyout programmatically.
  */
 export interface SkyFlyoutCloseArgs {
   /**

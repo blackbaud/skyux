@@ -73,7 +73,7 @@ describe('list helpers', () => {
     it('returns undefined when no selector is supplied', () => {
       const data: any = {
         myResult: 'something',
-        otherResult: 'somethingtoo',
+        otherResult: 'somethingToo',
       };
       const result = getData(data, undefined);
       expect(result).toBeUndefined();

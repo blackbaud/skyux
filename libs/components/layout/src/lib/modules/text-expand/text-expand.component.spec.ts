@@ -452,7 +452,7 @@ describe('Text expand component', () => {
       expect(modal).toBeNull();
     });
 
-    it('should open a modal when the maximun newlines is exceeded', () => {
+    it('should open a modal when the maximum newlines is exceeded', () => {
       const expandedText = LONG_TEXT_WITH_NEWLINES;
       cmp.maxExpandedNewlines = 1;
       cmp.text = expandedText;

@@ -40,7 +40,7 @@ describe('SkyI18nCurrencyFormatService', () => {
       });
     });
 
-    describe('Browser compatability', () => {
+    describe('Browser compatibility', () => {
       it('1) should shim the INTL.formatToParts browser api if needed', () => {
         // Test 1
         const result = service.getCurrencyFormat('USD', 'en-CA');

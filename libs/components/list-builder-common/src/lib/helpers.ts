@@ -59,7 +59,7 @@ export function compare(value1: any, value2: any) {
 }
 
 /*
-  Taken directly from rxjs's internal utility to determine whether an object is an Obserable.
+  Taken directly from rxjs's internal utility to determine whether an object is an Observable.
   See: https://github.com/ReactiveX/rxjs/blob/master/src/internal/util/isObservable.ts
 */
 /**

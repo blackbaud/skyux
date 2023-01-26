@@ -42,7 +42,7 @@ describe('File size pipe', () => {
     validateFormatted(999999, '999 KB');
   });
 
-  it('should format magabytes', function () {
+  it('should format megabytes', function () {
     validateFormatted(1000000, '1 MB');
     validateFormatted(1900000, '1.9 MB');
     validateFormatted(100000000, '100 MB');

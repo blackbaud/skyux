@@ -22,7 +22,7 @@
   "patterns": [
     {
       "name": "lorem-ipsum",
-      "pattern": "/Lorem ipsum[\\s\\w\\r\\n\\d,.?!;\\-\\+]+[<'`]/g"
+      "pattern": "/Lorem ipsum[\\s\\w\\r\\n\\d,.?!;\\-\\+\\\\]+[<'`]/g"
     }
   ],
   "ignoreRegExpList": ["lorem-ipsum"],
@@ -95,10 +95,12 @@
     "maxlength",
     "meridie",
     "meridies",
+    "microedge",
     "monthpicker",
     "multiselectable",
     "ngcli",
     "ngfor",
+    "ngmodel",
     "nonblocking",
     "noopener",
     "noreferrer",

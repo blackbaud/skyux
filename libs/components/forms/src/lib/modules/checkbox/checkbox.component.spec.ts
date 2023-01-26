@@ -369,7 +369,7 @@ describe('Checkbox component', () => {
       expect(inputElement?.disabled).toBe(false);
     });
 
-    it('should not toggle `checked` state upon interation while disabled', () => {
+    it('should not toggle `checked` state upon interaction while disabled', () => {
       testComponent.isDisabled = true;
       fixture.detectChanges();
 
@@ -735,7 +735,7 @@ describe('Checkbox component', () => {
       expect(inputElement?.checked).toBe(true);
     });
 
-    it('should not have required and aria-reqiured attributes when not required', async () => {
+    it('should not have required and aria-required attributes when not required', async () => {
       await fixture.whenStable();
       fixture.detectChanges();
       expect(inputElement?.getAttribute('required')).toBeNull();
@@ -776,7 +776,7 @@ describe('Checkbox component', () => {
       );
     });
 
-    it('should have required and aria-reqiured attributes', async () => {
+    it('should have required and aria-required attributes', async () => {
       fixture.detectChanges();
       await fixture.whenStable();
       fixture.detectChanges();
@@ -790,7 +790,7 @@ describe('Checkbox component', () => {
       expect(labelElement).toHaveCssClass('sky-control-label-required');
     });
 
-    it('should not have required and aria-reqiured attributes when input is false', async () => {
+    it('should not have required and aria-required attributes when input is false', async () => {
       fixture.detectChanges();
       testComponent.required = false;
       await fixture.whenStable();
@@ -844,7 +844,7 @@ describe('Checkbox component', () => {
       );
     });
 
-    it('should have required and aria-reqiured attributes', async () => {
+    it('should have required and aria-required attributes', async () => {
       fixture.detectChanges();
       await fixture.whenStable();
       fixture.detectChanges();
@@ -950,7 +950,7 @@ describe('Checkbox component', () => {
       expect(inputElement?.checked).toBe(false);
     });
 
-    it('should not have required and aria-reqiured attributes when not required', async () => {
+    it('should not have required and aria-required attributes when not required', async () => {
       await fixture.whenStable();
       fixture.detectChanges();
       expect(inputElement?.getAttribute('required')).toBeNull();
@@ -987,7 +987,7 @@ describe('Checkbox component', () => {
       );
     });
 
-    it('should have required and aria-reqiured attributes', async () => {
+    it('should have required and aria-required attributes', async () => {
       fixture.detectChanges();
       await fixture.whenStable();
       fixture.detectChanges();
@@ -1034,7 +1034,7 @@ describe('Checkbox component', () => {
       );
     });
 
-    it('should have required and aria-reqiured attributes', async () => {
+    it('should have required and aria-required attributes', async () => {
       fixture.detectChanges();
       await fixture.whenStable();
       fixture.detectChanges();

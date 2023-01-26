@@ -184,7 +184,7 @@ describe('Wait service', () => {
       verifyBlockingPageWaitExists(false);
     }));
 
-    it('should only clear waits if waitcomponent not created', fakeAsync(() => {
+    it('should only clear waits if wait component not created', fakeAsync(() => {
       clearAllPageWaits();
 
       verifyNonBlockingPageWaitExists(false);
@@ -383,7 +383,7 @@ describe('Wait service', () => {
       verifyBlockingPageWaitExists(false);
     }));
 
-    it('should only clear waits if waitcomponent not created', fakeAsync(() => {
+    it('should only clear waits if wait component not created', fakeAsync(() => {
       clearAllPageWaits();
 
       verifyNonBlockingPageWaitExists(false);

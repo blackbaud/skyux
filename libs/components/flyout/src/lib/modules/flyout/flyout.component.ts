@@ -194,7 +194,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   @HostListener('window:resize', ['$event'])
   public onWindowResize(event: any): void {
     if (
-      this.#flyoutMediaQueryService.isWidthWithinBreakpiont(
+      this.#flyoutMediaQueryService.isWidthWithinBreakpoint(
         event.target.innerWidth,
         SkyMediaBreakpoints.xs
       )
@@ -517,9 +517,9 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   #updateBreakpointAndResponsiveClass(width: number): void {
     this.#flyoutMediaQueryService.setBreakpointForWidth(width);
 
-    const newBreakpiont = this.#flyoutMediaQueryService.current;
+    const newBreakpoint = this.#flyoutMediaQueryService.current;
 
-    this.#adapter.setResponsiveClass(this.#elementRef, newBreakpiont);
+    this.#adapter.setResponsiveClass(this.#elementRef, newBreakpoint);
   }
 
   #setFullscreen(): void {
@@ -565,7 +565,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     }
 
     if (
-      this.#flyoutMediaQueryService.isWidthWithinBreakpiont(
+      this.#flyoutMediaQueryService.isWidthWithinBreakpoint(
         window.innerWidth,
         SkyMediaBreakpoints.xs
       )

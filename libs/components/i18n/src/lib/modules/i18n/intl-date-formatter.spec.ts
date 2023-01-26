@@ -8,6 +8,7 @@ describe('Intl date formatter', function () {
   });
 
   it('should format common multi component patterns', function () {
+    /* spell-checker:disable */
     const dateFixtures: any = {
       'EEE, M/d/y': 'Wed, 4/24/2019',
       'EEE, M/d': 'Wed, 4/24',
@@ -19,6 +20,7 @@ describe('Intl date formatter', function () {
       MMMd: 'Apr24',
       yMMMMEEEEd: 'Wednesday, April 24, 2019',
     };
+    /* spell-checker:enable */
 
     Object.keys(dateFixtures).forEach((pattern: string) => {
       const formattedDate = SkyIntlDateFormatter.format(
