@@ -2,6 +2,7 @@ import {
   ApplicationRef,
   ComponentRef,
   EmbeddedViewRef,
+  EnvironmentInjector,
   Injectable,
   Injector,
   Renderer2,
@@ -17,15 +18,18 @@ import { SkyDynamicComponentOptions } from './dynamic-component-options';
 
 /**
  * Angular service for creating and rendering a dynamic component.
+ * @internal
  */
 @Injectable({
   // Must be 'any' so that the component is created in the context of its module's injector.
   // If set to 'root', the component's dependency injections would only be derived from the root
-  // injector and may loose context if the component is created within a lazy-loaded module.
+  // injector and may lose context if the component is created within a lazy-loaded module.
   providedIn: 'any',
 })
 export class SkyDynamicComponentService {
   #applicationRef: ApplicationRef;
+
+  #environmentInjector: EnvironmentInjector;
 
   #injector: Injector;
 
@@ -37,11 +41,13 @@ export class SkyDynamicComponentService {
     applicationRef: ApplicationRef,
     injector: Injector,
     windowRef: SkyAppWindowRef,
-    rendererFactory: RendererFactory2
+    rendererFactory: RendererFactory2,
+    environmentInjector: EnvironmentInjector
   ) {
     this.#applicationRef = applicationRef;
     this.#injector = injector;
     this.#windowRef = windowRef;
+    this.#environmentInjector = environmentInjector;
 
     // Based on suggestions from https://github.com/angular/angular/issues/17824
     // for accessing an instance of Renderer2 in a service since Renderer2 can't
@@ -68,13 +74,14 @@ export class SkyDynamicComponentService {
     });
 
     let componentRef: ComponentRef<T>;
+
     if (options.viewContainerRef) {
       componentRef = options.viewContainerRef.createComponent(componentType, {
-        injector: injector,
+        injector,
       });
     } else {
       componentRef = createComponent<T>(componentType, {
-        environmentInjector: this.#applicationRef.injector,
+        environmentInjector: this.#environmentInjector,
         elementInjector: injector,
       });
 
