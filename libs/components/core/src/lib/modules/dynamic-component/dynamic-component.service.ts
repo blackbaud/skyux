@@ -18,6 +18,7 @@ import { SkyDynamicComponentOptions } from './dynamic-component-options';
 
 /**
  * Angular service for creating and rendering a dynamic component.
+ * @internal
  */
 @Injectable({
   // Must be 'any' so that the component is created in the context of its module's injector.
