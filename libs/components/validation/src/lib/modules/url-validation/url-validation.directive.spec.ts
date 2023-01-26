@@ -12,6 +12,7 @@ import { SkyUrlValidationFixturesModule } from './fixtures/url-validation-fixtur
 import { UrlValidationRulesetTestComponent } from './fixtures/url-validation-ruleset.component.fixture';
 import { UrlValidationTestComponent } from './fixtures/url-validation.component.fixture';
 
+/* spell-checker:ignore awefhawenfc, ejwf */
 function getInputElement(
   fixture: ComponentFixture<
     UrlValidationTestComponent | UrlValidationRulesetTestComponent

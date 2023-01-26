@@ -19,6 +19,7 @@ import { SkyAutocompleteFixtureComponent } from './fixtures/autocomplete.compone
 import { SkyAutocompleteMessageType } from './types/autocomplete-message-type';
 import { SkyAutocompleteSearchFunction } from './types/autocomplete-search-function';
 
+/* spell-checker:ignore Åland, rasdasdlhasdjklh */
 describe('Autocomplete component', () => {
   //#region helpers
 

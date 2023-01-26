@@ -157,10 +157,10 @@ describe('Autocomplete harness', () => {
 
     await expectAsync(
       autocompleteHarness?.getSearchResults({
-        text: /invalidsearchtext/,
+        text: /invalidSearchText/,
       })
     ).toBeRejectedWithError(
-      'Could not find search results matching filter(s): {"text":"/invalidsearchtext/"}'
+      'Could not find search results matching filter(s): {"text":"/invalidSearchText/"}'
     );
   });
 
@@ -169,7 +169,7 @@ describe('Autocomplete harness', () => {
       dataSkyId: 'my-autocomplete-1',
     });
 
-    await autocompleteHarness?.enterText('invalidsearchtext');
+    await autocompleteHarness?.enterText('invalidSearchText');
 
     await expectAsync(autocompleteHarness?.getSearchResults()).toBeResolvedTo(
       []

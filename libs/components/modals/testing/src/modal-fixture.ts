@@ -28,7 +28,7 @@ export class SkyModalFixture {
    * The modal component's ARIA describedby attribute.
    */
   public get ariaDescribedBy(): string | undefined {
-    const modalDialogElement = this.#getModalDiaglogElement();
+    const modalDialogElement = this.#getModalDialogElement();
     /* Non-null assertion as our component has a default for if the user does not provide this attribute or if they provide "undefined" */
     const describedByAttribute =
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -40,7 +40,7 @@ export class SkyModalFixture {
    * The modal component's ARIA labelledby attribute.
    */
   public get ariaLabelledBy(): string | undefined {
-    const modalDialogElement = this.#getModalDiaglogElement();
+    const modalDialogElement = this.#getModalDialogElement();
     /* Non-null assertion as our component has a default for if the user does not provide this attribute or if they provide "undefined" */
     const labelledByAttribute =
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -53,7 +53,7 @@ export class SkyModalFixture {
    * The modal component's role attribute.
    */
   public get ariaRole(): string | undefined {
-    const modalDialogElement = this.#getModalDiaglogElement();
+    const modalDialogElement = this.#getModalDialogElement();
     /* Non-null assertion as our component has a default for if the user does not provide this attribute or if they provide "undefined" */
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const roleAttribute = modalDialogElement.getAttribute('role')!;
@@ -167,7 +167,7 @@ export class SkyModalFixture {
     }
   }
 
-  #getModalDiaglogElement(): HTMLElement {
+  #getModalDialogElement(): HTMLElement {
     this.#checkModalElement();
     // We can always know that the dialog element will exist if the modal is open and exists.
     return this.#modalElement.querySelector('.sky-modal-dialog')!;

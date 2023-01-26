@@ -354,7 +354,7 @@ export class SkyCountryFieldComponent
   }
 
   /**
-   * Angular lifecycle hook for when the compoennt is destructed.
+   * Angular lifecycle hook for when the component is destructed.
    * @internal
    */
   public ngOnDestroy(): void {
@@ -551,7 +551,7 @@ export class SkyCountryFieldComponent
     });
 
     if (selectedCountry) {
-      // Note: We are looking up this data here to ensure we are using the offical data from the
+      // Note: We are looking up this data here to ensure we are using the official data from the
       // library and not the data provided by the user on initialization of the component
       const foundCountry = this.countries.find(
         (country) => country.iso2 === selectedCountry.iso2.toLocaleLowerCase()
