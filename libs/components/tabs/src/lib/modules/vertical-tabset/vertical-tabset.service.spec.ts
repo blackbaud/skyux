@@ -61,7 +61,7 @@ describe('Vertical tabset service', () => {
     expect(service.activeIndex).toBe(1);
   });
 
-  it('should deactive old active tab', () => {
+  it('should deactivate old active tab', () => {
     const tab1 = jasmine.createSpyObj('SkyVerticalTabComponent', [
       'tabDeactivated',
     ]);

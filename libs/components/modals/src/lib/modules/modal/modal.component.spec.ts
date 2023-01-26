@@ -225,7 +225,7 @@ describe('Modal component', () => {
     closeModal(modalInstance1);
   }));
 
-  it('should focus the dialog when all focuable elements are disabled', fakeAsync(() => {
+  it('should focus the dialog when all focusable elements are disabled', fakeAsync(() => {
     const modalInstance1 = openModal(ModalWithFocusContentTestComponent, {
       providers: [
         {
@@ -595,17 +595,17 @@ describe('Modal component', () => {
 
   it('should accept configuration options for role, aria-labelledBy, and aria-describedby', fakeAsync(() => {
     const modalInstance = openModal(ModalTestComponent, {
-      ariaLabelledBy: 'customlabelledby',
-      ariaDescribedBy: 'customdescribedby',
+      ariaLabelledBy: 'customLabelledBy',
+      ariaDescribedBy: 'customDescribedBy',
       ariaRole: 'alertdialog',
     });
 
     expect(getModalDialogElement().getAttribute('role')).toBe('alertdialog');
     expect(getModalDialogElement().getAttribute('aria-labelledby')).toBe(
-      'customlabelledby'
+      'customLabelledBy'
     );
     expect(getModalDialogElement().getAttribute('aria-describedby')).toBe(
-      'customdescribedby'
+      'customDescribedBy'
     );
 
     closeModal(modalInstance);

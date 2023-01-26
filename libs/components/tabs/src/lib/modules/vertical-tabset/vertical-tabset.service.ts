@@ -117,7 +117,7 @@ export class SkyVerticalTabsetService {
   }
 
   public activateTab(tab: SkyVerticalTabComponent): void {
-    // unactivate active tab
+    // deactivate active tab
     const activeTab = this.tabs.find((t) => t.index === this.activeIndex);
     if (activeTab && activeTab.index !== tab.index) {
       activeTab.active = false;

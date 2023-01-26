@@ -177,7 +177,7 @@ describe('Toast component', () => {
   }));
 
   it('should close all toasts', fakeAsync(() => {
-    const cloaseAllSpy = spyOn(
+    const closeAllSpy = spyOn(
       SkyToasterComponent.prototype,
       'closeAll'
     ).and.callThrough();
@@ -196,11 +196,11 @@ describe('Toast component', () => {
 
     toasts = getToastElements();
     expect(toasts.length).toEqual(0);
-    expect(cloaseAllSpy).toHaveBeenCalled();
+    expect(closeAllSpy).toHaveBeenCalled();
   }));
 
   it('should close all toasts', fakeAsync(() => {
-    const cloaseAllSpy = spyOn(
+    const closeAllSpy = spyOn(
       SkyToasterComponent.prototype,
       'closeAll'
     ).and.callThrough();
@@ -215,7 +215,7 @@ describe('Toast component', () => {
 
     toasts = getToastElements();
     expect(toasts.length).toEqual(0);
-    expect(cloaseAllSpy).not.toHaveBeenCalled();
+    expect(closeAllSpy).not.toHaveBeenCalled();
   }));
 
   it('should allow click events to bubble up to the document to support 3rd-party event listeners', fakeAsync(() => {

@@ -89,64 +89,64 @@ describe('Vertical tab media query service', () => {
   });
 
   describe('width checks', () => {
-    it('should return true from isWidthWithinBreakpoing with Xs when appropriate', inject(
+    it('should return true from isWidthWithinBreakpoint with Xs when appropriate', inject(
       [SkyVerticalTabMediaQueryService],
       (mediaQueryService: SkyVerticalTabMediaQueryService) => {
         expect(
-          mediaQueryService.isWidthWithinBreakpiont(767, SkyMediaBreakpoints.xs)
+          mediaQueryService.isWidthWithinBreakpoint(767, SkyMediaBreakpoints.xs)
         ).toBeTruthy();
 
         mediaQueryService.destroy();
       }
     ));
 
-    it('should return false from isWidthWithinBreakpoing with Xs when appropriate', inject(
+    it('should return false from isWidthWithinBreakpoint with Xs when appropriate', inject(
       [SkyVerticalTabMediaQueryService],
       (mediaQueryService: SkyVerticalTabMediaQueryService) => {
         expect(
-          mediaQueryService.isWidthWithinBreakpiont(768, SkyMediaBreakpoints.xs)
+          mediaQueryService.isWidthWithinBreakpoint(768, SkyMediaBreakpoints.xs)
         ).toBeFalsy();
 
         mediaQueryService.destroy();
       }
     ));
 
-    it('should return true from isWidthWithinBreakpoing with Sm when appropriate', inject(
+    it('should return true from isWidthWithinBreakpoint with Sm when appropriate', inject(
       [SkyVerticalTabMediaQueryService],
       (mediaQueryService: SkyVerticalTabMediaQueryService) => {
         expect(
-          mediaQueryService.isWidthWithinBreakpiont(768, SkyMediaBreakpoints.sm)
+          mediaQueryService.isWidthWithinBreakpoint(768, SkyMediaBreakpoints.sm)
         ).toBeTruthy();
         expect(
-          mediaQueryService.isWidthWithinBreakpiont(991, SkyMediaBreakpoints.sm)
+          mediaQueryService.isWidthWithinBreakpoint(991, SkyMediaBreakpoints.sm)
         ).toBeTruthy();
 
         mediaQueryService.destroy();
       }
     ));
 
-    it('should return false from isWidthWithinBreakpoing with Sm when appropriate', inject(
+    it('should return false from isWidthWithinBreakpoint with Sm when appropriate', inject(
       [SkyVerticalTabMediaQueryService],
       (mediaQueryService: SkyVerticalTabMediaQueryService) => {
         expect(
-          mediaQueryService.isWidthWithinBreakpiont(767, SkyMediaBreakpoints.sm)
+          mediaQueryService.isWidthWithinBreakpoint(767, SkyMediaBreakpoints.sm)
         ).toBeFalsy();
         expect(
-          mediaQueryService.isWidthWithinBreakpiont(992, SkyMediaBreakpoints.sm)
+          mediaQueryService.isWidthWithinBreakpoint(992, SkyMediaBreakpoints.sm)
         ).toBeFalsy();
 
         mediaQueryService.destroy();
       }
     ));
 
-    it('should return true from isWidthWithinBreakpoing with Md when appropriate', inject(
+    it('should return true from isWidthWithinBreakpoint with Md when appropriate', inject(
       [SkyVerticalTabMediaQueryService],
       (mediaQueryService: SkyVerticalTabMediaQueryService) => {
         expect(
-          mediaQueryService.isWidthWithinBreakpiont(992, SkyMediaBreakpoints.md)
+          mediaQueryService.isWidthWithinBreakpoint(992, SkyMediaBreakpoints.md)
         ).toBeTruthy();
         expect(
-          mediaQueryService.isWidthWithinBreakpiont(
+          mediaQueryService.isWidthWithinBreakpoint(
             1199,
             SkyMediaBreakpoints.md
           )
@@ -156,14 +156,14 @@ describe('Vertical tab media query service', () => {
       }
     ));
 
-    it('should return false from isWidthWithinBreakpoing with Md when appropriate', inject(
+    it('should return false from isWidthWithinBreakpoint with Md when appropriate', inject(
       [SkyVerticalTabMediaQueryService],
       (mediaQueryService: SkyVerticalTabMediaQueryService) => {
         expect(
-          mediaQueryService.isWidthWithinBreakpiont(991, SkyMediaBreakpoints.md)
+          mediaQueryService.isWidthWithinBreakpoint(991, SkyMediaBreakpoints.md)
         ).toBeFalsy();
         expect(
-          mediaQueryService.isWidthWithinBreakpiont(
+          mediaQueryService.isWidthWithinBreakpoint(
             1200,
             SkyMediaBreakpoints.md
           )
@@ -173,17 +173,17 @@ describe('Vertical tab media query service', () => {
       }
     ));
 
-    it('should return true from isWidthWithinBreakpoing with Lg when appropriate', inject(
+    it('should return true from isWidthWithinBreakpoint with Lg when appropriate', inject(
       [SkyVerticalTabMediaQueryService],
       (mediaQueryService: SkyVerticalTabMediaQueryService) => {
         expect(
-          mediaQueryService.isWidthWithinBreakpiont(
+          mediaQueryService.isWidthWithinBreakpoint(
             1200,
             SkyMediaBreakpoints.lg
           )
         ).toBeTruthy();
         expect(
-          mediaQueryService.isWidthWithinBreakpiont(
+          mediaQueryService.isWidthWithinBreakpoint(
             2000,
             SkyMediaBreakpoints.lg
           )
@@ -193,11 +193,11 @@ describe('Vertical tab media query service', () => {
       }
     ));
 
-    it('should return false from isWidthWithinBreakpoing with Lg when appropriate', inject(
+    it('should return false from isWidthWithinBreakpoint with Lg when appropriate', inject(
       [SkyVerticalTabMediaQueryService],
       (mediaQueryService: SkyVerticalTabMediaQueryService) => {
         expect(
-          mediaQueryService.isWidthWithinBreakpiont(
+          mediaQueryService.isWidthWithinBreakpoint(
             1199,
             SkyMediaBreakpoints.lg
           )

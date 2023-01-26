@@ -76,7 +76,7 @@ export class SkyModalAdapterService {
   }
 
   /**
-   * Restores modal-host siblings to screenreader status prior to modals being opened
+   * Restores modal-host siblings to screen reader status prior to modals being opened
    */
   public unhideOrRestoreHostSiblingsFromScreenReaders(): void {
     this.#hostSiblingAriaHiddenCache.forEach((previousValue, element) => {

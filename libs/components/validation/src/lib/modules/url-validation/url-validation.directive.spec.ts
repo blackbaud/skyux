@@ -75,10 +75,10 @@ describe('URL validation via directive - ruleset v1 (implicit)', () => {
   it('should validate incorrect input', fakeAsync(() => {
     fixture.detectChanges();
     tick();
-    setInput('[]awefhawenfc0293ejwf]', fixture);
+    setInput('[]abcdefgh0293abcd]', fixture);
     fixture.detectChanges();
 
-    expect(getInputElement(fixture).value).toBe('[]awefhawenfc0293ejwf]');
+    expect(getInputElement(fixture).value).toBe('[]abcdefgh0293abcd]');
 
     expect(ngModel.control.valid).toBe(false);
     expect(ngModel.control.pristine).toBe(false);
@@ -88,11 +88,11 @@ describe('URL validation via directive - ruleset v1 (implicit)', () => {
   it('should validate invalid and then valid input', fakeAsync(() => {
     fixture.detectChanges();
     tick();
-    setInput('[]awefhawenfc0293ejwf]', fixture);
+    setInput('[]abcdefgh0293abcd]', fixture);
     fixture.detectChanges();
     tick();
-    expect(getInputElement(fixture).value).toBe('[]awefhawenfc0293ejwf]');
-    expect(component.urlValidator).toEqual('[]awefhawenfc0293ejwf]');
+    expect(getInputElement(fixture).value).toBe('[]abcdefgh0293abcd]');
+    expect(component.urlValidator).toEqual('[]abcdefgh0293abcd]');
     expect(ngModel.control.valid).toBe(false);
     fixture.detectChanges();
     tick();
@@ -108,7 +108,7 @@ describe('URL validation via directive - ruleset v1 (implicit)', () => {
 
   it('should pass accessibility', async () => {
     fixture.detectChanges();
-    setInput('[]awefhawenfc0293ejwf]', fixture);
+    setInput('[]abcdefgh0293abcd]', fixture);
     fixture.detectChanges();
     await fixture.whenStable();
     await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -168,10 +168,10 @@ describe('URL validation via directive - ruleset v1 (explicit)', () => {
     };
     fixture.detectChanges();
     tick();
-    setInput('[]awefhawenfc0293ejwf]', fixture);
+    setInput('[]abcdefgh0293abcd]', fixture);
     fixture.detectChanges();
 
-    expect(getInputElement(fixture).value).toBe('[]awefhawenfc0293ejwf]');
+    expect(getInputElement(fixture).value).toBe('[]abcdefgh0293abcd]');
 
     expect(ngModel.control.valid).toBe(false);
     expect(ngModel.control.pristine).toBe(false);
@@ -229,10 +229,10 @@ describe('URL validation via directive - ruleset v2', () => {
   it('should validate incorrect input using ruleset version 2', fakeAsync(() => {
     fixture.detectChanges();
     tick();
-    setInput('[]awefhawenfc0293ejwf]', fixture);
+    setInput('[]abcdefgh0293abcd]', fixture);
     fixture.detectChanges();
 
-    expect(getInputElement(fixture).value).toBe('[]awefhawenfc0293ejwf]');
+    expect(getInputElement(fixture).value).toBe('[]abcdefgh0293abcd]');
 
     expect(ngModel.control.valid).toBe(false);
     expect(ngModel.control.pristine).toBe(false);
@@ -242,11 +242,11 @@ describe('URL validation via directive - ruleset v2', () => {
   it('should validate invalid and then valid input using ruleset version 2', fakeAsync(() => {
     fixture.detectChanges();
     tick();
-    setInput('[]awefhawenfc0293ejwf]', fixture);
+    setInput('[]abcdefgh0293abcd]', fixture);
     fixture.detectChanges();
     tick();
-    expect(getInputElement(fixture).value).toBe('[]awefhawenfc0293ejwf]');
-    expect(component.urlValidator).toEqual('[]awefhawenfc0293ejwf]');
+    expect(getInputElement(fixture).value).toBe('[]abcdefgh0293abcd]');
+    expect(component.urlValidator).toEqual('[]abcdefgh0293abcd]');
     expect(ngModel.control.valid).toBe(false);
     fixture.detectChanges();
     tick();
@@ -262,7 +262,7 @@ describe('URL validation via directive - ruleset v2', () => {
 
   it('should pass accessibility using ruleset version 2', async () => {
     fixture.detectChanges();
-    setInput('[]awefhawenfc0293ejwf]', fixture);
+    setInput('[]abcdefgh0293abcd]', fixture);
     fixture.detectChanges();
     await fixture.whenStable();
     await expectAsync(fixture.nativeElement).toBeAccessible();

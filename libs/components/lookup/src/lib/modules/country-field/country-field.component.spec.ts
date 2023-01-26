@@ -23,6 +23,7 @@ import { CountryFieldNoFormTestComponent } from './fixtures/country-field-no-for
 import { CountryFieldReactiveTestComponent } from './fixtures/country-field-reactive.component.fixture';
 import { CountryFieldTestComponent } from './fixtures/country-field.component.fixture';
 
+/* spell-checker:ignore Austr, Κύπρος */
 describe('Country Field Component', () => {
   let mockThemeSvc: any;
 
@@ -1133,7 +1134,7 @@ describe('Country Field Component', () => {
           component,
           'formValueChanged'
         ).and.callThrough();
-        component.initiallizeToUndefined = true;
+        component.initializeToUndefined = true;
         fixture.detectChanges();
         tick();
 

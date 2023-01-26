@@ -357,7 +357,7 @@ describe('Lookup component', function () {
   function selectShowOnlySelectedBase(fixture: ComponentFixture<any>): void {
     (
       document.querySelector(
-        '.sky-lookup-show-more-modal-muiltiselect-toolbar .sky-toolbar-view-actions input'
+        '.sky-lookup-show-more-modal-multiselect-toolbar .sky-toolbar-view-actions input'
       ) as HTMLElement
     ).click();
     fixture.detectChanges();
@@ -922,7 +922,7 @@ describe('Lookup component', function () {
         expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
       }));
 
-      it('should clear the value when the search text is clared', fakeAsync(function () {
+      it('should clear the value when the search text is cleared', fakeAsync(function () {
         fixture.detectChanges();
         expect(lookupComponent.value).toEqual([]);
 
@@ -3241,7 +3241,7 @@ describe('Lookup component', function () {
           expect(document.activeElement).toEqual(inputElement);
         }));
 
-        it('should remove tokens when backpsace or delete is pressed', fakeAsync(function () {
+        it('should remove tokens when backspace or delete is pressed', fakeAsync(function () {
           function validate(key: string, expectedCount: number): void {
             const tokensHostElement = document.querySelector(
               '#my-lookup sky-tokens'
@@ -3863,7 +3863,7 @@ describe('Lookup component', function () {
           expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
         }));
 
-        it('should clear the value when the search text is clared', fakeAsync(function () {
+        it('should clear the value when the search text is cleared', fakeAsync(function () {
           fixture.detectChanges();
           expect(lookupComponent.value).toEqual([]);
 
@@ -6152,7 +6152,7 @@ describe('Lookup component', function () {
           expect(inputElement.value).toEqual('');
         }));
 
-        it('should remove tokens when backpsace or delete is pressed', fakeAsync(function () {
+        it('should remove tokens when backspace or delete is pressed', fakeAsync(function () {
           component.selectedFriends = [
             { name: 'John' },
             { name: 'Jane' },

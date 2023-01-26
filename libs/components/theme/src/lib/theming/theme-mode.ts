@@ -14,7 +14,7 @@ export class SkyThemeMode {
    * Creates a new theme mode.
    * @param name The name of the theme mode.
    * @param hostClass The class on the host element which child components should reference when
-   * adusting for a specified theme mode.
+   * adjusting for a specified theme mode.
    */
   constructor(
     public readonly name: string,
