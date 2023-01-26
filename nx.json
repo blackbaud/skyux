@@ -2,7 +2,7 @@
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "npmScope": "skyux",
   "affected": {
-    "defaultBase": "main"
+    "defaultBase": "8.x.x-next"
   },
   "tasksRunnerOptions": {
     "default": {
