@@ -31,6 +31,18 @@
 * **components/lookup:** make selection modal harness visible to docs ([#941](https://github.com/blackbaud/skyux/issues/941)) ([bca8e18](https://github.com/blackbaud/skyux/commit/bca8e185d5ce70a626379bf75398256f0873fe09))
 * **components/tiles:** render tile dashboard if config is set after init ([#943](https://github.com/blackbaud/skyux/issues/943)) ([ae8e305](https://github.com/blackbaud/skyux/commit/ae8e305f59a85a47f4479b2db82afda9f29fe863))
 
+## [7.4.0](https://github.com/blackbaud/skyux/compare/7.3.0...7.4.0) (2023-01-18)
+
+
+### Features
+
+* **components/lookup:** add selection modal service ([#931](https://github.com/blackbaud/skyux/issues/931)) ([7d6bc6e](https://github.com/blackbaud/skyux/commit/7d6bc6e40fdbee577353e82e48be756139b0f6b1))
+
+
+### Bug Fixes
+
+* **components/colorpicker:** colorpicker selection change updates both reactive forms and template forms ([#926](https://github.com/blackbaud/skyux/issues/926)) ([4e7b735](https://github.com/blackbaud/skyux/commit/4e7b73519320b705ca64fe842ede2a72c0adba5b))
+
 ## [7.3.0](https://github.com/blackbaud/skyux/compare/7.2.0...7.3.0) (2023-01-13)
 
 
