@@ -49,9 +49,9 @@ describe('Lookup result templates demo', () => {
       results &&
       (await results[0].queryHarness(LookupResultTemplatesItemHarness));
 
-    await expectAsync(templateItemHarness?.getName()).toBeResolvedTo('Ben');
+    await expectAsync(templateItemHarness?.getName()).toBeResolvedTo('Abed');
     await expectAsync(templateItemHarness?.getFormalName()).toBeResolvedTo(
-      'Mr. Chang'
+      'Mr. Nadir'
     );
   });
 
@@ -68,9 +68,9 @@ describe('Lookup result templates demo', () => {
       results &&
       (await results[0].queryHarness(LookupResultTemplatesItemHarness));
 
-    await expectAsync(templateItemHarness?.getName()).toBeResolvedTo('Ben');
+    await expectAsync(templateItemHarness?.getName()).toBeResolvedTo('Abed');
     await expectAsync(templateItemHarness?.getFormalName()).toBeResolvedTo(
-      'Mr. Chang'
+      'Mr. Nadir'
     );
   });
 
@@ -87,7 +87,7 @@ describe('Lookup result templates demo', () => {
       fixture.componentInstance.favoritesForm.controls.favoriteNames.value
     ).toEqual([
       { name: 'Shirley', formal: 'Ms. Bennett' },
-      { name: 'Ben', formal: 'Mr. Chang' },
+      { name: 'Abed', formal: 'Mr. Nadir' },
     ]);
   });
 });

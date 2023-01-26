@@ -54,7 +54,7 @@ describe('Lookup custom picker demo', () => {
     expect(fixture.componentInstance.favoritesForm.value.favoriteNames).toEqual(
       [
         { name: 'Shirley', formal: 'Ms. Bennett' },
-        { name: 'Ben', formal: 'Mr. Chang' },
+        { name: 'Abed', formal: 'Mr. Nadir' },
       ]
     );
   });
