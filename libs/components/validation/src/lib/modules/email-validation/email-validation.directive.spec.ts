@@ -11,7 +11,6 @@ import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyEmailValidationFixturesModule } from './fixtures/email-validation-fixtures.module';
 import { EmailValidationTestComponent } from './fixtures/email-validation.component.fixture';
 
-/* spell-checker:ignore awefhawenfc, ejwf */
 describe('Email validation', () => {
   function getInputElement(
     fixture: ComponentFixture<EmailValidationTestComponent>

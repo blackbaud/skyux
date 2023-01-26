@@ -33,7 +33,6 @@ import { SkyTextEditorMergeField } from './types/text-editor-merge-field';
 const HELLO_WORLD = '<p>Hello world</p>';
 const ID_DEFAULT = 'text-editor-test-id';
 
-/* spell-checker:ignore pharoah, Padoru */
 describe('Text editor', () => {
   let fixture: ComponentFixture<unknown>;
   let iframeElement: HTMLIFrameElement;

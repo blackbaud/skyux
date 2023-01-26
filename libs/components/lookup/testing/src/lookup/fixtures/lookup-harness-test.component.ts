@@ -30,7 +30,6 @@ interface Person {
 export class LookupHarnessTestComponent implements AfterViewInit {
   public myForm: UntypedFormGroup;
 
-  /* spell-checker:disable */
   public people: Person[] = [
     {
       name: 'Abed',
@@ -113,7 +112,6 @@ export class LookupHarnessTestComponent implements AfterViewInit {
       formal: 'Ms. Jenkins',
     },
   ];
-  /* spell-checker:disable */
 
   public name: Person[] = [this.people[15]];
 

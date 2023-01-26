@@ -2,7 +2,6 @@ import { SkyUrlValidationOptions } from '../url-validation/url-validation-option
 
 import { SkyValidation } from './validation';
 
-/* spell-checker:ignore awefhawenfc, ejwf, lyword, lostin */
 describe('Validation', () => {
   describe('Email validation', () => {
     it('should is correct input', () => {

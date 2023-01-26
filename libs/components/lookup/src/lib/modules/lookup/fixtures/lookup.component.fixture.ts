@@ -97,7 +97,6 @@ export class SkyLookupTestComponent {
   #_friends: any[] = [];
 
   constructor(formBuilder: UntypedFormBuilder) {
-    /* spell-checker:disable */
     this.data = [
       {
         name: 'Andy',
@@ -133,7 +132,6 @@ export class SkyLookupTestComponent {
       { name: 'Yolanda' },
       { name: 'Zack' },
     ];
-    /* spell-checker:enable */
 
     this.asyncForm = formBuilder.group({
       friends: new UntypedFormControl(this.friends),
