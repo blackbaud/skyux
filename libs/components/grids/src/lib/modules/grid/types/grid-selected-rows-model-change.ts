@@ -5,7 +5,7 @@ import { SkyGridSelectedRowsSource } from './grid-selected-rows-source';
  */
 export interface SkyGridSelectedRowsModelChange {
   /**
-   * The `id`s of the rows that are selected.
+   * The IDs of the rows that are selected.
    */
   selectedRowIds?: string[];
 

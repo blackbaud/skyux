@@ -131,7 +131,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   public icon: string | undefined;
 
   /**
-   * The type to set the background color after users select a checkbox where the
+   * The background color type after users select a checkbox where the
    * `icon` property displays an icon in place of the checkbox. The valid options correspond to
    * [the label component's](https://developer.blackbaud.com/skyux/components/label)
    * label types. `"info"` creates a blue background, `"success"` creates a green

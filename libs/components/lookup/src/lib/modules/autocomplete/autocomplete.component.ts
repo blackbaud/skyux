@@ -167,7 +167,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   }
 
   /**
-   * The function to dynamically manage the data source when users
+   * The function that dynamically manages the data source when users
    * change the text in the autocomplete field. The search function must return
    * an array or a promise of an array. The `search` property is particularly
    * useful when the data source does not live in the source code.
@@ -189,7 +189,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   }
 
   /**
-   * The template to format each search result in the dropdown list.
+   * The template that formats each search result in the dropdown list.
    * The autocomplete component injects search result values into the template
    * as `item` variables that reference all of the object properties of the search results.
    */

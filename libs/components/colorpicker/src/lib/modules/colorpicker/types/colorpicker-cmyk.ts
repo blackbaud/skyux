@@ -1,21 +1,21 @@
 /**
- * Specifies colors as a combination of cyan, magenta, yellow, and black.
+ * Colors specified as a combination of cyan, magenta, yellow, and black.
  */
 export interface SkyColorpickerCmyk {
   /**
-   * The percentage of cyan to use.
+   * The percentage of cyan.
    */
   cyan: number;
   /**
-   * The percentage of magenta to use.
+   * The percentage of magenta.
    */
   magenta: number;
   /**
-   * The percentage of yellow to use.
+   * The percentage of yellow.
    */
   yellow: number;
   /**
-   * The percentage of black to use.
+   * The percentage of black.
    */
   key: number;
 }

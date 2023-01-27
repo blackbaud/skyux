@@ -2,11 +2,11 @@ import { GridOptions } from 'ag-grid-community';
 
 export interface SkyGetGridOptionsArgs {
   /**
-   * The [AG Grid `gridOptions`](https://www.ag-grid.com/javascript-grid-properties/) used to override default SKY UX gridOptions. SKY UX column types for components and column `cellClassRules` enforce required cell styling and cannot be overridden.
+   * The [AG Grid `gridOptions`](https://www.ag-grid.com/javascript-grid-properties/) that override default SKY UX `gridOptions`. SKY UX column types for components and column `cellClassRules` enforce required cell styling and cannot be overridden.
    */
   gridOptions: GridOptions;
   /**
-   * The locale used for location-specific formatting, such as date values for the `SkyCellType.Date` column. This property accepts string values.
+   * The locale for location-specific formatting, such as date values for the `SkyCellType.Date` column.
    */
   locale?: string;
 }

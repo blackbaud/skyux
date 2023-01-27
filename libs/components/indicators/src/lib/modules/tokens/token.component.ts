@@ -52,7 +52,7 @@ export class SkyTokenComponent {
   }
 
   /**
-   * Whether users can press the `Tab` key to place focus on the token. This does not
+   * Whether users can place focus on the token using the `Tab`. This does not
    * affect the ability to select the token, dismiss it, or navigate to it with the arrow keys.
    * @default true
    */

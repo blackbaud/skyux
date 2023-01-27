@@ -68,7 +68,7 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Whether the split view's height should be bound to the window height.
+   * Whether the split view's height is bound to the window height.
    * @default false
    * @deprecated We recommend using the `dock` input instead. An example of this can
    * be found in the developer code examples.
@@ -96,7 +96,7 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * How the split view should dock to its container. Use `fill` to dock
+   * How the split view docks to its container. Use `fill` to dock
    * the split view to the container's size where the container is a `sky-page` component
    * with its `layout` input set to `fit`, or where the container is another element with
    * a relative or absolute position and a fixed size.
@@ -112,7 +112,7 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * The observable to send commands to the split view component.
+   * The observable that sends commands to the split view component.
    * The commands should respect the `SkySplitViewMessage` type.
    */
   @Input()

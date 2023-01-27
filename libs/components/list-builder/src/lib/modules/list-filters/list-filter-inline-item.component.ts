@@ -39,7 +39,7 @@ export class SkyListFilterInlineItemComponent implements OnInit {
   public defaultValue: any;
 
   /**
-   * The function to apply to determine whether an item is filtered.
+   * The function that determines whether an item is filtered.
    * This property is required when using an in-memory data provider. For information
    * about `ListItemModel`, see the
    * [shared classes for lists](https://developer.blackbaud.com/skyux-list-builder-common/docs/list-builder-common).

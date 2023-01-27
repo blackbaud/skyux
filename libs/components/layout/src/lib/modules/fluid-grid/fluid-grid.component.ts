@@ -20,7 +20,7 @@ export class SkyFluidGridComponent {
   public disableMargin: boolean | undefined = false;
 
   /**
-   * The `SkyFluidGridGutterSizeType` to define the size of the padding
+   * The type that defines the size of the padding
    * between columns.
    * @default "large"
    */

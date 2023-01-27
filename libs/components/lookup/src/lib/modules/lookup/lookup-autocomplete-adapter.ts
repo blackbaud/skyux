@@ -77,7 +77,7 @@ export class SkyLookupAutocompleteAdapter {
   }
 
   /**
-   * The template to format each option in the dropdown list. The lookup component
+   * The template that formats each option in the dropdown list. The lookup component
    * injects values into the template as `item` variables that reference all the object
    * properties of the options.
    */

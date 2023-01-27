@@ -3,7 +3,7 @@
  */
 export interface SkyFlyoutCloseArgs {
   /**
-   * Whether the `SkyFlyoutBeforeCloseHandler` should be ignored when closing a flyout.
+   * Whether the `SkyFlyoutBeforeCloseHandler` is ignored when closing a flyout.
    */
   ignoreBeforeClose?: boolean;
 }

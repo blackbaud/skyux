@@ -55,7 +55,7 @@ export class SkyAvatarComponent {
   }
 
   /**
-   * The image to display to identify a record. This property is
+   * The image to identify a record. This property is
    * not required, but the component requires either the `name` or `src` property.
    */
   @Input()

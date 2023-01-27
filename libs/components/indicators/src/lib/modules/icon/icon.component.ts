@@ -20,8 +20,8 @@ export class SkyIconComponent {
   public icon: string | undefined;
 
   /**
-   * The type of icon to display. Specifying `"fa"` will display a Font Awesome icon,
-   * while specifying `"skyux"` will display an icon from the custom SKY UX icon font. Note that
+   * The type of icon to display. Specifying `"fa"` displays a Font Awesome icon,
+   * while specifying `"skyux"` displays an icon from the custom SKY UX icon font. Note that
    * the custom SKY UX icon font is currently in beta.
    * @default "fa"
    */
@@ -43,7 +43,7 @@ export class SkyIconComponent {
   public fixedWidth: boolean | undefined;
 
   /**
-   * The icon variant (`"line"` or `"solid"`). If the variant doesn't exist for the
+   * The icon variant. If the variant doesn't exist for the
    * specified icon, the normal icon is displayed. This property only applies when using SKY UX icons.
    */
   @Input()

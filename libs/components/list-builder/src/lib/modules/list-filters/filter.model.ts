@@ -31,7 +31,7 @@ export class ListFilterModel {
   public defaultValue: any;
 
   /**
-   * The function to determine whether items are filtered.
+   * The function that determines whether items are filtered.
    * This property is required when using an in-memory data provider.
    * For information about `ListItemModel`, see the
    * [shared classes for lists](https://developer.blackbaud.com/skyux-list-builder-common/docs/list-builder-common).

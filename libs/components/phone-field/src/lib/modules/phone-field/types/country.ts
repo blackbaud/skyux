@@ -11,7 +11,7 @@ export interface SkyPhoneFieldCountry {
    */
   dialCode?: string;
   /**
-   * The placeholder value to demonstrate the country's number format. This
+   * The placeholder value that demonstrates the country's number format. This
    * value is `undefined` until a country is selected to validate against.
    */
   exampleNumber?: string;

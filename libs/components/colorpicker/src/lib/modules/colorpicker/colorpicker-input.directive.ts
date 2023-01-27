@@ -92,11 +92,11 @@ export class SkyColorpickerInputDirective
   public returnFormat = 'rgba';
 
   /**
-   * The format to use for the color when the colorpicker uses a native input
+   * The format for the color when the colorpicker uses a native input
    * element such as a standard text input or a button. This property accepts `rgba`, `hex`,
    * or `hsla`, but we do not recommend using it because users never see or use its value.
    * Instead, if you need to access this format value, see the demo for an example.
-   *@default "rgba"
+   * @default "rgba"
    */
   @Input()
   public outputFormat = 'rgba';
@@ -109,7 +109,7 @@ export class SkyColorpickerInputDirective
   public presetColors = ['#333', '#888', '#EFEFEF', '#FFF'];
 
   /**
-   * The type of transparency to use in the transparency slider.
+   * The type of transparency in the transparency slider.
    *@default "hex6"
    */
   @Input()

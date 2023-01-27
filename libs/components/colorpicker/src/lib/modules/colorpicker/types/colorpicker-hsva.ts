@@ -1,6 +1,6 @@
 /**
- * Specifies colors as a combination of hue, saturation, and value with an alpha
- * channel that specifies the opacity of the color.
+ * Colors specified as a combination of hue, saturation, and value with an alpha
+ * channel to set the opacity.
  */
 export interface SkyColorpickerHsva {
   /**
@@ -14,9 +14,9 @@ export interface SkyColorpickerHsva {
    */
   saturation: number;
   /**
-   * The value, which is a percentage value that describes the brightness
-   * or intensity of the color where 0 is completely black and 100 is the brightest
-   * and reveals the most color.
+   * The brightness or intensity, which is a percentage value of the
+   * color where 0 is completely black and 100 is the brightest and
+   * reveals the most color.
    */
   value: number;
   /**

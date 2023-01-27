@@ -52,7 +52,6 @@ export class SkyDescriptionListComponent
 
   /**
    * How to display term-description pairs within the description list.
-   * Options include `"horizontal"`, `"longDescription"`, and `"vertical"`.
    * @default "vertical"
    */
   @Input()

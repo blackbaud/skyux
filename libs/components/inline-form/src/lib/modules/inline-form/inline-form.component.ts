@@ -52,7 +52,7 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * The template to use to instantiate the inline form.
+   * The template to instantiate the inline form.
    * @required
    */
   @Input()

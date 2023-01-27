@@ -83,7 +83,7 @@ export class SkyListComponent
   public data?: Array<any> | Observable<Array<any>> = [];
 
   /**
-   * The data provider to obtain the data to display. The list component requires
+   * The data provider that obtains the data to display. The list component requires
    * this property or the `data` property. For lists that use `dataProvider` instead of `data`,
    * consumers are responsible for managing all `ListDataRequestModel` properties.
    * @default SkyListInMemoryDataProvider

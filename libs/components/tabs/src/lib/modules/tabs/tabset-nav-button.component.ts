@@ -74,7 +74,7 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
   }
 
   /**
-   * The label to display on the nav button. The following are the defaults for each `buttonType`.
+   * The label to display on the nav button. The following are the defaults for each `buttonType`:
    * `next` = "Next", `previous` = "Previous", `finish` = "Finish"
    */
   @Input()

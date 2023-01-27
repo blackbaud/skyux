@@ -111,7 +111,7 @@ export class SkyTokensComponent implements OnDestroy {
   public trackWith: string | undefined;
 
   /**
-   * Whether users can focus on items in the list using the `Tab` key.
+   * Whether users can place focus on tokens in the list using the `Tab` key.
    * This does not affect the ability of users to select tokens, dismiss tokens,
    * or navigate through the list with the arrow keys.
    * @default true

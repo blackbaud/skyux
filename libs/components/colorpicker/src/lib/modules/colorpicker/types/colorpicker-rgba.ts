@@ -1,18 +1,18 @@
 /**
- * Specifies colors as a combination of red, green, and blue with an alpha
- * channel that specifies the opacity of the color.
+ * Colors specified as a combination of red, green, and blue with an alpha
+ * channel to set the opacity.
  */
 export interface SkyColorpickerRgba {
   /**
-   * The percentage of red to use.
+   * The percentage of red.
    */
   red: number;
   /**
-   * The percentage of green to use.
+   * The percentage of green.
    */
   green: number;
   /**
-   * The percentage of blue to use.
+   * The percentage of blue.
    */
   blue: number;
   /**

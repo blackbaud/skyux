@@ -13,8 +13,8 @@ export interface SkyIconStackItem {
   icon: string;
 
   /**
-   * The type of icon to display. Specifying `fa` will display a Font Awesome icon,
-   * while specifying `skyux` will display an icon from the custom SKY UX icon font. Note that
+   * The type of icon to display. Specifying `fa` displays a Font Awesome icon,
+   * while specifying `skyux` displays an icon from the custom SKY UX icon font. Note that
    * the custom SKY UX icon font is currently in beta.
    */
   iconType?: SkyIconType;

@@ -1,6 +1,6 @@
 /**
- * Specifies colors as a combination of hue, saturation, and lightness with an alpha
- * channel that specifies the opacity of the color.
+ * Colors specified as a combination of hue, saturation, and lightness with an alpha
+ * channel to set the opacity.
  */
 export interface SkyColorpickerHsla {
   /**

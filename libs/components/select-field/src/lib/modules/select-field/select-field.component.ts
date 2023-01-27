@@ -70,7 +70,7 @@ export class SkySelectFieldComponent
   public data: Observable<SkySelectField[]>;
 
   /**
-   * The `SkySelectFieldCustomPicker` object to display a custom UI when users
+   * The `SkySelectFieldCustomPicker` object that displays a custom UI when users
    * select the select field button.
    */
   @Input()

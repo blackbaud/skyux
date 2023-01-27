@@ -24,7 +24,7 @@ export class SkyDateRangeCalculator {
 
   constructor(
     /**
-     * The calculator ID to specify calculator objects that represent date ranges.
+     * The calculator ID that specifies calculator objects that represent date ranges.
      */
     public readonly calculatorId: SkyDateRangeCalculatorId,
     config: SkyDateRangeCalculatorConfig

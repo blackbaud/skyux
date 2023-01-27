@@ -67,7 +67,7 @@ export class SkyRepeaterComponent
   public reorderable: boolean | undefined = false;
 
   /**
-   * The layout to determine which repeater items are expanded by default and whether
+   * The layout that determines which repeater items are expanded by default and whether
    * repeater items are expandable and collapsible. Collapsed items display titles only.
    * The valid options are `multiple`, `none`, and `single`.
    * - `multiple` loads repeater items in an expanded state unless `isExpanded` is set to

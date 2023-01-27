@@ -4,7 +4,7 @@ import { ListStateDispatcher } from './state/list-state.rxstate';
 import { ListState } from './state/list-state.state-node';
 
 /**
- * The SKY UX-themed pagination control to display list data across multiple pages.
+ * The SKY UX-themed pagination control that displays list data across multiple pages.
  * @internal
  * @deprecated
  */

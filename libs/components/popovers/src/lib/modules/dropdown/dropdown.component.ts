@@ -127,7 +127,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * The observable to send commands to the dropdown. The commands should respect
+   * The observable that sends commands to the dropdown. The commands should respect
    * the [[SkyDropdownMessage]] type.
    * @internal
    */

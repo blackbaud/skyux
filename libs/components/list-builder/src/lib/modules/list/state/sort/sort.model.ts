@@ -12,7 +12,7 @@ export class ListSortModel {
    */
   public available: Array<ListSortLabelModel> = [];
   /**
-   * Whether the sort applies to all list views.
+   * The list views that the sort applies to.
    */
   public global: Array<ListSortLabelModel> = [];
   /**

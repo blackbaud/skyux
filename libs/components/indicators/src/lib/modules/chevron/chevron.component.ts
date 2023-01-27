@@ -26,7 +26,7 @@ export class SkyChevronComponent {
   public ariaLabel: string | undefined;
 
   /**
-   * Whether the chevron points up or down.
+   * The direction that the chevron points, which can be up or down.
    */
   @Input()
   public set direction(value: string | undefined) {

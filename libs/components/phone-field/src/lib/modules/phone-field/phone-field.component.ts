@@ -106,7 +106,7 @@ import { SkyPhoneFieldNumberReturnFormat } from './types/number-return-format';
 })
 export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   /**
-   * Whether or not phone number extensions are allowed.
+   * Whether phone number extensions are allowed.
    * @default true
    */
   @Input()

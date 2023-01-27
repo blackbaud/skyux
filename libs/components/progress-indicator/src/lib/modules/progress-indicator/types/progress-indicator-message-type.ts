@@ -6,7 +6,7 @@ export enum SkyProgressIndicatorMessageType {
   Progress = 0,
 
   /**
-   * Progress should return to the previous step.
+   * Returns progress to the previous step.
    * This moves from the active item to the item that precedes it.
    */
   Regress = 1,
@@ -24,7 +24,7 @@ export enum SkyProgressIndicatorMessageType {
   Finish = 3,
 
   /**
-   * Progress should move to the item indicated by the `data.activeIndex` property.
+   * Moves progress to the item indicated by the `data.activeIndex` property.
    */
   GoTo = 4,
 }

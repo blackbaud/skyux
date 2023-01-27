@@ -8,7 +8,7 @@ import { ListSortModel } from './state/sort/sort.model';
  */
 export class ListDataRequestModel {
   /**
-   * The function to determine whether items are filtered.
+   * The function that determines whether items are filtered.
    * This property is required when using an in-memory data provider.
    */
   public filters: ListFilterModel[];

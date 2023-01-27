@@ -58,7 +58,7 @@ export class SkyFilterButtonComponent {
   public disabled: boolean | undefined = false;
 
   /**
-   * Whether to display a **Filter** label beside the icon on the filter button.
+   * Whether to display a "Filter" label beside the icon on the filter button.
    */
   @Input()
   public showButtonText: boolean | undefined = false;

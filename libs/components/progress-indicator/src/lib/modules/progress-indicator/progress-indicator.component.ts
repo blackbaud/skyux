@@ -34,7 +34,7 @@ export class SkyProgressIndicatorComponent
   implements OnInit, AfterContentInit, OnDestroy
 {
   /**
-   * Whether to display the progress indicator vertically or horizontally.
+   * The orientation of the progress indicator, which can be vertical or horizontal.
    * For [passive progress indicators](https://developer.blackbaud.com/skyux-progress-indicator/docs/passive-indicator)
    * and [waterfall progress indicators](https://developer.blackbaud.com/skyux/components/progress-indicator/waterfall-progress-indicator),
    * use the vertical display mode. For [modal wizards](https://developer.blackbaud.com/skyux/components/wizard),

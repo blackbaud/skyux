@@ -172,7 +172,7 @@ export class SkyListViewGridComponent
   public enableMultiselect = false;
 
   /**
-   * The unique key for the UI Config Service to retrieve stored settings from
+   * The unique key for the UI Config Service that retrieves stored settings from
    * a database. The service saves configuration settings for users and returns `selectedColumnIds`
    * for the columns to display and the preferred column order. For more information, see the
    * [sticky settings documentation](https://developer.blackbaud.com/skyux/learn/get-started/advanced/sticky-settings).

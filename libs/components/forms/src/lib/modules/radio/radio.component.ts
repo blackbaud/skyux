@@ -173,7 +173,7 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
   }
 
   /**
-   * And binds a value to the radio button's `value` property. The value usually
+   * The value bound to the radio button's `value` property. The value usually
    * corresponds to the radio button's label, which you specify with the `sky-radio-label`
    * component.
    * @required
@@ -207,7 +207,7 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
   public icon: string | undefined;
 
   /**
-   * The type to set the background color after users select an icon radio button.
+   * The background color type after users select an icon radio button.
    * The valid options correspond
    * [the label component's](https://developer.blackbaud.com/skyux/components/label)
    * label types. `danger` creates a red background, `info` creates a blue background,

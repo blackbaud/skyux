@@ -27,7 +27,7 @@ const INDICATOR_TYPE_DEFAULT: SkyIndicatorIconType = 'warning';
 })
 export class SkyStatusIndicatorComponent implements OnInit {
   /**
-   * The style for the status indicator to determine the icon.
+   * The style for the status indicator, which determines the icon.
    * @default "warning"
    */
   @Input()
