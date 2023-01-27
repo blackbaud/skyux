@@ -1,4 +1,3 @@
-// spell-checker:ignore Colorpicker, denormalize, Hsla, Hsva,Cmyk
 import { SkyColorpickerCmyk } from './colorpicker-cmyk';
 import { SkyColorpickerHsla } from './colorpicker-hsla';
 import { SkyColorpickerHsva } from './colorpicker-hsva';

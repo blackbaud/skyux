@@ -112,7 +112,7 @@ describe('Selection box grid component', () => {
     const newHeight = selectionBoxes[0].getBoundingClientRect().height;
 
     // Fixture has a single hard-coded selection box of 500px,
-    // so the other selection boxes should be atleast 500px tall.
+    // so the other selection boxes should be at least 500px tall.
     expect(newHeight).toBeGreaterThanOrEqual(500);
     for (let i = 0; i < selectionBoxes.length; i++) {
       expect(selectionBoxes[i].getBoundingClientRect().height).toEqual(

@@ -254,8 +254,11 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
       }
 
       // Autofocus isn't testable in Firefox and IE.
+      // Don't set focus on the editor now if the iframe isn't initialized.
+      // #initIframe() will do another check later to see if the editor should
+      // receive focus.
       /* istanbul ignore next */
-      if (this.autofocus && !this.#focusInitialized) {
+      if (this.autofocus && this.#initialized && !this.#focusInitialized) {
         this.#adapterService.focusEditor();
         this.#focusInitialized = true;
       }
@@ -385,7 +388,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         // Angular doesn't run change detection for changes originating inside an iframe,
-        // so we have to call the onChange() event inside NgZone to force change propigation to consuming components.
+        // so we have to call the onChange() event inside NgZone to force change propagation to consuming components.
         this.#zone.run(() => {
           this.#viewToModelUpdate();
         });
@@ -411,7 +414,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         // Angular doesn't run change detection for changes originating inside an iframe,
-        // so we have to run markForCheck() inside the NgZone to force change propigation to consuming components.
+        // so we have to run markForCheck() inside the NgZone to force change propagation to consuming components.
         this.#zone.run(() => {
           this.#_onTouched();
         });

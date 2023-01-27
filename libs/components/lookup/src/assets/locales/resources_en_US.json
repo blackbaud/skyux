@@ -24,7 +24,7 @@
     "message": "Search for a country"
   },
   "skyux_lookup_search_button_show_more": {
-    "_description": "Label for lookup's search button that opens superselect modal",
+    "_description": "Label for lookup's search button that opens the checklist modal",
     "message": "Show all search results"
   },
   "skyux_lookup_show_more_add": {

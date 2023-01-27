@@ -103,10 +103,7 @@ describe('Card component', () => {
 
     fixture.detectChanges();
 
-    const emmitterSpy = spyOn(
-      cmp.card.selectedChange,
-      'emit'
-    ).and.callThrough();
+    const emitterSpy = spyOn(cmp.card.selectedChange, 'emit').and.callThrough();
 
     validateCardSelected(cmp, el, true);
 
@@ -122,7 +119,7 @@ describe('Card component', () => {
 
     validateCardSelected(cmp, el, false);
 
-    expect(emmitterSpy).toHaveBeenCalledTimes(1);
+    expect(emitterSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should not allow clicking the card to select it when it is not selectable', () => {
@@ -144,10 +141,7 @@ describe('Card component', () => {
 
     validateCardSelected(cmp, el, false);
 
-    const emmitterSpy = spyOn(
-      cmp.card.selectedChange,
-      'emit'
-    ).and.callThrough();
+    const emitterSpy = spyOn(cmp.card.selectedChange, 'emit').and.callThrough();
 
     cmp.card.onCheckboxChange(true);
 
@@ -155,7 +149,7 @@ describe('Card component', () => {
 
     validateCardSelected(cmp, el, false);
 
-    expect(emmitterSpy).not.toHaveBeenCalled();
+    expect(emitterSpy).not.toHaveBeenCalled();
   });
 
   it('should hide the header properly when title is removed', () => {

@@ -19,8 +19,8 @@ export class ListViewGridDynamicTestComponent {
         email: 'windstorm@gmail.com',
         other: 'something',
       },
-      { id: 2, name: 'Bombasto', email: 'bombasto@gmail.com' },
-      { id: 3, name: 'Magneta', email: 'magenta@gmail.com' },
+      { id: 2, name: 'Bombastic', email: 'Bombastic@gmail.com' },
+      { id: 3, name: 'Magenta', email: 'magenta@gmail.com' },
       { id: 4, name: 'Tornado', email: 'tornado@gmail.com' },
     ];
     this.gridColumns = [

@@ -12,6 +12,7 @@ import {
 } from '@angular/forms';
 import {
   SkyAutocompleteSearchAsyncArgs,
+  SkyLookupAddClickEventArgs,
   SkyLookupSelectModeType,
   SkyLookupShowMoreConfig,
   SkyLookupShowMoreCustomPickerContext,
@@ -85,8 +86,17 @@ export class LookupComponent implements OnInit {
     this.createForms();
   }
 
-  public addButtonClicked(): void {
-    console.log('Add Button Clicked!');
+  public addButtonClicked(args: SkyLookupAddClickEventArgs): void {
+    const newItem = {
+      id: 0,
+      name: 'Added',
+    };
+
+    this.people = [newItem, ...this.people];
+
+    args.itemAdded({
+      item: newItem,
+    });
   }
 
   public enableLookup(): void {
@@ -106,7 +116,7 @@ export class LookupComponent implements OnInit {
       this.showMoreConfig.customPicker = undefined;
     } else {
       this.showMoreConfig.customPicker = {
-        open: (context: SkyLookupShowMoreCustomPickerContext) => {
+        open: (context: SkyLookupShowMoreCustomPickerContext): void => {
           const instance = this.modalService.open(LookupCustomPickerComponent, {
             providers: [
               {

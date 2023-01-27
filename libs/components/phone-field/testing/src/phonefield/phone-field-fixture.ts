@@ -88,7 +88,7 @@ export class SkyPhoneFieldFixture {
   }
 
   /**
-   * Opens the country selector, peforms a search, but makes no selection.
+   * Opens the country selector, performs a search, but makes no selection.
    * @param searchText The name of the country to select.
    * @returns The list of country names matching the search text.
    */

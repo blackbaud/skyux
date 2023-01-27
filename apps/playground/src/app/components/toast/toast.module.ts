@@ -13,10 +13,10 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class ToastRoutingMoudle {}
+export class ToastRoutingModule {}
 
 @NgModule({
-  imports: [ToastRoutingMoudle],
+  imports: [ToastRoutingModule],
 })
 export class ToastModule {
   public static routes = routes;

@@ -73,7 +73,7 @@ export class SkyModalService {
     let params: SkyModalConfigurationInterface = {};
     let method: any = undefined;
 
-    // Object Literal Lookup for backwards compatability.
+    // Object Literal Lookup for backwards compatibility.
     method = {
       'providers?': Object.assign({}, defaultParams, {
         providers: providersOrConfig,

@@ -16,7 +16,7 @@ import { of } from 'rxjs';
 
 import { SkyDatepickerConfigService } from './datepicker-config.service';
 import { SkyDatepickerComponent } from './datepicker.component';
-import { FuzzyDatepickerNoFormatTestComponent } from './fixtures/fuzzy-datepicker-noformat.component.fixture';
+import { FuzzyDatepickerNoFormatTestComponent } from './fixtures/fuzzy-datepicker-no-format.component.fixture';
 import { FuzzyDatepickerReactiveTestComponent } from './fixtures/fuzzy-datepicker-reactive.component.fixture';
 import { FuzzyDatepickerTestComponent } from './fixtures/fuzzy-datepicker.component.fixture';
 import { FuzzyDatepickerTestModule } from './fixtures/fuzzy-datepicker.module.fixture';
@@ -39,10 +39,10 @@ function getTriggerButton(
 
 function clickDatepickerButton(
   fixture: ComponentFixture<any>,
-  isfakeAsync: boolean = true
+  isFakeAsync: boolean = true
 ): void {
   getTriggerButton(fixture)?.click();
-  if (isfakeAsync) {
+  if (isFakeAsync) {
     detectChanges(fixture);
   }
 }
@@ -746,11 +746,11 @@ describe('fuzzy datepicker input', () => {
 
       it('should validate properly when invalid date is passed through input change', fakeAsync(() => {
         detectChanges(fixture);
-        setInputElementValue(nativeElement, 'abcdebf', fixture);
+        setInputElementValue(nativeElement, 'abcdef', fixture);
         detectChanges(fixture);
 
-        expect(getInputElementValue(fixture)).toBe('abcdebf');
-        expect(component.selectedDate).toEqual('abcdebf');
+        expect(getInputElementValue(fixture)).toBe('abcdef');
+        expect(component.selectedDate).toEqual('abcdef');
 
         expect(ngModel.valid).toBe(false);
         expect(ngModel.pristine).toBe(false);
@@ -760,10 +760,10 @@ describe('fuzzy datepicker input', () => {
       }));
 
       it('should validate properly when invalid date on initialization', fakeAsync(() => {
-        setInputProperty('abcdebf', component, fixture);
+        setInputProperty('abcdef', component, fixture);
 
-        expect(getInputElementValue(fixture)).toBe('abcdebf');
-        expect(component.selectedDate).toBe('abcdebf');
+        expect(getInputElementValue(fixture)).toBe('abcdef');
+        expect(component.selectedDate).toBe('abcdef');
         expect(ngModel.valid).toBe(false);
         expect(ngModel.touched).toBe(true);
 
@@ -777,10 +777,10 @@ describe('fuzzy datepicker input', () => {
 
       it('should validate properly when invalid date on model change', fakeAsync(() => {
         detectChanges(fixture);
-        setInputProperty('abcdebf', component, fixture);
+        setInputProperty('abcdef', component, fixture);
 
-        expect(getInputElementValue(fixture)).toBe('abcdebf');
-        expect(component.selectedDate).toBe('abcdebf');
+        expect(getInputElementValue(fixture)).toBe('abcdef');
+        expect(component.selectedDate).toBe('abcdef');
         expect(ngModel.valid).toBe(false);
 
         flush();
@@ -789,7 +789,7 @@ describe('fuzzy datepicker input', () => {
       it('should validate properly when input changed to empty string', fakeAsync(() => {
         detectChanges(fixture);
 
-        setInputElementValue(fixture.nativeElement, 'abcdebf', fixture);
+        setInputElementValue(fixture.nativeElement, 'abcdef', fixture);
         setInputElementValue(fixture.nativeElement, '', fixture);
 
         expect(getInputElementValue(fixture)).toBe('');
@@ -802,7 +802,7 @@ describe('fuzzy datepicker input', () => {
       it('should handle invalid and then valid date', fakeAsync(() => {
         detectChanges(fixture);
 
-        setInputElementValue(fixture.nativeElement, 'abcdebf', fixture);
+        setInputElementValue(fixture.nativeElement, 'abcdef', fixture);
         setInputElementValue(fixture.nativeElement, '2/12/2015', fixture);
 
         expect(getInputElementValue(fixture)).toBe('02/12/2015');
@@ -819,7 +819,7 @@ describe('fuzzy datepicker input', () => {
       it('should open the calendar to the current date when an invalid date is input', fakeAsync(() => {
         detectChanges(fixture);
 
-        setInputElementValue(fixture.nativeElement, 'abcdebf', fixture);
+        setInputElementValue(fixture.nativeElement, 'abcdef', fixture);
 
         clickDatepickerButton(fixture);
 
@@ -838,10 +838,10 @@ describe('fuzzy datepicker input', () => {
         component.noValidate = true;
         detectChanges(fixture);
 
-        setInputElementValue(fixture.nativeElement, 'abcdebf', fixture);
+        setInputElementValue(fixture.nativeElement, 'abcdef', fixture);
 
-        expect(getInputElementValue(fixture)).toBe('abcdebf');
-        expect(component.selectedDate).toBe('abcdebf');
+        expect(getInputElementValue(fixture)).toBe('abcdef');
+        expect(component.selectedDate).toBe('abcdef');
         expect(ngModel.valid).toBe(true);
 
         flush();
@@ -1468,11 +1468,11 @@ describe('fuzzy datepicker input', () => {
       it('should validate properly when invalid date is passed through input change', fakeAsync(() => {
         fixture.detectChanges();
         tick();
-        setInputElementValue(nativeElement, 'abcdebf', fixture);
+        setInputElementValue(nativeElement, 'abcdef', fixture);
         fixture.detectChanges();
 
-        expect(getInputElementValue(fixture)).toBe('abcdebf');
-        expect(component.dateControl.value).toEqual('abcdebf');
+        expect(getInputElementValue(fixture)).toBe('abcdef');
+        expect(component.dateControl.value).toEqual('abcdef');
         expect(component.dateControl.valid).toBe(false);
         expect(component.dateControl.pristine).toBe(false);
         expect(component.dateControl.touched).toBe(true);
@@ -1482,10 +1482,10 @@ describe('fuzzy datepicker input', () => {
 
       it('should validate properly when invalid date on initialization', fakeAsync(() => {
         fixture.detectChanges();
-        setFormControlProperty('abcdebf', component, fixture);
+        setFormControlProperty('abcdef', component, fixture);
 
-        expect(getInputElementValue(fixture)).toBe('abcdebf');
-        expect(component.dateControl.value).toBe('abcdebf');
+        expect(getInputElementValue(fixture)).toBe('abcdef');
+        expect(component.dateControl.value).toBe('abcdef');
         expect(component.dateControl.valid).toBe(false);
         expect(component.dateControl.touched).toBe(true);
 
@@ -1500,10 +1500,10 @@ describe('fuzzy datepicker input', () => {
       it('should validate properly when invalid date on model change', fakeAsync(() => {
         detectChanges(fixture);
 
-        setFormControlProperty('abcdebf', component, fixture);
+        setFormControlProperty('abcdef', component, fixture);
 
-        expect(getInputElementValue(fixture)).toBe('abcdebf');
-        expect(component.dateControl.value).toBe('abcdebf');
+        expect(getInputElementValue(fixture)).toBe('abcdef');
+        expect(component.dateControl.value).toBe('abcdef');
         expect(component.dateControl.valid).toBe(false);
 
         flush();
@@ -1512,7 +1512,7 @@ describe('fuzzy datepicker input', () => {
       it('should validate properly when input changed to empty string', fakeAsync(() => {
         detectChanges(fixture);
 
-        setInputElementValue(fixture.nativeElement, 'abcdebf', fixture);
+        setInputElementValue(fixture.nativeElement, 'abcdef', fixture);
         setInputElementValue(fixture.nativeElement, '', fixture);
 
         expect(getInputElementValue(fixture)).toBe('');
@@ -1525,7 +1525,7 @@ describe('fuzzy datepicker input', () => {
       it('should handle invalid and then valid date', fakeAsync(() => {
         detectChanges(fixture);
 
-        setInputElementValue(fixture.nativeElement, 'abcdebf', fixture);
+        setInputElementValue(fixture.nativeElement, 'abcdef', fixture);
         setInputElementValue(fixture.nativeElement, '2/12/2015', fixture);
 
         expect(getInputElementValue(fixture)).toBe('02/12/2015');
@@ -1542,7 +1542,7 @@ describe('fuzzy datepicker input', () => {
       it('should open the calendar to the current date when an invalid date is input', fakeAsync(() => {
         detectChanges(fixture);
 
-        setInputElementValue(fixture.nativeElement, 'abcdebf', fixture);
+        setInputElementValue(fixture.nativeElement, 'abcdef', fixture);
 
         clickDatepickerButton(fixture);
 
@@ -1633,10 +1633,10 @@ describe('fuzzy datepicker input', () => {
         component.noValidate = true;
         detectChanges(fixture);
 
-        setInputElementValue(fixture.nativeElement, 'abcdebf', fixture);
+        setInputElementValue(fixture.nativeElement, 'abcdef', fixture);
 
-        expect(getInputElementValue(fixture)).toBe('abcdebf');
-        expect(component.dateControl.value).toBe('abcdebf');
+        expect(getInputElementValue(fixture)).toBe('abcdef');
+        expect(component.dateControl.value).toBe('abcdef');
         expect(component.dateControl.valid).toBe(true);
 
         flush();

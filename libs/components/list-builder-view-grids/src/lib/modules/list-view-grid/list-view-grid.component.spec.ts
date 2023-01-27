@@ -453,8 +453,8 @@ describe('List View Grid Component', () => {
           const gridState = new GridState(new GridStateModel(), gridDispatcher);
 
           const columns = [
-            new SkyGridColumnModel(component.viewtemplates.first),
-            new SkyGridColumnModel(component.viewtemplates.first),
+            new SkyGridColumnModel(component.viewTemplates.first),
+            new SkyGridColumnModel(component.viewTemplates.first),
           ];
           gridDispatcher.next(new ListViewGridColumnsLoadAction(columns));
           gridState.pipe(take(1)).subscribe((s) => {
@@ -468,8 +468,8 @@ describe('List View Grid Component', () => {
           const gridState = new GridState(new GridStateModel(), gridDispatcher);
 
           const columns = [
-            new SkyGridColumnModel(component.viewtemplates.first),
-            new SkyGridColumnModel(component.viewtemplates.first),
+            new SkyGridColumnModel(component.viewTemplates.first),
+            new SkyGridColumnModel(component.viewTemplates.first),
           ];
           gridDispatcher.next(new ListViewGridColumnsLoadAction(columns));
           gridState.pipe(take(1)).subscribe((s) => {
@@ -478,7 +478,7 @@ describe('List View Grid Component', () => {
 
           gridDispatcher.next(
             new ListViewDisplayedGridColumnsLoadAction([
-              new SkyGridColumnModel(component.viewtemplates.first),
+              new SkyGridColumnModel(component.viewTemplates.first),
             ])
           );
 
@@ -488,7 +488,7 @@ describe('List View Grid Component', () => {
 
           gridDispatcher.next(
             new ListViewDisplayedGridColumnsLoadAction([
-              new SkyGridColumnModel(component.viewtemplates.first),
+              new SkyGridColumnModel(component.viewTemplates.first),
             ])
           );
 

@@ -1,4 +1,9 @@
-import { Component, ElementRef, Injector, ViewChild } from '@angular/core';
+import {
+  Component,
+  Injector,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 
 import { SkyTileDashboardService } from '../tile-dashboard/tile-dashboard.service';
 
@@ -18,10 +23,10 @@ export class SkyTileDashboardColumnComponent {
   public columnId: string;
 
   @ViewChild('content', {
-    read: ElementRef,
+    read: ViewContainerRef,
     static: false,
   })
-  public content: ElementRef | undefined;
+  public content: ViewContainerRef | undefined;
 
   #dashboardService: SkyTileDashboardService;
 

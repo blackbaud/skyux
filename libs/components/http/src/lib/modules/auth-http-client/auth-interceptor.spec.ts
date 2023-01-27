@@ -23,7 +23,7 @@ describe('Auth interceptor', () => {
   let config: SkyAppConfig;
   let next: Spy<HttpHandler>;
 
-  function createInteceptor(
+  function createInterceptor(
     envId?: string,
     leId?: string,
     getUrlResult?: string,
@@ -203,19 +203,24 @@ describe('Auth interceptor', () => {
   });
 
   it('should convert tokenized urls and honor the hard-coded zone.', (done) => {
-    const interceptor = createInteceptor();
+    const interceptor = createInterceptor();
 
     validateHardcodedZoneUrl(interceptor, done);
   });
 
   it('should fall back to params provider if SkyAppConfig is undefined', (done) => {
-    const interceptor = createInteceptor(undefined, undefined, undefined, true);
+    const interceptor = createInterceptor(
+      undefined,
+      undefined,
+      undefined,
+      true
+    );
 
     validateHardcodedZoneUrl(interceptor, done);
   });
 
   it('should return original url if no config or params provider is given', (done) => {
-    const interceptor = createInteceptor(
+    const interceptor = createInterceptor(
       undefined,
       undefined,
       undefined,
@@ -233,7 +238,7 @@ describe('Auth interceptor', () => {
   });
 
   it('should convert tokenized urls and get zone from the token.', (done) => {
-    const interceptor = createInteceptor();
+    const interceptor = createInterceptor();
 
     const request = createRequest(true, '1bb://eng-hub00/version');
 

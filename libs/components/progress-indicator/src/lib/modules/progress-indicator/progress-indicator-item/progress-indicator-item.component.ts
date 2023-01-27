@@ -67,15 +67,43 @@ export class SkyProgressIndicatorItemComponent implements OnInit {
   }
 
   public formattedTitle: string | undefined;
-  public isVisible = false;
-  public showStatusMarker = true;
-  public showTitle = true;
+
+  public set isVisible(value: boolean | undefined) {
+    this.#_isVisible = !!value;
+    this.#changeDetector.markForCheck();
+  }
+
+  public get isVisible(): boolean {
+    return this.#_isVisible;
+  }
+
+  public set showStatusMarker(value: boolean | undefined) {
+    this.#_showStatusMarker = !!value;
+    this.#changeDetector.markForCheck();
+  }
+
+  public get showStatusMarker(): boolean {
+    return this.#_showStatusMarker;
+  }
+
+  public set showTitle(value: boolean | undefined) {
+    this.#_showTitle = !!value;
+    this.#changeDetector.markForCheck();
+  }
+
+  public get showTitle(): boolean {
+    return this.#_showTitle;
+  }
+
   public statusName = STATUS_NAME_DEFAULT;
 
   #titlePrefix: string | undefined;
   #changeDetector: ChangeDetectorRef;
 
+  #_isVisible = false;
   #_title: string | undefined;
+  #_showStatusMarker = true;
+  #_showTitle = true;
   #_status = STATUS_DEFAULT;
 
   constructor(changeDetector: ChangeDetectorRef) {
@@ -98,5 +126,6 @@ export class SkyProgressIndicatorItemComponent implements OnInit {
 
   #updateFormattedTitle(): void {
     this.formattedTitle = `${this.#titlePrefix}${this.title}`;
+    this.#changeDetector.markForCheck();
   }
 }

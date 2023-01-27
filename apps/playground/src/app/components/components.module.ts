@@ -26,6 +26,13 @@ export const componentRoutes: Routes = [
       ),
   },
   {
+    path: 'colorpicker',
+    loadChildren: () =>
+      import('./colorpicker/colorpicker.module').then(
+        (m) => m.ColorpickerModule
+      ),
+  },
+  {
     path: 'core',
     loadChildren: () => import('./core/core.module').then((m) => m.CoreModule),
   },
@@ -99,6 +106,11 @@ export const componentRoutes: Routes = [
     path: 'theme',
     loadChildren: () =>
       import('./theme/theme.module').then((m) => m.ThemeModule),
+  },
+  {
+    path: 'tiles',
+    loadChildren: () =>
+      import('./tiles/tiles.module').then((m) => m.TilesModule),
   },
   {
     path: 'toast',

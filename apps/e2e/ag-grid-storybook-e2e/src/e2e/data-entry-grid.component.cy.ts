@@ -11,14 +11,15 @@ describe('ag-grid-storybook', () => {
         cy.get('#ready')
           .should('exist')
           .end()
-
           // Activate a lookup field.
+          /* spell-checker:disable-next-line */
           .get('#editLookup div[row-id="alexape01"] > div[col-id="name"]')
           .should('be.visible')
           .click()
           .end()
 
           // Activate a date field without the calendar.
+          /* spell-checker:disable-next-line */
           .get('#editDate div[row-id="bankser01"] > div[col-id="birthday"]')
           .should('be.visible')
           .click()
@@ -26,6 +27,7 @@ describe('ag-grid-storybook', () => {
 
           // Activate a date field.
           .get(
+            /* spell-checker:disable-next-line */
             '#editDateWithCalendar div[row-id="blylebe01"] > div[col-id="birthday"]'
           )
           .should('be.visible')
@@ -88,12 +90,14 @@ describe('ag-grid-storybook', () => {
           .end()
 
           // Activate a text field.
+          /* spell-checker:disable-next-line */
           .get('#editText div[row-id="benchjo01"] > div[col-id="name"]')
           .should('be.visible')
           .click()
           .end()
 
           // Focus on a cell in the middle of the grid.
+          /* spell-checker:disable-next-line */
           .get('#sideScroll .ag-cell-value[col-id="triplecrown"]')
           .should('be.visible')
           .should('not.be.empty')
@@ -106,6 +110,7 @@ describe('ag-grid-storybook', () => {
           .should('be.visible')
           .should('not.be.empty')
           .end()
+          /* spell-checker:disable-next-line */
           .get('#sideScroll .sky-ag-grid-row-speaktr01 [col-id="mvp"]')
           .should('be.visible')
           .click()
@@ -113,6 +118,7 @@ describe('ag-grid-storybook', () => {
 
           // Activate a lookup multi-select field and add a second value.
           .get(
+            /* spell-checker:disable-next-line */
             '#editLookupMultiple div[row-id="seaveto01"] > div[col-id="name"]'
           )
           .should('be.visible')
@@ -120,12 +126,14 @@ describe('ag-grid-storybook', () => {
           .end()
           .get('.ag-popup-editor textarea')
           .should('be.visible')
+          /* spell-checker:disable-next-line */
           .type('gossage')
           .trigger('keydown', { key: 'Enter' })
           .end()
 
           // Leave the lookup field to show it render multiple values.
           .get(
+            /* spell-checker:disable-next-line */
             '#editLookupMultiple div[row-id="seaveto01"] > div[col-id="birthday"]'
           )
           .should('be.visible')
@@ -134,6 +142,7 @@ describe('ag-grid-storybook', () => {
 
           // Activate another lookup multi-select field and enter values, leaving it active.
           .get(
+            /* spell-checker:disable-next-line */
             '#editLookupMultiple div[row-id="simmoal01"] > div[col-id="name"]'
           )
           .should('be.visible')
@@ -148,6 +157,7 @@ describe('ag-grid-storybook', () => {
           .end()
 
           // Activate a lookup single-select field.
+          /* spell-checker:disable-next-line */
           .get('#editLookup div[row-id="berrayo01"] > div[col-id="name"]')
           .should('be.visible')
           .click()

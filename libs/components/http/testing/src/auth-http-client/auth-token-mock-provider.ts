@@ -15,6 +15,7 @@ import jwtDecode from 'jwt-decode';
 @Injectable()
 export class SkyAuthTokenMockProvider {
   public static readonly MOCK_TOKEN =
+    /* spell-checker:disable-next-line */
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MTcxZDdkMS01Y2JkLTRlNmItOGExZC1hYTZjNmY2ZjQ3M2MiLCJlbWFpbCI6IkpvaG4uRG9lQGJsYWNrYmF1ZC5jb20iLCJnaXZlbl9uYW1lIjoiSm9obiIsImZhbWlseV9uYW1lIjoiRG9lIiwiMWJiLnNlc3Npb25faWQiOiJhUTFnUTFRRjBJcm5nSjM5Z2liaG53ZWxkZ2t3ZWdoZ2xzZGtISmJoS1lVSkN5R0szdlNJR0dYRHhoeFN0WmphZTVMbU50eUUtallQYU1vaXdYbDh5bHQxIiwiZXhwIjoxOTU4NTU1MjQyLCJpYXQiOjE5NTg1NTQ5NDIsImlzcyI6Imh0dHBzOi8vd3d3LmV4YW1wbGUuY29tLyIsImF1ZCI6ImZvbyJ9.QjrwXaOhNpi8eRJpvHo_5XE7Jqs4nY1IkNs3nOs0fGI';
 
   public getToken(args?: SkyAuthGetTokenArgs): Promise<string> {

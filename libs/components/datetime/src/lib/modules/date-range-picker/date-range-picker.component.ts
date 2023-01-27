@@ -317,7 +317,7 @@ export class SkyDateRangePickerComponent
         this.#resetFormGroupValue();
 
         // This is needed to address a bug in Angular 4.
-        // When a control value is set intially, its value is not represented on the view.
+        // When a control value is set initially, its value is not represented on the view.
         // See: https://github.com/angular/angular/issues/13792
         /* istanbul ignore else */
         if (this.#control) {

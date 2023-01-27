@@ -222,8 +222,8 @@ describe('Split view component', () => {
     }));
 
     it('should accept configuration options for aria-label', fakeAsync(() => {
-      const expectedLabelForList = 'customlabelledby';
-      const expectedLabelForWorkspace = 'customlabelledby';
+      const expectedLabelForList = 'customLabelledBy';
+      const expectedLabelForWorkspace = 'customLabelledBy';
 
       component.ariaLabelForDrawer = expectedLabelForList;
       component.ariaLabelForWorkspace = expectedLabelForWorkspace;
@@ -564,7 +564,7 @@ describe('Split view component', () => {
       const listPanelElement = getListPanel();
       const resizeHandle = getResizeHandle(fixture).nativeElement;
 
-      // Attmpt to resize list panel larger than maximum.
+      // Attempt to resize list panel larger than maximum.
       resizeList(9999, fixture);
 
       // Expect list panel width and handle to remain at default.
@@ -574,7 +574,7 @@ describe('Split view component', () => {
       expect(listPanelElement.style.width).toBe('320px');
       expect(resizeHandle.style.left).toBe('313px');
 
-      // Attmpt to resize list panel smaller than minimum.
+      // Attempt to resize list panel smaller than minimum.
       resizeList(maxWidth - 99, fixture);
 
       // Expect list panel width and handle to remain at default.
@@ -711,8 +711,8 @@ describe('Split view component', () => {
       const windowResizeAmount = 300;
       const tolerance = 100;
       const listPanel = getListPanel();
-      const initialwidth = listPanel.clientWidth;
-      const resizeWidth = initialwidth + tolerance - windowResizeAmount;
+      const initialWidth = listPanel.clientWidth;
+      const resizeWidth = initialWidth + tolerance - windowResizeAmount;
       spyOnProperty(window, 'innerWidth', 'get').and.returnValue(resizeWidth);
 
       // Resize the window smaller.
@@ -721,7 +721,7 @@ describe('Split view component', () => {
 
       // Expect the list panel width to resize down as the window gets smaller.
       // Use isWithin() to allow some pixel tolerance for different browsers.
-      const newWidth = initialwidth - windowResizeAmount;
+      const newWidth = initialWidth - windowResizeAmount;
       expect(isWithin(listPanel.clientWidth, newWidth, 10)).toEqual(true);
     }));
 

@@ -12,11 +12,13 @@ describe('Auth token provider', () => {
   let testDecodedToken: SkyAuthToken;
 
   beforeEach(() => {
+    /* spell-checker:disable */
     testToken =
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9' +
       '.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZ2l2ZW5fbmFtZSI6IkpvaG4iLCJmYW1pbHl' +
       'fbmFtZSI6IkRvZSIsImlhdCI6MTUxNjIzOTAyMn0' +
       '.M44YpCNOgfbfofdWeIGLHoMwmeKAEibhDIcDCgRM5Nc';
+    /* spell-checker:enable */
 
     testDecodedToken = {
       sub: '1234567890',

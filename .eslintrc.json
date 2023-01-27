@@ -37,5 +37,5 @@
       "rules": {}
     }
   ],
-  "extends": ["prettier"]
+  "extends": ["plugin:@cspell/recommended", "prettier"]
 }

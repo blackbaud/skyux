@@ -1,6 +1,6 @@
 {
   "name": "skyux",
-  "version": "7.1.4",
+  "version": "7.5.0",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
@@ -126,6 +126,7 @@
     "@angular/cli": "14.2.10",
     "@angular/compiler-cli": "14.2.11",
     "@angular/language-service": "14.2.11",
+    "@cspell/eslint-plugin": "^6.19.2",
     "@istanbuljs/nyc-config-typescript": "1.0.2",
     "@nrwl/cli": "15.1.1",
     "@nrwl/cypress": "15.1.1",

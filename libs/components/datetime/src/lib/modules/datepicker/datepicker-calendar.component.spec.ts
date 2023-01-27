@@ -516,7 +516,7 @@ describe('datepicker calendar', () => {
         verifyDatepicker(nativeElement, 'April 2017', '04', '05', '');
       });
 
-      it('should move to the next week when hitting the down arrrow key', () => {
+      it('should move to the next week when hitting the down arrow key', () => {
         component.selectedDate = new Date('4/4/2017');
         fixture.detectChanges();
         triggerKeydown(fixture, { which: 40 });

@@ -57,7 +57,7 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
         }
       });
 
-    // If 'show-selected' filter is programatically set from a child component (e.g. checkilst),
+    // If 'show-selected' filter is programmatically set from a child component (e.g. checklist),
     // make sure the checked state of the 'show-selected' checkbox stays in sync.
     this.state
       .pipe(

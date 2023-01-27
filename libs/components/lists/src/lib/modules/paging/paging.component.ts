@@ -113,12 +113,12 @@ export class SkyPagingComponent implements OnChanges {
       upperBound += 1;
     }
 
-    // Wrap negative values to increase the upperbound
+    // Wrap negative values to increase the upper bound
     if (lowerBound < 0) {
       upperBound -= lowerBound;
       lowerBound = 0;
     }
-    // Wrap overflow to decrease the lowerbound
+    // Wrap overflow to decrease the lower bound
     if (upperBound > pageCount) {
       lowerBound -= upperBound - pageCount;
       upperBound = pageCount;

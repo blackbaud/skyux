@@ -14,7 +14,7 @@ import { ModalContentAutofocusComponent } from './modal-content-autofocus.compon
 import { ModalContentDemoComponent } from './modal-content-demo.component';
 import { ModalDemoComponent } from './modal-demo.component';
 import { ModalFormDemoComponent } from './modal-form-demo.component';
-import { ModalFullPageDemoComponent } from './modal-fullpage-demo.component';
+import { ModalFullPageDemoComponent } from './modal-full-page-demo.component';
 import { ModalTiledDemoComponent } from './modal-tiled-demo.component';
 import { ModalVisualRoutingModule } from './modal-visual-routing.module';
 import { ModalVisualComponent } from './modal-visual.component';

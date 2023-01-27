@@ -95,12 +95,12 @@ export class SkySelectionBoxAdapterService {
    */
   public setChildrenTabIndex(element: ElementRef, tabIndex: number): void {
     const el = element.nativeElement;
-    const focusableElems = this.#coreAdapterService.getFocusableChildren(el, {
+    const focusableEls = this.#coreAdapterService.getFocusableChildren(el, {
       ignoreVisibility: true,
     });
-    let index = focusableElems.length;
+    let index = focusableEls.length;
     while (index--) {
-      focusableElems[index].tabIndex = tabIndex;
+      focusableEls[index].tabIndex = tabIndex;
     }
   }
 

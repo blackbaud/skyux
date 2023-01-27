@@ -496,7 +496,7 @@ describe('Grid Component', () => {
         verifyData(true);
       });
 
-      it('should change displayed headers and data when selected columnids change and emit the change event', async () => {
+      it('should change displayed headers and data when selected columnIds change and emit the change event', async () => {
         fixture.detectChanges();
 
         const selectedColumnIds = [
@@ -571,7 +571,7 @@ describe('Grid Component', () => {
         component.searchedData = '';
 
         for (let i = 0; i < searchFunctions.length; i++) {
-          const result = searchFunctions[i]('blaah', 'something');
+          const result = searchFunctions[i]('blah', 'something');
           if (component.searchText !== '') {
             expect(result).toBe(true);
           } else {
@@ -627,7 +627,7 @@ describe('Grid Component', () => {
         const header2 = getColumnHeader('column2', element);
         const header4 = getColumnHeader('column4', element);
 
-        // Coulumns 1 and 3 should have inline help icons.
+        // Columns 1 and 3 should have inline help icons.
         expect(
           header1.nativeElement.querySelector('sky-help-inline')
         ).not.toBeNull();
@@ -829,7 +829,7 @@ describe('Grid Component', () => {
 
       describe('Models and State', () => {
         it('should construct ListViewGridColumnModel without data', () => {
-          const model = new SkyGridColumnModel(component.viewtemplates.first);
+          const model = new SkyGridColumnModel(component.viewTemplates.first);
           expect(model.template).not.toBeUndefined();
           expect(model.field).toBeUndefined();
           expect(model.heading).toBeUndefined();
@@ -841,7 +841,7 @@ describe('Grid Component', () => {
         });
       });
 
-      describe('Resizeable columns', () => {
+      describe('Resizable columns', () => {
         it('should not resize if user does not use resize handle', fakeAsync(() => {
           // Get initial baseline for comparison.
           const initialTableWidth = getTableWidth(fixture);
@@ -863,7 +863,7 @@ describe('Grid Component', () => {
           const initialTableWidth = getTableWidth(fixture);
           const initialColumnWidths = getColumnWidths(fixture);
 
-          // The last column is already 50px wide. Try to make it smaler...
+          // The last column is already 50px wide. Try to make it smaller...
           resizeColumn(fixture, -50, 4);
 
           // Assert nothing was changed.
@@ -1219,7 +1219,7 @@ describe('Grid Component', () => {
         tick();
         fixture.detectChanges();
         expect(
-          document.querySelector('.sky-inline-delete-standared')
+          document.querySelector('.sky-inline-delete-standard')
         ).toBeNull();
         fixture.componentInstance.deleteItem('1');
         fixture.detectChanges();
@@ -1584,7 +1584,7 @@ describe('Grid Component', () => {
       });
     });
 
-    describe('Resiazable columns', () => {
+    describe('Resizable columns', () => {
       it('should not allow resizing when the final column is at the minimum width', fakeAsync(() => {
         // Get initial baseline for comparison.
         const initialTableWidth = getTableWidth(fixture);
@@ -1701,7 +1701,7 @@ describe('Grid Component', () => {
         // Resize first column with touch event.
         resizeColumnWithTouch(fixture, 50, 0);
 
-        // Assert spys were called.
+        // Assert spies were called.
         expect(startSpy).toHaveBeenCalled();
         expect(moveSpy).toHaveBeenCalled();
         expect(releaseSpy).toHaveBeenCalled();
@@ -1953,7 +1953,7 @@ describe('Grid Component', () => {
         expect(component.selectedRowsChange).toEqual(expectedRows);
       }));
 
-      it('should fall back to id property when multiselectRowId property doesnt exist', fakeAsync(() => {
+      it(`should fall back to id property when multiselectRowId property doesn't exist`, fakeAsync(() => {
         fixture = TestBed.createComponent(GridTestComponent);
         component = fixture.componentInstance;
         element = fixture.debugElement as DebugElement;
@@ -2262,7 +2262,7 @@ describe('Grid Component', () => {
       expect(addCalled).toBe(true);
     }));
 
-    it('should remove the dragging class to the header of dragula draggend', fakeAsync(() => {
+    it('should remove the dragging class to the header of dragula dragend', fakeAsync(() => {
       fixture.detectChanges();
 
       fixture.detectChanges();
@@ -2365,7 +2365,7 @@ describe('Grid Component', () => {
       expect(cellAttribute).toBe('column2');
     }));
 
-    it('should emit selectedColumnIds when a column is reorded on drop', fakeAsync(() => {
+    it('should emit selectedColumnIds when a column is reordered on drop', fakeAsync(() => {
       fixture.detectChanges();
       fixture.detectChanges();
 
@@ -2482,7 +2482,7 @@ describe('Grid Component', () => {
       const lockedColumnMockElement: any = {
         querySelector(selector: string): any {
           // NOTE: We need an element to return here but the fixture isn't yet rendered due
-          // to the timing we need so the doucment element is enough to suffice what we are
+          // to the timing we need so the document element is enough to suffice what we are
           // testing here.
           return document;
         },
@@ -2606,7 +2606,7 @@ describe('Grid Component', () => {
           } as HTMLElement
         );
 
-        const acceptsOptionUndefinedSibiling = options.accepts(
+        const acceptsOptionUndefinedSibling = options.accepts(
           undefined,
           undefined,
           standardMockElement,
@@ -2642,7 +2642,7 @@ describe('Grid Component', () => {
         expect(moveOptionUndefinedHandle).toBeFalsy();
         expect(acceptsOption).toBeTruthy();
         expect(acceptsOptionLoopBreak).toBeTruthy();
-        expect(acceptsOptionUndefinedSibiling).toBeTruthy();
+        expect(acceptsOptionUndefinedSibling).toBeTruthy();
         expect(acceptsOptionLockedHandle).toBeFalsy();
         expect(acceptsOptionResizeHandle).toBeFalsy();
         expect(acceptsOptionLeftOfLocked).toBeFalsy();

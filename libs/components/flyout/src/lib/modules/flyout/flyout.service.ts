@@ -57,7 +57,7 @@ export class SkyFlyoutService implements OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.#removeListners();
+    this.#removeListeners();
     if (this.#host) {
       this.#removeHostComponent();
     }
@@ -198,7 +198,7 @@ export class SkyFlyoutService implements OnDestroy {
         });
 
       flyout.closed.pipe(take(1)).subscribe(() => {
-        this.#removeListners();
+        this.#removeListeners();
         if (this.#removeAfterClosed) {
           this.#removeHostComponent();
         }
@@ -206,7 +206,7 @@ export class SkyFlyoutService implements OnDestroy {
     }
   }
 
-  #removeListners(): void {
+  #removeListeners(): void {
     this.#ngUnsubscribe.next(true);
     this.#ngUnsubscribe.unsubscribe();
     this.#ngUnsubscribe = new Subject<boolean>();

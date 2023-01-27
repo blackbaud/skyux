@@ -740,7 +740,7 @@ describe('Text editor', () => {
         '#c14040'
       );
 
-      // Firefox backcolor bug: https://bugzilla.mozilla.org/show_bug.cgi?id=547848
+      // Firefox backColor bug: https://bugzilla.mozilla.org/show_bug.cgi?id=547848
       // expect(toolbar.querySelector('.background-color-picker').value).toBe('#51b6ca');
     }));
 
@@ -959,7 +959,7 @@ describe('Text editor', () => {
       buttonExecCommandTest(getAlignmentButtons()[2], expectedCommand);
     }));
 
-    it('should set outdented', fakeAsync(() => {
+    it('should set outdent', fakeAsync(() => {
       fixture.detectChanges();
       const expectedCommand = 'outdent';
       buttonExecCommandTest(getIndentationButtons()[0], expectedCommand);
@@ -983,7 +983,7 @@ describe('Text editor', () => {
       buttonExecCommandTest(getUndoRedoButtons()[1], expectedCommand);
     }));
 
-    it('should create a link targetting the same window', fakeAsync(() => {
+    it('should create a link targeting the same window', fakeAsync(() => {
       testComponent.value = '<p>Click here</p>';
       fixture.detectChanges();
       tick();
@@ -1016,7 +1016,7 @@ describe('Text editor', () => {
       expect(testComponent.value).toContain('<a href="https://google.com">');
     }));
 
-    it('should create a link targetting a new window', fakeAsync(() => {
+    it('should create a link targeting a new window', fakeAsync(() => {
       testComponent.value = '<p>Click here</p>';
       fixture.detectChanges();
       tick();
@@ -1220,7 +1220,7 @@ describe('Text editor', () => {
 
     it('should load in selected email link data', fakeAsync(() => {
       testComponent.value =
-        '<a href="mailto:nero.claudius@pharoah-emperors.gov?Subject=Padoru%20Padoru">Click here</a>';
+        '<a href="mailto:nero.claudius@pharaoh-emperors.gov?Subject=Pad%20Pad">Click here</a>';
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -1235,8 +1235,8 @@ describe('Text editor', () => {
       const inputs: NodeListOf<HTMLInputElement> =
         document.querySelectorAll('.sky-modal input');
       expect(document.querySelector('.sky-modal')).toBeTruthy();
-      expect(inputs[1].value).toBe('nero.claudius@pharoah-emperors.gov');
-      expect(inputs[2].value).toBe('Padoru Padoru');
+      expect(inputs[1].value).toBe('nero.claudius@pharaoh-emperors.gov');
+      expect(inputs[2].value).toBe('Pad Pad');
 
       const cancelButton = document.querySelector(
         '.sky-modal-footer-container .sky-btn-link'
@@ -1251,7 +1251,7 @@ describe('Text editor', () => {
 
     it('should load in selected email link data with case-sensitive "subject"', fakeAsync(() => {
       testComponent.value =
-        '<a href="mailto:nero.claudius@pharoah-emperors.gov?subject=Padoru%20Padoru">Click here</a>';
+        '<a href="mailto:nero.claudius@pharaoh-emperors.gov?subject=Pad%20Pad">Click here</a>';
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -1266,8 +1266,8 @@ describe('Text editor', () => {
       const inputs: NodeListOf<HTMLInputElement> =
         document.querySelectorAll('.sky-modal input');
       expect(document.querySelector('.sky-modal')).toBeTruthy();
-      expect(inputs[1].value).toBe('nero.claudius@pharoah-emperors.gov');
-      expect(inputs[2].value).toBe('Padoru Padoru');
+      expect(inputs[1].value).toBe('nero.claudius@pharaoh-emperors.gov');
+      expect(inputs[2].value).toBe('Pad Pad');
 
       const cancelButton = document.querySelector(
         '.sky-modal-footer-container .sky-btn-link'
@@ -1755,6 +1755,19 @@ describe('Text editor', () => {
       expect(iframeElement).not.toHaveCssClass(
         'sky-text-editor-wrapper-disabled'
       );
+    });
+  });
+
+  describe('with autofocus', () => {
+    it('should allow autofocus and value to be set on initialization', () => {
+      // A bug in the order of setting value, initializing the text editor
+      // and setting focus would cause this test to fail.
+      fixture = createComponent(TextEditorFixtureComponent);
+      const testComponent =
+        fixture.componentInstance as TextEditorFixtureComponent;
+      testComponent.autofocus = true;
+
+      fixture.detectChanges();
     });
   });
 });

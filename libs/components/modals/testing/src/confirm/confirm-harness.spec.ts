@@ -229,9 +229,9 @@ describe('Confirm harness', () => {
       });
 
       await expectAsync(
-        confirmHarness.getCustomButtons({ text: /invalidbuttonname/ })
+        confirmHarness.getCustomButtons({ text: /invalidButtonName/ })
       ).toBeRejectedWithError(
-        `Could not find buttons matching filter(s): {"text":"/invalidbuttonname/"}.`
+        `Could not find buttons matching filter(s): {"text":"/invalidButtonName/"}.`
       );
     });
 
@@ -265,7 +265,7 @@ describe('Confirm harness', () => {
       );
     });
 
-    it('should ouput a closed event when OK button is clicked', async () => {
+    it('should output a closed event when OK button is clicked', async () => {
       const { confirmHarness, fixture } = await setupTest();
       const closedSpy = spyOn(fixture.componentInstance, 'closedChange');
       fixture.detectChanges();
@@ -314,7 +314,7 @@ describe('Confirm harness', () => {
       );
     });
 
-    it('should ouput a closed event when a custom button is clicked', async () => {
+    it('should output a closed event when a custom button is clicked', async () => {
       const { confirmHarness, fixture } = await setupTest({
         ...DEFAULT_CONFIRM_CONFIG,
         type: SkyConfirmType.Custom,

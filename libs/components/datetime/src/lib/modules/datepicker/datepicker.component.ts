@@ -169,7 +169,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
 
   #overlay: SkyOverlayInstance | undefined;
 
-  #overlayKeydownListner: Subscription | undefined;
+  #overlayKeydownListener: Subscription | undefined;
 
   #_calendarRef: ElementRef | undefined;
 
@@ -369,7 +369,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
   }
 
   #addKeydownListener(): void {
-    this.#overlayKeydownListner = fromEvent<KeyboardEvent>(
+    this.#overlayKeydownListener = fromEvent<KeyboardEvent>(
       window.document,
       'keydown'
     )
@@ -386,7 +386,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
     this.#calendarUnsubscribe.next();
     this.#calendarUnsubscribe.complete();
     this.#calendarUnsubscribe = new Subject<void>();
-    this.#overlayKeydownListner?.unsubscribe();
+    this.#overlayKeydownListener?.unsubscribe();
   }
 
   #cancelCustomDatesSubscription(): void {

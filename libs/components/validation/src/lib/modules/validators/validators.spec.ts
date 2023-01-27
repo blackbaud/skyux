@@ -31,7 +31,7 @@ describe('FormControl Validators', () => {
 
     it('should be invalid on incorrect input', () => {
       const control = new UntypedFormControl('', SkyValidators.email);
-      control.setValue('[]awefhawenfc0293ejwf');
+      control.setValue('[]abcdefgh0293abcd');
       expect(control.valid).toBeFalsy();
     });
 
@@ -74,7 +74,7 @@ describe('FormControl Validators', () => {
 
     it('should be invalid on text that is not a url', () => {
       const control = new UntypedFormControl('', SkyValidators.url);
-      control.setValue('[]awefhawenfc0293ejwf]');
+      control.setValue('[]abcdefgh0293abcd]');
       expect(control.valid).toBeFalsy();
     });
 
@@ -129,7 +129,7 @@ describe('FormControl Validators', () => {
         '',
         SkyValidators.url(optionsRulesetV1)
       );
-      control.setValue('[]awefhawenfc0293ejwf]');
+      control.setValue('[]abcdefgh0293abcd]');
       expect(control.valid).toBeFalsy();
     });
 
@@ -188,7 +188,7 @@ describe('FormControl Validators', () => {
         '',
         SkyValidators.url(optionsRulesetV2)
       );
-      control.setValue('[]awefhawenfc0293ejwf]');
+      control.setValue('[]abcdefgh0293abcd]');
       expect(control.valid).toBeFalsy();
     });
 

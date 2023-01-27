@@ -12,6 +12,7 @@ import { DockItemVisualComponent } from './dock-item-visual.component';
 export class DockComponent implements AfterViewInit {
   public stackOrder = 0;
 
+  /* spell-checker:disable */
   #configs: DockItemVisualContext[] = [
     {
       stackOrder: 0,
@@ -34,6 +35,8 @@ export class DockComponent implements AfterViewInit {
       backgroundColor: 'darkgreen',
     },
   ];
+  /* spell-checker:enable */
+
   #dockService: SkyDockService;
 
   constructor(dockService: SkyDockService) {

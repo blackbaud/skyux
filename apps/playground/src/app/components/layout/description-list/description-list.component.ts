@@ -16,7 +16,7 @@ export class DescriptionListComponent {
     },
     {
       term: 'Advisor',
-      description: 'Calandra Geer',
+      description: 'Cathy Green',
       showHelp: true,
     },
     {

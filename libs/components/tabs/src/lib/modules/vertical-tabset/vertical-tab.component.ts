@@ -97,7 +97,7 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
   public tabHeading: string | undefined;
 
   /**
-   * Whether to display a chevron-right icon in the righthand side of the tab.
+   * Whether to display a chevron-right icon on the right hand side of the tab.
    * @internal
    */
   @Input()

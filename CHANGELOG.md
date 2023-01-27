@@ -1,5 +1,73 @@
 # Changelog
 
+## [7.5.0](https://github.com/blackbaud/skyux/compare/7.4.2...7.5.0) (2023-01-25)
+
+
+### Features
+
+* **components/router:** test harness for skyhref ([#934](https://github.com/blackbaud/skyux/issues/934)) ([1a2d7ef](https://github.com/blackbaud/skyux/commit/1a2d7ef28e100a30d2a5d755b7a4532830d2e318))
+
+
+### Bug Fixes
+
+* **components/packages:** remove Stache libraries from `ng update` package group ([#946](https://github.com/blackbaud/skyux/issues/946)) ([24bb1a9](https://github.com/blackbaud/skyux/commit/24bb1a9281c479bc334c4b7aa65997e690b62d5f))
+* **components/progress-indicator:** all items are shown for waterfall progress indicators ([#954](https://github.com/blackbaud/skyux/issues/954)) ([05e7333](https://github.com/blackbaud/skyux/commit/05e7333a983b257624d68a2ba6e1f951c1235cde))
+* **components/tiles:** fix appending tile components with injected dependencies ([#945](https://github.com/blackbaud/skyux/issues/945)) ([ab99728](https://github.com/blackbaud/skyux/commit/ab9972882aa42916f83fd72640960cd037d8b487))
+
+## [7.4.2](https://github.com/blackbaud/skyux/compare/7.4.1...7.4.2) (2023-01-23)
+
+
+### Bug Fixes
+
+* **components/text-editor:** fix bug where setting autofocus and initial value before view init threw runtime error ([#947](https://github.com/blackbaud/skyux/issues/947)) ([2fc3cb4](https://github.com/blackbaud/skyux/commit/2fc3cb4d735d5735ed022299590d5c1635607a06))
+
+## [7.4.1](https://github.com/blackbaud/skyux/compare/7.4.0...7.4.1) (2023-01-20)
+
+
+### Bug Fixes
+
+* **components/indicators:** add `display: block` to alert host component ([#939](https://github.com/blackbaud/skyux/issues/939)) ([4e9f744](https://github.com/blackbaud/skyux/commit/4e9f744d2bcaded42a489c5c34a8450fe0e3a688))
+* **components/layout:** set `sm` breakpoint for action buttons without parent elements ([#944](https://github.com/blackbaud/skyux/issues/944)) ([3a93a3d](https://github.com/blackbaud/skyux/commit/3a93a3d68e3ffa334fd8286a049d1f87492671a5))
+* **components/lookup:** make selection modal harness visible to docs ([#941](https://github.com/blackbaud/skyux/issues/941)) ([bca8e18](https://github.com/blackbaud/skyux/commit/bca8e185d5ce70a626379bf75398256f0873fe09))
+* **components/tiles:** render tile dashboard if config is set after init ([#943](https://github.com/blackbaud/skyux/issues/943)) ([ae8e305](https://github.com/blackbaud/skyux/commit/ae8e305f59a85a47f4479b2db82afda9f29fe863))
+
+## [7.4.0](https://github.com/blackbaud/skyux/compare/7.3.0...7.4.0) (2023-01-18)
+
+
+### Features
+
+* **components/lookup:** add selection modal service ([#931](https://github.com/blackbaud/skyux/issues/931)) ([7d6bc6e](https://github.com/blackbaud/skyux/commit/7d6bc6e40fdbee577353e82e48be756139b0f6b1))
+
+
+### Bug Fixes
+
+* **components/colorpicker:** colorpicker selection change updates both reactive forms and template forms ([#926](https://github.com/blackbaud/skyux/issues/926)) ([4e7b735](https://github.com/blackbaud/skyux/commit/4e7b73519320b705ca64fe842ede2a72c0adba5b))
+
+## [7.3.0](https://github.com/blackbaud/skyux/compare/7.2.0...7.3.0) (2023-01-13)
+
+
+### Features
+
+* **components/a11y:** skip link test harness ([#920](https://github.com/blackbaud/skyux/issues/920)) ([9964051](https://github.com/blackbaud/skyux/commit/9964051fd6df74272213c7463df27af5d3e50d68))
+* **components/indicators:** wait test harness ([#919](https://github.com/blackbaud/skyux/issues/919)) ([dcc958b](https://github.com/blackbaud/skyux/commit/dcc958bfac4558f92b444d97f94cc158a5b4b9f8))
+
+
+### Bug Fixes
+
+* **components/flyout:** flyout close button is visible ([#930](https://github.com/blackbaud/skyux/issues/930)) ([a2939e6](https://github.com/blackbaud/skyux/commit/a2939e6156c2f52ac059f85c09cd1ca80f4a3fcf))
+
+## [7.2.0](https://github.com/blackbaud/skyux/compare/7.1.4...7.2.0) (2023-01-11)
+
+
+### Features
+
+* **components/theme:** switch to css custom properties ([#905](https://github.com/blackbaud/skyux/issues/905)) ([01381b7](https://github.com/blackbaud/skyux/commit/01381b705f7d7da276fd61270be824ec1ac4f195))
+
+
+### Reverts
+
+* **components/indicators:** `SkyWaitService`'s `blockingWrap` and `nonBlockingWrap` methods now take in argument objects and the versions which take in an `Observable` are deprecated ([#922](https://github.com/blackbaud/skyux/pull/922)) ([36bd04](https://github.com/blackbaud/skyux/commit/36bd04507058c925a68c4a2cd778356b843defac))
+
 ## [7.1.4](https://github.com/blackbaud/skyux/compare/7.1.3...7.1.4) (2023-01-09)
 
 
@@ -766,7 +834,7 @@
 
 ### Bug Fixes
 
-- **components/forms:** form controls on radio groups now properly disable radio buttons on initialization and do not mark the form as dirty on programatic changes ([#356](https://github.com/blackbaud/skyux/issues/356)) ([34eeb4b](https://github.com/blackbaud/skyux/commit/34eeb4b25c2ffd3b17065db04658f609f51bbcac))
+- **components/forms:** form controls on radio groups now properly disable radio buttons on initialization and do not mark the form as dirty on programmatic changes ([#356](https://github.com/blackbaud/skyux/issues/356)) ([34eeb4b](https://github.com/blackbaud/skyux/commit/34eeb4b25c2ffd3b17065db04658f609f51bbcac))
 - **components/indicators:** update icons cdn link ([#360](https://github.com/blackbaud/skyux/issues/360)) ([4c42599](https://github.com/blackbaud/skyux/commit/4c425996daede636b7c5100378c7c82aa0e2e70a))
 - **components/modals:** viewkept toolbars now style correctly at the top of modern theme modals ([#347](https://github.com/blackbaud/skyux/issues/347)) ([1e570dd](https://github.com/blackbaud/skyux/commit/1e570dd02a11594d04f905ed817c67a97455ca91))
 
@@ -1219,7 +1287,7 @@
 ### Bug Fixes
 
 - **components/flyout:** navigating when a flyout is open does not throw an error ([#75](https://github.com/blackbaud/skyux/issues/75)) ([b18948b](https://github.com/blackbaud/skyux/commit/b18948b77d7f2da3a4a72cb88b2686dd24c95088))
-- **components/lookup:** fix tostring call on undefined value ([#69](https://github.com/blackbaud/skyux/issues/69)) ([f28b4a6](https://github.com/blackbaud/skyux/commit/f28b4a6e3700873e428173639b6785a3322d30cc))
+- **components/lookup:** fix `toString` call on undefined value ([#69](https://github.com/blackbaud/skyux/issues/69)) ([f28b4a6](https://github.com/blackbaud/skyux/commit/f28b4a6e3700873e428173639b6785a3322d30cc))
 - **components/router:** fix skyhref resolution with onpush change detection ([#71](https://github.com/blackbaud/skyux/issues/71)) ([4246387](https://github.com/blackbaud/skyux/commit/4246387666d50242baa8ed3ca5c675a1165181f4))
 
 ### [5.6.2](https://github.com/blackbaud/skyux/compare/5.6.1...5.6.2) (2022-03-11)

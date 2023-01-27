@@ -240,7 +240,7 @@ describe('Modal service', () => {
     it('should not modify siblings if they have been removed from the DOM before the modal closes', fakeAsync(() => {
       const div = document.createElement('div');
       document.body.appendChild(div);
-      const previousAriaHidden = 'bingbong';
+      const previousAriaHidden = 'bingBong';
 
       div.setAttribute('aria-hidden', previousAriaHidden);
 

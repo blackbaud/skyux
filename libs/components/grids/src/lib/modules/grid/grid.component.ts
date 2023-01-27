@@ -482,7 +482,7 @@ export class SkyGridComponent
       classNames.push('sky-grid-has-toolbar');
     }
 
-    return this.addDelimeter(classNames, ' ');
+    return this.addDelimiter(classNames, ' ');
   }
 
   public getTableHeaderClassNames(column: SkyGridColumnModel) {
@@ -492,7 +492,7 @@ export class SkyGridComponent
       classNames.push('sky-grid-header-locked');
     }
 
-    return this.addDelimeter(classNames, ' ');
+    return this.addDelimiter(classNames, ' ');
   }
 
   public getCaretIconNames(column: SkyGridColumnModel) {
@@ -507,7 +507,7 @@ export class SkyGridComponent
       }
     });
 
-    return this.addDelimeter(iconNames, ' ');
+    return this.addDelimiter(iconNames, ' ');
   }
 
   public onKeydown(event: KeyboardEvent, column: SkyGridColumnModel) {
@@ -1224,7 +1224,7 @@ export class SkyGridComponent
     return this.getColumnModelByIndex(this.displayedColumns.length - 1);
   }
 
-  private addDelimeter(text: string[], delimiter: string) {
+  private addDelimiter(text: string[], delimiter: string) {
     return text.filter((val) => val).join(delimiter);
   }
 

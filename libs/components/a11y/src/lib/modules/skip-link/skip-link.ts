@@ -11,7 +11,7 @@ export interface SkySkipLink {
 
   /**
    * The element to scroll to and focus when the skip link is clicked.  This element must
-   * allow focus, either by spcecifying an HTML element that allows focus by default (such
+   * allow focus, either by specifying an HTML element that allows focus by default (such
    * as a `button` or `a` element) or by setting `tabindex="-1" on the specified element.
    */
   elementRef: ElementRef;

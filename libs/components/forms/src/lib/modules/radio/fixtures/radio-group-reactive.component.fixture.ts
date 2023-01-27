@@ -22,8 +22,8 @@ export class SkyRadioGroupReactiveFixtureComponent implements OnInit {
   public initialValue: unknown = null;
 
   public options: { name: string; disabled: boolean; id?: string }[] = [
-    { name: 'Lillith Corharvest', disabled: false },
-    { name: 'Harima Kenji', disabled: false },
+    { name: 'Lilly Corr', disabled: false },
+    { name: 'Sherry Ken', disabled: false },
     { name: 'Harry Mckenzie', disabled: false },
   ];
 
@@ -58,9 +58,9 @@ export class SkyRadioGroupReactiveFixtureComponent implements OnInit {
 
   public changeOptions(): void {
     this.options = [
-      { name: 'Lillith Corharvest', disabled: false },
-      { name: 'Hank Salizar', disabled: false },
-      { name: 'Harima Kenji', disabled: false },
+      { name: 'Lily Corr', disabled: false },
+      { name: 'Hank Smith', disabled: false },
+      { name: 'Sherry Ken', disabled: false },
       { name: 'Harry Mckenzie', disabled: false },
     ];
   }

@@ -55,9 +55,9 @@ function testGetDescriptionType(
     fixture.componentInstance.customDescription = customDescription;
     fixture.detectChanges();
 
-    const componentDesciptionType = await labelHarness.getDescriptionType();
+    const componentDescriptionType = await labelHarness.getDescriptionType();
 
-    expect(componentDesciptionType).toEqual(descriptionType);
+    expect(componentDescriptionType).toEqual(descriptionType);
   });
 }
 
@@ -124,9 +124,9 @@ describe('Label harness', () => {
 
       fixture.detectChanges();
 
-      const componentDesciption = await labelHarness.getCustomDescription();
+      const componentDescription = await labelHarness.getCustomDescription();
 
-      expect(componentDesciption).toEqual(description);
+      expect(componentDescription).toEqual(description);
     });
 
     it('should return an empty string when `descriptionType` is not custom', async () => {
@@ -138,9 +138,10 @@ describe('Label harness', () => {
 
       fixture.detectChanges();
 
-      const componentDesciptionType = await labelHarness.getCustomDescription();
+      const componentDescriptionType =
+        await labelHarness.getCustomDescription();
 
-      expect(componentDesciptionType).toEqual('');
+      expect(componentDescriptionType).toEqual('');
     });
   });
 });

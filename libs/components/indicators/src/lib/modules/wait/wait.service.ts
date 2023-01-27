@@ -1,19 +1,24 @@
 import {
   ApplicationRef,
   ComponentFactoryResolver,
+  ComponentRef,
   Injectable,
+  Optional,
 } from '@angular/core';
-import { SkyAppWindowRef, SkyLogService } from '@skyux/core';
+import {
+  SkyAppWindowRef,
+  SkyDynamicComponentLocation,
+  SkyDynamicComponentService,
+} from '@skyux/core';
 
 import { Observable, defer as observableDefer } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
-import { SkyWaitBlockingWrapArgs } from './types/wait-blocking-wrap-args';
-import { SkyWaitNonBlockingWrapArgs } from './types/wait-non-blocking-wrap-args';
 import { SkyWaitPageAdapterService } from './wait-page-adapter.service';
 import { SkyWaitPageComponent } from './wait-page.component';
 
 let waitComponent: SkyWaitPageComponent | undefined;
+let waitComponentRef: ComponentRef<SkyWaitPageComponent> | undefined;
 let pageWaitBlockingCount = 0;
 let pageWaitNonBlockingCount = 0;
 
@@ -28,20 +33,21 @@ export class SkyWaitService {
   #appRef: ApplicationRef;
   #waitAdapter: SkyWaitPageAdapterService;
   #windowSvc: SkyAppWindowRef;
-  #logService: SkyLogService;
+  #dynamicComponentService: SkyDynamicComponentService | undefined;
 
+  // TODO: Remove `Optional` in a future breaking change. When this is done - remove the `resolver` variable and any cases that account for it.
   constructor(
     resolver: ComponentFactoryResolver,
     appRef: ApplicationRef,
     waitAdapter: SkyWaitPageAdapterService,
     windowSvc: SkyAppWindowRef,
-    logService: SkyLogService
+    @Optional() dynamicComponentService: SkyDynamicComponentService
   ) {
     this.#resolver = resolver;
     this.#appRef = appRef;
     this.#waitAdapter = waitAdapter;
     this.#windowSvc = windowSvc;
-    this.#logService = logService;
+    this.#dynamicComponentService = dynamicComponentService;
   }
 
   /**
@@ -90,36 +96,19 @@ export class SkyWaitService {
       waitComponent = undefined;
       pageWaitBlockingCount = 0;
       pageWaitNonBlockingCount = 0;
-      this.#waitAdapter.removePageWaitEl();
+      // TODO: Remove if-statement and else case when `Optional` is removed from the constructor.
+      if (this.#dynamicComponentService) {
+        this.#dynamicComponentService.removeComponent(waitComponentRef);
+      } else {
+        this.#waitAdapter.removePageWaitEl();
+      }
     }
   }
 
   /**
    * Launches a page wait and automatically stops when the specific asynchronous event completes.
    */
-  public blockingWrap<T>(args: SkyWaitBlockingWrapArgs<T>): Observable<T>;
-  /**
-   * @deprecated Use the version which takes in `SkyWaitBlockingWrapArgs` instead
-   */
-  public blockingWrap<T>(observable: Observable<T>): Observable<T>;
-  public blockingWrap<T>(
-    value: SkyWaitBlockingWrapArgs<T> | Observable<T>
-  ): Observable<T> {
-    let observable: Observable<T> = value as Observable<T>;
-    const typeChecker = value as SkyWaitBlockingWrapArgs<T>;
-    if (typeChecker.observable !== undefined) {
-      observable = (value as SkyWaitBlockingWrapArgs<T>).observable;
-    } else {
-      this.#logService.deprecated(
-        'Use of the `blockingWrap` method with an `Observable<T> parameter',
-        {
-          deprecationMajorVersion: 7,
-          replacementRecommendation:
-            'Use the version of the `blockingWrap` function which takes in `SkyWaitBlockingWrapArgs`.',
-        }
-      );
-    }
-
+  public blockingWrap<T>(observable: Observable<T>): Observable<T> {
     return observableDefer(() => {
       this.beginBlockingPageWait();
       return observable.pipe(finalize(() => this.endBlockingPageWait()));
@@ -130,29 +119,7 @@ export class SkyWaitService {
    * Launches a non-blocking page wait and automatically stops when the specific
    * asynchronous event completes.
    */
-  public nonBlockingWrap<T>(args: SkyWaitNonBlockingWrapArgs<T>): Observable<T>;
-  /**
-   * @deprecated Use the version which takes in `SkyWaitNonBlockingWrapArgs` instead
-   */
-  public nonBlockingWrap<T>(observable: Observable<T>): Observable<T>;
-  public nonBlockingWrap<T>(
-    value: SkyWaitNonBlockingWrapArgs<T> | Observable<T>
-  ): Observable<T> {
-    let observable: Observable<T> = value as Observable<T>;
-    const typeChecker = value as SkyWaitNonBlockingWrapArgs<T>;
-    if (typeChecker.observable !== undefined) {
-      observable = (value as SkyWaitNonBlockingWrapArgs<T>).observable;
-    } else {
-      this.#logService.deprecated(
-        'Use of the `nonBlockingWrap` method with an `Observable<T> parameter',
-        {
-          deprecationMajorVersion: 7,
-          replacementRecommendation:
-            'Use the version of the `nonBlockingWrap` function which takes in `SkyWaitNonBlockingWrapArgs`.',
-        }
-      );
-    }
-
+  public nonBlockingWrap<T>(observable: Observable<T>): Observable<T> {
     return observableDefer(() => {
       this.beginNonBlockingPageWait();
       return observable.pipe(finalize(() => this.endNonBlockingPageWait()));
@@ -181,12 +148,21 @@ export class SkyWaitService {
         // Ensuring here that we recheck this after the setTimeout is over so that we don't clash
         // with any other waits that are created.
         if (!waitComponent) {
-          const factory =
-            this.#resolver.resolveComponentFactory(SkyWaitPageComponent);
-          this.#waitAdapter.addPageWaitEl();
+          // TODO: Remove if-statement and else case when `Optional` is removed from the constructor.
+          if (this.#dynamicComponentService) {
+            waitComponentRef = this.#dynamicComponentService.createComponent(
+              SkyWaitPageComponent,
+              { location: SkyDynamicComponentLocation.BodyBottom }
+            );
+            waitComponent = waitComponentRef.instance;
+          } else {
+            const factory =
+              this.#resolver.resolveComponentFactory(SkyWaitPageComponent);
+            this.#waitAdapter.addPageWaitEl();
 
-          const cmpRef = this.#appRef.bootstrap(factory);
-          waitComponent = cmpRef.instance;
+            waitComponentRef = this.#appRef.bootstrap(factory);
+            waitComponent = waitComponentRef.instance;
+          }
         }
 
         this.#setWaitComponentProperties(isBlocking);

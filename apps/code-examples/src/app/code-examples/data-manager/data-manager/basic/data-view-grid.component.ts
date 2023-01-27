@@ -22,7 +22,7 @@ import {
   RowSelectedEvent,
 } from 'ag-grid-community';
 
-import { SkyDataManangerDemoRow } from './data-manager-demo-data';
+import { SkyDataManagerDemoRow } from './data-manager-demo-data';
 
 @Component({
   selector: 'app-data-view-grid-demo',
@@ -31,7 +31,7 @@ import { SkyDataManangerDemoRow } from './data-manager-demo-data';
 })
 export class DataViewGridDemoComponent implements OnInit {
   @Input()
-  public items: SkyDataManangerDemoRow[] = [];
+  public items: SkyDataManagerDemoRow[] = [];
 
   public viewId = 'gridView';
 
@@ -90,7 +90,7 @@ export class DataViewGridDemoComponent implements OnInit {
   };
 
   public columnApi?: ColumnApi;
-  public displayedItems: SkyDataManangerDemoRow[] = [];
+  public displayedItems: SkyDataManagerDemoRow[] = [];
   public gridApi?: GridApi;
   public gridInitialized = false;
   public gridOptions!: GridOptions;
@@ -200,14 +200,12 @@ export class DataViewGridDemoComponent implements OnInit {
     }
   }
 
-  public searchItems(
-    items: SkyDataManangerDemoRow[]
-  ): SkyDataManangerDemoRow[] {
+  public searchItems(items: SkyDataManagerDemoRow[]): SkyDataManagerDemoRow[] {
     let searchedItems = items;
     const searchText = this.dataState && this.dataState.searchText;
 
     if (searchText) {
-      searchedItems = items.filter(function (item: SkyDataManangerDemoRow) {
+      searchedItems = items.filter(function (item: SkyDataManagerDemoRow) {
         let property: keyof typeof item;
 
         for (property in item) {
@@ -228,15 +226,13 @@ export class DataViewGridDemoComponent implements OnInit {
     return searchedItems;
   }
 
-  public filterItems(
-    items: SkyDataManangerDemoRow[]
-  ): SkyDataManangerDemoRow[] {
+  public filterItems(items: SkyDataManagerDemoRow[]): SkyDataManagerDemoRow[] {
     let filteredItems = items;
     const filterData = this.dataState && this.dataState.filterData;
 
     if (filterData && filterData.filters) {
       const filters = filterData.filters;
-      filteredItems = items.filter((item: SkyDataManangerDemoRow) => {
+      filteredItems = items.filter((item: SkyDataManagerDemoRow) => {
         return (
           ((filters.hideOrange && item.color !== 'orange') ||
             !filters.hideOrange) &&

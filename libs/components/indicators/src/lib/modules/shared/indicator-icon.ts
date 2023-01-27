@@ -1,7 +1,7 @@
 import { SkyIconStackItem } from '../icon/icon-stack-item';
 
 /**
- * @internl
+ * @internal
  */
 export interface SkyIndicatorIcon {
   defaultThemeIcon: string;

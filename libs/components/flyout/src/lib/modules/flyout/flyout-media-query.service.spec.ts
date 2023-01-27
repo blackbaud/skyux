@@ -93,7 +93,7 @@ describe('Flyout media query service', () => {
       [SkyFlyoutMediaQueryService],
       (mediaQueryService: SkyFlyoutMediaQueryService) => {
         expect(
-          mediaQueryService.isWidthWithinBreakpiont(767, SkyMediaBreakpoints.xs)
+          mediaQueryService.isWidthWithinBreakpoint(767, SkyMediaBreakpoints.xs)
         ).toBeTruthy();
 
         mediaQueryService.destroy();
@@ -104,7 +104,7 @@ describe('Flyout media query service', () => {
       [SkyFlyoutMediaQueryService],
       (mediaQueryService: SkyFlyoutMediaQueryService) => {
         expect(
-          mediaQueryService.isWidthWithinBreakpiont(768, SkyMediaBreakpoints.xs)
+          mediaQueryService.isWidthWithinBreakpoint(768, SkyMediaBreakpoints.xs)
         ).toBeFalsy();
 
         mediaQueryService.destroy();
@@ -115,10 +115,10 @@ describe('Flyout media query service', () => {
       [SkyFlyoutMediaQueryService],
       (mediaQueryService: SkyFlyoutMediaQueryService) => {
         expect(
-          mediaQueryService.isWidthWithinBreakpiont(768, SkyMediaBreakpoints.sm)
+          mediaQueryService.isWidthWithinBreakpoint(768, SkyMediaBreakpoints.sm)
         ).toBeTruthy();
         expect(
-          mediaQueryService.isWidthWithinBreakpiont(991, SkyMediaBreakpoints.sm)
+          mediaQueryService.isWidthWithinBreakpoint(991, SkyMediaBreakpoints.sm)
         ).toBeTruthy();
 
         mediaQueryService.destroy();
@@ -129,10 +129,10 @@ describe('Flyout media query service', () => {
       [SkyFlyoutMediaQueryService],
       (mediaQueryService: SkyFlyoutMediaQueryService) => {
         expect(
-          mediaQueryService.isWidthWithinBreakpiont(767, SkyMediaBreakpoints.sm)
+          mediaQueryService.isWidthWithinBreakpoint(767, SkyMediaBreakpoints.sm)
         ).toBeFalsy();
         expect(
-          mediaQueryService.isWidthWithinBreakpiont(992, SkyMediaBreakpoints.sm)
+          mediaQueryService.isWidthWithinBreakpoint(992, SkyMediaBreakpoints.sm)
         ).toBeFalsy();
 
         mediaQueryService.destroy();
@@ -143,10 +143,10 @@ describe('Flyout media query service', () => {
       [SkyFlyoutMediaQueryService],
       (mediaQueryService: SkyFlyoutMediaQueryService) => {
         expect(
-          mediaQueryService.isWidthWithinBreakpiont(992, SkyMediaBreakpoints.md)
+          mediaQueryService.isWidthWithinBreakpoint(992, SkyMediaBreakpoints.md)
         ).toBeTruthy();
         expect(
-          mediaQueryService.isWidthWithinBreakpiont(
+          mediaQueryService.isWidthWithinBreakpoint(
             1199,
             SkyMediaBreakpoints.md
           )
@@ -160,10 +160,10 @@ describe('Flyout media query service', () => {
       [SkyFlyoutMediaQueryService],
       (mediaQueryService: SkyFlyoutMediaQueryService) => {
         expect(
-          mediaQueryService.isWidthWithinBreakpiont(991, SkyMediaBreakpoints.md)
+          mediaQueryService.isWidthWithinBreakpoint(991, SkyMediaBreakpoints.md)
         ).toBeFalsy();
         expect(
-          mediaQueryService.isWidthWithinBreakpiont(
+          mediaQueryService.isWidthWithinBreakpoint(
             1200,
             SkyMediaBreakpoints.md
           )
@@ -177,13 +177,13 @@ describe('Flyout media query service', () => {
       [SkyFlyoutMediaQueryService],
       (mediaQueryService: SkyFlyoutMediaQueryService) => {
         expect(
-          mediaQueryService.isWidthWithinBreakpiont(
+          mediaQueryService.isWidthWithinBreakpoint(
             1200,
             SkyMediaBreakpoints.lg
           )
         ).toBeTruthy();
         expect(
-          mediaQueryService.isWidthWithinBreakpiont(
+          mediaQueryService.isWidthWithinBreakpoint(
             2000,
             SkyMediaBreakpoints.lg
           )
@@ -197,7 +197,7 @@ describe('Flyout media query service', () => {
       [SkyFlyoutMediaQueryService],
       (mediaQueryService: SkyFlyoutMediaQueryService) => {
         expect(
-          mediaQueryService.isWidthWithinBreakpiont(
+          mediaQueryService.isWidthWithinBreakpoint(
             1199,
             SkyMediaBreakpoints.lg
           )

@@ -65,9 +65,9 @@ async function validateDescriptionType(
   fixture.componentInstance.customDescription = customDescription;
   fixture.detectChanges();
 
-  const componentDesciptionType = await alertHarness.getDescriptionType();
+  const componentDescriptionType = await alertHarness.getDescriptionType();
 
-  expect(componentDesciptionType).toEqual(descriptionType);
+  expect(componentDescriptionType).toEqual(descriptionType);
 }
 
 describe('Alert harness', () => {
@@ -175,9 +175,9 @@ describe('Alert harness', () => {
 
     fixture.detectChanges();
 
-    const componentDesciption = await alertHarness.getCustomDescription();
+    const componentDescription = await alertHarness.getCustomDescription();
 
-    expect(componentDesciption).toEqual(description);
+    expect(componentDescription).toEqual(description);
   });
 
   it('should return an empty string when `descriptionType` is not custom', async () => {
@@ -187,9 +187,9 @@ describe('Alert harness', () => {
 
     fixture.detectChanges();
 
-    const componentDesciption = await alertHarness.getCustomDescription();
+    const componentDescription = await alertHarness.getCustomDescription();
 
-    expect(componentDesciption).toEqual('');
+    expect(componentDescription).toEqual('');
   });
 
   it('should return the expected text', async () => {

@@ -311,7 +311,7 @@ describe('SkyDataManagerService', () => {
         it('should not emit new values when the comparator does not detect changes', () => {
           const startingDataState = dataState;
           const newDataState = new SkyDataManagerState({
-            searchText: 'searchtext',
+            searchText: 'searchText',
           });
 
           expect(dataState).toEqual(startingDataState);
@@ -494,7 +494,7 @@ describe('SkyDataManagerService', () => {
       );
     });
 
-    it(`should not update available or displayed column IDs on an exisitng view state if current columns match`, async () => {
+    it(`should not update available or displayed column IDs on an existing view state if current columns match`, async () => {
       let currentDataState: SkyDataManagerState | undefined;
 
       dataManagerService
@@ -556,7 +556,7 @@ describe('SkyDataManagerService', () => {
       );
     });
 
-    it(`should update available or displayed column IDs on an exisitng view state if a new column exists`, async () => {
+    it(`should update available or displayed column IDs on an existing view state if a new column exists`, async () => {
       let currentDataState: SkyDataManagerState | undefined;
 
       dataManagerService
@@ -622,7 +622,7 @@ describe('SkyDataManagerService', () => {
       );
     });
 
-    it(`should update available but not displayed column IDs on an exisitng view state if a new
+    it(`should update available but not displayed column IDs on an existing view state if a new
     column exists with 'initialHide'`, async () => {
       let currentDataState: SkyDataManagerState | undefined;
 
@@ -690,7 +690,7 @@ describe('SkyDataManagerService', () => {
       );
     });
 
-    it(`should update available but not displayed column IDs on an exisitng view state if available
+    it(`should update available but not displayed column IDs on an existing view state if available
      columns weren't previously given`, async () => {
       let currentDataState: SkyDataManagerState | undefined;
 

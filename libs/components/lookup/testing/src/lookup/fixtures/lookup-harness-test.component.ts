@@ -37,14 +37,14 @@ export class LookupHarnessTestComponent implements AfterViewInit {
     },
     {
       name: 'Alex',
-      formal: 'Mr. Osbourne',
+      formal: 'Mr. Osborne',
     },
     {
       name: 'Ben',
       formal: 'Mr. Chang',
     },
     {
-      name: 'Britta',
+      name: 'Brittany',
       formal: 'Ms. Perry',
     },
     {
@@ -53,11 +53,11 @@ export class LookupHarnessTestComponent implements AfterViewInit {
     },
     {
       name: 'Craig',
-      formal: 'Mr. Pelton',
+      formal: 'Mr. Pelt',
     },
     {
       name: 'Elroy',
-      formal: 'Mr. Patashnik',
+      formal: 'Mr. Pata',
     },
     {
       name: 'Garrett',
@@ -85,7 +85,7 @@ export class LookupHarnessTestComponent implements AfterViewInit {
     },
     {
       name: 'Preston',
-      formal: 'Mr. Koogler',
+      formal: 'Mr. Cooper',
     },
     {
       name: 'Rachel',

@@ -1,4 +1,3 @@
-// spell-checker:ignore cmyk, colorpicker
 /**
  * Specifies colors as a combination of cyan, magenta, yellow, and black.
  */

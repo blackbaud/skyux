@@ -18,12 +18,12 @@ describe('SkyRowComponent', () => {
     element = fixture.nativeElement;
   });
 
-  it('should create an element with a specific classname', () => {
+  it('should create an element with a specific class name', () => {
     fixture.detectChanges();
     expect(element.querySelector('.sky-row')).toExist();
   });
 
-  it('should add a classname to reverse the column order', () => {
+  it('should add a class name to reverse the column order', () => {
     component.reverseColumnOrder = false;
     fixture.detectChanges();
     expect(element.querySelector('.sky-row-reverse')).not.toExist();

@@ -1,12 +1,12 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 
-.flyout-reponsive-wrapper {
+.flyout-responsive-wrapper {
   width: 100%;
   display: flex;
   border: 3px black solid;
 }
 
-.flyout-reponsive-wrapper:not(:last-of-type) {
+.flyout-responsive-wrapper:not(:last-of-type) {
   border-bottom: none;
 }
 

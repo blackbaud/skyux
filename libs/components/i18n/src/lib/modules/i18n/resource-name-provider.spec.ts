@@ -3,7 +3,7 @@ import { take } from 'rxjs/operators';
 import { SkyAppResourceNameProvider } from './resource-name-provider';
 
 describe('Resource name provider', () => {
-  it('should return the input resouce name', (done) => {
+  it('should return the input resource name', (done) => {
     const provider = new SkyAppResourceNameProvider();
     const exampleResourceName = 'test-resource-name';
     provider

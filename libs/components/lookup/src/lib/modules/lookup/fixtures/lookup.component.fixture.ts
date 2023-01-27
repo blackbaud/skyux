@@ -127,7 +127,7 @@ export class SkyLookupTestComponent {
       { name: 'Sally' },
       { name: 'Susan' },
       { name: 'Vanessa' },
-      { name: 'Vinny' },
+      { name: 'Vin' },
       { name: 'Xavier' },
       { name: 'Yolanda' },
       { name: 'Zack' },
@@ -150,6 +150,11 @@ export class SkyLookupTestComponent {
       item: newItem,
       data: this.ignoreAddDataUpdate ? undefined : newItems,
     };
+
+    // Add the new item to the original data source so it will be returned in
+    // subsequent async searches.
+    this.data = [newItem, ...(this.data || [])];
+
     addButtonClickArgs.itemAdded(callbackArgs);
   }
 
