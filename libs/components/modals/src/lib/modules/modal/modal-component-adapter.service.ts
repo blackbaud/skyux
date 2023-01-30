@@ -37,6 +37,52 @@ export class SkyModalComponentAdapterService {
     }
   }
 
+  public isFocusInFirstItem(
+    event: KeyboardEvent,
+    list: Array<HTMLElement>
+  ): boolean {
+    /* istanbul ignore next */
+    /* sanity check */
+    const eventTarget = event.target || event.srcElement;
+    return list.length > 0 && eventTarget === list[0];
+  }
+
+  public isFocusInLastItem(
+    event: KeyboardEvent,
+    list: Array<HTMLElement>
+  ): boolean {
+    /* istanbul ignore next */
+    /* sanity check */
+    const eventTarget = event.target || event.srcElement;
+    return list.length > 0 && eventTarget === list[list.length - 1];
+  }
+
+  public isModalFocused(event: KeyboardEvent, modalEl: ElementRef): boolean {
+    /* istanbul ignore next */
+    /* sanity check */
+    const eventTarget = event.target || event.srcElement;
+    return (
+      modalEl &&
+      eventTarget === modalEl.nativeElement.querySelector('.sky-modal-dialog')
+    );
+  }
+
+  public focusLastElement(list: Array<HTMLElement>): boolean {
+    if (list.length > 0) {
+      list[list.length - 1].focus();
+      return true;
+    }
+    return false;
+  }
+
+  public focusFirstElement(list: Array<HTMLElement>): boolean {
+    if (list.length > 0) {
+      list[0].focus();
+      return true;
+    }
+    return false;
+  }
+
   public modalContentHasDirectChildViewkeeper(
     modalContentEl: ElementRef
   ): boolean {
