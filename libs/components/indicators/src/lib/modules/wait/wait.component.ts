@@ -1,3 +1,4 @@
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 import {
   Component,
   ElementRef,
@@ -28,7 +29,7 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * The default value varies based on whether the wait is for an element or a page
    * and whether it is a blocking wait. For example, the default for a page-blocking
-   * wait is "Page loading. Please wait."
+   * wait is "Page loading. Please wait." This value is also announced to users of screen reader technologies when the wait is activated.
    */
   @Input()
   public set ariaLabel(value: string | undefined) {
@@ -56,6 +57,15 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
       !!this.isNonBlocking,
       this.#id
     );
+
+    if (value) {
+      this.#liveAnnouncer.announce(this.ariaLabelStream.getValue());
+    } else if (this.#_isWaiting) {
+      // NOTE: This should only happen if the wait was previously waiting and no longer is waiting.
+      this.#liveAnnouncer.announce(
+        this.screenReaderCompletedTextStream.getValue()
+      );
+    }
 
     this.#_isWaiting = value;
   }
@@ -103,15 +113,29 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
     return this.#_isNonBlocking;
   }
 
+  /**
+   * Specifies screen reader text which is read when the wait is toggled off.
+   * This is done [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * For more information, see the [WCAG documentation on status messages}(https://www.w3.org/WAI/WCAG21/Understanding/status-messages.html).
+   * @default "Loading complete"
+   */
+  public set screenReaderCompletedText(value: string | undefined) {
+    this.#customScreenReaderCompletedText = value;
+    this.#publishScreenReaderCompletedText();
+  }
+
   public ariaLabelStream = new BehaviorSubject<string>('');
+  public screenReaderCompletedTextStream = new BehaviorSubject<string>('');
 
   #elRef: ElementRef;
   #adapterService: SkyWaitAdapterService;
+  #liveAnnouncer: LiveAnnouncer;
   #resourceSvc: SkyLibResourcesService;
   #ngUnsubscribe = new Subject<void>();
 
   #id: string;
   #customAriaLabel: string | undefined;
+  #customScreenReaderCompletedText: string | undefined;
 
   #_isFullPage: boolean | undefined;
   #_isNonBlocking: boolean | undefined;
@@ -120,10 +144,12 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
   constructor(
     elRef: ElementRef,
     adapterService: SkyWaitAdapterService,
+    liveAnnouncer: LiveAnnouncer,
     @Optional() resourceSvc: SkyLibResourcesService
   ) {
     this.#elRef = elRef;
     this.#adapterService = adapterService;
+    this.#liveAnnouncer = liveAnnouncer;
     this.#resourceSvc = resourceSvc;
 
     this.#id = `sky-wait-${++nextId}`;
@@ -131,6 +157,7 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.#publishAriaLabel();
+    this.#publishScreenReaderCompletedText();
   }
 
   public ngOnDestroy(): void {
@@ -140,7 +167,7 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
 
   #publishAriaLabel(): void {
     if (this.#customAriaLabel) {
-      this.ariaLabelStream.next(this.#customAriaLabel);
+      this.screenReaderCompletedTextStream.next(this.#customAriaLabel);
       return;
     }
 
@@ -154,6 +181,26 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
         .pipe(take(1), takeUntil(this.#ngUnsubscribe))
         .subscribe((value) => {
           this.ariaLabelStream.next(value);
+        });
+    }
+  }
+
+  #publishScreenReaderCompletedText(): void {
+    if (this.#customScreenReaderCompletedText) {
+      this.screenReaderCompletedTextStream.next(
+        this.#customScreenReaderCompletedText
+      );
+      return;
+    }
+
+    /* istanbul ignore else */
+    if (this.#resourceSvc) {
+      const key = `skyux_wait_screen_reader_completed_text`;
+      this.#resourceSvc
+        .getString(key)
+        .pipe(take(1), takeUntil(this.#ngUnsubscribe))
+        .subscribe((value) => {
+          this.screenReaderCompletedTextStream.next(value);
         });
     }
   }
