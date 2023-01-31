@@ -62,7 +62,7 @@ export class SkyNumericService {
 
       if (
         options.truncate &&
-        options.truncateAfter &&
+        options.truncateAfter !== undefined &&
         roundedNumberAbs >= options.truncateAfter &&
         roundedNumberAbs >= symbol.value
       ) {
