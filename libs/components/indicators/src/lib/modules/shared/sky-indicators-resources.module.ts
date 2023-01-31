@@ -57,6 +57,9 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
       message: 'Page loading. Please wait.',
     },
     skyux_wait_screen_reader_completed_text: { message: 'Loading complete.' },
+    skyux_wait_page_screen_reader_completed_text: {
+      message: 'Page loading complete.',
+    },
   },
 };
 

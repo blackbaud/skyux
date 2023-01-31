@@ -195,7 +195,8 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
 
     /* istanbul ignore else */
     if (this.#resourceSvc) {
-      const key = `skyux_wait_screen_reader_completed_text`;
+      const type = this.isFullPage ? '_page' : '';
+      const key = `skyux_wait${type}_screen_reader_completed_text`;
       this.#resourceSvc
         .getString(key)
         .pipe(take(1), takeUntil(this.#ngUnsubscribe))
