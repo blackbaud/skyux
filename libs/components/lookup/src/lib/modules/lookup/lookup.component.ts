@@ -162,7 +162,7 @@ export class SkyLookupComponent
   public showMoreConfig: SkyLookupShowMoreConfig | undefined;
 
   /**
-   * Whether users can select one option or multiple options.
+   * The ability for users to select one option or multiple options.
    * @default "multiple"
    */
   @Input()
