@@ -27,7 +27,7 @@ export interface SkyModalConfigurationInterface {
   providers?: StaticProvider[];
 
   /**
-   * Specifies the HTML element ID (without the leading `#`) of the element that describes
+   * Specifies the HTML element ID of the element that describes
    * the modal. This sets the modal's `aria-describedby` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * The description typically includes text on the modal but not on items that users interact
@@ -38,7 +38,7 @@ export interface SkyModalConfigurationInterface {
   ariaDescribedBy?: string;
 
   /**
-   * Specifies the HTML element ID (without the leading `#`) of the element that labels
+   * Specifies the HTML element ID of the element that labels
    * the modal. This sets the `aria-labelledby` attribute for the modal
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * This is typically a header element, and if you do not specify an ID, the default value
