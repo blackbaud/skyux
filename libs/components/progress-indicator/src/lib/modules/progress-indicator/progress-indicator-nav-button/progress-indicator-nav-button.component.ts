@@ -43,7 +43,6 @@ export class SkyProgressIndicatorNavButtonComponent
 
   /**
    * The type of nav button to include.
-   * The valid options are `"finish"`, `"next"`, `"previous"`, and `"reset"`.
    * @default "next"
    */
   @Input()
