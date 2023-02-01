@@ -60,6 +60,7 @@ export interface SkyModalConfigurationInterface {
    * Indicates whether the modal uses tiles. When set to `true`, the modal's background switches
    * to `$sky-background-color-neutral-light` and tile headings are styled as subsection headings.
    * This property defaults to `false`.
+   * @deprecated Tiled bodies are no longer a recommended design pattern.
    */
   tiledBody?: boolean;
 
