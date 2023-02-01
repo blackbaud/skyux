@@ -47,6 +47,7 @@ export class SkySelectFieldComponent
    * Specifies an ARIA label for the text input or button. This sets the `aria-label` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the input or button includes a visible label, use `ariaLabelledBy` instead.
+   * For more information about the `aria-label` attribute, see the [WAI-ARIA Definitions of States and Properties](https://www.w3.org/TR/wai-aria/#aria-label).
    */
   @Input()
   public ariaLabel: string;
@@ -56,6 +57,7 @@ export class SkySelectFieldComponent
    * the text input or button. This sets the `aria-labelledby` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the input or button does not include a visible label, use `ariaLabel` instead.
+   * For more information about the `aria-labelledBy` attribute, see the [WAI-ARIA Definitions of States and Properties](https://www.w3.org/TR/wai-aria/#aria-labelledBy).
    */
   @Input()
   public ariaLabelledBy: string;

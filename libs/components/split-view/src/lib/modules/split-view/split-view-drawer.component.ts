@@ -45,6 +45,7 @@ export class SkySplitViewDrawerComponent
   /**
    * Specifies an ARIA label for the list panel. This sets the panel's `aria-label` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * For more information about the `aria-label` attribute, see the [WAI-ARIA Definitions of States and Properties](https://www.w3.org/TR/wai-aria/#aria-label).
    */
   @Input()
   public ariaLabel: string | undefined;

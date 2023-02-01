@@ -11,6 +11,7 @@ export interface SkyFlyoutConfig {
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * The description typically includes text on the flyout but not on items that users
    * interact with, such as buttons and forms.
+   * For more information about the `aria-describedby` attribute, see the [WAI-ARIA Definitions of States and Properties](https://www.w3.org/TR/wai-aria/#aria-describedby)
    */
   ariaDescribedBy?: string;
 

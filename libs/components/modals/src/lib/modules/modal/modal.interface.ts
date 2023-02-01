@@ -33,6 +33,7 @@ export interface SkyModalConfigurationInterface {
    * The description typically includes text on the modal but not on items that users interact
    * with, such as buttons and forms. If you do not specify an ID, the default description is
    * the content of the `sky-modal-content` component.
+   * For more information about the `aria-describedby` attribute, see the [WAI-ARIA Definitions of States and Properties](https://www.w3.org/TR/wai-aria/#aria-describedby)
    */
   ariaDescribedBy?: string;
 
@@ -42,6 +43,7 @@ export interface SkyModalConfigurationInterface {
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * This is typically a header element, and if you do not specify an ID, the default value
    * is the content of the `sky-modal-header` component.
+   * For more information about the `aria-labelledby` attribute, see the [WAI-ARIA Definitions of States and Properties](https://www.w3.org/TR/wai-aria/#aria-labelledby)
    */
   ariaLabelledBy?: string;
 
@@ -50,7 +52,7 @@ export interface SkyModalConfigurationInterface {
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility)
    * by indicating how the modal functions and what it controls. For information about
    * how an ARIA role indicates what an item represents on a web page, see the
-   * [WAI-ARIA roles model](http://www.w3.org/WAI/PF/aria/roles). By default, modals set
+   * [WAI-ARIA roles model](http://www.w3.org/WAI/PF/aria/#roles). By default, modals set
    * the ARIA role to `dialog`.
    * @default "dialog"
    */

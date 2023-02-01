@@ -14,6 +14,7 @@ export class SkyChevronComponent {
    * Specifies the element whose contents are controlled by the chevron.
    * This sets the chevron's aria-controls attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * For more information about the `aria-controls` attribute, see the [WAI-ARIA Definitions of States and Properties](https://www.w3.org/TR/wai-aria/#aria-controls).
    */
   @Input()
   public ariaControls: string | undefined;
@@ -21,6 +22,7 @@ export class SkyChevronComponent {
   /**
    * Specifies an ARIA label for the chevron. This sets the chevron's aria-label attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * For more information about the `aria-label` attribute, see the [WAI-ARIA Definitions of States and Properties](https://www.w3.org/TR/wai-aria/#aria-label).
    */
   @Input()
   public ariaLabel: string | undefined;

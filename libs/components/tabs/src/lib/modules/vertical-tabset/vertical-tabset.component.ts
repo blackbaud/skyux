@@ -60,6 +60,7 @@ export class SkyVerticalTabsetComponent
    * Specifies an ARIA label for the tabset. This sets the tabset's `aria-label` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the tabset includes a visible label, use `ariaLabelledBy` instead.
+   * For more information about the `aria-label` attribute, see the [WAI-ARIA Definitions of States and Properties](https://www.w3.org/TR/wai-aria/#aria-label).
    */
   @Input()
   public ariaLabel: string | undefined;
@@ -69,6 +70,7 @@ export class SkyVerticalTabsetComponent
    * the tabset. This sets the tabset's `aria-labelledby` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the tabset does not include a visible label, use `ariaLabel` instead.
+   * For more information about the `aria-labelledBy` attribute, see the [WAI-ARIA Definitions of States and Properties](https://www.w3.org/TR/wai-aria/#aria-labelledBy).
    */
   @Input()
   public ariaLabelledBy: string | undefined;
