@@ -30,6 +30,7 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
    * The default value varies based on whether the wait is for an element or a page
    * and whether it is a blocking wait. For example, the default for a page-blocking
    * wait is "Page loading. Please wait." This value is also announced to users of screen reader technologies when the wait is activated.
+   * In most cases, it is recommended that consumers provide more specific text based on individual use cases. For more information, see the Design tab.
    */
   @Input()
   public set ariaLabel(value: string | undefined) {
@@ -115,9 +116,9 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
 
   /**
    * Specifies screen reader text which is read when the wait is toggled off.
-   * This is done [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
-   * For more information, see the [WCAG documentation on status messages}(https://www.w3.org/WAI/WCAG21/Understanding/status-messages.html).
-   * @default "Loading complete"
+   * This is done [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility). The default value varies based on whether the wait is for an element or a page.
+   * For example, the default for a page wait is "Page loading complete." In most cases, it is recommended that consumers provide more specific text based on individual use cases.
+   * For more information, see the Design tab and the [WCAG documentation on status messages}(https://www.w3.org/WAI/WCAG21/Understanding/status-messages.html).
    */
   public set screenReaderCompletedText(value: string | undefined) {
     this.#customScreenReaderCompletedText = value;
