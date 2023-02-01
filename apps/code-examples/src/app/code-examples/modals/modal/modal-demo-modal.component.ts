@@ -3,8 +3,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { SkyWaitService } from '@skyux/indicators';
 import { SkyModalInstance } from '@skyux/modals';
 
-import { ModalDemoContext } from '../inline-help/modal-demo-context';
-
+import { ModalDemoContext } from './modal-demo-context';
 import { ModalDemoDataService } from './modal-demo-data.service';
 
 @Component({

@@ -5,8 +5,7 @@ import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { ModalDemoContext } from '../inline-help/modal-demo-context';
-
+import { ModalDemoContext } from './modal-demo-context';
 import { ModalDemoData } from './modal-demo-data';
 import { ModalDemoDataService } from './modal-demo-data.service';
 import { ModalDemoModalComponent } from './modal-demo-modal.component';
