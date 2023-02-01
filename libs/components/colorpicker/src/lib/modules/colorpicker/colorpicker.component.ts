@@ -40,7 +40,7 @@ import { SkyColorpickerRgba } from './types/colorpicker-rgba';
 let componentIdIndex = 0;
 
 /**
- * Provides a SKY UX-themed replacement for the HTML `input` element with `type="color"`.
+ * The SKY UX-themed replacement for the HTML `input` element with `type="color"`.
  * The value that users select is driven through the `ngModel` attribute specified on
  * the `input` element.
  */
