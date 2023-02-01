@@ -5,7 +5,8 @@ import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { ModalDemoContext } from './modal-demo-context';
+import { ModalDemoContext } from '../inline-help/modal-demo-context';
+
 import { ModalDemoData } from './modal-demo-data';
 import { ModalDemoDataService } from './modal-demo-data.service';
 import { ModalDemoModalComponent } from './modal-demo-modal.component';
@@ -15,8 +16,6 @@ import { ModalDemoModalComponent } from './modal-demo-modal.component';
   templateUrl: './modal-demo.component.html',
 })
 export class ModalDemoComponent implements OnDestroy {
-  public helpKey = 'help-demo.html';
-
   public modalSize = 'medium';
 
   public demoValue: string | null | undefined;
@@ -44,7 +43,6 @@ export class ModalDemoComponent implements OnDestroy {
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((data) => {
         const options: SkyModalConfigurationInterface = {
-          helpKey: this.helpKey,
           providers: [
             {
               provide: ModalDemoContext,
