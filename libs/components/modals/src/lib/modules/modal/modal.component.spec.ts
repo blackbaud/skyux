@@ -76,6 +76,19 @@ describe('Modal component', () => {
     }
   }
 
+  function getModalHeaderContentElement(
+    modalElement: HTMLElement
+  ): HTMLElement {
+    const modalHeaderContentElement = modalElement.querySelector(
+      '.sky-modal-header-content'
+    );
+    if (modalHeaderContentElement) {
+      return modalHeaderContentElement as HTMLElement;
+    } else {
+      throw new Error('No modal header content element found');
+    }
+  }
+
   function getModalDialogElement(): HTMLElement {
     const modalDialog = document.querySelector('.sky-modal-dialog');
     if (modalDialog) {
@@ -754,18 +767,15 @@ describe('Modal component', () => {
 
   it('should default the role, aria-labelledby, and aria-describedby', fakeAsync(() => {
     const modalInstance = openModal(ModalTestComponent);
+    const modalDialogElement = getModalDialogElement();
 
-    expect(getModalDialogElement().getAttribute('role')).toBe('dialog');
-    expect(
-      getModalDialogElement()
-        .getAttribute('aria-labelledby')
-        ?.indexOf('sky-modal-header-id-')
-    ).not.toBe(-1);
-    expect(
-      getModalDialogElement()
-        .getAttribute('aria-describedby')
-        ?.indexOf('sky-modal-content-id-')
-    ).not.toBe(-1);
+    expect(modalDialogElement.getAttribute('role')).toBe('dialog');
+    expect(modalDialogElement.getAttribute('aria-labelledby')).toBe(
+      getModalHeaderContentElement(modalDialogElement).id
+    );
+    expect(modalDialogElement.getAttribute('aria-describedby')).toBe(
+      getModalContentElement(modalDialogElement).id
+    );
     closeModal(modalInstance);
   }));
 

@@ -1,8 +1,8 @@
 <div
   class="sky-modal-dialog"
   aria-modal="true"
-  [attr.aria-describedby]="ariaDescribedBy"
-  [attr.aria-labelledby]="ariaLabelledBy"
+  [attr.aria-describedby]="ariaDescribedBy || modalContentId.id"
+  [attr.aria-labelledby]="ariaLabelledBy || headerId.id"
   [attr.role]="ariaRoleOrDefault"
   (window:resize)="windowResize()"
 >
@@ -26,11 +26,12 @@
     >
       <div
         class="sky-modal-header-content"
-        [attr.id]="modalHeaderId"
+        skyId
         [ngClass]="{
           'sky-section-heading': size === 'full-page'
         }"
         #headerContent
+        #headerId="skyId"
       >
         <ng-content select="sky-modal-header"></ng-content>
       </div>
@@ -60,9 +61,10 @@
       class="sky-modal-content sky-padding-even-large"
       role="region"
       tabindex="0"
-      [attr.aria-labelledby]="modalHeaderId"
-      [attr.id]="modalContentId"
+      skyId
+      [attr.aria-labelledby]="headerId.id"
       (skyModalScrollShadow)="scrollShadowChange($event)"
+      #modalContentId="skyId"
       #modalContentWrapper
     >
       <ng-content select="sky-modal-content"></ng-content>
