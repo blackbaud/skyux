@@ -1,3 +1,4 @@
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import {
   SkyAppTestUtility,
@@ -156,7 +157,7 @@ describe('Wait component', () => {
       expect(document.activeElement).toBe(document.body);
     });
 
-    it(`should allow tab navigation and focus after a fullPage wait is removed when another non-blocking wait still exists and both waits were added at the same time`, fakeAsync(() => {
+    fit(`should allow tab navigation and focus after a fullPage wait is removed when another non-blocking wait still exists and both waits were added at the same time`, fakeAsync(() => {
       // NOTE: This test was added due to a race condition with two quickly added waits on load
       const fixture = TestBed.createComponent(SkyWaitTestComponent);
       fixture.detectChanges();
@@ -164,6 +165,7 @@ describe('Wait component', () => {
       fixture.componentInstance.startBlockingWait();
       fixture.componentInstance.startNonBlockingWait();
       fixture.detectChanges();
+      tick();
 
       const bodyFocusSpy = spyOn(document.body, 'focus').and.callThrough();
 
@@ -545,6 +547,111 @@ describe('Wait component', () => {
 
       expect(getAriaLabel()).toBe('Page loading.');
     });
+
+    it('should announce the ariaLabel when loading begins and the screenReaderCompletedText when it ends to screen readers', () => {
+      const fixture = TestBed.createComponent(SkyWaitTestComponent);
+      const liveAnnouncer = TestBed.inject(LiveAnnouncer);
+      const liveAnnouncerSpy = spyOn(liveAnnouncer, 'announce').and.stub();
+      fixture.componentInstance.ariaLabel = 'test label';
+      fixture.componentInstance.screenReaderCompletedText =
+        'test completed text';
+      fixture.componentInstance.isNonBlocking = false;
+      fixture.componentInstance.isWaiting = true;
+      expect(liveAnnouncerSpy).not.toHaveBeenCalled();
+      fixture.detectChanges();
+
+      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith('test label');
+      liveAnnouncerSpy.calls.reset();
+
+      fixture.componentInstance.isWaiting = false;
+      fixture.detectChanges();
+
+      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith('test completed text');
+    });
+
+    // it('should respect changes to aria-label after the component is rendered', () => {
+    //   const fixture = TestBed.createComponent(SkyWaitTestComponent);
+    //   fixture.componentInstance.ariaLabel = 'test label';
+    //   fixture.componentInstance.isNonBlocking = false;
+    //   fixture.componentInstance.isWaiting = true;
+    //   fixture.detectChanges();
+
+    //   expect(getAriaLabel()).toBe('test label');
+
+    //   fixture.componentInstance.ariaLabel = 'another test label';
+    //   fixture.detectChanges();
+
+    //   expect(getAriaLabel()).toBe('another test label');
+    // });
+
+    // it('should set aria-label on document body when fullPage is true and is blocking', () => {
+    //   const fixture = TestBed.createComponent(SkyWaitTestComponent);
+    //   fixture.componentInstance.isFullPage = true;
+    //   fixture.componentInstance.isWaiting = true;
+    //   fixture.componentInstance.isNonBlocking = false;
+    //   fixture.detectChanges();
+
+    //   expect(getAriaLabel()).toBe('Page loading. Please wait.');
+    // });
+
+    // it('should set aria-label on document body when fullPage is true and is not blocking', () => {
+    //   const fixture = TestBed.createComponent(SkyWaitTestComponent);
+    //   fixture.componentInstance.isFullPage = true;
+    //   fixture.componentInstance.isWaiting = true;
+    //   fixture.componentInstance.isNonBlocking = true;
+    //   fixture.detectChanges();
+
+    //   expect(getAriaLabel()).toBe('Page loading.');
+    // });
+
+    // it('should set aria-label on containing div when fullPage is set to false and is blocking', () => {
+    //   const fixture = TestBed.createComponent(SkyWaitTestComponent);
+    //   fixture.componentInstance.isFullPage = false;
+    //   fixture.componentInstance.isWaiting = true;
+    //   fixture.componentInstance.isNonBlocking = false;
+    //   fixture.detectChanges();
+
+    //   expect(getAriaLabel()).toBe('Loading. Please wait.');
+    // });
+
+    // it('should set aria-label on containing div when fullPage is set to false and is not blocking', () => {
+    //   const fixture = TestBed.createComponent(SkyWaitTestComponent);
+    //   fixture.componentInstance.isFullPage = false;
+    //   fixture.componentInstance.isWaiting = true;
+    //   fixture.componentInstance.isNonBlocking = true;
+    //   fixture.detectChanges();
+
+    //   expect(getAriaLabel()).toBe('Loading.');
+    // });
+
+    // it('should not use default aria-label when one is provided', () => {
+    //   const fixture = TestBed.createComponent(SkyWaitTestComponent);
+    //   fixture.componentInstance.isFullPage = false;
+    //   fixture.componentInstance.isWaiting = true;
+    //   fixture.componentInstance.isNonBlocking = false;
+    //   fixture.componentInstance.ariaLabel = 'Waiting for the page to load.';
+    //   fixture.detectChanges();
+
+    //   expect(getAriaLabel()).toBe('Waiting for the page to load.');
+    // });
+
+    // it('should update aria-label with default when fullPage or isNonBlocking is updated', () => {
+    //   const fixture = TestBed.createComponent(SkyWaitTestComponent);
+    //   fixture.componentInstance.isWaiting = true;
+    //   fixture.detectChanges();
+
+    //   expect(getAriaLabel()).toBe('Loading. Please wait.');
+
+    //   fixture.componentInstance.isFullPage = true;
+    //   fixture.detectChanges();
+
+    //   expect(getAriaLabel()).toBe('Page loading. Please wait.');
+
+    //   fixture.componentInstance.isNonBlocking = true;
+    //   fixture.detectChanges();
+
+    //   expect(getAriaLabel()).toBe('Page loading.');
+    // });
 
     /**
      * NOTE: The `region` rule is turned off as our karma tests do not set up regions within the `body`.

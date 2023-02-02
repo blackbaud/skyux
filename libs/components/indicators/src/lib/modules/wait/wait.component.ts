@@ -120,6 +120,7 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
    * For example, the default for a page wait is "Page loading complete." In most cases, it is recommended that consumers provide more specific text based on individual use cases.
    * For more information, see the Design tab and the [WCAG documentation on status messages}(https://www.w3.org/WAI/WCAG21/Understanding/status-messages.html).
    */
+  @Input()
   public set screenReaderCompletedText(value: string | undefined) {
     this.#customScreenReaderCompletedText = value;
     this.#publishScreenReaderCompletedText();
