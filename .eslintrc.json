@@ -37,5 +37,8 @@
       "rules": {}
     }
   ],
-  "extends": ["plugin:@cspell/recommended", "prettier"]
+  "extends": ["plugin:@cspell/recommended", "prettier"],
+  "rules": {
+    "@cspell/spellchecker": ["error"]
+  }
 }
