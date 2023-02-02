@@ -165,7 +165,6 @@ describe('Wait component', () => {
       fixture.componentInstance.startBlockingWait();
       fixture.componentInstance.startNonBlockingWait();
       fixture.detectChanges();
-      tick();
 
       const bodyFocusSpy = spyOn(document.body, 'focus').and.callThrough();
 

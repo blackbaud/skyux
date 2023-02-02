@@ -169,7 +169,7 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
 
   #publishAriaLabel(): void {
     if (this.#customAriaLabel) {
-      this.screenReaderCompletedTextStream.next(this.#customAriaLabel);
+      this.ariaLabelStream.next(this.#customAriaLabel);
       return;
     }
 
