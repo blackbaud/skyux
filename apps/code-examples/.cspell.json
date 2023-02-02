@@ -1,0 +1,18 @@
+{
+  "import": "../../.cspell.json",
+  "patterns": [
+    {
+      "name": "data-addresses",
+      "pattern": "/address: [\\`\\'].*[\\`\\']/g"
+    },
+    {
+      "name": "data-formal",
+      "pattern": "/formal: [\\`\\'].*[\\`\\']/g"
+    },
+    {
+      "name": "data-names",
+      "pattern": "/name: [\\`\\'].*[\\`\\']/g"
+    }
+  ],
+  "ignoreRegExpList": ["data-addresses", "data-formal", "data-names"]
+}
