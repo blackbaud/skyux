@@ -1,3 +1,4 @@
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { ApplicationRef } from '@angular/core';
 import { TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { expectAsync } from '@skyux-sdk/testing';
@@ -78,6 +79,8 @@ describe('Wait service', () => {
     }
   }
 
+  let liveAnnouncer: LiveAnnouncer;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyWaitFixturesModule],
@@ -85,6 +88,9 @@ describe('Wait service', () => {
 
     applicationRef = TestBed.inject(ApplicationRef);
     waitSvc = TestBed.inject(SkyWaitService);
+    // The spy is set up in the `beforeEach` because `announce` is async. Setting the spy here allows us to not worry about timers and is stubbing out functionality we don't care about for unit testing.
+    liveAnnouncer = TestBed.inject(LiveAnnouncer);
+    spyOn(liveAnnouncer, 'announce').and.stub();
     waitSvc.dispose();
   });
 
@@ -289,6 +295,9 @@ describe('Wait service', () => {
 
       applicationRef = TestBed.inject(ApplicationRef);
       waitSvc = TestBed.inject(SkyWaitService);
+      // The spy is set up in the `beforeEach` because `announce` is async. Setting the spy here allows us to not worry about timers and is stubbing out functionality we don't care about for unit testing.
+      liveAnnouncer = TestBed.inject(LiveAnnouncer);
+      spyOn(liveAnnouncer, 'announce').and.stub();
       waitSvc.dispose();
     });
 

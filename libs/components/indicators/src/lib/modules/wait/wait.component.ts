@@ -93,6 +93,7 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
 
     this.#_isFullPage = value;
     this.#publishAriaLabel();
+    this.#publishScreenReaderCompletedText();
   }
 
   public get isFullPage(): boolean | undefined {

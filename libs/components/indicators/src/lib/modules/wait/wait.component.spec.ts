@@ -31,10 +31,16 @@ describe('Wait component', () => {
     );
   }
 
+  let liveAnnouncer: LiveAnnouncer;
+  let liveAnnouncerSpy: jasmine.Spy;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyWaitFixturesModule],
     });
+    // The spy is set up in the `beforeEach` because `announce` is async. Setting the spy here allows us to not worry about timers and is stubbing out functionality we don't care about for unit testing.
+    liveAnnouncer = TestBed.inject(LiveAnnouncer);
+    liveAnnouncerSpy = spyOn(liveAnnouncer, 'announce').and.stub();
   });
 
   describe('basic behavior', () => {
@@ -157,7 +163,7 @@ describe('Wait component', () => {
       expect(document.activeElement).toBe(document.body);
     });
 
-    fit(`should allow tab navigation and focus after a fullPage wait is removed when another non-blocking wait still exists and both waits were added at the same time`, fakeAsync(() => {
+    it(`should allow tab navigation and focus after a fullPage wait is removed when another non-blocking wait still exists and both waits were added at the same time`, fakeAsync(() => {
       // NOTE: This test was added due to a race condition with two quickly added waits on load
       const fixture = TestBed.createComponent(SkyWaitTestComponent);
       fixture.detectChanges();
@@ -549,8 +555,6 @@ describe('Wait component', () => {
 
     it('should announce the ariaLabel when loading begins and the screenReaderCompletedText when it ends to screen readers', () => {
       const fixture = TestBed.createComponent(SkyWaitTestComponent);
-      const liveAnnouncer = TestBed.inject(LiveAnnouncer);
-      const liveAnnouncerSpy = spyOn(liveAnnouncer, 'announce').and.stub();
       fixture.componentInstance.ariaLabel = 'test label';
       fixture.componentInstance.screenReaderCompletedText =
         'test completed text';
@@ -568,89 +572,152 @@ describe('Wait component', () => {
       expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith('test completed text');
     });
 
-    // it('should respect changes to aria-label after the component is rendered', () => {
-    //   const fixture = TestBed.createComponent(SkyWaitTestComponent);
-    //   fixture.componentInstance.ariaLabel = 'test label';
-    //   fixture.componentInstance.isNonBlocking = false;
-    //   fixture.componentInstance.isWaiting = true;
-    //   fixture.detectChanges();
+    it('should respect changes to ariaLabel and screenReaderCompletedText for screen readers after the component has rendered', () => {
+      const fixture = TestBed.createComponent(SkyWaitTestComponent);
+      fixture.componentInstance.ariaLabel = 'test label';
+      fixture.componentInstance.screenReaderCompletedText =
+        'test completed text';
+      fixture.componentInstance.isNonBlocking = false;
+      fixture.componentInstance.isWaiting = true;
+      expect(liveAnnouncerSpy).not.toHaveBeenCalled();
+      fixture.detectChanges();
 
-    //   expect(getAriaLabel()).toBe('test label');
+      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith('test label');
+      liveAnnouncerSpy.calls.reset();
 
-    //   fixture.componentInstance.ariaLabel = 'another test label';
-    //   fixture.detectChanges();
+      fixture.componentInstance.isWaiting = false;
+      fixture.detectChanges();
 
-    //   expect(getAriaLabel()).toBe('another test label');
-    // });
+      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith('test completed text');
+      fixture.componentInstance.ariaLabel = 'test label 2';
+      fixture.componentInstance.screenReaderCompletedText =
+        'test completed text 2';
+      liveAnnouncerSpy.calls.reset();
+      fixture.componentInstance.isWaiting = true;
+      expect(liveAnnouncerSpy).not.toHaveBeenCalled();
+      fixture.detectChanges();
 
-    // it('should set aria-label on document body when fullPage is true and is blocking', () => {
-    //   const fixture = TestBed.createComponent(SkyWaitTestComponent);
-    //   fixture.componentInstance.isFullPage = true;
-    //   fixture.componentInstance.isWaiting = true;
-    //   fixture.componentInstance.isNonBlocking = false;
-    //   fixture.detectChanges();
+      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith('test label 2');
+      liveAnnouncerSpy.calls.reset();
 
-    //   expect(getAriaLabel()).toBe('Page loading. Please wait.');
-    // });
+      fixture.componentInstance.isWaiting = false;
+      fixture.detectChanges();
 
-    // it('should set aria-label on document body when fullPage is true and is not blocking', () => {
-    //   const fixture = TestBed.createComponent(SkyWaitTestComponent);
-    //   fixture.componentInstance.isFullPage = true;
-    //   fixture.componentInstance.isWaiting = true;
-    //   fixture.componentInstance.isNonBlocking = true;
-    //   fixture.detectChanges();
+      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith(
+        'test completed text 2'
+      );
+    });
 
-    //   expect(getAriaLabel()).toBe('Page loading.');
-    // });
+    it('should announce the default ariaLabel and screenReaderCompletedText when fullPage is true and is blocking', () => {
+      const fixture = TestBed.createComponent(SkyWaitTestComponent);
+      fixture.componentInstance.isFullPage = true;
+      fixture.componentInstance.isWaiting = true;
+      fixture.componentInstance.isNonBlocking = false;
+      expect(liveAnnouncerSpy).not.toHaveBeenCalled();
+      fixture.detectChanges();
 
-    // it('should set aria-label on containing div when fullPage is set to false and is blocking', () => {
-    //   const fixture = TestBed.createComponent(SkyWaitTestComponent);
-    //   fixture.componentInstance.isFullPage = false;
-    //   fixture.componentInstance.isWaiting = true;
-    //   fixture.componentInstance.isNonBlocking = false;
-    //   fixture.detectChanges();
+      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith(
+        'Page loading. Please wait.'
+      );
+      liveAnnouncerSpy.calls.reset();
 
-    //   expect(getAriaLabel()).toBe('Loading. Please wait.');
-    // });
+      fixture.componentInstance.isWaiting = false;
+      fixture.detectChanges();
 
-    // it('should set aria-label on containing div when fullPage is set to false and is not blocking', () => {
-    //   const fixture = TestBed.createComponent(SkyWaitTestComponent);
-    //   fixture.componentInstance.isFullPage = false;
-    //   fixture.componentInstance.isWaiting = true;
-    //   fixture.componentInstance.isNonBlocking = true;
-    //   fixture.detectChanges();
+      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith(
+        'Page loading complete.'
+      );
+    });
 
-    //   expect(getAriaLabel()).toBe('Loading.');
-    // });
+    it('should announce the default ariaLabel and screenReaderCompletedText when fullPage is true and is not blocking', () => {
+      const fixture = TestBed.createComponent(SkyWaitTestComponent);
+      fixture.componentInstance.isFullPage = true;
+      fixture.componentInstance.isWaiting = true;
+      fixture.componentInstance.isNonBlocking = true;
+      expect(liveAnnouncerSpy).not.toHaveBeenCalled();
+      fixture.detectChanges();
 
-    // it('should not use default aria-label when one is provided', () => {
-    //   const fixture = TestBed.createComponent(SkyWaitTestComponent);
-    //   fixture.componentInstance.isFullPage = false;
-    //   fixture.componentInstance.isWaiting = true;
-    //   fixture.componentInstance.isNonBlocking = false;
-    //   fixture.componentInstance.ariaLabel = 'Waiting for the page to load.';
-    //   fixture.detectChanges();
+      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith('Page loading.');
+      liveAnnouncerSpy.calls.reset();
 
-    //   expect(getAriaLabel()).toBe('Waiting for the page to load.');
-    // });
+      fixture.componentInstance.isWaiting = false;
+      fixture.detectChanges();
 
-    // it('should update aria-label with default when fullPage or isNonBlocking is updated', () => {
-    //   const fixture = TestBed.createComponent(SkyWaitTestComponent);
-    //   fixture.componentInstance.isWaiting = true;
-    //   fixture.detectChanges();
+      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith(
+        'Page loading complete.'
+      );
+    });
 
-    //   expect(getAriaLabel()).toBe('Loading. Please wait.');
+    it('should announce the default ariaLabel and screenReaderCompletedText when fullPage is false and is blocking', () => {
+      const fixture = TestBed.createComponent(SkyWaitTestComponent);
+      fixture.componentInstance.isFullPage = false;
+      fixture.componentInstance.isWaiting = true;
+      fixture.componentInstance.isNonBlocking = false;
+      expect(liveAnnouncerSpy).not.toHaveBeenCalled();
+      fixture.detectChanges();
 
-    //   fixture.componentInstance.isFullPage = true;
-    //   fixture.detectChanges();
+      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith(
+        'Loading. Please wait.'
+      );
+      liveAnnouncerSpy.calls.reset();
 
-    //   expect(getAriaLabel()).toBe('Page loading. Please wait.');
+      fixture.componentInstance.isWaiting = false;
+      fixture.detectChanges();
 
-    //   fixture.componentInstance.isNonBlocking = true;
-    //   fixture.detectChanges();
+      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith('Loading complete.');
+    });
 
-    //   expect(getAriaLabel()).toBe('Page loading.');
-    // });
+    it('should announce the default ariaLabel and screenReaderCompletedText when fullPage is false and is not blocking', () => {
+      const fixture = TestBed.createComponent(SkyWaitTestComponent);
+      fixture.componentInstance.isFullPage = false;
+      fixture.componentInstance.isWaiting = true;
+      fixture.componentInstance.isNonBlocking = true;
+      expect(liveAnnouncerSpy).not.toHaveBeenCalled();
+      fixture.detectChanges();
+
+      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith('Loading.');
+      liveAnnouncerSpy.calls.reset();
+
+      fixture.componentInstance.isWaiting = false;
+      fixture.detectChanges();
+
+      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith('Loading complete.');
+    });
+
+    it('should update ariaLabel and screenReaderCompletedText defaults when conditions are updated', () => {
+      const fixture = TestBed.createComponent(SkyWaitTestComponent);
+      fixture.componentInstance.isWaiting = true;
+      fixture.componentInstance.isFullPage = true;
+      fixture.componentInstance.isNonBlocking = true;
+      expect(liveAnnouncerSpy).not.toHaveBeenCalled();
+      fixture.detectChanges();
+
+      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith('Page loading.');
+      liveAnnouncerSpy.calls.reset();
+
+      fixture.componentInstance.isWaiting = false;
+      fixture.detectChanges();
+
+      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith(
+        'Page loading complete.'
+      );
+      liveAnnouncerSpy.calls.reset();
+      fixture.componentInstance.isFullPage = false;
+      fixture.componentInstance.isNonBlocking = false;
+      fixture.componentInstance.isWaiting = true;
+      expect(liveAnnouncerSpy).not.toHaveBeenCalled();
+      fixture.detectChanges();
+
+      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith(
+        'Loading. Please wait.'
+      );
+      liveAnnouncerSpy.calls.reset();
+
+      fixture.componentInstance.isWaiting = false;
+      fixture.detectChanges();
+
+      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith('Loading complete.');
+    });
 
     /**
      * NOTE: The `region` rule is turned off as our karma tests do not set up regions within the `body`.
