@@ -15,8 +15,6 @@ import { ModalDemoModalComponent } from './modal-demo-modal.component';
   templateUrl: './modal-demo.component.html',
 })
 export class ModalDemoComponent implements OnDestroy {
-  public helpKey = 'help-demo.html';
-
   public modalSize = 'medium';
 
   public demoValue: string | null | undefined;
@@ -44,7 +42,6 @@ export class ModalDemoComponent implements OnDestroy {
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((data) => {
         const options: SkyModalConfigurationInterface = {
-          helpKey: this.helpKey,
           providers: [
             {
               provide: ModalDemoContext,
