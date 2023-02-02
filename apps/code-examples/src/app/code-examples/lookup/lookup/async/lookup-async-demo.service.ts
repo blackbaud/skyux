@@ -51,7 +51,7 @@ export class LookupAsyncDemoService {
   }
 
   public addPerson(person: LookupDemoPerson): Observable<number> {
-    // Simulate adding a person with a netowrk call.
+    // Simulate adding a person with a network call.
     if (!people.some((item) => item.name === person.name)) {
       people.unshift(person);
     }

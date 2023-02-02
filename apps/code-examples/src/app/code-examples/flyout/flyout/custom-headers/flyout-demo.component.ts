@@ -36,7 +36,7 @@ export class FlyoutDemoComponent {
     });
 
     this.flyout.iteratorPreviousButtonClick.subscribe(() => {
-      alert('Prvious iterator button clicked!');
+      alert('Previous iterator button clicked!');
     });
 
     this.flyout.closed.subscribe(() => {
