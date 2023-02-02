@@ -42,16 +42,16 @@ describe('Lookup result templates demo', () => {
   it('should use the expected dropdown item template', async () => {
     const { lookupHarness } = await setupTest();
 
-    await lookupHarness?.enterText('vick');
+    await lookupHarness?.enterText('be');
 
     const results = await lookupHarness?.getSearchResults();
     const templateItemHarness =
       results &&
       (await results[0].queryHarness(LookupResultTemplatesItemHarness));
 
-    await expectAsync(templateItemHarness?.getName()).toBeResolvedTo('Vicki');
+    await expectAsync(templateItemHarness?.getName()).toBeResolvedTo('Abed');
     await expectAsync(templateItemHarness?.getFormalName()).toBeResolvedTo(
-      'Ms. Jenkins'
+      'Mr. Nadir'
     );
   });
 
@@ -61,23 +61,23 @@ describe('Lookup result templates demo', () => {
     await lookupHarness?.clickShowMoreButton();
 
     const pickerHarness = await lookupHarness?.getShowMorePicker();
-    await pickerHarness?.enterSearchText('vick');
+    await pickerHarness?.enterSearchText('be');
 
     const results = await pickerHarness?.getSearchResults();
     const templateItemHarness =
       results &&
       (await results[0].queryHarness(LookupResultTemplatesItemHarness));
 
-    await expectAsync(templateItemHarness?.getName()).toBeResolvedTo('Vicki');
+    await expectAsync(templateItemHarness?.getName()).toBeResolvedTo('Abed');
     await expectAsync(templateItemHarness?.getFormalName()).toBeResolvedTo(
-      'Ms. Jenkins'
+      'Mr. Nadir'
     );
   });
 
   it('should update the form control when a favorite name is selected', async () => {
     const { lookupHarness, fixture } = await setupTest();
 
-    await lookupHarness?.enterText('vick');
+    await lookupHarness?.enterText('be');
 
     const allResultHarnesses = await lookupHarness?.getSearchResults();
     const firstResultHarness = allResultHarnesses && allResultHarnesses[0];
@@ -87,7 +87,7 @@ describe('Lookup result templates demo', () => {
       fixture.componentInstance.favoritesForm.controls.favoriteNames.value
     ).toEqual([
       { name: 'Shirley', formal: 'Ms. Bennett' },
-      { name: 'Vicki', formal: 'Ms. Jenkins' },
+      { name: 'Abed', formal: 'Mr. Nadir' },
     ]);
   });
 });

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyInlineDeleteModule } from '@skyux/layout';
 
-import { InlineDeleteDemoComponent } from './inilne-delete-demo.component';
+import { InlineDeleteDemoComponent } from './inline-delete-demo.component';
 
 @NgModule({
   imports: [CommonModule, SkyIconModule, SkyInlineDeleteModule],
