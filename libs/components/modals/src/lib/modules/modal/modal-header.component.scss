@@ -1,14 +1,14 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
-h1 {
+h2 {
   margin: 0;
   line-height: 1.2;
   display: inline;
 }
 
 @include mixins.sky-theme-modern-dark {
-  h1 {
+  h2 {
     color: $sky-theme-modern-mode-dark-font-body-default-color;
   }
 }
