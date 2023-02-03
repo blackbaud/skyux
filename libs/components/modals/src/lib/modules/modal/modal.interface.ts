@@ -60,7 +60,7 @@ export interface SkyModalConfigurationInterface {
    * Indicates whether the modal uses tiles. When set to `true`, the modal's background switches
    * to `$sky-background-color-neutral-light` and tile headings are styled as subsection headings.
    * This property defaults to `false`.
-   * @deprecated Tiled bodies are no longer a recommended design pattern. For complex forms, use [sectioned forms](https://developer.blackbaud.com/skyux/components/sectioned-form) or [other form containers](https://developer.blackbaud.com/skyux/design/guidelines/form-design) instead.
+   * @deprecated Tiles inside modals are no longer a recommended design pattern. For complex forms, use [sectioned forms](https://developer.blackbaud.com/skyux/components/sectioned-form) or [other form containers](https://developer.blackbaud.com/skyux/design/guidelines/form-design) instead.
    */
   tiledBody?: boolean;
 
