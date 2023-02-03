@@ -17,7 +17,7 @@ export const columnDefinitions: ColDef[] = [
     field: 'object_number',
     headerName: 'Object Number',
     type: [],
-    sortable: true,
+    sortable: false,
     headerComponentParams: {
       inlineHelpComponent: InlineHelpComponent,
     },
@@ -74,7 +74,7 @@ export const columnDefinitions: ColDef[] = [
     field: 'accessionyear',
     headerName: 'AccessionYear',
     type: [],
-    sortable: true,
+    sortable: false,
   },
   {
     field: 'object_name',
@@ -89,7 +89,7 @@ export const columnDefinitions: ColDef[] = [
     field: 'title',
     headerName: 'Title',
     type: [],
-    sortable: true,
+    sortable: false,
     headerComponentParams: {
       inlineHelpComponent: InlineHelpComponent,
     },
