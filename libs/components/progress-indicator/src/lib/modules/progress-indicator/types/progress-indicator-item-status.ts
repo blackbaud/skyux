@@ -1,21 +1,21 @@
 export enum SkyProgressIndicatorItemStatus {
   /**
-   * Indicates the item is active.
+   * The item is active.
    */
   Active = 0,
 
   /**
-   * Indicates the item is complete.
+   * The item is complete.
    */
   Complete,
 
   /**
-   * Indicates the item is incomplete.
+   * The item is incomplete.
    */
   Incomplete,
 
   /**
-   * Indicates the item is pending.
+   * The item is pending.
    */
   Pending,
 }

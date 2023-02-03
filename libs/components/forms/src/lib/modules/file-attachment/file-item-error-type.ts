@@ -1,5 +1,5 @@
 /**
- * Specifies the type of error that was thrown.
+ * The type of error that was thrown.
  */
 export type SkyFileItemErrorType =
   | 'fileType'

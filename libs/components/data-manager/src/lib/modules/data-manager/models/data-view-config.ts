@@ -17,7 +17,7 @@ export interface SkyDataViewConfig {
    */
   columnOptions?: SkyDataManagerColumnPickerOption[];
   /**
-   * Indicates whether to display the column picker button for this view.
+   * Whether to display the column picker button for this view.
    */
   columnPickerEnabled?: boolean;
   /**
@@ -26,7 +26,7 @@ export interface SkyDataViewConfig {
    */
   columnPickerSortStrategy?: SkyDataManagerColumnPickerSortStrategy;
   /**
-   * Indicates whether to display the filter button for this view.
+   * Whether to display the filter button for this view.
    */
   filterButtonEnabled?: boolean;
   /**
@@ -39,7 +39,7 @@ export interface SkyDataViewConfig {
    */
   id: string;
   /**
-   * Indicates whether to display the multiselect toolbar for this view.
+   * Whether to display the multiselect toolbar for this view.
    */
   multiselectToolbarEnabled?: boolean;
   /**
@@ -57,11 +57,11 @@ export interface SkyDataViewConfig {
    */
   onSelectAllClick?: () => void;
   /**
-   * Indicates whether to display the search box for this view.
+   * Whether to display the search box for this view.
    */
   searchEnabled?: boolean;
   /**
-   * Specifies placeholder text to display in the search input until users enter search criteria.
+   * Placeholder text to display in the search input until users enter search criteria.
    * See the <a href="https://developer.blackbaud.com/skyux/components/search">search component</a> for the default value.
    */
   searchPlaceholderText?: string;
@@ -71,17 +71,17 @@ export interface SkyDataViewConfig {
    */
   searchExpandMode?: string;
   /**
-   * Indicates whether to include the "Filter" text on the displayed filter button for this view.
+   * Whether to include the "Filter" text on the displayed filter button for this view.
    * If it is not set, no text appears.
    */
   showFilterButtonText?: boolean;
   /**
-   * Indicates whether to include the "Sort" text on the displayed sort button for this view.
+   * Whether to include the "Sort" text on the displayed sort button for this view.
    * If it is not set, no text appears.
    */
   showSortButtonText?: boolean;
   /**
-   * Indicates whether to display the sort button in this view.
+   * Whether to display the sort button in this view.
    */
   sortEnabled?: boolean;
 }

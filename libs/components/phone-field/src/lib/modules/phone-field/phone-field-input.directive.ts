@@ -61,7 +61,7 @@ export class SkyPhoneFieldInputDirective
   implements OnInit, OnDestroy, AfterViewInit, ControlValueAccessor, Validator
 {
   /**
-   * Indicates whether to disable the phone field.
+   * Whether to disable the phone field.
    * @default false
    */
   @Input()
@@ -79,7 +79,7 @@ export class SkyPhoneFieldInputDirective
   }
 
   /**
-   * Indicates whether to prevent validation on the phone number input. For validation,
+   * Whether to prevent validation on the phone number input. For validation,
    * phone numbers are driven through the `ngModel` attribute that you specify on an
    * `input` element or on a `FormControl` in a reactive form. To prevent validation,
    * set this property to `true`.

@@ -24,7 +24,7 @@ const ALERT_TYPE_DEFAULT = 'warning';
 })
 export class SkyAlertComponent implements OnInit, OnDestroy {
   /**
-   * Specifies a style for the alert to determine the icon and background color.
+   * The style for the alert, which determines the icon and background color.
    * The valid options are `danger`, `info`, `success`, and `warning`.
    * @default "warning"
    */
@@ -37,21 +37,21 @@ export class SkyAlertComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Indicates whether to include a close button for users to dismiss the alert.
+   * Whether to include a close button for users to dismiss the alert.
    * @default false
    */
   @Input()
   public closeable: boolean | undefined;
 
   /**
-   * Indicates whether the alert is closed.
+   * Whether the alert is closed.
    * @default false
    */
   @Input()
   public closed: boolean | undefined;
 
   /**
-   * Specifies the predefined text to be read by screen readers for users who cannot see the alert icon.
+   * The predefined text to be read by screen readers for users who cannot see the alert icon.
    * This property is optional but will be required in future versions of SKY UX.
    */
   @Input()
@@ -61,7 +61,7 @@ export class SkyAlertComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Specifies the text to be read by screen readers for users who cannot see
+   * The text to be read by screen readers for users who cannot see
    * the indicator icon when `descriptionType` is `custom`.
    */
   @Input()

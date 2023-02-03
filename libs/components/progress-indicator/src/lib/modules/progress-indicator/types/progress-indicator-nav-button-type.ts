@@ -1,5 +1,5 @@
 /**
- * Specifies the nav button type. The valid options are `finish`, `next`, `previous`, and `reset`.
+ * The nav button type.
  */
 export type SkyProgressIndicatorNavButtonType =
   | 'finish'

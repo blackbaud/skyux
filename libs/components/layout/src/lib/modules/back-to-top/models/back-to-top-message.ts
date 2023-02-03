@@ -5,7 +5,7 @@ import { SkyBackToTopMessageType } from './back-to-top-message-type';
  */
 export interface SkyBackToTopMessage {
   /**
-   * Specifies the type of message to send.
+   * The type of message to send.
    */
   type?: SkyBackToTopMessageType;
 }

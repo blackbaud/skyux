@@ -8,12 +8,12 @@ export interface SkyDatepickerCustomDate {
   date: Date;
 
   /**
-   * Indicates whether to disable the date.
+   * Whether to disable the date.
    */
   disabled?: boolean;
 
   /**
-   * Indicates whether to display the date as a key date in the calendar.
+   * Whether to display the date as a key date in the calendar.
    */
   keyDate?: boolean;
 

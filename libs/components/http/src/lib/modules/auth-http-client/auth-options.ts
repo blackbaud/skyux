@@ -6,7 +6,7 @@ import {
 } from './auth-interceptor-params';
 
 /**
- * Provides the standard options expected by Angular's HttpClient methods along with
+ * The standard options expected by Angular's HttpClient methods along with
  * additional options for making requests to services protected by Blackbaud ID.
  * @param options
  */
@@ -38,7 +38,7 @@ export function skyAuthHttpOptions(options?: {
 }
 
 /**
- * Provides the standard options expected by Angular's HttpClient methods along with
+ * The standard options expected by Angular's HttpClient methods along with
  * additional options for making requests to services protected by Blackbaud ID and
  * ensures that the subsequent call to `HttpClient` returns the generic type passed
  * to it by enforcing a `responseType` of `'json'`.

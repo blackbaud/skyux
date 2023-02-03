@@ -8,7 +8,7 @@ export interface SkyAutocompleteSearchAsyncResult {
    */
   continuationData?: unknown;
   /**
-   * Indicates whether there are more results that match the search criteria.
+   * Whether there are more results that match the search criteria.
    */
   hasMore?: boolean;
   /**

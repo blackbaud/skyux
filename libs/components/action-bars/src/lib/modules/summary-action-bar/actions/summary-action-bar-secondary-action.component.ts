@@ -18,7 +18,7 @@ import {
 })
 export class SkySummaryActionBarSecondaryActionComponent {
   /**
-   * Indicates whether to disable a secondary action.
+   * Whether to disable a secondary action.
    * @default false
    */
   @Input()

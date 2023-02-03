@@ -69,7 +69,7 @@ export class SkyListToolbarComponent
   implements OnInit, AfterContentInit, OnDestroy
 {
   /**
-   * Indicates whether to use the in-memory search.
+   * Whether to use the in-memory search.
    * Setting this to `false` will allow consumers to run their own searches remotely,
    * and push new values to the list component by updating the `data` property.
    * @default true
@@ -88,7 +88,7 @@ export class SkyListToolbarComponent
   }
 
   /**
-   * Specifies placeholder text for the search bar that the list toolbar creates with
+   * Placeholder text for the search bar that the list toolbar creates with
    * a [search component](https://developer.blackbaud.com/skyux/components/search).
    * @default "Find in this list"
    */
@@ -96,7 +96,7 @@ export class SkyListToolbarComponent
   public placeholder: string;
 
   /**
-   * Indicates whether to enable the search bar.
+   * Whether to enable the search bar.
    * @default true
    */
   @Input()
@@ -109,7 +109,7 @@ export class SkyListToolbarComponent
   public searchComponent: SkySearchComponent;
 
   /**
-   * Indicates whether to enable the sort selector.
+   * Whether to enable the sort selector.
    * @default false
    */
   @Input()
@@ -125,7 +125,7 @@ export class SkyListToolbarComponent
   public toolbarType = 'standard';
 
   /**
-   * Specifies a text string to search with.
+   * The text string to search with.
    */
   @Input()
   public searchText: string | Observable<string>;

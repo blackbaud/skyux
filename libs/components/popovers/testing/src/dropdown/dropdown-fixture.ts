@@ -51,7 +51,7 @@ export class SkyDropdownFixture {
   }
 
   /**
-   * Indicates if the dropdown menu is open and visible.
+   * Whether the dropdown menu is open and visible.
    */
   public get dropdownMenuIsVisible(): boolean {
     return this.getDropdownMenuContent() !== undefined;
