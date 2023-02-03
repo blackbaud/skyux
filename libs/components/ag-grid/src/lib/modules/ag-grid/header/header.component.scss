@@ -8,6 +8,10 @@
 .ag-header-cell-label {
   padding-right: 0;
   padding-left: 0;
+
+  button {
+    text-transform: inherit;
+  }
 }
 
 button {

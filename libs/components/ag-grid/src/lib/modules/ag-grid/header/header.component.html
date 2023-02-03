@@ -21,7 +21,7 @@
         class="sky-btn-link-inline"
         (click)="onSortRequested($event)"
       >
-        {{ params?.displayName }}
+        <ng-container *ngTemplateOutlet="notSortingHeaderText"></ng-container>
       </button>
     </span>
     <span
