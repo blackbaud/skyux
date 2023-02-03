@@ -25,7 +25,7 @@ export class ListFilterModel {
   public value: any;
 
   /**
-   * The default value of the filter. When users do not set the
+   * The default value of the filter. When a filter equals the
    * default value, the filter does not affect the list.
    */
   public defaultValue: any;
