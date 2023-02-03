@@ -28,7 +28,7 @@ export const columnDefinitions: ColDef[] = [
     field: 'birthday',
     colId: 'birthday',
     headerName: 'Birthday',
-    sortable: true,
+    sortable: false,
     type: SkyCellType.Date,
     minWidth: 300,
     headerComponentParams: {
@@ -45,7 +45,7 @@ export const columnDefinitions: ColDef[] = [
     field,
     colId: field,
     headerName,
-    sortable: true,
+    sortable: field === 'mvp',
     type: SkyCellType.Number,
     minWidth: 100,
   })),

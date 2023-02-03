@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
 
@@ -91,6 +92,10 @@ describe('HeaderComponent', () => {
   });
 
   it('should implement IHeaderAngularComp', () => {
+    params = {
+      ...params,
+      enableSorting: true,
+    };
     component.agInit(params);
     fixture.detectChanges();
     expect(
@@ -165,6 +170,20 @@ describe('HeaderComponent', () => {
     expect(fixture.debugElement.query(By.css('.ag-filter-icon'))).toBeTruthy();
   });
 
+  it('should not sort when sort is disabled', async () => {
+    params = {
+      ...params,
+      enableSorting: false,
+    };
+    const sortSpy = spyOn(params, 'progressSort');
+    component.agInit(params);
+    fixture.detectChanges();
+    component.onSortRequested({ shiftKey: false } as MouseEvent);
+    expect(sortSpy).not.toHaveBeenCalled();
+    component.onSortRequested({ shiftKey: true } as MouseEvent);
+    expect(sortSpy).not.toHaveBeenCalled();
+  });
+
   it('should inject help component', () => {
     component.agInit({
       ...params,
@@ -185,5 +204,24 @@ describe('HeaderComponent', () => {
     expect(
       fixture.debugElement.query(By.css('.other-help-component'))
     ).toBeTruthy();
+  });
+
+  describe('accessibility', () => {
+    it('should be accessible with sorting off', async () => {
+      component.agInit(params);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible with sorting on', async () => {
+      component.agInit({
+        ...params,
+        enableSorting: true,
+      });
+      fixture.detectChanges();
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
   });
 });
