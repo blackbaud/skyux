@@ -76,7 +76,7 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * Specifies an ARIA label for the tabset. This sets the tabset's `aria-label` attribute to provide a text equivalent for screen readers
+   * The ARIA label for the tabset. This sets the tabset's `aria-label` attribute to provide a text equivalent for screen readers
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the tabset includes a visible label, use `ariaLabelledBy` instead.
    * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
@@ -85,7 +85,7 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
   public ariaLabel: string | undefined;
 
   /**
-   * Specifies the HTML element ID (without the leading `#`) of the element that labels
+   * The HTML element ID (without the leading `#`) of the element that labels
    * the tabset. This sets the tabset's `aria-labelledby` attribute to provide a text equivalent for screen readers
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the tabset does not include a visible label, use `ariaLabel` instead.
@@ -116,7 +116,7 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * Specifies the behavior for a series of tabs.
+   * The behavior for a series of tabs.
    * @default "tabs"
    */
   @Input()

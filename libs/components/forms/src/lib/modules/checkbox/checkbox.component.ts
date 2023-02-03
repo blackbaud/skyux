@@ -34,7 +34,7 @@ let nextId = 0;
 })
 export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   /**
-   * Specifies an ARIA label for the checkbox. This sets the checkbox's `aria-label` attribute
+   * The ARIA label for the checkbox. This sets the checkbox's `aria-label` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/components/checkbox#accessibility)
    * when the checkbox does not include a visible label. You must set this property for icon
    * checkboxes. If the checkbox includes a visible label, use `labelledBy` instead.
@@ -43,7 +43,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   public label: string | undefined;
 
   /**
-   * Specifies the HTML element ID (without the leading `#`) of the element that labels the
+   * The HTML element ID (without the leading `#`) of the element that labels the
    * checkbox. This sets the checkbox's `aria-labelledby` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/components/checkbox#accessibility).
    * If the checkbox does not include a visible label, use `label` instead.
@@ -52,7 +52,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   public labelledBy: string | undefined;
 
   /**
-   * Specifies an ID for the checkbox.
+   * The ID for the checkbox.
    * @default a unique, auto-incrementing integer. For example: `sky-checkbox-1`
    */
   @Input()
@@ -72,7 +72,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   }
 
   /**
-   * Indicates whether to disable the checkbox.
+   * Whether to disable the checkbox.
    * @default false
    */
   @Input()
@@ -85,21 +85,21 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   }
 
   /**
-   * Indicates whether the checkbox is disabled.
+   * Whether the checkbox is disabled.
    */
   public get disabled(): boolean {
     return this.#_disabled;
   }
 
   /**
-   * Specifies an index for the checkbox. If not defined, the index is set to the position of the
+   * The index for the checkbox. If not defined, the index is set to the position of the
    * checkbox on load.
    */
   @Input()
   public tabindex: number | undefined = 0;
 
   /**
-   * Specifies a name for a group of checkboxes.
+   * The name for a group of checkboxes.
    * @default a unique, auto-incrementing integer. For example: `sky-checkbox-1`
    */
   @Input()
@@ -123,7 +123,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   public change = new EventEmitter<SkyCheckboxChange>();
 
   /**
-   * Specifies an icon to display in place of the checkbox. To group icon checkboxes
+   * The icon to display in place of the checkbox. To group icon checkboxes
    * like in the demo, place the `sky-switch-icon-group` class on the direct parent
    * element of the checkboxes.
    */
@@ -131,7 +131,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   public icon: string | undefined;
 
   /**
-   * Specifies a type to set the background color after users select a checkbox where the
+   * The background color type after users select a checkbox where the
    * `icon` property displays an icon in place of the checkbox. The valid options correspond to
    * [the label component's](https://developer.blackbaud.com/skyux/components/label)
    * label types. `"info"` creates a blue background, `"success"` creates a green
@@ -150,7 +150,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   public inputId = '';
 
   /**
-   * Indicates whether the checkbox is selected.
+   * Whether the checkbox is selected.
    * @default false
    */
   @Input()
@@ -171,14 +171,14 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   }
 
   /**
-   * Indicates whether the checkbox is selected.
+   * Whether the checkbox is selected.
    */
   public get checked(): boolean {
     return this.#_checked;
   }
 
   /**
-   * Indicates whether the checkbox is in the indeterminate state. This has no visual effect for icon checkboxes.
+   * Whether the checkbox is in the indeterminate state. This has no visual effect for icon checkboxes.
    * @internal
    */
   @Input()
@@ -196,7 +196,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   }
 
   /**
-   * Indicates whether the input is required for form validation.
+   * Whether the input is required for form validation.
    * When you set this property to `true`, the component adds `aria-required` and `required`
    * attributes to the input element so that forms display an invalid state until the input element
    * is complete.

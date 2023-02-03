@@ -18,7 +18,7 @@ import { SkyRecentLinksInput } from './types/recent-links-input';
 })
 export class SkyActionHubComponent {
   /**
-   * Provides a list of actions that users must perform based on business requirements or best practices, or `"loading"` to display a wait indicator.
+   * The list of actions that users must perform based on business requirements or best practices, or `"loading"` to display a wait indicator.
    */
   @Input()
   public set needsAttention(
@@ -39,25 +39,25 @@ export class SkyActionHubComponent {
   public parentLink: SkyPageLink | undefined;
 
   /**
-   * Provides a list of recently accessed links, or `"loading"` to display a wait indicator.
+   * The list of recently accessed links, or `"loading"` to display a wait indicator.
    */
   @Input()
   public recentLinks: SkyRecentLinksInput = [];
 
   /**
-   * Provides a list of related links, or `"loading"` to display a wait indicator.
+   * The list of related links, or `"loading"` to display a wait indicator.
    */
   @Input()
   public relatedLinks: SkyPageLinksInput = [];
 
   /**
-   * Provides a list of settings with modal parameters, or `"loading"` to display a wait indicator.
+   * The list of settings with modal parameters, or `"loading"` to display a wait indicator.
    */
   @Input()
   public settingsLinks: SkyPageModalLinksInput = [];
 
   /**
-   * Specifies the page title.
+   * The page title.
    * @default ""
    */
   @Input()

@@ -17,7 +17,7 @@ import {
 })
 export class SkyFilterSummaryItemComponent {
   /**
-   * Indicates whether the filter summary item has a close button.
+   * Whether the filter summary item has a close button.
    */
   @Input()
   public get dismissible(): boolean {

@@ -52,7 +52,7 @@ export class SkyToggleSwitchComponent
   implements AfterContentInit, OnDestroy, ControlValueAccessor, Validator
 {
   /**
-   * Specifies an ARIA label for the toggle switch. This sets the toggle switch's `aria-label`
+   * The ARIA label for the toggle switch. This sets the toggle switch's `aria-label`
    * attribute to provide a text equivalent for screen readers [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the `sky-toggle-switch-label` component displays a visible label, do not use this property.
    * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
@@ -61,7 +61,7 @@ export class SkyToggleSwitchComponent
   public ariaLabel: string | undefined;
 
   /**
-   * Indicates whether the toggle switch is selected.
+   * Whether the toggle switch is selected.
    * @default false
    */
   @Input()
@@ -85,13 +85,13 @@ export class SkyToggleSwitchComponent
   }
 
   /**
-   * Indicates whether to disable the toggle switch.
+   * Whether to disable the toggle switch.
    */
   @Input()
   public disabled: boolean | undefined = false;
 
   /**
-   * Specifies a tab index for the toggle switch. If not defined, the index is set to the position
+   * The tab index for the toggle switch. If not defined, the index is set to the position
    * of the toggle switch on load.
    */
   @Input()

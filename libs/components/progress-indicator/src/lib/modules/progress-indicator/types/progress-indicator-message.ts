@@ -2,7 +2,7 @@ import { SkyProgressIndicatorMessageType } from './progress-indicator-message-ty
 
 export interface SkyProgressIndicatorMessage {
   /**
-   * Indicates the type of state change for the progress indicator.
+   * The type of state change for the progress indicator.
    */
   type: SkyProgressIndicatorMessageType;
 

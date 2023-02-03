@@ -71,7 +71,7 @@ export class SkyAlertHarness extends SkyComponentHarness {
   }
 
   /**
-   * Indicates whether the user has closed the alert.
+   * Whether the user closed the alert.
    */
   public async isClosed(): Promise<boolean> {
     const alert = await this.#getAlert();
@@ -80,7 +80,7 @@ export class SkyAlertHarness extends SkyComponentHarness {
   }
 
   /**
-   * Indicates whether the user can close the alert.
+   * Whether the user can close the alert.
    */
   public async isCloseable(): Promise<boolean> {
     const closeBtn = await this.#getCloseButton();

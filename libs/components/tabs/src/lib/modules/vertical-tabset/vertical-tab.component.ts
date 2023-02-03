@@ -38,13 +38,13 @@ let nextId = 0;
 })
 export class SkyVerticalTabComponent implements OnInit, OnDestroy {
   /**
-   * Indicates whether the tab is active when the tabset loads.
+   * Whether the tab is active when the tabset loads.
    */
   @Input()
   public active: boolean | undefined = false;
 
   /**
-   * Specifies the HTML element ID (without the leading `#`) of the element that contains
+   * The HTML element ID (without the leading `#`) of the element that contains
    * the content that the vertical tab displays, which corresponds to the `tabId`. This property
    * [supports accessibility rules for disclosures](https://www.w3.org/TR/wai-aria-practices-1.1/#disclosure).
    * @deprecated Now that the vertical tabs provide aria labels automatically, this input is no longer necessary.
@@ -53,7 +53,7 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
   public ariaControls: string | undefined;
 
   /**
-   * Specifies an ARIA role for the vertical tab
+   * The ARIA role for the vertical tab
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility)
    * by indicating how the tab functions and what it controls. For information about how
    * an ARIA role indicates what an item represents on a web page, see the
@@ -71,13 +71,13 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Indicates whether to disable the tab.
+   * Whether to disable the tab.
    */
   @Input()
   public disabled: boolean | undefined = false;
 
   /**
-   * Indicates whether to indicate that the tab has an error.
+   * Whether to indicate that the tab has an error.
    * @internal This is used for sectioned forms and is not currently a supported design for pure vertical tabs.
    */
   @Input()
@@ -90,21 +90,21 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
   public tabHeaderCount: number | undefined;
 
   /**
-   * Specifies the tab header.
+   * The tab header.
    * @required
    */
   @Input()
   public tabHeading: string | undefined;
 
   /**
-   * Indicates whether to display a chevron-right icon in the right hand side of the tab.
+   * Whether to display a chevron-right icon on the right hand side of the tab.
    * @internal
    */
   @Input()
   public showTabRightArrow: boolean | undefined;
 
   /**
-   * Specifies an ID for the tab.
+   * The ID for the tab.
    * @deprecated Now that the vertical tabs provide aria labels automatically, this input is no longer necessary.
    */
   @Input()

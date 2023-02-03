@@ -38,7 +38,7 @@ const SKY_SELECTION_BOX_CLASS_NAME = '.sky-selection-box';
 export class SkySelectionBoxGridComponent implements OnDestroy, OnInit {
   /**
    * @internal
-   * Specifies how to display the selection boxes in the grid.
+   * How to display the selection boxes in the grid.
    * @default 'center'
    */
   @Input()

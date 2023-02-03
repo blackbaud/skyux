@@ -4,24 +4,24 @@
  */
 export class ListSortLabelModel {
   /**
-   * Specifies the text for the label.
+   * The text for the label.
    */
   public text: string;
   /**
-   * Specifies the label type.
+   * The label type.
    */
   public fieldType: string;
   /**
-   * Specifies the fields to sort.
+   * The fields to sort.
    */
   public fieldSelector: string;
   /**
-   * Indicates whether to sort all fields.
+   * Whether to sort all fields.
    * @default false
    */
   public global = false;
   /**
-   * Indicates whether to sort in descending order.
+   * Whether to sort in descending order.
    * @default false
    */
   public descending = false;

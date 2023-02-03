@@ -4,15 +4,15 @@
  */
 export class SkyLookupShowMoreCustomPickerContext {
   /**
-   * Specifies the options that users can select in the custom picker.
+   * The options that users can select in the custom picker.
    */
   public items!: any[];
   /**
-   * Specifies search text to filter the contents of the custom picker.
+   * Search text to filter the contents of the custom picker.
    */
   public initialSearch!: string;
   /**
-   * Specifies the current selections in the lookup field.
+   * The current selections in the lookup field.
    */
   public initialValue!: any;
 }

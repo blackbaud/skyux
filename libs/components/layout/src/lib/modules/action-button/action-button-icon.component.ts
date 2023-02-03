@@ -16,7 +16,7 @@ const FONTSIZECLASS_LARGE = '3x';
 })
 export class SkyActionButtonIconComponent implements OnDestroy {
   /**
-   * Specifies an icon from the
+   * The icon from the
    * [Font Awesome library](https://fontawesome.com/v4.7.0/).
    * For example, to display the `fa-filter` icon on the action button,
    * set `iconType` to `filter`. SKY UX supports version 4.7.0 of Font Awesome.

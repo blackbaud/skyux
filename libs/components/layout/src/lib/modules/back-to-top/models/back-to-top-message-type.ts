@@ -1,5 +1,5 @@
 /**
- * Specifies the type of message to send to the back to top component.
+ * The type of message to send to the back to top component.
  */
 export enum SkyBackToTopMessageType {
   /**

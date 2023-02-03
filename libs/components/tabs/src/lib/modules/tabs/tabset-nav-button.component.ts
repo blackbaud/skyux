@@ -19,7 +19,7 @@ const buttonTypeFinish = 'finish';
 })
 export class SkyTabsetNavButtonComponent implements OnDestroy {
   /**
-   * Specifies the tabset wizard component to associate with the nav button.
+   * The tabset wizard component to associate with the nav button.
    * @required
    */
   @Input()
@@ -52,7 +52,7 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
   }
 
   /**
-   * Specifies the type of nav button to include.
+   * The type of nav button to include.
    * @required
    */
   @Input()
@@ -74,14 +74,14 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
   }
 
   /**
-   * Specifies the label to display on the nav button. The following are the defaults for each `buttonType`.
+   * The label to display on the nav button. The following are the defaults for each `buttonType`:
    * `next` = "Next", `previous` = "Previous", `finish` = "Finish"
    */
   @Input()
   public buttonText?: string | undefined;
 
   /**
-   * Indicates whether to disable the nav button.
+   * Whether to disable the nav button.
    * Defaults to the disabled state of the next tab for `next`, the existence of a previous tab for `previous`,
    * and false for `finish`.
    */

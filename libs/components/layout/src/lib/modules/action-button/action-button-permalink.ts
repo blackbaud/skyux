@@ -7,7 +7,7 @@ import { NavigationExtras } from '@angular/router';
  */
 export interface SkyActionButtonPermalink {
   /**
-   * Specifies an Angular router link for the action button. This property accepts a
+   * The Angular router link for the action button. This property accepts a
    * custom object with a `commands` property to specify router commands and an `extras`
    * property to specify
    * [Angular `NavigationExtras`](https://angular.io/api/router/NavigationExtras).
@@ -26,7 +26,7 @@ export interface SkyActionButtonPermalink {
     extras?: NavigationExtras;
   };
   /**
-   * Specifies a direct link for the action button.
+   * The direct link for the action button.
    */
   url?: string;
 }

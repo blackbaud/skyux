@@ -53,7 +53,7 @@ export class SkyFileDropComponent implements OnDestroy {
   public linkChanged = new EventEmitter<SkyFileLink>();
 
   /**
-   * Specifies an ARIA label for the file upload button. This provides a text equivalent for
+   * The ARIA label for the file upload button. This provides a text equivalent for
    * screen readers [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
@@ -61,7 +61,7 @@ export class SkyFileDropComponent implements OnDestroy {
   public fileUploadAriaLabel: string | undefined;
 
   /**
-   * Specifies an ARIA label for the link upload input. This sets the button's `aria-label` attribute to provide a text equivalent for
+   * The ARIA label for the link upload input. This sets the button's `aria-label` attribute to provide a text equivalent for
    * screen readers [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
@@ -69,7 +69,7 @@ export class SkyFileDropComponent implements OnDestroy {
   public linkUploadAriaLabel: string | undefined;
 
   /**
-   * Specifies the minimum size in bytes for valid files.
+   * The minimum size in bytes for valid files.
    * @default 0
    */
   @Input()
@@ -82,7 +82,7 @@ export class SkyFileDropComponent implements OnDestroy {
   }
 
   /**
-   * Specifies the maximum size in bytes for valid files.
+   * The maximum size in bytes for valid files.
    * @default 500000
    */
   @Input()
@@ -95,20 +95,20 @@ export class SkyFileDropComponent implements OnDestroy {
   }
 
   /**
-   * Indicates whether users can drag and drop multiple files at the same time.
+   * Whether users can drag and drop multiple files at the same time.
    */
   @Input()
   public multiple: boolean | undefined = true;
 
   /**
-   * Specifies a custom validation function. This validation runs alongside the internal
+   * The custom validation function. This validation runs alongside the internal
    * file validation. This function takes a `SkyFileItem` object as a parameter.
    */
   @Input()
   public validateFn: SkyFileValidateFn | undefined;
 
   /**
-   * Specifies a comma-delimited string literal of MIME types that users can attach.
+   * The comma-delimited string literal of MIME types that users can attach.
    * By default, all file types are allowed.
    * @required
    */
@@ -116,13 +116,13 @@ export class SkyFileDropComponent implements OnDestroy {
   public acceptedTypes: string | undefined;
 
   /**
-   * Indicates whether to disable the option to browse for files to attach.
+   * Whether to disable the option to browse for files to attach.
    */
   @Input()
   public noClick: boolean | undefined = false;
 
   /**
-   * Indicates whether to display the option to attach files from URLs rather than from local devices.
+   * Whether to display the option to attach files from URLs rather than from local devices.
    */
   @Input()
   public allowLinks: boolean | undefined = false;

@@ -84,7 +84,7 @@ let nextId = 0;
 })
 export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
   /**
-   * Indicates whether the deletion is pending.
+   * Whether the deletion is pending.
    * @default false
    */
   @Input()

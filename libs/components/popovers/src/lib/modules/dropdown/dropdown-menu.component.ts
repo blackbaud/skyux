@@ -37,7 +37,7 @@ let nextId = 0;
 })
 export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
   /**
-   * Specifies the HTML element ID of the element that labels
+   * The HTML element ID of the element that labels
    * the dropdown menu. This sets the dropdown menu's `aria-labelledby` attribute to provide a text equivalent for
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * For more information about the `aria-labelledby` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-labelledby).
@@ -46,7 +46,7 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
   public ariaLabelledBy: string | undefined;
 
   /**
-   * Specifies an ARIA role for the dropdown menu
+   * The ARIA role for the dropdown menu
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility)
    * by indicating how the dropdown menu functions and what it controls. The dropdown button
    * inherits this value to set its `aria-haspopup` property. For information
@@ -64,7 +64,7 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
   }
 
   /**
-   * Indicates whether to use the browser's native focus function when users navigate through menu
+   * Whether to use the browser's native focus function when users navigate through menu
    * items with the keyboard. To disable the native focus function, set this property to `false`.
    * For example, to let users interact with the dropdown menu but keep the keyboard focus on a
    * different element, set this property to `false`.

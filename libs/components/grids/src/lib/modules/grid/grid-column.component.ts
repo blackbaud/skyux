@@ -26,7 +26,7 @@ import { SkyGridColumnInlineHelpPopoverModelChange } from './types/grid-column-i
 })
 export class SkyGridColumnComponent implements OnChanges {
   /**
-   * Specifies the horizontal alignment of the column's data and header.
+   * The horizontal alignment of the column's data and header.
    * Options include: `"left"`, `"center"`, and `"right"`.
    * @default "left"
    */
@@ -34,20 +34,20 @@ export class SkyGridColumnComponent implements OnChanges {
   public alignment: SkyGridColumnAlignment = 'left';
 
   /**
-   * Specifies a description for the column.
+   * The description for the column.
    */
   @Input()
   public description: string;
 
   /**
-   * Indicates whether to disable the highlighting of search text in the column.
+   * Whether to disable the highlighting of search text in the column.
    * @default false
    */
   @Input()
   public excludeFromHighlighting: boolean;
 
   /**
-   * Specifies the property to retrieve cell information from an entry on the grid `data` array.
+   * The property to retrieve cell information from an entry on the grid `data` array.
    * You must provide either the `id` or `field` property for every column,
    * but do not provide both. If `id` does not exist on a column, then `field` is the entry
    * for the grid `selectedColumnIds` array.
@@ -56,20 +56,20 @@ export class SkyGridColumnComponent implements OnChanges {
   public field: string;
 
   /**
-   * Specifies text to display in the column header.
+   * Text to display in the column header.
    */
   @Input()
   public heading: string;
 
   /**
-   * Indicates whether the column is initially hidden when grid `selectedColumnIds` are not provided.
+   * Whether the column is initially hidden when grid `selectedColumnIds` are not provided.
    * @default false
    */
   @Input()
   public hidden: boolean;
 
   /**
-   * Specifies a unique ID for the column. You must provide either the `id` or `field` property
+   * The unique ID for the column. You must provide either the `id` or `field` property
    * for every column, but do not provide both. If `field` does not exist on a column,
    * then the `id` property retrieves cell information from an entry on the grid `data` array.
    */
@@ -77,20 +77,20 @@ export class SkyGridColumnComponent implements OnChanges {
   public id: string;
 
   /**
-   * Specifies a template to display inside an inline help popup for this column.
+   * The template to display inside an inline help popup for this column.
    */
   @Input()
   public inlineHelpPopover: any;
 
   /**
-   * Indicates whether the column sorts the grid when users click the column header.
+   * Whether the column sorts the grid when users click the column header.
    * @default true
    */
   @Input()
   public isSortable = true;
 
   /**
-   * Indicates whether the column is locked. The intent is to display locked columns first
+   * Whether the column is locked. The intent is to display locked columns first
    * on the left side of the grid. If set to `true`, then users cannot drag the column
    * to another position and or drag other columns before the locked column.
    * @default false
@@ -99,7 +99,7 @@ export class SkyGridColumnComponent implements OnChanges {
   public locked: boolean;
 
   /**
-   * Specifies a search function to apply for the specific column. By default,
+   * The search function to apply for the specific column. By default,
    * the column executes a string compare on the column data.
    * @default (value, searchText) => value.toString().toLowerCase().indexOf(searchText) !== -1
    */
@@ -115,7 +115,7 @@ export class SkyGridColumnComponent implements OnChanges {
   public type: string;
 
   /**
-   * Specifies a template for a column. This can be assigned as a reference
+   * The template for a column. This can be assigned as a reference
    * to the `template` attribute, or it can be assigned as a child of the `template` element
    * inside the `sky-grid-column` component. The template has access to the `value` variable,
    * which contains the value passed to the column, and the `row` variable, which contains
@@ -126,7 +126,7 @@ export class SkyGridColumnComponent implements OnChanges {
   public templateInput: TemplateRef<unknown>;
 
   /**
-   * Specifies the width of the column in pixels.
+   * The width of the column in pixels.
    * If undefined, the column width is evenly distributed.
    */
   @Input()
