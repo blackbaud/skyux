@@ -30,8 +30,8 @@ export class SkyFilterButtonComponent {
    * Specifies an ID to identify the element that contains
    * the filtering options that the filter button exposes.
    * To support [accessibility rules for disclosures](https://www.w3.org/TR/wai-aria-practices-1.1/#disclosure),
-   * this property is necessary when using inline filters.
-   * For more information about the `aria-controls` attribute, see the [WAI-ARIA Definitions of States and Properties](https://www.w3.org/TR/wai-aria/#aria-controls).
+   * this property is necessary to set the `aria-controls` attribute when using inline filters.
+   * For more information about the `aria-controls` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-controls).
    */
   @Input()
   public ariaControls: string | undefined;
@@ -39,8 +39,8 @@ export class SkyFilterButtonComponent {
   /**
    * Indicates whether the filtering options are exposed.
    * To support [accessibility rules for disclosures](https://www.w3.org/TR/wai-aria-practices-1.1/#disclosure),
-   * this property is necessary when using inline filters.
-   * For more information about the `aria-expanded` attribute, see the [WAI-ARIA Definitions of States and Properties](https://www.w3.org/TR/wai-aria/#aria-expanded).
+   * this property is necessary to set the `aria-expanded` attribute when using inline filters.
+   * For more information about the `aria-expanded` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-expanded).
    */
   @Input()
   public ariaExpanded: boolean | undefined = false;

@@ -53,9 +53,9 @@ export class SkyToggleSwitchComponent
 {
   /**
    * Specifies an ARIA label for the toggle switch. This sets the toggle switch's `aria-label`
-   * attribute [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * attribute to provide a text equivalent for screen readers [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the `sky-toggle-switch-label` component displays a visible label, do not use this property.
-   * For more information about the `aria-label` attribute, see the [WAI-ARIA Definitions of States and Properties](https://www.w3.org/TR/wai-aria/#aria-label).
+   * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
   @Input()
   public ariaLabel: string | undefined;

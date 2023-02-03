@@ -11,20 +11,20 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
 })
 export class SkyBoxComponent {
   /**
-   * Specifies an ARIA label for the box. This sets the box's `aria-label` attribute
+   * Specifies an ARIA label for the box. This sets the box's `aria-label` attribute to provide a text equivalent for screen readers
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the box includes a visible label, use `ariaLabelledBy` instead.
-   * For more information about the `aria-label` attribute, see the [WAI-ARIA Definitions of States and Properties](https://www.w3.org/TR/wai-aria/#aria-label).
+   * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
   @Input()
   public ariaLabel: string | undefined;
 
   /**
    * Specifies the HTML element ID (without the leading `#`) of the element that labels
-   * the box. This sets the box's `aria-labelledby` attribute
+   * the box. This sets the box's `aria-labelledby` attribute to provide a text equivalent for screen readers
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the box does not include a visible label, use `ariaLabel` instead.
-   * For more information about the `aria-labelledBy` attribute, see the [WAI-ARIA Definitions of States and Properties](https://www.w3.org/TR/wai-aria/#aria-labelledBy).
+   * For more information about the `aria-labelledby` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-labelledby).
    */
   @Input()
   public ariaLabelledBy: string | undefined;

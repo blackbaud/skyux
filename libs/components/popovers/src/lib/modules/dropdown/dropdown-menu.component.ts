@@ -38,9 +38,9 @@ let nextId = 0;
 export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
   /**
    * Specifies the HTML element ID of the element that labels
-   * the dropdown menu. This sets the dropdown menu's `aria-labelledby` attribute
+   * the dropdown menu. This sets the dropdown menu's `aria-labelledby` attribute to provide a text equivalent for
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
-   * For more information about the `aria-labelledBy` attribute, see the [WAI-ARIA Definitions of States and Properties](https://www.w3.org/TR/wai-aria/#aria-labelledBy).
+   * For more information about the `aria-labelledby` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-labelledby).
    */
   @Input()
   public ariaLabelledBy: string | undefined;

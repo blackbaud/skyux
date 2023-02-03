@@ -28,22 +28,22 @@ export interface SkyModalConfigurationInterface {
 
   /**
    * Specifies the HTML element ID of the element that describes
-   * the modal. This sets the modal's `aria-describedby` attribute
+   * the modal. This sets the modal's `aria-describedby` attribute to provide a text equivalent for
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * The description typically includes text on the modal but not on items that users interact
    * with, such as buttons and forms. If you do not specify an ID, the default description is
    * the content of the `sky-modal-content` component.
-   * For more information about the `aria-describedby` attribute, see the [WAI-ARIA Definitions of States and Properties](https://www.w3.org/TR/wai-aria/#aria-describedby)
+   * For more information about the `aria-describedby` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-describedby).
    */
   ariaDescribedBy?: string;
 
   /**
    * Specifies the HTML element ID of the element that labels
-   * the modal. This sets the `aria-labelledby` attribute for the modal
+   * the modal. This sets the `aria-labelledby` attribute for the modal to provide a text equivalent for
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * This is typically a header element, and if you do not specify an ID, the default value
    * is the content of the `sky-modal-header` component.
-   * For more information about the `aria-labelledby` attribute, see the [WAI-ARIA Definitions of States and Properties](https://www.w3.org/TR/wai-aria/#aria-labelledby)
+   * For more information about the `aria-labelledby` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-labelledby).
    */
   ariaLabelledBy?: string;
 

@@ -8,10 +8,10 @@ export interface SkyFlyoutConfig {
   /**
    * Specifies the HTML element ID (without the leading `#`) of the element that describes
    * the flyout. This sets the flyout's `aria-describedby` attribute
-   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * to provide a text equivalent for screen readers [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * The description typically includes text on the flyout but not on items that users
    * interact with, such as buttons and forms.
-   * For more information about the `aria-describedby` attribute, see the [WAI-ARIA Definitions of States and Properties](https://www.w3.org/TR/wai-aria/#aria-describedby)
+   * For more information about the `aria-describedby` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-describedby).
    */
   ariaDescribedBy?: string;
 

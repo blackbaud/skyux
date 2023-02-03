@@ -51,9 +51,9 @@ export class SkyRepeaterComponent
 
   /**
    * Specifies an ARIA label for the repeater list.
-   * This sets the repeater list's `aria-label` attribute
+   * This sets the repeater list's `aria-label` attribute to provide a text equivalent for screen readers 
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
-   * For more information about the `aria-label` attribute, see the [WAI-ARIA Definitions of States and Properties](https://www.w3.org/TR/wai-aria/#aria-label).
+   * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    * @default "List of items"
    */
   @Input()

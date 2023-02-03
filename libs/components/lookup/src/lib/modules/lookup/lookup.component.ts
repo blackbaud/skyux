@@ -61,20 +61,20 @@ export class SkyLookupComponent
   implements OnInit, AfterViewInit, OnDestroy, ControlValueAccessor
 {
   /**
-   * Specifies an ARIA label for the typeahead search input
+   * Specifies an ARIA label for the typeahead search input. This sets the input's `aria-label` attribute to provide a text equivalent for
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the input includes a visible label, use `ariaLabelledBy` instead.
-   * For more information about the `aria-label` attribute, see the [WAI-ARIA Definitions of States and Properties](https://www.w3.org/TR/wai-aria/#aria-label).
+   * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
   @Input()
   public ariaLabel: string | undefined;
 
   /**
    * Specifies the HTML element ID (without the leading `#`) of the element that labels
-   * the typeahead search input. This sets the input's `aria-labelledby` attribute
+   * the typeahead search input. This sets the input's `aria-labelledby` attribute to provide a text equivalent for
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the input does not include a visible label, use `ariaLabel` instead.
-   * For more information about the `aria-labelledBy` attribute, see the [WAI-ARIA Definitions of States and Properties](https://www.w3.org/TR/wai-aria/#aria-labelledBy).
+   * For more information about the `aria-labelledby` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-labelledby).
    */
   @Input()
   public ariaLabelledBy: string | undefined;

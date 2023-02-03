@@ -39,20 +39,20 @@ export class SkyRadioGroupComponent
 {
   /**
    * Specifies the HTML element ID (without the leading `#`) of the element that labels
-   * the radio button group. This sets the radio button group's `aria-labelledby` attribute
+   * the radio button group. This sets the radio button group's `aria-labelledby` attribute to provide a text equivalent for screen readers
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the radio button group does not include a visible label, use `ariaLabel` instead.
-   * For more information about the `aria-labelledBy` attribute, see the [WAI-ARIA Definitions of States and Properties](https://www.w3.org/TR/wai-aria/#aria-labelledBy).
+   * For more information about the `aria-labelledby` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-labelledby).
    */
   @Input()
   public ariaLabelledBy: string | undefined;
 
   /**
    * Specifies an ARIA label for the radio button group. This sets the
-   * radio button group's `aria-label` attribute
+   * radio button group's `aria-label` attribute to provide a text equivalent for screen readers
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the radio button group includes a visible label, use `ariaLabelledBy` instead.
-   * For more information about the `aria-label` attribute, see the [WAI-ARIA Definitions of States and Properties](https://www.w3.org/TR/wai-aria/#aria-label).
+   * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
   @Input()
   public ariaLabel: string | undefined;
@@ -144,7 +144,7 @@ export class SkyRadioGroupComponent
    * accessibility violation because the unordered list has an implicit role which
    * interrupts the 'radiogroup' and 'radio' relationship. To correct this, we can set the
    * radio group's 'aria-owns' attribute to a space-separated list of radio IDs.
-   * For more information about the `aria-owns` attribute, see the WAI-ARIA [Definitions of States and Properties](https://www.w3.org/TR/wai-aria/#aria-owns) and [radio role documentation](https://www.w3.org/TR/wai-aria/#radio).
+   * For more information about the `aria-owns` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-owns), and for more information about the `radio` role, see [its definition](https://www.w3.org/TR/wai-aria/#radio).
    */
   public ariaOwns: string | undefined;
 

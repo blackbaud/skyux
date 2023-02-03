@@ -47,9 +47,9 @@ export class SkySplitViewWorkspaceComponent
   }
 
   /**
-   * Specifies an ARIA label for the workspace panel. This sets the panel's `aria-label` attribute
+   * Specifies an ARIA label for the workspace panel. This sets the panel's `aria-label` attribute to provide a text equivalent for screen readers
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
-   * For more information about the `aria-label` attribute, see the [WAI-ARIA Definitions of States and Properties](https://www.w3.org/TR/wai-aria/#aria-label).
+   * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
   @Input()
   public ariaLabel: string | undefined;
