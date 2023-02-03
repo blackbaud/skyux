@@ -23,8 +23,6 @@ import { SkyModalConfiguration } from './modal-configuration';
 import { SkyModalHostService } from './modal-host.service';
 import { SkyModalScrollShadowEventArgs } from './modal-scroll-shadow-event-args';
 
-let skyModalUniqueIdentifier = 0;
-
 const ARIA_ROLE_DEFAULT = 'dialog';
 
 /**
@@ -63,10 +61,10 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
    */
   @Input()
   public set ariaDescribedBy(id: string | undefined) {
-    this.#_ariaDescribedBy = id || this.modalContentId;
+    this.#_ariaDescribedBy = id;
   }
 
-  public get ariaDescribedBy(): string {
+  public get ariaDescribedBy(): string | undefined {
     return this.#_ariaDescribedBy;
   }
 
@@ -75,22 +73,16 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
    */
   @Input()
   public set ariaLabelledBy(id: string | undefined) {
-    this.#_ariaLabelledBy = id || this.modalHeaderId;
+    this.#_ariaLabelledBy = id;
   }
 
-  public get ariaLabelledBy(): string {
+  public get ariaLabelledBy(): string | undefined {
     return this.#_ariaLabelledBy;
   }
 
   public helpKey: string | undefined;
 
   public modalState = 'in';
-
-  public modalContentId: string =
-    'sky-modal-content-id-' + skyModalUniqueIdentifier.toString();
-
-  public modalHeaderId: string =
-    'sky-modal-header-id-' + skyModalUniqueIdentifier.toString();
 
   public modalZIndex: number | undefined;
 
@@ -109,8 +101,8 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
   #dockService: SkyDockService;
   #mediaQueryService: SkyResizeObserverMediaQueryService | undefined;
 
-  #_ariaDescribedBy = this.modalContentId;
-  #_ariaLabelledBy = this.modalHeaderId;
+  #_ariaDescribedBy: string | undefined;
+  #_ariaLabelledBy: string | undefined;
 
   constructor(
     hostService: SkyModalHostService,
@@ -204,7 +196,6 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
   }
 
   public ngAfterViewInit() {
-    skyModalUniqueIdentifier++;
     this.#componentAdapter.handleWindowChange(this.#elRef);
 
     // Adding a timeout to avoid ExpressionChangedAfterItHasBeenCheckedError.
