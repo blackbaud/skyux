@@ -1,16 +1,28 @@
 :host {
   display: flex;
   max-width: 100%;
+  height: 100%;
   align-items: center;
   align-content: center;
+}
+
+.ag-cell-label-container {
+  padding: 0;
 }
 
 .ag-header-cell-label {
   padding-right: 0;
   padding-left: 0;
 
+  .ag-header-cell-text {
+    display: flex;
+    align-items: center;
+  }
+
   button {
     text-transform: inherit;
+    display: flex;
+    align-items: center;
   }
 }
 
