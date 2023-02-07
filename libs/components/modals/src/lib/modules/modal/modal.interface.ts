@@ -8,13 +8,13 @@ import { StaticProvider } from '@angular/core';
  */
 export interface SkyModalConfigurationInterface {
   /**
-   * Indicates whether to display the modal full screen.
+   * Whether to display the modal full screen.
    * This property defaults to `false`.
    */
   fullPage?: boolean;
 
   /**
-   * Specifies a size for the modal. The valid options are `small`, `medium`, and `large`.
+   * The size for the modal. The valid options are `small`, `medium`, and `large`.
    * This property defaults to `medium`.
    */
   size?: string;
@@ -27,7 +27,7 @@ export interface SkyModalConfigurationInterface {
   providers?: StaticProvider[];
 
   /**
-   * Specifies the HTML element ID (without the leading `#`) of the element that describes
+   * The HTML element ID (without the leading `#`) of the element that describes
    * the modal. This sets the modal's `aria-describedby` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * The description typically includes text on the modal but not on items that users interact
@@ -37,7 +37,7 @@ export interface SkyModalConfigurationInterface {
   ariaDescribedBy?: string;
 
   /**
-   * Specifies the HTML element ID (without the leading `#`) of the element that labels
+   * The HTML element ID (without the leading `#`) of the element that labels
    * the modal. This sets the `aria-labelledby` attribute for the modal
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * This is typically a header element, and if you do not specify an ID, the default value
@@ -46,7 +46,7 @@ export interface SkyModalConfigurationInterface {
   ariaLabelledBy?: string;
 
   /**
-   * Specifies an ARIA role for the modal
+   * The ARIA role for the modal
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility)
    * by indicating how the modal functions and what it controls. For information about
    * how an ARIA role indicates what an item represents on a web page, see the
@@ -57,15 +57,16 @@ export interface SkyModalConfigurationInterface {
   ariaRole?: string;
 
   /**
-   * Indicates whether the modal uses tiles. When set to `true`, the modal's background switches
+   * Whether the modal uses tiles. When set to `true`, the modal's background switches
    * to `$sky-background-color-neutral-light` and tile headings are styled as subsection headings.
    * This property defaults to `false`.
+   * @deprecated Tiles inside modals are no longer a recommended design pattern. For complex forms, use [sectioned forms](https://developer.blackbaud.com/skyux/components/sectioned-form) or [other form containers](https://developer.blackbaud.com/skyux/design/guidelines/form-design) instead.
    */
   tiledBody?: boolean;
 
   /**
    * @deprecated To display a help button in the modal header, include a help button element, such as `sky-help-inline`, in the `sky-modal-header` element and a `sky-control-help` CSS class on that help button element
-   * Specifies a `helpKey` string. This property displays
+   * The `helpKey` string. This property displays
    * the <i class="fa fa-question-circle" aria-hidden="true"></i> button in the modal header.
    * When users click this button, the `helpOpened` event broadcasts the `helpKey` parameter.
    * Blackbaud developers can use the Help Widget, which is for internal Blackbaud use only, to
@@ -74,7 +75,7 @@ export interface SkyModalConfigurationInterface {
   helpKey?: string;
 
   /**
-   * Specifies a CSS class to add to the modal, such as `ag-custom-component-popup` for
+   * The CSS class to add to the modal, such as `ag-custom-component-popup` for
    * using a modal as part of a cell editor in Data Entry Grid.
    */
   wrapperClass?: string;

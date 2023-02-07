@@ -30,14 +30,14 @@ import { SkyAngularTreeWrapperComponent } from './angular-tree-wrapper.component
 })
 export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
   /**
-   * Specifies the `index` property from the parent `ng-template`.
+   * The `index` property from the parent `ng-template`.
    * @required
    */
   @Input()
   public index: number | undefined;
 
   /**
-   * Specifies the `node` property from the parent `ng-template`. For information about the `TreeNode` object, see the
+   * The `node` property from the parent `ng-template`. For information about the `TreeNode` object, see the
    * [Angular tree component documentation](https://angular2-tree.readme.io/docs/api).
    * @required
    */
@@ -45,7 +45,7 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
   public node: TreeNode | undefined;
 
   /**
-   * Specifies the `templates` property from the parent `ng-template`.
+   * The `templates` property from the parent `ng-template`.
    */
   @Input()
   public templates: any;

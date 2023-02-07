@@ -17,7 +17,7 @@ import {
 })
 export class SkySummaryActionBarPrimaryActionComponent {
   /**
-   * Indicates whether to disable the primary action.
+   * Whether to disable the primary action.
    * @default false
    */
   @Input()

@@ -11,7 +11,7 @@ import { Component, Input } from '@angular/core';
 })
 export class SkyRowComponent {
   /**
-   * Indicates whether to reverse the display order for columns in the row.
+   * Whether to reverse the display order for columns in the row.
    * @default false
    */
   @Input()

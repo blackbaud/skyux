@@ -8,12 +8,13 @@ import { SkyToastType } from './toast-type';
  */
 export interface SkyToastConfig {
   /**
-   * Specifies a `SkyToastType` type for the toast to determine the color and icon to display.
+   * The `SkyToastType` type that determines the color and icon for the toast.
    */
   type?: SkyToastType;
 
   /**
-   * Indicates whether to automatically close the toast.
+   * Whether to automatically close the toast. Only close toasts
+   * automatically if users can access the messages after the toasts close.
    */
   autoClose?: boolean;
 }

@@ -28,7 +28,7 @@ import { SkyCardTitleComponent } from './card-title.component';
 })
 export class SkyCardComponent implements AfterContentInit, OnDestroy {
   /**
-   * Specifies the size of the card. The valid options are `"large"` and `"small"`.
+   * The size of the card. The valid options are `"large"` and `"small"`.
    * @default "large"
    */
   @Input()
@@ -41,7 +41,7 @@ export class SkyCardComponent implements AfterContentInit, OnDestroy {
   }
 
   /**
-   * Indicates whether to display a checkbox to the right of the card title.
+   * Whether to display a checkbox to the right of the card title.
    * Users can select multiple checkboxes and perform actions on the selected cards.
    * @default false
    */
@@ -49,7 +49,7 @@ export class SkyCardComponent implements AfterContentInit, OnDestroy {
   public selectable: boolean | undefined = false;
 
   /**
-   * Indicates whether the card is selected. This only applies to card where
+   * Whether the card is selected. This only applies to card where
    * `selectable` is set to `true`.
    * @default false
    */

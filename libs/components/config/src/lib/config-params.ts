@@ -1,5 +1,5 @@
 /**
- * Specifies a list of parameters that are allowed at runtime.
+ * The list of parameters that are allowed at runtime.
  */
 export type SkyuxConfigParams = {
   [key: string]:

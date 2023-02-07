@@ -27,7 +27,7 @@ let sortItemIdNumber = 0;
 })
 export class SkySortItemComponent implements OnInit, OnChanges, OnDestroy {
   /**
-   * Indicates whether the sorting option is active.
+   * Whether the sorting option is active.
    */
   @Input()
   public active: boolean | undefined;

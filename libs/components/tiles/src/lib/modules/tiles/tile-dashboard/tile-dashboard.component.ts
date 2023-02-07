@@ -51,14 +51,14 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * Provides an observable to send commands to the tile dashboard. The commands should respect the
+   * The observable to send commands to the tile dashboard. The commands must respect the
    * `SkyTileDashboardMessage` type.
    */
   @Input()
   public messageStream = new Subject<SkyTileDashboardMessage>();
 
   /**
-   * Specifies a unique key for the UI Config Service to retrieve stored settings
+   * The unique key for the UI Config Service to retrieve stored settings
    * from a database. The UI Config Service saves configuration settings for users
    * to preserve the layout and collapsed state of tile dashboards. The UI Config Service relies on `id` values from the `config` property to maintain user settings. For more information
    * about the UI Config Service, see the

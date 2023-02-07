@@ -23,7 +23,7 @@ export class SkyDataManagerState {
    */
   public filterData: SkyDataManagerFilterData | undefined;
   /**
-   * Indicates whether to display only the selected rows or objects. The multiselect toolbar
+   * Whether to display only the selected rows or objects. The multiselect toolbar
    * uses this property.
    */
   public onlyShowSelected: boolean | undefined;

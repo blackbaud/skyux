@@ -3,18 +3,18 @@
  */
 export class ListItemModel {
   /**
-   * Specifies the data for the item in the list.
+   * The data for the item in the list.
    */
   public data: any;
 
   /**
-   * Specifies the ID for the item in the list.
+   * The ID for the item in the list.
    * @required
    */
   public id: string;
 
   /**
-   * Indicates whether the item in the list is selected.
+   * Whether the item in the list is selected.
    * @default false
    */
   public isSelected?: boolean;

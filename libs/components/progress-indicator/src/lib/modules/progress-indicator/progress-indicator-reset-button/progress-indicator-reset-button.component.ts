@@ -23,7 +23,7 @@ import { SkyProgressIndicatorMessageType } from '../types/progress-indicator-mes
 })
 export class SkyProgressIndicatorResetButtonComponent implements OnDestroy {
   /**
-   * Indicates whether to disable the reset button.
+   * Whether to disable the reset button.
    * @default false
    */
   @Input()
@@ -37,7 +37,7 @@ export class SkyProgressIndicatorResetButtonComponent implements OnDestroy {
   }
 
   /**
-   * Specifies the progress indicator component to associate with the reset button.
+   * The progress indicator component to associate with the reset button.
    * @required
    */
   @Input()

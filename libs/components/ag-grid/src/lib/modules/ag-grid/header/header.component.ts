@@ -135,7 +135,9 @@ export class SkyAgGridHeaderComponent
   }
 
   public onSortRequested(event: MouseEvent): void {
-    this.params?.progressSort(!!event.shiftKey);
+    if (this.params?.enableSorting) {
+      this.params?.progressSort(event.shiftKey);
+    }
   }
 
   public refresh(params: SkyAgGridHeaderParams): boolean {

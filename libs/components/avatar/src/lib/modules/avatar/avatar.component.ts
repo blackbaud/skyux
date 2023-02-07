@@ -22,7 +22,7 @@ const MAX_FILE_SIZE_DEFAULT = 500000;
 })
 export class SkyAvatarComponent {
   /**
-   * Indicates whether users can change the image. To select a different image,
+   * Whether users can change the image. To select a different image,
    * users click the image or drag another image on top of it,
    * much like the `sky-file-drop` component in the
    * [file attachment module](https://developer.blackbaud.com/skyux/components/file-attachments/file-attachment).
@@ -38,7 +38,7 @@ export class SkyAvatarComponent {
   }
 
   /**
-   * Specifies the name of the record that the avatar represents.
+   * The name of the record that the avatar represents.
    * If the `src` property does not specify an image, the component displays
    * initials from the first and last words in the name. To ensure
    * that the component extracts the correct initials, specify a name with no prefix
@@ -55,7 +55,7 @@ export class SkyAvatarComponent {
   }
 
   /**
-   * Specifies an image to display to identify a record. This property is
+   * The image to identify a record. This property is
    * not required, but the component requires either the `name` or `src` property.
    */
   @Input()
@@ -68,13 +68,13 @@ export class SkyAvatarComponent {
   }
 
   /**
-   * Specifies the maximum file size for the image in bytes.
+   * The maximum file size for the image in bytes.
    */
   @Input()
   public maxFileSize: number | undefined = MAX_FILE_SIZE_DEFAULT;
 
   /**
-   * Specifies the size of the avatar.
+   * The size of the avatar.
    * Acceptable values are: `"small"`, `"medium"`, and `"large"`.
    * @default "large"
    */

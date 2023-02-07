@@ -1,5 +1,29 @@
 # Changelog
 
+## [7.6.0](https://github.com/blackbaud/skyux/compare/7.5.0...7.6.0) (2023-02-03)
+
+
+### Features
+
+* **components/modals:** use Angular CDK focus trap within modals ([#955](https://github.com/blackbaud/skyux/issues/955)) ([c9b17b4](https://github.com/blackbaud/skyux/commit/c9b17b430e690f73c71a87cada674cbb801fc804))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** header should respect sortable column config ([#971](https://github.com/blackbaud/skyux/issues/971)) ([2454aa0](https://github.com/blackbaud/skyux/commit/2454aa0bf83f37dee53bb1b7477d73f5bf9b129b))
+* **components/core:** fix bug in numeric service truncateAfter not respecting 0 as valid value ([#961](https://github.com/blackbaud/skyux/issues/961)) ([935cae6](https://github.com/blackbaud/skyux/commit/935cae68ad9213a286d32c5f413bcde23f33cc49))
+* **components/core:** use relative environment injector when dynamically generating components ([#952](https://github.com/blackbaud/skyux/issues/952)) ([667123c](https://github.com/blackbaud/skyux/commit/667123c03776101d778fac54f33b3181be911731))
+
+
+### Reverts
+
+* feat(components/modals): use Angular CDK focus trap within modals ([#962](https://github.com/blackbaud/skyux/issues/962)) ([283fc36](https://github.com/blackbaud/skyux/commit/283fc365198a8687328f5faa01059fdb0e39d972))
+
+
+### Deprecations
+
+* **components/modals:** tiles inside modals are deprecated; use an alternative design instead ([#965](https://github.com/blackbaud/skyux/issues/965)) ([36ddac8](https://github.com/blackbaud/skyux/commit/36ddac816725bb7e8a3f223f00f0496bc548b6cc))
+
 ## [7.5.0](https://github.com/blackbaud/skyux/compare/7.4.2...7.5.0) (2023-01-25)
 
 

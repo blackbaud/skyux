@@ -5,7 +5,7 @@ import { SkyAutocompleteMessageType } from './autocomplete-message-type';
  */
 export interface SkyAutocompleteMessage {
   /**
-   * Specifies the type of message.
+   * The type of message.
    */
   type?: SkyAutocompleteMessageType;
 }

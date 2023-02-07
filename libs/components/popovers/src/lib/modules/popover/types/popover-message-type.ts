@@ -1,5 +1,5 @@
 /**
- * Specifies the type of message to send to the popover component.
+ * The type of message to send to the popover component.
  */
 export enum SkyPopoverMessageType {
   /**

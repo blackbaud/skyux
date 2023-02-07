@@ -17,7 +17,7 @@ export function getWindow(): any {
 })
 export class SkyAppWindowRef {
   /**
-   * References the global `window` variable.
+   * The global `window` variable.
    */
   public get nativeWindow(): any {
     return getWindow();
