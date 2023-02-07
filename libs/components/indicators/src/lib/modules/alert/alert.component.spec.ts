@@ -179,7 +179,7 @@ describe('Alert component', () => {
         undefined,
       ];
       const closeableStates = [true, false, undefined];
-      const closedStates = [true, false, undefined];
+      const closedStates: (boolean | undefined)[] = [true, false, undefined];
       const customDescriptionTypes = ['Custom description', undefined];
       const descriptionTypes: (SkyIndicatorDescriptionType | undefined)[] = [
         'attention',
@@ -196,40 +196,61 @@ describe('Alert component', () => {
         undefined,
       ];
 
+      for (const closed of closedStates) {
+        it(`should be accessible with 'closed': ${closed}`, async () => {
+          const fixture = TestBed.createComponent(AlertTestComponent);
+          const cmp = fixture.componentInstance as AlertTestComponent;
+          const el = fixture.nativeElement;
+
+          cmp.closed = closed;
+          fixture.detectChanges();
+
+          await expectAsync(el).toBeAccessible();
+        });
+      }
+
       for (const closeable of closeableStates) {
-        for (const closed of closedStates) {
-          for (const alertType of alertTypes) {
-            for (const descriptionType of descriptionTypes) {
-              if (descriptionType === 'custom') {
-                for (const customDescription of customDescriptionTypes) {
-                  it(`should be accessible with 'alertType': ${alertType}, 'closeable': ${closeable}, 'closed': ${closed}, 'descriptionType': ${descriptionType}, and 'customDescription': ${customDescription}`, async () => {
-                    const fixture = TestBed.createComponent(AlertTestComponent);
-                    const cmp = fixture.componentInstance as AlertTestComponent;
-                    const el = fixture.nativeElement;
+        for (const alertType of alertTypes) {
+          it(`should be accessible with 'alertType': ${alertType} and 'closeable': ${closeable}`, async () => {
+            const fixture = TestBed.createComponent(AlertTestComponent);
+            const cmp = fixture.componentInstance as AlertTestComponent;
+            const el = fixture.nativeElement;
 
-                    cmp.alertType = alertType;
-                    cmp.descriptionType = descriptionType;
-                    cmp.customDescription = customDescription;
-                    fixture.detectChanges();
+            cmp.alertType = alertType;
+            cmp.closeable = closeable;
+            fixture.detectChanges();
 
-                    await expectAsync(el).toBeAccessible();
-                  });
-                }
-              } else {
-                it(`should be accessible with 'alertType': ${alertType}, 'closeable': ${closeable}, 'closed': ${closed}, and 'descriptionType': ${descriptionType}`, async () => {
-                  const fixture = TestBed.createComponent(AlertTestComponent);
-                  const cmp = fixture.componentInstance as AlertTestComponent;
-                  const el = fixture.nativeElement;
+            await expectAsync(el).toBeAccessible();
+          });
+        }
+      }
 
-                  cmp.alertType = alertType;
-                  cmp.descriptionType = descriptionType;
-                  fixture.detectChanges();
+      for (const descriptionType of descriptionTypes) {
+        if (descriptionType === 'custom') {
+          for (const customDescription of customDescriptionTypes) {
+            it(`should be accessible with 'descriptionType': ${descriptionType}, and 'customDescription': ${customDescription}`, async () => {
+              const fixture = TestBed.createComponent(AlertTestComponent);
+              const cmp = fixture.componentInstance as AlertTestComponent;
+              const el = fixture.nativeElement;
 
-                  await expectAsync(el).toBeAccessible();
-                });
-              }
-            }
+              cmp.descriptionType = descriptionType;
+              cmp.customDescription = customDescription;
+              fixture.detectChanges();
+
+              await expectAsync(el).toBeAccessible();
+            });
           }
+        } else {
+          it(`should be accessible with 'descriptionType': ${descriptionType}`, async () => {
+            const fixture = TestBed.createComponent(AlertTestComponent);
+            const cmp = fixture.componentInstance as AlertTestComponent;
+            const el = fixture.nativeElement;
+
+            cmp.descriptionType = descriptionType;
+            fixture.detectChanges();
+
+            await expectAsync(el).toBeAccessible();
+          });
         }
       }
     });
