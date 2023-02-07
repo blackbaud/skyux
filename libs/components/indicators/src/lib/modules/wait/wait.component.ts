@@ -24,13 +24,12 @@ let nextId = 0;
 })
 export class SkyWaitComponent implements OnInit, OnDestroy {
   /**
-   * The ARIA label for the wait icon while an element or page loads.
-   * This sets the icon's `aria-label` attribute
-   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
-   * The default value varies based on whether the wait is for an element or a page
-   * and whether it is a blocking wait. For example, the default for a page-blocking
-   * wait is "Page loading. Please wait." This value is also announced to users of screen reader technologies when the wait is activated.
-   * In most cases, it is recommended that consumers provide more specific text based on individual use cases. For more information, see the Design tab.
+   * The ARIA label for the wait icon.
+   * This sets the icon's `aria-label` attribute to provide a text equivalent for screen readers
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility) when an element or page loads and when users tab to a wait icon.
+   * The default value varies based on whether the wait is for an element or a page and whether it is a blocking wait. For example, the default for a page-level blocking wait is "Page loading. Please wait."
+   * For element-level waits, we recommend that consumers overwrite the default to describe the specific element.
+   * For more information, see the Design tab.
    */
   @Input()
   public set ariaLabel(value: string | undefined) {
@@ -116,10 +115,11 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Specifies screen reader text which is read when the wait is toggled off.
-   * This is done [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility). The default value varies based on whether the wait is for an element or a page.
-   * For example, the default for a page wait is "Page loading complete." In most cases, it is recommended that consumers provide more specific text based on individual use cases.
-   * For more information, see the Design tab and the [WCAG documentation on status messages}(https://www.w3.org/WAI/WCAG21/Understanding/status-messages.html).
+   * Screen reader text [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility) when the wait toggles off.
+   *  The default varies based on whether the wait is for an element or a page.
+   * For example, the default for a page-level wait is "Page loading complete."
+   * For element-level waits, we recommend that consumers overwrite the default to describe the specific element.
+   * For more information, see the Design tab and the [WCAG documentation on status messages](https://www.w3.org/WAI/WCAG21/Understanding/status-messages.html).
    */
   @Input()
   public set screenReaderCompletedText(value: string | undefined) {
