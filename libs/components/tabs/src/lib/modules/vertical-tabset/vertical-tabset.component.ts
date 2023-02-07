@@ -80,7 +80,7 @@ export class SkyVerticalTabsetComponent
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility)
    * by indicating how the tabset functions and what it controls. For information about how
    * an ARIA role indicates what an item represents on a web page, see the
-   * [WAI-ARIA roles model](https://www.w3.org/WAI/PF/aria/roles).
+   * [WAI-ARIA roles model](https://www.w3.org/WAI/PF/aria/#roles).
    * @default "tablist"
    * @deprecated Any other value than `tablist` could lead to a poor user experience for users with assistive technology.
    * In the next major version, this property will be automatically set to `tablist`.

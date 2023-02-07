@@ -34,7 +34,7 @@ export class SkyBoxComponent {
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility)
    * by indicating what the box contains. For information about
    * how an ARIA role indicates what an item represents on a web page,
-   * see the [WAI-ARIA roles model](https://www.w3.org/WAI/PF/aria/roles).
+   * see the [WAI-ARIA roles model](https://www.w3.org/WAI/PF/aria/#roles).
    */
   @Input()
   public ariaRole: string | undefined;

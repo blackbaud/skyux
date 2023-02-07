@@ -19,6 +19,7 @@ export interface SkyFlyoutConfig {
    * The ARIA label for the flyout. This sets the flyouts's `aria-label` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the flyout includes a visible label, use `ariaLabelledBy` instead.
+   * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
   ariaLabel?: string;
 
@@ -27,6 +28,7 @@ export interface SkyFlyoutConfig {
    * the flyout. This sets the flyout's `aria-labelledby` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the flyout does not include a visible label, use `ariaLabel` instead.
+   * For more information about the `aria-labelledBy` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-labelledby).
    */
   ariaLabelledBy?: string;
 
@@ -35,7 +37,7 @@ export interface SkyFlyoutConfig {
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility)
    * by indicating how the flyout functions and what it controls. For information about how
    * an ARIA role indicates what an item represents on a web page,
-   * see the [WAI-ARIA roles model](https://www.w3.org/WAI/PF/aria/roles).
+   * see the [WAI-ARIA roles model](https://www.w3.org/WAI/PF/aria/#roles).
    * @default dialog
    * @deprecated Since version `5.1.0`. Consumers should use the default `dialog` role to ensure a
    * proper accessibility implementation.

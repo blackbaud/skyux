@@ -47,6 +47,7 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
    * The HTML element ID (without the leading `#`) of the element that contains
    * the content that the vertical tab displays, which corresponds to the `tabId`. This property
    * [supports accessibility rules for disclosures](https://www.w3.org/TR/wai-aria-practices-1.1/#disclosure).
+   * For more information about the `aria-controls` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-controls).
    * @deprecated Now that the vertical tabs provide aria labels automatically, this input is no longer necessary.
    */
   @Input()
@@ -57,7 +58,7 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility)
    * by indicating how the tab functions and what it controls. For information about how
    * an ARIA role indicates what an item represents on a web page, see the
-   * [WAI-ARIA roles model](https://www.w3.org/WAI/PF/aria/roles).
+   * [WAI-ARIA roles model](https://www.w3.org/WAI/PF/aria/#roles).
    * @default "tab"
    * @deprecated Any other value than `tab` could lead to a poor user experience for users with assistive technology.
    * In the next major version, this property will be automatically set to `tab`.

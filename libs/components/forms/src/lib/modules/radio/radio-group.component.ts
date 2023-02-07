@@ -98,6 +98,7 @@ export class SkyRadioGroupComponent
    * When you set this property to `true`, the component adds `aria-required` and `required`
    * attributes to the input element so that forms display an invalid state until the input element
    * is complete.
+   * For more information about the `aria-required` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-required).
    * @default false
    */
   @Input()
