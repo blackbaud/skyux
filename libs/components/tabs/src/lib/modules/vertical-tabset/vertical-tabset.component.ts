@@ -66,7 +66,7 @@ export class SkyVerticalTabsetComponent
   public ariaLabel: string | undefined;
 
   /**
-   * The HTML element ID (without the leading `#`) of the element that labels
+   * The HTML element ID of the element that labels
    * the tabset. This sets the tabset's `aria-labelledby` attribute to provide a text equivalent for screen readers
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the tabset does not include a visible label, use `ariaLabel` instead.

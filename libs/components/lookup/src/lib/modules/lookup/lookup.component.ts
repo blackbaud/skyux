@@ -70,7 +70,7 @@ export class SkyLookupComponent
   public ariaLabel: string | undefined;
 
   /**
-   * The HTML element ID (without the leading `#`) of the element that labels
+   * The HTML element ID of the element that labels
    * the typeahead search input. This sets the input's `aria-labelledby` attribute to provide a text equivalent for
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the input does not include a visible label, use `ariaLabel` instead.

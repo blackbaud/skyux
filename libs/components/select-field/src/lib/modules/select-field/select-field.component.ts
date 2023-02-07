@@ -53,7 +53,7 @@ export class SkySelectFieldComponent
   public ariaLabel: string;
 
   /**
-   * The HTML element ID (without the leading `#`) of the element that labels
+   * The HTML element ID of the element that labels
    * the text input or button. This sets the `aria-labelledby` attribute to provide a text equivalent for screen readers
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the input or button does not include a visible label, use `ariaLabel` instead.

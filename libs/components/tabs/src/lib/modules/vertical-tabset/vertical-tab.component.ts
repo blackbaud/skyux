@@ -44,7 +44,7 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
   public active: boolean | undefined = false;
 
   /**
-   * The HTML element ID (without the leading `#`) of the element that contains
+   * The HTML element ID of the element that contains
    * the content that the vertical tab displays, which corresponds to the `tabId`. This property
    * [supports accessibility rules for disclosures](https://www.w3.org/TR/wai-aria-practices-1.1/#disclosure).
    * For more information about the `aria-controls` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-controls).

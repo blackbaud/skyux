@@ -116,11 +116,11 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
   public label: string | undefined;
 
   /**
-   * The HTML element ID (without the leading `#`) of the element that labels
+   * The HTML element ID of the element that labels
    * the radio button. This sets the radio button's `aria-labelledby` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the radio button does not include a visible label, use `label` instead.
-   * For more information about the `aria-labelledBy` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-labelledby).
+   * For more information about the `aria-labelledby` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-labelledby).
    */
   @Input()
   public labelledBy: string | undefined;

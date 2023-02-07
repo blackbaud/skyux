@@ -6,7 +6,7 @@ import { SkyFlyoutPermalink } from './flyout-permalink';
  */
 export interface SkyFlyoutConfig {
   /**
-   * The HTML element ID (without the leading `#`) of the element that describes
+   * The HTML element ID of the element that describes
    * the flyout. This sets the flyout's `aria-describedby` attribute
    * to provide a text equivalent for screen readers [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * The description typically includes text on the flyout but not on items that users
@@ -24,11 +24,11 @@ export interface SkyFlyoutConfig {
   ariaLabel?: string;
 
   /**
-   * The HTML element ID (without the leading `#`) of the element that labels
+   * The HTML element ID of the element that labels
    * the flyout. This sets the flyout's `aria-labelledby` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the flyout does not include a visible label, use `ariaLabel` instead.
-   * For more information about the `aria-labelledBy` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-labelledby).
+   * For more information about the `aria-labelledby` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-labelledby).
    */
   ariaLabelledBy?: string;
 
