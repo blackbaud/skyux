@@ -91,6 +91,7 @@ export class SkyRepeaterItemComponent
    * such as accessibility and instrumentation. For example, the component uses the name to
    * construct ARIA labels for the repeater item controls
    * to [support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
   @Input()
   public itemName: string | undefined;

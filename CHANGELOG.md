@@ -1,5 +1,13 @@
 # Changelog
 
+## [7.6.1](https://github.com/blackbaud/skyux/compare/7.6.0...7.6.1) (2023-02-07)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** expand the click target for column sorting ([#974](https://github.com/blackbaud/skyux/issues/974)) ([48a153b](https://github.com/blackbaud/skyux/commit/48a153b168b924573bc176d8150f97034a234e4d))
+* **components/flyout:** remove unneeded optional chaining in template ([#970](https://github.com/blackbaud/skyux/issues/970)) ([adac559](https://github.com/blackbaud/skyux/commit/adac55909e5a2ab1cb5930930d230a64c397232e))
+
 ## [7.6.0](https://github.com/blackbaud/skyux/compare/7.5.0...7.6.0) (2023-02-03)
 
 

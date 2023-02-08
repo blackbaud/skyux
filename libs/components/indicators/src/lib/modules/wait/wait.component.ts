@@ -29,7 +29,7 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility) when an element or page loads and when users tab to a wait icon.
    * The default value varies based on whether the wait is for an element or a page and whether it is a blocking wait. For example, the default for a page-level blocking wait is "Page loading. Please wait."
    * For element-level waits, we recommend that consumers overwrite the default to describe the specific element.
-   * For more information, see the Design tab.
+   * "For more information, see the Design tab and the [WAI-ARIA `aria-label` definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
   @Input()
   public set ariaLabel(value: string | undefined) {

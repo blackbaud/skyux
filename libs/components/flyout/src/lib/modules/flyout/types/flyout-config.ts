@@ -6,26 +6,29 @@ import { SkyFlyoutPermalink } from './flyout-permalink';
  */
 export interface SkyFlyoutConfig {
   /**
-   * The HTML element ID (without the leading `#`) of the element that describes
+   * The HTML element ID of the element that describes
    * the flyout. This sets the flyout's `aria-describedby` attribute
-   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * to provide a text equivalent for screen readers [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * The description typically includes text on the flyout but not on items that users
    * interact with, such as buttons and forms.
+   * For more information about the `aria-describedby` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-describedby).
    */
   ariaDescribedBy?: string;
 
   /**
-   * The ARIA label for the flyout. This sets the flyouts's `aria-label` attribute
+   * The ARIA label for the flyout. This sets the flyouts's `aria-label` attribute to provide a text equivalent for screen readers
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the flyout includes a visible label, use `ariaLabelledBy` instead.
+   * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
   ariaLabel?: string;
 
   /**
-   * The HTML element ID (without the leading `#`) of the element that labels
-   * the flyout. This sets the flyout's `aria-labelledby` attribute
+   * The HTML element ID of the element that labels
+   * the flyout. This sets the flyout's `aria-labelledby` attribute to provide a text equivalent for screen readers
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the flyout does not include a visible label, use `ariaLabel` instead.
+   * For more information about the `aria-labelledby` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-labelledby).
    */
   ariaLabelledBy?: string;
 
@@ -34,7 +37,7 @@ export interface SkyFlyoutConfig {
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility)
    * by indicating how the flyout functions and what it controls. For information about how
    * an ARIA role indicates what an item represents on a web page,
-   * see the [WAI-ARIA roles model](https://www.w3.org/WAI/PF/aria/roles).
+   * see the [WAI-ARIA roles model](https://www.w3.org/WAI/PF/aria/#roles).
    * @default dialog
    * @deprecated Since version `5.1.0`. Consumers should use the default `dialog` role to ensure a
    * proper accessibility implementation.

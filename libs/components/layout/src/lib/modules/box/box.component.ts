@@ -11,18 +11,20 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
 })
 export class SkyBoxComponent {
   /**
-   * The ARIA label for the box. This sets the box's `aria-label` attribute
+   * The ARIA label for the box. This sets the box's `aria-label` attribute to provide a text equivalent for screen readers
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the box includes a visible label, use `ariaLabelledBy` instead.
+   * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
   @Input()
   public ariaLabel: string | undefined;
 
   /**
-   * The HTML element ID (without the leading `#`) of the element that labels
-   * the box. This sets the box's `aria-labelledby` attribute
+   * The HTML element ID of the element that labels
+   * the box. This sets the box's `aria-labelledby` attribute to provide a text equivalent for screen readers
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the box does not include a visible label, use `ariaLabel` instead.
+   * For more information about the `aria-labelledby` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-labelledby).
    */
   @Input()
   public ariaLabelledBy: string | undefined;
@@ -32,7 +34,7 @@ export class SkyBoxComponent {
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility)
    * by indicating what the box contains. For information about
    * how an ARIA role indicates what an item represents on a web page,
-   * see the [WAI-ARIA roles model](https://www.w3.org/WAI/PF/aria/roles).
+   * see the [WAI-ARIA roles model](https://www.w3.org/WAI/PF/aria/#roles).
    */
   @Input()
   public ariaRole: string | undefined;
