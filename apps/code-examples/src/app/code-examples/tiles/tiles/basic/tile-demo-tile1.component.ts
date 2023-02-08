@@ -6,10 +6,6 @@ import { Component } from '@angular/core';
   templateUrl: './tile-demo-tile1.component.html',
 })
 export class TileDemoTile1Component {
-  public tileHelpClick(): void {
-    alert('tile help clicked');
-  }
-
   public tileSettingsClick(): void {
     alert('tile settings clicked');
   }
