@@ -74,9 +74,10 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   //#region public_api
 
   /**
-   * The HTML element ID (without the leading `#`) of the element that labels
-   * the autocomplete text input. This sets the input's `aria-labelledby` attribute
+   * The HTML element ID of the element that labels
+   * the autocomplete text input. This sets the input's `aria-labelledby` attribute to provide a text equivalent for screen readers
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * For more information about the `aria-labelledby` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-labelledby).
    */
   @Input()
   public ariaLabelledBy: string | undefined;

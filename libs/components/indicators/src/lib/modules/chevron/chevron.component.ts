@@ -12,15 +12,17 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class SkyChevronComponent {
   /**
    * The element whose contents are controlled by the chevron.
-   * This sets the chevron's aria-controls attribute
+   * This sets the chevron's `aria-controls` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * For more information about the `aria-controls` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-controls).
    */
   @Input()
   public ariaControls: string | undefined;
 
   /**
-   * The ARIA label for the chevron. This sets the chevron's aria-label attribute
+   * The ARIA label for the chevron. This sets the chevron's `aria-label` attribute to provide a text equivalent for screen readers
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
   @Input()
   public ariaLabel: string | undefined;

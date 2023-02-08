@@ -76,7 +76,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   public label: string | undefined;
 
   /**
-   * The HTML element ID (without the leading `#`) of the element that labels the
+   * The HTML element ID of the element that labels the
    * colorpicker. This sets the colorpicker's `aria-labelledby` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/components/checkbox#accessibility).
    * If the colorpicker does not include a visible label, use `label` instead.

@@ -27,21 +27,23 @@ export interface SkyModalConfigurationInterface {
   providers?: StaticProvider[];
 
   /**
-   * The HTML element ID (without the leading `#`) of the element that describes
-   * the modal. This sets the modal's `aria-describedby` attribute
+   * The HTML element ID of the element that describes
+   * the modal. This sets the modal's `aria-describedby` attribute to provide a text equivalent for
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * The description typically includes text on the modal but not on items that users interact
    * with, such as buttons and forms. If you do not specify an ID, the default description is
    * the content of the `sky-modal-content` component.
+   * For more information about the `aria-describedby` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-describedby).
    */
   ariaDescribedBy?: string;
 
   /**
-   * The HTML element ID (without the leading `#`) of the element that labels
-   * the modal. This sets the `aria-labelledby` attribute for the modal
+   * The HTML element ID of the element that labels
+   * the modal. This sets the `aria-labelledby` attribute for the modal to provide a text equivalent for
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * This is typically a header element, and if you do not specify an ID, the default value
    * is the content of the `sky-modal-header` component.
+   * For more information about the `aria-labelledby` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-labelledby).
    */
   ariaLabelledBy?: string;
 
@@ -50,7 +52,7 @@ export interface SkyModalConfigurationInterface {
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility)
    * by indicating how the modal functions and what it controls. For information about
    * how an ARIA role indicates what an item represents on a web page, see the
-   * [WAI-ARIA roles model](http://www.w3.org/WAI/PF/aria/roles). By default, modals set
+   * [WAI-ARIA roles model](http://www.w3.org/WAI/PF/aria/#roles). By default, modals set
    * the ARIA role to `dialog`.
    * @default "dialog"
    */
