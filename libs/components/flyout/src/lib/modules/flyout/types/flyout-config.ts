@@ -16,7 +16,7 @@ export interface SkyFlyoutConfig {
   ariaDescribedBy?: string;
 
   /**
-   * The ARIA label for the flyout. This sets the flyouts's `aria-label` attribute to provide a text equivalent for screen readers 
+   * The ARIA label for the flyout. This sets the flyouts's `aria-label` attribute to provide a text equivalent for screen readers
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the flyout includes a visible label, use `ariaLabelledBy` instead.
    * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
@@ -25,7 +25,7 @@ export interface SkyFlyoutConfig {
 
   /**
    * The HTML element ID of the element that labels
-   * the flyout. This sets the flyout's `aria-labelledby` attribute to provide a text equivalent for screen readers 
+   * the flyout. This sets the flyout's `aria-labelledby` attribute to provide a text equivalent for screen readers
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the flyout does not include a visible label, use `ariaLabel` instead.
    * For more information about the `aria-labelledby` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-labelledby).
