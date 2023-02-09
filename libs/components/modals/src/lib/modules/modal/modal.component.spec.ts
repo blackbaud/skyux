@@ -779,10 +779,11 @@ describe('Modal component', () => {
     closeModal(modalInstance);
   }));
 
-  it('should accept configuration options for role, aria-labelledBy, and aria-describedby', fakeAsync(() => {
+  it('should accept configuration options for role, aria-labelledBy, aria-describedby, and aria-label', fakeAsync(() => {
     const modalInstance = openModal(ModalTestComponent, {
       ariaLabelledBy: 'customLabelledBy',
       ariaDescribedBy: 'customDescribedBy',
+      ariaLabel: 'label',
       ariaRole: 'alertdialog',
     });
 

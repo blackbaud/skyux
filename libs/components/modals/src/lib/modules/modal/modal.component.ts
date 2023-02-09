@@ -80,6 +80,18 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
     return this.#_ariaLabelledBy;
   }
 
+  /**
+   * @internal
+   */
+  @Input()
+  public set ariaLabel(id: string | undefined) {
+    this.#_ariaLabel = id;
+  }
+
+  public get ariaLabel(): string | undefined {
+    return this.#_ariaLabel;
+  }
+
   public helpKey: string | undefined;
 
   public modalState = 'in';
@@ -103,6 +115,7 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
 
   #_ariaDescribedBy: string | undefined;
   #_ariaLabelledBy: string | undefined;
+  #_ariaLabel: string | undefined;
 
   constructor(
     hostService: SkyModalHostService,
@@ -125,6 +138,7 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
 
     this.ariaDescribedBy = config.ariaDescribedBy;
     this.ariaLabelledBy = config.ariaLabelledBy;
+    this.ariaLabel = config.ariaLabel;
     this.ariaRole = config.ariaRole;
     this.helpKey = config.helpKey;
     this.tiledBody = config.tiledBody;

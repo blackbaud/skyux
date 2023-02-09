@@ -11,6 +11,7 @@ export class SkyModalConfiguration {
   public size?: string;
   public ariaDescribedBy?: string;
   public ariaLabelledBy?: string;
+  public ariaLabel?: string;
   public ariaRole?: string;
   public tiledBody?: boolean;
   public helpKey?: string;
