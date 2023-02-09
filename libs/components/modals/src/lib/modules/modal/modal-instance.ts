@@ -40,13 +40,16 @@ export class SkyModalInstance {
    */
   public componentInstance: any;
 
+  /**
+   * The CSS z-index of the modal instance.
+   */
+  public zIndex: number | undefined;
+
   #_beforeClose = new Subject<SkyModalBeforeCloseHandler>();
 
   #_closed = new Subject<SkyModalCloseArgs>();
 
   #_helpOpened = new Subject<string>();
-
-  constructor(public zIndex?: number | undefined) {}
 
   /**
    * Closes the modal instance.
