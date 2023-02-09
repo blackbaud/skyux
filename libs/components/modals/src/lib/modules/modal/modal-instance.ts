@@ -46,6 +46,8 @@ export class SkyModalInstance {
 
   #_helpOpened = new Subject<string>();
 
+  constructor(public zIndex?: number | undefined) {}
+
   /**
    * Closes the modal instance.
    * @param result Specifies an object to emit to subscribers of the `closed` event of the
