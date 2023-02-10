@@ -18,7 +18,13 @@ import {
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 
-import { Observable, Subject, Subscription, fromEvent } from 'rxjs';
+import {
+  Observable,
+  ReplaySubject,
+  Subject,
+  Subscription,
+  fromEvent,
+} from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyCoreAdapterService } from '../adapter-service/adapter.service';
@@ -70,6 +76,8 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
   public showBackdrop = false;
 
   public zIndex = `${++uniqueZIndex}`;
+
+  public clipPath$ = new ReplaySubject<string>(1);
 
   @ViewChild('overlayContentRef', {
     read: ElementRef,

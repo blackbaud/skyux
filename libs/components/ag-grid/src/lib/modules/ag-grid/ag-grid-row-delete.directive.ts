@@ -7,6 +7,7 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
+  Optional,
   Output,
   ViewContainerRef,
 } from '@angular/core';
@@ -15,12 +16,15 @@ import {
   SkyAffixService,
   SkyAffixer,
   SkyOverlayService,
+  SkyResizeObserverService,
+  SkyScrollableHostService,
 } from '@skyux/core';
+import { SkyModalInstance } from '@skyux/modals';
 
 import { AgGridAngular } from 'ag-grid-angular';
 import { RowNode } from 'ag-grid-community';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { ReplaySubject, Subject, combineLatest, fromEvent, of } from 'rxjs';
+import { debounceTime, delay, takeUntil } from 'rxjs/operators';
 
 import { SkyAgGridRowDeleteComponent } from './ag-grid-row-delete.component';
 import { SkyAgGridRowDeleteCancelArgs } from './types/ag-grid-row-delete-cancel-args';
@@ -88,11 +92,16 @@ export class SkyAgGridRowDeleteDirective
 
         /**
          * We are manually setting the z-index here because overlays will always be on top of
-         * the omnibar. This manual setting is 2 less than the omnibar's z-index of 1000 and one less than
+         * the omnibar. The default manual setting is 2 less than the omnibar's z-index of 1000 and one less than
          * the header row's viewkeeper which is 999. We discussed changing the overlay service to allow for this
          * but decided against that change at this time due to its niche nature.
+         *
+         * If this directive is used in a modal, we need to set the z-index to be above the modal.
          */
-        overlay.componentRef.instance.zIndex = '998';
+        overlay.componentRef.instance.zIndex = this.#zIndex;
+        this.#clipPath$.subscribe((clipPath) => {
+          overlay.componentRef.instance.clipPath$.next(clipPath);
+        });
 
         setTimeout(() => {
           const inlineDeleteRef = this.#rowDeleteComponent?.inlineDeleteRefs
@@ -158,19 +167,34 @@ export class SkyAgGridRowDeleteDirective
   #elementRef: ElementRef;
   #overlayService: SkyOverlayService;
   #viewContainerRef: ViewContainerRef;
+  #scrollableHostService: SkyScrollableHostService;
+  #scrollableHost: HTMLElement | Window | undefined;
+  #resizeObserverService: SkyResizeObserverService;
+  #clipPath$ = new ReplaySubject<string>(1);
+  #modalInstance: SkyModalInstance | undefined;
+  #zIndex = '998';
 
   constructor(
     affixService: SkyAffixService,
     changeDetector: ChangeDetectorRef,
     elementRef: ElementRef,
     overlayService: SkyOverlayService,
-    viewContainerRef: ViewContainerRef
+    viewContainerRef: ViewContainerRef,
+    scrollableHostService: SkyScrollableHostService,
+    resizeObserverService: SkyResizeObserverService,
+    @Optional() modalInstance: SkyModalInstance
   ) {
     this.#affixService = affixService;
     this.#changeDetector = changeDetector;
     this.#elementRef = elementRef;
     this.#overlayService = overlayService;
     this.#viewContainerRef = viewContainerRef;
+    this.#scrollableHostService = scrollableHostService;
+    this.#resizeObserverService = resizeObserverService;
+    if (modalInstance) {
+      this.#zIndex = `${(modalInstance.zIndex || 1050) + 1}`;
+      this.#modalInstance = modalInstance;
+    }
   }
 
   public ngAfterContentInit(): void {
@@ -195,6 +219,43 @@ export class SkyAgGridRowDeleteDirective
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe(() => {
           this.#updateRowDeleteStates();
+        });
+    }
+    this.#scrollableHost = this.#scrollableHostService.getScrollableHost(
+      this.#elementRef
+    );
+    let scrollableHostElementRef: ElementRef | undefined;
+    if (this.#scrollableHost instanceof HTMLElement) {
+      scrollableHostElementRef = {
+        nativeElement: this.#scrollableHost,
+      };
+    } else if (this.#modalInstance) {
+      scrollableHostElementRef =
+        this.#modalInstance.componentInstance.elementRef;
+    }
+    if (scrollableHostElementRef) {
+      combineLatest([
+        fromEvent(window, 'resize'),
+        fromEvent(scrollableHostElementRef.nativeElement, 'scroll').pipe(
+          takeUntil(this.#clipPath$)
+        ),
+        this.#resizeObserverService.observe(scrollableHostElementRef),
+        of(null).pipe(delay(0)),
+      ])
+        .pipe(debounceTime(50), takeUntil(this.#ngUnsubscribe))
+        .subscribe(() => {
+          const windowRect = window.document.body.getBoundingClientRect();
+          const scrollableHostRect = (
+            scrollableHostElementRef?.nativeElement as HTMLElement
+          ).getBoundingClientRect();
+          const clipPath = `inset(${scrollableHostRect.top}px ${Math.max(
+            windowRect.width - scrollableHostRect.right,
+            0
+          )}px ${Math.max(
+            windowRect.height - scrollableHostRect.bottom,
+            0
+          )}px ${scrollableHostRect.left}px)`;
+          this.#clipPath$.next(clipPath);
         });
     }
   }
