@@ -34,7 +34,8 @@
           "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss"
         ],
         "codeCoverage": true,
-        "codeCoverageExclude": ["**/fixtures/**"]
+        "codeCoverageExclude": ["**/fixtures/**"],
+        "polyfills": ["zone.js", "zone.js/testing"]
       }
     },
     "lint": {

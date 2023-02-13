@@ -55,7 +55,6 @@ export default async function (tree: Tree, options: Schema) {
         cypress: 'latest',
         'jest-preset-angular': 'latest',
         sb: 'latest',
-        'storybook-addon-angular-router': 'latest',
       }
     );
 

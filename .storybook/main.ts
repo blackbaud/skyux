@@ -10,7 +10,6 @@ export const rootMain: StorybookConfig = {
     // '@storybook/addon-docs',
     '@storybook/addon-toolbars',
     '@storybook/addon-viewport',
-    'storybook-addon-angular-router',
   ],
   // uncomment the property below if you want to apply some webpack config globally
   // webpackFinal: async (config, { configType }) => {

@@ -4,7 +4,9 @@
     "outDir": "../../../dist/out-tsc",
     "types": ["jasmine", "node"],
     "strict": false,
-    "noImplicitReturns": false
+    "noImplicitReturns": false,
+    "target": "ES2022",
+    "useDefineForClassFields": false
   },
   "files": ["src/test.ts"],
   "include": ["**/*.spec.ts", "**/*.d.ts"]

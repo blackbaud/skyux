@@ -26,6 +26,7 @@
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
         "main": "libs/components/config/src/test.ts",
+        "polyfills": ["zone.js", "zone.js/testing"],
         "tsConfig": "libs/components/config/tsconfig.spec.json",
         "karmaConfig": "libs/components/config/karma.conf.js",
         "styles": [
