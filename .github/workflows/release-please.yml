@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
+      - 7.x.x
 
 jobs:
   release:
@@ -56,6 +56,6 @@ jobs:
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_MESSAGE: Successfully published SKY UX ${{ steps.release.outputs.tag_name }} to NPM. http://github.com/${{ github.repository }}/blob/main/CHANGELOG.md
+          SLACK_MESSAGE: Successfully published SKY UX ${{ steps.release.outputs.tag_name }} to NPM. http://github.com/${{ github.repository }}/blob/7.x.x/CHANGELOG.md
           SLACK_ICON: https://github.com/blackbaud.png?size=48
           SLACK_USERNAME: SKY UX
