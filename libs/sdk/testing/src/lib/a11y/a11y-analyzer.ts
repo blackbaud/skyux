@@ -10,11 +10,28 @@ function parseMessage(violations: axe.Result[]): string {
       .filter((tag) => tag.match(/wcag\d{3}|^best*/gi))
       .join(', ');
 
-    const html = violation.nodes.reduce(
+    const nodeResults = violation.nodes.filter(
+      filterViolationNodeResults(violation)
+    );
+    const html = nodeResults.reduce(
       (accumulator: string, node: axe.NodeResult) => {
-        return `${accumulator}\n${node.html}\n`;
+        const related = [...node.all, ...node.none, ...node.any]
+          .map((checkResult) => {
+            const relatedNodes = checkResult.relatedNodes || [];
+            let relatedHtml = relatedNodes
+              .map((relatedNode) =>
+                relatedNode.html.split(`\n`).join(`\n      `)
+              )
+              .join(`\n\n      `);
+            if (relatedHtml) {
+              relatedHtml = `\n    Related Nodes:\n\n      ${relatedHtml}`;
+            }
+            return `  - ${checkResult.message}${relatedHtml}`;
+          })
+          .join(`\n`);
+        return `${accumulator}\n\n${node.failureSummary}\n${node.html}\n${related}`;
       },
-      '       Elements:\n'
+      '       Elements:'
     );
 
     const error = [
@@ -27,6 +44,22 @@ function parseMessage(violations: axe.Result[]): string {
   });
 
   return message;
+}
+
+function filterViolationNodeResults(
+  result: axe.Result
+): (node: axe.NodeResult) => boolean {
+  if (
+    [
+      'aria-required-children', // AG Grid uses some aria-hidden elements that axe doesn't like
+      'aria-valid-attr', // AG Grid uses aria-description, which is still in draft
+      'scrollable-region-focusable', // AG Grid handles scrolling
+    ].includes(result.id)
+  ) {
+    return (node: axe.NodeResult) => !node.html.includes('class="ag-');
+  } else {
+    return () => true;
+  }
 }
 
 export abstract class SkyA11yAnalyzer {
@@ -54,13 +87,16 @@ export abstract class SkyA11yAnalyzer {
 
     return new Promise((resolve, reject) => {
       const callback: axe.RunCallback = (error, results) => {
-        if (error) {
+        if (error?.message) {
           reject(error);
           return;
         }
 
-        if (results.violations.length > 0) {
-          const message = parseMessage(results.violations);
+        const violations = results.violations.filter((violation) =>
+          violation.nodes.some(filterViolationNodeResults(violation))
+        );
+        if (violations.length > 0) {
+          const message = parseMessage(violations);
           reject(new Error(message));
         }
 
