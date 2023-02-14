@@ -24,7 +24,6 @@
         "libs/sdk/prettier-schematics/src/index.ts"
       ],
       "@skyux-sdk/testing": ["libs/sdk/testing/src/index.ts"],
-      "@skyux-sdk/tools": ["libs/sdk/tools/src/index.ts"],
       "@skyux/a11y": ["libs/components/a11y/src/index.ts"],
       "@skyux/action-bars": ["libs/components/action-bars/src/index.ts"],
       "@skyux/action-bars/testing": [

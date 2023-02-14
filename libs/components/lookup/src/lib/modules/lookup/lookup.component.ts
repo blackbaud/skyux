@@ -797,14 +797,16 @@ export class SkyLookupComponent
         this.#changeDetector.markForCheck();
       });
 
-    observableFromEvent(hostElement, 'mouseup')
-      .pipe(takeUntil(this.#idle))
-      .subscribe(() => {
-        const classList = documentObj.activeElement.classList;
-        if (!classList || !classList.contains('sky-token')) {
-          this.#focusInput();
-        }
-      });
+    if (hostElement) {
+      observableFromEvent(hostElement, 'mouseup')
+        .pipe(takeUntil(this.#idle))
+        .subscribe(() => {
+          const classList = documentObj.activeElement.classList;
+          if (!classList || !classList.contains('sky-token')) {
+            this.#focusInput();
+          }
+        });
+    }
   }
 
   #focusInput(): void {

@@ -1,9 +1,0 @@
-{
-  "generators": {
-    "ng15": {
-      "factory": "./src/generators/ng15/generator",
-      "schema": "./src/generators/ng15/schema.json",
-      "description": "ng15 generator"
-    }
-  }
-}

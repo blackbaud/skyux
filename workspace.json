@@ -100,7 +100,6 @@
     "tiles-storybook-e2e": "apps/e2e/tiles-storybook-e2e",
     "toast": "libs/components/toast",
     "toast-testing": "libs/components/toast/testing",
-    "tools": "libs/sdk/tools",
     "validation": "libs/components/validation"
   }
 }
