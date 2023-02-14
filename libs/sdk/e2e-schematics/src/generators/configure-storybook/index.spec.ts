@@ -2,7 +2,12 @@ import {
   applicationGenerator,
   storybookConfigurationGenerator,
 } from '@nrwl/angular/generators';
-import { readProjectConfiguration } from '@nrwl/devkit';
+import {
+  NxJsonConfiguration,
+  readNxJson,
+  readProjectConfiguration,
+  updateNxJson,
+} from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Linter } from '@nrwl/linter';
 import { TsConfig } from '@nrwl/storybook/src/utils/utilities';
@@ -17,6 +22,12 @@ import configureStorybook from './index';
 describe('configure-storybook', () => {
   function setupTest() {
     const tree = createTreeWithEmptyWorkspace();
+    const nxJson: NxJsonConfiguration = readNxJson(tree) || {};
+    nxJson.workspaceLayout = {
+      appsDir: 'apps',
+      libsDir: 'libs',
+    };
+    updateNxJson(tree, nxJson);
 
     tree.write(
       'workspace.json',

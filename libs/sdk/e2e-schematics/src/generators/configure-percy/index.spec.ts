@@ -1,11 +1,34 @@
 import { cypressProjectGenerator } from '@nrwl/cypress';
+import { NxJsonConfiguration, readNxJson, updateNxJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 
 import configurePercy from './index';
 
 describe('configure-percy', () => {
-  it('should import percy', async () => {
+  function setupTest() {
     const tree = createTreeWithEmptyWorkspace();
+    const nxJson: NxJsonConfiguration = readNxJson(tree) || {};
+    nxJson.workspaceLayout = {
+      appsDir: 'apps',
+      libsDir: 'libs',
+    };
+    updateNxJson(tree, nxJson);
+
+    tree.write(
+      'workspace.json',
+      JSON.stringify({
+        version: 2,
+        projects: {},
+      })
+    );
+
+    tree.write('.gitignore', '');
+
+    return { tree };
+  }
+
+  it('should import percy', async () => {
+    const { tree } = setupTest();
     await cypressProjectGenerator(tree, {
       name: `cypress`,
       baseUrl: 'https://example.com',
@@ -23,7 +46,7 @@ describe('configure-percy', () => {
   });
 
   it('should generate cypress.config.ts', async () => {
-    const tree = createTreeWithEmptyWorkspace();
+    const { tree } = setupTest();
     await cypressProjectGenerator(tree, {
       name: `cypress`,
       baseUrl: 'https://example.com',
@@ -36,7 +59,7 @@ describe('configure-percy', () => {
   });
 
   it('should handle missing supportFile', async () => {
-    const tree = createTreeWithEmptyWorkspace();
+    const { tree } = setupTest();
     await cypressProjectGenerator(tree, {
       name: `cypress`,
       baseUrl: 'https://example.com',
