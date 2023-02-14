@@ -29,10 +29,7 @@
       "pattern": "/ng-packagr/g"
     }
   ],
-  "ignoreRegExpList": [
-    "lorem-ipsum",
-    "ng-packagr"
-  ],
+  "ignoreRegExpList": ["lorem-ipsum", "ng-packagr"],
   "words": [
     "activedescendant",
     "alertdialog",

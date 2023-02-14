@@ -17,9 +17,7 @@ describe('Migrations > Add axe-core as a dependency', () => {
 
     return {
       runSchematic: () =>
-        runner
-          .runSchematicAsync('add-axe-core-dependency', {}, tree)
-          .toPromise(),
+        runner.runSchematic('add-axe-core-dependency', {}, tree),
       tree,
     };
   }

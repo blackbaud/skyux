@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { SkyAppResourcesService, SkyLibResourcesService } from '@skyux/i18n';
 
+import axe from 'axe-core';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
@@ -8,7 +9,6 @@ import { SkyA11yAnalyzer } from '../a11y/a11y-analyzer';
 import { SkyA11yAnalyzerConfig } from '../a11y/a11y-analyzer-config';
 
 import { SkyToBeVisibleOptions } from './to-be-visible-options';
-import axe from "axe-core";
 
 const windowRef: any = window;
 

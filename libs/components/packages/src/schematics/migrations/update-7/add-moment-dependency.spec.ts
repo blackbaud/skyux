@@ -17,7 +17,7 @@ describe('Migrations > Add moment.js as a dependency', () => {
 
     return {
       runSchematic: () =>
-        runner.runSchematicAsync('add-moment-dependency', {}, tree).toPromise(),
+        runner.runSchematic('add-moment-dependency', {}, tree),
       tree,
     };
   }

@@ -12,16 +12,14 @@ export async function createTestApp(
     projectName: string;
   }
 ): Promise<UnitTestTree> {
-  return await runner
-    .runExternalSchematicAsync('@schematics/angular', 'ng-new', {
-      directory: '/',
-      name: appOptions.projectName,
-      routing: true,
-      strict: true,
-      style: 'scss',
-      version: '14',
-    })
-    .toPromise();
+  return await runner.runExternalSchematic('@schematics/angular', 'ng-new', {
+    directory: '/',
+    name: appOptions.projectName,
+    routing: true,
+    strict: true,
+    style: 'scss',
+    version: '14',
+  });
 }
 
 /**
@@ -33,38 +31,36 @@ export async function createTestLibrary(
     projectName: string;
   }
 ): Promise<UnitTestTree> {
-  const workspaceTree = await runner
-    .runExternalSchematicAsync('@schematics/angular', 'ng-new', {
+  const workspaceTree = await runner.runExternalSchematic(
+    '@schematics/angular',
+    'ng-new',
+    {
       directory: '/',
       name: `${libOptions.projectName}-workspace`,
       createApplication: false,
       strict: true,
       version: '14',
-    })
-    .toPromise();
+    }
+  );
 
-  await runner
-    .runExternalSchematicAsync(
-      '@schematics/angular',
-      'library',
-      {
-        name: libOptions.projectName,
-      },
-      workspaceTree
-    )
-    .toPromise();
+  await runner.runExternalSchematic(
+    '@schematics/angular',
+    'library',
+    {
+      name: libOptions.projectName,
+    },
+    workspaceTree
+  );
 
   // Create a "showcase" application for library projects.
-  await runner
-    .runExternalSchematicAsync(
-      '@schematics/angular',
-      'application',
-      {
-        name: `${libOptions.projectName}-showcase`,
-      },
-      workspaceTree
-    )
-    .toPromise();
+  await runner.runExternalSchematic(
+    '@schematics/angular',
+    'application',
+    {
+      name: `${libOptions.projectName}-showcase`,
+    },
+    workspaceTree
+  );
 
   return workspaceTree;
 }
