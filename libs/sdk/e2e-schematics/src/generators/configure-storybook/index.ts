@@ -45,6 +45,7 @@ export default async function (tree: Tree, schema: Schema) {
       const targetConfig = project.targets[target] as TargetConfiguration;
       // Does the builder support styles?
       if (
+        targetConfig.executor &&
         [
           '@angular-devkit/build-angular:browser',
           '@storybook/angular:build-storybook',
