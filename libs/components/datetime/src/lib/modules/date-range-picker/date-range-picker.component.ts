@@ -141,9 +141,8 @@ export class SkyDateRangePickerComponent
       } else {
         this.formGroup.enable();
       }
+      this.#changeDetector.markForCheck();
     }
-
-    this.#changeDetector.markForCheck();
   }
 
   public get disabled(): boolean | undefined {
@@ -303,6 +302,10 @@ export class SkyDateRangePickerComponent
 
       // We need to let Angular be stable and have rendered the components prior to setting the values and form controls. This ensures all initial validation will be ran correctly.
       this.#ngZone.onStable.pipe(first()).subscribe(() => {
+        if (this.formGroup && this.disabled) {
+          this.formGroup.disable();
+        }
+
         // Fill in any unprovided values after the calculators have been initialized.
         // For example, if the control is initialized with only the `calculatorId`,
         // allow the calculator to fill in the missing start and end dates.
@@ -479,10 +482,6 @@ export class SkyDateRangePickerComponent
       startDate: new UntypedFormControl(),
       endDate: new UntypedFormControl(),
     });
-
-    if (this.disabled) {
-      this.formGroup.disable();
-    }
   }
 
   #showRelevantFormFields(): void {
