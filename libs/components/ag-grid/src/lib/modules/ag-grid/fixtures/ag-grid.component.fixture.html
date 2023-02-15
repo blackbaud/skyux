@@ -1,7 +1,7 @@
 <sky-ag-grid-wrapper>
   <ag-grid-angular
     #agGrid
-    class="sky-ag-grid-editable"
+    [class.sky-ag-grid-editable]="editable"
     [gridOptions]="gridOptions"
     [rowData]="gridData"
   >
