@@ -163,7 +163,6 @@ describe('Icon harness', () => {
       fixture.componentInstance.iconType = type;
       for (const variant of variants) {
         fixture.componentInstance.variant = variant;
-        fixture.detectChanges();
         await validateIconName(
           iconHarness,
           fixture,
