@@ -20,6 +20,7 @@ jobs:
           labels: 'autorelease ${{ github.ref_name }}: pending'
           release-labels: 'autorelease ${{ github.ref_name }}: tagged'
           release-as: '8.0.0-alpha.0'
+          prerelease: true
           draft-pull-request: true
           include-v-in-tag: false
           token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
