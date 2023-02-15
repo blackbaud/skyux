@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.6.2](https://github.com/blackbaud/skyux/compare/7.6.1...7.6.2) (2023-02-14)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** address accessibility test issues ([#982](https://github.com/blackbaud/skyux/issues/982)) ([8c1ad68](https://github.com/blackbaud/skyux/commit/8c1ad68e30b4bad30302c2ffdd0c616d83c86589))
+
 ## [7.6.1](https://github.com/blackbaud/skyux/compare/7.6.0...7.6.1) (2023-02-07)
 
 
