@@ -17,7 +17,7 @@ import { SkyIconHarness } from './icon-harness';
       [variant]="variant"
       [size]="size"
     ></sky-icon>
-    <sky-icon data-sky-id="test-wait" icon="sort"></sky-icon>
+    <sky-icon data-sky-id="test-icon" icon="sort"></sky-icon>
   `,
 })
 class TestComponent {
@@ -106,7 +106,7 @@ const sizes = [
 ];
 
 describe('Icon harness', () => {
-  async function setupTest(): Promise<{
+  async function setupTest(options: { dataSkyId?: string } = {}): Promise<{
     iconHarness: SkyIconHarness;
     fixture: ComponentFixture<TestComponent>;
     loader: HarnessLoader;
@@ -121,7 +121,11 @@ describe('Icon harness', () => {
     const loader = TestbedHarnessEnvironment.loader(fixture);
     const pageLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
 
-    const iconHarness = await loader.getHarness(SkyIconHarness);
+    const iconHarness: SkyIconHarness = options.dataSkyId
+      ? await loader.getHarness(
+          SkyIconHarness.with({ dataSkyId: options.dataSkyId })
+        )
+      : await loader.getHarness(SkyIconHarness);
     fixture.detectChanges();
 
     return { iconHarness, fixture, loader, pageLoader };
@@ -221,5 +225,10 @@ describe('Icon harness', () => {
     await expectAsync(iconHarness.getVariant()).toBeRejectedWithError(
       'Variant cannot be determined because iconType is not skyux'
     );
+  });
+
+  it('should get an icon by its data-sky-id property', async () => {
+    const { iconHarness } = await setupTest({ dataSkyId: 'test-icon' });
+    await expectAsync(iconHarness.getIconName()).toBeResolvedTo('sort');
   });
 });
