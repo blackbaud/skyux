@@ -1,4 +1,7 @@
+import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
+
+import { SkyIconHarnessFilters } from './icon-harness-filters';
 
 /**
  * Harness for interacting with an icon component in tests.
@@ -10,6 +13,16 @@ export class SkyIconHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-icon';
 
   #getIcon = this.locatorFor('.sky-icon');
+
+  /**
+   * Gets a `HarnessPredicate` that can be used to search for a
+   * `SkyIconHarness` that meets certain criteria.
+   */
+  public static with(
+    filters: SkyIconHarnessFilters
+  ): HarnessPredicate<SkyIconHarness> {
+    return SkyIconHarness.getDataSkyIdPredicate(filters);
+  }
 
   /** Gets the icon name */
   public async getIconName(): Promise<string | undefined> {
