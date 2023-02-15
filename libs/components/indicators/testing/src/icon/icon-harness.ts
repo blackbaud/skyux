@@ -26,15 +26,15 @@ export class SkyIconHarness extends SkyComponentHarness {
 
   /** Gets the icon name */
   public async getIconName(): Promise<string | undefined> {
-    const iconClass = await (await this.#getIcon()).getAttribute('class');
-    const regex = /^sky-i-|fa-(?!fw|2xs|xs|sm|lg|2xl|[0-9]+x)/;
-    let className = iconClass
-      ?.split(' ')
-      .find((classValue: string) => classValue.match(regex));
-
-    className = className?.replace(/-line|-solid$/, '');
-    className = className?.replace(/^sky-i-|fa-/, '');
-    return className;
+    const iconClass = await (await this.#getIcon()).getProperty('classList');
+    for (let i = 0; i < iconClass.length; i++) {
+      if (/^sky-i-|fa-(?!fw|2xs|xs|sm|lg|2xl|[0-9]+x)/.test(iconClass[i])) {
+        return iconClass[i]
+          .replace(/-line|-solid$/, '')
+          .replace(/^sky-i-|fa-/, '');
+      }
+    }
+    return undefined;
   }
 
   /** Gets if the icon has fixed width */
@@ -45,33 +45,36 @@ export class SkyIconHarness extends SkyComponentHarness {
 
   /** Gets the icon type */
   public async getIconType(): Promise<string> {
-    const iconClass = await (await this.#getIcon()).getAttribute('class');
-    const classes = iconClass
-      ?.split(' ')
-      .find((classValue: string) => /^sky-i-/.test(classValue));
-    if (classes) return 'skyux';
+    const iconClass = await (await this.#getIcon()).getProperty('classList');
+    for (let i = 0; i < iconClass.length; i++) {
+      if (/^sky-i-/.test(iconClass[i])) {
+        return 'skyux';
+      }
+    }
     return 'fa';
   }
 
   /** Gets the icon size */
   public async getIconSize(): Promise<string | undefined> {
-    const iconClass = await (await this.#getIcon()).getAttribute('class');
-    const size = iconClass
-      ?.split(' ')
-      .find((classValue: string) =>
-        classValue.match(/^fa-(?=2xs|xs|sm|lg|2xl|[0-9]+x)/)
-      );
-    return size?.replace('fa-', '');
+    const iconClass = await (await this.#getIcon()).getProperty('classList');
+    for (let i = 0; i < iconClass.length; i++) {
+      if (/^fa-(?=2xs|xs|sm|lg|2xl|[0-9]+x)/.test(iconClass[i])) {
+        return iconClass[i].replace('fa-', '');
+      }
+    }
+    return undefined;
   }
 
   /** Gets if the icon is a variant */
   public async getVariant(): Promise<string | undefined> {
-    const iconClass = await (await this.#getIcon()).getAttribute('class');
     if ((await this.getIconType()) === 'skyux') {
-      const variant = iconClass
-        ?.split(' ')
-        .find((classValue: string) => /-line|-solid$/.test(classValue));
-      return variant?.substring(variant.lastIndexOf('-') + 1);
+      const iconClass = await (await this.#getIcon()).getProperty('classList');
+      for (let i = 0; i < iconClass.length; i++) {
+        if (/-line|-solid$/.test(iconClass[i])) {
+          return iconClass[i].substring(iconClass[i].lastIndexOf('-') + 1);
+        }
+      }
+      return undefined;
     }
     throw new Error(
       'Variant cannot be determined because iconType is not skyux'
