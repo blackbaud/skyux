@@ -1,6 +1,7 @@
 import { ReplaySubject } from 'rxjs';
 
 import { SkyAppViewportReservedPositionType } from './viewport-reserve-position-type';
+import { SkyAppViewportReservedSpace } from './viewport-reserved-space';
 import { SkyAppViewportService } from './viewport.service';
 
 describe('Viewport service', () => {
@@ -64,5 +65,46 @@ describe('Viewport service', () => {
     validateViewportSpace('top', 0);
     validateViewportSpace('right', 0);
     validateViewportSpace('bottom', 0);
+  });
+
+  it('should fire an event when reserved space changes', () => {
+    let reservedSpace!: SkyAppViewportReservedSpace;
+
+    function validate(
+      top: number,
+      right: number,
+      bottom: number,
+      left: number
+    ): void {
+      expect(reservedSpace.top).toBe(top);
+      expect(reservedSpace.right).toBe(right);
+      expect(reservedSpace.bottom).toBe(bottom);
+      expect(reservedSpace.left).toBe(left);
+    }
+
+    svc.reservedSpaceChange.subscribe((args) => {
+      reservedSpace = args.current;
+    });
+
+    svc.reserveSpace({
+      id: 'left-test',
+      position: 'left',
+      size: 20,
+    });
+
+    validate(0, 0, 0, 20);
+
+    svc.reserveSpace({
+      id: 'left-test-2',
+      position: 'left',
+      size: 40,
+    });
+
+    validate(0, 0, 0, 60);
+
+    svc.unreserveSpace('left-test');
+    svc.unreserveSpace('left-test-2');
+
+    validate(0, 0, 0, 0);
   });
 });

@@ -1,5 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { SkyModalService } from '@skyux/modals';
+import { SkyAppViewportService } from '@skyux/theme';
 
 import { Subject } from 'rxjs';
 
@@ -17,7 +18,19 @@ export class SummaryActionBarComponent implements OnDestroy {
 
   private ngUnsubscribe = new Subject<void>();
 
-  constructor(private modalService: SkyModalService) {}
+  constructor(
+    private modalService: SkyModalService,
+    viewportSvc: SkyAppViewportService
+  ) {
+    // Use this to test how secondary actions collapse into a dropdown.
+    // The larger the size, the fewer secondary actions it takes to
+    // collapse to a dropdown.
+    viewportSvc.reserveSpace({
+      id: 'summary-action-bar-test',
+      position: 'left',
+      size: 0,
+    });
+  }
 
   public ngOnDestroy(): void {
     this.ngUnsubscribe.next();

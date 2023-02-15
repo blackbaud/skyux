@@ -20,6 +20,13 @@
   margin-top: 0;
 }
 
+.sky-summary-action-bar-page {
+  width: auto;
+  left: var(--sky-viewport-left);
+  bottom: var(--sky-viewport-bottom);
+  right: var(--sky-viewport-right);
+}
+
 .sky-summary-action-bar-split-view {
   box-shadow: none;
 }
