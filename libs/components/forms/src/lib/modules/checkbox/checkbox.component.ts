@@ -43,7 +43,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   public label: string | undefined;
 
   /**
-   * The HTML element ID (without the leading `#`) of the element that labels the
+   * The HTML element ID of the element that labels the
    * checkbox. This sets the checkbox's `aria-labelledby` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/components/checkbox#accessibility).
    * If the checkbox does not include a visible label, use `label` instead.

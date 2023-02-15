@@ -1,17 +1,23 @@
 :host {
   display: flex;
   max-width: 100%;
+  height: 100%;
   align-items: center;
   align-content: center;
+}
+
+button.ag-header-cell-label {
+  text-transform: inherit;
+  max-width: 100%;
+}
+
+.ag-cell-label-container {
+  padding: 0;
 }
 
 .ag-header-cell-label {
   padding-right: 0;
   padding-left: 0;
-
-  button {
-    text-transform: inherit;
-  }
 }
 
 button {

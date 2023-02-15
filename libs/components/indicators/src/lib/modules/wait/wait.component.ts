@@ -29,6 +29,7 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
    * The default value varies based on whether the wait is for an element or a page
    * and whether it is a blocking wait. For example, the default for a page-blocking
    * wait is "Page loading. Please wait."
+   * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
   @Input()
   public set ariaLabel(value: string | undefined) {

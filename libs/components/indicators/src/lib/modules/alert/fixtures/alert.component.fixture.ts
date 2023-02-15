@@ -7,9 +7,9 @@ import { SkyIndicatorDescriptionType } from '../../shared/indicator-description-
   templateUrl: './alert.component.fixture.html',
 })
 export class AlertTestComponent {
-  public closeable = false;
+  public closeable: boolean | undefined = false;
 
-  public closed = false;
+  public closed: boolean | undefined = false;
 
   public alertType: string | undefined = 'info';
 

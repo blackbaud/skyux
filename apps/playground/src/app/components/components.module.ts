@@ -103,6 +103,13 @@ export const componentRoutes: Routes = [
     loadChildren: () => import('./tabs/tabs.module').then((m) => m.TabsModule),
   },
   {
+    path: 'text-editor',
+    loadChildren: () =>
+      import('./text-editor/text-editor.module').then(
+        (m) => m.TextEditorModule
+      ),
+  },
+  {
     path: 'theme',
     loadChildren: () =>
       import('./theme/theme.module').then((m) => m.ThemeModule),

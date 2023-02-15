@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -24,6 +24,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
 import { SkyAgGridWrapperComponent } from './ag-grid-wrapper.component';
 import {
+  Editable,
   EnableTopScroll,
   SkyAgGridFixtureComponent,
 } from './fixtures/ag-grid.component.fixture';
@@ -80,6 +81,10 @@ describe('SkyAgGridWrapperComponent', () => {
 
   it('should render a sky-ag-grid-wrapper element', () => {
     expect(gridWrapperNativeElement).toBeVisible();
+  });
+
+  it('should be accessible', async () => {
+    await expectAsync(gridWrapperNativeElement).toBeAccessible();
   });
 
   it('should add .ag-header to the viewkeeper classes when the domLayout is set to autoHeight', () => {
@@ -543,5 +548,41 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
         .querySelector(`[col-id="value"] .sky-control-help`)
         ?.getAttribute('title')
     ).toEqual('Current Value help replaced');
+  });
+
+  describe('accessibility', () => {
+    [false, true].forEach((enableTopScroll) => {
+      [false, true].forEach((editable) => {
+        it(`should be accessible in ${editable ? 'edit' : 'view'} mode ${
+          enableTopScroll ? 'with' : 'without'
+        } top scroll`, async () => {
+          TestBed.configureTestingModule({
+            imports: [SkyAgGridFixtureModule],
+            providers: [
+              {
+                provide: Editable,
+                useValue: editable,
+              },
+              {
+                provide: EnableTopScroll,
+                useValue: enableTopScroll,
+              },
+            ],
+            teardown: {
+              destroyAfterEach: false,
+            },
+          });
+          gridWrapperFixture = TestBed.createComponent(
+            SkyAgGridFixtureComponent
+          );
+          gridWrapperNativeElement = gridWrapperFixture.nativeElement;
+
+          gridWrapperFixture.detectChanges();
+          await gridWrapperFixture.whenStable();
+
+          await expectAsync(gridWrapperNativeElement).toBeAccessible();
+        });
+      });
+    });
   });
 });
