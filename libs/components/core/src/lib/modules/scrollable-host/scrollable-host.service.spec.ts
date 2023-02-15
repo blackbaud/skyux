@@ -1,5 +1,7 @@
+import { ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
+import { SkyAppWindowRef } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { delay, take, takeUntil } from 'rxjs/operators';
@@ -553,5 +555,43 @@ describe('Scrollable host service', () => {
       });
 
     SkyAppTestUtility.fireDomEvent(cmp.parent.nativeElement, 'scroll');
+  });
+
+  it('should notify a subscriber when the scrollable parent clip path changes', (done) => {
+    cmp.isParentPositioned = true;
+    cmp.positionedParentWidth = '100px';
+    fixture.detectChanges();
+
+    cmp
+      .watchScrollableHostClipPathChanges()
+      .pipe(take(1))
+      .subscribe((clipPath) => {
+        expect(clipPath).toBe('inset(0px 100px 100px 0px)');
+        done();
+      });
+  });
+
+  it('should return a clip-path of none when the scrollable host is the window', (done) => {
+    fixture.detectChanges();
+    cmp
+      .watchScrollableHostClipPathChanges(fixture)
+      .pipe(take(1))
+      .subscribe((clipPath) => {
+        expect(clipPath).toBe('none');
+        done();
+      });
+  });
+
+  it('should error without resize observer', () => {
+    const scrollableHostSvc = new SkyScrollableHostService(
+      {} as SkyMutationObserverService,
+      {} as SkyAppWindowRef,
+      undefined
+    );
+    expect(() =>
+      scrollableHostSvc.watchScrollableHostClipPathChanges({} as ElementRef)
+    ).toThrowError(
+      'The SkyResizeObserverService is required to use the watchScrollableHostClipPathChanges method.'
+    );
   });
 });
