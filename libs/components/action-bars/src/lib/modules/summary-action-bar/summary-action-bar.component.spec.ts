@@ -10,6 +10,7 @@ import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
+import { SkyAppViewportService } from '@skyux/theme';
 
 import { SkySummaryActionBarSecondaryActionsComponent } from './actions/summary-action-bar-secondary-actions.component';
 import { SkySummaryActionBarSplitViewTestComponent } from './fixtures/summary-action-bar-split-view.component.fixture';
@@ -32,9 +33,12 @@ describe('Summary Action Bar component', () => {
     (document.querySelector('.sky-modal-btn-close') as HTMLElement).click();
   }
 
-  function getActionBarHeight(debugElement: DebugElement): string {
-    return debugElement.query(By.css('.sky-summary-action-bar'))?.nativeElement
-      .offsetHeight;
+  function getActionBar(debugElement: DebugElement): HTMLElement {
+    return debugElement.query(By.css('.sky-summary-action-bar'))?.nativeElement;
+  }
+
+  function getActionBarHeight(debugElement: DebugElement): number {
+    return getActionBar(debugElement).offsetHeight;
   }
 
   function getCollapseButton(debugElement: DebugElement): HTMLElement {
@@ -97,6 +101,7 @@ describe('Summary Action Bar component', () => {
   }
 
   let mockMediaQueryService: MockSkyMediaQueryService;
+  let viewportSvc: SkyAppViewportService;
 
   beforeEach(() => {
     mockMediaQueryService = new MockSkyMediaQueryService();
@@ -124,6 +129,8 @@ describe('Summary Action Bar component', () => {
         ],
       },
     });
+
+    viewportSvc = TestBed.inject(SkyAppViewportService);
   });
 
   describe('standard usage', () => {
@@ -219,6 +226,37 @@ describe('Summary Action Bar component', () => {
         toggleSummary(debugElement);
         fixture.detectChanges();
         expect(getSummary(debugElement)).toExist();
+      });
+    });
+
+    describe('dimensions', () => {
+      it('should conform to the available viewport', () => {
+        viewportSvc.reserveSpace({
+          id: 'summary-action-bar-test-left',
+          position: 'left',
+          size: 20,
+        });
+
+        viewportSvc.reserveSpace({
+          id: 'summary-action-bar-test-right',
+          position: 'right',
+          size: 30,
+        });
+
+        viewportSvc.reserveSpace({
+          id: 'summary-action-bar-test-bottom',
+          position: 'bottom',
+          size: 40,
+        });
+
+        fixture.detectChanges();
+
+        const actionBarEl = getActionBar(fixture.debugElement);
+        const actionBarBounds = actionBarEl.getBoundingClientRect();
+
+        expect(actionBarBounds.left).toBe(20);
+        expect(actionBarBounds.right).toBe(window.innerWidth - 30);
+        expect(actionBarBounds.bottom).toBe(window.innerHeight - 40);
       });
     });
 
