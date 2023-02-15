@@ -60,6 +60,7 @@ export class SkySelectionModalService {
         },
       ],
       size: 'large',
+      wrapperClass: args.wrapperClass,
     });
 
     const instance = new SkySelectionModalInstance(

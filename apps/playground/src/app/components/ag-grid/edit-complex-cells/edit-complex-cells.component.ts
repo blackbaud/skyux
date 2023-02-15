@@ -210,6 +210,7 @@ export class EditComplexCellsComponent implements OnInit {
         cellEditorParams: {
           skyComponentProperties: {
             data: EDITABLE_GRID_LOOKUP,
+            enableShowMore: true,
             idProperty: 'id',
             descriptorProperty: 'name',
             selectMode: 'single',

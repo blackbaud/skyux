@@ -476,6 +476,23 @@ describe('Lookup component', function () {
     }
   }
 
+  function validateShowMoreModalWrapperClass(
+    fixture: ComponentFixture<SkyLookupTestComponent>,
+    async?: boolean
+  ): void {
+    const component = fixture.componentInstance;
+    component.enableShowMore = true;
+    component.wrapperClass = 'lookup-test-wrapper';
+
+    fixture.detectChanges();
+
+    clickSearchButton(fixture, async);
+
+    expect(getModalEl()).toHaveCssClass('lookup-test-wrapper');
+
+    closeModal(fixture);
+  }
+
   //#endregion
 
   beforeEach(function () {
@@ -1087,6 +1104,10 @@ describe('Lookup component', function () {
           }));
         });
 
+        it('should add the expected wrapperClass to the modal', fakeAsync(() => {
+          validateShowMoreModalWrapperClass(fixture);
+        }));
+
         describe('async', () => {
           it('should emit an event correctly when the add button is enabled and clicked', fakeAsync(() => {
             component.showAddButton = true;
@@ -1151,6 +1172,10 @@ describe('Lookup component', function () {
             closeModal(fixture);
 
             expect(addButtonSpy).toHaveBeenCalled();
+          }));
+
+          it('should add the expected wrapperClass to the modal', fakeAsync(() => {
+            validateShowMoreModalWrapperClass(fixture, true);
           }));
         });
 
