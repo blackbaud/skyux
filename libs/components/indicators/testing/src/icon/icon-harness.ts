@@ -26,10 +26,10 @@ export class SkyIconHarness extends SkyComponentHarness {
 
   /** Gets the icon name */
   public async getIconName(): Promise<string | undefined> {
-    const iconClass = await (await this.#getIcon()).getProperty('classList');
-    for (let i = 0; i < iconClass.length; i++) {
-      if (/^sky-i-|fa-(?!fw|2xs|xs|sm|lg|2xl|[0-9]+x)/.test(iconClass[i])) {
-        return iconClass[i]
+    const iconClasses = await (await this.#getIcon()).getProperty('classList');
+    for (const iconClass of iconClasses) {
+      if (/^sky-i-|fa-(?!fw|2xs|xs|sm|lg|2xl|[0-9]+x)/.test(iconClass)) {
+        return iconClass
           .replace(/-line|-solid$/, '')
           .replace(/^sky-i-|fa-/, '');
       }
@@ -45,9 +45,9 @@ export class SkyIconHarness extends SkyComponentHarness {
 
   /** Gets the icon type */
   public async getIconType(): Promise<string> {
-    const iconClass = await (await this.#getIcon()).getProperty('classList');
-    for (let i = 0; i < iconClass.length; i++) {
-      if (/^sky-i-/.test(iconClass[i])) {
+    const iconClasses = await (await this.#getIcon()).getProperty('classList');
+    for (const iconClass of iconClasses) {
+      if (/^sky-i-/.test(iconClass)) {
         return 'skyux';
       }
     }
@@ -56,10 +56,10 @@ export class SkyIconHarness extends SkyComponentHarness {
 
   /** Gets the icon size */
   public async getIconSize(): Promise<string | undefined> {
-    const iconClass = await (await this.#getIcon()).getProperty('classList');
-    for (let i = 0; i < iconClass.length; i++) {
-      if (/^fa-(?=2xs|xs|sm|lg|2xl|[0-9]+x)/.test(iconClass[i])) {
-        return iconClass[i].replace('fa-', '');
+    const iconClasses = await (await this.#getIcon()).getProperty('classList');
+    for (const iconClass of iconClasses) {
+      if (/^fa-(?=2xs|xs|sm|lg|2xl|[0-9]+x)/.test(iconClass)) {
+        return iconClass.replace('fa-', '');
       }
     }
     return undefined;
@@ -68,10 +68,12 @@ export class SkyIconHarness extends SkyComponentHarness {
   /** Gets if the icon is a variant */
   public async getVariant(): Promise<string | undefined> {
     if ((await this.getIconType()) === 'skyux') {
-      const iconClass = await (await this.#getIcon()).getProperty('classList');
-      for (let i = 0; i < iconClass.length; i++) {
-        if (/-line|-solid$/.test(iconClass[i])) {
-          return iconClass[i].substring(iconClass[i].lastIndexOf('-') + 1);
+      const iconClasses = await (
+        await this.#getIcon()
+      ).getProperty('classList');
+      for (const iconClass of iconClasses) {
+        if (/-line|-solid$/.test(iconClass)) {
+          return iconClass.substring(iconClass.lastIndexOf('-') + 1);
         }
       }
       return undefined;
