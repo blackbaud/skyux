@@ -1,13 +1,10 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
   Input,
   NgZone,
   OnDestroy,
-  ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
@@ -48,7 +45,7 @@ import { SkyTextEditorToolbarActionType } from './types/toolbar-action-type';
     SkyTextEditorAdapterService,
   ],
 })
-export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
+export class SkyTextEditorComponent implements OnDestroy {
   /**
    * Whether to put focus on the editor after it renders.
    */
@@ -70,7 +67,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
       /* istanbul ignore else */
       if (this.iframeRef) {
         focusableChildren = this.#coreAdapterService.getFocusableChildren(
-          this.iframeRef.nativeElement.contentDocument.body,
+          this.iframeRef.contentDocument?.body,
           {
             ignoreVisibility: true,
             ignoreTabIndex: true,
@@ -78,15 +75,9 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
         );
 
         if (this.#_disabled) {
-          this.#adapterService.disableEditor(
-            focusableChildren,
-            this.iframeRef.nativeElement
-          );
+          this.#adapterService.disableEditor(focusableChildren, this.iframeRef);
         } else {
-          this.#adapterService.enableEditor(
-            focusableChildren,
-            this.iframeRef.nativeElement
-          );
+          this.#adapterService.enableEditor(focusableChildren, this.iframeRef);
         }
         this.#changeDetector.markForCheck();
       }
@@ -213,8 +204,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
     return this.#_toolbarActions;
   }
 
-  @ViewChild('iframe')
-  public iframeRef: ElementRef | undefined;
+  public iframeRef: HTMLIFrameElement | undefined;
 
   /**
    * The internal value of the control.
@@ -317,17 +307,14 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
     ngControl.valueAccessor = this;
   }
 
-  public ngAfterViewInit(): void {
-    this.#initIframe();
-  }
-
   public ngOnDestroy(): void {
     this.#adapterService.removeObservers(this.#editorService.editor);
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
   }
 
-  public onIframeLoad(): void {
+  public onIframeLoad(event: Event): void {
+    this.iframeRef = event.target as HTMLIFrameElement;
     this.#initIframe();
   }
 
@@ -376,66 +363,68 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
   }
 
   #initIframe(): void {
-    this.#adapterService.initEditor(
-      this.id,
-      (this.iframeRef as ElementRef).nativeElement,
-      this.initialStyleState,
-      this.placeholder
-    );
+    if (this.iframeRef) {
+      this.#adapterService.initEditor(
+        this.id,
+        this.iframeRef,
+        this.initialStyleState,
+        this.placeholder
+      );
 
-    this.#editorService
-      .inputListener()
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe(() => {
-        // Angular doesn't run change detection for changes originating inside an iframe,
-        // so we have to call the onChange() event inside NgZone to force change propagation to consuming components.
-        this.#zone.run(() => {
+      this.#editorService
+        .inputListener()
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe(() => {
+          // Angular doesn't run change detection for changes originating inside an iframe,
+          // so we have to call the onChange() event inside NgZone to force change propagation to consuming components.
+          this.#zone.run(() => {
+            this.#viewToModelUpdate();
+          });
+        });
+
+      this.#editorService
+        .selectionChangeListener()
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe(() => {
+          this.#updateStyle();
+          this.editorFocusStream.next();
+        });
+
+      this.#editorService
+        .clickListener()
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe(() => {
+          this.editorFocusStream.next();
+        });
+
+      this.#editorService
+        .blurListener()
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe(() => {
+          // Angular doesn't run change detection for changes originating inside an iframe,
+          // so we have to run markForCheck() inside the NgZone to force change propagation to consuming components.
+          this.#zone.run(() => {
+            this.#_onTouched();
+          });
+        });
+
+      this.#editorService
+        .commandChangeListener()
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe(() => {
+          this.#updateStyle();
           this.#viewToModelUpdate();
         });
-      });
 
-    this.#editorService
-      .selectionChangeListener()
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe(() => {
-        this.#updateStyle();
-        this.editorFocusStream.next();
-      });
+      this.#adapterService.setEditorInnerHtml(this.#_value);
 
-    this.#editorService
-      .clickListener()
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe(() => {
-        this.editorFocusStream.next();
-      });
+      /* istanbul ignore next */
+      if (this.autofocus) {
+        this.#adapterService.focusEditor();
+      }
 
-    this.#editorService
-      .blurListener()
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe(() => {
-        // Angular doesn't run change detection for changes originating inside an iframe,
-        // so we have to run markForCheck() inside the NgZone to force change propagation to consuming components.
-        this.#zone.run(() => {
-          this.#_onTouched();
-        });
-      });
-
-    this.#editorService
-      .commandChangeListener()
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe(() => {
-        this.#updateStyle();
-        this.#viewToModelUpdate();
-      });
-
-    this.#adapterService.setEditorInnerHtml(this.#_value);
-
-    /* istanbul ignore next */
-    if (this.autofocus) {
-      this.#adapterService.focusEditor();
+      this.#initialized = true;
     }
-
-    this.#initialized = true;
   }
 
   #viewToModelUpdate(emitChange: boolean = true): void {
