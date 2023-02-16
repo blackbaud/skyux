@@ -93,11 +93,7 @@
         "main": "apps/integration/src/test.ts",
         "tsConfig": "apps/integration/tsconfig.spec.json",
         "karmaConfig": "apps/integration/karma.conf.js",
-        "polyfills": [
-          "apps/integration/src/polyfills.ts",
-          "zone.js",
-          "zone.js/testing"
-        ],
+        "polyfills": "apps/integration/src/polyfills.ts",
         "styles": [
           "libs/components/theme/src/lib/styles/sky.scss",
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
