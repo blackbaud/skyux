@@ -5,6 +5,7 @@ import {
   Tree,
   formatFiles,
   generateFiles,
+  getProjects,
   joinPathFragments,
   logger,
   readJson,
@@ -17,9 +18,6 @@ import { Linter } from '@nrwl/linter';
 import { moveGenerator } from '@nrwl/workspace';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 
-import { workspaceFileName } from 'nx/src/project-graph/file-utils';
-
-import { updateJson } from '../../utils';
 import configurePercy from '../configure-percy';
 import configureStorybook from '../configure-storybook';
 import init from '../init';
@@ -55,12 +53,8 @@ function normalizeOptions(options: Partial<Schema>): NormalizedSchema {
  * Drop the BASE_PATH from the project name and re-sort the projects.
  */
 function simplifyWorkspaceName(tree: Tree, projectName: string) {
-  const workspaceJson = readJson(tree, workspaceFileName());
-  if (`${BASE_PATH}-${projectName}` in workspaceJson.projects) {
-    const projectConfig = readProjectConfiguration(
-      tree,
-      `${BASE_PATH}-${projectName}`
-    );
+  const projects = getProjects(tree);
+  projects.forEach((projectConfig) => {
     let projectConfigJson = JSON.stringify(projectConfig).replace(
       new RegExp(`${BASE_PATH}-${projectName}`, 'g'),
       projectName
@@ -77,24 +71,7 @@ function simplifyWorkspaceName(tree: Tree, projectName: string) {
       `${BASE_PATH}-${projectName}`,
       JSON.parse(projectConfigJson)
     );
-
-    updateJson<{ projects: { [_: string]: unknown } }>(
-      tree,
-      workspaceFileName(),
-      (json) => {
-        json.projects[projectName] =
-          json.projects[`${BASE_PATH}-${projectName}`];
-        delete json.projects[`${BASE_PATH}-${projectName}`];
-        json.projects = Object.keys(json.projects)
-          .sort()
-          .reduce((obj: Record<string, string>, key: string) => {
-            obj[key] = `${json.projects[key]}`;
-            return obj;
-          }, {});
-        return json;
-      }
-    );
-  }
+  });
 }
 
 /**

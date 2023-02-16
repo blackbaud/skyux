@@ -1,5 +1,12 @@
 import { applicationGenerator } from '@nrwl/angular/generators';
-import { Tree, generateFiles, joinPathFragments } from '@nrwl/devkit';
+import {
+  NxJsonConfiguration,
+  Tree,
+  generateFiles,
+  joinPathFragments,
+  readNxJson,
+  updateNxJson,
+} from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 
 import generator from './generator';
@@ -11,6 +18,12 @@ describe('switch-to-variations generator', () => {
 
   beforeEach(async () => {
     appTree = createTreeWithEmptyWorkspace();
+    const nxJson: NxJsonConfiguration = readNxJson(appTree) || {};
+    nxJson.workspaceLayout = {
+      appsDir: 'apps',
+      libsDir: 'libs',
+    };
+    updateNxJson(appTree, nxJson);
     appTree.write('.gitignore', '# test');
     await applicationGenerator(appTree, {
       name: 'test',

@@ -4,17 +4,15 @@ import {
   Tree,
   formatFiles,
   generateFiles,
-  getWorkspacePath,
   joinPathFragments,
   logger,
-  normalizePath,
+  offsetFromRoot,
   readProjectConfiguration,
   updateJson,
 } from '@nrwl/devkit';
 import { TsConfig } from '@nrwl/storybook/src/utils/utilities';
 
 import { updateProjectConfiguration } from 'nx/src/generators/utils/project-configuration';
-import { relative } from 'path';
 
 import { getStorybookProjects } from '../../utils';
 
@@ -25,12 +23,6 @@ import { Schema } from './schema';
  */
 export default async function (tree: Tree, schema: Schema) {
   const projects = getStorybookProjects(tree, schema.name);
-  const workspacePath = getWorkspacePath(tree);
-
-  // istanbul ignore if
-  if (!workspacePath) {
-    throw new Error(`Unable to determine workspace file path`);
-  }
 
   // istanbul ignore next
   const errorLogger = schema.ansiColor === false ? console.error : logger.fatal;
@@ -117,9 +109,7 @@ export default async function (tree: Tree, schema: Schema) {
     }
 
     const projectRoot = project.root;
-    const relativeToRoot = normalizePath(
-      relative(`/${projectRoot}/.storybook`, `/`)
-    );
+    const relativeToRoot = offsetFromRoot(`/${projectRoot}/.storybook`);
 
     const tsconfigFile = `${projectRoot}/.storybook/tsconfig.json`;
     const tsconfigAppFile = `${projectRoot}/tsconfig.app.json`;

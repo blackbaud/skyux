@@ -26,14 +26,6 @@ describe('component-e2e', () => {
     };
     updateNxJson(tree, nxJson);
 
-    tree.write(
-      'workspace.json',
-      JSON.stringify({
-        version: 2,
-        projects: {},
-      })
-    );
-
     tree.write('.gitignore', '');
 
     return { tree };

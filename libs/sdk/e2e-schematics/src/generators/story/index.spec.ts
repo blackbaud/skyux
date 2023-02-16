@@ -3,7 +3,12 @@ import {
   libraryGenerator,
   storybookConfigurationGenerator,
 } from '@nrwl/angular/generators';
-import { Tree } from '@nrwl/devkit';
+import {
+  NxJsonConfiguration,
+  Tree,
+  readNxJson,
+  updateNxJson,
+} from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Linter } from '@nrwl/linter';
 import { RoutingScope } from '@schematics/angular/module/schema';
@@ -19,6 +24,12 @@ describe('component generator', () => {
 
   beforeEach(async () => {
     appTree = createTreeWithEmptyWorkspace();
+    const nxJson: NxJsonConfiguration = readNxJson(appTree) || {};
+    nxJson.workspaceLayout = {
+      appsDir: 'apps',
+      libsDir: 'libs',
+    };
+    updateNxJson(appTree, nxJson);
     options = {
       name: 'example',
       project: 'test-storybook',

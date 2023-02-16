@@ -1,8 +1,11 @@
 import { UnitTestRunner, libraryGenerator } from '@nrwl/angular/generators';
 import {
+  NxJsonConfiguration,
   Tree,
   joinPathFragments,
+  readNxJson,
   readProjectConfiguration,
+  updateNxJson,
 } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Linter } from '@nrwl/linter';
@@ -14,6 +17,12 @@ describe('init generator', () => {
 
   beforeEach(async () => {
     appTree = createTreeWithEmptyWorkspace();
+    const nxJson: NxJsonConfiguration = readNxJson(appTree) || {};
+    nxJson.workspaceLayout = {
+      appsDir: 'apps',
+      libsDir: 'libs',
+    };
+    updateNxJson(appTree, nxJson);
   });
 
   it('should run successfully', async () => {
