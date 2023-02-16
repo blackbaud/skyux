@@ -41,7 +41,7 @@ export async function createTestLibrary(
       name: `${libOptions.name}-workspace`,
       createApplication: false,
       strict: true,
-      version: '14',
+      version: VERSION.major,
     }
   );
 

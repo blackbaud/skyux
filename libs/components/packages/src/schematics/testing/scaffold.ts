@@ -2,6 +2,7 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
+import { VERSION } from '@angular/cli';
 
 /**
  * Creates a new Angular CLI application.
@@ -18,7 +19,7 @@ export async function createTestApp(
     routing: true,
     strict: true,
     style: 'scss',
-    version: '14',
+    version: VERSION.major,
   });
 }
 
@@ -39,7 +40,7 @@ export async function createTestLibrary(
       name: `${libOptions.projectName}-workspace`,
       createApplication: false,
       strict: true,
-      version: '14',
+      version: VERSION.major,
     }
   );
 

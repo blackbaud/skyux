@@ -10,6 +10,7 @@ const COLLECTION_PATH = normalize(`${__dirname}/../../../collection.json`);
 
 describe('ng-add.schematic', () => {
   const runner = new SchematicTestRunner('schematics', COLLECTION_PATH);
+  runner.logger.subscribe((entry) => console.log(entry.message));
   const defaultProjectName = 'my-lib';
 
   let tree: UnitTestTree;
@@ -38,11 +39,29 @@ describe('ng-add.schematic', () => {
   it('should apply a fix for crossvent "global is not defined" error', async () => {
     tree.create(
       'projects/my-lib/src/test.ts',
-      `// This is a test file.\ndeclare const require: any;\n`
+      `// This is a test file.\n// First, initialize the Angular testing environment.\n`
     );
     setTestOptionsMain();
     const updatedTree = await runSchematic();
 
+    expect(
+      updatedTree
+        .readContent('projects/my-lib/src/test.ts')
+        .match(/\(window as any\)\.global = window/)?.length
+    ).toEqual(1);
+  });
+
+  it('should apply a fix for crossvent if project does not include test.ts', async () => {
+    const updatedTree = await runSchematic();
+
+    const files: string[] = [];
+    updatedTree.visit((path) => files.push(path));
+    // expect(files).toBe([]);
+    const workspace: any = updatedTree.readJson('angular.json');
+    expect(workspace.projects['my-lib'].architect.test.options.main).toBe(
+      'projects/my-lib/src/test.ts'
+    );
+    expect(updatedTree.exists('projects/my-lib/src/test.ts')).toBeTruthy();
     expect(
       updatedTree
         .readContent('projects/my-lib/src/test.ts')
