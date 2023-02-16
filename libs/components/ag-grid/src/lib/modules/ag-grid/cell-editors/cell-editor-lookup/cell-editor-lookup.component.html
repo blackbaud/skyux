@@ -39,10 +39,12 @@
 >
   <sky-lookup
     [ariaLabel]="skyComponentProperties?.ariaLabel"
+    [ariaLabelledBy]="skyComponentProperties?.ariaLabelledBy"
     [autocompleteAttribute]="skyComponentProperties?.autocompleteAttribute"
     [data]="skyComponentProperties?.data"
     [debounceTime]="skyComponentProperties?.debounceTime"
     [descriptorProperty]="skyComponentProperties?.descriptorProperty"
+    [disabled]="skyComponentProperties?.disabled || false"
     [enableShowMore]="skyComponentProperties?.enableShowMore"
     formControlName="selection"
     [idProperty]="skyComponentProperties?.idProperty"
@@ -59,6 +61,7 @@
     [showAddButton]="skyComponentProperties?.showAddButton"
     [showMoreConfig]="skyComponentProperties?.showMoreConfig"
     [wrapperClass]="skyComponentProperties?.wrapperClass"
+    (addClick)="skyComponentProperties?.addClick($event)"
   >
   </sky-lookup>
 </sky-input-box>
