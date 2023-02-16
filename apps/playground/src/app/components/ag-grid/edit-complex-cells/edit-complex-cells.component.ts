@@ -5,6 +5,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import {
+  SkyAgGridLookupProperties,
   SkyAgGridRowDeleteCancelArgs,
   SkyAgGridRowDeleteConfirmArgs,
   SkyAgGridService,
@@ -224,7 +225,11 @@ export class EditComplexCellsComponent implements OnInit {
                 totalCount: items.length,
               }).pipe(delay(600));
             },
-          },
+            showAddButton: true,
+            addClick: () => {
+              alert('Add button clicked!');
+            },
+          } as SkyAgGridLookupProperties,
         },
         cellRendererParams: {
           skyComponentProperties: {
