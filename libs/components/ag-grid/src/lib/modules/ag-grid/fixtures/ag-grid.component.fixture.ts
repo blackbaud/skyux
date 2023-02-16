@@ -17,7 +17,8 @@ import { SkyCellType } from '../types/cell-type';
 import { SKY_AG_GRID_DATA, SKY_AG_GRID_LOOKUP } from './ag-grid-data.fixture';
 import { FirstInlineHelpComponent } from './inline-help.component';
 
-export const EnableTopScroll = new InjectionToken('EnableTopScroll');
+export const EnableTopScroll = new InjectionToken<boolean>('EnableTopScroll');
+export const Editable = new InjectionToken<boolean>('Editable');
 
 @Component({
   selector: 'sky-ag-grid-component-fixture',
@@ -186,7 +187,10 @@ export class SkyAgGridFixtureComponent implements OnInit {
     gridService: SkyAgGridService,
     @Optional()
     @Inject(EnableTopScroll)
-    public enableTopScroll: boolean | undefined
+    public enableTopScroll = false,
+    @Optional()
+    @Inject(Editable)
+    public editable = true
   ) {
     this.#gridService = gridService;
   }
