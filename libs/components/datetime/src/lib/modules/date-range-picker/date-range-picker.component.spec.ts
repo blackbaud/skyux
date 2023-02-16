@@ -335,6 +335,7 @@ describe('Date range picker', function () {
     verifyFormFieldsDisabledStatus(false);
   }));
 
+  // todo: template disable is not working on initialization
   xit('should set disabled state via template input on initialization', fakeAsync(function () {
     component.templateDisable = true;
 

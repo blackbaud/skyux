@@ -141,8 +141,9 @@ export class SkyDateRangePickerComponent
       } else {
         this.formGroup.enable();
       }
-      this.#changeDetector.markForCheck();
     }
+
+    this.#changeDetector.markForCheck();
   }
 
   public get disabled(): boolean | undefined {

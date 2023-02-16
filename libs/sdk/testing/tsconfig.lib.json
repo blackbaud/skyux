@@ -5,9 +5,7 @@
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
-    "types": ["jasmine", "node"],
-    "target": "ES2022",
-    "useDefineForClassFields": false
+    "types": ["jasmine", "node"]
   },
   "exclude": ["src/test.ts", "**/*.spec.ts"],
   "include": ["**/*.ts"]

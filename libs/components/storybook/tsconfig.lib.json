@@ -4,9 +4,7 @@
     "outDir": "../../../dist/out-tsc",
     "declaration": true,
     "declarationMap": true,
-    "inlineSources": true,
-    "target": "ES2022",
-    "useDefineForClassFields": false
+    "inlineSources": true
   },
   "exclude": [
     "src/test.ts",
