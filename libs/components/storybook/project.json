@@ -29,8 +29,7 @@
         "tsConfig": "libs/components/storybook/tsconfig.spec.json",
         "karmaConfig": "libs/components/storybook/karma.conf.js",
         "codeCoverage": true,
-        "codeCoverageExclude": ["**/fixtures/**"],
-        "polyfills": ["zone.js", "zone.js/testing"]
+        "codeCoverageExclude": ["**/fixtures/**"]
       }
     },
     "lint": {

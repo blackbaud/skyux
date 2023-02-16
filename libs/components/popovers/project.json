@@ -33,8 +33,7 @@
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ],
         "codeCoverage": true,
-        "codeCoverageExclude": ["**/fixtures/**"],
-        "polyfills": ["zone.js", "zone.js/testing"]
+        "codeCoverageExclude": ["**/fixtures/**"]
       }
     },
     "lint": {
