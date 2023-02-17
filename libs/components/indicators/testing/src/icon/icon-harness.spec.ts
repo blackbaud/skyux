@@ -25,7 +25,7 @@ class TestComponent {
   public iconType: string | undefined = 'skyux';
   public fixedWidth: boolean | undefined = true;
   public variant: string | undefined = 'line';
-  public size: string | undefined = '2xl';
+  public size: string | undefined = '2xl'; //reset to undefined so u have a baseline
 }
 //#endregion Test component
 
@@ -134,11 +134,7 @@ describe('Icon harness', () => {
   it('should setup the icon test harness', async () => {
     const { iconHarness, fixture } = await setupTest();
 
-    await validateIconName(
-      iconHarness,
-      fixture,
-      fixture.componentInstance.iconName
-    );
+    await expectAsync(iconHarness.getIconName()).toBeResolvedTo('house');
     await validateFixedWidth(
       iconHarness,
       fixture,

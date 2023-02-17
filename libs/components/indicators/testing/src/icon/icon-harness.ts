@@ -3,6 +3,9 @@ import { SkyComponentHarness } from '@skyux/core/testing';
 
 import { SkyIconHarnessFilters } from './icon-harness-filters';
 
+// match ending in `-line` or `-solid`
+const ICON_CLASS_VARIANT_REGEXP = /(-line|-solid)$/;
+
 /**
  * Harness for interacting with an icon component in tests.
  */
@@ -28,10 +31,14 @@ export class SkyIconHarness extends SkyComponentHarness {
   public async getIconName(): Promise<string | undefined> {
     const iconClasses = await (await this.#getIcon()).getProperty('classList');
     for (const iconClass of iconClasses) {
-      if (/^sky-i-|fa-(?!fw|2xs|xs|sm|lg|2xl|[0-9]+x)/.test(iconClass)) {
-        return iconClass
-          .replace(/-line|-solid$/, '')
-          .replace(/^sky-i-|fa-/, '');
+      // match a class name that starts with `sky-i` or starts with `fa-` but does not follow with `fw` (fixed width) or 2xs, xs, sm, lg, 2xl (font awesome sizes) or the range [1-10]x (icon size)
+      if (/^sky-i-|^fa-(?!fw|2xs|xs|sm|lg|2xl|[0-9]+x)/.test(iconClass)) {
+        return (
+          iconClass
+            .replace(ICON_CLASS_VARIANT_REGEXP, '')
+            // remove `sky-i` or `fa-` from the beginning of the icon class name
+            .replace(/^(sky-i-|fa-)/, '')
+        );
       }
     }
     return undefined;
@@ -45,8 +52,9 @@ export class SkyIconHarness extends SkyComponentHarness {
 
   /** Gets the icon type */
   public async getIconType(): Promise<string> {
-    const iconClasses = await (await this.#getIcon()).getProperty('classList');
+    const iconClasses = await this.#getIconClasses();
     for (const iconClass of iconClasses) {
+      // match a class name that starts with `sky-i`
       if (/^sky-i-/.test(iconClass)) {
         return 'skyux';
       }
@@ -56,8 +64,9 @@ export class SkyIconHarness extends SkyComponentHarness {
 
   /** Gets the icon size */
   public async getIconSize(): Promise<string | undefined> {
-    const iconClasses = await (await this.#getIcon()).getProperty('classList');
+    const iconClasses = await this.#getIconClasses();
     for (const iconClass of iconClasses) {
+      // match a class name that starts with `fa-` and  follows with 2xs, xs, sm, lg, 2xl (font awesome sizes) or the range [1-10]x
       if (/^fa-(?=2xs|xs|sm|lg|2xl|[0-9]+x)/.test(iconClass)) {
         return iconClass.replace('fa-', '');
       }
@@ -68,11 +77,9 @@ export class SkyIconHarness extends SkyComponentHarness {
   /** Gets if the icon is a variant */
   public async getVariant(): Promise<string | undefined> {
     if ((await this.getIconType()) === 'skyux') {
-      const iconClasses = await (
-        await this.#getIcon()
-      ).getProperty('classList');
+      const iconClasses = await this.#getIconClasses();
       for (const iconClass of iconClasses) {
-        if (/-line|-solid$/.test(iconClass)) {
+        if (ICON_CLASS_VARIANT_REGEXP.test(iconClass)) {
           return iconClass.substring(iconClass.lastIndexOf('-') + 1);
         }
       }
@@ -81,5 +88,10 @@ export class SkyIconHarness extends SkyComponentHarness {
     throw new Error(
       'Variant cannot be determined because iconType is not skyux'
     );
+  }
+
+  async #getIconClasses(): Promise<string[]> {
+    const iconClasses = await (await this.#getIcon()).getProperty('classList');
+    return Array.from(iconClasses);
   }
 }
