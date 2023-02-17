@@ -76,7 +76,8 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
    * to modify individual dates on the calendar.
    */
   @Output()
-  public calendarDateRangeChange = new EventEmitter<SkyDatepickerCalendarChange>();
+  public calendarDateRangeChange =
+    new EventEmitter<SkyDatepickerCalendarChange>();
 
   public calendarId: string;
 

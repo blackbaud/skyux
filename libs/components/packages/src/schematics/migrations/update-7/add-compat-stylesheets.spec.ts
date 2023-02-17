@@ -83,9 +83,7 @@ describe('Migrations > Add compat stylesheets', () => {
 
     return {
       runSchematic: () =>
-        runner
-          .runSchematicAsync('add-compat-stylesheets', {}, tree)
-          .toPromise(),
+        runner.runSchematic('add-compat-stylesheets', {}, tree),
       tree,
     };
   }
@@ -217,7 +215,7 @@ describe('Migrations > Add compat stylesheets', () => {
       projectName: 'my-lib',
     });
 
-    runner.runSchematicAsync('add-compat-stylesheets', {}, tree).toPromise();
+    runner.runSchematic('add-compat-stylesheets', {}, tree);
 
     tree.overwrite(
       '/package.json',
@@ -230,9 +228,11 @@ describe('Migrations > Add compat stylesheets', () => {
 
     let angularJson = JSON.parse(tree.readContent('/angular.json'));
 
-    const updatedTree = await runner
-      .runSchematicAsync('add-compat-stylesheets', {}, tree)
-      .toPromise();
+    const updatedTree = await runner.runSchematic(
+      'add-compat-stylesheets',
+      {},
+      tree
+    );
 
     const libShowcaseCompatStylesheetPath =
       'projects/my-lib-showcase/src/app/skyux7-compat.css';
