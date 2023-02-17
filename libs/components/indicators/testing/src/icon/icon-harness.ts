@@ -27,6 +27,11 @@ export class SkyIconHarness extends SkyComponentHarness {
     return SkyIconHarness.getDataSkyIdPredicate(filters);
   }
 
+  async #getIconClasses(): Promise<string[]> {
+    const iconClasses = await (await this.#getIcon()).getProperty('classList');
+    return Array.from(iconClasses);
+  }
+
   /** Gets the icon name */
   public async getIconName(): Promise<string | undefined> {
     const iconClasses = await (await this.#getIcon()).getProperty('classList');
@@ -44,10 +49,16 @@ export class SkyIconHarness extends SkyComponentHarness {
     return undefined;
   }
 
-  /** Gets if the icon has fixed width */
-  public async isFixedWidth(): Promise<boolean> {
-    const icon = await this.#getIcon();
-    return icon.hasClass(`fa-fw`);
+  /** Gets the icon size */
+  public async getIconSize(): Promise<string | undefined> {
+    const iconClasses = await this.#getIconClasses();
+    for (const iconClass of iconClasses) {
+      // match a class name that starts with `fa-` and  follows with 2xs, xs, sm, lg, 2xl (font awesome sizes) or the range [1-10]x
+      if (/^fa-(?=2xs|xs|sm|lg|2xl|[0-9]+x)/.test(iconClass)) {
+        return iconClass.replace('fa-', '');
+      }
+    }
+    return undefined;
   }
 
   /** Gets the icon type */
@@ -60,18 +71,6 @@ export class SkyIconHarness extends SkyComponentHarness {
       }
     }
     return 'fa';
-  }
-
-  /** Gets the icon size */
-  public async getIconSize(): Promise<string | undefined> {
-    const iconClasses = await this.#getIconClasses();
-    for (const iconClass of iconClasses) {
-      // match a class name that starts with `fa-` and  follows with 2xs, xs, sm, lg, 2xl (font awesome sizes) or the range [1-10]x
-      if (/^fa-(?=2xs|xs|sm|lg|2xl|[0-9]+x)/.test(iconClass)) {
-        return iconClass.replace('fa-', '');
-      }
-    }
-    return undefined;
   }
 
   /** Gets if the icon is a variant */
@@ -90,8 +89,9 @@ export class SkyIconHarness extends SkyComponentHarness {
     );
   }
 
-  async #getIconClasses(): Promise<string[]> {
-    const iconClasses = await (await this.#getIcon()).getProperty('classList');
-    return Array.from(iconClasses);
+  /** Gets if the icon has fixed width */
+  public async isFixedWidth(): Promise<boolean> {
+    const icon = await this.#getIcon();
+    return icon.hasClass(`fa-fw`);
   }
 }
