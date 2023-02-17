@@ -1,19 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { expect } from '@skyux-sdk/testing';
+import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyLookupModule, SkyLookupSelectModeType } from '@skyux/lookup';
 
 import { Column, ICellEditorParams, KeyCode } from 'ag-grid-community';
+import { of } from 'rxjs';
 
 import { SkyCellEditorLookupParams } from '../../types/cell-editor-lookup-params';
 
 import { SkyAgGridCellEditorLookupComponent } from './cell-editor-lookup.component';
-
-const NOOP = (): void => {
-  return;
-};
 
 describe('SkyAgGridCellEditorLookupComponent', () => {
   let component: SkyAgGridCellEditorLookupComponent;
@@ -29,8 +26,8 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
   const selection = [data[0]];
   let cellEditorParams: Partial<SkyCellEditorLookupParams>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+  beforeEach(() => {
+    TestBed.configureTestingModule({
       declarations: [SkyAgGridCellEditorLookupComponent],
       imports: [
         NoopAnimationsModule,
@@ -38,10 +35,8 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         SkyInputBoxModule,
         SkyLookupModule,
       ],
-    }).compileComponents();
-  });
+    });
 
-  beforeEach(() => {
     cellEditorParams = {
       cellStartedEdit: true,
       colDef: {
@@ -59,15 +54,17 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
       } as Column,
       context: undefined,
       data: undefined,
-      formatValue: NOOP,
-      onKeyDown: NOOP,
-      parseValue: NOOP,
+      formatValue: jasmine.createSpy('formatValue'),
+      onKeyDown: jasmine.createSpy('onKeyDown'),
+      parseValue: jasmine.createSpy('parseValue'),
       rowIndex: 0,
       skyComponentProperties: {
         data: [],
         selectMode: 'single' as SkyLookupSelectModeType,
+        addClick: jasmine.createSpy('addClick'),
+        showAddButton: true,
       },
-      stopEditing: NOOP,
+      stopEditing: jasmine.createSpy('stopEditing'),
       value: selection,
     };
     callback = undefined;
@@ -163,18 +160,37 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         expect(component.editorForm.get('selection')?.value).toEqual([]);
       });
 
-      it('initializes with the current value when F2 triggers the edit', () => {
+      it('initializes with the current value when F2 triggers the edit', async () => {
         expect(component.editorForm.get('selection')?.value).toEqual([]);
 
         component.agInit({
           ...(cellEditorParams as ICellEditorParams),
           eventKey: KeyCode.F2,
+          skyComponentProperties: {
+            ...cellEditorParams.skyComponentProperties,
+            searchAsync: () => of(data),
+          },
         });
 
         expect(component.editorForm.get('selection')?.value).toBe(selection);
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        const lookup = fixture.nativeElement.querySelector('.sky-lookup');
+        expect(lookup).toBeTruthy();
+        SkyAppTestUtility.fireDomEvent(
+          lookup.querySelector('.sky-lookup-input'),
+          'focus'
+        );
+        const addButton = fixture.nativeElement.ownerDocument.querySelector(
+          '.sky-overlay.ag-custom-component-popup button.sky-autocomplete-action-add'
+        );
+        expect(addButton).toBeTruthy();
+        SkyAppTestUtility.fireDomEvent(addButton, 'mousedown');
+        expect(component.skyComponentProperties?.addClick).toHaveBeenCalled();
       });
 
-      it('initializes with the current value when Enter triggers the edit', () => {
+      it('initializes with the current value when Enter triggers the edit', async () => {
         expect(component.editorForm.get('selection')?.value).toEqual([]);
 
         component.agInit({
@@ -183,6 +199,21 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         });
 
         expect(component.editorForm.get('selection')?.value).toBe(selection);
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        const lookup = fixture.nativeElement.querySelector('.sky-lookup');
+        expect(lookup).toBeTruthy();
+        SkyAppTestUtility.fireDomEvent(
+          lookup.querySelector('.sky-lookup-input'),
+          'focus'
+        );
+        const addButton = fixture.nativeElement.ownerDocument.querySelector(
+          '.sky-overlay.ag-custom-component-popup button.sky-autocomplete-action-add'
+        );
+        expect(addButton).toBeTruthy();
+        SkyAppTestUtility.fireDomEvent(addButton, 'mousedown');
+        expect(component.skyComponentProperties?.addClick).toHaveBeenCalled();
       });
 
       // NOTE: This is different than other editors due to the selection nature of autocomplete
