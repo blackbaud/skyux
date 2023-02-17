@@ -14,7 +14,7 @@ import { SkySummaryActionBarModalTestComponent } from './summary-action-bar-moda
 export class SkySummaryActionBarTestComponent implements OnDestroy {
   public disableButtons = false;
 
-  public extraActions = false;
+  public extraActionCount = 0;
 
   public hideMainActionBar = false;
 

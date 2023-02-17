@@ -11,6 +11,7 @@ import {
 export interface SkyAgGridLookupProperties {
   addClick?: (args: SkyLookupAddClickEventArgs) => void;
   ariaLabel?: string;
+  ariaLabelledBy?: string;
   autocompleteAttribute?: string;
   data?: unknown[];
   debounceTime?: number;

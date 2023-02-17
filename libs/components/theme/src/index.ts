@@ -12,6 +12,8 @@ export * from './lib/theming/theme.service';
 export * from './lib/viewport/viewport.service';
 export * from './lib/viewport/viewport-reserve-args';
 export * from './lib/viewport/viewport-reserve-position-type';
+export * from './lib/viewport/viewport-reserved-space';
+export * from './lib/viewport/viewport-reserved-space-change-args';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.

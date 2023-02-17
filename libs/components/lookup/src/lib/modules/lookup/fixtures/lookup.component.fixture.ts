@@ -79,6 +79,8 @@ export class SkyLookupTestComponent {
 
   public showMoreConfig: SkyLookupShowMoreConfig | undefined = {};
 
+  public wrapperClass: string | undefined;
+
   public get friends(): any[] {
     return this.#_friends;
   }
