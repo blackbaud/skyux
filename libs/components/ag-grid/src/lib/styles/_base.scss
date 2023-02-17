@@ -178,12 +178,13 @@ ag-grid-angular {
   .ag-header-cell.ag-right-aligned-header,
   .ag-header-cell.sky-ag-grid-header-right-aligned {
     .ag-header-cell-comp-wrapper {
-      display: block;
+      flex-direction: row-reverse;
     }
 
     .ag-header-cell-label,
     .ag-cell-label-container {
-      flex-direction: row-reverse;
+      display: flex;
+      flex-direction: row;
     }
   }
 
