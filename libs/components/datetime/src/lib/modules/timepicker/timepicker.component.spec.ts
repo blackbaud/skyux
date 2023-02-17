@@ -652,6 +652,7 @@ describe('Timepicker', () => {
     }));
 
     it('should properly set disabled state on input and trigger button', fakeAsync(() => {
+      detectChangesAndTick(fixture);
       component.disabled = true;
       detectChangesAndTick(fixture);
 

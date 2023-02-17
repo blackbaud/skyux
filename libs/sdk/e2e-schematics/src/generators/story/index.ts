@@ -124,7 +124,7 @@ export default async function (tree: Tree, options: ComponentGeneratorSchema) {
     name: normalizedOptions.name,
     route: normalizedOptions.name,
     module: normalizedOptions.module,
-    project: normalizedOptions.project,
+    project: `${normalizedOptions.project}`,
   });
   const componentFilePaths = tree
     .listChanges()

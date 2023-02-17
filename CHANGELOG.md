@@ -1,5 +1,35 @@
 # Changelog
 
+## [8.0.0-alpha.0](https://github.com/blackbaud/skyux/compare/7.6.1...8.0.0-alpha.0) (2023-02-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* support Angular 15 ([#984](https://github.com/blackbaud/skyux/issues/984))
+
+### Features
+
+* support Angular 15 ([#984](https://github.com/blackbaud/skyux/issues/984)) ([4cef2d0](https://github.com/blackbaud/skyux/commit/4cef2d07aa52a178f78ac5faacf483f4f7a94df8))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** address accessibility test issues ([#982](https://github.com/blackbaud/skyux/issues/982)) ([#987](https://github.com/blackbaud/skyux/issues/987)) ([25f3dff](https://github.com/blackbaud/skyux/commit/25f3dff658bd8fcc84e1b2cad12ba150fb2ff306))
+* **components/ag-grid:** apply lookup addClick handler ([#992](https://github.com/blackbaud/skyux/issues/992)) ([#999](https://github.com/blackbaud/skyux/issues/999)) ([257114a](https://github.com/blackbaud/skyux/commit/257114acef2b485119fd9b6f7807234ae017e52a))
+
+## [7.7.0](https://github.com/blackbaud/skyux/compare/7.6.2...7.7.0) (2023-02-16)
+
+
+### Features
+
+* **components/action-bars:** update summary action bar to respect reserved viewport space ([#993](https://github.com/blackbaud/skyux/issues/993)) ([f0c7b19](https://github.com/blackbaud/skyux/commit/f0c7b1927ac2ebcf28ec384df70905079002a95f))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** apply lookup addClick handler ([#992](https://github.com/blackbaud/skyux/issues/992)) ([86cba17](https://github.com/blackbaud/skyux/commit/86cba17923a18358c8fbd611c4517962fef79d63))
+* **components/lookup:** pass `wrapperClass` to selection modal ([#996](https://github.com/blackbaud/skyux/issues/996)) ([d6786de](https://github.com/blackbaud/skyux/commit/d6786debfb700241c6eb1b51bdb20bec7778b981))
+
 ## [7.6.2](https://github.com/blackbaud/skyux/compare/7.6.1...7.6.2) (2023-02-14)
 
 

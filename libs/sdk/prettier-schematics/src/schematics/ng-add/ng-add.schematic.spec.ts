@@ -28,15 +28,13 @@ describe('ng-add.schematic', () => {
   });
 
   function runSchematic(tree: UnitTestTree): Promise<UnitTestTree> {
-    return runner
-      .runSchematicAsync(
-        'ng-add',
-        {
-          project: defaultProjectName,
-        },
-        tree
-      )
-      .toPromise();
+    return runner.runSchematic(
+      'ng-add',
+      {
+        project: defaultProjectName,
+      },
+      tree
+    );
   }
 
   function validateJsonFile(

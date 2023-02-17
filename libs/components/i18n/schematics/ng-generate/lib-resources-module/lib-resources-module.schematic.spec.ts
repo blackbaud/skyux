@@ -43,7 +43,7 @@ describe('lib-resources-module.schematic', () => {
       project: defaultProjectName,
     }
   ): Promise<UnitTestTree> {
-    return runner.runSchematicAsync(schematicName, options, tree).toPromise();
+    return runner.runSchematic(schematicName, options, tree);
   }
 
   it('should generate a resources module', async () => {
@@ -228,15 +228,13 @@ export class FoobarResourcesModule { }
       defaultProjectName: 'foo-app',
     });
 
-    await runner
-      .runSchematicAsync(
-        schematicName,
-        {
-          project: 'foo-app',
-        },
-        app
-      )
-      .toPromise();
+    await runner.runSchematic(
+      schematicName,
+      {
+        project: 'foo-app',
+      },
+      app
+    );
 
     expect(app.exists(resourcesModulePath)).toBeFalse();
   });

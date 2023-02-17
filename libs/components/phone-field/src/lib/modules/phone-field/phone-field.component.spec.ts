@@ -690,9 +690,12 @@ describe('Phone Field Component', () => {
     });
 
     describe('disabled state', () => {
-      it('should disable the input and dropdown when disable is set to true', () => {
+      it('should disable the input and dropdown when disable is set to true', async () => {
         component.isDisabled = true;
         fixture.detectChanges();
+        await fixture.whenStable();
+        fixture.detectChanges();
+        await fixture.whenStable();
         const countryInput = getCountrySearchToggleButton(fixture);
 
         expect(fixture.componentInstance.inputDirective?.disabled).toBeTruthy();

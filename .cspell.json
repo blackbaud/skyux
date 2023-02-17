@@ -23,9 +23,13 @@
     {
       "name": "lorem-ipsum",
       "pattern": "/Lorem ipsum[\\s\\w\\r\\n\\d,.?!;\\-\\+\\\\]+[<'`]/g"
+    },
+    {
+      "name": "ng-packagr",
+      "pattern": "/ng-packagr/g"
     }
   ],
-  "ignoreRegExpList": ["lorem-ipsum"],
+  "ignoreRegExpList": ["lorem-ipsum", "ng-packagr"],
   "words": [
     "activedescendant",
     "alertdialog",

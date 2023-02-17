@@ -3,8 +3,14 @@ import {
   componentGenerator,
   storybookConfigurationGenerator,
 } from '@nrwl/angular/generators';
-import { Tree, readProjectConfiguration } from '@nrwl/devkit';
-import { createTreeWithEmptyV1Workspace } from '@nrwl/devkit/testing';
+import {
+  NxJsonConfiguration,
+  Tree,
+  readNxJson,
+  readProjectConfiguration,
+  updateNxJson,
+} from '@nrwl/devkit';
+import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Linter } from '@nrwl/linter';
 
 import storiesGenerator from './index';
@@ -15,7 +21,13 @@ describe('stories generator', () => {
   let options: StoriesGeneratorSchema;
 
   beforeEach(() => {
-    appTree = createTreeWithEmptyV1Workspace();
+    appTree = createTreeWithEmptyWorkspace();
+    const nxJson: NxJsonConfiguration = readNxJson(appTree) || {};
+    nxJson.workspaceLayout = {
+      appsDir: 'apps',
+      libsDir: 'libs',
+    };
+    updateNxJson(appTree, nxJson);
     options = {
       project: 'test',
       generateCypressSpecs: true,

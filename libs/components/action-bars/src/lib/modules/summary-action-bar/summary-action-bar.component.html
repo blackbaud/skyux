@@ -2,7 +2,7 @@
   class="sky-summary-action-bar"
   [ngClass]="{
     'sky-summary-action-bar-summary-collapsible':
-      type | skySummaryActionBarCollapsible: mediaQueryService.current,
+      type | skySummaryActionBarCollapsible : mediaQueryService.current,
     'sky-summary-action-bar-modal': type === 1 || type === 2,
     'sky-summary-action-bar-split-view': type === 4
   }"
@@ -25,7 +25,7 @@
         <div
           *ngIf="
             (type
-              | skySummaryActionBarCollapsible: mediaQueryService.current) &&
+              | skySummaryActionBarCollapsible : mediaQueryService.current) &&
             !isSummaryCollapsed
           "
           class="sky-summary-action-bar-details-collapse"
@@ -36,7 +36,7 @@
     </div>
     <div
       *ngIf="
-        (type | skySummaryActionBarCollapsible: mediaQueryService.current) &&
+        (type | skySummaryActionBarCollapsible : mediaQueryService.current) &&
         isSummaryCollapsed
       "
       class="sky-summary-action-bar-details-expand"
