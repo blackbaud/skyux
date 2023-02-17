@@ -402,7 +402,7 @@ export class SkyTextEditorComponent implements OnDestroy {
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe(() => {
           // Angular doesn't run change detection for changes originating inside an iframe,
-          // so we have to run markForCheck() inside the NgZone to force change propagation to consuming components.
+          // so we have to run #_onTouched() inside the NgZone to force change propagation to consuming components.
           this.#zone.run(() => {
             this.#_onTouched();
           });
