@@ -131,32 +131,6 @@ describe('Icon harness', () => {
     return { iconHarness, fixture, loader, pageLoader };
   }
 
-  it('should setup the icon test harness', async () => {
-    const { iconHarness, fixture } = await setupTest();
-
-    await expectAsync(iconHarness.getIconName()).toBeResolvedTo('house');
-    await validateFixedWidth(
-      iconHarness,
-      fixture,
-      fixture.componentInstance.fixedWidth
-    );
-    await validateIconType(
-      iconHarness,
-      fixture,
-      fixture.componentInstance.iconType
-    );
-    await validateIconSize(
-      iconHarness,
-      fixture,
-      fixture.componentInstance.size
-    );
-    await validateVariant(
-      iconHarness,
-      fixture,
-      fixture.componentInstance.variant
-    );
-  });
-
   it('should return the correct icon name for all icon types and variants', async () => {
     const { iconHarness, fixture } = await setupTest();
     for (const type of iconTypes) {
