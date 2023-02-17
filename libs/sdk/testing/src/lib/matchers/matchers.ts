@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { SkyAppResourcesService, SkyLibResourcesService } from '@skyux/i18n';
 
+import axe from 'axe-core';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
@@ -368,7 +369,7 @@ const matchers: jasmine.CustomMatcherFactories = {
 const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
   toBeAccessible(): jasmine.CustomAsyncMatcher {
     return {
-      compare<T>(
+      compare<T extends axe.ElementContext>(
         element: T,
         config?: SkyA11yAnalyzerConfig
       ): Promise<jasmine.CustomMatcherResult> {
