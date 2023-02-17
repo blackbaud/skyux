@@ -17,9 +17,7 @@ describe('Migrations > Add autonumeric as a dependency', () => {
 
     return {
       runSchematic: () =>
-        runner
-          .runSchematicAsync('add-autonumeric-dependency', {}, tree)
-          .toPromise(),
+        runner.runSchematic('add-autonumeric-dependency', {}, tree),
       tree,
     };
   }

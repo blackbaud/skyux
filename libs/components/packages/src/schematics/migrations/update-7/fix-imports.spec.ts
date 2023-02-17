@@ -15,7 +15,7 @@ describe('fix imports', () => {
       projectName: 'my-app',
     });
     const runSchematicAsync = async () =>
-      runner.runSchematicAsync('fix-imports', {}, tree).toPromise();
+      runner.runSchematic('fix-imports', {}, tree);
     return { tree, runSchematicAsync };
   }
 

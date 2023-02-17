@@ -214,7 +214,9 @@ sky-input-box {
     }
 
     .sky-input-box-group-form-control-focus:not(:active),
-    .sky-input-box-group-form-control-focus:not(:active).sky-input-box-group-form-control-invalid {
+    .sky-input-box-group-form-control-focus:not(
+        :active
+      ).sky-input-box-group-form-control-invalid {
       /*
         The combination of z-index here and position: relative on the form control
         allows the drop shadow on the focused input group to display above the
@@ -447,7 +449,9 @@ sky-input-box {
     }
 
     .sky-input-box-group-form-control-focus:not(:active),
-    .sky-input-box-group-form-control-focus:not(:active).sky-input-box-group-form-control-invalid {
+    .sky-input-box-group-form-control-focus:not(
+        :active
+      ).sky-input-box-group-form-control-invalid {
       /*
         The combination of z-index here and position: relative on the form control
         allows the drop shadow on the focused input group to display above the

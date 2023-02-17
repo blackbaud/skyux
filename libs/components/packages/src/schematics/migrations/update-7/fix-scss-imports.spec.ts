@@ -16,8 +16,7 @@ describe('Migrations > Fix SKY UX SCSS imports', () => {
     });
 
     return {
-      runSchematic: () =>
-        runner.runSchematicAsync('fix-scss-imports', {}, tree).toPromise(),
+      runSchematic: () => runner.runSchematic('fix-scss-imports', {}, tree),
       tree,
     };
   }

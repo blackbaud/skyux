@@ -158,7 +158,6 @@ describe('Select field component', () => {
       component.ariaLabel = 'my-aria-label';
       component.ariaLabelledBy = 'my-aria-labelledby';
       component.descriptorKey = 'name';
-      component.disabled = true;
       component.selectMode = 'single';
       component.multipleSelectOpenButtonText = 'open';
       component.singleSelectClearButtonTitle = 'clear title';
@@ -166,6 +165,9 @@ describe('Select field component', () => {
       component.singleSelectPlaceholderText = 'placeholder';
       component.pickerHeading = 'heading';
 
+      fixture.detectChanges();
+
+      component.disabled = true;
       fixture.detectChanges();
 
       expect(selectField.ariaLabel).toEqual('my-aria-label');

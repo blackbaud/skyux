@@ -17,9 +17,7 @@ describe('Migrations > Rename mutation observer service', () => {
 
     return {
       runSchematic: () =>
-        runner
-          .runSchematicAsync('rename-mutation-observer-service', {}, tree)
-          .toPromise(),
+        runner.runSchematic('rename-mutation-observer-service', {}, tree),
       tree,
     };
   }

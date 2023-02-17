@@ -2,6 +2,7 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
+import { VERSION } from '@angular/cli';
 
 /**
  * Creates a new Angular CLI application.
@@ -12,17 +13,15 @@ export async function createTestApp(
     defaultProjectName: string;
   }
 ): Promise<UnitTestTree> {
-  return await runner
-    .runExternalSchematicAsync('@schematics/angular', 'ng-new', {
-      directory: '/',
+  return await runner.runExternalSchematic('@schematics/angular', 'ng-new', {
+    directory: '/',
 
-      name: appOptions.defaultProjectName,
-      routing: true,
-      strict: true,
-      style: 'scss',
-      version: '14',
-    })
-    .toPromise();
+    name: appOptions.defaultProjectName,
+    routing: true,
+    strict: true,
+    style: 'scss',
+    version: VERSION.major,
+  });
 }
 
 /**
@@ -34,26 +33,26 @@ export async function createTestLibrary(
     name: string;
   }
 ): Promise<UnitTestTree> {
-  const workspaceTree = await runner
-    .runExternalSchematicAsync('@schematics/angular', 'ng-new', {
+  const workspaceTree = await runner.runExternalSchematic(
+    '@schematics/angular',
+    'ng-new',
+    {
       directory: '/',
       name: `${libOptions.name}-workspace`,
       createApplication: false,
       strict: true,
-      version: '14',
-    })
-    .toPromise();
+      version: VERSION.major,
+    }
+  );
 
-  await runner
-    .runExternalSchematicAsync(
-      '@schematics/angular',
-      'library',
-      {
-        name: libOptions.name,
-      },
-      workspaceTree
-    )
-    .toPromise();
+  await runner.runExternalSchematic(
+    '@schematics/angular',
+    'library',
+    {
+      name: libOptions.name,
+    },
+    workspaceTree
+  );
 
   return workspaceTree;
 }
