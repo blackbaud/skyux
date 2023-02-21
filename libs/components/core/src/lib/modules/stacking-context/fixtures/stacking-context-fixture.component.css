@@ -1,0 +1,40 @@
+.a1 {
+  background: red;
+  position: relative;
+}
+
+.a2 {
+  background: green;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 100px;
+  height: 100px;
+  z-index: 22;
+}
+
+.a3 {
+  background: blue;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 100px;
+  height: 100px;
+}
+
+.b1 {
+  background: red;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.b2 {
+  background: green;
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: 50px;
+  height: 50px;
+  z-index: 1;
+}
