@@ -422,8 +422,9 @@ describe('Text editor', () => {
     beforeEach(() => {
       fixture = createComponent(TextEditorFixtureComponent);
       testComponent = fixture.componentInstance as TextEditorFixtureComponent;
-      iframeDocument = getIframeDocument();
       iframeElement = getIframeElement();
+      SkyAppTestUtility.fireDomEvent(iframeElement, 'load');
+      iframeDocument = getIframeDocument();
       textEditorDebugElement = fixture.debugElement.query(
         By.directive(SkyTextEditorComponent)
       );
@@ -1333,6 +1334,10 @@ describe('Text editor', () => {
     }));
 
     it('should set the style of the iframe body to the provided style state', fakeAsync(() => {
+      // We normally load the iframe in the `beforeEach`. However, we need to reset things here so that the initial styles can be applied first.
+      TestBed.resetTestingModule();
+      fixture = createComponent(TextEditorFixtureComponent);
+      testComponent = fixture.componentInstance as TextEditorFixtureComponent;
       const backColor = '#333333'; // rgb(51, 51, 51)
       const fontColor = '#EEEEEE'; // rgb(238, 238, 238)
       const font = 'Times New Roman';
@@ -1344,6 +1349,10 @@ describe('Text editor', () => {
         font: font,
         fontSize: fontSize,
       } as SkyTextEditorStyleState;
+      fixture.detectChanges();
+      iframeElement = getIframeElement();
+      SkyAppTestUtility.fireDomEvent(iframeElement, 'load');
+      iframeDocument = getIframeDocument();
       fixture.detectChanges();
 
       const style = iframeDocument.querySelector('body')
@@ -1632,9 +1641,11 @@ describe('Text editor', () => {
         By.directive(SkyTextEditorComponent)
       );
       textEditorNativeElement = textEditorDebugElement.nativeElement;
-      editableElement = getIframeDocument().body;
       ngModel = textEditorDebugElement.injector.get<NgModel>(NgModel);
+      iframeElement = getIframeElement();
+      SkyAppTestUtility.fireDomEvent(iframeElement, 'load');
       iframeDocument = getIframeDocument();
+      editableElement = iframeDocument.body;
     });
 
     it('should be pristine, untouched, and valid initially', () => {
@@ -1729,12 +1740,13 @@ describe('Text editor', () => {
       fixture.detectChanges();
 
       testComponent = fixture.componentInstance as TextEditorWithFormControl;
-      editableElement = getIframeDocument().body;
       textEditorDebugElement = fixture.debugElement.query(
         By.directive(SkyTextEditorComponent)
       );
       textEditorComponent = textEditorDebugElement.componentInstance;
       iframeElement = getIframeElement();
+      SkyAppTestUtility.fireDomEvent(iframeElement, 'load');
+      editableElement = getIframeDocument().body;
     });
 
     it('should toggle the disabled state', () => {
@@ -1763,6 +1775,8 @@ describe('Text editor', () => {
       // A bug in the order of setting value, initializing the text editor
       // and setting focus would cause this test to fail.
       fixture = createComponent(TextEditorFixtureComponent);
+      iframeElement = getIframeElement();
+      SkyAppTestUtility.fireDomEvent(iframeElement, 'load');
       const testComponent =
         fixture.componentInstance as TextEditorFixtureComponent;
       testComponent.autofocus = true;
