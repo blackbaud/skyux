@@ -6,7 +6,6 @@ import { Component } from '@angular/core';
 })
 export class HelpInlineDemoComponent {
   public onActionClick(): void {
-    //test
     alert('Help inline button clicked!');
   }
 }
