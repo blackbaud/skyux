@@ -208,9 +208,7 @@ export class SkyScrollableHostService {
     elementRef: ElementRef
   ): Observable<string> {
     if (!this.#resizeObserverSvc) {
-      throw new Error(
-        'The SkyResizeObserverService is required to use the watchScrollableHostClipPathChanges method.'
-      );
+      return of('none');
     }
 
     return this.watchScrollableHost(elementRef).pipe(

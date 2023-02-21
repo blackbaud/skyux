@@ -582,16 +582,16 @@ describe('Scrollable host service', () => {
       });
   });
 
-  it('should error without resize observer', () => {
+  it('should error without resize observer', async () => {
     const scrollableHostSvc = new SkyScrollableHostService(
       {} as SkyMutationObserverService,
       {} as SkyAppWindowRef,
       undefined
     );
-    expect(() =>
-      scrollableHostSvc.watchScrollableHostClipPathChanges({} as ElementRef)
-    ).toThrowError(
-      'The SkyResizeObserverService is required to use the watchScrollableHostClipPathChanges method.'
-    );
+    await expectAsync(
+      scrollableHostSvc
+        .watchScrollableHostClipPathChanges({} as ElementRef)
+        .toPromise()
+    ).toBeResolvedTo('none');
   });
 });
