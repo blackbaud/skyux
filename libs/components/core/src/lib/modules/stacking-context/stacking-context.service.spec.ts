@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StackingContextFixtureComponent } from './fixtures/stacking-context-fixture.component';
-import { StackingContextService } from './stacking-context.service';
+import { SkyStackingContextService } from './stacking-context.service';
 
-describe('StackingContextService', () => {
-  let service: StackingContextService;
+describe('SkyStackingContextService', () => {
+  let service: SkyStackingContextService;
   let fixture: ComponentFixture<StackingContextFixtureComponent>;
   let component: StackingContextFixtureComponent;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [StackingContextService],
+      providers: [SkyStackingContextService],
       declarations: [StackingContextFixtureComponent],
     });
-    service = TestBed.inject(StackingContextService);
+    service = TestBed.inject(SkyStackingContextService);
     fixture = TestBed.createComponent(StackingContextFixtureComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

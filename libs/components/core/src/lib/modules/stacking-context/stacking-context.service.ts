@@ -4,7 +4,7 @@ import { Inject, Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-export class StackingContextService {
+export class SkyStackingContextService {
   #document: Document;
 
   constructor(@Inject(DOCUMENT) readonly document: Document) {
