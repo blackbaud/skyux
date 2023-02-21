@@ -1,7 +1,7 @@
 import { ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
-import { SkyAppWindowRef } from '@skyux/core';
+import { SkyAppWindowRef, SkyResizeObserverService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { delay, take, takeUntil } from 'rxjs/operators';
@@ -558,15 +558,25 @@ describe('Scrollable host service', () => {
   });
 
   it('should notify a subscriber when the scrollable parent clip path changes', (done) => {
+    const windowRef = TestBed.inject(SkyAppWindowRef);
+    const scrollableHostSvc = new SkyScrollableHostService(
+      TestBed.inject(SkyMutationObserverService),
+      windowRef,
+      TestBed.inject(SkyResizeObserverService)
+    );
+
     cmp.isParentPositioned = true;
     cmp.positionedParentWidth = '100px';
     fixture.detectChanges();
 
-    cmp
-      .watchScrollableHostClipPathChanges()
+    const viewport = windowRef.nativeWindow.visualViewport;
+    scrollableHostSvc
+      .watchScrollableHostClipPathChanges(cmp.target)
       .pipe(take(1))
       .subscribe((clipPath) => {
-        expect(clipPath).toBe('inset(0px 100px 100px 0px)');
+        expect(clipPath).toBe(
+          `inset(0px ${viewport.width - 100}px ${viewport.height - 100}px 0px)`
+        );
         done();
       });
   });

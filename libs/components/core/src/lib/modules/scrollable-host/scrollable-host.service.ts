@@ -229,9 +229,13 @@ export class SkyScrollableHostService {
             const { top, left, width, height } = (
               scrollableHost as HTMLElement
             ).getBoundingClientRect();
-            return `inset(${top}px ${left + width}px ${
-              top + height
-            }px ${left}px)`;
+            const win: Window = this.#windowRef.nativeWindow;
+            const right = Math.max(win.visualViewport.width - left - width, 0);
+            const bottom = Math.max(
+              win.visualViewport.height - top - height,
+              0
+            );
+            return `inset(${top}px ${right}px ${bottom}px ${left}px)`;
           })
         );
       })
