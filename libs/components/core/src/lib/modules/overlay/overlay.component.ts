@@ -77,7 +77,7 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
 
   public zIndex = `${++uniqueZIndex}`;
 
-  public clipPath$ = new ReplaySubject<string>(1);
+  protected clipPath$ = new ReplaySubject<string | undefined>(1);
 
   @ViewChild('overlayContentRef', {
     read: ElementRef,
@@ -207,6 +207,10 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
     this.targetRef.clear();
 
     return this.targetRef.createEmbeddedView(templateRef, context);
+  }
+
+  public updateClipPath(clipPath: string | undefined): void {
+    this.clipPath$.next(clipPath);
   }
 
   #applyConfig(config: SkyOverlayConfig): void {

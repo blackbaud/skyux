@@ -147,7 +147,6 @@ export class SkyModalHostComponent implements OnDestroy {
     const modalElement = modalComponentRef.location;
 
     modalInstance.componentInstance = modalComponentRef.instance;
-    modalInstance.zIndex = hostService.zIndex;
 
     this.#registerModalInstance(modalInstance);
 
