@@ -413,4 +413,18 @@ describe('Overlay service', () => {
 
     expect(el?.id).toBeTruthy();
   });
+
+  it('should set the clip-path property on the overlay wrapper element', async () => {
+    const instance = service.create();
+    instance.componentRef.instance.updateClipPath(
+      'polygon(0 0, 100% 0, 100% 100%, 0 100%)'
+    );
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const el = document.querySelector('sky-overlay > div.sky-overlay');
+
+    expect(el).toBeTruthy();
+    expect((el as HTMLElement).style.clipPath).toBeTruthy();
+  });
 });
