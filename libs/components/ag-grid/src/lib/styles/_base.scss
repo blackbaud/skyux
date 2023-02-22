@@ -175,9 +175,17 @@ ag-grid-angular {
     text-overflow: clip;
   }
 
-  .ag-header-cell.sky-ag-grid-header-right-aligned
-    > .ag-header-cell-comp-wrapper {
-    flex-direction: row-reverse;
+  .ag-header-cell.ag-right-aligned-header,
+  .ag-header-cell.sky-ag-grid-header-right-aligned {
+    .ag-header-cell-comp-wrapper {
+      flex-direction: row-reverse;
+    }
+
+    .ag-header-cell-label,
+    .ag-cell-label-container {
+      display: flex;
+      flex-direction: row;
+    }
   }
 }
 
