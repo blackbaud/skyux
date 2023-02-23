@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RemoveTestRequire should create an instance 1`] = `
+"
+import 'zone.js';
+import 'zone.js/testing';
+import { getTestBed } from '@angular/core/testing';
+import {
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting
+} from '@angular/platform-browser-dynamic/testing';
+
+// Fix for crossvent \\"global is not defined\\" error. The crossvent library
+// is used by Dragula, which in turn is used by multiple SKY UX components.
+// See: https://github.com/bevacqua/dragula/issues/602
+(window as any).global = window;
+
+// First, initialize the Angular testing environment.
+getTestBed().initTestEnvironment(
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting(),
+  { teardown: { destroyAfterEach: true }},
+);
+"
+`;
+
+exports[`RemoveTestRequire should work with no changes 1`] = `
+"
+import 'zone.js';
+import 'zone.js/testing';
+import { getTestBed } from '@angular/core/testing';
+import {
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting
+} from '@angular/platform-browser-dynamic/testing';
+
+// Fix for crossvent \\"global is not defined\\" error. The crossvent library
+// is used by Dragula, which in turn is used by multiple SKY UX components.
+// See: https://github.com/bevacqua/dragula/issues/602
+(window as any).global = window;
+
+// First, initialize the Angular testing environment.
+getTestBed().initTestEnvironment(
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting(),
+  { teardown: { destroyAfterEach: true }},
+);
+"
+`;
+
+exports[`RemoveTestRequire should work without context map 1`] = `
+"
+import 'zone.js';
+import 'zone.js/testing';
+import { getTestBed } from '@angular/core/testing';
+import {
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting
+} from '@angular/platform-browser-dynamic/testing';
+
+// Fix for crossvent \\"global is not defined\\" error. The crossvent library
+// is used by Dragula, which in turn is used by multiple SKY UX components.
+// See: https://github.com/bevacqua/dragula/issues/602
+(window as any).global = window;
+
+// First, initialize the Angular testing environment.
+getTestBed().initTestEnvironment(
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting(),
+  { teardown: { destroyAfterEach: true }},
+);
+"
+`;
+
+exports[`RemoveTestRequire should work without testing context 1`] = `
+"
+import 'zone.js';
+import 'zone.js/testing';
+import { getTestBed } from '@angular/core/testing';
+import {
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting
+} from '@angular/platform-browser-dynamic/testing';
+
+// Fix for crossvent \\"global is not defined\\" error. The crossvent library
+// is used by Dragula, which in turn is used by multiple SKY UX components.
+// See: https://github.com/bevacqua/dragula/issues/602
+(window as any).global = window;
+
+// First, initialize the Angular testing environment.
+getTestBed().initTestEnvironment(
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting(),
+  { teardown: { destroyAfterEach: true }},
+);
+"
+`;

@@ -40,6 +40,8 @@ getTestBed().initTestEnvironment(
   context: `
 // Then we find all the tests.
 const context = require.context('./', true, /\\.spec\\.ts$/);
+`,
+  contextMap: `
 // And load the modules.
 context.keys().map(context);
 `,
@@ -68,21 +70,11 @@ describe('RemoveTestRequire', () => {
         testTsPieces.requirePolyfill +
         testTsPieces.getTestBed +
         testTsPieces.context +
+        testTsPieces.contextMap +
         testTsPieces.testingContext
     );
     await RemoveTestRequire()(tree, {} as SchematicContext);
-    expect(tree.readText('projects/test/src/test.ts')).toContain(
-      testTsPieces.imports
-    );
-    expect(tree.readText('projects/test/src/test.ts')).not.toContain(
-      'declare const require'
-    );
-    expect(tree.readText('projects/test/src/test.ts')).not.toContain(
-      'const context = require.context'
-    );
-    expect(tree.readText('projects/test/src/test.ts')).not.toContain(
-      'const testingContext = require.context'
-    );
+    expect(tree.readText('projects/test/src/test.ts')).toMatchSnapshot();
   });
 
   it('should work without testing context', async () => {
@@ -94,18 +86,26 @@ describe('RemoveTestRequire', () => {
         testTsPieces.fix +
         testTsPieces.requirePolyfill +
         testTsPieces.getTestBed +
+        testTsPieces.context +
+        testTsPieces.contextMap
+    );
+    await RemoveTestRequire()(tree, {} as SchematicContext);
+    expect(tree.readText('projects/test/src/test.ts')).toMatchSnapshot();
+  });
+
+  it('should work without context map', async () => {
+    const tree = await createTestLibrary(runner, { projectName: 'test' });
+    expect(tree.exists('projects/test/src/test.ts')).toBe(false);
+    tree.create(
+      'projects/test/src/test.ts',
+      testTsPieces.imports +
+        testTsPieces.fix +
+        testTsPieces.requirePolyfill +
+        testTsPieces.getTestBed +
         testTsPieces.context
     );
     await RemoveTestRequire()(tree, {} as SchematicContext);
-    expect(tree.readText('projects/test/src/test.ts')).toContain(
-      testTsPieces.imports
-    );
-    expect(tree.readText('projects/test/src/test.ts')).not.toContain(
-      'declare const require'
-    );
-    expect(tree.readText('projects/test/src/test.ts')).not.toContain(
-      'const context = require.context'
-    );
+    expect(tree.readText('projects/test/src/test.ts')).toMatchSnapshot();
   });
 
   it('should work with no changes', async () => {
@@ -116,8 +116,6 @@ describe('RemoveTestRequire', () => {
       testTsPieces.imports + testTsPieces.fix + testTsPieces.getTestBed
     );
     await RemoveTestRequire()(tree, {} as SchematicContext);
-    expect(tree.readText('projects/test/src/test.ts')).toContain(
-      testTsPieces.imports
-    );
+    expect(tree.readText('projects/test/src/test.ts')).toMatchSnapshot();
   });
 });

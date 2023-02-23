@@ -25,17 +25,33 @@ export default function (): Rule {
         });
 
         // Walk the AST and find the "const context = require.context(...);" statement.
-        const contextStatement = source.statements.find((statement) => {
-          return (
-            ts.isVariableStatement(statement) &&
-            statement.declarationList.declarations[0].initializer &&
-            ts.isCallExpression(
-              statement.declarationList.declarations[0].initializer
-            ) &&
-            statement.declarationList.declarations[0].initializer.expression.getText() ===
-              'require.context'
-          );
-        });
+        const contextStatement: ts.VariableStatement | undefined =
+          source.statements.find((statement) => {
+            return (
+              ts.isVariableStatement(statement) &&
+              statement.declarationList.declarations[0].initializer &&
+              ts.isCallExpression(
+                statement.declarationList.declarations[0].initializer
+              ) &&
+              statement.declarationList.declarations[0].initializer.expression.getText() ===
+                'require.context'
+            );
+          }) as ts.VariableStatement | undefined;
+        let contextStatements: ts.Statement[] | undefined;
+        if (contextStatement) {
+          // Walk the AST and find the "context.keys().map(context);" statement.
+          contextStatements = source.statements.filter((statement) => {
+            return (
+              ts.isExpressionStatement(statement) &&
+              ts.isCallExpression(statement.expression) &&
+              statement
+                .getText()
+                .startsWith(
+                  `${contextStatement.declarationList.declarations[0].name.getText()}.`
+                )
+            );
+          });
+        }
 
         // Walk the AST and find the "const testingContext = require.context(...);" statement wrapped in a try/catch.
         const testingContextStatement = source.statements.find((statement) => {
@@ -68,6 +84,11 @@ export default function (): Rule {
               contextStatement.pos,
               contextStatement.end - contextStatement.pos
             );
+            if (contextStatements) {
+              contextStatements.forEach((statement) => {
+                recorder.remove(statement.pos, statement.end - statement.pos);
+              });
+            }
           }
           if (testingContextStatement) {
             recorder.remove(
