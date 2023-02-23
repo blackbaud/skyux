@@ -81,6 +81,13 @@
 
   --ag-popup-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
 
+  &,
+  & ag-grid-angular {
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+  }
+
   .ag-scrollbar-invisible.sky-viewkeeper-fixed {
     box-shadow: none;
   }
