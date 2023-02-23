@@ -17,6 +17,7 @@ import {
   ViewContainerRef,
   ViewEncapsulation,
 } from '@angular/core';
+import { SkyStackingContextService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
@@ -36,7 +37,15 @@ import { SkyToastDisplayDirection } from './types/toast-display-direction';
   selector: 'sky-toaster',
   templateUrl: './toaster.component.html',
   styleUrls: ['./toaster.component.scss'],
-  providers: [SkyToastAdapterService, SkyToasterService],
+  providers: [
+    SkyToastAdapterService,
+    SkyToasterService,
+    {
+      provide: SkyStackingContextService,
+      // Match z-index set in libs/components/theme/src/lib/styles/_public-api/_compat/_variables.scss
+      useValue: new SkyStackingContextService({ zIndex: 1001 }),
+    },
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })

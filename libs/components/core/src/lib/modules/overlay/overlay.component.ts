@@ -29,6 +29,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { SkyCoreAdapterService } from '../adapter-service/adapter.service';
 import { SkyIdService } from '../id/id.service';
+import { SkyStackingContextService } from '../stacking-context/stacking-context.service';
 
 import { SkyOverlayConfig } from './overlay-config';
 import { SkyOverlayContext } from './overlay-context';
@@ -177,6 +178,13 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
     }
 
     this.targetRef.clear();
+
+    providers.push({
+      provide: SkyStackingContextService,
+      useValue: new SkyStackingContextService({
+        zIndex: parseInt(this.zIndex, 10),
+      }),
+    });
 
     const injector = Injector.create({
       providers,

@@ -13,6 +13,7 @@ import { NavigationStart, Router } from '@angular/router';
 import {
   SkyMediaQueryService,
   SkyResizeObserverMediaQueryService,
+  SkyStackingContextService,
 } from '@skyux/core';
 
 import { takeWhile } from 'rxjs/operators';
@@ -123,6 +124,12 @@ export class SkyModalHostComponent implements OnDestroy {
     params.providers!.push({
       provide: SkyMediaQueryService,
       useExisting: SkyResizeObserverMediaQueryService,
+    });
+    params.providers!.push({
+      provide: SkyStackingContextService,
+      useValue: new SkyStackingContextService({
+        zIndex: hostService.getModalZIndex(),
+      }),
     });
     /* eslint-enable @typescript-eslint/no-non-null-assertion */
 

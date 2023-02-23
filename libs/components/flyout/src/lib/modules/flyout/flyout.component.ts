@@ -24,6 +24,7 @@ import {
 import {
   SkyMediaBreakpoints,
   SkyMediaQueryService,
+  SkyStackingContextService,
   SkyUIConfigService,
 } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
@@ -58,6 +59,11 @@ let nextId = 0;
     SkyFlyoutAdapterService,
     SkyFlyoutMediaQueryService,
     { provide: SkyMediaQueryService, useExisting: SkyFlyoutMediaQueryService },
+    {
+      provide: SkyStackingContextService,
+      // Match z-index set in libs/components/theme/src/lib/styles/_public-api/_compat/_variables.scss
+      useValue: new SkyStackingContextService({ zIndex: 1001 }),
+    },
   ],
   animations: [
     trigger('flyoutState', [
