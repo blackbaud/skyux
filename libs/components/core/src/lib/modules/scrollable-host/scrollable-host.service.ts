@@ -215,6 +215,7 @@ export class SkyScrollableHostService {
       switchMap((scrollableHost) => {
         if (
           !this.#resizeObserverSvc ||
+          !scrollableHost ||
           scrollableHost === this.#windowRef.nativeWindow
         ) {
           return of('none');
@@ -226,15 +227,12 @@ export class SkyScrollableHostService {
         ]).pipe(
           debounceTime(0, animationFrameScheduler),
           map(() => {
+            const viewportSize = this.#getViewportSize();
             const { top, left, width, height } = (
               scrollableHost as HTMLElement
             ).getBoundingClientRect();
-            const win: Window = this.#windowRef.nativeWindow;
-            const right = Math.max(win.visualViewport.width - left - width, 0);
-            const bottom = Math.max(
-              win.visualViewport.height - top - height,
-              0
-            );
+            const right = Math.max(viewportSize.width - left - width, 0);
+            const bottom = Math.max(viewportSize.height - top - height, 0);
             return `inset(${top}px ${right}px ${bottom}px ${left}px)`;
           })
         );
@@ -307,6 +305,16 @@ export class SkyScrollableHostService {
    * @see https://stackoverflow.com/a/11639664/6178885
    */
   #isElementVisible(elementRef: ElementRef): boolean {
-    return elementRef.nativeElement.offsetParent;
+    return !!elementRef.nativeElement?.offsetParent;
+  }
+
+  #getViewportSize(): { width: number; height: number } {
+    const win = this.#windowRef.nativeWindow;
+    const docElem = win.document.documentElement;
+
+    return {
+      width: docElem.clientWidth,
+      height: docElem.clientHeight,
+    };
   }
 }

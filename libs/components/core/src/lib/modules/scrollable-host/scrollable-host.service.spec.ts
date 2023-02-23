@@ -592,7 +592,7 @@ describe('Scrollable host service', () => {
       });
   });
 
-  it('should error without resize observer', async () => {
+  it('should not error without resize observer', async () => {
     const scrollableHostSvc = new SkyScrollableHostService(
       {} as SkyMutationObserverService,
       {} as SkyAppWindowRef,
