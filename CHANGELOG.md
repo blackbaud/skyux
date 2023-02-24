@@ -1,5 +1,25 @@
 # Changelog
 
+## [7.8.0](https://github.com/blackbaud/skyux/compare/7.7.0...7.8.0) (2023-02-17)
+
+
+### Features
+
+* **components/theme:** update SKY UX icons version ([#1001](https://github.com/blackbaud/skyux/issues/1001)) ([8b4227c](https://github.com/blackbaud/skyux/commit/8b4227c7dbd406f5d82d45e8bfbf1d7ba11140ea))
+
+## [7.7.0](https://github.com/blackbaud/skyux/compare/7.6.2...7.7.0) (2023-02-16)
+
+
+### Features
+
+* **components/action-bars:** update summary action bar to respect reserved viewport space ([#993](https://github.com/blackbaud/skyux/issues/993)) ([f0c7b19](https://github.com/blackbaud/skyux/commit/f0c7b1927ac2ebcf28ec384df70905079002a95f))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** apply lookup addClick handler ([#992](https://github.com/blackbaud/skyux/issues/992)) ([86cba17](https://github.com/blackbaud/skyux/commit/86cba17923a18358c8fbd611c4517962fef79d63))
+* **components/lookup:** pass `wrapperClass` to selection modal ([#996](https://github.com/blackbaud/skyux/issues/996)) ([d6786de](https://github.com/blackbaud/skyux/commit/d6786debfb700241c6eb1b51bdb20bec7778b981))
+
 ## [7.6.2](https://github.com/blackbaud/skyux/compare/7.6.1...7.6.2) (2023-02-14)
 
 

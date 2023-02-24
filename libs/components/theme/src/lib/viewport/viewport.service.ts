@@ -1,10 +1,11 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
 
-import { ReplaySubject } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 
 import { SkyAppViewportReserveArgs } from './viewport-reserve-args';
-import { SkyAppViewportReservedPositionType } from './viewport-reserve-position-type';
+import { SkyAppViewportReservedSpace } from './viewport-reserved-space';
+import { SkyAppViewportReservedSpaceChangeArgs } from './viewport-reserved-space-change-args';
 
 /**
  * Provides information about the state of the application's viewport.
@@ -21,11 +22,20 @@ export class SkyAppViewportService {
    */
   public visible = new ReplaySubject<boolean>(1);
 
+  public get reservedSpaceChange(): Observable<SkyAppViewportReservedSpaceChangeArgs> {
+    return this.#reservedSpaceChange;
+  }
+
+  #reservedSpaceChange: Observable<SkyAppViewportReservedSpaceChangeArgs>;
+  #reservedSpaceChangeSubj: ReplaySubject<SkyAppViewportReservedSpaceChangeArgs>;
   #reserveItems = new Map<string, SkyAppViewportReserveArgs>();
   #document: Document;
 
   constructor(@Inject(DOCUMENT) document: Document) {
     this.#document = document;
+
+    this.#reservedSpaceChangeSubj = new ReplaySubject(1);
+    this.#reservedSpaceChange = this.#reservedSpaceChangeSubj.asObservable();
   }
 
   /**
@@ -47,9 +57,7 @@ export class SkyAppViewportService {
   }
 
   #updateViewportArea(): void {
-    const reservedSpaces: {
-      [key in SkyAppViewportReservedPositionType]: number;
-    } = {
+    const reservedSpace: SkyAppViewportReservedSpace = {
       bottom: 0,
       left: 0,
       right: 0,
@@ -57,16 +65,20 @@ export class SkyAppViewportService {
     };
 
     for (const { position, size } of this.#reserveItems.values()) {
-      reservedSpaces[position] += size;
+      reservedSpace[position] += size;
     }
 
     const documentElementStyle = this.#document.documentElement.style;
 
-    for (const [position, size] of Object.entries(reservedSpaces)) {
+    for (const [position, size] of Object.entries(reservedSpace)) {
       documentElementStyle.setProperty(
         `--sky-viewport-${position}`,
-        size + 'px'
+        `${size}px`
       );
     }
+
+    this.#reservedSpaceChangeSubj.next({
+      current: reservedSpace,
+    });
   }
 }

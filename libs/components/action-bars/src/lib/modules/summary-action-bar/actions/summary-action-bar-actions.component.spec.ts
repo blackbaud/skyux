@@ -10,6 +10,7 @@ import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
 import { SkyDropdownMessageType } from '@skyux/popovers';
+import { SkyAppViewportReserveArgs, SkyAppViewportService } from '@skyux/theme';
 
 import { SkySummaryActionBarTestComponent } from '../fixtures/summary-action-bar.component.fixture';
 import { SkySummaryActionBarFixtureModule } from '../fixtures/summary-action-bar.module.fixture';
@@ -22,8 +23,26 @@ describe('Summary Action Bar action components', () => {
   let cmp: SkySummaryActionBarTestComponent;
   let debugElement: DebugElement;
   let mockMediaQueryService: MockSkyMediaQueryService;
+  let viewportSvc: SkyAppViewportService;
+  let reservedSpaceIds: string[];
+
+  function validateDropdownVisible(expected: boolean): void {
+    expect(
+      cmp.secondaryActions?.secondaryActionComponents?.length
+    ).toBeTruthy();
+    cmp.secondaryActions?.secondaryActionComponents?.forEach((action) => {
+      expect(!!action.isDropdown).toBe(expected);
+    });
+  }
+
+  function reserveSpace(args: SkyAppViewportReserveArgs): void {
+    reservedSpaceIds.push(args.id);
+    viewportSvc.reserveSpace(args);
+  }
 
   beforeEach(() => {
+    reservedSpaceIds = [];
+
     mockMediaQueryService = new MockSkyMediaQueryService();
     TestBed.configureTestingModule({
       imports: [SkySummaryActionBarFixtureModule],
@@ -56,6 +75,16 @@ describe('Summary Action Bar action components', () => {
 
     cmp = fixture.componentInstance as SkySummaryActionBarTestComponent;
     debugElement = fixture.debugElement;
+
+    viewportSvc = TestBed.inject(SkyAppViewportService);
+  });
+
+  afterEach(() => {
+    for (const reservedSpaceId of reservedSpaceIds) {
+      viewportSvc.unreserveSpace(reservedSpaceId);
+    }
+
+    reservedSpaceIds = [];
   });
 
   describe('click event', () => {
@@ -124,51 +153,45 @@ describe('Summary Action Bar action components', () => {
   describe('secondary actions', () => {
     it('should have secondary actions with isDropdown as false on large screens', () => {
       fixture.detectChanges();
-
-      expect(
-        cmp.secondaryActions?.secondaryActionComponents?.length
-      ).toBeTruthy();
-      cmp.secondaryActions?.secondaryActionComponents?.forEach((action) => {
-        expect(action.isDropdown).toBeFalsy();
-      });
+      validateDropdownVisible(false);
     });
 
-    it('should have secondary actions with isDropdown as false on large screens when there are five actions', () => {
+    it('should have secondary actions with isDropdown as false on large screens when there are five actions by default', () => {
       fixture.detectChanges();
 
-      expect(
-        cmp.secondaryActions?.secondaryActionComponents?.length
-      ).toBeTruthy();
-      cmp.secondaryActions?.secondaryActionComponents?.forEach((action) => {
-        expect(action.isDropdown).toBeFalsy();
+      validateDropdownVisible(false);
+
+      fixture.detectChanges();
+      cmp.extraActionCount = 3;
+      fixture.detectChanges();
+
+      validateDropdownVisible(true);
+    });
+
+    it('should collapse secondary actions when viewport space is reserved', () => {
+      cmp.extraActionCount = 2;
+      fixture.detectChanges();
+
+      validateDropdownVisible(false);
+
+      reserveSpace({
+        id: 'summary-action-bar-actions-test-left',
+        position: 'left',
+        size: 100,
       });
 
-      fixture.detectChanges();
-      cmp.extraActions = true;
-      fixture.detectChanges();
-
-      expect(
-        cmp.secondaryActions?.secondaryActionComponents?.length
-      ).toBeTruthy();
-      cmp.secondaryActions?.secondaryActionComponents?.forEach((action) => {
-        expect(action.isDropdown).toBeTruthy();
-      });
+      validateDropdownVisible(true);
     });
 
     it('should have secondary actions with isDropdown as true on xs screens', () => {
       mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
       fixture.detectChanges();
 
-      expect(
-        cmp.secondaryActions?.secondaryActionComponents?.length
-      ).toBeTruthy();
-      cmp.secondaryActions?.secondaryActionComponents?.forEach((action) => {
-        expect(action.isDropdown).toBeTruthy();
-      });
+      validateDropdownVisible(true);
     });
 
     it('should dismiss dropdown menu when the secondary action button is clicked', fakeAsync(() => {
-      cmp.extraActions = true;
+      cmp.extraActionCount = 3;
       fixture.detectChanges();
       tick();
       let root: HTMLElement = fixture.nativeElement;
