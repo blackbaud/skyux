@@ -36,8 +36,8 @@ export class SkyIconHarness extends SkyComponentHarness {
   public async getIconName(): Promise<string | undefined> {
     const iconClasses = await (await this.#getIcon()).getProperty('classList');
     for (const iconClass of iconClasses) {
-      // match a class name that starts with `sky-i` or starts with `fa-` but does not follow with `fw` (fixed width) or 2xs, xs, sm, lg, 2xl (font awesome sizes) or the range [1-10]x (icon size)
-      if (/^sky-i-|^fa-(?!fw|2xs|xs|sm|lg|2xl|[0-9]+x)/.test(iconClass)) {
+      // match a class name that starts with `sky-i` or starts with `fa-` but does not follow with `fw` (fixed width) or lg, 2x, 3x, 4x, 5x
+      if (/^sky-i-|^fa-(?!fw|lg|[2-5]+x)/.test(iconClass)) {
         return (
           iconClass
             .replace(ICON_CLASS_VARIANT_REGEXP, '')
@@ -53,8 +53,8 @@ export class SkyIconHarness extends SkyComponentHarness {
   public async getIconSize(): Promise<string | undefined> {
     const iconClasses = await this.#getIconClasses();
     for (const iconClass of iconClasses) {
-      // match a class name that starts with `fa-` and  follows with 2xs, xs, sm, lg, 2xl (font awesome sizes) or the range [1-10]x
-      if (/^fa-(?=2xs|xs|sm|lg|2xl|[0-9]+x)/.test(iconClass)) {
+      // match a class name that starts with `fa-` and  follows with lg, 2x, 3x, 4x, 5x
+      if (/^fa-(?=2xs|lg|[2-5]+x)/.test(iconClass)) {
         return iconClass.replace('fa-', '');
       }
     }

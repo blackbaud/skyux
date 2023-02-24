@@ -22,10 +22,10 @@ import { SkyIconHarness } from './icon-harness';
 })
 class TestComponent {
   public iconName = 'house';
-  public iconType: string | undefined = 'skyux';
-  public fixedWidth: boolean | undefined = true;
-  public variant: string | undefined = 'line';
-  public size: string | undefined = '2xl'; //reset to undefined so u have a baseline
+  public iconType: string | undefined = undefined;
+  public fixedWidth: boolean | undefined = undefined;
+  public variant: string | undefined = undefined;
+  public size: string | undefined = undefined; //reset to undefined so u have a baseline
 }
 //#endregion Test component
 
@@ -87,23 +87,7 @@ async function validateVariant(
 
 const iconTypes = ['fa', 'skyux'];
 const variants = ['line', 'solid'];
-const sizes = [
-  '2xs',
-  'xs',
-  'sm',
-  'lg',
-  '2xl',
-  '1x',
-  '2x',
-  '3x',
-  '4x',
-  '5x',
-  '6x',
-  '7x',
-  '8x',
-  '9x',
-  '10x',
-];
+const sizes = ['lg', '2x', '3x', '4x', '5x'];
 
 describe('Icon harness', () => {
   async function setupTest(options: { dataSkyId?: string } = {}): Promise<{
@@ -146,6 +130,18 @@ describe('Icon harness', () => {
     }
   });
 
+  it('should return the correct icon size', async () => {
+    const { iconHarness, fixture } = await setupTest();
+    for (const size of sizes) {
+      await validateIconSize(iconHarness, fixture, size);
+    }
+  });
+
+  it('should return undefined if size is not set', async () => {
+    const { iconHarness, fixture } = await setupTest();
+    await validateIconSize(iconHarness, fixture, undefined);
+  });
+
   it('should return the correct icon type', async () => {
     const { iconHarness, fixture } = await setupTest();
     for (const type of iconTypes) {
@@ -160,16 +156,19 @@ describe('Icon harness', () => {
     await expectAsync(iconHarness.getIconType()).toBeResolvedTo('fa');
   });
 
-  it('should return the correct icon size', async () => {
+  it('should return the right variant for skyux icons', async () => {
     const { iconHarness, fixture } = await setupTest();
-    for (const size of sizes) {
-      await validateIconSize(iconHarness, fixture, size);
+    fixture.componentInstance.iconType = 'skyux';
+    for (const variant of variants) {
+      await validateVariant(iconHarness, fixture, variant);
     }
   });
 
-  it('should return undefined if size is not set', async () => {
-    const { iconHarness, fixture } = await setupTest();
-    await validateIconSize(iconHarness, fixture, undefined);
+  it('should throw an error when trying to get variant for a non skyux icon', async () => {
+    const { iconHarness } = await setupTest();
+    await expectAsync(iconHarness.getVariant()).toBeRejectedWithError(
+      'Variant cannot be determined because iconType is not skyux'
+    );
   });
 
   it('should return default values for fixed width', async () => {
@@ -179,22 +178,10 @@ describe('Icon harness', () => {
     await expectAsync(iconHarness.isFixedWidth()).toBeResolvedTo(false);
   });
 
-  it('should return the right variant for skyux icons', async () => {
+  it('should return the right value for fixed width', async () => {
     const { iconHarness, fixture } = await setupTest();
-    fixture.componentInstance.iconType = 'skyux';
-    for (const type of iconTypes) {
-      await validateIconType(iconHarness, fixture, type);
-    }
-  });
-
-  it('should throw an error when trying to get variant for a non skyux icon', async () => {
-    const { iconHarness, fixture } = await setupTest();
-    fixture.componentInstance.iconType = undefined;
-    fixture.detectChanges();
-
-    await expectAsync(iconHarness.getVariant()).toBeRejectedWithError(
-      'Variant cannot be determined because iconType is not skyux'
-    );
+    await validateFixedWidth(iconHarness, fixture, false);
+    await validateFixedWidth(iconHarness, fixture, true);
   });
 
   it('should get an icon by its data-sky-id property', async () => {
