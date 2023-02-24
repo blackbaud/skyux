@@ -16,6 +16,8 @@ export class ScrollableHostFixtureComponent implements OnDestroy {
   public isParentHidden = false;
   public isParentScrollable = true;
   public isParentScrollableStyle = false;
+  public isParentPositioned = false;
+  public positionedParentWidth = '100px';
 
   public isGrandparentScrollable = false;
 
@@ -67,6 +69,14 @@ export class ScrollableHostFixtureComponent implements OnDestroy {
   ): Observable<void> {
     return this.#scrollableHostService
       .watchScrollableHostScrollEvents(alternativeTarget || this.target)
+      .pipe(takeUntil(this.ngUnsubscribe));
+  }
+
+  public watchScrollableHostClipPathChanges(
+    alternativeTarget?: ElementRef
+  ): Observable<string> {
+    return this.#scrollableHostService
+      .watchScrollableHostClipPathChanges(alternativeTarget || this.target)
       .pipe(takeUntil(this.ngUnsubscribe));
   }
 }
