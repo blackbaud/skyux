@@ -112,7 +112,7 @@ export class SkyModalHostComponent implements OnDestroy {
     let isOpen = true;
 
     params.providers ||= [];
-    params.providers.push([
+    params.providers.push(
       {
         provide: SkyModalHostService,
         useValue: hostService,
@@ -124,8 +124,8 @@ export class SkyModalHostComponent implements OnDestroy {
       {
         provide: SkyMediaQueryService,
         useExisting: SkyResizeObserverMediaQueryService,
-      },
-    ]);
+      }
+    );
 
     adapter.setPageScroll(SkyModalHostService.openModalCount > 0);
     adapter.toggleFullPageModalClass(
