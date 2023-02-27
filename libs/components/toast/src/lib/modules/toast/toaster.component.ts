@@ -17,9 +17,9 @@ import {
   ViewContainerRef,
   ViewEncapsulation,
 } from '@angular/core';
-import { SkyStackingContextService } from '@skyux/core';
+import { SKY_STACKING_CONTEXT } from '@skyux/core';
 
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
 import { SkyToast } from './toast';
@@ -37,15 +37,7 @@ import { SkyToastDisplayDirection } from './types/toast-display-direction';
   selector: 'sky-toaster',
   templateUrl: './toaster.component.html',
   styleUrls: ['./toaster.component.scss'],
-  providers: [
-    SkyToastAdapterService,
-    SkyToasterService,
-    {
-      provide: SkyStackingContextService,
-      // Match z-index set in libs/components/theme/src/lib/styles/_public-api/_compat/_variables.scss
-      useValue: new SkyStackingContextService({ zIndex: 1001 }),
-    },
-  ],
+  providers: [SkyToastAdapterService, SkyToasterService],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
@@ -60,6 +52,8 @@ export class SkyToasterComponent implements AfterViewInit, OnDestroy {
 
   @ViewChildren(SkyToastComponent)
   public toastComponents: QueryList<SkyToastComponent> | undefined;
+
+  protected zIndex$ = new BehaviorSubject(1051);
 
   #ngUnsubscribe = new Subject<void>();
   #applicationRef: ApplicationRef;
@@ -165,8 +159,17 @@ export class SkyToasterComponent implements AfterViewInit, OnDestroy {
           if (toast && !toast.isRendered) {
             target.clear();
 
+            const providers = [
+              ...toast.bodyComponentProviders,
+              {
+                provide: SKY_STACKING_CONTEXT,
+                useValue: {
+                  zIndex: this.zIndex$.asObservable(),
+                },
+              },
+            ] as StaticProvider[];
             const injector = Injector.create({
-              providers: toast.bodyComponentProviders as StaticProvider[],
+              providers,
               parent: this.#injector,
             });
 

@@ -22,14 +22,14 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import {
+  SKY_STACKING_CONTEXT,
   SkyMediaBreakpoints,
   SkyMediaQueryService,
-  SkyStackingContextService,
   SkyUIConfigService,
 } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
-import { Subject, fromEvent } from 'rxjs';
+import { BehaviorSubject, Subject, fromEvent } from 'rxjs';
 import { take, takeUntil, takeWhile } from 'rxjs/operators';
 
 import { SkyFlyoutAdapterService } from './flyout-adapter.service';
@@ -59,11 +59,6 @@ let nextId = 0;
     SkyFlyoutAdapterService,
     SkyFlyoutMediaQueryService,
     { provide: SkyMediaQueryService, useExisting: SkyFlyoutMediaQueryService },
-    {
-      provide: SkyStackingContextService,
-      // Match z-index set in libs/components/theme/src/lib/styles/_public-api/_compat/_variables.scss
-      useValue: new SkyStackingContextService({ zIndex: 1001 }),
-    },
   ],
   animations: [
     trigger('flyoutState', [
@@ -139,6 +134,8 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     static: true,
   })
   public flyoutHeader: ElementRef | undefined;
+
+  protected zIndex$ = new BehaviorSubject(1001);
 
   #flyoutInstance: SkyFlyoutInstance<any> | undefined;
 
@@ -235,7 +232,14 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
         defaultWidth: window.innerWidth / 2,
         minWidth: 320,
         maxWidth: window.innerWidth / 2,
-        providers: [],
+        providers: [
+          {
+            provide: SKY_STACKING_CONTEXT,
+            useValue: {
+              zIndex: this.zIndex$.asObservable(),
+            },
+          },
+        ],
       },
       config
     );
