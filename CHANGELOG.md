@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.8.0](https://github.com/blackbaud/skyux/compare/7.7.0...7.8.0) (2023-02-17)
+
+
+### Features
+
+* **components/theme:** update SKY UX icons version ([#1001](https://github.com/blackbaud/skyux/issues/1001)) ([8b4227c](https://github.com/blackbaud/skyux/commit/8b4227c7dbd406f5d82d45e8bfbf1d7ba11140ea))
+
 ## [8.0.0-alpha.0](https://github.com/blackbaud/skyux/compare/7.6.1...8.0.0-alpha.0) (2023-02-17)
 
 
