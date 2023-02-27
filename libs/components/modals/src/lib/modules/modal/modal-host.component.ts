@@ -17,7 +17,7 @@ import {
 } from '@skyux/core';
 
 import { BehaviorSubject } from 'rxjs';
-import { takeWhile } from 'rxjs/operators';
+import { takeUntil, takeWhile } from 'rxjs/operators';
 
 import { SkyModalAdapterService } from './modal-adapter.service';
 import { SkyModalConfiguration } from './modal-configuration';
@@ -129,9 +129,9 @@ export class SkyModalHostComponent implements OnDestroy {
     params.providers!.push({
       provide: SKY_STACKING_CONTEXT,
       useValue: {
-        zIndex: new BehaviorSubject(
-          hostService.getModalZIndex()
-        ).asObservable(),
+        zIndex: new BehaviorSubject(hostService.getModalZIndex()).pipe(
+          takeUntil(modalInstance.closed)
+        ),
       },
     });
     /* eslint-enable @typescript-eslint/no-non-null-assertion */

@@ -236,7 +236,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
           {
             provide: SKY_STACKING_CONTEXT,
             useValue: {
-              zIndex: this.zIndex$.asObservable(),
+              zIndex: this.zIndex$.pipe(takeUntil(this.#ngUnsubscribe)),
             },
           },
         ],

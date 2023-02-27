@@ -30,7 +30,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { SkyCoreAdapterService } from '../adapter-service/adapter.service';
 import { SkyIdService } from '../id/id.service';
-import { SKY_STACKING_CONTEXT } from '../stacking-context/stacking-context-z-index-token';
+import { SKY_STACKING_CONTEXT } from '../stacking-context/stacking-context-token';
 
 import { SkyOverlayConfig } from './overlay-config';
 import { SkyOverlayContext } from './overlay-context';
@@ -185,9 +185,9 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
         {
           provide: SKY_STACKING_CONTEXT,
           useValue: {
-            zIndex: new BehaviorSubject(
-              parseInt(this.zIndex, 10)
-            ).asObservable(),
+            zIndex: new BehaviorSubject(parseInt(this.zIndex, 10)).pipe(
+              takeUntil(this.#ngUnsubscribe)
+            ),
           },
         },
         ...providers,

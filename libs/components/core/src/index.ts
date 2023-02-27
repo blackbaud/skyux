@@ -63,8 +63,8 @@ export * from './lib/modules/resize-observer/resize-observer-media-query.service
 
 export * from './lib/modules/scrollable-host/scrollable-host.service';
 
-export * from './lib/modules/stacking-context/stacking-context-config';
-export * from './lib/modules/stacking-context/stacking-context-z-index-token';
+export * from './lib/modules/stacking-context/stacking-context';
+export * from './lib/modules/stacking-context/stacking-context-token';
 
 export * from './lib/modules/title/set-title-args';
 export * from './lib/modules/title/title.service';

@@ -164,7 +164,7 @@ export class SkyToasterComponent implements AfterViewInit, OnDestroy {
               {
                 provide: SKY_STACKING_CONTEXT,
                 useValue: {
-                  zIndex: this.zIndex$.asObservable(),
+                  zIndex: this.zIndex$.pipe(takeUntil(this.#ngUnsubscribe)),
                 },
               },
             ] as StaticProvider[];
