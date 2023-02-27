@@ -4,6 +4,7 @@
   (focusout)="onFocusOut()"
   (mouseenter)="onMouseEnter()"
   (mouseleave)="onMouseLeave()"
+  [style.z-index]="zIndex$ | async"
   #toaster
 >
   <sky-toast
