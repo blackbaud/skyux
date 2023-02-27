@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.8.0](https://github.com/blackbaud/skyux/compare/7.7.0...7.8.0) (2023-02-17)
+
+
+### Features
+
+* **components/theme:** update SKY UX icons version ([#1001](https://github.com/blackbaud/skyux/issues/1001)) ([8b4227c](https://github.com/blackbaud/skyux/commit/8b4227c7dbd406f5d82d45e8bfbf1d7ba11140ea))
+
 ## [8.0.0-alpha.0](https://github.com/blackbaud/skyux/compare/7.6.1...8.0.0-alpha.0) (2023-02-17)
 
 
@@ -16,13 +23,6 @@
 
 * **components/ag-grid:** address accessibility test issues ([#982](https://github.com/blackbaud/skyux/issues/982)) ([#987](https://github.com/blackbaud/skyux/issues/987)) ([25f3dff](https://github.com/blackbaud/skyux/commit/25f3dff658bd8fcc84e1b2cad12ba150fb2ff306))
 * **components/ag-grid:** apply lookup addClick handler ([#992](https://github.com/blackbaud/skyux/issues/992)) ([#999](https://github.com/blackbaud/skyux/issues/999)) ([257114a](https://github.com/blackbaud/skyux/commit/257114acef2b485119fd9b6f7807234ae017e52a))
-
-## [7.8.0](https://github.com/blackbaud/skyux/compare/7.7.0...7.8.0) (2023-02-17)
-
-
-### Features
-
-* **components/theme:** update SKY UX icons version ([#1001](https://github.com/blackbaud/skyux/issues/1001)) ([8b4227c](https://github.com/blackbaud/skyux/commit/8b4227c7dbd406f5d82d45e8bfbf1d7ba11140ea))
 
 ## [7.7.0](https://github.com/blackbaud/skyux/compare/7.6.2...7.7.0) (2023-02-16)
 
