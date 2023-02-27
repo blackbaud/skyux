@@ -30,7 +30,7 @@ export class SkyIconComponent {
 
   /**
    * The size of the icon using
-   * [Font Awesome sizes](https://fontawesome.com/how-to-use/on-the-web/styling/sizing-icons). Do not prefix the size with `fa-`.
+   * [Font Awesome sizes](https://fontawesome.com/v4/examples/). Do not prefix the size with `fa-`.
    */
   @Input()
   public size: string | undefined;
