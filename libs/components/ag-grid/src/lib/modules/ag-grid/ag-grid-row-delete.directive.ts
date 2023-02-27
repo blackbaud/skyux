@@ -6,18 +6,21 @@ import {
   Directive,
   ElementRef,
   EventEmitter,
+  Inject,
   Input,
   OnDestroy,
+  Optional,
   Output,
   ViewContainerRef,
 } from '@angular/core';
 import {
+  SKY_STACKING_CONTEXT,
   SkyAffixAutoFitContext,
   SkyAffixService,
   SkyAffixer,
   SkyOverlayService,
   SkyScrollableHostService,
-  SkyStackingContextService,
+  SkyStackingContext,
 } from '@skyux/core';
 
 import { AgGridAngular } from 'ag-grid-angular';
@@ -169,7 +172,6 @@ export class SkyAgGridRowDeleteDirective
   #overlayService: SkyOverlayService;
   #viewContainerRef: ViewContainerRef;
   #scrollableHostService: SkyScrollableHostService;
-  #stackingContextService: SkyStackingContextService;
   #clipPath$ = new BehaviorSubject<string | undefined>(undefined);
   #zIndex = new BehaviorSubject('998');
 
@@ -180,7 +182,9 @@ export class SkyAgGridRowDeleteDirective
     overlayService: SkyOverlayService,
     viewContainerRef: ViewContainerRef,
     scrollableHostService: SkyScrollableHostService,
-    stackingContextService: SkyStackingContextService
+    @Optional()
+    @Inject(SKY_STACKING_CONTEXT)
+    stackingContext?: SkyStackingContext | undefined
   ) {
     this.#affixService = affixService;
     this.#changeDetector = changeDetector;
@@ -188,7 +192,13 @@ export class SkyAgGridRowDeleteDirective
     this.#overlayService = overlayService;
     this.#viewContainerRef = viewContainerRef;
     this.#scrollableHostService = scrollableHostService;
-    this.#stackingContextService = stackingContextService;
+    if (stackingContext) {
+      stackingContext.zIndex
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe((zIndex) => {
+          this.#zIndex.next(zIndex.toString(10));
+        });
+    }
   }
 
   public ngAfterContentInit(): void {
@@ -224,13 +234,6 @@ export class SkyAgGridRowDeleteDirective
       .subscribe((clipPath) => {
         this.#clipPath$.next(clipPath);
       });
-
-    const zIndex = this.#stackingContextService.getZIndex(
-      this.#elementRef.nativeElement
-    );
-    if (zIndex) {
-      this.#zIndex.next(zIndex.toString(10));
-    }
   }
 
   public ngOnDestroy(): void {
