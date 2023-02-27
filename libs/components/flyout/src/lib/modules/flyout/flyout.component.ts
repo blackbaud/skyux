@@ -22,13 +22,14 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import {
+  SKY_STACKING_CONTEXT,
   SkyMediaBreakpoints,
   SkyMediaQueryService,
   SkyUIConfigService,
 } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
-import { Subject, fromEvent } from 'rxjs';
+import { BehaviorSubject, Subject, fromEvent } from 'rxjs';
 import { take, takeUntil, takeWhile } from 'rxjs/operators';
 
 import { SkyFlyoutAdapterService } from './flyout-adapter.service';
@@ -134,6 +135,8 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   })
   public flyoutHeader: ElementRef | undefined;
 
+  protected zIndex$ = new BehaviorSubject(1001);
+
   #flyoutInstance: SkyFlyoutInstance<any> | undefined;
 
   #ngUnsubscribe = new Subject<void>();
@@ -229,7 +232,16 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
         defaultWidth: window.innerWidth / 2,
         minWidth: 320,
         maxWidth: window.innerWidth / 2,
-        providers: [],
+        providers: [
+          {
+            provide: SKY_STACKING_CONTEXT,
+            useValue: {
+              zIndex: this.zIndex$
+                .asObservable()
+                .pipe(takeUntil(this.#ngUnsubscribe)),
+            },
+          },
+        ],
       },
       config
     );
