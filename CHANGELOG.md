@@ -1,5 +1,16 @@
 # Changelog
 
+## [8.0.0-alpha.1](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.0...8.0.0-alpha.1) (2023-02-27)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** adjust a11y test for ag-grid ([#1012](https://github.com/blackbaud/skyux/issues/1012)) ([#1013](https://github.com/blackbaud/skyux/issues/1013)) ([7a97686](https://github.com/blackbaud/skyux/commit/7a97686e81a4c554482ad80b3a4750cc4660a562))
+* **components/ag-grid:** support right-align header in AG Grid 28 ([#998](https://github.com/blackbaud/skyux/issues/998)) ([#1008](https://github.com/blackbaud/skyux/issues/1008)) ([1de3f99](https://github.com/blackbaud/skyux/commit/1de3f9982cb76be64f7b7aaec1b53f162bebf24e))
+* **components/core:** add clip-path option for overlay ([#980](https://github.com/blackbaud/skyux/issues/980)) ([#1010](https://github.com/blackbaud/skyux/issues/1010)) ([d2df897](https://github.com/blackbaud/skyux/commit/d2df89777a337ff160a17301bd70744b204254a4))
+* **components/packages:** include `ng add` template files in public exports ([#1015](https://github.com/blackbaud/skyux/issues/1015)) ([b087324](https://github.com/blackbaud/skyux/commit/b087324015e58463f56bc9a94482bf11d287a5ec))
+* **components/text-editor:** content is only pasted once into the text editor ([#997](https://github.com/blackbaud/skyux/issues/997)) ([dd99d3c](https://github.com/blackbaud/skyux/commit/dd99d3cfbc08d2707210f264071ee1e2b13e3788))
+
 ## [8.0.0-alpha.0](https://github.com/blackbaud/skyux/compare/7.6.1...8.0.0-alpha.0) (2023-02-17)
 
 
