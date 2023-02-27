@@ -180,15 +180,18 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
 
     this.targetRef.clear();
 
-    providers.push({
-      provide: SKY_STACKING_CONTEXT,
-      useValue: {
-        zIndex: new BehaviorSubject(parseInt(this.zIndex, 10)).asObservable(),
-      },
-    });
-
     const injector = Injector.create({
-      providers,
+      providers: [
+        {
+          provide: SKY_STACKING_CONTEXT,
+          useValue: {
+            zIndex: new BehaviorSubject(
+              parseInt(this.zIndex, 10)
+            ).asObservable(),
+          },
+        },
+        ...providers,
+      ],
       parent: this.#injector,
     });
 
