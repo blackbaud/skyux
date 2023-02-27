@@ -38,7 +38,7 @@ jobs:
             migrations
             packaging
             release
-            apps/code-examples
+            code-examples
             apps/integration
             apps/playground
             components/a11y

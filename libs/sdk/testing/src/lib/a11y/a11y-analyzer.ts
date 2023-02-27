@@ -51,6 +51,7 @@ function filterViolationNodeResults(
 ): (node: axe.NodeResult) => boolean {
   if (
     [
+      'aria-hidden-focus', // AG Grid uses aria-hidden on elements before they are ready
       'aria-required-children', // AG Grid uses some aria-hidden elements that axe doesn't like
       'aria-valid-attr', // AG Grid uses aria-description, which is still in draft
       'scrollable-region-focusable', // AG Grid handles scrolling
