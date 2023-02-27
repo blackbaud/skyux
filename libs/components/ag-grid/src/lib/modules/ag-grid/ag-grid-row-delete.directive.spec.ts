@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SKY_STACKING_CONTEXT } from '@skyux/core';
+
+import { BehaviorSubject } from 'rxjs';
 
 import { SkyAgGridRowDeleteFixtureComponent } from './fixtures/ag-grid-row-delete.component.fixture';
 import { SkyAgGridFixtureModule } from './fixtures/ag-grid.module.fixture';
@@ -6,16 +9,34 @@ import { SkyAgGridFixtureModule } from './fixtures/ag-grid.module.fixture';
 describe('SkyAgGridRowDeleteDirective', () => {
   let fixture: ComponentFixture<SkyAgGridRowDeleteFixtureComponent>;
 
-  beforeEach(() => {
+  function setupTest(options?: { stackingContextZIndex?: number }) {
     TestBed.configureTestingModule({
       imports: [SkyAgGridFixtureModule],
+      providers: [
+        {
+          provide: SKY_STACKING_CONTEXT,
+          useValue: options?.stackingContextZIndex
+            ? {
+                zIndex: new BehaviorSubject(options.stackingContextZIndex),
+              }
+            : undefined,
+        },
+      ],
     });
 
     fixture = TestBed.createComponent(SkyAgGridRowDeleteFixtureComponent);
+  }
+
+  afterEach(() => {
+    (
+      TestBed.inject(SKY_STACKING_CONTEXT)?.zIndex as BehaviorSubject<number>
+    )?.complete();
+    fixture.destroy();
   });
 
   describe('show row delete elements correctly', () => {
     it('should show for one row', async () => {
+      setupTest();
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -32,6 +53,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     });
 
     it('should show for multiple rows', async () => {
+      setupTest();
       fixture.componentInstance.zIndex = 1000;
       fixture.detectChanges();
       await fixture.whenStable();
@@ -50,6 +72,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     });
 
     it('should respond to data changes', async () => {
+      setupTest();
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -71,6 +94,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     });
 
     it('should respond to sorting', async () => {
+      setupTest();
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -92,6 +116,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     });
 
     it('should respond to filtering', async () => {
+      setupTest();
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -124,6 +149,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     });
 
     it('should respond dataset changes', async () => {
+      setupTest();
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -146,6 +172,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
   });
 
   it('should cancel row delete elements correctly via them being removed from the id array', async () => {
+    setupTest();
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -173,6 +200,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
   });
 
   it('should cancel row delete elements correctly via the id array being set to undefined', async () => {
+    setupTest();
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -200,6 +228,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
   });
 
   it('should cancel row delete elements correctly via click', async () => {
+    setupTest();
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -230,6 +259,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
   });
 
   it('should update the pending status of a row being deleted correctly', async () => {
+    setupTest();
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -288,6 +318,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
   });
 
   it('should output the delete event correctly', async () => {
+    setupTest();
     spyOn(fixture.componentInstance, 'cancelRowDelete').and.callThrough();
     spyOn(fixture.componentInstance, 'finishRowDelete').and.callThrough();
 
@@ -318,6 +349,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
   });
 
   it('should output the cancel event correctly', async () => {
+    setupTest();
     spyOn(fixture.componentInstance, 'cancelRowDelete').and.callThrough();
     spyOn(fixture.componentInstance, 'finishRowDelete').and.callThrough();
 
@@ -349,6 +381,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
   });
 
   it('should set the z-index of the row delete overlays correctly', async () => {
+    setupTest();
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -370,7 +403,30 @@ describe('SkyAgGridRowDeleteDirective', () => {
     expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '1']);
   });
 
+  it('should set the z-index of the row delete overlays with stacking context', async () => {
+    setupTest({
+      stackingContextZIndex: 1111,
+    });
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    fixture.componentInstance.rowDeleteIds = ['0', '1'];
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const overlays = Array.from(
+      document.querySelectorAll('.sky-overlay')
+    ) as HTMLElement[];
+    expect(overlays.length).toBe(2);
+    overlays.forEach((overlay) => expect(overlay.style.zIndex).toBe('1111'));
+    expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '1']);
+  });
+
   it('should not change the column widths when a row delete is triggered', async () => {
+    setupTest();
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -394,6 +450,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
   });
 
   it('should not change the column widths when a row delete is triggered when all columns have set widths', async () => {
+    setupTest();
     fixture.componentInstance.allColumnWidth = 100;
 
     fixture.detectChanges();
@@ -419,6 +476,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
   });
 
   it('should place the row delete overlay on top of the row correctly', async () => {
+    setupTest();
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
