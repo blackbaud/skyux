@@ -17,8 +17,9 @@ import {
   ViewContainerRef,
   ViewEncapsulation,
 } from '@angular/core';
+import { SKY_STACKING_CONTEXT } from '@skyux/core';
 
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
 import { SkyToast } from './toast';
@@ -51,6 +52,8 @@ export class SkyToasterComponent implements AfterViewInit, OnDestroy {
 
   @ViewChildren(SkyToastComponent)
   public toastComponents: QueryList<SkyToastComponent> | undefined;
+
+  protected zIndex$ = new BehaviorSubject(1051);
 
   #ngUnsubscribe = new Subject<void>();
   #applicationRef: ApplicationRef;
@@ -156,8 +159,19 @@ export class SkyToasterComponent implements AfterViewInit, OnDestroy {
           if (toast && !toast.isRendered) {
             target.clear();
 
+            const providers = [
+              ...toast.bodyComponentProviders,
+              {
+                provide: SKY_STACKING_CONTEXT,
+                useValue: {
+                  zIndex: this.zIndex$
+                    .asObservable()
+                    .pipe(takeUntil(this.#ngUnsubscribe)),
+                },
+              },
+            ] as StaticProvider[];
             const injector = Injector.create({
-              providers: toast.bodyComponentProviders as StaticProvider[],
+              providers,
               parent: this.#injector,
             });
 

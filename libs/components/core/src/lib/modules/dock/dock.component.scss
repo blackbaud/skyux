@@ -6,9 +6,10 @@
 
 :host:not(.sky-dock-unbound) {
   position: fixed;
-  left: 0;
-  bottom: 0;
-  right: 0;
+  left: var(--sky-viewport-left, 0);
+  bottom: var(--sky-viewport-bottom, 0);
+  right: var(--sky-viewport-right, 0);
+  width: auto;
 }
 
 :host.sky-dock-sticky {

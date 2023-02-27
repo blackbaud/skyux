@@ -14,6 +14,7 @@
     'sky-flyout-hidden': !isOpen && !isOpening,
     'sky-flyout-fullscreen': isFullscreen
   }"
+  [style.z-index]="zIndex$ | async"
   [skyThemeClass]="{
     'sky-shadow': 'default',
     'sky-elevation-8': 'modern'
@@ -30,6 +31,7 @@
     [skyThemeClass]="{
       'sky-padding-squish-large': 'default'
     }"
+    [style.z-index]="zIndex$ | async"
     #flyoutHeader
   >
     <div class="sky-flyout-header-content">
