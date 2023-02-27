@@ -129,9 +129,9 @@ export class SkyModalHostComponent implements OnDestroy {
     params.providers!.push({
       provide: SKY_STACKING_CONTEXT,
       useValue: {
-        zIndex: new BehaviorSubject(hostService.getModalZIndex()).pipe(
-          takeUntil(modalInstance.closed)
-        ),
+        zIndex: new BehaviorSubject(hostService.getModalZIndex())
+          .asObservable()
+          .pipe(takeUntil(modalInstance.closed)),
       },
     });
     /* eslint-enable @typescript-eslint/no-non-null-assertion */

@@ -185,9 +185,9 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
         {
           provide: SKY_STACKING_CONTEXT,
           useValue: {
-            zIndex: new BehaviorSubject(parseInt(this.zIndex, 10)).pipe(
-              takeUntil(this.#ngUnsubscribe)
-            ),
+            zIndex: new BehaviorSubject(parseInt(this.zIndex, 10))
+              .asObservable()
+              .pipe(takeUntil(this.#ngUnsubscribe)),
           },
         },
         ...providers,
