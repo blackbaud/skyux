@@ -1,4 +1,5 @@
 import fs from 'fs-extra';
+import glob from 'glob';
 import path from 'path';
 
 function copyFilesToDist() {
@@ -29,6 +30,15 @@ function copyFilesToDist() {
       throw new Error(`File not found: ${sourcePath}`);
     }
   });
+
+  // Copy schematics templates.
+  const templateFiles = glob.sync(
+    'libs/components/packages/src/schematics/**/*.template',
+    { nodir: true }
+  );
+  for (const templateFile of templateFiles) {
+    fs.copySync(templateFile, path.join(process.cwd(), 'dist', templateFile));
+  }
 }
 
 function postbuildPackages() {
