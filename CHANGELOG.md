@@ -25,6 +25,26 @@
 ## [7.8.0](https://github.com/blackbaud/skyux/compare/7.7.0...7.8.0) (2023-02-17)
 
 
+### ⚠ BREAKING CHANGES
+
+* **components/ag-grid:** upgrade to [AG Grid 28](https://www.ag-grid.com/changelog/?fixVersion=28.0.0), which includes breaking changes
+* **components/forms:** The radio component's `radioType` input was set to a type of `string`, but it really only accepts a handful of known string values. These values are represented by the new `SkyRadioType` string union. This might cause problems if you are setting the `radioType` input to a type of `string` in your consuming component's class.
+* **components/forms:** use `EventEmitter` for radio component outputs (#732)
+* **components/errors:** Unit tests that expect this extra whitespace will need to be updated.
+* **components/modals:** `dynamicComponentService` is now a required parameter of `SkyModalService`. To address this change, provide the `dynamicComponentService` wherever you are constructing the `SkyModalService` or any mocks extending it  for unit testing.
+* **components/indicators:** This change removes support for `alertType` on the alert component being an unaccepted string. To address this change, change the `alertType` to an accepted `SkyIndicatorTypeIcon` or remove it to use the default `alertType` of `'warning'`.
+* **components/forms:** The `SkyFileDrop` and `SkyFileAttachment` components' `validateFn` input type was updated to receive a `SkyFileType` parameter and return a string or undefined. To address this, ensure all `validateFn` inputs have the correct parameter and return types.
+* **components/config:** The config params `get` function was updated to accurately reflect that it may return undefined. To address this change, account for a possible undefined value wherever you are using the `get` function.
+* **components/modals:** `SkyModalConfigurationInterface.providers` accepts an array of `StaticProvider`s instead of any value.
+* **components/modals:** `SkyConfirmButton`'s `styleType` will only accept predefined strings of type `SkyConfirmButtonStyleType`. To address this, ensure `styleType` is only being set to a supported value.
+* **components/modals:** The `SkyConfirmButton` component is intended for internal use only and is removed from the exported API. To address this, remove any usages of the `SkyConfirmButton` component.
+* **components/tabs:** This change removes support for not using a finish navigation button with the previous and next wizard navigation buttons. To address this change, remove other save or finish buttons and use the `sky-tabset-nav-button` of type `finish` instead.
+* **components/datetime:** The 'SkyFuzzyDatepickerInputDirective' included a nonfunctional input 'skyFuzzyDatepickerInput' to support backward compatibility. The input can be removed from consumer templates without loss of functionality.
+* **components/forms:** This change updates the `SkyCheckboxChange` type to be an interface instead of a class. To address this, remove any instances of instantiating the `SkyCheckboxChange` class and instead create an object that uses the interface type.
+* **components/layout:** This change removes the `SkyFluidGridGutterSize` enum and the numerical options (0, 1, 2) from `SkyFluidGridGutterSizeType`. To address this, only use the strings 'small', 'medium', and 'large' for  the fluid grid component's `gutterSize` property, and use `SkyFluidGridGutterSizeType` for Typescript typing.
+* **components/indicators:** This change updates the types accepted by the key info component's layout property. To address this change, only pass 'horizontal' or 'vertical' to the property, and use the type `SkyKeyInfoLayoutType` if typing variables.
+* add support for Angular 14 (#539)
+
 ### Features
 
 * **components/theme:** update SKY UX icons version ([#1001](https://github.com/blackbaud/skyux/issues/1001)) ([8b4227c](https://github.com/blackbaud/skyux/commit/8b4227c7dbd406f5d82d45e8bfbf1d7ba11140ea))
