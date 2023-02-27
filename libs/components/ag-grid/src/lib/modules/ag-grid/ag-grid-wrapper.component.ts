@@ -85,14 +85,17 @@ export class SkyAgGridWrapperComponent
   #currentTheme: SkyThemeSettings | undefined = undefined;
   #adapterService: SkyAgGridAdapterService;
   #changeDetector: ChangeDetectorRef;
-  #parentChangeDetector: ChangeDetectorRef;
+  #parentChangeDetector: ChangeDetectorRef | undefined;
   #elementRef: ElementRef;
   #document: Document;
 
   constructor(
     adapterService: SkyAgGridAdapterService,
     changeDetector: ChangeDetectorRef,
-    @SkipSelf() parentChangeDetector: ChangeDetectorRef,
+    @Optional()
+    @SkipSelf()
+    @Inject(ChangeDetectorRef)
+    parentChangeDetector: ChangeDetectorRef | undefined,
     elementRef: ElementRef,
     @Inject(DOCUMENT) document: Document,
     agGridService: SkyAgGridService,
@@ -115,7 +118,7 @@ export class SkyAgGridWrapperComponent
 
   public ngAfterContentInit(): void {
     if (this.agGrid) {
-      const domLayout = this.agGrid.gridOptions.domLayout;
+      const domLayout = this.agGrid.gridOptions?.domLayout;
       if (domLayout === 'autoHeight') {
         if (this.agGrid.gridOptions.context?.enableTopScroll) {
           this.viewkeeperClasses.push(
@@ -127,7 +130,7 @@ export class SkyAgGridWrapperComponent
         }
       } else if (domLayout === 'normal') {
         this.isNormalLayout = true;
-        this.#parentChangeDetector.detectChanges();
+        this.#parentChangeDetector?.detectChanges();
       }
       this.agGrid.gridReady
         .pipe(takeUntil(this.#ngUnsubscribe))
