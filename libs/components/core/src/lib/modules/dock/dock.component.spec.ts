@@ -6,6 +6,10 @@ import {
   tick,
 } from '@angular/core/testing';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
+import {
+  SkyAppViewportReservedPositionType,
+  SkyAppViewportService,
+} from '@skyux/theme';
 
 import { SkyMutationObserverService } from '../mutation/mutation-observer-service';
 
@@ -23,6 +27,9 @@ const isIE = window.navigator.userAgent.indexOf('rv:11.0') >= 0;
 describe('Dock component', () => {
   let fixture: ComponentFixture<DockFixtureComponent>;
   let mutationCallbacks: (() => void)[];
+  let viewportSvc: SkyAppViewportService;
+  let reservedSpaceIds: string[];
+  let lastSpaceId: number;
 
   function resetDockItems(
     itemConfigs: (SkyDockInsertComponentConfig | undefined)[]
@@ -81,14 +88,48 @@ describe('Dock component', () => {
     ];
   }
 
-  function getDockStyle(): CSSStyleDeclaration {
+  function getDockEl(): HTMLElement {
     const dock: HTMLElement = document.getElementsByTagName(
       'sky-dock'
     )[0] as HTMLElement;
+
+    return dock;
+  }
+
+  function getDockStyle(): CSSStyleDeclaration {
+    const dock = getDockEl();
     return window.getComputedStyle(dock);
   }
 
+  function reserveSpace(
+    position: SkyAppViewportReservedPositionType,
+    size: number
+  ): void {
+    lastSpaceId++;
+    const id = `dock-component-test-space-${lastSpaceId}`;
+
+    viewportSvc.reserveSpace({
+      id,
+      position,
+      size,
+    });
+
+    reservedSpaceIds.push(id);
+  }
+
+  function clearReservedSpace(): void {
+    for (const id of reservedSpaceIds) {
+      viewportSvc.unreserveSpace(id);
+    }
+
+    lastSpaceId = 0;
+    reservedSpaceIds = [];
+  }
+
   beforeEach(() => {
+    lastSpaceId = 0;
+    reservedSpaceIds = [];
+
     TestBed.configureTestingModule({
       imports: [DockFixturesModule],
       providers: [
@@ -107,11 +148,15 @@ describe('Dock component', () => {
       ],
     });
 
+    viewportSvc = TestBed.inject(SkyAppViewportService);
+
     mutationCallbacks = [];
     fixture = TestBed.createComponent(DockFixtureComponent);
   });
 
   afterEach(fakeAsync(() => {
+    clearReservedSpace();
+
     // Verify the dock element is removed.
     expect(document.querySelectorAll('sky-dock').length).toEqual(1);
     resetDockItems([]);
@@ -281,6 +326,30 @@ describe('Dock component', () => {
       expect(dockStyle.right).toBe('0px');
       expect(dockStyle.left).toBe('0px');
       expect(dockStyle.bottom).toBe('0px');
+    }));
+
+    it('should conform to the available viewport', fakeAsync(() => {
+      resetDockItems([
+        {
+          stackOrder: 0,
+        },
+      ]);
+
+      fixture.detectChanges();
+      tick();
+
+      reserveSpace('right', 30);
+      reserveSpace('bottom', 40);
+      reserveSpace('left', 20);
+
+      fixture.detectChanges();
+
+      const dockEl = getDockEl();
+      const actionBarBounds = dockEl.getBoundingClientRect();
+
+      expect(actionBarBounds.right).toBe(window.innerWidth - 30);
+      expect(actionBarBounds.bottom).toBe(window.innerHeight - 40);
+      expect(actionBarBounds.left).toBe(20);
     }));
   });
 
