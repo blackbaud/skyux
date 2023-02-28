@@ -27,64 +27,6 @@ describe('ng-add.schematic', () => {
     return runner.runSchematic('ng-add', options, tree);
   }
 
-  function setTestOptionsMain() {
-    const workspace: any = tree.readJson('angular.json');
-    if (workspace.projects['my-lib'].architect.test.options) {
-      workspace.projects['my-lib'].architect.test.options.main =
-        'projects/my-lib/src/test.ts';
-    }
-    tree.overwrite('angular.json', JSON.stringify(workspace));
-  }
-
-  it('should apply a fix for crossvent "global is not defined" error', async () => {
-    tree.create(
-      'projects/my-lib/src/test.ts',
-      `// This is a test file.\n// First, initialize the Angular testing environment.\n`
-    );
-    setTestOptionsMain();
-    const updatedTree = await runSchematic();
-
-    expect(
-      updatedTree
-        .readContent('projects/my-lib/src/test.ts')
-        .match(/\(window as any\)\.global = window/)?.length
-    ).toEqual(1);
-  });
-
-  it('should apply a fix for crossvent if project does not include test.ts', async () => {
-    const updatedTree = await runSchematic();
-
-    const files: string[] = [];
-    updatedTree.visit((path) => files.push(path));
-    // expect(files).toBe([]);
-    const workspace: any = updatedTree.readJson('angular.json');
-    expect(workspace.projects['my-lib'].architect.test.options.main).toBe(
-      'projects/my-lib/src/test.ts'
-    );
-    expect(updatedTree.exists('projects/my-lib/src/test.ts')).toBeTruthy();
-    expect(
-      updatedTree
-        .readContent('projects/my-lib/src/test.ts')
-        .match(/\(window as any\)\.global = window/)?.length
-    ).toEqual(1);
-  });
-
-  it('should not apply the crossvent fix if it already exists', async () => {
-    tree.create(
-      'projects/my-lib/src/test.ts',
-      '(window as any).global = window;'
-    );
-    setTestOptionsMain();
-
-    const updatedTree = await runSchematic();
-
-    expect(
-      updatedTree
-        .readContent('projects/my-lib/src/test.ts')
-        .match(/\(window as any\)\.global = window/)?.length
-    ).toEqual(1);
-  });
-
   it('should install @angular/cdk', async () => {
     const updatedTree = await runSchematic();
 

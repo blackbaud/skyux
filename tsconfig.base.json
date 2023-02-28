@@ -108,6 +108,9 @@
         "libs/components/omnibar-interop/src/index.ts"
       ],
       "@skyux/packages": ["libs/components/packages/src/index.ts"],
+      "@skyux/packages/polyfills": [
+        "libs/components/packages/src/polyfills.ts"
+      ],
       "@skyux/pages": ["libs/components/pages/src/index.ts"],
       "@skyux/phone-field": ["libs/components/phone-field/src/index.ts"],
       "@skyux/phone-field/testing": [

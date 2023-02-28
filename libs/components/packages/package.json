@@ -16,6 +16,17 @@
     "url": "https://github.com/blackbaud/skyux/issues"
   },
   "homepage": "https://github.com/blackbaud/skyux#readme",
+  "main": "./src/index.js",
+  "exports": {
+    ".": {
+      "import": "./src/index.js",
+      "require": "./src/index.js"
+    },
+    "./polyfills": {
+      "import": "./src/polyfills.js",
+      "require": "./src/polyfills.js"
+    }
+  },
   "schematics": "./collection.json",
   "ng-add": {
     "save": "dependencies"

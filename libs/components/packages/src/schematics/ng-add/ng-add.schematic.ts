@@ -8,7 +8,7 @@ import {
 
 import fs from 'fs-extra';
 
-import { addCrossventFix } from '../rules/add-crossvent-fix';
+import { addPolyfillsConfig } from '../rules/add-polyfills-config';
 import { applySkyuxStylesheetsToWorkspace } from '../rules/apply-skyux-stylesheets-to-workspace';
 import { installAngularCdk } from '../rules/install-angular-cdk';
 
@@ -44,7 +44,7 @@ export default function ngAdd(): Rule {
     return chain([
       installEssentialSkyUxPackages(skyuxVersion),
       installAngularCdk(),
-      addCrossventFix(),
+      addPolyfillsConfig(),
       applySkyuxStylesheetsToWorkspace(),
     ]);
   };
