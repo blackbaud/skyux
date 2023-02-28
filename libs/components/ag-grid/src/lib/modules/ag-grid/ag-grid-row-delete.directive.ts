@@ -101,11 +101,13 @@ export class SkyAgGridRowDeleteDirective
         this.#zIndex
           .pipe(takeUntil(this.#ngUnsubscribe))
           .subscribe((zIndex) => {
-            overlay.componentRef.instance.zIndex = zIndex;
+            overlay.componentRef.instance.zIndex = zIndex.toString(10);
           });
-        this.#clipPath$.subscribe((clipPath) => {
-          overlay.componentRef.instance.updateClipPath(clipPath);
-        });
+        this.#clipPath
+          .pipe(takeUntil(this.#ngUnsubscribe))
+          .subscribe((clipPath) => {
+            overlay.componentRef.instance.updateClipPath(clipPath);
+          });
 
         setTimeout(() => {
           const inlineDeleteRef = this.#rowDeleteComponent?.inlineDeleteRefs
@@ -172,8 +174,8 @@ export class SkyAgGridRowDeleteDirective
   #overlayService: SkyOverlayService;
   #viewContainerRef: ViewContainerRef;
   #scrollableHostService: SkyScrollableHostService;
-  #clipPath$ = new BehaviorSubject<string | undefined>(undefined);
-  #zIndex = new BehaviorSubject('998');
+  #clipPath = new BehaviorSubject<string | undefined>(undefined);
+  #zIndex = new BehaviorSubject(998);
 
   constructor(
     affixService: SkyAffixService,
@@ -184,7 +186,7 @@ export class SkyAgGridRowDeleteDirective
     scrollableHostService: SkyScrollableHostService,
     @Optional()
     @Inject(SKY_STACKING_CONTEXT)
-    stackingContext?: SkyStackingContext | undefined
+    stackingContext?: SkyStackingContext
   ) {
     this.#affixService = affixService;
     this.#changeDetector = changeDetector;
@@ -196,7 +198,7 @@ export class SkyAgGridRowDeleteDirective
       stackingContext.zIndex
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((zIndex) => {
-          this.#zIndex.next(zIndex.toString(10));
+          this.#zIndex.next(zIndex);
         });
     }
   }
@@ -232,7 +234,7 @@ export class SkyAgGridRowDeleteDirective
       .watchScrollableHostClipPathChanges(this.#elementRef)
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((clipPath) => {
-        this.#clipPath$.next(clipPath);
+        this.#clipPath.next(clipPath);
       });
   }
 

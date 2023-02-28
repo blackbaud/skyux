@@ -25,6 +25,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     });
 
     fixture = TestBed.createComponent(SkyAgGridRowDeleteFixtureComponent);
+    fixture.detectChanges();
   }
 
   afterEach(() => {
@@ -37,7 +38,6 @@ describe('SkyAgGridRowDeleteDirective', () => {
   describe('show row delete elements correctly', () => {
     it('should show for one row', async () => {
       setupTest();
-      fixture.detectChanges();
       await fixture.whenStable();
 
       expect(document.querySelector('.sky-inline-delete-standard')).toBeNull();
@@ -54,10 +54,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
 
     it('should show for multiple rows', async () => {
       setupTest();
-      fixture.componentInstance.zIndex = 1000;
-      fixture.detectChanges();
       await fixture.whenStable();
-      fixture.componentInstance.rowDelete?.ngAfterViewInit();
 
       expect(document.querySelector('.sky-inline-delete-standard')).toBeNull();
 
@@ -73,7 +70,6 @@ describe('SkyAgGridRowDeleteDirective', () => {
 
     it('should respond to data changes', async () => {
       setupTest();
-      fixture.detectChanges();
       await fixture.whenStable();
 
       fixture.componentInstance.rowDeleteIds = ['0', '2'];
@@ -95,7 +91,6 @@ describe('SkyAgGridRowDeleteDirective', () => {
 
     it('should respond to sorting', async () => {
       setupTest();
-      fixture.detectChanges();
       await fixture.whenStable();
 
       fixture.componentInstance.rowDeleteIds = ['0', '2'];
@@ -117,7 +112,6 @@ describe('SkyAgGridRowDeleteDirective', () => {
 
     it('should respond to filtering', async () => {
       setupTest();
-      fixture.detectChanges();
       await fixture.whenStable();
 
       fixture.componentInstance.rowDeleteIds = ['0', '2'];
@@ -150,7 +144,6 @@ describe('SkyAgGridRowDeleteDirective', () => {
 
     it('should respond dataset changes', async () => {
       setupTest();
-      fixture.detectChanges();
       await fixture.whenStable();
 
       fixture.componentInstance.rowDeleteIds = ['0', '2'];
@@ -407,9 +400,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     setupTest({
       stackingContextZIndex: 1111,
     });
-    fixture.detectChanges();
     await fixture.whenStable();
-    fixture.detectChanges();
 
     fixture.componentInstance.rowDeleteIds = ['0', '1'];
 

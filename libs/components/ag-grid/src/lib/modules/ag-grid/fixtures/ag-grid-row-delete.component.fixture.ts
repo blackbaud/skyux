@@ -1,10 +1,4 @@
-import {
-  Component,
-  HostBinding,
-  OnInit,
-  ViewChild,
-  ViewEncapsulation,
-} from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 import {
   ColumnApi,
@@ -16,7 +10,6 @@ import {
 import { fromEventPattern } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 
-import { SkyAgGridRowDeleteDirective } from '../ag-grid-row-delete.directive';
 import { SkyAgGridService } from '../ag-grid.service';
 import { SkyAgGridRowDeleteCancelArgs } from '../types/ag-grid-row-delete-cancel-args';
 import { SkyAgGridRowDeleteConfirmArgs } from '../types/ag-grid-row-delete-confirm-args';
@@ -33,12 +26,6 @@ import {
   encapsulation: ViewEncapsulation.None,
 })
 export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
-  @HostBinding('style.z-index')
-  public zIndex: number | undefined;
-
-  @ViewChild(SkyAgGridRowDeleteDirective, { static: true })
-  public rowDelete: SkyAgGridRowDeleteDirective | undefined;
-
   public allColumnWidth = 0;
 
   public columnDefs = [
