@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 
 import { ComponentRouteInfo } from '../../../shared/component-info/component-route-info';
 
+import { ReadonlyGridInModalComponent } from './readonly-grid-in-modal.component';
 import { ReadonlyGridComponent } from './readonly-grid.component';
 
 const routes: ComponentRouteInfo[] = [
@@ -11,6 +12,15 @@ const routes: ComponentRouteInfo[] = [
     component: ReadonlyGridComponent,
     data: {
       name: 'AG Grid (readonly)',
+      library: 'ag-grid',
+      icon: 'table',
+    },
+  },
+  {
+    path: 'in-modal',
+    component: ReadonlyGridInModalComponent,
+    data: {
+      name: 'AG Grid (readonly) in modal',
       library: 'ag-grid',
       icon: 'table',
     },
