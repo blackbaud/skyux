@@ -16,7 +16,7 @@ export class SkyExpansionIndicatorComponent {
   @Input()
   public set direction(value: string | undefined) {
     /* istanbul ignore else */
-    if (value != this.directionOrDefault) {
+    if (value !== this.directionOrDefault) {
       this.directionOrDefault = value ? value : 'up';
     }
   }
