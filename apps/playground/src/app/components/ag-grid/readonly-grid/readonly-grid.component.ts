@@ -185,7 +185,9 @@ export class ReadonlyGridComponent implements OnInit {
       columnDefs: this.columnDefs,
       onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
       context: {
-        rowDeleteIds: [],
+        rowDeleteIds: this.gridData
+          .filter((row) => row.selected)
+          .map((row) => row.id),
       },
     };
     this.gridOptions = this.agGridService.getGridOptions({
