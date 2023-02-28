@@ -104,6 +104,21 @@ describe('SkyAgGridWrapperComponent', () => {
     ).not.toEqual(-1);
   });
 
+  it('should add sky-ag-grid-layout-normal class when the domLayout is set to normal', () => {
+    agGrid.gridOptions = { domLayout: 'normal' };
+
+    const normalGridWrapperFixture = TestBed.createComponent(
+      SkyAgGridWrapperComponent
+    );
+    const autoHeightGridWrapperComponent =
+      normalGridWrapperFixture.componentInstance;
+    autoHeightGridWrapperComponent.agGrid = agGrid;
+
+    normalGridWrapperFixture.detectChanges();
+
+    expect(autoHeightGridWrapperComponent.isNormalLayout).toEqual(true);
+  });
+
   it('should apply ag-theme', async () => {
     spyOn(agGrid.api, 'setHeaderHeight').and.returnValue(undefined);
     spyOn(agGrid.api, 'resetRowHeights').and.returnValue(undefined);
