@@ -21,7 +21,7 @@ import { SkyIconHarness } from './icon-harness';
   `,
 })
 class TestComponent {
-  public iconName = 'house';
+  public iconName: string | undefined = 'house';
   public iconType: string | undefined = undefined;
   public fixedWidth: boolean | undefined = undefined;
   public variant: string | undefined = undefined;
@@ -32,7 +32,7 @@ class TestComponent {
 async function validateIconName(
   iconHarness: SkyIconHarness,
   fixture: ComponentFixture<TestComponent>,
-  iconName: string
+  iconName: string | undefined
 ): Promise<void> {
   fixture.componentInstance.iconName = iconName;
   fixture.detectChanges();
@@ -126,6 +126,14 @@ describe('Icon harness', () => {
         );
       }
     }
+  });
+
+  it('should throw error if icon name is not set', async () => {
+    const { iconHarness, fixture } = await setupTest();
+    fixture.componentInstance.iconName = undefined;
+    await expectAsync(iconHarness.getIconName()).toBeRejectedWithError(
+      'Icon does not exist'
+    );
   });
 
   it('should return the correct icon size', async () => {

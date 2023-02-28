@@ -36,7 +36,7 @@ export class SkyIconComponent {
   public size: string | undefined;
 
   /**
-   * Whether the icon has a fixed width.
+   * Ensures all icons of the same size take up the same width. Useful for stacking icons vertically.
    * @default false
    */
   @Input()
