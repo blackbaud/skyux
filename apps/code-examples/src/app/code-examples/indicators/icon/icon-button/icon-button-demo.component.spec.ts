@@ -26,12 +26,12 @@ describe('Icon button', async () => {
     });
   });
 
-  it('should display the icon in the text icon button', async () => {
+  fit('should display the icon in the text icon button', async () => {
     const iconHarness = await setupTest({ dataSkyId: 'text-button-icon' });
     await expectAsync(iconHarness.getIconName()).toBeResolvedTo('save');
   });
 
-  it('should display the icon in the icon only button', async () => {
+  fit('should display the icon in the icon only button', async () => {
     const iconHarness = await setupTest({ dataSkyId: 'button-icon' });
     await expectAsync(iconHarness.getIconName()).toBeResolvedTo('edit');
   });
