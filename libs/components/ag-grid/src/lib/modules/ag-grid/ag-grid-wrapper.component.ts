@@ -92,14 +92,14 @@ export class SkyAgGridWrapperComponent
   constructor(
     adapterService: SkyAgGridAdapterService,
     changeDetector: ChangeDetectorRef,
-    @Optional()
-    @SkipSelf()
-    @Inject(ChangeDetectorRef)
-    parentChangeDetector: ChangeDetectorRef | undefined,
     elementRef: ElementRef,
     @Inject(DOCUMENT) document: Document,
     agGridService: SkyAgGridService,
-    @Optional() themeSvc?: SkyThemeService
+    @Optional() themeSvc?: SkyThemeService,
+    @Optional()
+    @SkipSelf()
+    @Inject(ChangeDetectorRef)
+    parentChangeDetector?: ChangeDetectorRef
   ) {
     this.#adapterService = adapterService;
     this.#changeDetector = changeDetector;
