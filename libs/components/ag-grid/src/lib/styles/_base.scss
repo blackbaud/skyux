@@ -4,6 +4,7 @@
 
 @include ag.grid-styles(
   (
+    suppress-native-widget-styling: true,
     themes: (
       sky-default: (
         background-color: variables.$sky-color-gray-01,
@@ -214,5 +215,21 @@ sky-ag-grid-wrapper + sky-infinite-scroll {
 .ag-theme-sky-default {
   .ag-header .ag-header-cell .ag-header-cell-text {
     font-weight: normal;
+  }
+}
+
+sky-ag-grid-wrapper.sky-ag-grid-layout-normal {
+  width: 100%;
+  height: 100%;
+  display: flex;
+
+  .sky-ag-grid {
+    flex: 1;
+    overflow: hidden;
+
+    ag-grid-angular {
+      width: 100%;
+      height: 100%;
+    }
   }
 }
