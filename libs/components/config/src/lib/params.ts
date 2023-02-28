@@ -74,13 +74,9 @@ export class SkyAppRuntimeConfigParams {
       allowedKeysUC.forEach((allowedKeyUC, index) => {
         if (givenKeyUC === allowedKeyUC) {
           const param = httpParams.get(givenKey);
-          if (param) {
-            // To avoid breaking changes, we must encode the parameter value since
-            // this was the default behavior of the previously used UrlSearchParams utility.
-            // TODO: Remove encoding in favor of HttpParams' default behavior.
-            const value = encodeURIComponent(param);
 
-            this.#params[allowed[index]] = value;
+          if (param) {
+            this.#params[allowed[index]] = param;
             this.#encodedParams.push(givenKey);
           }
         }
@@ -92,9 +88,7 @@ export class SkyAppRuntimeConfigParams {
    * Does the key exist
    */
   public has(key: string): boolean {
-    return (
-      this.#params && Object.prototype.hasOwnProperty.call(this.#params, key)
-    );
+    return Object.prototype.hasOwnProperty.call(this.#params, key);
   }
 
   /**
@@ -123,7 +117,7 @@ export class SkyAppRuntimeConfigParams {
    */
   public get(key: string): string | undefined {
     if (this.has(key)) {
-      return decodeURIComponent(this.#params[key]);
+      return this.#params[key];
     }
 
     return;

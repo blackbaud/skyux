@@ -180,7 +180,7 @@ describe('SkyAppRuntimeConfigParams', () => {
     });
   });
 
-  it('should decode values when retrieved from the query string', () => {
+  it('should decode query string values but not default values', () => {
     const params = new SkyAppRuntimeConfigParams('?a=%2F', {
       a: true,
       b: {
@@ -189,7 +189,7 @@ describe('SkyAppRuntimeConfigParams', () => {
     });
 
     expect(params.get('a')).toBe('/');
-    expect(params.get('b')).toBe('/');
+    expect(params.get('b')).toBe('%2F');
   });
 
   it('should allow queryParam values to be required', () => {

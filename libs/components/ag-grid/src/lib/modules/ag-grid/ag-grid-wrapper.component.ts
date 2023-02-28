@@ -6,10 +6,12 @@ import {
   Component,
   ContentChild,
   ElementRef,
+  HostBinding,
   Inject,
   OnDestroy,
   OnInit,
   Optional,
+  SkipSelf,
 } from '@angular/core';
 import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 
@@ -35,6 +37,9 @@ export class SkyAgGridWrapperComponent
     static: true,
   })
   public agGrid: AgGridAngular | undefined;
+
+  @HostBinding('class.sky-ag-grid-layout-normal')
+  public isNormalLayout = false;
 
   public afterAnchorId: string;
   public beforeAnchorId: string;
@@ -80,6 +85,7 @@ export class SkyAgGridWrapperComponent
   #currentTheme: SkyThemeSettings | undefined = undefined;
   #adapterService: SkyAgGridAdapterService;
   #changeDetector: ChangeDetectorRef;
+  #parentChangeDetector: ChangeDetectorRef | undefined;
   #elementRef: ElementRef;
   #document: Document;
 
@@ -89,10 +95,15 @@ export class SkyAgGridWrapperComponent
     elementRef: ElementRef,
     @Inject(DOCUMENT) document: Document,
     agGridService: SkyAgGridService,
-    @Optional() themeSvc?: SkyThemeService
+    @Optional() themeSvc?: SkyThemeService,
+    @Optional()
+    @SkipSelf()
+    @Inject(ChangeDetectorRef)
+    parentChangeDetector?: ChangeDetectorRef
   ) {
     this.#adapterService = adapterService;
     this.#changeDetector = changeDetector;
+    this.#parentChangeDetector = parentChangeDetector;
     this.#elementRef = elementRef;
     this.#document = document;
 
@@ -107,10 +118,8 @@ export class SkyAgGridWrapperComponent
 
   public ngAfterContentInit(): void {
     if (this.agGrid) {
-      if (
-        this.agGrid.gridOptions &&
-        this.agGrid.gridOptions.domLayout === 'autoHeight'
-      ) {
+      const domLayout = this.agGrid.gridOptions?.domLayout;
+      if (domLayout === 'autoHeight') {
         if (this.agGrid.gridOptions.context?.enableTopScroll) {
           this.viewkeeperClasses.push(
             '.ag-header',
@@ -119,6 +128,9 @@ export class SkyAgGridWrapperComponent
         } else {
           this.viewkeeperClasses.push('.ag-header');
         }
+      } else if (domLayout === 'normal') {
+        this.isNormalLayout = true;
+        this.#parentChangeDetector?.detectChanges();
       }
       this.agGrid.gridReady
         .pipe(takeUntil(this.#ngUnsubscribe))
