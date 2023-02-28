@@ -24,10 +24,6 @@ $sky-font-size-base: 15px !default;
 $sky-line-height-base: 1.428571429 !default;
 
 // Z-INDEXES
-// TODO: Remove unused z-indexes
-$sky-dropdown-z-index: 1001 !default; // omnibar is 1000; not used, uses overlay service z-index
-$sky-flyout-z-index: 1001 !default; // omnibar is 1000, help is 9999; set by SkyFlyoutComponent.zIndex$
-$sky-toaster-z-index: 1051 !default; // modal is 1050; set by SkyToasterComponent.zIndex$
 $sky-page-wait-z-index: 2000 !default;
 $sky-component-wait-z-index: 1000 !default;
 
