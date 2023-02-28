@@ -25,7 +25,7 @@ class TestComponent {
   public iconType: string | undefined = undefined;
   public fixedWidth: boolean | undefined = undefined;
   public variant: string | undefined = undefined;
-  public size: string | undefined = undefined; //reset to undefined so u have a baseline
+  public size: string | undefined = undefined;
 }
 //#endregion Test component
 
@@ -76,13 +76,11 @@ async function validateIconSize(
 async function validateVariant(
   iconHarness: SkyIconHarness,
   fixture: ComponentFixture<TestComponent>,
-  variant: string | undefined
+  variant: string
 ): Promise<void> {
   fixture.componentInstance.variant = variant;
   fixture.detectChanges();
-  await expectAsync(iconHarness.getVariant()).toBeResolvedTo(
-    variant ? variant : ''
-  );
+  await expectAsync(iconHarness.getVariant()).toBeResolvedTo(variant);
 }
 
 const iconTypes = ['fa', 'skyux'];
@@ -162,6 +160,14 @@ describe('Icon harness', () => {
     for (const variant of variants) {
       await validateVariant(iconHarness, fixture, variant);
     }
+  });
+
+  it('should return undefined if the skyux icon does not have variant', async () => {
+    const { iconHarness, fixture } = await setupTest();
+    fixture.componentInstance.iconName = 'sort';
+    fixture.componentInstance.iconType = 'skyux';
+    fixture.detectChanges();
+    await expectAsync(iconHarness.getVariant()).toBeResolvedTo(undefined);
   });
 
   it('should throw an error when trying to get variant for a non skyux icon', async () => {

@@ -46,7 +46,7 @@ export class SkyIconHarness extends SkyComponentHarness {
         );
       }
     }
-    return undefined;
+    throw new Error('Icon requires iconName'); // TODO: how to handle harness for required values!?
   }
 
   /** Gets the icon size */
@@ -82,7 +82,7 @@ export class SkyIconHarness extends SkyComponentHarness {
           return iconClass.substring(iconClass.lastIndexOf('-') + 1);
         }
       }
-      return undefined;
+      return undefined; // TODO different icons have different default variant returns
     }
     throw new Error(
       'Variant cannot be determined because iconType is not skyux'
