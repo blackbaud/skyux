@@ -1,5 +1,19 @@
 # Changelog
 
+## [7.9.0](https://github.com/blackbaud/skyux/compare/7.8.1...7.9.0) (2023-02-28)
+
+
+### Features
+
+* **components/core:** create stacking context service ([#1004](https://github.com/blackbaud/skyux/issues/1004)) ([6500101](https://github.com/blackbaud/skyux/commit/6500101c41403e52f29c5fffaac63bdfdf376b3a))
+* **components/core:** update dock component to fit within viewport ([#1022](https://github.com/blackbaud/skyux/issues/1022)) ([c4198f7](https://github.com/blackbaud/skyux/commit/c4198f7ca5b55d3ecf7540c1c2fcc0f33ddff5a2))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** row delete overlay did not show in modal ([#981](https://github.com/blackbaud/skyux/issues/981)) ([992403b](https://github.com/blackbaud/skyux/commit/992403b7a5dcd93ef1a09b404625da85d6b8b73e))
+* **components/ag-grid:** support domlayout normal option for layout ([#1011](https://github.com/blackbaud/skyux/issues/1011)) ([4b905ff](https://github.com/blackbaud/skyux/commit/4b905ff6303d1797ccd4077085b1cc1432e6acea))
+
 ## [7.8.1](https://github.com/blackbaud/skyux/compare/7.8.0...7.8.1) (2023-02-27)
 
 
