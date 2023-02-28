@@ -49,14 +49,15 @@ export class SkyModalService {
     this.#createHostComponent();
     const params = this.#getConfigFromParameter(config);
 
-    /* eslint-disable @typescript-eslint/no-non-null-assertion */
-    params.providers!.push({
+    params.providers ||= [];
+    params.providers.push({
       provide: SkyModalInstance,
       useValue: modalInstance,
     });
 
-    SkyModalService.host!.instance.open(modalInstance, component, params);
-    /* eslint-enable @typescript-eslint/no-non-null-assertion */
+    if (SkyModalService.host) {
+      SkyModalService.host.instance.open(modalInstance, component, params);
+    }
 
     return modalInstance;
   }

@@ -113,28 +113,29 @@ export class SkyModalHostComponent implements OnDestroy {
 
     let isOpen = true;
 
-    /* eslint-disable @typescript-eslint/no-non-null-assertion */
-    params.providers!.push({
-      provide: SkyModalHostService,
-      useValue: hostService,
-    });
-    params.providers!.push({
-      provide: SkyModalConfiguration,
-      useValue: params,
-    });
-    params.providers!.push({
-      provide: SkyMediaQueryService,
-      useExisting: SkyResizeObserverMediaQueryService,
-    });
-    params.providers!.push({
-      provide: SKY_STACKING_CONTEXT,
-      useValue: {
-        zIndex: new BehaviorSubject(hostService.getModalZIndex())
-          .asObservable()
-          .pipe(takeUntil(modalInstance.closed)),
+    params.providers ||= [];
+    params.providers.push(
+      {
+        provide: SkyModalHostService,
+        useValue: hostService,
       },
-    });
-    /* eslint-enable @typescript-eslint/no-non-null-assertion */
+      {
+        provide: SkyModalConfiguration,
+        useValue: params,
+      },
+      {
+        provide: SkyMediaQueryService,
+        useExisting: SkyResizeObserverMediaQueryService,
+      },
+      {
+        provide: SKY_STACKING_CONTEXT,
+        useValue: {
+          zIndex: new BehaviorSubject(hostService.getModalZIndex())
+            .asObservable()
+            .pipe(takeUntil(modalInstance.closed)),
+        },
+      }
+    );
 
     adapter.setPageScroll(SkyModalHostService.openModalCount > 0);
     adapter.toggleFullPageModalClass(
