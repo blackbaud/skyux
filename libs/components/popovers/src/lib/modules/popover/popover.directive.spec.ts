@@ -7,6 +7,7 @@ import {
 } from '@angular/core/testing';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 import {
+  SKY_STACKING_CONTEXT,
   SkyAffixAutoFitContext,
   SkyAffixPlacementChange,
   SkyAffixService,
@@ -87,6 +88,12 @@ describe('Popover directive', () => {
         {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
+        },
+        {
+          provide: SKY_STACKING_CONTEXT,
+          useValue: {
+            zIndex: new BehaviorSubject(111),
+          },
         },
       ],
     });
