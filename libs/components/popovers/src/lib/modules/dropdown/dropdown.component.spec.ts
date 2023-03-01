@@ -136,6 +136,12 @@ describe('Dropdown component', function () {
     fixture = TestBed.createComponent(DropdownFixtureComponent);
   });
 
+  afterEach(() => {
+    (
+      TestBed.inject(SKY_STACKING_CONTEXT).zIndex as BehaviorSubject<number>
+    ).complete();
+  });
+
   it('should set defaults', fakeAsync(() => {
     detectChangesFakeAsync();
 

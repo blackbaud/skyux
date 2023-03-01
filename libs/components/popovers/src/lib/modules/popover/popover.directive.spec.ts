@@ -101,6 +101,12 @@ describe('Popover directive', () => {
     fixture = TestBed.createComponent(PopoverFixtureComponent);
   });
 
+  afterEach(() => {
+    (
+      TestBed.inject(SKY_STACKING_CONTEXT).zIndex as BehaviorSubject<number>
+    ).complete();
+  });
+
   it('should set defaults', fakeAsync(() => {
     detectChangesFakeAsync();
 
