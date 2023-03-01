@@ -255,6 +255,9 @@ describe('Autocomplete component', () => {
     });
 
     afterEach(() => {
+      (
+        TestBed.inject(SKY_STACKING_CONTEXT).zIndex as BehaviorSubject<number>
+      ).complete();
       fixture.destroy();
     });
 
