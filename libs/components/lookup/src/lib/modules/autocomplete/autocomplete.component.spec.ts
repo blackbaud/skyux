@@ -6,9 +6,10 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { SKY_STACKING_CONTEXT } from '@skyux/core';
 import { SkyInputBoxHostService } from '@skyux/forms';
 
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { SkyAutocompleteAdapterService } from './autocomplete-adapter.service';
 import { SkyAutocompleteInputDirective } from './autocomplete-input.directive';
@@ -237,6 +238,14 @@ describe('Autocomplete component', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
         imports: [SkyAutocompleteFixturesModule],
+        providers: [
+          {
+            provide: SKY_STACKING_CONTEXT,
+            useValue: {
+              zIndex: new BehaviorSubject(10),
+            },
+          },
+        ],
       });
 
       fixture = TestBed.createComponent(SkyAutocompleteFixtureComponent);
