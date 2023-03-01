@@ -14,6 +14,7 @@ import {
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { SKY_STACKING_CONTEXT } from '@skyux/core';
 import { SkyInputBoxModule } from '@skyux/forms';
 import {
   SkyTheme,
@@ -180,6 +181,12 @@ describe('Timepicker', () => {
             provide: SkyThemeService,
             useValue: mockThemeSvc,
           },
+          {
+            provide: SKY_STACKING_CONTEXT,
+            useValue: {
+              zIndex: new BehaviorSubject(111),
+            },
+          },
         ],
       });
 
@@ -188,6 +195,9 @@ describe('Timepicker', () => {
     });
 
     afterEach(() => {
+      (
+        TestBed.inject(SKY_STACKING_CONTEXT).zIndex as BehaviorSubject<number>
+      ).complete();
       fixture.destroy();
     });
 
