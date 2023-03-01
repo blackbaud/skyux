@@ -2,15 +2,22 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  Inject,
   Input,
   OnDestroy,
+  Optional,
   Output,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { SkyOverlayInstance, SkyOverlayService } from '@skyux/core';
+import {
+  SKY_STACKING_CONTEXT,
+  SkyOverlayInstance,
+  SkyOverlayService,
+  SkyStackingContext,
+} from '@skyux/core';
 
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyPopoverContentComponent } from './popover-content.component';
@@ -136,8 +143,16 @@ export class SkyPopoverComponent implements OnDestroy {
 
   #overlayService: SkyOverlayService;
 
-  constructor(overlayService: SkyOverlayService) {
+  #zIndex: Observable<number> | undefined;
+
+  constructor(
+    overlayService: SkyOverlayService,
+    @Optional()
+    @Inject(SKY_STACKING_CONTEXT)
+    stackingContext?: SkyStackingContext
+  ) {
     this.#overlayService = overlayService;
+    this.#zIndex = stackingContext?.zIndex;
   }
 
   public ngOnDestroy(): void {
@@ -213,6 +228,14 @@ export class SkyPopoverComponent implements OnDestroy {
         enableScroll: true,
         enablePointerEvents: true,
       });
+
+      if (this.#zIndex) {
+        this.#zIndex
+          .pipe(takeUntil(this.#ngUnsubscribe))
+          .subscribe((zIndex) => {
+            overlay.componentRef.instance.zIndex = zIndex.toString(10);
+          });
+      }
 
       overlay.backdropClick
         .pipe(takeUntil(this.#ngUnsubscribe))
