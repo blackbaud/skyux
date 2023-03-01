@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  Inject,
   Input,
   OnDestroy,
   OnInit,
@@ -11,16 +12,18 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
+  SKY_STACKING_CONTEXT,
   SkyAffixAutoFitContext,
   SkyAffixService,
   SkyAffixer,
   SkyLogService,
   SkyOverlayInstance,
   SkyOverlayService,
+  SkyStackingContext,
 } from '@skyux/core';
 import { SkyThemeService } from '@skyux/theme';
 
-import { Subject, fromEvent as observableFromEvent } from 'rxjs';
+import { Observable, Subject, fromEvent as observableFromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { parseAffixHorizontalAlignment } from './dropdown-extensions';
@@ -235,19 +238,24 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   #overlayService: SkyOverlayService;
   #logService: SkyLogService;
   #themeSvc: SkyThemeService | undefined;
+  #zIndex: Observable<number> | undefined;
 
   constructor(
     changeDetector: ChangeDetectorRef,
     affixService: SkyAffixService,
     overlayService: SkyOverlayService,
     logService: SkyLogService,
-    @Optional() themeSvc?: SkyThemeService
+    @Optional() themeSvc?: SkyThemeService,
+    @Optional()
+    @Inject(SKY_STACKING_CONTEXT)
+    stackingContext?: SkyStackingContext
   ) {
     this.#changeDetector = changeDetector;
     this.#affixService = affixService;
     this.#overlayService = overlayService;
     this.#logService = logService;
     this.#themeSvc = themeSvc;
+    this.#zIndex = stackingContext?.zIndex;
   }
 
   public ngOnInit(): void {
@@ -376,6 +384,14 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
         enableScroll: true,
         enablePointerEvents: true,
       });
+
+      if (this.#zIndex) {
+        this.#zIndex
+          .pipe(takeUntil(this.#ngUnsubscribe))
+          .subscribe((zIndex) => {
+            overlay.componentRef.instance.zIndex = zIndex.toString(10);
+          });
+      }
 
       overlay.attachTemplate(this.menuContainerTemplateRef);
 
