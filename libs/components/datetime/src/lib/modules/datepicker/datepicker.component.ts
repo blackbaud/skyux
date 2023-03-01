@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  Inject,
   Input,
   OnDestroy,
   OnInit,
@@ -13,17 +14,19 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
+  SKY_STACKING_CONTEXT,
   SkyAffixAutoFitContext,
   SkyAffixService,
   SkyAffixer,
   SkyCoreAdapterService,
   SkyOverlayInstance,
   SkyOverlayService,
+  SkyStackingContext,
 } from '@skyux/core';
 import { SkyInputBoxHostService } from '@skyux/forms';
 import { SkyThemeService } from '@skyux/theme';
 
-import { Subject, Subscription, fromEvent } from 'rxjs';
+import { Observable, Subject, Subscription, fromEvent } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 
 import { SkyDatepickerCalendarChange } from './datepicker-calendar-change';
@@ -182,6 +185,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
   #changeDetector: ChangeDetectorRef;
   #coreAdapter: SkyCoreAdapterService;
   #overlayService: SkyOverlayService;
+  #zIndex: Observable<number> | undefined;
 
   constructor(
     affixService: SkyAffixService,
@@ -189,7 +193,10 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
     coreAdapter: SkyCoreAdapterService,
     overlayService: SkyOverlayService,
     @Optional() public inputBoxHostService?: SkyInputBoxHostService,
-    @Optional() themeSvc?: SkyThemeService
+    @Optional() themeSvc?: SkyThemeService,
+    @Optional()
+    @Inject(SKY_STACKING_CONTEXT)
+    stackingContext?: SkyStackingContext
   ) {
     this.#affixService = affixService;
     this.#changeDetector = changeDetector;
@@ -198,6 +205,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
     const uniqueId = nextId++;
     this.calendarId = `sky-datepicker-calendar-${uniqueId}`;
     this.triggerButtonId = `sky-datepicker-button-${uniqueId}`;
+    this.#zIndex = stackingContext?.zIndex;
 
     // Update icons when theme changes.
     themeSvc?.settingsChange
@@ -343,6 +351,14 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
         enableClose: false,
         enablePointerEvents: false,
       });
+
+      if (this.#zIndex) {
+        this.#zIndex
+          .pipe(takeUntil(this.#calendarUnsubscribe))
+          .subscribe((zIndex) => {
+            overlay.componentRef.instance.zIndex = zIndex.toString(10);
+          });
+      }
 
       overlay.backdropClick
         .pipe(takeUntil(this.#calendarUnsubscribe))
