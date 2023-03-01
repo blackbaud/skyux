@@ -121,6 +121,7 @@ export class SkyLogService {
       const messageKey = this.#buildMessageKey(message, params);
 
       // Only log each warning once per application instance to avoid drowning out other
+      // important messages in the console.
       if (!this.#previousWarnings.has(message)) {
         this.#logWithParams('warn', message, params);
         this.#previousWarnings.add(messageKey);
