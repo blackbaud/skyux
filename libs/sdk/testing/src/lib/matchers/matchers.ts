@@ -33,7 +33,7 @@ function isTemplateMatch(sample: string, template: string): boolean {
   const templateTokens = template.split(new RegExp('{\\d+}')).reverse();
   let currentToken = templateTokens.pop();
   let lastPosition = 0;
-  while (currentToken != undefined && matches) {
+  while (currentToken !== undefined && matches) {
     const tokenPosition: number = sample.indexOf(currentToken, lastPosition);
     matches = tokenPosition >= lastPosition;
     lastPosition = tokenPosition + currentToken.length;
