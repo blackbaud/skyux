@@ -1,5 +1,14 @@
 # Changelog
 
+## [7.9.1](https://github.com/blackbaud/skyux/compare/7.9.0...7.9.1) (2023-03-01)
+
+
+### Bug Fixes
+
+* **components/datetime:** apply stacking context ([#1035](https://github.com/blackbaud/skyux/issues/1035)) ([f1dc230](https://github.com/blackbaud/skyux/commit/f1dc230dd94ae881caa3f0bc5846335f45272495))
+* **components/lookup:** apply stacking context ([#1036](https://github.com/blackbaud/skyux/issues/1036)) ([4afeafb](https://github.com/blackbaud/skyux/commit/4afeafb0105d6eb289e71e24ed4f187509ebf13a))
+* **components/popovers:** apply stacking context ([#1037](https://github.com/blackbaud/skyux/issues/1037)) ([746874f](https://github.com/blackbaud/skyux/commit/746874f9b0d9fd39a6e52b815a24f0cf6b54c677))
+
 ## [7.9.0](https://github.com/blackbaud/skyux/compare/7.8.1...7.9.0) (2023-02-28)
 
 
