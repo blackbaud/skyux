@@ -8,6 +8,7 @@ import {
 import { NgModel } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { SKY_STACKING_CONTEXT } from '@skyux/core';
 import { SkyAppLocaleInfo, SkyAppLocaleProvider } from '@skyux/i18n';
 import {
   SkyTheme,
@@ -196,11 +197,23 @@ describe('datepicker', () => {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
         },
+        {
+          provide: SKY_STACKING_CONTEXT,
+          useValue: {
+            zIndex: new BehaviorSubject(111),
+          },
+        },
       ],
     });
 
     // Suppress console warnings in test logs.
     spyOn(console, 'warn');
+  });
+
+  afterEach(() => {
+    (
+      TestBed.inject(SKY_STACKING_CONTEXT).zIndex as BehaviorSubject<number>
+    ).complete();
   });
 
   describe('nonstandard configuration', () => {
