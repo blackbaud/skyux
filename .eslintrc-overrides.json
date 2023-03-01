@@ -6,7 +6,9 @@
         "@typescript-eslint/ban-types": "warn",
         "@typescript-eslint/no-empty-function": "warn",
         "@typescript-eslint/no-non-null-assertion": "warn",
-        "@typescript-eslint/explicit-function-return-type": "warn"
+        "@typescript-eslint/explicit-function-return-type": "warn",
+        "curly": "error",
+        "eqeqeq": ["error", "always"]
       }
     },
     {

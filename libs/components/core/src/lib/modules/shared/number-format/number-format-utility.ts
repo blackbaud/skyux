@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 // This file is mostly ported from the Angular 4.x NumberPipe in order to maintain the old
 // behavior of using the `Intl` API for formatting numbers rather than having to register every
 // supported locale.

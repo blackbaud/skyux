@@ -28,6 +28,7 @@ export class StateOrchestrator<TStateNode, TAction> {
     initialState: TStateNode,
     actions: Observable<TAction>
   ): Observable<any> {
+    // eslint-disable-next-line eqeqeq
     if (initialState == null) {
       throw new Error(
         'Initial state for an orchestrator should never be null. Check your StateNode definition and registrations.'

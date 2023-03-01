@@ -33,7 +33,7 @@ export class SkyChevronComponent {
   @Input()
   public set direction(value: string | undefined) {
     /* istanbul ignore else */
-    if (value != this.directionOrDefault) {
+    if (value !== this.directionOrDefault) {
       this.directionOrDefault = value ? value : 'up';
       /* istanbul ignore else */
       if (this.directionOrDefault === 'up') {
