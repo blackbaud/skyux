@@ -170,10 +170,12 @@ export class SkyLogService {
   }
 
   #buildMessageKey(message: string, params?: unknown[]): string {
+    let key = message;
+
     if (params?.length) {
-      message = `${message} ${params.join(' ')}`;
+      key = `${key} ${params.join(' ')}`;
     }
 
-    return message;
+    return key;
   }
 }
