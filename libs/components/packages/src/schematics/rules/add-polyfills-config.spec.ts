@@ -46,4 +46,29 @@ describe('addPolyfillsConfig', () => {
       updatedWorkspace.projects['test-app'].architect.build.options.polyfills
     ).toEqual(['zone.js', '@skyux/packages/polyfills']);
   });
+
+  it('should add polyfills when previous value is missing', async () => {
+    const tree = await createTestApp(runner, {
+      projectName: 'test-app',
+    });
+    const workspace: any = tree.readJson('angular.json');
+    delete workspace.projects['test-app'].architect.build.options.polyfills;
+    tree.overwrite('angular.json', JSON.stringify(workspace));
+    await addPolyfillsConfig()(tree, {} as SchematicContext);
+    const updatedWorkspaceAfterMissingPolyfills: any =
+      tree.readJson('angular.json');
+    expect(
+      updatedWorkspaceAfterMissingPolyfills.projects['test-app'].architect.build
+        .options.polyfills
+    ).toEqual(['@skyux/packages/polyfills']);
+    delete workspace.projects['test-app'].architect.build.options;
+    tree.overwrite('angular.json', JSON.stringify(workspace));
+    await addPolyfillsConfig()(tree, {} as SchematicContext);
+    const updatedWorkspaceAfterMissingOptions: any =
+      tree.readJson('angular.json');
+    expect(
+      updatedWorkspaceAfterMissingOptions.projects['test-app'].architect.build
+        .options.polyfills
+    ).toEqual(['@skyux/packages/polyfills']);
+  });
 });

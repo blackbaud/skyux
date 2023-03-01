@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 // This is the static js polyfills file for use by the monorepo because project.json polyfills
 // configuration does not allow typescript files. It would require cross-project dependencies
