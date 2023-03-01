@@ -67,4 +67,14 @@ describe('ng-add.schematic', () => {
       'projects/my-lib-showcase/src/styles.css',
     ]);
   });
+
+  it('should add @skyux/packages/polyfills', async () => {
+    const updatedTree = await runSchematic();
+
+    const angularJson = JSON.parse(updatedTree.readContent('angular.json'));
+
+    expect(
+      angularJson.projects['my-lib-showcase'].architect.build.options.polyfills
+    ).toEqual(['zone.js', '@skyux/packages/polyfills']);
+  });
 });

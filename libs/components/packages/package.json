@@ -19,12 +19,10 @@
   "main": "./src/index.js",
   "exports": {
     ".": {
-      "import": "./src/index.js",
-      "require": "./src/index.js"
+      "default": "./src/index.js"
     },
     "./polyfills": {
-      "import": "./src/polyfills.js",
-      "require": "./src/polyfills.js"
+      "default": "./src/polyfills.js"
     }
   },
   "schematics": "./collection.json",

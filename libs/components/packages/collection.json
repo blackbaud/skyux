@@ -5,6 +5,11 @@
       "description": "Add @skyux/packages to your project.",
       "factory": "./src/schematics/ng-add/ng-add.schematic",
       "schema": "./src/schematics/ng-add/schema.json"
+    },
+    "update-polyfill": {
+      "factory": "./src/schematics/migrations/update-8/update-polyfill/update-polyfill.schematic#updatePolyfillSchematic",
+      "schema": "./src/schematics/migrations/update-8/update-polyfill/schema.json",
+      "description": "update-polyfill generator"
     }
   }
 }
