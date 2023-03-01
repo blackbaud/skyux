@@ -210,6 +210,12 @@ describe('datepicker', () => {
     spyOn(console, 'warn');
   });
 
+  afterEach(() => {
+    (
+      TestBed.inject(SKY_STACKING_CONTEXT).zIndex as BehaviorSubject<number>
+    ).complete();
+  });
+
   describe('nonstandard configuration', () => {
     let fixture: ComponentFixture<DatepickerNoFormatTestComponent>;
     let component: DatepickerNoFormatTestComponent;
