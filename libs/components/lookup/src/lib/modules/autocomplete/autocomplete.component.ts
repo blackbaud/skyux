@@ -6,6 +6,7 @@ import {
   ContentChild,
   ElementRef,
   EventEmitter,
+  Inject,
   Input,
   OnDestroy,
   Optional,
@@ -14,11 +15,13 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
+  SKY_STACKING_CONTEXT,
   SkyAffixAutoFitContext,
   SkyAffixService,
   SkyAffixer,
   SkyOverlayInstance,
   SkyOverlayService,
+  SkyStackingContext,
 } from '@skyux/core';
 import { SkyInputBoxHostService } from '@skyux/forms';
 
@@ -453,6 +456,8 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   #currentSearchSub: Subscription | undefined;
 
+  #zIndex: Observable<number> | undefined;
+
   #_data: any[] = [];
 
   #_debounceTime = 0;
@@ -485,7 +490,10 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     affixService: SkyAffixService,
     adapterService: SkyAutocompleteAdapterService,
     overlayService: SkyOverlayService,
-    @Optional() inputBoxHostSvc?: SkyInputBoxHostService
+    @Optional() inputBoxHostSvc?: SkyInputBoxHostService,
+    @Optional()
+    @Inject(SKY_STACKING_CONTEXT)
+    stackingContext?: SkyStackingContext
   ) {
     this.#changeDetector = changeDetector;
     this.#elementRef = elementRef;
@@ -493,6 +501,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     this.#adapterService = adapterService;
     this.#overlayService = overlayService;
     this.#inputBoxHostSvc = inputBoxHostSvc;
+    this.#zIndex = stackingContext?.zIndex;
 
     this.searchOrDefault = skyAutocompleteDefaultSearchFunction({
       propertiesToSearch: ['name'],
@@ -824,6 +833,12 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
         enablePointerEvents: true,
         wrapperClass: this.wrapperClass,
       });
+
+      if (this.#zIndex) {
+        this.#zIndex.pipe(takeUntil(overlay.closed)).subscribe((zIndex) => {
+          overlay.componentRef.instance.zIndex = zIndex.toString(10);
+        });
+      }
 
       overlay.attachTemplate(this.resultsTemplateRef);
 
