@@ -6,6 +6,7 @@ function copyFilesToDist() {
   const pathsToCopy = [
     ['collection.json'],
     ['/src/schematics/migrations/migration-collection.json'],
+    ['/src/schematics/migrations/update-8/update-polyfill/schema.json'],
     ['/src/schematics/ng-add/schema.json'],
   ];
 

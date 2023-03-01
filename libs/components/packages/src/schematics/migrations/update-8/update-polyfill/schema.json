@@ -1,0 +1,7 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "UpdatePolyfill",
+  "title": "Update polyfill to switch to config",
+  "description": "Remove code from polyfills.ts/test.ts and add @skyux/packages/polyfills to workspace config.",
+  "type": "object"
+}
