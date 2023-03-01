@@ -7,9 +7,9 @@
       "schema": "./src/schematics/ng-add/schema.json"
     },
     "update-polyfill": {
+      "description": "Remove code from polyfills.ts/test.ts and add @skyux/packages/polyfills to workspace config.",
       "factory": "./src/schematics/migrations/update-8/update-polyfill/update-polyfill.schematic#updatePolyfillSchematic",
-      "schema": "./src/schematics/migrations/update-8/update-polyfill/schema.json",
-      "description": "update-polyfill generator"
+      "schema": "./src/schematics/migrations/update-8/update-polyfill/schema.json"
     }
   }
 }

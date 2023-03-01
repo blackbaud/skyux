@@ -8,7 +8,7 @@
     "update-polyfill": {
       "version": "8.0.0-alpha.0",
       "factory": "./update-8/update-polyfill/update-polyfill",
-      "description": "Switch to @skyux/packages/polyfills"
+      "description": "Remove code from polyfills.ts/test.ts and add @skyux/packages/polyfills to workspace config."
     }
   }
 }

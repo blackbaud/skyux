@@ -15,20 +15,18 @@ function removePolyfillCode(): Rule {
         const path = `${project.root}/src/${filename}`;
         if (tree.exists(path)) {
           const polyfillsFile = tree.readText(path).replace(/\r\n/g, `\n`);
-          const polyfillBlockStartIndex = polyfillsFile.lastIndexOf(
-            '/*',
-            polyfillsFile.indexOf(polyfillBlockStart)
-          );
-          const polyfillBlockEndIndex = polyfillsFile.indexOf(
-            '*/',
-            polyfillsFile.indexOf(polyfillBlockEnd)
-          );
+          const polyfillBlockStartIndex =
+            polyfillsFile.indexOf(polyfillBlockStart);
+          const polyfillBlockEndIndex = polyfillsFile.indexOf(polyfillBlockEnd);
           if (polyfillBlockStartIndex !== -1 && polyfillBlockEndIndex !== -1) {
-            const change = tree.beginUpdate(path);
-            change.remove(
-              polyfillBlockStartIndex,
-              polyfillBlockEndIndex - polyfillBlockStartIndex + 2
+            const changeStart = polyfillsFile.lastIndexOf(
+              `/*`,
+              polyfillBlockStartIndex
             );
+            const changeEnd =
+              polyfillsFile.indexOf(`*/`, polyfillBlockEndIndex) + 2;
+            const change = tree.beginUpdate(path);
+            change.remove(changeStart, changeEnd - changeStart);
             tree.commitUpdate(change);
           } else {
             const sourceFile = ts.createSourceFile(

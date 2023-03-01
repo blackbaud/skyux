@@ -14,7 +14,7 @@ describe('updatePolyfill', () => {
     require.resolve('../../../../collection.json')
   );
 
-  it('should create an instance', async () => {
+  it('should modify polyfills.ts', async () => {
     const tree = await createTestApp(runner, {
       projectName: 'test-app',
     });
