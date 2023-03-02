@@ -5,10 +5,10 @@ import { Component } from '@angular/core';
   templateUrl: './icon-button-demo.component.html',
 })
 export class IconDemoComponent {
-  public TextButtonClick(): void {
+  public textButtonClick(): void {
     alert('Text with icon button clicked');
   }
-  public IconOnlyButtonClick(): void {
+  public iconOnlyButtonClick(): void {
     alert('Icon only button clicked');
   }
 }
