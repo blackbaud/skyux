@@ -15,7 +15,6 @@ module.exports = () => {
       require('./config/plugins/karma.waitwebpack'),
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
-      require('karma-jasmine-html-reporter'),
       require('karma-coverage'),
       require('@angular-devkit/build-angular/plugins/karma'),
       {
@@ -73,10 +72,7 @@ module.exports = () => {
         },
       },
     },
-    reporters: ['progress', 'kjhtml'],
-    jasmineHtmlReporter: {
-      suppressAll: true, // removes the duplicated traces
-    },
+    reporters: ['progress'],
     port: 9876,
     colors: true,
     logLevel: constants.LOG_INFO,
