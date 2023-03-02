@@ -40,7 +40,7 @@ export class SkyIconHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the icon name
+   * Gets the icon name.
    */
   public async getIconName(): Promise<string | undefined> {
     const iconClasses = await this.#getIconClasses();
@@ -61,7 +61,7 @@ export class SkyIconHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the icon size
+   * Gets the icon size.
    */
   public async getIconSize(): Promise<string | undefined> {
     const iconClasses = await this.#getIconClasses();
@@ -75,7 +75,7 @@ export class SkyIconHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the icon type
+   * Gets the icon type.
    */
   public async getIconType(): Promise<string> {
     const iconClasses = await this.#getIconClasses();
@@ -89,7 +89,7 @@ export class SkyIconHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets if the icon is a variant
+   * Gets if the icon is a variant.
    */
   public async getVariant(): Promise<string | undefined> {
     if ((await this.getIconType()) === 'skyux') {
@@ -107,7 +107,7 @@ export class SkyIconHarness extends SkyComponentHarness {
   }
 
   /**
-   * Whether the icon has fixed width
+   * Whether the icon has fixed width.
    */
   public async isFixedWidth(): Promise<boolean> {
     const icon = await this.#getIcon();
