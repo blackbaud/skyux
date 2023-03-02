@@ -3,7 +3,7 @@ import { SkyComponentHarness } from '@skyux/core/testing';
 
 import { SkyIconHarnessFilters } from './icon-harness-filters';
 
-// match ending in `-line` or `-solid`
+// match class ending in `-line` or `-solid`
 const ICON_CLASS_VARIANT_REGEXP = /(-line|-solid)$/;
 
 /**
@@ -30,7 +30,7 @@ export class SkyIconHarness extends SkyComponentHarness {
     if (icon) {
       return icon;
     } else {
-      throw new Error('Icon does not exist');
+      throw new Error('Icon could not be rendered.');
     }
   }
 
@@ -45,7 +45,7 @@ export class SkyIconHarness extends SkyComponentHarness {
   public async getIconName(): Promise<string | undefined> {
     const iconClasses = await this.#getIconClasses();
     for (const iconClass of iconClasses) {
-      // match a class name that starts with `sky-i` or starts with `fa-` but does not follow with `fw` (fixed width) or lg, 2x, 3x, 4x, 5x
+      // match a class name that starts with `sky-i` or starts with `fa-` but does not follow with `fw` (fixed width) or `lg`, `2x`, `3x`, `4x`, `5x`
       if (/^sky-i-|^fa-(?!fw|lg|[2-5]+x)/.test(iconClass)) {
         return (
           iconClass
@@ -66,7 +66,7 @@ export class SkyIconHarness extends SkyComponentHarness {
   public async getIconSize(): Promise<string | undefined> {
     const iconClasses = await this.#getIconClasses();
     for (const iconClass of iconClasses) {
-      // match a class name that starts with `fa-` and  follows with lg, 2x, 3x, 4x, 5x
+      // match a class name that starts with `fa-` and follows with `lg`, `2x`, `3x`, `4x`, `5x`
       if (/^fa-(?=2xs|lg|[2-5]+x)/.test(iconClass)) {
         return iconClass.replace('fa-', '');
       }
@@ -99,15 +99,15 @@ export class SkyIconHarness extends SkyComponentHarness {
           return iconClass.substring(iconClass.lastIndexOf('-') + 1);
         }
       }
-      return undefined; // todo default as line
+      return 'line';
     }
     throw new Error(
-      'Variant cannot be determined because iconType is not skyux'
+      'Variant cannot be determined because variants are only assigned to icons with type `skyux`.'
     );
   }
 
   /**
-   * Gets if the icon has fixed width
+   * Whether the icon has fixed width
    */
   public async isFixedWidth(): Promise<boolean> {
     const icon = await this.#getIcon();
