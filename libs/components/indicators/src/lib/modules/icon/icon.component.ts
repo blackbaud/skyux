@@ -36,7 +36,9 @@ export class SkyIconComponent {
   public size: string | undefined;
 
   /**
-   * Ensures all icons of the same size take up the same width. Useful for stacking icons vertically.
+   * Whether to enforce a fixed width based on icon size. By default, icons of a specified size share a
+   * consistent height, but their widths vary and can throw off vertical alignment. Use a fixed width when
+   * you stack icons vertically, such as in lists.
    * @default false
    */
   @Input()
