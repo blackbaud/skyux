@@ -15,6 +15,7 @@ module.exports = () => {
       require('./config/plugins/karma.waitwebpack'),
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
+      require('karma-jasmine-html-reporter'),
       require('karma-coverage'),
       require('@angular-devkit/build-angular/plugins/karma'),
       {
@@ -36,6 +37,18 @@ module.exports = () => {
         ],
       },
     ],
+    customLaunchers: {
+      ChromeHeadlessNoSandbox: {
+        base: 'ChromeHeadless',
+        flags: [
+          '--no-sandbox',
+          '--headless',
+          '--disable-gpu',
+          '--disable-dev-shm-usage',
+        ],
+      },
+    },
+    restartOnFileChange: true,
     client: {
       jasmine: {
         random: false,
@@ -60,7 +73,10 @@ module.exports = () => {
         },
       },
     },
-    reporters: ['progress'],
+    reporters: ['progress', 'kjhtml'],
+    jasmineHtmlReporter: {
+      suppressAll: true, // removes the duplicated traces
+    },
     port: 9876,
     colors: true,
     logLevel: constants.LOG_INFO,

@@ -5,6 +5,6 @@
     "types": ["jasmine", "node"]
   },
   "//": "⤹ This is needed because @skyux-sdk/testing includes a reference to @skyux/i18n, but this library's module never imports @skyux/i18n in its source code.",
-  "files": ["../i18n/src/index.ts", "src/test.ts"],
+  "files": ["../i18n/src/index.ts"],
   "include": ["**/*.spec.ts", "**/*.d.ts"]
 }

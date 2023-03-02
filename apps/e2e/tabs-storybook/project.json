@@ -12,7 +12,7 @@
         "outputPath": "dist/apps/e2e/tabs-storybook",
         "index": "apps/e2e/tabs-storybook/src/index.html",
         "main": "apps/e2e/tabs-storybook/src/main.ts",
-        "polyfills": "apps/e2e/tabs-storybook/src/polyfills.ts",
+        "polyfills": ["zone.js", "libs/components/packages/src/polyfills.js"],
         "tsConfig": "apps/e2e/tabs-storybook/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "styles": [
