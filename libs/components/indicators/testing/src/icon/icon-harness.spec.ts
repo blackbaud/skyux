@@ -108,7 +108,6 @@ describe('Icon harness', () => {
           SkyIconHarness.with({ dataSkyId: options.dataSkyId })
         )
       : await loader.getHarness(SkyIconHarness);
-    fixture.detectChanges();
 
     return { iconHarness, fixture, loader, pageLoader };
   }
@@ -131,8 +130,9 @@ describe('Icon harness', () => {
   it('should throw error if icon name is not set', async () => {
     const { iconHarness, fixture } = await setupTest();
     fixture.componentInstance.iconName = undefined;
+    fixture.detectChanges();
     await expectAsync(iconHarness.getIconName()).toBeRejectedWithError(
-      'Icon does not exist'
+      'Icon could not be rendered.'
     );
   });
 
@@ -175,13 +175,14 @@ describe('Icon harness', () => {
     fixture.componentInstance.iconName = 'sort';
     fixture.componentInstance.iconType = 'skyux';
     fixture.detectChanges();
-    await expectAsync(iconHarness.getVariant()).toBeResolvedTo(undefined);
+    await expectAsync(iconHarness.getVariant()).toBeResolvedTo('line');
   });
 
   it('should throw an error when trying to get variant for a non skyux icon', async () => {
-    const { iconHarness } = await setupTest();
+    const { iconHarness, fixture } = await setupTest();
+    fixture.detectChanges();
     await expectAsync(iconHarness.getVariant()).toBeRejectedWithError(
-      'Variant cannot be determined because iconType is not skyux'
+      'Variant cannot be determined because variants are only assigned to icons with type `skyux`.'
     );
   });
 
@@ -199,7 +200,10 @@ describe('Icon harness', () => {
   });
 
   it('should get an icon by its data-sky-id property', async () => {
-    const { iconHarness } = await setupTest({ dataSkyId: 'test-icon' });
+    const { iconHarness, fixture } = await setupTest({
+      dataSkyId: 'test-icon',
+    });
+    fixture.detectChanges();
     await expectAsync(iconHarness.getIconName()).toBeResolvedTo('sort');
   });
 });

@@ -1,14 +1,15 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyIconHarness } from '@skyux/indicators/testing';
 
 import { IconDemoComponent } from './icon-button-demo.component';
 import { IconDemoModule } from './icon-button-demo.module';
 
 describe('Icon button', async () => {
-  async function setupTest(options: {
-    dataSkyId?: string;
-  }): Promise<SkyIconHarness> {
+  async function setupTest(options: { dataSkyId?: string }): Promise<{
+    iconHarness: SkyIconHarness;
+    fixture: ComponentFixture<IconDemoComponent>;
+  }> {
     const fixture = TestBed.createComponent(IconDemoComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
     const iconHarness = await loader.getHarness(
@@ -16,8 +17,7 @@ describe('Icon button', async () => {
         dataSkyId: options?.dataSkyId,
       })
     );
-    fixture.detectChanges();
-    return iconHarness;
+    return { iconHarness, fixture };
   }
 
   beforeEach(() => {
@@ -27,12 +27,18 @@ describe('Icon button', async () => {
   });
 
   it('should display the icon in the text icon button', async () => {
-    const iconHarness = await setupTest({ dataSkyId: 'text-button-icon' });
+    const { iconHarness, fixture } = await setupTest({
+      dataSkyId: 'text-button-icon',
+    });
+    fixture.detectChanges();
     await expectAsync(iconHarness.getIconName()).toBeResolvedTo('save');
   });
 
   it('should display the icon in the icon only button', async () => {
-    const iconHarness = await setupTest({ dataSkyId: 'button-icon' });
+    const { iconHarness, fixture } = await setupTest({
+      dataSkyId: 'button-icon',
+    });
+    fixture.detectChanges();
     await expectAsync(iconHarness.getIconName()).toBeResolvedTo('edit');
   });
 });

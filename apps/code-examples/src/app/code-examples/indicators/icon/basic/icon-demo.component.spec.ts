@@ -1,12 +1,15 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyIconHarness } from '@skyux/indicators/testing';
 
 import { IconDemoComponent } from './icon-demo.component';
 import { IconDemoModule } from './icon-demo.module';
 
 describe('Basic icon', async () => {
-  async function setupTest(): Promise<SkyIconHarness> {
+  async function setupTest(): Promise<{
+    iconHarness: SkyIconHarness;
+    fixture: ComponentFixture<IconDemoComponent>;
+  }> {
     const fixture = TestBed.createComponent(IconDemoComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
     const iconHarness = await loader.getHarness(
@@ -14,8 +17,7 @@ describe('Basic icon', async () => {
         dataSkyId: 'icon-demo',
       })
     );
-    fixture.detectChanges();
-    return iconHarness;
+    return { iconHarness, fixture };
   }
 
   beforeEach(() => {
@@ -25,7 +27,8 @@ describe('Basic icon', async () => {
   });
 
   it('should display the correct icon', async () => {
-    const iconHarness = await setupTest();
+    const { iconHarness, fixture } = await setupTest();
+    fixture.detectChanges();
 
     await expectAsync(iconHarness.getIconName()).toBeResolvedTo('calendar');
     await expectAsync(iconHarness.getIconType()).toBeResolvedTo('skyux');
