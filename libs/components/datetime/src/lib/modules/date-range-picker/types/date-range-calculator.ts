@@ -11,12 +11,12 @@ import { SkyDateRangeCalculatorType } from './date-range-calculator-type';
  */
 export class SkyDateRangeCalculator {
   /**
-   * Specifies the text to display in the calculator select menu.
+   * The text to display in the calculator select menu.
    */
   public readonly shortDescription: string;
 
   /**
-   * Specifies the type of calculations available for the date range.
+   * The type of calculations available for the date range.
    */
   public readonly type: SkyDateRangeCalculatorType;
 
@@ -24,7 +24,7 @@ export class SkyDateRangeCalculator {
 
   constructor(
     /**
-     * Provides a calculator ID to specify calculator objects that represent date ranges.
+     * The calculator ID that specifies calculator objects that represent date ranges.
      */
     public readonly calculatorId: SkyDateRangeCalculatorId,
     config: SkyDateRangeCalculatorConfig

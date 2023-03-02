@@ -13,7 +13,7 @@
         "outputPath": "dist/apps/code-examples",
         "index": "apps/code-examples/src/index.html",
         "main": "apps/code-examples/src/main.ts",
-        "polyfills": "apps/code-examples/src/polyfills.ts",
+        "polyfills": ["zone.js", "libs/components/packages/src/polyfills.js"],
         "tsConfig": "apps/code-examples/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
@@ -90,10 +90,13 @@
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
-        "main": "apps/code-examples/src/test.ts",
         "tsConfig": "apps/code-examples/tsconfig.spec.json",
         "karmaConfig": "apps/code-examples/karma.conf.js",
-        "polyfills": "apps/code-examples/src/polyfills.ts",
+        "polyfills": [
+          "zone.js",
+          "zone.js/testing",
+          "libs/components/packages/src/polyfills.js"
+        ],
         "styles": [
           "libs/components/theme/src/lib/styles/sky.scss",
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss"

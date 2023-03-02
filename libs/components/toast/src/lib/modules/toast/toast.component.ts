@@ -36,14 +36,14 @@ const SKY_TOAST_TYPE_DEFAULT = SkyToastType.Info;
 })
 export class SkyToastComponent implements OnInit, OnDestroy {
   /**
-   * Indicates whether to automatically close the toast. Only close toasts
+   * Whether to automatically close the toast. Only close toasts
    * automatically if users can access the messages after the toasts close.
    */
   @Input()
   public autoClose: boolean | undefined;
 
   /**
-   * Specifies a `SkyToastType` type for the toast to determine the color and icon to display.
+   * The `SkyToastType` type for the toast to determine the color and icon to display.
    */
   @Input()
   public set toastType(value: SkyToastType | undefined) {

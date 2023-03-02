@@ -1,5 +1,5 @@
 /**
- * Specifies the type of message to send.
+ * The type of message to send.
  * @internal
  */
 export enum SkyDropdownMessageType {

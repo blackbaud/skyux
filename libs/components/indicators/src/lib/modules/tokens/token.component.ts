@@ -16,7 +16,7 @@ import {
 })
 export class SkyTokenComponent {
   /**
-   * Indicates whether to disable the token to prevent users from selecting it, dismissing it,
+   * Whether to disable the token to prevent users from selecting it, dismissing it,
    * or navigating to it with the arrow keys. When the token is disabled,
    * users can still place focus on it using the `Tab` key.
    * @default false
@@ -31,15 +31,16 @@ export class SkyTokenComponent {
   }
 
   /**
-   * Specifies an ARIA label for the token's close button. This sets the button's `aria-label`
+   * The ARIA label for the token's close button. This sets the button's `aria-label` to provide a text equivalent for screen readers
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    * @default "Remove item"
    */
   @Input()
   public ariaLabel: string | undefined;
 
   /**
-   * Indicates whether users can remove the token from the list by selecting the close button.
+   * Whether users can remove the token from the list by selecting the close button.
    * @default true
    */
   @Input()
@@ -52,7 +53,7 @@ export class SkyTokenComponent {
   }
 
   /**
-   * Indicates whether users can press the `Tab` key to place focus on the token. This does not
+   * Whether users can place focus on the token using the `Tab`. This does not
    * affect the ability to select the token, dismiss it, or navigate to it with the arrow keys.
    * @default true
    */

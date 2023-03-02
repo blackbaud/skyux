@@ -1,16 +1,16 @@
+import { normalize } from '@angular-devkit/core';
 import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 
-import path from 'path';
-
 import { createTestLibrary } from '../testing/scaffold';
 
-const COLLECTION_PATH = path.resolve(__dirname, '../../../collection.json');
+const COLLECTION_PATH = normalize(`${__dirname}/../../../collection.json`);
 
 describe('ng-add.schematic', () => {
   const runner = new SchematicTestRunner('schematics', COLLECTION_PATH);
+  runner.logger.subscribe((entry) => console.log(entry.message));
   const defaultProjectName = 'my-lib';
 
   let tree: UnitTestTree;
@@ -24,33 +24,8 @@ describe('ng-add.schematic', () => {
   function runSchematic(
     options: { project?: string } = {}
   ): Promise<UnitTestTree> {
-    return runner.runSchematicAsync('ng-add', options, tree).toPromise();
+    return runner.runSchematic('ng-add', options, tree);
   }
-
-  it('should apply a fix for crossvent "global is not defined" error', async () => {
-    const updatedTree = await runSchematic();
-
-    expect(
-      updatedTree
-        .readContent('projects/my-lib/src/test.ts')
-        .match(/\(window as any\)\.global = window/)?.length
-    ).toEqual(1);
-  });
-
-  it('should not apply the crossvent fix if it already exists', async () => {
-    tree.overwrite(
-      'projects/my-lib/src/test.ts',
-      '(window as any).global = window;'
-    );
-
-    const updatedTree = await runSchematic();
-
-    expect(
-      updatedTree
-        .readContent('projects/my-lib/src/test.ts')
-        .match(/\(window as any\)\.global = window/)?.length
-    ).toEqual(1);
-  });
 
   it('should install @angular/cdk', async () => {
     const updatedTree = await runSchematic();
@@ -91,5 +66,15 @@ describe('ng-add.schematic', () => {
       'node_modules/@skyux/theme/css/themes/modern/styles.css',
       'projects/my-lib-showcase/src/styles.css',
     ]);
+  });
+
+  it('should add @skyux/packages/polyfills', async () => {
+    const updatedTree = await runSchematic();
+
+    const angularJson = JSON.parse(updatedTree.readContent('angular.json'));
+
+    expect(
+      angularJson.projects['my-lib-showcase'].architect.build.options.polyfills
+    ).toEqual(['zone.js', '@skyux/packages/polyfills']);
   });
 });

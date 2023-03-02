@@ -19,7 +19,7 @@ import {
 })
 export class SkyColumnComponent implements OnInit, OnChanges {
   /**
-   * Specifies the number of columns (1-12) to use on extra-small screens
+   * The number of columns (1-12) on extra-small screens
    * (less than 768px). If you do not specify a value, the fluid grid displays
    * the column at the full width of the screen.
    * @default 12
@@ -34,7 +34,7 @@ export class SkyColumnComponent implements OnInit, OnChanges {
   }
 
   /**
-   * Specifies the number of columns (1-12) to use on small screens
+   * The number of columns (1-12) on small screens
    * (768-991px). If you do not specify a value, the column inherits
    * the `screenXSmall` value.
    */
@@ -42,7 +42,7 @@ export class SkyColumnComponent implements OnInit, OnChanges {
   public screenSmall: number | undefined;
 
   /**
-   * Specifies the number of columns (1-12) to use on medium screens
+   * The number of columns (1-12) on medium screens
    * (992-1199px). If you do not specify a value, the column inherits
    * the `screenSmall` value.
    */
@@ -50,7 +50,7 @@ export class SkyColumnComponent implements OnInit, OnChanges {
   public screenMedium: number | undefined;
 
   /**
-   * Specifies the number of columns (1-12) to use on large screens
+   * The number of columns (1-12) on large screens
    * (more than 1200px). If you do not specify a value, the column
    * inherits the `screenMedium` value.
    */

@@ -40,7 +40,7 @@ import { SkyColorpickerRgba } from './types/colorpicker-rgba';
 let componentIdIndex = 0;
 
 /**
- * Provides a SKY UX-themed replacement for the HTML `input` element with `type="color"`.
+ * The SKY UX-themed replacement for the HTML `input` element with `type="color"`.
  * The value that users select is driven through the `ngModel` attribute specified on
  * the `input` element.
  */
@@ -53,21 +53,21 @@ let componentIdIndex = 0;
 })
 export class SkyColorpickerComponent implements OnInit, OnDestroy {
   /**
-   * Specifies the name of the [Font Awesome 4.7](https://fontawesome.com/v4.7/icons/) icon to overlay on top of the picker. Do not specify the `fa fa-` classes.
+   * The name of the [Font Awesome 4.7](https://fontawesome.com/v4.7/icons/) icon to overlay on top of the picker. Do not specify the `fa fa-` classes.
    * @internal
    */
   @Input()
   public pickerButtonIcon: string | undefined;
 
   /**
-   * Specifies the type of icon to display. Specifying `fa` will display a Font Awesome icon, while specifying `skyux` will display an icon from the custom SKY UX icon font. Note that the custom SKY UX icon font is currently in beta.
+   * The type of icon to display. Specifying `fa` will display a Font Awesome icon, while specifying `skyux` will display an icon from the custom SKY UX icon font. Note that the custom SKY UX icon font is currently in beta.
    * @internal
    */
   @Input()
   public pickerButtonIconType: SkyIconType = 'fa';
 
   /**
-   * Specifies an ARIA label for the colorpicker. This sets the colorpicker's `aria-label` attribute
+   * The ARIA label for the colorpicker. This sets the colorpicker's `aria-label` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/components/checkbox#accessibility)
    * when the colorpicker does not include a visible label. If the colorpicker includes a visible label, use `labelledBy` instead.
    * @default "Select color value"
@@ -76,7 +76,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   public label: string | undefined;
 
   /**
-   * Specifies the HTML element ID (without the leading `#`) of the element that labels the
+   * The HTML element ID of the element that labels the
    * colorpicker. This sets the colorpicker's `aria-labelledby` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/components/checkbox#accessibility).
    * If the colorpicker does not include a visible label, use `label` instead.
@@ -97,14 +97,14 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   public selectedColorApplied = new EventEmitter<SkyColorpickerResult>();
 
   /**
-   * Provides an observable to send commands to the colorpicker. The commands should
+   * The observable to send commands to the colorpicker. The commands should
    * respect the `SkyColorPickerMessage` type.
    */
   @Input()
   public messageStream = new Subject<SkyColorpickerMessage>();
 
   /**
-   * Indicates whether to display a reset button to let users return to the default color.
+   * Whether to display a reset button to let users return to the default color.
    */
   @Input()
   public showResetButton = true;

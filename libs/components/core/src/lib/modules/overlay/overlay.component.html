@@ -1,6 +1,7 @@
 <div
   [class]="wrapperClass"
-  [style.zIndex]="zIndex"
+  [style.z-index]="zIndex"
+  [style.clip-path]="clipPath$ | async"
   [ngClass]="{
     'enable-pointer-events-pass-through': enablePointerEvents,
     'sky-overlay': true

@@ -23,7 +23,7 @@ import { SkyInfiniteScrollDomAdapterService } from './infinite-scroll-dom-adapte
 })
 export class SkyInfiniteScrollComponent implements OnDestroy {
   /**
-   * Indicates whether to make the infinite scroll component active when more data is available
+   * Whether to make the infinite scroll component active when more data is available
    * to load. By default, infinite scroll is inactive and does not call the load function.
    * @default false
    */
@@ -39,7 +39,7 @@ export class SkyInfiniteScrollComponent implements OnDestroy {
   }
 
   /**
-   * Indicates whether data is loading because of a `scrollEnd` event. Setting the property
+   * Whether data is loading because of a `scrollEnd` event. Setting the property
    * to `true` disables new `scrollEnd` events from firing until it changes to `false`. If this
    * property is not specified, the infinite scroll component watches the DOM for changes
    * and fires `scrollEnd` events when changes occur on its parent DOM element. Relying

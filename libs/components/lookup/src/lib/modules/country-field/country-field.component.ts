@@ -60,13 +60,13 @@ export class SkyCountryFieldComponent
   implements AfterViewInit, ControlValueAccessor, OnDestroy, OnInit, Validator
 {
   /**
-   * Specifies the value for the `autocomplete` attribute on the form input.
+   * The value for the `autocomplete` attribute on the form input.
    */
   @Input()
   public autocompleteAttribute: string | undefined;
 
   /**
-   * Specifies the [International Organization for Standardization Alpha 2](https://www.nationsonline.org/oneworld/country_code_list.htm)
+   * The [International Organization for Standardization Alpha 2](https://www.nationsonline.org/oneworld/country_code_list.htm)
    * country code for the default country.
    * When search results include the default country, it appears at the top of the list.
    * @default "us"
@@ -93,7 +93,7 @@ export class SkyCountryFieldComponent
   }
 
   /**
-   * Indicates whether to disable the country field.
+   * Whether to disable the country field.
    * @default false
    */
   @Input()
@@ -114,7 +114,7 @@ export class SkyCountryFieldComponent
   }
 
   /**
-   * Indicates whether to hide the flag in the input element.
+   * Whether to hide the flag in the input element.
    * @default false
    */
   @Input()
@@ -127,7 +127,7 @@ export class SkyCountryFieldComponent
   }
 
   /**
-   * Indicates whether to include phone information in the selected country and country dropdown.
+   * Whether to include phone information in the selected country and country dropdown.
    * @default false
    */
   @Input()
@@ -142,7 +142,7 @@ export class SkyCountryFieldComponent
   }
 
   /**
-   * Specifies the [International Organization for Standardization Alpha 2](https://www.nationsonline.org/oneworld/country_code_list.htm)
+   * The [International Organization for Standardization Alpha 2](https://www.nationsonline.org/oneworld/country_code_list.htm)
    * country codes for the countries that users can select. By default, all countries are available.
    */
   @Input()
@@ -164,7 +164,8 @@ export class SkyCountryFieldComponent
    * Fires when the selected country changes.
    */
   @Output()
-  public selectedCountryChange: EventEmitter<SkyCountryFieldCountry> = new EventEmitter<SkyCountryFieldCountry>();
+  public selectedCountryChange: EventEmitter<SkyCountryFieldCountry> =
+    new EventEmitter<SkyCountryFieldCountry>();
 
   public countries: SkyCountryFieldCountry[] = [];
 

@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  Inject,
   Input,
   OnDestroy,
   OnInit,
@@ -11,16 +12,18 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
+  SKY_STACKING_CONTEXT,
   SkyAffixAutoFitContext,
   SkyAffixService,
   SkyAffixer,
   SkyLogService,
   SkyOverlayInstance,
   SkyOverlayService,
+  SkyStackingContext,
 } from '@skyux/core';
 import { SkyThemeService } from '@skyux/theme';
 
-import { Subject, fromEvent as observableFromEvent } from 'rxjs';
+import { Observable, Subject, fromEvent as observableFromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { parseAffixHorizontalAlignment } from './dropdown-extensions';
@@ -43,7 +46,7 @@ const DEFAULT_BUTTON_TYPE = 'select';
 })
 export class SkyDropdownComponent implements OnInit, OnDestroy {
   /**
-   * Specifies a background color for the dropdown button. Available values are `default`,
+   * The background color for the dropdown button. Available values are `default`,
    * `primary`, and `link`. These values set the background color and hover behavior from the
    * [secondary and primary button classes](https://developer.blackbaud.com/skyux/components/button) respectively.
    * @default "default"
@@ -58,7 +61,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Specifies the type of button to render as the dropdown's trigger element. To display a button
+   * The type of button to render as the dropdown's trigger element. To display a button
    * with a caret, specify `'select'` and render the button text or icon in a
    * `sky-dropdown-button` element. To display a round button with an ellipsis, specify
    * `'context-menu'`.
@@ -85,14 +88,14 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Indicates whether to disable the dropdown button.
+   * Whether to disable the dropdown button.
    * @default false
    */
   @Input()
   public disabled: boolean | undefined = false;
 
   /**
-   * Indicates whether to close the dropdown when users click away from the menu.
+   * Whether to close the dropdown when users click away from the menu.
    * @default true
    */
   @Input()
@@ -105,14 +108,15 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Specifies an ARIA label for the dropdown. This sets the dropdown's `aria-label` attribute
+   * The ARIA label for the dropdown. This sets the dropdown's `aria-label` attribute to provide a text equivalent for screen readers
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
   @Input()
   public label: string | undefined;
 
   /**
-   * Specifies the horizontal alignment of the dropdown menu in relation to the dropdown button.
+   * The horizontal alignment of the dropdown menu in relation to the dropdown button.
    * @default "left"
    */
   @Input()
@@ -127,7 +131,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Provides an observable to send commands to the dropdown. The commands should respect
+   * The observable that sends commands to the dropdown. The commands should respect
    * the [[SkyDropdownMessage]] type.
    * @internal
    */
@@ -136,13 +140,13 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     new Subject<SkyDropdownMessage>();
 
   /**
-   * Specifies a title to display in a tooltip when users hover the mouse over the dropdown button.
+   * The title to display in a tooltip when users hover the mouse over the dropdown button.
    */
   @Input()
   public title: string | undefined;
 
   /**
-   * Specifies how users interact with the dropdown button to expose the dropdown menu.
+   * How users interact with the dropdown button to expose the dropdown menu.
    * We recommend the default `click` value because the `hover` value can pose
    * [accessibility](https://developer.blackbaud.com/skyux/learn/accessibility) issues
    * for users on touch devices such as phones and tablets.
@@ -234,19 +238,24 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   #overlayService: SkyOverlayService;
   #logService: SkyLogService;
   #themeSvc: SkyThemeService | undefined;
+  #zIndex: Observable<number> | undefined;
 
   constructor(
     changeDetector: ChangeDetectorRef,
     affixService: SkyAffixService,
     overlayService: SkyOverlayService,
     logService: SkyLogService,
-    @Optional() themeSvc?: SkyThemeService
+    @Optional() themeSvc?: SkyThemeService,
+    @Optional()
+    @Inject(SKY_STACKING_CONTEXT)
+    stackingContext?: SkyStackingContext
   ) {
     this.#changeDetector = changeDetector;
     this.#affixService = affixService;
     this.#overlayService = overlayService;
     this.#logService = logService;
     this.#themeSvc = themeSvc;
+    this.#zIndex = stackingContext?.zIndex;
   }
 
   public ngOnInit(): void {
@@ -375,6 +384,14 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
         enableScroll: true,
         enablePointerEvents: true,
       });
+
+      if (this.#zIndex) {
+        this.#zIndex
+          .pipe(takeUntil(this.#ngUnsubscribe))
+          .subscribe((zIndex) => {
+            overlay.componentRef.instance.zIndex = zIndex.toString(10);
+          });
+      }
 
       overlay.attachTemplate(this.menuContainerTemplateRef);
 

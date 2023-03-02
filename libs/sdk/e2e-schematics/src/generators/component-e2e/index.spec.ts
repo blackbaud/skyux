@@ -4,9 +4,12 @@ import {
   libraryGenerator,
 } from '@nrwl/angular/generators';
 import {
+  NxJsonConfiguration,
   ProjectConfiguration,
   readJson,
+  readNxJson,
   readProjectConfiguration,
+  updateNxJson,
 } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Linter } from '@nrwl/linter';
@@ -16,14 +19,12 @@ import componentE2eGenerator from './index';
 describe('component-e2e', () => {
   function setupTest() {
     const tree = createTreeWithEmptyWorkspace();
-
-    tree.write(
-      'workspace.json',
-      JSON.stringify({
-        version: 2,
-        projects: {},
-      })
-    );
+    const nxJson: NxJsonConfiguration = readNxJson(tree) || {};
+    nxJson.workspaceLayout = {
+      appsDir: 'apps',
+      libsDir: 'libs',
+    };
+    updateNxJson(tree, nxJson);
 
     tree.write('.gitignore', '');
 
@@ -49,6 +50,16 @@ describe('component-e2e', () => {
     for (const projectName of ['test-storybook', 'test-storybook-e2e']) {
       config[projectName] = readProjectConfiguration(tree, projectName);
       expect(config[projectName].projectType).toEqual('application');
+      if (projectName === 'test-storybook') {
+        expect(
+          config[projectName].targets?.build.options.polyfills
+        ).toBeDefined();
+        expect(
+          config[projectName].targets?.build.options.polyfills.includes(
+            'libs/components/packages/src/polyfills.js'
+          )
+        ).toBeTruthy();
+      }
     }
     expect(
       tree.exists(`${config['test-storybook'].root}/.storybook/main.ts`)
@@ -160,7 +171,7 @@ describe('component-e2e', () => {
 
   it('should maintain storybook version', async () => {
     const { tree } = setupTest();
-    const sbVersion = '6.5.13';
+    const sbVersion = '^6.5.15';
     tree.write(
       'package.json',
       JSON.stringify({

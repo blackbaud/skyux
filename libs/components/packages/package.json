@@ -16,6 +16,15 @@
     "url": "https://github.com/blackbaud/skyux/issues"
   },
   "homepage": "https://github.com/blackbaud/skyux#readme",
+  "main": "./src/index.js",
+  "exports": {
+    ".": {
+      "default": "./src/index.js"
+    },
+    "./polyfills": {
+      "default": "./src/polyfills.js"
+    }
+  },
   "schematics": "./collection.json",
   "ng-add": {
     "save": "dependencies"
@@ -45,7 +54,7 @@
       "@skyux/grids": "0.0.0-PLACEHOLDER",
       "@skyux/http": "0.0.0-PLACEHOLDER",
       "@skyux/i18n": "0.0.0-PLACEHOLDER",
-      "@skyux/icons": "^5.1.1",
+      "@skyux/icons": "^5.2.0",
       "@skyux/indicators": "0.0.0-PLACEHOLDER",
       "@skyux/inline-form": "0.0.0-PLACEHOLDER",
       "@skyux/layout": "0.0.0-PLACEHOLDER",
@@ -77,7 +86,7 @@
     }
   },
   "peerDependencies": {
-    "@angular/cli": "^14.2.10"
+    "@angular/cli": "^15.1.5"
   },
   "dependencies": {
     "fs-extra": "10.1.0",

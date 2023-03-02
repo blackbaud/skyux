@@ -1,13 +1,10 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
   Input,
   NgZone,
   OnDestroy,
-  ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
@@ -48,15 +45,15 @@ import { SkyTextEditorToolbarActionType } from './types/toolbar-action-type';
     SkyTextEditorAdapterService,
   ],
 })
-export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
+export class SkyTextEditorComponent implements OnDestroy {
   /**
-   * Indicates whether to put focus on the editor after it renders.
+   * Whether to put focus on the editor after it renders.
    */
   @Input()
   public autofocus: boolean | undefined = false;
 
   /**
-   * Indicates whether to disable the text editor.
+   * Whether to disable the text editor.
    * @default false
    */
   @Input()
@@ -70,7 +67,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
       /* istanbul ignore else */
       if (this.iframeRef) {
         focusableChildren = this.#coreAdapterService.getFocusableChildren(
-          this.iframeRef.nativeElement.contentDocument.body,
+          this.iframeRef.contentDocument?.body,
           {
             ignoreVisibility: true,
             ignoreTabIndex: true,
@@ -78,15 +75,9 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
         );
 
         if (this.#_disabled) {
-          this.#adapterService.disableEditor(
-            focusableChildren,
-            this.iframeRef.nativeElement
-          );
+          this.#adapterService.disableEditor(focusableChildren, this.iframeRef);
         } else {
-          this.#adapterService.enableEditor(
-            focusableChildren,
-            this.iframeRef.nativeElement
-          );
+          this.#adapterService.enableEditor(focusableChildren, this.iframeRef);
         }
         this.#changeDetector.markForCheck();
       }
@@ -98,7 +89,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * Specifies the fonts to include in the font picker.
+   * The fonts to include in the font picker.
    * @default [{name: 'Blackbaud Sans', value: '"Blackbaud Sans", Arial, sans-serif'}, {name: 'Arial', value: 'Arial'}, {name: 'Arial Black', value: '"Arial Black"'}, {name: 'Courier New', value: '"Courier New"'}, {name: 'Georgia', value: 'Georgia, serif'}, {name: 'Tahoma', value: 'Tahoma, Geneva, sans-serif'}, {name: 'Times New Roman', value: '"Times New Roman"'}, {name: 'Trebuchet MS', value: '"Trebuchet MS", sans-serif'}, {name: 'Verdana', value: 'Verdana, Geneva, sans-serif'}]
    */
   @Input()
@@ -111,7 +102,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * Specifies the font sizes to include in the font size picker.
+   * The font sizes to include in the font size picker.
    * @default [6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 20, 22, 24, 26, 28, 36, 48]
    */
   @Input()
@@ -124,7 +115,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * Specifies a unique ID attribute for the text editor.
+   * The unique ID attribute for the text editor.
    * By default, the component generates a random ID.
    */
   @Input()
@@ -137,7 +128,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * Specifies the initial styles for all content, including background color, font size, and link state.
+   * The initial styles for all content, including background color, font size, and link state.
    */
   @Input()
   public set initialStyleState(state: SkyTextEditorStyleState | undefined) {
@@ -156,7 +147,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * Specifies the menus to include in the menu bar.
+   * The menus to include in the menu bar.
    * @default [ 'edit', 'format' ]
    */
   @Input()
@@ -169,7 +160,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * Specifies the merge fields to include in the merge field menu.
+   * The merge fields to include in the merge field menu.
    */
   @Input()
   public set mergeFields(value: SkyTextEditorMergeField[] | undefined) {
@@ -181,7 +172,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * Specifies placeholder text to display when the text entry area is empty.
+   * Placeholder text to display when the text entry area is empty.
    */
   @Input()
   public set placeholder(value: string | undefined) {
@@ -199,7 +190,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * Specifies the actions to include in the toolbar and determines their order.
+   * The actions to include in the toolbar and determines their order.
    * @default [ 'font-family', 'font-size', 'font-style', 'color', 'list', 'link ]
    */
   @Input()
@@ -213,8 +204,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
     return this.#_toolbarActions;
   }
 
-  @ViewChild('iframe')
-  public iframeRef: ElementRef | undefined;
+  public iframeRef: HTMLIFrameElement | undefined;
 
   /**
    * The internal value of the control.
@@ -317,17 +307,14 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
     ngControl.valueAccessor = this;
   }
 
-  public ngAfterViewInit(): void {
-    this.#initIframe();
-  }
-
   public ngOnDestroy(): void {
     this.#adapterService.removeObservers(this.#editorService.editor);
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
   }
 
-  public onIframeLoad(): void {
+  public onIframeLoad(event: Event): void {
+    this.iframeRef = event.target as HTMLIFrameElement;
     this.#initIframe();
   }
 
@@ -376,66 +363,68 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
   }
 
   #initIframe(): void {
-    this.#adapterService.initEditor(
-      this.id,
-      (this.iframeRef as ElementRef).nativeElement,
-      this.initialStyleState,
-      this.placeholder
-    );
+    if (this.iframeRef) {
+      this.#adapterService.initEditor(
+        this.id,
+        this.iframeRef,
+        this.initialStyleState,
+        this.placeholder
+      );
 
-    this.#editorService
-      .inputListener()
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe(() => {
-        // Angular doesn't run change detection for changes originating inside an iframe,
-        // so we have to call the onChange() event inside NgZone to force change propagation to consuming components.
-        this.#zone.run(() => {
+      this.#editorService
+        .inputListener()
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe(() => {
+          // Angular doesn't run change detection for changes originating inside an iframe,
+          // so we have to call the onChange() event inside NgZone to force change propagation to consuming components.
+          this.#zone.run(() => {
+            this.#viewToModelUpdate();
+          });
+        });
+
+      this.#editorService
+        .selectionChangeListener()
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe(() => {
+          this.#updateStyle();
+          this.editorFocusStream.next();
+        });
+
+      this.#editorService
+        .clickListener()
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe(() => {
+          this.editorFocusStream.next();
+        });
+
+      this.#editorService
+        .blurListener()
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe(() => {
+          // Angular doesn't run change detection for changes originating inside an iframe,
+          // so we have to run #_onTouched() inside the NgZone to force change propagation to consuming components.
+          this.#zone.run(() => {
+            this.#_onTouched();
+          });
+        });
+
+      this.#editorService
+        .commandChangeListener()
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe(() => {
+          this.#updateStyle();
           this.#viewToModelUpdate();
         });
-      });
 
-    this.#editorService
-      .selectionChangeListener()
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe(() => {
-        this.#updateStyle();
-        this.editorFocusStream.next();
-      });
+      this.#adapterService.setEditorInnerHtml(this.#_value);
 
-    this.#editorService
-      .clickListener()
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe(() => {
-        this.editorFocusStream.next();
-      });
+      /* istanbul ignore next */
+      if (this.autofocus) {
+        this.#adapterService.focusEditor();
+      }
 
-    this.#editorService
-      .blurListener()
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe(() => {
-        // Angular doesn't run change detection for changes originating inside an iframe,
-        // so we have to run markForCheck() inside the NgZone to force change propagation to consuming components.
-        this.#zone.run(() => {
-          this.#_onTouched();
-        });
-      });
-
-    this.#editorService
-      .commandChangeListener()
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe(() => {
-        this.#updateStyle();
-        this.#viewToModelUpdate();
-      });
-
-    this.#adapterService.setEditorInnerHtml(this.#_value);
-
-    /* istanbul ignore next */
-    if (this.autofocus) {
-      this.#adapterService.focusEditor();
+      this.#initialized = true;
     }
-
-    this.#initialized = true;
   }
 
   #viewToModelUpdate(emitChange: boolean = true): void {

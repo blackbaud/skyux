@@ -7,18 +7,18 @@
  */
 export class ListSearchModel {
   /**
-   * Specifies the text to search.
+   * The text to search.
    * @default ""
    */
   public searchText = '';
   /**
-   * Specifies an array of functions that returns a `boolean` value of `true` when
+   * The array of functions that returns a `boolean` value of `true` when
    * the search is successful. This property accepts a function of type
    * `(data: any, searchText: string) => boolean>.`
    */
   public functions: Array<(data: any, searchText: string) => boolean> = [];
   /**
-   * Specifies the columns to search. The columns correspond to `field` values that
+   * The columns to search. The columns correspond to `field` values that
    * you specify with the list component's `data` property.
    */
   public fieldSelectors: Array<string> = [];

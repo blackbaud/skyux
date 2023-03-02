@@ -51,34 +51,36 @@ export class SkyVerticalTabsetComponent
   implements OnInit, AfterViewChecked, OnDestroy
 {
   /**
-   * Specifies the text to display on the show tabs button on mobile devices.
+   * The text to display on the show tabs button on mobile devices.
    */
   @Input()
   public showTabsText: string | undefined;
 
   /**
-   * Specifies an ARIA label for the tabset. This sets the tabset's `aria-label` attribute
+   * The ARIA label for the tabset. This sets the tabset's `aria-label` attribute to provide a text equivalent for screen readers
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the tabset includes a visible label, use `ariaLabelledBy` instead.
+   * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
   @Input()
   public ariaLabel: string | undefined;
 
   /**
-   * Specifies the HTML element ID (without the leading `#`) of the element that labels
-   * the tabset. This sets the tabset's `aria-labelledby` attribute
+   * The HTML element ID of the element that labels
+   * the tabset. This sets the tabset's `aria-labelledby` attribute to provide a text equivalent for screen readers
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the tabset does not include a visible label, use `ariaLabel` instead.
+   * For more information about the `aria-labelledby` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-labelledby).
    */
   @Input()
   public ariaLabelledBy: string | undefined;
 
   /**
-   * Specifies an ARIA role for the vertical tabset
+   * The ARIA role for the vertical tabset
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility)
    * by indicating how the tabset functions and what it controls. For information about how
    * an ARIA role indicates what an item represents on a web page, see the
-   * [WAI-ARIA roles model](https://www.w3.org/WAI/PF/aria/roles).
+   * [WAI-ARIA roles model](https://www.w3.org/WAI/PF/aria/#roles).
    * @default "tablist"
    * @deprecated Any other value than `tablist` could lead to a poor user experience for users with assistive technology.
    * In the next major version, this property will be automatically set to `tablist`.
@@ -93,7 +95,7 @@ export class SkyVerticalTabsetComponent
   }
 
   /**
-   * Indicates whether the vertical tabset loads tab content during initialization so that it
+   * Whether the vertical tabset loads tab content during initialization so that it
    * displays content without moving around elements in the content container.
    * @default false
    */

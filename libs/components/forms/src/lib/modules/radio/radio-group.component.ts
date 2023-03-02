@@ -38,25 +38,27 @@ export class SkyRadioGroupComponent
   implements AfterContentInit, AfterViewInit, OnDestroy
 {
   /**
-   * Specifies the HTML element ID (without the leading `#`) of the element that labels
-   * the radio button group. This sets the radio button group's `aria-labelledby` attribute
+   * The HTML element ID of the element that labels
+   * the radio button group. This sets the radio button group's `aria-labelledby` attribute to provide a text equivalent for screen readers
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the radio button group does not include a visible label, use `ariaLabel` instead.
+   * For more information about the `aria-labelledby` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-labelledby).
    */
   @Input()
   public ariaLabelledBy: string | undefined;
 
   /**
-   * Specifies an ARIA label for the radio button group. This sets the
-   * radio button group's `aria-label` attribute
+   * The ARIA label for the radio button group. This sets the
+   * radio button group's `aria-label` attribute to provide a text equivalent for screen readers
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the radio button group includes a visible label, use `ariaLabelledBy` instead.
+   * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
   @Input()
   public ariaLabel: string | undefined;
 
   /**
-   * Indicates whether to disable the input.
+   * Whether to disable the input.
    * @default false
    */
   @Input()
@@ -73,7 +75,7 @@ export class SkyRadioGroupComponent
   }
 
   /**
-   * Specifies a name for the collection of radio buttons that the component groups together.
+   * The name for the collection of radio buttons that the component groups together.
    * This property overwrites the deprecated `name` property on individual `sky-radio` elements,
    * and it is required unless the `name` property is set on individual `sky-radio` elements.
    * @required
@@ -92,17 +94,18 @@ export class SkyRadioGroupComponent
   }
 
   /**
-   * Indicates whether the input is required for form validation.
+   * Whether the input is required for form validation.
    * When you set this property to `true`, the component adds `aria-required` and `required`
    * attributes to the input element so that forms display an invalid state until the input element
    * is complete.
+   * For more information about the `aria-required` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-required).
    * @default false
    */
   @Input()
   public required: boolean | undefined = false;
 
   /**
-   * Specifies the value of the radio button to select by default when the group loads.
+   * The value of the radio button to select by default when the group loads.
    * The value corresponds to the `value` property of an individual `sky-radio` element within the
    * group.
    */
@@ -120,7 +123,7 @@ export class SkyRadioGroupComponent
   }
 
   /**
-   * Specifies an index for all the radio buttons in the group. If the index is not defined,
+   * The index for all the radio buttons in the group. If the index is not defined,
    * the indices for individual radio buttons are set to their positions on load.
    * This property supports accessibility by placing focus on the currently selected radio
    * button. If no radio button is selected, it places focus on the first or last button
@@ -142,7 +145,7 @@ export class SkyRadioGroupComponent
    * accessibility violation because the unordered list has an implicit role which
    * interrupts the 'radiogroup' and 'radio' relationship. To correct this, we can set the
    * radio group's 'aria-owns' attribute to a space-separated list of radio IDs.
-   * @see https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/radio_role
+   * For more information about the `aria-owns` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-owns), and for more information about the `radio` role, see [its definition](https://www.w3.org/TR/wai-aria/#radio).
    */
   public ariaOwns: string | undefined;
 
@@ -255,7 +258,7 @@ export class SkyRadioGroupComponent
 
   /**
    * @internal
-   * Indicates whether to disable the control. Implemented as a part of ControlValueAccessor.
+   * Whether to disable the control. Implemented as a part of ControlValueAccessor.
    */
   public setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;

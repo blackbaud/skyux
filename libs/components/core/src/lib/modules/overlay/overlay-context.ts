@@ -1,7 +1,7 @@
 import { SkyOverlayConfig } from './overlay-config';
 
 /**
- * Provides contextual information to each overlay created.
+ * Contextual information for each overlay.
  * @internal
  */
 export class SkyOverlayContext {

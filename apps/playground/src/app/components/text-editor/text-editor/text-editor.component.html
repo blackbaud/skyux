@@ -1,0 +1,63 @@
+<div class="sky-padding-even-default">
+  <button
+    class="sky-btn sky-btn-default"
+    id="sky-btn-toggle-text-editor-disable"
+    type="button"
+    (click)="onToggleDisableClick()"
+  >
+    Toggle disable
+  </button>
+</div>
+
+<div class="sky-padding-even-large">
+  <h1>Text editor</h1>
+  <form [formGroup]="myForm">
+    <div id="screenshot-text-editor">
+      <sky-text-editor
+        formControlName="textEditor"
+        name="text-editor"
+        [autofocus]="true"
+        [menus]="menus"
+        [mergeFields]="mergeFields"
+        [placeholder]="placeholder"
+        [toolbarActions]="toolbarActions"
+      >
+      </sky-text-editor>
+    </div>
+
+    <h2>Angular form control values</h2>
+    <table>
+      <tr>
+        <th>Disabled</th>
+        <td>{{ textEditorControl.disabled }}</td>
+      </tr>
+      <tr>
+        <th>Pristine</th>
+        <td>{{ textEditorControl.pristine }}</td>
+      </tr>
+      <tr>
+        <th>Status</th>
+        <td>{{ textEditorControl.status }}</td>
+      </tr>
+      <tr>
+        <th>Touched</th>
+        <td>{{ textEditorControl.touched }}</td>
+      </tr>
+      <tr>
+        <th>Valid</th>
+        <td>{{ textEditorControl.valid }}</td>
+      </tr>
+      <tr>
+        <th>Value</th>
+        <td>{{ textEditorControl.value }}</td>
+      </tr>
+    </table>
+
+    <h2>Preview HTML</h2>
+    <div
+      *ngIf="displayValue"
+      class="content-display"
+      [innerHTML]="displayValue"
+    ></div>
+  </form>
+</div>

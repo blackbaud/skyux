@@ -1,5 +1,154 @@
 # Changelog
 
+## [8.0.0-alpha.2](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.1...8.0.0-alpha.2) (2023-03-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/packages:** migrate to `@skyux/packages/polyfills` in project configuration ([#1033](https://github.com/blackbaud/skyux/issues/1033))
+* **components/config:** In previous major versions, query string config parameter values were not decoded when retrieving them via `SkyAppRuntimeConfigParams`. Any code that decoded these values after retrieving them should be removed.
+* **components/theme:** remove unused z-index SCSS vars ([#1029](https://github.com/blackbaud/skyux/issues/1029))
+
+### Features
+
+* **components/config:** decode query string config params ([#1028](https://github.com/blackbaud/skyux/issues/1028)) ([e893554](https://github.com/blackbaud/skyux/commit/e89355465446a3f70761f30dd97835f6658e19ac))
+* **components/core:** create stacking context service ([#1004](https://github.com/blackbaud/skyux/issues/1004)) ([#1026](https://github.com/blackbaud/skyux/issues/1026)) ([4fcac3d](https://github.com/blackbaud/skyux/commit/4fcac3d41f13903f4cac12aa3adf81c473fbba7e))
+* **components/core:** only log warnings once per application instance ([#1043](https://github.com/blackbaud/skyux/issues/1043)) ([b120d90](https://github.com/blackbaud/skyux/commit/b120d90ec7236fbf46769e6588a44ed258a93d40))
+* **components/packages:** migrate to `@skyux/packages/polyfills` in project configuration ([#1033](https://github.com/blackbaud/skyux/issues/1033)) ([5c200e4](https://github.com/blackbaud/skyux/commit/5c200e45a64eb4c1071b9634835339712b578e16))
+* **components/theme:** remove unused z-index SCSS vars ([#1029](https://github.com/blackbaud/skyux/issues/1029)) ([e4e282d](https://github.com/blackbaud/skyux/commit/e4e282df306624ebb09d042c781b8e7a7dfffd59))
+* **components/theme:** update SKY UX icons version ([#1001](https://github.com/blackbaud/skyux/issues/1001)) ([#1019](https://github.com/blackbaud/skyux/issues/1019)) ([d40c72b](https://github.com/blackbaud/skyux/commit/d40c72b1e95875038683a8f9216f0a1b98e00e23))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** row delete overlay did not show in modal ([#981](https://github.com/blackbaud/skyux/issues/981)) ([#1031](https://github.com/blackbaud/skyux/issues/1031)) ([9a83aad](https://github.com/blackbaud/skyux/commit/9a83aadd885396b7eed8a0e33d5c4675bc1afc1e))
+* **components/ag-grid:** support domlayout normal option for layout ([#1011](https://github.com/blackbaud/skyux/issues/1011)) ([#1030](https://github.com/blackbaud/skyux/issues/1030)) ([a98c3e1](https://github.com/blackbaud/skyux/commit/a98c3e1eda1266f7afbbe57f99377be44ae8180e))
+* **components/datetime:** apply stacking context ([#1035](https://github.com/blackbaud/skyux/issues/1035)) ([#1040](https://github.com/blackbaud/skyux/issues/1040)) ([7e9d6b9](https://github.com/blackbaud/skyux/commit/7e9d6b931c5e08c4a3fd17b63a3abdbbbba6234a))
+* **components/forms:** only apply indeterminate styling to checkboxes ([#1016](https://github.com/blackbaud/skyux/issues/1016)) ([#1027](https://github.com/blackbaud/skyux/issues/1027)) ([95884e9](https://github.com/blackbaud/skyux/commit/95884e969d56222082d22330ad614aaade6ade76))
+* **components/lookup:** apply stacking context ([#1036](https://github.com/blackbaud/skyux/issues/1036)) ([#1042](https://github.com/blackbaud/skyux/issues/1042)) ([21eca39](https://github.com/blackbaud/skyux/commit/21eca396f5a029c0003f75be91f38f4d613aacb9))
+* **components/packages:** remove v7 update schematics ([#1025](https://github.com/blackbaud/skyux/issues/1025)) ([890fa75](https://github.com/blackbaud/skyux/commit/890fa75268f2604de00598551a7fb37c855e5b6c))
+* **components/popovers:** apply stacking context ([#1037](https://github.com/blackbaud/skyux/issues/1037)) ([#1041](https://github.com/blackbaud/skyux/issues/1041)) ([8591a33](https://github.com/blackbaud/skyux/commit/8591a3334c422bf37241a79492570f51fbf7660a))
+
+## [7.9.1](https://github.com/blackbaud/skyux/compare/7.9.0...7.9.1) (2023-03-01)
+
+
+### Bug Fixes
+
+* **components/datetime:** apply stacking context ([#1035](https://github.com/blackbaud/skyux/issues/1035)) ([f1dc230](https://github.com/blackbaud/skyux/commit/f1dc230dd94ae881caa3f0bc5846335f45272495))
+* **components/lookup:** apply stacking context ([#1036](https://github.com/blackbaud/skyux/issues/1036)) ([4afeafb](https://github.com/blackbaud/skyux/commit/4afeafb0105d6eb289e71e24ed4f187509ebf13a))
+* **components/popovers:** apply stacking context ([#1037](https://github.com/blackbaud/skyux/issues/1037)) ([746874f](https://github.com/blackbaud/skyux/commit/746874f9b0d9fd39a6e52b815a24f0cf6b54c677))
+
+## [7.9.0](https://github.com/blackbaud/skyux/compare/7.8.1...7.9.0) (2023-02-28)
+
+
+### Features
+
+* **components/core:** create stacking context service ([#1004](https://github.com/blackbaud/skyux/issues/1004)) ([6500101](https://github.com/blackbaud/skyux/commit/6500101c41403e52f29c5fffaac63bdfdf376b3a))
+* **components/core:** update dock component to fit within viewport ([#1022](https://github.com/blackbaud/skyux/issues/1022)) ([c4198f7](https://github.com/blackbaud/skyux/commit/c4198f7ca5b55d3ecf7540c1c2fcc0f33ddff5a2))
+
+### Bug Fixes
+
+* **components/ag-grid:** row delete overlay did not show in modal ([#981](https://github.com/blackbaud/skyux/issues/981)) ([992403b](https://github.com/blackbaud/skyux/commit/992403b7a5dcd93ef1a09b404625da85d6b8b73e))
+* **components/ag-grid:** support domlayout normal option for layout ([#1011](https://github.com/blackbaud/skyux/issues/1011)) ([4b905ff](https://github.com/blackbaud/skyux/commit/4b905ff6303d1797ccd4077085b1cc1432e6acea))
+
+## [8.0.0-alpha.1](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.0...8.0.0-alpha.1) (2023-02-27)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** adjust a11y test for ag-grid ([#1012](https://github.com/blackbaud/skyux/issues/1012)) ([#1013](https://github.com/blackbaud/skyux/issues/1013)) ([7a97686](https://github.com/blackbaud/skyux/commit/7a97686e81a4c554482ad80b3a4750cc4660a562))
+* **components/ag-grid:** support right-align header in AG Grid 28 ([#998](https://github.com/blackbaud/skyux/issues/998)) ([#1008](https://github.com/blackbaud/skyux/issues/1008)) ([1de3f99](https://github.com/blackbaud/skyux/commit/1de3f9982cb76be64f7b7aaec1b53f162bebf24e))
+* **components/core:** add clip-path option for overlay ([#980](https://github.com/blackbaud/skyux/issues/980)) ([#1010](https://github.com/blackbaud/skyux/issues/1010)) ([d2df897](https://github.com/blackbaud/skyux/commit/d2df89777a337ff160a17301bd70744b204254a4))
+* **components/packages:** include `ng add` template files in public exports ([#1015](https://github.com/blackbaud/skyux/issues/1015)) ([b087324](https://github.com/blackbaud/skyux/commit/b087324015e58463f56bc9a94482bf11d287a5ec))
+* **components/text-editor:** content is only pasted once into the text editor ([#997](https://github.com/blackbaud/skyux/issues/997)) ([dd99d3c](https://github.com/blackbaud/skyux/commit/dd99d3cfbc08d2707210f264071ee1e2b13e3788))
+
+## [7.8.1](https://github.com/blackbaud/skyux/compare/7.8.0...7.8.1) (2023-02-27)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** adjust a11y test for ag-grid ([#1012](https://github.com/blackbaud/skyux/issues/1012)) ([0c7ba9e](https://github.com/blackbaud/skyux/commit/0c7ba9ed3b26703eb7e4bf95c1f878be2e3968ed))
+* **components/ag-grid:** support right-align header in AG Grid 28 ([#998](https://github.com/blackbaud/skyux/issues/998)) ([99c6cab](https://github.com/blackbaud/skyux/commit/99c6cab96186622d72e562bd65c8988c40a74728))
+* **components/core:** add clip-path option for overlay ([#980](https://github.com/blackbaud/skyux/issues/980)) ([1707f8d](https://github.com/blackbaud/skyux/commit/1707f8d4f4a5c9c82c81d86770511f58b6170430))
+* **components/forms:** only apply indeterminate styling to checkboxes ([#1016](https://github.com/blackbaud/skyux/issues/1016)) ([a0d2215](https://github.com/blackbaud/skyux/commit/a0d221547ce92529ebcb34a9ede6c7beb8933c08))
+* **components/text-editor:** content is only pasted once into the text editor ([#997](https://github.com/blackbaud/skyux/issues/997)) ([#1006](https://github.com/blackbaud/skyux/issues/1006)) ([902584b](https://github.com/blackbaud/skyux/commit/902584b13d79e2c807752004adbf48aa94959b31))
+
+## [7.8.0](https://github.com/blackbaud/skyux/compare/7.7.0...7.8.0) (2023-02-17)
+
+
+### Features
+
+* **components/theme:** update SKY UX icons version ([#1001](https://github.com/blackbaud/skyux/issues/1001)) ([8b4227c](https://github.com/blackbaud/skyux/commit/8b4227c7dbd406f5d82d45e8bfbf1d7ba11140ea))
+
+## [8.0.0-alpha.0](https://github.com/blackbaud/skyux/compare/7.6.1...8.0.0-alpha.0) (2023-02-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* support Angular 15 ([#984](https://github.com/blackbaud/skyux/issues/984))
+
+### Features
+
+* support Angular 15 ([#984](https://github.com/blackbaud/skyux/issues/984)) ([4cef2d0](https://github.com/blackbaud/skyux/commit/4cef2d07aa52a178f78ac5faacf483f4f7a94df8))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** address accessibility test issues ([#982](https://github.com/blackbaud/skyux/issues/982)) ([#987](https://github.com/blackbaud/skyux/issues/987)) ([25f3dff](https://github.com/blackbaud/skyux/commit/25f3dff658bd8fcc84e1b2cad12ba150fb2ff306))
+* **components/ag-grid:** apply lookup addClick handler ([#992](https://github.com/blackbaud/skyux/issues/992)) ([#999](https://github.com/blackbaud/skyux/issues/999)) ([257114a](https://github.com/blackbaud/skyux/commit/257114acef2b485119fd9b6f7807234ae017e52a))
+
+## [7.7.0](https://github.com/blackbaud/skyux/compare/7.6.2...7.7.0) (2023-02-16)
+
+
+### Features
+
+* **components/action-bars:** update summary action bar to respect reserved viewport space ([#993](https://github.com/blackbaud/skyux/issues/993)) ([f0c7b19](https://github.com/blackbaud/skyux/commit/f0c7b1927ac2ebcf28ec384df70905079002a95f))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** apply lookup addClick handler ([#992](https://github.com/blackbaud/skyux/issues/992)) ([86cba17](https://github.com/blackbaud/skyux/commit/86cba17923a18358c8fbd611c4517962fef79d63))
+* **components/lookup:** pass `wrapperClass` to selection modal ([#996](https://github.com/blackbaud/skyux/issues/996)) ([d6786de](https://github.com/blackbaud/skyux/commit/d6786debfb700241c6eb1b51bdb20bec7778b981))
+
+## [7.6.2](https://github.com/blackbaud/skyux/compare/7.6.1...7.6.2) (2023-02-14)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** address accessibility test issues ([#982](https://github.com/blackbaud/skyux/issues/982)) ([8c1ad68](https://github.com/blackbaud/skyux/commit/8c1ad68e30b4bad30302c2ffdd0c616d83c86589))
+
+## [7.6.1](https://github.com/blackbaud/skyux/compare/7.6.0...7.6.1) (2023-02-07)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** expand the click target for column sorting ([#974](https://github.com/blackbaud/skyux/issues/974)) ([48a153b](https://github.com/blackbaud/skyux/commit/48a153b168b924573bc176d8150f97034a234e4d))
+* **components/flyout:** remove unneeded optional chaining in template ([#970](https://github.com/blackbaud/skyux/issues/970)) ([adac559](https://github.com/blackbaud/skyux/commit/adac55909e5a2ab1cb5930930d230a64c397232e))
+
+## [7.6.0](https://github.com/blackbaud/skyux/compare/7.5.0...7.6.0) (2023-02-03)
+
+
+### Features
+
+* **components/modals:** use Angular CDK focus trap within modals ([#955](https://github.com/blackbaud/skyux/issues/955)) ([c9b17b4](https://github.com/blackbaud/skyux/commit/c9b17b430e690f73c71a87cada674cbb801fc804))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** header should respect sortable column config ([#971](https://github.com/blackbaud/skyux/issues/971)) ([2454aa0](https://github.com/blackbaud/skyux/commit/2454aa0bf83f37dee53bb1b7477d73f5bf9b129b))
+* **components/core:** fix bug in numeric service truncateAfter not respecting 0 as valid value ([#961](https://github.com/blackbaud/skyux/issues/961)) ([935cae6](https://github.com/blackbaud/skyux/commit/935cae68ad9213a286d32c5f413bcde23f33cc49))
+* **components/core:** use relative environment injector when dynamically generating components ([#952](https://github.com/blackbaud/skyux/issues/952)) ([667123c](https://github.com/blackbaud/skyux/commit/667123c03776101d778fac54f33b3181be911731))
+
+
+### Reverts
+
+* feat(components/modals): use Angular CDK focus trap within modals ([#962](https://github.com/blackbaud/skyux/issues/962)) ([283fc36](https://github.com/blackbaud/skyux/commit/283fc365198a8687328f5faa01059fdb0e39d972))
+
+
+### Deprecations
+
+* **components/modals:** tiles inside modals are deprecated; use an alternative design instead ([#965](https://github.com/blackbaud/skyux/issues/965)) ([36ddac8](https://github.com/blackbaud/skyux/commit/36ddac816725bb7e8a3f223f00f0496bc548b6cc))
+
 ## [7.5.0](https://github.com/blackbaud/skyux/compare/7.4.2...7.5.0) (2023-01-25)
 
 

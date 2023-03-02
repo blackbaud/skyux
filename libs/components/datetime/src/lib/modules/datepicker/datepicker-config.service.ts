@@ -5,23 +5,23 @@ import { Injectable } from '@angular/core';
 })
 export class SkyDatepickerConfigService {
   /**
-   * Specifies the date format for the input.
+   * The date format for the input.
    * @default "MM/DD/YYYY"
    */
   public dateFormat: string | undefined;
 
   /**
-   * Specifies the latest selectable date that is available in the calendar.
+   * The latest selectable date that is available in the calendar.
    */
   public maxDate: Date | undefined;
 
   /**
-   * Specifies the earliest selectable date that is available in the calendar.
+   * The earliest selectable date that is available in the calendar.
    */
   public minDate: Date | undefined;
 
   /**
-   * Specifies the starting day of the week in the calendar,
+   * The starting day of the week in the calendar,
    * where `0` sets the starting day to Sunday.
    * @default 0
    */

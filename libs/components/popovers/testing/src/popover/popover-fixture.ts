@@ -43,7 +43,7 @@ export class SkyPopoverFixture {
   }
 
   /**
-   * Indicates if the popover is open and visible.
+   * Whether the popover is open and visible.
    */
   public get popoverIsVisible(): boolean {
     return this.#contentElement !== undefined;

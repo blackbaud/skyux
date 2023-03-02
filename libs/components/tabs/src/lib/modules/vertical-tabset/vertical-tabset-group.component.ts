@@ -25,20 +25,20 @@ import { SkyVerticalTabsetService } from './vertical-tabset.service';
 })
 export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
   /**
-   * Indicates whether to disable the ability to expand and collapse the group.
+   * Whether to disable the ability to expand and collapse the group.
    * @default false
    */
   @Input()
   public disabled: boolean | undefined;
 
   /**
-   * Specifies the header for the collapsible group of tabs.
+   * The header for the collapsible group of tabs.
    */
   @Input()
   public groupHeading: string | undefined;
 
   /**
-   * Indicates whether the collapsible group is expanded.
+   * Whether the collapsible group is expanded.
    * @default false
    */
   @Input()

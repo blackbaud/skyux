@@ -28,7 +28,7 @@ import { IDTypeDictionary } from '@circlon/angular-tree-component/lib/defs/api';
 })
 export class SkyAngularTreeWrapperComponent implements AfterViewInit {
   /**
-   * Indicates whether to render the tree view in read-only mode.
+   * Whether to render the tree view in read-only mode.
    * This mode disables selected and active states on the tree view nodes.
    * @default false
    */
@@ -36,7 +36,7 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
   public readOnly: boolean | undefined = false;
 
   /**
-   * Indicates whether to use leaf-only selection mode. For tree views with
+   * Whether to use leaf-only selection mode. For tree views with
    * [checkboxes](https://angular2-tree.readme.io/docs/tri-state-checkboxes),
    * this mode limits user selections to leaf nodes and prevents users from selecting parent nodes.
    * @default false
@@ -45,7 +45,7 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
   public selectLeafNodesOnly: boolean | undefined = false;
 
   /**
-   * Indicates whether to use single-select mode. For tree views with
+   * Whether to use single-select mode. For tree views with
    * [checkboxes](https://angular2-tree.readme.io/docs/tri-state-checkboxes),
    * this mode limits user selections to one node at a time.
    * @default false
@@ -54,7 +54,7 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
   public selectSingle: boolean | undefined = false;
 
   /**
-   * Indicates whether to display a toolbar with buttons to expand and collapse all nodes and buttons to select and clear all checkboxes.
+   * Whether to display a toolbar with buttons to expand and collapse all nodes and buttons to select and clear all checkboxes.
    * The select and clear buttons only appear when you enable checkboxes.
    * To enable [checkboxes](https://angular2-tree.readme.io/docs/tri-state-checkboxes).
    * @default false

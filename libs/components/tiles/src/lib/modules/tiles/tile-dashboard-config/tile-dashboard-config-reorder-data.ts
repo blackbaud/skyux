@@ -1,14 +1,14 @@
 export interface SkyTileDashboardConfigReorderData {
   /**
-   * Specifies the description of the tile.
+   * The description of the tile.
    */
   tileDescription: string;
   /**
-   * Specifies the column for the tile.
+   * The column for the tile.
    */
   column: number;
   /**
-   * Specifies the position of the tile within the column.
+   * The position of the tile within the column.
    */
   position: number;
 }

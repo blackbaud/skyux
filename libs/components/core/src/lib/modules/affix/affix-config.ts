@@ -6,7 +6,7 @@ import { SkyAffixVerticalAlignment } from './affix-vertical-alignment';
 
 export interface SkyAffixConfig {
   /**
-   * Indicates which parent element is used by the auto-fit functionality.
+   * Which parent element is used by the auto-fit functionality.
    */
   autoFitContext?: SkyAffixAutoFitContext;
 
@@ -20,9 +20,9 @@ export interface SkyAffixConfig {
   autoFitOverflowOffset?: SkyAffixOffset;
 
   /**
-   * Indicates if the affix service should try and find the best placement for the affixed element
-   * if the element would be hidden otherwise. If this setting is disabled, the affix service will
-   * force the placement of the affixed element.
+   * Whether the affix service tries to find the best placement for the affixed element
+   * if the element would be hidden otherwise. If this setting is disabled, the affix service
+   * forces the placement of the affixed element.
    */
   enableAutoFit?: boolean;
 
@@ -32,7 +32,7 @@ export interface SkyAffixConfig {
   horizontalAlignment?: SkyAffixHorizontalAlignment;
 
   /**
-   * Indicates if the affixed element should remain affixed to the base element when the window is scrolled or resized.
+   * Whether the affixed element remains affixed to the base element when the window is scrolled or resized.
    */
   isSticky?: boolean;
 

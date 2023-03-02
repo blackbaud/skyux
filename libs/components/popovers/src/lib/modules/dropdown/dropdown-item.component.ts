@@ -21,11 +21,11 @@ import {
 })
 export class SkyDropdownItemComponent implements AfterViewInit {
   /**
-   * Specifies an ARIA role for the dropdown menu item
+   * The ARIA role for the dropdown menu item
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility)
    * by indicating how the item functions and what it controls. For information about
    * how an ARIA role indicates what an item represents on a web page, see the
-   * [WAI-ARIA roles model](https://www.w3.org/WAI/PF/aria/roles).
+   * [WAI-ARIA roles model](https://www.w3.org/WAI/PF/aria/#roles).
    * @default "menuitem"
    */
   @Input()

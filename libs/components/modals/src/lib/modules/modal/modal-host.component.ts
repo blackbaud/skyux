@@ -11,11 +11,13 @@ import {
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import {
+  SKY_STACKING_CONTEXT,
   SkyMediaQueryService,
   SkyResizeObserverMediaQueryService,
 } from '@skyux/core';
 
-import { takeWhile } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
+import { takeUntil, takeWhile } from 'rxjs/operators';
 
 import { SkyModalAdapterService } from './modal-adapter.service';
 import { SkyModalConfiguration } from './modal-configuration';
@@ -111,20 +113,29 @@ export class SkyModalHostComponent implements OnDestroy {
 
     let isOpen = true;
 
-    /* eslint-disable @typescript-eslint/no-non-null-assertion */
-    params.providers!.push({
-      provide: SkyModalHostService,
-      useValue: hostService,
-    });
-    params.providers!.push({
-      provide: SkyModalConfiguration,
-      useValue: params,
-    });
-    params.providers!.push({
-      provide: SkyMediaQueryService,
-      useExisting: SkyResizeObserverMediaQueryService,
-    });
-    /* eslint-enable @typescript-eslint/no-non-null-assertion */
+    params.providers ||= [];
+    params.providers.push(
+      {
+        provide: SkyModalHostService,
+        useValue: hostService,
+      },
+      {
+        provide: SkyModalConfiguration,
+        useValue: params,
+      },
+      {
+        provide: SkyMediaQueryService,
+        useExisting: SkyResizeObserverMediaQueryService,
+      },
+      {
+        provide: SKY_STACKING_CONTEXT,
+        useValue: {
+          zIndex: new BehaviorSubject(hostService.getModalZIndex())
+            .asObservable()
+            .pipe(takeUntil(modalInstance.closed)),
+        },
+      }
+    );
 
     adapter.setPageScroll(SkyModalHostService.openModalCount > 0);
     adapter.toggleFullPageModalClass(

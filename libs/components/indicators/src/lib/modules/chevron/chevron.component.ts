@@ -11,27 +11,29 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class SkyChevronComponent {
   /**
-   * Specifies the element whose contents are controlled by the chevron.
-   * This sets the chevron's aria-controls attribute
+   * The element whose contents are controlled by the chevron.
+   * This sets the chevron's `aria-controls` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * For more information about the `aria-controls` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-controls).
    */
   @Input()
   public ariaControls: string | undefined;
 
   /**
-   * Specifies an ARIA label for the chevron. This sets the chevron's aria-label attribute
+   * The ARIA label for the chevron. This sets the chevron's `aria-label` attribute to provide a text equivalent for screen readers
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
   @Input()
   public ariaLabel: string | undefined;
 
   /**
-   * Specifies whether the chevron points up or down.
+   * The direction that the chevron points, which can be up or down.
    */
   @Input()
   public set direction(value: string | undefined) {
     /* istanbul ignore else */
-    if (value != this.directionOrDefault) {
+    if (value !== this.directionOrDefault) {
       this.directionOrDefault = value ? value : 'up';
       /* istanbul ignore else */
       if (this.directionOrDefault === 'up') {
@@ -43,7 +45,7 @@ export class SkyChevronComponent {
   }
 
   /**
-   * Indicates whether to disable the chevron button.
+   * Whether to disable the chevron button.
    */
   @Input()
   public disabled = false;

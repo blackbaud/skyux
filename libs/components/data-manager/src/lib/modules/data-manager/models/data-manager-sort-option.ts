@@ -1,6 +1,6 @@
 export interface SkyDataManagerSortOption {
   /**
-   * Indicates whether to apply the sort in descending order.
+   * Whether to apply the sort in descending order.
    * @required
    */
   descending: boolean;

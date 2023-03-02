@@ -51,7 +51,7 @@ export class SkyFileAttachmentComponent
   implements AfterViewInit, AfterContentInit, OnInit, OnDestroy
 {
   /**
-   * Specifies a comma-delimited string literal of MIME types that users can attach.
+   * The comma-delimited string literal of MIME types that users can attach.
    * By default, all file types are allowed.
    * @required
    */
@@ -59,7 +59,7 @@ export class SkyFileAttachmentComponent
   public acceptedTypes: string | undefined;
 
   /**
-   * Indicates whether to disable the input.
+   * Whether to disable the input.
    * @default false
    */
   @Input()
@@ -75,7 +75,7 @@ export class SkyFileAttachmentComponent
   }
 
   /**
-   * Specifies the maximum size in bytes for valid files.
+   * The maximum size in bytes for valid files.
    * @default 500000
    */
   @Input()
@@ -88,7 +88,7 @@ export class SkyFileAttachmentComponent
   }
 
   /**
-   * Specifies the minimum size in bytes for valid files.
+   * The minimum size in bytes for valid files.
    * @default 0
    */
   @Input()
@@ -101,7 +101,7 @@ export class SkyFileAttachmentComponent
   }
 
   /**
-   * Specifies a custom validation function. This validation runs alongside the internal
+   * The custom validation function. This validation runs alongside the internal
    * file validation. This function takes a `SkyFileItem` object as a parameter.
    */
   @Input()
@@ -131,10 +131,11 @@ export class SkyFileAttachmentComponent
   public rejectedOver = false;
 
   /**
-   * Indicates whether the input is required for form validation.
+   * Whether the input is required for form validation.
    * When you set this property to `true`, the component adds `aria-required` and `required`
    * attributes to the input element so that forms display an invalid state until the input element
    * is complete.
+   * For more information about the `aria-required` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-required).
    */
   @Input()
   public required: boolean | undefined = false;

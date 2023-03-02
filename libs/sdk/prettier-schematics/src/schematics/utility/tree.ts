@@ -20,7 +20,7 @@ export function readRequiredFile(tree: Tree, filePath: string): string {
 
 export function readJsonFile<T>(tree: Tree, path: string): T {
   if (tree.exists(path)) {
-    return commentJson.parse(readRequiredFile(tree, path));
+    return commentJson.parse(readRequiredFile(tree, path)) as T;
   }
 
   return {} as T;

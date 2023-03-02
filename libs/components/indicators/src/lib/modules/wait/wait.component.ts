@@ -23,12 +23,13 @@ let nextId = 0;
 })
 export class SkyWaitComponent implements OnInit, OnDestroy {
   /**
-   * Specifies an ARIA label for the wait icon while an element or page loads.
+   * The ARIA label for the wait icon while an element or page loads.
    * This sets the icon's `aria-label` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * The default value varies based on whether the wait is for an element or a page
    * and whether it is a blocking wait. For example, the default for a page-blocking
    * wait is "Page loading. Please wait."
+   * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
   @Input()
   public set ariaLabel(value: string | undefined) {

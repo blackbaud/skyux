@@ -5,6 +5,7 @@ import {
   Component,
   ComponentRef,
   ElementRef,
+  HostBinding,
   OnDestroy,
   ViewChild,
 } from '@angular/core';
@@ -33,6 +34,11 @@ import { SkyAgGridHeaderParams } from '../types/header-params';
 export class SkyAgGridHeaderComponent
   implements IHeaderAngularComp, OnDestroy, AfterViewInit
 {
+  // For accessibility, we need to set the title attribute on the header element if there is not a display name.
+  // https://dequeuniversity.com/rules/axe/4.5/empty-table-header?application=axeAPI
+  @HostBinding('attr.title')
+  public columnLabel: string | undefined;
+
   @ViewChild('inlineHelpContainer', { read: ElementRef, static: true })
   public inlineHelpContainer: ElementRef | undefined;
 
@@ -75,6 +81,9 @@ export class SkyAgGridHeaderComponent
     if (!params) {
       return;
     }
+    this.columnLabel = params.displayName
+      ? undefined
+      : params.column.getColDef().field;
     this.#subscriptions = new Subscription();
     if (params.column.isFilterAllowed()) {
       this.#subscriptions.add(
@@ -135,7 +144,9 @@ export class SkyAgGridHeaderComponent
   }
 
   public onSortRequested(event: MouseEvent): void {
-    this.params?.progressSort(!!event.shiftKey);
+    if (this.params?.enableSorting) {
+      this.params?.progressSort(event.shiftKey);
+    }
   }
 
   public refresh(params: SkyAgGridHeaderParams): boolean {

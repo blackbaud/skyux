@@ -61,30 +61,32 @@ export class SkyLookupComponent
   implements OnInit, AfterViewInit, OnDestroy, ControlValueAccessor
 {
   /**
-   * Specifies an ARIA label for the typeahead search input
+   * The ARIA label for the typeahead search input. This sets the input's `aria-label` attribute to provide a text equivalent for
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the input includes a visible label, use `ariaLabelledBy` instead.
+   * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
   @Input()
   public ariaLabel: string | undefined;
 
   /**
-   * Specifies the HTML element ID (without the leading `#`) of the element that labels
-   * the typeahead search input. This sets the input's `aria-labelledby` attribute
+   * The HTML element ID of the element that labels
+   * the typeahead search input. This sets the input's `aria-labelledby` attribute to provide a text equivalent for
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the input does not include a visible label, use `ariaLabel` instead.
+   * For more information about the `aria-labelledby` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-labelledby).
    */
   @Input()
   public ariaLabelledBy: string | undefined;
 
   /**
-   * Specifies the value for the `autocomplete` attribute on the form input.
+   * The value for the `autocomplete` attribute on the form input.
    */
   @Input()
   public autocompleteAttribute: string | undefined;
 
   /**
-   * Specifies a data source for the lookup component to search when users
+   * The data source for the lookup component to search when users
    * enter text. You can specify static data such as an array of objects, or
    * you can pull data from a database.
    * @default []
@@ -103,7 +105,7 @@ export class SkyLookupComponent
   }
 
   /**
-   * Indicates whether to disable the lookup field.
+   * Whether to disable the lookup field.
    * @default false
    */
   @Input()
@@ -116,7 +118,7 @@ export class SkyLookupComponent
   }
 
   /**
-   * Indicates whether to enable users to open a picker where they can view all options.
+   * Whether to enable users to open a picker where they can view all options.
    * @default false
    */
   @Input()
@@ -129,13 +131,13 @@ export class SkyLookupComponent
   }
 
   /**
-   * Specifies placeholder text to display in the lookup field.
+   * Placeholder text to display in the lookup field.
    */
   @Input()
   public placeholderText: string | undefined;
 
   /**
-   * Specifies an object property that represents the object's unique identifier.
+   * The object property that represents the object's unique identifier.
    * Specifying this property enables token animations and more efficient rendering.
    * This property is required when using `enableShowMore` and `searchAsync` together.
    */
@@ -143,7 +145,7 @@ export class SkyLookupComponent
   public idProperty: string | undefined;
 
   /**
-   * Indicates whether to display a button that lets users add options to the list.
+   * Whether to display a button that lets users add options to the list.
    * @default false
    */
   @Input()
@@ -156,13 +158,13 @@ export class SkyLookupComponent
   }
 
   /**
-   * Specifies configuration options for the picker that displays all options.
+   * Configuration options for the picker that displays all options.
    */
   @Input()
   public showMoreConfig: SkyLookupShowMoreConfig | undefined;
 
   /**
-   * Specifies whether users can select one option or multiple options.
+   * The ability for users to select one option or multiple options.
    * @default "multiple"
    */
   @Input()
@@ -198,7 +200,8 @@ export class SkyLookupComponent
    * Fires when users select the button to add options to the list.
    */
   @Output()
-  public addClick: EventEmitter<SkyLookupAddClickEventArgs> = new EventEmitter();
+  public addClick: EventEmitter<SkyLookupAddClickEventArgs> =
+    new EventEmitter();
 
   public get tokens(): SkyToken[] | undefined {
     return this.#_tokens;
@@ -795,14 +798,16 @@ export class SkyLookupComponent
         this.#changeDetector.markForCheck();
       });
 
-    observableFromEvent(hostElement, 'mouseup')
-      .pipe(takeUntil(this.#idle))
-      .subscribe(() => {
-        const classList = documentObj.activeElement.classList;
-        if (!classList || !classList.contains('sky-token')) {
-          this.#focusInput();
-        }
-      });
+    if (hostElement) {
+      observableFromEvent(hostElement, 'mouseup')
+        .pipe(takeUntil(this.#idle))
+        .subscribe(() => {
+          const classList = documentObj.activeElement.classList;
+          if (!classList || !classList.contains('sky-token')) {
+            this.#focusInput();
+          }
+        });
+    }
   }
 
   #focusInput(): void {

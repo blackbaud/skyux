@@ -3,12 +3,12 @@
  */
 export class ListSortFieldSelectorModel {
   /**
-   * Indicates whether to sort in descending order.
+   * Whether to sort in descending order.
    */
   public descending = false;
 
   /**
-   * Specifies the fields to sort.
+   * The fields to sort.
    */
   public fieldSelector: string;
 

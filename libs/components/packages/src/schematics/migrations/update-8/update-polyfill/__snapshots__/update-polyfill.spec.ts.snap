@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`updatePolyfill should capture with start/end comments 1`] = `
+"import 'zone.js';
+
+"
+`;

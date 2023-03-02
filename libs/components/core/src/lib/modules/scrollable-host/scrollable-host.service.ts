@@ -1,9 +1,19 @@
-import { ElementRef, Injectable } from '@angular/core';
+import { ElementRef, Injectable, Optional } from '@angular/core';
 
-import { Observable, Subject, Subscriber, Subscription, fromEvent } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import {
+  Observable,
+  Subject,
+  Subscriber,
+  Subscription,
+  animationFrameScheduler,
+  concat,
+  fromEvent,
+  of,
+} from 'rxjs';
+import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
 
 import { SkyMutationObserverService } from '../mutation/mutation-observer-service';
+import { SkyResizeObserverService } from '../resize-observer/resize-observer.service';
 import { SkyAppWindowRef } from '../window/window-ref';
 
 function notifySubscribers(subscribers: Subscriber<unknown>[], item?: unknown) {
@@ -20,11 +30,15 @@ export class SkyScrollableHostService {
 
   #windowRef: SkyAppWindowRef;
 
+  #resizeObserverSvc: SkyResizeObserverService | undefined;
+
   constructor(
     mutationObserverSvc: SkyMutationObserverService,
-    windowRef: SkyAppWindowRef
+    windowRef: SkyAppWindowRef,
+    @Optional() resizeObserverSvc?: SkyResizeObserverService
   ) {
     this.#mutationObserverSvc = mutationObserverSvc;
+    this.#resizeObserverSvc = resizeObserverSvc;
     this.#windowRef = windowRef;
   }
 
@@ -190,6 +204,42 @@ export class SkyScrollableHostService {
     });
   }
 
+  public watchScrollableHostClipPathChanges(
+    elementRef: ElementRef
+  ): Observable<string> {
+    if (!this.#resizeObserverSvc) {
+      return of('none');
+    }
+
+    return this.watchScrollableHost(elementRef).pipe(
+      switchMap((scrollableHost) => {
+        if (
+          !this.#resizeObserverSvc ||
+          !scrollableHost ||
+          scrollableHost === this.#windowRef.nativeWindow
+        ) {
+          return of('none');
+        }
+
+        return concat([
+          of(undefined),
+          this.#resizeObserverSvc.observe({ nativeElement: scrollableHost }),
+        ]).pipe(
+          debounceTime(0, animationFrameScheduler),
+          map(() => {
+            const viewportSize = this.#getViewportSize();
+            const { top, left, width, height } = (
+              scrollableHost as HTMLElement
+            ).getBoundingClientRect();
+            const right = Math.max(viewportSize.width - left - width, 0);
+            const bottom = Math.max(viewportSize.height - top - height, 0);
+            return `inset(${top}px ${right}px ${bottom}px ${left}px)`;
+          })
+        );
+      })
+    );
+  }
+
   #findScrollableHost(element: HTMLElement | undefined): HTMLElement | Window {
     const regex = /(auto|scroll)/;
     const windowObj = this.#windowRef.nativeWindow;
@@ -255,6 +305,16 @@ export class SkyScrollableHostService {
    * @see https://stackoverflow.com/a/11639664/6178885
    */
   #isElementVisible(elementRef: ElementRef): boolean {
-    return elementRef.nativeElement.offsetParent;
+    return !!elementRef.nativeElement?.offsetParent;
+  }
+
+  #getViewportSize(): { width: number; height: number } {
+    const win = this.#windowRef.nativeWindow;
+    const docElem = win.document.documentElement;
+
+    return {
+      width: docElem.clientWidth,
+      height: docElem.clientHeight,
+    };
   }
 }

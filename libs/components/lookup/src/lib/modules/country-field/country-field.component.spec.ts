@@ -372,6 +372,8 @@ describe('Country Field Component', () => {
           name: 'United States',
           iso2: 'us',
         };
+        fixture.detectChanges();
+        tick();
         component.isDisabled = true;
         expect(component.countryFieldComponent.isInputFocused).toBeFalsy();
         fixture.detectChanges();
@@ -396,6 +398,8 @@ describe('Country Field Component', () => {
           name: 'United States',
           iso2: 'us',
         };
+        fixture.detectChanges();
+        tick();
         component.isDisabled = true;
         fixture.detectChanges();
         tick();

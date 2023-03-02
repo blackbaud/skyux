@@ -11,12 +11,12 @@ import { Component, Input } from '@angular/core';
 })
 export class SkyExpansionIndicatorComponent {
   /**
-   * Specifies whether the chevron points up or down.
+   * The direction that the chevron points, which can be up or down.
    */
   @Input()
   public set direction(value: string | undefined) {
     /* istanbul ignore else */
-    if (value != this.directionOrDefault) {
+    if (value !== this.directionOrDefault) {
       this.directionOrDefault = value ? value : 'up';
     }
   }

@@ -1,12 +1,14 @@
 import { LocationStrategy } from '@angular/common';
 import {
   Directive,
+  ElementRef,
   Input,
   OnChanges,
   Optional,
+  Renderer2,
   SimpleChanges,
 } from '@angular/core';
-import { ActivatedRoute, Router, RouterLinkWithHref } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { SkyAppConfig, SkyAppRuntimeConfigParamsProvider } from '@skyux/config';
 
 import { SkyAppLinkQueryParams } from './link-query-params';
@@ -14,10 +16,7 @@ import { SkyAppLinkQueryParams } from './link-query-params';
 @Directive({
   selector: '[skyAppLink]',
 })
-export class SkyAppLinkDirective
-  extends RouterLinkWithHref
-  implements OnChanges
-{
+export class SkyAppLinkDirective extends RouterLink implements OnChanges {
   @Input()
   set skyAppLink(commands: any[] | string) {
     this.routerLink = commands;
@@ -30,10 +29,12 @@ export class SkyAppLinkDirective
     router: Router,
     route: ActivatedRoute,
     locationStrategy: LocationStrategy,
+    renderer: Renderer2,
+    elementRef: ElementRef,
     @Optional() skyAppConfig?: SkyAppConfig,
     @Optional() paramsProvider?: SkyAppRuntimeConfigParamsProvider
   ) {
-    super(router, route, locationStrategy);
+    super(router, route, undefined, renderer, elementRef, locationStrategy);
     this.#skyAppConfig = skyAppConfig;
     this.#paramsProvider = paramsProvider;
   }
