@@ -25,11 +25,15 @@
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
-        "main": "libs/components/storybook/src/test.ts",
         "tsConfig": "libs/components/storybook/tsconfig.spec.json",
         "karmaConfig": "libs/components/storybook/karma.conf.js",
         "codeCoverage": true,
-        "codeCoverageExclude": ["**/fixtures/**"]
+        "codeCoverageExclude": ["**/fixtures/**"],
+        "polyfills": [
+          "zone.js",
+          "zone.js/testing",
+          "libs/components/packages/src/polyfills.js"
+        ]
       }
     },
     "lint": {

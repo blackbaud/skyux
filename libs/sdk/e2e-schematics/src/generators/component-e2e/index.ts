@@ -75,6 +75,40 @@ function simplifyWorkspaceName(tree: Tree, projectName: string) {
 }
 
 /**
+ * Add the packages polyfills to the build and test targets.
+ */
+function addPackagesPolyfills(tree: Tree, projectName: string) {
+  const polyfillsBuilders = [
+    '@angular-devkit/build-angular:browser',
+    '@angular-devkit/build-angular:karma',
+    '@blackbaud-internal/skyux-angular-builders:browser',
+    '@blackbaud-internal/skyux-angular-builders:karma',
+  ];
+  const projects = getProjects(tree);
+  const projectConfig = projects.get(projectName);
+  if (projectConfig) {
+    let hasChanged = false;
+    ['build', 'test'].forEach((target) => {
+      if (
+        polyfillsBuilders.includes(
+          `${projectConfig.targets?.[target].executor}`
+        ) &&
+        projectConfig.targets?.[target].options.polyfills &&
+        Array.isArray(projectConfig.targets[target].options.polyfills)
+      ) {
+        projectConfig.targets[target].options.polyfills.push(
+          'libs/components/packages/src/polyfills.js'
+        );
+        hasChanged = true;
+      }
+    });
+    if (hasChanged) {
+      updateProjectConfiguration(tree, projectName, projectConfig);
+    }
+  }
+}
+
+/**
  * - Generates -storybook and -storybook-e2e projects for a component library if they don't already exist.
  * - Applies configuration to the projects.
  * - Generates stories and tests if there are demonstration components in the -storybook project.
@@ -142,6 +176,7 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
     });
     simplifyWorkspaceName(tree, options.storybookAppName);
     simplifyWorkspaceName(tree, `${options.storybookAppName}-e2e`);
+    addPackagesPolyfills(tree, options.storybookAppName);
     projectConfig = readProjectConfiguration(tree, options.storybookAppName);
     e2eProjectConfig = readProjectConfiguration(
       tree,

@@ -12,7 +12,7 @@
         "outputPath": "dist/apps/e2e/popovers-storybook",
         "index": "apps/e2e/popovers-storybook/src/index.html",
         "main": "apps/e2e/popovers-storybook/src/main.ts",
-        "polyfills": "apps/e2e/popovers-storybook/src/polyfills.ts",
+        "polyfills": ["zone.js", "libs/components/packages/src/polyfills.js"],
         "tsConfig": "apps/e2e/popovers-storybook/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "styles": [

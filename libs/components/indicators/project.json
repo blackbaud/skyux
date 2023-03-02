@@ -25,7 +25,6 @@
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
-        "main": "libs/components/indicators/src/test.ts",
         "tsConfig": "libs/components/indicators/tsconfig.spec.json",
         "karmaConfig": "libs/components/indicators/karma.conf.js",
         "styles": [
@@ -33,7 +32,12 @@
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ],
         "codeCoverage": true,
-        "codeCoverageExclude": ["**/fixtures/**"]
+        "codeCoverageExclude": ["**/fixtures/**"],
+        "polyfills": [
+          "zone.js",
+          "zone.js/testing",
+          "libs/components/packages/src/polyfills.js"
+        ]
       }
     },
     "lint": {
