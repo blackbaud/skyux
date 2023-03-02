@@ -91,7 +91,7 @@ function addPackagesPolyfills(tree: Tree, projectName: string) {
     ['build', 'test'].forEach((target) => {
       if (
         polyfillsBuilders.includes(
-          projectConfig.targets?.[target].executor || ''
+          `${projectConfig.targets?.[target].executor}`
         ) &&
         projectConfig.targets?.[target].options.polyfills &&
         Array.isArray(projectConfig.targets[target].options.polyfills)
