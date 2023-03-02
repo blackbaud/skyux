@@ -162,7 +162,7 @@ describe('Icon harness', () => {
     await expectAsync(iconHarness.getIconType()).toBeResolvedTo('fa');
   });
 
-  it('should return the right variant for skyux icons', async () => {
+  it('should return the correct variant for skyux icons', async () => {
     const { iconHarness, fixture } = await setupTest();
     fixture.componentInstance.iconType = 'skyux';
     for (const variant of variants) {
@@ -193,7 +193,7 @@ describe('Icon harness', () => {
     await expectAsync(iconHarness.isFixedWidth()).toBeResolvedTo(false);
   });
 
-  it('should return the right value for fixed width', async () => {
+  it('should return the correct value for fixed width', async () => {
     const { iconHarness, fixture } = await setupTest();
     await validateFixedWidth(iconHarness, fixture, false);
     await validateFixedWidth(iconHarness, fixture, true);
