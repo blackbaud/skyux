@@ -212,6 +212,10 @@ sky-ag-grid-wrapper + sky-infinite-scroll {
   }
 }
 
+.ag-header .ag-header-cell .ag-header-cell-text {
+  color: var(--sky-text-color-default);
+}
+
 .ag-theme-sky-default {
   .ag-header .ag-header-cell .ag-header-cell-text {
     font-weight: normal;
