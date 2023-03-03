@@ -74,6 +74,6 @@ function removePolyfillCode(): Rule {
   };
 }
 
-export function updatePolyfillSchematic(): Rule {
+export default function updatePolyfillSchematic(): Rule {
   return chain([removePolyfillCode(), addPolyfillsConfig()]);
 }
