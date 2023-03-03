@@ -11,6 +11,7 @@ import { ModalContentDemoComponent } from './modal-content-demo.component';
 import { ModalDemoComponent } from './modal-demo.component';
 import { ModalFormDemoComponent } from './modal-form-demo.component';
 import { ModalFullPageDemoComponent } from './modal-full-page-demo.component';
+import { ModalLookupComponent } from './modal-lookup.component';
 import { ModalTiledDemoComponent } from './modal-tiled-demo.component';
 
 @Component({
@@ -101,6 +102,14 @@ export class ModalVisualComponent {
 
   public openFormModal(): void {
     this.openModalInstance(ModalFormDemoComponent);
+  }
+
+  public openLookupModal(): void {
+    this.openModalInstance(ModalLookupComponent, {
+      providers: [],
+      fullPage: false,
+      size: 'small',
+    });
   }
 
   public hideButtons(): void {
