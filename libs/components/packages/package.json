@@ -21,6 +21,9 @@
     ".": {
       "default": "./src/index.js"
     },
+    "./package.json": {
+      "default": "./package.json"
+    },
     "./polyfills": {
       "default": "./src/polyfills.js"
     }
