@@ -212,6 +212,14 @@ sky-ag-grid-wrapper + sky-infinite-scroll {
   }
 }
 
+.ag-header .ag-header-cell .ag-header-cell-label-sortable {
+  color: var(--sky-text-color-deemphasized);
+
+  &:hover {
+    color: var(--sky-text-color-default);
+  }
+}
+
 .ag-theme-sky-default {
   .ag-header .ag-header-cell .ag-header-cell-text {
     font-weight: normal;
