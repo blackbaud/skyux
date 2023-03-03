@@ -1,12 +1,8 @@
 import { stripIndents } from '@angular-devkit/core/src/utils/literals';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 
-import { take } from 'rxjs/operators';
-
 import { createTestApp } from '../../../testing/scaffold';
 import { getWorkspace } from '../../../utility/workspace';
-
-import { updatePolyfillSchematic } from './update-polyfill.schematic';
 
 describe('updatePolyfill', () => {
   const runner = new SchematicTestRunner(
@@ -21,7 +17,9 @@ describe('updatePolyfill', () => {
     const { workspace } = await getWorkspace(tree);
     const projectDefinition = workspace.projects.get('test-app');
     const projectRoot = projectDefinition?.root;
+
     expect(projectRoot).toBeDefined();
+
     tree.create(
       `${projectRoot}/src/polyfills.ts`,
       stripIndents`
@@ -31,10 +29,9 @@ describe('updatePolyfill', () => {
       (window as any).global = window;
     `
     );
-    await runner
-      .callRule(updatePolyfillSchematic(), tree)
-      .pipe(take(1))
-      .toPromise();
+
+    await runner.runSchematic('update-polyfill', {}, tree);
+
     const polyfills = tree.readText(`${projectRoot}/src/polyfills.ts`);
     expect(polyfills).not.toContain('(window as any).global = window;');
     expect(polyfills).not.toContain('This is a comment.');
@@ -48,7 +45,9 @@ describe('updatePolyfill', () => {
     const { workspace } = await getWorkspace(tree);
     const projectDefinition = workspace.projects.get('test-app');
     const projectRoot = projectDefinition?.root;
+
     expect(projectRoot).toBeDefined();
+
     tree.create(
       `${projectRoot}/src/polyfills.ts`,
       stripIndents`
@@ -68,10 +67,9 @@ describe('updatePolyfill', () => {
        **************************************************************************************************/
      `
     );
-    await runner
-      .callRule(updatePolyfillSchematic(), tree)
-      .pipe(take(1))
-      .toPromise();
+
+    await runner.runSchematic('update-polyfill', {}, tree);
+
     const polyfills = tree.readText(`${projectRoot}/src/polyfills.ts`);
     expect(polyfills).toMatchSnapshot();
   });
