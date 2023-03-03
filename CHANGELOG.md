@@ -44,6 +44,12 @@
 * **components/packages:** migrate to `@skyux/packages/polyfills` in project configuration ([#1033](https://github.com/blackbaud/skyux/issues/1033)) ([5c200e4](https://github.com/blackbaud/skyux/commit/5c200e45a64eb4c1071b9634835339712b578e16))
 * **components/theme:** remove unused z-index SCSS vars ([#1029](https://github.com/blackbaud/skyux/issues/1029)) ([e4e282d](https://github.com/blackbaud/skyux/commit/e4e282df306624ebb09d042c781b8e7a7dfffd59))
 * **components/theme:** update SKY UX icons version ([#1001](https://github.com/blackbaud/skyux/issues/1001)) ([#1019](https://github.com/blackbaud/skyux/issues/1019)) ([d40c72b](https://github.com/blackbaud/skyux/commit/d40c72b1e95875038683a8f9216f0a1b98e00e23))
+## [7.10.0](https://github.com/blackbaud/skyux/compare/7.9.1...7.10.0) (2023-03-03)
+
+
+### Features
+
+* **components/indicators:** icon test harness ([#994](https://github.com/blackbaud/skyux/issues/994)) ([244eb23](https://github.com/blackbaud/skyux/commit/244eb23b284060bd61e94ac71b6295e134b356a4))
 
 
 ### Bug Fixes
@@ -55,6 +61,8 @@
 * **components/lookup:** apply stacking context ([#1036](https://github.com/blackbaud/skyux/issues/1036)) ([#1042](https://github.com/blackbaud/skyux/issues/1042)) ([21eca39](https://github.com/blackbaud/skyux/commit/21eca396f5a029c0003f75be91f38f4d613aacb9))
 * **components/packages:** remove v7 update schematics ([#1025](https://github.com/blackbaud/skyux/issues/1025)) ([890fa75](https://github.com/blackbaud/skyux/commit/890fa75268f2604de00598551a7fb37c855e5b6c))
 * **components/popovers:** apply stacking context ([#1037](https://github.com/blackbaud/skyux/issues/1037)) ([#1041](https://github.com/blackbaud/skyux/issues/1041)) ([8591a33](https://github.com/blackbaud/skyux/commit/8591a3334c422bf37241a79492570f51fbf7660a))
+* **components/ag-grid:** set header to use default text color ([#1062](https://github.com/blackbaud/skyux/issues/1062)) ([8aa8f7e](https://github.com/blackbaud/skyux/commit/8aa8f7ed5032371a76f1117910876ae8bbe46ca8))
+* **components/modals:** remove z-index rule from modal content ([#1061](https://github.com/blackbaud/skyux/issues/1061)) ([b8380fe](https://github.com/blackbaud/skyux/commit/b8380fe92bbea016c8dee7d104614a62b3baded4))
 
 ## [7.9.1](https://github.com/blackbaud/skyux/compare/7.9.0...7.9.1) (2023-03-01)
 
