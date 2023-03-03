@@ -7,7 +7,7 @@ import { getWorkspace } from '../../../utility/workspace';
 describe('updatePolyfill', () => {
   const runner = new SchematicTestRunner(
     '@skyux/packages',
-    require.resolve('../../../../collection.json')
+    require.resolve('../../migration-collection.json')
   );
 
   it('should modify polyfills.ts', async () => {
