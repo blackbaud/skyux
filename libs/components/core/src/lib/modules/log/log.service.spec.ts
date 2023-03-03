@@ -9,6 +9,11 @@ describe('Log service', () => {
   let logService: SkyLogService;
 
   beforeEach(() => {
+    // Normally we want warnings to only be shown once per browser session,
+    // but for testing the log service we need to clear out previous warnings
+    // between tests to validate that functionality.
+    SkyLogService.clearPreviousLogs();
+
     consoleSpy = spyOnAllFunctions(console);
   });
 
