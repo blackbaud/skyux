@@ -19,7 +19,7 @@ jobs:
           pull-request-title-pattern: 'chore: release ${version}'
           labels: 'autorelease ${{ github.ref_name }}: pending'
           release-labels: 'autorelease ${{ github.ref_name }}: tagged'
-          release-as: '8.0.0-alpha.4'
+          release-as: '8.0.0-alpha.5'
           prerelease: true
           draft-pull-request: true
           include-v-in-tag: false
