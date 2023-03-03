@@ -8,9 +8,14 @@ import { getWorkspace } from '../../../utility/workspace';
 const polyfillBlockStart = `* SKY UX POLYFILLS - DO NOT MODIFY THIS SECTION`;
 const polyfillBlockEnd = `* END SKY UX POLYFILLS`;
 
-function removePolyfillCode(project: ProjectDefinition): Rule {
-  return async (tree): Promise<void> => {
-    for (const target of project.targets.values()) {
+function removePolyfillCode(
+  projectName: string,
+  project: ProjectDefinition
+): Rule {
+  return async (tree) => {
+    const targetsToUpdate: string[] = [];
+
+    for (const [targetName, target] of project.targets.entries()) {
       const polyfillsFile = target.options?.polyfills;
       if (!polyfillsFile) {
         continue;
@@ -29,10 +34,10 @@ function removePolyfillCode(project: ProjectDefinition): Rule {
             polyfillBlockStartIndex
           );
           const changeEnd = contents.indexOf(`*/`, polyfillBlockEndIndex) + 2;
-
           const change = tree.beginUpdate(filePath);
           change.remove(changeStart, changeEnd - changeStart);
           tree.commitUpdate(change);
+          targetsToUpdate.push(targetName);
         } else {
           const sourceFile = ts.createSourceFile(
             filePath,
@@ -79,24 +84,32 @@ function removePolyfillCode(project: ProjectDefinition): Rule {
             const change = tree.beginUpdate(filePath);
             change.remove(expression.pos, expression.end - expression.pos);
             tree.commitUpdate(change);
+
+            targetsToUpdate.push(targetName);
           }
         }
       }
     }
+
+    // Only update the project config if our polyfill was found in their
+    // polyfill.ts/test.ts files.
+    return targetsToUpdate.length > 0
+      ? addPolyfillsConfig(projectName, targetsToUpdate)
+      : undefined;
   };
 }
 
+/**
+ * Removes SKY UX specific polyfills from 'src/polyfills.ts' and 'src/test.ts' files.
+ * Adds '@skyux/packages/polyfills' to the affected project's configuration.
+ */
 export default function updatePolyfillSchematic(): Rule {
   return async (tree) => {
+    const { workspace } = await getWorkspace(tree);
     const rules: Rule[] = [];
 
-    const { workspace } = await getWorkspace(tree);
-
     for (const [projectName, project] of workspace.projects.entries()) {
-      rules.push(
-        removePolyfillCode(project),
-        addPolyfillsConfig(projectName, ['build', 'test'])
-      );
+      rules.push(removePolyfillCode(projectName, project));
     }
 
     return chain(rules);
