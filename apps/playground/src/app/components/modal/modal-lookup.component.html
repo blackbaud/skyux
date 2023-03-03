@@ -1,0 +1,20 @@
+<sky-modal>
+  <sky-modal-header>
+    <h2 class="sky-modal-title">Look. Up.</h2>
+  </sky-modal-header>
+  <sky-modal-content>
+    <p>Look up at the stars and not down at your feet. Try to make sense of what you see, and wonder about what makes the universe exist. Be curious.</p>
+    <p>Stay Hungry. Stay Foolish.</p>
+    <sky-lookup
+      ariaLabelledBy="my-friends-label"
+      idProperty="id"
+      placeholderText="Type a person's name..."
+      [data]="people"
+      [enableShowMore]="true"
+      [debounceTime]="1000"
+      [showAddButton]="true"
+    >
+    </sky-lookup>
+  </sky-modal-content>
+  <sky-modal-footer> Footer </sky-modal-footer>
+</sky-modal>
