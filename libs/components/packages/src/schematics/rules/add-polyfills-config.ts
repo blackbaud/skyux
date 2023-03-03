@@ -2,34 +2,47 @@ import { Rule } from '@angular-devkit/schematics';
 
 import { updateWorkspace } from '../utility/workspace';
 
-const polyfillsBuilders = [
-  '@angular-devkit/build-angular:browser',
-  '@angular-devkit/build-angular:karma',
-  '@blackbaud-internal/skyux-angular-builders:browser',
-  '@blackbaud-internal/skyux-angular-builders:karma',
-];
+const POLYFILLS = '@skyux/packages/polyfills';
 
-export function addPolyfillsConfig(): Rule {
-  return updateWorkspace((workspace) => {
-    workspace.projects.forEach((project) => {
-      project.targets.forEach((target) => {
-        if (polyfillsBuilders.includes(target.builder)) {
-          if (!target.options?.polyfills) {
-            target.options = {
-              ...(target.options || {}),
-              polyfills: [],
-            };
-          } else if (typeof target.options.polyfills === 'string') {
-            target.options.polyfills = [target.options.polyfills];
-          }
-          if (
-            Array.isArray(target.options.polyfills) &&
-            !target.options.polyfills.includes('@skyux/packages/polyfills')
-          ) {
-            target.options.polyfills.push('@skyux/packages/polyfills');
-          }
+/**
+ * Adds '@skyux/packages/polyfills' to the given targets' configuration.
+ */
+export function addPolyfillsConfig(
+  projectName: string,
+  targets: string[]
+): Rule {
+  return (_tree, context) => {
+    return updateWorkspace((workspace) => {
+      const project = workspace.projects.get(projectName);
+
+      if (!project) {
+        context.logger.fatal(
+          `The project '${projectName}' was not found in the workspace configuration.`
+        );
+        return;
+      }
+
+      for (const targetName of targets) {
+        const target = project.targets.get(targetName);
+
+        if (!target) {
+          return;
         }
-      });
+
+        target.options ||= {};
+        target.options.polyfills ||= [];
+
+        if (typeof target.options.polyfills === 'string') {
+          target.options.polyfills = [target.options.polyfills];
+        }
+
+        if (
+          Array.isArray(target.options.polyfills) &&
+          !target.options.polyfills.includes(POLYFILLS)
+        ) {
+          target.options.polyfills.push(POLYFILLS);
+        }
+      }
     });
-  });
+  };
 }

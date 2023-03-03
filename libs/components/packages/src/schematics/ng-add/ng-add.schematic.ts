@@ -12,6 +12,8 @@ import { addPolyfillsConfig } from '../rules/add-polyfills-config';
 import { applySkyuxStylesheetsToWorkspace } from '../rules/apply-skyux-stylesheets-to-workspace';
 import { installAngularCdk } from '../rules/install-angular-cdk';
 
+import { Schema } from './schema';
+
 function installEssentialSkyUxPackages(skyuxVersion: string): Rule {
   return async (tree) => {
     const packageNames = [
@@ -32,8 +34,12 @@ function installEssentialSkyUxPackages(skyuxVersion: string): Rule {
   };
 }
 
-export default function ngAdd(): Rule {
-  return async (tree, context) => {
+export default function ngAdd(options: Schema): Rule {
+  return async (_tree, context) => {
+    if (!options.project) {
+      throw new Error('A project name is required.');
+    }
+
     // Get the currently installed version of SKY UX.
     const { version: skyuxVersion } = fs.readJsonSync(
       normalize(`${__dirname}/../../../package.json`)
@@ -44,8 +50,8 @@ export default function ngAdd(): Rule {
     return chain([
       installEssentialSkyUxPackages(skyuxVersion),
       installAngularCdk(),
-      addPolyfillsConfig(),
-      applySkyuxStylesheetsToWorkspace(),
+      addPolyfillsConfig(options.project, ['build', 'test']),
+      applySkyuxStylesheetsToWorkspace(options.project),
     ]);
   };
 }

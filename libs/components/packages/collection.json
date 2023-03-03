@@ -7,7 +7,7 @@
       "schema": "./src/schematics/ng-add/schema.json"
     },
     "polyfills": {
-      "description": "Adds @skyux/packages/polyfills to workspace config.",
+      "description": "Add @skyux/packages/polyfills to project config.",
       "factory": "./src/schematics/ng-generate/polyfills/polyfills.schematic",
       "schema": "./src/schematics/ng-generate/polyfills/schema.json"
     }
