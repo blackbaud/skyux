@@ -1,5 +1,19 @@
 # Changelog
 
+## [8.0.0-alpha.6](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.5...8.0.0-alpha.6) (2023-03-03)
+
+
+### Features
+
+* **components/indicators:** icon test harness ([#994](https://github.com/blackbaud/skyux/issues/994)) ([#1069](https://github.com/blackbaud/skyux/issues/1069)) ([a5bc29b](https://github.com/blackbaud/skyux/commit/a5bc29ba6de1e3847b5ed70fdd05aa96c0f8b95d))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** set header to use default text color ([#1062](https://github.com/blackbaud/skyux/issues/1062)) ([#1067](https://github.com/blackbaud/skyux/issues/1067)) ([7e5980f](https://github.com/blackbaud/skyux/commit/7e5980f89065754e8223fe4989f1fcaa90e9311a))
+* **components/modals:** remove z-index rule from modal content ([#1061](https://github.com/blackbaud/skyux/issues/1061)) ([#1064](https://github.com/blackbaud/skyux/issues/1064)) ([25fc521](https://github.com/blackbaud/skyux/commit/25fc521957cb1a7d79e90034df20f89f85564035))
+* **components/packages:** add content to polyfills.ts ([#1065](https://github.com/blackbaud/skyux/issues/1065)) ([a340051](https://github.com/blackbaud/skyux/commit/a340051e3afcd5dbb4da65eb83c57b47b1cc8bd6))
+
 ## [7.10.0](https://github.com/blackbaud/skyux/compare/7.9.1...7.10.0) (2023-03-03)
 
 
