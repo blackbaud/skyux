@@ -19,6 +19,7 @@
   "main": "./src/index.js",
   "exports": {
     ".": {
+      "types": "./src/index.d.ts",
       "default": "./src/index.js"
     },
     "./package.json": {
