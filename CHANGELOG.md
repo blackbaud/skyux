@@ -1,5 +1,17 @@
 # Changelog
 
+## [8.0.0-alpha.3](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.2...8.0.0-alpha.3) (2023-03-03)
+
+
+### Features
+
+* **components/core:** update dock component to fit within viewport ([#1022](https://github.com/blackbaud/skyux/issues/1022)) ([0e04a62](https://github.com/blackbaud/skyux/commit/0e04a62a5dea375dc1e1846c317bf84445fa44ba))
+
+
+### Bug Fixes
+
+* **components/packages:** add package.json to exports ([#1052](https://github.com/blackbaud/skyux/issues/1052)) ([0c40b65](https://github.com/blackbaud/skyux/commit/0c40b655cc3b21acd7d8329b0ae709f44d1c39af))
+
 ## [8.0.0-alpha.2](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.1...8.0.0-alpha.2) (2023-03-02)
 
 
