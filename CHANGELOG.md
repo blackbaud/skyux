@@ -1,5 +1,12 @@
 # Changelog
 
+## [8.0.0-alpha.4](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.3...8.0.0-alpha.4) (2023-03-03)
+
+
+### Bug Fixes
+
+* **components/packages:** fix `update-polyfill` schematic factory path ([#1054](https://github.com/blackbaud/skyux/issues/1054)) ([02faab3](https://github.com/blackbaud/skyux/commit/02faab3fe75532f72ca94ce1282cf38f54d2049d))
+
 ## [8.0.0-alpha.3](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.2...8.0.0-alpha.3) (2023-03-03)
 
 
