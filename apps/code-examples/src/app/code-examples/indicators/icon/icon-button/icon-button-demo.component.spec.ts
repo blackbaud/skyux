@@ -17,6 +17,7 @@ describe('Icon button', async () => {
         dataSkyId: options?.dataSkyId,
       })
     );
+
     return { iconHarness, fixture };
   }
 
@@ -30,7 +31,9 @@ describe('Icon button', async () => {
     const { iconHarness, fixture } = await setupTest({
       dataSkyId: 'text-button-icon',
     });
+
     fixture.detectChanges();
+
     await expectAsync(iconHarness.getIconName()).toBeResolvedTo('save');
   });
 
@@ -38,7 +41,9 @@ describe('Icon button', async () => {
     const { iconHarness, fixture } = await setupTest({
       dataSkyId: 'button-icon',
     });
+
     fixture.detectChanges();
+
     await expectAsync(iconHarness.getIconName()).toBeResolvedTo('edit');
   });
 });

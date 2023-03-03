@@ -17,6 +17,7 @@ describe('Basic icon', async () => {
         dataSkyId: 'icon-demo',
       })
     );
+
     return { iconHarness, fixture };
   }
 
@@ -28,6 +29,7 @@ describe('Basic icon', async () => {
 
   it('should display the correct icon', async () => {
     const { iconHarness, fixture } = await setupTest();
+
     fixture.detectChanges();
 
     await expectAsync(iconHarness.getIconName()).toBeResolvedTo('calendar');

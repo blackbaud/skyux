@@ -8,6 +8,7 @@ export class IconDemoComponent {
   public textButtonClick(): void {
     alert('Text with icon button clicked');
   }
+
   public iconOnlyButtonClick(): void {
     alert('Icon only button clicked');
   }
