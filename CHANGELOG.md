@@ -1,5 +1,59 @@
 # Changelog
 
+## [8.0.0-alpha.6](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.5...8.0.0-alpha.6) (2023-03-03)
+
+
+### Features
+
+* **components/indicators:** icon test harness ([#994](https://github.com/blackbaud/skyux/issues/994)) ([#1069](https://github.com/blackbaud/skyux/issues/1069)) ([a5bc29b](https://github.com/blackbaud/skyux/commit/a5bc29ba6de1e3847b5ed70fdd05aa96c0f8b95d))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** set header to use default text color ([#1062](https://github.com/blackbaud/skyux/issues/1062)) ([#1067](https://github.com/blackbaud/skyux/issues/1067)) ([7e5980f](https://github.com/blackbaud/skyux/commit/7e5980f89065754e8223fe4989f1fcaa90e9311a))
+* **components/modals:** remove z-index rule from modal content ([#1061](https://github.com/blackbaud/skyux/issues/1061)) ([#1064](https://github.com/blackbaud/skyux/issues/1064)) ([25fc521](https://github.com/blackbaud/skyux/commit/25fc521957cb1a7d79e90034df20f89f85564035))
+* **components/packages:** add content to polyfills.ts ([#1065](https://github.com/blackbaud/skyux/issues/1065)) ([a340051](https://github.com/blackbaud/skyux/commit/a340051e3afcd5dbb4da65eb83c57b47b1cc8bd6))
+
+## [7.10.0](https://github.com/blackbaud/skyux/compare/7.9.1...7.10.0) (2023-03-03)
+
+
+### Features
+
+* **components/indicators:** icon test harness ([#994](https://github.com/blackbaud/skyux/issues/994)) ([244eb23](https://github.com/blackbaud/skyux/commit/244eb23b284060bd61e94ac71b6295e134b356a4))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** set header to use default text color ([#1062](https://github.com/blackbaud/skyux/issues/1062)) ([8aa8f7e](https://github.com/blackbaud/skyux/commit/8aa8f7ed5032371a76f1117910876ae8bbe46ca8))
+* **components/modals:** remove z-index rule from modal content ([#1061](https://github.com/blackbaud/skyux/issues/1061)) ([b8380fe](https://github.com/blackbaud/skyux/commit/b8380fe92bbea016c8dee7d104614a62b3baded4))
+
+## [8.0.0-alpha.5](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.4...8.0.0-alpha.5) (2023-03-03)
+
+
+### Bug Fixes
+
+* **components/core:** only log warnings once per browser session ([#1059](https://github.com/blackbaud/skyux/issues/1059)) ([4dc1eac](https://github.com/blackbaud/skyux/commit/4dc1eac7457592f74f84c0b10c4a5e9eef3e3245))
+* **components/packages:** use named export for 'update-polyfill' schematic ([#1057](https://github.com/blackbaud/skyux/issues/1057)) ([bc554d6](https://github.com/blackbaud/skyux/commit/bc554d6208329509857f290e198402e6de46fd2a))
+
+## [8.0.0-alpha.4](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.3...8.0.0-alpha.4) (2023-03-03)
+
+
+### Bug Fixes
+
+* **components/packages:** fix `update-polyfill` schematic factory path ([#1054](https://github.com/blackbaud/skyux/issues/1054)) ([02faab3](https://github.com/blackbaud/skyux/commit/02faab3fe75532f72ca94ce1282cf38f54d2049d))
+
+## [8.0.0-alpha.3](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.2...8.0.0-alpha.3) (2023-03-03)
+
+
+### Features
+
+* **components/core:** update dock component to fit within viewport ([#1022](https://github.com/blackbaud/skyux/issues/1022)) ([0e04a62](https://github.com/blackbaud/skyux/commit/0e04a62a5dea375dc1e1846c317bf84445fa44ba))
+
+
+### Bug Fixes
+
+* **components/packages:** add package.json to exports ([#1052](https://github.com/blackbaud/skyux/issues/1052)) ([0c40b65](https://github.com/blackbaud/skyux/commit/0c40b655cc3b21acd7d8329b0ae709f44d1c39af))
+
 ## [8.0.0-alpha.2](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.1...8.0.0-alpha.2) (2023-03-02)
 
 
