@@ -1,5 +1,13 @@
 # Changelog
 
+## [8.0.0-alpha.5](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.4...8.0.0-alpha.5) (2023-03-03)
+
+
+### Bug Fixes
+
+* **components/core:** only log warnings once per browser session ([#1059](https://github.com/blackbaud/skyux/issues/1059)) ([4dc1eac](https://github.com/blackbaud/skyux/commit/4dc1eac7457592f74f84c0b10c4a5e9eef3e3245))
+* **components/packages:** use named export for 'update-polyfill' schematic ([#1057](https://github.com/blackbaud/skyux/issues/1057)) ([bc554d6](https://github.com/blackbaud/skyux/commit/bc554d6208329509857f290e198402e6de46fd2a))
+
 ## [8.0.0-alpha.4](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.3...8.0.0-alpha.4) (2023-03-03)
 
 
