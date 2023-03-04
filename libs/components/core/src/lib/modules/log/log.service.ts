@@ -6,8 +6,12 @@ import { SkyLogDeprecatedArgs } from './types/log-deprecation-args';
 import { SkyLogLevel } from './types/log-level';
 import { SKY_LOG_LEVEL } from './types/log-level-token';
 
+const previousWarnings = new Set<string>();
+
 /**
- * Logs information to the console based on the application's log level as provided by the `SKY_LOG_LEVEL` injection token. If no token is provided, only `error` logs will be shown.
+ * Logs information to the console based on the application's log level as
+ * provided by the `SKY_LOG_LEVEL` injection token. If no token is provided,
+ * only `error` logs will be shown.
  * @internal
  */
 @Injectable({
@@ -17,8 +21,6 @@ export class SkyLogService {
   #applicationLogLevel: SkyLogLevel;
 
   #formatter: SkyAppFormat;
-
-  #previousWarnings = new Set<string>();
 
   constructor(
     formatter: SkyAppFormat,
@@ -31,7 +33,17 @@ export class SkyLogService {
   }
 
   /**
-   * Logs a deprecation warning for a class, property, function, etc. This will be logged as a console warning unless a different log level is given in the the `args` parameter.
+   * Clears previously-logged messages. Primarily used for unit
+   * testing this service.
+   */
+  public static clearPreviousLogs(): void {
+    previousWarnings.clear();
+  }
+
+  /**
+   * Logs a deprecation warning for a class, property, function, etc. This will
+   * be logged as a console warning unless a different log level is given in the
+   * `args` parameter.
    * @param name The name of the deprecated class, property, function, etc.
    * @param args Information about the deprecation and replacement recommendations.
    * @returns
@@ -122,9 +134,9 @@ export class SkyLogService {
 
       // Only log each warning once per application instance to avoid drowning out other
       // important messages in the console.
-      if (!this.#previousWarnings.has(message)) {
+      if (!previousWarnings.has(message)) {
         this.#logWithParams('warn', message, params);
-        this.#previousWarnings.add(messageKey);
+        previousWarnings.add(messageKey);
       }
     }
   }

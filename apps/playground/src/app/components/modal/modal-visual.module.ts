@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyHelpInlineModule } from '@skyux/indicators';
+import { SkyLookupModule } from '@skyux/lookup';
 import { SkyModalModule } from '@skyux/modals';
 import { SkyTilesModule } from '@skyux/tiles';
 
@@ -15,6 +16,7 @@ import { ModalContentDemoComponent } from './modal-content-demo.component';
 import { ModalDemoComponent } from './modal-demo.component';
 import { ModalFormDemoComponent } from './modal-form-demo.component';
 import { ModalFullPageDemoComponent } from './modal-full-page-demo.component';
+import { ModalLookupComponent } from './modal-lookup.component';
 import { ModalTiledDemoComponent } from './modal-tiled-demo.component';
 import { ModalVisualRoutingModule } from './modal-visual-routing.module';
 import { ModalVisualComponent } from './modal-visual.component';
@@ -29,6 +31,7 @@ import { ModalVisualComponent } from './modal-visual.component';
     ModalFullPageDemoComponent,
     ModalTiledDemoComponent,
     ModalVisualComponent,
+    ModalLookupComponent,
   ],
   imports: [
     CommonModule,
@@ -40,6 +43,7 @@ import { ModalVisualComponent } from './modal-visual.component';
     SkyHelpInlineModule,
     LipsumModule,
     DataManagerModule,
+    SkyLookupModule,
   ],
 })
 export class ModalVisualModule {
