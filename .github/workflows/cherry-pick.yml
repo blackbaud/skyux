@@ -98,7 +98,7 @@ jobs:
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_MESSAGE: Cherry pick failed for ${{ github.event.pull_request.html_url }}
+          SLACK_MESSAGE: 'Cherry pick failed for ${{ github.event.pull_request.html_url }} :x: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
           SLACK_ICON: https://github.com/actions.png?size=48
           SLACK_USERNAME: GitHub Actions
           SLACK_CHANNEL: cor-skyux-private
