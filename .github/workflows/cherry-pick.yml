@@ -1,0 +1,105 @@
+name: Cherry pick
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - 7.x.x
+
+env:
+  target: main
+
+jobs:
+  cherry-pick:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ env.target }}
+          fetch-depth: 0
+          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+
+      - uses: actions/setup-node@v3
+        id: setup-node
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Cache node modules
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
+
+      - name: npm install
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Cherry pick
+        run: |
+          set +e
+          git cherry-pick -x ${{ github.event.pull_request.merge_commit_sha }}
+
+          if [ $? -ne 0 ]; then
+
+            # If the cherry-pick was against a release branch,
+            # ignore package.json changes and accept CHANGELOG.md changes.
+            git checkout ${{ env.target }} -- package*
+            git add CHANGELOG.md
+
+            # Check for conflicts
+            git cherry-pick --continue
+
+            if [ $? -ne 0 ]; then
+              echo "cherrypick=failed" >> $GITHUB_ENV
+              exit 0
+            fi
+          fi
+
+          # Push the cherry-pick to the target branch -- the previous branch prefixed with "cherry-pick-".
+          git push -u origin ${{ github.event.pull_request.base.ref }}:cherry-pick-${{ github.event.pull_request.head.ref }}
+
+          if [ $? -ne 0 ]; then
+            echo "cherrypick=failed" >> $GITHUB_ENV
+            exit 0
+          fi
+
+          # Create a pull request for the cherry-pick.
+          gh pr create \
+            --title "${{ github.event.pull_request.title }}" \
+            --body "Cherry picked from ${{ github.event.pull_request.html_url }}" \
+            --base ${{ env.target }} \
+            --head cherry-pick-${{ github.event.pull_request.head.ref }}
+
+          if [ $? -ne 0 ]; then
+            echo "cherrypick=failed" >> $GITHUB_ENV
+          else
+            echo "cherrypick=success" >> $GITHUB_ENV
+
+            # Get the URL of the pull request and add it to the environment.
+            echo -n "pr_url=" >> $GITHUB_ENV
+            gh pr list --json url --search "head:cherry-pick-${{ github.event.pull_request.head.ref }}" --limit 1 | jq -r '.[0].url' >> $GITHUB_ENV
+          fi
+
+      - name: Notify Slack on success
+        if: ${{ env.cherrypick == 'success' }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_MESSAGE: ':pr: :cherries: ${{ github.event.pull_request.title }} ${{ env.pr_url }}'
+          SLACK_ICON: https://github.com/actions.png?size=48
+          SLACK_USERNAME: GitHub Actions
+          SLACK_CHANNEL: cor-skyux-private
+          SLACK_COLOR: '#8EFA00' # Green
+
+      - name: Notify Slack on failure
+        if: ${{ env.cherrypick == 'failed' }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_MESSAGE: Cherry pick failed for ${{ github.event.pull_request.html_url }}
+          SLACK_ICON: https://github.com/actions.png?size=48
+          SLACK_USERNAME: GitHub Actions
+          SLACK_CHANNEL: cor-skyux-private
+          SLACK_COLOR: '#FF2600' # Red
