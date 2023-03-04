@@ -2,6 +2,7 @@ import { normalize } from '@angular-devkit/core';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 
 import { createTestLibrary } from '../testing/scaffold';
+import { readJson } from '../testing/tree';
 
 const COLLECTION_PATH = normalize(`${__dirname}/../../../collection.json`);
 
@@ -28,8 +29,7 @@ describe('ng-add.schematic', () => {
     const { runSchematic } = await setupTest();
 
     const updatedTree = await runSchematic({ project: defaultProjectName });
-
-    const packageJson = JSON.parse(updatedTree.readContent('package.json'));
+    const packageJson = readJson(updatedTree, 'package.json');
 
     expect(packageJson.dependencies['@angular/cdk']).toBeDefined();
   });
@@ -38,8 +38,7 @@ describe('ng-add.schematic', () => {
     const { runSchematic } = await setupTest();
 
     const updatedTree = await runSchematic({ project: defaultProjectName });
-
-    const packageJson = JSON.parse(updatedTree.readContent('package.json'));
+    const packageJson = readJson(updatedTree, 'package.json');
 
     const packageNames = [
       '@skyux/assets',
@@ -59,8 +58,7 @@ describe('ng-add.schematic', () => {
     const { runSchematic } = await setupTest();
 
     const updatedTree = await runSchematic({ project: 'my-lib-showcase' });
-
-    const angularJson = JSON.parse(updatedTree.readContent('angular.json'));
+    const angularJson = readJson(updatedTree, 'angular.json');
 
     expect(
       angularJson.projects['my-lib-showcase'].architect.build.options.styles
@@ -75,14 +73,14 @@ describe('ng-add.schematic', () => {
     const { runSchematic } = await setupTest();
 
     const updatedTree = await runSchematic({ project: 'my-lib-showcase' });
-
-    const angularJson = JSON.parse(updatedTree.readContent('angular.json'));
+    const angularJson = readJson(updatedTree, 'angular.json');
     const architect = angularJson.projects['my-lib-showcase'].architect;
 
     expect(architect.build.options.polyfills).toEqual([
       'zone.js',
       '@skyux/packages/polyfills',
     ]);
+
     expect(architect.test.options.polyfills).toEqual([
       'zone.js',
       'zone.js/testing',

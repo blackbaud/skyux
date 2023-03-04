@@ -2,6 +2,7 @@ import { stripIndents } from '@angular-devkit/core/src/utils/literals';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 
 import { createTestApp } from '../../../testing/scaffold';
+import { readJson } from '../../../testing/tree';
 
 describe('update-polyfill.schematic', () => {
   const runner = new SchematicTestRunner(
@@ -22,7 +23,7 @@ describe('update-polyfill.schematic', () => {
     tree.create(`src/test.ts`, options.testPolyfillsContents);
 
     // Simulate the workspace configuration of an Angular 14 project.
-    const angularJson = JSON.parse(tree.readText('angular.json'));
+    const angularJson = readJson(tree, 'angular.json');
     const architect = angularJson.projects['test-app'].architect;
     architect.build.options.polyfills = 'src/polyfills.ts';
     architect.test.options.polyfills = 'src/test.ts';
@@ -101,12 +102,14 @@ describe('update-polyfill.schematic', () => {
     expect(tree.readText(`src/test.ts`)).toMatchSnapshot('test.ts');
 
     // Check the workspace config.
-    const angularJson = JSON.parse(tree.readText('angular.json'));
+    const angularJson = readJson(tree, 'angular.json');
     const architect = angularJson.projects['test-app'].architect;
+
     expect(architect.build.options.polyfills).toEqual([
       'src/polyfills.ts',
       '@skyux/packages/polyfills',
     ]);
+
     expect(architect.test.options.polyfills).toEqual([
       'src/test.ts',
       '@skyux/packages/polyfills',

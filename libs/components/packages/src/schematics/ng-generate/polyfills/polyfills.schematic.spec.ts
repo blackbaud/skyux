@@ -6,6 +6,7 @@ import {
 import path from 'path';
 
 import { createTestApp } from '../../testing/scaffold';
+import { readJson } from '../../testing/tree';
 
 describe('ng-generate/polyfills.schematic', () => {
   const collectionPath = path.join(__dirname, '../../../../collection.json');
@@ -30,7 +31,7 @@ describe('ng-generate/polyfills.schematic', () => {
 
     await runSchematic();
 
-    const angularJson = JSON.parse(tree.readText('angular.json'));
+    const angularJson = readJson(tree, 'angular.json');
     const architect = angularJson.projects['test-app'].architect;
 
     expect(architect.build.options.polyfills).toEqual([

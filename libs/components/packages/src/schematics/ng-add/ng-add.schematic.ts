@@ -12,7 +12,6 @@ import { addPolyfillsConfig } from '../rules/add-polyfills-config';
 import { applySkyuxStylesheetsToWorkspace } from '../rules/apply-skyux-stylesheets-to-workspace';
 import { installAngularCdk } from '../rules/install-angular-cdk';
 import validateProject from '../utility/validate-project';
-import { getWorkspace } from '../utility/workspace';
 
 import { Schema } from './schema';
 
