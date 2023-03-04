@@ -17,6 +17,7 @@ function removePolyfillCode(
 
     for (const [targetName, target] of project.targets.entries()) {
       const polyfillsFile = target.options?.polyfills;
+
       if (!polyfillsFile) {
         continue;
       }
@@ -35,6 +36,7 @@ function removePolyfillCode(
           );
           const changeEnd = contents.indexOf(`*/`, polyfillBlockEndIndex) + 2;
           const change = tree.beginUpdate(filePath);
+
           change.remove(changeStart, changeEnd - changeStart);
           tree.commitUpdate(change);
           targetsToUpdate.push(targetName);
@@ -82,9 +84,9 @@ function removePolyfillCode(
 
           if (expression) {
             const change = tree.beginUpdate(filePath);
+
             change.remove(expression.pos, expression.end - expression.pos);
             tree.commitUpdate(change);
-
             targetsToUpdate.push(targetName);
           }
         }
