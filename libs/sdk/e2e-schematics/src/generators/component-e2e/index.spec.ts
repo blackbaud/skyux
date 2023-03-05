@@ -14,6 +14,8 @@ import {
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Linter } from '@nrwl/linter';
 
+import { updateJson } from '../../utils';
+
 import componentE2eGenerator from './index';
 
 describe('component-e2e', () => {
@@ -46,6 +48,23 @@ describe('component-e2e', () => {
       unitTestRunner: UnitTestRunner.None,
       linter: Linter.None,
       skipPackageJson: true,
+    });
+    updateJson(tree, 'nx.json', (nxJson: NxJsonConfiguration) => {
+      nxJson.targetDefaults = nxJson.targetDefaults || {};
+      nxJson.targetDefaults['build-storybook'] =
+        nxJson.targetDefaults['build-storybook'] || {};
+      nxJson.targetDefaults['build-storybook'].inputs =
+        nxJson.targetDefaults['build-storybook'].inputs || [];
+      nxJson.targetDefaults['build-storybook'].inputs.push(
+        '!{projectRoot}/.storybook/**/*'
+      );
+      nxJson.namedInputs = nxJson.namedInputs || {};
+      nxJson.namedInputs.production = nxJson.namedInputs.production || [];
+      nxJson.namedInputs.production.push(
+        '!{projectRoot}/.storybook/**/*',
+        '!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)'
+      );
+      return nxJson;
     });
     await componentE2eGenerator(tree, { name: 'test' });
     const config: { [_: string]: ProjectConfiguration } = {};

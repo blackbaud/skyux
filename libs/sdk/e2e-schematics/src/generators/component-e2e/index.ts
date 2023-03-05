@@ -275,7 +275,7 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
   // Clean up duplicate entries in nx.json
   updateJson(tree, 'nx.json', (json) => {
     if (
-      json.targetDefaults['build-storybook'].inputs &&
+      json.targetDefaults['build-storybook']?.inputs &&
       Array.isArray(json.targetDefaults['build-storybook'].inputs)
     ) {
       // Remove duplicate entries
@@ -286,7 +286,7 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       );
     }
     if (
-      json.namedInputs.production &&
+      json.namedInputs?.production &&
       Array.isArray(json.namedInputs.production)
     ) {
       // Remove duplicate entries
