@@ -522,10 +522,15 @@ export function getRenameVariablesTransformer(renameMap: {
 /**
  * Read a typescript source file from a @nrwl/devkit tree.
  */
-export function readSourceFile(tree: Tree, path: string): ts.SourceFile {
+export function readSourceFile(
+  tree: Tree,
+  path: string,
+  preprocess: (source: string) => string = (source) => source
+): ts.SourceFile {
+  const sourceText = tree.read(path, 'utf-8') ?? '';
   return ts.createSourceFile(
     path,
-    tree.read(path, 'utf-8') ?? '',
+    preprocess(sourceText),
     ts.ScriptTarget.Latest,
     true
   );

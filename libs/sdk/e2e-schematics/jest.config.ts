@@ -2,6 +2,7 @@
 export default {
   displayName: 'e2e-schematics',
   preset: '../../../jest.preset.js',
+  setupFiles: ['<rootDir>/src/test-setup.ts'],
   globals: {},
   transform: {
     '^.+\\.[tj]s$': [

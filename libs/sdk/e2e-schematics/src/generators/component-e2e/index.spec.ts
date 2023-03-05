@@ -18,7 +18,7 @@ import componentE2eGenerator from './index';
 
 describe('component-e2e', () => {
   function setupTest() {
-    const tree = createTreeWithEmptyWorkspace();
+    const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     const nxJson: NxJsonConfiguration = readNxJson(tree) || {};
     nxJson.workspaceLayout = {
       appsDir: 'apps',
@@ -38,12 +38,14 @@ describe('component-e2e', () => {
       routing: false,
       unitTestRunner: UnitTestRunner.None,
       linter: Linter.None,
+      skipPackageJson: true,
     });
     await libraryGenerator(tree, {
       name: 'test-component',
       routing: false,
       unitTestRunner: UnitTestRunner.None,
       linter: Linter.None,
+      skipPackageJson: true,
     });
     await componentE2eGenerator(tree, { name: 'test' });
     const config: { [_: string]: ProjectConfiguration } = {};
@@ -109,12 +111,14 @@ describe('component-e2e', () => {
       routing: false,
       unitTestRunner: UnitTestRunner.None,
       linter: Linter.None,
+      skipPackageJson: true,
     });
     await libraryGenerator(tree, {
       name: 'test-component',
       routing: false,
       unitTestRunner: UnitTestRunner.None,
       linter: Linter.None,
+      skipPackageJson: true,
     });
     await componentE2eGenerator(tree, { name: 'test', tags: 'one, two' });
     const config = readProjectConfiguration(tree, 'test-storybook');
@@ -129,12 +133,14 @@ describe('component-e2e', () => {
       routing: false,
       unitTestRunner: UnitTestRunner.None,
       linter: Linter.None,
+      skipPackageJson: true,
     });
     await libraryGenerator(tree, {
       name: 'test-component',
       routing: false,
       unitTestRunner: UnitTestRunner.None,
       linter: Linter.None,
+      skipPackageJson: true,
     });
     await componentE2eGenerator(tree, { name: 'test' });
     await componentE2eGenerator(tree, { name: 'test' });
@@ -154,12 +160,14 @@ describe('component-e2e', () => {
       routing: false,
       unitTestRunner: UnitTestRunner.None,
       linter: Linter.None,
+      skipPackageJson: true,
     });
     await libraryGenerator(tree, {
       name: 'test-component',
       routing: false,
       unitTestRunner: UnitTestRunner.None,
       linter: Linter.None,
+      skipPackageJson: true,
     });
     await applicationGenerator(tree, {
       name: 'test-component-storybook',
@@ -193,6 +201,7 @@ describe('component-e2e', () => {
       routing: false,
       unitTestRunner: UnitTestRunner.None,
       linter: Linter.None,
+      skipPackageJson: true,
     });
     await componentE2eGenerator(tree, { name: 'test-component' });
     const packageJson = readJson(tree, 'package.json');

@@ -2,7 +2,7 @@ import {
   applicationGenerator,
   componentGenerator,
 } from '@nrwl/angular/generators';
-import { createTreeWithEmptyV1Workspace } from '@nrwl/devkit/testing';
+import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { RoutingScope } from '@schematics/angular/module/schema';
 
 import { angularModuleGenerator } from './angular-module-generator';
@@ -21,7 +21,7 @@ import {
 
 describe('find-module', () => {
   it('should find module', async () => {
-    const tree = createTreeWithEmptyV1Workspace();
+    const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     await applicationGenerator(tree, {
       name: 'test',
     });
@@ -41,7 +41,7 @@ describe('find-module', () => {
   });
 
   it('should find module, skip non-declaring reference', async () => {
-    const tree = createTreeWithEmptyV1Workspace();
+    const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     await applicationGenerator(tree, {
       name: 'test',
     });
@@ -69,7 +69,7 @@ describe('find-module', () => {
   });
 
   it('should find routing module', async () => {
-    const tree = createTreeWithEmptyV1Workspace();
+    const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     await applicationGenerator(tree, {
       name: 'test',
     });
@@ -100,7 +100,7 @@ describe('find-module', () => {
   });
 
   it('should isRoutingModule', async () => {
-    const tree = createTreeWithEmptyV1Workspace();
+    const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     await applicationGenerator(tree, {
       name: 'test',
     });
