@@ -8,6 +8,8 @@ on:
 
 env:
   target: main
+  cherry-pick-branch: cherry-pick-${{ github.event.pull_request.head.ref }}
+  from-branch: ${{ github.event.pull_request.base.ref }}
 
 jobs:
   cherry-pick:
@@ -38,18 +40,31 @@ jobs:
 
       - name: Cherry pick
         run: |
+          # Echo commands to the log.
+          set -x
+
+          # Do not exit on error.
           set +e
+
+          # Cherry-pick the merge commit into the target branch, which is checked out.
           git cherry-pick -x ${{ github.event.pull_request.merge_commit_sha }}
 
           if [ $? -ne 0 ]; then
+
+            # If the cherry-pick failed and it was not against a release branch,
+            # do not try to resolve conflicts.
+            if [ "${{ github.event.pull_request.labels.*.name }}" != "autorelease ${{ env.from-branch }}: pending" ]; then
+              echo "cherrypick=failed" >> $GITHUB_ENV
+              exit 0
+            fi
 
             # If the cherry-pick was against a release branch,
             # ignore package.json changes and accept CHANGELOG.md changes.
             git checkout ${{ env.target }} -- package*
             git add CHANGELOG.md
 
-            # Check for conflicts
-            git cherry-pick --continue
+            # Try again, accept the commit message as-is, and check for conflicts.
+            git -c core.editor=true cherry-pick --continue
 
             if [ $? -ne 0 ]; then
               echo "cherrypick=failed" >> $GITHUB_ENV
@@ -57,20 +72,20 @@ jobs:
             fi
           fi
 
-          # Push the cherry-pick to the target branch -- the previous branch prefixed with "cherry-pick-".
-          git push -u origin ${{ github.event.pull_request.base.ref }}:cherry-pick-${{ github.event.pull_request.head.ref }}
+          # Push the cherry-pick to a new cherry-pick branch.
+          git push -u origin ${{ env.target }}:${{ env.cherry-pick-branch }}
 
           if [ $? -ne 0 ]; then
             echo "cherrypick=failed" >> $GITHUB_ENV
             exit 0
           fi
 
-          # Create a pull request for the cherry-pick.
+          # Create a pull request for the cherry-pick, using the same title as the original PR.
           gh pr create \
             --title "${{ github.event.pull_request.title }}" \
-            --body "Cherry picked from ${{ github.event.pull_request.html_url }}" \
+            --body ":cherries: Cherry picked from #${{ github.event.pull_request.number }} [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }})" \
             --base ${{ env.target }} \
-            --head cherry-pick-${{ github.event.pull_request.head.ref }}
+            --head ${{ env.cherry-pick-branch }}
 
           if [ $? -ne 0 ]; then
             echo "cherrypick=failed" >> $GITHUB_ENV
@@ -79,7 +94,7 @@ jobs:
 
             # Get the URL of the pull request and add it to the environment.
             echo -n "pr_url=" >> $GITHUB_ENV
-            gh pr list --json url --search "head:cherry-pick-${{ github.event.pull_request.head.ref }}" --limit 1 | jq -r '.[0].url' >> $GITHUB_ENV
+            gh pr list --json url --search "head:${{ env.cherry-pick-branch }}" --limit 1 | jq -r '.[0].url' >> $GITHUB_ENV
           fi
 
       - name: Notify Slack on success
