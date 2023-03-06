@@ -43,3 +43,21 @@ const context = require.context('./', true, /\\\\.spec\\\\.ts$/);
 // And load the modules.
 context.keys().map(context);"
 `;
+
+exports[`update-polyfill.schematic should only add polyfills configuration if our polyfill is found in polyfills.ts/test.ts: polyfills.ts 1`] = `"import 'zone.js';"`;
+
+exports[`update-polyfill.schematic should only add polyfills configuration if our polyfill is found in polyfills.ts/test.ts: test.ts 1`] = `
+"import 'zone.js/testing';
+import { getTestBed } from '@angular/core/testing';
+import {
+BrowserDynamicTestingModule,
+platformBrowserDynamicTesting
+} from '@angular/platform-browser-dynamic/testing';
+
+// First, initialize the Angular testing environment.
+getTestBed().initTestEnvironment(
+BrowserDynamicTestingModule,
+platformBrowserDynamicTesting(),
+{ teardown: { destroyAfterEach: true }},
+);"
+`;

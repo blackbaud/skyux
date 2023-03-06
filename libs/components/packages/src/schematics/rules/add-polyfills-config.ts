@@ -22,6 +22,7 @@ export function addPolyfillsConfig(
     for (const targetName of targets) {
       const target = project.targets.get(targetName);
 
+      /* istanbul ignore next */
       if (!target) {
         return;
       }

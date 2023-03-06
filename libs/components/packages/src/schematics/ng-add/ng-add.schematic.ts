@@ -11,7 +11,7 @@ import fs from 'fs-extra';
 import { addPolyfillsConfig } from '../rules/add-polyfills-config';
 import { applySkyuxStylesheetsToWorkspace } from '../rules/apply-skyux-stylesheets-to-workspace';
 import { installAngularCdk } from '../rules/install-angular-cdk';
-import validateProject from '../utility/validate-project';
+import { getRequiredProject } from '../utility/workspace';
 
 import { Schema } from './schema';
 
@@ -37,7 +37,7 @@ function installEssentialSkyUxPackages(skyuxVersion: string): Rule {
 
 export default function ngAdd(options: Schema): Rule {
   return async (tree, context) => {
-    const { projectName } = await validateProject(tree, options.project);
+    const { projectName } = await getRequiredProject(tree, options.project);
 
     // Get the currently installed version of SKY UX.
     const { version: skyuxVersion } = fs.readJsonSync(

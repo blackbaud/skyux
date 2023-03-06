@@ -115,4 +115,37 @@ describe('update-polyfill.schematic', () => {
       '@skyux/packages/polyfills',
     ]);
   });
+
+  it('should only add polyfills configuration if our polyfill is found in polyfills.ts/test.ts', async () => {
+    const { runSchematic, tree } = await setupTest({
+      buildPolyfillsContents: `import 'zone.js';`,
+      testPolyfillsContents: stripIndents`
+    import 'zone.js/testing';
+    import { getTestBed } from '@angular/core/testing';
+    import {
+      BrowserDynamicTestingModule,
+      platformBrowserDynamicTesting
+    } from '@angular/platform-browser-dynamic/testing';
+
+    // First, initialize the Angular testing environment.
+    getTestBed().initTestEnvironment(
+      BrowserDynamicTestingModule,
+      platformBrowserDynamicTesting(),
+      { teardown: { destroyAfterEach: true }},
+    );
+    `,
+    });
+
+    await runSchematic();
+
+    expect(tree.readText(`src/polyfills.ts`)).toMatchSnapshot('polyfills.ts');
+    expect(tree.readText(`src/test.ts`)).toMatchSnapshot('test.ts');
+
+    // Check the workspace config.
+    const angularJson = readJson(tree, 'angular.json');
+    const architect = angularJson.projects['test-app'].architect;
+
+    expect(architect.build.options.polyfills).toEqual('src/polyfills.ts');
+    expect(architect.test.options.polyfills).toEqual('src/test.ts');
+  });
 });

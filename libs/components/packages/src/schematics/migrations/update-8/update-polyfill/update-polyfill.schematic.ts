@@ -15,6 +15,7 @@ function removePolyfillCode(
   return async (tree) => {
     const targetsToUpdate: string[] = [];
 
+    // Check each target for 'polyfills' configuration.
     for (const [targetName, target] of project.targets.entries()) {
       const polyfillsFile = target.options?.polyfills;
 
@@ -28,7 +29,6 @@ function removePolyfillCode(
         const contents = tree.readText(filePath).replace(/\r\n/g, `\n`);
         const polyfillBlockStartIndex = contents.indexOf(polyfillBlockStart);
         const polyfillBlockEndIndex = contents.indexOf(polyfillBlockEnd);
-
         if (polyfillBlockStartIndex !== -1 && polyfillBlockEndIndex !== -1) {
           const changeStart = contents.lastIndexOf(
             `/*`,
@@ -36,7 +36,6 @@ function removePolyfillCode(
           );
           const changeEnd = contents.indexOf(`*/`, polyfillBlockEndIndex) + 2;
           const change = tree.beginUpdate(filePath);
-
           change.remove(changeStart, changeEnd - changeStart);
           tree.commitUpdate(change);
           targetsToUpdate.push(targetName);
@@ -47,22 +46,17 @@ function removePolyfillCode(
             ts.ScriptTarget.Latest,
             true
           );
-
           // Find the expression that assigns the global property to the window object.
           const expression = sourceFile.statements.find((node) => {
             if (ts.isExpressionStatement(node)) {
               const expression = node.expression;
-
               if (ts.isBinaryExpression(expression)) {
                 const left = expression.left;
-
                 if (ts.isPropertyAccessExpression(left)) {
                   let leftExpression: ts.Expression = left.expression;
-
                   if (ts.isParenthesizedExpression(leftExpression)) {
                     leftExpression = leftExpression.expression;
                   }
-
                   if (
                     ts.isAsExpression(leftExpression) &&
                     ts.isIdentifier(leftExpression.expression) &&
@@ -70,7 +64,6 @@ function removePolyfillCode(
                     left.name.text === 'global'
                   ) {
                     const right = expression.right;
-
                     if (ts.isIdentifier(right) && right.text === 'window') {
                       return true;
                     }
@@ -78,7 +71,6 @@ function removePolyfillCode(
                 }
               }
             }
-
             return false;
           });
 
@@ -95,9 +87,11 @@ function removePolyfillCode(
 
     // Only update the project config if our polyfill was found in their
     // polyfill.ts/test.ts files.
-    return targetsToUpdate.length > 0
-      ? addPolyfillsConfig(projectName, targetsToUpdate)
-      : undefined;
+    if (targetsToUpdate.length > 0) {
+      return addPolyfillsConfig(projectName, targetsToUpdate);
+    }
+
+    return undefined;
   };
 }
 
