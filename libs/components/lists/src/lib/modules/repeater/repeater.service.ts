@@ -25,10 +25,10 @@ export class SkyRepeaterService implements OnDestroy {
   public enableActiveState = false;
 
   // TODO: Remove 'string' as a valid type in a breaking change.
-  public get expandMode(): SkyRepeaterExpandModeType | string {
+  public get expandMode(): SkyRepeaterExpandModeType {
     return this.#_expandMode;
   }
-  public set expandMode(value: SkyRepeaterExpandModeType | string | undefined) {
+  public set expandMode(value: SkyRepeaterExpandModeType | undefined) {
     this.#_expandMode = value ?? DEFAULT_EXPAND_MODE;
   }
 
@@ -46,7 +46,7 @@ export class SkyRepeaterService implements OnDestroy {
 
   public repeaterGroupId = ++uniqueId;
 
-  #_expandMode: SkyRepeaterExpandModeType | string = DEFAULT_EXPAND_MODE;
+  #_expandMode = DEFAULT_EXPAND_MODE;
 
   public ngOnDestroy(): void {
     this.activeItemChange.complete();
