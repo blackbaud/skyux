@@ -21,7 +21,8 @@ export * from './lib/modules/datepicker/fuzzy-date.service';
 export * from './lib/modules/datepicker/datepicker-calendar-change';
 export * from './lib/modules/datepicker/datepicker-custom-date';
 
-export * from './lib/modules/timepicker/timepicker.interface';
+export * from './lib/modules/timepicker/timepicker-time-format-type';
+export * from './lib/modules/timepicker/timepicker-time-output';
 export * from './lib/modules/timepicker/timepicker.module';
 
 // Components and directives must be exported to support Angular’s “partial” Ivy compiler.

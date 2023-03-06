@@ -30,7 +30,8 @@ import moment from 'moment';
 import { Observable, Subject, Subscription, fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyTimepickerTimeOutput } from './timepicker.interface';
+import { SkyTimepickerTimeFormatType } from './timepicker-time-format-type';
+import { SkyTimepickerTimeOutput } from './timepicker-time-output';
 
 let nextId = 0;
 
@@ -168,7 +169,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
 
   public returnFormat: string | undefined;
 
-  public timeFormat = 'hh';
+  public timeFormat: SkyTimepickerTimeFormatType = 'hh';
 
   public timepickerId: string;
 
@@ -297,7 +298,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
     this.#destroyOverlay();
   }
 
-  public setFormat(format: string): void {
+  public setFormat(format: SkyTimepickerTimeFormatType): void {
     let h = 12;
     let m = 12;
     let minuteMultiplier = 5;
