@@ -15,6 +15,9 @@ export * from './lib/modules/vertical-tabset/vertical-tabset.module';
 // TODO: Try to remove in a major release.
 export * from './lib/modules/sectioned-form/sectioned-form.component';
 
+export * from './lib/modules/sectioned-form/types/sectioned-form-message';
+export * from './lib/modules/sectioned-form/types/sectioned-form-message-type';
+
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of public API.
 export { SkyTabComponent as λ1 } from './lib/modules/tabs/tab.component';

@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
@@ -8,6 +8,7 @@ import { SkySectionedFormNoActiveFixtureComponent } from './fixtures/sectioned-f
 import { SkySectionedFormNoSectionsFixtureComponent } from './fixtures/sectioned-form-no-sections.component.fixture';
 import { SkySectionedFormFixtureComponent } from './fixtures/sectioned-form.component.fixture';
 import { SkySectionedFormComponent } from './sectioned-form.component';
+import { SkySectionedFormMessageType } from './types/sectioned-form-message-type';
 
 function getVisibleTabs(el: any) {
   return el.querySelectorAll(
@@ -36,6 +37,50 @@ function getActiveSection(el: any) {
 describe('Sectioned form component', () => {
   let mockQueryService: MockSkyMediaQueryService;
 
+  function createTestComponent(): ComponentFixture<SkySectionedFormFixtureComponent> {
+    const fixture = TestBed.overrideComponent(SkySectionedFormComponent, {
+      add: {
+        providers: [
+          { provide: SkyMediaQueryService, useValue: mockQueryService },
+        ],
+      },
+    }).createComponent(SkySectionedFormFixtureComponent);
+
+    return fixture;
+  }
+
+  function validateShowTabs(
+    showTabsCallback: (
+      fixture: ComponentFixture<SkySectionedFormFixtureComponent>
+    ) => void
+  ): void {
+    mockQueryService.fire(SkyMediaBreakpoints.xs);
+
+    const fixture = createTestComponent();
+    const el = fixture.nativeElement;
+
+    fixture.detectChanges();
+
+    // check tabs not visible and content visible
+    let tabs = getVisibleTabs(el);
+    expect(tabs.length).toBe(0);
+
+    let content = getVisibleTabContent(el);
+    expect(content.length).toBe(1);
+    expect(content[0].textContent.trim()).toBe('information 2');
+
+    showTabsCallback(fixture);
+
+    fixture.detectChanges();
+
+    // tabs should now be visible and content not visible
+    content = getVisibleContent(el);
+    expect(content.length).toBe(0);
+
+    tabs = el.querySelectorAll('.sky-vertical-tab');
+    expect(tabs.length).toBe(2);
+  }
+
   beforeEach(() => {
     mockQueryService = new MockSkyMediaQueryService();
 
@@ -46,17 +91,6 @@ describe('Sectioned form component', () => {
       ],
     });
   });
-
-  function createTestComponent() {
-    const fixture = TestBed.overrideComponent(SkySectionedFormComponent, {
-      add: {
-        providers: [
-          { provide: SkyMediaQueryService, useValue: mockQueryService },
-        ],
-      },
-    }).createComponent(SkySectionedFormFixtureComponent);
-    return fixture;
-  }
 
   it('active tab should be open', () => {
     const fixture = createTestComponent();
@@ -185,7 +219,34 @@ describe('Sectioned form component', () => {
     expect(requiredTab.classList.contains('sky-tab-field-required')).toBe(true);
   });
 
-  it('active index should be raised when tab changed', () => {
+  it('should fire the active index changed event when tab changed', () => {
+    mockQueryService.fire(SkyMediaBreakpoints.xs);
+
+    const fixture = createTestComponent();
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.tabsVisible).toBeFalse();
+
+    fixture.componentInstance.messageStream?.next({
+      type: SkySectionedFormMessageType.ShowTabs,
+    });
+
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.tabsVisible).toBeTrue();
+  });
+
+  it('should create a message stream if undefined is specified', () => {
+    const fixture = createTestComponent();
+    fixture.componentInstance.messageStream = undefined;
+    fixture.detectChanges();
+
+    expect(
+      fixture.componentInstance.sectionedForm?.messageStream
+    ).not.toBeFalsy();
+  });
+
+  it('should fire the tabs visible changed event when tabs change visibility', () => {
     const fixture = createTestComponent();
     const el = fixture.nativeElement;
 
@@ -213,30 +274,21 @@ describe('Sectioned form component', () => {
   });
 
   it('should hide content and show tabs on mobile after calling showTabs function', () => {
-    mockQueryService.fire(SkyMediaBreakpoints.xs);
-    const fixture = createTestComponent();
-    const el = fixture.nativeElement;
+    validateShowTabs(
+      (fixture: ComponentFixture<SkySectionedFormFixtureComponent>) => {
+        fixture.componentInstance.sectionedForm?.showTabs();
+      }
+    );
+  });
 
-    fixture.detectChanges();
-
-    // check tabs not visible and content visible
-    let tabs = getVisibleTabs(el);
-    expect(tabs.length).toBe(0);
-
-    let content = getVisibleTabContent(el);
-    expect(content.length).toBe(1);
-    expect(content[0].textContent.trim()).toBe('information 2');
-
-    fixture.componentInstance.sectionedForm?.showTabs();
-
-    fixture.detectChanges();
-
-    // tabs should now be visible and content not visible
-    content = getVisibleContent(el);
-    expect(content.length).toBe(0);
-
-    tabs = el.querySelectorAll('.sky-vertical-tab');
-    expect(tabs.length).toBe(2);
+  it('should hide content and show tabs on mobile after pushing a ShowTabs message to the message stream', () => {
+    validateShowTabs(
+      (fixture: ComponentFixture<SkySectionedFormFixtureComponent>) => {
+        fixture.componentInstance.messageStream?.next({
+          type: SkySectionedFormMessageType.ShowTabs,
+        });
+      }
+    );
   });
 
   it('should not use tab aria-associations and roles in mobile view', () => {
