@@ -12,7 +12,7 @@ function removePolyfillCode(
   projectName: string,
   project: ProjectDefinition
 ): Rule {
-  return async (tree) => {
+  return async (tree): Promise<Rule | void> => {
     const targetsToUpdate: string[] = [];
 
     // Check each target for 'polyfills' configuration.
@@ -23,10 +23,9 @@ function removePolyfillCode(
         continue;
       }
 
-      const filePath = `${project.root}${polyfillsFile}`;
-
-      if (tree.exists(filePath)) {
-        const contents = tree.readText(filePath).replace(/\r\n/g, `\n`);
+      const path = `${project.root}${polyfillsFile}`;
+      if (tree.exists(path)) {
+        const contents = tree.readText(path).replace(/\r\n/g, `\n`);
         const polyfillBlockStartIndex = contents.indexOf(polyfillBlockStart);
         const polyfillBlockEndIndex = contents.indexOf(polyfillBlockEnd);
         if (polyfillBlockStartIndex !== -1 && polyfillBlockEndIndex !== -1) {
@@ -35,13 +34,13 @@ function removePolyfillCode(
             polyfillBlockStartIndex
           );
           const changeEnd = contents.indexOf(`*/`, polyfillBlockEndIndex) + 2;
-          const change = tree.beginUpdate(filePath);
+          const change = tree.beginUpdate(path);
           change.remove(changeStart, changeEnd - changeStart);
           tree.commitUpdate(change);
           targetsToUpdate.push(targetName);
         } else {
           const sourceFile = ts.createSourceFile(
-            filePath,
+            path,
             contents,
             ts.ScriptTarget.Latest,
             true
@@ -73,10 +72,8 @@ function removePolyfillCode(
             }
             return false;
           });
-
           if (expression) {
-            const change = tree.beginUpdate(filePath);
-
+            const change = tree.beginUpdate(path);
             change.remove(expression.pos, expression.end - expression.pos);
             tree.commitUpdate(change);
             targetsToUpdate.push(targetName);
@@ -85,13 +82,11 @@ function removePolyfillCode(
       }
     }
 
-    // Only update the project config if our polyfill was found in their
+    // Only update the project config if our polyfill was found in the
     // polyfill.ts/test.ts files.
     if (targetsToUpdate.length > 0) {
       return addPolyfillsConfig(projectName, targetsToUpdate);
     }
-
-    return undefined;
   };
 }
 

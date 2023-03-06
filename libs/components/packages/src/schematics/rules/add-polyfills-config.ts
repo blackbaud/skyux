@@ -2,14 +2,12 @@ import { Rule } from '@angular-devkit/schematics';
 
 import { updateWorkspace } from '../utility/workspace';
 
-const POLYFILLS = '@skyux/packages/polyfills';
-
 /**
  * Adds '@skyux/packages/polyfills' to the given targets' configuration.
  */
 export function addPolyfillsConfig(
   projectName: string,
-  targets: string[]
+  targetNames: string[]
 ): Rule {
   return updateWorkspace((workspace) => {
     const project = workspace.projects.get(projectName);
@@ -19,7 +17,7 @@ export function addPolyfillsConfig(
       return;
     }
 
-    for (const targetName of targets) {
+    for (const targetName of targetNames) {
       const target = project.targets.get(targetName);
 
       /* istanbul ignore next */
@@ -27,18 +25,19 @@ export function addPolyfillsConfig(
         return;
       }
 
-      target.options ||= {};
-      target.options.polyfills ||= [];
-
-      if (typeof target.options.polyfills === 'string') {
+      if (!target.options?.polyfills) {
+        target.options = {
+          ...(target.options || {}),
+          polyfills: [],
+        };
+      } else if (typeof target.options.polyfills === 'string') {
         target.options.polyfills = [target.options.polyfills];
       }
-
       if (
         Array.isArray(target.options.polyfills) &&
-        !target.options.polyfills.includes(POLYFILLS)
+        !target.options.polyfills.includes('@skyux/packages/polyfills')
       ) {
-        target.options.polyfills.push(POLYFILLS);
+        target.options.polyfills.push('@skyux/packages/polyfills');
       }
     }
   });
