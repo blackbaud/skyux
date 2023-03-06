@@ -1,5 +1,26 @@
 # Changelog
 
+## [8.0.0-alpha.6](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.6...8.0.0-alpha.6) (2023-03-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/datetime:** The timepicker component's `timeFormat` input has been converted from a `string` input type to a `SkyTimepickerTimeFormatType` `string` union. This might cause problems if you are setting the `timeFormat` input to a type of `string` in your consuming comopnent's class.
+* **components/lists:** The repeater component's `expandMode` input was set to allow values of type of `string` but it really only supported a handful of known `string` values represented by the `SkyRepeaterExpandModeType` `string` union. This ability to specify a `string` value has been removed. This might cause problems if you are setting the `expandMode` input to a type of `string` in your consuming component's class.
+* **components/tabs:** The tabset nav button component's `buttonType` input was set to allow values of type of `string` but it really only supported a handful of known `string` values represented by the `SkyTabsetNavButtonType` `string` union. This ability to specify a `string` value has been removed. This might cause problems if you are setting the `buttonType` input to a type of `string` in your consuming component's class.
+
+### Features
+
+* **components/datetime:** update `timeFormat` type from string to string union ([#1077](https://github.com/blackbaud/skyux/issues/1077)) ([a4ac3c4](https://github.com/blackbaud/skyux/commit/a4ac3c45d1affa4ac4c76981856266f610927761))
+* **components/lists:** update the `SkyRepeaterComponent` `expandMode` input to no longer support `string` values ([#1076](https://github.com/blackbaud/skyux/issues/1076)) ([b4219c4](https://github.com/blackbaud/skyux/commit/b4219c4bf6c8b5ce35f0178e916d924739bdfa1f))
+* **components/tabs:** add `messageStream` and `tabsVisibleChanged` to sectioned form and deprecate public methods ([#1075](https://github.com/blackbaud/skyux/issues/1075)) ([fc57440](https://github.com/blackbaud/skyux/commit/fc5744035a1d3ec6159477bc7d9276cc509f4197))
+* **components/tabs:** update the `SkyTabsetNavButtonComponent` `buttonType` input to no longer support `string` values ([#1074](https://github.com/blackbaud/skyux/issues/1074)) ([865acd0](https://github.com/blackbaud/skyux/commit/865acd0041633695645a2ec6d5de978be28d37ec))
+
+
+### Bug Fixes
+
+* **components/modals:** modal headers now use h2 elements to better follow accessibility standards ([#969](https://github.com/blackbaud/skyux/issues/969)) ([4365d1a](https://github.com/blackbaud/skyux/commit/4365d1a16fcd3ba4377ed08c983052b6756ba3a7))
+
 ## [8.0.0-alpha.6](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.5...8.0.0-alpha.6) (2023-03-03)
 
 
