@@ -203,6 +203,6 @@
     "ts-jest": "28.0.8",
     "ts-node": "10.9.1",
     "typedoc": "0.23.25",
-    "typescript": "4.8.4"
+    "typescript": "4.9.5"
   }
 }
