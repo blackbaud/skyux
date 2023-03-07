@@ -145,7 +145,7 @@
     "@percy/cypress": "3.1.2",
     "@ryansonshine/commitizen": "4.2.8",
     "@ryansonshine/cz-conventional-changelog": "3.3.4",
-    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#2.5.0",
+    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#2.7.1",
     "@storybook/addon-a11y": "6.5.13",
     "@storybook/addon-actions": "6.5.13",
     "@storybook/addon-controls": "6.5.13",
