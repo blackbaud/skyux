@@ -2,9 +2,9 @@ import {
   ComponentRef,
   EventEmitter,
   Injectable,
-  Optional,
   Output,
   QueryList,
+  inject,
 } from '@angular/core';
 import {
   SkyDynamicComponentLocation,
@@ -49,33 +49,17 @@ export class SkyTileDashboardService {
 
   #columns: QueryList<SkyTileDashboardColumnComponent> | undefined;
   #config: SkyTileDashboardConfig | undefined;
-  #dragulaService: DragulaService;
-  #dynamicComponentService: SkyDynamicComponentService | undefined;
   #mediaSubscription: Subscription | undefined;
-  #mediaQuery: SkyMediaQueryService;
   #singleColumn: SkyTileDashboardColumnComponent | undefined;
   #settingsKey: string | undefined;
   #tileComponents: ComponentRef<any>[] | undefined;
-  #uiConfigService: SkyUIConfigService;
 
-  // TODO: remove @optional tag in a future breaking change
-  constructor(
-    dragulaService: DragulaService,
-    mediaQuery: SkyMediaQueryService,
-    uiConfigService: SkyUIConfigService,
-    @Optional() dynamicComponentService?: SkyDynamicComponentService
-  ) {
-    if (!dynamicComponentService) {
-      console.warn(
-        'The SkyTileDashboardService was created without a reference to the SkyDynamicComponentService. The service will be unable to create tiles from the dashboard configuration. Constructing the SkyTileDashboardService without a SkyDynamicComponentService will be removed in a future breaking change.'
-      );
-    }
+  #dragulaService = inject(DragulaService);
+  #dynamicComponentService = inject(SkyDynamicComponentService);
+  #mediaQuery = inject(SkyMediaQueryService);
+  #uiConfigService = inject(SkyUIConfigService);
 
-    this.#dragulaService = dragulaService;
-    this.#dynamicComponentService = dynamicComponentService;
-    this.#mediaQuery = mediaQuery;
-    this.#uiConfigService = uiConfigService;
-
+  constructor() {
     this.bagId = `sky-tile-dashboard-bag-${++bagIdIndex}`;
 
     this.#initDragula();

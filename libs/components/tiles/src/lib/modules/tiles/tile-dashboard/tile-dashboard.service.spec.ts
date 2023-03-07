@@ -3,7 +3,6 @@ import {
   ComponentFixture,
   TestBed,
   fakeAsync,
-  inject,
   tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -42,6 +41,7 @@ import { TileDashboardTestComponent } from './fixtures/tile-dashboard.component.
 
 describe('Tile dashboard service', () => {
   let dashboardConfig: SkyTileDashboardConfig;
+  let dashboardService: SkyTileDashboardService;
   let mockDragulaService: MockDragulaService;
   let mockMediaQueryService: MockSkyMediaQueryService;
   let mockUIConfigService: MockSkyUIConfigService;
@@ -85,6 +85,7 @@ describe('Tile dashboard service', () => {
     });
 
     mockDragulaService = TestBed.inject(DragulaService) as MockDragulaService;
+    dashboardService = TestBed.inject(SkyTileDashboardService);
 
     dashboardConfig = {
       tiles: [
@@ -279,13 +280,9 @@ describe('Tile dashboard service', () => {
       }
     );
 
-    (function (): SkyTileDashboardService {
-      return new SkyTileDashboardService(
-        mockDragulaService,
-        mockMediaQueryService as any,
-        mockUIConfigService
-      );
-    })();
+    TestBed.runInInjectionContext(() => {
+      return new SkyTileDashboardService();
+    });
 
     expect(setOptionsSpy).toHaveBeenCalled();
   }));
@@ -490,92 +487,83 @@ describe('Tile dashboard service', () => {
     testColumnNavigation(fixture, 'ArrowUp', 1, true);
   }));
 
-  it('should raise a config change event when a tile is collapsed', inject(
-    [SkyTileDashboardService],
-    (dashboardService: SkyTileDashboardService) => {
-      let configChanged = false;
+  it('should raise a config change event when a tile is collapsed', () => {
+    let configChanged = false;
 
-      dashboardService.configChange.subscribe(
-        (config: SkyTileDashboardConfig) => {
-          configChanged = true;
+    dashboardService.configChange.subscribe(
+      (config: SkyTileDashboardConfig) => {
+        configChanged = true;
 
-          expect(config.layout.multiColumn[0].tiles[0].isCollapsed).toBe(true);
-        }
-      );
+        expect(config.layout.multiColumn[0].tiles[0].isCollapsed).toBe(true);
+      }
+    );
 
-      dashboardService.init(
-        dashboardConfig,
-        undefined,
-        undefined,
-        'mySettingsKey'
-      );
+    dashboardService.init(
+      dashboardConfig,
+      undefined,
+      undefined,
+      'mySettingsKey'
+    );
 
-      const fixture = TestBed.createComponent(Tile1TestComponent);
+    const fixture = TestBed.createComponent(Tile1TestComponent);
 
-      const cmp: Tile1TestComponent = fixture.componentInstance;
+    const cmp: Tile1TestComponent = fixture.componentInstance;
 
-      fixture.detectChanges();
+    fixture.detectChanges();
 
-      dashboardService.addTileComponent(
-        {
-          id: 'tile-1',
-          isCollapsed: false,
-        },
-        fixture.componentRef
-      );
+    dashboardService.addTileComponent(
+      {
+        id: 'tile-1',
+        isCollapsed: false,
+      },
+      fixture.componentRef
+    );
 
-      dashboardService.setTileCollapsed(cmp.tile, true);
+    dashboardService.setTileCollapsed(cmp.tile, true);
 
-      expect(configChanged).toBe(true);
-    }
-  ));
+    expect(configChanged).toBe(true);
+  });
 
-  it('should provide a way for a tile to know whether it is collapsed', inject(
-    [SkyTileDashboardService],
-    (dashboardService: SkyTileDashboardService) => {
-      dashboardService.init(dashboardConfig);
+  it('should provide a way for a tile to know whether it is collapsed', () => {
+    dashboardService.init(dashboardConfig);
 
-      const fixture = TestBed.createComponent(Tile1TestComponent);
+    const fixture = TestBed.createComponent(Tile1TestComponent);
 
-      const cmp: Tile1TestComponent = fixture.componentInstance;
+    const cmp: Tile1TestComponent = fixture.componentInstance;
 
-      fixture.detectChanges();
+    fixture.detectChanges();
 
-      dashboardService.addTileComponent(
-        {
-          id: 'tile-1',
-          isCollapsed: false,
-        },
-        fixture.componentRef
-      );
+    dashboardService.addTileComponent(
+      {
+        id: 'tile-1',
+        isCollapsed: false,
+      },
+      fixture.componentRef
+    );
 
-      expect(dashboardService.tileIsCollapsed(cmp.tile)).toBe(false);
+    expect(dashboardService.tileIsCollapsed(cmp.tile)).toBe(false);
 
-      dashboardService.setTileCollapsed(cmp.tile, true);
+    dashboardService.setTileCollapsed(cmp.tile, true);
 
-      expect(dashboardService.tileIsCollapsed(cmp.tile)).toBe(true);
-    }
-  ));
+    expect(dashboardService.tileIsCollapsed(cmp.tile)).toBe(true);
+  });
 
-  it('should provide a way to retrieve the component for the associated layout tile', inject(
-    [SkyTileDashboardService],
-    (dashboardService: SkyTileDashboardService) => {
-      dashboardService.init(dashboardConfig);
+  it('should provide a way to retrieve the component for the associated layout tile', () => {
+    dashboardService.init(dashboardConfig);
 
-      const multiColumn = dashboardConfig.layout.multiColumn;
-      const column1 = multiColumn[0];
-      const column2 = multiColumn[1];
+    const multiColumn = dashboardConfig.layout.multiColumn;
+    const column1 = multiColumn[0];
+    const column2 = multiColumn[1];
 
-      expect(dashboardService.getTileComponentType(column1.tiles[0])).toBe(
-        Tile1TestComponent
-      );
-      expect(dashboardService.getTileComponentType(column2.tiles[0])).toBe(
-        Tile2TestComponent
-      );
+    expect(dashboardService.getTileComponentType(column1.tiles[0])).toBe(
+      Tile1TestComponent
+    );
+    expect(dashboardService.getTileComponentType(column2.tiles[0])).toBe(
+      Tile2TestComponent
+    );
 
-      expect(dashboardService.getTileComponentType(undefined)).toBe(undefined);
-    }
-  ));
+    expect(dashboardService.getTileComponentType(undefined)).toBe(undefined);
+  });
 
   it('should initialize tiles in the appropriate columns for the current screen size', fakeAsync(() => {
     function getTileCount(columnEl: Element): number {
@@ -671,181 +659,140 @@ describe('Tile dashboard service', () => {
     expect(cmp.dashboardConfig).toEqual(expectedDashboardConfig);
   }));
 
-  it('should sanity check for invalid tile when setting a tile to be collapsed', inject(
-    [SkyTileDashboardService],
-    (dashboardService: SkyTileDashboardService) => {
-      dashboardService.setTileCollapsed(undefined, true);
-    }
-  ));
+  it('should sanity check for invalid tile when setting a tile to be collapsed', () => {
+    dashboardService.setTileCollapsed(undefined, true);
+  });
 
-  it('should release resources when destroyed', inject(
-    [SkyTileDashboardService],
-    (dashboardService: SkyTileDashboardService) => {
-      dashboardService.init(
-        dashboardConfig,
-        undefined,
-        undefined,
-        'mySettingsKey'
-      );
+  it('should release resources when destroyed', () => {
+    dashboardService.init(
+      dashboardConfig,
+      undefined,
+      undefined,
+      'mySettingsKey'
+    );
 
-      dashboardService.destroy();
+    dashboardService.destroy();
 
-      expect(mockMediaQueryService.currentMockSubject.observers.length).toBe(0);
-    }
-  ));
+    expect(mockMediaQueryService.currentMockSubject.observers.length).toBe(0);
+  });
 
-  it('should return default config when settingsKey exists', inject(
-    [SkyTileDashboardService],
-    (dashboardService: SkyTileDashboardService) => {
-      dashboardService.init(
-        dashboardConfig,
-        undefined,
-        undefined,
-        'defaultSettings'
-      );
+  it('should return default config when settingsKey exists', () => {
+    dashboardService.init(
+      dashboardConfig,
+      undefined,
+      undefined,
+      'defaultSettings'
+    );
 
-      dashboardService.configChange.subscribe(
-        (config: SkyTileDashboardConfig) => {
-          expect(config.layout).toEqual(dashboardConfig.layout);
-        }
-      );
-    }
-  ));
+    dashboardService.configChange.subscribe(
+      (config: SkyTileDashboardConfig) => {
+        expect(config.layout).toEqual(dashboardConfig.layout);
+      }
+    );
+  });
 
-  it('should return default config when data is not valid', inject(
-    [SkyTileDashboardService],
-    (dashboardService: SkyTileDashboardService) => {
-      dashboardService.init(dashboardConfig, undefined, undefined, 'badData');
+  it('should return default config when data is not valid', () => {
+    dashboardService.init(dashboardConfig, undefined, undefined, 'badData');
 
-      dashboardService.configChange.subscribe(
-        (config: SkyTileDashboardConfig) => {
-          expect(config.layout).toEqual(dashboardConfig.layout);
-        }
-      );
-    }
-  ));
+    dashboardService.configChange.subscribe(
+      (config: SkyTileDashboardConfig) => {
+        expect(config.layout).toEqual(dashboardConfig.layout);
+      }
+    );
+  });
 
-  it('should return default config when an error occurs from the config service', inject(
-    [SkyTileDashboardService],
-    (dashboardService: SkyTileDashboardService) => {
-      dashboardService.init(dashboardConfig, undefined, undefined, 'error');
+  it('should return default config when an error occurs from the config service', () => {
+    dashboardService.init(dashboardConfig, undefined, undefined, 'error');
 
-      dashboardService.configChange.subscribe(
-        (config: SkyTileDashboardConfig) => {
-          expect(config.layout).toEqual(dashboardConfig.layout);
-        }
-      );
-    }
-  ));
+    dashboardService.configChange.subscribe(
+      (config: SkyTileDashboardConfig) => {
+        expect(config.layout).toEqual(dashboardConfig.layout);
+      }
+    );
+  });
 
-  it('should get and apply user config when it exists', inject(
-    [SkyTileDashboardService],
-    (dashboardService: SkyTileDashboardService) => {
-      dashboardService.init(
-        dashboardConfig,
-        undefined,
-        undefined,
-        'mySettingsKey'
-      );
+  it('should get and apply user config when it exists', () => {
+    dashboardService.init(
+      dashboardConfig,
+      undefined,
+      undefined,
+      'mySettingsKey'
+    );
 
-      dashboardService.configChange.subscribe(
-        (config: SkyTileDashboardConfig) => {
-          const expectedLayout = {
-            singleColumn: {
-              tiles: [
-                {
-                  id: 'tile-1',
-                  isCollapsed: true,
-                },
-                {
-                  id: 'tile-2',
-                  isCollapsed: true,
-                },
-              ],
-            },
-            multiColumn: [
+    dashboardService.configChange.subscribe(
+      (config: SkyTileDashboardConfig) => {
+        const expectedLayout = {
+          singleColumn: {
+            tiles: [
               {
-                tiles: [
-                  {
-                    id: 'tile-2',
-                    isCollapsed: true,
-                  },
-                ],
+                id: 'tile-1',
+                isCollapsed: true,
               },
               {
-                tiles: [
-                  {
-                    id: 'tile-1',
-                    isCollapsed: true,
-                  },
-                ],
+                id: 'tile-2',
+                isCollapsed: true,
               },
             ],
-          };
-          expect(config.layout).toEqual(expectedLayout);
-        }
-      );
-    }
-  ));
-
-  it('should handle add a new tile in the appropriate column', inject(
-    [SkyTileDashboardService],
-    (dashboardService: SkyTileDashboardService) => {
-      const newTileConfig = {
-        tiles: [
-          {
-            id: 'tile-1',
-            componentType: Tile1TestComponent,
           },
-          {
-            id: 'tile-2',
-            componentType: Tile2TestComponent,
-          },
-          {
-            id: 'tile-3',
-            componentType: Tile2TestComponent,
-          },
-          {
-            id: 'tile-4',
-            componentType: Tile1TestComponent,
-          },
-        ],
-        layout: {
           multiColumn: [
             {
               tiles: [
                 {
-                  id: 'tile-1',
-                  isCollapsed: false,
+                  id: 'tile-2',
+                  isCollapsed: true,
                 },
               ],
             },
             {
               tiles: [
                 {
-                  id: 'tile-2',
-                  isCollapsed: false,
-                },
-                {
-                  id: 'tile-3',
-                  isCollapsed: true,
-                },
-                {
-                  id: 'tile-4',
+                  id: 'tile-1',
                   isCollapsed: true,
                 },
               ],
             },
           ],
-          singleColumn: {
+        };
+        expect(config.layout).toEqual(expectedLayout);
+      }
+    );
+  });
+
+  it('should handle add a new tile in the appropriate column', () => {
+    const newTileConfig = {
+      tiles: [
+        {
+          id: 'tile-1',
+          componentType: Tile1TestComponent,
+        },
+        {
+          id: 'tile-2',
+          componentType: Tile2TestComponent,
+        },
+        {
+          id: 'tile-3',
+          componentType: Tile2TestComponent,
+        },
+        {
+          id: 'tile-4',
+          componentType: Tile1TestComponent,
+        },
+      ],
+      layout: {
+        multiColumn: [
+          {
+            tiles: [
+              {
+                id: 'tile-1',
+                isCollapsed: false,
+              },
+            ],
+          },
+          {
             tiles: [
               {
                 id: 'tile-2',
-                isCollapsed: true,
-              },
-              {
-                id: 'tile-1',
-                isCollapsed: true,
+                isCollapsed: false,
               },
               {
                 id: 'tile-3',
@@ -857,18 +804,56 @@ describe('Tile dashboard service', () => {
               },
             ],
           },
+        ],
+        singleColumn: {
+          tiles: [
+            {
+              id: 'tile-2',
+              isCollapsed: true,
+            },
+            {
+              id: 'tile-1',
+              isCollapsed: true,
+            },
+            {
+              id: 'tile-3',
+              isCollapsed: true,
+            },
+            {
+              id: 'tile-4',
+              isCollapsed: true,
+            },
+          ],
         },
-      };
+      },
+    };
 
-      dashboardService.configChange.subscribe(
-        (config: SkyTileDashboardConfig) => {
-          const expectedLayout = {
-            singleColumn: {
+    dashboardService.configChange.subscribe(
+      (config: SkyTileDashboardConfig) => {
+        const expectedLayout = {
+          singleColumn: {
+            tiles: [
+              {
+                id: 'tile-1',
+                isCollapsed: true,
+              },
+              {
+                id: 'tile-2',
+                isCollapsed: true,
+              },
+              {
+                id: 'tile-3',
+                isCollapsed: false,
+              },
+              {
+                id: 'tile-4',
+                isCollapsed: false,
+              },
+            ],
+          },
+          multiColumn: [
+            {
               tiles: [
-                {
-                  id: 'tile-1',
-                  isCollapsed: true,
-                },
                 {
                   id: 'tile-2',
                   isCollapsed: true,
@@ -877,75 +862,64 @@ describe('Tile dashboard service', () => {
                   id: 'tile-3',
                   isCollapsed: false,
                 },
+              ],
+            },
+            {
+              tiles: [
+                {
+                  id: 'tile-1',
+                  isCollapsed: true,
+                },
                 {
                   id: 'tile-4',
                   isCollapsed: false,
                 },
               ],
             },
-            multiColumn: [
+          ],
+        };
+        expect(config.layout).toEqual(expectedLayout);
+      }
+    );
+    dashboardService.init(newTileConfig, undefined, undefined, 'mySettingsKey');
+  });
+
+  it('should handle removed tile in default', () => {
+    const newTileConfig = {
+      tiles: [
+        {
+          id: 'tile-2',
+          componentType: Tile2TestComponent,
+        },
+      ],
+      layout: {
+        multiColumn: [
+          {
+            tiles: [],
+          },
+          {
+            tiles: [
               {
-                tiles: [
-                  {
-                    id: 'tile-2',
-                    isCollapsed: true,
-                  },
-                  {
-                    id: 'tile-3',
-                    isCollapsed: false,
-                  },
-                ],
-              },
-              {
-                tiles: [
-                  {
-                    id: 'tile-1',
-                    isCollapsed: true,
-                  },
-                  {
-                    id: 'tile-4',
-                    isCollapsed: false,
-                  },
-                ],
+                id: 'tile-2',
+                isCollapsed: false,
               },
             ],
-          };
-          expect(config.layout).toEqual(expectedLayout);
-        }
-      );
-      dashboardService.init(
-        newTileConfig,
-        undefined,
-        undefined,
-        'mySettingsKey'
-      );
-    }
-  ));
-
-  it('should handle removed tile in default', inject(
-    [SkyTileDashboardService],
-    (dashboardService: SkyTileDashboardService) => {
-      const newTileConfig = {
-        tiles: [
-          {
-            id: 'tile-2',
-            componentType: Tile2TestComponent,
           },
         ],
-        layout: {
-          multiColumn: [
+        singleColumn: {
+          tiles: [
             {
-              tiles: [],
-            },
-            {
-              tiles: [
-                {
-                  id: 'tile-2',
-                  isCollapsed: false,
-                },
-              ],
+              id: 'tile-2',
+              isCollapsed: true,
             },
           ],
+        },
+      },
+    };
+
+    dashboardService.configChange.subscribe(
+      (config: SkyTileDashboardConfig) => {
+        const expectedLayout = {
           singleColumn: {
             tiles: [
               {
@@ -954,13 +928,8 @@ describe('Tile dashboard service', () => {
               },
             ],
           },
-        },
-      };
-
-      dashboardService.configChange.subscribe(
-        (config: SkyTileDashboardConfig) => {
-          const expectedLayout = {
-            singleColumn: {
+          multiColumn: [
+            {
               tiles: [
                 {
                   id: 'tile-2',
@@ -968,61 +937,43 @@ describe('Tile dashboard service', () => {
                 },
               ],
             },
-            multiColumn: [
-              {
-                tiles: [
-                  {
-                    id: 'tile-2',
-                    isCollapsed: true,
-                  },
-                ],
-              },
-              {
-                tiles: [],
-              },
-            ],
-          };
-          expect(config.layout).toEqual(expectedLayout);
-        }
-      );
-      dashboardService.init(
-        newTileConfig,
-        undefined,
-        undefined,
-        'mySettingsKey'
-      );
-    }
-  ));
+            {
+              tiles: [],
+            },
+          ],
+        };
+        expect(config.layout).toEqual(expectedLayout);
+      }
+    );
+    dashboardService.init(newTileConfig, undefined, undefined, 'mySettingsKey');
+  });
 
-  it('should handle errors when setting config', inject(
-    [SkyTileDashboardService],
-    (dashboardService: SkyTileDashboardService) => {
-      const warnSpy = spyOn(console, 'warn');
+  it('should handle errors when setting config', () => {
+    const warnSpy = spyOn(console, 'warn');
 
-      dashboardService.init(dashboardConfig, undefined, undefined, 'badData');
+    dashboardService.init(dashboardConfig, undefined, undefined, 'badData');
 
-      const fixture = TestBed.createComponent(Tile1TestComponent);
+    const fixture = TestBed.createComponent(Tile1TestComponent);
 
-      const cmp: Tile1TestComponent = fixture.componentInstance;
+    const cmp: Tile1TestComponent = fixture.componentInstance;
 
-      fixture.detectChanges();
+    fixture.detectChanges();
 
-      dashboardService.addTileComponent(
-        {
-          id: 'tile-1',
-          isCollapsed: false,
-        },
-        fixture.componentRef
-      );
+    dashboardService.addTileComponent(
+      {
+        id: 'tile-1',
+        isCollapsed: false,
+      },
+      fixture.componentRef
+    );
 
-      dashboardService.setTileCollapsed(cmp.tile, true);
+    dashboardService.setTileCollapsed(cmp.tile, true);
 
-      expect(warnSpy).toHaveBeenCalledWith(
-        'Could not save tile dashboard settings.'
-      );
-      expect(warnSpy).toHaveBeenCalledWith({
-        message: 'Test error',
-      });
-    }
-  ));
+    expect(warnSpy).toHaveBeenCalledWith(
+      'Could not save tile dashboard settings.'
+    );
+    expect(warnSpy).toHaveBeenCalledWith({
+      message: 'Test error',
+    });
+  });
 });
