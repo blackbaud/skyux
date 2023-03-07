@@ -2218,8 +2218,6 @@ describe('Grid Component', () => {
       element: DebugElement;
 
     beforeEach(() => {
-      mockDragulaService = new MockDragulaService();
-
       TestBed.configureTestingModule({
         imports: [GridFixturesModule],
       });
@@ -2229,7 +2227,7 @@ describe('Grid Component', () => {
           viewProviders: [
             {
               provide: DragulaService,
-              useValue: mockDragulaService,
+              useClass: MockDragulaService,
             },
           ],
         },
@@ -2237,6 +2235,10 @@ describe('Grid Component', () => {
 
       element = fixture.debugElement as DebugElement;
       component = fixture.componentInstance;
+
+      mockDragulaService = element
+        .query(By.css('sky-grid'))
+        .injector.get(DragulaService) as MockDragulaService;
     });
 
     it('should add the dragging class to the header on dragula drag', fakeAsync(() => {

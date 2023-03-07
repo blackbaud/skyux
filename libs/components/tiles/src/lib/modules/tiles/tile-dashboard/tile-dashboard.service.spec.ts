@@ -50,17 +50,10 @@ describe('Tile dashboard service', () => {
   };
 
   function createDashboardTestComponent(): ComponentFixture<TileDashboardTestComponent> {
-    return TestBed.overrideComponent(SkyTileDashboardComponent, {
-      add: {
-        providers: [
-          { provide: SkyMediaQueryService, useValue: mockMediaQueryService },
-        ],
-      },
-    }).createComponent(TileDashboardTestComponent);
+    return TestBed.createComponent(TileDashboardTestComponent);
   }
 
   beforeEach(() => {
-    mockDragulaService = new MockDragulaService();
     mockMediaQueryService = new MockSkyMediaQueryService();
     mockUIConfigService = new MockSkyUIConfigService();
     mockThemeSvc = {
@@ -80,7 +73,7 @@ describe('Tile dashboard service', () => {
         SkyTilesModule,
       ],
       providers: [
-        { provide: DragulaService, useValue: mockDragulaService },
+        { provide: DragulaService, useClass: MockDragulaService },
         { provide: SkyMediaQueryService, useValue: mockMediaQueryService },
         { provide: SkyUIConfigService, useValue: mockUIConfigService },
         SkyTileDashboardService,
@@ -90,6 +83,8 @@ describe('Tile dashboard service', () => {
         },
       ],
     });
+
+    mockDragulaService = TestBed.inject(DragulaService) as MockDragulaService;
 
     dashboardConfig = {
       tiles: [
