@@ -7,6 +7,7 @@ import {
   tick,
   waitForAsync,
 } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyInlineFormButtonLayout } from '@skyux/inline-form';
 
@@ -1315,15 +1316,14 @@ describe('Repeater item component', () => {
     let consoleSpy: jasmine.Spy;
 
     beforeEach(fakeAsync(() => {
-      mockDragulaService = new MockDragulaService();
-
       fixture = TestBed.overrideComponent(SkyRepeaterComponent, {
         add: {
           viewProviders: [
-            { provide: DragulaService, useValue: mockDragulaService },
+            { provide: DragulaService, useClass: MockDragulaService },
           ],
         },
       }).createComponent(RepeaterTestComponent);
+
       cmp = fixture.componentInstance;
       el = fixture.nativeElement;
       consoleSpy = spyOn(console, 'warn');
@@ -1332,6 +1332,10 @@ describe('Repeater item component', () => {
       cmp.reorderable = true;
       tick(); // Allow repeater-item.component to set tabIndexes & render context dropdown.
       fixture.detectChanges();
+
+      mockDragulaService = fixture.debugElement
+        .query(By.css('sky-repeater'))
+        .injector.get(DragulaService) as MockDragulaService;
     }));
 
     it('should not show a console warning if all item tags are defined', fakeAsync(() => {
@@ -1693,18 +1697,16 @@ describe('Repeater item component', () => {
     let fixture: ComponentFixture<RepeaterTestComponent>;
     let cmp: RepeaterTestComponent;
     let el: any;
-    let mockDragulaService: MockDragulaService;
 
     beforeEach(fakeAsync(() => {
-      mockDragulaService = new MockDragulaService();
-
       fixture = TestBed.overrideComponent(SkyRepeaterComponent, {
         add: {
           viewProviders: [
-            { provide: DragulaService, useValue: mockDragulaService },
+            { provide: DragulaService, useClass: MockDragulaService },
           ],
         },
       }).createComponent(RepeaterTestComponent);
+
       cmp = fixture.componentInstance;
       cmp.showRepeaterWithActiveIndex = true;
       cmp.expandMode = 'none';
