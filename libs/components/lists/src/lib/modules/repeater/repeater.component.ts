@@ -86,14 +86,13 @@ export class SkyRepeaterComponent
    * and users only occasionally need to view the body content.
    * @default "none"
    */
-  // TODO: Remove 'string' as a valid type in a breaking change.
   @Input()
-  public set expandMode(value: SkyRepeaterExpandModeType | string | undefined) {
+  public set expandMode(value: SkyRepeaterExpandModeType | undefined) {
     this.#repeaterService.expandMode = value;
     this.#updateForExpandMode();
   }
 
-  public get expandMode(): SkyRepeaterExpandModeType | string {
+  public get expandMode(): SkyRepeaterExpandModeType {
     return this.#repeaterService.expandMode;
   }
 

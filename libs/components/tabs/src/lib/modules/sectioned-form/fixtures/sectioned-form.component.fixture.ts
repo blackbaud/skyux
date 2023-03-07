@@ -1,6 +1,9 @@
 import { AfterContentChecked, Component, ViewChild } from '@angular/core';
 
+import { Subject } from 'rxjs';
+
 import { SkySectionedFormComponent } from '../sectioned-form.component';
+import { SkySectionedFormMessage } from '../types/sectioned-form-message';
 
 @Component({
   selector: 'sky-sectioned-form-fixture',
@@ -13,6 +16,9 @@ export class SkySectionedFormFixtureComponent implements AfterContentChecked {
   public activeTab = true;
   public activeIndexDisplay: number | undefined;
   public maintainSectionContent = false;
+  public tabsVisible: boolean | undefined;
+  public messageStream: Subject<SkySectionedFormMessage> | undefined =
+    new Subject();
 
   #activeIndex: number | undefined;
 
@@ -22,5 +28,9 @@ export class SkySectionedFormFixtureComponent implements AfterContentChecked {
 
   public updateIndex(newIndex: number | undefined): void {
     this.#activeIndex = newIndex;
+  }
+
+  public tabsVisibleChanged(visible: boolean): void {
+    this.tabsVisible = visible;
   }
 }

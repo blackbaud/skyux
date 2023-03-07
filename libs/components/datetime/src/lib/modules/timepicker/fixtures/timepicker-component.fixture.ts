@@ -1,8 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 
+import { SkyTimepickerTimeFormatType } from '../timepicker-time-format-type';
+import { SkyTimepickerTimeOutput } from '../timepicker-time-output';
 import { SkyTimepickerComponent } from '../timepicker.component';
 import { SkyTimepickerInputDirective } from '../timepicker.directive';
-import { SkyTimepickerTimeOutput } from '../timepicker.interface';
 
 @Component({
   selector: 'sky-test-cmp',
@@ -23,5 +24,5 @@ export class TimepickerTestComponent {
 
   public selectedTime: SkyTimepickerTimeOutput | undefined;
 
-  public timeFormat: string | undefined = 'hh';
+  public timeFormat: SkyTimepickerTimeFormatType | undefined = 'hh';
 }

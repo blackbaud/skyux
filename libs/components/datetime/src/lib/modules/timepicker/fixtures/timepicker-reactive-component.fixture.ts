@@ -1,9 +1,10 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
+import { SkyTimepickerTimeFormatType } from '../timepicker-time-format-type';
+import { SkyTimepickerTimeOutput } from '../timepicker-time-output';
 import { SkyTimepickerComponent } from '../timepicker.component';
 import { SkyTimepickerInputDirective } from '../timepicker.directive';
-import { SkyTimepickerTimeOutput } from '../timepicker.interface';
 
 @Component({
   selector: 'sky-test-cmp',
@@ -26,7 +27,7 @@ export class TimepickerReactiveTestComponent implements AfterViewInit, OnInit {
 
   public timeControlValueAfterInit: any;
 
-  public timeFormat: string | undefined;
+  public timeFormat: SkyTimepickerTimeFormatType | undefined;
 
   public timepickerForm: UntypedFormGroup | undefined;
 
