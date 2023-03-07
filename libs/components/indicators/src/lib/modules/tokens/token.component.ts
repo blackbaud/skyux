@@ -6,6 +6,7 @@ import {
   Input,
   Output,
   ViewChild,
+  inject,
 } from '@angular/core';
 
 @Component({
@@ -89,14 +90,10 @@ export class SkyTokenComponent {
   public closeActive = false;
   public tabIndex = 0;
 
-  #elementRef: ElementRef;
+  #elementRef = inject(ElementRef);
 
   #_disabled = false;
   #_dismissible = true;
-
-  constructor(elementRef: ElementRef) {
-    this.#elementRef = elementRef;
-  }
 
   protected onFocusIn(): void {
     if (!this.isFocused) {

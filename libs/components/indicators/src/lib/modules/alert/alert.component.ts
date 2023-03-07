@@ -5,6 +5,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  inject,
 } from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
@@ -90,11 +91,7 @@ export class SkyAlertComponent implements OnInit, OnDestroy {
 
   #descriptionTypeResourceSubscription: Subscription | undefined;
 
-  #resources: SkyLibResourcesService;
-
-  constructor(resources: SkyLibResourcesService) {
-    this.#resources = resources;
-  }
+  #resources = inject(SkyLibResourcesService);
 
   public ngOnInit(): void {
     this.#updateAlertIcon();

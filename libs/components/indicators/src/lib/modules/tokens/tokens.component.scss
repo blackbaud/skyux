@@ -6,7 +6,7 @@ $sky-tokens-gutter-size: 2px;
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  margin: 0 -$sky-tokens-gutter-size;
+  margin: 0 (-$sky-tokens-gutter-size);
 
   .sky-tokens-content,
   ::ng-deep sky-token {

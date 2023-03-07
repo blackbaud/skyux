@@ -4,6 +4,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
@@ -68,19 +69,10 @@ export class SkyLabelComponent implements OnDestroy, OnInit {
 
   #_customDescription: string | undefined;
 
-  #changeDetector: ChangeDetectorRef;
-
   #descriptionTypeResourceSubscription: Subscription | undefined;
 
-  #resources: SkyLibResourcesService;
-
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    resources: SkyLibResourcesService
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#resources = resources;
-  }
+  #changeDetector = inject(ChangeDetectorRef);
+  #resources = inject(SkyLibResourcesService);
 
   public ngOnInit(): void {
     this.#updateIcon();
