@@ -5,7 +5,7 @@
 
 ### ⚠ BREAKING CHANGES
 
-* **components/datetime:** The timepicker component's `timeFormat` input has been converted from a `string` input type to a `SkyTimepickerTimeFormatType` `string` union. This might cause problems if you are setting the `timeFormat` input to a type of `string` in your consuming comopnent's class.
+* **components/datetime:** The timepicker component's `timeFormat` input has been converted from a `string` input type to a `SkyTimepickerTimeFormatType` `string` union. This might cause problems if you are setting the `timeFormat` input to a type of `string` in your consuming component's class.
 * **components/lists:** The repeater component's `expandMode` input was set to allow values of type of `string` but it really only supported a handful of known `string` values represented by the `SkyRepeaterExpandModeType` `string` union. This ability to specify a `string` value has been removed. This might cause problems if you are setting the `expandMode` input to a type of `string` in your consuming component's class.
 * **components/tabs:** The tabset nav button component's `buttonType` input was set to allow values of type of `string` but it really only supported a handful of known `string` values represented by the `SkyTabsetNavButtonType` `string` union. This ability to specify a `string` value has been removed. This might cause problems if you are setting the `buttonType` input to a type of `string` in your consuming component's class.
 
