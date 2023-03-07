@@ -1,4 +1,10 @@
-import { workspaces } from '@angular-devkit/core';
+import {
+  ProjectDefinition,
+  WorkspaceDefinition,
+  WorkspaceHost,
+  readWorkspace,
+  writeWorkspace,
+} from '@angular-devkit/core/src/workspace';
 import { Rule, SchematicsException, Tree } from '@angular-devkit/schematics';
 
 import { readRequiredFile } from './tree';
@@ -7,7 +13,7 @@ import { readRequiredFile } from './tree';
  * Creates a workspace host.
  * Taken from: https://angular.io/guide/schematics-for-libraries#get-the-project-configuration
  */
-function createHost(tree: Tree): workspaces.WorkspaceHost {
+function createHost(tree: Tree): WorkspaceHost {
   return {
     /* istanbul ignore next */
     async readFile(path: string): Promise<string> {
@@ -31,18 +37,18 @@ function createHost(tree: Tree): workspaces.WorkspaceHost {
  * Returns the workspace host and project config (angular.json).
  */
 export async function getWorkspace(tree: Tree): Promise<{
-  host: workspaces.WorkspaceHost;
-  workspace: workspaces.WorkspaceDefinition;
+  host: WorkspaceHost;
+  workspace: WorkspaceDefinition;
 }> {
   const host = createHost(tree);
-  const { workspace } = await workspaces.readWorkspace('/', host);
+  const { workspace } = await readWorkspace('/', host);
   return { host, workspace };
 }
 
 export async function getProject(
-  workspace: workspaces.WorkspaceDefinition,
+  workspace: WorkspaceDefinition,
   projectName: string
-): Promise<{ project: workspaces.ProjectDefinition; projectName: string }> {
+): Promise<{ project: ProjectDefinition; projectName: string }> {
   const project = workspace.projects.get(projectName);
   if (!project) {
     throw new SchematicsException(
@@ -57,7 +63,7 @@ export async function getProject(
  * Allows updates to the Angular project config (angular.json).
  */
 export function updateWorkspace(
-  updater: (workspace: workspaces.WorkspaceDefinition) => void | Promise<void>
+  updater: (workspace: WorkspaceDefinition) => void | Promise<void>
 ): Rule {
   return async (tree) => {
     const { host, workspace } = await getWorkspace(tree);
@@ -66,6 +72,30 @@ export function updateWorkspace(
     await updater(workspace);
 
     // Update the workspace config with any changes.
-    await workspaces.writeWorkspace(workspace, host);
+    await writeWorkspace(workspace, host);
   };
+}
+
+/**
+ * Returns the project definition corresponding to the provided name, or throws an
+ * error if the project is not found.
+ */
+export async function getRequiredProject(
+  tree: Tree,
+  projectName: string | undefined
+): Promise<{ projectName: string; project: ProjectDefinition }> {
+  if (!projectName) {
+    throw new Error('A project name is required.');
+  }
+
+  const { workspace } = await getWorkspace(tree);
+  const project = workspace.projects.get(projectName);
+
+  if (!project) {
+    throw new Error(
+      `The project '${projectName}' was not found in the workspace configuration.`
+    );
+  }
+
+  return { projectName, project };
 }
