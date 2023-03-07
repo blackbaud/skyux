@@ -49,21 +49,17 @@ export class SkyTileDashboardService {
 
   #columns: QueryList<SkyTileDashboardColumnComponent> | undefined;
   #config: SkyTileDashboardConfig | undefined;
-  #dragulaService: DragulaService;
-  #dynamicComponentService: SkyDynamicComponentService | undefined;
   #mediaSubscription: Subscription | undefined;
-  #mediaQuery: SkyMediaQueryService;
   #singleColumn: SkyTileDashboardColumnComponent | undefined;
   #settingsKey: string | undefined;
   #tileComponents: ComponentRef<any>[] | undefined;
-  #uiConfigService: SkyUIConfigService;
+
+  #dragulaService = inject(DragulaService);
+  #dynamicComponentService = inject(SkyDynamicComponentService);
+  #mediaQuery = inject(SkyMediaQueryService);
+  #uiConfigService = inject(SkyUIConfigService);
 
   constructor() {
-    this.#dynamicComponentService = inject(SkyDynamicComponentService);
-    this.#dragulaService = inject(DragulaService);
-    this.#mediaQuery = inject(SkyMediaQueryService);
-    this.#uiConfigService = inject(SkyUIConfigService);
-
     this.bagId = `sky-tile-dashboard-bag-${++bagIdIndex}`;
 
     this.#initDragula();

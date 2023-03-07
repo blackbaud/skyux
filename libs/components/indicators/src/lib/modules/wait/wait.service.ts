@@ -22,13 +22,8 @@ let pageWaitNonBlockingCount = 0;
   providedIn: 'root',
 })
 export class SkyWaitService {
-  #windowSvc: SkyAppWindowRef;
-  #dynamicComponentService: SkyDynamicComponentService;
-
-  constructor() {
-    this.#windowSvc = inject(SkyAppWindowRef);
-    this.#dynamicComponentService = inject(SkyDynamicComponentService);
-  }
+  #windowSvc = inject(SkyAppWindowRef);
+  #dynamicComponentService = inject(SkyDynamicComponentService);
 
   /**
    * Starts a blocking page wait on the page.
