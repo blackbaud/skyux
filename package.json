@@ -110,7 +110,7 @@
     "jsonc-parser": "3.2.0",
     "jwt-decode": "3.1.2",
     "moment": "2.29.4",
-    "ng2-dragula": "2.1.1",
+    "ng2-dragula": "4.0.0",
     "normalize-scss": "7.0.1",
     "rxjs": "6.6.7",
     "tslib": "2.5.0",
