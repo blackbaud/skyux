@@ -125,19 +125,16 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
         if: ${{ matrix.project != 'skip' }}
-      - name: Run lint
-        run: npx nx lint ${{ matrix.project }} --quiet --silent --parallel=3
-        if: ${{ matrix.project != 'skip' }}
       - name: Run NGCC
         run: npx ngcc
         if: ${{ matrix.project != 'skip' }}
-      - name: Build
-        run: npx nx build ${{ matrix.project }}
-        if: ${{ matrix.project != 'skip' }}
-      - name: Code coverage
+      - name: Run lint, build, test
         run: |
-          npx nx test ${{ matrix.project }} --browsers=ChromeHeadless --code-coverage --progress=false --source-map --watch=false
-          npx nx posttest ${{ matrix.project }} --browsers=ChromeHeadless --watch=false
+          npx nx run-many \
+            --targets=lint,build,test,posttest \
+            --projects="${{ matrix.project }}" \
+            --configuration ci \
+            --output-style=static
         if: ${{ matrix.project != 'skip' }}
       - name: Skip
         run: |
