@@ -2,7 +2,7 @@
 
 exports[`stories generator should generate folder path 1`] = `
 "import { AppModule } from '../../../app.module';
-import { moduleMetadata, Story, Meta } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 import { NestedComponent } from './nested.component';
 export default {
     id: \\"nestedcomponent-nested\\",
@@ -14,11 +14,12 @@ export default {
         })
     ]
 } as Meta<NestedComponent>;
-const Template: Story<NestedComponent> = (args: NestedComponent) => ({
-    props: args,
-});
-export const Nested = Template.bind({});
-Nested.args = {};
+export const Nested = {
+    render: (args: NestedComponent) => ({
+        props: args,
+    }),
+    args: {},
+};
 "
 `;
 
@@ -44,7 +45,7 @@ describe('test', () => {
 
 exports[`stories generator should run successfully 1`] = `
 "import { AppModule } from './app.module';
-import { moduleMetadata, Story, Meta } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 import { NxWelcomeComponent } from './nx-welcome.component';
 export default {
     id: \\"nxwelcomecomponent-nxwelcome\\",
@@ -56,17 +57,18 @@ export default {
         })
     ]
 } as Meta<NxWelcomeComponent>;
-const Template: Story<NxWelcomeComponent> = (args: NxWelcomeComponent) => ({
-    props: args,
-});
-export const NxWelcome = Template.bind({});
-NxWelcome.args = {};
+export const NxWelcome = {
+    render: (args: NxWelcomeComponent) => ({
+        props: args,
+    }),
+    args: {},
+};
 "
 `;
 
 exports[`stories generator should use -storybook project 1`] = `
 "import { AppModule } from './app.module';
-import { moduleMetadata, Story, Meta } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 import { NxWelcomeComponent } from './nx-welcome.component';
 export default {
     id: \\"nxwelcomecomponent-nxwelcome\\",
@@ -78,11 +80,12 @@ export default {
         })
     ]
 } as Meta<NxWelcomeComponent>;
-const Template: Story<NxWelcomeComponent> = (args: NxWelcomeComponent) => ({
-    props: args,
-});
-export const NxWelcome = Template.bind({});
-NxWelcome.args = {};
+export const NxWelcome = {
+    render: (args: NxWelcomeComponent) => ({
+        props: args,
+    }),
+    args: {},
+};
 "
 `;
 

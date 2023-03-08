@@ -23,7 +23,7 @@ describe('component generator', () => {
   let options: ComponentGeneratorSchema;
 
   beforeEach(async () => {
-    appTree = createTreeWithEmptyWorkspace();
+    appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     const nxJson: NxJsonConfiguration = readNxJson(appTree) || {};
     nxJson.workspaceLayout = {
       appsDir: 'apps',

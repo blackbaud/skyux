@@ -17,7 +17,7 @@ describe('switch-to-variations generator', () => {
   const options: SwitchToVariationsGeneratorSchema = { project: 'test-e2e' };
 
   beforeEach(async () => {
-    appTree = createTreeWithEmptyWorkspace();
+    appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     const nxJson: NxJsonConfiguration = readNxJson(appTree) || {};
     nxJson.workspaceLayout = {
       appsDir: 'apps',

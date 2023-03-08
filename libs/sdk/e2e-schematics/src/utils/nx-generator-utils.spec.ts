@@ -1,5 +1,5 @@
 import { readProjectConfiguration } from '@nrwl/devkit';
-import { createTreeWithEmptyV1Workspace } from '@nrwl/devkit/testing';
+import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { libraryGenerator } from '@nrwl/workspace';
 
 import { createTree } from 'nx/src/generators/testing-utils/create-tree';
@@ -18,7 +18,7 @@ describe('nx-generator-utils', () => {
       'my-project'
     );
     expect(empty).toEqual({});
-    const tree = createTreeWithEmptyV1Workspace();
+    const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     updateJson(tree, 'nx.json', (json) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (json as any)['generators'] = {

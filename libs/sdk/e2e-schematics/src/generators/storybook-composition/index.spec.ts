@@ -12,7 +12,7 @@ import generateStorybookComposition from './index';
 
 describe('storybook-composition', () => {
   function setupTest() {
-    const tree = createTreeWithEmptyWorkspace();
+    const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     const nxJson: NxJsonConfiguration = readNxJson(tree) || {};
     nxJson.workspaceLayout = {
       appsDir: 'apps',
