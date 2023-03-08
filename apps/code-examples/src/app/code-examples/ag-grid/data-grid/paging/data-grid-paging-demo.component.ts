@@ -70,11 +70,10 @@ export class DataGridPagingDemoComponent implements OnInit, OnDestroy {
   public gridOptions: GridOptions;
   public searchText = '';
 
-  private agGridService = inject(SkyAgGridService);
-  private router = inject(Router);
-  private activatedRoute = inject(ActivatedRoute);
-  private changeDetector = inject(ChangeDetectorRef);
-
+  #activatedRoute = inject(ActivatedRoute);
+  #agGridService = inject(SkyAgGridService);
+  #changeDetector = inject(ChangeDetectorRef);
+  #router = inject(Router);
   #subscriptions = new Subscription();
 
   constructor() {
@@ -86,31 +85,31 @@ export class DataGridPagingDemoComponent implements OnInit, OnDestroy {
       suppressPaginationPanel: true,
       paginationPageSize: this.pageSize,
     };
-    this.gridOptions = this.agGridService.getGridOptions({
+    this.gridOptions = this.#agGridService.getGridOptions({
       gridOptions: this.gridOptions,
     });
   }
 
   public ngOnInit(): void {
     this.#subscriptions.add(
-      this.activatedRoute.queryParamMap
+      this.#activatedRoute.queryParamMap
         .pipe(map((params) => params.get('page') || '1'))
         .subscribe((page) => {
           this.currentPage = Number(page);
           this.gridApi?.paginationGoToPage(this.currentPage - 1);
-          this.changeDetector.detectChanges();
+          this.#changeDetector.detectChanges();
         })
     );
     this.#subscriptions.add(
-      this.router.events
+      this.#router.events
         .pipe(filter((event) => event instanceof NavigationEnd))
         .subscribe(() => {
-          const page = this.activatedRoute.snapshot.paramMap.get('page');
+          const page = this.#activatedRoute.snapshot.paramMap.get('page');
           if (page) {
             this.currentPage = Number(page);
           }
           this.gridApi?.paginationGoToPage(this.currentPage - 1);
-          this.changeDetector.detectChanges();
+          this.#changeDetector.detectChanges();
         })
     );
   }
@@ -126,9 +125,9 @@ export class DataGridPagingDemoComponent implements OnInit, OnDestroy {
   }
 
   public onPageChange(page: number): void {
-    this.router
+    this.#router
       .navigate(['.'], {
-        relativeTo: this.activatedRoute,
+        relativeTo: this.#activatedRoute,
         queryParams: { page: page.toString(10) },
         queryParamsHandling: 'merge',
       })
