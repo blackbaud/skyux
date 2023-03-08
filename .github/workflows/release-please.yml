@@ -53,11 +53,20 @@ jobs:
         run: npx skyux-dev publish-packages-dist
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: Notify Slack
+      - name: Notify Slack (success)
         if: ${{ steps.release.outputs.release_created }}
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_MESSAGE: Successfully published SKY UX ${{ steps.release.outputs.tag_name }} to NPM. http://github.com/${{ github.repository }}/blob/main/CHANGELOG.md
+          SLACK_ICON: https://github.com/blackbaud.png?size=48
+          SLACK_USERNAME: SKY UX
+      - name: Notify Slack (failure)
+        if: ${{ failure() }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_MESSAGE: Failed to publish SKY UX ${{ steps.release.outputs.tag_name }} to NPM!
           SLACK_ICON: https://github.com/blackbaud.png?size=48
           SLACK_USERNAME: SKY UX
