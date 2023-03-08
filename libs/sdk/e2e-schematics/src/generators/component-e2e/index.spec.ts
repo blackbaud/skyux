@@ -14,11 +14,13 @@ import {
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Linter } from '@nrwl/linter';
 
+import { updateJson } from '../../utils';
+
 import componentE2eGenerator from './index';
 
 describe('component-e2e', () => {
   function setupTest() {
-    const tree = createTreeWithEmptyWorkspace();
+    const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     const nxJson: NxJsonConfiguration = readNxJson(tree) || {};
     nxJson.workspaceLayout = {
       appsDir: 'apps',
@@ -38,12 +40,31 @@ describe('component-e2e', () => {
       routing: false,
       unitTestRunner: UnitTestRunner.None,
       linter: Linter.None,
+      skipPackageJson: true,
     });
     await libraryGenerator(tree, {
       name: 'test-component',
       routing: false,
       unitTestRunner: UnitTestRunner.None,
       linter: Linter.None,
+      skipPackageJson: true,
+    });
+    updateJson(tree, 'nx.json', (nxJson: NxJsonConfiguration) => {
+      nxJson.targetDefaults = nxJson.targetDefaults || {};
+      nxJson.targetDefaults['build-storybook'] =
+        nxJson.targetDefaults['build-storybook'] || {};
+      nxJson.targetDefaults['build-storybook'].inputs =
+        nxJson.targetDefaults['build-storybook'].inputs || [];
+      nxJson.targetDefaults['build-storybook'].inputs.push(
+        '!{projectRoot}/.storybook/**/*'
+      );
+      nxJson.namedInputs = nxJson.namedInputs || {};
+      nxJson.namedInputs.production = nxJson.namedInputs.production || [];
+      nxJson.namedInputs.production.push(
+        '!{projectRoot}/.storybook/**/*',
+        '!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)'
+      );
+      return nxJson;
     });
     await componentE2eGenerator(tree, { name: 'test' });
     const config: { [_: string]: ProjectConfiguration } = {};
@@ -109,12 +130,14 @@ describe('component-e2e', () => {
       routing: false,
       unitTestRunner: UnitTestRunner.None,
       linter: Linter.None,
+      skipPackageJson: true,
     });
     await libraryGenerator(tree, {
       name: 'test-component',
       routing: false,
       unitTestRunner: UnitTestRunner.None,
       linter: Linter.None,
+      skipPackageJson: true,
     });
     await componentE2eGenerator(tree, { name: 'test', tags: 'one, two' });
     const config = readProjectConfiguration(tree, 'test-storybook');
@@ -129,12 +152,14 @@ describe('component-e2e', () => {
       routing: false,
       unitTestRunner: UnitTestRunner.None,
       linter: Linter.None,
+      skipPackageJson: true,
     });
     await libraryGenerator(tree, {
       name: 'test-component',
       routing: false,
       unitTestRunner: UnitTestRunner.None,
       linter: Linter.None,
+      skipPackageJson: true,
     });
     await componentE2eGenerator(tree, { name: 'test' });
     await componentE2eGenerator(tree, { name: 'test' });
@@ -154,12 +179,14 @@ describe('component-e2e', () => {
       routing: false,
       unitTestRunner: UnitTestRunner.None,
       linter: Linter.None,
+      skipPackageJson: true,
     });
     await libraryGenerator(tree, {
       name: 'test-component',
       routing: false,
       unitTestRunner: UnitTestRunner.None,
       linter: Linter.None,
+      skipPackageJson: true,
     });
     await applicationGenerator(tree, {
       name: 'test-component-storybook',
@@ -193,6 +220,7 @@ describe('component-e2e', () => {
       routing: false,
       unitTestRunner: UnitTestRunner.None,
       linter: Linter.None,
+      skipPackageJson: true,
     });
     await componentE2eGenerator(tree, { name: 'test-component' });
     const packageJson = readJson(tree, 'package.json');

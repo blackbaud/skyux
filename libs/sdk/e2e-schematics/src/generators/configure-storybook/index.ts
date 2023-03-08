@@ -5,7 +5,6 @@ import {
   formatFiles,
   generateFiles,
   joinPathFragments,
-  logger,
   offsetFromRoot,
   readProjectConfiguration,
   updateJson,
@@ -23,9 +22,6 @@ import { Schema } from './schema';
  */
 export default async function (tree: Tree, schema: Schema) {
   const projects = getStorybookProjects(tree, schema.name);
-
-  // istanbul ignore next
-  const errorLogger = schema.ansiColor === false ? console.error : logger.fatal;
 
   projects.forEach((project, projectName) => {
     let hasChanged = false;
@@ -79,7 +75,7 @@ export default async function (tree: Tree, schema: Schema) {
     try {
       e2eProject = readProjectConfiguration(tree, e2eProjectName);
     } catch (e) {
-      errorLogger(`Project "${e2eProjectName}" does not exist`);
+      throw new Error(`Project "${e2eProjectName}" does not exist`);
     }
     if (
       e2eProject &&
@@ -103,7 +99,7 @@ export default async function (tree: Tree, schema: Schema) {
         updateProjectConfiguration(tree, e2eProjectName, e2eProject);
       }
     } else {
-      errorLogger(
+      throw new Error(
         `Project "${e2eProjectName}" does not have an e2e target with @nrwl/cypress:cypress`
       );
     }

@@ -1,4 +1,5 @@
 import {
+  E2eTestRunner,
   applicationGenerator,
   storybookConfigurationGenerator,
 } from '@nrwl/angular/generators';
@@ -20,7 +21,7 @@ import configureStorybook from './index';
 
 describe('configure-storybook', () => {
   function setupTest() {
-    const tree = createTreeWithEmptyWorkspace();
+    const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     const nxJson: NxJsonConfiguration = readNxJson(tree) || {};
     nxJson.workspaceLayout = {
       appsDir: 'apps',
@@ -141,5 +142,49 @@ describe('configure-storybook', () => {
         tree.read(`apps/test-app/.storybook/tsconfig.json`)!.toString()
       ).include
     ).toBeTruthy();
+  });
+
+  it('should error for missing e2e project', async () => {
+    const { tree } = setupTest();
+    tree.write('.gitignore', '#');
+    await applicationGenerator(tree, {
+      name: `test-app`,
+      e2eTestRunner: E2eTestRunner.None,
+    });
+    await storybookConfigurationGenerator(tree, {
+      configureCypress: false,
+      generateCypressSpecs: false,
+      generateStories: false,
+      linter: Linter.None,
+      name: `test-app`,
+    });
+    await expect(
+      configureStorybook(tree, { name: 'test-app' })
+    ).rejects.toThrowError(`Project "test-app-e2e" does not exist`);
+  });
+
+  it('should error for e2e project without cypress', async () => {
+    const { tree } = setupTest();
+    tree.write('.gitignore', '#');
+    await applicationGenerator(tree, {
+      name: `test-app`,
+      e2eTestRunner: E2eTestRunner.None,
+    });
+    await applicationGenerator(tree, {
+      name: `test-app-e2e`,
+      e2eTestRunner: E2eTestRunner.None,
+    });
+    await storybookConfigurationGenerator(tree, {
+      configureCypress: false,
+      generateCypressSpecs: false,
+      generateStories: false,
+      linter: Linter.None,
+      name: `test-app`,
+    });
+    await expect(
+      configureStorybook(tree, { name: 'test-app' })
+    ).rejects.toThrowError(
+      `Project "test-app-e2e" does not have an e2e target with @nrwl/cypress:cypress`
+    );
   });
 });

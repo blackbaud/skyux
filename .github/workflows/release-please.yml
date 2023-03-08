@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -70,3 +69,43 @@ jobs:
           SLACK_MESSAGE: Failed to publish SKY UX ${{ steps.release.outputs.tag_name }} to NPM!
           SLACK_ICON: https://github.com/blackbaud.png?size=48
           SLACK_USERNAME: SKY UX
+      - name: Bump pre-release version
+        if: ${{ steps.release.outputs.release_created }}
+        run: |
+
+          # Does the workflow file say prerelease is true?
+          if [ "$(yq -r '.jobs.release.steps[0].with.prerelease' .github/workflows/release-please.yml)" = "true" ]; then
+
+            echo "Authenticating with GitHub..."
+            gh auth login --with-token <<< ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+
+            # Log commands and exit on error.
+            set -exo pipefail
+
+            # Get the current pre-release version.
+            RELEASE_AS=$(yq -r '.jobs.release.steps[0].with.release-as' .github/workflows/release-please.yml)
+
+            # Bump the pre-release version.
+            NEXT_VERSION=$(npx semver -i prerelease $RELEASE_AS)
+
+            # If next version is the same as the current version, or if next version is empty, exit.
+            if [ "$NEXT_VERSION" = "$RELEASE_AS" ] || [ -z "$NEXT_VERSION" ]; then
+              echo "Not able to bump pre-release version."
+              exit 0
+            fi
+
+            # Update the release-please.yml file.
+            yq -i '.jobs.release.steps[0].with.release-as = "'${NEXT_VERSION}'"' .github/workflows/release-please.yml
+
+            # Create a pull request.
+            git checkout -b release-as-${NEXT_VERSION}
+            git add .github/workflows/release-please.yml
+            git commit -m "chore: bump pre-release version to ${NEXT_VERSION}"
+            git push origin release-as-${NEXT_VERSION}
+            gh pr create \
+              --title "chore: bump pre-release version to ${NEXT_VERSION}" \
+              --body ":robot: Bumping pre-release version to ${NEXT_VERSION}." \
+              --base ${{ github.ref_name }} \
+              --head release-as-${NEXT_VERSION}
+
+          fi
