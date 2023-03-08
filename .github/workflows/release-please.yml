@@ -24,6 +24,8 @@ jobs:
           include-v-in-tag: false
           token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
       - uses: actions/checkout@v3
+        with:
+          token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
       - uses: actions/setup-node@v3
         id: setup-node
         with:
@@ -72,12 +74,8 @@ jobs:
       - name: Bump pre-release version
         if: ${{ steps.release.outputs.release_created }}
         run: |
-
           # Does the workflow file say prerelease is true?
           if [ "$(yq -r '.jobs.release.steps[0].with.prerelease' .github/workflows/release-please.yml)" = "true" ]; then
-
-            echo "Authenticating with GitHub..."
-            gh auth login --with-token <<< ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
             # Log commands and exit on error.
             set -exo pipefail
@@ -109,3 +107,5 @@ jobs:
               --head release-as-${NEXT_VERSION}
 
           fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
