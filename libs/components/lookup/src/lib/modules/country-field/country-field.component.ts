@@ -142,6 +142,13 @@ export class SkyCountryFieldComponent
   }
 
   /**
+   * Whether to always show the country field's placeholder text regardless of theme. This is used for the phone field component.
+   * @internal
+   */
+  @Input()
+  public showPlaceholderTextInAllThemes = false;
+
+  /**
    * The [International Organization for Standardization Alpha 2](https://www.nationsonline.org/oneworld/country_code_list.htm)
    * country codes for the countries that users can select. By default, all countries are available.
    */
@@ -164,7 +171,8 @@ export class SkyCountryFieldComponent
    * Fires when the selected country changes.
    */
   @Output()
-  public selectedCountryChange: EventEmitter<SkyCountryFieldCountry> = new EventEmitter<SkyCountryFieldCountry>();
+  public selectedCountryChange: EventEmitter<SkyCountryFieldCountry> =
+    new EventEmitter<SkyCountryFieldCountry>();
 
   public countries: SkyCountryFieldCountry[] = [];
 

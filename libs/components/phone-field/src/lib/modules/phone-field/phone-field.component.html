@@ -20,13 +20,13 @@
         ('skyux_phone_field_country_select_label' | skyLibResources) +
         ' ' +
         ('skyux_phone_field_country_selected_label'
-          | skyLibResources: selectedCountry?.name)
+          | skyLibResources : selectedCountry?.name)
       "
       [attr.aria-label]="
         ('skyux_phone_field_country_select_label' | skyLibResources) +
         ' ' +
         ('skyux_phone_field_country_selected_label'
-          | skyLibResources: selectedCountry?.name)
+          | skyLibResources : selectedCountry?.name)
       "
       [disabled]="countrySelectDisabled"
       (click)="toggleCountrySearch(true)"
@@ -70,6 +70,7 @@
         [defaultCountry]="defaultCountry"
         [hideSelectedCountryFlag]="true"
         [includePhoneInfo]="true"
+        [showPlaceholderTextInAllThemes]="true"
         [supportedCountryISOs]="supportedCountryISOs"
         (selectedCountryChange)="onCountrySelected($event)"
       >
