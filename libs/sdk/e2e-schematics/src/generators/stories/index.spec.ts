@@ -13,6 +13,8 @@ import {
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Linter } from '@nrwl/linter';
 
+import { updateProjectConfiguration } from 'nx/src/generators/utils/project-configuration';
+
 import storiesGenerator from './index';
 import { StoriesGeneratorSchema } from './schema';
 
@@ -21,7 +23,7 @@ describe('stories generator', () => {
   let options: StoriesGeneratorSchema;
 
   beforeEach(() => {
-    appTree = createTreeWithEmptyWorkspace();
+    appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     const nxJson: NxJsonConfiguration = readNxJson(appTree) || {};
     nxJson.workspaceLayout = {
       appsDir: 'apps',
@@ -32,6 +34,10 @@ describe('stories generator', () => {
       project: 'test',
       generateCypressSpecs: true,
     };
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should run successfully', async () => {
@@ -113,6 +119,14 @@ describe('stories generator', () => {
     });
     await applicationGenerator(appTree, {
       name: 'test-storybook',
+    });
+    const projectConfiguration = readProjectConfiguration(
+      appTree,
+      'test-storybook'
+    );
+    delete projectConfiguration.sourceRoot;
+    updateProjectConfiguration(appTree, 'test-storybook', {
+      ...projectConfiguration,
     });
     await storybookConfigurationGenerator(appTree, {
       name: 'test-storybook',

@@ -6,11 +6,13 @@ import {
   formatFiles,
   generateFiles,
   getProjects,
+  installPackagesTask,
   joinPathFragments,
   logger,
   readJson,
   readProjectConfiguration,
   removeDependenciesFromPackageJson,
+  updateJson,
   updateProjectConfiguration,
 } from '@nrwl/devkit';
 import { addDependenciesToPackageJson } from '@nrwl/devkit/src/utils/package-json';
@@ -20,7 +22,6 @@ import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-ser
 
 import configurePercy from '../configure-percy';
 import configureStorybook from '../configure-storybook';
-import init from '../init';
 import storiesGenerator from '../stories';
 
 import { NormalizedSchema, Schema } from './schema';
@@ -116,8 +117,6 @@ function addPackagesPolyfills(tree: Tree, projectName: string) {
 export default async function (tree: Tree, schema: Partial<Schema>) {
   const options = normalizeOptions(schema);
 
-  const initTasks = await init(tree, { ansiColor: schema.ansiColor });
-
   let createProject = false;
   let moveProject = false;
   /* istanbul ignore next */
@@ -173,6 +172,7 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       directory: BASE_PATH,
       skipPackageJson: true,
       standaloneConfig: true,
+      standalone: false,
     });
     simplifyWorkspaceName(tree, options.storybookAppName);
     simplifyWorkspaceName(tree, `${options.storybookAppName}-e2e`);
@@ -266,14 +266,41 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
     );
   }
   // Do not add explicit dependencies for @storybook/addon-essentials or webpack.
-  const updateDependencies = removeDependenciesFromPackageJson(
+  removeDependenciesFromPackageJson(
     tree,
     [],
-    ['@storybook/addon-essentials', 'webpack']
+    ['@storybook/addon-essentials', 'html-webpack-plugin', 'webpack']
   );
 
+  // Clean up duplicate entries in nx.json
+  updateJson(tree, 'nx.json', (json) => {
+    if (
+      json.targetDefaults['build-storybook']?.inputs &&
+      Array.isArray(json.targetDefaults['build-storybook'].inputs)
+    ) {
+      // Remove duplicate entries
+      json.targetDefaults['build-storybook'].inputs = json.targetDefaults[
+        'build-storybook'
+      ].inputs.filter(
+        (v: string, i: number, a: string[]) => a.indexOf(v) === i
+      );
+    }
+    if (
+      json.namedInputs?.production &&
+      Array.isArray(json.namedInputs.production)
+    ) {
+      // Remove duplicate entries
+      json.namedInputs.production = json.namedInputs.production.filter(
+        (v: string, i: number, a: string[]) => a.indexOf(v) === i
+      );
+    }
+    return json;
+  });
+
   /* istanbul ignore next */
-  return runTasksInSerial(initTasks, appGenerator, updateDependencies, () =>
-    formatFiles(tree)
+  return runTasksInSerial(
+    appGenerator,
+    () => installPackagesTask(tree),
+    () => formatFiles(tree)
   );
 }

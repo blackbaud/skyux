@@ -1,5 +1,5 @@
 import { angularStoriesGenerator } from '@nrwl/angular/generators';
-import { normalizePath } from '@nrwl/devkit';
+import { normalizePath, stripIndents } from '@nrwl/devkit';
 import {
   ProjectConfiguration,
   Tree,
@@ -38,7 +38,7 @@ import { StoriesGeneratorSchema } from './schema';
 interface NormalizedSchema extends StoriesGeneratorSchema {
   projectName: string;
   projectRoot: string;
-  projectDirectory: string;
+  projectSource: string;
   e2eSourceRoot: string | undefined;
   projectConfig: ProjectConfiguration;
 }
@@ -56,7 +56,7 @@ function normalizeOptions(
   const projects = getProjects(tree);
   const projectConfig = getStorybookProject(tree, options);
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const projectDirectory = projectConfig.sourceRoot!;
+  const projectSource = projectConfig.sourceRoot || `${projectConfig.root}/src`;
   const projectName = options.project;
   const projectRoot = projectConfig.root;
   const e2eProjectConfig = projects.get(
@@ -76,7 +76,7 @@ function normalizeOptions(
     ...options,
     projectName,
     projectRoot,
-    projectDirectory,
+    projectSource,
     e2eSourceRoot,
     projectConfig,
   };
@@ -116,7 +116,7 @@ export default async function (tree: Tree, options: StoriesGeneratorSchema) {
     };
   });
   const updatedIds = new Map<string, string>();
-  visitNotIgnoredFiles(tree, normalizedOptions.projectDirectory, (filepath) => {
+  visitNotIgnoredFiles(tree, normalizedOptions.projectSource, (filepath) => {
     filepath = normalizePath(filepath);
 
     // Do not update files that are out of scope.
@@ -132,12 +132,29 @@ export default async function (tree: Tree, options: StoriesGeneratorSchema) {
       // Do not create a stories file for app.component
       if (
         filepath ===
-        `${normalizedOptions.projectConfig.sourceRoot}/app/app.component.stories.ts`
+        `${normalizedOptions.projectSource}/app/app.component.stories.ts`
       ) {
         tree.delete(filepath);
         return;
       }
-      const source = readSourceFile(tree, filepath);
+      const source = readSourceFile(tree, filepath, (source) => {
+        source = source
+          .replace(
+            "import { Meta } from '@storybook/angular';",
+            `import { Meta, moduleMetadata } from '@storybook/angular';`
+          )
+          .replace(
+            '} as Meta<',
+            stripIndents`
+            decorators: [
+              moduleMetadata({
+                imports: [],
+              })
+            ],
+            } as Meta<`
+          );
+        return source;
+      });
       const componentClass = getStringLiteral(source, 'title');
       const newTitle = capitalizeWords(
         componentClass
@@ -148,8 +165,7 @@ export default async function (tree: Tree, options: StoriesGeneratorSchema) {
 
       // Look for a directory to group this story in
       const paths = filepath
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        .substring(normalizedOptions.projectConfig.sourceRoot!.length + 1)
+        .substring(normalizedOptions.projectSource.length + 1)
         .split('/');
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const filename = paths.pop()!;
@@ -192,11 +208,10 @@ export default async function (tree: Tree, options: StoriesGeneratorSchema) {
       const componentFilePath = filepath.replace(/\.stories\.ts$/, '.ts');
       const module = findDeclaringModule(
         tree,
-        normalizedOptions.projectDirectory,
+        normalizedOptions.projectSource,
         componentFilePath
       );
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      if (module && module.module.classDeclaration.name!.text) {
+      if (module && module.module.classDeclaration.name?.text) {
         let importPath = normalizePath(
           relative(
             filepath.substring(0, filepath.lastIndexOf('/')),
@@ -207,15 +222,13 @@ export default async function (tree: Tree, options: StoriesGeneratorSchema) {
           importPath = `./${importPath}`;
         }
         const moduleImportTransformer = getInsertImportTransformer(
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          module.module.classDeclaration.name!.text,
+          module.module.classDeclaration.name.text,
           importPath
         );
         const moduleMetadataImportsTransformer =
           getInsertIdentifierToArrayTransformer(
             'imports',
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            module.module.classDeclaration.name!.text
+            module.module.classDeclaration.name.text
           );
         applyTransformersToPath(tree, filepath, [
           moduleImportTransformer,
