@@ -61,7 +61,7 @@ jobs:
           SLACK_ICON: https://github.com/blackbaud.png?size=48
           SLACK_USERNAME: SKY UX
       - name: Notify Slack (failure)
-        if: ${{ failure() }}
+        if: ${{ failure() && steps.release.outputs.release_created }}
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_COLOR: ${{ job.status }}
