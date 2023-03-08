@@ -4,11 +4,6 @@ import { AbstractControl, NgControl } from '@angular/forms';
 // See: https://github.com/ng-packagr/ng-packagr/issues/641
 // @dynamic
 export class SkyFormsUtility {
-  /** Coerces a data-bound value (typically a string) to a boolean. */
-  public static coerceBooleanProperty(value: any): boolean {
-    return value !== undefined && `${value}` !== 'false';
-  }
-
   /**
    * Gets the required state of the checkbox.
    * Currently, Angular doesn't offer a way to get this easily, so we have to create an empty

@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -50,7 +51,13 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
    * @default false
    */
   @Input()
-  public disabled: boolean | undefined;
+  public set disabled(value: boolean | undefined) {
+    this.#_disabled = coerceBooleanProperty(value);
+  }
+
+  public get disabled(): boolean {
+    return this.#_disabled;
+  }
 
   /**
    * The custom query parameter value for the tab.
@@ -149,6 +156,8 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
   #_active = false;
 
   #activeChange: BehaviorSubject<void | undefined>;
+
+  #_disabled = false;
 
   #_permalinkValue: string | undefined;
 

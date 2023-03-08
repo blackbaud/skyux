@@ -6,6 +6,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   ChangeDetectorRef,
   Component,
@@ -119,7 +120,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
    */
   @Input()
   public set disabled(value: boolean | undefined) {
-    this.#_disabled = value ?? false;
+    this.#_disabled = coerceBooleanProperty(value);
   }
 
   public get disabled(): boolean {

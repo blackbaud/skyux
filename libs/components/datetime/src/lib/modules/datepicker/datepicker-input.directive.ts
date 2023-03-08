@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   AfterContentInit,
   AfterViewInit,
@@ -89,8 +90,9 @@ export class SkyDatepickerInputDirective
    */
   @Input()
   public set disabled(value: boolean | undefined) {
-    this.#_disabled = value || false;
-    this.#datepickerComponent.disabled = value;
+    const coercedValue = coerceBooleanProperty(value);
+    this.#_disabled = coercedValue;
+    this.#datepickerComponent.disabled = coercedValue;
     this.#renderer.setProperty(
       this.#elementRef.nativeElement,
       'disabled',

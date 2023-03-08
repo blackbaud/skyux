@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   ChangeDetectorRef,
   Component,
@@ -51,7 +52,13 @@ export class SkyInputBoxComponent implements OnInit {
    * @default false
    */
   @Input()
-  public disabled: boolean | undefined;
+  public set disabled(value: boolean | undefined) {
+    this.#_disabled = coerceBooleanProperty(value);
+  }
+
+  public get disabled(): boolean {
+    return this.#_disabled;
+  }
 
   public hostInputTemplate: TemplateRef<unknown> | undefined;
 
@@ -92,6 +99,8 @@ export class SkyInputBoxComponent implements OnInit {
   #inputBoxHostSvc: SkyInputBoxHostService;
   #adapterService: SkyInputBoxAdapterService;
   #elementRef: ElementRef;
+  #_disabled = false;
+
   constructor(
     changeRef: ChangeDetectorRef,
     inputBoxHostSvc: SkyInputBoxHostService,

@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -13,7 +14,6 @@ import he from 'he';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
-import { SkyFormsUtility } from '../../shared/forms-utility';
 import { SkyTextEditorAdapterService } from '../services/text-editor-adapter.service';
 import { SkyTextEditorMenuType } from '../types/menu-type';
 import { SkyTextEditorMergeField } from '../types/text-editor-merge-field';
@@ -42,7 +42,7 @@ export class SkyTextEditorMenubarComponent implements OnDestroy, OnInit {
 
   @Input()
   public set disabled(value: boolean) {
-    const coercedValue = SkyFormsUtility.coerceBooleanProperty(value);
+    const coercedValue = coerceBooleanProperty(value);
     if (coercedValue !== this.disabled) {
       this.#_disabled = coercedValue;
       this.#changeDetector.markForCheck();

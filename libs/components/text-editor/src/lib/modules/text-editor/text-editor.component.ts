@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -12,8 +13,6 @@ import { SkyCoreAdapterService, SkyIdService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
-import { SkyFormsUtility } from '../shared/forms-utility';
 
 import { FONT_LIST_DEFAULTS } from './defaults/font-list-defaults';
 import { FONT_SIZE_LIST_DEFAULTS } from './defaults/font-size-list-defaults';
@@ -58,7 +57,7 @@ export class SkyTextEditorComponent implements OnDestroy {
    */
   @Input()
   public set disabled(value: boolean | undefined) {
-    const coercedValue = SkyFormsUtility.coerceBooleanProperty(value);
+    const coercedValue = coerceBooleanProperty(value);
     if (coercedValue !== this.disabled) {
       this.#_disabled = coercedValue;
 

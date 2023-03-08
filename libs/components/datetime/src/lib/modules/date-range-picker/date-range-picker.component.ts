@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -133,7 +134,7 @@ export class SkyDateRangePickerComponent
    */
   @Input()
   public set disabled(value: boolean | undefined) {
-    this.#_disabled = value;
+    this.#_disabled = coerceBooleanProperty(value);
 
     if (this.formGroup) {
       if (this.#_disabled) {
@@ -146,7 +147,7 @@ export class SkyDateRangePickerComponent
     this.#changeDetector.markForCheck();
   }
 
-  public get disabled(): boolean | undefined {
+  public get disabled(): boolean {
     return this.#_disabled;
   }
 
@@ -242,7 +243,7 @@ export class SkyDateRangePickerComponent
     SkyDateRangeCalculatorId.NextFiscalYear,
   ];
   #_dateFormat: string | undefined;
-  #_disabled: boolean | undefined = false;
+  #_disabled = false;
   #_valueOrDefault: SkyDateRangeCalculation | undefined;
 
   #changeDetector: ChangeDetectorRef;

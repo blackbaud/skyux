@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   AfterContentInit,
   AfterViewInit,
@@ -64,9 +65,9 @@ export class SkyFileAttachmentComponent
    */
   @Input()
   public set disabled(value: boolean | undefined) {
-    const newDisabledState = SkyFormsUtility.coerceBooleanProperty(value);
-    if (this.#_disabled !== newDisabledState) {
-      this.#_disabled = newDisabledState;
+    const coercedValue = coerceBooleanProperty(value);
+    if (this.#_disabled !== coercedValue) {
+      this.#_disabled = coercedValue;
     }
   }
 
@@ -138,7 +139,13 @@ export class SkyFileAttachmentComponent
    * For more information about the `aria-required` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-required).
    */
   @Input()
-  public required: boolean | undefined = false;
+  public set required(value: boolean | undefined) {
+    this.#_required = coerceBooleanProperty(value);
+  }
+
+  public get required(): boolean {
+    return this.#_required;
+  }
 
   public set value(value: SkyFileItem | undefined | null) {
     // The null check is needed to address a bug in Angular 4.
@@ -182,25 +189,19 @@ export class SkyFileAttachmentComponent
 
   public isImage = false;
 
-  #enterEventTarget: EventTarget | undefined | null;
-
-  #fileAttachmentId = uniqueId++;
-
-  #ngUnsubscribe = new Subject<void>();
-
-  #_disabled = false;
-
-  #_maxFileSize = MAX_FILE_SIZE_DEFAULT;
-
-  #_minFileSize = MIN_FILE_SIZE_DEFAULT;
-
-  #_value: SkyFileItem | undefined;
-
   #changeDetector: ChangeDetectorRef;
+  #enterEventTarget: EventTarget | undefined | null;
+  #fileAttachmentId = uniqueId++;
   #fileAttachmentService: SkyFileAttachmentService;
   #fileItemService: SkyFileItemService;
   #ngControl: NgControl | undefined;
+  #ngUnsubscribe = new Subject<void>();
   #themeSvc: SkyThemeService | undefined;
+  #_disabled = false;
+  #_maxFileSize = MAX_FILE_SIZE_DEFAULT;
+  #_minFileSize = MIN_FILE_SIZE_DEFAULT;
+  #_required = false;
+  #_value: SkyFileItem | undefined;
 
   constructor(
     changeDetector: ChangeDetectorRef,

@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -29,7 +30,13 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
    * @default false
    */
   @Input()
-  public disabled: boolean | undefined;
+  public set disabled(value: boolean | undefined) {
+    this.#_disabled = coerceBooleanProperty(value);
+  }
+
+  public get disabled(): boolean {
+    return this.#_disabled;
+  }
 
   /**
    * The header for the collapsible group of tabs.
@@ -47,12 +54,11 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
   @ContentChildren(SkyVerticalTabComponent)
   public tabs: QueryList<SkyVerticalTabComponent> | undefined;
 
-  #ngUnsubscribe = new Subject<void>();
-
-  #openBeforeTabsHidden: boolean | undefined = false;
-
-  #tabService: SkyVerticalTabsetService;
   #changeRef: ChangeDetectorRef;
+  #ngUnsubscribe = new Subject<void>();
+  #openBeforeTabsHidden: boolean | undefined = false;
+  #tabService: SkyVerticalTabsetService;
+  #_disabled = false;
 
   constructor(
     tabService: SkyVerticalTabsetService,

@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { Component, Input, OnDestroy } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 
@@ -87,10 +88,10 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
    */
   @Input()
   public set disabled(value: boolean | undefined) {
-    this.#_disabled = value;
+    this.#_disabled = coerceBooleanProperty(value);
   }
 
-  public get disabled(): boolean | undefined {
+  public get disabled(): boolean {
     return this.#_disabled;
   }
 
@@ -102,7 +103,7 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
   protected tabToSelect: SkyTabComponent | undefined;
 
   #_buttonType: SkyTabsetNavButtonType | undefined;
-  #_disabled: boolean | undefined;
+  #_disabled = false;
   #_tabset: SkyTabsetComponent | undefined;
   #activeIndexNumber: number | undefined;
   #activeSkyTabIndex: SkyTabIndex | undefined;

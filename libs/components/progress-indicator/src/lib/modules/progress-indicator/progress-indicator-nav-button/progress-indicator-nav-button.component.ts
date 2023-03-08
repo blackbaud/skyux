@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -60,11 +61,11 @@ export class SkyProgressIndicatorNavButtonComponent
    */
   @Input()
   public set disabled(value: boolean | undefined) {
-    this.#_disabled = value;
+    this.#_disabled = coerceBooleanProperty(value);
     this.#changeDetector.markForCheck();
   }
 
-  public get disabled(): boolean | undefined {
+  public get disabled(): boolean {
     return this.#_disabled;
   }
 
@@ -142,7 +143,7 @@ export class SkyProgressIndicatorNavButtonComponent
   #parentTimeout: number | undefined;
 
   #_buttonType = BUTTON_TYPE_DEFAULT;
-  #_disabled: boolean | undefined;
+  #_disabled = false;
   #_isVisible: boolean | undefined;
   #_progressIndicator: SkyProgressIndicatorComponent | undefined;
 

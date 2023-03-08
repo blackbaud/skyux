@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   AfterContentInit,
   AfterViewInit,
@@ -94,8 +95,9 @@ export class SkyFuzzyDatepickerInputDirective
    */
   @Input()
   public set disabled(value: boolean | undefined) {
-    this.#_disabled = value;
-    this.#datepickerComponent.disabled = value;
+    const coercedValue = coerceBooleanProperty(value);
+    this.#_disabled = coercedValue;
+    this.#datepickerComponent.disabled = coercedValue;
 
     this.#renderer.setProperty(
       this.#elementRef.nativeElement,
@@ -104,7 +106,7 @@ export class SkyFuzzyDatepickerInputDirective
     );
   }
 
-  public get disabled(): boolean | undefined {
+  public get disabled(): boolean {
     return this.#_disabled;
   }
 
@@ -219,7 +221,7 @@ export class SkyFuzzyDatepickerInputDirective
 
   #_dateFormat: string | undefined;
 
-  #_disabled: boolean | undefined = false;
+  #_disabled = false;
 
   #_maxDate: SkyFuzzyDate | undefined;
 

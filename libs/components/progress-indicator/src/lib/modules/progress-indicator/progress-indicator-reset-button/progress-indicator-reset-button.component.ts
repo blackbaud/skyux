@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -28,11 +29,11 @@ export class SkyProgressIndicatorResetButtonComponent implements OnDestroy {
    */
   @Input()
   public set disabled(value: boolean | undefined) {
-    this.#_disabled = value;
+    this.#_disabled = coerceBooleanProperty(value);
     this.#changeDetector.markForCheck();
   }
 
-  public get disabled(): boolean | undefined {
+  public get disabled(): boolean {
     return this.#_disabled;
   }
 
@@ -50,7 +51,7 @@ export class SkyProgressIndicatorResetButtonComponent implements OnDestroy {
   @Output()
   public resetClick = new EventEmitter<void>();
 
-  #_disabled: boolean | undefined;
+  #_disabled = false;
   #changeDetector: ChangeDetectorRef;
 
   constructor(changeDetector: ChangeDetectorRef) {

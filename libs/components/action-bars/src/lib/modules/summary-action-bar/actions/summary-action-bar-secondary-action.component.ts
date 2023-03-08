@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -22,7 +23,13 @@ export class SkySummaryActionBarSecondaryActionComponent {
    * @default false
    */
   @Input()
-  public disabled = false;
+  public set disabled(value: boolean | undefined) {
+    this.#_disabled = coerceBooleanProperty(value);
+  }
+
+  public get disabled(): boolean {
+    return this.#_disabled;
+  }
 
   public set isDropdown(value: boolean | undefined) {
     this.#_isDropdown = value;
@@ -39,6 +46,7 @@ export class SkySummaryActionBarSecondaryActionComponent {
   @Output()
   public actionClick = new EventEmitter<void>();
 
+  #_disabled = false;
   #_isDropdown: boolean | undefined;
 
   #changeDetector: ChangeDetectorRef;

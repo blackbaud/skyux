@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -73,9 +74,16 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
 
   /**
    * Whether to disable the tab.
+   * @default false
    */
   @Input()
-  public disabled: boolean | undefined = false;
+  public set disabled(value: boolean | undefined) {
+    this.#_disabled = coerceBooleanProperty(value);
+  }
+
+  public get disabled(): boolean {
+    return this.#_disabled;
+  }
 
   /**
    * Whether to indicate that the tab has an error.
@@ -146,6 +154,8 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
   #_ariaRole = 'tab';
 
   #_contentRendered = false;
+
+  #_disabled = false;
 
   #tabIdOrDefault: string;
 

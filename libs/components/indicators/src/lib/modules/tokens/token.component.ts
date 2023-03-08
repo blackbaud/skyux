@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -23,7 +24,7 @@ export class SkyTokenComponent {
    */
   @Input()
   public set disabled(value: boolean | undefined) {
-    this.#_disabled = !!value;
+    this.#_disabled = coerceBooleanProperty(value);
   }
 
   public get disabled(): boolean {

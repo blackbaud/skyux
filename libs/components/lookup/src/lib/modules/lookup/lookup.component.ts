@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -110,7 +111,7 @@ export class SkyLookupComponent
    */
   @Input()
   public set disabled(value: boolean | undefined) {
-    this.#_disabled = value ?? false;
+    this.#_disabled = coerceBooleanProperty(value);
   }
 
   public get disabled(): boolean {

@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -14,8 +15,6 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SkyIdService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
-
-import { SkyFormsUtility } from '../shared/forms-utility';
 
 import { SkyRadioGroupIdService } from './radio-group-id.service';
 import { SkyRadioChange } from './types/radio-change';
@@ -79,7 +78,7 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    */
   @Input()
   public set disabled(value: boolean | undefined) {
-    const coercedValue = SkyFormsUtility.coerceBooleanProperty(value);
+    const coercedValue = coerceBooleanProperty(value);
     if (coercedValue !== this.disabled) {
       this.#_disabled = coercedValue;
       this.disabledChange.next(coercedValue);

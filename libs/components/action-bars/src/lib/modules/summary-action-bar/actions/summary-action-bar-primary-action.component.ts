@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -21,13 +22,21 @@ export class SkySummaryActionBarPrimaryActionComponent {
    * @default false
    */
   @Input()
-  public disabled = false;
+  public set disabled(value: boolean | undefined) {
+    this.#_disabled = coerceBooleanProperty(value);
+  }
+
+  public get disabled(): boolean {
+    return this.#_disabled;
+  }
 
   /**
    * Fires when users select the primary action.
    */
   @Output()
   public actionClick = new EventEmitter<void>();
+
+  #_disabled = false;
 
   public onButtonClicked(): void {
     this.actionClick.emit();

@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -16,7 +17,6 @@ import { SkyDropdownMessage, SkyDropdownMessageType } from '@skyux/popovers';
 import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyFormsUtility } from '../../shared/forms-utility';
 import { STYLE_STATE_DEFAULTS } from '../defaults/style-state-defaults';
 import { SkyTextEditorAdapterService } from '../services/text-editor-adapter.service';
 import { SkyTextEditorFont } from '../types/font-state';
@@ -73,7 +73,7 @@ export class SkyTextEditorToolbarComponent implements OnInit {
 
   @Input()
   public set disabled(value: boolean) {
-    const coercedValue = SkyFormsUtility.coerceBooleanProperty(value);
+    const coercedValue = coerceBooleanProperty(value);
     if (coercedValue !== this.disabled) {
       this.#_disabled = coercedValue;
       this.#changeDetector.markForCheck();

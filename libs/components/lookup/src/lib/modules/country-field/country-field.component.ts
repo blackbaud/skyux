@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -97,14 +98,16 @@ export class SkyCountryFieldComponent
    * @default false
    */
   @Input()
-  public set disabled(isDisabled: boolean | undefined) {
+  public set disabled(value: boolean | undefined) {
     this.#removeEventListeners();
 
-    if (!isDisabled) {
+    const coercedValue = coerceBooleanProperty(value);
+
+    if (!coercedValue) {
       this.#addEventListeners();
     }
 
-    this.#_disabled = isDisabled ?? false;
+    this.#_disabled = coercedValue;
 
     this.#changeDetector.markForCheck();
   }

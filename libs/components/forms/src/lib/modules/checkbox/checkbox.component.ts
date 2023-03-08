@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   ChangeDetectorRef,
   Component,
@@ -77,7 +78,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    */
   @Input()
   public set disabled(value: boolean | undefined) {
-    const coercedValue = SkyFormsUtility.coerceBooleanProperty(value);
+    const coercedValue = coerceBooleanProperty(value);
     if (coercedValue !== this.#_disabled) {
       this.#_disabled = coercedValue;
       this.#disabledChange.next(coercedValue);
@@ -204,7 +205,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    */
   @Input()
   set required(value: boolean | undefined) {
-    this.#_required = SkyFormsUtility.coerceBooleanProperty(value);
+    this.#_required = coerceBooleanProperty(value);
   }
 
   get required(): boolean {

@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -66,8 +67,9 @@ export class SkyRepeaterItemComponent
    */
   @Input()
   public set disabled(value: boolean | undefined) {
-    if (this.#_isDisabled !== value) {
-      if (value) {
+    const coercedValue = coerceBooleanProperty(value);
+    if (this.#_isDisabled !== coercedValue) {
+      if (coercedValue) {
         this.isSelected = false;
         this.#_isDisabled = true;
       } else {

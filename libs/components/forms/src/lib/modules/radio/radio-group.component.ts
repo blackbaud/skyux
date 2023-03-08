@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   AfterContentInit,
   AfterViewInit,
@@ -63,9 +64,9 @@ export class SkyRadioGroupComponent
    */
   @Input()
   public set disabled(value: boolean | undefined) {
-    const newDisabledState = SkyFormsUtility.coerceBooleanProperty(value);
-    if (this.#_disabled !== newDisabledState) {
-      this.#_disabled = newDisabledState;
+    const coercedValue = coerceBooleanProperty(value);
+    if (this.#_disabled !== coercedValue) {
+      this.#_disabled = coercedValue;
       this.#updateRadioButtonDisabled();
     }
   }
@@ -102,7 +103,13 @@ export class SkyRadioGroupComponent
    * @default false
    */
   @Input()
-  public required: boolean | undefined = false;
+  public set required(value: boolean | undefined) {
+    this.#_required = coerceBooleanProperty(value);
+  }
+
+  public get required(): boolean {
+    return this.#_required;
+  }
 
   /**
    * The value of the radio button to select by default when the group loads.
@@ -161,6 +168,8 @@ export class SkyRadioGroupComponent
   #_disabled = false;
 
   #_name = '';
+
+  #_required = false;
 
   #_tabIndex: number | undefined;
 

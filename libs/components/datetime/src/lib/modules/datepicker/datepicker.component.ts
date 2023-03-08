@@ -53,11 +53,11 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
   @Input()
   public pickerClass: string | undefined = '';
 
-  public get disabled(): boolean | undefined {
+  public get disabled(): boolean {
     return this.#_disabled;
   }
 
-  public set disabled(value: boolean | undefined) {
+  public set disabled(value: boolean) {
     this.#_disabled = value;
     this.#changeDetector.markForCheck();
   }
@@ -177,7 +177,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
 
   #_calendarRef: ElementRef | undefined;
 
-  #_disabled: boolean | undefined = false;
+  #_disabled = false;
 
   #_selectedDate: Date | undefined;
 

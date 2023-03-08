@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -92,7 +93,13 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
    * @default false
    */
   @Input()
-  public disabled: boolean | undefined = false;
+  public set disabled(value: boolean | undefined) {
+    this.#_disabled = coerceBooleanProperty(value);
+  }
+
+  public get disabled(): boolean {
+    return this.#_disabled;
+  }
 
   /**
    * Whether to close the dropdown when users click away from the menu.
@@ -212,33 +219,23 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   }
 
   #affixer: SkyAffixer | undefined;
-
-  #ngUnsubscribe = new Subject<void>();
-
-  #overlay: SkyOverlayInstance | undefined;
-
-  #_buttonStyle = 'default';
-
-  #_buttonType: SkyDropdownButtonType | string = DEFAULT_BUTTON_TYPE;
-
-  #_dismissOnBlur = true;
-
-  #_horizontalAlignment: SkyDropdownHorizontalAlignment = 'left';
-
-  #_isOpen = false;
-
-  #_trigger: SkyDropdownTriggerType = 'click';
-
-  #_triggerButton: ElementRef | undefined;
-
-  #positionTimeout: number | undefined;
-
-  #changeDetector: ChangeDetectorRef;
   #affixService: SkyAffixService;
+  #changeDetector: ChangeDetectorRef;
+  #ngUnsubscribe = new Subject<void>();
+  #overlay: SkyOverlayInstance | undefined;
   #overlayService: SkyOverlayService;
+  #positionTimeout: number | undefined;
   #logService: SkyLogService;
   #themeSvc: SkyThemeService | undefined;
   #zIndex: Observable<number> | undefined;
+  #_buttonStyle = 'default';
+  #_buttonType: SkyDropdownButtonType | string = DEFAULT_BUTTON_TYPE;
+  #_disabled = false;
+  #_dismissOnBlur = true;
+  #_horizontalAlignment: SkyDropdownHorizontalAlignment = 'left';
+  #_isOpen = false;
+  #_trigger: SkyDropdownTriggerType = 'click';
+  #_triggerButton: ElementRef | undefined;
 
   constructor(
     changeDetector: ChangeDetectorRef,

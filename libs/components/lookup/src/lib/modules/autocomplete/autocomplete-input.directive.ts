@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   Directive,
   ElementRef,
@@ -69,11 +70,12 @@ export class SkyAutocompleteInputDirective
    */
   @Input()
   public set disabled(value: boolean | undefined) {
-    this.#_disabled = value ?? false;
+    const coercedValue = coerceBooleanProperty(value);
+    this.#_disabled = coercedValue;
     this.#renderer.setProperty(
       this.#elementRef.nativeElement,
       'disabled',
-      value
+      coercedValue
     );
   }
 

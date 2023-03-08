@@ -1,4 +1,5 @@
 import { animate, style, transition, trigger } from '@angular/animations';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -70,7 +71,7 @@ export class SkyTokensComponent implements OnDestroy {
    */
   @Input()
   public set disabled(value: boolean | undefined) {
-    this.#_disabled = !!value;
+    this.#_disabled = coerceBooleanProperty(value);
   }
 
   public get disabled(): boolean {

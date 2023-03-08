@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   AfterContentInit,
   ChangeDetectionStrategy,
@@ -86,9 +87,16 @@ export class SkyToggleSwitchComponent
 
   /**
    * Whether to disable the toggle switch.
+   * @default false
    */
   @Input()
-  public disabled: boolean | undefined = false;
+  public set disabled(value: boolean | undefined) {
+    this.#_disabled = coerceBooleanProperty(value);
+  }
+
+  public get disabled(): boolean {
+    return this.#_disabled;
+  }
 
   /**
    * The tab index for the toggle switch. If not defined, the index is set to the position
@@ -116,6 +124,7 @@ export class SkyToggleSwitchComponent
   #ngUnsubscribe = new Subject<void>();
 
   #_checked = false;
+  #_disabled = false;
 
   #changeDetector: ChangeDetectorRef;
 
