@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
   OnDestroy,
   OnInit,
 } from '@angular/core';
@@ -69,13 +70,14 @@ export class DataGridPagingDemoComponent implements OnInit, OnDestroy {
   public gridOptions: GridOptions;
   public searchText = '';
 
+  private agGridService = inject(SkyAgGridService);
+  private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
+  private changeDetector = inject(ChangeDetectorRef);
+
   #subscriptions = new Subscription();
 
   constructor(
-    private agGridService: SkyAgGridService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private changeDetector: ChangeDetectorRef
   ) {
     this.gridOptions = {
       columnDefs: this.columnDefs,
