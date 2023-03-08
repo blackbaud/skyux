@@ -2,9 +2,9 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  inject,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
@@ -77,8 +77,7 @@ export class DataGridPagingDemoComponent implements OnInit, OnDestroy {
 
   #subscriptions = new Subscription();
 
-  constructor(
-  ) {
+  constructor() {
     this.gridOptions = {
       columnDefs: this.columnDefs,
       onGridReady: (gridReadyEvent): void => this.onGridReady(gridReadyEvent),
