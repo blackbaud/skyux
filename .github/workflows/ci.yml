@@ -14,6 +14,7 @@ jobs:
   install-deps:
     name: Install and cache dependencies
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     outputs:
       node-version: ${{ steps.setup-node.outputs.node-version }}
       parameters: ${{ steps.parameters.outputs.parameters }}
@@ -63,6 +64,7 @@ jobs:
     name: Check library dependencies, missing peers, resources, code formatting
     runs-on: ubuntu-latest
     needs: install-deps
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v3
         with:
@@ -97,11 +99,13 @@ jobs:
     name: Lint, build, test
     runs-on: ubuntu-latest
     needs: install-deps
+    timeout-minutes: 30
     strategy:
       # If one build fails, do not cancel other builds.
       fail-fast: false
       matrix:
         project: ${{ fromJSON(needs.install-deps.outputs.parameters).projects }}
+      max-parallel: 10
     steps:
       - uses: actions/checkout@v3
         with:
@@ -144,6 +148,7 @@ jobs:
   build-dist:
     name: Build packages distribution
     needs: install-deps
+    timeout-minutes: 60
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' }}
     steps:
@@ -164,3 +169,25 @@ jobs:
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Build packages dist
         run: npx skyux-dev create-packages-dist
+
+  lint:
+    name: Lint
+    needs: lint-build-test
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo '✅Lint'
+
+  build:
+    name: Build
+    needs: lint-build-test
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'pull_request' }}
+    steps:
+      - run: echo '✅Build'
+
+  coverage:
+    name: Code coverage
+    needs: lint-build-test
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo '✅Code coverage'
