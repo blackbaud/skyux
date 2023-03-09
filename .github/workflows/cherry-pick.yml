@@ -76,7 +76,7 @@ jobs:
             --title "${{ github.event.pull_request.title }}" \
             --body ":cherries: Cherry picked from #${{ github.event.pull_request.number }} [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }})" \
             --base ${{ env.TARGET_BRANCH }} \
-            --head ${{ env.CHERRY_PICK_BRANCH }}
+            --head ${CHERRY_PICK_BRANCH}
 
           if [ $? -ne 0 ]; then
             echo "CHERRY_PICK_RESULT=failed" >> $GITHUB_ENV
