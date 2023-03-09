@@ -6,7 +6,7 @@ export class AutonumericDemoOptionsProvider extends SkyAutonumericOptionsProvide
     super();
   }
 
-  public getConfig(): SkyAutonumericOptions {
+  public override getConfig(): SkyAutonumericOptions {
     return {
       currencySymbol: ' €',
       currencySymbolPlacement: 's',

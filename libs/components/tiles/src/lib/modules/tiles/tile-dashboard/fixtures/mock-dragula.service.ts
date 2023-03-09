@@ -7,5 +7,5 @@ import { Subject } from 'rxjs';
 export class MockDragulaService extends DragulaService {
   #drop$ = new Subject<any>();
 
-  public drop = () => this.#drop$;
+  public override drop = () => this.#drop$;
 }

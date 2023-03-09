@@ -10,7 +10,7 @@ const providedLocaleBehaviorSubject = new BehaviorSubject({
 
 @Injectable()
 class MockLocaleProvider extends SkyAppLocaleProvider {
-  public getLocaleInfo() {
+  public override getLocaleInfo() {
     return providedLocaleBehaviorSubject;
   }
 }
