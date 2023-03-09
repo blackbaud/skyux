@@ -65,7 +65,7 @@ import { SkyPhoneFieldNumberReturnFormat } from './types/number-return-format';
   animations: [
     trigger('blockAnimationOnLoad', [transition(':enter', [])]),
     trigger('countrySearchAnimation', [
-      transition(':enter', [
+      transition('void => open', [
         style({
           opacity: 0,
           width: 0,
@@ -78,7 +78,7 @@ import { SkyPhoneFieldNumberReturnFormat } from './types/number-return-format';
           })
         ),
       ]),
-      transition(':leave', [
+      transition('open => void', [
         animate(
           '200ms ease-in',
           style({
@@ -87,22 +87,41 @@ import { SkyPhoneFieldNumberReturnFormat } from './types/number-return-format';
           })
         ),
       ]),
-    ]),
-    trigger('phoneInputAnimation', [
-      transition(':enter', [
+      transition('void => open-modern', [
         style({
           opacity: 0,
         }),
         animate(
-          '150ms ease-in',
+          '200ms ease-in',
           style({
             opacity: 1,
           })
         ),
       ]),
-      transition(':leave', [
+      transition('open-modern => void', [
         animate(
-          '150ms ease-in',
+          '200ms ease-in',
+          style({
+            opacity: 0,
+          })
+        ),
+      ]),
+    ]),
+    trigger('phoneInputAnimation', [
+      transition('void => open', [
+        style({
+          opacity: 0,
+        }),
+        animate(
+          '200ms ease-in',
+          style({
+            opacity: 1,
+          })
+        ),
+      ]),
+      transition('open => void', [
+        animate(
+          '200ms ease-in',
           style({
             opacity: 0,
           })
