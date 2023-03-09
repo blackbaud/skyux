@@ -1,7 +1,6 @@
-import fs from 'fs-extra';
-import tildeImporter from 'node-sass-tilde-importer';
-import path from 'path';
-import sass from 'sass';
+import * as fs from 'fs-extra';
+import * as path from 'path';
+import * as sass from 'sass';
 
 const STYLES_ROOT = path.resolve(
   __dirname,
@@ -73,7 +72,6 @@ function validateSkyuxIconVersionMatch() {
 function renderScss(scssFilePath: string, cssDestPath: string) {
   const result = sass.renderSync({
     file: scssFilePath,
-    importer: tildeImporter as any,
     quietDeps: true,
   });
   fs.ensureFileSync(cssDestPath);
