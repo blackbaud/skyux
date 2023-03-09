@@ -4,7 +4,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
+  inject,
 } from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
@@ -106,29 +106,17 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
 
   public ariaLabelStream = new BehaviorSubject<string>('');
 
-  #elRef: ElementRef;
-  #adapterService: SkyWaitAdapterService;
-  #resourceSvc: SkyLibResourcesService;
-  #ngUnsubscribe = new Subject<void>();
-
-  #id: string;
   #customAriaLabel: string | undefined;
+  #id = `sky-wait-${++nextId}`;
+
+  #elRef = inject(ElementRef);
+  #adapterService = inject(SkyWaitAdapterService);
+  #resourceSvc = inject(SkyLibResourcesService);
+  #ngUnsubscribe = new Subject<void>();
 
   #_isFullPage: boolean | undefined;
   #_isNonBlocking: boolean | undefined;
   #_isWaiting: boolean | undefined;
-
-  constructor(
-    elRef: ElementRef,
-    adapterService: SkyWaitAdapterService,
-    @Optional() resourceSvc: SkyLibResourcesService
-  ) {
-    this.#elRef = elRef;
-    this.#adapterService = adapterService;
-    this.#resourceSvc = resourceSvc;
-
-    this.#id = `sky-wait-${++nextId}`;
-  }
 
   public ngOnInit(): void {
     this.#publishAriaLabel();
