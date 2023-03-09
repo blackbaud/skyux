@@ -17,6 +17,8 @@ import { SkyDataManagerDataGridDemoComponent as DataGridDataManagerAddedDataMana
 import { SkyDataManagerDataGridDocsDemoModule } from '../code-examples/ag-grid/data-grid/data-manager/data-manager-data-grid-docs-demo.module';
 import { DataGridDemoComponent as InlineHelpDataGridDemoComponent } from '../code-examples/ag-grid/data-grid/inline-help/data-grid-demo.component';
 import { DataGridDemoModule as InlineHelpDataGridDemoModule } from '../code-examples/ag-grid/data-grid/inline-help/data-grid-demo.module';
+import { DataGridPagingDemoComponent } from '../code-examples/ag-grid/data-grid/paging/data-grid-paging-demo.component';
+import { DataGridPagingDemoModule } from '../code-examples/ag-grid/data-grid/paging/data-grid-paging-demo.module';
 import { SkyTopScrollDataGridDemoComponent } from '../code-examples/ag-grid/data-grid/top-scroll/top-scroll-data-grid-demo.component';
 import { SkyTopScrollDataGridDemoModule } from '../code-examples/ag-grid/data-grid/top-scroll/top-scroll-data-grid-demo.module';
 
@@ -59,6 +61,10 @@ const routes: Routes = [
     path: 'data-grid/inline-help',
     component: InlineHelpDataGridDemoComponent,
   },
+  {
+    path: 'data-grid/paging',
+    component: DataGridPagingDemoComponent,
+  },
 ];
 
 @NgModule({
@@ -73,6 +79,7 @@ export class AgGridFeatureRoutingModule {}
     DataEntryGridDataManagerAddedDataManagerDataEntryGridDocsDemoModule,
     DataEntryGridInlineHelpDataEntryGridDocsDemoModule,
     DataGridBasicBasicDataGridDocsDemoModule,
+    DataGridPagingDemoModule,
     InlineHelpDataGridDemoModule,
     SkyBasicMultiselectDataGridDocsDemoModule,
     SkyDataManagerDataGridDocsDemoModule,
