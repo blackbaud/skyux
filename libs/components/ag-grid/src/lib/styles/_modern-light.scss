@@ -3,6 +3,10 @@
 
 .ag-theme-sky-modern-light {
   ag-grid-angular:not(.sky-ag-grid-editable) {
+    .ag-row-hover::before {
+      background-color: transparent;
+    }
+
     .ag-header-cell {
       text-transform: uppercase;
     }
