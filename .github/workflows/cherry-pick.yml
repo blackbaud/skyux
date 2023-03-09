@@ -63,7 +63,7 @@ jobs:
           CHERRY_PICK_BRANCH=$(git branch --show-current)
 
           # Push the cherry-pick to a new cherry-pick branch.
-          git push -u
+          git push -u origin ${CHERRY_PICK_BRANCH}
 
           if [ $? -ne 0 ]; then
             echo "CHERRY_PICK_RESULT=failed" >> $GITHUB_ENV
