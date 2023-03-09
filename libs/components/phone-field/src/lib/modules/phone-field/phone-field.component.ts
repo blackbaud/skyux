@@ -22,7 +22,10 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { SkyInputBoxHostService } from '@skyux/forms';
-import { SkyCountryFieldCountry } from '@skyux/lookup';
+import {
+  SKY_COUNTRY_FIELD_CONTEXT,
+  SkyCountryFieldCountry,
+} from '@skyux/lookup';
 import { SkyThemeService } from '@skyux/theme';
 
 import {
@@ -53,6 +56,10 @@ import { SkyPhoneFieldNumberReturnFormat } from './types/number-return-format';
     {
       provide: SkyInputBoxHostService,
       useValue: undefined,
+    },
+    {
+      provide: SKY_COUNTRY_FIELD_CONTEXT,
+      useValue: { showPlaceholderText: true },
     },
   ],
   animations: [
