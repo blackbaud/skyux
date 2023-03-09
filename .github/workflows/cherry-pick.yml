@@ -61,7 +61,6 @@ jobs:
 
           # Get the name of the cherry-pick branch.
           CHERRY_PICK_BRANCH=$(git branch --show-current)
-          echo "CHERRY_PICK_BRANCH=${CHERRY_PICK_BRANCH}" >> $GITHUB_ENV
 
           # Push the cherry-pick to a new cherry-pick branch.
           git push -u origin ${CHERRY_PICK_BRANCH}
