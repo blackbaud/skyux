@@ -142,7 +142,8 @@
       ],
       "@skyux/validation": ["libs/components/validation/src/index.ts"]
     },
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   },
   "angularCompilerOptions": {
     "strictTemplates": true,

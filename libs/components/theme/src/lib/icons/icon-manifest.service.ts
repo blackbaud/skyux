@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import * as iconManifest from '@skyux/icons/assets/manifest.json';
+import iconManifest from '@skyux/icons/assets/manifest.json';
 
 import { SkyThemeIconManifest } from './icon-manifest';
 

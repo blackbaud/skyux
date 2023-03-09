@@ -3,6 +3,7 @@
     "baseUrl": ".",
     "lib": ["es2018", "dom"],
     "declaration": true,
+    "esModuleInterop": true,
     "module": "commonjs",
     "moduleResolution": "node",
     "noEmitOnError": true,

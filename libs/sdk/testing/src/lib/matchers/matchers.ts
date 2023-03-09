@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { SkyAppResourcesService, SkyLibResourcesService } from '@skyux/i18n';
 
-import * as axe from 'axe-core';
+import axe from 'axe-core';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 

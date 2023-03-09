@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { SkyAppLocaleProvider } from '@skyux/i18n';
 
-import * as moment from 'moment';
+import moment from 'moment';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 

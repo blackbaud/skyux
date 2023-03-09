@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import * as designJson from '@blackbaud/skyux-design-tokens/json/design-tokens.json';
+import design from '@blackbaud/skyux-design-tokens/json/design-tokens.json';
 
-import * as FontFaceObserver from 'fontfaceobserver';
+import FontFaceObserver from 'fontfaceobserver';
 import { Observable, from } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-const design = designJson as any;
 
 @Injectable({
   providedIn: 'root',

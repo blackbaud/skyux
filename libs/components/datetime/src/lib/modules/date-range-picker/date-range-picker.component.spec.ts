@@ -13,7 +13,7 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import * as moment from 'moment';
+import moment from 'moment';
 import { BehaviorSubject } from 'rxjs';
 
 import { DateRangePickerTestComponent } from './fixtures/date-range-picker.component.fixture';

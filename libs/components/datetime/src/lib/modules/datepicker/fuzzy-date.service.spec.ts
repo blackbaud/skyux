@@ -2,7 +2,7 @@ import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 import { SkyAppLocaleProvider } from '@skyux/i18n';
 
-import * as moment from 'moment';
+import moment from 'moment';
 import { take } from 'rxjs/operators';
 
 import { SkyFuzzyDate } from './fuzzy-date';

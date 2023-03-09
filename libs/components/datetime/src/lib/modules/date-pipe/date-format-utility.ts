@@ -4,7 +4,7 @@
 // https://github.com/angular/angular/blob/4.4.x/packages/common/src/pipes/date_pipe.ts
 import { SkyIntlDateFormatter } from '@skyux/i18n';
 
-import * as moment from 'moment';
+import moment from 'moment';
 
 export class SkyDateFormatUtility {
   /* spell-checker:disable */
