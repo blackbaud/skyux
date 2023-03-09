@@ -13,11 +13,8 @@ describe('SKY theme icon manifest service', () => {
   });
 
   it('should return the manifest file from the @skyux/icons package', () => {
-    expect(manifestSvc.getManifest()).toEqual(
-      jasmine.objectContaining(manifest)
+    expect(JSON.stringify(manifestSvc.getManifest())).toEqual(
+      JSON.stringify(manifest)
     );
-    console.log('1:', JSON.stringify(manifestSvc.getManifest()));
-    console.log('\n\n', '2:', JSON.stringify(manifest));
-    expect(manifestSvc.getManifest()).toEqual(manifest);
   });
 });
