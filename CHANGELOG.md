@@ -1,6 +1,14 @@
 # Changelog
 
-<<<<<<< HEAD
+## [7.10.1](https://github.com/blackbaud/skyux/compare/7.10.0...7.10.1) (2023-03-09)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** remove hover states for read-only data grid ([#1104](https://github.com/blackbaud/skyux/issues/1104)) ([03e41c0](https://github.com/blackbaud/skyux/commit/03e41c0930ec9245025487f68573cb388eea3c1a))
+* **components/phone-field:** phone field inputs now animate in modern theme ([#1101](https://github.com/blackbaud/skyux/issues/1101)) ([46b32b9](https://github.com/blackbaud/skyux/commit/46b32b9c046fcb50a3e26b4fe3b5f285ea65903f))
+* **components/phone-field:** placeholder text displays in all themes when searching for a country ([#1098](https://github.com/blackbaud/skyux/issues/1098)) ([78b53aa](https://github.com/blackbaud/skyux/commit/78b53aab4a6104b2bcd4a2c8152f1687f7fd4847))
+
 ## [8.0.0-alpha.7](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.6...8.0.0-alpha.7) (2023-03-08)
 
 
@@ -19,14 +27,10 @@
 * **components/tabs:** add `messageStream` and `tabsVisibleChanged` to sectioned form and deprecate public methods ([#1075](https://github.com/blackbaud/skyux/issues/1075)) ([fc57440](https://github.com/blackbaud/skyux/commit/fc5744035a1d3ec6159477bc7d9276cc509f4197))
 * **components/tabs:** update the `SkyTabsetNavButtonComponent` `buttonType` input to no longer support `string` values ([#1074](https://github.com/blackbaud/skyux/issues/1074)) ([865acd0](https://github.com/blackbaud/skyux/commit/865acd0041633695645a2ec6d5de978be28d37ec))
 * update ng2-dragula to 4.0.0 ([#1084](https://github.com/blackbaud/skyux/issues/1084)) ([a89c8a6](https://github.com/blackbaud/skyux/commit/a89c8a6a250601e5e74fa15e4f96bbddbda920a1))
-=======
-## [7.10.1](https://github.com/blackbaud/skyux/compare/7.10.0...7.10.1) (2023-03-09)
->>>>>>> 64f6de9fb (chore: release 7.10.1 (#1103))
 
 
 ### Bug Fixes
 
-<<<<<<< HEAD
 * **components/modals:** modal headers now use h2 elements to better follow accessibility standards ([#969](https://github.com/blackbaud/skyux/issues/969)) ([4365d1a](https://github.com/blackbaud/skyux/commit/4365d1a16fcd3ba4377ed08c983052b6756ba3a7))
 
 ## [8.0.0-alpha.6](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.5...8.0.0-alpha.6) (2023-03-03)
@@ -42,11 +46,6 @@
 * **components/ag-grid:** set header to use default text color ([#1062](https://github.com/blackbaud/skyux/issues/1062)) ([#1067](https://github.com/blackbaud/skyux/issues/1067)) ([7e5980f](https://github.com/blackbaud/skyux/commit/7e5980f89065754e8223fe4989f1fcaa90e9311a))
 * **components/modals:** remove z-index rule from modal content ([#1061](https://github.com/blackbaud/skyux/issues/1061)) ([#1064](https://github.com/blackbaud/skyux/issues/1064)) ([25fc521](https://github.com/blackbaud/skyux/commit/25fc521957cb1a7d79e90034df20f89f85564035))
 * **components/packages:** add content to polyfills.ts ([#1065](https://github.com/blackbaud/skyux/issues/1065)) ([a340051](https://github.com/blackbaud/skyux/commit/a340051e3afcd5dbb4da65eb83c57b47b1cc8bd6))
-=======
-* **components/ag-grid:** remove hover states for read-only data grid ([#1104](https://github.com/blackbaud/skyux/issues/1104)) ([03e41c0](https://github.com/blackbaud/skyux/commit/03e41c0930ec9245025487f68573cb388eea3c1a))
-* **components/phone-field:** phone field inputs now animate in modern theme ([#1101](https://github.com/blackbaud/skyux/issues/1101)) ([46b32b9](https://github.com/blackbaud/skyux/commit/46b32b9c046fcb50a3e26b4fe3b5f285ea65903f))
-* **components/phone-field:** placeholder text displays in all themes when searching for a country ([#1098](https://github.com/blackbaud/skyux/issues/1098)) ([78b53aa](https://github.com/blackbaud/skyux/commit/78b53aab4a6104b2bcd4a2c8152f1687f7fd4847))
->>>>>>> 64f6de9fb (chore: release 7.10.1 (#1103))
 
 ## [7.10.0](https://github.com/blackbaud/skyux/compare/7.9.1...7.10.0) (2023-03-03)
 
