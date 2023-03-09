@@ -483,7 +483,7 @@ export class SkyListViewGridComponent
     this.dispatcher.sortSetFieldSelectors([sortField]);
   }
 
-  public onViewActive() {
+  public override onViewActive() {
     /*
       Ran into problem where state updates were consumed out of order. For example, on search text
       update, the searchText update was consumed after the resulting list item update. Scanning the

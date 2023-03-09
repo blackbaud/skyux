@@ -12,7 +12,7 @@ import {
   url,
 } from '@angular-devkit/schematics';
 
-import path from 'path';
+import * as path from 'path';
 
 import { SkyuxVersions } from '../../shared/skyux-versions';
 import { readRequiredFile } from '../../utility/tree';

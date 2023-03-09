@@ -8,7 +8,7 @@ import { Observable, of as observableOf } from 'rxjs';
  */
 @Injectable()
 export class MockSkyUIConfigService extends SkyUIConfigService {
-  public getConfig(key: string, defaultConfig?: any): Observable<any> {
+  public override getConfig(key: string, defaultConfig?: any): Observable<any> {
     switch (key) {
       case 'defaultSettings':
         return observableOf(defaultConfig);

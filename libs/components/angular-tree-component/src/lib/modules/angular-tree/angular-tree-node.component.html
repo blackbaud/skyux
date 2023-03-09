@@ -21,7 +21,7 @@
     role="treeitem"
     [allowDragoverStyling]="node.allowDragoverStyling()"
     [attr.aria-current]="node.isActive"
-    [attr.aria-expanded]="node.children?.length ? node.isExpanded : null"
+    [attr.aria-expanded]="node.children.length ? node.isExpanded : null"
     [attr.aria-selected]="ariaSelected()"
     [attr.data-node-id]="node.id"
     [attr.tabindex]="tabIndex"

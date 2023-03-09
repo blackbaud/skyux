@@ -26,7 +26,7 @@ import {
 import { SkyInputBoxHostService } from '@skyux/forms';
 import { SkyThemeService } from '@skyux/theme';
 
-import moment from 'moment';
+import * as moment from 'moment';
 import { Observable, Subject, Subscription, fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
