@@ -1,5 +1,14 @@
 # Changelog
 
+## [7.10.1](https://github.com/blackbaud/skyux/compare/7.10.0...7.10.1) (2023-03-09)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** remove hover states for read-only data grid ([#1104](https://github.com/blackbaud/skyux/issues/1104)) ([03e41c0](https://github.com/blackbaud/skyux/commit/03e41c0930ec9245025487f68573cb388eea3c1a))
+* **components/phone-field:** phone field inputs now animate in modern theme ([#1101](https://github.com/blackbaud/skyux/issues/1101)) ([46b32b9](https://github.com/blackbaud/skyux/commit/46b32b9c046fcb50a3e26b4fe3b5f285ea65903f))
+* **components/phone-field:** placeholder text displays in all themes when searching for a country ([#1098](https://github.com/blackbaud/skyux/issues/1098)) ([78b53aa](https://github.com/blackbaud/skyux/commit/78b53aab4a6104b2bcd4a2c8152f1687f7fd4847))
+
 ## [8.0.0-alpha.7](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.6...8.0.0-alpha.7) (2023-03-08)
 
 
