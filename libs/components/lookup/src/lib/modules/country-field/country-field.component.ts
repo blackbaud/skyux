@@ -15,6 +15,7 @@ import {
   Type,
   ViewChild,
   forwardRef,
+  inject,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -38,6 +39,8 @@ import { SkyAutocompleteInputDirective } from '../autocomplete/autocomplete-inpu
 import { SkyAutocompleteSelectionChange } from '../autocomplete/types/autocomplete-selection-change';
 
 import { SkyCountryFieldCountry } from './types/country';
+import { SkyCountryFieldContext } from './types/country-field-context';
+import { SKY_COUNTRY_FIELD_CONTEXT } from './types/country-field-context-token';
 
 const DEFAULT_COUNTRY_CODE = 'us';
 
@@ -231,6 +234,13 @@ export class SkyCountryFieldComponent
   public get selectedCountry(): SkyCountryFieldCountry | undefined {
     return this.#_selectedCountry;
   }
+
+  public context: SkyCountryFieldContext | null = inject(
+    SKY_COUNTRY_FIELD_CONTEXT,
+    {
+      optional: true,
+    }
+  );
 
   public currentTheme = 'default';
 
