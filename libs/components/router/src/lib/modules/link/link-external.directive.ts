@@ -73,7 +73,7 @@ export class SkyAppLinkExternalDirective
     }
   }
 
-  public override ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     this.queryParams = this.#mergeQueryParams(
       changes.queryParams?.currentValue
     );

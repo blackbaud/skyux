@@ -4,7 +4,7 @@ import { SkyAppLocaleInfo, SkyAppLocaleProvider } from '@skyux/i18n';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 export class MyLocaleProvider extends SkyAppLocaleProvider {
-  public override getLocaleInfo(): Observable<SkyAppLocaleInfo> {
+  public getLocaleInfo(): Observable<SkyAppLocaleInfo> {
     const obs = new BehaviorSubject<any>({});
 
     // Simulate HTTP call.

@@ -17,7 +17,7 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
    * element is removed from the DOM.
    * @internal
    */
-  public static override hostSelector = 'sky-lookup,.sky-input-box';
+  public static hostSelector = 'sky-lookup,.sky-input-box';
 
   #documentRootLocator = this.documentRootLocatorFactory();
 
@@ -31,7 +31,7 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
    * Gets a `HarnessPredicate` that can be used to search for a
    * `SkyLookupHarness` that meets certain criteria.
    */
-  public static override with(
+  public static with(
     filters: SkyLookupHarnessFilters
   ): HarnessPredicate<SkyLookupHarness> {
     return SkyLookupHarness.getDataSkyIdPredicate(filters);
@@ -40,7 +40,7 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
   /**
    * Clicks the "Add" button on the search results panel.
    */
-  public override async clickAddButton(): Promise<void> {
+  public async clickAddButton(): Promise<void> {
     await this.focus();
     await super.clickAddButton();
   }
@@ -48,7 +48,7 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
   /**
    * Clicks the "Show more" button on the search results panel.
    */
-  public override async clickShowMoreButton(): Promise<void> {
+  public async clickShowMoreButton(): Promise<void> {
     await this.focus();
     await super.clickShowMoreButton();
   }

@@ -9,7 +9,6 @@
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
-    "noImplicitOverride": true,
     "noUnusedLocals": true,
     "experimentalDecorators": true,
     "importHelpers": true,
