@@ -10,6 +10,7 @@ import {
   QueryList,
   TrackByFunction,
   ViewChildren,
+  inject,
 } from '@angular/core';
 
 import { Subject, Subscription } from 'rxjs';
@@ -221,13 +222,13 @@ export class SkyTokensComponent implements OnDestroy {
 
   #messageStreamSub: Subscription | undefined;
   #ngUnsubscribe = new Subject<void>();
-  #_messageStream = new Subject<SkyTokensMessage>();
-  #changeDetector: ChangeDetectorRef;
+
+  #changeDetector = inject(ChangeDetectorRef);
 
   #_activeIndex = 0;
+  #_messageStream = new Subject<SkyTokensMessage>();
 
-  constructor(changeDetector: ChangeDetectorRef) {
-    this.#changeDetector = changeDetector;
+  constructor() {
     this.#initMessageStream();
 
     // Angular calls the trackBy function without applying the component instance's scope.
