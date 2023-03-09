@@ -39,6 +39,9 @@ jobs:
 
       - name: Cherry pick
         run: |
+          git config user.name 'Blackbaud Sky Build User'
+          git config user.email 'sky-build-user@blackbaud.com'
+
           # Echo commands to the log.
           set -x
 
