@@ -80,6 +80,12 @@
           "apps/e2e/modals-storybook/**/*.ts",
           "apps/e2e/modals-storybook/**/*.html"
         ]
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true,
+          "silent": true
+        }
       }
     },
     "test": {
@@ -88,6 +94,14 @@
       "options": {
         "jestConfig": "apps/e2e/modals-storybook/jest.config.ts",
         "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "browsers": "ChromeHeadlessNoSandbox",
+          "watch": false,
+          "progress": false,
+          "codeCoverage": true
+        }
       }
     },
     "storybook": {

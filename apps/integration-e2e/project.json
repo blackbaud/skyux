@@ -22,6 +22,12 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/integration-e2e/**/*.{js,ts}"]
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true,
+          "silent": true
+        }
       }
     }
   },

@@ -40,6 +40,14 @@
           "zone.js/testing",
           "libs/components/packages/src/polyfills.js"
         ]
+      },
+      "configurations": {
+        "ci": {
+          "browsers": "ChromeHeadlessNoSandbox",
+          "watch": false,
+          "progress": false,
+          "codeCoverage": true
+        }
       }
     },
     "lint": {
@@ -49,6 +57,12 @@
           "libs/components/angular-tree-component/src/**/*.ts",
           "libs/components/angular-tree-component/src/**/*.html"
         ]
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true,
+          "silent": true
+        }
       }
     }
   },

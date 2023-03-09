@@ -9,6 +9,12 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["libs/sdk/prettier-schematics/**/*.ts"]
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true,
+          "silent": true
+        }
       }
     },
     "test": {
@@ -17,6 +23,14 @@
       "options": {
         "jestConfig": "libs/sdk/prettier-schematics/jest.config.ts",
         "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "browsers": "ChromeHeadlessNoSandbox",
+          "watch": false,
+          "progress": false,
+          "codeCoverage": true
+        }
       }
     },
     "build": {

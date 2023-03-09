@@ -48,36 +48,13 @@
       "inputs": ["production", "^production"]
     },
     "test": {
-      "inputs": ["default", "^production", "{workspaceRoot}/karma.conf.js"],
-      "configurations": {
-        "ci": {
-          "browsers": "ChromeHeadlessNoSandbox",
-          "progress": false,
-          "watch": false,
-          "codeCoverage": true
-        }
-      }
-    },
-    "posttest": {
-      "dependsOn": ["test"],
-      "configurations": {
-        "ci": {
-          "browsers": "ChromeHeadlessNoSandbox",
-          "watch": false
-        }
-      }
+      "inputs": ["default", "^production", "{workspaceRoot}/karma.conf.js"]
     },
     "e2e": {
       "inputs": ["default", "^production"]
     },
     "lint": {
-      "inputs": ["default", "{workspaceRoot}/.eslintrc.json"],
-      "configurations": {
-        "ci": {
-          "quiet": true,
-          "silent": true
-        }
-      }
+      "inputs": ["default", "{workspaceRoot}/.eslintrc.json"]
     },
     "build-storybook": {
       "inputs": [

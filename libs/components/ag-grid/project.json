@@ -39,6 +39,14 @@
           "zone.js/testing",
           "libs/components/packages/src/polyfills.js"
         ]
+      },
+      "configurations": {
+        "ci": {
+          "browsers": "ChromeHeadlessNoSandbox",
+          "watch": false,
+          "progress": false,
+          "codeCoverage": true
+        }
       }
     },
     "lint": {
@@ -48,6 +56,12 @@
           "libs/components/ag-grid/src/**/*.ts",
           "libs/components/ag-grid/src/**/*.html"
         ]
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true,
+          "silent": true
+        }
       }
     },
     "postbuild": {

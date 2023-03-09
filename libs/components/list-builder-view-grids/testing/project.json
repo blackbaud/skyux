@@ -21,6 +21,14 @@
           "zone.js/testing",
           "libs/components/packages/src/polyfills.js"
         ]
+      },
+      "configurations": {
+        "ci": {
+          "browsers": "ChromeHeadlessNoSandbox",
+          "watch": false,
+          "progress": false,
+          "codeCoverage": true
+        }
       }
     }
   }

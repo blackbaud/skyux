@@ -23,6 +23,12 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/e2e/split-view-storybook-e2e/**/*.{js,ts}"]
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true,
+          "silent": true
+        }
       }
     }
   },

@@ -38,6 +38,14 @@
           "zone.js/testing",
           "libs/components/packages/src/polyfills.js"
         ]
+      },
+      "configurations": {
+        "ci": {
+          "browsers": "ChromeHeadlessNoSandbox",
+          "watch": false,
+          "progress": false,
+          "codeCoverage": true
+        }
       }
     },
     "lint": {
@@ -47,6 +55,12 @@
           "libs/components/a11y/src/**/*.ts",
           "libs/components/a11y/src/**/*.html"
         ]
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true,
+          "silent": true
+        }
       }
     }
   },

@@ -96,6 +96,12 @@
           "apps/playground/src/**/*.ts",
           "apps/playground/src/**/*.html"
         ]
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true,
+          "silent": true
+        }
       }
     }
   },

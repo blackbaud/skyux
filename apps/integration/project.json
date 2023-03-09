@@ -85,6 +85,12 @@
           "apps/integration/src/**/*.ts",
           "apps/integration/src/**/*.html"
         ]
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true,
+          "silent": true
+        }
       }
     },
     "test": {
@@ -103,6 +109,14 @@
         ],
         "scripts": [],
         "assets": []
+      },
+      "configurations": {
+        "ci": {
+          "browsers": "ChromeHeadlessNoSandbox",
+          "watch": false,
+          "progress": false,
+          "codeCoverage": true
+        }
       }
     }
   },

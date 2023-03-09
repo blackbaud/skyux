@@ -38,6 +38,14 @@
           "zone.js/testing",
           "libs/components/packages/src/polyfills.js"
         ]
+      },
+      "configurations": {
+        "ci": {
+          "browsers": "ChromeHeadlessNoSandbox",
+          "watch": false,
+          "progress": false,
+          "codeCoverage": true
+        }
       }
     },
     "lint": {
@@ -47,6 +55,12 @@
           "libs/components/i18n/src/**/*.ts",
           "libs/components/i18n/src/**/*.html"
         ]
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true,
+          "silent": true
+        }
       }
     },
     "postbuild": {
@@ -59,6 +73,12 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "ts-node --project ./scripts/tsconfig.json ./scripts/posttest-i18n.ts"
+      },
+      "configurations": {
+        "ci": {
+          "browsers": "ChromeHeadlessNoSandbox",
+          "watch": false
+        }
       }
     }
   },
