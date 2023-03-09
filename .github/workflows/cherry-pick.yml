@@ -72,7 +72,7 @@ jobs:
 
           # Create a pull request for the cherry-pick, using the same title as the original PR.
           gh pr create \
-            --title "${{ github.event.pull_request.title }}" \
+            --title "${{ github.event.pull_request.title }} (#${{ github.event.pull_request.number }})" \
             --body ":cherries: Cherry picked from #${{ github.event.pull_request.number }} [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }})" \
             --base ${{ env.TARGET_BRANCH }} \
             --head ${CHERRY_PICK_BRANCH}
@@ -86,6 +86,8 @@ jobs:
             echo -n "PR_URL=" >> $GITHUB_ENV
             gh pr list --json url --search "head:${{ env.CHERRY_PICK_BRANCH }}" --limit 1 | jq -r '.[0].url' >> $GITHUB_ENV
           fi
+        env:
+          GH_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
       - name: Comment on the original PR when cherry-pick is successful
         if: ${{ env.CHERRY_PICK_RESULT == 'success' }}
