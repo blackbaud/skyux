@@ -28,7 +28,7 @@
     "@skyux/popovers": "0.0.0-PLACEHOLDER"
   },
   "dependencies": {
-    "@types/dragula": "@2.1.36",
+    "@types/dragula": "2.1.36",
     "dragula": "3.7.3",
     "ng2-dragula": "4.0.0",
     "tslib": "^2.5.0"
