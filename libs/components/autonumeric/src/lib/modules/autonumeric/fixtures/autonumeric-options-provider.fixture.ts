@@ -9,7 +9,7 @@ export class AutonumericFixtureOptionsProvider extends SkyAutonumericOptionsProv
     super();
   }
 
-  public getConfig(): SkyAutonumericOptions {
+  public override getConfig(): SkyAutonumericOptions {
     return {
       currencySymbol: '%',
       decimalPlaces: 5,

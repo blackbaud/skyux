@@ -9,7 +9,7 @@ import {
 
 @Injectable()
 export class MockSkyUIConfigService extends SkyUIConfigService {
-  public getConfig(key: string, defaultConfig?: any): any {
+  public override getConfig(key: string, defaultConfig?: any): any {
     switch (key) {
       case 'defaultSettings':
         return observableOf(defaultConfig);
@@ -58,7 +58,7 @@ export class MockSkyUIConfigService extends SkyUIConfigService {
     }
   }
 
-  public setConfig(key: string, value: any): Observable<any> {
+  public override setConfig(key: string, value: any): Observable<any> {
     switch (key) {
       case 'badData':
         return observableThrowError({ message: 'Test error' });
