@@ -11,6 +11,8 @@ export * from './lib/modules/autocomplete/autocomplete.module';
 
 export * from './lib/modules/country-field/country-field.module';
 export * from './lib/modules/country-field/types/country';
+export * from './lib/modules/country-field/types/country-field-context';
+export * from './lib/modules/country-field/types/country-field-context-token';
 
 export * from './lib/modules/lookup/lookup.module';
 export * from './lib/modules/lookup/types/lookup-add-click-callback-args';

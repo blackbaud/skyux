@@ -48,7 +48,7 @@
           [autocompleteAttribute]="autocompleteAttribute"
           [formControl]="countrySearchFormControl"
           [placeholder]="
-            currentTheme === 'default'
+            context?.showPlaceholderText || currentTheme === 'default'
               ? ('skyux_country_field_search_placeholder' | skyLibResources)
               : ''
           "
