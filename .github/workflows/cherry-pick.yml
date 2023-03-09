@@ -60,11 +60,11 @@ jobs:
           fi
 
           # Get the name of the cherry-pick branch.
-          echo -n "CHERRY_PICK_BRANCH=" >> $GITHUB_ENV
-          git branch --show-current >> $GITHUB_ENV
+          CHERRY_PICK_BRANCH=$(git branch --show-current)
+          echo "CHERRY_PICK_BRANCH=${CHERRY_PICK_BRANCH}" >> $GITHUB_ENV
 
           # Push the cherry-pick to a new cherry-pick branch.
-          git push -u
+          git push -u origin ${CHERRY_PICK_BRANCH}
 
           if [ $? -ne 0 ]; then
             echo "CHERRY_PICK_RESULT=failed" >> $GITHUB_ENV
