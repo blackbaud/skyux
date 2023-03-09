@@ -61,7 +61,6 @@ jobs:
 
           # Get the name of the cherry-pick branch.
           CHERRY_PICK_BRANCH=$(git branch --show-current)
-          echo "CHERRY_PICK_BRANCH=${CHERRY_PICK_BRANCH}" >> $GITHUB_ENV
 
           # Push the cherry-pick to a new cherry-pick branch.
           git push -u origin ${CHERRY_PICK_BRANCH}
@@ -76,7 +75,7 @@ jobs:
             --title "${{ github.event.pull_request.title }}" \
             --body ":cherries: Cherry picked from #${{ github.event.pull_request.number }} [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }})" \
             --base ${{ env.TARGET_BRANCH }} \
-            --head ${{ env.CHERRY_PICK_BRANCH }}
+            --head ${CHERRY_PICK_BRANCH}
 
           if [ $? -ne 0 ]; then
             echo "CHERRY_PICK_RESULT=failed" >> $GITHUB_ENV
