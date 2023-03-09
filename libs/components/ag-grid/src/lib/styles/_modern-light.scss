@@ -3,6 +3,10 @@
 
 .ag-theme-sky-modern-light {
   ag-grid-angular:not(.sky-ag-grid-editable) {
+    .ag-row-hover::before {
+      background-color: transparent;
+    }
+
     .ag-header-cell {
       text-transform: uppercase;
     }
@@ -15,10 +19,6 @@
       sky-ag-grid-variables.$sky-cell-wrap-text-padding-modern,
       sky-ag-grid-variables.$sky-cell-wrap-text-line-height-modern
     );
-
-    .ag-cell:hover {
-      border: 1px solid variables.$sky-theme-modern-border-color-primary-dark;
-    }
 
     .ag-cell.sky-ag-grid-cell-invalid {
       border: 1px solid var(--sky-highlight-color-danger);

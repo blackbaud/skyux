@@ -8,7 +8,6 @@
     themes: (
       sky-default: (
         background-color: variables.$sky-color-gray-01,
-        row-hover-color: darken(variables.$sky-background-color-selected, 10%),
         border-color: variables.$sky-border-color-neutral-medium,
         cell-horizontal-padding: 12px,
         font-family: variables.$sky-font-family,
