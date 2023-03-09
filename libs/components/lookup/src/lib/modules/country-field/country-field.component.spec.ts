@@ -25,7 +25,7 @@ import { CountryFieldTestComponent } from './fixtures/country-field.component.fi
 
 /* spell-checker:ignore Austr, Κύπρος */
 describe('Country Field Component', () => {
-  let mockThemeSvc: any;
+  let mockThemeSvc: Partial<SkyThemeService>;
 
   beforeEach(() => {
     mockThemeSvc = {
@@ -40,14 +40,27 @@ describe('Country Field Component', () => {
   });
   //#region helpers
 
-  function blurInput(fixture: ComponentFixture<any>): void {
+  function blurInput(
+    fixture: ComponentFixture<
+      | CountryFieldReactiveTestComponent
+      | CountryFieldInputBoxTestComponent
+      | CountryFieldNoFormTestComponent
+    >
+  ): void {
     SkyAppTestUtility.fireDomEvent(getInputElement(), 'blur');
     fixture.detectChanges();
     // Our blur listener has a delay of 25ms. This tick accounts for that.
     tick(25);
   }
 
-  function enterSearch(newValue: string, fixture: ComponentFixture<any>): void {
+  function enterSearch(
+    newValue: string,
+    fixture: ComponentFixture<
+      | CountryFieldReactiveTestComponent
+      | CountryFieldInputBoxTestComponent
+      | CountryFieldNoFormTestComponent
+    >
+  ): void {
     const inputElement = getInputElement();
     inputElement.value = newValue;
 
@@ -69,7 +82,11 @@ describe('Country Field Component', () => {
   function searchAndSelect(
     newValue: string,
     index: number,
-    fixture: ComponentFixture<any>
+    fixture: ComponentFixture<
+      | CountryFieldReactiveTestComponent
+      | CountryFieldInputBoxTestComponent
+      | CountryFieldNoFormTestComponent
+    >
   ): void {
     const inputElement = getInputElement();
 
@@ -86,7 +103,11 @@ describe('Country Field Component', () => {
 
   function searchAndGetResults(
     newValue: string,
-    fixture: ComponentFixture<any>
+    fixture: ComponentFixture<
+      | CountryFieldReactiveTestComponent
+      | CountryFieldInputBoxTestComponent
+      | CountryFieldNoFormTestComponent
+    >
   ): NodeListOf<HTMLElement> {
     enterSearch(newValue, fixture);
     return getAutocompleteElement().querySelectorAll(
@@ -1699,12 +1720,14 @@ describe('Country Field Component', () => {
     });
 
     //#region helpers
-    function setModernTheme() {
+    function setModernTheme(): void {
       const modernTheme = new SkyThemeSettings(
         SkyTheme.presets.modern,
         SkyThemeMode.presets.light
       );
-      mockThemeSvc.settingsChange.next({
+      (
+        mockThemeSvc.settingsChange as BehaviorSubject<SkyThemeSettingsChange>
+      ).next({
         currentSettings: modernTheme,
         previousSettings: undefined,
       });

@@ -15,6 +15,7 @@ import {
   Type,
   ViewChild,
   forwardRef,
+  inject,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -38,6 +39,8 @@ import { SkyAutocompleteInputDirective } from '../autocomplete/autocomplete-inpu
 import { SkyAutocompleteSelectionChange } from '../autocomplete/types/autocomplete-selection-change';
 
 import { SkyCountryFieldCountry } from './types/country';
+import { SkyCountryFieldContext } from './types/country-field-context';
+import { SKY_COUNTRY_FIELD_CONTEXT } from './types/country-field-context-token';
 
 const DEFAULT_COUNTRY_CODE = 'us';
 
@@ -142,13 +145,6 @@ export class SkyCountryFieldComponent
   }
 
   /**
-   * Whether to always show the country field's placeholder text regardless of theme. This is used for the phone field component.
-   * @internal
-   */
-  @Input()
-  public showPlaceholderTextInAllThemes = false;
-
-  /**
    * The [International Organization for Standardization Alpha 2](https://www.nationsonline.org/oneworld/country_code_list.htm)
    * country codes for the countries that users can select. By default, all countries are available.
    */
@@ -238,6 +234,13 @@ export class SkyCountryFieldComponent
   public get selectedCountry(): SkyCountryFieldCountry | undefined {
     return this.#_selectedCountry;
   }
+
+  public context: SkyCountryFieldContext | null = inject(
+    SKY_COUNTRY_FIELD_CONTEXT,
+    {
+      optional: true,
+    }
+  );
 
   public currentTheme = 'default';
 
