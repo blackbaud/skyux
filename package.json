@@ -106,7 +106,7 @@
     "fontfaceobserver": "2.3.0",
     "google-libphonenumber": "3.2.32",
     "he": "1.2.0",
-    "intl-tel-input": "17.0.19",
+    "intl-tel-input": "17.0.21",
     "jsonc-parser": "3.2.0",
     "jwt-decode": "3.1.2",
     "moment": "2.29.4",
