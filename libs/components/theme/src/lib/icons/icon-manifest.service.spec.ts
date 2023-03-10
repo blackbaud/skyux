@@ -1,6 +1,6 @@
 import * as iconManifest from '@skyux/icons/assets/manifest.json';
 
-import { SkyThemeIconManifest } from './icon-manifest';
+import type { SkyThemeIconManifest } from './icon-manifest';
 import { SkyThemeIconManifestService } from './icon-manifest.service';
 
 const manifest: SkyThemeIconManifest = iconManifest;

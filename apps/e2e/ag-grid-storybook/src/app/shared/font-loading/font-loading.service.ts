@@ -5,6 +5,8 @@ import * as FontFaceObserver from 'fontfaceobserver';
 import { Observable, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+// This is needed to avoid the "Should not import the named export" error.
+// See: https://stackoverflow.com/a/71835236/6178885
 const design = _design;
 
 @Injectable({
