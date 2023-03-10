@@ -1,5 +1,6 @@
 # Changelog
 
+<<<<<<< HEAD
 ## [8.0.0-alpha.8](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.7...8.0.0-alpha.8) (2023-03-10)
 
 
@@ -12,16 +13,28 @@
 * **components/indicators:** help inline test harness ([#1124](https://github.com/blackbaud/skyux/issues/1124)) ([#1127](https://github.com/blackbaud/skyux/issues/1127)) ([f0e575c](https://github.com/blackbaud/skyux/commit/f0e575c2e189153419fcd143227c1b04cc9a595c))
 * **components/layout:** remove top margin from text expand repeater ([#1110](https://github.com/blackbaud/skyux/issues/1110)) ([abc27bc](https://github.com/blackbaud/skyux/commit/abc27bccd3b63a5ee9c2c7930089857142a3079d))
 * **components/packages:** add schematic to set `resolveJsonModule` to `true` ([#1125](https://github.com/blackbaud/skyux/issues/1125)) ([e4b00eb](https://github.com/blackbaud/skyux/commit/e4b00eb08677f9e626ce62b50bd52974b56c1725))
+=======
+## [7.11.0](https://github.com/blackbaud/skyux/compare/7.10.1...7.11.0) (2023-03-10)
+
+
+### Features
+
+* **components/indicators:** help inline test harness ([#1124](https://github.com/blackbaud/skyux/issues/1124)) ([d418a79](https://github.com/blackbaud/skyux/commit/d418a79205600373105d65048fe032fc2462d9c9))
+>>>>>>> afd563964 (chore: release 7.11.0 (#1128))
 
 
 ### Bug Fixes
 
+<<<<<<< HEAD
 * add `@types/dragula` to dependencies of packages that use ng2-dragula ([#1121](https://github.com/blackbaud/skyux/issues/1121)) ([c94669b](https://github.com/blackbaud/skyux/commit/c94669b619221fd9eaaa818a171e86becaf8579e))
 * **components/ag-grid:** remove hover states for read-only data grid([#1104](https://github.com/blackbaud/skyux/issues/1104)) ([#1113](https://github.com/blackbaud/skyux/issues/1113)) ([e9c3712](https://github.com/blackbaud/skyux/commit/e9c371230479dfaf7b0f40788a2f292d0ac90e93))
 * **components/ag-grid:** switch row delete overlay to only clip in stacking context ([#1123](https://github.com/blackbaud/skyux/issues/1123)) ([#1129](https://github.com/blackbaud/skyux/issues/1129)) ([2a43fd8](https://github.com/blackbaud/skyux/commit/2a43fd86c6a49f8a984ce83f54943848831ed1d3))
 * **components/phone-field:** phone field inputs now animate in modern theme ([#1101](https://github.com/blackbaud/skyux/issues/1101)) ([#1115](https://github.com/blackbaud/skyux/issues/1115)) ([0e65c97](https://github.com/blackbaud/skyux/commit/0e65c97bb6e5fd40e406506177d14ce60032a4e6))
 * **components/phone-field:** placeholder text displays in all themes when searching for a country ([#1098](https://github.com/blackbaud/skyux/issues/1098)) ([#1108](https://github.com/blackbaud/skyux/issues/1108)) ([541c7a7](https://github.com/blackbaud/skyux/commit/541c7a7603dc7e31d053f5b6023cddc1824a83d1))
 * remove requirement for `esModuleInterop` ([#1107](https://github.com/blackbaud/skyux/issues/1107)) ([7906fd9](https://github.com/blackbaud/skyux/commit/7906fd969af407d3f92228c65d410c35498e994d))
+=======
+* **components/ag-grid:** switch row delete overlay to only clip in stacking context ([#1123](https://github.com/blackbaud/skyux/issues/1123)) ([33b22e7](https://github.com/blackbaud/skyux/commit/33b22e7fbc2c0f931e485eaf89539ab53d42086c))
+>>>>>>> afd563964 (chore: release 7.11.0 (#1128))
 
 ## [7.10.1](https://github.com/blackbaud/skyux/compare/7.10.0...7.10.1) (2023-03-09)
 
