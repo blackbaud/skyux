@@ -3,8 +3,8 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 
-import commentJson from 'comment-json';
-import path from 'path';
+import * as commentJson from 'comment-json';
+import * as path from 'path';
 
 import { createTestLibrary } from '../testing/scaffold';
 

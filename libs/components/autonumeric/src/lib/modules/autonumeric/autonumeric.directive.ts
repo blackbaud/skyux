@@ -18,7 +18,7 @@ import {
   Validator,
 } from '@angular/forms';
 
-import AutoNumeric from 'autonumeric';
+import * as AutoNumeric from 'autonumeric';
 import { Subject, fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 

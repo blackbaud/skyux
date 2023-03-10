@@ -6,7 +6,7 @@ import {
   addPackageJsonDependency,
 } from '@schematics/angular/utility/dependencies';
 
-import fs from 'fs-extra';
+import * as fs from 'fs-extra';
 
 import { addPolyfillsConfig } from '../rules/add-polyfills-config';
 import { applySkyuxStylesheetsToWorkspace } from '../rules/apply-skyux-stylesheets-to-workspace';

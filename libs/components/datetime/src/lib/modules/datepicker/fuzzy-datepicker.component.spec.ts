@@ -11,7 +11,7 @@ import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyAppLocaleProvider } from '@skyux/i18n';
 
-import moment from 'moment';
+import * as moment from 'moment';
 import { of } from 'rxjs';
 
 import { SkyDatepickerConfigService } from './datepicker-config.service';

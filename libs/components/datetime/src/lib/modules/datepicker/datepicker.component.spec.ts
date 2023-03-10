@@ -18,7 +18,7 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import moment from 'moment';
+import * as moment from 'moment';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 
 import { SkyDatepickerConfigService } from './datepicker-config.service';

@@ -21,7 +21,7 @@ import {
 } from '@angular/forms';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
-import moment from 'moment';
+import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 
 import { SkyTimepickerTimeFormatType } from './timepicker-time-format-type';
