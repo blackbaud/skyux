@@ -39,6 +39,10 @@
   --sky-padding-even-xl: #{$sky-theme-modern-space-xl};
   --sky-padding-half: #{$sky-padding-half};
 
+  /* component colors */
+  --sky-input-background-color-selected: #{$sky-color-blue-05};
+  --sky-item-background-color-selected: #{$sky-color-blue-05};
+
   &.sky-theme-mode-dark {
     /* color */
     --sky-background-color-page-default: #{$sky-theme-modern-mode-dark-background-color-page-default};

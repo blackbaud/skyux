@@ -61,4 +61,8 @@
   --sky-viewport-top: 0;
   --sky-viewport-right: 0;
   --sky-viewport-bottom: 0;
+
+  /* component colors */
+  --sky-input-background-color-selected: var(--sky-background-color-info-light);
+  --sky-item-background-color-selected: var(--sky-background-color-selected);
 }
