@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SKY_STACKING_CONTEXT } from '@skyux/core';
+import { SKY_STACKING_CONTEXT, SkyScrollableHostService } from '@skyux/core';
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
 import { SkyAgGridRowDeleteFixtureComponent } from './fixtures/ag-grid-row-delete.component.fixture';
 import { SkyAgGridFixtureModule } from './fixtures/ag-grid.module.fixture';
@@ -20,6 +20,17 @@ describe('SkyAgGridRowDeleteDirective', () => {
                 zIndex: new BehaviorSubject(options.stackingContextZIndex),
               }
             : undefined,
+        },
+        {
+          provide: SkyScrollableHostService,
+          useValue: {
+            watchScrollableHost: jasmine
+              .createSpy('watchScrollableHost')
+              .and.returnValue(new Observable()),
+            watchScrollableHostClipPathChanges: jasmine
+              .createSpy('watchScrollableHostClipPathChanges')
+              .and.returnValue(of('none')),
+          },
         },
       ],
     });
@@ -394,6 +405,10 @@ describe('SkyAgGridRowDeleteDirective', () => {
       expect(overlay.style.zIndex.toString()).toBe('998')
     );
     expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '1']);
+    expect(
+      TestBed.inject(SkyScrollableHostService)
+        .watchScrollableHostClipPathChanges
+    ).not.toHaveBeenCalled();
   });
 
   it('should set the z-index of the row delete overlays with stacking context', async () => {
@@ -414,6 +429,10 @@ describe('SkyAgGridRowDeleteDirective', () => {
     expect(overlays.length).toBe(2);
     overlays.forEach((overlay) => expect(overlay.style.zIndex).toBe('1111'));
     expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '1']);
+    expect(
+      TestBed.inject(SkyScrollableHostService)
+        .watchScrollableHostClipPathChanges
+    ).toHaveBeenCalled();
   });
 
   it('should not change the column widths when a row delete is triggered', async () => {
