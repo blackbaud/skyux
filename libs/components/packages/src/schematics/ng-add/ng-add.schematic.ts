@@ -11,6 +11,7 @@ import * as fs from 'fs-extra';
 import { addPolyfillsConfig } from '../rules/add-polyfills-config';
 import { applySkyuxStylesheetsToWorkspace } from '../rules/apply-skyux-stylesheets-to-workspace';
 import { installAngularCdk } from '../rules/install-angular-cdk';
+import { modifyTsConfig } from '../rules/modify-tsconfig';
 import { getRequiredProject } from '../utility/workspace';
 
 import { Schema } from './schema';
@@ -51,6 +52,7 @@ export default function ngAdd(options: Schema): Rule {
       installAngularCdk(),
       addPolyfillsConfig(projectName, ['build', 'test']),
       applySkyuxStylesheetsToWorkspace(projectName),
+      modifyTsConfig(),
     ]);
   };
 }
