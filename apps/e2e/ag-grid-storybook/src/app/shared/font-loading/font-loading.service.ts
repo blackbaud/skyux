@@ -1,9 +1,13 @@
 import { Injectable } from '@angular/core';
-import design from '@blackbaud/skyux-design-tokens/json/design-tokens.json';
+import * as _design from '@blackbaud/skyux-design-tokens/json/design-tokens.json';
 
-import FontFaceObserver from 'fontfaceobserver';
+import * as FontFaceObserver from 'fontfaceobserver';
 import { Observable, from } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+// This is needed to avoid the "Should not import the named export" error.
+// See: https://stackoverflow.com/a/71835236/6178885
+const design = _design;
 
 @Injectable({
   providedIn: 'root',

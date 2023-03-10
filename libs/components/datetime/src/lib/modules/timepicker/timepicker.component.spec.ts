@@ -24,7 +24,7 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import moment from 'moment';
+import * as moment from 'moment';
 import { BehaviorSubject } from 'rxjs';
 
 import { TimepickerTestComponent } from './fixtures/timepicker-component.fixture';

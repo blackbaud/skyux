@@ -9,7 +9,7 @@ export class MockDragulaService extends DragulaService {
   #dragend$ = new Subject<any>();
   #drop$ = new Subject<any>();
 
-  public drag = () => this.#drag$;
-  public dragend = () => this.#dragend$;
-  public drop = () => this.#drop$;
+  public override drag = () => this.#drag$;
+  public override dragend = () => this.#dragend$;
+  public override drop = () => this.#drop$;
 }

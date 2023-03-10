@@ -9,6 +9,11 @@
       "version": "8.0.0-alpha.0",
       "factory": "./update-8/update-polyfill/update-polyfill.schematic",
       "description": "Remove code from polyfills.ts/test.ts and add @skyux/packages/polyfills to workspace config."
+    },
+    "add-compat-stylesheets": {
+      "version": "8.0.0-alpha.0",
+      "factory": "./update-8/add-compat-stylesheets/add-compat-stylesheets",
+      "description": "Add a backwards-compatible stylesheet with styles that have been removed from components in SKY UX 8."
     }
   }
 }

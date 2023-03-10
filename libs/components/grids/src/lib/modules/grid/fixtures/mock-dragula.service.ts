@@ -9,15 +9,15 @@ export class MockDragulaService extends DragulaService {
   private dragend$ = new Subject<any>();
   private drop$ = new Subject<any>();
 
-  public add() {
+  public override add() {
     return {} as unknown as Group;
   }
 
-  public drag = () => this.drag$;
-  public dragend = () => this.dragend$;
-  public drop = () => this.drop$;
+  public override drag = () => this.drag$;
+  public override dragend = () => this.dragend$;
+  public override drop = () => this.drop$;
 
-  public find() {
+  public override find() {
     return {
       drake: {
         destroy() {},

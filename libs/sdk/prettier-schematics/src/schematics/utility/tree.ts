@@ -1,7 +1,7 @@
 import { virtualFs } from '@angular-devkit/core';
 import { Tree } from '@angular-devkit/schematics';
 
-import commentJson from 'comment-json';
+import * as commentJson from 'comment-json';
 
 /**
  * Returns the contents of a required file or throws an error if it doesn't exist.

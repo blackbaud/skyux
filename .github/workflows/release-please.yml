@@ -74,6 +74,9 @@ jobs:
       - name: Bump pre-release version
         if: ${{ steps.release.outputs.release_created }}
         run: |
+          git config user.name 'Blackbaud Sky Build User'
+          git config user.email 'sky-build-user@blackbaud.com'
+
           # Does the workflow file say prerelease is true?
           if [ "$(yq -r '.jobs.release.steps[0].with.prerelease' .github/workflows/release-please.yml)" = "true" ]; then
 

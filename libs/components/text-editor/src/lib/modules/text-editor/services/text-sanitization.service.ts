@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import createDOMPurify from 'dompurify';
+import * as createDOMPurify from 'dompurify';
 
 const domPurify = createDOMPurify(window);
 

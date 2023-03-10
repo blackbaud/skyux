@@ -1,4 +1,4 @@
-import AutoNumeric from 'autonumeric';
+import * as AutoNumeric from 'autonumeric';
 
 /**
  * Custom options to provide to the underlying [AutoNumeric library](https://github.com/autoNumeric/autoNumeric).

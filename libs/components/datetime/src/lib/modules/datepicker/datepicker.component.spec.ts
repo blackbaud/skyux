@@ -18,7 +18,7 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import moment from 'moment';
+import * as moment from 'moment';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 
 import { SkyDatepickerConfigService } from './datepicker-config.service';
@@ -31,7 +31,7 @@ import { DatepickerTestModule } from './fixtures/datepicker.module.fixture';
 
 // #region helpers
 export class MyLocaleProvider extends SkyAppLocaleProvider {
-  public getLocaleInfo(): Observable<SkyAppLocaleInfo> {
+  public override getLocaleInfo(): Observable<SkyAppLocaleInfo> {
     const obs = new BehaviorSubject<any>({});
 
     // Simulate HTTP call.
