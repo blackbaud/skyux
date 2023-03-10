@@ -26,7 +26,7 @@ export class SkyHelpInlineHarness extends SkyComponentHarness {
   }
 
   /**
-   * Clicks the `Skip Content` button
+   * Clicks the help inline icon button
    */
   public async click(): Promise<void> {
     await (await this.#getInlineHelpButton()).click();
