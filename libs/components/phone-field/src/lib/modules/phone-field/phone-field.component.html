@@ -43,11 +43,6 @@
   <span
     *ngIf="phoneInputShown"
     class="sky-phone-field-container"
-    [@.disabled]="
-      inputBoxHostSvc &&
-      (themeSvc?.settingsChange | async)?.currentSettings?.theme?.name ===
-        'modern'
-    "
     [@phoneInputAnimation]="phoneInputShown ? 'open' : 'closed'"
     (@phoneInputAnimation.done)="phoneInputAnimationEnd($event)"
   >
@@ -56,12 +51,13 @@
   <span
     *ngIf="countrySearchShown"
     class="sky-phone-field-container"
-    [@.disabled]="
-      inputBoxHostSvc &&
-      (themeSvc?.settingsChange | async)?.currentSettings?.theme?.name ===
-        'modern'
+    [@countrySearchAnimation]="
+      'open' +
+      ((themeSvc?.settingsChange | async)?.currentSettings?.theme?.name ===
+      'modern'
+        ? '-modern'
+        : '')
     "
-    [@countrySearchAnimation]="countrySearchShown ? 'open' : 'closed'"
     (@countrySearchAnimation.done)="countrySearchAnimationEnd($event)"
   >
     <div class="sky-phone-field-country-search" [formGroup]="countrySearchForm">
