@@ -84,7 +84,7 @@ jobs:
 
             # Get the URL of the pull request and add it to the environment.
             echo -n "PR_URL=" >> $GITHUB_ENV
-            gh pr list --json url --search "head:${{ env.CHERRY_PICK_BRANCH }}" --limit 1 | jq -r '.[0].url' >> $GITHUB_ENV
+            gh pr list --json url --search "head:${CHERRY_PICK_BRANCH}" --limit 1 | jq -r '.[0].url' >> $GITHUB_ENV
           fi
         env:
           GH_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
