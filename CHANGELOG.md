@@ -1,5 +1,17 @@
 # Changelog
 
+## [7.11.0](https://github.com/blackbaud/skyux/compare/7.10.1...7.11.0) (2023-03-10)
+
+
+### Features
+
+* **components/indicators:** help inline test harness ([#1124](https://github.com/blackbaud/skyux/issues/1124)) ([d418a79](https://github.com/blackbaud/skyux/commit/d418a79205600373105d65048fe032fc2462d9c9))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** switch row delete overlay to only clip in stacking context ([#1123](https://github.com/blackbaud/skyux/issues/1123)) ([33b22e7](https://github.com/blackbaud/skyux/commit/33b22e7fbc2c0f931e485eaf89539ab53d42086c))
+
 ## [7.10.1](https://github.com/blackbaud/skyux/compare/7.10.0...7.10.1) (2023-03-09)
 
 
