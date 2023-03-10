@@ -160,6 +160,7 @@
     "@trivago/prettier-plugin-sort-imports": "4.1.1",
     "@types/cross-spawn": "6.0.2",
     "@types/dompurify": "2.4.0",
+    "@types/dragula": "2.1.36",
     "@types/fontfaceobserver": "2.1.0",
     "@types/fs-extra": "9.0.13",
     "@types/google-libphonenumber": "7.4.23",
