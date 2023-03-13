@@ -4,31 +4,34 @@ on:
   push:
     branches:
       - main
+env:
+  PRERELEASE: true
+  MAJOR_VERSION: 8
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - name: Next pre-release
-        id: next-pre-release
+      - name: Next release
+        if: ${{ env.PRERELEASE }}
+        id: next-release
         run: |
           # Log commands and exit on error.
           set -exo pipefail
 
-          # Get the current pre-release version.
-          CURRENT_RELEASE=$(gh release list -R blackbaud/skyux|grep '^v8'|head -1|cut -d$'\t' -f 3)
+          # Get the current prerelease version.
+          CURRENT_RELEASE=$(gh release list -R blackbaud/skyux|grep '^v${{ env.MAJOR_VERSION }}'|head -1|cut -d$'\t' -f 3)
 
-          # Bump the pre-release version.
+          # Bump the prerelease version.
           NEXT_VERSION=$(npx --yes semver -i prerelease $CURRENT_RELEASE)
 
-          # If next version is the same as the current version, or if next version is empty, exit.
+          # If version is empty, exit.
           if [ -z "$CURRENT_RELEASE" ] || [ -z "$NEXT_VERSION" ]; then
-            echo "Not able to determine pre-release version."
+            echo "Not able to determine prerelease version."
             exit 1
           fi
 
-          echo "Next pre-release version: $NEXT_VERSION"
-
-          echo "next-pre-release=$NEXT_VERSION" >> $GITHUB_OUTPUT
+          echo "Next release version: $NEXT_VERSION"
+          echo "next-release=$NEXT_VERSION" >> $GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
       - uses: google-github-actions/release-please-action@v3
@@ -41,8 +44,8 @@ jobs:
           pull-request-title-pattern: 'chore: release ${version}'
           labels: 'autorelease ${{ github.ref_name }}: pending'
           release-labels: 'autorelease ${{ github.ref_name }}: tagged'
-          release-as: '${{ steps.next-pre-release.outputs.next-pre-release }}'
-          prerelease: true
+          release-as: '${{ steps.next-release.outputs.next-release }}'
+          prerelease: ${{ env.PRERELEASE }}
           draft-pull-request: true
           include-v-in-tag: false
           token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
@@ -82,7 +85,7 @@ jobs:
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_MESSAGE: Successfully published SKY UX ${{ steps.release.outputs.tag_name }} to NPM. http://github.com/${{ github.repository }}/blob/main/CHANGELOG.md
+          SLACK_MESSAGE: Successfully published SKY UX ${{ steps.release.outputs.tag_name }} to NPM. http://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/CHANGELOG.md
           SLACK_ICON: https://github.com/blackbaud.png?size=48
           SLACK_USERNAME: SKY UX
       - name: Notify Slack (failure)
