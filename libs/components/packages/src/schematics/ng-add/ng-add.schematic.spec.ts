@@ -3,7 +3,6 @@ import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 
 import { createTestLibrary } from '../testing/scaffold';
 import { readJson } from '../testing/tree';
-import { JsonFile } from '../utility/json-file';
 
 const COLLECTION_PATH = normalize(`${__dirname}/../../../collection.json`);
 
