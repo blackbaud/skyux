@@ -1,9 +1,6 @@
-import _manifest from '@skyux/icons/assets/manifest.json';
+import { getIconManifest } from '@skyux/icons';
 
-import type { SkyThemeIconManifest } from './icon-manifest';
 import { SkyThemeIconManifestService } from './icon-manifest.service';
-
-const manifest: SkyThemeIconManifest = _manifest;
 
 describe('SKY theme icon manifest service', () => {
   let manifestSvc: SkyThemeIconManifestService;
@@ -13,6 +10,6 @@ describe('SKY theme icon manifest service', () => {
   });
 
   it('should return the manifest file from the @skyux/icons package', () => {
-    expect(manifestSvc.getManifest()).toEqual(manifest);
+    expect(manifestSvc.getManifest()).toEqual(getIconManifest());
   });
 });
