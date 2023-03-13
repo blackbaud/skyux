@@ -73,6 +73,11 @@
     .sky-btn-default:hover {
       @include mixins.sky-theme-modern-border-hover;
     }
+
+    .sky-datepicker-btn-selected,
+    .sky-btn-default.sky-datepicker-btn-selected:hover {
+      background-color: var(--sky-background-color-input-selected);
+    }
   }
 
   .sky-btn-sm.sky-datepicker-btn-date {
