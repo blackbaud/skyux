@@ -95,7 +95,7 @@
 
     &.sky-token-focused,
     &:hover {
-      background-color: $sky-background-color-info-light;
+      background-color: var(--sky-background-color-info-extra-light);
     }
   }
 
