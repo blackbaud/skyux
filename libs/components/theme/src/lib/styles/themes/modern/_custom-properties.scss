@@ -40,8 +40,8 @@
   --sky-padding-half: #{$sky-padding-half};
 
   /* component colors */
-  --sky-input-background-color-selected: #{$sky-color-blue-05};
-  --sky-item-background-color-selected: #{$sky-color-blue-05};
+  --sky-background-color-input-selected: #{$sky-color-blue-05};
+  --sky-background-color-item-selected: #{$sky-color-blue-05};
 
   &.sky-theme-mode-dark {
     /* color */
