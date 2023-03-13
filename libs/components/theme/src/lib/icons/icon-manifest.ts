@@ -1,4 +1,4 @@
-import { SkyThemeIconManifestGlyph } from './icon-manifest-glyph';
+import type { SkyThemeIconManifestGlyph } from './icon-manifest-glyph';
 
 /**
  * Metadata about the SKY UX icon font.

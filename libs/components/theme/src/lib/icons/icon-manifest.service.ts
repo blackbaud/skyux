@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import * as iconManifest from '@skyux/icons/assets/manifest.json';
+import _manifest from '@skyux/icons/assets/manifest.json';
 
 import type { SkyThemeIconManifest } from './icon-manifest';
 
-const manifest: SkyThemeIconManifest = iconManifest;
+const manifest: SkyThemeIconManifest = _manifest;
 
 /**
  * Provides a method for retrieving metadata about the SKY UX icon font.

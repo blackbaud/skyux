@@ -88,14 +88,4 @@ describe('ng-add.schematic', () => {
       '@skyux/packages/polyfills',
     ]);
   });
-
-  it('should modify tsconfig.json', async () => {
-    const { runSchematic } = await setupTest();
-
-    const updatedTree = await runSchematic({ project: 'my-lib-showcase' });
-    const tsConfig = new JsonFile(updatedTree, 'tsconfig.json');
-    expect(tsConfig.get(['compilerOptions', 'resolveJsonModule'])).toEqual(
-      true
-    );
-  });
 });
