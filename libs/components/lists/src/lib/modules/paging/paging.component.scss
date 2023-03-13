@@ -94,7 +94,7 @@ li {
   }
 
   .sky-paging-current {
-    background-color: $sky-background-color-info-light;
+    background-color: var(--sky-background-color-item-selected);
     border: solid 1px $sky-theme-modern-background-color-primary-dark;
     padding: 2px 9px;
   }
