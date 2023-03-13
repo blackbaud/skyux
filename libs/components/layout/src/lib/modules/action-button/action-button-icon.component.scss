@@ -20,7 +20,7 @@
 @include mixins.sky-theme-modern {
   .sky-action-button-icon-container {
     color: $sky-text-color-action-primary;
-    background: var(--sky-background-color-item-selected);
+    background: var(--sky-background-color-info-extra-light);
     margin: 0 $sky-space-xl 0 0;
     border-radius: 50%;
     width: 42px;
