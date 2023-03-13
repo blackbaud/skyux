@@ -158,6 +158,13 @@
         }
       }
     }
+
+    .sky-timepicker-column ol li button.sky-btn-active:hover {
+      background-color: var(--sky-background-color-input-selected);
+    }
+    .sky-timepicker-column ol .sky-btn-active {
+      background-color: var(--sky-background-color-input-selected);
+    }
   }
 
   &.sky-theme-mode-dark {
