@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import {
-  SkyThemeIconManifestGlyph,
-  SkyThemeIconManifestService,
-} from '@skyux/theme';
+import type { SkyThemeIconManifestGlyph } from '@skyux/icons';
+import { SkyThemeIconManifestService } from '@skyux/theme';
 
-import { SkyIconVariantType } from './types/icon-variant-type';
+import type { SkyIconVariantType } from './types/icon-variant-type';
 
 /**
  * @internal

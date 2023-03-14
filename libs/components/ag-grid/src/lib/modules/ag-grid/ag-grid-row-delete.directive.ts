@@ -176,6 +176,7 @@ export class SkyAgGridRowDeleteDirective
   #scrollableHostService: SkyScrollableHostService;
   #clipPath = new BehaviorSubject<string | undefined>(undefined);
   #zIndex = new BehaviorSubject(998);
+  #hasStackingContext: boolean;
 
   constructor(
     affixService: SkyAffixService,
@@ -194,6 +195,7 @@ export class SkyAgGridRowDeleteDirective
     this.#overlayService = overlayService;
     this.#viewContainerRef = viewContainerRef;
     this.#scrollableHostService = scrollableHostService;
+    this.#hasStackingContext = !!stackingContext;
     if (stackingContext) {
       stackingContext.zIndex
         .pipe(takeUntil(this.#ngUnsubscribe))
@@ -230,12 +232,14 @@ export class SkyAgGridRowDeleteDirective
   }
 
   public ngAfterViewInit(): void {
-    this.#scrollableHostService
-      .watchScrollableHostClipPathChanges(this.#elementRef)
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((clipPath) => {
-        this.#clipPath.next(clipPath);
-      });
+    if (this.#hasStackingContext) {
+      this.#scrollableHostService
+        .watchScrollableHostClipPathChanges(this.#elementRef)
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe((clipPath) => {
+          this.#clipPath.next(clipPath);
+        });
+    }
   }
 
   public ngOnDestroy(): void {

@@ -4,10 +4,36 @@ on:
   push:
     branches:
       - main
+env:
+  PRERELEASE: true
+  MAJOR_VERSION: 8
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+      - name: Next release
+        if: ${{ env.PRERELEASE }}
+        id: next-release
+        run: |
+          # Log commands and exit on error.
+          set -exo pipefail
+
+          # Get the current prerelease version.
+          CURRENT_RELEASE=$(gh release list -R blackbaud/skyux|grep '^v${{ env.MAJOR_VERSION }}'|head -1|cut -d$'\t' -f 3)
+
+          # Bump the prerelease version.
+          NEXT_VERSION=$(npx --yes semver -i prerelease $CURRENT_RELEASE)
+
+          # If version is empty, exit.
+          if [ -z "$CURRENT_RELEASE" ] || [ -z "$NEXT_VERSION" ]; then
+            echo "Not able to determine prerelease version."
+            exit 1
+          fi
+
+          echo "Next release version: $NEXT_VERSION"
+          echo "next-release=$NEXT_VERSION" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
       - uses: google-github-actions/release-please-action@v3
         id: release
         with:
@@ -18,8 +44,8 @@ jobs:
           pull-request-title-pattern: 'chore: release ${version}'
           labels: 'autorelease ${{ github.ref_name }}: pending'
           release-labels: 'autorelease ${{ github.ref_name }}: tagged'
-          release-as: '8.0.0-alpha.8'
-          prerelease: true
+          release-as: '${{ steps.next-release.outputs.next-release }}'
+          prerelease: ${{ env.PRERELEASE }}
           draft-pull-request: true
           include-v-in-tag: false
           token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
@@ -59,7 +85,7 @@ jobs:
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_MESSAGE: Successfully published SKY UX ${{ steps.release.outputs.tag_name }} to NPM. http://github.com/${{ github.repository }}/blob/main/CHANGELOG.md
+          SLACK_MESSAGE: Successfully published SKY UX ${{ steps.release.outputs.tag_name }} to NPM. http://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/CHANGELOG.md
           SLACK_ICON: https://github.com/blackbaud.png?size=48
           SLACK_USERNAME: SKY UX
       - name: Notify Slack (failure)
@@ -71,44 +97,3 @@ jobs:
           SLACK_MESSAGE: Failed to publish SKY UX ${{ steps.release.outputs.tag_name }} to NPM!
           SLACK_ICON: https://github.com/blackbaud.png?size=48
           SLACK_USERNAME: SKY UX
-      - name: Bump pre-release version
-        if: ${{ steps.release.outputs.release_created }}
-        run: |
-          git config user.name 'Blackbaud Sky Build User'
-          git config user.email 'sky-build-user@blackbaud.com'
-
-          # Does the workflow file say prerelease is true?
-          if [ "$(yq -r '.jobs.release.steps[0].with.prerelease' .github/workflows/release-please.yml)" = "true" ]; then
-
-            # Log commands and exit on error.
-            set -exo pipefail
-
-            # Get the current pre-release version.
-            RELEASE_AS=$(yq -r '.jobs.release.steps[0].with.release-as' .github/workflows/release-please.yml)
-
-            # Bump the pre-release version.
-            NEXT_VERSION=$(npx semver -i prerelease $RELEASE_AS)
-
-            # If next version is the same as the current version, or if next version is empty, exit.
-            if [ "$NEXT_VERSION" = "$RELEASE_AS" ] || [ -z "$NEXT_VERSION" ]; then
-              echo "Not able to bump pre-release version."
-              exit 0
-            fi
-
-            # Update the release-please.yml file.
-            yq -i '.jobs.release.steps[0].with.release-as = "'${NEXT_VERSION}'"' .github/workflows/release-please.yml
-
-            # Create a pull request.
-            git checkout -b release-as-${NEXT_VERSION}
-            git add .github/workflows/release-please.yml
-            git commit -m "chore: bump pre-release version to ${NEXT_VERSION}"
-            git push origin release-as-${NEXT_VERSION}
-            gh pr create \
-              --title "chore: bump pre-release version to ${NEXT_VERSION}" \
-              --body ":robot: Bumping pre-release version to ${NEXT_VERSION}." \
-              --base ${{ github.ref_name }} \
-              --head release-as-${NEXT_VERSION}
-
-          fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
