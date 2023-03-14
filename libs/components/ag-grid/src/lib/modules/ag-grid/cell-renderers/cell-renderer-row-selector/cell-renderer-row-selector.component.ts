@@ -42,19 +42,9 @@ export class SkyAgGridCellRendererRowSelectorComponent
    * @param params The cell renderer params that include data about the cell, column, row, and grid.
    */
   public agInit(params: ICellRendererParams): void {
-    this.#params = params;
-    this.dataField = this.#params.colDef?.field;
-    this.rowNode = this.#params.node;
-    this.rowNumber = this.#params.rowIndex + 1;
+    this.#setParameters(params);
 
-    if (this.dataField) {
-      this.checked = this.#params.value;
-      this.rowNode.setSelected(!!this.checked);
-    } else {
-      this.checked = this.rowNode.isSelected();
-    }
-
-    this.rowNode.addEventListener(
+    this.rowNode?.addEventListener(
       RowNode.EVENT_ROW_SELECTED,
       (event: RowSelectedEvent) => {
         this.#rowSelectedListener(event);
@@ -63,22 +53,47 @@ export class SkyAgGridCellRendererRowSelectorComponent
   }
 
   /**
-   * Used by agGrid to update cell value after a user triggers a refresh. It updates the cell DOM and returns true when the refresh is
-   * successful, or false if the cell should be destroyed and rerendered. If consumers have external logic that changes the value of a
-   * checkbox cell, rerendering it will guarantee the change applies without knowing the consumer's implementation.
+   * Used by agGrid to update cell value after a user triggers a refresh.
+   * Returning true tells agGrid that the refresh was successful.
    */
-  public refresh(): boolean {
-    return false;
+  public refresh(params: ICellRendererParams): boolean {
+    this.#setParameters(params);
+    return true;
   }
 
   public updateRow(): void {
     if (this.rowNode) {
-      this.rowNode.setSelected(!!this.checked);
+      const rowSelected = this.rowNode.isSelected();
+      const rowChecked = !!this.checked;
+      if (rowSelected !== rowChecked) {
+        this.rowNode.setSelected(rowChecked);
+      }
 
       if (this.dataField) {
         this.rowNode.data[this.dataField] = this.checked;
       }
+
+      this.#changeDetector.markForCheck();
     }
+  }
+
+  #setParameters(params: ICellRendererParams): void {
+    this.#params = params;
+    this.dataField = this.#params.colDef?.field;
+    this.rowNode = this.#params.node;
+    this.rowNumber = this.#params.rowIndex + 1;
+    const rowSelected = this.#params.node.isSelected();
+
+    if (this.dataField) {
+      this.checked = !!this.#params.value;
+      if (rowSelected !== this.checked) {
+        this.rowNode.setSelected(this.checked);
+      }
+    } else {
+      this.checked = rowSelected;
+    }
+
+    this.#changeDetector.markForCheck();
   }
 
   #rowSelectedListener(event: RowSelectedEvent): void {
