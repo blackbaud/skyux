@@ -9,6 +9,25 @@ const COMPAT_CSS_FILE_NAME = 'skyux8-compat.css';
 const compatStyles = {
   libraries: [
     {
+      name: '@skyux/forms',
+      components: [
+        {
+          name: 'selection box',
+          styles: [
+            {
+              css: `
+:root {
+  --sky-compat-selection-box-grid-margin-bottom: 0;
+}
+`,
+              instructions: `
+The bottom margin for the \`sky-selection-box-grid\` has been changed to compensate for the spacing applied to its child \`sky-selection-box\` components. To address this, remove this block of CSS and address any spacing issues by adding the appropriate margin class to the selection box grid. See https://developer.blackbaud.com/skyux/design/styles/spacing for a list of supported spacing classes.`,
+            },
+          ],
+        },
+      ],
+    },
+    {
       name: '@skyux/layout',
       components: [
         {
@@ -116,7 +135,8 @@ function getCompatStyles(tree: Tree): string | undefined {
       packageJson.devDependencies?.[library.name]
     ) {
       for (const component of library.components) {
-        contents += buildComponentCss(component);
+        contents += `
+${buildComponentCss(component)}`;
       }
     }
   }
@@ -130,7 +150,6 @@ function getCompatStyles(tree: Tree): string | undefined {
 - Remove each occurrence of this file in your project's
   angular.json file.`
       )}
-
 ${contents}`
     : undefined;
 }

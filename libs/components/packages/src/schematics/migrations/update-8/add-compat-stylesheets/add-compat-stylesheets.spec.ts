@@ -7,37 +7,6 @@ import { createTestApp, createTestLibrary } from '../../../testing/scaffold';
 describe('Migrations > Add compat stylesheets', () => {
   const compatStylesheetPath = 'src/app/skyux8-compat.css';
 
-  const textExpandRepeaterContents = `/*******************************************************************************
- * TODO: The following component libraries introduced visual breaking changes
- * in SKY UX 8. Each block of CSS reintroduces the styles that were changed or
- * removed for backwards compatibility. You will need to do the following
- * before migrating to the next major version of SKY UX:
- * - Address each of the changes by following the instructions
- *   in each block of CSS, then remove the block.
- * - Delete this file after all blocks have been addressed.
- * - Remove each occurrence of this file in your project's
- *   angular.json file.
- *******************************************************************************/
-
-/*******************************************************************************
- * COMPONENT: TEXT EXPAND REPEATER
- *******************************************************************************/
-
-/*******************************************************************************
- * The top margin has been removed from the \`sky-text-expand-repeater\`
- * component. To address this, remove this block of CSS and address any
- * spacing issues by adding the appropriate margin class to the element above
- * each text expand repeater or padding class to each text expand repeater's
- * parent element. See
- * https://developer.blackbaud.com/skyux/design/styles/spacing for a list of
- * supported spacing classes.
- *******************************************************************************/
-
-:root {
-  --sky-compat-text-expand-repeater-margin-top: unset;
-}
-`;
-
   const runner = new SchematicTestRunner(
     'migrations',
     join(__dirname, '../../migration-collection.json')
@@ -59,7 +28,6 @@ describe('Migrations > Add compat stylesheets', () => {
 
   async function validateCompatStylesheet(
     packageJson: string,
-    expectedContents: string,
     existingWorkspaceStylesheets: string[] | undefined,
     existingCompatStylesheet?: string
   ): Promise<void> {
@@ -84,11 +52,7 @@ describe('Migrations > Add compat stylesheets', () => {
 
     const updatedTree = await runSchematic();
 
-    const compatStyles = updatedTree.exists(compatStylesheetPath)
-      ? updatedTree.readText(compatStylesheetPath)
-      : '';
-
-    expect(compatStyles).toBe(expectedContents);
+    expect(updatedTree.readText(compatStylesheetPath)).toMatchSnapshot();
 
     angularJson = updatedTree.readJson('/angular.json');
 
@@ -121,10 +85,10 @@ describe('Migrations > Add compat stylesheets', () => {
     await validateCompatStylesheet(
       JSON.stringify({
         dependencies: {
+          '@skyux/forms': '7.0.0',
           '@skyux/layout': '7.0.0',
         },
       }),
-      textExpandRepeaterContents,
       []
     );
   });
@@ -136,7 +100,6 @@ describe('Migrations > Add compat stylesheets', () => {
           '@skyux/layout': '7.0.0',
         },
       }),
-      textExpandRepeaterContents,
       []
     );
   });
@@ -148,7 +111,6 @@ describe('Migrations > Add compat stylesheets', () => {
           '@skyux/layout': '7.0.0',
         },
       }),
-      textExpandRepeaterContents,
       [],
       '/* */'
     );
@@ -161,7 +123,6 @@ describe('Migrations > Add compat stylesheets', () => {
           '@skyux/layout': '7.0.0',
         },
       }),
-      textExpandRepeaterContents,
       undefined, // <-- empty array
       '/* */'
     );
