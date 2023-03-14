@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.11.1](https://github.com/blackbaud/skyux/compare/7.11.0...7.11.1) (2023-03-14)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** avoid unneeded api calls for row selection ([#1135](https://github.com/blackbaud/skyux/issues/1135)) ([6c8f9df](https://github.com/blackbaud/skyux/commit/6c8f9df1d6566de16b7962f3014d89c8d85c3df7))
+
 ## [7.11.0](https://github.com/blackbaud/skyux/compare/7.10.1...7.11.0) (2023-03-10)
 
 
