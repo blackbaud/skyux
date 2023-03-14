@@ -200,7 +200,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
   });
 
   describe('refresh', () => {
-    it('returns false', () => {
+    it('returns true', () => {
       expect(
         rowSelectorCellComponent.refresh({
           node: {
