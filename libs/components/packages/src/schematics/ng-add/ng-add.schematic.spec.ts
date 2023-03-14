@@ -3,7 +3,6 @@ import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 
 import { createTestLibrary } from '../testing/scaffold';
 import { readJson } from '../testing/tree';
-import { JsonFile } from '../utility/json-file';
 
 const COLLECTION_PATH = normalize(`${__dirname}/../../../collection.json`);
 
@@ -87,15 +86,5 @@ describe('ng-add.schematic', () => {
       'zone.js/testing',
       '@skyux/packages/polyfills',
     ]);
-  });
-
-  it('should modify tsconfig.json', async () => {
-    const { runSchematic } = await setupTest();
-
-    const updatedTree = await runSchematic({ project: 'my-lib-showcase' });
-    const tsConfig = new JsonFile(updatedTree, 'tsconfig.json');
-    expect(tsConfig.get(['compilerOptions', 'resolveJsonModule'])).toEqual(
-      true
-    );
   });
 });

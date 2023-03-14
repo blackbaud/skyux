@@ -14,8 +14,8 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "ES2022",
-    "module": "es2020",
-    "lib": ["es2020", "dom"],
+    "module": "ES2022",
+    "lib": ["es2022", "dom"],
     "useDefineForClassFields": false,
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
@@ -141,8 +141,7 @@
         "libs/components/toast/testing/src/public-api.ts"
       ],
       "@skyux/validation": ["libs/components/validation/src/index.ts"]
-    },
-    "resolveJsonModule": true
+    }
   },
   "angularCompilerOptions": {
     "strictTemplates": true,
