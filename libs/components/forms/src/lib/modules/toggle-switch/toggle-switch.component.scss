@@ -120,7 +120,7 @@ $indicator-size: 22px;
 
     &:not(.sky-toggle-switch-disabled) {
       &.sky-toggle-switch-checked .sky-toggle-switch-switch {
-        background-color: $sky-background-color-info-light;
+        background-color: var(--sky-background-color-input-selected);
         border-color: $sky-theme-modern-background-color-primary-dark;
       }
 

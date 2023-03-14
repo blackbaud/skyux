@@ -67,6 +67,7 @@
     align-items: center;
     display: inline-flex;
     font-size: 14px;
+    background-color: var(--sky-background-color-info-extra-light);
 
     &:not(.sky-btn-disabled) {
       @include mixins.sky-theme-modern-border($sky-background-color-info);
@@ -94,7 +95,7 @@
 
     &.sky-token-focused,
     &:hover {
-      background-color: $sky-background-color-info-light;
+      background-color: var(--sky-background-color-info-extra-light);
     }
   }
 
