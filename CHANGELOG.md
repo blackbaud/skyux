@@ -1,16 +1,24 @@
 # Changelog
 
+<<<<<<< HEAD
 ## [8.0.0-alpha.9](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.8...8.0.0-alpha.9) (2023-03-14)
 
 
 ### Features
 
 * **components/forms:** update selected state background colors ([#1126](https://github.com/blackbaud/skyux/issues/1126)) ([8c820dd](https://github.com/blackbaud/skyux/commit/8c820dd58905ce533743b4eb790c891897d00a55))
+=======
+## [7.11.1](https://github.com/blackbaud/skyux/compare/7.11.0...7.11.1) (2023-03-14)
+>>>>>>> 6ea823c32 (chore: release 7.11.1 (#1138))
 
 
 ### Bug Fixes
 
+<<<<<<< HEAD
 * **components/indicators:** adopt `@skyux/icons@5.3.1` ([#1133](https://github.com/blackbaud/skyux/issues/1133)) ([5937000](https://github.com/blackbaud/skyux/commit/5937000d1b2fcd2ad15030062b2345ce90918ea6))
+=======
+* **components/ag-grid:** avoid unneeded api calls for row selection ([#1135](https://github.com/blackbaud/skyux/issues/1135)) ([6c8f9df](https://github.com/blackbaud/skyux/commit/6c8f9df1d6566de16b7962f3014d89c8d85c3df7))
+>>>>>>> 6ea823c32 (chore: release 7.11.1 (#1138))
 
 ## [7.11.0](https://github.com/blackbaud/skyux/compare/7.10.1...7.11.0) (2023-03-10)
 
