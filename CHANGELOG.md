@@ -1,5 +1,17 @@
 # Changelog
 
+## [8.0.0-alpha.9](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.8...8.0.0-alpha.9) (2023-03-14)
+
+
+### Features
+
+* **components/forms:** update selected state background colors ([#1126](https://github.com/blackbaud/skyux/issues/1126)) ([8c820dd](https://github.com/blackbaud/skyux/commit/8c820dd58905ce533743b4eb790c891897d00a55))
+
+
+### Bug Fixes
+
+* **components/indicators:** adopt `@skyux/icons@5.3.1` ([#1133](https://github.com/blackbaud/skyux/issues/1133)) ([5937000](https://github.com/blackbaud/skyux/commit/5937000d1b2fcd2ad15030062b2345ce90918ea6))
+
 ## [7.11.0](https://github.com/blackbaud/skyux/compare/7.10.1...7.11.0) (2023-03-10)
 
 
