@@ -1,5 +1,25 @@
 # Changelog
 
+## [8.0.0-alpha.10](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.9...8.0.0-alpha.10) (2023-03-15)
+
+
+### Features
+
+* **components/forms:** remove bottom margin from selection box grid ([#1141](https://github.com/blackbaud/skyux/issues/1141)) ([75e91cc](https://github.com/blackbaud/skyux/commit/75e91cc89f8241bb5ddf8e13abf7e5bbaa395a55))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** avoid unneeded api calls for row selection ([#1135](https://github.com/blackbaud/skyux/issues/1135)) ([#1137](https://github.com/blackbaud/skyux/issues/1137)) ([3840d49](https://github.com/blackbaud/skyux/commit/3840d49a48eee6f866619a10673213518e1851ff))
+* **components/indicators:** fix disabled token color, remove new color ([#1142](https://github.com/blackbaud/skyux/issues/1142)) ([a9c0a95](https://github.com/blackbaud/skyux/commit/a9c0a95157a943e6f644558fb7775e10604f3f2f))
+* **components/layout:** remove extra toolbar space in modern ([#1148](https://github.com/blackbaud/skyux/issues/1148)) ([c4d7734](https://github.com/blackbaud/skyux/commit/c4d77348264855bb82f81d04ad00f8f12a49774d))
+* **components/text-editor:** only paste text once, only reinitialize editor if already rendered ([#1143](https://github.com/blackbaud/skyux/issues/1143)) ([#1144](https://github.com/blackbaud/skyux/issues/1144)) ([04556f6](https://github.com/blackbaud/skyux/commit/04556f6f2e74e8a0a061828c6982d96cb494d843))
+
+
+### Reverts
+
+* remove requirement for `esModuleInterop` ([#1107](https://github.com/blackbaud/skyux/issues/1107)) ([#1147](https://github.com/blackbaud/skyux/issues/1147)) ([6c012b9](https://github.com/blackbaud/skyux/commit/6c012b987b6c9cb948635e35a347601c18ab533a))
+
 ## [7.11.1](https://github.com/blackbaud/skyux/compare/7.11.0...7.11.1) (2023-03-14)
 
 
