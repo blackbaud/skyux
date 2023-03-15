@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import * as _design from '@blackbaud/skyux-design-tokens/json/design-tokens.json';
+import _design from '@blackbaud/skyux-design-tokens/json/design-tokens.json';
 
-import * as FontFaceObserver from 'fontfaceobserver';
+import FontFaceObserver from 'fontfaceobserver';
 import { Observable, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 

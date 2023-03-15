@@ -7,7 +7,7 @@ import {
 import { By } from '@angular/platform-browser';
 import { expect } from '@skyux-sdk/testing';
 
-import * as moment from 'moment';
+import moment from 'moment';
 
 import { SkyDatepickerModule } from './datepicker.module';
 import { DatepickerCalendarTestComponent } from './fixtures/datepicker-calendar.component.fixture';

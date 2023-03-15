@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "lib": ["es2018", "dom"],
+    "lib": ["ES2022", "dom"],
     "declaration": true,
+    "esModuleInterop": true,
     "module": "commonjs",
     "moduleResolution": "node",
     "noEmitOnError": true,
@@ -17,7 +18,7 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "strictNullChecks": true,
-    "target": "es2020",
+    "target": "ES2022",
     "types": ["jasmine", "node"]
   },
   "include": ["schematics/**/*"],

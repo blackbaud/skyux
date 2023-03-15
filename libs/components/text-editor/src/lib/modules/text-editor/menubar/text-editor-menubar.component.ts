@@ -9,7 +9,7 @@ import {
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyDropdownMessage, SkyDropdownMessageType } from '@skyux/popovers';
 
-import * as he from 'he';
+import he from 'he';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 

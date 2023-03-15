@@ -1,4 +1,4 @@
-import * as FontFaceObserver from 'fontfaceobserver';
+import FontFaceObserver from 'fontfaceobserver';
 import { Subject } from 'rxjs';
 
 import { SkyAppStyleLoader } from './style-loader';

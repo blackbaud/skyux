@@ -1,6 +1,6 @@
-import * as fs from 'fs-extra';
-import * as path from 'path';
-import * as sass from 'sass';
+import fs from 'fs-extra';
+import path from 'path';
+import sass from 'sass';
 
 const STYLES_ROOT = path.resolve(
   __dirname,
