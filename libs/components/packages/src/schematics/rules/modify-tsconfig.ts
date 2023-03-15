@@ -8,6 +8,6 @@ export function modifyTsConfig(): Rule {
     const tsConfig = new JsonFile(tree, filePath);
 
     // Allow importing JSON files.
-    tsConfig.modify(['compilerOptions', 'allowSyntheticDefaultImports'], true);
+    tsConfig.modify(['compilerOptions', 'esModuleInterop'], true);
   };
 }
