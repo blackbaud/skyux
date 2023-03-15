@@ -1,6 +1,6 @@
 import { ProjectDefinition } from '@angular-devkit/core/src/workspace';
 import { Rule, chain } from '@angular-devkit/schematics';
-import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
+import * as ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 
 import { addPolyfillsConfig } from '../../../rules/add-polyfills-config';
 import { getWorkspace } from '../../../utility/workspace';

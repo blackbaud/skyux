@@ -1,5 +1,5 @@
 import { Tree, normalizePath, visitNotIgnoredFiles } from '@nrwl/devkit';
-import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
+import * as ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 
 import { relative } from 'path';
 
