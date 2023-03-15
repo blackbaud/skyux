@@ -13,18 +13,22 @@ export class SkyTextEditorService {
    * A dictionary representing all active text editors and their settings.
    */
   public set editor(value: EditorSetting) {
-    this.#_editor = value;
+    this.#editor = value;
   }
 
   public get editor(): EditorSetting {
-    if (!this.#_editor) {
+    if (!this.#editor) {
       throw new Error('Editor has not been initialized.');
     }
 
-    return this.#_editor;
+    return this.#editor;
   }
 
-  #_editor: EditorSetting | undefined;
+  public get isInitialized(): boolean {
+    return this.#editor !== undefined;
+  }
+
+  #editor: EditorSetting | undefined;
 
   /**
    * Returns the blur observable from the editor with the corresponding id.
