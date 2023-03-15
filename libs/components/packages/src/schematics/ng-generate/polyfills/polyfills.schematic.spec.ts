@@ -3,7 +3,7 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 
-import * as path from 'path';
+import path from 'path';
 
 import { createTestApp } from '../../testing/scaffold';
 import { readJson } from '../../testing/tree';

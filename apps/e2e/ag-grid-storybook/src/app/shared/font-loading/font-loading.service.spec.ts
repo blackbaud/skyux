@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import * as FontFaceObserver from 'fontfaceobserver';
+import FontFaceObserver from 'fontfaceobserver';
 import { map } from 'rxjs/operators';
 
 import { FontLoadingService } from './font-loading.service';

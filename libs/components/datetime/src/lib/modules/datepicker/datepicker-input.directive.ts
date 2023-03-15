@@ -22,7 +22,7 @@ import {
 } from '@angular/forms';
 import { SkyAppLocaleProvider, SkyLibResourcesService } from '@skyux/i18n';
 
-import * as moment from 'moment';
+import moment from 'moment';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 

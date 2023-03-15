@@ -1,6 +1,6 @@
 import { SpawnOptions } from 'child_process';
-import * as crossSpawn from 'cross-spawn';
-import * as path from 'path';
+import crossSpawn from 'cross-spawn';
+import path from 'path';
 
 /**
  * Executes a given command in a cross-platform child process.
