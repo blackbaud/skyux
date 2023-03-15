@@ -44,7 +44,8 @@
     [ngClass]="{
       'sky-text-editor-wrapper-disabled': disabled
     }"
-    (load)="onIframeLoad($event)"
+    (load)="onIframeLoad()"
+    #iframe
   >
   </iframe>
 </div>
