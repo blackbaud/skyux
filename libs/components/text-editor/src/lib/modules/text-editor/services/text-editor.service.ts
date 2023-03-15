@@ -24,6 +24,10 @@ export class SkyTextEditorService {
     return this.#_editor;
   }
 
+  public get isInitialized(): boolean {
+    return this.#_editor !== undefined;
+  }
+
   #_editor: EditorSetting | undefined;
 
   /**
