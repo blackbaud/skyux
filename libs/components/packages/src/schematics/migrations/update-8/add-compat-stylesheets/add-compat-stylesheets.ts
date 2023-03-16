@@ -31,6 +31,21 @@ The bottom margin for the \`sky-selection-box-grid\` has been changed to compens
       name: '@skyux/layout',
       components: [
         {
+          name: 'action button',
+          styles: [
+            {
+              css: `
+:root {
+  --sky-compat-action-button-flex-margin: 0;
+  --sky-compat-action-button-flex-sm-padding: 10px;
+}
+`,
+              instructions: `
+The top and bottom margins have been removed from the \`sky-action-button-container\` component. To address this, remove this block of CSS and address any spacing issues by adding the appropriate margin class to the action button container. See https://developer.blackbaud.com/skyux/design/styles/spacing for a list of supported spacing classes.`,
+            },
+          ],
+        },
+        {
           name: 'text expand repeater',
           styles: [
             {
