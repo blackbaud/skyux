@@ -13,21 +13,50 @@ function removePolyfillCode(
   project: ProjectDefinition
 ): Rule {
   return async (tree): Promise<Rule | void> => {
-    const targetsToUpdate: string[] = [];
+    // Saves a list of files that need to be checked for SKY UX polyfills.
+    const polyfillsFiles = new Set<string>();
+
+    // Saves a list of targets that use each polyfills file.
+    const targetsWithPolyfills = new Map<string, Set<string>>();
 
     // Check each target for 'polyfills' configuration.
     for (const [targetName, target] of project.targets.entries()) {
-      const polyfillsFile = target.options?.polyfills;
+      const files = [];
 
-      if (!polyfillsFile) {
-        continue;
+      // src/test.ts
+      if (targetName === 'test' && target.options?.main) {
+        files.push(target.options.main as string);
       }
 
+      // src/polyfills.ts
+      if (target.options?.polyfills) {
+        files.push(target.options.polyfills as string);
+      }
+
+      for (const file of files) {
+        // Save the file to the list of files that need to be checked.
+        polyfillsFiles.add(file);
+
+        // Save a list of targets that use each file.
+        const set = targetsWithPolyfills.get(file);
+        if (set) {
+          set.add(targetName);
+        } else {
+          targetsWithPolyfills.set(file, new Set([targetName]));
+        }
+      }
+    }
+
+    // Loop through each file and remove our polyfill, if it exists.
+    for (const polyfillsFile of polyfillsFiles) {
       const path = `${project.root}${polyfillsFile}`;
+
       if (tree.exists(path)) {
         const contents = tree.readText(path).replace(/\r\n/g, `\n`);
         const polyfillBlockStartIndex = contents.indexOf(polyfillBlockStart);
         const polyfillBlockEndIndex = contents.indexOf(polyfillBlockEnd);
+
+        // Check for comment-block syntax.
         if (polyfillBlockStartIndex !== -1 && polyfillBlockEndIndex !== -1) {
           const changeStart = contents.lastIndexOf(
             `/*`,
@@ -37,7 +66,6 @@ function removePolyfillCode(
           const change = tree.beginUpdate(path);
           change.remove(changeStart, changeEnd - changeStart);
           tree.commitUpdate(change);
-          targetsToUpdate.push(targetName);
         } else {
           const sourceFile = ts.createSourceFile(
             path,
@@ -45,17 +73,22 @@ function removePolyfillCode(
             ts.ScriptTarget.Latest,
             true
           );
+
           // Find the expression that assigns the global property to the window object.
           const expression = sourceFile.statements.find((node) => {
             if (ts.isExpressionStatement(node)) {
               const expression = node.expression;
+
               if (ts.isBinaryExpression(expression)) {
                 const left = expression.left;
+
                 if (ts.isPropertyAccessExpression(left)) {
                   let leftExpression: ts.Expression = left.expression;
+
                   if (ts.isParenthesizedExpression(leftExpression)) {
                     leftExpression = leftExpression.expression;
                   }
+
                   if (
                     ts.isAsExpression(leftExpression) &&
                     ts.isIdentifier(leftExpression.expression) &&
@@ -63,6 +96,7 @@ function removePolyfillCode(
                     left.name.text === 'global'
                   ) {
                     const right = expression.right;
+
                     if (ts.isIdentifier(right) && right.text === 'window') {
                       return true;
                     }
@@ -70,21 +104,34 @@ function removePolyfillCode(
                 }
               }
             }
+
             return false;
           });
+
           if (expression) {
             const change = tree.beginUpdate(path);
             change.remove(expression.pos, expression.end - expression.pos);
             tree.commitUpdate(change);
-            targetsToUpdate.push(targetName);
+          } else {
+            // The file doesn't include our polyfill, so remove it from the list of
+            // targets that need the new polyfills config.
+            targetsWithPolyfills.delete(polyfillsFile);
           }
         }
       }
     }
 
-    // Only update the project config if our polyfill was found in the
-    // polyfill.ts/test.ts files.
-    if (targetsToUpdate.length > 0) {
+    // Only update the project config if our polyfill was found in the files.
+    if (targetsWithPolyfills.size > 0) {
+      // Flatten all targets into a single array of unique values.
+      const targetsToUpdate = Array.from(
+        new Set(
+          Array.from(targetsWithPolyfills.values())
+            .map((x) => Array.from(x.values()))
+            .flat()
+        )
+      );
+
       return addPolyfillsConfig(projectName, targetsToUpdate);
     }
   };
