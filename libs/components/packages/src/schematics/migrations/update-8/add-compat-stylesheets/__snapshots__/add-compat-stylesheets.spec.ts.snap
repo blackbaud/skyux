@@ -31,6 +31,24 @@ exports[`Migrations > Add compat stylesheets should add a compat stylesheet for 
 }
 
 /*******************************************************************************
+ * COMPONENT: ACTION BUTTON
+ *******************************************************************************/
+
+/*******************************************************************************
+ * The top and bottom margins have been removed from the
+ * \`sky-action-button-container\` component. To address this, remove this block
+ * of CSS and address any spacing issues by adding the appropriate margin
+ * class to the action button container. See
+ * https://developer.blackbaud.com/skyux/design/styles/spacing for a list of
+ * supported spacing classes.
+ *******************************************************************************/
+
+:root {
+  --sky-compat-action-button-flex-margin: 0;
+  --sky-compat-action-button-flex-sm-padding: 10px;
+}
+
+/*******************************************************************************
  * COMPONENT: TEXT EXPAND REPEATER
  *******************************************************************************/
 
@@ -62,6 +80,24 @@ exports[`Migrations > Add compat stylesheets should add a compat stylesheet for 
  * - Remove each occurrence of this file in your project's
  *   angular.json file.
  *******************************************************************************/
+
+/*******************************************************************************
+ * COMPONENT: ACTION BUTTON
+ *******************************************************************************/
+
+/*******************************************************************************
+ * The top and bottom margins have been removed from the
+ * \`sky-action-button-container\` component. To address this, remove this block
+ * of CSS and address any spacing issues by adding the appropriate margin
+ * class to the action button container. See
+ * https://developer.blackbaud.com/skyux/design/styles/spacing for a list of
+ * supported spacing classes.
+ *******************************************************************************/
+
+:root {
+  --sky-compat-action-button-flex-margin: 0;
+  --sky-compat-action-button-flex-sm-padding: 10px;
+}
 
 /*******************************************************************************
  * COMPONENT: TEXT EXPAND REPEATER
@@ -97,6 +133,24 @@ exports[`Migrations > Add compat stylesheets should handle missing styles array 
  *******************************************************************************/
 
 /*******************************************************************************
+ * COMPONENT: ACTION BUTTON
+ *******************************************************************************/
+
+/*******************************************************************************
+ * The top and bottom margins have been removed from the
+ * \`sky-action-button-container\` component. To address this, remove this block
+ * of CSS and address any spacing issues by adding the appropriate margin
+ * class to the action button container. See
+ * https://developer.blackbaud.com/skyux/design/styles/spacing for a list of
+ * supported spacing classes.
+ *******************************************************************************/
+
+:root {
+  --sky-compat-action-button-flex-margin: 0;
+  --sky-compat-action-button-flex-sm-padding: 10px;
+}
+
+/*******************************************************************************
  * COMPONENT: TEXT EXPAND REPEATER
  *******************************************************************************/
 
@@ -128,6 +182,24 @@ exports[`Migrations > Add compat stylesheets should overwrite an existing compat
  * - Remove each occurrence of this file in your project's
  *   angular.json file.
  *******************************************************************************/
+
+/*******************************************************************************
+ * COMPONENT: ACTION BUTTON
+ *******************************************************************************/
+
+/*******************************************************************************
+ * The top and bottom margins have been removed from the
+ * \`sky-action-button-container\` component. To address this, remove this block
+ * of CSS and address any spacing issues by adding the appropriate margin
+ * class to the action button container. See
+ * https://developer.blackbaud.com/skyux/design/styles/spacing for a list of
+ * supported spacing classes.
+ *******************************************************************************/
+
+:root {
+  --sky-compat-action-button-flex-margin: 0;
+  --sky-compat-action-button-flex-sm-padding: 10px;
+}
 
 /*******************************************************************************
  * COMPONENT: TEXT EXPAND REPEATER
