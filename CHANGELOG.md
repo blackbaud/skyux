@@ -1,5 +1,18 @@
 # Changelog
 
+## [8.0.0-alpha.11](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.10...8.0.0-alpha.11) (2023-03-16)
+
+
+### Features
+
+* **components/layout:** remove margin from action button container ([#1152](https://github.com/blackbaud/skyux/issues/1152)) ([e0396d1](https://github.com/blackbaud/skyux/commit/e0396d1f4cfa5669cfb81a30e0d39ff913365d70))
+
+
+### Bug Fixes
+
+* **components/core:** apply default options for numeric service ([#1151](https://github.com/blackbaud/skyux/issues/1151)) ([7990727](https://github.com/blackbaud/skyux/commit/7990727234d71da42fe504fdb887d2caca877c13))
+* **components/packages:** remove polyfills from `src/test.ts` ([#1149](https://github.com/blackbaud/skyux/issues/1149)) ([1381258](https://github.com/blackbaud/skyux/commit/1381258e65401640721860acb52e4b53ca7fa19d))
+
 ## [8.0.0-alpha.10](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.9...8.0.0-alpha.10) (2023-03-15)
 
 
