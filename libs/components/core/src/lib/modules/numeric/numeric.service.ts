@@ -46,9 +46,18 @@ export class SkyNumericService {
       return '';
     }
 
+    const numericOptions: SkyNumericOptions = {
+      digits: 1,
+      format: 'number',
+      currencySign: 'standard',
+      iso: 'USD',
+      truncateAfter: 1000,
+      ...options,
+    };
+
     const decimalPlaceRegExp = /\.0+$|(\.[0-9]*[1-9])0+$/;
-    const locale = options.locale || this.currentLocale;
-    const digits = options.digits || 0;
+    const locale = numericOptions.locale || this.currentLocale;
+    const digits = numericOptions.digits || 0;
 
     // Get the symbol for the number after rounding, since rounding could push the number
     // into a different symbol range.
@@ -61,9 +70,9 @@ export class SkyNumericService {
       let symbol = this.#symbolIndex[i];
 
       if (
-        options.truncate &&
-        options.truncateAfter !== undefined &&
-        roundedNumberAbs >= options.truncateAfter &&
+        numericOptions.truncate &&
+        numericOptions.truncateAfter !== undefined &&
+        roundedNumberAbs >= numericOptions.truncateAfter &&
         roundedNumberAbs >= symbol.value
       ) {
         roundedNumber = this.#roundNumber(value / symbol.value, digits);
@@ -89,7 +98,7 @@ export class SkyNumericService {
     let isDecimal = false;
 
     // Checks the string entered for format. Using toLowerCase to ignore case.
-    switch (options.format?.toLowerCase()) {
+    switch (numericOptions.format?.toLowerCase()) {
       // In a case where a decimal value was not shortened and
       // the digit input is 2 or higher, it forces 2 digits.
       // For example, this prevents a value like $15.50 from displaying as $15.5.
@@ -98,8 +107,8 @@ export class SkyNumericService {
       case 'currency':
         isDecimal = value % 1 !== 0;
 
-        if (options.minDigits) {
-          digitsFormatted = `1.${options.minDigits}-${digits}`;
+        if (numericOptions.minDigits) {
+          digitsFormatted = `1.${numericOptions.minDigits}-${digits}`;
         } else if (isDecimal && digits >= 2) {
           digitsFormatted = `1.2-${digits}`;
         } else {
@@ -111,13 +120,13 @@ export class SkyNumericService {
           parseFloat(output),
           SkyIntlNumberFormatStyle.Currency,
           digitsFormatted,
-          options.iso,
+          numericOptions.iso,
           // Angular 5+ needs a string for this parameter, but Angular 4 needs a boolean.
           // To support both versions we can supply 'symbol' which will evaluate truthy for Angular 4
           // and the appropriate string value for Angular 5+.
           // See: https://angular.io/api/common/CurrencyPipe#parameters
           'symbol' as any,
-          options.currencySign
+          numericOptions.currencySign
         ) as string;
         //   ^^^^^^ Result can't be null since the sanitized input is always a number.
         break;
@@ -128,9 +137,9 @@ export class SkyNumericService {
       default:
         // Ensures localization of the number to ensure comma and
         // decimal separator
-        if (options.minDigits) {
-          digitsFormatted = `1.${options.minDigits}-${digits}`;
-        } else if (options.truncate) {
+        if (numericOptions.minDigits) {
+          digitsFormatted = `1.${numericOptions.minDigits}-${digits}`;
+        } else if (numericOptions.truncate) {
           digitsFormatted = `1.0-${digits}`;
         } else {
           digitsFormatted = `1.${digits}-${digits}`;
@@ -146,7 +155,7 @@ export class SkyNumericService {
         break;
     }
 
-    if (options.truncate) {
+    if (numericOptions.truncate) {
       output = this.#replaceShortenSymbol(output);
     }
 

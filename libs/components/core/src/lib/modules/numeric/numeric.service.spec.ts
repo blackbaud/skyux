@@ -7,7 +7,7 @@ import { SkyIntlNumberFormatStyle } from '@skyux/i18n';
 import { SkyNumberFormatUtility } from '../shared/number-format/number-format-utility';
 
 import { SkyNumericModule } from './numeric.module';
-import { NumericOptions } from './numeric.options';
+import { NumericOptions, SkyNumericOptions } from './numeric.options';
 import { SkyNumericService } from './numeric.service';
 
 describe('Numeric service', () => {
@@ -371,6 +371,15 @@ describe('Numeric service', () => {
     options.format = undefined;
 
     expect(skyNumeric.formatNumber(value, options)).toBe('100');
+  });
+
+  it('should handle undefined digits', () => {
+    const value = 100;
+    const options: SkyNumericOptions = {
+      format: 'currency',
+    };
+
+    expect(skyNumeric.formatNumber(value, options)).toBe('$100');
   });
 
   describe('roundNumber', () => {
