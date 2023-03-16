@@ -3,27 +3,25 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  Inject,
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   TemplateRef,
   ViewChild,
+  inject,
 } from '@angular/core';
 import {
   SKY_STACKING_CONTEXT,
   SkyAffixAutoFitContext,
+  SkyAffixHorizontalAlignment,
   SkyAffixService,
   SkyAffixer,
-  SkyLogService,
   SkyOverlayInstance,
   SkyOverlayService,
-  SkyStackingContext,
 } from '@skyux/core';
 import { SkyThemeService } from '@skyux/theme';
 
-import { Observable, Subject, fromEvent as observableFromEvent } from 'rxjs';
+import { Subject, fromEvent as observableFromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { parseAffixHorizontalAlignment } from './dropdown-extensions';
@@ -33,7 +31,10 @@ import { SkyDropdownMessage } from './types/dropdown-message';
 import { SkyDropdownMessageType } from './types/dropdown-message-type';
 import { SkyDropdownTriggerType } from './types/dropdown-trigger-type';
 
-const DEFAULT_BUTTON_TYPE = 'select';
+const DEFAULT_BUTTON_STYLE = 'default';
+const DEFAULT_BUTTON_TYPE: SkyDropdownButtonType = 'select';
+const DEFAULT_HORIZONTAL_ALIGNMENT: SkyAffixHorizontalAlignment = 'left';
+const DEFAULT_TRIGGER_TYPE: SkyDropdownTriggerType = 'click';
 
 /**
  * Creates a dropdown menu that displays menu items that users may select.
@@ -53,7 +54,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
    */
   @Input()
   public set buttonStyle(value: string | undefined) {
-    this.#_buttonStyle = value ?? 'default';
+    this.#_buttonStyle = value ?? DEFAULT_BUTTON_STYLE;
   }
 
   public get buttonStyle(): string {
@@ -68,22 +69,11 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
    * @default "select"
    */
   @Input()
-  public set buttonType(value: SkyDropdownButtonType | string | undefined) {
+  public set buttonType(value: SkyDropdownButtonType | undefined) {
     this.#_buttonType = value ?? DEFAULT_BUTTON_TYPE;
-
-    if (value && !['select', 'context-menu', 'tab'].includes(value)) {
-      this.#logService.deprecated(
-        'SkyDropdownComponent.buttonType Font Awesome icon class option',
-        {
-          deprecationMajorVersion: 7,
-          replacementRecommendation:
-            'Set `buttonType` to `select` and render a `<sky-icon>` element within the `<sky-dropdown-button>` element.',
-        }
-      );
-    }
   }
 
-  public get buttonType(): SkyDropdownButtonType | string {
+  public get buttonType(): SkyDropdownButtonType {
     return this.#_buttonType;
   }
 
@@ -123,7 +113,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   public set horizontalAlignment(
     value: SkyDropdownHorizontalAlignment | undefined
   ) {
-    this.#_horizontalAlignment = value ?? 'left';
+    this.#_horizontalAlignment = value ?? DEFAULT_HORIZONTAL_ALIGNMENT;
   }
 
   public get horizontalAlignment(): SkyDropdownHorizontalAlignment {
@@ -157,7 +147,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
    */
   @Input()
   public set trigger(value: SkyDropdownTriggerType | undefined) {
-    this.#_trigger = value ?? 'click';
+    this.#_trigger = value ?? DEFAULT_TRIGGER_TYPE;
   }
 
   public get trigger(): SkyDropdownTriggerType {
@@ -212,51 +202,21 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   }
 
   #affixer: SkyAffixer | undefined;
-
-  #ngUnsubscribe = new Subject<void>();
-
+  #affixService = inject(SkyAffixService);
+  #changeDetector = inject(ChangeDetectorRef);
   #overlay: SkyOverlayInstance | undefined;
-
-  #_buttonStyle = 'default';
-
-  #_buttonType: SkyDropdownButtonType | string = DEFAULT_BUTTON_TYPE;
-
-  #_dismissOnBlur = true;
-
-  #_horizontalAlignment: SkyDropdownHorizontalAlignment = 'left';
-
-  #_isOpen = false;
-
-  #_trigger: SkyDropdownTriggerType = 'click';
-
-  #_triggerButton: ElementRef | undefined;
-
+  #ngUnsubscribe = new Subject<void>();
+  #overlayService = inject(SkyOverlayService);
   #positionTimeout: number | undefined;
-
-  #changeDetector: ChangeDetectorRef;
-  #affixService: SkyAffixService;
-  #overlayService: SkyOverlayService;
-  #logService: SkyLogService;
-  #themeSvc: SkyThemeService | undefined;
-  #zIndex: Observable<number> | undefined;
-
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    affixService: SkyAffixService,
-    overlayService: SkyOverlayService,
-    logService: SkyLogService,
-    @Optional() themeSvc?: SkyThemeService,
-    @Optional()
-    @Inject(SKY_STACKING_CONTEXT)
-    stackingContext?: SkyStackingContext
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#affixService = affixService;
-    this.#overlayService = overlayService;
-    this.#logService = logService;
-    this.#themeSvc = themeSvc;
-    this.#zIndex = stackingContext?.zIndex;
-  }
+  #themeSvc = inject(SkyThemeService, { optional: true });
+  #zIndex = inject(SKY_STACKING_CONTEXT, { optional: true })?.zIndex;
+  #_buttonStyle = DEFAULT_BUTTON_STYLE;
+  #_buttonType = DEFAULT_BUTTON_TYPE;
+  #_dismissOnBlur = true;
+  #_horizontalAlignment = DEFAULT_HORIZONTAL_ALIGNMENT;
+  #_isOpen = false;
+  #_trigger = DEFAULT_TRIGGER_TYPE;
+  #_triggerButton: ElementRef | undefined;
 
   public ngOnInit(): void {
     this.messageStream
