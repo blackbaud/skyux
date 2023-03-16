@@ -47,7 +47,7 @@ export class SkyNumericService {
     }
 
     const numericOptions: SkyNumericOptions = {
-      digits: 1,
+      digits: 0,
       format: 'number',
       currencySign: 'standard',
       iso: 'USD',
