@@ -26,7 +26,8 @@ describe('update-polyfill.schematic', () => {
     const angularJson = readJson(tree, 'angular.json');
     const architect = angularJson.projects['test-app'].architect;
     architect.build.options.polyfills = 'src/polyfills.ts';
-    architect.test.options.polyfills = 'src/test.ts';
+    architect.test.options.polyfills = 'src/polyfills.ts';
+    architect.test.options.main = 'src/test.ts';
     tree.overwrite('angular.json', JSON.stringify(angularJson, undefined, 2));
 
     return {
@@ -111,7 +112,7 @@ describe('update-polyfill.schematic', () => {
     ]);
 
     expect(architect.test.options.polyfills).toEqual([
-      'src/test.ts',
+      'src/polyfills.ts',
       '@skyux/packages/polyfills',
     ]);
   });
@@ -146,6 +147,6 @@ describe('update-polyfill.schematic', () => {
     const architect = angularJson.projects['test-app'].architect;
 
     expect(architect.build.options.polyfills).toEqual('src/polyfills.ts');
-    expect(architect.test.options.polyfills).toEqual('src/test.ts');
+    expect(architect.test.options.polyfills).toEqual('src/polyfills.ts');
   });
 });
