@@ -202,14 +202,16 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   }
 
   #affixer: SkyAffixer | undefined;
-  #affixService = inject(SkyAffixService);
-  #changeDetector = inject(ChangeDetectorRef);
   #overlay: SkyOverlayInstance | undefined;
   #ngUnsubscribe = new Subject<void>();
-  #overlayService = inject(SkyOverlayService);
   #positionTimeout: number | undefined;
+
+  #affixService = inject(SkyAffixService);
+  #changeDetector = inject(ChangeDetectorRef);
+  #overlayService = inject(SkyOverlayService);
   #themeSvc = inject(SkyThemeService, { optional: true });
   #zIndex = inject(SKY_STACKING_CONTEXT, { optional: true })?.zIndex;
+
   #_buttonStyle = DEFAULT_BUTTON_STYLE;
   #_buttonType = DEFAULT_BUTTON_TYPE;
   #_dismissOnBlur = true;
