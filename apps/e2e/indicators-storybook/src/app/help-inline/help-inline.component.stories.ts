@@ -4,7 +4,7 @@ import { HelpInlineComponent } from './help-inline.component';
 import { HelpInlineModule } from './help-inline.module';
 
 export default {
-  id: 'help-inlinecomponent-help-inline',
+  id: 'helpinlinecomponent-helpinline',
   title: 'Components/HelpInline',
   component: HelpInlineComponent,
   decorators: [
