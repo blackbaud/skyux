@@ -20,7 +20,7 @@ sky-input-box {
     background-color: var(--sky-background-color-input-box-group);
 
     &:focus-within {
-      background-color: var(--sky-background-color-input-box-group-focused)
+      background-color: var(--sky-background-color-input-box-group-focused);
     }
 
     .sky-input-box-label-wrapper {
