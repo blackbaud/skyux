@@ -33,6 +33,10 @@
 .editable-grid {
   max-width: 100%;
   height: calc(100vh - 129px);
+
+  ag-grid-angular {
+    height: calc(100vh - 200px);
+  }
 }
 
 .sky-theme-modern {
