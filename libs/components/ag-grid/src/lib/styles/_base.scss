@@ -225,7 +225,7 @@ sky-ag-grid-wrapper + sky-infinite-scroll {
   }
 }
 
-sky-ag-grid-wrapper.sky-ag-grid-layout-normal {
+.sky-ag-grid-layout-normal {
   width: 100%;
   height: 100%;
   display: flex;
@@ -233,10 +233,10 @@ sky-ag-grid-wrapper.sky-ag-grid-layout-normal {
   .sky-ag-grid {
     flex: 1;
     overflow: hidden;
+  }
 
-    ag-grid-angular {
-      width: 100%;
-      height: 100%;
-    }
+  ag-grid-angular {
+    width: 100%;
+    height: 100%;
   }
 }
