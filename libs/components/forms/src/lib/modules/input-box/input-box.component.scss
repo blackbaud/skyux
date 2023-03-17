@@ -17,6 +17,11 @@ sky-input-box {
   .sky-form-group {
     display: flex;
     flex-wrap: wrap;
+    background-color: var(--sky-background-color-input-box-group);
+
+    &:focus-within {
+      background-color: var(--sky-background-color-input-box-group-focused)
+    }
 
     .sky-input-box-label-wrapper {
       display: flex;
@@ -236,11 +241,6 @@ sky-input-box {
       flex-wrap: nowrap;
       margin-bottom: 0;
       padding: 0;
-      background-color: transparent;
-
-      &:focus-within {
-        background-color: $sky-color-white;
-      }
 
       .sky-input-box-label-wrapper {
         display: flex;

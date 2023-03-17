@@ -240,3 +240,10 @@ sky-ag-grid-wrapper.sky-ag-grid-layout-normal {
     }
   }
 }
+
+.ag-theme-sky-modern-light,
+.ag-theme-sky-modern-dark {
+  .ag-popup-editor {
+    --sky-background-color-input-box-group: var(--sky-background-color-input-box-group-focused);
+  }
+}
