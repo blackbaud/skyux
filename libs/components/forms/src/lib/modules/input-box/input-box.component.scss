@@ -231,12 +231,16 @@ sky-input-box {
     }
 
     .sky-form-group {
-      background-color: $sky-color-white;
       @include mixins.sky-theme-modern-border;
       color: $sky-theme-modern-font-data-label-color;
       flex-wrap: nowrap;
       margin-bottom: 0;
       padding: 0;
+      background-color: transparent;
+
+      &:focus-within {
+        background-color: $sky-color-white;
+      }
 
       .sky-input-box-label-wrapper {
         display: flex;
