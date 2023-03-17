@@ -1,24 +1,28 @@
 # Changelog
 
-<<<<<<< HEAD
-## [8.0.0-alpha.11](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.10...8.0.0-alpha.11) (2023-03-16)
-=======
 ## [7.12.0](https://github.com/blackbaud/skyux/compare/7.11.1...7.12.0) (2023-03-17)
->>>>>>> a984152a7 (chore: release 7.12.0 (#1145))
 
 
 ### Features
 
-<<<<<<< HEAD
-* **components/layout:** remove margin from action button container ([#1152](https://github.com/blackbaud/skyux/issues/1152)) ([e0396d1](https://github.com/blackbaud/skyux/commit/e0396d1f4cfa5669cfb81a30e0d39ff913365d70))
-=======
 * **components/theme:** add selected input and item colors ([#1146](https://github.com/blackbaud/skyux/issues/1146)) ([533a1f8](https://github.com/blackbaud/skyux/commit/533a1f80da76d19732831ce59c168e63cfed3e5b))
->>>>>>> a984152a7 (chore: release 7.12.0 (#1145))
 
 
 ### Bug Fixes
 
-<<<<<<< HEAD
+* **components/ag-grid:** relax height style rules ([#1158](https://github.com/blackbaud/skyux/issues/1158)) ([1d8de99](https://github.com/blackbaud/skyux/commit/1d8de9991a04bc98c3c0bf770d18e5b885621312))
+* **components/text-editor:** only paste text once, only reinitialize editor if already rendered ([#1143](https://github.com/blackbaud/skyux/issues/1143)) ([2482c30](https://github.com/blackbaud/skyux/commit/2482c302cd955c63176e1740eba7d0c8dd951669))
+
+## [8.0.0-alpha.11](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.10...8.0.0-alpha.11) (2023-03-16)
+
+
+### Features
+
+* **components/layout:** remove margin from action button container ([#1152](https://github.com/blackbaud/skyux/issues/1152)) ([e0396d1](https://github.com/blackbaud/skyux/commit/e0396d1f4cfa5669cfb81a30e0d39ff913365d70))
+
+
+### Bug Fixes
+
 * **components/core:** apply default options for numeric service ([#1151](https://github.com/blackbaud/skyux/issues/1151)) ([7990727](https://github.com/blackbaud/skyux/commit/7990727234d71da42fe504fdb887d2caca877c13))
 * **components/packages:** remove polyfills from `src/test.ts` ([#1149](https://github.com/blackbaud/skyux/issues/1149)) ([1381258](https://github.com/blackbaud/skyux/commit/1381258e65401640721860acb52e4b53ca7fa19d))
 
@@ -41,10 +45,8 @@
 ### Reverts
 
 * remove requirement for `esModuleInterop` ([#1107](https://github.com/blackbaud/skyux/issues/1107)) ([#1147](https://github.com/blackbaud/skyux/issues/1147)) ([6c012b9](https://github.com/blackbaud/skyux/commit/6c012b987b6c9cb948635e35a347601c18ab533a))
-=======
 * **components/ag-grid:** relax height style rules ([#1158](https://github.com/blackbaud/skyux/issues/1158)) ([1d8de99](https://github.com/blackbaud/skyux/commit/1d8de9991a04bc98c3c0bf770d18e5b885621312))
 * **components/text-editor:** only paste text once, only reinitialize editor if already rendered ([#1143](https://github.com/blackbaud/skyux/issues/1143)) ([2482c30](https://github.com/blackbaud/skyux/commit/2482c302cd955c63176e1740eba7d0c8dd951669))
->>>>>>> a984152a7 (chore: release 7.12.0 (#1145))
 
 ## [7.11.1](https://github.com/blackbaud/skyux/compare/7.11.0...7.11.1) (2023-03-14)
 
