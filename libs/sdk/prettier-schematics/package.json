@@ -20,6 +20,13 @@
   "ng-add": {
     "save": "devDependencies"
   },
+  "ng-update": {
+    "migrations": "./src/schematics/migrations/migration-collection.json",
+    "packageGroup": {
+      "eslint-config-prettier": "^8.7.0",
+      "prettier": "^2.8.0"
+    }
+  },
   "peerDependencies": {
     "@angular/cli": "^15.2.1"
   },
