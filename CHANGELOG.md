@@ -1,5 +1,18 @@
 # Changelog
 
+## [7.12.0](https://github.com/blackbaud/skyux/compare/7.11.1...7.12.0) (2023-03-17)
+
+
+### Features
+
+* **components/theme:** add selected input and item colors ([#1146](https://github.com/blackbaud/skyux/issues/1146)) ([533a1f8](https://github.com/blackbaud/skyux/commit/533a1f80da76d19732831ce59c168e63cfed3e5b))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** relax height style rules ([#1158](https://github.com/blackbaud/skyux/issues/1158)) ([1d8de99](https://github.com/blackbaud/skyux/commit/1d8de9991a04bc98c3c0bf770d18e5b885621312))
+* **components/text-editor:** only paste text once, only reinitialize editor if already rendered ([#1143](https://github.com/blackbaud/skyux/issues/1143)) ([2482c30](https://github.com/blackbaud/skyux/commit/2482c302cd955c63176e1740eba7d0c8dd951669))
+
 ## [8.0.0-alpha.11](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.10...8.0.0-alpha.11) (2023-03-16)
 
 
