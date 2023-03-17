@@ -1,6 +1,6 @@
 import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 
-describe(`indicators-storybook`, () => {
+describe('indicators-storybook', () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
@@ -14,7 +14,10 @@ describe(`indicators-storybook`, () => {
           .should('be.visible')
           .screenshot(`helpinlinecomponent-helpinline--help-inline-${theme}`)
           .percySnapshot(
-            `helpinlinecomponent-helpinline--help-inline-${theme}`
+            `helpinlinecomponent-helpinline--help-inline-${theme}`,
+            {
+              widths: E2eVariations.DISPLAY_WIDTHS,
+            }
           );
       });
     });

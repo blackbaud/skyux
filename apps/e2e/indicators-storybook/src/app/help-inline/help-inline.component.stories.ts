@@ -5,7 +5,7 @@ import { HelpInlineModule } from './help-inline.module';
 
 export default {
   id: 'helpinlinecomponent-helpinline',
-  title: 'Components/HelpInline',
+  title: 'Components/Help Inline',
   component: HelpInlineComponent,
   decorators: [
     moduleMetadata({
