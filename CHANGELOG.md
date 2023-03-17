@@ -1,5 +1,24 @@
 # Changelog
 
+## [8.0.0-alpha.12](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.11...8.0.0-alpha.12) (2023-03-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/popovers:** The dropdown component's `buttonType` input has been converted from a `string` input type to a `SkyDropdownButtonType` `string` union. It no longer supports specifying an icon to be displayed as the button content. This might cause problems if you are setting the `buttonType` input to a type of `string` in your consuming component's class.
+
+### Features
+
+* **components/popovers:** remove string as valid input on dropdown buttonType ([#1155](https://github.com/blackbaud/skyux/issues/1155)) ([da88367](https://github.com/blackbaud/skyux/commit/da88367d4da01cc16fc71fa1e91da5d5eaae5670))
+* **components/text-editor:** add support for `dompurify@3.0.1` ([#1153](https://github.com/blackbaud/skyux/issues/1153)) ([5d2c481](https://github.com/blackbaud/skyux/commit/5d2c48123b9070f7d7d08775771a73389b21e633))
+* **sdk/prettier-schematics:** add prettier dependencies to `ng update` ([#1157](https://github.com/blackbaud/skyux/issues/1157)) ([e005b33](https://github.com/blackbaud/skyux/commit/e005b33dc19bc1ea9d5d29c8907e7b6a45b554aa))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** relax height style rules ([#1158](https://github.com/blackbaud/skyux/issues/1158)) ([#1162](https://github.com/blackbaud/skyux/issues/1162)) ([f4b10af](https://github.com/blackbaud/skyux/commit/f4b10af7f0847b31f9db9bb7f33de06478d4f9be))
+* **components/packages:** update polyfills files for library projects ([#1159](https://github.com/blackbaud/skyux/issues/1159)) ([9e4b7fc](https://github.com/blackbaud/skyux/commit/9e4b7fcb1ef6a9f03510f41f7e74c869538f49f2))
+
 ## [7.12.0](https://github.com/blackbaud/skyux/compare/7.11.1...7.12.0) (2023-03-17)
 
 
