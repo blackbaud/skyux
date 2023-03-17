@@ -49,10 +49,8 @@ function removePolyfillCode(
 
     // Loop through each file and remove our polyfill, if it exists.
     for (const polyfillsFile of polyfillsFiles) {
-      const path = `${project.root}${polyfillsFile}`;
-
-      if (tree.exists(path)) {
-        const contents = tree.readText(path).replace(/\r\n/g, `\n`);
+      if (tree.exists(polyfillsFile)) {
+        const contents = tree.readText(polyfillsFile).replace(/\r\n/g, `\n`);
         const polyfillBlockStartIndex = contents.indexOf(polyfillBlockStart);
         const polyfillBlockEndIndex = contents.indexOf(polyfillBlockEnd);
 
@@ -63,12 +61,12 @@ function removePolyfillCode(
             polyfillBlockStartIndex
           );
           const changeEnd = contents.indexOf(`*/`, polyfillBlockEndIndex) + 2;
-          const change = tree.beginUpdate(path);
+          const change = tree.beginUpdate(polyfillsFile);
           change.remove(changeStart, changeEnd - changeStart);
           tree.commitUpdate(change);
         } else {
           const sourceFile = ts.createSourceFile(
-            path,
+            polyfillsFile,
             contents,
             ts.ScriptTarget.Latest,
             true
@@ -109,7 +107,7 @@ function removePolyfillCode(
           });
 
           if (expression) {
-            const change = tree.beginUpdate(path);
+            const change = tree.beginUpdate(polyfillsFile);
             change.remove(expression.pos, expression.end - expression.pos);
             tree.commitUpdate(change);
           } else {
