@@ -1,7 +1,10 @@
 /* eslint-disable */
 export default {
   displayName: 'components-packages',
-
+  snapshotFormat: {
+    escapeString: false,
+    printBasicPrototype: false,
+  },
   globals: {},
   testEnvironment: 'node',
   transform: {
