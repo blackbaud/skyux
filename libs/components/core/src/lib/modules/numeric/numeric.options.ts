@@ -1,4 +1,4 @@
-import { inject } from '@angular/core';
+import { Optional } from '@angular/core';
 
 import { SkyLogService } from '../log/log.service';
 
@@ -72,10 +72,9 @@ export class NumericOptions implements SkyNumericOptions {
 
   public truncateAfter?: number = 1000;
 
-  constructor() {
-    const logger = inject(SkyLogService, { optional: true });
-    logger?.deprecated('NumericOptions', {
-      deprecationMajorVersion: 8,
+  constructor(@Optional() logService?: SkyLogService) {
+    logService?.deprecated('NumericOptions', {
+      deprecationMajorVersion: 7,
       moreInfoUrl: 'https://developer.blackbaud.com/skyux/components/numeric',
       replacementRecommendation:
         'Use the `SkyNumericOptions` interface instead.',
