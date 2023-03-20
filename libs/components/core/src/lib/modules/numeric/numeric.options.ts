@@ -1,3 +1,7 @@
+import { inject } from '@angular/core';
+
+import { SkyLogService } from '../log/log.service';
+
 /**
  * Provides arguments for the number to format.
  */
@@ -49,6 +53,7 @@ export interface SkyNumericOptions {
 /**
  * Provides arguments for the number to format.
  * @deprecated Use the `SkyNumericOptions` interface instead.
+ * @internal
  */
 export class NumericOptions implements SkyNumericOptions {
   public digits?: number = 1;
@@ -66,4 +71,14 @@ export class NumericOptions implements SkyNumericOptions {
   public truncate?: boolean = true;
 
   public truncateAfter?: number = 1000;
+
+  constructor() {
+    const logger = inject(SkyLogService, { optional: true });
+    logger?.deprecated('NumericOptions', {
+      deprecationMajorVersion: 8,
+      moreInfoUrl: 'https://developer.blackbaud.com/skyux/components/numeric',
+      replacementRecommendation:
+        'Use the `SkyNumericOptions` interface instead.',
+    });
+  }
 }
