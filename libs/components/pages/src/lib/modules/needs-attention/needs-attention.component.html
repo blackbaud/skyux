@@ -2,16 +2,16 @@
   <ul>
     <li
       *ngFor="let item of items; let isLast = last"
-      class="sky-needs-attention-item-wrapper"
+      class="sky-needs-attention-item-wrapper sky-emphasized"
       [ngClass]="{
         'sky-border-bottom-row': !isLast
       }"
     >
       <a
         *ngIf="
-            (item | linkAs : 'skyAppLink') &&
-            item.permalink?.route as permalinkRoute
-          "
+          (item | linkAs : 'skyAppLink') &&
+          item.permalink?.route as permalinkRoute
+        "
         [skyAppLink]="permalinkRoute.commands"
         [queryParams]="permalinkRoute.extras?.queryParams"
         [queryParamsHandling]="permalinkRoute.extras?.queryParamsHandling"
@@ -21,25 +21,30 @@
         [replaceUrl]="permalinkRoute.extras?.replaceUrl"
         [state]="permalinkRoute.extras?.state"
         class="sky-needs-attention-item"
-      >{{ item.title }} {{ item.message }}</a>
+        >{{ item.title }} {{ item.message }}</a
+      >
       <ng-container *ngIf="item.permalink as permalink">
         <a
           *ngIf="item | linkAs : 'skyHref'"
           [skyHref]="permalink.url"
           class="sky-needs-attention-item"
-        >{{ item.title }} {{ item.message }}</a>
+          >{{ item.title }} {{ item.message }}</a
+        >
         <a
           *ngIf="item | linkAs : 'href'"
           [href]="permalink.url"
           class="sky-needs-attention-item"
-        >{{ item.title }} {{ item.message }}</a>
+          >{{ item.title }} {{ item.message }}</a
+        >
       </ng-container>
       <button
         *ngIf="item | linkAs : 'button'"
         class="sky-needs-attention-item sky-btn sky-btn-link-inline"
         type="button"
         (click)="item?.click({item})"
-      >{{ item.title }} {{ item.message }}</button>
+      >
+        {{ item.title }} {{ item.message }}
+      </button>
       <sky-icon
         *skyThemeIf="'default'"
         class="sky-needs-attention-item-icon"
@@ -57,10 +62,13 @@
 
 <sky-box>
   <sky-box-header>
-    <h2 class="sky-font-heading-2">{{ 'sky_action_hub_needs_attention' | skyLibResources }}</h2>
+    <h2 class="sky-font-heading-2">
+      {{ 'sky_action_hub_needs_attention' | skyLibResources }}
+    </h2>
   </sky-box-header>
   <sky-box-content>
-    <ng-container *ngIf="items?.length === 0; else itemsTemplate"
-    >{{ 'sky_action_hub_needs_attention_empty' | skyLibResources }}</ng-container>
+    <ng-container *ngIf="items?.length === 0; else itemsTemplate">{{
+      'sky_action_hub_needs_attention_empty' | skyLibResources
+    }}</ng-container>
   </sky-box-content>
 </sky-box>

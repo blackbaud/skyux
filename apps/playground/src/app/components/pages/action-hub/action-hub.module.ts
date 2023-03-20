@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyBoxModule, SkyFluidGridModule } from '@skyux/layout';
@@ -27,7 +26,6 @@ import { SettingsComponent } from './settings/settings.component';
     SkyInputBoxModule,
     SkyModalModule,
     SkyBoxModule,
-    FormsModule,
   ],
 })
 export class ActionHubModule {
