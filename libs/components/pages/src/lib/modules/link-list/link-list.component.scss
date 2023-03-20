@@ -1,5 +1,9 @@
-.sky-link-list {
+ul.sky-link-list {
   list-style: none;
-  margin-left: 0;
+  margin: 0 0 var(--sky-margin-stacked-xl) 0;
   padding-left: 0;
+}
+
+h2, li {
+  margin: 0 0 var(--sky-margin-stacked-sm) 0;
 }

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { SkyTrimModule } from '@skyux/core';
 import { SkyI18nModule } from '@skyux/i18n';
 import { SkyIconModule, SkyWaitModule } from '@skyux/indicators';
-import { SkyFluidGridModule } from '@skyux/layout';
+import { SkyBoxModule, SkyFluidGridModule } from '@skyux/layout';
 import { SkyAppLinkModule, SkyHrefModule } from '@skyux/router';
 import { SkyThemeModule } from '@skyux/theme';
 
@@ -18,6 +18,7 @@ import { SkyNeedsAttentionComponent } from './needs-attention.component';
   imports: [
     CommonModule,
     SkyAppLinkModule,
+    SkyBoxModule,
     SkyFluidGridModule,
     SkyHrefModule,
     SkyI18nModule,

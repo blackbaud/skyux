@@ -16,6 +16,7 @@ export class SettingsComponent {
   public relatedLinks: SkyPageLink[] = [];
   public settingsLinks: SkyPageModalLink[] = [];
   public needsAttention: SkyActionHubNeedsAttention[];
+  public showButtons = false;
 
   constructor(private modalService: SkyModalService) {
     ['Back', 'Home'].forEach((label) => {

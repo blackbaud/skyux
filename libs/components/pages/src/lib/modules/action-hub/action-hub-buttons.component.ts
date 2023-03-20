@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
  * Displays buttons after the page title.
@@ -11,6 +11,8 @@ import { Component } from '@angular/core';
  */
 @Component({
   selector: 'sky-action-hub-buttons',
-  templateUrl: 'action-hub-buttons.component.html',
+  templateUrl: './action-hub-buttons.component.html',
+  styleUrls: ['./action-hub-buttons.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyActionHubButtonsComponent {}

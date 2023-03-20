@@ -1,0 +1,45 @@
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+
+:host {
+  margin: var(--sky-padding-even-xl);
+  --sky-compat-page-header-margin-top-and-bottom: 0;
+  display: grid;
+  grid-template-areas:
+    'action-hub-page-header'
+    'action-hub-needs-attention'
+    'action-hub-content'
+    'action-hub-links';
+  grid-template-columns: 1fr;
+
+  @include mixins.sky-host-responsive-container-lg-min(false) {
+    grid-template-areas:
+      'action-hub-page-header action-hub-page-header'
+      'action-hub-needs-attention action-hub-links'
+      'action-hub-content action-hub-links';
+    grid-template-columns: 3fr 1fr;
+    grid-template-rows: min-content 1fr;
+    grid-column-gap: calc(var(--sky-padding-even-md) * 2);
+    grid-row-gap: 0;
+  }
+}
+
+.sky-action-hub-page-header {
+  grid-area: action-hub-page-header;
+  padding-bottom: var(--sky-margin-stacked-lg);
+  margin: 0;
+}
+
+.sky-action-hub-needs-attention {
+  grid-area: action-hub-needs-attention;
+  margin: 0;
+}
+
+.sky-action-hub-links {
+  grid-area: action-hub-links;
+  margin: 0;
+}
+
+.sky-action-hub-content {
+  grid-area: action-hub-content;
+  margin: 0;
+}

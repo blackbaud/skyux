@@ -61,6 +61,25 @@ The top margin has been removed from the \`sky-text-expand-repeater\` component.
         },
       ],
     },
+    {
+      name: '@skyux/pages',
+      components: [
+        {
+          name: 'page header',
+          styles: [
+            {
+              css: `
+:root {
+  --sky-compat-page-header-margin-top-and-bottom: 0.67em;
+}
+`,
+              instructions: `
+The top and bottom margins have been removed from the \`sky-page-header\` component. To address this, remove this block of CSS and address any spacing issues by adding the appropriate margin class to the action button container. See https://developer.blackbaud.com/skyux/design/styles/spacing for a list of supported spacing classes.`,
+            },
+          ],
+        },
+      ],
+    },
   ],
 };
 

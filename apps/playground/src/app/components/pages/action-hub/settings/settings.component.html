@@ -4,9 +4,32 @@
   [settingsLinks]="settingsLinks"
   [needsAttention]="needsAttention"
 >
+  <sky-action-hub-buttons *ngIf="showButtons">
+    <button
+      class="sky-btn sky-btn-primary"
+      type="button"
+    >
+      Primary action
+    </button>
+    <button
+      class="sky-btn sky-btn-default"
+      type="button"
+    >
+      Secondary action
+    </button>
+  </sky-action-hub-buttons>
   <sky-action-hub-content>
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl
     eget consectetur sagittis, nisl nunc consectetur nisi, euismod consectetur
     nisi nisl eget nisi.
   </sky-action-hub-content>
 </sky-action-hub>
+<div>
+  <label>
+    <input
+      type="checkbox"
+      [(ngModel)]="showButtons"
+    />
+    Show buttons
+  </label>
+</div>

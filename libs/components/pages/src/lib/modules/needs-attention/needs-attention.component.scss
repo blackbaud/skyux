@@ -1,41 +1,75 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
-.sky-needs-attention-container {
-  background-color: #fff;
+:host {
+  display: block;
+  margin-bottom: var(--sky-margin-stacked-xl);
 }
 
-.sky-needs-attention-item {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  text-align: left;
-  width: 100%;
-  white-space: normal;
+h2 {
+  margin: 0;
+}
 
-  &-icon {
-    color: $sky-theme-modern-font-deemphasized-color;
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    margin: 0;
+  }
+}
+
+.sky-needs-attention-item-wrapper {
+  position: relative;
+  display: grid;
+  grid-template-columns: 5fr 1fr;
+  grid-template-areas: 'action icon';
+
+  &:not(:first-child) {
+    padding-top: var(--sky-padding-even-xl);
   }
 
-  &-key-info {
-    flex-grow: 1;
+  &:not(:last-child) {
+    padding-bottom: var(--sky-padding-even-xl);
   }
 
-  &-icon {
-    order: 1;
-  }
+  .sky-needs-attention-item {
+    grid-area: action;
+    text-align: left;
 
-  &:focus-visible {
-    outline: none;
+    &-icon {
+      grid-area: icon;
+      text-align: right;
+      color: $sky-theme-modern-font-deemphasized-color;
+    }
 
-    &:not(:active) {
-      @include mixins.sky-theme-modern-border-focus(
-        $sky-theme-modern-border-color-primary-dark,
-        $sky-theme-modern-elevation-3-shadow-size,
-        $sky-theme-modern-elevation-3-shadow-color
-      );
+    &-key-info {
+      flex-grow: 1;
+    }
+
+    &:focus-visible {
+      outline: none;
+
+      &:not(:active) {
+        @include mixins.sky-theme-modern-border-focus(
+            $sky-theme-modern-border-color-primary-dark,
+            $sky-theme-modern-elevation-3-shadow-size,
+            $sky-theme-modern-elevation-3-shadow-color
+        );
+      }
     }
   }
+}
+
+.sky-needs-attention-item::before {
+  content: ' ';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  cursor: pointer;
 }
 
 button.sky-needs-attention-item.sky-border-bottom-row {
