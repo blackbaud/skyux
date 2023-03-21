@@ -42,8 +42,6 @@
   /* component colors */
   --sky-background-color-input-selected: #{$sky-color-blue-05};
   --sky-background-color-item-selected: #{$sky-color-blue-05};
-  --sky-background-color-input-box-group: transparent;
-  --sky-background-color-input-box-group-focused: #{$sky-color-white};
 
   &.sky-theme-mode-dark {
     /* color */
@@ -51,7 +49,6 @@
     --sky-background-color-neutral-light: #{$sky-theme-modern-mode-dark-background-color-page-default};
     --sky-background-color-primary-dark: #{$sky-theme-modern-mode-dark-background-color-primary-dark};
     --sky-background-color-disabled: transparent;
-    --sky-background-color-input-box-group-focused: #{$sky-color-black};
 
     --sky-border-color-neutral-medium: #{$sky-theme-modern-mode-dark-border-color-neutral-medium};
 
