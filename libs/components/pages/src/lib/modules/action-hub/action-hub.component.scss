@@ -23,6 +23,12 @@
   }
 }
 
+[aria-busy='true'] {
+  display: block;
+  min-height: 60px;
+  margin-bottom: var(--sky-margin-stacked-xl);
+}
+
 .sky-action-hub-page-header {
   grid-area: action-hub-page-header;
   padding-bottom: var(--sky-margin-stacked-lg);
@@ -31,7 +37,10 @@
 
 .sky-action-hub-needs-attention {
   grid-area: action-hub-needs-attention;
-  margin: 0;
+
+  &:not([aria-busy='true']) {
+    margin: 0;
+  }
 }
 
 .sky-action-hub-links {

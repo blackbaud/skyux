@@ -3,7 +3,7 @@
 ></ng-container>
 
 <ng-template #headingTemplateRef>
-  <h2 class="sky-font-heading-4 sky-margin-stacked-sm">
+  <h2 class="sky-font-heading-4">
     {{ title }}
   </h2>
 </ng-template>
@@ -14,12 +14,12 @@
 <ng-template #linksTemplateRef>
   <ng-container *ngIf="linksArray.length > 0">
     <ng-container [ngTemplateOutlet]="headingTemplateRef"></ng-container>
-    <ul class="sky-link-list sky-margin-stacked-xl">
-      <li *ngFor="let link of linksArray" class="sky-margin-stacked-sm">
-        <a
-          *ngIf="link.permalink && link.permalink.url"
-          [skyHref]="link.permalink.url"
-        >
+    <ul class="sky-link-list">
+      <li *ngFor="let link of linksArray">
+        <a *ngIf="link | linkAs : 'skyHref'" [skyHref]="link.permalink.url">
+          {{ link.label }}
+        </a>
+        <a *ngIf="link | linkAs : 'href'" [href]="link.permalink.url">
           {{ link.label }}
         </a>
         <a

@@ -33,31 +33,29 @@ ul {
   &:not(:last-child) {
     padding-bottom: var(--sky-padding-even-xl);
   }
+}
 
-  .sky-needs-attention-item {
-    grid-area: action;
-    text-align: left;
+.sky-needs-attention-item {
+  grid-area: action;
+  text-align: left;
+  width: 100%;
+  white-space: normal;
 
-    &-icon {
-      grid-area: icon;
-      text-align: right;
-      color: $sky-theme-modern-font-deemphasized-color;
-    }
+  &-icon {
+    grid-area: icon;
+    text-align: right;
+    color: $sky-theme-modern-font-deemphasized-color;
+  }
 
-    &-key-info {
-      flex-grow: 1;
-    }
+  &:focus-visible {
+    outline: none;
 
-    &:focus-visible {
-      outline: none;
-
-      &:not(:active) {
-        @include mixins.sky-theme-modern-border-focus(
-          $sky-theme-modern-border-color-primary-dark,
-          $sky-theme-modern-elevation-3-shadow-size,
-          $sky-theme-modern-elevation-3-shadow-color
-        );
-      }
+    &:not(:active) {
+      @include mixins.sky-theme-modern-border-focus(
+        $sky-theme-modern-border-color-primary-dark,
+        $sky-theme-modern-elevation-3-shadow-size,
+        $sky-theme-modern-elevation-3-shadow-color
+      );
     }
   }
 }
