@@ -16,10 +16,10 @@
     <ng-container [ngTemplateOutlet]="headingTemplateRef"></ng-container>
     <ul class="sky-link-list">
       <li *ngFor="let link of linksArray">
-        <a *ngIf="link | linkAs : 'skyHref'" [skyHref]="link.permalink.url">
+        <a *ngIf="link | linkAs : 'skyHref'" [skyHref]="link.permalink?.url">
           {{ link.label }}
         </a>
-        <a *ngIf="link | linkAs : 'href'" [href]="link.permalink.url">
+        <a *ngIf="link | linkAs : 'href'" [href]="link.permalink?.url">
           {{ link.label }}
         </a>
         <a
