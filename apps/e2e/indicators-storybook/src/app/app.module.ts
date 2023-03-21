@@ -11,13 +11,6 @@ const routes: Route[] = [
       import('./alert/alert.module').then((m) => m.AlertModule),
   },
   {
-    path: 'help-inline',
-    loadChildren: () =>
-      import('./help-inline/help-inline.module').then(
-        (m) => m.HelpInlineModule
-      ),
-  },
-  {
     path: 'key-info',
     loadChildren: () =>
       import('./key-info/key-info.module').then((m) => m.KeyInfoModule),
@@ -35,10 +28,6 @@ const routes: Route[] = [
   {
     path: 'wait',
     loadChildren: () => import('./wait/wait.module').then((m) => m.WaitModule),
-  },
-  {
-    path: 'icon',
-    loadChildren: () => import('./icon/icon.module').then((m) => m.IconModule),
   },
 ];
 if (routes.length > 0 && routes.findIndex((r) => r.path === '') === -1) {

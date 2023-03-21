@@ -1,8 +1,8 @@
 import { nxE2EPreset } from '@nrwl/cypress/plugins/cypress-preset';
-import utils from '@percy/sdk-utils';
+import * as utils from '@percy/sdk-utils';
 
 import { defineConfig } from 'cypress';
-import fs from 'fs';
+import * as fs from 'fs';
 
 const sdkPkg = JSON.parse(
   fs
