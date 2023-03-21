@@ -3,15 +3,17 @@
 
 $input-box-transitions: border-color 150ms, box-shadow 150ms, color 150ms;
 
-:root {
+.sky-input-box {
   --sky-background-color-input-box-group: transparent;
   --sky-background-color-input-box-group-focused: transparent;
 }
 
 .sky-theme-modern {
-  --sky-background-color-input-box-group-focused: #{$sky-color-white};
+  .sky-input-box {
+    --sky-background-color-input-box-group-focused: #{$sky-color-white};
+  }
 
-  &.sky-theme-mode-dark {
+  &.sky-theme-mode-dark .sky-input-box {
     --sky-background-color-input-box-group-focused: #{$sky-color-black};
   }
 }
