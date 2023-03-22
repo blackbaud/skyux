@@ -1,7 +1,7 @@
 import { SkyHarnessFilters } from '@skyux/core/testing';
 
 /**
- * A set of criteria that can be used to filter a list of SkyAlertHarness instances.
+ * A set of criteria that can be used to filter a list of SkyWaitHarness instances.
  */
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SkyWaitHarnessFilters extends SkyHarnessFilters {
