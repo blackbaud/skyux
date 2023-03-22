@@ -16,8 +16,8 @@
   },
   "homepage": "https://github.com/blackbaud/skyux#readme",
   "peerDependencies": {
-    "@angular/common": "^14.2.11",
-    "@angular/core": "^14.2.11",
+    "@angular/common": "^15.2.1",
+    "@angular/core": "^15.2.1",
     "@circlon/angular-tree-component": "^11.0.4",
     "@skyux/core": "0.0.0-PLACEHOLDER",
     "@skyux/forms": "0.0.0-PLACEHOLDER",
@@ -26,6 +26,6 @@
     "@skyux/layout": "0.0.0-PLACEHOLDER"
   },
   "dependencies": {
-    "tslib": "^2.3.1"
+    "tslib": "^2.5.0"
   }
 }

@@ -5,7 +5,7 @@ import { defineConfig } from 'cypress';
 const cypressJsonConfig = {
   fileServerFolder: '.',
   fixturesFolder: './src/fixtures',
-  video: true,
+  video: false,
   videosFolder: '../../dist/cypress/apps/integration-e2e/videos',
   screenshotsFolder: '../../dist/cypress/apps/integration-e2e/screenshots',
   chromeWebSecurity: false,

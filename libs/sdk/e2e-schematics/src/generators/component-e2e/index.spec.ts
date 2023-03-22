@@ -4,26 +4,29 @@ import {
   libraryGenerator,
 } from '@nrwl/angular/generators';
 import {
+  NxJsonConfiguration,
   ProjectConfiguration,
   readJson,
+  readNxJson,
   readProjectConfiguration,
+  updateNxJson,
 } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Linter } from '@nrwl/linter';
+
+import { updateJson } from '../../utils';
 
 import componentE2eGenerator from './index';
 
 describe('component-e2e', () => {
   function setupTest() {
-    const tree = createTreeWithEmptyWorkspace();
-
-    tree.write(
-      'workspace.json',
-      JSON.stringify({
-        version: 2,
-        projects: {},
-      })
-    );
+    const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    const nxJson: NxJsonConfiguration = readNxJson(tree) || {};
+    nxJson.workspaceLayout = {
+      appsDir: 'apps',
+      libsDir: 'libs',
+    };
+    updateNxJson(tree, nxJson);
 
     tree.write('.gitignore', '');
 
@@ -37,18 +40,47 @@ describe('component-e2e', () => {
       routing: false,
       unitTestRunner: UnitTestRunner.None,
       linter: Linter.None,
+      skipPackageJson: true,
     });
     await libraryGenerator(tree, {
       name: 'test-component',
       routing: false,
       unitTestRunner: UnitTestRunner.None,
       linter: Linter.None,
+      skipPackageJson: true,
+    });
+    updateJson(tree, 'nx.json', (nxJson: NxJsonConfiguration) => {
+      nxJson.targetDefaults = nxJson.targetDefaults || {};
+      nxJson.targetDefaults['build-storybook'] =
+        nxJson.targetDefaults['build-storybook'] || {};
+      nxJson.targetDefaults['build-storybook'].inputs =
+        nxJson.targetDefaults['build-storybook'].inputs || [];
+      nxJson.targetDefaults['build-storybook'].inputs.push(
+        '!{projectRoot}/.storybook/**/*'
+      );
+      nxJson.namedInputs = nxJson.namedInputs || {};
+      nxJson.namedInputs.production = nxJson.namedInputs.production || [];
+      nxJson.namedInputs.production.push(
+        '!{projectRoot}/.storybook/**/*',
+        '!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)'
+      );
+      return nxJson;
     });
     await componentE2eGenerator(tree, { name: 'test' });
     const config: { [_: string]: ProjectConfiguration } = {};
     for (const projectName of ['test-storybook', 'test-storybook-e2e']) {
       config[projectName] = readProjectConfiguration(tree, projectName);
       expect(config[projectName].projectType).toEqual('application');
+      if (projectName === 'test-storybook') {
+        expect(
+          config[projectName].targets?.build.options.polyfills
+        ).toBeDefined();
+        expect(
+          config[projectName].targets?.build.options.polyfills.includes(
+            'libs/components/packages/src/polyfills.js'
+          )
+        ).toBeTruthy();
+      }
     }
     expect(
       tree.exists(`${config['test-storybook'].root}/.storybook/main.ts`)
@@ -98,12 +130,14 @@ describe('component-e2e', () => {
       routing: false,
       unitTestRunner: UnitTestRunner.None,
       linter: Linter.None,
+      skipPackageJson: true,
     });
     await libraryGenerator(tree, {
       name: 'test-component',
       routing: false,
       unitTestRunner: UnitTestRunner.None,
       linter: Linter.None,
+      skipPackageJson: true,
     });
     await componentE2eGenerator(tree, { name: 'test', tags: 'one, two' });
     const config = readProjectConfiguration(tree, 'test-storybook');
@@ -118,12 +152,14 @@ describe('component-e2e', () => {
       routing: false,
       unitTestRunner: UnitTestRunner.None,
       linter: Linter.None,
+      skipPackageJson: true,
     });
     await libraryGenerator(tree, {
       name: 'test-component',
       routing: false,
       unitTestRunner: UnitTestRunner.None,
       linter: Linter.None,
+      skipPackageJson: true,
     });
     await componentE2eGenerator(tree, { name: 'test' });
     await componentE2eGenerator(tree, { name: 'test' });
@@ -143,12 +179,14 @@ describe('component-e2e', () => {
       routing: false,
       unitTestRunner: UnitTestRunner.None,
       linter: Linter.None,
+      skipPackageJson: true,
     });
     await libraryGenerator(tree, {
       name: 'test-component',
       routing: false,
       unitTestRunner: UnitTestRunner.None,
       linter: Linter.None,
+      skipPackageJson: true,
     });
     await applicationGenerator(tree, {
       name: 'test-component-storybook',
@@ -160,7 +198,7 @@ describe('component-e2e', () => {
 
   it('should maintain storybook version', async () => {
     const { tree } = setupTest();
-    const sbVersion = '6.5.13';
+    const sbVersion = '^6.5.15';
     tree.write(
       'package.json',
       JSON.stringify({
@@ -182,6 +220,7 @@ describe('component-e2e', () => {
       routing: false,
       unitTestRunner: UnitTestRunner.None,
       linter: Linter.None,
+      skipPackageJson: true,
     });
     await componentE2eGenerator(tree, { name: 'test-component' });
     const packageJson = readJson(tree, 'package.json');

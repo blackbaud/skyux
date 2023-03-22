@@ -373,6 +373,13 @@ describe('Numeric service', () => {
     expect(skyNumeric.formatNumber(value, options)).toBe('100');
   });
 
+  it('should handle undefined digits', () => {
+    expect(skyNumeric.formatNumber(100, { format: 'currency' })).toBe('$100');
+    expect(skyNumeric.formatNumber(100.88, { format: 'currency' })).toBe(
+      '$101'
+    );
+  });
+
   describe('roundNumber', () => {
     beforeEach(() => {
       spyOn(SkyNumberFormatUtility, 'formatNumber').and.callFake(

@@ -328,7 +328,10 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
   }
 
   public onIframeLoad(): void {
-    this.#initIframe();
+    // Reinitialize the editor if it already exists to cover situations where the text editor might have been moved in the DOM.
+    if (this.#editorService.isInitialized) {
+      this.#initIframe();
+    }
   }
 
   /**

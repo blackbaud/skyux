@@ -1,12 +1,14 @@
 import { PathLocationStrategy, PlatformLocation } from '@angular/common';
 import {
   Directive,
+  ElementRef,
   Input,
   OnChanges,
   Optional,
+  Renderer2,
   SimpleChanges,
 } from '@angular/core';
-import { ActivatedRoute, Router, RouterLinkWithHref } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {
   SkyAppConfig,
   SkyAppConfigHost,
@@ -23,7 +25,7 @@ import { SkyAppLinkQueryParams } from './link-query-params';
   selector: '[skyAppLinkExternal]',
 })
 export class SkyAppLinkExternalDirective
-  extends RouterLinkWithHref
+  extends RouterLink
   implements OnChanges
 {
   @Input()
@@ -38,6 +40,8 @@ export class SkyAppLinkExternalDirective
   constructor(
     router: Router,
     route: ActivatedRoute,
+    renderer: Renderer2,
+    elementRef: ElementRef,
     platformLocation: PlatformLocation,
     window: SkyAppWindowRef,
     @Optional() skyAppConfig?: SkyAppConfig,
@@ -47,6 +51,9 @@ export class SkyAppLinkExternalDirective
     super(
       router,
       route,
+      undefined,
+      renderer,
+      elementRef,
       new PathLocationStrategy(
         platformLocation,
         hostConfig ? hostConfig.host.url : skyAppConfig?.skyux.host?.url
@@ -66,7 +73,7 @@ export class SkyAppLinkExternalDirective
     }
   }
 
-  public ngOnChanges(changes: SimpleChanges): void {
+  public override ngOnChanges(changes: SimpleChanges): void {
     this.queryParams = this.#mergeQueryParams(
       changes.queryParams?.currentValue
     );

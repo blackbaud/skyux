@@ -22,10 +22,11 @@ import { CountryFieldInputBoxTestComponent } from './fixtures/country-field-inpu
 import { CountryFieldNoFormTestComponent } from './fixtures/country-field-no-form.component.fixture';
 import { CountryFieldReactiveTestComponent } from './fixtures/country-field-reactive.component.fixture';
 import { CountryFieldTestComponent } from './fixtures/country-field.component.fixture';
+import { SKY_COUNTRY_FIELD_CONTEXT } from './types/country-field-context-token';
 
 /* spell-checker:ignore Austr, Κύπρος */
 describe('Country Field Component', () => {
-  let mockThemeSvc: any;
+  let mockThemeSvc: Partial<SkyThemeService>;
 
   beforeEach(() => {
     mockThemeSvc = {
@@ -40,14 +41,27 @@ describe('Country Field Component', () => {
   });
   //#region helpers
 
-  function blurInput(fixture: ComponentFixture<any>): void {
+  function blurInput(
+    fixture: ComponentFixture<
+      | CountryFieldReactiveTestComponent
+      | CountryFieldInputBoxTestComponent
+      | CountryFieldNoFormTestComponent
+    >
+  ): void {
     SkyAppTestUtility.fireDomEvent(getInputElement(), 'blur');
     fixture.detectChanges();
     // Our blur listener has a delay of 25ms. This tick accounts for that.
     tick(25);
   }
 
-  function enterSearch(newValue: string, fixture: ComponentFixture<any>): void {
+  function enterSearch(
+    newValue: string,
+    fixture: ComponentFixture<
+      | CountryFieldReactiveTestComponent
+      | CountryFieldInputBoxTestComponent
+      | CountryFieldNoFormTestComponent
+    >
+  ): void {
     const inputElement = getInputElement();
     inputElement.value = newValue;
 
@@ -69,7 +83,11 @@ describe('Country Field Component', () => {
   function searchAndSelect(
     newValue: string,
     index: number,
-    fixture: ComponentFixture<any>
+    fixture: ComponentFixture<
+      | CountryFieldReactiveTestComponent
+      | CountryFieldInputBoxTestComponent
+      | CountryFieldNoFormTestComponent
+    >
   ): void {
     const inputElement = getInputElement();
 
@@ -86,7 +104,11 @@ describe('Country Field Component', () => {
 
   function searchAndGetResults(
     newValue: string,
-    fixture: ComponentFixture<any>
+    fixture: ComponentFixture<
+      | CountryFieldReactiveTestComponent
+      | CountryFieldInputBoxTestComponent
+      | CountryFieldNoFormTestComponent
+    >
   ): NodeListOf<HTMLElement> {
     enterSearch(newValue, fixture);
     return getAutocompleteElement().querySelectorAll(
@@ -372,6 +394,8 @@ describe('Country Field Component', () => {
           name: 'United States',
           iso2: 'us',
         };
+        fixture.detectChanges();
+        tick();
         component.isDisabled = true;
         expect(component.countryFieldComponent.isInputFocused).toBeFalsy();
         fixture.detectChanges();
@@ -396,6 +420,8 @@ describe('Country Field Component', () => {
           name: 'United States',
           iso2: 'us',
         };
+        fixture.detectChanges();
+        tick();
         component.isDisabled = true;
         fixture.detectChanges();
         tick();
@@ -1682,29 +1708,15 @@ describe('Country Field Component', () => {
     let fixture: ComponentFixture<CountryFieldInputBoxTestComponent>;
     let nativeElement: HTMLElement;
 
-    beforeEach(() => {
-      TestBed.configureTestingModule({
-        declarations: [CountryFieldInputBoxTestComponent],
-        imports: [FormsModule, SkyCountryFieldModule, SkyInputBoxModule],
-        providers: [
-          {
-            provide: SkyThemeService,
-            useValue: mockThemeSvc,
-          },
-        ],
-      });
-
-      fixture = TestBed.createComponent(CountryFieldInputBoxTestComponent);
-      nativeElement = fixture.nativeElement as HTMLElement;
-    });
-
     //#region helpers
-    function setModernTheme() {
+    function setModernTheme(): void {
       const modernTheme = new SkyThemeSettings(
         SkyTheme.presets.modern,
         SkyThemeMode.presets.light
       );
-      mockThemeSvc.settingsChange.next({
+      (
+        mockThemeSvc.settingsChange as BehaviorSubject<SkyThemeSettingsChange>
+      ).next({
         currentSettings: modernTheme,
         previousSettings: undefined,
       });
@@ -1713,50 +1725,107 @@ describe('Country Field Component', () => {
     }
     //#endregion
 
-    it('should render in the expected input box containers', fakeAsync(() => {
-      fixture.detectChanges();
+    describe('without country context', () => {
+      beforeEach(() => {
+        TestBed.configureTestingModule({
+          declarations: [CountryFieldInputBoxTestComponent],
+          imports: [FormsModule, SkyCountryFieldModule, SkyInputBoxModule],
+          providers: [
+            {
+              provide: SkyThemeService,
+              useValue: mockThemeSvc,
+            },
+          ],
+        });
 
-      const inputBoxEl = nativeElement.querySelector('sky-input-box');
+        fixture = TestBed.createComponent(CountryFieldInputBoxTestComponent);
+        nativeElement = fixture.nativeElement as HTMLElement;
+      });
 
-      const inputGroupEl = inputBoxEl?.querySelector(
-        '.sky-input-box-input-group-inner'
-      );
-      const containerEl = inputGroupEl?.children.item(1);
+      it('should render in the expected input box containers', fakeAsync(() => {
+        fixture.detectChanges();
 
-      expect(containerEl).toHaveCssClass('sky-country-field-container');
-    }));
+        const inputBoxEl = nativeElement.querySelector('sky-input-box');
 
-    it('should show an inset button in modern theme', fakeAsync(() => {
-      fixture.detectChanges();
-      tick();
+        const inputGroupEl = inputBoxEl?.querySelector(
+          '.sky-input-box-input-group-inner'
+        );
+        const containerEl = inputGroupEl?.children.item(1);
 
-      const inputBoxEl = nativeElement.querySelector('sky-input-box');
-      let inputBoxInsetIcon = inputBoxEl?.querySelector(
-        '.sky-input-box-icon-inset'
-      );
-      expect(inputBoxInsetIcon).toBeNull();
+        expect(containerEl).toHaveCssClass('sky-country-field-container');
+      }));
 
-      setModernTheme();
+      it('should show an inset button in modern theme', fakeAsync(() => {
+        fixture.detectChanges();
+        tick();
 
-      inputBoxInsetIcon = inputBoxEl?.querySelector(
-        '.sky-input-box-icon-inset'
-      );
-      expect(inputBoxInsetIcon).not.toBeNull();
-    }));
+        const inputBoxEl = nativeElement.querySelector('sky-input-box');
+        let inputBoxInsetIcon = inputBoxEl?.querySelector(
+          '.sky-input-box-icon-inset'
+        );
+        expect(inputBoxInsetIcon).toBeNull();
 
-    it('should remove placeholder in modern theme', fakeAsync(() => {
-      fixture.detectChanges();
-      tick();
+        setModernTheme();
 
-      const input = nativeElement.querySelector('.sky-form-control');
-      expect(input?.getAttribute('placeholder')).toEqual(
-        'Search for a country'
-      );
+        inputBoxInsetIcon = inputBoxEl?.querySelector(
+          '.sky-input-box-icon-inset'
+        );
+        expect(inputBoxInsetIcon).not.toBeNull();
+      }));
 
-      setModernTheme();
+      it('should remove placeholder in modern theme', fakeAsync(() => {
+        fixture.detectChanges();
+        tick();
 
-      const modernInput = nativeElement.querySelector('.sky-form-control');
-      expect(modernInput?.getAttribute('placeholder')).toEqual('');
-    }));
+        const input = nativeElement.querySelector('.sky-form-control');
+        expect(input?.getAttribute('placeholder')).toEqual(
+          'Search for a country'
+        );
+
+        setModernTheme();
+
+        const modernInput = nativeElement.querySelector('.sky-form-control');
+        expect(modernInput?.getAttribute('placeholder')).toEqual('');
+      }));
+    });
+
+    describe('with country field context', () => {
+      beforeEach(() => {
+        TestBed.configureTestingModule({
+          declarations: [CountryFieldInputBoxTestComponent],
+          imports: [FormsModule, SkyCountryFieldModule, SkyInputBoxModule],
+          providers: [
+            {
+              provide: SkyThemeService,
+              useValue: mockThemeSvc,
+            },
+            {
+              provide: SKY_COUNTRY_FIELD_CONTEXT,
+              useValue: { showPlaceholderText: true },
+            },
+          ],
+        });
+
+        fixture = TestBed.createComponent(CountryFieldInputBoxTestComponent);
+        nativeElement = fixture.nativeElement as HTMLElement;
+      });
+
+      it('should include placeholder in modern theme when the country field context calls for it', fakeAsync(() => {
+        fixture.detectChanges();
+        tick();
+
+        const input = nativeElement.querySelector('.sky-form-control');
+        expect(input?.getAttribute('placeholder')).toEqual(
+          'Search for a country'
+        );
+
+        setModernTheme();
+
+        const modernInput = nativeElement.querySelector('.sky-form-control');
+        expect(modernInput?.getAttribute('placeholder')).toEqual(
+          'Search for a country'
+        );
+      }));
+    });
   });
 });

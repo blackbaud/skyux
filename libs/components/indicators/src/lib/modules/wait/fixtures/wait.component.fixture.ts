@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 
 import { SkyWaitComponent } from '../wait.component';
 import { SkyWaitService } from '../wait.service';
@@ -30,11 +30,7 @@ export class SkyWaitTestComponent {
   @ViewChild(SkyWaitComponent)
   public waitComponent: SkyWaitComponent | undefined;
 
-  #waitSvc: SkyWaitService;
-
-  constructor(waitSvc: SkyWaitService) {
-    this.#waitSvc = waitSvc;
-  }
+  #waitSvc = inject(SkyWaitService);
 
   public endBlockingWait(): void {
     this.#waitSvc.endBlockingPageWait();

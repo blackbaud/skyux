@@ -1,25 +1,31 @@
 import {
   AfterContentInit,
+  AfterViewInit,
   ChangeDetectorRef,
   ContentChild,
   Directive,
   ElementRef,
   EventEmitter,
+  Inject,
   Input,
   OnDestroy,
+  Optional,
   Output,
   ViewContainerRef,
 } from '@angular/core';
 import {
+  SKY_STACKING_CONTEXT,
   SkyAffixAutoFitContext,
   SkyAffixService,
   SkyAffixer,
   SkyOverlayService,
+  SkyScrollableHostService,
+  SkyStackingContext,
 } from '@skyux/core';
 
 import { AgGridAngular } from 'ag-grid-angular';
 import { RowNode } from 'ag-grid-community';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyAgGridRowDeleteComponent } from './ag-grid-row-delete.component';
@@ -32,7 +38,7 @@ import { SkyAgGridRowDeleteContents } from './types/ag-grid-row-delete-contents'
   selector: '[skyAgGridRowDelete]',
 })
 export class SkyAgGridRowDeleteDirective
-  implements AfterContentInit, OnDestroy
+  implements AfterContentInit, AfterViewInit, OnDestroy
 {
   /**
    * The IDs of the data in the rows where the inline delete appears.
@@ -88,11 +94,20 @@ export class SkyAgGridRowDeleteDirective
 
         /**
          * We are manually setting the z-index here because overlays will always be on top of
-         * the omnibar. This manual setting is 2 less than the omnibar's z-index of 1000 and one less than
+         * the omnibar. The default manual setting is 2 less than the omnibar's z-index of 1000 and one less than
          * the header row's viewkeeper which is 999. We discussed changing the overlay service to allow for this
          * but decided against that change at this time due to its niche nature.
          */
-        overlay.componentRef.instance.zIndex = '998';
+        this.#zIndex
+          .pipe(takeUntil(this.#ngUnsubscribe))
+          .subscribe((zIndex) => {
+            overlay.componentRef.instance.zIndex = zIndex.toString(10);
+          });
+        this.#clipPath
+          .pipe(takeUntil(this.#ngUnsubscribe))
+          .subscribe((clipPath) => {
+            overlay.componentRef.instance.updateClipPath(clipPath);
+          });
 
         setTimeout(() => {
           const inlineDeleteRef = this.#rowDeleteComponent?.inlineDeleteRefs
@@ -158,19 +173,36 @@ export class SkyAgGridRowDeleteDirective
   #elementRef: ElementRef;
   #overlayService: SkyOverlayService;
   #viewContainerRef: ViewContainerRef;
+  #scrollableHostService: SkyScrollableHostService;
+  #clipPath = new BehaviorSubject<string | undefined>(undefined);
+  #zIndex = new BehaviorSubject(998);
+  #hasStackingContext: boolean;
 
   constructor(
     affixService: SkyAffixService,
     changeDetector: ChangeDetectorRef,
     elementRef: ElementRef,
     overlayService: SkyOverlayService,
-    viewContainerRef: ViewContainerRef
+    viewContainerRef: ViewContainerRef,
+    scrollableHostService: SkyScrollableHostService,
+    @Optional()
+    @Inject(SKY_STACKING_CONTEXT)
+    stackingContext?: SkyStackingContext
   ) {
     this.#affixService = affixService;
     this.#changeDetector = changeDetector;
     this.#elementRef = elementRef;
     this.#overlayService = overlayService;
     this.#viewContainerRef = viewContainerRef;
+    this.#scrollableHostService = scrollableHostService;
+    this.#hasStackingContext = !!stackingContext;
+    if (stackingContext) {
+      stackingContext.zIndex
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe((zIndex) => {
+          this.#zIndex.next(zIndex);
+        });
+    }
   }
 
   public ngAfterContentInit(): void {
@@ -195,6 +227,17 @@ export class SkyAgGridRowDeleteDirective
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe(() => {
           this.#updateRowDeleteStates();
+        });
+    }
+  }
+
+  public ngAfterViewInit(): void {
+    if (this.#hasStackingContext) {
+      this.#scrollableHostService
+        .watchScrollableHostClipPathChanges(this.#elementRef)
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe((clipPath) => {
+          this.#clipPath.next(clipPath);
         });
     }
   }

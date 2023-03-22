@@ -1,0 +1,116 @@
+name: Cherry pick
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - 7.x.x
+
+env:
+  TARGET_BRANCH: main
+  FROM_BRANCH: ${{ github.event.pull_request.base.ref }}
+
+jobs:
+  cherry-pick:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ env.TARGET_BRANCH }}
+          fetch-depth: 0
+          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+
+      - uses: actions/setup-node@v3
+        id: setup-node
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Cache node modules
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
+
+      - name: npm install
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Cherry pick
+        run: |
+          git config user.name 'Blackbaud Sky Build User'
+          git config user.email 'sky-build-user@blackbaud.com'
+
+          # Echo commands to the log.
+          set -x
+
+          # Do not exit on error.
+          set +e
+
+          # Cherry-pick the merge commit into the target branch, which is checked out.
+          npx skyux-dev cherry-pick \
+            --baseBranch=${{ env.TARGET_BRANCH }} \
+            --hash=${{ github.event.pull_request.merge_commit_sha }} \
+            --skip-confirmation
+
+          if [ $? -ne 0 ]; then
+            echo "CHERRY_PICK_RESULT=failed" >> $GITHUB_ENV
+            exit 0
+          fi
+
+          # Get the name of the cherry-pick branch.
+          CHERRY_PICK_BRANCH=$(git branch --show-current)
+
+          # Push the cherry-pick to a new cherry-pick branch.
+          git push -u origin ${CHERRY_PICK_BRANCH}
+
+          if [ $? -ne 0 ]; then
+            echo "CHERRY_PICK_RESULT=failed" >> $GITHUB_ENV
+            exit 0
+          fi
+
+          # Create a pull request for the cherry-pick, using the same title as the original PR.
+          gh pr create \
+            --title "${{ github.event.pull_request.title }} (#${{ github.event.pull_request.number }})" \
+            --body ":cherries: Cherry picked from #${{ github.event.pull_request.number }} [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }})" \
+            --base ${{ env.TARGET_BRANCH }} \
+            --head ${CHERRY_PICK_BRANCH}
+
+          if [ $? -ne 0 ]; then
+            echo "CHERRY_PICK_RESULT=failed" >> $GITHUB_ENV
+          else
+            echo "CHERRY_PICK_RESULT=success" >> $GITHUB_ENV
+
+            # Get the URL of the pull request and add it to the environment.
+            echo -n "PR_URL=" >> $GITHUB_ENV
+            gh pr list --json url --search "head:${CHERRY_PICK_BRANCH}" --limit 1 | jq -r '.[0].url' >> $GITHUB_ENV
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+
+      - name: Comment on the original PR when cherry-pick is successful
+        if: ${{ env.CHERRY_PICK_RESULT == 'success' }}
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.payload.pull_request.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'Cherry-pick successful! :cherries: :tada: See ${{ env.PR_URL }}'
+            })
+
+      - name: Comment on the original PR when cherry-pick fails
+        if: ${{ env.CHERRY_PICK_RESULT != 'success' }}
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.payload.pull_request.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'Cherry-pick [failed](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})! :x: Please resolve conflicts and create a new PR.'
+            })

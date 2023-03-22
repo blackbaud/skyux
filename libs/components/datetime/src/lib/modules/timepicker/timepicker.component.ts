@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  Inject,
   OnDestroy,
   OnInit,
   Optional,
@@ -13,21 +14,24 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import {
+  SKY_STACKING_CONTEXT,
   SkyAffixAutoFitContext,
   SkyAffixService,
   SkyAffixer,
   SkyCoreAdapterService,
   SkyOverlayInstance,
   SkyOverlayService,
+  SkyStackingContext,
 } from '@skyux/core';
 import { SkyInputBoxHostService } from '@skyux/forms';
 import { SkyThemeService } from '@skyux/theme';
 
 import moment from 'moment';
-import { Subject, Subscription, fromEvent } from 'rxjs';
+import { Observable, Subject, Subscription, fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyTimepickerTimeOutput } from './timepicker.interface';
+import { SkyTimepickerTimeFormatType } from './timepicker-time-format-type';
+import { SkyTimepickerTimeOutput } from './timepicker-time-output';
 
 let nextId = 0;
 
@@ -49,7 +53,8 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
    * Fires when the value in the timepicker input changes.
    */
   @Output()
-  public selectedTimeChanged: EventEmitter<SkyTimepickerTimeOutput> = new EventEmitter<SkyTimepickerTimeOutput>();
+  public selectedTimeChanged: EventEmitter<SkyTimepickerTimeOutput> =
+    new EventEmitter<SkyTimepickerTimeOutput>();
 
   public set disabled(value: boolean) {
     this.#_disabled = value;
@@ -164,7 +169,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
 
   public returnFormat: string | undefined;
 
-  public timeFormat = 'hh';
+  public timeFormat: SkyTimepickerTimeFormatType = 'hh';
 
   public timepickerId: string;
 
@@ -242,6 +247,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
   #changeDetector: ChangeDetectorRef;
   #coreAdapter: SkyCoreAdapterService;
   #overlayService: SkyOverlayService;
+  #zIndex: Observable<number> | undefined;
 
   constructor(
     affixService: SkyAffixService,
@@ -249,12 +255,16 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
     coreAdapter: SkyCoreAdapterService,
     overlayService: SkyOverlayService,
     @Optional() public inputBoxHostService?: SkyInputBoxHostService,
-    @Optional() themeSvc?: SkyThemeService
+    @Optional() themeSvc?: SkyThemeService,
+    @Optional()
+    @Inject(SKY_STACKING_CONTEXT)
+    stackingContext?: SkyStackingContext
   ) {
     this.#affixService = affixService;
     this.#changeDetector = changeDetector;
     this.#coreAdapter = coreAdapter;
     this.#overlayService = overlayService;
+    this.#zIndex = stackingContext?.zIndex;
 
     const uniqueId = nextId++;
     this.timepickerId = `sky-timepicker-${uniqueId}`;
@@ -288,7 +298,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
     this.#destroyOverlay();
   }
 
-  public setFormat(format: string): void {
+  public setFormat(format: SkyTimepickerTimeFormatType): void {
     let h = 12;
     let m = 12;
     let minuteMultiplier = 5;
@@ -426,6 +436,14 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
         enableClose: false,
         enablePointerEvents: false,
       });
+
+      if (this.#zIndex) {
+        this.#zIndex
+          .pipe(takeUntil(this.#timepickerUnsubscribe))
+          .subscribe((zIndex) => {
+            overlay.componentRef.instance.zIndex = zIndex.toString(10);
+          });
+      }
 
       overlay.backdropClick
         .pipe(takeUntil(this.#timepickerUnsubscribe))

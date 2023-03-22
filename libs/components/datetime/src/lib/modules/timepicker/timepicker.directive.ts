@@ -24,8 +24,9 @@ import { SkyLibResourcesService } from '@skyux/i18n';
 import moment from 'moment';
 import { Subscription } from 'rxjs';
 
+import { SkyTimepickerTimeFormatType } from './timepicker-time-format-type';
+import { SkyTimepickerTimeOutput } from './timepicker-time-output';
 import { SkyTimepickerComponent } from './timepicker.component';
-import { SkyTimepickerTimeOutput } from './timepicker.interface';
 
 const SKY_TIMEPICKER_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
@@ -53,7 +54,7 @@ export class SkyTimepickerInputDirective
     AfterContentInit
 {
   public pickerChangedSubscription: Subscription | undefined;
-  #_timeFormat = 'hh';
+  #_timeFormat: SkyTimepickerTimeFormatType = 'hh';
 
   // TODO: In a future breaking change - grab the parent component through dependency injection and remove this setter.
   /**
@@ -78,11 +79,11 @@ export class SkyTimepickerInputDirective
    * @default "hh"
    */
   @Input()
-  public set timeFormat(value: string | undefined) {
+  public set timeFormat(value: SkyTimepickerTimeFormatType | undefined) {
     this.#_timeFormat = value || 'hh';
   }
 
-  public get timeFormat(): string {
+  public get timeFormat(): SkyTimepickerTimeFormatType {
     return this.#_timeFormat;
   }
 

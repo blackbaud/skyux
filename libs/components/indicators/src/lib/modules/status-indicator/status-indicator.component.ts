@@ -4,6 +4,7 @@ import {
   Component,
   Input,
   OnInit,
+  inject,
 } from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
@@ -77,19 +78,11 @@ export class SkyStatusIndicatorComponent implements OnInit {
 
   public topIcon: SkyIconStackItem | undefined;
 
-  #changeDetector: ChangeDetectorRef;
-  #resourcesSvc: SkyLibResourcesService;
+  #changeDetector = inject(ChangeDetectorRef);
+  #resourcesSvc = inject(SkyLibResourcesService);
 
   #_descriptionType: SkyIndicatorDescriptionType | undefined;
   #_customDescription: string | undefined;
-
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    resources: SkyLibResourcesService
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#resourcesSvc = resources;
-  }
 
   public ngOnInit(): void {
     this.#updateIcon();

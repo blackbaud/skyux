@@ -30,6 +30,8 @@ import { PhoneFieldTestComponent } from './fixtures/phone-field.component.fixtur
 import { SkyPhoneFieldModule } from './phone-field.module';
 
 describe('Phone Field Component', () => {
+  let mockThemeSvc: Partial<SkyThemeService>;
+
   // #region helpers
   function getPhoneFieldInput(
     fixture: ComponentFixture<
@@ -207,13 +209,31 @@ describe('Phone Field Component', () => {
 
     expect(model?.touched).toBe(isTouched);
   }
+
+  function setModernTheme(
+    fixture: ComponentFixture<
+      PhoneFieldTestComponent | PhoneFieldReactiveTestComponent
+    >
+  ): void {
+    const modernTheme = new SkyThemeSettings(
+      SkyTheme.presets.modern,
+      SkyThemeMode.presets.light
+    );
+    (
+      mockThemeSvc.settingsChange as BehaviorSubject<SkyThemeSettingsChange>
+    ).next({
+      currentSettings: modernTheme,
+      previousSettings: undefined,
+    });
+    fixture.detectChanges();
+    tick();
+  }
   // #endregion
 
   describe('template form', () => {
     let fixture: ComponentFixture<PhoneFieldTestComponent>;
     let component: PhoneFieldTestComponent;
     let nativeElement: HTMLElement;
-    let mockThemeSvc: any;
 
     beforeEach(() => {
       mockThemeSvc = {
@@ -690,9 +710,12 @@ describe('Phone Field Component', () => {
     });
 
     describe('disabled state', () => {
-      it('should disable the input and dropdown when disable is set to true', () => {
+      it('should disable the input and dropdown when disable is set to true', async () => {
         component.isDisabled = true;
         fixture.detectChanges();
+        await fixture.whenStable();
+        fixture.detectChanges();
+        await fixture.whenStable();
         const countryInput = getCountrySearchToggleButton(fixture);
 
         expect(fixture.componentInstance.inputDirective?.disabled).toBeTruthy();
@@ -725,6 +748,25 @@ describe('Phone Field Component', () => {
         expect(
           document.activeElement === getCountrySearchInput(fixture)
         ).toBeTruthy();
+      }));
+
+      it('should show placeholder text in both themes', fakeAsync(() => {
+        fixture.detectChanges();
+        const countryInput = getCountrySearchToggleButton(fixture);
+        countryInput.click();
+        detectChangesAndTick(fixture);
+
+        const inputEl = getCountrySearchInput(fixture);
+
+        expect(inputEl.getAttribute('placeholder')).toEqual(
+          'Search for a country'
+        );
+
+        setModernTheme(fixture);
+
+        expect(inputEl.getAttribute('placeholder')).toEqual(
+          'Search for a country'
+        );
       }));
 
       it('should be accessible when country search is shown', async () => {
@@ -1043,7 +1085,6 @@ describe('Phone Field Component', () => {
     let fixture: ComponentFixture<PhoneFieldReactiveTestComponent>;
     let component: PhoneFieldReactiveTestComponent;
     let nativeElement: HTMLElement;
-    let mockThemeSvc: any;
 
     beforeEach(() => {
       mockThemeSvc = {
@@ -1609,6 +1650,25 @@ describe('Phone Field Component', () => {
         expect(document.activeElement === phoneInput).toBeTruthy();
       }));
 
+      it('should show placeholder text in both themes', fakeAsync(() => {
+        fixture.detectChanges();
+        const countryInput = getCountrySearchToggleButton(fixture);
+        countryInput.click();
+        detectChangesAndTick(fixture);
+
+        const inputEl = getCountrySearchInput(fixture);
+
+        expect(inputEl.getAttribute('placeholder')).toEqual(
+          'Search for a country'
+        );
+
+        setModernTheme(fixture);
+
+        expect(inputEl.getAttribute('placeholder')).toEqual(
+          'Search for a country'
+        );
+      }));
+
       it('should be accessible when country search is shown', async () => {
         fixture.detectChanges();
         const countryInput = getCountrySearchToggleButton(fixture);
@@ -1917,7 +1977,6 @@ describe('Phone Field Component', () => {
   describe('inside input box', () => {
     let fixture: ComponentFixture<PhoneFieldInputBoxTestComponent>;
     let nativeElement: HTMLElement;
-    let mockThemeSvc: any;
 
     beforeEach(() => {
       mockThemeSvc = {

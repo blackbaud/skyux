@@ -184,13 +184,15 @@ export class SkyListViewGridComponent
    * Fires when users cancel the deletion of a row.
    */
   @Output()
-  public rowDeleteCancel = new EventEmitter<SkyListViewGridRowDeleteCancelArgs>();
+  public rowDeleteCancel =
+    new EventEmitter<SkyListViewGridRowDeleteCancelArgs>();
 
   /**
    * Fires when users confirm the deletion of a row.
    */
   @Output()
-  public rowDeleteConfirm = new EventEmitter<SkyListViewGridRowDeleteConfirmArgs>();
+  public rowDeleteConfirm =
+    new EventEmitter<SkyListViewGridRowDeleteConfirmArgs>();
 
   /**
    * Fires when columns change. This includes changes to the displayed columns and changes
@@ -481,7 +483,7 @@ export class SkyListViewGridComponent
     this.dispatcher.sortSetFieldSelectors([sortField]);
   }
 
-  public onViewActive() {
+  public override onViewActive() {
     /*
       Ran into problem where state updates were consumed out of order. For example, on search text
       update, the searchText update was consumed after the resulting list item update. Scanning the

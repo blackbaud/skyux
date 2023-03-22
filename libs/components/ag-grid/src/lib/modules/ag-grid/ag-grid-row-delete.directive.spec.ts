@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SKY_STACKING_CONTEXT, SkyScrollableHostService } from '@skyux/core';
+
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
 import { SkyAgGridRowDeleteFixtureComponent } from './fixtures/ag-grid-row-delete.component.fixture';
 import { SkyAgGridFixtureModule } from './fixtures/ag-grid.module.fixture';
@@ -6,17 +9,46 @@ import { SkyAgGridFixtureModule } from './fixtures/ag-grid.module.fixture';
 describe('SkyAgGridRowDeleteDirective', () => {
   let fixture: ComponentFixture<SkyAgGridRowDeleteFixtureComponent>;
 
-  beforeEach(() => {
+  function setupTest(options?: { stackingContextZIndex?: number }) {
     TestBed.configureTestingModule({
       imports: [SkyAgGridFixtureModule],
+      providers: [
+        {
+          provide: SKY_STACKING_CONTEXT,
+          useValue: options?.stackingContextZIndex
+            ? {
+                zIndex: new BehaviorSubject(options.stackingContextZIndex),
+              }
+            : undefined,
+        },
+        {
+          provide: SkyScrollableHostService,
+          useValue: {
+            watchScrollableHost: jasmine
+              .createSpy('watchScrollableHost')
+              .and.returnValue(new Observable()),
+            watchScrollableHostClipPathChanges: jasmine
+              .createSpy('watchScrollableHostClipPathChanges')
+              .and.returnValue(of('none')),
+          },
+        },
+      ],
     });
 
     fixture = TestBed.createComponent(SkyAgGridRowDeleteFixtureComponent);
     fixture.detectChanges();
+  }
+
+  afterEach(() => {
+    (
+      TestBed.inject(SKY_STACKING_CONTEXT)?.zIndex as BehaviorSubject<number>
+    )?.complete();
+    fixture.destroy();
   });
 
   describe('show row delete elements correctly', () => {
     it('should show for one row', async () => {
+      setupTest();
       await fixture.whenStable();
 
       expect(document.querySelector('.sky-inline-delete-standard')).toBeNull();
@@ -32,6 +64,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     });
 
     it('should show for multiple rows', async () => {
+      setupTest();
       await fixture.whenStable();
 
       expect(document.querySelector('.sky-inline-delete-standard')).toBeNull();
@@ -47,6 +80,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     });
 
     it('should respond to data changes', async () => {
+      setupTest();
       await fixture.whenStable();
 
       fixture.componentInstance.rowDeleteIds = ['0', '2'];
@@ -67,6 +101,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     });
 
     it('should respond to sorting', async () => {
+      setupTest();
       await fixture.whenStable();
 
       fixture.componentInstance.rowDeleteIds = ['0', '2'];
@@ -87,6 +122,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     });
 
     it('should respond to filtering', async () => {
+      setupTest();
       await fixture.whenStable();
 
       fixture.componentInstance.rowDeleteIds = ['0', '2'];
@@ -118,6 +154,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     });
 
     it('should respond dataset changes', async () => {
+      setupTest();
       await fixture.whenStable();
 
       fixture.componentInstance.rowDeleteIds = ['0', '2'];
@@ -139,6 +176,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
   });
 
   it('should cancel row delete elements correctly via them being removed from the id array', async () => {
+    setupTest();
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -166,6 +204,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
   });
 
   it('should cancel row delete elements correctly via the id array being set to undefined', async () => {
+    setupTest();
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -193,6 +232,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
   });
 
   it('should cancel row delete elements correctly via click', async () => {
+    setupTest();
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -223,6 +263,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
   });
 
   it('should update the pending status of a row being deleted correctly', async () => {
+    setupTest();
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -281,6 +322,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
   });
 
   it('should output the delete event correctly', async () => {
+    setupTest();
     spyOn(fixture.componentInstance, 'cancelRowDelete').and.callThrough();
     spyOn(fixture.componentInstance, 'finishRowDelete').and.callThrough();
 
@@ -311,6 +353,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
   });
 
   it('should output the cancel event correctly', async () => {
+    setupTest();
     spyOn(fixture.componentInstance, 'cancelRowDelete').and.callThrough();
     spyOn(fixture.componentInstance, 'finishRowDelete').and.callThrough();
 
@@ -342,6 +385,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
   });
 
   it('should set the z-index of the row delete overlays correctly', async () => {
+    setupTest();
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -361,9 +405,38 @@ describe('SkyAgGridRowDeleteDirective', () => {
       expect(overlay.style.zIndex.toString()).toBe('998')
     );
     expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '1']);
+    expect(
+      TestBed.inject(SkyScrollableHostService)
+        .watchScrollableHostClipPathChanges
+    ).not.toHaveBeenCalled();
+  });
+
+  it('should set the z-index of the row delete overlays with stacking context', async () => {
+    setupTest({
+      stackingContextZIndex: 1111,
+    });
+    await fixture.whenStable();
+
+    fixture.componentInstance.rowDeleteIds = ['0', '1'];
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const overlays = Array.from(
+      document.querySelectorAll('.sky-overlay')
+    ) as HTMLElement[];
+    expect(overlays.length).toBe(2);
+    overlays.forEach((overlay) => expect(overlay.style.zIndex).toBe('1111'));
+    expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '1']);
+    expect(
+      TestBed.inject(SkyScrollableHostService)
+        .watchScrollableHostClipPathChanges
+    ).toHaveBeenCalled();
   });
 
   it('should not change the column widths when a row delete is triggered', async () => {
+    setupTest();
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -387,6 +460,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
   });
 
   it('should not change the column widths when a row delete is triggered when all columns have set widths', async () => {
+    setupTest();
     fixture.componentInstance.allColumnWidth = 100;
 
     fixture.detectChanges();
@@ -412,6 +486,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
   });
 
   it('should place the row delete overlay on top of the row correctly', async () => {
+    setupTest();
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();

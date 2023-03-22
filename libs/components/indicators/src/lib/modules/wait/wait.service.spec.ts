@@ -2,7 +2,6 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { ApplicationRef } from '@angular/core';
 import { TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { expectAsync } from '@skyux-sdk/testing';
-import { SkyDynamicComponentService } from '@skyux/core';
 
 import { ReplaySubject } from 'rxjs';
 
@@ -279,124 +278,6 @@ describe('Wait service', () => {
       tick();
       applicationRef.tick();
       verifyNonBlockingPageWaitExists(false);
-    }));
-  });
-
-  // TODO: Remove when we remove the `Optional` from the dynamic component service in a breaking change
-  describe('basic functionality - without dynamic component service (legacy)', () => {
-    beforeEach(() => {
-      TestBed.resetTestingModule();
-      TestBed.configureTestingModule({
-        imports: [SkyWaitFixturesModule],
-        providers: [
-          { provide: SkyDynamicComponentService, useValue: undefined },
-        ],
-      });
-
-      applicationRef = TestBed.inject(ApplicationRef);
-      waitSvc = TestBed.inject(SkyWaitService);
-      // The spy is set up in the `beforeEach` because `announce` is async. Setting the spy here allows us to not worry about timers and is stubbing out functionality we don't care about for unit testing.
-      liveAnnouncer = TestBed.inject(LiveAnnouncer);
-      spyOn(liveAnnouncer, 'announce').and.stub();
-      waitSvc.dispose();
-    });
-
-    it('should add a blocking page wait when beginPageWait is called with isBlocking true', fakeAsync(() => {
-      beginBlockingPageWait();
-      verifyBlockingPageWaitExists(true);
-
-      beginBlockingPageWait();
-      verifyBlockingPageWaitExists(true);
-
-      endBlockingPageWait();
-      verifyBlockingPageWaitExists(true);
-
-      endBlockingPageWait();
-      verifyBlockingPageWaitExists(false);
-    }));
-
-    it('should block tab navigation when a blocking page wait is active', fakeAsync(() => {
-      TestBed.createComponent(SkyWaitTestComponent);
-
-      beginBlockingPageWait();
-      verifyBlockingPageWaitExists(true);
-
-      const button = document.body.querySelector('button');
-      const event = Object.assign(document.createEvent('CustomEvent'), {
-        relatedTarget: document.body,
-      });
-      event.initEvent('focusin', true, true);
-      button?.dispatchEvent(event);
-
-      expect(document.activeElement).toBe(document.body);
-    }));
-
-    it('should add a nonblocking page wait when beginPageWait is called with isBlocking false', fakeAsync(() => {
-      beginNonBlockingPageWait();
-      verifyNonBlockingPageWaitExists(true);
-
-      beginNonBlockingPageWait();
-      verifyNonBlockingPageWaitExists(true);
-
-      endNonBlockingPageWait();
-      verifyNonBlockingPageWaitExists(true);
-
-      endNonBlockingPageWait();
-      verifyNonBlockingPageWaitExists(false);
-    }));
-
-    it('do nothing if wait component not created and endPageWait is called', fakeAsync(() => {
-      endNonBlockingPageWait();
-      verifyNonBlockingPageWaitExists(false);
-    }));
-
-    it('not drop counts below zero', fakeAsync(() => {
-      beginNonBlockingPageWait();
-      verifyNonBlockingPageWaitExists(true);
-
-      endNonBlockingPageWait();
-      verifyNonBlockingPageWaitExists(false);
-
-      endNonBlockingPageWait();
-      verifyNonBlockingPageWaitExists(false);
-
-      beginNonBlockingPageWait();
-      verifyNonBlockingPageWaitExists(true);
-
-      endBlockingPageWait();
-      verifyBlockingPageWaitExists(false);
-
-      beginBlockingPageWait();
-      verifyBlockingPageWaitExists(true);
-    }));
-
-    it('should clear appropriate waits when clearPageWait is called', fakeAsync(() => {
-      beginNonBlockingPageWait();
-
-      beginBlockingPageWait();
-
-      clearAllPageWaits();
-
-      verifyNonBlockingPageWaitExists(false);
-      verifyBlockingPageWaitExists(false);
-    }));
-
-    it('should clear wait even if closed too fast', fakeAsync(() => {
-      // Don't call the convenience methods in this test file since tick()/applicationRef.tick()
-      // can't be called to test this feature.
-      waitSvc.beginNonBlockingPageWait();
-      waitSvc.clearAllPageWaits();
-      tick();
-
-      verifyNonBlockingPageWaitExists(false);
-      verifyBlockingPageWaitExists(false);
-    }));
-
-    it('should only clear waits if wait component not created', fakeAsync(() => {
-      clearAllPageWaits();
-
-      verifyNonBlockingPageWaitExists(false);
-      verifyBlockingPageWaitExists(false);
     }));
   });
 

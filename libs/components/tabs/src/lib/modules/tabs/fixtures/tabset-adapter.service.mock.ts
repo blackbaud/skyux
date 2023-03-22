@@ -11,7 +11,7 @@ export class MockTabsetAdapterService
 {
   public disableDetectOverflow = false;
 
-  public get overflowChange(): Observable<boolean> {
+  public override get overflowChange(): Observable<boolean> {
     return this.#overflowChangeObs;
   }
 
@@ -24,11 +24,11 @@ export class MockTabsetAdapterService
     this.#overflowChangeObs = this.#overflowChange.asObservable();
   }
 
-  public ngOnDestroy(): void {
+  public override ngOnDestroy(): void {
     this.#overflowChange.complete();
   }
 
-  public detectOverflow() {
+  public override detectOverflow() {
     if (!this.disableDetectOverflow) {
       super.detectOverflow();
     }

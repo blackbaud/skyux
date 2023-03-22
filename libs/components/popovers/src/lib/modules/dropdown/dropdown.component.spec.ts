@@ -7,10 +7,10 @@ import {
 } from '@angular/core/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
+  SKY_STACKING_CONTEXT,
   SkyAffixConfig,
   SkyAffixService,
   SkyAffixer,
-  SkyLogService,
 } from '@skyux/core';
 import {
   SkyTheme,
@@ -123,10 +123,22 @@ describe('Dropdown component', function () {
           provide: SkyThemeService,
           useValue: mockThemeService,
         },
+        {
+          provide: SKY_STACKING_CONTEXT,
+          useValue: {
+            zIndex: new BehaviorSubject(111),
+          },
+        },
       ],
     });
 
     fixture = TestBed.createComponent(DropdownFixtureComponent);
+  });
+
+  afterEach(() => {
+    (
+      TestBed.inject(SKY_STACKING_CONTEXT).zIndex as BehaviorSubject<number>
+    ).complete();
   });
 
   it('should set defaults', fakeAsync(() => {
@@ -228,23 +240,6 @@ describe('Dropdown component', function () {
     const button = getButtonElement();
     expect(button).toHaveCssClass('sky-btn-danger');
     expect(button).toHaveCssClass('sky-dropdown-button-type-context-menu');
-  }));
-
-  it('should log a deprecation warning when buttonType is set to a string value that is not one of the supported types', fakeAsync(function () {
-    const logService = TestBed.inject(SkyLogService);
-    const deprecatedLogSpy = spyOn(logService, 'deprecated').and.stub();
-
-    fixture.componentInstance.buttonType = 'filter';
-    detectChangesFakeAsync();
-
-    expect(deprecatedLogSpy).toHaveBeenCalledWith(
-      'SkyDropdownComponent.buttonType Font Awesome icon class option',
-      Object({
-        deprecationMajorVersion: 7,
-        replacementRecommendation:
-          'Set `buttonType` to `select` and render a `<sky-icon>` element within the `<sky-dropdown-button>` element.',
-      })
-    );
   }));
 
   it('should reposition the menu when number of menu items change', fakeAsync(() => {

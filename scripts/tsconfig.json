@@ -2,8 +2,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "lib": ["es2020", "dom"],
-    "declaration": true,
     "esModuleInterop": true,
+    "declaration": true,
     "module": "commonjs",
     "moduleResolution": "node",
     "noEmitOnError": true,

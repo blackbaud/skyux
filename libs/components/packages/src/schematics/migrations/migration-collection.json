@@ -5,45 +5,15 @@
       "factory": "./noop/noop.schematic",
       "description": "Update all SKY UX component packages"
     },
-    "ag-grid-28": {
-      "version": "7.0.0-beta.0",
-      "factory": "./update-7/ag-grid-28.schematic",
-      "description": "Update ag-grid to version 28"
-    },
-    "add-autonumeric-dependency": {
-      "version": "7.0.0-beta.0",
-      "factory": "./update-7/add-autonumeric-dependency",
-      "description": "Add autonumeric as a dependency since @skyux/autonumeric@7 references autonumeric as a peer."
-    },
-    "add-axe-core-dependency": {
-      "version": "7.0.0-beta.0",
-      "factory": "./update-7/add-axe-core-dependency",
-      "description": "Add axe-core as a dependency since @skyux-sdk/testing@7 references axe-core as a peer."
-    },
-    "add-moment-dependency": {
-      "version": "7.0.0-beta.0",
-      "factory": "./update-7/add-moment-dependency",
-      "description": "Add moment.js as a dependency since SKY UX 7 references moment.js as a peer."
-    },
-    "rename-mutation-observer-service": {
-      "version": "7.0.0-beta.0",
-      "factory": "./update-7/rename-mutation-observer-service",
-      "description": "Replace all instances of 'MutationObserverService' with 'SkyMutationObserverService'"
+    "update-polyfill": {
+      "version": "8.0.0-alpha.0",
+      "factory": "./update-8/update-polyfill/update-polyfill.schematic",
+      "description": "Remove code from polyfills.ts/test.ts and add @skyux/packages/polyfills to workspace config."
     },
     "add-compat-stylesheets": {
-      "version": "7.0.0-beta.0",
-      "factory": "./update-7/add-compat-stylesheets",
-      "description": "Add a backwards-compatible stylesheet with styles that have been removed from components in SKY UX 7."
-    },
-    "fix-scss-imports": {
-      "version": "7.0.0-beta.0",
-      "factory": "./update-7/fix-scss-imports",
-      "description": "Fix SCSS imports"
-    },
-    "fix-imports": {
-      "version": "7.0.0-beta.0",
-      "factory": "./update-7/fix-imports",
-      "description": "Fix import and export statements where the file case does not match the filesystem, and fix or warn about core-js imports"
+      "version": "8.0.0-alpha.0",
+      "factory": "./update-8/add-compat-stylesheets/add-compat-stylesheets",
+      "description": "Add a backwards-compatible stylesheet with styles that have been removed from components in SKY UX 8."
     }
   }
 }

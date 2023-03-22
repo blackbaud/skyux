@@ -158,7 +158,10 @@ sky-search {
 
     .sky-search-container .sky-search-input-container {
       &.sky-search-input-container-has-value {
-        .sky-input-box-group-form-control:not(.sky-input-box-group-form-control-focus, :hover)
+        .sky-input-box-group-form-control:not(
+            .sky-input-box-group-form-control-focus,
+            :hover
+          )
           .sky-form-group {
           border: none;
           border-radius: unset;

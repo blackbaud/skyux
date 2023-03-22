@@ -1,6 +1,12 @@
 export * from './alert/alert-harness';
 export * from './alert/alert-harness-filters';
 
+export * from './help-inline/help-inline-harness';
+export * from './help-inline/help-inline-harness-filters';
+
+export * from './icon/icon-harness';
+export * from './icon/icon-harness-filters';
+
 export * from './key-info/key-info-harness';
 export * from './key-info/key-info-harness-filters';
 

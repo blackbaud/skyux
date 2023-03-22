@@ -5,7 +5,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
+  inject,
 } from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
@@ -130,33 +130,19 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
   public ariaLabelStream = new BehaviorSubject<string>('');
   public screenReaderCompletedTextStream = new BehaviorSubject<string>('');
 
-  #elRef: ElementRef;
-  #adapterService: SkyWaitAdapterService;
-  #liveAnnouncer: LiveAnnouncer;
-  #resourceSvc: SkyLibResourcesService;
-  #ngUnsubscribe = new Subject<void>();
-
-  #id: string;
   #customAriaLabel: string | undefined;
   #customScreenReaderCompletedText: string | undefined;
+  #id = `sky-wait-${++nextId}`;
+
+  #elRef = inject(ElementRef);
+  #adapterService = inject(SkyWaitAdapterService);
+  #liveAnnouncer = inject(LiveAnnouncer);
+  #resourceSvc = inject(SkyLibResourcesService);
+  #ngUnsubscribe = new Subject<void>();
 
   #_isFullPage: boolean | undefined;
   #_isNonBlocking: boolean | undefined;
   #_isWaiting: boolean | undefined;
-
-  constructor(
-    elRef: ElementRef,
-    adapterService: SkyWaitAdapterService,
-    liveAnnouncer: LiveAnnouncer,
-    @Optional() resourceSvc: SkyLibResourcesService
-  ) {
-    this.#elRef = elRef;
-    this.#adapterService = adapterService;
-    this.#liveAnnouncer = liveAnnouncer;
-    this.#resourceSvc = resourceSvc;
-
-    this.#id = `sky-wait-${++nextId}`;
-  }
 
   public ngOnInit(): void {
     this.#publishAriaLabel();

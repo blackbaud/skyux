@@ -3,9 +3,17 @@ import {
   componentGenerator,
   storybookConfigurationGenerator,
 } from '@nrwl/angular/generators';
-import { Tree, readProjectConfiguration } from '@nrwl/devkit';
-import { createTreeWithEmptyV1Workspace } from '@nrwl/devkit/testing';
+import {
+  NxJsonConfiguration,
+  Tree,
+  readNxJson,
+  readProjectConfiguration,
+  updateNxJson,
+} from '@nrwl/devkit';
+import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Linter } from '@nrwl/linter';
+
+import { updateProjectConfiguration } from 'nx/src/generators/utils/project-configuration';
 
 import storiesGenerator from './index';
 import { StoriesGeneratorSchema } from './schema';
@@ -15,11 +23,21 @@ describe('stories generator', () => {
   let options: StoriesGeneratorSchema;
 
   beforeEach(() => {
-    appTree = createTreeWithEmptyV1Workspace();
+    appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    const nxJson: NxJsonConfiguration = readNxJson(appTree) || {};
+    nxJson.workspaceLayout = {
+      appsDir: 'apps',
+      libsDir: 'libs',
+    };
+    updateNxJson(appTree, nxJson);
     options = {
       project: 'test',
       generateCypressSpecs: true,
     };
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should run successfully', async () => {
@@ -101,6 +119,14 @@ describe('stories generator', () => {
     });
     await applicationGenerator(appTree, {
       name: 'test-storybook',
+    });
+    const projectConfiguration = readProjectConfiguration(
+      appTree,
+      'test-storybook'
+    );
+    delete projectConfiguration.sourceRoot;
+    updateProjectConfiguration(appTree, 'test-storybook', {
+      ...projectConfiguration,
     });
     await storybookConfigurationGenerator(appTree, {
       name: 'test-storybook',

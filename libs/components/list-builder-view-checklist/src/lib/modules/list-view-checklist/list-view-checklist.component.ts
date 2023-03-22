@@ -296,7 +296,7 @@ export class SkyListViewChecklistComponent
       });
   }
 
-  public onViewActive() {
+  public override onViewActive() {
     if (this.search !== undefined) {
       this.dispatcher.searchSetFunctions([this.search]);
     }

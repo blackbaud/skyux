@@ -23,6 +23,10 @@
   .sky-action-button-flex {
     display: block;
     padding: 0;
+    margin: calc(
+        var(--sky-compat-action-button-flex-margin, $sky-margin-double) * -1
+      )
+      0;
 
     sky-action-button {
       margin: $sky-margin-double 0;
@@ -34,7 +38,9 @@
   .sky-action-button-flex {
     display: flex;
     flex-flow: row wrap;
-    padding: $sky-padding 0;
+    padding: var(--sky-compat-action-button-flex-sm-padding, 0) 0;
+    margin: calc(var(--sky-compat-action-button-flex-margin, $sky-margin) * -1)
+      0;
 
     &.sky-action-button-flex-align-center {
       justify-content: center;

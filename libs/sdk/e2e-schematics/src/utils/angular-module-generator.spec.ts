@@ -1,12 +1,12 @@
 import { applicationGenerator } from '@nrwl/angular/generators';
-import { createTreeWithEmptyV1Workspace } from '@nrwl/devkit/testing';
+import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { RoutingScope } from '@schematics/angular/module/schema';
 
 import { angularModuleGenerator } from './angular-module-generator';
 
 describe('angularModuleGenerator', () => {
   it('should generate an angular module', async () => {
-    const tree = createTreeWithEmptyV1Workspace();
+    const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     await applicationGenerator(tree, {
       name: 'my-app',
     });
@@ -20,7 +20,7 @@ describe('angularModuleGenerator', () => {
   });
 
   it('should generate an angular module with routing', async () => {
-    const tree = createTreeWithEmptyV1Workspace();
+    const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     await applicationGenerator(tree, {
       name: 'my-app',
     });

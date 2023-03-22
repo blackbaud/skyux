@@ -5,8 +5,10 @@ import { AlertDemoComponent as AlertBasicDemoComponent } from '../code-examples/
 import { AlertDemoModule as AlertBasicDemoModule } from '../code-examples/indicators/alert/basic/alert-demo.module';
 import { HelpInlineDemoComponent } from '../code-examples/indicators/help-inline/basic/help-inline-demo.component';
 import { HelpInlineDemoModule } from '../code-examples/indicators/help-inline/basic/help-inline-demo.module';
-import { IconDemoComponent } from '../code-examples/indicators/icon/icon-demo.component';
-import { IconDemoModule } from '../code-examples/indicators/icon/icon-demo.module';
+import { IconDemoComponent } from '../code-examples/indicators/icon/basic/icon-demo.component';
+import { IconDemoModule } from '../code-examples/indicators/icon/basic/icon-demo.module';
+import { IconDemoComponent as IconButtonDemoComponent } from '../code-examples/indicators/icon/icon-button/icon-button-demo.component';
+import { IconDemoModule as IconButtonDemoModule } from '../code-examples/indicators/icon/icon-button/icon-button-demo.module';
 import { KeyInfoDemoComponent as KeyInfoBasicDemoComponent } from '../code-examples/indicators/key-info/basic/key-info-demo.component';
 import { KeyInfoDemoModule as KeyInfoBasicDemoModule } from '../code-examples/indicators/key-info/basic/key-info-demo.module';
 import { KeyInfoDemoComponent as KeyInfoInlineHelpDemoComponent } from '../code-examples/indicators/key-info/inline-help/key-info-demo.component';
@@ -38,8 +40,12 @@ const routes: Routes = [
     component: HelpInlineDemoComponent,
   },
   {
-    path: 'icon',
+    path: 'icon/basic',
     component: IconDemoComponent,
+  },
+  {
+    path: 'icon/button',
+    component: IconButtonDemoComponent,
   },
   {
     path: 'status-indicator/basic',
@@ -107,6 +113,7 @@ export class IndicatorsFeatureRoutingModule {}
     TokensCustomDemoModule,
     HelpInlineDemoModule,
     IconDemoModule,
+    IconButtonDemoModule,
     WaitDemoModule,
     WaitPageModule,
   ],

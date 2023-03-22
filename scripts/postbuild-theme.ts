@@ -1,5 +1,4 @@
 import fs from 'fs-extra';
-import tildeImporter from 'node-sass-tilde-importer';
 import path from 'path';
 import sass from 'sass';
 
@@ -73,7 +72,6 @@ function validateSkyuxIconVersionMatch() {
 function renderScss(scssFilePath: string, cssDestPath: string) {
   const result = sass.renderSync({
     file: scssFilePath,
-    importer: tildeImporter as any,
     quietDeps: true,
   });
   fs.ensureFileSync(cssDestPath);

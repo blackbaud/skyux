@@ -341,7 +341,9 @@ describe('Date range picker', function () {
     detectChanges();
 
     verifyFormFieldsDisabledStatus(true);
+  }));
 
+  it('should set enabled state via template input on initialization', fakeAsync(function () {
     component.templateDisable = false;
 
     detectChanges();

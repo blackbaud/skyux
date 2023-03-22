@@ -1,12 +1,17 @@
 import {
+  E2eTestRunner,
   applicationGenerator,
   storybookConfigurationGenerator,
 } from '@nrwl/angular/generators';
-import { readProjectConfiguration } from '@nrwl/devkit';
+import {
+  NxJsonConfiguration,
+  readNxJson,
+  readProjectConfiguration,
+  updateNxJson,
+} from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Linter } from '@nrwl/linter';
 import { TsConfig } from '@nrwl/storybook/src/utils/utilities';
-import { removeGenerator } from '@nrwl/workspace';
 
 import { updateProjectConfiguration } from 'nx/src/generators/utils/project-configuration';
 
@@ -16,15 +21,13 @@ import configureStorybook from './index';
 
 describe('configure-storybook', () => {
   function setupTest() {
-    const tree = createTreeWithEmptyWorkspace();
-
-    tree.write(
-      'workspace.json',
-      JSON.stringify({
-        version: 2,
-        projects: {},
-      })
-    );
+    const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    const nxJson: NxJsonConfiguration = readNxJson(tree) || {};
+    nxJson.workspaceLayout = {
+      appsDir: 'apps',
+      libsDir: 'libs',
+    };
+    updateNxJson(tree, nxJson);
 
     tree.write('.gitignore', '');
 
@@ -141,10 +144,13 @@ describe('configure-storybook', () => {
     ).toBeTruthy();
   });
 
-  it('should skip configuration for non-cypress e2e project', async () => {
+  it('should error for missing e2e project', async () => {
     const { tree } = setupTest();
     tree.write('.gitignore', '#');
-    await applicationGenerator(tree, { name: `test-app` });
+    await applicationGenerator(tree, {
+      name: `test-app`,
+      e2eTestRunner: E2eTestRunner.None,
+    });
     await storybookConfigurationGenerator(tree, {
       configureCypress: false,
       generateCypressSpecs: false,
@@ -152,19 +158,32 @@ describe('configure-storybook', () => {
       linter: Linter.None,
       name: `test-app`,
     });
-    await removeGenerator(tree, {
-      projectName: `test-app-e2e`,
-      forceRemove: true,
-      skipFormat: true,
+    await expect(
+      configureStorybook(tree, { name: 'test-app' })
+    ).rejects.toThrowError(`Project "test-app-e2e" does not exist`);
+  });
+
+  it('should error for e2e project without cypress', async () => {
+    const { tree } = setupTest();
+    tree.write('.gitignore', '#');
+    await applicationGenerator(tree, {
+      name: `test-app`,
+      e2eTestRunner: E2eTestRunner.None,
     });
-    await applicationGenerator(tree, { name: `test-app-e2e` });
-    const errorSpy = jest.spyOn(console, 'error');
-    await configureStorybook(tree, { name: 'test-app' });
-    await configureStorybook(tree, { name: 'test-app', ansiColor: false });
-    const e2eConfig = readProjectConfiguration(tree, `test-app-e2e`);
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    expect(e2eConfig.targets!.e2e).toBeFalsy();
-    expect(errorSpy).toHaveBeenCalledWith(
+    await applicationGenerator(tree, {
+      name: `test-app-e2e`,
+      e2eTestRunner: E2eTestRunner.None,
+    });
+    await storybookConfigurationGenerator(tree, {
+      configureCypress: false,
+      generateCypressSpecs: false,
+      generateStories: false,
+      linter: Linter.None,
+      name: `test-app`,
+    });
+    await expect(
+      configureStorybook(tree, { name: 'test-app' })
+    ).rejects.toThrowError(
       `Project "test-app-e2e" does not have an e2e target with @nrwl/cypress:cypress`
     );
   });

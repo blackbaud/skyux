@@ -1,3 +1,4 @@
+export * from './lib/modules/dropdown/types/dropdown-button-type';
 export * from './lib/modules/dropdown/types/dropdown-horizontal-alignment';
 export * from './lib/modules/dropdown/types/dropdown-menu-change';
 export * from './lib/modules/dropdown/types/dropdown-message';

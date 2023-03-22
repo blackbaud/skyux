@@ -24,7 +24,7 @@ describe('ng-add.schematic', () => {
   });
 
   function runSchematic(): Promise<UnitTestTree> {
-    return runner.runSchematicAsync('ng-add', {}, tree).toPromise();
+    return runner.runSchematic('ng-add', {}, tree);
   }
 
   function readPackageJson(tree: UnitTestTree): {

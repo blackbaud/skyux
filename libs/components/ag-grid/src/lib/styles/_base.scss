@@ -4,10 +4,10 @@
 
 @include ag.grid-styles(
   (
+    suppress-native-widget-styling: true,
     themes: (
       sky-default: (
         background-color: variables.$sky-color-gray-01,
-        row-hover-color: darken(variables.$sky-background-color-selected, 10%),
         border-color: variables.$sky-border-color-neutral-medium,
         cell-horizontal-padding: 12px,
         font-family: variables.$sky-font-family,
@@ -175,9 +175,17 @@ ag-grid-angular {
     text-overflow: clip;
   }
 
-  .ag-header-cell.sky-ag-grid-header-right-aligned
-    > .ag-header-cell-comp-wrapper {
-    flex-direction: row-reverse;
+  .ag-header-cell.ag-right-aligned-header,
+  .ag-header-cell.sky-ag-grid-header-right-aligned {
+    .ag-header-cell-comp-wrapper {
+      flex-direction: row-reverse;
+    }
+
+    .ag-header-cell-label,
+    .ag-cell-label-container {
+      display: flex;
+      flex-direction: row;
+    }
   }
 }
 
@@ -203,8 +211,32 @@ sky-ag-grid-wrapper + sky-infinite-scroll {
   }
 }
 
+.ag-header .ag-header-cell .ag-header-cell-label-sortable {
+  color: var(--sky-text-color-deemphasized);
+
+  &:hover {
+    color: var(--sky-text-color-default);
+  }
+}
+
 .ag-theme-sky-default {
   .ag-header .ag-header-cell .ag-header-cell-text {
     font-weight: normal;
+  }
+}
+
+.sky-ag-grid-layout-normal {
+  width: 100%;
+  height: 100%;
+  display: flex;
+
+  .sky-ag-grid {
+    flex: 1;
+    overflow: hidden;
+  }
+
+  ag-grid-angular {
+    width: 100%;
+    height: 100%;
   }
 }

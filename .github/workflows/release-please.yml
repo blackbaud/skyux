@@ -4,11 +4,36 @@ on:
   push:
     branches:
       - main
-
+env:
+  PRERELEASE: true
+  MAJOR_VERSION: 8
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+      - name: Next release
+        if: ${{ env.PRERELEASE }}
+        id: next-release
+        run: |
+          # Log commands and exit on error.
+          set -exo pipefail
+
+          # Get the current prerelease version.
+          CURRENT_RELEASE=$(gh release list -R blackbaud/skyux|grep '^v${{ env.MAJOR_VERSION }}'|head -1|cut -d$'\t' -f 3)
+
+          # Bump the prerelease version.
+          NEXT_VERSION=$(npx --yes semver -i prerelease $CURRENT_RELEASE)
+
+          # If version is empty, exit.
+          if [ -z "$CURRENT_RELEASE" ] || [ -z "$NEXT_VERSION" ]; then
+            echo "Not able to determine prerelease version."
+            exit 1
+          fi
+
+          echo "Next release version: $NEXT_VERSION"
+          echo "next-release=$NEXT_VERSION" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
       - uses: google-github-actions/release-please-action@v3
         id: release
         with:
@@ -19,10 +44,14 @@ jobs:
           pull-request-title-pattern: 'chore: release ${version}'
           labels: 'autorelease ${{ github.ref_name }}: pending'
           release-labels: 'autorelease ${{ github.ref_name }}: tagged'
+          release-as: '${{ steps.next-release.outputs.next-release }}'
+          prerelease: ${{ env.PRERELEASE }}
           draft-pull-request: true
           include-v-in-tag: false
           token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
       - uses: actions/checkout@v3
+        with:
+          token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
       - uses: actions/setup-node@v3
         id: setup-node
         with:
@@ -51,11 +80,20 @@ jobs:
         run: npx skyux-dev publish-packages-dist
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: Notify Slack
+      - name: Notify Slack (success)
         if: ${{ steps.release.outputs.release_created }}
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_MESSAGE: Successfully published SKY UX ${{ steps.release.outputs.tag_name }} to NPM. http://github.com/${{ github.repository }}/blob/main/CHANGELOG.md
+          SLACK_MESSAGE: Successfully published SKY UX ${{ steps.release.outputs.tag_name }} to NPM. http://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/CHANGELOG.md
+          SLACK_ICON: https://github.com/blackbaud.png?size=48
+          SLACK_USERNAME: SKY UX
+      - name: Notify Slack (failure)
+        if: ${{ failure() && steps.release.outputs.release_created }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_MESSAGE: Failed to publish SKY UX ${{ steps.release.outputs.tag_name }} to NPM!
           SLACK_ICON: https://github.com/blackbaud.png?size=48
           SLACK_USERNAME: SKY UX

@@ -1,3 +1,4 @@
+import { normalize } from '@angular-devkit/core';
 import { Rule, chain } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import {
@@ -6,12 +7,14 @@ import {
 } from '@schematics/angular/utility/dependencies';
 
 import fs from 'fs-extra';
-import path from 'path';
 
-import { addCrossventFix } from '../rules/add-crossvent-fix';
+import { addPolyfillsConfig } from '../rules/add-polyfills-config';
 import { applySkyuxStylesheetsToWorkspace } from '../rules/apply-skyux-stylesheets-to-workspace';
 import { installAngularCdk } from '../rules/install-angular-cdk';
-import { getWorkspace } from '../utility/workspace';
+import { modifyTsConfig } from '../rules/modify-tsconfig';
+import { getRequiredProject } from '../utility/workspace';
+
+import { Schema } from './schema';
 
 function installEssentialSkyUxPackages(skyuxVersion: string): Rule {
   return async (tree) => {
@@ -33,13 +36,13 @@ function installEssentialSkyUxPackages(skyuxVersion: string): Rule {
   };
 }
 
-export default function ngAdd(): Rule {
+export default function ngAdd(options: Schema): Rule {
   return async (tree, context) => {
-    const { workspace } = await getWorkspace(tree);
+    const { projectName } = await getRequiredProject(tree, options.project);
 
     // Get the currently installed version of SKY UX.
     const { version: skyuxVersion } = fs.readJsonSync(
-      path.resolve(__dirname, '../../../package.json')
+      normalize(`${__dirname}/../../../package.json`)
     );
 
     context.addTask(new NodePackageInstallTask());
@@ -47,8 +50,9 @@ export default function ngAdd(): Rule {
     return chain([
       installEssentialSkyUxPackages(skyuxVersion),
       installAngularCdk(),
-      addCrossventFix(workspace),
-      applySkyuxStylesheetsToWorkspace(),
+      addPolyfillsConfig(projectName, ['build', 'test']),
+      applySkyuxStylesheetsToWorkspace(projectName),
+      modifyTsConfig(),
     ]);
   };
 }

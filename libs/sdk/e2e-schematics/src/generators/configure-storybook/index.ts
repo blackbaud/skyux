@@ -4,17 +4,14 @@ import {
   Tree,
   formatFiles,
   generateFiles,
-  getWorkspacePath,
   joinPathFragments,
-  logger,
-  normalizePath,
+  offsetFromRoot,
   readProjectConfiguration,
   updateJson,
 } from '@nrwl/devkit';
 import { TsConfig } from '@nrwl/storybook/src/utils/utilities';
 
 import { updateProjectConfiguration } from 'nx/src/generators/utils/project-configuration';
-import { relative } from 'path';
 
 import { getStorybookProjects } from '../../utils';
 
@@ -25,15 +22,6 @@ import { Schema } from './schema';
  */
 export default async function (tree: Tree, schema: Schema) {
   const projects = getStorybookProjects(tree, schema.name);
-  const workspacePath = getWorkspacePath(tree);
-
-  // istanbul ignore if
-  if (!workspacePath) {
-    throw new Error(`Unable to determine workspace file path`);
-  }
-
-  // istanbul ignore next
-  const errorLogger = schema.ansiColor === false ? console.error : logger.fatal;
 
   projects.forEach((project, projectName) => {
     let hasChanged = false;
@@ -45,6 +33,7 @@ export default async function (tree: Tree, schema: Schema) {
       const targetConfig = project.targets[target] as TargetConfiguration;
       // Does the builder support styles?
       if (
+        targetConfig.executor &&
         [
           '@angular-devkit/build-angular:browser',
           '@storybook/angular:build-storybook',
@@ -86,7 +75,7 @@ export default async function (tree: Tree, schema: Schema) {
     try {
       e2eProject = readProjectConfiguration(tree, e2eProjectName);
     } catch (e) {
-      errorLogger(`Project "${e2eProjectName}" does not exist`);
+      throw new Error(`Project "${e2eProjectName}" does not exist`);
     }
     if (
       e2eProject &&
@@ -110,15 +99,13 @@ export default async function (tree: Tree, schema: Schema) {
         updateProjectConfiguration(tree, e2eProjectName, e2eProject);
       }
     } else {
-      errorLogger(
+      throw new Error(
         `Project "${e2eProjectName}" does not have an e2e target with @nrwl/cypress:cypress`
       );
     }
 
     const projectRoot = project.root;
-    const relativeToRoot = normalizePath(
-      relative(`/${projectRoot}/.storybook`, `/`)
-    );
+    const relativeToRoot = offsetFromRoot(`/${projectRoot}/.storybook`);
 
     const tsconfigFile = `${projectRoot}/.storybook/tsconfig.json`;
     const tsconfigAppFile = `${projectRoot}/tsconfig.app.json`;

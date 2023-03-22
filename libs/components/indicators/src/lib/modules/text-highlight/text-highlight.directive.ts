@@ -6,6 +6,7 @@ import {
   OnChanges,
   OnDestroy,
   SimpleChanges,
+  inject,
 } from '@angular/core';
 import { SkyMutationObserverService } from '@skyux/core';
 
@@ -130,14 +131,8 @@ export class SkyTextHighlightDirective
 
   #searchTerms: string[] = [];
 
-  #el: ElementRef;
-
-  #observerSvc: SkyMutationObserverService;
-
-  constructor(el: ElementRef, observerSvc: SkyMutationObserverService) {
-    this.#el = el;
-    this.#observerSvc = observerSvc;
-  }
+  #el = inject(ElementRef);
+  #observerSvc = inject(SkyMutationObserverService);
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.skyHighlight && !changes.skyHighlight.firstChange) {

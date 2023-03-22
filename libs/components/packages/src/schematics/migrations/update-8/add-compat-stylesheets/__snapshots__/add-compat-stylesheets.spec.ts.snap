@@ -1,0 +1,222 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Migrations > Add compat stylesheets should add a compat stylesheet for libraries in dependencies 1`] = `
+"/*******************************************************************************
+ * TODO: The following component libraries introduced visual breaking changes
+ * in SKY UX 8. Each block of CSS reintroduces the styles that were changed or
+ * removed for backwards compatibility. You will need to do the following
+ * before migrating to the next major version of SKY UX:
+ * - Address each of the changes by following the instructions
+ *   in each block of CSS, then remove the block.
+ * - Delete this file after all blocks have been addressed.
+ * - Remove each occurrence of this file in your project's
+ *   angular.json file.
+ *******************************************************************************/
+
+/*******************************************************************************
+ * COMPONENT: SELECTION BOX
+ *******************************************************************************/
+
+/*******************************************************************************
+ * The bottom margin for the \`sky-selection-box-grid\` has been changed to
+ * compensate for the spacing applied to its child \`sky-selection-box\`
+ * components. To address this, remove this block of CSS and address any
+ * spacing issues by adding the appropriate margin class to the selection box
+ * grid. See https://developer.blackbaud.com/skyux/design/styles/spacing for a
+ * list of supported spacing classes.
+ *******************************************************************************/
+
+:root {
+  --sky-compat-selection-box-grid-margin-bottom: 0;
+}
+
+/*******************************************************************************
+ * COMPONENT: ACTION BUTTON
+ *******************************************************************************/
+
+/*******************************************************************************
+ * The top and bottom margins have been removed from the
+ * \`sky-action-button-container\` component. To address this, remove this block
+ * of CSS and address any spacing issues by adding the appropriate margin
+ * class to the action button container. See
+ * https://developer.blackbaud.com/skyux/design/styles/spacing for a list of
+ * supported spacing classes.
+ *******************************************************************************/
+
+:root {
+  --sky-compat-action-button-flex-margin: 0;
+  --sky-compat-action-button-flex-sm-padding: 10px;
+}
+
+/*******************************************************************************
+ * COMPONENT: TEXT EXPAND REPEATER
+ *******************************************************************************/
+
+/*******************************************************************************
+ * The top margin has been removed from the \`sky-text-expand-repeater\`
+ * component. To address this, remove this block of CSS and address any
+ * spacing issues by adding the appropriate margin class to the element above
+ * each text expand repeater or padding class to each text expand repeater's
+ * parent element. See
+ * https://developer.blackbaud.com/skyux/design/styles/spacing for a list of
+ * supported spacing classes.
+ *******************************************************************************/
+
+:root {
+  --sky-compat-text-expand-repeater-margin-top: unset;
+}
+"
+`;
+
+exports[`Migrations > Add compat stylesheets should add a compat stylesheet for libraries in devDependencies 1`] = `
+"/*******************************************************************************
+ * TODO: The following component libraries introduced visual breaking changes
+ * in SKY UX 8. Each block of CSS reintroduces the styles that were changed or
+ * removed for backwards compatibility. You will need to do the following
+ * before migrating to the next major version of SKY UX:
+ * - Address each of the changes by following the instructions
+ *   in each block of CSS, then remove the block.
+ * - Delete this file after all blocks have been addressed.
+ * - Remove each occurrence of this file in your project's
+ *   angular.json file.
+ *******************************************************************************/
+
+/*******************************************************************************
+ * COMPONENT: ACTION BUTTON
+ *******************************************************************************/
+
+/*******************************************************************************
+ * The top and bottom margins have been removed from the
+ * \`sky-action-button-container\` component. To address this, remove this block
+ * of CSS and address any spacing issues by adding the appropriate margin
+ * class to the action button container. See
+ * https://developer.blackbaud.com/skyux/design/styles/spacing for a list of
+ * supported spacing classes.
+ *******************************************************************************/
+
+:root {
+  --sky-compat-action-button-flex-margin: 0;
+  --sky-compat-action-button-flex-sm-padding: 10px;
+}
+
+/*******************************************************************************
+ * COMPONENT: TEXT EXPAND REPEATER
+ *******************************************************************************/
+
+/*******************************************************************************
+ * The top margin has been removed from the \`sky-text-expand-repeater\`
+ * component. To address this, remove this block of CSS and address any
+ * spacing issues by adding the appropriate margin class to the element above
+ * each text expand repeater or padding class to each text expand repeater's
+ * parent element. See
+ * https://developer.blackbaud.com/skyux/design/styles/spacing for a list of
+ * supported spacing classes.
+ *******************************************************************************/
+
+:root {
+  --sky-compat-text-expand-repeater-margin-top: unset;
+}
+"
+`;
+
+exports[`Migrations > Add compat stylesheets should handle missing styles array 1`] = `
+"/*******************************************************************************
+ * TODO: The following component libraries introduced visual breaking changes
+ * in SKY UX 8. Each block of CSS reintroduces the styles that were changed or
+ * removed for backwards compatibility. You will need to do the following
+ * before migrating to the next major version of SKY UX:
+ * - Address each of the changes by following the instructions
+ *   in each block of CSS, then remove the block.
+ * - Delete this file after all blocks have been addressed.
+ * - Remove each occurrence of this file in your project's
+ *   angular.json file.
+ *******************************************************************************/
+
+/*******************************************************************************
+ * COMPONENT: ACTION BUTTON
+ *******************************************************************************/
+
+/*******************************************************************************
+ * The top and bottom margins have been removed from the
+ * \`sky-action-button-container\` component. To address this, remove this block
+ * of CSS and address any spacing issues by adding the appropriate margin
+ * class to the action button container. See
+ * https://developer.blackbaud.com/skyux/design/styles/spacing for a list of
+ * supported spacing classes.
+ *******************************************************************************/
+
+:root {
+  --sky-compat-action-button-flex-margin: 0;
+  --sky-compat-action-button-flex-sm-padding: 10px;
+}
+
+/*******************************************************************************
+ * COMPONENT: TEXT EXPAND REPEATER
+ *******************************************************************************/
+
+/*******************************************************************************
+ * The top margin has been removed from the \`sky-text-expand-repeater\`
+ * component. To address this, remove this block of CSS and address any
+ * spacing issues by adding the appropriate margin class to the element above
+ * each text expand repeater or padding class to each text expand repeater's
+ * parent element. See
+ * https://developer.blackbaud.com/skyux/design/styles/spacing for a list of
+ * supported spacing classes.
+ *******************************************************************************/
+
+:root {
+  --sky-compat-text-expand-repeater-margin-top: unset;
+}
+"
+`;
+
+exports[`Migrations > Add compat stylesheets should overwrite an existing compat stylesheet 1`] = `
+"/*******************************************************************************
+ * TODO: The following component libraries introduced visual breaking changes
+ * in SKY UX 8. Each block of CSS reintroduces the styles that were changed or
+ * removed for backwards compatibility. You will need to do the following
+ * before migrating to the next major version of SKY UX:
+ * - Address each of the changes by following the instructions
+ *   in each block of CSS, then remove the block.
+ * - Delete this file after all blocks have been addressed.
+ * - Remove each occurrence of this file in your project's
+ *   angular.json file.
+ *******************************************************************************/
+
+/*******************************************************************************
+ * COMPONENT: ACTION BUTTON
+ *******************************************************************************/
+
+/*******************************************************************************
+ * The top and bottom margins have been removed from the
+ * \`sky-action-button-container\` component. To address this, remove this block
+ * of CSS and address any spacing issues by adding the appropriate margin
+ * class to the action button container. See
+ * https://developer.blackbaud.com/skyux/design/styles/spacing for a list of
+ * supported spacing classes.
+ *******************************************************************************/
+
+:root {
+  --sky-compat-action-button-flex-margin: 0;
+  --sky-compat-action-button-flex-sm-padding: 10px;
+}
+
+/*******************************************************************************
+ * COMPONENT: TEXT EXPAND REPEATER
+ *******************************************************************************/
+
+/*******************************************************************************
+ * The top margin has been removed from the \`sky-text-expand-repeater\`
+ * component. To address this, remove this block of CSS and address any
+ * spacing issues by adding the appropriate margin class to the element above
+ * each text expand repeater or padding class to each text expand repeater's
+ * parent element. See
+ * https://developer.blackbaud.com/skyux/design/styles/spacing for a list of
+ * supported spacing classes.
+ *******************************************************************************/
+
+:root {
+  --sky-compat-text-expand-repeater-margin-top: unset;
+}
+"
+`;

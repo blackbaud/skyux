@@ -25,7 +25,6 @@
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
-        "main": "libs/components/ag-grid/src/test.ts",
         "tsConfig": "libs/components/ag-grid/tsconfig.spec.json",
         "karmaConfig": "libs/components/ag-grid/karma.conf.js",
         "styles": [
@@ -34,7 +33,12 @@
           "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss"
         ],
         "codeCoverage": true,
-        "codeCoverageExclude": ["**/fixtures/**"]
+        "codeCoverageExclude": ["**/fixtures/**"],
+        "polyfills": [
+          "zone.js",
+          "zone.js/testing",
+          "libs/components/packages/src/polyfills.js"
+        ]
       }
     },
     "lint": {

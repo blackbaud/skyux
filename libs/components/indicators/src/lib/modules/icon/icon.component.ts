@@ -30,13 +30,15 @@ export class SkyIconComponent {
 
   /**
    * The size of the icon using
-   * [Font Awesome sizes](https://fontawesome.com/how-to-use/on-the-web/styling/sizing-icons). Do not prefix the size with `fa-`.
+   * [Font Awesome sizes](https://fontawesome.com/v4/examples/). Do not prefix the size with `fa-`.
    */
   @Input()
   public size: string | undefined;
 
   /**
-   * Whether the icon has a fixed width.
+   * Whether to enforce a fixed width based on icon size. By default, icons of a specified size share a
+   * consistent height, but their widths vary and can throw off vertical alignment. Use a fixed width when
+   * you stack icons vertically, such as in lists.
    * @default false
    */
   @Input()

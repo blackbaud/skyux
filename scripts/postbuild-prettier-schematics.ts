@@ -8,6 +8,7 @@ async function copyFilesToDist() {
 
   const pathsToCopy = [
     join(projectRoot, 'collection.json'),
+    join(projectRoot, 'src/schematics/migrations/migration-collection.json'),
     join(projectRoot, 'src/schematics/ng-add/schema.json'),
   ];
 

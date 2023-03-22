@@ -6,8 +6,12 @@ import { SkyLogDeprecatedArgs } from './types/log-deprecation-args';
 import { SkyLogLevel } from './types/log-level';
 import { SKY_LOG_LEVEL } from './types/log-level-token';
 
+const previousWarnings = new Set<string>();
+
 /**
- * Logs information to the console based on the application's log level as provided by the `SKY_LOG_LEVEL` injection token. If no token is provided, only `error` logs will be shown.
+ * Logs information to the console based on the application's log level as
+ * provided by the `SKY_LOG_LEVEL` injection token. If no token is provided,
+ * only `error` logs will be shown.
  * @internal
  */
 @Injectable({
@@ -29,7 +33,17 @@ export class SkyLogService {
   }
 
   /**
-   * Logs a deprecation warning for a class, property, function, etc. This will be logged as a console warning unless a different log level is given in the the `args` parameter.
+   * Clears previously-logged messages. Primarily used for unit
+   * testing this service.
+   */
+  public static clearPreviousLogs(): void {
+    previousWarnings.clear();
+  }
+
+  /**
+   * Logs a deprecation warning for a class, property, function, etc. This will
+   * be logged as a console warning unless a different log level is given in the
+   * `args` parameter.
    * @param name The name of the deprecated class, property, function, etc.
    * @param args Information about the deprecation and replacement recommendations.
    * @returns
@@ -42,10 +56,10 @@ export class SkyLogService {
     name = this.#convertStringToCode(name);
 
     if (this.#canLog(logLevel)) {
-      const localizedStrings = [];
+      const messageParts = [];
 
       if (args?.deprecationMajorVersion) {
-        localizedStrings.push(
+        messageParts.push(
           this.#formatter.formatText(
             '{0} is deprecated starting in SKY UX {1}.',
             name,
@@ -53,28 +67,28 @@ export class SkyLogService {
           )
         );
       } else {
-        localizedStrings.push(
+        messageParts.push(
           this.#formatter.formatText('{0} is deprecated.', name)
         );
       }
 
       if (args?.removalMajorVersion) {
-        localizedStrings.push(
+        messageParts.push(
           this.#formatter.formatText(
             'We will remove it in version {0}.',
             args.removalMajorVersion.toLocaleString()
           )
         );
       } else {
-        localizedStrings.push('We will remove it in a future major version.');
+        messageParts.push('We will remove it in a future major version.');
       }
 
       if (args?.replacementRecommendation) {
-        localizedStrings.push(args.replacementRecommendation);
+        messageParts.push(args.replacementRecommendation);
       }
 
       if (args?.moreInfoUrl) {
-        localizedStrings.push(
+        messageParts.push(
           this.#formatter.formatText(
             'For more information, see {0}.',
             args.moreInfoUrl
@@ -82,7 +96,7 @@ export class SkyLogService {
         );
       }
 
-      this.#logBasedOnLevel(logLevel, localizedStrings.join(' '));
+      this.#logBasedOnLevel(logLevel, messageParts.join(' '));
     }
     return Promise.resolve();
   }
@@ -94,11 +108,7 @@ export class SkyLogService {
    */
   public error(message: string, params?: unknown[]): void {
     if (this.#canLog(SkyLogLevel.Error)) {
-      if (params) {
-        console.error(message, ...params);
-      } else {
-        console.error(message);
-      }
+      this.#logWithParams('error', message, params);
     }
   }
 
@@ -109,11 +119,7 @@ export class SkyLogService {
    */
   public info(message: string, params?: unknown[]): void {
     if (this.#canLog(SkyLogLevel.Info)) {
-      if (params) {
-        console.log(message, ...params);
-      } else {
-        console.log(message);
-      }
+      this.#logWithParams('log', message, params);
     }
   }
 
@@ -124,10 +130,13 @@ export class SkyLogService {
    */
   public warn(message: string, params?: unknown[]): void {
     if (this.#canLog(SkyLogLevel.Warn)) {
-      if (params) {
-        console.warn(message, ...params);
-      } else {
-        console.warn(message);
+      const messageKey = this.#buildMessageKey(message, params);
+
+      // Only log each warning once per application instance to avoid drowning out other
+      // important messages in the console.
+      if (!previousWarnings.has(message)) {
+        this.#logWithParams('warn', message, params);
+        previousWarnings.add(messageKey);
       }
     }
   }
@@ -159,5 +168,27 @@ export class SkyLogService {
         this.error(message, params);
         break;
     }
+  }
+
+  #logWithParams(
+    logMethod: 'log' | 'warn' | 'error',
+    message: string,
+    params: unknown[] | undefined
+  ): void {
+    if (params) {
+      console[logMethod](message, ...params);
+    } else {
+      console[logMethod](message);
+    }
+  }
+
+  #buildMessageKey(message: string, params?: unknown[]): string {
+    let key = message;
+
+    if (params?.length) {
+      key = `${key} ${params.join(' ')}`;
+    }
+
+    return key;
   }
 }

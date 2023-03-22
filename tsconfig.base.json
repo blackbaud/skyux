@@ -9,14 +9,17 @@
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
+    "noImplicitOverride": true,
     "noUnusedLocals": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "target": "ES2020",
-    "module": "es2020",
-    "lib": ["es2020", "dom"],
+    "target": "ES2022",
+    "module": "ES2022",
+    "lib": ["es2022", "dom"],
+    "useDefineForClassFields": false,
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
+    "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
       "@skyux-sdk/e2e-schematics": ["libs/sdk/e2e-schematics/src/index.ts"],
@@ -139,9 +142,7 @@
         "libs/components/toast/testing/src/public-api.ts"
       ],
       "@skyux/validation": ["libs/components/validation/src/index.ts"]
-    },
-    "resolveJsonModule": true,
-    "esModuleInterop": true
+    }
   },
   "angularCompilerOptions": {
     "strictTemplates": true,
