@@ -38,7 +38,11 @@
 
     .ag-popup {
       .ag-popup-editor {
-        background-color: var(--ag-background-color);
+        background-color: transparent;
+
+        .sky-input-box {
+          --sky-background-color-input-box-group: var(--ag-background-color);
+        }
       }
 
       .ag-select-list {
