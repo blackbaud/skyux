@@ -126,7 +126,6 @@
         box-shadow: none;
         outline-offset: -2px;
         outline: var(--ag-range-selection-border-color) solid 2px;
-        background: transparent;
         min-height: var(--ag-row-height);
       }
     }
@@ -237,17 +236,6 @@ sky-ag-grid-wrapper.sky-ag-grid-layout-normal {
     ag-grid-angular {
       width: 100%;
       height: 100%;
-    }
-  }
-}
-
-.ag-theme-sky-modern-light,
-.ag-theme-sky-modern-dark {
-  .ag-popup-editor {
-    .sky-input-box {
-      --sky-background-color-input-box-group: var(
-        --sky-background-color-page-default
-      );
     }
   }
 }
