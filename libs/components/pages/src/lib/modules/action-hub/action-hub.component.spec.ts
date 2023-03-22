@@ -231,7 +231,7 @@ describe('Action hub component', () => {
       fixture.componentInstance.relatedLinks.next([]);
       fixture.componentInstance.recentLinks.next([
         {
-          label: 'Recent Link',
+          label: 'Recent link',
           permalink: {
             url: '#',
           },
@@ -244,9 +244,9 @@ describe('Action hub component', () => {
         0
       );
       const recent1 = fixture.nativeElement.querySelector(
-        'sky-link-list[ng-reflect-title="Recently Accessed"] a'
+        'sky-link-list[ng-reflect-title="Recently accessed"] a'
       );
-      expect(recent1).toHaveText('Recent Link');
+      expect(recent1).toHaveText('Recent link');
     }));
 
     it('should show empty needs attention language', fakeAsync(() => {

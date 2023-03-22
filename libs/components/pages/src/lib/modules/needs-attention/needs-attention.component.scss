@@ -27,11 +27,11 @@ ul {
   grid-template-areas: 'action icon';
 
   &:not(:first-child) {
-    padding-top: var(--sky-padding-even-xl);
+    padding-top: var(--sky-margin-stacked-lg);
   }
 
   &:not(:last-child) {
-    padding-bottom: var(--sky-padding-even-xl);
+    padding-bottom: var(--sky-margin-stacked-lg);
   }
 }
 
