@@ -3,13 +3,12 @@
 
 .ag-theme-sky-modern-light {
   ag-grid-angular:not(.sky-ag-grid-editable) {
-    --ag-header-column-separator-color: transparent;
-    --ag-header-column-resize-handle-color: transparent;
-    --ag-header-background-color: transparent;
-    --ag-background-color: transparent;
-    --ag-odd-row-background-color: transparent;
+    --ag-header-column-separator-color: var(--ag-background-color);
+    --ag-header-column-resize-handle-color: var(--ag-background-color);
+    --ag-header-background-color: var(--ag-background-color);
+    --ag-odd-row-background-color: var(--ag-background-color);
 
-    border-top: 1px solid transparent;
+    border-top: 2px solid transparent;
 
     .ag-row-hover::before {
       background-color: transparent;

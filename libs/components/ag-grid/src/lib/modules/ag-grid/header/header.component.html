@@ -39,11 +39,13 @@
         <sky-icon
           *ngIf="(sortOrder$ | async) === 'desc'"
           icon="chevron-down"
+          iconType="skyux"
           class="ag-header-label-icon"
         ></sky-icon>
         <sky-icon
           *ngIf="(sortOrder$ | async) === 'asc'"
           icon="chevron-up"
+          iconType="skyux"
           class="ag-header-label-icon"
         ></sky-icon>
       </ng-container>
