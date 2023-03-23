@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { SkyIdModule } from '@skyux/core';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyHelpInlineModule } from '@skyux/indicators';
-import { SkyLookupModule } from '@skyux/lookup';
+import { SkyAutocompleteModule, SkyLookupModule } from '@skyux/lookup';
 import { SkyModalModule } from '@skyux/modals';
 import { SkyTilesModule } from '@skyux/tiles';
 
@@ -36,6 +37,8 @@ import { ModalVisualComponent } from './modal-visual.component';
   imports: [
     CommonModule,
     FormsModule,
+    SkyAutocompleteModule,
+    SkyIdModule,
     SkyInputBoxModule,
     SkyTilesModule,
     SkyModalModule,
