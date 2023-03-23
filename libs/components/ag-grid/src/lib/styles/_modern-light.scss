@@ -3,6 +3,14 @@
 
 .ag-theme-sky-modern-light {
   ag-grid-angular:not(.sky-ag-grid-editable) {
+    --ag-header-column-separator-color: transparent;
+    --ag-header-column-resize-handle-color: transparent;
+    --ag-header-background-color: transparent;
+    --ag-background-color: transparent;
+    --ag-odd-row-background-color: transparent;
+
+    border-top: 1px solid transparent;
+
     .ag-row-hover::before {
       background-color: transparent;
     }
@@ -20,12 +28,29 @@
       sky-ag-grid-variables.$sky-cell-wrap-text-line-height-modern
     );
 
+    .ag-root-wrapper {
+      border: none;
+    }
+
+    .ag-cell {
+      border-block-end: none;
+      border-block-start: none;
+    }
+
     .ag-cell.sky-ag-grid-cell-invalid {
       border: 1px solid var(--sky-highlight-color-danger);
     }
 
     .ag-row:not(.ag-row-first) {
       border-top: none;
+    }
+
+    .ag-row {
+      border-bottom-style: dotted;
+
+      + .ag-row-last {
+        border-bottom-style: dotted;
+      }
     }
   }
 

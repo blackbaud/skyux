@@ -23,16 +23,30 @@
       ></sky-icon>
     </span>
     <span *ngIf="params?.enableSorting" class="ag-sort-indicator-container">
-      <sky-icon
-        *ngIf="(sortOrder$ | async) === 'desc'"
-        icon="caret-down"
-        class="ag-header-label-icon"
-      ></sky-icon>
-      <sky-icon
-        *ngIf="(sortOrder$ | async) === 'asc'"
-        icon="caret-up"
-        class="ag-header-label-icon"
-      ></sky-icon>
+      <ng-container *skyThemeIf="'default'">
+        <sky-icon
+          *ngIf="(sortOrder$ | async) === 'desc'"
+          icon="caret-down"
+          class="ag-header-label-icon"
+        ></sky-icon>
+        <sky-icon
+          *ngIf="(sortOrder$ | async) === 'asc'"
+          icon="caret-up"
+          class="ag-header-label-icon"
+        ></sky-icon>
+      </ng-container>
+      <ng-container *skyThemeIf="'modern'">
+        <sky-icon
+          *ngIf="(sortOrder$ | async) === 'desc'"
+          icon="chevron-down"
+          class="ag-header-label-icon"
+        ></sky-icon>
+        <sky-icon
+          *ngIf="(sortOrder$ | async) === 'asc'"
+          icon="chevron-up"
+          class="ag-header-label-icon"
+        ></sky-icon>
+      </ng-container>
       <span
         *ngIf="sortIndexDisplay$ | async as sortIndexDisplay"
         class="ag-sort-indicator-icon ag-sort-order"
