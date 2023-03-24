@@ -3,10 +3,15 @@
 
 .ag-theme-sky-modern-dark {
   ag-grid-angular:not(.sky-ag-grid-editable) {
-    --ag-header-column-separator-color: var(--ag-background-color);
-    --ag-header-column-resize-handle-color: var(--ag-background-color);
-    --ag-header-background-color: var(--ag-background-color);
-    --ag-odd-row-background-color: var(--ag-background-color);
+    --ag-header-column-separator-color: var(
+      --sky-background-color-page-default
+    );
+    --ag-header-column-resize-handle-color: var(
+      --sky-background-color-page-default
+    );
+    --ag-header-background-color: var(--sky-background-color-page-default);
+    --ag-odd-row-background-color: var(--sky-background-color-page-default);
+    --ag-background-color: var(--sky-background-color-page-default);
 
     border-top: 2px solid transparent;
 
@@ -44,6 +49,7 @@
       border-top: none;
     }
 
+    .ag-header,
     .ag-row {
       border-bottom-style: dotted;
 
