@@ -59,6 +59,24 @@
       <label class="sky-control-label"> Field label </label>
       <input class="sky-form-control" type="text" value="Text value" />
     </sky-input-box>
+    <sky-autocomplete
+      [data]="data"
+      [enableShowMore]="true"
+      [showAddButton]="true"
+    >
+      <sky-input-box>
+        <label class="sky-control-label" [for]="favoriteColor.id">
+          Favorite color
+        </label>
+        <input
+          class="sky-form-control"
+          skyAutocomplete
+          skyId
+          type="text"
+          #favoriteColor="skyId"
+        />
+      </sky-input-box>
+    </sky-autocomplete>
     <sky-input-box>
       <label class="sky-control-label"> Field label </label>
       <input class="sky-form-control" type="text" value="Text value" />
