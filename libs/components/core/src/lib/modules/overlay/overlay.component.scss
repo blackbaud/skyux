@@ -1,5 +1,4 @@
 .sky-overlay {
-  position: fixed;
   top: 0;
   right: 0;
   left: 0;
@@ -8,6 +7,16 @@
   height: 100%;
   display: flex;
   pointer-events: auto;
+
+  &-position {
+    &-absolute {
+      position: absolute;
+    }
+
+    &-fixed {
+      position: fixed;
+    }
+  }
 }
 
 .sky-overlay-content {
