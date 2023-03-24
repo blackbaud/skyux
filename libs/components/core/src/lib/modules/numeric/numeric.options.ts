@@ -1,5 +1,4 @@
-import { Optional } from '@angular/core';
-
+import { SkyAppFormat } from '../format/app-format';
 import { SkyLogService } from '../log/log.service';
 
 /**
@@ -72,12 +71,15 @@ export class NumericOptions implements SkyNumericOptions {
 
   public truncateAfter?: number = 1000;
 
-  constructor(@Optional() logService?: SkyLogService) {
-    logService?.deprecated('NumericOptions', {
-      deprecationMajorVersion: 7,
-      moreInfoUrl: 'https://developer.blackbaud.com/skyux/components/numeric',
-      replacementRecommendation:
-        'Use the `SkyNumericOptions` interface instead.',
-    });
+  constructor() {
+    const logService = new SkyLogService(new SkyAppFormat());
+    logService
+      .deprecated('NumericOptions', {
+        deprecationMajorVersion: 7,
+        moreInfoUrl: 'https://developer.blackbaud.com/skyux/components/numeric',
+        replacementRecommendation:
+          'Use the `SkyNumericOptions` interface instead.',
+      })
+      .then();
   }
 }
