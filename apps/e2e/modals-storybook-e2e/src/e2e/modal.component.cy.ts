@@ -3,51 +3,36 @@ import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 describe('modals-storybook', () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {
-      describe(`basic modal`, () => {
-        beforeEach(() =>
-          cy.visit(
-            `/iframe.html?globals=theme:${theme}&id=modalcomponent-modal--modal`
-          )
-        );
-        it('should render the component', () => {
-          cy.get('app-modal')
-            .should('exist')
-            .should('be.visible')
-            .get('.open-modal-btn')
-            .should('exist')
-            .should('be.visible')
-            .click()
-            .get('.sky-modal')
-            .should('exist')
-            .should('be.visible')
-            .screenshot(`modalcomponent-modal--modal-${theme}`)
-            .percySnapshot(`modalcomponent-modal--modal-${theme}`, {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-            });
-        });
-      });
-      describe(`full page modal`, () => {
-        beforeEach(() =>
-          cy.visit(
-            `/iframe.html?globals=theme:${theme}&id=modalcomponent-modal--full-page-modal`
-          )
-        );
-        it('should render the component', () => {
-          cy.get('app-modal')
-            .should('exist')
-            .should('be.visible')
-            .get('.open-modal-btn')
+      beforeEach(() =>
+        cy.visit(
+          `/iframe.html?globals=theme:${theme}&id=modalcomponent-modal--modal`
+        )
+      );
+      it('should render the component', () => {
+        cy.get('app-modal').should('exist').should('be.visible');
+        for (const x of [
+          'small',
+          'medium',
+          'large',
+          'full-page',
+          'help-inline',
+        ]) {
+          cy.get(`.open-${x}-modal-btn`)
             .should('exist')
             .should('be.visible')
             .click()
             .get('.sky-modal')
             .should('exist')
             .should('be.visible')
-            .screenshot(`modalcomponent-modal--full-page-modal-${theme}`)
-            .percySnapshot(`modalcomponent-modal--full-page-modal-${theme}`, {
+            .screenshot(`modalcomponent-modal--${x}-modal-${theme}`)
+            .percySnapshot(`modalcomponent-modal--${x}-modal-${theme}`, {
               widths: E2eVariations.DISPLAY_WIDTHS,
-            });
-        });
+            })
+            .get('.sky-btn-close')
+            .should('exist')
+            .should('be.visible')
+            .click();
+        }
       });
     });
   });

@@ -19,5 +19,5 @@ const Template: Story<ModalComponent> = (args: ModalComponent) => ({
 export const Modal = Template.bind({});
 Modal.args = {};
 
-export const FullPageModal = Template.bind({});
-FullPageModal.args = { fullPage: true };
+// export const InlineHelpModal = Template.bind({});
+// InlineHelpModal.args = { showInlineHelp: true };
