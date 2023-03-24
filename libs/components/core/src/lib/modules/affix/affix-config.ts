@@ -48,7 +48,7 @@ export interface SkyAffixConfig {
   verticalAlignment?: SkyAffixVerticalAlignment;
 
   /**
-   * The position of the element being fixed.
+   * The position of the element being affixed.
    */
   position?: SkyAffixPosition;
 }
