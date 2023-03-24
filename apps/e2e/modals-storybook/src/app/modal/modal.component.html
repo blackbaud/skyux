@@ -1,11 +1,5 @@
 <button
-  class="sky-btn sky-btn-default open-modal-btn"
-  type="button"
-  (click)="onOpenModalClick()"
->
-  Open modal
-</button>
-<button
+  [ngClass]="buttonsHidden ? 'modal-screenshot-buttons-hidden' : ''"
   class="sky-btn sky-btn-default open-small-modal-btn"
   type="button"
   (click)="onOpenSmallModalClick()"
@@ -13,6 +7,7 @@
   Open small modal
 </button>
 <button
+  [ngClass]="buttonsHidden ? 'modal-screenshot-buttons-hidden' : ''"
   class="sky-btn sky-btn-default open-medium-modal-btn"
   type="button"
   (click)="onOpenMediumModalClick()"
@@ -20,6 +15,7 @@
   Open medium modal
 </button>
 <button
+  [ngClass]="buttonsHidden ? 'modal-screenshot-buttons-hidden' : ''"
   class="sky-btn sky-btn-default open-large-modal-btn"
   type="button"
   (click)="onOpenLargeModalClick()"
@@ -27,6 +23,7 @@
   Open large modal
 </button>
 <button
+  [ngClass]="buttonsHidden ? 'modal-screenshot-buttons-hidden' : ''"
   class="sky-btn sky-btn-default open-full-page-modal-btn"
   type="button"
   (click)="onOpenFullPageModalClick()"
@@ -34,6 +31,7 @@
   Open full page modal
 </button>
 <button
+  [ngClass]="buttonsHidden ? 'modal-screenshot-buttons-hidden' : ''"
   class="sky-btn sky-btn-default open-help-inline-modal-btn"
   type="button"
   (click)="onOpenHelpInlineModalClick()"
