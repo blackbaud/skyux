@@ -34,6 +34,34 @@ describe('modals-storybook', () => {
             .click();
         }
       });
+
+      it('should render the component in mobile', () => {
+        cy.viewport('iphone-x', 'portrait');
+        cy.get('app-modal').should('exist').should('be.visible');
+        for (const x of [
+          'small',
+          'medium',
+          'large',
+          'full-page',
+          'help-inline',
+        ]) {
+          cy.get(`.open-${x}-modal-btn`)
+            .should('exist')
+            .should('be.visible')
+            .click()
+            .get('.sky-modal')
+            .should('exist')
+            .should('be.visible')
+            .screenshot(`modalcomponent-modal--${x}-modal-${theme}-mobile`)
+            .percySnapshot(`modalcomponent-modal--${x}-modal-${theme}-mobile`, {
+              widths: E2eVariations.MOBILE_WIDTHS,
+            })
+            .get('.sky-btn-close')
+            .should('exist')
+            .should('be.visible')
+            .click();
+        }
+      });
     });
   });
 });
