@@ -8,6 +8,7 @@ import { SkyAffixOffset } from './affix-offset';
 import { SkyAffixOffsetChange } from './affix-offset-change';
 import { SkyAffixPlacement } from './affix-placement';
 import { SkyAffixPlacementChange } from './affix-placement-change';
+import { AffixRect } from './affix-rect';
 import { getInversePlacement, getNextPlacement } from './affix-utils';
 import {
   getElementOffset,
@@ -193,12 +194,24 @@ export class SkyAffixer {
     let offset: Required<SkyAffixOffset>;
     let placement = this.#config.placement;
 
+    const autoFitOverflowOffset = this.#config.autoFitOverflowOffset || {
+      bottom: 0,
+      left: 0,
+      right: 0,
+      top: 0,
+    };
+
+    if (this.#config.position === 'absolute') {
+      autoFitOverflowOffset.top =
+        (autoFitOverflowOffset.top || 0) + window.scrollY;
+    }
+
     do {
       offset = this.#getPreferredOffset(placement);
       isAffixedElementFullyVisible = isOffsetFullyVisibleWithinParent(
         parent,
         offset,
-        this.#config.autoFitOverflowOffset
+        autoFitOverflowOffset
       );
 
       if (!this.#config.enableAutoFit) {
@@ -233,13 +246,33 @@ export class SkyAffixer {
     return this.#getPreferredOffset(this.#config.placement);
   }
 
+  #getRect(baseElement: HTMLElement): AffixRect {
+    const baseDomRect = baseElement.getBoundingClientRect();
+
+    const baseRect: AffixRect = {
+      top: baseDomRect.top,
+      bottom: baseDomRect.bottom,
+      left: baseDomRect.left,
+      right: baseDomRect.right,
+      width: baseDomRect.width,
+      height: baseDomRect.height,
+    };
+
+    if (this.#config.position === 'absolute') {
+      baseRect.top += window.scrollY;
+      baseRect.bottom = baseRect.top + baseDomRect.height;
+    }
+
+    return baseRect;
+  }
+
   #getPreferredOffset(placement: SkyAffixPlacement): Required<SkyAffixOffset> {
     if (!this.#baseElement) {
       return { top: 0, left: 0, bottom: 0, right: 0 };
     }
 
-    const affixedRect = this.#affixedElement.getBoundingClientRect();
-    const baseRect = this.#baseElement.getBoundingClientRect();
+    const affixedRect = this.#getRect(this.#affixedElement);
+    const baseRect = this.#getRect(this.#baseElement);
 
     const horizontalAlignment = this.#config.horizontalAlignment;
     const verticalAlignment = this.#config.verticalAlignment;
@@ -349,8 +382,8 @@ export class SkyAffixer {
       this.#config.autoFitOverflowOffset
     );
 
-    const affixedRect = this.#affixedElement.getBoundingClientRect();
-    const baseRect = baseElement.getBoundingClientRect();
+    const affixedRect = this.#getRect(this.#affixedElement);
+    const baseRect = this.#getRect(baseElement);
 
     // A pixel value representing the leeway between the edge of the overflow parent and the edge
     // of the base element before it disappears from view.

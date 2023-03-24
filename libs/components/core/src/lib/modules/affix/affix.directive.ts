@@ -19,6 +19,7 @@ import { SkyAffixOffset } from './affix-offset';
 import { SkyAffixOffsetChange } from './affix-offset-change';
 import { SkyAffixPlacement } from './affix-placement';
 import { SkyAffixPlacementChange } from './affix-placement-change';
+import { SkyAffixPosition } from './affix-position';
 import { SkyAffixVerticalAlignment } from './affix-vertical-alignment';
 import { SkyAffixService } from './affix.service';
 import { SkyAffixer } from './affixer';
@@ -71,6 +72,12 @@ export class SkyAffixDirective implements OnInit, OnChanges, OnDestroy {
    */
   @Input()
   public affixPlacement: SkyAffixPlacement | undefined;
+
+  /**
+   * Sets the `position` property of [[SkyAffixConfig]].
+   */
+  @Input()
+  public affixPosition: SkyAffixPosition | undefined;
 
   /**
    * Sets the `verticalAlignment` property of [[SkyAffixConfig]].
@@ -136,6 +143,7 @@ export class SkyAffixDirective implements OnInit, OnChanges, OnDestroy {
       changes.affixHorizontalAlignment ||
       changes.affixIsSticky ||
       changes.affixPlacement ||
+      changes.affixPosition ||
       changes.affixVerticalAlignment
     ) {
       this.#updateAlignment();
@@ -165,6 +173,7 @@ export class SkyAffixDirective implements OnInit, OnChanges, OnDestroy {
         horizontalAlignment: this.affixHorizontalAlignment,
         isSticky: this.affixIsSticky,
         placement: this.affixPlacement,
+        position: this.affixPosition,
         verticalAlignment: this.affixVerticalAlignment,
       });
     }
