@@ -1,5 +1,19 @@
 # Changelog
 
+## [7.13.0](https://github.com/blackbaud/skyux/compare/7.12.0...7.13.0) (2023-03-24)
+
+
+### Features
+
+* **components/indicators:** help inline visual test ([#1160](https://github.com/blackbaud/skyux/issues/1160)) ([915e696](https://github.com/blackbaud/skyux/commit/915e69652ec906c494cac5da2a47da7baaada709))
+* **components/indicators:** icon visual test ([#1168](https://github.com/blackbaud/skyux/issues/1168)) ([00c8215](https://github.com/blackbaud/skyux/commit/00c8215c21ca11109c7abb200e088b4fec9044f6))
+
+
+### Bug Fixes
+
+* **components/indicators:** fix `SkyWaitHarnessFilters` docs reference to `SkyWaitHarness` which incorrectly referenced `SkyAlertHarness` ([#1171](https://github.com/blackbaud/skyux/issues/1171)) ([0dadf18](https://github.com/blackbaud/skyux/commit/0dadf182e8a7771f34411da0f3f026727cfa98fe))
+* **components/lookup:** use `position: absolute` for autocomplete dropdown ([#1176](https://github.com/blackbaud/skyux/issues/1176)) ([2540096](https://github.com/blackbaud/skyux/commit/2540096fe165a292ccab7f71fd426eb7e60fa601))
+
 ## [7.12.0](https://github.com/blackbaud/skyux/compare/7.11.1...7.12.0) (2023-03-17)
 
 
