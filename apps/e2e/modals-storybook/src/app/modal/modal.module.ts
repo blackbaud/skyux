@@ -4,11 +4,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { SkyModalModule } from '@skyux/modals';
 
 import { ModalComponent } from './modal.component';
-import { ModalModalComponent } from './modal/modal-modal.component';
+import { ModalBasicComponent } from './modals/modal-basic.component';
 
 const routes: Routes = [{ path: '', component: ModalComponent }];
 @NgModule({
-  declarations: [ModalComponent, ModalModalComponent],
+  declarations: [ModalComponent, ModalBasicComponent],
   imports: [CommonModule, RouterModule.forChild(routes), SkyModalModule],
   exports: [ModalComponent],
 })

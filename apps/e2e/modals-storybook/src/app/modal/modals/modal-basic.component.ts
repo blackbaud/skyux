@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-modal',
-  templateUrl: './modal-modal.component.html',
+  templateUrl: './modal-basic.component.html',
 })
-export class ModalModalComponent {
+export class ModalBasicComponent {
   public showHelp = false;
   public title = 'Hello world';
 }

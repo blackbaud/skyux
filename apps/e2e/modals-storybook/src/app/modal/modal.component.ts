@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { SkyModalService } from '@skyux/modals';
 
-import { ModalModalComponent } from './modal/modal-modal.component';
+import { ModalBasicComponent } from './modals/modal-basic.component';
 
 @Component({
   selector: 'app-modal',
@@ -9,9 +9,15 @@ import { ModalModalComponent } from './modal/modal-modal.component';
   styleUrls: ['./modal.component.scss'],
 })
 export class ModalComponent {
+  @Input()
+  public fullPage = false;
+
   constructor(private modal: SkyModalService) {}
 
   public onOpenModalClick(): void {
-    this.modal.open(ModalModalComponent, { providers: [] });
+    this.modal.open(ModalBasicComponent, {
+      providers: [],
+      fullPage: this.fullPage,
+    });
   }
 }

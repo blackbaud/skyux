@@ -18,3 +18,6 @@ const Template: Story<ModalComponent> = (args: ModalComponent) => ({
 });
 export const Modal = Template.bind({});
 Modal.args = {};
+
+export const FullPageModal = Template.bind({});
+FullPageModal.args = { fullPage: true };
