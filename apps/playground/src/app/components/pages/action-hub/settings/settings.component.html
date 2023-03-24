@@ -5,8 +5,23 @@
   [needsAttention]="needsAttention"
 >
   <sky-action-hub-content>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl
-    eget consectetur sagittis, nisl nunc consectetur nisi, euismod consectetur
-    nisi nisl eget nisi.
+    <sky-box class="sky-margin-stacked-xl">
+      <sky-box-content>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod,
+        nisl eget consectetur sagittis, nisl nunc consectetur nisi, euismod
+        consectetur nisi nisl eget nisi.
+      </sky-box-content>
+    </sky-box>
+    <sky-box class="sky-margin-stacked-xl">
+      <sky-box-content>
+        <button
+          class="sky-btn sky-btn-primary"
+          type="button"
+          (click)="toggleLoading()"
+        >
+          Toggle loading
+        </button>
+      </sky-box-content>
+    </sky-box>
   </sky-action-hub-content>
 </sky-action-hub>

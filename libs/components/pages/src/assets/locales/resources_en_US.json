@@ -1,11 +1,11 @@
 {
   "sky_action_hub_related_links": {
     "_description": "Heading for related links",
-    "message": "Related Links"
+    "message": "Related links"
   },
   "sky_action_hub_recent_links": {
     "_description": "Heading for recently accessed links",
-    "message": "Recently Accessed"
+    "message": "Recently accessed"
   },
   "sky_action_hub_settings_links": {
     "_description": "Heading for settings links",
@@ -13,7 +13,7 @@
   },
   "sky_action_hub_needs_attention": {
     "_description": "Heading for needs attention items",
-    "message": "Needs Attention"
+    "message": "Needs attention"
   },
   "sky_action_hub_needs_attention_empty": {
     "_description": "Display when the needs attention list is empty",
