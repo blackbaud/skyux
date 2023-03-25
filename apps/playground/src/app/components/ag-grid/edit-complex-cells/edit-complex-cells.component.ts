@@ -97,6 +97,8 @@ export class EditComplexCellsComponent implements OnInit {
         headerComponentParams: {
           inlineHelpComponent: InlineHelpComponent,
         },
+        sortable: false,
+        filter: true,
       },
       {
         colId: 'language',
@@ -111,6 +113,8 @@ export class EditComplexCellsComponent implements OnInit {
         headerComponentParams: {
           inlineHelpComponent: InlineHelpComponent,
         },
+        sortable: false,
+        filter: true,
       },
       {
         colId: 'validationAutocomplete',
@@ -130,6 +134,9 @@ export class EditComplexCellsComponent implements OnInit {
             validatorMessage: 'Please choose an odd number option',
           },
         },
+        headerComponentParams: {
+          inlineHelpComponent: InlineHelpComponent,
+        },
         sortable: true,
         filter: true,
       },
@@ -140,6 +147,9 @@ export class EditComplexCellsComponent implements OnInit {
         maxWidth: 235,
         editable: this.editMode,
         type: [SkyCellType.CurrencyValidator],
+        headerComponentParams: {
+          inlineHelpComponent: InlineHelpComponent,
+        },
         sortable: true,
       },
       {
@@ -156,7 +166,10 @@ export class EditComplexCellsComponent implements OnInit {
             validatorMessage: 'Please enter a future date',
           },
         },
-        sortable: true,
+        headerComponentParams: {
+          inlineHelpComponent: InlineHelpComponent,
+        },
+        sortable: false,
       },
       {
         colId: 'lookupSingle',

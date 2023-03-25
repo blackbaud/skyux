@@ -1,5 +1,8 @@
 :host {
   display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  width: 100%;
   max-width: 100%;
   height: 100%;
   align-items: center;
@@ -13,15 +16,36 @@ button.ag-header-cell-label {
 
 .ag-cell-label-container {
   padding: 0;
+  gap: var(--sky-margin-inline-xs);
 }
 
 .ag-header-cell-label {
   padding-right: 0;
   padding-left: 0;
+  gap: var(--sky-margin-inline-xs);
+
+  .ag-header-cell-label-help {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    overflow: hidden;
+    gap: 0;
+
+    .ag-header-cell-text {
+      flex-grow: 0;
+      flex-shrink: 1;
+    }
+
+    .sky-control-help-container {
+      flex-grow: 0;
+      flex-shrink: 0;
+    }
+  }
 }
 
 button {
   cursor: pointer;
   flex-grow: 0;
-  flex-shrink: 0;
+  flex-shrink: 1;
+  text-transform: inherit;
 }

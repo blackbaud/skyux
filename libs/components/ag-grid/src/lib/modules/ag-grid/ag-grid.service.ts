@@ -416,13 +416,13 @@ export class SkyAgGridService implements OnDestroy {
       },
       headerHeight: this.getHeaderHeight(),
       icons: {
-        sortDescending: this.#getIconTemplate('caret-down'),
-        sortAscending: this.#getIconTemplate('caret-up'),
-        columnMoveMove: this.#getIconTemplate('arrows'),
-        columnMoveHide: this.#getIconTemplate('arrows'),
-        columnMoveLeft: this.#getIconTemplate('arrows'),
-        columnMoveRight: this.#getIconTemplate('arrows'),
-        columnMovePin: this.#getIconTemplate('arrows'),
+        sortDescending: this.#getIconTemplate('sortDescending'),
+        sortAscending: this.#getIconTemplate('sortAscending'),
+        columnMoveMove: this.#getIconTemplate('columnMoveMove'),
+        columnMoveHide: this.#getIconTemplate('columnMoveHide'),
+        columnMoveLeft: this.#getIconTemplate('columnMoveLeft'),
+        columnMoveRight: this.#getIconTemplate('columnMoveRight'),
+        columnMovePin: this.#getIconTemplate('columnMovePin'),
       },
       onCellFocused: () => this.#onCellFocused(),
       rowHeight: this.#getRowHeight(),
@@ -529,8 +529,78 @@ export class SkyAgGridService implements OnDestroy {
     return '';
   }
 
-  #getIconTemplate(iconName: string): string {
-    return `<i class="fa fa-${iconName}"></i>`;
+  #getIconTemplate(iconName: string): () => string {
+    const iconMap: Record<
+      string,
+      {
+        faIcon: string;
+        skyIcon?: string;
+      }
+    > = {
+      sortDescending: {
+        faIcon: 'caret-down',
+        skyIcon: 'chevron-down',
+      },
+      sortAscending: {
+        faIcon: 'caret-up',
+        skyIcon: 'chevron-up',
+      },
+      columnMoveMove: {
+        faIcon: 'arrows',
+      },
+      columnMoveHide: {
+        faIcon: 'eye-slash',
+        skyIcon: 'hide',
+      },
+      columnMoveLeft: {
+        faIcon: 'arrows',
+      },
+      columnMoveRight: {
+        faIcon: 'arrows',
+      },
+      columnMoveGroup: {
+        faIcon: 'arrows',
+      },
+      columnMovePin: {
+        faIcon: 'arrows',
+      },
+      columnGroupOpened: {
+        faIcon: 'caret-right',
+        skyIcon: 'double-chevron-right',
+      },
+      columnGroupClosed: {
+        faIcon: 'caret-left',
+        skyIcon: 'double-chevron-left',
+      },
+      dropNotAllowed: {
+        faIcon: 'ban',
+        skyIcon: 'ban',
+      },
+      menu: {
+        faIcon: 'menu',
+        skyIcon: 'bars-2',
+      },
+      filter: {
+        faIcon: 'filter',
+        skyIcon: 'filter',
+      },
+      columns: {
+        faIcon: 'columns',
+        skyIcon: 'columns',
+      },
+    };
+    return () => {
+      const icon = iconMap[iconName];
+      if (icon) {
+        if (this.#currentTheme?.theme.name === 'modern' && icon.skyIcon) {
+          return `<i aria-hidden="true" class="sky-i-${icon.skyIcon}"></i>`;
+        } else {
+          return `<i aria-hidden="true" class="fa fa-${icon.faIcon}"></i>`;
+        }
+      } else {
+        return '';
+      }
+    };
   }
 
   #suppressTab(params: SuppressKeyboardEventParams): boolean {

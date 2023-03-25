@@ -142,7 +142,7 @@ export class DataManagerLargeComponent implements OnInit {
           : columnDefinitions,
         columnTypes: {
           custom_link: {
-            cellRendererFramework: CustomLinkComponent,
+            cellRenderer: CustomLinkComponent,
           },
         },
         context: {

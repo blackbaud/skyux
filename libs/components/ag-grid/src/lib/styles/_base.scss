@@ -7,6 +7,7 @@
     suppress-native-widget-styling: true,
     themes: (
       sky-default: (
+        --ag-icon-font-family: 'agGridAlpine',
         background-color: variables.$sky-color-gray-01,
         border-color: variables.$sky-border-color-neutral-medium,
         cell-horizontal-padding: 12px,
@@ -23,6 +24,7 @@
         secondary-foreground-color: variables.$sky-text-color-deemphasized,
       ),
       sky-modern-light: (
+        --ag-icon-font-family: 'agGridBalham',
         border-color: variables.$sky-theme-modern-border-color-neutral-medium,
         cell-horizontal-padding: 12px,
         font-family: variables.$sky-font-family,
@@ -42,6 +44,7 @@
           variables.$sky-theme-modern-font-deemphasized-color,
       ),
       sky-modern-dark: (
+        --ag-icon-font-family: 'agGridBalham',
         extend-theme: 'alpine-dark',
         cell-horizontal-padding: 12px,
         font-family: variables.$sky-font-family,

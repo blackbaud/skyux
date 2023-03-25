@@ -5,11 +5,28 @@
     aria-hidden="true"
     (click)="onMenuClick($event)"
   >
-    <sky-icon *skyThemeIf="'default'" icon="menu"></sky-icon>
-    <sky-icon *skyThemeIf="'modern'" icon="menu" iconType="skyux"></sky-icon>
+    <sky-icon *skyThemeIf="'default'" icon="ellipsis-h"></sky-icon>
+    <sky-icon
+      *skyThemeIf="'modern'"
+      icon="ellipsis"
+      iconType="skyux"
+    ></sky-icon>
   </span>
-  <ng-template #headerText>
+  <ng-template #notSortingHeader>
     <span class="ag-header-cell-text">{{ params?.displayName }}</span>
+  </ng-template>
+  <div class="ag-header-cell-label" role="presentation">
+    <span class="ag-header-cell-label-help">
+      <button
+        *ngIf="params?.enableSorting; else notSortingHeader"
+        class="ag-header-cell-text ag-header-cell-label-sortable sky-btn-link-inline"
+        type="button"
+        (click)="onSortRequested($event)"
+      >
+        {{ params?.displayName }}
+      </button>
+      <span class="sky-control-help-container" #inlineHelpContainer></span>
+    </span>
     <span
       *ngIf="filterEnabled$ | async"
       class="ag-header-icon ag-header-label-icon ag-filter-icon"
@@ -56,18 +73,5 @@
         >{{ sortIndexDisplay }}</span
       >
     </span>
-  </ng-template>
-  <ng-template #notSortingHeader>
-    <div class="ag-header-cell-label" role="presentation">
-      <ng-container *ngTemplateOutlet="headerText"></ng-container>
-    </div>
-  </ng-template>
-  <button
-    *ngIf="params?.enableSorting; else notSortingHeader"
-    class="ag-header-cell-label ag-header-cell-label-sortable sky-btn-link-inline"
-    (click)="onSortRequested($event)"
-  >
-    <ng-container *ngTemplateOutlet="headerText"></ng-container>
-  </button>
+  </div>
 </div>
-<span class="sky-control-help-container" #inlineHelpContainer></span>
