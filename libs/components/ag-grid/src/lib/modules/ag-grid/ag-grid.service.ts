@@ -114,6 +114,65 @@ function getValidatorCellRendererSelector(component: string, fallback?: any) {
 }
 
 let rowNodeId = -1;
+const iconMap: {
+  [key: string]: {
+    faIcon: string;
+    skyIcon?: string;
+  };
+} = {
+  sortDescending: {
+    faIcon: 'caret-down',
+    skyIcon: 'chevron-down',
+  },
+  sortAscending: {
+    faIcon: 'caret-up',
+    skyIcon: 'chevron-up',
+  },
+  columnMoveMove: {
+    faIcon: 'arrows',
+  },
+  columnMoveHide: {
+    faIcon: 'eye-slash',
+    skyIcon: 'hide',
+  },
+  columnMoveLeft: {
+    faIcon: 'arrows',
+  },
+  columnMoveRight: {
+    faIcon: 'arrows',
+  },
+  columnMoveGroup: {
+    faIcon: 'arrows',
+  },
+  columnMovePin: {
+    faIcon: 'arrows',
+  },
+  columnGroupOpened: {
+    faIcon: 'caret-right',
+    skyIcon: 'double-chevron-right',
+  },
+  columnGroupClosed: {
+    faIcon: 'caret-left',
+    skyIcon: 'double-chevron-left',
+  },
+  dropNotAllowed: {
+    faIcon: 'ban',
+    skyIcon: 'ban',
+  },
+  menu: {
+    faIcon: 'menu',
+    skyIcon: 'bars-2',
+  },
+  filter: {
+    faIcon: 'filter',
+    skyIcon: 'filter',
+  },
+  columns: {
+    faIcon: 'columns',
+    skyIcon: 'columns',
+  },
+};
+type iconMapType = typeof iconMap;
 
 /**
  * `SkyAgGridService` provides methods to get AG Grid `gridOptions` to ensure grids match SKY UX functionality. The `gridOptions` can be overridden, and include registered SKY UX column types.
@@ -529,76 +588,13 @@ export class SkyAgGridService implements OnDestroy {
     return '';
   }
 
-  #getIconTemplate(iconName: string): () => string {
-    const iconMap: Record<
-      string,
-      {
-        faIcon: string;
-        skyIcon?: string;
-      }
-    > = {
-      sortDescending: {
-        faIcon: 'caret-down',
-        skyIcon: 'chevron-down',
-      },
-      sortAscending: {
-        faIcon: 'caret-up',
-        skyIcon: 'chevron-up',
-      },
-      columnMoveMove: {
-        faIcon: 'arrows',
-      },
-      columnMoveHide: {
-        faIcon: 'eye-slash',
-        skyIcon: 'hide',
-      },
-      columnMoveLeft: {
-        faIcon: 'arrows',
-      },
-      columnMoveRight: {
-        faIcon: 'arrows',
-      },
-      columnMoveGroup: {
-        faIcon: 'arrows',
-      },
-      columnMovePin: {
-        faIcon: 'arrows',
-      },
-      columnGroupOpened: {
-        faIcon: 'caret-right',
-        skyIcon: 'double-chevron-right',
-      },
-      columnGroupClosed: {
-        faIcon: 'caret-left',
-        skyIcon: 'double-chevron-left',
-      },
-      dropNotAllowed: {
-        faIcon: 'ban',
-        skyIcon: 'ban',
-      },
-      menu: {
-        faIcon: 'menu',
-        skyIcon: 'bars-2',
-      },
-      filter: {
-        faIcon: 'filter',
-        skyIcon: 'filter',
-      },
-      columns: {
-        faIcon: 'columns',
-        skyIcon: 'columns',
-      },
-    };
+  #getIconTemplate(iconName: keyof iconMapType): () => string {
     return () => {
       const icon = iconMap[iconName];
-      if (icon) {
-        if (this.#currentTheme?.theme.name === 'modern' && icon.skyIcon) {
-          return `<i aria-hidden="true" class="sky-i-${icon.skyIcon}"></i>`;
-        } else {
-          return `<i aria-hidden="true" class="fa fa-${icon.faIcon}"></i>`;
-        }
+      if (this.#currentTheme?.theme.name === 'modern' && icon.skyIcon) {
+        return `<i aria-hidden="true" class="sky-i-${icon.skyIcon}"></i>`;
       } else {
-        return '';
+        return `<i aria-hidden="true" class="fa fa-${icon.faIcon}"></i>`;
       }
     };
   }

@@ -184,7 +184,7 @@ ag-grid-angular {
     .ag-header-cell-label,
     .ag-cell-label-container {
       display: flex;
-      flex-direction: row;
+      flex-direction: row-reverse;
     }
   }
 }
