@@ -14,6 +14,16 @@
     .ag-header-cell.sky-ag-grid-header-right-aligned
   ) {
   flex-direction: row-reverse;
+
+  .ag-header-cell-label {
+    .sky-control-help-container {
+      order: 0;
+    }
+
+    .ag-header-cell-label-and-icons {
+      order: 1;
+    }
+  }
 }
 
 button.ag-header-cell-label {
