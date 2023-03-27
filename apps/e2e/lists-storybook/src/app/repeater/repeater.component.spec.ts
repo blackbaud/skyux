@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { RepeaterComponent } from './repeater.component';
 import { RepeaterModule } from './repeater.module';
@@ -9,7 +10,7 @@ describe('RepeaterComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RepeaterModule],
+      imports: [RepeaterModule, NoopAnimationsModule],
     });
     fixture = TestBed.createComponent(RepeaterComponent);
     component = fixture.componentInstance;
