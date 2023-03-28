@@ -25,8 +25,6 @@ describe('modals-storybook', () => {
             .get('.sky-modal')
             .should('exist')
             .should('be.visible')
-            .end()
-            .window()
             .screenshot(`modalcomponent-modal--${x}-modal-${theme}`, {
               disableTimersAndAnimations: true,
               scale: false,
@@ -51,7 +49,6 @@ describe('modals-storybook', () => {
             .get('.sky-modal')
             .should('exist')
             .should('be.visible')
-            .end()
             .window()
             .screenshot(`modalcomponent-modal--${x}-modal-${theme}-mobile`, {
               disableTimersAndAnimations: true,
