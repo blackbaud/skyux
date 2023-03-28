@@ -70,6 +70,7 @@
 
 .sky-modal-tiled .sky-modal-content {
   background-color: $sky-background-color-neutral-light;
+  --sky-background-color-page-default: $sky-background-color-neutral-light;
 
   ::ng-deep .sky-tile-title {
     @include mixins.sky-subsection-heading();
@@ -192,6 +193,7 @@
 
       > sky-toolbar .sky-toolbar-container {
         background-color: #fff;
+        --sky-background-color-page-default: #fff;
         padding-left: $sky-theme-modern-space-xl;
         padding-right: $sky-theme-modern-space-xl;
       }
@@ -211,5 +213,6 @@
   .sky-modal-header,
   .sky-modal-content {
     background-color: transparent;
+    --sky-background-color-page-default: $sky-theme-modern-mode-dark-background-color-page-default;
   }
 }

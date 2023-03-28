@@ -171,6 +171,22 @@ const iconMap: {
     faIcon: 'columns',
     skyIcon: 'columns',
   },
+  last: {
+    faIcon: 'step-forward',
+    skyIcon: 'double-chevron-right',
+  },
+  next: {
+    faIcon: 'caret-right',
+    skyIcon: 'chevron-right',
+  },
+  previous: {
+    faIcon: 'caret-left',
+    skyIcon: 'chevron-left',
+  },
+  first: {
+    faIcon: 'step-backward',
+    skyIcon: 'double-chevron-left',
+  },
 };
 type iconMapType = typeof iconMap;
 
