@@ -1,4 +1,5 @@
 import {
+  AfterViewChecked,
   ChangeDetectorRef,
   Component,
   Input,
@@ -6,6 +7,7 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
+import { SkyLogService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { Subscription } from 'rxjs/internal/Subscription';
@@ -23,7 +25,7 @@ const LABEL_TYPE_DEFAULT = 'info';
   templateUrl: './label.component.html',
   styleUrls: ['./label.component.scss'],
 })
-export class SkyLabelComponent implements OnDestroy, OnInit {
+export class SkyLabelComponent implements AfterViewChecked, OnDestroy, OnInit {
   /**
    * The type of label to display.
    * @default 'info'
@@ -41,7 +43,7 @@ export class SkyLabelComponent implements OnDestroy, OnInit {
    */
   @Input()
   public set descriptionType(value: SkyIndicatorDescriptionType | undefined) {
-    this.#_descriptionType = value;
+    this.#descriptionType = value;
     this.#updateDescriptionComputed();
   }
 
@@ -51,7 +53,7 @@ export class SkyLabelComponent implements OnDestroy, OnInit {
    */
   @Input()
   public set customDescription(value: string | undefined) {
-    this.#_customDescription = value;
+    this.#customDescription = value;
     this.#updateDescriptionComputed();
   }
 
@@ -65,17 +67,29 @@ export class SkyLabelComponent implements OnDestroy, OnInit {
 
   public topIcon: SkyIconStackItem | undefined;
 
-  #_descriptionType: SkyIndicatorDescriptionType | undefined;
-
-  #_customDescription: string | undefined;
-
+  #descriptionType: SkyIndicatorDescriptionType | undefined;
+  #customDescription: string | undefined;
   #descriptionTypeResourceSubscription: Subscription | undefined;
+  #descriptionTypeWarned: boolean | undefined;
 
   #changeDetector = inject(ChangeDetectorRef);
   #resources = inject(SkyLibResourcesService);
+  #logSvc = inject(SkyLogService);
 
   public ngOnInit(): void {
     this.#updateIcon();
+  }
+
+  public ngAfterViewChecked(): void {
+    if (!this.#descriptionType && !this.#descriptionTypeWarned) {
+      this.#logSvc.deprecated('SkyLabelComponent without `descriptionType`', {
+        deprecationMajorVersion: 8,
+        replacementRecommendation:
+          'Always specify a `descriptionType` property.',
+      });
+
+      this.#descriptionTypeWarned = true;
+    }
   }
 
   public ngOnDestroy(): void {
@@ -95,18 +109,18 @@ export class SkyLabelComponent implements OnDestroy, OnInit {
   #updateDescriptionComputed(): void {
     this.#unsubscribe();
 
-    if (this.#_descriptionType) {
-      switch (this.#_descriptionType) {
+    if (this.#descriptionType) {
+      switch (this.#descriptionType) {
         case 'none':
           this.descriptionComputed = undefined;
           break;
         case 'custom':
-          this.descriptionComputed = this.#_customDescription;
+          this.descriptionComputed = this.#customDescription;
           break;
         default:
           this.#descriptionTypeResourceSubscription = this.#resources
             .getString(
-              'skyux_label_sr_' + this.#_descriptionType.replace(/-/g, '_')
+              'skyux_label_sr_' + this.#descriptionType.replace(/-/g, '_')
             )
             .subscribe((value) => {
               this.descriptionComputed = value;
