@@ -1,7 +1,13 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
+:host {
+  display: block;
+}
+
 .sky-page-header {
+  margin: var(--sky-compat-page-header-margin-top-and-bottom, 0) 0;
+
   &-page-title,
   &-parent-link-wrapper {
     display: inline-block;

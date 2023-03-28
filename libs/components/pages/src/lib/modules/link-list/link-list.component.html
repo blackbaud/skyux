@@ -1,33 +1,21 @@
+<sky-wait [isWaiting]="links === 'loading'"></sky-wait>
 <ng-container
   *ngIf="links === 'loading'; then loadingTemplateRef; else linksTemplateRef"
 ></ng-container>
 
 <ng-template #headingTemplateRef>
-  <h2 class="sky-font-heading-4 sky-margin-stacked-sm">
+  <h2 class="sky-font-heading-4">
     {{ title }}
   </h2>
 </ng-template>
 <ng-template #loadingTemplateRef>
-  <sky-wait [isWaiting]="true"></sky-wait>
   <ng-container [ngTemplateOutlet]="headingTemplateRef"></ng-container>
 </ng-template>
 <ng-template #linksTemplateRef>
   <ng-container *ngIf="linksArray.length > 0">
     <ng-container [ngTemplateOutlet]="headingTemplateRef"></ng-container>
-    <ul
-      class="sky-link-list"
-      [skyThemeClass]="{
-        'sky-margin-stacked-separate': 'default',
-        'sky-margin-stacked-xl': 'modern'
-      }"
-    >
-      <li
-        *ngFor="let link of linksArray"
-        [skyThemeClass]="{
-          'sky-margin-stacked-default': 'default',
-          'sky-margin-stacked-sm': 'modern'
-        }"
-      >
+    <ul class="sky-link-list">
+      <li *ngFor="let link of linksArray">
         <a *ngIf="link | linkAs : 'skyHref'" [skyHref]="link.permalink.url">
           {{ link.label }}
         </a>

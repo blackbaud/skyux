@@ -1,5 +1,34 @@
 # Changelog
 
+## [8.0.0-alpha.13](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.12...8.0.0-alpha.13) (2023-03-27)
+
+
+### Features
+
+* **components/indicators:** help inline visual test ([#1160](https://github.com/blackbaud/skyux/issues/1160)) ([#1165](https://github.com/blackbaud/skyux/issues/1165)) ([201b9c3](https://github.com/blackbaud/skyux/commit/201b9c37230f4e4ec8c9ef272125750a7fdb779f))
+* **components/indicators:** icon visual test ([#1168](https://github.com/blackbaud/skyux/issues/1168)) ([#1170](https://github.com/blackbaud/skyux/issues/1170)) ([e4a70c3](https://github.com/blackbaud/skyux/commit/e4a70c3422c5bcb4f9ad43999b758acfa5a4806d))
+* **components/pages:** update action hub to match current design ([#1169](https://github.com/blackbaud/skyux/issues/1169)) ([4357639](https://github.com/blackbaud/skyux/commit/4357639be5203bacaf02a6c87868a24a3dfe40d1))
+
+
+### Bug Fixes
+
+* **components/forms:** set search background transparent when not focused ([#1156](https://github.com/blackbaud/skyux/issues/1156)) ([5c7f9e1](https://github.com/blackbaud/skyux/commit/5c7f9e14b329e7745f9aab0ca754739318bdc742))
+* **components/indicators:** fix SkyWaitHarnessFilters docs reference to SkyWaitHarness which incorrectly referenced SkyAlertHarness ([#1171](https://github.com/blackbaud/skyux/issues/1171)) ([#1172](https://github.com/blackbaud/skyux/issues/1172)) ([d414630](https://github.com/blackbaud/skyux/commit/d414630bffd177400f08f98e2c305bba7da1fdca))
+
+## [7.13.0](https://github.com/blackbaud/skyux/compare/7.12.0...7.13.0) (2023-03-24)
+
+
+### Features
+
+* **components/indicators:** help inline visual test ([#1160](https://github.com/blackbaud/skyux/issues/1160)) ([915e696](https://github.com/blackbaud/skyux/commit/915e69652ec906c494cac5da2a47da7baaada709))
+* **components/indicators:** icon visual test ([#1168](https://github.com/blackbaud/skyux/issues/1168)) ([00c8215](https://github.com/blackbaud/skyux/commit/00c8215c21ca11109c7abb200e088b4fec9044f6))
+
+
+### Bug Fixes
+
+* **components/indicators:** fix `SkyWaitHarnessFilters` docs reference to `SkyWaitHarness` which incorrectly referenced `SkyAlertHarness` ([#1171](https://github.com/blackbaud/skyux/issues/1171)) ([0dadf18](https://github.com/blackbaud/skyux/commit/0dadf182e8a7771f34411da0f3f026727cfa98fe))
+* **components/lookup:** use `position: absolute` for autocomplete dropdown ([#1176](https://github.com/blackbaud/skyux/issues/1176)) ([2540096](https://github.com/blackbaud/skyux/commit/2540096fe165a292ccab7f71fd426eb7e60fa601))
+
 ## [8.0.0-alpha.12](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.11...8.0.0-alpha.12) (2023-03-17)
 
 

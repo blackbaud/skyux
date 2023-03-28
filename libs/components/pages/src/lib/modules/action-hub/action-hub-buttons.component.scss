@@ -1,0 +1,7 @@
+:host {
+  display: block;
+
+  &:not(:empty) {
+    margin-bottom: var(--sky-margin-stacked-xl);
+  }
+}

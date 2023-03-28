@@ -1,3 +1,6 @@
+import { SkyAppFormat } from '../format/app-format';
+import { SkyLogService } from '../log/log.service';
+
 /**
  * Provides arguments for the number to format.
  */
@@ -49,6 +52,7 @@ export interface SkyNumericOptions {
 /**
  * Provides arguments for the number to format.
  * @deprecated Use the `SkyNumericOptions` interface instead.
+ * @internal
  */
 export class NumericOptions implements SkyNumericOptions {
   public digits?: number = 1;
@@ -66,4 +70,16 @@ export class NumericOptions implements SkyNumericOptions {
   public truncate?: boolean = true;
 
   public truncateAfter?: number = 1000;
+
+  constructor() {
+    const logService = new SkyLogService(new SkyAppFormat());
+    logService
+      .deprecated('NumericOptions', {
+        deprecationMajorVersion: 7,
+        moreInfoUrl: 'https://developer.blackbaud.com/skyux/components/numeric',
+        replacementRecommendation:
+          'Use the `SkyNumericOptions` interface instead.',
+      })
+      .then();
+  }
 }
