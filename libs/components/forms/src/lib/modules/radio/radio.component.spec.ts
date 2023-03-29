@@ -8,7 +8,7 @@ import {
 import { NgModel } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyIdService } from '@skyux/core';
+import { SkyIdService, SkyLogService } from '@skyux/core';
 
 import { SkyRadioFixturesModule } from './fixtures/radio-fixtures.module';
 import { SkyRadioOnPushTestComponent } from './fixtures/radio-on-push.component.fixture';
@@ -326,6 +326,21 @@ describe('Radio component', function () {
 
       span = debugElement.query(By.css('span')).nativeElement;
       expect(span).toHaveCssClass('sky-switch-control-danger');
+    });
+
+    it('should log a deprecation warning when radioType is set', () => {
+      const logService = TestBed.inject(SkyLogService);
+      const deprecatedLogSpy = spyOn(logService, 'deprecated').and.stub();
+
+      fixture.componentInstance.radioType = 'warning';
+      fixture.detectChanges();
+
+      expect(deprecatedLogSpy).toHaveBeenCalledWith(
+        'SkyRadioComponent.radioType',
+        Object({
+          deprecationMajorVersion: 7,
+        })
+      );
     });
 
     it('should pass accessibility', async () => {
