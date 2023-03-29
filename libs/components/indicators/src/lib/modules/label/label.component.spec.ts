@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyLogService } from '@skyux/core';
 
 import { SkyIndicatorDescriptionType } from '../shared/indicator-description-type';
 
@@ -21,6 +23,32 @@ describe('Label component', () => {
     return fixture.nativeElement.querySelector(
       '#label-without-label-type .sky-label'
     );
+  }
+
+  function validateDeprecatedCalled(
+    fixture: ComponentFixture<LabelTestComponent>,
+    deprecatedSpy: jasmine.Spy,
+    expected: boolean
+  ): void {
+    if (expected) {
+      // Expect one call per label in the test component.
+      const callCount = fixture.debugElement.queryAll(
+        By.css('sky-label')
+      ).length;
+
+      expect(deprecatedSpy.calls.allArgs()).toEqual(
+        new Array(callCount).fill([
+          'SkyLabelComponent without `descriptionType`',
+          {
+            deprecationMajorVersion: 8,
+            replacementRecommendation:
+              'Always specify a `descriptionType` property.',
+          },
+        ])
+      );
+    } else {
+      expect(deprecatedSpy).not.toHaveBeenCalled();
+    }
   }
 
   beforeEach(() => {
@@ -102,6 +130,33 @@ describe('Label component', () => {
     });
   });
 
+  it('should warn when descriptionType is not set on render', () => {
+    const logSvc = TestBed.inject(SkyLogService);
+    const deprecatedSpy = spyOn(logSvc, 'deprecated');
+
+    const fixture = TestBed.createComponent(LabelTestComponent);
+    fixture.componentInstance.descriptionType = undefined;
+    fixture.detectChanges();
+
+    validateDeprecatedCalled(fixture, deprecatedSpy, true);
+  });
+
+  it('should warn when descriptionType is unset after initial render', () => {
+    const logSvc = TestBed.inject(SkyLogService);
+    const deprecatedSpy = spyOn(logSvc, 'deprecated');
+
+    const fixture = TestBed.createComponent(LabelTestComponent);
+    fixture.componentInstance.descriptionType = 'attention';
+    fixture.detectChanges();
+
+    validateDeprecatedCalled(fixture, deprecatedSpy, false);
+
+    fixture.componentInstance.descriptionType = undefined;
+    fixture.detectChanges();
+
+    validateDeprecatedCalled(fixture, deprecatedSpy, true);
+  });
+
   it('should render the correct icon when a `labelType` is given', () => {
     const fixture = TestBed.createComponent(LabelTestComponent);
 
@@ -110,6 +165,7 @@ describe('Label component', () => {
     fixture.detectChanges();
     expect(getLabel(fixture).querySelector('i')).toHaveCssClass('fa-warning');
   });
+
   it('should render the correct icon when no `labelType` is given', () => {
     const fixture = TestBed.createComponent(LabelTestComponent);
 
