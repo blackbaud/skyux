@@ -11,7 +11,7 @@ import {
   forwardRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { SkyIdService } from '@skyux/core';
+import { SkyIdService, SkyLogService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 
@@ -215,12 +215,19 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    * label types. `danger` creates a red background, `info` creates a blue background,
    * `success` creates a green background, and `warning` creates an orange background.
    * @default "info"
+   * @deprecated radioType is no longer supported
    */
   @Input()
   public get radioType(): SkyRadioType {
     return this.#_radioType;
   }
   public set radioType(value: SkyRadioType | undefined) {
+    if (value) {
+      this.#logger.deprecated('SkyRadioComponent.radioType', {
+        deprecationMajorVersion: 7,
+      });
+    }
+
     this.#_radioType = value ?? 'info';
   }
 
@@ -268,14 +275,17 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
 
   #changeDetector: ChangeDetectorRef;
   #radioGroupIdSvc: SkyRadioGroupIdService | undefined;
+  #logger: SkyLogService;
 
   constructor(
     changeDetector: ChangeDetectorRef,
     idService: SkyIdService,
+    logger: SkyLogService,
     @Optional() radioGroupIdService?: SkyRadioGroupIdService
   ) {
     this.#changeDetector = changeDetector;
     this.#radioGroupIdSvc = radioGroupIdService;
+    this.#logger = logger;
 
     this.#defaultId = idService.generateId();
     this.id = this.#defaultId;

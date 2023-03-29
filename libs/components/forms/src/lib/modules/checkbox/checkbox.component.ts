@@ -11,6 +11,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { SkyLogService } from '@skyux/core';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -137,9 +138,16 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    * label types. `"info"` creates a blue background, `"success"` creates a green
    * background, `"warning"` creates an orange background, and `"danger"` creates a red background.
    * @default "info"
+   * @deprecated checkboxType is no longer supported
    */
   @Input()
   public set checkboxType(value: string | undefined) {
+    if (value) {
+      this.#logger.deprecated('SkyCheckboxComponent.checkboxType', {
+        deprecationMajorVersion: 7,
+      });
+    }
+
     this.#_checkboxType = value ? value.toLowerCase() : 'info';
   }
 
@@ -284,11 +292,15 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
 
   #ngControl: NgControl | undefined;
 
+  #logger: SkyLogService;
+
   constructor(
     changeDetector: ChangeDetectorRef,
+    logger: SkyLogService,
     @Self() @Optional() ngControl: NgControl
   ) {
     this.#changeDetector = changeDetector;
+    this.#logger = logger;
     this.#ngControl = ngControl;
     if (ngControl) {
       ngControl.valueAccessor = this;
