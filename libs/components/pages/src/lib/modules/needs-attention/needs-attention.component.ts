@@ -13,17 +13,13 @@ export class SkyNeedsAttentionComponent {
   @Input()
   public set items(value: SkyActionHubNeedsAttention[] | undefined) {
     this.#items = value;
-    if (
-      !this.#haveLoggedDeprecationWarning &&
-      value?.some((c: SkyActionHubNeedsAttention) => c.message)
-    ) {
+    if (value?.some((c: SkyActionHubNeedsAttention) => c.message)) {
       this.#logService.deprecated(`SkyActionHubNeedsAttention.message`, {
         deprecationMajorVersion: 7,
         replacementRecommendation: 'Use `title` instead.',
         moreInfoUrl:
           'https://developer.blackbaud.com/skyux/components/action-hub?docs-active-tab=development#interface-skyactionhubneedsattention',
       });
-      this.#haveLoggedDeprecationWarning = true;
     }
   }
   public get items(): SkyActionHubNeedsAttention[] | undefined {
@@ -32,7 +28,6 @@ export class SkyNeedsAttentionComponent {
 
   public readonly gutterSize: SkyFluidGridGutterSizeType = 'large';
 
-  #haveLoggedDeprecationWarning = false;
   #items: SkyActionHubNeedsAttention[] | undefined;
   #logService = inject(SkyLogService);
 }
