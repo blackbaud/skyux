@@ -1,10 +1,4 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  SimpleChanges,
-  inject,
-} from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 import { SkyFluidGridGutterSizeType } from '@skyux/layout';
 
@@ -15,21 +9,13 @@ import { SkyActionHubNeedsAttention } from '../action-hub/types/action-hub-needs
   templateUrl: './needs-attention.component.html',
   styleUrls: ['./needs-attention.component.scss'],
 })
-export class SkyNeedsAttentionComponent implements OnChanges {
+export class SkyNeedsAttentionComponent {
   @Input()
-  public items: SkyActionHubNeedsAttention[] | undefined;
-
-  public readonly gutterSize: SkyFluidGridGutterSizeType = 'large';
-
-  #logService = inject(SkyLogService);
-  #haveLoggedDeprecationWarning = false;
-
-  public ngOnChanges(changes: SimpleChanges): void {
+  public set items(value: SkyActionHubNeedsAttention[] | undefined) {
+    this.#items = value;
     if (
       !this.#haveLoggedDeprecationWarning &&
-      changes.items?.currentValue?.some(
-        (c: SkyActionHubNeedsAttention) => c.message
-      )
+      value?.some((c: SkyActionHubNeedsAttention) => c.message)
     ) {
       this.#logService.deprecated(`SkyActionHubNeedsAttention.message`, {
         deprecationMajorVersion: 7,
@@ -40,4 +26,13 @@ export class SkyNeedsAttentionComponent implements OnChanges {
       this.#haveLoggedDeprecationWarning = true;
     }
   }
+  public get items(): SkyActionHubNeedsAttention[] | undefined {
+    return this.#items;
+  }
+
+  public readonly gutterSize: SkyFluidGridGutterSizeType = 'large';
+
+  #haveLoggedDeprecationWarning = false;
+  #items: SkyActionHubNeedsAttention[] | undefined;
+  #logService = inject(SkyLogService);
 }
