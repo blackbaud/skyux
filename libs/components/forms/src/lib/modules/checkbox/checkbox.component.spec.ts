@@ -18,6 +18,7 @@ import {
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyLogService } from '@skyux/core';
 
 import { SkyCheckboxChange } from './checkbox-change';
 import { SkyCheckboxComponent } from './checkbox.component';
@@ -1142,6 +1143,21 @@ describe('Checkbox component', () => {
 
       span = debugElement.query(By.css('span')).nativeElement;
       expect(span).toHaveCssClass('sky-switch-control-danger');
+    });
+
+    it('should log a deprecation warning when checkboxType is set', () => {
+      const logService = TestBed.inject(SkyLogService);
+      const deprecatedLogSpy = spyOn(logService, 'deprecated').and.stub();
+
+      fixture.componentInstance.checkboxType = 'warning';
+      fixture.detectChanges();
+
+      expect(deprecatedLogSpy).toHaveBeenCalledWith(
+        'SkyCheckboxComponent.checkboxType',
+        Object({
+          deprecationMajorVersion: 7,
+        })
+      );
     });
 
     it('should pass accessibility', async () => {
