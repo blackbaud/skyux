@@ -1,131 +1,125 @@
 @use 'libs/components/theme/src/lib/styles/variables' as variables;
 @use './variables' as sky-ag-grid-variables;
 
-.ag-theme-sky-default {
-  ag-grid-angular:not(.sky-ag-grid-editable) {
-    border-top: sky-ag-grid-variables.$sky-standard-border;
+.ag-theme-sky-default-readonly {
+  border-top: sky-ag-grid-variables.$sky-standard-border;
 
-    .ag-cell:not(.ag-cell-wrap-text) .ag-cell-wrapper {
-      align-items: flex-start;
-    }
+  .ag-cell:not(.ag-cell-wrap-text) .ag-cell-wrapper {
+    align-items: flex-start;
+  }
 
-    @include sky-ag-grid-variables.skyux-cell-wrap-text(
-      sky-ag-grid-variables.$sky-cell-wrap-text-padding-default,
-      sky-ag-grid-variables.$sky-cell-wrap-text-line-height-default
-    );
+  @include sky-ag-grid-variables.skyux-cell-wrap-text(
+    sky-ag-grid-variables.$sky-cell-wrap-text-padding-default,
+    sky-ag-grid-variables.$sky-cell-wrap-text-line-height-default
+  );
 
-    .ag-root-wrapper {
-      border: none;
-    }
+  .ag-root-wrapper {
+    border: none;
+  }
 
-    .ag-cell.sky-ag-grid-cell-invalid {
-      border: 1px solid var(--sky-highlight-color-danger);
-    }
+  .ag-cell.sky-ag-grid-cell-invalid {
+    border: 1px solid var(--sky-highlight-color-danger);
+  }
 
-    .ag-row:not(.ag-row-first) {
-      border-top: none;
-    }
+  .ag-row:not(.ag-row-first) {
+    border-top: none;
+  }
 
-    .ag-row {
+  .ag-row {
+    border-bottom-style: dotted;
+
+    + .ag-row-last {
       border-bottom-style: dotted;
+    }
+  }
+}
 
-      + .ag-row-last {
-        border-bottom-style: dotted;
+.ag-theme-sky-default-editable {
+  border-top: sky-ag-grid-variables.$sky-standard-border;
+  border-left: sky-ag-grid-variables.$sky-standard-border;
+
+  .ag-popup {
+    .ag-popup-editor {
+      background-color: transparent;
+    }
+
+    .ag-select-list {
+      box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+
+      .ag-select-list-item {
+        cursor: pointer;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        height: 30px;
+
+        &:last-of-type {
+          padding-bottom: 10px;
+          height: 35px;
+        }
+
+        &:hover {
+          background-color: variables.$sky-background-color-selected;
+        }
       }
     }
   }
 
-  ag-grid-angular.sky-ag-grid-editable {
-    --ag-cell-horizontal-padding: 11px;
-    --ag-cell-horizontal-border: 1px solid
-      var(--sky-border-color-neutral-medium);
+  .ag-picker-field-wrapper {
+    border-radius: 0;
+  }
 
-    border-top: sky-ag-grid-variables.$sky-standard-border;
-    border-left: sky-ag-grid-variables.$sky-standard-border;
+  .ag-cell:not(.ag-cell-wrap-text) .ag-cell-wrapper {
+    align-items: flex-start;
+  }
 
-    .ag-popup {
-      .ag-popup-editor {
-        background-color: transparent;
-      }
+  @include sky-ag-grid-variables.skyux-cell-wrap-text(
+    sky-ag-grid-variables.$sky-cell-wrap-text-padding-default,
+    sky-ag-grid-variables.$sky-cell-wrap-text-line-height-default
+  );
 
-      .ag-select-list {
-        box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+  .ag-cell {
+    border-block-end: none;
+    border-block-start: none;
+  }
 
-        .ag-select-list-item {
-          cursor: pointer;
-          padding-top: 5px;
-          padding-bottom: 5px;
-          height: 30px;
+  .ag-cell.sky-ag-grid-cell-invalid {
+    border: 1px solid var(--sky-highlight-color-danger);
+  }
 
-          &:last-of-type {
-            padding-bottom: 10px;
-            height: 35px;
-          }
+  .sky-ag-grid-cell-editable {
+    background-color: var(--sky-background-color-page-default);
 
-          &:hover {
-            background-color: variables.$sky-background-color-selected;
-          }
-        }
+    .ag-select {
+      .ag-picker-field-display {
+        margin-top: 2px;
+        margin-left: 9px;
       }
     }
+  }
 
-    .ag-picker-field-wrapper {
-      border-radius: 0;
+  .sky-ag-grid-cell-uneditable {
+    background-color: var(--sky-background-color-neutral-light);
+  }
+
+  .ag-row:not(.ag-row-first) {
+    border-top: none;
+  }
+
+  .ag-row {
+    border-bottom-style: solid;
+
+    &.ag-row-focus {
+      z-index: 1;
     }
 
-    .ag-cell:not(.ag-cell-wrap-text) .ag-cell-wrapper {
-      align-items: flex-start;
+    .ag-cell.ag-cell-focus {
+      z-index: 1;
+      outline-offset: -2px;
+      outline: var(--ag-range-selection-border-color) solid 2px;
     }
+  }
 
-    @include sky-ag-grid-variables.skyux-cell-wrap-text(
-      sky-ag-grid-variables.$sky-cell-wrap-text-padding-default,
-      sky-ag-grid-variables.$sky-cell-wrap-text-line-height-default
-    );
-
-    .ag-cell {
-      border-block-end: none;
-      border-block-start: none;
-    }
-
-    .ag-cell.sky-ag-grid-cell-invalid {
-      border: 1px solid var(--sky-highlight-color-danger);
-    }
-
-    .sky-ag-grid-cell-editable {
-      background-color: var(--sky-background-color-page-default);
-
-      .ag-select {
-        .ag-picker-field-display {
-          margin-top: 2px;
-          margin-left: 9px;
-        }
-      }
-    }
-
-    .sky-ag-grid-cell-uneditable {
-      background-color: var(--sky-background-color-neutral-light);
-    }
-
-    .ag-row:not(.ag-row-first) {
-      border-top: none;
-    }
-
-    .ag-row {
-      border-bottom-style: solid;
-
-      &.ag-row-focus {
-        z-index: 1;
-      }
-
-      .ag-cell.ag-cell-focus {
-        z-index: 1;
-        outline-offset: -2px;
-        outline: var(--ag-range-selection-border-color) solid 2px;
-      }
-    }
-
-    .ag-root-wrapper {
-      border: none;
-    }
+  .ag-root-wrapper {
+    border: none;
   }
 }

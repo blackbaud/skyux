@@ -1,24 +1,24 @@
 import { DOCUMENT } from '@angular/common';
 import {
   AfterContentInit,
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ContentChild,
   ElementRef,
   HostBinding,
-  Inject,
   OnDestroy,
   OnInit,
-  Optional,
-  SkipSelf,
+  inject,
 } from '@angular/core';
+import { SkyMutationObserverService } from '@skyux/core';
 import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 
 import { AgGridAngular } from 'ag-grid-angular';
 import { CellEditingStartedEvent, DetailGridInfo } from 'ag-grid-community';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
 import { SkyAgGridService } from './ag-grid.service';
@@ -31,7 +31,7 @@ let idIndex = 0;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyAgGridWrapperComponent
-  implements AfterContentInit, OnDestroy, OnInit
+  implements AfterContentInit, AfterViewInit, OnDestroy, OnInit
 {
   @ContentChild(AgGridAngular, {
     static: true,
@@ -78,41 +78,31 @@ export class SkyAgGridWrapperComponent
 
   #_viewkeeperClasses: string[] = [];
 
-  #agGridService: SkyAgGridService;
+  #agGridService = inject(SkyAgGridService);
   #ngUnsubscribe = new Subject<void>();
-  #themeSvc: SkyThemeService | undefined;
-  #wrapperClasses = new BehaviorSubject<string[]>([`ag-theme-sky-default`]);
+  #themeSvc = inject(SkyThemeService, {
+    optional: true,
+  });
+  #wrapperClasses = new BehaviorSubject<string[]>([
+    `ag-theme-sky-default-readonly`,
+  ]);
   #currentTheme: SkyThemeSettings | undefined = undefined;
-  #adapterService: SkyAgGridAdapterService;
-  #changeDetector: ChangeDetectorRef;
-  #parentChangeDetector: ChangeDetectorRef | undefined;
-  #elementRef: ElementRef;
-  #document: Document;
+  #adapterService = inject(SkyAgGridAdapterService);
+  #changeDetector = inject(ChangeDetectorRef);
+  #parentChangeDetector = inject(ChangeDetectorRef, {
+    optional: true,
+    skipSelf: true,
+  });
+  #elementRef = inject(ElementRef);
+  #document = inject(DOCUMENT);
+  #mutationObserverService = inject(SkyMutationObserverService);
+  #hasEditableClass = false;
 
-  constructor(
-    adapterService: SkyAgGridAdapterService,
-    changeDetector: ChangeDetectorRef,
-    elementRef: ElementRef,
-    @Inject(DOCUMENT) document: Document,
-    agGridService: SkyAgGridService,
-    @Optional() themeSvc?: SkyThemeService,
-    @Optional()
-    @SkipSelf()
-    @Inject(ChangeDetectorRef)
-    parentChangeDetector?: ChangeDetectorRef
-  ) {
-    this.#adapterService = adapterService;
-    this.#changeDetector = changeDetector;
-    this.#parentChangeDetector = parentChangeDetector;
-    this.#elementRef = elementRef;
-    this.#document = document;
-
+  constructor() {
     idIndex++;
     this.afterAnchorId = 'sky-ag-grid-nav-anchor-after-' + idIndex;
     this.beforeAnchorId = 'sky-ag-grid-nav-anchor-before-' + idIndex;
     this.gridId = 'sky-ag-grid-' + idIndex;
-    this.#agGridService = agGridService;
-    this.#themeSvc = themeSvc;
     this.wrapperClasses$ = this.#wrapperClasses.asObservable();
   }
 
@@ -184,18 +174,7 @@ export class SkyAgGridWrapperComponent
     this.#themeSvc?.settingsChange
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((settings) => {
-        let agThemeClass: string;
-        if (settings.currentSettings.theme.name === 'modern') {
-          agThemeClass = `ag-theme-sky-modern-${settings.currentSettings.mode.name}`;
-        } else {
-          agThemeClass = `ag-theme-sky-default`;
-        }
-        this.#wrapperClasses.next([
-          ...this.#wrapperClasses
-            .getValue()
-            .filter((c) => !c.startsWith('ag-theme-')),
-          agThemeClass,
-        ]);
+        this.#updateGridTheme(settings.currentSettings);
         if (!this.#currentTheme) {
           // Initial theme settings.
           this.#currentTheme = settings.currentSettings;
@@ -209,6 +188,28 @@ export class SkyAgGridWrapperComponent
           this.agGrid.api.refreshCells();
         }
       });
+  }
+
+  public ngAfterViewInit(): void {
+    const agGridElement: HTMLElement | undefined =
+      this.#elementRef.nativeElement.querySelector('ag-grid-angular');
+    const callback = (): void => {
+      this.#hasEditableClass = !!agGridElement?.classList.contains(
+        'sky-ag-grid-editable'
+      );
+      this.#updateGridTheme(this.#currentTheme);
+    };
+    if (agGridElement) {
+      const agGridClassObserver =
+        this.#mutationObserverService.create(callback);
+      agGridClassObserver.observe(agGridElement, {
+        attributes: true,
+      });
+      this.#ngUnsubscribe.pipe(take(1)).subscribe(() => {
+        agGridClassObserver.disconnect();
+      });
+    }
+    setTimeout(callback);
   }
 
   /**
@@ -289,5 +290,24 @@ export class SkyAgGridWrapperComponent
         }
       }
     }
+  }
+
+  #updateGridTheme(themeSettings?: SkyThemeSettings): void {
+    let agTheme: 'default' | 'modern-light' | 'modern-dark';
+    if (themeSettings?.theme.name === 'modern') {
+      agTheme = `modern-${themeSettings.mode.name}` as
+        | 'modern-light'
+        | 'modern-dark';
+    } else {
+      agTheme = `default`;
+    }
+    this.#wrapperClasses.next([
+      ...this.#wrapperClasses
+        .getValue()
+        .filter((c) => !c.startsWith('ag-theme-')),
+      `ag-theme-sky-${agTheme}-${
+        this.#hasEditableClass ? 'editable' : 'readonly'
+      }`,
+    ]);
   }
 }
