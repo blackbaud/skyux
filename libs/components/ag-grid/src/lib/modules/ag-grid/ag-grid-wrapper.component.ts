@@ -84,7 +84,7 @@ export class SkyAgGridWrapperComponent
     optional: true,
   });
   #wrapperClasses = new BehaviorSubject<string[]>([
-    `ag-theme-sky-default-readonly`,
+    `ag-theme-sky-data-grid-default`,
   ]);
   #currentTheme: SkyThemeSettings | undefined = undefined;
   #adapterService = inject(SkyAgGridAdapterService);
@@ -301,13 +301,12 @@ export class SkyAgGridWrapperComponent
     } else {
       agTheme = `default`;
     }
+    const variation = this.#hasEditableClass ? 'data-entry-grid' : 'data-grid';
     this.#wrapperClasses.next([
       ...this.#wrapperClasses
         .getValue()
         .filter((c) => !c.startsWith('ag-theme-')),
-      `ag-theme-sky-${agTheme}-${
-        this.#hasEditableClass ? 'editable' : 'readonly'
-      }`,
+      `ag-theme-sky-${variation}-${agTheme}`,
     ]);
   }
 }

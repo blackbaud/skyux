@@ -1,7 +1,7 @@
 @use 'libs/components/theme/src/lib/styles/variables' as variables;
 @use './variables' as sky-ag-grid-variables;
 
-.ag-theme-sky-default-readonly {
+.ag-theme-sky-data-grid-default {
   border-top: sky-ag-grid-variables.$sky-standard-border;
 
   .ag-cell:not(.ag-cell-wrap-text) .ag-cell-wrapper {
@@ -34,7 +34,7 @@
   }
 }
 
-.ag-theme-sky-default-editable {
+.ag-theme-sky-data-entry-grid-default {
   border-top: sky-ag-grid-variables.$sky-standard-border;
   border-left: sky-ag-grid-variables.$sky-standard-border;
 

@@ -1,7 +1,7 @@
 @use 'libs/components/theme/src/lib/styles/variables' as variables;
 @use './variables' as sky-ag-grid-variables;
 
-.ag-theme-sky-modern-light-readonly {
+.ag-theme-sky-data-grid-modern-light {
   border-top: 2px solid transparent;
 
   .ag-row-hover::before {
@@ -49,7 +49,7 @@
   }
 }
 
-.ag-theme-sky-modern-light-editable {
+.ag-theme-sky-data-entry-grid-modern-light {
   border-top: sky-ag-grid-variables.$sky-standard-border;
 
   .ag-header .ag-header-cell .ag-header-cell-text {

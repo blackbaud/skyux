@@ -22,7 +22,7 @@ $defaultsForAllThemes: (
   toggle-button-width: calc(var(--ag-toggle-button-height) * 2),
 );
 
-$defaultsForEditable: (
+$defaultsForDataEntryGrid: (
   cell-horizontal-border: 1px solid var(--ag-border-color),
   odd-row-background-color: var(--sky-background-color-page-default),
   popup-shadow: none,
@@ -89,12 +89,12 @@ $modernDarkThemeBase: map.merge(
   (
     suppress-native-widget-styling: true,
     themes: (
-      sky-default-readonly: map.merge($defaultThemeBase, ()),
-      sky-default-editable:
+      sky-data-grid-default: map.merge($defaultThemeBase, ()),
+      sky-data-entry-grid-default:
         map.merge(
           $defaultThemeBase,
           map.merge(
-            $defaultsForEditable,
+            $defaultsForDataEntryGrid,
             (
               cell-horizontal-padding: 11px,
               cell-horizontal-border: 1px solid
@@ -102,37 +102,37 @@ $modernDarkThemeBase: map.merge(
             )
           )
         ),
-      sky-modern-light-readonly: map.merge($modernLightThemeBase, ()),
-      sky-modern-light-editable:
-        map.merge($modernLightThemeBase, map.merge($defaultsForEditable, ())),
-      sky-modern-dark-readonly: map.merge($modernDarkThemeBase, ()),
-      sky-modern-dark-editable:
-        map.merge($modernDarkThemeBase, map.merge($defaultsForEditable, ())),
+      sky-data-grid-modern-light: map.merge($modernLightThemeBase, ()),
+      sky-data-entry-grid-modern-light:
+        map.merge($modernLightThemeBase, map.merge($defaultsForDataEntryGrid, ())),
+      sky-data-grid-modern-dark: map.merge($modernDarkThemeBase, ()),
+      sky-data-entry-grid-modern-dark:
+        map.merge($modernDarkThemeBase, map.merge($defaultsForDataEntryGrid, ())),
     ),
   )
 );
 
-.ag-theme-sky-default-readonly,
-.ag-theme-sky-default-editable,
-.ag-theme-sky-modern-light-readonly,
-.ag-theme-sky-modern-light-editable,
-.ag-theme-sky-modern-dark-readonly,
-.ag-theme-sky-modern-dark-editable {
+.ag-theme-sky-data-grid-default,
+.ag-theme-sky-data-entry-grid-default,
+.ag-theme-sky-data-grid-modern-light,
+.ag-theme-sky-data-entry-grid-modern-light,
+.ag-theme-sky-data-grid-modern-dark,
+.ag-theme-sky-data-entry-grid-modern-dark {
   .ag-scrollbar-invisible.sky-viewkeeper-fixed {
     box-shadow: none;
   }
 }
 
-.ag-theme-sky-default-readonly,
-.ag-theme-sky-modern-light-readonly,
-.ag-theme-sky-modern-dark-readonly {
+.ag-theme-sky-data-grid-default,
+.ag-theme-sky-data-grid-modern-light,
+.ag-theme-sky-data-grid-modern-dark {
   .ag-overlay-no-rows-wrapper.ag-layout-auto-height {
     padding-top: var(--ag-row-height);
   }
 }
 
-.ag-theme-sky-modern-light-readonly,
-.ag-theme-sky-modern-dark-readonly {
+.ag-theme-sky-data-grid-modern-light,
+.ag-theme-sky-data-grid-modern-dark {
   --ag-background-color: var(--sky-background-color-page-default);
   --ag-header-background-color: var(--sky-background-color-page-default);
   --ag-header-column-resize-handle-color: var(
@@ -142,13 +142,13 @@ $modernDarkThemeBase: map.merge(
   --ag-odd-row-background-color: var(--sky-background-color-page-default);
 }
 
-.ag-theme-sky-modern-dark-readonly {
+.ag-theme-sky-data-grid-modern-dark {
   --ag-selected-row-background-color: var(--sky-background-color-page-default);
 }
 
-.ag-theme-sky-default-editable,
-.ag-theme-sky-modern-light-editable,
-.ag-theme-sky-modern-dark-editable {
+.ag-theme-sky-data-entry-grid-default,
+.ag-theme-sky-data-entry-grid-modern-light,
+.ag-theme-sky-data-entry-grid-modern-dark {
   &.sky-ag-grid-cell-editing-skyCellLookup {
     .ag-row .ag-cell.ag-cell-focus,
     .ag-popup .ag-popup-editor {
@@ -266,8 +266,8 @@ sky-ag-grid-wrapper + sky-infinite-scroll {
   }
 }
 
-.ag-theme-sky-default-readonly,
-.ag-theme-sky-default-editable {
+.ag-theme-sky-data-grid-default,
+.ag-theme-sky-data-entry-grid-default {
   .ag-header .ag-header-cell .ag-header-cell-text {
     font-weight: normal;
   }
