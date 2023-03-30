@@ -24,21 +24,6 @@ export class ModalComponent {
     this.buttonsHidden = false;
   }
 
-  private openModal(
-    modalInstance: any,
-    options?: SkyModalConfigurationInterface
-  ): SkyModalInstance {
-    this.hideButtons();
-
-    const instance = this.modal.open(modalInstance, options);
-
-    instance.closed.subscribe(() => {
-      this.showButtons();
-    });
-
-    return instance;
-  }
-
   public onOpenModalClick(): void {
     this.openModal(ModalBasicComponent, {
       providers: [],
@@ -78,5 +63,20 @@ export class ModalComponent {
       providers: [],
     });
     modalInstance.componentInstance.showHelp = true;
+  }
+
+  private openModal(
+    modalInstance: any,
+    options?: SkyModalConfigurationInterface
+  ): SkyModalInstance {
+    this.hideButtons();
+
+    const instance = this.modal.open(modalInstance, options);
+
+    instance.closed.subscribe(() => {
+      this.showButtons();
+    });
+
+    return instance;
   }
 }

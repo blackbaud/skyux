@@ -6,12 +6,15 @@ import { SkyModalInstance } from '@skyux/modals';
   templateUrl: './modal-basic.component.html',
 })
 export class ModalBasicComponent {
+  public showHelp = false;
+  public title = 'Hello world';
+
   #instance: SkyModalInstance;
+
   constructor(instance: SkyModalInstance) {
     this.#instance = instance;
   }
-  public showHelp = false;
-  public title = 'Hello world';
+
   public closeModal(): void {
     this.#instance.close();
   }
