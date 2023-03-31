@@ -221,7 +221,7 @@ jobs:
     name: End to end tests
     runs-on: ubuntu-latest
     needs: install-deps
-    if: ${{ fromJSON(needs.install-deps.outputs.parameters).e2eMap.length > 0 }}
+    if: ${{ fromJSON(needs.install-deps.outputs.parameters).e2eMap }}
     strategy:
       fail-fast: false
       matrix:
