@@ -1,5 +1,68 @@
 # Changelog
 
+## [8.0.0-alpha.15](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.14...8.0.0-alpha.15) (2023-03-31)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** update data grid styles ([#1177](https://github.com/blackbaud/skyux/issues/1177)) ([fda425d](https://github.com/blackbaud/skyux/commit/fda425d52143c2fdf3a39279006b242b0a5db217))
+* **components/data-manager:** view selector shows active view on initialization ([#1173](https://github.com/blackbaud/skyux/issues/1173)) ([76e5a4e](https://github.com/blackbaud/skyux/commit/76e5a4e6a8fc2eaebc4b59f1093cfc86e90072c1))
+* **components/lookup:** use `position: absolute` for autocomplete dropdown ([#1176](https://github.com/blackbaud/skyux/issues/1176)) ([#1180](https://github.com/blackbaud/skyux/issues/1180)) ([ddf24b8](https://github.com/blackbaud/skyux/commit/ddf24b8a651e32b5b100b5e72ca311362c03114e))
+
+## [8.0.0-alpha.14](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.13...8.0.0-alpha.14) (2023-03-30)
+
+
+### Features
+
+* **components/indicators:** deprecate use of label without `descriptionType` ([#1186](https://github.com/blackbaud/skyux/issues/1186)) ([3f0c3da](https://github.com/blackbaud/skyux/commit/3f0c3da4ad73232d6865bd87e682451148d7f25c))
+* **components/pages:** deprecate the needs attention message field ([#1188](https://github.com/blackbaud/skyux/issues/1188)) ([#1195](https://github.com/blackbaud/skyux/issues/1195)) ([dcf5c4e](https://github.com/blackbaud/skyux/commit/dcf5c4e7982805b2587b67c7a47e6ab9d86e0616))
+
+
+### Deprecations
+
+* **components/forms:** deprecate radioType and checkboxType ([#1191](https://github.com/blackbaud/skyux/issues/1191)) ([#1193](https://github.com/blackbaud/skyux/issues/1193)) ([f913110](https://github.com/blackbaud/skyux/commit/f91311084631829cf292ca446b37851d01ebeaa4))
+
+## [7.14.0](https://github.com/blackbaud/skyux/compare/7.13.0...7.14.0) (2023-03-29)
+
+
+### Features
+
+* **components/pages:** deprecate the needs attention message field ([#1188](https://github.com/blackbaud/skyux/issues/1188)) ([c96b1bc](https://github.com/blackbaud/skyux/commit/c96b1bcc9c49e46e25a06d10abd679edfe16bf5c))
+
+
+### Deprecations
+
+* **components/forms:** deprecate radioType and checkboxType ([#1191](https://github.com/blackbaud/skyux/issues/1191)) ([a5128dc](https://github.com/blackbaud/skyux/commit/a5128dc63a17cf8e2ea6acd8754077ee9fc70c45))
+
+## [8.0.0-alpha.13](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.12...8.0.0-alpha.13) (2023-03-27)
+
+
+### Features
+
+* **components/indicators:** help inline visual test ([#1160](https://github.com/blackbaud/skyux/issues/1160)) ([#1165](https://github.com/blackbaud/skyux/issues/1165)) ([201b9c3](https://github.com/blackbaud/skyux/commit/201b9c37230f4e4ec8c9ef272125750a7fdb779f))
+* **components/indicators:** icon visual test ([#1168](https://github.com/blackbaud/skyux/issues/1168)) ([#1170](https://github.com/blackbaud/skyux/issues/1170)) ([e4a70c3](https://github.com/blackbaud/skyux/commit/e4a70c3422c5bcb4f9ad43999b758acfa5a4806d))
+* **components/pages:** update action hub to match current design ([#1169](https://github.com/blackbaud/skyux/issues/1169)) ([4357639](https://github.com/blackbaud/skyux/commit/4357639be5203bacaf02a6c87868a24a3dfe40d1))
+
+
+### Bug Fixes
+
+* **components/forms:** set search background transparent when not focused ([#1156](https://github.com/blackbaud/skyux/issues/1156)) ([5c7f9e1](https://github.com/blackbaud/skyux/commit/5c7f9e14b329e7745f9aab0ca754739318bdc742))
+* **components/indicators:** fix SkyWaitHarnessFilters docs reference to SkyWaitHarness which incorrectly referenced SkyAlertHarness ([#1171](https://github.com/blackbaud/skyux/issues/1171)) ([#1172](https://github.com/blackbaud/skyux/issues/1172)) ([d414630](https://github.com/blackbaud/skyux/commit/d414630bffd177400f08f98e2c305bba7da1fdca))
+
+## [7.13.0](https://github.com/blackbaud/skyux/compare/7.12.0...7.13.0) (2023-03-24)
+
+
+### Features
+
+* **components/indicators:** help inline visual test ([#1160](https://github.com/blackbaud/skyux/issues/1160)) ([915e696](https://github.com/blackbaud/skyux/commit/915e69652ec906c494cac5da2a47da7baaada709))
+* **components/indicators:** icon visual test ([#1168](https://github.com/blackbaud/skyux/issues/1168)) ([00c8215](https://github.com/blackbaud/skyux/commit/00c8215c21ca11109c7abb200e088b4fec9044f6))
+
+
+### Bug Fixes
+
+* **components/indicators:** fix `SkyWaitHarnessFilters` docs reference to `SkyWaitHarness` which incorrectly referenced `SkyAlertHarness` ([#1171](https://github.com/blackbaud/skyux/issues/1171)) ([0dadf18](https://github.com/blackbaud/skyux/commit/0dadf182e8a7771f34411da0f3f026727cfa98fe))
+* **components/lookup:** use `position: absolute` for autocomplete dropdown ([#1176](https://github.com/blackbaud/skyux/issues/1176)) ([2540096](https://github.com/blackbaud/skyux/commit/2540096fe165a292ccab7f71fd426eb7e60fa601))
+
 ## [8.0.0-alpha.12](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.11...8.0.0-alpha.12) (2023-03-17)
 
 

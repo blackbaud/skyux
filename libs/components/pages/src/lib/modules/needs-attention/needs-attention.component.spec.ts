@@ -22,7 +22,7 @@ describe('Needs attention component', () => {
     fixture = TestBed.createComponent(SkyNeedsAttentionComponent);
   });
 
-  it('should use single column for one item', () => {
+  it('should create needs attention component', () => {
     fixture.componentInstance.items = [
       {
         title: 'Item 1',
@@ -33,22 +33,6 @@ describe('Needs attention component', () => {
       },
     ];
     fixture.detectChanges();
-    const firstColumn = fixture.nativeElement.querySelector('.sky-column');
-    expect(firstColumn).toHaveCssClass('sky-column-sm-12');
-  });
-
-  it('should use two columns for more than six items', () => {
-    fixture.componentInstance.items = Array.from(Array(7).keys()).map((i) => {
-      return {
-        title: `Item ${i + 1}`,
-        message: `Message details ${i + 1}`,
-        permalink: {
-          url: '#',
-        },
-      };
-    });
-    fixture.detectChanges();
-    const firstColumn = fixture.nativeElement.querySelector('.sky-column');
-    expect(firstColumn).toHaveCssClass('sky-column-sm-6');
+    expect(fixture.componentInstance).toBeTruthy();
   });
 });

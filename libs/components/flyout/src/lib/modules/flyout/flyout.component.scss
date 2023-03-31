@@ -10,6 +10,7 @@ $header-height: 50px;
   bottom: 0;
   height: 100%;
   background-color: #fff;
+  --sky-background-color-page-default: #fff;
   border-left: 6px solid $sky-background-color-primary-dark;
 
   &:focus {
@@ -150,6 +151,7 @@ $header-height: 50px;
 @include mixins.sky-theme-modern-dark {
   .sky-flyout {
     background: #000;
+    --sky-background-color-page-default: #000;
   }
 
   .sky-flyout-header {

@@ -37,4 +37,8 @@
   height: 50px;
   background-color: blue;
   position: fixed;
+
+  &-absolute {
+    position: absolute;
+  }
 }

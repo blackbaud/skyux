@@ -125,7 +125,7 @@ describe('SkyAgGridWrapperComponent', () => {
     spyOn(agGrid.api, 'refreshCells').and.returnValue(undefined);
     expect(
       gridWrapperNativeElement.querySelector('.sky-ag-grid')
-    ).toHaveCssClass('ag-theme-sky-default');
+    ).toHaveCssClass('ag-theme-sky-data-grid-default');
 
     mockThemeSvc.settingsChange.next({
       currentSettings: {
@@ -137,7 +137,7 @@ describe('SkyAgGridWrapperComponent', () => {
     gridWrapperFixture.detectChanges();
     expect(
       gridWrapperNativeElement.querySelector('.sky-ag-grid')
-    ).toHaveCssClass('ag-theme-sky-modern-light');
+    ).toHaveCssClass('ag-theme-sky-data-grid-modern-light');
 
     mockThemeSvc.settingsChange.next({
       currentSettings: {
@@ -149,7 +149,7 @@ describe('SkyAgGridWrapperComponent', () => {
     gridWrapperFixture.detectChanges();
     expect(
       gridWrapperNativeElement.querySelector('.sky-ag-grid')
-    ).toHaveCssClass('ag-theme-sky-modern-dark');
+    ).toHaveCssClass('ag-theme-sky-data-grid-modern-dark');
 
     mockThemeSvc.settingsChange.next({
       currentSettings: {
@@ -161,7 +161,7 @@ describe('SkyAgGridWrapperComponent', () => {
     gridWrapperFixture.detectChanges();
     expect(
       gridWrapperNativeElement.querySelector('.sky-ag-grid')
-    ).toHaveCssClass('ag-theme-sky-default');
+    ).toHaveCssClass('ag-theme-sky-data-grid-default');
   });
 
   it('should add and remove the cell editing class', () => {

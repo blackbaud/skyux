@@ -14,6 +14,7 @@ import { SkyRecentLinksInput } from './types/recent-links-input';
 @Component({
   selector: 'sky-action-hub',
   templateUrl: './action-hub.component.html',
+  styleUrls: ['./action-hub.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyActionHubComponent {

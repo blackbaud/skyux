@@ -8,11 +8,12 @@ import { SkyActionHubNeedsAttentionClickHandler } from './action-hub-needs-atten
  */
 export interface SkyActionHubNeedsAttention {
   /**
-   * The bold title to display at the start of the action item.
+   * The title of the action item.
    */
   title: string;
   /**
-   * De-emphasized text to display after the title.
+   * Text to display after the title.
+   * @deprecated Use `title` instead.
    */
   message?: string;
   /**

@@ -34,6 +34,9 @@ import { SKY_STACKING_CONTEXT } from '../stacking-context/stacking-context-token
 
 import { SkyOverlayConfig } from './overlay-config';
 import { SkyOverlayContext } from './overlay-context';
+import { SkyOverlayPosition } from './overlay-position';
+
+const POSITION_DEFAULT: SkyOverlayPosition = 'fixed';
 
 /**
  * Omnibar is 1000.
@@ -80,6 +83,8 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
   public zIndex = `${++uniqueZIndex}`;
 
   protected clipPath$ = new ReplaySubject<string | undefined>(1);
+
+  protected position = POSITION_DEFAULT;
 
   @ViewChild('overlayContentRef', {
     read: ElementRef,
@@ -229,6 +234,7 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
     this.wrapperClass = config.wrapperClass || '';
     this.showBackdrop = !!config.showBackdrop;
     this.enablePointerEvents = !!config.enablePointerEvents;
+    this.position = config.position || POSITION_DEFAULT;
     this.#changeDetector.markForCheck();
   }
 

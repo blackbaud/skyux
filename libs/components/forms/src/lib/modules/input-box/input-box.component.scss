@@ -3,6 +3,21 @@
 
 $input-box-transitions: border-color 150ms, box-shadow 150ms, color 150ms;
 
+.sky-input-box {
+  --sky-background-color-input-box-group: transparent;
+  --sky-background-color-input-box-group-focused: transparent;
+}
+
+.sky-theme-modern {
+  .sky-input-box {
+    --sky-background-color-input-box-group-focused: #{$sky-color-white};
+  }
+
+  &.sky-theme-mode-dark .sky-input-box {
+    --sky-background-color-input-box-group-focused: #{$sky-color-black};
+  }
+}
+
 sky-input-box {
   display: block;
 
@@ -17,6 +32,11 @@ sky-input-box {
   .sky-form-group {
     display: flex;
     flex-wrap: wrap;
+    background-color: var(--sky-background-color-input-box-group);
+
+    &:focus-within {
+      background-color: var(--sky-background-color-input-box-group-focused);
+    }
 
     .sky-input-box-label-wrapper {
       display: flex;
@@ -231,7 +251,6 @@ sky-input-box {
     }
 
     .sky-form-group {
-      background-color: $sky-color-white;
       @include mixins.sky-theme-modern-border;
       color: $sky-theme-modern-font-data-label-color;
       flex-wrap: nowrap;

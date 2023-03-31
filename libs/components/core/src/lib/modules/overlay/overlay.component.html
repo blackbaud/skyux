@@ -1,5 +1,5 @@
 <div
-  [class]="wrapperClass"
+  [class]="'sky-overlay-position-' + position + ' ' + wrapperClass"
   [style.z-index]="zIndex"
   [style.clip-path]="clipPath$ | async"
   [ngClass]="{

@@ -6,6 +6,6 @@ import { Component } from '@angular/core';
 })
 export class HelpInlineDemoComponent {
   public onActionClick(): void {
-    alert('Help inline button clicked!');
+    alert('Use help inline to show supplemental information to the user.');
   }
 }

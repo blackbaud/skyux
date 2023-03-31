@@ -13,13 +13,17 @@ import { SettingsModalComponent } from './modal/settings-modal.component';
   templateUrl: './settings.component.html',
 })
 export class SettingsComponent {
-  public relatedLinks: SkyPageLink[] = [];
-  public settingsLinks: SkyPageModalLink[] = [];
-  public needsAttention: SkyActionHubNeedsAttention[];
+  public relatedLinks: SkyPageLink[] | 'loading';
+  public settingsLinks: SkyPageModalLink[] | 'loading';
+  public needsAttention: SkyActionHubNeedsAttention[] | 'loading';
+
+  #relatedLinks: SkyPageLink[] = [];
+  #settingsLinks: SkyPageModalLink[] = [];
+  #needsAttention: SkyActionHubNeedsAttention[];
 
   constructor(private modalService: SkyModalService) {
     ['Back', 'Home'].forEach((label) => {
-      this.relatedLinks.push({
+      this.#relatedLinks.push({
         label,
         permalink: {
           route: {
@@ -37,7 +41,7 @@ export class SettingsComponent {
       'Support contact',
       'Table entries',
     ].forEach((label) => {
-      this.settingsLinks.push({
+      this.#settingsLinks.push({
         label,
         modal: {
           component: SettingsModalComponent,
@@ -47,7 +51,7 @@ export class SettingsComponent {
         },
       });
     });
-    this.needsAttention = [
+    this.#needsAttention = [
       {
         title: 'Route to the home page',
         permalink: {
@@ -99,5 +103,20 @@ export class SettingsComponent {
         },
       },
     ];
+    this.relatedLinks = this.#relatedLinks;
+    this.settingsLinks = this.#settingsLinks;
+    this.needsAttention = this.#needsAttention;
+  }
+
+  public toggleLoading() {
+    if (this.needsAttention === 'loading') {
+      this.relatedLinks = this.#relatedLinks;
+      this.settingsLinks = this.#settingsLinks;
+      this.needsAttention = this.#needsAttention;
+    } else {
+      this.needsAttention = 'loading';
+      this.relatedLinks = 'loading';
+      this.settingsLinks = 'loading';
+    }
   }
 }
