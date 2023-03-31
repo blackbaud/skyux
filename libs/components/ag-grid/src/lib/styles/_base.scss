@@ -1,133 +1,189 @@
+@use 'sass:map';
 @use 'node_modules/ag-grid-community/styles' as ag;
 @use 'libs/components/theme/src/lib/styles/variables' as variables;
 @use './variables' as sky-ag-grid-variables;
+
+$defaultsForAllThemes: (
+  card-shadow: none,
+  checkbox-background-color: transparent,
+  grid-size: 4px,
+  header-column-resize-handle-color: var(--sky-border-color-neutral-medium),
+  header-column-resize-handle-display: block,
+  header-column-resize-handle-height: 100%,
+  header-column-separator-color: var(--sky-border-color-neutral-medium),
+  header-column-separator-display: block,
+  header-column-separator-height: 100%,
+  icon-size: 12px,
+  input-disabled-background-color: transparent,
+  input-focus-border-color: transparent,
+  input-focus-box-shadow: none,
+  popup-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3),
+  selected-row-background-color: var(--sky-background-color-selected),
+  toggle-button-width: calc(var(--ag-toggle-button-height) * 2),
+);
+
+$defaultsForDataEntryGrid: (
+  cell-horizontal-border: 1px solid var(--ag-border-color),
+  odd-row-background-color: var(--sky-background-color-page-default),
+  popup-shadow: none,
+);
+
+$defaultThemeBase: map.merge(
+  $defaultsForAllThemes,
+  (
+    icon-font-family: 'agGridAlpine',
+    background-color: variables.$sky-color-gray-01,
+    border-color: variables.$sky-border-color-neutral-medium,
+    cell-horizontal-padding: 12px,
+    font-family: variables.$sky-font-family,
+    font-size: 15px,
+    foreground-color: variables.$sky-text-color-default,
+    header-background-color: variables.$sky-background-color-page-default,
+    header-height: 37px,
+    input-focus-border-color: variables.$sky-highlight-color-info,
+    row-border-color: variables.$sky-border-color-neutral-medium,
+    row-height: 38px,
+    odd-row-background-color: variables.$sky-background-color-page-default,
+    range-selection-border-color: variables.$sky-highlight-color-info,
+    secondary-foreground-color: variables.$sky-text-color-deemphasized,
+  )
+);
+
+$modernLightThemeBase: map.merge(
+  $defaultsForAllThemes,
+  (
+    icon-font-family: 'agGridBalham',
+    border-color: variables.$sky-theme-modern-border-color-neutral-medium,
+    cell-horizontal-padding: 12px,
+    font-family: variables.$sky-font-family,
+    font-size: 16px,
+    foreground-color: variables.$sky-text-color-default,
+    header-background-color:
+      variables.$sky-theme-modern-background-color-page-default,
+    header-height: 60px,
+    input-focus-border-color:
+      variables.$sky-theme-modern-border-color-primary-dark,
+    row-border-color: variables.$sky-theme-modern-border-color-neutral-medium,
+    row-height: 60px,
+    range-selection-border-color:
+      variables.$sky-theme-modern-border-color-primary-dark,
+    secondary-foreground-color:
+      variables.$sky-theme-modern-font-deemphasized-color,
+  )
+);
+
+$modernDarkThemeBase: map.merge(
+  $defaultsForAllThemes,
+  (
+    icon-font-family: 'agGridBalham',
+    extend-theme: 'alpine-dark',
+    cell-horizontal-padding: 12px,
+    font-family: variables.$sky-font-family,
+    font-size: 16px,
+    header-height: 60px,
+    row-height: 60px,
+  )
+);
 
 @include ag.grid-styles(
   (
     suppress-native-widget-styling: true,
     themes: (
-      sky-default: (
-        background-color: variables.$sky-color-gray-01,
-        border-color: variables.$sky-border-color-neutral-medium,
-        cell-horizontal-padding: 12px,
-        font-family: variables.$sky-font-family,
-        font-size: 15px,
-        foreground-color: variables.$sky-text-color-default,
-        header-background-color: variables.$sky-background-color-page-default,
-        header-height: 37px,
-        input-focus-border-color: variables.$sky-highlight-color-info,
-        row-border-color: variables.$sky-border-color-neutral-medium,
-        row-height: 38px,
-        odd-row-background-color: variables.$sky-background-color-page-default,
-        range-selection-border-color: variables.$sky-highlight-color-info,
-        secondary-foreground-color: variables.$sky-text-color-deemphasized,
-      ),
-      sky-modern-light: (
-        border-color: variables.$sky-theme-modern-border-color-neutral-medium,
-        cell-horizontal-padding: 12px,
-        font-family: variables.$sky-font-family,
-        font-size: 16px,
-        foreground-color: variables.$sky-text-color-default,
-        header-background-color:
-          variables.$sky-theme-modern-background-color-page-default,
-        header-height: 60px,
-        input-focus-border-color:
-          variables.$sky-theme-modern-border-color-primary-dark,
-        row-border-color:
-          variables.$sky-theme-modern-border-color-neutral-medium,
-        row-height: 60px,
-        range-selection-border-color:
-          variables.$sky-theme-modern-border-color-primary-dark,
-        secondary-foreground-color:
-          variables.$sky-theme-modern-font-deemphasized-color,
-      ),
-      sky-modern-dark: (
-        extend-theme: 'alpine-dark',
-        cell-horizontal-padding: 12px,
-        font-family: variables.$sky-font-family,
-        font-size: 16px,
-        header-height: 60px,
-        row-height: 60px,
-      ),
+      sky-data-grid-default: map.merge($defaultThemeBase, ()),
+      sky-data-entry-grid-default:
+        map.merge(
+          $defaultThemeBase,
+          map.merge(
+            $defaultsForDataEntryGrid,
+            (
+              cell-horizontal-padding: 11px,
+              cell-horizontal-border: 1px solid
+                var(--sky-border-color-neutral-medium),
+            )
+          )
+        ),
+      sky-data-grid-modern-light: map.merge($modernLightThemeBase, ()),
+      sky-data-entry-grid-modern-light:
+        map.merge(
+          $modernLightThemeBase,
+          map.merge($defaultsForDataEntryGrid, ())
+        ),
+      sky-data-grid-modern-dark: map.merge($modernDarkThemeBase, ()),
+      sky-data-entry-grid-modern-dark:
+        map.merge(
+          $modernDarkThemeBase,
+          map.merge($defaultsForDataEntryGrid, ())
+        ),
     ),
   )
 );
 
-.ag-theme-sky-default,
-.ag-theme-sky-modern-light,
-.ag-theme-sky-modern-dark {
-  --ag-header-column-separator-display: block;
-  --ag-header-column-separator-color: var(--sky-border-color-neutral-medium);
-  --ag-header-column-separator-height: 100%;
-  --ag-header-column-resize-handle-display: block;
-  --ag-header-column-resize-handle-color: var(
-    --sky-border-color-neutral-medium
-  );
-  --ag-header-column-resize-handle-height: 100%;
-  --ag-input-disabled-background-color: transparent;
-
-  --ag-checkbox-background-color: transparent;
-  --ag-toggle-button-width: calc(var(--ag-toggle-button-height) * 2);
-
-  --ag-selected-row-background-color: var(--sky-background-color-selected);
-
-  --ag-input-focus-box-shadow: none;
-  --ag-input-focus-border-color: none;
-
-  --ag-grid-size: 4px;
-  --ag-icon-size: 12px;
-
-  --ag-card-shadow: none;
-
-  --ag-popup-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-
+.ag-theme-sky-data-grid-default,
+.ag-theme-sky-data-entry-grid-default,
+.ag-theme-sky-data-grid-modern-light,
+.ag-theme-sky-data-entry-grid-modern-light,
+.ag-theme-sky-data-grid-modern-dark,
+.ag-theme-sky-data-entry-grid-modern-dark {
   .ag-scrollbar-invisible.sky-viewkeeper-fixed {
     box-shadow: none;
   }
+}
 
-  ag-grid-angular:not(.sky-ag-grid-editable) {
-    .ag-overlay-no-rows-wrapper.ag-layout-auto-height {
-      padding-top: var(--ag-row-height);
-    }
+.ag-theme-sky-data-grid-default,
+.ag-theme-sky-data-grid-modern-light,
+.ag-theme-sky-data-grid-modern-dark {
+  .ag-overlay-no-rows-wrapper.ag-layout-auto-height {
+    padding-top: var(--ag-row-height);
   }
+}
 
+.ag-theme-sky-data-grid-modern-light,
+.ag-theme-sky-data-grid-modern-dark {
+  --ag-background-color: var(--sky-background-color-page-default);
+  --ag-header-background-color: var(--sky-background-color-page-default);
+  --ag-header-column-resize-handle-color: var(
+    --sky-background-color-page-default
+  );
+  --ag-header-column-separator-color: var(--sky-background-color-page-default);
+  --ag-odd-row-background-color: var(--sky-background-color-page-default);
+}
+
+.ag-theme-sky-data-grid-modern-dark {
+  --ag-selected-row-background-color: var(--sky-background-color-page-default);
+}
+
+.ag-theme-sky-data-entry-grid-default,
+.ag-theme-sky-data-entry-grid-modern-light,
+.ag-theme-sky-data-entry-grid-modern-dark {
   &.sky-ag-grid-cell-editing-skyCellLookup {
-    ag-grid-angular.sky-ag-grid-editable {
-      .ag-row .ag-cell.ag-cell-focus,
-      .ag-popup .ag-popup-editor {
-        outline: none;
-      }
+    .ag-row .ag-cell.ag-cell-focus,
+    .ag-popup .ag-popup-editor {
+      outline: none;
     }
   }
 
-  .sky-ag-grid-editable {
-    --ag-cell-horizontal-border: 1px solid var(--ag-border-color);
-    --ag-odd-row-background-color: var(--sky-background-color-page-default);
-    --ag-popup-shadow: none;
+  .ag-cell.ag-cell-focus {
+    z-index: 1;
 
-    .ag-cell.ag-cell-focus {
-      z-index: 1;
-
-      &.ag-cell-inline-editing,
-      &.ag-cell-popup-editing {
-        outline-offset: -2px;
-        outline: var(--ag-range-selection-border-color) solid 2px;
-        box-shadow: none;
-      }
-
-      &.ag-cell-popup-editing.sky-ag-grid-cell-lookup {
-        color: transparent;
-      }
+    &.ag-cell-inline-editing,
+    &.ag-cell-popup-editing {
+      outline-offset: -2px;
+      outline: var(--ag-range-selection-border-color) solid 2px;
+      box-shadow: none;
     }
 
-    .ag-popup {
-      .ag-popup-editor {
-        border: none;
-        box-shadow: none;
-        outline-offset: -2px;
-        outline: var(--ag-range-selection-border-color) solid 2px;
-        min-height: var(--ag-row-height);
-      }
+    &.ag-cell-popup-editing.sky-ag-grid-cell-lookup {
+      color: transparent;
+    }
+  }
+
+  .ag-popup {
+    .ag-popup-editor {
+      border: none;
+      box-shadow: none;
+      outline-offset: -2px;
+      outline: var(--ag-range-selection-border-color) solid 2px;
+      min-height: var(--ag-row-height);
     }
   }
 }
@@ -154,8 +210,6 @@
 }
 
 ag-grid-angular {
-  border-top: sky-ag-grid-variables.$sky-standard-border;
-
   input:focus {
     border: none;
     outline: none;
@@ -183,7 +237,7 @@ ag-grid-angular {
     .ag-header-cell-label,
     .ag-cell-label-container {
       display: flex;
-      flex-direction: row;
+      flex-direction: row-reverse;
     }
   }
 }
@@ -218,7 +272,8 @@ sky-ag-grid-wrapper + sky-infinite-scroll {
   }
 }
 
-.ag-theme-sky-default {
+.ag-theme-sky-data-grid-default,
+.ag-theme-sky-data-entry-grid-default {
   .ag-header .ag-header-cell .ag-header-cell-text {
     font-weight: normal;
   }
