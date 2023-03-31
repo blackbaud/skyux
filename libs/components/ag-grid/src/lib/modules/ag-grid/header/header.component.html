@@ -5,53 +5,72 @@
     aria-hidden="true"
     (click)="onMenuClick($event)"
   >
-    <sky-icon *skyThemeIf="'default'" icon="menu"></sky-icon>
-    <sky-icon *skyThemeIf="'modern'" icon="menu" iconType="skyux"></sky-icon>
+    <sky-icon *skyThemeIf="'default'" icon="ellipsis-h"></sky-icon>
+    <sky-icon
+      *skyThemeIf="'modern'"
+      icon="ellipsis"
+      iconType="skyux"
+    ></sky-icon>
   </span>
-  <ng-template #headerText>
-    <span class="ag-header-cell-text">{{ params?.displayName }}</span>
-    <span
-      *ngIf="filterEnabled$ | async"
-      class="ag-header-icon ag-header-label-icon ag-filter-icon"
-      aria-hidden="true"
-    >
-      <sky-icon *skyThemeIf="'default'" icon="filter"></sky-icon>
-      <sky-icon
-        *skyThemeIf="'modern'"
-        icon="filter"
-        iconType="skyux"
-      ></sky-icon>
-    </span>
-    <span *ngIf="params?.enableSorting" class="ag-sort-indicator-container">
-      <sky-icon
-        *ngIf="(sortOrder$ | async) === 'desc'"
-        icon="caret-down"
-        class="ag-header-label-icon"
-      ></sky-icon>
-      <sky-icon
-        *ngIf="(sortOrder$ | async) === 'asc'"
-        icon="caret-up"
-        class="ag-header-label-icon"
-      ></sky-icon>
-      <span
-        *ngIf="sortIndexDisplay$ | async as sortIndexDisplay"
-        class="ag-sort-indicator-icon ag-sort-order"
-        aria-hidden="true"
-        >{{ sortIndexDisplay }}</span
-      >
-    </span>
-  </ng-template>
   <ng-template #notSortingHeader>
-    <div class="ag-header-cell-label" role="presentation">
-      <ng-container *ngTemplateOutlet="headerText"></ng-container>
-    </div>
+    <span class="ag-header-cell-text">{{ params?.displayName }}</span>
   </ng-template>
-  <button
-    *ngIf="params?.enableSorting; else notSortingHeader"
-    class="ag-header-cell-label ag-header-cell-label-sortable sky-btn-link-inline"
-    (click)="onSortRequested($event)"
-  >
-    <ng-container *ngTemplateOutlet="headerText"></ng-container>
-  </button>
+  <div class="ag-header-cell-label" role="presentation">
+    <span class="ag-header-cell-label-and-icons">
+      <button
+        *ngIf="params?.enableSorting; else notSortingHeader"
+        class="ag-header-cell-text ag-header-cell-label-sortable sky-btn-link-inline"
+        type="button"
+        [innerText]="params?.displayName"
+        (click)="onSortRequested($event)"
+      ></button>
+      <span
+        *ngIf="filterEnabled$ | async"
+        class="ag-header-icon ag-header-label-icon ag-filter-icon"
+        aria-hidden="true"
+      >
+        <sky-icon *skyThemeIf="'default'" icon="filter"></sky-icon>
+        <sky-icon
+          *skyThemeIf="'modern'"
+          icon="filter"
+          iconType="skyux"
+        ></sky-icon>
+      </span>
+      <span *ngIf="params?.enableSorting" class="ag-sort-indicator-container">
+        <ng-container *skyThemeIf="'default'">
+          <sky-icon
+            *ngIf="(sortOrder$ | async) === 'desc'"
+            icon="caret-down"
+            class="ag-header-label-icon"
+          ></sky-icon>
+          <sky-icon
+            *ngIf="(sortOrder$ | async) === 'asc'"
+            icon="caret-up"
+            class="ag-header-label-icon"
+          ></sky-icon>
+        </ng-container>
+        <ng-container *skyThemeIf="'modern'">
+          <sky-icon
+            *ngIf="(sortOrder$ | async) === 'desc'"
+            icon="chevron-down"
+            iconType="skyux"
+            class="ag-header-label-icon"
+          ></sky-icon>
+          <sky-icon
+            *ngIf="(sortOrder$ | async) === 'asc'"
+            icon="chevron-up"
+            iconType="skyux"
+            class="ag-header-label-icon"
+          ></sky-icon>
+        </ng-container>
+        <span
+          *ngIf="sortIndexDisplay$ | async as sortIndexDisplay"
+          class="ag-sort-indicator-icon ag-sort-order"
+          aria-hidden="true"
+          >{{ sortIndexDisplay }}</span
+        >
+      </span>
+    </span>
+    <span class="sky-control-help-container" #inlineHelpContainer></span>
+  </div>
 </div>
-<span class="sky-control-help-container" #inlineHelpContainer></span>

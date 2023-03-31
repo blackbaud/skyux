@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { SkyUIConfigService } from '@skyux/core';
 import {
   SkyDataManagerService,
@@ -18,65 +23,44 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DataManagerDemoComponent implements OnInit {
-  public dataManagerConfig = {
-    filterModalComponent: DataManagerFiltersModalDemoComponent,
-    sortOptions: [
-      {
-        id: 'az',
-        label: 'Name (A - Z)',
-        descending: false,
-        propertyName: 'name',
-      },
-      {
-        id: 'za',
-        label: 'Name (Z - A)',
-        descending: true,
-        propertyName: 'name',
-      },
-    ],
-  };
-
-  public defaultDataState = new SkyDataManagerState({
-    filterData: {
-      filtersApplied: true,
-      filters: {
-        hideOrange: true,
-      },
-    },
-    views: [
-      {
-        viewId: 'gridView',
-        displayedColumnIds: ['selected', 'name', 'description'],
-      },
-    ],
-  });
-
-  public dataState: SkyDataManagerState | undefined;
-
   public items: SkyDataManagerDemoRow[] = SKY_DATA_MANAGER_DEMO_DATA;
 
-  public activeViewId = 'repeaterView';
-
-  constructor(private dataManagerService: SkyDataManagerService) {
-    this.dataManagerService
-      .getDataStateUpdates('dataManager')
-      .subscribe((state) => (this.dataState = state));
-    this.dataManagerService
-      .getActiveViewIdUpdates()
-      .subscribe((activeViewId) => (this.activeViewId = activeViewId));
-  }
+  #dataManagerService = inject(SkyDataManagerService);
 
   public ngOnInit(): void {
-    this.dataManagerService.initDataManager({
-      activeViewId: this.activeViewId,
-      dataManagerConfig: this.dataManagerConfig,
-      defaultDataState: this.defaultDataState,
+    this.#dataManagerService.initDataManager({
+      activeViewId: 'repeaterView',
+      dataManagerConfig: {
+        filterModalComponent: DataManagerFiltersModalDemoComponent,
+        sortOptions: [
+          {
+            id: 'az',
+            label: 'Name (A - Z)',
+            descending: false,
+            propertyName: 'name',
+          },
+          {
+            id: 'za',
+            label: 'Name (Z - A)',
+            descending: true,
+            propertyName: 'name',
+          },
+        ],
+      },
+      defaultDataState: new SkyDataManagerState({
+        filterData: {
+          filtersApplied: true,
+          filters: {
+            hideOrange: true,
+          },
+        },
+        views: [
+          {
+            viewId: 'gridView',
+            displayedColumnIds: ['selected', 'name', 'description'],
+          },
+        ],
+      }),
     });
-  }
-
-  public searchSo(): void {
-    const state = this.dataState || new SkyDataManagerState({});
-    state.searchText = 'so';
-    this.dataManagerService.updateDataState(state, 'dataManager');
   }
 }

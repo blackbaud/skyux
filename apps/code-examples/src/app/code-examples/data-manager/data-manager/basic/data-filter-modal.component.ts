@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   SkyDataManagerFilterData,
   SkyDataManagerFilterModalContext,
@@ -9,17 +9,17 @@ import { SkyModalInstance } from '@skyux/modals';
   selector: 'app-data-filter-modal-form',
   templateUrl: './data-filter-modal.component.html',
 })
-export class DataManagerFiltersModalDemoComponent {
+export class DataManagerFiltersModalDemoComponent implements OnInit {
   public fruitType: string | undefined;
 
   public hideOrange: boolean | undefined;
 
-  constructor(
-    public context: SkyDataManagerFilterModalContext,
-    public instance: SkyModalInstance
-  ) {
-    if (this.context.filterData && this.context.filterData.filters) {
-      const filters = this.context.filterData.filters;
+  #context = inject(SkyDataManagerFilterModalContext);
+  #instance = inject(SkyModalInstance);
+
+  public ngOnInit(): void {
+    if (this.#context.filterData && this.#context.filterData.filters) {
+      const filters = this.#context.filterData.filters;
       this.fruitType = filters.type || 'any';
       this.hideOrange = filters.hideOrange || false;
     }
@@ -34,7 +34,7 @@ export class DataManagerFiltersModalDemoComponent {
       hideOrange: this.hideOrange,
     };
 
-    this.instance.save(result);
+    this.#instance.save(result);
   }
 
   public clearAllFilters(): void {
@@ -43,6 +43,6 @@ export class DataManagerFiltersModalDemoComponent {
   }
 
   public cancel(): void {
-    this.instance.cancel();
+    this.#instance.cancel();
   }
 }

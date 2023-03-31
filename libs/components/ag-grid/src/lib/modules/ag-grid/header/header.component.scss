@@ -1,9 +1,29 @@
 :host {
   display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  width: 100%;
   max-width: 100%;
   height: 100%;
   align-items: center;
   align-content: center;
+}
+
+:host-context(
+    .ag-header-cell.ag-right-aligned-header,
+    .ag-header-cell.sky-ag-grid-header-right-aligned
+  ) {
+  flex-direction: row-reverse;
+
+  .ag-header-cell-label {
+    .sky-control-help-container {
+      order: 0;
+    }
+
+    .ag-header-cell-label-and-icons {
+      order: 1;
+    }
+  }
 }
 
 button.ag-header-cell-label {
@@ -13,15 +33,34 @@ button.ag-header-cell-label {
 
 .ag-cell-label-container {
   padding: 0;
+  gap: var(--sky-margin-inline-xs);
 }
 
 .ag-header-cell-label {
   padding-right: 0;
   padding-left: 0;
+
+  .ag-header-cell-label-and-icons {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    overflow: hidden;
+    gap: var(--sky-margin-inline-xs);
+
+    .ag-header-cell-text {
+      flex-grow: 0;
+      flex-shrink: 1;
+    }
+
+    .ag-sort-indicator-container:empty {
+      display: none;
+    }
+  }
 }
 
 button {
   cursor: pointer;
   flex-grow: 0;
-  flex-shrink: 0;
+  flex-shrink: 1;
+  text-transform: inherit;
 }
