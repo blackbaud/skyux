@@ -5,6 +5,7 @@ import { SkyAffixHorizontalAlignment } from '../affix-horizontal-alignment';
 import { SkyAffixOffset } from '../affix-offset';
 import { SkyAffixPlacement } from '../affix-placement';
 import { SkyAffixPlacementChange } from '../affix-placement-change';
+import { SkyAffixPosition } from '../affix-position';
 import { SkyAffixVerticalAlignment } from '../affix-vertical-alignment';
 import { SkyAffixDirective } from '../affix.directive';
 
@@ -29,6 +30,8 @@ export class AffixFixtureComponent {
   public placement: SkyAffixPlacement | undefined;
 
   public verticalAlignment: SkyAffixVerticalAlignment | undefined;
+
+  public position: SkyAffixPosition | undefined;
 
   // #endregion
 

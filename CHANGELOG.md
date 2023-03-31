@@ -1,5 +1,14 @@
 # Changelog
 
+## [8.0.0-alpha.15](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.14...8.0.0-alpha.15) (2023-03-31)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** update data grid styles ([#1177](https://github.com/blackbaud/skyux/issues/1177)) ([fda425d](https://github.com/blackbaud/skyux/commit/fda425d52143c2fdf3a39279006b242b0a5db217))
+* **components/data-manager:** view selector shows active view on initialization ([#1173](https://github.com/blackbaud/skyux/issues/1173)) ([76e5a4e](https://github.com/blackbaud/skyux/commit/76e5a4e6a8fc2eaebc4b59f1093cfc86e90072c1))
+* **components/lookup:** use `position: absolute` for autocomplete dropdown ([#1176](https://github.com/blackbaud/skyux/issues/1176)) ([#1180](https://github.com/blackbaud/skyux/issues/1180)) ([ddf24b8](https://github.com/blackbaud/skyux/commit/ddf24b8a651e32b5b100b5e72ca311362c03114e))
+
 ## [8.0.0-alpha.14](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.13...8.0.0-alpha.14) (2023-03-30)
 
 

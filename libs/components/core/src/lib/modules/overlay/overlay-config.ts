@@ -1,3 +1,5 @@
+import { SkyOverlayPosition } from './overlay-position';
+
 export interface SkyOverlayConfig {
   /**
    * Whether the overlay closes after a navigation change.
@@ -28,4 +30,9 @@ export interface SkyOverlayConfig {
    * Extra CSS classes to add to the overlay's wrapper element.
    */
   wrapperClass?: string;
+
+  /**
+   * The position of the overlay instance.
+   */
+  position?: SkyOverlayPosition;
 }

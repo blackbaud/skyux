@@ -9,6 +9,7 @@ import { SkyAffixAutoFitContext } from './affix-auto-fit-context';
 import { SkyAffixConfig } from './affix-config';
 import { SkyAffixOffset } from './affix-offset';
 import { SkyAffixPlacement } from './affix-placement';
+import { SkyAffixPosition } from './affix-position';
 import { SkyAffixService } from './affix.service';
 import { SkyAffixer } from './affixer';
 import { AffixFixtureComponent } from './fixtures/affix.component.fixture';
@@ -100,65 +101,819 @@ describe('Affix directive', () => {
     SkyAppTestUtility.fireDomEvent(el, 'scroll', { bubbles: false });
   }
 
-  async function setupTest() {
-    await TestBed.configureTestingModule({
-      imports: [AffixFixturesModule],
-    }).compileComponents();
+  function runTestsForPosition(position: SkyAffixPosition | undefined): void {
+    async function setupTest() {
+      await TestBed.configureTestingModule({
+        imports: [AffixFixturesModule],
+      }).compileComponents();
 
-    // Make the body element scrollable.
-    window.document.body.style.height = '5000px';
-    window.document.body.style.width = '5000px';
+      // Make the body element scrollable.
+      window.document.body.style.height = '5000px';
+      window.document.body.style.width = '5000px';
 
-    const fixture = TestBed.createComponent(AffixFixtureComponent);
-    const affixService = TestBed.inject(SkyAffixService);
-    const rendererFactory = TestBed.inject(RendererFactory2);
-    const renderer = rendererFactory.createRenderer(undefined, null);
+      const fixture = TestBed.createComponent(AffixFixtureComponent);
+      const affixService = TestBed.inject(SkyAffixService);
+      const rendererFactory = TestBed.inject(RendererFactory2);
+      const renderer = rendererFactory.createRenderer(undefined, null);
 
-    fixture.componentInstance.scrollTargetIntoView();
+      fixture.componentInstance.position = position;
 
-    let affixer: SkyAffixer | undefined;
-    let offset: SkyAffixOffset | undefined;
-    let numOverflowScrollEmitted = 0;
-    let placement: SkyAffixPlacement | null | undefined;
-    spyOn(affixService, 'createAffixer').and.callFake((affixed: ElementRef) => {
-      ngUnsubscribe = new Subject<void>();
-      affixer = new SkyAffixer(affixed.nativeElement, renderer);
-      affixer.offsetChange.pipe(takeUntil(ngUnsubscribe)).subscribe((x) => {
-        offset = x.offset;
-      });
-      affixer.overflowScroll.pipe(takeUntil(ngUnsubscribe)).subscribe(() => {
-        numOverflowScrollEmitted++;
-      });
-      affixer.placementChange.pipe(takeUntil(ngUnsubscribe)).subscribe((x) => {
-        placement = x.placement;
-      });
-      return affixer;
+      fixture.componentInstance.scrollTargetIntoView();
+
+      let affixer: SkyAffixer | undefined;
+      let offset: SkyAffixOffset | undefined;
+      let numOverflowScrollEmitted = 0;
+      let placement: SkyAffixPlacement | null | undefined;
+      spyOn(affixService, 'createAffixer').and.callFake(
+        (affixed: ElementRef) => {
+          ngUnsubscribe = new Subject<void>();
+          affixer = new SkyAffixer(affixed.nativeElement, renderer);
+          affixer.offsetChange.pipe(takeUntil(ngUnsubscribe)).subscribe((x) => {
+            offset = x.offset;
+          });
+          affixer.overflowScroll
+            .pipe(takeUntil(ngUnsubscribe))
+            .subscribe(() => {
+              numOverflowScrollEmitted++;
+            });
+          affixer.placementChange
+            .pipe(takeUntil(ngUnsubscribe))
+            .subscribe((x) => {
+              placement = x.placement;
+            });
+          return affixer;
+        }
+      );
+
+      const getAffixer = () => affixer;
+
+      const getAffixedOffset = (): SkyAffixOffset => {
+        const styles = window.getComputedStyle(
+          fixture.componentInstance.affixedRef.nativeElement
+        );
+        return {
+          top: +styles.top.split('px')[0],
+          left: +styles.left.split('px')[0],
+        };
+      };
+
+      const getRecentOffsetChange = () => offset;
+      const getNumOverflowScrollEmitted = () => numOverflowScrollEmitted;
+      const getRecentPlacementChange = () => placement;
+
+      return {
+        fixture,
+        getAffixedOffset,
+        getAffixer,
+        getRecentOffsetChange,
+        getNumOverflowScrollEmitted,
+        getRecentPlacementChange,
+      };
+    }
+
+    it('should set default config', async () => {
+      const { fixture, getAffixedOffset, getAffixer } = await setupTest();
+
+      fixture.detectChanges();
+
+      const affixer = getAffixer();
+      const affixedOffset = getAffixedOffset();
+
+      const expectedConfig: SkyAffixConfig = {
+        autoFitContext: SkyAffixAutoFitContext.OverflowParent,
+        autoFitOverflowOffset: undefined,
+        enableAutoFit: false,
+        horizontalAlignment: 'center',
+        isSticky: false,
+        placement: 'above',
+        position,
+        verticalAlignment: undefined,
+      };
+
+      expect(affixer?.getConfig()).toEqual(expectedConfig);
+      expect(affixedOffset.top).toEqual(expectedOffsets.aboveCenter.top);
+      expect(affixedOffset.left).toEqual(expectedOffsets.aboveCenter.left);
     });
 
-    const getAffixer = () => affixer;
+    it('should place affixed element on all sides of the base element', async () => {
+      const { fixture, getAffixedOffset } = await setupTest();
+      const componentInstance = fixture.componentInstance;
 
-    const getAffixedOffset = (): SkyAffixOffset => {
-      const styles = window.getComputedStyle(
-        fixture.componentInstance.affixedRef.nativeElement
-      );
-      return {
-        top: +styles.top.split('px')[0],
-        left: +styles.left.split('px')[0],
+      componentInstance.placement = 'above';
+      fixture.detectChanges();
+
+      let affixedOffset = getAffixedOffset();
+
+      expect(affixedOffset.top).toEqual(expectedOffsets.aboveCenter.top);
+      expect(affixedOffset.left).toEqual(expectedOffsets.aboveCenter.left);
+
+      componentInstance.placement = 'right';
+      fixture.detectChanges();
+
+      affixedOffset = getAffixedOffset();
+
+      expect(affixedOffset.top).toEqual(expectedOffsets.rightMiddle.top);
+      expect(affixedOffset.left).toEqual(expectedOffsets.rightMiddle.left);
+
+      componentInstance.placement = 'below';
+      fixture.detectChanges();
+
+      affixedOffset = getAffixedOffset();
+
+      expect(affixedOffset.top).toEqual(expectedOffsets.belowCenter.top);
+      expect(affixedOffset.left).toEqual(expectedOffsets.belowCenter.left);
+
+      componentInstance.placement = 'left';
+      fixture.detectChanges();
+
+      affixedOffset = getAffixedOffset();
+
+      expect(affixedOffset.top).toEqual(expectedOffsets.leftMiddle.top);
+      expect(affixedOffset.left).toEqual(expectedOffsets.leftMiddle.left);
+    });
+
+    it('should allow adjustments to overflow parent offset', async () => {
+      const { fixture, getRecentPlacementChange } = await setupTest();
+      const componentInstance = fixture.componentInstance;
+
+      const offset: SkyAffixOffset = {
+        bottom: 10,
+        left: 10,
+        right: 10,
+        top: 10,
       };
-    };
 
-    const getRecentOffsetChange = () => offset;
-    const getNumOverflowScrollEmitted = () => numOverflowScrollEmitted;
-    const getRecentPlacementChange = () => placement;
+      componentInstance.enableAutoFit = true;
+      componentInstance.isSticky = true;
+      componentInstance.enableOverflowParent = true;
+      componentInstance.placement = 'right';
+      fixture.detectChanges();
 
-    return {
-      fixture,
-      getAffixedOffset,
-      getAffixer,
-      getRecentOffsetChange,
-      getNumOverflowScrollEmitted,
-      getRecentPlacementChange,
-    };
+      const affixedElementWidth =
+        componentInstance.affixedRef.nativeElement.getBoundingClientRect()
+          .width;
+
+      componentInstance.scrollTargetToRight(affixedElementWidth);
+      triggerParentScroll(fixture);
+      fixture.detectChanges();
+
+      // The placement shouldn't change.
+      expect(getRecentPlacementChange()).toEqual('right');
+
+      componentInstance.autoFitOverflowOffset = offset;
+      fixture.detectChanges();
+
+      // The placement should now change since the overflow offset was added.
+      expect(getRecentPlacementChange()).toEqual('left');
+    });
+
+    it('should affix element using vertical alignments', async () => {
+      const { fixture, getAffixedOffset } = await setupTest();
+      const componentInstance = fixture.componentInstance;
+
+      componentInstance.placement = 'right';
+      componentInstance.verticalAlignment = 'top';
+      fixture.detectChanges();
+
+      let affixedOffset = getAffixedOffset();
+
+      expect(affixedOffset.top).toEqual(expectedOffsets.rightTop.top);
+      expect(affixedOffset.left).toEqual(expectedOffsets.rightTop.left);
+
+      componentInstance.placement = 'right';
+      componentInstance.verticalAlignment = 'middle';
+      fixture.detectChanges();
+
+      affixedOffset = getAffixedOffset();
+
+      expect(affixedOffset.top).toEqual(expectedOffsets.rightMiddle.top);
+      expect(affixedOffset.left).toEqual(expectedOffsets.rightMiddle.left);
+
+      componentInstance.placement = 'right';
+      componentInstance.verticalAlignment = undefined;
+      fixture.detectChanges();
+
+      affixedOffset = getAffixedOffset();
+
+      expect(affixedOffset.top).toEqual(expectedOffsets.rightMiddle.top);
+      expect(affixedOffset.left).toEqual(expectedOffsets.rightMiddle.left);
+
+      componentInstance.placement = 'right';
+      componentInstance.verticalAlignment = 'bottom';
+      fixture.detectChanges();
+
+      affixedOffset = getAffixedOffset();
+
+      expect(affixedOffset.top).toEqual(expectedOffsets.rightBottom.top);
+      expect(affixedOffset.left).toEqual(expectedOffsets.rightBottom.left);
+
+      componentInstance.placement = 'left';
+      componentInstance.verticalAlignment = 'top';
+      fixture.detectChanges();
+
+      affixedOffset = getAffixedOffset();
+
+      expect(affixedOffset.top).toEqual(expectedOffsets.leftTop.top);
+      expect(affixedOffset.left).toEqual(expectedOffsets.leftTop.left);
+
+      componentInstance.placement = 'left';
+      componentInstance.verticalAlignment = 'middle';
+      fixture.detectChanges();
+
+      affixedOffset = getAffixedOffset();
+
+      expect(affixedOffset.top).toEqual(expectedOffsets.leftMiddle.top);
+      expect(affixedOffset.left).toEqual(expectedOffsets.leftMiddle.left);
+
+      componentInstance.placement = 'left';
+      componentInstance.verticalAlignment = undefined;
+      fixture.detectChanges();
+
+      affixedOffset = getAffixedOffset();
+
+      expect(affixedOffset.top).toEqual(expectedOffsets.leftMiddle.top);
+      expect(affixedOffset.left).toEqual(expectedOffsets.leftMiddle.left);
+
+      componentInstance.placement = 'left';
+      componentInstance.verticalAlignment = 'bottom';
+      fixture.detectChanges();
+
+      affixedOffset = getAffixedOffset();
+
+      expect(affixedOffset.top).toEqual(expectedOffsets.leftBottom.top);
+      expect(affixedOffset.left).toEqual(expectedOffsets.leftBottom.left);
+
+      componentInstance.placement = 'above';
+      componentInstance.verticalAlignment = 'top';
+      fixture.detectChanges();
+
+      affixedOffset = getAffixedOffset();
+
+      expect(affixedOffset.top).toEqual(expectedOffsets.aboveTop.top);
+      expect(affixedOffset.left).toEqual(expectedOffsets.aboveTop.left);
+
+      componentInstance.placement = 'above';
+      componentInstance.verticalAlignment = 'middle';
+      fixture.detectChanges();
+
+      affixedOffset = getAffixedOffset();
+
+      expect(affixedOffset.top).toEqual(expectedOffsets.aboveMiddle.top);
+      expect(affixedOffset.left).toEqual(expectedOffsets.aboveMiddle.left);
+
+      componentInstance.placement = 'above';
+      componentInstance.verticalAlignment = 'bottom';
+      fixture.detectChanges();
+
+      affixedOffset = getAffixedOffset();
+
+      expect(affixedOffset.top).toEqual(expectedOffsets.aboveBottom.top);
+      expect(affixedOffset.left).toEqual(expectedOffsets.aboveBottom.left);
+
+      componentInstance.placement = 'below';
+      componentInstance.verticalAlignment = 'bottom';
+      fixture.detectChanges();
+
+      affixedOffset = getAffixedOffset();
+
+      expect(affixedOffset.top).toEqual(expectedOffsets.belowBottom.top);
+      expect(affixedOffset.left).toEqual(expectedOffsets.belowBottom.left);
+
+      componentInstance.placement = 'below';
+      componentInstance.verticalAlignment = 'middle';
+      fixture.detectChanges();
+
+      affixedOffset = getAffixedOffset();
+
+      expect(affixedOffset.top).toEqual(expectedOffsets.belowMiddle.top);
+      expect(affixedOffset.left).toEqual(expectedOffsets.belowMiddle.left);
+
+      componentInstance.placement = 'below';
+      componentInstance.verticalAlignment = 'top';
+      fixture.detectChanges();
+
+      affixedOffset = getAffixedOffset();
+
+      expect(affixedOffset.top).toEqual(expectedOffsets.belowTop.top);
+      expect(affixedOffset.left).toEqual(expectedOffsets.belowTop.left);
+    });
+
+    it('should affix element using horizontal alignments', async () => {
+      const { fixture, getAffixedOffset } = await setupTest();
+      const componentInstance = fixture.componentInstance;
+
+      componentInstance.placement = 'above';
+      componentInstance.horizontalAlignment = 'left';
+      fixture.detectChanges();
+
+      let affixedOffset = getAffixedOffset();
+
+      expect(affixedOffset.top).toEqual(expectedOffsets.aboveLeft.top);
+      expect(affixedOffset.left).toEqual(expectedOffsets.aboveLeft.left);
+
+      componentInstance.placement = 'above';
+      componentInstance.horizontalAlignment = 'right';
+      fixture.detectChanges();
+
+      affixedOffset = getAffixedOffset();
+
+      expect(affixedOffset.top).toEqual(expectedOffsets.aboveRight.top);
+      expect(affixedOffset.left).toEqual(expectedOffsets.aboveRight.left);
+
+      componentInstance.placement = 'below';
+      componentInstance.horizontalAlignment = 'left';
+      fixture.detectChanges();
+
+      affixedOffset = getAffixedOffset();
+
+      expect(affixedOffset.top).toEqual(expectedOffsets.belowLeft.top);
+      expect(affixedOffset.left).toEqual(expectedOffsets.belowLeft.left);
+
+      componentInstance.placement = 'below';
+      componentInstance.horizontalAlignment = 'right';
+      fixture.detectChanges();
+
+      affixedOffset = getAffixedOffset();
+
+      expect(affixedOffset.top).toEqual(expectedOffsets.belowRight.top);
+      expect(affixedOffset.left).toEqual(expectedOffsets.belowRight.left);
+    });
+
+    it('should update placement on window scroll', async () => {
+      const { fixture, getRecentPlacementChange } = await setupTest();
+      const componentInstance = fixture.componentInstance;
+
+      componentInstance.isSticky = true;
+      componentInstance.enableAutoFit = true;
+      fixture.detectChanges();
+
+      expect(getRecentPlacementChange()).toEqual('above');
+
+      // Scroll down until the affixed item is clipped at its top, then trigger the scroll event.
+      window.scrollTo(0, 200);
+      SkyAppTestUtility.fireDomEvent(window, 'scroll');
+      fixture.detectChanges();
+
+      expect(getRecentPlacementChange()).toEqual('below');
+    });
+
+    it('should update placement on window resize', async () => {
+      const { fixture, getRecentPlacementChange } = await setupTest();
+      const componentInstance = fixture.componentInstance;
+
+      componentInstance.isSticky = true;
+      componentInstance.enableAutoFit = true;
+      fixture.detectChanges();
+
+      expect(getRecentPlacementChange()).toEqual('above');
+
+      // Scroll down until the affixed item is clipped at its top, then trigger the resize event.
+      window.scrollTo(0, 200);
+      SkyAppTestUtility.fireDomEvent(window, 'resize');
+      fixture.detectChanges();
+
+      expect(getRecentPlacementChange()).toEqual('below');
+    });
+
+    it('should update placement on parent element scroll', async () => {
+      const { fixture, getRecentPlacementChange } = await setupTest();
+      const componentInstance = fixture.componentInstance;
+
+      componentInstance.enableOverflowParent = true;
+      fixture.detectChanges();
+
+      componentInstance.isSticky = true;
+      componentInstance.enableAutoFit = true;
+      componentInstance.scrollTargetIntoView();
+      triggerParentScroll(fixture);
+      fixture.detectChanges();
+
+      expect(getRecentPlacementChange()).toEqual('above');
+
+      componentInstance.scrollTargetToTop();
+      triggerParentScroll(fixture);
+
+      expect(getRecentPlacementChange()).toEqual('below');
+    });
+
+    it('should find a suitable placement if preferred placement is hidden', async () => {
+      const { fixture, getRecentPlacementChange } = await setupTest();
+      const componentInstance = fixture.componentInstance;
+
+      componentInstance.enableAutoFit = true;
+      componentInstance.isSticky = true;
+      componentInstance.enableOverflowParent = true;
+      componentInstance.placement = 'above';
+      componentInstance.scrollTargetOutOfView();
+      fixture.detectChanges();
+
+      // Initially, the affixed element should be out of view, so the placement should be null.
+      expect(getRecentPlacementChange()).toBeNull();
+
+      componentInstance.scrollTargetToTop();
+      triggerParentScroll(fixture);
+      fixture.detectChanges();
+
+      // The 'above' placement is hidden, so it should land on 'below'.
+      expect(getRecentPlacementChange()).toEqual('below');
+    });
+
+    it('should allow ignoring overflow parent boundaries when using auto-fit', async () => {
+      const { fixture, getRecentPlacementChange } = await setupTest();
+      const componentInstance = fixture.componentInstance;
+
+      componentInstance.enableOverflowParent = true;
+      fixture.detectChanges();
+
+      componentInstance.autoFitContext = SkyAffixAutoFitContext.Viewport;
+      componentInstance.enableAutoFit = true;
+      componentInstance.isSticky = true;
+      componentInstance.placement = 'below';
+      componentInstance.scrollTargetIntoView();
+      triggerParentScroll(fixture);
+      fixture.detectChanges();
+
+      expect(getRecentPlacementChange()).toEqual('below');
+
+      componentInstance.scrollTargetToBottom();
+      triggerParentScroll(fixture);
+      fixture.detectChanges();
+
+      // Because the auto-fit context is now set to Viewport, the auto-fit functionality shouldn't
+      // fire when the affixed element's offset is located outside of the nearest scrollable parent.
+      // (Normally, the placement would be changed from 'below' to 'above'.)
+      expect(getRecentPlacementChange()).toEqual('below');
+    });
+
+    it("should slightly adjust `left` if affixed element's edges are flush with overflow parent", async () => {
+      const { fixture, getAffixedOffset } = await setupTest();
+      const componentInstance = fixture.componentInstance;
+
+      componentInstance.enableAutoFit = true;
+      componentInstance.isSticky = true;
+      componentInstance.enableOverflowParent = true;
+      componentInstance.placement = 'above';
+      fixture.detectChanges();
+
+      componentInstance.scrollTargetToLeft();
+      triggerParentScroll(fixture);
+      fixture.detectChanges();
+
+      let affixedOffset = getAffixedOffset();
+      expect(affixedOffset.left).toEqual(0);
+
+      componentInstance.scrollTargetToRight();
+      triggerParentScroll(fixture);
+
+      fixture.detectChanges();
+
+      affixedOffset = getAffixedOffset();
+      const parentRect =
+        componentInstance.overflowParentRef.nativeElement.getBoundingClientRect();
+      const affixedRect =
+        componentInstance.affixedRef.nativeElement.getBoundingClientRect();
+      const expectedLeft = parentRect.width - affixedRect.width;
+      expect(affixedOffset.left).toEqual(expectedLeft);
+    });
+
+    it("should slightly adjust `top` if affixed element's edges are flush with overflow parent", async () => {
+      const { fixture, getAffixedOffset } = await setupTest();
+      const componentInstance = fixture.componentInstance;
+
+      componentInstance.enableAutoFit = true;
+      componentInstance.isSticky = true;
+      componentInstance.enableOverflowParent = true;
+      componentInstance.placement = 'left';
+      fixture.detectChanges();
+
+      componentInstance.scrollTargetToTop();
+      triggerParentScroll(fixture);
+      fixture.detectChanges();
+
+      let affixedOffset = getAffixedOffset();
+      expect(affixedOffset.top).toEqual(0);
+
+      componentInstance.scrollTargetToBottom();
+      triggerParentScroll(fixture);
+      fixture.detectChanges();
+
+      affixedOffset = getAffixedOffset();
+      const parentRect =
+        componentInstance.overflowParentRef.nativeElement.getBoundingClientRect();
+      const affixedRect =
+        componentInstance.affixedRef.nativeElement.getBoundingClientRect();
+      const expectedTop = parentRect.height - affixedRect.height;
+      expect(affixedOffset.top).toEqual(expectedTop);
+    });
+
+    it('should never detach affixed element `left` from base element', async () => {
+      const { fixture, getAffixedOffset } = await setupTest();
+      const componentInstance = fixture.componentInstance;
+
+      componentInstance.enableAutoFit = true;
+      componentInstance.isSticky = true;
+      componentInstance.enableOverflowParent = true;
+      componentInstance.placement = 'above';
+      componentInstance.horizontalAlignment = 'left';
+      fixture.detectChanges();
+
+      const offset = 100;
+
+      componentInstance.scrollTargetToLeft(offset * -1);
+      triggerParentScroll(fixture);
+      fixture.detectChanges();
+
+      let affixedOffset = getAffixedOffset();
+      let baseRect =
+        componentInstance.baseRef.nativeElement.getBoundingClientRect();
+      expect(affixedOffset.left).toEqual(baseRect.left);
+
+      componentInstance.scrollTargetToRight(offset);
+      triggerParentScroll(fixture);
+
+      fixture.detectChanges();
+
+      affixedOffset = getAffixedOffset();
+      baseRect =
+        componentInstance.baseRef.nativeElement.getBoundingClientRect();
+
+      expect(affixedOffset.left).toEqual(baseRect.left);
+    });
+
+    it('should never detach affixed element `top` from base element', async () => {
+      const { fixture, getAffixedOffset } = await setupTest();
+      const componentInstance = fixture.componentInstance;
+
+      componentInstance.enableAutoFit = true;
+      componentInstance.isSticky = true;
+      componentInstance.enableOverflowParent = true;
+      componentInstance.placement = 'right';
+      componentInstance.verticalAlignment = 'top';
+      fixture.detectChanges();
+
+      const offset = 100;
+
+      componentInstance.scrollTargetToTop(offset * -1);
+      triggerParentScroll(fixture);
+      fixture.detectChanges();
+
+      let affixedOffset = getAffixedOffset();
+      let baseRect =
+        componentInstance.baseRef.nativeElement.getBoundingClientRect();
+
+      expect(affixedOffset.top).toEqual(baseRect.top);
+
+      componentInstance.scrollTargetToBottom(offset);
+      triggerParentScroll(fixture);
+
+      fixture.detectChanges();
+
+      affixedOffset = getAffixedOffset();
+      baseRect =
+        componentInstance.baseRef.nativeElement.getBoundingClientRect();
+
+      expect(affixedOffset.top).toEqual(baseRect.top);
+    });
+
+    it('should emit when placement changes', async () => {
+      const { fixture } = await setupTest();
+      const componentInstance = fixture.componentInstance;
+
+      componentInstance.enableAutoFit = false;
+      componentInstance.isSticky = true;
+      componentInstance.enableOverflowParent = true;
+      fixture.detectChanges();
+
+      // Trigger a change.
+      componentInstance.enableAutoFit = true;
+      fixture.detectChanges();
+
+      const spy = spyOn(
+        componentInstance,
+        'onAffixPlacementChange'
+      ).and.callThrough();
+
+      // Scroll to make base element visible.
+      componentInstance.scrollTargetToTop();
+      triggerParentScroll(fixture);
+      fixture.detectChanges();
+
+      expect(spy).toHaveBeenCalledWith({
+        placement: 'below',
+      });
+      expect(spy.calls.count()).toEqual(1);
+      spy.calls.reset();
+
+      // Scroll to hide base element.
+      componentInstance.scrollTargetOutOfView();
+      triggerParentScroll(fixture);
+      fixture.detectChanges();
+
+      expect(spy).toHaveBeenCalledWith({
+        placement: null,
+      });
+      expect(spy.calls.count()).toEqual(1);
+      spy.calls.reset();
+    });
+
+    it('should be accessible', async () => {
+      const { fixture } = await setupTest();
+      const componentInstance = fixture.componentInstance;
+
+      componentInstance.enableOverflowParent = true;
+      componentInstance.scrollTargetToTop();
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should find correct placements when the base element is larger than the affixed element', async () => {
+      const { fixture, getAffixedOffset } = await setupTest();
+      const componentInstance = fixture.componentInstance;
+
+      fixture.detectChanges();
+
+      // First, get the original base element's width value.
+      const originalBaseElementWidth =
+        componentInstance.baseRef.nativeElement.getBoundingClientRect().width;
+
+      componentInstance.enableLargerBaseElement = true;
+      componentInstance.placement = 'above';
+      fixture.detectChanges();
+
+      // Then, get the new base element's width after resize.
+      const baseElementWidth =
+        componentInstance.baseRef.nativeElement.getBoundingClientRect().width;
+
+      // Finally, calculate the offset difference so we can use it in our calculations.
+      const offsetDifference =
+        baseElementWidth / 2 - originalBaseElementWidth / 2;
+
+      let affixedOffset = getAffixedOffset();
+
+      expect(affixedOffset.top).toEqual(
+        expectedOffsets.aboveCenter.top - offsetDifference
+      );
+      expect(affixedOffset.left).toEqual(expectedOffsets.aboveCenter.left);
+
+      componentInstance.placement = 'right';
+      fixture.detectChanges();
+
+      affixedOffset = getAffixedOffset();
+
+      expect(affixedOffset.top).toEqual(expectedOffsets.rightMiddle.top);
+      expect(affixedOffset.left).toEqual(
+        expectedOffsets.rightMiddle.left + offsetDifference
+      );
+
+      componentInstance.placement = 'below';
+      fixture.detectChanges();
+
+      affixedOffset = getAffixedOffset();
+
+      expect(affixedOffset.top).toEqual(
+        expectedOffsets.belowCenter.top + offsetDifference
+      );
+      expect(affixedOffset.left).toEqual(expectedOffsets.belowCenter.left);
+
+      componentInstance.placement = 'left';
+      fixture.detectChanges();
+
+      affixedOffset = getAffixedOffset();
+
+      expect(affixedOffset.top).toEqual(expectedOffsets.leftMiddle.top);
+      expect(affixedOffset.left).toEqual(
+        expectedOffsets.leftMiddle.left - offsetDifference
+      );
+    });
+
+    it('should emit when affixed element offset changes', async () => {
+      const { fixture, getRecentOffsetChange } = await setupTest();
+      const componentInstance = fixture.componentInstance;
+
+      componentInstance.isSticky = true;
+      componentInstance.enableOverflowParent = true;
+      fixture.detectChanges();
+
+      const firstOffset = getRecentOffsetChange();
+
+      // Scroll to trigger offset change.
+      componentInstance.scrollTargetToTop();
+      triggerParentScroll(fixture);
+      fixture.detectChanges();
+
+      expect(getRecentOffsetChange()).not.toEqual(firstOffset);
+    });
+
+    it('should emit when the overflow parent scrolls', async () => {
+      const { fixture, getNumOverflowScrollEmitted } = await setupTest();
+      const componentInstance = fixture.componentInstance;
+
+      componentInstance.isSticky = true;
+      componentInstance.enableOverflowParent = true;
+      fixture.detectChanges();
+
+      expect(getNumOverflowScrollEmitted()).toEqual(0);
+
+      // Scroll to trigger offset change.
+      componentInstance.scrollTargetToTop();
+      triggerParentScroll(fixture);
+      fixture.detectChanges();
+
+      expect(getNumOverflowScrollEmitted()).toEqual(1);
+    });
+
+    it('should allow re-running the affix calculation', async () => {
+      const { fixture, getAffixer, getRecentPlacementChange } =
+        await setupTest();
+      const componentInstance = fixture.componentInstance;
+      const preferredPlacement = 'right';
+
+      componentInstance.enableAutoFit = true;
+      componentInstance.isSticky = true;
+      componentInstance.enableOverflowParent = true;
+      componentInstance.placement = preferredPlacement;
+      fixture.detectChanges();
+
+      componentInstance.scrollTargetIntoView();
+      triggerParentScroll(fixture);
+      fixture.detectChanges();
+
+      expect(getRecentPlacementChange()).toEqual(preferredPlacement);
+
+      // Scroll to right to make the affixer find a new placement.
+      componentInstance.scrollTargetToRight();
+      triggerParentScroll(fixture);
+      fixture.detectChanges();
+
+      expect(getRecentPlacementChange()).toEqual('left');
+
+      getAffixer()?.reaffix();
+      fixture.detectChanges();
+
+      // The placement change emitter should be exactly the same as before since we're forcing the
+      // affix functionality to be called again.
+      expect(getRecentPlacementChange()).toEqual('left');
+    });
+
+    it('should emit a placement of `null` if base element hidden', async () => {
+      const { fixture, getRecentPlacementChange } = await setupTest();
+      const componentInstance = fixture.componentInstance;
+
+      componentInstance.placement = 'above';
+      componentInstance.enableAutoFit = true;
+      componentInstance.isSticky = true;
+      componentInstance.autoFitContext = SkyAffixAutoFitContext.Viewport;
+      componentInstance.enableOverflowParent = true;
+      fixture.detectChanges();
+
+      componentInstance.scrollTargetToBottom();
+      SkyAppTestUtility.fireDomEvent(window, 'scroll');
+      fixture.detectChanges();
+
+      // Confirm baseline expectation.
+      expect(getRecentPlacementChange()).toEqual('above');
+
+      // Scroll base element out of view.
+      const baseElementHeight =
+        componentInstance.baseRef.nativeElement.getBoundingClientRect().height;
+      componentInstance.scrollTargetToBottom(baseElementHeight);
+      SkyAppTestUtility.fireDomEvent(window, 'scroll');
+      fixture.detectChanges();
+
+      expect(getRecentPlacementChange()).toBeNull();
+    });
+
+    it('should handle empty `autoFitOverflowOffset` properties', async () => {
+      const { fixture, getRecentPlacementChange } = await setupTest();
+      const componentInstance = fixture.componentInstance;
+
+      // All properties are left undefined.
+      const offset: SkyAffixOffset = {};
+
+      componentInstance.enableAutoFit = true;
+      componentInstance.isSticky = true;
+      componentInstance.enableOverflowParent = true;
+      componentInstance.placement = 'right';
+      fixture.detectChanges();
+
+      const affixedElementWidth =
+        componentInstance.affixedRef.nativeElement.getBoundingClientRect()
+          .width;
+
+      componentInstance.scrollTargetToRight(affixedElementWidth);
+      triggerParentScroll(fixture);
+      fixture.detectChanges();
+
+      expect(getRecentPlacementChange()).toEqual('right');
+
+      componentInstance.autoFitOverflowOffset = offset;
+      triggerParentScroll(fixture);
+      fixture.detectChanges();
+
+      // The placement should be the same since the offset did not include any new values.
+      expect(getRecentPlacementChange()).toEqual('right');
+    });
   }
 
   afterEach(() => {
@@ -173,741 +928,12 @@ describe('Affix directive', () => {
     window.document.body.style.width = 'initial';
   });
 
-  it('should set default config', async () => {
-    const { fixture, getAffixedOffset, getAffixer } = await setupTest();
-
-    fixture.detectChanges();
-
-    const affixer = getAffixer();
-    const affixedOffset = getAffixedOffset();
-
-    const expectedConfig: SkyAffixConfig = {
-      autoFitContext: SkyAffixAutoFitContext.OverflowParent,
-      autoFitOverflowOffset: undefined,
-      enableAutoFit: false,
-      horizontalAlignment: 'center',
-      isSticky: false,
-      placement: 'above',
-      verticalAlignment: undefined,
-    };
-
-    expect(affixer?.getConfig()).toEqual(expectedConfig);
-    expect(affixedOffset.top).toEqual(expectedOffsets.aboveCenter.top);
-    expect(affixedOffset.left).toEqual(expectedOffsets.aboveCenter.left);
+  describe('with position fixed', () => {
+    runTestsForPosition('fixed');
+    runTestsForPosition(undefined);
   });
 
-  it('should place affixed element on all sides of the base element', async () => {
-    const { fixture, getAffixedOffset } = await setupTest();
-    const componentInstance = fixture.componentInstance;
-
-    componentInstance.placement = 'above';
-    fixture.detectChanges();
-
-    let affixedOffset = getAffixedOffset();
-
-    expect(affixedOffset.top).toEqual(expectedOffsets.aboveCenter.top);
-    expect(affixedOffset.left).toEqual(expectedOffsets.aboveCenter.left);
-
-    componentInstance.placement = 'right';
-    fixture.detectChanges();
-
-    affixedOffset = getAffixedOffset();
-
-    expect(affixedOffset.top).toEqual(expectedOffsets.rightMiddle.top);
-    expect(affixedOffset.left).toEqual(expectedOffsets.rightMiddle.left);
-
-    componentInstance.placement = 'below';
-    fixture.detectChanges();
-
-    affixedOffset = getAffixedOffset();
-
-    expect(affixedOffset.top).toEqual(expectedOffsets.belowCenter.top);
-    expect(affixedOffset.left).toEqual(expectedOffsets.belowCenter.left);
-
-    componentInstance.placement = 'left';
-    fixture.detectChanges();
-
-    affixedOffset = getAffixedOffset();
-
-    expect(affixedOffset.top).toEqual(expectedOffsets.leftMiddle.top);
-    expect(affixedOffset.left).toEqual(expectedOffsets.leftMiddle.left);
-  });
-
-  it('should allow adjustments to overflow parent offset', async () => {
-    const { fixture, getRecentPlacementChange } = await setupTest();
-    const componentInstance = fixture.componentInstance;
-
-    const offset: SkyAffixOffset = {
-      bottom: 10,
-      left: 10,
-      right: 10,
-      top: 10,
-    };
-
-    componentInstance.enableAutoFit = true;
-    componentInstance.isSticky = true;
-    componentInstance.enableOverflowParent = true;
-    componentInstance.placement = 'right';
-    fixture.detectChanges();
-
-    const affixedElementWidth =
-      componentInstance.affixedRef.nativeElement.getBoundingClientRect().width;
-
-    componentInstance.scrollTargetToRight(affixedElementWidth);
-    triggerParentScroll(fixture);
-    fixture.detectChanges();
-
-    // The placement shouldn't change.
-    expect(getRecentPlacementChange()).toEqual('right');
-
-    componentInstance.autoFitOverflowOffset = offset;
-    fixture.detectChanges();
-
-    // The placement should now change since the overflow offset was added.
-    expect(getRecentPlacementChange()).toEqual('left');
-  });
-
-  it('should affix element using vertical alignments', async () => {
-    const { fixture, getAffixedOffset } = await setupTest();
-    const componentInstance = fixture.componentInstance;
-
-    componentInstance.placement = 'right';
-    componentInstance.verticalAlignment = 'top';
-    fixture.detectChanges();
-
-    let affixedOffset = getAffixedOffset();
-
-    expect(affixedOffset.top).toEqual(expectedOffsets.rightTop.top);
-    expect(affixedOffset.left).toEqual(expectedOffsets.rightTop.left);
-
-    componentInstance.placement = 'right';
-    componentInstance.verticalAlignment = 'middle';
-    fixture.detectChanges();
-
-    affixedOffset = getAffixedOffset();
-
-    expect(affixedOffset.top).toEqual(expectedOffsets.rightMiddle.top);
-    expect(affixedOffset.left).toEqual(expectedOffsets.rightMiddle.left);
-
-    componentInstance.placement = 'right';
-    componentInstance.verticalAlignment = undefined;
-    fixture.detectChanges();
-
-    affixedOffset = getAffixedOffset();
-
-    expect(affixedOffset.top).toEqual(expectedOffsets.rightMiddle.top);
-    expect(affixedOffset.left).toEqual(expectedOffsets.rightMiddle.left);
-
-    componentInstance.placement = 'right';
-    componentInstance.verticalAlignment = 'bottom';
-    fixture.detectChanges();
-
-    affixedOffset = getAffixedOffset();
-
-    expect(affixedOffset.top).toEqual(expectedOffsets.rightBottom.top);
-    expect(affixedOffset.left).toEqual(expectedOffsets.rightBottom.left);
-
-    componentInstance.placement = 'left';
-    componentInstance.verticalAlignment = 'top';
-    fixture.detectChanges();
-
-    affixedOffset = getAffixedOffset();
-
-    expect(affixedOffset.top).toEqual(expectedOffsets.leftTop.top);
-    expect(affixedOffset.left).toEqual(expectedOffsets.leftTop.left);
-
-    componentInstance.placement = 'left';
-    componentInstance.verticalAlignment = 'middle';
-    fixture.detectChanges();
-
-    affixedOffset = getAffixedOffset();
-
-    expect(affixedOffset.top).toEqual(expectedOffsets.leftMiddle.top);
-    expect(affixedOffset.left).toEqual(expectedOffsets.leftMiddle.left);
-
-    componentInstance.placement = 'left';
-    componentInstance.verticalAlignment = undefined;
-    fixture.detectChanges();
-
-    affixedOffset = getAffixedOffset();
-
-    expect(affixedOffset.top).toEqual(expectedOffsets.leftMiddle.top);
-    expect(affixedOffset.left).toEqual(expectedOffsets.leftMiddle.left);
-
-    componentInstance.placement = 'left';
-    componentInstance.verticalAlignment = 'bottom';
-    fixture.detectChanges();
-
-    affixedOffset = getAffixedOffset();
-
-    expect(affixedOffset.top).toEqual(expectedOffsets.leftBottom.top);
-    expect(affixedOffset.left).toEqual(expectedOffsets.leftBottom.left);
-
-    componentInstance.placement = 'above';
-    componentInstance.verticalAlignment = 'top';
-    fixture.detectChanges();
-
-    affixedOffset = getAffixedOffset();
-
-    expect(affixedOffset.top).toEqual(expectedOffsets.aboveTop.top);
-    expect(affixedOffset.left).toEqual(expectedOffsets.aboveTop.left);
-
-    componentInstance.placement = 'above';
-    componentInstance.verticalAlignment = 'middle';
-    fixture.detectChanges();
-
-    affixedOffset = getAffixedOffset();
-
-    expect(affixedOffset.top).toEqual(expectedOffsets.aboveMiddle.top);
-    expect(affixedOffset.left).toEqual(expectedOffsets.aboveMiddle.left);
-
-    componentInstance.placement = 'above';
-    componentInstance.verticalAlignment = 'bottom';
-    fixture.detectChanges();
-
-    affixedOffset = getAffixedOffset();
-
-    expect(affixedOffset.top).toEqual(expectedOffsets.aboveBottom.top);
-    expect(affixedOffset.left).toEqual(expectedOffsets.aboveBottom.left);
-
-    componentInstance.placement = 'below';
-    componentInstance.verticalAlignment = 'bottom';
-    fixture.detectChanges();
-
-    affixedOffset = getAffixedOffset();
-
-    expect(affixedOffset.top).toEqual(expectedOffsets.belowBottom.top);
-    expect(affixedOffset.left).toEqual(expectedOffsets.belowBottom.left);
-
-    componentInstance.placement = 'below';
-    componentInstance.verticalAlignment = 'middle';
-    fixture.detectChanges();
-
-    affixedOffset = getAffixedOffset();
-
-    expect(affixedOffset.top).toEqual(expectedOffsets.belowMiddle.top);
-    expect(affixedOffset.left).toEqual(expectedOffsets.belowMiddle.left);
-
-    componentInstance.placement = 'below';
-    componentInstance.verticalAlignment = 'top';
-    fixture.detectChanges();
-
-    affixedOffset = getAffixedOffset();
-
-    expect(affixedOffset.top).toEqual(expectedOffsets.belowTop.top);
-    expect(affixedOffset.left).toEqual(expectedOffsets.belowTop.left);
-  });
-
-  it('should affix element using horizontal alignments', async () => {
-    const { fixture, getAffixedOffset } = await setupTest();
-    const componentInstance = fixture.componentInstance;
-
-    componentInstance.placement = 'above';
-    componentInstance.horizontalAlignment = 'left';
-    fixture.detectChanges();
-
-    let affixedOffset = getAffixedOffset();
-
-    expect(affixedOffset.top).toEqual(expectedOffsets.aboveLeft.top);
-    expect(affixedOffset.left).toEqual(expectedOffsets.aboveLeft.left);
-
-    componentInstance.placement = 'above';
-    componentInstance.horizontalAlignment = 'right';
-    fixture.detectChanges();
-
-    affixedOffset = getAffixedOffset();
-
-    expect(affixedOffset.top).toEqual(expectedOffsets.aboveRight.top);
-    expect(affixedOffset.left).toEqual(expectedOffsets.aboveRight.left);
-
-    componentInstance.placement = 'below';
-    componentInstance.horizontalAlignment = 'left';
-    fixture.detectChanges();
-
-    affixedOffset = getAffixedOffset();
-
-    expect(affixedOffset.top).toEqual(expectedOffsets.belowLeft.top);
-    expect(affixedOffset.left).toEqual(expectedOffsets.belowLeft.left);
-
-    componentInstance.placement = 'below';
-    componentInstance.horizontalAlignment = 'right';
-    fixture.detectChanges();
-
-    affixedOffset = getAffixedOffset();
-
-    expect(affixedOffset.top).toEqual(expectedOffsets.belowRight.top);
-    expect(affixedOffset.left).toEqual(expectedOffsets.belowRight.left);
-  });
-
-  it('should update placement on window scroll', async () => {
-    const { fixture, getRecentPlacementChange } = await setupTest();
-    const componentInstance = fixture.componentInstance;
-
-    componentInstance.isSticky = true;
-    componentInstance.enableAutoFit = true;
-    fixture.detectChanges();
-
-    expect(getRecentPlacementChange()).toEqual('above');
-
-    // Scroll down until the affixed item is clipped at its top, then trigger the scroll event.
-    window.scrollTo(0, 200);
-    SkyAppTestUtility.fireDomEvent(window, 'scroll');
-    fixture.detectChanges();
-
-    expect(getRecentPlacementChange()).toEqual('below');
-  });
-
-  it('should update placement on window resize', async () => {
-    const { fixture, getRecentPlacementChange } = await setupTest();
-    const componentInstance = fixture.componentInstance;
-
-    componentInstance.isSticky = true;
-    componentInstance.enableAutoFit = true;
-    fixture.detectChanges();
-
-    expect(getRecentPlacementChange()).toEqual('above');
-
-    // Scroll down until the affixed item is clipped at its top, then trigger the resize event.
-    window.scrollTo(0, 200);
-    SkyAppTestUtility.fireDomEvent(window, 'resize');
-    fixture.detectChanges();
-
-    expect(getRecentPlacementChange()).toEqual('below');
-  });
-
-  it('should update placement on parent element scroll', async () => {
-    const { fixture, getRecentPlacementChange } = await setupTest();
-    const componentInstance = fixture.componentInstance;
-
-    componentInstance.enableOverflowParent = true;
-    fixture.detectChanges();
-
-    componentInstance.isSticky = true;
-    componentInstance.enableAutoFit = true;
-    componentInstance.scrollTargetIntoView();
-    triggerParentScroll(fixture);
-    fixture.detectChanges();
-
-    expect(getRecentPlacementChange()).toEqual('above');
-
-    componentInstance.scrollTargetToTop();
-    triggerParentScroll(fixture);
-
-    expect(getRecentPlacementChange()).toEqual('below');
-  });
-
-  it('should find a suitable placement if preferred placement is hidden', async () => {
-    const { fixture, getRecentPlacementChange } = await setupTest();
-    const componentInstance = fixture.componentInstance;
-
-    componentInstance.enableAutoFit = true;
-    componentInstance.isSticky = true;
-    componentInstance.enableOverflowParent = true;
-    componentInstance.placement = 'above';
-    componentInstance.scrollTargetOutOfView();
-    fixture.detectChanges();
-
-    // Initially, the affixed element should be out of view, so the placement should be null.
-    expect(getRecentPlacementChange()).toBeNull();
-
-    componentInstance.scrollTargetToTop();
-    triggerParentScroll(fixture);
-    fixture.detectChanges();
-
-    // The 'above' placement is hidden, so it should land on 'below'.
-    expect(getRecentPlacementChange()).toEqual('below');
-  });
-
-  it('should allow ignoring overflow parent boundaries when using auto-fit', async () => {
-    const { fixture, getRecentPlacementChange } = await setupTest();
-    const componentInstance = fixture.componentInstance;
-
-    componentInstance.enableOverflowParent = true;
-    fixture.detectChanges();
-
-    componentInstance.autoFitContext = SkyAffixAutoFitContext.Viewport;
-    componentInstance.enableAutoFit = true;
-    componentInstance.isSticky = true;
-    componentInstance.placement = 'below';
-    componentInstance.scrollTargetIntoView();
-    triggerParentScroll(fixture);
-    fixture.detectChanges();
-
-    expect(getRecentPlacementChange()).toEqual('below');
-
-    componentInstance.scrollTargetToBottom();
-    triggerParentScroll(fixture);
-    fixture.detectChanges();
-
-    // Because the auto-fit context is now set to Viewport, the auto-fit functionality shouldn't
-    // fire when the affixed element's offset is located outside of the nearest scrollable parent.
-    // (Normally, the placement would be changed from 'below' to 'above'.)
-    expect(getRecentPlacementChange()).toEqual('below');
-  });
-
-  it("should slightly adjust `left` if affixed element's edges are flush with overflow parent", async () => {
-    const { fixture, getAffixedOffset } = await setupTest();
-    const componentInstance = fixture.componentInstance;
-
-    componentInstance.enableAutoFit = true;
-    componentInstance.isSticky = true;
-    componentInstance.enableOverflowParent = true;
-    componentInstance.placement = 'above';
-    fixture.detectChanges();
-
-    componentInstance.scrollTargetToLeft();
-    triggerParentScroll(fixture);
-    fixture.detectChanges();
-
-    let affixedOffset = getAffixedOffset();
-    expect(affixedOffset.left).toEqual(0);
-
-    componentInstance.scrollTargetToRight();
-    triggerParentScroll(fixture);
-
-    fixture.detectChanges();
-
-    affixedOffset = getAffixedOffset();
-    const parentRect =
-      componentInstance.overflowParentRef.nativeElement.getBoundingClientRect();
-    const affixedRect =
-      componentInstance.affixedRef.nativeElement.getBoundingClientRect();
-    const expectedLeft = parentRect.width - affixedRect.width;
-    expect(affixedOffset.left).toEqual(expectedLeft);
-  });
-
-  it("should slightly adjust `top` if affixed element's edges are flush with overflow parent", async () => {
-    const { fixture, getAffixedOffset } = await setupTest();
-    const componentInstance = fixture.componentInstance;
-
-    componentInstance.enableAutoFit = true;
-    componentInstance.isSticky = true;
-    componentInstance.enableOverflowParent = true;
-    componentInstance.placement = 'left';
-    fixture.detectChanges();
-
-    componentInstance.scrollTargetToTop();
-    triggerParentScroll(fixture);
-    fixture.detectChanges();
-
-    let affixedOffset = getAffixedOffset();
-    expect(affixedOffset.top).toEqual(0);
-
-    componentInstance.scrollTargetToBottom();
-    triggerParentScroll(fixture);
-    fixture.detectChanges();
-
-    affixedOffset = getAffixedOffset();
-    const parentRect =
-      componentInstance.overflowParentRef.nativeElement.getBoundingClientRect();
-    const affixedRect =
-      componentInstance.affixedRef.nativeElement.getBoundingClientRect();
-    const expectedTop = parentRect.height - affixedRect.height;
-    expect(affixedOffset.top).toEqual(expectedTop);
-  });
-
-  it('should never detach affixed element `left` from base element', async () => {
-    const { fixture, getAffixedOffset } = await setupTest();
-    const componentInstance = fixture.componentInstance;
-
-    componentInstance.enableAutoFit = true;
-    componentInstance.isSticky = true;
-    componentInstance.enableOverflowParent = true;
-    componentInstance.placement = 'above';
-    componentInstance.horizontalAlignment = 'left';
-    fixture.detectChanges();
-
-    const offset = 100;
-
-    componentInstance.scrollTargetToLeft(offset * -1);
-    triggerParentScroll(fixture);
-    fixture.detectChanges();
-
-    let affixedOffset = getAffixedOffset();
-    let baseRect =
-      componentInstance.baseRef.nativeElement.getBoundingClientRect();
-    expect(affixedOffset.left).toEqual(baseRect.left);
-
-    componentInstance.scrollTargetToRight(offset);
-    triggerParentScroll(fixture);
-
-    fixture.detectChanges();
-
-    affixedOffset = getAffixedOffset();
-    baseRect = componentInstance.baseRef.nativeElement.getBoundingClientRect();
-
-    expect(affixedOffset.left).toEqual(baseRect.left);
-  });
-
-  it('should never detach affixed element `top` from base element', async () => {
-    const { fixture, getAffixedOffset } = await setupTest();
-    const componentInstance = fixture.componentInstance;
-
-    componentInstance.enableAutoFit = true;
-    componentInstance.isSticky = true;
-    componentInstance.enableOverflowParent = true;
-    componentInstance.placement = 'right';
-    componentInstance.verticalAlignment = 'top';
-    fixture.detectChanges();
-
-    const offset = 100;
-
-    componentInstance.scrollTargetToTop(offset * -1);
-    triggerParentScroll(fixture);
-    fixture.detectChanges();
-
-    let affixedOffset = getAffixedOffset();
-    let baseRect =
-      componentInstance.baseRef.nativeElement.getBoundingClientRect();
-
-    expect(affixedOffset.top).toEqual(baseRect.top);
-
-    componentInstance.scrollTargetToBottom(offset);
-    triggerParentScroll(fixture);
-
-    fixture.detectChanges();
-
-    affixedOffset = getAffixedOffset();
-    baseRect = componentInstance.baseRef.nativeElement.getBoundingClientRect();
-
-    expect(affixedOffset.top).toEqual(baseRect.top);
-  });
-
-  it('should emit when placement changes', async () => {
-    const { fixture } = await setupTest();
-    const componentInstance = fixture.componentInstance;
-
-    componentInstance.enableAutoFit = false;
-    componentInstance.isSticky = true;
-    componentInstance.enableOverflowParent = true;
-    fixture.detectChanges();
-
-    // Trigger a change.
-    componentInstance.enableAutoFit = true;
-    fixture.detectChanges();
-
-    const spy = spyOn(
-      componentInstance,
-      'onAffixPlacementChange'
-    ).and.callThrough();
-
-    // Scroll to make base element visible.
-    componentInstance.scrollTargetToTop();
-    triggerParentScroll(fixture);
-    fixture.detectChanges();
-
-    expect(spy).toHaveBeenCalledWith({
-      placement: 'below',
-    });
-    expect(spy.calls.count()).toEqual(1);
-    spy.calls.reset();
-
-    // Scroll to hide base element.
-    componentInstance.scrollTargetOutOfView();
-    triggerParentScroll(fixture);
-    fixture.detectChanges();
-
-    expect(spy).toHaveBeenCalledWith({
-      placement: null,
-    });
-    expect(spy.calls.count()).toEqual(1);
-    spy.calls.reset();
-  });
-
-  it('should be accessible', async () => {
-    const { fixture } = await setupTest();
-    const componentInstance = fixture.componentInstance;
-
-    componentInstance.enableOverflowParent = true;
-    componentInstance.scrollTargetToTop();
-    fixture.detectChanges();
-
-    await expectAsync(fixture.nativeElement).toBeAccessible();
-  });
-
-  it('should find correct placements when the base element is larger than the affixed element', async () => {
-    const { fixture, getAffixedOffset } = await setupTest();
-    const componentInstance = fixture.componentInstance;
-
-    fixture.detectChanges();
-
-    // First, get the original base element's width value.
-    const originalBaseElementWidth =
-      componentInstance.baseRef.nativeElement.getBoundingClientRect().width;
-
-    componentInstance.enableLargerBaseElement = true;
-    componentInstance.placement = 'above';
-    fixture.detectChanges();
-
-    // Then, get the new base element's width after resize.
-    const baseElementWidth =
-      componentInstance.baseRef.nativeElement.getBoundingClientRect().width;
-
-    // Finally, calculate the offset difference so we can use it in our calculations.
-    const offsetDifference =
-      baseElementWidth / 2 - originalBaseElementWidth / 2;
-
-    let affixedOffset = getAffixedOffset();
-
-    expect(affixedOffset.top).toEqual(
-      expectedOffsets.aboveCenter.top - offsetDifference
-    );
-    expect(affixedOffset.left).toEqual(expectedOffsets.aboveCenter.left);
-
-    componentInstance.placement = 'right';
-    fixture.detectChanges();
-
-    affixedOffset = getAffixedOffset();
-
-    expect(affixedOffset.top).toEqual(expectedOffsets.rightMiddle.top);
-    expect(affixedOffset.left).toEqual(
-      expectedOffsets.rightMiddle.left + offsetDifference
-    );
-
-    componentInstance.placement = 'below';
-    fixture.detectChanges();
-
-    affixedOffset = getAffixedOffset();
-
-    expect(affixedOffset.top).toEqual(
-      expectedOffsets.belowCenter.top + offsetDifference
-    );
-    expect(affixedOffset.left).toEqual(expectedOffsets.belowCenter.left);
-
-    componentInstance.placement = 'left';
-    fixture.detectChanges();
-
-    affixedOffset = getAffixedOffset();
-
-    expect(affixedOffset.top).toEqual(expectedOffsets.leftMiddle.top);
-    expect(affixedOffset.left).toEqual(
-      expectedOffsets.leftMiddle.left - offsetDifference
-    );
-  });
-
-  it('should emit when affixed element offset changes', async () => {
-    const { fixture, getRecentOffsetChange } = await setupTest();
-    const componentInstance = fixture.componentInstance;
-
-    componentInstance.isSticky = true;
-    componentInstance.enableOverflowParent = true;
-    fixture.detectChanges();
-
-    const firstOffset = getRecentOffsetChange();
-
-    // Scroll to trigger offset change.
-    componentInstance.scrollTargetToTop();
-    triggerParentScroll(fixture);
-    fixture.detectChanges();
-
-    expect(getRecentOffsetChange()).not.toEqual(firstOffset);
-  });
-
-  it('should emit when the overflow parent scrolls', async () => {
-    const { fixture, getNumOverflowScrollEmitted } = await setupTest();
-    const componentInstance = fixture.componentInstance;
-
-    componentInstance.isSticky = true;
-    componentInstance.enableOverflowParent = true;
-    fixture.detectChanges();
-
-    expect(getNumOverflowScrollEmitted()).toEqual(0);
-
-    // Scroll to trigger offset change.
-    componentInstance.scrollTargetToTop();
-    triggerParentScroll(fixture);
-    fixture.detectChanges();
-
-    expect(getNumOverflowScrollEmitted()).toEqual(1);
-  });
-
-  it('should allow re-running the affix calculation', async () => {
-    const { fixture, getAffixer, getRecentPlacementChange } = await setupTest();
-    const componentInstance = fixture.componentInstance;
-    const preferredPlacement = 'right';
-
-    componentInstance.enableAutoFit = true;
-    componentInstance.isSticky = true;
-    componentInstance.enableOverflowParent = true;
-    componentInstance.placement = preferredPlacement;
-    fixture.detectChanges();
-
-    componentInstance.scrollTargetIntoView();
-    triggerParentScroll(fixture);
-    fixture.detectChanges();
-
-    expect(getRecentPlacementChange()).toEqual(preferredPlacement);
-
-    // Scroll to right to make the affixer find a new placement.
-    componentInstance.scrollTargetToRight();
-    triggerParentScroll(fixture);
-    fixture.detectChanges();
-
-    expect(getRecentPlacementChange()).toEqual('left');
-
-    getAffixer()?.reaffix();
-    fixture.detectChanges();
-
-    // The placement change emitter should be exactly the same as before since we're forcing the
-    // affix functionality to be called again.
-    expect(getRecentPlacementChange()).toEqual('left');
-  });
-
-  it('should emit a placement of `null` if base element hidden', async () => {
-    const { fixture, getRecentPlacementChange } = await setupTest();
-    const componentInstance = fixture.componentInstance;
-
-    componentInstance.placement = 'above';
-    componentInstance.enableAutoFit = true;
-    componentInstance.isSticky = true;
-    componentInstance.autoFitContext = SkyAffixAutoFitContext.Viewport;
-    componentInstance.enableOverflowParent = true;
-    fixture.detectChanges();
-
-    componentInstance.scrollTargetToBottom();
-    SkyAppTestUtility.fireDomEvent(window, 'scroll');
-    fixture.detectChanges();
-
-    // Confirm baseline expectation.
-    expect(getRecentPlacementChange()).toEqual('above');
-
-    // Scroll base element out of view.
-    const baseElementHeight =
-      componentInstance.baseRef.nativeElement.getBoundingClientRect().height;
-    componentInstance.scrollTargetToBottom(baseElementHeight);
-    SkyAppTestUtility.fireDomEvent(window, 'scroll');
-    fixture.detectChanges();
-
-    expect(getRecentPlacementChange()).toBeNull();
-  });
-
-  it('should handle empty `autoFitOverflowOffset` properties', async () => {
-    const { fixture, getRecentPlacementChange } = await setupTest();
-    const componentInstance = fixture.componentInstance;
-
-    // All properties are left undefined.
-    const offset: SkyAffixOffset = {};
-
-    componentInstance.enableAutoFit = true;
-    componentInstance.isSticky = true;
-    componentInstance.enableOverflowParent = true;
-    componentInstance.placement = 'right';
-    fixture.detectChanges();
-
-    const affixedElementWidth =
-      componentInstance.affixedRef.nativeElement.getBoundingClientRect().width;
-
-    componentInstance.scrollTargetToRight(affixedElementWidth);
-    triggerParentScroll(fixture);
-    fixture.detectChanges();
-
-    expect(getRecentPlacementChange()).toEqual('right');
-
-    componentInstance.autoFitOverflowOffset = offset;
-    triggerParentScroll(fixture);
-    fixture.detectChanges();
-
-    // The placement should be the same since the offset did not include any new values.
-    expect(getRecentPlacementChange()).toEqual('right');
+  describe('with position absolute', () => {
+    runTestsForPosition('absolute');
   });
 });
