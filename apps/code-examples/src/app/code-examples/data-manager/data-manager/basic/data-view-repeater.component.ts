@@ -3,13 +3,18 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import {
   SkyDataManagerService,
   SkyDataManagerState,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
+
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { SkyDataManagerDemoRow } from './data-manager-demo-data';
 
@@ -18,70 +23,98 @@ import { SkyDataManagerDemoRow } from './data-manager-demo-data';
   templateUrl: './data-view-repeater.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DataViewRepeaterDemoComponent implements OnInit {
+export class DataViewRepeaterDemoComponent implements OnInit, OnDestroy {
   @Input()
   public items: SkyDataManagerDemoRow[] = [];
 
-  public dataState = new SkyDataManagerState({});
+  public readonly viewId = 'repeaterView';
 
   public displayedItems: SkyDataManagerDemoRow[] = [];
-
   public isActive = false;
 
-  public viewId = 'repeaterView';
+  #dataState = new SkyDataManagerState({});
+  #ngUnsubscribe = new Subject<void>();
 
-  public viewConfig: SkyDataViewConfig = {
+  #viewConfig: SkyDataViewConfig = {
     id: this.viewId,
     name: 'Repeater View',
     icon: 'list',
     searchEnabled: true,
     filterButtonEnabled: true,
     multiselectToolbarEnabled: true,
-    onClearAllClick: this.clearAll.bind(this),
-    onSelectAllClick: this.selectAll.bind(this),
+    onClearAllClick: () => this.#clearAll(),
+    onSelectAllClick: () => this.#selectAll(),
   };
 
-  constructor(
-    private changeDetector: ChangeDetectorRef,
-    private dataManagerService: SkyDataManagerService
-  ) {}
+  #changeDetector = inject(ChangeDetectorRef);
+  #dataManagerSvc = inject(SkyDataManagerService);
 
   public ngOnInit(): void {
     this.displayedItems = this.items;
 
-    this.dataManagerService.initDataView(this.viewConfig);
+    this.#dataManagerSvc.initDataView(this.#viewConfig);
 
-    this.dataManagerService
+    this.#dataManagerSvc
       .getDataStateUpdates(this.viewId)
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((state) => {
-        this.dataState = state;
-        this.updateData();
+        this.#dataState = state;
+        this.#updateData();
       });
 
-    this.dataManagerService.getActiveViewIdUpdates().subscribe((id) => {
-      this.isActive = id === this.viewId;
-      this.changeDetector.detectChanges();
-    });
+    this.#dataManagerSvc
+      .getActiveViewIdUpdates()
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((id) => {
+        this.isActive = id === this.viewId;
+        this.#changeDetector.markForCheck();
+      });
   }
 
-  public updateData(): void {
-    const selectedIds = this.dataState.selectedIds || [];
+  public ngOnDestroy(): void {
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
+  }
+
+  public onItemSelect(isSelected: boolean, item: SkyDataManagerDemoRow): void {
+    const selectedItems = this.#dataState.selectedIds || [];
+    const itemIndex = selectedItems.indexOf(item.id);
+
+    if (isSelected && itemIndex === -1) {
+      selectedItems.push(item.id);
+    } else if (!isSelected && itemIndex !== -1) {
+      selectedItems.splice(itemIndex, 1);
+    }
+
+    this.#dataState.selectedIds = selectedItems;
+    this.#dataManagerSvc.updateDataState(this.#dataState, this.viewId);
+
+    if (this.#dataState.onlyShowSelected && this.displayedItems) {
+      this.displayedItems = this.displayedItems.filter((itm) => itm.selected);
+      this.#changeDetector.markForCheck();
+    }
+  }
+
+  #updateData(): void {
+    const selectedIds = this.#dataState.selectedIds || [];
+
     this.items.forEach((item) => {
       item.selected = selectedIds.indexOf(item.id) !== -1;
     });
-    this.displayedItems = this.filterItems(this.searchItems(this.items));
 
-    if (this.dataState.onlyShowSelected) {
+    this.displayedItems = this.#filterItems(this.#searchItems(this.items));
+
+    if (this.#dataState.onlyShowSelected) {
       this.displayedItems = this.displayedItems.filter((item) => item.selected);
     }
 
-    this.changeDetector.detectChanges();
+    this.#changeDetector.markForCheck();
   }
 
-  public searchItems(items: SkyDataManagerDemoRow[]): SkyDataManagerDemoRow[] {
+  #searchItems(items: SkyDataManagerDemoRow[]): SkyDataManagerDemoRow[] {
     let searchedItems = items;
     const searchText =
-      this.dataState && this.dataState.searchText?.toUpperCase();
+      this.#dataState && this.#dataState.searchText?.toUpperCase();
 
     if (searchText) {
       searchedItems = items.filter(function (item: SkyDataManagerDemoRow) {
@@ -102,12 +135,13 @@ export class DataViewRepeaterDemoComponent implements OnInit {
         return false;
       });
     }
+
     return searchedItems;
   }
 
-  public filterItems(items: SkyDataManagerDemoRow[]): SkyDataManagerDemoRow[] {
+  #filterItems(items: SkyDataManagerDemoRow[]): SkyDataManagerDemoRow[] {
     let filteredItems = items;
-    const filterData = this.dataState && this.dataState.filterData;
+    const filterData = this.#dataState && this.#dataState.filterData;
 
     if (filterData && filterData.filters) {
       const filters = filterData.filters;
@@ -121,6 +155,7 @@ export class DataViewRepeaterDemoComponent implements OnInit {
         ) {
           return true;
         }
+
         return false;
       });
     }
@@ -128,8 +163,8 @@ export class DataViewRepeaterDemoComponent implements OnInit {
     return filteredItems;
   }
 
-  public selectAll(): void {
-    const selectedIds = this.dataState.selectedIds || [];
+  #selectAll(): void {
+    const selectedIds = this.#dataState.selectedIds || [];
 
     this.displayedItems.forEach((item) => {
       if (!item.selected) {
@@ -138,13 +173,13 @@ export class DataViewRepeaterDemoComponent implements OnInit {
       }
     });
 
-    this.dataState.selectedIds = selectedIds;
-    this.dataManagerService.updateDataState(this.dataState, this.viewId);
-    this.changeDetector.markForCheck();
+    this.#dataState.selectedIds = selectedIds;
+    this.#dataManagerSvc.updateDataState(this.#dataState, this.viewId);
+    this.#changeDetector.markForCheck();
   }
 
-  public clearAll(): void {
-    const selectedIds = this.dataState.selectedIds || [];
+  #clearAll(): void {
+    const selectedIds = this.#dataState.selectedIds || [];
 
     this.displayedItems.forEach((item) => {
       if (item.selected) {
@@ -154,30 +189,12 @@ export class DataViewRepeaterDemoComponent implements OnInit {
       }
     });
 
-    if (this.dataState.onlyShowSelected) {
+    if (this.#dataState.onlyShowSelected) {
       this.displayedItems = [];
     }
 
-    this.dataState.selectedIds = selectedIds;
-    this.dataManagerService.updateDataState(this.dataState, this.viewId);
-    this.changeDetector.markForCheck();
-  }
-
-  public onItemSelect(isSelected: boolean, item: SkyDataManagerDemoRow): void {
-    const selectedItems = this.dataState.selectedIds || [];
-    const itemIndex = selectedItems.indexOf(item.id);
-
-    if (isSelected && itemIndex === -1) {
-      selectedItems.push(item.id);
-    } else if (!isSelected && itemIndex !== -1) {
-      selectedItems.splice(itemIndex, 1);
-    }
-
-    this.dataState.selectedIds = selectedItems;
-    this.dataManagerService.updateDataState(this.dataState, this.viewId);
-    if (this.dataState.onlyShowSelected && this.displayedItems) {
-      this.displayedItems = this.displayedItems.filter((itm) => itm.selected);
-      this.changeDetector.markForCheck();
-    }
+    this.#dataState.selectedIds = selectedIds;
+    this.#dataManagerSvc.updateDataState(this.#dataState, this.viewId);
+    this.#changeDetector.markForCheck();
   }
 }
