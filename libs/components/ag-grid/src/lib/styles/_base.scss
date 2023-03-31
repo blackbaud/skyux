@@ -104,10 +104,16 @@ $modernDarkThemeBase: map.merge(
         ),
       sky-data-grid-modern-light: map.merge($modernLightThemeBase, ()),
       sky-data-entry-grid-modern-light:
-        map.merge($modernLightThemeBase, map.merge($defaultsForDataEntryGrid, ())),
+        map.merge(
+          $modernLightThemeBase,
+          map.merge($defaultsForDataEntryGrid, ())
+        ),
       sky-data-grid-modern-dark: map.merge($modernDarkThemeBase, ()),
       sky-data-entry-grid-modern-dark:
-        map.merge($modernDarkThemeBase, map.merge($defaultsForDataEntryGrid, ())),
+        map.merge(
+          $modernDarkThemeBase,
+          map.merge($defaultsForDataEntryGrid, ())
+        ),
     ),
   )
 );
