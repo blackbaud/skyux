@@ -6,6 +6,13 @@ describe('modal-viewkept-toolbars', () => {
       beforeEach(() => {
         cy.viewport('ipad-2', 'landscape');
         cy.visit('/#/integrations/modal-viewkeeper');
+        cy.get('select.sky-theme-selector').should('be.visible').select(theme);
+        const [themeName, themeMode] = theme.split('-');
+        cy.get('body').should('have.class', `sky-theme-${themeName}`);
+        cy.get('body').should(
+          'have.class',
+          `sky-theme-mode-${themeMode || 'light'}`
+        );
       });
 
       it('verify viewkept toolbar in modal', () => {
@@ -27,9 +34,7 @@ describe('modal-viewkept-toolbars', () => {
         cy.get('.sky-lookup-show-more-modal-multiselect-toolbar').should(
           'be.visible'
         );
-        cy.window()
-          .screenshot(`modal-viewkept-toolbars-${theme}`)
-          .percySnapshot(`modal-viewkept-toolbars-${theme}`);
+        cy.window().skyVisualTest(`modal-viewkept-toolbars-${theme}`);
       });
     });
   });
