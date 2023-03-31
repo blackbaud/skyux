@@ -27,6 +27,9 @@ describe('modal-viewkept-toolbars', () => {
         cy.get('.sky-lookup-show-more-modal-multiselect-toolbar').should(
           'be.visible'
         );
+        cy.window()
+          .screenshot(`modal-viewkept-toolbars-${theme}`)
+          .percySnapshot(`modal-viewkept-toolbars-${theme}`);
       });
     });
   });
