@@ -9,6 +9,7 @@ export * from './lib/modules/affix/affix-offset';
 export * from './lib/modules/affix/affix-offset-change';
 export * from './lib/modules/affix/affix-placement';
 export * from './lib/modules/affix/affix-placement-change';
+export * from './lib/modules/affix/affix-position';
 export * from './lib/modules/affix/affix-vertical-alignment';
 export * from './lib/modules/affix/affix.module';
 export * from './lib/modules/affix/affix.service';
@@ -52,6 +53,7 @@ export * from './lib/modules/numeric/numeric.service';
 
 export * from './lib/modules/overlay/overlay-config';
 export * from './lib/modules/overlay/overlay-instance';
+export * from './lib/modules/overlay/overlay-position';
 export * from './lib/modules/overlay/overlay.module';
 export * from './lib/modules/overlay/overlay.service';
 
