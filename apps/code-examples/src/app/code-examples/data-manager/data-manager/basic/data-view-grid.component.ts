@@ -3,7 +3,9 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import {
@@ -21,6 +23,8 @@ import {
   GridReadyEvent,
   RowSelectedEvent,
 } from 'ag-grid-community';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { SkyDataManagerDemoRow } from './data-manager-demo-data';
 
@@ -29,13 +33,19 @@ import { SkyDataManagerDemoRow } from './data-manager-demo-data';
   templateUrl: './data-view-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DataViewGridDemoComponent implements OnInit {
+export class DataViewGridDemoComponent implements OnInit, OnDestroy {
   @Input()
   public items: SkyDataManagerDemoRow[] = [];
 
-  public viewId = 'gridView';
+  public readonly viewId = 'gridView';
 
-  public columnDefs: ColDef[] = [
+  public displayedItems: SkyDataManagerDemoRow[] = [];
+  public gridInitialized = false;
+  public gridOptions: GridOptions;
+  public isActive = false;
+  public noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
+
+  #columnDefs: ColDef[] = [
     {
       colId: 'selected',
       field: 'selected',
@@ -59,9 +69,12 @@ export class DataViewGridDemoComponent implements OnInit {
     },
   ];
 
-  public dataState = new SkyDataManagerState({});
+  #columnApi?: ColumnApi;
+  #dataState = new SkyDataManagerState({});
+  #gridApi?: GridApi;
+  #ngUnsubscribe = new Subject<void>();
 
-  public viewConfig: SkyDataViewConfig = {
+  #viewConfig: SkyDataViewConfig = {
     id: this.viewId,
     name: 'Grid View',
     icon: 'table',
@@ -89,120 +102,88 @@ export class DataViewGridDemoComponent implements OnInit {
     ],
   };
 
-  public columnApi?: ColumnApi;
-  public displayedItems: SkyDataManagerDemoRow[] = [];
-  public gridApi?: GridApi;
-  public gridInitialized = false;
-  public gridOptions!: GridOptions;
-  public noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
-  public isActive = false;
+  #agGridSvc = inject(SkyAgGridService);
+  #changeDetector = inject(ChangeDetectorRef);
+  #dataManagerSvc = inject(SkyDataManagerService);
 
-  constructor(
-    private agGridService: SkyAgGridService,
-    private changeDetector: ChangeDetectorRef,
-    private dataManagerService: SkyDataManagerService
-  ) {}
+  constructor() {
+    this.gridOptions = this.#agGridSvc.getGridOptions({
+      gridOptions: {
+        columnDefs: this.#columnDefs,
+        onGridReady: (args) => {
+          this.#onGridReady(args);
+        },
+      },
+    });
+  }
 
   public ngOnInit(): void {
     this.displayedItems = this.items;
 
-    this.dataManagerService.initDataView(this.viewConfig);
+    this.#dataManagerSvc.initDataView(this.#viewConfig);
 
-    this.gridOptions = this.agGridService.getGridOptions({
-      gridOptions: {
-        columnDefs: this.columnDefs,
-        onGridReady: this.onGridReady.bind(this),
-      },
-    });
-
-    this.dataManagerService
+    this.#dataManagerSvc
       .getDataStateUpdates(this.viewId)
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((state) => {
-        this.dataState = state;
-        this.setInitialColumnOrder();
-        this.updateData();
-        this.changeDetector.detectChanges();
+        this.#dataState = state;
+        this.#setInitialColumnOrder();
+        this.#updateData();
+        this.#changeDetector.markForCheck();
       });
 
-    this.dataManagerService.getActiveViewIdUpdates().subscribe((id) => {
-      this.isActive = id === this.viewId;
-      this.changeDetector.detectChanges();
-    });
+    this.#dataManagerSvc
+      .getActiveViewIdUpdates()
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((id) => {
+        this.isActive = id === this.viewId;
+        this.#changeDetector.markForCheck();
+      });
   }
 
-  public updateData(): void {
-    this.sortItems();
-    this.displayedItems = this.filterItems(this.searchItems(this.items));
-
-    if (this.dataState.onlyShowSelected) {
-      this.displayedItems = this.displayedItems.filter((item) => item.selected);
-    }
-
-    if (this.displayedItems.length > 0) {
-      this.gridApi?.hideOverlay();
-    } else {
-      this.gridApi?.showNoRowsOverlay();
-    }
-  }
-
-  public setInitialColumnOrder(): void {
-    const viewState = this.dataState.getViewStateById(this.viewId);
-    const visibleColumns = viewState?.displayedColumnIds || [];
-
-    this.columnDefs.sort((col1, col2) => {
-      const col1Index = visibleColumns.findIndex(
-        (colId: string) => colId === col1.colId
-      );
-      const col2Index = visibleColumns.findIndex(
-        (colId: string) => colId === col2.colId
-      );
-
-      if (col1Index === -1) {
-        col1.hide = true;
-        return 0;
-      } else if (col2Index === -1) {
-        col2.hide = true;
-        return 0;
-      } else {
-        return col1Index - col2Index;
-      }
-    });
-
-    this.gridInitialized = true;
-  }
-
-  public onGridReady(event: GridReadyEvent): void {
-    this.columnApi = event.columnApi;
-    this.gridApi = event.api;
-    this.gridApi.sizeColumnsToFit();
-    this.updateData();
+  public ngOnDestroy(): void {
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   public onRowSelected(rowSelectedEvent: RowSelectedEvent): void {
     if (!rowSelectedEvent.data.selected) {
-      this.updateData();
+      this.#updateData();
     }
   }
 
-  public sortItems(): void {
-    const sortOption = this.dataState.activeSortOption;
-    if (this.columnApi && sortOption) {
-      const sort: ColumnState[] = [
-        {
-          colId: sortOption.propertyName,
-          sort: sortOption.descending ? 'desc' : 'asc',
-        },
-      ];
+  #filterItems(items: SkyDataManagerDemoRow[]): SkyDataManagerDemoRow[] {
+    let filteredItems = items;
 
-      this.columnApi.applyColumnState({
-        state: sort,
+    const filterData = this.#dataState && this.#dataState.filterData;
+
+    if (filterData && filterData.filters) {
+      const filters = filterData.filters;
+
+      filteredItems = items.filter((item) => {
+        return (
+          ((filters.hideOrange && item.color !== 'orange') ||
+            !filters.hideOrange) &&
+          ((filters.type !== 'any' && item.type === filters.type) ||
+            !filters.type ||
+            filters.type === 'any')
+        );
       });
     }
+
+    return filteredItems;
   }
 
-  public searchItems(items: SkyDataManagerDemoRow[]): SkyDataManagerDemoRow[] {
+  #onGridReady(event: GridReadyEvent): void {
+    this.#columnApi = event.columnApi;
+    this.#gridApi = event.api;
+    this.#gridApi.sizeColumnsToFit();
+    this.#updateData();
+  }
+
+  #searchItems(items: SkyDataManagerDemoRow[]): SkyDataManagerDemoRow[] {
     let searchedItems = items;
-    const searchText = this.dataState && this.dataState.searchText;
+    const searchText = this.#dataState && this.#dataState.searchText;
 
     if (searchText) {
       searchedItems = items.filter(function (item: SkyDataManagerDemoRow) {
@@ -226,23 +207,60 @@ export class DataViewGridDemoComponent implements OnInit {
     return searchedItems;
   }
 
-  public filterItems(items: SkyDataManagerDemoRow[]): SkyDataManagerDemoRow[] {
-    let filteredItems = items;
-    const filterData = this.dataState && this.dataState.filterData;
+  #setInitialColumnOrder(): void {
+    const viewState = this.#dataState.getViewStateById(this.viewId);
+    const visibleColumns = viewState?.displayedColumnIds || [];
 
-    if (filterData && filterData.filters) {
-      const filters = filterData.filters;
-      filteredItems = items.filter((item: SkyDataManagerDemoRow) => {
-        return (
-          ((filters.hideOrange && item.color !== 'orange') ||
-            !filters.hideOrange) &&
-          ((filters.type !== 'any' && item.type === filters.type) ||
-            !filters.type ||
-            filters.type === 'any')
-        );
+    this.#columnDefs.sort((col1, col2) => {
+      const col1Index = visibleColumns.findIndex(
+        (colId: string) => colId === col1.colId
+      );
+      const col2Index = visibleColumns.findIndex(
+        (colId: string) => colId === col2.colId
+      );
+
+      if (col1Index === -1) {
+        col1.hide = true;
+        return 0;
+      } else if (col2Index === -1) {
+        col2.hide = true;
+        return 0;
+      } else {
+        return col1Index - col2Index;
+      }
+    });
+
+    this.gridInitialized = true;
+  }
+
+  #sortItems(): void {
+    const sortOption = this.#dataState.activeSortOption;
+    if (this.#columnApi && sortOption) {
+      const sort: ColumnState[] = [
+        {
+          colId: sortOption.propertyName,
+          sort: sortOption.descending ? 'desc' : 'asc',
+        },
+      ];
+
+      this.#columnApi.applyColumnState({
+        state: sort,
       });
     }
+  }
 
-    return filteredItems;
+  #updateData(): void {
+    this.#sortItems();
+    this.displayedItems = this.#filterItems(this.#searchItems(this.items));
+
+    if (this.#dataState.onlyShowSelected) {
+      this.displayedItems = this.displayedItems.filter((item) => item.selected);
+    }
+
+    if (this.displayedItems.length > 0) {
+      this.#gridApi?.hideOverlay();
+    } else {
+      this.#gridApi?.showNoRowsOverlay();
+    }
   }
 }

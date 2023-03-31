@@ -59,6 +59,7 @@
         <sky-radio-group
           *ngIf="activeView && views && views.length > 1"
           [ariaLabel]="'data view switcher'"
+          [(ngModel)]="activeView.id"
           class="sky-switch-icon-group"
         >
           <sky-radio
@@ -68,7 +69,6 @@
             [icon]="view.icon"
             [value]="view.id"
             [label]="view.name"
-            [(ngModel)]="activeView.id"
             (change)="onViewChange(view.id)"
           >
           </sky-radio>
