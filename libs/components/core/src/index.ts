@@ -32,6 +32,8 @@ export * from './lib/modules/format/app-format';
 export * from './lib/modules/id/id.module';
 export * from './lib/modules/id/id.service';
 
+export * from './lib/modules/live-announcer/live-announcer';
+
 export * from './lib/modules/log/log.module';
 export * from './lib/modules/log/log.service';
 export * from './lib/modules/log/types/log-level';

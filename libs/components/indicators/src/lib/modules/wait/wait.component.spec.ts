@@ -1,4 +1,3 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import {
   SkyAppTestUtility,
@@ -6,6 +5,7 @@ import {
   expect,
   expectAsync,
 } from '@skyux-sdk/testing';
+import { SkyLiveAnnouncer } from '@skyux/core';
 
 import { SkyWaitFixturesModule } from './fixtures/wait-fixtures.module';
 import { SkyWaitTestComponent } from './fixtures/wait.component.fixture';
@@ -31,7 +31,7 @@ describe('Wait component', () => {
     );
   }
 
-  let liveAnnouncer: LiveAnnouncer;
+  let liveAnnouncer: SkyLiveAnnouncer;
   let liveAnnouncerSpy: jasmine.Spy;
 
   beforeEach(() => {
@@ -39,7 +39,7 @@ describe('Wait component', () => {
       imports: [SkyWaitFixturesModule],
     });
     // The spy is set up in the `beforeEach` because `announce` is async. Setting the spy here allows us to not worry about timers and is stubbing out functionality we don't care about for unit testing.
-    liveAnnouncer = TestBed.inject(LiveAnnouncer);
+    liveAnnouncer = TestBed.inject(SkyLiveAnnouncer);
     liveAnnouncerSpy = spyOn(liveAnnouncer, 'announce').and.stub();
   });
 

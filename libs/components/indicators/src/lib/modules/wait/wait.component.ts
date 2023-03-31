@@ -1,4 +1,3 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import {
   Component,
   ElementRef,
@@ -7,6 +6,7 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
+import { SkyLiveAnnouncer } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -128,6 +128,7 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
   }
 
   public ariaLabelStream = new BehaviorSubject<string>('');
+  public ariaLiveText = '';
   public screenReaderCompletedTextStream = new BehaviorSubject<string>('');
 
   #customAriaLabel: string | undefined;
@@ -136,7 +137,7 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
 
   #elRef = inject(ElementRef);
   #adapterService = inject(SkyWaitAdapterService);
-  #liveAnnouncer = inject(LiveAnnouncer);
+  #liveAnnouncer = inject(SkyLiveAnnouncer);
   #resourceSvc = inject(SkyLibResourcesService);
   #ngUnsubscribe = new Subject<void>();
 
