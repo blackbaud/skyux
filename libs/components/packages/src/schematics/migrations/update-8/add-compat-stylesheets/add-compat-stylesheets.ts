@@ -80,6 +80,26 @@ The top and bottom margins have been removed from the \`sky-page-header\` compon
         },
       ],
     },
+    {
+      name: '@skyux/tabs',
+      components: [
+        {
+          name: 'tabs',
+          styles: [
+            {
+              css: `
+:root {
+  --sky-compat-tabset-tabs-modal-margin: 0;
+  --sky-compat-tabset-wizard-modal-margin: 0 0 10px;
+}
+`,
+              instructions: `
+The left, right, and bottom margins for the \`sky-tabset\` within a modal have been changed in default theme to follow design best practices. To address this, remove this block of CSS and address any conflicting classes or styles that were previously fixing the incorrect spacing of the tabset.`,
+            },
+          ],
+        },
+      ],
+    },
   ],
 };
 
