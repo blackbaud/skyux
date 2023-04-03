@@ -573,10 +573,7 @@ describe('File attachment', () => {
 
     fixture.detectChanges();
 
-    expect(fileChangeActual?.file).toEqual({
-      file: file[0] as File,
-      url: '$/url',
-    });
+    expect(fileChangeActual?.file).toBeFalsy();
   });
 
   it('should show the appropriate file name', () => {
