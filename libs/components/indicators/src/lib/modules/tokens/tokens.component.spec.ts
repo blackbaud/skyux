@@ -8,7 +8,6 @@ import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 
 import { Subject } from 'rxjs';
 
-import { SkyTokenA11yTestComponent } from './fixtures/token-a11y.component.fixture';
 import { SkyTokensFixturesModule } from './fixtures/tokens-fixtures.module';
 import { SkyTokensTestComponent } from './fixtures/tokens.component.fixture';
 import { SkyTokensMessageType } from './types/tokens-message-type';
@@ -500,21 +499,172 @@ describe('Tokens component', () => {
     });
   });
 
-  it('should be accessible', async () => {
-    const a11yFixture = TestBed.createComponent(SkyTokenA11yTestComponent);
+  describe('a11y', () => {
+    beforeEach(() => {
+      fixture = TestBed.createComponent(SkyTokensTestComponent);
+      component = fixture.componentInstance;
+      component.publishTokens();
+      fixture.detectChanges();
+    });
 
-    a11yFixture.detectChanges();
+    it('should be accessible (disabled: false, dismissible: false, focusable: false, trackWith: undefined)', async () => {
+      fixture.detectChanges();
 
-    await expectAsync(
-      a11yFixture.nativeElement.querySelector(
-        '[data-sky-id="non-dismissible-tokens"]'
-      )
-    ).toBeAccessible();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
 
-    await expectAsync(
-      a11yFixture.nativeElement.querySelector(
-        '[data-sky-id="dismissible-tokens"]'
-      )
-    ).toBeAccessible();
+    it('should be accessible (disabled: true, dismissible: false, focusable: false, trackWith: undefined)', async () => {
+      component.disabled = true;
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible (disabled: false, dismissible: false, focusable: true, trackWith: undefined)', async () => {
+      component.focusable = true;
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+
+      fixture.nativeElement.querySelector('.sky-token-btn-action').focus();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible (disabled: true, dismissible: false, focusable: true, trackWith: undefined)', async () => {
+      component.disabled = true;
+      component.focusable = true;
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible (disabled: false, dismissible: true, focusable: false, trackWith: undefined)', async () => {
+      component.dismissible = true;
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+
+      fixture.nativeElement.querySelector('.sky-token-btn-close').focus();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible (disabled: true, dismissible: true, focusable: false, trackWith: undefined)', async () => {
+      component.disabled = true;
+      component.dismissible = true;
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible (disabled: false, dismissible: true, focusable: true, trackWith: undefined)', async () => {
+      component.dismissible = true;
+      component.focusable = true;
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+
+      fixture.nativeElement.querySelector('.sky-token-btn-action').focus();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+
+      fixture.nativeElement.querySelector('.sky-token-btn-close').focus();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible (disabled: true, dismissible: true, focusable: true, trackWith: undefined)', async () => {
+      component.disabled = true;
+      component.dismissible = true;
+      component.focusable = true;
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible (disabled: false, dismissible: false, focusable: false, trackWith: "name")', async () => {
+      component.trackWith = 'name';
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible (disabled: true, dismissible: false, focusable: false, trackWith: "name")', async () => {
+      component.disabled = true;
+      component.trackWith = 'name';
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible (disabled: false, dismissible: false, focusable: true, trackWith: "name")', async () => {
+      component.focusable = true;
+      component.trackWith = 'name';
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+
+      fixture.nativeElement.querySelector('.sky-token-btn-action').focus();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible (disabled: true, dismissible: false, focusable: true, trackWith: "name")', async () => {
+      component.disabled = true;
+      component.focusable = true;
+      component.trackWith = 'name';
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible (disabled: false, dismissible: true, focusable: false, trackWith: "name")', async () => {
+      component.dismissible = true;
+      component.trackWith = 'name';
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+
+      fixture.nativeElement.querySelector('.sky-token-btn-close').focus();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible (disabled: true, dismissible: true, focusable: false, trackWith: "name")', async () => {
+      component.disabled = true;
+      component.dismissible = true;
+      component.trackWith = 'name';
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible (disabled: false, dismissible: true, focusable: true, trackWith: "name")', async () => {
+      component.dismissible = true;
+      component.focusable = true;
+      component.trackWith = 'name';
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+
+      fixture.nativeElement.querySelector('.sky-token-btn-action').focus();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+
+      fixture.nativeElement.querySelector('.sky-token-btn-close').focus();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible (disabled: true, dismissible: true, focusable: true, trackWith: "name")', async () => {
+      component.disabled = true;
+      component.dismissible = true;
+      component.focusable = true;
+      component.trackWith = 'name';
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
   });
 });
