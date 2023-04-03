@@ -82,6 +82,68 @@ describe('Repeater harness', () => {
     );
   });
 
+  it('should expand and collapse items', async () => {
+    const { fixture, repeaterHarness } = await setupTest({
+      dataSkyId: 'my-basic-repeater',
+    });
+
+    const items = await repeaterHarness.getRepeaterItems();
+    const item = items[0];
+
+    await expectAsync(item.isCollapsible()).toBeResolvedTo(false);
+
+    fixture.componentInstance.expandMode = 'multi';
+
+    await expectAsync(item.isCollapsible()).toBeResolvedTo(true);
+
+    await expectAsync(item.isExpanded()).toBeResolvedTo(true);
+
+    await item.collapse();
+
+    await expectAsync(item.isExpanded()).toBeResolvedTo(false);
+
+    await item.expand();
+
+    await expectAsync(item.isExpanded()).toBeResolvedTo(true);
+  });
+
+  it('should throw an error if expanding or collapsing an noncollapsible item', async () => {
+    const { repeaterHarness } = await setupTest({
+      dataSkyId: 'my-basic-repeater',
+    });
+
+    const items = await repeaterHarness.getRepeaterItems();
+    const item = items[0];
+
+    await expectAsync(item.isCollapsible()).toBeResolvedTo(false);
+
+    await expectAsync(item.isExpanded()).toBeRejectedWithError(
+      'Could not determine if repeater item is expanded because it is not collapsible.'
+    );
+
+    await expectAsync(item.expand()).toBeRejectedWithError(
+      'Could not expand the repeater item because it is not collapsible.'
+    );
+    await expectAsync(item.collapse()).toBeRejectedWithError(
+      'Could not collapse the repeater item because it is not collapsible.'
+    );
+  });
+
+  it('should indicate reorderability', async () => {
+    const { repeaterHarness, fixture } = await setupTest({
+      dataSkyId: 'my-basic-repeater',
+    });
+
+    const items = await repeaterHarness.getRepeaterItems();
+    const item = items[0];
+
+    await expectAsync(item.isReorderable()).toBeResolvedTo(false);
+
+    fixture.componentInstance.reorderable = true;
+
+    await expectAsync(item.isReorderable()).toBeResolvedTo(true);
+  });
+
   it('should find items by `data-sky-id` attributes', async () => {
     const { repeaterHarness } = await setupTest({
       dataSkyId: 'my-basic-repeater',
