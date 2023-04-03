@@ -23,7 +23,11 @@
     [affixHorizontalAlignment]="horizontalAlignment"
     [affixIsSticky]="isSticky"
     [affixPlacement]="placement"
+    [affixPosition]="position"
     [affixVerticalAlignment]="verticalAlignment"
+    [ngClass]="{
+      'affixed-absolute': position === 'absolute'
+    }"
     [skyAffixTo]="baseRef"
     (affixOffsetChange)="onAffixOffsetChange($event)"
     (affixOverflowScroll)="onAffixOverflowScroll($event)"
