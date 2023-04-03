@@ -365,9 +365,9 @@ export class SkyFileAttachmentComponent
   }
 
   public deleteFileAttachment(): void {
-    this.#emitFileChangeEvent(this.value);
     this.value = undefined;
     this.#changeDetector.markForCheck();
+    this.#emitFileChangeEvent(this.value);
   }
 
   public ngOnDestroy(): void {
