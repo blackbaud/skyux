@@ -1,19 +1,35 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-tabset {
+  --sky-tabset-margin: 0;
+
   align-items: center;
   border-bottom: 2px solid $sky-background-color-primary-dark;
   display: flex;
   list-style-type: none;
-  margin: 0;
+  margin: var(--sky-tabset-margin);
   overflow: hidden;
   padding: 0 0 0 $sky-padding-plus-half;
   white-space: nowrap;
 
   &.sky-tabset-style-wizard {
     border-bottom: none;
-    margin-bottom: $sky-margin;
     padding-left: 0;
+  }
+}
+
+.sky-modal-content {
+  .sky-tabset-style-tabs {
+    --sky-tabset-margin: var(
+      --sky-compat-tabset-tabs-modal-margin,
+      #{0 (-$sky-space-lg) $sky-space-xl}
+    );
+  }
+  .sky-tabset-style-wizard {
+    --sky-tabset-margin: var(
+      --sky-compat-tabset-wizard-modal-margin,
+      #{0 0 $sky-space-xl}
+    );
   }
 }
 
@@ -81,8 +97,9 @@
 .sky-theme-modern {
   .sky-modal-content {
     .sky-tabset {
-      margin: (-$sky-theme-modern-space-sm) (-$sky-theme-modern-space-xl)
-        ($sky-theme-modern-space-xl);
+      --sky-tabset-margin: #{(-$sky-theme-modern-space-sm) (
+          -$sky-theme-modern-space-xl
+        ) $sky-theme-modern-space-xl};
       padding-left: $sky-theme-modern-space-xl;
       padding-right: $sky-theme-modern-space-xl;
     }
