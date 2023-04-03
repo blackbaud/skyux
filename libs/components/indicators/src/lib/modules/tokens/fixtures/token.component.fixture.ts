@@ -1,9 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   templateUrl: './token.component.fixture.html',
 })
 export class SkyTokenTestComponent {
-  @Input()
   public ariaLabel: string | undefined;
+  public disabled = false;
+  public dismissible = false;
+  public focusable = false;
 }
