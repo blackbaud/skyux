@@ -5,6 +5,7 @@ import {
 } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyCheckboxHarness } from '@skyux/forms/testing';
+import { SkyChevronHarness } from '@skyux/indicators/testing';
 
 import { SkyRepeaterItemHarnessFilters } from './repeater-item-harness-filters';
 
@@ -20,7 +21,13 @@ export class SkyRepeaterItemHarness extends SkyComponentHarness {
 
   #getCheckbox = this.locatorForOptional(SkyCheckboxHarness);
 
+  #getChevron = this.locatorForOptional(SkyChevronHarness);
+
   #getContent = this.locatorFor('.sky-repeater-item-content');
+
+  #getReorderHandle = this.locatorForOptional(
+    'button.sky-repeater-item-grab-handle'
+  );
 
   #getTitle = this.locatorFor('.sky-repeater-item-title');
 
@@ -110,5 +117,64 @@ export class SkyRepeaterItemHarness extends SkyComponentHarness {
    */
   public async getTitleText(): Promise<string> {
     return (await this.#getTitle()).text();
+  }
+
+  /**
+   * Whether the repeater item is collapsible.
+   */
+  public async isCollapsible(): Promise<boolean> {
+    return !!(await this.#getChevron());
+  }
+
+  /**
+   * Whether the repeater item is expanded, or throws an error informing of the lack of collapsibility.
+   */
+  public async isExpanded(): Promise<boolean> {
+    const chevron = await this.#getChevron();
+    if (chevron) {
+      return (await chevron.getDirection()) === 'up';
+    }
+    throw new Error(
+      'Could not determine if repeater item is expanded because it is not collapsible.'
+    );
+  }
+
+  /**
+   * Expands the repeater item, or does nothing if already expanded.
+   */
+  public async expand(): Promise<void> {
+    const chevron = await this.#getChevron();
+    if (chevron) {
+      if ((await chevron.getDirection()) === 'down') {
+        await chevron.toggle();
+      }
+      return;
+    }
+    throw new Error(
+      'Could not expand the repeater item because it is not collapsible.'
+    );
+  }
+
+  /**
+   * Collapses the repeater item, or does nothing if already collapsed.
+   */
+  public async collapse(): Promise<void> {
+    const chevron = await this.#getChevron();
+    if (chevron) {
+      if ((await chevron.getDirection()) === 'up') {
+        await chevron.toggle();
+      }
+      return;
+    }
+    throw new Error(
+      'Could not collapse the repeater item because it is not collapsible.'
+    );
+  }
+
+  /**
+   * Whether the repeater item is reorderable.
+   */
+  public async isReorderable(): Promise<boolean> {
+    return !!(await this.#getReorderHandle());
   }
 }
