@@ -1,4 +1,8 @@
-<sky-repeater data-sky-id="my-basic-repeater">
+<sky-repeater
+  data-sky-id="my-basic-repeater"
+  [expandMode]="expandMode"
+  [reorderable]="reorderable"
+>
   <sky-repeater-item
     *ngFor="let item of items; let i = index"
     [attr.data-sky-id]="'my-basic-repeater-item-' + i"

@@ -1,5 +1,5 @@
-import { TestBed } from '@angular/core/testing';
-import { SkyAppTestUtility } from '@skyux-sdk/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SkyAppTestUtility, expectAsync } from '@skyux-sdk/testing';
 
 import { SkyTokenComponent } from '../tokens/token.component';
 import { SkyTokensModule } from '../tokens/tokens.module';
@@ -73,29 +73,195 @@ describe('Token component', () => {
     expect(tokenEl).not.toHaveClass('sky-token-focused');
   });
 
-  it('should use the specified ARIA label', () => {
-    const fixture = TestBed.createComponent(SkyTokenTestComponent);
+  describe('a11y', () => {
+    let fixture: ComponentFixture<SkyTokenTestComponent>;
+    let component: SkyTokenTestComponent;
 
-    fixture.componentInstance.ariaLabel = 'test';
-    fixture.detectChanges();
+    beforeEach(() => {
+      fixture = TestBed.createComponent(SkyTokenTestComponent);
+      component = fixture.componentInstance;
+    });
+    it('should use the specified ARIA label', () => {
+      component.ariaLabel = 'test';
+      component.dismissible = true;
+      fixture.detectChanges();
 
-    const btnEl = fixture.nativeElement.querySelector(
-      'sky-token .sky-token-btn-close'
-    );
+      const btnEl = fixture.nativeElement.querySelector(
+        'sky-token .sky-token-btn-close'
+      );
 
-    expect(btnEl.getAttribute('aria-label')).toBe('test');
+      expect(btnEl.getAttribute('aria-label')).toBe('test');
 
-    fixture.componentInstance.ariaLabel = undefined;
-    fixture.detectChanges();
+      component.ariaLabel = undefined;
+      fixture.detectChanges();
 
-    expect(btnEl.getAttribute('aria-label')).toBe('Remove item');
-  });
+      expect(btnEl.getAttribute('aria-label')).toBe('Remove item');
+    });
 
-  it('should not have a role by default', () => {
-    const fixture = TestBed.createComponent(SkyTokenTestComponent);
-    fixture.detectChanges();
-    expect(
-      fixture.nativeElement.querySelector('.sky-token').getAttribute('role')
-    ).toBeNull();
+    it('should not have a role by default', () => {
+      fixture.detectChanges();
+      expect(
+        fixture.nativeElement.querySelector('.sky-token').getAttribute('role')
+      ).toBeNull();
+    });
+
+    it('should be accessible (ariaLabel: undefined, disabled: false, dismissible: false, focusable: false)', async () => {
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible (ariaLabel: undefined, disabled: false, dismissible: false, focusable: true)', async () => {
+      component.focusable = true;
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+
+      fixture.nativeElement.querySelector('.sky-token-btn-action').focus();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible (ariaLabel: undefined, disabled: false, dismissible: true, focusable: false)', async () => {
+      component.dismissible = true;
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+
+      fixture.nativeElement.querySelector('.sky-token-btn-close').focus();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible (ariaLabel: undefined, disabled: false, dismissible: true, focusable: true)', async () => {
+      component.dismissible = true;
+      component.focusable = true;
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+
+      fixture.nativeElement.querySelector('.sky-token-btn-action').focus();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+
+      fixture.nativeElement.querySelector('.sky-token-btn-close').focus();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible (ariaLabel: undefined, disabled: true, dismissible: false, focusable: false)', async () => {
+      component.disabled = true;
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible (ariaLabel: undefined, disabled: true, dismissible: false, focusable: true)', async () => {
+      component.disabled = true;
+      component.focusable = true;
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible (ariaLabel: undefined, disabled: true, dismissible: true, focusable: false)', async () => {
+      component.disabled = true;
+      component.dismissible = true;
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible (ariaLabel: undefined, disabled: true, dismissible: true, focusable: true)', async () => {
+      component.disabled = true;
+      component.dismissible = true;
+      component.focusable = true;
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible (ariaLabel: "test", disabled: false, dismissible: false, focusable: false)', async () => {
+      component.ariaLabel = 'test';
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible (ariaLabel: "test", disabled: false, dismissible: false, focusable: true)', async () => {
+      component.ariaLabel = 'test';
+      component.focusable = true;
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+
+      fixture.nativeElement.querySelector('.sky-token-btn-action').focus();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible (ariaLabel: "test", disabled: false, dismissible: true, focusable: false)', async () => {
+      component.ariaLabel = 'test';
+      component.dismissible = true;
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+
+      fixture.nativeElement.querySelector('.sky-token-btn-close').focus();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible (ariaLabel: "test", disabled: false, dismissible: true, focusable: true)', async () => {
+      component.ariaLabel = 'test';
+      component.dismissible = true;
+      component.focusable = true;
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+
+      fixture.nativeElement.querySelector('.sky-token-btn-action').focus();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+
+      fixture.nativeElement.querySelector('.sky-token-btn-close').focus();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible (ariaLabel: "test", disabled: true, dismissible: false, focusable: false)', async () => {
+      component.ariaLabel = 'test';
+      component.disabled = true;
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible (ariaLabel: "test", disabled: true, dismissible: false, focusable: true)', async () => {
+      component.ariaLabel = 'test';
+      component.disabled = true;
+      component.focusable = true;
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible (ariaLabel: "test", disabled: true, dismissible: true, focusable: false)', async () => {
+      component.disabled = true;
+      component.dismissible = true;
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible (ariaLabel: "test", disabled: true, dismissible: true, focusable: true)', async () => {
+      component.ariaLabel = 'test';
+      component.disabled = true;
+      component.dismissible = true;
+      component.focusable = true;
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
   });
 });
