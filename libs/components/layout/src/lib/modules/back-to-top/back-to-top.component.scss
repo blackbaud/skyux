@@ -1,9 +1,16 @@
-@use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as variables;
 
 .sky-back-to-top {
   display: flex;
   align-items: center;
   width: 100%;
-  background-color: $sky-color-white;
-  box-shadow: 0 -3px 3px 0 $sky-color-gray-20;
+  background-color: variables.$sky-color-white;
+  padding: var(--sky-margin-stacked-sm) var(--sky-margin-inline-lg);
+}
+
+@include mixins.sky-theme-modern {
+  .sky-back-to-top {
+    padding: var(--sky-margin-stacked-sm) var(--sky-margin-inline-xl);
+  }
 }

@@ -1,5 +1,13 @@
 # Changelog
 
+## [8.0.0-alpha.16](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.15...8.0.0-alpha.16) (2023-04-03)
+
+
+### Features
+
+* **components/layout:** update back-to-top styles ([#1202](https://github.com/blackbaud/skyux/issues/1202)) ([c77e2d8](https://github.com/blackbaud/skyux/commit/c77e2d89fb0436186265486e1d799e3adeeac5bc))
+* **components/tabs:** address incorrect tab spacing in modals ([#1201](https://github.com/blackbaud/skyux/issues/1201)) ([e93060b](https://github.com/blackbaud/skyux/commit/e93060b730f5fd8b4b60b2faa7fc1a224b13c146))
+
 ## [8.0.0-alpha.15](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.14...8.0.0-alpha.15) (2023-03-31)
 
 
