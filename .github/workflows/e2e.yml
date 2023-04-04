@@ -246,6 +246,12 @@ jobs:
         run: npx cypress verify
       - name: Percy ${{ matrix.project }}
         # Timing setting recommended by https://docs.percy.io/docs/cypress#missing-assets
-        run: npx percy exec -t 350 -- nx e2e ${{ matrix.project }}-e2e --skip-nx-cache
+        run: |
+          if [ "${{ matrix.project }}" = "integration-e2e" ]
+          then
+            nx e2e ${{ matrix.project }}-e2e --skip-nx-cache
+          else
+            npx percy exec -t 350 -- nx e2e ${{ matrix.project }}-e2e --skip-nx-cache
+          fi
         env:
           PERCY_TOKEN: ${{ secrets[matrix.token] }}
