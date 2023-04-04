@@ -247,7 +247,7 @@ jobs:
       - name: Percy ${{ matrix.project }}
         # Timing setting recommended by https://docs.percy.io/docs/cypress#missing-assets
         run: |
-          if [ "${{ matrix.project }}" = "integration-e2e" ]
+          if [ "${{ matrix.project }}" = "integration" ]
           then
             nx e2e ${{ matrix.project }}-e2e --skip-nx-cache
           else
