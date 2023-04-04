@@ -25,43 +25,27 @@ export class ModalComponent {
   }
 
   public onOpenModalClick(): void {
-    this.openModal(ModalBasicComponent, {
-      providers: [],
-    });
+    this.openModal(ModalBasicComponent);
   }
 
   public onOpenSmallModalClick(): void {
-    this.openModal(ModalBasicComponent, {
-      providers: [],
-      size: 'small',
-    });
+    this.openModal(ModalBasicComponent, { size: 'small' });
   }
 
   public onOpenMediumModalClick(): void {
-    this.openModal(ModalBasicComponent, {
-      providers: [],
-      size: 'medium',
-    });
+    this.openModal(ModalBasicComponent, { size: 'medium' });
   }
 
   public onOpenLargeModalClick(): void {
-    this.openModal(ModalBasicComponent, {
-      providers: [],
-      size: 'large',
-    });
+    this.openModal(ModalBasicComponent, { size: 'large' });
   }
 
   public onOpenFullPageModalClick(): void {
-    this.openModal(ModalBasicComponent, {
-      providers: [],
-      fullPage: true,
-    });
+    this.openModal(ModalBasicComponent, { fullPage: true });
   }
 
   public onOpenHelpInlineModalClick(): void {
-    const modalInstance = this.openModal(ModalBasicComponent, {
-      providers: [],
-    });
+    const modalInstance = this.openModal(ModalBasicComponent);
     modalInstance.componentInstance.showHelp = true;
   }
 
