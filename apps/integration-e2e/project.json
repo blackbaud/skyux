@@ -9,6 +9,7 @@
       "options": {
         "cypressConfig": "apps/integration-e2e/cypress.config.ts",
         "devServerTarget": "integration:serve:development",
+        "browser": "chrome",
         "testingType": "e2e"
       },
       "configurations": {
