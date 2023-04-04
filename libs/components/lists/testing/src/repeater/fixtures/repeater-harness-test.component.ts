@@ -22,4 +22,8 @@ export class RepeaterHarnessTestComponent {
   ];
 
   public selectable = false;
+
+  public reorderable = false;
+
+  public expandMode = 'none';
 }
