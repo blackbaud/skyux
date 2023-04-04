@@ -249,7 +249,7 @@ jobs:
         run: |
           if [ "${{ matrix.project }}" = "integration" ]
           then
-            nx e2e ${{ matrix.project }}-e2e --skip-nx-cache
+            npx nx e2e ${{ matrix.project }}-e2e --skip-nx-cache
           else
             npx percy exec -t 350 -- nx e2e ${{ matrix.project }}-e2e --skip-nx-cache
           fi
