@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyLogService } from '@skyux/core';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -20,6 +21,24 @@ describe('Alert component', () => {
   let mockThemeSvc: {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
+
+  function validateDeprecatedCalled(
+    deprecatedSpy: jasmine.Spy,
+    expected: boolean
+  ): void {
+    if (expected) {
+      expect(deprecatedSpy).toHaveBeenCalledOnceWith(
+        'SkyAlertComponent without `descriptionType`',
+        {
+          deprecationMajorVersion: 8,
+          replacementRecommendation:
+            'Always specify a `descriptionType` property.',
+        }
+      );
+    } else {
+      expect(deprecatedSpy).not.toHaveBeenCalled();
+    }
+  }
 
   beforeEach(() => {
     mockThemeSvc = {
@@ -126,6 +145,33 @@ describe('Alert component', () => {
     const alertEl = el.querySelector('.sky-alert');
     expect(alertEl?.getAttribute('role')).toBe('alert');
     await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
+
+  it('should warn when descriptionType is not set on render', () => {
+    const logSvc = TestBed.inject(SkyLogService);
+    const deprecatedSpy = spyOn(logSvc, 'deprecated');
+
+    const fixture = TestBed.createComponent(AlertTestComponent);
+    fixture.componentInstance.descriptionType = undefined;
+    fixture.detectChanges();
+
+    validateDeprecatedCalled(deprecatedSpy, true);
+  });
+
+  it('should warn when descriptionType is unset after initial render', () => {
+    const logSvc = TestBed.inject(SkyLogService);
+    const deprecatedSpy = spyOn(logSvc, 'deprecated');
+
+    const fixture = TestBed.createComponent(AlertTestComponent);
+    fixture.componentInstance.descriptionType = 'attention';
+    fixture.detectChanges();
+
+    validateDeprecatedCalled(deprecatedSpy, false);
+
+    fixture.componentInstance.descriptionType = undefined;
+    fixture.detectChanges();
+
+    validateDeprecatedCalled(deprecatedSpy, true);
   });
 
   describe('with description', () => {

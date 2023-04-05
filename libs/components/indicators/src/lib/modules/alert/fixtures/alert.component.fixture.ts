@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { SkyIndicatorDescriptionType } from '../../shared/indicator-description-type';
+import { SkyIndicatorIconType } from '../../shared/indicator-icon-type';
 
 @Component({
   selector: 'sky-test-cmp',
@@ -11,7 +12,7 @@ export class AlertTestComponent {
 
   public closed: boolean | undefined = false;
 
-  public alertType: string | undefined = 'info';
+  public alertType: SkyIndicatorIconType | undefined = 'info';
 
   public descriptionType?: SkyIndicatorDescriptionType;
 

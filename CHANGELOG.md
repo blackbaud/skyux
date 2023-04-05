@@ -1,5 +1,23 @@
 # Changelog
 
+## [7.15.0](https://github.com/blackbaud/skyux/compare/7.14.0...7.15.0) (2023-04-05)
+
+
+### Features
+
+* **components/lists:** repeater test harness ([#1196](https://github.com/blackbaud/skyux/issues/1196)) ([26dde98](https://github.com/blackbaud/skyux/commit/26dde98fc6d5b09bc33b3bec7801e60263136b62))
+* **components/lists:** repeater visual tests ([#1182](https://github.com/blackbaud/skyux/issues/1182)) ([d600fbd](https://github.com/blackbaud/skyux/commit/d600fbd8c6cda62bee4fa5ae5f33a35182851d98))
+* **components/modals:** add `beforeClose` example to modal demo ([#1214](https://github.com/blackbaud/skyux/issues/1214)) ([51a2038](https://github.com/blackbaud/skyux/commit/51a20387bc48dddf5a80c79bbba37b059e35b1b6))
+* **components/modals:** modal visual test ([#1181](https://github.com/blackbaud/skyux/issues/1181)) ([024cebb](https://github.com/blackbaud/skyux/commit/024cebb655edcb142f07d14e3ab4ca2fce345fc7))
+
+## [8.0.0-alpha.16](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.15...8.0.0-alpha.16) (2023-04-03)
+
+
+### Features
+
+* **components/layout:** update back-to-top styles ([#1202](https://github.com/blackbaud/skyux/issues/1202)) ([c77e2d8](https://github.com/blackbaud/skyux/commit/c77e2d89fb0436186265486e1d799e3adeeac5bc))
+* **components/tabs:** address incorrect tab spacing in modals ([#1201](https://github.com/blackbaud/skyux/issues/1201)) ([e93060b](https://github.com/blackbaud/skyux/commit/e93060b730f5fd8b4b60b2faa7fc1a224b13c146))
+
 ## [8.0.0-alpha.15](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.14...8.0.0-alpha.15) (2023-03-31)
 
 

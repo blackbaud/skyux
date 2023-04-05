@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RendererFactory2 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -65,6 +66,7 @@ describe('Modals with viewkept toolbars', () => {
         NoopAnimationsModule,
         RouterTestingModule,
         ModalViewkeptToolbarsModule,
+        HttpClientTestingModule,
       ],
       providers: [SkyThemeService],
     });

@@ -1,4 +1,5 @@
 import {
+  AfterViewChecked,
   Component,
   EventEmitter,
   Input,
@@ -7,6 +8,7 @@ import {
   Output,
   inject,
 } from '@angular/core';
+import { SkyLogService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { Subscription } from 'rxjs';
@@ -23,7 +25,7 @@ const ALERT_TYPE_DEFAULT = 'warning';
   styleUrls: ['./alert.component.scss'],
   templateUrl: './alert.component.html',
 })
-export class SkyAlertComponent implements OnInit, OnDestroy {
+export class SkyAlertComponent implements AfterViewChecked, OnInit, OnDestroy {
   /**
    * The style for the alert, which determines the icon and background color.
    * The valid options are `danger`, `info`, `success`, and `warning`.
@@ -61,6 +63,10 @@ export class SkyAlertComponent implements OnInit, OnDestroy {
     this.#updateDescriptionComputed();
   }
 
+  public get descriptionType(): SkyIndicatorDescriptionType | undefined {
+    return this.#_descriptionType;
+  }
+
   /**
    * The text to be read by screen readers for users who cannot see
    * the indicator icon when `descriptionType` is `custom`.
@@ -69,6 +75,10 @@ export class SkyAlertComponent implements OnInit, OnDestroy {
   public set customDescription(value: string | undefined) {
     this.#_customDescription = value;
     this.#updateDescriptionComputed();
+  }
+
+  public get customDescription(): string | undefined {
+    return this.#_customDescription;
   }
 
   /**
@@ -90,11 +100,25 @@ export class SkyAlertComponent implements OnInit, OnDestroy {
   #_customDescription: string | undefined;
 
   #descriptionTypeResourceSubscription: Subscription | undefined;
+  #descriptionTypeWarned: boolean | undefined;
 
   #resources = inject(SkyLibResourcesService);
+  #logSvc = inject(SkyLogService);
 
   public ngOnInit(): void {
     this.#updateAlertIcon();
+  }
+
+  public ngAfterViewChecked(): void {
+    if (!this.descriptionType && !this.#descriptionTypeWarned) {
+      this.#logSvc.deprecated('SkyAlertComponent without `descriptionType`', {
+        deprecationMajorVersion: 8,
+        replacementRecommendation:
+          'Always specify a `descriptionType` property.',
+      });
+
+      this.#descriptionTypeWarned = true;
+    }
   }
 
   public ngOnDestroy(): void {
@@ -118,18 +142,18 @@ export class SkyAlertComponent implements OnInit, OnDestroy {
   #updateDescriptionComputed(): void {
     this.#unsubscribe();
 
-    if (this.#_descriptionType) {
-      switch (this.#_descriptionType) {
+    if (this.descriptionType) {
+      switch (this.descriptionType) {
         case 'none':
           this.descriptionComputed = undefined;
           break;
         case 'custom':
-          this.descriptionComputed = this.#_customDescription;
+          this.descriptionComputed = this.customDescription;
           break;
         default:
           this.#descriptionTypeResourceSubscription = this.#resources
             .getString(
-              'skyux_alert_sr_' + this.#_descriptionType.replace(/-/g, '_')
+              'skyux_alert_sr_' + this.descriptionType.replace(/-/g, '_')
             )
             .subscribe((value) => {
               this.descriptionComputed = value;
