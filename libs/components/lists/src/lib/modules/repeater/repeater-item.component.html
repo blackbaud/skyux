@@ -144,6 +144,7 @@
     <div
       class="sky-repeater-item-content"
       [id]="contentId"
+      [@.disabled]="animationDisabled"
       [@skyAnimationSlide]="slideDirection"
       #itemContentRef
       [attr.role]="(itemRole$ | async)?.content"
