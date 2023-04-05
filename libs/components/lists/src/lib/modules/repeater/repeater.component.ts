@@ -270,17 +270,20 @@ export class SkyRepeaterComponent
         foundExpanded = true;
       }
 
-      this.items.forEach((item) => {
+      for (const item of this.items) {
         item.isCollapsible = isCollapsible && !!item.hasItemContent;
 
+        // Collapse any items that aren't the item that was just added.
         if (item !== itemAdded && isSingle && item.isExpanded) {
           if (foundExpanded) {
-            item.updateForExpanded(false);
+            // If this item is being collapsed because a new item was
+            // added, animate it.
+            item.updateForExpanded(false, !!itemAdded);
           }
 
           foundExpanded = true;
         }
-      });
+      }
 
       this.#updateRole();
     }
