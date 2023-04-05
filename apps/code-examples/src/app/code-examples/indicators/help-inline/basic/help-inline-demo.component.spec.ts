@@ -27,7 +27,7 @@ describe('Basic help inline', async () => {
     });
   });
 
-  fit('should click the help inline button', async () => {
+  it('should click the help inline button', async () => {
     const { helpInlineHarness, fixture } = await setupTest();
     fixture.detectChanges();
 

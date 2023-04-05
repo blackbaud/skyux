@@ -29,9 +29,12 @@ export class ModalWaitComponent {
 
   public triggerWait(): void {
     this.isWaiting = true;
-    setTimeout(() => {
-      this.isWaiting = false;
-      this.#changeDetector.markForCheck();
-    }, 5000);
+    setTimeout(
+      /* istanbul ignore next */ () => {
+        this.isWaiting = false;
+        this.#changeDetector.markForCheck();
+      },
+      5000
+    );
   }
 }
