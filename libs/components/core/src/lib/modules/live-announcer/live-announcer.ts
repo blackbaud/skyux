@@ -28,7 +28,7 @@ export class SkyLiveAnnouncer implements OnDestroy {
     { optional: true }
   );
   #idService = inject(SkyIdService);
-  #previousTimeout: NodeJS.Timeout | undefined;
+  #previousTimeout: number | undefined;
 
   constructor() {
     const elementToken: HTMLElement | null = inject(
