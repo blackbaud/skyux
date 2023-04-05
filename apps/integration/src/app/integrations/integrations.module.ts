@@ -10,6 +10,11 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'modal-wait',
+    loadChildren: () =>
+      import('./modal-wait/modal-wait.module').then((m) => m.ModalWaitModule),
+  },
+  {
     path: 'viewkeeper-tabset',
     loadChildren: () =>
       import('./viewkeeper-tabset/viewkeeper-tabset.module').then(

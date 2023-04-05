@@ -1,0 +1,25 @@
+<sky-modal>
+  <sky-modal-header>Wait inside a Modal</sky-modal-header>
+  <sky-modal-content>
+    <!-- Using `ngIf` as the live announcer is constructed when the wait is constructed and for testing purposes we want to control this -->
+    <sky-wait [isWaiting]="true" *ngIf="isWaiting"></sky-wait>
+    <p>Wait within a modal</p>
+    <button
+      id="modal-wait-modal-wait-trigger"
+      class="sky-btn sky-btn-primary"
+      (click)="triggerWait()"
+    >
+      Trigger wait
+    </button>
+  </sky-modal-content>
+  <sky-modal-footer>
+    <button
+      id="modal-wait-modal-close"
+      class="sky-btn sky-btn-primary"
+      type="button"
+      (click)="modalInstance.close()"
+    >
+      Close
+    </button>
+  </sky-modal-footer>
+</sky-modal>

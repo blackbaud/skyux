@@ -1,35 +1,47 @@
-import {
-  AriaLivePoliteness,
-  LIVE_ANNOUNCER_DEFAULT_OPTIONS,
-  LIVE_ANNOUNCER_ELEMENT_TOKEN,
-  LiveAnnouncerDefaultOptions,
-} from '@angular/cdk/a11y';
 import { DOCUMENT } from '@angular/common';
 import { Injectable, OnDestroy, inject } from '@angular/core';
 
-let uniqueIds = 0;
+import { ReplaySubject } from 'rxjs';
+
+import { SkyIdService } from '../id/id.service';
+
+import {
+  SKY_LIVE_ANNOUNCER_DEFAULT_OPTIONS,
+  SKY_LIVE_ANNOUNCER_ELEMENT_TOKEN,
+  SkyAriaLivePoliteness,
+  SkyLiveAnnouncerDefaultOptions,
+} from './live-announcer-tokens';
 
 @Injectable({ providedIn: 'root' })
 export class SkyLiveAnnouncer implements OnDestroy {
+  public static announcerElement: HTMLElement | undefined;
+  public static announcerElementChanged = new ReplaySubject<
+    HTMLElement | undefined
+  >(1);
+
   // We inject the live element and document as `any` because the constructor signature cannot
   // reference browser globals (HTMLElement, Document) on non-browser environments, since having
   // a class decorator causes TypeScript to preserve the constructor signature types.
   #_document = inject(DOCUMENT);
-  #_defaultOptions: LiveAnnouncerDefaultOptions | null = inject(
-    LIVE_ANNOUNCER_DEFAULT_OPTIONS,
+  #_defaultOptions: SkyLiveAnnouncerDefaultOptions | null = inject(
+    SKY_LIVE_ANNOUNCER_DEFAULT_OPTIONS,
     { optional: true }
   );
-  #liveElement: HTMLElement;
+  #idService = inject(SkyIdService);
   #previousTimeout: NodeJS.Timeout | undefined;
 
   constructor() {
     const elementToken: HTMLElement | null = inject(
-      LIVE_ANNOUNCER_ELEMENT_TOKEN,
+      SKY_LIVE_ANNOUNCER_ELEMENT_TOKEN,
       {
         optional: true,
       }
     );
-    this.#liveElement = elementToken || this.#createLiveElement();
+    SkyLiveAnnouncer.announcerElement =
+      elementToken || this.#createLiveElement();
+    SkyLiveAnnouncer.announcerElementChanged.next(
+      SkyLiveAnnouncer.announcerElement
+    );
   }
 
   /**
@@ -45,7 +57,7 @@ export class SkyLiveAnnouncer implements OnDestroy {
    * @param politeness The politeness of the announcer element.
    * @returns Promise that will be resolved when the message is added to the DOM.
    */
-  announce(message: string, politeness?: AriaLivePoliteness): void;
+  announce(message: string, politeness?: SkyAriaLivePoliteness): void;
 
   /**
    * Announces a message to screen readers.
@@ -68,13 +80,22 @@ export class SkyLiveAnnouncer implements OnDestroy {
    */
   announce(
     message: string,
-    politeness?: AriaLivePoliteness,
+    politeness?: SkyAriaLivePoliteness,
     duration?: number
   ): void;
 
   announce(message: string, ...args: any[]): void {
+    /* safety-check */
+    /* istanbul ignore if */
+    if (!SkyLiveAnnouncer.announcerElement) {
+      SkyLiveAnnouncer.announcerElement = this.#createLiveElement();
+      SkyLiveAnnouncer.announcerElementChanged.next(
+        SkyLiveAnnouncer.announcerElement
+      );
+    }
+
     const defaultOptions = this.#_defaultOptions;
-    let politeness: AriaLivePoliteness | undefined;
+    let politeness: SkyAriaLivePoliteness | undefined;
     let duration: number | undefined;
 
     if (args.length === 1 && typeof args[0] === 'number') {
@@ -97,14 +118,9 @@ export class SkyLiveAnnouncer implements OnDestroy {
       duration = defaultOptions.duration;
     }
 
-    // TODO: ensure changing the politeness works on all environments we support.
-    this.#liveElement.setAttribute('aria-live', politeness);
+    SkyLiveAnnouncer.announcerElement.setAttribute('aria-live', politeness);
 
-    if (this.#liveElement.id) {
-      this.#exposeAnnouncerToModals(this.#liveElement.id);
-    }
-
-    this.#liveElement.textContent = message;
+    SkyLiveAnnouncer.announcerElement.textContent = message;
 
     if (typeof duration === 'number') {
       this.#previousTimeout = setTimeout(() => this.clear(), duration);
@@ -117,17 +133,19 @@ export class SkyLiveAnnouncer implements OnDestroy {
    * through the page landmarks.
    */
   public clear(): void {
-    if (this.#liveElement) {
-      this.#liveElement.textContent = '';
+    if (SkyLiveAnnouncer.announcerElement) {
+      SkyLiveAnnouncer.announcerElement.textContent = '';
     }
   }
 
   public ngOnDestroy(): void {
-    this.#liveElement?.remove();
+    SkyLiveAnnouncer.announcerElement?.remove();
+    SkyLiveAnnouncer.announcerElement = undefined;
+    SkyLiveAnnouncer.announcerElementChanged.next(undefined);
   }
 
   #createLiveElement(): HTMLElement {
-    const elementClass = 'cdk-live-announcer-element';
+    const elementClass = 'sky-live-announcer-element';
     const previousElements =
       this.#_document.getElementsByClassName(elementClass);
     const liveEl = this.#_document.createElement('div');
@@ -138,39 +156,14 @@ export class SkyLiveAnnouncer implements OnDestroy {
     }
 
     liveEl.classList.add(elementClass);
-    liveEl.classList.add('cdk-visually-hidden');
+    liveEl.classList.add('sky-screen-reader-only');
 
     liveEl.setAttribute('aria-atomic', 'true');
     liveEl.setAttribute('aria-live', 'polite');
-    liveEl.id = `cdk-live-announcer-${uniqueIds++}`;
+    liveEl.id = this.#idService.generateId();
 
     this.#_document.body.appendChild(liveEl);
 
     return liveEl;
-  }
-
-  /**
-   * Some browsers won't expose the accessibility node of the live announcer element if there is an
-   * `aria-modal` and the live announcer is outside of it. This method works around the issue by
-   * pointing the `aria-owns` of all modals to the live announcer element.
-   */
-  #exposeAnnouncerToModals(id: string): void {
-    // Note that the selector here is limited to CDK overlays at the moment in order to reduce the
-    // section of the DOM we need to look through. This should cover all the cases we support, but
-    // the selector can be expanded if it turns out to be too narrow.
-    const modals = this.#_document.querySelectorAll(
-      'body > .cdk-overlay-container [aria-modal="true"]'
-    );
-
-    for (let i = 0; i < modals.length; i++) {
-      const modal = modals[i];
-      const ariaOwns = modal.getAttribute('aria-owns');
-
-      if (!ariaOwns) {
-        modal.setAttribute('aria-owns', id);
-      } else if (ariaOwns.indexOf(id) === -1) {
-        modal.setAttribute('aria-owns', ariaOwns + ' ' + id);
-      }
-    }
   }
 }

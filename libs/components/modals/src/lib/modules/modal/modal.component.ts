@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   Host,
@@ -9,14 +10,18 @@ import {
   OnDestroy,
   Optional,
   ViewChild,
+  inject,
 } from '@angular/core';
 import {
   SkyAppWindowRef,
   SkyCoreAdapterService,
   SkyDockLocation,
   SkyDockService,
+  SkyLiveAnnouncer,
   SkyResizeObserverMediaQueryService,
 } from '@skyux/core';
+
+import { Subscription } from 'rxjs';
 
 import { SkyModalComponentAdapterService } from './modal-component-adapter.service';
 import { SkyModalConfiguration } from './modal-configuration';
@@ -80,6 +85,8 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
     return this.#_ariaLabelledBy;
   }
 
+  public ariaOwns: string | null = null;
+
   public helpKey: string | undefined;
 
   public modalState = 'in';
@@ -96,9 +103,11 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
   #hostService: SkyModalHostService;
   #elRef: ElementRef;
   #windowRef: SkyAppWindowRef;
+  #changeDetector = inject(ChangeDetectorRef);
   #componentAdapter: SkyModalComponentAdapterService;
   #coreAdapter: SkyCoreAdapterService;
   #dockService: SkyDockService;
+  #liveAnnouncerElementSubscription: Subscription;
   #mediaQueryService: SkyResizeObserverMediaQueryService | undefined;
 
   #_ariaDescribedBy: string | undefined;
@@ -129,6 +138,14 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
     this.helpKey = config.helpKey;
     this.tiledBody = config.tiledBody;
     this.wrapperClass = config.wrapperClass;
+
+    this.#liveAnnouncerElementSubscription =
+      SkyLiveAnnouncer.announcerElementChanged.subscribe((element) => {
+        if (element?.id) {
+          this.ariaOwns = element.id;
+          this.#changeDetector.markForCheck();
+        }
+      });
 
     this.size = config.fullPage
       ? 'full-page'
@@ -221,6 +238,7 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
     if (this.#mediaQueryService) {
       this.#mediaQueryService.unobserve();
     }
+    this.#liveAnnouncerElementSubscription.unsubscribe();
   }
 
   public helpButtonClick() {

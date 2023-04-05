@@ -3,6 +3,7 @@
   aria-modal="true"
   [attr.aria-describedby]="ariaDescribedBy || modalContentId.id"
   [attr.aria-labelledby]="ariaLabelledBy || headerId.id"
+  [attr.aria-owns]="ariaOwns"
   [attr.role]="ariaRoleOrDefault"
   (window:resize)="windowResize()"
 >

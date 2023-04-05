@@ -1,33 +1,30 @@
-// import { InjectionToken } from '@angular/core';
+import { InjectionToken } from '@angular/core';
 
-// // The tokens for the live announcer are defined in a separate file from LiveAnnouncer
-// // as a workaround for https://github.com/angular/angular/issues/22559
+/** Possible politeness levels. */
+export type SkyAriaLivePoliteness = 'off' | 'polite' | 'assertive';
 
-// /** Possible politeness levels. */
-// export type AriaLivePoliteness = 'off' | 'polite' | 'assertive';
+export const SKY_LIVE_ANNOUNCER_ELEMENT_TOKEN =
+  new InjectionToken<HTMLElement | null>('skyLiveAnnouncerElement', {
+    providedIn: 'root',
+    factory: SKY_LIVE_ANNOUNCER_ELEMENT_TOKEN_FACTORY,
+  });
 
-// export const LIVE_ANNOUNCER_ELEMENT_TOKEN =
-//   new InjectionToken<HTMLElement | null>('liveAnnouncerElement', {
-//     providedIn: 'root',
-//     factory: LIVE_ANNOUNCER_ELEMENT_TOKEN_FACTORY,
-//   });
+/** @internal */
+export function SKY_LIVE_ANNOUNCER_ELEMENT_TOKEN_FACTORY(): null {
+  return null;
+}
 
-// /** @docs-private */
-// export function LIVE_ANNOUNCER_ELEMENT_TOKEN_FACTORY(): null {
-//   return null;
-// }
+/** Object that can be used to configure the default options for the SkyLiveAnnouncer. */
+export interface SkyLiveAnnouncerDefaultOptions {
+  /** Default politeness for the announcements. */
+  politeness?: SkyAriaLivePoliteness;
 
-// /** Object that can be used to configure the default options for the LiveAnnouncer. */
-// export interface LiveAnnouncerDefaultOptions {
-//   /** Default politeness for the announcements. */
-//   politeness?: AriaLivePoliteness;
+  /** Default duration for the announcement messages. */
+  duration?: number;
+}
 
-//   /** Default duration for the announcement messages. */
-//   duration?: number;
-// }
-
-// /** Injection token that can be used to configure the default options for the LiveAnnouncer. */
-// export const LIVE_ANNOUNCER_DEFAULT_OPTIONS =
-//   new InjectionToken<LiveAnnouncerDefaultOptions>(
-//     'LIVE_ANNOUNCER_DEFAULT_OPTIONS'
-//   );
+/** Injection token that can be used to configure the default options for the SkyLiveAnnouncer. */
+export const SKY_LIVE_ANNOUNCER_DEFAULT_OPTIONS =
+  new InjectionToken<SkyLiveAnnouncerDefaultOptions>(
+    'SKY_LIVE_ANNOUNCER_DEFAULT_OPTIONS'
+  );
