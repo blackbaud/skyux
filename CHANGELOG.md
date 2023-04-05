@@ -1,5 +1,24 @@
 # Changelog
 
+## [8.0.0-alpha.17](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.16...8.0.0-alpha.17) (2023-04-05)
+
+
+### Features
+
+* **components/lists:** repeater test harness ([#1196](https://github.com/blackbaud/skyux/issues/1196)) ([#1209](https://github.com/blackbaud/skyux/issues/1209)) ([bd56b30](https://github.com/blackbaud/skyux/commit/bd56b30dfbfca6f3ad04be4884f05be04209b03d))
+* **components/lists:** repeater visual tests ([#1182](https://github.com/blackbaud/skyux/issues/1182)) ([#1210](https://github.com/blackbaud/skyux/issues/1210)) ([508810f](https://github.com/blackbaud/skyux/commit/508810ffec731f38452f435f23566e86b5c6add4))
+* **components/modals:** modal visual test ([#1181](https://github.com/blackbaud/skyux/issues/1181)) ([#1216](https://github.com/blackbaud/skyux/issues/1216)) ([cba6a36](https://github.com/blackbaud/skyux/commit/cba6a36a121918be483aa2873bde016e680f346f))
+
+
+### Bug Fixes
+
+* update `sky-emphasized` style class to `sky-font-emphasized` ([#1185](https://github.com/blackbaud/skyux/issues/1185)) ([0faf4f8](https://github.com/blackbaud/skyux/commit/0faf4f8fe7ce12ba13c31f4f7d9f627164e0618a))
+
+
+### Deprecations
+
+* **components/indicators:** deprecate use of alert without descriptionType ([#1212](https://github.com/blackbaud/skyux/issues/1212)) ([9807f94](https://github.com/blackbaud/skyux/commit/9807f94d0179e50df7d464fe8bfed524b4e93ef1))
+
 ## [8.0.0-alpha.16](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.15...8.0.0-alpha.16) (2023-04-03)
 
 
