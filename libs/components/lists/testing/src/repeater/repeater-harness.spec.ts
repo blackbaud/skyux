@@ -129,7 +129,7 @@ describe('Repeater harness', () => {
     );
   });
 
-  it('should indicate reorderability', async () => {
+  it('should handle reorderability', async () => {
     const { repeaterHarness, fixture } = await setupTest({
       dataSkyId: 'my-basic-repeater',
     });
@@ -138,10 +138,14 @@ describe('Repeater harness', () => {
     const item = items[0];
 
     await expectAsync(item.isReorderable()).toBeResolvedTo(false);
+    await expectAsync(item.sendToTop()).toBeRejectedWithError(
+      'Could not send to top because the repeater is not reorderable.'
+    );
 
     fixture.componentInstance.reorderable = true;
 
     await expectAsync(item.isReorderable()).toBeResolvedTo(true);
+    await expectAsync(item.sendToTop()).toBeResolved();
   });
 
   it('should find items by `data-sky-id` attributes', async () => {
@@ -189,9 +193,7 @@ describe('Repeater harness', () => {
       dataSkyId: 'my-basic-repeater',
     });
 
-    const items = await repeaterHarness.getRepeaterItems({
-      contentText: /We should call him to thank him/,
-    });
+    const items = await repeaterHarness.getRepeaterItems();
 
     const noteHarness = await items[0].queryHarness(
       RepeaterHarnessTestItemHarness
@@ -201,5 +203,18 @@ describe('Repeater harness', () => {
     await expectAsync((await noteHarness!.host()).text()).toBeResolvedTo(
       'Robert recently gave a very generous gift. We should call him to thank him.'
     );
+
+    const noteHarnesses = await items[1].queryHarnesses(
+      RepeaterHarnessTestItemHarness
+    );
+    expect(noteHarnesses).not.toBeNull();
+    expect(noteHarnesses.length).toBe(1);
+
+    const noteElement = await items[0].querySelector('.item-note');
+    expect(noteElement).not.toBeNull();
+
+    const noteElements = await items[0].querySelectorAll('.item-note');
+    expect(noteElements).not.toBeNull();
+    expect(noteElements.length).toBe(1);
   });
 });
