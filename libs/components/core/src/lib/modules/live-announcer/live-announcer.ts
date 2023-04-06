@@ -123,7 +123,10 @@ export class SkyLiveAnnouncer implements OnDestroy {
     SkyLiveAnnouncer.announcerElement.textContent = message;
 
     if (typeof duration === 'number') {
-      this.#previousTimeout = setTimeout(() => this.clear(), duration);
+      // TODO: Explore limiting the types that are pulled in.
+      // Explicitly declare the `setTimeout` from the `window` object in order to use the DOM typings
+      // during a unit test (instead of confusing this with Node's `setTimeout`).
+      this.#previousTimeout = window.setTimeout(() => this.clear(), duration);
     }
   }
 
