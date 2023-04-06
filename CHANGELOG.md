@@ -1,5 +1,13 @@
 # Changelog
 
+## [8.0.0-alpha.18](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.17...8.0.0-alpha.18) (2023-04-06)
+
+
+### Bug Fixes
+
+* **components/forms:** single file attachment change event type now correctly denotes that it may be undefined ([#1223](https://github.com/blackbaud/skyux/issues/1223)) ([4693530](https://github.com/blackbaud/skyux/commit/469353038c773e308675b4d9156254fdebfeb2a9))
+* **components/lists:** don't animate repeater items collapsing on initial render ([#1219](https://github.com/blackbaud/skyux/issues/1219)) ([#1221](https://github.com/blackbaud/skyux/issues/1221)) ([caf6507](https://github.com/blackbaud/skyux/commit/caf650781aa8b9d89ee4c4a5c95d1dbf0e6b6ac8))
+
 ## [8.0.0-alpha.17](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.16...8.0.0-alpha.17) (2023-04-05)
 
 
