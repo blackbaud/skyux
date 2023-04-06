@@ -30,12 +30,95 @@ describe('Help inline component', () => {
       .query(By.css('.sky-help-inline'))
       .triggerEventHandler('click', undefined);
     fixture.detectChanges();
-    expect(cmp.buttonIsClicked).toBe(true);
+    expect(cmp.showHelpText).toBe(true);
   });
 
-  it('should pass accessibility', async () => {
+  it('should pass accessibility (ariaControls: undefined, ariaExpanded: undefined)', async () => {
     fixture.detectChanges();
     await fixture.whenStable();
+    expect(
+      fixture.nativeElement
+        .querySelector('.sky-help-inline')
+        ?.getAttribute('aria-label')
+    ).toBe('Show help content');
+    expect(
+      fixture.nativeElement
+        .querySelector('.sky-help-inline')
+        ?.getAttribute('aria-controls')
+    ).toBeNull();
+    expect(
+      fixture.nativeElement
+        .querySelector('.sky-help-inline')
+        ?.getAttribute('aria-expanded')
+    ).toBeNull();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
+
+  it('should pass accessibility (ariaControls: "help-text", ariaExpanded: undefined)', async () => {
+    cmp.ariaControls = 'help-text';
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(
+      fixture.nativeElement
+        .querySelector('.sky-help-inline')
+        ?.getAttribute('aria-label')
+    ).toBe('Show help content');
+    expect(
+      fixture.nativeElement
+        .querySelector('.sky-help-inline')
+        ?.getAttribute('aria-controls')
+    ).toBe('help-text');
+    expect(
+      fixture.nativeElement
+        .querySelector('.sky-help-inline')
+        ?.getAttribute('aria-expanded')
+    ).toBe('false');
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
+
+  it('should pass accessibility (ariaControls: "help-text", ariaExpanded: false)', async () => {
+    cmp.ariaControls = 'help-text';
+    cmp.ariaExpanded = false;
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(
+      fixture.nativeElement
+        .querySelector('.sky-help-inline')
+        ?.getAttribute('aria-label')
+    ).toBe('Show help content');
+    expect(
+      fixture.nativeElement
+        .querySelector('.sky-help-inline')
+        ?.getAttribute('aria-controls')
+    ).toBe('help-text');
+    expect(
+      fixture.nativeElement
+        .querySelector('.sky-help-inline')
+        ?.getAttribute('aria-expanded')
+    ).toBe('false');
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
+
+  it('should pass accessibility (ariaControls: "help-text", ariaExpanded: true)', async () => {
+    cmp.ariaControls = 'help-text';
+    cmp.ariaExpanded = true;
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(
+      fixture.nativeElement
+        .querySelector('.sky-help-inline')
+        ?.getAttribute('aria-label')
+    ).toBe('Show help content');
+    expect(
+      fixture.nativeElement
+        .querySelector('.sky-help-inline')
+        ?.getAttribute('aria-controls')
+    ).toBe('help-text');
+    expect(
+      fixture.nativeElement
+        .querySelector('.sky-help-inline')
+        ?.getAttribute('aria-expanded')
+    ).toBe('true');
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });
 });

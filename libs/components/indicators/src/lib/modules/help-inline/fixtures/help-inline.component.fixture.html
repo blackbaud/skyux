@@ -1,1 +1,8 @@
-<sky-help-inline (actionClick)="buttonClicked()"> </sky-help-inline>
+<sky-help-inline
+  [ariaControls]="ariaControls"
+  [ariaExpanded]="ariaExpanded"
+  (actionClick)="buttonClicked()"
+>
+</sky-help-inline>
+<!-- This isn't real world - but a11y testing requires a real element -->
+<p id="help-text" [hidden]="showHelpText">Show text</p>
