@@ -15,11 +15,13 @@ export class RepeaterDemoComponent {
       title: 'Call Robert Hernandez',
       note: 'Robert recently gave a very generous gift.  We should call him to thank him.',
       status: 'Completed',
+      isSelected: false,
     },
     {
       title: 'Send invitation to Spring Ball',
       note: "The Spring Ball is coming up soon.  Let's get those invitations out!",
       status: 'Past due',
+      isSelected: false,
     },
   ];
 
@@ -28,6 +30,7 @@ export class RepeaterDemoComponent {
       title: 'New reminder ' + ++nextId,
       note: 'This is a new reminder',
       status: 'Active',
+      isSelected: false,
     });
   }
 
@@ -39,7 +42,7 @@ export class RepeaterDemoComponent {
     alert(buttonText + ' was clicked!');
   }
 
-  public removeItem(): void {
-    this.items.pop();
+  public removeItems(): void {
+    this.items = this.items.filter((item) => !item.isSelected);
   }
 }
