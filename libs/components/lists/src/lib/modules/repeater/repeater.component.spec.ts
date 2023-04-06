@@ -326,6 +326,24 @@ describe('Repeater item component', () => {
   }));
 
   describe('with expand mode of "single"', () => {
+    it('should disabled collapse animations on initial render', fakeAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      const cmp: RepeaterTestComponent = fixture.componentInstance;
+
+      cmp.expandMode = 'single';
+      fixture.detectChanges();
+
+      tick();
+
+      const repeaterItems = cmp.repeater?.items?.toArray();
+
+      expect(repeaterItems?.[0].animationDisabled).toBeTrue();
+      expect(repeaterItems?.[1].animationDisabled).toBeTrue();
+      expect(repeaterItems?.[2].animationDisabled).toBeTrue();
+
+      flushDropdownTimer();
+    }));
+
     it('should collapse other items when an item is expanded', fakeAsync(() => {
       const fixture = TestBed.createComponent(RepeaterTestComponent);
       const cmp: RepeaterTestComponent = fixture.componentInstance;
@@ -386,6 +404,9 @@ describe('Repeater item component', () => {
       expect(repeaterItems?.[0].isExpanded).toBe(false);
       expect(repeaterItems?.[1].isExpanded).toBe(false);
       expect(repeaterItems?.[2].isExpanded).toBe(true);
+
+      // Validate that animation was enabled on the item that was collapsed.
+      expect(repeaterItems?.[0].animationDisabled).toBeFalse();
 
       flushDropdownTimer();
     }));
