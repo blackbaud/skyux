@@ -501,9 +501,9 @@ describe('File attachment', () => {
     setupStandardFileChangeEvent(file);
 
     expect(fileChangeActual?.file).toBeTruthy();
-    expect(fileChangeActual?.file.url).toBe('$/url');
-    expect(fileChangeActual?.file.file.name).toBe('foo.txt');
-    expect(fileChangeActual?.file.file.size).toBe(1000);
+    expect(fileChangeActual?.file?.url).toBe('$/url');
+    expect(fileChangeActual?.file?.file.name).toBe('foo.txt');
+    expect(fileChangeActual?.file?.file.size).toBe(1000);
   });
 
   it('should load and emit files on file change event when file reader has an error and aborts', () => {
@@ -528,9 +528,9 @@ describe('File attachment', () => {
     fileReaderSpy.abortCallbacks[0]();
     fixture.detectChanges();
 
-    expect(filesChangedActual?.file.url).toBeFalsy();
-    expect(filesChangedActual?.file.file.name).toBe('woo.txt');
-    expect(filesChangedActual?.file.file.size).toBe(3000);
+    expect(filesChangedActual?.file?.url).toBeFalsy();
+    expect(filesChangedActual?.file?.file.name).toBe('woo.txt');
+    expect(filesChangedActual?.file?.file.size).toBe(3000);
 
     triggerChangeEvent([
       {
@@ -543,9 +543,9 @@ describe('File attachment', () => {
     fileReaderSpy.errorCallbacks[1]();
     fixture.detectChanges();
 
-    expect(filesChangedActual?.file.url).toBeFalsy();
-    expect(filesChangedActual?.file.file.name).toBe('foo.txt');
-    expect(filesChangedActual?.file.file.size).toBe(2000);
+    expect(filesChangedActual?.file?.url).toBeFalsy();
+    expect(filesChangedActual?.file?.file.name).toBe('foo.txt');
+    expect(filesChangedActual?.file?.file.size).toBe(2000);
   });
 
   it('should clear file on remove press', () => {
@@ -728,10 +728,10 @@ describe('File attachment', () => {
     fixture.detectChanges();
 
     expect(fileChangeActual?.file).toBeTruthy();
-    expect(fileChangeActual?.file.errorType).toBeFalsy();
-    expect(fileChangeActual?.file.url).toBe('$/url');
-    expect(fileChangeActual?.file.file.name).toBe('foo.txt');
-    expect(fileChangeActual?.file.file.size).toBe(1000);
+    expect(fileChangeActual?.file?.errorType).toBeFalsy();
+    expect(fileChangeActual?.file?.url).toBe('$/url');
+    expect(fileChangeActual?.file?.file.name).toBe('foo.txt');
+    expect(fileChangeActual?.file?.file.size).toBe(1000);
 
     // Verify reject classes when appropriate
     triggerDragEnter('sky-file-attachment', dropDebugEl);
@@ -859,10 +859,10 @@ describe('File attachment', () => {
 
     setupStandardFileChangeEvent();
 
-    expect(fileChangeActual?.file.file.name).toBe('foo.txt');
-    expect(fileChangeActual?.file.file.size).toBe(1000);
-    expect(fileChangeActual?.file.errorType).toBe('minFileSize');
-    expect(fileChangeActual?.file.errorParam).toBe('1500');
+    expect(fileChangeActual?.file?.file.name).toBe('foo.txt');
+    expect(fileChangeActual?.file?.file.size).toBe(1000);
+    expect(fileChangeActual?.file?.errorType).toBe('minFileSize');
+    expect(fileChangeActual?.file?.errorParam).toBe('1500');
 
     expect(fileAttachmentInstance.value).toBeFalsy();
   });
@@ -876,10 +876,10 @@ describe('File attachment', () => {
 
     const spy = setupStandardFileChangeEvent();
 
-    expect(fileChangeActual?.file.file.name).toBe('foo.txt');
-    expect(fileChangeActual?.file.file.size).toBe(1000);
-    expect(fileChangeActual?.file.errorType).toBeUndefined();
-    expect(fileChangeActual?.file.errorParam).toBeUndefined();
+    expect(fileChangeActual?.file?.file.name).toBe('foo.txt');
+    expect(fileChangeActual?.file?.file.size).toBe(1000);
+    expect(fileChangeActual?.file?.errorType).toBeUndefined();
+    expect(fileChangeActual?.file?.errorParam).toBeUndefined();
 
     expect(fileAttachmentInstance.value).toBeTruthy();
 
@@ -892,10 +892,10 @@ describe('File attachment', () => {
 
     setupStandardFileChangeEvent(undefined, spy);
 
-    expect(fileChangeActual?.file.file.name).toBe('foo.txt');
-    expect(fileChangeActual?.file.file.size).toBe(1000);
-    expect(fileChangeActual?.file.errorType).toBe('minFileSize');
-    expect(fileChangeActual?.file.errorParam).toBe('1500');
+    expect(fileChangeActual?.file?.file.name).toBe('foo.txt');
+    expect(fileChangeActual?.file?.file.size).toBe(1000);
+    expect(fileChangeActual?.file?.errorType).toBe('minFileSize');
+    expect(fileChangeActual?.file?.errorParam).toBe('1500');
 
     expect(fileAttachmentInstance.value).toBeFalsy();
 
@@ -906,10 +906,10 @@ describe('File attachment', () => {
 
     setupStandardFileChangeEvent(undefined, spy);
 
-    expect(fileChangeActual?.file.file.name).toBe('foo.txt');
-    expect(fileChangeActual?.file.file.size).toBe(1000);
-    expect(fileChangeActual?.file.errorType).toBeUndefined();
-    expect(fileChangeActual?.file.errorParam).toBeUndefined();
+    expect(fileChangeActual?.file?.file.name).toBe('foo.txt');
+    expect(fileChangeActual?.file?.file.size).toBe(1000);
+    expect(fileChangeActual?.file?.errorType).toBeUndefined();
+    expect(fileChangeActual?.file?.errorParam).toBeUndefined();
 
     expect(fileAttachmentInstance.value).toBeTruthy();
   });
@@ -934,10 +934,10 @@ describe('File attachment', () => {
 
     setupStandardFileChangeEvent(file);
 
-    expect(fileChangeActual?.file.file.name).toBe('woo.txt');
-    expect(fileChangeActual?.file.file.size).toBe(2000);
-    expect(fileChangeActual?.file.errorType).toBe('maxFileSize');
-    expect(fileChangeActual?.file.errorParam).toBe('1500');
+    expect(fileChangeActual?.file?.file.name).toBe('woo.txt');
+    expect(fileChangeActual?.file?.file.size).toBe(2000);
+    expect(fileChangeActual?.file?.errorType).toBe('maxFileSize');
+    expect(fileChangeActual?.file?.errorParam).toBe('1500');
 
     expect(fileAttachmentInstance.value).toBeFalsy();
   });
@@ -959,10 +959,10 @@ describe('File attachment', () => {
 
     const spy = setupStandardFileChangeEvent(file);
 
-    expect(fileChangeActual?.file.file.name).toBe('woo.txt');
-    expect(fileChangeActual?.file.file.size).toBe(500001);
-    expect(fileChangeActual?.file.errorType).toBe('maxFileSize');
-    expect(fileChangeActual?.file.errorParam).toBe('500000');
+    expect(fileChangeActual?.file?.file.name).toBe('woo.txt');
+    expect(fileChangeActual?.file?.file.size).toBe(500001);
+    expect(fileChangeActual?.file?.errorType).toBe('maxFileSize');
+    expect(fileChangeActual?.file?.errorParam).toBe('500000');
 
     expect(fileAttachmentInstance.value).toBeFalsy();
 
@@ -971,10 +971,10 @@ describe('File attachment', () => {
 
     setupStandardFileChangeEvent(file, spy);
 
-    expect(fileChangeActual?.file.file.name).toBe('woo.txt');
-    expect(fileChangeActual?.file.file.size).toBe(500001);
-    expect(fileChangeActual?.file.errorType).toBe('maxFileSize');
-    expect(fileChangeActual?.file.errorParam).toBe('500000');
+    expect(fileChangeActual?.file?.file.name).toBe('woo.txt');
+    expect(fileChangeActual?.file?.file.size).toBe(500001);
+    expect(fileChangeActual?.file?.errorType).toBe('maxFileSize');
+    expect(fileChangeActual?.file?.errorParam).toBe('500000');
 
     expect(fileAttachmentInstance.value).toBeFalsy();
   });
@@ -1010,10 +1010,10 @@ describe('File attachment', () => {
 
     setupStandardFileChangeEvent(file);
 
-    expect(fileChangeActual?.file.file.name).toBe('woo.txt');
-    expect(fileChangeActual?.file.file.size).toBe(2000);
-    expect(fileChangeActual?.file.errorType).toBe('validate');
-    expect(fileChangeActual?.file.errorParam).toBe(errorMessage);
+    expect(fileChangeActual?.file?.file.name).toBe('woo.txt');
+    expect(fileChangeActual?.file?.file.size).toBe(2000);
+    expect(fileChangeActual?.file?.errorType).toBe('validate');
+    expect(fileChangeActual?.file?.errorParam).toBe(errorMessage);
 
     expect(fileAttachmentInstance.value).toBeFalsy();
   });
@@ -1049,9 +1049,9 @@ describe('File attachment', () => {
 
     setupStandardFileChangeEvent(file);
 
-    expect(fileChangeActual?.file.file.name).toBe('foo.txt');
-    expect(fileChangeActual?.file.file.size).toBe(1000);
-    expect(fileChangeActual?.file.url).toBe('$/url');
+    expect(fileChangeActual?.file?.file.name).toBe('foo.txt');
+    expect(fileChangeActual?.file?.file.size).toBe(1000);
+    expect(fileChangeActual?.file?.url).toBe('$/url');
 
     expect(fileAttachmentInstance.value).toBeTruthy();
   });
@@ -1077,9 +1077,9 @@ describe('File attachment', () => {
 
     setupStandardFileChangeEvent(file);
 
-    expect(fileChangeActual?.file.file.name).toBe('foo.txt');
-    expect(fileChangeActual?.file.file.size).toBe(1000);
-    expect(fileChangeActual?.file.url).toBe('$/url');
+    expect(fileChangeActual?.file?.file.name).toBe('foo.txt');
+    expect(fileChangeActual?.file?.file.size).toBe(1000);
+    expect(fileChangeActual?.file?.url).toBe('$/url');
   });
 
   it('should reject a file with a type that is not accepted', () => {
@@ -1103,10 +1103,10 @@ describe('File attachment', () => {
 
     setupStandardFileChangeEvent(file);
 
-    expect(fileChangeActual?.file.file.name).toBe('woo.txt');
-    expect(fileChangeActual?.file.file.size).toBe(2000);
-    expect(fileChangeActual?.file.errorType).toBe('fileType');
-    expect(fileChangeActual?.file.errorParam).toBe(
+    expect(fileChangeActual?.file?.file.name).toBe('woo.txt');
+    expect(fileChangeActual?.file?.file.size).toBe(2000);
+    expect(fileChangeActual?.file?.errorType).toBe('fileType');
+    expect(fileChangeActual?.file?.errorParam).toBe(
       fileAttachmentInstance.acceptedTypes
     );
   });
@@ -1131,10 +1131,10 @@ describe('File attachment', () => {
 
     setupStandardFileChangeEvent(file);
 
-    expect(fileChangeActual?.file.file.name).toBe('foo.txt');
-    expect(fileChangeActual?.file.file.size).toBe(1000);
-    expect(fileChangeActual?.file.errorType).toBe('fileType');
-    expect(fileChangeActual?.file.errorParam).toBe(
+    expect(fileChangeActual?.file?.file.name).toBe('foo.txt');
+    expect(fileChangeActual?.file?.file.size).toBe(1000);
+    expect(fileChangeActual?.file?.errorType).toBe('fileType');
+    expect(fileChangeActual?.file?.errorParam).toBe(
       fileAttachmentInstance.acceptedTypes
     );
   });
@@ -1160,9 +1160,9 @@ describe('File attachment', () => {
 
     setupStandardFileChangeEvent(file);
 
-    expect(fileChangeActual?.file.file.name).toBe('woo.txt');
-    expect(fileChangeActual?.file.file.size).toBe(2000);
-    expect(fileChangeActual?.file.url).toBe('$/url');
+    expect(fileChangeActual?.file?.file.name).toBe('woo.txt');
+    expect(fileChangeActual?.file?.file.size).toBe(2000);
+    expect(fileChangeActual?.file?.url).toBe('$/url');
   });
 
   it('should accept multiple types using a wildcard', () => {
@@ -1186,9 +1186,9 @@ describe('File attachment', () => {
 
     setupStandardFileChangeEvent(file);
 
-    expect(fileChangeActual?.file.file.name).toBe('foo.txt');
-    expect(fileChangeActual?.file.file.size).toBe(1000);
-    expect(fileChangeActual?.file.url).toBe('$/url');
+    expect(fileChangeActual?.file?.file.name).toBe('foo.txt');
+    expect(fileChangeActual?.file?.file.size).toBe(1000);
+    expect(fileChangeActual?.file?.url).toBe('$/url');
   });
 
   it('shows the thumbnail if the item is an image', () => {
