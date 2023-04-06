@@ -2,7 +2,7 @@ import { SkyFileItem } from '../file-item';
 
 export interface SkyFileAttachmentChange {
   /**
-   * The file that was added. If the file was removed this property will be `undefined`.
+   * The file that was added, or undefined if the file was removed.
    */
   file?: SkyFileItem;
 }
