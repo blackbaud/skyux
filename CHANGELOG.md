@@ -1,5 +1,17 @@
 # Changelog
 
+## [7.16.0](https://github.com/blackbaud/skyux/compare/7.15.0...7.16.0) (2023-04-06)
+
+
+### Features
+
+* **components/lists:** add sample tests for repeater ([#1220](https://github.com/blackbaud/skyux/issues/1220)) ([d62be38](https://github.com/blackbaud/skyux/commit/d62be383aa721b1fa84ebcbcf05d78bb04525ae0))
+
+
+### Bug Fixes
+
+* **components/lists:** don't animate repeater items collapsing on initial render ([#1219](https://github.com/blackbaud/skyux/issues/1219)) ([38fe850](https://github.com/blackbaud/skyux/commit/38fe8503cc402ab7172146a359a7cf30e64dfa99))
+
 ## [7.15.0](https://github.com/blackbaud/skyux/compare/7.14.0...7.15.0) (2023-04-05)
 
 
