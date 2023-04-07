@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
 export class HelpInlineTestComponent {
   public ariaControls: string | undefined;
   public ariaExpanded: boolean | undefined;
+  public ariaLabel: string | undefined;
   public showHelpText = false;
 
   public buttonClicked(): void {
