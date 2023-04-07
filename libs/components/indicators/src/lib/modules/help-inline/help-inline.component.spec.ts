@@ -46,14 +46,14 @@ describe('Help inline component', () => {
     expect(cmp.showHelpText).toBe(true);
   });
 
-  it('should pass accessibility (ariaControls: undefined, ariaExpanded: undefined)', async () => {
+  it('should pass accessibility (ariaLabel: undefined, ariaControls: undefined, ariaExpanded: undefined)', async () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
     await checkAriaPropertiesAndAccessibility('Show help content', null, null);
   });
 
-  it('should pass accessibility (ariaControls: "help-text", ariaExpanded: undefined)', async () => {
+  it('should pass accessibility (ariaLabel: undefined, ariaControls: "help-text", ariaExpanded: undefined)', async () => {
     cmp.ariaControls = 'help-text';
     fixture.detectChanges();
     await fixture.whenStable();
@@ -65,7 +65,7 @@ describe('Help inline component', () => {
     );
   });
 
-  it('should pass accessibility (ariaControls: "help-text", ariaExpanded: false)', async () => {
+  it('should pass accessibility (ariaLabel: undefined, ariaControls: "help-text", ariaExpanded: false)', async () => {
     cmp.ariaControls = 'help-text';
     cmp.ariaExpanded = false;
     fixture.detectChanges();
@@ -78,7 +78,7 @@ describe('Help inline component', () => {
     );
   });
 
-  it('should pass accessibility (ariaControls: "help-text", ariaExpanded: true)', async () => {
+  it('should pass accessibility (ariaLabel: undefined, ariaControls: "help-text", ariaExpanded: true)', async () => {
     cmp.ariaControls = 'help-text';
     cmp.ariaExpanded = true;
     fixture.detectChanges();
@@ -86,6 +86,55 @@ describe('Help inline component', () => {
 
     await checkAriaPropertiesAndAccessibility(
       'Show help content',
+      'help-text',
+      'true'
+    );
+  });
+
+  it('should pass accessibility (ariaLabel: "Test label", ariaControls: undefined, ariaExpanded: undefined)', async () => {
+    cmp.ariaLabel = 'Test label';
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    await checkAriaPropertiesAndAccessibility('Test label', null, null);
+  });
+
+  it('should pass accessibility (ariaLabel: "Test label", ariaControls: "help-text", ariaExpanded: undefined)', async () => {
+    cmp.ariaLabel = 'Test label';
+    cmp.ariaControls = 'help-text';
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    await checkAriaPropertiesAndAccessibility(
+      'Test label',
+      'help-text',
+      'false'
+    );
+  });
+
+  it('should pass accessibility (ariaLabel: "Test label", ariaControls: "help-text", ariaExpanded: false)', async () => {
+    cmp.ariaLabel = 'Test label';
+    cmp.ariaControls = 'help-text';
+    cmp.ariaExpanded = false;
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    await checkAriaPropertiesAndAccessibility(
+      'Test label',
+      'help-text',
+      'false'
+    );
+  });
+
+  it('should pass accessibility (ariaLabel: "Test label", ariaControls: "help-text", ariaExpanded: true)', async () => {
+    cmp.ariaLabel = 'Test label';
+    cmp.ariaControls = 'help-text';
+    cmp.ariaExpanded = true;
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    await checkAriaPropertiesAndAccessibility(
+      'Test label',
       'help-text',
       'true'
     );

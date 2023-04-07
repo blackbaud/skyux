@@ -23,6 +23,15 @@ export class SkyHelpInlineComponent {
   public ariaExpanded: boolean | undefined;
 
   /**
+   * The ARIA label for help inline button. This sets the button's `aria-label` to provide a text equivalent for screen readers
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
+   * @default "Show help content"
+   */
+  @Input()
+  public ariaLabel: string | undefined;
+
+  /**
    * Fires when the user clicks the help inline button.
    */
   @Output()
