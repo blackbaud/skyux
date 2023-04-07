@@ -4,14 +4,14 @@
   as modernMixins;
 
 .sky-help-inline {
-  color: $sky-text-color-action-primary;
+  color: $sky-background-color-primary-dark;
   font-size: $sky-font-size-base;
   background-color: transparent;
   border: none;
   display: inline-block;
 
   &:hover {
-    color: darken($sky-text-color-action-primary, 10%);
+    color: darken($sky-background-color-primary-dark, 10%);
     transition: color $sky-transition-time-short;
     cursor: pointer;
   }
@@ -26,7 +26,7 @@
     // The 1px and 5px padding is because we want 2px top/bottom and 6px left/right but the mixin
     // adds a pixel to account for standard button drop shadows that do not exist on this button.
     @include modernMixins.sky-theme-modern-button-variant(
-      $sky-text-color-action-primary,
+      $sky-theme-modern-background-color-primary-dark,
       transparent,
       transparent,
       $sky-theme-modern-background-color-primary-dark,
