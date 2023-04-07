@@ -1,13 +1,16 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 
 @Component({
   selector: 'app-help-inline',
   templateUrl: './help-inline.component.html',
 })
 export class HelpInlineComponent {
-  public buttonIsClicked = false;
+  public popoverOpen = false;
 
-  public onActionClick(): void {
-    this.buttonIsClicked = true;
+  #changeDetector = inject(ChangeDetectorRef);
+
+  public popoverChange(isOpen): void {
+    this.popoverOpen = isOpen;
+    this.#changeDetector.markForCheck();
   }
 }
