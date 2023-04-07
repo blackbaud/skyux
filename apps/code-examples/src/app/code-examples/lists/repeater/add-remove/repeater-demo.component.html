@@ -3,8 +3,14 @@
     [reorderable]="true"
     (orderChange)="changeItems($event)"
     [expandMode]="'single'"
+    data-sky-id="repeater-demo"
   >
-    <sky-repeater-item *ngFor="let item of items" [tag]="item.note">
+    <sky-repeater-item
+      *ngFor="let item of items"
+      [tag]="item.note"
+      [selectable]="true"
+      [(isSelected)]="item.isSelected"
+    >
       <sky-repeater-item-title class="demo-repeater-flex">
         <div class="demo-repeater-item-title sky-font-emphasized">
           {{ item.title }}
@@ -37,6 +43,7 @@
 </div>
 
 <button
+  data-sky-id="add-button"
   class="sky-btn sky-btn-default sky-margin-inline-sm"
   (click)="addItem()"
 >
@@ -44,8 +51,9 @@
 </button>
 
 <button
+  data-sky-id="remove-button"
   class="sky-btn sky-btn-default sky-margin-inline-sm"
-  (click)="removeItem()"
+  (click)="removeItems()"
 >
-  Remove item
+  Remove selected items
 </button>
