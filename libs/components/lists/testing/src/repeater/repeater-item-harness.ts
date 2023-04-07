@@ -210,7 +210,7 @@ export class SkyRepeaterItemHarness extends SkyComponentHarness {
    */
   public async sendToTop(): Promise<void> {
     if (await this.isReorderable()) {
-      (await this.#getBackToTop())?.click();
+      await (await this.#getBackToTop())?.click();
     } else {
       throw new Error(
         'Could not send to top because the repeater is not reorderable.'
