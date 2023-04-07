@@ -3,7 +3,7 @@
   type="button"
   [attr.aria-label]="'skyux_help_inline_button_title' | skyLibResources"
   [attr.aria-controls]="ariaControls"
-  [attr.aria-expanded]="ariaExpanded | skyHelpInlineAriaExpanded:ariaControls"
+  [attr.aria-expanded]="ariaExpanded | skyHelpInlineAriaExpanded: ariaControls"
   (click)="onClick()"
 >
   <sky-icon *skyThemeIf="'default'" icon="info-circle"> </sky-icon>
