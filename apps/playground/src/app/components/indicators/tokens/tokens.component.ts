@@ -1,5 +1,11 @@
 import { Component } from '@angular/core';
-import { SkyToken } from '@skyux/indicators';
+import {
+  SkyToken,
+  SkyTokensMessage,
+  SkyTokensMessageType,
+} from '@skyux/indicators';
+
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-tokens',
@@ -26,4 +32,18 @@ export class TokensComponent {
     { id: 3, label: 'Employed' },
     { id: 4, label: 'Added before 2018' },
   ].map((value) => ({ value }));
+
+  public tokensController = new Subject<SkyTokensMessage>();
+
+  public tokensControllerDisabled = new Subject<SkyTokensMessage>();
+
+  public focusLast(): void {
+    this.tokensController.next({ type: SkyTokensMessageType.FocusLastToken });
+  }
+
+  public focusLastDisabled(): void {
+    this.tokensControllerDisabled.next({
+      type: SkyTokensMessageType.FocusLastToken,
+    });
+  }
 }
