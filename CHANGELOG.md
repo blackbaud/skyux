@@ -1,5 +1,19 @@
 # Changelog
 
+## [8.0.0-alpha.19](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.18...8.0.0-alpha.19) (2023-04-10)
+
+
+### Features
+
+* **components/indicators:** add ability to set aria controls and expanded states on the help inline component ([#1225](https://github.com/blackbaud/skyux/issues/1225)) ([#1230](https://github.com/blackbaud/skyux/issues/1230)) ([440c5bc](https://github.com/blackbaud/skyux/commit/440c5bc63b01d83d89b42f08e34d707a93a4a6e1))
+* **components/indicators:** add ability to specify an accessibility label on help inline ([#1235](https://github.com/blackbaud/skyux/issues/1235)) ([#1236](https://github.com/blackbaud/skyux/issues/1236)) ([1a8283e](https://github.com/blackbaud/skyux/commit/1a8283ec16d4c5dc4f66b27bfb1ac88d77766825))
+* **components/lists:** add sample tests for repeater ([#1220](https://github.com/blackbaud/skyux/issues/1220)) ([#1226](https://github.com/blackbaud/skyux/issues/1226)) ([72293ae](https://github.com/blackbaud/skyux/commit/72293ae63c36eeafbc58dffdcb6e9cb8700896db))
+
+
+### Bug Fixes
+
+* **components/indicators:** fix help inline background color ([#1232](https://github.com/blackbaud/skyux/issues/1232)) ([#1233](https://github.com/blackbaud/skyux/issues/1233)) ([83a47c5](https://github.com/blackbaud/skyux/commit/83a47c506d120e05acf48ea5d731c5c465fd1872))
+
 ## [7.17.0](https://github.com/blackbaud/skyux/compare/7.16.0...7.17.0) (2023-04-10)
 
 
