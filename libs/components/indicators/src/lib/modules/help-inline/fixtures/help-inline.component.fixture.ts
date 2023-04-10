@@ -5,9 +5,12 @@ import { Component } from '@angular/core';
   templateUrl: './help-inline.component.fixture.html',
 })
 export class HelpInlineTestComponent {
-  public buttonIsClicked = false;
+  public ariaControls: string | undefined;
+  public ariaExpanded: boolean | undefined;
+  public ariaLabel: string | undefined;
+  public showHelpText = false;
 
   public buttonClicked(): void {
-    this.buttonIsClicked = true;
+    this.showHelpText = !this.showHelpText;
   }
 }

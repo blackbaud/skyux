@@ -2,6 +2,7 @@ import {
   ComponentHarness,
   HarnessPredicate,
   HarnessQuery,
+  TestElement,
 } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyCheckboxHarness } from '@skyux/forms/testing';
@@ -11,13 +12,16 @@ import { SkyRepeaterItemHarnessFilters } from './repeater-item-harness-filters';
 
 /**
  * Harness for interacting with a repeater item component in tests.
- * @internal
  */
 export class SkyRepeaterItemHarness extends SkyComponentHarness {
   /**
    * @internal
    */
   public static hostSelector = 'sky-repeater-item';
+
+  #getBackToTop = this.locatorForOptional(
+    'button.sky-repeater-item-reorder-top'
+  );
 
   #getCheckbox = this.locatorForOptional(SkyCheckboxHarness);
 
@@ -75,6 +79,29 @@ export class SkyRepeaterItemHarness extends SkyComponentHarness {
     query: HarnessQuery<T>
   ): Promise<T | null> {
     return this.locatorForOptional(query)();
+  }
+
+  /**
+   * Returns child harnesses.
+   */
+  public async queryHarnesses<T extends ComponentHarness>(
+    harness: HarnessQuery<T>
+  ): Promise<T[]> {
+    return this.locatorForAll(harness)();
+  }
+
+  /**
+   * Returns a child test element.
+   */
+  public async querySelector(selector: string): Promise<TestElement | null> {
+    return this.locatorForOptional(selector)();
+  }
+
+  /**
+   * Returns child test elements.
+   */
+  public async querySelectorAll(selector: string): Promise<TestElement[]> {
+    return this.locatorForAll(selector)();
   }
 
   /**
@@ -176,5 +203,18 @@ export class SkyRepeaterItemHarness extends SkyComponentHarness {
    */
   public async isReorderable(): Promise<boolean> {
     return !!(await this.#getReorderHandle());
+  }
+
+  /**
+   * Moves the repeater item to the top of the list
+   */
+  public async sendToTop(): Promise<void> {
+    if (await this.isReorderable()) {
+      await (await this.#getBackToTop())?.click();
+    } else {
+      throw new Error(
+        'Could not send to top because the repeater is not reorderable.'
+      );
+    }
   }
 }

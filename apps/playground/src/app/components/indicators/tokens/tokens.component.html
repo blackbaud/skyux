@@ -1,0 +1,46 @@
+<div class="sky-tokens-demo">
+  <p>
+    <sky-tokens
+      trackWith="id"
+      [tokens]="colors"
+      [messageStream]="tokensController"
+    >
+    </sky-tokens>
+  </p>
+
+  <button class="sky-btn sky-btn-primary" type="button" (click)="focusLast()">
+    Focus last token
+  </button>
+
+  <p>
+    <sky-tokens trackWith="id" [dismissible]="false" [tokens]="colors">
+    </sky-tokens>
+  </p>
+
+  <p>
+    <sky-tokens
+      trackWith="id"
+      [disabled]="true"
+      [tokens]="colors"
+      [messageStream]="tokensControllerDisabled"
+    >
+    </sky-tokens>
+  </p>
+
+  <div>
+    <button
+      class="sky-btn sky-btn-primary"
+      type="button"
+      (click)="focusLastDisabled()"
+    >
+      Focus last token
+    </button>
+    This should not work - but is here for testing purposes
+  </div>
+
+  <p>
+    <sky-tokens displayWith="label" trackWith="id" [tokens]="filters">
+      (You may also include content inside the tokens component.)
+    </sky-tokens>
+  </p>
+</div>
