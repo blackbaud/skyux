@@ -15,5 +15,5 @@ export class IconStackTestComponent {
     icon: 'bell',
   };
 
-  public size = '3x';
+  public size: string | undefined;
 }
