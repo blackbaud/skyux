@@ -1,5 +1,18 @@
 # Changelog
 
+## [7.17.0](https://github.com/blackbaud/skyux/compare/7.16.0...7.17.0) (2023-04-10)
+
+
+### Features
+
+* **components/indicators:** add ability to set aria controls and expanded states on the help inline component ([#1225](https://github.com/blackbaud/skyux/issues/1225)) ([5158062](https://github.com/blackbaud/skyux/commit/5158062074f81fb8c4dd4a7340742a112fb24aba))
+* **components/indicators:** add ability to specify an accessibility label on help inline ([#1235](https://github.com/blackbaud/skyux/issues/1235)) ([4fb980a](https://github.com/blackbaud/skyux/commit/4fb980af32ee87e8f8a35ca9b0a575bbe180149c))
+
+
+### Bug Fixes
+
+* **components/indicators:** fix help inline background color ([#1232](https://github.com/blackbaud/skyux/issues/1232)) ([593c127](https://github.com/blackbaud/skyux/commit/593c127c4b5de2c8afddd2bc2ec57e559b9ee70e))
+
 ## [7.16.0](https://github.com/blackbaud/skyux/compare/7.15.0...7.16.0) (2023-04-06)
 
 
