@@ -1,26 +1,39 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
+import { SkyIconFixturesModule } from './fixtures/icon-fixtures.module';
 import { IconStackTestComponent } from './fixtures/icon-stack.component.fixture';
-import { SkyIconModule } from './icon.module';
+import { SkyIconStackItem } from './icon-stack-item';
 
 describe('Icon stack component', () => {
+  function setupIcon(
+    baseIcon: SkyIconStackItem,
+    topIcon: SkyIconStackItem,
+    size?: string
+  ): void {
+    cmp.baseIcon = baseIcon;
+    cmp.topIcon = topIcon;
+    cmp.size = size;
+
+    fixture.detectChanges();
+  }
+
   let fixture: ComponentFixture<IconStackTestComponent>;
+  let cmp: IconStackTestComponent;
   let element: HTMLElement;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [IconStackTestComponent],
-      imports: [SkyIconModule],
+      imports: [SkyIconFixturesModule],
     });
 
     fixture = TestBed.createComponent(IconStackTestComponent);
-
+    cmp = fixture.componentInstance;
     element = fixture.nativeElement;
   });
 
   it('should display an icon stack based on the given icons', async () => {
-    fixture.detectChanges();
+    setupIcon({ icon: 'circle' }, { icon: 'bell' }, '3x');
 
     const wrapperEl = element.querySelector('span');
 
@@ -39,9 +52,20 @@ describe('Icon stack component', () => {
     expect(topIconEl).toHaveCssClass('fa-bell');
     expect(topIconEl).toHaveCssClass('fa-stack-1x');
     expect(topIconEl).toHaveCssClass('fa-inverse');
+  });
 
-    // Accessibility checks
-    await fixture.whenStable();
-    await expectAsync(fixture.nativeElement).toBeAccessible();
+  describe('a11y', () => {
+    it('should be accessible (baseIcon: "circle", topIcon: "bell", size: undefined', async () => {
+      setupIcon({ icon: 'circle' }, { icon: 'bell' });
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible (baseIcon: "circle", topIcon: "bell", size: "3x"', async () => {
+      setupIcon({ icon: 'circle' }, { icon: 'bell' }, '3x');
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
   });
 });
