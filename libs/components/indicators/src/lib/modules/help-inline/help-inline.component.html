@@ -1,7 +1,9 @@
 <button
   class="sky-help-inline"
   type="button"
-  [attr.aria-label]="'skyux_help_inline_button_title' | skyLibResources"
+  [attr.aria-label]="
+    ariaLabel || 'skyux_help_inline_button_title' | skyLibResources
+  "
   [attr.aria-controls]="ariaControls"
   [attr.aria-expanded]="ariaExpanded | skyHelpInlineAriaExpanded: ariaControls"
   (click)="onClick()"

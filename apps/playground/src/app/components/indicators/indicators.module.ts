@@ -20,6 +20,11 @@ const routes: Routes = [
       import('./key-info/key-info.module').then((m) => m.KeyInfoModule),
   },
   {
+    path: 'label',
+    loadChildren: () =>
+      import('./label/label.module').then((m) => m.LabelModule),
+  },
+  {
     path: 'status-indicator',
     loadChildren: () =>
       import('./status-indicator/status-indicator.module').then(
@@ -27,13 +32,13 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'wait',
-    loadChildren: () => import('./wait/wait.module').then((m) => m.WaitModule),
+    path: 'tokens',
+    loadChildren: () =>
+      import('./tokens/tokens.module').then((m) => m.TokensModule),
   },
   {
-    path: 'label',
-    loadChildren: () =>
-      import('./label/label.module').then((m) => m.LabelModule),
+    path: 'wait',
+    loadChildren: () => import('./wait/wait.module').then((m) => m.WaitModule),
   },
 ];
 
