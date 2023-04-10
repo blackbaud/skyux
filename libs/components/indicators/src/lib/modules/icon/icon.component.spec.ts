@@ -14,12 +14,17 @@ describe('Icon component', () => {
   beforeEach(() => {
     mockResolver = jasmine.createSpyObj('mockResolver', ['resolveIcon']);
 
-    mockResolver.resolveIcon.and.callFake((iconName, variant) => {
-      if (iconName === 'variant-test') {
-        return 'variant-test-' + variant;
+    mockResolver.resolveIcon.and.callFake((icon, variant, iconType) => {
+      iconType = iconType ||= 'fa';
+
+      if (icon === 'variant-test') {
+        icon = 'variant-test-' + variant;
       }
 
-      return iconName;
+      return {
+        icon,
+        iconType,
+      };
     });
 
     TestBed.configureTestingModule({

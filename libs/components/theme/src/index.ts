@@ -1,3 +1,5 @@
+export * from './lib/icons/icon-manifest';
+export * from './lib/icons/icon-manifest-glyph';
 export * from './lib/icons/icon-manifest.service';
 export * from './lib/style-loader';
 export * from './lib/theme.module';

@@ -3,6 +3,15 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyIconModule } from '@skyux/indicators';
+import {
+  SkyTheme,
+  SkyThemeMode,
+  SkyThemeService,
+  SkyThemeSettings,
+  SkyThemeSettingsChange,
+} from '@skyux/theme';
+
+import { BehaviorSubject } from 'rxjs';
 
 import { SkyIconHarness } from './icon-harness';
 
@@ -98,15 +107,37 @@ const variants = ['line', 'solid'];
 const sizes = ['lg', '2x', '3x', '4x', '5x'];
 
 describe('Icon harness', () => {
-  async function setupTest(options: { dataSkyId?: string } = {}): Promise<{
+  let mockThemeSvc: {
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
+  };
+
+  async function setupTest(
+    options: { dataSkyId?: string; theme?: 'default' | 'modern' } = {}
+  ): Promise<{
     iconHarness: SkyIconHarness;
     fixture: ComponentFixture<TestComponent>;
     loader: HarnessLoader;
     pageLoader: HarnessLoader;
   }> {
+    mockThemeSvc = {
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets[options?.theme || 'default'],
+          SkyThemeMode.presets.light
+        ),
+        previousSettings: undefined,
+      }),
+    };
+
     await TestBed.configureTestingModule({
       declarations: [TestComponent],
       imports: [SkyIconModule],
+      providers: [
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc,
+        },
+      ],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(TestComponent);
@@ -181,7 +212,9 @@ describe('Icon harness', () => {
   });
 
   it('should return the correct variant for skyux icons', async () => {
-    const { iconHarness, fixture } = await setupTest();
+    const { iconHarness, fixture } = await setupTest({
+      theme: 'modern',
+    });
     fixture.componentInstance.iconType = 'skyux';
 
     for (const variant of variants) {
@@ -189,7 +222,7 @@ describe('Icon harness', () => {
     }
   });
 
-  it('should return undefined if the skyux icon does not have variant', async () => {
+  it('should return `line` if the skyux icon does not have variant', async () => {
     const { iconHarness, fixture } = await setupTest();
     fixture.componentInstance.iconName = 'sort';
     fixture.componentInstance.iconType = 'skyux';

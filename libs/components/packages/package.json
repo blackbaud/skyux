@@ -58,7 +58,7 @@
       "@skyux/grids": "0.0.0-PLACEHOLDER",
       "@skyux/http": "0.0.0-PLACEHOLDER",
       "@skyux/i18n": "0.0.0-PLACEHOLDER",
-      "@skyux/icons": "^5.3.1",
+      "@skyux/icons": "^6.0.0",
       "@skyux/indicators": "0.0.0-PLACEHOLDER",
       "@skyux/inline-form": "0.0.0-PLACEHOLDER",
       "@skyux/layout": "0.0.0-PLACEHOLDER",
