@@ -3,9 +3,6 @@ import { SkyComponentHarness } from '@skyux/core/testing';
 
 import { SkyIconHarnessFilters } from './icon-harness-filters';
 
-// match class ending in `-line` or `-solid`
-const ICON_CLASS_VARIANT_REGEXP = /(-line|-solid)$/;
-
 /**
  * Harness for interacting with an icon component in tests.
  */
@@ -61,16 +58,10 @@ export class SkyIconHarness extends SkyComponentHarness {
    * Gets if the icon is a variant.
    */
   public async getVariant(): Promise<string | undefined> {
-    if ((await this.getIconType()) === 'skyux') {
-      const iconClasses = await this.#getIconClasses();
+    const iconInfo = await this.#getSpecifiedIconInfo();
 
-      for (const iconClass of iconClasses) {
-        if (ICON_CLASS_VARIANT_REGEXP.test(iconClass)) {
-          return iconClass.substring(iconClass.lastIndexOf('-') + 1);
-        }
-      }
-
-      return 'line';
+    if (iconInfo.iconType === 'skyux') {
+      return iconInfo.variant || 'line';
     }
 
     throw new Error(
@@ -91,9 +82,9 @@ export class SkyIconHarness extends SkyComponentHarness {
 
     if (icon) {
       return icon;
-    } else {
-      throw new Error('Icon could not be rendered.');
     }
+
+    throw new Error('Icon could not be rendered.');
   }
 
   async #getIconClasses(): Promise<string[]> {
@@ -104,6 +95,7 @@ export class SkyIconHarness extends SkyComponentHarness {
   async #getSpecifiedIconInfo(): Promise<{
     icon: string | null;
     iconType: string | null;
+    variant: string | null;
   }> {
     // Since SKY UX icons have Font Awesome alternatives that may be used
     // in default theme instead of the icon specified by the consumer, we
@@ -115,6 +107,7 @@ export class SkyIconHarness extends SkyComponentHarness {
     return {
       icon: await icon.getAttribute('data-sky-icon'),
       iconType: await icon.getAttribute('data-sky-icon-type'),
+      variant: await icon.getAttribute('data-sky-icon-variant'),
     };
   }
 }
