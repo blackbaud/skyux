@@ -1161,6 +1161,19 @@ describe('Repeater item component', () => {
 
       flushDropdownTimer();
     }));
+
+    it('should be accessible', async () => {
+      cmp.showRepeaterWithActiveIndex = true;
+      cmp.expandMode = 'none';
+      cmp.activeIndex = 0;
+      // Detect active index.
+      fixture.detectChanges();
+      await fixture.whenStable();
+      // Role changes on next cycle.
+      fixture.detectChanges();
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
   });
 
   describe('with inline-form', () => {
