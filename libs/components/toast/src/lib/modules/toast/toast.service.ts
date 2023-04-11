@@ -1,13 +1,19 @@
 import {
   ComponentRef,
+  INJECTOR,
   Injectable,
   OnDestroy,
   Provider,
+  StaticProvider,
   Type,
+  inject,
 } from '@angular/core';
 import { SkyDynamicComponentService } from '@skyux/core';
+import { SKY_LIB_RESOURCES_PROVIDERS } from '@skyux/i18n';
 
 import { BehaviorSubject, Observable } from 'rxjs';
+
+import { SkyToastResourcesProvider } from '../shared/sky-toast-resources.module';
 
 import { SkyToast } from './toast';
 import { SkyToastBodyContext } from './toast-body-context';
@@ -28,6 +34,7 @@ export class SkyToastService implements OnDestroy {
   }
 
   #dynamicComponentService: SkyDynamicComponentService;
+  #injector = inject(INJECTOR);
   #host: ComponentRef<SkyToasterComponent> | undefined;
   #toasts: SkyToast[] = [];
   #toastStream = new BehaviorSubject<SkyToast[]>([]);
@@ -125,12 +132,23 @@ export class SkyToastService implements OnDestroy {
   }
 
   #createHostComponent(): ComponentRef<SkyToasterComponent> {
-    this.#host =
-      this.#dynamicComponentService.createComponent(SkyToasterComponent);
+    this.#host = this.#dynamicComponentService.createComponent(
+      SkyToasterComponent,
+      {
+        parentInjector: this.#injector,
+        providers: [
+          {
+            provide: SKY_LIB_RESOURCES_PROVIDERS,
+            useClass: SkyToastResourcesProvider,
+            multi: true,
+          },
+        ] as StaticProvider[],
+      }
+    );
     return this.#host;
   }
 
-  #removeHostComponent() {
+  #removeHostComponent(): void {
     if (this.#host) {
       this.#dynamicComponentService.removeComponent(this.#host);
       this.#host = undefined;
