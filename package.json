@@ -101,6 +101,7 @@
     "autonumeric": "4.6.0",
     "axe-core": "4.5.2",
     "comment-json": "4.1.1",
+    "dom-autoscroller": "2.3.4",
     "dompurify": "2.4.1",
     "dragula": "3.7.3",
     "fontfaceobserver": "2.3.0",
