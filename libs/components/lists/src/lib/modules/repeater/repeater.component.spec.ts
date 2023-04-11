@@ -92,6 +92,26 @@ describe('Repeater item component', () => {
   function getItems(fixture: ComponentFixture<any>): HTMLElement[] {
     return fixture.nativeElement.querySelectorAll('.sky-repeater-item');
   }
+
+  function validateRepeaterItemOrder(
+    fixture: ComponentFixture<RepeaterTestComponent>,
+    firstItemTag: string
+  ): void {
+    const cmp = fixture.componentInstance;
+    const repeaterSvc = fixture.debugElement
+      .query(By.css('sky-repeater'))
+      .injector.get(SkyRepeaterService);
+
+    const repeaterItems = cmp.repeater?.items?.toArray();
+
+    expect(repeaterItems).not.toBeUndefined();
+
+    if (repeaterItems) {
+      expect(repeaterSvc.items).toEqual(repeaterItems);
+      expect(repeaterItems[0].tag).toEqual(firstItemTag);
+      expect(repeaterSvc.items[0].tag).toEqual(firstItemTag);
+    }
+  }
   // #endregion
 
   beforeEach(() => {
@@ -135,22 +155,12 @@ describe('Repeater item component', () => {
 
   it('should update the repeater service items and their order items dynamically changed', fakeAsync(() => {
     const fixture = TestBed.createComponent(RepeaterTestComponent);
-    const cmp: RepeaterTestComponent = fixture.componentInstance;
+    const cmp = fixture.componentInstance;
+
     cmp.showRepeaterWithNgFor = true;
     detectChangesAndTick(fixture);
 
-    const repeaterSvc = fixture.debugElement
-      .query(By.css('sky-repeater'))
-      .injector.get(SkyRepeaterService);
-    let repeaterItems = cmp.repeater?.items?.toArray();
-
-    expect(repeaterItems).not.toBeUndefined();
-
-    if (repeaterItems) {
-      expect(repeaterSvc.items).toEqual(repeaterItems);
-      expect(repeaterItems[0].tag).toEqual('item1');
-      expect(repeaterSvc.items[0].tag).toEqual('item1');
-    }
+    validateRepeaterItemOrder(fixture, 'item1');
 
     cmp.items = [
       {
@@ -166,17 +176,10 @@ describe('Repeater item component', () => {
         title: 'Item 1',
       },
     ];
+
     detectChangesAndTick(fixture);
 
-    repeaterItems = cmp.repeater?.items?.toArray();
-
-    expect(repeaterItems).not.toBeUndefined();
-
-    if (repeaterItems) {
-      expect(repeaterSvc.items).toEqual(repeaterItems);
-      expect(repeaterItems[0].tag).toEqual('item3');
-      expect(repeaterSvc.items[0].tag).toEqual('item3');
-    }
+    validateRepeaterItemOrder(fixture, 'item3');
   }));
 
   it('should have aria-control set pointed at content', fakeAsync(() => {
@@ -1764,9 +1767,9 @@ describe('Repeater item component', () => {
       expect(repeaterItems).not.toBeUndefined();
 
       if (repeaterItems) {
-        repeaterItems.forEach((item) => {
+        for (const item of repeaterItems) {
           expect(item.reorderable).toBe(true);
-        });
+        }
       }
 
       cmp.items = [

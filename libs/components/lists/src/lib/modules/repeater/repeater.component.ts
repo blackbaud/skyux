@@ -203,9 +203,7 @@ export class SkyRepeaterComponent
         if (this.items?.length) {
           this.#updateForExpandMode(this.items.last);
 
-          this.items.forEach((item) => {
-            item.reorderable = this.reorderable;
-          });
+          this.#updateReorderability();
 
           this.#repeaterService.items = this.items.toArray();
         }
@@ -242,7 +240,7 @@ export class SkyRepeaterComponent
 
     if (changes.reorderable) {
       if (this.items) {
-        this.items.forEach((item) => (item.reorderable = this.reorderable));
+        this.#updateReorderability();
       }
       this.#updateRole();
 
@@ -426,6 +424,14 @@ export class SkyRepeaterComponent
       });
       this.role = `${autoRole}`;
       this.#changeDetector.markForCheck();
+    }
+  }
+
+  #updateReorderability(): void {
+    if (this.items) {
+      for (const item of this.items) {
+        item.reorderable = this.reorderable;
+      }
     }
   }
 }
