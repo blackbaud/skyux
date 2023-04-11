@@ -7,6 +7,7 @@ import {
   tick,
   waitForAsync,
 } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyInlineFormButtonLayout } from '@skyux/inline-form';
 
@@ -96,7 +97,6 @@ describe('Repeater item component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyRepeaterFixturesModule],
-      providers: [SkyRepeaterService],
     });
   });
 
@@ -131,6 +131,52 @@ describe('Repeater item component', () => {
 
     expect(el.querySelectorAll('sky-repeater-item').length).toBe(0);
     flushDropdownTimer();
+  }));
+
+  it('should update the repeater service items and their order items dynamically changed', fakeAsync(() => {
+    const fixture = TestBed.createComponent(RepeaterTestComponent);
+    const cmp: RepeaterTestComponent = fixture.componentInstance;
+    cmp.showRepeaterWithNgFor = true;
+    detectChangesAndTick(fixture);
+
+    const repeaterSvc = fixture.debugElement
+      .query(By.css('sky-repeater'))
+      .injector.get(SkyRepeaterService);
+    let repeaterItems = cmp.repeater?.items?.toArray();
+
+    expect(repeaterItems).not.toBeUndefined();
+
+    if (repeaterItems) {
+      expect(repeaterSvc.items).toEqual(repeaterItems);
+      expect(repeaterItems[0].tag).toEqual('item1');
+      expect(repeaterSvc.items[0].tag).toEqual('item1');
+    }
+
+    cmp.items = [
+      {
+        id: 'item3',
+        title: 'Item 3',
+      },
+      {
+        id: 'item2',
+        title: 'Item 2',
+      },
+      {
+        id: 'item1',
+        title: 'Item 1',
+      },
+    ];
+    detectChangesAndTick(fixture);
+
+    repeaterItems = cmp.repeater?.items?.toArray();
+
+    expect(repeaterItems).not.toBeUndefined();
+
+    if (repeaterItems) {
+      expect(repeaterSvc.items).toEqual(repeaterItems);
+      expect(repeaterItems[0].tag).toEqual('item3');
+      expect(repeaterSvc.items[0].tag).toEqual('item3');
+    }
   }));
 
   it('should have aria-control set pointed at content', fakeAsync(() => {
@@ -1708,6 +1754,43 @@ describe('Repeater item component', () => {
       await fixture.whenStable();
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
+
+    it('should set all items to reorderable when the repeater items change', fakeAsync(() => {
+      cmp.showRepeaterWithNgFor = true;
+      detectChangesAndTick(fixture);
+
+      let repeaterItems = cmp.repeater?.items?.toArray();
+
+      expect(repeaterItems).not.toBeUndefined();
+
+      if (repeaterItems) {
+        repeaterItems.forEach((item) => {
+          expect(item.reorderable).toBe(true);
+        });
+      }
+
+      cmp.items = [
+        {
+          id: 'item4',
+          title: 'Item 4',
+        },
+        {
+          id: 'item5',
+          title: 'Item 5',
+        },
+      ];
+      detectChangesAndTick(fixture);
+
+      repeaterItems = cmp.repeater?.items?.toArray();
+
+      expect(repeaterItems).not.toBeUndefined();
+
+      if (repeaterItems) {
+        repeaterItems.forEach((item) => {
+          expect(item.reorderable).toBe(true);
+        });
+      }
+    }));
   });
 
   describe('aria roles', () => {
