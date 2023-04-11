@@ -1404,6 +1404,22 @@ describe('Repeater item component', () => {
       fixture.detectChanges();
     }));
 
+    function validateRepeaterItemReorderability(
+      fixture: ComponentFixture<RepeaterTestComponent>,
+      isReorderable: boolean
+    ) {
+      const cmp = fixture.componentInstance;
+      const repeaterItems = cmp.repeater?.items?.toArray();
+
+      expect(repeaterItems).not.toBeUndefined();
+
+      if (repeaterItems) {
+        for (const item of repeaterItems) {
+          expect(item.reorderable).toBe(isReorderable);
+        }
+      }
+    }
+
     it('should not show a console warning if all item tags are defined', fakeAsync(() => {
       detectChangesAndTick(fixture);
       expect(consoleSpy).not.toHaveBeenCalled();
@@ -1762,15 +1778,7 @@ describe('Repeater item component', () => {
       cmp.showRepeaterWithNgFor = true;
       detectChangesAndTick(fixture);
 
-      let repeaterItems = cmp.repeater?.items?.toArray();
-
-      expect(repeaterItems).not.toBeUndefined();
-
-      if (repeaterItems) {
-        for (const item of repeaterItems) {
-          expect(item.reorderable).toBe(true);
-        }
-      }
+      validateRepeaterItemReorderability(fixture, true);
 
       cmp.items = [
         {
@@ -1784,15 +1792,7 @@ describe('Repeater item component', () => {
       ];
       detectChangesAndTick(fixture);
 
-      repeaterItems = cmp.repeater?.items?.toArray();
-
-      expect(repeaterItems).not.toBeUndefined();
-
-      if (repeaterItems) {
-        repeaterItems.forEach((item) => {
-          expect(item.reorderable).toBe(true);
-        });
-      }
+      validateRepeaterItemReorderability(fixture, true);
     }));
   });
 
