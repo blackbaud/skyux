@@ -9,6 +9,7 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyLogService } from '@skyux/core';
 import { SkyInlineFormButtonLayout } from '@skyux/inline-form';
 
 import { DragulaService, Group } from 'ng2-dragula';
@@ -92,6 +93,23 @@ describe('Repeater item component', () => {
   function getItems(fixture: ComponentFixture<any>): HTMLElement[] {
     return fixture.nativeElement.querySelectorAll('.sky-repeater-item');
   }
+
+  function validateDeprecatedCalled(
+    deprecatedSpy: jasmine.Spy,
+    expected: boolean
+  ): void {
+    if (expected) {
+      expect(deprecatedSpy).toHaveBeenCalledOnceWith(
+        'SkyRepeaterItemComponent without `itemName`',
+        {
+          deprecationMajorVersion: 8,
+          replacementRecommendation: 'Always specify an `itemName` property.',
+        }
+      );
+    } else {
+      expect(deprecatedSpy).not.toHaveBeenCalled();
+    }
+  }
   // #endregion
 
   beforeEach(() => {
@@ -170,9 +188,44 @@ describe('Repeater item component', () => {
     expect(reorderTopButtons[0].getAttribute('aria-label')).toEqual(
       'Move to top'
     );
-    expect(expandButtons[0].getAttribute('aria-label')).toEqual(
-      'Expand or collapse'
-    );
+    expect(expandButtons[0].getAttribute('aria-label')).toEqual('Expand');
+    expect(expandButtons[1].getAttribute('aria-label')).toEqual('Collapse');
+  }));
+
+  it('should warn when itemName is not defined', fakeAsync(() => {
+    const logSvc = TestBed.inject(SkyLogService);
+    const deprecatedSpy = spyOn(logSvc, 'deprecated');
+    const fixture = TestBed.createComponent(RepeaterTestComponent);
+    fixture.componentInstance.selectable = true;
+    fixture.componentInstance.reorderable = true;
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+    tick();
+
+    validateDeprecatedCalled(deprecatedSpy, true);
+  }));
+
+  it('should warn when itemName is unset after initial render', fakeAsync(() => {
+    const logSvc = TestBed.inject(SkyLogService);
+    const deprecatedSpy = spyOn(logSvc, 'deprecated');
+    const fixture = TestBed.createComponent(RepeaterTestComponent);
+    fixture.componentInstance.showItemName = true; // Show item name to remove default labels
+    fixture.componentInstance.selectable = true;
+    fixture.componentInstance.reorderable = true;
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+    tick();
+
+    validateDeprecatedCalled(deprecatedSpy, false);
+
+    fixture.componentInstance.showItemName = false;
+
+    fixture.detectChanges();
+    tick();
+
+    validateDeprecatedCalled(deprecatedSpy, true);
   }));
 
   it('should create aria labels when itemName is defined', fakeAsync(() => {
@@ -199,7 +252,10 @@ describe('Repeater item component', () => {
       'Move Item 1 to top'
     );
     expect(expandButtons[0].getAttribute('aria-label')).toEqual(
-      'Expand or collapse Item 1'
+      'Expand Item 1'
+    );
+    expect(expandButtons[1].getAttribute('aria-label')).toEqual(
+      'Collapse Item 2'
     );
   }));
 

@@ -35,13 +35,21 @@
     "_description": "Label for the listbox wrapper of the repeater component",
     "message": "List of items"
   },
+  "skyux_repeater_item_collapse": {
+    "_description": "Accessible label for the expand-and-collapse button on a repeater item. Identifies the item with its human-readable name.",
+    "message": "Collapse {0}"
+  },
+  "skyux_repeater_item_collapse_default": {
+    "_description": "Generic label for the expand-and-collapse button on a repeater item. Used when a human-readable name is not provided.",
+    "message": "Collapse"
+  },
   "skyux_repeater_item_expand": {
     "_description": "Accessible label for the expand-and-collapse button on a repeater item. Identifies the item with its human-readable name.",
-    "message": "Expand or collapse {0}"
+    "message": "Expand {0}"
   },
   "skyux_repeater_item_expand_default": {
     "_description": "Generic label for the expand-and-collapse button on a repeater item. Used when a human-readable name is not provided.",
-    "message": "Expand or collapse"
+    "message": "Expand"
   },
   "skyux_repeater_item_checkbox_label": {
     "_description": "Accessible label for the checkbox on a repeater item. Identifies the item with its human-readable name.",
