@@ -25,8 +25,10 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     skyux_paging_page_link_aria_label: { message: 'Page {0}' },
     skyux_paging_previous: { message: 'Previous' },
     skyux_repeater_label: { message: 'List of items' },
-    skyux_repeater_item_expand: { message: 'Expand or collapse {0}' },
-    skyux_repeater_item_expand_default: { message: 'Expand or collapse' },
+    skyux_repeater_item_collapse: { message: 'Collapse {0}' },
+    skyux_repeater_item_collapse_default: { message: 'Collapse' },
+    skyux_repeater_item_expand: { message: 'Expand {0}' },
+    skyux_repeater_item_expand_default: { message: 'Expand' },
     skyux_repeater_item_checkbox_label: { message: 'Select {0}' },
     skyux_repeater_item_checkbox_label_default: { message: 'Select row' },
     skyux_repeater_item_reorder_cancel: {

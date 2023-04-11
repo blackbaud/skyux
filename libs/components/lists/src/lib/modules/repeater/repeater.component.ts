@@ -1,5 +1,6 @@
 import {
   AfterContentInit,
+  AfterViewChecked,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -10,11 +11,13 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
+  Optional,
   Output,
   QueryList,
   Renderer2,
   SimpleChanges,
 } from '@angular/core';
+import { SkyLogService } from '@skyux/core';
 
 import { DragulaService } from 'ng2-dragula';
 import { Subject } from 'rxjs';
@@ -38,7 +41,7 @@ import { SkyRepeaterService } from './repeater.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyRepeaterComponent
-  implements AfterContentInit, OnChanges, OnDestroy, OnInit
+  implements AfterContentInit, AfterViewChecked, OnChanges, OnDestroy, OnInit
 {
   /**
    * The index of the repeater item to visually highlight as active.
@@ -120,23 +123,28 @@ export class SkyRepeaterComponent
   #changeDetector: ChangeDetectorRef;
   #dragulaService: DragulaService;
   #elementRef: ElementRef;
+  #itemNameWarned = false;
+  #logSvc: SkyLogService;
   #renderer: Renderer2;
   #repeaterService: SkyRepeaterService;
   #ngUnsubscribe = new Subject<void>();
 
+  // TODO: use inject() here and in SkyRepeaterItemComponent
   constructor(
     changeDetector: ChangeDetectorRef,
     repeaterService: SkyRepeaterService,
     adapterService: SkyRepeaterAdapterService,
     dragulaService: DragulaService,
     elementRef: ElementRef,
-    renderer: Renderer2
+    renderer: Renderer2,
+    @Optional() logSvc: SkyLogService
   ) {
     this.#changeDetector = changeDetector;
     this.#repeaterService = repeaterService;
     this.#adapterService = adapterService;
     this.#dragulaService = dragulaService;
     this.#elementRef = elementRef;
+    this.#logSvc = logSvc;
     this.#renderer = renderer;
 
     this.dragulaGroupName = `sky-repeater-dragula-${
@@ -221,6 +229,17 @@ export class SkyRepeaterComponent
 
       this.#updateRole();
     }, 0);
+  }
+
+  public ngAfterViewChecked(): void {
+    if (!this.#itemNameWarned && this.items?.some((item) => !item.itemName)) {
+      this.#logSvc?.deprecated('SkyRepeaterItemComponent without `itemName`', {
+        deprecationMajorVersion: 8,
+        replacementRecommendation: 'Always specify an `itemName` property.',
+      });
+
+      this.#itemNameWarned = true;
+    }
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
