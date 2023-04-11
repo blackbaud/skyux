@@ -1,9 +1,13 @@
 // #region imports
+import { INJECTOR, StaticProvider } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 import { SkyDynamicComponentService } from '@skyux/core';
+import { SKY_LIB_RESOURCES_PROVIDERS } from '@skyux/i18n';
 
 import { take } from 'rxjs/operators';
+
+import { SkyToastResourcesProvider } from '../shared/sky-toast-resources.module';
 
 import { SkyToast } from './toast';
 import { SkyToastService } from './toast.service';
@@ -21,7 +25,7 @@ interface MockComponentRef {
 describe('Toast service', () => {
   let toastSvc: SkyToastService;
   let mockSkyDynamicComponentSvc: jasmine.SpyObj<{
-    createComponent(): MockComponentRef;
+    createComponent(component: any, options: any): MockComponentRef;
     removeComponent(): void;
   }>;
 
@@ -60,7 +64,17 @@ describe('Toast service', () => {
     toastSvc.openMessage('message');
     toastSvc.openMessage('message');
     expect(mockSkyDynamicComponentSvc.createComponent).toHaveBeenCalledOnceWith(
-      SkyToasterComponent
+      SkyToasterComponent,
+      {
+        parentInjector: TestBed.inject(INJECTOR),
+        providers: [
+          {
+            provide: SKY_LIB_RESOURCES_PROVIDERS,
+            useClass: SkyToastResourcesProvider,
+            multi: true,
+          },
+        ] as StaticProvider[],
+      }
     );
   });
 
