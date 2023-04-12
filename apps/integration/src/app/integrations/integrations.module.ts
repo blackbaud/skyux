@@ -23,6 +23,11 @@ const routes: Routes = [
         './vertical-tabset-back-to-top/vertical-tabset-back-to-top.module'
       ).then((m) => m.VerticalTabsetBackToTopModule),
   },
+  {
+    path: 'toast',
+    loadChildren: () =>
+      import('./toast/toast.module').then((m) => m.ToastModule),
+  },
 ];
 
 @NgModule({
