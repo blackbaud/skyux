@@ -199,9 +199,12 @@ export class SkyRepeaterComponent
     // https://github.com/angular/angular/issues/6005
     this.items?.changes.pipe(takeUntil(this.#ngUnsubscribe)).subscribe(() => {
       setTimeout(() => {
-        if (this.items?.last) {
+        if (this.items?.length) {
           this.#updateForExpandMode(this.items.last);
-          this.items.last.reorderable = this.reorderable;
+
+          this.#updateReorderability();
+
+          this.#repeaterService.items = this.items.toArray();
         }
 
         if (this.activeIndex !== undefined) {
@@ -236,7 +239,7 @@ export class SkyRepeaterComponent
 
     if (changes.reorderable) {
       if (this.items) {
-        this.items.forEach((item) => (item.reorderable = this.reorderable));
+        this.#updateReorderability();
       }
       this.#updateRole();
 
@@ -445,6 +448,14 @@ export class SkyRepeaterComponent
       });
       this.role = `${autoRole}`;
       this.#changeDetector.markForCheck();
+    }
+  }
+
+  #updateReorderability(): void {
+    if (this.items) {
+      for (const item of this.items) {
+        item.reorderable = this.reorderable;
+      }
     }
   }
 }
