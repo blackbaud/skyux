@@ -81,11 +81,7 @@
   </sky-repeater-item>
 </sky-repeater>
 
-<sky-repeater
-  *ngIf="showRepeaterWithNgFor"
-  [expandMode]="expandMode"
-  [reorderable]="reorderable"
->
+<sky-repeater *ngIf="showRepeaterWithNgFor" [reorderable]="reorderable">
   <sky-repeater-item
     *ngFor="let item of items"
     [tag]="item.id"
