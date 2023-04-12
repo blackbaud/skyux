@@ -1419,7 +1419,7 @@ describe('Repeater item component', () => {
     function validateRepeaterItemReorderability(
       fixture: ComponentFixture<RepeaterTestComponent>,
       isReorderable: boolean
-    ) {
+    ): void {
       const cmp = fixture.componentInstance;
       const repeaterItems = cmp.repeater?.items?.toArray();
 
@@ -1840,6 +1840,28 @@ describe('Repeater item component', () => {
       detectChangesAndTick(fixture);
 
       validateRepeaterItemReorderability(fixture, true);
+    }));
+
+    it('should show a console warning when the items change and not all item tags are defined', fakeAsync(() => {
+      cmp.showRepeaterWithNgFor = true;
+      detectChangesAndTick(fixture);
+
+      expect(consoleSpy).not.toHaveBeenCalled();
+
+      cmp.items = [
+        {
+          id: 'item4',
+          title: 'Item 4',
+        },
+        {
+          title: 'Item 5',
+        },
+      ];
+      detectChangesAndTick(fixture);
+
+      expect(consoleSpy).toHaveBeenCalledWith(
+        'Please supply tag properties for each repeater item when reordering functionality is enabled.'
+      );
     }));
   });
 
