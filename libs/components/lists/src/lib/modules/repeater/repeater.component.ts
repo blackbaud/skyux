@@ -189,11 +189,7 @@ export class SkyRepeaterComponent
         this.#repeaterService.activateItemByIndex(this.activeIndex);
       }
 
-      if (this.reorderable && !this.#everyItemHasTag()) {
-        console.warn(
-          'Please supply tag properties for each repeater item when reordering functionality is enabled.'
-        );
-      }
+      this.#validateTags();
     });
 
     // HACK: Not updating for expand mode in a timeout causes an error.
@@ -213,6 +209,8 @@ export class SkyRepeaterComponent
         }
 
         this.#updateRole();
+
+        this.#validateTags();
       });
     });
 
@@ -432,6 +430,14 @@ export class SkyRepeaterComponent
       for (const item of this.items) {
         item.reorderable = this.reorderable;
       }
+    }
+  }
+
+  #validateTags(): void {
+    if (this.reorderable && !this.#everyItemHasTag()) {
+      console.warn(
+        'Please supply tag properties for each repeater item when reordering functionality is enabled.'
+      );
     }
   }
 }
