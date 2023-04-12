@@ -68,7 +68,7 @@ export class SkyListViewChecklistComponent
    * @required
    */
   @Input()
-  set name(value: string) {
+  public set name(value: string) {
     this.viewName = value;
   }
 
@@ -320,7 +320,7 @@ export class SkyListViewChecklistComponent
     this.ngUnsubscribe.complete();
   }
 
-  get items(): Observable<ListViewChecklistItemModel[]> {
+  public get items(): Observable<ListViewChecklistItemModel[]> {
     return this.checklistState.pipe(
       observableMap((state) => state.items.items)
     );

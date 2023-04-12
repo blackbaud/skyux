@@ -26,7 +26,7 @@ export class SectionedFormInformationFormDemoComponent {
 
   #sectionService: SkySectionedFormService;
 
-  public constructor(sectionService: SkySectionedFormService) {
+  constructor(sectionService: SkySectionedFormService) {
     this.#sectionService = sectionService;
   }
 

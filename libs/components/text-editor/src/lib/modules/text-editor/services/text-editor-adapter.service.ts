@@ -502,7 +502,7 @@ export class SkyTextEditorAdapterService {
     return undefined;
   }
 
-  editorSelected(): boolean {
+  public editorSelected(): boolean {
     const documentEl = this.#getIframeDocumentEl();
     return this.#selectionService.isElementSelected(
       documentEl,

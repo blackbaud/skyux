@@ -18,7 +18,7 @@ import { SkyAppLinkQueryParams } from './link-query-params';
 })
 export class SkyAppLinkDirective extends RouterLink implements OnChanges {
   @Input()
-  set skyAppLink(commands: any[] | string) {
+  public set skyAppLink(commands: any[] | string) {
     this.routerLink = commands;
   }
 
