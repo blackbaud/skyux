@@ -3,9 +3,6 @@ import { SkyComponentHarness } from '@skyux/core/testing';
 
 import { SkyIconHarnessFilters } from './icon-harness-filters';
 
-// match class ending in `-line` or `-solid`
-const ICON_CLASS_VARIANT_REGEXP = /(-line|-solid)$/;
-
 /**
  * Harness for interacting with an icon component in tests.
  */
@@ -25,42 +22,13 @@ export class SkyIconHarness extends SkyComponentHarness {
     return SkyIconHarness.getDataSkyIdPredicate(filters);
   }
 
-  async #getIcon(): Promise<TestElement> {
-    const icon = await this.locatorForOptional('.sky-icon')();
-
-    if (icon) {
-      return icon;
-    } else {
-      throw new Error('Icon could not be rendered.');
-    }
-  }
-
-  async #getIconClasses(): Promise<string[]> {
-    const iconClasses = await (await this.#getIcon()).getProperty('classList');
-    return Array.from(iconClasses);
-  }
-
   /**
    * Gets the icon name.
    */
   public async getIconName(): Promise<string | undefined> {
-    const iconClasses = await this.#getIconClasses();
-
-    for (const iconClass of iconClasses) {
-      // match a class name that starts with `sky-i` or starts with `fa-` but does not follow with `fw` (fixed width) or `lg`, `2x`, `3x`, `4x`, `5x`
-      if (/^sky-i-|^fa-(?!fw|lg|[2-5]+x)/.test(iconClass)) {
-        return (
-          iconClass
-            .replace(ICON_CLASS_VARIANT_REGEXP, '')
-            // remove `sky-i` or `fa-` from the beginning of the icon class name
-            .replace(/^(sky-i-|fa-)/, '')
-        );
-      }
-    }
-
-    // this return will never be reached. If icon does not exist, the error in #getIcon() will be thrown
-    /*istanbul ignore next*/
-    return undefined;
+    // No need to check for null here since #getIcon() will throw an error when
+    // icon name is null.
+    return (await this.#getSpecifiedIconInfo()).icon as string;
   }
 
   /**
@@ -83,32 +51,17 @@ export class SkyIconHarness extends SkyComponentHarness {
    * Gets the icon type.
    */
   public async getIconType(): Promise<string> {
-    const iconClasses = await this.#getIconClasses();
-
-    for (const iconClass of iconClasses) {
-      // match a class name that starts with `sky-i`
-      if (/^sky-i-/.test(iconClass)) {
-        return 'skyux';
-      }
-    }
-
-    return 'fa';
+    return (await this.#getSpecifiedIconInfo()).iconType || 'fa';
   }
 
   /**
    * Gets if the icon is a variant.
    */
   public async getVariant(): Promise<string | undefined> {
-    if ((await this.getIconType()) === 'skyux') {
-      const iconClasses = await this.#getIconClasses();
+    const iconInfo = await this.#getSpecifiedIconInfo();
 
-      for (const iconClass of iconClasses) {
-        if (ICON_CLASS_VARIANT_REGEXP.test(iconClass)) {
-          return iconClass.substring(iconClass.lastIndexOf('-') + 1);
-        }
-      }
-
-      return 'line';
+    if (iconInfo.iconType === 'skyux') {
+      return iconInfo.variant || 'line';
     }
 
     throw new Error(
@@ -122,5 +75,39 @@ export class SkyIconHarness extends SkyComponentHarness {
   public async isFixedWidth(): Promise<boolean> {
     const icon = await this.#getIcon();
     return icon.hasClass(`fa-fw`);
+  }
+
+  async #getIcon(): Promise<TestElement> {
+    const icon = await this.locatorForOptional('.sky-icon')();
+
+    if (icon) {
+      return icon;
+    }
+
+    throw new Error('Icon could not be rendered.');
+  }
+
+  async #getIconClasses(): Promise<string[]> {
+    const iconClasses = await (await this.#getIcon()).getProperty('classList');
+    return Array.from(iconClasses);
+  }
+
+  async #getSpecifiedIconInfo(): Promise<{
+    icon: string | null;
+    iconType: string | null;
+    variant: string | null;
+  }> {
+    // Since SKY UX icons have Font Awesome alternatives that may be used
+    // in default theme instead of the icon specified by the consumer, we
+    // need to get the specified values using data- attributes added by
+    // the icon component. This conflicts with the usual pattern of giving
+    // the effective state of the component but is necessary in this case.
+    const icon = await this.#getIcon();
+
+    return {
+      icon: await icon.getAttribute('data-sky-icon'),
+      iconType: await icon.getAttribute('data-sky-icon-type'),
+      variant: await icon.getAttribute('data-sky-icon-variant'),
+    };
   }
 }
