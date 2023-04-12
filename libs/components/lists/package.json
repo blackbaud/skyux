@@ -31,6 +31,7 @@
     "@skyux/theme": "0.0.0-PLACEHOLDER"
   },
   "dependencies": {
+    "dom-autoscroller": "2.3.4",
     "dragula": "3.7.3",
     "ng2-dragula": "2.1.1",
     "tslib": "^2.3.1"
