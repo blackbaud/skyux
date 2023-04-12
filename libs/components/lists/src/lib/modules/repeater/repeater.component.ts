@@ -11,19 +11,22 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
-  Optional,
   Output,
   QueryList,
   Renderer2,
   SimpleChanges,
+  inject,
 } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
+import { SkyScrollableHostService } from '@skyux/core';
 
 import { DragulaService } from 'ng2-dragula';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyRepeaterAdapterService } from './repeater-adapter.service';
+import { SkyRepeaterAutoScrollService } from './repeater-auto-scroll.service';
+import { SkyRepeaterAutoScroller } from './repeater-auto-scroller';
 import { SkyRepeaterExpandModeType } from './repeater-expand-mode-type';
 import { SkyRepeaterItemRolesType } from './repeater-item-roles.type';
 import { SkyRepeaterItemComponent } from './repeater-item.component';
@@ -37,7 +40,11 @@ import { SkyRepeaterService } from './repeater.service';
   selector: 'sky-repeater',
   styleUrls: ['./repeater.component.scss'],
   templateUrl: './repeater.component.html',
-  providers: [SkyRepeaterService, SkyRepeaterAdapterService],
+  providers: [
+    SkyRepeaterService,
+    SkyRepeaterAdapterService,
+    SkyRepeaterAutoScrollService,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyRepeaterComponent
@@ -110,6 +117,7 @@ export class SkyRepeaterComponent
    * This event emits an ordered array of the `tag` properties that the consumer provides for each repeater item.
    */
   @Output()
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public orderChange = new EventEmitter<any[]>();
 
   @ContentChildren(SkyRepeaterItemComponent)
@@ -119,34 +127,21 @@ export class SkyRepeaterComponent
 
   public role: SkyRepeaterRoleType | undefined;
 
-  #adapterService: SkyRepeaterAdapterService;
-  #changeDetector: ChangeDetectorRef;
-  #dragulaService: DragulaService;
-  #elementRef: ElementRef;
-  #itemNameWarned = false;
-  #logSvc: SkyLogService;
-  #renderer: Renderer2;
-  #repeaterService: SkyRepeaterService;
+  #autoScroller: SkyRepeaterAutoScroller | undefined;
   #ngUnsubscribe = new Subject<void>();
+  #itemNameWarned = false;
 
-  // TODO: use inject() here and in SkyRepeaterItemComponent
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    repeaterService: SkyRepeaterService,
-    adapterService: SkyRepeaterAdapterService,
-    dragulaService: DragulaService,
-    elementRef: ElementRef,
-    renderer: Renderer2,
-    @Optional() logSvc: SkyLogService
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#repeaterService = repeaterService;
-    this.#adapterService = adapterService;
-    this.#dragulaService = dragulaService;
-    this.#elementRef = elementRef;
-    this.#logSvc = logSvc;
-    this.#renderer = renderer;
+  #adapterService = inject(SkyRepeaterAdapterService);
+  #changeDetector = inject(ChangeDetectorRef);
+  #dragulaService = inject(DragulaService);
+  #elementRef = inject(ElementRef);
+  #renderer = inject(Renderer2);
+  #repeaterService = inject(SkyRepeaterService);
+  #autoScrollSvc = inject(SkyRepeaterAutoScrollService);
+  #scrollableHostSvc = inject(SkyScrollableHostService);
+  #logSvc = inject(SkyLogService);
 
+  constructor() {
     this.dragulaGroupName = `sky-repeater-dragula-${
       this.#repeaterService.repeaterGroupId
     }`;
@@ -313,9 +308,11 @@ export class SkyRepeaterComponent
     /* istanbul ignore else */
     if (!this.#dragulaService.find(this.dragulaGroupName)) {
       this.#dragulaService.createGroup(this.dragulaGroupName, {
-        moves: (el, container, handle) => {
+        moves: (el, _container, handle) => {
           const target = el?.querySelector('.sky-repeater-item-grab-handle');
-          return !!this.reorderable && !!target && target.contains(handle!);
+          return !!(
+            this.reorderable && target?.contains(handle as Element | null)
+          );
         },
       });
     }
@@ -328,6 +325,18 @@ export class SkyRepeaterComponent
       .subscribe((args) => {
         /* istanbul ignore else */
         if (args.name === this.dragulaGroupName) {
+          this.#destroyAutoScroll();
+
+          this.#autoScroller = this.#autoScrollSvc.autoScroll(
+            [this.#scrollableHostSvc.getScrollableHost(this.#elementRef)],
+            {
+              margin: 20,
+              maxSpeed: 10,
+              scrollWhenOutside: true,
+              autoScroll: () => true,
+            }
+          );
+
           this.#renderer.addClass(args.el, 'sky-repeater-item-dragging');
           draggedItemIndex = this.#adapterService.getRepeaterItemIndex(
             args.el as HTMLElement
@@ -341,6 +350,8 @@ export class SkyRepeaterComponent
       .subscribe((args) => {
         /* istanbul ignore else */
         if (args.name === this.dragulaGroupName) {
+          this.#destroyAutoScroll();
+
           this.#renderer.removeClass(args.el, 'sky-repeater-item-dragging');
           const newItemIndex = this.#adapterService.getRepeaterItemIndex(
             args.el as HTMLElement
@@ -363,6 +374,15 @@ export class SkyRepeaterComponent
     /* istanbul ignore else */
     if (this.#dragulaService.find(this.dragulaGroupName)) {
       this.#dragulaService.destroy(this.dragulaGroupName);
+    }
+
+    this.#destroyAutoScroll();
+  }
+
+  #destroyAutoScroll(): void {
+    if (this.#autoScroller) {
+      this.#autoScroller.destroy();
+      this.#autoScroller = undefined;
     }
   }
 
