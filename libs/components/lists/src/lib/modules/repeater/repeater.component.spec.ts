@@ -110,12 +110,31 @@ describe('Repeater item component', () => {
       expect(deprecatedSpy).not.toHaveBeenCalled();
     }
   }
+
+  function validateRepeaterItemOrder(
+    fixture: ComponentFixture<RepeaterTestComponent>,
+    firstItemTag: string
+  ): void {
+    const cmp = fixture.componentInstance;
+    const repeaterSvc = fixture.debugElement
+      .query(By.css('sky-repeater'))
+      .injector.get(SkyRepeaterService);
+
+    const repeaterItems = cmp.repeater?.items?.toArray();
+
+    expect(repeaterItems).not.toBeUndefined();
+
+    if (repeaterItems) {
+      expect(repeaterSvc.items).toEqual(repeaterItems);
+      expect(repeaterItems[0].tag).toEqual(firstItemTag);
+      expect(repeaterSvc.items[0].tag).toEqual(firstItemTag);
+    }
+  }
   // #endregion
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyRepeaterFixturesModule],
-      providers: [SkyRepeaterService],
     });
   });
 
@@ -150,6 +169,35 @@ describe('Repeater item component', () => {
 
     expect(el.querySelectorAll('sky-repeater-item').length).toBe(0);
     flushDropdownTimer();
+  }));
+
+  it('should update the repeater service items and their order items dynamically changed', fakeAsync(() => {
+    const fixture = TestBed.createComponent(RepeaterTestComponent);
+    const cmp = fixture.componentInstance;
+
+    cmp.showRepeaterWithNgFor = true;
+    detectChangesAndTick(fixture);
+
+    validateRepeaterItemOrder(fixture, 'item1');
+
+    cmp.items = [
+      {
+        id: 'item3',
+        title: 'Item 3',
+      },
+      {
+        id: 'item2',
+        title: 'Item 2',
+      },
+      {
+        id: 'item1',
+        title: 'Item 1',
+      },
+    ];
+
+    detectChangesAndTick(fixture);
+
+    validateRepeaterItemOrder(fixture, 'item3');
   }));
 
   it('should have aria-control set pointed at content', fakeAsync(() => {
@@ -1415,6 +1463,22 @@ describe('Repeater item component', () => {
         .injector.get(DragulaService) as MockDragulaService;
     }));
 
+    function validateRepeaterItemReorderability(
+      fixture: ComponentFixture<RepeaterTestComponent>,
+      isReorderable: boolean
+    ) {
+      const cmp = fixture.componentInstance;
+      const repeaterItems = cmp.repeater?.items?.toArray();
+
+      expect(repeaterItems).not.toBeUndefined();
+
+      if (repeaterItems) {
+        for (const item of repeaterItems) {
+          expect(item.reorderable).toBe(isReorderable);
+        }
+      }
+    }
+
     it('should not show a console warning if all item tags are defined', fakeAsync(() => {
       detectChangesAndTick(fixture);
       expect(consoleSpy).not.toHaveBeenCalled();
@@ -1768,6 +1832,27 @@ describe('Repeater item component', () => {
       await fixture.whenStable();
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
+
+    it('should set all items to reorderable when the repeater items change', fakeAsync(() => {
+      cmp.showRepeaterWithNgFor = true;
+      detectChangesAndTick(fixture);
+
+      validateRepeaterItemReorderability(fixture, true);
+
+      cmp.items = [
+        {
+          id: 'item4',
+          title: 'Item 4',
+        },
+        {
+          id: 'item5',
+          title: 'Item 5',
+        },
+      ];
+      detectChangesAndTick(fixture);
+
+      validateRepeaterItemReorderability(fixture, true);
+    }));
   });
 
   describe('aria roles', () => {
