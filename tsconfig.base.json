@@ -21,7 +21,9 @@
     "skipDefaultLibCheck": true,
     "esModuleInterop": true,
     "baseUrl": ".",
+    "typeRoots": ["./node_modules/@types", "./vendor/types"],
     "paths": {
+      "*": ["*", "./vendor/types/*"],
       "@skyux-sdk/e2e-schematics": ["libs/sdk/e2e-schematics/src/index.ts"],
       "@skyux-sdk/prettier-schematics": [
         "libs/sdk/prettier-schematics/src/index.ts"
