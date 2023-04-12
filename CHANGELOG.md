@@ -1,5 +1,19 @@
 # Changelog
 
+## [7.18.0](https://github.com/blackbaud/skyux/compare/7.17.0...7.18.0) (2023-04-12)
+
+
+### Features
+
+* **components/lists:** auto-scroll window or parent when dragging repeater items ([#1253](https://github.com/blackbaud/skyux/issues/1253)) ([64f68fa](https://github.com/blackbaud/skyux/commit/64f68faaedf3ebde503414ffa37f6817c81e02c7))
+
+
+### Bug Fixes
+
+* **components/lists:** update all repeater items when items query list changes ([#1251](https://github.com/blackbaud/skyux/issues/1251)) ([f60a790](https://github.com/blackbaud/skyux/commit/f60a790a89434e8fa2135fbf571a86119be9667c))
+* **components/lists:** validate tags for reorderable repeater when items change ([#1255](https://github.com/blackbaud/skyux/issues/1255)) ([1ad9e86](https://github.com/blackbaud/skyux/commit/1ad9e8600debb5baebb40715f8f5bf26abfeab23))
+* **components/toast:** close button hover text is incorrect ([#1247](https://github.com/blackbaud/skyux/issues/1247)) ([83745d4](https://github.com/blackbaud/skyux/commit/83745d4df17f00e064d1341421cad1a4ccd3de21))
+
 ## [8.0.0-alpha.19](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.18...8.0.0-alpha.19) (2023-04-10)
 
 
