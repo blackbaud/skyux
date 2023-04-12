@@ -10,7 +10,7 @@ import { SkyRepeaterAutoScroller } from './repeater-auto-scroller';
  */
 @Injectable()
 export class SkyRepeaterAutoScrollService {
-  autoScroll(
+  public autoScroll(
     elements: (HTMLElement | Window)[],
     options: SkyRepeaterAutoScrollOptions
   ): SkyRepeaterAutoScroller {
