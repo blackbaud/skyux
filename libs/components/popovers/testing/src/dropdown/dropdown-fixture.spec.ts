@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
-import { SkyDropdownMenuChange } from '@skyux/popovers';
+import { SkyDropdownButtonType, SkyDropdownMenuChange } from '@skyux/popovers';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -10,7 +10,6 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import { SkyDropdownButtonType } from 'libs/components/popovers/src/lib/modules/dropdown/types/dropdown-button-type';
 import { BehaviorSubject } from 'rxjs';
 
 import { SkyDropdownFixture } from './dropdown-fixture';
