@@ -1,5 +1,20 @@
 # Changelog
 
+## [8.0.0-alpha.20](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.19...8.0.0-alpha.20) (2023-04-12)
+
+
+### Features
+
+* **components/indicators:** use alternate Font Awesome icon for default theme when available ([#1244](https://github.com/blackbaud/skyux/issues/1244)) ([ec8e9ae](https://github.com/blackbaud/skyux/commit/ec8e9ae7d7171ecc1df434d8e38c6b5ad5de48d8))
+* **components/lists:** auto-scroll window or parent when dragging repeater items ([#1253](https://github.com/blackbaud/skyux/issues/1253)) ([#1259](https://github.com/blackbaud/skyux/issues/1259)) ([2a82dd6](https://github.com/blackbaud/skyux/commit/2a82dd6157b9c85ef55de40ff27ccc8a4205e19c))
+
+
+### Bug Fixes
+
+* **components/lists:** update repeater item chevron accessibility ([#1245](https://github.com/blackbaud/skyux/issues/1245)) ([50f0a87](https://github.com/blackbaud/skyux/commit/50f0a871c9b436202e3425ac9aa37ad041cae181))
+* **components/lists:** validate tags for reorderable repeater when items change ([#1255](https://github.com/blackbaud/skyux/issues/1255)) ([#1256](https://github.com/blackbaud/skyux/issues/1256)) ([3e168bc](https://github.com/blackbaud/skyux/commit/3e168bc81c2a0e4a476979ff64709c4511c96bbe))
+* **components/toast:** close button hover text is incorrect ([#1247](https://github.com/blackbaud/skyux/issues/1247)) ([#1249](https://github.com/blackbaud/skyux/issues/1249)) ([81c3da5](https://github.com/blackbaud/skyux/commit/81c3da5c8fd738627b4d6bce9d813544fab62b3b))
+
 ## [7.18.0](https://github.com/blackbaud/skyux/compare/7.17.0...7.18.0) (2023-04-12)
 
 
