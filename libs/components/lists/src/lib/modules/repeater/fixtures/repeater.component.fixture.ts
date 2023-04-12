@@ -22,7 +22,7 @@ export class RepeaterTestComponent {
 
   public expandMode: SkyRepeaterExpandModeType | undefined = 'single';
 
-  public items = [
+  public items: { id?: string; title: string }[] = [
     {
       id: 'item1',
       title: 'Item 1',
