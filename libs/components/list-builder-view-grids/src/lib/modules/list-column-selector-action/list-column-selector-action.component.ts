@@ -91,7 +91,7 @@ export class SkyListColumnSelectorActionComponent implements AfterContentInit {
     }
   }
 
-  get isInGridView(): Observable<boolean> {
+  public get isInGridView(): Observable<boolean> {
     return this.listState.pipe(
       observableMap((s) => s.views.active),
       observableMap((activeView) => {
@@ -101,7 +101,7 @@ export class SkyListColumnSelectorActionComponent implements AfterContentInit {
     );
   }
 
-  get isInGridViewAndSecondary(): Observable<boolean> {
+  public get isInGridViewAndSecondary(): Observable<boolean> {
     return this.listState.pipe(
       observableMap((s) => s.views.active),
       observableMap((activeView) => {

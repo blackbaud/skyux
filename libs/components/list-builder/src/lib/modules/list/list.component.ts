@@ -314,7 +314,7 @@ export class SkyListComponent
     });
   }
 
-  get displayedItems(): Observable<ListDataResponseModel> {
+  public get displayedItems(): Observable<ListDataResponseModel> {
     if (!this.data && !this.dataProvider) {
       throw new Error('List requires data or dataProvider to be set.');
     }

@@ -34,10 +34,10 @@ export function mockResizeObserver() {
       mockResizeObserverHandle.callback = callback;
     }
 
-    disconnect() {}
+    public disconnect() {}
 
-    observe(target: Element, options?: ResizeObserverOptions) {}
+    public observe(target: Element, options?: ResizeObserverOptions) {}
 
-    unobserve(element: HTMLElement) {}
+    public unobserve(element: HTMLElement) {}
   };
 }

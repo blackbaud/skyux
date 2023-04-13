@@ -197,7 +197,7 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
     );
   }
 
-  setupTabListener(): void {
+  public setupTabListener(): void {
     /* istanbul ignore else */
     if (!this.#observer) {
       this.#observer = this.#observerService.create(

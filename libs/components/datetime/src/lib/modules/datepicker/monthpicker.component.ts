@@ -18,7 +18,7 @@ export class SkyMonthPickerComponent implements OnInit {
 
   public title = '';
 
-  public constructor(datepicker: SkyDatepickerCalendarInnerComponent) {
+  constructor(datepicker: SkyDatepickerCalendarInnerComponent) {
     this.datepicker = datepicker;
   }
 

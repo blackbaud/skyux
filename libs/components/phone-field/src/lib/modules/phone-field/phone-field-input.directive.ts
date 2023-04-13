@@ -125,7 +125,7 @@ export class SkyPhoneFieldInputDirective
   #adapterService: SkyPhoneFieldAdapterService | undefined;
   #phoneFieldComponent: SkyPhoneFieldComponent | undefined;
 
-  public constructor(
+  constructor(
     changeDetector: ChangeDetectorRef,
     elRef: ElementRef,
     @Optional() adapterService?: SkyPhoneFieldAdapterService,

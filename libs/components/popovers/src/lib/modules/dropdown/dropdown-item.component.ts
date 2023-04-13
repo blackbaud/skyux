@@ -46,7 +46,7 @@ export class SkyDropdownItemComponent implements AfterViewInit {
   #changeDetector: ChangeDetectorRef;
   #renderer: Renderer2;
 
-  public constructor(
+  constructor(
     public elementRef: ElementRef,
     changeDetector: ChangeDetectorRef,
     renderer: Renderer2

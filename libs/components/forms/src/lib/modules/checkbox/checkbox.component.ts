@@ -211,11 +211,11 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    * @default false
    */
   @Input()
-  set required(value: boolean | undefined) {
+  public set required(value: boolean | undefined) {
     this.#_required = SkyFormsUtility.coerceBooleanProperty(value);
   }
 
-  get required(): boolean {
+  public get required(): boolean {
     return this.#_required;
   }
 

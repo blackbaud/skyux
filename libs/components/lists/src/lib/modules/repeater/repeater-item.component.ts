@@ -231,7 +231,7 @@ export class SkyRepeaterItemComponent
   public animationDisabled = false;
 
   @HostBinding('class')
-  get repeaterGroupClass(): string {
+  public get repeaterGroupClass(): string {
     return 'sky-repeater-item-group-' + this.#repeaterService.repeaterGroupId;
   }
 

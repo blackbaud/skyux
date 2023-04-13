@@ -38,11 +38,11 @@ export abstract class ListViewComponent {
       );
   }
 
-  get id() {
+  public get id(): string {
     return this.viewId;
   }
 
-  get label() {
+  public get label(): string {
     return this.viewName;
   }
 

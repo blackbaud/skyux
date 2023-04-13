@@ -68,10 +68,7 @@ export class SkyFileItemComponent implements DoCheck {
   #differ: KeyValueDiffer<any, any>;
   #fileItemService: SkyFileItemService;
 
-  public constructor(
-    differs: KeyValueDiffers,
-    fileItemService: SkyFileItemService
-  ) {
+  constructor(differs: KeyValueDiffers, fileItemService: SkyFileItemService) {
     this.#differ = differs.find({}).create();
     this.#fileItemService = fileItemService;
   }

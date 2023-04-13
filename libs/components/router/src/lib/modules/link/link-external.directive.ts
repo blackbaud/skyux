@@ -29,7 +29,7 @@ export class SkyAppLinkExternalDirective
   implements OnChanges
 {
   @Input()
-  set skyAppLinkExternal(commands: any[] | string) {
+  public set skyAppLinkExternal(commands: any[] | string) {
     this.routerLink = commands;
   }
 
