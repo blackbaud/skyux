@@ -37,7 +37,6 @@ const ARIA_ROLE_DEFAULT = 'dialog';
   providers: [SkyModalComponentAdapterService, SkyDockService],
 })
 export class SkyModalComponent implements AfterViewInit, OnDestroy {
-  // NOT AN INPUT, this adds it to the element tag <sky-modal>
   @HostBinding('class')
   public wrapperClass: string | undefined;
 

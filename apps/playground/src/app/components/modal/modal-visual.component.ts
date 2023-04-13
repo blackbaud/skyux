@@ -58,6 +58,8 @@ export class ModalVisualComponent {
 
   public openSmallSizeModal(): void {
     this.openModalInstance(ModalDemoComponent, {
+      providers: [],
+      fullPage: false,
       size: 'small',
     });
   }
