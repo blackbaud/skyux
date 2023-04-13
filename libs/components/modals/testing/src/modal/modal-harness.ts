@@ -4,7 +4,7 @@ import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyModalHarnessFilters } from './modal-harness-filters';
 
 /**
- * Harness for interacting with a help inline component in tests.
+ * Harness for interacting with a modal component in tests.
  */
 export class SkyModalHarness extends SkyComponentHarness {
   /**
@@ -17,7 +17,7 @@ export class SkyModalHarness extends SkyComponentHarness {
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
-   * `SkyInlineHelpHarness` that meets certain criteria
+   * `SkyModalHarness` that meets certain criteria
    */
   public static with(
     filters: SkyModalHarnessFilters
