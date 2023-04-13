@@ -151,36 +151,18 @@ describe('Modal test harness', () => {
     await expectAsync(modalHarness.getSize()).toBeResolvedTo('medium');
   });
 
-  it('should return the correct modal size when small', async () => {
-    const { modalHarness, fixture } = await setupTest({
-      size: 'small',
+  const sizes = ['small', 'medium', 'large'];
+  for (const size of sizes) {
+    it(`should return the correct modal size when ${size}`, async () => {
+      const { modalHarness, fixture } = await setupTest({
+        size: size,
+      });
+
+      fixture.detectChanges();
+
+      await expectAsync(modalHarness.getSize()).toBeResolvedTo(size);
     });
-
-    fixture.detectChanges();
-
-    await expectAsync(modalHarness.getSize()).toBeResolvedTo('small');
-  });
-
-  // redundant tests, unsure how to make into a for loop, get an error (will add screenshot in comment)
-  it('should return the correct modal size when medium', async () => {
-    const { modalHarness, fixture } = await setupTest({
-      size: 'medium',
-    });
-
-    fixture.detectChanges();
-
-    await expectAsync(modalHarness.getSize()).toBeResolvedTo('medium');
-  });
-
-  it('should return the correct modal size when large', async () => {
-    const { modalHarness, fixture } = await setupTest({
-      size: 'large',
-    });
-
-    fixture.detectChanges();
-
-    await expectAsync(modalHarness.getSize()).toBeResolvedTo('large');
-  });
+  }
 
   it('should throw an error when trying to get size of a full page modal', async () => {
     const { modalHarness, fixture } = await setupTest({
