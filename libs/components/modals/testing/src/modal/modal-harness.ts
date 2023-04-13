@@ -56,17 +56,16 @@ export class SkyModalHarness extends SkyComponentHarness {
       );
     }
 
-    const modalClasses: string[] = await Array.from(
-      await (await this.#getModal()).getProperty('classList')
-    );
+    const modal = await this.#getModal();
 
-    for (const modalClass of modalClasses) {
-      if (/^sky-modal-(small|medium|large|)$/.test(modalClass))
-        return modalClass.replace('sky-modal-', '');
+    if (await modal.hasClass('sky-modal-small')) {
+      return 'small';
     }
 
-    // this return will never be reached. Modals by default have the class 'sky-modal-medium' added which will be caught by the above regex
-    /*istanbul ignore next*/
+    if (await modal.hasClass('sky-modal-large')) {
+      return 'large';
+    }
+
     return 'medium';
   }
 
@@ -74,7 +73,7 @@ export class SkyModalHarness extends SkyComponentHarness {
    * Gets the wrapper class of the modal.
    */
   public async getWrapperClass(): Promise<string | undefined> {
-    return (await (await this.host()).getProperty('classList')).value;
+    return await (await this.host()).getProperty('className');
   }
 
   /**
