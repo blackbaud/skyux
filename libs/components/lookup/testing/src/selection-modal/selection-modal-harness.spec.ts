@@ -44,6 +44,7 @@ async function setupTest(options: {
     addClick: options.addClick,
   });
 
+  // this is looking for something that's outside the fixture
   const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
 
   const harness = await loader.getHarness(SkySelectionModalHarness);
