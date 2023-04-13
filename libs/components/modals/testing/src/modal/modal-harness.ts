@@ -65,6 +65,8 @@ export class SkyModalHarness extends SkyComponentHarness {
         return modalClass.replace('sky-modal-', '');
     }
 
+    // this return will never be reached. Modals by default have the class 'sky-modal-medium' added which will be caught by the above regex
+    /*istanbul ignore next*/
     return 'medium';
   }
 

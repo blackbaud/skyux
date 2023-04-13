@@ -19,7 +19,7 @@ class TestComponent {}
 
 @Component({
   selector: 'sky-modal-sky-id-test',
-  template: `<sky-modal dataSkyId="otherModal"></sky-modal>`,
+  template: `<sky-modal data-sky-id="otherModal"></sky-modal>`,
 })
 class TestSkyIdComponent {}
 
@@ -55,7 +55,7 @@ describe('Modal test harness', () => {
     loader: HarnessLoader;
   }> {
     await TestBed.configureTestingModule({
-      declarations: [TestComponent],
+      declarations: [TestComponent, TestSkyIdComponent],
       imports: [SkyModalModule],
     }).compileComponents();
 
