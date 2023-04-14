@@ -8,6 +8,7 @@ import {
   HostListener,
   Input,
   OnDestroy,
+  OnInit,
   Optional,
   ViewChild,
   inject,
@@ -42,7 +43,7 @@ const ARIA_ROLE_DEFAULT = 'dialog';
   styleUrls: ['./modal.component.scss'],
   providers: [SkyModalComponentAdapterService, SkyDockService],
 })
-export class SkyModalComponent implements AfterViewInit, OnDestroy {
+export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
   @HostBinding('class')
   public wrapperClass: string | undefined;
 
@@ -108,6 +109,7 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
   #componentAdapter: SkyModalComponentAdapterService;
   #coreAdapter: SkyCoreAdapterService;
   #dockService: SkyDockService;
+  #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
   #mediaQueryService: SkyResizeObserverMediaQueryService | undefined;
   #ngUnsubscribe = new Subject<void>();
 
@@ -139,15 +141,6 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
     this.helpKey = config.helpKey;
     this.tiledBody = config.tiledBody;
     this.wrapperClass = config.wrapperClass;
-
-    SkyLiveAnnouncerService.announcerElementChanged
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((element) => {
-        if (element?.id) {
-          this.ariaOwns = element.id;
-          this.#changeDetector.markForCheck();
-        }
-      });
 
     this.size = config.fullPage
       ? 'full-page'
@@ -212,6 +205,17 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
         }
       }
     }
+  }
+
+  public ngOnInit(): void {
+    this.#liveAnnouncerSvc.announcerElementChanged
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((element) => {
+        if (element?.id) {
+          this.ariaOwns = element.id;
+          this.#changeDetector.markForCheck();
+        }
+      });
   }
 
   public ngAfterViewInit() {

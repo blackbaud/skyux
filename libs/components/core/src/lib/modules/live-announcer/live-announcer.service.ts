@@ -9,17 +9,16 @@ import { SkyAppWindowRef } from '../window/window-ref';
 import { SkyLiveAnnouncerArgs } from './types/live-announcer-args';
 import {
   SKY_LIVE_ANNOUNCER_DEFAULT_OPTIONS,
-  SKY_LIVE_ANNOUNCER_ELEMENT_TOKEN,
   SkyLiveAnnouncerDefaultOptions,
 } from './types/live-announcer-tokens';
 
 @Injectable({ providedIn: 'root' })
 export class SkyLiveAnnouncerService implements OnDestroy {
-  public static announcerElement: HTMLElement | undefined;
-  public static announcerElementChanged = new ReplaySubject<
-    HTMLElement | undefined
-  >(1);
+  public announcerElementChanged = new ReplaySubject<HTMLElement | undefined>(
+    1
+  );
 
+  #announcerElement: HTMLElement | undefined;
   // We inject the live element and document as `any` because the constructor signature cannot
   // reference browser globals (HTMLElement, Document) on non-browser environments, since having
   // a class decorator causes TypeScript to preserve the constructor signature types.
@@ -33,19 +32,8 @@ export class SkyLiveAnnouncerService implements OnDestroy {
   #windowRef: SkyAppWindowRef = inject(SkyAppWindowRef);
 
   constructor() {
-    if (!SkyLiveAnnouncerService.announcerElement) {
-      const elementToken: HTMLElement | null = inject(
-        SKY_LIVE_ANNOUNCER_ELEMENT_TOKEN,
-        {
-          optional: true,
-        }
-      );
-      SkyLiveAnnouncerService.announcerElement =
-        elementToken || this.#createLiveElement();
-      SkyLiveAnnouncerService.announcerElementChanged.next(
-        SkyLiveAnnouncerService.announcerElement
-      );
-    }
+    this.#announcerElement = this.#createLiveElement();
+    this.announcerElementChanged.next(this.#announcerElement);
   }
 
   /**
@@ -56,11 +44,9 @@ export class SkyLiveAnnouncerService implements OnDestroy {
   public announce(message: string, args?: SkyLiveAnnouncerArgs): void {
     /* safety-check */
     /* istanbul ignore if */
-    if (!SkyLiveAnnouncerService.announcerElement) {
-      SkyLiveAnnouncerService.announcerElement = this.#createLiveElement();
-      SkyLiveAnnouncerService.announcerElementChanged.next(
-        SkyLiveAnnouncerService.announcerElement
-      );
+    if (!this.#announcerElement) {
+      this.#announcerElement = this.#createLiveElement();
+      this.announcerElementChanged.next(this.#announcerElement);
     }
 
     const defaultOptions = this.#defaultOptions;
@@ -81,12 +67,9 @@ export class SkyLiveAnnouncerService implements OnDestroy {
       duration = defaultOptions.duration;
     }
 
-    SkyLiveAnnouncerService.announcerElement.setAttribute(
-      'aria-live',
-      politeness
-    );
+    this.#announcerElement.setAttribute('aria-live', politeness);
 
-    SkyLiveAnnouncerService.announcerElement.textContent = message;
+    this.#announcerElement.textContent = message;
 
     if (typeof duration === 'number') {
       // TODO: Explore limiting the types that are pulled in.
@@ -105,15 +88,15 @@ export class SkyLiveAnnouncerService implements OnDestroy {
    * through the page landmarks.
    */
   public clear(): void {
-    if (SkyLiveAnnouncerService.announcerElement) {
-      SkyLiveAnnouncerService.announcerElement.textContent = '';
+    if (this.#announcerElement) {
+      this.#announcerElement.textContent = '';
     }
   }
 
   public ngOnDestroy(): void {
-    SkyLiveAnnouncerService.announcerElement?.remove();
-    SkyLiveAnnouncerService.announcerElement = undefined;
-    SkyLiveAnnouncerService.announcerElementChanged.next(undefined);
+    this.#announcerElement?.remove();
+    this.#announcerElement = undefined;
+    this.announcerElementChanged.next(undefined);
   }
 
   #createLiveElement(): HTMLElement {

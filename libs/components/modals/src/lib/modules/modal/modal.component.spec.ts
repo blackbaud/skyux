@@ -128,10 +128,15 @@ describe('Modal component', () => {
     changeElementAfterLoad = false
   ): Promise<void> {
     const liveAnnouncer = TestBed.inject(SkyLiveAnnouncerService);
+    // The live announcer element is created when an announcement is made. Doing this to create it.
+    liveAnnouncer.announce('Creating element');
+    const liveAnnouncerElement = document.querySelector(
+      '.sky-live-announcer-element'
+    );
     const modalInstance = openModal(ModalTestComponent, undefined, true);
     const modalDialogElement = getModalDialogElement();
 
-    if (!SkyLiveAnnouncerService.announcerElement?.id) {
+    if (!liveAnnouncerElement) {
       fail(
         'Announcer element should have been set when live announcer was injected'
       );
@@ -139,12 +144,12 @@ describe('Modal component', () => {
     }
 
     expect(modalDialogElement.getAttribute('aria-owns')).toEqual(
-      SkyLiveAnnouncerService.announcerElement.id
+      liveAnnouncerElement.id
     );
     await expectAsync(getModalElement()).toBeAccessible();
 
     if (changeElementAfterLoad) {
-      SkyLiveAnnouncerService.announcerElementChanged.next({
+      liveAnnouncer.announcerElementChanged.next({
         id: 'changedId',
       } as HTMLElement);
 
@@ -842,16 +847,6 @@ describe('Modal component', () => {
 
     closeModal(modalInstance);
   }));
-
-  it('should not have the aria-owns property by default', async () => {
-    const modalInstance = openModal(ModalTestComponent, undefined, true);
-    const modalDialogElement = getModalDialogElement();
-
-    expect(modalDialogElement.getAttribute('aria-owns')).toBeNull();
-    await expectAsync(getModalElement()).toBeAccessible();
-
-    closeModal(modalInstance, true);
-  });
 
   it('should set the aria-owns property to contain the id of the live announce element if it exists', async () => {
     await testLiveAnnouncer();

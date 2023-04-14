@@ -61,6 +61,7 @@ describe('Wait component', () => {
     fixture.detectChanges();
 
     expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith(completedText);
+    liveAnnouncerSpy.calls.reset();
   }
 
   let liveAnnouncer: SkyLiveAnnouncerService;
@@ -682,9 +683,7 @@ describe('Wait component', () => {
         fixture,
         false,
         'Loading. Please wait.',
-        'Loading complete.',
-        true,
-        true
+        'Loading complete.'
       );
     });
 
