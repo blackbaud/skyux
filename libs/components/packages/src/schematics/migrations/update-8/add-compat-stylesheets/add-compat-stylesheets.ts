@@ -100,6 +100,25 @@ The left, right, and bottom margins for the \`sky-tabset\` within a modal have b
         },
       ],
     },
+    {
+      name: '@skyux/modals',
+      components: [
+        {
+          name: 'modal',
+          styles: [
+            {
+              css: `
+:root {
+  --sky-compat-modern-modal-button-margin: -2px;
+}
+`,
+              instructions: `
+Modals have been updated to automatically apply the correct spacing to link buttons in modal footers in modern theme. To address this, remove this block of CSS and address any conflicting classes or styles that were previously fixing the incorrect spacing of the link buttons.`,
+            },
+          ],
+        },
+      ],
+    },
   ],
 };
 

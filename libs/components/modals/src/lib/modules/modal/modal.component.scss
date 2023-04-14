@@ -199,6 +199,10 @@
       }
     }
   }
+
+  ::ng-deep .sky-btn + .sky-btn-link {
+    margin-left: var(--sky-compat-modern-modal-button-margin, 10px);
+  }
 }
 
 @include mixins.sky-theme-modern-dark {
