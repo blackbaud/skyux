@@ -118,14 +118,6 @@
 .sky-modal-footer {
   flex-shrink: 0;
   z-index: 2;
-
-  ::ng-deep .sky-btn + .sky-btn {
-    margin-left: $sky-margin;
-  }
-
-  ::ng-deep .sky-btn + .sky-btn-link {
-    margin-left: -2px; /* offset the padding of the btn-link */
-  }
 }
 
 .sky-modal-full-page {
@@ -198,10 +190,6 @@
         padding-right: $sky-theme-modern-space-xl;
       }
     }
-  }
-
-  ::ng-deep .sky-btn + .sky-btn-link {
-    margin-left: var(--sky-compat-modern-modal-button-margin, 10px);
   }
 }
 

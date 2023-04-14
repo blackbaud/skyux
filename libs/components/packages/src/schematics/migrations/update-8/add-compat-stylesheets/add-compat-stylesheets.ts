@@ -109,7 +109,7 @@ The left, right, and bottom margins for the \`sky-tabset\` within a modal have b
             {
               css: `
 :root {
-  --sky-compat-modern-modal-button-margin: -2px;
+  --sky-compat-modal-footer-adjacent-btn-btn-link-margin: -2px;
 }
 `,
               instructions: `

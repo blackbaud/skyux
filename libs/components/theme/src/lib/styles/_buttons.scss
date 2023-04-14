@@ -75,6 +75,14 @@ a.sky-btn {
   border-color: transparent;
 }
 
+.sky-btn + .sky-btn {
+  margin-left: var(--sky-adjacent-btn-margin);
+}
+
+.sky-btn + .sky-btn-link {
+  margin-left: var(--sky-adjacent-btn-btn-link-margin);
+}
+
 .sky-btn-link:hover {
   color: var(--sky-text-color-action-primary-hover);
   background-color: transparent;

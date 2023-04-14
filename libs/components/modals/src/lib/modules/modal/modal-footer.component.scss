@@ -2,6 +2,9 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-modal-footer-container {
+  --sky-adjacent-btn-margin: #{$sky-margin};
+  --sky-adjacent-btn-btn-link-margin: -2px;
+
   background-color: #fff;
   @include mixins.sky-border(light, top);
   /* Offset the margin-left of the link */
@@ -12,6 +15,11 @@
 
 @include mixins.sky-theme-modern {
   .sky-modal-footer-container {
+    --sky-adjacent-btn-btn-link-margin: var(
+      --sky-compat-modal-footer-adjacent-btn-btn-link-margin,
+      #{$sky-margin}
+    );
+
     border-top: none;
     padding: $sky-theme-modern-space-lg $sky-theme-modern-space-xl;
   }
