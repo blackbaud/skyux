@@ -136,7 +136,7 @@ export class SkyAgGridRowDeleteDirective
     this.#changeDetector.markForCheck();
   }
 
-  get rowDeleteIds(): string[] | undefined {
+  public get rowDeleteIds(): string[] | undefined {
     return this.#rowDeleteIdsInternal;
   }
 

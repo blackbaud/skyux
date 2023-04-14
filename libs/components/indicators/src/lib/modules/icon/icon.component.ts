@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  inject,
+} from '@angular/core';
+import { SkyThemeService } from '@skyux/theme';
 
 import { SkyIconType } from './types/icon-type';
 import { SkyIconVariantType } from './types/icon-variant-type';
@@ -50,4 +56,6 @@ export class SkyIconComponent {
    */
   @Input()
   public variant: SkyIconVariantType | undefined;
+
+  protected themeSvc = inject(SkyThemeService, { optional: true });
 }

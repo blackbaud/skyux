@@ -74,7 +74,7 @@ export class SkyDatepickerCalendarComponent {
 
   #config: SkyDatepickerConfigService;
 
-  public constructor(config: SkyDatepickerConfigService) {
+  constructor(config: SkyDatepickerConfigService) {
     this.#config = config;
     this.configureOptions();
   }

@@ -13,7 +13,7 @@ import {
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'integration';
+  public title = 'integration';
 
   constructor(
     private router: Router,

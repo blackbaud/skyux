@@ -14,7 +14,7 @@ export class SkyAppStyleLoader {
 
   #themeSvc: SkyThemeService | undefined;
 
-  public constructor(@Optional() themeSvc?: SkyThemeService) {
+  constructor(@Optional() themeSvc?: SkyThemeService) {
     this.#themeSvc = themeSvc;
   }
 

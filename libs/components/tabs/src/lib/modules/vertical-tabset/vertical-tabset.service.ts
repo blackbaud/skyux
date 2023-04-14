@@ -45,7 +45,7 @@ export class SkyVerticalTabsetService {
 
   #mediaQueryService: SkyMediaQueryService;
 
-  public constructor(mediaQueryService: SkyMediaQueryService) {
+  constructor(mediaQueryService: SkyMediaQueryService) {
     this.#mediaQueryService = mediaQueryService;
     this.#mediaQueryService.subscribe((breakpoint) => {
       const nowMobile = breakpoint === SkyMediaBreakpoints.xs;

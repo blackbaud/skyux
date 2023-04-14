@@ -37,15 +37,15 @@ export class CustomLinkComponent implements ICellRendererComp {
     private changeDetectorRef: ChangeDetectorRef
   ) {}
 
-  getGui(): HTMLElement {
+  public getGui(): HTMLElement {
     return this.elementRef.nativeElement as HTMLElement;
   }
 
-  agInit(params: ICellRendererParams): void {
+  public agInit(params: ICellRendererParams): void {
     this.checkLink(params.value);
   }
 
-  refresh(params: ICellRendererParams): boolean {
+  public refresh(params: ICellRendererParams): boolean {
     this.checkLink(params.value);
     return false;
   }

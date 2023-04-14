@@ -1,7 +1,11 @@
-import { Injectable } from '@angular/core';
-import type { SkyThemeIconManifestGlyph } from '@skyux/icons';
-import { SkyThemeIconManifestService } from '@skyux/theme';
+import { Injectable, inject } from '@angular/core';
+import {
+  SkyThemeIconManifestGlyph,
+  SkyThemeIconManifestService,
+  SkyThemeSettings,
+} from '@skyux/theme';
 
+import { SkyIconResolved } from './types/icon-resolved';
 import type { SkyIconVariantType } from './types/icon-variant-type';
 
 /**
@@ -13,32 +17,53 @@ import type { SkyIconVariantType } from './types/icon-variant-type';
 export class SkyIconResolverService {
   #glyphMap = new Map<string, SkyThemeIconManifestGlyph>();
 
-  constructor(manifestSvc: SkyThemeIconManifestService) {
+  #manifestSvc = inject(SkyThemeIconManifestService);
+
+  constructor() {
     // Map the icons by name for more efficient lookup.
-    for (const glyph of manifestSvc.getManifest().glyphs) {
+    for (const glyph of this.#manifestSvc.getManifest().glyphs) {
       this.#glyphMap.set(glyph.name, glyph);
     }
   }
 
-  public resolveIcon(iconName: string, variant?: SkyIconVariantType): string {
-    const variantIconName = variant && `${iconName}-${variant}`;
+  public resolveIcon(
+    icon: string,
+    variant?: SkyIconVariantType,
+    iconType?: string,
+    themeSettings?: SkyThemeSettings
+  ): SkyIconResolved {
+    iconType ||= 'fa';
 
-    if (variantIconName && this.#glyphMap.has(variantIconName)) {
-      // A variant was specified and exists; return it.
-      return variantIconName;
-    }
+    if (iconType === 'skyux') {
+      if (themeSettings?.theme.name === 'modern') {
+        const variantIcon = variant && `${icon}-${variant}`;
 
-    if (variant !== 'line' && !this.#glyphMap.has(iconName)) {
-      // Either the solid variant was specified and doesn't exist, or no variant was
-      // specified and a non-variant doesn't exist; fall back to the line variant.
-      const lineIconName = `${iconName}-line`;
+        if (variantIcon && this.#glyphMap.has(variantIcon)) {
+          // A variant was specified and exists; use it.
+          icon = variantIcon;
+        } else if (variant !== 'line' && !this.#glyphMap.has(icon)) {
+          // Either the solid variant was specified and doesn't exist, or no variant was
+          // specified and a non-variant doesn't exist; fall back to the line variant.
+          const lineIcon = `${icon}-line`;
 
-      if (this.#glyphMap.has(lineIconName)) {
-        return lineIconName;
+          if (this.#glyphMap.has(lineIcon)) {
+            icon = lineIcon;
+          }
+        }
+      } else {
+        // Use the Font Awesome equivalent in default theme if one exists.
+        const faName = this.#glyphMap.get(icon)?.faName;
+
+        if (faName) {
+          icon = faName;
+          iconType = 'fa';
+        }
       }
     }
 
-    // Fall back to the icon name as-is.
-    return iconName;
+    return {
+      icon,
+      iconType,
+    };
   }
 }

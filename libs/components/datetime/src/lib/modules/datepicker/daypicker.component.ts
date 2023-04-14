@@ -63,7 +63,7 @@ export class SkyDayPickerComponent implements OnDestroy, OnInit {
   #initialDate: number | undefined;
   #ngUnsubscribe = new Subject<void>();
 
-  public constructor(datepicker: SkyDatepickerCalendarInnerComponent) {
+  constructor(datepicker: SkyDatepickerCalendarInnerComponent) {
     this.datepicker = datepicker;
   }
 

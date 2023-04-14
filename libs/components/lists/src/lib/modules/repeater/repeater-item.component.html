@@ -122,8 +122,12 @@
           [ariaControls]="contentId"
           [ariaLabel]="
             itemName
-              ? ('skyux_repeater_item_expand' | skyLibResources : itemName)
-              : ('skyux_repeater_item_expand_default' | skyLibResources)
+              ? isExpanded
+                ? ('skyux_repeater_item_expand' | skyLibResources : itemName)
+                : ('skyux_repeater_item_collapse' | skyLibResources : itemName)
+              : isExpanded
+              ? ('skyux_repeater_item_expand_default' | skyLibResources)
+              : ('skyux_repeater_item_collapse_default' | skyLibResources)
           "
           [direction]="isExpanded ? 'up' : 'down'"
           (directionChange)="chevronDirectionChange($event)"

@@ -42,11 +42,11 @@ export class SkyGridCellComponent implements OnInit {
     this.container.createEmbeddedView(this.template, this);
   }
 
-  get row() {
+  public get row() {
     return this.item.data;
   }
 
-  get value() {
+  public get value() {
     if (this.item.data && (this.fieldSelector || this.columnId)) {
       return getData(this.item.data, this.fieldSelector || this.columnId);
     }

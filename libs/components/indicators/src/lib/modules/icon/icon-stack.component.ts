@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
+import { SkyThemeService } from '@skyux/theme';
 
 import { SkyIconStackItem } from './icon-stack-item';
 
@@ -29,4 +30,6 @@ export class SkyIconStackComponent {
    */
   @Input()
   public topIcon: SkyIconStackItem | undefined;
+
+  protected themeSvc = inject(SkyThemeService, { optional: true });
 }

@@ -1,6 +1,6 @@
 export class ComponentInfo {
-  name: string;
-  icon: string;
-  library: string;
-  path?: string;
+  public name: string;
+  public icon: string;
+  public library: string;
+  public path?: string;
 }

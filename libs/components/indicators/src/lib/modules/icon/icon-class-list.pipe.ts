@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform, inject } from '@angular/core';
+import { SkyThemeSettings } from '@skyux/theme';
 
 import { SkyIconResolverService } from './icon-resolver.service';
 import { SkyIconVariantType } from './types/icon-variant-type';
@@ -14,6 +15,7 @@ export class SkyIconClassListPipe implements PipeTransform {
 
   public transform(
     icon: string,
+    themeSettings?: SkyThemeSettings,
     iconType?: string,
     size?: string,
     fixedWidth?: boolean,
@@ -21,11 +23,13 @@ export class SkyIconClassListPipe implements PipeTransform {
   ): string[] {
     let classList: string[];
 
-    if (iconType === 'skyux') {
-      const resolvedIcon = this.#resolver.resolveIcon(icon, variant);
+    const { icon: resolvedIcon, iconType: resolvedIconType } =
+      this.#resolver.resolveIcon(icon, variant, iconType, themeSettings);
+
+    if (resolvedIconType === 'skyux') {
       classList = ['sky-i-' + resolvedIcon];
     } else {
-      classList = ['fa', 'fa-' + icon];
+      classList = ['fa', 'fa-' + resolvedIcon];
     }
 
     if (size) {

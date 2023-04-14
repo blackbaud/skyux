@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "@types/dragula": "2.1.36",
+    "dom-autoscroller": "2.3.4",
     "dragula": "3.7.3",
     "ng2-dragula": "4.0.0",
     "tslib": "^2.5.0"
