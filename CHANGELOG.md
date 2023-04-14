@@ -1,5 +1,19 @@
 # Changelog
 
+## [7.19.0](https://github.com/blackbaud/skyux/compare/7.18.0...7.19.0) (2023-04-13)
+
+
+### Features
+
+* **components/lists:** add inline form repeater code example and improved other examples ([#1261](https://github.com/blackbaud/skyux/issues/1261)) ([0a607b3](https://github.com/blackbaud/skyux/commit/0a607b362948e71bec1a76057814d3fdd0b3274e))
+* **components/modals:** modal test harness ([#1265](https://github.com/blackbaud/skyux/issues/1265)) ([b7622f3](https://github.com/blackbaud/skyux/commit/b7622f3df24d1c1858d78ec79967094fb27e7e59))
+
+
+### Bug Fixes
+
+* **components/lookup:** revert autocomplete dropdown absolute position change ([#1269](https://github.com/blackbaud/skyux/issues/1269)) ([a631193](https://github.com/blackbaud/skyux/commit/a631193db35f36fa519221a2b0797d86f4845cab))
+* **components/popovers:** export `SkyDropdownButtonType` ([#1262](https://github.com/blackbaud/skyux/issues/1262)) ([f031fab](https://github.com/blackbaud/skyux/commit/f031fabb3a2ab907066c8edf51e99a624c50b898))
+
 ## [8.0.0-alpha.20](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.19...8.0.0-alpha.20) (2023-04-12)
 
 
