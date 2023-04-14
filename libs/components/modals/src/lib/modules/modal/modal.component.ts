@@ -17,11 +17,12 @@ import {
   SkyCoreAdapterService,
   SkyDockLocation,
   SkyDockService,
-  SkyLiveAnnouncer,
+  SkyLiveAnnouncerService,
   SkyResizeObserverMediaQueryService,
 } from '@skyux/core';
 
-import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { SkyModalComponentAdapterService } from './modal-component-adapter.service';
 import { SkyModalConfiguration } from './modal-configuration';
@@ -107,8 +108,8 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
   #componentAdapter: SkyModalComponentAdapterService;
   #coreAdapter: SkyCoreAdapterService;
   #dockService: SkyDockService;
-  #liveAnnouncerElementSubscription: Subscription;
   #mediaQueryService: SkyResizeObserverMediaQueryService | undefined;
+  #ngUnsubscribe = new Subject<void>();
 
   #_ariaDescribedBy: string | undefined;
   #_ariaLabelledBy: string | undefined;
@@ -139,8 +140,9 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
     this.tiledBody = config.tiledBody;
     this.wrapperClass = config.wrapperClass;
 
-    this.#liveAnnouncerElementSubscription =
-      SkyLiveAnnouncer.announcerElementChanged.subscribe((element) => {
+    SkyLiveAnnouncerService.announcerElementChanged
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((element) => {
         if (element?.id) {
           this.ariaOwns = element.id;
           this.#changeDetector.markForCheck();
@@ -238,7 +240,8 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
     if (this.#mediaQueryService) {
       this.#mediaQueryService.unobserve();
     }
-    this.#liveAnnouncerElementSubscription.unsubscribe();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   public helpButtonClick() {

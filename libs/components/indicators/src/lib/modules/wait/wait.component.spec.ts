@@ -1,11 +1,16 @@
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 import {
   SkyAppTestUtility,
   SkyAppTestUtilityDomEventOptions,
   expect,
   expectAsync,
 } from '@skyux-sdk/testing';
-import { SkyLiveAnnouncer } from '@skyux/core';
+import { SkyLiveAnnouncerService } from '@skyux/core';
 
 import { SkyWaitFixturesModule } from './fixtures/wait-fixtures.module';
 import { SkyWaitTestComponent } from './fixtures/wait.component.fixture';
@@ -31,7 +36,34 @@ describe('Wait component', () => {
     );
   }
 
-  let liveAnnouncer: SkyLiveAnnouncer;
+  function testScreenReaderAnnouncements(
+    fixture: ComponentFixture<SkyWaitTestComponent>,
+    customValues: boolean,
+    ariaLabel: string,
+    completedText: string,
+    isFullPage = false,
+    isNonBlocking = false
+  ): void {
+    if (customValues) {
+      fixture.componentInstance.ariaLabel = ariaLabel;
+      fixture.componentInstance.screenReaderCompletedText = completedText;
+    }
+    fixture.componentInstance.isNonBlocking = isNonBlocking;
+    fixture.componentInstance.isFullPage = isFullPage;
+    fixture.componentInstance.isWaiting = true;
+    expect(liveAnnouncerSpy).not.toHaveBeenCalled();
+    fixture.detectChanges();
+
+    expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith(ariaLabel);
+    liveAnnouncerSpy.calls.reset();
+
+    fixture.componentInstance.isWaiting = false;
+    fixture.detectChanges();
+
+    expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith(completedText);
+  }
+
+  let liveAnnouncer: SkyLiveAnnouncerService;
   let liveAnnouncerSpy: jasmine.Spy;
 
   beforeEach(() => {
@@ -39,7 +71,7 @@ describe('Wait component', () => {
       imports: [SkyWaitFixturesModule],
     });
     // The spy is set up in the `beforeEach` because `announce` is async. Setting the spy here allows us to not worry about timers and is stubbing out functionality we don't care about for unit testing.
-    liveAnnouncer = TestBed.inject(SkyLiveAnnouncer);
+    liveAnnouncer = TestBed.inject(SkyLiveAnnouncerService);
     liveAnnouncerSpy = spyOn(liveAnnouncer, 'announce').and.stub();
   });
 
@@ -555,168 +587,105 @@ describe('Wait component', () => {
 
     it('should announce the ariaLabel when loading begins and the screenReaderCompletedText when it ends to screen readers', () => {
       const fixture = TestBed.createComponent(SkyWaitTestComponent);
-      fixture.componentInstance.ariaLabel = 'test label';
-      fixture.componentInstance.screenReaderCompletedText =
-        'test completed text';
-      fixture.componentInstance.isNonBlocking = false;
-      fixture.componentInstance.isWaiting = true;
-      expect(liveAnnouncerSpy).not.toHaveBeenCalled();
-      fixture.detectChanges();
 
-      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith('test label');
-      liveAnnouncerSpy.calls.reset();
-
-      fixture.componentInstance.isWaiting = false;
-      fixture.detectChanges();
-
-      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith('test completed text');
+      testScreenReaderAnnouncements(
+        fixture,
+        true,
+        'test label',
+        'test completed text'
+      );
     });
 
     it('should respect changes to ariaLabel and screenReaderCompletedText for screen readers after the component has rendered', () => {
       const fixture = TestBed.createComponent(SkyWaitTestComponent);
-      fixture.componentInstance.ariaLabel = 'test label';
-      fixture.componentInstance.screenReaderCompletedText =
-        'test completed text';
-      fixture.componentInstance.isNonBlocking = false;
-      fixture.componentInstance.isWaiting = true;
-      expect(liveAnnouncerSpy).not.toHaveBeenCalled();
-      fixture.detectChanges();
 
-      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith('test label');
-      liveAnnouncerSpy.calls.reset();
+      testScreenReaderAnnouncements(
+        fixture,
+        true,
+        'test label',
+        'test completed text'
+      );
 
       fixture.componentInstance.isWaiting = false;
       fixture.detectChanges();
 
-      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith('test completed text');
-      fixture.componentInstance.ariaLabel = 'test label 2';
-      fixture.componentInstance.screenReaderCompletedText =
-        'test completed text 2';
-      liveAnnouncerSpy.calls.reset();
-      fixture.componentInstance.isWaiting = true;
-      expect(liveAnnouncerSpy).not.toHaveBeenCalled();
-      fixture.detectChanges();
-
-      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith('test label 2');
-      liveAnnouncerSpy.calls.reset();
-
-      fixture.componentInstance.isWaiting = false;
-      fixture.detectChanges();
-
-      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith(
+      testScreenReaderAnnouncements(
+        fixture,
+        true,
+        'test label 2',
         'test completed text 2'
       );
     });
 
     it('should announce the default ariaLabel and screenReaderCompletedText when fullPage is true and is blocking', () => {
       const fixture = TestBed.createComponent(SkyWaitTestComponent);
-      fixture.componentInstance.isFullPage = true;
-      fixture.componentInstance.isWaiting = true;
-      fixture.componentInstance.isNonBlocking = false;
-      expect(liveAnnouncerSpy).not.toHaveBeenCalled();
-      fixture.detectChanges();
 
-      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith(
-        'Page loading. Please wait.'
-      );
-      liveAnnouncerSpy.calls.reset();
-
-      fixture.componentInstance.isWaiting = false;
-      fixture.detectChanges();
-
-      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith(
-        'Page loading complete.'
+      testScreenReaderAnnouncements(
+        fixture,
+        false,
+        'Page loading. Please wait.',
+        'Page loading complete.',
+        true
       );
     });
 
     it('should announce the default ariaLabel and screenReaderCompletedText when fullPage is true and is not blocking', () => {
       const fixture = TestBed.createComponent(SkyWaitTestComponent);
-      fixture.componentInstance.isFullPage = true;
-      fixture.componentInstance.isWaiting = true;
-      fixture.componentInstance.isNonBlocking = true;
-      expect(liveAnnouncerSpy).not.toHaveBeenCalled();
-      fixture.detectChanges();
 
-      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith('Page loading.');
-      liveAnnouncerSpy.calls.reset();
-
-      fixture.componentInstance.isWaiting = false;
-      fixture.detectChanges();
-
-      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith(
-        'Page loading complete.'
+      testScreenReaderAnnouncements(
+        fixture,
+        false,
+        'Page loading.',
+        'Page loading complete.',
+        true,
+        true
       );
     });
 
     it('should announce the default ariaLabel and screenReaderCompletedText when fullPage is false and is blocking', () => {
       const fixture = TestBed.createComponent(SkyWaitTestComponent);
-      fixture.componentInstance.isFullPage = false;
-      fixture.componentInstance.isWaiting = true;
-      fixture.componentInstance.isNonBlocking = false;
-      expect(liveAnnouncerSpy).not.toHaveBeenCalled();
-      fixture.detectChanges();
 
-      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith(
-        'Loading. Please wait.'
+      testScreenReaderAnnouncements(
+        fixture,
+        false,
+        'Loading. Please wait.',
+        'Loading complete.'
       );
-      liveAnnouncerSpy.calls.reset();
-
-      fixture.componentInstance.isWaiting = false;
-      fixture.detectChanges();
-
-      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith('Loading complete.');
     });
 
     it('should announce the default ariaLabel and screenReaderCompletedText when fullPage is false and is not blocking', () => {
       const fixture = TestBed.createComponent(SkyWaitTestComponent);
-      fixture.componentInstance.isFullPage = false;
-      fixture.componentInstance.isWaiting = true;
-      fixture.componentInstance.isNonBlocking = true;
-      expect(liveAnnouncerSpy).not.toHaveBeenCalled();
-      fixture.detectChanges();
 
-      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith('Loading.');
-      liveAnnouncerSpy.calls.reset();
-
-      fixture.componentInstance.isWaiting = false;
-      fixture.detectChanges();
-
-      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith('Loading complete.');
+      testScreenReaderAnnouncements(
+        fixture,
+        false,
+        'Loading.',
+        'Loading complete.',
+        false,
+        true
+      );
     });
 
     it('should update ariaLabel and screenReaderCompletedText defaults when conditions are updated', () => {
       const fixture = TestBed.createComponent(SkyWaitTestComponent);
-      fixture.componentInstance.isWaiting = true;
-      fixture.componentInstance.isFullPage = true;
-      fixture.componentInstance.isNonBlocking = true;
-      expect(liveAnnouncerSpy).not.toHaveBeenCalled();
-      fixture.detectChanges();
 
-      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith('Page loading.');
-      liveAnnouncerSpy.calls.reset();
-
-      fixture.componentInstance.isWaiting = false;
-      fixture.detectChanges();
-
-      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith(
-        'Page loading complete.'
+      testScreenReaderAnnouncements(
+        fixture,
+        false,
+        'Page loading.',
+        'Page loading complete.',
+        true,
+        true
       );
-      liveAnnouncerSpy.calls.reset();
-      fixture.componentInstance.isFullPage = false;
-      fixture.componentInstance.isNonBlocking = false;
-      fixture.componentInstance.isWaiting = true;
-      expect(liveAnnouncerSpy).not.toHaveBeenCalled();
-      fixture.detectChanges();
 
-      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith(
-        'Loading. Please wait.'
+      testScreenReaderAnnouncements(
+        fixture,
+        false,
+        'Loading. Please wait.',
+        'Loading complete.',
+        true,
+        true
       );
-      liveAnnouncerSpy.calls.reset();
-
-      fixture.componentInstance.isWaiting = false;
-      fixture.detectChanges();
-
-      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith('Loading complete.');
     });
 
     /**

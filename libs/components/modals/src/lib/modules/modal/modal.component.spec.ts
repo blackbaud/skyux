@@ -6,7 +6,7 @@ import {
   SkyCoreAdapterService,
   SkyDockLocation,
   SkyDockService,
-  SkyLiveAnnouncer,
+  SkyLiveAnnouncerService,
   SkyMutationObserverService,
 } from '@skyux/core';
 import {
@@ -122,6 +122,40 @@ describe('Modal component', () => {
 
   function getRouter(): Router {
     return TestBed.inject(Router);
+  }
+
+  async function testLiveAnnouncer(
+    changeElementAfterLoad = false
+  ): Promise<void> {
+    const liveAnnouncer = TestBed.inject(SkyLiveAnnouncerService);
+    const modalInstance = openModal(ModalTestComponent, undefined, true);
+    const modalDialogElement = getModalDialogElement();
+
+    if (!SkyLiveAnnouncerService.announcerElement?.id) {
+      fail(
+        'Announcer element should have been set when live announcer was injected'
+      );
+      return;
+    }
+
+    expect(modalDialogElement.getAttribute('aria-owns')).toEqual(
+      SkyLiveAnnouncerService.announcerElement.id
+    );
+    await expectAsync(getModalElement()).toBeAccessible();
+
+    if (changeElementAfterLoad) {
+      SkyLiveAnnouncerService.announcerElementChanged.next({
+        id: 'changedId',
+      } as HTMLElement);
+
+      getApplicationRef().tick();
+
+      expect(modalDialogElement.getAttribute('aria-owns')).toEqual('changedId');
+      await expectAsync(getModalElement()).toBeAccessible();
+    }
+
+    closeModal(modalInstance, true);
+    liveAnnouncer.ngOnDestroy();
   }
 
   function openModal<T>(
@@ -820,54 +854,11 @@ describe('Modal component', () => {
   });
 
   it('should set the aria-owns property to contain the id of the live announce element if it exists', async () => {
-    const liveAnnouncer = TestBed.inject(SkyLiveAnnouncer);
-    const modalInstance = openModal(ModalTestComponent, undefined, true);
-    const modalDialogElement = getModalDialogElement();
-
-    if (!SkyLiveAnnouncer.announcerElement?.id) {
-      fail(
-        'Announcer element should have been set when live announcer was injected'
-      );
-      return;
-    }
-
-    expect(modalDialogElement.getAttribute('aria-owns')).toEqual(
-      SkyLiveAnnouncer.announcerElement.id
-    );
-    await expectAsync(getModalElement()).toBeAccessible();
-
-    closeModal(modalInstance, true);
-    liveAnnouncer.ngOnDestroy();
+    await testLiveAnnouncer();
   });
 
   it('should update the aria-owns property to contain the id of the live announce element if it changes', async () => {
-    const liveAnnouncer = TestBed.inject(SkyLiveAnnouncer);
-    const modalInstance = openModal(ModalTestComponent, undefined, true);
-    const modalDialogElement = getModalDialogElement();
-
-    if (!SkyLiveAnnouncer.announcerElement?.id) {
-      fail(
-        'Announcer element should have been set when live announcer was injected'
-      );
-      return;
-    }
-
-    expect(modalDialogElement.getAttribute('aria-owns')).toEqual(
-      SkyLiveAnnouncer.announcerElement.id
-    );
-    await expectAsync(getModalElement()).toBeAccessible();
-
-    SkyLiveAnnouncer.announcerElementChanged.next({
-      id: 'changedId',
-    } as HTMLElement);
-
-    getApplicationRef().tick();
-
-    expect(modalDialogElement.getAttribute('aria-owns')).toEqual('changedId');
-    await expectAsync(getModalElement()).toBeAccessible();
-
-    closeModal(modalInstance, true);
-    liveAnnouncer.ngOnDestroy();
+    await testLiveAnnouncer(true);
   });
 
   it('should default to tiled modal false', fakeAsync(() => {

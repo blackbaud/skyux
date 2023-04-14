@@ -9,16 +9,16 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { SkyLiveAnnouncer } from './live-announcer';
+import { SkyLiveAnnouncerService } from './live-announcer.service';
 import {
   SKY_LIVE_ANNOUNCER_DEFAULT_OPTIONS,
   SKY_LIVE_ANNOUNCER_ELEMENT_TOKEN,
   SkyLiveAnnouncerDefaultOptions,
-} from './live-announcer-tokens';
+} from './types/live-announcer-tokens';
 
 describe('LiveAnnouncer', () => {
-  let announcer: SkyLiveAnnouncer;
-  let ariaLiveElement: Element;
+  let announcer: SkyLiveAnnouncerService;
+  let ariaLiveElement: Element | null;
   let fixture: ComponentFixture<TestAppComponent>;
 
   describe('with default element', () => {
@@ -30,31 +30,31 @@ describe('LiveAnnouncer', () => {
     );
 
     beforeEach(fakeAsync(() => {
-      announcer = TestBed.inject(SkyLiveAnnouncer);
+      announcer = TestBed.inject(SkyLiveAnnouncerService);
       ariaLiveElement = getLiveElement();
       fixture = TestBed.createComponent(TestAppComponent);
     }));
 
     it('should correctly update the announce text', fakeAsync(() => {
-      const buttonElement = fixture.debugElement.query(
+      const buttonElement: HTMLElement | undefined = fixture.debugElement.query(
         By.css('button')
-      )!.nativeElement;
-      buttonElement.click();
+      ).nativeElement;
+      buttonElement?.click();
 
       // This flushes our 100ms timeout for the screen readers.
       tick(100);
 
-      expect(ariaLiveElement.textContent).toBe('Test');
+      expect(ariaLiveElement?.textContent).toBe('Test');
     }));
 
     it('should correctly update the politeness attribute', fakeAsync(() => {
-      announcer.announce('Hey Google', 'assertive');
+      announcer.announce('Hey Google', { politeness: 'assertive' });
 
       // This flushes our 100ms timeout for the screen readers.
       tick(100);
 
-      expect(ariaLiveElement.textContent).toBe('Hey Google');
-      expect(ariaLiveElement.getAttribute('aria-live')).toBe('assertive');
+      expect(ariaLiveElement?.textContent).toBe('Hey Google');
+      expect(ariaLiveElement?.getAttribute('aria-live')).toBe('assertive');
     }));
 
     it('should apply the aria-live value polite by default', fakeAsync(() => {
@@ -63,36 +63,36 @@ describe('LiveAnnouncer', () => {
       // This flushes our 100ms timeout for the screen readers.
       tick(100);
 
-      expect(ariaLiveElement.textContent).toBe('Hey Google');
-      expect(ariaLiveElement.getAttribute('aria-live')).toBe('polite');
+      expect(ariaLiveElement?.textContent).toBe('Hey Google');
+      expect(ariaLiveElement?.getAttribute('aria-live')).toBe('polite');
     }));
 
     it('should be able to clear out the aria-live element manually', fakeAsync(() => {
       announcer.announce('Hey Google');
       tick(100);
-      expect(ariaLiveElement.textContent).toBe('Hey Google');
+      expect(ariaLiveElement?.textContent).toBe('Hey Google');
 
       announcer.clear();
-      expect(ariaLiveElement.textContent).toBeFalsy();
+      expect(ariaLiveElement?.textContent).toBeFalsy();
     }));
 
     it('should be able to clear out the aria-live element by setting a duration', fakeAsync(() => {
-      announcer.announce('Hey Google', 2000);
+      announcer.announce('Hey Google', { duration: 2000 });
       tick(100);
-      expect(ariaLiveElement.textContent).toBe('Hey Google');
+      expect(ariaLiveElement?.textContent).toBe('Hey Google');
 
       tick(2000);
-      expect(ariaLiveElement.textContent).toBeFalsy();
+      expect(ariaLiveElement?.textContent).toBeFalsy();
     }));
 
     it('should clear the duration of previous messages when announcing a new one', fakeAsync(() => {
-      announcer.announce('Hey Google', 2000);
+      announcer.announce('Hey Google', { duration: 2000 });
       tick(100);
-      expect(ariaLiveElement.textContent).toBe('Hey Google');
+      expect(ariaLiveElement?.textContent).toBe('Hey Google');
 
       announcer.announce('Hello there');
       tick(2500);
-      expect(ariaLiveElement.textContent).toBe('Hello there');
+      expect(ariaLiveElement?.textContent).toBe('Hello there');
     }));
 
     it('should remove the aria-live element from the DOM on destroy', fakeAsync(() => {
@@ -123,7 +123,7 @@ describe('LiveAnnouncer', () => {
       extraElement.classList.add('sky-live-announcer-element');
       document.body.appendChild(extraElement);
 
-      inject([SkyLiveAnnouncer], (la: SkyLiveAnnouncer) => {
+      inject([SkyLiveAnnouncerService], (la: SkyLiveAnnouncerService) => {
         announcer = la;
         ariaLiveElement = getLiveElement();
         fixture = TestBed.createComponent(TestAppComponent);
@@ -167,10 +167,13 @@ describe('LiveAnnouncer', () => {
       });
     });
 
-    beforeEach(inject([SkyLiveAnnouncer], (la: SkyLiveAnnouncer) => {
-      announcer = la;
-      ariaLiveElement = getLiveElement();
-    }));
+    beforeEach(inject(
+      [SkyLiveAnnouncerService],
+      (la: SkyLiveAnnouncerService) => {
+        announcer = la;
+        ariaLiveElement = getLiveElement();
+      }
+    ));
 
     it('should allow to use a custom live element', fakeAsync(() => {
       announcer.announce('Custom Element');
@@ -199,42 +202,45 @@ describe('LiveAnnouncer', () => {
       });
     });
 
-    beforeEach(inject([SkyLiveAnnouncer], (la: SkyLiveAnnouncer) => {
-      announcer = la;
-      ariaLiveElement = getLiveElement();
-    }));
+    beforeEach(inject(
+      [SkyLiveAnnouncerService],
+      (la: SkyLiveAnnouncerService) => {
+        announcer = la;
+        ariaLiveElement = getLiveElement();
+      }
+    ));
 
     it('should pick up the default politeness from the injection token', fakeAsync(() => {
       announcer.announce('Hello');
 
       tick(2000);
 
-      expect(ariaLiveElement.getAttribute('aria-live')).toBe('assertive');
+      expect(ariaLiveElement?.getAttribute('aria-live')).toBe('assertive');
     }));
 
     it('should pick up the default duration from the injection token', fakeAsync(() => {
       announcer.announce('Hello');
 
       tick();
-      expect(ariaLiveElement.textContent).toBe('Hello');
+      expect(ariaLiveElement?.textContent).toBe('Hello');
 
       tick(1337);
-      expect(ariaLiveElement.textContent).toBeFalsy();
+      expect(ariaLiveElement?.textContent).toBeFalsy();
     }));
   });
 });
 
-function getLiveElement(): Element {
-  return document.body.querySelector('.sky-live-announcer-element')!;
+function getLiveElement(): Element | null {
+  return document.body.querySelector('.sky-live-announcer-element');
 }
 
 @Component({
   template: `<button (click)="announceText('Test')">Announce</button>`,
 })
 class TestAppComponent {
-  constructor(public live: SkyLiveAnnouncer) {}
+  constructor(public live: SkyLiveAnnouncerService) {}
 
-  announceText(message: string) {
+  announceText(message: string): void {
     this.live.announce(message);
   }
 }

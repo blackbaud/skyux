@@ -6,7 +6,7 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
-import { SkyLiveAnnouncer } from '@skyux/core';
+import { SkyLiveAnnouncerService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -137,7 +137,7 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
 
   #elRef = inject(ElementRef);
   #adapterService = inject(SkyWaitAdapterService);
-  #liveAnnouncer = inject(SkyLiveAnnouncer);
+  #liveAnnouncer = inject(SkyLiveAnnouncerService);
   #resourceSvc = inject(SkyLibResourcesService);
   #ngUnsubscribe = new Subject<void>();
 
@@ -158,11 +158,7 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
   #publishAriaLabel(): void {
     if (this.#customAriaLabel) {
       this.ariaLabelStream.next(this.#customAriaLabel);
-      return;
-    }
-
-    /* istanbul ignore else */
-    if (this.#resourceSvc) {
+    } else {
       const type = this.isFullPage ? '_page' : '';
       const blocking = this.isNonBlocking ? '' : '_blocking';
       const key = `skyux_wait${type}${blocking}_aria_alt_text`;
@@ -180,11 +176,7 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
       this.screenReaderCompletedTextStream.next(
         this.#customScreenReaderCompletedText
       );
-      return;
-    }
-
-    /* istanbul ignore else */
-    if (this.#resourceSvc) {
+    } else {
       const type = this.isFullPage ? '_page' : '';
       const key = `skyux_wait${type}_screen_reader_completed_text`;
       this.#resourceSvc

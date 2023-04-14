@@ -1,6 +1,6 @@
 import { ApplicationRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkyLiveAnnouncer } from '@skyux/core';
+import { SkyLiveAnnouncerService } from '@skyux/core';
 
 import { ModalWaitComponent } from './modal-wait.component';
 import { ModalWaitModule } from './modal-wait.module';
@@ -57,7 +57,7 @@ describe('Modals with wait', () => {
 
   afterEach(() => {
     closeModal();
-    TestBed.inject(SkyLiveAnnouncer).ngOnDestroy();
+    TestBed.inject(SkyLiveAnnouncerService).ngOnDestroy();
   });
 
   it('should not place aria-owns on the modal if the live announcer has not been used via a wait', () => {
@@ -76,13 +76,13 @@ describe('Modals with wait', () => {
 
     const modalDialogElement = getModalDialog();
 
-    if (!SkyLiveAnnouncer.announcerElement?.id) {
+    if (!SkyLiveAnnouncerService.announcerElement?.id) {
       fail('The page wait should have set an announcer element');
       return;
     }
 
     expect(modalDialogElement?.getAttribute('aria-owns')).toBe(
-      SkyLiveAnnouncer.announcerElement.id
+      SkyLiveAnnouncerService.announcerElement.id
     );
   });
 
@@ -99,13 +99,13 @@ describe('Modals with wait', () => {
 
     modalDialogElement = getModalDialog();
 
-    if (!SkyLiveAnnouncer.announcerElement?.id) {
+    if (!SkyLiveAnnouncerService.announcerElement?.id) {
       fail('The page wait should have set an announcer element');
       return;
     }
 
     expect(modalDialogElement?.getAttribute('aria-owns')).toBe(
-      SkyLiveAnnouncer.announcerElement.id
+      SkyLiveAnnouncerService.announcerElement.id
     );
   });
 });
