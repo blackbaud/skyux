@@ -240,7 +240,7 @@ function getLiveElement(): Element | null {
 class TestAppComponent {
   constructor(public live: SkyLiveAnnouncerService) {}
 
-  announceText(message: string): void {
+  public announceText(message: string): void {
     this.live.announce(message);
   }
 }
@@ -251,5 +251,5 @@ class TestAppComponent {
   host: { '[attr.aria-owns]': 'ariaOwns', 'aria-modal': 'true' },
 })
 class TestModalComponent {
-  ariaOwns: string | null = null;
+  public ariaOwns: string | null = null;
 }
