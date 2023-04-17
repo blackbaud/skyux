@@ -14,10 +14,8 @@ import { SkyInlineFormButtonLayout } from '@skyux/inline-form';
 
 import { DragulaService, Group } from 'ng2-dragula';
 
-import {
-  A11yRepeaterItem,
-  A11yRepeaterTestComponent,
-} from './fixtures/a11y-repeater.component.fixture';
+import { A11yRepeaterItem } from './fixtures/a11y-repeater-item';
+import { A11yRepeaterTestComponent } from './fixtures/a11y-repeater.component.fixture';
 import { MockDragulaService } from './fixtures/mock-dragula.service';
 import { NestedRepeaterTestComponent } from './fixtures/nested-repeater.component.fixture';
 import { RepeaterAsyncItemsTestComponent } from './fixtures/repeater-async-items.component.fixture';

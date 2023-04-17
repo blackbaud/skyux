@@ -1,17 +1,6 @@
 import { Component } from '@angular/core';
 import { SkyRepeaterExpandModeType } from '../repeater-expand-mode-type';
-
-export interface A11yRepeaterItem {
-  selectable?: boolean;
-  selected?: boolean;
-  disabled?: boolean;
-  expanded?: boolean;
-  reorderable?: boolean;
-  title?: string;
-  message?: string;
-  context?: boolean;
-  tag?: string;
-}
+import { A11yRepeaterItem } from './a11y-repeater-item';
 
 @Component({
   selector: 'sky-test-cmp',
