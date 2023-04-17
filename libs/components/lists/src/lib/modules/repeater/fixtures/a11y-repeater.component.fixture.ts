@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+
 import { SkyRepeaterExpandModeType } from '../repeater-expand-mode-type';
+
 import { A11yRepeaterItem } from './a11y-repeater-item';
 
 @Component({
