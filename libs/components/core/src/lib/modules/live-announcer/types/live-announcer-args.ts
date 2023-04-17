@@ -1,6 +1,5 @@
-import { SkyAriaLivePoliteness } from './live-announcer-tokens';
+import { SkyLiveAnnouncerPoliteness } from './live-announcer-tokens';
 
 export interface SkyLiveAnnouncerArgs {
-  duration?: number;
-  politeness?: SkyAriaLivePoliteness;
+  politeness?: SkyLiveAnnouncerPoliteness;
 }

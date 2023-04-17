@@ -68,27 +68,6 @@ describe('LiveAnnouncer', () => {
       expect(ariaLiveElement?.textContent).toBeFalsy();
     }));
 
-    it('should be able to clear out the aria-live element by setting a duration', fakeAsync(() => {
-      announcer.announce('Hey Google', { duration: 2000 });
-      const ariaLiveElement = getLiveElement();
-
-      expect(ariaLiveElement?.textContent).toBe('Hey Google');
-
-      tick(2000);
-      expect(ariaLiveElement?.textContent).toBeFalsy();
-    }));
-
-    it('should clear the duration of previous messages when announcing a new one', fakeAsync(() => {
-      announcer.announce('Hey Google', { duration: 2000 });
-      const ariaLiveElement = getLiveElement();
-
-      expect(ariaLiveElement?.textContent).toBe('Hey Google');
-
-      announcer.announce('Hello there');
-      tick(2500);
-      expect(ariaLiveElement?.textContent).toBe('Hello there');
-    }));
-
     it('should remove the aria-live element from the DOM on destroy', fakeAsync(() => {
       announcer.announce('Hey Google');
 
@@ -169,17 +148,6 @@ describe('LiveAnnouncer', () => {
       tick(2000);
 
       expect(ariaLiveElement?.getAttribute('aria-live')).toBe('assertive');
-    }));
-
-    it('should pick up the default duration from the injection token', fakeAsync(() => {
-      announcer.announce('Hello');
-      const ariaLiveElement = getLiveElement();
-
-      tick();
-      expect(ariaLiveElement?.textContent).toBe('Hello');
-
-      tick(1337);
-      expect(ariaLiveElement?.textContent).toBeFalsy();
     }));
   });
 });

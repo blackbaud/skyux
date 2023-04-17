@@ -4,7 +4,6 @@ import { Injectable, OnDestroy, inject } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
 
 import { SkyIdService } from '../id/id.service';
-import { SkyAppWindowRef } from '../window/window-ref';
 
 import { SkyLiveAnnouncerArgs } from './types/live-announcer-args';
 import {
@@ -28,8 +27,6 @@ export class SkyLiveAnnouncerService implements OnDestroy {
     { optional: true }
   );
   #idService = inject(SkyIdService);
-  #previousTimeout: number | undefined;
-  #windowRef: SkyAppWindowRef = inject(SkyAppWindowRef);
 
   constructor() {
     this.#announcerElement = this.#createLiveElement();
@@ -51,10 +48,8 @@ export class SkyLiveAnnouncerService implements OnDestroy {
 
     const defaultOptions = this.#defaultOptions;
     let politeness = args?.politeness;
-    let duration = args?.duration;
 
     this.clear();
-    clearTimeout(this.#previousTimeout);
 
     if (!politeness) {
       politeness =
@@ -63,23 +58,9 @@ export class SkyLiveAnnouncerService implements OnDestroy {
           : 'polite';
     }
 
-    if (duration === undefined && defaultOptions) {
-      duration = defaultOptions.duration;
-    }
-
     this.#announcerElement.setAttribute('aria-live', politeness);
 
     this.#announcerElement.textContent = message;
-
-    if (typeof duration === 'number') {
-      // TODO: Explore limiting the types that are pulled in.
-      // Explicitly declare the `setTimeout` from the `window` object in order to use the DOM typings
-      // during a unit test (instead of confusing this with Node's `setTimeout`).
-      this.#previousTimeout = this.#windowRef.nativeWindow.setTimeout(
-        () => this.clear(),
-        duration
-      );
-    }
   }
 
   /**
