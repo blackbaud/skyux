@@ -1,6 +1,6 @@
 {
   "name": "skyux",
-  "version": "7.18.0",
+  "version": "7.19.0",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
@@ -141,8 +141,8 @@
     "@nrwl/nx-plugin": "15.1.1",
     "@nrwl/storybook": "15.1.1",
     "@nrwl/workspace": "15.1.1",
-    "@percy/cli": "1.16.0",
-    "@percy/core": "1.16.0",
+    "@percy/cli": "1.21.0",
+    "@percy/core": "1.21.0",
     "@percy/cypress": "3.1.2",
     "@ryansonshine/commitizen": "4.2.8",
     "@ryansonshine/cz-conventional-changelog": "3.3.4",

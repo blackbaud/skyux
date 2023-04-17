@@ -1,0 +1,8 @@
+.demo-repeater-flex {
+  display: flex;
+  flex-wrap: wrap;
+
+  .demo-repeater-item-title {
+    flex-grow: 1;
+  }
+}
