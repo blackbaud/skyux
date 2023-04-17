@@ -5,6 +5,7 @@ import { SkyDropdownModule } from '@skyux/popovers';
 
 import { SkyRepeaterModule } from '../repeater.module';
 
+import { A11yRepeaterTestComponent } from './a11y-repeater.component.fixture';
 import { NestedRepeaterTestComponent } from './nested-repeater.component.fixture';
 import { RepeaterAsyncItemsTestComponent } from './repeater-async-items.component.fixture';
 import { RepeaterInlineFormFixtureComponent } from './repeater-inline-form.component.fixture';
@@ -18,6 +19,7 @@ import { RepeaterTestComponent } from './repeater.component.fixture';
     RepeaterTestComponent,
     RepeaterWithMissingTagsFixtureComponent,
     NestedRepeaterTestComponent,
+    A11yRepeaterTestComponent,
   ],
   imports: [
     CommonModule,
@@ -31,6 +33,7 @@ import { RepeaterTestComponent } from './repeater.component.fixture';
     RepeaterTestComponent,
     RepeaterWithMissingTagsFixtureComponent,
     NestedRepeaterTestComponent,
+    A11yRepeaterTestComponent,
   ],
 })
 export class SkyRepeaterFixturesModule {}
