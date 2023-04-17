@@ -357,6 +357,8 @@ describe('SkyAgGridWrapperComponent', () => {
       ]);
       spyOn(agGrid.api, 'getFirstDisplayedRow').and.returnValue(rowIndex);
       spyOn(agGrid.api, 'setFocusedCell');
+      spyOn(agGrid.api, 'ensureIndexVisible').and.stub();
+      spyOn(agGrid.api, 'ensureColumnVisible').and.stub();
 
       focusOnAnchor(afterAnchorEl, afterButtonEl);
 
