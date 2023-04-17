@@ -14,6 +14,8 @@ import { SkyInlineFormButtonLayout } from '@skyux/inline-form';
 
 import { DragulaService, Group } from 'ng2-dragula';
 
+import { A11yRepeaterItem } from './fixtures/a11y-repeater-item';
+import { A11yRepeaterTestComponent } from './fixtures/a11y-repeater.component.fixture';
 import { MockDragulaService } from './fixtures/mock-dragula.service';
 import { NestedRepeaterTestComponent } from './fixtures/nested-repeater.component.fixture';
 import { RepeaterAsyncItemsTestComponent } from './fixtures/repeater-async-items.component.fixture';
@@ -22,6 +24,7 @@ import { RepeaterInlineFormFixtureComponent } from './fixtures/repeater-inline-f
 import { RepeaterWithMissingTagsFixtureComponent } from './fixtures/repeater-missing-tag.fixture';
 import { RepeaterTestComponent } from './fixtures/repeater.component.fixture';
 import { SkyRepeaterAutoScrollService } from './repeater-auto-scroll.service';
+import { SkyRepeaterExpandModeType } from './repeater-expand-mode-type';
 import { SkyRepeaterComponent } from './repeater.component';
 import { SkyRepeaterService } from './repeater.service';
 
@@ -1212,6 +1215,22 @@ describe('Repeater item component', () => {
 
       flushDropdownTimer();
     }));
+
+    it('should be accessible', async () => {
+      cmp.showRepeaterWithActiveIndex = true;
+      cmp.expandMode = 'none';
+      cmp.activeIndex = 0;
+
+      // Detect active index.
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      // Role changes on next cycle.
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
   });
 
   describe('with inline-form', () => {
@@ -1987,5 +2006,361 @@ describe('Repeater item component', () => {
 
       expect(topRepeaterItem).toBe(initialBottomRepeaterItem);
     }));
+  });
+
+  describe('accessibility tests', () => {
+    async function setupTest(args: {
+      activeIndex?: number;
+      expandMode?: SkyRepeaterExpandModeType;
+      reorderable?: boolean;
+      selectable?: boolean;
+      context?: boolean;
+    }): Promise<ComponentFixture<A11yRepeaterTestComponent>> {
+      const fixture = TestBed.createComponent(A11yRepeaterTestComponent);
+      const cmp = fixture.componentInstance;
+
+      const items: A11yRepeaterItem[] = [
+        {
+          selectable: args.selectable,
+          context: args.context,
+          title: 'Item 1',
+          message: 'Content 1',
+          tag: 'item1',
+        },
+        {
+          selectable: args.selectable,
+          context: args.context,
+          title: 'Item 2',
+          message: 'Content 2',
+          tag: 'item2',
+        },
+      ];
+
+      cmp.items = items;
+      cmp.activeIndex = args.activeIndex;
+      cmp.expandMode = args.expandMode;
+      cmp.reorderable = args.reorderable;
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      return fixture;
+    }
+
+    it('should be accessible when selectable and expandable', async () => {
+      const fixture = await setupTest({
+        expandMode: 'single',
+        selectable: true,
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when selectable and multi expandable', async () => {
+      const fixture = await setupTest({
+        expandMode: 'multiple',
+        selectable: true,
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when reorderable and expandable', async () => {
+      const fixture = await setupTest({
+        reorderable: true,
+        expandMode: 'single',
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when reorderable and multi expandable', async () => {
+      const fixture = await setupTest({
+        reorderable: true,
+        expandMode: 'multiple',
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when expandable with context menu', async () => {
+      const fixture = await setupTest({
+        context: true,
+        expandMode: 'single',
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when multi expandable with context menu', async () => {
+      const fixture = await setupTest({
+        context: true,
+        expandMode: 'multiple',
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when expandable with active index', async () => {
+      const fixture = await setupTest({
+        expandMode: 'single',
+        activeIndex: 1,
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when multi expandable with active index', async () => {
+      const fixture = await setupTest({
+        expandMode: 'multiple',
+        activeIndex: 1,
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when selectable with a context menu', async () => {
+      const fixture = await setupTest({
+        selectable: true,
+        context: true,
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when reorderable and selectable', async () => {
+      const fixture = await setupTest({
+        reorderable: true,
+        selectable: true,
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when reorderable with a context menu', async () => {
+      const fixture = await setupTest({
+        reorderable: true,
+        context: true,
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when selectable with active index', async () => {
+      const fixture = await setupTest({
+        activeIndex: 1,
+        selectable: true,
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when reorderable with active index', async () => {
+      const fixture = await setupTest({
+        activeIndex: 1,
+        reorderable: true,
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible with active index and context menu', async () => {
+      const fixture = await setupTest({
+        activeIndex: 1,
+        context: true,
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when selectable, reorderable, and expandable', async () => {
+      const fixture = await setupTest({
+        expandMode: 'single',
+        selectable: true,
+        reorderable: true,
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when selectable, reorderable, and multi expandable', async () => {
+      const fixture = await setupTest({
+        expandMode: 'multiple',
+        selectable: true,
+        reorderable: true,
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when selectable and expandable with context menu', async () => {
+      const fixture = await setupTest({
+        selectable: true,
+        context: true,
+        expandMode: 'single',
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when selectable and multi expandable with context menu', async () => {
+      const fixture = await setupTest({
+        selectable: true,
+        context: true,
+        expandMode: 'multiple',
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when selectable and expandable with active index', async () => {
+      const fixture = await setupTest({
+        selectable: true,
+        expandMode: 'single',
+        activeIndex: 1,
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when selectable and multi expandable with active index', async () => {
+      const fixture = await setupTest({
+        selectable: true,
+        expandMode: 'multiple',
+        activeIndex: 1,
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when selectable and reorderable with a context menu', async () => {
+      const fixture = await setupTest({
+        selectable: true,
+        reorderable: true,
+        context: true,
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when reorderable and selectable with active index', async () => {
+      const fixture = await setupTest({
+        reorderable: true,
+        selectable: true,
+        activeIndex: 1,
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when selectable with active index and context menu', async () => {
+      const fixture = await setupTest({
+        activeIndex: 1,
+        selectable: true,
+        context: true,
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when reorderable with active index and context', async () => {
+      const fixture = await setupTest({
+        activeIndex: 1,
+        reorderable: true,
+        context: true,
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when selectable, reorderable, and expandable with context menu', async () => {
+      const fixture = await setupTest({
+        expandMode: 'single',
+        selectable: true,
+        reorderable: true,
+        context: true,
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when selectable, reorderable, and multi expandable with context menu', async () => {
+      const fixture = await setupTest({
+        expandMode: 'multiple',
+        selectable: true,
+        reorderable: true,
+        context: true,
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when selectable and expandable with context menu and active index', async () => {
+      const fixture = await setupTest({
+        selectable: true,
+        context: true,
+        expandMode: 'single',
+        activeIndex: 1,
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when selectable and multi expandable with context menu and active index', async () => {
+      const fixture = await setupTest({
+        selectable: true,
+        context: true,
+        expandMode: 'multiple',
+        activeIndex: 1,
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when reorderable, selectable and expandable with active index', async () => {
+      const fixture = await setupTest({
+        selectable: true,
+        reorderable: true,
+        expandMode: 'single',
+        activeIndex: 1,
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when reorderable, selectable and multi expandable with active index', async () => {
+      const fixture = await setupTest({
+        selectable: true,
+        reorderable: true,
+        expandMode: 'multiple',
+        activeIndex: 1,
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when reorderable, selectable and expandable with context menu', async () => {
+      const fixture = await setupTest({
+        selectable: true,
+        reorderable: true,
+        context: true,
+        expandMode: 'single',
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when reorderable, selectable and multi expandable with context menu', async () => {
+      const fixture = await setupTest({
+        selectable: true,
+        reorderable: true,
+        context: true,
+        expandMode: 'multiple',
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when reorderable and selectable with context menu and active index', async () => {
+      const fixture = await setupTest({
+        selectable: true,
+        reorderable: true,
+        context: true,
+        activeIndex: 1,
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when reorderable, selectable, and expandable with context menu and active index', async () => {
+      const fixture = await setupTest({
+        reorderable: true,
+        expandMode: 'single',
+        activeIndex: 1,
+        selectable: true,
+        context: true,
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when reorderable, selectable, and multi expandable with context menu and active index', async () => {
+      const fixture = await setupTest({
+        reorderable: true,
+        expandMode: 'multiple',
+        activeIndex: 1,
+        selectable: true,
+        context: true,
+      });
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
   });
 });
