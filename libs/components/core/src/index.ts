@@ -34,6 +34,8 @@ export * from './lib/modules/id/id.module';
 export * from './lib/modules/id/id.service';
 
 export * from './lib/modules/live-announcer/live-announcer.service';
+export * from './lib/modules/live-announcer/types/live-announcer-args';
+export * from './lib/modules/live-announcer/types/live-announcer-politeness';
 
 export * from './lib/modules/log/log.module';
 export * from './lib/modules/log/log.service';

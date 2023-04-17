@@ -6,11 +6,11 @@ import { ReplaySubject } from 'rxjs';
 import { SkyIdService } from '../id/id.service';
 
 import { SkyLiveAnnouncerArgs } from './types/live-announcer-args';
-import {
-  SKY_LIVE_ANNOUNCER_DEFAULT_OPTIONS,
-  SkyLiveAnnouncerDefaultOptions,
-} from './types/live-announcer-tokens';
 
+/**
+ * Allows for announcing messages to screen reader users through the use of a common `aria-live` element.
+ * @internal
+ */
 @Injectable({ providedIn: 'root' })
 export class SkyLiveAnnouncerService implements OnDestroy {
   public announcerElementChanged = new ReplaySubject<HTMLElement | undefined>(
@@ -18,14 +18,7 @@ export class SkyLiveAnnouncerService implements OnDestroy {
   );
 
   #announcerElement: HTMLElement | undefined;
-  // We inject the live element and document as `any` because the constructor signature cannot
-  // reference browser globals (HTMLElement, Document) on non-browser environments, since having
-  // a class decorator causes TypeScript to preserve the constructor signature types.
   #document = inject(DOCUMENT);
-  #defaultOptions: SkyLiveAnnouncerDefaultOptions | null = inject(
-    SKY_LIVE_ANNOUNCER_DEFAULT_OPTIONS,
-    { optional: true }
-  );
   #idService = inject(SkyIdService);
 
   constructor() {
@@ -46,17 +39,9 @@ export class SkyLiveAnnouncerService implements OnDestroy {
       this.announcerElementChanged.next(this.#announcerElement);
     }
 
-    const defaultOptions = this.#defaultOptions;
-    let politeness = args?.politeness;
+    let politeness = args?.politeness ?? 'polite';
 
     this.clear();
-
-    if (!politeness) {
-      politeness =
-        defaultOptions && defaultOptions.politeness
-          ? defaultOptions.politeness
-          : 'polite';
-    }
 
     this.#announcerElement.setAttribute('aria-live', politeness);
 
@@ -74,6 +59,9 @@ export class SkyLiveAnnouncerService implements OnDestroy {
     }
   }
 
+  /**
+   * @internal
+   */
   public ngOnDestroy(): void {
     this.#announcerElement?.remove();
     this.#announcerElement = undefined;
