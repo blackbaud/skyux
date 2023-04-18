@@ -110,10 +110,10 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
   #dockService: SkyDockService;
   #mediaQueryService: SkyResizeObserverMediaQueryService | undefined;
   #ngUnsubscribe = new Subject<void>();
-  
+
   #_ariaDescribedBy: string | undefined;
   #_ariaLabelledBy: string | undefined;
-  
+
   #changeDetector = inject(ChangeDetectorRef);
   #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
 
