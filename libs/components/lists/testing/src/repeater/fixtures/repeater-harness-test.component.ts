@@ -26,4 +26,6 @@ export class RepeaterHarnessTestComponent {
   public reorderable = false;
 
   public expandMode = 'none';
+
+  public activeIndex: number | undefined;
 }
