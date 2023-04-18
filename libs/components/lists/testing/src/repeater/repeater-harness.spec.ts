@@ -38,6 +38,20 @@ describe('Repeater harness', () => {
     expect(items[0] instanceof SkyRepeaterItemHarness).toBeTrue();
   });
 
+  it('should update the active index when a repeater item is clicked', async () => {
+    const { fixture, repeaterHarness } = await setupTest({
+      dataSkyId: 'my-basic-repeater',
+    });
+
+    fixture.componentInstance.activeIndex = 0;
+
+    const items = await repeaterHarness.getRepeaterItems();
+
+    await items[1].click();
+
+    expect(fixture.componentInstance.activeIndex).toBe(1);
+  });
+
   it('should select and deselect an item', async () => {
     const { fixture, repeaterHarness } = await setupTest({
       dataSkyId: 'my-basic-repeater',
