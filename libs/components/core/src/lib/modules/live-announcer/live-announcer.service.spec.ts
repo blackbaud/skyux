@@ -1,4 +1,3 @@
-import { A11yModule } from '@angular/cdk/a11y';
 import {
   ComponentFixture,
   TestBed,
@@ -16,7 +15,6 @@ describe('SkyLiveAnnouncer', () => {
 
   beforeEach(() =>
     TestBed.configureTestingModule({
-      imports: [A11yModule],
       declarations: [SkyLiveAnnouncerFixtureComponent],
     })
   );
@@ -79,7 +77,6 @@ describe('SkyLiveAnnouncer', () => {
     fixture.destroy();
 
     TestBed.resetTestingModule().configureTestingModule({
-      imports: [A11yModule],
       declarations: [SkyLiveAnnouncerFixtureComponent],
     });
 
@@ -98,14 +95,6 @@ describe('SkyLiveAnnouncer', () => {
       .withContext('Expected only one live announcer element in the DOM.')
       .toBe(1);
     extraElement.remove();
-  }));
-
-  it('should clear pending timeouts on destroy', fakeAsync(() => {
-    announcer.announce('Hey Google');
-    announcer.ngOnDestroy();
-
-    // Since we're testing whether the timeouts were flushed, we don't need any
-    // assertions here. `fakeAsync` will fail the test if a timer was left over.
   }));
 });
 

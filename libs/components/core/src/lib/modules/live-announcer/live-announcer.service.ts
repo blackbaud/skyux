@@ -39,7 +39,7 @@ export class SkyLiveAnnouncerService implements OnDestroy {
       this.announcerElementChanged.next(this.#announcerElement);
     }
 
-    let politeness = args?.politeness ?? 'polite';
+    const politeness = args?.politeness ?? 'polite';
 
     this.clear();
 
