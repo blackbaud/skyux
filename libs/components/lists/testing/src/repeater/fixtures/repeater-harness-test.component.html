@@ -2,6 +2,7 @@
   data-sky-id="my-basic-repeater"
   [expandMode]="expandMode"
   [reorderable]="reorderable"
+  [(activeIndex)]="activeIndex"
 >
   <sky-repeater-item
     *ngFor="let item of items; let i = index"
