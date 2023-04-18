@@ -1,5 +1,21 @@
 # Changelog
 
+## [8.0.0-alpha.21](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.20...8.0.0-alpha.21) (2023-04-18)
+
+
+### Features
+
+* **components/indicators:** announce wait component state changes to screen readers ([#968](https://github.com/blackbaud/skyux/issues/968)) ([a29983d](https://github.com/blackbaud/skyux/commit/a29983d36b759a86046d06401e8f25b555435743))
+* **components/lists:** add inline form repeater code example and improved other examples ([#1261](https://github.com/blackbaud/skyux/issues/1261)) ([#1268](https://github.com/blackbaud/skyux/issues/1268)) ([16a5707](https://github.com/blackbaud/skyux/commit/16a57071984317ae8b40828238a6c93b29cbc68f))
+* **components/modals:** modal test harness ([#1265](https://github.com/blackbaud/skyux/issues/1265)) ([#1270](https://github.com/blackbaud/skyux/issues/1270)) ([b41497b](https://github.com/blackbaud/skyux/commit/b41497b6d284dd9eecf20951bec6161ec4d1cd04))
+
+
+### Bug Fixes
+
+* **components/lookup:** revert autocomplete dropdown absolute position change ([#1269](https://github.com/blackbaud/skyux/issues/1269)) ([#1271](https://github.com/blackbaud/skyux/issues/1271)) ([2a70add](https://github.com/blackbaud/skyux/commit/2a70addb5116510850c33d9adefdee54d4b894be))
+* **components/modals:** apply correct spacing to link buttons in modal footers ([#1273](https://github.com/blackbaud/skyux/issues/1273)) ([e6d9cc8](https://github.com/blackbaud/skyux/commit/e6d9cc80288e56946473e58cb169f1749a2801ca))
+* **components/popovers:** export `SkyDropdownButtonType` ([#1262](https://github.com/blackbaud/skyux/issues/1262)) ([#1263](https://github.com/blackbaud/skyux/issues/1263)) ([6fe9faf](https://github.com/blackbaud/skyux/commit/6fe9faf687f99bb6174a01b6afa5591f4729fb8f))
+
 ## [7.19.0](https://github.com/blackbaud/skyux/compare/7.18.0...7.19.0) (2023-04-13)
 
 
