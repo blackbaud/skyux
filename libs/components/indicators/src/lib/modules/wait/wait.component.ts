@@ -6,6 +6,7 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
+import { SkyLiveAnnouncerService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -23,13 +24,12 @@ let nextId = 0;
 })
 export class SkyWaitComponent implements OnInit, OnDestroy {
   /**
-   * The ARIA label for the wait icon while an element or page loads.
-   * This sets the icon's `aria-label` attribute
-   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
-   * The default value varies based on whether the wait is for an element or a page
-   * and whether it is a blocking wait. For example, the default for a page-blocking
-   * wait is "Page loading. Please wait."
-   * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
+   * The ARIA label for the wait icon.
+   * This sets the icon's `aria-label` attribute to provide a text equivalent for screen readers
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility) when an element or page loads and when users tab to a wait icon.
+   * The default value varies based on whether the wait is for an element or a page and whether it is a blocking wait. For example, the default for a page-level blocking wait is "Page loading. Please wait."
+   * For element-level waits, we recommend that consumers overwrite the default to describe the specific element.
+   * "For more information, see the Design tab and the [WAI-ARIA `aria-label` definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
   @Input()
   public set ariaLabel(value: string | undefined) {
@@ -58,6 +58,15 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
       this.#id
     );
 
+    if (value) {
+      this.#liveAnnouncer.announce(this.ariaLabelStream.getValue());
+    } else if (this.#_isWaiting) {
+      // NOTE: This should only happen if the wait was previously waiting and no longer is waiting.
+      this.#liveAnnouncer.announce(
+        this.screenReaderCompletedTextStream.getValue()
+      );
+    }
+
     this.#_isWaiting = value;
   }
 
@@ -83,6 +92,7 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
 
     this.#_isFullPage = value;
     this.#publishAriaLabel();
+    this.#publishScreenReaderCompletedText();
   }
 
   public get isFullPage(): boolean | undefined {
@@ -104,13 +114,30 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
     return this.#_isNonBlocking;
   }
 
+  /**
+   * Screen reader text [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility) when the wait toggles off.
+   *  The default varies based on whether the wait is for an element or a page.
+   * For example, the default for a page-level wait is "Page loading complete."
+   * For element-level waits, we recommend that consumers overwrite the default to describe the specific element.
+   * For more information, see the Design tab and the [WCAG documentation on status messages](https://www.w3.org/WAI/WCAG21/Understanding/status-messages.html).
+   */
+  @Input()
+  public set screenReaderCompletedText(value: string | undefined) {
+    this.#customScreenReaderCompletedText = value;
+    this.#publishScreenReaderCompletedText();
+  }
+
   public ariaLabelStream = new BehaviorSubject<string>('');
+  public ariaLiveText = '';
+  public screenReaderCompletedTextStream = new BehaviorSubject<string>('');
 
   #customAriaLabel: string | undefined;
+  #customScreenReaderCompletedText: string | undefined;
   #id = `sky-wait-${++nextId}`;
 
   #elRef = inject(ElementRef);
   #adapterService = inject(SkyWaitAdapterService);
+  #liveAnnouncer = inject(SkyLiveAnnouncerService);
   #resourceSvc = inject(SkyLibResourcesService);
   #ngUnsubscribe = new Subject<void>();
 
@@ -120,6 +147,7 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.#publishAriaLabel();
+    this.#publishScreenReaderCompletedText();
   }
 
   public ngOnDestroy(): void {
@@ -130,11 +158,7 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
   #publishAriaLabel(): void {
     if (this.#customAriaLabel) {
       this.ariaLabelStream.next(this.#customAriaLabel);
-      return;
-    }
-
-    /* istanbul ignore else */
-    if (this.#resourceSvc) {
+    } else {
       const type = this.isFullPage ? '_page' : '';
       const blocking = this.isNonBlocking ? '' : '_blocking';
       const key = `skyux_wait${type}${blocking}_aria_alt_text`;
@@ -143,6 +167,23 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
         .pipe(take(1), takeUntil(this.#ngUnsubscribe))
         .subscribe((value) => {
           this.ariaLabelStream.next(value);
+        });
+    }
+  }
+
+  #publishScreenReaderCompletedText(): void {
+    if (this.#customScreenReaderCompletedText) {
+      this.screenReaderCompletedTextStream.next(
+        this.#customScreenReaderCompletedText
+      );
+    } else {
+      const type = this.isFullPage ? '_page' : '';
+      const key = `skyux_wait${type}_screen_reader_completed_text`;
+      this.#resourceSvc
+        .getString(key)
+        .pipe(take(1), takeUntil(this.#ngUnsubscribe))
+        .subscribe((value) => {
+          this.screenReaderCompletedTextStream.next(value);
         });
     }
   }

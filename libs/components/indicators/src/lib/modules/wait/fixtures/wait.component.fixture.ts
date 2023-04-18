@@ -14,6 +14,8 @@ export class SkyWaitTestComponent {
   public isFullPage = false;
   public isNonBlocking = false;
 
+  public screenReaderCompletedText: string | undefined;
+
   public showAnchor0 = true;
   public showAnchor2 = true;
 

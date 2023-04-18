@@ -134,5 +134,13 @@
   "skyux_wait_page_blocking_aria_alt_text": {
     "_description": "The default alt text for a blocking page wait component.",
     "message": "Page loading. Please wait."
+  },
+  "skyux_wait_screen_reader_completed_text": {
+    "_description": "The default screen reader text for when a wait component finishes waiting.",
+    "message": "Loading complete."
+  },
+  "skyux_wait_page_screen_reader_completed_text": {
+    "_description": "The default screen reader text for when a page wait component finishes waiting.",
+    "message": "Page loading complete."
   }
 }

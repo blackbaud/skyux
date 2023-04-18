@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   Host,
@@ -7,16 +8,22 @@ import {
   HostListener,
   Input,
   OnDestroy,
+  OnInit,
   Optional,
   ViewChild,
+  inject,
 } from '@angular/core';
 import {
   SkyAppWindowRef,
   SkyCoreAdapterService,
   SkyDockLocation,
   SkyDockService,
+  SkyLiveAnnouncerService,
   SkyResizeObserverMediaQueryService,
 } from '@skyux/core';
+
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { SkyModalComponentAdapterService } from './modal-component-adapter.service';
 import { SkyModalConfiguration } from './modal-configuration';
@@ -36,7 +43,7 @@ const ARIA_ROLE_DEFAULT = 'dialog';
   styleUrls: ['./modal.component.scss'],
   providers: [SkyModalComponentAdapterService, SkyDockService],
 })
-export class SkyModalComponent implements AfterViewInit, OnDestroy {
+export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
   @HostBinding('class')
   public wrapperClass: string | undefined;
 
@@ -80,6 +87,8 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
     return this.#_ariaLabelledBy;
   }
 
+  public ariaOwns: string | null = null;
+
   public helpKey: string | undefined;
 
   public modalState = 'in';
@@ -100,9 +109,13 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
   #coreAdapter: SkyCoreAdapterService;
   #dockService: SkyDockService;
   #mediaQueryService: SkyResizeObserverMediaQueryService | undefined;
+  #ngUnsubscribe = new Subject<void>();
 
   #_ariaDescribedBy: string | undefined;
   #_ariaLabelledBy: string | undefined;
+
+  #changeDetector = inject(ChangeDetectorRef);
+  #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
 
   constructor(
     hostService: SkyModalHostService,
@@ -195,6 +208,17 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  public ngOnInit(): void {
+    this.#liveAnnouncerSvc.announcerElementChanged
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((element) => {
+        if (element?.id) {
+          this.ariaOwns = element.id;
+          this.#changeDetector.markForCheck();
+        }
+      });
+  }
+
   public ngAfterViewInit() {
     this.#componentAdapter.handleWindowChange(this.#elRef);
 
@@ -221,6 +245,8 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
     if (this.#mediaQueryService) {
       this.#mediaQueryService.unobserve();
     }
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   public helpButtonClick() {

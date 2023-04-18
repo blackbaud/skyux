@@ -1,0 +1,20 @@
+<div class="sky-padding-even-md">
+  <button
+    id="modal-wait-modal-trigger"
+    class="sky-btn sky-btn-primary sky-margin-inline-sm"
+    type="button"
+    (click)="openModal()"
+  >
+    Open modal
+  </button>
+  <button
+    id="modal-wait-wait-trigger"
+    class="sky-btn sky-btn-primary"
+    type="button"
+    (click)="triggerWait()"
+  >
+    Trigger wait
+  </button>
+  <!-- Using `ngIf` as the live announcer is constructed when the wait is constructed and for testing purposes we want to control this -->
+  <sky-wait [isWaiting]="true" *ngIf="isWaiting"></sky-wait>
+</div>

@@ -1,10 +1,16 @@
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 import {
   SkyAppTestUtility,
   SkyAppTestUtilityDomEventOptions,
   expect,
   expectAsync,
 } from '@skyux-sdk/testing';
+import { SkyLiveAnnouncerService } from '@skyux/core';
 
 import { SkyWaitFixturesModule } from './fixtures/wait-fixtures.module';
 import { SkyWaitTestComponent } from './fixtures/wait.component.fixture';
@@ -30,10 +36,44 @@ describe('Wait component', () => {
     );
   }
 
+  function testScreenReaderAnnouncements(
+    fixture: ComponentFixture<SkyWaitTestComponent>,
+    customValues: boolean,
+    ariaLabel: string,
+    completedText: string,
+    isFullPage = false,
+    isNonBlocking = false
+  ): void {
+    if (customValues) {
+      fixture.componentInstance.ariaLabel = ariaLabel;
+      fixture.componentInstance.screenReaderCompletedText = completedText;
+    }
+    fixture.componentInstance.isNonBlocking = isNonBlocking;
+    fixture.componentInstance.isFullPage = isFullPage;
+    fixture.componentInstance.isWaiting = true;
+    expect(liveAnnouncerSpy).not.toHaveBeenCalled();
+    fixture.detectChanges();
+
+    expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith(ariaLabel);
+    liveAnnouncerSpy.calls.reset();
+
+    fixture.componentInstance.isWaiting = false;
+    fixture.detectChanges();
+
+    expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith(completedText);
+    liveAnnouncerSpy.calls.reset();
+  }
+
+  let liveAnnouncer: SkyLiveAnnouncerService;
+  let liveAnnouncerSpy: jasmine.Spy;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyWaitFixturesModule],
     });
+    // The spy is set up in the `beforeEach` because `announce` is async. Setting the spy here allows us to not worry about timers and is stubbing out functionality we don't care about for unit testing.
+    liveAnnouncer = TestBed.inject(SkyLiveAnnouncerService);
+    liveAnnouncerSpy = spyOn(liveAnnouncer, 'announce').and.stub();
   });
 
   describe('basic behavior', () => {
@@ -544,6 +584,107 @@ describe('Wait component', () => {
       fixture.detectChanges();
 
       expect(getAriaLabel()).toBe('Page loading.');
+    });
+
+    it('should announce the ariaLabel when loading begins and the screenReaderCompletedText when it ends to screen readers', () => {
+      const fixture = TestBed.createComponent(SkyWaitTestComponent);
+
+      testScreenReaderAnnouncements(
+        fixture,
+        true,
+        'test label',
+        'test completed text'
+      );
+    });
+
+    it('should respect changes to ariaLabel and screenReaderCompletedText for screen readers after the component has rendered', () => {
+      const fixture = TestBed.createComponent(SkyWaitTestComponent);
+
+      testScreenReaderAnnouncements(
+        fixture,
+        true,
+        'test label',
+        'test completed text'
+      );
+
+      fixture.componentInstance.isWaiting = false;
+      fixture.detectChanges();
+
+      testScreenReaderAnnouncements(
+        fixture,
+        true,
+        'test label 2',
+        'test completed text 2'
+      );
+    });
+
+    it('should announce the default ariaLabel and screenReaderCompletedText when fullPage is true and is blocking', () => {
+      const fixture = TestBed.createComponent(SkyWaitTestComponent);
+
+      testScreenReaderAnnouncements(
+        fixture,
+        false,
+        'Page loading. Please wait.',
+        'Page loading complete.',
+        true
+      );
+    });
+
+    it('should announce the default ariaLabel and screenReaderCompletedText when fullPage is true and is not blocking', () => {
+      const fixture = TestBed.createComponent(SkyWaitTestComponent);
+
+      testScreenReaderAnnouncements(
+        fixture,
+        false,
+        'Page loading.',
+        'Page loading complete.',
+        true,
+        true
+      );
+    });
+
+    it('should announce the default ariaLabel and screenReaderCompletedText when fullPage is false and is blocking', () => {
+      const fixture = TestBed.createComponent(SkyWaitTestComponent);
+
+      testScreenReaderAnnouncements(
+        fixture,
+        false,
+        'Loading. Please wait.',
+        'Loading complete.'
+      );
+    });
+
+    it('should announce the default ariaLabel and screenReaderCompletedText when fullPage is false and is not blocking', () => {
+      const fixture = TestBed.createComponent(SkyWaitTestComponent);
+
+      testScreenReaderAnnouncements(
+        fixture,
+        false,
+        'Loading.',
+        'Loading complete.',
+        false,
+        true
+      );
+    });
+
+    it('should update ariaLabel and screenReaderCompletedText defaults when conditions are updated', () => {
+      const fixture = TestBed.createComponent(SkyWaitTestComponent);
+
+      testScreenReaderAnnouncements(
+        fixture,
+        false,
+        'Page loading.',
+        'Page loading complete.',
+        true,
+        true
+      );
+
+      testScreenReaderAnnouncements(
+        fixture,
+        false,
+        'Loading. Please wait.',
+        'Loading complete.'
+      );
     });
 
     /**

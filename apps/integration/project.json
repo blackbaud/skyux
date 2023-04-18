@@ -101,6 +101,8 @@
           "libs/components/theme/src/lib/styles/sky.scss",
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ],
+        "codeCoverage": true,
+        "codeCoverageExclude": ["**/fixtures/**"],
         "scripts": [],
         "assets": []
       }

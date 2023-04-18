@@ -6,6 +6,7 @@ import {
   SkyCoreAdapterService,
   SkyDockLocation,
   SkyDockService,
+  SkyLiveAnnouncerService,
   SkyMutationObserverService,
 } from '@skyux/core';
 import {
@@ -123,18 +124,68 @@ describe('Modal component', () => {
     return TestBed.inject(Router);
   }
 
-  function openModal<T>(modalType: T, config?: Record<string, any>) {
+  async function testLiveAnnouncer(
+    changeElementAfterLoad = false
+  ): Promise<void> {
+    const liveAnnouncer = TestBed.inject(SkyLiveAnnouncerService);
+    // The live announcer element is created when an announcement is made. Doing this to create it.
+    liveAnnouncer.announce('Creating element');
+    const liveAnnouncerElement = document.querySelector(
+      '.sky-live-announcer-element'
+    );
+    const modalInstance = openModal(ModalTestComponent, undefined, true);
+    const modalDialogElement = getModalDialogElement();
+
+    if (!liveAnnouncerElement) {
+      fail(
+        'Announcer element should have been set when live announcer was injected'
+      );
+      return;
+    }
+
+    expect(modalDialogElement.getAttribute('aria-owns')).toEqual(
+      liveAnnouncerElement.id
+    );
+    await expectAsync(getModalElement()).toBeAccessible();
+
+    if (changeElementAfterLoad) {
+      liveAnnouncer.announcerElementChanged.next({
+        id: 'changedId',
+      } as HTMLElement);
+
+      getApplicationRef().tick();
+
+      expect(modalDialogElement.getAttribute('aria-owns')).toEqual('changedId');
+      await expectAsync(getModalElement()).toBeAccessible();
+    }
+
+    closeModal(modalInstance, true);
+    liveAnnouncer.ngOnDestroy();
+  }
+
+  function openModal<T>(
+    modalType: T,
+    config?: Record<string, any>,
+    async = false
+  ) {
     const modalInstance = getModalService().open(modalType, config);
 
     getApplicationRef().tick();
-    tick();
+
+    if (!async) {
+      tick();
+    }
 
     return modalInstance;
   }
 
-  function closeModal(modalInstance: SkyModalInstance) {
+  function closeModal(modalInstance: SkyModalInstance, async = false) {
     modalInstance.close();
-    tick();
+
+    if (!async) {
+      tick();
+    }
+
     getApplicationRef().tick();
   }
 
@@ -796,6 +847,14 @@ describe('Modal component', () => {
 
     closeModal(modalInstance);
   }));
+
+  it('should set the aria-owns property to contain the id of the live announce element if it exists', async () => {
+    await testLiveAnnouncer();
+  });
+
+  it('should update the aria-owns property to contain the id of the live announce element if it changes', async () => {
+    await testLiveAnnouncer(true);
+  });
 
   it('should default to tiled modal false', fakeAsync(() => {
     const modalInstance = openModal(ModalTestComponent, { tiledBody: false });
