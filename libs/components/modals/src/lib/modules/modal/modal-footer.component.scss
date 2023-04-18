@@ -2,9 +2,6 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-modal-footer-container {
-  --sky-adjacent-btn-margin: #{$sky-margin};
-  --sky-adjacent-btn-btn-link-margin: -2px;
-
   background-color: #fff;
   @include mixins.sky-border(light, top);
   /* Offset the margin-left of the link */
