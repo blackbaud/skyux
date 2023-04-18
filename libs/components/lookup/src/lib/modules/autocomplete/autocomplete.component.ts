@@ -831,7 +831,6 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       const overlay = this.#overlayService.create({
         enableClose: false,
         enablePointerEvents: true,
-        position: 'absolute',
         wrapperClass: this.wrapperClass,
       });
 
@@ -941,7 +940,6 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
         isSticky: true,
         placement: 'below',
         horizontalAlignment: 'left',
-        position: 'absolute',
       });
 
       this.#affixer = affixer;

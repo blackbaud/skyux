@@ -39,21 +39,33 @@ describe('Repeater basic demo', () => {
     const expectedContent = [
       {
         title: 'Call Robert Hernandez  Completed',
-        body: 'Robert recently gave a very generous gift.  We should call him to thank him.',
+        body: 'Robert recently gave a very generous gift. We should call him to thank him.',
       },
       {
         title: 'Send invitation to Spring Ball  Past due',
-        body: "The Spring Ball is coming up soon.  Let's get those invitations out!",
+        body: "The Spring Ball is coming up soon. Let's get those invitations out!",
+      },
+      {
+        title: 'Assign prospects  Due tomorrow',
+        body: 'There are 14 new prospects who are not assigned to fundraisers.',
+      },
+      {
+        title: 'Process gift receipts  Due next week',
+        body: 'There are 28 recent gifts that are not receipted.',
       },
     ];
 
-    for (let i = 0; i < repeaterItems!.length; i++) {
-      await expectAsync(repeaterItems![i].getTitleText()).toBeResolvedTo(
-        expectedContent[i].title
-      );
-      await expectAsync(repeaterItems![i].getContentText()).toBeResolvedTo(
-        expectedContent[i].body
-      );
+    expect(repeaterItems?.length).toBe(expectedContent.length);
+
+    if (repeaterItems) {
+      for (let i = 0; i < repeaterItems.length; i++) {
+        await expectAsync(repeaterItems[i].getTitleText()).toBeResolvedTo(
+          expectedContent[i].title
+        );
+        await expectAsync(repeaterItems[i].getContentText()).toBeResolvedTo(
+          expectedContent[i].body
+        );
+      }
     }
   });
 });
