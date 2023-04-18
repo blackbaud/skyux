@@ -9,6 +9,7 @@ import {
   GridOptions,
   ICellRendererParams,
   RowClassParams,
+  SuppressHeaderKeyboardEventParams,
   SuppressKeyboardEventParams,
   ValueFormatterParams,
 } from 'ag-grid-community';
@@ -381,6 +382,9 @@ export class SkyAgGridService implements OnDestroy {
         minWidth: 100,
         resizable: true,
         sortable: true,
+        suppressHeaderKeyboardEvent: (
+          keypress: SuppressHeaderKeyboardEventParams
+        ) => keypress.event.code === 'Tab',
         suppressKeyboardEvent: (keypress: SuppressKeyboardEventParams) =>
           this.#suppressTab(keypress),
       },

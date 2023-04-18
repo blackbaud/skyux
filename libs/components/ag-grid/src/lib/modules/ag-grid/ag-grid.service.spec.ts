@@ -18,6 +18,7 @@ import {
   GridOptions,
   RowClassParams,
   RowNode,
+  SuppressHeaderKeyboardEventParams,
   SuppressKeyboardEventParams,
   ValueFormatterFunc,
   ValueFormatterParams,
@@ -524,15 +525,29 @@ describe('SkyAgGridService', () => {
 
   describe('suppressKeyboardEvent', () => {
     const mockEl = document.createElement('div');
+    let suppressHeaderKeypressFunction: (
+      params: SuppressHeaderKeyboardEventParams<any>
+    ) => boolean;
     let suppressKeypressFunction: (
       params: SuppressKeyboardEventParams<any>
     ) => boolean;
 
     beforeEach(() => {
+      suppressHeaderKeypressFunction = defaultGridOptions.defaultColDef
+        ?.suppressHeaderKeyboardEvent as (
+        params: SuppressHeaderKeyboardEventParams<any>
+      ) => boolean;
       suppressKeypressFunction = defaultGridOptions.defaultColDef
         ?.suppressKeyboardEvent as (
         params: SuppressKeyboardEventParams<any>
       ) => boolean;
+    });
+
+    it('should return true to suppress the event when the tab key is pressed on a header cell', () => {
+      const params = {
+        event: { code: 'Tab' },
+      } as SuppressHeaderKeyboardEventParams;
+      expect(suppressHeaderKeypressFunction(params)).toBe(true);
     });
 
     it('should return true to suppress the event when the tab key is pressed and cells are not being edited', () => {

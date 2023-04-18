@@ -237,15 +237,14 @@ export class SkyAgGridWrapperComponent
       relatedTarget && !!this.#elementRef.nativeElement.contains(relatedTarget);
 
     if (this.agGrid && !previousWasGrid) {
-      const firstColumn = this.agGrid.columnApi
-        .getAllDisplayedColumns()
-        .shift();
-      const rowIndex = this.agGrid.api.getFirstDisplayedRow();
+      const firstColumn = this.agGrid.columnApi.getAllDisplayedColumns()[0];
 
-      if (firstColumn && rowIndex >= 0) {
-        this.agGrid.api.ensureIndexVisible(rowIndex);
+      if (firstColumn) {
         this.agGrid.api.ensureColumnVisible(firstColumn);
-        this.agGrid.api.setFocusedCell(rowIndex, firstColumn);
+        this.#adapterService.focusOnColumnHeader(
+          this.#elementRef.nativeElement,
+          firstColumn.getColId()
+        );
       }
     }
   }
