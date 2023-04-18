@@ -5,19 +5,38 @@
   background-color: #fff;
   @include mixins.sky-border(light, top);
   /* Offset the margin-left of the link */
-  ::ng-deep .sky-btn-link:first-child {
+  .sky-btn-link:first-child {
     margin-left: -12px;
+  }
+
+  .sky-btn + .sky-btn {
+    margin-left: $sky-margin;
+  }
+
+  .sky-btn + .sky-btn-link {
+    margin-left: -2px;
   }
 }
 
-@include mixins.sky-theme-modern {
+.sky-theme-modern {
   .sky-modal-footer-container {
     border-top: none;
     padding: $sky-theme-modern-space-lg $sky-theme-modern-space-xl;
+
+    .sky-btn-link:first-child {
+      margin-left: 0;
+    }
+
+    .sky-btn + .sky-btn-link {
+      margin-left: var(
+        --sky-compat-modal-footer-adjacent-btn-btn-link-margin,
+        $sky-margin
+      );
+    }
   }
 }
 
-@include mixins.sky-theme-modern-dark {
+.sky-theme-modern-dark {
   .sky-modal-footer-container {
     background-color: transparent;
   }

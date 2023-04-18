@@ -1,0 +1,27 @@
+<sky-repeater
+  [expandMode]="expandMode"
+  [reorderable]="reorderable"
+  [(activeIndex)]="activeIndex"
+>
+  <sky-repeater-item
+    *ngFor="let item of items"
+    [selectable]="item.selectable"
+    [disabled]="item.disabled"
+    [isExpanded]="item.expanded"
+    [isSelected]="item.selected"
+    [reorderable]="item.reorderable ?? reorderable"
+    [tag]="item.tag"
+  >
+    <sky-repeater-item-context-menu *ngIf="item.context">
+      <sky-dropdown buttonType="context-menu">
+        <sky-dropdown-button></sky-dropdown-button>
+      </sky-dropdown>
+    </sky-repeater-item-context-menu>
+    <sky-repeater-item-title *ngIf="item.title">
+      {{ item.title }}
+    </sky-repeater-item-title>
+    <sky-repeater-item-content *ngIf="item.message">
+      {{ item.message }}
+    </sky-repeater-item-content>
+  </sky-repeater-item>
+</sky-repeater>
