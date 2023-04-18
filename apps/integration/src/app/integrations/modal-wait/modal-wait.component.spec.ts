@@ -1,4 +1,3 @@
-import { ApplicationRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyLiveAnnouncerService } from '@skyux/core';
 
@@ -6,6 +5,23 @@ import { ModalWaitComponent } from './modal-wait.component';
 import { ModalWaitModule } from './modal-wait.module';
 
 describe('Modals with wait', () => {
+  function checkAriaOwns(): void {
+    const modalDialogElement = getModalDialog();
+
+    const liveAnnouncerElement = document.querySelector(
+      '.sky-live-announcer-element'
+    );
+
+    expect(liveAnnouncerElement)
+      .withContext(
+        'Announcer element should have been set when live announcer was injected'
+      )
+      .toBeTruthy();
+    expect(modalDialogElement?.getAttribute('aria-owns')).toBe(
+      liveAnnouncerElement?.id
+    );
+  }
+
   function closeModal(): void {
     getModalCloseButton()?.click();
     fixture.detectChanges();
@@ -63,73 +79,24 @@ describe('Modals with wait', () => {
   // The `aria-owns` is placed on the modal due to the live announcer being injected into the modal service.
   it('should place aria-owns on the modal if the live announcer has not been used via a wait', () => {
     openModal();
-    const modalDialogElement = getModalDialog();
-
-    const liveAnnouncerElement = document.querySelector(
-      '.sky-live-announcer-element'
-    );
-
-    if (!liveAnnouncerElement) {
-      fail(
-        'Announcer element should have been set when live announcer was injected'
-      );
-      return;
-    }
-
-    expect(modalDialogElement?.getAttribute('aria-owns')).toBe(
-      liveAnnouncerElement.id
-    );
+    checkAriaOwns();
   });
 
   it('should add aria-owns to the modal if the live announcer has been used via an external wait', () => {
     triggerPageWait();
     fixture.detectChanges();
-    TestBed.inject(ApplicationRef).tick();
 
     openModal();
 
-    const liveAnnouncerElement = document.querySelector(
-      '.sky-live-announcer-element'
-    );
-
-    if (!liveAnnouncerElement) {
-      fail(
-        'Announcer element should have been set when live announcer was injected'
-      );
-      return;
-    }
-
-    const modalDialogElement = getModalDialog();
-
-    expect(modalDialogElement?.getAttribute('aria-owns')).toBe(
-      liveAnnouncerElement.id
-    );
+    checkAriaOwns();
   });
 
   it('should add aria-owns to the modal if the live announcer has been used via an internal wait', () => {
     openModal();
 
-    let modalDialogElement = getModalDialog();
-
     triggerModalWait();
     fixture.detectChanges();
-    TestBed.inject(ApplicationRef).tick();
 
-    const liveAnnouncerElement = document.querySelector(
-      '.sky-live-announcer-element'
-    );
-
-    if (!liveAnnouncerElement) {
-      fail(
-        'Announcer element should have been set when live announcer was injected'
-      );
-      return;
-    }
-
-    modalDialogElement = getModalDialog();
-
-    expect(modalDialogElement?.getAttribute('aria-owns')).toBe(
-      liveAnnouncerElement.id
-    );
+    checkAriaOwns();
   });
 });

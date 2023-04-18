@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyModalService } from '@skyux/modals';
 
 import { ModalWaitModalComponent } from './modal-wait-modal.component';
@@ -16,12 +11,7 @@ import { ModalWaitModalComponent } from './modal-wait-modal.component';
 export class ModalWaitComponent {
   public isWaiting = false;
 
-  #changeDetector = inject(ChangeDetectorRef);
-  #modalService: SkyModalService;
-
-  constructor(modalService: SkyModalService) {
-    this.#modalService = modalService;
-  }
+  #modalService = inject(SkyModalService);
 
   public openModal(): void {
     this.#modalService.open(ModalWaitModalComponent);
@@ -29,12 +19,5 @@ export class ModalWaitComponent {
 
   public triggerWait(): void {
     this.isWaiting = true;
-    setTimeout(
-      /* istanbul ignore next */ () => {
-        this.isWaiting = false;
-        this.#changeDetector.markForCheck();
-      },
-      5000
-    );
   }
 }

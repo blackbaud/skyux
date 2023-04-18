@@ -105,16 +105,17 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
   #hostService: SkyModalHostService;
   #elRef: ElementRef;
   #windowRef: SkyAppWindowRef;
-  #changeDetector = inject(ChangeDetectorRef);
   #componentAdapter: SkyModalComponentAdapterService;
   #coreAdapter: SkyCoreAdapterService;
   #dockService: SkyDockService;
-  #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
   #mediaQueryService: SkyResizeObserverMediaQueryService | undefined;
   #ngUnsubscribe = new Subject<void>();
-
+  
   #_ariaDescribedBy: string | undefined;
   #_ariaLabelledBy: string | undefined;
+  
+  #changeDetector = inject(ChangeDetectorRef);
+  #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
 
   constructor(
     hostService: SkyModalHostService,
