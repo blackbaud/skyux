@@ -232,23 +232,19 @@ export class SkyAgGridWrapperComponent
   }
 
   public onAnchorFocus(event: FocusEvent): void {
-    const gridId = this.gridId;
-    const relatedTarget = event.relatedTarget as HTMLElement;
-    const previousFocusedId = relatedTarget && relatedTarget.id;
-    const previousWasCell =
-      relatedTarget &&
-      !!this.#adapterService.getElementOrParentWithClass(
-        relatedTarget,
-        'ag-cell'
-      );
+    const relatedTarget = event.relatedTarget as HTMLElement | undefined;
+    const previousWasGrid =
+      relatedTarget && !!this.#elementRef.nativeElement.contains(relatedTarget);
 
-    if (previousFocusedId !== gridId && !previousWasCell) {
-      const columns = this.agGrid?.columnApi.getAllDisplayedColumns();
-      const firstColumn = columns?.[0];
-      const rowIndex = this.agGrid?.api.getFirstDisplayedRow();
+    if (this.agGrid && !previousWasGrid) {
+      const firstColumn = this.agGrid.columnApi.getAllDisplayedColumns()[0];
 
-      if (firstColumn && rowIndex !== undefined && rowIndex >= 0) {
-        this.agGrid?.api.setFocusedCell(rowIndex, firstColumn);
+      if (firstColumn) {
+        this.agGrid.api.ensureColumnVisible(firstColumn);
+        this.#adapterService.focusOnColumnHeader(
+          this.#elementRef.nativeElement,
+          firstColumn.getColId()
+        );
       }
     }
   }

@@ -29,6 +29,8 @@ export class SkyRepeaterItemHarness extends SkyComponentHarness {
 
   #getContent = this.locatorFor('.sky-repeater-item-content');
 
+  #getItem = this.locatorFor('.sky-repeater-item');
+
   #getReorderHandle = this.locatorForOptional(
     'button.sky-repeater-item-grab-handle'
   );
@@ -49,27 +51,6 @@ export class SkyRepeaterItemHarness extends SkyComponentHarness {
       .addOption('titleText', filters.titleText, async (harness, text) =>
         HarnessPredicate.stringMatches(await harness.getTitleText(), text)
       );
-  }
-
-  /**
-   * Whether the repeater item is selectable.
-   */
-  public async isSelectable(): Promise<boolean> {
-    return !!(await this.#getCheckbox());
-  }
-
-  /**
-   * Whether the repeater item is selected.
-   */
-  public async isSelected(): Promise<boolean> {
-    const checkbox = await this.#getCheckbox();
-    if (!checkbox) {
-      throw new Error(
-        'Could not determine if repeater item is selected because it is not selectable.'
-      );
-    }
-
-    return checkbox.isChecked();
   }
 
   /**
@@ -102,6 +83,34 @@ export class SkyRepeaterItemHarness extends SkyComponentHarness {
    */
   public async querySelectorAll(selector: string): Promise<TestElement[]> {
     return this.locatorForAll(selector)();
+  }
+
+  /**
+   * Clicks on the repeater item.
+   */
+  public async click(): Promise<void> {
+    await (await this.#getItem()).click();
+  }
+
+  /**
+   * Whether the repeater item is selectable.
+   */
+  public async isSelectable(): Promise<boolean> {
+    return !!(await this.#getCheckbox());
+  }
+
+  /**
+   * Whether the repeater item is selected.
+   */
+  public async isSelected(): Promise<boolean> {
+    const checkbox = await this.#getCheckbox();
+    if (!checkbox) {
+      throw new Error(
+        'Could not determine if repeater item is selected because it is not selectable.'
+      );
+    }
+
+    return checkbox.isChecked();
   }
 
   /**

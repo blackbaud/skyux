@@ -13,6 +13,8 @@ import { RepeaterDemoComponent as RepeaterAddRemoveDemoComponent } from '../code
 import { RepeaterDemoModule as RepeaterAddRemoveDemoModule } from '../code-examples/lists/repeater/add-remove/repeater-demo.module';
 import { RepeaterDemoComponent as RepeaterBasicDemoComponent } from '../code-examples/lists/repeater/basic/repeater-demo.component';
 import { RepeaterDemoModule as RepeaterBasicDemoModule } from '../code-examples/lists/repeater/basic/repeater-demo.module';
+import { RepeaterDemoComponent as RepeaterInlineFormDemoComponent } from '../code-examples/lists/repeater/inline-form/repeater-demo.component';
+import { RepeaterDemoModule as RepeaterInlineFormDemoModule } from '../code-examples/lists/repeater/inline-form/repeater-demo.module';
 import { SortDemoComponent } from '../code-examples/lists/sort/basic/sort-demo.component';
 import { SortDemoModule } from '../code-examples/lists/sort/basic/sort-demo.module';
 
@@ -42,6 +44,10 @@ const routes: Routes = [
     component: RepeaterAddRemoveDemoComponent,
   },
   {
+    path: 'repeater/inline-form',
+    component: RepeaterInlineFormDemoComponent,
+  },
+  {
     path: 'sort/basic',
     component: SortDemoComponent,
   },
@@ -58,6 +64,7 @@ export class ListsFeatureRoutingModule {}
     ListsFeatureRoutingModule,
     RepeaterAddRemoveDemoModule,
     RepeaterBasicDemoModule,
+    RepeaterInlineFormDemoModule,
     FilterDemoModule,
     FilterModalModule,
     InfiniteScrollRepeaterModule,
