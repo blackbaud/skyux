@@ -350,17 +350,15 @@ describe('SkyAgGridWrapperComponent', () => {
         '#button-after-grid'
       ) as HTMLElement;
       const column = new Column({}, {}, 'name', true);
-      const rowIndex = 0;
 
       spyOn(agGrid.columnApi, 'getAllDisplayedColumns').and.returnValue([
         column,
       ]);
-      spyOn(agGrid.api, 'getFirstDisplayedRow').and.returnValue(rowIndex);
-      spyOn(agGrid.api, 'setFocusedCell');
+      spyOn(agGrid.api, 'ensureColumnVisible').and.stub();
 
       focusOnAnchor(afterAnchorEl, afterButtonEl);
 
-      expect(agGrid.api.setFocusedCell).toHaveBeenCalledWith(rowIndex, column);
+      expect(agGrid.api.ensureColumnVisible).toHaveBeenCalledWith(column);
     });
 
     it('should not shift focus to the first grid cell if there is no cell', () => {
