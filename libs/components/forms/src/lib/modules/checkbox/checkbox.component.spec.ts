@@ -20,6 +20,8 @@ import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyLogService } from '@skyux/core';
 
+import { sampleTime } from 'rxjs/operators';
+
 import { SkyCheckboxChange } from './checkbox-change';
 import { SkyCheckboxComponent } from './checkbox.component';
 import { SkyCheckboxModule } from './checkbox.module';
@@ -956,6 +958,34 @@ describe('Checkbox component', () => {
       fixture.detectChanges();
       expect(inputElement?.getAttribute('required')).toBeNull();
       expect(inputElement?.getAttribute('aria-required')).toBeNull();
+    });
+
+    it('should only emit the form control valueChanged event once per change', (done) => {
+      fixture.detectChanges();
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      const callback = function (): void {};
+      const callbackSpy = jasmine.createSpy('callback', callback);
+      formControl.valueChanges.subscribe(() => {
+        callbackSpy();
+      });
+      // This will give us 10 milliseconds pause before emitting the final valueChanges event that
+      // was fired. Testing was done to ensure this was enough time to catch any bad behavior
+      const subscription = formControl.valueChanges
+        .pipe(sampleTime(10))
+        .subscribe(() => {
+          expect(callbackSpy).toHaveBeenCalledTimes(1);
+        })
+        .add(() => {
+          done();
+        });
+
+      labelElement?.click();
+
+      // Unsubscribe after 20 milliseconds so that the `add` callback will fire to end the test.
+      // Tested to ensure this is enough time to catch this issue.
+      setTimeout(() => {
+        subscription.unsubscribe();
+      }, 20);
     });
   });
 
