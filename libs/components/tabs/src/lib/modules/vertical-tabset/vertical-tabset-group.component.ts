@@ -31,7 +31,7 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
   @Input()
   public set disabled(value: boolean | undefined) {
     this.#_disabled = value;
-    this.#slideForExpanded(false);
+    this.#updateSlideDirection(false);
   }
 
   public get disabled(): boolean | undefined {
@@ -51,7 +51,7 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
   @Input()
   public set open(value: boolean | undefined) {
     this.#_open = value;
-    this.#slideForExpanded(false);
+    this.#updateSlideDirection(false);
   }
 
   public get open(): boolean | undefined {
@@ -100,7 +100,6 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
   }
 
   public updateSlideDirection(event: any): void {
-    console.log(event);
     this.slideDirection = event.toState;
   }
 
@@ -109,7 +108,7 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
       this.open = !this.open;
     }
 
-    this.#slideForExpanded(true);
+    this.#updateSlideDirection(true);
     this.#changeRef.markForCheck();
   }
 
@@ -130,11 +129,11 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
   public tabsShown = () => {
     // Set the animation back up so that the "void" state is returned to where it was prior to the tabs being hidden.
     // This will be instantaneous due to there not being a "void -> *" state on the slide animation.
-    this.#slideForExpanded(true);
+    this.#updateSlideDirection(true);
     this.#changeRef.markForCheck();
   };
 
-  #slideForExpanded(animate: boolean): void {
+  #updateSlideDirection(animate: boolean): void {
     this.animationDisabled = !animate;
     this.slideDirection = this.open && !this.disabled ? 'down' : 'up';
   }
