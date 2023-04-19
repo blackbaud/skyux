@@ -80,13 +80,18 @@ jobs:
           github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           script: |
             const pr = context.payload.pull_request;
+            let body = `:cherries: Cherry picked from #${pr.number} [${pr.title}](${pr.html_url})`
+            const prAzureBoardLink = pr.body.match(/(?<=\[)AB#\d+(?=])/g);
+            if (prAzureBoardLink) {
+              body += `\n\n${prAzureBoardLink.join(' \n')} `;
+            }
             github.rest.pulls.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
               head: process.env.CHERRY_PICK_BRANCH,
               base: process.env.TARGET_BRANCH,
               title: `${pr.title} (#${pr.number})`,
-              body: `:cherries: Cherry picked from #${pr.number} [${pr.title}](${pr.html_url})`
+              body
             }).then(result => {
               console.log(`Created PR #${result.data.number}: ${result.data.html_url}`);
               core.exportVariable('PR_URL', result.data.html_url);
