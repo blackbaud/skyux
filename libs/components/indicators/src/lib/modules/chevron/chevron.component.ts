@@ -65,4 +65,21 @@ export class SkyChevronComponent {
     this.direction = this.directionOrDefault === 'up' ? 'down' : 'up';
     this.directionChange.emit(this.directionOrDefault);
   }
+
+  public chevronKeyDown(event: KeyboardEvent): void {
+    /* istanbul ignore else */
+    if (event.key) {
+      switch (event.key.toLowerCase()) {
+        case ' ':
+        case 'enter':
+          this.direction = this.directionOrDefault === 'up' ? 'down' : 'up';
+          this.directionChange.emit(this.directionOrDefault);
+          event.preventDefault();
+          event.stopPropagation();
+          break;
+        default:
+          break;
+      }
+    }
+  }
 }

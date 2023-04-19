@@ -10,6 +10,7 @@
     'sky-btn sky-btn-icon-borderless': 'modern'
   }"
   (click)="chevronClick($event)"
+  (keydown)="chevronKeyDown($event)"
 >
   <sky-expansion-indicator
     [direction]="directionOrDefault"

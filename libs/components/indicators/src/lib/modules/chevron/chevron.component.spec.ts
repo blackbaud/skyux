@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyThemeService } from '@skyux/theme';
 
 import { take } from 'rxjs/operators';
@@ -37,6 +37,12 @@ describe('Chevron component', () => {
     getChevronEl().click();
   }
 
+  function keyChevron(keyName: string): void {
+    SkyAppTestUtility.fireDomEvent(getChevronEl(), 'keydown', {
+      keyboardEventInit: { key: keyName },
+    });
+  }
+
   it('should change direction when the user clicks the chevron', () => {
     const cmp = fixture.componentInstance as SkyChevronComponent;
     const el = fixture.nativeElement;
@@ -55,6 +61,35 @@ describe('Chevron component', () => {
     });
 
     clickChevron(el);
+  });
+
+  it('should change direction when the user activates the chevron with correct keyboard inputs', () => {
+    const cmp = fixture.componentInstance as SkyChevronComponent;
+
+    fixture.detectChanges();
+    validateDirection('up');
+
+    cmp.directionChange.pipe(take(1)).subscribe(() => {
+      validateDirection('down');
+    });
+
+    keyChevron(' ');
+
+    cmp.directionChange.pipe(take(1)).subscribe(() => {
+      validateDirection('up');
+    });
+
+    keyChevron('enter');
+
+    cmp.directionChange.pipe(take(1)).subscribe(() => {
+      validateDirection('down');
+    });
+
+    keyChevron('arrowUp');
+
+    cmp.directionChange.pipe(take(1)).subscribe(() => {
+      validateDirection('down');
+    });
   });
 
   it('should handle an undefined direction being passed in', () => {
