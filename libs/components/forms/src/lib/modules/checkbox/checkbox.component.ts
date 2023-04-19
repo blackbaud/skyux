@@ -166,15 +166,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
     const checked = !!value;
     if (checked !== this.#_checked) {
       this.#_checked = checked;
-      this.#controlValueAccessorChangeFn(checked);
       this.#checkedChange.next(checked);
-
-      // Do not mark the field as "dirty"
-      // if the field has been initialized with a value.
-      if (this.#isFirstChange && this.#ngControl && this.#ngControl.control) {
-        this.#ngControl.control.markAsPristine();
-        this.#isFirstChange = false;
-      }
     }
   }
 
@@ -269,8 +261,6 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   #indeterminateChange: BehaviorSubject<boolean>;
 
   #indeterminateChangeObs: Observable<boolean>;
-
-  #isFirstChange = true;
 
   #_checked = false;
 
@@ -367,6 +357,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
     if (!this.disabled) {
       this.indeterminate = false;
       this.#toggle();
+      this.#controlValueAccessorChangeFn(this.checked);
       this.#emitChangeEvent();
     }
   }
@@ -384,7 +375,6 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   #controlValueAccessorChangeFn: (value: any) => void = (value) => {};
 
   #emitChangeEvent(): void {
-    this.#controlValueAccessorChangeFn(this.checked);
     this.change.emit({ source: this, checked: this.checked });
   }
 
