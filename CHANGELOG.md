@@ -1,5 +1,18 @@
 # Changelog
 
+## [7.20.0](https://github.com/blackbaud/skyux/compare/7.19.0...7.20.0) (2023-04-19)
+
+
+### Features
+
+* **components/lists:** add click method to repeater item test harness ([#1279](https://github.com/blackbaud/skyux/issues/1279)) ([3ba3dba](https://github.com/blackbaud/skyux/commit/3ba3dbaccfa2edf2b4a4b725ed16d7b3bcedc982))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** change tab navigation into grid ([#1276](https://github.com/blackbaud/skyux/issues/1276)) ([11cd85c](https://github.com/blackbaud/skyux/commit/11cd85c1a1ceba25b09ab654d5d48080cdcfd6f3))
+* **components/tabs:** vertical tab animation states reset correctly when transitioning between responsive states ([#1282](https://github.com/blackbaud/skyux/issues/1282)) ([379ee60](https://github.com/blackbaud/skyux/commit/379ee60446dcca2b70f0e46b42a7c2cbc909b35e))
+
 ## [7.19.0](https://github.com/blackbaud/skyux/compare/7.18.0...7.19.0) (2023-04-13)
 
 
