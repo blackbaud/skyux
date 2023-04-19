@@ -81,7 +81,7 @@ jobs:
           script: |
             const pr = context.payload.pull_request;
             let body = `:cherries: Cherry picked from #${pr.number} [${pr.title}](${pr.html_url})`
-            const prAzureBoardLink = pr.body.match(/(?<=\[)AB#\d+(?=])/g);
+            const prAzureBoardLink = pr.body?.match(/(?<=\[)AB#\d+(?=])/g);
             if (prAzureBoardLink) {
               body += `\n\n${prAzureBoardLink.join(' \n')} `;
             }
