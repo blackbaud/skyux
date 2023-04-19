@@ -29,7 +29,14 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
    * @default false
    */
   @Input()
-  public disabled: boolean | undefined;
+  public set disabled(value: boolean | undefined) {
+    this.#_disabled = value;
+    this.#updateSlideDirection(false);
+  }
+
+  public get disabled(): boolean | undefined {
+    return this.#_disabled;
+  }
 
   /**
    * The header for the collapsible group of tabs.
@@ -42,17 +49,28 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
    * @default false
    */
   @Input()
-  public open: boolean | undefined;
+  public set open(value: boolean | undefined) {
+    this.#_open = value;
+    this.#updateSlideDirection(false);
+  }
+
+  public get open(): boolean | undefined {
+    return this.#_open;
+  }
 
   @ContentChildren(SkyVerticalTabComponent)
   public tabs: QueryList<SkyVerticalTabComponent> | undefined;
 
-  #ngUnsubscribe = new Subject<void>();
+  public animationDisabled = false;
+  public slideDirection: 'down' | 'up' | 'void' = 'up';
 
-  #openBeforeTabsHidden: boolean | undefined = false;
+  #ngUnsubscribe = new Subject<void>();
 
   #tabService: SkyVerticalTabsetService;
   #changeRef: ChangeDetectorRef;
+
+  #_disabled: boolean | undefined;
+  #_open: boolean | undefined;
 
   constructor(
     tabService: SkyVerticalTabsetService,
@@ -81,11 +99,16 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
     this.#ngUnsubscribe.complete();
   }
 
+  public updateSlideDirection(event: any): void {
+    this.slideDirection = event.toState;
+  }
+
   public toggleMenuOpen(): void {
     if (!this.disabled) {
       this.open = !this.open;
     }
 
+    this.#updateSlideDirection(true);
     this.#changeRef.markForCheck();
   }
 
@@ -98,14 +121,20 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
   };
 
   public tabsHidden = () => {
-    // this fixes an animation bug with ngIf when the parent component goes from visible to hidden
-    this.#openBeforeTabsHidden = this.open;
-    this.open = false;
+    // Angular will sometimes place the animation into the "void" state when tabs are hidden. Update our internal variable to reflect that.
+    this.slideDirection = 'void';
     this.#changeRef.markForCheck();
   };
 
   public tabsShown = () => {
-    this.open = this.#openBeforeTabsHidden;
+    // Set the animation back up so that the "void" state is returned to where it was prior to the tabs being hidden.
+    // This will be instantaneous due to there not being a "void -> *" state on the slide animation.
+    this.#updateSlideDirection(true);
     this.#changeRef.markForCheck();
   };
+
+  #updateSlideDirection(animate: boolean): void {
+    this.animationDisabled = !animate;
+    this.slideDirection = this.open && !this.disabled ? 'down' : 'up';
+  }
 }

@@ -21,5 +21,5 @@ const routes: ComponentRouteInfo[] = [
   imports: [RouterModule.forChild(routes)],
 })
 export class VerticalTabsetRoutingModule {
-  public static routes;
+  public static routes = routes;
 }
