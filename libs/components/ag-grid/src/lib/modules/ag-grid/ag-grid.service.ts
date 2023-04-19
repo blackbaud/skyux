@@ -9,6 +9,7 @@ import {
   GridOptions,
   ICellRendererParams,
   RowClassParams,
+  SuppressHeaderKeyboardEventParams,
   SuppressKeyboardEventParams,
   ValueFormatterParams,
 } from 'ag-grid-community';
@@ -382,6 +383,9 @@ export class SkyAgGridService implements OnDestroy {
         minWidth: 100,
         resizable: true,
         sortable: true,
+        suppressHeaderKeyboardEvent: (
+          keypress: SuppressHeaderKeyboardEventParams
+        ) => keypress.event.code === 'Tab',
         suppressKeyboardEvent: (keypress: SuppressKeyboardEventParams) =>
           this.#suppressTab(keypress),
       },
@@ -389,6 +393,7 @@ export class SkyAgGridService implements OnDestroy {
         headerGroupComponent: SkyAgGridHeaderGroupComponent,
       },
       domLayout: 'autoHeight',
+      ensureDomOrder: true,
       enterMovesDownAfterEdit: true,
       components: {
         'sky-ag-grid-cell-renderer-currency':
@@ -555,7 +560,7 @@ export class SkyAgGridService implements OnDestroy {
           currentlyFocusedEl,
           'ag-popup-editor'
         );
-        const parentEl = cellEl || (popupEl as HTMLElement);
+        const parentEl = cellEl || popupEl;
 
         const nextFocusableElementInCell =
           this.#agGridAdapterService.getNextFocusableElement(
