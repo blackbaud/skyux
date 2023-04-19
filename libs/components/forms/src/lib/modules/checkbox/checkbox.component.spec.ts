@@ -965,9 +965,11 @@ describe('Checkbox component', () => {
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       const callback = function (): void {};
       const callbackSpy = jasmine.createSpy('callback', callback);
+
       formControl.valueChanges.subscribe(() => {
         callbackSpy();
       });
+
       // This will give us 10 milliseconds pause before emitting the final valueChanges event that
       // was fired. Testing was done to ensure this was enough time to catch any bad behavior
       const subscription = formControl.valueChanges
