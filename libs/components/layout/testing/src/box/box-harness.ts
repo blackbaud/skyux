@@ -13,7 +13,7 @@ export class SkyBoxHarness extends SkyComponentHarness {
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
-   * `SkyModalHarness` that meets certain criteria
+   * `SkyBoxHarness` that meets certain criteria
    */
   public static with(
     filters: SkyBoxHarnessFilters

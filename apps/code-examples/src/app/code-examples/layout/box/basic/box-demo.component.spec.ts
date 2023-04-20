@@ -5,7 +5,7 @@ import { SkyBoxHarness } from '@skyux/layout/testing';
 import { BoxDemoComponent } from './box-demo.component';
 import { BoxDemoModule } from './box-demo.module';
 
-fdescribe('Basic box', async () => {
+describe('Basic box', async () => {
   async function setupTest(): Promise<{
     boxHarness: SkyBoxHarness;
     fixture: ComponentFixture<BoxDemoComponent>;
