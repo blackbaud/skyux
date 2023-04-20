@@ -1,5 +1,21 @@
 # Changelog
 
+## [8.0.0-beta.1](https://github.com/blackbaud/skyux/compare/8.0.0-beta.0...8.0.0-beta.1) (2023-04-20)
+
+
+### Features
+
+* **components/indicators:** add keyboard support to chevron component ([#1298](https://github.com/blackbaud/skyux/issues/1298)) ([#1299](https://github.com/blackbaud/skyux/issues/1299)) ([1f783b2](https://github.com/blackbaud/skyux/commit/1f783b298ad3a63d8b6e808ec5d379c2a55ca0a0))
+* **components/layout:** box test harness ([#1300](https://github.com/blackbaud/skyux/issues/1300)) ([#1303](https://github.com/blackbaud/skyux/issues/1303)) ([80aec78](https://github.com/blackbaud/skyux/commit/80aec78d1ed1e8ec798057f5d343e43ecc68854c))
+
+
+### Bug Fixes
+
+* **components/forms:** checkboxes only emit from the `valueChanges` reacive form observable once when the value changes and do not mark the form as dirty on programmatic changes ([#1292](https://github.com/blackbaud/skyux/issues/1292)) ([#1294](https://github.com/blackbaud/skyux/issues/1294)) ([3c68e8c](https://github.com/blackbaud/skyux/commit/3c68e8c349dfbbf903821ac5a486ae38e409ef5d))
+* **components/forms:** file attachment component does not place invalid `aria-required` attribute on the label ([#1301](https://github.com/blackbaud/skyux/issues/1301)) ([#1304](https://github.com/blackbaud/skyux/issues/1304)) ([cf5cf38](https://github.com/blackbaud/skyux/commit/cf5cf38eaee8d0cd45410aa284f19425c9698a06))
+* **components/lists:** update inline form code examples to align with design guidelines ([#1297](https://github.com/blackbaud/skyux/issues/1297)) ([#1305](https://github.com/blackbaud/skyux/issues/1305)) ([df599fc](https://github.com/blackbaud/skyux/commit/df599fcb3c8837e0573e7b4957e9cf16eae6bfe3))
+* replace internal instances of deprecated `sky-section-heading` and `sky-headline` classes ([#1302](https://github.com/blackbaud/skyux/issues/1302)) ([e77da48](https://github.com/blackbaud/skyux/commit/e77da48c56c87e98a74e0c4b3da0e783b2e24c7c))
+
 ## [7.21.0](https://github.com/blackbaud/skyux/compare/7.20.0...7.21.0) (2023-04-20)
 
 
