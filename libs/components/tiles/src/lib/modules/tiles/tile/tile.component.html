@@ -12,13 +12,7 @@
       <div class="sky-tile-header-title" #titleContainer>
         <ng-content select="sky-tile-title"></ng-content>
       </div>
-      <div
-        class="sky-tile-summary"
-        [skyThemeClass]="{
-          'sky-font-display-3': 'modern',
-          'sky-headline': 'default'
-        }"
-      >
+      <div class="sky-tile-summary sky-font-display-3">
         <ng-content select="sky-tile-summary"></ng-content>
       </div>
     </div>
