@@ -23,8 +23,44 @@
     [inlineFormTemplate]="inlineForm"
     [showInlineForm]="true"
   >
+    <sky-repeater-item-context-menu>
+      <button
+        aria-label="Edit"
+        class="sky-btn sky-btn-icon-borderless"
+        type="button"
+      >
+        <sky-icon *skyThemeIf="'default'" icon="pencil"></sky-icon>
+        <sky-icon
+          *skyThemeIf="'modern'"
+          icon="edit"
+          iconType="skyux"
+        ></sky-icon>
+      </button>
+    </sky-repeater-item-context-menu>
     <sky-repeater-item-title>Item 3</sky-repeater-item-title>
     <sky-repeater-item-content>Content 3</sky-repeater-item-content>
+  </sky-repeater-item>
+  <sky-repeater-item
+    tag="item3"
+    [inlineFormTemplate]="inlineForm"
+    [showInlineForm]="false"
+  >
+    <sky-repeater-item-context-menu>
+      <button
+        aria-label="Edit"
+        class="sky-btn sky-btn-icon-borderless"
+        type="button"
+      >
+        <sky-icon *skyThemeIf="'default'" icon="pencil"></sky-icon>
+        <sky-icon
+          *skyThemeIf="'modern'"
+          icon="edit"
+          iconType="skyux"
+        ></sky-icon>
+      </button>
+    </sky-repeater-item-context-menu>
+    <sky-repeater-item-title>Item 4</sky-repeater-item-title>
+    <sky-repeater-item-content>Content 4</sky-repeater-item-content>
   </sky-repeater-item>
 </sky-repeater>
 <sky-repeater expandMode="multiple">
@@ -35,14 +71,14 @@
     <sky-repeater-item-title>Item 1</sky-repeater-item-title>
     <sky-repeater-item-content>Content 1</sky-repeater-item-content>
   </sky-repeater-item>
-  <sky-repeater-item>
+  <sky-repeater-item [isExpanded]="false">
     <sky-repeater-item-context-menu>
       <sky-dropdown buttonType="context-menu"></sky-dropdown>
     </sky-repeater-item-context-menu>
     <sky-repeater-item-title>Item 2</sky-repeater-item-title>
     <sky-repeater-item-content>Content 2</sky-repeater-item-content>
   </sky-repeater-item>
-  <sky-repeater-item [isExpanded]="false">
+  <sky-repeater-item [inlineFormTemplate]="inlineForm" [showInlineForm]="false">
     <sky-repeater-item-context-menu>
       <sky-dropdown buttonType="context-menu"></sky-dropdown>
     </sky-repeater-item-context-menu>
