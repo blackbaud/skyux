@@ -32,7 +32,9 @@
     class="sky-vertical-tabset-group-content"
     skyId
     [attr.labelledby]="groupHeadingButton.id"
-    [@skyAnimationSlide]="!disabled && open ? 'down' : 'up'"
+    [@.disabled]="animationDisabled"
+    [@skyAnimationSlide]="slideDirection"
+    (@skyAnimationSlide.done)="updateSlideDirection($event)"
     #groupContent
   >
     <ng-content></ng-content>
