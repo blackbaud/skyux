@@ -25,6 +25,7 @@
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
+        "main": "libs/components/layout/src/test.ts",
         "tsConfig": "libs/components/layout/tsconfig.spec.json",
         "karmaConfig": "libs/components/layout/karma.conf.js",
         "styles": [
