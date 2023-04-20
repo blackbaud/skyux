@@ -1,5 +1,20 @@
 # Changelog
 
+## [7.21.0](https://github.com/blackbaud/skyux/compare/7.20.0...7.21.0) (2023-04-20)
+
+
+### Features
+
+* **components/indicators:** add keyboard support to chevron component ([#1298](https://github.com/blackbaud/skyux/issues/1298)) ([72bd4bd](https://github.com/blackbaud/skyux/commit/72bd4bd4c8d4f577c0c3ff443f96ed8282be001d))
+* **components/layout:** box test harness ([#1300](https://github.com/blackbaud/skyux/issues/1300)) ([1efcb19](https://github.com/blackbaud/skyux/commit/1efcb1996b40f0efcfe2c17f03a95ba005a8d7be))
+
+
+### Bug Fixes
+
+* **components/forms:** checkboxes only emit from the `valueChanges` reacive form observable once when the value changes and do not mark the form as dirty on programmatic changes ([#1292](https://github.com/blackbaud/skyux/issues/1292)) ([30fff44](https://github.com/blackbaud/skyux/commit/30fff44ea6bd73313ea7830dca1a50bd58e3a8cf))
+* **components/forms:** file attachment component does not place invalid `aria-required` attribute on the label ([#1301](https://github.com/blackbaud/skyux/issues/1301)) ([6f43fc0](https://github.com/blackbaud/skyux/commit/6f43fc08d32501a6f69b52a39cd1b85aa253d443))
+* **components/lists:** update inline form code examples to align with design guidelines ([#1297](https://github.com/blackbaud/skyux/issues/1297)) ([0804c98](https://github.com/blackbaud/skyux/commit/0804c986bfe0c7f71bc460e86ac6896ccde9f94c))
+
 ## [8.0.0-beta.0](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.21...8.0.0-beta.0) (2023-04-19)
 
 
