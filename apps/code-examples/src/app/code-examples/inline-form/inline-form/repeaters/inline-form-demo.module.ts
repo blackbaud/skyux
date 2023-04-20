@@ -6,6 +6,7 @@ import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyInlineFormModule } from '@skyux/inline-form';
 import { SkyRepeaterModule } from '@skyux/lists';
+import { SkyThemeModule } from '@skyux/theme';
 
 import { InlineFormDemoComponent } from './inline-form-demo.component';
 
@@ -18,6 +19,7 @@ import { InlineFormDemoComponent } from './inline-form-demo.component';
     SkyInlineFormModule,
     SkyInputBoxModule,
     SkyRepeaterModule,
+    SkyThemeModule,
   ],
   exports: [InlineFormDemoComponent],
   declarations: [InlineFormDemoComponent],
