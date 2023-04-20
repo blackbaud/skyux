@@ -6,21 +6,26 @@
     [showInlineForm]="activeInlineFormId === item.id"
     (inlineFormClose)="onInlineFormClose($event)"
   >
-    <sky-repeater-item-title class="demo-repeater-flex">
-      <div class="demo-repeater-item-title sky-font-emphasized">
+    <sky-repeater-item-title>
+      <div class="sky-font-emphasized">
         {{ item.title }}
       </div>
-      <div>
-        <button
-          aria-label="Edit"
-          class="sky-btn sky-btn-link sky-btn-link-inline sky-no-focus sky-demo-btn-edit"
-          type="button"
-          (click)="showInlineForm(item)"
-        >
-          <sky-icon icon="pencil"> </sky-icon>
-        </button>
-      </div>
     </sky-repeater-item-title>
+    <sky-repeater-item-context-menu>
+      <button
+        aria-label="Edit"
+        class="sky-btn sky-btn-icon-borderless"
+        type="button"
+        (click)="showInlineForm(item)"
+      >
+        <sky-icon *skyThemeIf="'default'" icon="pencil"></sky-icon>
+        <sky-icon
+          *skyThemeIf="'modern'"
+          icon="edit"
+          iconType="skyux"
+        ></sky-icon>
+      </button>
+    </sky-repeater-item-context-menu>
 
     <sky-repeater-item-content>
       {{ item.note }}

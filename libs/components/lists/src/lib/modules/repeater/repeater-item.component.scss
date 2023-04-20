@@ -19,6 +19,7 @@ sky-repeater-item {
       .sky-slide-dissolve-first,
       .sky-slide-dissolve-last {
         display: flex;
+        align-items: flex-start;
         flex: 1 0 auto;
         width: 100%;
       }
