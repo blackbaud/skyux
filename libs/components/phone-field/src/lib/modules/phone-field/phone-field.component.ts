@@ -412,24 +412,28 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     for (let i = 1; i < this.#longestDialCodeLength + 1; i++) {
       const dialCode = phoneNumber.substring(0, i);
 
-      let foundCountry = this.countries.find(
-        (country) => country.dialCode === dialCode && country.priority === 0
-      );
+      if (this.#defaultCountryData?.dialCode === dialCode) {
+        newCountry = this.#defaultCountryData;
+      } else {
+        let foundCountry = this.countries.find(
+          (country) => country.dialCode === dialCode && country.priority === 0
+        );
 
-      if (foundCountry) {
-        // Ensure that the country that was found is one of the supported countries
-        if (
-          this.supportedCountryISOs &&
-          this.supportedCountryISOs.findIndex(
-            (isoCode) =>
-              isoCode.toUpperCase() === foundCountry?.iso2.toUpperCase()
-          ) < 0
-        ) {
-          foundCountry = undefined;
-        }
+        if (foundCountry) {
+          // Ensure that the country that was found is one of the supported countries
+          if (
+            this.supportedCountryISOs &&
+            this.supportedCountryISOs.findIndex(
+              (isoCode) =>
+                isoCode.toUpperCase() === foundCountry?.iso2.toUpperCase()
+            ) < 0
+          ) {
+            foundCountry = undefined;
+          }
 
-        if (foundCountry !== this.selectedCountry) {
-          newCountry = foundCountry;
+          if (foundCountry !== this.selectedCountry) {
+            newCountry = foundCountry;
+          }
         }
       }
     }
