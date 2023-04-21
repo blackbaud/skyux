@@ -6,3 +6,6 @@ export * from './dropdown/popovers-fixture-dropdown-menu';
 
 export * from './popover/popover-testing.module';
 export * from './popover/popover-fixture';
+
+export * from './dropdown/harness/dropdown-harness';
+export * from './dropdown/harness/dropdown-harness.filters';
