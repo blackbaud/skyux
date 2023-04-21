@@ -11,7 +11,6 @@ import { InlineFormDemoItem } from './inline-form-demo-item';
 @Component({
   selector: 'app-inline-form-demo',
   templateUrl: './inline-form-demo.component.html',
-  styleUrls: ['./inline-form-demo.component.scss'],
 })
 export class InlineFormDemoComponent {
   public activeInlineFormId: string | undefined;
