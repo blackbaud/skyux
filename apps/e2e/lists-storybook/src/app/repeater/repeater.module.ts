@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { SkyIconModule } from '@skyux/indicators';
 import { SkyRepeaterModule } from '@skyux/lists';
 import { SkyDropdownModule } from '@skyux/popovers';
+import { SkyThemeModule } from '@skyux/theme';
 
 import { RepeaterComponent } from './repeater.component';
 
@@ -14,6 +16,8 @@ const routes: Routes = [{ path: '', component: RepeaterComponent }];
     RouterModule.forChild(routes),
     SkyRepeaterModule,
     SkyDropdownModule,
+    SkyIconModule,
+    SkyThemeModule,
   ],
   exports: [RepeaterComponent],
 })
