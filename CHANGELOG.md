@@ -1,5 +1,15 @@
 # Changelog
 
+## [8.0.0-beta.2](https://github.com/blackbaud/skyux/compare/8.0.0-beta.1...8.0.0-beta.2) (2023-04-24)
+
+
+### Bug Fixes
+
+* **components/indicators:** use correct alert and toast close icon size ([#1313](https://github.com/blackbaud/skyux/issues/1313)) ([#1314](https://github.com/blackbaud/skyux/issues/1314)) ([f881567](https://github.com/blackbaud/skyux/commit/f881567b2da9aafb773b42bc0c45a929f3205a3a))
+* **components/phone-field:** the phone field component prioritizes the default country when switching countries via dial code ([#1309](https://github.com/blackbaud/skyux/issues/1309)) ([#1311](https://github.com/blackbaud/skyux/issues/1311)) ([269407a](https://github.com/blackbaud/skyux/commit/269407a47c1d60a08c0b002090fed9af9a9840e8))
+* **components/popovers:** dropdown items disabled state can now be toggled dynamically ([#1308](https://github.com/blackbaud/skyux/issues/1308)) ([7690dc8](https://github.com/blackbaud/skyux/commit/7690dc854aec31698d4543caaec41c0c47a9d885))
+* **components/toast:** toast components default to an `Info` type if no type is provided ([#1316](https://github.com/blackbaud/skyux/issues/1316)) ([#1317](https://github.com/blackbaud/skyux/issues/1317)) ([0ecfa23](https://github.com/blackbaud/skyux/commit/0ecfa232320a55ac753406328ef654872b9a3876))
+
 ## [8.0.0-beta.1](https://github.com/blackbaud/skyux/compare/8.0.0-beta.0...8.0.0-beta.1) (2023-04-20)
 
 
