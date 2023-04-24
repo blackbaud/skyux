@@ -17,4 +17,8 @@ export class DropdownComponent {
   public actionClicked(action: string): void {
     alert(`You selected ${action}.`);
   }
+
+  public toggleOptions(): void {
+    this.items[1].disabled = !this.items[1].disabled;
+  }
 }

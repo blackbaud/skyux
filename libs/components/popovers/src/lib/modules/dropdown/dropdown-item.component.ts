@@ -39,8 +39,6 @@ export class SkyDropdownItemComponent implements AfterViewInit {
 
   public isActive = false;
 
-  public isDisabled = false;
-
   #_ariaRole = 'menuitem';
 
   #changeDetector: ChangeDetectorRef;
@@ -56,8 +54,6 @@ export class SkyDropdownItemComponent implements AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.isDisabled = !this.isFocusable();
-
     // Make sure anchor elements are tab-able.
     const buttonElement = this.#getButtonElement();
     /* istanbul ignore else */

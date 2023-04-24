@@ -70,10 +70,14 @@
 
   &.sky-dropdown-item-active,
   &:hover {
-    background-color: var(--sky-background-color-neutral-light);
+    a,
+    button {
+      background-color: var(--sky-background-color-neutral-light);
+    }
   }
 
-  &.sky-dropdown-item-disabled {
+  button[disabled],
+  a[disabled] {
     cursor: default;
     &:hover {
       background-color: transparent;
