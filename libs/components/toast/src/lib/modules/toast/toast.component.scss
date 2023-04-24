@@ -122,8 +122,9 @@ sky-toast {
     .sky-toast-btn-close {
       border: solid 1px transparent;
       border-radius: $sky-theme-modern-border-radius-md;
-      height: 36px;
-      width: 36px;
+      height: 26px;
+      width: 26px;
+      flex-shrink: 0;
       margin-top: -10px;
       margin-right: -10px;
       opacity: 1;
