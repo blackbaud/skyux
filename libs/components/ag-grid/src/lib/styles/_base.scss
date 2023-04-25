@@ -192,13 +192,11 @@ ag-grid-angular {
   }
 }
 
-.sky-theme-default {
-  sky-toolbar + sky-ag-grid-wrapper,
-  sky-data-manager-toolbar ~ * > sky-data-view sky-ag-grid-wrapper,
-  sky-data-manager-toolbar ~ sky-data-view sky-ag-grid-wrapper {
-    ag-grid-angular {
-      border-top: none !important;
-    }
+sky-toolbar + sky-ag-grid-wrapper,
+sky-data-manager-toolbar ~ * > sky-data-view sky-ag-grid-wrapper,
+sky-data-manager-toolbar ~ sky-data-view sky-ag-grid-wrapper {
+  ag-grid-angular {
+    border-top: none !important;
   }
 }
 
