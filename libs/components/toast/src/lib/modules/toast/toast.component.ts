@@ -47,8 +47,7 @@ export class SkyToastComponent implements OnInit, OnDestroy {
    */
   @Input()
   public set toastType(value: SkyToastType | undefined) {
-    this.toastTypeOrDefault =
-      value === undefined ? SKY_TOAST_TYPE_DEFAULT : value;
+    this.toastTypeOrDefault = value ?? SKY_TOAST_TYPE_DEFAULT;
     this.#updateForToastType();
   }
 
