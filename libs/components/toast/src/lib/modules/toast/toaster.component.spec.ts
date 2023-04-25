@@ -17,8 +17,10 @@ import { SkyToastInstance } from './toast-instance';
 import { SkyToastService } from './toast.service';
 import { SkyToasterComponent } from './toaster.component';
 import { SkyToasterService } from './toaster.service';
+import { SkyToastConfig } from './types/toast-config';
 import { SkyToastContainerOptions } from './types/toast-container-options';
 import { SkyToastDisplayDirection } from './types/toast-display-direction';
+import { SkyToastType } from './types/toast-type';
 
 describe('Toast component', () => {
   let fixture: ComponentFixture<SkyToasterTestComponent>;
@@ -79,8 +81,11 @@ describe('Toast component', () => {
     return document.querySelectorAll('sky-toast');
   }
 
-  function openMessage(message = ''): SkyToastInstance {
-    const instance = toastService.openMessage(message);
+  function openMessage(
+    message = '',
+    config?: SkyToastConfig
+  ): SkyToastInstance {
+    const instance = toastService.openMessage(message, config);
     fixture.detectChanges();
     tick();
     return instance;
@@ -136,6 +141,18 @@ describe('Toast component', () => {
     expect(toasts.length).toEqual(1);
     validateToastMessage(toasts[0], message);
     expect(toasts.item(0).querySelector('.sky-toast-info')).toExist();
+    expect(toasts.item(0).querySelector('.fa-exclamation-circle')).toExist();
+  }));
+
+  it('should display a toast component with a type set', fakeAsync(() => {
+    const message = 'Hello, World!';
+    openMessage(message, { type: SkyToastType.Danger });
+
+    const toasts = getToastElements();
+    expect(toasts.length).toEqual(1);
+    validateToastMessage(toasts[0], message);
+    expect(toasts.item(0).querySelector('.sky-toast-danger')).toExist();
+    expect(toasts.item(0).querySelector('.fa-warning')).toExist();
   }));
 
   it('should handle closing a toast', fakeAsync(() => {

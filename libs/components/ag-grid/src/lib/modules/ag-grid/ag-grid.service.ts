@@ -31,6 +31,7 @@ import { SkyAgGridCellRendererRowSelectorComponent } from './cell-renderers/cell
 import { SkyAgGridCellRendererValidatorTooltipComponent } from './cell-renderers/cell-renderer-validator-tooltip/cell-renderer-validator-tooltip.component';
 import { SkyAgGridHeaderGroupComponent } from './header/header-group.component';
 import { SkyAgGridHeaderComponent } from './header/header.component';
+import { IconMapType, iconMap } from './icons/icon-map';
 import { SkyCellClass } from './types/cell-class';
 import { SkyCellType } from './types/cell-type';
 import { SkyHeaderClass } from './types/header-class';
@@ -421,13 +422,13 @@ export class SkyAgGridService implements OnDestroy {
       },
       headerHeight: this.getHeaderHeight(),
       icons: {
-        sortDescending: this.#getIconTemplate('caret-down'),
-        sortAscending: this.#getIconTemplate('caret-up'),
-        columnMoveMove: this.#getIconTemplate('arrows'),
-        columnMoveHide: this.#getIconTemplate('arrows'),
-        columnMoveLeft: this.#getIconTemplate('arrows'),
-        columnMoveRight: this.#getIconTemplate('arrows'),
-        columnMovePin: this.#getIconTemplate('arrows'),
+        sortDescending: this.#getIconTemplate('sortDescending'),
+        sortAscending: this.#getIconTemplate('sortAscending'),
+        columnMoveMove: this.#getIconTemplate('columnMoveMove'),
+        columnMoveHide: this.#getIconTemplate('columnMoveHide'),
+        columnMoveLeft: this.#getIconTemplate('columnMoveLeft'),
+        columnMoveRight: this.#getIconTemplate('columnMoveRight'),
+        columnMovePin: this.#getIconTemplate('columnMovePin'),
       },
       onCellFocused: () => this.#onCellFocused(),
       rowHeight: this.#getRowHeight(),
@@ -534,8 +535,15 @@ export class SkyAgGridService implements OnDestroy {
     return '';
   }
 
-  #getIconTemplate(iconName: string): string {
-    return `<i class="fa fa-${iconName}"></i>`;
+  #getIconTemplate(iconName: keyof IconMapType): () => string {
+    return () => {
+      const icon = iconMap[iconName];
+      if (this.#currentTheme?.theme.name === 'modern' && icon.skyIcon) {
+        return `<i aria-hidden="true" class="sky-i-${icon.skyIcon}"></i>`;
+      } else {
+        return `<i aria-hidden="true" class="fa fa-${icon.faIcon}"></i>`;
+      }
+    };
   }
 
   #suppressTab(params: SuppressKeyboardEventParams): boolean {
