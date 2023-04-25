@@ -4,7 +4,10 @@
     'sky-control-label-required': required,
     'sky-switch-disabled': disabled
   }"
+  (mousedown)="$event.preventDefault()"
 >
+  <!-- The `preventDefault` above is to stop the browser from temporarily moving focus to a parent element mid-click.
+  This was causing flashes in our modals.-->
   <input
     class="sky-checkbox-input sky-switch-input"
     type="checkbox"
