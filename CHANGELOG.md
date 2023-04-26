@@ -1,5 +1,16 @@
 # Changelog
 
+## [7.21.2](https://github.com/blackbaud/skyux/compare/7.21.1...7.21.2) (2023-04-26)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** missing icons ([#1320](https://github.com/blackbaud/skyux/issues/1320)) ([263d56e](https://github.com/blackbaud/skyux/commit/263d56e1a3554c312eeffc71b3823444ba22e5c0))
+* **components/avatar:** max avatar file size default is now correctly documented ([#1329](https://github.com/blackbaud/skyux/issues/1329)) ([f438989](https://github.com/blackbaud/skyux/commit/f4389896fde1f518c1d7a179439ae54c87f8bc29))
+* **components/forms:** descenders are not cut off inside an input box when zoomed in ([#1325](https://github.com/blackbaud/skyux/issues/1325)) ([bb3f4d3](https://github.com/blackbaud/skyux/commit/bb3f4d34cbaa28f21a52dce6b1044b99451992bc))
+* **components/forms:** fix focus flash when checkbox and radio buttons are clicked inside of a modal ([#1326](https://github.com/blackbaud/skyux/issues/1326)) ([22bdb49](https://github.com/blackbaud/skyux/commit/22bdb4913a7e068f4e45856f532133a4a0ce8633))
+* toolbars have correct borders when paced beside another toolbar or beside an AG Grid instance ([#1324](https://github.com/blackbaud/skyux/issues/1324)) ([9f4fc35](https://github.com/blackbaud/skyux/commit/9f4fc35c1a2515848abadae93a082508c5e84d09))
+
 ## [7.21.1](https://github.com/blackbaud/skyux/compare/7.21.0...7.21.1) (2023-04-24)
 
 
