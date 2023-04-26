@@ -13,9 +13,9 @@
     sky-ag-grid-variables.$sky-cell-wrap-text-line-height-default
   );
 
-    .ag-cell.sky-ag-grid-cell-invalid {
-      border: 1px solid var(--sky-highlight-color-danger);
-    }
+  .ag-cell.sky-ag-grid-cell-invalid {
+    border: 1px solid var(--sky-highlight-color-danger);
+  }
 
   .ag-row:not(.ag-row-first) {
     border-top: none;
@@ -108,11 +108,10 @@
       z-index: 1;
     }
 
-      .ag-cell.ag-cell-focus {
-        z-index: 1;
-        outline-offset: -2px;
-        outline: var(--ag-range-selection-border-color) solid 2px;
-      }
+    .ag-cell.ag-cell-focus {
+      z-index: 1;
+      outline-offset: -2px;
+      outline: var(--ag-range-selection-border-color) solid 2px;
     }
   }
 }
