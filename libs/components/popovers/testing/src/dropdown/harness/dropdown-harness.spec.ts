@@ -4,6 +4,8 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyDropdownModule } from '@skyux/popovers';
 
+import { delay } from 'rxjs/operators';
+
 import { SkyDropdownHarness } from './dropdown-harness';
 
 // #region Test component
@@ -62,6 +64,11 @@ fdescribe('Dropdown test harness', () => {
     }).compileComponents();
 
     const fixture = TestBed.createComponent(TestDropdownComponent);
+    fixture.elementRef.nativeElement.click();
+    fixture.detectChanges();
+    await delay(1000);
+    fixture.detectChanges();
+    await delay(1000);
     const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
 
     let dropdownHarness: SkyDropdownHarness;
@@ -196,13 +203,24 @@ fdescribe('Dropdown test harness', () => {
     );
   });
 
-  // it('should click the dropdown button', async () => {
+  // it('should click the dropdown button', fakeAsync(async () => {
   //   const { dropdownHarness, fixture } = await setupTest();
 
   //   fixture.detectChanges();
   //   await dropdownHarness.click();
   //   fixture.detectChanges();
+  //   tick();
+  //   fixture.detectChanges();
+  //   tick();
 
   //   await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(true);
-  // });
+  // }));
+
+  it('should open the dropdown menu', async () => {
+    const { dropdownHarness, fixture } = await setupTest();
+
+    fixture.detectChanges();
+
+    await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(true);
+  });
 });

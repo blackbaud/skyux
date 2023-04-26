@@ -1,5 +1,5 @@
 import { HarnessPredicate, TestElement } from '@angular/cdk/testing';
-import { SkyComponentHarness } from '@skyux/core/testing';
+import { SkyComponentHarness, SkyOverlayHarness } from '@skyux/core/testing';
 
 import { SkyDropdownHarnessFilters } from './dropdown-harness.filters';
 
@@ -10,10 +10,12 @@ export class SkyDropdownHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-dropdown';
 
   // #getDropdown = this.locatorFor('.sky-dropdown');
+  #documentRootLocator = this.documentRootLocatorFactory();
+  #getOverlay = this.#documentRootLocator.locatorForOptional(SkyOverlayHarness);
+
   #getDropdownButton = this.locatorFor('.sky-dropdown-button');
   // #getDropdownMenu = this.locatorFor('.sky-dropdown-menu');
   #getDropdownItems = this.locatorForAll('.sky-dropdown-item');
-  #getOverlay = this.locatorFor('sky-overlay');
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -64,23 +66,23 @@ export class SkyDropdownHarness extends SkyComponentHarness {
     return (await this.#getDropdownButton()).getAttribute('title');
   }
 
-  // public async click(): Promise<void> {
-  //   (await this.#getDropdownButton()).click();
-  // }
+  public async click(): Promise<void> {
+    (await this.#getDropdownButton()).click();
+  }
 
-  // public async isOpen(): Promise<boolean> {
-  //   return (await this.#getOverlay()) ? true : false;
-  // }
+  public async isOpen(): Promise<boolean> {
+    return (await this.#getOverlay()) ? true : false;
+  }
 
-  // public async getItemsList(): Promise<TestElement[] | undefined> {
-  //   return await this.#getDropdownItems();
-  // }
+  public async getItemsList(): Promise<TestElement[] | undefined> {
+    return await this.#getDropdownItems();
+  }
 
-  // public async getItemAtIndex(index: number): Promise<TestElement | undefined> {
-  //   const itemsList = await this.getItemsList();
+  public async getItemAtIndex(index: number): Promise<TestElement | undefined> {
+    const itemsList = await this.getItemsList();
 
-  //   return itemsList?.at(index);
-  // }
+    return itemsList?.at(index);
+  }
 
   //TODO: how to get alignment?
 }

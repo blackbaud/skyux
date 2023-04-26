@@ -9,3 +9,5 @@ export * from './popover/popover-fixture';
 
 export * from './dropdown/harness/dropdown-harness';
 export * from './dropdown/harness/dropdown-harness.filters';
+export * from './dropdown/harness/dropdown-menu-harness';
+export * from './dropdown/harness/dropdown-menu-harness.filters';
