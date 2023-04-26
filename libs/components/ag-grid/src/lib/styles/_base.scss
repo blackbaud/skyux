@@ -210,6 +210,12 @@ $modernDarkThemeBase: map.merge(
 }
 
 ag-grid-angular {
+  border-top: sky-ag-grid-variables.$sky-standard-border;
+
+  .ag-root-wrapper {
+    border: none;
+  }
+
   input:focus {
     border: none;
     outline: none;
@@ -242,9 +248,13 @@ ag-grid-angular {
   }
 }
 
-.sky-theme-default sky-toolbar + sky-ag-grid-wrapper {
-  ag-grid-angular {
-    border-top: none !important;
+.sky-theme-default {
+  sky-toolbar + sky-ag-grid-wrapper,
+  sky-data-manager-toolbar ~ * > sky-data-view sky-ag-grid-wrapper,
+  sky-data-manager-toolbar ~ sky-data-view sky-ag-grid-wrapper {
+    ag-grid-angular {
+      border-top: none !important;
+    }
   }
 }
 
