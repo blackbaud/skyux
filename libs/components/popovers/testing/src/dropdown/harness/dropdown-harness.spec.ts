@@ -1,10 +1,10 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { SkyDropdownModule } from '@skyux/popovers';
 
-import { delay } from 'rxjs/operators';
+import { it } from 'node:test';
 
 import { SkyDropdownHarness } from './dropdown-harness';
 
@@ -64,11 +64,6 @@ fdescribe('Dropdown test harness', () => {
     }).compileComponents();
 
     const fixture = TestBed.createComponent(TestDropdownComponent);
-    fixture.elementRef.nativeElement.click();
-    fixture.detectChanges();
-    await delay(1000);
-    fixture.detectChanges();
-    await delay(1000);
     const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
 
     let dropdownHarness: SkyDropdownHarness;
@@ -203,24 +198,28 @@ fdescribe('Dropdown test harness', () => {
     );
   });
 
-  // it('should click the dropdown button', fakeAsync(async () => {
-  //   const { dropdownHarness, fixture } = await setupTest();
-
-  //   fixture.detectChanges();
-  //   await dropdownHarness.click();
-  //   fixture.detectChanges();
-  //   tick();
-  //   fixture.detectChanges();
-  //   tick();
-
-  //   await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(true);
-  // }));
-
-  it('should open the dropdown menu', async () => {
+  it('should get the correct value if dropdown menu is open', async () => {
     const { dropdownHarness, fixture } = await setupTest();
 
     fixture.detectChanges();
 
+    await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(false);
+
+    dropdownHarness.click();
+    fixture.detectChanges();
+
     await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(true);
   });
+
+  it('should open the dropdown menu', fakeAsync(async () => {
+    const { dropdownHarness, fixture } = await setupTest();
+
+    dropdownHarness.click();
+    fixture.detectChanges();
+    const items = await (
+      await dropdownHarness.getDropdownMenuHarness()
+    )?.getItems();
+
+    await expect(items?.length).toBe(1);
+  }));
 });
