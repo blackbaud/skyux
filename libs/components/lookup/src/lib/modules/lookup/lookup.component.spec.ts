@@ -322,6 +322,8 @@ describe('Lookup component', function () {
     } else {
       inputElement = getInputElement(fixture.componentInstance.lookupComponent);
     }
+    inputElement.focus();
+    SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
     inputElement.value = searchText;
     SkyAppTestUtility.fireDomEvent(inputElement, 'input');
     tick();
@@ -3439,6 +3441,7 @@ describe('Lookup component', function () {
         selectSearchResult(0, fixture);
 
         const input = getInputElement(lookupComponent);
+        getInputElement(lookupComponent).blur();
 
         clickToken(0, fixture, false);
 
@@ -6325,6 +6328,7 @@ describe('Lookup component', function () {
         selectSearchResult(0, fixture);
 
         const input = getInputElement(lookupComponent);
+        getInputElement(lookupComponent).blur();
 
         clickToken(0, fixture, false);
 
@@ -6415,6 +6419,7 @@ describe('Lookup component', function () {
         selectSearchResult(0, fixture);
 
         const input = getInputElement(lookupComponent);
+        getInputElement(lookupComponent).blur();
 
         clickToken(0, fixture, false);
 
