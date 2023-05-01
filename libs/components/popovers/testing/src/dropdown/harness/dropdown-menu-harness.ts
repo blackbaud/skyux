@@ -12,6 +12,7 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
    */
   public static hostSelector = 'sky-dropdown-menu';
 
+  #getDropdownMenu = this.locatorFor('.sky-dropdown-menu');
   #getDropdownItems = this.locatorForAll('.sky-dropdown-item');
 
   /**
@@ -26,15 +27,19 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
 
   /**
    * Gets an array of dropdown menu items
+   * @internal
    */
-  public async getItems(): Promise<TestElement[]> {
+  private async getItems(): Promise<TestElement[]> {
     return await this.#getDropdownItems();
   }
 
   /**
    * Gets the dropdown menu item at a specific index
+   * @internal
    */
-  public async getItemAtIndex(index: number): Promise<TestElement | undefined> {
+  private async getItemAtIndex(
+    index: number
+  ): Promise<TestElement | undefined> {
     const itemsList = await this.getItems();
 
     if (itemsList?.length === 0) {
@@ -42,5 +47,70 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
     }
 
     return itemsList.at(index);
+  }
+
+  /**
+   * Gets the dropdown menu item from role
+   * @internal
+   */
+  private async getItemWithRole(
+    role: string
+  ): Promise<TestElement | undefined> {
+    const itemsList = await this.getItems();
+
+    if (itemsList?.length === 0) {
+      throw new Error('Unable to retrieve item because dropdown menu is empty');
+    }
+
+    for (const item of itemsList) {
+      if ((await item.getAttribute('role'))?.match(role)) return item;
+    }
+
+    return undefined;
+  }
+
+  /**
+   * Gets the aria-labelledby value
+   * @internal
+   */
+  public async getAriaLabelledBy(): Promise<string | null> {
+    return (await this.#getDropdownMenu()).getAttribute('aria-labelledby');
+  }
+
+  /**
+   * Gets the dropdown menu role
+   * @internal
+   */
+  public async getRole(): Promise<string | null> {
+    return (await this.#getDropdownMenu()).getAttribute('role');
+  }
+
+  /**
+   * Clicks the dropdown menu item at index
+   * @param index Index of dropdown menu item
+   * @internal
+   */
+  public async clickMenuItemAtIndex(index: number): Promise<void> {
+    (await this.getItemAtIndex(index))?.click();
+  }
+
+  /**
+   * Gets the role of dropdown menu at index
+   * @param index Index of dropdown menu item
+   * @internal
+   */
+  public async getMenuItemRole(
+    index: number
+  ): Promise<string | null | undefined> {
+    return (await this.getItemAtIndex(index))?.getAttribute('role');
+  }
+
+  /**
+   * Clicks the dropdown menu item at index
+   * @param index Index of dropdown menu item
+   * @internal
+   */
+  public async clickMenuItemWithRole(role: string): Promise<void> {
+    (await this.getItemWithRole(role))?.click();
   }
 }

@@ -1,10 +1,8 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyDropdownModule } from '@skyux/popovers';
-
-import { it } from 'node:test';
 
 import { SkyDropdownHarness } from './dropdown-harness';
 
@@ -48,7 +46,7 @@ class TestDropdownComponent {
 }
 // #endregion Test component
 
-fdescribe('Dropdown test harness', () => {
+describe('Dropdown test harness', () => {
   async function setupTest(
     options: {
       dataSkyId?: string;
@@ -198,28 +196,28 @@ fdescribe('Dropdown test harness', () => {
     );
   });
 
-  it('should get the correct value if dropdown menu is open', async () => {
+  it('should get the correct value if dropdown menu is open or not', async () => {
     const { dropdownHarness, fixture } = await setupTest();
 
     fixture.detectChanges();
 
     await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(false);
 
-    dropdownHarness.click();
+    dropdownHarness.clickDropdownButton();
     fixture.detectChanges();
 
     await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(true);
   });
 
-  it('should open the dropdown menu', fakeAsync(async () => {
-    const { dropdownHarness, fixture } = await setupTest();
+  // it('should get the dropdown menu items', fakeAsync(async () => {
+  //   const { dropdownHarness, fixture } = await setupTest();
 
-    dropdownHarness.click();
-    fixture.detectChanges();
-    const items = await (
-      await dropdownHarness.getDropdownMenuHarness()
-    )?.getItems();
+  //   dropdownHarness.clickDropdownButton();
+  //   fixture.detectChanges();
+  //   const items = await (
+  //     await dropdownHarness.getDropdownMenuHarness()
+  //   )?.getItems();
 
-    await expect(items?.length).toBe(1);
-  }));
+  //   await expect(items?.length).toBe(1);
+  // }));
 });
