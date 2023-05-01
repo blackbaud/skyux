@@ -1,0 +1,29 @@
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule, Routes } from '@angular/router';
+import { SkyIdModule } from '@skyux/core';
+import { SkyCharacterCounterModule, SkyInputBoxModule } from '@skyux/forms';
+import { SkyHelpInlineModule, SkyIconModule } from '@skyux/indicators';
+import { SkyFluidGridModule } from '@skyux/layout';
+
+import { InputBoxComponent } from './input-box.component';
+
+const routes: Routes = [{ path: '', component: InputBoxComponent }];
+@NgModule({
+  declarations: [InputBoxComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule.forChild(routes),
+    SkyCharacterCounterModule,
+    SkyFluidGridModule,
+    SkyHelpInlineModule,
+    SkyIconModule,
+    SkyIdModule,
+    SkyInputBoxModule,
+  ],
+  exports: [InputBoxComponent],
+})
+export class InputBoxModule {}
