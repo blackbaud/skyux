@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { SkyIdModule } from '@skyux/core';
 import { SkyCharacterCounterModule, SkyInputBoxModule } from '@skyux/forms';
@@ -14,7 +14,6 @@ const routes: Routes = [{ path: '', component: InputBoxComponent }];
   declarations: [InputBoxComponent],
   imports: [
     CommonModule,
-    FormsModule,
     ReactiveFormsModule,
     RouterModule.forChild(routes),
     SkyCharacterCounterModule,
