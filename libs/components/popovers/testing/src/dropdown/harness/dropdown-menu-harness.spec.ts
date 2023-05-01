@@ -4,6 +4,8 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyDropdownModule } from '@skyux/popovers';
 
+import { it } from 'node:test';
+
 import { SkyDropdownMenuHarness } from './dropdown-menu-harness';
 
 // #region Test Component
@@ -16,6 +18,8 @@ import { SkyDropdownMenuHarness } from './dropdown-menu-harness';
         [ariaRole]="clickItemRole"
         (click)="clickItem()"
       ></sky-dropdown-item>
+    </sky-dropdown-menu>
+    <sky-dropdown-menu dataSkyId="otherMenu" [ariaRole]="'otherMenu'">
     </sky-dropdown-menu>
   `,
 })
@@ -32,7 +36,7 @@ class TestDropdownMenuComponent {
 }
 // #endregion Test Component
 
-describe('DropdownMenu menu test harness', () => {
+fdescribe('DropdownMenu menu test harness', () => {
   async function setupTest(
     options: {
       dataSkyId?: string;
@@ -64,6 +68,18 @@ describe('DropdownMenu menu test harness', () => {
 
     return { dropdownMenuHarness, fixture, loader };
   }
+
+  it('should get menu by data-sky-id', async () => {
+    const { dropdownMenuHarness, fixture } = await setupTest({
+      dataSkyId: 'otherMenu',
+    });
+
+    fixture.detectChanges();
+
+    await expectAsync(dropdownMenuHarness.getRole()).toBeResolvedTo(
+      'otherMenu'
+    );
+  });
 
   it('should get the aria-labelledBy', async () => {
     const { dropdownMenuHarness, fixture } = await setupTest();
