@@ -103,6 +103,12 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
    * @param index Index of dropdown menu item
    */
   public async clickMenuItemWithRole(role: string): Promise<void> {
+    const menuItem = await this.getItemWithRole(role);
+    if (!menuItem) {
+      throw new Error(
+        `Unable to click item. Item with role ${role} does not exist in this dropdown menu`
+      );
+    }
     await (await this.getItemWithRole(role))?.click();
   }
 }
