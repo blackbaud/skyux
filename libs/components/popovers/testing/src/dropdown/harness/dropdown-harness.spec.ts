@@ -11,6 +11,7 @@ import { SkyDropdownHarness } from './dropdown-harness';
   selector: 'sky-dropdown-test',
   template: `
     <sky-dropdown
+      [dismissOnBlur]="false"
       [buttonStyle]="buttonStyle"
       [buttonType]="buttonType"
       [disabled]="disabledFlag"
@@ -23,10 +24,12 @@ import { SkyDropdownHarness } from './dropdown-harness';
       ></sky-dropdown-menu>
     </sky-dropdown>
 
-    <sky-dropdown
-      data-sky-id="other-dropdown"
-      [buttonStyle]="'primary'"
-    ></sky-dropdown>
+    <sky-dropdown data-sky-id="other-dropdown" [buttonStyle]="'primary'">
+      <sky-dropdown-menu
+        data-sky-id="other-dropdown-menu"
+        [ariaRole]="'otherDropdownMenu'"
+      ></sky-dropdown-menu>
+    </sky-dropdown>
   `,
 })
 class TestDropdownComponent {
@@ -234,4 +237,15 @@ describe('Dropdown test harness', () => {
       'Unable to retrieve dropdown menu harness because dropdown is closed'
     );
   });
+
+  // it('should get the correct dropdown menu test harness when two are open', async () => {
+  //   const { dropdownHarness, fixture } = await setupTest();
+  //   const { dropdownHarness, fixture } = await setupTest({dataSkyId: "otherDropdown"});
+
+  //   await dropdownHarness.clickDropdownButton();
+  //   fixture.detectChanges();
+  //   await otherDropdownMenu.clickDropdownButton();
+  //   otherFixture.detectChanges();
+
+  // });
 });
