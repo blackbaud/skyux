@@ -1,7 +1,7 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyDropdownModule } from '@skyux/popovers';
 
 import { SkyDropdownHarness } from './dropdown-harness';
@@ -17,13 +17,10 @@ import { SkyDropdownHarness } from './dropdown-harness';
       [label]="ariaLabel"
       [title]="tooltipTitle"
     >
-      <sky-dropdown-button></sky-dropdown-button>
       <sky-dropdown-menu
-        [ariaLabelledBy]="menuLabelledBy"
+        data-sky-id="dropdown-menu"
         [ariaRole]="menuRole"
-      >
-        <sky-dropdown-item [ariaRole]="itemRole"></sky-dropdown-item>
-      </sky-dropdown-menu>
+      ></sky-dropdown-menu>
     </sky-dropdown>
 
     <sky-dropdown
@@ -39,10 +36,7 @@ class TestDropdownComponent {
   public ariaLabel: string | undefined;
   public tooltipTitle: string | undefined;
 
-  public menuLabelledBy: string | undefined;
   public menuRole: string | undefined;
-
-  public itemRole: string | undefined;
 }
 // #endregion Test component
 
@@ -196,21 +190,48 @@ describe('Dropdown test harness', () => {
     );
   });
 
-  it('should get the correct value if dropdown menu is open or not', fakeAsync(async () => {
+  it('should get the correct value if dropdown menu is open or not', async () => {
     const { dropdownHarness, fixture } = await setupTest();
 
     fixture.detectChanges();
 
     await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(false);
 
-    dropdownHarness.clickDropdownButton();
+    await dropdownHarness.clickDropdownButton();
     fixture.detectChanges();
 
     await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(true);
 
-    dropdownHarness.clickDropdownButton();
+    await dropdownHarness.clickDropdownButton();
     fixture.detectChanges();
 
     await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(false);
-  }));
+  });
+
+  it('should get the dropdown menu harness', async () => {
+    const { dropdownHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.menuRole = 'dropdown-menu';
+    fixture.detectChanges();
+    await dropdownHarness.clickDropdownButton();
+    fixture.detectChanges();
+
+    const dropdownMenuHarness = await dropdownHarness.getDropdownMenuHarness();
+
+    await expectAsync(dropdownMenuHarness?.getRole()).toBeResolvedTo(
+      'dropdown-menu'
+    );
+  });
+
+  it('should get throw an error if dropdown menu is not open', async () => {
+    const { dropdownHarness, fixture } = await setupTest();
+
+    fixture.detectChanges();
+
+    await expectAsync(
+      dropdownHarness.getDropdownMenuHarness()
+    ).toBeRejectedWithError(
+      'Unable to retrieve dropdown menu harness because dropdown is closed'
+    );
+  });
 });

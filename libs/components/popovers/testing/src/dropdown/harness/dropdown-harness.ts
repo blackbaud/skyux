@@ -94,17 +94,13 @@ export class SkyDropdownHarness extends SkyComponentHarness {
 
     if (!overlay) {
       throw new Error(
-        'Unable to retrieve menu items because dropdown is closed'
+        'Unable to retrieve dropdown menu harness because dropdown is closed'
       );
     }
 
     const menuHarness = await overlay.queryHarness(
       SkyDropdownMenuHarness.with({ dataSkyId: id })
     );
-
-    if (id && menuHarness === null) {
-      throw new Error(`could not find dropdown menu with dataSkyId: ${id}`);
-    }
 
     return menuHarness;
   }
