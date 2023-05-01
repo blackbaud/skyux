@@ -1,7 +1,7 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { SkyDropdownModule } from '@skyux/popovers';
 
 import { SkyDropdownHarness } from './dropdown-harness';
@@ -196,7 +196,7 @@ describe('Dropdown test harness', () => {
     );
   });
 
-  it('should get the correct value if dropdown menu is open or not', async () => {
+  it('should get the correct value if dropdown menu is open or not', fakeAsync(async () => {
     const { dropdownHarness, fixture } = await setupTest();
 
     fixture.detectChanges();
@@ -207,17 +207,10 @@ describe('Dropdown test harness', () => {
     fixture.detectChanges();
 
     await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(true);
-  });
 
-  // it('should get the dropdown menu items', fakeAsync(async () => {
-  //   const { dropdownHarness, fixture } = await setupTest();
+    dropdownHarness.clickDropdownButton();
+    fixture.detectChanges();
 
-  //   dropdownHarness.clickDropdownButton();
-  //   fixture.detectChanges();
-  //   const items = await (
-  //     await dropdownHarness.getDropdownMenuHarness()
-  //   )?.getItems();
-
-  //   await expect(items?.length).toBe(1);
-  // }));
+    await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(false);
+  }));
 });

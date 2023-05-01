@@ -32,7 +32,7 @@ class TestDropdownMenuComponent {
 }
 // #endregion Test Component
 
-fdescribe('DropdownMenu menu test harness', () => {
+describe('DropdownMenu menu test harness', () => {
   async function setupTest(
     options: {
       dataSkyId?: string;
@@ -109,7 +109,7 @@ fdescribe('DropdownMenu menu test harness', () => {
     expect(clickSpy).toHaveBeenCalled();
   });
 
-  fit('should click menu item with role', async () => {
+  it('should click menu item with role', async () => {
     const { dropdownMenuHarness, fixture } = await setupTest();
 
     fixture.componentInstance.clickItemRole = 'click-item';

@@ -27,7 +27,6 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
 
   /**
    * Gets an array of dropdown menu items
-   * @internal
    */
   private async getItems(): Promise<TestElement[]> {
     return await this.#getDropdownItems();
@@ -35,7 +34,6 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
 
   /**
    * Gets the dropdown menu item at a specific index
-   * @internal
    */
   private async getItemAtIndex(
     index: number
@@ -51,7 +49,6 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
 
   /**
    * Gets the dropdown menu item from role
-   * @internal
    */
   private async getItemWithRole(
     role: string
@@ -71,7 +68,6 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
 
   /**
    * Gets the aria-labelledby value
-   * @internal
    */
   public async getAriaLabelledBy(): Promise<string | null> {
     return (await this.#getDropdownMenu()).getAttribute('aria-labelledby');
@@ -79,7 +75,6 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
 
   /**
    * Gets the dropdown menu role
-   * @internal
    */
   public async getRole(): Promise<string | null> {
     return (await this.#getDropdownMenu()).getAttribute('role');
@@ -88,16 +83,14 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
   /**
    * Clicks the dropdown menu item at index
    * @param index Index of dropdown menu item
-   * @internal
    */
   public async clickMenuItemAtIndex(index: number): Promise<void> {
-    (await this.getItemAtIndex(index))?.click();
+    await (await this.getItemAtIndex(index))?.click();
   }
 
   /**
    * Gets the role of dropdown menu at index
    * @param index Index of dropdown menu item
-   * @internal
    */
   public async getMenuItemRole(
     index: number
@@ -108,9 +101,8 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
   /**
    * Clicks the dropdown menu item at index
    * @param index Index of dropdown menu item
-   * @internal
    */
   public async clickMenuItemWithRole(role: string): Promise<void> {
-    (await this.getItemWithRole(role))?.click();
+    await (await this.getItemWithRole(role))?.click();
   }
 }
