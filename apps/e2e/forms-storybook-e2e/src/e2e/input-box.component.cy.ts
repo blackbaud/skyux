@@ -32,6 +32,7 @@ describe('forms-storybook', () => {
             `inputboxcomponent-inputbox--input-box-${theme}-standard-focus`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
+              scope: '#input-box-basic',
             }
           );
       });
@@ -50,6 +51,7 @@ describe('forms-storybook', () => {
             `inputboxcomponent-inputbox--input-box-${theme}-textarea-focus`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
+              scope: '#input-box-textarea',
             }
           );
       });
@@ -68,6 +70,7 @@ describe('forms-storybook', () => {
             `inputboxcomponent-inputbox--input-box-${theme}-select-focus`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
+              scope: '#input-box-select',
             }
           );
       });
@@ -86,6 +89,7 @@ describe('forms-storybook', () => {
             `inputboxcomponent-inputbox--input-box-${theme}-multiple-buttons-focus`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
+              scope: '#input-box-button-multiple',
             }
           );
       });
@@ -104,6 +108,7 @@ describe('forms-storybook', () => {
             `inputboxcomponent-inputbox--input-box-${theme}-error-focus`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
+              scope: '#input-box-form-control-error',
             }
           );
       });
@@ -122,6 +127,7 @@ describe('forms-storybook', () => {
             `inputboxcomponent-inputbox--input-box-${theme}-left-button-focus`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
+              scope: '#input-box-button-single-left',
             }
           );
       });
@@ -140,6 +146,7 @@ describe('forms-storybook', () => {
             `inputboxcomponent-inputbox--input-box-${theme}-inset-button-focus`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
+              scope: '#input-box-button-inset',
             }
           );
       });
@@ -158,6 +165,7 @@ describe('forms-storybook', () => {
             `inputboxcomponent-inputbox--input-box-${theme}-inset-icon-focus`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
+              scope: '#input-box-icon-inset',
             }
           );
       });
@@ -176,6 +184,7 @@ describe('forms-storybook', () => {
             `inputboxcomponent-inputbox--input-box-${theme}-inset-icon-left-focus`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
+              scope: '#input-box-icon-inset-left',
             }
           );
       });
