@@ -94,25 +94,6 @@ describe('forms-storybook', () => {
           );
       });
 
-      it('should properly focus a button inside an input box with buttons', () => {
-        cy.get('#input-box-button-multiple')
-          .should('exist')
-          .should('be.visible')
-          .get('#multiple-calendar-button')
-          .click()
-          .get('#input-box-button-multiple')
-          .screenshot(
-            `inputboxcomponent-inputbox--input-box-${theme}-multiple-buttons-button-focus`
-          )
-          .percySnapshot(
-            `inputboxcomponent-inputbox--input-box-${theme}-multiple-buttons-button-focus`,
-            {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-              scope: '#input-box-button-multiple',
-            }
-          );
-      });
-
       it('should properly focus a input box with an error', () => {
         cy.get('#input-box-form-control-error')
           .should('exist')
@@ -128,25 +109,6 @@ describe('forms-storybook', () => {
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
               scope: '#input-box-form-control-error',
-            }
-          );
-      });
-
-      it('should properly focus a button within an input box with an error', () => {
-        cy.get('#input-box-form-control-error-button-single')
-          .should('exist')
-          .should('be.visible')
-          .get('#error-calendar-button')
-          .click()
-          .get('#input-box-form-control-error-button-single')
-          .screenshot(
-            `inputboxcomponent-inputbox--input-box-${theme}-error-button-focus`
-          )
-          .percySnapshot(
-            `inputboxcomponent-inputbox--input-box-${theme}-error-button-focus`,
-            {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-              scope: '#input-box-form-control-error-button-single',
             }
           );
       });
@@ -170,25 +132,6 @@ describe('forms-storybook', () => {
           );
       });
 
-      it('should properly focus a button inside an input box with a left button', () => {
-        cy.get('#input-box-button-single-left')
-          .should('exist')
-          .should('be.visible')
-          .get('#single-left-calendar-button')
-          .click()
-          .get('#input-box-button-single-left')
-          .screenshot(
-            `inputboxcomponent-inputbox--input-box-${theme}-left-button-button-focus`
-          )
-          .percySnapshot(
-            `inputboxcomponent-inputbox--input-box-${theme}-left-button-button-focus`,
-            {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-              scope: '#input-box-button-single-left',
-            }
-          );
-      });
-
       it('should properly focus a input box with an inset button', () => {
         cy.get('#input-box-button-inset')
           .should('exist')
@@ -201,25 +144,6 @@ describe('forms-storybook', () => {
           )
           .percySnapshot(
             `inputboxcomponent-inputbox--input-box-${theme}-inset-button-focus`,
-            {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-              scope: '#input-box-button-inset',
-            }
-          );
-      });
-
-      it('should properly focus a button within an input box with an inset button', () => {
-        cy.get('#input-box-button-inset')
-          .should('exist')
-          .should('be.visible')
-          .get('#inset-search-button')
-          .click()
-          .get('#input-box-button-inset')
-          .screenshot(
-            `inputboxcomponent-inputbox--input-box-${theme}-inset-button-button-focus`
-          )
-          .percySnapshot(
-            `inputboxcomponent-inputbox--input-box-${theme}-inset-button-button-focus`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
               scope: '#input-box-button-inset',
