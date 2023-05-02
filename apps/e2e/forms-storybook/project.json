@@ -1,22 +1,22 @@
 {
-  "name": "split-view-storybook",
+  "name": "forms-storybook",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "sourceRoot": "apps/e2e/split-view-storybook/src",
+  "sourceRoot": "apps/e2e/forms-storybook/src",
   "prefix": "app",
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/e2e/split-view-storybook",
-        "index": "apps/e2e/split-view-storybook/src/index.html",
-        "main": "apps/e2e/split-view-storybook/src/main.ts",
-        "polyfills": "apps/e2e/split-view-storybook/src/polyfills.ts",
-        "tsConfig": "apps/e2e/split-view-storybook/tsconfig.app.json",
+        "outputPath": "dist/apps/e2e/forms-storybook",
+        "index": "apps/e2e/forms-storybook/src/index.html",
+        "main": "apps/e2e/forms-storybook/src/main.ts",
+        "polyfills": "apps/e2e/forms-storybook/src/polyfills.ts",
+        "tsConfig": "apps/e2e/forms-storybook/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "styles": [
-          "apps/e2e/split-view-storybook/src/styles.scss",
+          "apps/e2e/forms-storybook/src/styles.scss",
           "libs/components/theme/src/lib/styles/sky.scss",
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ],
@@ -33,13 +33,13 @@
             {
               "type": "anyComponentStyle",
               "maximumWarning": "2kb",
-              "maximumError": "6kb"
+              "maximumError": "4kb"
             }
           ],
           "fileReplacements": [
             {
-              "replace": "apps/e2e/split-view-storybook/src/environments/environment.ts",
-              "with": "apps/e2e/split-view-storybook/src/environments/environment.prod.ts"
+              "replace": "apps/e2e/forms-storybook/src/environments/environment.ts",
+              "with": "apps/e2e/forms-storybook/src/environments/environment.prod.ts"
             }
           ],
           "outputHashing": "all"
@@ -59,10 +59,10 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "split-view-storybook:build:production"
+          "browserTarget": "forms-storybook:build:production"
         },
         "development": {
-          "browserTarget": "split-view-storybook:build:development"
+          "browserTarget": "forms-storybook:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -70,23 +70,23 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "split-view-storybook:build"
+        "browserTarget": "forms-storybook:build"
       }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "apps/e2e/split-view-storybook/**/*.ts",
-          "apps/e2e/split-view-storybook/**/*.html"
+          "apps/e2e/forms-storybook/**/*.ts",
+          "apps/e2e/forms-storybook/**/*.html"
         ]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/apps/e2e/split-view-storybook"],
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/e2e/split-view-storybook/jest.config.ts",
+        "jestConfig": "apps/e2e/forms-storybook/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -94,8 +94,8 @@
       "executor": "@storybook/angular:start-storybook",
       "options": {
         "port": 4400,
-        "configDir": "apps/e2e/split-view-storybook/.storybook",
-        "browserTarget": "split-view-storybook:build",
+        "configDir": "apps/e2e/forms-storybook/.storybook",
+        "browserTarget": "forms-storybook:build",
         "compodoc": false,
         "styles": [
           "libs/components/theme/src/lib/styles/sky.scss",
@@ -112,9 +112,9 @@
       "executor": "@storybook/angular:build-storybook",
       "outputs": ["{options.outputDir}"],
       "options": {
-        "outputDir": "dist/storybook/split-view-storybook",
-        "configDir": "apps/e2e/split-view-storybook/.storybook",
-        "browserTarget": "split-view-storybook:build",
+        "outputDir": "dist/storybook/forms-storybook",
+        "configDir": "apps/e2e/forms-storybook/.storybook",
+        "browserTarget": "forms-storybook:build",
         "compodoc": false,
         "styles": [
           "libs/components/theme/src/lib/styles/sky.scss",
