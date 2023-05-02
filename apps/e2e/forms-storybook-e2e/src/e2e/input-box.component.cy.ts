@@ -98,7 +98,8 @@ describe('forms-storybook', () => {
         cy.get('#input-box-button-multiple')
           .should('exist')
           .should('be.visible')
-          .get('#input-box-button-multiple button:first')
+          .get('#input-box-button-multiple button')
+          .first()
           .click()
           .get('#input-box-button-multiple')
           .screenshot(
@@ -136,7 +137,8 @@ describe('forms-storybook', () => {
         cy.get('#input-box-form-control-error-button-single')
           .should('exist')
           .should('be.visible')
-          .get('#input-box-form-control-error-button-single button:first')
+          .get('#input-box-form-control-error-button-single button')
+          .first()
           .click()
           .get('#input-box-form-control-error-button-single')
           .screenshot(
@@ -174,7 +176,8 @@ describe('forms-storybook', () => {
         cy.get('#input-box-button-single-left')
           .should('exist')
           .should('be.visible')
-          .get('#input-box-button-single-left button:first')
+          .get('#input-box-button-single-left button')
+          .first()
           .click()
           .get('#input-box-button-single-left')
           .screenshot(
@@ -212,7 +215,8 @@ describe('forms-storybook', () => {
         cy.get('#input-box-button-inset')
           .should('exist')
           .should('be.visible')
-          .get('#input-box-button-inset button:first')
+          .get('#input-box-button-inset button')
+          .first()
           .click()
           .get('#input-box-button-inset')
           .screenshot(
