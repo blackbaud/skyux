@@ -10,9 +10,8 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
   /**
    * @internal
    */
-  public static hostSelector = 'sky-dropdown-menu';
+  public static hostSelector = '.sky-dropdown-menu';
 
-  #getDropdownMenu = this.locatorFor('.sky-dropdown-menu');
   #getDropdownItems = this.locatorForAll('.sky-dropdown-item');
 
   /**
@@ -70,14 +69,14 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
    * Gets the aria-labelledby value
    */
   public async getAriaLabelledBy(): Promise<string | null> {
-    return (await this.#getDropdownMenu()).getAttribute('aria-labelledby');
+    return (await this.host()).getAttribute('aria-labelledby');
   }
 
   /**
    * Gets the dropdown menu role
    */
   public async getRole(): Promise<string | null> {
-    return (await this.#getDropdownMenu()).getAttribute('role');
+    return (await this.host()).getAttribute('role');
   }
 
   /**

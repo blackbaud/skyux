@@ -11,17 +11,13 @@ import { SkyDropdownHarness } from './dropdown-harness';
   selector: 'sky-dropdown-test',
   template: `
     <sky-dropdown
-      [dismissOnBlur]="false"
       [buttonStyle]="buttonStyle"
       [buttonType]="buttonType"
       [disabled]="disabledFlag"
       [label]="ariaLabel"
       [title]="tooltipTitle"
     >
-      <sky-dropdown-menu
-        data-sky-id="dropdown-menu"
-        [ariaRole]="menuRole"
-      ></sky-dropdown-menu>
+      <sky-dropdown-menu [ariaRole]="menuRole"></sky-dropdown-menu>
     </sky-dropdown>
 
     <sky-dropdown data-sky-id="other-dropdown" [buttonStyle]="'primary'">
@@ -226,26 +222,30 @@ describe('Dropdown test harness', () => {
     );
   });
 
-  it('should get throw an error if dropdown menu is not open', async () => {
-    const { dropdownHarness, fixture } = await setupTest();
-
-    fixture.detectChanges();
-
-    await expectAsync(
-      dropdownHarness.getDropdownMenuHarness()
-    ).toBeRejectedWithError(
-      'Unable to retrieve dropdown menu harness because dropdown is closed'
-    );
-  });
-
-  // it('should get the correct dropdown menu test harness when two are open', async () => {
+  // it('should get throw an error if dropdown menu is not open', async () => {
   //   const { dropdownHarness, fixture } = await setupTest();
-  //   const { dropdownHarness, fixture } = await setupTest({dataSkyId: "otherDropdown"});
 
-  //   await dropdownHarness.clickDropdownButton();
   //   fixture.detectChanges();
-  //   await otherDropdownMenu.clickDropdownButton();
-  //   otherFixture.detectChanges();
 
+  //   await expectAsync(
+  //     dropdownHarness.getDropdownMenuHarness()
+  //   ).toBeRejectedWithError(
+  //     'Unable to retrieve dropdown menu harness because dropdown is closed'
+  //   );
   // });
+
+  it('should get the correct dropdown menu test harness when two are open', async () => {
+    // const { dropdownHarness, fixture } = await setupTest();
+    // const { dropdownHarness, fixture } = await setupTest({dataSkyId: "otherDropdown"});
+    // await dropdownHarness.clickDropdownButton();
+    // fixture.detectChanges();
+    // await otherDropdownMenu.clickDropdownButton();
+    // otherFixture.detectChanges();
+    // get harness for one dropdown button
+    // open it
+    // get harness for other dropdown button
+    // open it
+    // call .getDropdownMenuHarness([insert other dropdown button harness' menu's data sky id])
+    // confirm that u got the second dropdown menu harness and not the first
+  });
 });

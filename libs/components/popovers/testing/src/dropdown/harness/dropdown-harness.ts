@@ -80,30 +80,32 @@ export class SkyDropdownHarness extends SkyComponentHarness {
   /**
    * Gets whether the dropdown menu is open
    */
+  //TODO RETHINK THIS
   public async isOpen(): Promise<boolean> {
     return (await this.#getOverlay()) ? true : false;
   }
 
   /**
+   * Gets the id of the dropdown menu the button controls
+   */
+  public async getAriaControls(): Promise<string | null> {
+    return (await this.#getDropdownButton()).getAttribute('aria-controls');
+  }
+
+  /**
    * Gets the dropdown menu component harness
    */
-  public async getDropdownMenuHarness(
-    id?: string
-  ): Promise<SkyDropdownMenuHarness | null> {
-    const overlay = await this.#getOverlay();
-
-    if (!overlay) {
+  public async getDropdownMenuHarness(): Promise<SkyDropdownMenuHarness | null> {
+    const dropdownMenuId = await this.getAriaControls();
+    if (!dropdownMenuId) {
       throw new Error(
         'Unable to retrieve dropdown menu harness because dropdown is closed'
       );
     }
-
-    const menuHarness = await overlay.queryHarness(
-      SkyDropdownMenuHarness.with({ dataSkyId: id })
-    );
-
-    return menuHarness;
+    return dropdownMenuId
+      ? this.#documentRootLocator.locatorForOptional(
+          SkyDropdownMenuHarness.with({ selector: `#${dropdownMenuId}` })
+        )()
+      : null;
   }
-
-  //TODO: how to get alignment?
 }

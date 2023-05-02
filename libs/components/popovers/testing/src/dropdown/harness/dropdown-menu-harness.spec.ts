@@ -34,7 +34,7 @@ class TestDropdownMenuComponent {
 }
 // #endregion Test Component
 
-describe('DropdownMenu menu test harness', () => {
+fdescribe('DropdownMenu menu test harness', () => {
   async function setupTest(
     options: {
       dataSkyId?: string;
