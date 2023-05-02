@@ -324,6 +324,8 @@ describe('Lookup component', function () {
     }
     inputElement.focus();
     SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+    tick();
+    fixture.detectChanges();
     inputElement.value = searchText;
     SkyAppTestUtility.fireDomEvent(inputElement, 'input');
     tick();
