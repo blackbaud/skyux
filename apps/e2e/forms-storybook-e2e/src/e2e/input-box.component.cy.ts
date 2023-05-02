@@ -99,7 +99,7 @@ describe('forms-storybook', () => {
           .should('exist')
           .should('be.visible')
           .get('#input-box-button-multiple #multiple-calendar-button')
-          .click()
+          .focus()
           .get('#input-box-button-multiple')
           .screenshot(
             `inputboxcomponent-inputbox--input-box-${theme}-multiple-buttons-button-focus`
@@ -139,7 +139,7 @@ describe('forms-storybook', () => {
           .get(
             '#input-box-form-control-error-button-single #error-calendar-button'
           )
-          .click()
+          .focus()
           .get('#input-box-form-control-error-button-single')
           .screenshot(
             `inputboxcomponent-inputbox--input-box-${theme}-error-button-focus`
@@ -177,7 +177,7 @@ describe('forms-storybook', () => {
           .should('exist')
           .should('be.visible')
           .get('#input-box-button-single-left #single-left-calendar-button')
-          .click()
+          .focus()
           .get('#input-box-button-single-left')
           .screenshot(
             `inputboxcomponent-inputbox--input-box-${theme}-left-button-button-focus`
@@ -215,7 +215,7 @@ describe('forms-storybook', () => {
           .should('exist')
           .should('be.visible')
           .get('#input-box-button-inset #inset-search-button')
-          .click()
+          .focus()
           .get('#input-box-button-inset')
           .screenshot(
             `inputboxcomponent-inputbox--input-box-${theme}-inset-button-button-focus`
