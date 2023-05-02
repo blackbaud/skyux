@@ -216,6 +216,12 @@ describe('SkyAgGridService', () => {
 
       expect(modernThemeGridOptions.rowHeight).toBe(60);
       expect(modernThemeGridOptions.headerHeight).toBe(60);
+      expect(typeof modernThemeGridOptions.icons?.sortDescending).toBe(
+        'function'
+      );
+      expect((modernThemeGridOptions.icons?.sortDescending as Function)()).toBe(
+        `<i aria-hidden="true" class="sky-i-chevron-down"></i>`
+      );
     });
 
     it('should unsubscribe from the theme service when destroyed', () => {

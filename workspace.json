@@ -33,6 +33,8 @@
     "errors-testing": "libs/components/errors/testing",
     "flyout": "libs/components/flyout",
     "forms": "libs/components/forms",
+    "forms-storybook": "apps/e2e/forms-storybook",
+    "forms-storybook-e2e": "apps/e2e/forms-storybook-e2e",
     "forms-testing": "libs/components/forms/testing",
     "grids": "libs/components/grids",
     "http": "libs/components/http",

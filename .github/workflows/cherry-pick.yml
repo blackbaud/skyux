@@ -127,3 +127,18 @@ jobs:
               repo: context.repo.repo,
               body: 'Cherry-pick [failed](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})! :x: Please resolve conflicts and create a new PR.'
             })
+
+      - name: Notify Slack when cherry-pick fails
+        if: ${{ env.CHERRY_PICK_RESULT != 'success' }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_TITLE: ':cherries: :x: Cherry-pick failed for “${{ github.event.pull_request.title }} (#${{ github.event.pull_request.number}})”'
+          SLACK_MESSAGE: '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+          SLACK_ICON_EMOJI: ':github:'
+          SLACK_USERNAME: GitHub
+          #cor-skyux-notifications
+          SLACK_CHANNEL: C01GY7ZP4HM
+          SLACK_COLOR: 'fail'
+          SLACK_FOOTER: 'Blackbaud Sky Build User'
+          MSG_MINIMAL: 'true'
