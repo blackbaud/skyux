@@ -9,6 +9,11 @@
 .sky-alert {
   --sky-alert-before-display: initial;
   --sky-alert-border-left-width: 30px;
+  --sky-alert-close-btn-active-border: none;
+  --sky-alert-close-btn-border-radius: #{$sky-border-radius};
+  --sky-alert-close-btn-focus-border: none;
+  --sky-alert-close-btn-focus-box-shadow: none;
+  --sky-alert-close-btn-opacity: 0.8;
   --sky-alert-close-icon-default-display: initial;
   --sky-alert-close-icon-modern-display: none;
   --sky-alert-content-padding-top-bottom: #{$sky-padding};
@@ -23,6 +28,16 @@
   .sky-alert {
     --sky-alert-before-display: none;
     --sky-alert-border-left-width: 7px;
+    --sky-alert-close-btn-active-border: var(
+        --sky-background-color-primary-dark
+      )
+      solid 2px;
+    --sky-alert-close-btn-border-radius: #{$sky-theme-modern-border-radius-md};
+    --sky-alert-close-btn-focus-border: var(--sky-background-color-primary-dark)
+      solid 1px;
+    --sky-alert-close-btn-focus-box-shadow: #{$sky-theme-modern-elevation-1-shadow-size}
+      #{$sky-theme-modern-elevation-3-shadow-color};
+    --sky-alert-close-btn-opacity: 1;
     --sky-alert-close-icon-default-display: none;
     --sky-alert-close-icon-modern-display: initial;
     --sky-alert-content-padding-left-right: var(--sky-padding-even-md);
@@ -125,13 +140,29 @@
   margin: 0;
   padding: 0;
   color: var(--sky-text-color-default);
-  opacity: 0.8;
+  opacity: var(--sky-alert-close-btn-opacity);
   border: none;
+  border-radius: var(--sky-alert-close-btn-border-radius);
   background-color: transparent;
   display: none;
+  flex-shrink: 0;
 
   &:hover {
     opacity: 1;
+    border: var(--sky-alert-close-btn-focus-border);
+  }
+
+  &:focus-visible {
+    border: var(--sky-background-color-primary-dark) solid 2px;
+    outline: none;
+  }
+
+  &:active {
+    border: var(--sky-alert-close-btn-active-border);
+  }
+
+  &:focus-visible:not(:active) {
+    box-shadow: var(--sky-alert-close-btn-focus-box-shadow);
   }
 }
 
