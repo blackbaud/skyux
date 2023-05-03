@@ -222,21 +222,6 @@ describe('Dropdown test harness', () => {
     );
   });
 
-  it('should get the correct dropdown menu test harness when two are open', async () => {
-    // const { dropdownHarness, fixture } = await setupTest();
-    // const { dropdownHarness, fixture } = await setupTest({dataSkyId: "otherDropdown"});
-    // await dropdownHarness.clickDropdownButton();
-    // fixture.detectChanges();
-    // await otherDropdownMenu.clickDropdownButton();
-    // otherFixture.detectChanges();
-    // get harness for one dropdown button
-    // open it
-    // get harness for other dropdown button
-    // open it
-    // call .getDropdownMenuHarness([insert other dropdown button harness' menu's data sky id])
-    // confirm that u got the second dropdown menu harness and not the first
-  });
-
   describe('Dropdown menu test harness', () => {
     it('should get throw an error if dropdown menu is not open', async () => {
       const { dropdownHarness, fixture } = await setupTest();
