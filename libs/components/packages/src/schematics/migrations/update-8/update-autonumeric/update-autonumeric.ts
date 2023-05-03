@@ -25,7 +25,7 @@ function updateVersion(): Rule {
       return;
     }
 
-    let type = NodeDependencyType.Default;
+    const type = NodeDependencyType.Default;
     const overwrite = true;
     const version = UPDATE_TO_VERSION;
 
