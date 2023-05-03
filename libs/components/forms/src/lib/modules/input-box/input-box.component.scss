@@ -302,15 +302,11 @@ sky-input-box {
           an input box.
         */
         height: auto;
-        line-height: 18px;
+        line-height: 20px;
         padding-right: 15px;
-        padding-bottom: 10px;
+        padding-bottom: 9px;
         padding-left: 15px;
         position: relative;
-
-        &:first-line {
-          line-height: 19px;
-        }
 
         &:focus,
         &.ng-invalid {

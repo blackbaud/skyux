@@ -69,6 +69,7 @@ export class SkyAvatarComponent {
 
   /**
    * The maximum file size for the image in bytes.
+   * @default 500000 bytes
    */
   @Input()
   public maxFileSize: number | undefined = MAX_FILE_SIZE_DEFAULT;

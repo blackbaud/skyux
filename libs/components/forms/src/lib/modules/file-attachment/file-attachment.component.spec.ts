@@ -356,7 +356,6 @@ describe('File attachment', () => {
     expect(labelWrapper?.classList.contains('sky-control-label-required')).toBe(
       true
     );
-    expect(labelWrapper?.getAttribute('aria-required')).toBe('true');
   }));
 
   it('should have appropriate classes when file is required and initialized with file', fakeAsync(() => {
@@ -380,7 +379,6 @@ describe('File attachment', () => {
     expect(labelWrapper?.classList.contains('sky-control-label-required')).toBe(
       true
     );
-    expect(labelWrapper?.getAttribute('aria-required')).toBe('true');
   }));
 
   it('should not have disabled attribute when not disabled', fakeAsync(() => {
@@ -1258,6 +1256,13 @@ describe('File attachment', () => {
   });
 
   it('should pass accessibility', async () => {
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
+
+  it('should pass accessibility when required', async () => {
+    fixture.componentInstance.required = true;
     fixture.detectChanges();
     await fixture.whenStable();
     await expectAsync(fixture.nativeElement).toBeAccessible();

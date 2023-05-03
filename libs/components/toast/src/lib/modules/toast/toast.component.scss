@@ -17,9 +17,15 @@ sky-toast {
 
     .sky-toast-btn-close {
       border-color: transparent;
+      border-radius: $sky-border-radius;
       margin-left: auto;
       width: 32px;
       height: 32px;
+
+      &:focus-visible {
+        border: $sky-background-color-primary-dark solid 2px;
+        outline: none;
+      }
     }
   }
 
@@ -122,8 +128,9 @@ sky-toast {
     .sky-toast-btn-close {
       border: solid 1px transparent;
       border-radius: $sky-theme-modern-border-radius-md;
-      height: 36px;
-      width: 36px;
+      height: 26px;
+      width: 26px;
+      flex-shrink: 0;
       margin-top: -10px;
       margin-right: -10px;
       opacity: 1;
@@ -136,14 +143,11 @@ sky-toast {
       }
 
       &:active,
-      &:focus {
-        border-color: $sky-theme-modern-background-color-primary-dark;
-        border-width: 2px;
-        outline: none;
-        padding: 0;
+      &:focus-visible {
+        border: $sky-theme-modern-background-color-primary-dark solid 2px;
       }
 
-      &:focus:not(:active) {
+      &:focus-visible:not(:active) {
         box-shadow: $sky-theme-modern-elevation-1-shadow-size
           $sky-theme-modern-elevation-3-shadow-color;
       }

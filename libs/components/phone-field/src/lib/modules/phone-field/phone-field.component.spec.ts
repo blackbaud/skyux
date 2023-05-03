@@ -1006,6 +1006,82 @@ describe('Phone Field Component', () => {
         validateInputAndModel('+61', '+61', false, true, ngModel, fixture);
       }));
 
+      it('should change to the default country when the dial code is given and it matches multiple countries and one is the default', fakeAsync(() => {
+        fixture.detectChanges();
+        const inputElement = fixture.debugElement.query(By.css('input'));
+        const ngModel = inputElement.injector.get(NgModel);
+
+        component.defaultCountry = 'ca';
+        component.selectedCountry = {
+          iso2: 'us',
+          name: 'United States',
+        };
+        fixture.detectChanges();
+        component.modelValue = '8675555309';
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+
+        validateInputAndModel(
+          '8675555309',
+          '+1 867-555-5309',
+          true,
+          false,
+          ngModel,
+          fixture
+        );
+
+        setInput(nativeElement, '+1', fixture);
+        blurInput(nativeElement, fixture);
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+
+        expect(component.phoneFieldComponent?.selectedCountry?.iso2).toBe('ca');
+
+        validateInputAndModel('+1', '+1', false, true, ngModel, fixture);
+      }));
+
+      it('should change to the country with the highest priority when the dial code is given and it matches multiple countries and none are the default', fakeAsync(() => {
+        fixture.detectChanges();
+        const inputElement = fixture.debugElement.query(By.css('input'));
+        const ngModel = inputElement.injector.get(NgModel);
+
+        component.defaultCountry = 'au';
+        component.selectedCountry = {
+          iso2: 'ca',
+          name: 'Canada',
+        };
+        fixture.detectChanges();
+        component.modelValue = '8675555309';
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+
+        validateInputAndModel(
+          '8675555309',
+          '+1 867-555-5309',
+          true,
+          false,
+          ngModel,
+          fixture
+        );
+
+        setInput(nativeElement, '+1', fixture);
+        blurInput(nativeElement, fixture);
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+
+        expect(component.phoneFieldComponent?.selectedCountry?.iso2).toBe('us');
+
+        validateInputAndModel('+1', '+1', false, true, ngModel, fixture);
+      }));
+
       it('should validate correctly after country is changed', fakeAsync(() => {
         fixture.detectChanges();
         const inputElement = fixture.debugElement.query(By.css('input'));
