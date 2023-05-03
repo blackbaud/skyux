@@ -73,7 +73,7 @@ fdescribe('Basic dropdown', async () => {
     const dropdownMenu = await dropdownHarness.getDropdownMenu();
     const clickSpy = spyOn(fixture.componentInstance, 'actionClicked');
 
-    await dropdownMenu?.clickMenuItemAtIndex(0);
+    await dropdownMenu?.clickItemAtIndex(0);
 
     expect(clickSpy).toHaveBeenCalledWith('Option 1');
   });
