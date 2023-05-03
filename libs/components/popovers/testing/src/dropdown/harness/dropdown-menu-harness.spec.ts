@@ -12,9 +12,8 @@ import { SkyDropdownMenuHarness } from './dropdown-menu-harness';
   template: `
     <sky-dropdown-menu [ariaLabelledBy]="labelledBy" [ariaRole]="role">
       <sky-dropdown-item [ariaRole]="itemRole"></sky-dropdown-item>
-      <sky-dropdown-item
-        [ariaRole]="clickItemRole"
-        (click)="clickItem()"
+      <sky-dropdown-item [ariaRole]="clickItemRole">
+        <button (click)="clickItem()"></button
       ></sky-dropdown-item>
     </sky-dropdown-menu>
   `,
@@ -90,6 +89,7 @@ describe('DropdownMenu menu test harness', () => {
     fixture.detectChanges();
 
     await dropdownMenuHarness.clickMenuItemAtIndex(1);
+    fixture.detectChanges();
     expect(clickSpy).toHaveBeenCalled();
   });
 
@@ -103,20 +103,6 @@ describe('DropdownMenu menu test harness', () => {
     await dropdownMenuHarness.clickMenuItemWithRole('click-item');
     expect(clickSpy).toHaveBeenCalled();
   });
-
-  // it('should throw error when trying to click an item in an empty menu', async () => {
-  //   const { dropdownMenuHarness, fixture } = await setupTest({
-  //     dataSkyId: 'otherMenu',
-  //   });
-
-  //   fixture.detectChanges();
-
-  //   await expectAsync(
-  //     dropdownMenuHarness.clickMenuItemWithRole('test')
-  //   ).toBeRejectedWithError(
-  //     'Unable to retrieve item because dropdown menu is empty'
-  //   );
-  // });
 
   it('should throw an error when trying to click an item that does not exist', async () => {
     const { dropdownMenuHarness, fixture } = await setupTest();

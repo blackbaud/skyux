@@ -1,7 +1,8 @@
-import { HarnessPredicate, TestElement } from '@angular/cdk/testing';
+import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 
 import { SkyDropdownMenuHarnessFilters } from './dropdown-menu-harness.filters';
+import { SkyDropdownMenuItemHarness } from './dropdown-menu-item-harness';
 
 /**
  * Harness for interacting with dropdown menu in tests
@@ -12,7 +13,7 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
    */
   public static hostSelector = '.sky-dropdown-menu';
 
-  #getDropdownItems = this.locatorForAll('.sky-dropdown-item');
+  #getDropdownItems = this.locatorForAll(SkyDropdownMenuItemHarness);
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -27,16 +28,16 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
   /**
    * Gets an array of dropdown menu items
    */
-  private async getItems(): Promise<TestElement[]> {
+  public async getItems(): Promise<SkyDropdownMenuItemHarness[]> {
     return await this.#getDropdownItems();
   }
 
   /**
    * Gets the dropdown menu item at a specific index
    */
-  private async getItemAtIndex(
+  public async getItemAtIndex(
     index: number
-  ): Promise<TestElement | undefined> {
+  ): Promise<SkyDropdownMenuItemHarness | undefined> {
     const itemsList = await this.getItems();
 
     if (itemsList?.length === 0) {
@@ -51,7 +52,7 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
    */
   private async getItemWithRole(
     role: string
-  ): Promise<TestElement | undefined> {
+  ): Promise<SkyDropdownMenuItemHarness | undefined> {
     const itemsList = await this.getItems();
 
     if (itemsList?.length === 0) {
@@ -59,7 +60,7 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
     }
 
     for (const item of itemsList) {
-      if ((await item.getAttribute('role'))?.match(role)) return item;
+      if ((await item.getRole())?.match(role)) return item;
     }
 
     return undefined;
@@ -94,7 +95,7 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
   public async getMenuItemRoleAtIndex(
     index: number
   ): Promise<string | null | undefined> {
-    return (await this.getItemAtIndex(index))?.getAttribute('role');
+    return (await this.getItemAtIndex(index))?.getRole();
   }
 
   /**

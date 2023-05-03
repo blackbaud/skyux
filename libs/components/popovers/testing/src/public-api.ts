@@ -11,3 +11,4 @@ export * from './dropdown/harness/dropdown-harness';
 export * from './dropdown/harness/dropdown-harness.filters';
 export * from './dropdown/harness/dropdown-menu-harness';
 export * from './dropdown/harness/dropdown-menu-harness.filters';
+export * from './dropdown/harness/dropdown-menu-item-harness';

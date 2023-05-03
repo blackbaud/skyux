@@ -11,7 +11,6 @@ export class SkyDropdownHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-dropdown';
 
   #documentRootLocator = this.documentRootLocatorFactory();
-  // #getOverlay = this.#documentRootLocator.locatorForOptional(SkyOverlayHarness);
 
   #getDropdownButton = this.locatorFor('.sky-dropdown-button');
 
@@ -80,7 +79,6 @@ export class SkyDropdownHarness extends SkyComponentHarness {
   /**
    * Gets whether the dropdown menu is open
    */
-  //TODO RETHINK THIS
   public async isOpen(): Promise<boolean> {
     const ariaExpanded = await (
       await this.#getDropdownButton()
