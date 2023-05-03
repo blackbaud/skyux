@@ -21,10 +21,7 @@ import { SkyDropdownHarness } from './dropdown-harness';
     </sky-dropdown>
 
     <sky-dropdown data-sky-id="other-dropdown" [buttonStyle]="'primary'">
-      <sky-dropdown-menu
-        data-sky-id="other-dropdown-menu"
-        [ariaRole]="'otherDropdownMenu'"
-      ></sky-dropdown-menu>
+      <sky-dropdown-menu [ariaRole]="'otherDropdownMenu'"></sky-dropdown-menu>
     </sky-dropdown>
   `,
 })
