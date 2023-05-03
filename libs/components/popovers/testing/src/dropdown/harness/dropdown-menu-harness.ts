@@ -1,8 +1,8 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 
+import { SkyDropdownItemHarness } from './dropdown-item-harness';
 import { SkyDropdownMenuHarnessFilters } from './dropdown-menu-harness.filters';
-import { SkyDropdownMenuItemHarness } from './dropdown-menu-item-harness';
 
 /**
  * Harness for interacting with dropdown menu in tests
@@ -13,7 +13,7 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
    */
   public static hostSelector = '.sky-dropdown-menu';
 
-  #getDropdownItems = this.locatorForAll(SkyDropdownMenuItemHarness);
+  #getDropdownItems = this.locatorForAll(SkyDropdownItemHarness);
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -26,18 +26,41 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of dropdown menu items
+   * Gets the aria-labelledby value
    */
-  public async getItems(): Promise<SkyDropdownMenuItemHarness[]> {
-    return await this.#getDropdownItems();
+  public async getAriaLabelledBy(): Promise<string | null> {
+    return (await this.host()).getAttribute('aria-labelledby');
+  }
+
+  /**
+   * Clicks the dropdown menu item at index
+   * @param index Index of dropdown menu item
+   */
+  public async clickItemAtIndex(index: number): Promise<void> {
+    await (await this.getItemAtIndex(index))?.click();
+  }
+
+  /**
+   * Clicks the dropdown menu item with a specific role
+   * @param role Role of dropdown menu item to be clicked
+   */
+  public async clickItemWithRole(role: string): Promise<void> {
+    const menuItem = await this.getItemWithRole(role);
+    if (!menuItem) {
+      throw new Error(
+        `Unable to click item. Item with role ${role} does not exist in this dropdown menu`
+      );
+    }
+    await (await this.getItemWithRole(role))?.click();
   }
 
   /**
    * Gets the dropdown menu item at a specific index
+   * @param index Index of dropdown menu item to be clicked
    */
   public async getItemAtIndex(
     index: number
-  ): Promise<SkyDropdownMenuItemHarness | undefined> {
+  ): Promise<SkyDropdownItemHarness | undefined> {
     const itemsList = await this.getItems();
 
     if (itemsList?.length === 0) {
@@ -48,11 +71,29 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
   }
 
   /**
+   * Gets the role of dropdown menu at index
+   * @param index Index of dropdown menu item
+   */
+  public async getItemRoleAtIndex(
+    index: number
+  ): Promise<string | null | undefined> {
+    return (await this.getItemAtIndex(index))?.getRole();
+  }
+
+  /**
+   * Gets an array of dropdown menu items
+   */
+  public async getItems(): Promise<SkyDropdownItemHarness[]> {
+    return await this.#getDropdownItems();
+  }
+
+  /**
    * Gets the dropdown menu item from role
+   * @param role Role of dropdown menu item
    */
   private async getItemWithRole(
     role: string
-  ): Promise<SkyDropdownMenuItemHarness | undefined> {
+  ): Promise<SkyDropdownItemHarness | undefined> {
     const itemsList = await this.getItems();
 
     if (itemsList?.length === 0) {
@@ -67,48 +108,9 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the aria-labelledby value
-   */
-  public async getAriaLabelledBy(): Promise<string | null> {
-    return (await this.host()).getAttribute('aria-labelledby');
-  }
-
-  /**
    * Gets the dropdown menu role
    */
   public async getRole(): Promise<string | null> {
     return (await this.host()).getAttribute('role');
-  }
-
-  /**
-   * Clicks the dropdown menu item at index
-   * @param index Index of dropdown menu item
-   */
-  public async clickMenuItemAtIndex(index: number): Promise<void> {
-    await (await this.getItemAtIndex(index))?.click();
-  }
-
-  /**
-   * Gets the role of dropdown menu at index
-   * @param index Index of dropdown menu item
-   */
-  public async getMenuItemRoleAtIndex(
-    index: number
-  ): Promise<string | null | undefined> {
-    return (await this.getItemAtIndex(index))?.getRole();
-  }
-
-  /**
-   * Clicks the dropdown menu item with role
-   * @param role Role of dropdown menu item to be clicked
-   */
-  public async clickMenuItemWithRole(role: string): Promise<void> {
-    const menuItem = await this.getItemWithRole(role);
-    if (!menuItem) {
-      throw new Error(
-        `Unable to click item. Item with role ${role} does not exist in this dropdown menu`
-      );
-    }
-    await (await this.getItemWithRole(role))?.click();
   }
 }

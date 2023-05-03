@@ -245,7 +245,7 @@ describe('Dropdown test harness', () => {
       const dropdownMenuHarness = await dropdownHarness.getDropdownMenu();
 
       await expectAsync(
-        dropdownMenuHarness?.getMenuItemRoleAtIndex(0)
+        dropdownMenuHarness?.getItemRoleAtIndex(0)
       ).toBeRejectedWithError(
         'Unable to retrieve item because dropdown menu is empty'
       );
@@ -261,7 +261,7 @@ describe('Dropdown test harness', () => {
       const dropdownMenuHarness = await dropdownHarness.getDropdownMenu();
 
       await expectAsync(
-        dropdownMenuHarness?.clickMenuItemAtIndex(0)
+        dropdownMenuHarness?.clickItemAtIndex(0)
       ).toBeRejectedWithError(
         'Unable to retrieve item because dropdown menu is empty'
       );
@@ -277,7 +277,7 @@ describe('Dropdown test harness', () => {
       const dropdownMenuHarness = await dropdownHarness.getDropdownMenu();
 
       await expectAsync(
-        dropdownMenuHarness?.clickMenuItemWithRole('item-role')
+        dropdownMenuHarness?.clickItemWithRole('item-role')
       ).toBeRejectedWithError(
         'Unable to retrieve item because dropdown menu is empty'
       );

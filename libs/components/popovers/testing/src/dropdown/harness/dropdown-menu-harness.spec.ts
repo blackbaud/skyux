@@ -59,36 +59,13 @@ describe('DropdownMenu menu test harness', () => {
     );
   });
 
-  it('should get aria-role', async () => {
-    const { dropdownMenuHarness, fixture } = await setupTest();
-
-    fixture.componentInstance.role = 'menu-role';
-    fixture.detectChanges();
-
-    await expectAsync(dropdownMenuHarness.getRole()).toBeResolvedTo(
-      'menu-role'
-    );
-  });
-
-  it('should get menu item role at index', async () => {
-    const { dropdownMenuHarness, fixture } = await setupTest();
-
-    fixture.componentInstance.itemRole = 'item1';
-    fixture.componentInstance.clickItemRole = 'item2';
-    fixture.detectChanges();
-
-    await expectAsync(
-      dropdownMenuHarness.getMenuItemRoleAtIndex(0)
-    ).toBeResolvedTo('item1');
-  });
-
   it('should click menu item at index', async () => {
     const { dropdownMenuHarness, fixture } = await setupTest();
 
     const clickSpy = spyOn(fixture.componentInstance, 'clickItem');
     fixture.detectChanges();
 
-    await dropdownMenuHarness.clickMenuItemAtIndex(1);
+    await dropdownMenuHarness.clickItemAtIndex(1);
     fixture.detectChanges();
     expect(clickSpy).toHaveBeenCalled();
   });
@@ -100,8 +77,20 @@ describe('DropdownMenu menu test harness', () => {
     const clickSpy = spyOn(fixture.componentInstance, 'clickItem');
     fixture.detectChanges();
 
-    await dropdownMenuHarness.clickMenuItemWithRole('click-item');
+    await dropdownMenuHarness.clickItemWithRole('click-item');
     expect(clickSpy).toHaveBeenCalled();
+  });
+
+  it('should get menu item role at index', async () => {
+    const { dropdownMenuHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.itemRole = 'item1';
+    fixture.componentInstance.clickItemRole = 'item2';
+    fixture.detectChanges();
+
+    await expectAsync(dropdownMenuHarness.getItemRoleAtIndex(0)).toBeResolvedTo(
+      'item1'
+    );
   });
 
   it('should throw an error when trying to click an item that does not exist', async () => {
@@ -111,9 +100,20 @@ describe('DropdownMenu menu test harness', () => {
     fixture.detectChanges();
 
     await expectAsync(
-      dropdownMenuHarness.clickMenuItemWithRole('test-item')
+      dropdownMenuHarness.clickItemWithRole('test-item')
     ).toBeRejectedWithError(
       'Unable to click item. Item with role test-item does not exist in this dropdown menu'
+    );
+  });
+
+  it('should get menu role', async () => {
+    const { dropdownMenuHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.role = 'menu-role';
+    fixture.detectChanges();
+
+    await expectAsync(dropdownMenuHarness.getRole()).toBeResolvedTo(
+      'menu-role'
     );
   });
 });

@@ -25,13 +25,40 @@ export class SkyDropdownHarness extends SkyComponentHarness {
   }
 
   /**
+   * Clicks the dropdown button
+   */
+  public async clickDropdownButton(): Promise<void> {
+    (await this.#getDropdownButton()).click();
+  }
+
+  /**
+   * Gets the id of the dropdown menu the button controls
+   */
+  public async getAriaControls(): Promise<string | null> {
+    return (await this.#getDropdownButton()).getAttribute('aria-controls');
+  }
+
+  /**
+   * Gets the aria-label value
+   */
+  public async getAriaLabel(): Promise<string | null> {
+    return (await this.#getDropdownButton()).getAttribute('aria-label');
+  }
+
+  /**
    * Gets the dropdown button style
    */
   public async getButtonStyle(): Promise<string> {
     const button = await this.#getDropdownButton();
 
-    if (await button.hasClass('sky-btn-primary')) return 'primary';
-    if (await button.hasClass('sky-btn-link')) return 'link';
+    if (await button.hasClass('sky-btn-primary')) {
+      return 'primary';
+    }
+
+    if (await button.hasClass('sky-btn-link')) {
+      return 'link';
+    }
+
     return 'default';
   }
 
@@ -41,9 +68,35 @@ export class SkyDropdownHarness extends SkyComponentHarness {
   public async getButtonType(): Promise<string> {
     const button = await this.#getDropdownButton();
 
-    if (await button.hasClass('sky-dropdown-button-type-context-menu'))
+    if (await button.hasClass('sky-dropdown-button-type-context-menu')) {
       return 'context-menu';
+    }
+
     return 'select';
+  }
+
+  /**
+   * Gets the dropdown menu component
+   */
+  public async getDropdownMenu(): Promise<SkyDropdownMenuHarness | null> {
+    const dropdownMenuId = await this.getAriaControls();
+
+    if (!dropdownMenuId) {
+      throw new Error(
+        'Unable to retrieve dropdown menu harness because dropdown is closed'
+      );
+    }
+
+    return this.#documentRootLocator.locatorForOptional(
+      SkyDropdownMenuHarness.with({ selector: `#${dropdownMenuId}` })
+    )();
+  }
+
+  /**
+   * Gets the hover tooltip text
+   */
+  public async getTooltipTitle(): Promise<string | null> {
+    return (await this.#getDropdownButton()).getAttribute('title');
   }
 
   /**
@@ -56,27 +109,6 @@ export class SkyDropdownHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the aria-label value
-   */
-  public async getAriaLabel(): Promise<string | null> {
-    return (await this.#getDropdownButton()).getAttribute('aria-label');
-  }
-
-  /**
-   * Gets the hover tooltip text
-   */
-  public async getTooltipTitle(): Promise<string | null> {
-    return (await this.#getDropdownButton()).getAttribute('title');
-  }
-
-  /**
-   * Clicks the dropdown button
-   */
-  public async clickDropdownButton(): Promise<void> {
-    (await this.#getDropdownButton()).click();
-  }
-
-  /**
    * Gets whether the dropdown menu is open
    */
   public async isOpen(): Promise<boolean> {
@@ -84,29 +116,10 @@ export class SkyDropdownHarness extends SkyComponentHarness {
       await this.#getDropdownButton()
     ).getAttribute('aria-expanded');
 
-    if (ariaExpanded?.match(/true/)) return true;
-    return false;
-  }
-
-  /**
-   * Gets the id of the dropdown menu the button controls
-   */
-  public async getAriaControls(): Promise<string | null> {
-    return (await this.#getDropdownButton()).getAttribute('aria-controls');
-  }
-
-  /**
-   * Gets the dropdown menu component
-   */
-  public async getDropdownMenu(): Promise<SkyDropdownMenuHarness | null> {
-    const dropdownMenuId = await this.getAriaControls();
-    if (!dropdownMenuId) {
-      throw new Error(
-        'Unable to retrieve dropdown menu harness because dropdown is closed'
-      );
+    if (ariaExpanded?.match(/true/)) {
+      return true;
     }
-    return this.#documentRootLocator.locatorForOptional(
-      SkyDropdownMenuHarness.with({ selector: `#${dropdownMenuId}` })
-    )();
+
+    return false;
   }
 }

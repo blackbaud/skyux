@@ -1,6 +1,6 @@
 import { SkyComponentHarness } from '@skyux/core/testing';
 
-export class SkyDropdownMenuItemHarness extends SkyComponentHarness {
+export class SkyDropdownItemHarness extends SkyComponentHarness {
   /**
    * @internal
    */
@@ -9,10 +9,16 @@ export class SkyDropdownMenuItemHarness extends SkyComponentHarness {
   #getItem = this.locatorFor('.sky-dropdown-item');
   #getButton = this.locatorFor('button,a');
 
+  /**
+   * Clicks the dropdown item
+   */
   public async click(): Promise<void> {
     await (await this.#getButton()).click();
   }
 
+  /**
+   * Gets the dropdown item role
+   */
   public async getRole(): Promise<string | null> {
     return (await this.#getItem()).getAttribute('role');
   }
