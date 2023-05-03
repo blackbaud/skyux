@@ -17,8 +17,6 @@ import { SkyDropdownMenuHarness } from './dropdown-menu-harness';
         (click)="clickItem()"
       ></sky-dropdown-item>
     </sky-dropdown-menu>
-    <sky-dropdown-menu data-sky-id="otherMenu" [ariaRole]="'otherMenu'">
-    </sky-dropdown-menu>
   `,
 })
 class TestDropdownMenuComponent {
@@ -34,12 +32,8 @@ class TestDropdownMenuComponent {
 }
 // #endregion Test Component
 
-fdescribe('DropdownMenu menu test harness', () => {
-  async function setupTest(
-    options: {
-      dataSkyId?: string;
-    } = {}
-  ): Promise<{
+describe('DropdownMenu menu test harness', () => {
+  async function setupTest(): Promise<{
     dropdownMenuHarness: SkyDropdownMenuHarness;
     fixture: ComponentFixture<TestDropdownMenuComponent>;
     loader: HarnessLoader;
@@ -51,34 +45,10 @@ fdescribe('DropdownMenu menu test harness', () => {
 
     const fixture = TestBed.createComponent(TestDropdownMenuComponent);
     const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
-
-    let dropdownMenuHarness: SkyDropdownMenuHarness;
-
-    if (options.dataSkyId) {
-      dropdownMenuHarness = await loader.getHarness(
-        SkyDropdownMenuHarness.with({
-          dataSkyId: options.dataSkyId,
-        })
-      );
-    } else {
-      dropdownMenuHarness = await loader.getHarness(SkyDropdownMenuHarness);
-    }
+    const dropdownMenuHarness = await loader.getHarness(SkyDropdownMenuHarness);
 
     return { dropdownMenuHarness, fixture, loader };
   }
-
-  it('should get menu by data-sky-id', async () => {
-    const { dropdownMenuHarness, fixture } = await setupTest({
-      dataSkyId: 'otherMenu',
-    });
-
-    fixture.detectChanges();
-
-    await expectAsync(dropdownMenuHarness.getRole()).toBeResolvedTo(
-      'otherMenu'
-    );
-  });
-
   it('should get the aria-labelledBy', async () => {
     const { dropdownMenuHarness, fixture } = await setupTest();
 
@@ -108,23 +78,9 @@ fdescribe('DropdownMenu menu test harness', () => {
     fixture.componentInstance.clickItemRole = 'item2';
     fixture.detectChanges();
 
-    await expectAsync(dropdownMenuHarness.getMenuItemRole(0)).toBeResolvedTo(
-      'item1'
-    );
-  });
-
-  it('should throw error getting the role if menu is empty', async () => {
-    const { dropdownMenuHarness, fixture } = await setupTest({
-      dataSkyId: 'otherMenu',
-    });
-
-    fixture.detectChanges();
-
     await expectAsync(
-      dropdownMenuHarness.getMenuItemRole(0)
-    ).toBeRejectedWithError(
-      'Unable to retrieve item because dropdown menu is empty'
-    );
+      dropdownMenuHarness.getMenuItemRoleAtIndex(0)
+    ).toBeResolvedTo('item1');
   });
 
   it('should click menu item at index', async () => {
@@ -148,19 +104,19 @@ fdescribe('DropdownMenu menu test harness', () => {
     expect(clickSpy).toHaveBeenCalled();
   });
 
-  it('should throw error when trying to click an item in an empty menu', async () => {
-    const { dropdownMenuHarness, fixture } = await setupTest({
-      dataSkyId: 'otherMenu',
-    });
+  // it('should throw error when trying to click an item in an empty menu', async () => {
+  //   const { dropdownMenuHarness, fixture } = await setupTest({
+  //     dataSkyId: 'otherMenu',
+  //   });
 
-    fixture.detectChanges();
+  //   fixture.detectChanges();
 
-    await expectAsync(
-      dropdownMenuHarness.clickMenuItemWithRole('test')
-    ).toBeRejectedWithError(
-      'Unable to retrieve item because dropdown menu is empty'
-    );
-  });
+  //   await expectAsync(
+  //     dropdownMenuHarness.clickMenuItemWithRole('test')
+  //   ).toBeRejectedWithError(
+  //     'Unable to retrieve item because dropdown menu is empty'
+  //   );
+  // });
 
   it('should throw an error when trying to click an item that does not exist', async () => {
     const { dropdownMenuHarness, fixture } = await setupTest();

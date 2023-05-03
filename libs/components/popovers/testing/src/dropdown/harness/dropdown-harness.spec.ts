@@ -215,24 +215,12 @@ describe('Dropdown test harness', () => {
     await dropdownHarness.clickDropdownButton();
     fixture.detectChanges();
 
-    const dropdownMenuHarness = await dropdownHarness.getDropdownMenuHarness();
+    const dropdownMenuHarness = await dropdownHarness.getDropdownMenu();
 
     await expectAsync(dropdownMenuHarness?.getRole()).toBeResolvedTo(
       'dropdown-menu'
     );
   });
-
-  // it('should get throw an error if dropdown menu is not open', async () => {
-  //   const { dropdownHarness, fixture } = await setupTest();
-
-  //   fixture.detectChanges();
-
-  //   await expectAsync(
-  //     dropdownHarness.getDropdownMenuHarness()
-  //   ).toBeRejectedWithError(
-  //     'Unable to retrieve dropdown menu harness because dropdown is closed'
-  //   );
-  // });
 
   it('should get the correct dropdown menu test harness when two are open', async () => {
     // const { dropdownHarness, fixture } = await setupTest();
@@ -247,5 +235,67 @@ describe('Dropdown test harness', () => {
     // open it
     // call .getDropdownMenuHarness([insert other dropdown button harness' menu's data sky id])
     // confirm that u got the second dropdown menu harness and not the first
+  });
+
+  describe('Dropdown menu test harness', () => {
+    it('should get throw an error if dropdown menu is not open', async () => {
+      const { dropdownHarness, fixture } = await setupTest();
+
+      fixture.detectChanges();
+
+      await expectAsync(
+        dropdownHarness.getDropdownMenu()
+      ).toBeRejectedWithError(
+        'Unable to retrieve dropdown menu harness because dropdown is closed'
+      );
+    });
+
+    it('should throw an error when trying to get the role of an item in an empty menu', async () => {
+      const { dropdownHarness, fixture } = await setupTest();
+
+      fixture.detectChanges();
+      await dropdownHarness.clickDropdownButton();
+      fixture.detectChanges();
+
+      const dropdownMenuHarness = await dropdownHarness.getDropdownMenu();
+
+      await expectAsync(
+        dropdownMenuHarness?.getMenuItemRoleAtIndex(0)
+      ).toBeRejectedWithError(
+        'Unable to retrieve item because dropdown menu is empty'
+      );
+    });
+
+    it('should throw an error when trying to click an item at index in an empty menu', async () => {
+      const { dropdownHarness, fixture } = await setupTest();
+
+      fixture.detectChanges();
+      await dropdownHarness.clickDropdownButton();
+      fixture.detectChanges();
+
+      const dropdownMenuHarness = await dropdownHarness.getDropdownMenu();
+
+      await expectAsync(
+        dropdownMenuHarness?.clickMenuItemAtIndex(0)
+      ).toBeRejectedWithError(
+        'Unable to retrieve item because dropdown menu is empty'
+      );
+    });
+
+    it('should throw an error when trying to click an item with role in an empty menu', async () => {
+      const { dropdownHarness, fixture } = await setupTest();
+
+      fixture.detectChanges();
+      await dropdownHarness.clickDropdownButton();
+      fixture.detectChanges();
+
+      const dropdownMenuHarness = await dropdownHarness.getDropdownMenu();
+
+      await expectAsync(
+        dropdownMenuHarness?.clickMenuItemWithRole('item-role')
+      ).toBeRejectedWithError(
+        'Unable to retrieve item because dropdown menu is empty'
+      );
+    });
   });
 });

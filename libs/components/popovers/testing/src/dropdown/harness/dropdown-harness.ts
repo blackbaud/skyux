@@ -1,5 +1,5 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
-import { SkyComponentHarness, SkyOverlayHarness } from '@skyux/core/testing';
+import { SkyComponentHarness } from '@skyux/core/testing';
 
 import { SkyDropdownHarnessFilters } from './dropdown-harness.filters';
 import { SkyDropdownMenuHarness } from './dropdown-menu-harness';
@@ -11,7 +11,7 @@ export class SkyDropdownHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-dropdown';
 
   #documentRootLocator = this.documentRootLocatorFactory();
-  #getOverlay = this.#documentRootLocator.locatorForOptional(SkyOverlayHarness);
+  // #getOverlay = this.#documentRootLocator.locatorForOptional(SkyOverlayHarness);
 
   #getDropdownButton = this.locatorFor('.sky-dropdown-button');
 
@@ -82,7 +82,12 @@ export class SkyDropdownHarness extends SkyComponentHarness {
    */
   //TODO RETHINK THIS
   public async isOpen(): Promise<boolean> {
-    return (await this.#getOverlay()) ? true : false;
+    const ariaExpanded = await (
+      await this.#getDropdownButton()
+    ).getAttribute('aria-expanded');
+
+    if (ariaExpanded?.match(/true/)) return true;
+    return false;
   }
 
   /**
@@ -93,19 +98,17 @@ export class SkyDropdownHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the dropdown menu component harness
+   * Gets the dropdown menu component
    */
-  public async getDropdownMenuHarness(): Promise<SkyDropdownMenuHarness | null> {
+  public async getDropdownMenu(): Promise<SkyDropdownMenuHarness | null> {
     const dropdownMenuId = await this.getAriaControls();
     if (!dropdownMenuId) {
       throw new Error(
         'Unable to retrieve dropdown menu harness because dropdown is closed'
       );
     }
-    return dropdownMenuId
-      ? this.#documentRootLocator.locatorForOptional(
-          SkyDropdownMenuHarness.with({ selector: `#${dropdownMenuId}` })
-        )()
-      : null;
+    return this.#documentRootLocator.locatorForOptional(
+      SkyDropdownMenuHarness.with({ selector: `#${dropdownMenuId}` })
+    )();
   }
 }
