@@ -51,16 +51,30 @@ fdescribe('Basic dropdown', async () => {
     fixture.detectChanges();
     await dropdownHarness.clickDropdownButton();
     fixture.detectChanges();
+
     const dropdownMenu = await dropdownHarness.getDropdownMenu();
+    const dropdownMenuItem = await await dropdownMenu?.getItemAtIndex(0);
 
     await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(true);
-    await expectAsync(
-      (await dropdownMenu?.getItemAtIndex(0))?.text()
-    ).toBeResolvedTo('Option 1');
+    await expectAsync(dropdownMenu?.getRole()).toBeResolvedTo('menu');
 
-    const clickSpy = spyOn(fixture.componentInstance, 'actionClicked');
-    await dropdownMenu?.clickMenuItemAtIndex(0);
+    await expectAsync((await dropdownMenuItem?.host())?.text()).toBeResolvedTo(
+      'Option 1'
+    );
+  });
+
+  it('should click the correct dropdown menu item', async () => {
+    const { dropdownHarness, fixture } = await setupTest();
+
     fixture.detectChanges();
-    expect(clickSpy).toHaveBeenCalled();
+    await dropdownHarness.clickDropdownButton();
+    fixture.detectChanges();
+
+    const dropdownMenu = await dropdownHarness.getDropdownMenu();
+    const clickSpy = spyOn(fixture.componentInstance, 'actionClicked');
+
+    await dropdownMenu?.clickMenuItemAtIndex(0);
+
+    expect(clickSpy).toHaveBeenCalledWith('Option 1');
   });
 });
