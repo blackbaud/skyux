@@ -6,7 +6,7 @@
   "prefix": "sky",
   "targets": {
     "build": {
-      "executor": "@nrwl/angular:package",
+      "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/phone-field"],
       "options": {
         "project": "libs/components/phone-field/ng-package.json",
@@ -41,7 +41,7 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "libs/components/phone-field/src/**/*.ts",

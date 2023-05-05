@@ -8,7 +8,7 @@ import {
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
 
 import { SkySummaryActionBarSecondaryActionsComponent } from './actions/summary-action-bar-secondary-actions.component';

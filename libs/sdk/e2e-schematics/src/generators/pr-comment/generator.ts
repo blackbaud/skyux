@@ -1,4 +1,4 @@
-import { Tree, generateFiles, joinPathFragments } from '@nrwl/devkit';
+import { Tree, generateFiles, joinPathFragments } from '@nx/devkit';
 
 import { PrCommentGeneratorOptions, PrCommentGeneratorSchema } from './schema';
 

@@ -1,4 +1,4 @@
-import { decamelize } from '@nrwl/workspace/src/utils/strings';
+import { decamelize } from '@nx/workspace/src/utils/strings';
 
 export function dirname(path: string): string {
   const end = path.lastIndexOf('/');

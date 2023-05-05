@@ -2,16 +2,16 @@ import {
   E2eTestRunner,
   applicationGenerator,
   storybookConfigurationGenerator,
-} from '@nrwl/angular/generators';
+} from '@nx/angular/generators';
 import {
   NxJsonConfiguration,
   readNxJson,
   readProjectConfiguration,
   updateNxJson,
-} from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import { Linter } from '@nrwl/linter';
-import { TsConfig } from '@nrwl/storybook/src/utils/utilities';
+} from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
+import { Linter } from '@nx/linter';
+import { TsConfig } from '@nx/storybook/src/utils/utilities';
 
 import { updateProjectConfiguration } from 'nx/src/generators/utils/project-configuration';
 
@@ -184,7 +184,7 @@ describe('configure-storybook', () => {
     await expect(
       configureStorybook(tree, { name: 'test-app' })
     ).rejects.toThrowError(
-      `Project "test-app-e2e" does not have an e2e target with @nrwl/cypress:cypress`
+      `Project "test-app-e2e" does not have an e2e target with @nx/cypress:cypress`
     );
   });
 });

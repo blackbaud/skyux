@@ -1,10 +1,10 @@
 import {
   applicationGenerator,
   storybookConfigurationGenerator,
-} from '@nrwl/angular/generators';
-import { NxJsonConfiguration, readNxJson, updateNxJson } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import { Linter } from '@nrwl/linter';
+} from '@nx/angular/generators';
+import { NxJsonConfiguration, readNxJson, updateNxJson } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
+import { Linter } from '@nx/linter';
 
 import configureStorybook from '../configure-storybook';
 

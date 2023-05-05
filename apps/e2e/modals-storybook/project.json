@@ -74,7 +74,7 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "apps/e2e/modals-storybook/**/*.ts",
@@ -83,7 +83,7 @@
       }
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/apps/e2e/modals-storybook"],
       "options": {
         "jestConfig": "apps/e2e/modals-storybook/jest.config.ts",

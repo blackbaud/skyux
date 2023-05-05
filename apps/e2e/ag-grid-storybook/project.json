@@ -75,7 +75,7 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "apps/e2e/ag-grid-storybook/**/*.ts",
@@ -84,7 +84,7 @@
       }
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/apps/e2e/ag-grid-storybook"],
       "options": {
         "jestConfig": "apps/e2e/ag-grid-storybook/jest.config.ts",

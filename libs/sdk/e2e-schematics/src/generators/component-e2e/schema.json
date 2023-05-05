@@ -4,7 +4,6 @@
   "title": "Create a library e2e",
   "description": "Creates an e2e infrastructure for a library.",
   "type": "object",
-  "cli": "nx",
   "properties": {
     "name": {
       "type": "string",

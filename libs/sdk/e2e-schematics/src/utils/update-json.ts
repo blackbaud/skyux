@@ -1,4 +1,4 @@
-import { Tree, parseJson, serializeJson } from '@nrwl/devkit';
+import { Tree, parseJson, serializeJson } from '@nx/devkit';
 
 export function readJsonFile(tree: Tree, path: string) {
   const asString = tree.read(path, 'utf-8');

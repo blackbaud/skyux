@@ -4,13 +4,13 @@
   "peerDependencies": {
     "@angular/cdk": "^15.2.1",
     "@angular/cli": "^15.2.1",
-    "@nrwl/angular": "^15.8.3",
-    "@nrwl/devkit": "^15.8.3",
-    "@nrwl/linter": "^15.8.3",
-    "@nrwl/storybook": "^15.8.3",
-    "@nrwl/workspace": "^15.8.3",
     "@percy/cypress": "^3.1.2",
-    "typescript": "^4.9.5"
+    "typescript": "^4.9.5",
+    "@nx/devkit": "^15.8.3",
+    "@nx/workspace": "^15.8.3",
+    "@nx/linter": "^15.8.3",
+    "@nx/storybook": "^15.8.3",
+    "@nx/angular": "^15.8.3"
   },
   "main": "src/index.js",
   "generators": "./generators.json"

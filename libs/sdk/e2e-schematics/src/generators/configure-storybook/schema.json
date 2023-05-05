@@ -4,7 +4,6 @@
   "title": "Configure Storybook",
   "description": "Adds configuration to Storybook.",
   "type": "object",
-  "cli": "nx",
   "properties": {
     "name": {
       "type": "string",

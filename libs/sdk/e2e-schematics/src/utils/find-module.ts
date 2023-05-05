@@ -1,4 +1,4 @@
-import { Tree, normalizePath, visitNotIgnoredFiles } from '@nrwl/devkit';
+import { Tree, normalizePath, visitNotIgnoredFiles } from '@nx/devkit';
 import * as ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 
 import { relative } from 'path';

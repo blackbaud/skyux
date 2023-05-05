@@ -1,5 +1,5 @@
 import { SchematicsAngularApplicationStyle } from '@angular/cli/lib/config/workspace-schema';
-import { applicationGenerator } from '@nrwl/angular/generators';
+import { applicationGenerator } from '@nx/angular/generators';
 import {
   ProjectConfiguration,
   Tree,
@@ -14,11 +14,11 @@ import {
   removeDependenciesFromPackageJson,
   updateJson,
   updateProjectConfiguration,
-} from '@nrwl/devkit';
-import { addDependenciesToPackageJson } from '@nrwl/devkit/src/utils/package-json';
-import { Linter } from '@nrwl/linter';
-import { moveGenerator } from '@nrwl/workspace';
-import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
+} from '@nx/devkit';
+import { addDependenciesToPackageJson } from '@nx/devkit/src/utils/package-json';
+import { Linter } from '@nx/linter';
+import { moveGenerator } from '@nx/workspace';
+import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-serial';
 
 import configurePercy from '../configure-percy';
 import configureStorybook from '../configure-storybook';
@@ -228,7 +228,7 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       tree.isFile(`${projectConfig.root}/.storybook/main.ts`)
     )
   ) {
-    const { configurationGenerator } = await import('@nrwl/storybook');
+    const { configurationGenerator } = await import('@nx/storybook');
     await configurationGenerator(tree, {
       name: options.storybookAppName,
       uiFramework: '@storybook/angular',

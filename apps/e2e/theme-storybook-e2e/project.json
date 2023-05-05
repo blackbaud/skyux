@@ -5,7 +5,7 @@
   "projectType": "application",
   "targets": {
     "e2e": {
-      "executor": "@nrwl/cypress:cypress",
+      "executor": "@nx/cypress:cypress",
       "options": {
         "cypressConfig": "apps/e2e/theme-storybook-e2e/cypress.config.ts",
         "devServerTarget": "theme-storybook:storybook",
@@ -19,7 +19,7 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/e2e/theme-storybook-e2e/**/*.{js,ts}"]

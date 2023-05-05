@@ -1,5 +1,5 @@
-import { componentGenerator } from '@nrwl/angular/generators';
-import { normalizePath } from '@nrwl/devkit';
+import { componentGenerator } from '@nx/angular/generators';
+import { normalizePath } from '@nx/devkit';
 import {
   ProjectConfiguration,
   Tree,
@@ -7,8 +7,8 @@ import {
   generateFiles,
   getProjects,
   joinPathFragments,
-} from '@nrwl/devkit';
-import { classify, dasherize } from '@nrwl/workspace/src/utils/strings';
+} from '@nx/devkit';
+import { classify, dasherize } from '@nx/workspace/src/utils/strings';
 
 import {
   angularModuleGenerator,

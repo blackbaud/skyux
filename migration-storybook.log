@@ -1,0 +1,66 @@
+🔎 checking possible migrations..
+
+🔎 found a 'new-frameworks' migration:
+╭ Automigration detected ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                                                                │
+│   We've detected your project is not fully setup with Storybook's 7 new framework format.                                                                      │
+│                                                                                                                                                                │
+│   Storybook 7 introduced the concept of frameworks, which abstracts configuration for renderers (e.g. React, Vue), builders (e.g. Webpack, Vite) and           │
+│   defaults to make integrations easier.                                                                                                                        │
+│                                                                                                                                                                │
+│   Your project should be updated to use Storybook's framework: @storybook/angular. We can attempt to do this for you automatically.                            │
+│                                                                                                                                                                │
+│   Here are the steps this migration will do to migrate your project:                                                                                           │
+│   - Update or specify the framework field in apps\e2e\split-view-storybook\.storybook\main.ts with the value of "@storybook/angular".                          │
+│   - Remove the core.builder field in apps\e2e\split-view-storybook\.storybook\main.ts.                                                                         │
+│                                                                                                                                                                │
+│                                                                                                                                                                │
+│   To learn more about the new framework format, see: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#new-framework-api                         │
+│                                                                                                                                                                │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+? Do you want to run the 'new-frameworks' migration on your project? » (Y/n)√ Do you want to run the 'new-frameworks' migration on your project? ... yes
+✅ Updating main.js
+✅ Updating "framework" field
+✅ Removing "core.builder" field
+❌ The migration failed to update your apps\e2e\split-view-storybook\.storybook\main.ts on your behalf because of the following error:
+        ReferenceError: rootMain is not defined
+
+⚠️ Storybook automigrations are based on AST parsing and it's possible that your apps\e2e\split-view-storybook\.storybook\main.ts file contains a non-standard format (e.g. your export is not an object) or that there was an error when parsing dynamic values (e.g. "require" calls, or usage of environment variables). When your main config is non-standard, automigrations are unfortunately not possible. Please follow the instructions given previously and follow the documentation to make the updates manually.
+✅ ran new-frameworks migration
+
+⚠️  failed to check fix missing-babelrc
+
+TypeError: Cannot read properties of undefined (reading 'name')
+    at Object.check (C:\Users\Trevor.Burch\AppData\Local\npm-cache\_npx\bc7e1e37fcb46ffc\node_modules\@storybook\cli\dist\generate.js:263:757)
+    at async runFixes (C:\Users\Trevor.Burch\AppData\Local\npm-cache\_npx\bc7e1e37fcb46ffc\node_modules\@storybook\cli\dist\generate.js:324:1163)
+    at async automigrate (C:\Users\Trevor.Burch\AppData\Local\npm-cache\_npx\bc7e1e37fcb46ffc\node_modules\@storybook\cli\dist\generate.js:321:636)
+    at async Command.<anonymous> (C:\Users\Trevor.Burch\AppData\Local\npm-cache\_npx\bc7e1e37fcb46ffc\node_modules\@storybook\cli\dist\generate.js:435:2814)
+
+╭ Migration check ran with failures ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                                                               │
+│   Successful migrations:                                                                                                                                      │
+│                                                                                                                                                               │
+│   new-frameworks                                                                                                                                              │
+│                                                                                                                                                               │
+│   Failed migrations:                                                                                                                                          │
+│                                                                                                                                                               │
+│   missing-babelrc:                                                                                                                                            │
+│   Cannot read properties of undefined (reading 'name')                                                                                                        │
+│                                                                                                                                                               │
+│   You can find the full logs in C:\Blackbaud_Repos\skyux\migration-storybook.log                                                                              │
+│                                                                                                                                                               │
+│   ─────────────────────────────────────────────────                                                                                                           │
+│                                                                                                                                                               │
+│   If you'd like to run the migrations again, you can do so by running 'npx storybook@next automigrate'                                                        │
+│                                                                                                                                                               │
+│   The automigrations try to migrate common patterns in your project, but might not contain everything needed to migrate to the latest version of Storybook.   │
+│                                                                                                                                                               │
+│   Please check the changelog and migration guide for manual migrations and more information: https://storybook.js.org/migration-guides/7.0                    │
+│   And reach out on Discord if you need help: https://discord.gg/storybook                                                                                     │
+│                                                                                                                                                               │
+│   ─────────────────────────────────────────────────                                                                                                           │
+│                                                                                                                                                               │
+│   You can find more information for a given dependency by running npm ls --depth=1 <package-name>                                                             │
+│                                                                                                                                                               │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+

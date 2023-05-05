@@ -1,5 +1,5 @@
-import { applicationGenerator } from '@nrwl/angular/generators';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { applicationGenerator } from '@nx/angular/generators';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { RoutingScope } from '@schematics/angular/module/schema';
 
 import { angularModuleGenerator } from './angular-module-generator';

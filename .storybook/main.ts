@@ -25,3 +25,10 @@ export const rootMain: StorybookConfig = {
     buildStoriesJson: true,
   },
 };
+export const framework = {
+  name: '@storybook/angular',
+  options: {},
+};
+export const docs = {
+  autodocs: true,
+};

@@ -1,6 +1,6 @@
-import { readProjectConfiguration } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import { libraryGenerator } from '@nrwl/workspace';
+import { readProjectConfiguration } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
+import { libraryGenerator } from '@nx/workspace';
 
 import { createTree } from 'nx/src/generators/testing-utils/create-tree';
 import { updateProjectConfiguration } from 'nx/src/generators/utils/project-configuration';

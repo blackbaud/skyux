@@ -2,15 +2,15 @@ import {
   applicationGenerator,
   libraryGenerator,
   storybookConfigurationGenerator,
-} from '@nrwl/angular/generators';
+} from '@nx/angular/generators';
 import {
   NxJsonConfiguration,
   Tree,
   readNxJson,
   updateNxJson,
-} from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import { Linter } from '@nrwl/linter';
+} from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
+import { Linter } from '@nx/linter';
 import { RoutingScope } from '@schematics/angular/module/schema';
 
 import { angularModuleGenerator } from '../../utils';
