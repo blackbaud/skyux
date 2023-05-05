@@ -87,6 +87,7 @@ describe('Autocomplete component', () => {
     inputElement.value = newValue;
 
     inputElement.focus();
+    SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
     SkyAppTestUtility.fireDomEvent(inputElement, 'input');
     fixture.detectChanges();
     tick();
@@ -704,6 +705,7 @@ describe('Autocomplete component', () => {
       const spy = spyOn(autocomplete, 'searchOrDefault').and.callThrough();
 
       inputElement.value = 'r';
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
       SkyAppTestUtility.fireDomEvent(inputElement, 'input');
 
       // The search method should not execute at this time.
@@ -728,6 +730,45 @@ describe('Autocomplete component', () => {
 
       expect(spy).toHaveBeenCalled();
       expect(spy.calls.count()).toEqual(1);
+    }));
+
+    it('should show dropdown if debounce time is met before blur', fakeAsync(() => {
+      component.debounceTime = 400;
+      fixture.detectChanges();
+
+      // Type 'r' to activate the autocomplete dropdown.
+      enterSearch('r', fixture);
+      let dropdownElement = getSearchResultsContainer();
+
+      expect(dropdownElement).toBeNull();
+
+      tick(400);
+      fixture.detectChanges();
+
+      dropdownElement = getSearchResultsContainer();
+
+      expect(dropdownElement).not.toBeNull();
+      sendEscape(getInputElement(), fixture);
+    }));
+
+    it('should not show dropdown if debounce time is not met before blur', fakeAsync(() => {
+      component.debounceTime = 400;
+      fixture.detectChanges();
+
+      // Type 'r' to activate the autocomplete dropdown.
+      enterSearch('r', fixture);
+      let dropdownElement = getSearchResultsContainer();
+
+      expect(dropdownElement).toBeNull();
+
+      blurInput(getInputElement(), fixture);
+
+      tick(400);
+      fixture.detectChanges();
+
+      dropdownElement = getSearchResultsContainer();
+
+      expect(dropdownElement).toBeNull();
     }));
 
     it('should show the dropdown when the form controls value changes', fakeAsync(() => {
