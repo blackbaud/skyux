@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
+import { SkyDateRangePickerModule } from '@skyux/datetime';
 import { SkyFilterModule } from '@skyux/lists';
 
 @Component({
@@ -61,7 +62,7 @@ export class FilterVisualComponent {
 }
 
 @NgModule({
-  imports: [CommonModule, SkyFilterModule],
+  imports: [CommonModule, SkyDateRangePickerModule, SkyFilterModule],
   declarations: [FilterVisualComponent],
   exports: [FilterVisualComponent],
 })

@@ -48,6 +48,24 @@
   }
 }
 
+// Because of how inline filters use flex for their layout -
+// we need to set flex-basis to 100% if the date range picker is within an inline filter item.
+@include mixins.sky-host-responsive-container-sm-min(false) {
+  :host-context(sky-filter-inline-item) {
+    .sky-date-range-picker-form-group {
+      flex-basis: 100%;
+
+      &:not(:first-of-type) {
+        padding-left: initial;
+      }
+
+      &:not(:last-of-type) {
+        padding-right: initial;
+      }
+    }
+  }
+}
+
 @include mixins.sky-theme-modern {
   .sky-date-range-picker-form-group {
     padding: 0;
