@@ -14,6 +14,11 @@
       "version": "8.0.0-alpha.0",
       "factory": "./update-8/add-compat-stylesheets/add-compat-stylesheets",
       "description": "Add a backwards-compatible stylesheet with styles that have been removed from components in SKY UX 8."
+    },
+    "update-autonumeric": {
+      "version": "8.0.0-alpha.0",
+      "factory": "./update-8/update-autonumeric/update-autonumeric",
+      "description": "Update autonumeric to version `4.8.1`."
     }
   }
 }
