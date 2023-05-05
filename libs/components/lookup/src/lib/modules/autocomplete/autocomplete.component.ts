@@ -381,12 +381,15 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
         .subscribe(() => {
           directive.restoreInputTextValueToPreviousState();
           this.#closeDropdown();
+          this.#cancelCurrentSearch();
           directive.onTouched();
+          this.#hasFocus = false;
         });
 
       this.#_inputDirective.focus
         .pipe(takeUntil(this.#inputDirectiveUnsubscribe))
         .subscribe(() => {
+          this.#hasFocus = true;
           if (this.showActionsArea) {
             this.#openDropdown();
           }
@@ -434,6 +437,8 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   #changeDetector: ChangeDetectorRef;
 
   #elementRef: ElementRef;
+
+  #hasFocus = false;
 
   #inputBoxHostSvc: SkyInputBoxHostService | undefined;
 
@@ -653,87 +658,92 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   }
 
   #searchTextChanged(searchText: string | undefined): void {
-    const isEmpty =
-      !searchText || !searchText.trim() || searchText.match(/^\s+$/);
+    if (this.#hasFocus) {
+      const isEmpty =
+        !searchText || !searchText.trim() || searchText.match(/^\s+$/);
 
-    if (isEmpty) {
-      // Emit selectionChange if value has been cleared.
-      /* istanbul ignore else */
-      if (this.inputDirective && this.inputDirective.value) {
-        this.inputDirective.value = undefined;
-        this.selectionChange.emit({
-          selectedItem: undefined,
-        });
-      }
-
-      if (!this.showActionsArea) {
-        this.#closeDropdown();
-      } else {
-        this.#resetSearch();
-      }
-
-      this.isSearchingAsync = false;
-      this.#changeDetector.markForCheck();
-
-      return;
-    }
-
-    const isLongEnough = searchText.length >= this.searchTextMinimumCharacters;
-    const isDifferent = searchText !== this.searchText;
-
-    this.searchText = searchText.trim();
-
-    if (isLongEnough && isDifferent) {
-      this.#cancelCurrentSearch();
-
-      this.#currentSearchSub = this.#performSearch()
-        .pipe(take(1))
-        .subscribe((result) => {
-          const items = result?.items.filter((item: any) => {
-            return item && this.descriptorProperty in item;
+      if (isEmpty) {
+        // Emit selectionChange if value has been cleared.
+        /* istanbul ignore else */
+        if (this.inputDirective && this.inputDirective.value) {
+          this.inputDirective.value = undefined;
+          this.selectionChange.emit({
+            selectedItem: undefined,
           });
+        }
 
-          this.isSearchingAsync = false;
+        if (!this.showActionsArea) {
+          this.#closeDropdown();
+        } else {
+          this.#resetSearch();
+        }
 
-          this.searchResults =
-            items?.map((r, i) => {
-              const result: SkyAutocompleteSearchResult = {
-                elementId: `${this.resultsListId}-item-${i}`,
-                data: r,
-              };
-              return result;
-            }) || [];
+        this.isSearchingAsync = false;
+        this.#changeDetector.markForCheck();
 
-          this.searchResultsCount = result?.totalCount || 0;
+        return;
+      }
 
-          this.highlightText = this.#getHighlightText(this.searchText);
-          this.#removeFocusedClass();
-          this.#removeActiveDescendant();
-          if (this.searchResults.length > 0) {
-            this.#activeElementIndex = 0;
-          } else {
-            this.#activeElementIndex = -1;
-          }
+      const isLongEnough =
+        searchText.length >= this.searchTextMinimumCharacters;
+      const isDifferent = searchText !== this.searchText;
 
-          this.#changeDetector.markForCheck();
+      this.searchText = searchText.trim();
 
-          if (this.isOpen) {
-            // Let the results populate in the DOM before recalculating placement.
-            setTimeout(() => {
-              if (this.#affixer) {
-                this.#affixer.reaffix();
-                this.#changeDetector.detectChanges();
-                this.#initOverlayFocusableElements();
-              }
+      if (isLongEnough && isDifferent) {
+        this.#cancelCurrentSearch();
+
+        this.#currentSearchSub = this.#performSearch()
+          .pipe(take(1))
+          .subscribe((result) => {
+            const items = result?.items.filter((item: any) => {
+              return item && this.descriptorProperty in item;
             });
-          } else {
-            this.#openDropdown();
+
+            this.isSearchingAsync = false;
+
+            this.searchResults =
+              items?.map((r, i) => {
+                const result: SkyAutocompleteSearchResult = {
+                  elementId: `${this.resultsListId}-item-${i}`,
+                  data: r,
+                };
+                return result;
+              }) || [];
+
+            this.searchResultsCount = result?.totalCount || 0;
+
+            this.highlightText = this.#getHighlightText(this.searchText);
+            this.#removeFocusedClass();
+            this.#removeActiveDescendant();
+            if (this.searchResults.length > 0) {
+              this.#activeElementIndex = 0;
+            } else {
+              this.#activeElementIndex = -1;
+            }
+
             this.#changeDetector.markForCheck();
-          }
-        });
+
+            if (this.isOpen) {
+              // Let the results populate in the DOM before recalculating placement.
+              setTimeout(() => {
+                if (this.#affixer) {
+                  this.#affixer.reaffix();
+                  this.#changeDetector.detectChanges();
+                  this.#initOverlayFocusableElements();
+                }
+              });
+            } else {
+              this.#openDropdown();
+              this.#changeDetector.markForCheck();
+            }
+          });
+      } else {
+        this.isSearchingAsync = false;
+        this.#changeDetector.markForCheck();
+      }
     } else {
       this.isSearchingAsync = false;
-      this.#changeDetector.markForCheck();
     }
   }
 

@@ -322,6 +322,8 @@ describe('Lookup component', function () {
     } else {
       inputElement = getInputElement(fixture.componentInstance.lookupComponent);
     }
+    inputElement.focus();
+    SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
     inputElement.value = searchText;
     SkyAppTestUtility.fireDomEvent(inputElement, 'input');
     tick();
@@ -633,7 +635,7 @@ describe('Lookup component', function () {
           performSearch('', fixture);
           getInputElement(lookupComponent).blur();
           fixture.detectChanges();
-          tick();
+          tick(25);
 
           const selectedItems = lookupComponent.value;
           expect(selectedItems.length).toEqual(1);
@@ -725,7 +727,7 @@ describe('Lookup component', function () {
           performSearch('', fixture);
           getInputElement(lookupComponent).blur();
           fixture.detectChanges();
-          tick();
+          tick(25);
 
           validateItems(['Isaac']);
         }));
@@ -942,6 +944,8 @@ describe('Lookup component', function () {
 
         performSearch('no results for this search', fixture);
         getInputElement(lookupComponent).blur();
+        fixture.detectChanges();
+        tick(25);
 
         expect(lookupComponent.value).toEqual([]);
       }));
@@ -3414,6 +3418,9 @@ describe('Lookup component', function () {
         selectSearchResult(0, fixture);
 
         const input = getInputElement(lookupComponent);
+        getInputElement(lookupComponent).blur();
+        fixture.detectChanges();
+        tick(25);
 
         clickToken(0, fixture, false);
 
@@ -3737,7 +3744,7 @@ describe('Lookup component', function () {
           performSearch('', fixture);
           getInputElement(lookupComponent).blur();
           fixture.detectChanges();
-          tick();
+          tick(25);
 
           const selectedItems = lookupComponent.value;
           expect(selectedItems.length).toEqual(1);
@@ -3883,6 +3890,8 @@ describe('Lookup component', function () {
 
           performSearch('no results for this search', fixture);
           getInputElement(lookupComponent).blur();
+          fixture.detectChanges();
+          tick(25);
 
           expect(lookupComponent.value).toEqual([]);
         }));
@@ -6300,6 +6309,9 @@ describe('Lookup component', function () {
         selectSearchResult(0, fixture);
 
         const input = getInputElement(lookupComponent);
+        getInputElement(lookupComponent).blur();
+        fixture.detectChanges();
+        tick(25);
 
         clickToken(0, fixture, false);
 
@@ -6390,6 +6402,9 @@ describe('Lookup component', function () {
         selectSearchResult(0, fixture);
 
         const input = getInputElement(lookupComponent);
+        getInputElement(lookupComponent).blur();
+        fixture.detectChanges();
+        tick(25);
 
         clickToken(0, fixture, false);
 
