@@ -1,5 +1,22 @@
 # Changelog
 
+## [8.0.0-beta.4](https://github.com/blackbaud/skyux/compare/8.0.0-beta.3...8.0.0-beta.4) (2023-05-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/autonumeric:** The `@skyux/autonumeric` peer dependency has been updated to `4.8.1`. Version `4.8.0` of `autonumeric` introduced the `negativePositiveSignBehavior` option and this option defaults to `false`. However, the behavior this option enables was previously on by default. To maintain this behavior,  enable this option on the `skyAutonumeric` instance. For more information, see the [`autonumeric` library's CHANGELOG](https://github.com/autoNumeric/autoNumeric/blob/next/CHANGELOG.md]).
+
+### Features
+
+* **components/autonumeric:** update `autonumeric` peer dependency to `4.8.1` ([#1348](https://github.com/blackbaud/skyux/issues/1348)) ([61da566](https://github.com/blackbaud/skyux/commit/61da566e0d09ae620dcfb66b8c1c132b4c350511))
+
+
+### Bug Fixes
+
+* **components/indicators:** remove white ring around focused alert or toast close buttons ([#1335](https://github.com/blackbaud/skyux/issues/1335)) ([#1343](https://github.com/blackbaud/skyux/issues/1343)) ([a360c57](https://github.com/blackbaud/skyux/commit/a360c5713ff32bd3c124f109cbd5eb4d41ce2ab5))
+* **components/lookup:** lookup search results will not show up after the lookup field has lost focus ([#1337](https://github.com/blackbaud/skyux/issues/1337)) ([#1351](https://github.com/blackbaud/skyux/issues/1351)) ([5b34c8d](https://github.com/blackbaud/skyux/commit/5b34c8d44347cd1723373afc147eb1646f41f376))
+
 ## [8.0.0-beta.3](https://github.com/blackbaud/skyux/compare/8.0.0-beta.2...8.0.0-beta.3) (2023-04-26)
 
 
