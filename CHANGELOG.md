@@ -1,5 +1,13 @@
 # Changelog
 
+## [7.21.3](https://github.com/blackbaud/skyux/compare/7.21.2...7.21.3) (2023-05-05)
+
+
+### Bug Fixes
+
+* **components/indicators:** remove white ring around focused alert or toast close buttons ([#1335](https://github.com/blackbaud/skyux/issues/1335)) ([f28fa22](https://github.com/blackbaud/skyux/commit/f28fa22f1f985b8dd88dd72e00a6f70cde9632c3))
+* **components/lookup:** lookup search results will not show up after the lookup field has lost focus ([#1337](https://github.com/blackbaud/skyux/issues/1337)) ([371043c](https://github.com/blackbaud/skyux/commit/371043cbfe9a983de28725a447f0e78cfc17aa9e))
+
 ## [7.21.2](https://github.com/blackbaud/skyux/compare/7.21.1...7.21.2) (2023-04-26)
 
 
