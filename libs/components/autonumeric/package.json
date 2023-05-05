@@ -19,7 +19,7 @@
     "@angular/common": "^15.2.1",
     "@angular/core": "^15.2.1",
     "@angular/forms": "^15.2.1",
-    "autonumeric": "^4.6.0"
+    "autonumeric": "^4.8.1"
   },
   "dependencies": {
     "tslib": "^2.5.0"
