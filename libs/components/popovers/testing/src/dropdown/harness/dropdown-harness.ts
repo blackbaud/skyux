@@ -16,7 +16,7 @@ export class SkyDropdownHarness extends SkyComponentHarness {
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
-   * `SkyDropdownHarness` that meets certain criteria
+   * `SkyDropdownHarness` that meets certain criteria.
    */
   public static with(
     filters: SkyDropdownHarnessFilters
@@ -25,28 +25,28 @@ export class SkyDropdownHarness extends SkyComponentHarness {
   }
 
   /**
-   * Clicks the dropdown button
+   * Clicks the dropdown button.
    */
   public async clickDropdownButton(): Promise<void> {
     (await this.#getDropdownButton()).click();
   }
 
   /**
-   * Gets the id of the dropdown menu the button controls
+   * Gets the id of the dropdown menu the button controls.
    */
   public async getAriaControls(): Promise<string | null> {
     return (await this.#getDropdownButton()).getAttribute('aria-controls');
   }
 
   /**
-   * Gets the aria-label value
+   * Gets the aria-label value.
    */
   public async getAriaLabel(): Promise<string | null> {
     return (await this.#getDropdownButton()).getAttribute('aria-label');
   }
 
   /**
-   * Gets the dropdown button style
+   * Gets the dropdown button style.
    */
   public async getButtonStyle(): Promise<string> {
     const button = await this.#getDropdownButton();
@@ -63,7 +63,7 @@ export class SkyDropdownHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the dropdown button type
+   * Gets the dropdown button type.
    */
   public async getButtonType(): Promise<string> {
     const button = await this.#getDropdownButton();
@@ -76,7 +76,7 @@ export class SkyDropdownHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the dropdown menu component
+   * Gets the dropdown menu component.
    */
   public async getDropdownMenu(): Promise<SkyDropdownMenuHarness | null> {
     const dropdownMenuId = await this.getAriaControls();
@@ -93,14 +93,14 @@ export class SkyDropdownHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the hover tooltip text
+   * Gets the hover tooltip text.
    */
   public async getTooltipTitle(): Promise<string | null> {
     return (await this.#getDropdownButton()).getAttribute('title');
   }
 
   /**
-   * Gets whether the dropdown is disabled
+   * Gets whether the dropdown is disabled.
    */
   public async isDisabled(): Promise<boolean> {
     const button = await this.#getDropdownButton();
@@ -109,7 +109,7 @@ export class SkyDropdownHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets whether the dropdown menu is open
+   * Gets whether the dropdown menu is open.
    */
   public async isOpen(): Promise<boolean> {
     const ariaExpanded = await (

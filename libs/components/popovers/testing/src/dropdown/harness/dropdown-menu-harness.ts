@@ -5,7 +5,7 @@ import { SkyDropdownItemHarness } from './dropdown-item-harness';
 import { SkyDropdownMenuHarnessFilters } from './dropdown-menu-harness.filters';
 
 /**
- * Harness for interacting with dropdown menu in tests
+ * Harness for interacting with dropdown menu in tests.
  */
 export class SkyDropdownMenuHarness extends SkyComponentHarness {
   /**
@@ -17,7 +17,7 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
-   * `SkyDropdownMenuHarness` that meets certain criteria
+   * `SkyDropdownMenuHarness` that meets certain criteria.
    */
   public static with(
     filters: SkyDropdownMenuHarnessFilters
@@ -26,23 +26,23 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the aria-labelledby value
+   * Gets the aria-labelledby value.
    */
   public async getAriaLabelledBy(): Promise<string | null> {
     return (await this.host()).getAttribute('aria-labelledby');
   }
 
   /**
-   * Clicks the dropdown menu item at index
-   * @param index Index of dropdown menu item
+   * Clicks the dropdown menu item at index.
+   * @param index Index of dropdown menu item.
    */
   public async clickItemAtIndex(index: number): Promise<void> {
     await (await this.getItemAtIndex(index))?.click();
   }
 
   /**
-   * Clicks the dropdown menu item with a specific role
-   * @param role Role of dropdown menu item to be clicked
+   * Clicks the dropdown menu item with a specific role.
+   * @param role Role of dropdown menu item to be clicked.
    */
   public async clickItemWithRole(role: string): Promise<void> {
     const menuItem = await this.getItemWithRole(role);
@@ -55,8 +55,8 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the dropdown menu item at a specific index
-   * @param index Index of dropdown menu item to be clicked
+   * Gets the dropdown menu item at a specific index.
+   * @param index Index of dropdown menu item to be clicked.
    */
   public async getItemAtIndex(
     index: number
@@ -71,8 +71,8 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the role of dropdown menu at index
-   * @param index Index of dropdown menu item
+   * Gets the role of dropdown menu at index.
+   * @param index Index of dropdown menu item.
    */
   public async getItemRoleAtIndex(
     index: number
@@ -81,15 +81,15 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an array of dropdown menu items
+   * Gets an array of dropdown menu items.
    */
   public async getItems(): Promise<SkyDropdownItemHarness[]> {
     return await this.#getDropdownItems();
   }
 
   /**
-   * Gets the dropdown menu item from role
-   * @param role Role of dropdown menu item
+   * Gets the dropdown menu item from role.
+   * @param role Role of dropdown menu item.
    */
   private async getItemWithRole(
     role: string
@@ -108,7 +108,7 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the dropdown menu role
+   * Gets the dropdown menu role.
    */
   public async getRole(): Promise<string | null> {
     return (await this.host()).getAttribute('role');

@@ -10,14 +10,14 @@ export class SkyDropdownItemHarness extends SkyComponentHarness {
   #getButton = this.locatorFor('button,a');
 
   /**
-   * Clicks the dropdown item
+   * Clicks the dropdown item.
    */
   public async click(): Promise<void> {
     await (await this.#getButton()).click();
   }
 
   /**
-   * Gets the dropdown item role
+   * Gets the dropdown item role.
    */
   public async getRole(): Promise<string | null> {
     return (await this.#getItem()).getAttribute('role');
