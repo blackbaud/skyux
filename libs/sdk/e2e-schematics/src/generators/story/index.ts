@@ -158,7 +158,7 @@ export default async function (tree: Tree, options: ComponentGeneratorSchema) {
   await componentGenerator(tree, {
     name: normalizedOptions.name,
     module: baseName,
-    project: normalizedOptions.project!,
+    project: normalizedOptions.project,
     style: 'scss',
     displayBlock: true,
     changeDetection: 'OnPush',
