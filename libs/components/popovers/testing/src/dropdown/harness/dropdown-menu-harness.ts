@@ -36,8 +36,8 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
    * Clicks the dropdown menu item at index.
    * @param index Index of dropdown menu item.
    */
-  public async clickItemAtIndex(index: number): Promise<void> {
-    await (await this.getItemAtIndex(index))?.click();
+  public async clickItemByIndex(index: number): Promise<void> {
+    await (await this.getItemByIndex(index))?.click();
   }
 
   /**
@@ -45,20 +45,20 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
    * @param role Role of dropdown menu item to be clicked.
    */
   public async clickItemWithRole(role: string): Promise<void> {
-    const menuItem = await this.getItemWithRole(role);
+    const menuItem = await this.#getItemWithRole(role);
     if (!menuItem) {
       throw new Error(
         `Unable to click item. Item with role ${role} does not exist in this dropdown menu`
       );
     }
-    await (await this.getItemWithRole(role))?.click();
+    await (await this.#getItemWithRole(role))?.click();
   }
 
   /**
    * Gets the dropdown menu item at a specific index.
    * @param index Index of dropdown menu item to be clicked.
    */
-  public async getItemAtIndex(
+  public async getItemByIndex(
     index: number
   ): Promise<SkyDropdownItemHarness | undefined> {
     const itemsList = await this.getItems();
@@ -74,10 +74,10 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
    * Gets the role of dropdown menu at index.
    * @param index Index of dropdown menu item.
    */
-  public async getItemRoleAtIndex(
+  public async getItemRoleByIndex(
     index: number
   ): Promise<string | null | undefined> {
-    return (await this.getItemAtIndex(index))?.getRole();
+    return (await this.getItemByIndex(index))?.getRole();
   }
 
   /**
@@ -88,29 +88,33 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
   }
 
   /**
+   * Gets the dropdown menu role.
+   */
+  public async getRole(): Promise<string | null> {
+    return (await this.host()).getAttribute('role');
+  }
+
+  /**
    * Gets the dropdown menu item from role.
    * @param role Role of dropdown menu item.
    */
-  private async getItemWithRole(
+  async #getItemWithRole(
     role: string
   ): Promise<SkyDropdownItemHarness | undefined> {
     const itemsList = await this.getItems();
 
     if (itemsList?.length === 0) {
-      throw new Error('Unable to retrieve item because dropdown menu is empty');
+      throw new Error(
+        'Unable to retrieve item because dropdown menu is empty.'
+      );
     }
 
     for (const item of itemsList) {
-      if ((await item.getRole())?.match(role)) return item;
+      if ((await item.getRole())?.match(role)) {
+        return item;
+      }
     }
 
     return undefined;
-  }
-
-  /**
-   * Gets the dropdown menu role.
-   */
-  public async getRole(): Promise<string | null> {
-    return (await this.host()).getAttribute('role');
   }
 }

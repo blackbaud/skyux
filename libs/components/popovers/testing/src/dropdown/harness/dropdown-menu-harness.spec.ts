@@ -65,7 +65,7 @@ describe('DropdownMenu menu test harness', () => {
     const clickSpy = spyOn(fixture.componentInstance, 'clickItem');
     fixture.detectChanges();
 
-    await dropdownMenuHarness.clickItemAtIndex(1);
+    await dropdownMenuHarness.clickItemByIndex(1);
     fixture.detectChanges();
     expect(clickSpy).toHaveBeenCalled();
   });
@@ -88,7 +88,7 @@ describe('DropdownMenu menu test harness', () => {
     fixture.componentInstance.clickItemRole = 'item2';
     fixture.detectChanges();
 
-    await expectAsync(dropdownMenuHarness.getItemRoleAtIndex(0)).toBeResolvedTo(
+    await expectAsync(dropdownMenuHarness.getItemRoleByIndex(0)).toBeResolvedTo(
       'item1'
     );
   });
