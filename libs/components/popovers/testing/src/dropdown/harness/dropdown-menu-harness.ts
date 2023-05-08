@@ -64,7 +64,9 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
     const itemsList = await this.getItems();
 
     if (itemsList?.length === 0) {
-      throw new Error('Unable to retrieve item because dropdown menu is empty');
+      throw new Error(
+        'Unable to retrieve item because dropdown menu is empty.'
+      );
     }
 
     return itemsList.at(index);
