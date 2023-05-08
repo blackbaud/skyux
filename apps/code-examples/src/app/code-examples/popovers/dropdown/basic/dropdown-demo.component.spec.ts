@@ -41,7 +41,7 @@ describe('Basic dropdown', async () => {
     await expectAsync(dropdownHarness.getAriaLabel()).toBeResolvedTo(
       'Context menu'
     );
-    await expectAsync(dropdownHarness.getTooltipTitle()).toBeResolvedTo(null);
+    await expectAsync(dropdownHarness.getTitle()).toBeResolvedTo(null);
     await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(false);
   });
 

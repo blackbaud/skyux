@@ -172,7 +172,7 @@ describe('Dropdown test harness', () => {
 
     fixture.detectChanges();
 
-    await expectAsync(dropdownHarness.getTooltipTitle()).toBeResolvedTo(null);
+    await expectAsync(dropdownHarness.getTitle()).toBeResolvedTo(null);
   });
 
   it('should get the tooltip title', async () => {
@@ -181,7 +181,7 @@ describe('Dropdown test harness', () => {
     fixture.componentInstance.tooltipTitle = 'dropdown demo';
     fixture.detectChanges();
 
-    await expectAsync(dropdownHarness.getTooltipTitle()).toBeResolvedTo(
+    await expectAsync(dropdownHarness.getTitle()).toBeResolvedTo(
       'dropdown demo'
     );
   });

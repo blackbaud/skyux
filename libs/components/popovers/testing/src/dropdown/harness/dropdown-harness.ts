@@ -95,7 +95,7 @@ export class SkyDropdownHarness extends SkyComponentHarness {
   /**
    * Gets the hover tooltip text.
    */
-  public async getTooltipTitle(): Promise<string | null> {
+  public async getTitle(): Promise<string | null> {
     return (await this.#getDropdownButton()).getAttribute('title');
   }
 
