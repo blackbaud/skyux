@@ -53,14 +53,12 @@ describe('Basic dropdown', async () => {
     fixture.detectChanges();
 
     const dropdownMenu = await dropdownHarness.getDropdownMenu();
-    const dropdownMenuItem = await await dropdownMenu?.getItemByIndex(0);
+    const dropdownMenuItem = await dropdownMenu?.getItemByIndex(0);
 
     await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(true);
     await expectAsync(dropdownMenu?.getRole()).toBeResolvedTo('menu');
 
-    await expectAsync((await dropdownMenuItem?.host())?.text()).toBeResolvedTo(
-      'Option 1'
-    );
+    await expectAsync(dropdownMenuItem?.getText()).toBeResolvedTo('Option 1');
   });
 
   it('should click the correct dropdown menu item', async () => {

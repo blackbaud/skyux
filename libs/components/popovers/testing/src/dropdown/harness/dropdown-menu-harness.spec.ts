@@ -31,7 +31,7 @@ class TestDropdownMenuComponent {
 }
 // #endregion Test Component
 
-describe('DropdownMenu menu test harness', () => {
+describe('Dropdown menu test harness', () => {
   async function setupTest(): Promise<{
     dropdownMenuHarness: SkyDropdownMenuHarness;
     fixture: ComponentFixture<TestDropdownMenuComponent>;

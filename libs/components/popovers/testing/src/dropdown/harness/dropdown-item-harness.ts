@@ -22,4 +22,11 @@ export class SkyDropdownItemHarness extends SkyComponentHarness {
   public async getRole(): Promise<string | null> {
     return (await this.#getItem()).getAttribute('role');
   }
+
+  /**
+   * Gets the menu item text.
+   */
+  public async getText(): Promise<string | null> {
+    return (await this.host()).text();
+  }
 }
