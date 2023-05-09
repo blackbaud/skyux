@@ -2,15 +2,15 @@
   "name": "@skyux-sdk/e2e-schematics",
   "version": "1.0.0",
   "peerDependencies": {
-    "@angular/cdk": "^15.2.1",
-    "@angular/cli": "^15.2.1",
+    "@angular/cdk": "^15.2.9",
+    "@angular/cli": "^15.2.9",
     "@percy/cypress": "^3.1.2",
     "typescript": "^4.9.5",
-    "@nx/devkit": "^15.8.3",
-    "@nx/workspace": "^15.8.3",
-    "@nx/linter": "^15.8.3",
-    "@nx/storybook": "^15.8.3",
-    "@nx/angular": "^15.8.3"
+    "@nx/devkit": "^16.1.3",
+    "@nx/workspace": "^16.1.3",
+    "@nx/linter": "^16.1.3",
+    "@nx/storybook": "^16.1.3",
+    "@nx/angular": "^16.1.3"
   },
   "main": "src/index.js",
   "generators": "./generators.json"

@@ -65,6 +65,7 @@ describe('Country Field Component', () => {
     const inputElement = getInputElement();
     inputElement.value = newValue;
 
+    SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
     SkyAppTestUtility.fireDomEvent(inputElement, 'input');
     fixture.detectChanges();
     tick();
@@ -1681,6 +1682,7 @@ describe('Country Field Component', () => {
         const inputElement = getInputElement();
         inputElement.value = 'Austr';
 
+        SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
         SkyAppTestUtility.fireDomEvent(inputElement, 'input');
         fixture.detectChanges();
         await fixture.whenStable();

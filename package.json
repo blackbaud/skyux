@@ -1,6 +1,6 @@
 {
   "name": "skyux",
-  "version": "8.0.0-beta.3",
+  "version": "8.0.0",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
@@ -81,23 +81,23 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "15.2.1",
-    "@angular/cdk": "15.2.1",
-    "@angular/common": "15.2.1",
-    "@angular/compiler": "15.2.1",
-    "@angular/core": "15.2.1",
-    "@angular/forms": "15.2.1",
-    "@angular/platform-browser": "15.2.1",
-    "@angular/platform-browser-dynamic": "15.2.1",
-    "@angular/router": "15.2.1",
-    "@blackbaud/auth-client": "2.63.0",
+    "@angular/animations": "15.2.9",
+    "@angular/cdk": "15.2.9",
+    "@angular/common": "15.2.9",
+    "@angular/compiler": "15.2.9",
+    "@angular/core": "15.2.9",
+    "@angular/forms": "15.2.9",
+    "@angular/platform-browser": "15.2.9",
+    "@angular/platform-browser-dynamic": "15.2.9",
+    "@angular/router": "15.2.9",
+    "@blackbaud/auth-client": "2.68.0",
     "@blackbaud/skyux-design-tokens": "0.0.26",
     "@circlon/angular-tree-component": "11.0.4",
     "@skyux/auth-client-factory": "1.2.0",
     "@skyux/icons": "6.0.0",
     "ag-grid-angular": "28.2.1",
     "ag-grid-community": "28.2.1",
-    "autonumeric": "4.6.0",
+    "autonumeric": "4.8.1",
     "axe-core": "4.6.3",
     "comment-json": "4.2.3",
     "dom-autoscroller": "2.3.4",
@@ -119,15 +119,15 @@
     "@nx/angular": "16.1.3"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "15.2.1",
-    "@angular-devkit/core": "15.2.1",
-    "@angular-devkit/schematics": "15.2.1",
+    "@angular-devkit/build-angular": "15.2.8",
+    "@angular-devkit/core": "15.2.8",
+    "@angular-devkit/schematics": "15.2.8",
     "@angular-eslint/eslint-plugin": "15.2.1",
     "@angular-eslint/eslint-plugin-template": "15.2.1",
     "@angular-eslint/template-parser": "15.2.1",
-    "@angular/cli": "15.2.1",
-    "@angular/compiler-cli": "15.2.1",
-    "@angular/language-service": "15.2.1",
+    "@angular/cli": "15.2.8",
+    "@angular/compiler-cli": "15.2.9",
+    "@angular/language-service": "15.2.8",
     "@cspell/eslint-plugin": "6.30.0",
     "@istanbuljs/nyc-config-typescript": "1.0.2",
     "@nx/cypress": "16.1.3",
@@ -165,8 +165,8 @@
     "@types/jest": "29.5.0",
     "@types/node": "18.14.6",
     "@types/validator": "13.7.14",
-    "@typescript-eslint/eslint-plugin": "5.58.0",
-    "@typescript-eslint/parser": "5.58.0",
+    "@typescript-eslint/eslint-plugin": "5.59.5",
+    "@typescript-eslint/parser": "5.59.5",
     "cross-spawn": "7.0.3",
     "cypress": "12.11.0",
     "eslint": "8.36.0",
@@ -206,7 +206,7 @@
   },
   "overrides": {
     "@storybook/angular@7.0.9": {
-      "@angular-devkit/architect": "0.1502.1"
+      "@angular-devkit/architect": "0.1502.8"
     }
   }
 }
