@@ -11,6 +11,7 @@ import { SkyDropdownHarness } from './dropdown-harness';
   selector: 'sky-dropdown-test',
   template: `
     <sky-dropdown
+      [dismissOnBlur]="dismissOnBlur"
       [buttonStyle]="buttonStyle"
       [buttonType]="buttonType"
       [disabled]="disabledFlag"
@@ -26,6 +27,7 @@ import { SkyDropdownHarness } from './dropdown-harness';
   `,
 })
 class TestDropdownComponent {
+  public dismissOnBlur: boolean | undefined;
   public buttonStyle: string | undefined;
   public buttonType: string | undefined;
   public disabledFlag: boolean | undefined;
@@ -202,6 +204,30 @@ describe('Dropdown test harness', () => {
     fixture.detectChanges();
 
     await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(false);
+  });
+
+  it('should close the dropdown menu if clicking out when dismissOnBlur is set to true', async () => {
+    const { dropdownHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.dismissOnBlur = true;
+    fixture.detectChanges();
+    await dropdownHarness.clickDropdownButton();
+    fixture.detectChanges();
+    await dropdownHarness.clickOutOfDropdownMenu();
+
+    await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(false);
+  });
+
+  it('should not close the dropdown menu if clicking out when dismissOnBlur is set to false', async () => {
+    const { dropdownHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.dismissOnBlur = false;
+    fixture.detectChanges();
+    await dropdownHarness.clickDropdownButton();
+    fixture.detectChanges();
+    await dropdownHarness.clickOutOfDropdownMenu();
+
+    await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(true);
   });
 
   it('should get the dropdown menu harness', async () => {
