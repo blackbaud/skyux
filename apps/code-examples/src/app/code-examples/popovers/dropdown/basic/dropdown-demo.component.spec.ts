@@ -56,7 +56,7 @@ describe('Basic dropdown', async () => {
     const dropdownMenuItem = await dropdownMenu?.getItemByIndex(0);
 
     await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(true);
-    await expectAsync(dropdownMenu?.getRole()).toBeResolvedTo('menu');
+    await expectAsync(dropdownMenu?.getAriaRole()).toBeResolvedTo('menu');
 
     await expectAsync(dropdownMenuItem?.getText()).toBeResolvedTo('Option 1');
   });

@@ -49,7 +49,9 @@ describe('Dropdown item test harness', () => {
 
     fixture.detectChanges();
 
-    await expectAsync(dropdownItemHarness.getRole()).toBeResolvedTo('menuitem');
+    await expectAsync(dropdownItemHarness.getAriaRole()).toBeResolvedTo(
+      'menuitem'
+    );
   });
 
   it('should get the menu item role', async () => {
@@ -58,7 +60,7 @@ describe('Dropdown item test harness', () => {
     fixture.componentInstance.itemRole = 'item-role';
     fixture.detectChanges();
 
-    await expectAsync(dropdownItemHarness.getRole()).toBeResolvedTo(
+    await expectAsync(dropdownItemHarness.getAriaRole()).toBeResolvedTo(
       'item-role'
     );
   });

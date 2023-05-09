@@ -112,7 +112,7 @@ describe('Dropdown menu test harness', () => {
     fixture.componentInstance.role = 'menu-role';
     fixture.detectChanges();
 
-    await expectAsync(dropdownMenuHarness.getRole()).toBeResolvedTo(
+    await expectAsync(dropdownMenuHarness.getAriaRole()).toBeResolvedTo(
       'menu-role'
     );
   });

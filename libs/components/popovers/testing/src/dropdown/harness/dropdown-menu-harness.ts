@@ -79,7 +79,7 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
   public async getItemRoleByIndex(
     index: number
   ): Promise<string | null | undefined> {
-    return (await this.getItemByIndex(index))?.getRole();
+    return (await this.getItemByIndex(index))?.getAriaRole();
   }
 
   /**
@@ -92,7 +92,7 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
   /**
    * Gets the dropdown menu role.
    */
-  public async getRole(): Promise<string | null> {
+  public async getAriaRole(): Promise<string | null> {
     return (await this.host()).getAttribute('role');
   }
 
@@ -112,7 +112,7 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
     }
 
     for (const item of itemsList) {
-      if ((await item.getRole())?.match(role)) {
+      if ((await item.getAriaRole())?.match(role)) {
         return item;
       }
     }

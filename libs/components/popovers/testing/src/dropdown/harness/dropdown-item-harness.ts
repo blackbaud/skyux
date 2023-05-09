@@ -19,7 +19,7 @@ export class SkyDropdownItemHarness extends SkyComponentHarness {
   /**
    * Gets the dropdown item role.
    */
-  public async getRole(): Promise<string | null> {
+  public async getAriaRole(): Promise<string | null> {
     return (await this.#getItem()).getAttribute('role');
   }
 

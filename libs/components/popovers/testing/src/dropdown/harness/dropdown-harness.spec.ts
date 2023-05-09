@@ -214,7 +214,7 @@ describe('Dropdown test harness', () => {
 
     const dropdownMenuHarness = await dropdownHarness.getDropdownMenu();
 
-    await expectAsync(dropdownMenuHarness?.getRole()).toBeResolvedTo(
+    await expectAsync(dropdownMenuHarness?.getAriaRole()).toBeResolvedTo(
       'dropdown-menu'
     );
   });
