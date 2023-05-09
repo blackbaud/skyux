@@ -10,5 +10,11 @@
       "pattern": "/[\\`\\']/iframe\\.html\\?[a-zA-Z-${}=:&;]*component[a-zA-Z-${}=:&;]*[\\`\\']/g"
     }
   ],
-  "ignoreRegExpList": ["screenshot-selector", "screenshot-url"]
+  "ignoreRegExpList": [
+    "screenshot-selector",
+    "screenshot-url"
+  ],
+  "words": [
+    "autodocs"
+  ]
 }
