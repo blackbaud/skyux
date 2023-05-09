@@ -1,5 +1,86 @@
 # Changelog
 
+## [8.0.0](https://github.com/blackbaud/skyux/compare/8.0.0-beta.4...8.0.0) (2023-05-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* drop support for Angular 14 ([#984](https://github.com/blackbaud/skyux/issues/984))
+* **components/autonumeric:** The `@skyux/autonumeric` peer dependency has been updated to `4.8.1`. Version `4.8.0` of `autonumeric` introduced the `negativePositiveSignBehavior` option and this option defaults to `false`. However, the behavior this option enables was previously on by default. To maintain this behavior,  enable this option on the `skyAutonumeric` instance. For more information, see the [`autonumeric` library's CHANGELOG](https://github.com/autoNumeric/autoNumeric/blob/next/CHANGELOG.md]).
+* **components/config:** In previous major versions, query string config parameter values were not decoded when retrieving them via `SkyAppRuntimeConfigParams`. Any code that decoded these values after retrieving them should be removed.
+* **components/datetime:** The timepicker component's `timeFormat` input has been converted from a `string` input type to a `SkyTimepickerTimeFormatType` `string` union. This might cause problems if you are setting the `timeFormat` input to a type of `string` in your consuming comopnent's class.
+* **components/layout:** Components that expect text expand repeater to have a top margin will need to be updated to compensate for the removed margin.
+* **components/lists:** The repeater component's `expandMode` input was set to allow values of type of `string` but it really only supported a handful of known `string` values represented by the `SkyRepeaterExpandModeType` `string` union. This ability to specify a `string` value has been removed. This might cause problems if you are setting the `expandMode` input to a type of `string` in your consuming component's class.
+* **components/packages:** A project name must be provided when a workspace has more than one project.
+* **components/packages:** migrate to `@skyux/packages/polyfills` in project configuration ([#1033](https://github.com/blackbaud/skyux/issues/1033))
+* **components/popovers:** The dropdown component's `buttonType` input has been converted from a `string` input type to a `SkyDropdownButtonType` `string` union. It no longer supports specifying an icon to be displayed as the button content. This might cause problems if you are setting the `buttonType` input to a type of `string` in your consuming component's class.
+* **components/tabs:** The tabset nav button component's `buttonType` input was set to allow values of type of `string` but it really only supported a handful of known `string` values represented by the `SkyTabsetNavButtonType` `string` union. This ability to specify a `string` value has been removed. This might cause problems if you are setting the `buttonType` input to a type of `string` in your consuming component's class.
+* **components/theme:** remove unused z-index SCSS vars ([#1029](https://github.com/blackbaud/skyux/issues/1029))
+
+### Features
+
+* add support for Angular 15 ([#984](https://github.com/blackbaud/skyux/issues/984)) ([4cef2d0](https://github.com/blackbaud/skyux/commit/4cef2d07aa52a178f78ac5faacf483f4f7a94df8))
+* update ng2-dragula to 4.0.0 ([#1084](https://github.com/blackbaud/skyux/issues/1084)) ([a89c8a6](https://github.com/blackbaud/skyux/commit/a89c8a6a250601e5e74fa15e4f96bbddbda920a1))
+* **components/autonumeric:** update `autonumeric` peer dependency to `4.8.1` ([#1348](https://github.com/blackbaud/skyux/issues/1348)) ([61da566](https://github.com/blackbaud/skyux/commit/61da566e0d09ae620dcfb66b8c1c132b4c350511))
+* **components/config:** decode query string config params ([#1028](https://github.com/blackbaud/skyux/issues/1028)) ([e893554](https://github.com/blackbaud/skyux/commit/e89355465446a3f70761f30dd97835f6658e19ac))
+* **components/core:** only log warnings once per application instance ([#1043](https://github.com/blackbaud/skyux/issues/1043)) ([b120d90](https://github.com/blackbaud/skyux/commit/b120d90ec7236fbf46769e6588a44ed258a93d40))
+* **components/core:** update dock component to fit within viewport ([#1022](https://github.com/blackbaud/skyux/issues/1022)) ([0e04a62](https://github.com/blackbaud/skyux/commit/0e04a62a5dea375dc1e1846c317bf84445fa44ba))
+* **components/datetime:** update `timeFormat` type from string to string union ([#1077](https://github.com/blackbaud/skyux/issues/1077)) ([a4ac3c4](https://github.com/blackbaud/skyux/commit/a4ac3c45d1affa4ac4c76981856266f610927761))
+* **components/forms:** single file attachment change event type now correctly denotes that it may be undefined ([#1223](https://github.com/blackbaud/skyux/issues/1223)) ([4693530](https://github.com/blackbaud/skyux/commit/469353038c773e308675b4d9156254fdebfeb2a9))
+* **components/forms:** remove bottom margin from selection box grid ([#1141](https://github.com/blackbaud/skyux/issues/1141)) ([75e91cc](https://github.com/blackbaud/skyux/commit/75e91cc89f8241bb5ddf8e13abf7e5bbaa395a55))
+* **components/forms:** update selected state background colors ([#1126](https://github.com/blackbaud/skyux/issues/1126)) ([8c820dd](https://github.com/blackbaud/skyux/commit/8c820dd58905ce533743b4eb790c891897d00a55))
+* **components/indicators:** announce wait component state changes to screen readers ([#968](https://github.com/blackbaud/skyux/issues/968)) ([a29983d](https://github.com/blackbaud/skyux/commit/a29983d36b759a86046d06401e8f25b555435743))
+* **components/indicators:** use alternate Font Awesome icon for default theme when available ([#1244](https://github.com/blackbaud/skyux/issues/1244)) ([ec8e9ae](https://github.com/blackbaud/skyux/commit/ec8e9ae7d7171ecc1df434d8e38c6b5ad5de48d8))
+* **components/indicators:** deprecate use of label without `descriptionType` ([#1186](https://github.com/blackbaud/skyux/issues/1186)) ([3f0c3da](https://github.com/blackbaud/skyux/commit/3f0c3da4ad73232d6865bd87e682451148d7f25c))
+* **components/layout:** update back-to-top styles ([#1202](https://github.com/blackbaud/skyux/issues/1202)) ([c77e2d8](https://github.com/blackbaud/skyux/commit/c77e2d89fb0436186265486e1d799e3adeeac5bc))
+* **components/layout:** remove margin from action button container ([#1152](https://github.com/blackbaud/skyux/issues/1152)) ([e0396d1](https://github.com/blackbaud/skyux/commit/e0396d1f4cfa5669cfb81a30e0d39ff913365d70))
+* **components/layout:** remove top margin from text expand repeater ([#1110](https://github.com/blackbaud/skyux/issues/1110)) ([abc27bc](https://github.com/blackbaud/skyux/commit/abc27bccd3b63a5ee9c2c7930089857142a3079d))
+* **components/lists:** update the `SkyRepeaterComponent` `expandMode` input to no longer support `string` values ([#1076](https://github.com/blackbaud/skyux/issues/1076)) ([b4219c4](https://github.com/blackbaud/skyux/commit/b4219c4bf6c8b5ce35f0178e916d924739bdfa1f))
+* **components/packages:** add schematic to set `resolveJsonModule` to `true` ([#1125](https://github.com/blackbaud/skyux/issues/1125)) ([e4b00eb](https://github.com/blackbaud/skyux/commit/e4b00eb08677f9e626ce62b50bd52974b56c1725))
+* **components/packages:** make `--project` a required parameter for `ng add` schematics ([#1073](https://github.com/blackbaud/skyux/issues/1073)) ([c24d41f](https://github.com/blackbaud/skyux/commit/c24d41fca28ab6322b33c9e9c3b41c56e72bfefa))
+* **components/packages:** migrate to `@skyux/packages/polyfills` in project configuration ([#1033](https://github.com/blackbaud/skyux/issues/1033)) ([5c200e4](https://github.com/blackbaud/skyux/commit/5c200e45a64eb4c1071b9634835339712b578e16))
+* **components/pages:** update action hub to match current design ([#1169](https://github.com/blackbaud/skyux/issues/1169)) ([4357639](https://github.com/blackbaud/skyux/commit/4357639be5203bacaf02a6c87868a24a3dfe40d1))
+* **components/popovers:** remove string as valid input on dropdown buttonType ([#1155](https://github.com/blackbaud/skyux/issues/1155)) ([da88367](https://github.com/blackbaud/skyux/commit/da88367d4da01cc16fc71fa1e91da5d5eaae5670))
+* **components/tabs:** address incorrect tab spacing in modals ([#1201](https://github.com/blackbaud/skyux/issues/1201)) ([e93060b](https://github.com/blackbaud/skyux/commit/e93060b730f5fd8b4b60b2faa7fc1a224b13c146))
+* **components/tabs:** add `messageStream` and `tabsVisibleChanged` to sectioned form and deprecate public methods ([#1075](https://github.com/blackbaud/skyux/issues/1075)) ([fc57440](https://github.com/blackbaud/skyux/commit/fc5744035a1d3ec6159477bc7d9276cc509f4197))
+* **components/tabs:** update the `SkyTabsetNavButtonComponent` `buttonType` input to no longer support `string` values ([#1074](https://github.com/blackbaud/skyux/issues/1074)) ([865acd0](https://github.com/blackbaud/skyux/commit/865acd0041633695645a2ec6d5de978be28d37ec))
+* **components/text-editor:** add support for `dompurify@3.0.1` ([#1153](https://github.com/blackbaud/skyux/issues/1153)) ([5d2c481](https://github.com/blackbaud/skyux/commit/5d2c48123b9070f7d7d08775771a73389b21e633))
+* **components/theme:** remove unused z-index SCSS vars ([#1029](https://github.com/blackbaud/skyux/issues/1029)) ([e4e282d](https://github.com/blackbaud/skyux/commit/e4e282df306624ebb09d042c781b8e7a7dfffd59))
+* **sdk/prettier-schematics:** add prettier dependencies to `ng update` ([#1157](https://github.com/blackbaud/skyux/issues/1157)) ([e005b33](https://github.com/blackbaud/skyux/commit/e005b33dc19bc1ea9d5d29c8907e7b6a45b554aa))
+
+
+### Bug Fixes
+
+* replace internal instances of deprecated `sky-section-heading` and `sky-headline` classes ([#1302](https://github.com/blackbaud/skyux/issues/1302)) ([e77da48](https://github.com/blackbaud/skyux/commit/e77da48c56c87e98a74e0c4b3da0e783b2e24c7c))
+* update `sky-emphasized` style class to `sky-font-emphasized` ([#1185](https://github.com/blackbaud/skyux/issues/1185)) ([0faf4f8](https://github.com/blackbaud/skyux/commit/0faf4f8fe7ce12ba13c31f4f7d9f627164e0618a))
+* add `@types/dragula` to dependencies of packages that use ng2-dragula ([#1121](https://github.com/blackbaud/skyux/issues/1121)) ([c94669b](https://github.com/blackbaud/skyux/commit/c94669b619221fd9eaaa818a171e86becaf8579e))
+* **components/ag-grid:** update data grid styles ([#1177](https://github.com/blackbaud/skyux/issues/1177)) ([fda425d](https://github.com/blackbaud/skyux/commit/fda425d52143c2fdf3a39279006b242b0a5db217))
+* **components/core:** apply default options for numeric service ([#1151](https://github.com/blackbaud/skyux/issues/1151)) ([7990727](https://github.com/blackbaud/skyux/commit/7990727234d71da42fe504fdb887d2caca877c13))
+* **components/core:** only log warnings once per browser session ([#1059](https://github.com/blackbaud/skyux/issues/1059)) ([4dc1eac](https://github.com/blackbaud/skyux/commit/4dc1eac7457592f74f84c0b10c4a5e9eef3e3245))
+* **components/data-manager:** view selector shows active view on initialization ([#1173](https://github.com/blackbaud/skyux/issues/1173)) ([76e5a4e](https://github.com/blackbaud/skyux/commit/76e5a4e6a8fc2eaebc4b59f1093cfc86e90072c1))
+* **components/forms:** set search background transparent when not focused ([#1156](https://github.com/blackbaud/skyux/issues/1156)) ([5c7f9e1](https://github.com/blackbaud/skyux/commit/5c7f9e14b329e7745f9aab0ca754739318bdc742))
+* **components/indicators:** fix disabled token color, remove new color ([#1142](https://github.com/blackbaud/skyux/issues/1142)) ([a9c0a95](https://github.com/blackbaud/skyux/commit/a9c0a95157a943e6f644558fb7775e10604f3f2f))
+* **components/indicators:** adopt `@skyux/icons@5.3.1` ([#1133](https://github.com/blackbaud/skyux/issues/1133)) ([5937000](https://github.com/blackbaud/skyux/commit/5937000d1b2fcd2ad15030062b2345ce90918ea6))
+* **components/layout:** remove extra toolbar space in modern ([#1148](https://github.com/blackbaud/skyux/issues/1148)) ([c4d7734](https://github.com/blackbaud/skyux/commit/c4d77348264855bb82f81d04ad00f8f12a49774d))
+* **components/lists:** update repeater item chevron accessibility ([#1245](https://github.com/blackbaud/skyux/issues/1245)) ([50f0a87](https://github.com/blackbaud/skyux/commit/50f0a871c9b436202e3425ac9aa37ad041cae181))
+* **components/modals:** apply correct spacing to link buttons in modal footers ([#1273](https://github.com/blackbaud/skyux/issues/1273)) ([e6d9cc8](https://github.com/blackbaud/skyux/commit/e6d9cc80288e56946473e58cb169f1749a2801ca))
+* **components/modals:** modal headers now use h2 elements to better follow accessibility standards ([#969](https://github.com/blackbaud/skyux/issues/969)) ([4365d1a](https://github.com/blackbaud/skyux/commit/4365d1a16fcd3ba4377ed08c983052b6756ba3a7))
+* **components/packages:** update polyfills files for library projects ([#1159](https://github.com/blackbaud/skyux/issues/1159)) ([9e4b7fc](https://github.com/blackbaud/skyux/commit/9e4b7fcb1ef6a9f03510f41f7e74c869538f49f2))
+* **components/packages:** remove polyfills from `src/test.ts` ([#1149](https://github.com/blackbaud/skyux/issues/1149)) ([1381258](https://github.com/blackbaud/skyux/commit/1381258e65401640721860acb52e4b53ca7fa19d))
+* **components/packages:** add content to polyfills.ts ([#1065](https://github.com/blackbaud/skyux/issues/1065)) ([a340051](https://github.com/blackbaud/skyux/commit/a340051e3afcd5dbb4da65eb83c57b47b1cc8bd6))
+* **components/packages:** use named export for 'update-polyfill' schematic ([#1057](https://github.com/blackbaud/skyux/issues/1057)) ([bc554d6](https://github.com/blackbaud/skyux/commit/
+bc554d6208329509857f290e198402e6de46fd2a))
+* **components/packages:** fix `update-polyfill` schematic factory path ([#1054](https://github.com/blackbaud/skyux/issues/1054)) ([02faab3](https://github.com/blackbaud/skyux/commit/02faab3fe75532f72ca94ce1282cf38f54d2049d))
+* **components/packages:** add package.json to exports ([#1052](https://github.com/blackbaud/skyux/issues/1052)) ([0c40b65](https://github.com/blackbaud/skyux/commit/0c40b655cc3b21acd7d8329b0ae709f44d1c39af))
+* **components/packages:** remove v7 update schematics ([#1025](https://github.com/blackbaud/skyux/issues/1025)) ([890fa75](https://github.com/blackbaud/skyux/commit/890fa75268f2604de00598551a7fb37c855e5b6c))
+* **components/packages:** include `ng add` template files in public exports ([#1015](https://github.com/blackbaud/skyux/issues/1015)) ([b087324](https://github.com/blackbaud/skyux/commit/b087324015e58463f56bc9a94482bf11d287a5ec))
+* **components/popovers:** dropdown items disabled state can now be toggled dynamically ([#1308](https://github.com/blackbaud/skyux/issues/1308)) ([7690dc8](https://github.com/blackbaud/skyux/commit/7690dc854aec31698d4543caaec41c0c47a9d885))
+* **components/text-editor:** content is only pasted once into the text editor ([#997](https://github.com/blackbaud/skyux/issues/997)) ([dd99d3c](https://github.com/blackbaud/skyux/commit/dd99d3cfbc08d2707210f264071ee1e2b13e3788))
+
+### Deprecations
+
+* **components/indicators:** deprecate use of alert without descriptionType ([#1212](https://github.com/blackbaud/skyux/issues/1212)) ([9807f94](https://github.com/blackbaud/skyux/commit/9807f94d0179e50df7d464fe8bfed524b4e93ef1))
+
 ## [8.0.0-beta.4](https://github.com/blackbaud/skyux/compare/8.0.0-beta.3...8.0.0-beta.4) (2023-05-05)
 
 
