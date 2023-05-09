@@ -99,6 +99,7 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
   /**
    * Gets the dropdown menu item from role.
    * @param role Role of dropdown menu item.
+   * @internal
    */
   async #getItemWithRole(
     role: string

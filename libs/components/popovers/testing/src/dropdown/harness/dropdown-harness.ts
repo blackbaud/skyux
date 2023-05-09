@@ -32,13 +32,6 @@ export class SkyDropdownHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the id of the dropdown menu the button controls.
-   */
-  public async getAriaControls(): Promise<string | null> {
-    return (await this.#getDropdownButton()).getAttribute('aria-controls');
-  }
-
-  /**
    * Gets the aria-label value.
    */
   public async getAriaLabel(): Promise<string | null> {
@@ -79,7 +72,7 @@ export class SkyDropdownHarness extends SkyComponentHarness {
    * Gets the dropdown menu component.
    */
   public async getDropdownMenu(): Promise<SkyDropdownMenuHarness | null> {
-    const dropdownMenuId = await this.getAriaControls();
+    const dropdownMenuId = await this.#getAriaControls();
 
     if (!dropdownMenuId) {
       throw new Error(
@@ -121,5 +114,13 @@ export class SkyDropdownHarness extends SkyComponentHarness {
     }
 
     return false;
+  }
+
+  /**
+   * Gets the element ID of the dropdown menu that the dropdown button controls.
+   * @internal
+   */
+  async #getAriaControls(): Promise<string | null> {
+    return (await this.#getDropdownButton()).getAttribute('aria-controls');
   }
 }
