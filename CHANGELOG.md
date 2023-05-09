@@ -1,5 +1,12 @@
 # Changelog
 
+## [8.0.0](https://github.com/blackbaud/skyux/compare/8.0.0-beta.4...8.0.0) (2023-05-09)
+
+
+### Features
+
+* update to Angular 15.2.9; trigger release for 8.0.0 ([#1355](https://github.com/blackbaud/skyux/issues/1355)) ([4b04139](https://github.com/blackbaud/skyux/commit/4b04139c0305ee0bc5b163a51749d6cec8dc283c))
+
 ## [8.0.0-beta.4](https://github.com/blackbaud/skyux/compare/8.0.0-beta.3...8.0.0-beta.4) (2023-05-05)
 
 
