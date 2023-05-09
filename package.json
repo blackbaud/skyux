@@ -205,9 +205,8 @@
     "@nx/eslint-plugin": "16.1.3"
   },
   "overrides": {
-    "@storybook/angular@6.5.16": {
-      "zone.js": "0.12.0"
+    "@storybook/angular@7.0.9": {
+      "@angular-devkit/architect": "0.1502.1"
     }
   }
 }
-
