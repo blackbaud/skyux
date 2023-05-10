@@ -1,4 +1,11 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { importProvidersFrom } from '@angular/core';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  Meta,
+  Story,
+  applicationConfig,
+  moduleMetadata,
+} from '@storybook/angular';
 
 import { DataManagerComponent } from './data-manager.component';
 import { DataManagerModule } from './data-manager.module';
@@ -10,6 +17,10 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [DataManagerModule],
+    }),
+    // Define application-wide providers with the applicationConfig decorator
+    applicationConfig({
+      providers: [importProvidersFrom(NoopAnimationsModule)],
     }),
   ],
 } as Meta<DataManagerComponent>;

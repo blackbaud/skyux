@@ -1,4 +1,11 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { importProvidersFrom } from '@angular/core';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  Meta,
+  Story,
+  applicationConfig,
+  moduleMetadata,
+} from '@storybook/angular';
 
 import { InputBoxComponent } from './input-box.component';
 import { InputBoxModule } from './input-box.module';
@@ -10,6 +17,10 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [InputBoxModule],
+    }),
+    // Define application-wide providers with the applicationConfig decorator
+    applicationConfig({
+      providers: [importProvidersFrom(NoopAnimationsModule)],
     }),
   ],
 } as Meta<InputBoxComponent>;
