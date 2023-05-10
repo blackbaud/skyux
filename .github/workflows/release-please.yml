@@ -7,7 +7,7 @@ on:
     branches:
       - main
 env:
-  PRERELEASE: true
+  PRERELEASE: false
   MAJOR_VERSION: 8
 jobs:
   release:
@@ -46,9 +46,8 @@ jobs:
           pull-request-title-pattern: 'chore: release ${version}'
           labels: 'autorelease ${{ github.ref_name }}: pending'
           release-labels: 'autorelease ${{ github.ref_name }}: tagged'
-          # release-as: '${{ steps.next-release.outputs.next-release }}'
-          # prerelease: ${{ env.PRERELEASE }}
-          release-as: '8.0.0'
+          release-as: '${{ steps.next-release.outputs.next-release }}'
+          prerelease: ${{ env.PRERELEASE }}
           draft-pull-request: true
           include-v-in-tag: false
           token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
