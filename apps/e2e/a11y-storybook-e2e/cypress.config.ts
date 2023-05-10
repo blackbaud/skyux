@@ -87,7 +87,7 @@ export default defineConfig({
               domSnapshot,
               clientInfo: `${sdkPkg.name}/${sdkPkg.version}`,
               environmentInfo: `cypress/${cypressPkg.version}`,
-              scope: '#root',
+              scope: '#storybook-root',
             });
           }
           return {
