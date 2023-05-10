@@ -51,7 +51,6 @@
       "@skyux/core": "0.0.0-PLACEHOLDER",
       "@skyux/data-manager": "0.0.0-PLACEHOLDER",
       "@skyux/datetime": "0.0.0-PLACEHOLDER",
-      "@skyux/docs-tools": "^7.0.0",
       "@skyux/errors": "0.0.0-PLACEHOLDER",
       "@skyux/flyout": "0.0.0-PLACEHOLDER",
       "@skyux/forms": "0.0.0-PLACEHOLDER",
