@@ -7,7 +7,7 @@ on:
     branches:
       - main
 env:
-  PRERELEASE: true
+  PRERELEASE: false
   MAJOR_VERSION: 8
 jobs:
   release:
