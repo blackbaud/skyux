@@ -6,7 +6,7 @@ import { SkyDropdownHarness } from '@skyux/popovers/testing';
 import { DropdownDemoComponent } from './dropdown-demo.component';
 import { DropdownDemoModule } from './dropdown-demo.module';
 
-describe('Basic dropdown', async () => {
+describe('Basic dropdown', () => {
   async function setupTest(): Promise<{
     dropdownHarness: SkyDropdownHarness;
     fixture: ComponentFixture<DropdownDemoComponent>;
