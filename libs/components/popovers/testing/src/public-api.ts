@@ -12,3 +12,4 @@ export * from './dropdown/harness/dropdown-harness.filters';
 export * from './dropdown/harness/dropdown-menu-harness';
 export * from './dropdown/harness/dropdown-menu-harness.filters';
 export * from './dropdown/harness/dropdown-item-harness';
+export * from './dropdown/harness/dropdown-item-harness.filters';

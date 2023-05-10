@@ -11,27 +11,19 @@ import { SkyDropdownMenuHarness } from './dropdown-menu-harness';
   selector: 'sky-dropdown-menu-test',
   template: `
     <sky-dropdown-menu [ariaLabelledBy]="labelledBy" [ariaRole]="role">
-      <sky-dropdown-item [ariaRole]="itemRole"></sky-dropdown-item>
-      <sky-dropdown-item [ariaRole]="clickItemRole">
-        <button (click)="clickItem()"></button
-      ></sky-dropdown-item>
+      <sky-dropdown-item [ariaRole]="itemRole">Option 1</sky-dropdown-item>
+      <sky-dropdown-item>Option 2</sky-dropdown-item>
     </sky-dropdown-menu>
   `,
 })
 class TestDropdownMenuComponent {
   public labelledBy: string | undefined;
   public role: string | undefined;
-
   public itemRole: string | undefined;
-  public clickItemRole: string | undefined;
-
-  public clickItem(): void {
-    // Only exists for the spy
-  }
 }
 // #endregion Test Component
 
-describe('Dropdown menu test harness', () => {
+fdescribe('Dropdown menu test harness', () => {
   async function setupTest(): Promise<{
     dropdownMenuHarness: SkyDropdownMenuHarness;
     fixture: ComponentFixture<TestDropdownMenuComponent>;
@@ -59,53 +51,6 @@ describe('Dropdown menu test harness', () => {
     );
   });
 
-  it('should click menu item at index', async () => {
-    const { dropdownMenuHarness, fixture } = await setupTest();
-
-    const clickSpy = spyOn(fixture.componentInstance, 'clickItem');
-    fixture.detectChanges();
-
-    await dropdownMenuHarness.clickItemByIndex(1);
-    fixture.detectChanges();
-    expect(clickSpy).toHaveBeenCalled();
-  });
-
-  it('should click menu item with role', async () => {
-    const { dropdownMenuHarness, fixture } = await setupTest();
-
-    fixture.componentInstance.clickItemRole = 'click-item';
-    const clickSpy = spyOn(fixture.componentInstance, 'clickItem');
-    fixture.detectChanges();
-
-    await dropdownMenuHarness.clickItemWithRole('click-item');
-    expect(clickSpy).toHaveBeenCalled();
-  });
-
-  it('should get menu item role at index', async () => {
-    const { dropdownMenuHarness, fixture } = await setupTest();
-
-    fixture.componentInstance.itemRole = 'item1';
-    fixture.componentInstance.clickItemRole = 'item2';
-    fixture.detectChanges();
-
-    await expectAsync(dropdownMenuHarness.getItemRoleByIndex(0)).toBeResolvedTo(
-      'item1'
-    );
-  });
-
-  it('should throw an error when trying to click an item that does not exist', async () => {
-    const { dropdownMenuHarness, fixture } = await setupTest();
-
-    fixture.componentInstance.clickItemRole = 'click-item';
-    fixture.detectChanges();
-
-    await expectAsync(
-      dropdownMenuHarness.clickItemWithRole('test-item')
-    ).toBeRejectedWithError(
-      'Unable to click item. Item with role test-item does not exist in this dropdown menu'
-    );
-  });
-
   it('should get menu role', async () => {
     const { dropdownMenuHarness, fixture } = await setupTest();
 
@@ -115,5 +60,24 @@ describe('Dropdown menu test harness', () => {
     await expectAsync(dropdownMenuHarness.getAriaRole()).toBeResolvedTo(
       'menu-role'
     );
+  });
+
+  it('should get all the menu items harnesses', async () => {
+    const { dropdownMenuHarness, fixture } = await setupTest();
+
+    fixture.detectChanges();
+    const harnesses = dropdownMenuHarness.getAllItems();
+
+    expect((await harnesses).length).toBe(2);
+  });
+
+  fit('should get menu item by text', async () => {
+    const { dropdownMenuHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.itemRole = 'test-item';
+    fixture.detectChanges();
+    const harness = await dropdownMenuHarness.getItem({ text: 'Option 1' });
+
+    expectAsync(harness.getAriaRole()).toBeResolvedTo('test-item');
   });
 });

@@ -2,6 +2,7 @@ import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 
 import { SkyDropdownItemHarness } from './dropdown-item-harness';
+import { SkyDropdownItemHarnessFilters } from './dropdown-item-harness.filters';
 import { SkyDropdownMenuHarnessFilters } from './dropdown-menu-harness.filters';
 
 /**
@@ -12,8 +13,6 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
    * @internal
    */
   public static hostSelector = '.sky-dropdown-menu';
-
-  #getDropdownItems = this.locatorForAll(SkyDropdownItemHarness);
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -33,60 +32,34 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
   }
 
   /**
-   * Clicks the dropdown menu item at index.
-   * @param index Index of dropdown menu item.
+   * Gets an array of dropdown menu item harnesses.
+   * @param filters Optional filter for which menu items to return
    */
-  public async clickItemByIndex(index: number): Promise<void> {
-    await (await this.getItemByIndex(index))?.click();
-  }
-
-  /**
-   * Clicks the dropdown menu item with a specific role.
-   * @param role Role of dropdown menu item to be clicked.
-   */
-  public async clickItemWithRole(role: string): Promise<void> {
-    const menuItem = await this.#getItemWithRole(role);
-    if (!menuItem) {
+  public async getAllItems(
+    filters?: SkyDropdownItemHarnessFilters
+  ): Promise<SkyDropdownItemHarness[]> {
+    const harnesses = await this.locatorForAll(
+      SkyDropdownItemHarness.with(filters || {})
+    )();
+    if (filters && harnesses.length === 0) {
       throw new Error(
-        `Unable to click item. Item with role ${role} does not exist in this dropdown menu`
+        `Unable to find dropdown menu item to click with filter(s): ${JSON.stringify(
+          filters
+        )}`
       );
     }
-    await (await this.#getItemWithRole(role))?.click();
+    return harnesses;
   }
 
   /**
-   * Gets the dropdown menu item at a specific index.
-   * @param index Index of dropdown menu item to be clicked.
+   * Gets the first item that matches the given filters
+   * @param filters filter for which menu item to return
    */
-  public async getItemByIndex(
-    index: number
-  ): Promise<SkyDropdownItemHarness | undefined> {
-    const itemsList = await this.getItems();
-
-    if (itemsList?.length === 0) {
-      throw new Error(
-        'Unable to retrieve item because dropdown menu is empty.'
-      );
-    }
-
-    return itemsList.at(index);
-  }
-
-  /**
-   * Gets the role of dropdown menu at index.
-   * @param index Index of dropdown menu item.
-   */
-  public async getItemRoleByIndex(
-    index: number
-  ): Promise<string | null | undefined> {
-    return (await this.getItemByIndex(index))?.getAriaRole();
-  }
-
-  /**
-   * Gets an array of dropdown menu items.
-   */
-  public async getItems(): Promise<SkyDropdownItemHarness[]> {
-    return await this.#getDropdownItems();
+  public async getItem(
+    filters: SkyDropdownItemHarnessFilters
+  ): Promise<SkyDropdownItemHarness> {
+    const harnesses = await this.getAllItems(filters);
+    return harnesses[0];
   }
 
   /**
@@ -94,30 +67,5 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
    */
   public async getAriaRole(): Promise<string | null> {
     return (await this.host()).getAttribute('role');
-  }
-
-  /**
-   * Gets the dropdown menu item from role.
-   * @param role Role of dropdown menu item.
-   * @internal
-   */
-  async #getItemWithRole(
-    role: string
-  ): Promise<SkyDropdownItemHarness | undefined> {
-    const itemsList = await this.getItems();
-
-    if (itemsList?.length === 0) {
-      throw new Error(
-        'Unable to retrieve item because dropdown menu is empty.'
-      );
-    }
-
-    for (const item of itemsList) {
-      if ((await item.getAriaRole())?.match(role)) {
-        return item;
-      }
-    }
-
-    return undefined;
   }
 }

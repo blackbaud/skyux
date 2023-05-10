@@ -1,4 +1,7 @@
+import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
+
+import { SkyDropdownItemHarnessFilters } from './dropdown-item-harness.filters';
 
 export class SkyDropdownItemHarness extends SkyComponentHarness {
   /**
@@ -8,6 +11,22 @@ export class SkyDropdownItemHarness extends SkyComponentHarness {
 
   #getItem = this.locatorFor('.sky-dropdown-item');
   #getButton = this.locatorFor('button,a');
+
+  /**
+   * Gets a `HarnessPredicate` that can be used to search for a
+   * `SkyAutocompleteHarness` that meets certain criteria.
+   */
+  public static with(
+    filters: SkyDropdownItemHarnessFilters
+  ): HarnessPredicate<SkyDropdownItemHarness> {
+    // return SkyDropdownItemHarness.getDataSkyIdPredicate(filters);
+    return new HarnessPredicate(SkyDropdownItemHarness, filters).addOption(
+      'textContent',
+      filters.text,
+      async (harness, text) =>
+        HarnessPredicate.stringMatches(await harness.getText(), text)
+    );
+  }
 
   /**
    * Clicks the dropdown item.
