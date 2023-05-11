@@ -1,0 +1,57 @@
+name: E2E Visual Review
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - CI
+      - E2E
+    types:
+      - completed
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  e2e-visual-review:
+    name: E2E Visual Review
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        name: Verify E2E Visual Review
+        with:
+          github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          script: |
+            // Verify that E2E tests have finished running. If there are no E2E tests, there should still be one "skipped" check run.
+            const { data: checkRuns } = await github.request('GET /repos/{owner}/{repo}/commits/{ref}/check-runs', {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: context.sha,
+              headers: {
+                'X-GitHub-Api-Version': '2022-11-28'
+              }
+            });
+            const e2eCheckRuns = checkRuns.check_runs.filter(checkRun => checkRun.name.startsWith('End to end tests'));
+            if (
+              e2eCheckRuns.length === 0 ||
+              e2eCheckRuns.some(checkRun => checkRun.status !== 'completed') ||
+              e2eCheckRuns.some(checkRun => !['success', 'skipped'].includes(checkRun.conclusion))
+            ) {
+              core.setFailed(`E2E Visual Review not complete.`);
+              return;
+            }
+
+            // Verify that Percy has finished processing the E2E Visual Review and that all snapshots have passed.
+            const { data: status } = await github.rest.repos.getCombinedStatusForRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: context.sha
+            });
+            const percyStatuses = status.statuses.filter(status => status.context.toLowerCase().startsWith('percy/'));
+            if (percyStatuses.some(status => status.state !== 'success')) {
+              core.setFailed(`E2E Visual Review not complete.`);
+              return;
+            }
+
+            console.log('E2E Visual Review passed!');
