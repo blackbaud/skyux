@@ -1,5 +1,12 @@
 # Changelog
 
+## [8.0.2](https://github.com/blackbaud/skyux/compare/8.0.1...8.0.2) (2023-05-12)
+
+
+### Bug Fixes
+
+* **components/packages:** `update-polyfill` schematic properly handles Windows line endings ([#1364](https://github.com/blackbaud/skyux/issues/1364)) ([449c5bb](https://github.com/blackbaud/skyux/commit/449c5bb54299d4d7ed64bb28d635ace814493996))
+
 ## [8.0.1](https://github.com/blackbaud/skyux/compare/8.0.0...8.0.1) (2023-05-11)
 
 
