@@ -268,9 +268,10 @@ jobs:
         with:
           github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           script: |
+            const branch = context.eventName === 'pull_request' ? context.payload.pull_request.head.ref : context.ref.replace('refs/heads/', '');
             await github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
               repo: context.repo.repo,
               workflow_id: 'e2e-visual-review.yml',
-              ref: ${{ toJSON(github.ref_name) }}
+              ref: branch,
             });
