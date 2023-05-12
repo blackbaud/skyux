@@ -1,13 +1,8 @@
 name: E2E Visual Review
 
 on:
+  push:
   workflow_dispatch:
-  workflow_run:
-    workflows:
-      - CI
-      - E2E
-    types:
-      - completed
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
