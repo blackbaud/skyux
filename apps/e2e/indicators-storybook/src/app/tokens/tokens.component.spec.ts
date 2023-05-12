@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TokensComponent } from './tokens.component';
 import { TokensModule } from './tokens.module';
@@ -9,7 +10,7 @@ describe('TokensComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TokensModule],
+      imports: [TokensModule, NoopAnimationsModule],
     });
     fixture = TestBed.createComponent(TokensComponent);
     component = fixture.componentInstance;
