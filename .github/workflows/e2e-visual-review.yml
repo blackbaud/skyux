@@ -1,7 +1,6 @@
 name: E2E Visual Review
 
 on:
-  push:
   workflow_dispatch:
 
 concurrency:
