@@ -106,6 +106,259 @@ platformBrowserDynamicTesting(),
 );"
 `;
 
+exports[`update-polyfill.schematic should update library projects with Windows line endings: angular.json 1`] = `
+"{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "my-lib": {
+      "projectType": "library",
+      "root": "projects/my-lib",
+      "sourceRoot": "projects/my-lib/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/my-lib/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/my-lib/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/my-lib/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/my-lib/tsconfig.spec.json",
+            "main": "projects/my-lib/src/test.ts",
+            "polyfills": [
+              "@skyux/packages/polyfills"
+            ]
+          }
+        }
+      }
+    },
+    "my-lib-showcase": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "projects/my-lib-showcase",
+      "sourceRoot": "projects/my-lib-showcase/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/my-lib-showcase",
+            "index": "projects/my-lib-showcase/src/index.html",
+            "main": "projects/my-lib-showcase/src/main.ts",
+            "polyfills": [
+              "projects/my-lib-showcase/src/polyfills.ts",
+              "@skyux/packages/polyfills"
+            ],
+            "tsConfig": "projects/my-lib-showcase/tsconfig.app.json",
+            "assets": [
+              "projects/my-lib-showcase/src/favicon.ico",
+              "projects/my-lib-showcase/src/assets"
+            ],
+            "styles": [
+              "projects/my-lib-showcase/src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "my-lib-showcase:build:production"
+            },
+            "development": {
+              "browserTarget": "my-lib-showcase:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "my-lib-showcase:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "polyfills": [
+              "projects/my-lib-showcase/src/polyfills.ts",
+              "@skyux/packages/polyfills"
+            ],
+            "tsConfig": "projects/my-lib-showcase/tsconfig.spec.json",
+            "assets": [
+              "projects/my-lib-showcase/src/favicon.ico",
+              "projects/my-lib-showcase/src/assets"
+            ],
+            "styles": [
+              "projects/my-lib-showcase/src/styles.css"
+            ],
+            "scripts": [],
+            "main": "projects/my-lib-showcase/src/test.ts"
+          }
+        }
+      }
+    }
+  }
+}"
+`;
+
+exports[`update-polyfill.schematic should update library projects with Windows line endings: projects/my-lib/src/test.ts 1`] = `
+"// This file is required by karma.conf.js and loads recursively all the .spec and framework files
+import 'zone.js';
+import 'zone.js/testing';
+import { getTestBed } from '@angular/core/testing';
+import {
+BrowserDynamicTestingModule,
+platformBrowserDynamicTesting
+} from '@angular/platform-browser-dynamic/testing';
+
+declare const require: {
+context(path: string, deep?: boolean, filter?: RegExp): {
+keys(): string[];
+<T>(id: string): T;
+};
+};
+
+// First, initialize the Angular testing environment.
+getTestBed().initTestEnvironment(
+BrowserDynamicTestingModule,
+platformBrowserDynamicTesting(),
+{ teardown: { destroyAfterEach: true }},
+);
+
+// Then we find all the tests.
+const context = require.context('./', true, /\\.spec\\.ts$/);
+// And load the modules.
+context.keys().map(context);
+
+// Find any tests included in the "testing" entry point.
+try {
+const testingContext = require.context('../testing/', true, /\\.spec\\.ts$/);
+testingContext.keys().map(testingContext);
+} catch (err) {}"
+`;
+
+exports[`update-polyfill.schematic should update library projects with Windows line endings: projects/my-lib-showcase/src/polyfills.ts 1`] = `
+"/**
+* This file includes polyfills needed by Angular and is loaded before the app.
+* You can add your own extra polyfills to this file.
+*
+* This file is divided into 2 sections:
+*   1. Browser polyfills. These are applied before loading ZoneJS and are sorted by browsers.
+*   2. Application imports. Files imported after ZoneJS that should be loaded before your main
+*      file.
+*
+* The current setup is for so-called "evergreen" browsers; the last versions of browsers that
+* automatically update themselves. This includes Safari >= 10, Chrome >= 55 (including Opera),
+* Edge >= 13 on the desktop, and iOS 10 and Chrome on mobile.
+*
+* Learn more in https://angular.io/guide/browser-support
+*/
+
+/***************************************************************************************************
+* BROWSER POLYFILLS
+*/
+
+/**
+* By default, zone.js will patch all possible macroTask and DomEvents
+* user can disable parts of macroTask/DomEvents patch by setting following flags
+* because those flags need to be set before \\\`zone.js\\\` being loaded, and webpack
+* will put import in the top of bundle, so user need to create a separate file
+* in this directory (for example: zone-flags.ts), and put the following flags
+* into that file, and then add the following code before importing zone.js.
+* import './zone-flags';
+*
+* The flags allowed in zone-flags.ts are listed here.
+*
+* The following flags will work for all browsers.
+*
+* (window as any).__Zone_disable_requestAnimationFrame = true; // disable patch requestAnimationFrame
+* (window as any).__Zone_disable_on_property = true; // disable patch onProperty such as onclick
+* (window as any).__zone_symbol__UNPATCHED_EVENTS = ['scroll', 'mousemove']; // disable patch specified eventNames
+*
+*  in IE/Edge developer tools, the addEventListener will also be wrapped by zone.js
+*  with the following flag, it will bypass \\\`zone.js\\\` patch for IE/Edge
+*
+*  (window as any).__Zone_enable_cross_context_check = true;
+*
+*/
+
+/***************************************************************************************************
+* Zone JS is required by default for Angular itself.
+*/
+import 'zone.js';"
+`;
+
+exports[`update-polyfill.schematic should update library projects with Windows line endings: projects/my-lib-showcase/src/test.ts 1`] = `
+"// This file is required by karma.conf.js and loads recursively all the .spec and framework files
+
+import 'zone.js/testing';
+import { getTestBed } from '@angular/core/testing';
+import {
+BrowserDynamicTestingModule,
+platformBrowserDynamicTesting
+} from '@angular/platform-browser-dynamic/testing';
+
+declare const require: {
+context(path: string, deep?: boolean, filter?: RegExp): {
+keys(): string[];
+<T>(id: string): T;
+};
+};
+
+// First, initialize the Angular testing environment.
+getTestBed().initTestEnvironment(
+BrowserDynamicTestingModule,
+platformBrowserDynamicTesting(),
+{ teardown: { destroyAfterEach: true }},
+);
+
+// Then we find all the tests.
+const context = require.context('./', true, /\\.spec\\.ts$/);
+// And load the modules.
+context.keys().map(context);"
+`;
+
 exports[`update-polyfill.schematic should update library projects: angular.json 1`] = `
 "{
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
