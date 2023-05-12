@@ -1,5 +1,20 @@
 # Changelog
 
+## [8.0.2](https://github.com/blackbaud/skyux/compare/8.0.1...8.0.2) (2023-05-12)
+
+
+### Bug Fixes
+
+* **components/packages:** `update-polyfill` schematic properly handles Windows line endings ([#1364](https://github.com/blackbaud/skyux/issues/1364)) ([449c5bb](https://github.com/blackbaud/skyux/commit/449c5bb54299d4d7ed64bb28d635ace814493996))
+
+## [8.0.1](https://github.com/blackbaud/skyux/compare/8.0.0...8.0.1) (2023-05-11)
+
+
+### Bug Fixes
+
+* remove `@skyux/docs-tools` from packages update group ([#1357](https://github.com/blackbaud/skyux/issues/1357)) ([9c5003d](https://github.com/blackbaud/skyux/commit/9c5003dd45843342479fc8776529eaec9b410f38))
+* update documentation tools with skyux-dev-infra 8.0.0-beta.2 ([#1362](https://github.com/blackbaud/skyux/issues/1362)) ([3f6eaf2](https://github.com/blackbaud/skyux/commit/3f6eaf26c5379dfa807b0a66ebf82bfa34437b2e))
+
 ## [8.0.0](https://github.com/blackbaud/skyux/compare/8.0.0-beta.4...8.0.0) (2023-05-09)
 
 
