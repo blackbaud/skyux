@@ -50,7 +50,7 @@ function removePolyfillCode(
     // Loop through each file and remove our polyfill, if it exists.
     for (const polyfillsFile of polyfillsFiles) {
       if (tree.exists(polyfillsFile)) {
-        const contents = tree.readText(polyfillsFile).replace(/\r\n/g, `\n`);
+        const contents = tree.readText(polyfillsFile);
         const polyfillBlockStartIndex = contents.indexOf(polyfillBlockStart);
         const polyfillBlockEndIndex = contents.indexOf(polyfillBlockEnd);
 
