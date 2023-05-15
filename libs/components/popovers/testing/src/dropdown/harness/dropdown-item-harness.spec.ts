@@ -14,11 +14,15 @@ import { SkyDropdownItemHarness } from './dropdown-item-harness';
       <button (click)="clickItem()"></button>
       {{ itemText }}
     </sky-dropdown-item>
+    <sky-dropdown-item [ariaRole]="'otherItem'">
+      other-item-text
+    </sky-dropdown-item>
   `,
 })
 class TestDropdownItemComponent {
   public itemRole: string | undefined;
   public itemText: string | undefined;
+  public otherItemText: string | undefined;
 
   public clickItem(): void {
     // Only exists for the spy
@@ -27,7 +31,11 @@ class TestDropdownItemComponent {
 // #endregion Test Component
 
 describe('Dropdown item test harness', () => {
-  async function setupTest(): Promise<{
+  async function setupTest(
+    options: {
+      innerText?: string;
+    } = {}
+  ): Promise<{
     dropdownItemHarness: SkyDropdownItemHarness;
     fixture: ComponentFixture<TestDropdownItemComponent>;
     loader: HarnessLoader;
@@ -39,10 +47,33 @@ describe('Dropdown item test harness', () => {
 
     const fixture = TestBed.createComponent(TestDropdownItemComponent);
     const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
-    const dropdownItemHarness = await loader.getHarness(SkyDropdownItemHarness);
+
+    let dropdownItemHarness: SkyDropdownItemHarness;
+
+    if (options.innerText) {
+      dropdownItemHarness = await loader.getHarness(
+        SkyDropdownItemHarness.with({
+          text: options.innerText,
+        })
+      );
+    } else {
+      dropdownItemHarness = await loader.getHarness(SkyDropdownItemHarness);
+    }
 
     return { dropdownItemHarness, fixture, loader };
   }
+
+  it('should get item from its inner text', async () => {
+    const { dropdownItemHarness, fixture } = await setupTest({
+      innerText: 'other-item-text',
+    });
+
+    fixture.detectChanges();
+
+    await expectAsync(dropdownItemHarness.getAriaRole()).toBeResolvedTo(
+      'otherItem'
+    );
+  });
 
   it('should get the default menu item role', async () => {
     const { dropdownItemHarness, fixture } = await setupTest();

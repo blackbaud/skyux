@@ -19,7 +19,6 @@ export class SkyDropdownItemHarness extends SkyComponentHarness {
   public static with(
     filters: SkyDropdownItemHarnessFilters
   ): HarnessPredicate<SkyDropdownItemHarness> {
-    // return SkyDropdownItemHarness.getDataSkyIdPredicate(filters);
     return new HarnessPredicate(SkyDropdownItemHarness, filters).addOption(
       'textContent',
       filters.text,
@@ -46,6 +45,6 @@ export class SkyDropdownItemHarness extends SkyComponentHarness {
    * Gets the menu item text.
    */
   public async getText(): Promise<string | null> {
-    return (await this.host()).text();
+    return (await this.#getItem()).text();
   }
 }

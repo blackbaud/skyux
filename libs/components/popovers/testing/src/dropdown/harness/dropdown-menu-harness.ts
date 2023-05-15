@@ -41,6 +41,7 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
     const harnesses = await this.locatorForAll(
       SkyDropdownItemHarness.with(filters || {})
     )();
+
     if (filters && harnesses.length === 0) {
       throw new Error(
         `Unable to find dropdown menu item to click with filter(s): ${JSON.stringify(
@@ -48,6 +49,7 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
         )}`
       );
     }
+
     return harnesses;
   }
 

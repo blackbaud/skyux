@@ -23,7 +23,7 @@ class TestDropdownMenuComponent {
 }
 // #endregion Test Component
 
-fdescribe('Dropdown menu test harness', () => {
+describe('Dropdown menu test harness', () => {
   async function setupTest(): Promise<{
     dropdownMenuHarness: SkyDropdownMenuHarness;
     fixture: ComponentFixture<TestDropdownMenuComponent>;
@@ -68,16 +68,16 @@ fdescribe('Dropdown menu test harness', () => {
     fixture.detectChanges();
     const harnesses = dropdownMenuHarness.getAllItems();
 
-    expect((await harnesses).length).toBe(2);
+    await expect((await harnesses).length).toBe(2);
   });
 
-  fit('should get menu item by text', async () => {
+  it('should get menu item by text', async () => {
     const { dropdownMenuHarness, fixture } = await setupTest();
 
     fixture.componentInstance.itemRole = 'test-item';
     fixture.detectChanges();
     const harness = await dropdownMenuHarness.getItem({ text: 'Option 1' });
 
-    expectAsync(harness.getAriaRole()).toBeResolvedTo('test-item');
+    await expectAsync(harness.getAriaRole()).toBeResolvedTo('test-item');
   });
 });
