@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
-import { SkyCheckboxModule } from '@skyux/forms';
+import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkyFilterModule, SkyRepeaterModule } from '@skyux/lists';
 import { SkyModalModule } from '@skyux/modals';
@@ -14,8 +14,9 @@ import { FilterDemoComponent } from './filter-demo.component';
   imports: [
     CommonModule,
     FormsModule,
-    SkyIdModule,
     SkyCheckboxModule,
+    SkyIdModule,
+    SkyInputBoxModule,
     SkyFilterModule,
     SkyModalModule,
     SkyRepeaterModule,
