@@ -47,7 +47,7 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
         throw new Error(
           `Unable to find dropdown menu item(s) with filter(s): ${JSON.stringify(
             filters
-          )}`
+          )}.`
         );
       } else {
         throw new Error(

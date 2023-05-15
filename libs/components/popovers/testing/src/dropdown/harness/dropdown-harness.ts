@@ -84,7 +84,7 @@ export class SkyDropdownHarness extends SkyComponentHarness {
 
     if (!dropdownMenuId) {
       throw new Error(
-        'Unable to retrieve dropdown menu harness because dropdown is closed'
+        'Unable to retrieve dropdown menu harness because dropdown is closed.'
       );
     }
 

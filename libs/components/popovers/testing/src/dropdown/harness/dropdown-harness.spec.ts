@@ -254,7 +254,7 @@ describe('Dropdown test harness', () => {
       await expectAsync(
         dropdownHarness.getDropdownMenu()
       ).toBeRejectedWithError(
-        'Unable to retrieve dropdown menu harness because dropdown is closed'
+        'Unable to retrieve dropdown menu harness because dropdown is closed.'
       );
     });
 

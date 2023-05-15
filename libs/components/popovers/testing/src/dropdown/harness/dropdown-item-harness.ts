@@ -20,10 +20,10 @@ export class SkyDropdownItemHarness extends SkyComponentHarness {
     filters: SkyDropdownItemHarnessFilters
   ): HarnessPredicate<SkyDropdownItemHarness> {
     return SkyDropdownItemHarness.getDataSkyIdPredicate(filters)
-      .addOption('textContent', filters.text, async (harness, text) =>
+      .addOption('text', filters.text, async (harness, text) =>
         HarnessPredicate.stringMatches(await harness.getText(), text)
       )
-      .addOption('role', filters.ariaRole, async (harness, ariaRole) =>
+      .addOption('ariaRole', filters.ariaRole, async (harness, ariaRole) =>
         HarnessPredicate.stringMatches(await harness.getAriaRole(), ariaRole)
       );
   }

@@ -89,7 +89,7 @@ describe('Dropdown menu test harness', () => {
     await expectAsync(
       dropdownMenuHarness.getItem({ text: 'Option nil' })
     ).toBeRejectedWithError(
-      'Unable to find dropdown menu item(s) with filter(s): {"text":"Option nil"}'
+      'Unable to find dropdown menu item(s) with filter(s): {"text":"Option nil"}.'
     );
   });
 });
