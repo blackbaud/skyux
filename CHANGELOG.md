@@ -1,5 +1,19 @@
 # Changelog
 
+## [8.0.3](https://github.com/blackbaud/skyux/compare/8.0.2...8.0.3) (2023-05-15)
+
+
+### Bug Fixes
+
+* **components/forms:** revert fix for focus flash when checkbox and radio buttons are clicked inside of a modal ([#1367](https://github.com/blackbaud/skyux/issues/1367)) ([#1368](https://github.com/blackbaud/skyux/issues/1368)) ([78a1e5c](https://github.com/blackbaud/skyux/commit/78a1e5cd8b70b35efd72d6d6d3a68ec684a5d1c8))
+
+## [7.21.4](https://github.com/blackbaud/skyux/compare/7.21.3...7.21.4) (2023-05-15)
+
+
+### Bug Fixes
+
+* **components/forms:** revert fix for focus flash when checkbox and radio buttons are clicked inside of a modal ([#1367](https://github.com/blackbaud/skyux/issues/1367)) ([3cef73f](https://github.com/blackbaud/skyux/commit/3cef73f447ba9f2966e8cf2e2389794db1721432))
+
 ## [8.0.2](https://github.com/blackbaud/skyux/compare/8.0.1...8.0.2) (2023-05-12)
 
 
@@ -24,6 +38,7 @@
 * **components/autonumeric:** The `@skyux/autonumeric` peer dependency has been updated to `4.8.1`. Version `4.8.0` of `autonumeric` introduced the `negativePositiveSignBehavior` option and this option defaults to `false`. However, the behavior this option enables was previously on by default. To maintain this behavior,  enable this option on the `skyAutonumeric` instance. For more information, see the [`autonumeric` library's CHANGELOG](https://github.com/autoNumeric/autoNumeric/blob/next/CHANGELOG.md]).
 * **components/config:** In previous major versions, query string config parameter values were not decoded when retrieving them via `SkyAppRuntimeConfigParams`. Any code that decoded these values after retrieving them should be removed.
 * **components/datetime:** The timepicker component's `timeFormat` input has been converted from a `string` input type to a `SkyTimepickerTimeFormatType` `string` union. This might cause problems if you are setting the `timeFormat` input to a type of `string` in your consuming comopnent's class.
+* **components/forms:** The typings for the single file attachment component's `SkyFileAttachmentChange` previously incorrectly listed that the `file` property would never be `undefined`. The underlying functionality has always returned `undefined` when a file is removed. Any code that did not account for the possiblility of `undefined` will need updated to account for this possiblity.
 * **components/layout:** Components that expect text expand repeater to have a top margin will need to be updated to compensate for the removed margin.
 * **components/lists:** The repeater component's `expandMode` input was set to allow values of type of `string` but it really only supported a handful of known `string` values represented by the `SkyRepeaterExpandModeType` `string` union. This ability to specify a `string` value has been removed. This might cause problems if you are setting the `expandMode` input to a type of `string` in your consuming component's class.
 * **components/packages:** A project name must be provided when a workspace has more than one project.
@@ -318,6 +333,10 @@ bc554d6208329509857f290e198402e6de46fd2a))
 
 ## [8.0.0-alpha.18](https://github.com/blackbaud/skyux/compare/8.0.0-alpha.17...8.0.0-alpha.18) (2023-04-06)
 
+
+### ⚠ BREAKING CHANGES
+
+* **components/forms:** The typings for the single file attachment component's `SkyFileAttachmentChange` previously incorrectly listed that the `file` property would never be `undefined`. The underlying functionality has always returned `undefined` when a file is removed. Any code that did not account for the possiblility of `undefined` will need updated to account for this possiblity.
 
 ### Bug Fixes
 
