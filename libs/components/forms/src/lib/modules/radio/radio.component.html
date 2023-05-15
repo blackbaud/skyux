@@ -1,10 +1,7 @@
 <label
   class="sky-radio-wrapper sky-switch"
   [ngClass]="{ 'sky-switch-disabled': disabled || radioGroupDisabled }"
-  (mousedown)="$event.preventDefault()"
 >
-  <!-- The `preventDefault` above is to stop the browser from temporarily moving focus to a parent element mid-click.
-  This was causing flashes in our modals.-->
   <input
     class="sky-radio-input sky-switch-input"
     type="radio"
