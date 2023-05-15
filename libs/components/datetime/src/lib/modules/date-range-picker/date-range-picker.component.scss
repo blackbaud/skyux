@@ -54,14 +54,6 @@
   :host-context(sky-filter-inline-item) {
     .sky-date-range-picker-form-group {
       flex-basis: 100%;
-
-      &:not(:first-of-type) {
-        padding-left: initial;
-      }
-
-      &:not(:last-of-type) {
-        padding-right: initial;
-      }
     }
   }
 }
