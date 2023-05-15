@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyAgGridModule } from '@skyux/ag-grid';
 import { SkyDataManagerModule } from '@skyux/data-manager';
-import { SkyCheckboxModule } from '@skyux/forms';
+import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
 import { SkyRepeaterModule } from '@skyux/lists';
 import { SkyModalModule } from '@skyux/modals';
 
@@ -28,6 +28,7 @@ import { DataViewRepeaterComponent } from './data-view-repeater.component';
     DataManagerRoutingModule,
     SkyAgGridModule,
     SkyDataManagerModule,
+    SkyInputBoxModule,
     SkyRepeaterModule,
     SkyModalModule,
     SkyCheckboxModule,
