@@ -44,7 +44,7 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
 
     if (filters && harnesses.length === 0) {
       throw new Error(
-        `Unable to find dropdown menu item to click with filter(s): ${JSON.stringify(
+        `Unable to find dropdown menu item with filter(s): ${JSON.stringify(
           filters
         )}`
       );

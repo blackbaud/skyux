@@ -80,4 +80,16 @@ describe('Dropdown menu test harness', () => {
 
     await expectAsync(harness.getAriaRole()).toBeResolvedTo('test-item');
   });
+
+  it('should throw an error if menu item does not exist', async () => {
+    const { dropdownMenuHarness, fixture } = await setupTest();
+
+    fixture.detectChanges();
+
+    await expectAsync(
+      dropdownMenuHarness.getItem({ text: 'Option nil' })
+    ).toBeRejectedWithError(
+      'Unable to find dropdown menu item with filter(s): {"text":"Option nil"}'
+    );
+  });
 });
