@@ -66,7 +66,7 @@ describe('Dropdown menu test harness', () => {
     const { dropdownMenuHarness, fixture } = await setupTest();
 
     fixture.detectChanges();
-    const harnesses = dropdownMenuHarness.getAllItems();
+    const harnesses = dropdownMenuHarness.getItems();
 
     await expect((await harnesses).length).toBe(2);
   });

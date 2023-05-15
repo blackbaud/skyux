@@ -35,7 +35,7 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
    * Gets an array of dropdown menu item harnesses.
    * @param filters Optional filter for which menu items to return
    */
-  public async getAllItems(
+  public async getItems(
     filters?: SkyDropdownItemHarnessFilters
   ): Promise<SkyDropdownItemHarness[]> {
     const harnesses = await this.locatorForAll(
@@ -66,7 +66,7 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
   public async getItem(
     filters: SkyDropdownItemHarnessFilters
   ): Promise<SkyDropdownItemHarness> {
-    const harnesses = await this.getAllItems(filters);
+    const harnesses = await this.getItems(filters);
     return harnesses[0];
   }
 

@@ -53,7 +53,7 @@ describe('Basic dropdown', () => {
     fixture.detectChanges();
 
     const dropdownMenu = await dropdownHarness.getDropdownMenu();
-    const dropdownMenuItems = await dropdownMenu?.getAllItems();
+    const dropdownMenuItems = await dropdownMenu?.getItems();
 
     await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(true);
     await expectAsync(dropdownMenu?.getAriaRole()).toBeResolvedTo('menu');

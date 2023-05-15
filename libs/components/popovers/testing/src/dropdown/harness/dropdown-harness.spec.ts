@@ -267,9 +267,7 @@ describe('Dropdown test harness', () => {
 
       const dropdownMenuHarness = await dropdownHarness.getDropdownMenu();
 
-      await expectAsync(
-        dropdownMenuHarness?.getAllItems()
-      ).toBeRejectedWithError(
+      await expectAsync(dropdownMenuHarness?.getItems()).toBeRejectedWithError(
         'Unable to retrieve item(s) because dropdown menu is empty.'
       );
     });
