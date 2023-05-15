@@ -6,7 +6,7 @@ import { SkyDropdownHarness } from '@skyux/popovers/testing';
 import { DropdownDemoComponent } from './dropdown-demo.component';
 import { DropdownDemoModule } from './dropdown-demo.module';
 
-describe('Basic dropdown', () => {
+fdescribe('Basic dropdown', () => {
   async function setupTest(): Promise<{
     dropdownHarness: SkyDropdownHarness;
     fixture: ComponentFixture<DropdownDemoComponent>;
@@ -53,25 +53,28 @@ describe('Basic dropdown', () => {
     fixture.detectChanges();
 
     const dropdownMenu = await dropdownHarness.getDropdownMenu();
-    const dropdownMenuItem = await dropdownMenu?.getItemByIndex(0);
+    const dropdownMenuItems = await dropdownMenu?.getAllItems();
 
     await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(true);
     await expectAsync(dropdownMenu?.getAriaRole()).toBeResolvedTo('menu');
 
-    await expectAsync(dropdownMenuItem?.getText()).toBeResolvedTo('Option 1');
+    await expectAsync(dropdownMenuItems?.[0].getText()).toBeResolvedTo(
+      'Option 1'
+    );
   });
 
   it('should click the correct dropdown menu item', async () => {
     const { dropdownHarness, fixture } = await setupTest();
 
+    const clickSpy = spyOn(fixture.componentInstance, 'actionClicked');
     fixture.detectChanges();
     await dropdownHarness.clickDropdownButton();
     fixture.detectChanges();
 
     const dropdownMenu = await dropdownHarness.getDropdownMenu();
-    const clickSpy = spyOn(fixture.componentInstance, 'actionClicked');
+    const dropdownMenuItem = await dropdownMenu?.getItem({ text: 'Option 1' });
 
-    await dropdownMenu?.clickItemByIndex(0);
+    await dropdownMenuItem?.click();
 
     expect(clickSpy).toHaveBeenCalledWith('Option 1');
   });
