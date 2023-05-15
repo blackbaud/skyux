@@ -125,9 +125,9 @@ describe('Dropdown item test harness', () => {
 
     const spy = spyOn(fixture.componentInstance, 'clickItem');
     fixture.detectChanges();
-
     await dropdownItemHarness.click();
     fixture.detectChanges();
+
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
