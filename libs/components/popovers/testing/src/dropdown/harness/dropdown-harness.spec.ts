@@ -258,52 +258,20 @@ describe('Dropdown test harness', () => {
       );
     });
 
-    // it('should throw an error when trying to get the role of an item in an empty menu', async () => {
-    //   const { dropdownHarness, fixture } = await setupTest();
+    it('should throw an error when trying to get an item in an empty menu', async () => {
+      const { dropdownHarness, fixture } = await setupTest();
 
-    //   fixture.detectChanges();
-    //   await dropdownHarness.clickDropdownButton();
-    //   fixture.detectChanges();
+      fixture.detectChanges();
+      await dropdownHarness.clickDropdownButton();
+      fixture.detectChanges();
 
-    //   const dropdownMenuHarness = await dropdownHarness.getDropdownMenu();
+      const dropdownMenuHarness = await dropdownHarness.getDropdownMenu();
 
-    //   await expectAsync(
-    //     dropdownMenuHarness?.getItemRoleByIndex(0)
-    //   ).toBeRejectedWithError(
-    //     'Unable to retrieve item because dropdown menu is empty.'
-    //   );
-    // });
-
-    // it('should throw an error when trying to click an item at index in an empty menu', async () => {
-    //   const { dropdownHarness, fixture } = await setupTest();
-
-    //   fixture.detectChanges();
-    //   await dropdownHarness.clickDropdownButton();
-    //   fixture.detectChanges();
-
-    //   const dropdownMenuHarness = await dropdownHarness.getDropdownMenu();
-
-    //   await expectAsync(
-    //     dropdownMenuHarness?.clickItemByIndex(0)
-    //   ).toBeRejectedWithError(
-    //     'Unable to retrieve item because dropdown menu is empty.'
-    //   );
-    // });
-
-    // it('should throw an error when trying to click an item with role in an empty menu', async () => {
-    //   const { dropdownHarness, fixture } = await setupTest();
-
-    //   fixture.detectChanges();
-    //   await dropdownHarness.clickDropdownButton();
-    //   fixture.detectChanges();
-
-    //   const dropdownMenuHarness = await dropdownHarness.getDropdownMenu();
-
-    //   await expectAsync(
-    //     dropdownMenuHarness?.clickItemWithRole('item-role')
-    //   ).toBeRejectedWithError(
-    //     'Unable to retrieve item because dropdown menu is empty.'
-    //   );
-    // });
+      await expectAsync(
+        dropdownMenuHarness?.getAllItems()
+      ).toBeRejectedWithError(
+        'Unable to retrieve item(s) because dropdown menu is empty.'
+      );
+    });
   });
 });

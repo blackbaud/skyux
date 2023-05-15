@@ -42,12 +42,18 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
       SkyDropdownItemHarness.with(filters || {})
     )();
 
-    if (filters && harnesses.length === 0) {
-      throw new Error(
-        `Unable to find dropdown menu item with filter(s): ${JSON.stringify(
-          filters
-        )}`
-      );
+    if (harnesses.length === 0) {
+      if (filters) {
+        throw new Error(
+          `Unable to find dropdown menu item(s) with filter(s): ${JSON.stringify(
+            filters
+          )}`
+        );
+      } else {
+        throw new Error(
+          'Unable to retrieve item(s) because dropdown menu is empty.'
+        );
+      }
     }
 
     return harnesses;
