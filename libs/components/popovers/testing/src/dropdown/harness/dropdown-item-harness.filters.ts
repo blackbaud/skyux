@@ -1,13 +1,17 @@
-import { BaseHarnessFilters } from '@angular/cdk/testing';
+import { SkyHarnessFilters } from '@skyux/core/testing';
 
 /**
  * A set of criteria that can be used to filter a list of `SkyDropdownItemHarness` instances.
  */
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface SkyDropdownItemHarnessFilters
-  extends Omit<BaseHarnessFilters, 'selector'> {
+export interface SkyDropdownItemHarnessFilters extends SkyHarnessFilters {
   /**
-   * Only find instances whose content matches the given value.
+   * Only find instances whose text content matches the given value.
    */
   text?: string;
+
+  /**
+   * Only find instances whose role matches the given value.
+   */
+  ariaRole?: string;
 }

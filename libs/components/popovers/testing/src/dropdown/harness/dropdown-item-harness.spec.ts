@@ -14,7 +14,7 @@ import { SkyDropdownItemHarness } from './dropdown-item-harness';
       <button (click)="clickItem()"></button>
       {{ itemText }}
     </sky-dropdown-item>
-    <sky-dropdown-item [ariaRole]="'otherItem'">
+    <sky-dropdown-item data-sky-id="other-item" [ariaRole]="'otherItem'">
       other-item-text
     </sky-dropdown-item>
   `,
@@ -33,7 +33,9 @@ class TestDropdownItemComponent {
 describe('Dropdown item test harness', () => {
   async function setupTest(
     options: {
-      innerText?: string;
+      text?: string;
+      dataSkyId?: string;
+      ariaRole?: string;
     } = {}
   ): Promise<{
     dropdownItemHarness: SkyDropdownItemHarness;
@@ -50,11 +52,9 @@ describe('Dropdown item test harness', () => {
 
     let dropdownItemHarness: SkyDropdownItemHarness;
 
-    if (options.innerText) {
+    if (options) {
       dropdownItemHarness = await loader.getHarness(
-        SkyDropdownItemHarness.with({
-          text: options.innerText,
-        })
+        SkyDropdownItemHarness.with(options)
       );
     } else {
       dropdownItemHarness = await loader.getHarness(SkyDropdownItemHarness);
@@ -65,13 +65,37 @@ describe('Dropdown item test harness', () => {
 
   it('should get item from its inner text', async () => {
     const { dropdownItemHarness, fixture } = await setupTest({
-      innerText: 'other-item-text',
+      text: 'other-item-text',
     });
 
     fixture.detectChanges();
 
     await expectAsync(dropdownItemHarness.getAriaRole()).toBeResolvedTo(
       'otherItem'
+    );
+  });
+
+  it('should get item from its role', async () => {
+    const { dropdownItemHarness, fixture } = await setupTest({
+      ariaRole: 'otherItem',
+    });
+
+    fixture.detectChanges();
+
+    await expectAsync(dropdownItemHarness.getText()).toBeResolvedTo(
+      'other-item-text'
+    );
+  });
+
+  it('should get item from its data sky id', async () => {
+    const { dropdownItemHarness, fixture } = await setupTest({
+      dataSkyId: 'other-item',
+    });
+
+    fixture.detectChanges();
+
+    await expectAsync(dropdownItemHarness.getText()).toBeResolvedTo(
+      'other-item-text'
     );
   });
 
