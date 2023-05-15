@@ -33,7 +33,7 @@ export class SkyDropdownHarness extends SkyComponentHarness {
   }
 
   /**
-   * Clicks out of the dropdown button. If `dismissOnBlur` property is set to false, then the dropdown menu does not close.
+   * Clicks out of the dropdown menu. If `dismissOnBlur` property is set to false, then the dropdown menu does not close.
    */
   public async clickOutOfDropdownMenu(): Promise<void> {
     (await (await this.#getOverlay())?.host())?.click();
