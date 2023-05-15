@@ -1,5 +1,12 @@
 # Changelog
 
+## [8.0.3](https://github.com/blackbaud/skyux/compare/8.0.2...8.0.3) (2023-05-15)
+
+
+### Bug Fixes
+
+* **components/forms:** revert fix for focus flash when checkbox and radio buttons are clicked inside of a modal ([#1367](https://github.com/blackbaud/skyux/issues/1367)) ([#1368](https://github.com/blackbaud/skyux/issues/1368)) ([78a1e5c](https://github.com/blackbaud/skyux/commit/78a1e5cd8b70b35efd72d6d6d3a68ec684a5d1c8))
+
 ## [8.0.2](https://github.com/blackbaud/skyux/compare/8.0.1...8.0.2) (2023-05-12)
 
 
