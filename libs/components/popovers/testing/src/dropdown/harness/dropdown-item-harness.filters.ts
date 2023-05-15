@@ -6,12 +6,12 @@ import { SkyHarnessFilters } from '@skyux/core/testing';
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SkyDropdownItemHarnessFilters extends SkyHarnessFilters {
   /**
-   * Only find instances whose text content matches the given value.
-   */
-  text?: string;
-
-  /**
    * Only find instances whose role matches the given value.
    */
   ariaRole?: string;
+
+  /**
+   * Only find instances whose text content matches the given value.
+   */
+  text?: string;
 }

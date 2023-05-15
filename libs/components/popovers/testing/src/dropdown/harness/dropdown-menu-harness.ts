@@ -32,6 +32,13 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
   }
 
   /**
+   * Gets the dropdown menu role.
+   */
+  public async getAriaRole(): Promise<string | null> {
+    return (await this.host()).getAttribute('role');
+  }
+
+  /**
    * Gets an array of dropdown menu item harnesses.
    * @param filters Optional filter for which menu items to return
    */
@@ -68,12 +75,5 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
   ): Promise<SkyDropdownItemHarness> {
     const harnesses = await this.getItems(filters);
     return harnesses[0];
-  }
-
-  /**
-   * Gets the dropdown menu role.
-   */
-  public async getAriaRole(): Promise<string | null> {
-    return (await this.host()).getAttribute('role');
   }
 }

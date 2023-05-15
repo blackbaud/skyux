@@ -246,7 +246,7 @@ describe('Dropdown test harness', () => {
   });
 
   describe('Dropdown menu test harness', () => {
-    it('should get throw an error if dropdown menu is not open', async () => {
+    it('should throw an error if dropdown menu is not open', async () => {
       const { dropdownHarness, fixture } = await setupTest();
 
       fixture.detectChanges();

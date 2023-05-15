@@ -117,7 +117,7 @@ export class SkyDropdownHarness extends SkyComponentHarness {
       await this.#getDropdownButton()
     ).getAttribute('aria-expanded');
 
-    if (ariaExpanded?.match(/true/)) {
+    if (ariaExpanded === 'true') {
       return true;
     }
 
@@ -126,7 +126,6 @@ export class SkyDropdownHarness extends SkyComponentHarness {
 
   /**
    * Gets the element ID of the dropdown menu that the dropdown button controls.
-   * @internal
    */
   async #getAriaControls(): Promise<string | null> {
     return (await this.#getDropdownButton()).getAttribute('aria-controls');
