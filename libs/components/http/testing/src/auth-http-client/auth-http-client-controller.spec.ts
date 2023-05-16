@@ -6,7 +6,7 @@ import {
 } from '@angular/common/http/testing';
 import { Injectable } from '@angular/core';
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { SkyAppConfig } from '@skyux/config';
+import { SkyAppConfig, SkyAppRuntimeConfigParamsProvider } from '@skyux/config';
 import { SkyAuthTokenProvider, skyAuthHttpJsonOptions } from '@skyux/http';
 
 import { Observable } from 'rxjs';
@@ -26,9 +26,9 @@ class HttpConsumingService {
     public httpClient: HttpClient
   ) {}
 
-  public doSomething(): Observable<unknown> {
+  public doSomething(url?: string): Observable<unknown> {
     return this.httpClient.get(
-      'https://www.example.com/',
+      url ?? 'https://www.example.com/',
       skyAuthHttpJsonOptions()
     );
   }
@@ -99,4 +99,62 @@ describe('Auth HTTP client controller', () => {
       'The specified request does not contain the expected BBID Authorization header.'
     );
   });
+
+  it('should not have callerid when there is no spa name', fakeAsync(() => {
+    const config = TestBed.inject(SkyAppConfig);
+    config.runtime.app.name = undefined;
+
+    service.doSomething().subscribe();
+    tick();
+    httpTestingController.expectOne('https://www.example.com/');
+  }));
+
+  it('should have spa name in callerid if there is no svcid', fakeAsync(() => {
+    const config = TestBed.inject(SkyAppConfig);
+    config.runtime.params.get = (_: string) => undefined;
+
+    service.doSomething().subscribe();
+    tick();
+    httpTestingController.expectOne('https://www.example.com/?callerid=spa-test');
+  }));
+
+  it('should add the callerid to the existing query string', fakeAsync(() => {
+    service.doSomething('https://www.example.com/?query=fake').subscribe();
+    tick();
+    httpTestingController.expectOne('https://www.example.com/?query=fake&callerid=test-svcid,spa-test');}));
+});
+
+describe('Auth HTTP client controller without config provider', () => {
+  let httpTestingController: HttpTestingController;
+  let service: HttpConsumingService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule, SkyAuthHttpClientTestingModule],
+      providers: [
+        SkyAuthHttpTestingController,
+        SkyAuthTokenMockProvider,
+        {
+          provide: SkyAppRuntimeConfigParamsProvider,
+          useValue: undefined
+        }
+      ],
+    });
+
+    httpTestingController = TestBed.inject(HttpTestingController);
+    service = TestBed.inject(HttpConsumingService);
+  });
+
+  afterEach(() => {
+    httpTestingController.verify();
+  });
+
+  it('should not set callerid if there is no runtime params', fakeAsync(() => {
+    const config = TestBed.inject(SkyAppConfig);
+    config.runtime.params = undefined!;
+
+    service.doSomething().subscribe();
+    tick();
+    httpTestingController.expectOne('https://www.example.com/');
+  }));
 });
