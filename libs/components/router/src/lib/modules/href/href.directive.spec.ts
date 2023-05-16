@@ -258,6 +258,7 @@ describe('SkyHref Directive', () => {
     tick();
 
     const element = el.querySelector('.simpleLink a');
+
     expect(element?.getAttribute('href')).toEqual(
       'https://example.com/example/page?query=param'
     );

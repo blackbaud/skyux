@@ -197,12 +197,13 @@ export class SkyHrefDirective {
     } else {
       const url = this.#route.url;
 
-      const linkUrl =
+      this.#href =
         typeof this.#skyAppConfig?.runtime.params?.getLinkUrl === 'function'
           ? this.#skyAppConfig?.runtime.params.getLinkUrl(url)
-          : this.#paramsProvider?.params.getLinkUrl(url);
-
-      this.#href = linkUrl || url;
+          : // The SkyAppRuntimeParamsProvider is provided in root, so it will never be undefined.
+            // TODO: rework the injectors so that #paramsProvider is not possibly undefined.
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            this.#paramsProvider!.params.getLinkUrl(url);
 
       return {
         href: this.#href,
