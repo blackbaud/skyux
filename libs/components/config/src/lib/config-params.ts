@@ -7,6 +7,7 @@ export type SkyuxConfigParams = {
     | {
         value?: any;
         required?: boolean;
+        excludeFromLinks?: boolean;
         excludeFromRequests?: boolean;
       };
 };

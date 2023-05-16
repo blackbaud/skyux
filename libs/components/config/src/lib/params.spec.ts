@@ -277,4 +277,26 @@ describe('SkyAppRuntimeConfigParams', () => {
 
     expect(params.getAllKeys()).toEqual([]);
   });
+
+  it("should exclude certain parameters from being added to a link's querystring", () => {
+    const params: SkyAppRuntimeConfigParams = new SkyAppRuntimeConfigParams(
+      '?a1=b&b2=c3&z4=y',
+      {
+        a1: true,
+        b2: {
+          required: true,
+        },
+        c3: {
+          excludeFromRequests: true,
+        },
+        z4: {
+          excludeFromLinks: true,
+        },
+      }
+    );
+
+    expect(params.getLinkUrl('https://mysite.com?c=d')).toEqual(
+      'https://mysite.com?c=d&a1=b&b2=c3'
+    );
+  });
 });
