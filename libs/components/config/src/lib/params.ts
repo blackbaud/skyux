@@ -170,13 +170,11 @@ export class SkyAppRuntimeConfigParams {
 
   #getUrlWithParams(url: string, excludeKeys: string[]): string {
     const httpParams = getUrlSearchParams(url);
-
     const [baseUrl] = url.split('?', 1);
-
     const joined: string[] = [];
 
     this.getAllKeys().forEach((key) => {
-      if (excludeKeys.indexOf(key) === -1 && !httpParams.has(key)) {
+      if (!excludeKeys.includes(key) && !httpParams.has(key)) {
         const decodedValue = this.get(key);
         if (decodedValue) {
           joined.push(`${key}=${encodeURIComponent(decodedValue)}`);
@@ -184,11 +182,10 @@ export class SkyAppRuntimeConfigParams {
       }
     });
 
-    const existing = httpParams.keys().map((key) => {
-      return `${key}=${httpParams.get(key)}`;
-    });
-
-    joined.push(...existing);
+    // Add existing URL params.
+    joined.push(
+      ...httpParams.keys().map((key) => `${key}=${httpParams.get(key)}`)
+    );
 
     // Alphabetize all query parameters.
     joined.sort();
