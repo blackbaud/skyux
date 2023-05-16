@@ -24,7 +24,7 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
   public static with(
     filters: SkyDropdownMenuHarnessFilters
   ): HarnessPredicate<SkyDropdownMenuHarness> {
-    return SkyDropdownMenuHarness.getDataSkyIdPredicate(filters);
+    return new HarnessPredicate(SkyDropdownMenuHarness, filters);
   }
 
   /**
