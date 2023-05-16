@@ -5,13 +5,19 @@ import {
   SkyDataManagerFilterData,
   SkyDataManagerFilterModalContext,
 } from '@skyux/data-manager';
-import { SkyCheckboxModule } from '@skyux/forms';
+import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
   selector: 'app-demo-filter-modal-form',
   standalone: true,
-  imports: [CommonModule, FormsModule, SkyCheckboxModule, SkyModalModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    SkyCheckboxModule,
+    SkyInputBoxModule,
+    SkyModalModule,
+  ],
   templateUrl: './data-filter-modal.component.html',
 })
 export class SkyDataManagerFiltersModalVisualComponent {
