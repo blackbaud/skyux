@@ -5,7 +5,7 @@ import { SkyIconHarness } from '@skyux/indicators/testing';
 import { IconDemoComponent } from './icon-demo.component';
 import { IconDemoModule } from './icon-demo.module';
 
-describe('Basic icon', async () => {
+describe('Basic icon', () => {
   async function setupTest(): Promise<{
     iconHarness: SkyIconHarness;
     fixture: ComponentFixture<IconDemoComponent>;

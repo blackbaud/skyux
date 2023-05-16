@@ -5,7 +5,7 @@ import { SkyHelpInlineHarness } from '@skyux/indicators/testing';
 import { HelpInlineDemoComponent } from './help-inline-demo.component';
 import { HelpInlineDemoModule } from './help-inline-demo.module';
 
-describe('Basic help inline', async () => {
+describe('Basic help inline', () => {
   async function setupTest(): Promise<{
     helpInlineHarness: SkyHelpInlineHarness;
     fixture: ComponentFixture<HelpInlineDemoComponent>;
