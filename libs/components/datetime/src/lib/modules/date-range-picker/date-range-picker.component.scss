@@ -6,8 +6,8 @@
 }
 
 .sky-date-range-picker-form-group {
-  &:last-child {
-    margin-bottom: 0;
+  &.sky-date-range-picker-last-input {
+    margin-bottom: -10px;
   }
 }
 
@@ -49,30 +49,20 @@
 }
 
 @include mixins.sky-theme-modern {
-  .sky-date-range-picker-form-group {
+  .sky-date-range-picker-form-group:not(.sky-date-range-picker-last-input) {
     padding: 0;
     margin: 0 0 $sky-theme-modern-margin-stacked-lg 0;
   }
 
   @media (min-width: $sky-screen-sm-min) {
-    .sky-date-range-picker-form-group {
+    .sky-date-range-picker-form-group:not(.sky-date-range-picker-last-input) {
       margin: 0 $sky-theme-modern-margin-inline-lg 0 0;
     }
   }
-}
 
-// NOTE: This would normally use our responsive mixins. However, they do not yet support modern
-// theme (host context issue). This should be updated once the mixin adds modern theme support.
-:host-context(.sky-theme-modern .sky-responsive-container-xs) {
   .sky-date-range-picker-form-group {
-    margin: 0 0 $sky-theme-modern-margin-stacked-lg 0;
-  }
-}
-
-:host-context(.sky-theme-modern .sky-responsive-container-sm),
-:host-context(.sky-theme-modern .sky-responsive-container-md),
-:host-context(.sky-theme-modern .sky-responsive-container-lg) {
-  .sky-date-range-picker-form-group {
-    margin: 0 $sky-theme-modern-margin-inline-lg 0 0;
+    &.sky-date-range-picker-last-input {
+      margin-bottom: 0;
+    }
   }
 }

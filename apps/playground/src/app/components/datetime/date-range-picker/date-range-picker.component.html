@@ -1,6 +1,15 @@
 <div class="date-range-demo">
   <form id="screenshot-date-range-picker" novalidate [formGroup]="reactiveForm">
-    <div class="sky-form-group">
+    <sky-input-box class="sky-margin-stacked-lg">
+      <label class="sky-control-label"> First name </label>
+      <input
+        formControlName="firstName"
+        type="text"
+        spellcheck="false"
+        class="sky-form-control"
+      />
+    </sky-input-box>
+    <div class="sky-margin-stacked-lg">
       <sky-date-range-picker
         formControlName="lastDonation"
         label="Last donation"
@@ -11,6 +20,15 @@
       >
       </sky-date-range-picker>
     </div>
+    <sky-input-box class="sky-margin-stacked-lg">
+      <label class="sky-control-label"> First name </label>
+      <input
+        formControlName="firstName"
+        type="text"
+        spellcheck="false"
+        class="sky-form-control"
+      />
+    </sky-input-box>
 
     <div class="sky-form-group">
       <button class="sky-btn sky-btn-default" type="button" (click)="submit()">
