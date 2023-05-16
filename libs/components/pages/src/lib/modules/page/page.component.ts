@@ -15,7 +15,7 @@ const LAYOUT_CLASS_PREFIX = 'sky-page-layout-';
 const LAYOUT_CLASS_DEFAULT = `${LAYOUT_CLASS_PREFIX}auto`;
 
 /**
- * Displays page contents using the specified layout.
+ * Displays a page using the specified layout.
  */
 @Component({
   selector: 'sky-page',
@@ -26,9 +26,11 @@ const LAYOUT_CLASS_DEFAULT = `${LAYOUT_CLASS_PREFIX}auto`;
 })
 export class SkyPageComponent implements OnInit, OnDestroy {
   /**
-   * The page layout. Use `auto` to allow the page contents
-   * to expand beyond the bottom of the browser window. Use `fit`
-   * to constrain the page contents to the available viewport.
+   * The page layout that corresponds with the top-level component type
+   * used on the page. For laying out custom content, use `auto` to allow
+   * the page contents to expand beyond the bottom of the browser window
+   * or `fit` to constrain the page contents to the available viewport.
+   * @default "auto"
    */
   @Input()
   public set layout(value: SkyPageLayoutType | undefined) {
