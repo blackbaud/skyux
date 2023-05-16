@@ -1,12 +1,21 @@
 <sky-modal>
   <sky-modal-header> Filter food preferences </sky-modal-header>
   <sky-modal-content>
-    <label class="sky-control-label" [for]="fruitInput.id"> Fruit type </label>
-    <select class="sky-form-control" skyId [(ngModel)]="fruitType" #fruitInput>
-      <option value="any">Any fruit</option>
-      <option value="citrus">Citrus</option>
-      <option value="berry">Berry</option>
-    </select>
+    <sky-input-box>
+      <label class="sky-control-label" [for]="fruitInput.id">
+        Fruit type
+      </label>
+      <select
+        class="sky-form-control"
+        skyId
+        [(ngModel)]="fruitType"
+        #fruitInput
+      >
+        <option value="any">Any fruit</option>
+        <option value="citrus">Citrus</option>
+        <option value="berry">Berry</option>
+      </select>
+    </sky-input-box>
     <div style="margin-top: 15px">
       <sky-checkbox [(ngModel)]="hideOrange">
         <sky-checkbox-label> Hide orange fruits </sky-checkbox-label>
