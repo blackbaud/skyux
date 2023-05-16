@@ -18,5 +18,5 @@ export class PageHeaderFixturesComponent {
     },
   };
 
-  protected headerContent: string | undefined;
+  public headerContent: string | undefined;
 }
