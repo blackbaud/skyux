@@ -125,6 +125,9 @@ export class SkyAuthInterceptor implements HttpInterceptor {
     }
 
     let newUrl = runtimeParams.getUrl(url);
+    if (!newUrl) {
+      return url;
+    }
 
     const svcId = runtimeParams.get('svcid');
     const spaName = this.#config?.runtime?.app?.name;
