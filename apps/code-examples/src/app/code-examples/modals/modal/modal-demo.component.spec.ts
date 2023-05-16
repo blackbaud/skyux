@@ -16,7 +16,7 @@ class mockWaitSvc {
   }
 }
 
-describe('Basic modal', async () => {
+describe('Basic modal', () => {
   async function setupTest(): Promise<{
     modalHarness: SkyModalHarness;
     fixture: ComponentFixture<ModalDemoComponent>;
