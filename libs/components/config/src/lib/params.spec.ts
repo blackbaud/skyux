@@ -37,7 +37,7 @@ describe('SkyAppRuntimeConfigParams', () => {
       allowed
     );
     expect(params.getUrl('https://mysite.com?c=d')).toEqual(
-      'https://mysite.com?c=d&a1=b'
+      'https://mysite.com?a1=b&c=d'
     );
   });
 
@@ -56,7 +56,7 @@ describe('SkyAppRuntimeConfigParams', () => {
     );
 
     expect(params.getUrl('https://mysite.com?c=d')).toEqual(
-      'https://mysite.com?c=d&a1=b&b2=c3'
+      'https://mysite.com?a1=b&b2=c3&c=d'
     );
   });
 
@@ -280,23 +280,28 @@ describe('SkyAppRuntimeConfigParams', () => {
 
   it("should exclude certain parameters from being added to a link's querystring", () => {
     const params: SkyAppRuntimeConfigParams = new SkyAppRuntimeConfigParams(
-      '?a1=b&b2=c3&z4=y',
+      'https://mysite.com?a=1&b=2',
       {
-        a1: true,
-        b2: {
+        a: true,
+        b: {
           required: true,
         },
-        c3: {
+        c: true,
+        d: {
           excludeFromRequests: true,
         },
-        z4: {
+        e: {
           excludeFromLinks: true,
+        },
+        f: {
+          excludeFromRequests: true,
         },
       }
     );
 
-    expect(params.getLinkUrl('https://mysite.com?c=d')).toEqual(
-      'https://mysite.com?c=d&a1=b&b2=c3'
+    // Parameter 'f' should remain in the link because it already exists in the URL.
+    expect(params.getLinkUrl('https://mysite.com?c=3&f=6')).toEqual(
+      'https://mysite.com?a=1&b=2&c=3&f=6'
     );
   });
 });

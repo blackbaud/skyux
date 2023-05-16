@@ -190,6 +190,7 @@ export class SkyAppRuntimeConfigParams {
 
     joined.push(...existing);
 
+    // Alphabetize all query parameters.
     joined.sort();
 
     return joined.length === 0 ? url : `${baseUrl}?${joined.join('&')}`;
