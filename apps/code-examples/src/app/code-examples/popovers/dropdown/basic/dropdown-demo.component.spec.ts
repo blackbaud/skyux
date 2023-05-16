@@ -53,10 +53,10 @@ describe('Basic dropdown', () => {
     fixture.detectChanges();
 
     const dropdownMenu = await dropdownHarness.getDropdownMenu();
-    const dropdownMenuItems = await dropdownMenu?.getItems();
+    const dropdownMenuItems = await dropdownMenu.getItems();
 
     await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(true);
-    await expectAsync(dropdownMenu?.getAriaRole()).toBeResolvedTo('menu');
+    await expectAsync(dropdownMenu.getAriaRole()).toBeResolvedTo('menu');
 
     await expectAsync(dropdownMenuItems?.[0].getText()).toBeResolvedTo(
       'Option 1'
@@ -72,7 +72,7 @@ describe('Basic dropdown', () => {
     fixture.detectChanges();
 
     const dropdownMenu = await dropdownHarness.getDropdownMenu();
-    const dropdownMenuItem = await dropdownMenu?.getItem({ text: 'Option 1' });
+    const dropdownMenuItem = await dropdownMenu.getItem({ text: 'Option 1' });
 
     await dropdownMenuItem?.click();
 

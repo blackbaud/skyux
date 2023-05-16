@@ -71,7 +71,7 @@ export class SkyDropdownHarness extends SkyComponentHarness {
   /**
    * Gets the dropdown menu component.
    */
-  public async getDropdownMenu(): Promise<SkyDropdownMenuHarness | null> {
+  public async getDropdownMenu(): Promise<SkyDropdownMenuHarness> {
     const dropdownMenuId = await this.#getAriaControls();
 
     if (!dropdownMenuId) {
@@ -80,7 +80,7 @@ export class SkyDropdownHarness extends SkyComponentHarness {
       );
     }
 
-    return this.#documentRootLocator.locatorForOptional(
+    return this.#documentRootLocator.locatorFor(
       SkyDropdownMenuHarness.with({ selector: `#${dropdownMenuId}` })
     )();
   }

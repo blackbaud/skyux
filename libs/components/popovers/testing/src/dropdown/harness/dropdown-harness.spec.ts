@@ -213,7 +213,7 @@ describe('Dropdown test harness', () => {
     fixture.detectChanges();
     await dropdownHarness.clickDropdownButton();
     fixture.detectChanges();
-    await (await dropdownHarness.getDropdownMenu())?.clickOut();
+    await (await dropdownHarness.getDropdownMenu()).clickOut();
 
     await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(false);
   });
@@ -225,7 +225,7 @@ describe('Dropdown test harness', () => {
     fixture.detectChanges();
     await dropdownHarness.clickDropdownButton();
     fixture.detectChanges();
-    await (await dropdownHarness.getDropdownMenu())?.clickOut();
+    await (await dropdownHarness.getDropdownMenu()).clickOut();
 
     await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(true);
   });
@@ -240,7 +240,7 @@ describe('Dropdown test harness', () => {
 
     const dropdownMenuHarness = await dropdownHarness.getDropdownMenu();
 
-    await expectAsync(dropdownMenuHarness?.getAriaRole()).toBeResolvedTo(
+    await expectAsync(dropdownMenuHarness.getAriaRole()).toBeResolvedTo(
       'dropdown-menu'
     );
   });
@@ -267,7 +267,7 @@ describe('Dropdown test harness', () => {
 
       const dropdownMenuHarness = await dropdownHarness.getDropdownMenu();
 
-      await expectAsync(dropdownMenuHarness?.getItems()).toBeRejectedWithError(
+      await expectAsync(dropdownMenuHarness.getItems()).toBeRejectedWithError(
         'Unable to retrieve item(s) because dropdown menu is empty.'
       );
     });
