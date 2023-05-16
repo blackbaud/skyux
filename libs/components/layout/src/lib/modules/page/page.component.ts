@@ -1,10 +1,12 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
+import { SkyLogService } from '@skyux/core';
 
 import { SkyPageLayoutType } from './page-layout-type';
 import { SkyPageThemeAdapterService } from './page-theme-adapter.service';
 
 /**
  * Displays page contents using the specified layout.
+ * @deprecated Use the `sky-page` component in `@skyux/pages` instead.
  */
 @Component({
   selector: 'sky-page',
@@ -31,7 +33,16 @@ export class SkyPageComponent implements OnInit, OnDestroy {
 
   #_layout: SkyPageLayoutType = 'auto';
 
+  #logger = inject(SkyLogService);
+
   constructor(themeAdapter: SkyPageThemeAdapterService) {
+    this.#logger.deprecated('SkyPageComponent', {
+      deprecationMajorVersion: 8,
+      moreInfoUrl: 'https://developer.blackbaud.com/skyux/components/page',
+      replacementRecommendation:
+        'Use the `sky-page` component in `@skyux/pages` instead.',
+    });
+
     this.#themeAdapter = themeAdapter;
   }
 

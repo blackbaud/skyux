@@ -7,6 +7,10 @@ const routes: Routes = [
     loadChildren: () =>
       import('./action-hub/action-hub.module').then((m) => m.ActionHubModule),
   },
+  {
+    path: 'layouts',
+    loadChildren: () => import('./layouts/routes'),
+  },
 ];
 
 @NgModule({

@@ -1,0 +1,27 @@
+<sky-page layout="tabs">
+  <sky-page-header
+    pageTitle="Tabs page"
+    [parentLink]="{
+      label: 'Components',
+      permalink: {
+        route: {
+          commands: ['/components']
+        }
+      }
+    }"
+  >
+    Some content
+  </sky-page-header>
+  <sky-page-content>
+    <sky-tabset>
+      <sky-tab tabHeading="Tab 1">Tab 1 Content</sky-tab>
+      <sky-tab tabHeading="Tab 2">Tab 2 Content</sky-tab>
+      <sky-tab tabHeading="Tab 3">Tab 3 Content</sky-tab>
+      <sky-tab tabHeading="Tab 4">Tab 4 Content</sky-tab>
+      <sky-tab tabHeading="Tab 5" tabHeaderCount="9">Tab 5 Content</sky-tab>
+      <sky-tab permalinkValue="foobar" tabHeading="Tab 6" tabHeaderCount="144">
+        Tab 6 Content
+      </sky-tab>
+    </sky-tabset>
+  </sky-page-content>
+</sky-page>

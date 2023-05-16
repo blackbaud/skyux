@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -5,13 +6,15 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import {
+  SkyDataManagerModule,
   SkyDataManagerService,
   SkyDataManagerState,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
 
+import { AgGridModule } from 'ag-grid-angular';
 import {
   ColDef,
   ColumnApi,
@@ -22,6 +25,8 @@ import {
 
 @Component({
   selector: 'app-data-view-grid',
+  standalone: true,
+  imports: [AgGridModule, CommonModule, SkyAgGridModule, SkyDataManagerModule],
   templateUrl: './data-view-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

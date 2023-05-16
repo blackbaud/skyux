@@ -4,10 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: 'data-manager',
-    loadChildren: () =>
-      import('./data-manager/data-manager.module').then(
-        (m) => m.DataManagerModule
-      ),
+    loadChildren: () => import('./data-manager/routes'),
   },
   {
     path: 'data-manager-large',

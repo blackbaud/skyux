@@ -5,6 +5,7 @@ import { SkyDataManagerModule } from '@skyux/data-manager';
 import { SkyActionButtonModule } from '@skyux/layout';
 import { SkyRepeaterModule } from '@skyux/lists';
 import { SkyModalModule } from '@skyux/modals';
+import { SkyPageModule } from '@skyux/pages';
 
 import { HomeFiltersModalDemoComponent as HomeFiltersComponent } from './home-filter.component';
 import { HomeComponent } from './home.component';
@@ -30,6 +31,7 @@ export class HomeRoutingModule {}
     SkyActionButtonModule,
     SkyDataManagerModule,
     SkyModalModule,
+    SkyPageModule,
     SkyRepeaterModule,
   ],
 })

@@ -20,12 +20,7 @@
       >{{ parentLink.label }}</a
     >
     <span class="sky-page-header-chevron">
-      <sky-icon *skyThemeIf="'default'" icon="chevron-right"></sky-icon>
-      <sky-icon
-        *skyThemeIf="'modern'"
-        icon="chevron-right"
-        iconType="skyux"
-      ></sky-icon>
+      <sky-icon icon="chevron-right" iconType="skyux" />
     </span>
   </span>
   <wbr *ngIf="parentLink" />
@@ -33,3 +28,6 @@
     {{ pageTitle }}
   </span>
 </h1>
+<div class="sky-page-header-content">
+  <ng-content />
+</div>

@@ -2,11 +2,15 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
 :host {
+  flex-grow: var(--sky-page-layout-header-flex-grow, unset);
   display: block;
 }
 
 .sky-page-header {
-  margin: var(--sky-compat-page-header-margin-top-and-bottom, 0) 0;
+  margin: var(
+    --sky-page-layout-header-spacing,
+    var(--sky-compat-page-header-margin-top-and-bottom, 0) 0
+  );
 
   &-page-title,
   &-parent-link-wrapper {
@@ -27,6 +31,10 @@
   &-parent-link,
   &-page-title {
     vertical-align: middle;
+  }
+
+  &-content {
+    margin: var(--sky-page-layout-header-spacing, 0);
   }
 }
 

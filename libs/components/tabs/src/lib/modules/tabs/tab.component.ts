@@ -21,6 +21,7 @@ let nextId = 0;
 @Component({
   selector: 'sky-tab',
   templateUrl: './tab.component.html',
+  styleUrls: ['./tab.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyTabComponent implements OnChanges, OnDestroy {

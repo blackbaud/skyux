@@ -1,4 +1,5 @@
-<sky-page-header
-  [parentLink]="hubLink"
-  [pageTitle]="spokeTitle"
-></sky-page-header>
+<sky-page-header [parentLink]="hubLink" [pageTitle]="spokeTitle">
+  <ng-container *ngIf="headerContent">
+    {{ headerContent }}
+  </ng-container>
+</sky-page-header>

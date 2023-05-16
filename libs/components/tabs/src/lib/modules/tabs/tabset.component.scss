@@ -9,7 +9,8 @@
   list-style-type: none;
   margin: var(--sky-tabset-margin);
   overflow: hidden;
-  padding: 0 0 0 $sky-padding-plus-half;
+  padding: 0 0 0
+    var(--sky-page-layout-tab-content-spacing, #{$sky-padding-plus-half});
   white-space: nowrap;
 
   &.sky-tabset-style-wizard {

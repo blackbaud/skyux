@@ -1,0 +1,7 @@
+:host {
+  display: block;
+  margin: var(--sky-page-layout-content-spacing, unset);
+  flex-grow: var(--sky-page-layout-content-flex-grow, unset);
+  overflow: var(--sky-page-layout-content-overflow, unset);
+  position: var(--sky-page-layout-content-position, unset);
+}

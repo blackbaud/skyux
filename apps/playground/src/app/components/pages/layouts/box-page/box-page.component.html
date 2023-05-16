@@ -1,0 +1,31 @@
+<sky-page layout="box">
+  <sky-page-header
+    pageTitle="Box page"
+    [parentLink]="{
+      label: 'Components',
+      permalink: {
+        route: {
+          commands: ['/']
+        }
+      }
+    }"
+  />
+  <sky-page-content>
+    <sky-fluid-grid [disableMargin]="true">
+      <sky-row>
+        <sky-column [screenSmall]="8">
+          <sky-box>
+            <sky-box-header>Box 1</sky-box-header>
+            <sky-box-content>Box 1 content</sky-box-content>
+          </sky-box>
+        </sky-column>
+        <sky-column [screenSmall]="4">
+          <sky-box>
+            <sky-box-header>Box 2</sky-box-header>
+            <sky-box-content>Box 2 content</sky-box-content>
+          </sky-box>
+        </sky-column>
+      </sky-row>
+    </sky-fluid-grid>
+  </sky-page-content>
+</sky-page>
