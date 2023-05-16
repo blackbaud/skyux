@@ -3,8 +3,11 @@ import {
   ComponentFixture,
   TestBed,
   fakeAsync,
+  flush,
   tick,
 } from '@angular/core/testing';
+import { Router, UrlTree } from '@angular/router';
+import { SkyAppTestUtility } from '@skyux-sdk/testing';
 import {
   SkyAppConfig,
   SkyAppConfigParams,
@@ -95,7 +98,6 @@ describe('SkyHref Directive', () => {
     tick();
 
     const links = Array.from(el.querySelectorAll('a'));
-
     expect(links.filter((e) => e.offsetParent).length).toEqual(6);
   }));
 
@@ -106,7 +108,6 @@ describe('SkyHref Directive', () => {
     tick();
 
     const element: HTMLElement | null = el.querySelector('.noAccessLink a');
-
     expect(element?.offsetParent).toBeFalsy();
   }));
 
@@ -140,7 +141,6 @@ describe('SkyHref Directive', () => {
     tick();
 
     const element: HTMLElement | null = el.querySelector('.localLink');
-
     expect(element?.textContent).toBe('Example');
   }));
 
@@ -151,7 +151,6 @@ describe('SkyHref Directive', () => {
     tick();
 
     const element: HTMLElement | null = el.querySelector('.simpleLink a');
-
     expect(element?.getAttribute('href')).toEqual(
       'https://example.com/example/page?query=param'
     );
@@ -169,7 +168,6 @@ describe('SkyHref Directive', () => {
     tick();
 
     const element: HTMLElement | null = el.querySelector('.simpleLink a');
-
     expect(element?.getAttribute('href')).toEqual(
       'https://example.com/example/page?asdf=123&jkl=mno&query=param'
     );
@@ -187,7 +185,6 @@ describe('SkyHref Directive', () => {
     tick();
 
     const element: HTMLElement | null = el.querySelector('.dynamicLink a');
-
     expect(element?.getAttribute('href')).toEqual(
       'https://example.com/example/page?query=override'
     );
@@ -204,7 +201,6 @@ describe('SkyHref Directive', () => {
     tick();
 
     const element: HTMLElement | null = el.querySelector('.dynamicLink a');
-
     expect(element?.getAttribute('href')).toBeNull();
   }));
 
@@ -220,7 +216,6 @@ describe('SkyHref Directive', () => {
     tick();
 
     const element: HTMLElement | null = el.querySelector('.simpleLink a');
-
     expect(element?.getAttribute('href')).toEqual(
       'https://example.com/example/page?asdf=123&jkl=mno&query=param'
     );
@@ -244,7 +239,6 @@ describe('SkyHref Directive', () => {
     tick();
 
     const element = el.querySelector('.simpleLink a');
-
     expect(element?.getAttribute('href')).toEqual(
       'https://example.com/example/page?asdf=123&jkl=mno&query=param'
     );
@@ -264,288 +258,242 @@ describe('SkyHref Directive', () => {
     tick();
 
     const element = el.querySelector('.simpleLink a');
-
     expect(element?.getAttribute('href')).toEqual(
       'https://example.com/example/page?query=param'
     );
   }));
+
+  it('should handle an error', fakeAsync(() => {
+    const { el, fixture } = setupTest({});
+
+    fixture.detectChanges();
+    tick();
+
+    const element = el.querySelector('.dynamicLink a');
+    expect(element?.getAttribute('hidden')).toBeNull();
+
+    fixture.componentInstance.dynamicLink = 'error://simple-app/example/page';
+    fixture.detectChanges();
+    tick();
+
+    expect(element?.getAttribute('hidden')).toBe('hidden');
+
+    fixture.componentInstance.dynamicLink = '1bb-nav://simple-app/fixed';
+    fixture.detectChanges();
+    tick();
+
+    expect(element?.getAttribute('hidden')).toBeNull();
+  }));
+
+  it('should handle the else parameter', fakeAsync(() => {
+    const { el, fixture } = setupTest({});
+
+    fixture.componentInstance.dynamicElse = 'unlink';
+    fixture.componentInstance.dynamicLink = 'nope://simple-app/example/page';
+
+    fixture.detectChanges();
+    tick();
+
+    const element = el.querySelector('.dynamicLink a') as HTMLAnchorElement;
+
+    expect(element?.hidden).toBeFalse();
+    expect(element?.getAttribute('href')).toBeNull();
+  }));
+
+  it('should handle link without protocol', fakeAsync(() => {
+    const { el, fixture } = setupTest({});
+
+    fixture.componentInstance.dynamicLink = '/example/page';
+    fixture.detectChanges();
+    tick();
+
+    const element = el.querySelector('.dynamicLink a') as HTMLAnchorElement;
+    expect(element?.hidden).toBeFalse();
+  }));
+
+  it('should handle link with a fragment', fakeAsync(() => {
+    const { el, fixture } = setupTest({});
+
+    fixture.detectChanges();
+    tick();
+
+    const element = el.querySelector('.fragmentLink a');
+
+    expect(element?.getAttribute('href')).toEqual(
+      'https://success/example/page#foobar'
+    );
+  }));
+
+  it('should accept several formats for the link', fakeAsync(() => {
+    const { el, fixture } = setupTest({});
+
+    fixture.componentInstance.dynamicLink = ['1bb-nav://simple-app', 'allowed'];
+    fixture.detectChanges();
+    tick();
+
+    const element = el.querySelector('.dynamicLink a');
+    expect(element?.getAttribute('hidden')).toBeNull();
+
+    fixture.componentInstance.dynamicLink = [
+      'test://simple-app',
+      'allowed',
+      'to',
+      'be',
+      'complicated',
+    ];
+
+    fixture.detectChanges();
+    tick();
+
+    expect(element?.getAttribute('href')).toBe(
+      'https://success/allowed/to/be/complicated'
+    );
+  }));
+
+  it('should handle delayed response', fakeAsync(() => {
+    const { el, fixture } = setupTest({});
+
+    fixture.componentInstance.setSlowLink(true);
+    fixture.detectChanges();
+    tick();
+
+    const element = el.querySelector('.slowLink a') as HTMLAnchorElement;
+
+    expect(element.hidden).toBe(true);
+
+    flush();
+
+    expect(element.hidden).toBe(false);
+  }));
 });
 
-// describe('SkyHref Directive', () => {
-//   let fixture: ComponentFixture<HrefDirectiveFixtureComponent>;
-//   let el: HTMLElement;
-//   let getAllParam: boolean | undefined;
+describe('anchor click event', () => {
+  function setupTest(options?: { provideSkyAppConfig?: boolean }): {
+    fixture: ComponentFixture<HrefDirectiveFixtureComponent>;
+  } {
+    options = { ...{ provideSkyAppConfig: true }, ...(options || {}) };
 
-//   function setup(
-//     params: any,
-//     provideSkyAppConfig = true,
-//     providesParamsProvider = true
-//   ): void {
-//     const providers: any[] = [
-//       {
-//         provide: SkyAppRuntimeConfigParamsProvider,
-//         useValue: providesParamsProvider
-//           ? {
-//               params: {
-//                 getLinkUrl(): string {
-//                   return 'MOCK_URL';
-//                 },
-//               },
-//             }
-//           : undefined,
-//       },
-//       {
-//         provide: SkyHrefResolverService,
-//         useClass: HrefResolverFixtureService,
-//       },
-//     ];
+    const providers: Provider[] = [
+      {
+        provide: SkyHrefResolverService,
+        useClass: HrefResolverFixtureService,
+      },
+    ];
 
-//     if (provideSkyAppConfig) {
-//       const skyAppConfig = {
-//         skyux: {
-//           name: 'test',
-//         },
-//         runtime: {
-//           params: {
-//             getLinkUrl(): string {
-//               return 'MOCK_URL';
-//             },
-//           },
-//         },
-//       };
+    if (options?.provideSkyAppConfig) {
+      providers.push({
+        provide: SkyAppConfig,
+        useValue: {
+          runtime: {
+            app: {
+              base: 'example/',
+            },
+            params: new SkyAppRuntimeConfigParamsProvider(),
+          },
+          skyux: { host: { url: 'https://example.com/' } },
+        },
+      });
+    }
 
-//       providers.push({
-//         provide: SkyAppConfig,
-//         useValue: skyAppConfig,
-//       });
-//     }
+    TestBed.configureTestingModule({
+      imports: [HrefFixtureModule],
+      providers,
+    });
 
-//     TestBed.configureTestingModule({
-//       declarations: [HrefDirectiveFixtureComponent],
-//       imports: [RouterTestingModule, SkyHrefModule, HttpClientTestingModule],
-//       providers,
-//     });
+    const fixture = TestBed.createComponent(HrefDirectiveFixtureComponent);
 
-//     fixture = TestBed.createComponent(HrefDirectiveFixtureComponent);
-//     el = fixture.nativeElement;
-//     fixture.detectChanges(); // initial binding
-//   }
+    return { fixture };
+  }
 
-//   it('should handle an error', fakeAsync(() => {
-//     setup({});
+  function verifyAnchorClickPrevented(
+    fixture: ComponentFixture<HrefDirectiveFixtureComponent>,
+    selector: string,
+    expectedDefaultPrevented: boolean,
+    options?: { pointerEventInit?: PointerEventInit; target?: string }
+  ): void {
+    const parentEl = fixture.nativeElement.querySelector(
+      selector
+    ) as HTMLParagraphElement;
+    const anchorEl = parentEl.querySelector('a') as HTMLAnchorElement;
 
-//     tick(100);
-//     const element = fixture.nativeElement.querySelector('.dynamicLink a');
-//     expect(element.getAttribute('hidden')).toBeNull();
+    let actualDefaultPrevented = false;
+    parentEl.addEventListener('click', (e) => {
+      actualDefaultPrevented = e.defaultPrevented;
+    });
 
-//     fixture.componentInstance.dynamicLink = 'error://simple-app/example/page';
-//     fixture.detectChanges();
-//     tick(100);
-//     expect(element.getAttribute('hidden')).toBe('hidden');
+    anchorEl.removeAttribute('href');
+    if (options?.target) {
+      anchorEl.setAttribute('target', options.target);
+    }
 
-//     fixture.componentInstance.dynamicLink = '1bb-nav://simple-app/fixed';
-//     fixture.detectChanges();
-//     tick(100);
-//     expect(element.getAttribute('hidden')).toBeNull();
-//   }));
+    if (options?.pointerEventInit) {
+      SkyAppTestUtility.fireDomEvent(anchorEl, 'click', {
+        customEventInit: options.pointerEventInit,
+      });
+    } else {
+      anchorEl.click();
+    }
 
-//   it('should handle the else parameter', fakeAsync(() => {
-//     setup({});
+    expect(actualDefaultPrevented).toEqual(expectedDefaultPrevented);
+  }
 
-//     fixture.componentInstance.dynamicElse = 'unlink';
-//     fixture.componentInstance.dynamicLink = 'nope://simple-app/example/page';
-//     fixture.detectChanges();
+  it('should abort click if user does not have access to the href', fakeAsync(() => {
+    const { fixture } = setupTest();
 
-//     const element = fixture.nativeElement.querySelector('.dynamicLink a');
-//     expect(element.hidden).toBeFalse();
-//     expect(element.getAttribute('href')).toBeNull();
-//   }));
+    fixture.detectChanges();
+    tick();
 
-//   it('should handle link without protocol', fakeAsync(() => {
-//     setup({});
+    verifyAnchorClickPrevented(fixture, '.noAccessLink', true);
+  }));
 
-//     fixture.componentInstance.dynamicLink = '/example/page';
-//     fixture.detectChanges();
-//     tick();
-//     const element = fixture.nativeElement.querySelector('.dynamicLink a');
-//     expect(element.hidden).toBeFalse();
-//   }));
+  it('should allow click if user has access to the href', fakeAsync(() => {
+    const { fixture } = setupTest({
+      provideSkyAppConfig: false,
+    });
 
-//   it('should handle link with a fragment', fakeAsync(() => {
-//     setup({});
+    fixture.detectChanges();
+    tick();
 
-//     fixture.detectChanges();
-//     tick(100);
+    verifyAnchorClickPrevented(fixture, '.simpleLink', false);
+  }));
 
-//     const element = fixture.nativeElement.querySelector('.fragmentLink a');
-//     expect(element.getAttribute('href')).toEqual(
-//       'https://success/example/page#foobar'
-//     );
-//   }));
+  it('should allow click if user has access to the href and opens in a new window', fakeAsync(() => {
+    const { fixture } = setupTest();
 
-//   it('should accept several formats for the link', fakeAsync(() => {
-//     setup({}, true);
+    fixture.detectChanges();
+    tick();
 
-//     fixture.componentInstance.dynamicLink = ['1bb-nav://simple-app', 'allowed'];
-//     fixture.detectChanges();
-//     tick(100);
-//     const element = fixture.nativeElement.querySelector('.dynamicLink a');
-//     expect(element.getAttribute('hidden')).toBeNull();
+    verifyAnchorClickPrevented(fixture, '.simpleLink', false, {
+      pointerEventInit: { metaKey: true },
+    });
+  }));
 
-//     fixture.componentInstance.dynamicLink = [
-//       'test://simple-app',
-//       'allowed',
-//       'to',
-//       'be',
-//       'complicated',
-//     ];
-//     fixture.detectChanges();
-//     tick(100);
-//     expect(element.getAttribute('href')).toBe(
-//       'https://success/allowed/to/be/complicated'
-//     );
-//   }));
+  it('should allow click if user has access to the href and target is not self', fakeAsync(() => {
+    const { fixture } = setupTest();
 
-//   it('should handle delayed response', fakeAsync(() => {
-//     setup({});
-//     fixture.componentInstance.setSlowLink(true);
+    fixture.detectChanges();
+    tick();
 
-//     fixture.detectChanges();
-//     const element = fixture.nativeElement.querySelector('.slowLink a');
-//     expect(element.hidden).toBe(true);
-//     flush();
-//     expect(element.hidden).toBe(false);
-//   }));
-// });
+    verifyAnchorClickPrevented(fixture, '.simpleLink', false, {
+      target: 'foobar',
+    });
+  }));
 
-// describe('anchor click event', () => {
-//   function setupTest(options?: { provideSkyAppConfig?: boolean }): {
-//     fixture: ComponentFixture<HrefDirectiveFixtureComponent>;
-//   } {
-//     options = { ...{ provideSkyAppConfig: true }, ...(options || {}) };
+  it("should prevent the click and defer it to the anchor's route, if provided", fakeAsync(() => {
+    const { fixture } = setupTest();
 
-//     const providers: StaticProvider[] = [
-//       {
-//         provide: SkyHrefResolverService,
-//         useClass: HrefResolverFixtureService,
-//       },
-//     ];
+    const router = TestBed.inject(Router);
+    const urlTree = new UrlTree();
+    spyOn(router, 'parseUrl').and.returnValue(urlTree);
+    const navigateSpy = spyOn(router, 'navigateByUrl');
 
-//     if (options?.provideSkyAppConfig) {
-//       providers.push({
-//         provide: SkyAppConfig,
-//         useValue: {
-//           runtime: {
-//             app: {
-//               base: 'example/',
-//             },
-//             params: new SkyAppRuntimeConfigParamsProvider(),
-//           },
-//           skyux: { host: { url: 'https://example.com/' } },
-//         },
-//       });
-//     }
+    fixture.detectChanges();
+    tick();
 
-//     TestBed.configureTestingModule({
-//       declarations: [HrefDirectiveFixtureComponent],
-//       imports: [RouterTestingModule, SkyHrefModule, HttpClientTestingModule],
-//       providers,
-//     });
+    // Confirm the default behavior of the anchor is prevented.
+    verifyAnchorClickPrevented(fixture, '.simpleLink', true);
 
-//     const fixture = TestBed.createComponent(HrefDirectiveFixtureComponent);
-
-//     return { fixture };
-//   }
-
-//   function verifyAnchorClickPrevented(
-//     fixture: ComponentFixture<HrefDirectiveFixtureComponent>,
-//     selector: string,
-//     expectedDefaultPrevented: boolean,
-//     options?: { pointerEventInit?: PointerEventInit; target?: string }
-//   ): void {
-//     const parentEl = fixture.nativeElement.querySelector(
-//       selector
-//     ) as HTMLParagraphElement;
-//     const anchorEl = parentEl.querySelector('a') as HTMLAnchorElement;
-
-//     let actualDefaultPrevented = false;
-//     parentEl.addEventListener('click', (e) => {
-//       actualDefaultPrevented = e.defaultPrevented;
-//     });
-
-//     anchorEl.removeAttribute('href');
-//     if (options?.target) {
-//       anchorEl.setAttribute('target', options.target);
-//     }
-
-//     if (options?.pointerEventInit) {
-//       SkyAppTestUtility.fireDomEvent(anchorEl, 'click', {
-//         customEventInit: options.pointerEventInit,
-//       });
-//     } else {
-//       anchorEl.click();
-//     }
-
-//     expect(actualDefaultPrevented).toEqual(expectedDefaultPrevented);
-//   }
-
-//   it('should abort click if user does not have access to the href', fakeAsync(() => {
-//     const { fixture } = setupTest();
-
-//     fixture.detectChanges();
-//     tick();
-
-//     verifyAnchorClickPrevented(fixture, '.noAccessLink', true);
-//   }));
-
-//   it('should allow click if user has access to the href', fakeAsync(() => {
-//     const { fixture } = setupTest({
-//       provideSkyAppConfig: false,
-//     });
-
-//     fixture.detectChanges();
-//     tick();
-
-//     verifyAnchorClickPrevented(fixture, '.simpleLink', false);
-//   }));
-
-//   it('should allow click if user has access to the href and opens in a new window', fakeAsync(() => {
-//     const { fixture } = setupTest();
-
-//     fixture.detectChanges();
-//     tick();
-
-//     verifyAnchorClickPrevented(fixture, '.simpleLink', false, {
-//       pointerEventInit: { metaKey: true },
-//     });
-//   }));
-
-//   it('should allow click if user has access to the href and target is not self', fakeAsync(() => {
-//     const { fixture } = setupTest();
-
-//     fixture.detectChanges();
-//     tick();
-
-//     verifyAnchorClickPrevented(fixture, '.simpleLink', false, {
-//       target: 'foobar',
-//     });
-//   }));
-
-//   it("should prevent the click and defer it to the anchor's route, if provided", fakeAsync(() => {
-//     const { fixture } = setupTest();
-
-//     const router = TestBed.inject(Router);
-//     const urlTree = new UrlTree();
-//     spyOn(router, 'parseUrl').and.returnValue(urlTree);
-//     const navigateSpy = spyOn(router, 'navigateByUrl');
-
-//     fixture.detectChanges();
-//     tick();
-
-//     // Confirm the default behavior of the anchor is prevented.
-//     verifyAnchorClickPrevented(fixture, '.simpleLink', true);
-
-//     // Confirm router navigation is called.
-//     expect(navigateSpy).toHaveBeenCalledWith(urlTree);
-//   }));
-// });
+    // Confirm router navigation is called.
+    expect(navigateSpy).toHaveBeenCalledWith(urlTree);
+  }));
+});

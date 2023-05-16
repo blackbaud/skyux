@@ -162,13 +162,9 @@ export class SkyAppRuntimeConfigParams {
   }
 
   public getLinkUrl(url: string): string {
-    const [, fragment] = url.split('#', 2);
-
-    return (
-      this.#getUrlWithParams(
-        url,
-        this.#excludeFromRequestsParams.concat(this.#excludeFromLinksParams)
-      ) + (fragment ? `#${fragment}` : '')
+    return this.#getUrlWithParams(
+      url,
+      this.#excludeFromRequestsParams.concat(this.#excludeFromLinksParams)
     );
   }
 
