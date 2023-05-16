@@ -8,6 +8,13 @@ export class SkyMockAppConfig {
     },
     params: {
       getUrl: (url: string) => url,
+      get: (key: string) => {
+        if (key === 'svcid') {
+          return 'test-svcid';
+        }
+
+        return undefined;
+      },
     },
   };
 }

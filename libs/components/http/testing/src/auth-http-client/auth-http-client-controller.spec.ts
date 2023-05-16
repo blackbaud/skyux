@@ -70,7 +70,7 @@ describe('Auth HTTP client controller', () => {
   it('should assert that the request was authenticated', fakeAsync(() => {
     service.doSomething().subscribe();
     tick();
-    const req = httpTestingController.expectOne('https://www.example.com/');
+    const req = httpTestingController.expectOne('https://www.example.com/?callerid=test-svcid,spa-test');
     expect(req.request.headers.has('Authorization')).toBeTrue();
     skyAuthHttpTestingController.expectAuth(req);
     const mockProvider = TestBed.inject(SkyAuthTokenMockProvider);
