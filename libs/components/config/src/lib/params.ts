@@ -174,7 +174,9 @@ export class SkyAppRuntimeConfigParams {
 
   #getUrlWithParams(url: string, excludeKeys: string[]): string {
     const httpParams = getUrlSearchParams(url);
-    const delimiter = url.indexOf('?') === -1 ? '?' : '&';
+
+    const [baseUrl] = url.split('?', 1);
+
     const joined: string[] = [];
 
     this.getAllKeys().forEach((key) => {
@@ -186,6 +188,14 @@ export class SkyAppRuntimeConfigParams {
       }
     });
 
-    return joined.length === 0 ? url : `${url}${delimiter}${joined.join('&')}`;
+    const existing = httpParams.keys().map((key) => {
+      return `${key}=${httpParams.get(key)}`;
+    });
+
+    joined.push(...existing);
+
+    joined.sort();
+
+    return joined.length === 0 ? url : `${baseUrl}?${joined.join('&')}`;
   }
 }

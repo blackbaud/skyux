@@ -1,4 +1,3 @@
-import { HttpParams } from '@angular/common/http';
 import {
   ApplicationRef,
   ChangeDetectorRef,
@@ -14,7 +13,6 @@ import {
 import { Router, UrlTree } from '@angular/router';
 import { SkyAppConfig, SkyAppRuntimeConfigParamsProvider } from '@skyux/config';
 
-import { SkyHrefQueryParams } from './href-query-params';
 import { SkyHrefResolverService } from './href-resolver.service';
 import { SkyHref } from './types/href';
 import { SkyHrefChange } from './types/href-change';
@@ -191,45 +189,26 @@ export class SkyHrefDirective {
   }
 
   #getChanges(): HrefChanges {
-    const queryParams: SkyHrefQueryParams = {};
-
     if (!this.#route || !this.#route.userHasAccess) {
       return {
         href: '',
         hidden: this.skyHrefElse === 'hide',
       };
     } else {
-      const [beforeFragment, fragment] = this.#route.url.split('#', 2);
-      const [baseUrl, search] = beforeFragment.split('?', 2);
+      const url = this.#route.url;
 
-      if (search) {
-        const searchParams = new HttpParams({ fromString: search });
-        searchParams.keys().forEach((key) => {
-          queryParams[key] = searchParams.get(key);
-        });
-      }
+      const linkUrl =
+        typeof this.#skyAppConfig?.runtime.params?.getLinkUrl === 'function'
+          ? this.#skyAppConfig?.runtime.params.getLinkUrl(url)
+          : this.#paramsProvider?.params.getLinkUrl(url);
 
-      const queryParamsMerged = new HttpParams({
-        fromObject: Object.assign({}, this.#getSkyuxParams(), queryParams),
-      });
+      this.#href = linkUrl || url;
 
-      this.#href =
-        baseUrl +
-        (queryParamsMerged.keys().length > 0
-          ? '?' + queryParamsMerged.toString()
-          : '') +
-        (fragment ? `#${fragment}` : '');
       return {
         href: this.#href,
         hidden: false,
       };
     }
-  }
-
-  #getSkyuxParams(): SkyHrefQueryParams | undefined {
-    return typeof this.#skyAppConfig?.runtime.params?.getAll === 'function'
-      ? this.#skyAppConfig.runtime.params.getAll(true)
-      : this.#paramsProvider?.params.getAll(true);
   }
 
   /* istanbul ignore next */
