@@ -1,5 +1,5 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
-import { SkyComponentHarness, SkyOverlayHarness } from '@skyux/core/testing';
+import { SkyComponentHarness } from '@skyux/core/testing';
 
 import { SkyDropdownHarnessFilters } from './dropdown-harness.filters';
 import { SkyDropdownMenuHarness } from './dropdown-menu-harness';
@@ -13,7 +13,6 @@ export class SkyDropdownHarness extends SkyComponentHarness {
   #documentRootLocator = this.documentRootLocatorFactory();
 
   #getDropdownButton = this.locatorFor('.sky-dropdown-button');
-  #getOverlay = this.#documentRootLocator.locatorForOptional(SkyOverlayHarness);
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -30,13 +29,6 @@ export class SkyDropdownHarness extends SkyComponentHarness {
    */
   public async clickDropdownButton(): Promise<void> {
     (await this.#getDropdownButton()).click();
-  }
-
-  /**
-   * Clicks out of the dropdown menu. If `dismissOnBlur` property is set to false, then the dropdown menu does not close.
-   */
-  public async clickOut(): Promise<void> {
-    (await (await this.#getOverlay())?.host())?.click();
   }
 
   /**

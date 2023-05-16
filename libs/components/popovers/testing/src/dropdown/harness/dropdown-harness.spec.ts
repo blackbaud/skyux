@@ -213,7 +213,7 @@ describe('Dropdown test harness', () => {
     fixture.detectChanges();
     await dropdownHarness.clickDropdownButton();
     fixture.detectChanges();
-    await dropdownHarness.clickOut();
+    await (await dropdownHarness.getDropdownMenu())?.clickOut();
 
     await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(false);
   });
@@ -225,7 +225,7 @@ describe('Dropdown test harness', () => {
     fixture.detectChanges();
     await dropdownHarness.clickDropdownButton();
     fixture.detectChanges();
-    await dropdownHarness.clickOut();
+    await (await dropdownHarness.getDropdownMenu())?.clickOut();
 
     await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(true);
   });

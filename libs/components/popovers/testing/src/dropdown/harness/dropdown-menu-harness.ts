@@ -1,5 +1,5 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
-import { SkyComponentHarness } from '@skyux/core/testing';
+import { SkyComponentHarness, SkyOverlayHarness } from '@skyux/core/testing';
 
 import { SkyDropdownItemHarness } from './dropdown-item-harness';
 import { SkyDropdownItemHarnessFilters } from './dropdown-item-harness.filters';
@@ -14,6 +14,9 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
    */
   public static hostSelector = '.sky-dropdown-menu';
 
+  #getOverlay =
+    this.documentRootLocatorFactory().locatorForOptional(SkyOverlayHarness);
+
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
    * `SkyDropdownMenuHarness` that meets certain criteria.
@@ -22,6 +25,13 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
     filters: SkyDropdownMenuHarnessFilters
   ): HarnessPredicate<SkyDropdownMenuHarness> {
     return SkyDropdownMenuHarness.getDataSkyIdPredicate(filters);
+  }
+
+  /**
+   * Clicks out of the dropdown button. If `dismissOnBlur` property is set to false, then the dropdown menu does not close.
+   */
+  public async clickOut(): Promise<void> {
+    (await (await this.#getOverlay())?.host())?.click();
   }
 
   /**
