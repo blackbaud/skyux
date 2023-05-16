@@ -198,7 +198,7 @@ describe('component-e2e', () => {
 
   it('should maintain storybook version', async () => {
     const { tree } = setupTest();
-    const sbVersion = '^6.5.15';
+    const sbVersion = '^7.0.8';
     tree.write(
       'package.json',
       JSON.stringify({
@@ -209,9 +209,7 @@ describe('component-e2e', () => {
           '@storybook/addon-toolbars': sbVersion,
           '@storybook/addon-viewport': sbVersion,
           '@storybook/angular': sbVersion,
-          '@storybook/builder-webpack5': sbVersion,
           '@storybook/core-server': sbVersion,
-          '@storybook/manager-webpack5': sbVersion,
         },
       })
     );

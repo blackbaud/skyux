@@ -1,14 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`configure-percy should generate cypress.config.ts 1`] = `
-"import { defineConfig } from 'cypress';
-import { nxE2EPreset } from '@nrwl/cypress/plugins/cypress-preset';
+"import { nxE2EPreset } from '@nx/cypress/plugins/cypress-preset';
+import { defineConfig } from 'cypress';
 
 export default defineConfig({
   e2e: {
     ...nxE2EPreset(__dirname),
     video: false,
-  }
+  },
 });
 "
 `;

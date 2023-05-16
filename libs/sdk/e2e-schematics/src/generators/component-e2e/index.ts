@@ -254,14 +254,20 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
   const storybookVersion =
     packageJson.devDependencies['@storybook/addon-toolbars'];
   if (storybookVersion) {
+    // The `addDependenciesToPackageJson` will not set the right version if the version is lower than the version than what the `storiesGenerator`
+    // installs (even if this version uses a caret). Remove the entries first so that the addition will go through with the right version.
+    removeDependenciesFromPackageJson(
+      tree,
+      [],
+      ['@storybook/angular', '@storybook/core-server']
+    );
+    console.log(storybookVersion);
     addDependenciesToPackageJson(
       tree,
       {},
       {
         '@storybook/angular': storybookVersion,
-        '@storybook/builder-webpack5': storybookVersion,
         '@storybook/core-server': storybookVersion,
-        '@storybook/manager-webpack5': storybookVersion,
       }
     );
   }
