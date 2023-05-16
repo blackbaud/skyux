@@ -51,15 +51,26 @@
   <div class="app-screenshot" id="screenshot-filter-inline">
     <sky-filter-inline>
       <sky-filter-inline-item>
-        <label for="sky-demo-select-type">Fruit type</label>
-        <select id="sky-demo-select-type">
-          <option value="any">Any fruit</option>
-          <option value="citrus">Citrus</option>
-          <option value="berry">Berry</option>
-        </select>
+        <sky-input-box>
+          <label class="sky-control-label" for="sky-demo-select-type"
+            >Fruit type</label
+          >
+          <select class="sky-form-control" id="sky-demo-select-type">
+            <option value="any">Any fruit</option>
+            <option value="citrus">Citrus</option>
+            <option value="berry">Berry</option>
+          </select>
+        </sky-input-box>
       </sky-filter-inline-item>
       <sky-filter-inline-item>
-        <div>Yo</div>
+        <sky-date-range-picker
+          class="sky-date-range-picker-form-group"
+          label="Date range"
+        >
+        </sky-date-range-picker>
+      </sky-filter-inline-item>
+      <sky-filter-inline-item>
+        <div>Textual item on right (for testing purposes)</div>
       </sky-filter-inline-item>
     </sky-filter-inline>
   </div>

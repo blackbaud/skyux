@@ -16,22 +16,22 @@
 <div skyId [hidden]="!showInlineFilters" #inlineFilters>
   <sky-filter-inline>
     <sky-filter-inline-item>
-      <label
-        class="sky-control-label sky-margin-inline-lg"
-        [for]="fruitInput.id"
-      >
-        Fruit type
-      </label>
-      <select
-        skyId
-        [ngModel]="fruitType"
-        (ngModelChange)="fruitTypeChange($event)"
-        #fruitInput
-      >
-        <option value="any">Any fruit</option>
-        <option value="citrus">Citrus</option>
-        <option value="berry">Berry</option>
-      </select>
+      <sky-input-box>
+        <label class="sky-control-label" [for]="fruitInput.id">
+          Fruit type
+        </label>
+        <select
+          skyId
+          class="sky-form-control"
+          [ngModel]="fruitType"
+          (ngModelChange)="fruitTypeChange($event)"
+          #fruitInput
+        >
+          <option value="any">Any fruit</option>
+          <option value="citrus">Citrus</option>
+          <option value="berry">Berry</option>
+        </select>
+      </sky-input-box>
     </sky-filter-inline-item>
     <sky-filter-inline-item>
       <sky-checkbox
