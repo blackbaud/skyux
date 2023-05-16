@@ -57,7 +57,8 @@ export function validateRequest(
 export function createAppConfig(
   envId?: string,
   leId?: string,
-  getUrlResult?: string
+  getUrlResult?: string,
+  svcId?: string
 ) {
   return {
     runtime: {
@@ -68,6 +69,8 @@ export function createAppConfig(
               return envId;
             case 'leid':
               return leId;
+            case 'svcid':
+              return svcId;
             default:
               return undefined;
           }

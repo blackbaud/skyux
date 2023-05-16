@@ -7,7 +7,7 @@ import {
 } from '@angular/common/http';
 import { Inject, Injectable, Optional } from '@angular/core';
 import { BBAuthClientFactory } from '@skyux/auth-client-factory';
-import { SkyAppConfig, SkyAppRuntimeConfigParamsProvider } from '@skyux/config';
+import { SkyAppConfig, SkyAppRuntimeConfigParams, SkyAppRuntimeConfigParamsProvider } from '@skyux/config';
 
 import { Observable, from as observableFrom } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -107,7 +107,7 @@ export class SkyAuthInterceptor implements HttpInterceptor {
                 setHeaders: {
                   Authorization: `Bearer ${token}`,
                 },
-                url: runtimeParams?.getUrl(url),
+                url: this.getUrlWithParams(url, runtimeParams)
               });
               return next.handle(authRequest);
             })
@@ -117,5 +117,36 @@ export class SkyAuthInterceptor implements HttpInterceptor {
     }
 
     return next.handle(request);
+  }
+
+  private getUrlWithParams(url: string, runtimeParams: SkyAppRuntimeConfigParams | undefined): string | undefined {
+    if (!runtimeParams) {
+      return undefined;
+    }
+
+    let newUrl = runtimeParams.getUrl(url);
+    if (!newUrl) {
+      return url;
+    }
+
+    const svcId = runtimeParams.get('svcid');
+    const spaName = this.#config?.runtime?.app?.name;
+
+    if (!spaName) {
+      // if we don't have a spa name, we can't add callerid
+      return newUrl;
+    }
+
+    let callerIdValue = "";
+    if (svcId) {
+      callerIdValue += `${encodeURIComponent(svcId)},`;
+    }
+
+    callerIdValue += `spa-${encodeURIComponent(spaName)}`;
+
+    const delimiter = newUrl.indexOf('?') === -1 ? '?' : '&';
+    newUrl += `${delimiter}callerid=${callerIdValue}`;
+
+    return newUrl;
   }
 }

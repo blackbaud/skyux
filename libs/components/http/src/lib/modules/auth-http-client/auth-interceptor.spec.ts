@@ -84,7 +84,8 @@ describe('Auth interceptor', () => {
     interceptor.intercept(request, next);
 
     validateRequest(next, done, (authRequest) => {
-      expect(authRequest.url).toBe(expectedUrl);
+      expect(authRequest.url).toContain(expectedUrl);
+      expect(authRequest.url).toContain('callerid=spa-test');
     });
 
     interceptor.intercept(request, next).subscribe();
@@ -135,6 +136,9 @@ describe('Auth interceptor', () => {
     config = {
       runtime: {
         params: mockRuntimeConfigParameters,
+        app: {
+          name: 'test'
+        }
       } as any,
       skyux: {},
     };
@@ -322,6 +326,74 @@ describe('Auth interceptor', () => {
     expectedTokenArgs.permissionScope = specifiedPermissionScope;
 
     interceptor.intercept(request, next).subscribe();
+
+    expect(mockTokenProvider.getContextToken).toHaveBeenCalledWith(
+      jasmine.objectContaining(expectedTokenArgs)
+    );
+  });
+
+  it('should add a callerid query string with svcid if specified', (done) => {
+    mockRuntimeConfigParameters.get.and.callFake((name: any) => {
+      switch (name) {
+        case 'envid':
+          return 'abc';
+        case 'svcid':
+          return 'service';
+        default:
+          return undefined;
+      }
+    });
+
+    mockRuntimeConfigParameters.getUrl.and.callFake(() => {
+      return `${EXAMPLE_URL}?envid=abc`
+    });
+
+    const request = createRequest(true, undefined, undefined);
+
+    const interceptor: SkyAuthInterceptor = TestBed.inject(SkyAuthInterceptor);
+    interceptor.intercept(request, next);
+
+    validateRequest(next, done, (authRequest) => {
+      expect(authRequest.url).toBe(`${EXAMPLE_URL}?envid=abc&callerid=service,spa-test`);
+    });
+
+    interceptor.intercept(request, next).subscribe();
+
+    const expectedTokenArgs: SkyAuthTokenContextArgs = {};
+
+    expect(mockTokenProvider.getContextToken).toHaveBeenCalledWith(
+      jasmine.objectContaining(expectedTokenArgs)
+    );
+  });
+
+  it('should add a callerid query string without svcid if not specified', (done) => {
+    mockRuntimeConfigParameters.get.and.callFake((name: any) => {
+      switch (name) {
+        case 'envid':
+          return 'abc';
+        case 'svcid':
+          return undefined;
+        default:
+          return undefined;
+      }
+    });
+
+    mockRuntimeConfigParameters.getUrl.and.callFake(() => {
+      return `${EXAMPLE_URL}?envid=abc`
+    });
+
+    const request = createRequest(true, undefined, undefined);
+
+    const interceptor: SkyAuthInterceptor = TestBed.inject(SkyAuthInterceptor);
+    interceptor.intercept(request, next);
+
+    validateRequest(next, done, (authRequest) => {
+      expect(authRequest.url).toBe(`${EXAMPLE_URL}?envid=abc&callerid=spa-test`);
+    });
+
+    interceptor.intercept(request, next).subscribe();
+
+    const expectedTokenArgs: SkyAuthTokenContextArgs = {};
 
     expect(mockTokenProvider.getContextToken).toHaveBeenCalledWith(
       jasmine.objectContaining(expectedTokenArgs)
