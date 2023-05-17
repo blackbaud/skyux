@@ -1,11 +1,12 @@
-import {
-  applicationGenerator,
-  componentGenerator,
-} from '@nx/angular/generators';
+import { applicationGenerator } from '@nx/angular/generators';
+import { readProjectConfiguration } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { RoutingScope } from '@schematics/angular/module/schema';
 
-import { angularModuleGenerator } from './angular-module-generator';
+import {
+  angularComponentGenerator,
+  angularModuleGenerator,
+} from './angular-module-generator';
 import {
   applyTransformersToPath,
   findNgModuleClass,
@@ -25,12 +26,19 @@ describe('find-module', () => {
     await applicationGenerator(tree, {
       name: 'test',
     });
+    expect(readProjectConfiguration(tree, 'test').sourceRoot).toBe(
+      'apps/test/src'
+    );
     await angularModuleGenerator(tree, { name: 'test', project: 'test' });
-    await componentGenerator(tree, {
+    await angularComponentGenerator(tree, {
       name: 'test',
       project: 'test',
       module: 'test',
     });
+    expect(tree.listChanges().map((c) => c.path)).toMatchSnapshot();
+    expect(
+      tree.read('apps/test/src/app/test/test.module.ts', 'utf-8')
+    ).toMatchSnapshot();
     const module = findDeclaringModule(
       tree,
       'apps/test/src',
@@ -54,7 +62,7 @@ describe('find-module', () => {
       getInsertImportTransformer('TestComponent', './test.component'),
     ]);
     await angularModuleGenerator(tree, { name: 'test', project: 'test' });
-    await componentGenerator(tree, {
+    await angularComponentGenerator(tree, {
       name: 'test',
       project: 'test',
       module: 'test',
@@ -79,7 +87,7 @@ describe('find-module', () => {
       routing: true,
       routingScope: RoutingScope.Root,
     });
-    await componentGenerator(tree, {
+    await angularComponentGenerator(tree, {
       name: 'test',
       project: 'test',
       module: 'test',
@@ -118,7 +126,7 @@ describe('find-module', () => {
       route: 'test',
       module: 'test',
     });
-    await componentGenerator(tree, {
+    await angularComponentGenerator(tree, {
       name: 'test',
       project: 'test',
       module: 'test',

@@ -1,10 +1,11 @@
 import { angularStoriesGenerator } from '@nx/angular/generators';
-import { normalizePath, stripIndents } from '@nx/devkit';
 import {
   ProjectConfiguration,
   Tree,
   formatFiles,
   getProjects,
+  normalizePath,
+  stripIndents,
   visitNotIgnoredFiles,
 } from '@nx/devkit';
 import { camelize, classify, dasherize } from '@nx/workspace/src/utils/strings';
