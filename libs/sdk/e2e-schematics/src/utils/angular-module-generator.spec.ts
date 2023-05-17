@@ -2,7 +2,10 @@ import { applicationGenerator } from '@nx/angular/generators';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { RoutingScope } from '@schematics/angular/module/schema';
 
-import { angularModuleGenerator } from './angular-module-generator';
+import {
+  angularComponentGenerator,
+  angularModuleGenerator,
+} from './angular-module-generator';
 
 describe('angularModuleGenerator', () => {
   it('should generate an angular module', async () => {
@@ -47,5 +50,22 @@ describe('angularModuleGenerator', () => {
         'utf-8'
       )
     ).toMatchSnapshot();
+  });
+
+  it('should generate an angular component', async () => {
+    const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    await applicationGenerator(tree, {
+      name: 'my-app',
+    });
+    await angularComponentGenerator(tree, {
+      name: 'my-component',
+      project: 'my-app',
+    });
+    expect(
+      tree.read(
+        '/apps/my-app/src/app/my-component/my-component.component.ts',
+        'utf-8'
+      )
+    ).toBeTruthy();
   });
 });
