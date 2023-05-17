@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { SkyPopoverAlignment, SkyPopoverPlacement } from '@skyux/popovers';
 
 @Component({
-  selector: 'app-popover-demo',
-  templateUrl: './popover-demo.component.html',
+  selector: 'sky-popover-test',
+  templateUrl: './popover-harness-test.component.html',
 })
-export class PopoverDemoComponent {
+export class PopoverHarnessTestComponent {
   public dismissOnBlur: boolean | undefined;
   public popoverAlignment: SkyPopoverAlignment | undefined;
-  public popoverBody = 'This is a popover.';
+  public popoverBody = 'popover body';
   public popoverPlacement: SkyPopoverPlacement | undefined;
-  public popoverTitle: string | undefined = 'Did you know?';
+  public popoverTitle: string | undefined = 'popover title';
 }
