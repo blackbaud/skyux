@@ -183,10 +183,18 @@ export class SkyAppRuntimeConfigParams {
       }
     }
 
-    const [baseUrl] = url.split('?', 1);
+    // Combine all key/value pairs, e.g. 'a=b'.
+    const joined = new Set<string>();
+    for (const key of httpParams.keys()) {
+      joined.add(`${key}=${httpParams.get(key)}`);
+    }
 
-    return httpParams.keys().length === 0
+    const [beforeFragment, fragment] = url.split('#', 2);
+    const [baseUrl] = beforeFragment.split('?', 1);
+
+    return joined.size === 0
       ? url
-      : `${baseUrl}?${httpParams.toString()}`;
+      : `${baseUrl}?${Array.from(joined).join('&')}` +
+          (fragment ? `#${fragment}` : '');
   }
 }

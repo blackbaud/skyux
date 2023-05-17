@@ -37,7 +37,7 @@ describe('SkyAppRuntimeConfigParams', () => {
       allowed
     );
     expect(params.getUrl('https://mysite.com?c=d')).toEqual(
-      'https://mysite.com?a1=b&c=d'
+      'https://mysite.com?c=d&a1=b'
     );
   });
 
@@ -56,7 +56,7 @@ describe('SkyAppRuntimeConfigParams', () => {
     );
 
     expect(params.getUrl('https://mysite.com?c=d')).toEqual(
-      'https://mysite.com?a1=b&b2=c3&c=d'
+      'https://mysite.com?c=d&a1=b&b2=c3'
     );
   });
 
@@ -297,8 +297,8 @@ describe('SkyAppRuntimeConfigParams', () => {
     });
 
     // Parameter 'f' should remain in the link because it already exists in the URL.
-    expect(params.getLinkUrl('https://mysite.com?c=3&f=6')).toEqual(
-      'https://mysite.com?a=1&b=2&c=3&f=6'
+    expect(params.getLinkUrl('https://mysite.com?c=3&f=6#foobar')).toEqual(
+      'https://mysite.com?c=3&f=6&a=1&b=2#foobar'
     );
   });
 });
