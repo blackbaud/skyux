@@ -138,6 +138,10 @@ sky-search {
 
 .sky-theme-modern {
   sky-search {
+    .sky-input-box {
+      --sky-background-color-input-box-group: transparent;
+    }
+
     .sky-input-box .sky-input-group-btn .sky-btn.sky-search-btn {
       width: 40px;
 
@@ -220,6 +224,10 @@ sky-search {
     }
 
     sky-search {
+      .sky-input-box {
+        --sky-background-color-input-box-group: transparent;
+      }
+
       .sky-input-box .sky-input-group-btn .sky-btn.sky-search-btn {
         .sky-icon.sky-i-close {
           color: $sky-theme-modern-mode-dark-font-body-default-color;
