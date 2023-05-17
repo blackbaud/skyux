@@ -270,6 +270,7 @@ jobs:
         with:
           github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           script: |
+
             const e2eProjects = ${{ fromJSON(needs.install-deps.outputs.parameters).projectsJson }}.filter(project => project !== 'skip');
 
             if (e2eProjects.length > 0) {
@@ -305,14 +306,14 @@ jobs:
                 // We have a check from Percy for all E2E Visual Reviews.
                 if (percyStatuses.some(status => status.state !== 'success')) {
                   core.setFailed(`E2E Visual Review not complete.`);
-                  return;
+                } else {
+                  console.log('E2E Visual Review passed!');
                 }
-                console.log('E2E Visual Review passed!');
 
               } else {
 
                 // We don't have a check from Percy for all E2E projects.
-                const percyProjects = percyStatuses.map(status => status.context.replace(/^percy\/skyux-/', '').replace(/-e2e$/, ''));
+                const percyProjects = percyStatuses.map(status => status.context.replace(/^percy\/skyux-/, '').replace(/-e2e$/, ''));
                 const missingProjects = e2eProjects.filter(project => !percyProjects.includes(project));
                 core.setFailed(`E2E Visual Review not complete. Missing results for: ${missingProjects.join(', ')}`);
 
