@@ -28,8 +28,8 @@ export class SkyAppRuntimeConfigParams {
 
   #encodedParams: string[] = [];
 
-  #excludeFromLinksParams: string[] = [];
-  #excludeFromRequestsParams: string[] = [];
+  #excludeFromLinksParams = new Set<string>();
+  #excludeFromRequestsParams = new Set<string>();
 
   constructor(url: string, configParams: SkyuxConfigParams) {
     const allowed: string[] = [];
@@ -57,11 +57,11 @@ export class SkyAppRuntimeConfigParams {
           }
 
           if (configParam.excludeFromLinks) {
-            this.#excludeFromLinksParams.push(paramName);
+            this.#excludeFromLinksParams.add(paramName);
           }
 
           if (configParam.excludeFromRequests) {
-            this.#excludeFromRequestsParams.push(paramName);
+            this.#excludeFromRequestsParams.add(paramName);
           }
         }
       }
@@ -167,15 +167,18 @@ export class SkyAppRuntimeConfigParams {
   public getLinkUrl(url: string): string {
     return this.#buildUrlWithParams(
       url,
-      this.#excludeFromRequestsParams.concat(this.#excludeFromLinksParams)
+      new Set(
+        ...this.#excludeFromRequestsParams,
+        ...this.#excludeFromLinksParams
+      )
     );
   }
 
-  #buildUrlWithParams(url: string, excludeParams: string[]): string {
+  #buildUrlWithParams(url: string, excludeParams: Set<string>): string {
     let httpParams = getUrlSearchParams(url);
 
     for (const key of this.getAllKeys()) {
-      if (!excludeParams.includes(key) && !httpParams.has(key)) {
+      if (!excludeParams.has(key) && !httpParams.has(key)) {
         const decodedValue = this.get(key);
         if (decodedValue) {
           httpParams = httpParams.set(key, encodeURIComponent(decodedValue));
