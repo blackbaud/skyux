@@ -158,23 +158,23 @@ export class SkyAppRuntimeConfigParams {
    * Adds the current params to the supplied url.
    */
   public getUrl(url: string): string {
-    return this.#getUrlWithParams(url, this.#excludeFromRequestsParams);
+    return this.#excludeParamsFromUrl(url, this.#excludeFromRequestsParams);
   }
 
   public getLinkUrl(url: string): string {
-    return this.#getUrlWithParams(
+    return this.#excludeParamsFromUrl(
       url,
       this.#excludeFromRequestsParams.concat(this.#excludeFromLinksParams)
     );
   }
 
-  #getUrlWithParams(url: string, excludeKeys: string[]): string {
+  #excludeParamsFromUrl(url: string, excludeParams: string[]): string {
     const httpParams = getUrlSearchParams(url);
     const [baseUrl] = url.split('?', 1);
     const joined: string[] = [];
 
     this.getAllKeys().forEach((key) => {
-      if (!excludeKeys.includes(key) && !httpParams.has(key)) {
+      if (!excludeParams.includes(key) && !httpParams.has(key)) {
         const decodedValue = this.get(key);
         if (decodedValue) {
           joined.push(`${key}=${encodeURIComponent(decodedValue)}`);
@@ -182,12 +182,12 @@ export class SkyAppRuntimeConfigParams {
       }
     });
 
-    // Add existing URL params.
+    // Add existing URL parameters.
     joined.push(
       ...httpParams.keys().map((key) => `${key}=${httpParams.get(key)}`)
     );
 
-    // Alphabetize all query parameters.
+    // Alphabetize query parameters.
     joined.sort();
 
     return joined.length === 0 ? url : `${baseUrl}?${joined.join('&')}`;
