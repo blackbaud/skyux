@@ -155,12 +155,15 @@ export class SkyAppRuntimeConfigParams {
   }
 
   /**
-   * Adds the current params to the supplied url.
+   * Adds the current params to the supplied URL.
    */
   public getUrl(url: string): string {
     return this.#excludeParamsFromUrl(url, this.#excludeFromRequestsParams);
   }
 
+  /**
+   * Adds the current params to the supplied link URL.
+   */
   public getLinkUrl(url: string): string {
     return this.#excludeParamsFromUrl(
       url,
