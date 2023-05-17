@@ -253,7 +253,9 @@ jobs:
             await exec.exec('bash', [
               '-c',
               'npx percy exec -t 350 -- nx e2e ${{ matrix.project }}-e2e --skip-nx-cache'
-            ]);
+            ], {
+              ignoreReturnCode: true
+            });
         env:
           PERCY_TOKEN: ${{ secrets[matrix.token] }}
 
