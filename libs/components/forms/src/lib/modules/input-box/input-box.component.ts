@@ -20,10 +20,12 @@ import { SkyInputBoxHostService } from './input-box-host.service';
 import { SkyInputBoxPopulateArgs } from './input-box-populate-args';
 
 /**
- * Creates a wrapper to provide styling for `input` and `label` elements. To render the
- * component correctly, include the `sky-form-control` CSS class on the `input` element
- * and the `sky-control-label` CSS class on the `label` element. To display a help button beside the label, include a help button element, such as `sky-help-inline`, in the `sky-input-box` element and a `sky-control-help` CSS class on that help button element.
- * To display an error message under the input, include a `sky-status-indicator` component with a `sky-control-error` class in the `sky-input-box` element, and use `*ngIf` to determine whether to display the error message based on the input value.
+ * Creates a wrapper to provide styling for SKY UX input components and  `input`, `textarea`, `select`, and `label` elements.
+ * To render the component correctly, include the `sky-form-control` class on the input element and the `sky-control-label`
+ * class on the `label` element. To display a help button beside the label, include a `sky-help-inline` component with a
+ * `sky-control-help` class in the `sky-input-box` element. To display a validation error message under the input, include a
+ * `sky-status-indicator` component with a `sky-control-error` class in the `sky-input-box` element. Use `*ngIf` to determine
+ * whether to display the error message based on the input value.
  */
 @Component({
   selector: 'sky-input-box',
@@ -45,8 +47,8 @@ export class SkyInputBoxComponent implements OnInit {
 
   /**
    * Whether to visually highlight the input box as disabled. To disable the input box's
-   * `input` element, use the HTML `disabled` attribute or the Angular `FormControl.disabled`
-   * property. You must set both properties to disable an `input` element and visually indicate
+   * input element, use the HTML `disabled` attribute or the Angular `FormControl.disabled`
+   * property. You must set both properties to disable an input element and visually indicate
    * the disabled state on the input box.
    * @default false
    */

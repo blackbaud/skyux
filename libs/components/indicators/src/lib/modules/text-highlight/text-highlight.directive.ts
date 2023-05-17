@@ -135,7 +135,7 @@ export class SkyTextHighlightDirective
   #observerSvc = inject(SkyMutationObserverService);
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.skyHighlight && !changes.skyHighlight.firstChange) {
+    if (changes['skyHighlight'] && !changes['skyHighlight'].firstChange) {
       this.#highlight();
     }
   }
