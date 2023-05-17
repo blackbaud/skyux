@@ -269,16 +269,54 @@ jobs:
         with:
           github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           script: |
-            // Verify that Percy has finished processing the E2E Visual Review and that all snapshots have passed.
-            const { data: status } = await github.rest.repos.getCombinedStatusForRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: context.sha
-            });
-            const percyStatuses = status.statuses.filter(status => status.context.toLowerCase().startsWith('percy/'));
-            if (percyStatuses.some(status => status.state !== 'success')) {
-              core.setFailed(`E2E Visual Review not complete.`);
-              return;
-            }
+            const e2eMap = ${{ toJSON(fromJSON(needs.install-deps.outputs.parameters).e2eMap) }};
 
-            console.log('E2E Visual Review passed!');
+            if (e2eMap) {
+
+              // Verify that Percy has finished processing the E2E Visual Review and that all snapshots have passed.
+              const { data: statuses } = await github.rest.repos.listCommitStatusesForRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: context.sha
+              });
+              const percyStatuses = statuses.filter(status => status.context.toLowerCase().startsWith('percy/'));
+
+              percyStatuses.forEach(status => {
+                let icon;
+                switch(status.state) {
+                  case 'success':
+                    icon = '✅';
+                    break;
+                  case 'pending':
+                    icon = '⏳';
+                    break;
+                  case 'failure':
+                    icon = '❌';
+                    break;
+                  default:
+                    icon = '❓';
+                }
+                console.log(`${icon} ${status.context}`);
+              });
+
+              if (percyStatuses.length === e2eMap.length) {
+
+                // We have a check from Percy for all E2E Visual Reviews.
+                if (percyStatuses.some(status => status.state !== 'success')) {
+                  core.setFailed(`E2E Visual Review not complete.`);
+                  return;
+                }
+                console.log('E2E Visual Review passed!');
+
+              } else {
+
+                // We don't have a check from Percy for all E2E projects.
+                const percyProjects = percyStatuses.map(status => status.context.replace(/^percy\/skyux-/', '').replace(/-e2e$/, ''));
+                const e2eProjects = e2eMap.map(project => project.project);
+                const missingProjects = e2eProjects.filter(project => !percyProjects.includes(project));
+                core.setFailed(`E2E Visual Review not complete. Missing results for: ${missingProjects.join(', ')}`);
+
+              }
+            } else {
+              core.info('No E2E Visual Review to verify.');
+            }
