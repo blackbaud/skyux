@@ -1,4 +1,4 @@
-import { Provider } from '@angular/core';
+import { Component, Provider } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -7,6 +7,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { Router, UrlTree } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
 import {
   SkyAppConfig,
@@ -17,9 +18,13 @@ import {
 } from '@skyux/config';
 
 import { HrefDirectiveFixtureComponent } from './fixtures/href-fixture.component';
-import { HrefFixtureModule } from './fixtures/href-fixture.module';
 import { HrefResolverFixtureService } from './fixtures/href-resolver-fixture.service';
 import { SkyHrefResolverService } from './href-resolver.service';
+
+@Component({
+  template: '',
+})
+export class BlankComponent {}
 
 function setupTest(options?: {
   params?: SkyuxConfigParams;
@@ -81,7 +86,12 @@ function setupTest(options?: {
   }
 
   TestBed.configureTestingModule({
-    imports: [HrefFixtureModule],
+    imports: [
+      HrefDirectiveFixtureComponent,
+      RouterTestingModule.withRoutes([
+        { path: 'page', component: BlankComponent },
+      ]),
+    ],
     providers,
   });
 
