@@ -17,7 +17,7 @@
           *ngIf="
             urlControl.errors &&
             urlControl.touched &&
-            urlControl.errors.skyUrl &&
+            urlControl.errors['skyUrl'] &&
             urlControl.dirty
           "
           indicatorType="danger"
