@@ -10,10 +10,12 @@ $input-box-transitions: border-color 150ms, box-shadow 150ms, color 150ms;
 
 .sky-theme-modern {
   .sky-input-box {
+    --sky-background-color-input-box-group: #{$sky-color-white};
     --sky-background-color-input-box-group-focused: #{$sky-color-white};
   }
 
   &.sky-theme-mode-dark .sky-input-box {
+    --sky-background-color-input-box-group: #{$sky-color-black};
     --sky-background-color-input-box-group-focused: #{$sky-color-black};
   }
 }
