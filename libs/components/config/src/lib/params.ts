@@ -158,41 +158,35 @@ export class SkyAppRuntimeConfigParams {
    * Adds the current params to the supplied URL.
    */
   public getUrl(url: string): string {
-    return this.#excludeParamsFromUrl(url, this.#excludeFromRequestsParams);
+    return this.#buildUrlWithParams(url, this.#excludeFromRequestsParams);
   }
 
   /**
    * Adds the current params to the supplied link URL.
    */
   public getLinkUrl(url: string): string {
-    return this.#excludeParamsFromUrl(
+    return this.#buildUrlWithParams(
       url,
       this.#excludeFromRequestsParams.concat(this.#excludeFromLinksParams)
     );
   }
 
-  #excludeParamsFromUrl(url: string, excludeParams: string[]): string {
-    const httpParams = getUrlSearchParams(url);
-    const [baseUrl] = url.split('?', 1);
-    const joined: string[] = [];
+  #buildUrlWithParams(url: string, excludeParams: string[]): string {
+    let httpParams = getUrlSearchParams(url);
 
-    this.getAllKeys().forEach((key) => {
+    for (const key of this.getAllKeys()) {
       if (!excludeParams.includes(key) && !httpParams.has(key)) {
         const decodedValue = this.get(key);
         if (decodedValue) {
-          joined.push(`${key}=${encodeURIComponent(decodedValue)}`);
+          httpParams = httpParams.set(key, encodeURIComponent(decodedValue));
         }
       }
-    });
+    }
 
-    // Add existing URL parameters.
-    joined.push(
-      ...httpParams.keys().map((key) => `${key}=${httpParams.get(key)}`)
-    );
+    const [baseUrl] = url.split('?', 1);
 
-    // Alphabetize query parameters.
-    joined.sort();
-
-    return joined.length === 0 ? url : `${baseUrl}?${joined.join('&')}`;
+    return httpParams.keys().length === 0
+      ? url
+      : `${baseUrl}?${httpParams.toString()}`;
   }
 }

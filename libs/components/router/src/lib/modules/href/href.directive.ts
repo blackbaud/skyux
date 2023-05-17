@@ -195,14 +195,13 @@ export class SkyHrefDirective {
         hidden: this.skyHrefElse === 'hide',
       };
     } else {
-      const url = this.#route.url;
+      const params =
+        // The SkyAppRuntimeParamsProvider is provided in root, so it will never be undefined.
+        // TODO: rework the injectors so that #paramsProvider is not possibly undefined.
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        this.#skyAppConfig?.runtime.params ?? this.#paramsProvider!.params;
 
-      this.#href = this.#skyAppConfig?.runtime.params.getLinkUrl
-        ? this.#skyAppConfig?.runtime.params.getLinkUrl(url)
-        : // The SkyAppRuntimeParamsProvider is provided in root, so it will never be undefined.
-          // TODO: rework the injectors so that #paramsProvider is not possibly undefined.
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          this.#paramsProvider!.params.getLinkUrl(url);
+      this.#href = params.getLinkUrl(this.#route.url);
 
       return {
         href: this.#href,

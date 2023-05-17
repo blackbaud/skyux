@@ -279,25 +279,22 @@ describe('SkyAppRuntimeConfigParams', () => {
   });
 
   it("should exclude certain parameters from being added to a link's querystring", () => {
-    const params: SkyAppRuntimeConfigParams = new SkyAppRuntimeConfigParams(
-      'https://mysite.com?a=1&b=2',
-      {
-        a: true,
-        b: {
-          required: true,
-        },
-        c: true,
-        d: {
-          excludeFromRequests: true,
-        },
-        e: {
-          excludeFromLinks: true,
-        },
-        f: {
-          excludeFromRequests: true,
-        },
-      }
-    );
+    const params = new SkyAppRuntimeConfigParams('https://mysite.com?a=1&b=2', {
+      a: true,
+      b: {
+        required: true,
+      },
+      c: true,
+      d: {
+        excludeFromRequests: true,
+      },
+      e: {
+        excludeFromLinks: true,
+      },
+      f: {
+        excludeFromRequests: true,
+      },
+    });
 
     // Parameter 'f' should remain in the link because it already exists in the URL.
     expect(params.getLinkUrl('https://mysite.com?c=3&f=6')).toEqual(
