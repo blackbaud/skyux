@@ -167,10 +167,10 @@ export class SkyAppRuntimeConfigParams {
   public getLinkUrl(url: string): string {
     return this.#buildUrlWithParams(
       url,
-      new Set(
+      new Set([
         ...this.#excludeFromRequestsParams,
-        ...this.#excludeFromLinksParams
-      )
+        ...this.#excludeFromLinksParams,
+      ])
     );
   }
 
