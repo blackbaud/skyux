@@ -1134,7 +1134,7 @@ describe('Flyout component', () => {
       });
       getPermalinkButtonElement().click();
       const navigation = TestBed.inject(Router).getCurrentNavigation();
-      expect(navigation?.extras.state?.foo).toEqual('bar');
+      expect(navigation?.extras.state?.['foo']).toEqual('bar');
       tick();
     }));
 
