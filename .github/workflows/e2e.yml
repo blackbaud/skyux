@@ -278,11 +278,13 @@ jobs:
             if (e2eProjects.length > 0) {
 
               // Verify that Percy has finished processing the E2E Visual Review and that all snapshots have passed.
-              const { data: statuses } = await github.rest.repos.listCommitStatusesForRef({
+              const params = {
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 ref: context.sha
-              });
+              };
+              console.log(`const statuses = await github.rest.repos.listCommitStatusesForRef(${JSON.stringify(params, null, 2)});`);
+              const statuses = await github.rest.repos.listCommitStatusesForRef(params);
               console.log(`statuses: ${JSON.stringify(statuses, null, 2)}`);
               const percyStatuses = statuses.filter(status => status.context.toLowerCase().startsWith('percy/'));
 
@@ -308,6 +310,7 @@ jobs:
 
                 // We have a check from Percy for all E2E Visual Reviews.
                 if (percyStatuses.some(status => status.state !== 'success')) {
+                  octokit.rest.meta.getOctocat({ s: 'Something is not right here.' });
                   core.setFailed(`E2E Visual Review not complete.`);
                 } else {
                   console.log('E2E Visual Review passed!');
