@@ -1,5 +1,18 @@
 # Changelog
 
+## [8.1.0](https://github.com/blackbaud/skyux/compare/8.0.3...8.1.0) (2023-05-18)
+
+
+### Features
+
+* **components/popovers:** dropdown test harness ([#1347](https://github.com/blackbaud/skyux/issues/1347)) ([#1376](https://github.com/blackbaud/skyux/issues/1376)) ([091e90f](https://github.com/blackbaud/skyux/commit/091e90f2c7c6c2e038cf898295a0ce1a52c9620d))
+
+
+### Bug Fixes
+
+* **components/datetime:** date range pickers properly render when used in an inline filter item ([#1350](https://github.com/blackbaud/skyux/issues/1350)) ([cce7cee](https://github.com/blackbaud/skyux/commit/cce7cee7a879289a28678d3ecc83909d1eb1dd02))
+* restore form group background color ([#1379](https://github.com/blackbaud/skyux/issues/1379)) ([8abda36](https://github.com/blackbaud/skyux/commit/8abda3611f6fd2f6ae2b85bb386faaad8376a700))
+
 ## [8.0.3](https://github.com/blackbaud/skyux/compare/8.0.2...8.0.3) (2023-05-15)
 
 
