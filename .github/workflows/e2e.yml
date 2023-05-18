@@ -281,7 +281,8 @@ jobs:
               const params = {
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                ref: context.payload.after
+                ref: context.payload.after,
+                per_page: 100
               };
               console.log(`const { data: statuses } = await github.rest.repos.listCommitStatusesForRef(${JSON.stringify(params, null, 2)});`);
               const { data: statuses } = await github.rest.repos.listCommitStatusesForRef(params);
