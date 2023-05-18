@@ -152,7 +152,7 @@ export default function generateLibraryResourcesModule(options: Schema): Rule {
     );
 
     // Abort if executed against an application.
-    if (project.extensions.projectType === 'application') {
+    if (project.extensions['projectType'] === 'application') {
       context.logger.warn(
         `The project "${projectName}" is not of type "library". Aborting.`
       );
