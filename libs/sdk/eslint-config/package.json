@@ -1,0 +1,34 @@
+{
+  "name": "@skyux-sdk/eslint-config",
+  "version": "0.0.0-PLACEHOLDER",
+  "author": "Blackbaud, Inc.",
+  "description": "Angular CLI schematics to implement recommended ESLint configuration",
+  "keywords": [
+    "blackbaud",
+    "skyux"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blackbaud/skyux.git"
+  },
+  "bugs": {
+    "url": "https://github.com/blackbaud/skyux/issues"
+  },
+  "homepage": "https://github.com/blackbaud/skyux#readme",
+  "schematics": "./collection.json",
+  "ng-add": {
+    "save": "devDependencies"
+  },
+  "ng-update": {
+    "migrations": "./src/schematics/migrations/migration-collection.json",
+    "packageGroup": {
+      "eslint": "^8.36.0"
+    }
+  },
+  "peerDependencies": {
+    "@angular/cli": "^15.2.8",
+    "eslint": "^8.36.0"
+  },
+  "dependencies": {}
+}
