@@ -28,7 +28,8 @@ export class SkyAppRuntimeConfigParams {
 
   #encodedParams: string[] = [];
 
-  #excludeFromRequestsParams: string[] = [];
+  #excludeFromLinksParams = new Set<string>();
+  #excludeFromRequestsParams = new Set<string>();
 
   constructor(url: string, configParams: SkyuxConfigParams) {
     const allowed: string[] = [];
@@ -55,8 +56,12 @@ export class SkyAppRuntimeConfigParams {
             this.#defaultParamValues[paramName] = paramValue;
           }
 
+          if (configParam.excludeFromLinks) {
+            this.#excludeFromLinksParams.add(paramName);
+          }
+
           if (configParam.excludeFromRequests) {
-            this.#excludeFromRequestsParams.push(paramName);
+            this.#excludeFromRequestsParams.add(paramName);
           }
         }
       }
@@ -150,25 +155,50 @@ export class SkyAppRuntimeConfigParams {
   }
 
   /**
-   * Adds the current params to the supplied url.
+   * Adds the current params to the supplied URL.
    */
   public getUrl(url: string): string {
-    const httpParams = getUrlSearchParams(url);
-    const delimiter = url.indexOf('?') === -1 ? '?' : '&';
-    const joined: string[] = [];
+    return this.#buildUrlWithParams(url, this.#excludeFromRequestsParams);
+  }
 
-    this.getAllKeys().forEach((key) => {
-      if (
-        this.#excludeFromRequestsParams.indexOf(key) === -1 &&
-        !httpParams.has(key)
-      ) {
+  /**
+   * Adds the current params to the supplied link URL.
+   */
+  public getLinkUrl(url: string): string {
+    return this.#buildUrlWithParams(
+      url,
+      new Set([
+        ...this.#excludeFromRequestsParams,
+        ...this.#excludeFromLinksParams,
+      ])
+    );
+  }
+
+  #buildUrlWithParams(url: string, excludeParams: Set<string>): string {
+    let httpParams = getUrlSearchParams(url);
+
+    // Add requested parameters to the URL.
+    for (const key of this.getAllKeys()) {
+      if (!excludeParams.has(key) && !httpParams.has(key)) {
         const decodedValue = this.get(key);
         if (decodedValue) {
-          joined.push(`${key}=${encodeURIComponent(decodedValue)}`);
+          httpParams = httpParams.set(key, encodeURIComponent(decodedValue));
         }
       }
-    });
+    }
 
-    return joined.length === 0 ? url : `${url}${delimiter}${joined.join('&')}`;
+    // Combine all parameters and their values, e.g. 'a=b'.
+    const joinedParams = httpParams
+      .keys()
+      .map((key) => `${key}=${httpParams.get(key)}`);
+
+    // Build and return the final URL.
+    const [beforeFragment, fragment] = url.split('#', 2);
+    const [baseUrl] = beforeFragment.split('?', 1);
+
+    return joinedParams.length === 0
+      ? url
+      : `${baseUrl}?${joinedParams.join('&')}` +
+          (fragment ? `#${fragment}` : '');
   }
 }
