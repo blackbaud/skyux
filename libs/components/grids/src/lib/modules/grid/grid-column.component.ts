@@ -149,7 +149,7 @@ export class SkyGridColumnComponent implements OnChanges {
   private templates: QueryList<TemplateRef<unknown>>;
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.heading && changes.heading.firstChange === false) {
+    if (changes['heading'] && changes['heading'].firstChange === false) {
       this.headingChanges.emit(this.heading);
       this.headingModelChanges.emit({
         value: this.heading,
@@ -157,7 +157,10 @@ export class SkyGridColumnComponent implements OnChanges {
         field: this.field,
       });
     }
-    if (changes.description && changes.description.firstChange === false) {
+    if (
+      changes['description'] &&
+      changes['description'].firstChange === false
+    ) {
       this.descriptionChanges.emit(this.description);
       this.descriptionModelChanges.emit({
         value: this.description,
@@ -166,8 +169,8 @@ export class SkyGridColumnComponent implements OnChanges {
       });
     }
     if (
-      changes.inlineHelpPopover &&
-      changes.inlineHelpPopover.firstChange === false
+      changes['inlineHelpPopover'] &&
+      changes['inlineHelpPopover'].firstChange === false
     ) {
       this.inlineHelpPopoverModelChanges.emit({
         value: this.inlineHelpPopover,

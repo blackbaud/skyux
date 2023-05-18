@@ -24,13 +24,13 @@ function removePolyfillCode(
       const files = [];
 
       // src/test.ts
-      if (targetName === 'test' && target.options?.main) {
-        files.push(target.options.main as string);
+      if (targetName === 'test' && target.options?.['main']) {
+        files.push(target.options['main'] as string);
       }
 
       // src/polyfills.ts
-      if (target.options?.polyfills) {
-        files.push(target.options.polyfills as string);
+      if (target.options?.['polyfills']) {
+        files.push(target.options['polyfills'] as string);
       }
 
       for (const file of files) {

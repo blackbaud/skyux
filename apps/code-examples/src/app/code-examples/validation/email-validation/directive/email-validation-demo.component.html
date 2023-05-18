@@ -17,7 +17,7 @@
       <span class="sky-error-indicator" skyId #emailError="skyId">
         <sky-status-indicator
           *ngIf="
-            emailControl.errors?.skyEmail &&
+            emailControl.errors?.['skyEmail'] &&
             emailControl.dirty &&
             emailControl.touched
           "

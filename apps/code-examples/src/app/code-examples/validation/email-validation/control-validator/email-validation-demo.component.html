@@ -16,7 +16,7 @@
           *ngIf="
             emailControl?.errors &&
             emailControl?.touched &&
-            emailControl?.errors?.required
+            emailControl?.errors?.['required']
           "
           indicatorType="danger"
           descriptionType="error"
@@ -27,7 +27,7 @@
           *ngIf="
             emailControl?.errors &&
             emailControl?.touched &&
-            emailControl?.errors?.skyEmail &&
+            emailControl?.errors?.['skyEmail'] &&
             emailControl?.dirty
           "
           indicatorType="danger"

@@ -72,7 +72,7 @@ describe('SkyAppConfigModule.forRoot(config)', () => {
     expect(hostConfig.host.frameOptions).toEqual({
       blackbaud: true,
     });
-    expect(configParams.params.foo).toEqual({
+    expect(configParams.params['foo']).toEqual({
       value: 'bar',
     });
   });

@@ -19,7 +19,7 @@ export class SkyFormsUtility {
     const abstractControl = ngControl.control as AbstractControl;
     if (abstractControl && abstractControl.validator) {
       const validator = abstractControl.validator({} as AbstractControl);
-      if (validator && validator.required) {
+      if (validator && validator['required']) {
         return true;
       }
     }

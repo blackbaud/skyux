@@ -10,6 +10,6 @@ export const previewWrapperDecorators = [
     imports: [CommonModule, NoopAnimationsModule, PreviewWrapperModule],
   }),
   componentWrapperDecorator(PreviewWrapperComponent, ({ globals }) => ({
-    theme: globals.theme,
+    theme: globals['theme'],
   })),
 ];

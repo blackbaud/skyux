@@ -110,22 +110,22 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
         'sky-popover-content'
       );
     fixture.detectChanges();
-    expect(eventHandlers.keyup).toBeTruthy();
-    expect(eventHandlers.mouseenter).toBeTruthy();
-    expect(eventHandlers.mouseleave).toBeTruthy();
-    eventHandlers.keyup({ key: 'ArrowRight' } as KeyboardEvent);
+    expect(eventHandlers['keyup']).toBeTruthy();
+    expect(eventHandlers['mouseenter']).toBeTruthy();
+    expect(eventHandlers['mouseleave']).toBeTruthy();
+    eventHandlers['keyup']({ key: 'ArrowRight' } as KeyboardEvent);
     tick();
     fixture.detectChanges();
     fixture.whenStable();
     expect(popover()).toBeTruthy();
-    eventHandlers.mouseleave({} as MouseEvent);
+    eventHandlers['mouseleave']({} as MouseEvent);
     tick();
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
     fixture.whenStable();
     expect(popover()).toBeFalsy();
-    eventHandlers.mouseenter({} as MouseEvent);
+    eventHandlers['mouseenter']({} as MouseEvent);
     tick();
     flush();
     fixture.detectChanges();
