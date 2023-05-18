@@ -1,21 +1,10 @@
 import { Rule, chain } from '@angular-devkit/schematics';
-import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 
-import { getWorkspace } from '../utility/workspace';
-
-import { addDependencies } from './rules/add-dependencies';
-import { configureESLint } from './rules/configure-eslint';
+import { installDependencies } from '../shared/rules/install-dependencies';
+import { modifyEsLintConfig } from '../shared/rules/modify-eslint-config';
 
 export default function ngAdd(): Rule {
-  return async (tree) => {
-    const { workspace } = await getWorkspace(tree);
-
-    return chain([
-      configureESLint(workspace),
-      addDependencies(),
-      (_tree, context) => {
-        context.addTask(new NodePackageInstallTask());
-      },
-    ]);
+  return () => {
+    return chain([installDependencies(), modifyEsLintConfig()]);
   };
 }

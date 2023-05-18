@@ -6,7 +6,7 @@ import {
 import commentJson from 'comment-json';
 import path from 'path';
 
-import { createTestLibrary } from '../testing/scaffold';
+import { createTestLibrary } from '../shared/testing/scaffold';
 
 const COLLECTION_PATH = path.resolve(__dirname, '../../../collection.json');
 const eslintConfigPath = '.eslintrc.json';

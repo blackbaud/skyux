@@ -6,102 +6,111 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 
-import { readJsonFile, writeJsonFile } from '../../utility/tree';
-import { ESLintConfig } from '../types/eslint-config';
+import { EsLintConfig } from '../../shared/types/eslint-config';
+import { readJsonFile, writeJsonFile } from '../../shared/utility/tree';
 
-function addPrettierExtendsItem(
-  configWithExtends: { extends?: string | string[] },
-  alwaysAdd: boolean
-): void {
-  if (configWithExtends.extends || alwaysAdd) {
-    // Info on how ESLint can extend other configuration files:
-    // https://eslint.org/docs/user-guide/configuring/configuration-files#extending-configuration-files
-    if (typeof configWithExtends.extends === 'string') {
-      configWithExtends.extends = [configWithExtends.extends];
-    }
+const ESLINT_CONFIG_NAME = '@skyux-sdk/eslint-config/recommended';
 
-    configWithExtends.extends = configWithExtends.extends || [];
-    let indexOfPrettier = configWithExtends.extends.indexOf('prettier');
+// function addPrettierExtendsItem(
+//   configWithExtends: { extends?: string | string[] },
+//   alwaysAdd: boolean
+// ): void {
+//   if (configWithExtends.extends || alwaysAdd) {
+//     // Info on how EsLint can extend other configuration files:
+//     // https://eslint.org/docs/user-guide/configuring/configuration-files#extending-configuration-files
+//     if (typeof configWithExtends.extends === 'string') {
+//       configWithExtends.extends = [configWithExtends.extends];
+//     }
 
-    // The 'prettier' extends option should always be last in the list.
-    // https://github.com/prettier/eslint-config-prettier#installation
-    if (
-      indexOfPrettier >= 0 &&
-      indexOfPrettier < configWithExtends.extends.length - 1
-    ) {
-      configWithExtends.extends.splice(indexOfPrettier, 1);
-      indexOfPrettier = -1;
-    }
+//     configWithExtends.extends = configWithExtends.extends || [];
+//     let indexOfPrettier = configWithExtends.extends.indexOf('prettier');
 
-    if (indexOfPrettier < 0) {
-      configWithExtends.extends.push('prettier');
-    }
-  }
-}
+//     // The 'prettier' extends option should always be last in the list.
+//     // https://github.com/prettier/eslint-config-prettier#installation
+//     if (
+//       indexOfPrettier >= 0 &&
+//       indexOfPrettier < configWithExtends.extends.length - 1
+//     ) {
+//       configWithExtends.extends.splice(indexOfPrettier, 1);
+//       indexOfPrettier = -1;
+//     }
 
-function addPrettierExtendsToConfig(
+//     if (indexOfPrettier < 0) {
+//       configWithExtends.extends.push('prettier');
+//     }
+//   }
+// }
+
+function modifyConfig(
   tree: Tree,
   eslintConfigPath: string,
-  eslintConfig: ESLintConfig
+  eslintConfig: EsLintConfig
 ): void {
-  // Always add 'prettier' to the top-level extends property.
-  addPrettierExtendsItem(eslintConfig, true);
-
   if (Array.isArray(eslintConfig.overrides)) {
+    eslintConfig.parser = '@typescript-eslint/parser';
+    eslintConfig.parserOptions = {
+      project: ['tsconfig.json'],
+      tsconfigRootDir: '.',
+    };
+
     for (const configOverride of eslintConfig.overrides) {
-      // Check each file type override and add 'prettier' to its extends
-      // property only if the property is present. If the property is
-      // not present, the top-level extends property is sufficient for the
-      // file type.
-      addPrettierExtendsItem(configOverride, false);
+      if (configOverride.files.find((f) => f.endsWith('.ts'))) {
+        const hasPrettier = configOverride.extends?.includes('prettier');
+        configOverride.extends = [ESLINT_CONFIG_NAME];
+
+        if (hasPrettier) {
+          configOverride.extends.push('prettier');
+        }
+      }
     }
   }
 
   writeJsonFile(tree, eslintConfigPath, eslintConfig);
 }
 
-function processESLintConfig(
+function processEsLintConfig(
   tree: Tree,
   context: SchematicContext,
   eslintConfigPath: string,
-  updatedESLintConfigs: string[]
+  updatedEsLintConfigs: string[]
 ): void {
   if (tree.exists(eslintConfigPath)) {
-    const eslintConfig = readJsonFile<ESLintConfig>(tree, eslintConfigPath);
+    const eslintConfig = readJsonFile<EsLintConfig>(tree, eslintConfigPath);
 
     context.logger.info(`Configuring ${eslintConfigPath}...`);
 
-    addPrettierExtendsToConfig(tree, eslintConfigPath, eslintConfig);
-    updatedESLintConfigs.push(eslintConfigPath);
+    modifyConfig(tree, eslintConfigPath, eslintConfig);
+
+    updatedEsLintConfigs.push(eslintConfigPath);
   }
 }
 
-export function configureESLint(
+export function configureEsLint(
   workspace: workspaces.WorkspaceDefinition
 ): Rule {
   return (tree, context) => {
     const fileName = '.eslintrc.json';
-    const updatedESLintConfigs: string[] = [];
+    const updatedEsLintConfigs: string[] = [];
 
-    context.logger.info('Configuring ESLint Prettier plugin...');
+    context.logger.info('Configuring EsLint Prettier plugin...');
 
     const projects = workspace.projects.values();
     let project: workspaces.ProjectDefinition;
 
     while ((project = projects.next().value)) {
-      processESLintConfig(
+      processEsLintConfig(
         tree,
         context,
         normalize(`${project.root}/${fileName}`),
-        updatedESLintConfigs
+        updatedEsLintConfigs
       );
     }
 
-    processESLintConfig(tree, context, fileName, updatedESLintConfigs);
+    processEsLintConfig(tree, context, fileName, updatedEsLintConfigs);
 
-    if (updatedESLintConfigs.length === 0) {
+    if (updatedEsLintConfigs.length === 0) {
       throw new SchematicsException(
-        `No ${fileName} file found in workspace. ESLint must be installed and configured before installing Prettier. See https://github.com/angular-eslint/angular-eslint#readme for instructions.`
+        `No ${fileName} file found in workspace. EsLint must be installed and configured before installing Prettier. See https://github.com/angular-eslint/angular-eslint#readme for instructions.`
       );
     }
   };
