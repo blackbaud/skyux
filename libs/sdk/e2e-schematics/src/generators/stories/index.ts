@@ -138,13 +138,7 @@ export default async function (tree: Tree, options: StoriesGeneratorSchema) {
         source = source
           .replace(
             "import { Meta } from '@storybook/angular';",
-            `import { importProvidersFrom } from '@angular/core';
-            import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-            import {
-              Meta,
-              applicationConfig,
-              moduleMetadata,
-            } from '@storybook/angular';`
+            `import { Meta, moduleMetadata } from '@storybook/angular';`
           )
           .replace(
             '} as Meta<',
@@ -152,11 +146,7 @@ export default async function (tree: Tree, options: StoriesGeneratorSchema) {
             decorators: [
               moduleMetadata({
                 imports: [],
-              }),
-              // Define application-wide providers with the applicationConfig decorator
-              applicationConfig({
-                providers: [importProvidersFrom(NoopAnimationsModule)],
-              }),
+              })
             ],
             } as Meta<`
           );
