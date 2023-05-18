@@ -3,9 +3,7 @@
 exports[`component generator should run successfully 1`] = `
 "import { ExampleComponent } from './example.component';
 import { ExampleModule } from './example.module';
-import { importProvidersFrom } from '@angular/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Meta, applicationConfig, moduleMetadata } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 
 export default {
   id: 'examplecomponent-example',
@@ -14,10 +12,6 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [ExampleModule],
-    }),
-    // Define application-wide providers with the applicationConfig decorator
-    applicationConfig({
-      providers: [importProvidersFrom(NoopAnimationsModule)],
     }),
   ],
 } as Meta<ExampleComponent>;
@@ -33,9 +27,7 @@ export const Example = {
 exports[`component generator should run successfully with --module 1`] = `
 "import { ExampleComponent } from './example.component';
 import { ExampleModule } from './example.module';
-import { importProvidersFrom } from '@angular/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Meta, applicationConfig, moduleMetadata } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 
 export default {
   id: 'examplecomponent-example',
@@ -44,10 +36,6 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [ExampleModule],
-    }),
-    // Define application-wide providers with the applicationConfig decorator
-    applicationConfig({
-      providers: [importProvidersFrom(NoopAnimationsModule)],
     }),
   ],
 } as Meta<ExampleComponent>;
@@ -63,9 +51,7 @@ export const Example = {
 exports[`component generator should run successfully with sub directory 1`] = `
 "import { SubExampleComponent } from './sub-example.component';
 import { SubExampleModule } from './sub-example.module';
-import { importProvidersFrom } from '@angular/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Meta, applicationConfig, moduleMetadata } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 
 export default {
   id: 'subexamplecomponent-subexample',
@@ -74,10 +60,6 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [SubExampleModule],
-    }),
-    // Define application-wide providers with the applicationConfig decorator
-    applicationConfig({
-      providers: [importProvidersFrom(NoopAnimationsModule)],
     }),
   ],
 } as Meta<SubExampleComponent>;
@@ -93,9 +75,7 @@ export const SubExample = {
 exports[`component generator should run successfully, finding a module 1`] = `
 "import { ExampleComponent } from './example.component';
 import { ExampleModule } from './example.module';
-import { importProvidersFrom } from '@angular/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Meta, applicationConfig, moduleMetadata } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 
 export default {
   id: 'examplecomponent-example',
@@ -104,10 +84,6 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [ExampleModule],
-    }),
-    // Define application-wide providers with the applicationConfig decorator
-    applicationConfig({
-      providers: [importProvidersFrom(NoopAnimationsModule)],
     }),
   ],
 } as Meta<ExampleComponent>;
@@ -173,9 +149,7 @@ export class TestRouterModule { }
 exports[`component generator should use -storybook project 1`] = `
 "import { ExampleComponent } from './example.component';
 import { ExampleModule } from './example.module';
-import { importProvidersFrom } from '@angular/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Meta, applicationConfig, moduleMetadata } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 
 export default {
   id: 'examplecomponent-example',
@@ -184,10 +158,6 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [ExampleModule],
-    }),
-    // Define application-wide providers with the applicationConfig decorator
-    applicationConfig({
-      providers: [importProvidersFrom(NoopAnimationsModule)],
     }),
   ],
 } as Meta<ExampleComponent>;

@@ -3,9 +3,7 @@
 exports[`stories generator should generate folder path 1`] = `
 "import { AppModule } from '../../../app.module';
 import { NestedComponent } from './nested.component';
-import { importProvidersFrom } from '@angular/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Meta, applicationConfig, moduleMetadata } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 
 export default {
   id: 'nestedcomponent-nested',
@@ -14,10 +12,6 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [AppModule],
-    }),
-    // Define application-wide providers with the applicationConfig decorator
-    applicationConfig({
-      providers: [importProvidersFrom(NoopAnimationsModule)],
     }),
   ],
 } as Meta<NestedComponent>;
@@ -59,9 +53,7 @@ describe('test', () => {
 exports[`stories generator should run successfully 1`] = `
 "import { AppModule } from './app.module';
 import { NxWelcomeComponent } from './nx-welcome.component';
-import { importProvidersFrom } from '@angular/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Meta, applicationConfig, moduleMetadata } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 
 export default {
   id: 'nxwelcomecomponent-nxwelcome',
@@ -70,10 +62,6 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [AppModule],
-    }),
-    // Define application-wide providers with the applicationConfig decorator
-    applicationConfig({
-      providers: [importProvidersFrom(NoopAnimationsModule)],
     }),
   ],
 } as Meta<NxWelcomeComponent>;
@@ -89,9 +77,7 @@ export const NxWelcome = {
 exports[`stories generator should use -storybook project 1`] = `
 "import { AppModule } from './app.module';
 import { NxWelcomeComponent } from './nx-welcome.component';
-import { importProvidersFrom } from '@angular/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Meta, applicationConfig, moduleMetadata } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 
 export default {
   id: 'nxwelcomecomponent-nxwelcome',
@@ -100,10 +86,6 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [AppModule],
-    }),
-    // Define application-wide providers with the applicationConfig decorator
-    applicationConfig({
-      providers: [importProvidersFrom(NoopAnimationsModule)],
     }),
   ],
 } as Meta<NxWelcomeComponent>;

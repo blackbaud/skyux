@@ -1,4 +1,6 @@
 import { CommonModule } from '@angular/common';
+import { importProvidersFrom } from '@angular/core';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyThemeService } from '@skyux/theme';
 import {
   applicationConfig,
@@ -16,6 +18,7 @@ export const previewWrapperDecorators = [
   // Define application-wide providers with the applicationConfig decorator
   applicationConfig({
     providers: [
+      importProvidersFrom(NoopAnimationsModule),
       SkyThemeService,
       {
         provide: 'BODY',
