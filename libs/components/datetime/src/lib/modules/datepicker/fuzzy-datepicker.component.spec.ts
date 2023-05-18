@@ -856,7 +856,7 @@ describe('fuzzy datepicker input', () => {
         expect(getInputElementValue(fixture)).toBe('2015/2/12');
         expect(ngModel.valid).toBe(false);
         expect(ngModel.touched).toBe(true);
-        expect(ngModel.errors?.skyFuzzyDate.invalid).toBeTruthy();
+        expect(ngModel.errors?.['skyFuzzyDate'].invalid).toBeTruthy();
 
         setInputElementValue(nativeElement, '2/12/2015', fixture);
 
@@ -879,7 +879,7 @@ describe('fuzzy datepicker input', () => {
         expect(getInputElementValue(fixture)).toBe(futureDateString);
         expect(ngModel.valid).toBe(false);
         expect(ngModel.touched).toBe(true);
-        expect(ngModel.errors?.skyFuzzyDate.futureDisabled).toBeTruthy();
+        expect(ngModel.errors?.['skyFuzzyDate'].futureDisabled).toBeTruthy();
 
         const todayDateString = moment().format('L');
         setInputElementValue(nativeElement, todayDateString, fixture);
@@ -901,7 +901,7 @@ describe('fuzzy datepicker input', () => {
         expect(getInputElementValue(fixture)).toBe('02/12');
         expect(ngModel.valid).toBe(false);
         expect(ngModel.touched).toBe(true);
-        expect(ngModel.errors?.skyFuzzyDate.yearRequired).toBeTruthy();
+        expect(ngModel.errors?.['skyFuzzyDate'].yearRequired).toBeTruthy();
 
         setInputElementValue(nativeElement, '2/12/2015', fixture);
 
@@ -947,7 +947,7 @@ describe('fuzzy datepicker input', () => {
           expect(getInputElementValue(fixture)).toBe('02/16/2015');
           expect(ngModel.valid).toBe(false);
           expect(ngModel.touched).toBe(true);
-          expect(ngModel.errors?.skyFuzzyDate.maxDate).toBeTruthy();
+          expect(ngModel.errors?.['skyFuzzyDate'].maxDate).toBeTruthy();
 
           setInputElementValue(nativeElement, '2/15/2015', fixture);
 
@@ -972,7 +972,7 @@ describe('fuzzy datepicker input', () => {
           expect(getInputElementValue(fixture)).toBe('02/14/2015');
           expect(ngModel.valid).toBe(false);
           expect(ngModel.touched).toBe(true);
-          expect(ngModel.errors?.skyFuzzyDate.minDate).toBeTruthy();
+          expect(ngModel.errors?.['skyFuzzyDate'].minDate).toBeTruthy();
 
           setInputElementValue(nativeElement, '2/15/2015', fixture);
 
@@ -993,7 +993,7 @@ describe('fuzzy datepicker input', () => {
         setInputElementValue(fixture.nativeElement, '5/26/2017', fixture);
 
         expect(ngModel.valid).toBe(false);
-        expect(ngModel.errors?.skyFuzzyDate.maxDate).toBeTruthy();
+        expect(ngModel.errors?.['skyFuzzyDate'].maxDate).toBeTruthy();
 
         flush();
       }));
@@ -1006,7 +1006,7 @@ describe('fuzzy datepicker input', () => {
         setInputElementValue(fixture.nativeElement, '5/1/2017', fixture);
 
         expect(ngModel.valid).toBe(false);
-        expect(ngModel.errors?.skyFuzzyDate.minDate).toBeTruthy();
+        expect(ngModel.errors?.['skyFuzzyDate'].minDate).toBeTruthy();
 
         flush();
       }));
@@ -1566,7 +1566,9 @@ describe('fuzzy datepicker input', () => {
         expect(component.dateControl.valid).toBe(false);
         expect(component.dateControl.pristine).toBe(false);
         expect(component.dateControl.touched).toBe(true);
-        expect(component.dateControl.errors?.skyFuzzyDate.invalid).toBeTruthy();
+        expect(
+          component.dateControl.errors?.['skyFuzzyDate'].invalid
+        ).toBeTruthy();
 
         setInputElementValue(nativeElement, '2/12/2015', fixture);
 
@@ -1590,7 +1592,7 @@ describe('fuzzy datepicker input', () => {
         expect(component.dateControl.pristine).toBe(false);
         expect(component.dateControl.touched).toBe(true);
         expect(
-          component.dateControl.errors?.skyFuzzyDate.futureDisabled
+          component.dateControl.errors?.['skyFuzzyDate'].futureDisabled
         ).toBeTruthy();
 
         const todayDateString = moment().format('L');
@@ -1615,7 +1617,7 @@ describe('fuzzy datepicker input', () => {
         expect(component.dateControl.pristine).toBe(false);
         expect(component.dateControl.touched).toBe(true);
         expect(
-          component.dateControl.errors?.skyFuzzyDate.yearRequired
+          component.dateControl.errors?.['skyFuzzyDate'].yearRequired
         ).toBeTruthy();
 
         setInputElementValue(nativeElement, '2/12/2015', fixture);
@@ -1653,7 +1655,9 @@ describe('fuzzy datepicker input', () => {
         expect(component.dateControl.valid).toBe(false);
         expect(component.dateControl.pristine).toBe(false);
         expect(component.dateControl.touched).toBe(true);
-        expect(component.dateControl.errors?.skyFuzzyDate.maxDate).toBeTruthy();
+        expect(
+          component.dateControl.errors?.['skyFuzzyDate'].maxDate
+        ).toBeTruthy();
 
         setInputElementValue(nativeElement, '2/15/2015', fixture);
 
@@ -1675,7 +1679,9 @@ describe('fuzzy datepicker input', () => {
         expect(component.dateControl.valid).toBe(false);
         expect(component.dateControl.pristine).toBe(false);
         expect(component.dateControl.touched).toBe(true);
-        expect(component.dateControl.errors?.skyFuzzyDate.minDate).toBeTruthy();
+        expect(
+          component.dateControl.errors?.['skyFuzzyDate'].minDate
+        ).toBeTruthy();
 
         setInputElementValue(nativeElement, '2/15/2015', fixture);
 

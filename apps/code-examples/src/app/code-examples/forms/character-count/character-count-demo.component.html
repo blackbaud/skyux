@@ -24,7 +24,7 @@
 
         <span class="sky-error-indicator" skyId #characterCountError="skyId">
           <sky-status-indicator
-            *ngIf="description.errors?.skyCharacterCounter"
+            *ngIf="description.errors?.['skyCharacterCounter']"
             indicatorType="danger"
             descriptionType="error"
           >

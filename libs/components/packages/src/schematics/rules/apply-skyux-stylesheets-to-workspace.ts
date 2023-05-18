@@ -16,7 +16,7 @@ export function applySkyuxStylesheetsToWorkspace(projectName: string): Rule {
       // Ignore build target for libraries.
       if (
         targetName === 'build' &&
-        project.extensions.projectType === 'library'
+        project.extensions['projectType'] === 'library'
       ) {
         continue;
       }
@@ -26,8 +26,8 @@ export function applySkyuxStylesheetsToWorkspace(projectName: string): Rule {
 
       /*istanbul ignore else*/
       if (target && target.options) {
-        target.options.styles = ensureSkyuxStylesheets(
-          target.options.styles as string[]
+        target.options['styles'] = ensureSkyuxStylesheets(
+          target.options['styles'] as string[]
         );
       }
     }

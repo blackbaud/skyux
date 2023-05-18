@@ -174,15 +174,16 @@ function addStylesheetToWorkspace(): Rule {
     updateWorkspace((workspace) => {
       for (const project of workspace.projects.values()) {
         for (const targetName of ['build', 'test']) {
-          if (project.extensions.projectType === 'application') {
+          if (project.extensions['projectType'] === 'application') {
             const target = project.targets.get(targetName);
             const sourceRoot = getProjectSourcePath(project);
             const filePath = `${sourceRoot}/${COMPAT_CSS_FILE_NAME}`;
 
             /* istanbul ignore else */
             if (target && target.options) {
-              const styles = (target.options.styles = (target.options.styles ||
-                []) as string[]);
+              const styles = (target.options['styles'] = (target.options[
+                'styles'
+              ] || []) as string[]);
 
               if (!styles.includes(filePath)) {
                 styles.push(filePath);
@@ -234,7 +235,7 @@ export default function (): Rule {
     const rules: Rule[] = [];
 
     for (const [, projectDefinition] of workspace.projects.entries()) {
-      if (projectDefinition.extensions.projectType === 'application') {
+      if (projectDefinition.extensions['projectType'] === 'application') {
         if (styles) {
           const sourcePath = getProjectSourcePath(projectDefinition);
           rules.push(writeStylesheet(sourcePath, styles));

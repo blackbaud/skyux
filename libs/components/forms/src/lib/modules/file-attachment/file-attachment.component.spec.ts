@@ -437,17 +437,17 @@ describe('File attachment', () => {
 
     const inputEl = getInputDebugEl(fixture);
 
-    spyOn(inputEl.references.fileInput, 'click');
+    spyOn(inputEl.references['fileInput'], 'click');
 
     const dropEl = getButtonEl(el);
 
-    expect(inputEl.references.fileInput.click).not.toHaveBeenCalled();
+    expect(inputEl.references['fileInput'].click).not.toHaveBeenCalled();
 
     dropEl?.click();
 
     fixture.detectChanges();
 
-    expect(inputEl.references.fileInput.click).toHaveBeenCalled();
+    expect(inputEl.references['fileInput'].click).toHaveBeenCalled();
   });
 
   it('should not click the file input on remove button click', () => {
@@ -455,7 +455,7 @@ describe('File attachment', () => {
 
     const inputEl = getInputDebugEl(fixture);
 
-    spyOn(inputEl.references.fileInput, 'click');
+    spyOn(inputEl.references['fileInput'], 'click');
 
     const file = [
       {
@@ -469,13 +469,13 @@ describe('File attachment', () => {
 
     const deleteEl = getDeleteEl();
 
-    expect(inputEl.references.fileInput.click).not.toHaveBeenCalled();
+    expect(inputEl.references['fileInput'].click).not.toHaveBeenCalled();
 
     deleteEl?.click();
 
     fixture.detectChanges();
 
-    expect(inputEl.references.fileInput.click).not.toHaveBeenCalled();
+    expect(inputEl.references['fileInput'].click).not.toHaveBeenCalled();
   });
 
   // Maybe some other tests here about dragging

@@ -49,7 +49,7 @@
                 *ngIf="
                   (lastName.dirty || lastName.touched) &&
                   lastName.errors &&
-                  lastName.errors.required
+                  lastName.errors['required']
                 "
                 indicatorType="danger"
                 descriptionType="error"
@@ -99,7 +99,7 @@
                 *ngIf="
                   (email.dirty || email.touched) &&
                   email.errors &&
-                  email.errors.required
+                  email.errors['required']
                 "
                 indicatorType="danger"
                 descriptionType="error"
@@ -110,7 +110,7 @@
                 *ngIf="
                   (email.dirty || email.touched) &&
                   email.errors &&
-                  email.errors.skyEmail
+                  email.errors['skyEmail']
                 "
                 indicatorType="danger"
                 descriptionType="error"
@@ -143,7 +143,7 @@
                 *ngIf="
                   (dob.dirty || dob.touched) &&
                   dob.errors &&
-                  dob.errors.required
+                  dob.errors['required']
                 "
                 indicatorType="danger"
                 descriptionType="error"

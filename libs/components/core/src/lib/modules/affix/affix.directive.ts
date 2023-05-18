@@ -137,14 +137,14 @@ export class SkyAffixDirective implements OnInit, OnChanges, OnDestroy {
   public ngOnChanges(changes: SimpleChanges): void {
     /* istanbul ignore else */
     if (
-      changes.affixAutoFitContext ||
-      changes.affixAutoFitOverflowOffset ||
-      changes.affixEnableAutoFit ||
-      changes.affixHorizontalAlignment ||
-      changes.affixIsSticky ||
-      changes.affixPlacement ||
-      changes.affixPosition ||
-      changes.affixVerticalAlignment
+      changes['affixAutoFitContext'] ||
+      changes['affixAutoFitOverflowOffset'] ||
+      changes['affixEnableAutoFit'] ||
+      changes['affixHorizontalAlignment'] ||
+      changes['affixIsSticky'] ||
+      changes['affixPlacement'] ||
+      changes['affixPosition'] ||
+      changes['affixVerticalAlignment']
     ) {
       this.#updateAlignment();
     }

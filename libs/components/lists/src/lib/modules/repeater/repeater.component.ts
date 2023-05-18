@@ -249,7 +249,7 @@ export class SkyRepeaterComponent
       }
     }
 
-    if (changes.reorderable) {
+    if (changes['reorderable']) {
       if (this.items) {
         this.#updateReorderability();
       }

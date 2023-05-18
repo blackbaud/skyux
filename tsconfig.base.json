@@ -5,6 +5,7 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
+    "noPropertyAccessFromIndexSignature": true,
     "rootDir": ".",
     "sourceMap": true,
     "declaration": false,

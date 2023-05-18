@@ -59,8 +59,8 @@ describe('component-e2e', () => {
         '!{projectRoot}/.storybook/**/*'
       );
       nxJson.namedInputs = nxJson.namedInputs || {};
-      nxJson.namedInputs.production = nxJson.namedInputs.production || [];
-      nxJson.namedInputs.production.push(
+      nxJson.namedInputs['production'] = nxJson.namedInputs['production'] || [];
+      nxJson.namedInputs['production'].push(
         '!{projectRoot}/.storybook/**/*',
         '!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)'
       );
@@ -73,10 +73,10 @@ describe('component-e2e', () => {
       expect(config[projectName].projectType).toEqual('application');
       if (projectName === 'test-storybook') {
         expect(
-          config[projectName].targets?.build.options.polyfills
+          config[projectName].targets?.['build'].options.polyfills
         ).toBeDefined();
         expect(
-          config[projectName].targets?.build.options.polyfills.includes(
+          config[projectName].targets?.['build'].options.polyfills.includes(
             'libs/components/packages/src/polyfills.js'
           )
         ).toBeTruthy();
