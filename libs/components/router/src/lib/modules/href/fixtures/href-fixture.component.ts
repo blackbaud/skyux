@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -5,10 +6,14 @@ import {
   Input,
 } from '@angular/core';
 
+import { SkyHrefModule } from '../href.module';
+
 @Component({
   selector: 'sky-smart-link-fixture',
   templateUrl: 'href-fixture.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [CommonModule, SkyHrefModule],
 })
 export class HrefDirectiveFixtureComponent {
   @Input()
