@@ -273,7 +273,7 @@ jobs:
           github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           script: |
 
-            const e2eProjects = ${{ fromJSON(needs.install-deps.outputs.parameters).projectsJson }}.filter(project => project !== 'skip');
+            const e2eProjects = ${{ needs.install-deps.outputs.parameters }}.e2eMap.map(project => project.project);
 
             if (e2eProjects.length > 0) {
 
