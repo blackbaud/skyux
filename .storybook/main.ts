@@ -20,6 +20,7 @@ export const rootMain: StorybookConfig = {
     '@storybook/addon-viewport',
     'storybook-addon-angular-router',
   ],
+  docs: docs,
   framework: framework,
   features: {
     buildStoriesJson: true,
