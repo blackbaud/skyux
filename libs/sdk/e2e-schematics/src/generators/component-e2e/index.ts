@@ -261,7 +261,6 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       [],
       ['@storybook/angular', '@storybook/core-server']
     );
-    console.log(storybookVersion);
     addDependenciesToPackageJson(
       tree,
       {},
