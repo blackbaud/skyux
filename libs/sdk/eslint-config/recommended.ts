@@ -1,6 +1,21 @@
-export const plugins = ['deprecation'];
+const configExtends: string[] = [
+  'eslint:recommended',
+  'plugin:@angular-eslint/recommended',
+  'plugin:@angular-eslint/template/process-inline-templates',
+  'plugin:@typescript-eslint/recommended',
+  'plugin:@typescript-eslint/recommended-requiring-type-checking',
+];
 
-export const rules = {
+const plugins: string[] = [
+  '@angular-eslint',
+  '@angular-eslint/template',
+  '@typescript-eslint',
+  'deprecation',
+];
+
+const reportUnusedDisableDirectives = true;
+
+const rules = {
   /**
    * Plugin rules
    */
@@ -59,13 +74,14 @@ export const rules = {
   '@typescript-eslint/array-type': 'error',
   '@typescript-eslint/ban-tslint-comment': 'error',
   '@typescript-eslint/consistent-generic-constructors': 'error',
-  // Disable the base rule as it can report incorrect errors.
   'default-param-last': 'off',
   '@typescript-eslint/default-param-last': 'error',
-  // Disable the base rule as it can report incorrect errors.
   'dot-notation': 'off',
   '@typescript-eslint/dot-notation': 'error',
-  '@typescript-eslint/explicit-member-accessibility': 'error',
+  '@typescript-eslint/explicit-member-accessibility': [
+    'error',
+    { overrides: { constructors: 'no-public' } },
+  ],
   '@typescript-eslint/explicit-module-boundary-types': 'error',
   '@typescript-eslint/no-base-to-string': 'error',
   '@typescript-eslint/no-confusing-non-null-assertion': 'error',
@@ -74,11 +90,9 @@ export const rules = {
   '@typescript-eslint/no-mixed-enums': 'error',
   '@typescript-eslint/no-non-null-asserted-nullish-coalescing': 'error',
   '@typescript-eslint/no-redundant-type-constituents': 'error',
-  // Disable the base rule as it can report incorrect errors.
   'no-shadow': 'off',
   '@typescript-eslint/no-shadow': 'error',
   '@typescript-eslint/no-unsafe-declaration-merging': 'error',
-  // Disable the base rule as it can report incorrect errors.
   'no-unused-expressions': 'off',
   '@typescript-eslint/no-unused-expressions': 'error',
   '@typescript-eslint/non-nullable-type-assertion-style': 'error',
@@ -106,4 +120,9 @@ export const rules = {
   '@angular-eslint/sort-ngmodule-metadata-arrays': 'error',
 };
 
-export const reportUnusedDisableDirectives = true;
+export {
+  configExtends as extends,
+  plugins,
+  reportUnusedDisableDirectives,
+  rules,
+};
