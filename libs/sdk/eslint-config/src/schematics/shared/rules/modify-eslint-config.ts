@@ -23,6 +23,7 @@ export function modifyEsLintConfig(): Rule {
       for (const override of esLintConfig.overrides) {
         if (override.files.find((f) => f.endsWith('.ts'))) {
           const hasPrettier = override.extends?.includes('prettier');
+
           override.extends = [ESLINT_CONFIG_NAME];
 
           if (hasPrettier) {
