@@ -284,33 +284,37 @@ jobs:
                 ref: context.payload.after,
                 per_page: 100
               };
-              console.log(`const { data: statuses } = await github.rest.repos.listCommitStatusesForRef(${JSON.stringify(params, null, 2)});`);
               const { data: statuses } = await github.rest.repos.listCommitStatusesForRef(params);
-              console.log(`statuses: ${JSON.stringify(statuses, null, 2)}`);
-              const percyStatuses = statuses.filter(status => status.context.toLowerCase().startsWith('percy/'));
+              const percyStatuses = statuses.filter((status, idx) => status.context.toLowerCase().startsWith('percy/'));
+              const percyStatusContexts = percyStatuses.map(status => status.context.toLowerCase());
 
-              percyStatuses.forEach(status => {
-                let icon;
-                switch(status.state) {
-                  case 'success':
-                    icon = '✅';
-                    break;
-                  case 'pending':
-                    icon = '⏳';
-                    break;
-                  case 'failure':
-                    icon = '❌';
-                    break;
-                  default:
-                    icon = '❓';
-                }
-                console.log(`${icon} ${status.context}`);
-              });
+              // Only use the latest status for each E2E Visual Review.
+              const latestPercyStatuses = percyStatuses.filter((status, index) => percyStatusContexts.indexOf(status.context.toLowerCase()) === index);
 
-              if (percyStatuses.length === e2eProjects.length) {
+              // Log the status of each E2E Visual Review.
+              latestPercyStatuses
+                .forEach(status => {
+                  let icon;
+                  switch (status.state) {
+                    case 'success':
+                      icon = '✅';
+                      break;
+                    case 'pending':
+                      icon = '⏳';
+                      break;
+                    case 'failure':
+                      icon = '❌';
+                      break;
+                    default:
+                      icon = '❓';
+                  }
+                  console.log(`${icon} ${status.context}`);
+                });
+
+              if (latestPercyStatuses.length === e2eProjects.length) {
 
                 // We have a check from Percy for all E2E Visual Reviews.
-                if (percyStatuses.some(status => status.state !== 'success')) {
+                if (latestPercyStatuses.some(status => status.state !== 'success')) {
                   octokit.rest.meta.getOctocat({ s: 'Something is not right here.' });
                   core.setFailed(`E2E Visual Review not complete.`);
                 } else {
@@ -320,7 +324,7 @@ jobs:
               } else {
 
                 // We don't have a check from Percy for all E2E projects.
-                const percyProjects = percyStatuses.map(status => status.context.replace(/^percy\/skyux-/, '').replace(/-e2e$/, ''));
+                const percyProjects = latestPercyStatuses.map(status => status.context.replace(/^percy\/skyux-/, '').replace(/-e2e$/, ''));
                 const missingProjects = e2eProjects.filter(project => !percyProjects.includes(project));
                 core.setFailed(`E2E Visual Review not complete. Missing results for: ${missingProjects.join(', ')}`);
 
