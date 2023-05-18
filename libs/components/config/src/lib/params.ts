@@ -177,6 +177,7 @@ export class SkyAppRuntimeConfigParams {
   #buildUrlWithParams(url: string, excludeParams: Set<string>): string {
     let httpParams = getUrlSearchParams(url);
 
+    // Add requested parameters to the URL.
     for (const key of this.getAllKeys()) {
       if (!excludeParams.has(key) && !httpParams.has(key)) {
         const decodedValue = this.get(key);
@@ -186,18 +187,18 @@ export class SkyAppRuntimeConfigParams {
       }
     }
 
-    // Combine all key/value pairs, e.g. 'a=b'.
-    const joined = new Set<string>();
-    for (const key of httpParams.keys()) {
-      joined.add(`${key}=${httpParams.get(key)}`);
-    }
+    // Combine all parameters and their values, e.g. 'a=b'.
+    const joinedParams = httpParams
+      .keys()
+      .map((key) => `${key}=${httpParams.get(key)}`);
 
+    // Build and return the final URL.
     const [beforeFragment, fragment] = url.split('#', 2);
     const [baseUrl] = beforeFragment.split('?', 1);
 
-    return joined.size === 0
+    return joinedParams.length === 0
       ? url
-      : `${baseUrl}?${Array.from(joined).join('&')}` +
+      : `${baseUrl}?${joinedParams.join('&')}` +
           (fragment ? `#${fragment}` : '');
   }
 }
