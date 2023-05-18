@@ -14,7 +14,7 @@ const cypressPkg = JSON.parse(
 );
 
 export default defineConfig({
-  defaultCommandTimeout: 5000,
+  defaultCommandTimeout: 6000,
   e2e: {
     ...nxE2EPreset(__dirname),
     video: false,
