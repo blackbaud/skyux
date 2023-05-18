@@ -116,7 +116,7 @@
     "tslib": "2.5.0",
     "validator": "13.9.0",
     "zone.js": "0.12.0",
-    "@nx/angular": "16.2.1"
+    "@nx/angular": "16.1.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "15.2.8",
@@ -130,15 +130,15 @@
     "@angular/language-service": "15.2.8",
     "@cspell/eslint-plugin": "6.30.0",
     "@istanbuljs/nyc-config-typescript": "1.0.2",
-    "@nx/cypress": "16.2.1",
-    "@nx/devkit": "16.2.1",
-    "@nx/jest": "16.2.1",
-    "@nx/js": "16.2.1",
-    "@nx/linter": "16.2.1",
-    "@nx/node": "16.2.1",
-    "@nx/plugin": "16.2.1",
-    "@nx/storybook": "16.2.1",
-    "@nx/workspace": "16.2.1",
+    "@nx/cypress": "16.1.0",
+    "@nx/devkit": "16.1.0",
+    "@nx/jest": "16.1.0",
+    "@nx/js": "16.1.0",
+    "@nx/linter": "16.1.0",
+    "@nx/node": "16.1.0",
+    "@nx/plugin": "16.1.0",
+    "@nx/storybook": "16.1.0",
+    "@nx/workspace": "16.1.0",
     "@percy/cli": "1.24.0",
     "@percy/core": "1.24.0",
     "@percy/cypress": "3.1.2",
@@ -185,7 +185,7 @@
     "karma-jasmine": "5.1.0",
     "karma-jasmine-html-reporter": "2.0.0",
     "ng-packagr": "15.2.2",
-    "nx": "16.2.1",
+    "nx": "16.1.0",
     "nx-cloud": "16.0.5",
     "nyc": "15.1.0",
     "postcss": "8.4.21",
@@ -202,7 +202,7 @@
     "ts-node": "10.9.1",
     "typedoc": "0.23.27",
     "typescript": "4.9.5",
-    "@nx/eslint-plugin": "16.2.1"
+    "@nx/eslint-plugin": "16.1.0"
   },
   "overrides": {
     "@storybook/angular@7.0.9": {
