@@ -315,7 +315,6 @@ jobs:
 
                 // We have a check from Percy for all E2E Visual Reviews.
                 if (latestPercyStatuses.some(status => status.state !== 'success')) {
-                  octokit.rest.meta.getOctocat({ s: 'Something is not right here.' });
                   core.setFailed(`E2E Visual Review not complete.`);
                 } else {
                   console.log('E2E Visual Review passed!');
