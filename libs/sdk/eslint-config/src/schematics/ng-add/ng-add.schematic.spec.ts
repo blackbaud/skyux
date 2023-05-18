@@ -6,35 +6,32 @@ import {
 import commentJson from 'comment-json';
 import path from 'path';
 
-import { createTestLibrary } from '../shared/testing/scaffold';
+import { createTestApp } from '../shared/testing/scaffold';
+import { EsLintConfig } from '../shared/types/eslint-config';
+import { readJsonFile } from '../shared/utility/tree';
 
 const COLLECTION_PATH = path.resolve(__dirname, '../../../collection.json');
-const eslintConfigPath = '.eslintrc.json';
+const ESLINT_CONFIG_PATH = './.eslintrc.json';
 
 describe('ng-add.schematic', () => {
-  const defaultProjectName = 'my-lib';
+  const runner = new SchematicTestRunner('schematics', COLLECTION_PATH);
+  const defaultProjectName = 'my-app';
 
-  let runner: SchematicTestRunner;
-  let tree: UnitTestTree;
-
-  beforeEach(async () => {
-    runner = new SchematicTestRunner('schematics', COLLECTION_PATH);
-
-    tree = await createTestLibrary(runner, {
-      name: defaultProjectName,
+  async function setupTest(options: { esLintConfig: EsLintConfig }) {
+    const tree = await createTestApp(runner, {
+      defaultProjectName,
     });
 
-    tree.create(eslintConfigPath, '{}');
-  });
+    tree.create(ESLINT_CONFIG_PATH, JSON.stringify(options.esLintConfig));
 
-  function runSchematic(tree: UnitTestTree): Promise<UnitTestTree> {
-    return runner.runSchematic(
-      'ng-add',
-      {
-        project: defaultProjectName,
-      },
-      tree
-    );
+    const runSchematic = (options: { project?: string } = {}) => {
+      return runner.runSchematic('ng-add', options, tree);
+    };
+
+    return {
+      runSchematic,
+      tree,
+    };
   }
 
   function validateJsonFile(
@@ -46,329 +43,393 @@ describe('ng-add.schematic', () => {
     expect(contents).toEqual(expectedContents);
   }
 
-  it('should run the NodePackageInstallTask', async () => {
-    await runSchematic(tree);
+  it('should install dependencies', async () => {
+    const { runSchematic, tree } = await setupTest({
+      esLintConfig: {},
+    });
+
+    await runSchematic();
 
     expect(runner.tasks.some((task) => task.name === 'node-package')).toEqual(
       true
     );
-  });
-
-  it('should throw an error if ESLint is not configured.', async () => {
-    tree.delete(eslintConfigPath);
-
-    await expect(() => runSchematic(tree)).rejects.toThrowError(
-      `No ${eslintConfigPath} file found in workspace. ESLint must be installed and configured before installing Prettier. See https://github.com/angular-eslint/angular-eslint#readme for instructions.`
-    );
-  });
-
-  it('should install the expected packages', async () => {
-    const updatedTree = await runSchematic(tree);
 
     validateJsonFile(
-      updatedTree,
+      tree,
       'package.json',
       expect.objectContaining({
         devDependencies: expect.objectContaining({
-          prettier: '2.8.4',
-          'eslint-config-prettier': '8.7.0',
+          '@angular-eslint/eslint-plugin': '^15.2.1',
+          '@angular-eslint/eslint-plugin-template': '^15.2.1',
+          '@angular-eslint/template-parser': '^15.2.1',
+          '@typescript-eslint/eslint-plugin': '^5.48.2',
+          '@typescript-eslint/parser': '^5.48.2',
+          'eslint-plugin-deprecation': '^1.4.1',
+          eslint: '^8.36.0',
         }),
       })
     );
   });
 
-  it('should add "skyux:format" to package.json\'s "scripts" array', async () => {
-    // Clear the existing `scripts` property to test whether it gets added by the schematic.
-    tree.overwrite('package.json', '{}');
-
-    const updatedTree = await runSchematic(tree);
-
-    validateJsonFile(
-      updatedTree,
-      'package.json',
-      expect.objectContaining({
-        scripts: {
-          'skyux:format': 'npx prettier --write .',
-        },
-      })
-    );
-  });
-
-  it('should write Prettier config', async () => {
-    const updatedTree = await runSchematic(tree);
-
-    validateJsonFile(updatedTree, '.prettierrc.json', {
-      singleQuote: true,
-    });
-  });
-
-  it('should not write Prettier config if already exists', async () => {
-    tree.create('.prettierrc', '{"original": true}');
-    tree.create('.prettierrc.json', '{"original": true}');
-
-    const updatedTree = await runSchematic(tree);
-
-    validateJsonFile(updatedTree, '.prettierrc', {
-      original: true,
-    });
-    validateJsonFile(updatedTree, '.prettierrc.json', {
-      original: true,
-    });
-  });
-
-  it('should write Prettier ignore', async () => {
-    const updatedTree = await runSchematic(tree);
-
-    const prettierIgnore = updatedTree.readContent('.prettierignore');
-
-    expect(prettierIgnore).toEqual(`# Ignore artifacts:
-__skyux
-coverage
-dist
-node_modules
-package-lock.json
-
-# Ignore assets
-/src/assets/
-/projects/*/src/assets/
-
-# Ignore standard SPA library path
-/src/app/lib/
-
-# Ignore Angular cache
-/.angular/cache
-
-# Don't format the following since the order of its import statements is deliberate.
-test.ts`);
-  });
-
-  it('should configure ESLint if an .eslintrc.json file exists', async () => {
-    tree.overwrite(
-      eslintConfigPath,
-      commentJson.stringify({
+  it('should configure ESLint config', async () => {
+    const { runSchematic, tree } = await setupTest({
+      esLintConfig: {
         overrides: [
           {
-            files: '*.ts',
-            extends: ['foo'],
+            files: ['*.ts'],
           },
         ],
-      })
-    );
+      },
+    });
 
-    const updatedTree = await runSchematic(tree);
+    await runSchematic();
 
-    validateJsonFile(updatedTree, eslintConfigPath, {
-      extends: ['prettier'],
+    expect(readJsonFile(tree, ESLINT_CONFIG_PATH)).toEqual({
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        project: ['tsconfig.json'],
+        tsconfigRootDir: '.',
+      },
       overrides: [
         {
-          files: '*.ts',
-          extends: ['foo', 'prettier'],
+          extends: ['@skyux-sdk/eslint-config/recommended'],
+          files: ['*.ts'],
         },
       ],
     });
   });
 
-  it('should configure ESLint if an .eslintrc.json file exists only in a project', async () => {
-    tree.delete(eslintConfigPath);
+  it('should skip configuration if "overrides" undefined', async () => {
+    const { runSchematic, tree } = await setupTest({
+      esLintConfig: {},
+    });
 
-    const projectEslintConfigPath = `projects/my-lib/${eslintConfigPath}`;
+    await runSchematic();
 
-    tree.create(
-      projectEslintConfigPath,
-      commentJson.stringify({
+    expect(readJsonFile(tree, ESLINT_CONFIG_PATH)).toEqual({});
+  });
+
+  it('should keep prettier at the end of the "extends" array', async () => {
+    const { runSchematic, tree } = await setupTest({
+      esLintConfig: {
         overrides: [
           {
-            files: '*.ts',
-            extends: ['foo'],
+            extends: ['foobar/recommended', 'prettier'],
+            files: ['*.ts'],
           },
         ],
-      })
-    );
+      },
+    });
 
-    const updatedTree = await runSchematic(tree);
+    await runSchematic();
 
-    validateJsonFile(updatedTree, projectEslintConfigPath, {
-      extends: ['prettier'],
+    expect(readJsonFile(tree, ESLINT_CONFIG_PATH)).toEqual({
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        project: ['tsconfig.json'],
+        tsconfigRootDir: '.',
+      },
       overrides: [
         {
-          files: '*.ts',
-          extends: ['foo', 'prettier'],
+          extends: ['@skyux-sdk/eslint-config/recommended', 'prettier'],
+          files: ['*.ts'],
         },
       ],
     });
   });
 
-  it('should convert an ESLint config `extends` string to an array', async () => {
-    tree.overwrite(
-      eslintConfigPath,
-      commentJson.stringify({
-        extends: 'foo',
-      })
-    );
+  //   it('should add "skyux:format" to package.json\'s "scripts" array', async () => {
+  //     // Clear the existing `scripts` property to test whether it gets added by the schematic.
+  //     tree.overwrite('package.json', '{}');
 
-    const projectEslintConfigPath = `projects/my-lib/${eslintConfigPath}`;
+  //     const updatedTree = await runSchematic(tree);
 
-    tree.create(
-      projectEslintConfigPath,
-      commentJson.stringify({
-        extends: '../../.eslintrc.json',
-        overrides: [
-          {
-            files: '*.ts',
-            extends: 'bar',
-          },
-        ],
-      })
-    );
+  //     validateJsonFile(
+  //       updatedTree,
+  //       'package.json',
+  //       expect.objectContaining({
+  //         scripts: {
+  //           'skyux:format': 'npx prettier --write .',
+  //         },
+  //       })
+  //     );
+  //   });
 
-    const updatedTree = await runSchematic(tree);
+  //   it('should write Prettier config', async () => {
+  //     const updatedTree = await runSchematic(tree);
 
-    validateJsonFile(updatedTree, projectEslintConfigPath, {
-      extends: ['../../.eslintrc.json', 'prettier'],
-      overrides: [
-        {
-          files: '*.ts',
-          extends: ['bar', 'prettier'],
-        },
-      ],
-    });
+  //     validateJsonFile(updatedTree, '.prettierrc.json', {
+  //       singleQuote: true,
+  //     });
+  //   });
 
-    validateJsonFile(updatedTree, eslintConfigPath, {
-      extends: ['foo', 'prettier'],
-    });
-  });
+  //   it('should not write Prettier config if already exists', async () => {
+  //     tree.create('.prettierrc', '{"original": true}');
+  //     tree.create('.prettierrc.json', '{"original": true}');
 
-  it('should not add an `extends` property to a file override if it does not already exist', async () => {
-    tree.overwrite(
-      eslintConfigPath,
-      commentJson.stringify({
-        extends: 'foo',
-        overrides: [
-          {
-            files: '*.ts',
-          },
-        ],
-      })
-    );
+  //     const updatedTree = await runSchematic(tree);
 
-    const updatedTree = await runSchematic(tree);
+  //     validateJsonFile(updatedTree, '.prettierrc', {
+  //       original: true,
+  //     });
+  //     validateJsonFile(updatedTree, '.prettierrc.json', {
+  //       original: true,
+  //     });
+  //   });
 
-    validateJsonFile(updatedTree, eslintConfigPath, {
-      extends: ['foo', 'prettier'],
-      overrides: [
-        {
-          files: '*.ts',
-        },
-      ],
-    });
-  });
+  //   it('should write Prettier ignore', async () => {
+  //     const updatedTree = await runSchematic(tree);
 
-  it('should not add "prettier" to `extends` if it already exists', async () => {
-    tree.overwrite(
-      eslintConfigPath,
-      commentJson.stringify({
-        extends: ['foo', 'prettier'],
-        overrides: [
-          {
-            files: '*.ts',
-            extends: ['bar', 'prettier'],
-          },
-        ],
-      })
-    );
+  //     const prettierIgnore = updatedTree.readContent('.prettierignore');
 
-    const updatedTree = await runSchematic(tree);
+  //     expect(prettierIgnore).toEqual(`# Ignore artifacts:
+  // __skyux
+  // coverage
+  // dist
+  // node_modules
+  // package-lock.json
 
-    validateJsonFile(updatedTree, eslintConfigPath, {
-      extends: ['foo', 'prettier'],
-      overrides: [
-        {
-          files: '*.ts',
-          extends: ['bar', 'prettier'],
-        },
-      ],
-    });
-  });
+  // # Ignore assets
+  // /src/assets/
+  // /projects/*/src/assets/
 
-  it('should move "prettier" to the end of the `extends` array', async () => {
-    tree.overwrite(
-      eslintConfigPath,
-      commentJson.stringify({
-        extends: ['prettier', 'foo'],
-        overrides: [
-          {
-            files: '*.ts',
-            extends: ['prettier', 'bar'],
-          },
-        ],
-      })
-    );
+  // # Ignore standard SPA library path
+  // /src/app/lib/
 
-    const updatedTree = await runSchematic(tree);
+  // # Ignore Angular cache
+  // /.angular/cache
 
-    validateJsonFile(updatedTree, eslintConfigPath, {
-      extends: ['foo', 'prettier'],
-      overrides: [
-        {
-          files: '*.ts',
-          extends: ['bar', 'prettier'],
-        },
-      ],
-    });
-  });
+  // # Don't format the following since the order of its import statements is deliberate.
+  // test.ts`);
+  //   });
 
-  it('should not configure VSCode if .vscode folder does not exist', async () => {
-    // Empty the .vscode folder.
-    tree.getDir('.vscode').visit((file) => tree.delete(file));
+  //   it('should configure ESLint if an .eslintrc.json file exists', async () => {
+  //     tree.overwrite(
+  //       eslintConfigPath,
+  //       commentJson.stringify({
+  //         overrides: [
+  //           {
+  //             files: '*.ts',
+  //             extends: ['foo'],
+  //           },
+  //         ],
+  //       })
+  //     );
 
-    const updatedTree = await runSchematic(tree);
+  //     const updatedTree = await runSchematic(tree);
 
-    expect(updatedTree.exists('.vscode/extensions.json')).toEqual(false);
-  });
+  //     validateJsonFile(updatedTree, eslintConfigPath, {
+  //       extends: ['prettier'],
+  //       overrides: [
+  //         {
+  //           files: '*.ts',
+  //           extends: ['foo', 'prettier'],
+  //         },
+  //       ],
+  //     });
+  //   });
 
-  it('should configure VSCode', async () => {
-    const updatedTree = await runSchematic(tree);
+  //   it('should configure ESLint if an .eslintrc.json file exists only in a project', async () => {
+  //     tree.delete(eslintConfigPath);
 
-    validateJsonFile(updatedTree, '.vscode/extensions.json', {
-      recommendations: ['angular.ng-template', 'esbenp.prettier-vscode'],
-    });
+  //     const projectEslintConfigPath = `projects/my-lib/${eslintConfigPath}`;
 
-    validateJsonFile(updatedTree, '.vscode/settings.json', {
-      'editor.defaultFormatter': 'esbenp.prettier-vscode',
-      'editor.formatOnSave': true,
-      'prettier.requireConfig': true,
-    });
-  });
+  //     tree.create(
+  //       projectEslintConfigPath,
+  //       commentJson.stringify({
+  //         overrides: [
+  //           {
+  //             files: '*.ts',
+  //             extends: ['foo'],
+  //           },
+  //         ],
+  //       })
+  //     );
 
-  it('should handle missing extensions file', async () => {
-    tree.delete('.vscode/extensions.json');
+  //     const updatedTree = await runSchematic(tree);
 
-    const updatedTree = await runSchematic(tree);
+  //     validateJsonFile(updatedTree, projectEslintConfigPath, {
+  //       extends: ['prettier'],
+  //       overrides: [
+  //         {
+  //           files: '*.ts',
+  //           extends: ['foo', 'prettier'],
+  //         },
+  //       ],
+  //     });
+  //   });
 
-    validateJsonFile(updatedTree, '.vscode/extensions.json', {
-      recommendations: ['esbenp.prettier-vscode'],
-    });
+  //   it('should convert an ESLint config `extends` string to an array', async () => {
+  //     tree.overwrite(
+  //       eslintConfigPath,
+  //       commentJson.stringify({
+  //         extends: 'foo',
+  //       })
+  //     );
 
-    validateJsonFile(updatedTree, '.vscode/settings.json', {
-      'editor.defaultFormatter': 'esbenp.prettier-vscode',
-      'editor.formatOnSave': true,
-      'prettier.requireConfig': true,
-    });
-  });
+  //     const projectEslintConfigPath = `projects/my-lib/${eslintConfigPath}`;
 
-  it('should ignore existing VSCode config', async () => {
-    tree.overwrite(
-      '.vscode/extensions.json',
-      commentJson.stringify({
-        recommendations: ['esbenp.prettier-vscode', 'foobar'],
-      })
-    );
-    tree.create('.vscode/settings.json', '{}');
+  //     tree.create(
+  //       projectEslintConfigPath,
+  //       commentJson.stringify({
+  //         extends: '../../.eslintrc.json',
+  //         overrides: [
+  //           {
+  //             files: '*.ts',
+  //             extends: 'bar',
+  //           },
+  //         ],
+  //       })
+  //     );
 
-    const updatedTree = await runSchematic(tree);
+  //     const updatedTree = await runSchematic(tree);
 
-    validateJsonFile(updatedTree, '.vscode/extensions.json', {
-      recommendations: ['esbenp.prettier-vscode', 'foobar'],
-    });
-  });
+  //     validateJsonFile(updatedTree, projectEslintConfigPath, {
+  //       extends: ['../../.eslintrc.json', 'prettier'],
+  //       overrides: [
+  //         {
+  //           files: '*.ts',
+  //           extends: ['bar', 'prettier'],
+  //         },
+  //       ],
+  //     });
+
+  //     validateJsonFile(updatedTree, eslintConfigPath, {
+  //       extends: ['foo', 'prettier'],
+  //     });
+  //   });
+
+  //   it('should not add an `extends` property to a file override if it does not already exist', async () => {
+  //     tree.overwrite(
+  //       eslintConfigPath,
+  //       commentJson.stringify({
+  //         extends: 'foo',
+  //         overrides: [
+  //           {
+  //             files: '*.ts',
+  //           },
+  //         ],
+  //       })
+  //     );
+
+  //     const updatedTree = await runSchematic(tree);
+
+  //     validateJsonFile(updatedTree, eslintConfigPath, {
+  //       extends: ['foo', 'prettier'],
+  //       overrides: [
+  //         {
+  //           files: '*.ts',
+  //         },
+  //       ],
+  //     });
+  //   });
+
+  //   it('should not add "prettier" to `extends` if it already exists', async () => {
+  //     tree.overwrite(
+  //       eslintConfigPath,
+  //       commentJson.stringify({
+  //         extends: ['foo', 'prettier'],
+  //         overrides: [
+  //           {
+  //             files: '*.ts',
+  //             extends: ['bar', 'prettier'],
+  //           },
+  //         ],
+  //       })
+  //     );
+
+  //     const updatedTree = await runSchematic(tree);
+
+  //     validateJsonFile(updatedTree, eslintConfigPath, {
+  //       extends: ['foo', 'prettier'],
+  //       overrides: [
+  //         {
+  //           files: '*.ts',
+  //           extends: ['bar', 'prettier'],
+  //         },
+  //       ],
+  //     });
+  //   });
+
+  //   it('should move "prettier" to the end of the `extends` array', async () => {
+  //     tree.overwrite(
+  //       eslintConfigPath,
+  //       commentJson.stringify({
+  //         extends: ['prettier', 'foo'],
+  //         overrides: [
+  //           {
+  //             files: '*.ts',
+  //             extends: ['prettier', 'bar'],
+  //           },
+  //         ],
+  //       })
+  //     );
+
+  //     const updatedTree = await runSchematic(tree);
+
+  //     validateJsonFile(updatedTree, eslintConfigPath, {
+  //       extends: ['foo', 'prettier'],
+  //       overrides: [
+  //         {
+  //           files: '*.ts',
+  //           extends: ['bar', 'prettier'],
+  //         },
+  //       ],
+  //     });
+  //   });
+
+  //   it('should not configure VSCode if .vscode folder does not exist', async () => {
+  //     // Empty the .vscode folder.
+  //     tree.getDir('.vscode').visit((file) => tree.delete(file));
+
+  //     const updatedTree = await runSchematic(tree);
+
+  //     expect(updatedTree.exists('.vscode/extensions.json')).toEqual(false);
+  //   });
+
+  //   it('should configure VSCode', async () => {
+  //     const updatedTree = await runSchematic(tree);
+
+  //     validateJsonFile(updatedTree, '.vscode/extensions.json', {
+  //       recommendations: ['angular.ng-template', 'esbenp.prettier-vscode'],
+  //     });
+
+  //     validateJsonFile(updatedTree, '.vscode/settings.json', {
+  //       'editor.defaultFormatter': 'esbenp.prettier-vscode',
+  //       'editor.formatOnSave': true,
+  //       'prettier.requireConfig': true,
+  //     });
+  //   });
+
+  //   it('should handle missing extensions file', async () => {
+  //     tree.delete('.vscode/extensions.json');
+
+  //     const updatedTree = await runSchematic(tree);
+
+  //     validateJsonFile(updatedTree, '.vscode/extensions.json', {
+  //       recommendations: ['esbenp.prettier-vscode'],
+  //     });
+
+  //     validateJsonFile(updatedTree, '.vscode/settings.json', {
+  //       'editor.defaultFormatter': 'esbenp.prettier-vscode',
+  //       'editor.formatOnSave': true,
+  //       'prettier.requireConfig': true,
+  //     });
+  //   });
+
+  //   it('should ignore existing VSCode config', async () => {
+  //     tree.overwrite(
+  //       '.vscode/extensions.json',
+  //       commentJson.stringify({
+  //         recommendations: ['esbenp.prettier-vscode', 'foobar'],
+  //       })
+  //     );
+  //     tree.create('.vscode/settings.json', '{}');
+
+  //     const updatedTree = await runSchematic(tree);
+
+  //     validateJsonFile(updatedTree, '.vscode/extensions.json', {
+  //       recommendations: ['esbenp.prettier-vscode', 'foobar'],
+  //     });
+  //   });
 });

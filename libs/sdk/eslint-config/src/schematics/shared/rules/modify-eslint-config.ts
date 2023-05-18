@@ -1,24 +1,25 @@
 import { Rule } from '@angular-devkit/schematics';
 
 import { EsLintConfig } from '../types/eslint-config';
-import { readRequiredFile } from '../utility/tree';
+import { readJsonFile } from '../utility/tree';
+import { writeJsonFile } from '../utility/tree';
 
 const ESLINT_CONFIG_NAME = '@skyux-sdk/eslint-config/recommended';
+const ESLINT_CONFIG_PATH = '.eslintrc.json';
 
 export function modifyEsLintConfig(): Rule {
   return async (tree) => {
-    const esLintConfig = JSON.parse(
-      readRequiredFile(tree, '.eslintrc.json')
-    ) as EsLintConfig;
-
-    esLintConfig.parser = '@typescript-eslint/parser';
-
-    esLintConfig.parserOptions = {
-      project: ['tsconfig.json'],
-      tsconfigRootDir: '.',
-    };
+    const esLintConfig = readJsonFile<EsLintConfig>(tree, ESLINT_CONFIG_PATH);
 
     if (Array.isArray(esLintConfig.overrides)) {
+      // Setup type-checking for ESLint.
+      esLintConfig.parser = '@typescript-eslint/parser';
+      esLintConfig.parserOptions = {
+        project: ['tsconfig.json'],
+        tsconfigRootDir: '.',
+      };
+
+      // Overwrite the 'extends' array with our configuration.
       for (const override of esLintConfig.overrides) {
         if (override.files.find((f) => f.endsWith('.ts'))) {
           const hasPrettier = override.extends?.includes('prettier');
@@ -30,5 +31,7 @@ export function modifyEsLintConfig(): Rule {
         }
       }
     }
+
+    writeJsonFile(tree, ESLINT_CONFIG_PATH, esLintConfig);
   };
 }

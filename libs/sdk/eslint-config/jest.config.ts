@@ -23,8 +23,8 @@ export default {
     },
   },
   coveragePathIgnorePatterns: [
-    '<rootDir>/src/schematics/testing',
-    '<rootDir>/src/schematics/utility',
+    '<rootDir>/src/schematics/shared/testing',
+    '<rootDir>/src/schematics/shared/utility',
   ],
   preset: '../../../jest.preset.js',
 };
