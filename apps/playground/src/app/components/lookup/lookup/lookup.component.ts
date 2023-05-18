@@ -100,11 +100,11 @@ export class LookupComponent implements OnInit {
   }
 
   public enableLookup(): void {
-    this.friendsForm.controls.friends.enable();
+    this.friendsForm.controls['friends'].enable();
   }
 
   public disableLookup(): void {
-    this.friendsForm.controls.friends.disable();
+    this.friendsForm.controls['friends'].disable();
   }
 
   public onResetValueClick(): void {

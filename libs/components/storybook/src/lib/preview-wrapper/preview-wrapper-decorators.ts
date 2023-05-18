@@ -24,6 +24,6 @@ export const previewWrapperDecorators = [
     ],
   }),
   componentWrapperDecorator(PreviewWrapperComponent, ({ globals }) => ({
-    theme: globals.theme,
+    theme: globals['theme'],
   })),
 ];

@@ -65,10 +65,10 @@ export class SkyColumnComponent implements OnInit, OnChanges {
   public ngOnChanges(changes: SimpleChanges) {
     /* istanbul ignore else */
     if (
-      changes.screenXSmall ||
-      changes.screenSmall ||
-      changes.screenMedium ||
-      changes.screenLarge
+      changes['screenXSmall'] ||
+      changes['screenSmall'] ||
+      changes['screenMedium'] ||
+      changes['screenLarge']
     ) {
       this.classnames = this.getClassNames();
     }

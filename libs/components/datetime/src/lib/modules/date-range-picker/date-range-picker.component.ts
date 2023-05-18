@@ -330,7 +330,10 @@ export class SkyDateRangePickerComponent
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.calculatorIds && changes.calculatorIds.firstChange === false) {
+    if (
+      changes['calculatorIds'] &&
+      changes['calculatorIds'].firstChange === false
+    ) {
       this.#updateCalculators().then(() => {
         const id = this.#calculatorIdControl?.value;
 

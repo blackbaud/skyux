@@ -79,18 +79,18 @@ export default async function (tree: Tree, schema: Schema) {
     }
     if (
       e2eProject &&
-      e2eProject.targets?.e2e &&
-      e2eProject.targets.e2e.executor === '@nx/cypress:cypress'
+      e2eProject.targets?.['e2e'] &&
+      e2eProject.targets['e2e'].executor === '@nx/cypress:cypress'
     ) {
       let hasChanged = false;
       if (
-        !e2eProject.targets.e2e.options.devServerTarget ||
-        !e2eProject.targets.e2e.options.baseUrl
+        !e2eProject.targets['e2e'].options.devServerTarget ||
+        !e2eProject.targets['e2e'].options.baseUrl
       ) {
         hasChanged = true;
         // During development, run Storybook and Cypress.
-        e2eProject.targets.e2e.options = {
-          ...e2eProject.targets.e2e.options,
+        e2eProject.targets['e2e'].options = {
+          ...e2eProject.targets['e2e'].options,
           devServerTarget: `${projectName}:storybook`,
           baseUrl: `http://localhost:4400`,
         };
