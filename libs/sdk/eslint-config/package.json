@@ -28,7 +28,10 @@
   },
   "peerDependencies": {
     "@angular/cli": "^15.2.8",
-    "eslint": "^8.36.0"
+    "@typescript-eslint/eslint-plugin": "^5.48.2",
+    "@typescript-eslint/parser": "^5.48.2",
+    "eslint": "^8.36.0",
+    "eslint-plugin-deprecation": "^1.4.1"
   },
   "dependencies": {}
 }

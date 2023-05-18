@@ -7,7 +7,6 @@ async function copyFilesToDist() {
   const projectRoot = 'libs/sdk/eslint-config';
 
   const pathsToCopy = [
-    join(projectRoot, 'recommended.js'),
     join(projectRoot, 'collection.json'),
     join(projectRoot, 'src/schematics/migrations/migration-collection.json'),
     join(projectRoot, 'src/schematics/ng-add/schema.json'),
