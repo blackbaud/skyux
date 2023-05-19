@@ -21,11 +21,11 @@ import { SkyInputBoxPopulateArgs } from './input-box-populate-args';
 
 /**
  * Creates a wrapper to provide styling for SKY UX input components and  `input`, `textarea`, `select`, and `label` elements.
- * To render the component correctly, include the `sky-form-control` class on the input element and the `sky-control-label`
+ * To render the component, include the `sky-form-control` class on the input element and the `sky-control-label`
  * class on the `label` element. To display a help button beside the label, include a `sky-help-inline` component with a
  * `sky-control-help` class in the `sky-input-box` element. To display a validation error message under the input, include a
  * `sky-status-indicator` component with a `sky-control-error` class in the `sky-input-box` element. Use `*ngIf` to determine
- * whether to display the error message based on the input value.
+ * whether to display the validation message based on the input value.
  */
 @Component({
   selector: 'sky-input-box',
