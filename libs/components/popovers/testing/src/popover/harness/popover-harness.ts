@@ -7,7 +7,6 @@ import { SkyOverlayHarness } from '@skyux/core/testing';
 
 /**
  * Harness for interacting with an popover component in tests.
- * @internal
  */
 export class SkyPopoverHarness extends ComponentHarness {
   /**
