@@ -324,6 +324,16 @@ Value</textarea
   </div>
 
   <!-- For automation to click to set focus -->
+  <label class="test-label" [for]="inputBoxTextareaNoLabel.id"></label>
+  <div id="input-box-textarea-no-label">
+    <sky-input-box class="sky-margin-stacked-lg">
+      <textarea class="sky-form-control" skyId #inputBoxTextareaNoLabel="skyId">
+No label</textarea
+      >
+    </sky-input-box>
+  </div>
+
+  <!-- For automation to click to set focus -->
   <label
     class="test-label"
     id="label-input-box-button-single-no-label"
