@@ -210,7 +210,8 @@
   },
   "overrides": {
     "@storybook/angular@6.5.16": {
-      "zone.js": "0.12.0"
+      "zone.js": "0.12.0",
+      "@angular-devkit/architect": "0.1502.8"
     }
   }
 }
