@@ -5,6 +5,7 @@
     "assets",
     "config",
     "e2e-schematics",
+    "eslint-config",
     "http",
     "omnibar-interop",
     "packages",

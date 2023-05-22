@@ -36,6 +36,7 @@
   "ng-update": {
     "migrations": "./src/schematics/migrations/migration-collection.json",
     "packageGroup": {
+      "@skyux-sdk/eslint-config": "0.0.0-PLACEHOLDER",
       "@skyux-sdk/prettier-schematics": "0.0.0-PLACEHOLDER",
       "@skyux-sdk/testing": "0.0.0-PLACEHOLDER",
       "@skyux/a11y": "0.0.0-PLACEHOLDER",
