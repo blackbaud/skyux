@@ -1,0 +1,147 @@
+import { stripIndent } from '@angular-devkit/core/src/utils/literals';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import utils from '@percy/sdk-utils';
+
+import { readFileSync } from 'fs';
+
+import { sendCypressScreenshotsToPercy } from './send-cypress-screenshots-to-percy';
+
+jest.mock('@percy/sdk-utils', () => ({
+  postSnapshot: jest.fn(),
+}));
+jest.mock('fs', () => ({
+  readFileSync: jest.fn(() => '{ "version": "1.0.0" }'),
+}));
+
+describe('SendCypressScreenshotsToPercy', () => {
+  const config = {
+    env: {
+      PERCY_SERVER_ADDRESS: 'http://localhost:1337',
+    },
+  } as unknown as Cypress.PluginConfigOptions;
+
+  beforeEach(() => {
+    jest.resetModules();
+  });
+
+  it('should set up events for screenshots', async () => {
+    const on = jest.fn();
+    sendCypressScreenshotsToPercy(on, config);
+    expect(readFileSync).toHaveBeenCalledTimes(1);
+    expect(on).toHaveBeenCalledWith(
+      'before:browser:launch',
+      expect.any(Function)
+    );
+    expect(on).toHaveBeenCalledWith('after:screenshot', expect.any(Function));
+  });
+
+  it('should set up electron', async () => {
+    const on = jest.fn();
+    sendCypressScreenshotsToPercy(on, config);
+    expect(on).toHaveBeenCalledWith(
+      'before:browser:launch',
+      expect.any(Function)
+    );
+    const launchOptions = {
+      preferences: {},
+      args: [],
+    };
+    on.mock.calls[0][1]({ name: 'electron', isHeadless: true }, launchOptions);
+    expect(launchOptions).toEqual({
+      preferences: {
+        width: 1920,
+        height: 1600,
+        deviceScaleFactor: 2,
+      },
+      args: [],
+    });
+  });
+
+  it('should set up chrome', async () => {
+    const on = jest.fn();
+    sendCypressScreenshotsToPercy(on, config);
+    expect(on).toHaveBeenCalledWith(
+      'before:browser:launch',
+      expect.any(Function)
+    );
+    const launchOptions = {
+      preferences: {},
+      args: [],
+    };
+    on.mock.calls[0][1]({ name: 'chrome', isHeadless: true }, launchOptions);
+    expect(launchOptions).toEqual({
+      preferences: {},
+      args: [
+        '--window-size=1920,1600',
+        '--force-device-scale-factor=2',
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+      ],
+    });
+  });
+
+  it('should set up firefox', async () => {
+    const on = jest.fn();
+    sendCypressScreenshotsToPercy(on, config);
+    expect(on).toHaveBeenCalledWith(
+      'before:browser:launch',
+      expect.any(Function)
+    );
+    const launchOptions = {
+      preferences: {},
+      args: [],
+    };
+    on.mock.calls[0][1]({ name: 'firefox', isHeadless: true }, launchOptions);
+    expect(launchOptions).toEqual({
+      preferences: {},
+      args: ['--window-size=1920,1600'],
+    });
+  });
+
+  it('should send a screenshot to percy', async () => {
+    const on = jest.fn();
+    sendCypressScreenshotsToPercy(on, config);
+    expect(on).toHaveBeenCalledWith('after:screenshot', expect.any(Function));
+    const details = {
+      blackout: ['url:/example'],
+      path: 'path/to/screenshot.png',
+      dimensions: {
+        width: 100,
+        height: 100,
+      },
+    };
+    const afterScreenshot = on.mock.calls[1][1];
+    (readFileSync as jest.Mock).mockReturnValue('image data');
+    await afterScreenshot(details);
+    expect(utils.postSnapshot).toHaveBeenCalledWith({
+      clientInfo: 'undefined/1.0.0',
+      domSnapshot: stripIndent`
+        <!doctype html>
+        <html lang="en">
+          <head>
+            <meta charset="utf-8">
+            <title>undefined</title>
+            <style>
+              *, *::before, *::after { margin: 0; padding: 0; font-size: 0; }
+              html, body { width: 100%; }
+              img { max-width: 100%; }
+            </style>
+          </head>
+          <body>
+            <img
+              id="root"
+              alt="undefined"
+              src="data:image/png;base64,image data"
+              width="50"
+              style="aspect-ratio: 100/100;"
+            />
+          </body>
+        </html>`,
+      environmentInfo: 'cypress/undefined',
+      name: undefined,
+      scope: '#root',
+      url: '/example',
+    });
+  });
+});
