@@ -88,6 +88,7 @@ jobs:
             components/toast
             components/validation
             sdk/e2e-schematics
+            sdk/eslint-config
             sdk/prettier-schematics
             sdk/testing
           validateSingleCommit: true
