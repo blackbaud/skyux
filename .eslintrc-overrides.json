@@ -1,18 +1,18 @@
 {
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": ["tsconfig.base.json"],
+    "tsconfigRootDir": "."
+  },
   "overrides": [
     {
       "files": ["*.ts"],
+      "extends": ["./libs/sdk/eslint-config/recommended"],
       "rules": {
         "@typescript-eslint/ban-types": "warn",
         "@typescript-eslint/no-empty-function": "warn",
         "@typescript-eslint/no-non-null-assertion": "warn",
-        "@typescript-eslint/explicit-function-return-type": "warn",
-        "@typescript-eslint/explicit-member-accessibility": [
-          "error",
-          { "overrides": { "constructors": "no-public" } }
-        ],
-        "curly": "error",
-        "eqeqeq": ["error", "always"]
+        "@typescript-eslint/explicit-function-return-type": "warn"
       }
     },
     {
