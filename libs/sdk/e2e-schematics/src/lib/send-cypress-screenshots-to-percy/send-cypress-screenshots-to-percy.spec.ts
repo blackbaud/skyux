@@ -1,6 +1,4 @@
 import { stripIndent } from '@angular-devkit/core/src/utils/literals';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import utils from '@percy/sdk-utils';
 
 import { readFileSync } from 'fs';
