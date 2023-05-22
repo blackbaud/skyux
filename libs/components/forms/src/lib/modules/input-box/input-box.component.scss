@@ -423,11 +423,11 @@ sky-input-box {
         margin-top: -23px;
         padding-top: 0;
         resize: vertical;
-        border-top: 23px solid transparent;
+        border-top: 26px solid transparent;
 
         &:autofill,
         &:-webkit-autofill {
-          border-top: 23px solid transparent !important;
+          border-top: 26px solid transparent !important;
           box-shadow: 0 0 0 1px $sky-theme-modern-border-color-neutral-medium !important;
 
           &:hover {
