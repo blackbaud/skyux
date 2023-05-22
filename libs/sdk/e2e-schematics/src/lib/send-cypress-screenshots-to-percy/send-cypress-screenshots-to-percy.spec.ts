@@ -11,18 +11,23 @@ jest.mock('@percy/sdk-utils', () => ({
   postSnapshot: jest.fn(),
 }));
 jest.mock('fs', () => ({
-  readFileSync: jest.fn(() => '{ "version": "1.0.0" }'),
+  readFileSync: jest.fn(),
 }));
 
 describe('SendCypressScreenshotsToPercy', () => {
-  const config = {
-    env: {
-      PERCY_SERVER_ADDRESS: 'http://localhost:1337',
-    },
-  } as unknown as Cypress.PluginConfigOptions;
+  let config: Cypress.PluginConfigOptions;
 
   beforeEach(() => {
     jest.resetModules();
+    utils.postSnapshot.mockReset();
+    (readFileSync as jest.Mock)
+      .mockReset()
+      .mockReturnValue('{ "version": "1.0.0" }');
+    config = {
+      env: {
+        PERCY_SERVER_ADDRESS: 'http://localhost:1337',
+      },
+    } as unknown as Cypress.PluginConfigOptions;
   });
 
   it('should set up events for screenshots', async () => {
@@ -34,6 +39,14 @@ describe('SendCypressScreenshotsToPercy', () => {
       expect.any(Function)
     );
     expect(on).toHaveBeenCalledWith('after:screenshot', expect.any(Function));
+  });
+
+  it('should not set up events without percy server address', async () => {
+    const on = jest.fn();
+    process.env['PERCY_SERVER_ADDRESS'] = '';
+    config.env['PERCY_SERVER_ADDRESS'] = undefined;
+    sendCypressScreenshotsToPercy(on, config);
+    expect(readFileSync).not.toHaveBeenCalled();
   });
 
   it('should set up electron', async () => {
@@ -143,5 +156,22 @@ describe('SendCypressScreenshotsToPercy', () => {
       scope: '#root',
       url: '/example',
     });
+  });
+
+  it('should not send a screenshot to percy without a url', async () => {
+    const on = jest.fn();
+    sendCypressScreenshotsToPercy(on, config);
+    expect(on).toHaveBeenCalledWith('after:screenshot', expect.any(Function));
+    const details = {
+      blackout: [],
+      path: 'path/to/screenshot.png',
+      dimensions: {
+        width: 100,
+        height: 100,
+      },
+    };
+    const afterScreenshot = on.mock.calls[1][1];
+    await afterScreenshot(details);
+    expect(utils.postSnapshot).not.toHaveBeenCalled();
   });
 });
