@@ -1,6 +1,6 @@
 {
   "name": "skyux",
-  "version": "8.1.0",
+  "version": "8.2.0",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
@@ -178,6 +178,7 @@
     "eslint": "8.36.0",
     "eslint-config-prettier": "8.7.0",
     "eslint-plugin-cypress": "2.12.1",
+    "eslint-plugin-deprecation": "1.4.1",
     "eslint-plugin-storybook": "0.6.11",
     "fs-extra": "10.1.0",
     "jasmine": "4.5.0",
@@ -210,7 +211,8 @@
   },
   "overrides": {
     "@storybook/angular@6.5.16": {
-      "zone.js": "0.12.0"
+      "zone.js": "0.12.0",
+      "@angular-devkit/architect": "0.1502.8"
     }
   }
 }

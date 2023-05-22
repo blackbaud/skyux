@@ -1,5 +1,14 @@
 # Changelog
 
+## [8.2.0](https://github.com/blackbaud/skyux/compare/8.1.0...8.2.0) (2023-05-22)
+
+
+### Features
+
+* add `@skyux-sdk/eslint-config` library ([#1387](https://github.com/blackbaud/skyux/issues/1387)) ([c7f0af0](https://github.com/blackbaud/skyux/commit/c7f0af0f5369207e03f017eedec979de54609757))
+* **components/config:** exclude specified params from link URLs ([#1378](https://github.com/blackbaud/skyux/issues/1378)) ([4412df9](https://github.com/blackbaud/skyux/commit/4412df9c80b200f868070bb8ca6c15b1b8ad2d81))
+* **components/forms:** update input box docs  and code example ([#1386](https://github.com/blackbaud/skyux/issues/1386)) ([ee65838](https://github.com/blackbaud/skyux/commit/ee6583894c2ccfe934cad3990fc40757407b299d))
+
 ## [8.1.0](https://github.com/blackbaud/skyux/compare/8.0.3...8.1.0) (2023-05-18)
 
 
