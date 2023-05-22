@@ -17,8 +17,8 @@ import {
 } from '@nx/devkit';
 import { addDependenciesToPackageJson } from '@nx/devkit/src/utils/package-json';
 import { Linter } from '@nx/linter';
+import { configurationGenerator } from '@nx/storybook';
 import { moveGenerator } from '@nx/workspace';
-import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-serial';
 
 import configurePercy from '../configure-percy';
 import configureStorybook from '../configure-storybook';
@@ -121,7 +121,6 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
   let moveProject = false;
   /* istanbul ignore next */
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  let appGenerator: () => void = () => {};
   let projectConfig: ProjectConfiguration;
   let e2eProjectConfig: ProjectConfiguration;
   try {
@@ -162,7 +161,7 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
     }
   } catch (e) {
     createProject = true;
-    appGenerator = await applicationGenerator(tree, {
+    await applicationGenerator(tree, {
       name: options.storybookAppName,
       tags: options.tags,
       style: options.style,
@@ -228,7 +227,6 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       tree.isFile(`${projectConfig.root}/.storybook/main.ts`)
     )
   ) {
-    const { configurationGenerator } = await import('@nx/storybook');
     await configurationGenerator(tree, {
       name: options.storybookAppName,
       uiFramework: '@storybook/angular',
@@ -248,7 +246,7 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
   }
 
   // @storybook/addon-essentials includes docs, which requires several other dependencies.
-  // We install only the dependencies we need, and the storybook version is different than the one
+  // We install only the dependencies we need, and the storybook version is different from the one
   // that NX forces.
   const packageJson = readJson(tree, 'package.json');
   const storybookVersion =
@@ -302,10 +300,8 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
     return json;
   });
 
+  await formatFiles(tree);
+
   /* istanbul ignore next */
-  return runTasksInSerial(
-    appGenerator,
-    () => installPackagesTask(tree),
-    () => formatFiles(tree)
-  );
+  return () => installPackagesTask(tree);
 }

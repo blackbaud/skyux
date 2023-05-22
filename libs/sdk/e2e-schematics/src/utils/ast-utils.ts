@@ -253,10 +253,9 @@ export function getInsertImportTransformer(
         // Already imported
         return sourceFile;
       }
-      // Add import statement tp the top of the file. Prettier will sort this out.
+      // Add import statement to the top of the file. Prettier will sort this out.
       return context.factory.updateSourceFile(sourceFile, [
         context.factory.createImportDeclaration(
-          [],
           [],
           context.factory.createImportClause(
             false,
