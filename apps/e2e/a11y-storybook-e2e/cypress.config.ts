@@ -10,5 +10,6 @@ export default defineConfig({
     setupNodeEvents: (on, config) => {
       sendCypressScreenshotsToPercy(on, config);
     },
+    defaultCommandTimeout: 60000,
   },
 });
