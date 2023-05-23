@@ -154,6 +154,33 @@
           </sky-input-box>
         </sky-column>
       </sky-row>
+      <sky-row>
+        <sky-column [screenSmall]="12">
+          <sky-input-box class="sky-margin-stacked-lg">
+            <label class="sky-control-label" [for]="favoriteColorInput.id">
+              Favorite color
+            </label>
+            <sky-help-inline
+              class="sky-control-help"
+              (actionClick)="onActionClick()"
+            ></sky-help-inline>
+            <select
+              formControlName="favoriteColor"
+              skyId
+              class="sky-form-control"
+              #favoriteColorInput
+            >
+              <option value="none">None</option>
+              <option value="red">Red</option>
+              <option value="orange">Orange</option>
+              <option value="yellow">Yellow</option>
+              <option value="green">Green</option>
+              <option value="blue">Blue</option>
+              <option value="purple">Purple</option>
+            </select>
+          </sky-input-box>
+        </sky-column>
+      </sky-row>
     </sky-fluid-grid>
   </form>
 </div>
