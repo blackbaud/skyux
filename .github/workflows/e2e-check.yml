@@ -8,13 +8,13 @@ on:
 jobs:
   e2e-check-rerun:
     runs-on: ubuntu-latest
-    if: ${{ github.event.state == 'success' && github.event.context.startsWith('percy/') }}
+    if: ${{ github.event.state == 'success' && startsWith( github.event.context, 'percy/' ) }}
     steps:
       - uses: actions/github-script@v3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            console.log(`Finding e2e workflow run for commit ${context.commit.sha || context.after}`);
+            console.log(`Finding e2e workflow run for commit ${context.commit.sha || context.after}.`);
             const { data } = await github.rest.actions.listWorkflowRuns({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -26,13 +26,13 @@ jobs:
 
             if (data['total_count'] === 0) {
               console.log('No e2e workflow run found.');
-              return;
+              process.exit(0);
             }
 
             const run = data.workflow_runs[0];
             if (run['conclusion'] === 'failure') {
 
-              console.log(`Getting jobs for e2e workflow run ${run.id}`);
+              console.log(`Getting jobs for e2e workflow run ${run.id}.`);
               const {data} = await github.rest.actions.listJobsForWorkflowRun({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
@@ -48,7 +48,7 @@ jobs:
                 e2eReviewJob['conclusion'] === 'failure'
               ) {
 
-                console.log(`Re-running E2E Visual Review job ${e2eReviewJob.id} for workflow run ${run.id}`);
+                console.log(`Re-running E2E Visual Review job ${e2eReviewJob.id} for workflow run ${run.id}.`);
                 await github.rest.actions.reRunJobForWorkflowRun({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
