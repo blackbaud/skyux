@@ -8,7 +8,7 @@ on:
 jobs:
   e2e-check-rerun:
     runs-on: ubuntu-latest
-    if: ${{ github.event.state == 'success' && startsWith( github.event.context, 'percy/' ) }}
+    if: ${{ github.event_name == 'push' || ( github.event.state == 'success' && startsWith( github.event.context, 'percy/' ) ) }}
     steps:
       - uses: actions/github-script@v3
         with:
