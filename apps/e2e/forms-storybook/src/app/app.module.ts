@@ -10,6 +10,11 @@ const routes: Route[] = [
     loadChildren: () =>
       import('./input-box/input-box.module').then((m) => m.InputBoxModule),
   },
+  {
+    path: 'checkbox',
+    loadChildren: () =>
+      import('./checkbox/checkbox.module').then((m) => m.CheckboxModule),
+  },
 ];
 if (routes.length > 0 && routes.findIndex((r) => r.path === '') === -1) {
   routes.push({ path: '', redirectTo: `${routes[0].path}`, pathMatch: 'full' });

@@ -1,0 +1,39 @@
+import { E2eVariations } from '@skyux-sdk/e2e-schematics';
+
+describe('forms-storybook - checkbox', () => {
+  E2eVariations.forEachTheme((theme) => {
+    describe(`in ${theme} theme`, () => {
+      beforeEach(() =>
+        cy.visit(
+          `/iframe.html?globals=theme:${theme}&id=checkboxcomponent-checkbox--checkbox`
+        )
+      );
+
+      it('should render the standard components', () => {
+        cy.get('app-checkbox')
+          .should('exist')
+          .should('be.visible')
+          .get('#standard-checkboxes')
+          .should('exist')
+          .should('be.visible')
+          .screenshot(`checkboxcomponent-checkbox--checkbox-${theme}`)
+          .percySnapshot(`checkboxcomponent-checkbox--checkbox-${theme}`, {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+          });
+      });
+
+      it('should render the icon components', () => {
+        cy.get('app-checkbox')
+          .should('exist')
+          .should('be.visible')
+          .get('#icon-checkboxes')
+          .should('exist')
+          .should('be.visible')
+          .screenshot(`checkboxcomponent-checkbox--checkbox-${theme}`)
+          .percySnapshot(`checkboxcomponent-checkbox--checkbox-${theme}`, {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+          });
+      });
+    });
+  });
+});

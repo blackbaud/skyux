@@ -1,0 +1,179 @@
+<sky-fluid-grid id="standard-checkboxes">
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <sky-checkbox [checked]="true">
+        <sky-checkbox-label> Checked Checkbox </sky-checkbox-label>
+      </sky-checkbox>
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <sky-checkbox [checked]="false">
+        <sky-checkbox-label> Unchecked Checkbox </sky-checkbox-label>
+      </sky-checkbox>
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <sky-checkbox [checked]="false" [indeterminate]="true">
+        <sky-checkbox-label>
+          Indeterminate Checkbox [internal only]
+        </sky-checkbox-label>
+      </sky-checkbox>
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <sky-checkbox [checked]="false" [disabled]="true" [indeterminate]="true">
+        <sky-checkbox-label>
+          Disabled Indeterminate Checkbox [internal only]
+        </sky-checkbox-label>
+      </sky-checkbox>
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <sky-checkbox [checked]="false" [required]="true">
+        <sky-checkbox-label> Required Checkbox </sky-checkbox-label>
+      </sky-checkbox>
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <sky-checkbox [checked]="false" [disabled]="true">
+        <sky-checkbox-label> Disabled Checkbox </sky-checkbox-label>
+      </sky-checkbox>
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <sky-checkbox [checked]="false" [disabled]="true" [required]="true">
+        <sky-checkbox-label> Disabled Required Checkbox </sky-checkbox-label>
+      </sky-checkbox>
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <sky-checkbox [checked]="true" [disabled]="true">
+        <sky-checkbox-label> Disabled Checked Checkbox </sky-checkbox-label>
+      </sky-checkbox>
+    </sky-column>
+  </sky-row>
+</sky-fluid-grid>
+<sky-fluid-grid id="icon-checkboxes">
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <div class="sky-switch-icon-group">
+        <sky-checkbox icon="bold" label="bold" [checked]="true"> </sky-checkbox>
+        <sky-checkbox icon="umbrella" label="umbrella" [checked]="false">
+        </sky-checkbox>
+        <sky-checkbox icon="star" label="favorite" [checked]="false">
+        </sky-checkbox>
+        <sky-checkbox
+          icon="exclamation-triangle"
+          label="careful"
+          [checked]="false"
+        >
+        </sky-checkbox>
+      </div>
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <sky-checkbox icon="bold" label="bold" [checked]="true"> </sky-checkbox>
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <sky-checkbox icon="bold" label="bold" [checked]="false"> </sky-checkbox>
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <sky-checkbox
+        icon="umbrella"
+        checkboxType="info"
+        label="umbrella"
+        [checked]="true"
+      >
+      </sky-checkbox>
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <sky-checkbox
+        icon="umbrella"
+        checkboxType="info"
+        label="umbrella"
+        [checked]="false"
+      >
+      </sky-checkbox>
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <sky-checkbox
+        icon="star"
+        checkboxType="success"
+        label="favorite"
+        [checked]="true"
+      >
+      </sky-checkbox>
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <sky-checkbox
+        icon="star"
+        checkboxType="success"
+        label="favorite"
+        [checked]="false"
+      >
+      </sky-checkbox>
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <sky-checkbox
+        icon="exclamation-triangle"
+        checkboxType="warning"
+        label="careful"
+        [checked]="true"
+      >
+      </sky-checkbox>
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <sky-checkbox
+        icon="exclamation-triangle"
+        checkboxType="warning"
+        label="careful"
+        [checked]="false"
+      >
+      </sky-checkbox>
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <sky-checkbox
+        icon="ban"
+        checkboxType="danger"
+        label="wrong"
+        [checked]="true"
+      >
+      </sky-checkbox>
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <sky-checkbox
+        icon="ban"
+        checkboxType="danger"
+        label="wrong"
+        [checked]="false"
+      >
+      </sky-checkbox>
+    </sky-column>
+  </sky-row>
+</sky-fluid-grid>
