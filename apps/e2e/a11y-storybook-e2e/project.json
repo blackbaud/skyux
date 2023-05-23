@@ -12,11 +12,6 @@
         "testingType": "e2e",
         "browser": "chrome",
         "baseUrl": "http://localhost:4400"
-      },
-      "configurations": {
-        "production": {
-          "devServerTarget": "a11y-storybook:serve:production"
-        }
       }
     },
     "lint": {

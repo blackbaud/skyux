@@ -11,11 +11,6 @@
         "devServerTarget": "core-storybook:storybook",
         "testingType": "e2e",
         "baseUrl": "http://localhost:4400"
-      },
-      "configurations": {
-        "production": {
-          "devServerTarget": "core-storybook:serve:production"
-        }
       }
     },
     "lint": {

@@ -11,11 +11,6 @@
         "devServerTarget": "forms-storybook:storybook",
         "testingType": "e2e",
         "baseUrl": "http://localhost:4400"
-      },
-      "configurations": {
-        "production": {
-          "devServerTarget": "forms-storybook:serve:production"
-        }
       }
     },
     "lint": {
