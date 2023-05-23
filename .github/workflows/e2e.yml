@@ -251,7 +251,7 @@ jobs:
             // Timing setting recommended by https://docs.percy.io/docs/cypress#missing-assets
             await exec.getExecOutput('bash', [
               '-c',
-              'npx percy exec -t 350 -- nx e2e ${{ matrix.project }}-e2e --skip-nx-cache'
+              'npx percy exec -t 350 -- nx e2e ${{ matrix.project }}-e2e --skip-nx-cache' + ( '${{ matrix.project }}' === 'ag-grid-storybook' ? ' --verbose' : '' )
             ], {
               ignoreReturnCode: true
             }).then((result) => {
@@ -260,10 +260,10 @@ jobs:
                   console.info('Percy client error. Retrying...');
                   return exec.getExecOutput('bash', [
                     '-c',
-                    'npx percy exec -t 350 -- nx e2e ${{ matrix.project }}-e2e --skip-nx-cache'
+                    'npx percy exec -t 350 -- nx e2e ${{ matrix.project }}-e2e --skip-nx-cache' + ( '${{ matrix.project }}' === 'ag-grid-storybook' ? ' --verbose' : '' )
                   ]);
                 } else {
-                  core.setFailed(result.stderr);
+                  core.setFailed(`\n\nresult.exitCode = ${result.exitCode}\nresult.stderr = ${result.stderr}`);
                 }
               }
             });
