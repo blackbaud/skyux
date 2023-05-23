@@ -247,14 +247,25 @@ jobs:
       - name: Percy ${{ matrix.project }}
         uses: actions/github-script@v6
         with:
-          retries: 1
           script: |
             // Timing setting recommended by https://docs.percy.io/docs/cypress#missing-assets
-            await exec.exec('bash', [
+            await exec.getExecOutput('bash', [
               '-c',
               'npx percy exec -t 350 -- nx e2e ${{ matrix.project }}-e2e --skip-nx-cache'
             ], {
               ignoreReturnCode: true
+            }).then((result) => {
+              if (result.exitCode !== 0) {
+                if (result.stderr.includes('This is likely a client error')) {
+                  console.info('Percy client error. Retrying...');
+                  return exec.getExecOutput('bash', [
+                    '-c',
+                    'npx percy exec -t 350 -- nx e2e ${{ matrix.project }}-e2e --skip-nx-cache'
+                  ]);
+                } else {
+                  core.setFailed(result.stderr);
+                }
+              }
             });
         env:
           PERCY_TOKEN: ${{ secrets[matrix.token] }}

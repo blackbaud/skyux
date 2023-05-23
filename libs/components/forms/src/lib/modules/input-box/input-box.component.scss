@@ -265,7 +265,6 @@ sky-input-box {
         width: 100%;
 
         .sky-control-label,
-        .sky-control-help,
         sky-character-counter-indicator {
           margin-bottom: 0;
           position: relative;
@@ -277,6 +276,14 @@ sky-input-box {
             always places the cursor at the beginning of the text.
           */
           z-index: 2;
+        }
+
+        .sky-control-help {
+          /*
+          The help button should be above the input element to ensure it is clickable. 
+          Select inputs have a z-index of 3 so that clicking the label area still opens the select. 
+          */
+          z-index: 4;
         }
 
         .sky-control-label {
