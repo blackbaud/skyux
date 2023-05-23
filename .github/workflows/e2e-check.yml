@@ -1,6 +1,7 @@
 name: E2E Check
 
 on:
+  push:
   status:
   workflow_dispatch:
 
@@ -13,25 +14,26 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            // Find the e2e workflow run for this commit.
+            console.log(`Finding e2e workflow run for commit ${context.commit.sha || context.after}`);
             const { data } = await github.rest.actions.listWorkflowRuns({
               owner: context.repo.owner,
               repo: context.repo.repo,
               workflow_id: 'e2e.yml',
-              head_sha: context.commit.sha,
+              head_sha: context.commit.sha || context.after,
               status: 'completed',
               per_page: 1
             });
-            if (data.total_count === 0) {
-              // No e2e workflow run found. Shouldn't happen because this workflow is triggered by a status event.
+
+            if (data['total_count'] === 0) {
+              console.log('No e2e workflow run found.');
               return;
             }
 
             const run = data.workflow_runs[0];
-            if (run.conclusion === 'failure') {
+            if (run['conclusion'] === 'failure') {
 
-              // Get the jobs of the e2e workflow run.
-              const { data } = await github.rest.actions.listJobsForWorkflowRun({
+              console.log(`Getting jobs for e2e workflow run ${run.id}`);
+              const {data} = await github.rest.actions.listJobsForWorkflowRun({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 run_id: run.id,
@@ -40,17 +42,35 @@ jobs:
               });
               const e2eReviewJob = (data.jobs || []).find(job => job.name === 'E2E Visual Review');
 
-              // If the E2E Visual Review job completed and failed, re-run it to see if this new status resolves it.
               if (
                 e2eReviewJob &&
                 e2eReviewJob['status'] === 'completed' &&
                 e2eReviewJob['conclusion'] === 'failure'
               ) {
-                // Re-run the E2E Visual Review job.
+
+                console.log(`Re-running E2E Visual Review job ${e2eReviewJob.id} for workflow run ${run.id}`);
                 await github.rest.actions.reRunJobForWorkflowRun({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   job_id: e2eReviewJob.id
                 });
+
+              } else if (e2eReviewJob) {
+
+                console.log(`E2E Visual Review job ${e2eReviewJob.id} for workflow run ${run.id} is ${e2eReviewJob.status}.`);
+
+              } else {
+
+                console.log(`No E2E Visual Review job found for workflow run ${run.id}.`);
+
               }
+
+            } else if (run['conclusion'] === 'success') {
+
+              console.log(`E2E workflow run ${run.id} succeeded.`);
+
+            } else {
+
+              console.log(`E2E workflow run ${run.id} is ${run.status}.`);
+
             }
