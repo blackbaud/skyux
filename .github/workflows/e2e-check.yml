@@ -15,7 +15,14 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             console.log(JSON.stringify({context}, null, 2));
-            const sha = (context.commit && context.commit.sha) || context.after;
+            console.log('');
+
+            const sha = (context.commit && context.commit.sha) || (context.payload && context.payload.after);
+            if (!sha) {
+              console.log('No commit SHA found.');
+              process.exit(0);
+            }
+
             console.log(`Finding e2e workflow run for commit ${sha}.`);
             const { data } = await github.rest.actions.listWorkflowRuns({
               owner: context.repo.owner,
