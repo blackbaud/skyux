@@ -10,6 +10,7 @@
     "@nrwl/storybook": "^15.8.3",
     "@nrwl/workspace": "^15.8.3",
     "@percy/cypress": "^3.1.2",
+    "@percy/sdk-utils": "^1.24.2",
     "typescript": "^4.9.5"
   },
   "main": "src/index.js",
