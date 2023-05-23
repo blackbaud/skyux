@@ -1,0 +1,56 @@
+name: E2E Check
+
+on:
+  status:
+  workflow_dispatch:
+
+jobs:
+  e2e-check-rerun:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.state == 'success' && github.event.context.startsWith('percy/') }}
+    steps:
+      - uses: actions/github-script@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            // Find the e2e workflow run for this commit.
+            const { data } = await github.rest.actions.listWorkflowRuns({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'e2e.yml',
+              head_sha: context.commit.sha,
+              status: 'completed',
+              per_page: 1
+            });
+            if (data.total_count === 0) {
+              // No e2e workflow run found. Shouldn't happen because this workflow is triggered by a status event.
+              return;
+            }
+
+            const run = data.workflow_runs[0];
+            if (run.conclusion === 'failure') {
+
+              // Get the jobs of the e2e workflow run.
+              const { data } = await github.rest.actions.listJobsForWorkflowRun({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                run_id: run.id,
+                per_page: 100,
+                filter: 'latest'
+              });
+              const e2eReviewJob = (data.jobs || []).find(job => job.name === 'E2E Visual Review');
+
+              // If the E2E Visual Review job completed and failed, re-run it to see if this new status resolves it.
+              if (
+                e2eReviewJob &&
+                e2eReviewJob['status'] === 'completed' &&
+                e2eReviewJob['conclusion'] === 'failure'
+              ) {
+                // Re-run the E2E Visual Review job.
+                await github.rest.actions.reRunJobForWorkflowRun({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  job_id: e2eReviewJob.id
+                });
+              }
+            }
