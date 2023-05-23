@@ -12,10 +12,31 @@ import {
 })
 export class InputBoxFixtureComponent {
   @Input()
+  public a11yInsetIconLeft = false;
+
+  @Input()
+  public a11yInsetIcon = false;
+
+  @Input()
+  public a11yButtonLeft = false;
+
+  @Input()
+  public a11yInsetButton = false;
+
+  @Input()
+  public a11yNormalButton = false;
+
+  @Input()
   public basicDisabled: boolean | undefined;
 
   @Input()
+  public characterCountHelp = false;
+
+  @Input()
   public hasErrors: boolean | undefined;
+
+  @Input()
+  public inlineHelpType: 'custom' | 'sky' = 'custom';
 
   @Input()
   public insetIconDisabled: boolean | undefined;

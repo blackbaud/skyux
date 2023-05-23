@@ -50,6 +50,39 @@ describe('Input box component', () => {
     );
   }
 
+  async function validateA11y(
+    selector: string,
+    disabled?: boolean,
+    hasErrors?: boolean,
+    characterCountHelp = false,
+    a11yInsetIconLeft = false,
+    a11yInsetIcon = false,
+    a11yButtonLeft = false,
+    a11yInsetButton = false,
+    a11yNormalButton = false,
+    inlineHelpType: 'custom' | 'sky' = 'sky'
+  ): Promise<void> {
+    const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+    const cmp = fixture.componentInstance;
+
+    cmp.basicDisabled = disabled;
+    cmp.hasErrors = hasErrors;
+    cmp.characterCountHelp = characterCountHelp;
+    cmp.a11yInsetIconLeft = a11yInsetIconLeft;
+    cmp.a11yInsetIcon = a11yInsetIcon;
+    cmp.a11yButtonLeft = a11yButtonLeft;
+    cmp.a11yInsetButton = a11yInsetButton;
+    cmp.a11yNormalButton = a11yNormalButton;
+    cmp.inlineHelpType = inlineHelpType;
+
+    fixture.detectChanges();
+
+    await fixture.whenStable();
+    await expectAsync(
+      fixture.nativeElement.querySelector(selector)
+    ).toBeAccessible();
+  }
+
   function validateInvalid(
     context: string,
     inputBoxEl: Element | null,
@@ -310,13 +343,213 @@ describe('Input box component', () => {
       expect(inputBoxWrapperEl).toHaveCssClass('sky-input-box-disabled');
     });
 
-    it('should pass accessibility', async () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+    describe('a11y', () => {
+      for (const inputType of ['input', 'textarea', 'select']) {
+        it(`should pass accessibility (content: ${inputType}, disabled: undefined, hasErrors: undefined)`, async () => {
+          await validateA11y(`${inputType}`);
+        });
 
-      fixture.detectChanges();
+        it(`should pass accessibility (content: ${inputType}, disabled: false, hasErrors: undefined)`, async () => {
+          await validateA11y(`${inputType}`, false);
+        });
 
-      await fixture.whenStable();
-      await expectAsync(fixture.nativeElement).toBeAccessible();
+        it(`should pass accessibility (content: ${inputType}, disabled: true, hasErrors: undefined)`, async () => {
+          await validateA11y(`${inputType}`, true);
+        });
+
+        it(`should pass accessibility (content: ${inputType}, disabled: undefined, hasErrors: false)`, async () => {
+          await validateA11y(`${inputType}`, undefined, false);
+        });
+
+        it(`should pass accessibility (content: ${inputType}, disabled: false, hasErrors: false)`, async () => {
+          await validateA11y(`${inputType}`, false, false);
+        });
+
+        it(`should pass accessibility (content: ${inputType}, disabled: true, hasErrors: false)`, async () => {
+          await validateA11y(`${inputType}`, true, false);
+        });
+
+        it(`should pass accessibility (content: ${inputType}, disabled: undefined, hasErrors: true)`, async () => {
+          await validateA11y(`${inputType}`, undefined, true);
+        });
+
+        it(`should pass accessibility (content: ${inputType}, disabled: false, hasErrors: true)`, async () => {
+          await validateA11y(`${inputType}`, false, true);
+        });
+
+        it(`should pass accessibility (content: ${inputType}, disabled: true, hasErrors: true)`, async () => {
+          await validateA11y(`${inputType}`, true, true);
+        });
+
+        it(`should pass accessibility (content: ${inputType}, inline-help: custom)`, async () => {
+          await validateA11y(`.${inputType}-inline-help`);
+        });
+
+        it(`should pass accessibility (content: ${inputType}, inline-help: sky)`, async () => {
+          await validateA11y(
+            `.${inputType}-inline-help`,
+            undefined,
+            undefined,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            'sky'
+          );
+        });
+
+        it(`should pass accessibility (content: ${inputType}, character-count)`, async () => {
+          await validateA11y(`.${inputType}-character-count`);
+        });
+
+        it(`should pass accessibility (content: ${inputType}, character-count, inline-help: sky)`, async () => {
+          await validateA11y(
+            `.${inputType}-character-count`,
+            undefined,
+            undefined,
+            true
+          );
+        });
+
+        it(`should pass accessibility (content: ${inputType}, left-internal: undefined, right-internal: button)`, async () => {
+          await validateA11y(
+            `.${inputType}-internal-components`,
+            undefined,
+            undefined,
+            false,
+            false,
+            false,
+            false,
+            false,
+            true
+          );
+        });
+
+        it(`should pass accessibility (content: ${inputType}, left-internal: undefined, right-internal: button inset)`, async () => {
+          await validateA11y(
+            `.${inputType}-internal-components`,
+            undefined,
+            undefined,
+            false,
+            false,
+            false,
+            false,
+            true
+          );
+        });
+
+        it(`should pass accessibility (content: ${inputType}, left-internal: undefined, right-internal: icon inset)`, async () => {
+          await validateA11y(
+            `.${inputType}-internal-components`,
+            undefined,
+            undefined,
+            false,
+            false,
+            true
+          );
+        });
+
+        it(`should pass accessibility (content: ${inputType}, left-internal: button, right-internal: undefined)`, async () => {
+          await validateA11y(
+            `.${inputType}-internal-components`,
+            undefined,
+            undefined,
+            false,
+            false,
+            false,
+            true
+          );
+        });
+
+        it(`should pass accessibility (content: ${inputType}, left-internal: button, right-internal: button)`, async () => {
+          await validateA11y(
+            `.${inputType}-internal-components`,
+            undefined,
+            undefined,
+            false,
+            false,
+            false,
+            true,
+            false,
+            true
+          );
+        });
+
+        it(`should pass accessibility (content: ${inputType}, left-internal: button, right-internal: button inset)`, async () => {
+          await validateA11y(
+            `.${inputType}-internal-components`,
+            undefined,
+            undefined,
+            false,
+            false,
+            false,
+            true,
+            true
+          );
+        });
+
+        it(`should pass accessibility (content: ${inputType}, left-internal: button, right-internal: icon inset)`, async () => {
+          await validateA11y(
+            `.${inputType}-internal-components`,
+            undefined,
+            undefined,
+            false,
+            false,
+            true,
+            true
+          );
+        });
+
+        it(`should pass accessibility (content: ${inputType}, left-internal: icon inset, right-internal: undefined)`, async () => {
+          await validateA11y(
+            `.${inputType}-internal-components`,
+            undefined,
+            undefined,
+            false,
+            true
+          );
+        });
+
+        it(`should pass accessibility (content: ${inputType}, left-internal: icon inset, right-internal: button)`, async () => {
+          await validateA11y(
+            `.${inputType}-internal-components`,
+            undefined,
+            undefined,
+            false,
+            true,
+            false,
+            false,
+            false,
+            true
+          );
+        });
+
+        it(`should pass accessibility (content: ${inputType}, left-internal: icon inset, right-internal: button inset)`, async () => {
+          await validateA11y(
+            `.${inputType}-internal-components`,
+            undefined,
+            undefined,
+            false,
+            true,
+            false,
+            false,
+            true
+          );
+        });
+
+        it(`should pass accessibility (content: ${inputType}, left-internal: icon inset, right-internal: icon inset)`, async () => {
+          await validateA11y(
+            `.${inputType}-internal-components`,
+            undefined,
+            undefined,
+            false,
+            true,
+            true
+          );
+        });
+      }
     });
   });
 
