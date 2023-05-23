@@ -249,24 +249,24 @@ jobs:
         with:
           script: |
             // Timing setting recommended by https://docs.percy.io/docs/cypress#missing-assets
-            await exec.getExecOutput('bash', [
-              '-c',
-              'npx percy exec -t 350 -- nx e2e ${{ matrix.project }}-e2e --skip-nx-cache' + ( '${{ matrix.project }}' === 'ag-grid-storybook' ? ' --verbose' : '' )
-            ], {
-              ignoreReturnCode: true
-            }).then((result) => {
-              if (result.exitCode !== 0) {
-                if (result.stderr.includes('This is likely a client error')) {
-                  console.info('Percy client error. Retrying...');
-                  return exec.getExecOutput('bash', [
-                    '-c',
-                    'npx percy exec -t 350 -- nx e2e ${{ matrix.project }}-e2e --skip-nx-cache' + ( '${{ matrix.project }}' === 'ag-grid-storybook' ? ' --verbose' : '' )
-                  ]);
-                } else {
-                  core.setFailed(`\n\nresult.exitCode = ${result.exitCode}\nresult.stderr = ${result.stderr}`);
+            let percyCommand;
+            if ( '${{ matrix.project }}' === 'ag-grid-storybook' ) {
+              percyCommand = 'npx percy exec -t 350 --verbose -- nx e2e ${{ matrix.project }}-e2e --skip-nx-cache --verbose'
+            } else {
+              percyCommand = 'npx percy exec -t 350 -- nx e2e ${{ matrix.project }}-e2e --skip-nx-cache'
+            }
+
+            await exec.getExecOutput('bash', ['-c', percyCommand], { ignoreReturnCode: true })
+              .then((result) => {
+                if (result.exitCode !== 0) {
+                  if (result.stderr.includes('This is likely a client error')) {
+                    console.info('Percy client error. Retrying...');
+                    return exec.exec('bash', ['-c', percyCommand]);
+                  } else {
+                    core.setFailed(`Percy failed with exit code ${result.exitCode}`);
+                  }
                 }
-              }
-            });
+              });
         env:
           PERCY_TOKEN: ${{ secrets[matrix.token] }}
           TERM: 'xterm-256color'
