@@ -12,6 +12,8 @@ import {
   styleUrls: ['./input-box.component.scss'],
 })
 export class InputBoxComponent implements OnInit, AfterViewInit {
+  public errorAutofillForm: UntypedFormGroup;
+
   public errorField: UntypedFormControl;
 
   public errorForm: UntypedFormGroup;
@@ -31,8 +33,22 @@ export class InputBoxComponent implements OnInit, AfterViewInit {
     this.errorForm = new UntypedFormGroup({
       errorFormField: new UntypedFormControl('', [Validators.required]),
     });
+    this.errorAutofillForm = new UntypedFormGroup({
+      errorAutofillFormField: new UntypedFormControl('', [
+        Validators.required,
+        Validators.pattern('Bow ties are cool!'),
+      ]),
+      errorAutofillTextareaFormField: new UntypedFormControl('', [
+        Validators.required,
+        Validators.pattern('Bow ties are cool!'),
+      ]),
+    });
 
     this.errorForm.controls['errorFormField'].markAsTouched();
+    this.errorAutofillForm.controls['errorAutofillFormField'].markAsTouched();
+    this.errorAutofillForm.controls[
+      'errorAutofillTextareaFormField'
+    ].markAsTouched();
   }
 
   public ngAfterViewInit(): void {
