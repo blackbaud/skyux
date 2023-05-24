@@ -34,8 +34,8 @@ $sky-switch-size: 22px !default;
   outline: 0;
   -webkit-appearance: none;
 
-  &:checked + .sky-switch-control,
-  &[type='checkbox']:indeterminate + .sky-switch-control {
+  &:checked:not(:disabled) + .sky-switch-control,
+  &[type='checkbox']:indeterminate:not(:disabled) + .sky-switch-control {
     background-color: var(--sky-background-color-input-selected);
     border-color: var(--sky-highlight-color-info);
     border-width: 2px;
