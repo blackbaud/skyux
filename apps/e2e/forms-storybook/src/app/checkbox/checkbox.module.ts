@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SkyCheckboxModule } from '@skyux/forms';
+import { SkyHelpInlineModule } from '@skyux/indicators';
 import { SkyFluidGridModule } from '@skyux/layout';
 
 import { CheckboxComponent } from './checkbox.component';
