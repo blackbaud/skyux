@@ -125,12 +125,12 @@ export default async function (tree: Tree, schema: Schema) {
     }
     updateJson(tree, tsconfigFile, (tsconfig: TsConfig) => {
       // Support importing json files for font loading checks.
-      if (!tsconfig.compilerOptions) {
-        tsconfig.compilerOptions = {};
-      }
-      tsconfig.compilerOptions.emitDecoratorMetadata = true;
-      tsconfig.compilerOptions.esModuleInterop = true;
-      tsconfig.compilerOptions.resolveJsonModule = true;
+      tsconfig.compilerOptions = {
+        ...(tsconfig.compilerOptions || {}),
+        emitDecoratorMetadata: true,
+        esModuleInterop: true,
+        resolveJsonModule: true,
+      };
 
       if (!tsconfig.include) {
         tsconfig.include = [];
@@ -145,6 +145,13 @@ export default async function (tree: Tree, schema: Schema) {
     });
     if (tree.isFile(tsconfigAppFile)) {
       updateJson(tree, tsconfigAppFile, (tsconfig: TsConfig) => {
+        // Support importing json files for font loading checks.
+        tsconfig.compilerOptions = {
+          ...(tsconfig.compilerOptions || {}),
+          esModuleInterop: true,
+          resolveJsonModule: true,
+        };
+
         if (tsconfig.exclude && !tsconfig.exclude.includes('jest.config.ts')) {
           tsconfig.exclude.push('jest.config.ts');
         }
