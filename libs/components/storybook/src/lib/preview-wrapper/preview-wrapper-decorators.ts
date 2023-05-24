@@ -7,11 +7,16 @@ import {
   componentWrapperDecorator,
   moduleMetadata,
 } from '@storybook/angular';
+import { AngularRenderer } from '@storybook/angular/dist/client/types';
+import { DecoratorFunction } from '@storybook/types';
 
 import { PreviewWrapperComponent } from './preview-wrapper.component';
 import { PreviewWrapperModule } from './preview-wrapper.module';
 
-export const previewWrapperDecorators = [
+export const previewWrapperDecorators: DecoratorFunction<
+  AngularRenderer,
+  unknown[]
+>[] = [
   moduleMetadata({
     imports: [CommonModule, PreviewWrapperModule],
   }),
