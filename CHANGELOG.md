@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.22.0](https://github.com/blackbaud/skyux/compare/7.21.4...7.22.0) (2023-05-16)
+
+
+### Features
+
+* **components/popovers:** dropdown test harness ([#1347](https://github.com/blackbaud/skyux/issues/1347)) ([3050f0d](https://github.com/blackbaud/skyux/commit/3050f0d9492e4aa456b0d22d857e43342181820d))
+
 ## [7.21.4](https://github.com/blackbaud/skyux/compare/7.21.3...7.21.4) (2023-05-15)
 
 
