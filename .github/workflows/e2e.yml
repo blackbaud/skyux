@@ -269,6 +269,13 @@ jobs:
             });
         env:
           PERCY_TOKEN: ${{ secrets[matrix.token] }}
+      - name: Upload error screenshots
+        uses: actions/upload-artifact@v3
+        if: ${{ failure() }}
+        with:
+          name: cypress-screenshots-${{ matrix.project }}-e2e
+          path: ./dist/cypress/${{ matrix.root }}/screenshots
+          retention-days: 4
 
   verify:
     name: E2E Visual Review
