@@ -148,14 +148,14 @@
     "@ryansonshine/commitizen": "4.2.8",
     "@ryansonshine/cz-conventional-changelog": "3.3.4",
     "@schematics/angular": "15.2.8",
-    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#8.0.0-beta.2",
-    "@storybook/addon-a11y": "7.0.15",
-    "@storybook/addon-actions": "7.0.15",
-    "@storybook/addon-controls": "7.0.15",
-    "@storybook/addon-toolbars": "7.0.15",
-    "@storybook/addon-viewport": "7.0.15",
-    "@storybook/angular": "7.0.15",
-    "@storybook/core-server": "7.0.15",
+    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#8.0.0-beta.3",
+    "@storybook/addon-a11y": "7.0.17",
+    "@storybook/addon-actions": "7.0.17",
+    "@storybook/addon-controls": "7.0.17",
+    "@storybook/addon-toolbars": "7.0.17",
+    "@storybook/addon-viewport": "7.0.17",
+    "@storybook/angular": "7.0.17",
+    "@storybook/core-server": "7.0.17",
     "@trivago/prettier-plugin-sort-imports": "4.1.1",
     "@types/cross-spawn": "6.0.2",
     "@types/dompurify": "3.0.0",
@@ -200,7 +200,7 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "resize-observer-polyfill": "1.5.1",
-    "storybook": "7.0.15",
+    "storybook": "7.0.17",
     "storybook-addon-angular-router": "1.9.0",
     "ts-jest": "29.1.0",
     "ts-node": "10.9.1",
@@ -208,7 +208,7 @@
     "typescript": "4.9.5"
   },
   "overrides": {
-    "@storybook/angular@7.0.15": {
+    "@storybook/angular@7.0.17": {
       "@angular-devkit/architect": "0.1502.8"
     }
   }
