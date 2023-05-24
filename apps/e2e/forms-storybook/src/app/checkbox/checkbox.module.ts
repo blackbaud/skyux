@@ -14,6 +14,7 @@ const routes: Routes = [{ path: '', component: CheckboxComponent }];
     CommonModule,
     SkyCheckboxModule,
     SkyFluidGridModule,
+    SkyHelpInlineModule,
     RouterModule.forChild(routes),
   ],
   exports: [CheckboxComponent],
