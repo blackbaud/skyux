@@ -249,26 +249,28 @@ jobs:
         with:
           script: |
             // Timing setting recommended by https://docs.percy.io/docs/cypress#missing-assets
-            await exec.getExecOutput('bash', [
-              '-c',
-              'npx percy exec -t 350 -- nx e2e ${{ matrix.project }}-e2e --skip-nx-cache'
-            ], {
-              ignoreReturnCode: true
-            }).then((result) => {
-              if (result.exitCode !== 0) {
-                if (result.stderr.includes('This is likely a client error')) {
-                  console.info('Percy client error. Retrying...');
-                  return exec.getExecOutput('bash', [
-                    '-c',
-                    'npx percy exec -t 350 -- nx e2e ${{ matrix.project }}-e2e --skip-nx-cache'
-                  ]);
-                } else {
-                  core.setFailed(result.stderr);
+            const percyCommand = 'npx percy exec -t 350 -- nx e2e ${{ matrix.project }}-e2e --skip-nx-cache';
+            await exec.getExecOutput('bash', ['-c', percyCommand], { ignoreReturnCode: true })
+              .then((result) => {
+                if (result.exitCode !== 0) {
+                  if (result.stderr.includes('This is likely a client error')) {
+                    console.info('Percy client error. Retrying...');
+                    return exec.exec('bash', ['-c', percyCommand]);
+                  } else {
+                    core.setFailed(`Percy failed with exit code ${result.exitCode}`);
+                  }
                 }
-              }
-            });
+              });
         env:
           PERCY_TOKEN: ${{ secrets[matrix.token] }}
+          TERM: 'xterm-256color'
+      - name: Upload error screenshots
+        uses: actions/upload-artifact@v3
+        if: ${{ failure() }}
+        with:
+          name: cypress-screenshots-${{ matrix.project }}-e2e
+          path: ./dist/cypress/${{ matrix.root }}/screenshots
+          retention-days: 4
 
   verify:
     name: E2E Visual Review
