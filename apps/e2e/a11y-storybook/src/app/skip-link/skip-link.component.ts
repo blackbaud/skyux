@@ -1,20 +1,30 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnDestroy,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { SkySkipLinkService } from '@skyux/a11y';
+import { FontLoadingService } from '@skyux/storybook';
+
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-skip-link',
   templateUrl: './skip-link.component.html',
   styleUrls: ['./skip-link.component.scss'],
 })
-export class SkipLinkComponent implements AfterViewInit {
+export class SkipLinkComponent implements AfterViewInit, OnDestroy {
   @ViewChild('skipLink', { read: ElementRef })
   public skipLink: ElementRef | undefined;
 
-  #skipLinkService: SkySkipLinkService;
+  public readonly ready = new BehaviorSubject(false);
 
-  constructor(skipLinkService: SkySkipLinkService) {
-    this.#skipLinkService = skipLinkService;
-  }
+  #fontLoadingService = inject(FontLoadingService);
+  #skipLinkService = inject(SkySkipLinkService);
+  #subscriptions = new Subscription();
 
   public ngAfterViewInit(): void {
     if (this.skipLink) {
@@ -27,5 +37,14 @@ export class SkipLinkComponent implements AfterViewInit {
         ],
       });
     }
+    this.#subscriptions.add(
+      this.#fontLoadingService.ready().subscribe(() => {
+        this.ready.next(true);
+      })
+    );
+  }
+
+  public ngOnDestroy(): void {
+    this.#subscriptions.unsubscribe();
   }
 }

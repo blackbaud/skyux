@@ -11,7 +11,13 @@ describe('a11y-storybook', () => {
           )
       );
       it('should render the component', () => {
-        cy.get('.sky-skip-link').should('exist').should('be.visible').focus();
+        cy.get('#ready')
+          .should('exist')
+          .end()
+          .get('.sky-skip-link')
+          .should('exist')
+          .focus()
+          .should('be.visible');
         cy.skyVisualTest(`skiplinkcomponent-skiplink--skip-link-${theme}`, {
           capture: 'fullPage',
           overwrite: true,

@@ -8,6 +8,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import { FontLoadingService } from '@skyux/storybook';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -20,7 +21,6 @@ import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { delay, filter, map } from 'rxjs/operators';
 
 import { columnDefinitions, data } from '../shared/baseball-players-data';
-import { FontLoadingService } from '../shared/font-loading/font-loading.service';
 import { InlineHelpComponent } from '../shared/inline-help/inline-help.component';
 
 type DataSet = { id: string; data: any[] };

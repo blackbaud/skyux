@@ -9,9 +9,9 @@ describe('FontLoadingService', () => {
   let service: FontLoadingService;
 
   beforeEach(() => {
-    jest
-      .spyOn(FontFaceObserver.prototype, 'load')
-      .mockImplementation(() => Promise.resolve());
+    spyOn(FontFaceObserver.prototype, 'load').and.callFake(() =>
+      Promise.resolve()
+    );
     TestBed.configureTestingModule({});
     service = TestBed.inject(FontLoadingService);
   });
@@ -21,7 +21,6 @@ describe('FontLoadingService', () => {
   });
 
   it('should load fonts', async () => {
-    expect.assertions(1);
     await service
       .ready()
       .pipe(
