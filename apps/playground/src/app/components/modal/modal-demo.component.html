@@ -1,7 +1,6 @@
 <sky-modal>
   <sky-modal-header>
-    {{ windowHval }}
-    {{ visualHval }}
+    {{ title }}
     <sky-help-inline
       *ngIf="showHelp"
       class="sky-control-help"
@@ -15,34 +14,10 @@
     <app-lipsum></app-lipsum>
     <app-data-manager></app-data-manager>
     <app-lipsum></app-lipsum>
-    <div style="overflow-y: auto; max-height: 200px">
-      <app-lipsum></app-lipsum>
-      <sky-dropdown>
-        <sky-dropdown-button>button</sky-dropdown-button>
-        <sky-dropdown-menu>
-          <sky-dropdown-item>item</sky-dropdown-item>
-          <sky-dropdown-item>item</sky-dropdown-item>
-          <sky-dropdown-item>item</sky-dropdown-item>
-          <sky-dropdown-item>item</sky-dropdown-item>
-        </sky-dropdown-menu>
-      </sky-dropdown>
-      <app-lipsum></app-lipsum>
-    </div>
     <app-lipsum></app-lipsum>
     <app-lipsum></app-lipsum>
     <app-lipsum></app-lipsum>
     <app-lipsum></app-lipsum>
   </sky-modal-content>
-  <sky-modal-footer>
-    Footer
-    <sky-dropdown>
-      <sky-dropdown-button>button</sky-dropdown-button>
-      <sky-dropdown-menu>
-        <sky-dropdown-item>item</sky-dropdown-item>
-        <sky-dropdown-item>item</sky-dropdown-item>
-        <sky-dropdown-item>item</sky-dropdown-item>
-        <sky-dropdown-item>item</sky-dropdown-item>
-      </sky-dropdown-menu>
-    </sky-dropdown>
-  </sky-modal-footer>
+  <sky-modal-footer> Footer </sky-modal-footer>
 </sky-modal>
