@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { AffixerModule } from './affixer/affixer.module';
 import { ResizeObserverModule } from './resize-observer/resize-observer.module';
 import { ViewkeeperModule } from './viewkeeper/viewkeeper.module';
 
@@ -18,6 +19,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./viewkeeper/viewkeeper.module').then((m) => m.ViewkeeperModule),
   },
+  {
+    path: 'affixer',
+    loadChildren: () =>
+      import('./affixer/affixer.module').then((m) => m.AffixerModule),
+  },
 ];
 
 @NgModule({
@@ -32,6 +38,7 @@ export class CoreRoutingModule {}
     CoreRoutingModule,
     ResizeObserverModule,
     ViewkeeperModule,
+    AffixerModule,
   ],
 })
 export class CoreModule {
