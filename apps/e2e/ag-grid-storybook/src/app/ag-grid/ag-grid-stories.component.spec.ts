@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FontLoadingService } from '@skyux/storybook';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -7,8 +8,6 @@ import {
 } from '@skyux/theme';
 
 import { BehaviorSubject } from 'rxjs';
-
-import { FontLoadingTestingModule } from '../shared/font-loading/testing/font-loading-testing.module';
 
 import { AgGridStoriesComponent } from './ag-grid-stories.component';
 import { AgGridStoriesModule } from './ag-grid-stories.module';
@@ -41,8 +40,14 @@ describe('DataGridComponent', () => {
     });
 
     TestBed.configureTestingModule({
-      imports: [AgGridStoriesModule, FontLoadingTestingModule],
+      imports: [AgGridStoriesModule],
       providers: [
+        {
+          provide: FontLoadingService,
+          useValue: {
+            ready: () => new BehaviorSubject(true),
+          },
+        },
         {
           provide: SkyThemeService,
           useValue: mockThemeSvc,

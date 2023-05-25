@@ -1,4 +1,4 @@
-import { applicationGenerator } from '@nrwl/angular/generators';
+import { applicationGenerator } from '@nx/angular/generators';
 import {
   NxJsonConfiguration,
   Tree,
@@ -6,8 +6,8 @@ import {
   joinPathFragments,
   readNxJson,
   updateNxJson,
-} from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+} from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 
 import generator from './generator';
 import { SwitchToVariationsGeneratorSchema } from './schema';

@@ -22,7 +22,7 @@ describe(`ag-grid-storybook data manager`, () => {
               .should('exist')
               .end()
 
-              .get('#root')
+              .get('#storybook-root')
               .should('exist')
               .should('be.visible')
               .end()
@@ -33,7 +33,7 @@ describe(`ag-grid-storybook data manager`, () => {
               .end()
               // Necessary to wait for the grid to render.
               .wait(1000)
-              .get('#root')
+              .get('#storybook-root')
               .skyVisualTest(
                 `datamanagercomponent-datamanager--data-manager-${domLayout}-${theme}`,
                 {

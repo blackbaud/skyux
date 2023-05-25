@@ -12,13 +12,13 @@ import {
   SkyDataManagerService,
   SkyDataManagerState,
 } from '@skyux/data-manager';
+import { FontLoadingService } from '@skyux/storybook';
 
 import { GridOptions } from 'ag-grid-community';
 import { BehaviorSubject, Observable, combineLatest, timer } from 'rxjs';
 import { filter, first, map } from 'rxjs/operators';
 
 import { columnDefinitions, data } from '../shared/baseball-players-data';
-import { FontLoadingService } from '../shared/font-loading/font-loading.service';
 
 type GridSettingsType = {
   enableTopScroll: FormControl<boolean>;

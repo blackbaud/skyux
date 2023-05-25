@@ -1,4 +1,4 @@
-import { Tree, getProjects, logger, visitNotIgnoredFiles } from '@nrwl/devkit';
+import { Tree, getProjects, logger, visitNotIgnoredFiles } from '@nx/devkit';
 
 import { SwitchToVariationsGeneratorSchema } from './schema';
 

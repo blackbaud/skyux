@@ -1,5 +1,21 @@
 # Changelog
 
+## [8.2.1](https://github.com/blackbaud/skyux/compare/8.2.0...8.2.1) (2023-05-25)
+
+
+### Bug Fixes
+
+* **components/forms:** autofill styles are applied correctly to input boxes ([#1349](https://github.com/blackbaud/skyux/issues/1349)) ([a0b5a28](https://github.com/blackbaud/skyux/commit/a0b5a284ba062568969b5e93e70fa39ed351c778))
+* **components/forms:** disabled styles are properly applied to indeterminate checkboxes ([#1400](https://github.com/blackbaud/skyux/issues/1400)) ([f927cff](https://github.com/blackbaud/skyux/commit/f927cfffa313e076edebe67f2a85fef5f67c353c))
+* **components/forms:** make help inline clickable in input box HTML select ([#1396](https://github.com/blackbaud/skyux/issues/1396)) ([deee18e](https://github.com/blackbaud/skyux/commit/deee18ed9e864f0f3e60b0c43605febef8aa3e73))
+
+## [7.22.0](https://github.com/blackbaud/skyux/compare/7.21.4...7.22.0) (2023-05-16)
+
+
+### Features
+
+* **components/popovers:** dropdown test harness ([#1347](https://github.com/blackbaud/skyux/issues/1347)) ([3050f0d](https://github.com/blackbaud/skyux/commit/3050f0d9492e4aa456b0d22d857e43342181820d))
+
 ## [8.2.0](https://github.com/blackbaud/skyux/compare/8.1.0...8.2.0) (2023-05-22)
 
 

@@ -2,16 +2,16 @@ import {
   applicationGenerator,
   componentGenerator,
   storybookConfigurationGenerator,
-} from '@nrwl/angular/generators';
+} from '@nx/angular/generators';
 import {
   NxJsonConfiguration,
   Tree,
   readNxJson,
   readProjectConfiguration,
   updateNxJson,
-} from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import { Linter } from '@nrwl/linter';
+} from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
+import { Linter } from '@nx/linter';
 
 import { updateProjectConfiguration } from 'nx/src/generators/utils/project-configuration';
 

@@ -2,11 +2,11 @@ import {
   applicationGenerator,
   libraryGenerator,
   storybookConfigurationGenerator,
-} from '@nrwl/angular/generators';
-import { cypressProjectGenerator } from '@nrwl/cypress';
-import { getProjects } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import { Linter } from '@nrwl/linter';
+} from '@nx/angular/generators';
+import { cypressProjectGenerator } from '@nx/cypress';
+import { getProjects } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
+import { Linter } from '@nx/linter';
 
 import {
   getE2eProjects,

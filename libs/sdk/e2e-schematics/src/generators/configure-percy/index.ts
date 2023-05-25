@@ -1,6 +1,6 @@
-import type { Tree } from '@nrwl/devkit';
-import { formatFiles, generateFiles, joinPathFragments } from '@nrwl/devkit';
-import { insertStatement } from '@nrwl/workspace/src/generators/utils/insert-statement';
+import type { Tree } from '@nx/devkit';
+import { formatFiles, generateFiles, joinPathFragments } from '@nx/devkit';
+import { insertStatement } from '@nx/workspace/src/generators/utils/insert-statement';
 
 import { getE2eProjects } from '../../utils';
 

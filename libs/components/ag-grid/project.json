@@ -6,7 +6,7 @@
   "prefix": "sky",
   "targets": {
     "build": {
-      "executor": "@nrwl/angular:package",
+      "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/ag-grid"],
       "options": {
         "project": "libs/components/ag-grid/ng-package.json",
@@ -42,7 +42,7 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "libs/components/ag-grid/src/**/*.ts",

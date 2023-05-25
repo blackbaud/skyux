@@ -46,7 +46,7 @@ describe(`ag-grid-storybook`, () => {
           .should('be.visible')
           .end()
 
-          .get('#root')
+          .get('#storybook-root')
           .should('exist')
           .should('be.visible')
           .skyVisualTest(

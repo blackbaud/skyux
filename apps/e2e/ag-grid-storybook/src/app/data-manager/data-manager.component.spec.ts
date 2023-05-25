@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { FontLoadingService } from '@skyux/storybook';
 
-import { FontLoadingTestingModule } from '../shared/font-loading/testing/font-loading-testing.module';
+import { BehaviorSubject } from 'rxjs';
 
 import { DataManagerComponent } from './data-manager.component';
 import { DataManagerModule } from './data-manager.module';
@@ -35,10 +36,14 @@ describe('DataManagerComponent', () => {
     });
 
     TestBed.configureTestingModule({
-      imports: [
-        DataManagerModule,
-        FontLoadingTestingModule,
-        NoopAnimationsModule,
+      imports: [DataManagerModule, NoopAnimationsModule],
+      providers: [
+        {
+          provide: FontLoadingService,
+          useValue: {
+            ready: () => new BehaviorSubject(true),
+          },
+        },
       ],
     });
     fixture = TestBed.createComponent(DataManagerComponent);

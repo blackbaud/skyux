@@ -1,8 +1,8 @@
 import {
   applicationGenerator,
   componentGenerator,
-} from '@nrwl/angular/generators';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+} from '@nx/angular/generators';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import * as ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 
 import { wrapAngularDevkitSchematic } from 'nx/src/adapter/ngcli-adapter';
