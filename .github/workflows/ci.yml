@@ -114,7 +114,7 @@ jobs:
         run: |
           # Get the affected projects.
           AFFECTED_PROJECTS=$(npx nx print-affected --select=projects --type=lib)
-          npx skyux-dev check-lib-resources --projects=${AFFECTED_PROJECTS.replace(',', '')}
+          npx skyux-dev check-lib-resources --projects=${AFFECTED_PROJECTS//,/)}
       - name: Check code formatting
         run: |
           # Check files outside project folders
