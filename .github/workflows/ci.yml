@@ -111,9 +111,13 @@ jobs:
       - name: Check library missing peers
         run: npx skyux-dev check-lib-missing-peers
       - name: Check library resources
-        run: npx skyux-dev check-lib-resources
+        run: |
+          # Get the affected projects.
+          AFFECTED_PROJECTS=$(npm nx print-affected --scope=projects)
+
+          npx skyux-dev check-lib-resources --projects=$AFFECTED_PROJECTS
       - name: Check code formatting
-        run: npx nx affected --target=prettier --quiet --silent --parallel=3
+        run: npx nx affected --target=prettier --parallel=3
       - name: Run lint
         run: npx nx affected:lint --quiet --silent --parallel=3
 
