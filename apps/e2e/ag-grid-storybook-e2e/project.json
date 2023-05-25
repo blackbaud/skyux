@@ -17,7 +17,7 @@
     "prettier": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "prettier --check .",
+        "command": "npx prettier --check .",
         "cwd": "apps/e2e/ag-grid-storybook-e2e"
       }
     },

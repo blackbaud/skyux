@@ -44,7 +44,7 @@
     "prettier": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "prettier --check .",
+        "command": "npx prettier --check .",
         "cwd": "libs/components/ag-grid"
       }
     },
