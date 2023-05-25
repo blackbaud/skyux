@@ -89,6 +89,13 @@
         "browserTarget": "playground:build"
       }
     },
+    "prettier": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "prettier --check .",
+        "cwd": "apps/playground"
+      }
+    },
     "lint": {
       "executor": "@nx/linter:eslint",
       "options": {

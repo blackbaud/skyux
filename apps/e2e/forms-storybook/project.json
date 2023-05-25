@@ -67,6 +67,13 @@
         "browserTarget": "forms-storybook:build"
       }
     },
+    "prettier": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "prettier --check .",
+        "cwd": "apps/e2e/forms-storybook"
+      }
+    },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],

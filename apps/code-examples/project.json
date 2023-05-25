@@ -78,6 +78,13 @@
         "browserTarget": "code-examples:build"
       }
     },
+    "prettier": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "prettier --check .",
+        "cwd": "apps/code-examples"
+      }
+    },
     "lint": {
       "executor": "@nx/linter:eslint",
       "options": {

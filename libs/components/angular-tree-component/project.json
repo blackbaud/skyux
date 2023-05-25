@@ -42,6 +42,13 @@
         ]
       }
     },
+    "prettier": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "prettier --check .",
+        "cwd": "libs/components/angular-tree-component"
+      }
+    },
     "lint": {
       "executor": "@nx/linter:eslint",
       "options": {

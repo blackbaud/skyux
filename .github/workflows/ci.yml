@@ -112,8 +112,6 @@ jobs:
         run: npx skyux-dev check-lib-missing-peers
       - name: Check library resources
         run: npx skyux-dev check-lib-resources
-      - name: Check code formatting
-        run: npx prettier --check .
       - name: Run lint
         run: npx nx affected:lint --quiet --silent --parallel=3
 
@@ -198,11 +196,39 @@ jobs:
           npx nx affected --target=test --browsers=ChromeHeadlessNoSandbox --code-coverage --parallel=3 --progress=false --source-map --watch=false
           npx nx affected --target=posttest --browsers=ChromeHeadlessNoSandbox --parallel=3 --watch=false
 
+  prettier:
+    name: Prettier
+    needs: install-deps
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          # We need to fetch all branches and commits so that Nx affected has a base to compare against.
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+      # Rebase must happen before installing dependencies.
+      - name: Rebase current branch
+        run: node ./scripts/rebase-pr.js
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        uses: nrwl/nx-set-shas@v3
+      - name: Retrieve node_modules cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
+      - name: Run NGCC
+        run: npx ngcc
+      - name: Prettier
+        run: |
+          run: npx nx affected:prettier --quiet --silent --parallel=3
+
   stop-agents:
     name: Stop Nx Cloud agents
     runs-on: ubuntu-latest
     if: always()
-    needs: [install-deps, lint, build, build-dist, coverage]
+    needs: [install-deps, lint, build, build-dist, coverage, prettier]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3

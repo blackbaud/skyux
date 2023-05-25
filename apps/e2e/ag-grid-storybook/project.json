@@ -74,6 +74,13 @@
         "browserTarget": "ag-grid-storybook:build"
       }
     },
+    "prettier": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "prettier --check .",
+        "cwd": "apps/e2e/ag-grid-storybook"
+      }
+    },
     "lint": {
       "executor": "@nx/linter:eslint",
       "options": {

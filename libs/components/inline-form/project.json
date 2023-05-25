@@ -40,6 +40,13 @@
         ]
       }
     },
+    "prettier": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "prettier --check .",
+        "cwd": "libs/components/inline-form"
+      }
+    },
     "lint": {
       "executor": "@nx/linter:eslint",
       "options": {
