@@ -1,0 +1,23 @@
+<sky-modal>
+  <sky-modal-header>
+    {{ windowHeight }}
+    {{ visualHeight }}
+  </sky-modal-header>
+  <sky-modal-content>
+    <app-lipsum></app-lipsum>
+    <div style="overflow-y: auto; max-height: 200px">
+      <app-lipsum></app-lipsum>
+      <input class="sky-form-control" />
+      <sky-dropdown [dismissOnBlur]="false">
+        <sky-dropdown-button>button</sky-dropdown-button>
+        <sky-dropdown-menu>
+          <sky-dropdown-item>item</sky-dropdown-item>
+          <sky-dropdown-item>item</sky-dropdown-item>
+          <sky-dropdown-item>item</sky-dropdown-item>
+          <sky-dropdown-item>item</sky-dropdown-item>
+        </sky-dropdown-menu>
+      </sky-dropdown>
+      <app-lipsum></app-lipsum>
+    </div>
+    <app-lipsum></app-lipsum> </sky-modal-content
+></sky-modal>
