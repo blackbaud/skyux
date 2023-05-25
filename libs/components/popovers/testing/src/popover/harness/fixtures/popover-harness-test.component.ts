@@ -1,9 +1,16 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { SkyPopoverAlignment, SkyPopoverPlacement } from '@skyux/popovers';
+import {
+  SkyPopoverAlignment,
+  SkyPopoverModule,
+  SkyPopoverPlacement,
+} from '@skyux/popovers';
 
 @Component({
   selector: 'sky-popover-test',
   templateUrl: './popover-harness-test.component.html',
+  standalone: true,
+  imports: [CommonModule, SkyPopoverModule],
 })
 export class PopoverHarnessTestComponent {
   public dismissOnBlur: boolean | undefined;

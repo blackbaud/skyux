@@ -1,11 +1,11 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyPopoverAlignment, SkyPopoverPlacement } from '@skyux/popovers';
 
 import { PopoverHarnessTestItemHarness } from './fixtures/popover-harness-test-item-harness';
 import { PopoverHarnessTestComponent } from './fixtures/popover-harness-test.component';
-import { PopoverHarnessTestModule } from './fixtures/popover-harness-test.module';
 import { SkyPopoverHarness } from './popover-harness';
 
 async function setupTest(options?: {
@@ -20,7 +20,7 @@ async function setupTest(options?: {
   loader: HarnessLoader;
 }> {
   await TestBed.configureTestingModule({
-    imports: [PopoverHarnessTestModule],
+    imports: [PopoverHarnessTestComponent, NoopAnimationsModule],
   }).compileComponents();
 
   const fixture = TestBed.createComponent(PopoverHarnessTestComponent);
