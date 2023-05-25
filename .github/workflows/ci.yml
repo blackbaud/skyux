@@ -221,8 +221,7 @@ jobs:
       - name: Run NGCC
         run: npx ngcc
       - name: Prettier
-        run: |
-          run: npx nx affected:prettier --quiet --silent --parallel=3
+        run: nx affected:prettier --quiet --silent --parallel=3
 
   stop-agents:
     name: Stop Nx Cloud agents
