@@ -114,7 +114,7 @@ jobs:
         run: |
           # Get the affected projects.
           AFFECTED_PROJECTS=$(npx nx print-affected --select=projects)
-          npx skyux-dev check-lib-resources --projects="${AFFECTED_PROJECTS}"
+          npx skyux-dev check-lib-resources --projects="${AFFECTED_PROJECTS} --type=lib"
       - name: Check code formatting
         run: npx nx affected --target=prettier --parallel=3
       - name: Run lint
