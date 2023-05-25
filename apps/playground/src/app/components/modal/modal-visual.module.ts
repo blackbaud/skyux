@@ -6,6 +6,7 @@ import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyHelpInlineModule } from '@skyux/indicators';
 import { SkyAutocompleteModule, SkyLookupModule } from '@skyux/lookup';
 import { SkyModalModule } from '@skyux/modals';
+import { SkyDropdownModule } from '@skyux/popovers';
 import { SkyTilesModule } from '@skyux/tiles';
 
 import { DataManagerModule } from '../../shared/data-manager/data-manager.module';
@@ -47,6 +48,7 @@ import { ModalVisualComponent } from './modal-visual.component';
     LipsumModule,
     DataManagerModule,
     SkyLookupModule,
+    SkyDropdownModule,
   ],
 })
 export class ModalVisualModule {

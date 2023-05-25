@@ -51,11 +51,13 @@ export function getOverflowParents(child: HTMLElement): HTMLElement[] {
 
   let parentElement = child?.parentNode;
 
+  // goes up the list of parents to see if ANY of them are overflow in a way where part of it might be hidden
   while (
     parentElement !== undefined &&
     parentElement !== bodyElement &&
     parentElement instanceof HTMLElement
   ) {
+    // MIGHT HAVE TO CHANGE THIS
     const overflowY = window
       .getComputedStyle(parentElement, undefined)
       .overflowY.toLowerCase();

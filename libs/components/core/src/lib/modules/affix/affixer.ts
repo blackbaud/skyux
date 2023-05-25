@@ -140,6 +140,8 @@ export class SkyAffixer {
 
     this.#config = config;
     this.#baseElement = baseElement;
+
+    // gets list of all parents of the component that have overflow in any way that is hidden. Will ALWAYS include window.body
     this.#overflowParents = getOverflowParents(baseElement);
 
     this.#affix();
@@ -185,8 +187,8 @@ export class SkyAffixer {
   }
 
   #getOffset(): SkyAffixOffset {
-    const parent = this.#getAutoFitContextParent();
-
+    const parent = this.#getAutoFitContextParent(); // window.body
+    console.log(parent);
     const maxAttempts = 4;
     let attempts = 0;
 
@@ -194,6 +196,7 @@ export class SkyAffixer {
     let offset: Required<SkyAffixOffset>;
     let placement = this.#config.placement;
 
+    // could check if ios (somehow) and then add a check here to see if visual viewport height != window height and add a bottom value
     const autoFitOverflowOffset = this.#config.autoFitOverflowOffset || {
       bottom: 0,
       left: 0,
@@ -201,6 +204,13 @@ export class SkyAffixer {
       top: 0,
     };
 
+    // this is very jittery. RETHINK
+    if (window.innerHeight !== window.visualViewport.height) {
+      autoFitOverflowOffset.top =
+        window.innerHeight - window.visualViewport.height;
+    }
+
+    // if it is position absolute then the top value will be set. and we wanna add the scroll y to it.
     if (this.#config.position === 'absolute') {
       autoFitOverflowOffset.top =
         (autoFitOverflowOffset.top || 0) + window.scrollY;
@@ -226,7 +236,7 @@ export class SkyAffixer {
       }
 
       attempts++;
-    } while (!isAffixedElementFullyVisible && attempts < maxAttempts);
+    } while (!isAffixedElementFullyVisible && attempts < maxAttempts); // figure out why max attempts. is this why its jittery.
 
     if (isAffixedElementFullyVisible) {
       if (this.#isBaseElementVisible()) {
@@ -444,6 +454,7 @@ export class SkyAffixer {
     return offset;
   }
 
+  // do not understand this function. the name feels false.
   #getImmediateOverflowParent(): HTMLElement {
     return this.#overflowParents[this.#overflowParents.length - 1];
   }
@@ -451,7 +462,8 @@ export class SkyAffixer {
   #getAutoFitContextParent(): HTMLElement {
     const bodyElement = this.#overflowParents[0];
 
-    return this.#config.autoFitContext === SkyAffixAutoFitContext.OverflowParent
+    // so this is saying, if the parent is fine to overflow over, then fo ahead and overflow
+    return this.#config.autoFitContext === SkyAffixAutoFitContext.OverflowParent // THIS WILL ALWAYS BE THE BODY NOT THE NEAREST PARENT RETHINK LOGIC
       ? this.#getImmediateOverflowParent()
       : bodyElement;
   }
@@ -516,12 +528,14 @@ export class SkyAffixer {
   }
 
   #addScrollListeners(): void {
+    // overflowParents - list of parents ALWAYS including window.body that is scrollable
     this.#scrollListeners = this.#overflowParents.map((parentElement) => {
+      // TO DO this needs a better name for sure
       const overflow =
         parentElement === document.body ? 'window' : parentElement;
       return this.#renderer.listen(overflow, 'scroll', () => {
         this.#affix();
-        this.#overflowScroll.next();
+        this.#overflowScroll.next(); // best guess: this is so that anything using affixer can subscribe to know when ANY parent scrolls (documentation might be wrong)
       });
     });
   }
