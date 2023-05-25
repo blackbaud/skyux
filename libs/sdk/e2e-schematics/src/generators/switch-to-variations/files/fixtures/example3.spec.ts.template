@@ -18,7 +18,7 @@
           cy.get('#ready')
             .should('exist')
             .end()
-            .get('#root')
+            .get('#storybook-root')
             .should('exist')
             .should('be.visible')
             .screenshot(
@@ -28,7 +28,7 @@
               `datamanagercomponent-datamanager--data-manager-${domLayout}-${theme}`,
               {
                 widths: [1280],
-                scope: '#root',
+                scope: '#storybook-root',
                 percyCSS: `
                   /* Avoid "virtual rows" in the screenshot. */
                   :root {

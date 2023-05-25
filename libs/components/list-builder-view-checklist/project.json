@@ -6,7 +6,7 @@
   "prefix": "sky",
   "targets": {
     "build": {
-      "executor": "@nrwl/angular:package",
+      "executor": "@nx/angular:package",
       "outputs": [
         "{workspaceRoot}/dist/libs/components/list-builder-view-checklist"
       ],
@@ -43,7 +43,7 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "libs/components/list-builder-view-checklist/src/**/*.ts",

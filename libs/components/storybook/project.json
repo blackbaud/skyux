@@ -6,7 +6,7 @@
   "prefix": "skyux",
   "targets": {
     "build": {
-      "executor": "@nrwl/angular:package",
+      "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/storybook"],
       "options": {
         "project": "libs/components/storybook/ng-package.json",
@@ -37,7 +37,7 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "libs/components/storybook/**/*.ts",

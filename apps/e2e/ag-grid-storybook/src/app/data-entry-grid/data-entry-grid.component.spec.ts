@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FontLoadingService } from '@skyux/storybook';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -7,8 +8,6 @@ import {
 } from '@skyux/theme';
 
 import { BehaviorSubject } from 'rxjs';
-
-import { FontLoadingTestingModule } from '../shared/font-loading/testing/font-loading-testing.module';
 
 import { DataEntryGridComponent } from './data-entry-grid.component';
 import { DataEntryGridModule } from './data-entry-grid.module';
@@ -45,8 +44,14 @@ describe('DataEntryGridComponent', () => {
         });
 
         TestBed.configureTestingModule({
-          imports: [DataEntryGridModule, FontLoadingTestingModule],
+          imports: [DataEntryGridModule],
           providers: [
+            {
+              provide: FontLoadingService,
+              useValue: {
+                ready: () => new BehaviorSubject(true),
+              },
+            },
             {
               provide: SkyThemeService,
               useValue: mockThemeSvc,

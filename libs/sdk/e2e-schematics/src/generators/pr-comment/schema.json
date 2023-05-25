@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "cli": "nx",
   "$id": "PrComment",
   "title": "PR Comment",
   "description": "Generate markdown for a PR comment or a PR preview README.md",

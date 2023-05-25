@@ -1,4 +1,4 @@
-import { Tree } from '@nrwl/devkit';
+import { Tree } from '@nx/devkit';
 
 import { createTree } from 'nx/src/generators/testing-utils/create-tree';
 

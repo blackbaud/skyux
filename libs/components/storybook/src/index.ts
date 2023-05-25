@@ -1,4 +1,5 @@
 export * from './lib/storybook.module';
+export * from './lib/font-loading/font-loading.service';
 export * from './lib/preview-wrapper/preview-wrapper-decorators';
 export * from './lib/preview-wrapper/preview-wrapper-global-types';
 export * from './lib/preview-wrapper/preview-wrapper-parameters';

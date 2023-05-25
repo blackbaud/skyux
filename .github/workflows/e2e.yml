@@ -253,7 +253,10 @@ jobs:
             await exec.getExecOutput('bash', ['-c', percyCommand], { ignoreReturnCode: true })
               .then((result) => {
                 if (result.exitCode !== 0) {
-                  if (result.stderr.includes('This is likely a client error')) {
+                  if (
+                    result.stderr.includes('This is likely a client error') ||
+                    result.stderr.includes('Error: Can only finalize pending builds')
+                  ) {
                     console.info('Percy client error. Retrying...');
                     return exec.exec('bash', ['-c', percyCommand]);
                   } else {

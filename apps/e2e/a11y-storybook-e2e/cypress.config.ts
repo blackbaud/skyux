@@ -1,4 +1,4 @@
-import { nxE2EPreset } from '@nrwl/cypress/plugins/cypress-preset';
+import { nxE2EPreset } from '@nx/cypress/plugins/cypress-preset';
 import { sendCypressScreenshotsToPercy } from '@skyux-sdk/e2e-schematics';
 
 import { defineConfig } from 'cypress';
@@ -10,5 +10,6 @@ export default defineConfig({
     setupNodeEvents: (on, config) => {
       sendCypressScreenshotsToPercy(on, config);
     },
+    defaultCommandTimeout: 60000,
   },
 });

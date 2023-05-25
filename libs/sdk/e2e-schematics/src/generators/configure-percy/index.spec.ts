@@ -1,6 +1,6 @@
-import { cypressProjectGenerator } from '@nrwl/cypress';
-import { NxJsonConfiguration, readNxJson, updateNxJson } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { cypressProjectGenerator } from '@nx/cypress';
+import { NxJsonConfiguration, readNxJson, updateNxJson } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 
 import configurePercy from './index';
 

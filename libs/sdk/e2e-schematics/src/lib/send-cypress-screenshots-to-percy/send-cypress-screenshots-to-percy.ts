@@ -33,8 +33,6 @@ export function sendCypressScreenshotsToPercy(
     if (browser.name === 'chrome' && browser.isHeadless) {
       launchOptions.args.push(`--window-size=${width},${height}`);
       launchOptions.args.push('--force-device-scale-factor=2');
-      launchOptions.args.push('--no-sandbox');
-      launchOptions.args.push('--disable-setuid-sandbox');
     }
 
     if (browser.name === 'electron' && browser.isHeadless) {

@@ -6,7 +6,7 @@ import {
 } from '@angular/core/testing';
 import { AbstractControl } from '@angular/forms';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { SkyDatepickerFixture } from '@skyux/datetime/testing';
 import {
   SkyTheme,

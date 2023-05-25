@@ -8,8 +8,8 @@ import {
   offsetFromRoot,
   readProjectConfiguration,
   updateJson,
-} from '@nrwl/devkit';
-import { TsConfig } from '@nrwl/storybook/src/utils/utilities';
+} from '@nx/devkit';
+import { TsConfig } from '@nx/storybook/src/utils/utilities';
 
 import { updateProjectConfiguration } from 'nx/src/generators/utils/project-configuration';
 
@@ -75,12 +75,12 @@ export default async function (tree: Tree, schema: Schema) {
     try {
       e2eProject = readProjectConfiguration(tree, e2eProjectName);
     } catch (e) {
-      throw new Error(`Project "${e2eProjectName}" does not exist`);
+      console.warn(`Project "${e2eProjectName}" does not exist`);
     }
     if (
       e2eProject &&
       e2eProject.targets?.['e2e'] &&
-      e2eProject.targets['e2e'].executor === '@nrwl/cypress:cypress'
+      e2eProject.targets['e2e'].executor === '@nx/cypress:cypress'
     ) {
       let hasChanged = false;
       if (
@@ -98,9 +98,9 @@ export default async function (tree: Tree, schema: Schema) {
       if (hasChanged) {
         updateProjectConfiguration(tree, e2eProjectName, e2eProject);
       }
-    } else {
-      throw new Error(
-        `Project "${e2eProjectName}" does not have an e2e target with @nrwl/cypress:cypress`
+    } else if (e2eProject) {
+      console.warn(
+        `Project "${e2eProjectName}" does not have an e2e target with @nx/cypress:cypress`
       );
     }
 
@@ -123,6 +123,14 @@ export default async function (tree: Tree, schema: Schema) {
       );
     }
     updateJson(tree, tsconfigFile, (tsconfig: TsConfig) => {
+      // Support importing json files for font loading checks.
+      tsconfig.compilerOptions = {
+        ...tsconfig.compilerOptions,
+        emitDecoratorMetadata: true,
+        esModuleInterop: true,
+        resolveJsonModule: true,
+      };
+
       if (!tsconfig.include) {
         tsconfig.include = [];
       }
@@ -136,6 +144,13 @@ export default async function (tree: Tree, schema: Schema) {
     });
     if (tree.isFile(tsconfigAppFile)) {
       updateJson(tree, tsconfigAppFile, (tsconfig: TsConfig) => {
+        // Support importing json files for font loading checks.
+        tsconfig.compilerOptions = {
+          ...tsconfig.compilerOptions,
+          esModuleInterop: true,
+          resolveJsonModule: true,
+        };
+
         if (tsconfig.exclude && !tsconfig.exclude.includes('jest.config.ts')) {
           tsconfig.exclude.push('jest.config.ts');
         }

@@ -1,7 +1,9 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true
   },
   "exclude": ["../**/*.spec.ts", "jest.config.ts"],
   "include": ["../src/**/*", "*.js", "./*"]

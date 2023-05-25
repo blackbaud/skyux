@@ -2,16 +2,16 @@ import {
   E2eTestRunner,
   applicationGenerator,
   storybookConfigurationGenerator,
-} from '@nrwl/angular/generators';
+} from '@nx/angular/generators';
 import {
   NxJsonConfiguration,
   readNxJson,
   readProjectConfiguration,
   updateNxJson,
-} from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import { Linter } from '@nrwl/linter';
-import { TsConfig } from '@nrwl/storybook/src/utils/utilities';
+} from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
+import { Linter } from '@nx/linter';
+import { TsConfig } from '@nx/storybook/src/utils/utilities';
 
 import { updateProjectConfiguration } from 'nx/src/generators/utils/project-configuration';
 
@@ -20,7 +20,10 @@ import { updateJson } from '../../utils';
 import configureStorybook from './index';
 
 describe('configure-storybook', () => {
+  let warnSpy: jest.SpyInstance;
+
   function setupTest() {
+    warnSpy = jest.spyOn(console, 'warn');
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     const nxJson: NxJsonConfiguration = readNxJson(tree) || {};
     nxJson.workspaceLayout = {
@@ -158,9 +161,10 @@ describe('configure-storybook', () => {
       linter: Linter.None,
       name: `test-app`,
     });
-    await expect(
-      configureStorybook(tree, { name: 'test-app' })
-    ).rejects.toThrowError(`Project "test-app-e2e" does not exist`);
+    await configureStorybook(tree, { name: 'test-app' });
+    expect(warnSpy).toHaveBeenCalledWith(
+      `Project "test-app-e2e" does not exist`
+    );
   });
 
   it('should error for e2e project without cypress', async () => {
@@ -181,10 +185,9 @@ describe('configure-storybook', () => {
       linter: Linter.None,
       name: `test-app`,
     });
-    await expect(
-      configureStorybook(tree, { name: 'test-app' })
-    ).rejects.toThrowError(
-      `Project "test-app-e2e" does not have an e2e target with @nrwl/cypress:cypress`
+    await configureStorybook(tree, { name: 'test-app' });
+    expect(warnSpy).toHaveBeenCalledWith(
+      `Project "test-app-e2e" does not have an e2e target with @nx/cypress:cypress`
     );
   });
 });

@@ -83,12 +83,7 @@ describe('SendCypressScreenshotsToPercy', () => {
     on.mock.calls[0][1]({ name: 'chrome', isHeadless: true }, launchOptions);
     expect(launchOptions).toEqual({
       preferences: {},
-      args: [
-        '--window-size=1920,1600',
-        '--force-device-scale-factor=2',
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-      ],
+      args: ['--window-size=1920,1600', '--force-device-scale-factor=2'],
     });
   });
 

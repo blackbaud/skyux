@@ -14,6 +14,7 @@ import {
   SkyCellType,
 } from '@skyux/ag-grid';
 import { SkyDockLocation, SkyDockService } from '@skyux/core';
+import { FontLoadingService } from '@skyux/storybook';
 import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 
 import {
@@ -26,7 +27,6 @@ import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { delay, filter, map } from 'rxjs/operators';
 
 import { columnDefinitions, data } from '../shared/baseball-players-data';
-import { FontLoadingService } from '../shared/font-loading/font-loading.service';
 
 import { ContextMenuComponent } from './context-menu.component';
 
