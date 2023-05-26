@@ -1,0 +1,36 @@
+{
+  "name": "angular-tree-component-storybook-e2e",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/e2e/angular-tree-component-storybook-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/e2e/angular-tree-component-storybook-e2e/cypress.config.ts",
+        "devServerTarget": "angular-tree-component-storybook:storybook",
+        "testingType": "e2e",
+        "baseUrl": "http://localhost:4400"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "angular-tree-component-storybook:serve:production"
+        },
+        "ci": {
+          "devServerTarget": "angular-tree-component-storybook:serve-static"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "apps/e2e/angular-tree-component-storybook-e2e/**/*.{js,ts}"
+        ]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["angular-tree-component-storybook"]
+}
