@@ -137,6 +137,10 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
 
     this.#_layout = layout;
     this.cssClass = `sky-tab-layout-${layout}`;
+
+    if (this.active) {
+      this.#tabsetService.updateActiveTabLayout(layout);
+    }
   }
 
   public get layout(): SkyTabLayoutType {
