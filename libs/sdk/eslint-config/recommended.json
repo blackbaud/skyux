@@ -37,7 +37,7 @@
     ],
     "no-alert": "error",
     "no-caller": "error",
-    "no-console": "error",
+    "no-console": ["error", { "allow": ["error", "warn"] }],
     "no-constant-binary-expression": "error",
     "no-constructor-return": "error",
     "no-duplicate-imports": ["error", { "includeExports": true }],
