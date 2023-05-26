@@ -5,13 +5,7 @@ import { SkyPageLayoutType } from '@skyux/pages';
 import { SkyPageHarnessFilters } from './page-harness-filters';
 
 const LAYOUT_PREFIX = 'sky-page-layout-';
-const LAYOUT_TYPES: SkyPageLayoutType[] = [
-  'box',
-  'fit',
-  'list',
-  'split-view',
-  'tabs',
-];
+const LAYOUT_TYPES: SkyPageLayoutType[] = ['blocks', 'fit', 'list', 'tabs'];
 
 /**
  * Harness for interacting with a page component in tests.
@@ -44,6 +38,6 @@ export class SkyPageHarness extends SkyComponentHarness {
       }
     }
 
-    return 'auto';
+    return 'none';
   }
 }

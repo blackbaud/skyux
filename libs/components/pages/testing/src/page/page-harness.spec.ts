@@ -52,11 +52,10 @@ describe('Page harness', () => {
 
     const layouts: (SkyPageLayoutType | undefined)[] = [
       undefined,
-      'auto',
-      'box',
+      'none',
+      'blocks',
       'fit',
       'list',
-      'split-view',
       'tabs',
     ];
 
@@ -64,7 +63,7 @@ describe('Page harness', () => {
       fixture.componentInstance.layout = layout;
       fixture.detectChanges();
 
-      await expectAsync(harness.getLayout()).toBeResolvedTo(layout ?? 'auto');
+      await expectAsync(harness.getLayout()).toBeResolvedTo(layout ?? 'none');
     }
   });
 });
