@@ -28,7 +28,6 @@
   },
   "peerDependencies": {
     "@angular/cli": "^15.2.8",
-    "@angular-eslint/schematics": "^15.2.1",
     "eslint-plugin-deprecation": "^1.4.1"
   },
   "dependencies": {
