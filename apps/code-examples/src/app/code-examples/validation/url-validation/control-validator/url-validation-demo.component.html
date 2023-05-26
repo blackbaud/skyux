@@ -14,7 +14,7 @@
           *ngIf="
             urlControl?.errors &&
             urlControl?.touched &&
-            urlControl?.errors?.required
+            urlControl?.errors?.['required']
           "
           indicatorType="danger"
           descriptionType="error"
@@ -25,7 +25,7 @@
           *ngIf="
             urlControl?.errors &&
             urlControl?.touched &&
-            urlControl?.errors?.skyUrl &&
+            urlControl?.errors?.['skyUrl'] &&
             urlControl?.dirty
           "
           indicatorType="danger"

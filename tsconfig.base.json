@@ -5,6 +5,7 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
+    "noPropertyAccessFromIndexSignature": true,
     "rootDir": ".",
     "sourceMap": true,
     "declaration": false,
@@ -21,10 +22,11 @@
     "skipDefaultLibCheck": true,
     "esModuleInterop": true,
     "baseUrl": ".",
-    "typeRoots": ["./node_modules/@types", "./vendor/types"],
+    "typeRoots": ["./node_modules/@types", "./vendor/types/**/*.d.ts"],
     "paths": {
       "*": ["./vendor/types/*"],
       "@skyux-sdk/e2e-schematics": ["libs/sdk/e2e-schematics/src/index.ts"],
+      "@skyux-sdk/eslint-config": ["libs/sdk/eslint-config/src/index.ts"],
       "@skyux-sdk/prettier-schematics": [
         "libs/sdk/prettier-schematics/src/index.ts"
       ],

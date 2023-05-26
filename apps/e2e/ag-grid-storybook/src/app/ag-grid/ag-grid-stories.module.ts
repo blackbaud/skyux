@@ -5,7 +5,7 @@ import { SkyAgGridModule } from '@skyux/ag-grid';
 import { SkyBackToTopModule } from '@skyux/layout';
 import { SkyDropdownModule } from '@skyux/popovers';
 import { PreviewWrapperModule } from '@skyux/storybook';
-import { SkyThemeModule, SkyThemeService } from '@skyux/theme';
+import { SkyThemeModule } from '@skyux/theme';
 
 import { AgGridModule } from 'ag-grid-angular';
 
@@ -28,7 +28,6 @@ const routes: Routes = [{ path: '', component: AgGridStoriesComponent }];
     SkyThemeModule,
     PreviewWrapperModule,
   ],
-  providers: [SkyThemeService],
   exports: [AgGridStoriesComponent, ContextMenuComponent],
 })
 export class AgGridStoriesModule {}

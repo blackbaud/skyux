@@ -18,7 +18,7 @@
     {
       "files": ["*.spec.ts", "**/fixtures/**/*.ts"],
       "rules": {
-        "@nrwl/nx/enforce-module-boundaries": "warn",
+        "@nx/enforce-module-boundaries": "warn",
         "@angular-eslint/component-selector": "warn",
         "@typescript-eslint/no-empty-function": "warn",
         "@typescript-eslint/ban-ts-comment": "warn"

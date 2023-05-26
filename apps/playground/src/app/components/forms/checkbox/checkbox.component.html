@@ -57,6 +57,8 @@
 </div>
 <div id="screenshot-icon-checkbox">
   <sky-checkbox icon="bold" label="bold" [checked]="true"> </sky-checkbox>
+  <sky-checkbox icon="bold" label="bold" [checked]="false" [disabled]="true">
+  </sky-checkbox>
   <sky-checkbox icon="bold" label="bold" [checked]="false"> </sky-checkbox>
   <sky-checkbox
     icon="umbrella"
@@ -69,6 +71,14 @@
     icon="umbrella"
     checkboxType="info"
     label="umbrella"
+    [checked]="true"
+    [disabled]="true"
+  >
+  </sky-checkbox>
+  <sky-checkbox
+    icon="umbrella"
+    checkboxType="info"
+    label="umbrella"
     [checked]="false"
   >
   </sky-checkbox>
@@ -77,6 +87,14 @@
     checkboxType="success"
     label="favorite"
     [checked]="true"
+  >
+  </sky-checkbox>
+  <sky-checkbox
+    icon="star"
+    checkboxType="success"
+    label="favorite"
+    [checked]="true"
+    [disabled]="true"
   >
   </sky-checkbox>
   <sky-checkbox
@@ -91,6 +109,14 @@
     checkboxType="warning"
     label="careful"
     [checked]="true"
+  >
+  </sky-checkbox>
+  <sky-checkbox
+    icon="exclamation-triangle"
+    checkboxType="warning"
+    label="careful"
+    [checked]="true"
+    [disabled]="true"
   >
   </sky-checkbox>
   <sky-checkbox
@@ -101,6 +127,14 @@
   >
   </sky-checkbox>
   <sky-checkbox icon="ban" checkboxType="danger" label="wrong" [checked]="true">
+  </sky-checkbox>
+  <sky-checkbox
+    icon="ban"
+    checkboxType="danger"
+    label="wrong"
+    [checked]="true"
+    [disabled]="true"
+  >
   </sky-checkbox>
   <sky-checkbox
     icon="ban"

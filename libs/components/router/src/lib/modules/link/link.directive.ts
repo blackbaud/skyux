@@ -41,7 +41,7 @@ export class SkyAppLinkDirective extends RouterLink implements OnChanges {
 
   public override ngOnChanges(changes: SimpleChanges): void {
     this.queryParams = this.#mergeQueryParams(
-      changes.queryParams?.currentValue
+      changes['queryParams']?.currentValue
     );
     super.ngOnChanges(changes);
   }

@@ -1,4 +1,4 @@
-import { SkyModalHostService } from '@skyux/modals';
+import { SkyModalHostService } from './modal-host.service';
 
 /**
  * @internal

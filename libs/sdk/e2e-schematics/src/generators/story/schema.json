@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "cli": "nx",
   "$id": "Story",
   "title": "Create a new story with a new component and corresponding tests",
   "description": "Create a new story with a new component and corresponding tests",

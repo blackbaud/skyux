@@ -1,4 +1,4 @@
-import { ProjectConfiguration, Tree, getProjects } from '@nrwl/devkit';
+import { ProjectConfiguration, Tree, getProjects } from '@nx/devkit';
 
 function filterProjects(
   tree: Tree,
@@ -49,10 +49,7 @@ export function getE2eProjects(
   return filterProjects(
     tree,
     (projectConfiguration) =>
-      projectHasTargetWithExecutor(
-        projectConfiguration,
-        '@nrwl/cypress:cypress'
-      ),
+      projectHasTargetWithExecutor(projectConfiguration, '@nx/cypress:cypress'),
     name
   );
 }

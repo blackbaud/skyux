@@ -2,16 +2,16 @@ import {
   E2eTestRunner,
   applicationGenerator,
   storybookConfigurationGenerator,
-} from '@nrwl/angular/generators';
+} from '@nx/angular/generators';
 import {
   NxJsonConfiguration,
   readNxJson,
   readProjectConfiguration,
   updateNxJson,
-} from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import { Linter } from '@nrwl/linter';
-import { TsConfig } from '@nrwl/storybook/src/utils/utilities';
+} from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
+import { Linter } from '@nx/linter';
+import { TsConfig } from '@nx/storybook/src/utils/utilities';
 
 import { updateProjectConfiguration } from 'nx/src/generators/utils/project-configuration';
 
@@ -20,7 +20,10 @@ import { updateJson } from '../../utils';
 import configureStorybook from './index';
 
 describe('configure-storybook', () => {
+  let warnSpy: jest.SpyInstance;
+
   function setupTest() {
+    warnSpy = jest.spyOn(console, 'warn');
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     const nxJson: NxJsonConfiguration = readNxJson(tree) || {};
     nxJson.workspaceLayout = {
@@ -52,34 +55,34 @@ describe('configure-storybook', () => {
       `import { moduleMetadata } from '@storybook/angular';`
     );
     const e2eConfig = readProjectConfiguration(tree, `test-app-e2e`);
-    expect(e2eConfig.targets?.e2e.options.devServerTarget).toEqual(
+    expect(e2eConfig.targets?.['e2e'].options.devServerTarget).toEqual(
       `test-app:storybook`
     );
     let testAppConfig = readProjectConfiguration(tree, `test-app`);
-    delete testAppConfig.targets?.build.options;
+    delete testAppConfig.targets?.['build'].options;
     updateProjectConfiguration(tree, `test-app`, testAppConfig);
     let testE2eAppConfig = readProjectConfiguration(tree, `test-app-e2e`);
-    delete testE2eAppConfig.targets?.e2e.configurations;
+    delete testE2eAppConfig.targets?.['e2e'].configurations;
     updateProjectConfiguration(tree, `test-app-e2e`, testE2eAppConfig);
     await configureStorybook(tree, { name: 'test-app' });
     expect(
-      readProjectConfiguration(tree, `test-app`).targets?.build.options.styles
-        .length
+      readProjectConfiguration(tree, `test-app`).targets?.['build'].options
+        .styles.length
     ).toBeGreaterThan(0);
     testAppConfig = readProjectConfiguration(tree, `test-app`);
     testAppConfig.targets = testAppConfig.targets || {};
-    testAppConfig.targets.build.options = {};
+    testAppConfig.targets['build'].options = {};
     updateProjectConfiguration(tree, `test-app`, testAppConfig);
     testE2eAppConfig = readProjectConfiguration(tree, `test-app-e2e`);
-    delete testE2eAppConfig.targets?.e2e.options.baseUrl;
+    delete testE2eAppConfig.targets?.['e2e'].options.baseUrl;
     updateProjectConfiguration(tree, `test-app-e2e`, testE2eAppConfig);
     await configureStorybook(tree, { name: 'test-app' });
     expect(
-      readProjectConfiguration(tree, `test-app`).targets?.build.options.styles
-        .length
+      readProjectConfiguration(tree, `test-app`).targets?.['build'].options
+        .styles.length
     ).toBeGreaterThan(0);
     expect(
-      readProjectConfiguration(tree, `test-app-e2e`).targets?.e2e.options
+      readProjectConfiguration(tree, `test-app-e2e`).targets?.['e2e'].options
         .devServerTarget
     ).toEqual('test-app:storybook');
   });
@@ -158,9 +161,10 @@ describe('configure-storybook', () => {
       linter: Linter.None,
       name: `test-app`,
     });
-    await expect(
-      configureStorybook(tree, { name: 'test-app' })
-    ).rejects.toThrowError(`Project "test-app-e2e" does not exist`);
+    await configureStorybook(tree, { name: 'test-app' });
+    expect(warnSpy).toHaveBeenCalledWith(
+      `Project "test-app-e2e" does not exist`
+    );
   });
 
   it('should error for e2e project without cypress', async () => {
@@ -181,10 +185,9 @@ describe('configure-storybook', () => {
       linter: Linter.None,
       name: `test-app`,
     });
-    await expect(
-      configureStorybook(tree, { name: 'test-app' })
-    ).rejects.toThrowError(
-      `Project "test-app-e2e" does not have an e2e target with @nrwl/cypress:cypress`
+    await configureStorybook(tree, { name: 'test-app' });
+    expect(warnSpy).toHaveBeenCalledWith(
+      `Project "test-app-e2e" does not have an e2e target with @nx/cypress:cypress`
     );
   });
 });

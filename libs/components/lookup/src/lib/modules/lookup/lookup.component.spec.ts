@@ -3471,7 +3471,7 @@ describe('Lookup component', function () {
           // getting the list of selected friends from the SkyLookupComponent
           fixture.detectChanges();
           tick();
-          friends = component.form.controls.friends.value;
+          friends = component.form.controls['friends'].value;
         }));
         describe('search function filters', () => {
           let searchFilterFunctionSpy: jasmine.Spy;

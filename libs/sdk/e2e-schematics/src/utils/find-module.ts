@@ -1,4 +1,4 @@
-import { Tree, normalizePath, visitNotIgnoredFiles } from '@nrwl/devkit';
+import { Tree, normalizePath, visitNotIgnoredFiles } from '@nx/devkit';
 import * as ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 
 import { relative } from 'path';
@@ -68,10 +68,10 @@ export function findDeclaringModule(
           const module = findNgModuleClass(sourceFile);
           if (module) {
             if (
-              module.properties.declarations &&
-              ts.isArrayLiteralExpression(module.properties.declarations)
+              module.properties['declarations'] &&
+              ts.isArrayLiteralExpression(module.properties['declarations'])
             ) {
-              const declarations = module.properties.declarations.elements;
+              const declarations = module.properties['declarations'].elements;
               for (const declaration of declarations) {
                 if (
                   ts.isIdentifier(declaration) &&
@@ -100,11 +100,11 @@ export function isRoutingModule(
 ): boolean {
   // Is one of the imports a static call to a method on RouterModule?
   if (
-    module.properties.imports &&
-    ts.isArrayLiteralExpression(module.properties.imports)
+    module.properties['imports'] &&
+    ts.isArrayLiteralExpression(module.properties['imports'])
   ) {
     if (
-      (module.properties.imports as ts.ArrayLiteralExpression).elements.some(
+      (module.properties['imports'] as ts.ArrayLiteralExpression).elements.some(
         (im) => {
           if (
             ts.isCallExpression(im) &&

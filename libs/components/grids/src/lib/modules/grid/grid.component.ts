@@ -401,7 +401,7 @@ export class SkyGridComponent
   }
 
   public ngOnChanges(changes: SimpleChanges) {
-    if (changes.columns && this.columns) {
+    if (changes['columns'] && this.columns) {
       if (this.selectedColumnIds) {
         this.selectedColumnIds = this.selectedColumnIds.filter((columnId) => {
           return this.columns.find((column) => column.id === columnId);
@@ -410,7 +410,7 @@ export class SkyGridComponent
       this.setDisplayedColumns(true);
     }
 
-    if (changes.data && this.data) {
+    if (changes['data'] && this.data) {
       this.transformData();
 
       // This set timeout is necessary to ensure the data has rendered in the grid
@@ -442,7 +442,7 @@ export class SkyGridComponent
       });
     }
 
-    if (changes.sortField) {
+    if (changes['sortField']) {
       this.setSortHeaders();
     }
   }

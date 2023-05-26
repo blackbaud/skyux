@@ -1,7 +1,12 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
-import { SkyIconModule, SkyStatusIndicatorModule } from '@skyux/indicators';
+import {
+  SkyHelpInlineModule,
+  SkyIconModule,
+  SkyStatusIndicatorModule,
+} from '@skyux/indicators';
 
 import { SkyCharacterCounterModule } from '../../character-counter/character-counter.module';
 import { SkyInputBoxModule } from '../input-box.module';
@@ -11,9 +16,11 @@ import { InputBoxFixtureComponent } from './input-box.component.fixture';
 
 @NgModule({
   imports: [
+    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     SkyCharacterCounterModule,
+    SkyHelpInlineModule,
     SkyIconModule,
     SkyIdModule,
     SkyInputBoxModule,

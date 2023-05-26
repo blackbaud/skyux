@@ -1,5 +1,43 @@
 # Changelog
 
+## [8.2.1](https://github.com/blackbaud/skyux/compare/8.2.0...8.2.1) (2023-05-25)
+
+
+### Bug Fixes
+
+* **components/forms:** autofill styles are applied correctly to input boxes ([#1349](https://github.com/blackbaud/skyux/issues/1349)) ([a0b5a28](https://github.com/blackbaud/skyux/commit/a0b5a284ba062568969b5e93e70fa39ed351c778))
+* **components/forms:** disabled styles are properly applied to indeterminate checkboxes ([#1400](https://github.com/blackbaud/skyux/issues/1400)) ([f927cff](https://github.com/blackbaud/skyux/commit/f927cfffa313e076edebe67f2a85fef5f67c353c))
+* **components/forms:** make help inline clickable in input box HTML select ([#1396](https://github.com/blackbaud/skyux/issues/1396)) ([deee18e](https://github.com/blackbaud/skyux/commit/deee18ed9e864f0f3e60b0c43605febef8aa3e73))
+
+## [7.22.0](https://github.com/blackbaud/skyux/compare/7.21.4...7.22.0) (2023-05-16)
+
+
+### Features
+
+* **components/popovers:** dropdown test harness ([#1347](https://github.com/blackbaud/skyux/issues/1347)) ([3050f0d](https://github.com/blackbaud/skyux/commit/3050f0d9492e4aa456b0d22d857e43342181820d))
+
+## [8.2.0](https://github.com/blackbaud/skyux/compare/8.1.0...8.2.0) (2023-05-22)
+
+
+### Features
+
+* add `@skyux-sdk/eslint-config` library ([#1387](https://github.com/blackbaud/skyux/issues/1387)) ([c7f0af0](https://github.com/blackbaud/skyux/commit/c7f0af0f5369207e03f017eedec979de54609757))
+* **components/config:** exclude specified params from link URLs ([#1378](https://github.com/blackbaud/skyux/issues/1378)) ([4412df9](https://github.com/blackbaud/skyux/commit/4412df9c80b200f868070bb8ca6c15b1b8ad2d81))
+* **components/forms:** update input box docs  and code example ([#1386](https://github.com/blackbaud/skyux/issues/1386)) ([ee65838](https://github.com/blackbaud/skyux/commit/ee6583894c2ccfe934cad3990fc40757407b299d))
+
+## [8.1.0](https://github.com/blackbaud/skyux/compare/8.0.3...8.1.0) (2023-05-18)
+
+
+### Features
+
+* **components/popovers:** dropdown test harness ([#1347](https://github.com/blackbaud/skyux/issues/1347)) ([#1376](https://github.com/blackbaud/skyux/issues/1376)) ([091e90f](https://github.com/blackbaud/skyux/commit/091e90f2c7c6c2e038cf898295a0ce1a52c9620d))
+
+
+### Bug Fixes
+
+* **components/datetime:** date range pickers properly render when used in an inline filter item ([#1350](https://github.com/blackbaud/skyux/issues/1350)) ([cce7cee](https://github.com/blackbaud/skyux/commit/cce7cee7a879289a28678d3ecc83909d1eb1dd02))
+* restore form group background color ([#1379](https://github.com/blackbaud/skyux/issues/1379)) ([8abda36](https://github.com/blackbaud/skyux/commit/8abda3611f6fd2f6ae2b85bb386faaad8376a700))
+
 ## [8.0.3](https://github.com/blackbaud/skyux/compare/8.0.2...8.0.3) (2023-05-15)
 
 

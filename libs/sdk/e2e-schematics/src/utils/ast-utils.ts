@@ -1,5 +1,5 @@
 import { getSourceNodes } from '@angular/cdk/schematics';
-import { Tree } from '@nrwl/devkit';
+import { Tree } from '@nx/devkit';
 import * as ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 
 export type DecoratedClass = {
@@ -20,7 +20,7 @@ export function applyTransformers(
 }
 
 /**
- * Apply a set of transformations to a typescript source file in a @nrwl/devkit tree.
+ * Apply a set of transformations to a typescript source file in a @nx/devkit tree.
  */
 export function applyTransformersToPath(
   tree: Tree,
@@ -253,10 +253,9 @@ export function getInsertImportTransformer(
         // Already imported
         return sourceFile;
       }
-      // Add import statement tp the top of the file. Prettier will sort this out.
+      // Add import statement to the top of the file. Prettier will sort this out.
       return context.factory.updateSourceFile(sourceFile, [
         context.factory.createImportDeclaration(
-          [],
           [],
           context.factory.createImportClause(
             false,
@@ -520,7 +519,7 @@ export function getRenameVariablesTransformer(renameMap: {
 }
 
 /**
- * Read a typescript source file from a @nrwl/devkit tree.
+ * Read a typescript source file from a @nx/devkit tree.
  */
 export function readSourceFile(
   tree: Tree,
@@ -537,7 +536,7 @@ export function readSourceFile(
 }
 
 /**
- * Write a typescript source file to a @nrwl/devkit tree.
+ * Write a typescript source file to a @nx/devkit tree.
  */
 export function writeSourceFile(
   tree: Tree,

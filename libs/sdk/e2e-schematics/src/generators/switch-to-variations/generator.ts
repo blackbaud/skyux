@@ -1,4 +1,4 @@
-import { Tree, getProjects, logger, visitNotIgnoredFiles } from '@nrwl/devkit';
+import { Tree, getProjects, logger, visitNotIgnoredFiles } from '@nx/devkit';
 
 import { SwitchToVariationsGeneratorSchema } from './schema';
 
@@ -16,7 +16,7 @@ export default async function (
     throw new Error(`Project source root or targets could not be found`);
   }
 
-  if (!projectConfiguration.targets.e2e) {
+  if (!projectConfiguration.targets['e2e']) {
     throw new Error(`Project ${options.project} is not an e2e project`);
   }
 

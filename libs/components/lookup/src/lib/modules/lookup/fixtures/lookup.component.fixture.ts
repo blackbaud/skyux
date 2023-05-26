@@ -86,11 +86,11 @@ export class SkyLookupTestComponent {
   public set friends(value: any[]) {
     this.#_friends = value;
 
-    if (this.form?.controls.friends) {
-      this.form.controls.friends.setValue(value);
+    if (this.form?.controls['friends']) {
+      this.form.controls['friends'].setValue(value);
     }
-    if (this.asyncForm?.controls.friends) {
-      this.asyncForm.controls.friends.setValue(value);
+    if (this.asyncForm?.controls['friends']) {
+      this.asyncForm.controls['friends'].setValue(value);
     }
   }
 
@@ -169,8 +169,8 @@ export class SkyLookupTestComponent {
   }
 
   public enableLookup(): void {
-    this.asyncForm.controls.friends.enable();
-    this.form.controls.friends.enable();
+    this.asyncForm.controls['friends'].enable();
+    this.form.controls['friends'].enable();
   }
 
   public enableSearchResultTemplate(): void {
@@ -178,8 +178,8 @@ export class SkyLookupTestComponent {
   }
 
   public disableLookup(): void {
-    this.asyncForm.controls.friends.disable();
-    this.form.controls.friends.disable();
+    this.asyncForm.controls['friends'].disable();
+    this.form.controls['friends'].disable();
   }
 
   public resetForm(): void {
@@ -218,8 +218,8 @@ export class SkyLookupTestComponent {
   }
 
   public setRequired(): void {
-    this.asyncForm.controls.friends.setValidators([Validators.required]);
-    this.form.controls.friends.setValidators([Validators.required]);
+    this.asyncForm.controls['friends'].setValidators([Validators.required]);
+    this.form.controls['friends'].setValidators([Validators.required]);
   }
 
   public setShowMoreNativePickerConfig(
@@ -236,13 +236,13 @@ export class SkyLookupTestComponent {
 
   public setValue(index: number): void {
     if (this.data) {
-      this.asyncForm.controls.friends.setValue([this.data[index]]);
-      this.form.controls.friends.setValue([this.data[index]]);
+      this.asyncForm.controls['friends'].setValue([this.data[index]]);
+      this.form.controls['friends'].setValue([this.data[index]]);
     }
   }
 
   public removeRequired(): void {
-    this.asyncForm.controls.friends.setValidators([]);
-    this.form.controls.friends.setValidators([]);
+    this.asyncForm.controls['friends'].setValidators([]);
+    this.form.controls['friends'].setValidators([]);
   }
 }

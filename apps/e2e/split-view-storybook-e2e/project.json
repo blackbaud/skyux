@@ -5,21 +5,16 @@
   "projectType": "application",
   "targets": {
     "e2e": {
-      "executor": "@nrwl/cypress:cypress",
+      "executor": "@nx/cypress:cypress",
       "options": {
         "cypressConfig": "apps/e2e/split-view-storybook-e2e/cypress.config.ts",
         "devServerTarget": "split-view-storybook:storybook",
         "testingType": "e2e",
         "baseUrl": "http://localhost:4400"
-      },
-      "configurations": {
-        "production": {
-          "devServerTarget": "split-view-storybook:serve:production"
-        }
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/e2e/split-view-storybook-e2e/**/*.{js,ts}"]

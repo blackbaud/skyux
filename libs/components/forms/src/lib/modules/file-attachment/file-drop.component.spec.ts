@@ -76,7 +76,7 @@ describe('File drop component', () => {
 
     const inputEl = getInputDebugEl();
 
-    spyOn(inputEl.references.fileInput, 'click').and.callFake(function () {
+    spyOn(inputEl.references['fileInput'], 'click').and.callFake(function () {
       inputClicked = true;
     });
 
@@ -277,7 +277,7 @@ describe('File drop component', () => {
     validateDropClasses(false, false, dropEl);
 
     const inputEl = getInputDebugEl();
-    expect(inputEl.references.fileInput).toBeTruthy();
+    expect(inputEl.references['fileInput']).toBeTruthy();
   });
 
   it('should click the file input on file drop click', () => {

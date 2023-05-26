@@ -6,7 +6,7 @@ import {
   joinPathFragments,
   logger,
   normalizePath,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 
 import { relative } from 'path';
 

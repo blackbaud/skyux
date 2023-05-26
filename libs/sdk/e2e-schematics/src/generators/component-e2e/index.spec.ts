@@ -2,7 +2,7 @@ import {
   UnitTestRunner,
   applicationGenerator,
   libraryGenerator,
-} from '@nrwl/angular/generators';
+} from '@nx/angular/generators';
 import {
   NxJsonConfiguration,
   ProjectConfiguration,
@@ -10,9 +10,9 @@ import {
   readNxJson,
   readProjectConfiguration,
   updateNxJson,
-} from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import { Linter } from '@nrwl/linter';
+} from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
+import { Linter } from '@nx/linter';
 
 import { updateJson } from '../../utils';
 
@@ -59,8 +59,8 @@ describe('component-e2e', () => {
         '!{projectRoot}/.storybook/**/*'
       );
       nxJson.namedInputs = nxJson.namedInputs || {};
-      nxJson.namedInputs.production = nxJson.namedInputs.production || [];
-      nxJson.namedInputs.production.push(
+      nxJson.namedInputs['production'] = nxJson.namedInputs['production'] || [];
+      nxJson.namedInputs['production'].push(
         '!{projectRoot}/.storybook/**/*',
         '!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)'
       );
@@ -73,10 +73,10 @@ describe('component-e2e', () => {
       expect(config[projectName].projectType).toEqual('application');
       if (projectName === 'test-storybook') {
         expect(
-          config[projectName].targets?.build.options.polyfills
+          config[projectName].targets?.['build'].options.polyfills
         ).toBeDefined();
         expect(
-          config[projectName].targets?.build.options.polyfills.includes(
+          config[projectName].targets?.['build'].options.polyfills.includes(
             'libs/components/packages/src/polyfills.js'
           )
         ).toBeTruthy();
@@ -198,7 +198,7 @@ describe('component-e2e', () => {
 
   it('should maintain storybook version', async () => {
     const { tree } = setupTest();
-    const sbVersion = '^6.5.15';
+    const sbVersion = '^7.0.8';
     tree.write(
       'package.json',
       JSON.stringify({
@@ -209,9 +209,7 @@ describe('component-e2e', () => {
           '@storybook/addon-toolbars': sbVersion,
           '@storybook/addon-viewport': sbVersion,
           '@storybook/angular': sbVersion,
-          '@storybook/builder-webpack5': sbVersion,
           '@storybook/core-server': sbVersion,
-          '@storybook/manager-webpack5': sbVersion,
         },
       })
     );
