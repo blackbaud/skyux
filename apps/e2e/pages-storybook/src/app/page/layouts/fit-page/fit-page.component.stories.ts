@@ -3,8 +3,8 @@ import { Meta, Story, moduleMetadata } from '@storybook/angular';
 import FitPageComponent from './fit-page.component';
 
 export default {
-  id: 'splitviewpagecomponent-splitviewpage',
-  title: 'Components/Page/Layouts/Split View',
+  id: 'fitpagecomponent-fitpage',
+  title: 'Components/Page/Layouts/Fit',
   component: FitPageComponent,
   decorators: [
     moduleMetadata({
