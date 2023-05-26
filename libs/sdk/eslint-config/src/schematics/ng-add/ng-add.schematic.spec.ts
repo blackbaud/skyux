@@ -7,12 +7,8 @@ import path from 'path';
 
 import { createTestApp } from '../shared/testing/scaffold';
 import { EsLintConfig } from '../shared/types/eslint-config';
+import { PackageJson } from '../shared/types/package-json';
 import { readJsonFile } from '../shared/utility/tree';
-
-interface PackageJson {
-  dependencies?: Record<string, string>;
-  devDependencies?: Record<string, string>;
-}
 
 const COLLECTION_PATH = path.resolve(__dirname, '../../../collection.json');
 const ESLINT_CONFIG_PATH = './.eslintrc.json';
