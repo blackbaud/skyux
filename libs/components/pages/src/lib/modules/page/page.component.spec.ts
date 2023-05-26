@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
+import { SkyLayoutHostService } from '@skyux/core';
 
 import { SkyPageComponent } from './page.component';
 import { SkyPageModule } from './page.module';
@@ -59,9 +60,27 @@ describe('Page component', () => {
     const fixture = TestBed.createComponent(SkyPageComponent);
     fixture.detectChanges();
 
-    validateLayout(fixture, 'auto', 'sky-page-layout-auto');
+    validateLayout(fixture, 'none', 'sky-page-layout-none');
     validateLayout(fixture, 'fit', 'sky-page-layout-fit');
-    validateLayout(fixture, undefined, 'sky-page-layout-auto');
+    validateLayout(fixture, undefined, 'sky-page-layout-none');
+
+    fixture.destroy();
+  });
+
+  it('should add the expected CSS class for the child layout', () => {
+    const fixture = TestBed.createComponent(SkyPageComponent);
+    fixture.detectChanges();
+
+    const layoutHostSvc =
+      fixture.debugElement.injector.get(SkyLayoutHostService);
+
+    layoutHostSvc.setHostLayoutForChild({ layout: 'tabs' });
+
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement).toHaveCssClass(
+      'sky-page-layout-for-child-tabs'
+    );
 
     fixture.destroy();
   });

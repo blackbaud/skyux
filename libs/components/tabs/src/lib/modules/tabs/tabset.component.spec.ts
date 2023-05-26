@@ -1974,7 +1974,7 @@ describe('Tabset component', () => {
         layout: expectedLayout,
       });
 
-      expect(fixture.nativeElement.querySelector('sky-tabset').className).toBe(
+      expect(fixture.nativeElement.querySelector('sky-tabset')).toHaveCssClass(
         `sky-tabset-layout-${expectedLayout}`
       );
 
@@ -1982,11 +1982,11 @@ describe('Tabset component', () => {
     }
 
     beforeEach(() => {
-      layoutHostSvc = new SkyLayoutHostService();
-
       TestBed.overrideProvider(SkyLayoutHostService, {
         useValue: layoutHostSvc,
       });
+
+      layoutHostSvc = TestBed.inject(SkyLayoutHostService);
     });
 
     it('should update the tabset layout for the selected tab', fakeAsync(() => {
