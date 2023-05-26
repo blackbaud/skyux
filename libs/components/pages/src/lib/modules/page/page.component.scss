@@ -6,38 +6,38 @@ sky-page {
   // xs breakpoint
   &.sky-page-layout {
     &-fit,
-    &-split-view {
+    &-for-child-fit {
       position: absolute;
       top: var(--sky-viewport-top);
       right: var(--sky-viewport-right);
       bottom: var(--sky-viewport-bottom);
       left: var(--sky-viewport-left);
-    }
-
-    &-box {
-      --sky-page-layout-header-spacing: 20px 10px 10px 10px;
-      --sky-page-layout-content-spacing: 10px;
-    }
-
-    &-list {
-      --sky-page-layout-header-spacing: 20px 10px 20px 10px;
-      --sky-page-layout-content-spacing: 0 10px;
-    }
-
-    &-split-view {
       display: flex;
       flex-direction: column;
 
       --sky-page-layout-header-flex-grow: 0;
-      --sky-page-layout-header-spacing: 20px 10px 20px 10px;
-      --sky-page-layout-content-spacing: 0 10px;
       --sky-page-layout-content-flex-grow: 1;
       --sky-page-layout-content-overflow: auto;
       --sky-page-layout-content-position: relative;
     }
 
+    &-blocks,
+    &-list,
+    &-fit,
     &-tabs {
-      --sky-page-layout-header-spacing: 20px 10px 20px 10px;
+      --sky-page-layout-header-spacing: 20px 10px;
+    }
+
+    &-blocks {
+      --sky-page-layout-content-spacing: 10px;
+    }
+
+    &-fit,
+    &-list {
+      --sky-page-layout-content-spacing: 0 10px;
+    }
+
+    &-tabs {
       --sky-page-layout-content-spacing: 0;
       --sky-page-layout-tab-content-spacing: 10px;
     }
@@ -47,13 +47,13 @@ sky-page {
 @include mixins.sky-host-responsive-container-sm-min(false) {
   sky-page {
     &.sky-page-layout {
-      &-box {
+      &-blocks {
         --sky-page-layout-header-spacing: 20px 20px 0 20px;
         --sky-page-layout-content-spacing: 20px;
       }
 
-      &-list,
-      &-split-view {
+      &-fit,
+      &-list {
         --sky-page-layout-header-spacing: 20px;
         --sky-page-layout-content-spacing: 0 20px;
       }
@@ -70,18 +70,18 @@ sky-page {
   @include mixins.sky-host-responsive-container-sm-min(false) {
     sky-page {
       &.sky-page-layout {
-        &-box {
+        &-blocks {
           --sky-page-layout-header-spacing: 30px 30px 0 30px;
           --sky-page-layout-content-spacing: 30px;
         }
 
-        &-list {
-          --sky-page-layout-header-spacing: 30px 30px 20px 30px;
+        &-fit {
+          --sky-page-layout-header-spacing: 30px;
           --sky-page-layout-content-spacing: 0 30px;
         }
 
-        &-split-view {
-          --sky-page-layout-header-spacing: 30px;
+        &-list {
+          --sky-page-layout-header-spacing: 30px 30px 20px 30px;
           --sky-page-layout-content-spacing: 0 30px;
         }
 

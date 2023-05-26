@@ -1,3 +1,32 @@
+:host {
+  &.sky-tab-layout {
+    &-fit {
+      display: flex;
+      flex-grow: 1;
+
+      .sky-tab {
+        flex-grow: 1;
+        position: relative;
+      }
+    }
+  }
+}
+
 .sky-tab {
-  padding: var(--sky-page-layout-tab-content-spacing, 0);
+  flex-grow: var(--sky-page-layout-content-flex-grow, 0);
+  overflow: var(--sky-page-layout-content-overflow, visible);
+  padding: var(--sky-page-layout-content-spacing, 0);
+  position: var(--sky-page-layout-content-position, static);
+}
+
+.sky-tab-layout {
+  &-fit {
+    .sky-tab {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+  }
 }

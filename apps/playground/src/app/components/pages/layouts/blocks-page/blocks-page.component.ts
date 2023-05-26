@@ -4,10 +4,9 @@ import { SkyBoxModule, SkyFluidGridModule } from '@skyux/layout';
 import { SkyPageModule } from '@skyux/pages';
 
 @Component({
-  selector: 'app-box-page',
   standalone: true,
   imports: [CommonModule, SkyBoxModule, SkyFluidGridModule, SkyPageModule],
-  templateUrl: './box-page.component.html',
+  templateUrl: './blocks-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class BoxPageComponent {}
+export default class BlocksPageComponent {}

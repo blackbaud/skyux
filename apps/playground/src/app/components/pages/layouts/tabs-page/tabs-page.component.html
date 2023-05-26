@@ -5,7 +5,7 @@
       label: 'Components',
       permalink: {
         route: {
-          commands: ['/components']
+          commands: ['/']
         }
       }
     }"
@@ -15,7 +15,9 @@
   <sky-page-content>
     <sky-tabset>
       <sky-tab tabHeading="Tab 1">Tab 1 Content</sky-tab>
-      <sky-tab tabHeading="Tab 2">Tab 2 Content</sky-tab>
+      <sky-tab tabHeading="Tab 2" layout="fit"
+        ><app-split-view-content
+      /></sky-tab>
       <sky-tab tabHeading="Tab 3">Tab 3 Content</sky-tab>
       <sky-tab tabHeading="Tab 4">Tab 4 Content</sky-tab>
       <sky-tab tabHeading="Tab 5" tabHeaderCount="9">Tab 5 Content</sky-tab>

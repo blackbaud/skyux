@@ -6,7 +6,6 @@ import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyDescriptionListModule } from '@skyux/layout';
 import { SkyRepeaterModule } from '@skyux/lists';
 import { SkyConfirmService, SkyConfirmType } from '@skyux/modals';
-import { SkyPageModule } from '@skyux/pages';
 import {
   SkySplitViewMessage,
   SkySplitViewMessageType,
@@ -26,21 +25,21 @@ interface WorkspaceItem {
 }
 
 @Component({
+  selector: 'app-split-view-content',
   standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
     SkyDescriptionListModule,
     SkyInputBoxModule,
-    SkyPageModule,
     SkyRepeaterModule,
     SkySplitViewModule,
     SkySummaryActionBarModule,
   ],
-  templateUrl: './split-view-page.component.html',
+  templateUrl: './split-view-content.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class SplitViewPageComponent {
+export class SplitViewContentComponent {
   protected set activeIndex(value: number) {
     this.#_activeIndex = value;
     this.activeRecord = this.items[this.#_activeIndex];

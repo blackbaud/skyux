@@ -1,5 +1,21 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
+sky-tabset {
+  &.sky-tabset-layout-fit {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+
+    .sky-tabset {
+      flex-grow: 0;
+    }
+  }
+}
+
 .sky-tabset {
   --sky-tabset-margin: 0;
 
@@ -8,10 +24,13 @@
   display: flex;
   list-style-type: none;
   margin: var(--sky-tabset-margin);
-  overflow: hidden;
   padding: 0 0 0
     var(--sky-page-layout-tab-content-spacing, #{$sky-padding-plus-half});
   white-space: nowrap;
+
+  flex-grow: var(--sky-page-layout-content-flex-grow, 0);
+  overflow: var(--sky-page-layout-content-overflow, hidden);
+  position: var(--sky-page-layout-content-position, static);
 
   &.sky-tabset-style-wizard {
     border-bottom: none;

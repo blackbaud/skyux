@@ -26,7 +26,7 @@ interface WorkspaceItem {
 }
 
 @Component({
-  selector: 'app-split-view-page',
+  selector: 'app-fit-page',
   standalone: true,
   imports: [
     CommonModule,
@@ -38,10 +38,10 @@ interface WorkspaceItem {
     SkySplitViewModule,
     SkySummaryActionBarModule,
   ],
-  templateUrl: './split-view-page.component.html',
+  templateUrl: './fit-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class SplitViewPageComponent {
+export default class FitPageComponent {
   protected set activeIndex(value: number) {
     this.#_activeIndex = value;
     this.activeRecord = this.items[this.#_activeIndex];

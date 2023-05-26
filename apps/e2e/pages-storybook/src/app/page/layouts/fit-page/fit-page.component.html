@@ -1,16 +1,5 @@
-<sky-page layout="split-view">
-  <sky-page-header
-    pageTitle="Split view page"
-    [parentLink]="{
-      label: 'Components',
-      permalink: {
-        route: {
-          commands: ['/components']
-        }
-      }
-    }"
-    >Some content</sky-page-header
-  >
+<sky-page layout="fit">
+  <sky-page-header pageTitle="Split view page">Header content</sky-page-header>
   <sky-page-content>
     <sky-split-view dock="fill" [messageStream]="splitViewStream">
       <sky-split-view-drawer

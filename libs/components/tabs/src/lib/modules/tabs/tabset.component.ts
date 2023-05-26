@@ -6,12 +6,15 @@ import {
   ContentChildren,
   ElementRef,
   EventEmitter,
+  HostBinding,
   Input,
   OnDestroy,
   Output,
   QueryList,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
+import { SkyLayoutHostService } from '@skyux/core';
 
 import { Subject, combineLatest, race } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
@@ -182,6 +185,9 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
     return this.#_tabs;
   }
 
+  @HostBinding('class')
+  public cssClass = 'sky-tabset-layout-none';
+
   public dropdownTriggerButtonText = '';
 
   /**
@@ -212,6 +218,8 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
   #adapterService: SkyTabsetAdapterService;
   #permalinkService: SkyTabsetPermalinkService;
   #tabsetService: SkyTabsetService;
+
+  #layoutHostSvc = inject(SkyLayoutHostService, { optional: true });
 
   constructor(
     changeDetector: ChangeDetectorRef,
@@ -329,6 +337,17 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
       .pipe(distinctUntilChanged(), takeUntil(this.#ngUnsubscribe))
       .subscribe((activeIndex) => {
         this.#updateTabsetComponent(activeIndex);
+        const activeTab = this.#getActiveTabComponent();
+
+        if (this.#layoutHostSvc && activeTab) {
+          const activeTabLayout = activeTab.layout || 'none';
+
+          this.#layoutHostSvc.setHostLayoutForChild({
+            layout: activeTabLayout,
+          });
+
+          this.cssClass = `sky-tabset-layout-${activeTabLayout}`;
+        }
       });
   }
 

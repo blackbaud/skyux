@@ -1,7 +1,1 @@
-export type SkyPageLayoutType =
-  | 'auto'
-  | 'fit'
-  | 'box'
-  | 'list'
-  | 'split-view'
-  | 'tabs';
+export type SkyPageLayoutType = 'none' | 'fit' | 'blocks' | 'list' | 'tabs';

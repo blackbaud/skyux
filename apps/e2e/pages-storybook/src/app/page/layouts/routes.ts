@@ -1,12 +1,20 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { Route } from '@angular/router';
 
 export default [
   {
-    path: 'box',
-    loadComponent: () => import('./box-page/box-page.component'),
+    path: 'blocks',
+    loadComponent: () => import('./blocks-page/blocks-page.component'),
     data: {
-      name: 'Page (Box)',
+      name: 'Page (Blocks)',
+      icon: 'list',
+      library: 'pages',
+    },
+  },
+  {
+    path: 'fit',
+    loadComponent: () => import('./fit-page/fit-page.component'),
+    data: {
+      name: 'Page (Fit)',
       icon: 'list',
       library: 'pages',
     },
@@ -16,15 +24,6 @@ export default [
     loadComponent: () => import('./list-page/list-page.component'),
     data: {
       name: 'Page (List)',
-      icon: 'list',
-      library: 'pages',
-    },
-  },
-  {
-    path: 'split-view',
-    loadComponent: () => import('./split-view-page/split-view-page.component'),
-    data: {
-      name: 'Page (Split View)',
       icon: 'list',
       library: 'pages',
     },
