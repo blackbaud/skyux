@@ -65,6 +65,7 @@ export class SkyDropdownHarness extends SkyComponentHarness {
       return 'context-menu';
     }
 
+    // TODO MISSING TAB
     return 'select';
   }
 
