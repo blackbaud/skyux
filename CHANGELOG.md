@@ -1,5 +1,13 @@
 # Changelog
 
+## [8.2.2](https://github.com/blackbaud/skyux/compare/8.2.1...8.2.2) (2023-05-30)
+
+
+### Bug Fixes
+
+* **components/forms:** use correct class in input box error documentation ([#1407](https://github.com/blackbaud/skyux/issues/1407)) ([973353c](https://github.com/blackbaud/skyux/commit/973353c8f55ba7815ba96f30c7b2f04f7e064caa))
+* **sdk/eslint-config:** require `@angular-eslint/schematics` and relax peer dependency requirements ([#1409](https://github.com/blackbaud/skyux/issues/1409)) ([83219c1](https://github.com/blackbaud/skyux/commit/83219c1593c8e289ef21e575dc1c5d858800645c))
+
 ## [8.2.1](https://github.com/blackbaud/skyux/compare/8.2.0...8.2.1) (2023-05-25)
 
 

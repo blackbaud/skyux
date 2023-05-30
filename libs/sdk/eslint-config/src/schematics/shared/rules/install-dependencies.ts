@@ -10,13 +10,7 @@ export function installDependencies(): Rule {
     context.addTask(new NodePackageInstallTask());
 
     const packages: Record<string, string> = {
-      '@angular-eslint/eslint-plugin': '^15.2.1',
-      '@angular-eslint/eslint-plugin-template': '^15.2.1',
-      '@angular-eslint/template-parser': '^15.2.1',
-      '@typescript-eslint/eslint-plugin': '^5.59.5',
-      '@typescript-eslint/parser': '^5.59.5',
       'eslint-plugin-deprecation': '^1.4.1',
-      eslint: '^8.36.0',
     };
 
     for (const [packageName, version] of Object.entries(packages)) {

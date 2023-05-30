@@ -4,12 +4,4 @@
  * TODO: Add a feature to ignore peer dependencies for the above command.
  */
 
-// import * from '@angular-eslint/eslint-plugin-template';
-// import * from '@angular-eslint/eslint-plugin';
-// import * from '@angular-eslint/template-parser';
-
-// import * from '@typescript-eslint/eslint-plugin';
-// import * from '@typescript-eslint/parser';
-
 // import * from 'eslint-plugin-deprecation';
-// import * from 'eslint';
