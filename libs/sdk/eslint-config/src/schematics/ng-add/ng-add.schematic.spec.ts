@@ -7,6 +7,7 @@ import path from 'path';
 
 import { createTestApp } from '../shared/testing/scaffold';
 import { EsLintConfig } from '../shared/types/eslint-config';
+import { PackageJson } from '../shared/types/package-json';
 import { readJsonFile } from '../shared/utility/tree';
 
 const COLLECTION_PATH = path.resolve(__dirname, '../../../collection.json');
@@ -16,12 +17,24 @@ describe('ng-add.schematic', () => {
   const runner = new SchematicTestRunner('schematics', COLLECTION_PATH);
   const defaultProjectName = 'my-app';
 
-  async function setupTest(options: { esLintConfig: EsLintConfig }) {
+  async function setupTest(options: {
+    esLintConfig: EsLintConfig;
+    packageJson?: PackageJson;
+  }) {
     const tree = await createTestApp(runner, {
       defaultProjectName,
     });
 
     tree.create(ESLINT_CONFIG_PATH, JSON.stringify(options.esLintConfig));
+
+    let packageJson = options.packageJson;
+    if (!options.packageJson) {
+      packageJson = JSON.parse(tree.readText('package.json')) as PackageJson;
+      packageJson.devDependencies ||= {};
+      packageJson.devDependencies['@angular-eslint/schematics'] = '*';
+    }
+
+    tree.overwrite('package.json', JSON.stringify(packageJson));
 
     const runSchematic = (options: { project?: string } = {}) => {
       return runner.runSchematic('ng-add', options, tree);
@@ -58,13 +71,7 @@ describe('ng-add.schematic', () => {
       'package.json',
       expect.objectContaining({
         devDependencies: expect.objectContaining({
-          '@angular-eslint/eslint-plugin': '^15.2.1',
-          '@angular-eslint/eslint-plugin-template': '^15.2.1',
-          '@angular-eslint/template-parser': '^15.2.1',
-          '@typescript-eslint/eslint-plugin': '^5.59.5',
-          '@typescript-eslint/parser': '^5.59.5',
           'eslint-plugin-deprecation': '^1.4.1',
-          eslint: '^8.36.0',
         }),
       })
     );
@@ -135,5 +142,20 @@ describe('ng-add.schematic', () => {
         },
       ],
     });
+  });
+
+  it("should abort if '@angular-eslint/schematics' is not installed", async () => {
+    const { runSchematic } = await setupTest({
+      esLintConfig: {},
+      packageJson: {
+        devDependencies: {}, // <-- empty
+      },
+    });
+
+    await expect(() => runSchematic()).rejects.toThrowError(
+      "The package '@angular-eslint/schematics' is not installed. " +
+        "Run 'ng add @angular-eslint/schematics' and try this command again.\n" +
+        'See: https://github.com/angular-eslint/angular-eslint#quick-start'
+    );
   });
 });
