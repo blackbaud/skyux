@@ -1,4 +1,3 @@
-import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -9,26 +8,23 @@ import { PopoverHarnessTestComponent } from './fixtures/popover-harness-test.com
 import { SkyPopoverHarness } from './popover-harness';
 
 async function setupTest(options?: {
-  openPopover: boolean;
+  dataSkyId?: string;
   titleText?: string;
   alignment?: SkyPopoverAlignment;
   placement?: SkyPopoverPlacement;
   dismissOnBlur?: boolean;
 }): Promise<{
-  popoverHarness: SkyPopoverHarness | null;
+  popoverHarness: SkyPopoverHarness;
   fixture: ComponentFixture<PopoverHarnessTestComponent>;
-  loader: HarnessLoader;
 }> {
   await TestBed.configureTestingModule({
     imports: [PopoverHarnessTestComponent, NoopAnimationsModule],
   }).compileComponents();
 
   const fixture = TestBed.createComponent(PopoverHarnessTestComponent);
-  const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
-  let open = true;
+  const loader = TestbedHarnessEnvironment.loader(fixture);
 
   if (options) {
-    open = options.openPopover;
     fixture.componentInstance.popoverAlignment = options.alignment;
     fixture.componentInstance.popoverPlacement = options.placement;
     fixture.componentInstance.popoverTitle = options.titleText;
@@ -38,43 +34,53 @@ async function setupTest(options?: {
   fixture.detectChanges();
   await fixture.whenStable();
 
-  if (open) {
-    const button = document.querySelector<HTMLButtonElement>('.sky-btn');
-    button?.click();
+  let popoverHarness: SkyPopoverHarness;
 
-    fixture.detectChanges();
-    await fixture.whenStable();
+  if (options?.dataSkyId) {
+    popoverHarness = await loader.getHarness(
+      SkyPopoverHarness.with({
+        dataSkyId: options.dataSkyId,
+      })
+    );
+  } else {
+    popoverHarness = await loader.getHarness(SkyPopoverHarness);
   }
-  const popoverHarness = await loader.getHarnessOrNull(SkyPopoverHarness);
 
-  return { popoverHarness, fixture, loader };
+  return { popoverHarness, fixture };
 }
 
 describe('Popover harness', () => {
-  it('should not exist when popover is hidden', async () => {
-    const { popoverHarness } = await setupTest({ openPopover: false });
+  it('should return an error when popover is hidden', async () => {
+    const { popoverHarness } = await setupTest();
 
-    expect(popoverHarness).toBeNull();
+    await expectAsync(popoverHarness.getPopoverContent()).toBeRejectedWithError(
+      'Unable to retrieve popover content harness because popover is not opened.'
+    );
   });
 
   it('should expose popover properties when visible', async () => {
     const { popoverHarness } = await setupTest();
 
-    expect(popoverHarness).not.toBeNull();
-    await expectAsync(popoverHarness?.getTitleText()).toBeResolvedTo(
+    await popoverHarness.open();
+    const contentHarness = await popoverHarness.getPopoverContent();
+
+    await expectAsync(contentHarness.getTitleText()).toBeResolvedTo(
       'popover title'
     );
-    await expectAsync(popoverHarness?.getBodyText()).toBeResolvedTo(
+    await expectAsync(contentHarness.getBodyText()).toBeResolvedTo(
       'popover body'
     );
-    await expectAsync(popoverHarness?.getAlignment()).toBeResolvedTo('center');
-    await expectAsync(popoverHarness?.getPlacement()).toBeResolvedTo('above');
+    await expectAsync(contentHarness.getAlignment()).toBeResolvedTo('center');
+    await expectAsync(contentHarness.getPlacement()).toBeResolvedTo('above');
   });
 
   it('should allow querying harnesses inside a popover', async () => {
     const { popoverHarness } = await setupTest();
 
-    const bodyHarness = await popoverHarness?.queryHarness(
+    await popoverHarness.open();
+    const contentHarness = await popoverHarness.getPopoverContent();
+
+    const bodyHarness = await contentHarness.queryHarness(
       PopoverHarnessTestItemHarness
     );
 
@@ -83,50 +89,63 @@ describe('Popover harness', () => {
       'popover body'
     );
 
-    const bodyHarnesses = await popoverHarness?.queryHarnesses(
+    const bodyHarnesses = await contentHarness.queryHarnesses(
       PopoverHarnessTestItemHarness
     );
     expect(bodyHarnesses).not.toBeNull();
     expect(bodyHarnesses!.length).toBe(1);
 
-    const bodyElement = await popoverHarness?.querySelector('.popover-body');
+    const bodyElement = await contentHarness.querySelector('.popover-body');
     expect(bodyElement).not.toBeNull();
 
-    const noteElements = await popoverHarness?.querySelectorAll(
-      '.popover-body'
-    );
+    const noteElements = await contentHarness.querySelectorAll('.popover-body');
     expect(noteElements).not.toBeNull();
     expect(noteElements!.length).toBe(1);
   });
 
   it('should close the popover if clicking out when dismissOnBlur is set to true', async () => {
-    // eslint-disable-next-line prefer-const
-    let { popoverHarness, fixture, loader } = await setupTest();
+    const { popoverHarness, fixture } = await setupTest();
 
     fixture.componentInstance.dismissOnBlur = true;
 
     fixture.detectChanges();
     await fixture.whenStable();
 
-    await popoverHarness?.clickOut();
+    await popoverHarness.open();
+    await popoverHarness.close();
 
-    popoverHarness = await loader.getHarnessOrNull(SkyPopoverHarness);
-    expect(popoverHarness).toBeNull();
+    await expectAsync(popoverHarness.getPopoverContent()).toBeRejectedWithError(
+      'Unable to retrieve popover content harness because popover is not opened.'
+    );
   });
 
   it('should not close the popover if clicking out when dismissOnBlur is set to false', async () => {
-    // eslint-disable-next-line prefer-const
-    let { popoverHarness, fixture, loader } = await setupTest({
-      openPopover: true,
+    const { popoverHarness, fixture } = await setupTest({
       dismissOnBlur: false,
     });
 
     fixture.detectChanges();
     await fixture.whenStable();
 
-    await popoverHarness?.clickOut();
+    await popoverHarness.open();
+    await popoverHarness.close();
 
-    popoverHarness = await loader.getHarnessOrNull(SkyPopoverHarness);
-    expect(popoverHarness).not.toBeNull();
+    await expectAsync(popoverHarness.getPopoverContent()).toBeResolved();
+  });
+
+  it('should get popovers by data-sky-id', async () => {
+    const { popoverHarness } = await setupTest({
+      dataSkyId: 'another-popover',
+    });
+
+    await popoverHarness.open();
+    const contentHarness = await popoverHarness.getPopoverContent();
+
+    await expectAsync(contentHarness.getTitleText()).toBeResolvedTo(
+      'Another popover'
+    );
+    await expectAsync(contentHarness.getBodyText()).toBeResolvedTo(
+      'I have different content'
+    );
   });
 });

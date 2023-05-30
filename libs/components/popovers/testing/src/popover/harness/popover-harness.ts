@@ -1,109 +1,67 @@
-import {
-  ComponentHarness,
-  HarnessQuery,
-  TestElement,
-} from '@angular/cdk/testing';
-import { SkyOverlayHarness } from '@skyux/core/testing';
+import { HarnessPredicate } from '@angular/cdk/testing';
+import { SkyComponentHarness } from '@skyux/core/testing';
+
+import { SkyPopoverContentHarness } from './popover-content-harness';
+import { SkyPopoverHarnessFilters } from './popover-harness-filters';
 
 /**
- * Harness for interacting with an popover component in tests.
+ * Harness for interacting with a popover component in tests.
  */
-export class SkyPopoverHarness extends ComponentHarness {
+export class SkyPopoverHarness extends SkyComponentHarness {
   /**
    * @internal
    */
-  public static hostSelector = 'sky-popover-content';
+  // Directives that take input arguments that aren't strings don't remain in the DOM
+  public static hostSelector = '[ng-reflect-sky-popover]';
 
-  #getBody = this.locatorFor('.sky-popover-body');
-  #getContainer = this.locatorFor('.sky-popover-container');
-  #getOverlay =
-    this.documentRootLocatorFactory().locatorForOptional(SkyOverlayHarness);
-  #getTitle = this.locatorForOptional('.sky-popover-title');
+  #getContent = this.documentRootLocatorFactory().locatorForOptional(
+    SkyPopoverContentHarness
+  );
 
   /**
-   * Returns a child harness.
+   * Gets a `HarnessPredicate` that can be used to search for a
+   * `SkyPopoverHarness` that meets certain criteria.
    */
-  public async queryHarness<T extends ComponentHarness>(
-    harness: HarnessQuery<T>
-  ): Promise<T | null> {
-    return this.locatorForOptional(harness)();
+  public static with(
+    filters: SkyPopoverHarnessFilters
+  ): HarnessPredicate<SkyPopoverHarness> {
+    return SkyPopoverHarness.getDataSkyIdPredicate(filters);
   }
 
   /**
-   * Returns child harnesses.
+   * Opens a popover.
    */
-  public async queryHarnesses<T extends ComponentHarness>(
-    harness: HarnessQuery<T>
-  ): Promise<T[]> {
-    return this.locatorForAll(harness)();
-  }
-
-  /**
-   * Returns a child test element.
-   */
-  public async querySelector(selector: string): Promise<TestElement | null> {
-    return this.locatorForOptional(selector)();
-  }
-
-  /**
-   * Returns child test elements.
-   */
-  public async querySelectorAll(selector: string): Promise<TestElement[]> {
-    return this.locatorForAll(selector)();
-  }
-
-  /**
-   * Gets the placement of the popover content.
-   */
-  public async getPlacement(): Promise<string> {
-    const container = await this.#getContainer();
-
-    for (const placement of ['left', 'right', 'above', 'below']) {
-      if (await container.hasClass('sky-popover-placement-' + placement)) {
-        return placement;
-      }
+  public async open(): Promise<void> {
+    if (!(await this.isOpen())) {
+      (await this.host()).click();
     }
-
-    // This should never happen because the placement input is always defined by the parent.
-    /* istanbul ignore next */
-    return '';
   }
 
   /**
-   * Gets the alignment of the popover content.
+   * Closes a popover.
    */
-  public async getAlignment(): Promise<string> {
-    const container = await this.#getContainer();
-
-    for (const alignment of ['left', 'center', 'right']) {
-      if (await container.hasClass('sky-popover-alignment-' + alignment)) {
-        return alignment;
-      }
+  public async close(): Promise<void> {
+    const content = await this.#getContent();
+    if (content) {
+      await content.clickOut();
     }
-
-    // This should never happen because the alignment input is always defined by the parent.
-    /* istanbul ignore next */
-    return '';
   }
 
   /**
-   * Gets the text of the popover content title.
+   * Gets whether the popover is open.
    */
-  public async getTitleText(): Promise<string | undefined> {
-    return (await this.#getTitle())?.text();
+  public async isOpen(): Promise<boolean> {
+    return !!(await this.#getContent());
   }
 
-  /**
-   * Gets the text of the popover content body.
-   */
-  public async getBodyText(): Promise<string> {
-    return (await this.#getBody()).text();
-  }
-
-  /**
-   * Clicks out of the dropdown menu. If `dismissOnBlur` property is set to false, then the dropdown menu does not close.
-   */
-  public async clickOut(): Promise<void> {
-    (await (await this.#getOverlay())?.host())?.click();
+  public async getPopoverContent(): Promise<SkyPopoverContentHarness> {
+    const content = await this.#getContent();
+    if (!content) {
+      throw new Error(
+        'Unable to retrieve popover content harness because popover is not opened.'
+      );
+    }
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return content!;
   }
 }
