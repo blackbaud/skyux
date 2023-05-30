@@ -25,11 +25,19 @@ export function getElementOffset(
     right = document.documentElement.clientWidth;
     bottom = document.documentElement.clientHeight;
   } else {
+    // figure out how to do it based on position, and how offset top relates to top
     const clientRect = element.getBoundingClientRect();
     left = clientRect.left;
     top = clientRect.top;
     right = clientRect.right;
     bottom = clientRect.bottom;
+
+    // if (visualViewport?.height !== window.innerHeight) {
+    //   bottom -=
+    //     window.innerHeight -
+    //     ((window.visualViewport?.height || 0) +
+    //       (visualViewport?.offsetTop || 0));
+    // }
   }
 
   bottom -= bufferOffsetBottom;
@@ -44,6 +52,10 @@ export function getElementOffset(
     top,
   };
 }
+
+// function viewportOffset(offset: DOMRect) {
+//   return { y: -offset.top, x: -offset.left };
+// }
 
 export function getOverflowParents(child: HTMLElement): HTMLElement[] {
   const bodyElement = window.document.body;
@@ -87,7 +99,7 @@ export function isOffsetFullyVisibleWithinParent(
   bufferOffset?: SkyAffixOffset
 ): boolean {
   const parentOffset = getElementOffset(parent, bufferOffset);
-
+  // drawRect(offset);
   return !(
     parentOffset.top > offset.top ||
     parentOffset.right < offset.right ||
@@ -102,7 +114,7 @@ export function isOffsetPartiallyVisibleWithinParent(
   bufferOffset?: SkyAffixOffset
 ): boolean {
   const parentOffset = getElementOffset(parent, bufferOffset);
-
+  // drawRect(offset);
   return !(
     parentOffset.top >= offset.bottom ||
     parentOffset.right <= offset.left ||
@@ -110,3 +122,19 @@ export function isOffsetPartiallyVisibleWithinParent(
     parentOffset.left >= offset.right
   );
 }
+
+// function drawRect(offset: Required<SkyAffixOffset>): void {
+//   let canvas = document.createElement('canvas');
+//   canvas.style.width = '100%';
+//   canvas.style.height = '100%';
+//   canvas.width = window.innerWidth;
+//   canvas.height = window.innerHeight;
+//   canvas.style.position = 'absolute';
+//   canvas.style.left = '0';
+//   canvas.style.top = '0';
+//   canvas.style.zIndex = '100000';
+//   document.body.appendChild(canvas);
+//   let rend = canvas.getContext('2d');
+//   rend?.rect(offset.left, offset.top, 168, 108);
+//   rend?.stroke();
+// }

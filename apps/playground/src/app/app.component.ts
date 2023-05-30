@@ -8,6 +8,8 @@ import {
   SkyThemeSettings,
 } from '@skyux/theme';
 
+import { Subject } from 'rxjs';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -15,6 +17,13 @@ import {
 })
 export class AppComponent {
   public height = 80;
+  public intervalId;
+
+  public windowObs = new Subject<number>();
+  public visualObs = new Subject<number>();
+
+  public windowHeight;
+  public visualHeight;
 
   constructor(
     private router: Router,
@@ -36,6 +45,24 @@ export class AppComponent {
         SkyThemeMode.presets.light
       )
     );
+
+    this.intervalId = setInterval(() => {
+      this.windowObs.next(window.innerHeight);
+      this.visualObs.next(window.visualViewport.height);
+    }, 1000);
+  }
+
+  ngOnInit() {
+    this.windowObs.subscribe((x) => {
+      this.windowHeight = x;
+    });
+    this.visualObs.subscribe((x) => {
+      this.visualHeight = x;
+    });
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.intervalId);
   }
 
   public isHome(): boolean {

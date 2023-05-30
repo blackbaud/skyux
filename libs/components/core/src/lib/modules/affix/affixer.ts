@@ -183,12 +183,13 @@ export class SkyAffixer {
       this.#renderer.setStyle(this.#affixedElement, 'left', `${offset.left}px`);
 
       this.#offsetChange.next({ offset });
+      const canvas = document.querySelectorAll('canvas');
+      canvas.forEach((x) => x.remove());
     }
   }
 
   #getOffset(): SkyAffixOffset {
     const parent = this.#getAutoFitContextParent(); // window.body
-    console.log(parent);
     const maxAttempts = 4;
     let attempts = 0;
 
@@ -205,10 +206,6 @@ export class SkyAffixer {
     };
 
     // this is very jittery. RETHINK
-    if (window.innerHeight !== window.visualViewport.height) {
-      autoFitOverflowOffset.top =
-        window.innerHeight - window.visualViewport.height;
-    }
 
     // if it is position absolute then the top value will be set. and we wanna add the scroll y to it.
     if (this.#config.position === 'absolute') {
@@ -268,12 +265,49 @@ export class SkyAffixer {
       height: baseDomRect.height,
     };
 
+    // THIS WORKS FOR INITIAL PLACEMENT BUT NOT WHEN SCROLLING
+    if (
+      window.innerHeight !== window.visualViewport?.height ||
+      window.innerWidth !== window.visualViewport?.width
+    ) {
+      const yOffset =
+        window.innerHeight -
+        ((visualViewport?.height || 0) + (visualViewport?.offsetTop || 0));
+      // const xOffset =
+      //   window.innerWidth -
+      //   ((window.visualViewport?.width || 0) +
+      //     (visualViewport?.offsetLeft || 0));
+
+      // baseRect.left -= xOffset;
+      // baseRect.right -= xOffset;
+      baseRect.bottom -= yOffset;
+      baseRect.top -= yOffset;
+    }
+
     if (this.#config.position === 'absolute') {
       baseRect.top += window.scrollY;
       baseRect.bottom = baseRect.top + baseDomRect.height;
     }
 
+    // this.drawRect(baseRect);
+
     return baseRect;
+  }
+
+  drawRect(offset: Required<SkyAffixOffset>): void {
+    let canvas = document.createElement('canvas');
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    canvas.style.position = 'absolute';
+    canvas.style.left = '0';
+    canvas.style.top = '0';
+    canvas.style.zIndex = '100000';
+    document.body.appendChild(canvas);
+    let rend = canvas.getContext('2d');
+    rend?.rect(offset.left, offset.top, 168, 108);
+    rend?.stroke();
   }
 
   #getPreferredOffset(placement: SkyAffixPlacement): Required<SkyAffixOffset> {
