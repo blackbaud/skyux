@@ -1,0 +1,36 @@
+{
+  "name": "progress-indicator-storybook-e2e",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/e2e/progress-indicator-storybook-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/e2e/progress-indicator-storybook-e2e/cypress.config.ts",
+        "devServerTarget": "progress-indicator-storybook:storybook",
+        "testingType": "e2e",
+        "baseUrl": "http://localhost:4400"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "progress-indicator-storybook:serve:production"
+        },
+        "ci": {
+          "devServerTarget": "progress-indicator-storybook:serve-static"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "apps/e2e/progress-indicator-storybook-e2e/**/*.{js,ts}"
+        ]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["progress-indicator-storybook"]
+}
