@@ -20,10 +20,5 @@ export class DropdownComponent {
   public buttonStyle: 'default' | 'primary' | 'link' = 'default';
 
   @Input()
-  public disabledFlag: boolean = false;
-
-  public hideButton() {}
-
-  // TODO the next day
-  // check data manager for setting up a for loop u iterate through in the cypress file
+  public disabledFlag = false;
 }
