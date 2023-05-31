@@ -17,56 +17,37 @@ const Template: StoryFn<DropdownComponent> = (args: DropdownComponent) => ({
   props: args,
 });
 
-export const DropdownSelectLeftAligned = Template.bind({});
-DropdownSelectLeftAligned.args = {
-  buttonType: 'select',
+export const DropdownDefaultButton = Template.bind({});
+DropdownDefaultButton.args = {
+  buttonStyle: 'default',
+};
+
+export const DropdownPrimaryButton = Template.bind({});
+DropdownPrimaryButton.args = {
+  buttonStyle: 'primary',
+};
+
+export const DropdownLinkButton = Template.bind({});
+DropdownLinkButton.args = {
+  buttonStyle: 'link',
+};
+
+export const DropdownDisabledButton = Template.bind({});
+DropdownDisabledButton.args = {
+  disabledFlag: true,
+};
+
+export const DropdownLeftAligned = Template.bind({});
+DropdownLeftAligned.args = {
   horizontalAlignment: 'left',
 };
 
-export const DropdownSelectRightAligned = Template.bind({});
-DropdownSelectLeftAligned.args = {
-  buttonType: 'select',
+export const DropdownRightAligned = Template.bind({});
+DropdownRightAligned.args = {
   horizontalAlignment: 'right',
 };
 
-export const DropdownSelectCenterAligned = Template.bind({});
-DropdownSelectLeftAligned.args = {
-  buttonType: 'select',
-  horizontalAlignment: 'center',
-};
-
-export const DropdownContextMenuLeftAligned = Template.bind({});
-DropdownSelectLeftAligned.args = {
-  buttonType: 'context-menu',
-  horizontalAlignment: 'left',
-};
-
-export const DropdownContextMenuRightAligned = Template.bind({});
-DropdownSelectLeftAligned.args = {
-  buttonType: 'context-menu',
-  horizontalAlignment: 'right',
-};
-
-export const DropdownContextMenuCenterAligned = Template.bind({});
-DropdownSelectLeftAligned.args = {
-  buttonType: 'context-menu',
-  horizontalAlignment: 'center',
-};
-
-export const DropdownTabLeftAligned = Template.bind({});
-DropdownSelectLeftAligned.args = {
-  buttonType: 'tab',
-  horizontalAlignment: 'left',
-};
-
-export const DropdownTabRightAligned = Template.bind({});
-DropdownSelectLeftAligned.args = {
-  buttonType: 'tab',
-  horizontalAlignment: 'right',
-};
-
-export const DropdownTabCenterAligned = Template.bind({});
-DropdownSelectLeftAligned.args = {
-  buttonType: 'tab',
+export const DropdownCenterAligned = Template.bind({});
+DropdownCenterAligned.args = {
   horizontalAlignment: 'center',
 };

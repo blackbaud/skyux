@@ -1,9 +1,48 @@
 <sky-dropdown
   [buttonStyle]="buttonStyle"
-  [buttonType]="buttonType"
+  [buttonType]="'select'"
   [disabled]="disabledFlag"
   [horizontalAlignment]="horizontalAlignment"
 >
+  <sky-dropdown-button><sky-icon icon="pencil"></sky-icon></sky-dropdown-button>
+  <sky-dropdown-menu>
+    <sky-dropdown-item>Item 1</sky-dropdown-item>
+    <sky-dropdown-item>Item 2</sky-dropdown-item>
+    <sky-dropdown-item>Item 3</sky-dropdown-item>
+  </sky-dropdown-menu>
+</sky-dropdown>
+<sky-dropdown
+  [buttonStyle]="buttonStyle"
+  [buttonType]="'select'"
+  [disabled]="disabledFlag"
+  [horizontalAlignment]="horizontalAlignment"
+>
+  <sky-dropdown-button>Edit</sky-dropdown-button>
+  <sky-dropdown-menu>
+    <sky-dropdown-item>Item 1</sky-dropdown-item>
+    <sky-dropdown-item>Item 2</sky-dropdown-item>
+    <sky-dropdown-item>Item 3</sky-dropdown-item>
+  </sky-dropdown-menu>
+</sky-dropdown>
+<sky-dropdown
+  [buttonStyle]="buttonStyle"
+  [buttonType]="'context-menu'"
+  [disabled]="disabledFlag"
+  [horizontalAlignment]="horizontalAlignment"
+>
+  <sky-dropdown-menu>
+    <sky-dropdown-item>Item 1</sky-dropdown-item>
+    <sky-dropdown-item>Item 2</sky-dropdown-item>
+    <sky-dropdown-item>Item 3</sky-dropdown-item>
+  </sky-dropdown-menu>
+</sky-dropdown>
+<sky-dropdown
+  [buttonStyle]="buttonStyle"
+  [buttonType]="'tab'"
+  [disabled]="disabledFlag"
+  [horizontalAlignment]="horizontalAlignment"
+>
+  <sky-dropdown-button>Tab dropdown</sky-dropdown-button>
   <sky-dropdown-menu>
     <sky-dropdown-item>Item 1</sky-dropdown-item>
     <sky-dropdown-item>Item 2</sky-dropdown-item>

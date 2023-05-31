@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
 
-type DropdownTypeSettings = {
-  buttonType: FormControl<'select' | 'context-menu' | 'tab'>;
-  horizontalAlignment: FormControl<'left' | 'right' | 'center'>;
-};
+// import { FormControl } from '@angular/forms';
+
+// type DropdownTypeSettings = {
+//   buttonType: FormControl<'select' | 'context-menu' | 'tab'>;
+//   horizontalAlignment: FormControl<'left' | 'right' | 'center'>;
+// };
 
 @Component({
   selector: 'app-dropdown',
@@ -13,8 +14,16 @@ type DropdownTypeSettings = {
 })
 export class DropdownComponent {
   @Input()
-  public buttonType: 'select' | 'context-menu' | 'tab' = 'select';
+  public horizontalAlignment: 'left' | 'right' | 'center' = 'left';
 
   @Input()
-  public horizontalAlignment: 'left' | 'right' | 'center' = 'left';
+  public buttonStyle: 'default' | 'primary' | 'link' = 'default';
+
+  @Input()
+  public disabledFlag: boolean = false;
+
+  public hideButton() {}
+
+  // TODO the next day
+  // check data manager for setting up a for loop u iterate through in the cypress file
 }
