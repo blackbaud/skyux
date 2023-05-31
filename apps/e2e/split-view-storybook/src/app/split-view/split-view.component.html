@@ -1,5 +1,5 @@
 <div class="screenshot-area"></div>
-<sky-split-view dock="fill">
+<sky-split-view dock="fill" backButtonText="Responsive button text">
   <sky-split-view-drawer>Drawer</sky-split-view-drawer>
   <sky-split-view-workspace>
     <sky-split-view-workspace-header>Header</sky-split-view-workspace-header>
@@ -7,3 +7,4 @@
     <sky-split-view-workspace-footer>Footer</sky-split-view-workspace-footer>
   </sky-split-view-workspace>
 </sky-split-view>
+<span id="ready" *ngIf="ready | async"></span>
