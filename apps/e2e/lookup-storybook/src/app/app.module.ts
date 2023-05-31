@@ -6,11 +6,6 @@ import { AppComponent } from './app.component';
 
 const routes: Route[] = [
   {
-    path: 'lookup',
-    loadChildren: () =>
-      import('./lookup/lookup.module').then((m) => m.LookupModule),
-  },
-  {
     path: 'search',
     loadChildren: () =>
       import('./search/search.module').then((m) => m.SearchModule),
