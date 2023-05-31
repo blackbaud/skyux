@@ -1,12 +1,5 @@
 import { Component, Input } from '@angular/core';
 
-// import { FormControl } from '@angular/forms';
-
-// type DropdownTypeSettings = {
-//   buttonType: FormControl<'select' | 'context-menu' | 'tab'>;
-//   horizontalAlignment: FormControl<'left' | 'right' | 'center'>;
-// };
-
 @Component({
   selector: 'app-dropdown',
   templateUrl: './dropdown.component.html',
