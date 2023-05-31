@@ -8,12 +8,29 @@ describe('toast-storybook', () => {
           `/iframe.html?globals=theme:${theme}&id=toastcomponent-toast--toast`
         )
       );
-      it('should render the component', () => {
+
+      it('should render the components when only a message is used ', () => {
         cy.get('app-toast')
           .should('exist')
           .should('be.visible')
+          .get('#default-trigger')
+          .click()
+          .get('.sky-toaster')
           .screenshot(`toastcomponent-toast--toast-${theme}`)
           .percySnapshot(`toastcomponent-toast--toast-${theme}`, {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+          });
+      });
+
+      it('should render the components when a custom component is used', () => {
+        cy.get('app-toast')
+          .should('exist')
+          .should('be.visible')
+          .get('#custom-trigger')
+          .click()
+          .get('.sky-toaster')
+          .screenshot(`toastcomponent-toast--toast-custom-${theme}`)
+          .percySnapshot(`toastcomponent-toast--toast-custom-${theme}`, {
             widths: E2eVariations.DISPLAY_WIDTHS,
           });
       });
