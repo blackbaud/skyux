@@ -65,7 +65,10 @@ export class SkyDropdownHarness extends SkyComponentHarness {
       return 'context-menu';
     }
 
-    // TODO MISSING TAB
+    if (await button.hasClass('sky-dropdown-button-type-tab')) {
+      return 'tab';
+    }
+
     return 'select';
   }
 
