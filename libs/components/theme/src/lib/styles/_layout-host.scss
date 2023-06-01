@@ -1,0 +1,93 @@
+@use 'mixins' as mixins;
+
+// xs breakpoint
+.sky-layout-host {
+  &-blocks,
+  &-list,
+  &-tabs {
+    display: block;
+  }
+
+  &-fit,
+  &-for-child-fit {
+    position: absolute;
+    top: var(--sky-viewport-top);
+    right: var(--sky-viewport-right);
+    bottom: var(--sky-viewport-bottom);
+    left: var(--sky-viewport-left);
+    display: flex;
+    flex-direction: column;
+
+    --sky-layout-host-header-flex-grow: 0;
+    --sky-layout-host-content-flex-grow: 1;
+    --sky-layout-host-content-overflow: auto;
+    --sky-layout-host-content-position: relative;
+  }
+
+  &-blocks,
+  &-list,
+  &-fit,
+  &-tabs {
+    --sky-layout-host-header-spacing: 20px 10px;
+  }
+
+  &-blocks {
+    --sky-layout-host-content-spacing: 10px;
+  }
+
+  &-fit,
+  &-list {
+    --sky-layout-host-content-spacing: 0 10px;
+  }
+
+  &-tabs {
+    --sky-layout-host-content-spacing: 0;
+    --sky-layout-host-tab-content-spacing: 10px;
+  }
+}
+
+@include mixins.sky-host-responsive-container-sm-min(false) {
+  .sky-layout-host {
+    &-blocks {
+      --sky-layout-host-header-spacing: 20px 20px 0 20px;
+      --sky-layout-host-content-spacing: 20px;
+    }
+
+    &-fit,
+    &-list {
+      --sky-layout-host-header-spacing: 20px;
+      --sky-layout-host-content-spacing: 0 20px;
+    }
+
+    &-tabs {
+      --sky-layout-host-header-spacing: 20px;
+      --sky-layout-host-tab-content-spacing: 20px;
+    }
+  }
+}
+
+.sky-theme-modern {
+  @include mixins.sky-host-responsive-container-sm-min(false) {
+    .sky-layout-host {
+      &-blocks {
+        --sky-layout-host-header-spacing: 30px 30px 0 30px;
+        --sky-layout-host-content-spacing: 30px;
+      }
+
+      &-fit {
+        --sky-layout-host-header-spacing: 30px;
+        --sky-layout-host-content-spacing: 0 30px;
+      }
+
+      &-list {
+        --sky-layout-host-header-spacing: 30px 30px 20px 30px;
+        --sky-layout-host-content-spacing: 0 30px;
+      }
+
+      &-tabs {
+        --sky-layout-host-header-spacing: 30px;
+        --sky-layout-host-tab-content-spacing: 30px;
+      }
+    }
+  }
+}

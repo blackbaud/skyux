@@ -60,9 +60,9 @@ describe('Page component', () => {
     const fixture = TestBed.createComponent(SkyPageComponent);
     fixture.detectChanges();
 
-    validateLayout(fixture, 'none', 'sky-page-layout-none');
-    validateLayout(fixture, 'fit', 'sky-page-layout-fit');
-    validateLayout(fixture, undefined, 'sky-page-layout-none');
+    validateLayout(fixture, 'none', 'sky-layout-host-none');
+    validateLayout(fixture, 'fit', 'sky-layout-host-fit');
+    validateLayout(fixture, undefined, 'sky-layout-host-none');
 
     fixture.destroy();
   });
@@ -79,7 +79,7 @@ describe('Page component', () => {
     fixture.detectChanges();
 
     expect(fixture.nativeElement).toHaveCssClass(
-      'sky-page-layout-for-child-tabs'
+      'sky-layout-host-for-child-tabs'
     );
 
     fixture.destroy();

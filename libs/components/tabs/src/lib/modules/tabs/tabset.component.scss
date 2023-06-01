@@ -25,12 +25,12 @@ sky-tabset {
   list-style-type: none;
   margin: var(--sky-tabset-margin);
   padding: 0 0 0
-    var(--sky-page-layout-tab-content-spacing, #{$sky-padding-plus-half});
+    var(--sky-layout-host-tab-content-spacing, #{$sky-padding-plus-half});
   white-space: nowrap;
 
-  flex-grow: var(--sky-page-layout-content-flex-grow, 0);
-  overflow: var(--sky-page-layout-content-overflow, hidden);
-  position: var(--sky-page-layout-content-position, static);
+  flex-grow: var(--sky-layout-host-content-flex-grow, 0);
+  overflow: var(--sky-layout-host-content-overflow, hidden);
+  position: var(--sky-layout-host-content-position, static);
 
   &.sky-tabset-style-wizard {
     border-bottom: none;

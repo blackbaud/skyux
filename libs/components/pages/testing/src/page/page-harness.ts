@@ -4,7 +4,7 @@ import { SkyPageLayoutType } from '@skyux/pages';
 
 import { SkyPageHarnessFilters } from './page-harness-filters';
 
-const LAYOUT_PREFIX = 'sky-page-layout-';
+const LAYOUT_PREFIX = 'sky-layout-host-';
 const LAYOUT_TYPES: SkyPageLayoutType[] = ['blocks', 'fit', 'list', 'tabs'];
 
 /**

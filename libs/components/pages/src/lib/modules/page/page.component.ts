@@ -4,7 +4,6 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  ViewEncapsulation,
   inject,
 } from '@angular/core';
 import { SkyLayoutHostService } from '@skyux/core';
@@ -17,8 +16,8 @@ import { SkyPageLayoutType } from './types/page-layout-type';
 
 const LAYOUT_DEFAULT: SkyPageLayoutType = 'none';
 
-const LAYOUT_FOR_CHILD_CLASS_PREFIX = 'sky-page-layout-for-child-';
-const LAYOUT_CLASS_PREFIX = 'sky-page-layout-';
+const LAYOUT_FOR_CHILD_CLASS_PREFIX = 'sky-layout-host-for-child-';
+const LAYOUT_CLASS_PREFIX = 'sky-layout-host-';
 const LAYOUT_CLASS_DEFAULT = `${LAYOUT_CLASS_PREFIX}${LAYOUT_DEFAULT}`;
 
 /**
@@ -27,9 +26,7 @@ const LAYOUT_CLASS_DEFAULT = `${LAYOUT_CLASS_PREFIX}${LAYOUT_DEFAULT}`;
 @Component({
   selector: 'sky-page',
   template: `<ng-content />`,
-  styleUrls: ['./page.component.scss'],
   providers: [SkyPageThemeAdapterService, SkyLayoutHostService],
-  encapsulation: ViewEncapsulation.None,
 })
 export class SkyPageComponent implements OnInit, OnDestroy {
   /**

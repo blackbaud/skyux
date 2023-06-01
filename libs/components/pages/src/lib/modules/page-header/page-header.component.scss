@@ -2,13 +2,13 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
 :host {
-  flex-grow: var(--sky-page-layout-header-flex-grow, 0);
+  flex-grow: var(--sky-layout-host-header-flex-grow, 0);
   display: block;
 }
 
 .sky-page-header {
   margin: var(
-    --sky-page-layout-header-spacing,
+    --sky-layout-host-header-spacing,
     var(--sky-compat-page-header-margin-top-and-bottom, 0) 0
   );
 
@@ -34,7 +34,7 @@
   }
 
   &-content {
-    margin: var(--sky-page-layout-header-spacing, 0);
+    margin: var(--sky-layout-host-header-spacing, 0);
   }
 }
 

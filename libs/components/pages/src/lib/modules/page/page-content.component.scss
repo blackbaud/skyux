@@ -1,7 +1,7 @@
 :host {
   display: block;
-  padding: var(--sky-page-layout-content-spacing, 0);
-  flex-grow: var(--sky-page-layout-content-flex-grow, 0);
-  overflow: var(--sky-page-layout-content-overflow, visible);
-  position: var(--sky-page-layout-content-position, static);
+  padding: var(--sky-layout-host-content-spacing, 0);
+  flex-grow: var(--sky-layout-host-content-flex-grow, 0);
+  overflow: var(--sky-layout-host-content-overflow, visible);
+  position: var(--sky-layout-host-content-position, static);
 }

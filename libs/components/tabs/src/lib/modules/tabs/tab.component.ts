@@ -18,6 +18,7 @@ import { SkyTabLayoutType } from './tab-layout-type';
 import { SkyTabsetPermalinkService } from './tabset-permalink.service';
 import { SkyTabsetService } from './tabset.service';
 
+const LAYOUT_CLASS_PREFIX = 'sky-layout-host-';
 const LAYOUT_DEFAULT: SkyTabLayoutType = 'none';
 
 let nextId = 0;
@@ -136,7 +137,7 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
     const layout = value || LAYOUT_DEFAULT;
 
     this.#_layout = layout;
-    this.cssClass = `sky-tab-layout-${layout}`;
+    this.cssClass = `${LAYOUT_CLASS_PREFIX}${layout}`;
 
     if (this.active) {
       this.#tabsetService.updateActiveTabLayout(layout);
@@ -148,7 +149,7 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
   }
 
   @HostBinding('class')
-  public cssClass = `sky-tab-layout-${LAYOUT_DEFAULT}`;
+  public cssClass = `${LAYOUT_CLASS_PREFIX}${LAYOUT_DEFAULT}`;
 
   /**
    * Fires when users click the button to close the tab.
