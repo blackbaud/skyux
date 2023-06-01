@@ -1,0 +1,32 @@
+name: Risk assessment
+on:
+  pull_request:
+    types:
+      - labeled
+      - unlabeled
+jobs:
+  check_risk_labels:
+    name: Check risk labels
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            const labels = context.payload.pull_request.labels.map(label => label.name);
+            if (labels.find(label => label.startsWith('autorelease'))) {
+              console.log('Release PRs are not subject to risk assessment. 🚢');
+            } else {
+              const authorRisk = labels.find(label => label.startsWith('risk level (author):'));
+              const reviewerRisk = labels.find(label => label.startsWith('risk level (reviewer):'));
+              if (authorRisk && reviewerRisk) {
+                console.log('PR has both author and reviewer risk labels. Good luck. 🫡');
+              } else {
+                if (authorRisk) {
+                  core.setFailed(`PR has author risk label but no reviewer risk label. 🛑`);
+                } else if (reviewerRisk) {
+                  core.setFailed(`PR has reviewer risk label but no author risk label. 🛑`);
+                } else {
+                  core.setFailed(`PR has no risk labels. 🛑`);
+                }
+              }
+            }
