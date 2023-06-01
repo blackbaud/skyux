@@ -6,9 +6,9 @@ import { AppComponent } from './app.component';
 
 const routes: Route[] = [
   {
-    path: 'lookup',
+    path: 'search',
     loadChildren: () =>
-      import('./lookup/lookup.module').then((m) => m.LookupModule),
+      import('./search/search.module').then((m) => m.SearchModule),
   },
 ];
 if (routes.length > 0 && routes.findIndex((r) => r.path === '') === -1) {
