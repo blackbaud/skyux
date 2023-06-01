@@ -1,7 +1,4 @@
-import {
-  SchematicTestRunner,
-  UnitTestTree,
-} from '@angular-devkit/schematics/testing';
+import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 
 import path from 'path';
 
@@ -14,6 +11,9 @@ const COLLECTION_PATH = path.resolve(__dirname, '../../../collection.json');
 const ESLINT_CONFIG_PATH = './.eslintrc.json';
 
 describe('ng-add.schematic', () => {
+  const runner = new SchematicTestRunner('schematics', COLLECTION_PATH);
+  const defaultProjectName = 'my-app';
+
   async function setupTest(options: {
     esLintConfig: EsLintConfig;
     packageJson?: PackageJson;
@@ -23,9 +23,6 @@ describe('ng-add.schematic', () => {
         Promise.resolve(`LATEST_${version}`)
       ),
     }));
-
-    const runner = new SchematicTestRunner('schematics', COLLECTION_PATH);
-    const defaultProjectName = 'my-app';
 
     const tree = await createTestApp(runner, {
       defaultProjectName,
@@ -47,19 +44,9 @@ describe('ng-add.schematic', () => {
     };
 
     return {
-      runner,
       runSchematic,
       tree,
     };
-  }
-
-  function validateJsonFile(
-    tree: UnitTestTree,
-    path: string,
-    expectedContents: unknown
-  ) {
-    const contents = readJsonFile(tree, path);
-    expect(contents).toEqual(expectedContents);
   }
 
   afterEach(() => {
@@ -68,7 +55,7 @@ describe('ng-add.schematic', () => {
   });
 
   it('should install dependencies', async () => {
-    const { runner, runSchematic, tree } = await setupTest({
+    const { runSchematic, tree } = await setupTest({
       esLintConfig: {},
     });
 
@@ -78,16 +65,16 @@ describe('ng-add.schematic', () => {
       true
     );
 
-    validateJsonFile(
-      tree,
-      'package.json',
+    const packageJson = readJsonFile(tree, 'package.json');
+
+    expect(packageJson).toEqual(
       expect.objectContaining({
         devDependencies: expect.objectContaining({
           'eslint-plugin-deprecation': 'LATEST_^1.4.1',
         }),
       })
     );
-  }, 20000);
+  });
 
   it('should configure ESLint config', async () => {
     const { runSchematic, tree } = await setupTest({
