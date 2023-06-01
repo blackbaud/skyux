@@ -1,11 +1,13 @@
 import {
   ComponentHarness,
+  HarnessPredicate,
   HarnessQuery,
   TestElement,
 } from '@angular/cdk/testing';
 import { SkyOverlayHarness } from '@skyux/core/testing';
 
 import { SkyPopoverBodyHarness } from './popover-body-harness';
+import { SkyPopoverContentHarnessFilters } from './popover-content-harness-filters';
 
 /**
  * Harness for interacting with a popover content component in tests.
@@ -21,6 +23,24 @@ export class SkyPopoverContentHarness extends ComponentHarness {
   #getOverlay =
     this.documentRootLocatorFactory().locatorForOptional(SkyOverlayHarness);
   #getTitle = this.locatorForOptional('.sky-popover-title');
+
+  /**
+   * Gets a `HarnessPredicate` that can be used to search for a
+   * `SkyPopoverContentHarness` that meets certain criteria.
+   */
+  public static with(
+    filters: SkyPopoverContentHarnessFilters
+  ): HarnessPredicate<SkyPopoverContentHarness> {
+    return new HarnessPredicate(this, filters).addOption(
+      'popover-id',
+      filters.popoverId,
+      async (harness, test) =>
+        HarnessPredicate.stringMatches(
+          (await harness.host()).getAttribute('id'),
+          test
+        )
+    );
+  }
 
   /**
    * Returns a child harness.

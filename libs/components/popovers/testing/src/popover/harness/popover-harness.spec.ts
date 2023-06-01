@@ -17,10 +17,6 @@ async function setupTest(options?: {
   popoverHarness: SkyPopoverHarness;
   fixture: ComponentFixture<PopoverHarnessTestComponent>;
 }> {
-  await TestBed.configureTestingModule({
-    imports: [PopoverHarnessTestComponent, NoopAnimationsModule],
-  }).compileComponents();
-
   const fixture = TestBed.createComponent(PopoverHarnessTestComponent);
   const loader = TestbedHarnessEnvironment.loader(fixture);
 
@@ -50,6 +46,12 @@ async function setupTest(options?: {
 }
 
 describe('Popover harness', () => {
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [PopoverHarnessTestComponent, NoopAnimationsModule],
+    }).compileComponents();
+  });
+
   it('should return an error when popover is hidden', async () => {
     const { popoverHarness } = await setupTest();
 
@@ -145,6 +147,41 @@ describe('Popover harness', () => {
       'Another popover'
     );
     await expectAsync(contentHarness.getBodyText()).toBeResolvedTo(
+      'I have different content'
+    );
+  });
+
+  it('should return the correct popover for each trigger element', async () => {
+    const fixture = TestBed.createComponent(PopoverHarnessTestComponent);
+    const loader = TestbedHarnessEnvironment.loader(fixture);
+
+    fixture.componentInstance.dismissOnBlur = false;
+
+    const popoverHarness1 = await loader.getHarness(SkyPopoverHarness);
+
+    const popoverHarness2 = await loader.getHarness(
+      SkyPopoverHarness.with({
+        dataSkyId: 'another-popover',
+      })
+    );
+
+    await popoverHarness1.open();
+    await popoverHarness2.open();
+
+    const contentHarness1 = await popoverHarness1.getPopoverContent();
+    const contentHarness2 = await popoverHarness2.getPopoverContent();
+
+    await expectAsync(contentHarness1.getTitleText()).toBeResolvedTo(
+      'popover title'
+    );
+    await expectAsync(contentHarness1.getBodyText()).toBeResolvedTo(
+      'popover body'
+    );
+
+    await expectAsync(contentHarness2.getTitleText()).toBeResolvedTo(
+      'Another popover'
+    );
+    await expectAsync(contentHarness2.getBodyText()).toBeResolvedTo(
       'I have different content'
     );
   });

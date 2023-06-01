@@ -11,12 +11,9 @@ export class SkyPopoverHarness extends SkyComponentHarness {
   /**
    * @internal
    */
-  // Directives that take input arguments that aren't strings don't remain in the DOM
-  public static hostSelector = '[ng-reflect-sky-popover]';
+  public static hostSelector = '.sky-popover-trigger';
 
-  #getContent = this.documentRootLocatorFactory().locatorForOptional(
-    SkyPopoverContentHarness
-  );
+  #documentRootLocator = this.documentRootLocatorFactory();
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -61,7 +58,22 @@ export class SkyPopoverHarness extends SkyComponentHarness {
         'Unable to retrieve popover content harness because popover is not opened.'
       );
     }
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return content!;
+    return content;
+  }
+
+  async #getContent(): Promise<SkyPopoverContentHarness | null> {
+    const id = await this.#getPopoverId();
+
+    return this.#documentRootLocator.locatorForOptional(
+      SkyPopoverContentHarness.with({ popoverId: id })
+    )();
+  }
+
+  async #getPopoverId(): Promise<string> {
+    return (
+      (await (await this.host()).getAttribute('sky-popover-id')) ||
+      /* istanbul ignore next */
+      ''
+    );
   }
 }

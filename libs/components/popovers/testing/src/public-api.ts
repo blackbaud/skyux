@@ -14,6 +14,7 @@ export * from './dropdown/harness/dropdown-menu-harness.filters';
 export * from './dropdown/harness/dropdown-item-harness';
 export * from './dropdown/harness/dropdown-item-harness.filters';
 
+export * from './popover/harness/popover-content-harness';
+export * from './popover/harness/popover-content-harness-filters';
 export * from './popover/harness/popover-harness';
 export * from './popover/harness/popover-harness-filters';
-export * from './popover/harness/popover-content-harness';
