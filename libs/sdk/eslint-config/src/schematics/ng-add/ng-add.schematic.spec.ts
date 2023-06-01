@@ -14,13 +14,19 @@ const COLLECTION_PATH = path.resolve(__dirname, '../../../collection.json');
 const ESLINT_CONFIG_PATH = './.eslintrc.json';
 
 describe('ng-add.schematic', () => {
-  const runner = new SchematicTestRunner('schematics', COLLECTION_PATH);
-  const defaultProjectName = 'my-app';
-
   async function setupTest(options: {
     esLintConfig: EsLintConfig;
     packageJson?: PackageJson;
   }) {
+    jest.mock('package-json', () =>
+      jest.fn((_, options) => {
+        return Promise.resolve({ version: `LATEST_${options.version}` });
+      })
+    );
+
+    const runner = new SchematicTestRunner('schematics', COLLECTION_PATH);
+    const defaultProjectName = 'my-app';
+
     const tree = await createTestApp(runner, {
       defaultProjectName,
     });
@@ -41,6 +47,7 @@ describe('ng-add.schematic', () => {
     };
 
     return {
+      runner,
       runSchematic,
       tree,
     };
@@ -55,8 +62,15 @@ describe('ng-add.schematic', () => {
     expect(contents).toEqual(expectedContents);
   }
 
+  beforeEach(() => {});
+
+  afterEach(() => {
+    // jest.resetAllMocks();
+    // jest.resetModules();
+  });
+
   it('should install dependencies', async () => {
-    const { runSchematic, tree } = await setupTest({
+    const { runner, runSchematic, tree } = await setupTest({
       esLintConfig: {},
     });
 
@@ -71,7 +85,7 @@ describe('ng-add.schematic', () => {
       'package.json',
       expect.objectContaining({
         devDependencies: expect.objectContaining({
-          'eslint-plugin-deprecation': '^1.4.1',
+          'eslint-plugin-deprecation': 'LATEST_^1.4.1',
         }),
       })
     );
@@ -90,19 +104,16 @@ describe('ng-add.schematic', () => {
 
     await runSchematic();
 
-    expect(readJsonFile(tree, ESLINT_CONFIG_PATH)).toEqual({
-      parser: '@typescript-eslint/parser',
-      parserOptions: {
-        project: ['tsconfig.json'],
-        tsconfigRootDir: '.',
-      },
-      overrides: [
-        {
-          extends: ['@skyux-sdk/eslint-config/recommended'],
-          files: ['*.ts'],
-        },
-      ],
-    });
+    expect(readJsonFile(tree, ESLINT_CONFIG_PATH)).toEqual(
+      expect.objectContaining({
+        overrides: [
+          {
+            extends: ['@skyux-sdk/eslint-config/recommended'],
+            files: ['*.ts'],
+          },
+        ],
+      })
+    );
   });
 
   it('should skip configuration if "overrides" undefined', async () => {
@@ -130,11 +141,6 @@ describe('ng-add.schematic', () => {
     await runSchematic();
 
     expect(readJsonFile(tree, ESLINT_CONFIG_PATH)).toEqual({
-      parser: '@typescript-eslint/parser',
-      parserOptions: {
-        project: ['tsconfig.json'],
-        tsconfigRootDir: '.',
-      },
       overrides: [
         {
           extends: ['@skyux-sdk/eslint-config/recommended', 'prettier'],
@@ -156,6 +162,24 @@ describe('ng-add.schematic', () => {
       "The package '@angular-eslint/schematics' is not installed. " +
         "Run 'ng add @angular-eslint/schematics' and try this command again.\n" +
         'See: https://github.com/angular-eslint/angular-eslint#quick-start'
+    );
+  });
+
+  it('should harden the version of the @skyux-sdk/eslint-config package', async () => {
+    const { runSchematic, tree } = await setupTest({
+      esLintConfig: {},
+      packageJson: {
+        devDependencies: {
+          '@angular-eslint/schematics': '*',
+        }, // <-- empty
+      },
+    });
+
+    await runSchematic();
+
+    const packageJson = readJsonFile(tree, '/package.json') as PackageJson;
+    expect(packageJson.devDependencies?.['@skyux-sdk/eslint-config']).toEqual(
+      '0.0.0-PLACEHOLDER'
     );
   });
 });
