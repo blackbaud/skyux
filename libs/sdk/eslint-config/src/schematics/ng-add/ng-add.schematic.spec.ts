@@ -1,4 +1,7 @@
-import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
+import {
+  SchematicTestRunner,
+  UnitTestTree,
+} from '@angular-devkit/schematics/testing';
 
 import path from 'path';
 
@@ -10,15 +13,7 @@ import { readJsonFile } from '../shared/utility/tree';
 const COLLECTION_PATH = path.resolve(__dirname, '../../../collection.json');
 const ESLINT_CONFIG_PATH = './.eslintrc.json';
 
-jest.setTimeout(30000);
-
 describe('ng-add.schematic', () => {
-  jest.mock('../shared/utility/get-latest-version', () => ({
-    getLatestVersion: jest.fn((_, version) =>
-      Promise.resolve(`LATEST_${version}`)
-    ),
-  }));
-
   const runner = new SchematicTestRunner('schematics', COLLECTION_PATH);
   const defaultProjectName = 'my-app';
 
@@ -26,6 +21,12 @@ describe('ng-add.schematic', () => {
     esLintConfig: EsLintConfig;
     packageJson?: PackageJson;
   }) {
+    jest.mock('../shared/utility/get-latest-version', () => ({
+      getLatestVersion: jest.fn((_, version) =>
+        Promise.resolve(`LATEST_${version}`)
+      ),
+    }));
+
     const tree = await createTestApp(runner, {
       defaultProjectName,
     });
@@ -51,6 +52,15 @@ describe('ng-add.schematic', () => {
     };
   }
 
+  function validateJsonFile(
+    tree: UnitTestTree,
+    path: string,
+    expectedContents: unknown
+  ) {
+    const contents = readJsonFile(tree, path);
+    expect(contents).toEqual(expectedContents);
+  }
+
   afterEach(() => {
     jest.resetAllMocks();
     jest.resetModules();
@@ -67,9 +77,9 @@ describe('ng-add.schematic', () => {
       true
     );
 
-    const packageJson = readJsonFile(tree, 'package.json');
-
-    expect(packageJson).toEqual(
+    validateJsonFile(
+      tree,
+      'package.json',
       expect.objectContaining({
         devDependencies: expect.objectContaining({
           'eslint-plugin-deprecation': 'LATEST_^1.4.1',
@@ -158,7 +168,7 @@ describe('ng-add.schematic', () => {
       packageJson: {
         devDependencies: {
           '@angular-eslint/schematics': '*',
-        }, // <-- empty
+        },
       },
     });
 
