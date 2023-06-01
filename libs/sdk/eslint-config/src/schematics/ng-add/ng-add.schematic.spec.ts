@@ -65,8 +65,8 @@ describe('ng-add.schematic', () => {
   beforeEach(() => {});
 
   afterEach(() => {
-    // jest.resetAllMocks();
-    // jest.resetModules();
+    jest.resetAllMocks();
+    jest.resetModules();
   });
 
   it('should install dependencies', async () => {
