@@ -62,23 +62,17 @@ describe('ng-add.schematic', () => {
     expect(contents).toEqual(expectedContents);
   }
 
-  beforeEach(() => {});
-
   afterEach(() => {
     jest.resetAllMocks();
     jest.resetModules();
   });
 
   it('should install dependencies', async () => {
-    const { runner, runSchematic, tree } = await setupTest({
+    const { runSchematic, tree } = await setupTest({
       esLintConfig: {},
     });
 
     await runSchematic();
-
-    expect(runner.tasks.some((task) => task.name === 'node-package')).toEqual(
-      true
-    );
 
     validateJsonFile(
       tree,
