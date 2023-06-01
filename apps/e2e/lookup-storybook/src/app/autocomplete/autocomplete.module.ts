@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyAutocompleteModule } from '@skyux/lookup';
@@ -12,8 +11,6 @@ const routes: Routes = [{ path: '', component: AutocompleteComponent }];
   declarations: [AutocompleteComponent],
   imports: [
     CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
     RouterModule.forChild(routes),
     SkyAutocompleteModule,
     SkyInputBoxModule,

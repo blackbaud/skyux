@@ -1,16 +1,6 @@
-<form class="sky-padding-even-md" novalidate [formGroup]="reactiveForm">
-  <sky-autocomplete [data]="data" (selectionChange)="onSelectionChange($event)">
-    <sky-input-box>
-      <label class="sky-control-label" for="favorite-color-reactive">
-        Favorite color
-      </label>
-      <input
-        class="sky-form-control"
-        formControlName="favoriteColor"
-        id="favorite-color-reactive"
-        skyAutocomplete
-        type="text"
-      />
-    </sky-input-box>
-  </sky-autocomplete>
-</form>
+<sky-autocomplete [data]="data">
+  <sky-input-box>
+    <label class="sky-control-label"> Favorite color </label>
+    <input class="sky-form-control" skyAutocomplete type="text" />
+  </sky-input-box>
+</sky-autocomplete>
