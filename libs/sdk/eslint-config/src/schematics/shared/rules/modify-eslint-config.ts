@@ -12,13 +12,6 @@ export function modifyEsLintConfig(): Rule {
     const esLintConfig = readJsonFile<EsLintConfig>(tree, ESLINT_CONFIG_PATH);
 
     if (Array.isArray(esLintConfig.overrides)) {
-      // Setup type-checking for ESLint.
-      esLintConfig.parser = '@typescript-eslint/parser';
-      esLintConfig.parserOptions = {
-        project: ['tsconfig.json'],
-        tsconfigRootDir: '.',
-      };
-
       // Overwrite the 'extends' array with our configuration.
       for (const override of esLintConfig.overrides) {
         if (override.files.find((f) => f.endsWith('.ts'))) {

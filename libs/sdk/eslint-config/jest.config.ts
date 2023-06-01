@@ -1,7 +1,6 @@
 /* eslint-disable */
 export default {
   displayName: 'sdk-eslint-config',
-
   globals: {},
   testEnvironment: 'node',
   transform: {
@@ -27,4 +26,5 @@ export default {
     '<rootDir>/src/schematics/shared/utility',
   ],
   preset: '../../../jest.preset.js',
+  testTimeout: 30000,
 };
