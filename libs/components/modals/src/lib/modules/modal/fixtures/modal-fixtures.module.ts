@@ -12,6 +12,7 @@ import { ModalLauncherTestComponent } from './modal-launcher.component.fixture';
 import { ModalNoHeaderTestComponent } from './modal-no-header.component.fixture';
 import { ModalTiledBodyTestComponent } from './modal-tiled-body.component.fixture';
 import { ModalWithCloseConfirmTestComponent } from './modal-with-close-confirm.component.fixture';
+import { ModalWithDiscardPromptTestComponent } from './modal-with-discard-prompt.component.fixture';
 import { ModalWithFocusContentTestComponent } from './modal-with-focus-content.fixture';
 import { ModalWithScrollingContentTestComponent } from './modal-with-scrolling-content.fixture.component';
 import { ModalWithValuesTestComponent } from './modal-with-values.component.fixture';
@@ -29,6 +30,7 @@ import { ModalTestComponent } from './modal.component.fixture';
     ModalWithCloseConfirmTestComponent,
     ModalLauncherTestComponent,
     ModalWithScrollingContentTestComponent,
+    ModalWithDiscardPromptTestComponent,
   ],
   imports: [CommonModule, RouterTestingModule, SkyModalModule],
   providers: [

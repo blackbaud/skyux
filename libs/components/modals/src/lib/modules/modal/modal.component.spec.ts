@@ -1,4 +1,4 @@
-import { ApplicationRef } from '@angular/core';
+import { ApplicationRef, StaticProvider } from '@angular/core';
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
@@ -25,6 +25,8 @@ import { ModalLauncherTestComponent } from './fixtures/modal-launcher.component.
 import { ModalNoHeaderTestComponent } from './fixtures/modal-no-header.component.fixture';
 import { ModalTiledBodyTestComponent } from './fixtures/modal-tiled-body.component.fixture';
 import { ModalWithCloseConfirmTestComponent } from './fixtures/modal-with-close-confirm.component.fixture';
+import { ModalWithDiscardPromptTestContext } from './fixtures/modal-with-discard-prompt-test-context.fixture';
+import { ModalWithDiscardPromptTestComponent } from './fixtures/modal-with-discard-prompt.component.fixture';
 import { ModalWithFocusContentTestComponent } from './fixtures/modal-with-focus-content.fixture';
 import { ModalWithFocusContext } from './fixtures/modal-with-focus-context.fixture';
 import { ModalWithScrollingContentTestComponent } from './fixtures/modal-with-scrolling-content.fixture.component';
@@ -167,7 +169,7 @@ describe('Modal component', () => {
     modalType: T,
     config?: Record<string, any>,
     async = false
-  ) {
+  ): SkyModalInstance {
     const modalInstance = getModalService().open(modalType, config);
 
     getApplicationRef().tick();
@@ -179,7 +181,7 @@ describe('Modal component', () => {
     return modalInstance;
   }
 
-  function closeModal(modalInstance: SkyModalInstance, async = false) {
+  function closeModal(modalInstance: SkyModalInstance, async = false): void {
     modalInstance.close();
 
     if (!async) {
@@ -1132,5 +1134,119 @@ describe('Modal component', () => {
     await expectAsync(
       document.querySelector('.sky-modal-dialog')
     ).toBeAccessible();
+  });
+
+  describe('Discard prompt directive', () => {
+    function getConfirmModalElement(): HTMLElement | null {
+      return document.querySelector('.sky-confirm');
+    }
+
+    function getDiscardButtonElement(
+      confirmModalEl: HTMLElement
+    ): HTMLButtonElement | null {
+      return confirmModalEl.querySelector('.sky-btn-primary');
+    }
+
+    function getKeepWorkingButtonElement(
+      confirmModalEl: HTMLElement
+    ): HTMLButtonElement | null {
+      return confirmModalEl.querySelector('.sky-btn-link');
+    }
+
+    async function checkConfirmModalIsCorrect(
+      confirmModalEl: HTMLElement
+    ): Promise<void> {
+      const messageEl = confirmModalEl.querySelector('.sky-confirm-message');
+      await expectAsync(messageEl).toHaveLibResourceText(
+        'skyux_modal_dirty_default_message'
+      );
+
+      const discardButtonEl = getDiscardButtonElement(confirmModalEl);
+      await expectAsync(discardButtonEl).toHaveLibResourceText(
+        'skyux_modal_dirty_default_discard_changes_text'
+      );
+
+      const keepWorkingButtonEl = getKeepWorkingButtonElement(confirmModalEl);
+      await expectAsync(keepWorkingButtonEl).toHaveLibResourceText(
+        'skyux_modal_dirty_default_keep_working_text'
+      );
+    }
+
+    let dirtyContextProvider: { providers: StaticProvider[] };
+
+    beforeEach(fakeAsync(() => {
+      dirtyContextProvider = {
+        providers: [
+          {
+            provide: ModalWithDiscardPromptTestContext,
+            useValue: {
+              isDirty: true,
+            },
+          },
+        ],
+      };
+    }));
+
+    it('should not prompt to discard if not dirty', fakeAsync(() => {
+      const modalInstance = openModal(ModalWithDiscardPromptTestComponent);
+      closeModal(modalInstance);
+      expect(getConfirmModalElement()).toBeNull();
+    }));
+
+    it('should not prompt to discard if dirty but saving', fakeAsync(() => {
+      const modalInstance = openModal(
+        ModalWithDiscardPromptTestComponent,
+        dirtyContextProvider
+      );
+      modalInstance.save();
+      expect(getConfirmModalElement()).toBeNull();
+    }));
+
+    it('should not prompt to discard if dirty but canceling', fakeAsync(() => {
+      const modalInstance = openModal(
+        ModalWithDiscardPromptTestComponent,
+        dirtyContextProvider
+      );
+      modalInstance.cancel();
+      expect(getConfirmModalElement()).toBeNull();
+    }));
+
+    it('should prompt to discard if dirty and stay open when keep working is selected', fakeAsync(async () => {
+      const modalInstance = openModal(
+        ModalWithDiscardPromptTestComponent,
+        dirtyContextProvider
+      );
+      closeModal(modalInstance);
+
+      const confirmModalEl = getConfirmModalElement();
+      expect(confirmModalEl).not.toBeNull();
+
+      if (confirmModalEl) {
+        checkConfirmModalIsCorrect(confirmModalEl);
+        getKeepWorkingButtonElement(confirmModalEl)?.click();
+        tick();
+
+        expect(getModalElement()).not.toBeNull();
+      }
+    }));
+
+    it('should prompt to discard if dirty and close when discard changes is selected', fakeAsync(async () => {
+      const modalInstance = openModal(
+        ModalWithDiscardPromptTestComponent,
+        dirtyContextProvider
+      );
+      closeModal(modalInstance);
+
+      const confirmModalEl = getConfirmModalElement();
+      expect(confirmModalEl).not.toBeNull();
+
+      if (confirmModalEl) {
+        checkConfirmModalIsCorrect(confirmModalEl);
+        getDiscardButtonElement(confirmModalEl)?.click();
+        tick();
+
+        expect(getModalElement()).toBeNull();
+      }
+    }));
   });
 });

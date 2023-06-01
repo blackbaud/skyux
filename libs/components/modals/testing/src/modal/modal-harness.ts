@@ -83,4 +83,15 @@ export class SkyModalHarness extends SkyComponentHarness {
     const modal = this.#getModal();
     return (await modal).hasClass('sky-modal-full-page');
   }
+
+  /**
+   * Whether the modal has the discard prompt directive set to dirty.
+   */
+  public async isDirty(): Promise<boolean> {
+    const modalHost = await this.host();
+    const isDirtyAttribute = await modalHost.getAttribute(
+      'ng-reflect-is-dirty'
+    );
+    return isDirtyAttribute === 'true';
+  }
 }
