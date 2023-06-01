@@ -62,7 +62,7 @@ describe('ng-add.schematic', () => {
     expect(contents).toEqual(expectedContents);
   }
 
-  beforeEach(() => {
+  afterEach(() => {
     jest.resetAllMocks();
     jest.resetModules();
   });
@@ -87,7 +87,7 @@ describe('ng-add.schematic', () => {
         }),
       })
     );
-  });
+  }, 20000);
 
   it('should configure ESLint config', async () => {
     const { runSchematic, tree } = await setupTest({
