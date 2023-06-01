@@ -45,7 +45,7 @@ export class SkyPopoverHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets whether the popover is open.
+   * Whether the popover is open.
    */
   public async isOpen(): Promise<boolean> {
     return !!(await this.#getContent());
