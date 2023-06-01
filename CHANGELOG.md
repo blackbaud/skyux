@@ -1,5 +1,12 @@
 # Changelog
 
+## [8.2.3](https://github.com/blackbaud/skyux/compare/8.2.2...8.2.3) (2023-06-01)
+
+
+### Bug Fixes
+
+* **sdk/eslint-config:** move parser options to overrides ([#1419](https://github.com/blackbaud/skyux/issues/1419)) ([30706c2](https://github.com/blackbaud/skyux/commit/30706c26d8d2264f606d06efcf2f32292683d066))
+
 ## [8.2.2](https://github.com/blackbaud/skyux/compare/8.2.1...8.2.2) (2023-05-30)
 
 

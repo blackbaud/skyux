@@ -1,0 +1,34 @@
+{
+  "name": "navbar-storybook-e2e",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/e2e/navbar-storybook-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/e2e/navbar-storybook-e2e/cypress.config.ts",
+        "devServerTarget": "navbar-storybook:storybook",
+        "testingType": "e2e",
+        "baseUrl": "http://localhost:4400"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "navbar-storybook:serve:production"
+        },
+        "ci": {
+          "devServerTarget": "navbar-storybook:serve-static"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/e2e/navbar-storybook-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["navbar-storybook"]
+}
