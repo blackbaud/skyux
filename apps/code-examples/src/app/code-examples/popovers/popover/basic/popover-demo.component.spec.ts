@@ -56,7 +56,7 @@ describe('Basic popover', () => {
   it('should expose popover properties when visible', async () => {
     const { popoverHarness } = await setupTest();
 
-    await popoverHarness.open();
+    await popoverHarness.toggle();
     const contentHarness = await popoverHarness.getPopoverContent();
 
     await expectAsync(contentHarness.getTitleText()).toBeResolvedTo(
@@ -77,12 +77,11 @@ describe('Basic popover', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    await popoverHarness.open();
-    await popoverHarness.close();
+    await popoverHarness.toggle();
+    await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(true);
 
-    await expectAsync(popoverHarness.getPopoverContent()).toBeRejectedWithError(
-      'Unable to retrieve popover content harness because popover is not opened.'
-    );
+    await popoverHarness.clickOut();
+    await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(false);
   });
 
   it('should not close the popover if clicking out when dismissOnBlur is set to false', async () => {
@@ -93,9 +92,13 @@ describe('Basic popover', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    await popoverHarness.open();
-    await popoverHarness.close();
+    await popoverHarness.toggle();
+    await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(true);
 
-    await expectAsync(popoverHarness.getPopoverContent()).toBeResolved();
+    await popoverHarness.clickOut();
+    await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(true);
+
+    await popoverHarness.toggle();
+    await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(false);
   });
 });

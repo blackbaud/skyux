@@ -63,7 +63,7 @@ describe('Popover harness', () => {
   it('should expose popover properties when visible', async () => {
     const { popoverHarness } = await setupTest();
 
-    await popoverHarness.open();
+    await popoverHarness.toggle();
     const contentHarness = await popoverHarness.getPopoverContent();
 
     await expectAsync(contentHarness.getTitleText()).toBeResolvedTo(
@@ -79,7 +79,7 @@ describe('Popover harness', () => {
   it('should allow querying harnesses inside a popover', async () => {
     const { popoverHarness } = await setupTest();
 
-    await popoverHarness.open();
+    await popoverHarness.toggle();
     const contentHarness = await popoverHarness.getPopoverContent();
 
     const bodyHarness = await contentHarness.queryHarness(
@@ -113,12 +113,11 @@ describe('Popover harness', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    await popoverHarness.open();
-    await popoverHarness.close();
+    await popoverHarness.toggle();
+    await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(true);
 
-    await expectAsync(popoverHarness.getPopoverContent()).toBeRejectedWithError(
-      'Unable to retrieve popover content harness because popover is not opened.'
-    );
+    await popoverHarness.clickOut();
+    await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(false);
   });
 
   it('should not close the popover if clicking out when dismissOnBlur is set to false', async () => {
@@ -129,10 +128,17 @@ describe('Popover harness', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    await popoverHarness.open();
-    await popoverHarness.close();
+    // click on the trigger to open it
+    await popoverHarness.toggle();
+    await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(true);
 
-    await expectAsync(popoverHarness.getPopoverContent()).toBeResolved();
+    // clicking away from the trigger does not close it
+    await popoverHarness.clickOut();
+    await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(true);
+
+    // clicking on the trigger again will force close it
+    await popoverHarness.toggle();
+    await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(false);
   });
 
   it('should get popovers by data-sky-id', async () => {
@@ -140,7 +146,7 @@ describe('Popover harness', () => {
       dataSkyId: 'another-popover',
     });
 
-    await popoverHarness.open();
+    await popoverHarness.toggle();
     const contentHarness = await popoverHarness.getPopoverContent();
 
     await expectAsync(contentHarness.getTitleText()).toBeResolvedTo(
@@ -165,8 +171,8 @@ describe('Popover harness', () => {
       })
     );
 
-    await popoverHarness1.open();
-    await popoverHarness2.open();
+    await popoverHarness1.toggle();
+    await popoverHarness2.toggle();
 
     const contentHarness1 = await popoverHarness1.getPopoverContent();
     const contentHarness2 = await popoverHarness2.getPopoverContent();
