@@ -11,7 +11,7 @@ const COLLECTION_PATH = path.resolve(__dirname, '../../../collection.json');
 const ESLINT_CONFIG_PATH = './.eslintrc.json';
 
 jest.useRealTimers();
-jest.setTimeout(30000);
+// jest.setTimeout(30000);
 
 describe('ng-add.schematic', () => {
   jest.mock('../shared/utility/get-latest-version', () => ({
