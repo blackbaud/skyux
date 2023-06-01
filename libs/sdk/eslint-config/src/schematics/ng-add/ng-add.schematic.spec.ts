@@ -18,11 +18,11 @@ describe('ng-add.schematic', () => {
     esLintConfig: EsLintConfig;
     packageJson?: PackageJson;
   }) {
-    jest.mock('package-json', () =>
-      jest.fn((_, options) => {
-        return Promise.resolve({ version: `LATEST_${options.version}` });
-      })
-    );
+    jest.mock('../shared/utility/get-latest-version', () => ({
+      getLatestVersion: jest.fn((_, version) =>
+        Promise.resolve(`LATEST_${version}`)
+      ),
+    }));
 
     const runner = new SchematicTestRunner('schematics', COLLECTION_PATH);
     const defaultProjectName = 'my-app';
