@@ -21,13 +21,6 @@ export class RadioButtonComponent {
     { icon: 'map-marker', label: 'Map', name: 'map', disabled: false },
   ];
 
-  public radioButtonSelectedValue = this.radioButtonOptions[0].value;
-  public radioIconSelectedValue = this.radioIconOptions[0].name;
-  public radioButtonDisabledValue = this.radioButtonOptions[0].value;
-  public radioIconDisabledValue = this.radioIconOptions[0].name;
-  public radioButtonUnselectedValue = '';
-  public radioIconUnselectedValue = '';
-
   constructor(formBuilder: FormBuilder) {
     this.radioForm = formBuilder.group({
       radioButtonOption: this.radioButtonOptions[0].value,
