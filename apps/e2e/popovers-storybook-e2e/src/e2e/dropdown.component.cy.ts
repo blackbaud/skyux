@@ -22,6 +22,7 @@ describe('popovers-storybook', () => {
             );
         });
       });
+
       ['left', 'center', 'right'].forEach((horizontalAlignment) => {
         describe(`${horizontalAlignment} aligned dropdown menu`, () => {
           beforeEach(() => {
@@ -29,6 +30,7 @@ describe('popovers-storybook', () => {
               `/iframe.html?globals=theme:${theme}&id=dropdowncomponent-dropdown--dropdown-${horizontalAlignment}-aligned`
             );
           });
+
           ['select', 'context-menu', 'tab'].forEach((buttonType) => {
             it(`should open the ${buttonType} style dropdown's menu`, () => {
               cy.get('app-dropdown').should('exist').should('be.visible');
@@ -49,11 +51,7 @@ describe('popovers-storybook', () => {
                   {
                     widths: E2eVariations.DISPLAY_WIDTHS,
                   }
-                )
-                .get('body')
-                .should('exist')
-                .click()
-                .end();
+                );
             });
           });
         });
