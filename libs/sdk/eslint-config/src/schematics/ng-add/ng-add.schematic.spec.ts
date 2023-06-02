@@ -21,12 +21,6 @@ describe('ng-add.schematic', () => {
     esLintConfig: EsLintConfig;
     packageJson?: PackageJson;
   }) {
-    jest.mock('../shared/utility/get-latest-version', () => ({
-      getLatestVersion: jest.fn((_, version) =>
-        Promise.resolve(`LATEST_${version}`)
-      ),
-    }));
-
     const tree = await createTestApp(runner, {
       defaultProjectName,
     });
@@ -61,11 +55,6 @@ describe('ng-add.schematic', () => {
     expect(contents).toEqual(expectedContents);
   }
 
-  afterEach(() => {
-    jest.resetAllMocks();
-    jest.resetModules();
-  });
-
   it('should install dependencies', async () => {
     const { runSchematic, tree } = await setupTest({
       esLintConfig: {},
@@ -82,7 +71,7 @@ describe('ng-add.schematic', () => {
       'package.json',
       expect.objectContaining({
         devDependencies: expect.objectContaining({
-          'eslint-plugin-deprecation': 'LATEST_^1.4.1',
+          'eslint-plugin-deprecation': '^1.4.1',
         }),
       })
     );
