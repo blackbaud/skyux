@@ -23,6 +23,11 @@ const routes: Route[] = [
     loadChildren: () =>
       import('./toolbar/toolbar.module').then((m) => m.ToolbarModule),
   },
+  {
+    path: 'back-to-top',
+    loadChildren: () =>
+      import('./back-to-top/back-to-top.module').then((m) => m.BackToTopModule),
+  },
 ];
 if (routes.length > 0 && routes.findIndex((r) => r.path === '') === -1) {
   routes.push({ path: '', redirectTo: `${routes[0].path}`, pathMatch: 'full' });
