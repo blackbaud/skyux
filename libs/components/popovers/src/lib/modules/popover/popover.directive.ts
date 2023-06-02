@@ -38,7 +38,16 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
    * @required
    */
   @Input()
-  public skyPopover: SkyPopoverComponent | undefined;
+  public set skyPopover(value: SkyPopoverComponent | undefined) {
+    if (value) {
+      this.popoverId = value.popoverId;
+    }
+    this.#_popover = value;
+  }
+
+  public get skyPopover(): SkyPopoverComponent | undefined {
+    return this.#_popover;
+  }
 
   /**
    * The horizontal alignment of the popover in relation to the trigger element.
@@ -85,6 +94,8 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
 
   #ngUnsubscribe = new Subject<void>();
 
+  #_popover: SkyPopoverComponent | undefined;
+
   #_trigger: SkyPopoverTrigger = 'click';
 
   #elementRef: ElementRef;
@@ -96,7 +107,6 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.#addEventListeners();
-    this.popoverId = this.skyPopover?.popoverId ?? 'unknown';
   }
 
   public ngOnDestroy(): void {
