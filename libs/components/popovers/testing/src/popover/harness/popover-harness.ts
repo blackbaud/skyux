@@ -53,7 +53,7 @@ export class SkyPopoverHarness extends SkyComponentHarness {
     const content = await this.#getContent();
     if (!content) {
       throw new Error(
-        'Unable to retrieve popover content harness because popover is not opened.'
+        'Unable to retrieve the popover content because the popover is not open.'
       );
     }
     return content;

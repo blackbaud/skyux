@@ -49,7 +49,7 @@ describe('Basic popover', () => {
     const { popoverHarness } = await setupTest();
 
     await expectAsync(popoverHarness.getPopoverContent()).toBeRejectedWithError(
-      'Unable to retrieve popover content harness because popover is not opened.'
+      'Unable to retrieve the popover content because the popover is not open.'
     );
   });
 
