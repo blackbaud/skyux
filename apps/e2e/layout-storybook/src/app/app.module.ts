@@ -24,6 +24,13 @@ const routes: Route[] = [
       import('./toolbar/toolbar.module').then((m) => m.ToolbarModule),
   },
   {
+    path: 'action-button',
+    loadChildren: () =>
+      import('./action-button/action-button.module').then(
+        (m) => m.ActionButtonModule
+      ),
+  },
+  {
     path: 'back-to-top',
     loadChildren: () =>
       import('./back-to-top/back-to-top.module').then((m) => m.BackToTopModule),
