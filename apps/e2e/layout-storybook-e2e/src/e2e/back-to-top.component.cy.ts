@@ -14,9 +14,6 @@ describe('layout-storybook', () => {
 
         cy.scrollTo('bottom');
 
-        // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.wait(500);
-
         cy.get('.sky-back-to-top')
           .should('exist')
           .should('be.visible')
