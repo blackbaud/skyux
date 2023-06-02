@@ -116,7 +116,7 @@ describe('Dropdown test harness', () => {
   it('should get the button type', async () => {
     const { dropdownHarness, fixture } = await setupTest();
 
-    const types = ['select', 'context-menu'];
+    const types = ['select', 'tab', 'context-menu'];
 
     for (const type of types) {
       fixture.componentInstance.buttonType = type;
