@@ -8,10 +8,10 @@ import { SkyThemeModule } from '@skyux/theme';
 import { SkyModalsResourcesModule } from '../shared/sky-modals-resources.module';
 
 import { SkyModalContentComponent } from './modal-content.component';
-import { SkyModalDiscardPromptDirective } from './modal-discard-prompt.directive';
 import { SkyModalFooterComponent } from './modal-footer.component';
 import { SkyModalHeaderComponent } from './modal-header.component';
 import { SkyModalHostComponent } from './modal-host.component';
+import { SkyModalIsDirtyDirective } from './modal-is-dirty.directive';
 import { SkyModalScrollShadowDirective } from './modal-scroll-shadow.directive';
 import { SkyModalComponent } from './modal.component';
 
@@ -22,7 +22,7 @@ import { SkyModalComponent } from './modal.component';
     SkyModalFooterComponent,
     SkyModalHeaderComponent,
     SkyModalHostComponent,
-    SkyModalDiscardPromptDirective,
+    SkyModalIsDirtyDirective,
     SkyModalScrollShadowDirective,
   ],
   imports: [
@@ -39,7 +39,7 @@ import { SkyModalComponent } from './modal.component';
     SkyModalContentComponent,
     SkyModalFooterComponent,
     SkyModalHeaderComponent,
-    SkyModalDiscardPromptDirective,
+    SkyModalIsDirtyDirective,
   ],
 })
 export class SkyModalModule {}

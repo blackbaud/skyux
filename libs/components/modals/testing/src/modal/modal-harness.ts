@@ -85,7 +85,7 @@ export class SkyModalHarness extends SkyComponentHarness {
   }
 
   /**
-   * Whether the modal has the discard prompt directive set to dirty.
+   * Whether the modal has {@link SkyModalIsDirtyDirective.isDirty} set to dirty.
    */
   public async isDirty(): Promise<boolean> {
     const modalHost = await this.host();

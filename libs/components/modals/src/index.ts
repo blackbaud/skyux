@@ -21,7 +21,7 @@ export * from './lib/modules/modal/modal.service';
 // Obscure names are used to indicate types are not part of the public API.
 export { SkyConfirmComponent as λ1 } from './lib/modules/confirm/confirm.component';
 export { SkyModalContentComponent as λ2 } from './lib/modules/modal/modal-content.component';
-export { SkyModalDiscardPromptDirective as λ3 } from './lib/modules/modal/modal-discard-prompt.directive';
-export { SkyModalFooterComponent as λ4 } from './lib/modules/modal/modal-footer.component';
-export { SkyModalHeaderComponent as λ5 } from './lib/modules/modal/modal-header.component';
+export { SkyModalFooterComponent as λ3 } from './lib/modules/modal/modal-footer.component';
+export { SkyModalHeaderComponent as λ4 } from './lib/modules/modal/modal-header.component';
+export { SkyModalIsDirtyDirective as λ5 } from './lib/modules/modal/modal-is-dirty.directive';
 export { SkyModalComponent as λ6 } from './lib/modules/modal/modal.component';

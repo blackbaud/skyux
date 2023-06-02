@@ -22,7 +22,7 @@ import { SkyModalInstance } from './modal-instance';
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: 'sky-modal[isDirty]',
 })
-export class SkyModalDiscardPromptDirective implements OnInit, OnDestroy {
+export class SkyModalIsDirtyDirective implements OnInit, OnDestroy {
   /**
    * Flags whether or not the modal is considered dirty.
    * @required

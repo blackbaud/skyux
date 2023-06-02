@@ -21,12 +21,12 @@ import { ModalMockThemeService } from './fixtures/mock-theme.service';
 import { ModalAutofocusTestComponent } from './fixtures/modal-autofocus.component.fixture';
 import { SkyModalFixturesModule } from './fixtures/modal-fixtures.module';
 import { ModalFooterTestComponent } from './fixtures/modal-footer.component.fixture';
+import { ModalIsDirtyTestContext } from './fixtures/modal-is-dirty-test-context.fixture';
+import { ModalIsDirtyTestComponent } from './fixtures/modal-is-dirty.component.fixture';
 import { ModalLauncherTestComponent } from './fixtures/modal-launcher.component.fixture';
 import { ModalNoHeaderTestComponent } from './fixtures/modal-no-header.component.fixture';
 import { ModalTiledBodyTestComponent } from './fixtures/modal-tiled-body.component.fixture';
 import { ModalWithCloseConfirmTestComponent } from './fixtures/modal-with-close-confirm.component.fixture';
-import { ModalWithDiscardPromptTestContext } from './fixtures/modal-with-discard-prompt-test-context.fixture';
-import { ModalWithDiscardPromptTestComponent } from './fixtures/modal-with-discard-prompt.component.fixture';
 import { ModalWithFocusContentTestComponent } from './fixtures/modal-with-focus-content.fixture';
 import { ModalWithFocusContext } from './fixtures/modal-with-focus-context.fixture';
 import { ModalWithScrollingContentTestComponent } from './fixtures/modal-with-scrolling-content.fixture.component';
@@ -1136,7 +1136,7 @@ describe('Modal component', () => {
     ).toBeAccessible();
   });
 
-  describe('Discard prompt directive', () => {
+  describe('Is dirty directive', () => {
     function getConfirmModalElement(): HTMLElement | null {
       return document.querySelector('.sky-confirm');
     }
@@ -1178,7 +1178,7 @@ describe('Modal component', () => {
       dirtyContextProvider = {
         providers: [
           {
-            provide: ModalWithDiscardPromptTestContext,
+            provide: ModalIsDirtyTestContext,
             useValue: {
               isDirty: true,
             },
@@ -1188,14 +1188,14 @@ describe('Modal component', () => {
     }));
 
     it('should not prompt to discard if not dirty', fakeAsync(() => {
-      const modalInstance = openModal(ModalWithDiscardPromptTestComponent);
+      const modalInstance = openModal(ModalIsDirtyTestComponent);
       closeModal(modalInstance);
       expect(getConfirmModalElement()).toBeNull();
     }));
 
     it('should not prompt to discard if dirty but saving', fakeAsync(() => {
       const modalInstance = openModal(
-        ModalWithDiscardPromptTestComponent,
+        ModalIsDirtyTestComponent,
         dirtyContextProvider
       );
       modalInstance.save();
@@ -1204,7 +1204,7 @@ describe('Modal component', () => {
 
     it('should not prompt to discard if dirty but canceling', fakeAsync(() => {
       const modalInstance = openModal(
-        ModalWithDiscardPromptTestComponent,
+        ModalIsDirtyTestComponent,
         dirtyContextProvider
       );
       modalInstance.cancel();
@@ -1213,7 +1213,7 @@ describe('Modal component', () => {
 
     it('should prompt to discard if dirty and stay open when keep working is selected', fakeAsync(async () => {
       const modalInstance = openModal(
-        ModalWithDiscardPromptTestComponent,
+        ModalIsDirtyTestComponent,
         dirtyContextProvider
       );
       closeModal(modalInstance);
@@ -1232,7 +1232,7 @@ describe('Modal component', () => {
 
     it('should prompt to discard if dirty and close when discard changes is selected', fakeAsync(async () => {
       const modalInstance = openModal(
-        ModalWithDiscardPromptTestComponent,
+        ModalIsDirtyTestComponent,
         dirtyContextProvider
       );
       closeModal(modalInstance);
