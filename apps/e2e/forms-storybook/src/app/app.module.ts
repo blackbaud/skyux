@@ -15,6 +15,13 @@ const routes: Route[] = [
     loadChildren: () =>
       import('./checkbox/checkbox.module').then((m) => m.CheckboxModule),
   },
+  {
+    path: 'radio-button',
+    loadChildren: () =>
+      import('./radio-button/radio-button.module').then(
+        (m) => m.RadioButtonModule
+      ),
+  },
 ];
 if (routes.length > 0 && routes.findIndex((r) => r.path === '') === -1) {
   routes.push({ path: '', redirectTo: `${routes[0].path}`, pathMatch: 'full' });
