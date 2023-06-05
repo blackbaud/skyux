@@ -74,18 +74,18 @@
         --sky-layout-host-content-spacing: 30px;
       }
 
-      &-fit {
-        --sky-layout-host-header-spacing: 30px;
-        --sky-layout-host-content-spacing: 0 30px;
+      &-fit,
+      &-list,
+      &-tabs {
+        --sky-layout-host-header-spacing: 30px 30px 20px 30px;
       }
 
+      &-fit,
       &-list {
-        --sky-layout-host-header-spacing: 30px 30px 20px 30px;
         --sky-layout-host-content-spacing: 0 30px;
       }
 
       &-tabs {
-        --sky-layout-host-header-spacing: 30px;
         --sky-layout-host-tab-content-spacing: 30px;
       }
     }

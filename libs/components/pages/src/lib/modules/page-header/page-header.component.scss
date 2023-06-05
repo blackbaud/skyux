@@ -35,6 +35,10 @@
 
   &-content {
     margin: var(--sky-layout-host-header-spacing, 0);
+
+    &:empty {
+      display: none;
+    }
   }
 }
 
