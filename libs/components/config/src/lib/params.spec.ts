@@ -309,4 +309,12 @@ describe('SkyAppRuntimeConfigParams', () => {
       'https://mysite.com?c=d&c=e&a1=b'
     );
   });
+
+  it('should preserve query string component encoding', () => {
+    const params = new SkyAppRuntimeConfigParams('', allowed);
+
+    expect(params.getUrl('https://mysite.com?%3F%26=%26%3F')).toEqual(
+      'https://mysite.com?%3F%26=%26%3F'
+    );
+  });
 });
