@@ -1,3 +1,18 @@
+Basic
+<form novalidate [formGroup]="favoritesForm">
+  <sky-input-box>
+    <sky-lookup
+      formControlName="favoriteNames"
+      (addClick)="onAddButtonClick()"
+      [data]="people"
+      [searchFilters]="searchFilters"
+      [selectMode]="selectMode"
+      [disabled]="disabledFlag"
+    >
+    </sky-lookup>
+  </sky-input-box>
+</form>
+
 With preselected input
 <form novalidate [formGroup]="favoritesForm">
   <sky-input-box>
