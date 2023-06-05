@@ -2,6 +2,9 @@ name: Risk assessment
 on:
   pull_request:
     types:
+      - opened
+      - reopened
+      - edited
       - labeled
       - unlabeled
 jobs:
