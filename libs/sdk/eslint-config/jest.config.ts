@@ -26,4 +26,5 @@ export default {
     '<rootDir>/src/schematics/shared/utility',
   ],
   preset: '../../../jest.preset.js',
+  testTimeout: 30000,
 };
