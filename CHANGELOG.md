@@ -1,5 +1,12 @@
 # Changelog
 
+## [8.2.4](https://github.com/blackbaud/skyux/compare/8.2.3...8.2.4) (2023-06-02)
+
+
+### Bug Fixes
+
+* **sdk/eslint-config:** import 'package-json' ECMAScript module to support usage within CommonJS ([#1426](https://github.com/blackbaud/skyux/issues/1426)) ([6282093](https://github.com/blackbaud/skyux/commit/6282093b86fce0461a46066de44efbaa21f51e6b))
+
 ## [8.2.3](https://github.com/blackbaud/skyux/compare/8.2.2...8.2.3) (2023-06-01)
 
 

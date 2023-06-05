@@ -9,11 +9,17 @@ describe('avatar-storybook', () => {
         )
       );
       it('should render the component', () => {
-        cy.get('app-avatar')
+        cy.get('#screenshot-wrapper')
           .should('exist')
           .should('be.visible')
+          .end();
+
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(3000);
+        cy.get('#screenshot-wrapper')
           .screenshot(`avatarcomponent-avatar--avatar-${theme}`)
           .percySnapshot(`avatarcomponent-avatar--avatar-${theme}`, {
+            scope: '#screenshot-wrapper',
             widths: E2eVariations.DISPLAY_WIDTHS,
           });
       });
