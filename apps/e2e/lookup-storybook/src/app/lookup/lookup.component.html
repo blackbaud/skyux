@@ -1,25 +1,105 @@
-<h1>Lookup Story</h1>
-<p>Next steps:</p>
-<ul>
-  <li>
-    Build out the test scenario:
-    <strong><code>apps/e2e/lookup-storybook/src/app/lookup</code></strong>
-  </li>
-  <li>
-    Run via Angular CLI: <strong><code>ng serve lookup-storybook</code></strong>
-  </li>
-  <li>
-    Run Storybook: <strong><code>nx storybook lookup-storybook</code></strong>
-  </li>
-  <li>
-    Run Cypress:
-    <strong><code>nx e2e lookup-storybook-e2e --watch</code></strong>
-  </li>
-  <li>
-    <a
-      href="https://docs.blackbaud.com/skyux-team-docs/playbooks/monorepo/e2e-testing"
-      target="_blank"
-      >Learn more about e2e testing</a
+With preselected input
+<form novalidate [formGroup]="favoritesForm">
+  <sky-input-box>
+    <sky-lookup
+      formControlName="favoriteNames"
+      (addClick)="onAddButtonClick()"
+      [data]="people"
+      [searchFilters]="searchFilters"
+      [selectMode]="selectMode"
+      [disabled]="disabledFlag"
     >
-  </li>
-</ul>
+    </sky-lookup>
+  </sky-input-box>
+</form>
+
+With placeholder
+<sky-input-box>
+  <sky-lookup
+    (addClick)="onAddButtonClick()"
+    [data]="people"
+    [searchFilters]="searchFilters"
+    [selectMode]="selectMode"
+    [placeholderText]="placeholderText"
+    [disabled]="disabledFlag"
+  >
+  </sky-lookup>
+</sky-input-box>
+
+With preselected input and placeholder
+<form novalidate [formGroup]="favoritesForm">
+  <sky-input-box>
+    <sky-lookup
+      formControlName="favoriteNames"
+      (addClick)="onAddButtonClick()"
+      [data]="people"
+      [searchFilters]="searchFilters"
+      [selectMode]="selectMode"
+      [placeholderText]="placeholderText"
+      [disabled]="disabledFlag"
+    >
+    </sky-lookup>
+  </sky-input-box>
+</form>
+
+<h2>With show more</h2>
+
+Basic
+<sky-input-box>
+  <sky-lookup
+    formControlName="favoriteNames"
+    (addClick)="onAddButtonClick()"
+    [data]="people"
+    [searchFilters]="searchFilters"
+    [selectMode]="selectMode"
+    [disabled]="disabledFlag"
+    enableShowMore="true"
+  >
+  </sky-lookup>
+</sky-input-box>
+
+With show add button
+<sky-input-box>
+  <sky-lookup
+    (addClick)="onAddButtonClick()"
+    [data]="people"
+    [searchFilters]="searchFilters"
+    [selectMode]="selectMode"
+    [disabled]="disabledFlag"
+    showAddButton="true"
+    enableShowMore="true"
+  >
+  </sky-lookup>
+</sky-input-box>
+
+Multiple pre selected inputs
+<form novalidate [formGroup]="favoritesForm">
+  <sky-input-box>
+    <sky-lookup
+      formControlName="favoriteNamesFew"
+      (addClick)="onAddButtonClick()"
+      [data]="people"
+      [searchFilters]="searchFilters"
+      [selectMode]="selectMode"
+      [disabled]="disabledFlag"
+      enableShowMore="true"
+    >
+    </sky-lookup>
+  </sky-input-box>
+</form>
+
+Multiple collapsed pre selected inputs
+<form novalidate [formGroup]="favoritesForm">
+  <sky-input-box>
+    <sky-lookup
+      formControlName="favoriteNamesAll"
+      (addClick)="onAddButtonClick()"
+      [data]="people"
+      [searchFilters]="searchFilters"
+      [selectMode]="selectMode"
+      [disabled]="disabledFlag"
+      enableShowMore="true"
+    >
+    </sky-lookup>
+  </sky-input-box>
+</form>
