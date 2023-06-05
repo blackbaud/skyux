@@ -190,7 +190,9 @@ export class SkyAppRuntimeConfigParams {
     // Combine all parameters and their values, e.g. 'a=b'.
     const joinedParams = httpParams
       .keys()
-      .map((key) => `${key}=${httpParams.get(key)}`);
+      // Account for parameters with multiple values.
+      .map((key) => httpParams.getAll(key)?.map((value) => `${key}=${value}`))
+      .flat();
 
     // Build and return the final URL.
     const [beforeFragment, fragment] = url.split('#', 2);

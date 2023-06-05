@@ -301,4 +301,12 @@ describe('SkyAppRuntimeConfigParams', () => {
       'https://mysite.com?c=3&f=6&a=1&b=2#foobar'
     );
   });
+
+  it('should add the current params to the URL with a querystring with duplicate keys', () => {
+    const params = new SkyAppRuntimeConfigParams('?a1=b', allowed);
+
+    expect(params.getUrl('https://mysite.com?c=d&c=e')).toEqual(
+      'https://mysite.com?c=d&c=e&a1=b'
+    );
+  });
 });
