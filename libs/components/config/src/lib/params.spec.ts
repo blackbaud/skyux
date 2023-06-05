@@ -302,7 +302,7 @@ describe('SkyAppRuntimeConfigParams', () => {
     );
   });
 
-  it('should add the current params to the URL with a querystring with duplicate keys', () => {
+  it('should support query params with multiple values', () => {
     const params = new SkyAppRuntimeConfigParams('?a1=b', allowed);
 
     expect(params.getUrl('https://mysite.com?c=d&c=e')).toEqual(
