@@ -30,6 +30,7 @@ describe('flyout-storybook', () => {
               capture: 'fullPage',
             })
             .percySnapshot(`flyoutcomponent-flyout--flyout-${style}-${theme}`, {
+              enableJavaScript: true,
               widths: E2eVariations.DISPLAY_WIDTHS,
             });
         });
