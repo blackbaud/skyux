@@ -47,6 +47,7 @@ function normalizeOptions(options: Partial<Schema>): NormalizedSchema {
     parsedTags,
     tags: parsedTags.join(','),
     ansiColor: options.ansiColor !== false,
+    includeTests: options.includeTests,
   };
 }
 
@@ -125,6 +126,10 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
   let e2eProjectConfig: ProjectConfiguration;
   try {
     projectConfig = readProjectConfiguration(tree, options.storybookAppName);
+    if (projectConfig.targets?.['test'] && !options.includeTests) {
+      delete projectConfig.targets['test'];
+      updateProjectConfiguration(tree, options.storybookAppName, projectConfig);
+    }
     if (projectConfig.root === `apps/${options.storybookAppName}`) {
       moveProject = true;
       await moveGenerator(tree, {
@@ -170,6 +175,7 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       prefix: options.prefix,
       directory: BASE_PATH,
       skipPackageJson: true,
+      skipTests: !options.includeTests,
       standaloneConfig: true,
       standalone: false,
     });
