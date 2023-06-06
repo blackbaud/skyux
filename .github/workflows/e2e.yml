@@ -54,7 +54,21 @@ jobs:
         shell: bash
         run: |
           echo -n parameters= >> $GITHUB_OUTPUT
-          npx skyux-dev e2e-workflow >> $GITHUB_OUTPUT
+          if [ "${{ github.event_name }}" == "pull_request_target" ]; then
+            npx skyux-dev e2e-workflow --workflowTrigger pull_request --pr ${{ github.event.number }} >> $GITHUB_OUTPUT
+          elif [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            PR_NUMBER=$(gh pr list -H "${{ github.event.ref }}" --json number | jq -r '.[0].number')
+            if [ -n "${PR_NUMBER}" ]; then
+              npx skyux-dev e2e-workflow --workflowTrigger pull_request --pr $PR_NUMBER >> $GITHUB_OUTPUT
+            else
+              echo "Unable to find an open PR for branch ${{ github.event.ref }}."
+              exit 1
+            fi
+          else
+            npx skyux-dev e2e-workflow >> $GITHUB_OUTPUT
+          fi
+        env:
+          GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
       - name: Show workflow parameters
         run: |
           echo 'Using workflow parameters:'
