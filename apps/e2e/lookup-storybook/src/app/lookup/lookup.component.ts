@@ -2,6 +2,9 @@ import { Component, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { SkyAutocompleteSearchFunctionFilter } from '@skyux/lookup';
 
+export interface Names {
+  name: string;
+}
 @Component({
   selector: 'app-lookup',
   templateUrl: './lookup.component.html',
@@ -17,13 +20,13 @@ export class LookupComponent {
   public placeholderText = 'This is what placeholder text looks like';
 
   public favoritesForm: FormGroup<{
-    favoriteNames: FormControl<any>;
-    favoriteNamesAll: FormControl<any>;
-    favoriteNamesFew: FormControl<any>;
+    favoriteNames: FormControl<Names[] | null>;
+    favoriteNamesAll: FormControl<Names[] | null>;
+    favoriteNamesFew: FormControl<Names[] | null>;
   }>;
 
   public searchFilters: SkyAutocompleteSearchFunctionFilter[] = [];
-  public people = [
+  public people: Names[] = [
     { name: 'Abed' },
     { name: 'Alex' },
     { name: 'Ben' },

@@ -3,7 +3,6 @@ Basic
   <sky-input-box>
     <sky-lookup
       formControlName="favoriteNames"
-      (addClick)="onAddButtonClick()"
       [data]="people"
       [searchFilters]="searchFilters"
       [selectMode]="selectMode"
@@ -18,7 +17,6 @@ With preselected input
   <sky-input-box>
     <sky-lookup
       formControlName="favoriteNames"
-      (addClick)="onAddButtonClick()"
       [data]="people"
       [searchFilters]="searchFilters"
       [selectMode]="selectMode"
@@ -31,7 +29,6 @@ With preselected input
 With placeholder
 <sky-input-box>
   <sky-lookup
-    (addClick)="onAddButtonClick()"
     [data]="people"
     [searchFilters]="searchFilters"
     [selectMode]="selectMode"
@@ -46,7 +43,6 @@ With preselected input and placeholder
   <sky-input-box>
     <sky-lookup
       formControlName="favoriteNames"
-      (addClick)="onAddButtonClick()"
       [data]="people"
       [searchFilters]="searchFilters"
       [selectMode]="selectMode"
@@ -62,12 +58,11 @@ With preselected input and placeholder
 Basic
 <sky-input-box>
   <sky-lookup
-    (addClick)="onAddButtonClick()"
     [data]="people"
     [searchFilters]="searchFilters"
     [selectMode]="selectMode"
     [disabled]="disabledFlag"
-    enableShowMore="true"
+    [enableShowMore]="true"
   >
   </sky-lookup>
 </sky-input-box>
@@ -75,13 +70,12 @@ Basic
 With show add button
 <sky-input-box>
   <sky-lookup
-    (addClick)="onAddButtonClick()"
     [data]="people"
     [searchFilters]="searchFilters"
     [selectMode]="selectMode"
     [disabled]="disabledFlag"
     showAddButton="true"
-    enableShowMore="true"
+    [enableShowMore]="true"
   >
   </sky-lookup>
 </sky-input-box>
@@ -91,12 +85,11 @@ Multiple pre selected inputs
   <sky-input-box>
     <sky-lookup
       formControlName="favoriteNamesFew"
-      (addClick)="onAddButtonClick()"
       [data]="people"
       [searchFilters]="searchFilters"
       [selectMode]="selectMode"
       [disabled]="disabledFlag"
-      enableShowMore="true"
+      [enableShowMore]="true"
     >
     </sky-lookup>
   </sky-input-box>
@@ -107,12 +100,11 @@ Multiple collapsed pre selected inputs
   <sky-input-box>
     <sky-lookup
       formControlName="favoriteNamesAll"
-      (addClick)="onAddButtonClick()"
       [data]="people"
       [searchFilters]="searchFilters"
       [selectMode]="selectMode"
       [disabled]="disabledFlag"
-      enableShowMore="true"
+      [enableShowMore]="true"
     >
     </sky-lookup>
   </sky-input-box>
