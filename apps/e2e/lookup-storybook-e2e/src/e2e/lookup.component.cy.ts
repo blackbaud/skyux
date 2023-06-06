@@ -27,7 +27,7 @@ describe('lookup-storybook', () => {
             )
           );
           describe('with show more enabled', () => {
-            it.only('should render show more dropdown with filtering', () => {
+            it('should render show more dropdown with filtering', () => {
               cy.get('app-lookup').should('exist').should('be.visible');
 
               cy.get('[ng-reflect-enable-show-more="true"')
