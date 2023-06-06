@@ -23,6 +23,25 @@ const routes: Route[] = [
     loadChildren: () =>
       import('./toolbar/toolbar.module').then((m) => m.ToolbarModule),
   },
+  {
+    path: 'action-button',
+    loadChildren: () =>
+      import('./action-button/action-button.module').then(
+        (m) => m.ActionButtonModule
+      ),
+  },
+  {
+    path: 'back-to-top',
+    loadChildren: () =>
+      import('./back-to-top/back-to-top.module').then((m) => m.BackToTopModule),
+  },
+  {
+    path: 'description-list',
+    loadChildren: () =>
+      import('./description-list/description-list.module').then(
+        (m) => m.DescriptionListModule
+      ),
+  },
 ];
 if (routes.length > 0 && routes.findIndex((r) => r.path === '') === -1) {
   routes.push({ path: '', redirectTo: `${routes[0].path}`, pathMatch: 'full' });

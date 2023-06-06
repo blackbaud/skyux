@@ -11,6 +11,13 @@ const routes: Route[] = [
       import('./search/search.module').then((m) => m.SearchModule),
   },
   {
+    path: 'autocomplete',
+    loadChildren: () =>
+      import('./autocomplete/autocomplete.module').then(
+        (m) => m.AutocompleteModule
+      ),
+  },
+  {
     path: 'lookup',
     loadChildren: () =>
       import('./lookup/lookup.module').then((m) => m.LookupModule),

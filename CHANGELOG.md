@@ -1,5 +1,27 @@
 # Changelog
 
+## [8.2.5](https://github.com/blackbaud/skyux/compare/8.2.4...8.2.5) (2023-06-05)
+
+
+### Bug Fixes
+
+* **components/config:** support query params with multiple values ([#1434](https://github.com/blackbaud/skyux/issues/1434)) ([ca169b2](https://github.com/blackbaud/skyux/commit/ca169b248fbf2893d97a7a84e19224f1141904d5))
+* **sdk/eslint-config:** downgrade 'package-json' package to support CommonJS ([#1432](https://github.com/blackbaud/skyux/issues/1432)) ([f52579d](https://github.com/blackbaud/skyux/commit/f52579d760235895ed4cc0b763eabbdf8c6e0728))
+
+## [8.2.4](https://github.com/blackbaud/skyux/compare/8.2.3...8.2.4) (2023-06-02)
+
+
+### Bug Fixes
+
+* **sdk/eslint-config:** import 'package-json' ECMAScript module to support usage within CommonJS ([#1426](https://github.com/blackbaud/skyux/issues/1426)) ([6282093](https://github.com/blackbaud/skyux/commit/6282093b86fce0461a46066de44efbaa21f51e6b))
+
+## [8.2.3](https://github.com/blackbaud/skyux/compare/8.2.2...8.2.3) (2023-06-01)
+
+
+### Bug Fixes
+
+* **sdk/eslint-config:** move parser options to overrides ([#1419](https://github.com/blackbaud/skyux/issues/1419)) ([30706c2](https://github.com/blackbaud/skyux/commit/30706c26d8d2264f606d06efcf2f32292683d066))
+
 ## [8.2.2](https://github.com/blackbaud/skyux/compare/8.2.1...8.2.2) (2023-05-30)
 
 
