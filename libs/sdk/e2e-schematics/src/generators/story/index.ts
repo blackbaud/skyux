@@ -164,6 +164,7 @@ export default async function (tree: Tree, options: ComponentGeneratorSchema) {
     changeDetection: 'OnPush',
     export: true,
     skipImport: true,
+    skipTests: !normalizedOptions.includeTests,
   });
   generateFiles(
     tree,
