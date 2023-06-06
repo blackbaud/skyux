@@ -3,7 +3,8 @@
     <div
       *ngFor="let scenario of scenarios"
       class="sky-form-group"
-      [attr.id]="'form-group-'+scenario.name">
+      [attr.id]="'form-group-' + scenario.name"
+    >
       <sky-date-range-picker
         [formControlName]="scenario.name"
         [label]="scenario.label"

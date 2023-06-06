@@ -19,7 +19,6 @@
   <sky-datepicker-calendar
     [selectedDate]="selectedDate"
     (selectedDateChange)="selectedDate = $event"
-    #datepicker
   >
   </sky-datepicker-calendar>
 </div>
@@ -30,7 +29,7 @@
   style="max-width: 50%; height: 500px"
 >
   <p>Template form</p>
-  <sky-datepicker #picker>
+  <sky-datepicker>
     <input
       skyDatepickerInput
       [disabled]="disabled"
@@ -64,16 +63,19 @@
     </tr>
   </table>
 
-  <p *ngIf="date.errors && date.errors.skyDate" class="sky-error-label">
-    <span *ngIf="date.errors.skyDate.invalid">
+  <p
+    *ngIf="date['errors'] && date['errors']['skyDate']"
+    class="sky-error-label"
+  >
+    <span *ngIf="date['errors']['skyDate']['invalid']">
       Please enter a valid date.
     </span>
 
-    <span *ngIf="date.errors.skyDate.minDate">
+    <span *ngIf="date['errors']['skyDate']['minDate']">
       Date is prior to minimum date range.
     </span>
 
-    <span *ngIf="date.errors.skyDate.maxDate">
+    <span *ngIf="date['errors']['skyDate']['maxDate']">
       Date is after maximum date range.
     </span>
   </p>
@@ -119,15 +121,30 @@
     </table>
 
     <p *ngIf="reactiveDate.errors" class="sky-error-label">
-      <span *ngIf="reactiveDate.errors.skyDate?.invalid">
+      <span
+        *ngIf="
+          reactiveDate['errors']['skyDate'] &&
+          reactiveDate['errors']['skyDate']['invalid']
+        "
+      >
         Please enter a valid date.
       </span>
 
-      <span *ngIf="reactiveDate.errors.skyDate?.minDate">
+      <span
+        *ngIf="
+          reactiveDate['errors']['skyDate'] &&
+          reactiveDate['errors']['skyDate']['minDate']
+        "
+      >
         Date is prior to minimum date range.
       </span>
 
-      <span *ngIf="reactiveDate.errors.skyDate?.maxDate">
+      <span
+        *ngIf="
+          reactiveDate['errors']['skyDate'] &&
+          reactiveDate['errors']['skyDate']['maxDate']
+        "
+      >
         Date is after maximum date range.
       </span>
     </p>
@@ -224,7 +241,6 @@
     <label class="sky-control-label"> Input box </label>
     <sky-datepicker
       (calendarDateRangeChange)="onCalendarDateRangeChange($event)"
-      #inputBoxPicker
     >
       <input
         skyDatepickerInput
