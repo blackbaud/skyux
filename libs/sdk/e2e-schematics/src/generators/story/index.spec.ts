@@ -166,6 +166,69 @@ describe('component generator', () => {
     expect(
       appTree.read('apps/test-storybook/src/app/test-router.module.ts', 'utf-8')
     ).toMatchSnapshot();
+    expect(
+      appTree.read(
+        'apps/test-storybook/src/app/example/example.component.spec.ts',
+        'utf-8'
+      )
+    ).toMatchSnapshot();
+  });
+
+  it('should run successfully, when not including tests', async () => {
+    await angularModuleGenerator(appTree, {
+      name: 'sub-test',
+      project: 'test-storybook',
+      flat: true,
+      routing: true,
+      routingScope: RoutingScope.Child,
+      route: 'sub1',
+      module: 'test-router',
+    });
+    await angularModuleGenerator(appTree, {
+      name: 'test-sub',
+      project: 'test-storybook',
+      routing: true,
+      routingScope: RoutingScope.Child,
+      route: 'sub2',
+      module: 'test-router',
+    });
+    await angularModuleGenerator(appTree, {
+      name: 'test-sub/test-sub-sub',
+      project: 'test-storybook',
+      routing: true,
+      routingScope: RoutingScope.Child,
+      route: 'sub3',
+      module: 'test-sub',
+    });
+    options.includeTests = false;
+    await storyGenerator(appTree, options);
+    expect(
+      appTree.read(
+        'apps/test-storybook/src/app/example/example.component.stories.ts',
+        'utf-8'
+      )
+    ).toMatchSnapshot();
+    expect(
+      appTree.read(
+        'apps/test-storybook/src/app/example/example.component.ts',
+        'utf-8'
+      )
+    ).toMatchSnapshot();
+    expect(
+      appTree.read(
+        'apps/test-storybook/src/app/example/example.component.spec.ts',
+        'utf-8'
+      )
+    ).toBeNull();
+    expect(
+      appTree.read(
+        'apps/test-storybook/src/app/example/example.module.ts',
+        'utf-8'
+      )
+    ).toMatchSnapshot();
+    expect(
+      appTree.read('apps/test-storybook/src/app/test-router.module.ts', 'utf-8')
+    ).toMatchSnapshot();
   });
 
   it('should use -storybook project', async () => {
