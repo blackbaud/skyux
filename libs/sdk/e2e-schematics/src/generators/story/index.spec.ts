@@ -34,6 +34,7 @@ describe('component generator', () => {
       name: 'example',
       project: 'test-storybook',
       generateCypressSpecs: true,
+      includeTests: true,
     };
     await applicationGenerator(appTree, {
       name: 'test',
