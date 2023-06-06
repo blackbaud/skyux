@@ -27,7 +27,7 @@ export class LookupComponent {
     { name: 'Abed' },
     { name: 'Alex' },
     { name: 'Ben' },
-    { name: 'Britta' },
+    { name: 'Brittany' },
     { name: 'Buzz' },
     { name: 'Craig' },
     { name: 'Elroy' },
