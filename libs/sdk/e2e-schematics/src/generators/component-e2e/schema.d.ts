@@ -4,6 +4,7 @@ export interface Schema {
   name: string;
   tags?: string;
   ansiColor?: boolean;
+  includeTests?: boolean;
 }
 
 export interface NormalizedSchema

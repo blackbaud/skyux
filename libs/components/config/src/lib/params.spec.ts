@@ -301,4 +301,20 @@ describe('SkyAppRuntimeConfigParams', () => {
       'https://mysite.com?c=3&f=6&a=1&b=2#foobar'
     );
   });
+
+  it('should support query params with multiple values', () => {
+    const params = new SkyAppRuntimeConfigParams('?a1=b', allowed);
+
+    expect(params.getUrl('https://mysite.com?c=d&c=e')).toEqual(
+      'https://mysite.com?c=d&c=e&a1=b'
+    );
+  });
+
+  it('should preserve query string component encoding', () => {
+    const params = new SkyAppRuntimeConfigParams('', allowed);
+
+    expect(params.getUrl('https://mysite.com?%3F%26=%26%3F')).toEqual(
+      'https://mysite.com?%3F%26=%26%3F'
+    );
+  });
 });
