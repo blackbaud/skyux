@@ -1,0 +1,24 @@
+<div class="date-range-demo">
+  <form id="screenshot-date-range-picker" novalidate [formGroup]="reactiveForm">
+    <div
+      *ngFor="let scenario of scenarios"
+      class="sky-form-group"
+      [attr.id]="'form-group-'+scenario.name">
+      <sky-date-range-picker
+        [formControlName]="scenario.name"
+        [label]="scenario.label"
+        [calculatorIds]="scenario.calculatorIds"
+        [dateFormat]="dateFormat"
+        [endDateRequired]="scenario.name.includes('Required')"
+        [startDateRequired]="scenario.name.includes('Required')"
+      ></sky-date-range-picker>
+    </div>
+
+    <div class="sky-form-group">
+      <button class="sky-btn sky-btn-default" type="button" (click)="submit()">
+        Submit
+      </button>
+    </div>
+  </form>
+</div>
+<span id="ready" *ngIf="ready$ | async"></span>
