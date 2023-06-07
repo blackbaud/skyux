@@ -6,11 +6,13 @@ describe('lookup-storybook', () => {
       ['multiple-mode', 'single-mode', 'disabled'].forEach((mode) => {
         describe(`in ${mode} lookup`, () => {
           beforeEach(() =>
-            cy.visit(
-              `/iframe.html?globals=theme:${theme}&id=lookupcomponent-lookup--lookup-${mode}`
-            )
+            cy
+              .visit(
+                `/iframe.html?globals=theme:${theme}&id=lookupcomponent-lookup--lookup-${mode}`
+              )
+              .viewport(1300, 900)
           );
-          it.only(`should render the component`, () => {
+          it(`should render the component`, () => {
             cy.get('app-lookup')
               .should('exist')
               .should('be.visible')
@@ -27,9 +29,11 @@ describe('lookup-storybook', () => {
       ['multiple-mode', 'single-mode'].forEach((mode) => {
         describe(`in ${mode} lookup component`, () => {
           beforeEach(() =>
-            cy.visit(
-              `/iframe.html?globals=theme:${theme}&id=lookupcomponent-lookup--lookup-${mode}`
-            )
+            cy
+              .visit(
+                `/iframe.html?globals=theme:${theme}&id=lookupcomponent-lookup--lookup-${mode}`
+              )
+              .viewport(1300, 900)
           );
           describe('with show more enabled', () => {
             it('should render show more dropdown with filtering', () => {
