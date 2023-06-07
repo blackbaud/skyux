@@ -1,6 +1,6 @@
-Basic
 <form novalidate [formGroup]="favoritesForm">
   <sky-input-box>
+    <label class="sky-control-label">Basic </label>
     <sky-lookup
       formControlName="favoriteNames"
       [data]="people"
@@ -11,9 +11,9 @@ Basic
   </sky-input-box>
 </form>
 
-With preselected input
 <form novalidate [formGroup]="favoritesForm">
   <sky-input-box>
+    <label class="sky-control-label">With preselected input</label>
     <sky-lookup
       formControlName="favoriteNames"
       [data]="people"
@@ -24,8 +24,8 @@ With preselected input
   </sky-input-box>
 </form>
 
-With placeholder
 <sky-input-box>
+  <label class="sky-control-label">With placeholder</label>
   <sky-lookup
     [data]="people"
     [selectMode]="selectMode"
@@ -35,9 +35,11 @@ With placeholder
   </sky-lookup>
 </sky-input-box>
 
-With preselected input and placeholder
 <form novalidate [formGroup]="favoritesForm">
   <sky-input-box>
+    <label class="sky-control-label"
+      >With preselected input and placeholder</label
+    >
     <sky-lookup
       formControlName="favoriteNames"
       [data]="people"
@@ -51,8 +53,8 @@ With preselected input and placeholder
 
 <h2>With show more</h2>
 
-Basic
 <sky-input-box>
+  <label class="sky-control-label">Basic</label>
   <sky-lookup
     [data]="people"
     [selectMode]="selectMode"
@@ -62,8 +64,8 @@ Basic
   </sky-lookup>
 </sky-input-box>
 
-With show add button
 <sky-input-box>
+  <label class="sky-control-label">With show add button</label>
   <sky-lookup
     [data]="people"
     [selectMode]="selectMode"
@@ -74,9 +76,9 @@ With show add button
   </sky-lookup>
 </sky-input-box>
 
-Multiple pre selected inputs
 <form novalidate [formGroup]="favoritesForm">
   <sky-input-box>
+    <label class="sky-control-label">Multiple pre selected inputs </label>
     <sky-lookup
       formControlName="favoriteNamesFew"
       [data]="people"
@@ -88,9 +90,11 @@ Multiple pre selected inputs
   </sky-input-box>
 </form>
 
-Multiple collapsed pre selected inputs
 <form novalidate [formGroup]="favoritesForm">
   <sky-input-box>
+    <label class="sky-control-label"
+      >Multiple collapsed pre selected inputs</label
+    >
     <sky-lookup
       formControlName="favoriteNamesAll"
       [data]="people"
