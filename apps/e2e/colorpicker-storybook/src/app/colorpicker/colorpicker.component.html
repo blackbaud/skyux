@@ -1,29 +1,68 @@
-<h1>Colorpicker Story</h1>
-<p>Next steps:</p>
-<ul>
-  <li>
-    Build out the test scenario:
-    <strong
-      ><code>apps/e2e/colorpicker-storybook/src/app/colorpicker</code></strong
+<form novalidate [formGroup]="colorForm">
+  <div class="sky-margin-stacked-xl" id="colorpicker-12-presets-fa-icon">
+    <label class="sky-control-label">
+      Colorpicker with 12 presets and FA icon
+    </label>
+    <sky-colorpicker #colorPickerPresets pickerButtonIcon="pencil">
+      <input
+        formControlName="colorOne"
+        skyId
+        type="text"
+        [presetColors]="swatches12"
+        [skyColorpickerInput]="colorPickerPresets"
+        [allowTransparency]="false"
+      />
+    </sky-colorpicker>
+  </div>
+  <div class="sky-margin-stacked-xl" id="colorpicker-6-presets-sky-icon">
+    <label class="sky-control-label">
+      Colorpicker with transparent option, 6 presets, and SKY UX icon
+    </label>
+    <sky-colorpicker
+      #colorPickerTransparent
+      pickerButtonIcon="text-color"
+      pickerButtonIconType="skyux"
     >
-  </li>
-  <li>
-    Run via Angular CLI:
-    <strong><code>ng serve colorpicker-storybook</code></strong>
-  </li>
-  <li>
-    Run Storybook:
-    <strong><code>nx storybook colorpicker-storybook</code></strong>
-  </li>
-  <li>
-    Run Cypress:
-    <strong><code>nx e2e colorpicker-storybook-e2e --watch</code></strong>
-  </li>
-  <li>
-    <a
-      href="https://docs.blackbaud.com/skyux-team-docs/playbooks/monorepo/e2e-testing"
-      target="_blank"
-      >Learn more about e2e testing</a
+      <input
+        formControlName="colorTwo"
+        skyId
+        type="text"
+        [presetColors]="swatches6"
+        [allowTransparency]="true"
+        [skyColorpickerInput]="colorPickerTransparent"
+      />
+    </sky-colorpicker>
+  </div>
+  <div class="sky-margin-stacked-xl" id="colorpicker-disabled">
+    <label class="sky-control-label"> Disabled colorpicker </label>
+    <sky-colorpicker
+      #colorPickerDisabled
+      pickerButtonIcon="text-color"
+      pickerButtonIconType="skyux"
     >
-  </li>
-</ul>
+      <input
+        formControlName="colorThree"
+        skyId
+        type="text"
+        [skyColorpickerInput]="colorPickerDisabled"
+      />
+    </sky-colorpicker>
+  </div>
+  <div
+    class="sky-margin-stacked-xl"
+    id="colorpicker-default-presets-no-clear-btn"
+  >
+    <label class="sky-control-label">
+      Colorpicker with no icons, no clear button, default color swatches
+    </label>
+    <sky-colorpicker [showResetButton]="false" #colorPickerDefault>
+      <input
+        formControlName="colorFour"
+        skyId
+        type="text"
+        [allowTransparency]="true"
+        [skyColorpickerInput]="colorPickerDefault"
+      />
+    </sky-colorpicker>
+  </div>
+</form>
