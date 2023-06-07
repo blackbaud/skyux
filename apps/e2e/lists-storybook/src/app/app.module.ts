@@ -10,6 +10,13 @@ const routes: Route[] = [
     loadChildren: () =>
       import('./repeater/repeater.module').then((m) => m.RepeaterModule),
   },
+  {
+    path: 'infinite-scroll',
+    loadChildren: () =>
+      import('./infinite-scroll/infinite-scroll.module').then(
+        (m) => m.InfiniteScrollModule
+      ),
+  },
 ];
 if (routes.length > 0 && routes.findIndex((r) => r.path === '') === -1) {
   routes.push({ path: '', redirectTo: `${routes[0].path}`, pathMatch: 'full' });
