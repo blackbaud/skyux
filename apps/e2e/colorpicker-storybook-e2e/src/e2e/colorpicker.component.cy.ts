@@ -1,4 +1,3 @@
-/* eslint-disable @cspell/spellchecker */
 import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 
 describe('colorpicker-storybook', () => {
