@@ -1,4 +1,11 @@
-import { Directive, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Directive,
+  HostBinding,
+  Input,
+  OnDestroy,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { Subject } from 'rxjs';
@@ -28,23 +35,16 @@ export class SkyModalIsDirtyDirective implements OnInit, OnDestroy {
    * @required
    */
   @Input()
+  // This attribute is being applied to the host to support
+  // unit testing this feature.
+  @HostBinding('attr.skyIsDirty')
   public isDirty = false;
 
   readonly #ngUnsubscribe = new Subject<void>();
 
-  readonly #modalInstance: SkyModalInstance;
-  readonly #confirmService: SkyConfirmService;
-  readonly #resourcesService: SkyLibResourcesService;
-
-  constructor(
-    modalInstance: SkyModalInstance,
-    confirmService: SkyConfirmService,
-    resourcesService: SkyLibResourcesService
-  ) {
-    this.#modalInstance = modalInstance;
-    this.#confirmService = confirmService;
-    this.#resourcesService = resourcesService;
-  }
+  readonly #modalInstance = inject(SkyModalInstance);
+  readonly #confirmSvc = inject(SkyConfirmService);
+  readonly #resourcesSvc = inject(SkyLibResourcesService);
 
   public ngOnInit(): void {
     this.#modalInstance.beforeClose
@@ -59,7 +59,7 @@ export class SkyModalIsDirtyDirective implements OnInit, OnDestroy {
 
   #promptIfDirty(handler: SkyModalBeforeCloseHandler): void {
     if (this.isDirty && handler.closeArgs.reason === 'close') {
-      this.#resourcesService
+      this.#resourcesSvc
         .getStrings({
           message: 'skyux_modal_dirty_default_message',
           discardActionText: 'skyux_modal_dirty_default_discard_changes_text',
@@ -69,7 +69,7 @@ export class SkyModalIsDirtyDirective implements OnInit, OnDestroy {
           const discardAction = 'discard';
           const keepAction = 'keep';
 
-          this.#confirmService
+          this.#confirmSvc
             .open({
               message: textValues.message,
               buttons: [

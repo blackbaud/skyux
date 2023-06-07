@@ -1174,7 +1174,7 @@ describe('Modal component', () => {
 
     let dirtyContextProvider: { providers: StaticProvider[] };
 
-    beforeEach(fakeAsync(() => {
+    beforeEach(() => {
       dirtyContextProvider = {
         providers: [
           {
@@ -1185,7 +1185,7 @@ describe('Modal component', () => {
           },
         ],
       };
-    }));
+    });
 
     it('should not prompt to discard if not dirty', fakeAsync(() => {
       const modalInstance = openModal(ModalIsDirtyTestComponent);
@@ -1211,7 +1211,7 @@ describe('Modal component', () => {
       expect(getConfirmModalElement()).toBeNull();
     }));
 
-    it('should prompt to discard if dirty and stay open when keep working is selected', fakeAsync(async () => {
+    it('should prompt to discard if dirty and stay open when keep working is selected', fakeAsync(() => {
       const modalInstance = openModal(
         ModalIsDirtyTestComponent,
         dirtyContextProvider
@@ -1224,13 +1224,11 @@ describe('Modal component', () => {
       if (confirmModalEl) {
         checkConfirmModalIsCorrect(confirmModalEl);
         getKeepWorkingButtonElement(confirmModalEl)?.click();
-        tick();
-
         expect(getModalElement()).not.toBeNull();
       }
     }));
 
-    it('should prompt to discard if dirty and close when discard changes is selected', fakeAsync(async () => {
+    it('should prompt to discard if dirty and close when discard changes is selected', fakeAsync(() => {
       const modalInstance = openModal(
         ModalIsDirtyTestComponent,
         dirtyContextProvider
@@ -1243,8 +1241,6 @@ describe('Modal component', () => {
       if (confirmModalEl) {
         checkConfirmModalIsCorrect(confirmModalEl);
         getDiscardButtonElement(confirmModalEl)?.click();
-        tick();
-
         expect(getModalElement()).toBeNull();
       }
     }));
