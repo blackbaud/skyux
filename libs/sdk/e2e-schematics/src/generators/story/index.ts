@@ -212,6 +212,11 @@ export default async function (tree: Tree, options: ComponentGeneratorSchema) {
         ) === -1
       ) {
         tree.delete(change.path);
+      } else if (
+        !normalizedOptions.includeTests &&
+        change.path.endsWith(`spec.ts`)
+      ) {
+        tree.delete(change.path);
       }
     });
 
