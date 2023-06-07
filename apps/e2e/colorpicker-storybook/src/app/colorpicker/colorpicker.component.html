@@ -1,64 +1,66 @@
-<form novalidate [formGroup]="colorForm">
-  <div class="sky-margin-stacked-xl" id="colorpicker-12-presets-fa-icon">
-    <label class="sky-control-label">
-      Colorpicker with 12 presets and FA icon
-    </label>
-    <sky-colorpicker #colorPickerPresets pickerButtonIcon="pencil">
-      <input
-        formControlName="colorOne"
-        skyId
-        type="text"
-        [presetColors]="swatches12"
-        [skyColorpickerInput]="colorPickerPresets"
-        [allowTransparency]="false"
-      />
-    </sky-colorpicker>
-  </div>
-  <div class="sky-margin-stacked-xl" id="colorpicker-6-presets-sky-icon">
-    <label class="sky-control-label">
-      Colorpicker with transparent option, 6 presets, and SKY UX icon
-    </label>
-    <sky-colorpicker
-      #colorPickerTransparent
-      pickerButtonIcon="text-color"
-      pickerButtonIconType="skyux"
+<div class="sky-padding-even-large">
+  <form novalidate [formGroup]="colorForm">
+    <div class="sky-margin-stacked-xl" id="colorpicker-12-presets-fa-icon">
+      <label class="sky-control-label">
+        Colorpicker with 12 presets and FA icon
+      </label>
+      <sky-colorpicker #colorPickerPresets pickerButtonIcon="pencil">
+        <input
+          formControlName="colorOne"
+          skyId
+          type="text"
+          [presetColors]="swatches12"
+          [skyColorpickerInput]="colorPickerPresets"
+          [allowTransparency]="false"
+        />
+      </sky-colorpicker>
+    </div>
+    <div class="sky-margin-stacked-xl" id="colorpicker-6-presets-sky-icon">
+      <label class="sky-control-label">
+        Colorpicker with transparent option, 6 presets, and SKY UX icon
+      </label>
+      <sky-colorpicker
+        #colorPickerTransparent
+        pickerButtonIcon="text-color"
+        pickerButtonIconType="skyux"
+      >
+        <input
+          formControlName="colorTwo"
+          skyId
+          type="text"
+          [presetColors]="swatches6"
+          [allowTransparency]="true"
+          [skyColorpickerInput]="colorPickerTransparent"
+        />
+      </sky-colorpicker>
+    </div>
+    <div class="sky-margin-stacked-xl" id="colorpicker-disabled">
+      <label class="sky-control-label"> Disabled colorpicker </label>
+      <sky-colorpicker #colorPickerDisabled>
+        <input
+          formControlName="colorThree"
+          skyId
+          type="text"
+          [skyColorpickerInput]="colorPickerDisabled"
+        />
+      </sky-colorpicker>
+    </div>
+    <div
+      class="sky-margin-stacked-xl"
+      id="colorpicker-default-presets-no-clear-btn"
     >
-      <input
-        formControlName="colorTwo"
-        skyId
-        type="text"
-        [presetColors]="swatches6"
-        [allowTransparency]="true"
-        [skyColorpickerInput]="colorPickerTransparent"
-      />
-    </sky-colorpicker>
-  </div>
-  <div class="sky-margin-stacked-xl" id="colorpicker-disabled">
-    <label class="sky-control-label"> Disabled colorpicker </label>
-    <sky-colorpicker #colorPickerDisabled>
-      <input
-        formControlName="colorThree"
-        skyId
-        type="text"
-        [skyColorpickerInput]="colorPickerDisabled"
-      />
-    </sky-colorpicker>
-  </div>
-  <div
-    class="sky-margin-stacked-xl"
-    id="colorpicker-default-presets-no-clear-btn"
-  >
-    <label class="sky-control-label">
-      Colorpicker with no icons, no clear button, default color swatches
-    </label>
-    <sky-colorpicker [showResetButton]="false" #colorPickerDefault>
-      <input
-        formControlName="colorFour"
-        skyId
-        type="text"
-        [allowTransparency]="true"
-        [skyColorpickerInput]="colorPickerDefault"
-      />
-    </sky-colorpicker>
-  </div>
-</form>
+      <label class="sky-control-label">
+        Colorpicker with no icons, no clear button, default color swatches
+      </label>
+      <sky-colorpicker [showResetButton]="false" #colorPickerDefault>
+        <input
+          formControlName="colorFour"
+          skyId
+          type="text"
+          [allowTransparency]="true"
+          [skyColorpickerInput]="colorPickerDefault"
+        />
+      </sky-colorpicker>
+    </div>
+  </form>
+</div>
