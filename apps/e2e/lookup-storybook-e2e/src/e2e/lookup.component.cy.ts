@@ -4,19 +4,24 @@ describe('lookup-storybook', () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {
       ['multiple-mode', 'single-mode', 'disabled'].forEach((mode) => {
-        beforeEach(() =>
-          cy.visit(
-            `/iframe.html?globals=theme:${theme}&id=lookupcomponent-lookup--lookup-${mode}`
-          )
-        );
-        it(`should render the ${mode} lookup component`, () => {
-          cy.get('app-lookup')
-            .should('exist')
-            .should('be.visible')
-            .screenshot(`lookupcomponent-lookup--lookup-${mode}-${theme}`)
-            .percySnapshot(`lookupcomponent-lookup--lookup-${mode}-${theme}`, {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-            });
+        describe(`in ${mode} lookup`, () => {
+          beforeEach(() =>
+            cy.visit(
+              `/iframe.html?globals=theme:${theme}&id=lookupcomponent-lookup--lookup-${mode}`
+            )
+          );
+          it.only(`should render the component`, () => {
+            cy.get('app-lookup')
+              .should('exist')
+              .should('be.visible')
+              .screenshot(`lookupcomponent-lookup--lookup-${mode}-${theme}`)
+              .percySnapshot(
+                `lookupcomponent-lookup--lookup-${mode}-${theme}`,
+                {
+                  widths: E2eVariations.DISPLAY_WIDTHS,
+                }
+              );
+          });
         });
       });
       ['multiple-mode', 'single-mode'].forEach((mode) => {

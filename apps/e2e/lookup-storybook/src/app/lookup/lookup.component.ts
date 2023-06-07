@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { SkyAutocompleteSearchFunctionFilter } from '@skyux/lookup';
 
 export interface Names {
   name: string;
@@ -25,7 +24,6 @@ export class LookupComponent {
     favoriteNamesFew: FormControl<Names[] | null>;
   }>;
 
-  public searchFilters: SkyAutocompleteSearchFunctionFilter[] = [];
   public people: Names[] = [
     { name: 'Abed' },
     { name: 'Alex' },
