@@ -10,6 +10,13 @@ const routes: Route[] = [
     loadChildren: () =>
       import('./datepicker/datepicker.module').then((m) => m.DatepickerModule),
   },
+  {
+    path: 'date-range-picker',
+    loadChildren: () =>
+      import('./date-range-picker/date-range-picker.module').then(
+        (m) => m.DateRangePickerModule
+      ),
+  },
 ];
 if (routes.length > 0 && routes.findIndex((r) => r.path === '') === -1) {
   routes.push({ path: '', redirectTo: `${routes[0].path}`, pathMatch: 'full' });
