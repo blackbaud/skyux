@@ -3,7 +3,12 @@ import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 describe('lookup-storybook', () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {
-      ['multiple-mode', 'single-mode', 'disabled'].forEach((mode) => {
+      [
+        'multiple-mode',
+        'single-mode',
+        'single-mode-disabled',
+        'multiple-mode-disabled',
+      ].forEach((mode) => {
         describe(`in ${mode} lookup`, () => {
           beforeEach(() =>
             cy

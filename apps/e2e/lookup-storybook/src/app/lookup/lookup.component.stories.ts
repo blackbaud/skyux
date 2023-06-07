@@ -27,7 +27,14 @@ LookupMultipleMode.args = {
   selectMode: 'multiple',
 };
 
-export const LookupDisabled = BaseLookup.bind({});
-LookupDisabled.args = {
+export const LookupSingleModeDisabled = BaseLookup.bind({});
+LookupSingleModeDisabled.args = {
+  selectMode: 'single',
+  disabledFlag: true,
+};
+
+export const LookupMultipleModeDisabled = BaseLookup.bind({});
+LookupMultipleModeDisabled.args = {
+  selectMode: 'multiple',
   disabledFlag: true,
 };
