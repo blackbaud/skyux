@@ -1,6 +1,6 @@
 import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 
-describe('tabs-storybook', () => {
+describe('sectioned form', () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
@@ -10,7 +10,7 @@ describe('tabs-storybook', () => {
       );
 
       ['small', 'medium'].forEach((size) => {
-        it(`should show sectioned form in ${size} modal`, () => {
+        it(`should show in ${size} modal`, () => {
           cy.get('app-sectioned-form')
             .should('exist')
             .should('be.visible')
@@ -21,17 +21,24 @@ describe('tabs-storybook', () => {
             .get(`#show-tabs-button`)
             .should('exist')
             .should('be.visible')
+            .end()
+            .window()
+            .screenshot(`sectioned-form-${size}-${theme}-section`)
+            .percySnapshot(`sectioned-form-${size}-${theme}-section`, {
+              widths: E2eVariations.DISPLAY_WIDTHS,
+            })
+            .get(`#show-tabs-button`)
             .click()
             .end()
             .window()
-            .screenshot(`sectioned-form-tabs-${size}-modal-${theme}`)
-            .percySnapshot(`sectioned-form-tabs-${size}-modal-${theme}`, {
+            .screenshot(`sectioned-form-${size}-${theme}-tab`)
+            .percySnapshot(`sectioned-form-${size}-${theme}-tab`, {
               widths: E2eVariations.DISPLAY_WIDTHS,
             });
         });
       });
 
-      it(`should show sectioned form in large modal`, () => {
+      it(`should show in large modal`, () => {
         const size = 'large';
         cy.get('app-sectioned-form')
           .should('exist')
@@ -50,8 +57,8 @@ describe('tabs-storybook', () => {
           .should('be.visible')
           .end()
           .window()
-          .screenshot(`sectioned-form-tabs-${size}-modal-${theme}`)
-          .percySnapshot(`sectioned-form-tabs-${size}-modal-${theme}`, {
+          .screenshot(`sectioned-form-${size}-${theme}`)
+          .percySnapshot(`sectioned-form-${size}-${theme}`, {
             widths: E2eVariations.DISPLAY_WIDTHS,
           });
       });
