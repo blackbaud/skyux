@@ -11,6 +11,11 @@ const routes: Route[] = [
       import('./repeater/repeater.module').then((m) => m.RepeaterModule),
   },
   {
+    path: 'paging',
+    loadChildren: () =>
+      import('./paging/paging.module').then((m) => m.PagingModule),
+  },
+  {
     path: 'infinite-scroll',
     loadChildren: () =>
       import('./infinite-scroll/infinite-scroll.module').then(
