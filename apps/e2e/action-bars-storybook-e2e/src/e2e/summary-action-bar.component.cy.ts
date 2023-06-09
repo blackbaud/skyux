@@ -5,16 +5,18 @@ describe('action-bars-storybook', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=actionbarscomponent-actionbars--action-bars`
+          `/iframe.html?globals=theme:${theme}&id=summaryactionbarcomponent-summaryactionbar--summary-action-bar`
         )
       );
       it('should render the component', () => {
-        cy.get('app-action-bars')
+        cy.get('app-summary-action-bar')
           .should('exist')
           .should('be.visible')
-          .screenshot(`actionbarscomponent-actionbars--action-bars-${theme}`)
+          .screenshot(
+            `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${theme}`
+          )
           .percySnapshot(
-            `actionbarscomponent-actionbars--action-bars-${theme}`,
+            `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${theme}`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
             }
