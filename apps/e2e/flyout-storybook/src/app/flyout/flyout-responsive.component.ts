@@ -11,6 +11,7 @@ export class FlyoutResponsiveComponent {
 
   constructor(private mediaQueryService: SkyMediaQueryService) {
     this.mediaQueryService.subscribe((breakpoint) => {
+      console.log(breakpoint);
       switch (breakpoint) {
         case SkyMediaBreakpoints.xs: {
           this.currentMediaBreakpoint = 'xs';

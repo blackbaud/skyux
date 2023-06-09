@@ -2,6 +2,10 @@ import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 
 describe('flyout-storybook', () => {
   E2eVariations.forEachTheme((theme) => {
+    beforeEach(() => {
+      cy.viewport(1300, 900);
+    });
+
     describe(`in ${theme} theme`, () => {
       [
         'standard',
@@ -22,6 +26,14 @@ describe('flyout-storybook', () => {
             .should('be.visible')
             .click()
             .end();
+
+          if (style.includes('responsive')) {
+            cy.get(
+              `.sky-responsive-container-${style.substring(
+                style.lastIndexOf('-') + 1
+              )}`
+            ).should('exist');
+          }
 
           cy.get('app-flyout')
             .should('exist')
