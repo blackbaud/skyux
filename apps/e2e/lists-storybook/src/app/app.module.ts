@@ -16,6 +16,10 @@ const routes: Route[] = [
       import('./paging/paging.module').then((m) => m.PagingModule),
   },
   {
+    path: 'sort',
+    loadChildren: () => import('./sort/sort.module').then((m) => m.SortModule),
+  },
+  {
     path: 'infinite-scroll',
     loadChildren: () =>
       import('./infinite-scroll/infinite-scroll.module').then(

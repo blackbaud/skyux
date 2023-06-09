@@ -16,7 +16,9 @@ export class SectionedFormDemoComponent {
   }
 
   public openModal(): void {
-    const modalInstance = this.#modal.open(SectionedFormModalDemoComponent);
+    const modalInstance = this.#modal.open(SectionedFormModalDemoComponent, {
+      size: 'large',
+    });
 
     modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {
       if (result.reason === 'cancel') {
