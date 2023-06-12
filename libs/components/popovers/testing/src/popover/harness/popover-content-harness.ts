@@ -31,15 +31,7 @@ export class SkyPopoverContentHarness extends ComponentHarness {
   public static with(
     filters: SkyPopoverContentHarnessFilters
   ): HarnessPredicate<SkyPopoverContentHarness> {
-    return new HarnessPredicate(this, filters).addOption(
-      'popover-id',
-      filters.popoverId,
-      async (harness, test) =>
-        HarnessPredicate.stringMatches(
-          (await harness.host()).getAttribute('id'),
-          test
-        )
-    );
+    return new HarnessPredicate(SkyPopoverContentHarness, filters);
   }
 
   /**

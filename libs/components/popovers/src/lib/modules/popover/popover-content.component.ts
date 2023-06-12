@@ -45,7 +45,8 @@ import { SkyPopoverType } from './types/popover-type';
   providers: [SkyPopoverAdapterService],
 })
 export class SkyPopoverContentComponent implements OnInit, OnDestroy {
-  @HostBinding('[attr.id]') public popoverId: string | undefined;
+  @HostBinding('[attr.id]')
+  protected popoverId: string | undefined;
 
   public animationState: SkyPopoverAnimationState = 'closed';
 

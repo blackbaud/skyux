@@ -56,7 +56,7 @@ describe('Basic popover', () => {
   it('should expose popover properties when visible', async () => {
     const { popoverHarness } = await setupTest();
 
-    await popoverHarness.toggle();
+    await popoverHarness.clickPopoverButton();
     const contentHarness = await popoverHarness.getPopoverContent();
 
     await expectAsync(contentHarness.getTitleText()).toBeResolvedTo(
@@ -77,7 +77,7 @@ describe('Basic popover', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    await popoverHarness.toggle();
+    await popoverHarness.clickPopoverButton();
     await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(true);
 
     await popoverHarness.clickOut();
@@ -92,13 +92,13 @@ describe('Basic popover', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    await popoverHarness.toggle();
+    await popoverHarness.clickPopoverButton();
     await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(true);
 
     await popoverHarness.clickOut();
     await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(true);
 
-    await popoverHarness.toggle();
+    await popoverHarness.clickPopoverButton();
     await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(false);
   });
 });

@@ -63,7 +63,7 @@ describe('Popover harness', () => {
   it('should expose popover properties when visible', async () => {
     const { popoverHarness } = await setupTest();
 
-    await popoverHarness.toggle();
+    await popoverHarness.clickPopoverButton();
     const contentHarness = await popoverHarness.getPopoverContent();
 
     await expectAsync(contentHarness.getTitleText()).toBeResolvedTo(
@@ -79,7 +79,7 @@ describe('Popover harness', () => {
   it('should allow querying harnesses inside a popover', async () => {
     const { popoverHarness } = await setupTest();
 
-    await popoverHarness.toggle();
+    await popoverHarness.clickPopoverButton();
     const contentHarness = await popoverHarness.getPopoverContent();
 
     const bodyHarness = await contentHarness.queryHarness(
@@ -113,7 +113,7 @@ describe('Popover harness', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    await popoverHarness.toggle();
+    await popoverHarness.clickPopoverButton();
     await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(true);
 
     await popoverHarness.clickOut();
@@ -129,7 +129,7 @@ describe('Popover harness', () => {
     await fixture.whenStable();
 
     // click on the trigger to open it
-    await popoverHarness.toggle();
+    await popoverHarness.clickPopoverButton();
     await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(true);
 
     // clicking away from the trigger does not close it
@@ -137,7 +137,7 @@ describe('Popover harness', () => {
     await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(true);
 
     // clicking on the trigger again will force close it
-    await popoverHarness.toggle();
+    await popoverHarness.clickPopoverButton();
     await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(false);
   });
 
@@ -146,7 +146,7 @@ describe('Popover harness', () => {
       dataSkyId: 'another-popover',
     });
 
-    await popoverHarness.toggle();
+    await popoverHarness.clickPopoverButton();
     const contentHarness = await popoverHarness.getPopoverContent();
 
     await expectAsync(contentHarness.getTitleText()).toBeResolvedTo(
@@ -171,8 +171,8 @@ describe('Popover harness', () => {
       })
     );
 
-    await popoverHarness1.toggle();
-    await popoverHarness2.toggle();
+    await popoverHarness1.clickPopoverButton();
+    await popoverHarness2.clickPopoverButton();
 
     const contentHarness1 = await popoverHarness1.getPopoverContent();
     const contentHarness2 = await popoverHarness2.getPopoverContent();

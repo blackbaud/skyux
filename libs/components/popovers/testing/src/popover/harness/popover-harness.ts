@@ -28,7 +28,7 @@ export class SkyPopoverHarness extends SkyComponentHarness {
   /**
    * Toggles a popover open or closed.
    */
-  public async toggle(): Promise<void> {
+  public async clickPopoverButton(): Promise<void> {
     (await this.host()).click();
   }
 
@@ -43,12 +43,8 @@ export class SkyPopoverHarness extends SkyComponentHarness {
   }
 
   /**
-   * Whether the popover is open.
+   * Gets the popover content component.
    */
-  public async isOpen(): Promise<boolean> {
-    return !!(await this.#getContent());
-  }
-
   public async getPopoverContent(): Promise<SkyPopoverContentHarness> {
     const content = await this.#getContent();
     if (!content) {
@@ -59,17 +55,24 @@ export class SkyPopoverHarness extends SkyComponentHarness {
     return content;
   }
 
+  /**
+   * Whether the popover is open.
+   */
+  public async isOpen(): Promise<boolean> {
+    return !!(await this.#getContent());
+  }
+
   async #getContent(): Promise<SkyPopoverContentHarness | null> {
-    const id = await this.#getPopoverId();
+    const popoverId = await this.#getPopoverId();
 
     return this.#documentRootLocator.locatorForOptional(
-      SkyPopoverContentHarness.with({ popoverId: id })
+      SkyPopoverContentHarness.with({ selector: `#${popoverId}` })
     )();
   }
 
   async #getPopoverId(): Promise<string> {
     return (
-      (await (await this.host()).getAttribute('sky-popover-id')) ||
+      (await (await this.host()).getAttribute('data-popover-id')) ||
       /* istanbul ignore next */
       ''
     );
