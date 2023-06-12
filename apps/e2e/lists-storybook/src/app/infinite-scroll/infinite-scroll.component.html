@@ -1,0 +1,18 @@
+<div class="sky-padding-even-md">
+  <h2>Infinite scroll</h2>
+
+  <!-- Parent is window -->
+  <div
+    [ngClass]="{ 'scrollable-parent': scrollableParent }"
+    id="screenshot-infinite-scroll"
+  >
+    <ul>
+      <li *ngFor="let item of items">
+        {{ item }}
+      </li>
+    </ul>
+    <sky-infinite-scroll [enabled]="enabled" [loading]="loading">
+    </sky-infinite-scroll>
+  </div>
+</div>
+<span id="ready" *ngIf="ready | async"></span>

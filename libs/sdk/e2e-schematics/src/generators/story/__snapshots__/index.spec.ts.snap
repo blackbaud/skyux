@@ -146,6 +146,105 @@ export class TestRouterModule { }
 "
 `;
 
+exports[`component generator should run successfully, finding a module 5`] = `
+"import { ExampleComponent } from './example.component';
+import { ExampleModule } from './example.module';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+describe('ExampleComponent', () => {
+  let component: ExampleComponent;
+  let fixture: ComponentFixture<ExampleComponent>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [ExampleModule],
+    });
+    fixture = TestBed.createComponent(ExampleComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+"
+`;
+
+exports[`component generator should run successfully, when not including tests 1`] = `
+"import { ExampleComponent } from './example.component';
+import { ExampleModule } from './example.module';
+import { Meta, moduleMetadata } from '@storybook/angular';
+
+export default {
+  id: 'examplecomponent-example',
+  title: 'Components/Example',
+  component: ExampleComponent,
+  decorators: [
+    moduleMetadata({
+      imports: [ExampleModule],
+    }),
+  ],
+} as Meta<ExampleComponent>;
+export const Example = {
+  render: (args: ExampleComponent) => ({
+    props: args,
+  }),
+  args: {},
+};
+"
+`;
+
+exports[`component generator should run successfully, when not including tests 2`] = `
+"import { Component } from '@angular/core';
+
+@Component({
+  selector: 'proj-example',
+  templateUrl: './example.component.html',
+  styleUrls: ['./example.component.scss'],
+})
+export class ExampleComponent {}
+"
+`;
+
+exports[`component generator should run successfully, when not including tests 3`] = `
+"import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ExampleRoutingModule } from './example-routing.module';
+import { ExampleComponent } from './example.component';
+@NgModule({
+    declarations: [
+        ExampleComponent
+    ],
+    imports: [
+        CommonModule,
+        ExampleRoutingModule
+    ],
+    exports: [ExampleComponent]
+})
+export class ExampleModule {
+}
+"
+`;
+
+exports[`component generator should run successfully, when not including tests 4`] = `
+"import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { TestRouterRoutingModule } from './test-router-routing.module';
+
+
+@NgModule({
+  declarations: [],
+  imports: [
+    CommonModule,
+    TestRouterRoutingModule
+  ]
+})
+export class TestRouterModule { }
+"
+`;
+
 exports[`component generator should use -storybook project 1`] = `
 "import { ExampleComponent } from './example.component';
 import { ExampleModule } from './example.module';

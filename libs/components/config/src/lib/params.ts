@@ -1,6 +1,20 @@
-import { HttpParams } from '@angular/common/http';
+import { HttpParams, HttpUrlEncodingCodec } from '@angular/common/http';
 
 import { SkyuxConfigParams } from './config-params';
+
+/**
+ * Override Angular's default encoder because it excludes certain characters.
+ * @see https://github.com/angular/angular/blob/cb31dbc75ca4141d61cec3ba6e60505198208a0a/packages/common/http/src/params.ts#L96-L111
+ */
+class UrlEncoder extends HttpUrlEncodingCodec {
+  public override encodeKey(key: string | number | boolean): string {
+    return encodeURIComponent(key);
+  }
+
+  public override encodeValue(key: string | number | boolean): string {
+    return encodeURIComponent(key);
+  }
+}
 
 /**
  * Given a "url" (could be just querystring, or fully qualified),
@@ -15,6 +29,7 @@ function getUrlSearchParams(url: string): HttpParams {
   }
 
   return new HttpParams({
+    encoder: new UrlEncoder(),
     fromString: qs,
   });
 }
@@ -182,15 +197,13 @@ export class SkyAppRuntimeConfigParams {
       if (!excludeParams.has(key) && !httpParams.has(key)) {
         const decodedValue = this.get(key);
         if (decodedValue) {
-          httpParams = httpParams.set(key, encodeURIComponent(decodedValue));
+          httpParams = httpParams.set(key, decodedValue);
         }
       }
     }
 
     // Combine all parameters and their values, e.g. 'a=b'.
-    const joinedParams = httpParams
-      .keys()
-      .map((key) => `${key}=${httpParams.get(key)}`);
+    const joinedParams = httpParams.toString();
 
     // Build and return the final URL.
     const [beforeFragment, fragment] = url.split('#', 2);
@@ -198,7 +211,6 @@ export class SkyAppRuntimeConfigParams {
 
     return joinedParams.length === 0
       ? url
-      : `${baseUrl}?${joinedParams.join('&')}` +
-          (fragment ? `#${fragment}` : '');
+      : `${baseUrl}?${joinedParams}` + (fragment ? `#${fragment}` : '');
   }
 }

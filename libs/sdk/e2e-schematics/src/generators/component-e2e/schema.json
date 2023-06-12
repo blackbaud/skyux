@@ -18,6 +18,11 @@
     "tags": {
       "type": "string",
       "description": "Add tags to the library (used for linting)."
+    },
+    "includeTests": {
+      "type": "boolean",
+      "description": "Include tests in the library.",
+      "default": false
     }
   },
   "additionalProperties": false,

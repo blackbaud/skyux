@@ -1,5 +1,21 @@
 # Changelog
 
+## [8.2.6](https://github.com/blackbaud/skyux/compare/8.2.5...8.2.6) (2023-06-09)
+
+
+### Bug Fixes
+
+* **components/lookup:** pass `wrapperClass` to selection modal ([#996](https://github.com/blackbaud/skyux/issues/996)) ([#1449](https://github.com/blackbaud/skyux/issues/1449)) ([dc5b068](https://github.com/blackbaud/skyux/commit/dc5b068ea5cacd85ec1e2e87acb9383b81925c7e))
+* **components/tabs:** update sectioned form code example to use a large modal ([#1451](https://github.com/blackbaud/skyux/issues/1451)) ([7c10ba9](https://github.com/blackbaud/skyux/commit/7c10ba94179c040ec456d521aabc641101f3644b))
+
+## [8.2.5](https://github.com/blackbaud/skyux/compare/8.2.4...8.2.5) (2023-06-05)
+
+
+### Bug Fixes
+
+* **components/config:** support query params with multiple values ([#1434](https://github.com/blackbaud/skyux/issues/1434)) ([ca169b2](https://github.com/blackbaud/skyux/commit/ca169b248fbf2893d97a7a84e19224f1141904d5))
+* **sdk/eslint-config:** downgrade 'package-json' package to support CommonJS ([#1432](https://github.com/blackbaud/skyux/issues/1432)) ([f52579d](https://github.com/blackbaud/skyux/commit/f52579d760235895ed4cc0b763eabbdf8c6e0728))
+
 ## [8.2.4](https://github.com/blackbaud/skyux/compare/8.2.3...8.2.4) (2023-06-02)
 
 
