@@ -17,6 +17,25 @@ import { SkyModalHarness } from './modal-harness';
 })
 class TestComponent {}
 
+class ModalWithKeepWorkingPromptTestContext {
+  public isDirty = false;
+}
+
+@Component({
+  selector: 'sky-modal-discard-prompt-test',
+  template: `<sky-modal
+    data-sky-id="isDirtyModal"
+    [isDirty]="isDirty"
+  ></sky-modal>`,
+})
+class TestKeepWaitingPromptComponent {
+  public isDirty: boolean;
+
+  constructor(context: ModalWithKeepWorkingPromptTestContext) {
+    this.isDirty = context.isDirty;
+  }
+}
+
 @Component({
   selector: 'sky-modal-sky-id-test',
   template: `<sky-modal data-sky-id="otherModal"></sky-modal>`,
@@ -30,12 +49,23 @@ class TestSkyIdComponent {}
 class TestButtonComponent {
   #modalSvc = inject(SkyModalService);
 
-  openModal(config?: SkyModalConfigurationInterface): void {
+  public openModal(config?: SkyModalConfigurationInterface): void {
     this.#modalSvc.open(TestComponent, config);
   }
 
-  openOtherModal(): void {
+  public openOtherModal(): void {
     this.#modalSvc.open(TestSkyIdComponent, { ariaDescribedBy: 'otherModal' });
+  }
+
+  public openIsDirtyModal(isDirty: boolean): void {
+    this.#modalSvc.open(TestKeepWaitingPromptComponent, {
+      providers: [
+        {
+          provide: ModalWithKeepWorkingPromptTestContext,
+          useValue: { isDirty },
+        },
+      ],
+    });
   }
 }
 //#endregion Test component
@@ -55,7 +85,11 @@ describe('Modal test harness', () => {
     loader: HarnessLoader;
   }> {
     await TestBed.configureTestingModule({
-      declarations: [TestComponent, TestSkyIdComponent],
+      declarations: [
+        TestComponent,
+        TestKeepWaitingPromptComponent,
+        TestSkyIdComponent,
+      ],
       imports: [SkyModalModule],
     }).compileComponents();
 
@@ -87,6 +121,22 @@ describe('Modal test harness', () => {
     service.dispose();
     fixture.destroy();
   });
+
+  async function testIsDirtyDirective(isDirty: boolean): Promise<void> {
+    const { fixture, loader } = await setupTest();
+    fixture.detectChanges();
+
+    fixture.componentInstance.openIsDirtyModal(isDirty);
+    fixture.detectChanges();
+
+    const isDirtyModalHarness = await loader.getHarness(
+      SkyModalHarness.with({
+        dataSkyId: 'isDirtyModal',
+      })
+    );
+
+    await expectAsync(isDirtyModalHarness.isDirty()).toBeResolvedTo(isDirty);
+  }
 
   it('should get the correct modal by data sky id', async () => {
     const { modalHarness, fixture } = await setupTest(
@@ -211,5 +261,21 @@ describe('Modal test harness', () => {
     fixture.detectChanges();
 
     await expectAsync(modalHarness.isFullPage()).toBeResolvedTo(false);
+  });
+
+  it('should report that modal is not dirty without keep working prompt directive', async () => {
+    const { modalHarness, fixture } = await setupTest();
+
+    fixture.detectChanges();
+
+    await expectAsync(modalHarness.isDirty()).toBeResolvedTo(false);
+  });
+
+  it('should get correct value for isDirty when false', async () => {
+    await testIsDirtyDirective(false);
+  });
+
+  it('should get correct value for isDirty when true', async () => {
+    await testIsDirtyDirective(true);
   });
 });

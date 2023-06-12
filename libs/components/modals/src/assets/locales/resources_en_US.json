@@ -30,5 +30,17 @@
   "skyux_modal_footer_primary_button": {
     "_description": "Default label text for modal primary button",
     "message": "Save"
+  },
+  "skyux_modal_dirty_default_message": {
+    "_description": "Default prompt message when closing a modal marked as dirty.",
+    "message": "Are you sure you want to discard your changes?"
+  },
+  "skyux_modal_dirty_default_discard_changes_text": {
+    "_description": "Default text for the 'Discard changes' button when closing a modal marked as dirty.",
+    "message": "Discard changes"
+  },
+  "skyux_modal_dirty_default_keep_working_text": {
+    "_description": "Default text for the 'Keep working' button when closing a modal marked as dirty.",
+    "message": "Keep working"
   }
 }

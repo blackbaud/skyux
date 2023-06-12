@@ -83,4 +83,13 @@ export class SkyModalHarness extends SkyComponentHarness {
     const modal = this.#getModal();
     return (await modal).hasClass('sky-modal-full-page');
   }
+
+  /**
+   * Whether the modal has {@link SkyModalIsDirtyDirective.isDirty} set to dirty.
+   */
+  public async isDirty(): Promise<boolean> {
+    const modalHost = await this.host();
+    const isDirtyAttribute = await modalHost.getAttribute('skyIsDirty');
+    return isDirtyAttribute === 'true';
+  }
 }

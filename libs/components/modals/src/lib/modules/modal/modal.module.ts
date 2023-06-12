@@ -11,6 +11,7 @@ import { SkyModalContentComponent } from './modal-content.component';
 import { SkyModalFooterComponent } from './modal-footer.component';
 import { SkyModalHeaderComponent } from './modal-header.component';
 import { SkyModalHostComponent } from './modal-host.component';
+import { SkyModalIsDirtyDirective } from './modal-is-dirty.directive';
 import { SkyModalScrollShadowDirective } from './modal-scroll-shadow.directive';
 import { SkyModalComponent } from './modal.component';
 
@@ -21,6 +22,7 @@ import { SkyModalComponent } from './modal.component';
     SkyModalFooterComponent,
     SkyModalHeaderComponent,
     SkyModalHostComponent,
+    SkyModalIsDirtyDirective,
     SkyModalScrollShadowDirective,
   ],
   imports: [
@@ -37,6 +39,7 @@ import { SkyModalComponent } from './modal.component';
     SkyModalContentComponent,
     SkyModalFooterComponent,
     SkyModalHeaderComponent,
+    SkyModalIsDirtyDirective,
   ],
 })
 export class SkyModalModule {}
