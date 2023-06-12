@@ -89,7 +89,9 @@ export class SkyModalHarness extends SkyComponentHarness {
    */
   public async isDirty(): Promise<boolean> {
     const modalHost = await this.host();
-    const isDirtyAttribute = await modalHost.getAttribute('skyIsDirty');
+    const isDirtyAttribute = await modalHost.getAttribute(
+      'data-sky-modal-is-dirty'
+    );
     return isDirtyAttribute === 'true';
   }
 }

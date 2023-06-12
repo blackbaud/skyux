@@ -18,10 +18,8 @@ import { SkyModalBeforeCloseHandler } from './modal-before-close-handler';
 import { SkyModalInstance } from './modal-instance';
 
 /**
- * Provides support for flagging a modal as dirty which will
- * automatically prompt the user whether or not to discard changes
- * when the user tries closing a dirty modal without
- * saving or canceling the modal.
+ * Provides a way to mark a modal as "dirty" and displays a confirmation
+ * message to the user when the modal is closed without saving.
  */
 @Directive({
   // Since this is limited to sky-modal, it should be safe to
@@ -31,13 +29,13 @@ import { SkyModalInstance } from './modal-instance';
 })
 export class SkyModalIsDirtyDirective implements OnInit, OnDestroy {
   /**
-   * Flags whether or not the modal is considered dirty.
+   * Whether the user has edited an input on the modal.
    * @required
    */
   @Input()
   // This attribute is being applied to the host to support
   // unit testing this feature.
-  @HostBinding('attr.skyIsDirty')
+  @HostBinding('attr.data-sky-modal-is-dirty')
   public isDirty = false;
 
   readonly #ngUnsubscribe = new Subject<void>();

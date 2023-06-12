@@ -23,5 +23,5 @@ export { SkyConfirmComponent as λ1 } from './lib/modules/confirm/confirm.compon
 export { SkyModalContentComponent as λ2 } from './lib/modules/modal/modal-content.component';
 export { SkyModalFooterComponent as λ3 } from './lib/modules/modal/modal-footer.component';
 export { SkyModalHeaderComponent as λ4 } from './lib/modules/modal/modal-header.component';
-export { SkyModalIsDirtyDirective as λ5 } from './lib/modules/modal/modal-is-dirty.directive';
-export { SkyModalComponent as λ6 } from './lib/modules/modal/modal.component';
+export { SkyModalComponent as λ5 } from './lib/modules/modal/modal.component';
+export { SkyModalIsDirtyDirective as λ6 } from './lib/modules/modal/modal-is-dirty.directive';
