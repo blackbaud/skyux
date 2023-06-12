@@ -6,9 +6,9 @@ import { AppComponent } from './app.component';
 
 const routes: Route[] = [
   {
-    path: 'errors',
+    path: 'error',
     loadChildren: () =>
-      import('./errors/errors.module').then((m) => m.ErrorsModule),
+      import('./error/error.module').then((m) => m.ErrorModule),
   },
 ];
 if (routes.length > 0 && routes.findIndex((r) => r.path === '') === -1) {

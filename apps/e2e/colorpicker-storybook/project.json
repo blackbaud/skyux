@@ -32,8 +32,8 @@
             },
             {
               "type": "anyComponentStyle",
-              "maximumWarning": "2kb",
-              "maximumError": "4kb"
+              "maximumWarning": "15kb",
+              "maximumError": "22kb"
             }
           ],
           "outputHashing": "all"
@@ -75,20 +75,6 @@
           "apps/e2e/colorpicker-storybook/**/*.ts",
           "apps/e2e/colorpicker-storybook/**/*.html"
         ]
-      }
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "apps/e2e/colorpicker-storybook/jest.config.ts",
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
       }
     },
     "serve-static": {

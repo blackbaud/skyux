@@ -1,0 +1,10 @@
+:host {
+  display: block;
+}
+
+.scrollable-parent {
+  height: 300px;
+  width: 600px;
+  overflow-y: scroll;
+  border: 3px solid black;
+}

@@ -679,6 +679,7 @@ export class SkyLookupComponent
       showAddButton: this.showAddButton,
       title: modalConfig.title,
       value: initialValue,
+      wrapperClass: this.wrapperClass,
     });
   }
 
