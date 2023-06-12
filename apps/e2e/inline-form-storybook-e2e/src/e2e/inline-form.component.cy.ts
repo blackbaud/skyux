@@ -3,7 +3,7 @@ import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 describe('inline-form-storybook', () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {
-      it(`shoulder render the closed inline form component`, () => {
+      it(`should render the closed inline form component`, () => {
         cy.visit(
           `/iframe.html?globals=theme:${theme}&id=inlineformcomponent-inlineform--inline-form-custom-buttons`
         );
