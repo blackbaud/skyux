@@ -73,7 +73,7 @@ export class FlyoutComponent implements AfterViewInit, OnDestroy {
 
     switch (this.responsive) {
       case 'lg':
-        width = 1280;
+        width = 1250;
         break;
       case 'md':
         width = 1000;
