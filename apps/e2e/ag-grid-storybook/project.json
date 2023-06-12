@@ -83,14 +83,6 @@
         ]
       }
     },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/apps/e2e/ag-grid-storybook"],
-      "options": {
-        "jestConfig": "apps/e2e/ag-grid-storybook/jest.config.ts",
-        "passWithNoTests": true
-      }
-    },
     "storybook": {
       "executor": "@storybook/angular:start-storybook",
       "options": {
