@@ -164,6 +164,7 @@ export default async function (tree: Tree, options: ComponentGeneratorSchema) {
     changeDetection: 'OnPush',
     export: true,
     skipImport: true,
+    skipTests: !normalizedOptions.includeTests,
   });
   generateFiles(
     tree,
@@ -209,6 +210,11 @@ export default async function (tree: Tree, options: ComponentGeneratorSchema) {
         expectedPaths.findIndex((expectedPath) =>
           change.path.startsWith(expectedPath)
         ) === -1
+      ) {
+        tree.delete(change.path);
+      } else if (
+        !normalizedOptions.includeTests &&
+        change.path.endsWith(`spec.ts`)
       ) {
         tree.delete(change.path);
       }
