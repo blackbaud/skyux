@@ -6,7 +6,7 @@ Cypress.on(
   (err) => !err.message.includes('ResizeObserver loop limit exceeded')
 );
 
-describe('action-bars-storybook', () => {
+describe('action-bars-storybook - summary action bar', () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {
       ['tab', 'page', 'split-view', 'modal', 'modal-full-page'].forEach(
@@ -15,7 +15,7 @@ describe('action-bars-storybook', () => {
           E2eVariations.DISPLAY_WIDTHS.concat(
             E2eVariations.MOBILE_WIDTHS
           ).forEach((width) => {
-            describe(`at ${width}px`, () => {
+            describe(`at ${width}px (${style})`, () => {
               beforeEach(() => {
                 cy.viewport(width, 960);
               });
@@ -44,8 +44,11 @@ describe('action-bars-storybook', () => {
                 );
               });
 
-              // Mobile width only tests
-              if (E2eVariations.MOBILE_WIDTHS.includes(width)) {
+              // Mobile width only/modal specific tests
+              if (
+                E2eVariations.MOBILE_WIDTHS.includes(width) ||
+                style === 'modal'
+              ) {
                 it(`should render the component at width ${width} and with a collapsed summary (${style})`, () => {
                   cy.visit(
                     `/iframe.html?globals=theme:${theme}&id=summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}`
