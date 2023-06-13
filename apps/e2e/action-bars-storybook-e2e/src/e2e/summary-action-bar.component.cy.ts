@@ -1,11 +1,5 @@
 import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 
-// This is to mitigate a Cypress issue (https://github.com/cypress-io/cypress/issues/20341) where a ResizeObserver exception is thrown.
-Cypress.on(
-  'uncaught:exception',
-  (err) => !err.message.includes('ResizeObserver loop limit exceeded')
-);
-
 describe('action-bars-storybook - summary action bar', () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {
@@ -16,12 +10,8 @@ describe('action-bars-storybook - summary action bar', () => {
             E2eVariations.MOBILE_WIDTHS
           ).forEach((width) => {
             describe(`at ${width}px (${style})`, () => {
-              beforeEach(() => {
-                cy.viewport(width, 960);
-              });
-
               it(`should render the component at width ${width} (${style})`, () => {
-                cy.visit(
+                cy.viewport(width, 960).visit(
                   `/iframe.html?globals=theme:${theme}&id=summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}`
                 );
                 cy.get('app-summary-action-bar')
@@ -50,7 +40,7 @@ describe('action-bars-storybook - summary action bar', () => {
                 style === 'modal'
               ) {
                 it(`should render the component at width ${width} and with a collapsed summary (${style})`, () => {
-                  cy.visit(
+                  cy.viewport(width, 960).visit(
                     `/iframe.html?globals=theme:${theme}&id=summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}`
                   );
 
@@ -88,7 +78,7 @@ describe('action-bars-storybook - summary action bar', () => {
                 });
 
                 it(`should render the component at width ${width} and with and open secondary actions menu (${style})`, () => {
-                  cy.visit(
+                  cy.viewport(width, 960).visit(
                     `/iframe.html?globals=theme:${theme}&id=summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}`
                   );
 
