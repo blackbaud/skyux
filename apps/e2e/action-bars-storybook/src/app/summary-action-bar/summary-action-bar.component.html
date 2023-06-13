@@ -1,31 +1,57 @@
-<sky-summary-action-bar id="summary-action-bar">
-  <sky-summary-action-bar-actions>
-    <sky-summary-action-bar-primary-action>
-      Primary action
-    </sky-summary-action-bar-primary-action>
-    <sky-summary-action-bar-secondary-actions>
-      Foo
-      <sky-summary-action-bar-secondary-action>
-        Secondary action
-      </sky-summary-action-bar-secondary-action>
-      <sky-summary-action-bar-secondary-action>
-        Secondary action 2
-      </sky-summary-action-bar-secondary-action>
-    </sky-summary-action-bar-secondary-actions>
-    <sky-summary-action-bar-cancel> Cancel </sky-summary-action-bar-cancel>
-  </sky-summary-action-bar-actions>
-  <sky-summary-action-bar-summary>
-    <sky-key-info class="sky-margin-inline-lg">
-      <sky-key-info-value>$250</sky-key-info-value>
-      <sky-key-info-label>Given this month</sky-key-info-label>
-    </sky-key-info>
-    <sky-key-info class="sky-margin-inline-lg">
-      <sky-key-info-value>$1,000</sky-key-info-value>
-      <sky-key-info-label>Given this year</sky-key-info-label>
-    </sky-key-info>
-    <sky-key-info>
-      <sky-key-info-value>$1,300</sky-key-info-value>
-      <sky-key-info-label>Given all time</sky-key-info-label>
-    </sky-key-info>
-  </sky-summary-action-bar-summary>
-</sky-summary-action-bar>
+<ng-template #actionBar>
+  <sky-summary-action-bar id="summary-action-bar">
+    <sky-summary-action-bar-actions>
+      <sky-summary-action-bar-primary-action>
+        Primary
+      </sky-summary-action-bar-primary-action>
+      <sky-summary-action-bar-secondary-actions>
+        <sky-summary-action-bar-secondary-action>
+          Secondary 1
+        </sky-summary-action-bar-secondary-action>
+        <sky-summary-action-bar-secondary-action>
+          Secondary 2
+        </sky-summary-action-bar-secondary-action>
+      </sky-summary-action-bar-secondary-actions>
+      <sky-summary-action-bar-cancel> Cancel </sky-summary-action-bar-cancel>
+    </sky-summary-action-bar-actions>
+    <sky-summary-action-bar-summary>
+      <sky-key-info class="sky-margin-inline-lg">
+        <sky-key-info-value>$250</sky-key-info-value>
+        <sky-key-info-label>Given this month</sky-key-info-label>
+      </sky-key-info>
+      <sky-key-info class="sky-margin-inline-lg">
+        <sky-key-info-value>$1,000</sky-key-info-value>
+        <sky-key-info-label>Given this year</sky-key-info-label>
+      </sky-key-info>
+      <sky-key-info>
+        <sky-key-info-value>$1,300</sky-key-info-value>
+        <sky-key-info-label>Given all time</sky-key-info-label>
+      </sky-key-info>
+    </sky-summary-action-bar-summary>
+  </sky-summary-action-bar>
+</ng-template>
+<sky-split-view
+  dock="fill"
+  backButtonText="Responsive button text"
+  *ngIf="type === 'split-view'"
+>
+  <sky-split-view-drawer>Drawer</sky-split-view-drawer>
+  <sky-split-view-workspace>
+    <sky-split-view-workspace-header>Header</sky-split-view-workspace-header>
+    <sky-split-view-workspace-content>Content</sky-split-view-workspace-content>
+    <sky-split-view-workspace-footer
+      ><ng-container *ngTemplateOutlet="actionBar"></ng-container
+    ></sky-split-view-workspace-footer>
+  </sky-split-view-workspace>
+</sky-split-view>
+<sky-tabset *ngIf="type === 'tab'">
+  <sky-tab tabHeading="Tab 1">
+    Content for Tab 1
+    <ng-container *ngTemplateOutlet="actionBar"></ng-container>
+  </sky-tab>
+  <sky-tab tabHeading="Tab 2"> Content for Tab 2 </sky-tab>
+</sky-tabset>
+<ng-container *ngIf="type === 'page'">
+  <ng-container *ngTemplateOutlet="actionBar"></ng-container>
+</ng-container>
+<span id="ready" *ngIf="ready$ | async"></span>
