@@ -35,9 +35,9 @@ describe('action-bars-storybook - summary action bar', () => {
                   .should('be.visible');
 
                 cy.screenshot(
-                  `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${width}-${theme}`
+                  `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}-${width}-${theme}`
                 ).percySnapshot(
-                  `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${width}-${theme}`,
+                  `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}-${width}-${theme}`,
                   {
                     widths: [width],
                   }
@@ -78,9 +78,9 @@ describe('action-bars-storybook - summary action bar', () => {
                   }
 
                   cy.screenshot(
-                    `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${width}-${theme}-collapsed-summary`
+                    `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}-${width}-${theme}-collapsed-summary`
                   ).percySnapshot(
-                    `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${width}-${theme}-collapsed-summary`,
+                    `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}-${width}-${theme}-collapsed-summary`,
                     {
                       widths: [width],
                     }
@@ -108,9 +108,9 @@ describe('action-bars-storybook - summary action bar', () => {
                     .should('be.visible');
 
                   cy.screenshot(
-                    `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${width}-${theme}-open-secondary-actions`
+                    `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}-${width}-${theme}-open-secondary-actions`
                   ).percySnapshot(
-                    `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${width}-${theme}-open-secondary-actions`,
+                    `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}-${width}-${theme}-open-secondary-actions`,
                     {
                       widths: [width],
                     }
