@@ -1,0 +1,59 @@
+<sky-page>
+  <div id="vertical-tabs-with-groups" class="sky-margin-stacked-xl">
+    <sky-vertical-tabset showTabsText="Tab list">
+      <sky-vertical-tabset-group groupHeading="Group 1" [open]="true">
+        <sky-vertical-tab
+          tabHeading="Group 1 Tab 1"
+          [tabHeaderCount]="5"
+          [active]="true"
+        >
+          Group 1 Tab 1 content
+        </sky-vertical-tab>
+        <sky-vertical-tab tabHeading="Group 1 Tab 2">
+          Group 1 Tab 2 content
+        </sky-vertical-tab>
+      </sky-vertical-tabset-group>
+
+      <sky-vertical-tabset-group groupHeading="Group 2" [open]="true">
+        <sky-vertical-tab tabHeading="Group 2 Tab 1" [tabHeaderCount]="6">
+          Group 2 Tab 1 content
+        </sky-vertical-tab>
+        <sky-vertical-tab tabHeading="Group 2 Tab 2" [tabHeaderCount]="0">
+          Group 2 Tab 2 content
+        </sky-vertical-tab>
+        <sky-vertical-tab
+          tabHeading="Group 2 Tab 2 - disabled"
+          [tabHeaderCount]="0"
+          [disabled]="true"
+        >
+          Group 2 Tab 3 content
+        </sky-vertical-tab>
+      </sky-vertical-tabset-group>
+
+      <sky-vertical-tabset-group
+        groupHeading="Group 3"
+        [open]="false"
+        [disabled]="true"
+      >
+        <sky-vertical-tab tabHeading="Group 3 Tab 1">
+          Group 3 Tab 1 content
+        </sky-vertical-tab>
+        <sky-vertical-tab tabHeading="Group 3 Tab 2">
+          Group 3 Tab 2 content
+        </sky-vertical-tab>
+      </sky-vertical-tabset-group>
+    </sky-vertical-tabset>
+  </div>
+
+  <div id="vertical-tabs-without-groups">
+    <sky-vertical-tabset showTabsText="Back to tabs list">
+      <sky-vertical-tab tabHeading="tab 1"> Tab 1 content </sky-vertical-tab>
+      <sky-vertical-tab tabHeading="tab 2" [active]="true">
+        Tab 2 content
+      </sky-vertical-tab>
+      <sky-vertical-tab tabHeading="tab 3" [disabled]="true">
+        Tab 3 content
+      </sky-vertical-tab>
+    </sky-vertical-tabset>
+  </div>
+</sky-page>
