@@ -71,7 +71,7 @@ describe(`ag-grid-storybook data manager`, () => {
           .skyVisualTest(
             `datamanagercomponent-datamanager--data-manager-column-picker-${theme}`,
             {
-              clip: { x: 0, y: 0, width: 1280, height: 600 },
+              clip: { x: 0, y: 0, width: 1280, height: 900 },
               overwrite: true,
               disableTimersAndAnimations: true,
             }
