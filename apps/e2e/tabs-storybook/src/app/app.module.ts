@@ -14,6 +14,13 @@ const routes: Route[] = [
     path: 'tabs',
     loadChildren: () => import('./tabs/tabs.module').then((m) => m.TabsModule),
   },
+  {
+    path: 'vertical-tabs',
+    loadChildren: () =>
+      import('./vertical-tabs/vertical-tabs.module').then(
+        (m) => m.VerticalTabsModule
+      ),
+  },
 ];
 if (routes.length > 0 && routes.findIndex((r) => r.path === '') === -1) {
   routes.push({ path: '', redirectTo: `${routes[0].path}`, pathMatch: 'full' });
