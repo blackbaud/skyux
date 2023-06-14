@@ -33,16 +33,6 @@ export class SkyPopoverHarness extends SkyComponentHarness {
   }
 
   /**
-   * Sends a blur event to a popover.
-   */
-  public async clickOut(): Promise<void> {
-    const content = await this.#getContent();
-    if (content) {
-      await content.clickOut();
-    }
-  }
-
-  /**
    * Gets the popover content component.
    */
   public async getPopoverContent(): Promise<SkyPopoverContentHarness> {

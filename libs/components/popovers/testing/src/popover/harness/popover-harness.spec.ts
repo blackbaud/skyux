@@ -61,7 +61,10 @@ describe('Popover harness', () => {
   });
 
   it('should expose popover properties when visible', async () => {
-    const { popoverHarness } = await setupTest();
+    const { popoverHarness } = await setupTest({
+      titleText: 'popover title',
+      placement: 'right',
+    });
 
     await popoverHarness.clickPopoverButton();
     const contentHarness = await popoverHarness.getPopoverContent();
@@ -73,7 +76,7 @@ describe('Popover harness', () => {
       'popover body'
     );
     await expectAsync(contentHarness.getAlignment()).toBeResolvedTo('center');
-    await expectAsync(contentHarness.getPlacement()).toBeResolvedTo('above');
+    await expectAsync(contentHarness.getPlacement()).toBeResolvedTo('right');
   });
 
   it('should allow querying harnesses inside a popover', async () => {
@@ -116,7 +119,7 @@ describe('Popover harness', () => {
     await popoverHarness.clickPopoverButton();
     await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(true);
 
-    await popoverHarness.clickOut();
+    await (await popoverHarness.getPopoverContent()).clickOut();
     await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(false);
   });
 
@@ -133,7 +136,7 @@ describe('Popover harness', () => {
     await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(true);
 
     // clicking away from the trigger does not close it
-    await popoverHarness.clickOut();
+    await (await popoverHarness.getPopoverContent()).clickOut();
     await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(true);
 
     // clicking on the trigger again will force close it

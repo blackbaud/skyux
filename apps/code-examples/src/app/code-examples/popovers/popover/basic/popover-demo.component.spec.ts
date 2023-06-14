@@ -45,16 +45,23 @@ describe('Basic popover', () => {
     });
   });
 
-  it('should return an error when popover is hidden', async () => {
+  it('should open and close when the user interacts with the trigger', async () => {
     const { popoverHarness } = await setupTest();
 
-    await expectAsync(popoverHarness.getPopoverContent()).toBeRejectedWithError(
-      'Unable to retrieve the popover content because the popover is not open.'
-    );
+    await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(false);
+
+    await popoverHarness.clickPopoverButton();
+    await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(true);
+
+    await popoverHarness.clickPopoverButton();
+    await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(false);
   });
 
-  it('should expose popover properties when visible', async () => {
-    const { popoverHarness } = await setupTest();
+  it('should expose content properties when visible', async () => {
+    const { popoverHarness } = await setupTest({
+      titleText: 'Did you know?',
+      placement: 'right',
+    });
 
     await popoverHarness.clickPopoverButton();
     const contentHarness = await popoverHarness.getPopoverContent();
@@ -66,39 +73,12 @@ describe('Basic popover', () => {
       'This is a popover.'
     );
     await expectAsync(contentHarness.getAlignment()).toBeResolvedTo('center');
-    await expectAsync(contentHarness.getPlacement()).toBeResolvedTo('below');
-  });
-
-  it('should close the popover if clicking out when dismissOnBlur is set to true', async () => {
-    const { popoverHarness, fixture } = await setupTest();
-
-    fixture.componentInstance.dismissOnBlur = true;
-
-    fixture.detectChanges();
-    await fixture.whenStable();
+    await expectAsync(contentHarness.getPlacement()).toBeResolvedTo('right');
 
     await popoverHarness.clickPopoverButton();
-    await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(true);
-
-    await popoverHarness.clickOut();
-    await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(false);
-  });
-
-  it('should not close the popover if clicking out when dismissOnBlur is set to false', async () => {
-    const { popoverHarness, fixture } = await setupTest({
-      dismissOnBlur: false,
-    });
-
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    await popoverHarness.clickPopoverButton();
-    await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(true);
-
-    await popoverHarness.clickOut();
-    await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(true);
-
-    await popoverHarness.clickPopoverButton();
-    await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(false);
+    // Attempting to call this method when the popover is closed will result in an error.
+    await expectAsync(popoverHarness.getPopoverContent()).toBeRejectedWithError(
+      'Unable to retrieve the popover content because the popover is not open.'
+    );
   });
 });
