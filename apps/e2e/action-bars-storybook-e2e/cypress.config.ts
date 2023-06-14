@@ -6,6 +6,9 @@ export default defineConfig({
   e2e: {
     ...nxE2EPreset(__dirname),
     video: false,
+    setupNodeEvents: (on, config) => {
+      sendCypressScreenshotsToPercy(on, config);
+    },
     defaultCommandTimeout: 60000,
   },
 });
