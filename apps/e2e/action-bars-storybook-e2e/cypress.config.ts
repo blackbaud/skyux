@@ -1,4 +1,5 @@
 import { nxE2EPreset } from '@nx/cypress/plugins/cypress-preset';
+import { sendCypressScreenshotsToPercy } from '@skyux-sdk/e2e-schematics';
 
 import { defineConfig } from 'cypress';
 
