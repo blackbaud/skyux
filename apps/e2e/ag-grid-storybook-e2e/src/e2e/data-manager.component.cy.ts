@@ -45,6 +45,38 @@ describe(`ag-grid-storybook data manager`, () => {
           });
         });
       });
+
+      it('should render data manager column picker', () => {
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.viewport(1300, 900)
+          .visit(
+            `/iframe.html?globals=theme:${theme}&id=datamanagercomponent-datamanager--data-manager-normal`
+          )
+          .get('#ready')
+          .should('exist')
+          .end()
+
+          .get('#storybook-root')
+          .should('exist')
+          .should('be.visible')
+          .end()
+          // Necessary to wait for the grid to render.
+          .wait(1000)
+          .get('.sky-col-picker-btn')
+          .click()
+          .end()
+          .get('.sky-modal')
+          .should('exist')
+          .should('be.visible')
+          .skyVisualTest(
+            `datamanagercomponent-datamanager--data-manager-column-picker-${theme}`,
+            {
+              clip: { x: 0, y: 0, width: 1280, height: 900 },
+              overwrite: true,
+              disableTimersAndAnimations: true,
+            }
+          );
+      });
     });
   });
 });
