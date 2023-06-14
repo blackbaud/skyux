@@ -24,12 +24,12 @@ describe('action-bars-storybook - summary action bar', () => {
                   .should('exist')
                   .should('be.visible');
 
-                cy.screenshot(
-                  `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}-${width}-${theme}`
-                ).percySnapshot(
+                cy.skyVisualTest(
                   `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}-${width}-${theme}`,
                   {
-                    widths: [width],
+                    width: width,
+                    overwrite: true,
+                    disableTimersAndAnimations: true,
                   }
                 );
               });
@@ -67,12 +67,12 @@ describe('action-bars-storybook - summary action bar', () => {
                       .click();
                   }
 
-                  cy.screenshot(
-                    `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}-${width}-${theme}-collapsed-summary`
-                  ).percySnapshot(
+                  cy.skyVisualTest(
                     `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}-${width}-${theme}-collapsed-summary`,
                     {
-                      widths: [width],
+                      width: width,
+                      overwrite: true,
+                      disableTimersAndAnimations: true,
                     }
                   );
                 });
@@ -97,12 +97,12 @@ describe('action-bars-storybook - summary action bar', () => {
                     .should('exist')
                     .should('be.visible');
 
-                  cy.screenshot(
-                    `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}-${width}-${theme}-open-secondary-actions`
-                  ).percySnapshot(
+                  cy.skyVisualTest(
                     `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}-${width}-${theme}-open-secondary-actions`,
                     {
-                      widths: [width],
+                      width: width,
+                      overwrite: true,
+                      disableTimersAndAnimations: true,
                     }
                   );
                 });
