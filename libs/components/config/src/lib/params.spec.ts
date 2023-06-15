@@ -311,14 +311,14 @@ describe('SkyAppRuntimeConfigParams', () => {
   });
 
   it('should preserve query string component encoding', () => {
-    const params = new SkyAppRuntimeConfigParams('', allowed);
+    const params = new SkyAppRuntimeConfigParams('?a1=%20', allowed);
 
     expect(params.getUrl('https://mysite.com?%3F%26=%26%3F')).toEqual(
-      'https://mysite.com?%3F%26=%26%3F'
+      'https://mysite.com?%3F%26=%26%3F&a1=%20'
     );
 
-    expect(params.getUrl('https://mysite.com?foobar=Robert+Hernandez')).toEqual(
-      'https://mysite.com?foobar=Robert+Hernandez'
-    );
+    expect(
+      params.getLinkUrl('https://mysite.com?foobar=Robert+Hernandez')
+    ).toEqual('https://mysite.com?foobar=Robert+Hernandez&a1=%20');
   });
 });
