@@ -186,18 +186,18 @@ describe('SkyHref Directive', () => {
 
   it('should override query parameters', fakeAsync(() => {
     const { el, fixture } = setupTest({
-      params: { query: { value: 'param' } },
+      params: { foo: { value: 'bar' } },
     });
 
     fixture.componentInstance.dynamicLink =
-      '1bb-nav://simple-app/example/page?query=override';
+      '1bb-nav://simple-app/example/page?foo=override';
 
     fixture.detectChanges();
     tick();
 
     const element: HTMLElement | null = el.querySelector('.dynamicLink a');
     expect(element?.getAttribute('href')).toEqual(
-      'https://example.com/example/page?query=override'
+      'https://example.com/example/page?foo=override?query=param'
     );
   }));
 

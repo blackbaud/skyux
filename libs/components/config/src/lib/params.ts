@@ -211,7 +211,7 @@ export class SkyAppRuntimeConfigParams {
 
     // Build and return the final URL.
     const [beforeFragment, fragment] = url.split('#', 2);
-    const delimiter = url.indexOf('?') === -1 ? '?' : '&';
+    const delimiter = url.includes('?') ? '&' : '?';
 
     return joinedParams.length === 0
       ? url
