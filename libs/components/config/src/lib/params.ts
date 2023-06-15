@@ -190,15 +190,15 @@ export class SkyAppRuntimeConfigParams {
   }
 
   #buildUrlWithParams(url: string, excludeParams: Set<string>): string {
-    const existingHttpParams = getUrlSearchParams(url);
+    const existingParams = getUrlSearchParams(url);
 
-    // We only want to encode the requested params and leave the existing URL as-is,
-    // so keep them separate from the existing params (which may or may not be encoded).
+    // When encoding the params, keep the requested params separate so that
+    // we can leave the existing params as-is.
     let requestedParams = getUrlSearchParams('');
 
     // Add requested parameters to the URL.
     for (const key of this.getAllKeys()) {
-      if (!excludeParams.has(key) && !existingHttpParams.has(key)) {
+      if (!excludeParams.has(key) && !existingParams.has(key)) {
         const decodedValue = this.get(key);
         if (decodedValue) {
           requestedParams = requestedParams.set(key, decodedValue);
