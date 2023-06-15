@@ -190,27 +190,32 @@ export class SkyAppRuntimeConfigParams {
   }
 
   #buildUrlWithParams(url: string, excludeParams: Set<string>): string {
-    let httpParams = getUrlSearchParams(url);
+    const existingHttpParams = getUrlSearchParams(url);
+
+    // We only want to encode the requested params and leave the existing URL as-is,
+    // so keep them separate from the existing params (which may or may not be encoded).
+    let requestedParams = getUrlSearchParams('');
 
     // Add requested parameters to the URL.
     for (const key of this.getAllKeys()) {
-      if (!excludeParams.has(key) && !httpParams.has(key)) {
+      if (!excludeParams.has(key) && !existingHttpParams.has(key)) {
         const decodedValue = this.get(key);
         if (decodedValue) {
-          httpParams = httpParams.set(key, decodedValue);
+          requestedParams = requestedParams.set(key, decodedValue);
         }
       }
     }
 
-    // Combine all parameters and their values, e.g. 'a=b'.
-    const joinedParams = httpParams.toString();
+    // Combine all requested parameters and their values, e.g. 'a=b'.
+    const joinedParams = requestedParams.toString();
 
     // Build and return the final URL.
     const [beforeFragment, fragment] = url.split('#', 2);
-    const [baseUrl] = beforeFragment.split('?', 1);
+    const delimiter = url.indexOf('?') === -1 ? '?' : '&';
 
     return joinedParams.length === 0
       ? url
-      : `${baseUrl}?${joinedParams}` + (fragment ? `#${fragment}` : '');
+      : `${beforeFragment}${delimiter}${joinedParams}` +
+          (fragment ? `#${fragment}` : '');
   }
 }

@@ -316,5 +316,9 @@ describe('SkyAppRuntimeConfigParams', () => {
     expect(params.getUrl('https://mysite.com?%3F%26=%26%3F')).toEqual(
       'https://mysite.com?%3F%26=%26%3F'
     );
+
+    expect(params.getUrl('https://mysite.com?foobar=Robert+Hernandez')).toEqual(
+      'https://mysite.com?foobar=Robert+Hernandez'
+    );
   });
 });
