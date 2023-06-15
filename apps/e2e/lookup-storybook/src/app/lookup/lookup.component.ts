@@ -14,7 +14,19 @@ export class LookupComponent {
   public selectMode: 'single' | 'multiple' = 'single';
 
   @Input()
-  public disabledFlag = false;
+  public set disabledFlag(value: boolean) {
+    this.#_disabledFlag = value;
+
+    if (value) {
+      this.favoritesForm.disable();
+    } else {
+      this.favoritesForm.enable();
+    }
+  }
+
+  public get disabledFlag(): boolean {
+    return this.#_disabledFlag;
+  }
 
   public placeholderText = 'This is what placeholder text looks like';
 
@@ -46,6 +58,8 @@ export class LookupComponent {
     { name: 'Vaughn' },
     { name: 'Vicki' },
   ];
+
+  #_disabledFlag = false;
 
   constructor(formBuilder: FormBuilder) {
     this.favoritesForm = formBuilder.group({

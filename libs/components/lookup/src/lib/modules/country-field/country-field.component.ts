@@ -110,6 +110,12 @@ export class SkyCountryFieldComponent
 
     this.#_disabled = isDisabled ?? false;
 
+    if (isDisabled) {
+      this.countrySearchFormControl.disable();
+    } else {
+      this.countrySearchFormControl.enable();
+    }
+
     this.#changeDetector.markForCheck();
   }
 
