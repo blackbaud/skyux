@@ -14,16 +14,13 @@ env:
   PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
   SB_CHROMIUM_PATH: /usr/bin/chromium
 
-# Pull requests should re-run this workflow on changes.
-# Baseline branches should complete the E2E jobs so Percy does not get stuck https://www.browserstack.com/question/61332
-concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
-  cancel-in-progress: true
-
 jobs:
   install-deps:
     name: Install and cache dependencies
     runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
+      cancel-in-progress: true
     outputs:
       node-version: ${{ steps.setup-node.outputs.node-version }}
       parameters: ${{ steps.parameters.outputs.parameters }}
@@ -65,10 +62,10 @@ jobs:
   build-storybook:
     name: Build Project Storybook
     runs-on: ubuntu-latest
-    needs: install-deps
     concurrency:
       group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
       cancel-in-progress: true
+    needs: install-deps
     strategy:
       # If one build fails, do not cancel other builds.
       fail-fast: false
@@ -113,10 +110,10 @@ jobs:
   build-apps:
     name: Build Apps
     runs-on: ubuntu-latest
-    needs: install-deps
     concurrency:
       group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
       cancel-in-progress: true
+    needs: install-deps
     strategy:
       # If one build fails, do not cancel other builds.
       fail-fast: false
@@ -231,6 +228,10 @@ jobs:
   e2e:
     name: End to end tests
     runs-on: ubuntu-latest
+    # Baseline branches should complete the E2E jobs so Percy does not get stuck https://www.browserstack.com/question/61332
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+      cancel-in-progress: true
     needs: install-deps
     if: ${{ fromJSON(needs.install-deps.outputs.parameters).e2eTargets }}
     strategy:
