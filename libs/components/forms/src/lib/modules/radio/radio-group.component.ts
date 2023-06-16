@@ -58,8 +58,8 @@ export class SkyRadioGroupComponent
   public ariaLabel: string | undefined;
 
   /**
-   * Whether to disable the input. This input should not be used with reactive based forms and the disabled state should be set on the `FormControl` instead.
-   * Using this input with a reactive form may cause the control to either be out of sync or for the value of this input to be overwritten.
+   * Whether to disable the input on template-driven forms. Don't use this input on reactive forms because they may overwrite the input or leave the control out of sync.
+   * To set the disabled state on reactive forms, use the `FormControl` instead.
    * @default false
    */
   @Input()
