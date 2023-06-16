@@ -19,7 +19,7 @@ import { SkyModalInstance } from './modal-instance';
 
 /**
  * Provides a way to mark a modal as "dirty" and displays a confirmation
- * message to the user when the modal is closed without saving.
+ * message when a user closes the modal without saving.
  */
 @Directive({
   // Since this is limited to sky-modal, it should be safe to
@@ -29,7 +29,7 @@ import { SkyModalInstance } from './modal-instance';
 })
 export class SkyModalIsDirtyDirective implements OnInit, OnDestroy {
   /**
-   * Whether the user has edited an input on the modal.
+   * Whether the user edited an input on the modal.
    * @required
    */
   @Input()
