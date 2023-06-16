@@ -19,7 +19,7 @@ jobs:
     name: Install and cache dependencies
     runs-on: ubuntu-latest
     concurrency:
-      group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
+      group: ${{ github.workflow }}-${{ github.job }}-${{ github.head_ref || github.ref_name }}
       cancel-in-progress: true
     outputs:
       node-version: ${{ steps.setup-node.outputs.node-version }}
@@ -63,7 +63,7 @@ jobs:
     name: Build Project Storybook
     runs-on: ubuntu-latest
     concurrency:
-      group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
+      group: ${{ github.workflow }}-${{ github.job }}--${{ matrix.project }}-${{ github.head_ref || github.ref_name }}
       cancel-in-progress: true
     needs: install-deps
     strategy:
@@ -111,7 +111,7 @@ jobs:
     name: Build Apps
     runs-on: ubuntu-latest
     concurrency:
-      group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
+      group: ${{ github.workflow }}-${{ github.job }}--${{ matrix.project }}-${{ github.head_ref || github.ref_name }}
       cancel-in-progress: true
     needs: install-deps
     strategy:
@@ -166,7 +166,7 @@ jobs:
     name: Publish
     runs-on: ubuntu-latest
     concurrency:
-      group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
+      group: ${{ github.workflow }}-${{ github.job }}-${{ github.head_ref || github.ref_name }}
       cancel-in-progress: true
     needs:
       - install-deps
@@ -230,7 +230,7 @@ jobs:
     runs-on: ubuntu-latest
     # Baseline branches should complete the E2E jobs so Percy does not get stuck https://www.browserstack.com/question/61332
     concurrency:
-      group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+      group: ${{ github.workflow }}-${{ github.job }}--${{ matrix.project }}-${{ github.head_ref || github.run_id }}
       cancel-in-progress: true
     needs: install-deps
     if: ${{ fromJSON(needs.install-deps.outputs.parameters).e2eTargets }}
@@ -303,7 +303,7 @@ jobs:
     name: E2E Visual Review
     runs-on: ubuntu-latest
     concurrency:
-      group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
+      group: ${{ github.workflow }}-${{ github.job }}-${{ github.head_ref || github.ref_name }}
       cancel-in-progress: true
     needs:
       - install-deps
