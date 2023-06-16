@@ -317,9 +317,6 @@ describe('SkyAppRuntimeConfigParams', () => {
       'https://mysite.com?%3F%26=%26%3F&a1=%20'
     );
 
-    // Even though it's considered bad practice to use "+" for spaces,
-    // we should support it for backward compatibility.
-    // see: https://stackoverflow.com/questions/2678551/when-should-space-be-encoded-to-plus-or-20#:~:text=So%2C%20only%20after%20%22%3F%22,encode%20spaces%20as%20%22%2B%22.
     expect(
       params.getLinkUrl('https://mysite.com?foobar=Robert+Hernandez')
     ).toEqual('https://mysite.com?foobar=Robert+Hernandez&a1=%20');
