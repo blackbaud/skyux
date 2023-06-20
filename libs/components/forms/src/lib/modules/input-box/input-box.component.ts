@@ -1,21 +1,35 @@
 import {
+  BooleanInput,
+  NumberInput,
+  coerceBooleanProperty,
+  coerceNumberProperty,
+} from '@angular/cdk/coercion';
+import {
+  AfterContentChecked,
   ChangeDetectorRef,
   Component,
   ContentChild,
   ElementRef,
+  HostBinding,
   Input,
   OnInit,
+  Renderer2,
   TemplateRef,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import {
   AbstractControlDirective,
   FormControlDirective,
   FormControlName,
   NgModel,
+  ValidatorFn,
+  Validators,
 } from '@angular/forms';
+import { SkyIdService } from '@skyux/core';
 
 import { SkyInputBoxAdapterService } from './input-box-adapter.service';
+import { SkyInputBoxControlDirective } from './input-box-control.directive';
 import { SkyInputBoxHostService } from './input-box-host.service';
 import { SkyInputBoxPopulateArgs } from './input-box-populate-args';
 
@@ -36,7 +50,14 @@ import { SkyInputBoxPopulateArgs } from './input-box-populate-args';
   // invalid CSS class to be added when the content control's invalid/dirty state changes.
   encapsulation: ViewEncapsulation.None,
 })
-export class SkyInputBoxComponent implements OnInit {
+export class SkyInputBoxComponent implements OnInit, AfterContentChecked {
+  #changeRef = inject(ChangeDetectorRef);
+  #inputBoxHostSvc = inject(SkyInputBoxHostService);
+  #adapterService = inject(SkyInputBoxAdapterService);
+  #idSvc = inject(SkyIdService);
+  #elementRef = inject(ElementRef);
+  #renderer = inject(Renderer2);
+
   /**
    * Whether to visually highlight the input box in an error state. If not specified, the input box
    * displays in an error state when either the `ngModel` or the Angular `FormControl` contains an error.
@@ -55,6 +76,31 @@ export class SkyInputBoxComponent implements OnInit {
   @Input()
   public disabled: boolean | undefined;
 
+  @Input()
+  public labelText: string | undefined;
+
+  @Input()
+  public get characterLimit(): number | undefined {
+    return this.#_characterLimit;
+  }
+
+  public set characterLimit(value: NumberInput) {
+    this.#_characterLimit = coerceNumberProperty(value, undefined);
+    this.#updateMaxLengthValidator();
+  }
+
+  @Input()
+  public set stacked(value: BooleanInput) {
+    this.#_stacked = coerceBooleanProperty(value);
+    this.cssClass = this.#_stacked ? 'sky-margin-stacked-lg' : '';
+  }
+
+  @Input()
+  public helpPopoverTitle: string | undefined;
+
+  @Input()
+  public helpPopoverContent: string | TemplateRef<unknown> | undefined;
+
   public hostInputTemplate: TemplateRef<unknown> | undefined;
 
   public hostButtonsTemplate: TemplateRef<unknown> | undefined;
@@ -69,6 +115,12 @@ export class SkyInputBoxComponent implements OnInit {
 
   public hostIconsInsetLeftTemplate: TemplateRef<unknown> | undefined;
 
+  public readonly controlId = this.#idSvc.generateId();
+  public readonly errorId = this.#idSvc.generateId();
+
+  @HostBinding('class')
+  public cssClass = '';
+
   @ContentChild(FormControlDirective)
   public formControl: FormControlDirective | undefined;
 
@@ -78,36 +130,54 @@ export class SkyInputBoxComponent implements OnInit {
   @ContentChild(NgModel)
   public ngModel: NgModel | undefined;
 
-  public get hasErrorsComputed(): boolean {
+  @ContentChild(SkyInputBoxControlDirective, {
+    read: ElementRef,
+  })
+  public inputRef: ElementRef | undefined;
+
+  protected controlDir: AbstractControlDirective | undefined;
+  protected helpPopoverOpen: boolean | undefined;
+
+  protected get hasErrorsComputed(): boolean {
     if (this.hasErrors === undefined) {
-      return !!(
-        this.#controlHasErrors(this.formControl) ||
-        this.#controlHasErrors(this.formControlByName) ||
-        this.#controlHasErrors(this.ngModel)
-      );
+      return this.#controlHasErrors(this.controlDir);
     }
 
     return this.hasErrors;
   }
 
-  #changeRef: ChangeDetectorRef;
-  #inputBoxHostSvc: SkyInputBoxHostService;
-  #adapterService: SkyInputBoxAdapterService;
-  #elementRef: ElementRef;
-  constructor(
-    changeRef: ChangeDetectorRef,
-    inputBoxHostSvc: SkyInputBoxHostService,
-    adapterService: SkyInputBoxAdapterService,
-    elementRef: ElementRef
-  ) {
-    this.#changeRef = changeRef;
-    this.#inputBoxHostSvc = inputBoxHostSvc;
-    this.#adapterService = adapterService;
-    this.#elementRef = elementRef;
+  protected get required(): boolean {
+    return (
+      this.controlDir?.control?.hasValidator(Validators.required) ||
+      this.inputRef?.nativeElement.required
+    );
   }
+
+  #_stacked = false;
+  #_characterLimit: number | undefined;
+
+  #previousInputRef: ElementRef | undefined;
+  #previousMaxLengthValidator: ValidatorFn | undefined;
 
   public ngOnInit(): void {
     this.#inputBoxHostSvc.init(this);
+  }
+
+  public ngAfterContentChecked(): void {
+    this.controlDir =
+      this.formControl || this.formControlByName || this.ngModel;
+
+    if (this.inputRef && this.inputRef !== this.#previousInputRef) {
+      const el = this.inputRef.nativeElement;
+
+      this.#renderer.addClass(el, 'sky-form-control');
+      this.#renderer.setAttribute(el, 'id', this.controlId);
+      this.#renderer.setAttribute(el, 'aria-describedby', this.errorId);
+
+      this.#updateMaxLengthValidator();
+
+      this.#previousInputRef = this.inputRef;
+    }
   }
 
   public formControlFocusIn(): void {
@@ -148,7 +218,24 @@ export class SkyInputBoxComponent implements OnInit {
     });
   }
 
-  #controlHasErrors(control: AbstractControlDirective | undefined) {
-    return control && control.invalid && (control.dirty || control.touched);
+  #controlHasErrors(control: AbstractControlDirective | undefined): boolean {
+    return !!(control && control.invalid && (control.dirty || control.touched));
+  }
+
+  #updateMaxLengthValidator(): void {
+    const control = this.controlDir?.control;
+
+    if (this.#previousMaxLengthValidator) {
+      control?.removeValidators(this.#previousMaxLengthValidator);
+      this.#previousMaxLengthValidator = undefined;
+    }
+
+    if (control && this.characterLimit !== undefined) {
+      this.#previousMaxLengthValidator = Validators.maxLength(
+        this.characterLimit
+      );
+
+      control.addValidators([this.#previousMaxLengthValidator]);
+    }
   }
 }

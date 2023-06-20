@@ -1,0 +1,28 @@
+<ng-container *ngIf="errors">
+  <sky-input-box-error *ngIf="errors['required']">
+    {{ 'skyux_input_box_required' | skyLibResources : labelText }}
+  </sky-input-box-error>
+
+  <sky-input-box-error *ngIf="errors['maxlength'] as maxLengthError">
+    {{
+      'skyux_input_box_maxlength'
+        | skyLibResources : labelText : maxLengthError.requiredLength
+    }}
+  </sky-input-box-error>
+
+  <sky-input-box-error *ngIf="errors['minlength'] as minLengthError">
+    {{
+      'skyux_input_box_minlength'
+        | skyLibResources : labelText : minLengthError.requiredLength
+    }}
+  </sky-input-box-error>
+
+  <sky-input-box-error
+    *ngIf="errors['skyCharacterCounter'] as characterCounterError"
+  >
+    {{
+      'skyux_input_box_character_count'
+        | skyLibResources : labelText : characterCounterError.limit
+    }}
+  </sky-input-box-error>
+</ng-container>

@@ -246,6 +246,7 @@ export class SkyLookupComponent
   public isInputFocused = false;
   public showMorePickerId: string | undefined;
   public tokensController = new Subject<SkyTokensMessage>();
+  protected controlId: string | undefined;
 
   @ViewChild(SkyAutocompleteInputDirective, {
     read: SkyAutocompleteInputDirective,
@@ -341,6 +342,8 @@ export class SkyLookupComponent
 
   public ngOnInit(): void {
     if (this.inputBoxHostSvc && this.inputTemplateRef) {
+      this.controlId = this.inputBoxHostSvc.controlId;
+
       this.inputBoxHostSvc.populate({
         inputTemplate: this.inputTemplateRef,
         buttonsTemplate: this.enableShowMore

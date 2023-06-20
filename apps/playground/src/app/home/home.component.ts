@@ -145,9 +145,11 @@ export class HomeComponent implements AfterViewInit {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         promises.push(
           (route.loadChildren() as Promise<any>).then((newRoutes) => {
-            if (newRoutes.routes instanceof Array) {
+            const routes = newRoutes.routes || newRoutes.default;
+
+            if (Array.isArray(routes)) {
               return this.createComponentData(
-                newRoutes.routes,
+                routes,
                 parentPath + '/' + route.path
               );
             }

@@ -572,3 +572,16 @@
     </div>
   </sky-input-box>
 </div>
+
+<div class="input-easy-mode">
+  <sky-input-box
+    labelText="Easy mode"
+    [characterLimit]="easyModeCharacterLimit"
+    [helpPopoverContent]="easyModeHelpPopoverContent"
+    [stacked]="easyModeStacked"
+  >
+    <input type="text" minlength="3" required [(ngModel)]="easyModeValue" />
+  </sky-input-box>
+</div>
+
+<ng-template #easyModePopoverTemplate> Help content from template </ng-template>

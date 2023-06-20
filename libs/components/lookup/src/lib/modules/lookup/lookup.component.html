@@ -66,6 +66,7 @@
               [attr.placeholder]="placeholderText"
               [autocompleteAttribute]="autocompleteAttribute"
               [disabled]="disabled"
+              [id]="controlId"
               (blur)="onAutocompleteBlur()"
               (keydown)="inputKeydown($event)"
               (keyup)="inputKeyup($event)"
@@ -90,6 +91,7 @@
               [attr.placeholder]="placeholderText"
               [autocompleteAttribute]="autocompleteAttribute"
               [disabled]="disabled"
+              [id]="controlId"
               (blur)="onAutocompleteBlur()"
             ></textarea>
             <ng-container *ngIf="!inputBoxHostSvc && !enableShowMore">

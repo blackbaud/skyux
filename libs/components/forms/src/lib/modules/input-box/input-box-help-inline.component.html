@@ -1,0 +1,26 @@
+<sky-help-inline
+  class="sky-control-help"
+  [ariaControls]="popoverId.id"
+  [ariaExpanded]="popoverOpen"
+  [skyPopover]="helpPopover"
+>
+</sky-help-inline>
+
+{{ popoverOpen }}
+
+<sky-popover
+  skyId
+  [popoverTitle]="popoverTitle"
+  (popoverClosed)="togglePopoverOpen(false)"
+  (popoverOpened)="togglePopoverOpen(true)"
+  #helpPopover
+  #popoverId="skyId"
+>
+  <ng-container *ngIf="popoverContentTemplate; else popoverContentText">
+    <ng-container *ngTemplateOutlet="popoverContentTemplate" />
+  </ng-container>
+</sky-popover>
+
+<ng-template #popoverContentText>
+  {{ popoverContent }}
+</ng-template>

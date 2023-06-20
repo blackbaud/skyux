@@ -10,6 +10,10 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'country-field',
+    loadChildren: () => import('./country-field/routes'),
+  },
+  {
     path: 'lookup',
     loadChildren: () =>
       import('./lookup/lookup.module').then((m) => m.LookupModule),

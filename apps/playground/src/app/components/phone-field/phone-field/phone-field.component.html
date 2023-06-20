@@ -1,5 +1,5 @@
 <h2 class="sky-font-heading-2">Standard phone field</h2>
-
+<!--
 <div
   id="screenshot-phone-field"
   style="width: 50%; height: 100px; margin: 10px; padding: 10px"
@@ -47,4 +47,17 @@
       />
     </sky-phone-field>
   </sky-input-box>
+</div> -->
+
+<div
+  id="screenshot-phone-field-input-box-easy"
+  style="width: 50%; height: 160px; margin: 10px; padding: 10px"
+>
+  <sky-input-box labelText="Input box (easy)" mode="detect">
+    <sky-phone-field>
+      <input [(ngModel)]="phoneNumberInputBox" skyPhoneFieldInput />
+    </sky-phone-field>
+  </sky-input-box>
 </div>
+
+<input type="text" />

@@ -59,6 +59,16 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     },
     skyux_file_attachment_file_upload_paste_link_done: { message: 'Done' },
     skyux_file_attachment_label_no_file_chosen: { message: 'No file chosen.' },
+    skyux_input_box_character_count: {
+      message: 'Limit {0} to {1} character(s).',
+    },
+    skyux_input_box_maxlength: {
+      message: 'Limit {0} to {1} character(s).',
+    },
+    skyux_input_box_minlength: {
+      message: '{0} must be at least {1} character(s).',
+    },
+    skyux_input_box_required: { message: '{0} is required.' },
   },
 };
 

@@ -584,6 +584,8 @@ export class SkyCountryFieldComponent
 
   #updateInputBox(): void {
     if (this.inputBoxHostSvc && this.inputTemplateRef) {
+      this.inputId = this.inputBoxHostSvc.controlId;
+
       this.inputBoxHostSvc.populate({
         inputTemplate: this.inputTemplateRef,
         iconsInsetTemplate:

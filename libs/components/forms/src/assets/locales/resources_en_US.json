@@ -82,5 +82,21 @@
   "skyux_file_attachment_label_no_file_chosen": {
     "_description": "Label for single file attachment when no file is chosen",
     "message": "No file chosen."
+  },
+  "skyux_input_box_character_count": {
+    "_description": "Error message for a field with a value that exceeds the character count limit",
+    "message": "Limit {0} to {1} character(s)."
+  },
+  "skyux_input_box_maxlength": {
+    "_description": "Error message for a field with a value that is too long",
+    "message": "Limit {0} to {1} character(s)."
+  },
+  "skyux_input_box_minlength": {
+    "_description": "Error message for a field with a value that is not long enough",
+    "message": "{0} must be at least {1} character(s)."
+  },
+  "skyux_input_box_required": {
+    "_description": "Error message for a required field without a value",
+    "message": "{0} is required."
   }
 }
