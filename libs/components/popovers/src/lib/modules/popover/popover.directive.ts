@@ -34,7 +34,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
    */
   // TODO: replace this with relevant ARIA attributes
   @HostBinding('[attr.data-popover-id]')
-  protected popoverId = 'unknown';
+  protected popoverId: string | undefined;
 
   /**
    * The popover component to display. Add this directive to the trigger element that opens the popover.
@@ -42,9 +42,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
    */
   @Input()
   public set skyPopover(value: SkyPopoverComponent | undefined) {
-    if (value) {
-      this.popoverId = value.popoverId;
-    }
+    this.popoverId = value?.popoverId;
     this.#_popover = value;
   }
 
