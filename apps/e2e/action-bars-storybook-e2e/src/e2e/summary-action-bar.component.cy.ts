@@ -30,7 +30,7 @@ describe('action-bars-storybook - summary action bar', () => {
                   .should('exist')
                   .should('be.visible');
 
-                cy.skyVisualTest(
+                cy.window().skyVisualTest(
                   `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}-${width}-${theme}`,
                   {
                     width: width,
@@ -73,7 +73,7 @@ describe('action-bars-storybook - summary action bar', () => {
                       .click();
                   }
 
-                  cy.skyVisualTest(
+                  cy.window().skyVisualTest(
                     `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}-${width}-${theme}-collapsed-summary`,
                     {
                       width: width,
@@ -103,7 +103,7 @@ describe('action-bars-storybook - summary action bar', () => {
                     .should('exist')
                     .should('be.visible');
 
-                  cy.skyVisualTest(
+                  cy.window().skyVisualTest(
                     `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}-${width}-${theme}-open-secondary-actions`,
                     {
                       width: width,
