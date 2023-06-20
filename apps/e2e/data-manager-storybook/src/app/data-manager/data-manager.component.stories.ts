@@ -1,4 +1,4 @@
-import { Meta, moduleMetadata } from '@storybook/angular';
+import { Meta, Story, moduleMetadata } from '@storybook/angular';
 
 import { DataManagerComponent } from './data-manager.component';
 import { DataManagerModule } from './data-manager.module';
@@ -13,9 +13,16 @@ export default {
     }),
   ],
 } as Meta<DataManagerComponent>;
-export const DataManager = {
-  render: (args: DataManagerComponent) => ({
-    props: args,
-  }),
-  args: {},
+const Template: Story<DataManagerComponent> = (args: DataManagerComponent) => ({
+  props: args,
+});
+
+export const DataManagerView1 = Template.bind({});
+DataManagerView1.args = {
+  activeView: 'view-1',
+};
+
+export const DataManagerView2 = Template.bind({});
+DataManagerView2.args = {
+  activeView: 'view-2',
 };
