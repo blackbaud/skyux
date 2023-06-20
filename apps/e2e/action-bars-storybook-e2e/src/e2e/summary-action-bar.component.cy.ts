@@ -26,16 +26,14 @@ describe('action-bars-storybook - summary action bar', () => {
 
                 cy.get('#ready').should('exist');
 
-                cy.get('app-summary-action-bar')
+                cy.get('.sky-summary-action-bar')
                   .should('exist')
                   .should('be.visible');
 
-                cy.window().skyVisualTest(
+                cy.skyVisualTest(
                   `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}-${width}-${theme}`,
                   {
                     width: width,
-                    overwrite: true,
-                    disableTimersAndAnimations: true,
                   }
                 );
               });
@@ -73,12 +71,14 @@ describe('action-bars-storybook - summary action bar', () => {
                       .click();
                   }
 
-                  cy.window().skyVisualTest(
+                  cy.get('.sky-summary-action-bar')
+                    .should('exist')
+                    .should('be.visible');
+
+                  cy.skyVisualTest(
                     `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}-${width}-${theme}-collapsed-summary`,
                     {
                       width: width,
-                      overwrite: true,
-                      disableTimersAndAnimations: true,
                     }
                   );
                 });
@@ -94,21 +94,19 @@ describe('action-bars-storybook - summary action bar', () => {
 
                   cy.get('#ready').should('exist');
 
+                  cy.get('.sky-summary-action-bar')
+                    .should('exist')
+                    .should('be.visible');
+
                   cy.get('sky-summary-action-bar-secondary-actions button')
                     .should('exist')
                     .should('be.visible')
                     .click();
 
-                  cy.get('app-summary-action-bar')
-                    .should('exist')
-                    .should('be.visible');
-
-                  cy.window().skyVisualTest(
+                  cy.skyVisualTest(
                     `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}-${width}-${theme}-open-secondary-actions`,
                     {
                       width: width,
-                      overwrite: true,
-                      disableTimersAndAnimations: true,
                     }
                   );
                 });
