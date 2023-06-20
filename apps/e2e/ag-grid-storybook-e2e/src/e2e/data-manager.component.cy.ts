@@ -65,9 +65,12 @@ describe(`ag-grid-storybook data manager`, () => {
           .get('.sky-col-picker-btn')
           .click()
           .end()
-          .get('.sky-modal')
+          .get('sky-modal-header')
           .should('exist')
           .should('be.visible')
+          .click()
+          .end()
+          .window()
           .skyVisualTest(
             `datamanagercomponent-datamanager--data-manager-column-picker-${theme}`,
             {
