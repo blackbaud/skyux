@@ -34,6 +34,11 @@
     "cypressProject": {
       "type": "string",
       "description": "The Cypress project to generate the stories under. This is inferred from `project` by default."
+    },
+    "includeTests": {
+      "type": "boolean",
+      "description": "Include tests in the library.",
+      "default": false
     }
   },
   "additionalProperties": false,

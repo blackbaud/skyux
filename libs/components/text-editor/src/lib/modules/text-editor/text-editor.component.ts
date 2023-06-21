@@ -56,7 +56,8 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
   public autofocus: boolean | undefined = false;
 
   /**
-   * Whether to disable the text editor.
+   * Whether to disable the text editor on template-driven forms. Don't use this input on reactive forms because they may overwrite the input or leave the control out of sync.
+   * To set the disabled state on reactive forms, use the `FormControl` instead.
    * @default false
    */
   @Input()

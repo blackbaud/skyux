@@ -15,14 +15,13 @@ env:
   PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
   SB_CHROMIUM_PATH: /usr/bin/chromium
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   install-deps:
     name: Install and cache dependencies
     runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.job }}-${{ github.head_ref || github.ref_name }}
+      cancel-in-progress: true
     outputs:
       node-version: ${{ steps.setup-node.outputs.node-version }}
       parameters: ${{ steps.parameters.outputs.parameters }}
@@ -78,6 +77,9 @@ jobs:
   build-storybook:
     name: Build Project Storybook
     runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.job }}--${{ matrix.project }}-${{ github.head_ref || github.ref_name }}
+      cancel-in-progress: true
     needs: install-deps
     strategy:
       # If one build fails, do not cancel other builds.
@@ -123,6 +125,9 @@ jobs:
   build-apps:
     name: Build Apps
     runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.job }}--${{ matrix.app }}-${{ github.head_ref || github.ref_name }}
+      cancel-in-progress: true
     needs: install-deps
     strategy:
       # If one build fails, do not cancel other builds.
@@ -175,6 +180,9 @@ jobs:
   publish:
     name: Publish
     runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.job }}-${{ github.head_ref || github.ref_name }}
+      cancel-in-progress: true
     needs:
       - install-deps
       - build-storybook
@@ -235,12 +243,16 @@ jobs:
   e2e:
     name: End to end tests
     runs-on: ubuntu-latest
+    # Baseline branches should complete the E2E jobs so Percy does not get stuck https://www.browserstack.com/question/61332
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.job }}--${{ matrix.project }}-${{ github.head_ref || github.run_id }}
+      cancel-in-progress: true
     needs: install-deps
-    if: ${{ fromJSON(needs.install-deps.outputs.parameters).e2eMap }}
+    if: ${{ fromJSON(needs.install-deps.outputs.parameters).e2eTargets }}
     strategy:
       fail-fast: false
       matrix:
-        include: ${{ fromJSON(needs.install-deps.outputs.parameters).e2eMap }}
+        include: ${{ fromJSON(needs.install-deps.outputs.parameters).e2eTargets }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -264,7 +276,7 @@ jobs:
         with:
           script: |
             // Timing setting recommended by https://docs.percy.io/docs/cypress#missing-assets
-            const percyCommand = 'npx percy exec -t 350 -- nx e2e ${{ matrix.project }}-e2e --skip-nx-cache';
+            const percyCommand = 'npx percy exec -t 350 -- nx e2e ${{ matrix.project }} --skip-nx-cache';
             await exec.getExecOutput('bash', ['-c', percyCommand], { ignoreReturnCode: true })
               .then((result) => {
                 if (result.exitCode !== 0) {
@@ -286,13 +298,28 @@ jobs:
         uses: actions/upload-artifact@v3
         if: ${{ failure() }}
         with:
-          name: cypress-screenshots-${{ matrix.project }}-e2e
+          name: cypress-screenshots-${{ matrix.project }}
           path: ./dist/cypress/${{ matrix.root }}/screenshots
           retention-days: 4
+      - name: Notify Slack (failure)
+        if: ${{ failure() }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_COLOR: 'fail'
+          SLACK_MESSAGE: 'E2E job `${{ matrix.project }}` failed on `${{ github.head_ref || github.ref_name }}` branch, details: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+          SLACK_ICON_EMOJI: ':github:'
+          SLACK_USERNAME: GitHub
+          #cor-skyux-notifications
+          SLACK_CHANNEL: C01GY7ZP4HM
+          SLACK_FOOTER: 'Blackbaud Sky Build User'
 
   verify:
     name: E2E Visual Review
     runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.job }}-${{ github.head_ref || github.ref_name }}
+      cancel-in-progress: true
     needs:
       - install-deps
       - e2e
@@ -304,7 +331,7 @@ jobs:
           github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           script: |
 
-            const e2eProjects = ${{ needs.install-deps.outputs.parameters }}.e2eMap.map(project => project.project);
+            const e2eProjects = ${{ needs.install-deps.outputs.parameters }}.e2eTargets.map(project => project.project);
 
             if (e2eProjects.length > 0) {
 
@@ -354,7 +381,7 @@ jobs:
               } else {
 
                 // We don't have a check from Percy for all E2E projects.
-                const percyProjects = latestPercyStatuses.map(status => status.context.replace(/^percy\/skyux-/, '').replace(/-e2e$/, ''));
+                const percyProjects = latestPercyStatuses.map(status => status.context.replace(/^percy\/skyux-/, ''));
                 const missingProjects = e2eProjects.filter(project => !percyProjects.includes(project));
                 core.setFailed(`E2E Visual Review not complete. Missing results for: ${missingProjects.join(', ')}`);
 

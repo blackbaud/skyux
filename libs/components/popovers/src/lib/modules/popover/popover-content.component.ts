@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  HostBinding,
   OnDestroy,
   OnInit,
   Optional,
@@ -44,6 +45,9 @@ import { SkyPopoverType } from './types/popover-type';
   providers: [SkyPopoverAdapterService],
 })
 export class SkyPopoverContentComponent implements OnInit, OnDestroy {
+  @HostBinding('[attr.id]')
+  protected popoverId: string | undefined;
+
   public animationState: SkyPopoverAnimationState = 'closed';
 
   public get closed(): Observable<void> {
@@ -75,7 +79,7 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     this.animationState = value ? 'open' : 'closed';
   }
 
-  public get isOpen() {
+  public get isOpen(): boolean {
     return this.#_isOpen;
   }
 
@@ -196,6 +200,7 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
       dismissOnBlur: boolean;
       enableAnimations: boolean;
       horizontalAlignment: SkyPopoverAlignment;
+      id: string;
       isStatic: boolean;
       placement: SkyPopoverPlacement;
       popoverTitle?: string;
@@ -206,6 +211,7 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     this.dismissOnBlur = config.dismissOnBlur;
     this.enableAnimations = config.enableAnimations;
     this.horizontalAlignment = config.horizontalAlignment;
+    this.popoverId = config.id;
     this.placement = config.placement;
     this.popoverTitle = config.popoverTitle;
     this.popoverType = config.popoverType;

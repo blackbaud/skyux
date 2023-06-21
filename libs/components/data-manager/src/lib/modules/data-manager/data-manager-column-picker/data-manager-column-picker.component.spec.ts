@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyDataManagerColumnPickerSortStrategy } from '@skyux/data-manager';
 import {
   SkyModalConfiguration,
   SkyModalHostService,
@@ -8,6 +7,7 @@ import {
 } from '@skyux/modals';
 
 import { DataManagerFixtureModule } from '../fixtures/data-manager.module.fixture';
+import { SkyDataManagerColumnPickerSortStrategy } from '../models/data-manager-column-picker-sort-strategy';
 
 import { SkyDataManagerColumnPickerContext } from './data-manager-column-picker-context';
 import { SkyDataManagerColumnPickerComponent } from './data-manager-column-picker.component';
