@@ -66,6 +66,10 @@ export class InlineFormDemoComponent implements OnInit {
       this.firstName = this.myForm.get('myFirstName')?.value;
     }
 
+    if (args.reason === 'reset') {
+      this.myForm.get('myFirstName')?.setValue(this.firstName);
+    }
+
     this.showForm = false;
     this.myForm.patchValue({
       myFirstName: undefined,
