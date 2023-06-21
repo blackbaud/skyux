@@ -85,7 +85,8 @@ export class SkyToggleSwitchComponent
   }
 
   /**
-   * Whether to disable the toggle switch.
+   * Whether to disable the toggle switch on template-driven forms. Don't use this input on reactive forms because they may overwrite the input or leave the control out of sync.
+   * To set the disabled state on reactive forms, use the `FormControl` instead.
    */
   @Input()
   public disabled: boolean | undefined = false;

@@ -1,5 +1,14 @@
 # Changelog
 
+## [8.2.7](https://github.com/blackbaud/skyux/compare/8.2.6...8.2.7) (2023-06-20)
+
+
+### Bug Fixes
+
+* call out that disabled inputs should not be used when using a reactive form ([#1460](https://github.com/blackbaud/skyux/issues/1460)) ([02c34c1](https://github.com/blackbaud/skyux/commit/02c34c1133b1d36a3456ae45d00b6884c76b7aaf))
+* **components/angular-tree-component:** add overflow hidden ([#1465](https://github.com/blackbaud/skyux/issues/1465)) ([4950ff7](https://github.com/blackbaud/skyux/commit/4950ff7d0b091288d9903925e4a425332a8a5230))
+* **components/config:** ignore existing URL params when encoding config params ([#1462](https://github.com/blackbaud/skyux/issues/1462)) ([9c5b9b8](https://github.com/blackbaud/skyux/commit/9c5b9b8536d8b752f340ad6dc71a54f8a2aa550d))
+
 ## [8.2.6](https://github.com/blackbaud/skyux/compare/8.2.5...8.2.6) (2023-06-09)
 
 
