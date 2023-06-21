@@ -62,17 +62,24 @@ export class InlineFormDemoComponent implements OnInit {
   }
 
   public onInlineFormClose(args: SkyInlineFormCloseArgs): void {
-    if (args.reason === 'save') {
-      this.firstName = this.myForm.get('myFirstName')?.value;
-    }
-
     if (args.reason === 'reset') {
       this.myForm.get('myFirstName')?.setValue(this.firstName);
-    } else {
-      this.showForm = false;
-      this.myForm.patchValue({
-        myFirstName: undefined,
-      });
+    }
+
+    switch (args.reason) {
+      case 'save':
+        this.firstName = this.myForm.get('myFirstName')?.value;
+        this.showForm = false;
+        break;
+      case 'delete':
+        this.myForm.get('myFirstName')?.patchValue(undefined);
+        break;
+      case 'reset':
+        this.myForm.get('myFirstName')?.setValue(this.firstName);
+        break;
+      default:
+        this.showForm = false;
+        break;
     }
   }
 
