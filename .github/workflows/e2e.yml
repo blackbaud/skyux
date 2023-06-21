@@ -25,6 +25,7 @@ jobs:
     outputs:
       node-version: ${{ steps.setup-node.outputs.node-version }}
       parameters: ${{ steps.parameters.outputs.parameters }}
+      workflow_dispatch_pr_number: ${{ steps.parameters.outputs.workflow_dispatch_pr_number }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -59,6 +60,7 @@ jobs:
             PR_NUMBER=$(gh pr list -H "${GITHUB_REF_NAME}" --json number | jq -r 'if (.[] | length) > 0 then (.[0].number | tonumber) else "" end')
             if [ -n "${PR_NUMBER}" ]; then
               npx skyux-dev e2e-workflow --workflowTrigger pull_request --pr $PR_NUMBER >> $GITHUB_OUTPUT
+              echo workflow_dispatch_pr_number=${PR_NUMBER} >> $GITHUB_OUTPUT
             else
               echo "Unable to find an open PR for branch ${GITHUB_REF_NAME}"
               exit 1
@@ -236,7 +238,9 @@ jobs:
           token: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
       - name: Publish preview and comment on PR
         run: |
-          npx skyux-dev publish-storybook --workingDirectory=${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
+          npx skyux-dev publish-storybook \
+            --workingDirectory=${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }} \
+            --pr=${{ needs.install-deps.outputs.workflow_dispatch_pr_number || github.event.number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
