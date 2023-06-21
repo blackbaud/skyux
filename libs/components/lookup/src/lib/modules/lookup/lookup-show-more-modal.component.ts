@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   OnDestroy,
   TemplateRef,
 } from '@angular/core';
@@ -11,6 +12,7 @@ import { SkyModalInstance } from '@skyux/modals';
 
 import { Subject } from 'rxjs';
 
+import { SkyLookupAdapterService } from './lookup-adapter.service';
 import { SkyLookupShowMoreNativePickerContext } from './types/lookup-show-more-native-picker-context';
 
 /**
@@ -43,6 +45,8 @@ export class SkyLookupShowMoreModalComponent
 
   public items: any[] = [];
 
+  public itemsLoading = false;
+
   public dataManagerConfig = {
     sortOptions: [
       {
@@ -72,7 +76,9 @@ export class SkyLookupShowMoreModalComponent
 
   public selectedItems: { index: number; itemData: any }[] = [];
 
+  #adapterService: SkyLookupAdapterService;
   #changeDetector: ChangeDetectorRef;
+  #elementRef: ElementRef;
 
   #itemIndex = 0;
 
@@ -81,10 +87,14 @@ export class SkyLookupShowMoreModalComponent
   constructor(
     public modalInstance: SkyModalInstance,
     public context: SkyLookupShowMoreNativePickerContext,
+    adapterService: SkyLookupAdapterService,
     changeDetector: ChangeDetectorRef,
+    elementRef: ElementRef,
     idSvc: SkyIdService
   ) {
+    this.#adapterService = adapterService;
     this.#changeDetector = changeDetector;
+    this.#elementRef = elementRef;
 
     this.id = idSvc.generateId();
   }
@@ -105,6 +115,7 @@ export class SkyLookupShowMoreModalComponent
   }
 
   public addItems(): void {
+    this.itemsLoading = true;
     if (!this.items || this.items.length === 0) {
       const selectedItems: any[] = this.selectedItems.slice();
 
@@ -159,6 +170,7 @@ export class SkyLookupShowMoreModalComponent
       } else {
         this.itemsHaveMore = true;
       }
+      this.itemsLoading = false;
       this.#changeDetector.markForCheck();
     });
   }
@@ -230,12 +242,15 @@ export class SkyLookupShowMoreModalComponent
     this.#changeDetector.markForCheck();
   }
 
-  public searchApplied(searchText: string) {
+  public searchApplied(searchText: string): void {
     /* istanbul ignore else */
     if (this.searchText !== searchText) {
       this.#itemIndex = 10;
     }
     this.searchText = searchText;
+    this.itemsLoading = true;
+    this.#adapterService.scrollToShowMoreModalTop(this.#elementRef);
+    this.#changeDetector.detectChanges();
     this.updateDataState();
   }
 
@@ -323,6 +338,7 @@ export class SkyLookupShowMoreModalComponent
       } else {
         this.itemsHaveMore = true;
       }
+      this.itemsLoading = false;
 
       this.#changeDetector.markForCheck();
     });
