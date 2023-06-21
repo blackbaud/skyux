@@ -5,4 +5,6 @@ import { Component } from '@angular/core';
   templateUrl: './text-highlight.component.html',
   styleUrls: ['./text-highlight.component.scss'],
 })
-export class TextHighlightComponent {}
+export class TextHighlightComponent {
+  public highlightSentence = " Doesn't it look great.";
+}
