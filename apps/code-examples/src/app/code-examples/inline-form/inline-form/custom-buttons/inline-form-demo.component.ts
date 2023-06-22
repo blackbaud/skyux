@@ -24,8 +24,8 @@ export class InlineFormDemoComponent implements OnInit {
         styleType: 'primary',
       },
       {
-        action: 'delete',
-        text: 'Delete',
+        action: 'clear',
+        text: 'Clear',
         styleType: 'default',
       },
       {
@@ -71,7 +71,7 @@ export class InlineFormDemoComponent implements OnInit {
         this.firstName = this.myForm.get('myFirstName')?.value;
         this.showForm = false;
         break;
-      case 'delete':
+      case 'clear':
         this.myForm.get('myFirstName')?.patchValue(undefined);
         break;
       case 'reset':
