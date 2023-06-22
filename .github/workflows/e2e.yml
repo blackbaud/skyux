@@ -4,7 +4,8 @@ on:
   push:
     branches:
       - main
-  pull_request:
+  pull_request_target:
+  workflow_dispatch:
 
 env:
   CYPRESS_VERIFY_TIMEOUT: 120000
@@ -19,11 +20,13 @@ jobs:
     name: Install and cache dependencies
     runs-on: ubuntu-latest
     concurrency:
-      group: ${{ github.workflow }}-${{ github.job }}-${{ github.head_ref || github.ref_name }}
+      group: ${{ github.workflow }}-${{ github.job }}-${{ github.head_ref || github.ref_name || github.event.ref }}
       cancel-in-progress: true
     outputs:
       node-version: ${{ steps.setup-node.outputs.node-version }}
       parameters: ${{ steps.parameters.outputs.parameters }}
+      workflow_dispatch_pr_number: ${{ steps.parameters.outputs.workflow_dispatch_pr_number }}
+      workflow_dispatch_pr_head_sha: ${{ steps.parameters.outputs.workflow_dispatch_pr_head_sha }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -52,7 +55,24 @@ jobs:
         shell: bash
         run: |
           echo -n parameters= >> $GITHUB_OUTPUT
-          npx skyux-dev e2e-workflow >> $GITHUB_OUTPUT
+          if [ "${GITHUB_EVENT_NAME}" == "pull_request_target" ]; then
+            npx skyux-dev e2e-workflow --workflowTrigger pull_request --pr ${{ github.event.number }} >> $GITHUB_OUTPUT
+          elif [ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]; then
+            gh pr list -H "workflows-with-secrets-use-pull-request-target" --json number,headRefOid > ${{ runner.temp }}/pr-list.json
+            PR_NUMBER=$(jq -r 'if (.[] | length) > 0 then (.[0].number | tonumber) else "" end' ${{ runner.temp }}/pr-list.json)
+            if [ -n "${PR_NUMBER}" ]; then
+              npx skyux-dev e2e-workflow --workflowTrigger pull_request --pr $PR_NUMBER >> $GITHUB_OUTPUT
+              echo workflow_dispatch_pr_number=${PR_NUMBER} >> $GITHUB_OUTPUT
+              echo workflow_dispatch_pr_head_sha=$(jq -r '.[0].headRefOid' ${{ runner.temp }}/pr-list.json) >> $GITHUB_OUTPUT
+            else
+              echo "Unable to find an open PR for branch ${GITHUB_REF_NAME}"
+              exit 1
+            fi
+          else
+            npx skyux-dev e2e-workflow >> $GITHUB_OUTPUT
+          fi
+        env:
+          GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
       - name: Show workflow parameters
         run: |
           echo 'Using workflow parameters:'
@@ -63,7 +83,7 @@ jobs:
     name: Build Project Storybook
     runs-on: ubuntu-latest
     concurrency:
-      group: ${{ github.workflow }}-${{ github.job }}--${{ matrix.project }}-${{ github.head_ref || github.ref_name }}
+      group: ${{ github.workflow }}-${{ github.job }}--${{ matrix.project }}-${{ github.head_ref || github.ref_name || github.event.ref }}
       cancel-in-progress: true
     needs: install-deps
     strategy:
@@ -111,7 +131,7 @@ jobs:
     name: Build Apps
     runs-on: ubuntu-latest
     concurrency:
-      group: ${{ github.workflow }}-${{ github.job }}--${{ matrix.app }}-${{ github.head_ref || github.ref_name }}
+      group: ${{ github.workflow }}-${{ github.job }}--${{ matrix.app }}-${{ github.head_ref || github.ref_name || github.event.ref }}
       cancel-in-progress: true
     needs: install-deps
     strategy:
@@ -166,7 +186,7 @@ jobs:
     name: Publish
     runs-on: ubuntu-latest
     concurrency:
-      group: ${{ github.workflow }}-${{ github.job }}-${{ github.head_ref || github.ref_name }}
+      group: ${{ github.workflow }}-${{ github.job }}-${{ github.head_ref || github.ref_name || github.event.ref }}
       cancel-in-progress: true
     needs:
       - install-deps
@@ -221,7 +241,9 @@ jobs:
           token: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
       - name: Publish preview and comment on PR
         run: |
-          npx skyux-dev publish-storybook --workingDirectory=${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
+          npx skyux-dev publish-storybook \
+            --workingDirectory=${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }} \
+            --pr=${{ needs.install-deps.outputs.workflow_dispatch_pr_number || github.event.number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
@@ -303,7 +325,7 @@ jobs:
     name: E2E Visual Review
     runs-on: ubuntu-latest
     concurrency:
-      group: ${{ github.workflow }}-${{ github.job }}-${{ github.head_ref || github.ref_name }}
+      group: ${{ github.workflow }}-${{ github.job }}-${{ github.head_ref || github.ref_name || github.event.ref }}
       cancel-in-progress: true
     needs:
       - install-deps
@@ -324,7 +346,7 @@ jobs:
               const params = {
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                ref: context.payload.after || context.payload.pull_request.head.sha,
+                ref: "${{ needs.install-deps.outputs.workflow_dispatch_pr_head_sha }}" || context.payload.after || context.payload.pull_request.head.sha,
                 per_page: 100
               };
               const { data: statuses } = await github.rest.repos.listCommitStatusesForRef(params);
