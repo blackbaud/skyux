@@ -3,11 +3,11 @@
   "patterns": [
     {
       "name": "screenshot-selector",
-      "pattern": "/[\\`\\'][a-zA-Z-${.}]*component[a-zA-Z-${.}]*[\\`\\']/g"
+      "pattern": "/[\\`\\'][a-zA-Z-${.}]*component[a-zA-Z0-9-${.}_\\[\\]]*[\\`\\']/g"
     },
     {
       "name": "screenshot-url",
-      "pattern": "/[\\`\\']/iframe\\.html\\?[a-zA-Z-${.}=:&;]*component[a-zA-Z-${.}=:&;]*[\\`\\']/g"
+      "pattern": "/[\\`\\']/iframe\\.html\\?[a-zA-Z0-9-${.}_=:&;\\[\\]]*component[a-zA-Z0-9-${.}_=:&;\\[\\]]*[\\`\\']/g"
     }
   ],
   "ignoreRegExpList": ["screenshot-selector", "screenshot-url"]

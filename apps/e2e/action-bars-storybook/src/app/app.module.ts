@@ -6,10 +6,10 @@ import { AppComponent } from './app.component';
 
 const routes: Route[] = [
   {
-    path: 'action-bars',
+    path: 'summary-action-bar',
     loadChildren: () =>
-      import('./action-bars/action-bars.module').then(
-        (m) => m.ActionBarsModule
+      import('./summary-action-bar/summary-action-bar.module').then(
+        (m) => m.SummaryActionBarModule
       ),
   },
 ];
