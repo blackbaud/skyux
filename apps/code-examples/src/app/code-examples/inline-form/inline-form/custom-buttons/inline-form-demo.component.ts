@@ -62,10 +62,6 @@ export class InlineFormDemoComponent implements OnInit {
   }
 
   public onInlineFormClose(args: SkyInlineFormCloseArgs): void {
-    if (args.reason === 'reset') {
-      this.myForm.get('myFirstName')?.setValue(this.firstName);
-    }
-
     switch (args.reason) {
       case 'save':
         this.firstName = this.myForm.get('myFirstName')?.value;
