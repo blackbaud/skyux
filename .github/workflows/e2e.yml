@@ -31,6 +31,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
       - uses: actions/setup-node@v3
         id: setup-node
         with:
@@ -95,6 +96,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
         if: ${{ matrix.project != 'skip' }}
       - uses: actions/setup-node@v3
         with:
@@ -147,6 +149,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
         if: ${{ github.event_name == 'pull_request' }}
       - uses: actions/setup-node@v3
         with:
@@ -196,6 +199,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
       - uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
@@ -264,6 +268,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
       - uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
