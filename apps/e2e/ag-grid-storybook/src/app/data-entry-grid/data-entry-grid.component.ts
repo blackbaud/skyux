@@ -145,7 +145,7 @@ export class DataEntryGridComponent
               }
               return {
                 ...col,
-                editable: true,
+                editable: col.field !== 'cya',
               };
             });
           break;
@@ -179,7 +179,7 @@ export class DataEntryGridComponent
               }
               return {
                 ...colDef,
-                editable: true,
+                editable: colDef.field !== 'cya',
               };
             }),
           ];
