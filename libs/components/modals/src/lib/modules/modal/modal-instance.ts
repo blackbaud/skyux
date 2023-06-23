@@ -1,5 +1,8 @@
+import { ComponentRef, ElementRef } from '@angular/core';
+
 import { Observable, Subject } from 'rxjs';
 
+import { SkyModalAdapterService } from './modal-adapter.service';
 import { SkyModalBeforeCloseHandler } from './modal-before-close-handler';
 import { SkyModalCloseArgs } from './modal-close-args';
 
@@ -38,13 +41,34 @@ export class SkyModalInstance {
   /**
    * A direct reference to the provided component's class.
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public componentInstance: any;
+
+  /**
+   * Sets the component adapter for the instance. This is used internally for actions such as scrolling the content.
+   * @internal
+   */
+  public set adapter(value: SkyModalAdapterService) {
+    this.#adapter = value;
+  }
+
+  /**
+   * Sets the component ref for the instance. This is used to extract the component instance for the public API and the element ref for internal use.
+   * @internal
+   */
+  public set componentRef(value: ComponentRef<any>) {
+    this.componentInstance = value.instance;
+    this.#elementRef = value.location;
+  }
 
   #_beforeClose = new Subject<SkyModalBeforeCloseHandler>();
 
   #_closed = new Subject<SkyModalCloseArgs>();
 
   #_helpOpened = new Subject<string>();
+
+  #adapter: SkyModalAdapterService | undefined;
+  #elementRef: ElementRef | undefined;
 
   /**
    * Closes the modal instance.
@@ -84,6 +108,12 @@ export class SkyModalInstance {
    */
   public save(result?: any): void {
     this.#closeModal('save', result);
+  }
+
+  public scrollContentToTop(): void {
+    if (this.#adapter && this.#elementRef) {
+      this.#adapter.scrollContentToTop(this.#elementRef);
+    }
   }
 
   /**

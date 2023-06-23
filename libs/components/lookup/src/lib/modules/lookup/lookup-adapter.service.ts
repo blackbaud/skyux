@@ -15,13 +15,4 @@ export class SkyLookupAdapterService {
       inputEl.focus();
     }
   }
-
-  public scrollToShowMoreModalTop(showMoreModalElement: ElementRef): void {
-    const modalContentElement =
-      showMoreModalElement.nativeElement.querySelector('.sky-modal-content');
-
-    if (modalContentElement) {
-      modalContentElement.scrollTop = 0;
-    }
-  }
 }

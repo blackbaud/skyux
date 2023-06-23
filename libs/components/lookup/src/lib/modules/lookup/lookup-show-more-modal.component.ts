@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
   OnDestroy,
   TemplateRef,
 } from '@angular/core';
@@ -12,7 +11,6 @@ import { SkyModalInstance } from '@skyux/modals';
 
 import { Subject } from 'rxjs';
 
-import { SkyLookupAdapterService } from './lookup-adapter.service';
 import { SkyLookupShowMoreNativePickerContext } from './types/lookup-show-more-native-picker-context';
 
 /**
@@ -76,9 +74,7 @@ export class SkyLookupShowMoreModalComponent
 
   public selectedItems: { index: number; itemData: any }[] = [];
 
-  #adapterService: SkyLookupAdapterService;
   #changeDetector: ChangeDetectorRef;
-  #elementRef: ElementRef;
 
   #itemIndex = 0;
 
@@ -87,14 +83,10 @@ export class SkyLookupShowMoreModalComponent
   constructor(
     public modalInstance: SkyModalInstance,
     public context: SkyLookupShowMoreNativePickerContext,
-    adapterService: SkyLookupAdapterService,
     changeDetector: ChangeDetectorRef,
-    elementRef: ElementRef,
     idSvc: SkyIdService
   ) {
-    this.#adapterService = adapterService;
     this.#changeDetector = changeDetector;
-    this.#elementRef = elementRef;
 
     this.id = idSvc.generateId();
   }
@@ -249,7 +241,7 @@ export class SkyLookupShowMoreModalComponent
     }
     this.searchText = searchText;
     this.itemsLoading = true;
-    this.#adapterService.scrollToShowMoreModalTop(this.#elementRef);
+    this.modalInstance.scrollContentToTop();
     this.#changeDetector.detectChanges();
     this.updateDataState();
   }
