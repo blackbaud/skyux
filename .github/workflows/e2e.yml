@@ -55,12 +55,17 @@ jobs:
         id: parameters
         shell: bash
         run: |
+          set -exo pipefail
           echo -n parameters= >> $GITHUB_OUTPUT
           if [ "${GITHUB_EVENT_NAME}" == "pull_request_target" ]; then
             npx skyux-dev e2e-workflow --workflowTrigger pull_request --pr ${{ github.event.number }} >> $GITHUB_OUTPUT
           elif [ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]; then
-            gh pr list -H "workflows-with-secrets-use-pull-request-target" --json number,headRefOid > ${{ runner.temp }}/pr-list.json
+            # If the workflow was triggered manually, find the PR number and head SHA.
+            gh pr list -H "${GITHUB_REF_NAME}" --json number,headRefOid > ${{ runner.temp }}/pr-list.json
+
+            # If there are multiple PRs, use the first one. If there are no PRs, return an empty string.
             PR_NUMBER=$(jq -r 'if (.[] | length) > 0 then (.[0].number | tonumber) else "" end' ${{ runner.temp }}/pr-list.json)
+
             if [ -n "${PR_NUMBER}" ]; then
               npx skyux-dev e2e-workflow --workflowTrigger pull_request --pr $PR_NUMBER >> $GITHUB_OUTPUT
               echo workflow_dispatch_pr_number=${PR_NUMBER} >> $GITHUB_OUTPUT
@@ -256,7 +261,7 @@ jobs:
     runs-on: ubuntu-latest
     # Baseline branches should complete the E2E jobs so Percy does not get stuck https://www.browserstack.com/question/61332
     concurrency:
-      group: ${{ github.workflow }}-${{ github.job }}--${{ matrix.project }}-${{ github.head_ref || github.run_id }}
+      group: ${{ github.workflow }}-${{ github.job }}--${{ matrix.project }}-${{ github.head_ref || format('{0}-{1}', github.run_id, github.run_attempt) }}
       cancel-in-progress: true
     needs: install-deps
     if: ${{ fromJSON(needs.install-deps.outputs.parameters).e2eTargets }}
