@@ -155,14 +155,14 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
-        if: ${{ github.event_name == 'pull_request' }}
+        if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' }}
       - uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
-        if: ${{ github.event_name == 'pull_request' }}
+        if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' }}
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
-        if: ${{ github.event_name == 'pull_request' }}
+        if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' }}
       - name: Retrieve dependencies cache
         uses: actions/cache@v3
         with:
@@ -170,14 +170,14 @@ jobs:
             node_modules
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
-        if: ${{ github.event_name == 'pull_request' }}
+        if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' }}
       - name: Build ${{ matrix.app }}
         run: |
           npx nx build ${{ matrix.app }} --baseHref="https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/${{ matrix.app }}/"
-        if: ${{ github.event_name == 'pull_request' && matrix.app != 'dep-graph' }}
+        if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' && matrix.app != 'dep-graph' }}
       - name: Build ${{ matrix.app }}
         run: npx nx dep-graph --file=dist/apps/dep-graph/index.html
-        if: ${{ github.event_name == 'pull_request' && matrix.app == 'dep-graph' }}
+        if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' && matrix.app == 'dep-graph' }}
       - name: Upload app artifact
         uses: actions/upload-artifact@v3
         with:
@@ -185,10 +185,10 @@ jobs:
           path: ./dist/apps/${{ matrix.app }}
           retention-days: 1
           if-no-files-found: error
-        if: ${{ github.event_name == 'pull_request' }}
+        if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' }}
       - name: Skip
         run: echo "Skip building ${{ matrix.app }} app. Only Storybook is published on branch builds."
-        if: ${{ github.event_name != 'pull_request' }}
+        if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo != 'skyux-pr-preview' }}
 
   publish:
     name: Publish
@@ -223,7 +223,7 @@ jobs:
           path: ./dist/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}
       - name: Move apps
         # All the artifacts are downloaded into one folder, so we need to move them into the correct folders.
-        if: ${{ github.event_name == 'pull_request' }}
+        if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' }}
         # Setting the shell so this step can run as-is on Windows or Linux.
         shell: bash
         run: |
