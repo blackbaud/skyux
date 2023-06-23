@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
-import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyInputBoxModule, SkyToggleSwitchModule } from '@skyux/forms';
 import { SkyHelpInlineModule } from '@skyux/indicators';
 import { SkyAutocompleteModule, SkyLookupModule } from '@skyux/lookup';
 import { SkyModalModule } from '@skyux/modals';
@@ -15,6 +15,7 @@ import { ModalCloseConfirmComponent } from './modal-close-confirm.component';
 import { ModalContentAutofocusComponent } from './modal-content-autofocus.component';
 import { ModalContentDemoComponent } from './modal-content-demo.component';
 import { ModalDemoComponent } from './modal-demo.component';
+import { ModalDirtyComponent } from './modal-dirty.component';
 import { ModalFormDemoComponent } from './modal-form-demo.component';
 import { ModalFullPageDemoComponent } from './modal-full-page-demo.component';
 import { ModalLookupComponent } from './modal-lookup.component';
@@ -28,6 +29,7 @@ import { ModalVisualComponent } from './modal-visual.component';
     ModalContentAutofocusComponent,
     ModalContentDemoComponent,
     ModalDemoComponent,
+    ModalDirtyComponent,
     ModalFormDemoComponent,
     ModalFullPageDemoComponent,
     ModalTiledDemoComponent,
@@ -47,6 +49,7 @@ import { ModalVisualComponent } from './modal-visual.component';
     LipsumModule,
     DataManagerModule,
     SkyLookupModule,
+    SkyToggleSwitchModule,
   ],
 })
 export class ModalVisualModule {

@@ -24,6 +24,13 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     skyux_modal_open_help: { message: 'Open Help' },
     skyux_modal_footer_cancel_button: { message: 'Cancel' },
     skyux_modal_footer_primary_button: { message: 'Save' },
+    skyux_modal_dirty_default_message: {
+      message: 'Are you sure you want to discard your changes?',
+    },
+    skyux_modal_dirty_default_discard_changes_text: {
+      message: 'Discard changes',
+    },
+    skyux_modal_dirty_default_keep_working_text: { message: 'Keep working' },
   },
 };
 
