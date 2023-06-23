@@ -110,6 +110,9 @@ export class SkyModalInstance {
     this.#closeModal('save', result);
   }
 
+  /**
+   * Scrolls the modal content area to the top of its scrollable area.
+   */
   public scrollContentToTop(): void {
     if (this.#adapter && this.#elementRef) {
       this.#adapter.scrollContentToTop(this.#elementRef);
