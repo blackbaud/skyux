@@ -8,6 +8,7 @@ on:
       - edited
       - labeled
       - unlabeled
+      - ready_for_review
 jobs:
   check_risk_labels:
     name: Check risk labels
