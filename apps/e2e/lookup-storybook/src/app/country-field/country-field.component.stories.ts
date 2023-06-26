@@ -1,4 +1,4 @@
-import { Meta, moduleMetadata } from '@storybook/angular';
+import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 
 import { CountryFieldComponent } from './country-field.component';
 import { CountryFieldModule } from './country-field.module';
@@ -13,9 +13,32 @@ export default {
     }),
   ],
 } as Meta<CountryFieldComponent>;
-export const CountryField = {
-  render: (args: CountryFieldComponent) => ({
-    props: args,
-  }),
-  args: {},
+const BaseCountryField: StoryFn<CountryFieldComponent> = (
+  args: CountryFieldComponent
+) => ({
+  props: args,
+});
+
+export const CountryField = BaseCountryField.bind({});
+
+export const DisabledCountryField = BaseCountryField.bind({});
+DisabledCountryField.args = {
+  disabledFlag: true,
+};
+
+export const PrepopulatedCountryField = BaseCountryField.bind({});
+PrepopulatedCountryField.args = {
+  prePopulatedFlag: true,
+};
+
+export const HideFlagPrepopulatedCountryField = BaseCountryField.bind({});
+HideFlagPrepopulatedCountryField.args = {
+  hideCountryFlag: true,
+  prePopulatedFlag: true,
+};
+
+export const DisabledPrepopulatedCountryField = BaseCountryField.bind({});
+DisabledPrepopulatedCountryField.args = {
+  disabledFlag: true,
+  prePopulatedFlag: true,
 };

@@ -1,27 +1,10 @@
-<h1>Country Field Story</h1>
-<p>Next steps:</p>
-<ul>
-  <li>
-    Build out the test scenario:
-    <strong
-      ><code>apps/e2e/lookup-storybook/src/app/country-field</code></strong
+<form [formGroup]="countryForm">
+  <sky-input-box>
+    <label class="sky-control-label"> Country field input </label>
+    <sky-country-field
+      formControlName="countryControl"
+      [hideSelectedCountryFlag]="hideCountryFlag"
     >
-  </li>
-  <li>
-    Run via Angular CLI: <strong><code>ng serve lookup-storybook</code></strong>
-  </li>
-  <li>
-    Run Storybook: <strong><code>nx storybook lookup-storybook</code></strong>
-  </li>
-  <li>
-    Run Cypress:
-    <strong><code>nx e2e lookup-storybook-e2e --watch</code></strong>
-  </li>
-  <li>
-    <a
-      href="https://docs.blackbaud.com/skyux-team-docs/playbooks/monorepo/e2e-testing"
-      target="_blank"
-      >Learn more about e2e testing</a
-    >
-  </li>
-</ul>
+    </sky-country-field>
+  </sky-input-box>
+</form>
