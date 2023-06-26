@@ -33,6 +33,80 @@ describe('lookup-storybook', () => {
           });
         });
       });
+      beforeEach(() =>
+        cy.visit(
+          `/iframe.html?globals=theme:${theme}&id=countryfieldcomponent-countryfield--empty-country-field`
+        )
+      );
+      it('should render input box with focus', () => {
+        cy.get('app-country-field').should('exist').should('be.visible');
+        cy.get('textarea').should('exist').should('be.visible').click().end();
+
+        cy.get('app-country-field')
+          .screenshot(
+            `countryfieldcomponent-countryfield--country-field-input-box-focus-${theme}`
+          )
+          .percySnapshot(
+            `countryfieldcomponent-countryfield--country-field-input-box-focus-${theme}`,
+            {
+              widths: E2eVariations.DISPLAY_WIDTHS,
+            }
+          );
+      });
+      it('should render input dropdown', () => {
+        cy.get('app-country-field').should('exist').should('be.visible');
+        cy.get('textarea')
+          .should('exist')
+          .should('be.visible')
+          .type('ba')
+          .end();
+
+        cy.get('app-country-field')
+          .screenshot(
+            `countryfieldcomponent-countryfield--country-field-dropdown-${theme}`
+          )
+          .percySnapshot(
+            `countryfieldcomponent-countryfield--country-field-dropdown-${theme}`,
+            {
+              widths: E2eVariations.DISPLAY_WIDTHS,
+            }
+          );
+      });
+      it('should render input dropdown when no results', () => {
+        cy.get('app-country-field').should('exist').should('be.visible');
+        cy.get('textarea')
+          .should('exist')
+          .should('be.visible')
+          .type('foo')
+          .end();
+
+        cy.get('app-country-field')
+          .screenshot(
+            `countryfieldcomponent-countryfield--country-field-dropdown-empty-${theme}`
+          )
+          .percySnapshot(
+            `countryfieldcomponent-countryfield--country-field-dropdown-empty-${theme}`,
+            {
+              widths: E2eVariations.DISPLAY_WIDTHS,
+            }
+          );
+      });
+      it('should render input box with error', () => {
+        cy.get('app-country-field').should('exist').should('be.visible');
+        cy.get('textarea').should('exist').should('be.visible').click().end();
+        cy.get('.sky-control-label').click().end();
+
+        cy.get('app-country-field')
+          .screenshot(
+            `countryfieldcomponent-countryfield--country-field-input-box-focus-${theme}`
+          )
+          .percySnapshot(
+            `countryfieldcomponent-countryfield--country-field-input-box-focus-${theme}`,
+            {
+              widths: E2eVariations.DISPLAY_WIDTHS,
+            }
+          );
+      });
     });
   });
 });
