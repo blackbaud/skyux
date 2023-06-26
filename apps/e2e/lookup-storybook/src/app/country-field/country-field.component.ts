@@ -12,6 +12,9 @@ import {
 })
 export class CountryFieldComponent {
   @Input()
+  public phoneInfoFlag: boolean = false;
+
+  @Input()
   public set prePopulatedFlag(value: boolean) {
     if (value) {
       this.countryControl.setValue({

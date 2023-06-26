@@ -21,6 +21,11 @@ const BaseCountryField: StoryFn<CountryFieldComponent> = (
 
 export const EmptyCountryField = BaseCountryField.bind({});
 
+export const PhoneInfoCountryField = BaseCountryField.bind({});
+PhoneInfoCountryField.args = {
+  phoneInfoFlag: true,
+};
+
 export const DisabledCountryField = BaseCountryField.bind({});
 DisabledCountryField.args = {
   disabledFlag: true,
