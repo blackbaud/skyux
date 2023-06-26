@@ -140,7 +140,7 @@ describe('SendCypressScreenshotsToPercy', () => {
               alt="undefined"
               src="data:image/png;base64,image data"
               width="50"
-              style="aspect-ratio: 100/100;"
+              style="aspect-ratio: 100/100; opacity: 0.999;"
             />
           </body>
         </html>`,

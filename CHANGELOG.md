@@ -1,5 +1,20 @@
 # Changelog
 
+## [8.3.0](https://github.com/blackbaud/skyux/compare/8.2.7...8.3.0) (2023-06-23)
+
+
+### Features
+
+* **components/modals:** add `isDirty` directive to modals ([#1421](https://github.com/blackbaud/skyux/issues/1421)) ([#1454](https://github.com/blackbaud/skyux/issues/1454)) ([d5f4979](https://github.com/blackbaud/skyux/commit/d5f497908eb4090e61672a57b7afe92c5d581539))
+* **components/popovers:** popover test harness and sample tests ([#1390](https://github.com/blackbaud/skyux/issues/1390)) ([628ee98](https://github.com/blackbaud/skyux/commit/628ee987c6ba738219cb83f0686d581dafbce508))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** update uneditable cell background color ([#1473](https://github.com/blackbaud/skyux/issues/1473)) ([a40d559](https://github.com/blackbaud/skyux/commit/a40d559aab62c403d2e3a243b2e7bf9ebecb62af))
+* **components/forms:** input box borders are now properly applied when using Firefox ([#1472](https://github.com/blackbaud/skyux/issues/1472)) ([96c8ee9](https://github.com/blackbaud/skyux/commit/96c8ee947e78d26d32e4f9bcaa98fe668cb73237))
+* **components/inline-form:** code example custom button action ([#1469](https://github.com/blackbaud/skyux/issues/1469)) ([56f28af](https://github.com/blackbaud/skyux/commit/56f28afb803300d01afcaeaeb4c3385a7e45520f))
+
 ## [8.2.7](https://github.com/blackbaud/skyux/compare/8.2.6...8.2.7) (2023-06-20)
 
 
