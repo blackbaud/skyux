@@ -12,7 +12,7 @@ import {
 })
 export class CountryFieldComponent {
   @Input()
-  public phoneInfoFlag: boolean = false;
+  public phoneInfoFlag = false;
 
   @Input()
   public set prePopulatedFlag(value: boolean) {
@@ -25,6 +25,9 @@ export class CountryFieldComponent {
   }
 
   @Input()
+  public hideCountryFlag = false;
+
+  @Input()
   public set disabledFlag(value: boolean) {
     this.#_disabledFlag = value;
     if (value) {
@@ -33,9 +36,6 @@ export class CountryFieldComponent {
       this.countryForm.enable();
     }
   }
-
-  @Input()
-  public hideCountryFlag: boolean = false;
 
   public get disabledFlag(): boolean {
     return this.#_disabledFlag;
