@@ -19,7 +19,7 @@ const BaseCountryField: StoryFn<CountryFieldComponent> = (
   props: args,
 });
 
-export const CountryField = BaseCountryField.bind({});
+export const EmptyCountryField = BaseCountryField.bind({});
 
 export const DisabledCountryField = BaseCountryField.bind({});
 DisabledCountryField.args = {
