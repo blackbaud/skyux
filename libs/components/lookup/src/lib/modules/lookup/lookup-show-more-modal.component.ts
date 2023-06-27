@@ -43,6 +43,8 @@ export class SkyLookupShowMoreModalComponent
 
   public items: any[] = [];
 
+  public itemsLoading = false;
+
   public dataManagerConfig = {
     sortOptions: [
       {
@@ -105,6 +107,7 @@ export class SkyLookupShowMoreModalComponent
   }
 
   public addItems(): void {
+    this.itemsLoading = true;
     if (!this.items || this.items.length === 0) {
       const selectedItems: any[] = this.selectedItems.slice();
 
@@ -159,6 +162,7 @@ export class SkyLookupShowMoreModalComponent
       } else {
         this.itemsHaveMore = true;
       }
+      this.itemsLoading = false;
       this.#changeDetector.markForCheck();
     });
   }
@@ -230,13 +234,21 @@ export class SkyLookupShowMoreModalComponent
     this.#changeDetector.markForCheck();
   }
 
-  public searchApplied(searchText: string) {
+  public searchApplied(searchText: string): void {
     /* istanbul ignore else */
     if (this.searchText !== searchText) {
       this.#itemIndex = 10;
+      this.modalInstance.scrollContentToTop();
     }
     this.searchText = searchText;
-    this.updateDataState();
+    this.itemsLoading = true;
+    this.#changeDetector.detectChanges();
+
+    // We need to ensure that the scroll event makes it all the way through the infinite scroll workflow before updating the data state.
+    // Without this, the infinite scroll can add items improperly because it can see the above scroll after the items finish searching.
+    setTimeout(() => {
+      this.updateDataState();
+    }, 100);
   }
 
   public searchItems(items: any[]): Promise<any[]> {
@@ -323,6 +335,7 @@ export class SkyLookupShowMoreModalComponent
       } else {
         this.itemsHaveMore = true;
       }
+      this.itemsLoading = false;
 
       this.#changeDetector.markForCheck();
     });

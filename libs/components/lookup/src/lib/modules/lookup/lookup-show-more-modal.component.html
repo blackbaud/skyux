@@ -111,7 +111,11 @@
         </sky-repeater-item-content>
       </sky-repeater-item>
     </sky-repeater>
-    <sky-infinite-scroll [enabled]="itemsHaveMore" (scrollEnd)="addItems()">
+    <sky-infinite-scroll
+      [enabled]="itemsHaveMore"
+      [loading]="itemsLoading"
+      (scrollEnd)="addItems()"
+    >
     </sky-infinite-scroll>
   </sky-modal-content>
   <sky-modal-footer>

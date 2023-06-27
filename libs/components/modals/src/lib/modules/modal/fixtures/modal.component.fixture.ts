@@ -4,4 +4,6 @@ import { Component } from '@angular/core';
   selector: 'sky-test-cmp',
   templateUrl: './modal.component.fixture.html',
 })
-export class ModalTestComponent {}
+export class ModalTestComponent {
+  public longContent = false;
+}
