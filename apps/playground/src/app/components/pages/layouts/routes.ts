@@ -29,6 +29,15 @@ export default [
     },
   },
   {
+    path: 'none-page',
+    loadComponent: () => import('./none-page/none-page.component'),
+    data: {
+      name: 'Page (None)',
+      icon: 'square',
+      library: 'pages',
+    },
+  },
+  {
     path: 'tabs-page',
     loadComponent: () => import('./tabs-page/tabs-page.component'),
     data: {
