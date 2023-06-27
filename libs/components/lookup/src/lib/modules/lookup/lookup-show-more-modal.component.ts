@@ -238,12 +238,17 @@ export class SkyLookupShowMoreModalComponent
     /* istanbul ignore else */
     if (this.searchText !== searchText) {
       this.#itemIndex = 10;
+      this.modalInstance.scrollContentToTop();
     }
     this.searchText = searchText;
     this.itemsLoading = true;
-    this.modalInstance.scrollContentToTop();
     this.#changeDetector.detectChanges();
-    this.updateDataState();
+
+    // We need to ensure that the scroll event makes it all the way through the infinite scroll workflow before updating the data state.
+    // Without this, the infinite scroll can add items improperly because it can see the above scroll after the items finish searching.
+    setTimeout(() => {
+      this.updateDataState();
+    }, 100);
   }
 
   public searchItems(items: any[]): Promise<any[]> {
