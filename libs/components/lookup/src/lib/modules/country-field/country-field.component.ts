@@ -63,7 +63,7 @@ export class SkyCountryFieldComponent
   implements AfterViewInit, ControlValueAccessor, OnDestroy, OnInit, Validator
 {
   /**
-   * The value for the `autocomplete` attribute on the form input.
+   * The value for the HTML `autocomplete` attribute on the form input.
    */
   @Input()
   public autocompleteAttribute: string | undefined;
@@ -139,6 +139,7 @@ export class SkyCountryFieldComponent
   /**
    * Whether to include phone information in the selected country and country dropdown.
    * @default false
+   * @internal
    */
   @Input()
   public set includePhoneInfo(value: boolean | undefined) {
