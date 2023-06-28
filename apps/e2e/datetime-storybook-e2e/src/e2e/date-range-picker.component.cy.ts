@@ -27,7 +27,7 @@ describe('Date range picker', () => {
           .clear()
           .type('invalid')
           .end()
-          .get('#screenshot-date-range-picker > div:nth-child(7) > button')
+          .get('#screenshot-date-range-picker > div:nth-child(8) > button')
           .should('contain.text', 'Submit')
           .click()
           .blur()
