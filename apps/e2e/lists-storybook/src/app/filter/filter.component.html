@@ -1,0 +1,92 @@
+<div class="sky-padding-even-default">
+  <h2>Filter button</h2>
+
+  <div class="app-screenshot" id="screenshot-filter-button">
+    <sky-filter-button
+      [active]="filtersActive"
+      (filterButtonClick)="filtersActive = !filtersActive"
+      [showButtonText]="false"
+    >
+    </sky-filter-button>
+    {{ ' ' }}
+    <sky-filter-button
+      [active]="!filtersActive"
+      (filterButtonClick)="filtersActive = !filtersActive"
+      [showButtonText]="false"
+    >
+    </sky-filter-button>
+  </div>
+
+  <h2>Filter button with text</h2>
+
+  <div class="app-screenshot" id="screenshot-filter-button-text">
+    <sky-filter-button
+      [active]="filtersActive"
+      (filterButtonClick)="filtersActive = !filtersActive"
+      [showButtonText]="true"
+    >
+    </sky-filter-button>
+    {{ ' ' }}
+    <sky-filter-button
+      [active]="!filtersActive"
+      (filterButtonClick)="filtersActive = !filtersActive"
+      [showButtonText]="true"
+    >
+    </sky-filter-button>
+  </div>
+
+  <h2>Filter summary</h2>
+
+  <div class="app-screenshot" id="screenshot-filter-summary">
+    <sky-filter-summary>
+      <sky-filter-summary-item
+        *ngFor="let item of appliedFilters; let i = index"
+        [dismissible]="item.dismissible"
+      >
+        {{ item.label }}
+      </sky-filter-summary-item>
+    </sky-filter-summary>
+  </div>
+
+  <h2>Filter summary with overflow</h2>
+
+  <div class="app-screenshot" id="screenshot-filter-summary-overflow">
+    <sky-filter-summary>
+      <sky-filter-summary-item
+        *ngFor="let item of lotsOfFilters; let i = index"
+      >
+        {{ item.label }}
+      </sky-filter-summary-item>
+    </sky-filter-summary>
+  </div>
+
+  <h2>Inline filter</h2>
+
+  <div class="app-screenshot" id="screenshot-filter-inline">
+    <sky-filter-inline>
+      <sky-filter-inline-item>
+        <sky-input-box>
+          <label class="sky-control-label" for="sky-demo-select-type"
+            >Fruit type</label
+          >
+          <select class="sky-form-control" id="sky-demo-select-type">
+            <option value="any">Any fruit</option>
+            <option value="citrus">Citrus</option>
+            <option value="berry">Berry</option>
+          </select>
+        </sky-input-box>
+      </sky-filter-inline-item>
+      <sky-filter-inline-item>
+        <sky-date-range-picker
+          class="sky-date-range-picker-form-group"
+          label="Date range"
+        >
+        </sky-date-range-picker>
+      </sky-filter-inline-item>
+      <sky-filter-inline-item>
+        <div>Textual item on right (for testing purposes)</div>
+      </sky-filter-inline-item>
+    </sky-filter-inline>
+  </div>
+</div>
+<span *ngIf="ready | async" id="ready"></span>
