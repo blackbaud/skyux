@@ -47,6 +47,11 @@ export class DateRangePickerComponent {
       label: 'Invalid example',
       calculatorIds: [SkyDateRangeCalculatorId.SpecificRange],
     },
+    {
+      name: 'disabled',
+      label: 'Disabled example',
+      calculatorIds: [SkyDateRangeCalculatorId.SpecificRange],
+    },
   ];
   public dateFormat: string | undefined;
   public disabled = false;
@@ -57,6 +62,7 @@ export class DateRangePickerComponent {
     range: FormControl<SkyDateRangeCalculation | null>;
     rangeRequired: FormControl<SkyDateRangeCalculation | null>;
     rangeInvalid: FormControl<SkyDateRangeCalculation | null>;
+    disabled: FormControl<SkyDateRangeCalculation | null>;
   }>;
   public readonly ready$ = inject(FontLoadingService).ready();
 
@@ -89,6 +95,13 @@ export class DateRangePickerComponent {
       rangeInvalid: new FormControl<SkyDateRangeCalculation | null>({
         ...value,
         calculatorId: SkyDateRangeCalculatorId.SpecificRange,
+      }),
+      disabled: new FormControl<SkyDateRangeCalculation | null>({
+        value: {
+          ...value,
+          calculatorId: SkyDateRangeCalculatorId.SpecificRange,
+        },
+        disabled: true,
       }),
     });
   }
