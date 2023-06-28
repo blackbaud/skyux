@@ -1,33 +1,22 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy } from '@angular/core';
+
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-inline-delete',
   templateUrl: './inline-delete.component.html',
-  styles: [
-    `
-      #screenshot-inline-delete {
-        padding: 15px;
-        background-color: white;
-        height: 400px;
-        width: 400px;
-        position: relative;
-      }
-    `,
-  ],
+  styleUrls: ['./inline-delete.component.scss'],
 })
-export class InlineDeleteComponent {
-  public deleting = false;
-  public pending = false;
+export class InlineDeleteComponent implements AfterViewInit, OnDestroy {
+  public readonly ready = new BehaviorSubject<boolean>(false);
 
-  public onCancelTriggered(): void {
-    this.deleting = false;
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.ready.next(true);
+    }, 300);
   }
 
-  public onDeleteTriggered(): void {
-    this.deleting = false;
-  }
-
-  public onShowInlineDeleteClick(): void {
-    this.deleting = true;
+  ngOnDestroy(): void {
+    this.ready.complete();
   }
 }

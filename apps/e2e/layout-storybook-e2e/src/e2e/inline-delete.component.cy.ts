@@ -1,6 +1,6 @@
 import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 
-describe('layout-storybook', () => {
+describe('inline delete', () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
@@ -13,21 +13,14 @@ describe('layout-storybook', () => {
           .should('exist')
           .should('be.visible')
           .end()
-          .get('#inline-delete-trigger')
+          .get('#ready')
           .should('exist')
-          .should('be.visible')
-          .click()
           .end()
           .get('body')
-          .screenshot(
-            `inlinedeletecomponent-inlinedelete--inline-delete-${theme}`
-          )
-          .percySnapshot(
-            `inlinedeletecomponent-inlinedelete--inline-delete-${theme}`,
-            {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-            }
-          );
+          .screenshot(`inline-delete-${theme}`)
+          .percySnapshot(`inline-delete-${theme}`, {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+          });
       });
     });
   });
