@@ -1,5 +1,5 @@
 <form [formGroup]="countryForm">
-  <sky-input-box>
+  <sky-input-box [disabled]="disabledFlag">
     <label class="sky-control-label"> Country field input </label>
     <sky-country-field
       formControlName="countryControl"
