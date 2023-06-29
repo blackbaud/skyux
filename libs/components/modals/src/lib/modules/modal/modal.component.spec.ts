@@ -942,6 +942,24 @@ describe('Modal component', () => {
     closeModal(modalInstance);
   }));
 
+  it('should display and hide error messages in the footer and be accessible', async () => {
+    const modalInstance = openModal(ModalFooterTestComponent, undefined, true);
+    const errors = ['Test error', 'Test error 2'];
+
+    let errorEls = document.querySelectorAll('.sky-status-indicator');
+    expect(errorEls.length).toBe(0);
+
+    modalInstance.componentInstance.errors = errors;
+    getApplicationRef().tick();
+
+    errorEls = document.querySelectorAll('.sky-status-indicator');
+    errorEls.forEach((el, i) => {
+      expect(el.textContent).toEqual(` Error: ${errors[i]}`);
+    });
+
+    await expectAsync(getModalElement()).toBeAccessible();
+  });
+
   describe('when modern theme', () => {
     let mutationObserverCreateSpy: jasmine.Spy;
 

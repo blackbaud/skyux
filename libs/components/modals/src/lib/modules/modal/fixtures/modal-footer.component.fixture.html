@@ -1,7 +1,9 @@
 <sky-modal>
   <sky-modal-header>Test</sky-modal-header>
-  <sky-modal-content>Content <input /></sky-modal-content>
-  <sky-modal-footer>
+  <sky-modal-content>
+    <label> Content <input /> </label>
+  </sky-modal-content>
+  <sky-modal-footer [errors]="errors">
     <button type="button" class="sky-btn sky-btn-primary">Close</button>
   </sky-modal-footer>
 </sky-modal>

@@ -16,6 +16,11 @@
   .sky-btn + .sky-btn-link {
     margin-left: -2px;
   }
+
+  /* Should this be all status indicators or just ours? */
+  .sky-modal-footer-errors .sky-status-indicator {
+    margin-bottom: var(--sky-margin-stacked-lg);
+  }
 }
 
 .sky-theme-modern {
