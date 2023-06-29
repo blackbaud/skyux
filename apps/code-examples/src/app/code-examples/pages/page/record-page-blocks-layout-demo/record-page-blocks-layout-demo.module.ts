@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyIconModule, SkyKeyInfoModule } from '@skyux/indicators';
 import {
@@ -18,6 +19,7 @@ import { RecordPageContentComponent } from './record-page-content.component';
   ],
   exports: [RecordPageBlocksLayoutDemoComponent],
   imports: [
+    CommonModule,
     SkyPageModule,
     SkyFluidGridModule,
     SkyBoxModule,

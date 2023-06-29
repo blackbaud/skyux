@@ -15,44 +15,14 @@
         </sky-box-controls>
         <sky-box-content>
           <sky-description-list mode="vertical">
-            <sky-description-list-content>
+            <sky-description-list-content
+              *ngFor="let recordDetail of recordDetails"
+            >
               <sky-description-list-term>
-                Designation
+                {{ recordDetail.detail }}
               </sky-description-list-term>
               <sky-description-list-description>
-                General operating
-              </sky-description-list-description>
-            </sky-description-list-content>
-            <sky-description-list-content>
-              <sky-description-list-term>Source</sky-description-list-term>
-              <sky-description-list-description>
-                Online donation form
-              </sky-description-list-description>
-            </sky-description-list-content>
-            <sky-description-list-content>
-              <sky-description-list-term>Status</sky-description-list-term>
-              <sky-description-list-description>
-                Active
-              </sky-description-list-description>
-            </sky-description-list-content>
-            <sky-description-list-content>
-              <sky-description-list-term>Due date</sky-description-list-term>
-              <sky-description-list-description>
-                12/12/2023
-              </sky-description-list-description>
-            </sky-description-list-content>
-            <sky-description-list-content>
-              <sky-description-list-term>
-                Creation date
-              </sky-description-list-term>
-              <sky-description-list-description>
-                01/05/2023
-              </sky-description-list-description>
-            </sky-description-list-content>
-            <sky-description-list-content>
-              <sky-description-list-term>Frequency</sky-description-list-term>
-              <sky-description-list-description>
-                Quarterly
+                {{ recordDetail.info }}
               </sky-description-list-description>
             </sky-description-list-content>
           </sky-description-list>
@@ -68,44 +38,32 @@
           <div class="box-2-content">
             <div class="box-2-actuals">
               <h3 class="sky-font-heading-4">Actuals</h3>
-              <sky-key-info class="sky-margin-stacked-lg">
+              <sky-key-info
+                [ngClass]="{
+                  'sky-margin-stacked-lg': i < actualPayments.length - 1
+                }"
+                *ngFor="let actual of actualPayments; let i = index"
+              >
                 <sky-key-info-value class="sky-font-display-3">
-                  $845.00
+                  {{ actual.value }}
                 </sky-key-info-value>
-                <sky-key-info-label>Amount</sky-key-info-label>
-              </sky-key-info>
-              <sky-key-info class="sky-margin-stacked-lg">
-                <sky-key-info-value class="sky-font-display-3">
-                  $800.00
-                </sky-key-info-value>
-                <sky-key-info-label>Assigned</sky-key-info-label>
-              </sky-key-info>
-              <sky-key-info class="sky-margin-stacked-lg">
-                <sky-key-info-value class="sky-font-display-3">
-                  $800.00
-                </sky-key-info-value>
-                <sky-key-info-label>Applied</sky-key-info-label>
-              </sky-key-info>
-              <sky-key-info>
-                <sky-key-info-value class="sky-font-display-3">
-                  25
-                </sky-key-info-value>
-                <sky-key-info-label>Payments</sky-key-info-label>
+                <sky-key-info-label>{{ actual.category }}</sky-key-info-label>
               </sky-key-info>
             </div>
             <div class="box-2-projected">
               <h3 class="sky-font-heading-4">Projected</h3>
-              <sky-key-info class="sky-margin-stacked-lg">
+              <sky-key-info
+                [ngClass]="{
+                  'sky-margin-stacked-lg': i < projectedPayments.length - 1
+                }"
+                *ngFor="let projected of projectedPayments; let i = index"
+              >
                 <sky-key-info-value class="sky-font-display-3">
-                  $0
+                  {{ projected.value }}
                 </sky-key-info-value>
-                <sky-key-info-label>Amount</sky-key-info-label>
-              </sky-key-info>
-              <sky-key-info>
-                <sky-key-info-value class="sky-font-display-3">
-                  0
-                </sky-key-info-value>
-                <sky-key-info-label>Line items</sky-key-info-label>
+                <sky-key-info-label>
+                  {{ projected.category }}
+                </sky-key-info-label>
               </sky-key-info>
             </div>
           </div>
@@ -118,29 +76,13 @@
           <h2 class="sky-font-heading-2">Recent activity</h2>
         </sky-box-header>
         <sky-box-content>
-          <sky-repeater data-sky-id="repeater-demo">
-            <sky-repeater-item>
+          <sky-repeater>
+            <sky-repeater-item *ngFor="let activity of recentActivity">
               <sky-repeater-item-content>
                 <div class="sky-margin-stacked-xs">
-                  $250.00 payment processed successfully.
+                  {{ activity.activity }}
                 </div>
-                <div class="sky-font-deemphasized">07/01/2023 12:02 am</div>
-              </sky-repeater-item-content>
-            </sky-repeater-item>
-            <sky-repeater-item>
-              <sky-repeater-item-content>
-                <div class="sky-margin-stacked-xs">
-                  $150.00 payment processed successfully.
-                </div>
-                <div class="sky-font-deemphasized">06/15/2023 12:02 am</div>
-              </sky-repeater-item-content>
-            </sky-repeater-item>
-            <sky-repeater-item>
-              <sky-repeater-item-content>
-                <div class="sky-margin-stacked-xs">
-                  $250.00 payment processed successfully.
-                </div>
-                <div class="sky-font-deemphasized">04/01/2023 12:02 am</div>
+                <div class="sky-font-deemphasized">{{ activity.date }}</div>
               </sky-repeater-item-content>
             </sky-repeater-item>
           </sky-repeater>
