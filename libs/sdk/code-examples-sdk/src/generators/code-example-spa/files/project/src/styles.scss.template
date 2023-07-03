@@ -1,8 +1,0 @@
-@import 'node_modules/@skyux/theme/css/sky';
-@import 'node_modules/@skyux/theme/css/themes/modern/styles';
-<% if (includeAgGrid) { %>@import 'node_modules/@skyux/ag-grid/css/sky-ag-grid.css';
-<% } %>
-body {
-  background-color: #fff;
-  margin: 15px;
-}

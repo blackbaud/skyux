@@ -1,6 +1,0 @@
-{
-  "name": "@skyux-sdk/code-examples",
-  "version": "0.0.1",
-  "type": "commonjs",
-  "generators": "./generators.json"
-}

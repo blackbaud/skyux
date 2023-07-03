@@ -1,7 +1,0 @@
-#/usr/bin/env bash
-
-set -exo pipefail
-
-cd "$(dirname "${BASH_SOURCE[0]}")"
-<% projectPaths.forEach((projectPath) => { %>
-rm -rf for-github/<%= projectPath %>/{.angular,dist,node_modules}<% }) %>
