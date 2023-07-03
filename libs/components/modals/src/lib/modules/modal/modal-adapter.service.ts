@@ -49,6 +49,10 @@ export class SkyModalAdapterService {
     this.#bodyEl.classList.remove(className);
   }
 
+  public scrollContentToTop(element: ElementRef): void {
+    element.nativeElement.querySelector('.sky-modal-content').scrollTop = 0;
+  }
+
   /**
    * Hides siblings of modal-host from screen readers
    * @param hostElRef reference to modal-host element

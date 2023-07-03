@@ -709,6 +709,10 @@ export class SkyLookupComponent
           provide: SkyLookupShowMoreNativePickerContext,
           useValue: contextProviderValue,
         },
+        {
+          provide: SkyLookupAdapterService,
+          useValue: this.#adapter,
+        },
       ],
       size: 'large',
       wrapperClass: this.wrapperClass,

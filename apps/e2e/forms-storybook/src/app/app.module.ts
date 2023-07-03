@@ -30,6 +30,13 @@ const routes: Route[] = [
       ),
   },
   {
+    path: 'character-counter',
+    loadChildren: () =>
+      import('./character-counter/character-counter.module').then(
+        (m) => m.CharacterCounterModule
+      ),
+  },
+  {
     path: 'file-attachment',
     loadChildren: () =>
       import('./file-attachment/file-attachment.module').then(
