@@ -35,3 +35,8 @@ export const FileAttachmentNoLinks = BaseFileAttachment.bind({});
 FileAttachmentNoLinks.args = {
   allowLinks: false,
 };
+
+export const FileAttachmentNoPreview = BaseFileAttachment.bind({});
+FileAttachmentNoPreview.args = {
+  noPreview: true,
+};

@@ -3,7 +3,13 @@ import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 describe('forms-storybook', () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {
-      ['basic', 'image-uploaded', 'inline-help', 'no-links'].forEach((mode) => {
+      [
+        'basic',
+        'image-uploaded',
+        'inline-help',
+        'no-links',
+        'no-preview',
+      ].forEach((mode) => {
         describe(`in ${mode} file attachment`, () => {
           beforeEach(() =>
             cy.visit(

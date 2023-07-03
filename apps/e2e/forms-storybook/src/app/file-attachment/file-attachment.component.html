@@ -4,14 +4,13 @@
     class="sky-control-help"
   ></sky-help-inline>
   <sky-file-drop
+    [acceptedTypes]="acceptedTypes"
     [allowLinks]="allowLinks"
     (filesChanged)="filesUpdated($event)"
-    (linkChanged)="linkAdded($event)"
   >
   </sky-file-drop>
 
   <div *ngFor="let file of allItems">
-    <sky-file-item [fileItem]="file" (deleteFile)="deleteFile($event)">
-    </sky-file-item>
+    <sky-file-item [fileItem]="file"> </sky-file-item>
   </div>
 </div>
