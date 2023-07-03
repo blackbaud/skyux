@@ -1,0 +1,32 @@
+import { E2eVariations } from '@skyux-sdk/e2e-schematics';
+
+describe('field heights', () => {
+  E2eVariations.forEachTheme((theme) => {
+    describe(`in ${theme} theme`, () => {
+      beforeEach(() => {
+        cy.viewport(E2eVariations.DISPLAY_WIDTHS[0], 1200)
+          .visit('/#/integrations/field-heights')
+          .skyChooseTheme(theme);
+      });
+
+      it('should match heights across different field types', () => {
+        cy.get('#ready')
+          .should('exist')
+          .end()
+          .get('app-field-heights .sky-input-box > div')
+          .should('have.length.gte', 2)
+          .then((els) => {
+            const heights = new Set();
+
+            els.each((_i, el) => {
+              heights.add(el.clientHeight);
+            });
+
+            console.log(`Heights: ${Array.from(heights).join(', ')}`);
+            expect(heights.size).to.equal(1);
+          });
+        cy.window().skyVisualTest(`field-heights-${theme}`);
+      });
+    });
+  });
+});
