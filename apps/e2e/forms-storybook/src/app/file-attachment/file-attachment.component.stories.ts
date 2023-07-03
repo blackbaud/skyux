@@ -19,10 +19,10 @@ const BaseFileAttachment: StoryFn<FileAttachmentComponent> = (
   props: args,
 });
 
-export const FileAttachment = BaseFileAttachment.bind({});
+export const FileAttachmentBasic = BaseFileAttachment.bind({});
 
-export const FileAttachmentImage = BaseFileAttachment.bind({});
-FileAttachmentImage.args = {
+export const FileAttachmentImageUploaded = BaseFileAttachment.bind({});
+FileAttachmentImageUploaded.args = {
   addedFiles: true,
 };
 
