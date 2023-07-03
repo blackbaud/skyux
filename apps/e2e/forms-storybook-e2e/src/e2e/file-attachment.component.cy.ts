@@ -30,7 +30,7 @@ describe('forms-storybook', () => {
                 }
               );
           });
-          it('should rennder the component on mobile', () => {
+          it('should render the component on mobile', () => {
             cy.viewport('iphone-x', 'portrait');
             cy.get('app-file-attachment')
               .should('exist')
