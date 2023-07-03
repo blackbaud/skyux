@@ -30,3 +30,8 @@ export const FileAttachmentInlineHelp = BaseFileAttachment.bind({});
 FileAttachmentInlineHelp.args = {
   includeInlineHelp: true,
 };
+
+export const FileAttachmentNoLinks = BaseFileAttachment.bind({});
+FileAttachmentNoLinks.args = {
+  allowLinks: false,
+};

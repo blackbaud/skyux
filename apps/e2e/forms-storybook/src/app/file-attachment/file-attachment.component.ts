@@ -38,6 +38,9 @@ export class FileAttachmentComponent {
   @Input()
   public includeInlineHelp = false;
 
+  @Input()
+  public allowLinks = true;
+
   constructor() {
     this.filesToUpload = [];
     this.rejectedFiles = [];

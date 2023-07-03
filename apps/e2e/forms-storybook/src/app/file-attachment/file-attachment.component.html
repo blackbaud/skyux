@@ -4,7 +4,7 @@
     class="sky-control-help"
   ></sky-help-inline>
   <sky-file-drop
-    [allowLinks]="true"
+    [allowLinks]="allowLinks"
     (filesChanged)="filesUpdated($event)"
     (linkChanged)="linkAdded($event)"
   >
