@@ -1,0 +1,67 @@
+{
+  "name": "code-examples-sdk",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/sdk/code-examples-sdk/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/sdk/code-examples-sdk",
+        "main": "libs/sdk/code-examples-sdk/src/index.ts",
+        "tsConfig": "libs/sdk/code-examples-sdk/tsconfig.lib.json",
+        "assets": [
+          "libs/sdk/code-examples-sdk/*.md",
+          {
+            "input": "./libs/sdk/code-examples-sdk/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./libs/sdk/code-examples-sdk/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./libs/sdk/code-examples-sdk",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./libs/sdk/code-examples-sdk",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/sdk/code-examples-sdk/**/*.ts",
+          "libs/sdk/code-examples-sdk/package.json",
+          "libs/sdk/code-examples-sdk/generators.json",
+          "libs/sdk/code-examples-sdk/executors.json"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/sdk/code-examples-sdk/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

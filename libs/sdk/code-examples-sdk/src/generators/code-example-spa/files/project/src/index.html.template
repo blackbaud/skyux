@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>SKY UX <%= name %></title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--
+      The CSS links are needed for the StackBlitz demo only.
+      This is a workaround for a known bug that prevents external imports in CSS.
+      https://github.com/stackblitz/core/issues/133
+    -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://sky.blackbaudcdn.net/static/skyux-icons/6.0.0/assets/css/skyux-icons.min.css"
+    />
+  </head>
+  <body>
+    <app-root></app-root>
+  </body>
+</html>
