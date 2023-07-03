@@ -35,6 +35,9 @@ export class FileAttachmentComponent {
 
   public rejectedFiles: SkyFileItem[];
 
+  @Input()
+  public includeInlineHelp = false;
+
   constructor() {
     this.filesToUpload = [];
     this.rejectedFiles = [];

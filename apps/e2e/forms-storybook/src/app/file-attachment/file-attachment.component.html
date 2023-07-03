@@ -1,6 +1,9 @@
 <div style="width: 60%">
+  <sky-help-inline
+    *ngIf="includeInlineHelp"
+    class="sky-control-help"
+  ></sky-help-inline>
   <sky-file-drop
-    [acceptedTypes]="acceptedTypes"
     [allowLinks]="true"
     (filesChanged)="filesUpdated($event)"
     (linkChanged)="linkAdded($event)"

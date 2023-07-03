@@ -25,3 +25,8 @@ export const FileAttachmentImage = BaseFileAttachment.bind({});
 FileAttachmentImage.args = {
   addedFiles: true,
 };
+
+export const FileAttachmentInlineHelp = BaseFileAttachment.bind({});
+FileAttachmentInlineHelp.args = {
+  includeInlineHelp: true,
+};
