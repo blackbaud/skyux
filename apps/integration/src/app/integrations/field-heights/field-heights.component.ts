@@ -2,13 +2,11 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  HostBinding,
   OnDestroy,
   inject,
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { SkyDateRangeCalculatorId } from '@skyux/datetime';
-import { SkyAutocompleteSearchFunctionFilter } from '@skyux/lookup';
 import { SkyThemeService } from '@skyux/theme';
 
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
@@ -22,9 +20,6 @@ type Person = { name: string; id: string };
   styleUrls: ['./field-heights.component.scss'],
 })
 export class FieldHeightsComponent implements AfterViewInit, OnDestroy {
-  @HostBinding('attr.id')
-  public readonly id = 'field-heights-demo';
-
   public readonly favoritesForm: FormGroup;
 
   public people: Person[] = [
@@ -48,15 +43,6 @@ export class FieldHeightsComponent implements AfterViewInit, OnDestroy {
     { name: 'Jen', id: '18' },
     { name: 'Jake', id: '19' },
     { name: 'Julie', id: '20' },
-  ];
-
-  public searchFilters: SkyAutocompleteSearchFunctionFilter[] = [
-    (_, item): boolean => {
-      const names = this.favoritesForm.value.favoriteName;
-
-      // Only show people in the search results that have not been chosen already.
-      return !names?.some((option: Person) => option.name === item.name);
-    },
   ];
 
   public colors: { name: string }[] = [
@@ -87,10 +73,10 @@ export class FieldHeightsComponent implements AfterViewInit, OnDestroy {
 
   constructor() {
     this.favoritesForm = this.#formBuilder.group({
-      favoriteText: [''],
-      favoriteName: [''],
-      favoriteWord: [''],
-      favoriteColor: [''],
+      favoriteText: ['Some text'],
+      favoriteName: [[this.people[3]]],
+      favoriteWord: ['Example'],
+      favoriteColor: ['Turquoise'],
       favoriteCountry: [''],
       favoriteDateRange: [
         {
@@ -120,6 +106,7 @@ export class FieldHeightsComponent implements AfterViewInit, OnDestroy {
           ).forEach((element: unknown) => {
             const heightElement = (element as HTMLElement)
               .nextElementSibling as HTMLElement;
+            /* istanbul ignore else */
             if (heightElement?.matches('.height-measure')) {
               heightElement.innerText = Array.from(
                 (element as HTMLElement).querySelectorAll(
@@ -127,8 +114,7 @@ export class FieldHeightsComponent implements AfterViewInit, OnDestroy {
                 )
               )
                 .map((input: unknown) => {
-                  const height = (input as HTMLElement).clientHeight;
-                  return height ? `${height}px` : 'N/A';
+                  return `${(input as HTMLElement).clientHeight}px`;
                 })
                 .join(' ');
             } else {

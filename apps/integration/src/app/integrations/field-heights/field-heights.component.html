@@ -51,7 +51,6 @@
         [ariaLabelledBy]="favoriteNameLabel.id"
         [data]="people"
         [enableShowMore]="true"
-        [searchFilters]="searchFilters"
         [showAddButton]="true"
       >
       </sky-lookup>
@@ -71,7 +70,6 @@
         [ariaLabelledBy]="favoriteNameLabelNoAdd.id"
         [data]="people"
         [enableShowMore]="false"
-        [searchFilters]="searchFilters"
         [showAddButton]="false"
       >
       </sky-lookup>
@@ -101,7 +99,12 @@
         #favoriteWordInput="skyId"
       />
 
-      <span class="sky-error-indicator" skyId #characterCountError="skyId">
+      <span
+        class="sky-error-indicator"
+        skyId
+        #characterCountError="skyId"
+        data-sky-id="character-counter-error"
+      >
         <sky-status-indicator
           *ngIf="showCharacterCounterError | async"
           indicatorType="danger"

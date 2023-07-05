@@ -269,14 +269,6 @@ sky-input-box {
           z-index: 2;
         }
 
-        .sky-control-help {
-          /*
-          The help button should be above the input element to ensure it is clickable.
-          Select inputs have a z-index of 3 so that clicking the label area still opens the select.
-          */
-          z-index: 4;
-        }
-
         .sky-control-label {
           padding: 6px 0 1px 0;
         }
@@ -287,6 +279,12 @@ sky-input-box {
         }
 
         .sky-control-help {
+          /*
+          The help button should be above the input element to ensure it is clickable.
+          Select inputs have a z-index of 3 so that clicking the label area still opens the select.
+          */
+          z-index: 4;
+          height: 0;
           margin: 3px 0 0 $sky-margin-inline-compact;
 
           &:not(:last-child) {

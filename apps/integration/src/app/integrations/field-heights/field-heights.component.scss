@@ -16,11 +16,3 @@ form {
     align-items: center;
   }
 }
-
-:host-context(.sky-theme-modern) {
-  form .sky-form-group ::ng-deep {
-    .sky-input-box .sky-control-help {
-      height: 0 !important;
-    }
-  }
-}
