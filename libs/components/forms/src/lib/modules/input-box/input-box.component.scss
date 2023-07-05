@@ -284,8 +284,7 @@ sky-input-box {
           Select inputs have a z-index of 3 so that clicking the label area still opens the select.
           */
           z-index: 4;
-          height: 0;
-          margin: 3px 0 0 $sky-margin-inline-compact;
+          margin: 3px 0 -3px $sky-margin-inline-compact;
 
           &:not(:last-child) {
             margin-right: $sky-theme-modern-margin-inline-xs;
