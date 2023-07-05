@@ -1,11 +1,37 @@
 <div style="width: 60%">
-  <sky-help-inline
-    *ngIf="includeInlineHelp"
-    class="sky-control-help"
-  ></sky-help-inline>
+  <label class="sky-control-label"> File attachment </label>
   <sky-file-drop
     [acceptedTypes]="acceptedTypes"
-    [allowLinks]="allowLinks"
+    (filesChanged)="filesUpdated($event)"
+    [allowLinks]="true"
+  >
+  </sky-file-drop>
+
+  <div *ngFor="let file of allItems">
+    <sky-file-item [fileItem]="file"> </sky-file-item>
+  </div>
+</div>
+
+<div style="width: 60%" *ngIf="basic">
+  <label class="sky-control-label"> File attachment with inline help</label>
+  <sky-help-inline class="sky-control-help"></sky-help-inline>
+  <sky-file-drop
+    [acceptedTypes]="acceptedTypes"
+    [allowLinks]="true"
+    (filesChanged)="filesUpdated($event)"
+  >
+  </sky-file-drop>
+
+  <div *ngFor="let file of allItems">
+    <sky-file-item [fileItem]="file"> </sky-file-item>
+  </div>
+</div>
+
+<div style="width: 60%" *ngIf="basic">
+  <label class="sky-control-label"> File attachment links removed</label>
+  <sky-file-drop
+    [acceptedTypes]="acceptedTypes"
+    [allowLinks]="false"
     (filesChanged)="filesUpdated($event)"
   >
   </sky-file-drop>

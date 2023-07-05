@@ -34,10 +34,7 @@ export class FileAttachmentComponent {
   public filesToUpload: SkyFileItem[];
 
   @Input()
-  public includeInlineHelp = false;
-
-  @Input()
-  public allowLinks = true;
+  public basic = false;
 
   @Input()
   public set noPreview(value: boolean) {

@@ -20,20 +20,13 @@ const BaseFileAttachment: StoryFn<FileAttachmentComponent> = (
 });
 
 export const FileAttachmentBasic = BaseFileAttachment.bind({});
+FileAttachmentBasic.args = {
+  basic: true,
+};
 
 export const FileAttachmentImageUploaded = BaseFileAttachment.bind({});
 FileAttachmentImageUploaded.args = {
   addedFiles: true,
-};
-
-export const FileAttachmentInlineHelp = BaseFileAttachment.bind({});
-FileAttachmentInlineHelp.args = {
-  includeInlineHelp: true,
-};
-
-export const FileAttachmentNoLinks = BaseFileAttachment.bind({});
-FileAttachmentNoLinks.args = {
-  allowLinks: false,
 };
 
 export const FileAttachmentNoPreview = BaseFileAttachment.bind({});

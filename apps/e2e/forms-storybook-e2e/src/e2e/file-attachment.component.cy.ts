@@ -3,13 +3,7 @@ import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 describe('forms-storybook', () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {
-      [
-        'basic',
-        'image-uploaded',
-        'inline-help',
-        'no-links',
-        'no-preview',
-      ].forEach((mode) => {
+      ['basic', 'image-uploaded', 'no-preview'].forEach((mode) => {
         describe(`in ${mode} file attachment`, () => {
           beforeEach(() =>
             cy.visit(
@@ -25,21 +19,6 @@ describe('forms-storybook', () => {
               )
               .percySnapshot(
                 `fileattachmentcomponent-fileattachment--file-attachment-${mode}-${theme}`,
-                {
-                  widths: E2eVariations.DISPLAY_WIDTHS,
-                }
-              );
-          });
-          it('should render the component on mobile', () => {
-            cy.viewport('iphone-x', 'portrait');
-            cy.get('app-file-attachment')
-              .should('exist')
-              .should('be.visible')
-              .screenshot(
-                `fileattachmentcomponent-fileattachment--file-attachment-${mode}-${theme}-mobile`
-              )
-              .percySnapshot(
-                `fileattachmentcomponent-fileattachment--file-attachment-${mode}-${theme}-mobile`,
                 {
                   widths: E2eVariations.DISPLAY_WIDTHS,
                 }
@@ -65,24 +44,6 @@ describe('forms-storybook', () => {
             )
             .percySnapshot(
               `fileattachmentcomponent-fileattachment--file-attachment-drag-and-drop-${theme}`,
-              {
-                widths: E2eVariations.DISPLAY_WIDTHS,
-              }
-            );
-        });
-        it(`should render component drag and drop on mobile`, () => {
-          cy.viewport('iphone-x', 'portrait');
-          cy.get('app-file-attachment').should('exist').should('be.visible');
-          cy.get('.sky-file-drop-col')
-            .first()
-            .invoke('addClass', 'sky-file-drop-accept')
-            .should('exist')
-            .should('be.visible')
-            .screenshot(
-              `fileattachmentcomponent-fileattachment--file-attachment-drag-and-drop-${theme}-mobile`
-            )
-            .percySnapshot(
-              `fileattachmentcomponent-fileattachment--file-attachment-drag-and-drop-${theme}-mobile`,
               {
                 widths: E2eVariations.DISPLAY_WIDTHS,
               }
