@@ -416,14 +416,14 @@ sky-input-box {
       }
 
       textarea.sky-form-control {
-        margin-top: -23px;
+        margin-top: -26px;
         padding-top: 0;
         resize: vertical;
-        border-top: 26px solid transparent;
+        border-top: 29px solid transparent;
 
         &:autofill,
         &:-webkit-autofill {
-          border-top: 26px solid transparent !important;
+          border-top: 29px solid transparent !important;
         }
       }
     }

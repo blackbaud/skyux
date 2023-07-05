@@ -79,6 +79,44 @@
 
   <div class="sky-form-group">
     <sky-input-box>
+      <label class="sky-control-label" skyId #favoritePeopleLabel="skyId">
+        Lookup field with multiple select
+      </label>
+      <sky-lookup
+        formControlName="favoritePeople"
+        selectMode="multiple"
+        (addClick)="onAddButtonClicked()"
+        [ariaLabelledBy]="favoritePeopleLabel.id"
+        [data]="people"
+        [enableShowMore]="true"
+        [showAddButton]="true"
+      >
+      </sky-lookup>
+    </sky-input-box>
+  </div>
+  <div class="height-measure"></div>
+
+  <!-- In default theme, the non-button icon does not use the same height. -->
+  <div *skyThemeIf="'modern'" class="sky-form-group">
+    <sky-input-box>
+      <label class="sky-control-label" skyId #favoritePeopleLabelNoAdd="skyId">
+        Lookup field without show more or add button, multiple select
+      </label>
+      <sky-lookup
+        formControlName="favoritePeople"
+        selectMode="multiple"
+        [ariaLabelledBy]="favoritePeopleLabelNoAdd.id"
+        [data]="people"
+        [enableShowMore]="false"
+        [showAddButton]="false"
+      >
+      </sky-lookup>
+    </sky-input-box>
+  </div>
+  <div *skyThemeIf="'modern'" class="height-measure"></div>
+
+  <div class="sky-form-group">
+    <sky-input-box>
       <label class="sky-control-label" [for]="favoriteWordInput.id">
         Favorite word
       </label>

@@ -75,6 +75,7 @@ export class FieldHeightsComponent implements AfterViewInit, OnDestroy {
     this.favoritesForm = this.#formBuilder.group({
       favoriteText: ['Some text'],
       favoriteName: [[this.people[3]]],
+      favoritePeople: [[this.people[4], this.people[5]]],
       favoriteWord: ['Example'],
       favoriteColor: ['Turquoise'],
       favoriteCountry: [''],
