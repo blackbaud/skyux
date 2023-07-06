@@ -14,7 +14,7 @@ import {
   ICellRendererParams,
 } from 'ag-grid-community';
 
-import { AttachmentsGridContextMenuComponent } from './attachments-page-grid-context-menu.component';
+import { AttachmentsGridContextMenuComponent } from './attachments-grid-context-menu.component';
 
 @Component({
   selector: 'app-record-page-attachments-tab',

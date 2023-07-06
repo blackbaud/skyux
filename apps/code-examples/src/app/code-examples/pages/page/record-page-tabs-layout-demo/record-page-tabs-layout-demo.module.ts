@@ -17,7 +17,7 @@ import { SkyTabsModule } from '@skyux/tabs';
 
 import { AgGridModule } from 'ag-grid-angular';
 
-import { AttachmentsGridContextMenuComponent } from './attachments-page-grid-context-menu.component';
+import { AttachmentsGridContextMenuComponent } from './attachments-grid-context-menu.component';
 import { RecordPageAttachmentsTabComponent } from './record-page-attachments-tab.component';
 import { RecordPageContentComponent } from './record-page-content.component';
 import { RecordPageNotesTabComponent } from './record-page-notes-tab.component';
