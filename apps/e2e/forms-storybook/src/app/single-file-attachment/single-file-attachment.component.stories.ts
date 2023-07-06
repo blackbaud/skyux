@@ -34,8 +34,8 @@ SingleFileAttachmentImage.args = {
   } as SkyFileItem,
 };
 
-export const SingleFileAttachmentTxtFile = BaseSingleFileAttachment.bind({});
-SingleFileAttachmentTxtFile.args = {
+export const SingleFileAttachmentFile = BaseSingleFileAttachment.bind({});
+SingleFileAttachmentFile.args = {
   uploadedFiles: {
     file: {
       name: 'myFile.txt',
