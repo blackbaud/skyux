@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   AbstractControl,
   UntypedFormBuilder,
@@ -6,11 +6,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import {
-  SkyFileAttachmentChange,
-  SkyFileAttachmentClick,
-  SkyFileItem,
-} from '@skyux/forms';
+import { SkyFileAttachmentChange, SkyFileItem } from '@skyux/forms';
 
 @Component({
   selector: 'app-single-file-attachment',
@@ -18,6 +14,14 @@ import {
   styleUrls: ['./single-file-attachment.component.scss'],
 })
 export class SingleFileAttachmentComponent {
+  @Input()
+  public set uploadedFiles(value: SkyFileItem) {
+    this.reactiveFileUpdated({ file: value });
+    this.showStatesFlag = false;
+  }
+
+  public showStatesFlag = true;
+
   public attachment: UntypedFormControl;
 
   public fileForm: UntypedFormGroup;
@@ -33,23 +37,8 @@ export class SingleFileAttachmentComponent {
     });
   }
 
-  public fileClick($event: SkyFileAttachmentClick): void {
-    const link = document.createElement('a');
-    link.download = $event.file.file.name;
-    link.href = $event.file.url;
-    link.click();
-  }
-
   public reactiveFileUpdated(result: SkyFileAttachmentChange): void {
     const file = result.file;
     this.reactiveFile?.setValue(file);
-  }
-
-  public validateFile(file: SkyFileItem): string {
-    if (file.file.name.indexOf('a') === 0) {
-      return 'You may not upload a file that begins with the letter "a."';
-    } else {
-      return '';
-    }
   }
 }
