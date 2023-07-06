@@ -22,13 +22,9 @@ export class SingleFileAttachmentComponent {
 
   public fileForm: UntypedFormGroup;
 
-  public maxFileSize = 4000000;
-
   public get reactiveFile(): AbstractControl | null {
     return this.fileForm.get('attachment');
   }
-
-  public reactiveUploadError: string | undefined;
 
   constructor(formBuilder: UntypedFormBuilder) {
     this.attachment = new UntypedFormControl(undefined, Validators.required);
@@ -46,17 +42,7 @@ export class SingleFileAttachmentComponent {
 
   public reactiveFileUpdated(result: SkyFileAttachmentChange): void {
     const file = result.file;
-
-    if (file && file.errorType) {
-      this.reactiveFile?.setValue(undefined);
-      this.reactiveUploadError = this.getErrorMessage(
-        file.errorType,
-        file.errorParam
-      );
-    } else {
-      this.reactiveFile?.setValue(file);
-      this.reactiveUploadError = undefined;
-    }
+    this.reactiveFile?.setValue(file);
   }
 
   public validateFile(file: SkyFileItem): string {
@@ -64,19 +50,6 @@ export class SingleFileAttachmentComponent {
       return 'You may not upload a file that begins with the letter "a."';
     } else {
       return '';
-    }
-  }
-
-  private getErrorMessage(
-    errorType: string,
-    errorParam?: string
-  ): string | undefined {
-    if (errorType === 'fileType') {
-      return `Please upload a file of type ${errorParam}.`;
-    } else if (errorType === 'maxFileSize') {
-      return `Please upload a file smaller than ${errorParam} KB.`;
-    } else {
-      return errorParam;
     }
   }
 }

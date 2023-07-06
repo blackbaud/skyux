@@ -1,15 +1,41 @@
 <form>
-  <div style="margin-bottom: 50px">
+  <div style="margin-bottom: 20px">
     <sky-file-attachment
       formControlName="attachment"
       (fileChange)="reactiveFileUpdated($event)"
       (fileClick)="fileClick($event)"
     >
-      <sky-file-attachment-label> Attach any file </sky-file-attachment-label>
+      <sky-file-attachment-label>
+        Single file attachment
+      </sky-file-attachment-label>
     </sky-file-attachment>
+  </div>
+</form>
 
-    <div *ngIf="reactiveUploadError" class="sky-error-label">
-      {{ reactiveUploadError }}
-    </div>
+<form>
+  <div style="margin-bottom: 20px">
+    <sky-file-attachment
+      (fileChange)="reactiveFileUpdated($event)"
+      (fileClick)="fileClick($event)"
+    >
+      <sky-file-attachment-label>
+        Single file attachment with inline help
+        <sky-help-inline class="sky-control-help"></sky-help-inline
+      ></sky-file-attachment-label>
+    </sky-file-attachment>
+  </div>
+</form>
+
+<form>
+  <div style="margin-bottom: 20px">
+    <sky-file-attachment
+      (fileChange)="reactiveFileUpdated($event)"
+      (fileClick)="fileClick($event)"
+      [disabled]="true"
+    >
+      <sky-file-attachment-label>
+        Disabled single file attachment
+      </sky-file-attachment-label>
+    </sky-file-attachment>
   </div>
 </form>
