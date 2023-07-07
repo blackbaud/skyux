@@ -64,6 +64,7 @@ jobs:
             PR_NUMBER=$(jq -r 'if (.[] | length) > 0 then (.[0].number | tonumber) else "" end' ${{ runner.temp }}/pr-list.json)
 
             if [ -n "${PR_NUMBER}" ]; then
+              echo -n parameters= >> $GITHUB_OUTPUT
               npx skyux-dev e2e-workflow --workflowTrigger pull_request --pr $PR_NUMBER >> $GITHUB_OUTPUT
               echo workflow_dispatch_pr_number=${PR_NUMBER} >> $GITHUB_OUTPUT
               echo workflow_dispatch_pr_head_sha=$(jq -r '.[0].headRefOid' ${{ runner.temp }}/pr-list.json) >> $GITHUB_OUTPUT
@@ -72,6 +73,7 @@ jobs:
               exit 1
             fi
           else
+            echo -n parameters= >> $GITHUB_OUTPUT
             npx skyux-dev e2e-workflow --pr="${{ github.event.number }}" >> $GITHUB_OUTPUT
           fi
         env:
