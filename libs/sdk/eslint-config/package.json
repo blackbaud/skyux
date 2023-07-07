@@ -33,6 +33,7 @@
   "dependencies": {
     "comment-json": "4.2.3",
     "fs-extra": "10.1.0",
+    "jsonc-parser": "3.2.0",
     "package-json": "7.0.0"
   }
 }

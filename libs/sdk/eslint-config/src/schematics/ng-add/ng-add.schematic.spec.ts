@@ -113,6 +113,28 @@ describe('ng-add.schematic', () => {
     );
   });
 
+  it('should enable strict null checks', async () => {
+    const { runSchematic, tree } = await setupTest({
+      esLintConfig: {
+        overrides: [
+          {
+            files: ['*.ts'],
+          },
+        ],
+      },
+    });
+
+    await runSchematic();
+
+    expect(readJsonFile(tree, 'tsconfig.json')).toEqual(
+      expect.objectContaining({
+        compilerOptions: expect.objectContaining({
+          strictNullChecks: true,
+        }),
+      })
+    );
+  });
+
   it('should skip configuration if "overrides" undefined', async () => {
     const { runSchematic, tree } = await setupTest({
       esLintConfig: {},
