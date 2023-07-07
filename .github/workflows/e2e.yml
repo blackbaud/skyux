@@ -72,7 +72,7 @@ jobs:
               exit 1
             fi
           else
-            npx skyux-dev e2e-workflow >> $GITHUB_OUTPUT
+            npx skyux-dev e2e-workflow --pr="${{ github.event.number }}" >> $GITHUB_OUTPUT
           fi
         env:
           GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
