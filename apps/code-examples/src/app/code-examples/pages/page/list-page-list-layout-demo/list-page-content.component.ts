@@ -8,26 +8,49 @@ import {
 
 import { ColDef, GridOptions, ICellRendererParams } from 'ag-grid-community';
 
-import { AttachmentsGridContextMenuComponent } from './attachments-grid-context-menu.component';
+import { DashboardGridContextMenuComponent } from './dashboards-grid-context-menu.component';
 
 @Component({
-  selector: 'app-record-page-attachments-tab',
-  templateUrl: './record-page-attachments-tab.component.html',
+  selector: 'app-list-page-content',
+  templateUrl: './list-page-content.component.html',
   providers: [SkyDataManagerService],
 })
-export class RecordPageAttachmentsTabComponent implements OnInit {
+export class ListPageContentComponent implements OnInit {
   public items = [
     {
-      name: 'Agreement.pdf',
-      description: 'Cardholder agreement',
-      size: '10 KB',
-      dateAdded: '01/28/2023',
+      name: 'Cash Flow Tracker',
+      // eslint-disable-next-line @cspell/spellchecker
+      createdBy: 'Kanesha Hutto',
+      lastUpdated: '06/21/2023',
     },
     {
-      name: 'Appendix.pdf',
-      description: 'Updated terms 2023',
-      size: '25 KB',
-      dateAdded: '05/05/2023',
+      name: 'Accounts Receivable Dashboard',
+      // eslint-disable-next-line @cspell/spellchecker
+      createdBy: 'Kristeen Lunsford',
+      lastUpdated: '06/30/2023',
+    },
+    {
+      name: 'Accounts Payable Dashboard',
+      // eslint-disable-next-line @cspell/spellchecker
+      createdBy: 'Darcel Lenz',
+      lastUpdated: '04/20/2023',
+    },
+    {
+      name: 'Budget vs. Actuals',
+      // eslint-disable-next-line @cspell/spellchecker
+      createdBy: 'Barbara Durr',
+      lastUpdated: '12/04/2023',
+    },
+    {
+      name: 'Balance Sheet - New',
+      createdBy: 'Ilene Woo',
+      lastUpdated: '12/20/2023',
+    },
+    {
+      name: 'Debt Management',
+      // eslint-disable-next-line @cspell/spellchecker
+      createdBy: 'Tonja Sanderson',
+      lastUpdated: '09/10/2023',
     },
   ];
   public gridOptions: GridOptions;
@@ -40,7 +63,7 @@ export class RecordPageAttachmentsTabComponent implements OnInit {
       colId: 'contextMenu',
       headerName: '',
       sortable: false,
-      cellRenderer: AttachmentsGridContextMenuComponent,
+      cellRenderer: DashboardGridContextMenuComponent,
       maxWidth: 55,
     },
     {
@@ -53,19 +76,14 @@ export class RecordPageAttachmentsTabComponent implements OnInit {
       },
     },
     {
-      colId: 'description',
-      field: 'description',
-      headerName: 'Description',
+      colId: 'createdBy',
+      field: 'createdBy',
+      headerName: 'Created By',
     },
     {
-      colId: 'size',
-      field: 'size',
-      headerName: 'Size',
-    },
-    {
-      colId: 'dateAdded',
-      field: 'dateAdded',
-      headerName: 'Date Added',
+      colId: 'lastUpdated',
+      field: 'lastUpdated',
+      headerName: 'Last Updated',
     },
   ];
 
@@ -97,9 +115,8 @@ export class RecordPageAttachmentsTabComponent implements OnInit {
             displayedColumnIds: [
               'contextMenu',
               'name',
-              'description',
-              'size',
-              'dateAdded',
+              'createdBy',
+              'lastUpdated',
             ],
           },
         ],
