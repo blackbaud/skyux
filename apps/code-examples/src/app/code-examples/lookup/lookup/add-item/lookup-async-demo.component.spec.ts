@@ -63,6 +63,7 @@ describe('Lookup asynchronous search demo', () => {
           searchText === 'b'
             ? [
                 {
+                  id: '21',
                   name: 'Bernard',
                 },
               ]
@@ -77,7 +78,10 @@ describe('Lookup asynchronous search demo', () => {
     });
 
     expect(fixture.componentInstance.favoritesForm.value.favoriteNames).toEqual(
-      [{ name: 'Shirley' }, { name: 'Bernard' }]
+      [
+        { id: '16', name: 'Shirley' },
+        { id: '21', name: 'Bernard' },
+      ]
     );
   });
 });
