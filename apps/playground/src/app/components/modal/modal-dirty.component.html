@@ -1,0 +1,19 @@
+<sky-modal [isDirty]="isDirty">
+  <sky-modal-header> Dirty modal </sky-modal-header>
+  <sky-modal-content>
+    <p>
+      Flag the modal as dirty to trigger a confirmation message when closing.
+    </p>
+    <sky-toggle-switch [(ngModel)]="isDirty">
+      <sky-toggle-switch-label>Dirty</sky-toggle-switch-label>
+    </sky-toggle-switch>
+  </sky-modal-content>
+  <sky-modal-footer>
+    <button type="button" class="sky-btn sky-btn-primary" (click)="save()">
+      Save
+    </button>
+    <button type="button" class="sky-btn sky-btn-link" (click)="cancel()">
+      Cancel
+    </button>
+  </sky-modal-footer>
+</sky-modal>

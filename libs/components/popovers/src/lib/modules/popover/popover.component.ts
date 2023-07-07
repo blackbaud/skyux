@@ -26,6 +26,8 @@ import { SkyPopoverAlignment } from './types/popover-alignment';
 import { SkyPopoverPlacement } from './types/popover-placement';
 import { SkyPopoverType } from './types/popover-type';
 
+let nextId = 0;
+
 @Component({
   selector: 'sky-popover',
   templateUrl: './popover.component.html',
@@ -119,6 +121,8 @@ export class SkyPopoverComponent implements OnDestroy {
 
   public isMouseEnter = false;
 
+  public popoverId = `sky-popover-${nextId++}`;
+
   @ViewChild('templateRef', {
     read: TemplateRef,
     static: true,
@@ -189,6 +193,7 @@ export class SkyPopoverComponent implements OnDestroy {
       dismissOnBlur: this.dismissOnBlur,
       enableAnimations: this.enableAnimations,
       horizontalAlignment: this.alignment,
+      id: this.popoverId,
       isStatic: false,
       placement: this.placement,
       popoverTitle: this.popoverTitle,

@@ -105,7 +105,8 @@ export class SkyLookupComponent
   }
 
   /**
-   * Whether to disable the lookup field.
+   * Whether to disable the lookup field on template-driven forms. Don't use this input on reactive forms because they may overwrite the input or leave the control out of sync.
+   * To set the disabled state on reactive forms, use the `FormControl` instead.
    * @default false
    */
   @Input()
@@ -707,6 +708,10 @@ export class SkyLookupComponent
         {
           provide: SkyLookupShowMoreNativePickerContext,
           useValue: contextProviderValue,
+        },
+        {
+          provide: SkyLookupAdapterService,
+          useValue: this.#adapter,
         },
       ],
       size: 'large',

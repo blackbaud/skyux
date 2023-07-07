@@ -2,6 +2,9 @@
   class="sky-btn sky-btn-default sky-margin-inline-sm"
   type="button"
   [skyPopover]="myPopover"
+  [skyPopoverAlignment]="popoverAlignment"
+  [skyPopoverPlacement]="popoverPlacement"
+  data-sky-id="popover-demo"
 >
   Open popover on click
 </button>
@@ -15,6 +18,10 @@
   Open popover on hover
 </button>
 
-<sky-popover popoverTitle="Did you know?" #myPopover>
-  This is a popover.
+<sky-popover
+  [dismissOnBlur]="dismissOnBlur"
+  [popoverTitle]="popoverTitle"
+  #myPopover
+>
+  {{ popoverBody }}
 </sky-popover>

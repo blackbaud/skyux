@@ -1,30 +1,28 @@
 <form novalidate [formGroup]="favoritesForm">
-  <sky-input-box>
+  <sky-input-box [disabled]="disabledFlag">
     <label class="sky-control-label">Basic </label>
     <sky-lookup
       formControlName="favoriteNames"
       [data]="people"
       [selectMode]="selectMode"
-      [disabled]="disabledFlag"
     >
     </sky-lookup>
   </sky-input-box>
 </form>
 
 <form novalidate [formGroup]="favoritesForm">
-  <sky-input-box>
+  <sky-input-box [disabled]="disabledFlag">
     <label class="sky-control-label">With preselected input</label>
     <sky-lookup
       formControlName="favoriteNames"
       [data]="people"
       [selectMode]="selectMode"
-      [disabled]="disabledFlag"
     >
     </sky-lookup>
   </sky-input-box>
 </form>
 
-<sky-input-box>
+<sky-input-box [disabled]="disabledFlag">
   <label class="sky-control-label">With placeholder</label>
   <sky-lookup
     [data]="people"
@@ -36,7 +34,7 @@
 </sky-input-box>
 
 <form novalidate [formGroup]="favoritesForm">
-  <sky-input-box>
+  <sky-input-box [disabled]="disabledFlag">
     <label class="sky-control-label"
       >With preselected input and placeholder</label
     >
@@ -45,7 +43,6 @@
       [data]="people"
       [selectMode]="selectMode"
       [placeholderText]="placeholderText"
-      [disabled]="disabledFlag"
     >
     </sky-lookup>
   </sky-input-box>
@@ -53,7 +50,7 @@
 
 <h2>With show more</h2>
 
-<sky-input-box>
+<sky-input-box [disabled]="disabledFlag">
   <label class="sky-control-label">Basic</label>
   <sky-lookup
     [data]="people"
@@ -64,7 +61,7 @@
   </sky-lookup>
 </sky-input-box>
 
-<sky-input-box>
+<sky-input-box [disabled]="disabledFlag">
   <label class="sky-control-label">With show add button</label>
   <sky-lookup
     [data]="people"
@@ -77,13 +74,12 @@
 </sky-input-box>
 
 <form novalidate [formGroup]="favoritesForm">
-  <sky-input-box>
+  <sky-input-box [disabled]="disabledFlag">
     <label class="sky-control-label">Multiple pre selected inputs </label>
     <sky-lookup
       formControlName="favoriteNamesFew"
       [data]="people"
       [selectMode]="selectMode"
-      [disabled]="disabledFlag"
       [enableShowMore]="true"
     >
     </sky-lookup>
@@ -91,7 +87,7 @@
 </form>
 
 <form novalidate [formGroup]="favoritesForm">
-  <sky-input-box>
+  <sky-input-box [disabled]="disabledFlag">
     <label class="sky-control-label"
       >Multiple collapsed pre selected inputs</label
     >
@@ -99,7 +95,6 @@
       formControlName="favoriteNamesAll"
       [data]="people"
       [selectMode]="selectMode"
-      [disabled]="disabledFlag"
       [enableShowMore]="true"
     >
     </sky-lookup>

@@ -1,6 +1,6 @@
 import { ApplicationRef } from '@angular/core';
 import { TestBed, fakeAsync, inject, tick } from '@angular/core/testing';
-import { expect } from '@skyux-sdk/testing';
+import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 
 import { SkyModalFixturesModule } from './fixtures/modal-fixtures.module';
 import { ModalTestValues } from './fixtures/modal-values.fixture';
@@ -30,6 +30,14 @@ describe('Modal service', () => {
 
   function getModalEls() {
     return document.querySelectorAll('sky-test-cmp');
+  }
+
+  function scrollModalContent() {
+    const modalContent = document.querySelector('.sky-modal-content');
+    if (modalContent) {
+      modalContent.scrollTop = modalContent.scrollHeight;
+      SkyAppTestUtility.fireDomEvent(modalContent, 'scroll');
+    }
   }
 
   beforeEach(() => {
@@ -184,6 +192,28 @@ describe('Modal service', () => {
     applicationRef.tick();
 
     expect(document.body.querySelector(`sky-modal.${wrapperClass}`)).toExist();
+    closeModal(modal);
+  }));
+
+  it('should allow for scrolling the modal content back to the top via the returned instance', fakeAsync(() => {
+    const modal = openModal(ModalTestComponent);
+
+    modal.componentInstance.longContent = true;
+
+    applicationRef.tick();
+
+    scrollModalContent();
+
+    expect(
+      document.body.querySelector(`.sky-modal-content`)?.scrollTop
+    ).not.toBe(0);
+
+    modal.scrollContentToTop();
+
+    expect(document.body.querySelector(`.sky-modal-content`)?.scrollTop).toBe(
+      0
+    );
+
     closeModal(modal);
   }));
 

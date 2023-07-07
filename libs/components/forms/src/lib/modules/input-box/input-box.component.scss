@@ -220,9 +220,7 @@ sky-input-box {
 
     .sky-input-box-group-form-control-invalid {
       .sky-form-group {
-        &:not(:has(:autofill)):not(:has(:-webkit-autofill)) {
-          @include mixins.sky-theme-modern-border-invalid;
-        }
+        @include mixins.sky-theme-modern-border-invalid;
         color: $sky-background-color-danger-dark;
       }
     }
@@ -239,17 +237,13 @@ sky-input-box {
       z-index: 1;
 
       .sky-form-group {
-        &:not(:has(:autofill)):not(:has(:-webkit-autofill)) {
-          @include mixins.sky-theme-modern-border-focus;
-        }
+        @include mixins.sky-theme-modern-border-focus;
         color: $sky-theme-modern-text-color-action-primary;
       }
     }
 
     .sky-form-group {
-      &:not(:has(:autofill)):not(:has(:-webkit-autofill)) {
-        @include mixins.sky-theme-modern-border;
-      }
+      @include mixins.sky-theme-modern-border;
 
       color: $sky-theme-modern-font-data-label-color;
       flex-wrap: nowrap;
@@ -277,8 +271,8 @@ sky-input-box {
 
         .sky-control-help {
           /*
-          The help button should be above the input element to ensure it is clickable. 
-          Select inputs have a z-index of 3 so that clicking the label area still opens the select. 
+          The help button should be above the input element to ensure it is clickable.
+          Select inputs have a z-index of 3 so that clicking the label area still opens the select.
           */
           z-index: 4;
         }
@@ -331,28 +325,15 @@ sky-input-box {
 
         &:autofill,
         &:-webkit-autofill {
-          border-radius: $sky-theme-modern-box-border-radius-default;
-        }
-
-        &:autofill,
-        &:-webkit-autofill {
-          box-shadow: inset 0 0 0 1px
-            $sky-theme-modern-border-color-neutral-medium !important;
+          box-shadow: none !important;
+          clip-path: inset(
+            2px round $sky-theme-modern-box-border-radius-default
+          ) !important;
 
           &:hover {
-            box-shadow: inset 0 0 0 1px
-              $sky-theme-modern-background-color-primary-dark !important;
-          }
-
-          &:focus {
-            box-shadow: inset 0 0 0 2px
-                $sky-theme-modern-background-color-primary-dark,
-              $sky-theme-modern-elevation-1-shadow-size
-                $sky-theme-modern-elevation-1-shadow-color !important;
-          }
-
-          &.ng-invalid.ng-touched:not(:focus) {
-            box-shadow: inset 0 0 0 2px var(--sky-highlight-color-danger) !important;
+            clip-path: inset(
+              1px round $sky-theme-modern-box-border-radius-default
+            ) !important;
           }
         }
 
@@ -380,6 +361,17 @@ sky-input-box {
         &:-ms-input-placeholder {
           /* IE */
           font-size: $sky-theme-modern-font-body-default-size;
+        }
+      }
+
+      // This style is needed to ensure that the autofill clip path is properly applied when the label is hovered.
+      // Without it - the clip path will revert to 2px when the label is hovered instead of the correct hover clip path of 1px.
+      .sky-input-box-label-wrapper:hover + .sky-form-control {
+        &:autofill,
+        &:-webkit-autofill {
+          clip-path: inset(
+            1px round $sky-theme-modern-box-border-radius-default
+          ) !important;
         }
       }
 
@@ -435,23 +427,6 @@ sky-input-box {
         &:autofill,
         &:-webkit-autofill {
           border-top: 26px solid transparent !important;
-          box-shadow: 0 0 0 1px $sky-theme-modern-border-color-neutral-medium !important;
-
-          &:hover {
-            box-shadow: 0 0 0 1px
-              $sky-theme-modern-background-color-primary-dark !important;
-          }
-
-          &:focus {
-            box-shadow: 0 0 0 2px
-                $sky-theme-modern-background-color-primary-dark,
-              $sky-theme-modern-elevation-1-shadow-size
-                $sky-theme-modern-elevation-1-shadow-color !important;
-          }
-
-          &.ng-invalid.ng-touched:not(:focus) {
-            box-shadow: 0 0 0 2px var(--sky-highlight-color-danger) !important;
-          }
         }
       }
     }
@@ -470,8 +445,7 @@ sky-input-box {
       &:hover {
         /* Ensure the form control border shows over the adjacent input group button. */
         z-index: 1;
-
-        .sky-form-group:not(:has(:autofill)):not(:has(:-webkit-autofill)) {
+        .sky-form-group {
           @include mixins.sky-theme-modern-border-hover;
         }
       }
@@ -503,16 +477,14 @@ sky-input-box {
 
     .sky-input-box-group-form-control:active,
     .sky-input-box-group-form-control-focus {
-      .sky-form-group:not(:has(:autofill)):not(:has(:-webkit-autofill)) {
+      .sky-form-group {
         @include mixins.sky-theme-modern-border-active;
       }
     }
 
     .sky-input-box-group-form-control-invalid {
       .sky-form-group {
-        &:not(:has(:autofill)):not(:has(:-webkit-autofill)) {
-          @include mixins.sky-theme-modern-border-invalid;
-        }
+        @include mixins.sky-theme-modern-border-invalid;
 
         color: $sky-background-color-danger-dark;
       }
@@ -536,9 +508,7 @@ sky-input-box {
       z-index: 1;
 
       .sky-form-group {
-        &:not(:has(:autofill)):not(:has(:-webkit-autofill)) {
-          @include mixins.sky-theme-modern-border-focus;
-        }
+        @include mixins.sky-theme-modern-border-focus;
 
         color: $sky-theme-modern-text-color-action-primary;
       }
@@ -582,11 +552,9 @@ sky-input-box {
       .sky-form-group {
         background-color: transparent;
 
-        &:not(:has(:autofill)):not(:has(:-webkit-autofill)) {
-          @include mixins.sky-theme-modern-border(
-            $sky-theme-modern-color-gray-70
-          );
-        }
+        @include mixins.sky-theme-modern-border(
+          $sky-theme-modern-color-gray-70
+        );
 
         color: $sky-theme-modern-mode-dark-font-deemphasized-color;
 
@@ -606,9 +574,7 @@ sky-input-box {
 
       .sky-input-box-group-form-control-invalid {
         .sky-form-group {
-          &:not(:has(:autofill)):not(:has(:-webkit-autofill)) {
-            @include mixins.sky-theme-modern-border-invalid;
-          }
+          @include mixins.sky-theme-modern-border-invalid;
           color: $sky-background-color-danger-dark;
         }
       }

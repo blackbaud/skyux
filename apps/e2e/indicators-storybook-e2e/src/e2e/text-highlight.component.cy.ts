@@ -1,20 +1,22 @@
 import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 
-describe('action-bars-storybook', () => {
+describe('indicators-storybook - text-highlight', () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=actionbarscomponent-actionbars--action-bars`
+          `/iframe.html?globals=theme:${theme}&id=texthighlightcomponent-texthighlight--text-highlight`
         )
       );
       it('should render the component', () => {
-        cy.get('app-action-bars')
+        cy.get('app-text-highlight')
           .should('exist')
           .should('be.visible')
-          .screenshot(`actionbarscomponent-actionbars--action-bars-${theme}`)
+          .screenshot(
+            `texthighlightcomponent-texthighlight--text-highlight-${theme}`
+          )
           .percySnapshot(
-            `actionbarscomponent-actionbars--action-bars-${theme}`,
+            `texthighlightcomponent-texthighlight--text-highlight-${theme}`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
             }
