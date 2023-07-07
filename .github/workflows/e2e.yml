@@ -56,10 +56,7 @@ jobs:
         shell: bash
         run: |
           set -exo pipefail
-          echo -n parameters= >> $GITHUB_OUTPUT
-          if [ "${GITHUB_EVENT_NAME}" == "pull_request_target" ]; then
-            npx skyux-dev e2e-workflow --workflowTrigger pull_request --pr ${{ github.event.number }} >> $GITHUB_OUTPUT
-          elif [ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]; then
+          if [ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]; then
             # If the workflow was triggered manually, find the PR number and head SHA.
             gh pr list -H "${GITHUB_REF_NAME}" --json number,headRefOid > ${{ runner.temp }}/pr-list.json
 
@@ -264,7 +261,6 @@ jobs:
       group: ${{ github.workflow }}-${{ github.job }}--${{ matrix.project }}-${{ github.head_ref || format('{0}-{1}', github.run_id, github.run_attempt) }}
       cancel-in-progress: true
     needs: install-deps
-    if: ${{ fromJSON(needs.install-deps.outputs.parameters).e2eTargets }}
     strategy:
       fail-fast: false
       matrix:
@@ -274,11 +270,14 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
+        if: ${{ matrix.project != 'skip' }}
       - uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
+        if: ${{ matrix.project != 'skip' }}
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
+        if: ${{ matrix.project != 'skip' }}
       - name: Retrieve dependencies cache
         uses: actions/cache@v3
         with:
@@ -286,8 +285,10 @@ jobs:
             node_modules
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
+        if: ${{ matrix.project != 'skip' }}
       - name: Verify Cypress
         run: npx cypress verify
+        if: ${{ matrix.project != 'skip' }}
       - name: Percy ${{ matrix.project }}
         uses: actions/github-script@v6
         with:
@@ -303,6 +304,11 @@ jobs:
                   ) {
                     console.info('Percy client error. Retrying...');
                     return exec.exec('bash', ['-c', percyCommand]);
+                  } else if (
+                    result.stderr.includes('AssertionError: Timed out retrying')
+                  ) {
+                    console.info('Cypress timeout error. Retrying...');
+                    return exec.exec('bash', ['-c', percyCommand]);
                   } else {
                     core.setFailed(`Percy failed with exit code ${result.exitCode}`);
                   }
@@ -311,6 +317,7 @@ jobs:
         env:
           PERCY_TOKEN: ${{ secrets[matrix.token] }}
           TERM: 'xterm-256color'
+        if: ${{ matrix.project != 'skip' }}
       - name: Upload error screenshots
         uses: actions/upload-artifact@v3
         if: ${{ failure() }}
@@ -330,6 +337,9 @@ jobs:
           #cor-skyux-notifications
           SLACK_CHANNEL: C01GY7ZP4HM
           SLACK_FOOTER: 'Blackbaud Sky Build User'
+      - name: Skip
+        run: echo "Skip E2E. No E2E changes detected."
+        if: ${{ matrix.project == 'skip' }}
 
   verify:
     name: E2E Visual Review
@@ -350,7 +360,7 @@ jobs:
 
             const e2eProjects = ${{ needs.install-deps.outputs.parameters }}.e2eTargets.map(project => project.project);
 
-            if (e2eProjects.length > 0) {
+            if (e2eProjects.length > 0 && e2eProjects[0] !== 'skip') {
 
               // Verify that Percy has finished processing the E2E Visual Review and that all snapshots have passed.
               const params = {
