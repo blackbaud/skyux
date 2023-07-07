@@ -1,3 +1,16 @@
 <sky-page layout="fit">
-  <sky-page-header pageTitle="Purchases"></sky-page-header>
+  <sky-page-header
+    pageTitle="Expenses to approve"
+    [parentLink]="{
+      label: 'Expenses',
+      permalink: {
+        route: {
+          commands: ['/']
+        }
+      }
+    }"
+  ></sky-page-header>
+  <sky-page-content>
+    <app-split-view-page-content></app-split-view-page-content>
+  </sky-page-content>
 </sky-page>
