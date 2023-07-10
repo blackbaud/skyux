@@ -1,6 +1,9 @@
 <form [formGroup]="fileForm">
   <div style="margin-bottom: 20px">
-    <sky-file-attachment (fileChange)="reactiveFileUpdated($event)">
+    <sky-file-attachment
+      formControlName="attachment"
+      (fileChange)="reactiveFileUpdated($event)"
+    >
       <sky-file-attachment-label>
         Single file attachment
       </sky-file-attachment-label>
@@ -36,7 +39,7 @@
 
 <form [formGroup]="fileForm">
   <div style="margin-bottom: 20px">
-    <sky-file-attachment>
+    <sky-file-attachment formControlName="attachment">
       <sky-file-attachment-label>
         Single file attachment with inline help
         <sky-help-inline class="sky-control-help"></sky-help-inline
@@ -47,7 +50,7 @@
 
 <form [formGroup]="fileForm">
   <div style="margin-bottom: 20px">
-    <sky-file-attachment [disabled]="true">
+    <sky-file-attachment formControlName="attachment" [disabled]="true">
       <sky-file-attachment-label>
         Disabled single file attachment
       </sky-file-attachment-label>

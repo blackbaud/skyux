@@ -1,6 +1,6 @@
 import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 
-describe('forms-storybook', () => {
+describe('forms-storybook - single file attachment', () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
