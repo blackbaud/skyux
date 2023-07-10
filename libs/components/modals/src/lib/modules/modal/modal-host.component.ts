@@ -1,13 +1,14 @@
 import {
   ChangeDetectorRef,
   Component,
-  ComponentFactoryResolver,
   ElementRef,
-  Injector,
+  EnvironmentInjector,
   OnDestroy,
   Optional,
   ViewChild,
   ViewContainerRef,
+  createEnvironmentInjector,
+  inject,
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import {
@@ -53,12 +54,11 @@ export class SkyModalHostComponent implements OnDestroy {
   @ViewChild('target', {
     read: ViewContainerRef,
     static: true,
-  } as any)
+  })
   public target: ViewContainerRef | undefined;
 
-  #resolver: ComponentFactoryResolver;
   #adapter: SkyModalAdapterService;
-  #injector: Injector;
+  #environmentInjector = inject(EnvironmentInjector);
   #router: Router | undefined;
   #changeDetector: ChangeDetectorRef;
   #modalHostContext: SkyModalHostContext;
@@ -67,17 +67,13 @@ export class SkyModalHostComponent implements OnDestroy {
   #modalInstances: SkyModalInstance[] = [];
 
   constructor(
-    resolver: ComponentFactoryResolver,
     adapter: SkyModalAdapterService,
-    injector: Injector,
     changeDetector: ChangeDetectorRef,
     modalHostContext: SkyModalHostContext,
     elRef: ElementRef,
     @Optional() router?: Router
   ) {
-    this.#resolver = resolver;
     this.#adapter = adapter;
-    this.#injector = injector;
     this.#router = router;
     this.#changeDetector = changeDetector;
     this.#modalHostContext = modalHostContext;
@@ -103,7 +99,6 @@ export class SkyModalHostComponent implements OnDestroy {
     }
 
     const params: SkyModalConfigurationInterface = Object.assign({}, config);
-    const factory = this.#resolver.resolveComponentFactory(component);
 
     const hostService = new SkyModalHostService();
     hostService.fullPage = !!params.fullPage;
@@ -143,16 +138,14 @@ export class SkyModalHostComponent implements OnDestroy {
     );
 
     const providers = params.providers || /* istanbul ignore next */ [];
-    const injector = Injector.create({
+    const environmentInjector = createEnvironmentInjector(
       providers,
-      parent: this.#injector,
-    });
-
-    const modalComponentRef = this.target.createComponent(
-      factory,
-      undefined,
-      injector
+      this.#environmentInjector
     );
+
+    const modalComponentRef = this.target.createComponent(component, {
+      environmentInjector,
+    });
 
     // modal element that was just opened
     const modalElement = modalComponentRef.location;

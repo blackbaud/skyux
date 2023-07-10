@@ -11,6 +11,10 @@ const routes: Routes = [
     loadChildren: () =>
       import('./components/components.module').then((m) => m.ComponentsModule),
   },
+  {
+    path: 'modal',
+    loadComponent: () => import('./modal/opener.component'),
+  },
 ];
 
 @NgModule({
