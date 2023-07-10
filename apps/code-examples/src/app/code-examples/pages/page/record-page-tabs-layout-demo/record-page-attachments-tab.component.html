@@ -1,20 +1,20 @@
 <sky-data-manager>
   <sky-data-manager-toolbar>
-    <sky-data-manager-toolbar-left-item>
+    <sky-data-manager-toolbar-primary-item>
       <button class="sky-btn sky-btn-default" aria-label="New attachment">
         <sky-icon iconType="skyux" icon="add"></sky-icon>
         New
       </button>
-    </sky-data-manager-toolbar-left-item>
-    <sky-data-manager-toolbar-section>
-      <sky-key-info layout="horizontal">
-        <sky-key-info-value class="sky-font-display-4">
-          {{ items.length }}
-        </sky-key-info-value>
-        <sky-key-info-label> Attachments </sky-key-info-label>
-      </sky-key-info>
-    </sky-data-manager-toolbar-section>
+    </sky-data-manager-toolbar-primary-item>
   </sky-data-manager-toolbar>
+  <div class="sky-margin-stacked-sm">
+    <sky-key-info layout="horizontal" class="sky-padding-horizontal-sm">
+      <sky-key-info-value class="sky-font-display-4">
+        {{ items.length }}
+      </sky-key-info-value>
+      <sky-key-info-label> Attachments </sky-key-info-label>
+    </sky-key-info>
+  </div>
   <sky-data-view skyAgGridDataManagerAdapter viewId="gridView">
     <sky-ag-grid-wrapper>
       <ag-grid-angular [gridOptions]="gridOptions" [rowData]="items">
