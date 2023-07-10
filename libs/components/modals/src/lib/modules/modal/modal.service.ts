@@ -100,7 +100,7 @@ export class SkyModalService {
             {
               provide: SkyModalHostContext,
               useValue: new SkyModalHostContext({
-                teardownCallback: (): void => {
+                teardownCallback: () => {
                   this.dispose();
                 },
               }),

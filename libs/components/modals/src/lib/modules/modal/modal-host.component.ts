@@ -54,7 +54,7 @@ export class SkyModalHostComponent implements OnDestroy {
   @ViewChild('target', {
     read: ViewContainerRef,
     static: true,
-  })
+  } as any)
   public target: ViewContainerRef | undefined;
 
   #adapter: SkyModalAdapterService;
