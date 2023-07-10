@@ -1,9 +1,6 @@
 <form [formGroup]="fileForm">
   <div style="margin-bottom: 20px">
-    <sky-file-attachment
-      formControlName="attachment"
-      (fileChange)="reactiveFileUpdated($event)"
-    >
+    <sky-file-attachment (fileChange)="reactiveFileUpdated($event)">
       <sky-file-attachment-label>
         Single file attachment
       </sky-file-attachment-label>
@@ -11,7 +8,33 @@
   </div>
 </form>
 
-<form [formGroup]="fileForm" *ngIf="showStatesFlag">
+<form [formGroup]="fileForm">
+  <div style="margin-bottom: 20px">
+    <sky-file-attachment
+      formControlName="imageAttachment"
+      (fileChange)="reactiveFileUpdated($event)"
+    >
+      <sky-file-attachment-label>
+        Single file attachment with image
+      </sky-file-attachment-label>
+    </sky-file-attachment>
+  </div>
+</form>
+
+<form [formGroup]="fileForm">
+  <div style="margin-bottom: 20px">
+    <sky-file-attachment
+      formControlName="fileAttachment"
+      (fileChange)="reactiveFileUpdated($event)"
+    >
+      <sky-file-attachment-label>
+        Single file attachment with text file
+      </sky-file-attachment-label>
+    </sky-file-attachment>
+  </div>
+</form>
+
+<form [formGroup]="fileForm">
   <div style="margin-bottom: 20px">
     <sky-file-attachment>
       <sky-file-attachment-label>
@@ -22,7 +45,7 @@
   </div>
 </form>
 
-<form [formGroup]="fileForm" *ngIf="showStatesFlag">
+<form [formGroup]="fileForm">
   <div style="margin-bottom: 20px">
     <sky-file-attachment [disabled]="true">
       <sky-file-attachment-label>
