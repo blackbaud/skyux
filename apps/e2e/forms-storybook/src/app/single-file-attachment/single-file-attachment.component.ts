@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   AbstractControl,
   UntypedFormBuilder,
@@ -6,7 +6,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { SkyFileAttachmentChange, SkyFileItem } from '@skyux/forms';
+import { SkyFileAttachmentChange } from '@skyux/forms';
 
 @Component({
   selector: 'app-single-file-attachment',
@@ -14,14 +14,6 @@ import { SkyFileAttachmentChange, SkyFileItem } from '@skyux/forms';
   styleUrls: ['./single-file-attachment.component.scss'],
 })
 export class SingleFileAttachmentComponent {
-  @Input()
-  public set uploadedFiles(value: SkyFileItem) {
-    this.reactiveFileUpdated({ file: value });
-    this.showStatesFlag = false;
-  }
-
-  public showStatesFlag = true;
-
   public imageAttachment: UntypedFormControl;
   public fileAttachment: UntypedFormControl;
   public attachment: UntypedFormControl;
