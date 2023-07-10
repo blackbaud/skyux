@@ -213,11 +213,21 @@ describe('Dynamic component service', () => {
       providers: [{ provide: 'greeting', useValue: 'My name is Pat.' }],
       name: 'test injector',
     });
-    createTestComponent(undefined, undefined, undefined, injector);
 
-    const el = getComponentEl(0);
+    const referenceRef = createTestComponent(
+      SkyDynamicComponentLocation.BodyTop
+    );
 
-    expect(document.body.lastChild).toBe(el);
+    createTestComponent(
+      undefined,
+      undefined,
+      undefined,
+      injector,
+      referenceRef.instance.content
+    );
+
+    const el = getComponentEl(1);
+
     expect(el.querySelector('.component-test')).toHaveText(
       'Hello world My name is Pat.'
     );

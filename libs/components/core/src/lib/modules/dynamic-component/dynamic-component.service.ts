@@ -9,6 +9,7 @@ import {
   RendererFactory2,
   Type,
   createComponent,
+  createEnvironmentInjector,
 } from '@angular/core';
 
 import { SkyAppWindowRef } from '../window/window-ref';
@@ -68,21 +69,27 @@ export class SkyDynamicComponentService {
       location: SkyDynamicComponentLocation.BodyBottom,
     };
 
-    const injector = Injector.create({
-      providers: options.providers || [],
-      parent: options.parentInjector || this.#injector,
-    });
+    const providers = options.providers ?? [];
 
     let componentRef: ComponentRef<T>;
 
     if (options.viewContainerRef) {
+      const injector = Injector.create({
+        providers,
+        parent: options.parentInjector ?? this.#injector,
+      });
+
       componentRef = options.viewContainerRef.createComponent(componentType, {
         injector,
       });
     } else {
+      const environmentInjector = createEnvironmentInjector(
+        providers,
+        this.#environmentInjector
+      );
+
       componentRef = createComponent<T>(componentType, {
-        environmentInjector: this.#environmentInjector,
-        elementInjector: injector,
+        environmentInjector,
       });
 
       this.#applicationRef.attachView(componentRef.hostView);

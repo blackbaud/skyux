@@ -1,5 +1,5 @@
 // #region imports
-import { INJECTOR, StaticProvider } from '@angular/core';
+import { StaticProvider } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 import { SkyDynamicComponentService } from '@skyux/core';
@@ -66,7 +66,6 @@ describe('Toast service', () => {
     expect(mockSkyDynamicComponentSvc.createComponent).toHaveBeenCalledOnceWith(
       SkyToasterComponent,
       {
-        parentInjector: TestBed.inject(INJECTOR),
         providers: [
           {
             provide: SKY_LIB_RESOURCES_PROVIDERS,
