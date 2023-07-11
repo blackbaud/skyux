@@ -18,6 +18,7 @@ describe('navbar-storybook', () => {
           .should('exist')
           .should('be.visible')
           .get('.sky-dropdown-button')
+          .first()
           .click();
 
         cy.get('body')

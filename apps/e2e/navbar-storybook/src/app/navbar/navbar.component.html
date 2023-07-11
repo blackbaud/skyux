@@ -23,5 +23,21 @@
       </sky-dropdown-menu>
     </sky-dropdown>
   </sky-navbar-item>
+  <sky-navbar-item [active]="true">
+    <sky-dropdown>
+      <sky-dropdown-button> Active dropdown </sky-dropdown-button>
+      <sky-dropdown-menu>
+        <sky-dropdown-item>
+          <a routerLink="/"> Item 1 </a>
+        </sky-dropdown-item>
+        <sky-dropdown-item>
+          <a routerLink="/"> Item 2 </a>
+        </sky-dropdown-item>
+        <sky-dropdown-item>
+          <a routerLink="/"> Item 3 </a>
+        </sky-dropdown-item>
+      </sky-dropdown-menu>
+    </sky-dropdown>
+  </sky-navbar-item>
 </sky-navbar>
 <div id="ready" *ngIf="ready | async" style="height: 150px"></div>
