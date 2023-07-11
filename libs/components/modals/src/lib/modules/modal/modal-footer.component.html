@@ -1,12 +1,14 @@
 <div class="sky-modal-footer-container sky-padding-even-large">
-  <div aria-live="polite" class="sky-modal-footer-errors">
-    <sky-status-indicator
-      *ngFor="let error of errors"
-      descriptionType="error"
-      indicatorType="danger"
-    >
-      {{ error }}
-    </sky-status-indicator>
+  <div aria-live="polite">
+    <div *ngIf="errors" class="sky-modal-footer-errors">
+      <sky-status-indicator
+        *ngFor="let error of errors"
+        descriptionType="error"
+        indicatorType="danger"
+      >
+        {{ error }}
+      </sky-status-indicator>
+    </div>
   </div>
   <ng-content></ng-content>
 </div>
