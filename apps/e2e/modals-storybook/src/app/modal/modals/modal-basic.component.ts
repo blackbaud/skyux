@@ -7,6 +7,7 @@ import { SkyModalInstance } from '@skyux/modals';
 })
 export class ModalBasicComponent {
   public showHelp = false;
+  public errors: string[] | undefined;
   public title = 'Hello world';
 
   #instance: SkyModalInstance;

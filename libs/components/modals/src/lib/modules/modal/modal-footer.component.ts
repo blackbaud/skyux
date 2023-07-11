@@ -11,8 +11,7 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
 })
 export class SkyModalFooterComponent {
   /**
-   * A collection of error messages to be displayed to the user in the event of a form error.
-   * Values assigned here will be displayed following [SKY UX style guidelines](https://developer.blackbaud.com/skyux/design/guidelines/form-design#validation-and-error-handling).
+   * A list of error messages to be shown above the modal footer buttons.
    */
   @Input()
   public errors: string[] | undefined;

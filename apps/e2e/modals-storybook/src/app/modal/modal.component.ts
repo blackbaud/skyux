@@ -49,6 +49,15 @@ export class ModalComponent {
     modalInstance.componentInstance.showHelp = true;
   }
 
+  public onOpenErrorModalClick(): void {
+    const modalInstance = this.openModal(ModalBasicComponent);
+    modalInstance.componentInstance.errors = [
+      'Short error message',
+      'Long error message that takes up two lines of text. It really does just keep going.',
+      'Additional error message to ensure the max height is hit',
+    ];
+  }
+
   private openModal(
     modalInstance: any,
     options?: SkyModalConfigurationInterface

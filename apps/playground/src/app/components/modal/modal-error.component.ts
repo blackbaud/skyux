@@ -41,7 +41,10 @@ export class ModalErrorComponent implements OnInit, OnDestroy {
 
   #onClose(handler: SkyModalBeforeCloseHandler): void {
     if (this.isError && handler.closeArgs.reason !== 'cancel') {
-      this.errors = ['Sample error', 'Sample error 2'];
+      this.errors = [
+        "Sample error that's really long so it takes up two lines. More text just to ensure text wrap.",
+        'Sample error 2',
+      ];
     } else {
       handler.closeModal();
     }
