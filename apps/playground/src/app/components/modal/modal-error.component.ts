@@ -1,5 +1,9 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { SkyModalBeforeCloseHandler, SkyModalInstance } from '@skyux/modals';
+import {
+  SkyModalBeforeCloseHandler,
+  SkyModalError,
+  SkyModalInstance,
+} from '@skyux/modals';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -11,7 +15,7 @@ import { takeUntil } from 'rxjs/operators';
 export class ModalErrorComponent implements OnInit, OnDestroy {
   public isError = false;
 
-  public errors: string[] | undefined;
+  public errors: SkyModalError[] | undefined;
 
   #modalInstance = inject(SkyModalInstance);
   #ngUnsubscribe = new Subject<void>();
@@ -42,8 +46,11 @@ export class ModalErrorComponent implements OnInit, OnDestroy {
   #onClose(handler: SkyModalBeforeCloseHandler): void {
     if (this.isError && handler.closeArgs.reason !== 'cancel') {
       this.errors = [
-        "Sample error that's really long so it takes up two lines. More text just to ensure text wrap.",
-        'Sample error 2',
+        {
+          message:
+            "Sample error that's really long so it takes up two lines. More text just to ensure text wrap.",
+        },
+        { message: 'Sample error 2' },
       ];
     } else {
       handler.closeModal();

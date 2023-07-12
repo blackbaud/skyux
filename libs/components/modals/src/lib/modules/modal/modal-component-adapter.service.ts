@@ -1,15 +1,23 @@
 import { ElementRef, Injectable } from '@angular/core';
 import { SkyCoreAdapterService } from '@skyux/core';
 
+import { BehaviorSubject, Observable } from 'rxjs';
+
+import { SkyModalError } from './modal-error';
+
 /**
  * @internal
  */
 @Injectable()
 export class SkyModalComponentAdapterService {
+  public formErrors: Observable<SkyModalError[] | undefined>;
+
   #coreAdapter: SkyCoreAdapterService;
+  #formErrors = new BehaviorSubject<SkyModalError[] | undefined>(undefined);
 
   constructor(coreAdapter: SkyCoreAdapterService) {
     this.#coreAdapter = coreAdapter;
+    this.formErrors = this.#formErrors.asObservable();
   }
 
   public handleWindowChange(modalEl: ElementRef): void {
@@ -117,6 +125,10 @@ export class SkyModalComponentAdapterService {
       }
       window.scrollTo(currentScrollX, currentScrollY);
     }
+  }
+
+  public updateErrors(value: SkyModalError[] | undefined) {
+    this.#formErrors.next(value);
   }
 
   #setFullPageHeight(fullPageModalEl: HTMLElement): void {

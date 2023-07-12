@@ -1,4 +1,7 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, inject } from '@angular/core';
+
+import { SkyModalComponentAdapterService } from './modal-component-adapter.service';
+import { SkyModalError } from './modal-error';
 
 /**
  * Specifies content to display in the modal's footer.
@@ -10,9 +13,13 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.None,
 })
 export class SkyModalFooterComponent {
-  /**
-   * A list of error messages to be shown above the modal footer buttons.
-   */
-  @Input()
-  public errors: string[] | undefined;
+  public formErrors: SkyModalError[] | undefined;
+
+  #adapterSvc = inject(SkyModalComponentAdapterService);
+
+  constructor() {
+    this.#adapterSvc.formErrors.subscribe((errors) => {
+      this.formErrors = errors;
+    });
+  }
 }

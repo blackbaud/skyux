@@ -27,6 +27,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { SkyModalComponentAdapterService } from './modal-component-adapter.service';
 import { SkyModalConfiguration } from './modal-configuration';
+import { SkyModalError } from './modal-error';
 import { SkyModalHostService } from './modal-host.service';
 import { SkyModalScrollShadowEventArgs } from './modal-scroll-shadow-event-args';
 
@@ -46,6 +47,14 @@ const ARIA_ROLE_DEFAULT = 'dialog';
 export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
   @HostBinding('class')
   public wrapperClass: string | undefined;
+
+  /**
+   * A list of form-level errors to display to the user.
+   */
+  @Input()
+  public set formErrors(value: SkyModalError[] | undefined) {
+    this.#componentAdapter.updateErrors(value);
+  }
 
   /**
    * @internal

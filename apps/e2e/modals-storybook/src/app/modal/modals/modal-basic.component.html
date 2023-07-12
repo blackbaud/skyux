@@ -1,4 +1,4 @@
-<sky-modal>
+<sky-modal [formErrors]="errors">
   <sky-modal-header>
     {{ title
     }}<sky-help-inline
@@ -7,7 +7,7 @@
     ></sky-help-inline>
   </sky-modal-header>
   <sky-modal-content> </sky-modal-content>
-  <sky-modal-footer [errors]="errors">
+  <sky-modal-footer>
     <button
       class="sky-btn sky-btn-link sky-btn-close"
       type="button"
