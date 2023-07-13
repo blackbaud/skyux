@@ -33,7 +33,7 @@
             {
               "type": "anyComponentStyle",
               "maximumWarning": "2kb",
-              "maximumError": "4kb"
+              "maximumError": "8kb"
             }
           ],
           "outputHashing": "all"
@@ -75,20 +75,6 @@
           "apps/e2e/progress-indicator-storybook/**/*.ts",
           "apps/e2e/progress-indicator-storybook/**/*.html"
         ]
-      }
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "apps/e2e/progress-indicator-storybook/jest.config.ts",
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
       }
     },
     "serve-static": {

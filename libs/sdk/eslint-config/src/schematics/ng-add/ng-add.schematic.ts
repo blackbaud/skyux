@@ -5,6 +5,7 @@ import { resolve } from 'path';
 
 import { installDependencies } from '../shared/rules/install-dependencies';
 import { modifyEsLintConfig } from '../shared/rules/modify-eslint-config';
+import { modifyTsConfig } from '../shared/rules/modify-tsconfig';
 import { PackageJson } from '../shared/types/package-json';
 import { readRequiredFile } from '../shared/utility/tree';
 
@@ -41,6 +42,7 @@ export default function ngAdd(): Rule {
     return chain([
       installDependencies(),
       modifyEsLintConfig(),
+      modifyTsConfig(),
       hardenPackageVersion(),
     ]);
   };

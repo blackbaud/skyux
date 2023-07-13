@@ -3,8 +3,9 @@
  */
 export interface SkyInlineFormButtonConfig {
   /**
-   * The action that the button performs.
-   * The valid options are `cancel`, `delete`, `done`, and `save`.
+   * The `string` value to return when users click a custom button.
+   * This correlates to the `reason` in `SkyInlineFormCloseArgs`.
+   * The standard values are `cancel`, `delete`, `done`, and `save`, but other custom values are also allowed.
    * @required
    */
   action: string;

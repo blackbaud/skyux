@@ -9,6 +9,7 @@ import { ModalCloseConfirmComponent } from './modal-close-confirm.component';
 import { ModalContentAutofocusComponent } from './modal-content-autofocus.component';
 import { ModalContentDemoComponent } from './modal-content-demo.component';
 import { ModalDemoComponent } from './modal-demo.component';
+import { ModalDirtyComponent } from './modal-dirty.component';
 import { ModalFormDemoComponent } from './modal-form-demo.component';
 import { ModalFullPageDemoComponent } from './modal-full-page-demo.component';
 import { ModalLookupComponent } from './modal-lookup.component';
@@ -110,6 +111,10 @@ export class ModalVisualComponent {
       fullPage: false,
       size: 'small',
     });
+  }
+
+  public openDirtyModal(): void {
+    this.openModalInstance(ModalDirtyComponent);
   }
 
   public hideButtons(): void {

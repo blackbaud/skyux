@@ -80,7 +80,7 @@ export function sendCypressScreenshotsToPercy(
                   alt="${details.name}"
                   src="data:image/png;base64,${imageDataBase64}"
                   width="${width / 2}"
-                  style="aspect-ratio: ${width}/${height};"
+                  style="aspect-ratio: ${width}/${height}; opacity: 0.999;"
                 />
               </body>
             </html>

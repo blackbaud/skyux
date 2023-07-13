@@ -202,6 +202,12 @@ describe('Lookup component', function () {
     return document.querySelector('.sky-autocomplete-results-container');
   }
 
+  function getInfiniteScrollWait(): HTMLElement | null {
+    return document.querySelector(
+      '.sky-infinite-scroll .sky-wait-mask-loading-blocking'
+    );
+  }
+
   function getInputElement(
     lookupComponent: SkyLookupComponent
   ): HTMLInputElement {
@@ -218,6 +224,16 @@ describe('Lookup component', function () {
     return document.querySelector(
       '.sky-lookup-show-more-modal-add'
     ) as HTMLElement;
+  }
+
+  function getModalContentScrollTop(): number | undefined {
+    return getModalEl().querySelector('.sky-modal-content')?.scrollTop;
+  }
+
+  function getModalSearchButton(): HTMLButtonElement | null {
+    return document.querySelector(
+      '.sky-lookup-show-more-modal .sky-search-btn-apply'
+    );
   }
 
   function getModalSearchInput(): HTMLInputElement | null {
@@ -331,6 +347,19 @@ describe('Lookup component', function () {
     tick(200);
     fixture.detectChanges();
     tick();
+  }
+
+  async function performModalSearchAsync(
+    searchText: string,
+    fixture: ComponentFixture<any>
+  ): Promise<void> {
+    const modalSearchInput = getModalSearchInput();
+    modalSearchInput.value = searchText;
+    SkyAppTestUtility.fireDomEvent(modalSearchInput, 'input');
+    getModalSearchButton().click();
+
+    fixture.detectChanges();
+    await fixture.whenStable();
   }
 
   function saveShowMoreModal(fixture: ComponentFixture<any>): void {
@@ -467,15 +496,33 @@ describe('Lookup component', function () {
   }
 
   async function triggerModalScrollAsync(
-    fixture: ComponentFixture<any>
+    fixture: ComponentFixture<any>,
+    newYPosition?: number
   ): Promise<void> {
     const modalContent = document.querySelector('.sky-modal-content');
     if (modalContent) {
-      modalContent.scrollTop = modalContent.scrollHeight;
+      modalContent.scrollTop = newYPosition ?? modalContent.scrollHeight;
       SkyAppTestUtility.fireDomEvent(modalContent, 'scroll');
       fixture.detectChanges();
       return fixture.whenStable();
     }
+  }
+
+  function validateShowMoreModalWrapperClass(
+    fixture: ComponentFixture<SkyLookupTestComponent>,
+    async?: boolean
+  ): void {
+    const component = fixture.componentInstance;
+    component.enableShowMore = true;
+    component.wrapperClass = 'lookup-test-wrapper';
+
+    fixture.detectChanges();
+
+    clickSearchButton(fixture, async);
+
+    expect(getModalEl()).toHaveCssClass('lookup-test-wrapper');
+
+    closeModal(fixture);
   }
 
   //#endregion
@@ -587,24 +634,25 @@ describe('Lookup component', function () {
 
         it('should not collapse tokens if more than 5 items are selected with `enableShowMore` disabled', fakeAsync(() => {
           component.friends = [
-            { name: 'Fred' },
-            { name: 'Isaac' },
-            { name: 'John' },
-            { name: 'Joyce' },
-            { name: 'Lindsey' },
+            { name: 'Fred', description: 'Mr. Fred' },
+            { name: 'Isaac', description: 'Mr. Isaac' },
+            { name: 'John', description: 'Mr. John' },
+            { name: 'Joyce', description: 'Mrs. Joyce' },
+            { name: 'Lindsey', description: 'Mrs. Lindsey' },
           ];
           fixture.detectChanges();
 
           expect(lookupComponent.tokens?.length).toBe(5);
           expect(lookupComponent.tokens![0].value).toEqual({
             name: 'Fred',
+            description: 'Mr. Fred',
           });
           expect(lookupComponent.value).toEqual([
-            { name: 'Fred' },
-            { name: 'Isaac' },
-            { name: 'John' },
-            { name: 'Joyce' },
-            { name: 'Lindsey' },
+            { name: 'Fred', description: 'Mr. Fred' },
+            { name: 'Isaac', description: 'Mr. Isaac' },
+            { name: 'John', description: 'Mr. John' },
+            { name: 'Joyce', description: 'Mrs. Joyce' },
+            { name: 'Lindsey', description: 'Mrs. Lindsey' },
           ]);
 
           performSearch('Oli', fixture);
@@ -613,14 +661,15 @@ describe('Lookup component', function () {
           expect(lookupComponent.tokens?.length).toBe(6);
           expect(lookupComponent.tokens![0].value).toEqual({
             name: 'Fred',
+            description: 'Mr. Fred',
           });
           expect(lookupComponent.value).toEqual([
-            { name: 'Fred' },
-            { name: 'Isaac' },
-            { name: 'John' },
-            { name: 'Joyce' },
-            { name: 'Lindsey' },
-            { name: 'Oliver' },
+            { name: 'Fred', description: 'Mr. Fred' },
+            { name: 'Isaac', description: 'Mr. Isaac' },
+            { name: 'John', description: 'Mr. John' },
+            { name: 'Joyce', description: 'Mrs. Joyce' },
+            { name: 'Lindsey', description: 'Mrs. Lindsey' },
+            { name: 'Oliver', description: 'Mr. Oliver' },
           ]);
         }));
 
@@ -665,7 +714,10 @@ describe('Lookup component', function () {
             'openPicker'
           ).and.stub();
 
-          component.friends = [{ name: 'Fred' }, { name: 'Isaac' }];
+          component.friends = [
+            { name: 'Fred', description: 'Mr. Fred' },
+            { name: 'Isaac', description: 'Mr. Isaac' },
+          ];
           fixture.detectChanges();
           tick();
 
@@ -757,7 +809,10 @@ describe('Lookup component', function () {
       }));
 
       it('should remove all but the first value when the mode is changed to single select', fakeAsync(() => {
-        component.friends = [{ name: 'Rachel' }, { name: 'Isaac' }];
+        component.friends = [
+          { name: 'Rachel' },
+          { name: 'Isaac', description: 'Mr. Isaac' },
+        ];
         fixture.detectChanges();
 
         component.setSingleSelect();
@@ -817,7 +872,9 @@ describe('Lookup component', function () {
           selectSearchResult(0, fixture);
 
           expect(lookupComponent.tokens?.length).toBe(1);
-          expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+          expect(lookupComponent.value).toEqual([
+            { name: 'Isaac', description: 'Mr. Isaac' },
+          ]);
 
           component.resetForm();
 
@@ -834,8 +891,11 @@ describe('Lookup component', function () {
           expect(lookupComponent.tokens?.length).toBe(1);
           expect(lookupComponent.tokens![0].value).toEqual({
             name: 'Isaac',
+            description: 'Mr. Isaac',
           });
-          expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+          expect(lookupComponent.value).toEqual([
+            { name: 'Isaac', description: 'Mr. Isaac' },
+          ]);
 
           component.setValue(0);
 
@@ -861,8 +921,11 @@ describe('Lookup component', function () {
           expect(lookupComponent.tokens?.length).toBe(1);
           expect(lookupComponent.tokens![0].value).toEqual({
             name: 'Isaac',
+            description: 'Mr. Isaac',
           });
-          expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+          expect(lookupComponent.value).toEqual([
+            { name: 'Isaac', description: 'Mr. Isaac' },
+          ]);
 
           component.disableLookup();
           component.setValue(0);
@@ -911,7 +974,9 @@ describe('Lookup component', function () {
         performSearch('s', fixture);
         selectSearchResult(0, fixture);
 
-        expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+        expect(lookupComponent.value).toEqual([
+          { name: 'Isaac', description: 'Mr. Isaac' },
+        ]);
       }));
 
       it('should select a new value when a different value is selected', fakeAsync(function () {
@@ -921,7 +986,9 @@ describe('Lookup component', function () {
         performSearch('s', fixture);
         selectSearchResult(0, fixture);
 
-        expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+        expect(lookupComponent.value).toEqual([
+          { name: 'Isaac', description: 'Mr. Isaac' },
+        ]);
       }));
 
       it('should clear the value when the search text is cleared', fakeAsync(function () {
@@ -931,7 +998,9 @@ describe('Lookup component', function () {
         performSearch('s', fixture);
         selectSearchResult(0, fixture);
 
-        expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+        expect(lookupComponent.value).toEqual([
+          { name: 'Isaac', description: 'Mr. Isaac' },
+        ]);
 
         performSearch('', fixture);
 
@@ -957,7 +1026,9 @@ describe('Lookup component', function () {
         performSearch('s', fixture, true);
         selectSearchResult(0, fixture);
 
-        expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+        expect(asyncLookupComponent.value).toEqual([
+          { name: 'Isaac', description: 'Mr. Isaac' },
+        ]);
 
         performSearch('', fixture, true);
 
@@ -972,7 +1043,9 @@ describe('Lookup component', function () {
           selectSearchResult(0, fixture);
 
           expect(getInputElement(lookupComponent).value).toBe('Isaac');
-          expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+          expect(lookupComponent.value).toEqual([
+            { name: 'Isaac', description: 'Mr. Isaac' },
+          ]);
 
           component.resetForm();
 
@@ -987,7 +1060,9 @@ describe('Lookup component', function () {
           selectSearchResult(0, fixture);
 
           expect(getInputElement(lookupComponent).value).toBe('Isaac');
-          expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+          expect(lookupComponent.value).toEqual([
+            { name: 'Isaac', description: 'Mr. Isaac' },
+          ]);
 
           component.setValue(0);
 
@@ -1075,7 +1150,9 @@ describe('Lookup component', function () {
             performSearch('s', fixture);
             selectSearchResult(0, fixture);
 
-            expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+            expect(lookupComponent.value).toEqual([
+              { name: 'Isaac', description: 'Mr. Isaac' },
+            ]);
 
             clickShowMore(fixture);
             fixture.detectChanges();
@@ -1090,6 +1167,10 @@ describe('Lookup component', function () {
             expect(addButtonSpy).toHaveBeenCalled();
           }));
         });
+
+        it('should add the expected wrapperClass to the modal', fakeAsync(() => {
+          validateShowMoreModalWrapperClass(fixture);
+        }));
 
         describe('async', () => {
           it('should emit an event correctly when the add button is enabled and clicked', fakeAsync(() => {
@@ -1142,7 +1223,9 @@ describe('Lookup component', function () {
             performSearch('s', fixture, true);
             selectSearchResult(0, fixture);
 
-            expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+            expect(asyncLookupComponent.value).toEqual([
+              { name: 'Isaac', description: 'Mr. Isaac' },
+            ]);
 
             clickShowMore(fixture);
             fixture.detectChanges();
@@ -1156,6 +1239,10 @@ describe('Lookup component', function () {
 
             expect(addButtonSpy).toHaveBeenCalled();
           }));
+
+          it('should add the expected wrapperClass to the modal', fakeAsync(() => {
+            validateShowMoreModalWrapperClass(fixture, true);
+          }));
         });
 
         describe('multi select', () => {
@@ -1168,14 +1255,16 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(0, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               clickAddButton();
               fixture.detectChanges();
               tick();
 
               expect(lookupComponent.value).toEqual([
-                { name: 'Isaac' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
                 { name: 'New item' },
               ]);
               expect(lookupComponent.data[0]).toEqual({
@@ -1192,7 +1281,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(0, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               clickShowMore(fixture);
               fixture.detectChanges();
@@ -1201,7 +1292,9 @@ describe('Lookup component', function () {
               clickShowMoreAddButton(fixture);
               fixture.detectChanges();
               tick();
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               saveShowMoreModal(fixture);
               fixture.detectChanges();
@@ -1209,7 +1302,7 @@ describe('Lookup component', function () {
 
               expect(lookupComponent.value).toEqual([
                 { name: 'New item' },
-                { name: 'Isaac' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
               ]);
               expect(lookupComponent.data[0]).toEqual({
                 name: 'New item',
@@ -1225,7 +1318,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(0, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               clickShowMore(fixture);
               fixture.detectChanges();
@@ -1234,13 +1329,17 @@ describe('Lookup component', function () {
               clickShowMoreAddButton(fixture);
               fixture.detectChanges();
               tick();
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               closeModal(fixture);
               fixture.detectChanges();
               tick();
 
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
               expect(lookupComponent.data[0]).toEqual({
                 name: 'New item',
               });
@@ -1256,7 +1355,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(0, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               clickShowMore(fixture);
               fixture.detectChanges();
@@ -1265,13 +1366,17 @@ describe('Lookup component', function () {
               clickShowMoreAddButton(fixture);
               fixture.detectChanges();
               tick();
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               saveShowMoreModal(fixture);
               fixture.detectChanges();
               tick();
 
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
             }));
           });
 
@@ -1284,14 +1389,16 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               selectSearchResult(0, fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               clickAddButton();
               fixture.detectChanges();
               tick();
 
               expect(asyncLookupComponent.value).toEqual([
-                { name: 'Isaac' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
                 { name: 'New item' },
               ]);
             }));
@@ -1305,7 +1412,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               selectSearchResult(0, fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               clickShowMore(fixture);
               fixture.detectChanges();
@@ -1314,7 +1423,9 @@ describe('Lookup component', function () {
               clickShowMoreAddButton(fixture);
               fixture.detectChanges();
               tick();
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               saveShowMoreModal(fixture);
               fixture.detectChanges();
@@ -1322,7 +1433,7 @@ describe('Lookup component', function () {
 
               expect(asyncLookupComponent.value).toEqual([
                 { name: 'New item' },
-                { name: 'Isaac' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
               ]);
             }));
 
@@ -1335,7 +1446,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               selectSearchResult(0, fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               clickShowMore(fixture);
               fixture.detectChanges();
@@ -1344,13 +1457,17 @@ describe('Lookup component', function () {
               clickShowMoreAddButton(fixture);
               fixture.detectChanges();
               tick();
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               closeModal(fixture);
               fixture.detectChanges();
               tick();
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
             }));
           });
         });
@@ -1365,7 +1482,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(0, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               clickAddButton();
               fixture.detectChanges();
@@ -1386,7 +1505,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(0, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               clickShowMore(fixture);
               fixture.detectChanges();
@@ -1395,7 +1516,9 @@ describe('Lookup component', function () {
               clickShowMoreAddButton(fixture);
               fixture.detectChanges();
               tick();
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               saveShowMoreModal(fixture);
               fixture.detectChanges();
@@ -1416,7 +1539,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(0, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               clickShowMore(fixture);
               fixture.detectChanges();
@@ -1425,13 +1550,17 @@ describe('Lookup component', function () {
               clickShowMoreAddButton(fixture);
               fixture.detectChanges();
               tick();
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               closeModal(fixture);
               fixture.detectChanges();
               tick();
 
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
               expect(lookupComponent.data[0]).toEqual({
                 name: 'New item',
               });
@@ -1447,7 +1576,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(0, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               clickShowMore(fixture);
               fixture.detectChanges();
@@ -1456,13 +1587,17 @@ describe('Lookup component', function () {
               clickShowMoreAddButton(fixture);
               fixture.detectChanges();
               tick();
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               saveShowMoreModal(fixture);
               fixture.detectChanges();
               tick();
 
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
             }));
           });
 
@@ -1475,7 +1610,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               selectSearchResult(0, fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               clickAddButton();
               fixture.detectChanges();
@@ -1495,7 +1632,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               selectSearchResult(0, fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               clickShowMore(fixture);
               fixture.detectChanges();
@@ -1504,7 +1643,9 @@ describe('Lookup component', function () {
               clickShowMoreAddButton(fixture);
               fixture.detectChanges();
               tick();
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               saveShowMoreModal(fixture);
               fixture.detectChanges();
@@ -1524,7 +1665,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               selectSearchResult(0, fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               clickShowMore(fixture);
               fixture.detectChanges();
@@ -1533,13 +1676,17 @@ describe('Lookup component', function () {
               clickShowMoreAddButton(fixture);
               fixture.detectChanges();
               tick();
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               closeModal(fixture);
               fixture.detectChanges();
               tick();
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
             }));
           });
         });
@@ -1636,16 +1783,54 @@ describe('Lookup component', function () {
             closeModal(fixture);
           }));
 
+          it('should scroll to the top of the modal and not show the infinite scroll wait when searching', async () => {
+            component.enableShowMore = true;
+            component.enableSearchResultTemplate();
+            component.customSearch = (_: string, data: any[]) => {
+              return data.slice(0, 14);
+            };
+            fixture.detectChanges();
+            await fixture.whenStable();
+
+            triggerInputFocus(fixture);
+            fixture.detectChanges();
+            await fixture.whenStable();
+
+            await clickShowMoreAsync(fixture);
+
+            expect(getRepeaterItemCount()).toBe(10);
+
+            await triggerModalScrollAsync(fixture);
+
+            expect(getRepeaterItemCount()).toBe(20);
+
+            await triggerModalScrollAsync(fixture);
+
+            expect(getRepeaterItemCount()).toBe(21);
+
+            expect(getModalContentScrollTop()).not.toBe(0);
+
+            await performModalSearchAsync('foo', fixture);
+
+            expect(getRepeaterItemCount()).toBe(10);
+
+            expect(getModalContentScrollTop()).toBe(0);
+
+            expect(getInfiniteScrollWait()).toBeNull();
+
+            closeModalBase();
+          });
+
           it('should respect the `propertiesToSearch` input in the show more modal', fakeAsync(() => {
             component.enableShowMore = true;
             component.propertiesToSearch = ['description'];
             fixture.detectChanges();
 
-            performSearch('Mr', fixture);
+            performSearch('Mrs.', fixture);
 
             clickSearchButton(fixture);
 
-            expect(getRepeaterItemCount()).toBe(2);
+            expect(getRepeaterItemCount()).toBe(4);
 
             closeModal(fixture);
           }));
@@ -1775,6 +1960,44 @@ describe('Lookup component', function () {
             closeModal(fixture);
           }));
 
+          it('should scroll to the top of the modal and not show the infinite scroll wait when searching', async () => {
+            component.enableShowMore = true;
+            component.enableSearchResultTemplate();
+            component.customSearch = (_: string, data: any[]) => {
+              return data.slice(0, 14);
+            };
+            fixture.detectChanges();
+            await fixture.whenStable();
+
+            triggerInputFocus(fixture);
+            fixture.detectChanges();
+            await fixture.whenStable();
+
+            await clickShowMoreAsync(fixture);
+
+            expect(getRepeaterItemCount()).toBe(10);
+
+            await triggerModalScrollAsync(fixture);
+
+            expect(getRepeaterItemCount()).toBe(20);
+
+            await triggerModalScrollAsync(fixture);
+
+            expect(getRepeaterItemCount()).toBe(21);
+
+            expect(getModalContentScrollTop()).not.toBe(0);
+
+            await performModalSearchAsync('foo', fixture);
+
+            expect(getRepeaterItemCount()).toBe(10);
+
+            expect(getModalContentScrollTop()).toBe(0);
+
+            expect(getInfiniteScrollWait()).toBeNull();
+
+            closeModalBase();
+          });
+
           it('should handle not results being shown', fakeAsync(() => {
             component.enableShowMore = true;
             component.data = undefined;
@@ -1825,8 +2048,8 @@ describe('Lookup component', function () {
               selectSearchResult(1, fixture);
 
               expect(lookupComponent.value).toEqual([
-                { name: 'Isaac' },
-                { name: 'Lindsey' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
               ]);
 
               performSearch('s', fixture);
@@ -1835,8 +2058,8 @@ describe('Lookup component', function () {
               saveShowMoreModal(fixture);
 
               expect(lookupComponent.value).toEqual([
-                { name: 'Isaac' },
-                { name: 'Lindsey' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
               ]);
 
               closeModal(fixture);
@@ -1850,7 +2073,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(1, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               performSearch('s', fixture);
               clickShowMore(fixture);
@@ -1860,8 +2085,8 @@ describe('Lookup component', function () {
               saveShowMoreModal(fixture);
 
               expect(lookupComponent.value).toEqual([
-                { name: 'Isaac' },
-                { name: 'Lindsey' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
               ]);
 
               closeModal(fixture);
@@ -1875,7 +2100,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(1, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               performSearch('s', fixture);
               clickShowMore(fixture);
@@ -1884,7 +2111,9 @@ describe('Lookup component', function () {
 
               closeModal(fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
             }));
 
             it('should select the correct items when items are deselected from the show all modal', fakeAsync(() => {
@@ -1895,7 +2124,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(1, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               performSearch('s', fixture);
               clickShowMore(fixture);
@@ -1905,7 +2136,9 @@ describe('Lookup component', function () {
 
               saveShowMoreModal(fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               closeModal(fixture);
             }));
@@ -1918,7 +2151,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(1, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               performSearch('s', fixture);
               clickShowMore(fixture);
@@ -1935,7 +2170,7 @@ describe('Lookup component', function () {
                   description: 'Mr. Andy',
                   birthDate: '1/1/1995',
                 },
-                { name: 'Lindsey' },
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
               ]);
 
               closeModal(fixture);
@@ -2016,7 +2251,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(1, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               performSearch('s', fixture);
               clickShowMore(fixture);
@@ -2035,7 +2272,7 @@ describe('Lookup component', function () {
             it('should add items when scrolling ends with "Only show selected" active', async () => {
               component.enableShowMore = true;
               component.friends = [
-                ...(component.data?.filter((item) => !item.description) ?? []),
+                ...(component.data?.filter((item) => !item.birthDate) ?? []),
               ];
 
               fixture.detectChanges();
@@ -2090,24 +2327,25 @@ describe('Lookup component', function () {
             it('should collapse tokens if more than 5 items are selected', fakeAsync(() => {
               component.enableShowMore = true;
               component.friends = [
-                { name: 'Fred' },
-                { name: 'Isaac' },
-                { name: 'John' },
-                { name: 'Joyce' },
-                { name: 'Lindsey' },
+                { name: 'Fred', description: 'Mr. Fred' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
+                { name: 'John', description: 'Mr. John' },
+                { name: 'Joyce', description: 'Mrs. Joyce' },
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
               ];
               fixture.detectChanges();
 
               expect(lookupComponent.tokens?.length).toBe(5);
               expect(lookupComponent.tokens![0].value).toEqual({
                 name: 'Fred',
+                description: 'Mr. Fred',
               });
               expect(lookupComponent.value).toEqual([
-                { name: 'Fred' },
-                { name: 'Isaac' },
-                { name: 'John' },
-                { name: 'Joyce' },
-                { name: 'Lindsey' },
+                { name: 'Fred', description: 'Mr. Fred' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
+                { name: 'John', description: 'Mr. John' },
+                { name: 'Joyce', description: 'Mrs. Joyce' },
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
               ]);
 
               performSearch('Oli', fixture);
@@ -2118,12 +2356,12 @@ describe('Lookup component', function () {
                 name: '6 items selected',
               });
               expect(lookupComponent.value).toEqual([
-                { name: 'Fred' },
-                { name: 'Isaac' },
-                { name: 'John' },
-                { name: 'Joyce' },
-                { name: 'Lindsey' },
-                { name: 'Oliver' },
+                { name: 'Fred', description: 'Mr. Fred' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
+                { name: 'John', description: 'Mr. John' },
+                { name: 'Joyce', description: 'Mrs. Joyce' },
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+                { name: 'Oliver', description: 'Mr. Oliver' },
               ]);
             }));
 
@@ -2134,7 +2372,10 @@ describe('Lookup component', function () {
               ).and.stub();
 
               component.enableShowMore = true;
-              component.friends = [{ name: 'Fred' }, { name: 'Isaac' }];
+              component.friends = [
+                { name: 'Fred', description: 'Mr. Fred' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ];
               fixture.detectChanges();
               tick();
 
@@ -2151,12 +2392,12 @@ describe('Lookup component', function () {
 
               component.enableShowMore = true;
               component.friends = [
-                { name: 'Fred' },
-                { name: 'Isaac' },
-                { name: 'John' },
-                { name: 'Joyce' },
-                { name: 'Lindsey' },
-                { name: 'Oliver' },
+                { name: 'Fred', description: 'Mr. Fred' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
+                { name: 'John', description: 'Mr. John' },
+                { name: 'Joyce', description: 'Mrs. Joyce' },
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+                { name: 'Oliver', description: 'Mr. Oliver' },
               ];
               fixture.detectChanges();
               tick();
@@ -2173,7 +2414,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(0, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               clickShowMore(fixture);
               fixture.detectChanges();
@@ -2182,7 +2425,9 @@ describe('Lookup component', function () {
               component.setValue(1);
               fixture.detectChanges();
               tick();
-              expect(lookupComponent.value).toEqual([{ name: 'Beth' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Beth', description: 'Mrs. Beth' },
+              ]);
 
               let tokenElements = getTokenElements();
               expect(tokenElements.length).toBe(1);
@@ -2192,7 +2437,9 @@ describe('Lookup component', function () {
               fixture.detectChanges();
               tick();
 
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               tokenElements = getTokenElements();
               expect(tokenElements.length).toBe(1);
@@ -2234,8 +2481,8 @@ describe('Lookup component', function () {
               selectSearchResult(1, fixture);
 
               expect(asyncLookupComponent.value).toEqual([
-                { name: 'Isaac' },
-                { name: 'Lindsey' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
               ]);
 
               performSearch('s', fixture, true);
@@ -2244,8 +2491,8 @@ describe('Lookup component', function () {
               saveShowMoreModal(fixture);
 
               expect(asyncLookupComponent.value).toEqual([
-                { name: 'Isaac' },
-                { name: 'Lindsey' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
               ]);
 
               closeModal(fixture);
@@ -2259,7 +2506,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               selectSearchResult(1, fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               performSearch('s', fixture, true);
               clickShowMore(fixture);
@@ -2269,8 +2518,8 @@ describe('Lookup component', function () {
               saveShowMoreModal(fixture);
 
               expect(asyncLookupComponent.value).toEqual([
-                { name: 'Isaac' },
-                { name: 'Lindsey' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
               ]);
 
               closeModal(fixture);
@@ -2284,7 +2533,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               selectSearchResult(1, fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               performSearch('s', fixture, true);
               clickShowMore(fixture);
@@ -2293,7 +2544,9 @@ describe('Lookup component', function () {
 
               closeModal(fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
             }));
 
             it('should select the correct items when items are deselected from the show all modal', fakeAsync(() => {
@@ -2304,7 +2557,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               selectSearchResult(1, fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               performSearch('s', fixture, true);
               clickShowMore(fixture);
@@ -2314,7 +2569,9 @@ describe('Lookup component', function () {
 
               saveShowMoreModal(fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               closeModal(fixture);
             }));
@@ -2327,7 +2584,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               selectSearchResult(1, fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               performSearch('s', fixture, true);
               clickShowMore(fixture);
@@ -2344,7 +2603,7 @@ describe('Lookup component', function () {
                   description: 'Mr. Andy',
                   birthDate: '1/1/1995',
                 },
-                { name: 'Lindsey' },
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
               ]);
 
               closeModal(fixture);
@@ -2425,7 +2684,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               selectSearchResult(1, fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               performSearch('s', fixture, true);
               clickShowMore(fixture);
@@ -2473,24 +2734,25 @@ describe('Lookup component', function () {
             it('should collapse tokens if more than 5 items are selected', fakeAsync(() => {
               component.enableShowMore = true;
               component.friends = [
-                { name: 'Fred' },
-                { name: 'Isaac' },
-                { name: 'John' },
-                { name: 'Joyce' },
-                { name: 'Lindsey' },
+                { name: 'Fred', description: 'Mr. Fred' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
+                { name: 'John', description: 'Mr. John' },
+                { name: 'Joyce', description: 'Mrs. Joyce' },
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
               ];
               fixture.detectChanges();
 
               expect(asyncLookupComponent.tokens?.length).toBe(5);
               expect(asyncLookupComponent.tokens![0].value).toEqual({
                 name: 'Fred',
+                description: 'Mr. Fred',
               });
               expect(asyncLookupComponent.value).toEqual([
-                { name: 'Fred' },
-                { name: 'Isaac' },
-                { name: 'John' },
-                { name: 'Joyce' },
-                { name: 'Lindsey' },
+                { name: 'Fred', description: 'Mr. Fred' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
+                { name: 'John', description: 'Mr. John' },
+                { name: 'Joyce', description: 'Mrs. Joyce' },
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
               ]);
 
               performSearch('Oli', fixture, true);
@@ -2501,12 +2763,12 @@ describe('Lookup component', function () {
                 name: '6 items selected',
               });
               expect(asyncLookupComponent.value).toEqual([
-                { name: 'Fred' },
-                { name: 'Isaac' },
-                { name: 'John' },
-                { name: 'Joyce' },
-                { name: 'Lindsey' },
-                { name: 'Oliver' },
+                { name: 'Fred', description: 'Mr. Fred' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
+                { name: 'John', description: 'Mr. John' },
+                { name: 'Joyce', description: 'Mrs. Joyce' },
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+                { name: 'Oliver', description: 'Mr. Oliver' },
               ]);
             }));
 
@@ -2517,7 +2779,10 @@ describe('Lookup component', function () {
               ).and.stub();
 
               component.enableShowMore = true;
-              component.friends = [{ name: 'Fred' }, { name: 'Isaac' }];
+              component.friends = [
+                { name: 'Fred', description: 'Mr. Fred' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ];
               fixture.detectChanges();
               tick();
 
@@ -2534,12 +2799,12 @@ describe('Lookup component', function () {
 
               component.enableShowMore = true;
               component.friends = [
-                { name: 'Fred' },
-                { name: 'Isaac' },
-                { name: 'John' },
-                { name: 'Joyce' },
-                { name: 'Lindsey' },
-                { name: 'Oliver' },
+                { name: 'Fred', description: 'Mr. Fred' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
+                { name: 'John', description: 'Mr. John' },
+                { name: 'Joyce', description: 'Mrs. Joyce' },
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+                { name: 'Oliver', description: 'Mr. Oliver' },
               ];
               fixture.detectChanges();
               tick();
@@ -2556,7 +2821,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               selectSearchResult(0, fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               clickShowMore(fixture);
               fixture.detectChanges();
@@ -2565,7 +2832,9 @@ describe('Lookup component', function () {
               component.setValue(1);
               fixture.detectChanges();
               tick();
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Beth' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Beth', description: 'Mrs. Beth' },
+              ]);
 
               let tokenElements = getTokenElements(true);
               expect(tokenElements.length).toBe(1);
@@ -2575,7 +2844,9 @@ describe('Lookup component', function () {
               fixture.detectChanges();
               tick();
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               tokenElements = getTokenElements(true);
               expect(tokenElements.length).toBe(1);
@@ -2620,14 +2891,18 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(1, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               performSearch('s', fixture);
               clickShowMore(fixture);
 
               saveShowMoreModal(fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               closeModal(fixture);
             }));
@@ -2640,7 +2915,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(1, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               performSearch('s', fixture);
               clickShowMore(fixture);
@@ -2649,7 +2926,9 @@ describe('Lookup component', function () {
 
               saveShowMoreModal(fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               closeModal(fixture);
             }));
@@ -2662,7 +2941,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(1, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               performSearch('s', fixture);
               clickShowMore(fixture);
@@ -2671,7 +2952,9 @@ describe('Lookup component', function () {
 
               closeModal(fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               closeModal(fixture);
             }));
@@ -2761,7 +3044,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(1, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               clickSearchButton(fixture);
 
@@ -2800,14 +3085,18 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               selectSearchResult(1, fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               performSearch('s', fixture, true);
               clickShowMore(fixture);
 
               saveShowMoreModal(fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               closeModal(fixture);
             }));
@@ -2820,7 +3109,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               selectSearchResult(1, fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               performSearch('s', fixture, true);
               clickShowMore(fixture);
@@ -2831,7 +3122,9 @@ describe('Lookup component', function () {
               tick();
               fixture.detectChanges();
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               closeModal(fixture);
             }));
@@ -2844,7 +3137,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               selectSearchResult(1, fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               performSearch('s', fixture, true);
               clickShowMore(fixture);
@@ -2853,7 +3148,9 @@ describe('Lookup component', function () {
 
               closeModal(fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               closeModal(fixture);
             }));
@@ -2943,7 +3240,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               selectSearchResult(1, fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               clickSearchButton(fixture, true);
 
@@ -3115,7 +3414,9 @@ describe('Lookup component', function () {
           performSearch('s', fixture);
           selectSearchResult(0, fixture);
 
-          expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+          expect(lookupComponent.value).toEqual([
+            { name: 'Isaac', description: 'Mr. Isaac' },
+          ]);
 
           clickShowMore(fixture);
           fixture.detectChanges();
@@ -3124,7 +3425,9 @@ describe('Lookup component', function () {
           component.setValue(1);
           fixture.detectChanges();
           tick();
-          expect(lookupComponent.value).toEqual([{ name: 'Beth' }]);
+          expect(lookupComponent.value).toEqual([
+            { name: 'Beth', description: 'Mrs. Beth' },
+          ]);
 
           let tokenElements = getTokenElements();
           expect(tokenElements.length).toBe(1);
@@ -3134,7 +3437,9 @@ describe('Lookup component', function () {
           fixture.detectChanges();
           tick();
 
-          expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+          expect(lookupComponent.value).toEqual([
+            { name: 'Isaac', description: 'Mr. Isaac' },
+          ]);
 
           tokenElements = getTokenElements();
           expect(tokenElements.length).toBe(1);
@@ -3267,7 +3572,7 @@ describe('Lookup component', function () {
           }
 
           component.friends = [
-            { name: 'John' },
+            { name: 'John', description: 'Mr. John' },
             { name: 'Jane' },
             { name: 'Jim' },
             { name: 'Doe' },
@@ -3694,11 +3999,11 @@ describe('Lookup component', function () {
         it('should not collapse tokens if more than 5 items are selected with `enableShowMore` disabled', fakeAsync(() => {
           fixture.detectChanges();
           component.selectedFriends = [
-            { name: 'Fred' },
-            { name: 'Isaac' },
-            { name: 'John' },
-            { name: 'Joyce' },
-            { name: 'Lindsey' },
+            { name: 'Fred', description: 'Mr. Fred' },
+            { name: 'Isaac', description: 'Mr. Isaac' },
+            { name: 'John', description: 'Mr. John' },
+            { name: 'Joyce', description: 'Mrs. Joyce' },
+            { name: 'Lindsey', description: 'Mrs. Lindsey' },
           ];
           fixture.detectChanges();
           tick();
@@ -3707,13 +4012,14 @@ describe('Lookup component', function () {
           expect(lookupComponent.tokens?.length).toBe(5);
           expect(lookupComponent.tokens![0].value).toEqual({
             name: 'Fred',
+            description: 'Mr. Fred',
           });
           expect(lookupComponent.value).toEqual([
-            { name: 'Fred' },
-            { name: 'Isaac' },
-            { name: 'John' },
-            { name: 'Joyce' },
-            { name: 'Lindsey' },
+            { name: 'Fred', description: 'Mr. Fred' },
+            { name: 'Isaac', description: 'Mr. Isaac' },
+            { name: 'John', description: 'Mr. John' },
+            { name: 'Joyce', description: 'Mrs. Joyce' },
+            { name: 'Lindsey', description: 'Mrs. Lindsey' },
           ]);
 
           performSearch('Oli', fixture);
@@ -3722,14 +4028,15 @@ describe('Lookup component', function () {
           expect(lookupComponent.tokens?.length).toBe(6);
           expect(lookupComponent.tokens![0].value).toEqual({
             name: 'Fred',
+            description: 'Mr. Fred',
           });
           expect(lookupComponent.value).toEqual([
-            { name: 'Fred' },
-            { name: 'Isaac' },
-            { name: 'John' },
-            { name: 'Joyce' },
-            { name: 'Lindsey' },
-            { name: 'Oliver' },
+            { name: 'Fred', description: 'Mr. Fred' },
+            { name: 'Isaac', description: 'Mr. Isaac' },
+            { name: 'John', description: 'Mr. John' },
+            { name: 'Joyce', description: 'Mrs. Joyce' },
+            { name: 'Lindsey', description: 'Mrs. Lindsey' },
+            { name: 'Oliver', description: 'Mr. Oliver' },
           ]);
         }));
 
@@ -3774,7 +4081,10 @@ describe('Lookup component', function () {
             'openPicker'
           ).and.stub();
 
-          component.selectedFriends = [{ name: 'Fred' }, { name: 'Isaac' }];
+          component.selectedFriends = [
+            { name: 'Fred', description: 'Mr. Fred' },
+            { name: 'Isaac', description: 'Mr. Isaac' },
+          ];
           fixture.detectChanges();
           tick();
           fixture.detectChanges();
@@ -3799,7 +4109,10 @@ describe('Lookup component', function () {
         }));
 
         it('should remove all but the first value when the mode is changed to single select', fakeAsync(() => {
-          component.selectedFriends = [{ name: 'Rachel' }, { name: 'Isaac' }];
+          component.selectedFriends = [
+            { name: 'Rachel' },
+            { name: 'Isaac', description: 'Mr. Isaac' },
+          ];
           fixture.detectChanges();
           tick();
           fixture.detectChanges();
@@ -3857,7 +4170,9 @@ describe('Lookup component', function () {
           performSearch('s', fixture);
           selectSearchResult(0, fixture);
 
-          expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+          expect(lookupComponent.value).toEqual([
+            { name: 'Isaac', description: 'Mr. Isaac' },
+          ]);
         }));
 
         it('should select a new value when a different value is selected', fakeAsync(function () {
@@ -3867,7 +4182,9 @@ describe('Lookup component', function () {
           performSearch('s', fixture);
           selectSearchResult(0, fixture);
 
-          expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+          expect(lookupComponent.value).toEqual([
+            { name: 'Isaac', description: 'Mr. Isaac' },
+          ]);
         }));
 
         it('should clear the value when the search text is cleared', fakeAsync(function () {
@@ -3877,7 +4194,9 @@ describe('Lookup component', function () {
           performSearch('s', fixture);
           selectSearchResult(0, fixture);
 
-          expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+          expect(lookupComponent.value).toEqual([
+            { name: 'Isaac', description: 'Mr. Isaac' },
+          ]);
 
           performSearch('', fixture);
 
@@ -3903,7 +4222,9 @@ describe('Lookup component', function () {
           performSearch('s', fixture, true);
           selectSearchResult(0, fixture);
 
-          expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+          expect(asyncLookupComponent.value).toEqual([
+            { name: 'Isaac', description: 'Mr. Isaac' },
+          ]);
 
           performSearch('', fixture, true);
 
@@ -3974,7 +4295,9 @@ describe('Lookup component', function () {
             performSearch('s', fixture);
             selectSearchResult(0, fixture);
 
-            expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+            expect(lookupComponent.value).toEqual([
+              { name: 'Isaac', description: 'Mr. Isaac' },
+            ]);
 
             clickShowMore(fixture);
             fixture.detectChanges();
@@ -4041,7 +4364,9 @@ describe('Lookup component', function () {
             performSearch('s', fixture, true);
             selectSearchResult(0, fixture);
 
-            expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+            expect(asyncLookupComponent.value).toEqual([
+              { name: 'Isaac', description: 'Mr. Isaac' },
+            ]);
 
             clickShowMore(fixture);
             fixture.detectChanges();
@@ -4067,14 +4392,16 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(0, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               clickAddButton();
               fixture.detectChanges();
               tick();
 
               expect(lookupComponent.value).toEqual([
-                { name: 'Isaac' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
                 { name: 'New item' },
               ]);
               expect(lookupComponent.data[0]).toEqual({
@@ -4091,7 +4418,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(0, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               clickShowMore(fixture);
               fixture.detectChanges();
@@ -4100,7 +4429,9 @@ describe('Lookup component', function () {
               clickShowMoreAddButton(fixture);
               fixture.detectChanges();
               tick();
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               saveShowMoreModal(fixture);
               fixture.detectChanges();
@@ -4108,7 +4439,7 @@ describe('Lookup component', function () {
 
               expect(lookupComponent.value).toEqual([
                 { name: 'New item' },
-                { name: 'Isaac' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
               ]);
               expect(lookupComponent.data[0]).toEqual({
                 name: 'New item',
@@ -4124,7 +4455,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(0, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               clickShowMore(fixture);
               fixture.detectChanges();
@@ -4133,13 +4466,17 @@ describe('Lookup component', function () {
               clickShowMoreAddButton(fixture);
               fixture.detectChanges();
               tick();
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               closeModal(fixture);
               fixture.detectChanges();
               tick();
 
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
               expect(lookupComponent.data[0]).toEqual({
                 name: 'New item',
               });
@@ -4155,7 +4492,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(0, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               clickShowMore(fixture);
               fixture.detectChanges();
@@ -4164,13 +4503,17 @@ describe('Lookup component', function () {
               clickShowMoreAddButton(fixture);
               fixture.detectChanges();
               tick();
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               saveShowMoreModal(fixture);
               fixture.detectChanges();
               tick();
 
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
               expect(lookupComponent.data[0]).not.toEqual({
                 name: 'New item',
               });
@@ -4186,14 +4529,16 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               selectSearchResult(0, fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               clickAddButton();
               fixture.detectChanges();
               tick();
 
               expect(asyncLookupComponent.value).toEqual([
-                { name: 'Isaac' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
                 { name: 'New item' },
               ]);
             }));
@@ -4207,7 +4552,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               selectSearchResult(0, fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               clickShowMore(fixture);
               fixture.detectChanges();
@@ -4216,7 +4563,9 @@ describe('Lookup component', function () {
               clickShowMoreAddButton(fixture);
               fixture.detectChanges();
               tick();
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               saveShowMoreModal(fixture);
               fixture.detectChanges();
@@ -4224,7 +4573,7 @@ describe('Lookup component', function () {
 
               expect(asyncLookupComponent.value).toEqual([
                 { name: 'New item' },
-                { name: 'Isaac' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
               ]);
             }));
 
@@ -4237,7 +4586,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               selectSearchResult(0, fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               clickShowMore(fixture);
               fixture.detectChanges();
@@ -4246,13 +4597,17 @@ describe('Lookup component', function () {
               clickShowMoreAddButton(fixture);
               fixture.detectChanges();
               tick();
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               closeModal(fixture);
               fixture.detectChanges();
               tick();
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
             }));
           });
         });
@@ -4267,7 +4622,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(0, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               clickAddButton();
               fixture.detectChanges();
@@ -4288,7 +4645,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(0, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               clickShowMore(fixture);
               fixture.detectChanges();
@@ -4297,7 +4656,9 @@ describe('Lookup component', function () {
               clickShowMoreAddButton(fixture);
               fixture.detectChanges();
               tick();
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               saveShowMoreModal(fixture);
               fixture.detectChanges();
@@ -4318,7 +4679,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(0, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               clickShowMore(fixture);
               fixture.detectChanges();
@@ -4327,13 +4690,17 @@ describe('Lookup component', function () {
               clickShowMoreAddButton(fixture);
               fixture.detectChanges();
               tick();
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               closeModal(fixture);
               fixture.detectChanges();
               tick();
 
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
               expect(lookupComponent.data[0]).toEqual({
                 name: 'New item',
               });
@@ -4351,7 +4718,9 @@ describe('Lookup component', function () {
 
               const originalDataLength = component.data?.length ?? 0;
 
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               clickShowMore(fixture);
               fixture.detectChanges();
@@ -4360,13 +4729,17 @@ describe('Lookup component', function () {
               clickShowMoreAddButton(fixture);
               fixture.detectChanges();
               tick();
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               saveShowMoreModal(fixture);
               fixture.detectChanges();
               tick();
 
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
               expect(lookupComponent.data[0]).not.toEqual({
                 name: 'New item',
               });
@@ -4383,7 +4756,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               selectSearchResult(0, fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               clickAddButton();
               fixture.detectChanges();
@@ -4403,7 +4778,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               selectSearchResult(0, fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               clickShowMore(fixture);
               fixture.detectChanges();
@@ -4412,7 +4789,9 @@ describe('Lookup component', function () {
               clickShowMoreAddButton(fixture);
               fixture.detectChanges();
               tick();
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               saveShowMoreModal(fixture);
               fixture.detectChanges();
@@ -4432,7 +4811,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               selectSearchResult(0, fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               clickShowMore(fixture);
               fixture.detectChanges();
@@ -4441,13 +4822,17 @@ describe('Lookup component', function () {
               clickShowMoreAddButton(fixture);
               fixture.detectChanges();
               tick();
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               closeModal(fixture);
               fixture.detectChanges();
               tick();
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
             }));
           });
         });
@@ -4541,16 +4926,54 @@ describe('Lookup component', function () {
             closeModal(fixture);
           }));
 
+          it('should scroll to the top of the modal and not show the infinite scroll wait when searching', async () => {
+            component.enableShowMore = true;
+            component.enableSearchResultTemplate();
+            component.customSearch = (_: string, data: any[]) => {
+              return data.slice(0, 14);
+            };
+            fixture.detectChanges();
+            await fixture.whenStable();
+
+            triggerInputFocus(fixture);
+            fixture.detectChanges();
+            await fixture.whenStable();
+
+            await clickShowMoreAsync(fixture);
+
+            expect(getRepeaterItemCount()).toBe(10);
+
+            await triggerModalScrollAsync(fixture);
+
+            expect(getRepeaterItemCount()).toBe(20);
+
+            await triggerModalScrollAsync(fixture);
+
+            expect(getRepeaterItemCount()).toBe(21);
+
+            expect(getModalContentScrollTop()).not.toBe(0);
+
+            await performModalSearchAsync('foo', fixture);
+
+            expect(getRepeaterItemCount()).toBe(10);
+
+            expect(getModalContentScrollTop()).toBe(0);
+
+            expect(getInfiniteScrollWait()).toBeNull();
+
+            closeModalBase();
+          });
+
           it('should respect the `propertiesToSearch` input in the show more modal', fakeAsync(() => {
             component.enableShowMore = true;
             component.propertiesToSearch = ['description'];
             fixture.detectChanges();
 
-            performSearch('Mr', fixture);
+            performSearch('Ms.', fixture);
 
             clickSearchButton(fixture);
 
-            expect(getRepeaterItemCount()).toBe(2);
+            expect(getRepeaterItemCount()).toBe(4);
 
             closeModal(fixture);
           }));
@@ -4693,6 +5116,44 @@ describe('Lookup component', function () {
             closeModal(fixture);
           }));
 
+          it('should scroll to the top of the modal and not show the infinite scroll wait when searching', async () => {
+            component.enableShowMore = true;
+            component.enableSearchResultTemplate();
+            component.customSearch = (_: string, data: any[]) => {
+              return data.slice(0, 14);
+            };
+            fixture.detectChanges();
+            await fixture.whenStable();
+
+            triggerInputFocus(fixture);
+            fixture.detectChanges();
+            await fixture.whenStable();
+
+            await clickShowMoreAsync(fixture);
+
+            expect(getRepeaterItemCount()).toBe(10);
+
+            await triggerModalScrollAsync(fixture);
+
+            expect(getRepeaterItemCount()).toBe(20);
+
+            await triggerModalScrollAsync(fixture);
+
+            expect(getRepeaterItemCount()).toBe(21);
+
+            expect(getModalContentScrollTop()).not.toBe(0);
+
+            await performModalSearchAsync('foo', fixture);
+
+            expect(getRepeaterItemCount()).toBe(10);
+
+            expect(getModalContentScrollTop()).toBe(0);
+
+            expect(getInfiniteScrollWait()).toBeNull();
+
+            closeModalBase();
+          });
+
           it('should handle not results being shown', fakeAsync(() => {
             component.enableShowMore = true;
             component.data = undefined;
@@ -4743,8 +5204,8 @@ describe('Lookup component', function () {
               selectSearchResult(1, fixture);
 
               expect(lookupComponent.value).toEqual([
-                { name: 'Isaac' },
-                { name: 'Lindsey' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
               ]);
 
               performSearch('s', fixture);
@@ -4753,8 +5214,8 @@ describe('Lookup component', function () {
               saveShowMoreModal(fixture);
 
               expect(lookupComponent.value).toEqual([
-                { name: 'Isaac' },
-                { name: 'Lindsey' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
               ]);
 
               closeModal(fixture);
@@ -4768,7 +5229,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(1, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               performSearch('s', fixture);
               clickShowMore(fixture);
@@ -4778,8 +5241,8 @@ describe('Lookup component', function () {
               saveShowMoreModal(fixture);
 
               expect(lookupComponent.value).toEqual([
-                { name: 'Isaac' },
-                { name: 'Lindsey' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
               ]);
 
               closeModal(fixture);
@@ -4793,7 +5256,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(1, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               performSearch('s', fixture);
               clickShowMore(fixture);
@@ -4802,7 +5267,9 @@ describe('Lookup component', function () {
 
               closeModal(fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
             }));
 
             it('should select the correct items when items are deselected from the show all modal', fakeAsync(() => {
@@ -4813,7 +5280,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(1, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               performSearch('s', fixture);
               clickShowMore(fixture);
@@ -4823,7 +5292,9 @@ describe('Lookup component', function () {
 
               saveShowMoreModal(fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               closeModal(fixture);
             }));
@@ -4836,7 +5307,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(1, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               performSearch('s', fixture);
               clickShowMore(fixture);
@@ -4853,7 +5326,7 @@ describe('Lookup component', function () {
                   description: 'Mr. Andy',
                   birthDate: '1/1/1995',
                 },
-                { name: 'Lindsey' },
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
               ]);
 
               closeModal(fixture);
@@ -4934,7 +5407,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(1, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               performSearch('s', fixture);
               clickShowMore(fixture);
@@ -4953,7 +5428,7 @@ describe('Lookup component', function () {
             it('should add items when scrolling ends with "Only show selected" active', async () => {
               component.enableShowMore = true;
               component.selectedFriends = [
-                ...(component.data?.filter((item) => !item.description) ?? []),
+                ...(component.data?.filter((item) => !item.birthDate) ?? []),
               ];
 
               fixture.detectChanges();
@@ -5008,11 +5483,11 @@ describe('Lookup component', function () {
             it('should collapse tokens if more than 5 items are selected', fakeAsync(() => {
               component.enableShowMore = true;
               component.selectedFriends = [
-                { name: 'Fred' },
-                { name: 'Isaac' },
-                { name: 'John' },
-                { name: 'Joyce' },
-                { name: 'Lindsey' },
+                { name: 'Fred', description: 'Mr. Fred' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
+                { name: 'John', description: 'Mr. John' },
+                { name: 'Joyce', description: 'Mrs. Joyce' },
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
               ];
               fixture.detectChanges();
               tick();
@@ -5021,13 +5496,14 @@ describe('Lookup component', function () {
               expect(lookupComponent.tokens?.length).toBe(5);
               expect(lookupComponent.tokens![0].value).toEqual({
                 name: 'Fred',
+                description: 'Mr. Fred',
               });
               expect(lookupComponent.value).toEqual([
-                { name: 'Fred' },
-                { name: 'Isaac' },
-                { name: 'John' },
-                { name: 'Joyce' },
-                { name: 'Lindsey' },
+                { name: 'Fred', description: 'Mr. Fred' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
+                { name: 'John', description: 'Mr. John' },
+                { name: 'Joyce', description: 'Mrs. Joyce' },
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
               ]);
 
               performSearch('Oli', fixture);
@@ -5038,12 +5514,12 @@ describe('Lookup component', function () {
                 name: '6 items selected',
               });
               expect(lookupComponent.value).toEqual([
-                { name: 'Fred' },
-                { name: 'Isaac' },
-                { name: 'John' },
-                { name: 'Joyce' },
-                { name: 'Lindsey' },
-                { name: 'Oliver' },
+                { name: 'Fred', description: 'Mr. Fred' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
+                { name: 'John', description: 'Mr. John' },
+                { name: 'Joyce', description: 'Mrs. Joyce' },
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+                { name: 'Oliver', description: 'Mr. Oliver' },
               ]);
             }));
 
@@ -5054,7 +5530,10 @@ describe('Lookup component', function () {
               ).and.stub();
 
               component.enableShowMore = true;
-              component.selectedFriends = [{ name: 'Fred' }, { name: 'Isaac' }];
+              component.selectedFriends = [
+                { name: 'Fred', description: 'Mr. Fred' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ];
               fixture.detectChanges();
               tick();
               fixture.detectChanges();
@@ -5073,12 +5552,12 @@ describe('Lookup component', function () {
 
               component.enableShowMore = true;
               component.selectedFriends = [
-                { name: 'Fred' },
-                { name: 'Isaac' },
-                { name: 'John' },
-                { name: 'Joyce' },
-                { name: 'Lindsey' },
-                { name: 'Oliver' },
+                { name: 'Fred', description: 'Mr. Fred' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
+                { name: 'John', description: 'Mr. John' },
+                { name: 'Joyce', description: 'Mrs. Joyce' },
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+                { name: 'Oliver', description: 'Mr. Oliver' },
               ];
               fixture.detectChanges();
               tick();
@@ -5097,7 +5576,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(0, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               clickShowMore(fixture);
               fixture.detectChanges();
@@ -5106,7 +5587,9 @@ describe('Lookup component', function () {
               component.selectedFriends = [component.data![1]];
               fixture.detectChanges();
               tick();
-              expect(lookupComponent.value).toEqual([{ name: 'Beth' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Beth', description: 'Mrs. Beth' },
+              ]);
 
               let tokenElements = getTokenElements();
               expect(tokenElements.length).toBe(1);
@@ -5116,7 +5599,9 @@ describe('Lookup component', function () {
               fixture.detectChanges();
               tick();
 
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               tokenElements = getTokenElements();
               expect(tokenElements.length).toBe(1);
@@ -5140,8 +5625,8 @@ describe('Lookup component', function () {
               selectSearchResult(1, fixture);
 
               expect(asyncLookupComponent.value).toEqual([
-                { name: 'Isaac' },
-                { name: 'Lindsey' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
               ]);
 
               performSearch('s', fixture, true);
@@ -5150,8 +5635,8 @@ describe('Lookup component', function () {
               saveShowMoreModal(fixture);
 
               expect(asyncLookupComponent.value).toEqual([
-                { name: 'Isaac' },
-                { name: 'Lindsey' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
               ]);
 
               closeModal(fixture);
@@ -5165,7 +5650,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               selectSearchResult(1, fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               performSearch('s', fixture, true);
               clickShowMore(fixture);
@@ -5175,8 +5662,8 @@ describe('Lookup component', function () {
               saveShowMoreModal(fixture);
 
               expect(asyncLookupComponent.value).toEqual([
-                { name: 'Isaac' },
-                { name: 'Lindsey' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
               ]);
 
               closeModal(fixture);
@@ -5190,7 +5677,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               selectSearchResult(1, fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               performSearch('s', fixture, true);
               clickShowMore(fixture);
@@ -5199,7 +5688,9 @@ describe('Lookup component', function () {
 
               closeModal(fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
             }));
 
             it('should select the correct items when items are deselected from the show all modal', fakeAsync(() => {
@@ -5210,7 +5701,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               selectSearchResult(1, fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               performSearch('s', fixture, true);
               clickShowMore(fixture);
@@ -5220,7 +5713,9 @@ describe('Lookup component', function () {
 
               saveShowMoreModal(fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               closeModal(fixture);
             }));
@@ -5233,7 +5728,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               selectSearchResult(1, fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               performSearch('s', fixture, true);
               clickShowMore(fixture);
@@ -5250,7 +5747,7 @@ describe('Lookup component', function () {
                   description: 'Mr. Andy',
                   birthDate: '1/1/1995',
                 },
-                { name: 'Lindsey' },
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
               ]);
 
               closeModal(fixture);
@@ -5331,7 +5828,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               selectSearchResult(1, fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               performSearch('s', fixture, true);
               clickShowMore(fixture);
@@ -5379,11 +5878,11 @@ describe('Lookup component', function () {
             it('should collapse tokens if more than 5 items are selected', fakeAsync(() => {
               component.enableShowMore = true;
               component.selectedFriendsAsync = [
-                { name: 'Fred' },
-                { name: 'Isaac' },
-                { name: 'John' },
-                { name: 'Joyce' },
-                { name: 'Lindsey' },
+                { name: 'Fred', description: 'Mr. Fred' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
+                { name: 'John', description: 'Mr. John' },
+                { name: 'Joyce', description: 'Mrs. Joyce' },
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
               ];
               fixture.detectChanges();
               tick();
@@ -5392,13 +5891,14 @@ describe('Lookup component', function () {
               expect(asyncLookupComponent.tokens?.length).toBe(5);
               expect(asyncLookupComponent.tokens![0].value).toEqual({
                 name: 'Fred',
+                description: 'Mr. Fred',
               });
               expect(asyncLookupComponent.value).toEqual([
-                { name: 'Fred' },
-                { name: 'Isaac' },
-                { name: 'John' },
-                { name: 'Joyce' },
-                { name: 'Lindsey' },
+                { name: 'Fred', description: 'Mr. Fred' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
+                { name: 'John', description: 'Mr. John' },
+                { name: 'Joyce', description: 'Mrs. Joyce' },
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
               ]);
 
               performSearch('Oli', fixture, true);
@@ -5409,12 +5909,12 @@ describe('Lookup component', function () {
                 name: '6 items selected',
               });
               expect(asyncLookupComponent.value).toEqual([
-                { name: 'Fred' },
-                { name: 'Isaac' },
-                { name: 'John' },
-                { name: 'Joyce' },
-                { name: 'Lindsey' },
-                { name: 'Oliver' },
+                { name: 'Fred', description: 'Mr. Fred' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
+                { name: 'John', description: 'Mr. John' },
+                { name: 'Joyce', description: 'Mrs. Joyce' },
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+                { name: 'Oliver', description: 'Mr. Oliver' },
               ]);
             }));
 
@@ -5426,8 +5926,8 @@ describe('Lookup component', function () {
 
               component.enableShowMore = true;
               component.selectedFriendsAsync = [
-                { name: 'Fred' },
-                { name: 'Isaac' },
+                { name: 'Fred', description: 'Mr. Fred' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
               ];
               fixture.detectChanges();
               tick();
@@ -5447,12 +5947,12 @@ describe('Lookup component', function () {
 
               component.enableShowMore = true;
               component.selectedFriendsAsync = [
-                { name: 'Fred' },
-                { name: 'Isaac' },
-                { name: 'John' },
-                { name: 'Joyce' },
-                { name: 'Lindsey' },
-                { name: 'Oliver' },
+                { name: 'Fred', description: 'Mr. Fred' },
+                { name: 'Isaac', description: 'Mr. Isaac' },
+                { name: 'John', description: 'Mr. John' },
+                { name: 'Joyce', description: 'Mrs. Joyce' },
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+                { name: 'Oliver', description: 'Mr. Oliver' },
               ];
               fixture.detectChanges();
               tick();
@@ -5471,7 +5971,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               selectSearchResult(0, fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               clickShowMore(fixture);
               fixture.detectChanges();
@@ -5480,7 +5982,9 @@ describe('Lookup component', function () {
               component.selectedFriendsAsync = [component.data![1]];
               fixture.detectChanges();
               tick();
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Beth' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Beth', description: 'Mrs. Beth' },
+              ]);
 
               let tokenElements = getTokenElements(true);
               expect(tokenElements.length).toBe(1);
@@ -5490,7 +5994,9 @@ describe('Lookup component', function () {
               fixture.detectChanges();
               tick();
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               tokenElements = getTokenElements(true);
               expect(tokenElements.length).toBe(1);
@@ -5535,14 +6041,18 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(1, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               performSearch('s', fixture);
               clickShowMore(fixture);
 
               saveShowMoreModal(fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               closeModal(fixture);
             }));
@@ -5555,7 +6065,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(1, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               performSearch('s', fixture);
               clickShowMore(fixture);
@@ -5564,7 +6076,9 @@ describe('Lookup component', function () {
 
               saveShowMoreModal(fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               closeModal(fixture);
             }));
@@ -5577,7 +6091,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(1, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               performSearch('s', fixture);
               clickShowMore(fixture);
@@ -5586,7 +6102,9 @@ describe('Lookup component', function () {
 
               closeModal(fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               closeModal(fixture);
             }));
@@ -5653,7 +6171,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture);
               selectSearchResult(1, fixture);
 
-              expect(lookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(lookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               clickSearchButton(fixture);
 
@@ -5692,14 +6212,18 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               selectSearchResult(1, fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               performSearch('s', fixture, true);
               clickShowMore(fixture);
 
               saveShowMoreModal(fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               closeModal(fixture);
             }));
@@ -5712,7 +6236,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               selectSearchResult(1, fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               performSearch('s', fixture, true);
               clickShowMore(fixture);
@@ -5723,7 +6249,9 @@ describe('Lookup component', function () {
               tick();
               fixture.detectChanges();
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Isaac', description: 'Mr. Isaac' },
+              ]);
 
               closeModal(fixture);
             }));
@@ -5736,7 +6264,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               selectSearchResult(1, fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               performSearch('s', fixture, true);
               clickShowMore(fixture);
@@ -5745,7 +6275,9 @@ describe('Lookup component', function () {
 
               closeModal(fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               closeModal(fixture);
             }));
@@ -5835,7 +6367,9 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               selectSearchResult(1, fixture);
 
-              expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
+              expect(asyncLookupComponent.value).toEqual([
+                { name: 'Lindsey', description: 'Mrs. Lindsey' },
+              ]);
 
               clickSearchButton(fixture, true);
 
@@ -5923,7 +6457,7 @@ describe('Lookup component', function () {
           performSearch('p', fixture);
           clickShowMore(fixture);
 
-          expect(getShowMoreRepeaterItemContent(0)).toBe('Ms. Patty');
+          expect(getShowMoreRepeaterItemContent(0)).toBe('Ms. Patty Patty');
 
           closeModal(fixture);
         }));
@@ -5996,7 +6530,9 @@ describe('Lookup component', function () {
           performSearch('s', fixture);
           selectSearchResult(0, fixture);
 
-          expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+          expect(lookupComponent.value).toEqual([
+            { name: 'Isaac', description: 'Mr. Isaac' },
+          ]);
 
           clickShowMore(fixture);
           fixture.detectChanges();
@@ -6005,7 +6541,9 @@ describe('Lookup component', function () {
           component.selectedFriends = [component.data![1]];
           fixture.detectChanges();
           tick();
-          expect(lookupComponent.value).toEqual([{ name: 'Beth' }]);
+          expect(lookupComponent.value).toEqual([
+            { name: 'Beth', description: 'Mrs. Beth' },
+          ]);
 
           let tokenElements = getTokenElements();
           expect(tokenElements.length).toBe(1);
@@ -6015,7 +6553,9 @@ describe('Lookup component', function () {
           fixture.detectChanges();
           tick();
 
-          expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+          expect(lookupComponent.value).toEqual([
+            { name: 'Isaac', description: 'Mr. Isaac' },
+          ]);
 
           tokenElements = getTokenElements();
           expect(tokenElements.length).toBe(1);
@@ -6163,7 +6703,7 @@ describe('Lookup component', function () {
 
         it('should remove tokens when backspace or delete is pressed', fakeAsync(function () {
           component.selectedFriends = [
-            { name: 'John' },
+            { name: 'John', description: 'Mr. John' },
             { name: 'Jane' },
             { name: 'Doe' },
           ];

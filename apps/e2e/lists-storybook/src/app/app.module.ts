@@ -10,6 +10,27 @@ const routes: Route[] = [
     loadChildren: () =>
       import('./repeater/repeater.module').then((m) => m.RepeaterModule),
   },
+  {
+    path: 'paging',
+    loadChildren: () =>
+      import('./paging/paging.module').then((m) => m.PagingModule),
+  },
+  {
+    path: 'sort',
+    loadChildren: () => import('./sort/sort.module').then((m) => m.SortModule),
+  },
+  {
+    path: 'infinite-scroll',
+    loadChildren: () =>
+      import('./infinite-scroll/infinite-scroll.module').then(
+        (m) => m.InfiniteScrollModule
+      ),
+  },
+  {
+    path: 'filter',
+    loadChildren: () =>
+      import('./filter/filter.module').then((m) => m.FilterModule),
+  },
 ];
 if (routes.length > 0 && routes.findIndex((r) => r.path === '') === -1) {
   routes.push({ path: '', redirectTo: `${routes[0].path}`, pathMatch: 'full' });

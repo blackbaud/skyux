@@ -24,8 +24,8 @@ export class InlineFormDemoComponent implements OnInit {
         styleType: 'primary',
       },
       {
-        action: 'delete',
-        text: 'Delete',
+        action: 'clear',
+        text: 'Clear',
         styleType: 'default',
       },
       {
@@ -62,14 +62,21 @@ export class InlineFormDemoComponent implements OnInit {
   }
 
   public onInlineFormClose(args: SkyInlineFormCloseArgs): void {
-    if (args.reason === 'save') {
-      this.firstName = this.myForm.get('myFirstName')?.value;
+    switch (args.reason) {
+      case 'save':
+        this.firstName = this.myForm.get('myFirstName')?.value;
+        this.showForm = false;
+        break;
+      case 'clear':
+        this.myForm.get('myFirstName')?.patchValue(undefined);
+        break;
+      case 'reset':
+        this.myForm.get('myFirstName')?.setValue(this.firstName);
+        break;
+      default:
+        this.showForm = false;
+        break;
     }
-
-    this.showForm = false;
-    this.myForm.patchValue({
-      myFirstName: undefined,
-    });
   }
 
   public onInlineFormOpen(): void {

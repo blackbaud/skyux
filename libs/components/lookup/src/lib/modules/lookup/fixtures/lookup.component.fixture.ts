@@ -79,6 +79,8 @@ export class SkyLookupTestComponent {
 
   public showMoreConfig: SkyLookupShowMoreConfig | undefined = {};
 
+  public wrapperClass: string | undefined;
+
   public get friends(): any[] {
     return this.#_friends;
   }
@@ -103,17 +105,17 @@ export class SkyLookupTestComponent {
         description: 'Mr. Andy',
         birthDate: '1/1/1995',
       },
-      { name: 'Beth' },
-      { name: 'Dan' },
-      { name: 'David' },
-      { name: 'Frank' },
-      { name: 'Fred' },
-      { name: 'Isaac' },
-      { name: 'John' },
-      { name: 'Joyce' },
-      { name: 'Lindsey' },
-      { name: 'Mitch' },
-      { name: 'Oliver' },
+      { name: 'Beth', description: 'Mrs. Beth' },
+      { name: 'Dan', description: 'Mr. Dan' },
+      { name: 'David', description: 'Mr. David' },
+      { name: 'Frank', description: 'Mr. Frank' },
+      { name: 'Fred', description: 'Mr. Fred' },
+      { name: 'Isaac', description: 'Mr. Isaac' },
+      { name: 'John', description: 'Mr. John' },
+      { name: 'Joyce', description: 'Mrs. Joyce' },
+      { name: 'Lindsey', description: 'Mrs. Lindsey' },
+      { name: 'Mitch', description: 'Mr. Mitch' },
+      { name: 'Oliver', description: 'Mr. Oliver' },
       {
         name: 'Patty',
         description: 'Ms. Patty',
@@ -124,13 +126,13 @@ export class SkyLookupTestComponent {
         description: 'Mr. Paul',
         birthDate: '11/1997',
       },
-      { name: 'Sally' },
-      { name: 'Susan' },
-      { name: 'Vanessa' },
-      { name: 'Vin' },
-      { name: 'Xavier' },
-      { name: 'Yolanda' },
-      { name: 'Zack' },
+      { name: 'Sally', description: 'Ms. Sally' },
+      { name: 'Susan', description: 'Ms. Susan' },
+      { name: 'Vanessa', description: 'Mrs. Vanessa' },
+      { name: 'Vin', description: 'Mr. Vin' },
+      { name: 'Xavier', description: 'Mr. Xavier' },
+      { name: 'Yolanda', description: 'Ms. Yolanda' },
+      { name: 'Zack', description: 'Mr. Zack' },
     ];
 
     this.asyncForm = formBuilder.group({

@@ -8,6 +8,7 @@ import { SkyModalModule } from '../modal.module';
 import { ModalMockThemeService } from './mock-theme.service';
 import { ModalAutofocusTestComponent } from './modal-autofocus.component.fixture';
 import { ModalFooterTestComponent } from './modal-footer.component.fixture';
+import { ModalIsDirtyTestComponent } from './modal-is-dirty.component.fixture';
 import { ModalLauncherTestComponent } from './modal-launcher.component.fixture';
 import { ModalNoHeaderTestComponent } from './modal-no-header.component.fixture';
 import { ModalTiledBodyTestComponent } from './modal-tiled-body.component.fixture';
@@ -29,6 +30,7 @@ import { ModalTestComponent } from './modal.component.fixture';
     ModalWithCloseConfirmTestComponent,
     ModalLauncherTestComponent,
     ModalWithScrollingContentTestComponent,
+    ModalIsDirtyTestComponent,
   ],
   imports: [CommonModule, RouterTestingModule, SkyModalModule],
   providers: [

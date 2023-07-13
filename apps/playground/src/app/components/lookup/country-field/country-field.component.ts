@@ -1,29 +1,54 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { SkyInputBoxModule } from '@skyux/forms';
-import { SkyCountryFieldModule } from '@skyux/lookup';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { SkyCountryFieldCountry } from '@skyux/lookup';
 
 @Component({
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    SkyCountryFieldModule,
-    SkyInputBoxModule,
-  ],
+  selector: 'app-country-field',
   templateUrl: './country-field.component.html',
+  styleUrls: ['./country-field.component.scss'],
 })
-export default class CountryFieldDemoComponent {
-  public countryForm = inject(FormBuilder).group({
-    countryControl: [
-      {
-        name: 'Australia',
-        iso2: 'au',
-      },
-      [Validators.required],
-    ],
-  });
+export class CountryFieldComponent implements OnInit {
+  public countryData: SkyCountryFieldCountry;
 
-  public countryControl = this.countryForm.controls['countryControl'];
+  public countryDataInputBox: SkyCountryFieldCountry;
+
+  public countryForm: FormGroup;
+
+  public countryControl: FormControl;
+
+  public disableFields = false;
+
+  public ngOnInit(): void {
+    this.countryControl = new FormControl();
+    this.countryControl.setValue({
+      name: 'Australia',
+      iso2: 'au',
+    });
+    this.countryForm = new FormGroup({
+      countryControl: this.countryControl,
+    });
+
+    this.countryDataInputBox = {
+      name: 'Australia',
+      iso2: 'AU',
+    };
+
+    this.countryControl.setValidators([Validators.required]);
+
+    this.countryControl.valueChanges.subscribe((value) => console.log(value));
+  }
+
+  public toggleDisabledStates(): void {
+    if (this.disableFields) {
+      this.countryControl.enable();
+      this.disableFields = false;
+    } else {
+      this.countryControl.disable();
+      this.disableFields = true;
+    }
+  }
+
+  public toggleGermany(): void {
+    this.countryControl.setValue({ iso2: 'de' });
+  }
 }

@@ -22,6 +22,34 @@ const routes: Route[] = [
         (m) => m.RadioButtonModule
       ),
   },
+  {
+    path: 'toggle-switch',
+    loadChildren: () =>
+      import('./toggle-switch/toggle-switch.module').then(
+        (m) => m.ToggleSwitchModule
+      ),
+  },
+  {
+    path: 'character-counter',
+    loadChildren: () =>
+      import('./character-counter/character-counter.module').then(
+        (m) => m.CharacterCounterModule
+      ),
+  },
+  {
+    path: 'single-file-attachment',
+    loadChildren: () =>
+      import('./single-file-attachment/single-file-attachment.module').then(
+        (m) => m.SingleFileAttachmentModule
+      ),
+  },
+  {
+    path: 'file-attachment',
+    loadChildren: () =>
+      import('./file-attachment/file-attachment.module').then(
+        (m) => m.FileAttachmentModule
+      ),
+  },
 ];
 if (routes.length > 0 && routes.findIndex((r) => r.path === '') === -1) {
   routes.push({ path: '', redirectTo: `${routes[0].path}`, pathMatch: 'full' });

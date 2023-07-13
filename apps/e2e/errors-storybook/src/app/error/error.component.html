@@ -1,0 +1,38 @@
+<ng-template #error>
+  <sky-error [errorType]="errorType" [showImage]="showImage">
+    <sky-error-image *ngIf="customImage">
+      <img src="/old_broken_bird.jpg" />
+    </sky-error-image>
+    <sky-error-title
+      *ngIf="customTitleAndDescription"
+      [replaceDefaultTitle]="replaceDefaultTitleAndDescription"
+    >
+      A bad thing happened.</sky-error-title
+    >
+    <sky-error-description
+      *ngIf="customTitleAndDescription"
+      [replaceDefaultDescription]="replaceDefaultTitleAndDescription"
+    >
+      A bad thing happened.</sky-error-description
+    >
+    <sky-error-action *ngIf="customAction">
+      <button class="sky-btn sky-btn-link" type="button">Try again</button>
+    </sky-error-action>
+  </sky-error>
+</ng-template>
+
+<div *ngIf="pageError" id="page-container">
+  <ng-container *ngTemplateOutlet="error" />
+</div>
+
+<ng-container *ngIf="!pageError">
+  <sky-box class="sky-padding-even-md">
+    <sky-box-header>
+      <h2 class="sky-font-heading-2">Giving</h2>
+    </sky-box-header>
+    <sky-box-content>
+      <ng-container *ngTemplateOutlet="error" />
+    </sky-box-content>
+  </sky-box>
+</ng-container>
+<span id="ready" *ngIf="ready"></span>

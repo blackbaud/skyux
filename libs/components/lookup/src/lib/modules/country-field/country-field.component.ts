@@ -63,7 +63,7 @@ export class SkyCountryFieldComponent
   implements AfterViewInit, ControlValueAccessor, OnDestroy, OnInit, Validator
 {
   /**
-   * The value for the `autocomplete` attribute on the form input.
+   * The value for the HTML `autocomplete` attribute on the form input.
    */
   @Input()
   public autocompleteAttribute: string | undefined;
@@ -96,7 +96,8 @@ export class SkyCountryFieldComponent
   }
 
   /**
-   * Whether to disable the country field.
+   * Whether to disable the country field on template-driven forms. Don't use this input on reactive forms because they may overwrite the input or leave the control out of sync.
+   * To set the disabled state on reactive forms, use the `FormControl` instead.
    * @default false
    */
   @Input()
@@ -108,6 +109,12 @@ export class SkyCountryFieldComponent
     }
 
     this.#_disabled = isDisabled ?? false;
+
+    if (isDisabled) {
+      this.countrySearchFormControl.disable();
+    } else {
+      this.countrySearchFormControl.enable();
+    }
 
     this.#changeDetector.markForCheck();
   }
@@ -132,6 +139,7 @@ export class SkyCountryFieldComponent
   /**
    * Whether to include phone information in the selected country and country dropdown.
    * @default false
+   * @internal
    */
   @Input()
   public set includePhoneInfo(value: boolean | undefined) {

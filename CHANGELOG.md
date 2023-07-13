@@ -1,5 +1,47 @@
 # Changelog
 
+## [8.3.1](https://github.com/blackbaud/skyux/compare/8.3.0...8.3.1) (2023-06-28)
+
+
+### Bug Fixes
+
+* **components/datetime:** disabled date range picker now use correct colors ([#1483](https://github.com/blackbaud/skyux/issues/1483)) ([d04b78c](https://github.com/blackbaud/skyux/commit/d04b78c93475716b40019d449db0c3a5e18491fd))
+* **components/inline-form:** updated descriptions of `action` and `reason` properties to be more descriptive ([#1477](https://github.com/blackbaud/skyux/issues/1477)) ([5d8d2d5](https://github.com/blackbaud/skyux/commit/5d8d2d5a26a7878b01cb2d2b488e7b8548602728))
+* **components/lookup:** country field docs clarify that the `autocompleteAttribute` is for the HTML attribute and no longer list an internal input ([#1482](https://github.com/blackbaud/skyux/issues/1482)) ([aa8a98d](https://github.com/blackbaud/skyux/commit/aa8a98d63f3ed882befb06743af00613d9f0dc67))
+* **components/lookup:** lookup modals do not show an unintended wait when a search with more than ten items is applied after the modal has been scrolled to the bottom ([#1471](https://github.com/blackbaud/skyux/issues/1471)) ([031aaac](https://github.com/blackbaud/skyux/commit/031aaac1c45dc7e6ec4691a62acacfd9d0f27d51))
+
+## [8.3.0](https://github.com/blackbaud/skyux/compare/8.2.7...8.3.0) (2023-06-23)
+
+
+### Features
+
+* **components/modals:** add `isDirty` directive to modals ([#1421](https://github.com/blackbaud/skyux/issues/1421)) ([#1454](https://github.com/blackbaud/skyux/issues/1454)) ([d5f4979](https://github.com/blackbaud/skyux/commit/d5f497908eb4090e61672a57b7afe92c5d581539))
+* **components/popovers:** popover test harness and sample tests ([#1390](https://github.com/blackbaud/skyux/issues/1390)) ([628ee98](https://github.com/blackbaud/skyux/commit/628ee987c6ba738219cb83f0686d581dafbce508))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** update uneditable cell background color ([#1473](https://github.com/blackbaud/skyux/issues/1473)) ([a40d559](https://github.com/blackbaud/skyux/commit/a40d559aab62c403d2e3a243b2e7bf9ebecb62af))
+* **components/forms:** input box borders are now properly applied when using Firefox ([#1472](https://github.com/blackbaud/skyux/issues/1472)) ([96c8ee9](https://github.com/blackbaud/skyux/commit/96c8ee947e78d26d32e4f9bcaa98fe668cb73237))
+* **components/inline-form:** code example custom button action ([#1469](https://github.com/blackbaud/skyux/issues/1469)) ([56f28af](https://github.com/blackbaud/skyux/commit/56f28afb803300d01afcaeaeb4c3385a7e45520f))
+
+## [8.2.7](https://github.com/blackbaud/skyux/compare/8.2.6...8.2.7) (2023-06-20)
+
+
+### Bug Fixes
+
+* call out that disabled inputs should not be used when using a reactive form ([#1460](https://github.com/blackbaud/skyux/issues/1460)) ([02c34c1](https://github.com/blackbaud/skyux/commit/02c34c1133b1d36a3456ae45d00b6884c76b7aaf))
+* **components/angular-tree-component:** add overflow hidden ([#1465](https://github.com/blackbaud/skyux/issues/1465)) ([4950ff7](https://github.com/blackbaud/skyux/commit/4950ff7d0b091288d9903925e4a425332a8a5230))
+* **components/config:** ignore existing URL params when encoding config params ([#1462](https://github.com/blackbaud/skyux/issues/1462)) ([9c5b9b8](https://github.com/blackbaud/skyux/commit/9c5b9b8536d8b752f340ad6dc71a54f8a2aa550d))
+
+## [8.2.6](https://github.com/blackbaud/skyux/compare/8.2.5...8.2.6) (2023-06-09)
+
+
+### Bug Fixes
+
+* **components/lookup:** pass `wrapperClass` to selection modal ([#996](https://github.com/blackbaud/skyux/issues/996)) ([#1449](https://github.com/blackbaud/skyux/issues/1449)) ([dc5b068](https://github.com/blackbaud/skyux/commit/dc5b068ea5cacd85ec1e2e87acb9383b81925c7e))
+* **components/tabs:** update sectioned form code example to use a large modal ([#1451](https://github.com/blackbaud/skyux/issues/1451)) ([7c10ba9](https://github.com/blackbaud/skyux/commit/7c10ba94179c040ec456d521aabc641101f3644b))
+
 ## [8.2.5](https://github.com/blackbaud/skyux/compare/8.2.4...8.2.5) (2023-06-05)
 
 

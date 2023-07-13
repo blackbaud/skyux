@@ -22,7 +22,7 @@ import {
   ValueFormatterParams,
 } from 'ag-grid-community';
 
-import { SkyAgGridDemoRow } from '../basic/data-entry-grid-docs-demo-data';
+import { SkyAgGridDemoRow } from './data-manager-data-entry-grid-docs-demo-data';
 
 @Component({
   selector: 'app-data-manager-data-entry-grid-docs-demo-view-grid',
