@@ -4,6 +4,13 @@
     *ngIf="inlineHelpFlag"
     class="sky-control-help"
   ></sky-help-inline>
-  <sky-text-editor formControlName="myText" [mergeFields]="mergeField">
+  <sky-text-editor
+    formControlName="myText"
+    [placeholder]="placeholder"
+    [menus]="menus"
+    [mergeFields]="mergeFields"
+    [toolbarActions]="toolbarActions"
+    [initialStyleState]="initialState"
+  >
   </sky-text-editor>
 </form>
