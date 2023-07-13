@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { Route, RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
+import { TextEditorModule } from './text-editor/text-editor.module';
 
 const routes: Route[] = [
   {

@@ -1,8 +1,9 @@
 <form novalidate [formGroup]="myForm">
-  <h3 skyId #textEditorLabel="skyId">Text editor demo</h3>
-  <sky-text-editor
-    formControlName="myText"
-    [attr.aria-labelledby]="textEditorLabel.id"
-  >
+  <label class="sky-control-label">Text editor</label>
+  <sky-help-inline
+    *ngIf="inlineHelpFlag"
+    class="sky-control-help"
+  ></sky-help-inline>
+  <sky-text-editor formControlName="myText" [mergeFields]="mergeField">
   </sky-text-editor>
 </form>
