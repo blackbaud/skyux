@@ -1,6 +1,7 @@
 import { SkyTheme } from './theme';
 import { SkyThemeMode } from './theme-mode';
 import { SkyThemeSettings } from './theme-settings';
+import { SkyThemeSpacing } from './theme-spacing';
 import { SkyThemeService } from './theme.service';
 
 describe('Theme service', () => {
@@ -16,16 +17,19 @@ describe('Theme service', () => {
       current.theme.hostClass
     );
 
-    let addModeClassMatcher = expect(mockRenderer.addClass);
+    let addClassMatcher = expect(mockRenderer.addClass);
 
     if (current.theme.supportedModes.indexOf(current.mode) < 0) {
-      addModeClassMatcher = addModeClassMatcher.not;
+      addClassMatcher = addClassMatcher.not;
     }
 
-    addModeClassMatcher.toHaveBeenCalledWith(
-      mockHostEl,
-      current.mode.hostClass
-    );
+    addClassMatcher = expect(mockRenderer.addClass);
+
+    if (current.theme.supportedSpacing.indexOf(current.spacing) < 0) {
+      addClassMatcher = addClassMatcher.not;
+    }
+
+    addClassMatcher.toHaveBeenCalledWith(mockHostEl, current.spacing.hostClass);
 
     if (previous) {
       expect(mockRenderer.removeClass).toHaveBeenCalledWith(
@@ -69,7 +73,7 @@ describe('Theme service', () => {
   it('should fire the settings change event as settings are applied', () => {
     const themeSvc = new SkyThemeService();
 
-    const settings = new SkyThemeSettings(
+    let settings = new SkyThemeSettings(
       SkyTheme.presets.modern,
       SkyThemeMode.presets.dark
     );
@@ -89,9 +93,22 @@ describe('Theme service', () => {
       );
     });
 
-    const newSettings = new SkyThemeSettings(
+    let newSettings = new SkyThemeSettings(
       SkyTheme.presets.default,
       SkyThemeMode.presets.light
+    );
+
+    expectedCurrentSettings = newSettings;
+    expectedPreviousSettings = settings;
+
+    themeSvc.setTheme(newSettings);
+
+    settings = newSettings;
+
+    newSettings = new SkyThemeSettings(
+      SkyTheme.presets.modern,
+      SkyThemeMode.presets.light,
+      SkyThemeSpacing.presets.compact
     );
 
     expectedCurrentSettings = newSettings;
@@ -128,12 +145,27 @@ describe('Theme service', () => {
     expect(mockRenderer.removeClass).not.toHaveBeenCalled();
   });
 
-  it('should not apply an unsupported mode', () => {
+  it('should apply supported spacing', () => {
+    const themeSvc = new SkyThemeService();
+
+    const settings = new SkyThemeSettings(
+      SkyTheme.presets.modern,
+      SkyThemeMode.presets.light,
+      SkyThemeSpacing.presets.compact
+    );
+
+    themeSvc.init(mockHostEl, mockRenderer, settings);
+
+    validateSettingsApplied(settings);
+  });
+
+  it('should not apply unsupported spacing', () => {
     const themeSvc = new SkyThemeService();
 
     const settings = new SkyThemeSettings(
       SkyTheme.presets.default,
-      SkyThemeMode.presets.dark
+      SkyThemeMode.presets.light,
+      SkyThemeSpacing.presets.compact
     );
 
     themeSvc.init(mockHostEl, mockRenderer, settings);
