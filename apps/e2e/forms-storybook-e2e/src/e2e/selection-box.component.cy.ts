@@ -9,7 +9,10 @@ describe('forms-storybook', () => {
         )
       );
       it('should render the component', () => {
-        cy.get('app-selection-box')
+        cy.get('#ready')
+          .should('exist')
+          .end()
+          .get('app-selection-box')
           .should('exist')
           .should('be.visible')
           .screenshot(
