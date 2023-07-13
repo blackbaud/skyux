@@ -4,6 +4,7 @@ import {
   SkyTheme,
   SkyThemeMode,
   SkyThemeService,
+  SkyThemeSettings,
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
@@ -53,10 +54,10 @@ describe('SkyAgGridWrapperComponent', () => {
   beforeEach(() => {
     mockThemeSvc = {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
-        currentSettings: {
-          theme: SkyTheme.presets.default,
-          mode: SkyThemeMode.presets.light,
-        },
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets.default,
+          SkyThemeMode.presets.light
+        ),
         previousSettings: undefined,
       }),
     };
@@ -128,10 +129,10 @@ describe('SkyAgGridWrapperComponent', () => {
     ).toHaveCssClass('ag-theme-sky-data-grid-default');
 
     mockThemeSvc.settingsChange.next({
-      currentSettings: {
-        theme: SkyTheme.presets.modern,
-        mode: SkyThemeMode.presets.light,
-      },
+      currentSettings: new SkyThemeSettings(
+        SkyTheme.presets.modern,
+        SkyThemeMode.presets.light
+      ),
       previousSettings: undefined,
     });
     gridWrapperFixture.detectChanges();
@@ -140,10 +141,10 @@ describe('SkyAgGridWrapperComponent', () => {
     ).toHaveCssClass('ag-theme-sky-data-grid-modern-light');
 
     mockThemeSvc.settingsChange.next({
-      currentSettings: {
-        theme: SkyTheme.presets.modern,
-        mode: SkyThemeMode.presets.dark,
-      },
+      currentSettings: new SkyThemeSettings(
+        SkyTheme.presets.modern,
+        SkyThemeMode.presets.dark
+      ),
       previousSettings: undefined,
     });
     gridWrapperFixture.detectChanges();
@@ -152,10 +153,10 @@ describe('SkyAgGridWrapperComponent', () => {
     ).toHaveCssClass('ag-theme-sky-data-grid-modern-dark');
 
     mockThemeSvc.settingsChange.next({
-      currentSettings: {
-        theme: SkyTheme.presets.default,
-        mode: SkyThemeMode.presets.light,
-      },
+      currentSettings: new SkyThemeSettings(
+        SkyTheme.presets.default,
+        SkyThemeMode.presets.light
+      ),
       previousSettings: undefined,
     });
     gridWrapperFixture.detectChanges();
