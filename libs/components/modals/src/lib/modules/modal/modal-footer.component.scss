@@ -20,10 +20,9 @@
   .sky-modal-footer-errors {
     max-height: 100px;
     overflow-y: auto;
-    margin-bottom: var(--sky-margin-stacked-lg);
 
-    sky-status-indicator:not(:last-child) > .sky-status-indicator {
-      margin-bottom: var(--sky-margin-stacked-lg);
+    .footer-error {
+      display: block;
     }
   }
 }

@@ -28,6 +28,7 @@ import { takeUntil } from 'rxjs/operators';
 import { SkyModalComponentAdapterService } from './modal-component-adapter.service';
 import { SkyModalConfiguration } from './modal-configuration';
 import { SkyModalError } from './modal-error';
+import { SkyModalErrorsService } from './modal-errors.service';
 import { SkyModalHostService } from './modal-host.service';
 import { SkyModalScrollShadowEventArgs } from './modal-scroll-shadow-event-args';
 
@@ -42,7 +43,11 @@ const ARIA_ROLE_DEFAULT = 'dialog';
   selector: 'sky-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
-  providers: [SkyModalComponentAdapterService, SkyDockService],
+  providers: [
+    SkyModalComponentAdapterService,
+    SkyModalErrorsService,
+    SkyDockService,
+  ],
 })
 export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
   @HostBinding('class')
@@ -53,7 +58,7 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
    */
   @Input()
   public set formErrors(value: SkyModalError[] | undefined) {
-    this.#componentAdapter.updateErrors(value);
+    this.#errorsSvc.updateErrors(value);
   }
 
   /**
@@ -124,6 +129,7 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
   #_ariaLabelledBy: string | undefined;
 
   #changeDetector = inject(ChangeDetectorRef);
+  #errorsSvc = inject(SkyModalErrorsService);
   #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
 
   constructor(

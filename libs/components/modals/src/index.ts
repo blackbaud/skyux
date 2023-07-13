@@ -17,6 +17,7 @@ export * from './lib/modules/modal/modal.interface';
 export * from './lib/modules/modal/modal.module';
 export * from './lib/modules/modal/modal.service';
 export * from './lib/modules/modal/modal-error';
+export * from './lib/modules/modal/modal-errors.service';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.
