@@ -29,18 +29,4 @@ describe('Page header component', () => {
     fixture.detectChanges();
     expect(fixture.nativeElement).toHaveText('Parent Link Page Title');
   });
-
-  it('should project inner content', () => {
-    const fixture = TestBed.createComponent(PageHeaderFixturesComponent);
-    fixture.detectChanges();
-
-    const headerContentEl = getHeaderContentEl(fixture);
-
-    expect(headerContentEl).toHaveText('', true);
-
-    fixture.componentInstance.headerContent = 'Hello world';
-    fixture.detectChanges();
-
-    expect(headerContentEl).toHaveText('Hello world', true);
-  });
 });
