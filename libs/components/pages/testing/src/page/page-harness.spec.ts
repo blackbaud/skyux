@@ -9,10 +9,14 @@ import { SkyPageHarness } from './page-harness';
 //#region Test component
 @Component({
   selector: 'sky-page-test',
-  template: ` <sky-page [layout]="layout" data-sky-id="test-page" /> `,
+  template: ` <sky-page [layout]="layout" data-sky-id="test-page"
+    ><sky-page-header *ngIf="showPageHeader" [pageTitle]="pageTitle" />
+  </sky-page>`,
 })
 class TestComponent {
   public layout: string | undefined;
+  public pageTitle: string | undefined;
+  public showPageHeader = true;
 }
 //#endregion Test component
 
@@ -65,5 +69,30 @@ describe('Page harness', () => {
 
       await expectAsync(harness.getLayout()).toBeResolvedTo(layout ?? 'none');
     }
+  });
+
+  it('should return the page header harness', async () => {
+    const title = 'Page title';
+    const { harness, fixture } = await setupTest({
+      dataSkyId: 'test-page',
+    });
+    fixture.componentInstance.pageTitle = title;
+    fixture.detectChanges();
+
+    const pageHeaderHarness = await harness.getPageHeader();
+
+    await expectAsync(pageHeaderHarness.getPageTitle()).toBeResolvedTo(title);
+  });
+
+  it('throws an error if the page header does not exist when getting the page header harness', async () => {
+    const { harness, fixture } = await setupTest({
+      dataSkyId: 'test-page',
+    });
+    fixture.componentInstance.showPageHeader = false;
+    fixture.detectChanges();
+
+    await expectAsync(harness.getPageHeader()).toBeRejectedWithError(
+      'Unable to find a page header with filter(s): undefined.'
+    );
   });
 });

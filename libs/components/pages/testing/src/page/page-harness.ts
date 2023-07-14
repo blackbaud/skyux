@@ -2,6 +2,9 @@ import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyPageLayoutType } from '@skyux/pages';
 
+import { SkyPageHeaderHarness } from '../page-header/page-header-harness';
+import { SkyPageHeaderHarnessFilters } from '../page-header/page-header-harness-filters';
+
 import { SkyPageHarnessFilters } from './page-harness-filters';
 
 const LAYOUT_PREFIX = 'sky-layout-host-';
@@ -39,5 +42,24 @@ export class SkyPageHarness extends SkyComponentHarness {
     }
 
     return 'none';
+  }
+
+  /**
+   * Gets the first page header that matches the given filters.
+   * @param filters filters for which page header to return
+   */
+  public async getPageHeader(
+    filters?: SkyPageHeaderHarnessFilters
+  ): Promise<SkyPageHeaderHarness> {
+    const pageHeader = await this.locatorForOptional(
+      SkyPageHeaderHarness.with(filters || {})
+    )();
+    if (pageHeader) {
+      return pageHeader;
+    }
+
+    throw new Error(
+      `Unable to find a page header with filter(s): ${JSON.stringify(filters)}.`
+    );
   }
 }

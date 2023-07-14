@@ -16,10 +16,10 @@ import { ListPageTabsLayoutDemoComponent } from './list-page-tabs-layout-demo.co
 
 @NgModule({
   declarations: [
+    ContactContextMenuComponent,
     ListPageTabsLayoutDemoComponent,
     ListPageContentComponent,
     ListPageContactsGridComponent,
-    ContactContextMenuComponent,
   ],
   exports: [ListPageTabsLayoutDemoComponent],
   imports: [
