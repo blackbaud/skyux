@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { expect } from '@skyux-sdk/testing';
@@ -7,12 +7,6 @@ import { PageHeaderFixturesComponent } from './fixtures/page-header-fixtures.com
 import { SkyPageHeaderModule } from './page-header.module';
 
 describe('Page header component', () => {
-  function getHeaderContentEl(
-    fixture: ComponentFixture<PageHeaderFixturesComponent>
-  ): HTMLDivElement {
-    return fixture.nativeElement.querySelector('.sky-page-header-content');
-  }
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
