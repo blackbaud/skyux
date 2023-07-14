@@ -13,7 +13,7 @@ export class DashboardGridContextMenuComponent
   public dashboardName = '';
 
   public agInit(params: ICellRendererParams): void {
-    this.dashboardName = params.data && params.data.name;
+    this.dashboardName = params.data && params.data.dashboard;
   }
 
   public refresh(): boolean {

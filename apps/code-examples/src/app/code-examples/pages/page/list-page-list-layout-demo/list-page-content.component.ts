@@ -18,38 +18,33 @@ import { DashboardGridContextMenuComponent } from './dashboards-grid-context-men
 export class ListPageContentComponent implements OnInit {
   public items = [
     {
-      name: 'Cash Flow Tracker',
-      // eslint-disable-next-line @cspell/spellchecker
-      createdBy: 'Kanesha Hutto',
+      dashboard: 'Cash Flow Tracker',
+      name: 'Kanesha Hutto',
       lastUpdated: '06/21/2023',
     },
     {
-      name: 'Accounts Receivable Dashboard',
-      // eslint-disable-next-line @cspell/spellchecker
-      createdBy: 'Kristeen Lunsford',
+      dashboard: 'Accounts Receivable Dashboard',
+      name: 'Kristeen Lunsford',
       lastUpdated: '06/30/2023',
     },
     {
-      name: 'Accounts Payable Dashboard',
-      // eslint-disable-next-line @cspell/spellchecker
-      createdBy: 'Darcel Lenz',
+      dashboard: 'Accounts Payable Dashboard',
+      name: 'Darcel Lenz',
       lastUpdated: '04/20/2023',
     },
     {
-      name: 'Budget vs. Actuals',
-      // eslint-disable-next-line @cspell/spellchecker
-      createdBy: 'Barbara Durr',
+      dashboard: 'Budget vs. Actual',
+      name: 'Barbara Durr',
       lastUpdated: '12/04/2023',
     },
     {
-      name: 'Balance Sheet - New',
-      createdBy: 'Ilene Woo',
+      dashboard: 'Balance Sheet - New',
+      name: 'Ilene Woo',
       lastUpdated: '12/20/2023',
     },
     {
-      name: 'Debt Management',
-      // eslint-disable-next-line @cspell/spellchecker
-      createdBy: 'Tonja Sanderson',
+      dashboard: 'Debt Management',
+      name: 'Tonja Sanderson',
       lastUpdated: '09/10/2023',
     },
   ];
@@ -67,8 +62,8 @@ export class ListPageContentComponent implements OnInit {
       maxWidth: 55,
     },
     {
-      colId: 'name',
-      field: 'name',
+      colId: 'dashboard',
+      field: 'dashboard',
       headerName: 'Name',
       width: 150,
       cellRenderer: (params: ICellRendererParams): string => {
@@ -76,8 +71,8 @@ export class ListPageContentComponent implements OnInit {
       },
     },
     {
-      colId: 'createdBy',
-      field: 'createdBy',
+      colId: 'name',
+      field: 'name',
       headerName: 'Created By',
     },
     {
@@ -114,8 +109,8 @@ export class ListPageContentComponent implements OnInit {
             viewId: 'gridView',
             displayedColumnIds: [
               'contextMenu',
+              'dashboard',
               'name',
-              'createdBy',
               'lastUpdated',
             ],
           },
