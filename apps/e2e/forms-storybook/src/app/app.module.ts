@@ -37,6 +37,13 @@ const routes: Route[] = [
       ),
   },
   {
+    path: 'single-file-attachment',
+    loadChildren: () =>
+      import('./single-file-attachment/single-file-attachment.module').then(
+        (m) => m.SingleFileAttachmentModule
+      ),
+  },
+  {
     path: 'file-attachment',
     loadChildren: () =>
       import('./file-attachment/file-attachment.module').then(
