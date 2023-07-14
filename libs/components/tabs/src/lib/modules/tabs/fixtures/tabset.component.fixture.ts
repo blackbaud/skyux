@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 
+import { SkyTabLayoutType } from '../tab-layout-type';
 import { SkyTabsetStyle } from '../tabset-style';
 import { SkyTabsetComponent } from '../tabset.component';
 
@@ -31,6 +32,8 @@ export class TabsetTestComponent {
   public tab3Content: string | undefined;
 
   public tab3Available = true;
+
+  public tab3Layout: SkyTabLayoutType | undefined = 'blocks';
 
   public tabStyle: SkyTabsetStyle | undefined = 'tabs';
 
