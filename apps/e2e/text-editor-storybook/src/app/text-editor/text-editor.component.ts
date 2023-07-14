@@ -5,8 +5,10 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import {
+  SkyTextEditorMenuType,
   SkyTextEditorMergeField,
   SkyTextEditorStyleState,
+  SkyTextEditorToolbarActionType,
 } from '@skyux/text-editor';
 
 @Component({
@@ -37,7 +39,7 @@ export class TextEditorComponent {
 
   public placeholder = 'This is what placeholder text looks like';
 
-  public menus = ['edit', 'format', 'merge-field'];
+  public menus: SkyTextEditorMenuType[] = ['edit', 'format', 'merge-field'];
 
   public mergeFields: SkyTextEditorMergeField[] = [
     {
@@ -52,7 +54,7 @@ export class TextEditorComponent {
     },
   ];
 
-  public toolbarActions = [
+  public toolbarActions: SkyTextEditorToolbarActionType[] = [
     'font-family',
     'font-size',
     'font-style',
