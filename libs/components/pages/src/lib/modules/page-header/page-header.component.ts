@@ -5,8 +5,7 @@ import { SkyPageLink } from '../action-hub/types/page-link';
 let parentLink: SkyPageLink;
 
 /**
- * Displays a page heading with optional content to display under
- * the heading.
+ * Displays a page heading. Applies the correct layout spacing if used within a SkyPage.
  */
 @Component({
   selector: 'sky-page-header',
