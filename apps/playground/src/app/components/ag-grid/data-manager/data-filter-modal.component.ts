@@ -1,12 +1,23 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import {
   SkyDataManagerFilterData,
   SkyDataManagerFilterModalContext,
 } from '@skyux/data-manager';
-import { SkyModalInstance } from '@skyux/modals';
+import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
   selector: 'app-demo-filter-modal-form',
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    SkyCheckboxModule,
+    SkyInputBoxModule,
+    SkyModalModule,
+  ],
   templateUrl: './data-filter-modal.component.html',
 })
 export class SkyDataManagerFiltersModalVisualComponent {
@@ -25,7 +36,7 @@ export class SkyDataManagerFiltersModalVisualComponent {
     }
   }
 
-  public applyFilters() {
+  public applyFilters(): void {
     const result: SkyDataManagerFilterData = {};
 
     result.filtersApplied = this.fruitType !== 'any' || this.hideOrange;
@@ -37,12 +48,12 @@ export class SkyDataManagerFiltersModalVisualComponent {
     this.instance.save(result);
   }
 
-  public clearAllFilters() {
+  public clearAllFilters(): void {
     this.hideOrange = false;
     this.fruitType = 'any';
   }
 
-  public cancel() {
+  public cancel(): void {
     this.instance.cancel();
   }
 }

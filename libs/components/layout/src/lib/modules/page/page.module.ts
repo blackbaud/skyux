@@ -3,6 +3,9 @@ import { NgModule } from '@angular/core';
 
 import { SkyPageComponent } from './page.component';
 
+/**
+ * @deprecated Use the SkyPageModule in `@skyux/pages` instead.
+ */
 @NgModule({
   declarations: [SkyPageComponent],
   imports: [CommonModule],

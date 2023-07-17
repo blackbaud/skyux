@@ -1,0 +1,14 @@
+<sky-tabset [(active)]="activeTabIndex">
+  <sky-tab tabHeading="My contacts" layout="list">
+    <app-list-page-contacts-grid
+      *ngIf="activeTabIndex === 0"
+      [contacts]="myContacts"
+    ></app-list-page-contacts-grid>
+  </sky-tab>
+  <sky-tab tabHeading="All contacts" layout="list">
+    <app-list-page-contacts-grid
+      *ngIf="activeTabIndex === 1"
+      [contacts]="allContacts"
+    ></app-list-page-contacts-grid>
+  </sky-tab>
+</sky-tabset>

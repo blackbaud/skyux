@@ -7,6 +7,7 @@
   display: flex;
   border: 1px solid $sky-border-color-neutral-medium;
   background: transparent;
+  margin: var(--sky-layout-host-content-spacing, 0);
   max-height: 100%;
 
   .sky-split-view-workspace-flex-container {
