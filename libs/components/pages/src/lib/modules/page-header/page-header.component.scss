@@ -2,11 +2,15 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
 :host {
+  flex-grow: var(--sky-layout-host-header-flex-grow, 0);
   display: block;
 }
 
 .sky-page-header {
-  margin: var(--sky-compat-page-header-margin-top-and-bottom, 0) 0;
+  margin: var(
+    --sky-layout-host-header-spacing,
+    var(--sky-compat-page-header-margin-top-and-bottom, 0) 0
+  );
 
   &-page-title,
   &-parent-link-wrapper {
@@ -27,6 +31,14 @@
   &-parent-link,
   &-page-title {
     vertical-align: middle;
+  }
+
+  &-content {
+    margin: var(--sky-layout-host-header-spacing, 0);
+
+    &:empty {
+      display: none;
+    }
   }
 }
 

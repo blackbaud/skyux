@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { TabButtonViewModel } from './tab-button-view-model';
 import { SkyTabIndex } from './tab-index';
+import { SkyTabLayoutType } from './tab-layout-type';
 import { SkyTabsetActiveTabUnregisteredArgs } from './tabset-active-tab-unregistered-args';
 
 /**
@@ -23,6 +24,10 @@ export class SkyTabsetService implements OnDestroy {
     return this.#focusedTabBtnIndex;
   }
 
+  public get activeTabLayout(): Observable<SkyTabLayoutType> {
+    return this.#activeTabLayout;
+  }
+
   public currentActiveTabIndex: SkyTabIndex | undefined = 0;
 
   public currentFocusedTabBtnIndex: SkyTabIndex = 0;
@@ -32,6 +37,8 @@ export class SkyTabsetService implements OnDestroy {
   #focusedTabBtnIndex: Subject<SkyTabIndex>;
 
   #activeTabUnregistered: Subject<SkyTabsetActiveTabUnregisteredArgs>;
+
+  #activeTabLayout = new Subject<SkyTabLayoutType>();
 
   #tabs: {
     tabIndex: SkyTabIndex | undefined;
@@ -52,6 +59,7 @@ export class SkyTabsetService implements OnDestroy {
     this.#activeTabIndex.complete();
     this.#activeTabUnregistered.complete();
     this.#focusedTabBtnIndex.complete();
+    this.#activeTabLayout.complete();
   }
 
   /**
@@ -165,6 +173,10 @@ export class SkyTabsetService implements OnDestroy {
     if (found) {
       found.tabIndex = newTabIndex;
     }
+  }
+
+  public updateActiveTabLayout(layout: SkyTabLayoutType): void {
+    this.#activeTabLayout.next(layout);
   }
 
   /**

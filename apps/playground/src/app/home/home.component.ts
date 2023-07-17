@@ -140,11 +140,14 @@ export class HomeComponent implements AfterViewInit {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const promises: Promise<any>[] = [];
 
+    console.log(parentPath);
     for (const route of routes) {
       if (route.loadChildren) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         promises.push(
           (route.loadChildren() as Promise<any>).then((newRoutes) => {
+            // Account for a lazy-loaded module or a lazy-loaded routes array
+            // as a default export.
             const routes = newRoutes.routes || newRoutes.default;
 
             if (Array.isArray(routes)) {

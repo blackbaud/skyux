@@ -61,9 +61,9 @@ describe('Page component', () => {
     const fixture = TestBed.createComponent(SkyPageComponent);
     fixture.detectChanges();
 
-    validateLayout(fixture, 'auto', 'sky-page-layout-auto');
-    validateLayout(fixture, 'fit', 'sky-page-layout-fit');
-    validateLayout(fixture, undefined, 'sky-page-layout-auto');
+    validateLayout(fixture, 'auto', 'sky-layout-host-auto');
+    validateLayout(fixture, 'fit', 'sky-layout-host-fit');
+    validateLayout(fixture, undefined, 'sky-layout-host-auto');
 
     fixture.destroy();
   });

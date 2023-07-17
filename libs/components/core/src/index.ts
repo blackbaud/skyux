@@ -33,6 +33,9 @@ export * from './lib/modules/format/app-format';
 export * from './lib/modules/id/id.module';
 export * from './lib/modules/id/id.service';
 
+export * from './lib/modules/layout-host/layout-host-for-child-args';
+export * from './lib/modules/layout-host/layout-host.service';
+
 export * from './lib/modules/live-announcer/live-announcer.service';
 export * from './lib/modules/live-announcer/types/live-announcer-args';
 export * from './lib/modules/live-announcer/types/live-announcer-politeness';
