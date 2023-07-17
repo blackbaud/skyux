@@ -1,5 +1,23 @@
 # Changelog
 
+## [8.4.0](https://github.com/blackbaud/skyux/compare/8.3.1...8.4.0) (2023-07-17)
+
+
+### Features
+
+* **components/pages:** add blocks, list, and tabs page layouts ([#1377](https://github.com/blackbaud/skyux/issues/1377)) ([f34fa27](https://github.com/blackbaud/skyux/commit/f34fa2708a22b8aa64b414600b040442e6d41925))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** update code example import path ([#1489](https://github.com/blackbaud/skyux/issues/1489)) ([237709b](https://github.com/blackbaud/skyux/commit/237709b2b663760bea043f8c91e1ae860df97f4b))
+* **sdk/eslint-config:** enable tsconfig 'strictNullChecks' to support 'prefer-nullish-coalescing' ESLint rule ([#1495](https://github.com/blackbaud/skyux/issues/1495)) ([16bad5c](https://github.com/blackbaud/skyux/commit/16bad5c2f6d30291dffaa194fa525530330f6bcf))
+
+
+### Deprecations
+
+* **components/forms:** deprecate source property for checkbox and radio button change outputs ([#1485](https://github.com/blackbaud/skyux/issues/1485)) ([cc5a83b](https://github.com/blackbaud/skyux/commit/cc5a83b0a3a7679af2518b962d3e3fc507dac6d6))
+
 ## [8.3.1](https://github.com/blackbaud/skyux/compare/8.3.0...8.3.1) (2023-06-28)
 
 

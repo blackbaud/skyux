@@ -38,3 +38,11 @@
 >
   Open help inline modal
 </button>
+<button
+  [ngClass]="buttonsHidden ? 'modal-screenshot-buttons-hidden' : ''"
+  class="sky-btn sky-btn-default open-error-modal-btn"
+  type="button"
+  (click)="onOpenErrorModalClick()"
+>
+  Open error modal
+</button>
