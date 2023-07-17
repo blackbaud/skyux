@@ -58,7 +58,18 @@
               <option value="green">Green</option>
               <option value="blue">Blue</option>
               <option value="purple">Purple</option>
+              <option value="bird">Bird</option>
             </select>
+            <!-- Custom validator not handled by input box. -->
+            <div class="sky-error-indicator">
+              <sky-status-indicator
+                *ngIf="favoriteColor.errors?.['color'] as colorError"
+                descriptionType="error"
+                indicatorType="danger"
+              >
+                {{ colorError.message }}
+              </sky-status-indicator>
+            </div>
           </sky-input-box>
         </sky-column>
       </sky-row>
