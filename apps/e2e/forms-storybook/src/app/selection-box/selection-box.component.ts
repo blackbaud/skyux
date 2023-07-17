@@ -20,6 +20,7 @@ export class SelectionBoxComponent implements AfterViewInit, OnDestroy {
     this.myForm = formBuilder.group({
       checkbox1: new FormControl(false),
       checkbox2: new FormControl(false),
+      checkbox3: new FormControl({ value: false, disabled: true }),
       myOption: '',
     });
   }

@@ -27,6 +27,17 @@
       >
       </sky-checkbox>
     </sky-selection-box>
+    <sky-selection-box [control]="checkbox3">
+      <sky-selection-box-header skyId #checkbox3HeaderId="skyId">
+        Disabled
+      </sky-selection-box-header>
+      <sky-checkbox
+        formControlName="checkbox3"
+        [labelledBy]="checkbox3HeaderId.id"
+        #checkbox3
+      >
+      </sky-checkbox>
+    </sky-selection-box>
   </sky-selection-box-grid>
   <sky-radio-group ariaLabel="Demo options" formControlName="myOption">
     <sky-selection-box-grid>
@@ -44,6 +55,13 @@
           No icon no description
         </sky-selection-box-header>
         <sky-radio [labelledBy]="radio2HeaderId.id" #radio2> </sky-radio>
+      </sky-selection-box>
+      <sky-selection-box [control]="radio3">
+        <sky-selection-box-header skyId #radio3HeaderId="skyId">
+          Disabled
+        </sky-selection-box-header>
+        <sky-radio [labelledBy]="radio3HeaderId.id" [disabled]="true" #radio3>
+        </sky-radio>
       </sky-selection-box>
     </sky-selection-box-grid>
   </sky-radio-group>
