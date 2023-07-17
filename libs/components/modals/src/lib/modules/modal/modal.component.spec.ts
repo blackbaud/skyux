@@ -33,6 +33,7 @@ import { ModalWithScrollingContentTestComponent } from './fixtures/modal-with-sc
 import { ModalTestComponent } from './fixtures/modal.component.fixture';
 import { SkyModalBeforeCloseHandler } from './modal-before-close-handler';
 import { SkyModalComponentAdapterService } from './modal-component-adapter.service';
+import { SkyModalError } from './modal-error';
 import { SkyModalHostComponent } from './modal-host.component';
 import { SkyModalHostService } from './modal-host.service';
 import { SkyModalInstance } from './modal-instance';
@@ -941,6 +942,27 @@ describe('Modal component', () => {
 
     closeModal(modalInstance);
   }));
+
+  it('should display and hide error messages in the footer and be accessible', async () => {
+    const modalInstance = openModal(ModalFooterTestComponent, undefined, true);
+    const errors: SkyModalError[] = [
+      { message: 'Test error' },
+      { message: 'Test error 2' },
+    ];
+
+    let errorEls = document.querySelectorAll('.sky-status-indicator');
+    expect(errorEls.length).toBe(0);
+
+    modalInstance.componentInstance.errors = errors;
+    getApplicationRef().tick();
+
+    errorEls = document.querySelectorAll('.sky-status-indicator');
+    errorEls.forEach((el, i) => {
+      expect(el.textContent).toEqual(` Error: ${errors[i].message}`);
+    });
+
+    await expectAsync(getModalElement()).toBeAccessible();
+  });
 
   describe('when modern theme', () => {
     let mutationObserverCreateSpy: jasmine.Spy;
