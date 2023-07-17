@@ -14,83 +14,18 @@
           <sky-fluid-grid [disableMargin]="true" gutterSize="small">
             <sky-row>
               <sky-column [screenSmall]="12" [screenMedium]="4">
-                <sky-input-box>
-                  <label
-                    class="sky-control-label sky-control-label-required"
-                    [for]="firstNameInput.id"
-                    >First Name</label
-                  >
-                  <input
-                    type="text"
-                    class="sky-form-control"
-                    formControlName="firstName"
-                    [attr.aria-describedby]="firstNameError.id"
-                    skyId
-                    #firstNameInput="skyId"
-                  />
-                  <span
-                    class="sky-error-indicator"
-                    skyId
-                    #firstNameError="skyId"
-                  >
-                    <sky-status-indicator
-                      *ngIf="
-                        (firstName?.touched || firstName?.dirty) &&
-                        !firstName?.valid
-                      "
-                      indicatorType="danger"
-                      descriptionType="error"
-                    >
-                      First name is required.
-                    </sky-status-indicator>
-                  </span>
+                <sky-input-box labelText="First name">
+                  <input type="text" formControlName="firstName" />
                 </sky-input-box>
               </sky-column>
               <sky-column [screenSmall]="12" [screenMedium]="4">
-                <sky-input-box>
-                  <label class="sky-control-label" [for]="middleNameInput.id"
-                    >Middle Name</label
-                  >
-                  <input
-                    type="text"
-                    class="sky-form-control"
-                    formControlName="middleName"
-                    skyId
-                    #middleNameInput="skyId"
-                  />
+                <sky-input-box labelText="Middle name">
+                  <input type="text" formControlName="middleName" />
                 </sky-input-box>
               </sky-column>
               <sky-column [screenSmall]="12" [screenMedium]="4">
-                <sky-input-box>
-                  <label
-                    class="sky-control-label sky-control-label-required"
-                    [for]="lastNameInput.id"
-                    >Last Name</label
-                  >
-                  <input
-                    type="text"
-                    class="sky-form-control"
-                    formControlName="lastName"
-                    [attr.aria-describedby]="lastNameError.id"
-                    skyId
-                    #lastNameInput="skyId"
-                  />
-                  <span
-                    class="sky-error-indicator"
-                    skyId
-                    #lastNameError="skyId"
-                  >
-                    <sky-status-indicator
-                      *ngIf="
-                        (lastName?.touched || lastName?.dirty) &&
-                        !lastName?.valid
-                      "
-                      indicatorType="danger"
-                      descriptionType="error"
-                    >
-                      Last name is required.
-                    </sky-status-indicator>
-                  </span>
+                <sky-input-box labelText="Last name">
+                  <input type="text" formControlName="lastName" />
                 </sky-input-box>
               </sky-column>
             </sky-row>
@@ -100,63 +35,15 @@
           <sky-fluid-grid [disableMargin]="true" gutterSize="small">
             <sky-row>
               <sky-column [screenSmall]="12" [screenMedium]="6">
-                <sky-input-box>
-                  <label
-                    class="sky-control-label sky-control-label-required"
-                    [for]="phoneNumberInput.id"
-                    >Phone Number</label
-                  >
+                <sky-input-box labelText="Phone Number">
                   <sky-phone-field defaultCountry="us">
-                    <input
-                      formControlName="phoneNumber"
-                      [attr.aria-describedby]="phoneNumberError.id"
-                      skyId
-                      #phoneNumberInput="skyId"
-                      skyPhoneFieldInput
-                    />
+                    <input formControlName="phoneNumber" skyPhoneFieldInput />
                   </sky-phone-field>
-                  <span
-                    class="sky-error-indicator"
-                    skyId
-                    #phoneNumberError="skyId"
-                  >
-                    <sky-status-indicator
-                      *ngIf="
-                        (phoneNumber?.touched || phoneNumber?.dirty) &&
-                        !phoneNumber?.valid
-                      "
-                      indicatorType="danger"
-                      descriptionType="error"
-                    >
-                      A valid phone number is required.
-                    </sky-status-indicator>
-                  </span>
                 </sky-input-box>
               </sky-column>
               <sky-column [screenSmall]="12" [screenMedium]="6">
-                <sky-input-box>
-                  <label
-                    class="sky-control-label sky-control-label-required"
-                    [for]="emailInput.id"
-                    >Email</label
-                  >
-                  <input
-                    type="email"
-                    class="sky-form-control"
-                    formControlName="email"
-                    [attr.aria-describedby]="emailError.id"
-                    skyId
-                    #emailInput="skyId"
-                  />
-                  <span class="sky-error-indicator" skyId #emailError="skyId">
-                    <sky-status-indicator
-                      *ngIf="(email?.touched || email?.dirty) && !email?.valid"
-                      indicatorType="danger"
-                      descriptionType="error"
-                    >
-                      A valid email address is required.
-                    </sky-status-indicator>
-                  </span>
+                <sky-input-box labelText="Email">
+                  <input type="email" formControlName="email" />
                 </sky-input-box>
               </sky-column>
             </sky-row>

@@ -5,17 +5,8 @@
       <ng-container *ngFor="let field of fields" class="row">
         <ng-container [ngSwitch]="title">
           <ng-container *ngSwitchDefault>
-            <sky-input-box>
-              <label class="sky-control-label" [for]="input.id">{{
-                field
-              }}</label>
-              <input
-                [formControlName]="field"
-                skyId
-                #input="skyId"
-                type="text"
-                class="sky-form-control"
-              />
+            <sky-input-box [labelText]="field">
+              <input [formControlName]="field" type="text" />
             </sky-input-box>
           </ng-container>
           <ng-container *ngSwitchCase="'Color'">

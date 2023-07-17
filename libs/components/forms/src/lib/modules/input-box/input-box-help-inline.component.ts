@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, TemplateRef } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  TemplateRef,
+} from '@angular/core';
 import { SkyIdModule } from '@skyux/core';
 import { SkyHelpInlineModule } from '@skyux/indicators';
 import { SkyPopoverModule } from '@skyux/popovers';
@@ -9,6 +14,7 @@ import { SkyPopoverModule } from '@skyux/popovers';
   standalone: true,
   imports: [CommonModule, SkyHelpInlineModule, SkyIdModule, SkyPopoverModule],
   templateUrl: './input-box-help-inline.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyInputBoxHelpInlineComponent {
   @Input()

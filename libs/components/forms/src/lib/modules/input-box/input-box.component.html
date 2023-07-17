@@ -106,7 +106,7 @@
 </ng-template>
 
 <ng-template #inputTemplate>
-  <ng-content select="input,.sky-form-control:not(textarea)" />
+  <ng-content select="input,select,.sky-form-control:not(textarea)" />
   <ng-container
     *ngIf="hostInputTemplate"
     [ngTemplateOutlet]="hostInputTemplate"
@@ -164,7 +164,7 @@
 </ng-template>
 
 <ng-template #errorLabelTemplate>
-  <div aria-live="polite" [id]="errorId">
+  <div class="sky-control-errors" aria-live="polite" [id]="errorId">
     <sky-input-box-errors
       *ngIf="
         labelText &&

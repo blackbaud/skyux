@@ -1,32 +1,13 @@
 <form novalidate>
   <div class="sky-form-group">
-    <sky-input-box>
-      <label class="sky-control-label" [for]="emailInput.id">
-        Email address
-      </label>
+    <sky-input-box labelText="Email address">
       <input
         class="sky-form-control"
         name="emailAddress"
-        [attr.aria-describedby]="emailError.id"
         skyEmailValidation
-        skyId
+        type="text"
         [(ngModel)]="demoModel.emailAddress"
-        #emailInput="skyId"
-        #emailControl="ngModel"
       />
-      <span class="sky-error-indicator" skyId #emailError="skyId">
-        <sky-status-indicator
-          *ngIf="
-            emailControl.errors?.['skyEmail'] &&
-            emailControl.dirty &&
-            emailControl.touched
-          "
-          indicatorType="danger"
-          descriptionType="error"
-        >
-          Enter a valid email in the "joe@abc.com" format.
-        </sky-status-indicator>
-      </span>
     </sky-input-box>
   </div>
 </form>

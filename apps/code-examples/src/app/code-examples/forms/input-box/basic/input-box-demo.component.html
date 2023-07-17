@@ -8,148 +8,49 @@
       </sky-row>
       <sky-row>
         <sky-column [screenSmall]="12" [screenMedium]="6">
-          <sky-input-box class="sky-margin-stacked-lg">
-            <label class="sky-control-label" [for]="firstNameInput.id">
-              First name
-            </label>
-            <input
-              formControlName="firstName"
-              type="text"
-              spellcheck="false"
-              class="sky-form-control"
-              skyId
-              #firstNameInput="skyId"
-            />
+          <sky-input-box labelText="First name" stacked="true">
+            <input formControlName="firstName" type="text" spellcheck="false" />
           </sky-input-box>
         </sky-column>
         <sky-column [screenSmall]="12" [screenMedium]="6">
-          <sky-input-box class="sky-margin-stacked-lg">
-            <label class="sky-control-label" [for]="lastNameInput.id">
-              Last name
-            </label>
-            <input
-              formControlName="lastName"
-              type="text"
-              spellcheck="false"
-              class="sky-form-control"
-              [attr.aria-describedby]="lastNameError.id"
-              skyId
-              #lastNameInput="skyId"
-            />
-            <span class="sky-error-indicator" skyId #lastNameError="skyId">
-              <sky-status-indicator
-                *ngIf="
-                  (lastName.dirty || lastName.touched) &&
-                  lastName.errors &&
-                  lastName.errors['required']
-                "
-                indicatorType="danger"
-                descriptionType="error"
-              >
-                Last name is required.
-              </sky-status-indicator>
-            </span>
+          <sky-input-box labelText="Last name" stacked="true">
+            <input formControlName="lastName" type="text" spellcheck="false" />
           </sky-input-box>
         </sky-column>
       </sky-row>
       <sky-row>
         <sky-column [screenSmall]="12">
-          <sky-input-box class="sky-margin-stacked-lg">
-            <label class="sky-control-label" [for]="bioInput.id"> Bio </label>
-            <sky-help-inline
-              class="sky-control-help"
-              (actionClick)="onActionClick()"
-            ></sky-help-inline>
-            <textarea
-              formControlName="bio"
-              class="sky-form-control"
-              skyId
-              #bioInput="skyId"
-            ></textarea>
+          <sky-input-box
+            helpPopoverContent="A brief description of the member's background, such as hometown, school, hobbies, etc."
+            labelText="Bio"
+            stacked="true"
+          >
+            <textarea formControlName="bio"></textarea>
           </sky-input-box>
         </sky-column>
       </sky-row>
       <sky-row>
         <sky-column [screenSmall]="12" [screenMedium]="6">
-          <sky-input-box class="sky-margin-stacked-lg">
-            <label class="sky-control-label" [for]="emailInput.id">
-              Email address
-            </label>
+          <sky-input-box labelText="Email address" stacked="true">
             <input
               class="sky-form-control"
               formControlName="email"
-              [attr.aria-describedby]="emailError.id"
-              skyId
-              #emailInput="skyId"
+              type="text"
             />
-            <span class="sky-error-indicator" skyId #emailError="skyId">
-              <sky-status-indicator
-                *ngIf="
-                  (email.dirty || email.touched) &&
-                  email.errors &&
-                  email.errors['required']
-                "
-                indicatorType="danger"
-                descriptionType="error"
-              >
-                Email is required.
-              </sky-status-indicator>
-              <sky-status-indicator
-                *ngIf="
-                  (email.dirty || email.touched) &&
-                  email.errors &&
-                  email.errors['skyEmail']
-                "
-                indicatorType="danger"
-                descriptionType="error"
-              >
-                Enter a valid email in the "joe@abc.com" format.
-              </sky-status-indicator>
-            </span>
           </sky-input-box>
         </sky-column>
         <sky-column [screenSmall]="12" [screenMedium]="6">
-          <sky-input-box class="sky-margin-stacked-lg">
-            <label class="sky-control-label" [for]="dobInput.id">
-              Date of birth
-            </label>
+          <sky-input-box labelText="Date of birth" stacked="true">
             <sky-datepicker>
-              <input
-                formControlName="dob"
-                [attr.aria-describedby]="dobError.id"
-                skyId
-                #dobInput="skyId"
-                skyDatepickerInput
-              />
+              <input formControlName="dob" skyDatepickerInput />
             </sky-datepicker>
-            <span class="sky-error-indicator" skyId #dobError="skyId">
-              <sky-status-indicator
-                *ngIf="
-                  (dob.dirty || dob.touched) &&
-                  dob.errors &&
-                  dob.errors['required']
-                "
-                indicatorType="danger"
-                descriptionType="error"
-              >
-                Date of birth is required.
-              </sky-status-indicator>
-            </span>
           </sky-input-box>
         </sky-column>
       </sky-row>
       <sky-row>
         <sky-column [screenSmall]="12">
-          <sky-input-box class="sky-margin-stacked-lg">
-            <label class="sky-control-label" [for]="favoriteColorInput.id">
-              Favorite color
-            </label>
-            <select
-              formControlName="favoriteColor"
-              skyId
-              class="sky-form-control"
-              #favoriteColorInput
-            >
+          <sky-input-box labelText="Favorite color">
+            <select formControlName="favoriteColor">
               <option value="none">None</option>
               <option value="red">Red</option>
               <option value="orange">Orange</option>

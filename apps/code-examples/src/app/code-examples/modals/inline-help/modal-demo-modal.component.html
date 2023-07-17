@@ -8,17 +8,8 @@
       ></sky-help-inline>
     </sky-modal-header>
     <sky-modal-content>
-      <sky-input-box>
-        <label class="sky-control-label" [for]="myInput.id">
-          An input inside a modal
-        </label>
-        <input
-          class="sky-form-control"
-          formControlName="value1"
-          type="text"
-          skyId
-          #myInput="skyId"
-        />
+      <sky-input-box labelText="An input inside a modal">
+        <input formControlName="value1" type="text" />
       </sky-input-box>
     </sky-modal-content>
     <sky-modal-footer>

@@ -1085,6 +1085,25 @@ describe('Input box component', () => {
       );
     });
 
+    it('should display form control validation errors when labelText is specified', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+
+      const inputBoxEl = getInputBoxEl(
+        fixture,
+        'input-easy-mode'
+      ) as HTMLDivElement;
+
+      const inputEl = inputBoxEl.querySelector('input') as HTMLInputElement;
+      inputEl.dispatchEvent(new Event('blur'));
+
+      fixture.detectChanges();
+
+      const errorEl = inputBoxEl.querySelector('sky-status-indicator');
+
+      expect(errorEl).toHaveText('Error: Easy mode is required.');
+    });
+
     describe('a11y', () => {
       a11yTests();
     });

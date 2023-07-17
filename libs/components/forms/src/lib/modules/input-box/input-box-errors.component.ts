@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ValidationErrors } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
 import { SkyI18nModule } from '@skyux/i18n';
@@ -23,6 +23,7 @@ import { SkyInputBoxErrorComponent } from './input-box-error.component';
   ],
   templateUrl: './input-box-errors.component.html',
   styleUrls: ['./input-box-errors.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyInputBoxErrorsComponent {
   @Input()
