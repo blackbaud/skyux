@@ -9,6 +9,7 @@
     </sky-tab>
     <sky-tab
       *ngIf="tab2Available"
+      layout="fit"
       [tabHeading]="tab2Heading"
       [active]="activeTab === 1"
       [disabled]="tab2Disabled"
@@ -18,6 +19,7 @@
     </sky-tab>
     <sky-tab
       *ngIf="tab3Available"
+      [layout]="tab3Layout"
       [tabHeading]="tab3Heading"
       [tabHeaderCount]="tab3HeaderCount"
       [tabIndex]="3"

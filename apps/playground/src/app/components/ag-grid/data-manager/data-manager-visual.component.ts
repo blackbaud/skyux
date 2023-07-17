@@ -1,15 +1,26 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { SkyUIConfigService } from '@skyux/core';
 import {
+  SkyDataManagerModule,
   SkyDataManagerService,
   SkyDataManagerState,
 } from '@skyux/data-manager';
 
 import { SkyDataManagerFiltersModalVisualComponent } from './data-filter-modal.component';
+import { DataViewGridComponent } from './data-view-grid.component';
+import { DataViewRepeaterComponent } from './data-view-repeater.component';
 import { LocalStorageConfigService } from './local-storage-config.service';
 
 @Component({
   selector: 'app-data-manager-visual',
+  standalone: true,
+  imports: [
+    CommonModule,
+    SkyDataManagerModule,
+    DataViewGridComponent,
+    DataViewRepeaterComponent,
+  ],
   templateUrl: './data-manager-visual.component.html',
   providers: [
     SkyDataManagerService,

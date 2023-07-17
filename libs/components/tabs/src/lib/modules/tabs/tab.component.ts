@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  HostBinding,
   Input,
   OnChanges,
   OnDestroy,
@@ -13,14 +14,19 @@ import {
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { SkyTabIndex } from './tab-index';
+import { SkyTabLayoutType } from './tab-layout-type';
 import { SkyTabsetPermalinkService } from './tabset-permalink.service';
 import { SkyTabsetService } from './tabset.service';
+
+const LAYOUT_CLASS_PREFIX = 'sky-layout-host-';
+const LAYOUT_DEFAULT: SkyTabLayoutType = 'none';
 
 let nextId = 0;
 
 @Component({
   selector: 'sky-tab',
   templateUrl: './tab.component.html',
+  styleUrls: ['./tab.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyTabComponent implements OnChanges, OnDestroy {
@@ -120,6 +126,32 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
   }
 
   /**
+   * The page layout that corresponds with the top-level component type
+   * used on the page. For laying out custom content, use `auto` to allow
+   * the page contents to expand beyond the bottom of the browser window
+   * or `fit` to constrain the page contents to the available viewport.
+   * @default "auto"
+   */
+  @Input()
+  public set layout(value: SkyTabLayoutType | undefined) {
+    const layout = value || LAYOUT_DEFAULT;
+
+    this.#_layout = layout;
+    this.cssClass = `${LAYOUT_CLASS_PREFIX}${layout}`;
+
+    if (this.active) {
+      this.#tabsetService.updateActiveTabLayout(layout);
+    }
+  }
+
+  public get layout(): SkyTabLayoutType {
+    return this.#_layout;
+  }
+
+  @HostBinding('class')
+  public cssClass = `${LAYOUT_CLASS_PREFIX}${LAYOUT_DEFAULT}`;
+
+  /**
    * Fires when users click the button to close the tab.
    * The close button is added to the tab when you specify a listener for this event.
    * This event only applies when the tabset's `tabStyle` is `"tabs"`.
@@ -157,6 +189,8 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
   #_tabHeading: string | undefined;
 
   #_tabIndex: SkyTabIndex | undefined;
+
+  #_layout: SkyTabLayoutType = LAYOUT_DEFAULT;
 
   #tabIndexChange: BehaviorSubject<SkyTabIndex | undefined>;
 
