@@ -76,28 +76,50 @@ export class SkyInputBoxComponent implements OnInit, AfterContentChecked {
   @Input()
   public disabled: boolean | undefined;
 
+  /**
+   * The text to display as the input's label and in known validation error messages. The label
+   * will automatically be associated with the `input`, `select`, or `textarea` element included
+   * in the input box.
+   */
   @Input()
   public labelText: string | undefined;
 
+  /**
+   * The maximum number of characters allowed in the input. A [SKY UX character count](https://developer.blackbaud.com/skyux/components/character-count)
+   * will be placed on the input element with the appropriate validator.
+   */
   @Input()
-  public get characterLimit(): number | undefined {
-    return this.#_characterLimit;
-  }
-
   public set characterLimit(value: NumberInput) {
     this.#_characterLimit = coerceNumberProperty(value, undefined);
     this.#updateMaxLengthValidator();
   }
 
+  public get characterLimit(): number | undefined {
+    return this.#_characterLimit;
+  }
+
+  /**
+   * Whether the input box is stacked on another input box. When specified, the appropriate
+   * vertical spacing is automatically added to the input box.
+   */
   @Input()
   public set stacked(value: BooleanInput) {
     this.#_stacked = coerceBooleanProperty(value);
     this.cssClass = this.#_stacked ? 'sky-margin-stacked-lg' : '';
   }
 
+  /**
+   * The title of the help popover. This property only applies when `helpPopoverContent` is
+   * also specified.
+   */
   @Input()
   public helpPopoverTitle: string | undefined;
 
+  /**
+   * The content of the help popover. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is added to the input box label. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
+   * when clicked using the specified content and optional title.
+   */
   @Input()
   public helpPopoverContent: string | TemplateRef<unknown> | undefined;
 

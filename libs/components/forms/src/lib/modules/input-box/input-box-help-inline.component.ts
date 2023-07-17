@@ -9,6 +9,9 @@ import { SkyIdModule } from '@skyux/core';
 import { SkyHelpInlineModule } from '@skyux/indicators';
 import { SkyPopoverModule } from '@skyux/popovers';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-input-box-help-inline',
   standalone: true,
