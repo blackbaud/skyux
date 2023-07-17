@@ -115,6 +115,9 @@
       ],
       "@skyux/packages": ["libs/components/packages/src/index.ts"],
       "@skyux/pages": ["libs/components/pages/src/index.ts"],
+      "@skyux/pages/testing": [
+        "libs/components/pages/testing/src/public-api.ts"
+      ],
       "@skyux/phone-field": ["libs/components/phone-field/src/index.ts"],
       "@skyux/phone-field/testing": [
         "libs/components/phone-field/testing/src/public-api.ts"

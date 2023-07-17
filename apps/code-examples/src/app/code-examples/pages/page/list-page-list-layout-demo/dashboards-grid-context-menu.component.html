@@ -1,0 +1,22 @@
+<sky-dropdown
+  buttonType="context-menu"
+  [label]="'context menu for ' + dashboardName"
+>
+  <sky-dropdown-menu>
+    <sky-dropdown-item>
+      <button type="button" [attr.aria-label]="'Edit ' + dashboardName">
+        Edit
+      </button>
+    </sky-dropdown-item>
+    <sky-dropdown-item>
+      <button type="button" [attr.aria-label]="'Copy ' + dashboardName">
+        Copy
+      </button>
+    </sky-dropdown-item>
+    <sky-dropdown-item>
+      <button type="button" [attr.aria-label]="'Delete ' + dashboardName">
+        Delete
+      </button>
+    </sky-dropdown-item>
+  </sky-dropdown-menu>
+</sky-dropdown>
