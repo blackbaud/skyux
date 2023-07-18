@@ -96,6 +96,9 @@ $sky-switch-size-modern: 26px !default;
   }
 
   &.sky-theme-mode-dark {
+    .sky-switch-control {
+      background-color: #000;
+    }
     .sky-switch-input:disabled + .sky-switch-control {
       background-color: $sky-theme-modern-mode-dark-background-color-elevation-3;
       border-color: $sky-theme-modern-mode-dark-border-color-neutral-medium;
