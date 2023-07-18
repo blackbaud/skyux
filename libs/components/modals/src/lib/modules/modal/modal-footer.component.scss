@@ -36,7 +36,7 @@
   }
 }
 
-.sky-theme-modern-dark {
+@include mixins.sky-theme-modern-dark {
   .sky-modal-footer-container {
     background-color: transparent;
   }
