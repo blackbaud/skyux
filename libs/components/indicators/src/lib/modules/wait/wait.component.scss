@@ -1,14 +1,16 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
-@use 'scss/variables' as *;
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 
 .sky-wait-mask-loading-blocking {
+  --sky-wait-mask-color: rgba(255, 255, 255, 0.7);
+  --sky-wait-color: #{$sky-highlight-color-success};
   margin: auto;
   position: absolute;
   top: 0;
   right: 0;
   left: 0;
   bottom: 0;
-  background-color: $sky-wait-mask-color;
+  background-color: var(--sky-wait-mask-color);
   z-index: $sky-component-wait-z-index;
 }
 
@@ -44,7 +46,7 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background-color: $sky-wait-color;
+  background-color: var(--sky-wait-color);
   opacity: 0.6;
   position: absolute;
   top: 0;
@@ -84,4 +86,10 @@
 
 .sky-wait-container.sky-wait-active {
   position: relative;
+}
+
+@include mixins.sky-theme-modern-dark {
+  .sky-wait-mask-loading-blocking {
+    --sky-wait-mask-color: rgba(0, 0, 0, 0.7);
+  }
 }
