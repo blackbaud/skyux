@@ -14,7 +14,7 @@ $indicator-size: 22px;
 
 .sky-toggle-switch-switch {
   border: 1px solid $sky-border-color-neutral-medium;
-  background-color: $sky-background-color-neutral-light;
+  background-color: var(--sky-background-color-neutral-light);
   padding: 1px;
   border-radius: $indicator-size + 2;
   flex: none;
@@ -152,6 +152,8 @@ $indicator-size: 22px;
 
 @include mixins.sky-theme-modern-dark {
   .sky-toggle-switch-button {
-    background-color: $sky-theme-modern-mode-dark-background-color-page-default;
+    .sky-toggle-switch-switch {
+      background-color: $sky-theme-modern-mode-dark-background-color-page-default;
+    }
   }
 }
