@@ -21,6 +21,7 @@
   --sky-alert-icon-default-display: initial;
   --sky-alert-icon-modern-display: none;
   --sky-alert-info-background-color: var(--sky-background-color-info);
+  --sky-alert-text-color: var(--sky-text-color-default);
 }
 
 /* Modern theme */
@@ -48,10 +49,17 @@
   }
 }
 
+/* Modern theme dark mode */
+@include mixins.sky-theme-modern-dark {
+  .sky-alert {
+    --sky-alert-text-color: var(--sky-background-color-page-default);
+  }
+}
+
 .sky-alert {
   padding: 0 $sky-padding;
   border-left: solid var(--sky-alert-border-left-width);
-  color: var(--sky-text-color-default);
+  color: var(--sky-alert-text-color);
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -66,7 +74,7 @@
       text-decoration: underline;
 
       &:hover {
-        color: var(--sky-text-color-default);
+        color: var(--sky-alert-text-color);
       }
     }
   }
@@ -91,7 +99,7 @@
   }
 
   &:not(.sky-alert-danger) {
-    --sky-icon-stack-top-icon-color-override: #{$sky-text-color-default};
+    --sky-icon-stack-top-icon-color-override: var(--sky-alert-text-color);
   }
 
   &.sky-alert-info {
@@ -139,7 +147,7 @@
   line-height: 1;
   margin: 0;
   padding: 0;
-  color: var(--sky-text-color-default);
+  color: var(--sky-alert-text-color);
   opacity: var(--sky-alert-close-btn-opacity);
   border: none;
   border-radius: var(--sky-alert-close-btn-border-radius);
