@@ -45,19 +45,27 @@
 
   &.sky-theme-mode-dark {
     /* color */
-    --sky-background-color-page-default: #{$sky-theme-modern-mode-dark-background-color-page-default};
-    --sky-background-color-neutral-light: #{$sky-theme-modern-mode-dark-background-color-page-default};
+    --sky-background-color-page-default: #121519;
+    --sky-background-color-neutral-light: #121519;
     --sky-background-color-primary-dark: #{$sky-theme-modern-mode-dark-background-color-primary-dark};
-    --sky-background-color-disabled: transparent;
+    --sky-background-color-disabled: #191e23;
+
+    --sky-background-color-info: #86b3f3;
+    --sky-background-color-success: #b7da9b;
+    --sky-background-color-warning: #ffd597;
+    --sky-background-color-danger: #f7a08f;
+    --sky-background-color-danger-dark: #d93a3d;
+
+    --sky-highlight-color-info: #5091ed;
+    --sky-highlight-color-success: #71bf43;
+    --sky-highlight-color-warning: #fbb034;
+    --sky-highlight-color-danger: #ef4044;
 
     --sky-border-color-neutral-medium: #{$sky-theme-modern-mode-dark-border-color-neutral-medium};
 
-    --sky-text-color-default: #{$sky-theme-modern-mode-dark-font-body-default-color};
-    --sky-text-color-deemphasized: #{$sky-theme-modern-mode-dark-font-deemphasized-color};
-    --sky-text-color-action-primary: #{$sky-theme-modern-mode-dark-text-color-action-primary};
-    --sky-text-color-action-primary-hover: #{darken(
-        $sky-theme-modern-mode-dark-text-color-action-primary,
-        10%
-      )};
+    --sky-text-color-default: #fcfcfc;
+    --sky-text-color-deemphasized: #a8aaae;
+    --sky-text-color-action-primary: #86b3f3;
+    --sky-text-color-action-primary-hover: #{darken(#86b3f3, 10%)};
   }
 }
