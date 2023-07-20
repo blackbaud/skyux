@@ -74,14 +74,17 @@
     --sky-text-color-action-primary: #00cfff;
     --sky-text-color-action-primary-hover: #{lighten(#00cfff, 10%)};
 
-    --sky-elevation-1-background-color: #252b33;
-    --sky-elevation-3-background-color: #2c323a;
-    --sky-elevation-4-background-color: #333940;
-    --sky-elevation-8-background-color: #{$sky-theme-modern-mode-dark-background-color-elevation-8};
-    --sky-elevation-16-background-color: #{$sky-theme-modern-mode-dark-background-color-elevation-16};
-    --sky-elevation-24-background-color: #{$sky-theme-modern-mode-dark-background-color-elevation-24};
+    --sky-elevation-1-background-color: #1e2229;
+    --sky-elevation-3-background-color: #242b2e;
+    --sky-elevation-4-background-color: #292d34;
+    --sky-elevation-8-background-color: #2f3339;
+    --sky-elevation-16-background-color: #1e2229;
+    --sky-elevation-24-background-color: #27292c;
 
     --sky-elevation-0-bordered-color: #{$sky-theme-modern-mode-dark-elevation-0-bordered-border};
     --sky-elevation-1-bordered-color: #{$sky-theme-modern-mode-dark-elevation-0-bordered-border};
+
+    --sky-background-color-input-selected: #123e4c;
+    --sky-background-color-item-selected: #{$sky-color-blue-05};
   }
 }
