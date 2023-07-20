@@ -20,6 +20,7 @@
       $sky-theme-modern-text-color-action-primary,
       10%
     )};
+  --sky-text-color-on-dark: #fff;
 
   /* margin */
   --sky-margin-inline-xs: #{$sky-theme-modern-margin-inline-xs};
@@ -73,6 +74,7 @@
     --sky-text-color-deemphasized: #a8aaae;
     --sky-text-color-action-primary: #00cfff;
     --sky-text-color-action-primary-hover: #{lighten(#00cfff, 10%)};
+    --sky-text-color-on-dark: #161a1f;
 
     --sky-elevation-1-background-color: #1e2229;
     --sky-elevation-3-background-color: #242b2e;

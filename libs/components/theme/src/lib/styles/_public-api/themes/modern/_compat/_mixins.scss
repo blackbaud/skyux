@@ -124,8 +124,7 @@
   box-shadow: none;
 
   &:not(:active) {
-    border-bottom: solid 3px
-      vars.$sky-theme-modern-background-color-primary-dark;
+    border-bottom: solid 3px var(--sky-background-color-primary-dark);
     padding-bottom: modernCompatVars.$sky-theme-modern-tab-btn-padding-top-bottom -
       3px;
   }

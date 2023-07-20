@@ -21,16 +21,16 @@
 
   .sky-btn-primary {
     @include modernCompatMixins.sky-theme-modern-button-variant(
-      $sky-color-white,
-      $sky-theme-modern-background-color-primary-dark,
-      $sky-theme-modern-background-color-primary-dark,
+      var(--sky-text-color-on-dark),
+      var(--sky-background-color-primary-dark),
+      var(--sky-background-color-primary-dark),
       $sky-background-color-info-light
     );
   }
 
   .sky-btn-danger {
     @include modernCompatMixins.sky-theme-modern-button-variant(
-      $sky-color-white,
+      var(--sky-text-color-on-dark),
       $sky-background-color-danger-dark,
       $sky-background-color-danger-dark,
       $sky-background-color-danger
@@ -39,7 +39,7 @@
 
   .sky-btn-link {
     @include modernCompatMixins.sky-theme-modern-button-variant(
-      $sky-theme-modern-text-color-action-primary,
+      var(--sky-text-color-action-primary),
       transparent,
       transparent,
       $sky-theme-modern-background-color-primary-dark
