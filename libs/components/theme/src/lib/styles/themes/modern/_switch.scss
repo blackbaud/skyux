@@ -97,7 +97,7 @@ $sky-switch-size-modern: 26px !default;
 
   &.sky-theme-mode-dark {
     .sky-switch-control {
-      background-color: #000;
+      background-color: transparent;
     }
     .sky-switch-input:disabled + .sky-switch-control {
       background-color: var(--sky-elevation-3-background-color);
