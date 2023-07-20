@@ -1,0 +1,26 @@
+<sky-summary-action-bar *ngIf="contacts?.length > 0">
+  <sky-summary-action-bar-actions>
+    <sky-summary-action-bar-primary-action (actionClick)="onEmailClick()">
+      Email
+    </sky-summary-action-bar-primary-action>
+    <sky-summary-action-bar-secondary-actions>
+      <sky-summary-action-bar-secondary-action (actionClick)="onAssignClick()">
+        Assign prospects
+      </sky-summary-action-bar-secondary-action>
+      <sky-summary-action-bar-secondary-action (actionClick)="onRemoveClick()">
+        Remove from list
+      </sky-summary-action-bar-secondary-action>
+    </sky-summary-action-bar-secondary-actions>
+  </sky-summary-action-bar-actions>
+  <sky-summary-action-bar-summary>
+    <sky-key-info class="sky-margin-inline-xl">
+      <sky-key-info-value>{{ contacts?.length }}</sky-key-info-value>
+      <sky-key-info-label
+        >Contact{{
+          contacts.length === 1 ? '' : 's'
+        }}
+        selected</sky-key-info-label
+      >
+    </sky-key-info>
+  </sky-summary-action-bar-summary>
+</sky-summary-action-bar>

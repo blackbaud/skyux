@@ -1,5 +1,15 @@
 <sky-page layout="tabs">
-  <sky-page-header pageTitle="Contacts" />
+  <sky-page-header
+    pageTitle="Contacts"
+    [parentLink]="{
+      label: 'Prospects',
+      permalink: {
+        route: {
+          commands: ['/dark-mode/action-hub']
+        }
+      }
+    }"
+  />
   <sky-page-content>
     <app-contact-page-content></app-contact-page-content>
   </sky-page-content>

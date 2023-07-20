@@ -1,6 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { SkyActionHubModule, SkyPageModalLinksInput } from '@skyux/pages';
+import {
+  SkyActionHubModule,
+  SkyPageModalLinksInput,
+  SkyPageModule,
+} from '@skyux/pages';
 
 import { ModalComponent } from '../modal/modal.component';
 
@@ -8,7 +12,7 @@ import { ModalComponent } from '../modal/modal.component';
   selector: 'app-action-hub-visual',
   templateUrl: './action-hub.component.html',
   standalone: true,
-  imports: [CommonModule, SkyActionHubModule],
+  imports: [CommonModule, SkyActionHubModule, SkyPageModule],
 })
 export default class ActionHubDemoComponent {
   public buttons = [
@@ -109,6 +113,4 @@ export default class ActionHubDemoComponent {
       },
     },
   ];
-
-  public title = 'Page title';
 }

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, inject } from '@angular/core';
-import { SkyAgGridService } from '@skyux/ag-grid';
+import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { SkyAgGridModule } from '@skyux/ag-grid';
 import {
   SkyDataManagerService,
@@ -12,15 +12,19 @@ import { SkyIconModule, SkyKeyInfoModule } from '@skyux/indicators';
 import { SkyTabsModule } from '@skyux/tabs';
 
 import { AgGridModule } from 'ag-grid-angular';
-import { ColDef, GridOptions, ICellRendererParams } from 'ag-grid-community';
+import {
+  ColDef,
+  Events,
+  GridApi,
+  GridOptions,
+  GridReadyEvent,
+  ICellRendererParams,
+  RowSelectedEvent,
+} from 'ag-grid-community';
 
+import { Contact } from './contact';
 import { ContactContextMenuComponent } from './contact-context-menu.component';
-
-type Contact = {
-  name: string;
-  organization: string;
-  emailAddress: string;
-};
+import { SummaryActionBarComponent } from './summary-action-bar.component';
 
 @Component({
   selector: 'app-contacts-grid',
@@ -34,6 +38,7 @@ type Contact = {
     AgGridModule,
     SkyKeyInfoModule,
     SkyIconModule,
+    SummaryActionBarComponent,
   ],
   providers: [SkyDataManagerService],
 })
@@ -42,11 +47,18 @@ export class ContactsGridComponent implements OnInit {
   public contacts: Contact[] = [];
 
   public gridOptions: GridOptions;
+  public selectedContactIds: string[] = [];
+  public gridApi?: GridApi;
 
   #dataManagerService = inject(SkyDataManagerService);
   #agGridSvc = inject(SkyAgGridService);
 
   #columnDefs: ColDef[] = [
+    {
+      field: 'selected',
+      colId: 'selected',
+      type: SkyCellType.RowSelector,
+    },
     {
       colId: 'contextMenu',
       headerName: '',
@@ -81,6 +93,11 @@ export class ContactsGridComponent implements OnInit {
     searchEnabled: true,
     columnPickerEnabled: true,
     columnOptions: [
+      {
+        id: 'selected',
+        label: 'selected',
+        alwaysDisplayed: true,
+      },
       { id: 'contextMenu', label: 'Context menu', alwaysDisplayed: true },
       { id: 'name', label: 'Name' },
       { id: 'organization', label: 'Organization' },
@@ -92,9 +109,7 @@ export class ContactsGridComponent implements OnInit {
     this.gridOptions = this.#agGridSvc.getGridOptions({
       gridOptions: {
         columnDefs: this.#columnDefs,
-        onGridReady: (args) => {
-          args.api.sizeColumnsToFit();
-        },
+        onGridReady: (args) => this.#onGridReady(args),
       },
     });
   }
@@ -108,6 +123,7 @@ export class ContactsGridComponent implements OnInit {
           {
             viewId: 'gridView',
             displayedColumnIds: [
+              'selected',
               'contextMenu',
               'name',
               'organization',
@@ -119,5 +135,23 @@ export class ContactsGridComponent implements OnInit {
     });
 
     this.#dataManagerService.initDataView(this.#viewConfig);
+  }
+
+  #onGridReady(gridReadyEvent: GridReadyEvent): void {
+    this.gridApi = gridReadyEvent.api;
+    this.gridApi.sizeColumnsToFit();
+    this.gridApi.addEventListener(
+      Events.EVENT_ROW_SELECTED,
+      (event: RowSelectedEvent) => {
+        const row = event.node;
+        if (row.isSelected()) {
+          this.selectedContactIds = [...this.selectedContactIds, row.data.id];
+        } else {
+          this.selectedContactIds = this.selectedContactIds.filter(
+            (id) => id !== row.id
+          );
+        }
+      }
+    );
   }
 }
