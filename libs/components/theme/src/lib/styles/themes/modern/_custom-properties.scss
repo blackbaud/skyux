@@ -45,8 +45,8 @@
 
   &.sky-theme-mode-dark {
     /* color */
-    --sky-background-color-page-default: #121519;
-    --sky-background-color-neutral-light: #121519;
+    --sky-background-color-page-default: #161a1f;
+    --sky-background-color-neutral-light: #161a1f;
     --sky-background-color-primary-dark: #{$sky-theme-modern-mode-dark-background-color-primary-dark};
     --sky-background-color-disabled: #191e23;
 
@@ -54,18 +54,17 @@
     --sky-background-color-success: #b7da9b;
     --sky-background-color-warning: #ffd597;
     --sky-background-color-danger: #f7a08f;
-    --sky-background-color-danger-dark: #d93a3d;
 
-    --sky-highlight-color-info: #5091ed;
+    --sky-highlight-color-info: #00b4f1;
     --sky-highlight-color-success: #71bf43;
     --sky-highlight-color-warning: #fbb034;
     --sky-highlight-color-danger: #ef4044;
 
-    --sky-border-color-neutral-medium: #{$sky-theme-modern-mode-dark-border-color-neutral-medium};
+    --sky-border-color-neutral-medium: #919498;
 
     --sky-text-color-default: #fcfcfc;
     --sky-text-color-deemphasized: #a8aaae;
-    --sky-text-color-action-primary: #86b3f3;
-    --sky-text-color-action-primary-hover: #{darken(#86b3f3, 10%)};
+    --sky-text-color-action-primary: #00cfff;
+    --sky-text-color-action-primary-hover: #{darken(#00cfff, 10%)};
   }
 }
