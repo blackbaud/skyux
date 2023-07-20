@@ -1,10 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import {
-  SkyActionHubModule,
-  SkyPageModalLinksInput,
-  SkyPageModule,
-} from '@skyux/pages';
+import { Component, inject } from '@angular/core';
+import { SkyModalService } from '@skyux/modals';
+import { SkyActionHubModule, SkyPageModule } from '@skyux/pages';
 
 import { ModalComponent } from '../modal/modal.component';
 
@@ -15,6 +12,8 @@ import { ModalComponent } from '../modal/modal.component';
   imports: [CommonModule, SkyActionHubModule, SkyPageModule],
 })
 export default class ActionHubDemoComponent {
+  #modalSvc = inject(SkyModalService);
+
   public buttons = [
     {
       label: 'Action 1',
@@ -38,22 +37,17 @@ export default class ActionHubDemoComponent {
 
   public needsAttention = [
     {
-      title: '9',
-      message: 'updates from portal',
+      title: '1 overdue progress report',
+      click: () => this.#modalSvc.open(ModalComponent, { size: 'large' }),
+    },
+    {
+      title: '8 new message from online donation',
       permalink: {
         url: '#',
       },
     },
     {
-      title: '8',
-      message: 'new messages from online donation',
-      permalink: {
-        url: '#',
-      },
-    },
-    {
-      title: '7',
-      message: 'possible duplicates from constituent lists',
+      title: '7 possible duplicates from constituent lists',
       permalink: {
         url: '#',
       },
@@ -77,39 +71,6 @@ export default class ActionHubDemoComponent {
       label: 'Link 3',
       permalink: {
         url: '#',
-      },
-    },
-  ];
-
-  public settingsLinks: SkyPageModalLinksInput = [
-    {
-      label: 'Number',
-      modal: {
-        component: ModalComponent,
-        config: {
-          size: 'large',
-          providers: [
-            {
-              provide: 'modalTitle',
-              useValue: 'Number',
-            },
-          ],
-        },
-      },
-    },
-    {
-      label: 'Color',
-      modal: {
-        component: ModalComponent,
-        config: {
-          size: 'large',
-          providers: [
-            {
-              provide: 'modalTitle',
-              useValue: 'Color',
-            },
-          ],
-        },
       },
     },
   ];

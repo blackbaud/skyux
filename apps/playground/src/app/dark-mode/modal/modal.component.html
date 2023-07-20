@@ -1,41 +1,105 @@
 <sky-modal>
-  <sky-modal-header>{{ title }}</sky-modal-header>
+  <sky-modal-header>File a contact report</sky-modal-header>
   <sky-modal-content>
     <form [formGroup]="form" (submit)="modal.save()">
-      <ng-container *ngFor="let field of fields" class="row">
-        <ng-container [ngSwitch]="title">
-          <ng-container *ngSwitchDefault>
-            <sky-input-box>
-              <label class="sky-control-label" [for]="input.id">{{
-                field
-              }}</label>
-              <input
-                [formControlName]="field"
-                skyId
-                #input="skyId"
-                type="text"
-                class="sky-form-control"
-              />
+      <sky-fluid-grid>
+        <sky-row>
+          <sky-column screenXSmall="6">
+            <sky-input-box class="sky-margin-stacked-lg">
+              <label class="sky-control-label"> Constituent </label>
+              <sky-lookup
+                formControlName="constituent"
+                selectMode="single"
+                [data]="constituents"
+              >
+              </sky-lookup>
             </sky-input-box>
-          </ng-container>
-          <ng-container *ngSwitchCase="'Color'">
-            <div class="sky-form-group">
-              <label class="sky-control-label" [for]="input.id">{{
-                field
-              }}</label>
-              <sky-colorpicker #colorPicker>
+          </sky-column>
+        </sky-row>
+        <sky-row>
+          <sky-column screenXSmall="6">
+            <sky-input-box class="sky-margin-stacked-lg">
+              <label class="sky-control-label"> Fundraiser </label>
+              <sky-lookup
+                formControlName="constituent"
+                selectMode="single"
+                [data]="fundraisers"
+              >
+              </sky-lookup>
+            </sky-input-box>
+          </sky-column>
+        </sky-row>
+        <sky-row>
+          <sky-column screenXSmall="6">
+            <sky-input-box class="sky-margin-stacked-lg">
+              <label class="sky-control-label">Contact date</label>
+              <sky-datepicker>
                 <input
-                  [formControlName]="field"
-                  [skyColorpickerInput]="colorPicker"
-                  skyId
-                  #input="skyId"
+                  formControlName="contactDate"
+                  skyDatepickerInput
                   type="text"
                 />
-              </sky-colorpicker>
-            </div>
-          </ng-container>
-        </ng-container>
-      </ng-container>
+              </sky-datepicker>
+            </sky-input-box>
+          </sky-column>
+          <sky-column screenXSmall="6">
+            <sky-input-box class="sky-margin-stacked-lg">
+              <label class="sky-control-label"> Contact method </label>
+              <select formControlName="contactMethod" class="sky-form-control">
+                <option value="in-person">In person meeting</option>
+                <option value="phone-call">Phone call</option>
+                <option value="email">Email</option>
+                <option value="letter">Letter</option>
+                <option value="pigeon">Carrier pigeon</option>
+                <option value="sky-writer">Sky writer</option>
+              </select>
+            </sky-input-box>
+          </sky-column>
+        </sky-row>
+        <sky-row>
+          <sky-column screenXSmall="12">
+            <sky-input-box class="sky-margin-stacked-lg">
+              <label class="sky-control-label"> Notes </label>
+              <textarea
+                formControlName="notes"
+                class="sky-form-control"
+              ></textarea>
+            </sky-input-box>
+          </sky-column>
+        </sky-row>
+        <sky-row>
+          <sky-column screenXSmall="6">
+            <sky-radio-group formControlName="sentiment">
+              <ul class="sky-list-unstyled sky-margin-stacked-lg">
+                <li>
+                  <sky-radio value="positive">
+                    <sky-radio-label> Positive </sky-radio-label>
+                  </sky-radio>
+                </li>
+                <li>
+                  <sky-radio value="neutral">
+                    <sky-radio-label> Neutral </sky-radio-label>
+                  </sky-radio>
+                </li>
+                <li>
+                  <sky-radio value="negative">
+                    <sky-radio-label> Negative </sky-radio-label>
+                  </sky-radio>
+                </li>
+              </ul>
+            </sky-radio-group>
+          </sky-column>
+        </sky-row>
+        <sky-row>
+          <sky-column screenXSmall="6">
+            <sky-checkbox formControlName="additionalContact">
+              <sky-checkbox-label>
+                Constituent agrees to additional contacts
+              </sky-checkbox-label>
+            </sky-checkbox>
+          </sky-column>
+        </sky-row>
+      </sky-fluid-grid>
     </form>
   </sky-modal-content>
   <sky-modal-footer>

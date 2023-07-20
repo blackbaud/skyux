@@ -47,7 +47,7 @@ export class ContactsGridComponent implements OnInit {
   public contacts: Contact[] = [];
 
   public gridOptions: GridOptions;
-  public selectedContactIds: string[] = [];
+  public selectedContactIds: string[];
   public gridApi?: GridApi;
 
   #dataManagerService = inject(SkyDataManagerService);
@@ -106,6 +106,7 @@ export class ContactsGridComponent implements OnInit {
   };
 
   constructor() {
+    this.selectedContactIds = [];
     this.gridOptions = this.#agGridSvc.getGridOptions({
       gridOptions: {
         columnDefs: this.#columnDefs,
@@ -140,6 +141,7 @@ export class ContactsGridComponent implements OnInit {
   #onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.gridApi = gridReadyEvent.api;
     this.gridApi.sizeColumnsToFit();
+    this.gridApi.deselectAll();
     this.gridApi.addEventListener(
       Events.EVENT_ROW_SELECTED,
       (event: RowSelectedEvent) => {
