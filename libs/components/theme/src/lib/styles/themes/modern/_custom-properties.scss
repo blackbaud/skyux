@@ -72,7 +72,7 @@
     --sky-text-color-default: #fcfcfc;
     --sky-text-color-deemphasized: #a8aaae;
     --sky-text-color-action-primary: #00cfff;
-    --sky-text-color-action-primary-hover: #{darken(#00cfff, 10%)};
+    --sky-text-color-action-primary-hover: #{lighten(#00cfff, 10%)};
 
     --sky-elevation-1-background-color: #252b33;
     --sky-elevation-3-background-color: #2c323a;
