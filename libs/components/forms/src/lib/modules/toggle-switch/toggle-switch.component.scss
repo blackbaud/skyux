@@ -153,7 +153,7 @@ $indicator-size: 22px;
 @include mixins.sky-theme-modern-dark {
   .sky-toggle-switch-button {
     .sky-toggle-switch-switch {
-      background-color: $sky-theme-modern-mode-dark-background-color-page-default;
+      background-color: var(--sky-background-color-page-default);
     }
   }
 }

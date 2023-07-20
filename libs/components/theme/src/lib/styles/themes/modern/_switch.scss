@@ -100,13 +100,13 @@ $sky-switch-size-modern: 26px !default;
       background-color: #000;
     }
     .sky-switch-input:disabled + .sky-switch-control {
-      background-color: $sky-theme-modern-mode-dark-background-color-elevation-3;
-      border-color: $sky-theme-modern-mode-dark-border-color-neutral-medium;
-      color: $sky-theme-modern-mode-dark-font-deemphasized-color;
+      background-color: var(--sky-elevation-3-background-color);
+      border-color: var(--sky-border-color-neutral-medium);
+      color: var(--sky-text-color-deemphasized);
     }
     .sky-switch-icon-group {
       .sky-switch-control {
-        color: $sky-theme-modern-mode-dark-font-body-default-color;
+        color: var(--sky-text-color-default);
       }
     }
   }

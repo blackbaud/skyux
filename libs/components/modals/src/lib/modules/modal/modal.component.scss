@@ -195,16 +195,15 @@
 
 @include mixins.sky-theme-modern-dark {
   .sky-modal {
-    border-color: $sky-theme-modern-mode-dark-background-color-page-default;
+    border-color: var(--sky-background-color-page-default);
   }
 
   .sky-modal-header {
-    color: $sky-theme-modern-mode-dark-font-body-default-color;
+    color: var(--sky-text-color-default);
   }
 
   .sky-modal-header,
   .sky-modal-content {
     background-color: transparent;
-    --sky-background-color-page-default: $sky-theme-modern-mode-dark-background-color-page-default;
   }
 }

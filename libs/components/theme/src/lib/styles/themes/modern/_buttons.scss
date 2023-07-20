@@ -129,7 +129,7 @@
   &.sky-theme-mode-dark {
     .sky-btn-default {
       @include mixins.sky-button-variant(
-        $sky-theme-modern-mode-dark-font-body-default-color,
+        var(--sky-text-color-default),
         transparent,
         $sky-theme-modern-color-gray-70
       );

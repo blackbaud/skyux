@@ -9,6 +9,6 @@ h2 {
 
 @include mixins.sky-theme-modern-dark {
   h2 {
-    color: $sky-theme-modern-mode-dark-font-body-default-color;
+    color: var(--sky-text-color-default);
   }
 }

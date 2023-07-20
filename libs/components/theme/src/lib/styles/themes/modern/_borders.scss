@@ -3,7 +3,7 @@
 .sky-theme-modern {
   &.sky-theme-mode-dark {
     .sky-border-bottom-dark {
-      border-bottom-color: $sky-theme-modern-mode-dark-border-color-neutral-medium;
+      border-bottom-color: var(--sky-border-color-neutral-medium);
     }
   }
 }

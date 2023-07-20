@@ -40,9 +40,9 @@
 
 @include mixins.sky-theme-modern-dark {
   .sky-sort-item button {
-    color: $sky-theme-modern-mode-dark-font-deemphasized-color;
+    color: var(--sky-text-color-deemphasized);
   }
   .sky-sort-item-selected button {
-    color: $sky-theme-modern-mode-dark-font-body-default-color;
+    color: var(--sky-text-color-default);
   }
 }

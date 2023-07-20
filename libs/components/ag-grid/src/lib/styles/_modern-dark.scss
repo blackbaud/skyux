@@ -91,12 +91,11 @@
   .ag-cell {
     padding-top: 1px;
     padding-bottom: 1px;
-    border-right-color: variables.$sky-theme-modern-mode-dark-border-color-neutral-medium;
+    border-right-color: var(--sky-border-color-neutral-medium);
   }
 
   .ag-cell:hover {
-    border: 1px solid
-      variables.$sky-theme-modern-mode-dark-background-color-primary-dark;
+    border: 1px solid var(--sky-background-color-primary-dark);
   }
 
   .ag-cell.sky-ag-grid-cell-invalid {
@@ -115,12 +114,12 @@
   }
 
   .sky-ag-grid-cell-uneditable {
-    background-color: variables.$sky-theme-modern-mode-dark-background-color-elevation-24;
+    background-color: var(--sky-elevation-24-background-color);
   }
 
   input {
-    background-color: variables.$sky-theme-modern-mode-dark-background-color-page-default;
-    color: variables.$sky-theme-modern-mode-dark-font-body-default-color;
+    background-color: var(--sky-background-color-page-default);
+    color: var(--sky-text-color-default);
   }
 
   .ag-row:not(.ag-row-first) {

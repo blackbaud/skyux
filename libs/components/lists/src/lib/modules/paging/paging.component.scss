@@ -104,7 +104,7 @@ li {
   .sky-paging-btn {
     &:active,
     &:focus {
-      color: $sky-theme-modern-mode-dark-font-body-default-color;
+      color: var(--sky-text-color-default);
     }
   }
 

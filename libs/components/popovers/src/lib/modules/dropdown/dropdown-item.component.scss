@@ -87,7 +87,7 @@
     .sky-dropdown-item {
       & > a,
       & > button {
-        color: $sky-theme-modern-mode-dark-font-body-default-color;
+        color: var(--sky-text-color-default);
       }
     }
   }

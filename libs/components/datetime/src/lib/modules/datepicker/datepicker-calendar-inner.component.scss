@@ -102,12 +102,12 @@
 
       &:not(:focus-within) {
         @include mixins.sky-theme-modern-border(
-          $sky-theme-modern-mode-dark-border-color-neutral-medium
+          var(--sky-border-color-neutral-medium)
         );
       }
 
       .sky-datepicker-btn-selected {
-        background-color: $sky-theme-modern-mode-dark-background-color-primary-dark;
+        background-color: var(--sky-background-color-primary-dark);
       }
     }
   }

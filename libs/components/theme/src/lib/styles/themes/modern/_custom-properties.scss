@@ -43,6 +43,13 @@
   --sky-background-color-input-selected: #{$sky-color-blue-05};
   --sky-background-color-item-selected: #{$sky-color-blue-05};
 
+  --sky-elevation-1-background-color: transparent;
+  --sky-elevation-3-background-color: transparent;
+  --sky-elevation-4-background-color: transparent;
+  --sky-elevation-8-background-color: transparent;
+  --sky-elevation-16-background-color: transparent;
+  --sky-elevation-24-background-color: transparent;
+
   &.sky-theme-mode-dark {
     /* color */
     --sky-background-color-page-default: #161a1f;
@@ -66,5 +73,15 @@
     --sky-text-color-deemphasized: #a8aaae;
     --sky-text-color-action-primary: #00cfff;
     --sky-text-color-action-primary-hover: #{darken(#00cfff, 10%)};
+
+    --sky-elevation-1-background-color: #252b33;
+    --sky-elevation-3-background-color: #2c323a;
+    --sky-elevation-4-background-color: #333940;
+    --sky-elevation-8-background-color: #{$sky-theme-modern-mode-dark-background-color-elevation-8};
+    --sky-elevation-16-background-color: #{$sky-theme-modern-mode-dark-background-color-elevation-16};
+    --sky-elevation-24-background-color: #{$sky-theme-modern-mode-dark-background-color-elevation-24};
+
+    --sky-elevation-0-bordered-color: #{$sky-theme-modern-mode-dark-elevation-0-bordered-border};
+    --sky-elevation-1-bordered-color: #{$sky-theme-modern-mode-dark-elevation-0-bordered-border};
   }
 }

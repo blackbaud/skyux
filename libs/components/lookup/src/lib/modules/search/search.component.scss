@@ -213,7 +213,7 @@ sky-search {
 
   &.sky-theme-mode-dark {
     .sky-search-dismiss-absolute {
-      background-color: $sky-theme-modern-mode-dark-background-color-page-default;
+      background-color: var(--sky-background-color-page-default);
     }
 
     .sky-search-btn-open-applied {
@@ -230,14 +230,14 @@ sky-search {
 
       .sky-input-box .sky-input-group-btn .sky-btn.sky-search-btn {
         .sky-icon.sky-i-close {
-          color: $sky-theme-modern-mode-dark-font-body-default-color;
+          color: var(--sky-background-color-page-default);
         }
       }
 
       .sky-input-group-icon {
         .sky-icon {
           font-size: 17.333px;
-          color: $sky-theme-modern-mode-dark-font-body-default-color;
+          color: var(--sky-text-color-default);
         }
       }
     }

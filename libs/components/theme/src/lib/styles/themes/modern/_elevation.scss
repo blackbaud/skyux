@@ -43,32 +43,32 @@
   &.sky-theme-mode-dark {
     .sky-elevation-0-bordered,
     .sky-elevation-1-bordered {
-      border-color: $sky-theme-modern-mode-dark-elevation-0-bordered-border;
+      border-color: var(--sky-elevation-0-bordered-color);
     }
 
     .sky-elevation-1,
     .sky-elevation-1-bordered {
-      background-color: #252b33;
+      background-color: var(--sky-elevation-1-background-color);
     }
 
     .sky-elevation-3 {
-      background-color: #2c323a;
+      background-color: var(--sky-elevation-3-background-color);
     }
 
     .sky-elevation-4 {
-      background-color: #333940;
+      background-color: var(--sky-elevation-4-background-color);
     }
 
     .sky-elevation-8 {
-      background-color: $sky-theme-modern-mode-dark-background-color-elevation-8;
+      background-color: var(--sky-elevation-8-background-color);
     }
 
     .sky-elevation-16 {
-      background-color: $sky-theme-modern-mode-dark-background-color-elevation-16;
+      background-color: var(--sky-elevation-16-background-color);
     }
 
     .sky-elevation-24 {
-      background-color: $sky-theme-modern-mode-dark-background-color-elevation-24;
+      background-color: var(--sky-elevation-24-background-color);
     }
   }
 }

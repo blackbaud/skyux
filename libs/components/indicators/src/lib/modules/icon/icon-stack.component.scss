@@ -42,6 +42,6 @@
 
 @include mixins.sky-theme-modern-dark {
   .sky-icon-inverse {
-    color: $sky-theme-modern-mode-dark-background-color-page-default;
+    color: var(--sky-background-color-page-default);
   }
 }

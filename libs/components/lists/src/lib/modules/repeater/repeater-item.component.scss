@@ -205,15 +205,15 @@ sky-repeater-item {
   &.sky-theme-mode-dark {
     sky-repeater-item {
       .sky-repeater-item {
-        border-bottom-color: $sky-theme-modern-mode-dark-border-color-neutral-medium;
+        border-bottom-color: var(--sky-border-color-neutral-medium);
 
         &.sky-repeater-item-active {
-          color: $sky-theme-modern-mode-dark-font-body-default-color;
+          color: var(--sky-text-color-default);
         }
       }
 
       .sky-repeater-item-title {
-        color: $sky-theme-modern-mode-dark-font-body-default-color;
+        color: var(--sky-text-color-default);
       }
     }
   }

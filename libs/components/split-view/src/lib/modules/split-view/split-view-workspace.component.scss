@@ -16,7 +16,7 @@
 
 @include mixins.sky-theme-modern-dark {
   .sky-split-view-workspace {
-    background-color: $sky-theme-modern-mode-dark-background-color-page-default;
-    border-color: $sky-theme-modern-mode-dark-elevation-0-bordered-border;
+    background-color: var(--sky-background-color-page-default);
+    border-color: var(--sky-elevation-0-bordered-color);
   }
 }

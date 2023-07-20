@@ -169,23 +169,23 @@
 
   &.sky-theme-mode-dark {
     .sky-timepicker-container {
-      color: $sky-theme-modern-mode-dark-font-body-default-color;
+      color: var(--sky-text-color-default);
 
       &:not(:focus-within) {
-        border-color: $sky-theme-modern-mode-dark-border-color-neutral-medium;
+        border-color: var(--sky-border-color-neutral-medium);
       }
     }
 
     .sky-timepicker-column ol {
-      border-color: $sky-theme-modern-mode-dark-border-color-neutral-medium;
+      border-color: var(--sky-border-color-neutral-medium);
 
       button {
         background-color: transparent;
-        color: $sky-theme-modern-mode-dark-font-body-default-color;
+        color: var(--sky-text-color-default);
       }
 
       .sky-btn-active {
-        background-color: $sky-theme-modern-mode-dark-text-color-action-primary;
+        background-color: var(--sky-text-color-action-primary);
       }
     }
   }

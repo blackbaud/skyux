@@ -53,7 +53,7 @@
 @include mixins.sky-theme-modern-dark() {
   .sky-page-header {
     &-parent-link {
-      color: $sky-theme-modern-mode-dark-text-color-action-primary;
+      color: var(--sky-text-color-action-primary);
     }
   }
 }

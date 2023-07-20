@@ -34,6 +34,6 @@
 
 @include mixins.sky-theme-modern-dark {
   .sky-inline-form {
-    background-color: $sky-theme-modern-mode-dark-background-color-elevation-3;
+    background-color: var(--sky-elevation-3-background-color);
   }
 }
