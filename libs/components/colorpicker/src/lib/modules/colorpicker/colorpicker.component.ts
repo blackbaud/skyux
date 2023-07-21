@@ -619,16 +619,36 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     return hsva;
   }
 
-  // http://www.w3.org/TR/AERT#color-contrast
   #getAccessibleIconColor(
     backgroundColor: SkyColorpickerOutput | undefined
   ): string | undefined {
     if (backgroundColor) {
-      const rgb = backgroundColor.rgba;
-      const brightness = Math.round(
-        (rgb.red * 299 + rgb.green * 587 + rgb.blue * 114) / 1000
-      );
-      return brightness > 125 ? 'rgb(0, 0, 0)' : 'rgb(255, 255, 255)';
+      // https://www.w3.org/WAI/GL/wiki/Relative_luminance
+      const RsRGB = backgroundColor.rgba.red / 255;
+      const GsRGB = backgroundColor.rgba.green / 255;
+      const BsRGB = backgroundColor.rgba.blue / 255;
+
+      const R =
+        RsRGB <= 0.03928
+          ? RsRGB / 12.92
+          : Math.pow((RsRGB + 0.055) / 1.055, 2.4);
+      const G =
+        GsRGB <= 0.03928
+          ? GsRGB / 12.92
+          : Math.pow((GsRGB + 0.055) / 1.055, 2.4);
+      const B =
+        BsRGB <= 0.03928
+          ? BsRGB / 12.92
+          : Math.pow((BsRGB + 0.055) / 1.055, 2.4);
+
+      const relativeLuminence =
+        (0.2126 * R + 0.7152 * G + 0.0722 * B) *
+        (1 / backgroundColor.rgba.alpha);
+
+      // https://www.w3.org/WAI/GL/wiki/Contrast_ratio
+      return 1.05 / (relativeLuminence + 0.05) > 3
+        ? 'rgb(255, 255, 255)'
+        : 'rgb(0, 0, 0)';
     }
     /* istanbul ignore next */
     return undefined;
