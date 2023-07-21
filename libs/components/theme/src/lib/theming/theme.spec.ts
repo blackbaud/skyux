@@ -3,7 +3,7 @@ import { SkyThemeMode } from './theme-mode';
 import { SkyThemeSpacing } from './theme-spacing';
 
 describe('SkyTheme', () => {
-  it('should default supportedSpacing to an empty array when not specified', () => {
+  it('should default supportedSpacing to standard when not specified', () => {
     const theme = new SkyTheme('foo', 'sky-theme-foo', [
       SkyThemeMode.presets.light,
     ]);

@@ -17,19 +17,29 @@ describe('Theme service', () => {
       current.theme.hostClass
     );
 
-    let addClassMatcher = expect(mockRenderer.addClass);
-
-    if (current.theme.supportedModes.indexOf(current.mode) < 0) {
-      addClassMatcher = addClassMatcher.not;
+    if (current.theme.supportedModes.includes(current.mode)) {
+      expect(mockRenderer.addClass).toHaveBeenCalledWith(
+        mockHostEl,
+        current.mode.hostClass
+      );
+    } else {
+      expect(mockRenderer.addClass).not.toHaveBeenCalledWith(
+        mockHostEl,
+        current.mode.hostClass
+      );
     }
 
-    addClassMatcher = expect(mockRenderer.addClass);
-
-    if (current.theme.supportedSpacing.indexOf(current.spacing) < 0) {
-      addClassMatcher = addClassMatcher.not;
+    if (current.theme.supportedSpacing.includes(current.spacing)) {
+      expect(mockRenderer.addClass).toHaveBeenCalledWith(
+        mockHostEl,
+        current.spacing.hostClass
+      );
+    } else {
+      expect(mockRenderer.addClass).not.toHaveBeenCalledWith(
+        mockHostEl,
+        current.spacing.hostClass
+      );
     }
-
-    addClassMatcher.toHaveBeenCalledWith(mockHostEl, current.spacing.hostClass);
 
     if (previous) {
       expect(mockRenderer.removeClass).toHaveBeenCalledWith(
