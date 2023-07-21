@@ -619,6 +619,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     return hsva;
   }
 
+  // this background color does not take into account opacity, the text is no longer accesible when a dark color is picked with low opacity
   // http://www.w3.org/TR/AERT#color-contrast
   #getAccessibleIconColor(
     backgroundColor: SkyColorpickerOutput | undefined
