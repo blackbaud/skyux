@@ -26,6 +26,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'text-expand-repeater',
+    loadChildren: () =>
+      import('./text-expand-repeater/text-expand-repeater.module').then(
+        (m) => m.TextExpandRepeaterModule
+      ),
+  },
+  {
     path: 'toolbar',
     loadChildren: () =>
       import('./toolbar/toolbar.module').then((m) => m.ToolbarModule),
