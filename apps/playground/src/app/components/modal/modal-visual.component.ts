@@ -10,6 +10,7 @@ import { ModalContentAutofocusComponent } from './modal-content-autofocus.compon
 import { ModalContentDemoComponent } from './modal-content-demo.component';
 import { ModalDemoComponent } from './modal-demo.component';
 import { ModalDirtyComponent } from './modal-dirty.component';
+import { ModalErrorComponent } from './modal-error.component';
 import { ModalFormDemoComponent } from './modal-form-demo.component';
 import { ModalFullPageDemoComponent } from './modal-full-page-demo.component';
 import { ModalLookupComponent } from './modal-lookup.component';
@@ -115,6 +116,10 @@ export class ModalVisualComponent {
 
   public openDirtyModal(): void {
     this.openModalInstance(ModalDirtyComponent);
+  }
+
+  public openErrorModal(): void {
+    this.openModalInstance(ModalErrorComponent);
   }
 
   public hideButtons(): void {
