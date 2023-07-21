@@ -1,4 +1,4 @@
-import { Meta, moduleMetadata } from '@storybook/angular';
+import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 
 import { TextEditorComponent } from './text-editor.component';
 import { TextEditorModule } from './text-editor.module';
@@ -13,9 +13,20 @@ export default {
     }),
   ],
 } as Meta<TextEditorComponent>;
-export const TextEditor = {
-  render: (args: TextEditorComponent) => ({
-    props: args,
-  }),
-  args: {},
+const BaseTextEditor: StoryFn<TextEditorComponent> = (
+  args: TextEditorComponent
+) => ({
+  props: args,
+});
+
+export const TextEditorBasic = BaseTextEditor.bind({});
+
+export const TextEditorDisabled = BaseTextEditor.bind({});
+TextEditorDisabled.args = {
+  disabledFlag: true,
+};
+
+export const TextEditorInlineHelp = BaseTextEditor.bind({});
+TextEditorInlineHelp.args = {
+  inlineHelpFlag: true,
 };

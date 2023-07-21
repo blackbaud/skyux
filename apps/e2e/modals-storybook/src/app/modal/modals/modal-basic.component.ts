@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SkyModalInstance } from '@skyux/modals';
+import { SkyModalError, SkyModalInstance } from '@skyux/modals';
 
 @Component({
   selector: 'app-modal',
@@ -7,6 +7,7 @@ import { SkyModalInstance } from '@skyux/modals';
 })
 export class ModalBasicComponent {
   public showHelp = false;
+  public errors: SkyModalError[] | undefined;
   public title = 'Hello world';
 
   #instance: SkyModalInstance;
