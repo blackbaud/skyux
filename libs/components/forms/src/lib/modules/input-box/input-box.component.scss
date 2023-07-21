@@ -510,7 +510,7 @@ sky-input-box {
       .sky-form-group {
         @include mixins.sky-theme-modern-border-focus;
 
-        color: $sky-theme-modern-text-color-action-primary;
+        color: var(--sky-text-color-action-primary);
       }
     }
 
@@ -590,7 +590,7 @@ sky-input-box {
         }
 
         &:focus {
-          border-color: $sky-theme-modern-background-color-primary-dark;
+          border-color: var(--sky-background-color-primary-dark);
           color: var(--sky-text-color-default);
         }
       }
