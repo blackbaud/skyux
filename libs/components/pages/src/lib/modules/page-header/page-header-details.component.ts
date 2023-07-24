@@ -1,0 +1,11 @@
+import { Component } from '@angular/core';
+
+/**
+ * Displays additional information in the page header, like record details.
+ */
+@Component({
+  selector: 'sky-page-header-details',
+  templateUrl: './page-header-details.component.html',
+  styleUrls: ['./page-header-details.component.scss'],
+})
+export class SkyPageHeaderDetailsComponent {}

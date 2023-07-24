@@ -5,6 +5,7 @@ import { SkyIconModule } from '@skyux/indicators';
 import { SkyAppLinkModule, SkyHrefModule } from '@skyux/router';
 import { SkyThemeModule } from '@skyux/theme';
 
+import { SkyPageHeaderDetailsComponent } from './page-header-details.component';
 import { SkyPageHeaderComponent } from './page-header.component';
 
 @NgModule({
@@ -16,7 +17,7 @@ import { SkyPageHeaderComponent } from './page-header.component';
     SkyThemeModule,
     SkyHrefModule,
   ],
-  declarations: [SkyPageHeaderComponent],
-  exports: [SkyPageHeaderComponent],
+  declarations: [SkyPageHeaderComponent, SkyPageHeaderDetailsComponent],
+  exports: [SkyPageHeaderComponent, SkyPageHeaderDetailsComponent],
 })
 export class SkyPageHeaderModule {}
