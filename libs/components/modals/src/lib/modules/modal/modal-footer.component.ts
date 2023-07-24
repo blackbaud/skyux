@@ -1,4 +1,6 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, inject } from '@angular/core';
+
+import { SkyModalErrorsService } from './modal-errors.service';
 
 /**
  * Specifies content to display in the modal's footer.
@@ -9,4 +11,6 @@ import { Component, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./modal-footer.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class SkyModalFooterComponent {}
+export class SkyModalFooterComponent {
+  protected errorsSvc = inject(SkyModalErrorsService);
+}

@@ -1,0 +1,16 @@
+<sky-page layout="list">
+  <sky-page-header
+    pageTitle="List page"
+    [parentLink]="{
+      label: 'Components',
+      permalink: {
+        route: {
+          commands: ['/']
+        }
+      }
+    }"
+  />
+  <sky-page-content>
+    <app-data-manager-visual />
+  </sky-page-content>
+</sky-page>

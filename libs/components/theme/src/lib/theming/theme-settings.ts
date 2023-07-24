@@ -1,5 +1,6 @@
 import { SkyTheme } from './theme';
 import { SkyThemeMode } from './theme-mode';
+import { SkyThemeSpacing } from './theme-spacing';
 
 /**
  * Specifies the theme and mode to be applied to a host element.
@@ -12,6 +13,7 @@ export class SkyThemeSettings {
    */
   constructor(
     public readonly theme: SkyTheme,
-    public readonly mode: SkyThemeMode
+    public readonly mode: SkyThemeMode,
+    public readonly spacing = SkyThemeSpacing.presets.standard
   ) {}
 }

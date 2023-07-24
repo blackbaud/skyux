@@ -7,6 +7,7 @@ export * from './lib/theming/theme';
 export * from './lib/theming/theme-mode';
 export * from './lib/theming/theme-settings';
 export * from './lib/theming/theme-settings-change';
+export * from './lib/theming/theme-spacing';
 export * from './lib/theming/theme.service';
 export * from './lib/viewport/viewport.service';
 export * from './lib/viewport/viewport-reserve-args';

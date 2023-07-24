@@ -1025,10 +1025,10 @@ describe('SkyAgGridService via fixture', () => {
     expect(api.getSizesForCurrentTheme().rowHeight).toEqual(38);
 
     mockThemeSvc.settingsChange.next({
-      currentSettings: {
-        theme: SkyTheme.presets.modern,
-        mode: SkyThemeMode.presets.light,
-      },
+      currentSettings: new SkyThemeSettings(
+        SkyTheme.presets.modern,
+        SkyThemeMode.presets.light
+      ),
       previousSettings: undefined,
     });
     gridWrapperFixture.detectChanges();
@@ -1037,10 +1037,10 @@ describe('SkyAgGridService via fixture', () => {
     expect(rowHeightSpy).toHaveBeenCalled();
 
     mockThemeSvc.settingsChange.next({
-      currentSettings: {
-        theme: SkyTheme.presets.default,
-        mode: SkyThemeMode.presets.light,
-      },
+      currentSettings: new SkyThemeSettings(
+        SkyTheme.presets.default,
+        SkyThemeMode.presets.light
+      ),
       previousSettings: undefined,
     });
     gridWrapperFixture.detectChanges();

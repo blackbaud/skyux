@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SkyIdModule, SkyTrimModule } from '@skyux/core';
-import { SkyIconModule } from '@skyux/indicators';
+import { SkyIconModule, SkyStatusIndicatorModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyModalsResourcesModule } from '../shared/sky-modals-resources.module';
@@ -31,6 +31,7 @@ import { SkyModalComponent } from './modal.component';
     SkyIconModule,
     SkyIdModule,
     SkyModalsResourcesModule,
+    SkyStatusIndicatorModule,
     SkyThemeModule,
     SkyTrimModule,
   ],
