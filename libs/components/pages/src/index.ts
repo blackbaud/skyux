@@ -21,3 +21,4 @@ export { SkyModalLinkListComponent as λ5 } from './lib/modules/modal-link-list/
 export { SkyPageComponent as λ6 } from './lib/modules/page/page.component';
 export { SkyPageContentComponent as λ7 } from './lib/modules/page/page-content.component';
 export { SkyPageHeaderDetailsComponent as λ8 } from './lib/modules/page-header/page-header-details.component';
+export { SkyPageHeaderButtonsComponent as λ9 } from './lib/modules/page-header/page-header-buttons.component';

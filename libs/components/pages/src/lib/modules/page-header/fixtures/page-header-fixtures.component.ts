@@ -18,5 +18,5 @@ export class PageHeaderFixturesComponent {
     },
   };
 
-  public headerContent: string | undefined;
+  public showButtons = false;
 }

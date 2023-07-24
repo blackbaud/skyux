@@ -5,6 +5,7 @@ import { SkyIconModule } from '@skyux/indicators';
 import { SkyAppLinkModule, SkyHrefModule } from '@skyux/router';
 import { SkyThemeModule } from '@skyux/theme';
 
+import { SkyPageHeaderButtonsComponent } from './page-header-buttons.component';
 import { SkyPageHeaderDetailsComponent } from './page-header-details.component';
 import { SkyPageHeaderComponent } from './page-header.component';
 
@@ -17,7 +18,15 @@ import { SkyPageHeaderComponent } from './page-header.component';
     SkyThemeModule,
     SkyHrefModule,
   ],
-  declarations: [SkyPageHeaderComponent, SkyPageHeaderDetailsComponent],
-  exports: [SkyPageHeaderComponent, SkyPageHeaderDetailsComponent],
+  declarations: [
+    SkyPageHeaderButtonsComponent,
+    SkyPageHeaderComponent,
+    SkyPageHeaderDetailsComponent,
+  ],
+  exports: [
+    SkyPageHeaderButtonsComponent,
+    SkyPageHeaderComponent,
+    SkyPageHeaderDetailsComponent,
+  ],
 })
 export class SkyPageHeaderModule {}

@@ -25,4 +25,14 @@ describe('Page header component', () => {
       'Parent Link Page Title  Details about the page header.'
     );
   });
+
+  it('should render page header buttons', () => {
+    const fixture = TestBed.createComponent(PageHeaderFixturesComponent);
+    fixture.componentInstance.showButtons = true;
+    fixture.detectChanges();
+
+    const btn = fixture.nativeElement.querySelector('.sky-btn');
+
+    expect(btn).toBeVisible();
+  });
 });
