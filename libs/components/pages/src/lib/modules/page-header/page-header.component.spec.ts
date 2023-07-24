@@ -21,6 +21,8 @@ describe('Page header component', () => {
   it('should create a page header', () => {
     const fixture = TestBed.createComponent(PageHeaderFixturesComponent);
     fixture.detectChanges();
-    expect(fixture.nativeElement).toHaveText('Parent Link Page Title');
+    expect(fixture.nativeElement).toHaveText(
+      'Parent Link Page Title  Details about the page header.'
+    );
   });
 });
