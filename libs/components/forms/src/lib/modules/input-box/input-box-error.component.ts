@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
 
 /**
@@ -15,5 +15,15 @@ import { SkyStatusIndicatorModule } from '@skyux/indicators';
   >
     <ng-content />
   </sky-status-indicator>`,
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+    `,
+  ],
 })
-export class SkyInputBoxErrorComponent {}
+export class SkyInputBoxErrorComponent {
+  @HostBinding('class')
+  protected cssClass = 'sky-error-indicator';
+}

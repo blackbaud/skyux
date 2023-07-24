@@ -157,6 +157,7 @@
     "@storybook/addon-viewport": "7.0.13",
     "@storybook/angular": "7.0.13",
     "@storybook/core-server": "7.0.13",
+    "@storybook/types": "7.0.13",
     "@trivago/prettier-plugin-sort-imports": "4.1.1",
     "@types/cross-spawn": "6.0.2",
     "@types/dompurify": "3.0.0",
