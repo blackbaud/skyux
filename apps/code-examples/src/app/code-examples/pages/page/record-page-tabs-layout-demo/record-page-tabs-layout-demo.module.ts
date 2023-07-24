@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyAgGridModule } from '@skyux/ag-grid';
+import { SkyAvatarModule } from '@skyux/avatar';
 import { SkyDataManagerModule } from '@skyux/data-manager';
 import {
   SkyIconModule,
@@ -42,6 +43,7 @@ import { RecordPageTabsLayoutDemoComponent } from './record-page-tabs-layout-dem
     AgGridModule,
     CommonModule,
     SkyAgGridModule,
+    SkyAvatarModule,
     SkyBoxModule,
     SkyDataManagerModule,
     SkyDescriptionListModule,

@@ -1,0 +1,15 @@
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+
+:host {
+  display: block;
+
+  &:not(:empty) {
+    margin-right: var(--sky-margin-inline-sm);
+  }
+}
+
+@include mixins.sky-host-responsive-container-sm-min() {
+  &:not(:empty) {
+    margin-right: var(--sky-margin-inline-lg);
+  }
+}
