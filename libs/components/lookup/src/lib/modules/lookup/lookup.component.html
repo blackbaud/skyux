@@ -63,10 +63,10 @@
               wrap="off"
               [attr.aria-label]="ariaLabel"
               [attr.aria-labelledby]="ariaLabelledBy"
+              [attr.id]="controlId"
               [attr.placeholder]="placeholderText"
               [autocompleteAttribute]="autocompleteAttribute"
               [disabled]="disabled"
-              [id]="controlId"
               (blur)="onAutocompleteBlur()"
               (keydown)="inputKeydown($event)"
               (keyup)="inputKeyup($event)"
@@ -88,10 +88,10 @@
               wrap="off"
               [attr.aria-label]="ariaLabel"
               [attr.aria-labelledby]="ariaLabelledBy"
+              [attr.id]="controlId"
               [attr.placeholder]="placeholderText"
               [autocompleteAttribute]="autocompleteAttribute"
               [disabled]="disabled"
-              [id]="controlId"
               (blur)="onAutocompleteBlur()"
             ></textarea>
             <ng-container *ngIf="!inputBoxHostSvc && !enableShowMore">
