@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expectAsync } from '@skyux-sdk/testing';
 import { SkyThemeService } from '@skyux/theme';
 
@@ -12,7 +13,7 @@ describe('FieldHeightsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [FieldHeightsModule],
+      imports: [FieldHeightsModule, NoopAnimationsModule],
       providers: [SkyThemeService],
     });
 
