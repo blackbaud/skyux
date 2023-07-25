@@ -22,8 +22,8 @@ describe(`pages-storybook`, () => {
         cy.get('app-blocks-page sky-page')
           .should('exist')
           .should('be.visible')
-          .screenshot(`${ID}-${theme}`)
-          .percySnapshot(`${ID}-${theme}`, {
+          .screenshot(`${ID}-${theme}-mobile`)
+          .percySnapshot(`${ID}-${theme}-mobile`, {
             widths: E2eVariations.MOBILE_WIDTHS,
           });
       });
