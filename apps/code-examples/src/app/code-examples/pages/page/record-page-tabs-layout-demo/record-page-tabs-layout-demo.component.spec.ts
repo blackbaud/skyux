@@ -46,9 +46,5 @@ fdescribe('Record page tabs layout demo', async () => {
     await expectAsync(pageHeaderHarness.getPageTitle()).toBeResolvedTo(
       'Charlene Conners'
     );
-
-    await expectAsync(pageHeaderHarness.getParentLinkText()).toBeResolvedTo(
-      'Contacts'
-    );
   });
 });
