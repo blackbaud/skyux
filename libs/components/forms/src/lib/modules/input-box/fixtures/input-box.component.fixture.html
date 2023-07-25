@@ -584,4 +584,17 @@
   </sky-input-box>
 </div>
 
+<div class="input-existing-id">
+  <sky-input-box [disabled]="basicDisabled" [hasErrors]="hasErrors">
+    <label class="sky-control-label" for="input-box-existing-id-123">
+      Existing ID
+    </label>
+    <input
+      class="sky-form-control"
+      id="input-box-existing-id-123"
+      [disabled]="basicDisabled"
+    />
+  </sky-input-box>
+</div>
+
 <ng-template #easyModePopoverTemplate> Help content from template </ng-template>

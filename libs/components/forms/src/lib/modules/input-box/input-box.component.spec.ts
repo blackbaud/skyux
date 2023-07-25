@@ -668,6 +668,15 @@ describe('Input box component', () => {
       expect(characterCountLabelEl).toHaveText('3/11');
     });
 
+    it('should not set the input ID if it is already set', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+
+      const els = getDefaultEls(fixture, 'input-existing-id');
+
+      expect(els.inputEl?.id).toBe('input-box-existing-id-123');
+    });
+
     describe('a11y', () => {
       a11yTests();
     });

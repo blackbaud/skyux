@@ -188,8 +188,11 @@ export class SkyInputBoxComponent implements OnInit, AfterContentChecked {
       const el = this.inputRef.nativeElement;
 
       this.#renderer.addClass(el, 'sky-form-control');
-      this.#renderer.setAttribute(el, 'id', this.controlId);
       this.#renderer.setAttribute(el, 'aria-describedby', this.errorId);
+
+      if (!el.id) {
+        this.#renderer.setAttribute(el, 'id', this.controlId);
+      }
 
       this.#updateMaxLengthValidator();
 
