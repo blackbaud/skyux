@@ -39,15 +39,19 @@
       .sky-tokens-content {
         padding-top: 5px;
         padding-bottom: 5px;
-        margin-left: 10px;
+        padding-left: 10px;
         flex-basis: 100px;
+      }
+
+      sky-tokens-content:first-child > .sky-tokens-content {
+        padding-left: 0;
       }
     }
   }
 
   .sky-lookup-single-control {
     display: inline-flex;
-    margin-left: 7px;
+    padding-left: 7px;
     width: 100%;
   }
 }
@@ -71,6 +75,7 @@
 }
 
 .sky-lookup-focused {
+  sky-tokens-content,
   .sky-tokens-content {
     flex-basis: 100px;
   }
@@ -126,7 +131,7 @@ sky-input-box .sky-lookup {
           padding-top: 0;
         }
 
-        .sky-tokens-content {
+        sky-tokens-content {
           padding-bottom: 0;
           padding-top: 0;
 

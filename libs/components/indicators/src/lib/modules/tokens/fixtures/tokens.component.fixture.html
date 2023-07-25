@@ -12,11 +12,14 @@
   (tokenSelected)="onTokenSelected($event)"
   (tokensRendered)="onTokensRendered()"
 >
-  <ng-container [ngSwitch]="innerContent">
-    <ng-container *ngSwitchCase="'textarea'">
-      <label>Text area<textarea></textarea></label>
-    </ng-container>
-    <ng-container *ngSwitchCase="'text'">INNER CONTENT</ng-container>
+  <ng-container *ngIf="innerContent === 'text'"> INNER CONTENT </ng-container>
+  <ng-container *ngIf="innerContent === 'form-control'">
+    <div role="row">
+      <label role="gridcell">
+        Label
+        <input class="sky-form-control" type="text" />
+      </label>
+    </div>
   </ng-container>
 </sky-tokens>
 

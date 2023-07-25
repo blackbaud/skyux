@@ -447,7 +447,7 @@ describe('Autocomplete component', () => {
       enterSearch('abcdefgh', fixture);
 
       const resultsContainer = getSearchResultsSection();
-      expect(resultsContainer).toBeNull();
+      expect(resultsContainer).toHaveCssClass('sky-screen-reader-only');
 
       const actionsContainer = getActionsContainer();
       expect(actionsContainer?.textContent?.trim()).toBe(expectedMessage);
@@ -461,7 +461,7 @@ describe('Autocomplete component', () => {
       enterSearch('abcdefgh', fixture);
 
       const resultsContainer = getSearchResultsSection();
-      expect(resultsContainer).toBeNull();
+      expect(resultsContainer).toHaveCssClass('sky-screen-reader-only');
 
       const actionsContainer = getActionsContainer();
       expect(actionsContainer?.textContent?.trim()).toBe(expectedMessage);
@@ -1037,7 +1037,7 @@ describe('Autocomplete component', () => {
       tick();
 
       component.messageStream.next({
-        type: SkyAutocompleteMessageType.CloseDropdown,
+        type: SkyAutocompleteMessageType.RepositionDropdown,
       });
 
       fixture.detectChanges();
@@ -1045,7 +1045,7 @@ describe('Autocomplete component', () => {
 
       searchResultsEl = getSearchResultsContainer();
 
-      expect(searchResultsEl).toBeNull();
+      expect(searchResultsEl).toBeTruthy();
     }));
 
     it('should find matches when data contains diacritical characters', fakeAsync(() => {

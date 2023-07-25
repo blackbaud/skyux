@@ -32,47 +32,53 @@
 
 <ng-template #resultControlsTemplateRef>
   <div
-    *ngIf="searchText && (!showActionsArea || searchResults.length > 0)"
     class="sky-autocomplete-results"
+    [class.sky-screen-reader-only]="
+      !searchText || (showActionsArea && searchResults.length === 0)
+    "
     role="listbox"
     [attr.aria-labelledby]="ariaLabelledBy"
     [attr.id]="resultsListId"
   >
-    <ng-container *ngFor="let result of searchResults; let i = index">
-      <div
-        *ngIf="
-          (!searchResultsLimit || i < searchResultsLimit) &&
-          !(enableShowMore && i >= 5)
-        "
-        class="sky-autocomplete-result"
-        role="option"
-        tabindex="0"
-        [attr.aria-selected]="isElementFocused(searchResultEl)"
-        [attr.data-descriptor-value]="result.data[descriptorProperty]"
-        [attr.id]="result.elementId"
-        [skyHighlight]="highlightText"
-        (mousedown)="onResultMouseDown(result.elementId, $event)"
-        (mousemove)="onResultMouseMove(i)"
-        #searchResultEl
-      >
-        <ng-container
-          *ngTemplateOutlet="
-            searchResultTemplate || defaultSearchResultTemplate;
-            context: { item: result.data }
+    <ng-container
+      *ngIf="searchText && (!showActionsArea || searchResults.length > 0)"
+    >
+      <ng-container *ngFor="let result of searchResults; let i = index">
+        <div
+          *ngIf="
+            (!searchResultsLimit || i < searchResultsLimit) &&
+            !(enableShowMore && i >= 5)
           "
+          class="sky-autocomplete-result"
+          role="option"
+          tabindex="0"
+          [attr.aria-selected]="isElementFocused(searchResultEl)"
+          [attr.data-descriptor-value]="result.data[descriptorProperty]"
+          [attr.id]="result.elementId"
+          [skyHighlight]="highlightText"
+          (mousedown)="onResultMouseDown(result.elementId, $event)"
+          (mousemove)="onResultMouseMove(i)"
+          #searchResultEl
         >
-        </ng-container>
+          <ng-container
+            *ngTemplateOutlet="
+              searchResultTemplate || defaultSearchResultTemplate;
+              context: { item: result.data }
+            "
+          >
+          </ng-container>
+        </div>
+      </ng-container>
+      <div
+        *ngIf="searchResults.length === 0"
+        class="sky-deemphasized sky-padding-squish-default"
+      >
+        {{
+          noResultsFoundText ||
+            ('skyux_autocomplete_no_results' | skyLibResources)
+        }}
       </div>
     </ng-container>
-    <div
-      *ngIf="searchResults.length === 0"
-      class="sky-deemphasized sky-padding-squish-default"
-    >
-      {{
-        noResultsFoundText ||
-          ('skyux_autocomplete_no_results' | skyLibResources)
-      }}
-    </div>
   </div>
   <div *ngIf="showActionsArea" class="sky-autocomplete-actions">
     <button

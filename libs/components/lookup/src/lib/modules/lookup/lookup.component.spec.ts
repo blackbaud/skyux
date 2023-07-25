@@ -3744,11 +3744,26 @@ describe('Lookup component', function () {
 
       it('should be accessible', async () => {
         fixture.componentInstance.ariaLabelledBy = 'my-lookup-label';
+        fixture.componentInstance.setSingleSelect();
+        fixture.componentInstance.setValue(2);
 
         fixture.detectChanges();
         await fixture.whenStable();
         await expectAsync(document.body).toBeAccessible(axeConfig);
+
+        fixture.componentInstance.setMultiSelect();
+        fixture.componentInstance.setValue(1);
+
         fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+
+        fixture.componentInstance.setSingleSelect();
+        fixture.componentInstance.resetForm();
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
 
         const inputElement = getInputElement(
           fixture.componentInstance.lookupComponent
