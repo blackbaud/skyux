@@ -17,7 +17,7 @@ $sky-tokens-gutter-size: 2px;
 
   .sky-tokens-content {
     flex-grow: 1;
-    flex-basis: 0px;
+    flex-basis: 0;
 
     // Add a zero-width space to allow form controls to align
     // properly to text baseline.

@@ -105,6 +105,23 @@ describe('Tokens component', () => {
       );
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
+
+      component.trackWith = 'id';
+      component.data = [
+        { id: 1, name: 'Red' },
+        { id: 2, name: 'White' },
+        { id: 3, name: 'Blue' },
+      ];
+
+      component.publishTokens();
+      fixture.detectChanges();
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+
+      component.innerContent = 'textarea';
+      fixture.detectChanges();
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
     it('should wrap internal content', () => {

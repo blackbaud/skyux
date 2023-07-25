@@ -27,6 +27,8 @@ export class SkyTokensTestComponent implements OnDestroy {
   public tokens: SkyToken[] | undefined;
   public trackWith: string | undefined;
 
+  public innerContent: 'text' | 'textarea' = 'text';
+
   public includeSingleToken = false;
 
   public data: { name: string; id?: number }[] = [

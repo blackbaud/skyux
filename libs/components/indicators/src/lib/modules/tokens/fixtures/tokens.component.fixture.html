@@ -12,7 +12,12 @@
   (tokenSelected)="onTokenSelected($event)"
   (tokensRendered)="onTokensRendered()"
 >
-  INNER CONTENT
+  <ng-container [ngSwitch]="innerContent">
+    <ng-container *ngSwitchCase="'textarea'">
+      <label>Text area<textarea></textarea></label>
+    </ng-container>
+    <ng-container *ngSwitchCase="'text'">INNER CONTENT</ng-container>
+  </ng-container>
 </sky-tokens>
 
 <sky-token *ngIf="includeSingleToken" [ariaLabel]="ariaLabel"> </sky-token>
