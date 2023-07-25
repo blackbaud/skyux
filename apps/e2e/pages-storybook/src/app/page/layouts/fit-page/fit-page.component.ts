@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { SkySummaryActionBarModule } from '@skyux/action-bars';
+import { SkyAvatarModule } from '@skyux/avatar';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyDescriptionListModule } from '@skyux/layout';
 import { SkyRepeaterModule } from '@skyux/lists';
@@ -31,6 +32,7 @@ interface WorkspaceItem {
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    SkyAvatarModule,
     SkyDescriptionListModule,
     SkyInputBoxModule,
     SkyPageModule,

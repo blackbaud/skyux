@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 /**
  * Displays additional information in the page header, like record details.
- * Appears below the title and above the page action buttons.
+ * Appears below the title and above the page actions.
  */
 @Component({
   selector: 'sky-page-header-details',

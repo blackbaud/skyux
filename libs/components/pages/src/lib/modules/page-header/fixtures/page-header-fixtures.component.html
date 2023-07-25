@@ -2,7 +2,10 @@
   <sky-page-header-details>
     Details about the page header.
   </sky-page-header-details>
-  <sky-page-header-buttons *ngIf="showButtons">
+  <sky-page-header-actions *ngIf="showButtons">
     <button class="sky-btn sky-btn-default">Action one</button>
-  </sky-page-header-buttons>
+  </sky-page-header-actions>
+  <sky-page-header-avatar *ngIf="showAvatar">
+    <sky-avatar name="Test name"> </sky-avatar>
+  </sky-page-header-avatar>
 </sky-page-header>

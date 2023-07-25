@@ -5,8 +5,8 @@ import { SkyIconModule } from '@skyux/indicators';
 import { SkyAppLinkModule, SkyHrefModule } from '@skyux/router';
 import { SkyThemeModule } from '@skyux/theme';
 
+import { SkyPageHeaderActionsComponent } from './page-header-actions.component';
 import { SkyPageHeaderAvatarComponent } from './page-header-avatar.component';
-import { SkyPageHeaderButtonsComponent } from './page-header-buttons.component';
 import { SkyPageHeaderDetailsComponent } from './page-header-details.component';
 import { SkyPageHeaderComponent } from './page-header.component';
 
@@ -20,14 +20,14 @@ import { SkyPageHeaderComponent } from './page-header.component';
     SkyHrefModule,
   ],
   declarations: [
+    SkyPageHeaderActionsComponent,
     SkyPageHeaderAvatarComponent,
-    SkyPageHeaderButtonsComponent,
     SkyPageHeaderComponent,
     SkyPageHeaderDetailsComponent,
   ],
   exports: [
+    SkyPageHeaderActionsComponent,
     SkyPageHeaderAvatarComponent,
-    SkyPageHeaderButtonsComponent,
     SkyPageHeaderComponent,
     SkyPageHeaderDetailsComponent,
   ],
