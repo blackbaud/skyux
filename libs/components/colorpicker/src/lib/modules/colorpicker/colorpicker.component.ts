@@ -641,12 +641,12 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
           ? BsRGB / 12.92
           : Math.pow((BsRGB + 0.055) / 1.055, 2.4);
 
-      const relativeLuminence =
+      const relativeLuminance =
         (0.2126 * R + 0.7152 * G + 0.0722 * B) *
         (1 / backgroundColor.rgba.alpha);
 
       // https://www.w3.org/WAI/GL/wiki/Contrast_ratio
-      return 1.05 / (relativeLuminence + 0.05) > 3
+      return 1.05 / (relativeLuminance + 0.05) > 3
         ? 'rgb(255, 255, 255)'
         : 'rgb(0, 0, 0)';
     }
