@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'sky-tokens-content',
-  template: `<ng-content></ng-content>`,
+  templateUrl: './tokens-content.component.html',
+  styleUrls: ['./tokens-content.component.scss'],
 })
 export class SkyTokensContentComponent {}
