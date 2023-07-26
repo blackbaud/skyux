@@ -13,13 +13,13 @@ describe('Default input provider', () => {
   });
 
   it('should get an observable for a given component input', () => {
-    const obs = defaultInputProvider.getObservable('component', 'property');
+    const obs = defaultInputProvider.getValue('component', 'property');
     expect(obs).toBeDefined();
   });
 
   it('should receive values from setValue calls', (done) => {
     const propValue = 'test';
-    const obs = defaultInputProvider.getObservable('component', 'property');
+    const obs = defaultInputProvider.getValue('component', 'property');
 
     obs?.subscribe((value) => {
       expect(value).toEqual(propValue);
@@ -35,7 +35,7 @@ describe('Default input provider', () => {
     defaultInputProvider.setValue('component', 'property', 'notTheLastValue');
     defaultInputProvider.setValue('component', 'property', propValue);
 
-    const obs = defaultInputProvider.getObservable('component', 'property');
+    const obs = defaultInputProvider.getValue('component', 'property');
 
     obs?.subscribe((value) => {
       expect(value).toEqual(propValue);

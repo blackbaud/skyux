@@ -115,7 +115,7 @@ export class SkyAvatarComponent {
     this.#fileSizePipe = fileSizePipe;
     this.#resourcesService = resourcesService;
 
-    this.sizeDefault = this.#defaults?.getObservable<SkyAvatarSize>(
+    this.sizeDefault = this.#defaults?.getValue<SkyAvatarSize>(
       'avatar',
       'size'
     );
