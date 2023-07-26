@@ -61,52 +61,42 @@ export class SkyThemeService {
    * @param settings The new theme settings to apply.
    */
   public setTheme(settings: SkyThemeSettings): void {
-    const previousSettings = this.#current;
+    const previous = this.#current;
 
-    this.#applySettings(previousSettings, settings);
-    this.#applyThemeMode(previousSettings, settings);
+    this.#applyThemeClass(previous, settings, 'theme');
+    this.#applyThemeClass(previous, settings, 'mode', 'supportedModes');
+    this.#applyThemeClass(previous, settings, 'spacing', 'supportedSpacing');
 
     this.#settings.next({
       currentSettings: settings,
-      previousSettings,
+      previousSettings: previous,
     });
 
     this.#current = settings;
   }
 
-  #applySettings(
+  #applyThemeClass(
     previous: SkyThemeSettings | undefined,
-    current: SkyThemeSettings
+    current: SkyThemeSettings,
+    prop: 'theme' | 'mode' | 'spacing',
+    supportedProp?: 'supportedModes' | 'supportedSpacing'
   ): void {
-    const previousClass = previous && previous.theme.hostClass;
-    const currentClass = current.theme.hostClass;
+    const currentSetting = current[prop];
 
-    const hostClassChanged = !previousClass || previousClass !== currentClass;
+    const previousClass = previous?.[prop].hostClass;
+    const currentClass = currentSetting.hostClass;
 
-    if (hostClassChanged) {
+    const classChanged = !previous || previousClass !== currentClass;
+
+    if (classChanged) {
       if (previousClass) {
         this.#removeHostClass(previousClass);
       }
 
-      this.#addHostClass(currentClass);
-    }
-  }
-
-  #applyThemeMode(
-    previous: SkyThemeSettings | undefined,
-    current: SkyThemeSettings
-  ): void {
-    const previousClass = previous && previous.mode.hostClass;
-    const currentClass = current.mode.hostClass;
-
-    const hostModeClassChanged = !previous || previousClass !== currentClass;
-
-    if (hostModeClassChanged) {
-      if (previousClass) {
-        this.#removeHostClass(previousClass);
-      }
-
-      if (current.theme.supportedModes.indexOf(current.mode) >= 0) {
+      if (
+        !supportedProp ||
+        current.theme[supportedProp].indexOf(currentSetting) >= 0
+      ) {
         this.#addHostClass(currentClass);
       }
     }

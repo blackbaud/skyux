@@ -5,6 +5,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { SkyMatchers, expect } from '@skyux-sdk/testing';
+import { SkyDefaultInputProvider } from '@skyux/core';
 import { ErrorModalConfig, SkyErrorModalService } from '@skyux/errors';
 import { SkyFileDropChange, SkyFileItem } from '@skyux/forms';
 import {
@@ -27,6 +28,8 @@ describe('Avatar component', () => {
   let mockThemeSvc: {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
+
+  let defaultInputProvider: SkyDefaultInputProvider;
 
   const imgBase64 =
     'iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAYAAAD0In+KAAAAFElEQVR42gEJAPb/AP//////////I+UH+Rtap+gAAAAASUVORK5CYII=';
@@ -123,8 +126,11 @@ describe('Avatar component', () => {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
         },
+        SkyDefaultInputProvider,
       ],
     });
+
+    defaultInputProvider = TestBed.inject(SkyDefaultInputProvider);
   });
 
   it('should display an image when an image URL is specified', () => {
@@ -436,10 +442,13 @@ describe('Avatar component', () => {
 
   function validateWrapperSizeClass(
     fixture: ComponentFixture<AvatarTestComponent>,
-    size: SkyAvatarSize | undefined
+    size: SkyAvatarSize | undefined,
+    updateSize = true
   ): void {
-    fixture.componentInstance.size = size;
-    fixture.detectChanges();
+    if (updateSize) {
+      fixture.componentInstance.size = size;
+      fixture.detectChanges();
+    }
 
     const wrapperEl = getWrapperEl(fixture.nativeElement);
 
@@ -454,10 +463,38 @@ describe('Avatar component', () => {
     const fixture = TestBed.createComponent(AvatarTestComponent);
     fixture.detectChanges();
 
-    validateWrapperSizeClass(fixture, undefined);
     validateWrapperSizeClass(fixture, 'large');
     validateWrapperSizeClass(fixture, 'medium');
     validateWrapperSizeClass(fixture, 'small');
+  });
+
+  it('should add the expected CSS class when no size is specified', () => {
+    const fixture = TestBed.createComponent(AvatarTestComponent);
+    fixture.detectChanges();
+
+    validateWrapperSizeClass(fixture, undefined);
+  });
+
+  it('should add the expected CSS class when size is specified via SkyDefaultInputProvider', () => {
+    const fixture = TestBed.createComponent(AvatarTestComponent);
+    fixture.detectChanges();
+
+    defaultInputProvider.setValue('avatar', 'size', 'medium');
+    fixture.detectChanges();
+
+    validateWrapperSizeClass(fixture, 'medium', false);
+  });
+
+  it('should add the expected consumer-provided size CSS class when a value is provided by the consumer and SkyDefaultInputProvider', () => {
+    const fixture = TestBed.createComponent(AvatarTestComponent);
+
+    fixture.componentInstance.size = 'small';
+    fixture.detectChanges();
+
+    defaultInputProvider.setValue('avatar', 'size', 'medium');
+    fixture.detectChanges();
+
+    validateWrapperSizeClass(fixture, 'small', false);
   });
 
   describe('when modern theme', () => {

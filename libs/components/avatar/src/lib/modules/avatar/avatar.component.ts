@@ -4,10 +4,14 @@ import {
   Input,
   Output,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
+import { SkyDefaultInputProvider } from '@skyux/core';
 import { ErrorModalConfig, SkyErrorModalService } from '@skyux/errors';
 import { SkyFileDropChange, SkyFileItem, SkyFileSizePipe } from '@skyux/forms';
 import { SkyLibResourcesService } from '@skyux/i18n';
+
+import { Observable } from 'rxjs';
 
 import { SkyAvatarSize } from './avatar-size';
 import { SkyAvatarSrc } from './avatar-src';
@@ -80,13 +84,7 @@ export class SkyAvatarComponent {
    * @default "large"
    */
   @Input()
-  public set size(value: SkyAvatarSize | undefined) {
-    this.#_size = value ?? 'large';
-  }
-
-  public get size(): SkyAvatarSize {
-    return this.#_size;
-  }
+  public size: SkyAvatarSize | undefined;
 
   /**
    * Emits a `SkyFileItem` object when the image is updated.
@@ -94,17 +92,19 @@ export class SkyAvatarComponent {
   @Output()
   public avatarChanged = new EventEmitter<SkyFileItem>();
 
+  protected sizeDefault: Observable<SkyAvatarSize> | undefined;
+
   #_canChange = false;
 
   #_name: string | undefined;
-
-  #_size: SkyAvatarSize = 'large';
 
   #_src: SkyAvatarSrc | undefined;
 
   #errorService: SkyErrorModalService;
   #fileSizePipe: SkyFileSizePipe;
   #resourcesService: SkyLibResourcesService;
+
+  #defaultInputProvider = inject(SkyDefaultInputProvider, { optional: true });
 
   constructor(
     errorService: SkyErrorModalService,
@@ -114,6 +114,11 @@ export class SkyAvatarComponent {
     this.#errorService = errorService;
     this.#fileSizePipe = fileSizePipe;
     this.#resourcesService = resourcesService;
+
+    this.sizeDefault = this.#defaultInputProvider?.getValue<SkyAvatarSize>(
+      'avatar',
+      'size'
+    );
   }
 
   public photoDrop(result: SkyFileDropChange): void {

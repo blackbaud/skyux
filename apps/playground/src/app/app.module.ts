@@ -7,7 +7,7 @@ import { SkyThemeService } from '@skyux/theme';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SkyThemeSelectorModule } from './shared/theme-selector/theme-selector.module';
+import { SkyThemeSelectorComponent } from './shared/theme-selector/theme-selector.component';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,7 +18,7 @@ import { SkyThemeSelectorModule } from './shared/theme-selector/theme-selector.m
     FormsModule,
     ReactiveFormsModule,
     SkyFluidGridModule,
-    SkyThemeSelectorModule,
+    SkyThemeSelectorComponent,
   ],
   providers: [SkyThemeService],
   bootstrap: [AppComponent],
