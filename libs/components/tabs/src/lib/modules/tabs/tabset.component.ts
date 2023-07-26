@@ -6,18 +6,22 @@ import {
   ContentChildren,
   ElementRef,
   EventEmitter,
+  HostBinding,
   Input,
   OnDestroy,
   Output,
   QueryList,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
+import { SkyLayoutHostService } from '@skyux/core';
 
 import { Subject, combineLatest, race } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 import { TabButtonViewModel } from './tab-button-view-model';
 import { SkyTabIndex } from './tab-index';
+import { SkyTabLayoutType } from './tab-layout-type';
 import { SkyTabComponent } from './tab.component';
 import { SkyTabsetAdapterService } from './tabset-adapter.service';
 import { SkyTabsetButtonsDisplayMode } from './tabset-buttons-display-mode';
@@ -182,6 +186,9 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
     return this.#_tabs;
   }
 
+  @HostBinding('class')
+  public cssClass = 'sky-tabset-layout-none';
+
   public dropdownTriggerButtonText = '';
 
   /**
@@ -212,6 +219,8 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
   #adapterService: SkyTabsetAdapterService;
   #permalinkService: SkyTabsetPermalinkService;
   #tabsetService: SkyTabsetService;
+
+  #layoutHostSvc = inject(SkyLayoutHostService, { optional: true });
 
   constructor(
     changeDetector: ChangeDetectorRef,
@@ -244,6 +253,12 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
         setTimeout(() => {
           this.#tabsetService.activateNearestTab(tab.arrayIndex);
         });
+      });
+
+    this.#tabsetService.activeTabLayout
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((layout) => {
+        this.#updateLayout(layout);
       });
 
     // Let the tabset render the initial active index before listening for changes.
@@ -329,7 +344,20 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
       .pipe(distinctUntilChanged(), takeUntil(this.#ngUnsubscribe))
       .subscribe((activeIndex) => {
         this.#updateTabsetComponent(activeIndex);
+        const activeTab = this.#getActiveTabComponent();
+
+        this.#updateLayout(activeTab?.layout);
       });
+  }
+
+  #updateLayout(layout?: SkyTabLayoutType): void {
+    if (this.#layoutHostSvc && layout) {
+      this.#layoutHostSvc.setHostLayoutForChild({
+        layout,
+      });
+
+      this.cssClass = `sky-tabset-layout-${layout}`;
+    }
   }
 
   #listenTabComponentsStateChange(): void {

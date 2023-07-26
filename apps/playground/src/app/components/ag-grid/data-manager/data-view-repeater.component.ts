@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -6,13 +7,17 @@ import {
   OnInit,
 } from '@angular/core';
 import {
+  SkyDataManagerModule,
   SkyDataManagerService,
   SkyDataManagerState,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
+import { SkyRepeaterModule } from '@skyux/lists';
 
 @Component({
   selector: 'app-data-view-repeater',
+  standalone: true,
+  imports: [CommonModule, SkyDataManagerModule, SkyRepeaterModule],
   templateUrl: './data-view-repeater.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -9,6 +9,7 @@ import {
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyLayoutHostService } from '@skyux/core';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -27,6 +28,7 @@ import { TabsetLoopTestComponent } from './fixtures/tabset-loop.component.fixtur
 import { SkyTabsetPermalinksFixtureComponent } from './fixtures/tabset-permalinks.component.fixture';
 import { SkyWizardTestFormComponent } from './fixtures/tabset-wizard.component.fixture';
 import { TabsetTestComponent } from './fixtures/tabset.component.fixture';
+import { SkyTabLayoutType } from './tab-layout-type';
 import { SkyTabsetAdapterService } from './tabset-adapter.service';
 import { SkyTabsetPermalinkService } from './tabset-permalink.service';
 import { SkyTabsetComponent } from './tabset.component';
@@ -1947,6 +1949,82 @@ describe('Tabset component', () => {
       tick();
 
       expect(location.path()).toEqual('/example-path/example-child-path');
+    }));
+  });
+
+  describe('with layout host', () => {
+    let layoutHostSvc: SkyLayoutHostService;
+
+    function validateTabsetLayoutChange(
+      fixture: ComponentFixture<TabsetTestComponent>,
+      layoutForChildHandler: jasmine.Spy,
+      expectedLayout: SkyTabLayoutType,
+      newActiveTabIndex?: number
+    ): void {
+      if (newActiveTabIndex !== undefined) {
+        fixture.componentInstance.activeTab = newActiveTabIndex;
+      }
+
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      expect(layoutForChildHandler).toHaveBeenCalledOnceWith({
+        layout: expectedLayout,
+      });
+
+      expect(fixture.nativeElement.querySelector('sky-tabset')).toHaveCssClass(
+        `sky-tabset-layout-${expectedLayout}`
+      );
+
+      layoutForChildHandler.calls.reset();
+    }
+
+    beforeEach(() => {
+      TestBed.overrideProvider(SkyLayoutHostService, {
+        useValue: layoutHostSvc,
+      });
+
+      layoutHostSvc = TestBed.inject(SkyLayoutHostService);
+    });
+
+    it('should update the tabset layout for the selected tab', fakeAsync(() => {
+      const layoutForChildHandler = jasmine.createSpy('layoutForChildHandler');
+      layoutHostSvc.hostLayoutForChild.subscribe(layoutForChildHandler);
+
+      const fixture = TestBed.createComponent(TabsetTestComponent);
+
+      validateTabsetLayoutChange(fixture, layoutForChildHandler, 'none');
+      validateTabsetLayoutChange(fixture, layoutForChildHandler, 'fit', 1);
+      validateTabsetLayoutChange(fixture, layoutForChildHandler, 'blocks', 2);
+      validateTabsetLayoutChange(fixture, layoutForChildHandler, 'none', 0);
+    }));
+
+    it('should update the tabset layout when the active tab layout changes', fakeAsync(() => {
+      const layoutForChildHandler = jasmine.createSpy('layoutForChildHandler');
+      layoutHostSvc.hostLayoutForChild.subscribe(layoutForChildHandler);
+
+      const fixture = TestBed.createComponent(TabsetTestComponent);
+
+      validateTabsetLayoutChange(fixture, layoutForChildHandler, 'blocks', 2);
+
+      fixture.componentInstance.tab3Layout = 'list';
+
+      validateTabsetLayoutChange(fixture, layoutForChildHandler, 'list');
+    }));
+
+    it('should default tab layout to "none" when set to undefined', fakeAsync(() => {
+      const layoutForChildHandler = jasmine.createSpy('layoutForChildHandler');
+      layoutHostSvc.hostLayoutForChild.subscribe(layoutForChildHandler);
+
+      const fixture = TestBed.createComponent(TabsetTestComponent);
+
+      validateTabsetLayoutChange(fixture, layoutForChildHandler, 'blocks', 2);
+
+      fixture.componentInstance.tab3Layout = undefined;
+
+      validateTabsetLayoutChange(fixture, layoutForChildHandler, 'none');
     }));
   });
 });

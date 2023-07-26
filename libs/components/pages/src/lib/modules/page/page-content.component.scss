@@ -1,0 +1,7 @@
+:host {
+  display: block;
+  padding: var(--sky-layout-host-content-spacing, 0);
+  flex-grow: var(--sky-layout-host-content-flex-grow, 0);
+  overflow: var(--sky-layout-host-content-overflow, visible);
+  position: var(--sky-layout-host-content-position, static);
+}
