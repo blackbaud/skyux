@@ -15,14 +15,14 @@ describe('datetime-storybook', () => {
           .should('be.visible')
           .click()
           .end()
-          .get('app-timepicker')
+          .get('body')
           .should('exist')
           .should('be.visible')
-          .screenshot(`timepickercomponent-timepicker--timepicker-${theme}`)
-          .percySnapshot(
+          .skyVisualTest(
             `timepickercomponent-timepicker--timepicker-${theme}`,
             {
-              widths: E2eVariations.DISPLAY_WIDTHS,
+              overwrite: true,
+              disableTimersAndAnimations: true,
             }
           );
       });

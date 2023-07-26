@@ -1,26 +1,28 @@
-<sky-input-box>
-  <label class="sky-control-label" [for]="disabledTimepickerInput.id">
-    Disabled
-  </label>
-  <sky-timepicker #disabledTimepicker>
-    <input
-      skyId
-      [disabled]="true"
-      [skyTimepickerInput]="disabledTimepicker"
-      timeFormat="hh"
-      #disabledTimepickerInput="skyId"
-    />
-  </sky-timepicker>
-</sky-input-box>
+<div style="height: 500px">
+  <sky-input-box>
+    <label class="sky-control-label" [for]="disabledTimepickerInput.id">
+      Disabled
+    </label>
+    <sky-timepicker #disabledTimepicker>
+      <input
+        skyId
+        [disabled]="true"
+        [skyTimepickerInput]="disabledTimepicker"
+        timeFormat="hh"
+        #disabledTimepickerInput="skyId"
+      />
+    </sky-timepicker>
+  </sky-input-box>
 
-<sky-input-box>
-  <label class="sky-control-label" [for]="timepickerInput.id">Label</label>
-  <sky-timepicker #timepicker>
-    <input
-      skyId
-      [skyTimepickerInput]="timepicker"
-      timeFormat="hh"
-      #timepickerInput="skyId"
-    />
-  </sky-timepicker>
-</sky-input-box>
+  <sky-input-box>
+    <label class="sky-control-label" [for]="timepickerInput.id">Label</label>
+    <sky-timepicker #timepicker>
+      <input
+        skyId
+        [skyTimepickerInput]="timepicker"
+        timeFormat="hh"
+        #timepickerInput="skyId"
+      />
+    </sky-timepicker>
+  </sky-input-box>
+</div>
