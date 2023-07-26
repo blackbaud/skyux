@@ -11,6 +11,8 @@ import { AutocompleteDemoComponent as SearchFiltersAutocompleteComponent } from 
 import { AutocompleteDemoModule as SearchFiltersAutocompleteModule } from '../code-examples/lookup/autocomplete/search-filters/autocomplete-demo.module';
 import { CountryFieldDemoComponent } from '../code-examples/lookup/country-field/basic/country-field-demo.component';
 import { CountryFieldDemoModule } from '../code-examples/lookup/country-field/basic/country-field-demo.module';
+import { LookupAsyncDemoComponent as LookupAddItemDemoComponent } from '../code-examples/lookup/lookup/add-item/lookup-async-demo.component';
+import { LookupAsyncDemoModule as LookupAddItemDemoModule } from '../code-examples/lookup/lookup/add-item/lookup-async-demo.module';
 import { LookupAsyncDemoComponent } from '../code-examples/lookup/lookup/async/lookup-async-demo.component';
 import { LookupAsyncDemoModule } from '../code-examples/lookup/lookup/async/lookup-async-demo.module';
 import { LookupCustomPickerDemoComponent } from '../code-examples/lookup/lookup/custom-picker/lookup-custom-picker-demo.component';
@@ -23,6 +25,8 @@ import { LookupSingleSelectDemoComponent } from '../code-examples/lookup/lookup/
 import { LookupSingleSelectDemoModule } from '../code-examples/lookup/lookup/single-select/lookup-single-demo.module';
 import { SearchDemoComponent } from '../code-examples/lookup/search/basic/search-demo.component';
 import { SearchDemoModule } from '../code-examples/lookup/search/basic/search-demo.module';
+import { SelectionModalDemoComponent as SelectionModalAddItemDemoComponent } from '../code-examples/lookup/selection-modal/add-item/selection-modal-demo.component';
+import { SelectionModalDemoModule as SelectionModalAddItemDemoModule } from '../code-examples/lookup/selection-modal/add-item/selection-modal-demo.module';
 import { SelectionModalDemoComponent } from '../code-examples/lookup/selection-modal/basic/selection-modal-demo.component';
 import { SelectionModalDemoModule } from '../code-examples/lookup/selection-modal/basic/selection-modal-demo.module';
 
@@ -46,6 +50,10 @@ const routes: Routes = [
   {
     path: 'country-field/basic',
     component: CountryFieldDemoComponent,
+  },
+  {
+    path: 'lookup/add-item',
+    component: LookupAddItemDemoComponent,
   },
   {
     path: 'lookup/async',
@@ -75,6 +83,10 @@ const routes: Routes = [
     path: 'selection-modal/basic',
     component: SelectionModalDemoComponent,
   },
+  {
+    path: 'selection-modal/add-item',
+    component: SelectionModalAddItemDemoComponent,
+  },
 ];
 
 @NgModule({
@@ -90,6 +102,7 @@ export class LookupRoutingModule {}
     CustomSearchAutocompleteModule,
     SearchFiltersAutocompleteModule,
     CountryFieldDemoModule,
+    LookupAddItemDemoModule,
     LookupAsyncDemoModule,
     LookupCustomPickerDemoModule,
     LookupMultipleSelectDemoModule,
@@ -97,6 +110,7 @@ export class LookupRoutingModule {}
     LookupSingleSelectDemoModule,
     SearchDemoModule,
     SelectionModalDemoModule,
+    SelectionModalAddItemDemoModule,
     LookupRoutingModule,
   ],
 })
