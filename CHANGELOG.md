@@ -1,5 +1,18 @@
 # Changelog
 
+## [8.6.0](https://github.com/blackbaud/skyux/compare/8.5.0...8.6.0) (2023-07-26)
+
+
+### Features
+
+* **components/pages:** add page header sub-components ([#1512](https://github.com/blackbaud/skyux/issues/1512)) ([d358924](https://github.com/blackbaud/skyux/commit/d35892440f372ee0766e36fec8c182b87b71581f))
+
+
+### Bug Fixes
+
+* **components/colorpicker:** icon color accessibility account for alpha ([#1511](https://github.com/blackbaud/skyux/issues/1511)) ([ea1bc52](https://github.com/blackbaud/skyux/commit/ea1bc526fae7fe401f19712cd6a1c882983da213))
+* **components/packages:** update `ng add` schematic to work on Windows machines ([#1514](https://github.com/blackbaud/skyux/issues/1514)) ([e16f475](https://github.com/blackbaud/skyux/commit/e16f4750d61ff2a603ef61a8f4160c8a042aa0ea))
+
 ## [8.5.0](https://github.com/blackbaud/skyux/compare/8.4.0...8.5.0) (2023-07-26)
 
 
