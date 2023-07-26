@@ -35,10 +35,12 @@
         "no-restricted-imports": [
           "error",
           {
-            "patterns": [{
-              "group": ["../*"],
-              "message": "Make sure to import from local files only."
-            }]
+            "patterns": [
+              {
+                "group": ["../*"],
+                "message": "Make sure to import from local files only."
+              }
+            ]
           }
         ]
       }
