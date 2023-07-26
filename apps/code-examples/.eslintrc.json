@@ -30,6 +30,20 @@
       }
     },
     {
+      "files": ["./src/app/code-examples/**/*.ts"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [{
+              "group": ["../*"],
+              "message": "Make sure to import from local files only."
+            }]
+          }
+        ]
+      }
+    },
+    {
       "files": ["*.html"],
       "extends": ["plugin:@nx/angular-template", "prettier"],
       "rules": {}
