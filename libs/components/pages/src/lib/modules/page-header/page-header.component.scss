@@ -7,11 +7,14 @@
 }
 
 .sky-page-header {
-  display: flex;
   margin: var(
     --sky-layout-host-header-spacing,
     var(--sky-compat-page-header-margin-top-and-bottom, 0) 0
   );
+
+  &-info {
+    display: flex;
+  }
 
   &-text {
     margin: 0;

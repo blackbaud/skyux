@@ -31,10 +31,9 @@ const LAYOUT_CLASS_DEFAULT = `${LAYOUT_CLASS_PREFIX}${LAYOUT_DEFAULT}`;
 export class SkyPageComponent implements OnInit, OnDestroy {
   /**
    * The page layout that corresponds with the top-level component type
-   * used on the page. For laying out custom content, use `auto` to allow
-   * the page contents to expand beyond the bottom of the browser window
-   * or `fit` to constrain the page contents to the available viewport.
-   * @default "auto"
+   * used on the page.`fit` to constrains the page contents to the available viewport.
+   * `none` is intended for custom content and does not apply any spacing or constraints.
+   * @default "none"
    */
   @Input()
   public set layout(value: SkyPageLayoutType | undefined) {

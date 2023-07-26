@@ -1,4 +1,9 @@
 <sky-page-header [parentLink]="hubLink" [pageTitle]="spokeTitle">
+  <sky-page-header-alerts *ngIf="showAlert">
+    <sky-alert alertType="danger" descriptionType="danger">
+      Urgent information about this page
+    </sky-alert>
+  </sky-page-header-alerts>
   <sky-page-header-details>
     Details about the page header.
   </sky-page-header-details>

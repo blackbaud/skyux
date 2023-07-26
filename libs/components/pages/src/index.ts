@@ -23,3 +23,4 @@ export { SkyPageContentComponent as λ7 } from './lib/modules/page/page-content.
 export { SkyPageHeaderDetailsComponent as λ8 } from './lib/modules/page-header/page-header-details.component';
 export { SkyPageHeaderActionsComponent as λ9 } from './lib/modules/page-header/page-header-actions.component';
 export { SkyPageHeaderAvatarComponent as λ10 } from './lib/modules/page-header/page-header-avatar.component';
+export { SkyPageHeaderAlertsComponent as λ11 } from './lib/modules/page-header/page-header-alerts.component';

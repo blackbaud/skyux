@@ -49,7 +49,7 @@ describe('Page header component', () => {
     expect(btn).toBeVisible();
   });
 
-  it('renders an avatar at size large when page is at a large breakpoint', () => {
+  it('should render an avatar at size large when page is at a large breakpoint', () => {
     const fixture = TestBed.createComponent(PageHeaderFixturesComponent);
     fixture.componentInstance.showAvatar = true;
     fixture.detectChanges();
@@ -61,7 +61,7 @@ describe('Page header component', () => {
     expect(largeAvatar).toBeVisible();
   });
 
-  it('renders an avatar at size small when page is at an xs breakpoint', () => {
+  it('should render an avatar at size small when page is at an xs breakpoint', () => {
     const fixture = TestBed.createComponent(PageHeaderFixturesComponent);
     fixture.componentInstance.showAvatar = true;
     fixture.detectChanges();
@@ -74,5 +74,15 @@ describe('Page header component', () => {
     );
 
     expect(smallAvatar).toBeVisible();
+  });
+
+  it('should render page a page header alert', () => {
+    const fixture = TestBed.createComponent(PageHeaderFixturesComponent);
+    fixture.componentInstance.showAlert = true;
+    fixture.detectChanges();
+
+    const alert = fixture.nativeElement.querySelector('sky-alert');
+
+    expect(alert).toBeVisible();
   });
 });

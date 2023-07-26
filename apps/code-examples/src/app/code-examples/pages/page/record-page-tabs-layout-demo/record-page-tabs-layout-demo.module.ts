@@ -4,6 +4,7 @@ import { SkyAgGridModule } from '@skyux/ag-grid';
 import { SkyAvatarModule } from '@skyux/avatar';
 import { SkyDataManagerModule } from '@skyux/data-manager';
 import {
+  SkyAlertModule,
   SkyIconModule,
   SkyKeyInfoModule,
   SkyLabelModule,
@@ -43,6 +44,7 @@ import { RecordPageTabsLayoutDemoComponent } from './record-page-tabs-layout-dem
     AgGridModule,
     CommonModule,
     SkyAgGridModule,
+    SkyAlertModule,
     SkyAvatarModule,
     SkyBoxModule,
     SkyDataManagerModule,
