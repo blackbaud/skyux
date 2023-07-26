@@ -92,7 +92,7 @@ export class SkyAvatarComponent {
   @Output()
   public avatarChanged = new EventEmitter<SkyFileItem>();
 
-  public sizeDefault: Observable<SkyAvatarSize> | undefined;
+  protected sizeDefault: Observable<SkyAvatarSize> | undefined;
 
   #_canChange = false;
 
@@ -104,7 +104,7 @@ export class SkyAvatarComponent {
   #fileSizePipe: SkyFileSizePipe;
   #resourcesService: SkyLibResourcesService;
 
-  #defaults = inject(SkyDefaultInputProvider, { optional: true });
+  #defaultInputProvider = inject(SkyDefaultInputProvider, { optional: true });
 
   constructor(
     errorService: SkyErrorModalService,
@@ -115,7 +115,7 @@ export class SkyAvatarComponent {
     this.#fileSizePipe = fileSizePipe;
     this.#resourcesService = resourcesService;
 
-    this.sizeDefault = this.#defaults?.getValue<SkyAvatarSize>(
+    this.sizeDefault = this.#defaultInputProvider?.getValue<SkyAvatarSize>(
       'avatar',
       'size'
     );

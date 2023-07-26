@@ -7,11 +7,7 @@ import { Observable, ReplaySubject } from 'rxjs';
 export class SkyDefaultInputProvider {
   #props: Record<string, Record<string, ReplaySubject<unknown>>> = {};
 
-  public setValue(
-    componentName: string,
-    inputName: string,
-    value: unknown
-  ): void {
+  public setValue<T>(componentName: string, inputName: string, value: T): void {
     const subject = this.#getSubject(componentName, inputName);
     subject.next(value);
   }
@@ -28,15 +24,14 @@ export class SkyDefaultInputProvider {
     componentName: string,
     inputName: string
   ): ReplaySubject<unknown> {
-    const inputSubject = this.#props[componentName]?.[inputName];
+    const componentSubjects = this.#props[componentName] || {};
+    const inputSubject = componentSubjects[inputName];
 
     if (!inputSubject) {
-      const componentSubjects = this.#props[componentName] || {};
       componentSubjects[inputName] = new ReplaySubject(1);
-
       this.#props[componentName] = componentSubjects;
     }
 
-    return this.#props[componentName][inputName];
+    return componentSubjects[inputName];
   }
 }

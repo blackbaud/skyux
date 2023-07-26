@@ -76,7 +76,7 @@ describe('Page header component', () => {
     expect(smallAvatar).toBeVisible();
   });
 
-  it('should render page a page header alert', () => {
+  it('should render a page header alert', () => {
     const fixture = TestBed.createComponent(PageHeaderFixturesComponent);
     fixture.componentInstance.showAlert = true;
     fixture.detectChanges();
