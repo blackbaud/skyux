@@ -1,5 +1,31 @@
 # Changelog
 
+## [8.6.0](https://github.com/blackbaud/skyux/compare/8.5.0...8.6.0) (2023-07-26)
+
+
+### Features
+
+* **components/pages:** add page header sub-components ([#1512](https://github.com/blackbaud/skyux/issues/1512)) ([d358924](https://github.com/blackbaud/skyux/commit/d35892440f372ee0766e36fec8c182b87b71581f))
+
+
+### Bug Fixes
+
+* **components/colorpicker:** icon color accessibility account for alpha ([#1511](https://github.com/blackbaud/skyux/issues/1511)) ([ea1bc52](https://github.com/blackbaud/skyux/commit/ea1bc526fae7fe401f19712cd6a1c882983da213))
+* **components/packages:** update `ng add` schematic to work on Windows machines ([#1514](https://github.com/blackbaud/skyux/issues/1514)) ([e16f475](https://github.com/blackbaud/skyux/commit/e16f4750d61ff2a603ef61a8f4160c8a042aa0ea))
+
+## [8.5.0](https://github.com/blackbaud/skyux/compare/8.4.0...8.5.0) (2023-07-26)
+
+
+### Features
+
+* **components/modals:** add errors input to modal footer component ([#1484](https://github.com/blackbaud/skyux/issues/1484)) ([7535ba8](https://github.com/blackbaud/skyux/commit/7535ba876b01b201cb463b6a471863aa991f7ab1))
+* **components/theme:** add spacing option to themes ([#1501](https://github.com/blackbaud/skyux/issues/1501)) ([28e0eed](https://github.com/blackbaud/skyux/commit/28e0eed5aa27c3ef74386c498045cd5ba9f6ffc6))
+
+
+### Bug Fixes
+
+* **components/lookup:** close observables during cleanup ([#1498](https://github.com/blackbaud/skyux/issues/1498)) ([60dd1d0](https://github.com/blackbaud/skyux/commit/60dd1d0110b8e06396a1d452c76ff1f1b31550f5))
+
 ## [8.4.0](https://github.com/blackbaud/skyux/compare/8.3.1...8.4.0) (2023-07-17)
 
 

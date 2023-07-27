@@ -15,6 +15,8 @@ export * from './lib/modules/affix/affix.module';
 export * from './lib/modules/affix/affix.service';
 export * from './lib/modules/affix/affixer';
 
+export * from './lib/modules/default-input-provider/default-input-provider';
+
 export * from './lib/modules/dock/dock-insert-component-config';
 export * from './lib/modules/dock/dock-item';
 export * from './lib/modules/dock/dock-item-config';

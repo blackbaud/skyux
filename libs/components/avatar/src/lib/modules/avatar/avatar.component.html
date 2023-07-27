@@ -23,5 +23,9 @@
 </div>
 
 <ng-template #innerTemplate>
-  <sky-avatar-inner [name]="name" [size]="size" [src]="src"></sky-avatar-inner>
+  <sky-avatar-inner
+    [name]="name"
+    [size]="size ?? (sizeDefault | async) ?? 'large'"
+    [src]="src"
+  ></sky-avatar-inner>
 </ng-template>

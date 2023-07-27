@@ -1321,6 +1321,57 @@ describe('Colorpicker Component', () => {
       expect(icon?.getAttribute('style')).toEqual('color: rgb(255, 255, 255);');
     });
 
+    it('should update icon color from black to white when opacity of dark color is lowered', fakeAsync(() => {
+      fixture.componentInstance.colorModel = '#ff0000';
+      fixture.componentInstance.pickerButtonIcon = 'calendar';
+
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      const icon = getColorpickerIcon();
+      expect(icon?.getAttribute('style')).toEqual('color: rgb(255, 255, 255);');
+
+      openColorpicker(fixture.nativeElement);
+      setInputElementValue(fixture.nativeElement, 'alpha', '0.3');
+      applyColorpicker();
+
+      expect(icon?.getAttribute('style')).toEqual('color: rgb(0, 0, 0);');
+    }));
+
+    it('should keep icon color black when a light color opacity is lowered', fakeAsync(() => {
+      fixture.componentInstance.colorModel = '#ffffff';
+      fixture.componentInstance.pickerButtonIcon = 'calendar';
+
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      const icon = getColorpickerIcon();
+      expect(icon?.getAttribute('style')).toEqual('color: rgb(0, 0, 0);');
+
+      openColorpicker(fixture.nativeElement);
+      setInputElementValue(fixture.nativeElement, 'alpha', '0.3');
+      applyColorpicker();
+
+      expect(icon?.getAttribute('style')).toEqual('color: rgb(0, 0, 0);');
+    }));
+
+    it('should set icon color to white when alpha is 0', fakeAsync(() => {
+      fixture.componentInstance.colorModel = '#ff0000';
+      fixture.componentInstance.pickerButtonIcon = 'calendar';
+
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      const icon = getColorpickerIcon();
+      expect(icon?.getAttribute('style')).toEqual('color: rgb(255, 255, 255);');
+
+      openColorpicker(fixture.nativeElement);
+      setInputElementValue(fixture.nativeElement, 'alpha', '0.0');
+      applyColorpicker();
+
+      expect(icon?.getAttribute('style')).toEqual('color: rgb(0, 0, 0);');
+    }));
+
     it('should be accessible when closed', async () => {
       fixture.detectChanges();
       await fixture.whenStable();

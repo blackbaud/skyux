@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { SkyModalService } from '@skyux/modals';
 
 import { Observable } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { SkyAutocompleteSearchAsyncResult } from '../autocomplete/types/autocomplete-search-async-result';
 
@@ -67,11 +68,13 @@ export class SkySelectionModalService {
       modalInstance.componentInstance.id
     );
 
-    instance.itemAdded.subscribe((item) => {
-      (modalInstance.componentInstance as SkySelectionModalComponent).addItem(
-        item
-      );
-    });
+    instance.itemAdded
+      .pipe(takeUntil(modalInstance.closed))
+      .subscribe((item) => {
+        (modalInstance.componentInstance as SkySelectionModalComponent).addItem(
+          item
+        );
+      });
 
     modalInstance.closed.subscribe((modalCloseArgs) => {
       let closeArgs: SkySelectionModalCloseArgs;
@@ -98,17 +101,19 @@ export class SkySelectionModalService {
     const selectionModal =
       modalInstance.componentInstance as SkySelectionModalComponent;
 
-    selectionModal.addClick.subscribe(() => {
-      if (args.addClick) {
-        const addArgs: SkySelectionModalAddClickEventArgs = {
-          itemAdded(args) {
-            selectionModal.addItem(args.item);
-          },
-        };
+    selectionModal.addClick
+      .pipe(takeUntil(modalInstance.closed))
+      .subscribe(() => {
+        if (args.addClick) {
+          const addArgs: SkySelectionModalAddClickEventArgs = {
+            itemAdded(args) {
+              selectionModal.addItem(args.item);
+            },
+          };
 
-        args.addClick(addArgs);
-      }
-    });
+          args.addClick(addArgs);
+        }
+      });
 
     return instance;
   }
