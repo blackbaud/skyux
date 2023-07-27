@@ -371,7 +371,19 @@ jobs:
                 ref: "${{ needs.install-deps.outputs.workflow_dispatch_pr_head_sha }}" || context.payload.after || context.payload.pull_request.head.sha,
                 per_page: 100
               };
-              const { data: statuses } = await github.rest.repos.listCommitStatusesForRef(params);
+              const statuses = [];
+              async function listCommitStatusesForRef(page=1) {
+                const {data} = await github.rest.repos.listCommitStatusesForRef({
+                  page,
+                  ...params
+                });
+                statuses.push(...data);
+                if (data.length === params.per_page) {
+                  await listCommitStatusesForRef(page + 1);
+                }
+              }
+              await listCommitStatusesForRef();
+
               const percyStatuses = statuses.filter((status, idx) => status.context.toLowerCase().startsWith('percy/'));
               const percyStatusContexts = percyStatuses.map(status => status.context.toLowerCase());
 
