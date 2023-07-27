@@ -396,12 +396,9 @@ sky-input-box {
         }
       }
 
-      .sky-input-box-label-wrapper:empty + textarea.sky-form-control {
-        border-top: 10px solid transparent;
-      }
-
+      .sky-input-box-label-wrapper:empty + textarea.sky-form-control,
       .sky-input-box-label-wrapper:empty + * textarea.sky-form-control {
-        border-top: 3px solid transparent;
+        border-top: 10px solid transparent;
       }
 
       /* Firefox puts an extra 5px left padding on select elements. This removes it. */
