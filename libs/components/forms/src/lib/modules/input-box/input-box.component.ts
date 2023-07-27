@@ -73,8 +73,8 @@ export class SkyInputBoxComponent implements OnInit, AfterContentChecked {
 
   /**
    * The text to display as the input's label and in known validation error messages. The label
-   * will automatically be associated with the `input`, `select`, or `textarea` element included
-   * in the input box.
+   * will automatically be associated with the `input`, `select`, `textarea`, or compatible SKY UX
+   * component included in the input box.
    */
   @Input()
   public labelText: string | undefined;
