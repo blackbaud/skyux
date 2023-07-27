@@ -24,12 +24,7 @@
   >
     {{ token.value[displayWith] }}
   </sky-token>
-  <sky-tokens-content [attr.role]="tokens.length ? 'row' : null">
-    <div
-      [attr.role]="tokens.length ? 'gridcell' : null"
-      class="sky-tokens-content"
-    >
-      <ng-content></ng-content>
-    </div>
-  </sky-tokens-content>
+  <div class="sky-tokens-content">
+    <ng-content></ng-content>
+  </div>
 </div>
