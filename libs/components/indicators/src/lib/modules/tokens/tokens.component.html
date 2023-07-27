@@ -4,9 +4,9 @@
   [attr.role]="tokens.length ? 'grid' : null"
 >
   <!--
-      The role must use square brackets otherwise Angular sets the native 'role'
-      attribute as well as the input attribute of the token, which fails accessibility rules.
-    -->
+        The role must use square brackets otherwise Angular sets the native 'role'
+        attribute as well as the input attribute of the token, which fails accessibility rules.
+      -->
   <sky-token
     *ngFor="let token of tokens; let i = index; trackBy: trackTokenFn"
     [@.disabled]="!trackWith"
@@ -24,12 +24,12 @@
   >
     {{ token.value[displayWith] }}
   </sky-token>
-  <sky-tokens-content [attr.role]="tokens.length ? 'row' : null">
+  <div class="sky-tokens-content" [attr.role]="tokens.length ? 'row' : null">
     <div
       [attr.role]="tokens.length ? 'gridcell' : null"
-      class="sky-tokens-content"
+      style="display: contents"
     >
       <ng-content></ng-content>
     </div>
-  </sky-tokens-content>
+  </div>
 </div>

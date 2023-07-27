@@ -4,9 +4,13 @@ $sky-tokens-gutter-size: 2px;
 
 .sky-tokens {
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  margin: 0 -$sky-tokens-gutter-size;
+    flex-wrap: wrap;
+    align-items: baseline;
+  margin: 0 -1 * $sky-tokens-gutter-size;
+
+  .sky-tokens-content-row {
+    display: contents;
+  }
 
   .sky-tokens-content,
   ::ng-deep sky-token {

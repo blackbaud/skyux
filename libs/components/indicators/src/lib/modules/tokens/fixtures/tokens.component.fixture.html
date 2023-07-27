@@ -14,12 +14,10 @@
 >
   <ng-container *ngIf="innerContent === 'text'"> INNER CONTENT </ng-container>
   <ng-container *ngIf="innerContent === 'form-control'">
-    <div role="row">
-      <label role="gridcell">
-        Label
-        <input class="sky-form-control" type="text" />
-      </label>
-    </div>
+    <label>
+      Label
+      <input type="text" />
+    </label>
   </ng-container>
 </sky-tokens>
 

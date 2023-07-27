@@ -6,15 +6,10 @@ import { SkyIconModule } from '../icon/icon.module';
 import { SkyIndicatorsResourcesModule } from '../shared/sky-indicators-resources.module';
 
 import { SkyTokenComponent } from './token.component';
-import { SkyTokensContentComponent } from './tokens-content.component';
 import { SkyTokensComponent } from './tokens.component';
 
 @NgModule({
-  declarations: [
-    SkyTokenComponent,
-    SkyTokensContentComponent,
-    SkyTokensComponent,
-  ],
+  declarations: [SkyTokenComponent, SkyTokensComponent],
   imports: [
     CommonModule,
     SkyI18nModule,

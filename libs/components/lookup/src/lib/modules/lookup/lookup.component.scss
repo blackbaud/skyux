@@ -42,10 +42,6 @@
         padding-left: 10px;
         flex-basis: 100px;
       }
-
-      sky-tokens-content:first-child > .sky-tokens-content {
-        padding-left: 0;
-      }
     }
   }
 
@@ -75,7 +71,6 @@
 }
 
 .sky-lookup-focused {
-  sky-tokens-content,
   .sky-tokens-content {
     flex-basis: 100px;
   }
@@ -131,7 +126,7 @@ sky-input-box .sky-lookup {
           padding-top: 0;
         }
 
-        sky-tokens-content {
+        .sky-tokens-content {
           padding-bottom: 0;
           padding-top: 0;
 
