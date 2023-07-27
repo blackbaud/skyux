@@ -1,6 +1,6 @@
 import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 
-describe('layout-storybook', () => {
+describe('layout-storybook - text expand repeater', () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
