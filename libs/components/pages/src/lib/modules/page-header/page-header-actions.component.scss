@@ -1,0 +1,13 @@
+:host {
+  display: block;
+
+  &:not(:empty) {
+    margin-top: var(--sky-margin-stacked-xl);
+
+    ::ng-deep {
+      .sky-btn + .sky-btn {
+        margin-left: var(--sky-margin-inline-sm);
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+:host {
+  display: block;
+
+  &:not(:empty) {
+    margin-bottom: var(--sky-margin-stacked-lg);
+
+    ::ng-deep {
+      sky-alert + sky-alert {
+        margin-top: var(--sky-margin-stacked-lg);
+      }
+    }
+  }
+}

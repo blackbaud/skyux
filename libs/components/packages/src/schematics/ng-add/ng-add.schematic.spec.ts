@@ -1,11 +1,12 @@
-import { normalize } from '@angular-devkit/core';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
+
+import path from 'path';
 
 import { createTestLibrary } from '../testing/scaffold';
 import { readJson } from '../testing/tree';
 import { JsonFile } from '../utility/json-file';
 
-const COLLECTION_PATH = normalize(`${__dirname}/../../../collection.json`);
+const COLLECTION_PATH = path.resolve(__dirname, '../../../collection.json');
 
 describe('ng-add.schematic', () => {
   const runner = new SchematicTestRunner('schematics', COLLECTION_PATH);
