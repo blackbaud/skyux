@@ -572,3 +572,35 @@
     </div>
   </sky-input-box>
 </div>
+
+<div class="input-easy-mode">
+  <sky-input-box
+    labelText="Easy mode"
+    [characterLimit]="easyModeCharacterLimit"
+    [helpPopoverContent]="easyModeHelpPopoverContent"
+    [stacked]="easyModeStacked"
+  >
+    <input type="text" minlength="3" required [(ngModel)]="easyModeValue" />
+  </sky-input-box>
+</div>
+
+<div class="input-easy-mode-required">
+  <sky-input-box labelText="Easy mode (required)">
+    <input type="text" [formControl]="errorField" />
+  </sky-input-box>
+</div>
+
+<div class="input-existing-id">
+  <sky-input-box [disabled]="basicDisabled" [hasErrors]="hasErrors">
+    <label class="sky-control-label" for="input-box-existing-id-123">
+      Existing ID
+    </label>
+    <input
+      class="sky-form-control"
+      id="input-box-existing-id-123"
+      [disabled]="basicDisabled"
+    />
+  </sky-input-box>
+</div>
+
+<ng-template #easyModePopoverTemplate> Help content from template </ng-template>

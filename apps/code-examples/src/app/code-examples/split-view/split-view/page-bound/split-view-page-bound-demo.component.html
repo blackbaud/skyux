@@ -70,36 +70,12 @@
                   </sky-definition-list-value>
                 </sky-definition-list-content>
               </sky-definition-list>
-              <div class="sky-form-group">
-                <sky-input-box>
-                  <label class="sky-control-label" [for]="amountInput.id">
-                    Approved amount
-                  </label>
-                  <input
-                    class="sky-form-control"
-                    formControlName="approvedAmount"
-                    name="approvedAmount"
-                    type="text"
-                    skyId
-                    #amountInput
-                  />
-                </sky-input-box>
-              </div>
-
-              <div class="sky-form-group">
-                <sky-input-box>
-                  <label class="sky-control-label" [for]="commentsInput.id">
-                    Comments
-                  </label>
-                  <textarea
-                    class="sky-form-control"
-                    formControlName="comments"
-                    name="comments"
-                    skyId
-                    #commentsInput
-                  ></textarea>
-                </sky-input-box>
-              </div>
+              <sky-input-box labelText="Approved amount" stacked="true">
+                <input formControlName="approvedAmount" type="text" />
+              </sky-input-box>
+              <sky-input-box labelText="Comments">
+                <textarea formControlName="comments"></textarea>
+              </sky-input-box>
             </form>
           </sky-split-view-workspace-content>
           <sky-split-view-workspace-footer>

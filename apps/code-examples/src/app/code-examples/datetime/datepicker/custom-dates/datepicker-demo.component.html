@@ -1,16 +1,9 @@
 <form novalidate [formGroup]="myForm">
-  <sky-input-box>
-    <label class="sky-control-label" [for]="dateInput.id"> Date </label>
+  <sky-input-box labelText="Date">
     <sky-datepicker
       (calendarDateRangeChange)="onCalendarDateRangeChange($event)"
     >
-      <input
-        formControlName="myDate"
-        skyDatepickerInput
-        skyId
-        type="text"
-        #dateInput="skyId"
-      />
+      <input formControlName="myDate" skyDatepickerInput type="text" />
     </sky-datepicker>
   </sky-input-box>
 </form>

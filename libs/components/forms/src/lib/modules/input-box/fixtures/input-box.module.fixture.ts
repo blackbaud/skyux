@@ -1,6 +1,6 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyIdModule } from '@skyux/core';
 import {
   SkyHelpInlineModule,
@@ -16,7 +16,7 @@ import { InputBoxFixtureComponent } from './input-box.component.fixture';
 
 @NgModule({
   imports: [
-    CommonModule,
+    NoopAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     SkyCharacterCounterModule,
