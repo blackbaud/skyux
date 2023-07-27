@@ -107,7 +107,9 @@
 </ng-template>
 
 <ng-template #inputTemplate>
-  <ng-content select="input,select,.sky-form-control:not(textarea)" />
+  <ng-content
+    select="input,select,.sky-form-control:not(textarea),sky-text-editor"
+  />
   <ng-container
     *ngIf="hostInputTemplate"
     [ngTemplateOutlet]="hostInputTemplate"
