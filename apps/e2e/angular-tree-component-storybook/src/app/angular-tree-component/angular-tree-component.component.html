@@ -16,14 +16,6 @@
           [node]="node"
           [templates]="templates"
         >
-          <sky-help-inline
-            *ngIf="showHelpInline && node.data.showHelp"
-            class="sky-control-help"
-          ></sky-help-inline>
-          <sky-dropdown
-            *ngIf="showContextMenu"
-            buttonType="context-menu"
-          ></sky-dropdown>
         </sky-angular-tree-node>
       </ng-template>
     </tree-root>
