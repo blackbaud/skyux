@@ -89,6 +89,7 @@
   <sky-input-box-help-inline
     *ngIf="helpPopoverContent"
     class="sky-control-help"
+    [labelText]="labelText"
     [popoverContent]="helpPopoverContent"
     [popoverTitle]="helpPopoverTitle"
   />
@@ -164,7 +165,7 @@
 </ng-template>
 
 <ng-template #errorLabelTemplate>
-  <div class="sky-control-errors" aria-live="polite" [id]="errorId">
+  <div class="sky-control-errors" role="alert" [id]="errorId">
     <sky-input-box-errors
       *ngIf="
         labelText &&

@@ -7,11 +7,15 @@ import {
   Input,
   NgZone,
   OnDestroy,
+  OnInit,
+  TemplateRef,
   ViewChild,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { SkyCoreAdapterService, SkyIdService } from '@skyux/core';
+import { SkyInputBoxHostService } from '@skyux/forms';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -48,7 +52,9 @@ import { SkyTextEditorToolbarActionType } from './types/toolbar-action-type';
     SkyTextEditorAdapterService,
   ],
 })
-export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
+export class SkyTextEditorComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   /**
    * Whether to put focus on the editor after it renders.
    */
@@ -270,7 +276,17 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
     return this.#_value;
   }
 
+  @ViewChild('inputTemplateRef', {
+    read: TemplateRef,
+    static: true,
+  })
+  public inputTemplateRef: TemplateRef<unknown> | undefined;
+
   public editorFocusStream = new Subject<void>();
+
+  protected inputBoxHostSvc = inject(SkyInputBoxHostService, {
+    optional: true,
+  });
 
   #defaultId: string;
   #id: string;
@@ -316,6 +332,14 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
     this.#id = this.#defaultId = idSvc.generateId();
 
     ngControl.valueAccessor = this;
+  }
+
+  public ngOnInit(): void {
+    if (this.inputBoxHostSvc && this.inputTemplateRef) {
+      this.inputBoxHostSvc.populate({
+        inputTemplate: this.inputTemplateRef,
+      });
+    }
   }
 
   public ngAfterViewInit(): void {

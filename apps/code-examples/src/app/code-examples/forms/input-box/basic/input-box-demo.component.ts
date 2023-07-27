@@ -62,8 +62,4 @@ export class InputBoxDemoComponent {
       favoriteColor: this.favoriteColor,
     });
   }
-
-  public onActionClick(): void {
-    alert('Help inline button clicked!');
-  }
 }

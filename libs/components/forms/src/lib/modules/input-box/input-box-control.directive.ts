@@ -6,7 +6,7 @@ import { Directive } from '@angular/core';
 @Directive({
   selector:
     // eslint-disable-next-line @angular-eslint/directive-selector
-    'input:not([skyId]),select:not([skyId]),textarea:not([skyId])',
+    'input:not([skyId]):not(.sky-form-control),select:not([skyId]):not(.sky-form-control),textarea:not([skyId]):not(.sky-form-control)',
   standalone: true,
 })
 export class SkyInputBoxControlDirective {}

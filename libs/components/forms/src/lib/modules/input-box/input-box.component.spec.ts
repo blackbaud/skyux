@@ -398,6 +398,8 @@ describe('Input box component', () => {
         '.sky-help-inline'
       ) as HTMLButtonElement;
 
+      expect(inlineHelpBtnEl.ariaLabel).toBe('Show help content for Easy mode');
+
       inlineHelpBtnEl.click();
 
       // Allow the popover open event to fire.
@@ -1111,6 +1113,31 @@ describe('Input box component', () => {
       const errorEl = inputBoxEl.querySelector('sky-status-indicator');
 
       expect(errorEl).toHaveText('Error: Easy mode is required.');
+    });
+
+    it('should add required attributes to label and input when required', async () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+
+      const inputBoxEl = getInputBoxEl(
+        fixture,
+        'input-easy-mode-required'
+      ) as HTMLDivElement;
+
+      const inputEl = inputBoxEl.querySelector('input') as HTMLInputElement;
+
+      expect(inputEl.ariaRequired).toBe('true');
+      expect(inputBoxEl.querySelector('label')).toHaveCssClass(
+        'sky-control-label-required'
+      );
+
+      fixture.componentInstance.removeErrorFormRequiredValidator();
+      fixture.detectChanges();
+
+      expect(inputEl.ariaRequired).toBeNull();
+      expect(inputBoxEl.querySelector('label')).not.toHaveCssClass(
+        'sky-control-label-required'
+      );
     });
 
     describe('a11y', () => {

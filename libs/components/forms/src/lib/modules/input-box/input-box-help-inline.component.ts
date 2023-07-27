@@ -6,6 +6,7 @@ import {
   TemplateRef,
 } from '@angular/core';
 import { SkyIdModule } from '@skyux/core';
+import { SkyI18nModule } from '@skyux/i18n';
 import { SkyHelpInlineModule } from '@skyux/indicators';
 import { SkyPopoverModule } from '@skyux/popovers';
 
@@ -15,11 +16,20 @@ import { SkyPopoverModule } from '@skyux/popovers';
 @Component({
   selector: 'sky-input-box-help-inline',
   standalone: true,
-  imports: [CommonModule, SkyHelpInlineModule, SkyIdModule, SkyPopoverModule],
+  imports: [
+    CommonModule,
+    SkyHelpInlineModule,
+    SkyI18nModule,
+    SkyIdModule,
+    SkyPopoverModule,
+  ],
   templateUrl: './input-box-help-inline.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyInputBoxHelpInlineComponent {
+  @Input()
+  public labelText: string | undefined;
+
   @Input()
   public popoverTitle: string | undefined;
 

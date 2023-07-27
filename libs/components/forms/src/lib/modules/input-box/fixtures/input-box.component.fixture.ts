@@ -75,4 +75,8 @@ export class InputBoxFixtureComponent {
       errorFormField: new UntypedFormControl('', [Validators.required]),
     });
   }
+
+  public removeErrorFormRequiredValidator(): void {
+    this.errorField.removeValidators(Validators.required);
+  }
 }

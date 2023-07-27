@@ -118,5 +118,9 @@
   "skyux_input_box_error_url": {
     "_description": "Error message for a field with an invalid URL value",
     "message": "Enter a URL with a valid format."
+  },
+  "skyux_input_box_help_inline_aria_label": {
+    "_description": "The accessible label for an input box help inline button",
+    "message": "Show help content for {0}"
   }
 }

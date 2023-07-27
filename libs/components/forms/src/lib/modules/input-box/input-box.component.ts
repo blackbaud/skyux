@@ -165,8 +165,7 @@ export class SkyInputBoxComponent implements OnInit, AfterContentChecked {
 
   protected get required(): boolean {
     return (
-      this.controlDir?.control?.hasValidator(Validators.required) ||
-      this.inputRef?.nativeElement.required
+      this.#hasRequiredValidator() || this.inputRef?.nativeElement.required
     );
   }
 
@@ -184,19 +183,37 @@ export class SkyInputBoxComponent implements OnInit, AfterContentChecked {
     this.controlDir =
       this.formControl || this.formControlByName || this.ngModel;
 
-    if (this.inputRef && this.inputRef !== this.#previousInputRef) {
-      const el = this.inputRef.nativeElement;
+    const inputEl = this.inputRef?.nativeElement as HTMLElement | undefined;
 
-      this.#renderer.addClass(el, 'sky-form-control');
-      this.#renderer.setAttribute(el, 'aria-describedby', this.errorId);
+    if (inputEl) {
+      // Check for the Angular required validator and add an aria-required attribute
+      // to match. For template-driven forms, the input will have a `required` attribute
+      // so the aria-required attribute is unnecessary.
+      const hasRequiredValidator = this.#hasRequiredValidator();
+      const ariaRequired = inputEl.ariaRequired;
 
-      if (!el.id) {
-        this.#renderer.setAttribute(el, 'id', this.controlId);
+      if (hasRequiredValidator && ariaRequired !== 'true') {
+        inputEl.ariaRequired = 'true';
+      } else if (!hasRequiredValidator && ariaRequired === 'true') {
+        inputEl.ariaRequired = null;
       }
 
-      this.#updateMaxLengthValidator();
+      if (this.hasErrorsComputed) {
+        this.#renderer.setAttribute(inputEl, 'aria-invalid', 'true');
+        this.#renderer.setAttribute(inputEl, 'aria-errormessage', this.errorId);
+      } else {
+        this.#renderer.removeAttribute(inputEl, 'aria-invalid');
+        this.#renderer.removeAttribute(inputEl, 'aria-errormessage');
+      }
 
-      this.#previousInputRef = this.inputRef;
+      if (this.inputRef !== this.#previousInputRef) {
+        this.#renderer.addClass(inputEl, 'sky-form-control');
+        this.#renderer.setAttribute(inputEl, 'id', this.controlId);
+
+        this.#updateMaxLengthValidator();
+
+        this.#previousInputRef = this.inputRef;
+      }
     }
   }
 
@@ -226,6 +243,10 @@ export class SkyInputBoxComponent implements OnInit, AfterContentChecked {
     this.hostButtonsInsetTemplate = args.buttonsInsetTemplate;
     this.hostIconsInsetTemplate = args.iconsInsetTemplate;
     this.hostIconsInsetLeftTemplate = args.iconsInsetLeftTemplate;
+  }
+
+  #hasRequiredValidator(): boolean {
+    return !!this.controlDir?.control?.hasValidator(Validators.required);
   }
 
   #updateHasFocus(hasFocus: boolean): void {

@@ -79,6 +79,9 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     skyux_input_box_error_required: { message: '{0} is required.' },
     skyux_input_box_error_time: { message: 'Select or enter a valid time.' },
     skyux_input_box_error_url: { message: 'Enter a URL with a valid format.' },
+    skyux_input_box_help_inline_aria_label: {
+      message: 'Show help content for {0}',
+    },
   },
 };
 
