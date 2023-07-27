@@ -1,4 +1,73 @@
 <div class="input-box-visual sky-padding-even-large" id="screenshot-input-box">
+  <div id="input-box-easy">
+    <sky-input-box
+      characterLimit="10"
+      labelText="Easy mode"
+      stacked="true"
+      helpPopoverContent="I'm some help content."
+    >
+      <input type="text" minlength="3" required [(ngModel)]="myValue" />
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-help-inline-required-with-character-counter-hard">
+    <sky-input-box class="sky-margin-stacked-lg">
+      <label
+        class="sky-control-label sky-control-label-required"
+        [for]="inputBoxInlineHelpRequiredCharacterCounter.id"
+      >
+        Hard mode
+      </label>
+      <sky-character-counter-indicator #indicator />
+      <input
+        class="sky-form-control"
+        skyId
+        type="text"
+        required
+        minlength="4"
+        skyCharacterCounter
+        [(ngModel)]="myValue"
+        [skyCharacterCounterIndicator]="indicator"
+        [skyCharacterCounterLimit]="10"
+        #inputBoxInlineHelpRequiredCharacterCounter="skyId"
+        #myValueModel="ngModel"
+      />
+
+      <div
+        *ngIf="myValueModel.invalid && (myValueModel.dirty || myValueModel.touched) && myValueModel.errors?.['required']"
+        class="sky-error-indicator"
+      >
+        <sky-status-indicator descriptionType="error" indicatorType="danger">
+          Hard mode is required.
+        </sky-status-indicator>
+      </div>
+
+      <div
+        *ngIf="myValueModel.invalid && (myValueModel.dirty || myValueModel.touched) && myValueModel.errors?.['minlength'] as minLengthError"
+        class="sky-error-indicator"
+      >
+        <sky-status-indicator descriptionType="error" indicatorType="danger">
+          Hard mode must be at least 3 characters(s).
+        </sky-status-indicator>
+      </div>
+
+      <div
+        *ngIf="myValueModel.invalid && (myValueModel.dirty || myValueModel.touched) &&
+          myValueModel.errors?.['skyCharacterCounter'] as characterCounterError
+        "
+        class="sky-error-indicator"
+      >
+        <sky-status-indicator
+          *ngIf="errorsComputed?.['skyCharacterCounter']"
+          indicatorType="danger"
+          descriptionType="error"
+        >
+          Hard mode must be fewer than 10 character(s).
+        </sky-status-indicator>
+      </div>
+    </sky-input-box>
+  </div>
+
   <div id="input-box-basic">
     <sky-input-box class="sky-margin-stacked-lg">
       <label class="sky-control-label" [for]="inputBoxBasic.id"> Input </label>
@@ -173,6 +242,13 @@ Value</textarea
 
   <div id="input-box-form-control-name-error">
     <form [formGroup]="errorForm">
+      <sky-input-box
+        class="sky-margin-stacked-lg"
+        mode="detect"
+        labelText="Form control by name error with status indicator"
+      >
+        <input formControlName="errorFormField" type="text" />
+      </sky-input-box>
       <sky-input-box class="sky-margin-stacked-lg">
         <label
           class="sky-control-label"

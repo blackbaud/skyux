@@ -1,33 +1,14 @@
 <form novalidate [formGroup]="myForm">
   <div style="display: flex">
     <div class="sky-margin-inline-lg" style="flex: 1">
-      <sky-input-box>
-        <label
-          class="sky-control-label sky-control-label-required"
-          [for]="nameInput.id"
-        >
-          Name
-        </label>
-        <input
-          class="sky-form-control"
-          formControlName="name"
-          skyId
-          type="text"
-          #nameInput
-        />
+      <sky-input-box labelText="Name">
+        <input formControlName="name" type="text" />
       </sky-input-box>
     </div>
     <div style="flex: 1">
-      <sky-input-box>
-        <label class="sky-control-label" [for]="idInput.id"> ID </label>
-        <input
-          class="sky-form-control"
-          formControlName="id"
-          type="text"
-          [attr.aria-describedby]="inputError.id"
-          #idInput
-        />
-        <span class="sky-error-indicator" skyId #inputError="skyId">
+      <sky-input-box labelText="ID">
+        <input formControlName="id" type="text" />
+        <span class="sky-error-indicator">
           <sky-status-indicator
             *ngIf="myForm.get('id')?.invalid"
             indicatorType="danger"

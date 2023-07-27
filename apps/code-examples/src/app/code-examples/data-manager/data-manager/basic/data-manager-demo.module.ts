@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyAgGridModule } from '@skyux/ag-grid';
-import { SkyIdModule } from '@skyux/core';
 import { SkyDataManagerModule } from '@skyux/data-manager';
 import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
 import { SkyToolbarModule } from '@skyux/layout';
@@ -30,7 +29,6 @@ import { DataViewRepeaterDemoComponent } from './data-view-repeater.component';
     SkyAgGridModule,
     SkyCheckboxModule,
     SkyDataManagerModule,
-    SkyIdModule,
     SkyInputBoxModule,
     SkyModalModule,
     SkyRepeaterModule,

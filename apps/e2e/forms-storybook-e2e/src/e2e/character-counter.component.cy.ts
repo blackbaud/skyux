@@ -18,6 +18,10 @@ describe('character-counter', () => {
           .get('#ready')
           .should('exist')
           .end()
+          .get('#screenshot-character-count-input-box-invalid input')
+          .focus()
+          .blur()
+          .end()
           .get('body')
           .screenshot(`character-counter-${theme}`, {
             disableTimersAndAnimations: true,

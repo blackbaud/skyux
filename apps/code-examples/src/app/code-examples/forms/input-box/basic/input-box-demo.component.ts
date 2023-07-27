@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import { SkyValidators } from '@skyux/validation';
 
 @Component({
@@ -33,7 +38,20 @@ export class InputBoxDemoComponent {
       SkyValidators.email,
     ]);
     this.dob = new FormControl('', Validators.required);
-    this.favoriteColor = new FormControl('none');
+    this.favoriteColor = new FormControl('none', [
+      (control): ValidationErrors | null => {
+        if (control.value === 'bird') {
+          return {
+            color: {
+              invalid: true,
+              message: 'Bird is not a color.',
+            },
+          };
+        }
+
+        return null;
+      },
+    ]);
 
     this.newMemberForm = new FormGroup({
       firstName: this.firstName,
@@ -43,9 +61,5 @@ export class InputBoxDemoComponent {
       dob: this.dob,
       favoriteColor: this.favoriteColor,
     });
-  }
-
-  public onActionClick(): void {
-    alert('Help inline button clicked!');
   }
 }

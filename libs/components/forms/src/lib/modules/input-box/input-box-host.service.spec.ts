@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { SkyInputBoxHostService } from '@skyux/forms';
+
+import { SkyInputBoxHostService } from './input-box-host.service';
 
 describe('Input box host service', () => {
   let hostService: SkyInputBoxHostService;
@@ -37,5 +38,9 @@ describe('Input box host service', () => {
     expect(mockInputBox.populate).toHaveBeenCalledWith({
       inputTemplate: mockTemplateRef,
     });
+  });
+
+  it('should return an empty string for control ID when host is undefined', () => {
+    expect(hostService.controlId).toBe('');
   });
 });
