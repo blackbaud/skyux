@@ -10,9 +10,8 @@ import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { SelectionModalDemoAddItemComponent } from '../../selection-modal/add-item/selection-modal-demo-add-item.component';
-
 import { LookupAsyncDemoService } from './lookup-async-demo.service';
+import { LookupDemoAddItemComponent } from './lookup-demo-add-item.component';
 import { LookupDemoPerson } from './lookup-demo-person';
 
 @Component({
@@ -71,7 +70,7 @@ export class LookupAsyncDemoComponent implements OnInit, OnDestroy {
   }
 
   public addClick(args: SkyLookupAddClickEventArgs): void {
-    const modal = this.#modalService.open(SelectionModalDemoAddItemComponent);
+    const modal = this.#modalService.open(LookupDemoAddItemComponent);
     this.#subscriptions.add(
       modal.closed.subscribe((close: SkyModalCloseArgs) => {
         if (close.reason === 'save') {
