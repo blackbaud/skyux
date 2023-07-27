@@ -1,44 +1,52 @@
-<sky-toolbar>
-  <sky-toolbar-item>
-    <button class="sky-btn sky-btn-default" type="button" aria-label="New note">
-      <sky-icon iconType="skyux" icon="add"></sky-icon>
-      New
-    </button>
-  </sky-toolbar-item>
-  <sky-toolbar-item>
-    <sky-sort [showButtonText]="true">
-      <sky-sort-item>
-        <span aria-label="Sort notes by date created (newest first)">
-          Date created (newest first)
-        </span>
-      </sky-sort-item>
-      <sky-sort-item>
-        <span aria-label="Sort notes by date created (oldest first)">
-          Date created (oldest first)
-        </span>
-      </sky-sort-item>
-    </sky-sort>
-  </sky-toolbar-item>
-  <sky-toolbar-item>
-    <button
-      class="sky-btn sky-btn-default"
-      type="button"
-      aria-label="Export notes"
-    >
-      <sky-icon iconType="skyux" icon="xls-file"></sky-icon>
-      Export
-    </button>
-  </sky-toolbar-item>
-  <sky-toolbar-item>
-    <sky-search placeholderText="Find in notes"> </sky-search>
-  </sky-toolbar-item>
-</sky-toolbar>
-<sky-key-info layout="horizontal">
-  <sky-key-info-value class="sky-font-display-4">
-    {{ notes.length }}
-  </sky-key-info-value>
-  <sky-key-info-label> Notes </sky-key-info-label>
-</sky-key-info>
+<div class="sky-margin-stacked-xs">
+  <sky-toolbar>
+    <sky-toolbar-item>
+      <button
+        class="sky-btn sky-btn-default"
+        type="button"
+        aria-label="New note"
+      >
+        <sky-icon iconType="skyux" icon="add"></sky-icon>
+        New
+      </button>
+    </sky-toolbar-item>
+    <sky-toolbar-item>
+      <sky-sort [showButtonText]="true">
+        <sky-sort-item>
+          <span aria-label="Sort notes by date created (newest first)">
+            Date created (newest first)
+          </span>
+        </sky-sort-item>
+        <sky-sort-item>
+          <span aria-label="Sort notes by date created (oldest first)">
+            Date created (oldest first)
+          </span>
+        </sky-sort-item>
+      </sky-sort>
+    </sky-toolbar-item>
+    <sky-toolbar-item>
+      <button
+        class="sky-btn sky-btn-default"
+        type="button"
+        aria-label="Export notes"
+      >
+        <sky-icon iconType="skyux" icon="xls-file"></sky-icon>
+        Export
+      </button>
+    </sky-toolbar-item>
+    <sky-toolbar-item>
+      <sky-search placeholderText="Find in notes"> </sky-search>
+    </sky-toolbar-item>
+  </sky-toolbar>
+</div>
+<div class="sky-margin-stacked-sm">
+  <sky-key-info layout="horizontal">
+    <sky-key-info-value class="sky-font-display-4">
+      {{ notes.length }}
+    </sky-key-info-value>
+    <sky-key-info-label> Notes </sky-key-info-label>
+  </sky-key-info>
+</div>
 <sky-repeater>
   <sky-repeater-item *ngFor="let note of notes">
     <sky-repeater-item-context-menu>

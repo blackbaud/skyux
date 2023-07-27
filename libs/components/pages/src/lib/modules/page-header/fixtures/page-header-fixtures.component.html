@@ -1,5 +1,16 @@
 <sky-page-header [parentLink]="hubLink" [pageTitle]="spokeTitle">
-  <ng-container *ngIf="headerContent">
-    {{ headerContent }}
-  </ng-container>
+  <sky-page-header-alerts *ngIf="showAlert">
+    <sky-alert alertType="danger" descriptionType="danger">
+      Urgent information about this page
+    </sky-alert>
+  </sky-page-header-alerts>
+  <sky-page-header-details>
+    Details about the page header.
+  </sky-page-header-details>
+  <sky-page-header-actions *ngIf="showButtons">
+    <button class="sky-btn sky-btn-default">Action one</button>
+  </sky-page-header-actions>
+  <sky-page-header-avatar *ngIf="showAvatar">
+    <sky-avatar name="Test name"> </sky-avatar>
+  </sky-page-header-avatar>
 </sky-page-header>

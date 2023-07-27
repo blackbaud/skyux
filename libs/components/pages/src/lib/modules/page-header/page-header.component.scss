@@ -12,6 +12,14 @@
     var(--sky-compat-page-header-margin-top-and-bottom, 0) 0
   );
 
+  &-info {
+    display: flex;
+  }
+
+  &-text {
+    margin: 0;
+  }
+
   &-page-title,
   &-parent-link-wrapper {
     display: inline-block;
@@ -34,8 +42,6 @@
   }
 
   &-content {
-    margin: var(--sky-layout-host-header-spacing, 0);
-
     &:empty {
       display: none;
     }

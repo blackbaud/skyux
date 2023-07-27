@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SkySummaryActionBarModule } from '@skyux/action-bars';
 import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyAlertModule } from '@skyux/indicators';
 import { SkyDescriptionListModule } from '@skyux/layout';
 import { SkyRepeaterModule } from '@skyux/lists';
 import { SkyPageModule } from '@skyux/pages';
@@ -18,11 +19,12 @@ import { SplitViewPageFitLayoutDemoComponent } from './split-view-page-fit-layou
   ],
   exports: [SplitViewPageFitLayoutDemoComponent],
   imports: [
-    SkyPageModule,
     CommonModule,
     ReactiveFormsModule,
+    SkyAlertModule,
     SkyDescriptionListModule,
     SkyInputBoxModule,
+    SkyPageModule,
     SkyRepeaterModule,
     SkySplitViewModule,
     SkySummaryActionBarModule,
