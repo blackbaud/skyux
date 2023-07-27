@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SkyIdModule } from '@skyux/core';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyHelpInlineModule } from '@skyux/indicators';
 import { SkyModalModule } from '@skyux/modals';
@@ -14,7 +13,6 @@ import { ModalDemoComponent } from './modal-demo.component';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    SkyIdModule,
     SkyInputBoxModule,
     SkyModalModule,
     SkyHelpInlineModule,

@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import {
   NgModel,
   UntypedFormControl,
@@ -49,8 +49,20 @@ export class InputBoxFixtureComponent {
 
   public errorNgModelValue: string | undefined;
 
+  public easyModeValue: string | undefined;
+
+  public easyModeCharacterLimit: number | undefined = 10;
+
+  public easyModeStacked: boolean | undefined = true;
+
+  public easyModeHelpPopoverContent: TemplateRef<unknown> | string | undefined =
+    'Help content from text';
+
   @ViewChild('errorNgModel')
   public errorNgModel!: NgModel;
+
+  @ViewChild('easyModePopoverTemplate', { read: TemplateRef })
+  public easyModePopoverTemplate: TemplateRef<unknown> | undefined;
 
   constructor() {
     this.errorField = new UntypedFormControl('', [Validators.required]);
@@ -62,5 +74,9 @@ export class InputBoxFixtureComponent {
     this.errorForm = new UntypedFormGroup({
       errorFormField: new UntypedFormControl('', [Validators.required]),
     });
+  }
+
+  public removeErrorFormRequiredValidator(): void {
+    this.errorField.removeValidators(Validators.required);
   }
 }

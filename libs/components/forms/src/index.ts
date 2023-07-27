@@ -49,3 +49,4 @@ export { SkySelectionBoxHeaderComponent as λ16 } from './lib/modules/selection-
 export { SkySelectionBoxComponent as λ17 } from './lib/modules/selection-box/selection-box.component';
 export { SkyToggleSwitchLabelComponent as λ18 } from './lib/modules/toggle-switch/toggle-switch-label.component';
 export { SkyToggleSwitchComponent as λ19 } from './lib/modules/toggle-switch/toggle-switch.component';
+export { SkyInputBoxControlDirective as λ20 } from './lib/modules/input-box/input-box-control.directive';

@@ -220,8 +220,7 @@
   id="screenshot-datepicker-input-box"
   style="max-width: 50%; height: 500px"
 >
-  <sky-input-box [disabled]="disabled">
-    <label class="sky-control-label"> Input box </label>
+  <sky-input-box labelText="Input box" [disabled]="disabled">
     <sky-datepicker
       (calendarDateRangeChange)="onCalendarDateRangeChange($event)"
       #inputBoxPicker

@@ -1,14 +1,8 @@
 <sky-modal>
   <sky-modal-header> Filter your fruit </sky-modal-header>
   <sky-modal-content>
-    <sky-input-box class="sky-margin-stacked-lg">
-      <label class="sky-control-label" [for]="fruitSelect.id">Fruit type</label>
-      <select
-        class="sky-form-control"
-        skyId="fruitSelect"
-        [(ngModel)]="fruitType"
-        #fruitSelect
-      >
+    <sky-input-box labelText="Fruit type" stacked="true">
+      <select class="sky-form-control" [(ngModel)]="fruitType">
         <option value="any">Any fruit</option>
         <option value="citrus">Citrus</option>
         <option value="berry">Berry</option>

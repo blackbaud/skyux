@@ -20,7 +20,7 @@ export class InputBoxComponent implements OnInit, AfterViewInit {
 
   public errorNgModelValue: string;
 
-  public myValue = 'Value';
+  public myValue = '';
 
   @ViewChild('errorNgModel')
   public errorNgModel: NgModel;

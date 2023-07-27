@@ -5,6 +5,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { AbstractControl } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
   SkyTheme,
@@ -19,6 +20,7 @@ import { BehaviorSubject } from 'rxjs';
 import { InputBoxFixtureComponent } from './fixtures/input-box.component.fixture';
 import { InputBoxFixturesModule } from './fixtures/input-box.module.fixture';
 import { SkyInputBoxAdapterService } from './input-box-adapter.service';
+import { SkyInputBoxHostService } from './input-box-host.service';
 
 interface InputBoxA11yTestingOptions {
   disabled?: boolean;
@@ -386,6 +388,52 @@ describe('Input box component', () => {
       };
     }
 
+    async function validateHelpInline(
+      fixture: ComponentFixture<InputBoxFixtureComponent>,
+      expectedText: string
+    ): Promise<void> {
+      const els = getDefaultEls(fixture, 'input-easy-mode');
+
+      const inlineHelpBtnEl = els.inlineHelpEl?.querySelector(
+        '.sky-help-inline'
+      ) as HTMLButtonElement;
+
+      expect(inlineHelpBtnEl.ariaLabel).toBe('Show help content for Easy mode');
+
+      inlineHelpBtnEl.click();
+
+      // Allow the popover open event to fire.
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      // Allow the aria-expanded attribute to update.
+      fixture.detectChanges();
+
+      const popoverBodyEl = document.querySelector(
+        'sky-overlay .sky-popover-body'
+      );
+
+      expect(popoverBodyEl).toHaveText(expectedText);
+      expect(inlineHelpBtnEl.getAttribute('aria-expanded')).toBe('true');
+
+      document.body.click();
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      // Allow the aria-expanded attribute to update.
+      fixture.detectChanges();
+
+      expect(inlineHelpBtnEl.getAttribute('aria-expanded')).toBe('false');
+
+      fixture.componentInstance.easyModeHelpPopoverContent = undefined;
+      fixture.detectChanges();
+
+      expect(
+        getDefaultEls(fixture, 'input-easy-mode').inlineHelpEl
+      ).not.toExist();
+    }
+
     beforeEach(() => {
       mockThemeSvc = {
         settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
@@ -507,7 +555,6 @@ describe('Input box component', () => {
 
     it('should allow a child to place template items inside the input box programmatically', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-
       fixture.detectChanges();
 
       const els = getDefaultEls(fixture, 'input-host-service');
@@ -521,6 +568,14 @@ describe('Input box component', () => {
       expect(els.inputGroupBtnEls[1]?.children.item(0)).toHaveCssClass(
         'host-service-button-2'
       );
+
+      const hostServiceInputBox = fixture.debugElement
+        .query(By.css('.input-host-service sky-input-box'))
+        .injector.get(SkyInputBoxHostService);
+
+      expect(
+        fixture.nativeElement.querySelector('.input-box-host-control-id')
+      ).toHaveText(hostServiceInputBox.controlId);
     });
 
     it('should add a disabled CSS class when disabled', () => {
@@ -537,6 +592,91 @@ describe('Input box component', () => {
       fixture.detectChanges();
 
       expect(inputBoxWrapperEl).toHaveCssClass('sky-input-box-disabled');
+    });
+
+    it('should display labelText as label', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+
+      const els = getDefaultEls(fixture, 'input-easy-mode');
+
+      expect(els.labelEl).toHaveText('Easy mode');
+      expect(els.labelEl?.htmlFor).toBe(els.inputEl?.id);
+    });
+
+    it('should add stacked CSS class', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+
+      const els = getDefaultEls(fixture, 'input-easy-mode');
+
+      expect(els.inputBoxEl).toHaveCssClass('sky-margin-stacked-lg');
+
+      fixture.componentInstance.easyModeStacked = false;
+      fixture.detectChanges();
+
+      expect(els.inputBoxEl).not.toHaveCssClass('sky-margin-stacked-lg');
+    });
+
+    it('should add help inline for text', async () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+
+      await validateHelpInline(fixture, 'Help content from text');
+    });
+
+    it('should add help inline for template', async () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+
+      fixture.componentInstance.easyModeHelpPopoverContent =
+        fixture.componentInstance.easyModePopoverTemplate;
+      fixture.detectChanges();
+
+      await validateHelpInline(fixture, 'Help content from template');
+    });
+
+    it('should add character count', async () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+
+      // Render the the component and apply the field's ngModel value.
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      // Update the character count.
+      fixture.detectChanges();
+
+      const els = getDefaultEls(fixture, 'input-easy-mode');
+
+      const characterCountLabelEl = els.characterCountEl?.querySelector(
+        '.sky-character-count-label'
+      );
+
+      expect(characterCountLabelEl).toHaveText('0/10');
+
+      fixture.componentInstance.easyModeValue = 'def';
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      fixture.detectChanges();
+
+      expect(characterCountLabelEl).toHaveText('3/10');
+
+      fixture.componentInstance.easyModeCharacterLimit = 11;
+
+      fixture.detectChanges();
+
+      expect(characterCountLabelEl).toHaveText('3/11');
+    });
+
+    it('should not set the input ID if it is already set', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+
+      const els = getDefaultEls(fixture, 'input-existing-id');
+
+      expect(els.inputEl?.id).toBe('input-box-existing-id-123');
     });
 
     describe('a11y', () => {
@@ -953,6 +1093,50 @@ describe('Input box component', () => {
         fixture,
         inputBoxEl,
         fixture.componentInstance.errorForm.controls['errorFormField']
+      );
+    });
+
+    it('should display form control validation errors when labelText is specified', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+
+      const inputBoxEl = getInputBoxEl(
+        fixture,
+        'input-easy-mode'
+      ) as HTMLDivElement;
+
+      const inputEl = inputBoxEl.querySelector('input') as HTMLInputElement;
+      inputEl.dispatchEvent(new Event('blur'));
+
+      fixture.detectChanges();
+
+      const errorEl = inputBoxEl.querySelector('sky-status-indicator');
+
+      expect(errorEl).toHaveText('Error: Easy mode is required.');
+    });
+
+    it('should add required attributes to label and input when required', async () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+
+      const inputBoxEl = getInputBoxEl(
+        fixture,
+        'input-easy-mode-required'
+      ) as HTMLDivElement;
+
+      const inputEl = inputBoxEl.querySelector('input') as HTMLInputElement;
+
+      expect(inputEl.ariaRequired).toBe('true');
+      expect(inputBoxEl.querySelector('label')).toHaveCssClass(
+        'sky-control-label-required'
+      );
+
+      fixture.componentInstance.removeErrorFormRequiredValidator();
+      fixture.detectChanges();
+
+      expect(inputEl.ariaRequired).toBeNull();
+      expect(inputBoxEl.querySelector('label')).not.toHaveCssClass(
+        'sky-control-label-required'
       );
     });
 

@@ -19,6 +19,8 @@ export class InputBoxHostServiceFixtureComponent implements OnInit {
   })
   public buttonsTemplate: TemplateRef<unknown> | undefined;
 
+  public controlId: string | undefined;
+
   #inputBoxHostSvc: SkyInputBoxHostService;
 
   constructor(inputBoxHostSvc: SkyInputBoxHostService) {
@@ -30,5 +32,7 @@ export class InputBoxHostServiceFixtureComponent implements OnInit {
       inputTemplate: this.inputTemplate!,
       buttonsTemplate: this.buttonsTemplate,
     });
+
+    this.controlId = this.#inputBoxHostSvc.controlId;
   }
 }
