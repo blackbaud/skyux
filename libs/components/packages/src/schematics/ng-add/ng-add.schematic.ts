@@ -1,4 +1,3 @@
-import { normalize } from '@angular-devkit/core';
 import { Rule, chain } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import {
@@ -7,6 +6,7 @@ import {
 } from '@schematics/angular/utility/dependencies';
 
 import fs from 'fs-extra';
+import path from 'path';
 
 import { addPolyfillsConfig } from '../rules/add-polyfills-config';
 import { applySkyuxStylesheetsToWorkspace } from '../rules/apply-skyux-stylesheets-to-workspace';
@@ -42,7 +42,7 @@ export default function ngAdd(options: Schema): Rule {
 
     // Get the currently installed version of SKY UX.
     const { version: skyuxVersion } = fs.readJsonSync(
-      normalize(`${__dirname}/../../../package.json`)
+      path.resolve(__dirname, '../../../package.json')
     );
 
     context.addTask(new NodePackageInstallTask());

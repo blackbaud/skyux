@@ -1,12 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { SkyAvatarModule } from '@skyux/avatar';
+import { SkyAlertModule } from '@skyux/indicators';
 
 import { SkyPageHeaderModule } from '../page-header.module';
 
 @Component({
   selector: 'sky-page-header-fixtures',
   standalone: true,
-  imports: [CommonModule, SkyPageHeaderModule],
+  imports: [CommonModule, SkyAlertModule, SkyAvatarModule, SkyPageHeaderModule],
   templateUrl: './page-header-fixtures.component.html',
 })
 export class PageHeaderFixturesComponent {
@@ -18,5 +20,7 @@ export class PageHeaderFixturesComponent {
     },
   };
 
-  public headerContent: string | undefined;
+  public showButtons = false;
+  public showAvatar = false;
+  public showAlert = false;
 }
