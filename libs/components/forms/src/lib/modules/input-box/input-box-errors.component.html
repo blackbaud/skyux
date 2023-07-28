@@ -1,0 +1,48 @@
+<ng-container *ngIf="errors">
+  <sky-input-box-error *ngIf="errors['required']">
+    {{ 'skyux_input_box_error_required' | skyLibResources : labelText }}
+  </sky-input-box-error>
+
+  <sky-input-box-error *ngIf="errors['maxlength'] as maxLengthError">
+    {{
+      'skyux_input_box_error_maxlength'
+        | skyLibResources : labelText : maxLengthError.requiredLength
+    }}
+  </sky-input-box-error>
+
+  <sky-input-box-error *ngIf="errors['minlength'] as minLengthError">
+    {{
+      'skyux_input_box_error_minlength'
+        | skyLibResources : labelText : minLengthError.requiredLength
+    }}
+  </sky-input-box-error>
+
+  <sky-input-box-error
+    *ngIf="errors['skyCharacterCounter'] as characterCounterError"
+  >
+    {{
+      'skyux_input_box_error_character_count'
+        | skyLibResources : labelText : characterCounterError.limit
+    }}
+  </sky-input-box-error>
+
+  <sky-input-box-error *ngIf="errors['skyDate']">
+    {{ 'skyux_input_box_error_date' | skyLibResources }}
+  </sky-input-box-error>
+
+  <sky-input-box-error *ngIf="errors['skyEmail']">
+    {{ 'skyux_input_box_error_email' | skyLibResources }}
+  </sky-input-box-error>
+
+  <sky-input-box-error *ngIf="errors['skyPhoneField']">
+    {{ 'skyux_input_box_error_phone' | skyLibResources }}
+  </sky-input-box-error>
+
+  <sky-input-box-error *ngIf="errors['skyTime']">
+    {{ 'skyux_input_box_error_time' | skyLibResources }}
+  </sky-input-box-error>
+
+  <sky-input-box-error *ngIf="errors['skyUrl']">
+    {{ 'skyux_input_box_error_url' | skyLibResources }}
+  </sky-input-box-error>
+</ng-container>

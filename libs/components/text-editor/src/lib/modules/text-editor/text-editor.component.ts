@@ -4,14 +4,18 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  HostBinding,
   Input,
   NgZone,
   OnDestroy,
+  TemplateRef,
   ViewChild,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { SkyCoreAdapterService, SkyIdService } from '@skyux/core';
+import { SkyInputBoxHostService } from '@skyux/forms';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -270,7 +274,18 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
     return this.#_value;
   }
 
+  @ViewChild('inputTemplateRef', {
+    read: TemplateRef,
+    static: true,
+  })
+  public inputTemplateRef: TemplateRef<unknown> | undefined;
+
   public editorFocusStream = new Subject<void>();
+
+  @HostBinding('class.sky-form-control')
+  public formControlClass = !!inject(SkyInputBoxHostService, {
+    optional: true,
+  });
 
   #defaultId: string;
   #id: string;

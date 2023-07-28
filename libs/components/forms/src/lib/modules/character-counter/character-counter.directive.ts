@@ -69,6 +69,8 @@ export class SkyCharacterCounterInputDirective implements Validator {
       return null;
     }
 
+    const limit = this.#skyCharacterCounterLimitOrDefault;
+
     if (value.length > this.#skyCharacterCounterLimitOrDefault) {
       // This is needed to apply the appropriate error styles to the input.
       control.markAsTouched();
@@ -76,6 +78,7 @@ export class SkyCharacterCounterInputDirective implements Validator {
       return {
         skyCharacterCounter: {
           invalid: value,
+          limit,
         },
       };
     }

@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  Input,
 } from '@angular/core';
 
 @Component({
@@ -24,6 +25,7 @@ export class SkyCharacterCounterIndicatorComponent {
     return this.#_characterCount;
   }
 
+  @Input()
   public set characterCount(count: number) {
     this.#_characterCount = count;
     this.#changeDetector.markForCheck();
@@ -33,6 +35,7 @@ export class SkyCharacterCounterIndicatorComponent {
     return this.#_characterCountLimit;
   }
 
+  @Input()
   public set characterCountLimit(limit: number) {
     this.#_characterCountLimit = limit;
     this.#changeDetector.markForCheck();

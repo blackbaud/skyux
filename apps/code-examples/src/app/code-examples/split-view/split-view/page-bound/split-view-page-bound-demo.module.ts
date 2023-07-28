@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SkySummaryActionBarModule } from '@skyux/action-bars';
-import { SkyIdModule } from '@skyux/core';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyAlertModule } from '@skyux/indicators';
 import {
@@ -23,7 +22,6 @@ import { SplitViewPageBoundDemoComponent } from './split-view-page-bound-demo.co
     ReactiveFormsModule,
     SkyAlertModule,
     SkyConfirmModule,
-    SkyIdModule,
     SkyInputBoxModule,
     SkyDefinitionListModule,
     SkyPageModule,
