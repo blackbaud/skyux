@@ -6,6 +6,7 @@ export * from './lib/modules/tabs/tabset-buttons-display-mode';
 export * from './lib/modules/tabs/tabset-style';
 export * from './lib/modules/tabs/tabset-tab-indexes-change';
 export * from './lib/modules/tabs/tabs.module';
+export * from './lib/modules/tabs/tab-layout-type';
 
 export * from './lib/modules/vertical-tabset/vertical-tabset.module';
 
