@@ -21,7 +21,7 @@ describe('datetime-storybook', () => {
               .should('exist')
               .should('be.visible')
               .skyVisualTest(
-                `timepickercomponent-timepicker--timepicker-${theme}`,
+                `timepickercomponent-timepicker--timepicker-${mode}-${theme}`,
                 {
                   overwrite: true,
                   disableTimersAndAnimations: true,
