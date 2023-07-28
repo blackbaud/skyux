@@ -1,1 +1,1 @@
-export type SkyTabLayoutType = 'none' | 'blocks' | 'fit' | 'list' | 'tabs';
+export type SkyTabLayoutType = 'none' | 'blocks' | 'fit' | 'list';
