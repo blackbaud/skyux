@@ -1,4 +1,4 @@
-import { Meta, moduleMetadata } from '@storybook/angular';
+import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 
 import { TimepickerComponent } from './timepicker.component';
 import { TimepickerModule } from './timepicker.module';
@@ -13,9 +13,13 @@ export default {
     }),
   ],
 } as Meta<TimepickerComponent>;
-export const Timepicker = {
-  render: (args: TimepickerComponent) => ({
-    props: args,
-  }),
-  args: {},
+export const Timepicker12Hr: StoryFn<TimepickerComponent> = (
+  args: TimepickerComponent
+) => ({
+  props: args,
+});
+
+export const Timepicker24Hr = Timepicker12Hr.bind({});
+Timepicker24Hr.args = {
+  timeFormat: 'HH',
 };
