@@ -1,4 +1,4 @@
-import { Meta, moduleMetadata } from '@storybook/angular';
+import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 
 import { AngularTreeComponentComponent } from './angular-tree-component.component';
 import { AngularTreeComponentModule } from './angular-tree-component.module';
@@ -13,9 +13,34 @@ export default {
     }),
   ],
 } as Meta<AngularTreeComponentComponent>;
-export const AngularTreeComponent = {
-  render: (args: AngularTreeComponentComponent) => ({
-    props: args,
-  }),
-  args: {},
+export const BasicAngularTreeComponent: StoryFn<
+  AngularTreeComponentComponent
+> = (args: AngularTreeComponentComponent) => ({
+  props: args,
+});
+
+export const SelectionMultiSelectAngularTreeComponent =
+  BasicAngularTreeComponent.bind({});
+SelectionMultiSelectAngularTreeComponent.args = {
+  useCheckbox: true,
+  allowCascading: false,
+};
+
+export const SelectionMultiSelectCascadingAngularTreeComponent =
+  BasicAngularTreeComponent.bind({});
+SelectionMultiSelectCascadingAngularTreeComponent.args = {
+  useCheckbox: true,
+};
+
+export const SelectionSingleSelectAngularTreeComponent =
+  BasicAngularTreeComponent.bind({});
+SelectionSingleSelectAngularTreeComponent.args = {
+  singleSelectFlag: true,
+  useCheckbox: true,
+  allowCascading: false,
+};
+
+export const ModesAngularTreeComponent = BasicAngularTreeComponent.bind({});
+ModesAngularTreeComponent.args = {
+  showModes: true,
 };
