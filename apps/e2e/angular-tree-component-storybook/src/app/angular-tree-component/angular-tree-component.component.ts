@@ -8,7 +8,7 @@ import { ITreeOptions } from '@circlon/angular-tree-component';
 })
 export class AngularTreeComponentComponent {
   @Input()
-  public showModes: boolean = false;
+  public showModes = false;
 
   @Input()
   public set useCheckbox(flag: boolean) {
@@ -21,7 +21,7 @@ export class AngularTreeComponentComponent {
   }
 
   @Input()
-  public singleSelectFlag: boolean = false;
+  public singleSelectFlag = false;
 
   public basicOptions: ITreeOptions = {
     animateExpand: true,
