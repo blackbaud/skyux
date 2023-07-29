@@ -10,6 +10,7 @@ import {
   Type,
   createComponent,
   createEnvironmentInjector,
+  inject,
 } from '@angular/core';
 
 import { SkyAppWindowRef } from '../window/window-ref';
@@ -31,8 +32,7 @@ export class SkyDynamicComponentService {
   #applicationRef: ApplicationRef;
 
   #environmentInjector: EnvironmentInjector;
-
-  #injector: Injector;
+  #injector = inject(Injector);
 
   #renderer: Renderer2;
 
@@ -40,13 +40,11 @@ export class SkyDynamicComponentService {
 
   constructor(
     applicationRef: ApplicationRef,
-    injector: Injector,
     windowRef: SkyAppWindowRef,
     rendererFactory: RendererFactory2,
     environmentInjector: EnvironmentInjector
   ) {
     this.#applicationRef = applicationRef;
-    this.#injector = injector;
     this.#windowRef = windowRef;
     this.#environmentInjector = environmentInjector;
 
@@ -70,32 +68,32 @@ export class SkyDynamicComponentService {
     };
 
     const providers = options.providers ?? [];
+    // const injector = Injector.create({
+    //   providers,
+    //   parent: options.injector ?? this.#injector,
+    // });
+
+    const environmentInjector = createEnvironmentInjector(
+      providers,
+      options.environmentInjector ?? this.#environmentInjector
+    );
 
     let componentRef: ComponentRef<T>;
 
     if (options.viewContainerRef) {
-      const injector = Injector.create({
-        providers,
-        parent: options.parentInjector ?? this.#injector,
-      });
-
       componentRef = options.viewContainerRef.createComponent(componentType, {
-        injector,
+        //injector,
+        environmentInjector,
       });
     } else {
-      const environmentInjector = createEnvironmentInjector(
-        providers,
-        this.#environmentInjector
-      );
-
       componentRef = createComponent<T>(componentType, {
+        // elementInjector: injector,
         environmentInjector,
       });
 
       this.#applicationRef.attachView(componentRef.hostView);
 
       const el = this.#getRootNode(componentRef);
-
       const bodyEl = this.#windowRef.nativeWindow.document.body;
 
       switch (options.location) {

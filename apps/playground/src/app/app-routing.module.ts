@@ -11,6 +11,19 @@ const routes: Routes = [
     loadChildren: () =>
       import('./components/components.module').then((m) => m.ComponentsModule),
   },
+  {
+    path: 'other',
+    children: [
+      {
+        path: 'providers/dynamic',
+        loadComponent: () => import('./other/providers/dynamic.component'),
+      },
+      {
+        path: 'providers/static',
+        loadComponent: () => import('./other/providers/static.component'),
+      },
+    ],
+  },
 ];
 
 @NgModule({

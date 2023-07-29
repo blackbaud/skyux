@@ -2,17 +2,16 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  EnvironmentInjector,
   OnDestroy,
   Optional,
   ViewChild,
   ViewContainerRef,
-  createEnvironmentInjector,
   inject,
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import {
   SKY_STACKING_CONTEXT,
+  SkyDynamicComponentService,
   SkyMediaQueryService,
   SkyResizeObserverMediaQueryService,
 } from '@skyux/core';
@@ -58,7 +57,7 @@ export class SkyModalHostComponent implements OnDestroy {
   public target: ViewContainerRef | undefined;
 
   #adapter: SkyModalAdapterService;
-  #environmentInjector = inject(EnvironmentInjector);
+  #dynamicComponentSvc = inject(SkyDynamicComponentService);
   #router: Router | undefined;
   #changeDetector: ChangeDetectorRef;
   #modalHostContext: SkyModalHostContext;
@@ -138,14 +137,10 @@ export class SkyModalHostComponent implements OnDestroy {
     );
 
     const providers = params.providers || /* istanbul ignore next */ [];
-    const environmentInjector = createEnvironmentInjector(
-      providers,
-      this.#environmentInjector
+    const modalComponentRef = this.#dynamicComponentSvc.createComponent(
+      component,
+      { providers, viewContainerRef: this.target }
     );
-
-    const modalComponentRef = this.target.createComponent(component, {
-      environmentInjector,
-    });
 
     // modal element that was just opened
     const modalElement = modalComponentRef.location;
