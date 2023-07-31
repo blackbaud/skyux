@@ -78,7 +78,12 @@ export class FieldHeightsComponent implements AfterViewInit, OnDestroy {
       favoritePeople: [[this.people[4], this.people[5]]],
       favoriteWord: ['Example'],
       favoriteColor: ['Turquoise'],
-      favoriteCountry: [''],
+      favoriteCountry: [
+        {
+          name: 'Trinidad and Tobago',
+          iso2: 'tt',
+        },
+      ],
       favoriteDateRange: [
         {
           calculatorId: SkyDateRangeCalculatorId.SpecificRange,

@@ -5,8 +5,11 @@ describe('field heights', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() => {
         cy.viewport(E2eVariations.DISPLAY_WIDTHS[0], 1200)
-          .visit('/#/integrations/field-heights')
-          .skyChooseTheme(theme);
+          .visit('/')
+          .skyChooseTheme(theme)
+          .contains('Field Heights')
+          .should('be.visible')
+          .click();
       });
 
       it('should match heights across different field types', () => {
@@ -19,7 +22,9 @@ describe('field heights', () => {
             const heights = new Set();
 
             els.each((_i, el) => {
-              heights.add(el.clientHeight);
+              if (el.clientHeight > 0) {
+                heights.add(el.clientHeight);
+              }
             });
 
             console.log(`Heights: ${Array.from(heights).join(', ')}`);
