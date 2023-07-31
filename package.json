@@ -212,9 +212,8 @@
     "typescript": "4.9.5"
   },
   "overrides": {
-    "@storybook/angular@7.0.13": {
+    "@storybook/angular@7.1.0": {
       "@angular-devkit/architect": "0.1502.8"
     }
   }
 }
-
