@@ -1,10 +1,10 @@
-import { Component, ViewChild } from '@angular/core';
 import {
   ITreeOptions,
   ITreeState,
   TreeComponent,
-} from '@circlon/angular-tree-component';
-import { IDTypeDictionary } from '@circlon/angular-tree-component/lib/defs/api';
+} from '@ali-hm/angular-tree-component';
+import { IDTypeDictionary } from '@ali-hm/angular-tree-component/lib/defs/api';
+import { Component, ViewChild } from '@angular/core';
 
 @Component({
   templateUrl: './tree-view.fixture.component.html',

@@ -1,6 +1,6 @@
+import { TreeModule } from '@ali-hm/angular-tree-component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { TreeModule } from '@circlon/angular-tree-component';
 import { SkyDropdownModule } from '@skyux/popovers';
 
 import { SkyAngularTreeModule } from '../angular-tree.module';

@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ITreeOptions, TreeNode } from '@circlon/angular-tree-component';
+import { ITreeOptions, TreeNode } from '@ali-hm/angular-tree-component';
 import {
   IDTypeDictionary,
   ITreeState,
-} from '@circlon/angular-tree-component/lib/defs/api';
+} from '@ali-hm/angular-tree-component/lib/defs/api';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'app-angular-tree-component',
