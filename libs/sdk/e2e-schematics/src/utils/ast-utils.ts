@@ -227,7 +227,6 @@ export function getInsertExportTransformer(
               node,
               context.factory.createExportDeclaration(
                 undefined,
-                undefined,
                 false,
                 undefined,
                 context.factory.createStringLiteral(insertPath, true)
