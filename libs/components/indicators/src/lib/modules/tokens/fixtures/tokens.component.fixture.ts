@@ -29,6 +29,8 @@ export class SkyTokensTestComponent implements OnDestroy {
 
   public includeSingleToken = false;
 
+  public innerContent: 'text' | 'form-control' = 'text';
+
   public data: { name: string; id?: number }[] = [
     { name: 'Red' },
     { name: 'White' },
