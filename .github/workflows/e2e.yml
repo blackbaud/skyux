@@ -410,7 +410,10 @@ jobs:
                   console.log(`${icon} ${status.context}`);
                 });
 
-              if (latestPercyStatuses.length === e2eProjects.length) {
+              const percyProjects = latestPercyStatuses.map(status => status.context.replace(/^percy\/skyux-/, ''));
+              const missingProjects = e2eProjects.filter(project => !percyProjects.includes(project));
+
+              if (missingProjects.length === 0) {
 
                 // We have a check from Percy for all E2E Visual Reviews.
                 if (latestPercyStatuses.some(status => status.state !== 'success')) {
@@ -422,8 +425,6 @@ jobs:
               } else {
 
                 // We don't have a check from Percy for all E2E projects.
-                const percyProjects = latestPercyStatuses.map(status => status.context.replace(/^percy\/skyux-/, ''));
-                const missingProjects = e2eProjects.filter(project => !percyProjects.includes(project));
                 core.setFailed(`E2E Visual Review not complete. Missing results for: ${missingProjects.join(', ')}`);
 
               }
