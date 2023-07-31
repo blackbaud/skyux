@@ -43,7 +43,8 @@ describe('Date range service', function () {
   });
 
   it('should handle calculator not found', function () {
-    service.getCalculatorById(5000).catch((error) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    service.getCalculatorById(5000 as any).catch((error) => {
       expect(error.message).toEqual(
         'A calculator with the ID 5000 was not found.'
       );
@@ -60,7 +61,8 @@ describe('Date range service', function () {
       },
     });
 
-    expect(calculator.calculatorId).toEqual(1000);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    expect(calculator.calculatorId).toEqual(1000 as any);
     expect(calculator.shortDescription).toEqual('My calculator');
     expect(calculator.type).toEqual(SkyDateRangeCalculatorType.Relative);
     expect(typeof calculator.getValue).toEqual('function');
@@ -89,7 +91,9 @@ describe('Date range service', function () {
       getValue: () => ({}),
     });
 
-    expect(calculator1.calculatorId).toEqual(1000);
-    expect(calculator2.calculatorId).toEqual(1001);
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    expect(calculator1.calculatorId).toEqual(1000 as any);
+    expect(calculator2.calculatorId).toEqual(1001 as any);
+    /* eslint-enable @typescript-eslint/no-explicit-any */
   });
 });
