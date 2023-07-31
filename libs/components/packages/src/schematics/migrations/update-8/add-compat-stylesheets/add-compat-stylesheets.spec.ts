@@ -52,9 +52,9 @@ describe('Migrations > Add compat stylesheets', () => {
 
     const updatedTree = await runSchematic();
 
-    expect(updatedTree.readText(compatStylesheetPath)).toMatchSnapshot();
+    expect(updatedTree?.readText(compatStylesheetPath)).toMatchSnapshot();
 
-    angularJson = updatedTree.readJson('/angular.json');
+    angularJson = updatedTree?.readJson('/angular.json');
 
     const expectedStyles = [
       ...(existingWorkspaceStylesheets || []),
@@ -153,7 +153,7 @@ describe('Migrations > Add compat stylesheets', () => {
     const libShowcaseCompatStylesheetPath =
       'projects/my-lib-showcase/src/app/skyux8-compat.css';
 
-    angularJson = JSON.parse(updatedTree.readContent('/angular.json'));
+    angularJson = JSON.parse(updatedTree?.readContent('/angular.json') ?? '');
 
     expect(
       angularJson.projects['my-lib'].architect.build.options.styles
@@ -163,7 +163,7 @@ describe('Migrations > Add compat stylesheets', () => {
       angularJson.projects['my-lib'].architect.test.options.styles
     ).toBeUndefined();
 
-    expect(updatedTree.exists(libShowcaseCompatStylesheetPath)).toEqual(true);
+    expect(updatedTree?.exists(libShowcaseCompatStylesheetPath)).toEqual(true);
 
     expect(
       angularJson.projects['my-lib-showcase'].architect.build.options.styles

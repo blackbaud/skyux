@@ -75,10 +75,6 @@ jobs:
         with:
           path: node_modules
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
-      # Running ngcc after each agent is created to address the "ngcc is already running error".
-      # Since we're running multiple builds in parallel, we need to pre-process our node_modules before starting the builds.
-      - name: Run NGCC
-        run: npx ngcc
       - name: Start Nx Agent ${{ matrix.agent }}
         run: npx nx-cloud start-agent
 
@@ -138,8 +134,6 @@ jobs:
         with:
           path: node_modules
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
-      - name: Run NGCC
-        run: npx ngcc
       - name: Build
         run: npx nx affected --target=build --parallel=3
 
@@ -189,8 +183,6 @@ jobs:
         with:
           path: node_modules
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
-      - name: Run NGCC
-        run: npx ngcc
       - name: Code coverage
         run: |
           npx nx affected --target=test --browsers=ChromeHeadlessNoSandbox --code-coverage --parallel=3 --progress=false --source-map --watch=false
