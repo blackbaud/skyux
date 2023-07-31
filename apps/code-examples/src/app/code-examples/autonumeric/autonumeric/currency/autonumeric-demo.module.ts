@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SkyAutonumericModule } from '@skyux/autonumeric';
-import { SkyIdModule } from '@skyux/core';
 import { SkyInputBoxModule } from '@skyux/forms';
 
 import { AutonumericDemoComponent } from './autonumeric-demo.component';
@@ -12,7 +11,6 @@ import { AutonumericDemoComponent } from './autonumeric-demo.component';
     CommonModule,
     ReactiveFormsModule,
     SkyAutonumericModule,
-    SkyIdModule,
     SkyInputBoxModule,
   ],
   declarations: [AutonumericDemoComponent],

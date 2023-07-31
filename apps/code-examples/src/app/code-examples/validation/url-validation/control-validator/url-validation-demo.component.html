@@ -1,39 +1,7 @@
 <form novalidate [formGroup]="formGroup">
   <div class="sky-form-group">
-    <sky-input-box>
-      <label class="sky-control-label" [for]="urlInput.id"> URL </label>
-      <input
-        class="sky-form-control"
-        formControlName="url"
-        [attr.aria-describedby]="urlError.id"
-        skyId
-        #urlInput="skyId"
-      />
-      <span class="sky-error-indicator" skyId #urlError="skyId">
-        <sky-status-indicator
-          *ngIf="
-            urlControl?.errors &&
-            urlControl?.touched &&
-            urlControl?.errors?.['required']
-          "
-          indicatorType="danger"
-          descriptionType="error"
-        >
-          URL is required.
-        </sky-status-indicator>
-        <sky-status-indicator
-          *ngIf="
-            urlControl?.errors &&
-            urlControl?.touched &&
-            urlControl?.errors?.['skyUrl'] &&
-            urlControl?.dirty
-          "
-          indicatorType="danger"
-          descriptionType="error"
-        >
-          Enter a valid URL in the "http(s)://site.domain" format.
-        </sky-status-indicator>
-      </span>
+    <sky-input-box labelText="URL">
+      <input formControlName="url" type="text" />
     </sky-input-box>
   </div>
 </form>

@@ -1,5 +1,18 @@
 # Changelog
 
+## [8.7.0](https://github.com/blackbaud/skyux/compare/8.6.0...8.7.0) (2023-07-27)
+
+
+### Features
+
+* **components/forms:** input box easy mode ([#1504](https://github.com/blackbaud/skyux/issues/1504)) ([ec5e109](https://github.com/blackbaud/skyux/commit/ec5e109e416111825dd13174397534373776d20b))
+
+
+### Bug Fixes
+
+* **components/pages:** page documentation fixes ([#1518](https://github.com/blackbaud/skyux/issues/1518)) ([64b8df0](https://github.com/blackbaud/skyux/commit/64b8df010da78ffc05b29b3b9601d70979ee5afd))
+* **components/text-editor:** add icon to colorpicker ([#1509](https://github.com/blackbaud/skyux/issues/1509)) ([d6ba9a5](https://github.com/blackbaud/skyux/commit/d6ba9a5d7d7d66420f25e2f80f6dde5cdd82927b))
+
 ## [8.6.0](https://github.com/blackbaud/skyux/compare/8.5.0...8.6.0) (2023-07-26)
 
 

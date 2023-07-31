@@ -30,15 +30,16 @@
       </button>
     </p>
 
-    <sky-input-box [disabled]="disabled" class="sky-margin-stacked-lg">
-      <label class="sky-control-label" skyId #friendsInputBoxLabel="skyId">
-        Who are your friends?
-      </label>
+    <sky-input-box
+      labelText="Who are your friends?"
+      mode="detect"
+      [disabled]="disabled"
+      class="sky-margin-stacked-lg"
+    >
       <sky-lookup
         formControlName="friends2"
         idProperty="id"
         placeholderText="Type a person's name..."
-        [ariaLabelledBy]="friendsInputBoxLabel.id"
         [data]="people"
         [debounceTime]="1000"
         [disabled]="disabled"
@@ -70,7 +71,7 @@
     </td>
   </tr>
 </table>
-
+<!--
 <div>
   <p class="lookup-single-controls">
     <button
@@ -194,4 +195,4 @@
       </ng-container>
     </td>
   </tr>
-</table>
+</table> -->

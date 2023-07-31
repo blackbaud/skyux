@@ -118,7 +118,7 @@ describe('lookup-storybook', () => {
       it('should render input box with error', () => {
         cy.get('app-country-field').should('exist').should('be.visible');
         cy.get('textarea').should('exist').should('be.visible').click().end();
-        cy.get('.sky-control-label').click().end();
+        cy.get('textarea').focus().blur().end();
 
         cy.get('app-country-field')
           .screenshot(

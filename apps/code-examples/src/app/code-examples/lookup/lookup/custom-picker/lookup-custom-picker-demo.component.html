@@ -5,14 +5,13 @@
   (ngSubmit)="onSubmit()"
 >
   <div class="sky-form-group">
-    <sky-input-box data-sky-id="favorite-names-field">
-      <label class="sky-control-label" skyId #namesLabel="skyId">
-        Favorite names
-      </label>
+    <sky-input-box
+      data-sky-id="favorite-names-field"
+      labelText="Favorite names"
+    >
       <sky-lookup
         formControlName="favoriteNames"
         (addClick)="onAddButtonClicked()"
-        [ariaLabelledBy]="namesLabel.id"
         [data]="people"
         [enableShowMore]="true"
         [searchFilters]="searchFilters"

@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { SkyIdModule } from '@skyux/core';
 import {
   SkyCheckboxModule,
   SkyInputBoxModule,
@@ -20,7 +19,6 @@ import { LookupCustomPickerDemoComponent } from './lookup-custom-picker-demo.com
     ReactiveFormsModule,
     SkyCheckboxModule,
     SkyIconModule,
-    SkyIdModule,
     SkyInputBoxModule,
     SkyLookupModule,
     SkyModalModule,

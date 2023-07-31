@@ -12,7 +12,13 @@
   (tokenSelected)="onTokenSelected($event)"
   (tokensRendered)="onTokensRendered()"
 >
-  INNER CONTENT
+  <ng-container *ngIf="innerContent === 'text'"> INNER CONTENT </ng-container>
+  <ng-container *ngIf="innerContent === 'form-control'">
+    <label>
+      Label
+      <input type="text" />
+    </label>
+  </ng-container>
 </sky-tokens>
 
 <sky-token *ngIf="includeSingleToken" [ariaLabel]="ariaLabel"> </sky-token>

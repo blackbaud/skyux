@@ -1,17 +1,8 @@
 <form novalidate [formGroup]="myForm">
-  <sky-input-box>
-    <label skyId #textEditorLabel="skyId" class="sky-control-label">
-      Text editor demo
-    </label>
-    <sky-help-inline
-      class="sky-control-help"
-      (actionClick)="onActionClick()"
-    ></sky-help-inline>
-    <sky-text-editor
-      formControlName="myText"
-      [attr.aria-labelledby]="textEditorLabel.id"
-      class="sky-form-control"
-    >
-    </sky-text-editor>
+  <sky-input-box
+    helpPopoverContent="Enter some beautifully formatted text."
+    labelText="Text editor demo"
+  >
+    <sky-text-editor formControlName="myText" />
   </sky-input-box>
 </form>

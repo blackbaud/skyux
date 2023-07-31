@@ -10,6 +10,10 @@ import { SkyInputBoxComponent } from './input-box.component';
 export class SkyInputBoxHostService {
   #host: SkyInputBoxComponent | undefined;
 
+  public get controlId(): string {
+    return this.#host?.controlId ?? '';
+  }
+
   public init(host: SkyInputBoxComponent): void {
     this.#host = host;
   }
