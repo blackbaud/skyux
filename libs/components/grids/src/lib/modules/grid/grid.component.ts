@@ -980,7 +980,7 @@ export class SkyGridComponent
     this.changeDetector.markForCheck();
   }
 
-  private setDisplayedColumns(respectHidden: boolean = false) {
+  private setDisplayedColumns(respectHidden = false) {
     /* sanity check */
     /* istanbul ignore else */
     if (this.columns) {

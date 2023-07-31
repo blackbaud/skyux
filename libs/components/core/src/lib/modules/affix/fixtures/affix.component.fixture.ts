@@ -69,14 +69,14 @@ export class AffixFixtureComponent {
 
   public onAffixPlacementChange(change: SkyAffixPlacementChange): void {}
 
-  public scrollTargetToLeft(offset: number = 0): void {
+  public scrollTargetToLeft(offset = 0): void {
     const baseElement: HTMLDivElement = this.baseRef.nativeElement;
     const overflowParent: HTMLDivElement = this.overflowParentRef.nativeElement;
     overflowParent.scrollTop = this.#getParentCenterY();
     overflowParent.scrollLeft = baseElement.offsetLeft - offset;
   }
 
-  public scrollTargetToRight(offset: number = 0): void {
+  public scrollTargetToRight(offset = 0): void {
     const baseElement: HTMLDivElement = this.baseRef.nativeElement;
     const overflowParent: HTMLDivElement = this.overflowParentRef.nativeElement;
     const baseRect = baseElement.getBoundingClientRect();
@@ -91,7 +91,7 @@ export class AffixFixtureComponent {
       offset;
   }
 
-  public scrollTargetToTop(offset: number = 0): void {
+  public scrollTargetToTop(offset = 0): void {
     const baseRef = this.baseRef.nativeElement;
     const top = baseRef.offsetTop;
     const overflowParent = this.overflowParentRef.nativeElement;
@@ -99,7 +99,7 @@ export class AffixFixtureComponent {
     overflowParent.scrollLeft = this.#getParentCenterX();
   }
 
-  public scrollTargetToBottom(offset: number = 0): void {
+  public scrollTargetToBottom(offset = 0): void {
     const baseElement: HTMLDivElement = this.baseRef.nativeElement;
     const top = baseElement.offsetTop;
     const overflowParent: HTMLDivElement = this.overflowParentRef.nativeElement;

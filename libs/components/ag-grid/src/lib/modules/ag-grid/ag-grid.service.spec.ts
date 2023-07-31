@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
-import { SkyAgGridModule } from '@skyux/ag-grid';
+import { SkyAgGridModule } from './ag-grid.module';
 import {
   SkyTheme,
   SkyThemeMode,

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SkyAgGridHeaderInfo } from '@skyux/ag-grid';
+import { SkyAgGridHeaderInfo } from '../types/header-info';
 
 @Component({
   selector: 'app-first-inline-help',

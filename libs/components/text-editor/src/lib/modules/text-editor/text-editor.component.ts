@@ -457,7 +457,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
     this.#initialized = true;
   }
 
-  #viewToModelUpdate(emitChange: boolean = true): void {
+  #viewToModelUpdate(emitChange = true): void {
     this.value = this.#adapterService.getEditorInnerHtml();
     /* istanbul ignore else */
     if (emitChange) {
