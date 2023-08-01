@@ -1,3 +1,4 @@
+import { strings } from '@angular-devkit/core';
 import { componentGenerator } from '@nx/angular/generators';
 import { normalizePath } from '@nx/devkit';
 import {
@@ -8,7 +9,6 @@ import {
   getProjects,
   joinPathFragments,
 } from '@nx/devkit';
-import { classify, dasherize } from '@nx/workspace/src/utils/strings';
 
 import {
   angularModuleGenerator,
@@ -172,8 +172,8 @@ export default async function (tree: Tree, options: ComponentGeneratorSchema) {
     dirname(componentFilePath),
     {
       name: baseName,
-      nameDash: dasherize(baseName),
-      nameClass: classify(baseName),
+      nameDash: strings.dasherize(baseName),
+      nameClass: strings.classify(baseName),
       nameCapitalized: capitalizeWords(baseName),
       project: normalizedOptions.project,
       componentPath: dirname(componentFilePath),
@@ -181,15 +181,17 @@ export default async function (tree: Tree, options: ComponentGeneratorSchema) {
       prefix: (normalizedOptions.projectConfig as any)['prefix'],
     }
   );
+  if (!normalizedOptions.includeTests) {
+    tree.delete(
+      `${dirname(componentFilePath)}/${strings.dasherize(
+        baseName
+      )}.component.spec.ts`
+    );
+  }
 
   // Determine paths that should be created by this generator.
   const expectedPaths = [
-    `${normalizedOptions.projectDirectory}/app/${normalizedOptions.name}/`,
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    `${normalizedOptions.e2eSourceRoot}/e2e/${componentFilePath
-      .split('/')
-      .pop()!
-      .replace(/\.ts$/, '.cy.ts')}`,
+    `${normalizedOptions.projectDirectory}/app/${normalizedOptions.name}/**`,
   ];
 
   // nx g @skyux-sdk/e2e-schematics:stories
@@ -199,26 +201,6 @@ export default async function (tree: Tree, options: ComponentGeneratorSchema) {
     generateCypressSpecs: normalizedOptions.generateCypressSpecs,
     paths: expectedPaths,
   });
-
-  // Find new files that are not related to the new component and drop them.
-  const changes = tree.listChanges();
-  changes
-    .filter((change) => change.type === 'CREATE')
-    .filter((change) => !previouslyCreated.includes(change.path))
-    .forEach((change) => {
-      if (
-        expectedPaths.findIndex((expectedPath) =>
-          change.path.startsWith(expectedPath)
-        ) === -1
-      ) {
-        tree.delete(change.path);
-      } else if (
-        !normalizedOptions.includeTests &&
-        change.path.endsWith(`spec.ts`)
-      ) {
-        tree.delete(change.path);
-      }
-    });
 
   await formatFiles(tree);
 }

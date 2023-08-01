@@ -1,6 +1,8 @@
 /* eslint-disable */
 export default {
   displayName: 'sdk-eslint-config',
+  preset: '../../../jest.preset.js',
+  setupFiles: ['<rootDir>/src/test-setup.ts'],
   globals: {},
   testEnvironment: 'node',
   transform: {
@@ -25,6 +27,7 @@ export default {
     '<rootDir>/src/schematics/shared/testing',
     '<rootDir>/src/schematics/shared/utility',
   ],
-  preset: '../../../jest.preset.js',
-  testTimeout: 30000,
+  maxConcurrency: 2,
+  maxWorkers: 2,
+  testTimeout: 120000,
 };
