@@ -7,6 +7,7 @@ export const framework = {
 };
 export const docs = {
   autodocs: true,
+  defaultName: 'SKY UX',
 };
 export const rootMain: StorybookConfig = {
   stories: [],
