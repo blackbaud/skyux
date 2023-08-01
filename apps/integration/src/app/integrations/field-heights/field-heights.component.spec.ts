@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { expectAsync } from '@skyux-sdk/testing';
 import { SkyThemeService } from '@skyux/theme';
 
 import { FieldHeightsComponent } from './field-heights.component';
@@ -45,8 +46,7 @@ describe('FieldHeightsComponent', () => {
     ).toBeTruthy();
   });
 
-  // todo: enable when token a11y fix merges
-  // it('should be accessible', async () => {
-  //   await expectAsync(fixture.nativeElement).toBeAccessible();
-  // });
+  it('should be accessible', async () => {
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 });
