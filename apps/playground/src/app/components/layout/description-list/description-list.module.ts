@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { SkyHelpInlineModule } from '@skyux/indicators';
 import { SkyDescriptionListModule } from '@skyux/layout';
 
@@ -14,6 +14,7 @@ import { DescriptionListComponent } from './description-list.component';
     SkyDescriptionListModule,
     SkyHelpInlineModule,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class DescriptionListModule {
   public static routes = DescriptionListRoutingModule.routes;
