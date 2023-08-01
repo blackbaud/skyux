@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+
 import { SkyAgGridHeaderInfo } from '../types/header-info';
 
 @Component({

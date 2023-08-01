@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
-import { SkyAgGridModule } from './ag-grid.module';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -27,6 +26,7 @@ import { ICellRendererParams } from 'ag-grid-community/dist/lib/rendering/cellRe
 import { BehaviorSubject } from 'rxjs';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
+import { SkyAgGridModule } from './ag-grid.module';
 import { SkyAgGridService } from './ag-grid.service';
 import { SkyAgGridFixtureComponent } from './fixtures/ag-grid.component.fixture';
 import { SkyCellClass } from './types/cell-class';
