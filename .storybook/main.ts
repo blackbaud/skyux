@@ -1,12 +1,15 @@
 import type { StorybookConfig } from '@storybook/angular';
+import { DocsOptions } from '@storybook/types';
 
 const frameworkName: '@storybook/angular' = '@storybook/angular';
 export const framework = {
   name: frameworkName,
   options: {},
 };
-export const docs = {
-  autodocs: true,
+export const docs: DocsOptions = {
+  autodocs: false,
+  docsMode: false,
+  defaultName: 'Documentation',
 };
 export const rootMain: StorybookConfig = {
   stories: [],
