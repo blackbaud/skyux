@@ -3,8 +3,12 @@
   "compilerOptions": {
     "emitDecoratorMetadata": true,
     "module": "commonjs",
-    "types": ["cypress"],
-    "typeRoots": ["../../../node_modules/cypress/types"]
+    "types": ["cypress", "node"],
+    "typeRoots": [
+      "../../../node_modules/@types",
+      "../../../vendor/types/**/*.d.ts",
+      "../../../node_modules/cypress/types"
+    ]
   },
   "files": [],
   "include": [],
