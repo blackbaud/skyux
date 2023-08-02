@@ -43,7 +43,6 @@ describe('Date range service', function () {
   });
 
   it('should handle calculator not found', function () {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     service.getCalculatorById(5000 as any).catch((error) => {
       expect(error.message).toEqual(
         'A calculator with the ID 5000 was not found.'
