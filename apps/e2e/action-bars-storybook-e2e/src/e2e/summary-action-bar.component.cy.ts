@@ -30,6 +30,14 @@ describe('action-bars-storybook - summary action bar', () => {
                   .should('exist')
                   .should('be.visible');
 
+                if (style === 'modal') {
+                  cy.get('sky-modal-content')
+                    .should('exist')
+                    .should('be.visible')
+                    .click()
+                    .end();
+                }
+
                 cy.skyVisualTest(
                   `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}-${width}-${theme}`,
                   {
