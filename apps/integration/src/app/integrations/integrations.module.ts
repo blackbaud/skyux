@@ -33,6 +33,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./toast/toast.module').then((m) => m.ToastModule),
   },
+  {
+    path: 'field-heights',
+    loadChildren: () =>
+      import('./field-heights/field-heights.module').then(
+        (m) => m.FieldHeightsModule
+      ),
+  },
 ];
 
 @NgModule({

@@ -1,0 +1,18 @@
+form {
+  display: grid;
+  grid-template-columns: auto 60px;
+  grid-gap: 1rem;
+  width: 100%;
+
+  .sky-form-group {
+    grid-column-start: 0;
+    grid-column-end: 1;
+  }
+
+  .height-measure {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    display: flex;
+    align-items: center;
+  }
+}
