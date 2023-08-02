@@ -522,7 +522,6 @@ describe('Progress indicator component', () => {
       detectChanges();
 
       componentInstance.sendMessage({
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         type: 1000 as any,
       });
 
