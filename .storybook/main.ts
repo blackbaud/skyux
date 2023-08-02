@@ -1,5 +1,5 @@
 import type { StorybookConfig } from '@storybook/angular';
-import { DocsOptions } from '@storybook/types';
+import type { DocsOptions } from '@storybook/types';
 
 const frameworkName: '@storybook/angular' = '@storybook/angular';
 export const framework = {
