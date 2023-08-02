@@ -2,7 +2,9 @@
   "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
     "emitDecoratorMetadata": true,
-    "module": "commonjs"
+    "module": "commonjs",
+    "types": ["cypress"],
+    "typeRoots": ["../../../node_modules/cypress/types"]
   },
   "files": [],
   "include": [],
