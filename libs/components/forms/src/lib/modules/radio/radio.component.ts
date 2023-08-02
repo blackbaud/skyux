@@ -338,7 +338,6 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
     if (!this.disabled) {
       this.checked = true;
       this.change.next({
-        source: this,
         value: this.value,
       });
 
