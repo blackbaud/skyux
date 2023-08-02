@@ -1,4 +1,3 @@
-import { ITreeState, TreeNode } from '@ali-hm/angular-tree-component';
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -9,6 +8,7 @@ import {
   Optional,
   ViewChild,
 } from '@angular/core';
+import { ITreeState, TreeNode } from '@blackbaud/angular-tree-component';
 
 import { SkyAngularTreeAdapterService } from './angular-tree-adapter.service';
 import { SkyAngularTreeWrapperComponent } from './angular-tree-wrapper.component';

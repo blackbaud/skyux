@@ -1,4 +1,4 @@
-import { Rule } from '@angular-devkit/schematics';
+import { Rule, chain } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import {
   NodeDependencyType,
@@ -30,17 +30,32 @@ function installPackages(packages: PackageDetails[]): Rule {
   };
 }
 
+function uninstallPackages(packages?: Pick<PackageDetails, 'name'>[]): Rule {
+  return (tree, context) => {
+    /* istanbul ignore else */
+    if (packages) {
+      for (const details of packages) {
+        removePackageJsonDependency(tree, details.name, '/package.json');
+      }
+
+      context.addTask(new NodePackageInstallTask());
+    }
+  };
+}
+
 /**
  * Ensures peer dependencies for a given package are installed on the client's workspace.
  * If the client does not use the target package, this function is skipped.
  * @param targetPackageName The name of the package that has peer dependencies.
  * @param peers The target package's peer dependencies to install on the client's workspace.
+ * @param peersToRemove The target package's prior peer dependencies that should be removed. NOTE: This should be done with extreme caution and only on things that we have high certainty won't be there for other reasons.
  */
 export function ensurePeersInstalled(
   targetPackageName: string,
-  peers: PackageDetails[]
+  peers: PackageDetails[],
+  peersToRemove?: Pick<PackageDetails, 'name'>[]
 ): Rule {
-  return (tree) => {
+  return async (tree) => {
     const packageJson: {
       dependencies?: Record<string, string>;
       devDependencies?: Record<string, string>;
@@ -51,6 +66,8 @@ export function ensurePeersInstalled(
       ...(packageJson.devDependencies || {}),
     };
 
-    return dependencies[targetPackageName] ? installPackages(peers) : undefined;
+    return dependencies[targetPackageName]
+      ? chain([uninstallPackages(peersToRemove), installPackages(peers)])
+      : undefined;
   };
 }

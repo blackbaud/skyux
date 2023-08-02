@@ -4,6 +4,11 @@
       "version": "0.0.0-PLACEHOLDER",
       "factory": "./noop/noop.schematic",
       "description": "Update all SKY UX component packages"
+    },
+    "update-angular-tree-component": {
+      "version": "8.0.0-alpha.0",
+      "factory": "./update-9/update-angular-tree-component/update-angular-tree-component.schematic",
+      "description": "Update the angular tree component package to point to the Blackbaud forked version"
     }
   }
 }

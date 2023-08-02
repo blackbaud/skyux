@@ -1,10 +1,4 @@
 import {
-  ITreeOptions,
-  ITreeState,
-  TreeModel,
-  TreeNode,
-} from '@ali-hm/angular-tree-component';
-import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -12,6 +6,12 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+  ITreeOptions,
+  ITreeState,
+  TreeModel,
+  TreeNode,
+} from '@blackbaud/angular-tree-component';
 
 import { AngularTreeDemoNode } from './angular-tree-demo-node';
 

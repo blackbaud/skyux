@@ -1,18 +1,18 @@
 import {
-  KEYS,
-  TREE_ACTIONS,
-  TreeComponent,
-  TreeModel,
-  TreeNode,
-} from '@ali-hm/angular-tree-component';
-import { IDTypeDictionary } from '@ali-hm/angular-tree-component/lib/defs/api';
-import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ContentChild,
   Input,
 } from '@angular/core';
+import {
+  KEYS,
+  TREE_ACTIONS,
+  TreeComponent,
+  TreeModel,
+  TreeNode,
+} from '@blackbaud/angular-tree-component';
+import { IDTypeDictionary } from '@blackbaud/angular-tree-component/lib/defs/api';
 
 /**
  * Wraps the Angular `tree-root` component as part of the `SkyAngularTreeModule` that provides

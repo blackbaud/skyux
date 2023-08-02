@@ -1,9 +1,9 @@
-import { ITreeOptions, TreeNode } from '@ali-hm/angular-tree-component';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ITreeOptions, TreeNode } from '@blackbaud/angular-tree-component';
 import {
   IDTypeDictionary,
   ITreeState,
-} from '@ali-hm/angular-tree-component/lib/defs/api';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+} from '@blackbaud/angular-tree-component/lib/defs/api';
 
 @Component({
   selector: 'app-angular-tree-component',
