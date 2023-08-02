@@ -5,20 +5,10 @@
       "factory": "./noop/noop.schematic",
       "description": "Update all SKY UX component packages"
     },
-    "update-polyfill": {
+    "update-angular-tree-component": {
       "version": "8.0.0-alpha.0",
-      "factory": "./update-8/update-polyfill/update-polyfill.schematic",
-      "description": "Remove code from polyfills.ts/test.ts and add @skyux/packages/polyfills to workspace config."
-    },
-    "add-compat-stylesheets": {
-      "version": "8.0.0-alpha.0",
-      "factory": "./update-8/add-compat-stylesheets/add-compat-stylesheets",
-      "description": "Add a backwards-compatible stylesheet with styles that have been removed from components in SKY UX 8."
-    },
-    "update-autonumeric": {
-      "version": "8.0.0-alpha.0",
-      "factory": "./update-8/update-autonumeric/update-autonumeric",
-      "description": "Update autonumeric to version `4.8.1`."
+      "factory": "./update-9/update-angular-tree-component/update-angular-tree-component.schematic",
+      "description": "Update the angular tree component package to point to the Blackbaud forked version"
     }
   }
 }

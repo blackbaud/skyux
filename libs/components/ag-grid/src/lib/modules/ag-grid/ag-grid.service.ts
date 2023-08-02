@@ -512,10 +512,7 @@ export class SkyAgGridService implements OnDestroy {
     return defaultGridOptions;
   }
 
-  #dateFormatter(
-    params: ValueFormatterParams,
-    locale: string = 'en-us'
-  ): string {
+  #dateFormatter(params: ValueFormatterParams, locale = 'en-us'): string {
     const dateConfig = { year: 'numeric', month: '2-digit', day: '2-digit' };
     let date: Date = params.value;
 

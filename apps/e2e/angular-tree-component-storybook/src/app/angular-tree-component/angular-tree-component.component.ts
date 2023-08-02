@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ITreeOptions } from '@circlon/angular-tree-component';
+import { ITreeOptions } from '@blackbaud/angular-tree-component';
 
 @Component({
   selector: 'app-angular-tree-component',

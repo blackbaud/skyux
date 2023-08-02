@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { TreeModule } from '@circlon/angular-tree-component';
+import { TreeModule } from '@blackbaud/angular-tree-component';
 import { SkyCoreAdapterService } from '@skyux/core';
 import { SkyCheckboxModule } from '@skyux/forms';
 import { SkyIconModule } from '@skyux/indicators';

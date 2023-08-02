@@ -90,11 +90,7 @@ describe('Avatar component', () => {
     return url;
   }
 
-  function validateImageUrl(
-    el: Element,
-    url: string,
-    startsWith: boolean = false
-  ) {
+  function validateImageUrl(el: Element, url: string, startsWith = false) {
     const backgroundImageUrl = getBackgroundImageUrl(el);
 
     if (startsWith) {

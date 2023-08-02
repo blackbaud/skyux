@@ -43,10 +43,7 @@ function getTriggerButton(fixture: ComponentFixture<any>): HTMLButtonElement {
   ) as HTMLButtonElement;
 }
 
-function openTimepicker(
-  fixture: ComponentFixture<any>,
-  isAsync: boolean = false
-): void {
+function openTimepicker(fixture: ComponentFixture<any>, isAsync = false): void {
   const triggerButton = getTriggerButton(fixture);
   triggerButton.click();
   fixture.detectChanges();

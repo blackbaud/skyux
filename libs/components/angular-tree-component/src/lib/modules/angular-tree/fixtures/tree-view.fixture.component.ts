@@ -3,8 +3,8 @@ import {
   ITreeOptions,
   ITreeState,
   TreeComponent,
-} from '@circlon/angular-tree-component';
-import { IDTypeDictionary } from '@circlon/angular-tree-component/lib/defs/api';
+} from '@blackbaud/angular-tree-component';
+import { IDTypeDictionary } from '@blackbaud/angular-tree-component/lib/defs/api';
 
 @Component({
   templateUrl: './tree-view.fixture.component.html',

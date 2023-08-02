@@ -42,7 +42,7 @@ describe('Autocomplete component', () => {
     return document.querySelector('sky-autocomplete') as HTMLElement;
   }
 
-  function getInputElement(async: boolean = false): HTMLInputElement {
+  function getInputElement(async = false): HTMLInputElement {
     if (async) {
       return document.getElementById(
         'my-async-autocomplete-input'
@@ -81,7 +81,7 @@ describe('Autocomplete component', () => {
     fixture: ComponentFixture<
       SkyAutocompleteFixtureComponent | SkyAutocompleteReactiveFixtureComponent
     >,
-    async: boolean = false
+    async = false
   ): void {
     const inputElement = getInputElement(async);
     inputElement.value = newValue;

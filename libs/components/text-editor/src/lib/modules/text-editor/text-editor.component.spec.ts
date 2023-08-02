@@ -123,7 +123,7 @@ describe('Text editor', () => {
   function buttonExecCommandTest(
     buttonElement: HTMLButtonElement,
     expectedCommand: string,
-    expectedValue: string = ''
+    expectedValue = ''
   ): void {
     fixture.detectChanges();
     tick();
@@ -190,7 +190,7 @@ describe('Text editor', () => {
     dropdownElementClassName: string,
     optionIndex: number,
     expectedCommand: string,
-    expectedValue: string = ''
+    expectedValue = ''
   ): void {
     fixture.detectChanges();
     tick();

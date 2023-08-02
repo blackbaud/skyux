@@ -11,7 +11,7 @@ import {
   ITreeState,
   TreeModel,
   TreeNode,
-} from '@circlon/angular-tree-component';
+} from '@blackbaud/angular-tree-component';
 
 import { AngularTreeDemoNode } from './angular-tree-demo-node';
 

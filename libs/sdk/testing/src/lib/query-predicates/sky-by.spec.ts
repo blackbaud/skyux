@@ -1,7 +1,8 @@
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { expect } from '@skyux-sdk/testing';
+
+import { expect } from '../matchers/matchers';
 
 import { SkyBy } from './sky-by';
 
