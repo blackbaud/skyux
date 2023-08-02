@@ -497,7 +497,6 @@ describe('Checkbox component', () => {
       // emitted value can be a DOM Event, which is not valid.
       // See angular/angular#4059
       expect(testComponent.lastEvent?.checked).toBe(true);
-      expect(testComponent.lastEvent?.source?.id).toBe(`sky-checkbox-test-id`);
     });
   });
 

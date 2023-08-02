@@ -66,12 +66,6 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
     this.inputId = `input-${this.#_id}`;
   }
 
-  // TODO: In a future breaking change - remove this getter. It is not used - only the `inputId` is used;
-  // however, this component is returned by the `SkyCheckboxChange` and thus removing this would be a breaking change.
-  public get id(): string {
-    return this.#_id;
-  }
-
   /**
    * Whether to disable the checkbox on template-driven forms. Don't use this input on reactive forms because they may overwrite the input or leave the control out of sync.
    * To set the disabled state on reactive forms, use the `FormControl` instead.
@@ -376,7 +370,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   #controlValueAccessorChangeFn: (value: any) => void = (value) => {};
 
   #emitChangeEvent(): void {
-    this.change.emit({ source: this, checked: this.checked });
+    this.change.emit({ checked: this.checked });
   }
 
   /**
