@@ -339,10 +339,7 @@ describe('datepicker calendar', () => {
     verifyNthDateDisabled(nativeElement, 19, '2001 - 2020', '2017', '2017', '');
   });
 
-  function verifyTodayDayPicker(
-    element: HTMLElement,
-    todaySelected: boolean = false
-  ) {
+  function verifyTodayDayPicker(element: HTMLElement, todaySelected = false) {
     const today = new Date();
 
     const monthLabel = moment(today.getTime()).format('MMMM');

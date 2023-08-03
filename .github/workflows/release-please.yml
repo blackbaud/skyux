@@ -14,7 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Next release
-        if: ${{ env.PRERELEASE == 'true' }}
+        # if: ${{ env.PRERELEASE == 'true' }}
+        if: ${{ false }}
         id: next-release
         run: |
           # Log commands and exit on error.
@@ -49,6 +50,7 @@ jobs:
           # release-as: '${{ steps.next-release.outputs.next-release }}'
           release-as: 9.0.0-alpha.0
           prerelease: ${{ env.PRERELEASE == 'true' }}
+          last-release-sha: '981a895df7abb82a1f67687493db964e954af4f1'
           draft-pull-request: true
           include-v-in-tag: false
           token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
@@ -100,3 +102,14 @@ jobs:
           SLACK_MESSAGE: Failed to publish SKY UX ${{ steps.release.outputs.tag_name }} to NPM!
           SLACK_ICON: https://github.com/blackbaud.png?size=48
           SLACK_USERNAME: SKY UX
+      - name: Notify Slack (failure, non-release)
+        if: ${{ failure() && !steps.release.outputs.release_created }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_MESSAGE: Failed when preparing SKY UX release!
+          SLACK_ICON: https://github.com/blackbaud.png?size=48
+          SLACK_USERNAME: SKY UX
+          #cor-skyux-notifications
+          SLACK_CHANNEL: C01GY7ZP4HM

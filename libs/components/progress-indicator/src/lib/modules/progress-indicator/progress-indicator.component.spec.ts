@@ -522,7 +522,7 @@ describe('Progress indicator component', () => {
       detectChanges();
 
       componentInstance.sendMessage({
-        type: 1000,
+        type: 1000 as any,
       });
 
       expect(detectChanges).not.toThrowError();

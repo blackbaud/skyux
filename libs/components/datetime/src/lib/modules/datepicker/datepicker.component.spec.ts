@@ -70,7 +70,7 @@ function getTriggerButton(
 
 function clickTrigger(
   fixture: ComponentFixture<any>,
-  isFakeAsync: boolean = true
+  isFakeAsync = true
 ): void {
   getTriggerButton(fixture)?.click();
   if (isFakeAsync) {

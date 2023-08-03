@@ -66,7 +66,7 @@ describe('List View Grid Component', () => {
       fixture.detectChanges();
     }
 
-    function setupTest(enableMultiselect: boolean = false) {
+    function setupTest(enableMultiselect = false) {
       component.enableMultiselect = enableMultiselect;
 
       fixture.detectChanges();

@@ -39,7 +39,7 @@ function getTriggerButton(
 
 function clickDatepickerButton(
   fixture: ComponentFixture<any>,
-  isFakeAsync: boolean = true
+  isFakeAsync = true
 ): void {
   getTriggerButton(fixture)?.click();
   if (isFakeAsync) {

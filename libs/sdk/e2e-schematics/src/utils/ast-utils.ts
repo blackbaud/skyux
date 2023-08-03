@@ -227,7 +227,6 @@ export function getInsertExportTransformer(
               node,
               context.factory.createExportDeclaration(
                 undefined,
-                undefined,
                 false,
                 undefined,
                 context.factory.createStringLiteral(insertPath, true)
@@ -237,7 +236,7 @@ export function getInsertExportTransformer(
         }
         return node;
       };
-      return ts.visitNode(sourceFile, visitor as any);
+      return ts.visitNode(sourceFile, visitor as any) as ts.SourceFile;
     };
   };
 }
@@ -309,7 +308,7 @@ export function getInsertIdentifierToArrayTransformer(
         }
         return node;
       };
-      return ts.visitNode(sourceNode, visitor);
+      return ts.visitNode(sourceNode, visitor) as ts.SourceFile;
     };
   };
 }
@@ -369,9 +368,13 @@ function getTransformerToAddSymbolToDecoratedClassMetadata(
               newExpression,
             ]);
           }
-          return ts.visitEachChild(rootNode, appendValueVisitor, context);
+          return ts.visitEachChild(
+            rootNode,
+            appendValueVisitor,
+            context
+          ) as ts.SourceFile;
         };
-        return ts.visitNode(sourceFile, appendValueVisitor);
+        return ts.visitNode(sourceFile, appendValueVisitor) as ts.SourceFile;
       } else {
         const newExpression = context.factory.createPropertyAssignment(
           metadataField,
@@ -391,9 +394,13 @@ function getTransformerToAddSymbolToDecoratedClassMetadata(
               newExpression,
             ]);
           }
-          return ts.visitEachChild(rootNode, newPropertyVisitor, context);
+          return ts.visitEachChild(
+            rootNode,
+            newPropertyVisitor,
+            context
+          ) as ts.SourceFile;
         };
-        return ts.visitNode(sourceFile, newPropertyVisitor);
+        return ts.visitNode(sourceFile, newPropertyVisitor) as ts.SourceFile;
       }
     };
   };
@@ -456,7 +463,7 @@ export function getInsertStringPropertyTransformer(
         }
         return node;
       };
-      return ts.visitNode(sourceFile, visitor);
+      return ts.visitNode(sourceFile, visitor) as ts.SourceFile;
     };
   };
 }
@@ -488,7 +495,7 @@ export function getStringLiteralsSetterTransformer(strings: {
         }
         return node;
       };
-      return ts.visitNode(sourceFile, visitor);
+      return ts.visitNode(sourceFile, visitor) as ts.SourceFile;
     };
   };
 }
@@ -513,7 +520,7 @@ export function getRenameVariablesTransformer(renameMap: {
         }
         return node;
       };
-      return ts.visitNode(sourceFile, visitor);
+      return ts.visitNode(sourceFile, visitor) as ts.SourceFile;
     };
   };
 }
