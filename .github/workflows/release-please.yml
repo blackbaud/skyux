@@ -49,6 +49,7 @@ jobs:
           # release-as: '${{ steps.next-release.outputs.next-release }}'
           release-as: 9.0.0-alpha.0
           prerelease: ${{ env.PRERELEASE == 'true' }}
+          last-release-sha: '65c7caf6f747265cf2d9b34b2387298682a485b5'
           draft-pull-request: true
           include-v-in-tag: false
           token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
