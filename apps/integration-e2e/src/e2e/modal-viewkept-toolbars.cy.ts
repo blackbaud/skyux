@@ -6,13 +6,7 @@ describe('modal-viewkept-toolbars', () => {
       beforeEach(() => {
         cy.viewport('ipad-2', 'landscape');
         cy.visit('/#/integrations/modal-viewkeeper');
-        cy.get('select.sky-theme-selector').should('be.visible').select(theme);
-        const [themeName, themeMode] = theme.split('-');
-        cy.get('body').should('have.class', `sky-theme-${themeName}`);
-        cy.get('body').should(
-          'have.class',
-          `sky-theme-mode-${themeMode || 'light'}`
-        );
+        cy.skyChooseTheme(theme);
       });
 
       it('verify viewkept toolbar in modal', () => {
