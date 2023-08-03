@@ -13,29 +13,29 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - name: Next release
-        if: ${{ env.PRERELEASE == 'true' }}
-        id: next-release
-        run: |
-          # Log commands and exit on error.
-          set -exo pipefail
+      # - name: Next release
+      #   if: ${{ env.PRERELEASE == 'true' }}
+      #   id: next-release
+      #   run: |
+      #     # Log commands and exit on error.
+      #     set -exo pipefail
 
-          # Get the current prerelease version.
-          CURRENT_RELEASE=$(gh release list -R blackbaud/skyux|grep '^v${{ env.MAJOR_VERSION }}'|head -1|cut -d$'\t' -f 3)
+      #     # Get the current prerelease version.
+      #     CURRENT_RELEASE=$(gh release list -R blackbaud/skyux|grep '^v${{ env.MAJOR_VERSION }}'|head -1|cut -d$'\t' -f 3)
 
-          # Bump the prerelease version.
-          NEXT_VERSION=$(npx --yes semver -i prerelease $CURRENT_RELEASE)
+      #     # Bump the prerelease version.
+      #     NEXT_VERSION=$(npx --yes semver -i prerelease $CURRENT_RELEASE)
 
-          # If version is empty, exit.
-          if [ -z "$CURRENT_RELEASE" ] || [ -z "$NEXT_VERSION" ]; then
-            echo "Not able to determine prerelease version."
-            exit 1
-          fi
+      #     # If version is empty, exit.
+      #     if [ -z "$CURRENT_RELEASE" ] || [ -z "$NEXT_VERSION" ]; then
+      #       echo "Not able to determine prerelease version."
+      #       exit 1
+      #     fi
 
-          echo "Next release version: $NEXT_VERSION"
-          echo "next-release=$NEXT_VERSION" >> $GITHUB_OUTPUT
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+      #     echo "Next release version: $NEXT_VERSION"
+      #     echo "next-release=$NEXT_VERSION" >> $GITHUB_OUTPUT
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
       - uses: google-github-actions/release-please-action@v3
         id: release
         with:
