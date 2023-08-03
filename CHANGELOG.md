@@ -1,5 +1,13 @@
 # Changelog
 
+## [8.7.1](https://github.com/blackbaud/skyux/compare/8.7.0...8.7.1) (2023-08-03)
+
+
+### Bug Fixes
+
+* **components/indicators:** fix content roles ([#1513](https://github.com/blackbaud/skyux/issues/1513)) ([feaa2de](https://github.com/blackbaud/skyux/commit/feaa2ded5bcbb3a51a38c4eee2478825ac585acc))
+* **components/lookup:** set input box height to match other field types ([#1491](https://github.com/blackbaud/skyux/issues/1491)) ([f33e5a7](https://github.com/blackbaud/skyux/commit/f33e5a7f607241fbe822df7a5985c4246b2c139e))
+
 ## [8.7.0](https://github.com/blackbaud/skyux/compare/8.6.0...8.7.0) (2023-07-27)
 
 
