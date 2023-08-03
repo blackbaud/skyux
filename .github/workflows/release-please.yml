@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Next release
-        # if: ${{ env.PRERELEASE == 'true' }}
+        if: ${{ env.PRERELEASE == 'true' }}
         if: ${{ false }}
         id: next-release
         run: |
@@ -47,10 +47,8 @@ jobs:
           pull-request-title-pattern: 'chore: release ${version}'
           labels: 'autorelease ${{ github.ref_name }}: pending'
           release-labels: 'autorelease ${{ github.ref_name }}: tagged'
-          # release-as: '${{ steps.next-release.outputs.next-release }}'
-          release-as: 9.0.0-alpha.0
+          release-as: '${{ steps.next-release.outputs.next-release }}'
           prerelease: ${{ env.PRERELEASE == 'true' }}
-          last-release-sha: '981a895df7abb82a1f67687493db964e954af4f1'
           draft-pull-request: true
           include-v-in-tag: false
           token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
