@@ -9,6 +9,7 @@ describe('vertical-tabset-back-to-top', () => {
             beforeEach(() => {
               cy.viewport(device);
               cy.visit('/#/integrations/vertical-tabset-back-to-top');
+              cy.skyChooseTheme(theme);
             });
 
             it('verify back-to-top button', () => {

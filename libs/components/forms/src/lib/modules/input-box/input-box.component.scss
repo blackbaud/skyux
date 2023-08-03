@@ -287,7 +287,7 @@ sky-input-box {
         }
 
         .sky-control-help {
-          margin: 3px 0 0 $sky-margin-inline-compact;
+          margin: 3px 0 -3px $sky-margin-inline-compact;
 
           &:not(:last-child) {
             margin-right: $sky-theme-modern-margin-inline-xs;
@@ -419,14 +419,14 @@ sky-input-box {
       }
 
       textarea.sky-form-control {
-        margin-top: -23px;
+        margin-top: -26px;
         padding-top: 0;
         resize: vertical;
-        border-top: 26px solid transparent;
+        border-top: 29px solid transparent;
 
         &:autofill,
         &:-webkit-autofill {
-          border-top: 26px solid transparent !important;
+          border-top: 29px solid transparent !important;
         }
       }
     }
