@@ -1,5 +1,5 @@
 import fs from 'fs-extra';
-import glob from 'glob';
+import { globSync } from 'glob';
 import path from 'path';
 
 function copyFilesToDist() {
@@ -34,7 +34,7 @@ function copyFilesToDist() {
   });
 
   // Copy schematics templates.
-  const templateFiles = glob.sync(
+  const templateFiles = globSync(
     'libs/components/packages/src/schematics/**/*.template',
     { nodir: true }
   );
