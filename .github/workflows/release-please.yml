@@ -102,3 +102,14 @@ jobs:
           SLACK_MESSAGE: Failed to publish SKY UX ${{ steps.release.outputs.tag_name }} to NPM!
           SLACK_ICON: https://github.com/blackbaud.png?size=48
           SLACK_USERNAME: SKY UX
+      - name: Notify Slack (failure, non-release)
+        if: ${{ failure() && !steps.release.outputs.release_created }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_MESSAGE: Failed when preparing SKY UX release!
+          SLACK_ICON: https://github.com/blackbaud.png?size=48
+          SLACK_USERNAME: SKY UX
+          #cor-skyux-notifications
+          SLACK_CHANNEL: C01GY7ZP4HM
