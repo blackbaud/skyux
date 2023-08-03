@@ -15,7 +15,6 @@ jobs:
     steps:
       - name: Next release
         if: ${{ env.PRERELEASE == 'true' }}
-        if: ${{ false }}
         id: next-release
         run: |
           # Log commands and exit on error.
