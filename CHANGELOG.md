@@ -20,6 +20,23 @@
 ## [9.0.0-alpha.0](https://github.com/blackbaud/skyux/compare/v9.0.0-alpha.0...9.0.0-alpha.0) (2023-08-03)
 
 
+### ⚠ BREAKING CHANGES
+
+* support Angular 16 ([#1525](https://github.com/blackbaud/skyux/issues/1525))
+
+### Features
+
+* support Angular 16 ([#1525](https://github.com/blackbaud/skyux/issues/1525)) ([65c7caf](https://github.com/blackbaud/skyux/commit/65c7caf6f747265cf2d9b34b2387298682a485b5))
+
+
+### Bug Fixes
+
+* add support for `@skyux/dev-infra-private@9.0.0-alpha.0` ([#1537](https://github.com/blackbaud/skyux/issues/1537)) ([1e652ec](https://github.com/blackbaud/skyux/commit/1e652ec5bb53a98f7f7eab1253f0b35e63a94734))
+* **components/indicators:** fix content roles ([#1513](https://github.com/blackbaud/skyux/issues/1513)) ([feaa2de](https://github.com/blackbaud/skyux/commit/feaa2ded5bcbb3a51a38c4eee2478825ac585acc))
+
+## [9.0.0-alpha.0](https://github.com/blackbaud/skyux/compare/v9.0.0-alpha.0...9.0.0-alpha.0) (2023-08-03)
+
+
 ### Bug Fixes
 
 * add support for `@skyux/dev-infra-private@9.0.0-alpha.0` ([#1537](https://github.com/blackbaud/skyux/issues/1537)) ([1e652ec](https://github.com/blackbaud/skyux/commit/1e652ec5bb53a98f7f7eab1253f0b35e63a94734))
