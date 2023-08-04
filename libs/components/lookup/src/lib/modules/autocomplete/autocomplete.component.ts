@@ -302,6 +302,12 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   @Output()
   public searchAsync = new EventEmitter<SkyAutocompleteSearchAsyncArgs>();
 
+  /**
+   * @internal
+   */
+  @Output()
+  public autocompleteOpenChange = new EventEmitter<boolean>();
+
   //#endregion
 
   //#region template_properties
@@ -857,6 +863,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       this.#changeDetector.markForCheck();
       this.#updateAriaOwns();
       this.#initOverlayFocusableElements();
+      this.autocompleteOpenChange.emit(true);
     }
   }
 
@@ -867,6 +874,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     this.#removeActiveDescendant();
     this.#updateAriaOwns();
     this.#changeDetector.markForCheck();
+    this.autocompleteOpenChange.emit(false);
   }
 
   #setActiveDescendant(): void {

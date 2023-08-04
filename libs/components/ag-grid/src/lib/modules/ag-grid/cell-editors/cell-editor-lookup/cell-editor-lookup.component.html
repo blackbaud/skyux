@@ -23,12 +23,13 @@
     [searchTextMinimumCharacters]="
       skyComponentProperties?.searchTextMinimumCharacters
     "
-    (searchAsync)="skyComponentProperties?.searchAsync($event)"
+    (searchAsync)="skyComponentProperties?.searchAsync?.($event)"
     [selectMode]="skyComponentProperties?.selectMode"
     [showAddButton]="skyComponentProperties?.showAddButton"
     [showMoreConfig]="skyComponentProperties?.showMoreConfig"
     [wrapperClass]="skyComponentProperties?.wrapperClass"
-    (addClick)="skyComponentProperties?.addClick($event)"
+    (addClick)="skyComponentProperties?.addClick?.($event)"
+    (lookupOpenChange)="onLookupOpenChange($event)"
   >
   </sky-lookup>
 </sky-input-box>
@@ -61,7 +62,8 @@
     [showAddButton]="skyComponentProperties?.showAddButton"
     [showMoreConfig]="skyComponentProperties?.showMoreConfig"
     [wrapperClass]="skyComponentProperties?.wrapperClass"
-    (addClick)="skyComponentProperties?.addClick($event)"
+    (addClick)="skyComponentProperties?.addClick?.($event)"
+    (lookupOpenChange)="onLookupOpenChange($event)"
   >
   </sky-lookup>
 </sky-input-box>

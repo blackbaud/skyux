@@ -172,7 +172,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
           },
         });
 
-        expect(component.editorForm.get('selection')?.value).toBe(selection);
+        expect(component.editorForm.get('selection')?.value).toEqual(selection);
 
         fixture.detectChanges();
         await fixture.whenStable();
@@ -198,7 +198,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
           eventKey: KeyCode.ENTER,
         });
 
-        expect(component.editorForm.get('selection')?.value).toBe(selection);
+        expect(component.editorForm.get('selection')?.value).toEqual(selection);
 
         fixture.detectChanges();
         await fixture.whenStable();
@@ -225,7 +225,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
           charPress: 'a',
         });
 
-        expect(component.editorForm.get('selection')?.value).toBe(selection);
+        expect(component.editorForm.get('selection')?.value).toEqual(selection);
       });
     });
 
@@ -264,7 +264,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
           eventKey: KeyCode.F2,
         });
 
-        expect(component.editorForm.get('selection')?.value).toBe(selection);
+        expect(component.editorForm.get('selection')?.value).toEqual(selection);
       });
 
       it('initializes with the current value when Enter triggers the edit', () => {
@@ -275,7 +275,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
           eventKey: KeyCode.ENTER,
         });
 
-        expect(component.editorForm.get('selection')?.value).toBe(selection);
+        expect(component.editorForm.get('selection')?.value).toEqual(selection);
       });
 
       // NOTE: This is different than other editors due to the selection nature of autocomplete
@@ -287,7 +287,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
           charPress: 'a',
         });
 
-        expect(component.editorForm.get('selection')?.value).toBe(selection);
+        expect(component.editorForm.get('selection')?.value).toEqual(selection);
       });
     });
   });

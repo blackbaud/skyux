@@ -204,6 +204,12 @@ export class SkyLookupComponent
   public addClick: EventEmitter<SkyLookupAddClickEventArgs> =
     new EventEmitter();
 
+  /**
+   * @internal
+   */
+  @Output()
+  public lookupOpenChange = new EventEmitter<boolean>();
+
   public get tokens(): SkyToken[] | undefined {
     return this.#_tokens;
   }
@@ -640,6 +646,14 @@ export class SkyLookupComponent
 
         this.#changeDetector.markForCheck();
       }
+    }
+  }
+
+  protected onAutocompleteOpenChange($event: boolean) {
+    if ($event) {
+      this.lookupOpenChange.emit(true);
+    } else if (!this.#pickerModalOpen()) {
+      this.lookupOpenChange.emit(false);
     }
   }
 

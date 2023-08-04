@@ -3,9 +3,10 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  Optional,
+  HostListener,
   ViewChild,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { SkyThemeService } from '@skyux/theme';
@@ -45,19 +46,29 @@ export class SkyAgGridCellEditorDatepickerComponent
   @ViewChild('skyCellEditorDatepickerInput', { read: ElementRef })
   public datepickerInput: ElementRef | undefined;
 
+  #calendarOpen = false;
+  #elementRef = inject(ElementRef<HTMLElement>);
   #params: SkyCellEditorDatepickerParams | undefined;
   #triggerType: SkyAgGridCellEditorInitialAction | undefined;
-  #changeDetector: ChangeDetectorRef;
-  #themeSvc: SkyThemeService | undefined;
+  #changeDetector = inject(ChangeDetectorRef);
+  #themeSvc = inject(SkyThemeService, { optional: true }) as
+    | SkyThemeService
+    | undefined;
 
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    @Optional() themeSvc?: SkyThemeService
-  ) {
+  constructor() {
     super();
+  }
 
-    this.#changeDetector = changeDetector;
-    this.#themeSvc = themeSvc;
+  @HostListener('focusout', ['$event'])
+  public onFocusOut(event: FocusEvent): void {
+    if (event.target === this.datepickerInput?.nativeElement) {
+      this.#stopEditingOnBlur();
+    }
+  }
+
+  protected onCalendarOpenChange(isOpen: boolean): void {
+    this.#calendarOpen = isOpen;
+    this.#stopEditingOnBlur();
   }
 
   /**
@@ -154,5 +165,21 @@ export class SkyAgGridCellEditorDatepickerComponent
   public getValue(): Date {
     this.datepickerInput?.nativeElement.blur();
     return this.editorForm.get('date')?.value;
+  }
+
+  #stopEditingOnBlur(): void {
+    if (
+      !this.#calendarOpen &&
+      this.#params?.context.gridOptions.stopEditingWhenCellsLoseFocus
+    ) {
+      setTimeout(() => {
+        if (
+          !this.#calendarOpen &&
+          !this.#elementRef.nativeElement.matches(':focus-within')
+        ) {
+          this.#params?.api.stopEditing();
+        }
+      });
+    }
   }
 }

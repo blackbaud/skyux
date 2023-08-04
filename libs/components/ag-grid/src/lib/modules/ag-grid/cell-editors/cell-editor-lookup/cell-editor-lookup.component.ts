@@ -4,12 +4,13 @@ import {
   Component,
   ElementRef,
   HostBinding,
+  HostListener,
+  inject,
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
-import { ColumnResizedEvent } from 'ag-grid-community';
-import { IPopupComponent } from 'ag-grid-community/dist/lib/interfaces/iPopupComponent';
+import { ColumnResizedEvent, PopupComponent } from 'ag-grid-community';
 
 import { applySkyLookupPropertiesDefaults } from '../../apply-lookup-properties-defaults';
 import { SkyAgGridCellEditorInitialAction } from '../../types/cell-editor-initial-action';
@@ -27,13 +28,13 @@ import { SkyAgGridLookupProperties } from '../../types/lookup-properties';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyAgGridCellEditorLookupComponent
-  implements ICellEditorAngularComp, IPopupComponent<unknown>
+  extends PopupComponent
+  implements ICellEditorAngularComp
 {
   @HostBinding('style.width.px')
   public width: number | undefined;
 
   public skyComponentProperties?: SkyAgGridLookupProperties;
-  public isAlive = false;
   public editorForm = new UntypedFormGroup({
     selection: new UntypedFormControl({
       value: [],
@@ -42,14 +43,20 @@ export class SkyAgGridCellEditorLookupComponent
   });
   public useAsyncSearch = false;
 
+  #isAlive = false;
+  #lookupOpen = false;
   #params: SkyCellEditorLookupParams | undefined;
   #triggerType: SkyAgGridCellEditorInitialAction | undefined;
-  #changeDetector: ChangeDetectorRef;
-  #elementRef: ElementRef;
+  #changeDetector = inject(ChangeDetectorRef);
+  #elementRef = inject(ElementRef<HTMLElement>);
 
-  constructor(changeDetector: ChangeDetectorRef, elementRef: ElementRef) {
-    this.#changeDetector = changeDetector;
-    this.#elementRef = elementRef;
+  constructor() {
+    super();
+  }
+
+  @HostListener('blur')
+  public onFocusOut(): void {
+    this.#stopEditingOnBlur();
   }
 
   public agInit(params: SkyCellEditorLookupParams): void {
@@ -82,7 +89,7 @@ export class SkyAgGridCellEditorLookupComponent
     this.skyComponentProperties = this.#updateComponentProperties(this.#params);
     this.useAsyncSearch =
       typeof this.skyComponentProperties.searchAsync === 'function';
-    this.isAlive = true;
+    this.#isAlive = true;
     this.width = this.#params.column.getActualWidth();
     this.#params.column.addEventListener(
       'uiColumnResized',
@@ -94,26 +101,22 @@ export class SkyAgGridCellEditorLookupComponent
     this.#changeDetector.markForCheck();
   }
 
+  public override isAlive = (): boolean => this.#isAlive;
+
   public isCancelAfterEnd(): boolean {
     // Shut down components to commit values before final value syncs to grid.
-    this.isAlive = false;
+    this.#isAlive = false;
     this.#changeDetector.detectChanges();
     return false;
   }
 
-  public getGui(): HTMLElement {
+  public override getGui(): HTMLElement {
     return this.#elementRef.nativeElement;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public getValue(): any[] {
     return this.editorForm.get('selection')?.value;
   }
-
-  public isPopup(): boolean {
-    return true;
-  }
-
   public afterGuiAttached(): void {
     const lookupInput: HTMLTextAreaElement =
       this.#elementRef.nativeElement.querySelector('.sky-lookup-input');
@@ -133,10 +136,31 @@ export class SkyAgGridCellEditorLookupComponent
     }
   }
 
+  protected onLookupOpenChange(isOpen: boolean): void {
+    this.#lookupOpen = isOpen;
+    this.#stopEditingOnBlur();
+  }
+
   #updateComponentProperties(
     params: SkyCellEditorLookupParams
   ): SkyAgGridLookupProperties {
     const skyLookupProperties = params.skyComponentProperties;
     return applySkyLookupPropertiesDefaults(skyLookupProperties);
+  }
+
+  #stopEditingOnBlur(): void {
+    if (
+      !this.#lookupOpen &&
+      this.#params?.context.gridOptions.stopEditingWhenCellsLoseFocus
+    ) {
+      setTimeout(() => {
+        if (
+          !this.#lookupOpen &&
+          !this.#elementRef.nativeElement.matches(':focus-within')
+        ) {
+          this.#params?.api.stopEditing();
+        }
+      });
+    }
   }
 }
