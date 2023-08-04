@@ -8,7 +8,7 @@ import {
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
-import { ColumnResizedEvent } from 'ag-grid-community';
+import { ColDef, ColumnResizedEvent } from 'ag-grid-community';
 import { IPopupComponent } from 'ag-grid-community/dist/lib/interfaces/iPopupComponent';
 
 import { applySkyLookupPropertiesDefaults } from '../../apply-lookup-properties-defaults';
@@ -41,6 +41,10 @@ export class SkyAgGridCellEditorLookupComponent
     }),
   });
   public useAsyncSearch = false;
+
+  protected get colDef(): ColDef | undefined {
+    return this.#params?.colDef;
+  }
 
   #params: SkyCellEditorLookupParams | undefined;
   #triggerType: SkyAgGridCellEditorInitialAction | undefined;

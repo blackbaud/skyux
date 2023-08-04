@@ -24,14 +24,26 @@ function parseMessage(violations: axe.Result[]): string {
               )
               .join(`\n\n      `);
             if (relatedHtml) {
-              relatedHtml = `\n    Related Nodes:\n\n      ${relatedHtml}`;
+              relatedHtml = `\n    Related Nodes:\n      ${relatedHtml}`;
             }
-            return `  - ${checkResult.message}${relatedHtml}`;
+            return `  - [${checkResult.id}] ${checkResult.message}${relatedHtml}`;
           })
           .join(`\n`);
-        return `${accumulator}\n\n${node.failureSummary}\n${node.html}\n${related}`;
+        const newInformation: string[] = [
+          node.failureSummary
+            ? `[${node.impact?.toUpperCase()}] ${node.failureSummary
+                .split(/\n */g)
+                .join(`\n  - `)}`
+            : '',
+          node.ancestry ? `Ancestry: ${node.ancestry.join(', ')}` : '',
+          `Target: ${node.target.join(', ')}`,
+          node.html ? `HTML: ${node.html}` : '',
+          related,
+        ].filter((info) => !!info);
+
+        return `${accumulator}\n\n${newInformation.join(`\n`)}`;
       },
-      '       Elements:'
+      ''
     );
 
     const error = [

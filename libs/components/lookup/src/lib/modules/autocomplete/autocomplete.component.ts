@@ -855,7 +855,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       this.#overlay = overlay;
       this.isOpen = true;
       this.#changeDetector.markForCheck();
-      this.#updateAriaOwns();
+      this.#updateAriaControls();
       this.#initOverlayFocusableElements();
     }
   }
@@ -865,7 +865,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     this.isOpen = false;
     this.#destroyOverlay();
     this.#removeActiveDescendant();
-    this.#updateAriaOwns();
+    this.#updateAriaControls();
     this.#changeDetector.markForCheck();
   }
 
@@ -885,9 +885,9 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     }
   }
 
-  #updateAriaOwns(): void {
+  #updateAriaControls(): void {
     if (this.inputDirective) {
-      this.inputDirective.setAriaOwns(this.#overlay?.id || null);
+      this.inputDirective.setAriaControls(this.#overlay?.id || null);
     }
   }
 
@@ -969,22 +969,24 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       this.#messageStreamSub = undefined;
     }
 
-    this.#messageStreamSub = this.messageStream.subscribe((message) => {
-      switch (message.type) {
-        case SkyAutocompleteMessageType.CloseDropdown:
-          this.#closeDropdown();
-          break;
-        case SkyAutocompleteMessageType.RepositionDropdown:
-          // Settimeout waits for changes in DOM (e.g., tokens being removed)
-          setTimeout(() => {
-            /* istanbul ignore else */
-            if (this.#affixer) {
-              this.#affixer.reaffix();
-            }
-          });
-          break;
-      }
-    });
+    this.#messageStreamSub = this.messageStream
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((message) => {
+        switch (message.type) {
+          case SkyAutocompleteMessageType.CloseDropdown:
+            this.#closeDropdown();
+            break;
+          case SkyAutocompleteMessageType.RepositionDropdown:
+            // Settimeout waits for changes in DOM (e.g., tokens being removed)
+            setTimeout(() => {
+              /* istanbul ignore else */
+              if (this.#affixer) {
+                this.#affixer.reaffix();
+              }
+            });
+            break;
+        }
+      });
   }
 
   #initOverlayFocusableElements(): void {

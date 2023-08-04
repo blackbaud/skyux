@@ -79,7 +79,8 @@ describe('A11y analyzer', () => {
             tags: ['wcag2a', 'wcag412'],
             nodes: [
               {
-                target: ['div.other-header'],
+                ancestry: ['original-header'],
+                target: [],
                 html: '<div class="other-header" aria-description="test"></div>',
                 any: [],
                 all: [
@@ -88,6 +89,14 @@ describe('A11y analyzer', () => {
                     data: null,
                   },
                 ] as axe.CheckResult[],
+                none: [],
+              } as axe.NodeResult,
+              {
+                ancestry: [],
+                target: [],
+                html: '',
+                any: [],
+                all: [],
                 none: [],
               } as axe.NodeResult,
             ],
