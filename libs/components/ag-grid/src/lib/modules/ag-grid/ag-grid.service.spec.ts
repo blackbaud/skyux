@@ -966,6 +966,13 @@ describe('SkyAgGridService', () => {
     const params = {
       node: {} as RowNode,
       rowIndex: 0,
+      source: 'api',
+      context: {},
+      type: 'rowSelected',
+      api: {} as GridApi,
+      data: {} as any,
+      columnApi: {} as ColumnApi,
+      rowPinned: null,
     } as RowClassParams;
 
     it('should use the row id for the row class', () => {

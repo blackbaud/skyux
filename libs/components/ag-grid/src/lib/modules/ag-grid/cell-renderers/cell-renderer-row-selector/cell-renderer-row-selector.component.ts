@@ -80,14 +80,14 @@ export class SkyAgGridCellRendererRowSelectorComponent
   #setParameters(params: ICellRendererParams): void {
     this.#params = params;
     this.dataField = this.#params.colDef?.field;
-    this.rowNode = this.#params.node;
+    this.rowNode = this.#params?.node as RowNode | undefined;
     this.rowNumber = this.#params.rowIndex + 1;
     const rowSelected = this.#params.node.isSelected();
 
     if (this.dataField) {
       this.checked = !!this.#params.value;
       if (rowSelected !== this.checked) {
-        this.rowNode.setSelected(this.checked);
+        this.rowNode?.setSelected(this.checked);
       }
     } else {
       this.checked = rowSelected;

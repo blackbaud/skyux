@@ -170,7 +170,7 @@ export class SkyAgGridDataManagerAdapterDirective
               this.#displayColumns(dataState);
             });
 
-          if (agGrid.gridOptions.context?.enableTopScroll) {
+          if (agGrid.gridOptions?.context?.enableTopScroll) {
             this.#dataManagerSvc.setViewkeeperClasses(this.viewId, [
               '.ag-header',
               '.ag-body-horizontal-scroll',
@@ -187,6 +187,25 @@ export class SkyAgGridDataManagerAdapterDirective
           filter(
             (event: ColumnMovedEvent) =>
               ![
+                'alignedGridChanged',
+                'api',
+                'autosizeColumnHeaderHeight',
+                'autosizeColumns',
+                'columnMenu',
+                'columnRowGroupChanged',
+                'contextMenu',
+                'filterChanged',
+                'filterDestroyed',
+                'flex',
+                'gridInitializing',
+                'gridOptionsChanged',
+                'pivotChart',
+                'rowDataUpdated',
+                'rowModelUpdated',
+                'sizeColumnsToFit',
+                'toolPanelDragAndDrop',
+                'toolPanelUi',
+                'uiColumnExpanded',
                 'gridInitializing',
                 'uiColumnResized',
                 'uiColumnDragged',

@@ -11,6 +11,17 @@ describe(`ag-grid-storybook data manager`, () => {
       ].forEach(([domLayout, label]) => {
         describe(`${label} layout`, () => {
           beforeEach(() => {
+            cy.on('uncaught:exception', (err) => {
+              if (
+                err.message.includes(
+                  'ResizeObserver loop completed with undelivered notifications.'
+                )
+              ) {
+                return false;
+              } else {
+                return true;
+              }
+            });
             cy.viewport(1300, 900).visit(
               `/iframe.html?globals=theme:${theme}&id=datamanagercomponent-datamanager--data-manager-${domLayout}`
             );
