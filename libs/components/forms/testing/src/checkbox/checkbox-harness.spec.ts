@@ -113,7 +113,7 @@ describe('Checkbox harness', () => {
     });
 
     await expectAsync(checkboxHarness.getName()).toBeResolvedTo(
-      jasmine.stringMatching(/sky-checkbox-[0-9]+/)
+      jasmine.stringMatching(/sky-checkbox-sky-id-gen__[0-9]+__[0-9]+/)
     );
     await expectAsync(checkboxHarness.getValue()).toBeResolvedTo('on');
   });
