@@ -25,7 +25,9 @@ const LAYOUT_CLASS_PREFIX = 'sky-layout-host-';
 const LAYOUT_CLASS_DEFAULT = `${LAYOUT_CLASS_PREFIX}${LAYOUT_DEFAULT}`;
 
 /**
- * Displays a page using the specified layout.
+ * Displays a page using the specified layout. The page component is a responsive container,
+ * meaning content will respect the breakpoints within the page element instead of the window.
+ * This is helpful if there is other content to the left or right of the page.
  */
 @Component({
   selector: 'sky-page',
