@@ -74,7 +74,7 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
       new SkyResizeObserverService(zone)
     );
 
-    service.observe(target, true);
+    service.observe(target, { updateResponsiveClasses: true });
 
     expect(testEl.className).toEqual('');
 

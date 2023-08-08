@@ -72,7 +72,9 @@ export class SkyPageComponent implements OnInit, OnDestroy {
       });
 
     if (this.#mediaQueryService) {
-      this.#mediaQueryService.observe(this.#elementRef, true);
+      this.#mediaQueryService.observe(this.#elementRef, {
+        updateResponsiveClasses: true,
+      });
     }
   }
 

@@ -85,7 +85,9 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
    */
   public observe(
     element: ElementRef,
-    updateResponsiveClasses?: boolean
+    options?: {
+      updateResponsiveClasses?: boolean;
+    }
   ): SkyResizeObserverMediaQueryService {
     if (this.#target) {
       if (this.#target === element) {
@@ -105,7 +107,7 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
       .subscribe((value) => {
         const breakpoint = this.#checkBreakpoint(value.contentRect.width);
         if (breakpoint && breakpoint !== this.current) {
-          this.#updateBreakpoint(breakpoint, updateResponsiveClasses);
+          this.#updateBreakpoint(breakpoint, options?.updateResponsiveClasses);
         }
       });
     return this;
