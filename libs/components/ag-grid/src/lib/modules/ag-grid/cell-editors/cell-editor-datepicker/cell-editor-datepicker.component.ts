@@ -66,7 +66,7 @@ export class SkyAgGridCellEditorDatepickerComponent
     }
   }
 
-  protected onCalendarOpenChange(isOpen: boolean): void {
+  public onCalendarOpenChange(isOpen: boolean): void {
     this.#calendarOpen = isOpen;
     this.#stopEditingOnBlur();
   }

@@ -649,7 +649,7 @@ export class SkyLookupComponent
     }
   }
 
-  protected onAutocompleteOpenChange($event: boolean) {
+  protected onAutocompleteOpenChange($event: boolean): void {
     if ($event) {
       this.lookupOpenChange.emit(true);
     } else if (!this.#pickerModalOpen()) {

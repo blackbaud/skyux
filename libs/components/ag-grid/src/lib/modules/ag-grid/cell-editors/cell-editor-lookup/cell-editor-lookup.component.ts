@@ -136,7 +136,7 @@ export class SkyAgGridCellEditorLookupComponent
     }
   }
 
-  protected onLookupOpenChange(isOpen: boolean): void {
+  public onLookupOpenChange(isOpen: boolean): void {
     this.#lookupOpen = isOpen;
     this.#stopEditingOnBlur();
   }
@@ -151,7 +151,7 @@ export class SkyAgGridCellEditorLookupComponent
   #stopEditingOnBlur(): void {
     if (
       !this.#lookupOpen &&
-      this.#params?.context.gridOptions.stopEditingWhenCellsLoseFocus
+      this.#params?.context?.gridOptions?.stopEditingWhenCellsLoseFocus
     ) {
       setTimeout(() => {
         if (
