@@ -89,14 +89,14 @@ export class DataManagerEditModalComponent {
               selectionChange: (
                 change: SkyAutocompleteSelectionChange
               ): void => {
-                this.departmentSelectionChange(change, params.node);
+                this.departmentSelectionChange(change, params.node as RowNode);
               },
             },
           };
         },
         onCellValueChanged: (event: NewValueParams): void => {
           if (event.newValue !== event.oldValue) {
-            this.clearJobTitle(event.node);
+            this.clearJobTitle(event.node as RowNode);
           }
         },
       },
@@ -137,7 +137,7 @@ export class DataManagerEditModalComponent {
         type: [SkyCellType.Date, SkyCellType.Validator],
         cellRendererParams: {
           skyComponentProperties: {
-            validator: (value: Date) =>
+            validator: (value: Date): boolean =>
               !!value && value > new Date(1985, 9, 26),
             validatorMessage: 'Please enter a future date',
           },
@@ -148,7 +148,7 @@ export class DataManagerEditModalComponent {
     this.gridData = this.context.gridData;
     this.gridOptions = {
       columnDefs: this.columnDefs,
-      onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
+      onGridReady: (gridReadyEvent): void => this.onGridReady(gridReadyEvent),
     };
     this.gridOptions = this.agGridService.getEditableGridOptions({
       gridOptions: this.gridOptions,

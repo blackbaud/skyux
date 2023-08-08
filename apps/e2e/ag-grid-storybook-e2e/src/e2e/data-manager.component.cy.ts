@@ -1,5 +1,14 @@
 import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 
+// This is to mitigate a Cypress issue (https://github.com/cypress-io/cypress/issues/20341) where a ResizeObserver exception is thrown.
+Cypress.on(
+  'uncaught:exception',
+  (err) =>
+    !err.message.includes(
+      'ResizeObserver loop completed with undelivered notifications.'
+    )
+);
+
 describe(`ag-grid-storybook data manager`, () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {
@@ -11,17 +20,6 @@ describe(`ag-grid-storybook data manager`, () => {
       ].forEach(([domLayout, label]) => {
         describe(`${label} layout`, () => {
           beforeEach(() => {
-            cy.on('uncaught:exception', (err) => {
-              if (
-                err.message.includes(
-                  'ResizeObserver loop completed with undelivered notifications.'
-                )
-              ) {
-                return false;
-              } else {
-                return true;
-              }
-            });
             cy.viewport(1300, 900).visit(
               `/iframe.html?globals=theme:${theme}&id=datamanagercomponent-datamanager--data-manager-${domLayout}`
             );

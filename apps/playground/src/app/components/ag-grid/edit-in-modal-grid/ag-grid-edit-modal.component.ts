@@ -75,14 +75,14 @@ export class SkyAgGridEditModalComponent implements OnInit {
             skyComponentProperties: {
               data: SKY_DEPARTMENTS,
               selectionChange: (change: SkyAutocompleteSelectionChange) => {
-                this.departmentSelectionChange(change, params.node);
+                this.departmentSelectionChange(change, params.node as RowNode);
               },
             },
           };
         },
         onCellValueChanged: (changeEvent: CellValueChangedEvent) => {
           if (changeEvent.newValue !== changeEvent.oldValue) {
-            this.clearJobTitle(changeEvent.node);
+            this.clearJobTitle(changeEvent.node as RowNode);
           }
         },
       },
