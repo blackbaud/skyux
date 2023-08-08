@@ -4,11 +4,11 @@ import {
   EmbeddedViewRef,
   EnvironmentInjector,
   Injectable,
-  Injector,
   Renderer2,
   RendererFactory2,
   Type,
   createComponent,
+  createEnvironmentInjector,
 } from '@angular/core';
 
 import { SkyAppWindowRef } from '../window/window-ref';
@@ -31,21 +31,17 @@ export class SkyDynamicComponentService {
 
   #environmentInjector: EnvironmentInjector;
 
-  #injector: Injector;
-
   #renderer: Renderer2;
 
   #windowRef: SkyAppWindowRef;
 
   constructor(
     applicationRef: ApplicationRef,
-    injector: Injector,
     windowRef: SkyAppWindowRef,
     rendererFactory: RendererFactory2,
     environmentInjector: EnvironmentInjector
   ) {
     this.#applicationRef = applicationRef;
-    this.#injector = injector;
     this.#windowRef = windowRef;
     this.#environmentInjector = environmentInjector;
 
@@ -68,21 +64,20 @@ export class SkyDynamicComponentService {
       location: SkyDynamicComponentLocation.BodyBottom,
     };
 
-    const injector = Injector.create({
-      providers: options.providers || [],
-      parent: options.parentInjector || this.#injector,
-    });
+    const environmentInjector = createEnvironmentInjector(
+      options.providers || [],
+      options.environmentInjector || this.#environmentInjector
+    );
 
     let componentRef: ComponentRef<T>;
 
     if (options.viewContainerRef) {
       componentRef = options.viewContainerRef.createComponent(componentType, {
-        injector,
+        environmentInjector,
       });
     } else {
       componentRef = createComponent<T>(componentType, {
-        environmentInjector: this.#environmentInjector,
-        elementInjector: injector,
+        environmentInjector,
       });
 
       this.#applicationRef.attachView(componentRef.hostView);
