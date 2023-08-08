@@ -65,6 +65,45 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
     expect(subscription.closed).toBeTrue();
   });
 
+  it("should update the observed element's classes on resize when updateResponsiveClasses is true", () => {
+    const testEl = document.createElement('div');
+    const target = new ElementRef(testEl);
+
+    const zone = TestBed.inject(NgZone);
+    const service = new SkyResizeObserverMediaQueryService(
+      new SkyResizeObserverService(zone)
+    );
+
+    service.observe(target, true);
+
+    expect(testEl.className).toEqual('');
+
+    mockResizeObserverHandle.emit([
+      {
+        ...mockResizeObserverEntry,
+        target: target.nativeElement,
+      },
+    ]);
+
+    expect(testEl.className).toEqual('sky-responsive-container-xs');
+
+    mockResizeObserverHandle.emit([
+      {
+        ...mockResizeObserverEntry,
+        target: target.nativeElement,
+        contentRect: {
+          ...mockResizeObserverEntry.contentRect,
+          width: 2000,
+        },
+      },
+    ]);
+
+    expect(testEl.className).toEqual('sky-responsive-container-lg');
+
+    service.unobserve();
+    service.destroy();
+  });
+
   it('should switch observing to a new element', async () => {
     const target1: ElementRef = {
       nativeElement: { id: 'element1' },

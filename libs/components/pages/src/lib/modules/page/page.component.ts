@@ -1,12 +1,16 @@
 import {
   Component,
+  ElementRef,
   HostBinding,
   Input,
   OnDestroy,
   OnInit,
   inject,
 } from '@angular/core';
-import { SkyLayoutHostService } from '@skyux/core';
+import {
+  SkyLayoutHostService,
+  SkyResizeObserverMediaQueryService,
+} from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -52,16 +56,22 @@ export class SkyPageComponent implements OnInit, OnDestroy {
 
   #themeAdapter = inject(SkyPageThemeAdapterService);
   #layoutHostSvc = inject(SkyLayoutHostService);
+  #mediaQueryService = inject(SkyResizeObserverMediaQueryService);
+  #elementRef = inject(ElementRef);
 
   public ngOnInit(): void {
     this.#themeAdapter.addTheme();
 
     this.#layoutHostSvc.hostLayoutForChild
       .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((args) => {
+      .subscribe((args: any) => {
         this.#layoutForChild = args.layout as SkyPageLayoutType;
         this.#updateCssClass();
       });
+
+    if (this.#mediaQueryService) {
+      this.#mediaQueryService.observe(this.#elementRef, true);
+    }
   }
 
   public ngOnDestroy(): void {
@@ -69,6 +79,10 @@ export class SkyPageComponent implements OnInit, OnDestroy {
 
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
+
+    if (this.#mediaQueryService) {
+      this.#mediaQueryService.unobserve();
+    }
   }
 
   #updateCssClass(): void {
