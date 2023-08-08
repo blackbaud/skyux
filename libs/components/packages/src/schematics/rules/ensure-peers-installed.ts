@@ -9,21 +9,37 @@ import {
 import { readRequiredFile } from '../utility/tree';
 
 type PackageDetails = {
+  matchVersion?: boolean;
   name: string;
-  version: string;
+  version?: string;
   type: NodeDependencyType;
 };
 
-function installPackages(packages: PackageDetails[]): Rule {
+type PackageJson = {
+  dependencies?: Record<string, string>;
+  devDependencies?: Record<string, string>;
+};
+
+function installPackages(
+  packages: PackageDetails[],
+  targetPackageVersion?: string
+): Rule {
   return (tree, context) => {
     for (const details of packages) {
       // Remove the package (if it exists) so we can ensure it's added to the appropriate section.
       removePackageJsonDependency(tree, details.name, '/package.json');
-      addPackageJsonDependency(tree, {
-        type: details.type,
-        name: details.name,
-        version: details.version,
-      });
+
+      const version = details.matchVersion
+        ? targetPackageVersion
+        : details.version;
+
+      if (version) {
+        addPackageJsonDependency(tree, {
+          type: details.type,
+          name: details.name,
+          version,
+        });
+      }
     }
 
     context.addTask(new NodePackageInstallTask());
@@ -56,10 +72,12 @@ export function ensurePeersInstalled(
   peersToRemove?: Pick<PackageDetails, 'name'>[]
 ): Rule {
   return async (tree) => {
-    const packageJson: {
-      dependencies?: Record<string, string>;
-      devDependencies?: Record<string, string>;
-    } = JSON.parse(readRequiredFile(tree, '/package.json'));
+    const packageJson: PackageJson = JSON.parse(
+      readRequiredFile(tree, '/package.json')
+    );
+    const targetPackageVersion =
+      packageJson.dependencies?.[targetPackageName] ??
+      packageJson.devDependencies?.[targetPackageName];
 
     const dependencies: Record<string, string> = {
       ...(packageJson.dependencies || {}),
@@ -67,7 +85,10 @@ export function ensurePeersInstalled(
     };
 
     return dependencies[targetPackageName]
-      ? chain([uninstallPackages(peersToRemove), installPackages(peers)])
+      ? chain([
+          uninstallPackages(peersToRemove),
+          installPackages(peers, targetPackageVersion),
+        ])
       : undefined;
   };
 }
