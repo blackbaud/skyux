@@ -114,9 +114,11 @@ export class SkyAgGridCellEditorLookupComponent
     return this.#elementRef.nativeElement;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public getValue(): any[] {
     return this.editorForm.get('selection')?.value;
   }
+
   public afterGuiAttached(): void {
     const lookupInput: HTMLTextAreaElement =
       this.#elementRef.nativeElement.querySelector('.sky-lookup-input');
