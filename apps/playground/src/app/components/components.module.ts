@@ -77,6 +77,15 @@ export const componentRoutes: Routes = [
       import('./modal/modal-visual.module').then((m) => m.ModalVisualModule),
   },
   {
+    path: 'modal/standalone',
+    loadComponent: () => import('./modal/standalone/modal-opener.component'),
+    data: {
+      name: 'Modal (standalone)',
+      library: 'modal',
+      icon: 'universal-access',
+    },
+  },
+  {
     path: 'pages',
     loadChildren: () =>
       import('./pages/pages.module').then((m) => m.PagesModule),
