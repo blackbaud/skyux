@@ -14,6 +14,7 @@ env:
   PUPPETEER_EXECUTABLE_PATH: /usr/bin/chromium
   PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
   SB_CHROMIUM_PATH: /usr/bin/chromium
+  IS_AUTO_RELEASE: ${{ startsWith( github.event.pull_request.labels[0].name, 'autorelease' ) }}
 
 jobs:
   install-deps:
@@ -25,20 +26,25 @@ jobs:
     outputs:
       node-version: ${{ steps.setup-node.outputs.node-version }}
       parameters: ${{ steps.parameters.outputs.parameters }}
+      apps: ${{ steps.parameters.outputs.apps }}
       workflow_dispatch_pr_number: ${{ steps.parameters.outputs.workflow_dispatch_pr_number }}
       workflow_dispatch_pr_head_sha: ${{ steps.parameters.outputs.workflow_dispatch_pr_head_sha }}
     steps:
       - uses: actions/checkout@v3
+        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
       - uses: actions/setup-node@v3
+        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
         id: setup-node
         with:
           node-version-file: '.nvmrc'
       - name: Rebase current branch
+        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
         run: node ./scripts/rebase-pr.js
       - name: Cache dependencies
+        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
         id: cache
         uses: actions/cache@v3
         with:
@@ -47,15 +53,42 @@ jobs:
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: npm install
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: ${{ env.IS_AUTO_RELEASE != 'true' && steps.cache.outputs.cache-hit != 'true' }}
         run: npm ci
-      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands in PR.
+        if: ${{ env.IS_AUTO_RELEASE != 'true' && github.event_name == 'pull_request_target' }}
         uses: nrwl/nx-set-shas@v3
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands since the last release.
+        if: ${{ github.event_name != 'pull_request_target' }}
+        run: |
+          git fetch --tags
+          NX_BASE=$(git show-ref -s $(jq -r .version package.json))
+          if [ -z "$NX_BASE" ]; then
+            echo "Unable to find base commit for version $(jq -r .version package.json)"
+            exit 1
+          fi
+
+          echo "Using NX_BASE ${NX_BASE}"
+          echo "NX_BASE=${NX_BASE}" >> $GITHUB_ENV
+
+          NX_HEAD=$(git show-ref -s HEAD)
+          echo "Using NX_HEAD ${NX_HEAD}"
+          echo "NX_HEAD=${NX_HEAD}" >> $GITHUB_ENV
       - name: Set workflow parameters
         id: parameters
         shell: bash
         run: |
           set -exo pipefail
+
+          if [ "${IS_AUTO_RELEASE}" == "true" ]; then
+            # Release Please PR, quickly return "skip" parameters.
+            echo 'parameters={"projects":["skip"],"projectsJson":"[]","e2eTargets":[{"project":"skip"}],"ghPagesRepo":"skip"}' >> $GITHUB_OUTPUT
+            echo 'apps={"app":["skip"]}' >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          echo 'apps={"app":["code-examples","dep-graph","integration","playground"]}' >> $GITHUB_OUTPUT
+
           if [ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]; then
             # If the workflow was triggered manually, find the PR number and head SHA.
             gh pr list -H "${GITHUB_REF_NAME}" --json number,headRefOid > ${{ runner.temp }}/pr-list.json
@@ -144,11 +177,7 @@ jobs:
       # If one build fails, do not cancel other builds.
       fail-fast: false
       matrix:
-        app:
-          - code-examples
-          - dep-graph
-          - integration
-          - playground
+        app: ${{ fromJSON(needs.install-deps.outputs.apps).app }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -186,7 +215,7 @@ jobs:
           if-no-files-found: error
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' }}
       - name: Skip
-        run: echo "Skip building ${{ matrix.app }} app. Only Storybook is published on branch builds."
+        run: echo "Skip."
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo != 'skyux-pr-preview' }}
 
   publish:
@@ -204,11 +233,14 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
+        if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo != 'skip' }}
       - uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
+        if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo != 'skip' }}
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
+        if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo != 'skip' }}
       - name: Retrieve dependencies cache
         uses: actions/cache@v3
         with:
@@ -216,10 +248,12 @@ jobs:
             node_modules
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
+        if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo != 'skip' }}
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
           path: ./dist/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}
+        if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo != 'skip' }}
       - name: Move apps
         # All the artifacts are downloaded into one folder, so we need to move them into the correct folders.
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' }}
@@ -237,8 +271,10 @@ jobs:
           npx nx g @skyux-sdk/e2e-schematics:storybook-composition \
             --projectsJson='${{ fromJson(needs.install-deps.outputs.parameters).projectsJson }}' \
             --baseUrl='../${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}'
+        if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo != 'skip' }}
       - name: Build Storybook Composition
         run: npx nx run storybook:build-storybook:ci --outputDir=dist/storybook
+        if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo != 'skip' }}
       - name: Checkout ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
         uses: actions/checkout@v3
         with:
@@ -247,6 +283,7 @@ jobs:
           fetch-depth: 1
           path: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
           token: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
+        if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo != 'skip' }}
       - name: Publish preview and comment on PR
         run: |
           npx skyux-dev publish-storybook \
@@ -254,6 +291,10 @@ jobs:
             --pr=${{ needs.install-deps.outputs.workflow_dispatch_pr_number || github.event.number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+        if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo != 'skip' }}
+      - name: Skip
+        run: echo "Skip."
+        if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skip' }}
 
   e2e:
     name: End to end tests
