@@ -5,10 +5,10 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
-  Optional,
   Output,
   Provider,
   forwardRef,
+  inject,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SkyIdService, SkyLogService } from '@skyux/core';
@@ -260,11 +260,9 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
     return this.#_selectedValue;
   }
 
-  public inputId = '';
-
   public radioGroupDisabled = false;
 
-  #defaultId: string;
+  protected inputId = '';
 
   #_checked = false;
   #_disabled = false;
@@ -274,21 +272,12 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
   #_tabindex = 0;
   #_value: any;
 
-  #changeDetector: ChangeDetectorRef;
-  #radioGroupIdSvc: SkyRadioGroupIdService | undefined;
-  #logger: SkyLogService;
+  #changeDetector = inject(ChangeDetectorRef);
+  #defaultId = inject(SkyIdService).generateId();
+  #radioGroupIdSvc = inject(SkyRadioGroupIdService, { optional: true });
+  #logger = inject(SkyLogService);
 
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    idService: SkyIdService,
-    logger: SkyLogService,
-    @Optional() radioGroupIdService?: SkyRadioGroupIdService
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#radioGroupIdSvc = radioGroupIdService;
-    this.#logger = logger;
-
-    this.#defaultId = idService.generateId();
+  constructor() {
     this.id = this.#defaultId;
   }
 
