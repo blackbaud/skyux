@@ -5,7 +5,7 @@ import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyLookupModule, SkyLookupSelectModeType } from '@skyux/lookup';
 
-import { Column, ICellEditorParams, KeyCode } from 'ag-grid-community';
+import { Column, GridApi, ICellEditorParams, KeyCode } from 'ag-grid-community';
 import { of } from 'rxjs';
 
 import { SkyCellEditorLookupParams } from '../../types/cell-editor-lookup-params';
@@ -38,12 +38,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
     });
 
     cellEditorParams = {
-      cellStartedEdit: true,
-      colDef: {
-        headerName: 'header',
-      },
-      column: {
-        getActualWidth: () => 123,
+      api: {
         addEventListener: (
           event: string,
           listener: (args: Record<string, unknown>) => void
@@ -51,6 +46,14 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
           callback = listener;
           [event].pop();
         },
+      } as GridApi,
+      cellStartedEdit: true,
+      colDef: {
+        headerName: 'header',
+      },
+      column: {
+        getColId: () => 'colId',
+        getActualWidth: () => 123,
       } as Column,
       context: undefined,
       data: undefined,
@@ -123,15 +126,19 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
     });
 
     it('should maintain column width', () => {
+      let width = 123;
+      const column = {
+        ...cellEditorParams.column,
+        getActualWidth: (): number => width,
+      } as Column;
       component.agInit({ ...(cellEditorParams as ICellEditorParams) });
       fixture.detectChanges();
       expect(component.width).toBe(123);
       expect(callback).toBeTruthy();
       if (callback) {
+        width = 456;
         callback({
-          column: {
-            getActualWidth: () => 456,
-          } as Column,
+          column,
         });
       }
       expect(component.width).toBe(456);

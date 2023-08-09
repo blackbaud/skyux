@@ -66,4 +66,31 @@ describe('Migrations > Update angular-tree-component dependency', () => {
 
     expect(tree.readJson('/package.json')).toEqual({});
   });
+
+  it('should replace @circlon/angular-tree-component import paths', async () => {
+    const { runSchematic, tree } = await setupTest();
+
+    tree.overwrite(
+      '/src/app/app.component.ts',
+      `
+      import { Foobar } from '@circlon/angular-tree-component';
+      import { FooBarBaz } from '@circlon/angular-tree-component/foo/bar/baz';
+      import {
+        FooService,
+        BarService
+      } from '@circlon/angular-tree-component';
+      `
+    );
+
+    await runSchematic();
+
+    expect(tree.readText('/src/app/app.component.ts')).toEqual(`
+      import { Foobar } from '@blackbaud/angular-tree-component';
+      import { FooBarBaz } from '@blackbaud/angular-tree-component/foo/bar/baz';
+      import {
+        FooService,
+        BarService
+      } from '@blackbaud/angular-tree-component';
+      `);
+  });
 });

@@ -1,9 +1,9 @@
-export * from './lib/storybook.module';
-export * from './lib/font-loading/font-loading.service';
-export * from './lib/preview-wrapper/preview-wrapper-decorators';
-export * from './lib/preview-wrapper/preview-wrapper-global-types';
-export * from './lib/preview-wrapper/preview-wrapper-parameters';
-export * from './lib/preview-wrapper/preview-wrapper.component';
-export * from './lib/preview-wrapper/preview-wrapper.module';
-export * from './lib/welcome/welcome.component';
-export * from './lib/welcome/welcome.module';
+export { StorybookModule } from './lib/storybook.module';
+export { FontLoadingService } from './lib/font-loading/font-loading.service';
+export { previewWrapperDecorators } from './lib/preview-wrapper/preview-wrapper-decorators';
+export { previewWrapperGlobalTypes } from './lib/preview-wrapper/preview-wrapper-global-types';
+export { previewWrapperParameters } from './lib/preview-wrapper/preview-wrapper-parameters';
+export { PreviewWrapperComponent } from './lib/preview-wrapper/preview-wrapper.component';
+export { PreviewWrapperModule } from './lib/preview-wrapper/preview-wrapper.module';
+export { WelcomeComponent } from './lib/welcome/welcome.component';
+export { WelcomeModule } from './lib/welcome/welcome.module';

@@ -1,23 +1,23 @@
-export * from './filter/filter-testing.module';
-export * from './filter/filter-fixture-summary';
-export * from './filter/filter-fixture-button';
+export { SkyFilterTestingModule } from './filter/filter-testing.module';
+export { SkyFilterFixtureSummary } from './filter/filter-fixture-summary';
+export { SkyFilterFixtureButton } from './filter/filter-fixture-button';
 
-export * from './paging/paging-testing.module';
-export * from './paging/paging-fixture';
-export * from './paging/paging-fixture-button';
+export { SkyPagingTestingModule } from './paging/paging-testing.module';
+export { SkyPagingFixture } from './paging/paging-fixture';
+export { SkyPagingFixtureButton } from './paging/paging-fixture-button';
 
-export * from './repeater/repeater-harness';
-export * from './repeater/repeater-harness-filters';
-export * from './repeater/repeater-item-harness';
-export * from './repeater/repeater-item-harness-filters';
+export { SkyRepeaterHarness } from './repeater/repeater-harness';
+export { SkyRepeaterHarnessFilters } from './repeater/repeater-harness-filters';
+export { SkyRepeaterItemHarness } from './repeater/repeater-item-harness';
+export { SkyRepeaterItemHarnessFilters } from './repeater/repeater-item-harness-filters';
 
-export * from './sort/sort-testing.module';
-export * from './sort/sort-fixture';
-export * from './sort/sort-fixture-menu';
-export * from './sort/sort-fixture-menu-item';
+export { SkySortTestingModule } from './sort/sort-testing.module';
+export { SkySortFixture } from './sort/sort-fixture';
+export { SkySortFixtureMenu } from './sort/sort-fixture-menu';
+export { SkySortFixtureMenuItem } from './sort/sort-fixture-menu-item';
 
-export * from './infinite-scroll/infinite-scroll-testing.module';
-export * from './infinite-scroll/infinite-scroll-fixture';
+export { SkyInfiniteScrollTestingModule } from './infinite-scroll/infinite-scroll-testing.module';
+export { SkyInfiniteScrollFixture } from './infinite-scroll/infinite-scroll-fixture';
 
-export * from './infinite-scroll/infinite-scroll-harness';
-export * from './infinite-scroll/infinite-scroll-harness-filters';
+export { SkyInfiniteScrollHarness } from './infinite-scroll/infinite-scroll-harness';
+export { SkyInfiniteScrollHarnessFilters } from './infinite-scroll/infinite-scroll-harness-filters';

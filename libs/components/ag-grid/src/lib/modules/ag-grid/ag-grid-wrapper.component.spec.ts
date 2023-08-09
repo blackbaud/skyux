@@ -41,17 +41,18 @@ describe('SkyAgGridWrapperComponent', () => {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
 
-  const agGrid = {
-    api: new GridApi(),
-    columnApi: new ColumnApi(),
-    gridReady: new Subject<GridReadyEvent>(),
-    rowDataUpdated: new Subject<RowDataUpdatedEvent>(),
-    firstDataRendered: new Subject<FirstDataRenderedEvent>(),
-    cellEditingStarted: new Subject<CellEditingStartedEvent>(),
-    cellEditingStopped: new Subject<CellEditingStartedEvent>(),
-  } as unknown as AgGridAngular;
+  let agGrid: AgGridAngular;
 
   beforeEach(() => {
+    agGrid = {
+      api: jasmine.createSpyObj('api', GridApi.prototype),
+      columnApi: new ColumnApi(),
+      gridReady: new Subject<GridReadyEvent>(),
+      rowDataUpdated: new Subject<RowDataUpdatedEvent>(),
+      firstDataRendered: new Subject<FirstDataRenderedEvent>(),
+      cellEditingStarted: new Subject<CellEditingStartedEvent>(),
+      cellEditingStopped: new Subject<CellEditingStartedEvent>(),
+    } as unknown as AgGridAngular;
     mockThemeSvc = {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
@@ -121,9 +122,10 @@ describe('SkyAgGridWrapperComponent', () => {
   });
 
   it('should apply ag-theme', async () => {
-    spyOn(agGrid.api, 'setHeaderHeight').and.returnValue(undefined);
-    spyOn(agGrid.api, 'resetRowHeights').and.returnValue(undefined);
-    spyOn(agGrid.api, 'refreshCells').and.returnValue(undefined);
+    (agGrid.api.setHeaderHeight as jasmine.Spy).and.returnValue(undefined);
+    (agGrid.api.setHeaderHeight as jasmine.Spy).and.returnValue(undefined);
+    (agGrid.api.resetRowHeights as jasmine.Spy).and.returnValue(undefined);
+    (agGrid.api.refreshCells as jasmine.Spy).and.returnValue(undefined);
     expect(
       gridWrapperNativeElement.querySelector('.sky-ag-grid')
     ).toHaveCssClass('ag-theme-sky-data-grid-default');
@@ -220,7 +222,7 @@ describe('SkyAgGridWrapperComponent', () => {
     it('should not move focus when tab is pressed but cells are being edited', () => {
       const col = {} as Column;
       spyOn(gridAdapterService, 'setFocusedElementById');
-      spyOn(agGrid.api, 'getEditingCells').and.returnValue([
+      (agGrid.api.getEditingCells as jasmine.Spy).and.returnValue([
         { rowIndex: 0, column: col, rowPinned: undefined },
       ]);
 
@@ -232,8 +234,8 @@ describe('SkyAgGridWrapperComponent', () => {
     it('should not move focus when tab is pressed but master/detail cells are being edited', () => {
       const col = {} as Column;
       spyOn(gridAdapterService, 'setFocusedElementById');
-      spyOn(agGrid.api, 'getEditingCells').and.returnValue([]);
-      spyOn(agGrid.api, 'forEachDetailGridInfo').and.callFake((fn) => {
+      (agGrid.api.getEditingCells as jasmine.Spy).and.returnValue([]);
+      (agGrid.api.forEachDetailGridInfo as jasmine.Spy).and.callFake((fn) => {
         fn(
           {
             api: {
@@ -253,7 +255,7 @@ describe('SkyAgGridWrapperComponent', () => {
 
     it('should not move focus when a non-tab key is pressed', () => {
       spyOn(gridAdapterService, 'setFocusedElementById');
-      spyOn(agGrid.api, 'getEditingCells').and.returnValue([]);
+      (agGrid.api.getEditingCells as jasmine.Spy).and.returnValue([]);
 
       fireKeydownOnGrid('L', false);
 
@@ -262,8 +264,8 @@ describe('SkyAgGridWrapperComponent', () => {
 
     it(`should move focus to the anchor after the grid when tab is pressed, no cells are being edited,
       and the grid was previously focused`, () => {
-      spyOn(agGrid.api, 'getEditingCells').and.returnValue([]);
-      spyOn(agGrid.api, 'forEachDetailGridInfo').and.callFake((fn) => {
+      (agGrid.api.getEditingCells as jasmine.Spy).and.returnValue([]);
+      (agGrid.api.forEachDetailGridInfo as jasmine.Spy).and.callFake((fn) => {
         fn(
           {
             api: {
@@ -290,7 +292,7 @@ describe('SkyAgGridWrapperComponent', () => {
 
     it(`should move focus to the anchor before the grid when shift + tab is pressed, no cells are being edited,
       and the grid was previous focused`, () => {
-      spyOn(agGrid.api, 'getEditingCells').and.returnValue([]);
+      (agGrid.api.getEditingCells as jasmine.Spy).and.returnValue([]);
       spyOn(gridAdapterService, 'getFocusedElement').and.returnValue(
         skyAgGridDivEl
       );
@@ -323,7 +325,7 @@ describe('SkyAgGridWrapperComponent', () => {
     }
 
     it('should not move focus when tab is pressed but cells are being edited', () => {
-      spyOn(agGrid.api, 'stopEditing');
+      agGrid.api.stopEditing as jasmine.Spy;
       fireKeyupEscape();
       expect(agGrid.api.stopEditing).toHaveBeenCalled();
     });
@@ -355,7 +357,7 @@ describe('SkyAgGridWrapperComponent', () => {
       spyOn(agGrid.columnApi, 'getAllDisplayedColumns').and.returnValue([
         column,
       ]);
-      spyOn(agGrid.api, 'ensureColumnVisible').and.stub();
+      (agGrid.api.ensureColumnVisible as jasmine.Spy).and.stub();
 
       focusOnAnchor(afterAnchorEl, afterButtonEl);
 
@@ -374,8 +376,6 @@ describe('SkyAgGridWrapperComponent', () => {
       spyOn(agGrid.columnApi, 'getAllDisplayedColumns').and.returnValue([
         column,
       ]);
-      spyOn(agGrid.api, 'getFirstDisplayedRow');
-      spyOn(agGrid.api, 'setFocusedCell');
 
       focusOnAnchor(afterAnchorEl, afterButtonEl);
 
@@ -427,7 +427,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       'ag-header',
       'ag-body-horizontal-scroll',
       'ag-floating-top',
-      'ag-body-viewport',
+      'ag-body',
       'ag-sticky-top',
       'ag-floating-bottom',
       'ag-overlay',
@@ -448,7 +448,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
     expect(getChildrenClassNames()).toEqual([
       'ag-header',
       'ag-floating-top',
-      'ag-body-viewport',
+      'ag-body',
       'ag-sticky-top',
       'ag-floating-bottom',
       'ag-body-horizontal-scroll',
@@ -465,7 +465,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       'ag-header',
       'ag-body-horizontal-scroll',
       'ag-floating-top',
-      'ag-body-viewport',
+      'ag-body',
       'ag-sticky-top',
       'ag-floating-bottom',
       'ag-overlay',
@@ -480,7 +480,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
     expect(getChildrenClassNames()).toEqual([
       'ag-header',
       'ag-floating-top',
-      'ag-body-viewport',
+      'ag-body',
       'ag-sticky-top',
       'ag-floating-bottom',
       'ag-body-horizontal-scroll',

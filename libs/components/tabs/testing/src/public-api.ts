@@ -1,2 +1,2 @@
-export * from './tabs/tab-fixture-tab';
-export * from './tabs/tabset-fixture';
+export { SkyTabsetFixtureTab } from './tabs/tab-fixture-tab';
+export { SkyTabsetFixture } from './tabs/tabset-fixture';

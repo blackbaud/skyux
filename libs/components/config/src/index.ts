@@ -1,10 +1,32 @@
-export * from './lib/app-config-host';
-export * from './lib/app-config-params';
-export * from './lib/app-config-module-for-root-args';
-export * from './lib/app-config.module';
+export { SkyAppConfigHost } from './lib/app-config-host';
+export { SkyAppConfigParams } from './lib/app-config-params';
+export { SkyAppConfigModuleForRootArgs } from './lib/app-config-module-for-root-args';
+export { SkyAppConfigModule } from './lib/app-config.module';
 
-export * from './lib/config-params';
-export * from './lib/config';
+export { SkyuxConfigParams } from './lib/config-params';
+export {
+  RuntimeConfigApp,
+  SkyuxPactConfig,
+  SkyuxConfigE2ETestSettings,
+  SkyuxConfigUnitTestSettings,
+  SkyuxConfigTestSettings,
+  SkyuxConfigLibrarySettings,
+  RuntimeConfig,
+  SkyuxConfigA11y,
+  SkyuxConfigAppSupportedTheme,
+  SkyuxConfigAppTheming,
+  SkyuxConfigApp,
+  SkyuxConfigAuthSettings,
+  SkyuxConfigHostBBCheckout,
+  SkyuxConfigHostFrameOptionsNone,
+  SkyuxConfigHostFrameOptionsOthers,
+  SkyuxConfigHostCspDirectives,
+  SkyuxConfigHostCsp,
+  SkyuxConfigHost,
+  SkyuxConfigAnyAllSet,
+  SkyuxConfig,
+  SkyAppConfig,
+} from './lib/config';
 
-export * from './lib/params-provider';
-export * from './lib/params';
+export { SkyAppRuntimeConfigParamsProvider } from './lib/params-provider';
+export { SkyAppRuntimeConfigParams } from './lib/params';

@@ -1,2 +1,2 @@
-export * from './datepicker-fixture';
-export * from './timepicker-fixture';
+export { SkyDatepickerFixture } from './datepicker-fixture';
+export { SkyTimepickerFixture } from './timepicker-fixture';
