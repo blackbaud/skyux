@@ -9,6 +9,7 @@ import {
 } from '@skyux/theme';
 
 import {
+  Beans,
   CellClassParams,
   CellFocusedEvent,
   ColumnApi,
@@ -964,7 +965,7 @@ describe('SkyAgGridService', () => {
 
   describe('getRowClass', () => {
     const params = {
-      node: {} as RowNode,
+      node: new RowNode({} as Beans),
       rowIndex: 0,
       source: 'api',
       context: {},

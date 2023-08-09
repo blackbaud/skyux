@@ -8,6 +8,7 @@ import {
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import {
   ICellRendererParams,
+  IRowNode,
   RowNode,
   RowSelectedEvent,
 } from 'ag-grid-community';
@@ -27,7 +28,7 @@ export class SkyAgGridCellRendererRowSelectorComponent
 {
   public checked: boolean | undefined;
   public dataField: string | undefined;
-  public rowNode: RowNode | undefined;
+  public rowNode: IRowNode | undefined;
   public rowNumber: number | undefined;
 
   #params: ICellRendererParams | undefined;
@@ -80,7 +81,7 @@ export class SkyAgGridCellRendererRowSelectorComponent
   #setParameters(params: ICellRendererParams): void {
     this.#params = params;
     this.dataField = this.#params.colDef?.field;
-    this.rowNode = this.#params?.node as RowNode | undefined;
+    this.rowNode = this.#params?.node as IRowNode | undefined;
     this.rowNumber = this.#params.rowIndex + 1;
     const rowSelected = this.#params.node.isSelected();
 
