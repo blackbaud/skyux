@@ -1,1 +1,1 @@
-export * from './avatar-fixture';
+export { SkyAvatarFixture } from './avatar-fixture';

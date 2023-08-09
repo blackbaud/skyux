@@ -1,1 +1,1 @@
-export * from './error-fixture';
+export { SkyErrorFixture } from './error-fixture';

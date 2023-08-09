@@ -1,37 +1,37 @@
-export * from './lib/modules/alert/alert.module';
+export { SkyAlertModule } from './lib/modules/alert/alert.module';
 
-export * from './lib/modules/chevron/chevron.module';
+export { SkyChevronModule } from './lib/modules/chevron/chevron.module';
 
-export * from './lib/modules/expansion-indicator/expansion-indicator.module';
+export { SkyExpansionIndicatorModule } from './lib/modules/expansion-indicator/expansion-indicator.module';
 
-export * from './lib/modules/help-inline/help-inline.module';
+export { SkyHelpInlineModule } from './lib/modules/help-inline/help-inline.module';
 
-export * from './lib/modules/icon/icon-stack-item';
-export * from './lib/modules/icon/icon.module';
-export * from './lib/modules/icon/types/icon-type';
-export * from './lib/modules/icon/types/icon-variant-type';
+export { SkyIconStackItem } from './lib/modules/icon/icon-stack-item';
+export { SkyIconModule } from './lib/modules/icon/icon.module';
+export { SkyIconType } from './lib/modules/icon/types/icon-type';
+export { SkyIconVariantType } from './lib/modules/icon/types/icon-variant-type';
 
-export * from './lib/modules/key-info/key-info-layout-type';
-export * from './lib/modules/key-info/key-info.module';
+export { SkyKeyInfoLayoutType } from './lib/modules/key-info/key-info-layout-type';
+export { SkyKeyInfoModule } from './lib/modules/key-info/key-info.module';
 
-export * from './lib/modules/label/label-type';
-export * from './lib/modules/label/label.module';
+export { SkyLabelType } from './lib/modules/label/label-type';
+export { SkyLabelModule } from './lib/modules/label/label.module';
 
-export * from './lib/modules/shared/indicator-description-type';
-export * from './lib/modules/shared/indicator-icon-type';
+export { SkyIndicatorDescriptionType } from './lib/modules/shared/indicator-description-type';
+export { SkyIndicatorIconType } from './lib/modules/shared/indicator-icon-type';
 
-export * from './lib/modules/status-indicator/status-indicator.module';
+export { SkyStatusIndicatorModule } from './lib/modules/status-indicator/status-indicator.module';
 
-export * from './lib/modules/text-highlight/text-highlight.module';
+export { SkyTextHighlightModule } from './lib/modules/text-highlight/text-highlight.module';
 
-export * from './lib/modules/tokens/tokens.module';
-export * from './lib/modules/tokens/types/token';
-export * from './lib/modules/tokens/types/token-selected-event-args';
-export * from './lib/modules/tokens/types/tokens-message';
-export * from './lib/modules/tokens/types/tokens-message-type';
+export { SkyTokensModule } from './lib/modules/tokens/tokens.module';
+export { SkyToken } from './lib/modules/tokens/types/token';
+export { SkyTokenSelectedEventArgs } from './lib/modules/tokens/types/token-selected-event-args';
+export { SkyTokensMessage } from './lib/modules/tokens/types/tokens-message';
+export { SkyTokensMessageType } from './lib/modules/tokens/types/tokens-message-type';
 
-export * from './lib/modules/wait/wait.module';
-export * from './lib/modules/wait/wait.service';
+export { SkyWaitModule } from './lib/modules/wait/wait.module';
+export { SkyWaitService } from './lib/modules/wait/wait.service';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.
