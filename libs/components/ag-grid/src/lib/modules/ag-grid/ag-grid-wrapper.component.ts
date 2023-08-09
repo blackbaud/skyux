@@ -110,7 +110,7 @@ export class SkyAgGridWrapperComponent
     if (this.agGrid) {
       const domLayout = this.agGrid.gridOptions?.domLayout;
       if (domLayout === 'autoHeight') {
-        if (this.agGrid.gridOptions.context?.enableTopScroll) {
+        if (this.agGrid.gridOptions?.context?.enableTopScroll) {
           this.viewkeeperClasses.push(
             '.ag-header',
             '.ag-body-horizontal-scroll'
@@ -252,7 +252,7 @@ export class SkyAgGridWrapperComponent
 
   #moveHorizontalScroll(): void {
     if (this.agGrid && this.agGrid.api) {
-      const toTop = !!this.agGrid.gridOptions.context?.enableTopScroll;
+      const toTop = !!this.agGrid.gridOptions?.context?.enableTopScroll;
       const root: HTMLElement =
         this.#elementRef.nativeElement.querySelector('.ag-root');
       const header: HTMLDivElement | null = root.querySelector('.ag-header');
