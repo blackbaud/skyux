@@ -78,7 +78,6 @@ export { SkyListToolbarModule } from './lib/modules/list-toolbar/list-toolbar.mo
 // The following exports are used internally by `@skyux/list-builder-view-grids`.
 export { ListViewComponent } from './lib/modules/list/list-view.component';
 export { SkyListComponent } from './lib/modules/list/list.component';
-export { SkyListSecondaryActionsComponent } from './lib/modules/list-toolbar/list-secondary-actions/list-secondary-actions.component';
 export { SkyListToolbarComponent } from './lib/modules/list-toolbar/list-toolbar.component';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
