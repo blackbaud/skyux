@@ -1,5 +1,5 @@
 export { SkyThemeIconManifest } from './lib/icons/icon-manifest';
-export {} from './lib/icons/icon-manifest-glyph';
+export { SkyThemeIconManifestGlyph } from './lib/icons/icon-manifest-glyph';
 export { SkyThemeIconManifestService } from './lib/icons/icon-manifest.service';
 export { SkyAppStyleLoader } from './lib/style-loader';
 export { SkyThemeModule } from './lib/theme.module';

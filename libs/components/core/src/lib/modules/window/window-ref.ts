@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 /**
  * @internal
  */
-function getWindow(): any {
+export function getWindow(): any {
   return window;
 }
 
