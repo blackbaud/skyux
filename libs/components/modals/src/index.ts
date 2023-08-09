@@ -1,23 +1,23 @@
-export * from './lib/modules/confirm/confirm-button-action';
-export * from './lib/modules/confirm/confirm-button-config';
-export * from './lib/modules/confirm/confirm-button-style-type';
-export * from './lib/modules/confirm/confirm-closed-event-args';
-export * from './lib/modules/confirm/confirm-config';
-export * from './lib/modules/confirm/confirm-instance';
-export * from './lib/modules/confirm/confirm-type';
-export * from './lib/modules/confirm/confirm.module';
-export * from './lib/modules/confirm/confirm.service';
+export { SkyConfirmButtonAction } from './lib/modules/confirm/confirm-button-action';
+export { SkyConfirmButtonConfig } from './lib/modules/confirm/confirm-button-config';
+export { SkyConfirmButtonStyleType } from './lib/modules/confirm/confirm-button-style-type';
+export { SkyConfirmCloseEventArgs } from './lib/modules/confirm/confirm-closed-event-args';
+export { SkyConfirmConfig } from './lib/modules/confirm/confirm-config';
+export { SkyConfirmInstance } from './lib/modules/confirm/confirm-instance';
+export { SkyConfirmType } from './lib/modules/confirm/confirm-type';
+export { SkyConfirmModule } from './lib/modules/confirm/confirm.module';
+export { SkyConfirmService } from './lib/modules/confirm/confirm.service';
 
-export * from './lib/modules/modal/modal-before-close-handler';
-export * from './lib/modules/modal/modal-close-args';
-export * from './lib/modules/modal/modal-configuration';
-export * from './lib/modules/modal/modal-host.service';
-export * from './lib/modules/modal/modal-instance';
-export * from './lib/modules/modal/modal.interface';
-export * from './lib/modules/modal/modal.module';
-export * from './lib/modules/modal/modal.service';
-export * from './lib/modules/modal/modal-error';
-export * from './lib/modules/modal/modal-errors.service';
+export { SkyModalBeforeCloseHandler } from './lib/modules/modal/modal-before-close-handler';
+export { SkyModalCloseArgs } from './lib/modules/modal/modal-close-args';
+export { SkyModalConfiguration } from './lib/modules/modal/modal-configuration';
+export { SkyModalHostService } from './lib/modules/modal/modal-host.service';
+export { SkyModalInstance } from './lib/modules/modal/modal-instance';
+export { SkyModalConfigurationInterface } from './lib/modules/modal/modal.interface';
+export { SkyModalModule } from './lib/modules/modal/modal.module';
+export { SkyModalService } from './lib/modules/modal/modal.service';
+export { SkyModalError } from './lib/modules/modal/modal-error';
+export { SkyModalErrorsService } from './lib/modules/modal/modal-errors.service';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.

@@ -1,1 +1,1 @@
-export * from './lib/assets.service';
+export { SkyAppAssetsService } from './lib/assets.service';
