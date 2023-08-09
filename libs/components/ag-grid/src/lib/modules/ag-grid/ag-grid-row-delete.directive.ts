@@ -24,7 +24,7 @@ import {
 } from '@skyux/core';
 
 import { AgGridAngular } from 'ag-grid-angular';
-import { RowNode } from 'ag-grid-community';
+import { IRowNode } from 'ag-grid-community';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -85,9 +85,9 @@ export class SkyAgGridRowDeleteDirective
               tableWidth: () =>
                 this.#elementRef.nativeElement.querySelector('.sky-ag-grid')
                   .offsetWidth,
-              getRowDeleteItem: (row: RowNode) => this.getRowDeleteItem(row),
-              cancelRowDelete: (row: RowNode) => this.cancelRowDelete(row),
-              confirmRowDelete: (row: RowNode) => this.confirmRowDelete(row),
+              getRowDeleteItem: (row: IRowNode) => this.getRowDeleteItem(row),
+              cancelRowDelete: (row: IRowNode) => this.cancelRowDelete(row),
+              confirmRowDelete: (row: IRowNode) => this.confirmRowDelete(row),
             }
           );
         }
@@ -251,7 +251,7 @@ export class SkyAgGridRowDeleteDirective
     });
   }
 
-  public cancelRowDelete(row: RowNode): void {
+  public cancelRowDelete(row: IRowNode): void {
     if (row.id) {
       this.#rowDeleteConfigs = this.#rowDeleteConfigs.filter(
         (config) => config.id !== row.id
@@ -262,7 +262,7 @@ export class SkyAgGridRowDeleteDirective
     }
   }
 
-  public confirmRowDelete(row: RowNode): void {
+  public confirmRowDelete(row: IRowNode): void {
     if (row.id) {
       const rowConfig = this.#rowDeleteConfigs.find(
         (config) => config.id === row.id
@@ -275,7 +275,7 @@ export class SkyAgGridRowDeleteDirective
     }
   }
 
-  public getRowDeleteItem(row: RowNode): SkyAgGridRowDeleteConfig | undefined {
+  public getRowDeleteItem(row: IRowNode): SkyAgGridRowDeleteConfig | undefined {
     return this.#rowDeleteConfigs.find((rowDelete) => rowDelete.id === row.id);
   }
 

@@ -1,28 +1,28 @@
-export * from './alert/alert-harness';
-export * from './alert/alert-harness-filters';
+export { SkyAlertHarness } from './alert/alert-harness';
+export { SkyAlertHarnessFilters } from './alert/alert-harness-filters';
 
-export * from './chevron/chevron-harness';
+export { SkyChevronHarness } from './chevron/chevron-harness';
 
-export * from './help-inline/help-inline-harness';
-export * from './help-inline/help-inline-harness-filters';
+export { SkyHelpInlineHarness } from './help-inline/help-inline-harness';
+export { SkyHelpInlineHarnessFilters } from './help-inline/help-inline-harness-filters';
 
-export * from './icon/icon-harness';
-export * from './icon/icon-harness-filters';
+export { SkyIconHarness } from './icon/icon-harness';
+export { SkyIconHarnessFilters } from './icon/icon-harness-filters';
 
-export * from './key-info/key-info-harness';
-export * from './key-info/key-info-harness-filters';
+export { SkyKeyInfoHarness } from './key-info/key-info-harness';
+export { SkyKeyInfoHarnessFilters } from './key-info/key-info-harness-filters';
 
-export * from './label/label-harness';
-export * from './label/label-harness-filters';
+export { SkyLabelHarness } from './label/label-harness';
+export { SkyLabelHarnessFilters } from './label/label-harness-filters';
 
-export * from './tokens/token-harness';
-export * from './tokens/token-harness-filters';
-export * from './tokens/tokens-harness';
-export * from './tokens/tokens-harness-filters';
+export { SkyTokenHarness } from './tokens/token-harness';
+export { SkyTokenHarnessFilters } from './tokens/token-harness-filters';
+export { SkyTokensHarness } from './tokens/tokens-harness';
+export { SkyTokensHarnessFilters } from './tokens/tokens-harness-filters';
 
-export * from './wait/wait-harness';
-export * from './wait/wait-harness-filters';
+export { SkyWaitHarness } from './wait/wait-harness';
+export { SkyWaitHarnessFilters } from './wait/wait-harness-filters';
 
-export * from './alert-fixture';
-export * from './label-fixture';
-export * from './wait-fixture';
+export { SkyAlertFixture } from './alert-fixture';
+export { SkyLabelFixture } from './label-fixture';
+export { SkyWaitFixture } from './wait-fixture';

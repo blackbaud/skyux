@@ -6,9 +6,14 @@
       "description": "Update all SKY UX component packages"
     },
     "update-angular-tree-component": {
-      "version": "8.0.0-alpha.0",
+      "version": "9.0.0-0",
       "factory": "./update-9/update-angular-tree-component/update-angular-tree-component.schematic",
-      "description": "Update the angular tree component package to point to the Blackbaud forked version"
+      "description": "Update the Angular tree component package to point to the Blackbaud forked version"
+    },
+    "add-forms-popovers-peer-dependency": {
+      "version": "9.0.0-0",
+      "factory": "./update-9/add-forms-popovers-peer-dependency/add-forms-popovers-peer-dependency.schematic",
+      "description": "Add @skyux/popovers peer dependency for @skyux/forms"
     }
   }
 }

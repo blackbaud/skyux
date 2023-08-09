@@ -1,13 +1,13 @@
-export * from './lib/modules/filter/filter.module';
+export { SkyFilterModule } from './lib/modules/filter/filter.module';
 
-export * from './lib/modules/infinite-scroll/infinite-scroll.module';
+export { SkyInfiniteScrollModule } from './lib/modules/infinite-scroll/infinite-scroll.module';
 
-export * from './lib/modules/paging/paging.module';
+export { SkyPagingModule } from './lib/modules/paging/paging.module';
 
-export * from './lib/modules/repeater/repeater-expand-mode-type';
-export * from './lib/modules/repeater/repeater.module';
+export { SkyRepeaterExpandModeType } from './lib/modules/repeater/repeater-expand-mode-type';
+export { SkyRepeaterModule } from './lib/modules/repeater/repeater.module';
 
-export * from './lib/modules/sort/sort.module';
+export { SkySortModule } from './lib/modules/sort/sort.module';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.

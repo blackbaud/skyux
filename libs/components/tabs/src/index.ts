@@ -1,23 +1,23 @@
-export * from './lib/modules/sectioned-form/sectioned-form.module';
-export * from './lib/modules/sectioned-form/sectioned-form.service';
+export { SkySectionedFormModule } from './lib/modules/sectioned-form/sectioned-form.module';
+export { SkySectionedFormService } from './lib/modules/sectioned-form/sectioned-form.service';
 
-export * from './lib/modules/tabs/tab-index';
-export * from './lib/modules/tabs/tabset-buttons-display-mode';
-export * from './lib/modules/tabs/tabset-style';
-export * from './lib/modules/tabs/tabset-tab-indexes-change';
-export * from './lib/modules/tabs/tabs.module';
-export * from './lib/modules/tabs/tab-layout-type';
+export { SkyTabIndex } from './lib/modules/tabs/tab-index';
+export { SkyTabsetButtonsDisplayMode } from './lib/modules/tabs/tabset-buttons-display-mode';
+export { SkyTabsetStyle } from './lib/modules/tabs/tabset-style';
+export { SkyTabsetTabIndexesChange } from './lib/modules/tabs/tabset-tab-indexes-change';
+export { SkyTabsModule } from './lib/modules/tabs/tabs.module';
+export { SkyTabLayoutType } from './lib/modules/tabs/tab-layout-type';
 
-export * from './lib/modules/vertical-tabset/vertical-tabset.module';
+export { SkyVerticalTabsetModule } from './lib/modules/vertical-tabset/vertical-tabset.module';
 
 // The following export is needed because our docs use it as a prescribed pattern.
 // Ideally, this functionality would live in a standard `Input` or `Output`.
 // https://developer.blackbaud.com/skyux/components/sectioned-form#code
 // TODO: Try to remove in a major release.
-export * from './lib/modules/sectioned-form/sectioned-form.component';
+export { SkySectionedFormComponent } from './lib/modules/sectioned-form/sectioned-form.component';
 
-export * from './lib/modules/sectioned-form/types/sectioned-form-message';
-export * from './lib/modules/sectioned-form/types/sectioned-form-message-type';
+export { SkySectionedFormMessage } from './lib/modules/sectioned-form/types/sectioned-form-message';
+export { SkySectionedFormMessageType } from './lib/modules/sectioned-form/types/sectioned-form-message-type';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of public API.

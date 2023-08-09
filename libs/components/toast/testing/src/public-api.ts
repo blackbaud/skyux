@@ -1,1 +1,1 @@
-export * from './toast-fixture';
+export { SkyToastFixture } from './toast-fixture';

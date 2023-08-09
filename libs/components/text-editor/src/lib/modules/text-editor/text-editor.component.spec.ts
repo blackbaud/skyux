@@ -32,6 +32,7 @@ import { SkyTextEditorMergeField } from './types/text-editor-merge-field';
 
 const HELLO_WORLD = '<p>Hello world</p>';
 const ID_DEFAULT = 'text-editor-test-id';
+let id = 0;
 
 describe('Text editor', () => {
   let fixture: ComponentFixture<unknown>;
@@ -66,6 +67,7 @@ describe('Text editor', () => {
 
   //#region helper functions
   function createComponent<T>(componentType: Type<T>): ComponentFixture<T> {
+    id = 0;
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
@@ -79,7 +81,7 @@ describe('Text editor', () => {
         {
           provide: SkyIdService,
           useValue: {
-            generateId: () => ID_DEFAULT,
+            generateId: () => ID_DEFAULT + (++id).toString(),
           },
         },
       ],
@@ -485,7 +487,7 @@ describe('Text editor', () => {
         FONT_SIZE_LIST_DEFAULTS.map((item) => item + 'px')
       );
       expect(fonts).toEqual(FONT_LIST_DEFAULTS.map((item) => item.name));
-      validateIframeDocumentAttribute('id', ID_DEFAULT);
+      validateIframeDocumentAttribute('id', ID_DEFAULT + '1');
       validateMenus(MENU_DEFAULTS);
       validateMergeFields([]);
       validateToolbarActions(TOOLBAR_ACTION_DEFAULTS);

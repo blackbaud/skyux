@@ -18,8 +18,8 @@ import {
   GridOptions,
   GridReadyEvent,
   ICellEditorParams,
+  IRowNode,
   NewValueParams,
-  RowNode,
 } from 'ag-grid-community';
 
 import {
@@ -137,7 +137,7 @@ export class DataManagerEditModalComponent {
         type: [SkyCellType.Date, SkyCellType.Validator],
         cellRendererParams: {
           skyComponentProperties: {
-            validator: (value: Date) =>
+            validator: (value: Date): boolean =>
               !!value && value > new Date(1985, 9, 26),
             validatorMessage: 'Please enter a future date',
           },
@@ -148,7 +148,7 @@ export class DataManagerEditModalComponent {
     this.gridData = this.context.gridData;
     this.gridOptions = {
       columnDefs: this.columnDefs,
-      onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
+      onGridReady: (gridReadyEvent): void => this.onGridReady(gridReadyEvent),
     };
     this.gridOptions = this.agGridService.getEditableGridOptions({
       gridOptions: this.gridOptions,
@@ -165,14 +165,14 @@ export class DataManagerEditModalComponent {
 
   private departmentSelectionChange(
     change: SkyAutocompleteSelectionChange,
-    node: RowNode
+    node: IRowNode
   ): void {
     if (change.selectedItem && change.selectedItem !== node.data.department) {
       this.clearJobTitle(node);
     }
   }
 
-  private clearJobTitle(node: RowNode | null): void {
+  private clearJobTitle(node: IRowNode | null): void {
     if (node) {
       node.data.jobTitle = undefined;
       if (this.gridApi) {

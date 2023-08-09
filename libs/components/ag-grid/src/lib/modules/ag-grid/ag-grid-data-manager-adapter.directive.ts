@@ -170,7 +170,7 @@ export class SkyAgGridDataManagerAdapterDirective
               this.#displayColumns(dataState);
             });
 
-          if (agGrid.gridOptions.context?.enableTopScroll) {
+          if (agGrid.gridOptions?.context?.enableTopScroll) {
             this.#dataManagerSvc.setViewkeeperClasses(this.viewId, [
               '.ag-header',
               '.ag-body-horizontal-scroll',

@@ -18,7 +18,7 @@ import {
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyLogService } from '@skyux/core';
+import { SkyIdService, SkyLogService } from '@skyux/core';
 
 import { sampleTime } from 'rxjs/operators';
 
@@ -281,6 +281,11 @@ describe('Checkbox component', () => {
       imports: [FormsModule, ReactiveFormsModule, SkyCheckboxModule],
       providers: [NgForm],
     });
+
+    // Mock the ID service.
+    let uniqueId = 0;
+    const idSvc = TestBed.inject(SkyIdService);
+    spyOn(idSvc, 'generateId').and.callFake(() => `MOCK_ID_${++uniqueId}`);
   });
 
   describe('basic behaviors', () => {
@@ -412,14 +417,14 @@ describe('Checkbox component', () => {
 
     it('should handle a user-provided id', () => {
       fixture.detectChanges();
-      expect(inputElement?.id).toBe('input-sky-checkbox-simple-check');
+      expect(inputElement?.id).toBe('sky-checkbox-simple-check-input');
     });
 
     it('should handle undefined being passed in as the id', () => {
       testComponent.id = undefined;
       fixture.detectChanges();
       expect(inputElement?.id).toEqual(
-        jasmine.stringMatching(/input-sky-checkbox-[0-9]/)
+        jasmine.stringMatching(/sky-checkbox-MOCK_ID_[0-9]-input/)
       );
     });
 
@@ -1119,7 +1124,7 @@ describe('Checkbox component', () => {
 
       const inputElement = checkboxElement.nativeElement.querySelector('input');
       expect(inputElement.getAttribute('name')).toEqual(
-        jasmine.stringMatching(/sky-checkbox-[0-9]/)
+        jasmine.stringMatching(/sky-checkbox-MOCK_ID_[0-9]/)
       );
     });
   });

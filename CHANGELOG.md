@@ -1,5 +1,38 @@
 # Changelog
 
+## [8.7.2](https://github.com/blackbaud/skyux/compare/8.7.1...8.7.2) (2023-08-08)
+
+
+### Bug Fixes
+
+* **components/forms:** fix input/label association in input box code example ([#1550](https://github.com/blackbaud/skyux/issues/1550)) ([bf12fb1](https://github.com/blackbaud/skyux/commit/bf12fb1169d17ba24100764e26a61247c91e667a))
+
+## [9.0.0-alpha.1](https://github.com/blackbaud/skyux/compare/9.0.0-alpha.0...9.0.0-alpha.1) (2023-08-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/forms:** remove source property from SkyCheckboxChange and SkyRadioChange ([#1532](https://github.com/blackbaud/skyux/issues/1532))
+
+### Features
+
+* **components/forms:** remove source property from SkyCheckboxChange and SkyRadioChange ([#1532](https://github.com/blackbaud/skyux/issues/1532)) ([2bd66a5](https://github.com/blackbaud/skyux/commit/2bd66a53b0603ae4d65579dd7b068c2595222e1f))
+
+
+### Bug Fixes
+
+* **components/forms:** fix input/label association in input box code example ([#1550](https://github.com/blackbaud/skyux/issues/1550)) ([#1554](https://github.com/blackbaud/skyux/issues/1554)) ([f090a5a](https://github.com/blackbaud/skyux/commit/f090a5a7b0f42dda7927becbe6178e2b5e951fe7))
+* **components/lookup:** set input box height to match other field types ([#1491](https://github.com/blackbaud/skyux/issues/1491)) ([#1531](https://github.com/blackbaud/skyux/issues/1531)) ([8df51f7](https://github.com/blackbaud/skyux/commit/8df51f755db3a1e2a1a9f079a92cc574e9209c45))
+* **components/packages:** update schematic version numbers and add @skyux/popovers dependency ([#1555](https://github.com/blackbaud/skyux/issues/1555)) ([2d59800](https://github.com/blackbaud/skyux/commit/2d598005514657e7101b5e7b50ece10b11e47ef9))
+
+## [8.7.1](https://github.com/blackbaud/skyux/compare/8.7.0...8.7.1) (2023-08-03)
+
+
+### Bug Fixes
+
+* **components/indicators:** fix content roles ([#1513](https://github.com/blackbaud/skyux/issues/1513)) ([feaa2de](https://github.com/blackbaud/skyux/commit/feaa2ded5bcbb3a51a38c4eee2478825ac585acc))
+* **components/lookup:** set input box height to match other field types ([#1491](https://github.com/blackbaud/skyux/issues/1491)) ([f33e5a7](https://github.com/blackbaud/skyux/commit/f33e5a7f607241fbe822df7a5985c4246b2c139e))
+
 ## [9.0.0-alpha.0](https://github.com/blackbaud/skyux/compare/v9.0.0-alpha.0...9.0.0-alpha.0) (2023-08-03)
 
 
