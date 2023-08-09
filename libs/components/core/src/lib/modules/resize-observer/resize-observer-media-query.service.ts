@@ -13,9 +13,7 @@ const DEFAULT_BREAKPOINT = SkyMediaBreakpoints.md;
 /**
  * Acts like `SkyMediaQueryService` for a container element, emitting the same responsive breakpoints.
  */
-@Injectable({
-  providedIn: 'any',
-})
+@Injectable()
 export class SkyResizeObserverMediaQueryService implements OnDestroy {
   /**
    * Returns the current breakpoint.
@@ -99,7 +97,7 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
 
     this.#target = element;
 
-    this.#checkWidth(element);
+    this.#checkWidth(element, options?.updateResponsiveClasses);
 
     this.#resizeObserverSvc
       .observe(element)
@@ -148,20 +146,19 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
     oldBreakpoint: SkyMediaBreakpoints,
     newBreakpoint: SkyMediaBreakpoints
   ): void {
-    const oldClass = `sky-responsive-container-${
-      this.#breakpoints.find((breakpoint) => breakpoint.name === oldBreakpoint)
-        ?.classSuffix
-    }`;
-    const newClass = `sky-responsive-container-${
-      this.#breakpoints.find((breakpoint) => breakpoint.name === newBreakpoint)
-        ?.classSuffix
-    }`;
+    const oldClass = this.#getClassForBreakpoint(oldBreakpoint);
+
+    const newClass = this.#getClassForBreakpoint(newBreakpoint);
 
     if (this.#target?.nativeElement.classList.contains(oldClass)) {
       this.#target.nativeElement.classList.remove(oldClass);
     }
 
     this.#target?.nativeElement.classList.add(newClass);
+  }
+
+  #getClassForBreakpoint(breakpointName: SkyMediaBreakpoints): string {
+    return `sky-responsive-container-${SkyMediaBreakpoints[breakpointName]}`;
   }
 
   #checkBreakpoint(width: number): SkyMediaBreakpoints | undefined {
@@ -172,12 +169,12 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
     return breakpoint ? breakpoint.name : undefined;
   }
 
-  #checkWidth(el: ElementRef): void {
+  #checkWidth(el: ElementRef, updateResponsiveClasses?: boolean): void {
     const width = (el.nativeElement as HTMLElement).offsetWidth || 0;
     const breakpoint = this.#checkBreakpoint(width);
 
     if (breakpoint && breakpoint !== this.#currentBreakpoint) {
-      this.#updateBreakpoint(breakpoint);
+      this.#updateBreakpoint(breakpoint, updateResponsiveClasses);
     }
   }
 }
