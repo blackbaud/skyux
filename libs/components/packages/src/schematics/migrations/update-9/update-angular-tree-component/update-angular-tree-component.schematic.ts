@@ -5,9 +5,10 @@ import { ensurePeersInstalled } from '../../../rules/ensure-peers-installed';
 import { readRequiredFile } from '../../../utility/tree';
 import { getWorkspace } from '../../../utility/workspace';
 
-function renameTypeScriptImportPath(): Rule {
+function renameTypeScriptImportPaths(): Rule {
   return async (tree) => {
     const { workspace } = await getWorkspace(tree);
+
     for (const [, projectDefinition] of workspace.projects.entries()) {
       tree.getDir(projectDefinition.root).visit((filePath) => {
         if (filePath.match(/\.ts$/)) {
@@ -29,7 +30,7 @@ function renameTypeScriptImportPath(): Rule {
 
 export default function (): Rule {
   return chain([
-    renameTypeScriptImportPath(),
+    renameTypeScriptImportPaths(),
     ensurePeersInstalled(
       '@skyux/angular-tree-component',
       [
