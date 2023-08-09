@@ -22,7 +22,7 @@ describe('Migrations > Update angular-tree-component dependency', () => {
     };
   }
 
-  fit('should update the dependency if @skyux/angular-tree-component and @circlon/angular-tree-component installed', async () => {
+  it('should update the dependency if @skyux/angular-tree-component and @circlon/angular-tree-component installed', async () => {
     const { runSchematic, tree } = await setupTest();
 
     tree.overwrite(
@@ -67,7 +67,7 @@ describe('Migrations > Update angular-tree-component dependency', () => {
     expect(tree.readJson('/package.json')).toEqual({});
   });
 
-  fit('should replace @circlon/angular-tree-component import paths', async () => {
+  it('should replace @circlon/angular-tree-component import paths', async () => {
     const { runSchematic, tree } = await setupTest();
 
     tree.overwrite(
