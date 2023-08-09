@@ -14,6 +14,11 @@
       "version": "9.0.0-0",
       "factory": "./update-9/add-forms-popovers-peer-dependency/add-forms-popovers-peer-dependency.schematic",
       "description": "Add @skyux/popovers peer dependency for @skyux/forms"
+    },
+    "add-compat-stylesheets": {
+      "version": "9.0.0-0",
+      "factory": "./update-9/add-compat-stylesheets/add-compat-stylsheets.schematic",
+      "description": "Add a backwards-compatible stylesheet with styles that have been removed from components in SKY UX 9."
     }
   }
 }
