@@ -29,7 +29,10 @@
 }
 
 .sky-form-group {
-  margin-bottom: $sky-margin;
+  margin-bottom: var(
+    --sky-compat-input-box-sky-form-control-margin-bottom,
+    0px
+  );
 }
 
 input.ng-invalid.ng-touched,
