@@ -1,5 +1,5 @@
 <div class="sky-padding-even-md" id="input-box-basic">
-  <sky-input-box class="sky-margin-stacked-lg">
+  <sky-input-box stacked="true">
     <label class="sky-control-label" [for]="inputBoxBasic.id"> Input </label>
     <input
       class="sky-form-control"
@@ -11,7 +11,7 @@
   </sky-input-box>
 </div>
 <div class="sky-padding-even-md" id="input-box-textarea">
-  <sky-input-box class="sky-margin-stacked-lg">
+  <sky-input-box stacked="true">
     <label class="sky-control-label" [for]="inputBoxTextarea.id">
       Textarea
     </label>
@@ -21,7 +21,7 @@ Value</textarea
   </sky-input-box>
 </div>
 <div class="sky-padding-even-md" id="input-box-help-inline">
-  <sky-input-box class="sky-margin-stacked-lg">
+  <sky-input-box stacked="true">
     <sky-help-inline class="sky-control-help"></sky-help-inline>
     <label class="sky-control-label" [for]="inputBoxInlineHelp.id">
       Input with inline help
@@ -39,7 +39,7 @@ Value</textarea
   class="sky-padding-even-md"
   id="input-box-help-inline-required-with-character-counter"
 >
-  <sky-input-box class="sky-margin-stacked-lg">
+  <sky-input-box stacked="true">
     <sky-help-inline class="sky-control-help"></sky-help-inline>
     <label
       class="sky-control-label sky-control-label-required"
@@ -64,7 +64,7 @@ Value</textarea
 </div>
 
 <div class="sky-padding-even-md" id="input-box-help-inline-overflow">
-  <sky-input-box class="sky-margin-stacked-lg">
+  <sky-input-box stacked="true">
     <sky-help-inline
       class="sky-control-help"
       (actionClick)="onActionClick()"
@@ -84,7 +84,7 @@ Value</textarea
 </div>
 
 <div class="sky-padding-even-md" id="input-box-button-single">
-  <sky-input-box class="sky-margin-stacked-lg">
+  <sky-input-box stacked="true">
     <label class="sky-control-label" [for]="inputBoxButtonSingle.id">
       Input with one button
     </label>
@@ -103,7 +103,7 @@ Value</textarea
 </div>
 
 <div class="sky-padding-even-md" id="input-box-button-multiple">
-  <sky-input-box class="sky-margin-stacked-lg">
+  <sky-input-box stacked="true">
     <label class="sky-control-label" [for]="inputBoxButtonMultiple.id">
       Input with multiple buttons
     </label>
@@ -134,7 +134,7 @@ Value</textarea
   <sky-fluid-grid>
     <sky-row>
       <sky-column [screenXSmall]="6">
-        <sky-input-box class="sky-margin-stacked-lg">
+        <sky-input-box stacked="true">
           <label class="sky-control-label" [for]="inputBoxSideBySide1.id">
             Input left
           </label>
@@ -147,7 +147,7 @@ Value</textarea
         </sky-input-box>
       </sky-column>
       <sky-column [screenXSmall]="6">
-        <sky-input-box class="sky-margin-stacked-lg">
+        <sky-input-box stacked="true">
           <label class="sky-control-label" [for]="inputBoxSideBySide2.id">
             Input right with a label with a lot of text that should wrap and
             cause the height of the input box to expand to fit the extra text
@@ -166,7 +166,7 @@ Value</textarea
 </div>
 
 <div class="sky-padding-even-md" id="input-box-form-control-error">
-  <sky-input-box class="sky-margin-stacked-lg">
+  <sky-input-box stacked="true">
     <label class="sky-control-label" [for]="inputBoxFormControlError.id">
       Form control error
     </label>
@@ -185,7 +185,7 @@ Value</textarea
   class="sky-padding-even-md"
   id="input-box-form-control-error-button-single"
 >
-  <sky-input-box class="sky-margin-stacked-lg">
+  <sky-input-box stacked="true">
     <label
       class="sky-control-label"
       [for]="inputBoxFormControlErrorButtonSingle.id"
@@ -214,7 +214,7 @@ Value</textarea
 </div>
 
 <div class="sky-padding-even-md" id="input-box-disabled">
-  <sky-input-box class="sky-margin-stacked-lg" [disabled]="true">
+  <sky-input-box stacked="true" [disabled]="true">
     <label class="sky-control-label" [for]="inputBoxDisabled.id">
       Disabled
     </label>
@@ -230,7 +230,7 @@ Value</textarea
 </div>
 
 <div class="sky-padding-even-md" id="input-box-button-disabled">
-  <sky-input-box class="sky-margin-stacked-lg" [disabled]="true">
+  <sky-input-box stacked="true" [disabled]="true">
     <label class="sky-control-label" [for]="inputBoxButtonDisabled.id">
       Input with one button disabled
     </label>
@@ -250,7 +250,7 @@ Value</textarea
 </div>
 
 <div class="sky-padding-even-md" id="input-box-select">
-  <sky-input-box class="sky-margin-stacked-lg">
+  <sky-input-box stacked="true">
     <label class="sky-control-label" [for]="inputBoxSelect.id"> Select </label>
     <select class="sky-form-control" skyId #inputBoxSelect="skyId">
       <option>Option 1</option>
@@ -262,7 +262,7 @@ Value</textarea
 </div>
 
 <div class="sky-padding-even-md" id="input-box-select-disabled">
-  <sky-input-box class="sky-margin-stacked-lg" [disabled]="true">
+  <sky-input-box stacked="true" [disabled]="true">
     <label class="sky-control-label" [for]="inputBoxSelectDisabled.id">
       Select disabled
     </label>
@@ -283,7 +283,7 @@ Value</textarea
 <!-- For automation to click to set focus -->
 <label class="test-label" [for]="inputBoxBasicNoLabel.id"></label>
 <div class="sky-padding-even-md" id="input-box-basic-no-label">
-  <sky-input-box class="sky-margin-stacked-lg">
+  <sky-input-box stacked="true">
     <input
       class="sky-form-control"
       skyId
@@ -297,7 +297,7 @@ Value</textarea
 <!-- For automation to click to set focus -->
 <label class="test-label" [for]="inputBoxTextareaNoLabel.id"></label>
 <div class="sky-padding-even-md" id="input-box-textarea-no-label">
-  <sky-input-box class="sky-margin-stacked-lg">
+  <sky-input-box stacked="true">
     <textarea class="sky-form-control" skyId #inputBoxTextareaNoLabel="skyId">
 No label</textarea
     >
@@ -312,7 +312,7 @@ No label</textarea
 >
 </label>
 <div class="sky-padding-even-md" id="input-box-button-single-no-label">
-  <sky-input-box class="sky-margin-stacked-lg">
+  <sky-input-box stacked="true">
     <input
       class="sky-form-control"
       skyId
@@ -336,7 +336,7 @@ No label</textarea
 >
 </label>
 <div class="sky-padding-even-md" id="input-box-select-no-label">
-  <sky-input-box class="sky-margin-stacked-lg">
+  <sky-input-box stacked="true">
     <select class="sky-form-control" skyId #inputBoxSelectNoLabel="skyId">
       <option>Option 1</option>
       <option>Option 2</option>
@@ -347,7 +347,7 @@ No label</textarea
 </div>
 
 <div class="sky-padding-even-md" id="input-box-button-single-left">
-  <sky-input-box class="sky-margin-stacked-lg">
+  <sky-input-box stacked="true">
     <label class="sky-control-label" [for]="inputBoxButtonLeft.id">
       Input with left button
     </label>
@@ -370,7 +370,7 @@ No label</textarea
 </div>
 
 <div class="sky-padding-even-md" id="input-box-button-inset">
-  <sky-input-box class="sky-margin-stacked-lg">
+  <sky-input-box stacked="true">
     <label class="sky-control-label" [for]="inputBoxButtonInset.id">
       Input with inset button
     </label>
@@ -393,7 +393,7 @@ No label</textarea
 </div>
 
 <div class="sky-padding-even-md" id="input-box-button-inset-no-label">
-  <sky-input-box class="sky-margin-stacked-lg">
+  <sky-input-box stacked="true">
     <input class="sky-form-control" skyId type="text" />
     <div class="sky-input-group-btn sky-input-box-btn-inset">
       <button class="sky-btn sky-btn-default" type="button">
@@ -404,7 +404,7 @@ No label</textarea
 </div>
 
 <div class="sky-padding-even-md" id="input-box-button-inset-narrow">
-  <sky-input-box class="sky-margin-stacked-lg">
+  <sky-input-box stacked="true">
     <label class="sky-control-label" [for]="inputBoxButtonInsetNarrow.id">
       Input with inset button (narrow)
     </label>
@@ -423,7 +423,7 @@ No label</textarea
 </div>
 
 <div class="sky-padding-even-md" id="input-box-icon-inset">
-  <sky-input-box class="sky-margin-stacked-lg">
+  <sky-input-box stacked="true">
     <label class="sky-control-label" [for]="inputBoxIconInset.id">
       Input with inset icon
     </label>
@@ -440,7 +440,7 @@ No label</textarea
 </div>
 
 <div class="sky-padding-even-md" id="input-box-icon-inset-left">
-  <sky-input-box class="sky-margin-stacked-lg">
+  <sky-input-box stacked="true">
     <label class="sky-control-label" [for]="inputBoxIconInsetLeft.id">
       Input with left inset icon
     </label>
@@ -457,7 +457,7 @@ No label</textarea
 </div>
 
 <div class="sky-padding-even-md" id="input-box-icon-inset-disabled">
-  <sky-input-box class="sky-margin-stacked-lg" [disabled]="true">
+  <sky-input-box stacked="true" [disabled]="true">
     <label class="sky-control-label" [for]="inputBoxIconInsetDisabled.id">
       Disabled input with inset icon
     </label>
@@ -475,7 +475,7 @@ No label</textarea
 </div>
 
 <div class="sky-padding-even-md sky-form-group" id="input-box-placeholder">
-  <sky-input-box class="sky-margin-stacked-lg">
+  <sky-input-box stacked="true">
     <label class="sky-control-label" [for]="inputBoxPlaceholder.id">
       Input W/ Placeholder
     </label>
