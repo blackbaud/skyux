@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.0.0-alpha.3](https://github.com/blackbaud/skyux/compare/9.0.0-alpha.2...9.0.0-alpha.3) (2023-08-10)
+
+
+### Bug Fixes
+
+* **components/modals:** add support for standalone modal components ([#1563](https://github.com/blackbaud/skyux/issues/1563)) ([d695011](https://github.com/blackbaud/skyux/commit/d6950117edb66eea1a95fc766a4c93bee21de8d6))
+
 ## [9.0.0-alpha.2](https://github.com/blackbaud/skyux/compare/9.0.0-alpha.1...9.0.0-alpha.2) (2023-08-09)
 
 
