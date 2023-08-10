@@ -45,49 +45,63 @@
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"],
-      "inputs": ["production", "^production"]
+      "inputs": ["buildInputs", "^buildInputs"]
     },
     "test": {
-      "inputs": ["default", "^production", "{workspaceRoot}/karma.conf.js"]
+      "inputs": ["testInputs", "^buildInputs"]
     },
     "e2e": {
-      "inputs": ["default", "^production"]
+      "inputs": ["e2eInputs", "^buildInputs"]
     },
     "lint": {
-      "inputs": ["default", "{workspaceRoot}/.eslintrc.json"]
+      "inputs": ["lintInputs"]
     },
     "build-storybook": {
-      "inputs": [
-        "default",
-        "^production",
-        "{workspaceRoot}/.storybook/**/*",
-        "{projectRoot}/.storybook/**/*",
-        "{projectRoot}/tsconfig.storybook.json"
-      ]
+      "inputs": ["storybookInputs", "^buildInputs"]
     }
   },
   "namedInputs": {
-    "default": ["{projectRoot}/**/*", "sharedGlobals"],
-    "sharedGlobals": [
-      "{workspaceRoot}/.eslintrc-overrides.json",
-      "{workspaceRoot}/.github/workflows/**",
-      "{workspaceRoot}/config/**",
-      "{workspaceRoot}/scripts/**",
-      "{workspaceRoot}/jest.config.json",
-      "{workspaceRoot}/tsconfig.base.json"
-    ],
-    "production": [
-      "default",
+    "buildInputs": [
+      "{projectRoot}/**/*",
       "!{projectRoot}/**/*.spec.[jt]s",
-      "!{projectRoot}/tsconfig.spec.json",
-      "!{projectRoot}/karma.conf.js",
+      "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
-      "!{projectRoot}/jest.config.[jt]s",
       "!{projectRoot}/.eslintrc.json",
       "!{projectRoot}/.storybook/**/*",
+      "!{projectRoot}/jest.config.[jt]s",
+      "!{projectRoot}/karma.conf.js",
+      "!{projectRoot}/src/test-setup.[jt]s",
+      "!{projectRoot}/tsconfig.spec.json",
+      "!{projectRoot}/tsconfig.storybook.json"
+    ],
+    "e2eInputs": ["storybookInputs", "{workspaceRoot}/.percy.json"],
+    "lintInputs": [
+      "{projectRoot}/**/*",
+      "{workspaceRoot}/.eslintrc-overrides.json",
+      "{workspaceRoot}/.eslintrc.json"
+    ],
+    "storybookInputs": [
+      "{projectRoot}/**/*",
+      "{workspaceRoot}/.babelrc",
+      "{workspaceRoot}/.storybook/**/*",
+      "!{projectRoot}/**/*.spec.[jt]s",
+      "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
+      "!{projectRoot}/.eslintrc.json",
+      "!{projectRoot}/jest.config.[jt]s",
+      "!{projectRoot}/karma.conf.js",
+      "!{projectRoot}/src/test-setup.[jt]s",
+      "!{projectRoot}/tsconfig.spec.json"
+    ],
+    "testInputs": [
+      "{projectRoot}/**/*",
+      "{workspaceRoot}/.github/workflows/ci.yml",
+      "{workspaceRoot}/config/**",
+      "{workspaceRoot}/jest.config.json",
+      "{workspaceRoot}/karma.conf.js",
       "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)",
-      "!{projectRoot}/tsconfig.storybook.json",
-      "!{projectRoot}/src/test-setup.[jt]s"
+      "!{projectRoot}/.eslintrc.json",
+      "!{projectRoot}/.storybook/**/*",
+      "!{projectRoot}/tsconfig.storybook.json"
     ]
   }
 }
