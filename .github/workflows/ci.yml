@@ -20,7 +20,7 @@ jobs:
       - name: Check auto release
         id: is-auto-release
         run: |
-          echo 'is-auto-release=${{ startsWith( github.event.pull_request.labels[0].name, 'autorelease' ) }}' >> $GITHUB_OUTPUT
+          echo 'is-auto-release=${{ startsWith( github.event.pull_request.labels[0].name, 'autorelease' ) && 'true' || 'false' }}' >> $GITHUB_OUTPUT
       - uses: actions/checkout@v3
         if: ${{ steps.is-auto-release.output.is-auto-release != 'true' }}
         with:
