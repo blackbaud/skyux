@@ -93,9 +93,8 @@ describe('SkyCellEditorCurrencyComponent', () => {
     it('initializes the SkyAgGridCellEditorCurrencyComponent properties', () => {
       expect(currencyEditorComponent.columnWidth).toBeUndefined();
 
-      cellEditorParams.node = {
-        rowHeight: 100,
-      } as RowNode;
+      cellEditorParams.node = new RowNode({} as Beans);
+      cellEditorParams.node.rowHeight = 100;
 
       spyOn(column, 'getActualWidth').and.returnValue(columnWidth);
       spyOn(column, 'fireColumnWidthChangedEvent').and.returnValue();

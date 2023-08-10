@@ -18,8 +18,8 @@ import {
   GridOptions,
   GridReadyEvent,
   ICellEditorParams,
+  IRowNode,
   NewValueParams,
-  RowNode,
 } from 'ag-grid-community';
 
 import {
@@ -194,14 +194,14 @@ export class SkyDataEntryGridEditModalComponent {
 
   #departmentSelectionChange(
     change: SkyAutocompleteSelectionChange,
-    node: RowNode
+    node: IRowNode
   ): void {
     if (change.selectedItem && change.selectedItem !== node.data.department) {
       this.#clearJobTitle(node);
     }
   }
 
-  #clearJobTitle(node: RowNode | null): void {
+  #clearJobTitle(node: IRowNode | null): void {
     if (node) {
       node.data.jobTitle = undefined;
       this.#changeDetector.markForCheck();

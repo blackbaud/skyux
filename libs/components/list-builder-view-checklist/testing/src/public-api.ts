@@ -1,2 +1,2 @@
-export * from './list-view-checklist-fixture';
-export * from './list-view-checklist-item';
+export { SkyListViewChecklistFixture } from './list-view-checklist-fixture';
+export { SkyListViewChecklistItem } from './list-view-checklist-item';

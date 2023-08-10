@@ -1,10 +1,10 @@
 // Split view modules.
-export * from './lib/modules/split-view/split-view.module';
+export { SkySplitViewModule } from './lib/modules/split-view/split-view.module';
 
 // Split view types.
-export * from './lib/modules/split-view/types/split-view-dock-type';
-export * from './lib/modules/split-view/types/split-view-message';
-export * from './lib/modules/split-view/types/split-view-message-type';
+export { SkySplitViewDockType } from './lib/modules/split-view/types/split-view-dock-type';
+export { SkySplitViewMessage } from './lib/modules/split-view/types/split-view-message';
+export { SkySplitViewMessageType } from './lib/modules/split-view/types/split-view-message-type';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.

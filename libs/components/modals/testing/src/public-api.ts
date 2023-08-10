@@ -1,8 +1,8 @@
-export * from './modal-fixture';
+export { SkyModalFixture } from './modal-fixture';
 
-export * from './confirm/confirm-harness';
-export * from './confirm/confirm-button-harness';
-export * from './confirm/confirm-button-harness-filters';
+export { SkyConfirmHarness } from './confirm/confirm-harness';
+export { SkyConfirmButtonHarness } from './confirm/confirm-button-harness';
+export { SkyConfirmButtonHarnessFilters } from './confirm/confirm-button-harness-filters';
 
-export * from './modal/modal-harness';
-export * from './modal/modal-harness-filters';
+export { SkyModalHarness } from './modal/modal-harness';
+export { SkyModalHarnessFilters } from './modal/modal-harness-filters';

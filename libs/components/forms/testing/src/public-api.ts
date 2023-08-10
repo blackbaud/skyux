@@ -1,9 +1,9 @@
-export * from './input-box/input-box-harness-filters';
-export * from './input-box/input-box-harness';
+export { SkyInputBoxHarnessFilters } from './input-box/input-box-harness-filters';
+export { SkyInputBoxHarness } from './input-box/input-box-harness';
 
-export * from './checkbox-fixture';
-export * from './checkbox/checkbox-harness';
-export * from './checkbox/checkbox-harness-filters';
-export * from './checkbox/checkbox-label-harness';
+export { SkyCheckboxFixture } from './checkbox-fixture';
+export { SkyCheckboxHarness } from './checkbox/checkbox-harness';
+export { SkyCheckboxHarnessFilters } from './checkbox/checkbox-harness-filters';
+export { SkyCheckboxLabelHarness } from './checkbox/checkbox-label-harness';
 
-export * from './radio-fixture';
+export { SkyRadioFixture } from './radio-fixture';

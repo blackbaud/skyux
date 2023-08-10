@@ -12,7 +12,8 @@
           { "overrides": { "constructors": "no-public" } }
         ],
         "curly": "error",
-        "eqeqeq": ["error", "always"]
+        "eqeqeq": ["error", "always"],
+        "no-restricted-syntax": ["error", "ExportAllDeclaration"]
       }
     },
     {

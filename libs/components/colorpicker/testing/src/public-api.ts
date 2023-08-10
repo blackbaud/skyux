@@ -1,1 +1,1 @@
-export * from './colorpicker-fixture';
+export { SkyColorpickerFixture } from './colorpicker-fixture';

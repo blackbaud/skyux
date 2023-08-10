@@ -1,10 +1,10 @@
-export * from './lib/modules/toast/toast-instance';
-export * from './lib/modules/toast/toast.module';
-export * from './lib/modules/toast/toast.service';
-export * from './lib/modules/toast/types/toast-config';
-export * from './lib/modules/toast/types/toast-type';
-export * from './lib/modules/toast/types/toast-container-options';
-export * from './lib/modules/toast/types/toast-display-direction';
+export { SkyToastInstance } from './lib/modules/toast/toast-instance';
+export { SkyToastModule } from './lib/modules/toast/toast.module';
+export { SkyToastService } from './lib/modules/toast/toast.service';
+export { SkyToastConfig } from './lib/modules/toast/types/toast-config';
+export { SkyToastType } from './lib/modules/toast/types/toast-type';
+export { SkyToastContainerOptions } from './lib/modules/toast/types/toast-container-options';
+export { SkyToastDisplayDirection } from './lib/modules/toast/types/toast-display-direction';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of public API.

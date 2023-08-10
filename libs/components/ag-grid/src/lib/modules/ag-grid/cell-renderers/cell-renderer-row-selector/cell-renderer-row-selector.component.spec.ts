@@ -205,8 +205,8 @@ describe('SkyCellRendererCheckboxComponent', () => {
         rowSelectorCellComponent.refresh({
           node: {
             isSelected: () => true,
-          } as RowNode,
-        } as ICellRendererParams)
+          } as unknown as RowNode,
+        } as unknown as ICellRendererParams)
       ).toBe(true);
     });
   });

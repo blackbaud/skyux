@@ -1,2 +1,2 @@
-export * from './lib/emerge';
-export * from './lib/slide';
+export { skyAnimationEmerge } from './lib/emerge';
+export { skyAnimationSlide } from './lib/slide';
