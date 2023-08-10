@@ -1,6 +1,6 @@
 import {
   Component,
-  Injector,
+  EnvironmentInjector,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
@@ -31,7 +31,7 @@ export class SkyTileDashboardColumnComponent {
   #dashboardService: SkyTileDashboardService;
 
   constructor(
-    public injector: Injector,
+    public injector: EnvironmentInjector,
     dashboardService: SkyTileDashboardService
   ) {
     this.#dashboardService = dashboardService;
