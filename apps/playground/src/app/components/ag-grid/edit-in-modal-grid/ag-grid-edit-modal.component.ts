@@ -10,7 +10,7 @@ import {
   GridOptions,
   GridReadyEvent,
   ICellEditorParams,
-  RowNode,
+  IRowNode,
 } from 'ag-grid-community';
 
 import {
@@ -137,7 +137,7 @@ export class SkyAgGridEditModalComponent implements OnInit {
     });
   }
 
-  public onGridReady(gridReadyEvent: GridReadyEvent) {
+  public onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.gridApi = gridReadyEvent.api;
 
     this.gridApi.sizeColumnsToFit();
@@ -145,14 +145,14 @@ export class SkyAgGridEditModalComponent implements OnInit {
 
   private departmentSelectionChange(
     change: SkyAutocompleteSelectionChange,
-    node: RowNode
-  ) {
+    node: IRowNode
+  ): void {
     if (change.selectedItem && change.selectedItem !== node.data.department) {
       this.clearJobTitle(node);
     }
   }
 
-  private clearJobTitle(node: RowNode) {
+  private clearJobTitle(node: IRowNode): void {
     node.data.jobTitle = undefined;
     this.gridApi.refreshCells({ rowNodes: [node] });
   }

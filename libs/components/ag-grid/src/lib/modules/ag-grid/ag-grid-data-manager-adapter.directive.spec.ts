@@ -10,10 +10,12 @@ import {
 import { AgGridAngular } from 'ag-grid-angular';
 import {
   Beans,
+  ColumnApi,
   ColumnMovedEvent,
   ColumnState,
   DragStartedEvent,
   DragStoppedEvent,
+  GridApi,
   RowNode,
   RowSelectedEvent,
 } from 'ag-grid-community';
@@ -69,6 +71,14 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
     const rowSelected = {
       node: rowNode,
+      source: 'api',
+      context: {},
+      type: 'rowSelected',
+      rowIndex: 0,
+      api: {} as GridApi,
+      data: {} as any,
+      columnApi: {} as ColumnApi,
+      rowPinned: null,
     } as RowSelectedEvent;
 
     dataState.selectedIds = ['3', '1'];
@@ -93,6 +103,14 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
     const rowSelected = {
       node: rowNode,
+      source: 'api',
+      context: {},
+      type: 'rowSelected',
+      rowIndex: 0,
+      api: {} as GridApi,
+      data: {} as any,
+      columnApi: {} as ColumnApi,
+      rowPinned: null,
     } as RowSelectedEvent;
 
     dataState.selectedIds = [];
@@ -366,7 +384,7 @@ it('should move the horizontal scroll based on enableTopScroll check', async () 
     'ag-header',
     'ag-body-horizontal-scroll',
     'ag-floating-top',
-    'ag-body-viewport',
+    'ag-body',
     'ag-sticky-top',
     'ag-floating-bottom',
     'ag-overlay',

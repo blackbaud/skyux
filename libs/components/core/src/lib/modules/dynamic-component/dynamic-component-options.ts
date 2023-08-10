@@ -1,4 +1,8 @@
-import { Injector, StaticProvider, ViewContainerRef } from '@angular/core';
+import {
+  EnvironmentInjector,
+  StaticProvider,
+  ViewContainerRef,
+} from '@angular/core';
 
 import { SkyDynamicComponentLocation } from './dynamic-component-location';
 
@@ -27,7 +31,7 @@ export interface SkyDynamicComponentOptions {
   viewContainerRef?: ViewContainerRef;
 
   /**
-   * Parent injector to use instead of the dynamic component service's injector
+   * The environment injector to use instead of the dynamic component service's injector.
    */
-  parentInjector?: Injector;
+  environmentInjector?: EnvironmentInjector;
 }
