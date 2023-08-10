@@ -65,8 +65,8 @@ export class SkyDynamicComponentService {
     };
 
     const environmentInjector = createEnvironmentInjector(
-      options.providers || [],
-      options.environmentInjector || this.#environmentInjector
+      options.providers ?? [],
+      options.environmentInjector ?? this.#environmentInjector
     );
 
     let componentRef: ComponentRef<T>;
