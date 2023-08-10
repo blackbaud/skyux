@@ -8,6 +8,7 @@ on:
 
 env:
   NX_CLOUD_DISTRIBUTED_EXECUTION: true
+  IS_AUTO_RELEASE: ${{ startsWith( github.event.pull_request.labels[0].name, 'autorelease' ) }}
 
 jobs:
   install-deps:
@@ -17,30 +18,40 @@ jobs:
       node-version: ${{ steps.setup-node.outputs.node-version }}
     steps:
       - uses: actions/checkout@v3
+        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
         with:
           # We need to fetch all branches and commits so that Nx affected has a base to compare against.
           fetch-depth: 0
       - uses: actions/setup-node@v3
+        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
         id: setup-node
         with:
           node-version-file: '.nvmrc'
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
+        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
         run: node ./scripts/rebase-pr.js
       - name: Cache node modules
+        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
         id: cache
         uses: actions/cache@v3
         with:
           path: node_modules
           key: ${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: npm install
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: ${{ env.IS_AUTO_RELEASE != 'true' && steps.cache.outputs.cache-hit != 'true' }}
         run: npm ci
       - name: Start Nx Cloud CI run
+        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
         run: npx nx-cloud start-ci-run
+      - name: Skip
+        if: ${{ env.IS_AUTO_RELEASE == 'true' }}
+        run: |
+          echo "Skipping for release PR."
 
   agents:
     name: Bootup Nx Cloud agent
+    if: ${{ env.IS_AUTO_RELEASE != 'true' }}
     runs-on: ubuntu-latest
     needs: install-deps
     strategy:
@@ -88,32 +99,46 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
         with:
           # We need to fetch all branches and commits so that Nx affected has a base to compare against.
           fetch-depth: 0
       - uses: actions/setup-node@v3
+        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
         with:
           node-version-file: '.nvmrc'
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
+        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
         run: node ./scripts/rebase-pr.js
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
         uses: nrwl/nx-set-shas@v3
       - name: Retrieve node_modules cache
+        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
         uses: actions/cache@v3
         with:
           path: node_modules
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Check library dependencies
+        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
         run: npx skyux-dev check-lib-dependencies
       - name: Check library missing peers
+        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
         run: npx skyux-dev check-lib-missing-peers
       - name: Check library resources
+        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
         run: npx skyux-dev check-lib-resources
       - name: Check code formatting
+        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
         run: npx prettier --check .
       - name: Run lint
+        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
         run: npx nx affected:lint --quiet --silent --parallel=3
+      - name: Skip
+        if: ${{ env.IS_AUTO_RELEASE == 'true' }}
+        run: |
+          echo "Skipping for release PR."
 
   build:
     name: Build
@@ -122,26 +147,37 @@ jobs:
     if: ${{ github.event_name == 'pull_request' }}
     steps:
       - uses: actions/checkout@v3
+        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
         with:
           # We need to fetch all branches and commits so that Nx affected has a base to compare against.
           fetch-depth: 0
       - uses: actions/setup-node@v3
+        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
         with:
           node-version-file: '.nvmrc'
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
+        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
         run: node ./scripts/rebase-pr.js
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
         uses: nrwl/nx-set-shas@v3
       - name: Retrieve node_modules cache
+        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
         uses: actions/cache@v3
         with:
           path: node_modules
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Run NGCC
+        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
         run: npx ngcc
       - name: Build
+        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
         run: npx nx affected --target=build --parallel=3
+      - name: Skip
+        if: ${{ env.IS_AUTO_RELEASE == 'true' }}
+        run: |
+          echo "Skipping for release PR."
 
   build-dist:
     name: Build packages distribution
@@ -185,28 +221,39 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
         with:
           # We need to fetch all branches and commits so that Nx affected has a base to compare against.
           fetch-depth: 0
       - uses: actions/setup-node@v3
+        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
         with:
           node-version-file: '.nvmrc'
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
+        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
         run: node ./scripts/rebase-pr.js
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
         uses: nrwl/nx-set-shas@v3
       - name: Retrieve node_modules cache
+        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
         uses: actions/cache@v3
         with:
           path: node_modules
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Run NGCC
+        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
         run: npx ngcc
       - name: Code coverage
+        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
         run: |
           npx nx affected --target=test --browsers=ChromeHeadlessNoSandbox --code-coverage --parallel=3 --progress=false --source-map --watch=false
           npx nx affected --target=posttest --browsers=ChromeHeadlessNoSandbox --parallel=3 --watch=false
+      - name: Skip
+        if: ${{ env.IS_AUTO_RELEASE == 'true' }}
+        run: |
+          echo "Skipping for release PR."
 
   stop-agents:
     name: Stop Nx Cloud agents
