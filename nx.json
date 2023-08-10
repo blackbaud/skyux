@@ -74,10 +74,7 @@
       "!{projectRoot}/tsconfig.spec.json",
       "!{projectRoot}/tsconfig.storybook.json"
     ],
-    "e2eInputs": [
-      "storybookInputs",
-      "{workspaceRoot}/.percy.json"
-    ],
+    "e2eInputs": ["storybookInputs", "{workspaceRoot}/.percy.json"],
     "lintInputs": [
       "{projectRoot}/**/*",
       "{workspaceRoot}/.eslintrc-overrides.json",
