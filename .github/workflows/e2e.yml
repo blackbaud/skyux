@@ -14,7 +14,6 @@ env:
   PUPPETEER_EXECUTABLE_PATH: /usr/bin/chromium
   PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
   SB_CHROMIUM_PATH: /usr/bin/chromium
-  IS_AUTO_RELEASE: ${{ startsWith( github.event.pull_request.labels[0].name, 'autorelease' ) }}
 
 jobs:
   install-deps:
@@ -30,21 +29,25 @@ jobs:
       workflow_dispatch_pr_number: ${{ steps.parameters.outputs.workflow_dispatch_pr_number }}
       workflow_dispatch_pr_head_sha: ${{ steps.parameters.outputs.workflow_dispatch_pr_head_sha }}
     steps:
+      - name: Check auto release
+        id: is-auto-release
+        run: |
+          echo 'is-auto-release=${{ startsWith( github.event.pull_request.labels[0].name, 'autorelease' ) }}' >> $GITHUB_OUTPUT
       - uses: actions/checkout@v3
-        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
+        if: ${{ steps.is-auto-release.output.is-auto-release != 'true' }}
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
       - uses: actions/setup-node@v3
-        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
+        if: ${{ steps.is-auto-release.output.is-auto-release != 'true' }}
         id: setup-node
         with:
           node-version-file: '.nvmrc'
       - name: Rebase current branch
-        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
+        if: ${{ steps.is-auto-release.output.is-auto-release != 'true' }}
         run: node ./scripts/rebase-pr.js
       - name: Cache dependencies
-        if: ${{ env.IS_AUTO_RELEASE != 'true' }}
+        if: ${{ steps.is-auto-release.output.is-auto-release != 'true' }}
         id: cache
         uses: actions/cache@v3
         with:
@@ -53,10 +56,10 @@ jobs:
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: npm install
-        if: ${{ env.IS_AUTO_RELEASE != 'true' && steps.cache.outputs.cache-hit != 'true' }}
+        if: ${{ steps.is-auto-release.output.is-auto-release != 'true' && steps.cache.outputs.cache-hit != 'true' }}
         run: npm ci
       - name: Derive appropriate SHAs for base and head for `nx affected` commands in PR.
-        if: ${{ env.IS_AUTO_RELEASE != 'true' && github.event_name == 'pull_request_target' }}
+        if: ${{ steps.is-auto-release.output.is-auto-release != 'true' && github.event_name == 'pull_request_target' }}
         uses: nrwl/nx-set-shas@v3
       - name: Derive appropriate SHAs for base and head for `nx affected` commands since the last release.
         if: ${{ github.event_name != 'pull_request_target' }}
@@ -80,7 +83,7 @@ jobs:
         run: |
           set -exo pipefail
 
-          if [ "${IS_AUTO_RELEASE}" == "true" ]; then
+          if [ "${{ steps.is-auto-release.output.is-auto-release }}" == "true" ]; then
             # Release Please PR, quickly return "skip" parameters.
             echo 'parameters={"projects":["skip"],"projectsJson":"[]","e2eTargets":[{"project":"skip"}],"ghPagesRepo":"skip"}' >> $GITHUB_OUTPUT
             echo 'apps={"app":["skip"]}' >> $GITHUB_OUTPUT
