@@ -17,7 +17,7 @@
     },
     "add-compat-stylesheets": {
       "version": "9.0.0-0",
-      "factory": "./update-9/add-compat-stylesheets/add-compat-stylsheets.schematic",
+      "factory": "./update-9/add-compat-stylesheets/add-compat-stylesheet.schematic",
       "description": "Add a backwards-compatible stylesheet with styles that have been removed from components in SKY UX 9."
     }
   }

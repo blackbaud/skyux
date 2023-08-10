@@ -5,7 +5,7 @@ import { join } from 'path';
 import { createTestApp, createTestLibrary } from '../../../testing/scaffold';
 
 describe('Migrations > Add compat stylesheets', () => {
-  const compatStylesheetPath = 'src/app/skyux8-compat.css';
+  const compatStylesheetPath = 'src/app/skyux9-compat.css';
 
   const runner = new SchematicTestRunner(
     'migrations',
@@ -94,7 +94,7 @@ describe('Migrations > Add compat stylesheets', () => {
     await validateCompatStylesheet(
       JSON.stringify({
         devDependencies: {
-          '@skyux/layout': '8.0.0',
+          '@skyux/forms': '8.0.0',
         },
       }),
       []
@@ -105,7 +105,7 @@ describe('Migrations > Add compat stylesheets', () => {
     await validateCompatStylesheet(
       JSON.stringify({
         devDependencies: {
-          '@skyux/layout': '8.0.0',
+          '@skyux/forms': '8.0.0',
         },
       }),
       [],
@@ -117,7 +117,7 @@ describe('Migrations > Add compat stylesheets', () => {
     await validateCompatStylesheet(
       JSON.stringify({
         devDependencies: {
-          '@skyux/layout': '8.0.0',
+          '@skyux/forms': '8.0.0',
         },
       }),
       undefined, // <-- empty array
@@ -136,7 +136,7 @@ describe('Migrations > Add compat stylesheets', () => {
       '/package.json',
       JSON.stringify({
         dependencies: {
-          '@skyux/layout': '8.0.0',
+          '@skyux/forms': '8.0.0',
         },
       })
     );
@@ -150,7 +150,7 @@ describe('Migrations > Add compat stylesheets', () => {
     );
 
     const libShowcaseCompatStylesheetPath =
-      'projects/my-lib-showcase/src/app/skyux8-compat.css';
+      'projects/my-lib-showcase/src/app/skyux9-compat.css';
 
     angularJson = JSON.parse(updatedTree.readContent('/angular.json'));
 
