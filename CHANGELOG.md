@@ -1,5 +1,20 @@
 # Changelog
 
+## [8.7.2](https://github.com/blackbaud/skyux/compare/8.7.1...8.7.2) (2023-08-08)
+
+
+### Bug Fixes
+
+* **components/forms:** fix input/label association in input box code example ([#1550](https://github.com/blackbaud/skyux/issues/1550)) ([bf12fb1](https://github.com/blackbaud/skyux/commit/bf12fb1169d17ba24100764e26a61247c91e667a))
+
+## [8.7.1](https://github.com/blackbaud/skyux/compare/8.7.0...8.7.1) (2023-08-03)
+
+
+### Bug Fixes
+
+* **components/indicators:** fix content roles ([#1513](https://github.com/blackbaud/skyux/issues/1513)) ([feaa2de](https://github.com/blackbaud/skyux/commit/feaa2ded5bcbb3a51a38c4eee2478825ac585acc))
+* **components/lookup:** set input box height to match other field types ([#1491](https://github.com/blackbaud/skyux/issues/1491)) ([f33e5a7](https://github.com/blackbaud/skyux/commit/f33e5a7f607241fbe822df7a5985c4246b2c139e))
+
 ## [8.7.0](https://github.com/blackbaud/skyux/compare/8.6.0...8.7.0) (2023-07-27)
 
 
