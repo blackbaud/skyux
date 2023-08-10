@@ -1,10 +1,12 @@
 import {
   ComponentRef,
+  EnvironmentInjector,
   Injectable,
   OnDestroy,
   Provider,
   StaticProvider,
   Type,
+  inject,
 } from '@angular/core';
 import { SkyDynamicComponentService } from '@skyux/core';
 import { SKY_LIB_RESOURCES_PROVIDERS } from '@skyux/i18n';
@@ -32,7 +34,7 @@ export class SkyToastService implements OnDestroy {
   }
 
   #dynamicComponentService: SkyDynamicComponentService;
-
+  #environmentInjector = inject(EnvironmentInjector);
   #host: ComponentRef<SkyToasterComponent> | undefined;
   #toasts: SkyToast[] = [];
   #toastStream = new BehaviorSubject<SkyToast[]>([]);
@@ -133,6 +135,7 @@ export class SkyToastService implements OnDestroy {
     this.#host = this.#dynamicComponentService.createComponent(
       SkyToasterComponent,
       {
+        environmentInjector: this.#environmentInjector,
         providers: [
           {
             provide: SKY_LIB_RESOURCES_PROVIDERS,

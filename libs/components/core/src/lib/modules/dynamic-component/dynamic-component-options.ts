@@ -31,7 +31,7 @@ export interface SkyDynamicComponentOptions {
   viewContainerRef?: ViewContainerRef;
 
   /**
-   * Environment injector to use instead of the dynamic component service's injector.
+   * The environment injector to use instead of the dynamic component service's injector.
    */
   environmentInjector?: EnvironmentInjector;
 }

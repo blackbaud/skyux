@@ -452,6 +452,7 @@ export class SkyTileDashboardService {
             location: SkyDynamicComponentLocation.ElementBottom,
             providers: providers,
             viewContainerRef: column.content,
+            environmentInjector: column.injector,
           }
         );
 

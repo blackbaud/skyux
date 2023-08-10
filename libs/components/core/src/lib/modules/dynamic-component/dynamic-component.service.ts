@@ -60,7 +60,7 @@ export class SkyDynamicComponentService {
     componentType: Type<T>,
     options?: SkyDynamicComponentOptions
   ): ComponentRef<T> {
-    options = options || {
+    options ||= {
       location: SkyDynamicComponentLocation.BodyBottom,
     };
 
