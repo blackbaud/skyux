@@ -18,9 +18,7 @@ type ResourceKey = string;
 type TemplatedResource = [ResourceKey, ...any[]];
 type ResourceDictionary = Record<string, ResourceKey | TemplatedResource>;
 
-@Injectable({
-  providedIn: 'any',
-})
+@Injectable()
 export class SkyLibResourcesService {
   #localeProvider: SkyAppLocaleProvider;
   #providers: SkyLibResourcesProvider[] | undefined;
