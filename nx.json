@@ -63,6 +63,8 @@
   "namedInputs": {
     "buildInputs": [
       "{projectRoot}/**/*",
+      "{workspaceRoot}/scripts/postbuild-{projectName}.ts",
+      "{workspaceRoot}/scripts/utils/**",
       "!{projectRoot}/**/*.spec.[jt]s",
       "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
@@ -98,6 +100,8 @@
       "{workspaceRoot}/config/**",
       "{workspaceRoot}/jest.config.json",
       "{workspaceRoot}/karma.conf.js",
+      "{workspaceRoot}/scripts/posttest-{projectName}.ts",
+      "{workspaceRoot}/scripts/utils/**",
       "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)",
       "!{projectRoot}/.eslintrc.json",
       "!{projectRoot}/.storybook/**/*",
