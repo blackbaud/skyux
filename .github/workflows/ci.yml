@@ -12,6 +12,7 @@ env:
 jobs:
   install-deps:
     name: Install and cache dependencies
+    if: ${{ !startsWith( github.event.pull_request.labels[0].name, 'autorelease' ) }}
     runs-on: ubuntu-latest
     outputs:
       node-version: ${{ steps.setup-node.outputs.node-version }}
@@ -203,7 +204,7 @@ jobs:
   stop-agents:
     name: Stop Nx Cloud agents
     runs-on: ubuntu-latest
-    if: always()
+    if: ${{ !cancelled() }}
     needs: [install-deps, lint, build, build-dist, coverage]
     steps:
       - uses: actions/checkout@v3
