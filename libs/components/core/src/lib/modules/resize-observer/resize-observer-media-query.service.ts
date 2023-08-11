@@ -1,4 +1,10 @@
-import { ElementRef, Injectable, OnDestroy } from '@angular/core';
+import {
+  ElementRef,
+  Injectable,
+  OnDestroy,
+  Renderer2,
+  inject,
+} from '@angular/core';
 
 import { ReplaySubject, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -25,27 +31,22 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
   #breakpoints: {
     check: (width: number) => boolean;
     name: SkyMediaBreakpoints;
-    classSuffix: string;
   }[] = [
     {
       check: (width: number): boolean => width > 0 && width <= 767,
       name: SkyMediaBreakpoints.xs,
-      classSuffix: 'xs',
     },
     {
       check: (width: number): boolean => width > 767 && width <= 991,
       name: SkyMediaBreakpoints.sm,
-      classSuffix: 'sm',
     },
     {
       check: (width: number): boolean => width > 991 && width <= 1199,
       name: SkyMediaBreakpoints.md,
-      classSuffix: 'md',
     },
     {
       check: (width: number): boolean => width > 1199,
       name: SkyMediaBreakpoints.lg,
-      classSuffix: 'lg',
     },
   ];
 
@@ -58,6 +59,8 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
   #resizeObserverSvc: SkyResizeObserverService;
 
   #target: ElementRef | undefined;
+
+  #renderer = inject(Renderer2);
 
   constructor(resizeObserverSvc: SkyResizeObserverService) {
     this.#resizeObserverSvc = resizeObserverSvc;
@@ -104,7 +107,7 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((value) => {
         const breakpoint = this.#checkBreakpoint(value.contentRect.width);
-        if (breakpoint && breakpoint !== this.current) {
+        if (breakpoint) {
           this.#updateBreakpoint(breakpoint, options?.updateResponsiveClasses);
         }
       });
@@ -112,9 +115,10 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
   }
 
   /**
-   * Stop watching the container element.
+   * Stop watching the container element and remove any added classes.
    */
   public unobserve(): void {
+    this.#removeResponsiveClasses();
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
   }
@@ -135,11 +139,13 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
     updateResponsiveClasses?: boolean
   ): void {
     if (updateResponsiveClasses) {
-      this.#updateResponsiveClasses(this.#currentBreakpoint, breakpoint);
+      this.#updateResponsiveClasses(this.current, breakpoint);
     }
 
+    if (this.current !== breakpoint) {
+      this.#currentBreakpointObs.next(breakpoint);
+    }
     this.#currentBreakpoint = breakpoint;
-    this.#currentBreakpointObs.next(breakpoint);
   }
 
   #updateResponsiveClasses(
@@ -147,18 +153,24 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
     newBreakpoint: SkyMediaBreakpoints
   ): void {
     const oldClass = this.#getClassForBreakpoint(oldBreakpoint);
-
     const newClass = this.#getClassForBreakpoint(newBreakpoint);
 
-    if (this.#target?.nativeElement.classList.contains(oldClass)) {
-      this.#target.nativeElement.classList.remove(oldClass);
-    }
-
-    this.#target?.nativeElement.classList.add(newClass);
+    this.#renderer.removeClass(this.#target?.nativeElement, oldClass);
+    this.#renderer.addClass(this.#target?.nativeElement, newClass);
   }
 
-  #getClassForBreakpoint(breakpointName: SkyMediaBreakpoints): string {
-    return `sky-responsive-container-${SkyMediaBreakpoints[breakpointName]}`;
+  #removeResponsiveClasses(): void {
+    for (const breakpoint in Object.values(SkyMediaBreakpoints)) {
+      const className = this.#getClassForBreakpoint(
+        breakpoint as unknown as SkyMediaBreakpoints
+      );
+
+      this.#renderer.removeClass(this.#target?.nativeElement, className);
+    }
+  }
+
+  #getClassForBreakpoint(breakpoint: SkyMediaBreakpoints): string {
+    return `sky-responsive-container-${SkyMediaBreakpoints[breakpoint]}`;
   }
 
   #checkBreakpoint(width: number): SkyMediaBreakpoints | undefined {
@@ -173,7 +185,7 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
     const width = (el.nativeElement as HTMLElement).offsetWidth || 0;
     const breakpoint = this.#checkBreakpoint(width);
 
-    if (breakpoint && breakpoint !== this.#currentBreakpoint) {
+    if (breakpoint) {
       this.#updateBreakpoint(breakpoint, updateResponsiveClasses);
     }
   }

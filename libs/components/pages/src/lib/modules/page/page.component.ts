@@ -33,7 +33,7 @@ const LAYOUT_CLASS_DEFAULT = `${LAYOUT_CLASS_PREFIX}${LAYOUT_DEFAULT}`;
 export class SkyPageComponent implements OnInit, OnDestroy {
   /**
    * The page layout that applies spacing to the page header and content. Use the layout
-   * that corresponds with the top-level component type used on the page, our use `fit` to
+   * that corresponds with the top-level component type used on the page, or use `fit` to
    * constrain the page contents to the available viewport.
    * Use `none` for custom content that does not adhere to predefined spacing or constraints.
    * @default "none"

@@ -1,4 +1,4 @@
-import { ElementRef, NgZone } from '@angular/core';
+import { ElementRef, NgZone, Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import { SkyMediaBreakpoints } from '../media-query/media-breakpoints';
@@ -17,6 +17,9 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
   });
 
   it('should return a new instance of a resize observer media query service', async () => {
+    TestBed.configureTestingModule({
+      providers: [Renderer2],
+    });
     const zone = TestBed.inject(NgZone);
     const service = new SkyResizeObserverMediaQueryService(
       new SkyResizeObserverService(zone)
@@ -32,6 +35,9 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
 
     let result: SkyMediaBreakpoints | undefined;
 
+    TestBed.configureTestingModule({
+      providers: [Renderer2],
+    });
     const zone = TestBed.inject(NgZone);
     const service = new SkyResizeObserverMediaQueryService(
       new SkyResizeObserverService(zone)
@@ -69,6 +75,9 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
     const testEl = document.createElement('div');
     const target = new ElementRef(testEl);
 
+    TestBed.configureTestingModule({
+      providers: [Renderer2],
+    });
     const zone = TestBed.inject(NgZone);
     const service = new SkyResizeObserverMediaQueryService(
       new SkyResizeObserverService(zone)
@@ -100,6 +109,8 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
 
     service.unobserve();
     service.destroy();
+
+    expect(testEl.className).toEqual('');
   });
 
   it('should switch observing to a new element', async () => {
@@ -110,6 +121,10 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
       nativeElement: { id: 'element2', offsetWidth: 220 },
     } as ElementRef;
     let result: SkyMediaBreakpoints | undefined;
+    TestBed.configureTestingModule({
+      providers: [Renderer2],
+    });
+
     const zone = TestBed.inject(NgZone);
     const service = new SkyResizeObserverMediaQueryService(
       new SkyResizeObserverService(zone)
