@@ -1,5 +1,12 @@
 # Changelog
 
+## [8.7.2](https://github.com/blackbaud/skyux/compare/8.7.1...8.7.2) (2023-08-08)
+
+
+### Bug Fixes
+
+* **components/forms:** fix input/label association in input box code example ([#1550](https://github.com/blackbaud/skyux/issues/1550)) ([bf12fb1](https://github.com/blackbaud/skyux/commit/bf12fb1169d17ba24100764e26a61247c91e667a))
+
 ## [8.7.1](https://github.com/blackbaud/skyux/compare/8.7.0...8.7.1) (2023-08-03)
 
 
