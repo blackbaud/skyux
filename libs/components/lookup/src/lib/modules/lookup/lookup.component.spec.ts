@@ -3751,6 +3751,13 @@ describe('Lookup component', function () {
         await fixture.whenStable();
         await expectAsync(document.body).toBeAccessible(axeConfig);
 
+        fixture.componentInstance.ariaLabel = 'My lookup label';
+        fixture.componentInstance.ariaLabelledBy = undefined;
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+
         fixture.componentInstance.setMultiSelect();
         fixture.componentInstance.setValue(1);
 

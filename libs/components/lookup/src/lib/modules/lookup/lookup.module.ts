@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SkyViewkeeperModule } from '@skyux/core';
+import { SkyIdModule, SkyViewkeeperModule } from '@skyux/core';
 import { SkyCheckboxModule } from '@skyux/forms';
 import { SkyI18nModule } from '@skyux/i18n';
 import {
@@ -32,6 +32,7 @@ import { SkyLookupComponent } from './lookup.component';
     SkyIconModule,
     SkyInfiniteScrollModule,
     SkyI18nModule,
+    SkyIdModule,
     SkyLookupResourcesModule,
     SkyModalModule,
     SkyRepeaterModule,

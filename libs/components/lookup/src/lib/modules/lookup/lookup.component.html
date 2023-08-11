@@ -12,8 +12,15 @@
     }"
     #lookupWrapper
   >
+    <label
+      class="sky-screen-reader-only"
+      skyId
+      #labelElement="skyId"
+      [attr.aria-hidden]="!ariaLabel"
+      >{{ ariaLabel }}</label
+    >
     <sky-autocomplete
-      [ariaLabelledBy]="ariaLabelledBy"
+      [ariaLabelledBy]="ariaLabelledBy || labelElement.id"
       [attr.data-sky-lookup-show-more-picker-id]="showMorePickerId"
       [data]="data"
       [debounceTime]="debounceTime"
