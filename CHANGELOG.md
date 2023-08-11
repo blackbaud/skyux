@@ -1,5 +1,16 @@
 # Changelog
 
+## [9.0.0-alpha.4](https://github.com/blackbaud/skyux/compare/9.0.0-alpha.3...9.0.0-alpha.4) (2023-08-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/i18n:** move SkyLibResourcesService to SkyI18nModule providers ([#1568](https://github.com/blackbaud/skyux/issues/1568))
+
+### Bug Fixes
+
+* **components/i18n:** move SkyLibResourcesService to SkyI18nModule providers ([#1568](https://github.com/blackbaud/skyux/issues/1568)) ([43f92d0](https://github.com/blackbaud/skyux/commit/43f92d0bed32104fc05bf3dcd5fc2f30fe606dfc))
+
 ## [9.0.0-alpha.3](https://github.com/blackbaud/skyux/compare/9.0.0-alpha.2...9.0.0-alpha.3) (2023-08-10)
 
 
