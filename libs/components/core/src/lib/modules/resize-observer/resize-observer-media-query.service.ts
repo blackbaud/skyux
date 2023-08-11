@@ -1,10 +1,4 @@
-import {
-  ElementRef,
-  Injectable,
-  OnDestroy,
-  Renderer2,
-  inject,
-} from '@angular/core';
+import { ElementRef, Injectable, OnDestroy } from '@angular/core';
 
 import { ReplaySubject, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -59,8 +53,6 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
   #resizeObserverSvc: SkyResizeObserverService;
 
   #target: ElementRef | undefined;
-
-  #renderer = inject(Renderer2);
 
   constructor(resizeObserverSvc: SkyResizeObserverService) {
     this.#resizeObserverSvc = resizeObserverSvc;
@@ -155,8 +147,10 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
     const oldClass = this.#getClassForBreakpoint(oldBreakpoint);
     const newClass = this.#getClassForBreakpoint(newBreakpoint);
 
-    this.#renderer.removeClass(this.#target?.nativeElement, oldClass);
-    this.#renderer.addClass(this.#target?.nativeElement, newClass);
+    const targetClassList = this.#target?.nativeElement?.classList;
+
+    targetClassList?.remove(oldClass);
+    targetClassList?.add(newClass);
   }
 
   #removeResponsiveClasses(): void {
@@ -165,7 +159,7 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
         breakpoint as unknown as SkyMediaBreakpoints
       );
 
-      this.#renderer.removeClass(this.#target?.nativeElement, className);
+      this.#target?.nativeElement?.classList?.remove(className);
     }
   }
 
