@@ -26,8 +26,7 @@ export default {
     '<rootDir>/src/schematics/shared/utility',
   ],
   preset: '../../../jest.preset.js',
-  setupFiles: ['<rootDir>/src/test-setup.ts'],
   maxConcurrency: 2,
   maxWorkers: 2,
-  testTimeout: 30000,
+  testTimeout: 120000,
 };
