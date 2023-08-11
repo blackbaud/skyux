@@ -1,5 +1,5 @@
 <sky-input-box
-  *ngIf="isAlive && useAsyncSearch"
+  *ngIf="(isInitialized | async) && useAsyncSearch"
   [disabled]="skyComponentProperties?.disabled"
   [formGroup]="editorForm"
 >
@@ -34,7 +34,7 @@
   </sky-lookup>
 </sky-input-box>
 <sky-input-box
-  *ngIf="isAlive && !useAsyncSearch"
+  *ngIf="(isInitialized | async) && !useAsyncSearch"
   [disabled]="skyComponentProperties?.disabled"
   [formGroup]="editorForm"
 >

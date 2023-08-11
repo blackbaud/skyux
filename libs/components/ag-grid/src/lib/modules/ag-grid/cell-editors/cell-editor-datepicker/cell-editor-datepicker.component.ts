@@ -47,13 +47,12 @@ export class SkyAgGridCellEditorDatepickerComponent
   public datepickerInput: ElementRef | undefined;
 
   #calendarOpen = false;
-  #elementRef = inject(ElementRef<HTMLElement>);
   #params: SkyCellEditorDatepickerParams | undefined;
   #triggerType: SkyAgGridCellEditorInitialAction | undefined;
+
+  #elementRef = inject(ElementRef<HTMLElement>);
   #changeDetector = inject(ChangeDetectorRef);
-  #themeSvc = inject(SkyThemeService, { optional: true }) as
-    | SkyThemeService
-    | undefined;
+  #themeSvc = inject(SkyThemeService, { optional: true });
 
   constructor() {
     super();
@@ -172,14 +171,12 @@ export class SkyAgGridCellEditorDatepickerComponent
       !this.#calendarOpen &&
       this.#params?.context.gridOptions.stopEditingWhenCellsLoseFocus
     ) {
-      setTimeout(() => {
-        if (
-          !this.#calendarOpen &&
-          !this.#elementRef.nativeElement.matches(':focus-within')
-        ) {
-          this.#params?.api.stopEditing();
-        }
-      });
+      if (
+        !this.#calendarOpen &&
+        !this.#elementRef.nativeElement.matches(':focus-within')
+      ) {
+        this.#params?.api.stopEditing();
+      }
     }
   }
 }

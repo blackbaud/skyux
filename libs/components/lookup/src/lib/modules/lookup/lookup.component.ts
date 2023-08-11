@@ -384,6 +384,8 @@ export class SkyLookupComponent
     this.#removeEventListeners();
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
+    this.addClick.complete();
+    this.lookupOpenChange.complete();
     this.tokensController.complete();
   }
 

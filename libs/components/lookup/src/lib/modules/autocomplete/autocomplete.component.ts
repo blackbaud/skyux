@@ -536,6 +536,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     this.#ngUnsubscribe.complete();
     this.#destroyAffixer();
     this.#destroyOverlay();
+    this.autocompleteOpenChange.complete();
   }
 
   public addButtonClicked(): void {
