@@ -18,36 +18,28 @@ env:
 jobs:
   install-deps:
     name: Install and cache dependencies
+    if: ${{ !startsWith( github.event.pull_request.labels[0].name, 'autorelease' ) }}
     runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.workflow }}-${{ github.job }}-${{ github.head_ref || github.ref_name || github.event.ref }}
       cancel-in-progress: true
     outputs:
-      is-auto-release: ${{ steps.is-auto-release.outputs.is-auto-release }}
       node-version: ${{ steps.setup-node.outputs.node-version }}
       parameters: ${{ steps.parameters.outputs.parameters }}
       workflow_dispatch_pr_number: ${{ steps.parameters.outputs.workflow_dispatch_pr_number }}
       workflow_dispatch_pr_head_sha: ${{ steps.parameters.outputs.workflow_dispatch_pr_head_sha }}
     steps:
-      - name: Check auto release
-        id: is-auto-release
-        run: |
-          echo 'is-auto-release=${{ startsWith( github.event.pull_request.labels[0].name, 'autorelease' ) && 'true' || 'false' }}' >> $GITHUB_OUTPUT
       - uses: actions/checkout@v3
-        if: ${{ steps.is-auto-release.outputs.is-auto-release != 'true' }}
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
       - uses: actions/setup-node@v3
-        if: ${{ steps.is-auto-release.outputs.is-auto-release != 'true' }}
         id: setup-node
         with:
           node-version-file: '.nvmrc'
       - name: Rebase current branch
-        if: ${{ steps.is-auto-release.outputs.is-auto-release != 'true' }}
         run: node ./scripts/rebase-pr.js
       - name: Cache dependencies
-        if: ${{ steps.is-auto-release.outputs.is-auto-release != 'true' }}
         id: cache
         uses: actions/cache@v3
         with:
@@ -56,7 +48,7 @@ jobs:
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: npm install
-        if: ${{ steps.is-auto-release.outputs.is-auto-release != 'true' && steps.cache.outputs.cache-hit != 'true' }}
+        if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v3
@@ -65,13 +57,6 @@ jobs:
         shell: bash
         run: |
           set -exo pipefail
-
-          if [ "${{ steps.is-auto-release.outputs.is-auto-release }}" == "true" ]; then
-            # Release Please PR, quickly return "skip" parameters.
-            echo 'parameters={"projects":["skip"],"projectsJson":"[]","e2eTargets":[{"project":"skip"}]}' >> $GITHUB_OUTPUT
-            exit 0
-          fi
-
           if [ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]; then
             # If the workflow was triggered manually, find the PR number and head SHA.
             gh pr list -H "${GITHUB_REF_NAME}" --json number,headRefOid > ${{ runner.temp }}/pr-list.json
@@ -102,7 +87,6 @@ jobs:
 
   build-storybook:
     name: Build Project Storybook
-    if: ${{ needs.install-deps.outputs.is-auto-release != 'true' }}
     runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.workflow }}-${{ github.job }}--${{ matrix.project }}-${{ github.head_ref || github.ref_name || github.event.ref }}
@@ -152,7 +136,6 @@ jobs:
 
   build-apps:
     name: Build Apps
-    if: ${{ needs.install-deps.outputs.is-auto-release != 'true' }}
     runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.workflow }}-${{ github.job }}--${{ matrix.app }}-${{ github.head_ref || github.ref_name || github.event.ref }}
@@ -209,7 +192,6 @@ jobs:
 
   publish:
     name: Publish
-    if: ${{ needs.install-deps.outputs.is-auto-release != 'true' }}
     runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.workflow }}-${{ github.job }}-${{ github.head_ref || github.ref_name || github.event.ref }}
@@ -371,6 +353,7 @@ jobs:
     needs:
       - install-deps
       - e2e
+      - publish
     steps:
       - uses: actions/github-script@v6
         name: Verify E2E Visual Review
