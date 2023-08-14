@@ -155,7 +155,7 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
 
   #removeResponsiveClasses(): void {
     for (const breakpoint of Object.values(SkyMediaBreakpoints)) {
-      if (typeof breakpoint === 'string') {
+      if (typeof breakpoint === 'number') {
         const className = this.#getClassForBreakpoint(
           breakpoint as unknown as SkyMediaBreakpoints
         );
