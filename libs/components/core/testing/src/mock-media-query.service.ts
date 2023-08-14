@@ -1,13 +1,11 @@
 import { Injectable, NgZone } from '@angular/core';
+import {
+  SkyMediaBreakpoints,
+  SkyMediaQueryListener,
+  SkyMediaQueryService,
+} from '@skyux/core';
 
 import { BehaviorSubject, Subscription } from 'rxjs';
-
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { SkyMediaBreakpoints } from '../../src/lib/modules/media-query/media-breakpoints';
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { SkyMediaQueryListener } from '../../src/lib/modules/media-query/media-query-listener';
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { SkyMediaQueryService } from '../../src/lib/modules/media-query/media-query.service';
 
 /**
  * @internal

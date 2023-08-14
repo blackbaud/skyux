@@ -1,14 +1,13 @@
 import { ElementRef, NgZone } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-// eslint-disable-next-line @nx/enforce-module-boundaries
+import { SkyMediaBreakpoints } from '../media-query/media-breakpoints';
+
 import {
   mockResizeObserver,
   mockResizeObserverEntry,
   mockResizeObserverHandle,
-} from '../../../../testing/src/resize-observer-mock';
-import { SkyMediaBreakpoints } from '../media-query/media-breakpoints';
-
+} from './fixtures/resize-observer-mock';
 import { SkyResizeObserverMediaQueryService } from './resize-observer-media-query.service';
 import { SkyResizeObserverService } from './resize-observer.service';
 

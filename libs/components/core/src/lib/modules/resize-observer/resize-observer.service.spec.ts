@@ -1,13 +1,11 @@
 import { ElementRef, NgZone } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-// eslint-disable-next-line @nx/enforce-module-boundaries
 import {
   mockResizeObserver,
   mockResizeObserverEntry,
   mockResizeObserverHandle,
-} from '../../../../testing/src/resize-observer-mock';
-
+} from './fixtures/resize-observer-mock';
 import { SkyResizeObserverService } from './resize-observer.service';
 
 describe('ResizeObserver service', async () => {
