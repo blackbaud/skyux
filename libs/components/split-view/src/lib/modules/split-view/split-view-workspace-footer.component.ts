@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
- * Specifies the footer to display in the split view's workspace panel. This component is often used to display a summary action bar.
+ * Specifies the footer to display in the split view's workspace panel. This component is often used with a summary action bar.
  */
 @Component({
   selector: 'sky-split-view-workspace-footer',
