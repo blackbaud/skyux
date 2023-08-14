@@ -26,6 +26,7 @@ import {
 import { SkyInputBoxHostService } from '@skyux/forms';
 
 import {
+  BehaviorSubject,
   Observable,
   Subject,
   Subscription,
@@ -132,7 +133,13 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    * Whether to display a button in the dropdown that opens a picker where users can view all options.
    */
   @Input()
-  public enableShowMore: boolean | undefined = false;
+  public set enableShowMore(value: boolean | undefined) {
+    this.#_enableShowMore = !!value;
+    this.#updateIsDropdownVisible();
+  }
+  public get enableShowMore(): boolean {
+    return this.#_enableShowMore;
+  }
 
   /**
    * The observable of `SkyAutocompleteMessage` that can close the dropdown.
@@ -257,7 +264,13 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    * @default false
    */
   @Input()
-  public showAddButton: boolean | undefined = false;
+  public set showAddButton(value: boolean | undefined) {
+    this.#_showAddButton = !!value;
+    this.#updateIsDropdownVisible();
+  }
+  public get showAddButton(): boolean {
+    return this.#_showAddButton;
+  }
 
   /**
    * The text to display when no search results are found.
@@ -423,6 +436,8 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   public searchOrDefault: SkyAutocompleteSearchFunction;
 
+  protected isDropdownVisible: Observable<boolean>;
+
   /**
    * Index that indicates which descendant of the overlay currently has focus.
    */
@@ -469,9 +484,13 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   #_descriptorProperty = 'name';
 
+  #_enableShowMore = false;
+
   #_highlightText: string[] | undefined;
 
   #_inputDirective: SkyAutocompleteInputDirective | undefined;
+
+  #_isDropdownVisible = new BehaviorSubject<boolean>(false);
 
   #_messageStream = new Subject<SkyAutocompleteMessage>();
 
@@ -488,6 +507,8 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   #_searchResultsLimit = 0;
 
   #_searchTextMinimumCharacters = 1;
+
+  #_showAddButton = false;
 
   constructor(
     changeDetector: ChangeDetectorRef,
@@ -516,6 +537,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     const id = ++uniqueId;
     this.resultsListId = `sky-autocomplete-list-${id}`;
     this.resultsWrapperId = `sky-autocomplete-wrapper-${id}`;
+    this.isDropdownVisible = this.#_isDropdownVisible.asObservable();
   }
 
   public ngAfterViewInit(): void {
@@ -526,6 +548,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     this.#cancelCurrentSearch();
     this.#inputDirectiveUnsubscribe.next();
     this.#inputDirectiveUnsubscribe.complete();
+    this.#_isDropdownVisible.complete();
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
     this.#destroyAffixer();
@@ -689,6 +712,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       const isDifferent = searchText !== this.searchText;
 
       this.searchText = searchText.trim();
+      this.#updateIsDropdownVisible();
 
       if (isLongEnough && isDifferent) {
         this.#cancelCurrentSearch();
@@ -722,6 +746,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
               this.#activeElementIndex = -1;
             }
 
+            this.#updateIsDropdownVisible();
             this.#changeDetector.markForCheck();
 
             if (this.isOpen) {
@@ -854,6 +879,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
       this.#overlay = overlay;
       this.isOpen = true;
+      this.#updateIsDropdownVisible();
       this.#changeDetector.markForCheck();
       this.#updateAriaControls();
       this.#initOverlayFocusableElements();
@@ -899,6 +925,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     this.searchResultsCount = undefined;
     this.#removeActiveDescendant();
     this.#initOverlayFocusableElements();
+    this.#updateIsDropdownVisible();
     this.#changeDetector.markForCheck();
   }
 
@@ -1033,6 +1060,15 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
         propertiesToSearch: this.propertiesToSearch,
         searchFilters: this.searchFilters,
       });
+    }
+  }
+
+  #updateIsDropdownVisible(): void {
+    const isDropdownVisible =
+      !!this.searchText &&
+      (!this.showActionsArea || this.searchResults.length > 0);
+    if (isDropdownVisible !== this.#_isDropdownVisible.getValue()) {
+      this.#_isDropdownVisible.next(isDropdownVisible);
     }
   }
 }

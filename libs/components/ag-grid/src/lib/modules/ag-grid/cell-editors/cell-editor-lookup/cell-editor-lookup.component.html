@@ -4,15 +4,7 @@
   [formGroup]="editorForm"
 >
   <sky-lookup
-    [ariaLabel]="
-      skyComponentProperties?.ariaLabelledBy
-        ? undefined
-        : skyComponentProperties?.ariaLabel ||
-          colDef?.headerName ||
-          colDef?.headerTooltip ||
-          colDef?.field ||
-          colDef?.colId
-    "
+    [ariaLabel]="ariaLabel"
     [ariaLabelledBy]="skyComponentProperties?.ariaLabelledBy"
     [autocompleteAttribute]="skyComponentProperties?.autocompleteAttribute"
     [data]="skyComponentProperties?.data"
@@ -46,15 +38,7 @@
   [formGroup]="editorForm"
 >
   <sky-lookup
-    [ariaLabel]="
-      skyComponentProperties?.ariaLabelledBy
-        ? undefined
-        : skyComponentProperties?.ariaLabel ||
-          colDef?.headerName ||
-          colDef?.headerTooltip ||
-          colDef?.field ||
-          colDef?.colId
-    "
+    [ariaLabel]="ariaLabel"
     [ariaLabelledBy]="skyComponentProperties?.ariaLabelledBy"
     [autocompleteAttribute]="skyComponentProperties?.autocompleteAttribute"
     [data]="skyComponentProperties?.data"
