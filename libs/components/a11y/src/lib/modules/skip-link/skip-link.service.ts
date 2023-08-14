@@ -14,14 +14,8 @@ import { SkySkipLinkHostComponent } from './skip-link-host.component';
  * be displayed and focused.  Clicking the button will skip to the specified element.  Pressing
  * the Tab key again will move to the next skip link if more than one skip link is specified;
  * otherwise, focus will move to the first focusable element on the page.
- * @dynamic
  */
-@Injectable({
-  // Must be 'any' so that the skip link component is created in the context of its module's injector.
-  // If set to 'root', the component's dependency injections would only be derived from the root
-  // injector and may loose context if the skip link was created from within a lazy-loaded module.
-  providedIn: 'any',
-})
+@Injectable()
 export class SkySkipLinkService {
   private static host: ComponentRef<SkySkipLinkHostComponent> | undefined;
 
@@ -31,7 +25,7 @@ export class SkySkipLinkService {
     this.#dynamicComponentService = dynamicComponentService;
   }
 
-  public setSkipLinks(args: SkySkipLinkArgs) {
+  public setSkipLinks(args: SkySkipLinkArgs): void {
     args.links = args.links.filter((link: SkySkipLink) => {
       const elementRefExists = link.elementRef;
       return elementRefExists;
