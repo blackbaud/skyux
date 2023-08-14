@@ -18,7 +18,7 @@ env:
 jobs:
   install-deps:
     name: Install and cache dependencies
-    if: ${{ !startsWith( github.event.pull_request.labels[0].name, 'autorelease' ) }}
+    if: ${{ !startsWith( github.event.pull_request.labels[0].name, 'autorelease' ) && !contains( github.event.pull_request.labels.*.name, 'skip e2e' ) }}
     runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.workflow }}-${{ github.job }}-${{ github.head_ref || github.ref_name || github.event.ref }}
@@ -50,8 +50,18 @@ jobs:
       - name: npm install
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
-      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands (merge).
+        if: ${{ github.event_name == 'push' }}
         uses: nrwl/nx-set-shas@v3
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands (PR).
+        if: ${{ github.event_name == 'pull_request_target' }}
+        run: |
+          HEAD_SHA=$(git rev-parse HEAD);
+          echo "HEAD_SHA: ${HEAD_SHA}"
+          echo "HEAD_SHA=${HEAD_SHA}" >> $GITHUB_ENV
+          BASE_SHA=$(git merge-base origin/${{ github.base_ref }} HEAD);
+          echo "BASE_SHA: ${BASE_SHA}"
+          echo "BASE_SHA=${BASE_SHA}" >> $GITHUB_ENV
       - name: Set workflow parameters
         id: parameters
         shell: bash
@@ -59,12 +69,20 @@ jobs:
           set -exo pipefail
           if [ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]; then
             # If the workflow was triggered manually, find the PR number and head SHA.
-            gh pr list -H "${GITHUB_REF_NAME}" --json number,headRefOid > ${{ runner.temp }}/pr-list.json
+            gh pr list -H "${GITHUB_REF_NAME}" --json baseRefName,number,headRefOid > ${{ runner.temp }}/pr-list.json
 
             # If there are multiple PRs, use the first one. If there are no PRs, return an empty string.
             PR_NUMBER=$(jq -r 'if (.[] | length) > 0 then (.[0].number | tonumber) else "" end' ${{ runner.temp }}/pr-list.json)
 
             if [ -n "${PR_NUMBER}" ]; then
+              # Derive appropriate SHAs for base and head for `nx affected` commands (workflow_dispatch).
+              export HEAD_SHA=$(jq -r '.[0].headRefOid' ${{ runner.temp }}/pr-list.json);
+              echo "HEAD_SHA: ${HEAD_SHA}"
+              echo "HEAD_SHA=${HEAD_SHA}" >> $GITHUB_ENV
+              BASE_SHA=$(git merge-base origin/$(jq -r '.[0].baseRefName' ${{ runner.temp }}/pr-list.json) HEAD);
+              echo "BASE_SHA: ${BASE_SHA}"
+              echo "BASE_SHA=${BASE_SHA}" >> $GITHUB_ENV
+
               echo -n parameters= >> $GITHUB_OUTPUT
               npx skyux-dev e2e-workflow --workflowTrigger pull_request --pr $PR_NUMBER >> $GITHUB_OUTPUT
               echo workflow_dispatch_pr_number=${PR_NUMBER} >> $GITHUB_OUTPUT
