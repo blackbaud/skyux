@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SkyI18nModule } from '@skyux/i18n';
 import { SkyChevronModule, SkyIconModule } from '@skyux/indicators';
 import { SkyDropdownModule } from '@skyux/popovers';
 import { SkyThemeModule } from '@skyux/theme';
@@ -31,7 +30,6 @@ import { SkySummaryActionBarSummaryComponent } from './summary/summary-action-ba
     CommonModule,
     SkyChevronModule,
     SkyDropdownModule,
-    SkyI18nModule,
     SkyIconModule,
     SkyActionBarsResourcesModule,
     SkyThemeModule,

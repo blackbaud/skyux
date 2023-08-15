@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SkyI18nModule } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/indicators';
 import {
   SkyListSecondaryActionsModule,
@@ -9,6 +8,7 @@ import {
 import { SkyModalModule } from '@skyux/modals';
 
 import { SkyColumnSelectorModule } from '../column-selector/column-selector-modal.module';
+import { SkyListBuilderViewGridsResourcesModule } from '../shared/sky-list-builder-view-grids-resources.module';
 
 import { SkyListColumnSelectorActionComponent } from './list-column-selector-action.component';
 import { SkyListColumnSelectorButtonComponent } from './list-column-selector-button.component';
@@ -23,8 +23,8 @@ import { SkyListColumnSelectorButtonComponent } from './list-column-selector-but
   ],
   imports: [
     CommonModule,
-    SkyI18nModule,
     SkyModalModule,
+    SkyListBuilderViewGridsResourcesModule,
     SkyListSecondaryActionsModule,
     SkyListToolbarModule,
     SkyIconModule,

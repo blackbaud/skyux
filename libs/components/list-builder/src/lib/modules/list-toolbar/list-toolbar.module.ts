@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyCheckboxModule } from '@skyux/forms';
-import { SkyI18nModule } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkyFilterModule, SkySortModule } from '@skyux/lists';
@@ -34,7 +33,6 @@ import { SkyListToolbarComponent } from './list-toolbar.component';
   imports: [
     CommonModule,
     SkyCheckboxModule,
-    SkyI18nModule,
     SkyToolbarModule,
     SkySearchModule,
     SkySortModule,

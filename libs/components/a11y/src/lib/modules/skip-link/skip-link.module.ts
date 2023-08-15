@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SkyI18nModule } from '@skyux/i18n';
 
 import { SkyA11yResourcesModule } from '../shared/sky-a11y-resources.module';
 
@@ -12,7 +11,7 @@ import { SkySkipLinkService } from './skip-link.service';
  */
 @NgModule({
   declarations: [SkySkipLinkHostComponent],
-  imports: [CommonModule, SkyI18nModule, SkyA11yResourcesModule],
+  imports: [CommonModule, SkyA11yResourcesModule],
   providers: [SkySkipLinkService],
 })
 export class SkySkipLinkModule {}
