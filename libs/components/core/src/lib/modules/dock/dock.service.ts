@@ -1,4 +1,10 @@
-import { ComponentRef, Injectable, Type } from '@angular/core';
+import {
+  ComponentRef,
+  EnvironmentInjector,
+  Injectable,
+  Type,
+  inject,
+} from '@angular/core';
 
 import { SkyDynamicComponentLocation } from '../dynamic-component/dynamic-component-location';
 import { SkyDynamicComponentOptions } from '../dynamic-component/dynamic-component-options';
@@ -32,6 +38,7 @@ export class SkyDockService {
   }
 
   #dynamicComponentSvc: SkyDynamicComponentService;
+  #environmentInjector = inject(EnvironmentInjector);
 
   #options: SkyDockOptions | undefined;
 
@@ -83,7 +90,9 @@ export class SkyDockService {
   }
 
   #createDock(): ComponentRef<SkyDockComponent> {
-    let dockOptions: SkyDynamicComponentOptions | undefined;
+    const dockOptions: SkyDynamicComponentOptions = {
+      environmentInjector: this.#environmentInjector,
+    };
 
     if (this.#options) {
       let dynamicLocation: SkyDynamicComponentLocation;
@@ -99,10 +108,8 @@ export class SkyDockService {
           break;
       }
 
-      dockOptions = {
-        location: dynamicLocation,
-        referenceEl: this.#options.referenceEl,
-      };
+      dockOptions.location = dynamicLocation;
+      dockOptions.referenceEl = this.#options.referenceEl;
     }
 
     const dockRef = this.#dynamicComponentSvc.createComponent(

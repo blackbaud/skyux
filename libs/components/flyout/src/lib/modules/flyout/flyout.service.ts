@@ -1,9 +1,11 @@
 import {
   ComponentRef,
+  EnvironmentInjector,
   Injectable,
   NgZone,
   OnDestroy,
   Type,
+  inject,
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import {
@@ -41,6 +43,8 @@ export class SkyFlyoutService implements OnDestroy {
   #dynamicComponentService: SkyDynamicComponentService;
   #router: Router;
   #ngZone: NgZone;
+
+  #environmentInjector = inject(EnvironmentInjector);
 
   constructor(
     coreAdapter: SkyCoreAdapterService,
@@ -120,8 +124,12 @@ export class SkyFlyoutService implements OnDestroy {
   }
 
   #createHostComponent(): ComponentRef<SkyFlyoutComponent> {
-    this.#host =
-      this.#dynamicComponentService.createComponent(SkyFlyoutComponent);
+    this.#host = this.#dynamicComponentService.createComponent(
+      SkyFlyoutComponent,
+      {
+        environmentInjector: this.#environmentInjector,
+      }
+    );
     return this.#host;
   }
 

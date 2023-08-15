@@ -1,16 +1,27 @@
 import { TestBed } from '@angular/core/testing';
-import { SkyDynamicComponentService, SkyLogService } from '@skyux/core';
+import { SkyLogService } from '@skyux/core';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
 import { ErrorModalConfig } from './error-modal-config';
 import { SkyErrorModalFormComponent } from './error-modal-form.component';
 import { SkyErrorModalService } from './error-modal.service';
+import { SkyErrorModule } from './error.module';
 import { MockModalService } from './fixtures/mocks';
 
 describe('Error modal service', () => {
-  function createMockModalService() {
-    const dynamicComponentService = TestBed.inject(SkyDynamicComponentService);
-    return new MockModalService(dynamicComponentService);
+  function createMockModalService(): MockModalService {
+    TestBed.configureTestingModule({
+      imports: [SkyErrorModule],
+      providers: [
+        MockModalService,
+        {
+          provide: SkyModalService,
+          useClass: MockModalService,
+        },
+      ],
+    });
+
+    return TestBed.inject(MockModalService);
   }
 
   it('should open with correct parameters (log service undefined)', () => {
