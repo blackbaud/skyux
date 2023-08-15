@@ -13,9 +13,7 @@ const DEFAULT_BREAKPOINT = SkyMediaBreakpoints.md;
 /**
  * Acts like `SkyMediaQueryService` for a container element, emitting the same responsive breakpoints.
  */
-@Injectable({
-  providedIn: 'any',
-})
+@Injectable()
 export class SkyResizeObserverMediaQueryService implements OnDestroy {
   /**
    * Returns the current breakpoint.

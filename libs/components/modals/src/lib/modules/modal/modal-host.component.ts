@@ -119,6 +119,9 @@ export class SkyModalHostComponent implements OnDestroy {
         useValue: params,
       },
       {
+        provide: SkyResizeObserverMediaQueryService,
+      },
+      {
         provide: SkyMediaQueryService,
         useExisting: SkyResizeObserverMediaQueryService,
       },

@@ -13,7 +13,7 @@ type ResizeObserverTracking = {
  * Service to create rxjs observables for changes to the content box dimensions of elements.
  */
 @Injectable({
-  providedIn: 'any',
+  providedIn: 'root',
 })
 export class SkyResizeObserverService implements OnDestroy {
   #resizeObserver: ResizeObserver;

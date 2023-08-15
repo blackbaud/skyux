@@ -20,12 +20,7 @@ let waitComponentRef: ComponentRef<SkyWaitPageComponent> | undefined;
 let pageWaitBlockingCount = 0;
 let pageWaitNonBlockingCount = 0;
 
-// Need to add the following to classes which contain static methods.
-// See: https://github.com/ng-packagr/ng-packagr/issues/641
-// @dynamic
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class SkyWaitService {
   #windowSvc = inject(SkyAppWindowRef);
   #dynamicComponentService = inject(SkyDynamicComponentService);

@@ -4,6 +4,7 @@ import {
   SkyMediaQueryService,
   SkyResizeObserverMediaQueryService,
 } from '@skyux/core';
+import { SkyFlyoutModule } from '@skyux/flyout';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkySectionedFormModule } from '@skyux/tabs';
 
@@ -12,7 +13,12 @@ import { ResizeObserverFlyoutComponent } from './resize-observer-flyout.componen
 
 @NgModule({
   declarations: [ResizeObserverFlyoutComponent, ResizeObserverContentComponent],
-  imports: [CommonModule, SkyIconModule, SkySectionedFormModule],
+  imports: [
+    CommonModule,
+    SkyFlyoutModule,
+    SkyIconModule,
+    SkySectionedFormModule,
+  ],
   exports: [ResizeObserverFlyoutComponent],
   providers: [
     SkyResizeObserverMediaQueryService,
