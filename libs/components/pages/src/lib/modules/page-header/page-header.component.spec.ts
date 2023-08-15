@@ -2,14 +2,14 @@ import { TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { expect } from '@skyux-sdk/testing';
-
-import { PageHeaderFixturesComponent } from './fixtures/page-header-fixtures.component';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import {
   mockResizeObserver,
   mockResizeObserverEntry,
   mockResizeObserverHandle,
-} from './fixtures/resize-observer-mock';
+} from '@skyux/core/testing';
+
+import { PageHeaderFixturesComponent } from './fixtures/page-header-fixtures.component';
 import { SkyPageHeaderModule } from './page-header.module';
 
 describe('Page header component', () => {
