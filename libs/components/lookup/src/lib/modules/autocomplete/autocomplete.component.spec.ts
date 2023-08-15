@@ -1120,10 +1120,7 @@ describe('Autocomplete component', () => {
       const inputElement: HTMLInputElement = getInputElement();
 
       await fixture.whenStable();
-      fixture.detectChanges();
-      inputElement.focus();
       SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
-      fixture.detectChanges();
       fixture.detectChanges();
       await fixture.whenStable();
       expect(getSearchResultsContainer()).toBeTruthy();
