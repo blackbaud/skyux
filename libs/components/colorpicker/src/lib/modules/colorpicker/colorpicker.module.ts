@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyAffixModule, SkyOverlayModule } from '@skyux/core';
 import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyI18nModule } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
 
@@ -23,6 +24,7 @@ import { SkyColorpickerComponent } from './colorpicker.component';
     CommonModule,
     SkyAffixModule,
     SkyColorpickerResourcesModule,
+    SkyI18nModule,
     SkyIconModule,
     SkyInputBoxModule,
     SkyOverlayModule,

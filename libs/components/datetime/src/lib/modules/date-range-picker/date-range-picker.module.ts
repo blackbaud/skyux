@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyI18nModule } from '@skyux/i18n';
 
 import { SkyDatepickerModule } from '../datepicker/datepicker.module';
 import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
@@ -21,6 +22,7 @@ import { SkyDateRangeService } from './date-range.service';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    SkyI18nModule,
     SkyDatepickerModule,
     SkyDatetimeResourcesModule,
     SkyInputBoxModule,
