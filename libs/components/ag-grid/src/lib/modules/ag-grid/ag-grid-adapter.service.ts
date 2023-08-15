@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { SkyCoreAdapterService } from '@skyux/core';
 
+/**
+ * @internal
+ */
 @Injectable({
   providedIn: 'root',
 })
