@@ -13,6 +13,7 @@ import { SkySearchModule } from '../search/search.module';
 
 import { SkySelectionModalItemSelectedPipe } from './selection-modal-item-selected.pipe';
 import { SkySelectionModalComponent } from './selection-modal.component';
+import { SkySelectionModalService } from './selection-modal.service';
 
 @NgModule({
   declarations: [SkySelectionModalComponent, SkySelectionModalItemSelectedPipe],
@@ -30,5 +31,6 @@ import { SkySelectionModalComponent } from './selection-modal.component';
     SkyViewkeeperModule,
     SkyWaitModule,
   ],
+  providers: [SkySelectionModalService],
 })
 export class SkySelectionModalModule {}
