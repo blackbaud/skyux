@@ -10,6 +10,10 @@ import { MockModalService } from './fixtures/mocks';
 
 describe('Error modal service', () => {
   function createMockModalService(): MockModalService {
+    return TestBed.inject(MockModalService);
+  }
+
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyErrorModule],
       providers: [
@@ -20,9 +24,7 @@ describe('Error modal service', () => {
         },
       ],
     });
-
-    return TestBed.inject(MockModalService);
-  }
+  });
 
   it('should open with correct parameters (log service undefined)', () => {
     const modalService = createMockModalService();
