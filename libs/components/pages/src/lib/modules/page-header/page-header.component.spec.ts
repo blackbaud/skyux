@@ -2,18 +2,19 @@ import { TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { expect } from '@skyux-sdk/testing';
-import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import { MockSkyMediaQueryService } from '@skyux/core/testing';
+import {
+  mockResizeObserver,
+  mockResizeObserverEntry,
+  mockResizeObserverHandle,
+} from '@skyux/core/testing';
 
 import { PageHeaderFixturesComponent } from './fixtures/page-header-fixtures.component';
 import { SkyPageHeaderModule } from './page-header.module';
 
 describe('Page header component', () => {
-  let mockMediaQueryService: MockSkyMediaQueryService;
-
   beforeEach(() => {
-    mockMediaQueryService = new MockSkyMediaQueryService();
+    mockResizeObserver();
 
     TestBed.configureTestingModule({
       imports: [
@@ -21,12 +22,6 @@ describe('Page header component', () => {
         RouterModule,
         SkyPageHeaderModule,
         RouterTestingModule.withRoutes([]),
-      ],
-      providers: [
-        {
-          provide: SkyMediaQueryService,
-          useValue: mockMediaQueryService,
-        },
       ],
     });
   });
@@ -66,7 +61,13 @@ describe('Page header component', () => {
     fixture.componentInstance.showAvatar = true;
     fixture.detectChanges();
 
-    mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+    mockResizeObserverHandle.emit([
+      {
+        ...mockResizeObserverEntry,
+        target: fixture.componentInstance.pageHeaderEl?.nativeElement,
+      },
+    ]);
+
     fixture.detectChanges();
 
     const smallAvatar = fixture.nativeElement.querySelector(
