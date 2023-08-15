@@ -13,6 +13,7 @@ import { SkyAgGridDataManagerAdapterDirective } from './ag-grid-data-manager-ada
 import { SkyAgGridRowDeleteComponent } from './ag-grid-row-delete.component';
 import { SkyAgGridRowDeleteDirective } from './ag-grid-row-delete.directive';
 import { SkyAgGridWrapperComponent } from './ag-grid-wrapper.component';
+import { SkyAgGridService } from './ag-grid.service';
 import { SkyAgGridCellEditorAutocompleteModule } from './cell-editors/cell-editor-autocomplete/cell-editor-autocomplete.module';
 import { SkyAgGridCellEditorCurrencyModule } from './cell-editors/cell-editor-currency/cell-editor-currency.module';
 import { SkyAgGridCellEditorDatepickerModule } from './cell-editors/cell-editor-datepicker/cell-editor-datepicker.module';
@@ -65,5 +66,6 @@ import { SkyAgGridHeaderComponent } from './header/header.component';
     SkyAgGridHeaderComponent,
     SkyAgGridHeaderGroupComponent,
   ],
+  providers: [SkyAgGridService],
 })
 export class SkyAgGridModule {}
