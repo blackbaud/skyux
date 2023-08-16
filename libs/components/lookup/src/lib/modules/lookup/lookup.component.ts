@@ -208,7 +208,7 @@ export class SkyLookupComponent
    * @internal
    */
   @Output()
-  public lookupOpenChange = new EventEmitter<boolean>();
+  public openChange = new EventEmitter<boolean>();
 
   public get tokens(): SkyToken[] | undefined {
     return this.#_tokens;
@@ -385,7 +385,7 @@ export class SkyLookupComponent
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
     this.addClick.complete();
-    this.lookupOpenChange.complete();
+    this.openChange.complete();
     this.tokensController.complete();
   }
 
@@ -653,9 +653,9 @@ export class SkyLookupComponent
 
   protected onAutocompleteOpenChange($event: boolean): void {
     if ($event) {
-      this.lookupOpenChange.emit(true);
+      this.openChange.emit(true);
     } else if (!this.#pickerModalOpen()) {
-      this.lookupOpenChange.emit(false);
+      this.openChange.emit(false);
     }
   }
 

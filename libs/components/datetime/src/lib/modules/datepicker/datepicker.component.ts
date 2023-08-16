@@ -86,7 +86,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
    * @internal
    */
   @Output()
-  public calendarOpenChange = new EventEmitter<boolean>();
+  public openChange = new EventEmitter<boolean>();
 
   public calendarId: string;
 
@@ -232,6 +232,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
 
   public ngOnDestroy(): void {
     this.dateChange.complete();
+    this.openChange.complete();
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
     this.#removePickerEventListeners();
@@ -304,7 +305,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
     this.#removePickerEventListeners();
     this.triggerButtonRef?.nativeElement.focus();
     this.isOpen = false;
-    this.calendarOpenChange.emit(false);
+    this.openChange.emit(false);
   }
 
   #openPicker(): void {
@@ -317,7 +318,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
 
     this.isOpen = true;
     this.#changeDetector.markForCheck();
-    this.calendarOpenChange.emit(true);
+    this.openChange.emit(true);
   }
 
   #createAffixer(): void {
