@@ -2,7 +2,7 @@
   <form id="screenshot-date-range-picker" novalidate [formGroup]="reactiveForm">
     <div
       *ngFor="let scenario of scenarios"
-      class="sky-margin-stacked-lg"
+      class="sky-margin-stacked-sm"
       [attr.id]="'form-group-' + scenario.name"
     >
       <sky-date-range-picker
@@ -15,7 +15,7 @@
       ></sky-date-range-picker>
     </div>
 
-    <div class="sky-margin-stacked-lg">
+    <div class="sky-margin-stacked-sm">
       <button class="sky-btn sky-btn-default" type="button" (click)="submit()">
         Submit
       </button>
