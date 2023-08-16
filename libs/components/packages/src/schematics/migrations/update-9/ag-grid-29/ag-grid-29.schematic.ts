@@ -1,5 +1,6 @@
 import { JsonValue, Path } from '@angular-devkit/core';
 import { Rule, Tree, chain } from '@angular-devkit/schematics';
+import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 import { readWorkspace, writeWorkspace } from '@schematics/angular/utility';
 import {
   insertImport,
@@ -11,8 +12,6 @@ import {
   applyToUpdateRecorder,
 } from '@schematics/angular/utility/change';
 import { getPackageJsonDependency } from '@schematics/angular/utility/dependencies';
-
-import ts from 'typescript';
 
 const AG_GRID = 'ag-grid-community';
 const AG_GRID_ENT = 'ag-grid-enterprise';
