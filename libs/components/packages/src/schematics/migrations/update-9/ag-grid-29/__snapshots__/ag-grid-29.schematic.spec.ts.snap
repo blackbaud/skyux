@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ag-grid-29.schematic should update RowNode to use interface 1`] = `
+"
+        import { RowNode, IRowNode } from 'ag-grid-community';
+
+        export class AppComponent {
+          public updateRow(row: IRowNode) {
+            const options = {
+              event: RowNode.EVENT_CELL_CHANGED,
+            };
+            row.addEventListener(RowNode.EVENT_CELL_CHANGED, () => undefined)
+          }
+        }"
+`;
+
+exports[`ag-grid-29.schematic should update selectThisNode 1`] = `
+"
+        export class AppComponent {
+          public updateCheckbox(selected: boolean) {
+            return this.#row.setSelected(selected);
+          }
+        }"
+`;
