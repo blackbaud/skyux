@@ -1,4 +1,9 @@
-import { ComponentRef, Injectable } from '@angular/core';
+import {
+  ComponentRef,
+  EnvironmentInjector,
+  Injectable,
+  inject,
+} from '@angular/core';
 import {
   SkyDynamicComponentLocation,
   SkyDynamicComponentService,
@@ -20,6 +25,7 @@ export class SkySkipLinkService {
   private static host: ComponentRef<SkySkipLinkHostComponent> | undefined;
 
   #dynamicComponentService: SkyDynamicComponentService;
+  #environmentInjector = inject(EnvironmentInjector);
 
   constructor(dynamicComponentService: SkyDynamicComponentService) {
     this.#dynamicComponentService = dynamicComponentService;
@@ -50,6 +56,7 @@ export class SkySkipLinkService {
       const componentRef = this.#dynamicComponentService.createComponent(
         SkySkipLinkHostComponent,
         {
+          environmentInjector: this.#environmentInjector,
           location: SkyDynamicComponentLocation.BodyTop,
         }
       );
