@@ -476,6 +476,8 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   #currentSearchSub: Subscription | undefined;
 
+  #isDropdownVisible = new BehaviorSubject<boolean>(false);
+
   #zIndex: Observable<number> | undefined;
 
   #_data: any[] = [];
@@ -489,8 +491,6 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   #_highlightText: string[] | undefined;
 
   #_inputDirective: SkyAutocompleteInputDirective | undefined;
-
-  #_isDropdownVisible = new BehaviorSubject<boolean>(false);
 
   #_messageStream = new Subject<SkyAutocompleteMessage>();
 
@@ -537,7 +537,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     const id = ++uniqueId;
     this.resultsListId = `sky-autocomplete-list-${id}`;
     this.resultsWrapperId = `sky-autocomplete-wrapper-${id}`;
-    this.isDropdownVisible = this.#_isDropdownVisible.asObservable();
+    this.isDropdownVisible = this.#isDropdownVisible.asObservable();
   }
 
   public ngAfterViewInit(): void {
@@ -548,7 +548,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     this.#cancelCurrentSearch();
     this.#inputDirectiveUnsubscribe.next();
     this.#inputDirectiveUnsubscribe.complete();
-    this.#_isDropdownVisible.complete();
+    this.#isDropdownVisible.complete();
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
     this.#destroyAffixer();
@@ -1067,8 +1067,8 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     const isDropdownVisible =
       !!this.searchText &&
       (!this.showActionsArea || this.searchResults.length > 0);
-    if (isDropdownVisible !== this.#_isDropdownVisible.getValue()) {
-      this.#_isDropdownVisible.next(isDropdownVisible);
+    if (isDropdownVisible !== this.#isDropdownVisible.getValue()) {
+      this.#isDropdownVisible.next(isDropdownVisible);
     }
   }
 }
