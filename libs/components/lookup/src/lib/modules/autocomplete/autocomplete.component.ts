@@ -302,6 +302,12 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   @Output()
   public searchAsync = new EventEmitter<SkyAutocompleteSearchAsyncArgs>();
 
+  /**
+   * @internal
+   */
+  @Output()
+  public openChange = new EventEmitter<boolean>();
+
   //#endregion
 
   //#region template_properties
@@ -530,6 +536,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     this.#ngUnsubscribe.complete();
     this.#destroyAffixer();
     this.#destroyOverlay();
+    this.openChange.complete();
   }
 
   public addButtonClicked(): void {
@@ -857,6 +864,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       this.#changeDetector.markForCheck();
       this.#updateAriaOwns();
       this.#initOverlayFocusableElements();
+      this.openChange.emit(true);
     }
   }
 
@@ -867,6 +875,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     this.#removeActiveDescendant();
     this.#updateAriaOwns();
     this.#changeDetector.markForCheck();
+    this.openChange.emit(false);
   }
 
   #setActiveDescendant(): void {

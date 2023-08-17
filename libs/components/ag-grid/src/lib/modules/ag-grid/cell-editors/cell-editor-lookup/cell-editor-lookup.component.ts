@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   HostBinding,
+  HostListener,
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
@@ -42,6 +43,7 @@ export class SkyAgGridCellEditorLookupComponent
   });
   public useAsyncSearch = false;
 
+  #lookupOpen = false;
   #params: SkyCellEditorLookupParams | undefined;
   #triggerType: SkyAgGridCellEditorInitialAction | undefined;
   #changeDetector: ChangeDetectorRef;
@@ -50,6 +52,11 @@ export class SkyAgGridCellEditorLookupComponent
   constructor(changeDetector: ChangeDetectorRef, elementRef: ElementRef) {
     this.#changeDetector = changeDetector;
     this.#elementRef = elementRef;
+  }
+
+  @HostListener('blur')
+  public onBlur(): void {
+    this.#stopEditingOnBlur();
   }
 
   public agInit(params: SkyCellEditorLookupParams): void {
@@ -133,10 +140,25 @@ export class SkyAgGridCellEditorLookupComponent
     }
   }
 
+  public onLookupOpenChange(isOpen: boolean): void {
+    this.#lookupOpen = isOpen;
+    this.#stopEditingOnBlur();
+  }
+
   #updateComponentProperties(
     params: SkyCellEditorLookupParams
   ): SkyAgGridLookupProperties {
     const skyLookupProperties = params.skyComponentProperties;
     return applySkyLookupPropertiesDefaults(skyLookupProperties);
+  }
+
+  #stopEditingOnBlur(): void {
+    if (
+      !this.#lookupOpen &&
+      this.#params?.context?.gridOptions?.stopEditingWhenCellsLoseFocus &&
+      !this.#elementRef.nativeElement.matches(':focus-within')
+    ) {
+      this.#params?.api.stopEditing();
+    }
   }
 }
