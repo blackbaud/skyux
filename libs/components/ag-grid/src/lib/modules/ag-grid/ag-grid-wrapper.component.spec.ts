@@ -123,7 +123,6 @@ describe('SkyAgGridWrapperComponent', () => {
 
   it('should apply ag-theme', async () => {
     (agGrid.api.setHeaderHeight as jasmine.Spy).and.returnValue(undefined);
-    (agGrid.api.setHeaderHeight as jasmine.Spy).and.returnValue(undefined);
     (agGrid.api.resetRowHeights as jasmine.Spy).and.returnValue(undefined);
     (agGrid.api.refreshCells as jasmine.Spy).and.returnValue(undefined);
     expect(

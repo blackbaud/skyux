@@ -229,16 +229,15 @@ export class EditStopWhenLosesFocusComponent implements OnInit {
   }
 
   private getGridOptions(): void {
-    this.gridOptions = {
-      columnDefs: this.columnDefs,
-      onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
-      onGridSizeChanged: () => {
-        this.sizeGrid();
-      },
-    };
     this.gridOptions = this.agGridService.getEditableGridOptions({
-      gridOptions: this.gridOptions,
+      gridOptions: {
+        columnDefs: this.columnDefs,
+        onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
+        onGridSizeChanged: () => {
+          this.sizeGrid();
+        },
+        stopEditingWhenCellsLoseFocus: true,
+      },
     });
-    this.gridOptions.stopEditingWhenCellsLoseFocus = true;
   }
 }

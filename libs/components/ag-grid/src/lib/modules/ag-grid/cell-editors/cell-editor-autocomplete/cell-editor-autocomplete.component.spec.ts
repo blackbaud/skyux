@@ -4,6 +4,7 @@ import { expect, expectAsync } from '@skyux-sdk/testing';
 import {
   Beans,
   Column,
+  GridApi,
   ICellEditorParams,
   KeyCode,
   RowNode,
@@ -62,11 +63,17 @@ describe('SkyCellEditorAutocompleteComponent', () => {
       );
 
       cellEditorParams = {
+        api: jasmine.createSpyObj('api', GridApi.prototype),
         value: selection,
         column,
         node: rowNode,
         colDef: {},
         cellStartedEdit: true,
+        context: {
+          gridOptions: {
+            stopEditingWhenCellsLoseFocus: true,
+          },
+        },
       };
     });
 
@@ -75,6 +82,18 @@ describe('SkyCellEditorAutocompleteComponent', () => {
       component.agInit(cellEditorParams as ICellEditorParams);
 
       expect(component.editorForm.get('selection')?.value).toEqual(selection);
+    });
+
+    it('should respond to focus changes', () => {
+      component.agInit(cellEditorParams as SkyCellEditorAutocompleteParams);
+
+      component.onAutocompleteOpenChange(true);
+      component.onBlur();
+      expect(cellEditorParams.api?.stopEditing).not.toHaveBeenCalled();
+
+      component.onAutocompleteOpenChange(false);
+      component.onBlur();
+      expect(cellEditorParams.api?.stopEditing).toHaveBeenCalled();
     });
 
     describe('cellStartedEdit is true', () => {
