@@ -6,7 +6,7 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
-import { SkyLayoutHostService } from '@skyux/core';
+import { SkyLayoutHostForChildArgs, SkyLayoutHostService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -21,7 +21,9 @@ const LAYOUT_CLASS_PREFIX = 'sky-layout-host-';
 const LAYOUT_CLASS_DEFAULT = `${LAYOUT_CLASS_PREFIX}${LAYOUT_DEFAULT}`;
 
 /**
- * Displays a page using the specified layout.
+ * Displays a page using the specified layout. The page component is a responsive container,
+ * meaning content will respect the breakpoints within the page element instead of the window.
+ * This is helpful if there is other content to the left or right of the page.
  */
 @Component({
   selector: 'sky-page',
@@ -31,7 +33,7 @@ const LAYOUT_CLASS_DEFAULT = `${LAYOUT_CLASS_PREFIX}${LAYOUT_DEFAULT}`;
 export class SkyPageComponent implements OnInit, OnDestroy {
   /**
    * The page layout that applies spacing to the page header and content. Use the layout
-   * that corresponds with the top-level component type used on the page, our use `fit` to
+   * that corresponds with the top-level component type used on the page, or use `fit` to
    * constrain the page contents to the available viewport.
    * Use `none` for custom content that does not adhere to predefined spacing or constraints.
    * @default "none"
@@ -58,7 +60,7 @@ export class SkyPageComponent implements OnInit, OnDestroy {
 
     this.#layoutHostSvc.hostLayoutForChild
       .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((args) => {
+      .subscribe((args: SkyLayoutHostForChildArgs) => {
         this.#layoutForChild = args.layout as SkyPageLayoutType;
         this.#updateCssClass();
       });
