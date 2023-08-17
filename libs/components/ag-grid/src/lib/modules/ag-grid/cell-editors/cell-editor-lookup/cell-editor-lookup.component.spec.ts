@@ -19,7 +19,6 @@ import {
   KeyCode,
 } from 'ag-grid-community';
 import { of } from 'rxjs';
-import { first } from 'rxjs/operators';
 
 import { SkyCellEditorLookupParams } from '../../types/cell-editor-lookup-params';
 
@@ -100,19 +99,13 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', async () => {
-    await fixture.whenStable();
+  it('should create', () => {
     expect(component).toBeTruthy();
     expect(component.getGui()).toBeTruthy();
     expect(component.getValue()).toEqual([]);
     expect(component.getValue()).toBeTruthy();
     expect(component.isPopup()).toBeTrue();
     expect(component.isCancelAfterEnd()).toBeFalse();
-    expect(component.isAlive()).toBeTrue();
-    const isInitializing = await component.isInitialized
-      .pipe(first())
-      .toPromise();
-    expect(isInitializing).toBeFalse();
   });
 
   describe('agInit', () => {

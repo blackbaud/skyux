@@ -96,7 +96,7 @@ export class SkyAgGridCellEditorAutocompleteComponent
     return val !== undefined && val !== null ? val : undefined;
   }
 
-  public onAutocompleteOpenChange($event: boolean) {
+  public onAutocompleteOpenChange($event: boolean): void {
     this.#autocompleteOpen = $event;
     this.#stopEditingOnBlur();
   }

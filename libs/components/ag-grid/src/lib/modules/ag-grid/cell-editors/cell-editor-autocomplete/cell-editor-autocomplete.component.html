@@ -1,6 +1,5 @@
 <div class="sky-ag-grid-cell-editor-autocomplete" [formGroup]="editorForm">
   <sky-autocomplete
-    [ariaLabelledBy]="labelElement.id"
     [data]="skyComponentProperties.data"
     [debounceTime]="skyComponentProperties.debounceTime"
     [descriptorProperty]="skyComponentProperties.descriptorProperty"
@@ -29,8 +28,4 @@
       "
     />
   </sky-autocomplete>
-  <label class="sky-screen-reader-only" skyId #labelElement="skyId">{{
-    'sky_ag_grid_cell_editor_autocomplete_aria_label'
-      | skyLibResources : columnHeader : rowNumber
-  }}</label>
 </div>
