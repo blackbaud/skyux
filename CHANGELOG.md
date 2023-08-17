@@ -15,6 +15,13 @@
 * **components/tabs:** activate vertical tab only when active=true ([#2121](https://github.com/blackbaud/skyux/issues/2121)) ([#2122](https://github.com/blackbaud/skyux/issues/2122)) ([0057194](https://github.com/blackbaud/skyux/commit/00571946db1cdd4a090212f2ec605441a03ec770))
 * **components/theme:** address clipboard icon metadata issue ([#2129](https://github.com/blackbaud/skyux/issues/2129)) ([#2132](https://github.com/blackbaud/skyux/issues/2132)) ([ee69193](https://github.com/blackbaud/skyux/commit/ee69193dc8b2d70e0e5a6cee8971f0eaffb629da))
 
+## [9.30.2](https://github.com/blackbaud/skyux/compare/9.30.1...9.30.2) (2024-03-14)
+
+
+### Bug Fixes
+
+* **components/theme:** address clipboard icon metadata issue ([#2129](https://github.com/blackbaud/skyux/issues/2129)) ([f2c9041](https://github.com/blackbaud/skyux/commit/f2c90410809b8c699cf381dae947cacf5972a3a1))
+
 ## [9.30.1](https://github.com/blackbaud/skyux/compare/9.30.0...9.30.1) (2024-03-13)
 
 
