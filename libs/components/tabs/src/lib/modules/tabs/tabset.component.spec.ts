@@ -2012,6 +2012,10 @@ describe('Tabset component', () => {
       fixture.componentInstance.tab3Layout = 'list';
 
       validateTabsetLayoutChange(fixture, layoutForChildHandler, 'list');
+
+      fixture.componentInstance.tab3Layout = 'none';
+
+      validateTabsetLayoutChange(fixture, layoutForChildHandler, 'none');
     }));
 
     it('should default tab layout to "none" when set to undefined', fakeAsync(() => {
