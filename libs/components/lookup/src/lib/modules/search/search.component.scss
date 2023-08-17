@@ -4,10 +4,6 @@
 @use 'scss/variables' as lookupVars;
 
 sky-search {
-  .sky-search-container .sky-form-group {
-    margin-bottom: 0;
-  }
-
   .sky-search-input {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
