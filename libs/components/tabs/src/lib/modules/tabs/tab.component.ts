@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   EventEmitter,
   HostBinding,
   Input,
@@ -9,7 +10,13 @@ import {
   OnDestroy,
   Output,
   SimpleChanges,
+  ViewChild,
+  inject,
 } from '@angular/core';
+import {
+  SkyMediaQueryService,
+  SkyResizeObserverMediaQueryService,
+} from '@skyux/core';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -28,6 +35,13 @@ let nextId = 0;
   templateUrl: './tab.component.html',
   styleUrls: ['./tab.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    SkyResizeObserverMediaQueryService,
+    {
+      provide: SkyMediaQueryService,
+      useExisting: SkyResizeObserverMediaQueryService,
+    },
+  ],
 })
 export class SkyTabComponent implements OnChanges, OnDestroy {
   /**
@@ -126,11 +140,11 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
   }
 
   /**
-   * The page layout that corresponds with the top-level component type
-   * used on the page. For laying out custom content, use `auto` to allow
-   * the page contents to expand beyond the bottom of the browser window
-   * or `fit` to constrain the page contents to the available viewport.
-   * @default "auto"
+   * The tab layout that applies spacing to the tab container element. Use the layout
+   * that corresponds with the top-level component type used within the tab, or use `fit` to
+   * constrain the tab contents to the available viewport.
+   * Use `none` for custom content that does not adhere to predefined spacing or constraints.
+   * @default "none"
    */
   @Input()
   public set layout(value: SkyTabLayoutType | undefined) {
@@ -138,6 +152,8 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
 
     this.#_layout = layout;
     this.cssClass = `${LAYOUT_CLASS_PREFIX}${layout}`;
+
+    this.#observeTabResize();
 
     if (this.active) {
       this.#tabsetService.updateActiveTabLayout(layout);
@@ -170,6 +186,16 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
     return this.#tabIndexChange;
   }
 
+  @ViewChild('tabContentWrapper')
+  public set tabContentWrapper(tabContentWrapper: ElementRef | undefined) {
+    this.#_tabElement = tabContentWrapper;
+    this.#observeTabResize();
+  }
+
+  public get tabContentWrapper(): ElementRef | undefined {
+    return this.#_tabElement;
+  }
+
   public permalinkValueOrDefault = '';
 
   public showContent = false;
@@ -192,7 +218,11 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
 
   #_layout: SkyTabLayoutType = LAYOUT_DEFAULT;
 
+  #_tabElement: ElementRef | undefined;
+
   #tabIndexChange: BehaviorSubject<SkyTabIndex | undefined>;
+
+  #observingTab = false;
 
   #changeDetector: ChangeDetectorRef;
   #permalinkService: SkyTabsetPermalinkService;
@@ -219,6 +249,8 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
     this.#setPermalinkValueOrDefault();
   }
 
+  #mediaQueryService = inject(SkyResizeObserverMediaQueryService);
+
   public ngOnChanges(changes: SimpleChanges): void {
     if (
       (changes['disabled'] && !changes['disabled'].firstChange) ||
@@ -227,6 +259,10 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
       (changes['permalinkValue'] && !changes['permalinkValue'].firstChange)
     ) {
       this.#stateChange.next();
+    }
+
+    if (changes['layout'] && changes['layout'].currentValue === 'none') {
+      this.#mediaQueryService.unobserve();
     }
   }
 
@@ -237,6 +273,8 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
     if (this.tabIndex !== undefined) {
       this.#tabsetService.unregisterTab(this.tabIndex);
     }
+    this.#mediaQueryService.unobserve();
+    this.#observingTab = false;
   }
 
   public init(): void {
@@ -263,5 +301,19 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
     this.permalinkValueOrDefault =
       this.#permalinkService.urlify(this.permalinkValue) ||
       this.#permalinkService.urlify(this.tabHeading);
+  }
+
+  #observeTabResize(): void {
+    if (this.tabContentWrapper) {
+      if (this.layout !== 'none' && !this.#observingTab) {
+        this.#observingTab = true;
+        this.#mediaQueryService.observe(this.tabContentWrapper, {
+          updateResponsiveClasses: true,
+        });
+      } else if (this.layout === 'none' && this.#observingTab) {
+        this.#observingTab = false;
+        this.#mediaQueryService.unobserve();
+      }
+    }
   }
 }

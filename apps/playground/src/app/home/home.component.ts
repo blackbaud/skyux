@@ -140,7 +140,6 @@ export class HomeComponent implements AfterViewInit {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const promises: Promise<any>[] = [];
 
-    console.log(parentPath);
     for (const route of routes) {
       if (route.loadChildren) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
