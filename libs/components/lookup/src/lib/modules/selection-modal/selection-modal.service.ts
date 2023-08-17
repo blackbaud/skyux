@@ -16,9 +16,7 @@ import { SkySelectionModalOpenArgs } from './types/selection-modal-open-args';
 /**
  * Displays a modal for selecting one or more values.
  */
-@Injectable({
-  providedIn: 'any',
-})
+@Injectable()
 export class SkySelectionModalService {
   #modalSvc: SkyModalService;
 
