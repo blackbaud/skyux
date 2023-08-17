@@ -24,7 +24,23 @@ exports[`Migrations > Add compat stylesheets should add a compat stylesheet for 
  *******************************************************************************/
 
 :root {
-  --sky-compat-input-box-sky-form-control-margin-bottom: 10px
+  --sky-compat-sky-form-group-margin-bottom: 10px
+}
+
+/*******************************************************************************
+ * COMPONENT: STYLES
+ *******************************************************************************/
+
+/*******************************************************************************
+ * The bottom margin has been removed from \`sky-form-group\` style class. To
+ * address this, remove this block of css and change \`sky-form-group\` to
+ * \`sky-margin-stacked-sm\` or other appropriate spacing classes. See
+ * https://developer.blackbaud.com/skyux/design/styles/spacing for a list of
+ * supported spacing classes.
+ *******************************************************************************/
+
+:root {
+  --sky-compat-sky-form-group-margin-bottom: 10px
 }
 "
 `;
@@ -53,7 +69,23 @@ exports[`Migrations > Add compat stylesheets should add a compat stylesheet for 
  *******************************************************************************/
 
 :root {
-  --sky-compat-input-box-sky-form-control-margin-bottom: 10px
+  --sky-compat-sky-form-group-margin-bottom: 10px
+}
+
+/*******************************************************************************
+ * COMPONENT: STYLES
+ *******************************************************************************/
+
+/*******************************************************************************
+ * The bottom margin has been removed from \`sky-form-group\` style class. To
+ * address this, remove this block of css and change \`sky-form-group\` to
+ * \`sky-margin-stacked-sm\` or other appropriate spacing classes. See
+ * https://developer.blackbaud.com/skyux/design/styles/spacing for a list of
+ * supported spacing classes.
+ *******************************************************************************/
+
+:root {
+  --sky-compat-sky-form-group-margin-bottom: 10px
 }
 "
 `;
@@ -82,7 +114,23 @@ exports[`Migrations > Add compat stylesheets should handle missing styles array 
  *******************************************************************************/
 
 :root {
-  --sky-compat-input-box-sky-form-control-margin-bottom: 10px
+  --sky-compat-sky-form-group-margin-bottom: 10px
+}
+
+/*******************************************************************************
+ * COMPONENT: STYLES
+ *******************************************************************************/
+
+/*******************************************************************************
+ * The bottom margin has been removed from \`sky-form-group\` style class. To
+ * address this, remove this block of css and change \`sky-form-group\` to
+ * \`sky-margin-stacked-sm\` or other appropriate spacing classes. See
+ * https://developer.blackbaud.com/skyux/design/styles/spacing for a list of
+ * supported spacing classes.
+ *******************************************************************************/
+
+:root {
+  --sky-compat-sky-form-group-margin-bottom: 10px
 }
 "
 `;
@@ -111,7 +159,23 @@ exports[`Migrations > Add compat stylesheets should overwrite an existing compat
  *******************************************************************************/
 
 :root {
-  --sky-compat-input-box-sky-form-control-margin-bottom: 10px
+  --sky-compat-sky-form-group-margin-bottom: 10px
+}
+
+/*******************************************************************************
+ * COMPONENT: STYLES
+ *******************************************************************************/
+
+/*******************************************************************************
+ * The bottom margin has been removed from \`sky-form-group\` style class. To
+ * address this, remove this block of css and change \`sky-form-group\` to
+ * \`sky-margin-stacked-sm\` or other appropriate spacing classes. See
+ * https://developer.blackbaud.com/skyux/design/styles/spacing for a list of
+ * supported spacing classes.
+ *******************************************************************************/
+
+:root {
+  --sky-compat-sky-form-group-margin-bottom: 10px
 }
 "
 `;

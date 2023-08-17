@@ -84,6 +84,7 @@ describe('Migrations > Add compat stylesheets', () => {
       JSON.stringify({
         dependencies: {
           '@skyux/forms': '8.0.0',
+          '@skyux/theme': '8.0.0',
         },
       }),
       []
@@ -95,6 +96,7 @@ describe('Migrations > Add compat stylesheets', () => {
       JSON.stringify({
         devDependencies: {
           '@skyux/forms': '8.0.0',
+          '@skyux/theme': '8.0.0',
         },
       }),
       []
@@ -106,6 +108,7 @@ describe('Migrations > Add compat stylesheets', () => {
       JSON.stringify({
         devDependencies: {
           '@skyux/forms': '8.0.0',
+          '@skyux/theme': '8.0.0',
         },
       }),
       [],
@@ -118,6 +121,7 @@ describe('Migrations > Add compat stylesheets', () => {
       JSON.stringify({
         devDependencies: {
           '@skyux/forms': '8.0.0',
+          '@skyux/theme': '8.0.0',
         },
       }),
       undefined, // <-- empty array
@@ -137,6 +141,7 @@ describe('Migrations > Add compat stylesheets', () => {
       JSON.stringify({
         dependencies: {
           '@skyux/forms': '8.0.0',
+          '@skyux/theme': '8.0.0',
         },
       })
     );

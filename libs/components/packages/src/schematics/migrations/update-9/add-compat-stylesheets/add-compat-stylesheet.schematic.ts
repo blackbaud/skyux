@@ -16,13 +16,31 @@ const compatStyles = {
           styles: [
             {
               css: `
-
 :root {
-  --sky-compat-input-box-sky-form-control-margin-bottom: 10px
+  --sky-compat-sky-form-group-margin-bottom: 10px
 }
 `,
               instructions: `
 The bottom margin has been removed from the  \`sky-input-box\`. To address this, remove this block of CSS and use \`stacked="true"\` to automatically have the latest vertical spacing added.`,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: '@skyux/theme',
+      components: [
+        {
+          name: 'styles',
+          styles: [
+            {
+              css: `
+:root {
+  --sky-compat-sky-form-group-margin-bottom: 10px
+}
+`,
+              instructions: `
+The bottom margin has been removed from \`sky-form-group\` style class. To address this, remove this block of css and change \`sky-form-group\` to \`sky-margin-stacked-sm\` or other appropriate spacing classes. See https://developer.blackbaud.com/skyux/design/styles/spacing for a list of supported spacing classes.`,
             },
           ],
         },
