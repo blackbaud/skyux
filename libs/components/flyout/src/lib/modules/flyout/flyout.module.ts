@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { SkyI18nModule } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyHrefModule } from '@skyux/router';
 import { SkyThemeModule } from '@skyux/theme';
@@ -21,7 +20,6 @@ import { SkyFlyoutService } from './flyout.service';
     CommonModule,
     FormsModule,
     RouterModule,
-    SkyI18nModule,
     SkyIconModule,
     SkyFlyoutResourcesModule,
     SkyThemeModule,

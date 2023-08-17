@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SkyI18nModule } from '@skyux/i18n';
 
 import { SkyLayoutResourcesModule } from '../shared/sky-layout-resources.module';
 
@@ -21,7 +20,7 @@ import { SkyDefinitionListComponent } from './definition-list.component';
     SkyDefinitionListLabelComponent,
     SkyDefinitionListValueComponent,
   ],
-  imports: [CommonModule, SkyI18nModule, SkyLayoutResourcesModule],
+  imports: [CommonModule, SkyLayoutResourcesModule],
   exports: [
     SkyDefinitionListComponent,
     SkyDefinitionListContentComponent,

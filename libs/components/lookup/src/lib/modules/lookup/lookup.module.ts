@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyViewkeeperModule } from '@skyux/core';
 import { SkyCheckboxModule } from '@skyux/forms';
-import { SkyI18nModule } from '@skyux/i18n';
 import {
   SkyIconModule,
   SkyTokensModule,
@@ -31,7 +30,6 @@ import { SkyLookupComponent } from './lookup.component';
     SkyCheckboxModule,
     SkyIconModule,
     SkyInfiniteScrollModule,
-    SkyI18nModule,
     SkyLookupResourcesModule,
     SkyModalModule,
     SkyRepeaterModule,

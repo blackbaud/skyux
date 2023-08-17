@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SkyI18nModule } from '@skyux/i18n';
 import { SkyIconModule, SkyTokensModule } from '@skyux/indicators';
 import {
   SkyListFiltersModule,
@@ -26,7 +25,6 @@ import { SkySelectFieldComponent } from './select-field.component';
     FormsModule,
     ReactiveFormsModule,
     SkySelectFieldResourcesModule,
-    SkyI18nModule,
     SkyListFiltersModule,
     SkyListModule,
     SkyListPagingModule,
