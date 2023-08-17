@@ -5,10 +5,12 @@ import { SkyIndicatorsResourcesModule } from '../shared/sky-indicators-resources
 
 import { SkyWaitPageComponent } from './wait-page.component';
 import { SkyWaitComponent } from './wait.component';
+import { SkyWaitService } from './wait.service';
 
 @NgModule({
   declarations: [SkyWaitComponent, SkyWaitPageComponent],
   imports: [CommonModule, SkyIndicatorsResourcesModule],
   exports: [SkyWaitComponent],
+  providers: [SkyWaitService],
 })
 export class SkyWaitModule {}

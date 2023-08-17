@@ -1,5 +1,17 @@
 # Changelog
 
+## [8.8.0](https://github.com/blackbaud/skyux/compare/8.7.2...8.8.0) (2023-08-15)
+
+
+### Features
+
+* **components/pages:** make page component a responsive container ([#1552](https://github.com/blackbaud/skyux/issues/1552)) ([dc2584a](https://github.com/blackbaud/skyux/commit/dc2584a338d1ef964743192b58ea944460a70b90))
+
+
+### Bug Fixes
+
+* **components/split-view:** clarify split-view footer uses and remove the workspace header from the public documentation ([#1577](https://github.com/blackbaud/skyux/issues/1577)) ([1a94919](https://github.com/blackbaud/skyux/commit/1a94919e43b41860bdc305ef12e05d8a53d9be53))
+
 ## [9.0.0-alpha.4](https://github.com/blackbaud/skyux/compare/9.0.0-alpha.3...9.0.0-alpha.4) (2023-08-11)
 
 
