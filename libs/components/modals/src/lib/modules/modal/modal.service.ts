@@ -1,4 +1,9 @@
-import { ComponentRef, Injectable } from '@angular/core';
+import {
+  ComponentRef,
+  EnvironmentInjector,
+  Injectable,
+  inject,
+} from '@angular/core';
 import { SkyDynamicComponentService } from '@skyux/core';
 
 import { SkyModalHostContext } from './modal-host-context';
@@ -20,6 +25,7 @@ export class SkyModalService {
   private static host: ComponentRef<SkyModalHostComponent> | undefined;
 
   #dynamicComponentService: SkyDynamicComponentService;
+  #environmentInjector = inject(EnvironmentInjector);
 
   constructor(dynamicComponentService: SkyDynamicComponentService) {
     this.#dynamicComponentService = dynamicComponentService;
@@ -96,6 +102,7 @@ export class SkyModalService {
       SkyModalService.host = this.#dynamicComponentService.createComponent(
         SkyModalHostComponent,
         {
+          environmentInjector: this.#environmentInjector,
           providers: [
             {
               provide: SkyModalHostContext,

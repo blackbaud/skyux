@@ -3,9 +3,7 @@ import { Injectable } from '@angular/core';
 /**
  * @internal
  */
-@Injectable({
-  providedIn: 'any',
-})
+@Injectable()
 export class SkyModalConfiguration {
   public fullPage?: boolean;
   public size?: string;
