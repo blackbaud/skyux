@@ -37,7 +37,7 @@ export class SkyAgGridCellEditorAutocompleteComponent
   #autocompleteOpen = false;
   #triggerType: SkyAgGridCellEditorInitialAction | undefined;
   #params: SkyCellEditorAutocompleteParams | undefined;
-  #elementRef = inject(ElementRef<HTMLElement>);
+  #elementRef = inject(ElementRef) as ElementRef<HTMLElement>;
 
   @ViewChild('skyCellEditorAutocomplete', { read: ElementRef })
   public input: ElementRef | undefined;

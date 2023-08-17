@@ -50,7 +50,7 @@ export class SkyAgGridCellEditorDatepickerComponent
   #params: SkyCellEditorDatepickerParams | undefined;
   #triggerType: SkyAgGridCellEditorInitialAction | undefined;
 
-  #elementRef = inject(ElementRef<HTMLElement>);
+  #elementRef = inject(ElementRef) as ElementRef<HTMLElement>;
   #changeDetector = inject(ChangeDetectorRef);
   #themeSvc = inject(SkyThemeService, { optional: true }) || undefined;
 
