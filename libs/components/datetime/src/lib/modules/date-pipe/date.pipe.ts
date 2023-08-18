@@ -1,10 +1,10 @@
-import { OnDestroy, Pipe, PipeTransform } from '@angular/core';
+import { OnDestroy, Pipe, PipeTransform, inject } from '@angular/core';
 import { SkyAppLocaleInfo, SkyAppLocaleProvider } from '@skyux/i18n';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyDateFormatUtility } from './date-format-utility';
+import { SkyDateService } from './date.service';
 
 /**
  * Formats date values according to locale rules.
@@ -20,22 +20,17 @@ import { SkyDateFormatUtility } from './date-format-utility';
   pure: false,
 })
 export class SkyDatePipe implements OnDestroy, PipeTransform {
+  #dateSvc = inject(SkyDateService);
   #defaultFormat = 'short';
-
-  #format: string | undefined;
-
   #defaultLocale = 'en-US';
-
+  #format: string | undefined;
+  #formattedValue: string | undefined;
   #locale: string | undefined;
-
+  #ngUnsubscribe = new Subject<void>();
   #value: any;
 
-  #formattedValue: string | undefined;
-
-  #ngUnsubscribe = new Subject<void>();
-
-  constructor(localeProvider: SkyAppLocaleProvider) {
-    localeProvider
+  constructor() {
+    inject(SkyAppLocaleProvider)
       .getLocaleInfo()
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((localeInfo: SkyAppLocaleInfo) => {
@@ -71,10 +66,6 @@ export class SkyDatePipe implements OnDestroy, PipeTransform {
     const locale = this.#locale || this.#defaultLocale;
     const format = this.#format || this.#defaultFormat;
 
-    this.#formattedValue = SkyDateFormatUtility.format(
-      locale,
-      this.#value,
-      format
-    );
+    this.#formattedValue = this.#dateSvc.format(this.#value, locale, format);
   }
 }

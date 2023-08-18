@@ -2,13 +2,24 @@
 // behavior of using the `Intl` API for formatting dates rather than having to register every
 // supported locale.
 // https://github.com/angular/angular/blob/4.4.x/packages/common/src/pipes/date_pipe.ts
-import { SkyIntlDateFormatter } from '@skyux/i18n';
+import { Injectable, inject } from '@angular/core';
+import {
+  SkyAppLocaleInfo,
+  SkyAppLocaleProvider,
+  SkyIntlDateFormatter,
+} from '@skyux/i18n';
 
 import moment from 'moment';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
-export class SkyDateFormatUtility {
+/**
+ * @internal
+ */
+@Injectable()
+export class SkyDateService {
   /* spell-checker:disable */
-  private static _ALIASES: { [key: string]: string } = {
+  #ALIASES: { [key: string]: string } = {
     medium: 'yMMMdjms',
     short: 'yMdjm',
     fullDate: 'yMMMMEEEEd',
@@ -20,12 +31,26 @@ export class SkyDateFormatUtility {
   };
   /* spell-checker:enable */
 
-  public static format(
-    locale: string,
+  #defaultFormat = 'short';
+  #defaultLocale = 'en-US';
+  #ngUnsubscribe = new Subject<void>();
+
+  constructor() {
+    inject(SkyAppLocaleProvider)
+      .getLocaleInfo()
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((localeInfo: SkyAppLocaleInfo) => {
+        this.#defaultLocale = localeInfo.locale;
+      });
+  }
+
+  public format(
     value: any,
-    pattern: string
+    locale?: string,
+    format?: string
   ): string | undefined {
     let date: Date;
+    const pattern = format || this.#defaultFormat;
 
     if (isBlank(value) || value !== value) {
       return undefined;
@@ -48,8 +73,8 @@ export class SkyDateFormatUtility {
 
     return SkyIntlDateFormatter.format(
       date,
-      locale,
-      SkyDateFormatUtility._ALIASES[pattern] || pattern
+      locale || this.#defaultLocale,
+      this.#ALIASES[pattern] || pattern
     );
   }
 }
