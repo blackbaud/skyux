@@ -59,18 +59,23 @@ function removeAgGridCssFiles(): Rule {
   };
 }
 
-function renameSelectThisNode(
+function switchToRenamedMethods(
   filePath: Path,
   content: string,
   changes: Change[]
 ) {
-  let pos = content.indexOf('selectThisNode');
-  while (pos > -1) {
-    changes.push(
-      new ReplaceChange(filePath, pos, 'selectThisNode', 'setSelected')
-    );
-    pos = content.indexOf('selectThisNode', pos + 1);
-  }
+  const renames = new Map<string, string>([
+    ['selectThisNode', 'setSelected'],
+    ['columnApi.setColumnState', 'columnApi.applyColumnState'],
+    ['column.isLockVisible()', 'column.getColDef().lockVisible'],
+  ]);
+  renames.forEach((toText, fromText) => {
+    let pos = content.indexOf(fromText);
+    while (pos > -1) {
+      changes.push(new ReplaceChange(filePath, pos, fromText, toText));
+      pos = content.indexOf(fromText, pos + 1);
+    }
+  });
 }
 
 function switchToRowNodeInterface(
@@ -121,7 +126,7 @@ function updateSourceFiles(): Rule {
           const content = tree.readText(filePath);
           const changes: Change[] = [];
 
-          renameSelectThisNode(filePath, content, changes);
+          switchToRenamedMethods(filePath, content, changes);
           switchToRowNodeInterface(filePath, content, changes);
 
           const recorder = tree.beginUpdate(filePath);
@@ -137,6 +142,8 @@ function updateSourceFiles(): Rule {
  *
  * - Introduce IRowNode in some cases replacing RowNode
  * - Replace `selectThisNode` with `setSelected`
+ * - Replace `columnApi.setColumnState` with `columnApi.applyColumnState`
+ * - Replace `column.isLockVisible()` with `column.getColDef().lockVisible`
  * - Do not import AG Grid theme CSS files in angular.json
  *
  */

@@ -29,7 +29,7 @@ describe('ag-grid-29.schematic', () => {
     tree.create('/package.json', JSON.stringify(packageJson));
   }
 
-  it('should work', async () => {
+  it('should verify css config', async () => {
     expect.assertions(1);
     setupTest(
       {
@@ -52,7 +52,7 @@ describe('ag-grid-29.schematic', () => {
     ]);
   });
 
-  it('should noop', async () => {
+  it('should do nothing if AG Grid is not installed', async () => {
     expect.assertions(1);
     setupTest({
       dependencies: {
@@ -78,8 +78,10 @@ describe('ag-grid-29.schematic', () => {
       'src/app/app.component.ts',
       `
         export class AppComponent {
-          public updateCheckbox(selected: boolean) {
-            return this.#row.selectThisNode(selected);
+          public updateCheckbox(column: Column, selected: boolean) {
+            if (!column.isLockVisible()) {
+              return this.#row.selectThisNode(selected);
+            }
           }
         }`
     );
@@ -88,7 +90,17 @@ describe('ag-grid-29.schematic', () => {
       `export class NoChangeComponent {}`
     );
     const updatedTree = await runner.runSchematic('ag-grid-29', {}, tree);
-    expect(updatedTree.readText('src/app/app.component.ts')).toMatchSnapshot();
+    expect(updatedTree.readText('src/app/app.component.ts'))
+      .toMatchInlineSnapshot(`
+      "
+              export class AppComponent {
+                public updateCheckbox(column: Column, selected: boolean) {
+                  if (!column.getColDef().lockVisible) {
+                    return this.#row.setSelected(selected);
+                  }
+                }
+              }"
+    `);
   });
 
   it('should update RowNode to use interface', async () => {
@@ -117,6 +129,19 @@ describe('ag-grid-29.schematic', () => {
       `export class NoChangeComponent {}`
     );
     const updatedTree = await runner.runSchematic('ag-grid-29', {}, tree);
-    expect(updatedTree.readText('src/app/app.component.ts')).toMatchSnapshot();
+    expect(updatedTree.readText('src/app/app.component.ts'))
+      .toMatchInlineSnapshot(`
+      "
+              import { RowNode, IRowNode } from 'ag-grid-community';
+
+              export class AppComponent {
+                public updateRow(row: IRowNode) {
+                  const options = {
+                    event: RowNode.EVENT_CELL_CHANGED,
+                  };
+                  row.addEventListener(RowNode.EVENT_CELL_CHANGED, () => undefined)
+                }
+              }"
+    `);
   });
 });
