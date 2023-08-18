@@ -97,4 +97,20 @@ describe('ng-add.schematic', () => {
     const tsConfig = new JsonFile(updatedTree, 'tsconfig.json');
     expect(tsConfig.get(['compilerOptions', 'esModuleInterop'])).toEqual(true);
   });
+
+  it('should modify all projects if a specific project is not defined', async () => {
+    const { runSchematic } = await setupTest();
+
+    // Do not set 'project'.
+    const updatedTree = await runSchematic();
+
+    const angularJson = readJson(updatedTree, 'angular.json');
+    expect(
+      angularJson.projects['my-lib-showcase'].architect.build.options.styles
+    ).toEqual([
+      'node_modules/@skyux/theme/css/sky.css',
+      'node_modules/@skyux/theme/css/themes/modern/styles.css',
+      'projects/my-lib-showcase/src/styles.css',
+    ]);
+  });
 });
