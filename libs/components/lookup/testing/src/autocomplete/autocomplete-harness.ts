@@ -210,7 +210,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
   }
 
   async #getOverlay(): Promise<SkyOverlayHarness | null> {
-    const overlayId = await (await this.#getInput()).getAriaOwns();
+    const overlayId = await (await this.#getInput()).getAriaControls();
 
     return overlayId
       ? this.#documentRootLocator.locatorForOptional(

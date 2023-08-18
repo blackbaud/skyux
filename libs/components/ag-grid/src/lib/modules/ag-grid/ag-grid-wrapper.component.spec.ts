@@ -562,36 +562,80 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
 
   describe('accessibility', () => {
     [false, true].forEach((enableTopScroll) => {
-      [false, true].forEach((editable) => {
-        it(`should be accessible in ${editable ? 'edit' : 'view'} mode ${
-          enableTopScroll ? 'with' : 'without'
-        } top scroll`, async () => {
-          TestBed.configureTestingModule({
-            imports: [SkyAgGridFixtureModule],
-            providers: [
-              {
-                provide: Editable,
-                useValue: editable,
-              },
-              {
-                provide: EnableTopScroll,
-                useValue: enableTopScroll,
-              },
-            ],
-            teardown: {
-              destroyAfterEach: false,
+      it(`should be accessible in view mode ${
+        enableTopScroll ? 'with' : 'without'
+      } top scroll`, async () => {
+        TestBed.configureTestingModule({
+          imports: [SkyAgGridFixtureModule],
+          providers: [
+            {
+              provide: Editable,
+              useValue: false,
             },
-          });
-          gridWrapperFixture = TestBed.createComponent(
-            SkyAgGridFixtureComponent
-          );
-          gridWrapperNativeElement = gridWrapperFixture.nativeElement;
-
-          gridWrapperFixture.detectChanges();
-          await gridWrapperFixture.whenStable();
-
-          await expectAsync(gridWrapperNativeElement).toBeAccessible();
+            {
+              provide: EnableTopScroll,
+              useValue: enableTopScroll,
+            },
+          ],
         });
+        gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+        gridWrapperNativeElement = gridWrapperFixture.nativeElement;
+
+        gridWrapperFixture.detectChanges();
+        await gridWrapperFixture.whenStable();
+
+        await expectAsync(gridWrapperNativeElement).toBeAccessible();
+      });
+    });
+
+    it(`should be accessible in edit mode`, async () => {
+      TestBed.configureTestingModule({
+        imports: [SkyAgGridFixtureModule],
+        providers: [
+          {
+            provide: Editable,
+            useValue: true,
+          },
+          {
+            provide: EnableTopScroll,
+            useValue: false,
+          },
+        ],
+      });
+      gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+      gridWrapperNativeElement = gridWrapperFixture.nativeElement;
+
+      gridWrapperFixture.detectChanges();
+      await gridWrapperFixture.whenStable();
+
+      await expectAsync(gridWrapperNativeElement).toBeAccessible();
+
+      gridWrapperFixture.componentInstance.agGrid?.api.startEditingCell({
+        rowIndex: 0,
+        colKey: 'lookupSingle',
+      });
+      gridWrapperFixture.detectChanges();
+      await gridWrapperFixture.whenStable();
+      await expectAsync(gridWrapperNativeElement).toBeAccessible();
+
+      gridWrapperFixture.componentInstance.agGrid?.api.stopEditing();
+      gridWrapperFixture.detectChanges();
+      await gridWrapperFixture.whenStable();
+
+      gridWrapperFixture.componentInstance.agGrid?.api.startEditingCell({
+        rowIndex: 0,
+        colKey: 'lookupMultiple',
+      });
+      gridWrapperFixture.detectChanges();
+      await gridWrapperFixture.whenStable();
+      await expectAsync(
+        gridWrapperNativeElement.ownerDocument.body
+      ).toBeAccessible({
+        rules: {
+          region: {
+            enabled: false,
+          },
+        },
       });
     });
   });

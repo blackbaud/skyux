@@ -126,6 +126,43 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
       expect(component).toBeTruthy();
     });
 
+    it('should initialize with different label sources', () => {
+      component.agInit({
+        ...(cellEditorParams as ICellEditorParams),
+      });
+      fixture.detectChanges();
+      expect(component).toBeTruthy();
+
+      component.agInit({
+        ...(cellEditorParams as ICellEditorParams),
+        colDef: {},
+      });
+      fixture.detectChanges();
+      expect(component).toBeTruthy();
+
+      component.agInit({
+        ...(cellEditorParams as ICellEditorParams),
+        colDef: {},
+        skyComponentProperties: {
+          ...cellEditorParams.skyComponentProperties,
+          ariaLabel: 'label',
+        },
+      });
+      fixture.detectChanges();
+      expect(component).toBeTruthy();
+
+      component.agInit({
+        ...(cellEditorParams as ICellEditorParams),
+        colDef: {},
+        skyComponentProperties: {
+          ...cellEditorParams.skyComponentProperties,
+          ariaLabelledBy: 'label-id',
+        },
+      });
+      fixture.detectChanges();
+      expect(component).toBeTruthy();
+    });
+
     it('should initialize with disabled control', () => {
       component.agInit({
         ...(cellEditorParams as ICellEditorParams),
