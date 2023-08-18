@@ -3,7 +3,7 @@
     The following field has a preselected value and utilizes a custom search
     function, as well as a custom template for the search results.
   </p>
-  <div class="sky-form-group">
+  <div>
     <label class="sky-control-label" [for]="largestOceanInput.id">
       Largest ocean
     </label>
@@ -13,13 +13,15 @@
       [search]="getOceanSearchFunction()"
       [searchResultTemplate]="oceanSearchResultTemplate"
     >
-      <input
-        formControlName="largestOcean"
-        type="text"
-        skyAutocomplete
-        skyId
-        #largestOceanInput="skyId"
-      />
+      <sky-input-box stacked="true">
+        <input
+          formControlName="largestOcean"
+          type="text"
+          skyAutocomplete
+          skyId
+          #largestOceanInput="skyId"
+        />
+      </sky-input-box>
     </sky-autocomplete>
   </div>
   <p class="sky-font-emphasized">Form model:</p>
