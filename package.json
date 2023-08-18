@@ -149,7 +149,7 @@
     "@ryansonshine/commitizen": "4.2.8",
     "@ryansonshine/cz-conventional-changelog": "3.3.4",
     "@schematics/angular": "16.1.6",
-    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#9.0.0-alpha.4",
+    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#9.0.0-alpha.5",
     "@storybook/addon-a11y": "7.2.0",
     "@storybook/addon-actions": "7.2.0",
     "@storybook/addon-controls": "7.2.0",
