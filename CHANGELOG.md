@@ -1,5 +1,12 @@
 # Changelog
 
+## [8.9.0](https://github.com/blackbaud/skyux/compare/8.8.1...8.9.0) (2023-08-18)
+
+
+### Features
+
+* **sdk/testing:** support axe-core 4.7 ([#1494](https://github.com/blackbaud/skyux/issues/1494)) ([1481956](https://github.com/blackbaud/skyux/commit/14819562eb7a781ae74081e309f256e2973dc6ba))
+
 ## [9.0.0-alpha.5](https://github.com/blackbaud/skyux/compare/9.0.0-alpha.4...9.0.0-alpha.5) (2023-08-17)
 
 
