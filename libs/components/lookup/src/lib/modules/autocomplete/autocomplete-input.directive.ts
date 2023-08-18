@@ -179,7 +179,7 @@ export class SkyAutocompleteInputDirective
     this.#textChangesObs = this.#textChanges.asObservable();
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     const element = this.#elementRef.nativeElement;
 
     this.#setAttributes(this.#elementRef);
@@ -283,17 +283,20 @@ export class SkyAutocompleteInputDirective
     }
   }
 
-  public setAriaOwns(overlayId: string | null): void {
+  /**
+   * Used to connect the input to the overlay.
+   */
+  public setAriaControls(overlayId: string | null): void {
     if (overlayId) {
       this.#renderer.setAttribute(
         this.#elementRef.nativeElement,
-        'aria-owns',
+        'aria-controls',
         overlayId
       );
     } else {
       this.#renderer.removeAttribute(
         this.#elementRef.nativeElement,
-        'aria-owns'
+        'aria-controls'
       );
     }
   }

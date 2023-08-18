@@ -3,9 +3,9 @@
   aria-haspopup="listbox"
   class="sky-autocomplete"
   role="combobox"
-  [attr.aria-expanded]="isOpen"
+  [attr.aria-expanded]="isDropdownVisible | async"
   [attr.aria-labelledby]="ariaLabelledBy"
-  [attr.aria-owns]="isOpen ? resultsListId : null"
+  [attr.aria-controls]="(isDropdownVisible | async) ? resultsListId : null"
   [attr.id]="resultsWrapperId"
 >
   <ng-content></ng-content>
@@ -32,7 +32,7 @@
 
 <ng-template #resultControlsTemplateRef>
   <div
-    *ngIf="searchText && (!showActionsArea || searchResults.length > 0)"
+    *ngIf="isDropdownVisible | async"
     class="sky-autocomplete-results"
     role="listbox"
     [attr.aria-labelledby]="ariaLabelledBy"
