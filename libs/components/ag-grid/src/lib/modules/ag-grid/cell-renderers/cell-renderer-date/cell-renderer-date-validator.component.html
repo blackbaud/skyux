@@ -1,0 +1,10 @@
+<sky-ag-grid-cell-validator-tooltip
+  *ngIf="cellRendererParams"
+  [params]="cellRendererParams"
+>
+  <sky-ag-grid-cell-renderer-date
+    *ngIf="isDate(cellRendererParams.value); else rawValue"
+    [params]="cellRendererParams"
+  ></sky-ag-grid-cell-renderer-date>
+  <ng-template #rawValue>{{ cellRendererParams.value }}</ng-template>
+</sky-ag-grid-cell-validator-tooltip>

@@ -7,6 +7,7 @@ export interface SkyGetGridOptionsArgs {
   gridOptions: GridOptions;
   /**
    * The locale for location-specific formatting, such as date values for the `SkyCellType.Date` column.
+   * @deprecated Use `skyCellRendererDateParams` instead
    */
   locale?: string;
 }

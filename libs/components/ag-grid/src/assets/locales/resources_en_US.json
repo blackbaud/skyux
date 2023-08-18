@@ -23,6 +23,10 @@
     "_description": "popover error for the currency validator",
     "message": "Enter a valid currency."
   },
+  "sky_ag_grid_cell_renderer_date_validator_message": {
+    "_description": "popover error for the currency validator",
+    "message": "Enter a valid date."
+  },
   "skyux_lookup_tokens_summary": {
     "_description": "Text displayed when the user has more than the maximum items selected",
     "message": "{0} items selected"

@@ -47,3 +47,5 @@ export { SkyAgGridCellEditorLookupComponent as λ15 } from './lib/modules/ag-gri
 export { SkyAgGridCellRendererLookupComponent as λ16 } from './lib/modules/ag-grid/cell-renderers/cell-renderer-lookup/cell-renderer-lookup.component';
 export { SkyAgGridHeaderComponent as λ17 } from './lib/modules/ag-grid/header/header.component';
 export { SkyAgGridHeaderGroupComponent as λ18 } from './lib/modules/ag-grid/header/header-group.component';
+export { SkyAgGridCellRendererDateComponent as λ19 } from './lib/modules/ag-grid/cell-renderers/cell-renderer-date/cell-renderer-date.component';
+export { SkyAgGridCellRendererDateValidatorComponent as λ20 } from './lib/modules/ag-grid/cell-renderers/cell-renderer-date/cell-renderer-date-validator.component';

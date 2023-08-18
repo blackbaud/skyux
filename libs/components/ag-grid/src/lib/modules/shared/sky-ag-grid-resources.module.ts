@@ -34,6 +34,9 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     sky_ag_grid_cell_renderer_currency_validator_message: {
       message: 'Enter a valid currency.',
     },
+    sky_ag_grid_cell_renderer_date_validator_message: {
+      message: 'Enter a valid date.',
+    },
     skyux_lookup_tokens_summary: { message: '{0} items selected' },
     sky_ag_grid_cell_editor_currency_aria_label: {
       message: 'Editable currency {0} for row {1}',

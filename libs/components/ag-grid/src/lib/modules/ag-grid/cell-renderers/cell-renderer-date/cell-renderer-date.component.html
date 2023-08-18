@@ -1,0 +1,13 @@
+<span
+  [style.width.px]="columnWidth"
+  [style.height.px]="rowHeightWithoutBorders"
+>
+  {{
+    value === undefined
+      ? skyComponentProperties.placeholder ?? ''
+      : (value
+        | skyDate
+          : skyComponentProperties.format
+          : skyComponentProperties.locale)
+  }}
+</span>

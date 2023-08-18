@@ -22,6 +22,7 @@ import { SkyAgGridCellEditorLookupModule } from './cell-editors/cell-editor-look
 import { SkyAgGridCellEditorNumberModule } from './cell-editors/cell-editor-number/cell-editor-number.module';
 import { SkyAgGridCellEditorTextModule } from './cell-editors/cell-editor-text/cell-editor-text.module';
 import { SkyAgGridCellRendererCurrencyModule } from './cell-renderers/cell-renderer-currency/cell-renderer-currency.module';
+import { SkyAgGridCellRendererDateModule } from './cell-renderers/cell-renderer-date/cell-renderer-date.module';
 import { SkyAgGridCellRendererLookupModule } from './cell-renderers/cell-renderer-lookup/cell-renderer-lookup.module';
 import { SkyAgGridCellRendererRowSelectorModule } from './cell-renderers/cell-renderer-row-selector/cell-renderer-row-selector.module';
 import { SkyAgGridCellRendererValidatorTooltipModule } from './cell-renderers/cell-renderer-validator-tooltip/cell-renderer-validator-tooltip.module';
@@ -42,11 +43,12 @@ import { SkyAgGridHeaderComponent } from './header/header.component';
     AgGridModule,
     CommonModule,
     SkyAgGridCellEditorAutocompleteModule,
+    SkyAgGridCellEditorCurrencyModule,
     SkyAgGridCellEditorDatepickerModule,
     SkyAgGridCellEditorLookupModule,
     SkyAgGridCellEditorNumberModule,
-    SkyAgGridCellEditorCurrencyModule,
     SkyAgGridCellRendererCurrencyModule,
+    SkyAgGridCellRendererDateModule,
     SkyAgGridCellRendererLookupModule,
     SkyAgGridCellRendererRowSelectorModule,
     SkyAgGridCellRendererValidatorTooltipModule,

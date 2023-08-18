@@ -26,6 +26,8 @@ import { SkyAgGridCellEditorNumberComponent } from './cell-editors/cell-editor-n
 import { SkyAgGridCellEditorTextComponent } from './cell-editors/cell-editor-text/cell-editor-text.component';
 import { SkyAgGridCellRendererCurrencyValidatorComponent } from './cell-renderers/cell-renderer-currency/cell-renderer-currency-validator.component';
 import { SkyAgGridCellRendererCurrencyComponent } from './cell-renderers/cell-renderer-currency/cell-renderer-currency.component';
+import { SkyAgGridCellRendererDateValidatorComponent } from './cell-renderers/cell-renderer-date/cell-renderer-date-validator.component';
+import { SkyAgGridCellRendererDateComponent } from './cell-renderers/cell-renderer-date/cell-renderer-date.component';
 import { SkyAgGridCellRendererLookupComponent } from './cell-renderers/cell-renderer-lookup/cell-renderer-lookup.component';
 import { SkyAgGridCellRendererRowSelectorComponent } from './cell-renderers/cell-renderer-row-selector/cell-renderer-row-selector.component';
 import { SkyAgGridCellRendererValidatorTooltipComponent } from './cell-renderers/cell-renderer-validator-tooltip/cell-renderer-validator-tooltip.component';
@@ -308,13 +310,19 @@ export class SkyAgGridService implements OnDestroy {
         [SkyCellType.Date]: {
           cellClassRules: {
             [SkyCellClass.Date]: cellClassRuleTrueExpression,
+            ...validatorCellClassRules,
             ...editableCellClassRules,
+          },
+          cellRendererSelector: getValidatorCellRendererSelector(
+            'sky-ag-grid-cell-renderer-date-validator',
+            { component: 'sky-ag-grid-cell-renderer-date' }
+          ),
+          cellRendererParams: {
+            legacyLocale: args.locale,
           },
           cellEditor: SkyAgGridCellEditorDatepickerComponent,
           comparator: dateComparator,
           minWidth: this.#currentTheme?.theme?.name === 'modern' ? 180 : 160,
-          valueFormatter: (params: ValueFormatterParams) =>
-            this.#dateFormatter(params, args.locale),
         },
         [SkyCellType.Lookup]: {
           cellClassRules: {
@@ -402,6 +410,9 @@ export class SkyAgGridService implements OnDestroy {
           SkyAgGridCellRendererCurrencyComponent,
         'sky-ag-grid-cell-renderer-currency-validator':
           SkyAgGridCellRendererCurrencyValidatorComponent,
+        'sky-ag-grid-cell-renderer-date': SkyAgGridCellRendererDateComponent,
+        'sky-ag-grid-cell-renderer-date-validator':
+          SkyAgGridCellRendererDateValidatorComponent,
         'sky-ag-grid-cell-renderer-validator-tooltip':
           SkyAgGridCellRendererValidatorTooltipComponent,
       },
@@ -470,6 +481,31 @@ export class SkyAgGridService implements OnDestroy {
         });
     }
 
+    columnTypes[SkyCellType.DateValidator] = {
+      ...columnTypes[SkyCellType.Date],
+      cellRendererParams: {
+        skyComponentProperties: {
+          validator: (value: string | Date): boolean => {
+            return (
+              value instanceof Date ||
+              (typeof value === 'string' && !isNaN(Date.parse(value)))
+            );
+          },
+          validatorMessage: 'Please enter a valid date',
+        },
+      },
+    };
+    /*istanbul ignore else*/
+    if (this.#resources) {
+      this.#resources
+        .getString('sky_ag_grid_cell_renderer_date_validator_message')
+        .subscribe((value) => {
+          columnTypes[
+            SkyCellType.DateValidator
+          ].cellRendererParams.skyComponentProperties.validatorMessage = value;
+        });
+    }
+
     columnTypes[SkyCellType.NumberValidator] = {
       ...columnTypes[SkyCellType.Validator],
       ...columnTypes[SkyCellType.Number],
@@ -512,26 +548,6 @@ export class SkyAgGridService implements OnDestroy {
     defaultGridOptions.rowSelection = undefined;
 
     return defaultGridOptions;
-  }
-
-  #dateFormatter(params: ValueFormatterParams, locale = 'en-us'): string {
-    const dateConfig = { year: 'numeric', month: '2-digit', day: '2-digit' };
-    let date: Date = params.value;
-
-    if (date && typeof date === 'string') {
-      date = new Date(params.value);
-    }
-
-    const formattedDate =
-      date &&
-      date.toLocaleDateString &&
-      date.toLocaleDateString(locale, dateConfig as Intl.DateTimeFormatOptions);
-
-    if (date && date.getTime && !isNaN(date.getTime())) {
-      return formattedDate;
-    }
-
-    return '';
   }
 
   #getIconTemplate(iconName: keyof IconMapType): () => string {

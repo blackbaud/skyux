@@ -158,7 +158,7 @@ export class EditComplexCellsComponent implements OnInit {
         minWidth: 185,
         maxWidth: 235,
         editable: this.editMode,
-        type: [SkyCellType.Date, SkyCellType.Validator],
+        type: [SkyCellType.DateValidator],
         cellRendererParams: {
           skyComponentProperties: {
             validator: (value: Date) =>

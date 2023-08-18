@@ -1,25 +1,27 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { SkyNumericOptions } from '@skyux/core';
 
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 
-import { SkyCellRendererCurrencyParams } from '../../types/cell-renderer-currency-params';
+import {
+  SkyCellRendererDateParams,
+  SkyDatePipeOptions,
+} from '../../types/cell-renderer-date-params';
 import { SkyAgGridValidatorProperties } from '../../types/validator-properties';
 
 /**
  * @internal
  */
 @Component({
-  selector: 'sky-ag-grid-cell-renderer-currency',
-  templateUrl: './cell-renderer-currency.component.html',
-  styleUrls: ['./cell-renderer-currency.component.scss'],
+  selector: 'sky-ag-grid-cell-renderer-date',
+  templateUrl: './cell-renderer-date.component.html',
+  styleUrls: ['./cell-renderer-date.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyAgGridCellRendererCurrencyComponent
+export class SkyAgGridCellRendererDateComponent
   implements ICellRendererAngularComp
 {
   @Input()
-  public set params(value: SkyCellRendererCurrencyParams) {
+  public set params(value: SkyCellRendererDateParams) {
     this.agInit(value);
   }
 
@@ -27,26 +29,25 @@ export class SkyAgGridCellRendererCurrencyComponent
   public columnWidth: number | undefined;
   public rowHeightWithoutBorders: number | undefined;
   public rowNumber: number | undefined;
-  public skyComponentProperties: SkyNumericOptions &
+  public skyComponentProperties: SkyDatePipeOptions &
     SkyAgGridValidatorProperties = {};
-  public numericOptions: SkyNumericOptions = {};
-  public value: number | undefined;
+  public dateOptions: SkyDatePipeOptions = {};
+  public value: Date | string | undefined;
 
   /**
    * agInit is called by agGrid once after the renderer is created and provides the renderer with the information it needs.
    * @param params The cell renderer params that include data about the cell, column, row, and grid.
    */
-  public agInit(params: SkyCellRendererCurrencyParams): void {
+  public agInit(params: SkyCellRendererDateParams): void {
     this.#updateProperties(params);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public refresh(params: SkyCellRendererCurrencyParams): boolean {
-    this.#updateProperties(params);
+  public refresh(params: SkyCellRendererDateParams): boolean {
     return false;
   }
 
-  #updateProperties(params: SkyCellRendererCurrencyParams): void {
+  #updateProperties(params: SkyCellRendererDateParams): void {
     this.value = params.value;
     this.columnHeader = params.colDef?.headerName;
     this.rowNumber = params.rowIndex + 1;
@@ -56,8 +57,7 @@ export class SkyAgGridCellRendererCurrencyComponent
         ? params.node?.rowHeight - 4
         : undefined;
     this.skyComponentProperties = params.skyComponentProperties || {};
-    this.skyComponentProperties.format ??= 'currency';
-    this.skyComponentProperties.minDigits ??= 2;
-    this.skyComponentProperties.truncate ??= false;
+    this.skyComponentProperties.locale ??= params.legacyLocale;
+    this.skyComponentProperties.format ??= 'shortDate';
   }
 }

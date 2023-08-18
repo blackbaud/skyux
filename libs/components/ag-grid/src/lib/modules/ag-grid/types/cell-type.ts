@@ -1,7 +1,7 @@
 /**
  * These column types can be used by setting the AG Grid [column definition `type`](https://www.ag-grid.com/angular-data-grid/column-properties/#reference-editing) to one of the following values.
  * <br/>
- * Any [SKY UX component](https://developer.blackbaud.com/skyux/components) can be made into a [cell editor](https://www.ag-grid.com/javascript-grid-cell-editor/) or [cell renderer](https://www.ag-grid.com/javascript-grid-cell-rendering-components/) component. If you would like to use a component that does not have a column definition yet, please consider [contributing it](https://developer.blackbaud.com/skyux/contribute/contribution-process) to the SKY UX data entry grid module, or [file an issue](https://developer.blackbaud.com/skyux/contribute/contribution-process/file-issue) in the [`@skyux/ag-grid` repo](https://github.com/blackbaud/skyux-ag-grid).
+ * Any [SKY UX component](https://developer.blackbaud.com/skyux/components) can be made into a [cell editor](https://www.ag-grid.com/javascript-grid-cell-editor/) or [cell renderer](https://www.ag-grid.com/javascript-grid-cell-rendering-components/) component. If you would like to use a component that does not have a column definition yet, please consider [contributing it](https://developer.blackbaud.com/skyux/contribute/contribution-process) to the SKY UX data entry grid module, or [file an issue](https://developer.blackbaud.com/skyux/contribute/contribution-process/file-issue) in the [Blackbaud `skyux` repo](https://github.com/blackbaud/skyux).
  */
 export enum SkyCellType {
   /**
@@ -37,13 +37,19 @@ export enum SkyCellType {
    * <br/><br/>
    * **Read-only mode**
    * <br/>
-   * Cells in the column will display the currently selected date formatted as `MM-DD-YYYY`, or the date format of the locale passed to `getGridOptions()`. If you would like to overwrite this format, you can [define a `valueFormatter`](https://www.ag-grid.com/javascript-grid-value-formatters/) on the column definition. See the demo for an example.
+   * Cells in the column will display date values using [SKY UX date pipes](https://developer.blackbaud.com/skyux/components/date-pipe). You can set any of the date pipe's transform function arguments by passing `SkyCellRendererDateParams` in the [column definition's `cellRendererParams` property](https://www.ag-grid.com/angular-data-grid/column-properties/#reference-styling). See the demo for an example.
    */
   Date = 'skyCellDate',
   /**
+   * **Edit and read-only modes**
+   * <br/>
+   * Combines SkyCellType.Date and SkyCellType.Validator, where the value is displayed as a date and passed to a validator function.
+   */
+  DateValidator = 'skyCellDateValidator',
+  /**
    * **Edit mode**
    * <br/>
-   * Cells in the column will be edited as [SKY UX lookup components](https://developer.blackbaud.com/skyux-v5/components/lookup). You can set any of the lookup component's properties by passing `SkyCellEditorLookupParams` in the [column definition's `cellEditorParams` property](https://www.ag-grid.com/angular-data-grid/column-properties/#reference-editing). These params can be updated as other cell edits are made or [provided dynamically](https://www.ag-grid.com/javascript-grid-cell-editing/#dynamic-parameters) based on other cell values. See the demo for an example. Text can be entered and a value selected from the provided list.
+   * Cells in the column will be edited as [SKY UX lookup components](https://developer.blackbaud.com/skyux/components/lookup). You can set any of the lookup component's properties by passing `SkyCellEditorLookupParams` in the [column definition's `cellEditorParams` property](https://www.ag-grid.com/angular-data-grid/column-properties/#reference-editing). These params can be updated as other cell edits are made or [provided dynamically](https://www.ag-grid.com/javascript-grid-cell-editing/#dynamic-parameters) based on other cell values. See the demo for an example. Text can be entered and a value selected from the provided list.
    * <br/><br/>
    * **Read-only mode**
    * <br/>

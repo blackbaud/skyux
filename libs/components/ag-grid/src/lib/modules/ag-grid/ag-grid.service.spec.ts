@@ -279,6 +279,8 @@ describe('SkyAgGridService', () => {
       expect(Object.keys(options.components as string[])).toEqual([
         'sky-ag-grid-cell-renderer-currency',
         'sky-ag-grid-cell-renderer-currency-validator',
+        'sky-ag-grid-cell-renderer-date',
+        'sky-ag-grid-cell-renderer-date-validator',
         'sky-ag-grid-cell-renderer-validator-tooltip',
       ]);
     });
@@ -296,6 +298,8 @@ describe('SkyAgGridService', () => {
         'foo',
         'sky-ag-grid-cell-renderer-currency',
         'sky-ag-grid-cell-renderer-currency-validator',
+        'sky-ag-grid-cell-renderer-date',
+        'sky-ag-grid-cell-renderer-date-validator',
         'sky-ag-grid-cell-renderer-validator-tooltip',
       ]);
     });
@@ -308,101 +312,6 @@ describe('SkyAgGridService', () => {
       });
 
       expect(editableGridOptions.rowSelection).toBeUndefined();
-    });
-  });
-
-  describe('dateFormatter', () => {
-    let dateValueFormatter: ValueFormatterFunc;
-    let dateValueFormatterParams: ValueFormatterParams;
-
-    // remove the invisible characters IE11 includes in the output of toLocaleDateString
-    // by creating a new string that only includes ASCII characters 47 - 57 (/0123456789)
-    // https://stackoverflow.com/a/24874223/6178885
-    function fixLocaleDateString(localeDate: string): string {
-      let newStr = '';
-      for (let i = 0; i < localeDate.length; i++) {
-        const code = localeDate.charCodeAt(i);
-        if (code >= 47 && code <= 57) {
-          newStr += localeDate.charAt(i);
-        }
-      }
-      return newStr;
-    }
-
-    beforeEach(() => {
-      dateValueFormatter = defaultGridOptions.columnTypes?.[SkyCellType.Date]
-        .valueFormatter as ValueFormatterFunc;
-      dateValueFormatterParams = {
-        columnApi: new ColumnApi(),
-      } as ValueFormatterParams;
-    });
-
-    it('should return empty string when no date value is provided', () => {
-      const formattedDate = dateValueFormatter(dateValueFormatterParams);
-
-      expect(formattedDate).toBe('');
-    });
-
-    it('should return empty string when a string that is not a valid date is provided', () => {
-      dateValueFormatterParams.value = 'cat';
-      const formattedDate = dateValueFormatter(dateValueFormatterParams);
-
-      expect(formattedDate).toBe('');
-    });
-
-    it('should return empty string when a non-Date object is provided', () => {
-      dateValueFormatterParams.value = {};
-      const formattedDate = dateValueFormatter(dateValueFormatterParams);
-
-      expect(formattedDate).toBe('');
-    });
-
-    it('should return a date string in the DD/MM/YYYY string format when a Date object and british english en-gb locale  are provided', () => {
-      const britishGridOptions = agGridService.getGridOptions({
-        gridOptions: {},
-        locale: 'en-gb',
-      });
-      const britishDateValueFormatter = britishGridOptions.columnTypes?.[
-        SkyCellType.Date
-      ].valueFormatter as ValueFormatterFunc;
-      dateValueFormatterParams.value = new Date('12/1/2019');
-
-      const formattedDate = britishDateValueFormatter(dateValueFormatterParams);
-      const fixedFormattedDate = fixLocaleDateString(formattedDate);
-
-      expect(fixedFormattedDate).toEqual('01/12/2019');
-    });
-
-    it('should return a date string in the DD/MM/YYYY string format when a date string and british english en-gb locale  are provided', () => {
-      const britishGridOptions = agGridService.getGridOptions({
-        gridOptions: {},
-        locale: 'en-gb',
-      });
-      const britishDateValueFormatter = britishGridOptions.columnTypes?.[
-        SkyCellType.Date
-      ].valueFormatter as ValueFormatterFunc;
-      dateValueFormatterParams.value = '3/1/2019';
-
-      const formattedDate = britishDateValueFormatter(dateValueFormatterParams);
-      const fixedFormattedDate = fixLocaleDateString(formattedDate);
-
-      expect(fixedFormattedDate).toEqual('01/03/2019');
-    });
-
-    it('should return a date string in the MM/DD/YYYY format when only a Date object is provided', () => {
-      dateValueFormatterParams.value = new Date('12/1/2019');
-      const formattedDate = dateValueFormatter(dateValueFormatterParams);
-      const fixedFormattedDate = fixLocaleDateString(formattedDate);
-
-      expect(fixedFormattedDate).toEqual('12/01/2019');
-    });
-
-    it('should return a date string in the MM/DD/YYYY format when only a date string is provided', () => {
-      dateValueFormatterParams.value = '3/1/2019';
-      const formattedDate = dateValueFormatter(dateValueFormatterParams);
-      const fixedFormattedDate = fixLocaleDateString(formattedDate);
-
-      expect(fixedFormattedDate).toEqual('03/01/2019');
     });
   });
 
@@ -788,6 +697,44 @@ describe('SkyAgGridService', () => {
       );
     });
 
+    it('should select date cell renderer when the validator function passes', () => {
+      const cellRendererSelector =
+        defaultGridOptions.columnTypes?.[SkyCellType.DateValidator]
+          .cellRendererSelector;
+      const validator =
+        defaultGridOptions.columnTypes?.[SkyCellType.DateValidator]
+          .cellRendererParams.skyComponentProperties.validator;
+      const params = {
+        ...cellRendererParams,
+        colDef: {
+          cellRendererParams: {
+            skyComponentProperties: {
+              validator,
+            },
+          },
+        },
+        value: new Date(2000, 1, 1),
+      } as ICellRendererParams;
+      expect(cellRendererSelector?.(params)?.component).toBe(
+        'sky-ag-grid-cell-renderer-date'
+      );
+
+      const paramsWithStringDate = {
+        ...cellRendererParams,
+        colDef: {
+          cellRendererParams: {
+            skyComponentProperties: {
+              validator,
+            },
+          },
+        },
+        value: '1/1/2000',
+      } as ICellRendererParams;
+      expect(cellRendererSelector?.(paramsWithStringDate)?.component).toBe(
+        'sky-ag-grid-cell-renderer-date'
+      );
+    });
+
     it('should select validator cell renderer when the validator function fails', () => {
       const cellRendererSelector =
         defaultGridOptions.columnTypes?.[SkyCellType.NumberValidator]
@@ -866,6 +813,62 @@ describe('SkyAgGridService', () => {
       expect(
         cellRendererSelector?.(paramsWithoutRendererParams)?.component
       ).toBe('sky-ag-grid-cell-renderer-currency');
+    });
+
+    it('should select date cell renderer when the validator function omitted', () => {
+      const cellRendererSelector =
+        defaultGridOptions.columnTypes?.[SkyCellType.Date].cellRendererSelector;
+      const params = {
+        ...cellRendererParams,
+        colDef: {
+          cellRendererParams: {
+            skyComponentProperties: {
+              validator: undefined,
+            },
+          },
+        },
+        value: new Date(2000, 1, 1),
+      } as ICellRendererParams;
+      expect(cellRendererSelector?.(params)?.component).toBe(
+        'sky-ag-grid-cell-renderer-date'
+      );
+
+      const paramsWithEmptyComponentProperties = {
+        ...cellRendererParams,
+        colDef: {
+          cellRendererParams: {
+            skyComponentProperties: undefined,
+          },
+        },
+        value: new Date(2000, 1, 1),
+      } as ICellRendererParams;
+      expect(
+        cellRendererSelector?.(paramsWithEmptyComponentProperties)?.component
+      ).toBe('sky-ag-grid-cell-renderer-date');
+
+      const paramsWithoutComponentProperties = {
+        ...cellRendererParams,
+        colDef: {
+          cellRendererParams: {
+            skyComponentProperties: undefined,
+          },
+        },
+        value: new Date(2000, 1, 1),
+      } as ICellRendererParams;
+      expect(
+        cellRendererSelector?.(paramsWithoutComponentProperties)?.component
+      ).toBe('sky-ag-grid-cell-renderer-date');
+
+      const paramsWithoutRendererParams = {
+        ...cellRendererParams,
+        colDef: {
+          cellRendererParams: undefined,
+        },
+        value: new Date(2000, 1, 1),
+      } as ICellRendererParams;
+      expect(
+        cellRendererSelector?.(paramsWithoutRendererParams)?.component
+      ).toBe('sky-ag-grid-cell-renderer-date');
     });
 
     it('should select validator cell renderer when the value is empty', () => {
