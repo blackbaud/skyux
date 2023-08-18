@@ -29,6 +29,7 @@
     [showMoreConfig]="skyComponentProperties?.showMoreConfig"
     [wrapperClass]="skyComponentProperties?.wrapperClass"
     (addClick)="skyComponentProperties?.addClick?.($event)"
+    (openChange)="onLookupOpenChange($event)"
   >
   </sky-lookup>
 </sky-input-box>
@@ -62,6 +63,7 @@
     [showMoreConfig]="skyComponentProperties?.showMoreConfig"
     [wrapperClass]="skyComponentProperties?.wrapperClass"
     (addClick)="skyComponentProperties?.addClick?.($event)"
+    (openChange)="onLookupOpenChange($event)"
   >
   </sky-lookup>
 </sky-input-box>

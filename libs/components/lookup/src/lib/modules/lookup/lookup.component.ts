@@ -205,6 +205,12 @@ export class SkyLookupComponent
   public addClick: EventEmitter<SkyLookupAddClickEventArgs> =
     new EventEmitter();
 
+  /**
+   * @internal
+   */
+  @Output()
+  public openChange = new EventEmitter<boolean>();
+
   public get tokens(): SkyToken[] | undefined {
     return this.#_tokens;
   }
@@ -370,6 +376,8 @@ export class SkyLookupComponent
     this.#removeEventListeners();
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
+    this.addClick.complete();
+    this.openChange.complete();
     this.tokensController.complete();
   }
 
@@ -632,6 +640,14 @@ export class SkyLookupComponent
 
         this.#changeDetector.markForCheck();
       }
+    }
+  }
+
+  protected onAutocompleteOpenChange($event: boolean): void {
+    if ($event) {
+      this.openChange.emit(true);
+    } else if (!this.#pickerModalOpen()) {
+      this.openChange.emit(false);
     }
   }
 

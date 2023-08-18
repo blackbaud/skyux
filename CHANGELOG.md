@@ -1,5 +1,13 @@
 # Changelog
 
+## [8.8.1](https://github.com/blackbaud/skyux/compare/8.8.0...8.8.1) (2023-08-17)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** update documentation generation ([#1600](https://github.com/blackbaud/skyux/issues/1600)) ([9ae53952](https://github.com/blackbaud/skyux/commit/9ae5395260e7bce3701ee57ed2230687e35b5d7f))
+* **components/ag-grid:** call stop editing callback in popup editors ([#1548](https://github.com/blackbaud/skyux/issues/1548)) ([f1dbfb0](https://github.com/blackbaud/skyux/commit/f1dbfb0eda0789544e2d14de2787b91ecf81f86f))
+
 ## [8.8.0](https://github.com/blackbaud/skyux/compare/8.7.2...8.8.0) (2023-08-15)
 
 

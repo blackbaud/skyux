@@ -180,6 +180,10 @@ export class SkyAgGridService implements OnDestroy {
       defaultGridOptions,
       args.gridOptions
     );
+    mergedGridOptions.context ||= {};
+    mergedGridOptions.context.gridOptions = {
+      ...mergedGridOptions,
+    };
 
     return mergedGridOptions;
   }
