@@ -9,8 +9,7 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/validation"],
       "options": {
-        "project": "libs/components/validation/ng-package.json",
-        "updateBuildableProjectDepsInPackageJson": false
+        "project": "libs/components/validation/ng-package.json"
       },
       "configurations": {
         "production": {

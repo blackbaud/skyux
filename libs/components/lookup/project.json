@@ -9,8 +9,7 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/lookup"],
       "options": {
-        "project": "libs/components/lookup/ng-package.json",
-        "updateBuildableProjectDepsInPackageJson": false
+        "project": "libs/components/lookup/ng-package.json"
       },
       "configurations": {
         "production": {

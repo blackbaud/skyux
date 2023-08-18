@@ -9,8 +9,7 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/action-bars"],
       "options": {
-        "project": "libs/components/action-bars/ng-package.json",
-        "updateBuildableProjectDepsInPackageJson": false
+        "project": "libs/components/action-bars/ng-package.json"
       },
       "configurations": {
         "production": {

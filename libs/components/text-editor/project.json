@@ -9,8 +9,7 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/text-editor"],
       "options": {
-        "project": "libs/components/text-editor/ng-package.json",
-        "updateBuildableProjectDepsInPackageJson": false
+        "project": "libs/components/text-editor/ng-package.json"
       },
       "configurations": {
         "production": {

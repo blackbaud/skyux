@@ -9,8 +9,7 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/grids"],
       "options": {
-        "project": "libs/components/grids/ng-package.json",
-        "updateBuildableProjectDepsInPackageJson": false
+        "project": "libs/components/grids/ng-package.json"
       },
       "configurations": {
         "production": {
