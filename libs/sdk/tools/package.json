@@ -1,0 +1,7 @@
+{
+  "name": "@skyux-sdk/tools",
+  "generators": "./generators.json",
+  "dependencies": {
+    "@nx/devkit": "16.7.1"
+  }
+}
