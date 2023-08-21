@@ -2,7 +2,7 @@
 // behavior of using the `Intl` API for formatting dates rather than having to register every
 // supported locale.
 // https://github.com/angular/angular/blob/4.4.x/packages/common/src/pipes/date_pipe.ts
-import { Injectable, inject } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import {
   SkyAppLocaleInfo,
   SkyAppLocaleProvider,
@@ -17,7 +17,7 @@ import { takeUntil } from 'rxjs/operators';
  * @internal
  */
 @Injectable()
-export class SkyDateService {
+export class SkyDateService implements OnDestroy {
   /* spell-checker:disable */
   #ALIASES: { [key: string]: string } = {
     medium: 'yMMMdjms',
@@ -42,6 +42,11 @@ export class SkyDateService {
       .subscribe((localeInfo: SkyAppLocaleInfo) => {
         this.#defaultLocale = localeInfo.locale;
       });
+  }
+
+  public ngOnDestroy(): void {
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   public format(
