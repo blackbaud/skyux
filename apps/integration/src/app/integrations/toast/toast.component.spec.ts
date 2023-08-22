@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SkyToastModule } from '@skyux/toast';
 
 import { ToastComponent } from './toast.component';
 
@@ -9,6 +10,7 @@ describe('ToastComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ToastComponent],
+      imports: [SkyToastModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ToastComponent);

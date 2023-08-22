@@ -38,6 +38,7 @@ import { SkyModalHostComponent } from './modal-host.component';
 import { SkyModalHostService } from './modal-host.service';
 import { SkyModalInstance } from './modal-instance';
 import { SkyModalScrollShadowDirective } from './modal-scroll-shadow.directive';
+import { SkyModalModule } from './modal.module';
 import { SkyModalService } from './modal.service';
 
 describe('Modal component', () => {
@@ -1266,5 +1267,34 @@ describe('Modal component', () => {
         expect(getModalElement()).toBeNull();
       }
     }));
+  });
+});
+
+describe('Modal component (created w/o SkyModalService)', () => {
+  it('should setup a default modal configuration', () => {
+    TestBed.configureTestingModule({
+      declarations: [ModalTestComponent],
+      imports: [SkyModalModule],
+      providers: [
+        {
+          provide: SkyModalHostService,
+          useValue: {
+            onClose: (): void => {
+              /** */
+            },
+          },
+        },
+      ],
+    });
+
+    const fixture = TestBed.createComponent(ModalTestComponent);
+
+    fixture.detectChanges();
+
+    // Medium is the default size for modals.
+    expect(fixture.nativeElement.querySelector('.sky-modal-medium')).toExist();
+
+    // Close the modal.
+    fixture.nativeElement.querySelector('.sky-modal-btn-close').click();
   });
 });

@@ -132,9 +132,18 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
   #errorsSvc = inject(SkyModalErrorsService);
   #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
 
+  /**
+   * This provider is optional to account for situations where a modal component
+   * is implemented without the modal service. For example, when a consumer tests
+   * a component that uses the modal component but doesn't launch the modal from
+   * the modal service before executing assertions.
+   */
+  #config =
+    inject(SkyModalConfiguration, { optional: true }) ??
+    new SkyModalConfiguration();
+
   constructor(
     hostService: SkyModalHostService,
-    config: SkyModalConfiguration,
     elRef: ElementRef,
     windowRef: SkyAppWindowRef,
     componentAdapter: SkyModalComponentAdapterService,
@@ -151,16 +160,16 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
     this.#dockService = dockService;
     this.#mediaQueryService = mediaQueryService;
 
-    this.ariaDescribedBy = config.ariaDescribedBy;
-    this.ariaLabelledBy = config.ariaLabelledBy;
-    this.ariaRole = config.ariaRole;
-    this.helpKey = config.helpKey;
-    this.tiledBody = config.tiledBody;
-    this.wrapperClass = config.wrapperClass;
+    this.ariaDescribedBy = this.#config.ariaDescribedBy;
+    this.ariaLabelledBy = this.#config.ariaLabelledBy;
+    this.ariaRole = this.#config.ariaRole;
+    this.helpKey = this.#config.helpKey;
+    this.tiledBody = this.#config.tiledBody;
+    this.wrapperClass = this.#config.wrapperClass;
 
-    this.size = config.fullPage
+    this.size = this.#config.fullPage
       ? 'full-page'
-      : config.size?.toLowerCase() || 'medium';
+      : this.#config.size?.toLowerCase() || 'medium';
 
     this.modalZIndex = this.#hostService.zIndex;
   }

@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   HostBinding,
+  HostListener,
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
@@ -42,6 +43,9 @@ export class SkyAgGridCellEditorLookupComponent
   });
   public useAsyncSearch = false;
 
+  protected ariaLabel: string | undefined = undefined;
+
+  #lookupOpen = false;
   #params: SkyCellEditorLookupParams | undefined;
   #triggerType: SkyAgGridCellEditorInitialAction | undefined;
   #changeDetector: ChangeDetectorRef;
@@ -52,6 +56,11 @@ export class SkyAgGridCellEditorLookupComponent
     this.#elementRef = elementRef;
   }
 
+  @HostListener('blur')
+  public onBlur(): void {
+    this.#stopEditingOnBlur();
+  }
+
   public agInit(params: SkyCellEditorLookupParams): void {
     this.#params = params;
     if (!Array.isArray(this.#params.value)) {
@@ -60,6 +69,13 @@ export class SkyAgGridCellEditorLookupComponent
 
     this.#triggerType = SkyAgGridCellEditorUtils.getEditorInitialAction(params);
     const control = this.editorForm.get('selection');
+    this.ariaLabel = params.skyComponentProperties?.ariaLabelledBy
+      ? undefined
+      : params.skyComponentProperties?.ariaLabel ||
+        params.colDef.headerName ||
+        params.colDef.headerTooltip ||
+        params.colDef.field ||
+        params.colDef.colId;
 
     if (control) {
       switch (this.#triggerType) {
@@ -135,10 +151,25 @@ export class SkyAgGridCellEditorLookupComponent
     }
   }
 
+  public onLookupOpenChange(isOpen: boolean): void {
+    this.#lookupOpen = isOpen;
+    this.#stopEditingOnBlur();
+  }
+
   #updateComponentProperties(
     params: SkyCellEditorLookupParams
   ): SkyAgGridLookupProperties {
     const skyLookupProperties = params.skyComponentProperties;
     return applySkyLookupPropertiesDefaults(skyLookupProperties);
+  }
+
+  #stopEditingOnBlur(): void {
+    if (
+      !this.#lookupOpen &&
+      this.#params?.context?.gridOptions?.stopEditingWhenCellsLoseFocus &&
+      !this.#elementRef.nativeElement.matches(':focus-within')
+    ) {
+      this.#params?.api.stopEditing();
+    }
   }
 }

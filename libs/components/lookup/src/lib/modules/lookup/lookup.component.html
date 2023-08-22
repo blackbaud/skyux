@@ -13,7 +13,7 @@
     #lookupWrapper
   >
     <sky-autocomplete
-      [ariaLabelledBy]="ariaLabelledBy"
+      [ariaLabelledBy]="ariaLabelledBy || controlId"
       [attr.data-sky-lookup-show-more-picker-id]="showMorePickerId"
       [data]="data"
       [debounceTime]="debounceTime"
@@ -33,6 +33,7 @@
       (searchAsync)="onSearchAsync($event)"
       (selectionChange)="onAutocompleteSelectionChange($event)"
       (showMoreClick)="onShowMoreClick($event)"
+      (openChange)="onAutocompleteOpenChange($event)"
     >
       <div class="sky-lookup-search-flex-wrapper">
         <div

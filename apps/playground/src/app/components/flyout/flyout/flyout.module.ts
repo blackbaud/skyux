@@ -5,6 +5,7 @@ import { SkyFlyoutModule } from '@skyux/flyout';
 import { SkyInfiniteScrollModule } from '@skyux/lists';
 import { SkyModalModule } from '@skyux/modals';
 import { SkyDropdownModule } from '@skyux/popovers';
+import { SkyToastModule } from '@skyux/toast';
 
 import { DataManagerFlyoutModule } from './data-manager/data-manager-flyout.module';
 import { FlyoutDemoComponent } from './flyout-demo.component';
@@ -30,6 +31,7 @@ import { FlyoutComponent } from './flyout.component';
     SkyFlyoutModule,
     SkyInfiniteScrollModule,
     SkyModalModule,
+    SkyToastModule,
     RouterModule,
   ],
 })

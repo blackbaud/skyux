@@ -2,7 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  HostListener,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
@@ -32,11 +34,18 @@ export class SkyAgGridCellEditorAutocompleteComponent
   public rowNumber: number | undefined;
   public skyComponentProperties: SkyAgGridAutocompleteProperties = {};
 
+  #autocompleteOpen = false;
   #triggerType: SkyAgGridCellEditorInitialAction | undefined;
   #params: SkyCellEditorAutocompleteParams | undefined;
+  #elementRef = inject(ElementRef) as ElementRef<HTMLElement>;
 
   @ViewChild('skyCellEditorAutocomplete', { read: ElementRef })
   public input: ElementRef | undefined;
+
+  @HostListener('blur')
+  public onBlur(): void {
+    this.#stopEditingOnBlur();
+  }
 
   public agInit(params: SkyCellEditorAutocompleteParams): void {
     this.#params = params;
@@ -85,5 +94,20 @@ export class SkyAgGridCellEditorAutocompleteComponent
   public getValue(): any | undefined {
     const val = this.editorForm.get('selection')?.value;
     return val !== undefined && val !== null ? val : undefined;
+  }
+
+  public onAutocompleteOpenChange($event: boolean): void {
+    this.#autocompleteOpen = $event;
+    this.#stopEditingOnBlur();
+  }
+
+  #stopEditingOnBlur(): void {
+    if (
+      !this.#autocompleteOpen &&
+      this.#params?.context?.gridOptions?.stopEditingWhenCellsLoseFocus &&
+      !this.#elementRef.nativeElement.matches(':focus-within')
+    ) {
+      this.#params?.api.stopEditing();
+    }
   }
 }

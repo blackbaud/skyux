@@ -1094,27 +1094,54 @@ describe('Autocomplete component', () => {
       await fixture.whenStable();
       await expectAsync(document.body).toBeAccessible(axeConfig);
       fixture.detectChanges();
+      inputElement.focus();
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
       inputElement.value = 'r';
       SkyAppTestUtility.fireDomEvent(inputElement, 'input');
       fixture.detectChanges();
       await fixture.whenStable();
+      expect(getSearchResultsContainer()).toBeTruthy();
+      await expectAsync(document.body).toBeAccessible(axeConfig);
     });
 
-    it('should set `aria-owns` attribute', fakeAsync(() => {
+    it('should be accessible with enableShowMore', async () => {
+      component.enableShowMore = true;
+
+      const axeConfig = {
+        rules: {
+          region: {
+            enabled: false,
+          },
+        },
+      };
+
+      fixture.detectChanges();
+
+      const inputElement: HTMLInputElement = getInputElement();
+
+      await fixture.whenStable();
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(getSearchResultsContainer()).toBeTruthy();
+      await expectAsync(document.body).toBeAccessible(axeConfig);
+    });
+
+    it('should set `aria-controls` attribute', fakeAsync(() => {
       fixture.detectChanges();
 
       const wrapper = document.querySelector('.sky-autocomplete');
-      expect(wrapper?.getAttribute('aria-owns')).toBeNull();
+      expect(wrapper?.getAttribute('aria-controls')).toBeNull();
 
       enterSearch('r', fixture);
 
       const searchResultsContainer = getSearchResultsSection();
-      expect(wrapper?.getAttribute('aria-owns')).toEqual(
+      expect(wrapper?.getAttribute('aria-controls')).toEqual(
         searchResultsContainer?.id
       );
 
       blurInput(getInputElement(), fixture);
-      expect(wrapper?.getAttribute('aria-owns')).toBeNull();
+      expect(wrapper?.getAttribute('aria-controls')).toBeNull();
     }));
 
     describe('highlighting', () => {

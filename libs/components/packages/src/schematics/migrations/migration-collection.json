@@ -19,6 +19,11 @@
       "version": "9.0.0-0",
       "factory": "./update-9/add-compat-stylesheets/add-compat-stylesheet.schematic",
       "description": "Add a backwards-compatible stylesheet with styles that have been removed from components in SKY UX 9."
+    },
+    "ag-grid-29": {
+      "version": "9.0.0-0",
+      "factory": "./update-9/ag-grid-29/ag-grid-29.schematic",
+      "description": "Apply changes to support AG Grid 29"
     }
   }
 }

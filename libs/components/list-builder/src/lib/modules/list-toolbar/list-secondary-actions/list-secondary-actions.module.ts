@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SkyI18nModule } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyDropdownModule } from '@skyux/popovers';
 
@@ -22,7 +21,6 @@ import { SkyListSecondaryActionsComponent } from './list-secondary-actions.compo
   imports: [
     CommonModule,
     SkyDropdownModule,
-    SkyI18nModule,
     SkyIconModule,
     SkyListBuilderResourcesModule,
   ],

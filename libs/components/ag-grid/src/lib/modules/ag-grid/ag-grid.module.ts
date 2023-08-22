@@ -2,17 +2,20 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyViewkeeperModule } from '@skyux/core';
 import { SkyDataManagerModule } from '@skyux/data-manager';
-import { SkyI18nModule } from '@skyux/i18n';
+import { SkyDatePipeModule } from '@skyux/datetime';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyInlineDeleteModule } from '@skyux/layout';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { AgGridModule } from 'ag-grid-angular';
 
+import { SkyAgGridResourcesModule } from '../shared/sky-ag-grid-resources.module';
+
 import { SkyAgGridDataManagerAdapterDirective } from './ag-grid-data-manager-adapter.directive';
 import { SkyAgGridRowDeleteComponent } from './ag-grid-row-delete.component';
 import { SkyAgGridRowDeleteDirective } from './ag-grid-row-delete.directive';
 import { SkyAgGridWrapperComponent } from './ag-grid-wrapper.component';
+import { SkyAgGridService } from './ag-grid.service';
 import { SkyAgGridCellEditorAutocompleteModule } from './cell-editors/cell-editor-autocomplete/cell-editor-autocomplete.module';
 import { SkyAgGridCellEditorCurrencyModule } from './cell-editors/cell-editor-currency/cell-editor-currency.module';
 import { SkyAgGridCellEditorDatepickerModule } from './cell-editors/cell-editor-datepicker/cell-editor-datepicker.module';
@@ -50,8 +53,9 @@ import { SkyAgGridHeaderComponent } from './header/header.component';
     SkyAgGridCellRendererValidatorTooltipModule,
     SkyAgGridCellValidatorModule,
     SkyAgGridCellEditorTextModule,
+    SkyAgGridResourcesModule,
     SkyDataManagerModule,
-    SkyI18nModule,
+    SkyDatePipeModule,
     SkyIconModule,
     SkyInlineDeleteModule,
     SkyViewkeeperModule,
@@ -65,5 +69,6 @@ import { SkyAgGridHeaderComponent } from './header/header.component';
     SkyAgGridHeaderComponent,
     SkyAgGridHeaderGroupComponent,
   ],
+  providers: [SkyAgGridService],
 })
 export class SkyAgGridModule {}

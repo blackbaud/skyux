@@ -1,4 +1,4 @@
-<sky-page-header [parentLink]="hubLink" [pageTitle]="spokeTitle">
+<sky-page-header #pageHeader [parentLink]="hubLink" [pageTitle]="spokeTitle">
   <sky-page-header-alerts *ngIf="showAlert">
     <sky-alert alertType="danger" descriptionType="danger">
       Urgent information about this page

@@ -9,8 +9,8 @@ import { WaterfallIndicatorDocsComponent } from '../code-examples/progress-indic
 import { SkyProgressIndicatorPassiveDemoModule as SkyProgressIndicatorWaterfallDemoModule } from '../code-examples/progress-indicator/waterfall-indicator/basic/progress-indicator-waterfall-demo.module';
 import { WaterfallIndicatorDocsComponent as ProgressIndicatorWaterfallInlineHelpDemoComponent } from '../code-examples/progress-indicator/waterfall-indicator/inline-help/progress-indicator-waterfall-demo.component';
 import { SkyProgressIndicatorPassiveDemoModule as ProgressIndicatorWaterfallInlineHelpModule } from '../code-examples/progress-indicator/waterfall-indicator/inline-help/progress-indicator-waterfall-demo.module';
+import { WizardDemoComponent } from '../code-examples/progress-indicator/wizard/basic/wizard-demo.component';
 import { SkyProgressIndicatorPassiveDemoModule as SkyWizardDemoModule } from '../code-examples/progress-indicator/wizard/basic/wizard-demo.module';
-import { WizardDemoComponent } from '../code-examples/tabs/wizard/basic/wizard-demo.component';
 
 const routes: Routes = [
   { path: 'waterfall', component: WaterfallIndicatorDocsComponent },

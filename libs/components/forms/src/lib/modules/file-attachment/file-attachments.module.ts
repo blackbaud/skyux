@@ -2,7 +2,6 @@ import { CommonModule, DecimalPipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyTrimModule } from '@skyux/core';
-import { SkyI18nModule } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
 
@@ -27,7 +26,6 @@ import { SkyFileSizePipe } from './file-size.pipe';
     CommonModule,
     FormsModule,
     SkyFormsResourcesModule,
-    SkyI18nModule,
     SkyIconModule,
     SkyThemeModule,
     SkyTrimModule,

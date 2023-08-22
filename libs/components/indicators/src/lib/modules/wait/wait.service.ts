@@ -1,4 +1,9 @@
-import { ComponentRef, Injectable, inject } from '@angular/core';
+import {
+  ComponentRef,
+  EnvironmentInjector,
+  Injectable,
+  inject,
+} from '@angular/core';
 import {
   SkyAppWindowRef,
   SkyDynamicComponentLocation,
@@ -15,15 +20,11 @@ let waitComponentRef: ComponentRef<SkyWaitPageComponent> | undefined;
 let pageWaitBlockingCount = 0;
 let pageWaitNonBlockingCount = 0;
 
-// Need to add the following to classes which contain static methods.
-// See: https://github.com/ng-packagr/ng-packagr/issues/641
-// @dynamic
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class SkyWaitService {
   #windowSvc = inject(SkyAppWindowRef);
   #dynamicComponentService = inject(SkyDynamicComponentService);
+  #environmentInjector = inject(EnvironmentInjector);
 
   /**
    * Starts a blocking page wait on the page.
@@ -120,7 +121,10 @@ export class SkyWaitService {
         if (!waitComponent) {
           waitComponentRef = this.#dynamicComponentService.createComponent(
             SkyWaitPageComponent,
-            { location: SkyDynamicComponentLocation.BodyBottom }
+            {
+              environmentInjector: this.#environmentInjector,
+              location: SkyDynamicComponentLocation.BodyBottom,
+            }
           );
           waitComponent = waitComponentRef.instance;
         }

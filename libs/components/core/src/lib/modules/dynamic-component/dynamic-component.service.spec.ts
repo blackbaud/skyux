@@ -31,7 +31,7 @@ describe('Dynamic component service', () => {
     location?: SkyDynamicComponentLocation,
     reference?: HTMLElement,
     providers?: StaticProvider[],
-    injector?: EnvironmentInjector,
+    injector = TestBed.inject(EnvironmentInjector),
     viewRef?: ViewContainerRef
   ): ComponentRef<DynamicComponentTestComponent> {
     const svc: SkyDynamicComponentService = TestBed.inject(

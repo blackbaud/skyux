@@ -1,4 +1,5 @@
-import { Injectable, OnDestroy, Optional } from '@angular/core';
+import { Injectable, OnDestroy, Optional, inject } from '@angular/core';
+import { SkyDateService } from '@skyux/datetime';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 
@@ -120,9 +121,7 @@ let rowNodeId = -1;
 /**
  * `SkyAgGridService` provides methods to get AG Grid `gridOptions` to ensure grids match SKY UX functionality. The `gridOptions` can be overridden, and include registered SKY UX column types.
  */
-@Injectable({
-  providedIn: 'any',
-})
+@Injectable()
 export class SkyAgGridService implements OnDestroy {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   #keyMap = new WeakMap<any, string>();
@@ -130,6 +129,7 @@ export class SkyAgGridService implements OnDestroy {
   #currentTheme: SkyThemeSettings | undefined = undefined;
   #agGridAdapterService: SkyAgGridAdapterService;
   #resources: SkyLibResourcesService | undefined;
+  private dateService = inject(SkyDateService);
 
   constructor(
     agGridAdapterService: SkyAgGridAdapterService,
@@ -180,6 +180,10 @@ export class SkyAgGridService implements OnDestroy {
       defaultGridOptions,
       args.gridOptions
     );
+    mergedGridOptions.context ||= {};
+    mergedGridOptions.context.gridOptions = {
+      ...mergedGridOptions,
+    };
 
     return mergedGridOptions;
   }
@@ -311,8 +315,20 @@ export class SkyAgGridService implements OnDestroy {
           cellEditor: SkyAgGridCellEditorDatepickerComponent,
           comparator: dateComparator,
           minWidth: this.#currentTheme?.theme?.name === 'modern' ? 180 : 160,
-          valueFormatter: (params: ValueFormatterParams) =>
-            this.#dateFormatter(params, args.locale),
+          valueFormatter: (params: ValueFormatterParams) => {
+            try {
+              return (
+                this.dateService.format(
+                  params.value,
+                  args.locale,
+                  args.dateFormat || 'shortDate'
+                ) || ''
+              );
+            } catch (err) {
+              console.error(err);
+              return '';
+            }
+          },
         },
         [SkyCellType.Lookup]: {
           cellClassRules: {
@@ -510,26 +526,6 @@ export class SkyAgGridService implements OnDestroy {
     defaultGridOptions.rowSelection = undefined;
 
     return defaultGridOptions;
-  }
-
-  #dateFormatter(params: ValueFormatterParams, locale = 'en-us'): string {
-    const dateConfig = { year: 'numeric', month: '2-digit', day: '2-digit' };
-    let date: Date = params.value;
-
-    if (date && typeof date === 'string') {
-      date = new Date(params.value);
-    }
-
-    const formattedDate =
-      date &&
-      date.toLocaleDateString &&
-      date.toLocaleDateString(locale, dateConfig as Intl.DateTimeFormatOptions);
-
-    if (date && date.getTime && !isNaN(date.getTime())) {
-      return formattedDate;
-    }
-
-    return '';
   }
 
   #getIconTemplate(iconName: keyof IconMapType): () => string {

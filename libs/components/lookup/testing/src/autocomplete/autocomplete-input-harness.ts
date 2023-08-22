@@ -63,9 +63,9 @@ export class SkyAutocompleteInputHarness extends ComponentHarness {
   }
 
   /**
-   * Returns the value of the input's `aria-owns` attribute.
+   * Returns the value of the input's `aria-controls` attribute.
    */
-  public async getAriaOwns(): Promise<string | null> {
-    return (await this.host()).getAttribute('aria-owns');
+  public async getAriaControls(): Promise<string | null> {
+    return (await this.host()).getAttribute('aria-controls');
   }
 }

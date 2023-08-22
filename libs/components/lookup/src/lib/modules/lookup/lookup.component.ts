@@ -14,9 +14,10 @@ import {
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
-import { SkyAppWindowRef, SkyLogService } from '@skyux/core';
+import { SkyAppWindowRef, SkyIdService, SkyLogService } from '@skyux/core';
 import { SkyInputBoxHostService } from '@skyux/forms';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import {
@@ -204,6 +205,12 @@ export class SkyLookupComponent
   public addClick: EventEmitter<SkyLookupAddClickEventArgs> =
     new EventEmitter();
 
+  /**
+   * @internal
+   */
+  @Output()
+  public openChange = new EventEmitter<boolean>();
+
   public get tokens(): SkyToken[] | undefined {
     return this.#_tokens;
   }
@@ -289,19 +296,9 @@ export class SkyLookupComponent
   })
   public searchIconTemplateRef: TemplateRef<unknown> | undefined;
 
-  #adapter: SkyLookupAdapterService;
-  #elementRef: ElementRef;
-  #changeDetector: ChangeDetectorRef;
   #idle = new Subject<void>();
   #markForTokenFocusOnKeyUp = false;
-  #modalService: SkyModalService;
   #ngUnsubscribe = new Subject<void>();
-  #openNativePicker: SkyModalInstance | undefined;
-  #openSelectionModal: SkySelectionModalInstance | undefined;
-  #resourcesService: SkyLibResourcesService;
-  #selectionModalSvc: SkySelectionModalService;
-  #windowRef: SkyAppWindowRef;
-  #logSvc: SkyLogService;
 
   #_autocompleteInputDirective: SkyAutocompleteInputDirective | undefined;
   #_data: any[] | undefined;
@@ -312,29 +309,28 @@ export class SkyLookupComponent
   #_tokens: SkyToken[] | undefined;
   #_value: any[] | undefined;
 
+  #adapter = inject(SkyLookupAdapterService);
+  #changeDetector = inject(ChangeDetectorRef);
+  #elementRef = inject(ElementRef);
+  #idService = inject(SkyIdService);
+  #logSvc = inject(SkyLogService);
+  #modalService = inject(SkyModalService);
+  #openNativePicker =
+    inject(SkyModalInstance, {
+      optional: true,
+    }) || undefined;
+  #openSelectionModal =
+    inject(SkySelectionModalInstance, { optional: true }) || undefined;
+  #resourcesService = inject(SkyLibResourcesService);
+  #selectionModalSvc = inject(SkySelectionModalService);
+  #windowRef = inject(SkyAppWindowRef);
+
   constructor(
-    changeDetector: ChangeDetectorRef,
-    elementRef: ElementRef,
-    windowRef: SkyAppWindowRef,
-    adapter: SkyLookupAdapterService,
-    modalService: SkyModalService,
-    resourcesService: SkyLibResourcesService,
-    selectionModalSvc: SkySelectionModalService,
-    logSvc: SkyLogService,
     @Self() @Optional() ngControl?: NgControl,
     @Optional() public inputBoxHostSvc?: SkyInputBoxHostService,
     @Optional() public themeSvc?: SkyThemeService
   ) {
     super();
-
-    this.#changeDetector = changeDetector;
-    this.#elementRef = elementRef;
-    this.#windowRef = windowRef;
-    this.#adapter = adapter;
-    this.#modalService = modalService;
-    this.#resourcesService = resourcesService;
-    this.#selectionModalSvc = selectionModalSvc;
-    this.#logSvc = logSvc;
 
     if (ngControl) {
       ngControl.valueAccessor = this;
@@ -354,6 +350,8 @@ export class SkyLookupComponent
           ? undefined
           : this.searchIconTemplateRef,
       });
+    } else {
+      this.controlId = this.#idService.generateId();
     }
 
     /* istanbul ignore else */
@@ -378,6 +376,8 @@ export class SkyLookupComponent
     this.#removeEventListeners();
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
+    this.addClick.complete();
+    this.openChange.complete();
     this.tokensController.complete();
   }
 
@@ -640,6 +640,14 @@ export class SkyLookupComponent
 
         this.#changeDetector.markForCheck();
       }
+    }
+  }
+
+  protected onAutocompleteOpenChange($event: boolean): void {
+    if ($event) {
+      this.openChange.emit(true);
+    } else if (!this.#pickerModalOpen()) {
+      this.openChange.emit(false);
     }
   }
 

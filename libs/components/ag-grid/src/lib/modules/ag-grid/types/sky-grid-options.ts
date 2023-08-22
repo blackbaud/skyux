@@ -9,4 +9,9 @@ export interface SkyGetGridOptionsArgs {
    * The locale for location-specific formatting, such as date values for the `SkyCellType.Date` column.
    */
   locale?: string;
+  /**
+   * The format to use for formatting date strings in the `SkyCellType.Date` column.
+   * @default "shortDate"
+   */
+  dateFormat?: string;
 }

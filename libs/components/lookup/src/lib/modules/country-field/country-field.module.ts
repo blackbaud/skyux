@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SkyI18nModule } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
 
@@ -18,7 +17,6 @@ import { SkyCountryFieldComponent } from './country-field.component';
     ReactiveFormsModule,
     SkyAutocompleteModule,
     SkyIconModule,
-    SkyI18nModule,
     SkyLookupResourcesModule,
     SkyThemeModule,
   ],

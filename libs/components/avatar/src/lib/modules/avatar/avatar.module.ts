@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyErrorModule } from '@skyux/errors';
 import { SkyFileAttachmentsModule, SkyFileSizePipe } from '@skyux/forms';
-import { SkyI18nModule } from '@skyux/i18n';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyAvatarResourcesModule } from '../shared/sky-avatar-resources.module';
@@ -17,7 +16,6 @@ import { SkyAvatarInnerComponent } from './avatar.inner.component';
     SkyAvatarResourcesModule,
     SkyErrorModule,
     SkyFileAttachmentsModule,
-    SkyI18nModule,
     SkyThemeModule,
   ],
   providers: [SkyFileSizePipe],
