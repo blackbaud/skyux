@@ -105,9 +105,9 @@
     "dompurify": "3.0.1",
     "dragula": "3.7.3",
     "fontfaceobserver": "2.3.0",
-    "google-libphonenumber": "3.2.32",
+    "google-libphonenumber": "3.2.33",
     "he": "1.2.0",
-    "intl-tel-input": "17.0.21",
+    "intl-tel-input": "18.2.1",
     "jsonc-parser": "3.2.0",
     "jwt-decode": "3.1.2",
     "moment": "2.29.4",
@@ -167,7 +167,7 @@
     "@types/fontfaceobserver": "2.1.0",
     "@types/fs-extra": "9.0.13",
     "@types/glob": "8.1.0",
-    "@types/google-libphonenumber": "7.4.23",
+    "@types/google-libphonenumber": "7.4.25",
     "@types/he": "1.1.2",
     "@types/jasmine": "4.3.1",
     "@types/jest": "29.5.1",
@@ -213,3 +213,4 @@
     "typescript": "5.1.6"
   }
 }
+
