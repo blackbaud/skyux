@@ -33,5 +33,5 @@ export interface SkyDynamicComponentOptions {
   /**
    * The environment injector to use instead of the dynamic component service's injector.
    */
-  environmentInjector: EnvironmentInjector;
+  environmentInjector?: EnvironmentInjector;
 }

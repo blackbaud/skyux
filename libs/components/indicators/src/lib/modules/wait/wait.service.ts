@@ -1,9 +1,4 @@
-import {
-  ComponentRef,
-  EnvironmentInjector,
-  Injectable,
-  inject,
-} from '@angular/core';
+import { ComponentRef, Injectable, inject } from '@angular/core';
 import {
   SkyAppWindowRef,
   SkyDynamicComponentLocation,
@@ -20,11 +15,12 @@ let waitComponentRef: ComponentRef<SkyWaitPageComponent> | undefined;
 let pageWaitBlockingCount = 0;
 let pageWaitNonBlockingCount = 0;
 
-@Injectable()
+@Injectable({
+  providedIn: 'any',
+})
 export class SkyWaitService {
   #windowSvc = inject(SkyAppWindowRef);
   #dynamicComponentService = inject(SkyDynamicComponentService);
-  #environmentInjector = inject(EnvironmentInjector);
 
   /**
    * Starts a blocking page wait on the page.
@@ -122,7 +118,6 @@ export class SkyWaitService {
           waitComponentRef = this.#dynamicComponentService.createComponent(
             SkyWaitPageComponent,
             {
-              environmentInjector: this.#environmentInjector,
               location: SkyDynamicComponentLocation.BodyBottom,
             }
           );

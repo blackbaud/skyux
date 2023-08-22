@@ -3,12 +3,10 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  EnvironmentInjector,
+  Injector,
   Type,
   ViewChild,
   ViewContainerRef,
-  createEnvironmentInjector,
-  inject,
 } from '@angular/core';
 
 import { SkyDockDomAdapterService } from './dock-dom-adapter.service';
@@ -41,7 +39,7 @@ export class SkyDockComponent {
 
   #elementRef: ElementRef;
 
-  #environmentInjector = inject(EnvironmentInjector);
+  #injector: Injector;
 
   #itemRefs: SkyDockItemReference<unknown>[] = [];
 
@@ -50,10 +48,12 @@ export class SkyDockComponent {
   constructor(
     changeDetector: ChangeDetectorRef,
     elementRef: ElementRef,
+    injector: Injector,
     domAdapter: SkyDockDomAdapterService
   ) {
     this.#changeDetector = changeDetector;
     this.#elementRef = elementRef;
+    this.#injector = injector;
     this.#domAdapter = domAdapter;
   }
 
@@ -68,13 +68,13 @@ export class SkyDockComponent {
       );
     }
 
-    const environmentInjector = createEnvironmentInjector(
-      config.providers || [],
-      this.#environmentInjector
-    );
+    const injector = Injector.create({
+      providers: config.providers || [],
+      parent: this.#injector,
+    });
 
     const componentRef = this.target.createComponent<T>(component, {
-      environmentInjector,
+      injector,
     });
     const stackOrder =
       config.stackOrder !== null && config.stackOrder !== undefined
