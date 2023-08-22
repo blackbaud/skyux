@@ -32,7 +32,12 @@
           <input
             class="sky-form-control sky-search-input sky-rounded-corners"
             type="text"
-            [attr.aria-label]="'skyux_search_label' | skyLibResources"
+            [attr.aria-label]="
+              ariaLabelledBy
+                ? undefined
+                : (ariaLabel ?? 'skyux_search_label' | skyLibResources)
+            "
+            [attr.aria-labelledby]="ariaLabelledBy"
             [attr.placeholder]="
               placeholderText || ('skyux_search_placeholder' | skyLibResources)
             "

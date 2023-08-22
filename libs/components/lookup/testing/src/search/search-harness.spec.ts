@@ -35,6 +35,19 @@ describe('Search harness', () => {
     await expectAsync(searchHarness?.isFocused()).toBeResolvedTo(false);
   });
 
+  it('should get ARIA attributes', async () => {
+    const { searchHarness } = await setupTest({
+      dataSkyId: 'my-search-1',
+    });
+
+    await expectAsync(searchHarness.getAriaLabel()).toBeResolvedTo(
+      'Search emails'
+    );
+    await expectAsync(searchHarness.getAriaLabelledby()).toBeResolvedTo(
+      'foo-search-id'
+    );
+  });
+
   it('should check if search is disabled', async () => {
     const { fixture, searchHarness } = await setupTest({
       dataSkyId: 'my-search-1',
