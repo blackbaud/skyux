@@ -163,6 +163,17 @@ sky-repeater-item {
 }
 
 .sky-theme-modern {
+  .sky-split-view-drawer {
+    sky-repeater-item .sky-repeater-item {
+      padding-left: var(--sky-padding-even-md);
+
+      &.sky-repeater-item-active {
+        // 15px padding minus 4px border
+        padding-left: 11px;
+      }
+    }
+  }
+
   sky-repeater-item {
     .sky-repeater-item {
       padding-bottom: $sky-theme-modern-margin-stacked-lg;
