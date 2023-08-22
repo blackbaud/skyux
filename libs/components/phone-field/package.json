@@ -32,6 +32,6 @@
   "dependencies": {
     "google-libphonenumber": "3.2.33",
     "intl-tel-input": "18.2.1",
-    "tslib": "^2.5.0"
+    "tslib": "^2.6.2"
   }
 }

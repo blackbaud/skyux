@@ -28,6 +28,6 @@
     "@types/dragula": "2.1.36",
     "dragula": "3.7.3",
     "ng2-dragula": "5.0.1",
-    "tslib": "^2.5.0"
+    "tslib": "^2.6.2"
   }
 }
