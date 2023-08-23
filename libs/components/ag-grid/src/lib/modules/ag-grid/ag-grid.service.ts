@@ -121,7 +121,9 @@ let rowNodeId = -1;
 /**
  * `SkyAgGridService` provides methods to get AG Grid `gridOptions` to ensure grids match SKY UX functionality. The `gridOptions` can be overridden, and include registered SKY UX column types.
  */
-@Injectable()
+@Injectable({
+  providedIn: 'any',
+})
 export class SkyAgGridService implements OnDestroy {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   #keyMap = new WeakMap<any, string>();

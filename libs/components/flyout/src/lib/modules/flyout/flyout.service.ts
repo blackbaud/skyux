@@ -1,11 +1,9 @@
 import {
   ComponentRef,
-  EnvironmentInjector,
   Injectable,
   NgZone,
   OnDestroy,
   Type,
-  inject,
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import {
@@ -29,7 +27,9 @@ import { SkyFlyoutMessageType } from './types/flyout-message-type';
  * This service dynamically generates the flyout component and appends it directly to the
  * document's `body` element. The `SkyFlyoutInstance` class watches for and triggers flyout events.
  */
-@Injectable()
+@Injectable({
+  providedIn: 'any',
+})
 export class SkyFlyoutService implements OnDestroy {
   #host: ComponentRef<SkyFlyoutComponent> | undefined;
   #removeAfterClosed = false;
@@ -37,7 +37,6 @@ export class SkyFlyoutService implements OnDestroy {
   #ngUnsubscribe = new Subject<boolean>();
 
   #coreAdapter: SkyCoreAdapterService;
-  #environmentInjector = inject(EnvironmentInjector);
   #windowRef: SkyAppWindowRef;
   #dynamicComponentService: SkyDynamicComponentService;
   #router: Router;
@@ -121,12 +120,8 @@ export class SkyFlyoutService implements OnDestroy {
   }
 
   #createHostComponent(): ComponentRef<SkyFlyoutComponent> {
-    this.#host = this.#dynamicComponentService.createComponent(
-      SkyFlyoutComponent,
-      {
-        environmentInjector: this.#environmentInjector,
-      }
-    );
+    this.#host =
+      this.#dynamicComponentService.createComponent(SkyFlyoutComponent);
     return this.#host;
   }
 
