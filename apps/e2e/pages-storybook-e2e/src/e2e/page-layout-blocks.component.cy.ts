@@ -2,6 +2,12 @@ import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 
 const ID = 'blockspagecomponent-blockspage--blocks-page';
 
+// This is to mitigate a Cypress issue (https://github.com/cypress-io/cypress/issues/20341) where a ResizeObserver exception is thrown.
+Cypress.on(
+  'uncaught:exception',
+  (err) => !err.message.includes('ResizeObserver loop limit exceeded')
+);
+
 describe(`pages-storybook`, () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {
