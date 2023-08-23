@@ -32,6 +32,8 @@ export class SearchDemoComponent {
     },
   ];
 
+  public searchAriaLabel = 'Search reminders';
+
   public searchText = '';
 
   constructor() {

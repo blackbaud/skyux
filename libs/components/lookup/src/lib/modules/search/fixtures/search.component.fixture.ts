@@ -13,6 +13,9 @@ export class SearchTestComponent {
   })
   public searchComponent!: SkySearchComponent;
 
+  public ariaLabel: string | undefined;
+  public ariaLabelledBy: string | undefined;
+
   public disabled: boolean | undefined;
   public debounceTime: number | undefined = 0;
 
