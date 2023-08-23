@@ -9,8 +9,7 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/tiles"],
       "options": {
-        "project": "libs/components/tiles/ng-package.json",
-        "updateBuildableProjectDepsInPackageJson": false
+        "project": "libs/components/tiles/ng-package.json"
       },
       "configurations": {
         "production": {

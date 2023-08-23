@@ -9,8 +9,7 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/omnibar-interop"],
       "options": {
-        "project": "libs/components/omnibar-interop/ng-package.json",
-        "updateBuildableProjectDepsInPackageJson": false
+        "project": "libs/components/omnibar-interop/ng-package.json"
       },
       "configurations": {
         "production": {

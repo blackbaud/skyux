@@ -11,8 +11,7 @@
         "{workspaceRoot}/dist/libs/components/list-builder-view-grids"
       ],
       "options": {
-        "project": "libs/components/list-builder-view-grids/ng-package.json",
-        "updateBuildableProjectDepsInPackageJson": false
+        "project": "libs/components/list-builder-view-grids/ng-package.json"
       },
       "configurations": {
         "production": {
