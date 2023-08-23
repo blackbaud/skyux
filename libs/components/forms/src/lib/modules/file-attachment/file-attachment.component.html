@@ -35,22 +35,37 @@
       (change)="fileChangeEvent($event)"
       #fileInput
     />
-    <button
-      *ngIf="showFileAttachmentButton"
-      class="sky-file-attachment-btn sky-btn sky-btn-default"
-      type="button"
-      [attr.aria-describedby]="fileDropDescriptionElementId"
-      [disabled]="disabled"
-      (click)="onDropClicked()"
-    >
-      <sky-icon icon="folder-open-o"></sky-icon>
-      {{
+    <ng-container *ngIf="showFileAttachmentButton">
+      <label hidden="true" skyId #attachButtonLabel="skyId">{{
         value
           ? ('skyux_file_attachment_button_label_replace_file'
             | skyLibResources)
           : ('skyux_file_attachment_button_label_choose_file' | skyLibResources)
-      }}
-    </button>
+      }}</label>
+      <button
+        class="sky-file-attachment-btn sky-btn sky-btn-default"
+        type="button"
+        [attr.aria-describedby]="fileDropDescriptionElementId"
+        [attr.aria-labelledby]="
+          (hasLabelComponent
+            ? labelComponents.get(0)?.labelContentId?.id
+            : undefined) +
+          ' ' +
+          attachButtonLabel.id
+        "
+        [disabled]="disabled"
+        (click)="onDropClicked()"
+      >
+        <sky-icon icon="folder-open-o"></sky-icon>
+        {{
+          value
+            ? ('skyux_file_attachment_button_label_replace_file'
+              | skyLibResources)
+            : ('skyux_file_attachment_button_label_choose_file'
+              | skyLibResources)
+        }}
+      </button>
+    </ng-container>
     <sky-icon
       *ngIf="value && !isImage && currentThemeName === 'modern'"
       class="sky-file-attachment-icon sky-deemphasized"
@@ -75,21 +90,29 @@
         {{ 'skyux_file_attachment_label_no_file_chosen' | skyLibResources }}
       </span>
     </ng-template>
-    <button
-      *ngIf="value"
-      class="sky-btn sky-btn-borderless sky-file-attachment-delete"
-      type="button"
-      [attr.aria-label]="
+    <ng-container *ngIf="value">
+      <label hidden="true" skyId #deleteButtonLabel="skyId">{{
         'skyux_file_attachment_file_item_delete' | skyLibResources
-      "
-      [disabled]="disabled"
-      [skyThemeClass]="{
-        'sky-btn-icon-borderless': 'modern'
-      }"
-      (click)="deleteFileAttachment()"
-    >
-      <sky-icon icon="trash-o" size="md"> </sky-icon>
-    </button>
+      }}</label>
+      <button
+        class="sky-btn sky-btn-borderless sky-file-attachment-delete"
+        type="button"
+        [attr.aria-labelledby]="
+          (hasLabelComponent
+            ? labelComponents.get(0).labelContentId.id
+            : undefined) +
+          ' ' +
+          deleteButtonLabel.id
+        "
+        [disabled]="disabled"
+        [skyThemeClass]="{
+          'sky-btn-icon-borderless': 'modern'
+        }"
+        (click)="deleteFileAttachment()"
+      >
+        <sky-icon icon="trash-o" size="md"> </sky-icon>
+      </button>
+    </ng-container>
   </div>
 
   <img
