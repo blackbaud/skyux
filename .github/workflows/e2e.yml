@@ -57,12 +57,12 @@ jobs:
         # Workaround for https://github.com/nrwl/nx-set-shas/issues/102
         if: ${{ github.event_name == 'pull_request_target' }}
         run: |
-          HEAD_SHA=$(git rev-parse HEAD);
-          echo "HEAD_SHA: ${HEAD_SHA}"
-          echo "NX_HEAD=${HEAD_SHA}" >> $GITHUB_ENV
-          BASE_SHA=$(git merge-base origin/${{ github.base_ref }} HEAD);
-          echo "BASE_SHA: ${BASE_SHA}"
-          echo "NX_BASE=${BASE_SHA}" >> $GITHUB_ENV
+          NX_HEAD=$(git rev-parse HEAD);
+          echo "NX_HEAD: ${NX_HEAD}"
+          echo "NX_HEAD=${NX_HEAD}" >> $GITHUB_ENV
+          NX_BASE=$(git merge-base origin/${{ github.base_ref }} HEAD);
+          echo "NX_BASE: ${NX_BASE}"
+          echo "NX_BASE=${NX_BASE}" >> $GITHUB_ENV
       - name: Set workflow parameters
         id: parameters
         shell: bash
@@ -77,12 +77,12 @@ jobs:
 
             if [ -n "${PR_NUMBER}" ]; then
               # Derive appropriate SHAs for base and head for `nx affected` commands (workflow_dispatch).
-              export HEAD_SHA=$(jq -r '.[0].headRefOid' ${{ runner.temp }}/pr-list.json);
-              echo "HEAD_SHA: ${HEAD_SHA}"
-              echo "NX_HEAD=${HEAD_SHA}" >> $GITHUB_ENV
-              BASE_SHA=$(git merge-base origin/$(jq -r '.[0].baseRefName' ${{ runner.temp }}/pr-list.json) HEAD);
-              echo "BASE_SHA: ${BASE_SHA}"
-              echo "NX_BASE=${BASE_SHA}" >> $GITHUB_ENV
+              export NX_HEAD=$(jq -r '.[0].headRefOid' ${{ runner.temp }}/pr-list.json);
+              echo "NX_HEAD: ${NX_HEAD}"
+              echo "NX_HEAD=${NX_HEAD}" >> $GITHUB_ENV
+              NX_BASE=$(git merge-base origin/$(jq -r '.[0].baseRefName' ${{ runner.temp }}/pr-list.json) HEAD);
+              echo "NX_BASE: ${NX_BASE}"
+              echo "NX_BASE=${NX_BASE}" >> $GITHUB_ENV
 
               echo -n parameters= >> $GITHUB_OUTPUT
               npx skyux-dev e2e-workflow --workflowTrigger pull_request --pr $PR_NUMBER >> $GITHUB_OUTPUT
