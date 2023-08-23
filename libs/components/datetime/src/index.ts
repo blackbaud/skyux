@@ -2,6 +2,7 @@ export { SkyDatePipe } from './lib/modules/date-pipe/date.pipe';
 export { SkyDatePipeModule } from './lib/modules/date-pipe/date-pipe.module';
 
 export { SkyFuzzyDatePipe } from './lib/modules/date-pipe/fuzzy-date.pipe';
+export { SkyDateService } from './lib/modules/date-pipe/date.service';
 
 export { SkyDateRangeCalculation } from './lib/modules/date-range-picker/types/date-range-calculation';
 export { SkyDateRangeCalculator } from './lib/modules/date-range-picker/types/date-range-calculator';

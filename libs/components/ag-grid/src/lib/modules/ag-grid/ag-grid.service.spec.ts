@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
+import { SkyDateService } from '@skyux/datetime';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -61,6 +62,10 @@ describe('SkyAgGridService', () => {
         {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
+        },
+        {
+          provide: SkyDateService,
+          useValue: { format: () => 'FORMATTED_DATE' },
         },
       ],
     });
@@ -315,20 +320,6 @@ describe('SkyAgGridService', () => {
     let dateValueFormatter: ValueFormatterFunc;
     let dateValueFormatterParams: ValueFormatterParams;
 
-    // remove the invisible characters IE11 includes in the output of toLocaleDateString
-    // by creating a new string that only includes ASCII characters 47 - 57 (/0123456789)
-    // https://stackoverflow.com/a/24874223/6178885
-    function fixLocaleDateString(localeDate: string): string {
-      let newStr = '';
-      for (let i = 0; i < localeDate.length; i++) {
-        const code = localeDate.charCodeAt(i);
-        if (code >= 47 && code <= 57) {
-          newStr += localeDate.charAt(i);
-        }
-      }
-      return newStr;
-    }
-
     beforeEach(() => {
       dateValueFormatter = defaultGridOptions.columnTypes?.[SkyCellType.Date]
         .valueFormatter as ValueFormatterFunc;
@@ -337,72 +328,28 @@ describe('SkyAgGridService', () => {
       } as ValueFormatterParams;
     });
 
-    it('should return empty string when no date value is provided', () => {
+    it('should return the formatted date string created by the date service', () => {
       const formattedDate = dateValueFormatter(dateValueFormatterParams);
 
+      expect(formattedDate).toBe('FORMATTED_DATE');
+    });
+
+    it('should return an empty string if the date service returns undefined', () => {
+      const dateSvc = TestBed.inject(SkyDateService);
+      dateSvc.format = () => undefined;
+
+      const formattedDate = dateValueFormatter(dateValueFormatterParams);
       expect(formattedDate).toBe('');
     });
 
-    it('should return empty string when a string that is not a valid date is provided', () => {
-      dateValueFormatterParams.value = 'cat';
-      const formattedDate = dateValueFormatter(dateValueFormatterParams);
+    it('should return an empty string if the date service returns an error', () => {
+      const dateSvc = TestBed.inject(SkyDateService);
+      dateSvc.format = () => {
+        throw new Error('SkyDateService error message.');
+      };
 
+      const formattedDate = dateValueFormatter(dateValueFormatterParams);
       expect(formattedDate).toBe('');
-    });
-
-    it('should return empty string when a non-Date object is provided', () => {
-      dateValueFormatterParams.value = {};
-      const formattedDate = dateValueFormatter(dateValueFormatterParams);
-
-      expect(formattedDate).toBe('');
-    });
-
-    it('should return a date string in the DD/MM/YYYY string format when a Date object and british english en-gb locale  are provided', () => {
-      const britishGridOptions = agGridService.getGridOptions({
-        gridOptions: {},
-        locale: 'en-gb',
-      });
-      const britishDateValueFormatter = britishGridOptions.columnTypes?.[
-        SkyCellType.Date
-      ].valueFormatter as ValueFormatterFunc;
-      dateValueFormatterParams.value = new Date('12/1/2019');
-
-      const formattedDate = britishDateValueFormatter(dateValueFormatterParams);
-      const fixedFormattedDate = fixLocaleDateString(formattedDate);
-
-      expect(fixedFormattedDate).toEqual('01/12/2019');
-    });
-
-    it('should return a date string in the DD/MM/YYYY string format when a date string and british english en-gb locale  are provided', () => {
-      const britishGridOptions = agGridService.getGridOptions({
-        gridOptions: {},
-        locale: 'en-gb',
-      });
-      const britishDateValueFormatter = britishGridOptions.columnTypes?.[
-        SkyCellType.Date
-      ].valueFormatter as ValueFormatterFunc;
-      dateValueFormatterParams.value = '3/1/2019';
-
-      const formattedDate = britishDateValueFormatter(dateValueFormatterParams);
-      const fixedFormattedDate = fixLocaleDateString(formattedDate);
-
-      expect(fixedFormattedDate).toEqual('01/03/2019');
-    });
-
-    it('should return a date string in the MM/DD/YYYY format when only a Date object is provided', () => {
-      dateValueFormatterParams.value = new Date('12/1/2019');
-      const formattedDate = dateValueFormatter(dateValueFormatterParams);
-      const fixedFormattedDate = fixLocaleDateString(formattedDate);
-
-      expect(fixedFormattedDate).toEqual('12/01/2019');
-    });
-
-    it('should return a date string in the MM/DD/YYYY format when only a date string is provided', () => {
-      dateValueFormatterParams.value = '3/1/2019';
-      const formattedDate = dateValueFormatter(dateValueFormatterParams);
-      const fixedFormattedDate = fixLocaleDateString(formattedDate);
-
-      expect(fixedFormattedDate).toEqual('03/01/2019');
     });
   });
 

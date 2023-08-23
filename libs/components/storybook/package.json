@@ -10,6 +10,6 @@
     "@storybook/angular": "^7.3.2"
   },
   "dependencies": {
-    "tslib": "^2.5.0"
+    "tslib": "^2.6.2"
   }
 }

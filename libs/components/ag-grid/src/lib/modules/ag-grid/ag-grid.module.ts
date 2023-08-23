@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyViewkeeperModule } from '@skyux/core';
 import { SkyDataManagerModule } from '@skyux/data-manager';
+import { SkyDatePipeModule } from '@skyux/datetime';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyInlineDeleteModule } from '@skyux/layout';
 import { SkyThemeModule } from '@skyux/theme';
@@ -54,6 +55,7 @@ import { SkyAgGridHeaderComponent } from './header/header.component';
     SkyAgGridCellEditorTextModule,
     SkyAgGridResourcesModule,
     SkyDataManagerModule,
+    SkyDatePipeModule,
     SkyIconModule,
     SkyInlineDeleteModule,
     SkyViewkeeperModule,

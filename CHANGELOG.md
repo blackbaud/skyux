@@ -1,5 +1,19 @@
 # Changelog
 
+## [9.0.0-alpha.6](https://github.com/blackbaud/skyux/compare/9.0.0-alpha.5...9.0.0-alpha.6) (2023-08-21)
+
+
+### Features
+
+* **components/ag-grid:** provide schematic for AG Grid 29 changes ([#1593](https://github.com/blackbaud/skyux/issues/1593)) ([27ac5eb](https://github.com/blackbaud/skyux/commit/27ac5eb18a3cbac30d678d2f122631429fe1a019))
+* **sdk/testing:** support axe-core 4.7 ([#1494](https://github.com/blackbaud/skyux/issues/1494)) ([#1607](https://github.com/blackbaud/skyux/issues/1607)) ([0a82e99](https://github.com/blackbaud/skyux/commit/0a82e99f71d04af135359e63854516d9a5150c1a))
+
+
+### Bug Fixes
+
+* **components/modals:** use optional injector for `SkyModalConfiguration` ([#1615](https://github.com/blackbaud/skyux/issues/1615)) ([ac86119](https://github.com/blackbaud/skyux/commit/ac86119697e039d02475400e4072cedaa92514c1))
+* **components/split-view:** use correct spacing class in examples ([#1613](https://github.com/blackbaud/skyux/issues/1613)) ([880332f](https://github.com/blackbaud/skyux/commit/880332f1be065780c1502d9fd207d902b4893302))
+
 ## [8.9.0](https://github.com/blackbaud/skyux/compare/8.8.1...8.9.0) (2023-08-18)
 
 

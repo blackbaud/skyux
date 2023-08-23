@@ -36,6 +36,7 @@
   "ng-update": {
     "migrations": "./src/schematics/migrations/migration-collection.json",
     "packageGroup": {
+      "@blackbaud/angular-tree-component": "^1.0.0-alpha.0",
       "@skyux-sdk/eslint-config": "0.0.0-PLACEHOLDER",
       "@skyux-sdk/prettier-schematics": "0.0.0-PLACEHOLDER",
       "@skyux-sdk/testing": "0.0.0-PLACEHOLDER",
@@ -86,7 +87,8 @@
       "@skyux/validation": "0.0.0-PLACEHOLDER",
       "ag-grid-angular": "^29.3.5",
       "ag-grid-community": "^29.3.5",
-      "ag-grid-enterprise": "^29.3.5"
+      "ag-grid-enterprise": "^29.3.5",
+      "autonumeric": "^4.9.0"
     }
   },
   "peerDependencies": {

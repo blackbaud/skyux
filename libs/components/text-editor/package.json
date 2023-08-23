@@ -35,6 +35,6 @@
   "dependencies": {
     "dompurify": "3.0.5",
     "he": "1.2.0",
-    "tslib": "^2.5.0"
+    "tslib": "^2.6.2"
   }
 }
