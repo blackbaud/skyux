@@ -63,6 +63,20 @@ export class SkySearchHarness extends SkyComponentHarness {
   }
 
   /**
+   * Gets the search's aria-label.
+   */
+  public async getAriaLabel(): Promise<string | null> {
+    return (await this.#getInput()).getAttribute('aria-label');
+  }
+
+  /**
+   * Gets the search's aria-labelledby.
+   */
+  public async getAriaLabelledby(): Promise<string | null> {
+    return (await this.#getInput()).getAttribute('aria-labelledby');
+  }
+
+  /**
    * Gets the value of the input's placeholder attribute.
    */
   public async getPlaceholderText(): Promise<string | null> {
