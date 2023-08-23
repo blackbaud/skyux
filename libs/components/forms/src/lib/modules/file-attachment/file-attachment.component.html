@@ -48,7 +48,7 @@
         [attr.aria-describedby]="fileDropDescriptionElementId"
         [attr.aria-labelledby]="
           (hasLabelComponent
-            ? labelComponents.get(0)?.labelContentId?.id
+            ? labelComponents?.get(0)?.labelContentId?.id
             : undefined) +
           ' ' +
           attachButtonLabel.id
@@ -99,7 +99,7 @@
         type="button"
         [attr.aria-labelledby]="
           (hasLabelComponent
-            ? labelComponents.get(0).labelContentId.id
+            ? labelComponents?.get(0)?.labelContentId?.id
             : undefined) +
           ' ' +
           deleteButtonLabel.id
