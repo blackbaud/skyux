@@ -1,5 +1,24 @@
 # Changelog
 
+## [9.0.0-alpha.7](https://github.com/blackbaud/skyux/compare/9.0.0-alpha.6...9.0.0-alpha.7) (2023-08-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/ag-grid:** `SkyCellType.Date` uses the same date formatting logic as the `SkyDatePipe` ([#1611](https://github.com/blackbaud/skyux/issues/1611))
+
+### Features
+
+* **components/ag-grid:** `SkyCellType.Date` uses the same date formatting logic as the `SkyDatePipe` ([#1611](https://github.com/blackbaud/skyux/issues/1611)) ([d9c418a](https://github.com/blackbaud/skyux/commit/d9c418a216245fb64ca61399219df5e1133a78ae))
+* **components/lookup:** add ability to set `aria-label` and `aria-labelledby` attributes on the search component ([#1622](https://github.com/blackbaud/skyux/issues/1622)) ([#1624](https://github.com/blackbaud/skyux/issues/1624)) ([2ad8953](https://github.com/blackbaud/skyux/commit/2ad89538c57ba55d889111371381c59cd5d529f8))
+* update `autonumeric`, `dompurify`, `tslib`, and `validator` dependencies ([#1620](https://github.com/blackbaud/skyux/issues/1620)) ([f7e329a](https://github.com/blackbaud/skyux/commit/f7e329a3610917e6906989b4b2a6eaeb07e9410b))
+* update `intl-tel-input` and `google-libphonenumber` dependencies ([#1619](https://github.com/blackbaud/skyux/issues/1619)) ([488b799](https://github.com/blackbaud/skyux/commit/488b7994fc2eb7246b531284fee9a396d8c7ea39))
+
+
+### Reverts
+
+* move services from module providers to `providedIn: 'any'` ([#1621](https://github.com/blackbaud/skyux/issues/1621)) ([ad870aa](https://github.com/blackbaud/skyux/commit/ad870aaf5092cadecac33452ef2cdb1d2b4ccdd4))
+
 ## [9.0.0-alpha.6](https://github.com/blackbaud/skyux/compare/9.0.0-alpha.5...9.0.0-alpha.6) (2023-08-21)
 
 
