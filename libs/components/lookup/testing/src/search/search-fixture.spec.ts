@@ -10,8 +10,6 @@ import { SkySearchTestingModule } from './search-testing.module';
   selector: 'search-test',
   template: `
     <sky-search
-      [ariaLabel]="ariaLabel"
-      [ariaLabelledBy]="ariaLabelledBy"
       [placeholderText]="placeholderText"
       [searchText]="searchText"
       (searchApply)="searchApplied($event)"
@@ -22,10 +20,6 @@ import { SkySearchTestingModule } from './search-testing.module';
   `,
 })
 class TestComponent {
-  public ariaLabel = 'Search emails';
-
-  public ariaLabelledBy = 'foo-search-id';
-
   public placeholderText = 'Search placeholder text';
 
   public searchText = 'Search test text';
