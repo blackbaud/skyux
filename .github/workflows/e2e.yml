@@ -80,7 +80,7 @@ jobs:
               export NX_HEAD=$(jq -r '.[0].headRefOid' ${{ runner.temp }}/pr-list.json);
               echo "NX_HEAD: ${NX_HEAD}"
               echo "NX_HEAD=${NX_HEAD}" >> $GITHUB_ENV
-              NX_BASE=$(git merge-base origin/$(jq -r '.[0].baseRefName' ${{ runner.temp }}/pr-list.json) HEAD);
+              export NX_BASE=$(git merge-base origin/$(jq -r '.[0].baseRefName' ${{ runner.temp }}/pr-list.json) HEAD);
               echo "NX_BASE: ${NX_BASE}"
               echo "NX_BASE=${NX_BASE}" >> $GITHUB_ENV
 
