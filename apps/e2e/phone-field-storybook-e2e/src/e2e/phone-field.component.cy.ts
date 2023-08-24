@@ -38,7 +38,8 @@ describe('phone-field-storybook', () => {
           .eq(5)
           .should('exist')
           .should('be.visible')
-          .type('Ar');
+          .type('Ar')
+          .end();
 
         cy.get('app-phone-field')
           .should('exist')
@@ -48,7 +49,7 @@ describe('phone-field-storybook', () => {
             `phonefieldcomponent-phonefield--phone-field-${theme}`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
-              minHeight: 1350,
+              minHeight: 1300,
             }
           );
       });
