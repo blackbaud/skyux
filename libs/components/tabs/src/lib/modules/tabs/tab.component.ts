@@ -153,8 +153,6 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
     this.#_layout = layout;
     this.cssClass = `${LAYOUT_CLASS_PREFIX}${layout}`;
 
-    this.#observeTabResize();
-
     if (this.active) {
       this.#tabsetService.updateActiveTabLayout(layout);
     }
@@ -188,12 +186,11 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
 
   @ViewChild('tabContentWrapper')
   public set tabContentWrapper(tabContentWrapper: ElementRef | undefined) {
-    this.#_tabElement = tabContentWrapper;
-    this.#observeTabResize();
-  }
-
-  public get tabContentWrapper(): ElementRef | undefined {
-    return this.#_tabElement;
+    if (tabContentWrapper) {
+      this.#mediaQueryService.observe(tabContentWrapper, {
+        updateResponsiveClasses: true,
+      });
+    }
   }
 
   public permalinkValueOrDefault = '';
@@ -218,11 +215,7 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
 
   #_layout: SkyTabLayoutType = LAYOUT_DEFAULT;
 
-  #_tabElement: ElementRef | undefined;
-
   #tabIndexChange: BehaviorSubject<SkyTabIndex | undefined>;
-
-  #observingTab = false;
 
   #changeDetector: ChangeDetectorRef;
   #permalinkService: SkyTabsetPermalinkService;
@@ -260,10 +253,6 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
     ) {
       this.#stateChange.next();
     }
-
-    if (changes['layout'] && changes['layout'].currentValue === 'none') {
-      this.#mediaQueryService.unobserve();
-    }
   }
 
   public ngOnDestroy(): void {
@@ -274,7 +263,6 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
       this.#tabsetService.unregisterTab(this.tabIndex);
     }
     this.#mediaQueryService.unobserve();
-    this.#observingTab = false;
   }
 
   public init(): void {
@@ -301,19 +289,5 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
     this.permalinkValueOrDefault =
       this.#permalinkService.urlify(this.permalinkValue) ||
       this.#permalinkService.urlify(this.tabHeading);
-  }
-
-  #observeTabResize(): void {
-    if (this.tabContentWrapper) {
-      if (this.layout !== 'none' && !this.#observingTab) {
-        this.#observingTab = true;
-        this.#mediaQueryService.observe(this.tabContentWrapper, {
-          updateResponsiveClasses: true,
-        });
-      } else if (this.layout === 'none' && this.#observingTab) {
-        this.#observingTab = false;
-        this.#mediaQueryService.unobserve();
-      }
-    }
   }
 }
