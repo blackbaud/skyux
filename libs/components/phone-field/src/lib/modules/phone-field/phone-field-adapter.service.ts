@@ -1,4 +1,10 @@
-import { ElementRef, Injectable, OnDestroy, Renderer2 } from '@angular/core';
+import {
+  ElementRef,
+  Injectable,
+  OnDestroy,
+  Renderer2,
+  inject,
+} from '@angular/core';
 
 import { Subject } from 'rxjs';
 
@@ -9,12 +15,7 @@ import { Subject } from 'rxjs';
 @Injectable()
 export class SkyPhoneFieldAdapterService implements OnDestroy {
   #ngUnsubscribe = new Subject<void>();
-
-  #renderer: Renderer2;
-
-  constructor(renderer: Renderer2) {
-    this.#renderer = renderer;
-  }
+  #renderer = inject(Renderer2);
 
   public ngOnDestroy(): void {
     this.#ngUnsubscribe.next();
