@@ -35,12 +35,12 @@
 @include mixins.sky-theme-modern {
   .sky-vertical-tabset-group {
     border: none;
-    margin: $sky-theme-modern-space-sm 0;
+    margin: $sky-theme-modern-space-md 0;
   }
 
   .sky-vertical-tabset-group-content {
     border: none;
-    padding-left: 25px;
+    padding-left: 10px;
   }
 
   .sky-vertical-tabset-group-header {
