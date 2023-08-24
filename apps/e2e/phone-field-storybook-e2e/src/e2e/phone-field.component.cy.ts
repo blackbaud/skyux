@@ -5,7 +5,7 @@ describe('phone-field-storybook', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy
-          .viewport(600, 1000)
+          .viewport(600, 1300)
           .visit(
             `/iframe.html?globals=theme:${theme}&id=phonefieldcomponent-phonefield--phone-field`
           )
@@ -44,12 +44,11 @@ describe('phone-field-storybook', () => {
         cy.get('app-phone-field')
           .should('exist')
           .should('be.visible')
-          .screenshot(`phonefieldcomponent-phonefield--phone-field-${theme}`)
-          .percySnapshot(
+          .skyVisualTest(
             `phonefieldcomponent-phonefield--phone-field-${theme}`,
             {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-              minHeight: 1300,
+              capture: 'fullPage',
+              overwrite: true,
             }
           );
       });
