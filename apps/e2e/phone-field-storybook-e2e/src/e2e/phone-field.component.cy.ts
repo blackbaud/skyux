@@ -5,7 +5,7 @@ describe('phone-field-storybook', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy
-          .viewport(600, 1000)
+          .viewport(600, 1500)
           .visit(
             `/iframe.html?globals=theme:${theme}&id=phonefieldcomponent-phonefield--phone-field`
           )
