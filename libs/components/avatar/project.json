@@ -9,8 +9,7 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/avatar"],
       "options": {
-        "project": "libs/components/avatar/ng-package.json",
-        "updateBuildableProjectDepsInPackageJson": false
+        "project": "libs/components/avatar/ng-package.json"
       },
       "configurations": {
         "production": {

@@ -1,9 +1,4 @@
-import {
-  ComponentRef,
-  EnvironmentInjector,
-  Injectable,
-  inject,
-} from '@angular/core';
+import { ComponentRef, Injectable } from '@angular/core';
 import {
   SkyDynamicComponentLocation,
   SkyDynamicComponentService,
@@ -20,12 +15,13 @@ import { SkySkipLinkHostComponent } from './skip-link-host.component';
  * the Tab key again will move to the next skip link if more than one skip link is specified;
  * otherwise, focus will move to the first focusable element on the page.
  */
-@Injectable()
+@Injectable({
+  providedIn: 'any',
+})
 export class SkySkipLinkService {
   private static host: ComponentRef<SkySkipLinkHostComponent> | undefined;
 
   #dynamicComponentService: SkyDynamicComponentService;
-  #environmentInjector = inject(EnvironmentInjector);
 
   constructor(dynamicComponentService: SkyDynamicComponentService) {
     this.#dynamicComponentService = dynamicComponentService;
@@ -56,7 +52,6 @@ export class SkySkipLinkService {
       const componentRef = this.#dynamicComponentService.createComponent(
         SkySkipLinkHostComponent,
         {
-          environmentInjector: this.#environmentInjector,
           location: SkyDynamicComponentLocation.BodyTop,
         }
       );

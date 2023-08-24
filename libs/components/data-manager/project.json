@@ -9,8 +9,7 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/data-manager"],
       "options": {
-        "project": "libs/components/data-manager/ng-package.json",
-        "updateBuildableProjectDepsInPackageJson": false
+        "project": "libs/components/data-manager/ng-package.json"
       },
       "configurations": {
         "production": {

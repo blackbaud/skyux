@@ -980,10 +980,11 @@ describe('Checkbox component', () => {
         .pipe(sampleTime(10))
         .subscribe(() => {
           expect(callbackSpy).toHaveBeenCalledTimes(1);
-        })
-        .add(() => {
-          done();
         });
+
+      subscription.add(() => {
+        done();
+      });
 
       labelElement?.click();
 

@@ -60,6 +60,25 @@ const EXPAND_MODE_NONE = 'none';
 })
 export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   /**
+   * The ARIA label for the search. This sets the search's `aria-label` attribute to provide a text equivalent for screen readers
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * If the box includes a visible label, use `ariaLabelledBy` instead.
+   * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
+   */
+  @Input()
+  public ariaLabel: string | undefined;
+
+  /**
+   * The HTML element ID of the element that labels
+   * the search. This sets the search's `aria-labelledby` attribute to provide a text equivalent for screen readers
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * If the box does not include a visible label, use `ariaLabel` instead.
+   * For more information about the `aria-labelledby` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-labelledby).
+   */
+  @Input()
+  public ariaLabelledBy: string | undefined;
+
+  /**
    * Fires when the search text is applied.
    */
   @Output()

@@ -24,7 +24,7 @@ After you file an issue, discuss the architecture and implementation details, re
 
 1. Fork the repo into your own GitHub repo.
 1. Create a branch off of `main`. Name it after the feature to contribute, and use kebab-case (`my-new-feature`).
-1. Clone your repo locally and run `nvm use` to ensure you have the preferred version of Node.js installed. Then run `npm install` to install all required dependencies. For more information on prerequisites, see [SKY UX prerequisites](https://developer.blackbaud.com/skyux/learn/get-started).
+1. Clone your repo locally and run `nvm use` to ensure you have the preferred version of Node.js installed. Then run `npm install` to install all required dependencies. For more information on prerequisites, see [SKY UX prerequisites](https://developer.blackbaud.com/skyux/learn/develop/get-started).
 
 ### Request a preliminary review
 

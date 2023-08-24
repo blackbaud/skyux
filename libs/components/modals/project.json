@@ -9,8 +9,7 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/modals"],
       "options": {
-        "project": "libs/components/modals/ng-package.json",
-        "updateBuildableProjectDepsInPackageJson": false
+        "project": "libs/components/modals/ng-package.json"
       },
       "configurations": {
         "production": {
