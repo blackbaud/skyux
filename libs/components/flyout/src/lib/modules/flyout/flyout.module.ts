@@ -11,7 +11,6 @@ import { SkyFlyoutResourcesModule } from '../shared/sky-flyout-resources.module'
 
 import { SkyFlyoutIteratorComponent } from './flyout-iterator.component';
 import { SkyFlyoutComponent } from './flyout.component';
-import { SkyFlyoutService } from './flyout.service';
 
 @NgModule({
   declarations: [SkyFlyoutComponent, SkyFlyoutIteratorComponent],
@@ -26,6 +25,5 @@ import { SkyFlyoutService } from './flyout.service';
     SkyHrefModule,
   ],
   exports: [SkyFlyoutComponent],
-  providers: [SkyFlyoutService],
 })
 export class SkyFlyoutModule {}

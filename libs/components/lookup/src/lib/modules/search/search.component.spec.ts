@@ -513,16 +513,42 @@ describe('Search component', () => {
   });
 
   describe('a11y', async () => {
-    it('should be accessible using default theme at wide and small breakpoints', async () => {
+    it('should be accessible using default theme at wide and small breakpoints (ariaLabel: undefined, ariaLabelledBy: undefined)', async () => {
       fixture.detectChanges();
       await fixture.whenStable();
       await expectAsync(fixture.nativeElement).toBeAccessible();
       setInput('foo bar');
       await fixture.whenStable();
       await expectAsync(fixture.nativeElement).toBeAccessible();
+      expect(getInput().attributes['aria-label']).toBe('Search items');
+      expect(getInput().attributes['aria-labelledby']).toBeUndefined();
     });
 
-    it('should be accessible using modern theme at wide and small breakpoints', async () => {
+    it('should be accessible using default theme at wide and small breakpoints (ariaLabel: "Test label", ariaLabelledBy: undefined)', async () => {
+      component.ariaLabel = 'Test label';
+      fixture.detectChanges();
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+      setInput('foo bar');
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+      expect(getInput().attributes['aria-label']).toBe('Test label');
+      expect(getInput().attributes['aria-labelledby']).toBeUndefined();
+    });
+
+    it('should be accessible using default theme at wide and small breakpoints (ariaLabel: undefined, ariaLabelledBy: "test-label")', async () => {
+      component.ariaLabelledBy = 'test-label';
+      fixture.detectChanges();
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+      setInput('foo bar');
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+      expect(getInput().attributes['aria-label']).toBeUndefined();
+      expect(getInput().attributes['aria-labelledby']).toBe('test-label');
+    });
+
+    it('should be accessible using modern theme at wide and small breakpoints (ariaLabel: undefined, ariaLabelledBy: undefined)', async () => {
       mockThemeSvc.settingsChange.next({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.modern,
@@ -536,6 +562,46 @@ describe('Search component', () => {
       setInput('foo bar');
       await fixture.whenStable();
       await expectAsync(fixture.nativeElement).toBeAccessible();
+      expect(getInput().attributes['aria-label']).toBe('Search items');
+      expect(getInput().attributes['aria-labelledby']).toBeUndefined();
+    });
+
+    it('should be accessible using modern theme at wide and small breakpoints (ariaLabel: "Test label", ariaLabelledBy: undefined)', async () => {
+      mockThemeSvc.settingsChange.next({
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets.modern,
+          SkyThemeMode.presets.light
+        ),
+        previousSettings: mockThemeSvc.settingsChange.value.currentSettings,
+      });
+      component.ariaLabel = 'Test label';
+      fixture.detectChanges();
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+      setInput('foo bar');
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+      expect(getInput().attributes['aria-label']).toBe('Test label');
+      expect(getInput().attributes['aria-labelledby']).toBeUndefined();
+    });
+
+    it('should be accessible using modern theme at wide and small breakpoints (ariaLabel: undefined, ariaLabelledBy: "test-label")', async () => {
+      mockThemeSvc.settingsChange.next({
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets.modern,
+          SkyThemeMode.presets.light
+        ),
+        previousSettings: mockThemeSvc.settingsChange.value.currentSettings,
+      });
+      component.ariaLabelledBy = 'test-label';
+      fixture.detectChanges();
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+      setInput('foo bar');
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+      expect(getInput().attributes['aria-label']).toBeUndefined();
+      expect(getInput().attributes['aria-labelledby']).toBe('test-label');
     });
   });
 });

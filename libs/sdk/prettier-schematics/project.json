@@ -27,8 +27,7 @@
         "tsConfig": "libs/sdk/prettier-schematics/tsconfig.lib.json",
         "packageJson": "libs/sdk/prettier-schematics/package.json",
         "main": "libs/sdk/prettier-schematics/src/index.ts",
-        "assets": ["libs/sdk/prettier-schematics/*.md"],
-        "updateBuildableProjectDepsInPackageJson": false
+        "assets": ["libs/sdk/prettier-schematics/*.md"]
       }
     },
     "postbuild": {

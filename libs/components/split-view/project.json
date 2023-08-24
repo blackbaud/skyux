@@ -9,8 +9,7 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/split-view"],
       "options": {
-        "project": "libs/components/split-view/ng-package.json",
-        "updateBuildableProjectDepsInPackageJson": false
+        "project": "libs/components/split-view/ng-package.json"
       },
       "configurations": {
         "production": {

@@ -1,0 +1,9 @@
+{
+  "generators": {
+    "update-dependencies": {
+      "factory": "./src/generators/update-dependencies/generator",
+      "schema": "./src/generators/update-dependencies/schema.json",
+      "description": "Update peer dependencies, such as during a major version upgrade"
+    }
+  }
+}

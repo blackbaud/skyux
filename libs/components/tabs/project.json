@@ -9,8 +9,7 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/tabs"],
       "options": {
-        "project": "libs/components/tabs/ng-package.json",
-        "updateBuildableProjectDepsInPackageJson": false
+        "project": "libs/components/tabs/ng-package.json"
       },
       "configurations": {
         "production": {

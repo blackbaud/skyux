@@ -6,7 +6,9 @@ import { SkyNumberFormatUtility } from '../shared/number-format/number-format-ut
 import { SkyNumericSymbol } from './numeric-symbol';
 import { SkyNumericOptions } from './numeric.options';
 
-@Injectable()
+@Injectable({
+  providedIn: 'any',
+})
 export class SkyNumericService {
   /**
    * The browser's current locale.

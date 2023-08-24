@@ -29,8 +29,7 @@
         "tsConfig": "libs/components/packages/tsconfig.lib.json",
         "packageJson": "libs/components/packages/package.json",
         "main": "libs/components/packages/src/index.ts",
-        "assets": ["libs/components/packages/*.md"],
-        "updateBuildableProjectDepsInPackageJson": false
+        "assets": ["libs/components/packages/*.md"]
       }
     },
     "postbuild": {

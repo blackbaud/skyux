@@ -11,8 +11,7 @@
         "{workspaceRoot}/dist/libs/components/list-builder-view-checklist"
       ],
       "options": {
-        "project": "libs/components/list-builder-view-checklist/ng-package.json",
-        "updateBuildableProjectDepsInPackageJson": false
+        "project": "libs/components/list-builder-view-checklist/ng-package.json"
       },
       "configurations": {
         "production": {

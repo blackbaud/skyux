@@ -192,15 +192,17 @@ describe('Date pipe', () => {
   });
 
   it('should default to en-US locale', () => {
-    const date = new Date(2000, 0, 1);
-    const pipe = new SkyDatePipe(mockLocaleProvider);
-    const expectedValues = [
-      '1/1/2000, 12:00 AM',
-      '1/1/2000 12:00 AM', // IE 11
-    ];
+    TestBed.runInInjectionContext(() => {
+      const date = new Date(2000, 0, 1);
+      const pipe = new SkyDatePipe();
+      const expectedValues = [
+        '1/1/2000, 12:00 AM',
+        '1/1/2000 12:00 AM', // IE 11
+      ];
 
-    const value = pipe.transform(date, 'short');
-    expect(expectedValues).toContain(value);
+      const value = pipe.transform(date, 'short');
+      expect(expectedValues).toContain(value);
+    });
   });
 
   it('should format invalid in IE ISO date', () => {
@@ -227,7 +229,7 @@ describe('Date pipe', () => {
     expect(expectedValues).toContain(value);
   });
 
-  it('should revert to provided format pattern if a match is not found in our SkyDateFormatUtility aliases', () => {
+  it('should revert to provided format pattern if a match is not found in our SkyDateService aliases', () => {
     const spy = spyOn(SkyIntlDateFormatter, 'format');
     fixture.componentInstance.format = 'NOT_A_REAL_FORMAT';
     fixture.componentInstance.dateValue = '2000-01-01';
