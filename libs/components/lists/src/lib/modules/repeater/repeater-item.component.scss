@@ -168,8 +168,9 @@ sky-repeater-item {
       padding-left: var(--sky-padding-even-md);
 
       &.sky-repeater-item-active {
-        // 15px padding minus 4px border
-        padding-left: 11px;
+        padding-left: calc(
+          var(--sky-padding-even-md) - $sky-nav-selected-border-width
+        );
       }
     }
   }
