@@ -1,5 +1,18 @@
 # Changelog
 
+## [8.10.0](https://github.com/blackbaud/skyux/compare/8.9.0...8.10.0) (2023-08-24)
+
+
+### Features
+
+* **components/lookup:** add ability to set `aria-label` and `aria-labelledby` attributes on the search component ([#1622](https://github.com/blackbaud/skyux/issues/1622)) ([5ddb569](https://github.com/blackbaud/skyux/commit/5ddb56991d43b16d6b5715e603141364fd64dd24))
+* **sdk/eslint-config:** use typescript-eslint version of no-use-before-define ([#1601](https://github.com/blackbaud/skyux/issues/1601)) ([#1604](https://github.com/blackbaud/skyux/issues/1604)) ([666f002](https://github.com/blackbaud/skyux/commit/666f002aec964806a8bcdddbf40127b051c0fdc7))
+
+
+### Bug Fixes
+
+* **components/tabs:** remove responsive container behavior from tabs ([#1636](https://github.com/blackbaud/skyux/issues/1636)) ([92fbcdb](https://github.com/blackbaud/skyux/commit/92fbcdbdfaa0a65448903651ecea3e512877d36d))
+
 ## [8.9.0](https://github.com/blackbaud/skyux/compare/8.8.1...8.9.0) (2023-08-18)
 
 
