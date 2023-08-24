@@ -15,10 +15,6 @@
     "_description": "The close button for the timepicker modal",
     "message": "Done"
   },
-  "skyux_timepicker_input_default_label": {
-    "_description": "The label for the timepicker component's input field for screen readers when the consumer has not specified a label.",
-    "message": "Time"
-  },
   "skyux_date_range_picker_default_label": {
     "_description": "The default label for the date range picker.",
     "message": "Select a date range"
