@@ -4,8 +4,12 @@
   [formGroup]="favoritesForm"
   (ngSubmit)="onSubmit()"
 >
-  <div class="sky-form-group">
-    <sky-input-box data-sky-id="favorite-name-field" labelText="Favorite name">
+  <div>
+    <sky-input-box
+      stacked="true"
+      data-sky-id="favorite-name-field"
+      labelText="Favorite name"
+    >
       <sky-lookup
         formControlName="favoriteName"
         selectMode="single"
