@@ -274,7 +274,6 @@ jobs:
             --pr=${{ needs.install-deps.outputs.workflow_dispatch_pr_number || github.event.number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-          NX_DAEMON: 'false'
 
   e2e:
     name: End to end tests
