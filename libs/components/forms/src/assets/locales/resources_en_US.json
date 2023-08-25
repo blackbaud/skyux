@@ -29,7 +29,7 @@
   },
   "skyux_file_attachment_file_item_remove": {
     "_description": "Label for the button that deletes a file in single file attachment",
-    "message": "Remove {0} for"
+    "message": "Remove file {0} for"
   },
   "skyux_file_attachment_file_size_b_plural": {
     "_description": "",
