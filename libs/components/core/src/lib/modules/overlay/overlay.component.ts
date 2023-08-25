@@ -10,7 +10,6 @@ import {
   HostBinding,
   OnDestroy,
   OnInit,
-  Optional,
   StaticProvider,
   TemplateRef,
   Type,
@@ -113,37 +112,23 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
 
   #backdropClickObs: Observable<void>;
 
-  #changeDetector: ChangeDetectorRef;
-
   #closed: Subject<void>;
 
   #closedObs: Observable<void>;
 
-  #context: SkyOverlayContext;
-
-  #coreAdapter: SkyCoreAdapterService;
-
-  #environmentInjector = inject(EnvironmentInjector);
-
   #ngUnsubscribe = new Subject<void>();
-
-  #router: Router | undefined;
 
   #routerSubscription: Subscription | undefined;
 
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    coreAdapter: SkyCoreAdapterService,
-    context: SkyOverlayContext,
-    idSvc: SkyIdService,
-    @Optional() router?: Router
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#coreAdapter = coreAdapter;
-    this.#context = context;
-    this.#router = router;
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #context = inject(SkyOverlayContext);
+  readonly #coreAdapter = inject(SkyCoreAdapterService);
+  readonly #environmentInjector = inject(EnvironmentInjector);
+  readonly #idSvc = inject(SkyIdService);
+  readonly #router = inject(Router, { optional: true });
 
-    this.id = idSvc.generateId();
+  constructor() {
+    this.id = this.#idSvc.generateId();
 
     this.#backdropClick = new Subject<void>();
     this.#closed = new Subject<void>();

@@ -57,14 +57,9 @@ describe('Toast service', () => {
     toastSvc = TestBed.inject(SkyToastService);
   });
 
-  afterEach(() => {
-    toastSvc.closeAll();
-  });
-
   it('should only create a single host component', () => {
     toastSvc.openMessage('message');
     toastSvc.openMessage('message');
-
     expect(mockSkyDynamicComponentSvc.createComponent).toHaveBeenCalledOnceWith(
       SkyToasterComponent,
       {

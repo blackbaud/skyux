@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
 } from '@angular/core';
 
 import { SkyA11yResourcesModule } from '../shared/sky-a11y-resources.module';
@@ -31,16 +32,8 @@ export class SkySkipLinkHostComponent {
 
   #_links: SkySkipLink[] = [];
 
-  #changeDetector: ChangeDetectorRef;
-  #adapter: SkySkipLinkAdapterService;
-
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    adapter: SkySkipLinkAdapterService
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#adapter = adapter;
-  }
+  readonly #adapter = inject(SkySkipLinkAdapterService);
+  readonly #changeDetector = inject(ChangeDetectorRef);
 
   public skipTo(link: SkySkipLink): void {
     this.#adapter.skipTo(link);

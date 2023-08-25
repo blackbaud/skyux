@@ -16,5 +16,5 @@ import { SkyModalErrorsService } from './modal-errors.service';
   imports: [CommonModule, SkyStatusIndicatorModule],
 })
 export class SkyModalFooterComponent {
-  protected errorsSvc = inject(SkyModalErrorsService);
+  protected readonly errorsSvc = inject(SkyModalErrorsService);
 }

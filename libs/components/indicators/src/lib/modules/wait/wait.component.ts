@@ -139,16 +139,16 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
   #customAriaLabel: string | undefined;
   #customScreenReaderCompletedText: string | undefined;
   #id = `sky-wait-${++nextId}`;
-
-  #elRef = inject(ElementRef);
-  #adapterService = inject(SkyWaitAdapterService);
-  #liveAnnouncer = inject(SkyLiveAnnouncerService);
-  #resourceSvc = inject(SkyLibResourcesService);
   #ngUnsubscribe = new Subject<void>();
 
   #_isFullPage: boolean | undefined;
   #_isNonBlocking: boolean | undefined;
   #_isWaiting: boolean | undefined;
+
+  readonly #adapterService = inject(SkyWaitAdapterService);
+  readonly #elRef = inject(ElementRef);
+  readonly #liveAnnouncer = inject(SkyLiveAnnouncerService);
+  readonly #resourceSvc = inject(SkyLibResourcesService);
 
   public ngOnInit(): void {
     this.#publishAriaLabel();

@@ -6,6 +6,7 @@ import {
   OnDestroy,
   OnInit,
   TemplateRef,
+  inject,
 } from '@angular/core';
 import { SkyIdService, SkyViewkeeperModule } from '@skyux/core';
 import { SkyCheckboxModule } from '@skyux/forms';
@@ -82,8 +83,6 @@ export class SkySelectionModalComponent implements OnInit, OnDestroy {
 
   public selectedIdMap: Map<unknown, unknown> = new Map();
 
-  #changeDetector: ChangeDetectorRef;
-
   #continuationData: unknown;
 
   #currentSearchSub: Subscription | undefined;
@@ -92,15 +91,13 @@ export class SkySelectionModalComponent implements OnInit, OnDestroy {
 
   #offset = 0;
 
-  constructor(
-    public modalInstance: SkyModalInstance,
-    public context: SkySelectionModalContext,
-    changeDetector: ChangeDetectorRef,
-    idSvc: SkyIdService
-  ) {
-    this.#changeDetector = changeDetector;
+  protected readonly context = inject(SkySelectionModalContext);
+  protected readonly modalInstance = inject(SkyModalInstance);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #idSvc = inject(SkyIdService);
 
-    this.id = idSvc.generateId();
+  constructor() {
+    this.id = this.#idSvc.generateId();
   }
 
   public ngOnInit(): void {

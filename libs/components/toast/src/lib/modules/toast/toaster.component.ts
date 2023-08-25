@@ -1,24 +1,21 @@
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
-  ApplicationRef,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ComponentFactoryResolver,
   ElementRef,
-  EmbeddedViewRef,
-  Injector,
+  EnvironmentInjector,
   OnDestroy,
-  Optional,
   QueryList,
   StaticProvider,
   ViewChild,
   ViewChildren,
   ViewContainerRef,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
-import { SKY_STACKING_CONTEXT } from '@skyux/core';
+import { SKY_STACKING_CONTEXT, SkyDynamicComponentService } from '@skyux/core';
 
 import { BehaviorSubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
@@ -61,34 +58,16 @@ export class SkyToasterComponent implements AfterViewInit, OnDestroy {
   protected zIndex$ = new BehaviorSubject(1051);
 
   #ngUnsubscribe = new Subject<void>();
-  #applicationRef: ApplicationRef;
-  #domAdapter: SkyToastAdapterService;
-  #toastService: SkyToastService;
-  #resolver: ComponentFactoryResolver;
-  #injector: Injector;
-  #toasterService: SkyToasterService;
-  #changeDetector: ChangeDetectorRef;
-  #containerOptions: SkyToastContainerOptions | undefined;
 
-  constructor(
-    applicationRef: ApplicationRef,
-    domAdapter: SkyToastAdapterService,
-    toastService: SkyToastService,
-    resolver: ComponentFactoryResolver,
-    injector: Injector,
-    toasterService: SkyToasterService,
-    changeDetector: ChangeDetectorRef,
-    @Optional() containerOptions?: SkyToastContainerOptions
-  ) {
-    this.#applicationRef = applicationRef;
-    this.#domAdapter = domAdapter;
-    this.#toastService = toastService;
-    this.#resolver = resolver;
-    this.#injector = injector;
-    this.#toasterService = toasterService;
-    this.#changeDetector = changeDetector;
-    this.#containerOptions = containerOptions;
-  }
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #containerOptions = inject(SkyToastContainerOptions, {
+    optional: true,
+  });
+  readonly #dynamicComponentSvc = inject(SkyDynamicComponentService);
+  readonly #domAdapter = inject(SkyToastAdapterService);
+  readonly #environmentInjector = inject(EnvironmentInjector);
+  readonly #toastService = inject(SkyToastService);
+  readonly #toasterService = inject(SkyToasterService);
 
   public ngAfterViewInit(): void {
     if (this.toastContent) {
@@ -175,19 +154,14 @@ export class SkyToasterComponent implements AfterViewInit, OnDestroy {
                 },
               },
             ] as StaticProvider[];
-            const injector = Injector.create({
-              providers,
-              parent: this.#injector,
-            });
 
-            const componentRef = this.#resolver
-              .resolveComponentFactory(toast.bodyComponent)
-              .create(injector);
-
-            this.#applicationRef.attachView(componentRef.hostView);
-
-            const el = (componentRef.hostView as EmbeddedViewRef<unknown>)
-              .rootNodes[0];
+            const componentRef = this.#dynamicComponentSvc.createComponent(
+              toast.bodyComponent,
+              {
+                environmentInjector: this.#environmentInjector,
+                providers,
+              }
+            );
 
             const toastEl = document.querySelector(
               `[data-toast-id="${toast.toastId}"]`
@@ -195,7 +169,7 @@ export class SkyToasterComponent implements AfterViewInit, OnDestroy {
 
             /* istanbul ignore else */
             if (toastEl) {
-              toastEl.appendChild(el);
+              toastEl.appendChild(componentRef.location.nativeElement);
             }
 
             componentRef.changeDetectorRef.detectChanges();

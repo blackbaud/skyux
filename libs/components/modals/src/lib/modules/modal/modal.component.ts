@@ -4,13 +4,11 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  Host,
   HostBinding,
   HostListener,
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   ViewChild,
   inject,
 } from '@angular/core';
@@ -130,21 +128,23 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
   @ViewChild('modalContentWrapper', { read: ElementRef })
   public modalContentWrapperElement: ElementRef | undefined;
 
-  #hostService: SkyModalHostService;
-  #elRef: ElementRef;
-  #windowRef: SkyAppWindowRef;
-  #componentAdapter: SkyModalComponentAdapterService;
-  #coreAdapter: SkyCoreAdapterService;
-  #dockService: SkyDockService;
-  #mediaQueryService: SkyResizeObserverMediaQueryService | undefined;
   #ngUnsubscribe = new Subject<void>();
 
   #_ariaDescribedBy: string | undefined;
   #_ariaLabelledBy: string | undefined;
 
-  #changeDetector = inject(ChangeDetectorRef);
-  #errorsSvc = inject(SkyModalErrorsService);
-  #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #componentAdapter = inject(SkyModalComponentAdapterService);
+  readonly #coreAdapter = inject(SkyCoreAdapterService);
+  readonly #dockService = inject(SkyDockService, { host: true });
+  readonly #elRef = inject(ElementRef);
+  readonly #errorsSvc = inject(SkyModalErrorsService);
+  readonly #hostService = inject(SkyModalHostService);
+  readonly #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
+  readonly #mediaQueryService = inject(SkyResizeObserverMediaQueryService, {
+    optional: true,
+  });
+  readonly #windowRef = inject(SkyAppWindowRef);
 
   /**
    * This provider is optional to account for situations where a modal component
@@ -152,28 +152,11 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
    * a component that uses the modal component but doesn't launch the modal from
    * the modal service before executing assertions.
    */
-  #config =
+  readonly #config =
     inject(SkyModalConfiguration, { optional: true }) ??
     new SkyModalConfiguration();
 
-  constructor(
-    hostService: SkyModalHostService,
-    elRef: ElementRef,
-    windowRef: SkyAppWindowRef,
-    componentAdapter: SkyModalComponentAdapterService,
-    coreAdapter: SkyCoreAdapterService,
-    @Host() dockService: SkyDockService,
-    @Optional()
-    mediaQueryService?: SkyResizeObserverMediaQueryService
-  ) {
-    this.#hostService = hostService;
-    this.#elRef = elRef;
-    this.#windowRef = windowRef;
-    this.#componentAdapter = componentAdapter;
-    this.#coreAdapter = coreAdapter;
-    this.#dockService = dockService;
-    this.#mediaQueryService = mediaQueryService;
-
+  constructor() {
     this.ariaDescribedBy = this.#config.ariaDescribedBy;
     this.ariaLabelledBy = this.#config.ariaLabelledBy;
     this.ariaRole = this.#config.ariaRole;

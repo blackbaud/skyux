@@ -8,9 +8,9 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   Output,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { skyAnimationEmerge } from '@skyux/animations';
 import { SkyIconModule, SkyIconStackItem } from '@skyux/indicators';
@@ -78,16 +78,8 @@ export class SkyToastComponent implements OnInit, OnDestroy {
   #isOpen = false;
   #ngUnsubscribe = new Subject<void>();
 
-  #changeDetector: ChangeDetectorRef;
-  #toasterService: SkyToasterService | undefined;
-
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    @Optional() toasterService?: SkyToasterService
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#toasterService = toasterService;
-  }
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #toasterService = inject(SkyToasterService, { optional: true });
 
   public ngOnInit(): void {
     this.#isOpen = true;

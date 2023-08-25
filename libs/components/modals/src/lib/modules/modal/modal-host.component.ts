@@ -5,7 +5,6 @@ import {
   ElementRef,
   EnvironmentInjector,
   OnDestroy,
-  Optional,
   Type,
   ViewChild,
   ViewContainerRef,
@@ -43,11 +42,11 @@ import { SkyModalConfigurationInterface } from './modal.interface';
   imports: [CommonModule, RouterModule, SkyModalsResourcesModule],
 })
 export class SkyModalHostComponent implements OnDestroy {
-  public get modalOpen() {
+  public get modalOpen(): boolean {
     return SkyModalHostService.openModalCount > 0;
   }
 
-  public get backdropZIndex() {
+  public get backdropZIndex(): number {
     return SkyModalHostService.backdropZIndex;
   }
 
@@ -60,31 +59,17 @@ export class SkyModalHostComponent implements OnDestroy {
   @ViewChild('target', {
     read: ViewContainerRef,
     static: true,
-  } as any)
+  })
   public target: ViewContainerRef | undefined;
-
-  #adapter: SkyModalAdapterService;
-  #environmentInjector = inject(EnvironmentInjector);
-  #router: Router | undefined;
-  #changeDetector: ChangeDetectorRef;
-  #modalHostContext: SkyModalHostContext;
-  #elRef: ElementRef;
 
   #modalInstances: SkyModalInstance[] = [];
 
-  constructor(
-    adapter: SkyModalAdapterService,
-    changeDetector: ChangeDetectorRef,
-    modalHostContext: SkyModalHostContext,
-    elRef: ElementRef,
-    @Optional() router?: Router
-  ) {
-    this.#adapter = adapter;
-    this.#router = router;
-    this.#changeDetector = changeDetector;
-    this.#modalHostContext = modalHostContext;
-    this.#elRef = elRef;
-  }
+  readonly #adapter = inject(SkyModalAdapterService);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #elRef = inject(ElementRef);
+  readonly #environmentInjector = inject(EnvironmentInjector);
+  readonly #modalHostContext = inject(SkyModalHostContext);
+  readonly #router = inject(Router, { optional: true });
 
   public ngOnDestroy(): void {
     // Close all modal instances before disposing of the host container.

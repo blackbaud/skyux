@@ -164,33 +164,17 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
   #_messageStream = new Subject<SkyFlyoutMessage>();
 
-  #adapter: SkyFlyoutAdapterService;
-  #changeDetector: ChangeDetectorRef;
-  #dynamicComponentSvc = inject(SkyDynamicComponentService);
-  #environmentInjector = inject(EnvironmentInjector);
-  #resourcesService: SkyLibResourcesService;
-  #flyoutMediaQueryService: SkyFlyoutMediaQueryService;
-  #elementRef: ElementRef;
-  #uiConfigService: SkyUIConfigService;
-  #ngZone: NgZone;
+  readonly #adapter = inject(SkyFlyoutAdapterService);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #dynamicComponentSvc = inject(SkyDynamicComponentService);
+  readonly #elementRef = inject(ElementRef);
+  readonly #environmentInjector = inject(EnvironmentInjector);
+  readonly #flyoutMediaQueryService = inject(SkyFlyoutMediaQueryService);
+  readonly #ngZone = inject(NgZone);
+  readonly #resourcesService = inject(SkyLibResourcesService);
+  readonly #uiConfigService = inject(SkyUIConfigService);
 
-  constructor(
-    adapter: SkyFlyoutAdapterService,
-    changeDetector: ChangeDetectorRef,
-    resourcesService: SkyLibResourcesService,
-    flyoutMediaQueryService: SkyFlyoutMediaQueryService,
-    elementRef: ElementRef,
-    uiConfigService: SkyUIConfigService,
-    ngZone: NgZone
-  ) {
-    this.#adapter = adapter;
-    this.#changeDetector = changeDetector;
-    this.#resourcesService = resourcesService;
-    this.#flyoutMediaQueryService = flyoutMediaQueryService;
-    this.#elementRef = elementRef;
-    this.#uiConfigService = uiConfigService;
-    this.#ngZone = ngZone;
-
+  constructor() {
     // All commands flow through the message stream.
     this.messageStream
       .pipe(takeUntil(this.#ngUnsubscribe))
