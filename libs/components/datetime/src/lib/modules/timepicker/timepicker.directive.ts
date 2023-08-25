@@ -19,7 +19,6 @@ import {
   ValidationErrors,
   Validator,
 } from '@angular/forms';
-import { SkyLibResourcesService } from '@skyux/i18n';
 
 import moment from 'moment';
 import { Subscription } from 'rxjs';
@@ -134,18 +133,15 @@ export class SkyTimepickerInputDirective
 
   #renderer: Renderer2;
   #elRef: ElementRef;
-  #resourcesService: SkyLibResourcesService;
   #changeDetector: ChangeDetectorRef;
 
   constructor(
     renderer: Renderer2,
     elRef: ElementRef,
-    resourcesService: SkyLibResourcesService,
     changeDetector: ChangeDetectorRef
   ) {
     this.#renderer = renderer;
     this.#elRef = elRef;
-    this.#resourcesService = resourcesService;
     this.#changeDetector = changeDetector;
   }
 
@@ -158,19 +154,6 @@ export class SkyTimepickerInputDirective
           this.#_onTouched();
         }
       );
-
-    /* istanbul ignore else */
-    if (!this.#elRef.nativeElement.getAttribute('aria-label')) {
-      this.#resourcesService
-        .getString('skyux_timepicker_input_default_label')
-        .subscribe((value: string) => {
-          this.#renderer.setAttribute(
-            this.#elRef.nativeElement,
-            'aria-label',
-            value
-          );
-        });
-    }
   }
 
   public ngAfterContentInit(): void {
