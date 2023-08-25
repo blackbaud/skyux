@@ -1,99 +1,100 @@
-<form novalidate [formGroup]="favoritesForm">
-  <sky-input-box labelText="Basic" [disabled]="disabledFlag">
-    <sky-lookup
-      formControlName="favoriteNames"
-      [data]="people"
-      [selectMode]="selectMode"
-    >
-    </sky-lookup>
-  </sky-input-box>
+<form [formGroup]="favoritesForm" novalidate>
+  <ng-container *ngFor="let selectMode of selectModes">
+    <h2>{{ selectMode | titlecase }}</h2>
+    <ng-container *ngFor="let disabledState of disabledStates">
+      <ng-container *ngFor="let controlName of controlNames.get(selectMode)">
+        <sky-input-box
+          id="{{
+            selectMode + '-' + disabledState + '-' + controlName | lowercase
+          }}"
+          labelText="{{ selectMode | titlecase }} {{ disabledState }} {{
+            controlName
+          }}"
+          [disabled]="disabledState === 'Disabled'"
+          class="sky-margin-stacked-lg"
+        >
+          <sky-lookup
+            [formControlName]="selectMode + disabledState + controlName"
+            [data]="people"
+            [selectMode]="selectMode"
+          >
+          </sky-lookup>
+        </sky-input-box>
+        <sky-input-box
+          *ngIf="disabledState === 'Enabled'"
+          id="{{
+            selectMode + '-' + disabledState + '-' + controlName + '-show-more'
+              | lowercase
+          }}"
+          labelText="{{ selectMode | titlecase }} {{ disabledState }} {{
+            controlName
+          }} with Show More"
+          [disabled]="disabledState === 'Disabled'"
+          class="sky-margin-stacked-lg"
+        >
+          <sky-lookup
+            [formControlName]="selectMode + disabledState + controlName"
+            [data]="people"
+            [selectMode]="selectMode"
+            [enableShowMore]="true"
+          >
+          </sky-lookup>
+        </sky-input-box>
+        <sky-input-box
+          *ngIf="
+            controlName === 'NoValue' &&
+            selectMode === 'single' &&
+            disabledState === 'Enabled'
+          "
+          id="{{
+            selectMode +
+              '-' +
+              disabledState +
+              '-' +
+              controlName +
+              '-show-more-add-new' | lowercase
+          }}"
+          labelText="{{ selectMode | titlecase }} {{ disabledState }} {{
+            controlName
+          }} with Show More and Add New"
+          [disabled]="disabledState === 'Disabled'"
+          class="sky-margin-stacked-xxl"
+        >
+          <sky-lookup
+            [formControlName]="selectMode + disabledState + controlName"
+            [data]="people"
+            [selectMode]="selectMode"
+            [enableShowMore]="true"
+            [showAddButton]="true"
+          >
+          </sky-lookup>
+        </sky-input-box>
+        <sky-input-box
+          *ngIf="controlName === 'NoValue'"
+          id="{{
+            selectMode +
+              '-' +
+              disabledState +
+              '-' +
+              controlName +
+              '-placeholder' | lowercase
+          }}"
+          labelText="{{ selectMode | titlecase }} {{ disabledState }} {{
+            controlName
+          }} with Placeholder"
+          [disabled]="disabledState === 'Disabled'"
+          class="sky-margin-stacked-lg"
+        >
+          <sky-lookup
+            [formControlName]="selectMode + disabledState + controlName"
+            [data]="people"
+            [selectMode]="selectMode"
+            [placeholderText]="placeholderText"
+          >
+          </sky-lookup>
+        </sky-input-box>
+      </ng-container>
+    </ng-container>
+  </ng-container>
 </form>
-
-<form novalidate [formGroup]="favoritesForm">
-  <sky-input-box labelText="With preselected input" [disabled]="disabledFlag">
-    <sky-lookup
-      formControlName="favoriteNames"
-      [data]="people"
-      [selectMode]="selectMode"
-    >
-    </sky-lookup>
-  </sky-input-box>
-</form>
-
-<sky-input-box labelText="With placeholder" [disabled]="disabledFlag">
-  <sky-lookup
-    [data]="people"
-    [selectMode]="selectMode"
-    [placeholderText]="placeholderText"
-    [disabled]="disabledFlag"
-  >
-  </sky-lookup>
-</sky-input-box>
-
-<form novalidate [formGroup]="favoritesForm">
-  <sky-input-box
-    labelText="With preselected input and placeholder"
-    [disabled]="disabledFlag"
-  >
-    <sky-lookup
-      formControlName="favoriteNames"
-      [data]="people"
-      [selectMode]="selectMode"
-      [placeholderText]="placeholderText"
-    >
-    </sky-lookup>
-  </sky-input-box>
-</form>
-
-<h2>With show more</h2>
-
-<sky-input-box labelText="Basic" [disabled]="disabledFlag">
-  <sky-lookup
-    [data]="people"
-    [selectMode]="selectMode"
-    [disabled]="disabledFlag"
-    [enableShowMore]="true"
-  >
-  </sky-lookup>
-</sky-input-box>
-
-<sky-input-box labelText="With show add button" [disabled]="disabledFlag">
-  <sky-lookup
-    [data]="people"
-    [selectMode]="selectMode"
-    [disabled]="disabledFlag"
-    [showAddButton]="true"
-    [enableShowMore]="true"
-  >
-  </sky-lookup>
-</sky-input-box>
-
-<form novalidate [formGroup]="favoritesForm">
-  <sky-input-box
-    labelText="Multiple pre selected inputs"
-    [disabled]="disabledFlag"
-  >
-    <sky-lookup
-      formControlName="favoriteNamesFew"
-      [data]="people"
-      [selectMode]="selectMode"
-      [enableShowMore]="true"
-    >
-    </sky-lookup>
-  </sky-input-box>
-</form>
-
-<form novalidate [formGroup]="favoritesForm">
-  <sky-input-box
-    labelText="Multiple collapsed pre selected inputs"
-    [disabled]="disabledFlag"
-  >
-    <sky-lookup
-      formControlName="favoriteNamesAll"
-      [data]="people"
-      [selectMode]="selectMode"
-      [enableShowMore]="true"
-    >
-    </sky-lookup>
-  </sky-input-box>
-</form>
+<span *ngIf="ready | async" class="ready">&nbsp; &nbsp;</span>

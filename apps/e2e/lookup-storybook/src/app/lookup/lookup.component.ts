@@ -1,5 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { AfterViewInit, Component, HostBinding } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+
+import { BehaviorSubject } from 'rxjs';
 
 export interface Names {
   name: string;
@@ -9,34 +11,40 @@ export interface Names {
   templateUrl: './lookup.component.html',
   styleUrls: ['./lookup.component.scss'],
 })
-export class LookupComponent {
-  @Input()
-  public selectMode: 'single' | 'multiple' = 'single';
+export class LookupComponent implements AfterViewInit {
+  @HostBinding('class.sky-padding-even-md')
+  public readonly classPaddingEvenMd = true;
 
-  @Input()
-  public set disabledFlag(value: boolean) {
-    this.#_disabledFlag = value;
+  protected controlNames = new Map<'single' | 'multiple', string[]>([
+    ['single', ['NoValue', 'OneValue']],
+    ['multiple', ['NoValue', 'OneValue', 'SelectAll', 'SelectFew']],
+  ]);
 
-    if (value) {
-      this.favoritesForm.disable();
-    } else {
-      this.favoritesForm.enable();
-    }
-  }
+  protected selectModes: ('single' | 'multiple')[] = ['single', 'multiple'];
 
-  public get disabledFlag(): boolean {
-    return this.#_disabledFlag;
-  }
+  protected disabledStates: ('Enabled' | 'Disabled')[] = [
+    'Enabled',
+    'Disabled',
+  ];
 
-  public placeholderText = 'This is what placeholder text looks like';
+  protected placeholderText = 'This is what placeholder text looks like';
 
-  public favoritesForm: FormGroup<{
-    favoriteNames: FormControl<Names[] | null>;
-    favoriteNamesAll: FormControl<Names[] | null>;
-    favoriteNamesFew: FormControl<Names[] | null>;
+  protected favoritesForm: FormGroup<{
+    singleEnabledNoValue: FormControl<Names[] | null>;
+    singleEnabledOneValue: FormControl<Names[] | null>;
+    singleDisabledNoValue: FormControl<Names[] | null>;
+    singleDisabledOneValue: FormControl<Names[] | null>;
+    multipleEnabledNoValue: FormControl<Names[] | null>;
+    multipleEnabledOneValue: FormControl<Names[] | null>;
+    multipleEnabledSelectAll: FormControl<Names[] | null>;
+    multipleEnabledSelectFew: FormControl<Names[] | null>;
+    multipleDisabledNoValue: FormControl<Names[] | null>;
+    multipleDisabledOneValue: FormControl<Names[] | null>;
+    multipleDisabledSelectAll: FormControl<Names[] | null>;
+    multipleDisabledSelectFew: FormControl<Names[] | null>;
   }>;
 
-  public people: Names[] = [
+  protected people: Names[] = [
     { name: 'Abed' },
     { name: 'Alex' },
     { name: 'Ben' },
@@ -59,13 +67,40 @@ export class LookupComponent {
     { name: 'Vicki' },
   ];
 
-  #_disabledFlag = false;
+  protected ready = new BehaviorSubject<boolean>(false);
 
   constructor(formBuilder: FormBuilder) {
     this.favoritesForm = formBuilder.group({
-      favoriteNames: [[this.people[10]]],
-      favoriteNamesAll: [this.people],
-      favoriteNamesFew: [[this.people[0], this.people[1], this.people[2]]],
+      singleEnabledNoValue: [] as Names[] | null,
+      singleEnabledOneValue: [[this.people[10]]],
+      singleDisabledNoValue: [] as Names[] | null,
+      singleDisabledOneValue: [[this.people[10]]],
+      multipleEnabledNoValue: [] as Names[] | null,
+      multipleEnabledOneValue: [[this.people[10]]],
+      multipleEnabledSelectAll: [this.people],
+      multipleEnabledSelectFew: [
+        [this.people[0], this.people[1], this.people[2]],
+      ],
+      multipleDisabledNoValue: [] as Names[] | null,
+      multipleDisabledOneValue: [[this.people[10]]],
+      multipleDisabledSelectAll: [this.people],
+      multipleDisabledSelectFew: [
+        [this.people[0], this.people[1], this.people[2]],
+      ],
     });
+
+    this.selectModes.forEach((selectMode) => {
+      this.controlNames.get(selectMode)?.forEach((controlName) => {
+        this.favoritesForm
+          .get(`${selectMode}Disabled${controlName}`)
+          ?.disable();
+      });
+    });
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.ready.next(true);
+    }, 500);
   }
 }

@@ -13,37 +13,11 @@ export default {
     }),
   ],
 } as Meta<CountryFieldComponent>;
-const BaseCountryField: StoryFn<CountryFieldComponent> = (
+const CountryFieldStory: StoryFn<CountryFieldComponent> = (
   args: CountryFieldComponent
 ) => ({
   props: args,
 });
 
-export const EmptyCountryField = BaseCountryField.bind({});
-
-export const PhoneInfoCountryField = BaseCountryField.bind({});
-PhoneInfoCountryField.args = {
-  phoneInfoFlag: true,
-};
-
-export const DisabledCountryField = BaseCountryField.bind({});
-DisabledCountryField.args = {
-  disabledFlag: true,
-};
-
-export const PrepopulatedCountryField = BaseCountryField.bind({});
-PrepopulatedCountryField.args = {
-  prePopulatedFlag: true,
-};
-
-export const HideFlagPrepopulatedCountryField = BaseCountryField.bind({});
-HideFlagPrepopulatedCountryField.args = {
-  hideCountryFlag: true,
-  prePopulatedFlag: true,
-};
-
-export const DisabledPrepopulatedCountryField = BaseCountryField.bind({});
-DisabledPrepopulatedCountryField.args = {
-  disabledFlag: true,
-  prePopulatedFlag: true,
-};
+export const CountryField = CountryFieldStory.bind({});
+CountryField.args = {};

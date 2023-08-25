@@ -1,6 +1,6 @@
 import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 
-describe('lookup-storybook', () => {
+describe('autocomplete', () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() => {
@@ -10,6 +10,7 @@ describe('lookup-storybook', () => {
         cy.viewport(1300, 900);
       });
       it('should render the component', () => {
+        cy.get('.ready').should('exist');
         cy.get('app-autocomplete')
           .should('exist')
           .should('be.visible')
@@ -25,6 +26,7 @@ describe('lookup-storybook', () => {
       });
 
       it('should render the component with the dropdown', () => {
+        cy.get('.ready').should('exist');
         cy.get('app-autocomplete')
           .should('exist')
           .should('be.visible')
@@ -48,6 +50,7 @@ describe('lookup-storybook', () => {
       });
 
       it('should render the component with a selected result', () => {
+        cy.get('.ready').should('exist');
         cy.get('app-autocomplete')
           .should('exist')
           .should('be.visible')
@@ -75,6 +78,7 @@ describe('lookup-storybook', () => {
       });
 
       it('should render the component with no results', () => {
+        cy.get('.ready').should('exist');
         cy.get('app-autocomplete')
           .should('exist')
           .should('be.visible')

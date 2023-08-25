@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
+
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-autocomplete',
   templateUrl: './autocomplete.component.html',
   styleUrls: ['./autocomplete.component.scss'],
 })
-export class AutocompleteComponent {
+export class AutocompleteComponent implements AfterViewInit {
   public data: any[] = [
     { name: 'Red' },
     { name: 'Blue' },
@@ -19,4 +21,12 @@ export class AutocompleteComponent {
     { name: 'White' },
     { name: 'Black' },
   ];
+
+  protected ready = new BehaviorSubject<boolean>(false);
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.ready.next(true);
+    }, 200);
+  }
 }

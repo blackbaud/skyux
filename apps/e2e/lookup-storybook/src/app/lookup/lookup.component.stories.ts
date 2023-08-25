@@ -13,28 +13,9 @@ export default {
     }),
   ],
 } as Meta<LookupComponent>;
-const BaseLookup: StoryFn<LookupComponent> = (args: LookupComponent) => ({
+const LookupStory: StoryFn<LookupComponent> = (args: LookupComponent) => ({
   props: args,
 });
 
-export const LookupSingleMode = BaseLookup.bind({});
-LookupSingleMode.args = {
-  selectMode: 'single',
-};
-
-export const LookupMultipleMode = BaseLookup.bind({});
-LookupMultipleMode.args = {
-  selectMode: 'multiple',
-};
-
-export const LookupSingleModeDisabled = BaseLookup.bind({});
-LookupSingleModeDisabled.args = {
-  selectMode: 'single',
-  disabledFlag: true,
-};
-
-export const LookupMultipleModeDisabled = BaseLookup.bind({});
-LookupMultipleModeDisabled.args = {
-  selectMode: 'multiple',
-  disabledFlag: true,
-};
+export const Lookup = LookupStory.bind({});
+Lookup.args = {};
