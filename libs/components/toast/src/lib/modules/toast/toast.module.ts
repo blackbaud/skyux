@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 
-/**
- * @deprecated The `SkyToastModule` is no longer needed and can be removed from your application.
- */
-@NgModule({})
+import { SkyToastComponent } from './toast.component';
+
+@NgModule({
+  imports: [SkyToastComponent],
+  exports: [SkyToastComponent],
+})
 export class SkyToastModule {}

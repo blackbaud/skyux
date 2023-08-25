@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 
-/**
- * @deprecated The `SkyFlyoutModule` is no longer needed and can be removed from your application.
- */
-@NgModule({})
+import { SkyFlyoutComponent } from './flyout.component';
+
+@NgModule({
+  imports: [SkyFlyoutComponent],
+  exports: [SkyFlyoutComponent],
+})
 export class SkyFlyoutModule {}
