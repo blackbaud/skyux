@@ -186,10 +186,13 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
 
   @ViewChild('tabContentWrapper')
   public set tabContentWrapper(tabContentWrapper: ElementRef | undefined) {
+    /* istanbul ignore else */
     if (tabContentWrapper) {
       this.#mediaQueryService.observe(tabContentWrapper, {
         updateResponsiveClasses: true,
       });
+    } else {
+      this.#mediaQueryService.unobserve();
     }
   }
 
