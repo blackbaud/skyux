@@ -154,8 +154,6 @@ export class SkyPhoneFieldInputDirective
         this.#phoneFieldComponent.selectedCountry.exampleNumber
       );
     }
-
-    this.#adapterService?.setAriaLabel(this.#elRef);
   }
 
   public ngAfterViewInit(): void {
