@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ApplicationRef,
@@ -22,6 +23,8 @@ import { SKY_STACKING_CONTEXT } from '@skyux/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
+import { SkyToastResourcesModule } from '../shared/sky-toast-resources.module';
+
 import { SkyToast } from './toast';
 import { SkyToastAdapterService } from './toast-adapter.service';
 import { SkyToastComponent } from './toast.component';
@@ -34,12 +37,14 @@ import { SkyToastDisplayDirection } from './types/toast-display-direction';
  * @internal
  */
 @Component({
+  standalone: true,
   selector: 'sky-toaster',
   templateUrl: './toaster.component.html',
   styleUrls: ['./toaster.component.scss'],
   providers: [SkyToastAdapterService, SkyToasterService],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  imports: [CommonModule, SkyToastComponent, SkyToastResourcesModule],
 })
 export class SkyToasterComponent implements AfterViewInit, OnDestroy {
   public toastsForDisplay: SkyToast[] | undefined;

@@ -2,7 +2,7 @@ import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkySkipLinkModule, SkySkipLinkService } from '@skyux/a11y';
+import { SkySkipLinkService } from '@skyux/a11y';
 
 import { SkySkipLinksHarness } from './skip-links-harness';
 
@@ -84,7 +84,6 @@ describe('Skip Links harness', () => {
   }> {
     await TestBed.configureTestingModule({
       declarations: [TestComponent],
-      imports: [SkySkipLinkModule],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(TestComponent);

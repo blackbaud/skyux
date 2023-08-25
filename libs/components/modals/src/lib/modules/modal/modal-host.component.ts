@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectorRef,
   Component,
@@ -5,12 +6,13 @@ import {
   EnvironmentInjector,
   OnDestroy,
   Optional,
+  Type,
   ViewChild,
   ViewContainerRef,
   createEnvironmentInjector,
   inject,
 } from '@angular/core';
-import { NavigationStart, Router } from '@angular/router';
+import { NavigationStart, Router, RouterModule } from '@angular/router';
 import {
   SKY_STACKING_CONTEXT,
   SkyMediaQueryService,
@@ -19,6 +21,8 @@ import {
 
 import { BehaviorSubject } from 'rxjs';
 import { takeUntil, takeWhile } from 'rxjs/operators';
+
+import { SkyModalsResourcesModule } from '../shared/sky-modals-resources.module';
 
 import { SkyModalAdapterService } from './modal-adapter.service';
 import { SkyModalConfiguration } from './modal-configuration';
@@ -31,10 +35,12 @@ import { SkyModalConfigurationInterface } from './modal.interface';
  * @internal
  */
 @Component({
+  standalone: true,
   selector: 'sky-modal-host',
   templateUrl: './modal-host.component.html',
   styleUrls: ['./modal-host.component.scss'],
   viewProviders: [SkyModalAdapterService],
+  imports: [CommonModule, RouterModule, SkyModalsResourcesModule],
 })
 export class SkyModalHostComponent implements OnDestroy {
   public get modalOpen() {
@@ -86,9 +92,9 @@ export class SkyModalHostComponent implements OnDestroy {
     this.#modalHostContext.args.teardownCallback();
   }
 
-  public open(
+  public open<T>(
     modalInstance: SkyModalInstance,
-    component: any,
+    component: Type<T>,
     config?: SkyModalConfigurationInterface
   ): void {
     /* Ignore coverage as we specify the target element and so the view child should never be undefined unless

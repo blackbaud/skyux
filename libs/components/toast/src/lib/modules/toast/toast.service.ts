@@ -4,16 +4,12 @@ import {
   Injectable,
   OnDestroy,
   Provider,
-  StaticProvider,
   Type,
   inject,
 } from '@angular/core';
 import { SkyDynamicComponentService } from '@skyux/core';
-import { SKY_LIB_RESOURCES_PROVIDERS } from '@skyux/i18n';
 
 import { BehaviorSubject, Observable } from 'rxjs';
-
-import { SkyToastResourcesProvider } from '../shared/sky-toast-resources.module';
 
 import { SkyToast } from './toast';
 import { SkyToastBodyContext } from './toast-body-context';
@@ -26,6 +22,8 @@ import { SkyToastConfig } from './types/toast-config';
   providedIn: 'root',
 })
 export class SkyToastService implements OnDestroy {
+  private static host: ComponentRef<SkyToasterComponent> | undefined;
+
   /**
    * @internal
    */
@@ -35,7 +33,6 @@ export class SkyToastService implements OnDestroy {
 
   #dynamicComponentService: SkyDynamicComponentService;
   #environmentInjector = inject(EnvironmentInjector);
-  #host: ComponentRef<SkyToasterComponent> | undefined;
   #toasts: SkyToast[] = [];
   #toastStream = new BehaviorSubject<SkyToast[]>([]);
 
@@ -44,7 +41,7 @@ export class SkyToastService implements OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    if (this.#host) {
+    if (SkyToastService.host) {
       this.closeAll();
       this.#removeHostComponent();
     }
@@ -103,16 +100,16 @@ export class SkyToastService implements OnDestroy {
    * Closes all active toast components.
    */
   public closeAll(): void {
-    if (!this.#host) {
+    if (!SkyToastService.host) {
       return;
     }
 
-    this.#host.instance.closeAll();
+    SkyToastService.host.instance.closeAll();
   }
 
   #addToast(toast: SkyToast, instance: SkyToastInstance): void {
-    if (!this.#host) {
-      this.#createHostComponent();
+    if (!SkyToastService.host) {
+      SkyToastService.host = this.#createHostComponent();
     }
 
     this.#toasts.push(toast);
@@ -132,26 +129,20 @@ export class SkyToastService implements OnDestroy {
   }
 
   #createHostComponent(): ComponentRef<SkyToasterComponent> {
-    this.#host = this.#dynamicComponentService.createComponent(
+    const componentRef = this.#dynamicComponentService.createComponent(
       SkyToasterComponent,
       {
         environmentInjector: this.#environmentInjector,
-        providers: [
-          {
-            provide: SKY_LIB_RESOURCES_PROVIDERS,
-            useClass: SkyToastResourcesProvider,
-            multi: true,
-          },
-        ] as StaticProvider[],
       }
     );
-    return this.#host;
+
+    return componentRef;
   }
 
   #removeHostComponent(): void {
-    if (this.#host) {
-      this.#dynamicComponentService.removeComponent(this.#host);
-      this.#host = undefined;
+    if (SkyToastService.host) {
+      this.#dynamicComponentService.removeComponent(SkyToastService.host);
+      SkyToastService.host = undefined;
     }
   }
 }

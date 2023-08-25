@@ -6,6 +6,8 @@ import { map } from 'rxjs/operators';
 
 import { Format } from '../../utils/format';
 
+import { getLibStringForLocale } from './get-lib-string-for-locale';
+import { SkyLibResources } from './lib-resources';
 import { SkyLibResourcesProvider } from './lib-resources-provider';
 import { SKY_LIB_RESOURCES_PROVIDERS } from './lib-resources-providers-token';
 import { SkyAppLocaleInfo } from './locale-info';
@@ -19,9 +21,11 @@ type TemplatedResource = [ResourceKey, ...any[]];
 type ResourceDictionary = Record<string, ResourceKey | TemplatedResource>;
 
 @Injectable({
-  providedIn: 'any',
+  providedIn: 'root',
 })
 export class SkyLibResourcesService {
+  private static resources: { [locale: string]: SkyLibResources } = {};
+
   #localeProvider: SkyAppLocaleProvider;
   #providers: SkyLibResourcesProvider[] | undefined;
   #resourceNameProvider: SkyAppResourceNameProvider | undefined;
@@ -36,6 +40,21 @@ export class SkyLibResourcesService {
     this.#localeProvider = localeProvider;
     this.#providers = providers;
     this.#resourceNameProvider = resourceNameProvider;
+  }
+
+  /**
+   * Adds locale resources to be used by library components.
+   */
+  public static addResources(localeResources: {
+    [locale: string]: SkyLibResources;
+  }): void {
+    for (const [locale, resources] of Object.entries(localeResources)) {
+      SkyLibResourcesService.resources[locale] ||= {};
+      SkyLibResourcesService.resources[locale] = {
+        ...SkyLibResourcesService.resources[locale],
+        ...resources,
+      };
+    }
   }
 
   /**
@@ -100,13 +119,28 @@ export class SkyLibResourcesService {
     name: string,
     ...args: any[]
   ): string {
-    if (this.#providers) {
+    let value: string | undefined;
+
+    // First, look in the static 'resources' property.
+    value = getLibStringForLocale(
+      SkyLibResourcesService.resources,
+      info.locale,
+      name
+    );
+
+    // If it's not found there, look in the providers.
+    if (value === undefined && this.#providers) {
       for (const provider of this.#providers) {
         const s = provider.getString(info, name);
         if (s !== undefined) {
-          return Format.formatText(s, ...args);
+          value = s;
+          break;
         }
       }
+    }
+
+    if (value !== undefined) {
+      return Format.formatText(value, ...args);
     }
 
     return name;

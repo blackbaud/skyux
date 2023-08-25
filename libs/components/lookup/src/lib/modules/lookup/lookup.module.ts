@@ -15,7 +15,6 @@ import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyAutocompleteModule } from '../autocomplete/autocomplete.module';
 import { SkySearchModule } from '../search/search.module';
-import { SkySelectionModalModule } from '../selection-modal/selection-modal.module';
 import { SkyLookupResourcesModule } from '../shared/sky-lookup-resources.module';
 
 import { SkyLookupShowMoreModalComponent } from './lookup-show-more-modal.component';
@@ -34,7 +33,6 @@ import { SkyLookupComponent } from './lookup.component';
     SkyModalModule,
     SkyRepeaterModule,
     SkySearchModule,
-    SkySelectionModalModule,
     SkyThemeModule,
     SkyTokensModule,
     SkyToolbarModule,

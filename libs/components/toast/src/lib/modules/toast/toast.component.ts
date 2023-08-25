@@ -1,4 +1,5 @@
 import { AnimationEvent } from '@angular/animations';
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -12,10 +13,12 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { skyAnimationEmerge } from '@skyux/animations';
-import { SkyIconStackItem } from '@skyux/indicators';
+import { SkyIconModule, SkyIconStackItem } from '@skyux/indicators';
 
 import { Subject, combineLatest } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
+import { SkyToastResourcesModule } from '../shared/sky-toast-resources.module';
 
 import { SkyToasterService } from './toaster.service';
 import { SkyToastType } from './types/toast-type';
@@ -27,12 +30,14 @@ const SKY_TOAST_TYPE_DEFAULT = SkyToastType.Info;
  * @internal
  */
 @Component({
+  standalone: true,
   selector: 'sky-toast',
   templateUrl: './toast.component.html',
   styleUrls: ['./toast.component.scss'],
   animations: [skyAnimationEmerge],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  imports: [CommonModule, SkyIconModule, SkyToastResourcesModule],
 })
 export class SkyToastComponent implements OnInit, OnDestroy {
   /**

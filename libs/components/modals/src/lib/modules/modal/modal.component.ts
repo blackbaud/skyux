@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -18,12 +19,16 @@ import {
   SkyCoreAdapterService,
   SkyDockLocation,
   SkyDockService,
+  SkyIdModule,
   SkyLiveAnnouncerService,
   SkyResizeObserverMediaQueryService,
 } from '@skyux/core';
+import { SkyIconModule } from '@skyux/indicators';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
+import { SkyModalsResourcesModule } from '../shared/sky-modals-resources.module';
 
 import { SkyModalComponentAdapterService } from './modal-component-adapter.service';
 import { SkyModalConfiguration } from './modal-configuration';
@@ -31,6 +36,7 @@ import { SkyModalError } from './modal-error';
 import { SkyModalErrorsService } from './modal-errors.service';
 import { SkyModalHostService } from './modal-host.service';
 import { SkyModalScrollShadowEventArgs } from './modal-scroll-shadow-event-args';
+import { SkyModalScrollShadowDirective } from './modal-scroll-shadow.directive';
 
 const ARIA_ROLE_DEFAULT = 'dialog';
 
@@ -40,6 +46,7 @@ const ARIA_ROLE_DEFAULT = 'dialog';
  * and buttons.
  */
 @Component({
+  standalone: true,
   selector: 'sky-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
@@ -47,6 +54,13 @@ const ARIA_ROLE_DEFAULT = 'dialog';
     SkyModalComponentAdapterService,
     SkyModalErrorsService,
     SkyDockService,
+  ],
+  imports: [
+    CommonModule,
+    SkyIconModule,
+    SkyIdModule,
+    SkyModalScrollShadowDirective,
+    SkyModalsResourcesModule,
   ],
 })
 export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
@@ -175,7 +189,7 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   @HostListener('document:keyup', ['$event'])
-  public onDocumentKeyUp(event: KeyboardEvent) {
+  public onDocumentKeyUp(event: KeyboardEvent): void {
     /* istanbul ignore else */
     /* sanity check */
     if (SkyModalHostService.openModalCount > 0) {
@@ -191,7 +205,7 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   @HostListener('document:keydown', ['$event'])
-  public onDocumentKeyDown(event: KeyboardEvent) {
+  public onDocumentKeyDown(event: KeyboardEvent): void {
     /* istanbul ignore else */
     /* sanity check */
     if (SkyModalHostService.openModalCount > 0) {
@@ -243,7 +257,7 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
       });
   }
 
-  public ngAfterViewInit() {
+  public ngAfterViewInit(): void {
     this.#componentAdapter.handleWindowChange(this.#elRef);
 
     // Adding a timeout to avoid ExpressionChangedAfterItHasBeenCheckedError.
@@ -273,17 +287,17 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
     this.#ngUnsubscribe.complete();
   }
 
-  public helpButtonClick() {
+  public helpButtonClick(): void {
     if (this.helpKey) {
       this.#hostService.onOpenHelp(this.helpKey);
     }
   }
 
-  public closeButtonClick() {
+  public closeButtonClick(): void {
     this.#hostService.onClose();
   }
 
-  public windowResize() {
+  public windowResize(): void {
     this.#componentAdapter.handleWindowChange(this.#elRef);
   }
 

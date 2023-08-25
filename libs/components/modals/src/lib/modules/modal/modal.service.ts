@@ -1,4 +1,9 @@
-import { ComponentRef, Injectable } from '@angular/core';
+import {
+  ComponentRef,
+  EnvironmentInjector,
+  Injectable,
+  inject,
+} from '@angular/core';
 import { SkyDynamicComponentService } from '@skyux/core';
 
 import { SkyModalHostContext } from './modal-host-context';
@@ -14,12 +19,13 @@ import { SkyModalConfigurationInterface } from './modal.interface';
   // Must be 'any' so that the modal component is created in the context of its module's injector.
   // If set to 'root', the component's dependency injections would only be derived from the root
   // injector and may lose context if the modal was opened from within a lazy-loaded module.
-  providedIn: 'any',
+  providedIn: 'root',
 })
 export class SkyModalService {
   private static host: ComponentRef<SkyModalHostComponent> | undefined;
 
   #dynamicComponentService: SkyDynamicComponentService;
+  #environmentInjector = inject(EnvironmentInjector);
 
   constructor(dynamicComponentService: SkyDynamicComponentService) {
     this.#dynamicComponentService = dynamicComponentService;
@@ -46,7 +52,11 @@ export class SkyModalService {
     config?: SkyModalConfigurationInterface | any[]
   ): SkyModalInstance {
     const modalInstance = new SkyModalInstance();
-    this.#createHostComponent();
+
+    if (!SkyModalService.host) {
+      SkyModalService.host = this.#createHostComponent();
+    }
+
     const params = this.#getConfigFromParameter(config);
 
     params.providers ||= [];
@@ -91,23 +101,24 @@ export class SkyModalService {
     return params;
   }
 
-  #createHostComponent(): void {
-    if (!SkyModalService.host) {
-      SkyModalService.host = this.#dynamicComponentService.createComponent(
-        SkyModalHostComponent,
-        {
-          providers: [
-            {
-              provide: SkyModalHostContext,
-              useValue: new SkyModalHostContext({
-                teardownCallback: () => {
-                  this.dispose();
-                },
-              }),
-            },
-          ],
-        }
-      );
-    }
+  #createHostComponent(): ComponentRef<SkyModalHostComponent> {
+    const componentRef = this.#dynamicComponentService.createComponent(
+      SkyModalHostComponent,
+      {
+        environmentInjector: this.#environmentInjector,
+        providers: [
+          {
+            provide: SkyModalHostContext,
+            useValue: new SkyModalHostContext({
+              teardownCallback: (): void => {
+                this.dispose();
+              },
+            }),
+          },
+        ],
+      }
+    );
+
+    return componentRef;
   }
 }

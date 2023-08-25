@@ -23,6 +23,7 @@ import { SkyModalScrollShadowEventArgs } from './modal-scroll-shadow-event-args'
  * @internal
  */
 @Directive({
+  standalone: true,
   selector: '[skyModalScrollShadow]',
 })
 export class SkyModalScrollShadowDirective implements OnInit, OnDestroy {

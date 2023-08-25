@@ -22,7 +22,7 @@ import { SkyDynamicComponentOptions } from './dynamic-component-options';
  * @internal
  */
 @Injectable({
-  providedIn: 'any',
+  providedIn: 'root',
 })
 export class SkyDynamicComponentService {
   #applicationRef: ApplicationRef;

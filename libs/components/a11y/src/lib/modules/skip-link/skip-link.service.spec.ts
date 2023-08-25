@@ -4,7 +4,6 @@ import { expect } from '@skyux-sdk/testing';
 
 import { SkySkipLink } from './skip-link';
 import { SkySkipLinkArgs } from './skip-link-args';
-import { SkySkipLinkModule } from './skip-link.module';
 import { SkySkipLinkService } from './skip-link.service';
 
 describe('Skip link service', () => {
@@ -28,9 +27,7 @@ describe('Skip link service', () => {
   }
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [SkySkipLinkModule],
-    });
+    TestBed.configureTestingModule({});
   });
 
   beforeEach(inject(

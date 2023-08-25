@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -12,15 +13,19 @@ import { SkyLibResourcesService } from '@skyux/i18n';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
+import { SkyIndicatorsResourcesModule } from '../shared/sky-indicators-resources.module';
+
 import { SkyWaitAdapterService } from './wait-adapter.service';
 
 let nextId = 0;
 
 @Component({
+  standalone: true,
   selector: 'sky-wait',
   templateUrl: './wait.component.html',
   styleUrls: ['./wait.component.scss'],
   providers: [SkyWaitAdapterService],
+  imports: [CommonModule, SkyIndicatorsResourcesModule],
 })
 export class SkyWaitComponent implements OnInit, OnDestroy {
   /**

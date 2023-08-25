@@ -74,6 +74,22 @@ describe('Library resources service', () => {
     expect(value).toEqual('hello');
   });
 
+  it('should get a string from the static resources property', () => {
+    service = new SkyLibResourcesService(mockLocaleProvider);
+
+    SkyLibResourcesService.addResources({
+      'EN-US': {
+        my_string: {
+          message: 'Hello, world!',
+        },
+      },
+    });
+
+    expect(
+      service.getStringForLocale({ locale: 'EN-US' }, 'my_string')
+    ).toEqual('Hello, world!');
+  });
+
   it('should get a string for the default locale using locale provider', () => {
     service = new SkyLibResourcesService(
       mockLocaleProvider,

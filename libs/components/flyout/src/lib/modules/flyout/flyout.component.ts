@@ -6,34 +6,44 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { A11yModule } from '@angular/cdk/a11y';
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ComponentFactoryResolver,
   ElementRef,
+  EnvironmentInjector,
   HostListener,
-  Injector,
   NgZone,
   OnDestroy,
   OnInit,
   Type,
   ViewChild,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import {
   SKY_STACKING_CONTEXT,
+  SkyDynamicComponentService,
   SkyMediaBreakpoints,
   SkyMediaQueryService,
   SkyUIConfigService,
 } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
+import { SkyIconModule } from '@skyux/indicators';
+import { SkyHrefModule } from '@skyux/router';
+import { SkyThemeModule } from '@skyux/theme';
 
 import { BehaviorSubject, Subject, fromEvent } from 'rxjs';
 import { take, takeUntil, takeWhile } from 'rxjs/operators';
 
+import { SkyFlyoutResourcesModule } from '../shared/sky-flyout-resources.module';
+
 import { SkyFlyoutAdapterService } from './flyout-adapter.service';
 import { SkyFlyoutInstance } from './flyout-instance';
+import { SkyFlyoutIteratorComponent } from './flyout-iterator.component';
 import { SkyFlyoutMediaQueryService } from './flyout-media-query.service';
 import { SkyFlyoutAction } from './types/flyout-action';
 import { SkyFlyoutBeforeCloseHandler } from './types/flyout-before-close-handler';
@@ -52,6 +62,7 @@ let nextId = 0;
  * @internal
  */
 @Component({
+  standalone: true,
   selector: 'sky-flyout',
   templateUrl: './flyout.component.html',
   styleUrls: ['./flyout.component.scss'],
@@ -73,6 +84,16 @@ let nextId = 0;
   ],
   // Allow automatic change detection for child components.
   changeDetection: ChangeDetectionStrategy.Default,
+  imports: [
+    A11yModule,
+    CommonModule,
+    RouterModule,
+    SkyHrefModule,
+    SkyIconModule,
+    SkyFlyoutIteratorComponent,
+    SkyFlyoutResourcesModule,
+    SkyThemeModule,
+  ],
 })
 export class SkyFlyoutComponent implements OnDestroy, OnInit {
   public config: SkyFlyoutConfigInternal = {
@@ -145,8 +166,8 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
   #adapter: SkyFlyoutAdapterService;
   #changeDetector: ChangeDetectorRef;
-  #injector: Injector;
-  #resolver: ComponentFactoryResolver;
+  #dynamicComponentSvc = inject(SkyDynamicComponentService);
+  #environmentInjector = inject(EnvironmentInjector);
   #resourcesService: SkyLibResourcesService;
   #flyoutMediaQueryService: SkyFlyoutMediaQueryService;
   #elementRef: ElementRef;
@@ -156,8 +177,6 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   constructor(
     adapter: SkyFlyoutAdapterService,
     changeDetector: ChangeDetectorRef,
-    injector: Injector,
-    resolver: ComponentFactoryResolver,
     resourcesService: SkyLibResourcesService,
     flyoutMediaQueryService: SkyFlyoutMediaQueryService,
     elementRef: ElementRef,
@@ -166,8 +185,6 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   ) {
     this.#adapter = adapter;
     this.#changeDetector = changeDetector;
-    this.#injector = injector;
-    this.#resolver = resolver;
     this.#resourcesService = resourcesService;
     this.#flyoutMediaQueryService = flyoutMediaQueryService;
     this.#elementRef = elementRef;
@@ -267,18 +284,11 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
         ? this.config.primaryAction.label
         : this.#getString('skyux_flyout_primary_action_button');
 
-    const factory = this.#resolver.resolveComponentFactory(component);
-
-    const injector = Injector.create({
-      parent: this.#injector,
+    const componentRef = this.#dynamicComponentSvc.createComponent(component, {
+      environmentInjector: this.#environmentInjector,
       providers: this.config.providers,
+      viewContainerRef: this.target,
     });
-
-    const componentRef = this.target?.createComponent(
-      factory,
-      undefined,
-      injector
-    );
 
     /* safety check */
     /* istanbul ignore if */

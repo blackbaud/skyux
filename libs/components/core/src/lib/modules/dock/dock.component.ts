@@ -20,6 +20,7 @@ import { sortByStackOrder } from './sort-by-stack-order';
  * @internal
  */
 @Component({
+  standalone: true,
   selector: 'sky-dock',
   templateUrl: './dock.component.html',
   styleUrls: ['./dock.component.scss'],
