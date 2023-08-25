@@ -151,8 +151,6 @@ export class MyLibResourcesModule { }
 
     const moduleContents = readRequiredFile(updatedTree, customModulePath);
 
-    console.log(moduleContents);
-
     expect(moduleContents).toEqual(`/* istanbul ignore file */
 
 /**
