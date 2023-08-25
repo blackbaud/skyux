@@ -21,10 +21,17 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
       message: 'You are over the character limit.',
     },
     skyux_file_attachment_button_label_choose_file: { message: 'Attach file' },
+    skyux_file_attachment_button_label_choose_file_label: {
+      message: 'Attach file for',
+    },
     skyux_file_attachment_button_label_replace_file: {
       message: 'Replace file',
     },
+    skyux_file_attachment_button_label_replace_file_label: {
+      message: 'Replace file {0} for',
+    },
     skyux_file_attachment_file_item_delete: { message: 'Delete file' },
+    skyux_file_attachment_file_item_remove: { message: 'Remove file {0} for' },
     skyux_file_attachment_file_size_b_plural: { message: '{0} bytes' },
     skyux_file_attachment_file_size_b_singular: { message: '{0} byte' },
     skyux_file_attachment_file_size_gb: { message: '{0} GB' },
