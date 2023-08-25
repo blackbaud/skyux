@@ -85,7 +85,7 @@
         <div class="sky-file-drop-link-header">
           <div class="sky-file-drop-text-header sky-font-display-3">
             {{
-              'skyux_file_attachment_file_upload_paste_link' | skyLibResources
+              'skyux_file_attachment_file_upload_link_label' | skyLibResources
             }}
           </div>
         </div>
@@ -95,7 +95,7 @@
             class="sky-form-control"
             [attr.aria-label]="
               linkUploadAriaLabel ||
-              ('skyux_file_attachment_file_upload_link_input' | skyLibResources)
+              ('skyux_file_attachment_file_upload_link_label' | skyLibResources)
             "
             [attr.placeholder]="
               'skyux_file_attachment_file_upload_link_placeholder'
@@ -112,10 +112,7 @@
           [disabled]="!linkUrl"
           (click)="addLink($event)"
         >
-          {{
-            'skyux_file_attachment_file_upload_paste_link_done'
-              | skyLibResources
-          }}
+          {{ 'skyux_file_attachment_file_upload_link_done' | skyLibResources }}
         </button>
       </div>
     </div>

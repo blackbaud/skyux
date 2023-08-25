@@ -49,7 +49,6 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     },
   },
   'EN-US': {
-    skyux_date_field_default_label: { message: 'Date' },
     skyux_datepicker_trigger_button_label: { message: 'Select date' },
     skyux_timepicker_button_label: { message: 'Choose time' },
     skyux_timepicker_close: { message: 'Done' },
