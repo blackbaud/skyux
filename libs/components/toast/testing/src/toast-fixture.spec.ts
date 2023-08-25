@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { λ1 as SkyToastComponent, SkyToastType } from '@skyux/toast';
+import { SkyToastModule, SkyToastType } from '@skyux/toast';
 
 import { SkyToastFixture } from './toast-fixture';
 
@@ -51,7 +51,7 @@ describe('Toast fixture', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TestComponent],
-      imports: [NoopAnimationsModule, SkyToastComponent],
+      imports: [SkyToastModule, NoopAnimationsModule],
     });
   });
 
