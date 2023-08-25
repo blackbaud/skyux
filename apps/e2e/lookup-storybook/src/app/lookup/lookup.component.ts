@@ -6,6 +6,11 @@ import { BehaviorSubject } from 'rxjs';
 export interface Names {
   name: string;
 }
+
+type DisabledState = 'Enabled' | 'Disabled';
+
+type SelectMode = 'single' | 'multiple';
+
 @Component({
   selector: 'app-lookup',
   templateUrl: './lookup.component.html',
@@ -15,17 +20,14 @@ export class LookupComponent implements AfterViewInit {
   @HostBinding('class.sky-padding-even-md')
   public readonly classPaddingEvenMd = true;
 
-  protected controlNames = new Map<'single' | 'multiple', string[]>([
+  protected controlNames = new Map<SelectMode, string[]>([
     ['single', ['NoValue', 'OneValue']],
     ['multiple', ['NoValue', 'OneValue', 'SelectAll', 'SelectFew']],
   ]);
 
-  protected selectModes: ('single' | 'multiple')[] = ['single', 'multiple'];
+  protected selectModes: Array<SelectMode> = ['single', 'multiple'];
 
-  protected disabledStates: ('Enabled' | 'Disabled')[] = [
-    'Enabled',
-    'Disabled',
-  ];
+  protected disabledStates: Array<DisabledState> = ['Enabled', 'Disabled'];
 
   protected placeholderText = 'This is what placeholder text looks like';
 

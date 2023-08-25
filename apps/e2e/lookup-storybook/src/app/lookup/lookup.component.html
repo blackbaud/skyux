@@ -10,7 +10,7 @@
           labelText="{{ selectMode | titlecase }} {{ disabledState }} {{
             controlName
           }}"
-          [disabled]="disabledState === 'Disabled'"
+          [disabled]="disabledState !== 'Enabled'"
           class="sky-margin-stacked-lg"
         >
           <sky-lookup
@@ -29,7 +29,7 @@
           labelText="{{ selectMode | titlecase }} {{ disabledState }} {{
             controlName
           }} with Show More"
-          [disabled]="disabledState === 'Disabled'"
+          [disabled]="disabledState !== 'Enabled'"
           class="sky-margin-stacked-lg"
         >
           <sky-lookup
@@ -42,9 +42,9 @@
         </sky-input-box>
         <sky-input-box
           *ngIf="
-            controlName === 'NoValue' &&
             selectMode === 'single' &&
-            disabledState === 'Enabled'
+            disabledState === 'Enabled' &&
+            controlName === 'NoValue'
           "
           id="{{
             selectMode +
@@ -57,7 +57,7 @@
           labelText="{{ selectMode | titlecase }} {{ disabledState }} {{
             controlName
           }} with Show More and Add New"
-          [disabled]="disabledState === 'Disabled'"
+          [disabled]="disabledState !== 'Enabled'"
           class="sky-margin-stacked-xxl"
         >
           <sky-lookup
@@ -82,7 +82,7 @@
           labelText="{{ selectMode | titlecase }} {{ disabledState }} {{
             controlName
           }} with Placeholder"
-          [disabled]="disabledState === 'Disabled'"
+          [disabled]="disabledState !== 'Enabled'"
           class="sky-margin-stacked-lg"
         >
           <sky-lookup
