@@ -56,6 +56,7 @@ export class SkyFileDropComponent implements OnDestroy {
    * The ARIA label for the file upload button. This provides a text equivalent for
    * screen readers [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
+   * @default "Drag a file here or click to browse"
    */
   @Input()
   public fileUploadAriaLabel: string | undefined;
@@ -64,6 +65,7 @@ export class SkyFileDropComponent implements OnDestroy {
    * The ARIA label for the link upload input. This sets the button's `aria-label` attribute to provide a text equivalent for
    * screen readers [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
+   * @default "Link to a file"
    */
   @Input()
   public linkUploadAriaLabel: string | undefined;
