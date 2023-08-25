@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 
 /**
  * Displays a label above the file attachment element. To display a help button beside the label, include a help button
@@ -11,4 +11,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrls: ['file-attachment-label.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyFileAttachmentLabelComponent {}
+export class SkyFileAttachmentLabelComponent {
+  @ViewChild('labelContentId')
+  public labelContentId: { id: string } | undefined;
+}

@@ -8,7 +8,7 @@
       (fileClick)="fileClick($event)"
     >
       <sky-file-attachment-label>
-        Attach any file
+        Birth certificate
         <sky-help-inline
           (actionClick)="onActionClick()"
           class="sky-control-help"
@@ -20,7 +20,7 @@
       *ngIf="attachment?.invalid && attachment?.dirty"
       class="sky-error-label"
     >
-      Attach a file.
+      Attach a birth certificate.
     </div>
     <div *ngIf="reactiveUploadError" class="sky-error-label">
       {{ reactiveUploadError }}
