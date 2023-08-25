@@ -18,7 +18,7 @@ env:
 jobs:
   install-deps:
     name: Install and cache dependencies
-    if: ${{ !startsWith( github.event.pull_request.labels[0].name, 'autorelease' ) && !contains( github.event.pull_request.labels.*.name, 'skip e2e' ) }}
+    if: ${{ !startsWith( github.ref_name, 'release-please--' ) && !contains( github.event.pull_request.labels.*.name, 'skip e2e' ) }}
     runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.workflow }}-${{ github.job }}-${{ github.head_ref || github.ref_name || github.event.ref }}
@@ -26,8 +26,7 @@ jobs:
     outputs:
       node-version: ${{ steps.setup-node.outputs.node-version }}
       parameters: ${{ steps.parameters.outputs.parameters }}
-      workflow_dispatch_pr_number: ${{ steps.parameters.outputs.workflow_dispatch_pr_number }}
-      workflow_dispatch_pr_head_sha: ${{ steps.parameters.outputs.workflow_dispatch_pr_head_sha }}
+      pr-number: ${{ steps.set-shas.outputs.pr-number }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -50,54 +49,21 @@ jobs:
       - name: npm install
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
-      - name: Derive appropriate SHAs for base and head for `nx affected` commands (merge).
-        if: ${{ github.event_name == 'push' }}
-        uses: nrwl/nx-set-shas@v3
-      - name: Derive appropriate SHAs for base and head for `nx affected` commands (PR).
-        # Workaround for https://github.com/nrwl/nx-set-shas/issues/102
-        if: ${{ github.event_name == 'pull_request_target' }}
-        run: |
-          NX_HEAD=$(git rev-parse HEAD);
-          echo "NX_HEAD: ${NX_HEAD}"
-          echo "NX_HEAD=${NX_HEAD}" >> $GITHUB_ENV
-          NX_BASE=$(git merge-base origin/${{ github.base_ref }} HEAD);
-          echo "NX_BASE: ${NX_BASE}"
-          echo "NX_BASE=${NX_BASE}" >> $GITHUB_ENV
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        id: set-shas
+        uses: ./.github/actions/nx-set-shas
+        with:
+          workflow-id: e2e.yml
+        env:
+          GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
       - name: Set workflow parameters
         id: parameters
         shell: bash
         run: |
-          set -exo pipefail
-          if [ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]; then
-            # If the workflow was triggered manually, find the PR number and head SHA.
-            gh pr list -H "${GITHUB_REF_NAME}" --json baseRefName,number,headRefOid > ${{ runner.temp }}/pr-list.json
-
-            # If there are multiple PRs, use the first one. If there are no PRs, return an empty string.
-            PR_NUMBER=$(jq -r 'if (.[] | length) > 0 then (.[0].number | tonumber) else "" end' ${{ runner.temp }}/pr-list.json)
-
-            if [ -n "${PR_NUMBER}" ]; then
-              # Derive appropriate SHAs for base and head for `nx affected` commands (workflow_dispatch).
-              export NX_HEAD=$(jq -r '.[0].headRefOid' ${{ runner.temp }}/pr-list.json);
-              echo "NX_HEAD: ${NX_HEAD}"
-              echo "NX_HEAD=${NX_HEAD}" >> $GITHUB_ENV
-              export NX_BASE=$(git merge-base origin/$(jq -r '.[0].baseRefName' ${{ runner.temp }}/pr-list.json) HEAD);
-              echo "NX_BASE: ${NX_BASE}"
-              echo "NX_BASE=${NX_BASE}" >> $GITHUB_ENV
-
-              echo -n parameters= >> $GITHUB_OUTPUT
-              npx skyux-dev e2e-workflow --workflowTrigger pull_request --pr $PR_NUMBER >> $GITHUB_OUTPUT
-              echo workflow_dispatch_pr_number=${PR_NUMBER} >> $GITHUB_OUTPUT
-              echo workflow_dispatch_pr_head_sha=$(jq -r '.[0].headRefOid' ${{ runner.temp }}/pr-list.json) >> $GITHUB_OUTPUT
-            else
-              echo "Unable to find an open PR for branch ${GITHUB_REF_NAME}"
-              exit 1
-            fi
-          else
-            echo -n parameters= >> $GITHUB_OUTPUT
-            npx skyux-dev e2e-workflow --pr="${{ github.event.number }}" >> $GITHUB_OUTPUT
-          fi
-        env:
-          GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
+          echo -n parameters= >> $GITHUB_OUTPUT
+          npx skyux-dev e2e-workflow \
+            --workflowTrigger ${{ github.event_name == 'workflow_dispatch' && 'pull_request' || github.event_name }} \
+            --pr ${{ steps.set-shas.outputs.pr-number }} >> $GITHUB_OUTPUT
       - name: Show workflow parameters
         run: |
           echo 'Using workflow parameters:'
@@ -271,7 +237,7 @@ jobs:
         run: |
           npx skyux-dev publish-storybook \
             --workingDirectory=${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }} \
-            --pr=${{ needs.install-deps.outputs.workflow_dispatch_pr_number || github.event.number }}
+            --pr=${{ needs.install-deps.outputs.pr-number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
@@ -383,12 +349,14 @@ jobs:
             const e2eProjects = ${{ needs.install-deps.outputs.parameters }}.e2eTargets.map(project => project.project);
 
             if (e2eProjects.length > 0 && e2eProjects[0] !== 'skip') {
+              const headSha = await exec.getExecOutput('git', ['rev-parse', 'HEAD'])
+                .then(({ stdout }) => stdout.trim());
 
               // Verify that Percy has finished processing the E2E Visual Review and that all snapshots have passed.
               const params = {
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                ref: "${{ needs.install-deps.outputs.workflow_dispatch_pr_head_sha }}" || context.payload.after || context.payload.pull_request.head.sha,
+                ref: headSha,
                 per_page: 100
               };
               const statuses = [];
