@@ -14,6 +14,7 @@ import {
   SkyColorpickerModule,
   SkyColorpickerOutput,
 } from '@skyux/colorpicker';
+import { SkyCheckboxModule } from '@skyux/forms';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
@@ -49,6 +50,7 @@ import { UrlTarget } from '../url-modal/text-editor-url-target';
   imports: [
     CommonModule,
     FormsModule,
+    SkyCheckboxModule,
     SkyColorpickerModule,
     SkyDropdownModule,
     SkyIconModule,

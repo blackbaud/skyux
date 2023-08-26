@@ -14,7 +14,7 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import { NgControl } from '@angular/forms';
+import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { SkyCoreAdapterService, SkyIdService } from '@skyux/core';
 import { SkyInputBoxHostService } from '@skyux/forms';
 import { SkyToolbarModule } from '@skyux/layout';
@@ -63,7 +63,9 @@ import { SkyTextEditorToolbarActionType } from './types/toolbar-action-type';
     SkyToolbarModule,
   ],
 })
-export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
+export class SkyTextEditorComponent
+  implements AfterViewInit, OnDestroy, ControlValueAccessor
+{
   /**
    * Whether to put focus on the editor after it renders.
    */
