@@ -81,7 +81,7 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
 
   #_dataState = new SkyDataManagerState({});
 
-  protected readonly context = inject(SkyDataManagerColumnPickerContext);
+  public readonly context = inject(SkyDataManagerColumnPickerContext);
   protected readonly dataManagerService = inject(SkyDataManagerService);
   protected readonly instance = inject(SkyModalInstance);
 

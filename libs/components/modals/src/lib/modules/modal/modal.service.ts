@@ -132,6 +132,7 @@ export class SkyModalService {
   providedIn: 'any', // <-- this is needed for legacy setups since providers aren't getting passed through.
 })
 export class SkyModalLegacyService extends SkyModalService {
+  /* istanbul ignore next */
   constructor(dynamicComponentSvc: SkyDynamicComponentLegacyService) {
     super(dynamicComponentSvc);
   }
