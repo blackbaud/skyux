@@ -143,3 +143,12 @@ export class SkyDynamicComponentService {
     return (componentRef.hostView as EmbeddedViewRef<T>).rootNodes[0];
   }
 }
+
+/**
+ * @internal
+ * @deprecated Use `SkyDynamicComponentService` with a standalone component instead.
+ */
+@Injectable({
+  providedIn: 'any', // <-- needed for legacy setups
+})
+export class SkyDynamicComponentLegacyService extends SkyDynamicComponentService {}

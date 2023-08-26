@@ -28,7 +28,10 @@ export { SkyDockService } from './lib/modules/dock/dock.service';
 export { SkyDynamicComponentLocation } from './lib/modules/dynamic-component/dynamic-component-location';
 export { SkyDynamicComponentOptions } from './lib/modules/dynamic-component/dynamic-component-options';
 export { SkyDynamicComponentModule } from './lib/modules/dynamic-component/dynamic-component.module';
-export { SkyDynamicComponentService } from './lib/modules/dynamic-component/dynamic-component.service';
+export {
+  SkyDynamicComponentLegacyService,
+  SkyDynamicComponentService,
+} from './lib/modules/dynamic-component/dynamic-component.service';
 
 export { SkyAppFormat } from './lib/modules/format/app-format';
 

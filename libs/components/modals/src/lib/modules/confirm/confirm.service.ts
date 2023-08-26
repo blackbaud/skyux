@@ -14,9 +14,6 @@ import { SkyConfirmComponent } from './confirm.component';
  * Launches a dialog.
  */
 @Injectable({
-  // Must be 'any' so that the modal component is created in the context of its module's injector.
-  // If set to 'root', the component's dependency injections would only be derived from the root
-  // injector and may loose context if the modal was opened from within a lazy-loaded module.
   providedIn: 'root',
 })
 export class SkyConfirmService {

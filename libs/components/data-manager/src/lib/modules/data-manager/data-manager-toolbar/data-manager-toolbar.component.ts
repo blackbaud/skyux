@@ -9,7 +9,7 @@ import { SkyCheckboxChange } from '@skyux/forms';
 import {
   SkyModalCloseArgs,
   SkyModalConfigurationInterface,
-  SkyModalService,
+  SkyModalLegacyService,
 } from '@skyux/modals';
 
 import { Subject } from 'rxjs';
@@ -80,7 +80,7 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
   #ngUnsubscribe = new Subject<void>();
   #changeDetector: ChangeDetectorRef;
   #dataManagerService: SkyDataManagerService;
-  #modalService: SkyModalService;
+  #modalService: SkyModalLegacyService;
   #columnPickerService: SkyDataManagerColumnPickerService;
 
   // the source to provide for data state changes
@@ -93,7 +93,7 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
   constructor(
     changeDetector: ChangeDetectorRef,
     dataManagerService: SkyDataManagerService,
-    modalService: SkyModalService,
+    modalService: SkyModalLegacyService,
     columnPickerService: SkyDataManagerColumnPickerService
   ) {
     this.#changeDetector = changeDetector;

@@ -4,7 +4,10 @@ import {
   Injectable,
   inject,
 } from '@angular/core';
-import { SkyDynamicComponentService } from '@skyux/core';
+import {
+  SkyDynamicComponentLegacyService,
+  SkyDynamicComponentService,
+} from '@skyux/core';
 
 import { SkyModalHostContext } from './modal-host-context';
 import { SkyModalHostComponent } from './modal-host.component';
@@ -13,16 +16,12 @@ import { SkyModalConfigurationInterface } from './modal.interface';
 
 /**
  * A service that launches modals.
- * @dynamic
  */
 @Injectable({
-  // Must be 'any' so that the modal component is created in the context of its module's injector.
-  // If set to 'root', the component's dependency injections would only be derived from the root
-  // injector and may lose context if the modal was opened from within a lazy-loaded module.
   providedIn: 'root',
 })
 export class SkyModalService {
-  private static host: ComponentRef<SkyModalHostComponent> | undefined;
+  private static host: ComponentRef<SkyModalHostComponent> | undefined; // <-- how do we handle only having one of these?
 
   #dynamicComponentService: SkyDynamicComponentService;
   #environmentInjector = inject(EnvironmentInjector);
@@ -122,3 +121,23 @@ export class SkyModalService {
     return componentRef;
   }
 }
+
+/**
+ * @deprecated Use `SkyModalService` with a standalone component instead.
+ */
+@Injectable({
+  // Must be 'any' so that the modal component is created in the context of its module's injector.
+  // If set to 'root', the component's dependency injections would only be derived from the root
+  // injector and may lose context if the modal was opened from within a lazy-loaded module.
+  providedIn: 'any', // <-- this is needed for legacy setups since providers aren't getting passed through.
+})
+export class SkyModalLegacyService extends SkyModalService {
+  constructor(dynamicComponentSvc: SkyDynamicComponentLegacyService) {
+    super(dynamicComponentSvc);
+  }
+}
+/*
+  - create a legacy modal service (same with flyout and other component creating services)
+  - look through our code to see if there are any other usage of modal/flyout services that need to use standalone components.
+  - look at angular's schematic for renaming FormGroup to UntypedFormGroup
+  */
