@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -6,10 +7,17 @@ import {
   OnDestroy,
   TemplateRef,
 } from '@angular/core';
-import { SkyIdService } from '@skyux/core';
-import { SkyModalInstance } from '@skyux/modals';
+import { SkyIdService, SkyViewkeeperModule } from '@skyux/core';
+import { SkyCheckboxModule } from '@skyux/forms';
+import { SkyIconModule } from '@skyux/indicators';
+import { SkyToolbarModule } from '@skyux/layout';
+import { SkyInfiniteScrollModule, SkyRepeaterModule } from '@skyux/lists';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 import { Subject } from 'rxjs';
+
+import { SkySearchModule } from '../search/search.module';
+import { SkyLookupResourcesModule } from '../shared/sky-lookup-resources.module';
 
 import { SkyLookupShowMoreNativePickerContext } from './types/lookup-show-more-native-picker-context';
 
@@ -18,14 +26,23 @@ import { SkyLookupShowMoreNativePickerContext } from './types/lookup-show-more-n
  * Internal component to implement the native picker.
  */
 @Component({
-  // Suppress this error rather than fix the selector since consumers with unit tests
-  // may be looking for an element with this selector. We can change it in the next major
-  // version of SKY UX.
-  // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'skyux-lookup-show-more-modal',
+  standalone: true,
+  selector: 'sky-lookup-show-more-modal',
   templateUrl: './lookup-show-more-modal.component.html',
   styleUrls: ['./lookup-show-more-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    SkyCheckboxModule,
+    SkyIconModule,
+    SkyInfiniteScrollModule,
+    SkyLookupResourcesModule,
+    SkyModalModule,
+    SkyRepeaterModule,
+    SkySearchModule,
+    SkyToolbarModule,
+    SkyViewkeeperModule,
+  ],
 })
 export class SkyLookupShowMoreModalComponent
   implements AfterViewInit, OnDestroy
