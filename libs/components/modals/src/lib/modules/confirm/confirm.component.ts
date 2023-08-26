@@ -7,8 +7,9 @@ import { SkyThemeModule } from '@skyux/theme';
 import { Observable, ReplaySubject } from 'rxjs';
 import { take } from 'rxjs/operators';
 
+import { SkyModalContentComponent } from '../modal/modal-content.component';
 import { SkyModalInstance } from '../modal/modal-instance';
-import { SkyModalModule } from '../modal/modal.module';
+import { SkyModalComponent } from '../modal/modal.component';
 import { SkyModalsResourcesModule } from '../shared/sky-modals-resources.module';
 
 import { SkyConfirmButton } from './confirm-button';
@@ -26,7 +27,8 @@ import { SkyConfirmType } from './confirm-type';
   imports: [
     CommonModule,
     SkyIdModule,
-    SkyModalModule,
+    SkyModalComponent,
+    SkyModalContentComponent,
     SkyModalsResourcesModule,
     SkyThemeModule,
   ],
