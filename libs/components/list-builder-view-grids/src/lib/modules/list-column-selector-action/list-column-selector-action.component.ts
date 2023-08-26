@@ -76,7 +76,7 @@ export class SkyListColumnSelectorActionComponent implements AfterContentInit {
     @Optional() public secondaryActions: SkyListSecondaryActionsComponent
   ) {}
 
-  public ngAfterContentInit() {
+  public ngAfterContentInit(): void {
     if (!this.secondaryActions) {
       const columnChooserItem = new ListToolbarItemModel({
         id: 'column-chooser',
@@ -115,7 +115,7 @@ export class SkyListColumnSelectorActionComponent implements AfterContentInit {
     );
   }
 
-  public openColumnSelector() {
+  public openColumnSelector(): void {
     /* istanbul ignore else */
     /* sanity check */
     if (this.gridView) {

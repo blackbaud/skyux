@@ -3,20 +3,14 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyViewkeeperModule } from '@skyux/core';
 import { SkyCheckboxModule, SkyRadioModule } from '@skyux/forms';
-import { SkyIconModule, SkyStatusIndicatorModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/indicators';
 import { SkyBackToTopModule, SkyToolbarModule } from '@skyux/layout';
-import {
-  SkyFilterModule,
-  SkyRepeaterModule,
-  SkySortModule,
-} from '@skyux/lists';
+import { SkyFilterModule, SkySortModule } from '@skyux/lists';
 import { SkySearchModule } from '@skyux/lookup';
-import { SkyModalModule } from '@skyux/modals';
 
 import { SkyDataManagerResourcesModule } from '../shared/sky-data-manager-resources.module';
 
 import { SkyDataManagerColumnPickerImplService } from './data-manager-column-picker/data-manager-column-picker-impl.service';
-import { SkyDataManagerColumnPickerComponent } from './data-manager-column-picker/data-manager-column-picker.component';
 import { SkyDataManagerColumnPickerService } from './data-manager-column-picker/data-manager-column-picker.service';
 import { SkyDataManagerToolbarLeftItemComponent } from './data-manager-toolbar/data-manager-toolbar-left-item.component';
 import { SkyDataManagerToolbarPrimaryItemComponent } from './data-manager-toolbar/data-manager-toolbar-primary-item.component';
@@ -28,7 +22,6 @@ import { SkyDataViewComponent } from './data-view.component';
 
 @NgModule({
   declarations: [
-    SkyDataManagerColumnPickerComponent,
     SkyDataManagerComponent,
     SkyDataManagerToolbarLeftItemComponent,
     SkyDataManagerToolbarPrimaryItemComponent,
@@ -45,17 +38,13 @@ import { SkyDataViewComponent } from './data-view.component';
     SkyDataManagerResourcesModule,
     SkyFilterModule,
     SkyIconModule,
-    SkyModalModule,
     SkyRadioModule,
-    SkyRepeaterModule,
     SkySearchModule,
-    SkyStatusIndicatorModule,
     SkySortModule,
     SkyToolbarModule,
     SkyViewkeeperModule,
   ],
   exports: [
-    SkyDataManagerColumnPickerComponent,
     SkyDataManagerComponent,
     SkyDataManagerToolbarLeftItemComponent,
     SkyDataManagerToolbarPrimaryItemComponent,

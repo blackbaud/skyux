@@ -1,14 +1,19 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { SkyModalInstance } from '@skyux/modals';
+import { SkyStatusIndicatorModule } from '@skyux/indicators';
+import { SkyRepeaterModule } from '@skyux/lists';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { SkyDataManagerResourcesModule } from '../../shared/sky-data-manager-resources.module';
+import { SkyDataManagerModule } from '../data-manager.module';
 import { SkyDataManagerService } from '../data-manager.service';
 import { SkyDataManagerColumnPickerOption } from '../models/data-manager-column-picker-option';
 import { SkyDataManagerColumnPickerSortStrategy } from '../models/data-manager-column-picker-sort-strategy';
@@ -28,11 +33,20 @@ interface Column extends SkyDataManagerColumnPickerOption {
  * @internal
  */
 @Component({
+  standalone: true,
   selector: 'sky-data-manager-column-picker',
   templateUrl: './data-manager-column-picker.component.html',
   styleUrls: ['./data-manager-column-picker.component.scss'],
   providers: [SkyDataManagerService],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    SkyDataManagerModule,
+    SkyDataManagerResourcesModule,
+    SkyModalModule,
+    SkyRepeaterModule,
+    SkyStatusIndicatorModule,
+  ],
 })
 export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
   public get dataState(): SkyDataManagerState {
