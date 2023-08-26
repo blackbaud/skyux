@@ -1,7 +1,12 @@
 import { Component } from '@angular/core';
-import { SkyModalInstance } from '@skyux/modals';
-import { SkyTabIndex } from '@skyux/tabs';
+import { FormsModule } from '@angular/forms';
+import { SkyIdModule } from '@skyux/core';
+import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
+import { SkyTabIndex, SkyTabsModule } from '@skyux/tabs';
 import { SkyValidation } from '@skyux/validation';
+
+import { SkyTextEditorResourcesModule } from '../../shared/sky-text-editor-resources.module';
 
 import { SkyUrlModalContext } from './text-editor-url-modal-context';
 import { UrlModalResult } from './text-editor-url-modal-result';
@@ -14,9 +19,18 @@ const queryStringParamKey = '?Subject=';
  * @internal
  */
 @Component({
+  standalone: true,
   selector: 'sky-text-editor-url-modal',
   templateUrl: './text-editor-url-modal.component.html',
   styleUrls: ['./text-editor-url-modal.component.scss'],
+  imports: [
+    FormsModule,
+    SkyModalModule,
+    SkyIdModule,
+    SkyInputBoxModule,
+    SkyTabsModule,
+    SkyTextEditorResourcesModule,
+  ],
 })
 export class SkyTextEditorUrlModalComponent {
   public set activeTab(value: number) {

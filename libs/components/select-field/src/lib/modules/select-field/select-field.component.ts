@@ -13,7 +13,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SkyLogService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyToken } from '@skyux/indicators';
-import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
+import { SkyModalCloseArgs, SkyModalLegacyService } from '@skyux/modals';
 
 import { Observable, of as observableOf } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -228,7 +228,7 @@ export class SkySelectFieldComponent
 
   constructor(
     private changeDetector: ChangeDetectorRef,
-    private modalService: SkyModalService,
+    private modalService: SkyModalLegacyService,
     private resourcesService: SkyLibResourcesService,
     private elementRef: ElementRef,
     logger: SkyLogService
