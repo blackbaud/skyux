@@ -7,7 +7,7 @@ import {
 } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
-import { SkyModalService } from '@skyux/modals';
+import { SkyModalLegacyService } from '@skyux/modals';
 
 import { SkySelectFieldFixturesModule } from './fixtures/select-field-fixtures.module';
 import { SkySelectFieldTestComponent } from './fixtures/select-field.component.fixture';
@@ -580,11 +580,14 @@ describe('Select field component', () => {
     }));
 
     describe('inMemorySearchEnabled', function () {
-      let modalService: SkyModalService;
+      let modalService: SkyModalLegacyService;
 
-      beforeEach(inject([SkyModalService], (_modalService: SkyModalService) => {
-        modalService = _modalService;
-      }));
+      beforeEach(inject(
+        [SkyModalLegacyService],
+        (_modalService: SkyModalLegacyService) => {
+          modalService = _modalService;
+        }
+      ));
 
       it('should set inMemorySearchEnabled to true when the corresponding context property is undefined', fakeAsync(() => {
         const modalSpy = spyOn(modalService, 'open').and.callThrough();
