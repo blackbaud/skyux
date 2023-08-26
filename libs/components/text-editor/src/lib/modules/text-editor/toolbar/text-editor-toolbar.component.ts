@@ -22,6 +22,7 @@ import {
   SkyDropdownMessageType,
   SkyDropdownModule,
 } from '@skyux/popovers';
+import { SkyThemeModule } from '@skyux/theme';
 
 import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -51,6 +52,7 @@ import { UrlTarget } from '../url-modal/text-editor-url-target';
     SkyColorpickerModule,
     SkyDropdownModule,
     SkyIconModule,
+    SkyThemeModule,
     SkyToolbarModule,
   ],
 })

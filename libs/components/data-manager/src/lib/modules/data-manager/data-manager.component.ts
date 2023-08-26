@@ -1,11 +1,18 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
-import { SkyBackToTopMessage, SkyBackToTopMessageType } from '@skyux/layout';
+import { SkyViewkeeperModule } from '@skyux/core';
+import {
+  SkyBackToTopMessage,
+  SkyBackToTopMessageType,
+  SkyBackToTopModule,
+} from '@skyux/layout';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -18,9 +25,11 @@ const VIEWKEEPER_CLASSES_DEFAULT = ['.sky-data-manager-toolbar'];
  * The top-level data manager component. Provide `SkyDataManagerService` at this level.
  */
 @Component({
+  standalone: true,
   selector: 'sky-data-manager',
   templateUrl: './data-manager.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule, SkyBackToTopModule, SkyViewkeeperModule],
 })
 export class SkyDataManagerComponent implements OnDestroy, OnInit {
   public get currentViewkeeperClasses(): string[] {
@@ -54,19 +63,12 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
   #allViewkeeperClasses: Record<string, string[]> = {};
   #ngUnsubscribe = new Subject<void>();
   #sourceId = 'dataManagerComponent';
-  #changeDetection: ChangeDetectorRef;
-  #dataManagerService: SkyDataManagerService;
 
   #_isInitialized = false;
   #_currentViewkeeperClasses = VIEWKEEPER_CLASSES_DEFAULT;
 
-  constructor(
-    changeDetection: ChangeDetectorRef,
-    dataManagerService: SkyDataManagerService
-  ) {
-    this.#changeDetection = changeDetection;
-    this.#dataManagerService = dataManagerService;
-  }
+  readonly #changeDetection = inject(ChangeDetectorRef);
+  readonly #dataManagerService = inject(SkyDataManagerService);
 
   public ngOnInit(): void {
     this.#dataManagerService

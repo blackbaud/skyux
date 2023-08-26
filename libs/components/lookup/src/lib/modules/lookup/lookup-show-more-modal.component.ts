@@ -6,6 +6,7 @@ import {
   Component,
   OnDestroy,
   TemplateRef,
+  inject,
 } from '@angular/core';
 import { SkyIdService, SkyViewkeeperModule } from '@skyux/core';
 import { SkyCheckboxModule } from '@skyux/forms';
@@ -13,6 +14,7 @@ import { SkyIconModule } from '@skyux/indicators';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkyInfiniteScrollModule, SkyRepeaterModule } from '@skyux/lists';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
+import { SkyThemeModule } from '@skyux/theme';
 
 import { Subject } from 'rxjs';
 
@@ -40,6 +42,7 @@ import { SkyLookupShowMoreNativePickerContext } from './types/lookup-show-more-n
     SkyModalModule,
     SkyRepeaterModule,
     SkySearchModule,
+    SkyThemeModule,
     SkyToolbarModule,
     SkyViewkeeperModule,
   ],
@@ -91,21 +94,16 @@ export class SkyLookupShowMoreModalComponent
 
   public selectedItems: { index: number; itemData: any }[] = [];
 
-  #changeDetector: ChangeDetectorRef;
-
   #itemIndex = 0;
-
   #ngUnsubscribe = new Subject<void>();
 
-  constructor(
-    public modalInstance: SkyModalInstance,
-    public context: SkyLookupShowMoreNativePickerContext,
-    changeDetector: ChangeDetectorRef,
-    idSvc: SkyIdService
-  ) {
-    this.#changeDetector = changeDetector;
+  protected readonly modalInstance = inject(SkyModalInstance);
+  protected readonly context = inject(SkyLookupShowMoreNativePickerContext);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #idSvc = inject(SkyIdService);
 
-    this.id = idSvc.generateId();
+  constructor() {
+    this.id = this.#idSvc.generateId();
   }
 
   public ngAfterViewInit(): void {
