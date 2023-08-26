@@ -1,6 +1,6 @@
 import { Injectable, Optional } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
-import { SkyModalService } from '@skyux/modals';
+import { SkyModalLegacyService } from '@skyux/modals';
 
 import { ErrorModalConfig } from './error-modal-config';
 import { SkyErrorModalFormComponent } from './error-modal-form.component';
@@ -13,11 +13,11 @@ import { SkyErrorModalFormComponent } from './error-modal-form.component';
   providedIn: 'root',
 })
 export class SkyErrorModalService {
-  #modalSvc: SkyModalService;
+  #modalSvc: SkyModalLegacyService;
   #logSvc: SkyLogService | undefined;
 
   constructor(
-    modalSvc: SkyModalService,
+    modalSvc: SkyModalLegacyService,
     @Optional() logService?: SkyLogService
   ) {
     this.#modalSvc = modalSvc;
@@ -27,7 +27,7 @@ export class SkyErrorModalService {
    * Text for the the error message, including title, description, and action label.
    * @deprecated We recommend using a standard modal with an error component instead.
    */
-  public open(config: ErrorModalConfig) {
+  public open(config: ErrorModalConfig): void {
     this.#logSvc?.deprecated("SkyErrorModalService's open method", {
       deprecationMajorVersion: 6,
       replacementRecommendation:

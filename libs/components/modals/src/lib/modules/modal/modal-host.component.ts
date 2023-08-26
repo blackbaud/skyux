@@ -8,12 +8,12 @@ import {
   Type,
   ViewChild,
   ViewContainerRef,
-  createEnvironmentInjector,
   inject,
 } from '@angular/core';
 import { NavigationStart, Router, RouterModule } from '@angular/router';
 import {
   SKY_STACKING_CONTEXT,
+  SkyDynamicComponentService,
   SkyMediaQueryService,
   SkyResizeObserverMediaQueryService,
 } from '@skyux/core';
@@ -50,12 +50,6 @@ export class SkyModalHostComponent implements OnDestroy {
     return SkyModalHostService.backdropZIndex;
   }
 
-  /**
-   * Use `any` for backwards-compatibility with Angular 4-7.
-   * See: https://github.com/angular/angular/issues/30654
-   * TODO: Remove the `any` in a breaking change.
-   * @internal
-   */
   @ViewChild('target', {
     read: ViewContainerRef,
     static: true,
@@ -66,6 +60,7 @@ export class SkyModalHostComponent implements OnDestroy {
 
   readonly #adapter = inject(SkyModalAdapterService);
   readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #dynamicComponentSvc = inject(SkyDynamicComponentService);
   readonly #elRef = inject(ElementRef);
   readonly #environmentInjector = inject(EnvironmentInjector);
   readonly #modalHostContext = inject(SkyModalHostContext);
@@ -129,15 +124,14 @@ export class SkyModalHostComponent implements OnDestroy {
       SkyModalHostService.fullPageModalCount > 0
     );
 
-    const providers = params.providers || /* istanbul ignore next */ [];
-    const environmentInjector = createEnvironmentInjector(
-      providers,
-      this.#environmentInjector
+    const modalComponentRef = this.#dynamicComponentSvc.createComponent(
+      component,
+      {
+        environmentInjector: this.#environmentInjector,
+        providers: params.providers,
+        viewContainerRef: this.target,
+      }
     );
-
-    const modalComponentRef = this.target.createComponent(component, {
-      environmentInjector,
-    });
 
     // modal element that was just opened
     const modalElement = modalComponentRef.location;
