@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -16,6 +17,7 @@ import {
 import { NgControl } from '@angular/forms';
 import { SkyCoreAdapterService, SkyIdService } from '@skyux/core';
 import { SkyInputBoxHostService } from '@skyux/forms';
+import { SkyToolbarModule } from '@skyux/layout';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -27,10 +29,12 @@ import { FONT_SIZE_LIST_DEFAULTS } from './defaults/font-size-list-defaults';
 import { MENU_DEFAULTS } from './defaults/menu-defaults';
 import { STYLE_STATE_DEFAULTS } from './defaults/style-state-defaults';
 import { TOOLBAR_ACTION_DEFAULTS } from './defaults/toolbar-action-defaults';
+import { SkyTextEditorMenubarComponent } from './menubar/text-editor-menubar.component';
 import { SkyTextEditorAdapterService } from './services/text-editor-adapter.service';
 import { SkyTextEditorSelectionService } from './services/text-editor-selection.service';
 import { SkyTextEditorService } from './services/text-editor.service';
 import { SkyTextSanitizationService } from './services/text-sanitization.service';
+import { SkyTextEditorToolbarComponent } from './toolbar/text-editor-toolbar.component';
 import { SkyTextEditorFont } from './types/font-state';
 import { SkyTextEditorMenuType } from './types/menu-type';
 import { SkyTextEditorStyleState } from './types/style-state';
@@ -41,6 +45,7 @@ import { SkyTextEditorToolbarActionType } from './types/toolbar-action-type';
  * The text editor component lets users format and manipulate text.
  */
 @Component({
+  standalone: true,
   selector: 'sky-text-editor',
   templateUrl: './text-editor.component.html',
   styleUrls: ['./text-editor.component.scss'],
@@ -50,6 +55,12 @@ import { SkyTextEditorToolbarActionType } from './types/toolbar-action-type';
     SkyTextEditorService,
     SkyTextEditorSelectionService,
     SkyTextEditorAdapterService,
+  ],
+  imports: [
+    CommonModule,
+    SkyTextEditorMenubarComponent,
+    SkyTextEditorToolbarComponent,
+    SkyToolbarModule,
   ],
 })
 export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
@@ -292,13 +303,6 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
   #focusInitialized = false;
   #initialized = false;
   #ngUnsubscribe = new Subject<void>();
-  #changeDetector: ChangeDetectorRef;
-  #coreAdapterService: SkyCoreAdapterService;
-  #adapterService: SkyTextEditorAdapterService;
-  #editorService: SkyTextEditorService;
-  #sanitizationService: SkyTextSanitizationService;
-  #ngControl: NgControl;
-  #zone: NgZone;
 
   #_fontList = FONT_LIST_DEFAULTS;
   #_fontSizeList = FONT_SIZE_LIST_DEFAULTS;
@@ -310,27 +314,18 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
   #_placeholder = '';
   #_value = '<p></p>';
 
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    coreAdapterService: SkyCoreAdapterService,
-    adapterService: SkyTextEditorAdapterService,
-    editorService: SkyTextEditorService,
-    sanitizationService: SkyTextSanitizationService,
-    ngControl: NgControl,
-    zone: NgZone,
-    idSvc: SkyIdService
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#coreAdapterService = coreAdapterService;
-    this.#adapterService = adapterService;
-    this.#editorService = editorService;
-    this.#sanitizationService = sanitizationService;
-    this.#ngControl = ngControl;
-    this.#zone = zone;
+  readonly #adapterService = inject(SkyTextEditorAdapterService);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #coreAdapterService = inject(SkyCoreAdapterService);
+  readonly #editorService = inject(SkyTextEditorService);
+  readonly #idSvc = inject(SkyIdService);
+  readonly #ngControl = inject(NgControl);
+  readonly #sanitizationService = inject(SkyTextSanitizationService);
+  readonly #zone = inject(NgZone);
 
-    this.#id = this.#defaultId = idSvc.generateId();
-
-    ngControl.valueAccessor = this;
+  constructor() {
+    this.#id = this.#defaultId = this.#idSvc.generateId();
+    this.#ngControl.valueAccessor = this;
   }
 
   public ngAfterViewInit(): void {

@@ -21,7 +21,6 @@ import {
   SkyDynamicComponentService,
   SkyOverlayService,
   SkyScrollableHostService,
-  SkyStackingContext,
 } from '@skyux/core';
 
 import { AgGridAngular } from 'ag-grid-angular';

@@ -1,6 +1,6 @@
 import { Injectable, Optional } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
-import { SkyModalLegacyService } from '@skyux/modals';
+import { SkyModalService } from '@skyux/modals';
 
 import { ErrorModalConfig } from './error-modal-config';
 import { SkyErrorModalFormComponent } from './error-modal-form.component';
@@ -13,11 +13,11 @@ import { SkyErrorModalFormComponent } from './error-modal-form.component';
   providedIn: 'root',
 })
 export class SkyErrorModalService {
-  #modalSvc: SkyModalLegacyService;
+  #modalSvc: SkyModalService;
   #logSvc: SkyLogService | undefined;
 
   constructor(
-    modalSvc: SkyModalLegacyService,
+    modalSvc: SkyModalService,
     @Optional() logService?: SkyLogService
   ) {
     this.#modalSvc = modalSvc;

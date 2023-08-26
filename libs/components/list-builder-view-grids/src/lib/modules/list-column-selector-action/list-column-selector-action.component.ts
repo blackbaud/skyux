@@ -15,7 +15,7 @@ import {
   ListToolbarItemModel,
   SkyListSecondaryActionsComponent,
 } from '@skyux/list-builder';
-import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
+import { SkyModalCloseArgs, SkyModalLegacyService } from '@skyux/modals';
 
 import { Observable } from 'rxjs';
 import {
@@ -71,7 +71,7 @@ export class SkyListColumnSelectorActionComponent implements AfterContentInit {
 
   constructor(
     public listState: ListState,
-    private modalService: SkyModalService,
+    private modalService: SkyModalLegacyService,
     private dispatcher: ListStateDispatcher,
     @Optional() public secondaryActions: SkyListSecondaryActionsComponent
   ) {}
