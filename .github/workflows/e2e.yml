@@ -27,6 +27,8 @@ jobs:
       node-version: ${{ steps.setup-node.outputs.node-version }}
       parameters: ${{ steps.parameters.outputs.parameters }}
       pr-number: ${{ steps.set-shas.outputs.pr-number }}
+      base: ${{ steps.set-shas.outputs.base }}
+      head: ${{ steps.set-shas.outputs.head }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -305,10 +307,7 @@ jobs:
         env:
           PERCY_TOKEN: ${{ secrets[matrix.token] }}
           TERM: 'xterm-256color'
-        if: ${{ matrix.project != 'skip' && github.event_name != 'workflow_dispatch' }}
-      - name: E2E ${{ matrix.project }} (no Percy)
-        run: npx nx e2e ${{ matrix.project }}
-        if: ${{ matrix.project != 'skip' && github.event_name == 'workflow_dispatch' }}
+        if: ${{ matrix.project != 'skip' }}
       - name: Upload error screenshots
         uses: actions/upload-artifact@v3
         if: ${{ failure() }}
@@ -317,7 +316,7 @@ jobs:
           path: ./dist/cypress/${{ matrix.root }}/screenshots
           retention-days: 4
       - name: Notify Slack (failure)
-        if: ${{ failure() && github.event_name != 'workflow_dispatch' }}
+        if: ${{ failure() }}
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
@@ -352,8 +351,7 @@ jobs:
             const e2eProjects = ${{ needs.install-deps.outputs.parameters }}.e2eTargets.map(project => project.project);
 
             if (e2eProjects.length > 0 && e2eProjects[0] !== 'skip') {
-              const headSha = await exec.getExecOutput('git', ['rev-parse', 'HEAD'])
-                .then(({ stdout }) => stdout.trim());
+              const headSha = '${{ needs.install-deps.outputs.head }}';
 
               // Verify that Percy has finished processing the E2E Visual Review and that all snapshots have passed.
               const params = {
