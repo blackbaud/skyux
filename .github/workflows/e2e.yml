@@ -284,8 +284,22 @@ jobs:
           fetch-depth: 1
           path: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
           token: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
+      - name: Capture NX Graph
+        run: |
+          set -exo pipefail
+          npx nx graph --file=${{ runner.temp }}/nx-graph.json
+        env:
+          NX_VERBOSE_LOGGING: 'true'
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: nx-graph.json
+          path: ${{ runner.temp }}/nx-graph.json
+          retention-days: 1
+          if-no-files-found: error
       - name: Publish preview and comment on PR
         run: |
+          set -exo pipefail
           npx skyux-dev publish-storybook \
             --workingDirectory=${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }} \
             --pr=${{ needs.install-deps.outputs.workflow_dispatch_pr_number || github.event.number }}
