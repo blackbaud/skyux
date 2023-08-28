@@ -30,6 +30,7 @@ export class SkyIconComponent {
    * while specifying `"skyux"` displays an icon from the custom SKY UX icon font. Note that
    * the custom SKY UX icon font is currently in beta.
    * @default "fa"
+   * @deprecated
    */
   @Input()
   public iconType: SkyIconType | undefined;

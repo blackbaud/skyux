@@ -50,20 +50,6 @@ async function validateIconName(
   await expectAsync(iconHarness.getIconName()).toBeResolvedTo(iconName);
 }
 
-async function validateIconType(
-  iconHarness: SkyIconHarness,
-  fixture: ComponentFixture<TestComponent>,
-  iconType: string | undefined
-): Promise<void> {
-  fixture.componentInstance.iconType = iconType;
-
-  fixture.detectChanges();
-
-  await expectAsync(iconHarness.getIconType()).toBeResolvedTo(
-    iconType ? iconType : 'fa'
-  );
-}
-
 async function validateFixedWidth(
   iconHarness: SkyIconHarness,
   fixture: ComponentFixture<TestComponent>,
@@ -194,28 +180,10 @@ describe('Icon harness', () => {
     await validateIconSize(iconHarness, fixture, undefined);
   });
 
-  it('should return the correct icon type', async () => {
-    const { iconHarness, fixture } = await setupTest();
-
-    for (const type of iconTypes) {
-      await validateIconType(iconHarness, fixture, type);
-    }
-  });
-
-  it('should return the default icon type', async () => {
-    const { iconHarness, fixture } = await setupTest();
-    fixture.componentInstance.iconType = undefined;
-
-    fixture.detectChanges();
-
-    await expectAsync(iconHarness.getIconType()).toBeResolvedTo('fa');
-  });
-
   it('should return the correct variant for skyux icons', async () => {
     const { iconHarness, fixture } = await setupTest({
       theme: 'modern',
     });
-    fixture.componentInstance.iconType = 'skyux';
 
     for (const variant of variants) {
       await validateVariant(iconHarness, fixture, variant);
@@ -223,9 +191,8 @@ describe('Icon harness', () => {
   });
 
   it('should return `line` if the skyux icon does not have variant', async () => {
-    const { iconHarness, fixture } = await setupTest();
+    const { iconHarness, fixture } = await setupTest({ theme: 'modern' });
     fixture.componentInstance.iconName = 'sort';
-    fixture.componentInstance.iconType = 'skyux';
 
     fixture.detectChanges();
 

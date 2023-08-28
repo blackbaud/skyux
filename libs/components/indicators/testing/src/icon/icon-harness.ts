@@ -48,13 +48,6 @@ export class SkyIconHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the icon type.
-   */
-  public async getIconType(): Promise<string> {
-    return (await this.#getSpecifiedIconInfo()).iconType || 'fa';
-  }
-
-  /**
    * Gets if the icon is a variant.
    */
   public async getVariant(): Promise<string | undefined> {
@@ -106,7 +99,7 @@ export class SkyIconHarness extends SkyComponentHarness {
 
     return {
       icon: await icon.getAttribute('data-sky-icon'),
-      iconType: await icon.getAttribute('data-sky-icon-type'),
+      iconType: (await icon.hasClass('fa')) ? 'fa' : 'skyux',
       variant: await icon.getAttribute('data-sky-icon-variant'),
     };
   }
