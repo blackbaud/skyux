@@ -23,8 +23,8 @@ runs:
       run: |
         echo "main-branch-name=$(jq -r '.affected.defaultBase' nx.json)" >> $GITHUB_OUTPUT
 
-    - name: Derive appropriate SHAs for base and head for `nx affected` commands (merge).
-      if: ${{ github.event_name == 'push' }}
+    - name: Derive appropriate SHAs for base and head for `nx affected` commands (using nrwl/nx-set-shas).
+      if: ${{ ! contains(fromJson('["pull_request", "pull_request_target", "workflow_dispatch"]'), github.event_name) }}
       uses: nrwl/nx-set-shas@v3
       with:
         main-branch-name: ${{ steps.read-default-base.outputs.main-branch-name }}
