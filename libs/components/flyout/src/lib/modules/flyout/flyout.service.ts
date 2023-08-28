@@ -222,6 +222,7 @@ export class SkyFlyoutService implements OnDestroy {
   providedIn: 'any',
 })
 export class SkyFlyoutLegacyService extends SkyFlyoutService {
+  /* istanbul ignore next */
   constructor(
     coreAdapter: SkyCoreAdapterService,
     windowRef: SkyAppWindowRef,

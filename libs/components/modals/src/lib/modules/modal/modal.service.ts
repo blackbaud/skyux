@@ -137,8 +137,3 @@ export class SkyModalLegacyService extends SkyModalService {
     super(dynamicComponentSvc);
   }
 }
-/*
-  - create a legacy modal service (same with flyout and other component creating services)
-  - look through our code to see if there are any other usage of modal/flyout services that need to use standalone components.
-  - look at angular's schematic for renaming FormGroup to UntypedFormGroup
-  */

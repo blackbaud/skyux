@@ -157,6 +157,7 @@ export class SkyToastService implements OnDestroy {
   providedIn: 'root', // <-- Toast service has always been provided in root, but we need to inject SkyDynamicComponentLegacyService.
 })
 export class SkyToastLegacyService extends SkyToastService {
+  /* istanbul ignore next */
   constructor(dynamicComponentSvc: SkyDynamicComponentLegacyService) {
     super(dynamicComponentSvc);
   }

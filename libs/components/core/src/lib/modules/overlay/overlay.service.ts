@@ -146,6 +146,7 @@ export class SkyOverlayService {
   providedIn: 'any',
 })
 export class SkyOverlayLegacyService extends SkyOverlayService {
+  /* istanbul ignore next */
   constructor(dynamicComponentSvc: SkyDynamicComponentLegacyService) {
     super(dynamicComponentSvc);
   }
