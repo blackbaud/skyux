@@ -50,21 +50,6 @@ jobs:
       - name: npm install
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
-      - name: dev-infra
-        if: ${{ github.ref_name == 'e2e-publish' }}
-        run: |
-          set -exo pipefail
-          gh repo clone blackbaud/skyux-dev-infra ${{runner.temp}}/skyux-dev-infra -- --depth 1 --branch e2e-publish
-          cd ${{ runner.temp }}/skyux-dev-infra
-          npm ci
-          npm run build
-          cd ${{ github.workspace }}
-          rm -rf node_modules/@skyux/dev-infra-private
-          cp -R ${{ runner.temp }}/skyux-dev-infra/dist node_modules/@skyux/dev-infra-private
-          chmod +x node_modules/@skyux/dev-infra-private/bin/skyux-dev.js
-          (cd node_modules/@skyux/dev-infra-private && npm i)
-        env:
-          GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
       - name: Derive appropriate SHAs for base and head for `nx affected` commands (merge).
         if: ${{ github.event_name == 'push' }}
         uses: nrwl/nx-set-shas@v3
@@ -251,6 +236,21 @@ jobs:
             node_modules
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
+      - name: dev-infra
+        if: ${{ github.ref_name == 'e2e-publish' }}
+        run: |
+          set -exo pipefail
+          gh repo clone blackbaud/skyux-dev-infra ${{runner.temp}}/skyux-dev-infra -- --depth 1 --branch e2e-publish
+          cd ${{ runner.temp }}/skyux-dev-infra
+          npm ci
+          npm run build
+          cd ${{ github.workspace }}
+          rm -rf node_modules/@skyux/dev-infra-private
+          cp -R ${{ runner.temp }}/skyux-dev-infra/dist node_modules/@skyux/dev-infra-private
+          chmod +x node_modules/@skyux/dev-infra-private/bin/skyux-dev.js
+          (cd node_modules/@skyux/dev-infra-private && npm i)
+        env:
+          GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
