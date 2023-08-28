@@ -165,7 +165,7 @@ jobs:
       fail-fast: false
       matrix:
         app:
-        #  - code-examples
+          #  - code-examples
           - dep-graph
         #  - integration
         #  - playground
@@ -289,6 +289,9 @@ jobs:
           set -exo pipefail
           npx nx graph --file=${{ runner.temp }}/nx-graph.json
         env:
+          NX_DAEMON: 'false'
+          NX_NATIVE_LOGGING: 'true'
+          NX_PERF_LOGGING: 'true'
           NX_VERBOSE_LOGGING: 'true'
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
@@ -305,6 +308,9 @@ jobs:
             --pr=${{ needs.install-deps.outputs.workflow_dispatch_pr_number || github.event.number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          NX_DAEMON: 'false'
+          NX_NATIVE_LOGGING: 'true'
+          NX_PERF_LOGGING: 'true'
           NX_VERBOSE_LOGGING: 'true'
 
   e2e:

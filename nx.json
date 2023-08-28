@@ -42,6 +42,7 @@
       "style": "scss"
     }
   },
+  "plugins": ["@skyux-sdk/e2e-schematics"],
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"],
