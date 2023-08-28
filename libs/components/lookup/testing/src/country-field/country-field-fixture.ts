@@ -156,7 +156,7 @@ export class SkyCountryFieldFixture {
 
     // Note: the ordering of these events is important!
     SkyAppTestUtility.fireDomEvent(inputElement, 'change');
-    SkyAppTestUtility.fireDomEvent(searchResults[index], 'mousedown');
+    SkyAppTestUtility.fireDomEvent(searchResults[index], 'click');
     this.#blurInput(fixture);
   }
 

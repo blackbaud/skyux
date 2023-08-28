@@ -135,7 +135,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   @Input()
   public set enableShowMore(value: boolean | undefined) {
     this.#_enableShowMore = !!value;
-    this.#updateIsDropdownVisible();
+    this.#updateIsResultsVisible();
   }
   public get enableShowMore(): boolean {
     return this.#_enableShowMore;
@@ -266,7 +266,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   @Input()
   public set showAddButton(value: boolean | undefined) {
     this.#_showAddButton = !!value;
-    this.#updateIsDropdownVisible();
+    this.#updateIsResultsVisible();
   }
   public get showAddButton(): boolean {
     return this.#_showAddButton;
@@ -442,7 +442,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   public searchOrDefault: SkyAutocompleteSearchFunction;
 
-  protected isDropdownVisible: Observable<boolean>;
+  protected isResultsVisible: Observable<boolean>;
 
   /**
    * Index that indicates which descendant of the overlay currently has focus.
@@ -482,7 +482,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   #currentSearchSub: Subscription | undefined;
 
-  #isDropdownVisible = new BehaviorSubject<boolean>(false);
+  #isResultsVisible = new BehaviorSubject<boolean>(false);
 
   #zIndex: Observable<number> | undefined;
 
@@ -543,7 +543,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     const id = ++uniqueId;
     this.resultsListId = `sky-autocomplete-list-${id}`;
     this.resultsWrapperId = `sky-autocomplete-wrapper-${id}`;
-    this.isDropdownVisible = this.#isDropdownVisible.asObservable();
+    this.isResultsVisible = this.#isResultsVisible.asObservable();
   }
 
   public ngAfterViewInit(): void {
@@ -554,7 +554,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     this.#cancelCurrentSearch();
     this.#inputDirectiveUnsubscribe.next();
     this.#inputDirectiveUnsubscribe.complete();
-    this.#isDropdownVisible.complete();
+    this.#isResultsVisible.complete();
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
     this.#destroyAffixer();
@@ -593,7 +593,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
             }
           } else {
             if (activeElement) {
-              activeElement.dispatchEvent(new MouseEvent('mousedown'));
+              activeElement.dispatchEvent(new MouseEvent('click'));
             }
           }
 
@@ -661,7 +661,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     this.#closeDropdown();
   }
 
-  public onResultMouseDown(id: string, event: MouseEvent): void {
+  public onResultClick(id: string, event: MouseEvent): void {
     this.#selectSearchResultById(id);
 
     if (!this.showActionsArea) {
@@ -719,7 +719,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       const isDifferent = searchText !== this.searchText;
 
       this.searchText = searchText.trim();
-      this.#updateIsDropdownVisible();
+      this.#updateIsResultsVisible();
 
       if (isLongEnough && isDifferent) {
         this.#cancelCurrentSearch();
@@ -753,7 +753,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
               this.#activeElementIndex = -1;
             }
 
-            this.#updateIsDropdownVisible();
+            this.#updateIsResultsVisible();
             this.#changeDetector.markForCheck();
 
             if (this.isOpen) {
@@ -886,7 +886,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
       this.#overlay = overlay;
       this.isOpen = true;
-      this.#updateIsDropdownVisible();
+      this.#updateIsResultsVisible();
       this.#changeDetector.markForCheck();
       this.#updateAriaControls();
       this.#initOverlayFocusableElements();
@@ -934,7 +934,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     this.searchResultsCount = undefined;
     this.#removeActiveDescendant();
     this.#initOverlayFocusableElements();
-    this.#updateIsDropdownVisible();
+    this.#updateIsResultsVisible();
     this.#changeDetector.markForCheck();
   }
 
@@ -1072,12 +1072,12 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     }
   }
 
-  #updateIsDropdownVisible(): void {
-    const isDropdownVisible =
+  #updateIsResultsVisible(): void {
+    const isResultsVisible =
       !!this.searchText &&
       (!this.showActionsArea || this.searchResults.length > 0);
-    if (isDropdownVisible !== this.#isDropdownVisible.getValue()) {
-      this.#isDropdownVisible.next(isDropdownVisible);
+    if (isResultsVisible !== this.#isResultsVisible.getValue()) {
+      this.#isResultsVisible.next(isResultsVisible);
     }
   }
 }
