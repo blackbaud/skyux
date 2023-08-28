@@ -62,10 +62,14 @@ jobs:
         id: parameters
         shell: bash
         run: |
-          echo -n parameters= >> $GITHUB_OUTPUT
-          npx skyux-dev e2e-workflow \
-            --workflowTrigger ${{ github.event_name == 'workflow_dispatch' && 'pull_request' || github.event_name }} \
-            --pr ${{ steps.set-shas.outputs.pr-number }} >> $GITHUB_OUTPUT
+          set -exo pipefail
+          if [ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]; then
+            echo -n parameters= >> $GITHUB_OUTPUT
+            npx skyux-dev e2e-workflow --workflowTrigger=pull_request --pr=${{ steps.set-shas.outputs.pr-number }} >> $GITHUB_OUTPUT
+          else
+            echo -n parameters= >> $GITHUB_OUTPUT
+            npx skyux-dev e2e-workflow --pr=${{ steps.set-shas.outputs.pr-number }} >> $GITHUB_OUTPUT
+          fi
       - name: Show workflow parameters
         run: |
           echo 'Using workflow parameters:'
@@ -351,13 +355,12 @@ jobs:
             const e2eProjects = ${{ needs.install-deps.outputs.parameters }}.e2eTargets.map(project => project.project);
 
             if (e2eProjects.length > 0 && e2eProjects[0] !== 'skip') {
-              const headSha = '${{ needs.install-deps.outputs.head }}';
 
               // Verify that Percy has finished processing the E2E Visual Review and that all snapshots have passed.
               const params = {
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                ref: headSha,
+                ref: '${{ needs.install-deps.outputs.head }}',
                 per_page: 100
               };
               const statuses = [];
