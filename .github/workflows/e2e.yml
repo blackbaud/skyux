@@ -50,6 +50,19 @@ jobs:
       - name: npm install
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
+      - name: dev-infra
+        if: ${{ github.ref_name == 'e2e-publish' }}
+        run: |
+          gh repo clone blackbaud/skyux-dev-infra ${{runner.temp}}/skyux-dev-infra
+          cd ${{ runner.temp }}/skyux-dev-infra
+          git checkout -B e2e-publish upstream/e2e-publish
+          npm ci
+          npm run build
+          cd ${{ github.workspace }}
+          rm -rf node_modules/@skyux/dev-infra-private
+          cp -R ${{ runner.temp }}/skyux-dev-infra/dist node_modules/@skyux/dev-infra-private
+        env:
+          GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
       - name: Derive appropriate SHAs for base and head for `nx affected` commands (merge).
         if: ${{ github.event_name == 'push' }}
         uses: nrwl/nx-set-shas@v3
