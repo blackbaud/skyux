@@ -1,5 +1,5 @@
 import { Component, Input, inject } from '@angular/core';
-import { SkyModalLegacyService, SkyModalService } from '@skyux/modals';
+import { SkyModalService } from '@skyux/modals';
 
 import { SkyPageModalLink } from '../action-hub/types/page-modal-link';
 import { SkyPageModalLinksInput } from '../action-hub/types/page-modal-links-input';
@@ -27,21 +27,9 @@ export class SkyModalLinkListComponent {
 
   #_links: SkyPageModalLinksInput | undefined;
 
-  readonly #modalLegacySvc = inject(SkyModalLegacyService);
   readonly #modalSvc = inject(SkyModalService);
 
-  /**
-   * @deprecated Use the `open` method with a standalone component instead.
-   */
   public openModal(link: SkyPageModalLink): void {
-    const modal = link.modal;
-
-    if (modal) {
-      this.#modalLegacySvc.open(modal.component, modal.config);
-    }
-  }
-
-  public open(link: SkyPageModalLink): void {
     const modal = link.modal;
 
     if (modal) {
