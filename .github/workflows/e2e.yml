@@ -61,6 +61,7 @@ jobs:
           cd ${{ github.workspace }}
           rm -rf node_modules/@skyux/dev-infra-private
           cp -R ${{ runner.temp }}/skyux-dev-infra/dist node_modules/@skyux/dev-infra-private
+          chmod +x node_modules/@skyux/dev-infra-private/bin/skyux-dev.js
         env:
           GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
       - name: Derive appropriate SHAs for base and head for `nx affected` commands (merge).
