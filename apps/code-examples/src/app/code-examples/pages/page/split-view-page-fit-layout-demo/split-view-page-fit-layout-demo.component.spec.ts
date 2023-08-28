@@ -7,7 +7,7 @@ import { SkyPageHarness } from '@skyux/pages/testing';
 import { SplitViewPageFitLayoutDemoComponent } from './split-view-page-fit-layout-demo.component';
 import { SplitViewPageFitLayoutDemoModule } from './split-view-page-fit-layout-demo.module';
 
-fdescribe('Split view page fit layout demo', async () => {
+describe('Split view page fit layout demo', async () => {
   async function setupTest(): Promise<{
     pageHarness: SkyPageHarness;
     fixture: ComponentFixture<SplitViewPageFitLayoutDemoComponent>;
