@@ -284,32 +284,14 @@ jobs:
           fetch-depth: 1
           path: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
           token: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
-      - name: Comment generator
-        uses: actions/github-script@v6
-        with:
-          script: |
-            core.info('Try the generator...');
-            await exec.exec('npx', [
-              'nx',
-              'g',
-              '@skyux-sdk/e2e-schematics:pr-comment',
-              `--storybooks=${ ${{ needs.install-deps.outputs.parameters }}.projects.join(',') }`,
-              '--pr=${{ needs.install-deps.outputs.workflow_dispatch_pr_number || github.event.number }}',
-              (${{ needs.install-deps.outputs.workflow_dispatch_pr_number || github.event.number || 0 }} ? '--apps=code-examples,dep-graph,integration,playground' : undefined),
-            ]);
       - name: Publish preview and comment on PR
-        uses: actions/github-script@v6
-        with:
-          script: |
-            core.info('Try the whole command...');
-            await exec.exec('npx', [
-              'skyux-dev',
-              'publish-storybook',
-              '--workingDirectory=${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}',
-              '--pr=${{ needs.install-deps.outputs.workflow_dispatch_pr_number || github.event.number }}',
-            ]);
+        run: |
+          npx skyux-dev publish-storybook \
+            --workingDirectory=${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }} \
+            --pr=${{ needs.install-deps.outputs.workflow_dispatch_pr_number || github.event.number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          NX_VERBOSE_LOGGING: 'true'
 
   e2e:
     name: End to end tests
