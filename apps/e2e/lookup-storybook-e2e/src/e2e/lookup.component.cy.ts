@@ -8,7 +8,7 @@ describe('lookup', () => {
           .visit(
             `/iframe.html?globals=theme:${theme}&id=lookupcomponent-lookup--lookup`
           )
-          .viewport(1300, 900)
+          .viewport(E2eVariations.DISPLAY_WIDTHS[0], 900)
       );
       it(`should render the component`, () => {
         cy.get('.ready').should('exist');
@@ -23,11 +23,10 @@ describe('lookup', () => {
           .should('exist')
           .should('be.visible');
 
-        cy.get('body')
-          .screenshot(`lookup-${theme}`)
-          .percySnapshot(`lookup-${theme}`, {
-            widths: E2eVariations.DISPLAY_WIDTHS,
-          });
+        cy.get('body').skyVisualTest(`lookup-${theme}`, {
+          disableTimersAndAnimations: true,
+          overwrite: true,
+        } as Partial<Cypress.ScreenshotOptions>);
       });
     });
   });
