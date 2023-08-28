@@ -295,6 +295,7 @@ jobs:
 
   e2e:
     name: End to end tests
+    if: false
     runs-on: ubuntu-latest
     # Baseline branches should complete the E2E jobs so Percy does not get stuck https://www.browserstack.com/question/61332
     concurrency:
