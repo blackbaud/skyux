@@ -20,7 +20,7 @@ import { SkySearchModule } from '@skyux/lookup';
 import {
   SkyModalCloseArgs,
   SkyModalConfigurationInterface,
-  SkyModalService,
+  SkyModalLegacyService,
 } from '@skyux/modals';
 
 import { Subject } from 'rxjs';
@@ -114,7 +114,7 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #columnPickerService = inject(SkyDataManagerColumnPickerService);
   readonly #dataManagerService = inject(SkyDataManagerService);
-  readonly #modalService = inject(SkyModalService);
+  readonly #modalService = inject(SkyModalLegacyService);
 
   public ngOnInit(): void {
     this.#dataManagerService

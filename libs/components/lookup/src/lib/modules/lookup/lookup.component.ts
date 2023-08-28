@@ -309,21 +309,26 @@ export class SkyLookupComponent
   #_tokens: SkyToken[] | undefined;
   #_value: any[] | undefined;
 
-  #adapter = inject(SkyLookupAdapterService);
-  #changeDetector = inject(ChangeDetectorRef);
-  #elementRef = inject(ElementRef);
-  #idService = inject(SkyIdService);
-  #logSvc = inject(SkyLogService);
-  #modalService = inject(SkyModalService);
+  readonly #adapter = inject(SkyLookupAdapterService);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #elementRef = inject(ElementRef);
+  readonly #idService = inject(SkyIdService);
+  readonly #logSvc = inject(SkyLogService);
+  readonly #modalService = inject(SkyModalService);
+
   #openNativePicker =
     inject(SkyModalInstance, {
       optional: true,
     }) || undefined;
+
   #openSelectionModal =
-    inject(SkySelectionModalInstance, { optional: true }) || undefined;
-  #resourcesService = inject(SkyLibResourcesService);
-  #selectionModalSvc = inject(SkySelectionModalService);
-  #windowRef = inject(SkyAppWindowRef);
+    inject(SkySelectionModalInstance, {
+      optional: true,
+    }) || undefined;
+
+  readonly #resourcesService = inject(SkyLibResourcesService);
+  readonly #selectionModalSvc = inject(SkySelectionModalService);
+  readonly #windowRef = inject(SkyAppWindowRef);
 
   constructor(
     @Self() @Optional() ngControl?: NgControl,
