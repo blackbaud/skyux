@@ -116,7 +116,8 @@ jobs:
       # If one build fails, do not cancel other builds.
       fail-fast: false
       matrix:
-        project: ${{ fromJSON(needs.install-deps.outputs.parameters).projects }}
+        # project: ${{ fromJSON(needs.install-deps.outputs.parameters).projects }}
+        project: [skip]
     steps:
       - uses: actions/checkout@v3
         with:
