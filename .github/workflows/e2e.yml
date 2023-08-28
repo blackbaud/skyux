@@ -53,9 +53,9 @@ jobs:
       - name: dev-infra
         if: ${{ github.ref_name == 'e2e-publish' }}
         run: |
-          gh repo clone blackbaud/skyux-dev-infra ${{runner.temp}}/skyux-dev-infra
+          set -exo pipefail
+          gh repo clone blackbaud/skyux-dev-infra ${{runner.temp}}/skyux-dev-infra -- --depth 1 --branch e2e-publish
           cd ${{ runner.temp }}/skyux-dev-infra
-          git checkout -B e2e-publish upstream/e2e-publish
           npm ci
           npm run build
           cd ${{ github.workspace }}
