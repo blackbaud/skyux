@@ -89,16 +89,23 @@ runs:
           };
           let lastSuccessfulCommit;
           for (var i = 0; i < 5; i++) {
+            console.log(`Checking workflow runs for ${workflowId} page ${i + 1}`);
+            console.log(JSON.stringify({
+              ...listWorkflowParams,
+              page: i + 1
+            }, null, 2));
             const shas = await github.rest.actions.listWorkflowRuns({
               ...listWorkflowParams,
               page: i + 1
             }).then(({data: {workflow_runs}}) => workflow_runs.map(run => run.head_sha));
             lastSuccessfulCommit = shasInThisPR.find(sha => shas.includes(sha));
             if (lastSuccessfulCommit || shas.length < 100) {
+              console.log(`Found last successful commit: ${lastSuccessfulCommit}`);
               break;
             }
           }
           if (!lastSuccessfulCommit) {
+            console.log(`Unable to find a successful workflow run for ${workflowId} that intersects with commits to this PR.`);
             lastSuccessfulCommit = baseSha;
           }
           core.setOutput('base', lastSuccessfulCommit);
