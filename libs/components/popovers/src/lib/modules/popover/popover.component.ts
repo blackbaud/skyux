@@ -1,6 +1,7 @@
 import {
   Component,
   ElementRef,
+  EnvironmentInjector,
   EventEmitter,
   Inject,
   Input,
@@ -9,6 +10,7 @@ import {
   Output,
   TemplateRef,
   ViewChild,
+  inject,
 } from '@angular/core';
 import {
   SKY_STACKING_CONTEXT,
@@ -145,6 +147,8 @@ export class SkyPopoverComponent implements OnDestroy {
 
   #_popoverType: SkyPopoverType = 'info';
 
+  readonly #environmentInjector = inject(EnvironmentInjector);
+
   #overlayService: SkyOverlayService;
 
   #zIndex: Observable<number> | undefined;
@@ -232,6 +236,7 @@ export class SkyPopoverComponent implements OnDestroy {
       const overlay = this.#overlayService.create({
         enableScroll: true,
         enablePointerEvents: true,
+        environmentInjector: this.#environmentInjector,
       });
 
       if (this.#zIndex) {

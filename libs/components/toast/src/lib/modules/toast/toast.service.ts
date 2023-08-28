@@ -7,7 +7,10 @@ import {
   Type,
   inject,
 } from '@angular/core';
-import { SkyDynamicComponentService } from '@skyux/core';
+import {
+  SkyDynamicComponentLegacyService,
+  SkyDynamicComponentService,
+} from '@skyux/core';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -144,5 +147,17 @@ export class SkyToastService implements OnDestroy {
       this.#dynamicComponentService.removeComponent(SkyToastService.host);
       SkyToastService.host = undefined;
     }
+  }
+}
+
+/**
+ * @deprecated Use `SkyToastService` with a standalone component instead.
+ */
+@Injectable({
+  providedIn: 'root', // <-- Toast service has always been provided in root, but we need to inject SkyDynamicComponentLegacyService.
+})
+export class SkyToastLegacyService extends SkyToastService {
+  constructor(dynamicComponentSvc: SkyDynamicComponentLegacyService) {
+    super(dynamicComponentSvc);
   }
 }

@@ -9,6 +9,7 @@ import { NavigationStart, Router } from '@angular/router';
 import {
   SkyAppWindowRef,
   SkyCoreAdapterService,
+  SkyDynamicComponentLegacyService,
   SkyDynamicComponentService,
 } from '@skyux/core';
 
@@ -211,5 +212,23 @@ export class SkyFlyoutService implements OnDestroy {
     this.#ngUnsubscribe.next(true);
     this.#ngUnsubscribe.unsubscribe();
     this.#ngUnsubscribe = new Subject<boolean>();
+  }
+}
+
+/**
+ * @deprecated Use `SkyFlyoutService` with a standalone component instead.
+ */
+@Injectable({
+  providedIn: 'any',
+})
+export class SkyFlyoutLegacyService extends SkyFlyoutService {
+  constructor(
+    coreAdapter: SkyCoreAdapterService,
+    windowRef: SkyAppWindowRef,
+    dynamicComponentService: SkyDynamicComponentLegacyService,
+    router: Router,
+    ngZone: NgZone
+  ) {
+    super(coreAdapter, windowRef, dynamicComponentService, router, ngZone);
   }
 }

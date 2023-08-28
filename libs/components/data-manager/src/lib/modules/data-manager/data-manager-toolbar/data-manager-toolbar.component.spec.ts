@@ -50,7 +50,10 @@ class MockModalService {
   }
 }
 
-@Component({})
+@Component({
+  standalone: true,
+  template: '',
+})
 class MockModalComponent {}
 
 describe('SkyDataManagerToolbarComponent', () => {
@@ -524,7 +527,6 @@ describe('SkyDataManagerToolbarComponent', () => {
   });
 
   it('should open the provided filter modal when the filter button is clicked', () => {
-    const mockModal = new MockModalComponent();
     spyOn(modalServiceInstance, 'open').and.callThrough();
     spyOn(dataManagerService, 'getViewById').and.returnValue({
       ...(dataManagerToolbarComponent.activeView as SkyDataViewConfig),
@@ -534,7 +536,7 @@ describe('SkyDataManagerToolbarComponent', () => {
     dataManagerToolbarFixture.detectChanges();
 
     dataManagerToolbarComponent.dataManagerConfig = {
-      filterModalComponent: mockModal,
+      filterModalComponent: MockModalComponent,
     };
 
     const filterBtn = dataManagerToolbarNativeElement.querySelector(

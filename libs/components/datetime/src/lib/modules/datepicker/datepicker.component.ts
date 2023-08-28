@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EnvironmentInjector,
   EventEmitter,
   Inject,
   Input,
@@ -12,6 +13,7 @@ import {
   Output,
   TemplateRef,
   ViewChild,
+  inject,
 } from '@angular/core';
 import {
   SKY_STACKING_CONTEXT,
@@ -190,6 +192,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
   #affixService: SkyAffixService;
   #changeDetector: ChangeDetectorRef;
   #coreAdapter: SkyCoreAdapterService;
+  readonly #environmentInjector = inject(EnvironmentInjector);
   #overlayService: SkyOverlayService;
   readonly #zIndex: Observable<number> | undefined;
 
@@ -359,6 +362,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
         wrapperClass: this.pickerClass,
         enableClose: false,
         enablePointerEvents: false,
+        environmentInjector: this.#environmentInjector,
       });
 
       if (this.#zIndex) {

@@ -2,6 +2,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EnvironmentInjector,
   EventEmitter,
   Input,
   OnDestroy,
@@ -11,6 +12,7 @@ import {
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import {
   SkyAffixAutoFitContext,
@@ -294,6 +296,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   #affixSvc: SkyAffixService;
   #changeDetector: ChangeDetectorRef;
   #coreAdapter: SkyCoreAdapterService;
+  readonly #environmentInjector = inject(EnvironmentInjector);
   #overlaySvc: SkyOverlayService;
   #svc: SkyColorpickerService;
   #themeSvc: SkyThemeService | undefined;
@@ -564,6 +567,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
         enableClose: false,
         enablePointerEvents: false,
         enableScroll: true,
+        environmentInjector: this.#environmentInjector,
       });
 
       overlay.attachTemplate(this.colorpickerTemplateRef);

@@ -6,7 +6,10 @@ import {
   inject,
 } from '@angular/core';
 
-import { SkyDynamicComponentService } from '../dynamic-component/dynamic-component.service';
+import {
+  SkyDynamicComponentLegacyService,
+  SkyDynamicComponentService,
+} from '../dynamic-component/dynamic-component.service';
 
 import { SkyOverlayAdapterService } from './overlay-adapter.service';
 import { SkyOverlayConfig } from './overlay-config';
@@ -24,10 +27,14 @@ import { SkyOverlayComponent } from './overlay.component';
 export class SkyOverlayService {
   private static overlays: SkyOverlayInstance[] = [];
 
-  #adapter = inject(SkyOverlayAdapterService);
-  #applicationRef = inject(ApplicationRef);
-  #dynamicComponentSvc = inject(SkyDynamicComponentService);
-  #environmentInjector = inject(EnvironmentInjector);
+  readonly #adapter = inject(SkyOverlayAdapterService);
+  readonly #applicationRef = inject(ApplicationRef);
+  readonly #dynamicComponentSvc: SkyDynamicComponentService;
+  readonly #environmentInjector = inject(EnvironmentInjector);
+
+  constructor(dynamicComponentSvc: SkyDynamicComponentService) {
+    this.#dynamicComponentSvc = dynamicComponentSvc;
+  }
 
   /**
    * Creates an empty overlay. Use the returned `SkyOverlayInstance` to append content.
@@ -129,5 +136,17 @@ export class SkyOverlayService {
         this.#adapter.releaseBodyScroll();
       }
     }
+  }
+}
+
+/**
+ * @deprecated Use `SkyOverlayService` with a standalone component instead.
+ */
+@Injectable({
+  providedIn: 'any',
+})
+export class SkyOverlayLegacyService extends SkyOverlayService {
+  constructor(dynamicComponentSvc: SkyDynamicComponentLegacyService) {
+    super(dynamicComponentSvc);
   }
 }

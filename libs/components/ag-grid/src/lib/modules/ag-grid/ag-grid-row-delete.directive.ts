@@ -71,6 +71,7 @@ export class SkyAgGridRowDeleteDirective
 
         const overlay = this.#overlayService.create({
           enableScroll: true,
+          environmentInjector: this.#environmentInjector,
           showBackdrop: false,
           closeOnNavigation: true,
           enableClose: false,

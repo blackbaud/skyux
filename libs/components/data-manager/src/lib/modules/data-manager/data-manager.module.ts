@@ -13,20 +13,20 @@ import { SkyDataViewComponent } from './data-view.component';
 @NgModule({
   imports: [
     SkyDataManagerComponent,
+    SkyDataManagerToolbarComponent,
     SkyDataManagerToolbarLeftItemComponent,
     SkyDataManagerToolbarPrimaryItemComponent,
     SkyDataManagerToolbarRightItemComponent,
     SkyDataManagerToolbarSectionComponent,
-    SkyDataManagerToolbarComponent,
     SkyDataViewComponent,
   ],
   exports: [
     SkyDataManagerComponent,
+    SkyDataManagerToolbarComponent,
     SkyDataManagerToolbarLeftItemComponent,
     SkyDataManagerToolbarPrimaryItemComponent,
     SkyDataManagerToolbarRightItemComponent,
     SkyDataManagerToolbarSectionComponent,
-    SkyDataManagerToolbarComponent,
     SkyDataViewComponent,
   ],
   providers: [
