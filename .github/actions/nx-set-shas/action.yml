@@ -48,6 +48,7 @@ runs:
             baseSha = pullRequests.data[0].base.sha;
             core.setOutput('base', baseSha);
             core.setOutput('pr-number', pullRequests.data[0].number);
+            core.setOutput('pr-created_at', pullRequests.data[0].created_at);
           } else {
             core.setFailed(`Unable to find an open PR for branch ${process.env.GITHUB_REF_NAME}`);
             process.exit(1);
@@ -83,6 +84,7 @@ runs:
             repo: context.repo.repo,
             workflow_id: workflowId,
             status: 'success',
+            created: `~*..${{ steps.find-pr-number.outputs.pr-created_at || github.event.pull_request.created_at }}`,
             per_page: 100
           };
           let lastSuccessfulCommit;
@@ -92,7 +94,7 @@ runs:
               page: i + 1
             }).then(({data: {workflow_runs}}) => workflow_runs.map(run => run.head_sha));
             lastSuccessfulCommit = shasInThisPR.find(sha => shas.includes(sha));
-            if (lastSuccessfulCommit) {
+            if (lastSuccessfulCommit || shas.length < 100) {
               break;
             }
           }
