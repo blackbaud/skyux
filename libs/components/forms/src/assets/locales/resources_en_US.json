@@ -11,13 +11,25 @@
     "_description": "Button label for single file attachment when input has no value",
     "message": "Attach file"
   },
+  "skyux_file_attachment_button_label_choose_file_label": {
+    "_description": "Button aria label for single file attachment when input has no value",
+    "message": "Attach file for"
+  },
   "skyux_file_attachment_button_label_replace_file": {
     "_description": "Button label for single file attachment when file has been chosen",
     "message": "Replace file"
   },
+  "skyux_file_attachment_button_label_replace_file_label": {
+    "_description": "Button aria label for single file attachment when file has been chosen",
+    "message": "Replace file {0} for"
+  },
   "skyux_file_attachment_file_item_delete": {
     "_description": "Label for the button that deletes a file",
     "message": "Delete file"
+  },
+  "skyux_file_attachment_file_item_remove": {
+    "_description": "Label for the button that deletes a file in single file attachment",
+    "message": "Remove file {0} for"
   },
   "skyux_file_attachment_file_size_b_plural": {
     "_description": "",
@@ -59,9 +71,9 @@
     "_description": "",
     "message": "This file type is invalid"
   },
-  "skyux_file_attachment_file_upload_link_input": {
-    "_description": "Label for input to upload file",
-    "message": "Add a link to a file"
+  "skyux_file_attachment_file_upload_link_label": {
+    "_description": "Label for input to link to a file",
+    "message": "Link to a file"
   },
   "skyux_file_attachment_file_upload_link_placeholder": {
     "_description": "",
@@ -71,11 +83,7 @@
     "_description": "",
     "message": "or click to browse"
   },
-  "skyux_file_attachment_file_upload_paste_link": {
-    "_description": "",
-    "message": "Paste a link to a file"
-  },
-  "skyux_file_attachment_file_upload_paste_link_done": {
+  "skyux_file_attachment_file_upload_link_done": {
     "_description": "",
     "message": "Done"
   },

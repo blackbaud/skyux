@@ -4,7 +4,7 @@
   [formGroup]="formGroup"
 >
   <div class="sky-date-range-picker-form-group">
-    <sky-input-box [disabled]="disabled">
+    <sky-input-box stacked="true" [disabled]="disabled">
       <label
         class="sky-control-label"
         [attr.for]="dateRangePickerId + '-select-calculator'"
@@ -28,7 +28,7 @@
   </div>
 
   <div class="sky-date-range-picker-form-group" [hidden]="!showStartDatePicker">
-    <sky-input-box [disabled]="disabled">
+    <sky-input-box stacked="true" [disabled]="disabled">
       <label
         class="sky-control-label"
         [attr.for]="dateRangePickerId + '-start-date'"
@@ -61,7 +61,7 @@
   </div>
 
   <div class="sky-date-range-picker-form-group" [hidden]="!showEndDatePicker">
-    <sky-input-box [disabled]="disabled">
+    <sky-input-box stacked="true" [disabled]="disabled">
       <label
         class="sky-control-label"
         [attr.for]="dateRangePickerId + '-end-date'"

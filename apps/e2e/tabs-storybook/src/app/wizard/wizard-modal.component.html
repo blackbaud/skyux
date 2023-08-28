@@ -11,7 +11,10 @@
         #wizardDemo
       >
         <sky-tab tabHeading="1. Get started">
-          <sky-input-box labelText="Enter text here to enable step 2.">
+          <sky-input-box
+            stacked="true"
+            labelText="Enter text here to enable step 2."
+          >
             <input type="text" formControlName="requiredValue1" />
           </sky-input-box>
         </sky-tab>
@@ -23,7 +26,7 @@
           </sky-checkbox>
         </sky-tab>
         <sky-tab tabHeading="3. Finishing touches" [disabled]="step3Disabled">
-          <sky-input-box labelText="Enter text here to save.">
+          <sky-input-box stacked="true" labelText="Enter text here to save.">
             <input type="text" formControlName="requiredValue3" />
           </sky-input-box>
         </sky-tab>

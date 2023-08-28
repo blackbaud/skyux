@@ -296,12 +296,6 @@ describe('datepicker', () => {
       expect(getTriggerButton(fixture)).not.toBeNull();
     });
 
-    it('should apply aria-label to the datepicker input when none is provided', () => {
-      fixture.detectChanges();
-
-      expect(getInputElement(fixture)?.getAttribute('aria-label')).toBe('Date');
-    });
-
     it('should not overwrite aria-label on the datepicker input when one is provided', () => {
       getInputElement(fixture)?.setAttribute(
         'aria-label',

@@ -10,7 +10,7 @@
     >
       <sky-tab tabHeading="Web page">
         <div class="sky-form-group sky-text-editor-url-modal-first-field">
-          <sky-input-box>
+          <sky-input-box stacked="true">
             <label
               class="sky-control-label sky-control-label-required"
               [for]="urlInput.id"
@@ -26,7 +26,7 @@
             />
           </sky-input-box>
         </div>
-        <sky-input-box class="sky-form-group">
+        <sky-input-box stacked="true" class="sky-form-group">
           <label class="sky-control-label" [for]="targetInput.id">
             {{ 'skyux_text_editor_url_modal_open_label' | skyLibResources }}
           </label>
@@ -52,7 +52,7 @@
       </sky-tab>
       <sky-tab tabHeading="Email address">
         <div class="sky-form-group first-field">
-          <sky-input-box>
+          <sky-input-box stacked="true">
             <label
               class="sky-control-label sky-control-label-required"
               [for]="emailAddressInput.id"
@@ -68,7 +68,7 @@
             />
           </sky-input-box>
         </div>
-        <sky-input-box class="sky-form-group">
+        <sky-input-box stacked="true" class="sky-form-group">
           <label class="sky-control-label" [for]="subjectInput.id">
             {{ 'skyux_text_editor_url_modal_subject_label' | skyLibResources }}
           </label>

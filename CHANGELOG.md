@@ -1,5 +1,37 @@
 # Changelog
 
+## [9.0.0-alpha.8](https://github.com/blackbaud/skyux/compare/9.0.0-alpha.7...9.0.0-alpha.8) (2023-08-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/tabs:** vertical tab modern theme spacing has been updated to match design specifications
+* **components/lookup:** country field hardcoded `aria-label` is removed and the label should now be provided through a wrapping input box ([#1626](https://github.com/blackbaud/skyux/issues/1626))
+
+### Features
+
+* **components/forms:** remove bottom margin for input box ([#1564](https://github.com/blackbaud/skyux/issues/1564)) ([4a22a4a](https://github.com/blackbaud/skyux/commit/4a22a4a7bf8d94a0f57325d3cceaa7bc3155eb75))
+* **components/lookup:** country field hardcoded `aria-label` is removed and the label should now be provided through a wrapping input box ([#1626](https://github.com/blackbaud/skyux/issues/1626)) ([6a5fbb7](https://github.com/blackbaud/skyux/commit/6a5fbb722dbc0571da941ab7e1f13e90fd5d9cfe))
+
+
+### Bug Fixes
+
+* **components/lists:** repeater item spacing in split view ([#1618](https://github.com/blackbaud/skyux/issues/1618)) ([49a912c](https://github.com/blackbaud/skyux/commit/49a912cc1662b27bc201e90ff8c9f3dc9906de62))
+* **components/tabs:** vertical tab modern theme spacing has been updated to match design specifications ([51089df](https://github.com/blackbaud/skyux/commit/51089dfd5932c272cef9e5c8bfeb37adcd2787f3))
+
+## [8.10.0](https://github.com/blackbaud/skyux/compare/8.9.0...8.10.0) (2023-08-24)
+
+
+### Features
+
+* **components/lookup:** add ability to set `aria-label` and `aria-labelledby` attributes on the search component ([#1622](https://github.com/blackbaud/skyux/issues/1622)) ([5ddb569](https://github.com/blackbaud/skyux/commit/5ddb56991d43b16d6b5715e603141364fd64dd24))
+* **sdk/eslint-config:** use typescript-eslint version of no-use-before-define ([#1601](https://github.com/blackbaud/skyux/issues/1601)) ([#1604](https://github.com/blackbaud/skyux/issues/1604)) ([666f002](https://github.com/blackbaud/skyux/commit/666f002aec964806a8bcdddbf40127b051c0fdc7))
+
+
+### Bug Fixes
+
+* **components/tabs:** remove responsive container behavior from tabs ([#1636](https://github.com/blackbaud/skyux/issues/1636)) ([92fbcdb](https://github.com/blackbaud/skyux/commit/92fbcdbdfaa0a65448903651ecea3e512877d36d))
+
 ## [9.0.0-alpha.7](https://github.com/blackbaud/skyux/compare/9.0.0-alpha.6...9.0.0-alpha.7) (2023-08-23)
 
 
