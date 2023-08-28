@@ -180,10 +180,10 @@ jobs:
       fail-fast: false
       matrix:
         app:
-          - code-examples
+        #  - code-examples
           - dep-graph
-          - integration
-          - playground
+        #  - integration
+        #  - playground
     steps:
       - uses: actions/checkout@v3
         with:
@@ -264,7 +264,9 @@ jobs:
           mkdir -p ./dist/apps
           for app in code-examples dep-graph integration playground
           do
-            mv ./dist/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}${app} ./dist/apps/$app
+            if [ -d ./dist/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}${app} ]; then
+              mv ./dist/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}${app} ./dist/apps/$app
+            fi
           done
       - name: Generate Storybook Composition
         shell: bash
