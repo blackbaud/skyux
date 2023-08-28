@@ -84,7 +84,7 @@ runs:
             repo: context.repo.repo,
             workflow_id: workflowId,
             status: 'success',
-            created: `~*..${{ steps.find-pr-number.outputs.pr-created_at || github.event.pull_request.created_at }}`,
+            created: '${{ steps.find-pr-number.outputs.pr-created_at || github.event.pull_request.created_at }}..*',
             per_page: 100
           };
           let lastSuccessfulCommit;
