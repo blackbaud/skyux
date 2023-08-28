@@ -180,7 +180,7 @@ sky-repeater-item {
       padding-bottom: $sky-theme-modern-margin-stacked-lg;
 
       &.sky-repeater-item-active {
-        background-color: transparent;
+        background-color: $sky-color-white;
         border-left-color: $sky-theme-modern-background-color-primary-dark;
       }
 
