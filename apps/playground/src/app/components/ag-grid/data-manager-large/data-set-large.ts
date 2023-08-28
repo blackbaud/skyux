@@ -1,7 +1,6 @@
 // Source: https://github.com/metmuseum/openaccess
+import { ColDef, ColGroupDef } from '@ag-grid-community/core';
 import { SkyCellType } from '@skyux/ag-grid';
-
-import { ColDef, ColGroupDef } from 'ag-grid-community';
 
 import { GroupInlineHelpComponent } from './inline-help/group-inline-help.component';
 import { InlineHelpComponent } from './inline-help/inline-help.component';

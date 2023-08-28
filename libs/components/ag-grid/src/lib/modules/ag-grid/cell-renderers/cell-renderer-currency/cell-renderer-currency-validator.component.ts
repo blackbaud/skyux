@@ -1,11 +1,10 @@
+import { ICellRendererAngularComp } from '@ag-grid-community/angular';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   Input,
 } from '@angular/core';
-
-import { ICellRendererAngularComp } from 'ag-grid-angular';
 
 import { SkyCellRendererCurrencyParams } from '../../types/cell-renderer-currency-params';
 

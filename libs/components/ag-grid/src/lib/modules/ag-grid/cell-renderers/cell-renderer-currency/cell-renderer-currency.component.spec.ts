@@ -1,4 +1,12 @@
 import {
+  Beans,
+  Column,
+  GridApi,
+  ICellRenderer,
+  ICellRendererParams,
+  RowNode,
+} from '@ag-grid-community/core';
+import {
   ComponentFixture,
   TestBed,
   fakeAsync,
@@ -6,15 +14,6 @@ import {
 } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { NumericOptions } from '@skyux/core';
-
-import {
-  Beans,
-  Column,
-  GridApi,
-  ICellRenderer,
-  ICellRendererParams,
-  RowNode,
-} from 'ag-grid-community';
 
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';

@@ -1,3 +1,8 @@
+import { AgGridAngular } from '@ag-grid-community/angular';
+import {
+  CellEditingStartedEvent,
+  DetailGridInfo,
+} from '@ag-grid-community/core';
 import { DOCUMENT } from '@angular/common';
 import {
   AfterContentInit,
@@ -15,8 +20,6 @@ import {
 import { SkyMutationObserverService } from '@skyux/core';
 import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 
-import { AgGridAngular } from 'ag-grid-angular';
-import { CellEditingStartedEvent, DetailGridInfo } from 'ag-grid-community';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 

@@ -1,3 +1,11 @@
+import { AgGridModule } from '@ag-grid-community/angular';
+import {
+  ColDef,
+  ColumnApi,
+  GridApi,
+  GridOptions,
+  GridReadyEvent,
+} from '@ag-grid-community/core';
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -13,15 +21,6 @@ import {
   SkyDataManagerState,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
-
-import { AgGridModule } from 'ag-grid-angular';
-import {
-  ColDef,
-  ColumnApi,
-  GridApi,
-  GridOptions,
-  GridReadyEvent,
-} from 'ag-grid-community';
 
 @Component({
   selector: 'app-data-view-grid',

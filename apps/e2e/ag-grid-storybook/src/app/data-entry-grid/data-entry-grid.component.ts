@@ -1,3 +1,4 @@
+import { ColDef, GridOptions } from '@ag-grid-community/core';
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -16,7 +17,6 @@ import {
   SkyThemeSettings,
 } from '@skyux/theme';
 
-import { ColDef, GridOptions } from 'ag-grid-community';
 import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { delay, filter, map } from 'rxjs/operators';
 

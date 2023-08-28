@@ -1,3 +1,6 @@
+import { AgGridModule } from '@ag-grid-community/angular';
+import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model';
+import { ModuleRegistry } from '@ag-grid-community/core';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyViewkeeperModule } from '@skyux/core';
@@ -6,8 +9,6 @@ import { SkyDatePipeModule } from '@skyux/datetime';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyInlineDeleteModule } from '@skyux/layout';
 import { SkyThemeModule } from '@skyux/theme';
-
-import { AgGridModule } from 'ag-grid-angular';
 
 import { SkyAgGridResourcesModule } from '../shared/sky-ag-grid-resources.module';
 
@@ -28,6 +29,8 @@ import { SkyAgGridCellRendererValidatorTooltipModule } from './cell-renderers/ce
 import { SkyAgGridCellValidatorModule } from './cell-validator/ag-grid-cell-validator.module';
 import { SkyAgGridHeaderGroupComponent } from './header/header-group.component';
 import { SkyAgGridHeaderComponent } from './header/header.component';
+
+ModuleRegistry.registerModules([ClientSideRowModelModule]);
 
 @NgModule({
   declarations: [

@@ -1,14 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import {
-  SkyTheme,
-  SkyThemeMode,
-  SkyThemeService,
-  SkyThemeSettings,
-  SkyThemeSettingsChange,
-} from '@skyux/theme';
-
-import { AgGridAngular } from 'ag-grid-angular';
+import { AgGridAngular } from '@ag-grid-community/angular';
 import {
   CellEditingStartedEvent,
   CellEditingStoppedEvent,
@@ -19,7 +9,17 @@ import {
   GridApi,
   GridReadyEvent,
   RowDataUpdatedEvent,
-} from 'ag-grid-community';
+} from '@ag-grid-community/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import {
+  SkyTheme,
+  SkyThemeMode,
+  SkyThemeService,
+  SkyThemeSettings,
+  SkyThemeSettingsChange,
+} from '@skyux/theme';
+
 import { BehaviorSubject, Subject } from 'rxjs';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
@@ -45,7 +45,16 @@ describe('SkyAgGridWrapperComponent', () => {
 
   beforeEach(() => {
     agGrid = {
-      api: jasmine.createSpyObj('api', GridApi.prototype),
+      api: jasmine.createSpyObj<GridApi>('api', [
+        'ensureColumnVisible',
+        'forEachDetailGridInfo',
+        'getEditingCells',
+        'refreshCells',
+        'resetRowHeights',
+        'setFocusedCell',
+        'setHeaderHeight',
+        'stopEditing',
+      ]),
       columnApi: new ColumnApi(),
       gridReady: new Subject<GridReadyEvent>(),
       rowDataUpdated: new Subject<RowDataUpdatedEvent>(),

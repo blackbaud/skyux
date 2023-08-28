@@ -1,3 +1,4 @@
+import { AgGridModule } from '@ag-grid-community/angular';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -7,8 +8,6 @@ import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkyRepeaterModule } from '@skyux/lists';
 import { SkyModalModule } from '@skyux/modals';
-
-import { AgGridModule } from 'ag-grid-angular';
 
 import { DataManagerFiltersModalDemoComponent } from './data-filter-modal.component';
 import { DataManagerDemoComponent } from './data-manager-demo.component';

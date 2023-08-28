@@ -1,11 +1,10 @@
+import { Column, ColumnApi } from '@ag-grid-community/core';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
-
-import { Column, ColumnApi } from 'ag-grid-community';
 
 import { SkyAgGridHeaderParams } from '../types/header-params';
 

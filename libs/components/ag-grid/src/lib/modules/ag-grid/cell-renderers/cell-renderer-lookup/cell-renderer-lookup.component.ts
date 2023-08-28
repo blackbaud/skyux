@@ -1,10 +1,9 @@
+import { ICellRendererAngularComp } from '@ag-grid-community/angular';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
 } from '@angular/core';
-
-import { ICellRendererAngularComp } from 'ag-grid-angular';
 
 import { SkyCellRendererLookupParams } from '../../types/cell-renderer-lookup-params';
 

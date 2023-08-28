@@ -1,13 +1,12 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { expect, expectAsync } from '@skyux-sdk/testing';
-
 import {
   Beans,
   Column,
   ICellEditorParams,
   KeyCode,
   RowNode,
-} from 'ag-grid-community';
+} from '@ag-grid-community/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
@@ -169,7 +168,7 @@ describe('SkyCellEditorNumberComponent', () => {
 
         numberEditorComponent.agInit({
           ...(cellEditorParams as ICellEditorParams),
-          charPress: '4',
+          eventKey: '4',
         });
 
         expect(numberEditorComponent.editorForm.get('number')?.value).toBe(4);
@@ -182,7 +181,7 @@ describe('SkyCellEditorNumberComponent', () => {
 
         numberEditorComponent.agInit({
           ...(cellEditorParams as ICellEditorParams),
-          charPress: 'a',
+          eventKey: 'a',
         });
 
         expect(
@@ -263,7 +262,7 @@ describe('SkyCellEditorNumberComponent', () => {
 
         numberEditorComponent.agInit({
           ...(cellEditorParams as ICellEditorParams),
-          charPress: '4',
+          eventKey: '4',
         });
 
         expect(numberEditorComponent.editorForm.get('number')?.value).toBe(
@@ -278,7 +277,7 @@ describe('SkyCellEditorNumberComponent', () => {
 
         numberEditorComponent.agInit({
           ...(cellEditorParams as ICellEditorParams),
-          charPress: 'a',
+          eventKey: 'a',
         });
 
         expect(numberEditorComponent.editorForm.get('number')?.value).toBe(
@@ -423,7 +422,7 @@ describe('SkyCellEditorNumberComponent', () => {
         it('does not select the input value when a standard keyboard event triggers the edit', () => {
           numberEditorComponent.agInit({
             ...(cellEditorParams as ICellEditorParams),
-            charPress: '4',
+            eventKey: '4',
           });
           numberEditorFixture.detectChanges();
           const input = numberEditorNativeElement.querySelector(
@@ -514,7 +513,7 @@ describe('SkyCellEditorNumberComponent', () => {
         it('does not select the input value when a standard keyboard event triggers the edit', () => {
           numberEditorComponent.agInit({
             ...(cellEditorParams as ICellEditorParams),
-            charPress: '4',
+            eventKey: '4',
           });
           numberEditorFixture.detectChanges();
           const input = numberEditorNativeElement.querySelector(

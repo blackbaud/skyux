@@ -1,3 +1,11 @@
+import { AgGridAngular } from '@ag-grid-community/angular';
+import {
+  ColumnApi,
+  ColumnMovedEvent,
+  ColumnState,
+  DragStoppedEvent,
+  RowSelectedEvent,
+} from '@ag-grid-community/core';
 import {
   AfterContentInit,
   ChangeDetectorRef,
@@ -14,14 +22,6 @@ import {
   SkyDataViewConfig,
 } from '@skyux/data-manager';
 
-import { AgGridAngular } from 'ag-grid-angular';
-import {
-  ColumnApi,
-  ColumnMovedEvent,
-  ColumnState,
-  DragStoppedEvent,
-  RowSelectedEvent,
-} from 'ag-grid-community';
 import { Subject, Subscription } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 

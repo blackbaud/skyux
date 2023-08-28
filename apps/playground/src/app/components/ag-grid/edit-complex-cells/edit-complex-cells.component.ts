@@ -1,4 +1,13 @@
 import {
+  ColDef,
+  GridApi,
+  GridOptions,
+  GridReadyEvent,
+  IGetRowsParams,
+  RowNode,
+  RowSelectedEvent,
+} from '@ag-grid-community/core';
+import {
   Component,
   HostListener,
   OnInit,
@@ -14,15 +23,6 @@ import {
 import { SkyAutocompleteSearchAsyncArgs } from '@skyux/lookup';
 import { SkyThemeService } from '@skyux/theme';
 
-import {
-  ColDef,
-  GridApi,
-  GridOptions,
-  GridReadyEvent,
-  IGetRowsParams,
-  RowNode,
-  RowSelectedEvent,
-} from 'ag-grid-community';
 import { BehaviorSubject, of } from 'rxjs';
 import { delay, skip } from 'rxjs/operators';
 

@@ -1,3 +1,5 @@
+import { AgGridAngular } from '@ag-grid-community/angular';
+import { IRowNode } from '@ag-grid-community/core';
 import {
   AfterContentInit,
   AfterViewInit,
@@ -23,8 +25,6 @@ import {
   SkyStackingContext,
 } from '@skyux/core';
 
-import { AgGridAngular } from 'ag-grid-angular';
-import { IRowNode } from 'ag-grid-community';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 

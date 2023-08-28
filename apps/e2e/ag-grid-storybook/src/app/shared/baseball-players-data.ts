@@ -1,6 +1,5 @@
+import { ColDef } from '@ag-grid-community/core';
 import { SkyCellType } from '@skyux/ag-grid';
-
-import { ColDef } from 'ag-grid-community';
 
 import { InlineHelpComponent } from './inline-help/inline-help.component';
 

@@ -1,11 +1,10 @@
+import { AgGridModule } from '@ag-grid-community/angular';
 import { NgModule } from '@angular/core';
 import { SkyAgGridModule } from '@skyux/ag-grid';
 import { SkyDataManagerModule } from '@skyux/data-manager';
 import { SkyIconModule, SkyKeyInfoModule } from '@skyux/indicators';
 import { SkyPageModule } from '@skyux/pages';
 import { SkyDropdownModule } from '@skyux/popovers';
-
-import { AgGridModule } from 'ag-grid-angular';
 
 import { DashboardGridContextMenuComponent } from './dashboards-grid-context-menu.component';
 import { ListPageContentComponent } from './list-page-content.component';

@@ -1,3 +1,4 @@
+import { AgGridModule } from '@ag-grid-community/angular';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -6,8 +7,6 @@ import { SkyBackToTopModule } from '@skyux/layout';
 import { SkyDropdownModule } from '@skyux/popovers';
 import { PreviewWrapperModule } from '@skyux/storybook';
 import { SkyThemeModule } from '@skyux/theme';
-
-import { AgGridModule } from 'ag-grid-angular';
 
 import { InlineHelpModule } from '../shared/inline-help/inline-help.module';
 

@@ -1,4 +1,4 @@
-import { ICellEditorParams, KeyCode } from 'ag-grid-community';
+import { ICellEditorParams, KeyCode } from '@ag-grid-community/core';
 
 import { SkyAgGridCellEditorInitialAction } from './cell-editor-initial-action';
 
@@ -16,7 +16,7 @@ export class SkyAgGridCellEditorUtils {
         params.eventKey === KeyCode.DELETE
       ) {
         return SkyAgGridCellEditorInitialAction.Delete;
-      } else if (params.charPress) {
+      } else if (params.eventKey?.length === 1) {
         return SkyAgGridCellEditorInitialAction.Replace;
       } else {
         if (params.eventKey !== KeyCode.F2) {

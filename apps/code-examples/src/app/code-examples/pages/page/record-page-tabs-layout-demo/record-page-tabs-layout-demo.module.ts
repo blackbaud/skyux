@@ -1,3 +1,4 @@
+import { AgGridModule } from '@ag-grid-community/angular';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyAgGridModule } from '@skyux/ag-grid';
@@ -20,8 +21,6 @@ import { SkySearchModule } from '@skyux/lookup';
 import { SkyPageModule } from '@skyux/pages';
 import { SkyDropdownModule } from '@skyux/popovers';
 import { SkyTabsModule } from '@skyux/tabs';
-
-import { AgGridModule } from 'ag-grid-angular';
 
 import { AttachmentsGridContextMenuComponent } from './attachments-grid-context-menu.component';
 import { RecordPageAttachmentsTabComponent } from './record-page-attachments-tab.component';

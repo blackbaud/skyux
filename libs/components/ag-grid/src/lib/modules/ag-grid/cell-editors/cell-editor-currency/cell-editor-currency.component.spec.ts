@@ -1,19 +1,18 @@
 import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-} from '@angular/core/testing';
-import { expect, expectAsync } from '@skyux-sdk/testing';
-
-import {
   Beans,
   Column,
   GridApi,
   ICellEditorParams,
   KeyCode,
   RowNode,
-} from 'ag-grid-community';
+} from '@ag-grid-community/core';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
@@ -271,7 +270,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
 
           currencyEditorComponent.agInit({
             ...(cellEditorParams as ICellEditorParams),
-            charPress: '4',
+            eventKey: '4',
           });
           currencyEditorFixture.detectChanges();
           const input = currencyEditorNativeElement.querySelector(
@@ -295,7 +294,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
 
           currencyEditorComponent.agInit({
             ...(cellEditorParams as ICellEditorParams),
-            charPress: 'a',
+            eventKey: 'a',
           });
           currencyEditorFixture.detectChanges();
           const input = currencyEditorNativeElement.querySelector(
@@ -420,7 +419,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
 
           currencyEditorComponent.agInit({
             ...(cellEditorParams as ICellEditorParams),
-            charPress: '4',
+            eventKey: '4',
           });
           currencyEditorFixture.detectChanges();
           const input = currencyEditorNativeElement.querySelector(
@@ -444,7 +443,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
 
           currencyEditorComponent.agInit({
             ...(cellEditorParams as ICellEditorParams),
-            charPress: 'a',
+            eventKey: 'a',
           });
           currencyEditorFixture.detectChanges();
           const input = currencyEditorNativeElement.querySelector(

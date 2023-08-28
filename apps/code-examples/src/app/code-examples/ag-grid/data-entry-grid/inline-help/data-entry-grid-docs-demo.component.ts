@@ -1,18 +1,17 @@
 import {
+  ColDef,
+  GridApi,
+  GridOptions,
+  GridReadyEvent,
+  ValueFormatterParams,
+} from '@ag-grid-community/core';
+import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
 } from '@angular/core';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
-
-import {
-  ColDef,
-  GridApi,
-  GridOptions,
-  GridReadyEvent,
-  ValueFormatterParams,
-} from 'ag-grid-community';
 
 import { SkyDataEntryGridContextMenuComponent } from './data-entry-grid-docs-demo-context-menu.component';
 import { SKY_AG_GRID_DEMO_DATA } from './data-entry-grid-docs-demo-data';

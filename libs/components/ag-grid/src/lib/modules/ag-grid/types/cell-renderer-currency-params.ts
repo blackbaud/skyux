@@ -1,6 +1,5 @@
+import { ICellRendererParams } from '@ag-grid-community/core';
 import { NumericOptions } from '@skyux/core';
-
-import { ICellRendererParams } from 'ag-grid-community';
 
 import { SkyAgGridValidatorProperties } from './validator-properties';
 

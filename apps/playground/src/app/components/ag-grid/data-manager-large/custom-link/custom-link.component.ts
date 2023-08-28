@@ -1,11 +1,13 @@
 import {
+  ICellRendererComp,
+  ICellRendererParams,
+} from '@ag-grid-community/core';
+import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
 } from '@angular/core';
-
-import { ICellRendererComp, ICellRendererParams } from 'ag-grid-community';
 
 @Component({
   selector: 'app-custom-link',

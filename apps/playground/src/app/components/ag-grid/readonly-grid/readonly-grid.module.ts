@@ -1,3 +1,4 @@
+import { AgGridModule } from '@ag-grid-community/angular';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyAgGridModule } from '@skyux/ag-grid';
@@ -5,8 +6,6 @@ import { SkyBackToTopModule } from '@skyux/layout';
 import { SkyInfiniteScrollModule } from '@skyux/lists';
 import { SkyModalModule } from '@skyux/modals';
 import { SkyDropdownModule } from '@skyux/popovers';
-
-import { AgGridModule } from 'ag-grid-angular';
 
 import { ReadonlyGridContextMenuComponent } from './readonly-grid-context-menu.component';
 import {

@@ -1,12 +1,12 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-
 import {
   ColumnApi,
   Events,
   GridApi,
   GridOptions,
   GridReadyEvent,
-} from 'ag-grid-community';
+} from '@ag-grid-community/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+
 import { fromEventPattern } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 

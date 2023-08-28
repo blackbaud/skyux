@@ -1,3 +1,5 @@
+import { AgGridAngular } from '@ag-grid-community/angular';
+import { ColDef, GridOptions } from '@ag-grid-community/core';
 import {
   Component,
   Inject,
@@ -7,9 +9,6 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-
-import { AgGridAngular } from 'ag-grid-angular';
-import { ColDef, GridOptions } from 'ag-grid-community';
 
 import { SkyAgGridService } from '../ag-grid.service';
 import { SkyCellType } from '../types/cell-type';

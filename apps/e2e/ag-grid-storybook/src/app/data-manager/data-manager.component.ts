@@ -1,3 +1,4 @@
+import { GridOptions } from '@ag-grid-community/core';
 import {
   Component,
   HostBinding,
@@ -14,7 +15,6 @@ import {
 } from '@skyux/data-manager';
 import { FontLoadingService } from '@skyux/storybook';
 
-import { GridOptions } from 'ag-grid-community';
 import { BehaviorSubject, Observable, combineLatest, timer } from 'rxjs';
 import { filter, first, map } from 'rxjs/operators';
 

@@ -1,11 +1,10 @@
+import { AgGridModule } from '@ag-grid-community/angular';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyAgGridModule } from '@skyux/ag-grid';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkySearchModule } from '@skyux/lookup';
 import { SkyModalModule } from '@skyux/modals';
-
-import { AgGridModule } from 'ag-grid-angular';
 
 import { SkyAgGridDemoComponent } from './ag-grid-demo.component';
 import { SkyAgGridEditModalComponent } from './ag-grid-edit-modal.component';

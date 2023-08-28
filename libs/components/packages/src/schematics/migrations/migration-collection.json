@@ -24,6 +24,11 @@
       "version": "9.0.0-0",
       "factory": "./update-9/ag-grid-29/ag-grid-29.schematic",
       "description": "Apply changes to support AG Grid 29"
+    },
+    "ag-grid-30": {
+      "version": "9.0.0-0",
+      "factory": "./update-9/ag-grid-30/ag-grid-30.schematic",
+      "description": "Apply changes to support AG Grid 30"
     }
   }
 }

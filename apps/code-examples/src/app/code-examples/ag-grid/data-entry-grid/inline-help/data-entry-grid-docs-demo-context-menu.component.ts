@@ -1,7 +1,6 @@
+import { ICellRendererAngularComp } from '@ag-grid-community/angular';
+import { ICellRendererParams } from '@ag-grid-community/core';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-
-import { ICellRendererAngularComp } from 'ag-grid-angular';
-import { ICellRendererParams } from 'ag-grid-community';
 
 @Component({
   selector: 'app-data-entry-grid-docs-demo-context-menu',

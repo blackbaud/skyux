@@ -1,3 +1,9 @@
+import {
+  ColDef,
+  GridOptions,
+  RowNode,
+  RowSelectedEvent,
+} from '@ag-grid-community/core';
 import { DOCUMENT } from '@angular/common';
 import {
   AfterViewInit,
@@ -17,12 +23,6 @@ import { SkyDockLocation, SkyDockService } from '@skyux/core';
 import { FontLoadingService } from '@skyux/storybook';
 import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 
-import {
-  ColDef,
-  GridOptions,
-  RowNode,
-  RowSelectedEvent,
-} from 'ag-grid-community';
 import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { delay, filter, map } from 'rxjs/operators';
 

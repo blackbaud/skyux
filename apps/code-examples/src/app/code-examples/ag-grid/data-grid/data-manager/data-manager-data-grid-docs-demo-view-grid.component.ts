@@ -1,4 +1,13 @@
 import {
+  ColDef,
+  ColumnApi,
+  GridApi,
+  GridOptions,
+  GridReadyEvent,
+  RowSelectedEvent,
+  ValueFormatterParams,
+} from '@ag-grid-community/core';
+import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -13,16 +22,6 @@ import {
   SkyDataViewConfig,
   SkyDataViewState,
 } from '@skyux/data-manager';
-
-import {
-  ColDef,
-  ColumnApi,
-  GridApi,
-  GridOptions,
-  GridReadyEvent,
-  RowSelectedEvent,
-  ValueFormatterParams,
-} from 'ag-grid-community';
 
 import { SkyAgGridDemoRow } from './data-manager-data-grid-docs-demo-data';
 

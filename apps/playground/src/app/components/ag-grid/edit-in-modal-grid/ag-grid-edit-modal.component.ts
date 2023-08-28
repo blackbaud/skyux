@@ -1,8 +1,3 @@
-import { Component, OnInit } from '@angular/core';
-import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
-import { SkyAutocompleteSelectionChange } from '@skyux/lookup';
-import { SkyModalInstance } from '@skyux/modals';
-
 import {
   CellValueChangedEvent,
   ColDef,
@@ -11,7 +6,11 @@ import {
   GridReadyEvent,
   ICellEditorParams,
   IRowNode,
-} from 'ag-grid-community';
+} from '@ag-grid-community/core';
+import { Component, OnInit } from '@angular/core';
+import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import { SkyAutocompleteSelectionChange } from '@skyux/lookup';
+import { SkyModalInstance } from '@skyux/modals';
 
 import {
   SKY_DEPARTMENTS,

@@ -1,3 +1,4 @@
+import { AgGridModule } from '@ag-grid-community/angular';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -8,8 +9,6 @@ import {
   SkyDataManagerService,
 } from '@skyux/data-manager';
 import { SkyCheckboxModule, SkyRadioModule } from '@skyux/forms';
-
-import { AgGridModule } from 'ag-grid-angular';
 
 import { InlineHelpModule } from '../shared/inline-help/inline-help.module';
 

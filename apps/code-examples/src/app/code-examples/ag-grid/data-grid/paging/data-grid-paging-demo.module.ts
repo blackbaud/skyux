@@ -1,3 +1,4 @@
+import { AgGridModule } from '@ag-grid-community/angular';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyAgGridModule } from '@skyux/ag-grid';
@@ -8,8 +9,6 @@ import {
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkyPagingModule } from '@skyux/lists';
 import { SkySearchModule } from '@skyux/lookup';
-
-import { AgGridModule } from 'ag-grid-angular';
 
 import { DataGridPagingDemoComponent } from './data-grid-paging-demo.component';
 

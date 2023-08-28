@@ -1,3 +1,4 @@
+import { GridOptions } from '@ag-grid-community/core';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,7 +14,6 @@ import {
   SkyDataManagerState,
 } from '@skyux/data-manager';
 
-import { GridOptions } from 'ag-grid-community';
 import { BehaviorSubject } from 'rxjs';
 
 import { CustomLinkComponent } from './custom-link/custom-link.component';

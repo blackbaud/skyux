@@ -1,3 +1,9 @@
+import { IHeaderGroupAngularComp } from '@ag-grid-community/angular';
+import {
+  ColumnGroupOpenedEvent,
+  Events,
+  ProvidedColumnGroup,
+} from '@ag-grid-community/core';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -12,12 +18,6 @@ import {
   SkyDynamicComponentService,
 } from '@skyux/core';
 
-import { IHeaderGroupAngularComp } from 'ag-grid-angular';
-import {
-  ColumnGroupOpenedEvent,
-  Events,
-  ProvidedColumnGroup,
-} from 'ag-grid-community';
 import {
   BehaviorSubject,
   Observable,

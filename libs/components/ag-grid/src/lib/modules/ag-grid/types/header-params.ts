@@ -1,6 +1,5 @@
+import { IHeaderParams } from '@ag-grid-community/core';
 import { Type } from '@angular/core';
-
-import { IHeaderParams } from 'ag-grid-community/dist/lib/headerRendering/cells/column/headerComp';
 
 /**
  * Interface to use for the

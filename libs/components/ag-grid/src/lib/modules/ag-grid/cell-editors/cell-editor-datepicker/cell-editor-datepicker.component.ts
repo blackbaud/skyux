@@ -1,3 +1,5 @@
+import { ICellEditorAngularComp } from '@ag-grid-community/angular';
+import { PopupComponent } from '@ag-grid-community/core';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -11,8 +13,6 @@ import {
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { SkyThemeService } from '@skyux/theme';
 
-import { ICellEditorAngularComp } from 'ag-grid-angular';
-import { PopupComponent } from 'ag-grid-community';
 import { fromEvent } from 'rxjs';
 import { first } from 'rxjs/operators';
 
@@ -86,7 +86,7 @@ export class SkyAgGridCellEditorDatepickerComponent
           control.setValue(undefined);
           break;
         case SkyAgGridCellEditorInitialAction.Replace:
-          control.setValue(params.charPress);
+          control.setValue(params.eventKey);
           break;
         case SkyAgGridCellEditorInitialAction.Highlighted:
         case SkyAgGridCellEditorInitialAction.Untouched:
@@ -119,6 +119,10 @@ export class SkyAgGridCellEditorDatepickerComponent
     });
   }
 
+  public getPopupPosition(): 'over' | 'under' | undefined {
+    return 'over';
+  }
+
   /**
    * afterGuiAttached is called by agGrid after the editor is rendered in the DOM. Once it is attached the editor is ready to be focused on.
    */
@@ -140,7 +144,7 @@ export class SkyAgGridCellEditorDatepickerComponent
           });
         datepickerInputEl.select();
 
-        const charPress = this.#params?.charPress;
+        const charPress = this.#params?.eventKey as string;
 
         if (charPress) {
           datepickerInputEl.setRangeText(charPress);

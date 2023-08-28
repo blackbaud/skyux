@@ -1,3 +1,4 @@
+import { ICellEditorAngularComp } from '@ag-grid-community/angular';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -6,8 +7,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-
-import { ICellEditorAngularComp } from 'ag-grid-angular';
 
 import { SkyCellEditorCurrencyParams } from '../../types/cell-editor-currency-params';
 import { SkyAgGridCellEditorInitialAction } from '../../types/cell-editor-initial-action';
@@ -85,7 +84,7 @@ export class SkyAgGridCellEditorCurrencyComponent
           break;
         case SkyAgGridCellEditorInitialAction.Replace:
           control.setValue(
-            parseFloat(String(this.params?.charPress)) || undefined
+            parseFloat(String(this.params?.eventKey)) || undefined
           );
           break;
         case SkyAgGridCellEditorInitialAction.Highlighted:

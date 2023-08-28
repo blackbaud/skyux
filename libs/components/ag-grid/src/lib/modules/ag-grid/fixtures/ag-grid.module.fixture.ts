@@ -1,9 +1,8 @@
+import { AgGridModule } from '@ag-grid-community/angular';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyDataManagerModule } from '@skyux/data-manager';
-
-import { AgGridModule } from 'ag-grid-angular';
 
 import { SkyAgGridModule } from '../ag-grid.module';
 import { SkyAgGridCellRendererCurrencyModule } from '../cell-renderers/cell-renderer-currency/cell-renderer-currency.module';

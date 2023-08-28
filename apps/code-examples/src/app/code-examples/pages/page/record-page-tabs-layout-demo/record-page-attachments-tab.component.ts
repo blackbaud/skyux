@@ -1,3 +1,8 @@
+import {
+  ColDef,
+  GridOptions,
+  ICellRendererParams,
+} from '@ag-grid-community/core';
 import { Component, OnInit, inject } from '@angular/core';
 import { SkyAgGridService } from '@skyux/ag-grid';
 import {
@@ -5,8 +10,6 @@ import {
   SkyDataManagerState,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
-
-import { ColDef, GridOptions, ICellRendererParams } from 'ag-grid-community';
 
 import { AttachmentsGridContextMenuComponent } from './attachments-grid-context-menu.component';
 

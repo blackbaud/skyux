@@ -1,17 +1,16 @@
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-} from '@angular/core';
-import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
-
-import {
   ColDef,
   GridApi,
   GridOptions,
   GridReadyEvent,
   ValueFormatterParams,
-} from 'ag-grid-community';
+} from '@ag-grid-community/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+} from '@angular/core';
+import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 
 import { SKY_AG_GRID_DEMO_DATA } from './data-grid-demo-data';
 import { InlineHelpComponent } from './inline-help.component';

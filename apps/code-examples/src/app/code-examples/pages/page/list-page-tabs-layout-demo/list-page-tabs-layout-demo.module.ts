@@ -1,3 +1,4 @@
+import { AgGridModule } from '@ag-grid-community/angular';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyAgGridModule } from '@skyux/ag-grid';
@@ -6,8 +7,6 @@ import { SkyIconModule, SkyKeyInfoModule } from '@skyux/indicators';
 import { SkyPageModule } from '@skyux/pages';
 import { SkyDropdownModule } from '@skyux/popovers';
 import { SkyTabsModule } from '@skyux/tabs';
-
-import { AgGridModule } from 'ag-grid-angular';
 
 import { ContactContextMenuComponent } from './contact-context-menu.component';
 import { ListPageContactsGridComponent } from './list-page-contacts-grid.component';

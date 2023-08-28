@@ -1,4 +1,4 @@
-import { ICellRendererParams } from 'ag-grid-community';
+import { ICellRendererParams } from '@ag-grid-community/core';
 
 import { SkyAgGridValidatorProperties } from './validator-properties';
 

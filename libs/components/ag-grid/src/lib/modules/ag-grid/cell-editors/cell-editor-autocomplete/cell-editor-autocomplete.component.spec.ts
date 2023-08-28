@@ -1,6 +1,3 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { expect, expectAsync } from '@skyux-sdk/testing';
-
 import {
   Beans,
   Column,
@@ -8,7 +5,9 @@ import {
   ICellEditorParams,
   KeyCode,
   RowNode,
-} from 'ag-grid-community';
+} from '@ag-grid-community/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import { SkyAgGridModule } from '../../ag-grid.module';
 import { SkyCellEditorAutocompleteParams } from '../../types/cell-editor-autocomplete-params';
@@ -63,7 +62,7 @@ describe('SkyCellEditorAutocompleteComponent', () => {
       );
 
       cellEditorParams = {
-        api: jasmine.createSpyObj('api', GridApi.prototype),
+        api: jasmine.createSpyObj<GridApi>('api', ['stopEditing']),
         value: selection,
         column,
         node: rowNode,
@@ -147,7 +146,7 @@ describe('SkyCellEditorAutocompleteComponent', () => {
 
         component.agInit({
           ...(cellEditorParams as ICellEditorParams),
-          charPress: 'a',
+          eventKey: 'a',
         });
 
         expect(component.editorForm.get('selection')?.value).toBe(selection);
@@ -209,7 +208,7 @@ describe('SkyCellEditorAutocompleteComponent', () => {
 
         component.agInit({
           ...(cellEditorParams as ICellEditorParams),
-          charPress: 'a',
+          eventKey: 'a',
         });
 
         expect(component.editorForm.get('selection')?.value).toBe(selection);
@@ -334,7 +333,7 @@ describe('SkyCellEditorAutocompleteComponent', () => {
       it('does not select the input value when a standard keyboard event triggers the edit', () => {
         component.agInit({
           ...(cellEditorParams as ICellEditorParams),
-          charPress: 'a',
+          eventKey: 'a',
         });
         fixture.detectChanges();
         const input = nativeElement.querySelector('input') as HTMLInputElement;
@@ -416,7 +415,7 @@ describe('SkyCellEditorAutocompleteComponent', () => {
       it('does not select the input value when a standard keyboard event triggers the edit', () => {
         component.agInit({
           ...(cellEditorParams as ICellEditorParams),
-          charPress: 'a',
+          eventKey: 'a',
         });
         fixture.detectChanges();
         const input = nativeElement.querySelector('input') as HTMLInputElement;

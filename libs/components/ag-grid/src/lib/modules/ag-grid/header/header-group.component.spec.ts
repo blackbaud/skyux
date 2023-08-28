@@ -1,16 +1,15 @@
+import {
+  ColGroupDef,
+  ColumnGroup,
+  Events,
+  ProvidedColumnGroup,
+} from '@ag-grid-community/core';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyI18nModule } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
-
-import {
-  ColGroupDef,
-  ColumnGroup,
-  Events,
-  ProvidedColumnGroup,
-} from 'ag-grid-community';
 
 import { SkyAgGridHeaderGroupParams } from '../types/header-group-params';
 

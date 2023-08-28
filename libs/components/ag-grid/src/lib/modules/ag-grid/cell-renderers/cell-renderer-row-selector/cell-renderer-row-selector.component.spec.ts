@@ -1,4 +1,11 @@
 import {
+  Beans,
+  ColDef,
+  ICellRendererParams,
+  RowClickedEvent,
+  RowNode,
+} from '@ag-grid-community/core';
+import {
   ComponentFixture,
   TestBed,
   fakeAsync,
@@ -7,14 +14,6 @@ import {
 import { expect, expectAsync } from '@skyux-sdk/testing';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { SkyCheckboxFixture } from '@skyux/forms/testing';
-
-import {
-  Beans,
-  ColDef,
-  ICellRendererParams,
-  RowClickedEvent,
-  RowNode,
-} from 'ag-grid-community';
 
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';

@@ -1,3 +1,4 @@
+import { ICellEditorAngularComp } from '@ag-grid-community/angular';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,8 +8,6 @@ import {
   inject,
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-
-import { ICellEditorAngularComp } from 'ag-grid-angular';
 
 import { SkyAgGridAutocompleteProperties } from '../../types/autocomplete-properties';
 import { SkyCellEditorAutocompleteParams } from '../../types/cell-editor-autocomplete-params';
@@ -74,7 +73,7 @@ export class SkyAgGridCellEditorAutocompleteComponent
     if (this.input) {
       this.input.nativeElement.focus();
       if (this.#triggerType === SkyAgGridCellEditorInitialAction.Replace) {
-        const charPress = this.#params?.charPress as string;
+        const charPress = this.#params?.eventKey as string;
 
         this.input.nativeElement.select();
         this.input.nativeElement.setRangeText(charPress);

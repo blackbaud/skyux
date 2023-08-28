@@ -1,4 +1,13 @@
 import {
+  ColDef,
+  GridApi,
+  GridOptions,
+  GridReadyEvent,
+  ICellEditorParams,
+  IRowNode,
+  NewValueParams,
+} from '@ag-grid-community/core';
+import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -11,16 +20,6 @@ import {
 } from '@skyux/ag-grid';
 import { SkyAutocompleteSelectionChange } from '@skyux/lookup';
 import { SkyModalInstance } from '@skyux/modals';
-
-import {
-  ColDef,
-  GridApi,
-  GridOptions,
-  GridReadyEvent,
-  ICellEditorParams,
-  IRowNode,
-  NewValueParams,
-} from 'ag-grid-community';
 
 import {
   SKY_DEPARTMENTS,

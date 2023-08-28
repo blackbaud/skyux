@@ -1,4 +1,13 @@
 import {
+  ColDef,
+  ColumnApi,
+  ColumnState,
+  GridApi,
+  GridOptions,
+  GridReadyEvent,
+  RowSelectedEvent,
+} from '@ag-grid-community/core';
+import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -14,15 +23,6 @@ import {
   SkyDataViewConfig,
 } from '@skyux/data-manager';
 
-import {
-  ColDef,
-  ColumnApi,
-  ColumnState,
-  GridApi,
-  GridOptions,
-  GridReadyEvent,
-  RowSelectedEvent,
-} from 'ag-grid-community';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 

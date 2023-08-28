@@ -1,7 +1,3 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
-import { SkyThemeService } from '@skyux/theme';
-
 import {
   CellClassParams,
   CellValueChangedEvent,
@@ -9,7 +5,10 @@ import {
   GridApi,
   GridOptions,
   GridReadyEvent,
-} from 'ag-grid-community';
+} from '@ag-grid-community/core';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import { SkyThemeService } from '@skyux/theme';
 
 import {
   EDITABLE_GRID_AUTOCOMPLETE_OPTIONS,

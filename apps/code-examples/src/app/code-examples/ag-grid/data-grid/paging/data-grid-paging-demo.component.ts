@@ -1,4 +1,11 @@
 import {
+  ColDef,
+  GridApi,
+  GridOptions,
+  GridReadyEvent,
+  ValueFormatterParams,
+} from '@ag-grid-community/core';
+import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -9,13 +16,6 @@ import {
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 
-import {
-  ColDef,
-  GridApi,
-  GridOptions,
-  GridReadyEvent,
-  ValueFormatterParams,
-} from 'ag-grid-community';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 

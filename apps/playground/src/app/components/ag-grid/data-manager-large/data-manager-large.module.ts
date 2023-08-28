@@ -1,3 +1,4 @@
+import { AgGridModule } from '@ag-grid-community/angular';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -10,8 +11,6 @@ import {
 import { SkyCheckboxModule, SkyRadioModule } from '@skyux/forms';
 import { SkyHelpInlineModule, SkyIconModule } from '@skyux/indicators';
 import { SkyDropdownModule } from '@skyux/popovers';
-
-import { AgGridModule } from 'ag-grid-angular';
 
 import { CustomLinkComponent } from './custom-link/custom-link.component';
 import { DataManagerLargeRoutingModule } from './data-manager-large-routing.module';

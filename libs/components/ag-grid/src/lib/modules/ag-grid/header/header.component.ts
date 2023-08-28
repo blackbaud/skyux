@@ -1,3 +1,5 @@
+import { IHeaderAngularComp } from '@ag-grid-community/angular';
+import { Events } from '@ag-grid-community/core';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -14,8 +16,6 @@ import {
   SkyDynamicComponentService,
 } from '@skyux/core';
 
-import { IHeaderAngularComp } from 'ag-grid-angular';
-import { Events } from 'ag-grid-community';
 import { BehaviorSubject, Subscription, fromEventPattern } from 'rxjs';
 
 import { SkyAgGridHeaderInfo } from '../types/header-info';

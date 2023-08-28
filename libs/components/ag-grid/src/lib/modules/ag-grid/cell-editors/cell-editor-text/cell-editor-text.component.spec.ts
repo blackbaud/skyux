@@ -1,13 +1,12 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { expect, expectAsync } from '@skyux-sdk/testing';
-
 import {
   Beans,
   Column,
   ICellEditorParams,
   KeyCode,
   RowNode,
-} from 'ag-grid-community';
+} from '@ag-grid-community/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
@@ -155,7 +154,7 @@ describe('SkyCellEditorTextComponent', () => {
 
         textEditorComponent.agInit({
           ...(cellEditorParams as ICellEditorParams),
-          charPress: 'a',
+          eventKey: 'a',
         });
 
         expect(textEditorComponent.editorForm.get('text')?.value).toBe('a');
@@ -216,7 +215,7 @@ describe('SkyCellEditorTextComponent', () => {
 
         textEditorComponent.agInit({
           ...(cellEditorParams as ICellEditorParams),
-          charPress: 'a',
+          eventKey: 'a',
         });
 
         expect(textEditorComponent.editorForm.get('text')?.value).toBe(value);
@@ -349,7 +348,7 @@ describe('SkyCellEditorTextComponent', () => {
         it('does not select the input value when a standard keyboard event triggers the edit', () => {
           textEditorComponent.agInit({
             ...(cellEditorParams as ICellEditorParams),
-            charPress: 'a',
+            eventKey: 'a',
           });
           textEditorFixture.detectChanges();
           const input = textEditorNativeElement.querySelector(
@@ -440,7 +439,7 @@ describe('SkyCellEditorTextComponent', () => {
         it('does not select the input value when a standard keyboard event triggers the edit', () => {
           textEditorComponent.agInit({
             ...(cellEditorParams as ICellEditorParams),
-            charPress: 'a',
+            eventKey: 'a',
           });
           textEditorFixture.detectChanges();
           const input = textEditorNativeElement.querySelector(

@@ -1,3 +1,5 @@
+import { AgGridAngular } from '@ag-grid-community/angular';
+import { GridOptions } from '@ag-grid-community/core';
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import {
   SkyDataManagerConfig,
@@ -5,9 +7,6 @@ import {
   SkyDataManagerState,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
-
-import { AgGridAngular } from 'ag-grid-angular';
-import { GridOptions } from 'ag-grid-community';
 
 import { SkyAgGridService } from '../ag-grid.service';
 import { SkyCellType } from '../types/cell-type';

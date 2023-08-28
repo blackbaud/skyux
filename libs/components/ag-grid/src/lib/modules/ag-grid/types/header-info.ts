@@ -1,6 +1,5 @@
+import { Column } from '@ag-grid-community/core';
 import { Injectable } from '@angular/core';
-
-import { Column } from 'ag-grid-community';
 
 /**
  * To display a help button beside the column header, create a component that includes the help button element,
