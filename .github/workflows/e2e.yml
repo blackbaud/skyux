@@ -225,11 +225,14 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
+          path: ${{ runner.temp }}/skyux
       - uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
       - name: Rebase current branch
-        run: node ./scripts/rebase-pr.js
+        run: |
+          node ./scripts/rebase-pr.js
+          mkdir -p ./dist/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}
       - name: Retrieve dependencies cache
         uses: actions/cache@v3
         with:
@@ -237,21 +240,6 @@ jobs:
             node_modules
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
-      - name: dev-infra
-        if: ${{ github.ref_name == 'e2e-publish' }}
-        run: |
-          set -exo pipefail
-          gh repo clone blackbaud/skyux-dev-infra ${{runner.temp}}/skyux-dev-infra -- --depth 1 --branch e2e-publish
-          cd ${{ runner.temp }}/skyux-dev-infra
-          npm ci
-          npm run build
-          cd ${{ github.workspace }}
-          rm -rf node_modules/@skyux/dev-infra-private
-          cp -R ${{ runner.temp }}/skyux-dev-infra/dist node_modules/@skyux/dev-infra-private
-          chmod +x node_modules/@skyux/dev-infra-private/bin/skyux-dev.js
-          (cd node_modules/@skyux/dev-infra-private && npm i)
-        env:
-          GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -288,6 +276,8 @@ jobs:
       - name: Capture NX Graph
         run: |
           set -exo pipefail
+          pwd
+          ls -la
           npx nx graph --file=${{ runner.temp }}/nx-graph.json
         env:
           NX_DAEMON: 'false'
@@ -301,6 +291,21 @@ jobs:
           path: ${{ runner.temp }}/nx-graph.json
           retention-days: 1
           if-no-files-found: error
+      - name: dev-infra
+        if: ${{ github.ref_name == 'e2e-publish' }}
+        run: |
+          set -exo pipefail
+          gh repo clone blackbaud/skyux-dev-infra ${{runner.temp}}/skyux-dev-infra -- --depth 1 --branch e2e-publish
+          cd ${{ runner.temp }}/skyux-dev-infra
+          npm ci
+          npm run build
+          cd ${{ github.workspace }}
+          rm -rf node_modules/@skyux/dev-infra-private
+          cp -R ${{ runner.temp }}/skyux-dev-infra/dist node_modules/@skyux/dev-infra-private
+          chmod +x node_modules/@skyux/dev-infra-private/bin/skyux-dev.js
+          (cd node_modules/@skyux/dev-infra-private && npm i)
+        env:
+          GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
       - name: Publish preview and comment on PR
         run: |
           set -exo pipefail
