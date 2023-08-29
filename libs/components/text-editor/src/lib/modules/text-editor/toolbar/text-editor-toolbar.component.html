@@ -148,13 +148,7 @@
           [disabled]="disabled"
           (click)="execCommand('insertUnorderedList')"
         >
-          <sky-icon *skyThemeIf="'default'" icon="list-ul"> </sky-icon>
-          <sky-icon
-            *skyThemeIf="'modern'"
-            icon="bullet-list-line"
-            iconType="skyux"
-          >
-          </sky-icon>
+          <sky-icon icon="bullet-list"> </sky-icon>
         </button>
         <button
           aria-label="Numbered list"
@@ -163,13 +157,7 @@
           [disabled]="disabled"
           (click)="execCommand('insertOrderedList')"
         >
-          <sky-icon *skyThemeIf="'default'" icon="list-ol"> </sky-icon>
-          <sky-icon
-            *skyThemeIf="'modern'"
-            icon="number-list-line"
-            iconType="skyux"
-          >
-          </sky-icon>
+          <sky-icon icon="number-list"> </sky-icon>
         </button>
       </div>
     </ng-container>
@@ -182,13 +170,7 @@
           [disabled]="disabled"
           (click)="execCommand('justifyLeft')"
         >
-          <sky-icon *skyThemeIf="'default'" icon="align-left"> </sky-icon>
-          <sky-icon
-            *skyThemeIf="'modern'"
-            icon="align-left-text-line"
-            iconType="skyux"
-          >
-          </sky-icon>
+          <sky-icon icon="align-left-text"> </sky-icon>
         </button>
         <button
           aria-label="Align center"
@@ -197,13 +179,7 @@
           [disabled]="disabled"
           (click)="execCommand('justifyCenter')"
         >
-          <sky-icon *skyThemeIf="'default'" icon="align-center"> </sky-icon>
-          <sky-icon
-            *skyThemeIf="'modern'"
-            icon="center-text-line"
-            iconType="skyux"
-          >
-          </sky-icon>
+          <sky-icon icon="center-text"> </sky-icon>
         </button>
         <button
           aria-label="Align right"
@@ -212,13 +188,7 @@
           [disabled]="disabled"
           (click)="execCommand('justifyRight')"
         >
-          <sky-icon *skyThemeIf="'default'" icon="align-right"> </sky-icon>
-          <sky-icon
-            *skyThemeIf="'modern'"
-            icon="align-right-text-line"
-            iconType="skyux"
-          >
-          </sky-icon>
+          <sky-icon icon="align-right-text"> </sky-icon>
         </button>
       </div>
     </ng-container>
@@ -231,9 +201,7 @@
           [disabled]="disabled"
           (click)="execCommand('outdent')"
         >
-          <sky-icon *skyThemeIf="'default'" icon="outdent"> </sky-icon>
-          <sky-icon *skyThemeIf="'modern'" icon="outdent-line" iconType="skyux">
-          </sky-icon>
+          <sky-icon icon="outdent"> </sky-icon>
         </button>
         <button
           aria-label="Indent"
@@ -242,9 +210,7 @@
           [disabled]="disabled"
           (click)="execCommand('indent')"
         >
-          <sky-icon *skyThemeIf="'default'" icon="indent"> </sky-icon>
-          <sky-icon *skyThemeIf="'modern'" icon="indent-line" iconType="skyux">
-          </sky-icon>
+          <sky-icon icon="indent"> </sky-icon>
         </button>
       </div>
     </ng-container>
@@ -257,9 +223,7 @@
           [disabled]="disabled"
           (click)="execCommand('undo')"
         >
-          <sky-icon *skyThemeIf="'default'" icon="undo"> </sky-icon>
-          <sky-icon *skyThemeIf="'modern'" icon="undo-line" iconType="skyux">
-          </sky-icon>
+          <sky-icon icon="undo"> </sky-icon>
         </button>
         <button
           aria-label="Redo"
@@ -268,9 +232,7 @@
           [disabled]="disabled"
           (click)="execCommand('redo')"
         >
-          <sky-icon *skyThemeIf="'default'" icon="repeat"> </sky-icon>
-          <sky-icon *skyThemeIf="'modern'" icon="redo-line" iconType="skyux">
-          </sky-icon>
+          <sky-icon icon="redo"> </sky-icon>
         </button>
       </div>
     </ng-container>
@@ -286,9 +248,7 @@
           }"
           (click)="link()"
         >
-          <sky-icon *skyThemeIf="'default'" icon="link"> </sky-icon>
-          <sky-icon *skyThemeIf="'modern'" icon="link-line" iconType="skyux">
-          </sky-icon>
+          <sky-icon icon="link"></sky-icon>
         </button>
         <button
           aria-label="Unlink"
@@ -297,9 +257,7 @@
           [disabled]="!styleState.linkState || disabled"
           (click)="unlink()"
         >
-          <sky-icon *skyThemeIf="'default'" icon="unlink"> </sky-icon>
-          <sky-icon *skyThemeIf="'modern'" icon="unlink-line" iconType="skyux">
-          </sky-icon>
+          <sky-icon icon="unlink"> </sky-icon>
         </button>
       </div>
     </ng-container>
