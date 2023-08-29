@@ -1,0 +1,14 @@
+{
+  "generators": {
+    "code-example-spa": {
+      "factory": "./src/generators/code-example-spa/generator",
+      "schema": "./src/generators/code-example-spa/schema.json",
+      "description": "Generates a container SPA for a code example"
+    },
+    "build": {
+      "factory": "./src/generators/build/generator",
+      "schema": "./src/generators/build/schema.json",
+      "description": "Generates a set of code examples"
+    }
+  }
+}

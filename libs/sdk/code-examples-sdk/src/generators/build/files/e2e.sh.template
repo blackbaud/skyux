@@ -1,0 +1,16 @@
+#/usr/bin/env bash
+
+set -exo pipefail
+
+cd "$(dirname "${BASH_SOURCE[0]}")"
+<% projectPaths.forEach((projectPath) => { %>
+printf '\n\n\nℹ️ Testing <%= projectPath %>\n\n'
+
+npx --yes -p start-server-and-test -- start-server-and-test \
+  'cd for-github/<%= projectPath %> && npx ng serve --host 127.0.0.1 --port 4200' \
+  4200 \
+  'cd e2e && CYPRESS_BASE_URL=http://127.0.0.1:4200 npx cypress run'
+
+printf '\n✅ <%= projectPath %>\n'
+
+<% }) %>

@@ -1,0 +1,16 @@
+#/usr/bin/env bash
+
+set -exo pipefail
+
+cd "$(dirname "${BASH_SOURCE[0]}")"
+<% projectPaths.forEach((projectPath) => { %>
+
+cd "for-github/<%= projectPath %>"
+if [[ -n "$(npm run|fgrep postinstall)" ]]; then
+  rm -rf node_modules
+  pnpm install --shamefully-hoist --prefer-offline --frozen-lockfile
+fi
+
+npm run build --if-present
+npm run test --if-present -- --watch=false --browsers=ChromeHeadless
+cd "<%= offsetFromRoot('for-github/' + projectPath) %>"<% }) %>

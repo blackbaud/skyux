@@ -1,0 +1,20 @@
+<html>
+  <head>
+    <title>Loading StackBlitz...</title>
+    <script src="https://unpkg.com/@stackblitz/sdk/bundles/sdk.umd.js"></script>
+  </head>
+  <body>
+    <p><em>Loading StackBlitz...</em></p>
+
+    <script>
+      StackBlitzSDK.openProject(
+        // Payload
+        {
+          files: <%- jsonStringify(files) %>,
+          template: 'node',
+          title: <%- jsonStringify(name) %>,
+        }
+      );
+    </script>
+  </body>
+</html>

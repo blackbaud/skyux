@@ -1,0 +1,134 @@
+name: Code Examples
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/code-examples.yml'
+      - 'apps/code-examples/src/app/code-examples/**'
+      - 'libs/sdk/code-examples-sdk/**'
+  release:
+    types:
+      - published
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  list-code-examples:
+    name: Code Example Updates
+    runs-on: ubuntu-latest
+    outputs:
+      code-examples: ${{ steps.list-code-examples.outputs.code-examples }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: List code examples
+        id: list-code-examples
+        run: |
+          set -eo pipefail
+          if [ $GITHUB_EVENT_NAME == 'pull_request' ]; then
+            DEPENDENCY_CHANGES=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} -- .github/workflows/code-examples.yml libs/sdk/code-examples-sdk | wc -l)
+          else
+            DEPENDENCY_CHANGES=1
+          fi
+
+          if [ $DEPENDENCY_CHANGES -eq 0 ]; then
+            # Get a list of directories changed in the PR
+            echo "No dependency changes detected. Using list of changed directories."
+            COMMA_LIST=$(git diff --name-only --diff-filter=AM ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }} -- apps/code-examples/src/app/code-examples | cut -d/ -f 6 | sort -u | xargs -I {} echo '"{}",')
+          else
+            # Get a list of directories directly under apps/code-examples/src/app/code-examples
+            echo "Dependency changes detected. Using list of all directories."
+            COMMA_LIST=$(find apps/code-examples/src/app/code-examples -mindepth 1 -maxdepth 1 -type d -printf '"%f",')
+          fi
+          # Set an output variable named code-examples
+          echo -n "code-examples=" >> $GITHUB_OUTPUT
+          # Output a JSON array.
+          echo "Code examples to update:"
+          printf '[%s""]' "${COMMA_LIST}" | jq -r 'map(select(. != ""))'
+          printf '[%s""]' "${COMMA_LIST}" | jq -rc 'map(select(. != ""))' >> $GITHUB_OUTPUT
+
+  update:
+    name: Update ${{ matrix.code-example }}
+    runs-on: ubuntu-latest
+    needs: list-code-examples
+    strategy:
+      # If one build fails, do not cancel other builds.
+      fail-fast: false
+      matrix:
+        code-example: ${{ fromJson(needs.list-code-examples.outputs.code-examples) }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+      - name: Cache node modules
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
+      - name: npm install
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+      - name: pnpm setup
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - name: Update
+        run: |
+          set -eo pipefail
+          echo "::group::🏗️ Generate scaffolding for ${{ matrix.code-example }}"
+          npx nx g @skyux-sdk/code-examples:build ${{ matrix.code-example }}
+          echo "::endgroup::"
+          echo "::group::🔒 Generate lock files"
+          bash ./dist/libs/sdk/code-examples-sdk/generate-lock-files.sh
+          echo "::endgroup::"
+          echo "::group::🛠️ Build and test code examples"
+          bash ./dist/libs/sdk/code-examples-sdk/build-test.sh
+          echo "::endgroup::"
+          echo "::group::🔬 Verify that code examples load without errors"
+          npx cypress install
+          bash ./dist/libs/sdk/code-examples-sdk/e2e.sh
+          echo "::endgroup::"
+          echo "::group::🧹 Clean ignored files"
+          bash ./dist/libs/sdk/code-examples-sdk/clean-ignored-files.sh
+          echo "::endgroup::"
+      - name: Save artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.code-example }}
+          path: dist/libs/sdk/code-examples-sdk/for-github/${{ matrix.code-example }}
+          retention-days: 1
+
+  publish:
+    name: Publish
+    needs: update
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: blackbaud/skyux-code-examples
+          ref: main
+          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+      - name: Clear existing code examples
+        run: git rm -rf .
+      - name: Download code examples
+        uses: actions/download-artifact@v3
+      - name: Commit code examples
+        if: github.event_name == 'release'
+        run: |
+          git config user.name 'Blackbaud Sky Build User'
+          git config user.email 'sky-build-user@blackbaud.com'
+          git add -A .
+          git commit -m "chore: update code examples for skyux v${{ github.event.release.tag_name }}"
+          git push origin main
+      - name: Save artifact
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: skyux-code-examples
+          path: .
+          retention-days: 10
