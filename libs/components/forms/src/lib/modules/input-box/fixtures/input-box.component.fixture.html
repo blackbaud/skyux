@@ -580,7 +580,13 @@
     [helpPopoverContent]="easyModeHelpPopoverContent"
     [stacked]="easyModeStacked"
   >
-    <input type="text" minlength="3" required [(ngModel)]="easyModeValue" />
+    <input
+      [autocomplete]="autocomplete"
+      type="text"
+      minlength="3"
+      required
+      [(ngModel)]="easyModeValue"
+    />
   </sky-input-box>
 </div>
 
@@ -601,6 +607,19 @@
       [disabled]="basicDisabled"
     />
   </sky-input-box>
+</div>
+
+<div class="input-not-wrapped">
+  <div class="sky-form-group">
+    <input
+      [autocomplete]="autocomplete"
+      class="sky-form-control"
+      type="text"
+      minlength="3"
+      required
+      [(ngModel)]="easyModeValue"
+    />
+  </div>
 </div>
 
 <ng-template #easyModePopoverTemplate> Help content from template </ng-template>

@@ -338,9 +338,10 @@ describe('Input box component', () => {
       labelEl: HTMLLabelElement | null;
       inlineHelpEl: HTMLElement | null;
     } {
+      const parentEl = document.querySelector(`.${parentCls}`);
       const inputBoxEl = getInputBoxEl(fixture, parentCls);
 
-      const formGroupEl = inputBoxEl?.querySelector(
+      const formGroupEl = (inputBoxEl || parentEl)?.querySelector(
         '.sky-form-group'
       ) as HTMLElement | null;
 
@@ -364,7 +365,7 @@ describe('Input box component', () => {
         '.sky-input-box-input-group-inner'
       ) as HTMLElement | null;
 
-      const inputEl = inputGroupInnerEl?.querySelector(
+      const inputEl = (inputGroupInnerEl || parentEl)?.querySelector(
         '.sky-form-control'
       ) as HTMLElement | null;
 
@@ -677,6 +678,52 @@ describe('Input box component', () => {
       const els = getDefaultEls(fixture, 'input-existing-id');
 
       expect(els.inputEl?.id).toBe('input-box-existing-id-123');
+    });
+
+    it('should set autocomplete to off if not specified', async () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+
+      const els = getDefaultEls(fixture, 'input-easy-mode');
+
+      expect(els.inputEl?.attributes?.getNamedItem('autocomplete')?.value).toBe(
+        'off'
+      );
+    });
+
+    it('should not overwrite autocomplete if specified', async () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.componentInstance.autocomplete = 'fname';
+      fixture.detectChanges();
+
+      const els = getDefaultEls(fixture, 'input-easy-mode');
+
+      expect(els.inputEl?.attributes?.getNamedItem('autocomplete')?.value).toBe(
+        'fname'
+      );
+    });
+
+    it('should not set autocomplete to off if not specified if not wrapped in an input box', async () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+
+      const els = getDefaultEls(fixture, 'input-not-wrapped');
+
+      expect(els.inputEl?.attributes?.getNamedItem('autocomplete')?.value).toBe(
+        'undefined'
+      );
+    });
+
+    it('should not overwrite autocomplete if specified if not wrapped in an input box', async () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.componentInstance.autocomplete = 'fname';
+      fixture.detectChanges();
+
+      const els = getDefaultEls(fixture, 'input-not-wrapped');
+
+      expect(els.inputEl?.attributes?.getNamedItem('autocomplete')?.value).toBe(
+        'fname'
+      );
     });
 
     describe('a11y', () => {
