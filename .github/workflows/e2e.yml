@@ -225,7 +225,6 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
-          path: ${{ runner.temp }}/skyux
       - uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
