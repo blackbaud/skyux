@@ -299,6 +299,8 @@ export class SkyLookupComponent
   #idle = new Subject<void>();
   #markForTokenFocusOnKeyUp = false;
   #ngUnsubscribe = new Subject<void>();
+  #openNativePicker: SkyModalInstance | undefined;
+  #openSelectionModal: SkySelectionModalInstance | undefined;
 
   #_autocompleteInputDirective: SkyAutocompleteInputDirective | undefined;
   #_data: any[] | undefined;
@@ -315,12 +317,6 @@ export class SkyLookupComponent
   #idService = inject(SkyIdService);
   #logSvc = inject(SkyLogService);
   #modalService = inject(SkyModalService);
-  #openNativePicker =
-    inject(SkyModalInstance, {
-      optional: true,
-    }) || undefined;
-  #openSelectionModal =
-    inject(SkySelectionModalInstance, { optional: true }) || undefined;
   #resourcesService = inject(SkyLibResourcesService);
   #selectionModalSvc = inject(SkySelectionModalService);
   #windowRef = inject(SkyAppWindowRef);
