@@ -115,8 +115,7 @@ jobs:
       # If one build fails, do not cancel other builds.
       fail-fast: false
       matrix:
-        # project: ${{ fromJSON(needs.install-deps.outputs.parameters).projects }}
-        project: [skip]
+        project: ${{ fromJSON(needs.install-deps.outputs.parameters).projects }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -166,10 +165,10 @@ jobs:
       fail-fast: false
       matrix:
         app:
-          #  - code-examples
+          - code-examples
           - dep-graph
-        #  - integration
-        #  - playground
+          - integration
+          - playground
     steps:
       - uses: actions/checkout@v3
         with:
@@ -229,9 +228,7 @@ jobs:
         with:
           node-version-file: '.nvmrc'
       - name: Rebase current branch
-        run: |
-          node ./scripts/rebase-pr.js
-          mkdir -p ./dist/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}
+        run: node ./scripts/rebase-pr.js
       - name: Retrieve dependencies cache
         uses: actions/cache@v3
         with:
@@ -252,9 +249,7 @@ jobs:
           mkdir -p ./dist/apps
           for app in code-examples dep-graph integration playground
           do
-            if [ -d ./dist/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}${app} ]; then
-              mv ./dist/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}${app} ./dist/apps/$app
-            fi
+            mv ./dist/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}${app} ./dist/apps/$app
           done
       - name: Generate Storybook Composition
         shell: bash
@@ -272,55 +267,16 @@ jobs:
           fetch-depth: 1
           path: ./dist/${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
           token: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
-      - name: Capture NX Graph
-        run: |
-          set -exo pipefail
-          pwd
-          ls -la
-          npx nx graph --file=${{ runner.temp }}/nx-graph.json
-        env:
-          NX_DAEMON: 'false'
-          NX_NATIVE_LOGGING: 'true'
-          NX_PERF_LOGGING: 'true'
-          NX_VERBOSE_LOGGING: 'true'
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: nx-graph.json
-          path: ${{ runner.temp }}/nx-graph.json
-          retention-days: 1
-          if-no-files-found: error
-      - name: dev-infra
-        if: ${{ github.ref_name == 'e2e-publish' }}
-        run: |
-          set -exo pipefail
-          gh repo clone blackbaud/skyux-dev-infra ${{runner.temp}}/skyux-dev-infra -- --depth 1 --branch e2e-publish
-          cd ${{ runner.temp }}/skyux-dev-infra
-          npm ci
-          npm run build
-          cd ${{ github.workspace }}
-          rm -rf node_modules/@skyux/dev-infra-private
-          cp -R ${{ runner.temp }}/skyux-dev-infra/dist node_modules/@skyux/dev-infra-private
-          chmod +x node_modules/@skyux/dev-infra-private/bin/skyux-dev.js
-          (cd node_modules/@skyux/dev-infra-private && npm i)
-        env:
-          GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
       - name: Publish preview and comment on PR
         run: |
-          set -exo pipefail
           npx skyux-dev publish-storybook \
             --workingDirectory=./dist/${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }} \
             --pr=${{ needs.install-deps.outputs.workflow_dispatch_pr_number || github.event.number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-          NX_DAEMON: 'false'
-          NX_NATIVE_LOGGING: 'true'
-          NX_PERF_LOGGING: 'true'
-          NX_VERBOSE_LOGGING: 'true'
 
   e2e:
     name: End to end tests
-    if: false
     runs-on: ubuntu-latest
     # Baseline branches should complete the E2E jobs so Percy does not get stuck https://www.browserstack.com/question/61332
     concurrency:

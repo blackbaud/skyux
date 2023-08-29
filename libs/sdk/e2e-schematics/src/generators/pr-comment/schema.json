@@ -25,5 +25,6 @@
       "description": "Comma separated list of apps to include in the comment",
       "alias": "a"
     }
-  }
+  },
+  "required": ["pr", "storybooks"]
 }

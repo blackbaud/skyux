@@ -1,4 +1,4 @@
-import { Tree, generateFiles, joinPathFragments, logger } from '@nx/devkit';
+import { Tree, generateFiles, joinPathFragments } from '@nx/devkit';
 
 import { PrCommentGeneratorOptions, PrCommentGeneratorSchema } from './schema';
 
@@ -6,9 +6,8 @@ function normalizeOptions(
   tree: Tree,
   options: PrCommentGeneratorSchema
 ): PrCommentGeneratorOptions {
-  logger.info('Normalizing options...');
   const pr = options.pr;
-  const storybooks = (options.storybooks || '')
+  const storybooks = options.storybooks
     .split(',')
     .map((s) => s.trim())
     .filter((s) => s.length > 0);
@@ -31,7 +30,6 @@ export default async function prComment(
   options: PrCommentGeneratorSchema
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
-  logger.info('Generating files...');
   generateFiles(
     tree,
     joinPathFragments(__dirname, 'files/comment'),
@@ -44,5 +42,4 @@ export default async function prComment(
     'dist',
     normalizedOptions
   );
-  logger.info('Done generating files.');
 }
