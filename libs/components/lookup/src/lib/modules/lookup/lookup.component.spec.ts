@@ -3641,26 +3641,28 @@ describe('Lookup component', function () {
           expect(event.preventDefault).toHaveBeenCalled();
         }));
 
-        it('should unfocus the component if it loses focus', fakeAsync(function () {
+        it('should unfocus the component if it loses focus', async function () {
           fixture.detectChanges();
 
           const inputElement = getInputElement(lookupComponent);
           inputElement.focus();
           SkyAppTestUtility.fireDomEvent(inputElement, 'focusin');
-          tick();
           fixture.detectChanges();
-          tick();
+          await fixture.whenStable();
+          fixture.detectChanges();
+          await fixture.whenStable();
 
           expect(lookupComponent.isInputFocused).toEqual(true);
 
           getTestButton().focus();
           SkyAppTestUtility.fireDomEvent(document, 'focusin');
-          tick();
           fixture.detectChanges();
-          tick();
+          await fixture.whenStable();
+          fixture.detectChanges();
+          await fixture.whenStable();
 
           expect(lookupComponent.isInputFocused).toEqual(false);
-        }));
+        });
       });
 
       describe('single-select', () => {
@@ -3689,26 +3691,28 @@ describe('Lookup component', function () {
           expect(event.preventDefault).toHaveBeenCalled();
         }));
 
-        it('should unfocus the component if it loses focus', fakeAsync(function () {
+        it('should unfocus the component if it loses focus', async function () {
           fixture.detectChanges();
 
           const inputElement = getInputElement(lookupComponent);
           inputElement.focus();
           SkyAppTestUtility.fireDomEvent(inputElement, 'focusin');
-          tick();
           fixture.detectChanges();
-          tick();
+          await fixture.whenStable();
+          fixture.detectChanges();
+          await fixture.whenStable();
 
           expect(lookupComponent.isInputFocused).toEqual(true);
 
           getTestButton().focus();
           SkyAppTestUtility.fireDomEvent(document, 'focusin');
-          tick();
           fixture.detectChanges();
-          tick();
+          await fixture.whenStable();
+          fixture.detectChanges();
+          await fixture.whenStable();
 
           expect(lookupComponent.isInputFocused).toEqual(false);
-        }));
+        });
       });
     });
 
@@ -6793,26 +6797,28 @@ describe('Lookup component', function () {
           expect(event.preventDefault).toHaveBeenCalled();
         }));
 
-        it('should unfocus the component if it loses focus', fakeAsync(function () {
+        it('should unfocus the component if it loses focus', async function () {
           fixture.detectChanges();
 
           const inputElement = getInputElement(lookupComponent);
           inputElement.focus();
           SkyAppTestUtility.fireDomEvent(inputElement, 'focusin');
-          tick();
           fixture.detectChanges();
-          tick();
+          await fixture.whenStable();
+          fixture.detectChanges();
+          await fixture.whenStable();
 
           expect(lookupComponent.isInputFocused).toEqual(true);
 
           getTestButton().focus();
           SkyAppTestUtility.fireDomEvent(document, 'focusin');
-          tick();
           fixture.detectChanges();
-          tick();
+          await fixture.whenStable();
+          fixture.detectChanges();
+          await fixture.whenStable();
 
           expect(lookupComponent.isInputFocused).toEqual(false);
-        }));
+        });
       });
 
       describe('single-select', () => {
@@ -6841,26 +6847,28 @@ describe('Lookup component', function () {
           expect(event.preventDefault).toHaveBeenCalled();
         }));
 
-        it('should unfocus the component if it loses focus', fakeAsync(function () {
+        it('should unfocus the component if it loses focus', async function () {
           fixture.detectChanges();
 
           const inputElement = getInputElement(lookupComponent);
           inputElement.focus();
           SkyAppTestUtility.fireDomEvent(inputElement, 'focusin');
-          tick();
           fixture.detectChanges();
-          tick();
+          await fixture.whenStable();
+          fixture.detectChanges();
+          await fixture.whenStable();
 
           expect(lookupComponent.isInputFocused).toEqual(true);
 
           getTestButton().focus();
           SkyAppTestUtility.fireDomEvent(document, 'focusin');
-          tick();
           fixture.detectChanges();
-          tick();
+          await fixture.whenStable();
+          fixture.detectChanges();
+          await fixture.whenStable();
 
           expect(lookupComponent.isInputFocused).toEqual(false);
-        }));
+        });
       });
     });
 
@@ -6938,26 +6946,28 @@ describe('Lookup component', function () {
       expect(containerEl).toHaveCssClass('sky-lookup');
     }));
 
-    it('should unfocus the component if it loses focus', fakeAsync(function () {
+    it('should unfocus the component if it loses focus', async function () {
       fixture.detectChanges();
 
       const inputElement = getInputElement(lookupComponent);
       inputElement.focus();
       SkyAppTestUtility.fireDomEvent(inputElement, 'focusin');
-      tick();
       fixture.detectChanges();
-      tick();
+      await fixture.whenStable();
+      fixture.detectChanges();
+      await fixture.whenStable();
 
       expect(lookupComponent.isInputFocused).toEqual(true);
 
       getTestButton().focus();
       SkyAppTestUtility.fireDomEvent(document, 'focusin');
-      tick();
       fixture.detectChanges();
-      tick();
+      await fixture.whenStable();
+      fixture.detectChanges();
+      await fixture.whenStable();
 
       expect(lookupComponent.isInputFocused).toEqual(false);
-    }));
+    });
 
     describe('mouse interactions', function () {
       it('should focus the input if the host is clicked', fakeAsync(function () {
