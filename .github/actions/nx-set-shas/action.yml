@@ -7,13 +7,13 @@ inputs:
 outputs:
   base:
     description: 'The base sha to use for nx affected commands.'
-    value: ${{ steps.set-shas.outputs.base }}
+    value: ${{ steps.nx-set-shas.outputs.base || steps.workflow-dispatch.outputs.base || steps.set-shas.outputs.base }}
   head:
     description: 'The head sha to use for nx affected commands.'
-    value: ${{ steps.set-shas.outputs.head }}
+    value: ${{ steps.nx-set-shas.outputs.head || steps.workflow-dispatch.outputs.head || steps.set-shas.outputs.head }}
   pr-number:
     description: 'The PR number for all events, including workflow_dispatch.'
-    value: ${{ steps.find-pr-number.outputs.pr-number || github.event.number }}
+    value: ${{ steps.workflow-dispatch.outputs.pr-number || github.event.number }}
 runs:
   using: 'composite'
   steps:
@@ -25,14 +25,15 @@ runs:
 
     - name: Derive appropriate SHAs for base and head for `nx affected` commands (using nrwl/nx-set-shas).
       if: ${{ ! contains(fromJson('["pull_request", "pull_request_target", "workflow_dispatch"]'), github.event_name) }}
+      id: nx-set-shas
       uses: nrwl/nx-set-shas@v3
       with:
         main-branch-name: ${{ steps.read-default-base.outputs.main-branch-name }}
         workflow-id: ${{ inputs.workflow-id }}
 
-    - name: Find workflow_dispatch PR number
+    - name: Derive appropriate SHAs for base and head for `nx affected` commands (workflow_dispatch).
       if: ${{ github.event_name == 'workflow_dispatch' }}
-      id: find-pr-number
+      id: workflow-dispatch
       uses: actions/github-script@v6
       with:
         script: |
@@ -45,8 +46,8 @@ runs:
             head: `${context.repo.owner}:${process.env.GITHUB_REF_NAME}`
           });
           if (pullRequests.data.length > 0) {
-            baseSha = pullRequests.data[0].base.sha;
-            core.setOutput('base', baseSha);
+            core.setOutput('base', pullRequests.data[0].base.sha);
+            core.setOutput('head', pullRequests.data[0].head.sha);
             core.setOutput('pr-number', pullRequests.data[0].number);
             core.setOutput('pr-created_at', pullRequests.data[0].created_at);
           } else {
@@ -54,83 +55,32 @@ runs:
             process.exit(1);
           }
 
-    - name: Derive appropriate SHAs for base and head for `nx affected` commands (PR and workflow_dispatch).
-      if: ${{ contains(fromJson('["pull_request", "pull_request_target", "workflow_dispatch"]'), github.event_name) }}
+    - name: Derive appropriate SHAs for base and head for `nx affected` commands (PR).
+      if: ${{ contains(fromJson('["pull_request", "pull_request_target"]'), github.event_name) }}
       id: set-shas
       uses: actions/github-script@v6
       with:
-        # Allow each PR commit to be considered for the base SHA.
         script: |
-          // Find the last workflow run that intersects with commits to this PR.
           const headSha = await exec.getExecOutput('git', ['rev-parse', 'HEAD'])
             .then(({stdout}) => stdout.trim());
-          let baseSha;
-          if (context.eventName === 'workflow_dispatch') {
-            baseSha = '${{ steps.find-pr-number.outputs.base }}';
-          } else {
-            baseSha = context.payload.pull_request.base.sha;
-          }
-
-          const shasInThisPR = await exec.getExecOutput('git', ['log', '--format=%H', `${baseSha}..${headSha}`])
-            .then(({stdout}) => stdout.trim().split('\n'));
-
-          const workflowId = '${{ inputs.workflow-id }}';
-          if (!workflowId) {
-            core.setFailed('workflow-id input is required');
-            process.exit(1);
-          }
-          const listWorkflowParams = {
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            workflow_id: workflowId,
-            status: 'success',
-            created: '${{ steps.find-pr-number.outputs.pr-created_at || github.event.pull_request.created_at }}..*',
-            per_page: 100
-          };
-          let lastSuccessfulCommit;
-          let checkedWorkflows = 0;
-          for (var i = 0; i < 5; i++) {
-            console.log(`Checking workflow runs for ${workflowId} page ${i + 1}`);
-            console.log(JSON.stringify({
-              ...listWorkflowParams,
-              page: i + 1
-            }, null, 2));
-            const shas = await github.rest.actions.listWorkflowRuns({
-              ...listWorkflowParams,
-              page: i + 1
-            }).then(({data: {workflow_runs}}) => {
-              checkedWorkflows += workflow_runs.length;
-              return workflow_runs.map(run => run.head_sha)
-            });
-            lastSuccessfulCommit = shasInThisPR.find(sha => shas.includes(sha));
-            if (lastSuccessfulCommit) {
-              console.log(`Found last successful commit: ${lastSuccessfulCommit}`);
-              break;
-            }
-            if (shas.length < 100) {
-              break;
-            }
-          }
-          if (!lastSuccessfulCommit) {
-            console.log(`Checked ${checkedWorkflows} workflow runs. Unable to find a successful workflow run for ${workflowId} that intersects with commits to this PR.`);
-            lastSuccessfulCommit = baseSha;
-          }
-          core.setOutput('base', lastSuccessfulCommit);
           core.setOutput('head', headSha);
+          const baseSha = await exec.getExecOutput('git', ['merge-base', 'origin/${{ steps.read-default-base.outputs.main-branch-name }}', 'HEAD'])
+            .then(({stdout}) => stdout.trim());
+          core.setOutput('base', baseSha);
 
     - name: Log base and head SHAs used for nx affected
       shell: bash
       run: |
         echo "Base SHA"
-        echo ${{ steps.set-shas.outputs.base }}
+        echo ${{ steps.nx-set-shas.outputs.base || steps.workflow-dispatch.outputs.base || steps.set-shas.outputs.base }}
         echo ""
         echo "Head SHA"
-        echo ${{ steps.set-shas.outputs.head }}
+        echo ${{ steps.nx-set-shas.outputs.head || steps.workflow-dispatch.outputs.head || steps.set-shas.outputs.head }}
         echo ""
 
     - name: Set the derived SHAs as NX_BASE and NX_HEAD environment variables for the current job
       shell: bash
       run: |
-        echo "NX_BASE=${{ steps.set-shas.outputs.base }}" >> $GITHUB_ENV
-        echo "NX_HEAD=${{ steps.set-shas.outputs.head }}" >> $GITHUB_ENV
+        echo "NX_BASE=${{ steps.nx-set-shas.outputs.base || steps.workflow-dispatch.outputs.base || steps.set-shas.outputs.base }}" >> $GITHUB_ENV
+        echo "NX_HEAD=${{ steps.nx-set-shas.outputs.head || steps.workflow-dispatch.outputs.head || steps.set-shas.outputs.head }}" >> $GITHUB_ENV
         echo "NX_BASE and NX_HEAD environment variables have been set for the current Job"
