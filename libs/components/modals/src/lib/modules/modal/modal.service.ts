@@ -123,13 +123,13 @@ export class SkyModalService {
 }
 
 /**
- * @deprecated Use `SkyModalService` with a standalone component instead.
+ * @deprecated Use `SkyModalService` to open a standalone component instead.
  */
 @Injectable({
   // Must be 'any' so that the modal component is created in the context of its module's injector.
   // If set to 'root', the component's dependency injections would only be derived from the root
   // injector and may lose context if the modal was opened from within a lazy-loaded module.
-  providedIn: 'any', // <-- this is needed for legacy setups since providers aren't getting passed through.
+  providedIn: 'any',
 })
 export class SkyModalLegacyService extends SkyModalService {
   /* istanbul ignore next */

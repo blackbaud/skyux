@@ -24,6 +24,11 @@
       "version": "9.0.0-0",
       "factory": "./update-9/ag-grid-29/ag-grid-29.schematic",
       "description": "Apply changes to support AG Grid 29"
+    },
+    "legacy-services": {
+      "version": "9.0.0-0",
+      "factory": "./update-9/legacy-services/legacy-services.schematic",
+      "description": "Modal and flyout services were previously provided in 'any' but are now provided in 'root'. Replace with a 'legacy' version for backward compatibility."
     }
   }
 }
