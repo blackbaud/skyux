@@ -29,12 +29,15 @@ import {SkyModalService as ExternalModalService} from '@external/module';
 import {SkyModalService as UnusedService} from 'unused';
 import {SkyDynamicComponentService} from '@skyux/core';
 import {SkyFlyoutService} from '@skyux/flyout';
+import {SkyToastService} from '@skyux/toast';
 
 @Component()
 export class AppComponent {
   #modalSvc = inject(SkyModalService);
   #foobarSvc = inject(FoobarService);
   #externalSvc = inject(ExternalModalService);
+
+  constructor(private toastSvc: SkyToastService) {}
 }
 
 describe('', () => {
@@ -69,12 +72,15 @@ import {SkyModalService as ExternalModalService} from '@external/module';
 import {SkyModalService as UnusedService} from 'unused';
 import {SkyDynamicComponentLegacyService} from '@skyux/core';
 import {SkyFlyoutLegacyService} from '@skyux/flyout';
+import {SkyToastLegacyService} from '@skyux/toast';
 
 @Component()
 export class AppComponent {
   #modalSvc = inject(SkyModalLegacyService);
   #foobarSvc = inject(FoobarService);
   #externalSvc = inject(ExternalModalService);
+
+  constructor(private toastSvc: SkyToastLegacyService) {}
 }
 
 describe('', () => {

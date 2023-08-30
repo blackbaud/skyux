@@ -16,6 +16,7 @@ const packages = new Map<string, string[]>([
   ['@skyux/core', ['SkyDynamicComponentService', 'SkyOverlayService']],
   ['@skyux/flyout', ['SkyFlyoutService']],
   ['@skyux/modals', ['SkyModalService']],
+  ['@skyux/toast', ['SkyToastService']],
 ]);
 
 function runLegacyServicesMigration(tree: Tree, filePath: string): void {
