@@ -390,6 +390,7 @@ jobs:
                   await listCommitStatusesForRef(page + 1);
                 }
               }
+              core.info('Fetching commit statuses...');
               await listCommitStatusesForRef();
 
               const percyStatuses = statuses.filter((status, idx) => status.context.toLowerCase().startsWith('percy/'));
@@ -415,13 +416,28 @@ jobs:
                   await listJobsForWorkflowRun(page + 1);
                 }
               }
+              core.info('Fetching workflow jobs...');
               await listJobsForWorkflowRun();
-              const skippedE2e = workflowE2eJobs
-                .filter(job => job.status === 'completed' && job.conclusion === 'success')
-                .filter(job => job.steps.some(step => step.name.startsWith('Percy') && step.conclusion === 'skipped'))
-                .map(job => job.steps.find(step => step.name.startsWith('Percy') && step.conclusion === 'skipped').name.replace(/^Percy /, ''));
+
+              const percySteps = workflowE2eJobs
+                .filter(job => job.steps.some(step => step.name.startsWith('Percy')))
+                .map(job => job.steps.find(step => step.name.startsWith('Percy')))
+                .map(step => ({
+                  project: step.name.replace(/^Percy /, ''),
+                  skipped: step.conclusion === 'skipped'
+                }));
+              if (percySteps.length === 0) {
+                core.info('No E2E Visual Review steps found.');
+              } else {
+                core.info('E2E Visual Review steps found:');
+                percySteps.forEach(step => console.log(`${step.skipped ? '⏭️' : '▶️'} ${step.project}`));
+              }
+              const skippedE2e = percySteps
+                .filter(step => step.skipped)
+                .map(step => step.project);
 
               // Log the status of each E2E Visual Review.
+              core.info('E2E Visual Review results:');
               latestPercyStatuses
                 .forEach(status => {
                   let icon;
@@ -440,7 +456,7 @@ jobs:
                   }
                   console.log(`${icon} ${status.context}`);
                 });
-              skippedE2e.forEach(project => console.log(`⏩ ${project}`));
+              skippedE2e.forEach(project => console.log(`⏭️ ${project}`));
 
               const percyProjects = latestPercyStatuses
                 .map(status => status.context.replace(/^percy\/skyux-/, ''))
