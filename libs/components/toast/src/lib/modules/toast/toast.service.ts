@@ -22,7 +22,9 @@ import { SkyToastInstance } from './toast-instance';
 import { SkyToasterComponent } from './toaster.component';
 import { SkyToastConfig } from './types/toast-config';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class SkyToastService implements OnDestroy {
   /**
    * @internal

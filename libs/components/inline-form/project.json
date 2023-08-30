@@ -9,8 +9,7 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/inline-form"],
       "options": {
-        "project": "libs/components/inline-form/ng-package.json",
-        "updateBuildableProjectDepsInPackageJson": false
+        "project": "libs/components/inline-form/ng-package.json"
       },
       "configurations": {
         "production": {

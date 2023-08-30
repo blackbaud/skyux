@@ -9,6 +9,7 @@
   </sky-toolbar-item>
   <sky-toolbar-item>
     <sky-search
+      [ariaLabel]="searchAriaLabel"
       [searchText]="searchText"
       [debounceTime]="250"
       (searchApply)="searchApplied($event)"

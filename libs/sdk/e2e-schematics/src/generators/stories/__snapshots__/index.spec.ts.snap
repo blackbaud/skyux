@@ -3,22 +3,17 @@
 exports[`stories generator should generate folder path 1`] = `
 "import { AppModule } from '../../../app.module';
 import { NestedComponent } from './nested.component';
-import { Meta, moduleMetadata } from '@storybook/angular';
+import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 
-export default {
+const meta: Meta<NestedComponent> = {
+  component: NestedComponent,
   id: 'nestedcomponent-nested',
   title: 'Components/To/Nested',
-  component: NestedComponent,
-  decorators: [
-    moduleMetadata({
-      imports: [AppModule],
-    }),
-  ],
-} as Meta<NestedComponent>;
-export const Nested = {
-  render: (args: NestedComponent) => ({
-    props: args,
-  }),
+  decorators: [moduleMetadata({ imports: [AppModule] })],
+};
+export default meta;
+type Story = StoryObj<NestedComponent>;
+export const Nested: Story = {
   args: {},
 };
 "
@@ -53,22 +48,17 @@ describe('test', () => {
 exports[`stories generator should run successfully 1`] = `
 "import { AppModule } from './app.module';
 import { NxWelcomeComponent } from './nx-welcome.component';
-import { Meta, moduleMetadata } from '@storybook/angular';
+import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 
-export default {
+const meta: Meta<NxWelcomeComponent> = {
+  component: NxWelcomeComponent,
   id: 'nxwelcomecomponent-nxwelcome',
   title: 'Components/Nx Welcome',
-  component: NxWelcomeComponent,
-  decorators: [
-    moduleMetadata({
-      imports: [AppModule],
-    }),
-  ],
-} as Meta<NxWelcomeComponent>;
-export const NxWelcome = {
-  render: (args: NxWelcomeComponent) => ({
-    props: args,
-  }),
+  decorators: [moduleMetadata({ imports: [AppModule] })],
+};
+export default meta;
+type Story = StoryObj<NxWelcomeComponent>;
+export const NxWelcome: Story = {
   args: {},
 };
 "
@@ -77,22 +67,17 @@ export const NxWelcome = {
 exports[`stories generator should use -storybook project 1`] = `
 "import { AppModule } from './app.module';
 import { NxWelcomeComponent } from './nx-welcome.component';
-import { Meta, moduleMetadata } from '@storybook/angular';
+import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 
-export default {
+const meta: Meta<NxWelcomeComponent> = {
+  component: NxWelcomeComponent,
   id: 'nxwelcomecomponent-nxwelcome',
   title: 'Components/Nx Welcome',
-  component: NxWelcomeComponent,
-  decorators: [
-    moduleMetadata({
-      imports: [AppModule],
-    }),
-  ],
-} as Meta<NxWelcomeComponent>;
-export const NxWelcome = {
-  render: (args: NxWelcomeComponent) => ({
-    props: args,
-  }),
+  decorators: [moduleMetadata({ imports: [AppModule] })],
+};
+export default meta;
+type Story = StoryObj<NxWelcomeComponent>;
+export const NxWelcome: Story = {
   args: {},
 };
 "

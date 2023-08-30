@@ -18,6 +18,12 @@
               }
             ]
           }
+        ],
+        "@nx/dependency-checks": [
+          "error",
+          {
+            "buildTargets": ["build", "postbuild"]
+          }
         ]
       }
     },

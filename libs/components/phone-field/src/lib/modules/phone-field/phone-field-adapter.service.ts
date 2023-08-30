@@ -1,8 +1,12 @@
-import { ElementRef, Injectable, OnDestroy, Renderer2 } from '@angular/core';
-import { SkyLibResourcesService } from '@skyux/i18n';
+import {
+  ElementRef,
+  Injectable,
+  OnDestroy,
+  Renderer2,
+  inject,
+} from '@angular/core';
 
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 /**
  * Service for interacting with the DOM elements of the phone field.
@@ -11,14 +15,7 @@ import { takeUntil } from 'rxjs/operators';
 @Injectable()
 export class SkyPhoneFieldAdapterService implements OnDestroy {
   #ngUnsubscribe = new Subject<void>();
-
-  #renderer: Renderer2;
-  #resourcesService: SkyLibResourcesService;
-
-  constructor(renderer: Renderer2, resourcesService: SkyLibResourcesService) {
-    this.#renderer = renderer;
-    this.#resourcesService = resourcesService;
-  }
+  #renderer = inject(Renderer2);
 
   public ngOnDestroy(): void {
     this.#ngUnsubscribe.next();
@@ -53,23 +50,6 @@ export class SkyPhoneFieldAdapterService implements OnDestroy {
 
   public setElementValue(elementRef: ElementRef, value: string): void {
     this.#renderer.setProperty(elementRef.nativeElement, 'value', value);
-  }
-
-  public setAriaLabel(element: ElementRef): void {
-    /* Sanity check */
-    /* istanbul ignore else */
-    if (!element.nativeElement.getAttribute('aria-label')) {
-      this.#resourcesService
-        .getString('skyux_phone_field_default_label')
-        .pipe(takeUntil(this.#ngUnsubscribe))
-        .subscribe((value: string) => {
-          this.#renderer.setAttribute(
-            element.nativeElement,
-            'aria-label',
-            value
-          );
-        });
-    }
   }
 
   public focusCountrySearchElement(el: Element): void {

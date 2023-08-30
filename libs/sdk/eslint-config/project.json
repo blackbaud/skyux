@@ -27,8 +27,7 @@
         "tsConfig": "libs/sdk/eslint-config/tsconfig.lib.json",
         "packageJson": "libs/sdk/eslint-config/package.json",
         "main": "libs/sdk/eslint-config/src/index.ts",
-        "assets": ["libs/sdk/eslint-config/*.md"],
-        "updateBuildableProjectDepsInPackageJson": false
+        "assets": ["libs/sdk/eslint-config/*.md"]
       }
     },
     "postbuild": {

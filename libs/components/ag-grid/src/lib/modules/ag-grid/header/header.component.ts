@@ -5,11 +5,9 @@ import {
   Component,
   ComponentRef,
   ElementRef,
-  EnvironmentInjector,
   HostBinding,
   OnDestroy,
   ViewChild,
-  inject,
 } from '@angular/core';
 import {
   SkyDynamicComponentLocation,
@@ -57,8 +55,6 @@ export class SkyAgGridHeaderComponent
   #inlineHelpComponentRef: ComponentRef<unknown> | undefined;
   #viewInitialized = false;
   #agInitialized = false;
-
-  #environmentInjector = inject(EnvironmentInjector);
 
   constructor(
     changeDetector: ChangeDetectorRef,
@@ -184,7 +180,6 @@ export class SkyAgGridHeaderComponent
               useValue: headerInfo,
             },
           ],
-          environmentInjector: this.#environmentInjector,
           referenceEl: this.inlineHelpContainer?.nativeElement,
           location: SkyDynamicComponentLocation.ElementBottom,
         });

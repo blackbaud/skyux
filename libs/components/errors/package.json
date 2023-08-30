@@ -16,15 +16,15 @@
   },
   "homepage": "https://github.com/blackbaud/skyux#readme",
   "peerDependencies": {
-    "@angular/common": "^16.1.7",
-    "@angular/core": "^16.1.7",
-    "@angular/platform-browser": "^16.1.7",
+    "@angular/common": "^16.2.1",
+    "@angular/core": "^16.2.1",
+    "@angular/platform-browser": "^16.2.1",
     "@skyux-sdk/testing": "0.0.0-PLACEHOLDER",
     "@skyux/core": "0.0.0-PLACEHOLDER",
     "@skyux/i18n": "0.0.0-PLACEHOLDER",
     "@skyux/modals": "0.0.0-PLACEHOLDER"
   },
   "dependencies": {
-    "tslib": "^2.5.0"
+    "tslib": "^2.6.2"
   }
 }

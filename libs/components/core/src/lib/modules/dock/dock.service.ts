@@ -1,10 +1,4 @@
-import {
-  ComponentRef,
-  EnvironmentInjector,
-  Injectable,
-  Type,
-  inject,
-} from '@angular/core';
+import { ComponentRef, Injectable, Type } from '@angular/core';
 
 import { SkyDynamicComponentLocation } from '../dynamic-component/dynamic-component-location';
 import { SkyDynamicComponentOptions } from '../dynamic-component/dynamic-component-options';
@@ -20,7 +14,9 @@ import { sortByStackOrder } from './sort-by-stack-order';
 /**
  * This service docks components to specific areas on the page.
  */
-@Injectable()
+@Injectable({
+  providedIn: 'any',
+})
 export class SkyDockService {
   private static dockRef: ComponentRef<SkyDockComponent> | undefined;
   private static _items: SkyDockItem<any>[] = [];
@@ -33,7 +29,6 @@ export class SkyDockService {
   }
 
   #dynamicComponentSvc: SkyDynamicComponentService;
-  #environmentInjector = inject(EnvironmentInjector);
 
   #options: SkyDockOptions | undefined;
 
@@ -85,9 +80,7 @@ export class SkyDockService {
   }
 
   #createDock(): ComponentRef<SkyDockComponent> {
-    const dockOptions: SkyDynamicComponentOptions = {
-      environmentInjector: this.#environmentInjector,
-    };
+    let dockOptions: SkyDynamicComponentOptions | undefined;
 
     if (this.#options) {
       let dynamicLocation: SkyDynamicComponentLocation;
@@ -103,8 +96,10 @@ export class SkyDockService {
           break;
       }
 
-      dockOptions.location = dynamicLocation;
-      dockOptions.referenceEl = this.#options.referenceEl;
+      dockOptions = {
+        location: dynamicLocation,
+        referenceEl: this.#options.referenceEl,
+      };
     }
 
     const dockRef = this.#dynamicComponentSvc.createComponent(

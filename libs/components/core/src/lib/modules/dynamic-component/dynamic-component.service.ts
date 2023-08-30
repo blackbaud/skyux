@@ -2,12 +2,14 @@ import {
   ApplicationRef,
   ComponentRef,
   EmbeddedViewRef,
+  EnvironmentInjector,
   Injectable,
   Renderer2,
   RendererFactory2,
   Type,
   createComponent,
   createEnvironmentInjector,
+  inject,
 } from '@angular/core';
 
 import { SkyAppWindowRef } from '../window/window-ref';
@@ -20,7 +22,7 @@ import { SkyDynamicComponentOptions } from './dynamic-component-options';
  * @internal
  */
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'any',
 })
 export class SkyDynamicComponentService {
   #applicationRef: ApplicationRef;
@@ -28,6 +30,8 @@ export class SkyDynamicComponentService {
   #renderer: Renderer2;
 
   #windowRef: SkyAppWindowRef;
+
+  #environmentInjector = inject(EnvironmentInjector);
 
   constructor(
     applicationRef: ApplicationRef,
@@ -50,15 +54,15 @@ export class SkyDynamicComponentService {
    */
   public createComponent<T>(
     componentType: Type<T>,
-    options: SkyDynamicComponentOptions
+    options?: SkyDynamicComponentOptions
   ): ComponentRef<T> {
-    if (options.location === undefined) {
-      options.location = SkyDynamicComponentLocation.BodyBottom;
-    }
+    options ||= {
+      location: SkyDynamicComponentLocation.BodyBottom,
+    };
 
     const environmentInjector = createEnvironmentInjector(
       options.providers ?? [],
-      options.environmentInjector
+      options.environmentInjector ?? this.#environmentInjector
     );
 
     let componentRef: ComponentRef<T>;

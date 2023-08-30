@@ -28,4 +28,12 @@ export const rootMain: StorybookConfig = {
   features: {
     buildStoriesJson: true,
   },
+  // Workaround for https://github.com/storybookjs/storybook/issues/23883
+  previewHead: (head: string) => `
+    ${head}
+    <script>
+      window.beforeEach = window.beforeEach || (() => {});
+      window.afterEach = window.afterEach || (() => {});
+    </script>
+  `,
 };

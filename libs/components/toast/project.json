@@ -9,8 +9,7 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/toast"],
       "options": {
-        "project": "libs/components/toast/ng-package.json",
-        "updateBuildableProjectDepsInPackageJson": false
+        "project": "libs/components/toast/ng-package.json"
       },
       "configurations": {
         "production": {

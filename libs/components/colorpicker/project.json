@@ -9,8 +9,7 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/colorpicker"],
       "options": {
-        "project": "libs/components/colorpicker/ng-package.json",
-        "updateBuildableProjectDepsInPackageJson": false
+        "project": "libs/components/colorpicker/ng-package.json"
       },
       "configurations": {
         "production": {
