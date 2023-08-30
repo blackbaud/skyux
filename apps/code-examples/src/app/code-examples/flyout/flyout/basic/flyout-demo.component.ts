@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   SkyFlyoutConfig,
   SkyFlyoutInstance,
@@ -12,22 +12,19 @@ import { FlyoutDemoFlyoutComponent } from './flyout-demo-flyout.component';
   templateUrl: './flyout-demo.component.html',
 })
 export class FlyoutDemoComponent {
-  public flyout: SkyFlyoutInstance<FlyoutDemoFlyoutComponent> | undefined;
+  #flyout: SkyFlyoutInstance<FlyoutDemoFlyoutComponent> | undefined;
 
-  #flyoutService: SkyFlyoutService;
+  readonly #flyoutSvc = inject(SkyFlyoutService);
 
-  constructor(flyoutService: SkyFlyoutService) {
-    this.#flyoutService = flyoutService;
-  }
-
-  public closeAndRemoveFlyout(): void {
-    if (this.flyout && this.flyout.isOpen) {
-      this.#flyoutService.close();
+  protected closeAndRemoveFlyout(): void {
+    if (this.#flyout?.isOpen) {
+      this.#flyoutSvc.close();
     }
-    this.flyout = undefined;
+
+    this.#flyout = undefined;
   }
 
-  public openFlyoutWithCustomWidth(): void {
+  protected openFlyoutWithCustomWidth(): void {
     const flyoutConfig: SkyFlyoutConfig = {
       ariaLabelledBy: 'flyout-title',
       ariaRole: 'dialog',
@@ -35,28 +32,30 @@ export class FlyoutDemoComponent {
       maxWidth: 500,
       minWidth: 200,
     };
-    this.flyout = this.#flyoutService.open(
+
+    this.#flyout = this.#flyoutSvc.open(
       FlyoutDemoFlyoutComponent,
       flyoutConfig
     );
 
-    this.flyout.closed.subscribe(() => {
-      this.flyout = undefined;
+    this.#flyout.closed.subscribe(() => {
+      this.#flyout = undefined;
     });
   }
 
-  public openSimpleFlyout(): void {
+  protected openSimpleFlyout(): void {
     const flyoutConfig: SkyFlyoutConfig = {
       ariaLabelledBy: 'flyout-title',
       ariaRole: 'dialog',
     };
-    this.flyout = this.#flyoutService.open(
+
+    this.#flyout = this.#flyoutSvc.open(
       FlyoutDemoFlyoutComponent,
       flyoutConfig
     );
 
-    this.flyout.closed.subscribe(() => {
-      this.flyout = undefined;
+    this.#flyout.closed.subscribe(() => {
+      this.#flyout = undefined;
     });
   }
 }
