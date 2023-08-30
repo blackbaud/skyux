@@ -260,7 +260,7 @@ jobs:
       matrix:
         include: ${{ fromJSON(needs.install-deps.outputs.parameters).e2eTargets }}
     outputs:
-      affected: ${{ steps.affected.outputs.affected }}
+      affected: ${{ matrix.project != 'skip' && steps.affected.outputs.affected || 'skip' }}
     steps:
       - uses: actions/checkout@v3
         with:
