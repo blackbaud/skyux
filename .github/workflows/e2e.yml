@@ -290,6 +290,7 @@ jobs:
           base: ${{ needs.install-deps.outputs.base }}
           head: ${{ needs.install-deps.outputs.head }}
           project: ${{ matrix.project }}
+          percy-token: ${{ secrets.PERCY_API }}
       - name: Verify Cypress
         run: npx cypress verify
         if: ${{ matrix.project != 'skip' && steps.affected.outputs.affected == 'true' }}
