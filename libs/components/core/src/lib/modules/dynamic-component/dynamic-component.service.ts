@@ -145,10 +145,11 @@ export class SkyDynamicComponentService {
 }
 
 /**
+ * Angular service for creating and rendering a dynamic component.
  * @internal
- * @deprecated Use `SkyDynamicComponentService` with a standalone component instead.
+ * @deprecated Use `SkyDynamicComponentService` to create a standalone component instead.
  */
 @Injectable({
-  providedIn: 'any', // <-- needed for legacy setups
+  providedIn: 'any',
 })
 export class SkyDynamicComponentLegacyService extends SkyDynamicComponentService {}

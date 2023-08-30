@@ -140,7 +140,9 @@ export class SkyOverlayService {
 }
 
 /**
- * @deprecated Use `SkyOverlayService` with a standalone component instead.
+ * This service is used to create new overlays.
+ * @internal
+ * @deprecated Use `SkyOverlayService` to open a standalone component instead.
  */
 @Injectable({
   providedIn: 'any',

@@ -10,7 +10,6 @@ describe('text-editor-storybook', () => {
               `/iframe.html?globals=theme:${theme}&id=texteditorcomponent-texteditor--text-editor-${mode}`
             )
           );
-
           it('should render', () => {
             cy.get('app-text-editor')
               .should('exist')
@@ -27,14 +26,12 @@ describe('text-editor-storybook', () => {
           });
         });
       });
-
       describe('text editor component', () => {
         beforeEach(() =>
           cy.visit(
             `/iframe.html?globals=theme:${theme}&id=texteditorcomponent-texteditor--text-editor-basic`
           )
         );
-
         it('should display entered text', () => {
           cy.get('app-text-editor')
             .should('exist')
@@ -56,7 +53,6 @@ describe('text-editor-storybook', () => {
               }
             );
         });
-
         it('should open all the menus', () => {
           ['Edit menu', 'Format menu', 'Insert merge field'].forEach(
             (button) => {
@@ -77,7 +73,6 @@ describe('text-editor-storybook', () => {
             }
           );
         });
-
         it('should open create link dialog', () => {
           cy.get('app-text-editor')
             .should('exist')
@@ -85,7 +80,6 @@ describe('text-editor-storybook', () => {
             .get('[title="Link"]')
             .click()
             .end();
-
           cy.get('.sky-modal')
             .should('exist')
             .should('be.visible')
@@ -98,7 +92,6 @@ describe('text-editor-storybook', () => {
                 widths: E2eVariations.DISPLAY_WIDTHS,
               }
             );
-
           cy.get('.sky-modal')
             .should('exist')
             .should('be.visible')

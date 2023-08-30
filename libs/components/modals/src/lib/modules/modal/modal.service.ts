@@ -123,6 +123,8 @@ export class SkyModalService {
 }
 
 /**
+ * A service that launches modals.
+ * @internal
  * @deprecated Use `SkyModalService` to open a standalone component instead.
  */
 @Injectable({

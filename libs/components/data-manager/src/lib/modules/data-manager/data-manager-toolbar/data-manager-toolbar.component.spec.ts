@@ -7,11 +7,7 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import {
-  SkyModalConfigurationInterface,
-  SkyModalLegacyService,
-  SkyModalService,
-} from '@skyux/modals';
+import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
 import { Subject } from 'rxjs';
 
@@ -116,10 +112,6 @@ describe('SkyDataManagerToolbarComponent', () => {
       providers: [
         {
           provide: SkyModalService,
-          useValue: modalServiceInstance,
-        },
-        {
-          provide: SkyModalLegacyService,
           useValue: modalServiceInstance,
         },
       ],

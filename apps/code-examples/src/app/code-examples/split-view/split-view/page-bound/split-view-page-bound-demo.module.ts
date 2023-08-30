@@ -10,7 +10,6 @@ import {
   SkyPageSummaryModule,
 } from '@skyux/layout';
 import { SkyRepeaterModule } from '@skyux/lists';
-import { SkyConfirmModule } from '@skyux/modals';
 import { SkySplitViewModule } from '@skyux/split-view';
 
 import { SplitViewPageBoundDemoComponent } from './split-view-page-bound-demo.component';
@@ -21,7 +20,6 @@ import { SplitViewPageBoundDemoComponent } from './split-view-page-bound-demo.co
     CommonModule,
     ReactiveFormsModule,
     SkyAlertModule,
-    SkyConfirmModule,
     SkyInputBoxModule,
     SkyDefinitionListModule,
     SkyPageModule,

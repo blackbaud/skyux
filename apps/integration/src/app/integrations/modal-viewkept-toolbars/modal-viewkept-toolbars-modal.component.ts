@@ -28,5 +28,5 @@ import { SkyThemeModule } from '@skyux/theme';
   ],
 })
 export class ModalViewkeptToolbarsModalComponent {
-  public readonly modalInstance = inject(SkyModalInstance);
+  protected readonly modalInstance = inject(SkyModalInstance);
 }

@@ -7,7 +7,6 @@ describe('ag-grid-storybook', () => {
         cy.viewport(1300, 1200).visit(
           `/iframe.html?globals=theme:${theme}&id=dataentrygridcomponent-dataentrygrid--data-entry-grid-date-and-lookup`
         );
-
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.get('#ready')
           .should('exist')

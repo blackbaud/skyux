@@ -23,7 +23,7 @@ describe('Skip link host component', () => {
     link: SkySkipLink,
     skipLinkEl: DebugElement,
     elToFocus: HTMLElement
-  ) {
+  ): void {
     expect(skipLinkEl.nativeElement).toHaveText(`Skip to ${link.title}`);
 
     skipLinkEl.nativeElement.click();
@@ -32,8 +32,6 @@ describe('Skip link host component', () => {
   }
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-
     testEl1 = createTestDiv();
     testEl2 = createTestDiv();
   });

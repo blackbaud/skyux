@@ -16,12 +16,12 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
   imports: [CommonModule, SkyModalModule, SkyWaitModule],
 })
 export class ModalWaitModalComponent {
-  public isWaiting = false;
+  protected isWaiting = false;
 
-  public readonly modalInstance = inject(SkyModalInstance);
+  protected readonly modalInstance = inject(SkyModalInstance);
   readonly #changeDetector = inject(ChangeDetectorRef);
 
-  public triggerWait(): void {
+  protected triggerWait(): void {
     this.isWaiting = true;
     setTimeout(
       /* istanbul ignore next */ () => {

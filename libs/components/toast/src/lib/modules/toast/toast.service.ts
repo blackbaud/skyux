@@ -151,10 +151,13 @@ export class SkyToastService implements OnDestroy {
 }
 
 /**
- * @deprecated Use `SkyToastService` with a standalone component instead.
+ * @internal
+ * @deprecated Use `SkyToastService` to open a standalone component instead.
  */
 @Injectable({
-  providedIn: 'root', // <-- Toast service has always been provided in root, but we need to inject SkyDynamicComponentLegacyService.
+  // Toast service has always been provided in root, but we need
+  // to inject SkyDynamicComponentLegacyService for backward compatibility.
+  providedIn: 'root',
 })
 export class SkyToastLegacyService extends SkyToastService {
   /* istanbul ignore next */
