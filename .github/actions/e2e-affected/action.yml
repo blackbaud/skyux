@@ -36,9 +36,7 @@ runs:
             .then(({stdout}) => stdout.trim().split('\n'));
           if (shas.length < 2) {
             core.info('Only one commit, running e2e tests');
-            core.setOutputs({
-              affected: 'true'
-            });
+            core.setOutput('affected', 'true');
             process.exit(0);
           }
 
@@ -67,9 +65,7 @@ runs:
 
           if (!lastGoodBuild) {
             core.info('No good Percy test found, running e2e tests');
-            core.setOutputs({
-              affected: 'true'
-            });
+            core.setOutput('affected', 'true');
             process.exit(0);
           }
 
@@ -85,12 +81,8 @@ runs:
           const projectAffected = affectedProjects.includes('${{ inputs.project }}');
           if (projectAffected) {
             core.info(`E2E tests affected`);
-            core.setOutputs({
-              affected: 'true'
-            });
+            core.setOutput('affected', 'true');
           } else {
             core.info(`No e2e tests affected since ${lastGoodCommit.substring(0, 7)}`);
-            core.setOutputs({
-              affected: 'false'
-            });
+            core.setOutput('affected', 'false');
           }
