@@ -1,5 +1,14 @@
 # Changelog
 
+## [8.10.1](https://github.com/blackbaud/skyux/compare/8.10.0...8.10.1) (2023-08-29)
+
+
+### Bug Fixes
+
+* **components/forms:** update file attachment accessibility and visual labels on the input for linking to a file to be more descriptive ([#1625](https://github.com/blackbaud/skyux/issues/1625)) ([0dd6f46](https://github.com/blackbaud/skyux/commit/0dd6f46a75ead31a3f6b5dd81113e537955a11f8))
+* **components/forms:** updated single file attachment to use more descriptive aria labels ([#1630](https://github.com/blackbaud/skyux/issues/1630)) ([0437c1e](https://github.com/blackbaud/skyux/commit/0437c1e4b372436d0b647fcb052769fdf3b2e581))
+* **components/lookup:** fix regression for lookup in modal ([#1656](https://github.com/blackbaud/skyux/issues/1656)) ([d85409f](https://github.com/blackbaud/skyux/commit/d85409fddad23bf89b5fbc67f6fbcd8bf299152d))
+
 ## [9.0.0-alpha.8](https://github.com/blackbaud/skyux/compare/9.0.0-alpha.7...9.0.0-alpha.8) (2023-08-24)
 
 

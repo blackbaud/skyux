@@ -24,10 +24,17 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
       message: 'You are over the character limit.',
     },
     skyux_file_attachment_button_label_choose_file: { message: 'Attach file' },
+    skyux_file_attachment_button_label_choose_file_label: {
+      message: 'Attach file for',
+    },
     skyux_file_attachment_button_label_replace_file: {
       message: 'Replace file',
     },
+    skyux_file_attachment_button_label_replace_file_label: {
+      message: 'Replace file {0} for',
+    },
     skyux_file_attachment_file_item_delete: { message: 'Delete file' },
+    skyux_file_attachment_file_item_remove: { message: 'Remove file {0} for' },
     skyux_file_attachment_file_size_b_plural: { message: '{0} bytes' },
     skyux_file_attachment_file_size_b_singular: { message: '{0} byte' },
     skyux_file_attachment_file_size_gb: { message: '{0} GB' },
@@ -48,19 +55,14 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     skyux_file_attachment_file_upload_invalid_file: {
       message: 'This file type is invalid',
     },
-    skyux_file_attachment_file_upload_link_input: {
-      message: 'Add a link to a file',
-    },
+    skyux_file_attachment_file_upload_link_label: { message: 'Link to a file' },
     skyux_file_attachment_file_upload_link_placeholder: {
       message: 'http://www.something.com/file',
     },
     skyux_file_attachment_file_upload_or_click_to_browse: {
       message: 'or click to browse',
     },
-    skyux_file_attachment_file_upload_paste_link: {
-      message: 'Paste a link to a file',
-    },
-    skyux_file_attachment_file_upload_paste_link_done: { message: 'Done' },
+    skyux_file_attachment_file_upload_link_done: { message: 'Done' },
     skyux_file_attachment_label_no_file_chosen: { message: 'No file chosen.' },
     skyux_input_box_error_character_count: {
       message: 'Limit {0} to {1} character(s).',

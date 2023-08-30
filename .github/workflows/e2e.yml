@@ -265,16 +265,15 @@ jobs:
           repository: ${{ env.GH_PAGES_OWNER }}/${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
           ref: 'main'
           fetch-depth: 1
-          path: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
+          path: ./dist/${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
           token: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
       - name: Publish preview and comment on PR
         run: |
           npx skyux-dev publish-storybook \
-            --workingDirectory=${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }} \
+            --workingDirectory=./dist/${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }} \
             --pr=${{ needs.install-deps.outputs.workflow_dispatch_pr_number || github.event.number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-          NX_DAEMON: 'false'
 
   e2e:
     name: End to end tests
