@@ -259,6 +259,8 @@ jobs:
       fail-fast: false
       matrix:
         include: ${{ fromJSON(needs.install-deps.outputs.parameters).e2eTargets }}
+    outputs:
+      affected: ${{ steps.affected.outputs.affected }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -280,9 +282,17 @@ jobs:
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
         if: ${{ matrix.project != 'skip' }}
+      - name: Check if ${{ matrix.project }} is affected
+        if: ${{ matrix.project != 'skip' }}
+        uses: ./.github/actions/e2e-affected
+        id: affected
+        with:
+          base: ${{ needs.install-deps.outputs.base }}
+          head: ${{ needs.install-deps.outputs.head }}
+          project: ${{ matrix.project }}
       - name: Verify Cypress
         run: npx cypress verify
-        if: ${{ matrix.project != 'skip' }}
+        if: ${{ matrix.project != 'skip' && steps.affected.outputs.affected === 'true' }}
       - name: Percy ${{ matrix.project }}
         uses: actions/github-script@v6
         with:
@@ -311,7 +321,7 @@ jobs:
         env:
           PERCY_TOKEN: ${{ secrets[matrix.token] }}
           TERM: 'xterm-256color'
-        if: ${{ matrix.project != 'skip' }}
+        if: ${{ matrix.project != 'skip' && steps.affected.outputs.affected === 'true' }}
       - name: Upload error screenshots
         uses: actions/upload-artifact@v3
         if: ${{ failure() }}
@@ -346,6 +356,11 @@ jobs:
       - e2e
       - publish
     steps:
+      - name: Show needs context
+        run: |
+          echo 'Needs context:'
+          echo ''
+          echo '${{ toJson(needs) }}' | jq
       - uses: actions/github-script@v6
         name: Verify E2E Visual Review
         with:
@@ -357,14 +372,14 @@ jobs:
             if (e2eProjects.length > 0 && e2eProjects[0] !== 'skip') {
 
               // Verify that Percy has finished processing the E2E Visual Review and that all snapshots have passed.
-              const params = {
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                ref: '${{ needs.install-deps.outputs.head }}',
-                per_page: 100
-              };
               const statuses = [];
               async function listCommitStatusesForRef(page=1) {
+                const params = {
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  ref: '${{ needs.install-deps.outputs.head }}',
+                  per_page: 100
+                };
                 const {data} = await github.rest.repos.listCommitStatusesForRef({
                   page,
                   ...params
@@ -381,6 +396,29 @@ jobs:
 
               // Only use the latest status for each E2E Visual Review.
               const latestPercyStatuses = percyStatuses.filter((status, index) => percyStatusContexts.indexOf(status.context.toLowerCase()) === index);
+
+              const workflowE2eJobs = [];
+              async function listJobsForWorkflowRun(page=1) {
+                const params = {
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  run_id: '${{ github.run_id }}',
+                  per_page: 100
+                };
+                const { data } = await github.rest.actions.listJobsForWorkflowRun({
+                  ...params,
+                  page
+                });
+                workflowE2eJobs.push(...data.jobs.filter(job => job.name === 'End to end tests'));
+                if (data.jobs.length === params.per_page) {
+                  await listJobsForWorkflowRun(page + 1);
+                }
+              }
+              await listJobsForWorkflowRun();
+              const skippedE2e = workflowE2eJobs
+                .filter(job => job.status === 'completed' && job.conclusion === 'success')
+                .filter(job => job.steps.some(step => step.name.startsWith('Percy') && step.conclusion === 'skipped'))
+                .map(job => job.steps.find(step => step.name.startsWith('Percy') && step.conclusion === 'skipped').name.replace(/^Percy /, ''));
 
               // Log the status of each E2E Visual Review.
               latestPercyStatuses
@@ -401,8 +439,11 @@ jobs:
                   }
                   console.log(`${icon} ${status.context}`);
                 });
+              skippedE2e.forEach(project => console.log(`⏩ ${project}`));
 
-              const percyProjects = latestPercyStatuses.map(status => status.context.replace(/^percy\/skyux-/, ''));
+              const percyProjects = latestPercyStatuses
+                .map(status => status.context.replace(/^percy\/skyux-/, ''))
+                .concat(skippedE2e);
               const missingProjects = e2eProjects.filter(project => !percyProjects.includes(project));
 
               if (missingProjects.length === 0) {
