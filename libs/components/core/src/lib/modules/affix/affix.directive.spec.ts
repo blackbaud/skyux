@@ -1,4 +1,4 @@
-import { ElementRef, RendererFactory2 } from '@angular/core';
+import { ElementRef, NgZone, RendererFactory2 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility, expectAsync } from '@skyux-sdk/testing';
 
@@ -114,6 +114,7 @@ describe('Affix directive', () => {
       const fixture = TestBed.createComponent(AffixFixtureComponent);
       const affixService = TestBed.inject(SkyAffixService);
       const rendererFactory = TestBed.inject(RendererFactory2);
+      const zone = TestBed.inject(NgZone);
       const renderer = rendererFactory.createRenderer(undefined, null);
 
       fixture.componentInstance.position = position;
@@ -127,7 +128,7 @@ describe('Affix directive', () => {
       spyOn(affixService, 'createAffixer').and.callFake(
         (affixed: ElementRef) => {
           ngUnsubscribe = new Subject<void>();
-          affixer = new SkyAffixer(affixed.nativeElement, renderer);
+          affixer = new SkyAffixer(affixed.nativeElement, renderer, zone);
           affixer.offsetChange.pipe(takeUntil(ngUnsubscribe)).subscribe((x) => {
             offset = x.offset;
           });
@@ -451,7 +452,7 @@ describe('Affix directive', () => {
 
       // Scroll down until the affixed item is clipped at its top, then trigger the scroll event.
       window.scrollTo(0, 200);
-      SkyAppTestUtility.fireDomEvent(window, 'scroll');
+      SkyAppTestUtility.fireDomEvent(window.visualViewport, 'scroll');
       fixture.detectChanges();
 
       expect(getRecentPlacementChange()).toEqual('below');
@@ -469,7 +470,7 @@ describe('Affix directive', () => {
 
       // Scroll down until the affixed item is clipped at its top, then trigger the resize event.
       window.scrollTo(0, 200);
-      SkyAppTestUtility.fireDomEvent(window, 'resize');
+      SkyAppTestUtility.fireDomEvent(window.visualViewport, 'resize');
       fixture.detectChanges();
 
       expect(getRecentPlacementChange()).toEqual('below');
@@ -868,7 +869,7 @@ describe('Affix directive', () => {
       fixture.detectChanges();
 
       componentInstance.scrollTargetToBottom();
-      SkyAppTestUtility.fireDomEvent(window, 'scroll');
+      SkyAppTestUtility.fireDomEvent(window.visualViewport, 'scroll');
       fixture.detectChanges();
 
       // Confirm baseline expectation.
@@ -878,7 +879,7 @@ describe('Affix directive', () => {
       const baseElementHeight =
         componentInstance.baseRef.nativeElement.getBoundingClientRect().height;
       componentInstance.scrollTargetToBottom(baseElementHeight);
-      SkyAppTestUtility.fireDomEvent(window, 'scroll');
+      SkyAppTestUtility.fireDomEvent(window.visualViewport, 'scroll');
       fixture.detectChanges();
 
       expect(getRecentPlacementChange()).toBeNull();

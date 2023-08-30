@@ -1,6 +1,6 @@
-import { Renderer2 } from '@angular/core';
+import { NgZone, Renderer2 } from '@angular/core';
 
-import { Observable, Subject, Subscription, fromEvent } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 
 import { SkyAffixAutoFitContext } from './affix-auto-fit-context';
 import { SkyAffixConfig } from './affix-config';
@@ -111,15 +111,27 @@ export class SkyAffixer {
 
   #renderer: Renderer2;
 
-  #resizeListener: Subscription | undefined;
+  #resizeListener = new Subscription();
 
-  #scrollListeners: (() => void)[] | undefined;
+  #zone: NgZone;
 
   #_config: AffixConfigOrDefaults = DEFAULT_AFFIX_CONFIG;
 
-  constructor(affixedElement: HTMLElement, renderer: Renderer2) {
+  #scrollChange = new Subject<void>();
+
+  /* istanbul ignore next */
+  #viewport = window.visualViewport || window;
+
+  #viewportChange = new Subject<void>();
+
+  #scrollChangeListener = (): void => this.#scrollChange.next();
+
+  #viewportChangeListener = (): void => this.#viewportChange.next();
+
+  constructor(affixedElement: HTMLElement, renderer: Renderer2, zone: NgZone) {
     this.#affixedElement = affixedElement;
     this.#renderer = renderer;
+    this.#zone = zone;
 
     this.#offsetChange = new Subject<SkyAffixOffsetChange>();
     this.#overflowScroll = new Subject<void>();
@@ -128,6 +140,16 @@ export class SkyAffixer {
     this.#offsetChangeObs = this.#offsetChange.asObservable();
     this.#overflowScrollObs = this.#overflowScroll.asObservable();
     this.#placementChangeObs = this.#placementChange.asObservable();
+
+    this.#resizeListener.add(
+      this.#scrollChange.subscribe(() => {
+        this.#affix();
+        this.#overflowScroll.next();
+      })
+    );
+    this.#resizeListener.add(
+      this.#viewportChange.subscribe(() => this.#affix())
+    );
   }
 
   /**
@@ -168,9 +190,11 @@ export class SkyAffixer {
    */
   public destroy(): void {
     this.#reset();
+    this.#resizeListener.unsubscribe();
     this.#placementChange.complete();
     this.#offsetChange.complete();
     this.#overflowScroll.complete();
+    this.#viewportChange.complete();
   }
 
   #affix(): void {
@@ -182,6 +206,28 @@ export class SkyAffixer {
 
       this.#offsetChange.next({ offset });
     }
+  }
+
+  #getScrollPosition(): { y: number; x: number } {
+    // Based on CDK ViewportRuler.
+    const documentElement = document.documentElement!;
+    const documentRect = documentElement.getBoundingClientRect();
+
+    const y =
+      -documentRect.top ||
+      document.body.scrollTop ||
+      window.scrollY ||
+      documentElement.scrollTop ||
+      0;
+
+    const x =
+      -documentRect.left ||
+      document.body.scrollLeft ||
+      window.scrollX ||
+      documentElement.scrollLeft ||
+      0;
+
+    return { y, x };
   }
 
   #getOffset(): SkyAffixOffset {
@@ -202,8 +248,9 @@ export class SkyAffixer {
     };
 
     if (this.#config.position === 'absolute') {
-      autoFitOverflowOffset.top =
-        (autoFitOverflowOffset.top || 0) + window.scrollY;
+      const { x, y } = this.#getScrollPosition();
+      autoFitOverflowOffset.top = (autoFitOverflowOffset.top || 0) + y;
+      autoFitOverflowOffset.left = (autoFitOverflowOffset.left || 0) + x;
     }
 
     do {
@@ -516,35 +563,45 @@ export class SkyAffixer {
   }
 
   #addScrollListeners(): void {
-    this.#scrollListeners = this.#overflowParents.map((parentElement) => {
-      const overflow =
-        parentElement === document.body ? 'window' : parentElement;
-      return this.#renderer.listen(overflow, 'scroll', () => {
-        this.#affix();
-        this.#overflowScroll.next();
+    this.#zone.runOutsideAngular(() => {
+      this.#overflowParents.forEach((parentElement) => {
+        const overflow =
+          parentElement === document.body ? this.#viewport : parentElement;
+        overflow.addEventListener('scroll', this.#scrollChangeListener);
       });
     });
   }
 
   #addResizeListener(): void {
-    this.#resizeListener = fromEvent(window, 'resize').subscribe(() =>
-      this.#affix()
-    );
+    this.#zone.runOutsideAngular(() => {
+      this.#viewport.addEventListener('resize', this.#viewportChangeListener);
+      this.#viewport.addEventListener(
+        'orientationchange',
+        this.#viewportChangeListener
+      );
+    });
   }
 
   #removeResizeListener(): void {
-    if (this.#resizeListener) {
-      this.#resizeListener.unsubscribe();
-      this.#resizeListener = undefined;
-    }
+    this.#zone.runOutsideAngular(() => {
+      this.#viewport.removeEventListener(
+        'resize',
+        this.#viewportChangeListener
+      );
+      this.#viewport.removeEventListener(
+        'orientationchange',
+        this.#viewportChangeListener
+      );
+    });
   }
 
   #removeScrollListeners(): void {
-    if (this.#scrollListeners) {
-      // Remove renderer-generated listeners by calling the listener itself.
-      // https://github.com/angular/angular/issues/9368#issuecomment-227199778
-      this.#scrollListeners.forEach((listener) => listener());
-      this.#scrollListeners = undefined;
-    }
+    this.#zone.runOutsideAngular(() => {
+      this.#overflowParents.forEach((parentElement) => {
+        const overflow =
+          parentElement === document.body ? this.#viewport : parentElement;
+        overflow.removeEventListener('scroll', this.#scrollChangeListener);
+      });
+    });
   }
 }
