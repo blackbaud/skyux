@@ -292,7 +292,7 @@ jobs:
           project: ${{ matrix.project }}
       - name: Verify Cypress
         run: npx cypress verify
-        if: ${{ matrix.project != 'skip' && steps.affected.outputs.affected === 'true' }}
+        if: ${{ matrix.project != 'skip' && steps.affected.outputs.affected == 'true' }}
       - name: Percy ${{ matrix.project }}
         uses: actions/github-script@v6
         with:
@@ -321,7 +321,7 @@ jobs:
         env:
           PERCY_TOKEN: ${{ secrets[matrix.token] }}
           TERM: 'xterm-256color'
-        if: ${{ matrix.project != 'skip' && steps.affected.outputs.affected === 'true' }}
+        if: ${{ matrix.project != 'skip' && steps.affected.outputs.affected == 'true' }}
       - name: Upload error screenshots
         uses: actions/upload-artifact@v3
         if: ${{ failure() }}
