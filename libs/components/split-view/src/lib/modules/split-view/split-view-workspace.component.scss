@@ -8,12 +8,6 @@
   flex-direction: column;
 }
 
-@include mixins.sky-theme-modern {
-  .sky-split-view-workspace {
-    border: 1px solid $sky-theme-modern-border-color-neutral-medium;
-  }
-}
-
 @include mixins.sky-theme-modern-dark {
   .sky-split-view-workspace {
     background-color: $sky-theme-modern-mode-dark-background-color-page-default;

@@ -37,8 +37,10 @@
   }
 }
 
-@include mixins.sky-theme-modern {
-  .sky-split-view {
-    border: none;
+@include mixins.sky-host-responsive-container-sm-min() {
+  @include mixins.sky-theme-modern {
+    .sky-split-view {
+      border-left: none;
+    }
   }
 }
