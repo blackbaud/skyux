@@ -404,7 +404,7 @@ jobs:
                   ...params,
                   page
                 });
-                workflowE2eJobs.push(...data.jobs.filter(job => job.name === 'End to end tests'));
+                workflowE2eJobs.push(...data.jobs.filter(job => job.name.startsWith('End to end tests')));
                 if (data.jobs.length === params.per_page) {
                   await listJobsForWorkflowRun(page + 1);
                 }
