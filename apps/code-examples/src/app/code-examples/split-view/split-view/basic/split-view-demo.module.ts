@@ -6,6 +6,7 @@ import { SkyIdModule } from '@skyux/core';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyDefinitionListModule } from '@skyux/layout';
 import { SkyRepeaterModule } from '@skyux/lists';
+import { SkyConfirmModule } from '@skyux/modals';
 import { SkySplitViewModule } from '@skyux/split-view';
 
 import { SplitViewDemoComponent } from './split-view-demo.component';
@@ -15,6 +16,7 @@ import { SplitViewDemoComponent } from './split-view-demo.component';
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    SkyConfirmModule,
     SkyDefinitionListModule,
     SkyIdModule,
     SkyInputBoxModule,

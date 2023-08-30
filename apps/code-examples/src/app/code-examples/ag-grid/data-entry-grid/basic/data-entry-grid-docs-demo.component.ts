@@ -2,10 +2,9 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  inject,
 } from '@angular/core';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
-import { SkyModalService } from '@skyux/modals';
+import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 
 import {
   ColDef,
@@ -26,12 +25,8 @@ import { SkyDataEntryGridEditModalComponent } from './data-entry-grid-docs-demo-
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDataEntryGridDemoComponent {
-  protected gridData = SKY_AG_GRID_DEMO_DATA;
-  protected gridOptions: GridOptions;
-  protected noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
-  protected searchText = '';
-
-  #columnDefs: ColDef[] = [
+  public gridData = SKY_AG_GRID_DEMO_DATA;
+  public columnDefs: ColDef[] = [
     {
       field: 'selected',
       type: SkyCellType.RowSelector,
@@ -76,7 +71,7 @@ export class SkyDataEntryGridDemoComponent {
       field: 'endDate',
       headerName: 'End date',
       type: SkyCellType.Date,
-      valueFormatter: this.#endDateFormatter,
+      valueFormatter: this.endDateFormatter,
     },
     {
       field: 'department',
@@ -109,32 +104,34 @@ export class SkyDataEntryGridDemoComponent {
     },
   ];
 
-  #gridApi: GridApi | undefined;
+  public gridApi: GridApi | undefined;
+  public gridOptions: GridOptions;
+  public searchText = '';
+  public noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
 
-  readonly #agGridSvc = inject(SkyAgGridService);
-  readonly #changeDetectorRef = inject(ChangeDetectorRef);
-  readonly #modalSvc = inject(SkyModalService);
-
-  constructor() {
+  constructor(
+    private agGridService: SkyAgGridService,
+    private modalService: SkyModalService,
+    private changeDetection: ChangeDetectorRef
+  ) {
     this.gridOptions = {
-      columnDefs: this.#columnDefs,
+      columnDefs: this.columnDefs,
       onGridReady: (gridReadyEvent): void => this.onGridReady(gridReadyEvent),
     };
 
-    this.gridOptions = this.#agGridSvc.getGridOptions({
+    this.gridOptions = this.agGridService.getGridOptions({
       gridOptions: this.gridOptions,
     });
-
-    this.#changeDetectorRef.markForCheck();
+    this.changeDetection.markForCheck();
   }
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
-    this.#gridApi = gridReadyEvent.api;
-    this.#gridApi.sizeColumnsToFit();
-    this.#changeDetectorRef.markForCheck();
+    this.gridApi = gridReadyEvent.api;
+    this.gridApi.sizeColumnsToFit();
+    this.changeDetection.markForCheck();
   }
 
-  protected openModal(): void {
+  public openModal(): void {
     const context = new SkyDataEntryGridEditModalContext();
     context.gridData = this.gridData;
 
@@ -146,42 +143,42 @@ export class SkyDataEntryGridDemoComponent {
       size: 'large',
     };
 
-    const modalInstance = this.#modalSvc.open(
+    const modalInstance = this.modalService.open(
       SkyDataEntryGridEditModalComponent,
       options
     );
 
-    modalInstance.closed.subscribe((result) => {
+    modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {
       if (result.reason === 'cancel' || result.reason === 'close') {
         alert('Edits canceled!');
       } else {
         this.gridData = result.data;
-        if (this.#gridApi) {
-          this.#gridApi.refreshCells();
+        if (this.gridApi) {
+          this.gridApi.refreshCells();
         }
         alert('Saving data!');
       }
     });
   }
 
-  protected searchApplied(searchText: string | void): void {
+  public searchApplied(searchText: string | void): void {
     if (searchText) {
       this.searchText = searchText;
     } else {
       this.searchText = '';
     }
-    if (this.#gridApi) {
-      this.#gridApi.setQuickFilter(this.searchText);
-      const displayedRowCount = this.#gridApi.getDisplayedRowCount();
+    if (this.gridApi) {
+      this.gridApi.setQuickFilter(this.searchText);
+      const displayedRowCount = this.gridApi.getDisplayedRowCount();
       if (displayedRowCount > 0) {
-        this.#gridApi.hideOverlay();
+        this.gridApi.hideOverlay();
       } else {
-        this.#gridApi.showNoRowsOverlay();
+        this.gridApi.showNoRowsOverlay();
       }
     }
   }
 
-  #endDateFormatter(params: ValueFormatterParams): string {
+  private endDateFormatter(params: ValueFormatterParams): string {
     const dateConfig = { year: 'numeric', month: '2-digit', day: '2-digit' };
     return params.value
       ? params.value.toLocaleDateString('en-us', dateConfig)
