@@ -21,7 +21,6 @@
 @include mixins.sky-host-responsive-container-xs-min(false) {
   .sky-action-button {
     padding: $sky-padding-double $sky-padding-double $sky-padding-triple;
-    margin: 0 $sky-margin-plus-half;
   }
 
   .sky-action-button-icon-header-container {
@@ -32,7 +31,6 @@
 @include mixins.sky-host-responsive-container-sm-min(false) {
   .sky-action-button {
     padding: $sky-padding-triple $sky-padding-double;
-    margin: 0;
     max-width: 236px;
   }
 
