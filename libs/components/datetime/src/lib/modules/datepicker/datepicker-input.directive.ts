@@ -20,7 +20,7 @@ import {
   ValidationErrors,
   Validator,
 } from '@angular/forms';
-import { SkyAppLocaleProvider, SkyLibResourcesService } from '@skyux/i18n';
+import { SkyAppLocaleProvider } from '@skyux/i18n';
 
 import moment from 'moment';
 import { Subject } from 'rxjs';
@@ -229,7 +229,6 @@ export class SkyDatepickerInputDirective
   #elementRef: ElementRef;
   #localeProvider: SkyAppLocaleProvider;
   #renderer: Renderer2;
-  #resourcesService: SkyLibResourcesService;
   #datepickerComponent: SkyDatepickerComponent;
 
   constructor(
@@ -239,7 +238,6 @@ export class SkyDatepickerInputDirective
     elementRef: ElementRef,
     localeProvider: SkyAppLocaleProvider,
     renderer: Renderer2,
-    resourcesService: SkyLibResourcesService,
     @Optional() datepickerComponent?: SkyDatepickerComponent
   ) {
     if (!datepickerComponent) {
@@ -254,7 +252,6 @@ export class SkyDatepickerInputDirective
     this.#elementRef = elementRef;
     this.#localeProvider = localeProvider;
     this.#renderer = renderer;
-    this.#resourcesService = resourcesService;
     this.#datepickerComponent = datepickerComponent;
     this.#initialPlaceholder = this.#adapter.getPlaceholder(this.#elementRef);
     this.#updatePlaceholder();
@@ -274,17 +271,6 @@ export class SkyDatepickerInputDirective
     const element = this.#elementRef.nativeElement;
 
     this.#renderer.addClass(element, 'sky-form-control');
-
-    const hasAriaLabel = element.getAttribute('aria-label');
-
-    if (!hasAriaLabel) {
-      this.#resourcesService
-        .getString('skyux_date_field_default_label')
-        .pipe(takeUntil(this.#ngUnsubscribe))
-        .subscribe((value: string) => {
-          this.#renderer.setAttribute(element, 'aria-label', value);
-        });
-    }
   }
 
   public ngAfterContentInit(): void {

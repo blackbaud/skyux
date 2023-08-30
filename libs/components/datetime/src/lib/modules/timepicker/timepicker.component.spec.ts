@@ -471,15 +471,7 @@ describe('Timepicker', () => {
       flushTimers();
     }));
 
-    it('should apply aria-label to the timepicker input when none is provided', fakeAsync(() => {
-      detectChangesAndTick(fixture);
-
-      expect(getInput(fixture).getAttribute('aria-label')).toBe('Time');
-    }));
-
     it('should not overwrite aria-label on the timepicker input when one is provided', fakeAsync(() => {
-      detectChangesAndTick(fixture);
-      getInput(fixture).setAttribute('aria-label', 'This is a time field.');
       detectChangesAndTick(fixture);
 
       expect(getInput(fixture).getAttribute('aria-label')).toBe(

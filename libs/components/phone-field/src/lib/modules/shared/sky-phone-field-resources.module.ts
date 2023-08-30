@@ -16,7 +16,6 @@ import {
 
 const RESOURCES: { [locale: string]: SkyLibResources } = {
   'EN-US': {
-    skyux_phone_field_default_label: { message: 'Phone number' },
     skyux_phone_field_country_search_dismiss: {
       message: 'Dismiss country search',
     },
