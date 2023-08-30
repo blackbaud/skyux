@@ -259,8 +259,6 @@ jobs:
       fail-fast: false
       matrix:
         include: ${{ fromJSON(needs.install-deps.outputs.parameters).e2eTargets }}
-    outputs:
-      affected: ${{ matrix.project != 'skip' && steps.affected.outputs.affected || 'skip' }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -357,11 +355,6 @@ jobs:
       - e2e
       - publish
     steps:
-      - name: Show needs context
-        run: |
-          echo 'Needs context:'
-          echo ''
-          echo '${{ toJson(needs) }}' | jq
       - uses: actions/github-script@v6
         name: Verify E2E Visual Review
         with:
