@@ -6,8 +6,8 @@ import {
   NgZone,
   OnDestroy,
   OnInit,
-  Optional,
   Output,
+  inject,
 } from '@angular/core';
 import { SkyMutationObserverService } from '@skyux/core';
 import { SkyTheme, SkyThemeService } from '@skyux/theme';
@@ -23,6 +23,7 @@ import { SkyModalScrollShadowEventArgs } from './modal-scroll-shadow-event-args'
  * @internal
  */
 @Directive({
+  standalone: true,
   selector: '[skyModalScrollShadow]',
 })
 export class SkyModalScrollShadowDirective implements OnInit, OnDestroy {
@@ -38,22 +39,10 @@ export class SkyModalScrollShadowDirective implements OnInit, OnDestroy {
 
   #ngUnsubscribe = new Subject<void>();
 
-  #elRef: ElementRef;
-  #mutationObserverSvc: SkyMutationObserverService;
-  #ngZone: NgZone;
-  #themeSvc: SkyThemeService | undefined;
-
-  constructor(
-    elRef: ElementRef,
-    mutationObserverSvc: SkyMutationObserverService,
-    ngZone: NgZone,
-    @Optional() themeSvc?: SkyThemeService
-  ) {
-    this.#elRef = elRef;
-    this.#mutationObserverSvc = mutationObserverSvc;
-    this.#ngZone = ngZone;
-    this.#themeSvc = themeSvc;
-  }
+  readonly #elRef = inject(ElementRef);
+  readonly #mutationObserverSvc = inject(SkyMutationObserverService);
+  readonly #ngZone = inject(NgZone);
+  readonly #themeSvc = inject(SkyThemeService, { optional: true });
 
   @HostListener('window:resize')
   public windowResize(): void {

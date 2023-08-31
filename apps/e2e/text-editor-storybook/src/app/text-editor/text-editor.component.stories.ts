@@ -1,4 +1,10 @@
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
+import { provideRouter } from '@angular/router';
+import {
+  Meta,
+  StoryFn,
+  applicationConfig,
+  moduleMetadata,
+} from '@storybook/angular';
 
 import { TextEditorComponent } from './text-editor.component';
 import { TextEditorModule } from './text-editor.module';
@@ -8,6 +14,11 @@ export default {
   title: 'Components/Text Editor',
   component: TextEditorComponent,
   decorators: [
+    // Needed to address the 'No provider for ActivatedRoute!' for standalone components.
+    // See: https://github.com/storybookjs/storybook/issues/21218
+    applicationConfig({
+      providers: [provideRouter([])],
+    }),
     moduleMetadata({
       imports: [TextEditorModule],
     }),

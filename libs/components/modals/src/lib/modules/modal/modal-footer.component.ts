@@ -1,4 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { Component, ViewEncapsulation, inject } from '@angular/core';
+import { SkyStatusIndicatorModule } from '@skyux/indicators';
 
 import { SkyModalErrorsService } from './modal-errors.service';
 
@@ -6,11 +8,13 @@ import { SkyModalErrorsService } from './modal-errors.service';
  * Specifies content to display in the modal's footer.
  */
 @Component({
+  standalone: true,
   selector: 'sky-modal-footer',
   templateUrl: './modal-footer.component.html',
   styleUrls: ['./modal-footer.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  imports: [CommonModule, SkyStatusIndicatorModule],
 })
 export class SkyModalFooterComponent {
-  protected errorsSvc = inject(SkyModalErrorsService);
+  protected readonly errorsSvc = inject(SkyModalErrorsService);
 }

@@ -1,12 +1,11 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { expect } from '@skyux-sdk/testing';
 import {
   SkyConfirmCloseEventArgs,
   SkyConfirmConfig,
-  SkyConfirmModule,
   SkyConfirmService,
   SkyConfirmType,
 } from '@skyux/modals';
@@ -56,10 +55,13 @@ class TestComponent {
 //#endregion Test component
 
 describe('Confirm harness', () => {
-  async function setupTest(config?: SkyConfirmConfig) {
+  async function setupTest(config?: SkyConfirmConfig): Promise<{
+    confirmHarness: SkyConfirmHarness;
+    fixture: ComponentFixture<TestComponent>;
+  }> {
     TestBed.configureTestingModule({
       declarations: [TestComponent],
-      imports: [RouterTestingModule, SkyConfirmModule],
+      imports: [RouterTestingModule],
     });
 
     const fixture = TestBed.createComponent(TestComponent);

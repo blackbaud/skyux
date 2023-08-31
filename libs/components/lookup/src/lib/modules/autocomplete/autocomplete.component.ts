@@ -5,6 +5,7 @@ import {
   Component,
   ContentChild,
   ElementRef,
+  EnvironmentInjector,
   EventEmitter,
   Inject,
   Input,
@@ -13,6 +14,7 @@ import {
   Output,
   TemplateRef,
   ViewChild,
+  inject,
 } from '@angular/core';
 import {
   SKY_STACKING_CONTEXT,
@@ -459,6 +461,8 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   #elementRef: ElementRef;
 
+  readonly #environmentInjector = inject(EnvironmentInjector);
+
   #hasFocus = false;
 
   #inputBoxHostSvc: SkyInputBoxHostService | undefined;
@@ -873,6 +877,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       const overlay = this.#overlayService.create({
         enableClose: false,
         enablePointerEvents: true,
+        environmentInjector: this.#environmentInjector,
         wrapperClass: this.wrapperClass,
       });
 

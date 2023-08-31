@@ -1,11 +1,28 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { SkyModalInstance } from '@skyux/modals';
-import { SkyTabIndex } from '@skyux/tabs';
+import {
+  ReactiveFormsModule,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+} from '@angular/forms';
+import { SkyIdModule } from '@skyux/core';
+import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
+import { SkyTabIndex, SkyTabsModule } from '@skyux/tabs';
 
 @Component({
+  standalone: true,
   selector: 'app-wizard-demo-modal',
   templateUrl: './wizard-modal.component.html',
+  imports: [
+    CommonModule,
+    SkyCheckboxModule,
+    SkyIdModule,
+    SkyInputBoxModule,
+    SkyTabsModule,
+    SkyModalModule,
+    ReactiveFormsModule,
+  ],
 })
 export class WizardModalComponent implements OnInit {
   public myForm: UntypedFormGroup;

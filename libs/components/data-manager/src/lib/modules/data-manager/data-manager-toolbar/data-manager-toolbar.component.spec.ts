@@ -7,22 +7,20 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import {
-  SkyDataManagerColumnPickerSortStrategy,
-  SkyDataManagerService,
-  SkyDataManagerState,
-  SkyDataViewConfig,
-  SkyDataViewState,
-} from '@skyux/data-manager';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
 import { Subject } from 'rxjs';
 
 import { SkyDataManagerColumnPickerContext } from '../data-manager-column-picker/data-manager-column-picker-context';
 import { SkyDataManagerColumnPickerComponent } from '../data-manager-column-picker/data-manager-column-picker.component';
+import { SkyDataManagerService } from '../data-manager.service';
 import { DataManagerFixtureComponent } from '../fixtures/data-manager.component.fixture';
 import { DataManagerFixtureModule } from '../fixtures/data-manager.module.fixture';
 import { SkyDataManagerColumnPickerOption } from '../models/data-manager-column-picker-option';
+import { SkyDataManagerColumnPickerSortStrategy } from '../models/data-manager-column-picker-sort-strategy';
+import { SkyDataManagerState } from '../models/data-manager-state';
+import { SkyDataViewConfig } from '../models/data-view-config';
+import { SkyDataViewState } from '../models/data-view-state';
 
 import { SkyDataManagerToolbarComponent } from './data-manager-toolbar.component';
 
@@ -50,7 +48,10 @@ class MockModalService {
   }
 }
 
-@Component({})
+@Component({
+  standalone: true,
+  template: '',
+})
 class MockModalComponent {}
 
 describe('SkyDataManagerToolbarComponent', () => {
@@ -524,7 +525,6 @@ describe('SkyDataManagerToolbarComponent', () => {
   });
 
   it('should open the provided filter modal when the filter button is clicked', () => {
-    const mockModal = new MockModalComponent();
     spyOn(modalServiceInstance, 'open').and.callThrough();
     spyOn(dataManagerService, 'getViewById').and.returnValue({
       ...(dataManagerToolbarComponent.activeView as SkyDataViewConfig),
@@ -534,7 +534,7 @@ describe('SkyDataManagerToolbarComponent', () => {
     dataManagerToolbarFixture.detectChanges();
 
     dataManagerToolbarComponent.dataManagerConfig = {
-      filterModalComponent: mockModal,
+      filterModalComponent: MockModalComponent,
     };
 
     const filterBtn = dataManagerToolbarNativeElement.querySelector(

@@ -17,7 +17,7 @@ import { SkySelectionModalOpenArgs } from './types/selection-modal-open-args';
  * Displays a modal for selecting one or more values.
  */
 @Injectable({
-  providedIn: 'any',
+  providedIn: 'root',
 })
 export class SkySelectionModalService {
   #modalSvc: SkyModalService;
@@ -71,9 +71,7 @@ export class SkySelectionModalService {
     instance.itemAdded
       .pipe(takeUntil(modalInstance.closed))
       .subscribe((item) => {
-        (modalInstance.componentInstance as SkySelectionModalComponent).addItem(
-          item
-        );
+        modalInstance.componentInstance.addItem(item);
       });
 
     modalInstance.closed.subscribe((modalCloseArgs) => {
@@ -98,8 +96,7 @@ export class SkySelectionModalService {
       instance.close(closeArgs);
     });
 
-    const selectionModal =
-      modalInstance.componentInstance as SkySelectionModalComponent;
+    const selectionModal = modalInstance.componentInstance;
 
     selectionModal.addClick
       .pipe(takeUntil(modalInstance.closed))

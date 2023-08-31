@@ -9,6 +9,7 @@ import { NavigationStart, Router } from '@angular/router';
 import {
   SkyAppWindowRef,
   SkyCoreAdapterService,
+  SkyDynamicComponentLegacyService,
   SkyDynamicComponentService,
 } from '@skyux/core';
 
@@ -28,10 +29,11 @@ import { SkyFlyoutMessageType } from './types/flyout-message-type';
  * document's `body` element. The `SkyFlyoutInstance` class watches for and triggers flyout events.
  */
 @Injectable({
-  providedIn: 'any',
+  providedIn: 'root',
 })
 export class SkyFlyoutService implements OnDestroy {
-  #host: ComponentRef<SkyFlyoutComponent> | undefined;
+  private static host: ComponentRef<SkyFlyoutComponent> | undefined;
+
   #removeAfterClosed = false;
   #isOpening = false;
   #ngUnsubscribe = new Subject<boolean>();
@@ -58,7 +60,7 @@ export class SkyFlyoutService implements OnDestroy {
 
   public ngOnDestroy(): void {
     this.#removeListeners();
-    if (this.#host) {
+    if (SkyFlyoutService.host) {
       this.#removeHostComponent();
     }
   }
@@ -68,8 +70,8 @@ export class SkyFlyoutService implements OnDestroy {
    * @param args Arguments used when closing the flyout.
    */
   public close(args?: SkyFlyoutCloseArgs): void {
-    if (this.#host && !this.#isOpening) {
-      this.#host.instance.messageStream.next({
+    if (SkyFlyoutService.host && !this.#isOpening) {
+      SkyFlyoutService.host.instance.messageStream.next({
         type: SkyFlyoutMessageType.Close,
         data: {
           ignoreBeforeClose: args ? args.ignoreBeforeClose : false,
@@ -93,18 +95,18 @@ export class SkyFlyoutService implements OnDestroy {
       this.#isOpening = false;
     });
 
-    if (!this.#host) {
-      this.#host = this.#createHostComponent();
+    if (!SkyFlyoutService.host) {
+      SkyFlyoutService.host = this.#createHostComponent();
 
       this.#router.events
-        .pipe(takeWhile(() => this.#host !== undefined))
+        .pipe(takeWhile(() => SkyFlyoutService.host !== undefined))
         .subscribe((event) => {
           if (event instanceof NavigationStart) {
             this.close();
 
             // Sanity check - if the host still exists after animations should have completed - remove host
             this.#ngZone.onStable.pipe(take(1)).subscribe(() => {
-              if (this.#host) {
+              if (SkyFlyoutService.host) {
                 this.#removeHostComponent();
               }
             });
@@ -112,7 +114,7 @@ export class SkyFlyoutService implements OnDestroy {
         });
     }
 
-    const flyout = this.#host.instance.attach(component, config);
+    const flyout = SkyFlyoutService.host.instance.attach(component, config);
 
     this.#addListeners(flyout);
 
@@ -120,22 +122,22 @@ export class SkyFlyoutService implements OnDestroy {
   }
 
   #createHostComponent(): ComponentRef<SkyFlyoutComponent> {
-    this.#host =
+    SkyFlyoutService.host =
       this.#dynamicComponentService.createComponent(SkyFlyoutComponent);
-    return this.#host;
+    return SkyFlyoutService.host;
   }
 
   #removeHostComponent(): void {
-    if (this.#host) {
-      this.#dynamicComponentService.removeComponent(this.#host);
-      this.#host = undefined;
+    if (SkyFlyoutService.host) {
+      this.#dynamicComponentService.removeComponent(SkyFlyoutService.host);
+      SkyFlyoutService.host = undefined;
     }
   }
 
   #addListeners<T>(flyout: SkyFlyoutInstance<T>): void {
     /* istanbul ignore else */
-    if (this.#host) {
-      const flyoutInstance = this.#host.instance;
+    if (SkyFlyoutService.host) {
+      const flyoutInstance = SkyFlyoutService.host.instance;
 
       let doClose = false;
 
@@ -151,7 +153,7 @@ export class SkyFlyoutService implements OnDestroy {
         .subscribe((event: Event) => {
           doClose = false;
 
-          if (this.#host?.instance.isDragging) {
+          if (SkyFlyoutService.host?.instance.isDragging) {
             return;
           }
 
@@ -210,5 +212,28 @@ export class SkyFlyoutService implements OnDestroy {
     this.#ngUnsubscribe.next(true);
     this.#ngUnsubscribe.unsubscribe();
     this.#ngUnsubscribe = new Subject<boolean>();
+  }
+}
+
+/**
+ * Launches flyouts and provides a common look and feel.
+ * This service dynamically generates the flyout component and appends it directly to the
+ * document's `body` element. The `SkyFlyoutInstance` class watches for and triggers flyout events.
+ * @internal
+ * @deprecated Use `SkyFlyoutService` to open a standalone component instead.
+ */
+@Injectable({
+  providedIn: 'any',
+})
+export class SkyFlyoutLegacyService extends SkyFlyoutService {
+  /* istanbul ignore next */
+  constructor(
+    coreAdapter: SkyCoreAdapterService,
+    windowRef: SkyAppWindowRef,
+    dynamicComponentService: SkyDynamicComponentLegacyService,
+    router: Router,
+    ngZone: NgZone
+  ) {
+    super(coreAdapter, windowRef, dynamicComponentService, router, ngZone);
   }
 }

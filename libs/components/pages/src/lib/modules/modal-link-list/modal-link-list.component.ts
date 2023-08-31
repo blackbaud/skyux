@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { SkyModalService } from '@skyux/modals';
 
 import { SkyPageModalLink } from '../action-hub/types/page-modal-link';
@@ -27,17 +27,13 @@ export class SkyModalLinkListComponent {
 
   #_links: SkyPageModalLinksInput | undefined;
 
-  #modalService: SkyModalService;
-
-  constructor(modalService: SkyModalService) {
-    this.#modalService = modalService;
-  }
+  readonly #modalSvc = inject(SkyModalService);
 
   public openModal(link: SkyPageModalLink): void {
     const modal = link.modal;
 
     if (modal) {
-      this.#modalService.open(modal.component, modal.config);
+      this.#modalSvc.open(modal.component, modal.config);
     }
   }
 }

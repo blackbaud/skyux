@@ -1,16 +1,32 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   ViewChild,
   inject,
 } from '@angular/core';
-import { SkyModalInstance } from '@skyux/modals';
-import { SkySectionedFormComponent } from '@skyux/tabs';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
+import { SkySectionedFormComponent, SkySectionedFormModule } from '@skyux/tabs';
+
+import { SectionedFormAddressFormDemoComponent } from './sectioned-form-address-form-demo.component';
+import { SectionedFormDateFormDemoComponent } from './sectioned-form-date-form-demo.component';
+import { SectionedFormInformationFormDemoComponent } from './sectioned-form-information-form-demo.component';
+import { SectionedFormPhoneFormDemoComponent } from './sectioned-form-phone-form-demo.component';
 
 @Component({
+  standalone: true,
   selector: 'app-sectioned-form-modal',
   templateUrl: './sectioned-form-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    SectionedFormAddressFormDemoComponent,
+    SectionedFormDateFormDemoComponent,
+    SectionedFormInformationFormDemoComponent,
+    SectionedFormPhoneFormDemoComponent,
+    SkyModalModule,
+    SkySectionedFormModule,
+  ],
 })
 export class SectionedFormModalComponent {
   @ViewChild('sectionedFormComponent', { static: true })

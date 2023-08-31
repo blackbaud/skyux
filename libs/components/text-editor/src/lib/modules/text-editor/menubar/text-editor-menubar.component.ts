@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -5,15 +6,23 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
-import { SkyDropdownMessage, SkyDropdownMessageType } from '@skyux/popovers';
+import { SkyToolbarModule } from '@skyux/layout';
+import {
+  SkyDropdownMessage,
+  SkyDropdownMessageType,
+  SkyDropdownModule,
+} from '@skyux/popovers';
+import { SkyThemeModule } from '@skyux/theme';
 
 import he from 'he';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
 import { SkyFormsUtility } from '../../shared/forms-utility';
+import { SkyTextEditorResourcesModule } from '../../shared/sky-text-editor-resources.module';
 import { SkyTextEditorAdapterService } from '../services/text-editor-adapter.service';
 import { SkyTextEditorMenuType } from '../types/menu-type';
 import { SkyTextEditorMergeField } from '../types/text-editor-merge-field';
@@ -25,10 +34,18 @@ const EDIT_MENU_ACTION = 'skyux_text_editor_edit_menu_action_';
  * @internal
  */
 @Component({
+  standalone: true,
   selector: 'sky-text-editor-menubar',
   templateUrl: './text-editor-menubar.component.html',
   styleUrls: ['./text-editor-menubar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    SkyDropdownModule,
+    SkyTextEditorResourcesModule,
+    SkyThemeModule,
+    SkyToolbarModule,
+  ],
 })
 export class SkyTextEditorMenubarComponent implements OnDestroy, OnInit {
   @Input()
@@ -80,19 +97,10 @@ export class SkyTextEditorMenubarComponent implements OnDestroy, OnInit {
   public mergeFieldDropdownStream = new Subject<SkyDropdownMessage>();
 
   #ngUnsubscribe = new Subject<void>();
-  #adapterService: SkyTextEditorAdapterService;
-  #changeDetector: ChangeDetectorRef;
-  #resources: SkyLibResourcesService;
 
-  constructor(
-    adapterService: SkyTextEditorAdapterService,
-    changeDetector: ChangeDetectorRef,
-    resources: SkyLibResourcesService
-  ) {
-    this.#adapterService = adapterService;
-    this.#changeDetector = changeDetector;
-    this.#resources = resources;
-  }
+  readonly #adapterService = inject(SkyTextEditorAdapterService);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #resources = inject(SkyLibResourcesService);
 
   public ngOnInit(): void {
     this.editorFocusStream

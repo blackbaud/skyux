@@ -1,10 +1,7 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { SkyOverlayComponent } from './overlay.component';
-
-@NgModule({
-  imports: [CommonModule],
-  declarations: [SkyOverlayComponent],
-})
+/**
+ * @deprecated The `SkyOverlayModule` is no longer needed and can be removed from your application.
+ */
+@NgModule({})
 export class SkyOverlayModule {}

@@ -1,12 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {
-  SkyAffixModule,
-  SkyIdModule,
-  SkyNumericModule,
-  SkyOverlayModule,
-} from '@skyux/core';
+import { SkyAffixModule, SkyIdModule, SkyNumericModule } from '@skyux/core';
 import {
   SkyIconModule,
   SkyTextHighlightModule,
@@ -35,7 +30,6 @@ import { SkyAutocompleteComponent } from './autocomplete.component';
     SkyIdModule,
     SkyLookupResourcesModule,
     SkyNumericModule,
-    SkyOverlayModule,
     SkyThemeModule,
     SkyWaitModule,
   ],

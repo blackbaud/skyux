@@ -1,9 +1,10 @@
-import { ComponentRef, Injectable, inject } from '@angular/core';
 import {
-  SkyAppWindowRef,
-  SkyDynamicComponentLocation,
-  SkyDynamicComponentService,
-} from '@skyux/core';
+  ComponentRef,
+  EnvironmentInjector,
+  Injectable,
+  inject,
+} from '@angular/core';
+import { SkyAppWindowRef, SkyDynamicComponentService } from '@skyux/core';
 
 import { Observable, defer as observableDefer } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -16,9 +17,10 @@ let pageWaitBlockingCount = 0;
 let pageWaitNonBlockingCount = 0;
 
 @Injectable({
-  providedIn: 'any',
+  providedIn: 'root',
 })
 export class SkyWaitService {
+  #environmentInjector = inject(EnvironmentInjector);
   #windowSvc = inject(SkyAppWindowRef);
   #dynamicComponentService = inject(SkyDynamicComponentService);
 
@@ -118,7 +120,7 @@ export class SkyWaitService {
           waitComponentRef = this.#dynamicComponentService.createComponent(
             SkyWaitPageComponent,
             {
-              location: SkyDynamicComponentLocation.BodyBottom,
+              environmentInjector: this.#environmentInjector,
             }
           );
           waitComponent = waitComponentRef.instance;

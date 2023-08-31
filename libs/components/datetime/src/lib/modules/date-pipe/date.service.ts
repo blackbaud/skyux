@@ -16,7 +16,9 @@ import { takeUntil } from 'rxjs/operators';
 /**
  * @internal
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class SkyDateService implements OnDestroy {
   /* spell-checker:disable */
   #ALIASES: { [key: string]: string } = {
