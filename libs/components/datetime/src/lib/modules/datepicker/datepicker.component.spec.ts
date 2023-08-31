@@ -398,7 +398,7 @@ describe('datepicker', () => {
 
       // Scroll datepicker offscreen.
       window.scrollTo(0, 1000);
-      SkyAppTestUtility.fireDomEvent(window, 'scroll');
+      SkyAppTestUtility.fireDomEvent(window.visualViewport, 'scroll');
       fixture.detectChanges();
       tick();
 
