@@ -1,17 +1,29 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   Input,
   OnInit,
+  inject,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import {
   SkyColorpickerMessage,
   SkyColorpickerMessageType,
+  SkyColorpickerModule,
   SkyColorpickerOutput,
 } from '@skyux/colorpicker';
+import { SkyCheckboxModule } from '@skyux/forms';
+import { SkyIconModule } from '@skyux/indicators';
+import { SkyToolbarModule } from '@skyux/layout';
 import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
-import { SkyDropdownMessage, SkyDropdownMessageType } from '@skyux/popovers';
+import {
+  SkyDropdownMessage,
+  SkyDropdownMessageType,
+  SkyDropdownModule,
+} from '@skyux/popovers';
+import { SkyThemeModule } from '@skyux/theme';
 
 import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -30,10 +42,21 @@ import { UrlTarget } from '../url-modal/text-editor-url-target';
  * @internal
  */
 @Component({
+  standalone: true,
   selector: 'sky-text-editor-toolbar',
   templateUrl: './text-editor-toolbar.component.html',
   styleUrls: ['./text-editor-toolbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    FormsModule,
+    SkyCheckboxModule,
+    SkyColorpickerModule,
+    SkyDropdownModule,
+    SkyIconModule,
+    SkyThemeModule,
+    SkyToolbarModule,
+  ],
 })
 export class SkyTextEditorToolbarComponent implements OnInit {
   @Input()
@@ -91,24 +114,15 @@ export class SkyTextEditorToolbarComponent implements OnInit {
   public styleStateFontName: string | undefined;
 
   #editorFocusStreamSub: Subscription | undefined;
-  #adapterService: SkyTextEditorAdapterService;
-  #changeDetector: ChangeDetectorRef;
-  #modalService: SkyModalService;
   #ngUnsubscribe = new Subject<void>();
 
   #_editorFocusStream = new Subject<void>();
   #_disabled = false;
   #_styleState = STYLE_STATE_DEFAULTS;
 
-  constructor(
-    adapterService: SkyTextEditorAdapterService,
-    changeDetector: ChangeDetectorRef,
-    modalService: SkyModalService
-  ) {
-    this.#adapterService = adapterService;
-    this.#changeDetector = changeDetector;
-    this.#modalService = modalService;
-  }
+  readonly #adapterService = inject(SkyTextEditorAdapterService);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #modalService = inject(SkyModalService);
 
   public ngOnInit(): void {
     this.#subscribeEditorFocus();

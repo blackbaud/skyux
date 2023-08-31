@@ -11,7 +11,6 @@ import { Subject } from 'rxjs';
 import { SkyLookupAddClickEventArgs } from '../lookup/types/lookup-add-click-event-args';
 
 import { SkySelectionModalComponent } from './selection-modal.component';
-import { SkySelectionModalModule } from './selection-modal.module';
 import { SkySelectionModalService } from './selection-modal.service';
 import { SkySelectionModalContext } from './types/selection-modal-context';
 import { SkySelectionModalOpenArgs } from './types/selection-modal-open-args';
@@ -64,7 +63,6 @@ describe('Selection modal service', () => {
     });
 
     TestBed.configureTestingModule({
-      imports: [SkySelectionModalModule],
       providers: [
         {
           provide: SkyModalService,

@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -5,16 +6,17 @@ import {
   ComponentRef,
   ElementRef,
   EmbeddedViewRef,
+  EnvironmentInjector,
   HostBinding,
-  Injector,
   OnDestroy,
   OnInit,
-  Optional,
   StaticProvider,
   TemplateRef,
   Type,
   ViewChild,
   ViewContainerRef,
+  createEnvironmentInjector,
+  inject,
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 
@@ -57,10 +59,12 @@ let uniqueZIndex = 5000;
  * @internal
  */
 @Component({
+  standalone: true,
   selector: 'sky-overlay',
   templateUrl: './overlay.component.html',
   styleUrls: ['./overlay.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule],
 })
 export class SkyOverlayComponent implements OnInit, OnDestroy {
   public wrapperClass = '';
@@ -108,39 +112,23 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
 
   #backdropClickObs: Observable<void>;
 
-  #changeDetector: ChangeDetectorRef;
-
   #closed: Subject<void>;
 
   #closedObs: Observable<void>;
 
-  #context: SkyOverlayContext;
-
-  #coreAdapter: SkyCoreAdapterService;
-
-  #injector: Injector;
-
   #ngUnsubscribe = new Subject<void>();
-
-  #router: Router | undefined;
 
   #routerSubscription: Subscription | undefined;
 
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    injector: Injector,
-    coreAdapter: SkyCoreAdapterService,
-    context: SkyOverlayContext,
-    idSvc: SkyIdService,
-    @Optional() router?: Router
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#injector = injector;
-    this.#coreAdapter = coreAdapter;
-    this.#context = context;
-    this.#router = router;
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #context = inject(SkyOverlayContext);
+  readonly #coreAdapter = inject(SkyCoreAdapterService);
+  readonly #environmentInjector = inject(EnvironmentInjector);
+  readonly #idSvc = inject(SkyIdService);
+  readonly #router = inject(Router, { optional: true });
 
-    this.id = idSvc.generateId();
+  constructor() {
+    this.id = this.#idSvc.generateId();
 
     this.#backdropClick = new Subject<void>();
     this.#closed = new Subject<void>();
@@ -185,8 +173,8 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
 
     this.targetRef.clear();
 
-    const injector = Injector.create({
-      providers: [
+    const environmentInjector = createEnvironmentInjector(
+      [
         {
           provide: SKY_STACKING_CONTEXT,
           useValue: {
@@ -197,11 +185,11 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
         },
         ...providers,
       ],
-      parent: this.#injector,
-    });
+      this.#environmentInjector
+    );
 
     const componentRef = this.targetRef.createComponent<C>(component, {
-      injector,
+      environmentInjector,
     });
 
     // Run an initial change detection cycle after the component has been created.
@@ -223,7 +211,9 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
 
     this.targetRef.clear();
 
-    return this.targetRef.createEmbeddedView(templateRef, context);
+    return this.targetRef.createEmbeddedView(templateRef, context, {
+      injector: this.#environmentInjector,
+    });
   }
 
   public updateClipPath(clipPath: string | undefined): void {

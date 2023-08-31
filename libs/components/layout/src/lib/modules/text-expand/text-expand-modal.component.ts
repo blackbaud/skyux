@@ -1,5 +1,7 @@
 import { Component, Inject } from '@angular/core';
-import { SkyModalInstance } from '@skyux/modals';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
+
+import { SkyLayoutResourcesModule } from '../shared/sky-layout-resources.module';
 
 import { SkyTextExpandModalContext } from './text-expand-modal-context';
 import { SKY_TEXT_EXPAND_MODAL_CONTEXT } from './text-expand-modal-context-token';
@@ -8,9 +10,11 @@ import { SKY_TEXT_EXPAND_MODAL_CONTEXT } from './text-expand-modal-context-token
  * @internal
  */
 @Component({
+  standalone: true,
   selector: 'sky-text-expand-modal',
   templateUrl: './text-expand-modal.component.html',
   styleUrls: ['./text-expand.component.scss'],
+  imports: [SkyModalModule, SkyLayoutResourcesModule],
 })
 export class SkyTextExpandModalComponent {
   constructor(

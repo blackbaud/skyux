@@ -1,22 +1,7 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SkyIdModule } from '@skyux/core';
-import { SkyThemeModule } from '@skyux/theme';
 
-import { SkyModalModule } from '../modal/modal.module';
-import { SkyModalsResourcesModule } from '../shared/sky-modals-resources.module';
-
-import { SkyConfirmComponent } from './confirm.component';
-
-@NgModule({
-  declarations: [SkyConfirmComponent],
-  imports: [
-    CommonModule,
-    SkyIdModule,
-    SkyModalModule,
-    SkyModalsResourcesModule,
-    SkyThemeModule,
-  ],
-  exports: [SkyConfirmComponent],
-})
+/**
+ * @deprecated The `SkyConfirmModule` is no longer needed and can be removed from your application.
+ */
+@NgModule({})
 export class SkyConfirmModule {}

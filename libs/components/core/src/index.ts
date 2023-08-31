@@ -28,7 +28,10 @@ export { SkyDockService } from './lib/modules/dock/dock.service';
 export { SkyDynamicComponentLocation } from './lib/modules/dynamic-component/dynamic-component-location';
 export { SkyDynamicComponentOptions } from './lib/modules/dynamic-component/dynamic-component-options';
 export { SkyDynamicComponentModule } from './lib/modules/dynamic-component/dynamic-component.module';
-export { SkyDynamicComponentService } from './lib/modules/dynamic-component/dynamic-component.service';
+export {
+  SkyDynamicComponentLegacyService,
+  SkyDynamicComponentService,
+} from './lib/modules/dynamic-component/dynamic-component.service';
 
 export { SkyAppFormat } from './lib/modules/format/app-format';
 
@@ -67,7 +70,10 @@ export { SkyOverlayConfig } from './lib/modules/overlay/overlay-config';
 export { SkyOverlayInstance } from './lib/modules/overlay/overlay-instance';
 export { SkyOverlayPosition } from './lib/modules/overlay/overlay-position';
 export { SkyOverlayModule } from './lib/modules/overlay/overlay.module';
-export { SkyOverlayService } from './lib/modules/overlay/overlay.service';
+export {
+  SkyOverlayLegacyService,
+  SkyOverlayService,
+} from './lib/modules/overlay/overlay.service';
 
 export { SkyPercentPipeModule } from './lib/modules/percent-pipe/percent-pipe.module';
 export { SkyPercentPipe } from './lib/modules/percent-pipe/percent.pipe';

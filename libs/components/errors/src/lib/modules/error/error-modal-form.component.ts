@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { SkyModalInstance } from '@skyux/modals';
+import { SkyIdModule } from '@skyux/core';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 import { ErrorModalConfig } from './error-modal-config';
 
@@ -7,9 +8,11 @@ import { ErrorModalConfig } from './error-modal-config';
  * @internal
  */
 @Component({
+  standalone: true,
   selector: 'sky-error-modal-form',
   templateUrl: './error-modal-form.component.html',
   styleUrls: ['./error-modal-form.component.scss'],
+  imports: [SkyIdModule, SkyModalModule],
 })
 export class SkyErrorModalFormComponent {
   constructor(

@@ -1,7 +1,12 @@
-import { Component } from '@angular/core';
-import { SkyModalInstance } from '@skyux/modals';
-import { SkyTabIndex } from '@skyux/tabs';
+import { Component, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { SkyIdModule } from '@skyux/core';
+import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
+import { SkyTabIndex, SkyTabsModule } from '@skyux/tabs';
 import { SkyValidation } from '@skyux/validation';
+
+import { SkyTextEditorResourcesModule } from '../../shared/sky-text-editor-resources.module';
 
 import { SkyUrlModalContext } from './text-editor-url-modal-context';
 import { UrlModalResult } from './text-editor-url-modal-result';
@@ -14,9 +19,18 @@ const queryStringParamKey = '?Subject=';
  * @internal
  */
 @Component({
+  standalone: true,
   selector: 'sky-text-editor-url-modal',
   templateUrl: './text-editor-url-modal.component.html',
   styleUrls: ['./text-editor-url-modal.component.scss'],
+  imports: [
+    FormsModule,
+    SkyModalModule,
+    SkyIdModule,
+    SkyInputBoxModule,
+    SkyTabsModule,
+    SkyTextEditorResourcesModule,
+  ],
 })
 export class SkyTextEditorUrlModalComponent {
   public set activeTab(value: number) {
@@ -51,21 +65,20 @@ export class SkyTextEditorUrlModalComponent {
   public target: number | string = 0;
   public valid = false;
 
-  #modalInstance: SkyModalInstance;
-
   #_activeTab = 0;
   #_emailAddress = '';
   #_url = 'https://';
 
-  constructor(
-    modalInstance: SkyModalInstance,
-    modalContext: SkyUrlModalContext
-  ) {
-    this.#modalInstance = modalInstance;
+  readonly #modalContext = inject(SkyUrlModalContext);
+  readonly #modalInstance = inject(SkyModalInstance);
 
-    if (modalContext.urlResult) {
-      if (modalContext.urlResult.url.startsWith(emailKey)) {
-        this.emailAddress = modalContext.urlResult.url.replace(emailKey, '');
+  constructor() {
+    if (this.#modalContext.urlResult) {
+      if (this.#modalContext.urlResult.url.startsWith(emailKey)) {
+        this.emailAddress = this.#modalContext.urlResult.url.replace(
+          emailKey,
+          ''
+        );
 
         let queryStringIndex = this.emailAddress.indexOf(queryStringParamKey);
         queryStringIndex =
@@ -84,8 +97,8 @@ export class SkyTextEditorUrlModalComponent {
         // Set active tab to email
         this.activeTab = 1;
       } else {
-        (this.url = modalContext.urlResult.url),
-          (this.target = modalContext.urlResult.target as any);
+        (this.url = this.#modalContext.urlResult.url),
+          (this.target = this.#modalContext.urlResult.target as any);
 
         // set active tab to web page
         this.activeTab = 0;

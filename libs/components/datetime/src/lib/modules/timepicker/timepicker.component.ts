@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EnvironmentInjector,
   EventEmitter,
   Inject,
   OnDestroy,
@@ -12,6 +13,7 @@ import {
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import {
   SKY_STACKING_CONTEXT,
@@ -246,6 +248,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
   #affixService: SkyAffixService;
   #changeDetector: ChangeDetectorRef;
   #coreAdapter: SkyCoreAdapterService;
+  readonly #environmentInjector = inject(EnvironmentInjector);
   #overlayService: SkyOverlayService;
   #zIndex: Observable<number> | undefined;
 
@@ -435,6 +438,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
       const overlay = this.#overlayService.create({
         enableClose: false,
         enablePointerEvents: false,
+        environmentInjector: this.#environmentInjector,
       });
 
       if (this.#zIndex) {
