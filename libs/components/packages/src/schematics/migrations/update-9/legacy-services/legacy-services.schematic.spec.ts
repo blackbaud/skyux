@@ -23,13 +23,15 @@ describe('legacy-services.schematic', () => {
 
   it('should replace services with legacy versions', async () => {
     const { runSchematic } = await setupTest({
-      textContent: `import {SkyModalService} from '@skyux/modals';
-import {SkyModalService as FoobarService} from '@skyux/modals';
-import {SkyModalService as ExternalModalService} from '@external/module';
-import {SkyModalService as UnusedService} from 'unused';
-import {SkyDynamicComponentService} from '@skyux/core';
+      textContent: `import { SkyModalService, SkyModalConfiguration } from '@skyux/modals';
+import { SkyModalService as FoobarService } from '@skyux/modals';
+import { SkyModalService as ExternalModalService } from '@external/module';
+import { SkyModalService as UnusedService } from 'unused';
+import { SkyDynamicComponentService } from '@skyux/core';
 import {SkyFlyoutService} from '@skyux/flyout';
-import {SkyToastService} from '@skyux/toast';
+import {
+  SkyToastService
+} from '@skyux/toast';
 
 @Component()
 export class AppComponent {
@@ -66,13 +68,15 @@ describe('', () => {
     const updatedTree = await runSchematic();
 
     expect(updatedTree.readContent('./src/app/app.component.ts')).toEqual(
-      `import {SkyModalLegacyService} from '@skyux/modals';
-import {SkyModalLegacyService as FoobarService} from '@skyux/modals';
-import {SkyModalService as ExternalModalService} from '@external/module';
-import {SkyModalService as UnusedService} from 'unused';
-import {SkyDynamicComponentLegacyService} from '@skyux/core';
+      `import { SkyModalLegacyService, SkyModalConfiguration } from '@skyux/modals';
+import { SkyModalLegacyService as FoobarService } from '@skyux/modals';
+import { SkyModalService as ExternalModalService } from '@external/module';
+import { SkyModalService as UnusedService } from 'unused';
+import { SkyDynamicComponentLegacyService } from '@skyux/core';
 import {SkyFlyoutLegacyService} from '@skyux/flyout';
-import {SkyToastLegacyService} from '@skyux/toast';
+import {
+  SkyToastLegacyService
+} from '@skyux/toast';
 
 @Component()
 export class AppComponent {
