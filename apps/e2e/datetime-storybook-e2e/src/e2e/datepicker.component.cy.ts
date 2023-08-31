@@ -4,7 +4,7 @@ describe('Date picker', () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() => {
-        cy.viewport(1024, 1280);
+        cy.viewport(1024, 1200);
         cy.visit(
           `/iframe.html?globals=theme:${theme}&id=datepickercomponent-datepicker--datepicker`
         );
