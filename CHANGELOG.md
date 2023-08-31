@@ -1,5 +1,31 @@
 # Changelog
 
+## [9.0.0-alpha.9](https://github.com/blackbaud/skyux/compare/9.0.0-alpha.8...9.0.0-alpha.9) (2023-08-31)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/datetime:** timepicker hardcoded `aria-label` is removed and the label should now be provided through a wrapping input box ([#1644](https://github.com/blackbaud/skyux/issues/1644))
+* **components/datetime:** datepicker hardcoded `aria-label` is removed and the label should now be provided through a wrapping input box ([#1646](https://github.com/blackbaud/skyux/issues/1646))
+* **components/phone-field:** phone field hardcoded `aria-label` is removed and the label should now be provided through a wrapping input box ([#1643](https://github.com/blackbaud/skyux/issues/1643))
+
+### Features
+
+* **components/datetime:** datepicker hardcoded `aria-label` is removed and the label should now be provided through a wrapping input box ([#1646](https://github.com/blackbaud/skyux/issues/1646)) ([81ac802](https://github.com/blackbaud/skyux/commit/81ac8027e432e1ee2c90e14ed4e80dc334cc02c8))
+* **components/datetime:** timepicker hardcoded `aria-label` is removed and the label should now be provided through a wrapping input box ([#1644](https://github.com/blackbaud/skyux/issues/1644)) ([23a00c1](https://github.com/blackbaud/skyux/commit/23a00c17425ecb0495243e8733bd11050676df22))
+* **components/phone-field:** phone field hardcoded `aria-label` is removed and the label should now be provided through a wrapping input box ([#1643](https://github.com/blackbaud/skyux/issues/1643)) ([7308d9c](https://github.com/blackbaud/skyux/commit/7308d9c645a7d229d2af325e7a12bbfd6c822805))
+* **components/tabs:** make all tabs responsive containers ([#1642](https://github.com/blackbaud/skyux/issues/1642)) ([80e77ce](https://github.com/blackbaud/skyux/commit/80e77ced7abbd571f7d73de8737346a44e7b3e01))
+
+
+### Bug Fixes
+
+* **components/forms:** update file attachment accessibility and visual labels on the input for linking to a file to be more descriptive ([#1625](https://github.com/blackbaud/skyux/issues/1625)) ([#1647](https://github.com/blackbaud/skyux/issues/1647)) ([c7d54ef](https://github.com/blackbaud/skyux/commit/c7d54ef25dced024d8ae59bab8e2f6e94252bd68))
+* **components/forms:** updated single file attachment to use more descriptive aria labels ([#1630](https://github.com/blackbaud/skyux/issues/1630)) ([#1651](https://github.com/blackbaud/skyux/issues/1651)) ([928aaa8](https://github.com/blackbaud/skyux/commit/928aaa83b7dc866440642122a809a6325932df37))
+* **components/layout:** fix action button margins in responsive containers ([#1661](https://github.com/blackbaud/skyux/issues/1661)) ([#1664](https://github.com/blackbaud/skyux/issues/1664)) ([ca19bc6](https://github.com/blackbaud/skyux/commit/ca19bc6e22b165033c44ad2d1652c74140001888))
+* **components/lookup:** fix regression for lookup in modal ([#1656](https://github.com/blackbaud/skyux/issues/1656)) ([#1657](https://github.com/blackbaud/skyux/issues/1657)) ([301044e](https://github.com/blackbaud/skyux/commit/301044ee5fde820830b202ffa63f01eb33c392e5))
+* **components/split-view:** update split view drawer and active item styling ([#1655](https://github.com/blackbaud/skyux/issues/1655)) ([b347dab](https://github.com/blackbaud/skyux/commit/b347dab60136345e97d970afb816012551fef793))
+* refactor services provided in "any" to provided in "root" ([#1641](https://github.com/blackbaud/skyux/issues/1641)) ([0ce9cc6](https://github.com/blackbaud/skyux/commit/0ce9cc61d1bb8ed3330e470bddd8861a7645d6a8))
+
 ## [8.10.1](https://github.com/blackbaud/skyux/compare/8.10.0...8.10.1) (2023-08-29)
 
 
