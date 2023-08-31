@@ -1,0 +1,86 @@
+name: nx-set-shas
+description: Set the shas based on changes since the last successful workflow run.
+inputs:
+  workflow-id:
+    description: 'The ID of the workflow to track or name of the file name. E.g. ci.yml.'
+    required: true
+outputs:
+  base:
+    description: 'The base sha to use for nx affected commands.'
+    value: ${{ steps.nx-set-shas.outputs.base || steps.workflow-dispatch.outputs.base || steps.set-shas.outputs.base }}
+  head:
+    description: 'The head sha to use for nx affected commands.'
+    value: ${{ steps.nx-set-shas.outputs.head || steps.workflow-dispatch.outputs.head || steps.set-shas.outputs.head }}
+  pr-number:
+    description: 'The PR number for all events, including workflow_dispatch.'
+    value: ${{ steps.workflow-dispatch.outputs.pr-number || github.event.number }}
+runs:
+  using: 'composite'
+  steps:
+    - name: Read default base from nx.json
+      id: read-default-base
+      shell: bash
+      run: |
+        echo "main-branch-name=$(jq -r '.affected.defaultBase' nx.json)" >> $GITHUB_OUTPUT
+
+    - name: Derive appropriate SHAs for base and head for `nx affected` commands (using nrwl/nx-set-shas).
+      if: ${{ ! contains(fromJson('["pull_request", "pull_request_target", "workflow_dispatch"]'), github.event_name) }}
+      id: nx-set-shas
+      uses: nrwl/nx-set-shas@v3
+      with:
+        main-branch-name: ${{ steps.read-default-base.outputs.main-branch-name }}
+        workflow-id: ${{ inputs.workflow-id }}
+
+    - name: Derive appropriate SHAs for base and head for `nx affected` commands (workflow_dispatch).
+      if: ${{ github.event_name == 'workflow_dispatch' }}
+      id: workflow-dispatch
+      uses: actions/github-script@v6
+      with:
+        script: |
+          // Find the last workflow run that intersects with commits to this PR.
+          const pullRequests = await github.rest.pulls.list({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            state: 'open',
+            base: '${{ steps.read-default-base.outputs.main-branch-name }}',
+            head: `${context.repo.owner}:${process.env.GITHUB_REF_NAME}`
+          });
+          if (pullRequests.data.length > 0) {
+            core.setOutput('base', pullRequests.data[0].base.sha);
+            core.setOutput('head', pullRequests.data[0].head.sha);
+            core.setOutput('pr-number', pullRequests.data[0].number);
+            core.setOutput('pr-created_at', pullRequests.data[0].created_at);
+          } else {
+            core.setFailed(`Unable to find an open PR for branch ${process.env.GITHUB_REF_NAME}`);
+            process.exit(1);
+          }
+
+    - name: Derive appropriate SHAs for base and head for `nx affected` commands (PR).
+      if: ${{ contains(fromJson('["pull_request", "pull_request_target"]'), github.event_name) }}
+      id: set-shas
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const headSha = await exec.getExecOutput('git', ['rev-parse', 'HEAD'])
+            .then(({stdout}) => stdout.trim());
+          core.setOutput('head', headSha);
+          const baseSha = await exec.getExecOutput('git', ['merge-base', 'origin/${{ steps.read-default-base.outputs.main-branch-name }}', 'HEAD'])
+            .then(({stdout}) => stdout.trim());
+          core.setOutput('base', baseSha);
+
+    - name: Log base and head SHAs used for nx affected
+      shell: bash
+      run: |
+        echo "Base SHA"
+        echo ${{ steps.nx-set-shas.outputs.base || steps.workflow-dispatch.outputs.base || steps.set-shas.outputs.base }}
+        echo ""
+        echo "Head SHA"
+        echo ${{ steps.nx-set-shas.outputs.head || steps.workflow-dispatch.outputs.head || steps.set-shas.outputs.head }}
+        echo ""
+
+    - name: Set the derived SHAs as NX_BASE and NX_HEAD environment variables for the current job
+      shell: bash
+      run: |
+        echo "NX_BASE=${{ steps.nx-set-shas.outputs.base || steps.workflow-dispatch.outputs.base || steps.set-shas.outputs.base }}" >> $GITHUB_ENV
+        echo "NX_HEAD=${{ steps.nx-set-shas.outputs.head || steps.workflow-dispatch.outputs.head || steps.set-shas.outputs.head }}" >> $GITHUB_ENV
+        echo "NX_BASE and NX_HEAD environment variables have been set for the current Job"
