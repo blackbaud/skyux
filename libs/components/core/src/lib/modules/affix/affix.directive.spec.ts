@@ -1,4 +1,4 @@
-import { ElementRef, NgZone, RendererFactory2 } from '@angular/core';
+import { ElementRef, RendererFactory2 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility, expectAsync } from '@skyux-sdk/testing';
 
@@ -114,7 +114,6 @@ describe('Affix directive', () => {
       const fixture = TestBed.createComponent(AffixFixtureComponent);
       const affixService = TestBed.inject(SkyAffixService);
       const rendererFactory = TestBed.inject(RendererFactory2);
-      const zone = TestBed.inject(NgZone);
       const renderer = rendererFactory.createRenderer(undefined, null);
 
       fixture.componentInstance.position = position;
@@ -128,7 +127,7 @@ describe('Affix directive', () => {
       spyOn(affixService, 'createAffixer').and.callFake(
         (affixed: ElementRef) => {
           ngUnsubscribe = new Subject<void>();
-          affixer = new SkyAffixer(affixed.nativeElement, renderer, zone);
+          affixer = new SkyAffixer(affixed.nativeElement, renderer);
           affixer.offsetChange.pipe(takeUntil(ngUnsubscribe)).subscribe((x) => {
             offset = x.offset;
           });

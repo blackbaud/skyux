@@ -1,10 +1,8 @@
 import {
   ElementRef,
   Injectable,
-  NgZone,
   Renderer2,
   RendererFactory2,
-  inject,
 } from '@angular/core';
 
 import { SkyAffixer } from './affixer';
@@ -13,9 +11,7 @@ import { SkyAffixer } from './affixer';
   providedIn: 'root',
 })
 export class SkyAffixService {
-  readonly #renderer: Renderer2;
-
-  readonly #zone = inject(NgZone);
+  #renderer: Renderer2;
 
   constructor(rendererFactory: RendererFactory2) {
     this.#renderer = rendererFactory.createRenderer(undefined, null);
@@ -26,6 +22,6 @@ export class SkyAffixService {
    * @param affixed The element to be affixed.
    */
   public createAffixer(affixed: ElementRef): SkyAffixer {
-    return new SkyAffixer(affixed.nativeElement, this.#renderer, this.#zone);
+    return new SkyAffixer(affixed.nativeElement, this.#renderer);
   }
 }
