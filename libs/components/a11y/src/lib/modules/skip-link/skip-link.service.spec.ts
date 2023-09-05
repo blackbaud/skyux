@@ -1,17 +1,16 @@
 import { ApplicationRef, ElementRef } from '@angular/core';
-import { TestBed, fakeAsync, inject, tick } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 
 import { SkySkipLink } from './skip-link';
 import { SkySkipLinkArgs } from './skip-link-args';
-import { SkySkipLinkModule } from './skip-link.module';
 import { SkySkipLinkService } from './skip-link.service';
 
 describe('Skip link service', () => {
   let service: SkySkipLinkService;
   let appRef: ApplicationRef;
 
-  function setTestSkipLinks(links?: SkySkipLink[]) {
+  function setTestSkipLinks(links?: SkySkipLink[]): void {
     const args: SkySkipLinkArgs = {
       links: links || [
         {
@@ -28,18 +27,9 @@ describe('Skip link service', () => {
   }
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [SkySkipLinkModule],
-    });
+    appRef = TestBed.inject(ApplicationRef);
+    service = TestBed.inject(SkySkipLinkService);
   });
-
-  beforeEach(inject(
-    [ApplicationRef, SkySkipLinkService],
-    (_appRef: ApplicationRef, _service: SkySkipLinkService) => {
-      appRef = _appRef;
-      service = _service;
-    }
-  ));
 
   afterEach(() => {
     service.removeHostComponent();

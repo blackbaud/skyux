@@ -1,21 +1,27 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { SkyCheckboxModule } from '@skyux/forms';
 import { SkySectionedFormService } from '@skyux/tabs';
 
 @Component({
+  standalone: true,
   selector: 'app-sectioned-form-information-form-demo',
   templateUrl: './sectioned-form-information-form-demo.component.html',
+  imports: [CommonModule, FormsModule, SkyCheckboxModule],
 })
 export class SectionedFormInformationFormDemoComponent {
   public name = '';
   public id = '5324901';
 
-  #_nameRequired: boolean | undefined = false;
+  #_nameRequired = false;
 
-  public get nameRequired(): boolean | undefined {
+  public get nameRequired(): boolean {
     return this.#_nameRequired;
   }
+
   public set nameRequired(value: boolean | undefined) {
-    this.#_nameRequired = value;
+    this.#_nameRequired = !!value;
 
     if (value) {
       this.#sectionService.requiredFieldChanged(true);

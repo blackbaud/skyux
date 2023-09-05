@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SkyToolbarModule } from '@skyux/layout';
 
 /**
  * A wrapper for items to be rendered in `SkyDataManagerToolbarComponent`. The contents are
@@ -6,7 +7,9 @@ import { Component } from '@angular/core';
  * toolbar (if present).
  */
 @Component({
+  standalone: true,
   selector: 'sky-data-manager-toolbar-section',
   templateUrl: './data-manager-toolbar-section.component.html',
+  imports: [SkyToolbarModule],
 })
 export class SkyDataManagerToolbarSectionComponent {}

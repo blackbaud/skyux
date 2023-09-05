@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   AfterContentInit,
   ChangeDetectionStrategy,
@@ -9,25 +10,51 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { SkyAppWindowRef } from '@skyux/core';
-import { SkyListToolbarComponent } from '@skyux/list-builder';
+import { SkyIconModule } from '@skyux/indicators';
+import {
+  SkyListFiltersModule,
+  SkyListModule,
+  SkyListPagingModule,
+  SkyListToolbarComponent,
+  SkyListToolbarModule,
+} from '@skyux/list-builder';
 import { SkyListFilterInlineModel } from '@skyux/list-builder';
 import { ListItemModel } from '@skyux/list-builder-common';
-import { SkyListViewChecklistComponent } from '@skyux/list-builder-view-checklist';
-import { SkyModalInstance } from '@skyux/modals';
+import {
+  SkyListViewChecklistComponent,
+  SkyListViewChecklistModule,
+} from '@skyux/list-builder-view-checklist';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 import { Observable, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
+
+import { SkySelectFieldResourcesModule } from '../shared/sky-select-field-resources.module';
 
 import { SkySelectFieldPickerContext } from './select-field-picker-context';
 import { SkySelectField } from './types/select-field';
 import { SkySelectFieldSelectMode } from './types/select-field-select-mode';
 
 @Component({
+  standalone: true,
   selector: 'sky-select-field-picker',
   templateUrl: './select-field-picker.component.html',
   styleUrls: ['./select-field-picker.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    FormsModule,
+    SkyIconModule,
+    SkyListFiltersModule,
+    SkyListModule,
+    SkyListPagingModule,
+    SkyListToolbarModule,
+    SkyListViewChecklistModule,
+    SkyModalModule,
+    SkySelectFieldResourcesModule,
+  ],
 })
 export class SkySelectFieldPickerComponent
   implements OnInit, AfterContentInit, OnDestroy

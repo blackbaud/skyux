@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EnvironmentInjector,
   Input,
   OnDestroy,
   OnInit,
@@ -206,11 +207,12 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   #ngUnsubscribe = new Subject<void>();
   #positionTimeout: number | undefined;
 
-  #affixService = inject(SkyAffixService);
-  #changeDetector = inject(ChangeDetectorRef);
-  #overlayService = inject(SkyOverlayService);
-  #themeSvc = inject(SkyThemeService, { optional: true });
-  #zIndex = inject(SKY_STACKING_CONTEXT, { optional: true })?.zIndex;
+  readonly #affixService = inject(SkyAffixService);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #environmentInjector = inject(EnvironmentInjector);
+  readonly #overlayService = inject(SkyOverlayService);
+  readonly #themeSvc = inject(SkyThemeService, { optional: true });
+  readonly #zIndex = inject(SKY_STACKING_CONTEXT, { optional: true })?.zIndex;
 
   #_buttonStyle = DEFAULT_BUTTON_STYLE;
   #_buttonType = DEFAULT_BUTTON_TYPE;
@@ -345,6 +347,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
       const overlay = this.#overlayService.create({
         enableScroll: true,
         enablePointerEvents: true,
+        environmentInjector: this.#environmentInjector,
       });
 
       if (this.#zIndex) {

@@ -1,11 +1,16 @@
+import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
-import { SkyIdService } from '@skyux/core';
+import { SkyIdModule, SkyIdService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
+import { SkyThemeModule } from '@skyux/theme';
 
 import { Observable, ReplaySubject } from 'rxjs';
 import { take } from 'rxjs/operators';
 
+import { SkyModalContentComponent } from '../modal/modal-content.component';
 import { SkyModalInstance } from '../modal/modal-instance';
+import { SkyModalComponent } from '../modal/modal.component';
+import { SkyModalsResourcesModule } from '../shared/sky-modals-resources.module';
 
 import { SkyConfirmButton } from './confirm-button';
 import { SkyConfirmButtonConfig } from './confirm-button-config';
@@ -15,9 +20,18 @@ import { SKY_CONFIRM_CONFIG } from './confirm-config-token';
 import { SkyConfirmType } from './confirm-type';
 
 @Component({
+  standalone: true,
   selector: 'sky-confirm',
   templateUrl: './confirm.component.html',
   styleUrls: ['./confirm.component.scss'],
+  imports: [
+    CommonModule,
+    SkyIdModule,
+    SkyModalComponent,
+    SkyModalContentComponent,
+    SkyModalsResourcesModule,
+    SkyThemeModule,
+  ],
 })
 export class SkyConfirmComponent {
   public buttons: SkyConfirmButton[] | undefined;

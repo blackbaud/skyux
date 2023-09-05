@@ -1,4 +1,12 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { importProvidersFrom } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { SkyDataManagerModule } from '@skyux/data-manager';
+import {
+  Meta,
+  Story,
+  applicationConfig,
+  moduleMetadata,
+} from '@storybook/angular';
 
 import { DataManagerComponent } from './data-manager.component';
 import { DataManagerModule } from './data-manager.module';
@@ -8,6 +16,11 @@ export default {
   title: 'Components/Data Manager',
   component: DataManagerComponent,
   decorators: [
+    // Needed to address the 'No provider for ActivatedRoute!' for standalone components.
+    // See: https://github.com/storybookjs/storybook/issues/21218
+    applicationConfig({
+      providers: [provideRouter([]), importProvidersFrom(SkyDataManagerModule)],
+    }),
     moduleMetadata({
       imports: [DataManagerModule],
     }),

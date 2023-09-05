@@ -22,7 +22,7 @@ import { SkyDynamicComponentOptions } from './dynamic-component-options';
  * @internal
  */
 @Injectable({
-  providedIn: 'any',
+  providedIn: 'root',
 })
 export class SkyDynamicComponentService {
   #applicationRef: ApplicationRef;
@@ -143,3 +143,13 @@ export class SkyDynamicComponentService {
     return (componentRef.hostView as EmbeddedViewRef<T>).rootNodes[0];
   }
 }
+
+/**
+ * Angular service for creating and rendering a dynamic component.
+ * @internal
+ * @deprecated Use `SkyDynamicComponentService` to create a standalone component instead.
+ */
+@Injectable({
+  providedIn: 'any',
+})
+export class SkyDynamicComponentLegacyService extends SkyDynamicComponentService {}

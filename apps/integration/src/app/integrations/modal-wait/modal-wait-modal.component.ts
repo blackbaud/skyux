@@ -1,24 +1,27 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   inject,
 } from '@angular/core';
-import { SkyModalInstance } from '@skyux/modals';
+import { SkyWaitModule } from '@skyux/indicators';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
+  standalone: true,
   selector: 'app-modal-wait-modal',
   templateUrl: './modal-wait-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule, SkyModalModule, SkyWaitModule],
 })
 export class ModalWaitModalComponent {
-  public isWaiting = false;
+  protected isWaiting = false;
 
-  #changeDetector = inject(ChangeDetectorRef);
+  protected readonly modalInstance = inject(SkyModalInstance);
+  readonly #changeDetector = inject(ChangeDetectorRef);
 
-  constructor(public modalInstance: SkyModalInstance) {}
-
-  public triggerWait(): void {
+  protected triggerWait(): void {
     this.isWaiting = true;
     setTimeout(
       /* istanbul ignore next */ () => {

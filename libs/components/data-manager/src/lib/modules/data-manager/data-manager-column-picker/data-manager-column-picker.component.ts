@@ -1,15 +1,23 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
-import { SkyModalInstance } from '@skyux/modals';
+import { SkyStatusIndicatorModule } from '@skyux/indicators';
+import { SkyRepeaterModule } from '@skyux/lists';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { SkyDataManagerResourcesModule } from '../../shared/sky-data-manager-resources.module';
+import { SkyDataManagerToolbarComponent } from '../data-manager-toolbar/data-manager-toolbar.component';
+import { SkyDataManagerComponent } from '../data-manager.component';
 import { SkyDataManagerService } from '../data-manager.service';
+import { SkyDataViewComponent } from '../data-view.component';
 import { SkyDataManagerColumnPickerOption } from '../models/data-manager-column-picker-option';
 import { SkyDataManagerColumnPickerSortStrategy } from '../models/data-manager-column-picker-sort-strategy';
 import { SkyDataManagerState } from '../models/data-manager-state';
@@ -28,11 +36,22 @@ interface Column extends SkyDataManagerColumnPickerOption {
  * @internal
  */
 @Component({
+  standalone: true,
   selector: 'sky-data-manager-column-picker',
   templateUrl: './data-manager-column-picker.component.html',
   styleUrls: ['./data-manager-column-picker.component.scss'],
   providers: [SkyDataManagerService],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    SkyDataManagerComponent,
+    SkyDataManagerResourcesModule,
+    SkyDataManagerToolbarComponent,
+    SkyDataViewComponent,
+    SkyModalModule,
+    SkyRepeaterModule,
+    SkyStatusIndicatorModule,
+  ],
 })
 export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
   public get dataState(): SkyDataManagerState {
@@ -62,11 +81,9 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
 
   #_dataState = new SkyDataManagerState({});
 
-  constructor(
-    public context: SkyDataManagerColumnPickerContext,
-    public dataManagerService: SkyDataManagerService,
-    public instance: SkyModalInstance
-  ) {}
+  public readonly context = inject(SkyDataManagerColumnPickerContext);
+  protected readonly dataManagerService = inject(SkyDataManagerService);
+  protected readonly instance = inject(SkyModalInstance);
 
   public ngOnInit(): void {
     this.dataManagerService.initDataManager({

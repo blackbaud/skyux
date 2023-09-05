@@ -3,11 +3,14 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  Injector,
+  EnvironmentInjector,
   Type,
   ViewChild,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
+
+import { SkyDynamicComponentService } from '../dynamic-component/dynamic-component.service';
 
 import { SkyDockDomAdapterService } from './dock-dom-adapter.service';
 import { SkyDockInsertComponentConfig } from './dock-insert-component-config';
@@ -20,6 +23,7 @@ import { sortByStackOrder } from './sort-by-stack-order';
  * @internal
  */
 @Component({
+  standalone: true,
   selector: 'sky-dock',
   templateUrl: './dock.component.html',
   styleUrls: ['./dock.component.scss'],
@@ -33,29 +37,15 @@ export class SkyDockComponent {
   })
   public target: ViewContainerRef | undefined;
 
-  #changeDetector: ChangeDetectorRef;
-
-  #domAdapter: SkyDockDomAdapterService;
-
-  #elementRef: ElementRef;
-
-  #injector: Injector;
-
   #itemRefs: SkyDockItemReference<unknown>[] = [];
 
   #options: SkyDockOptions | undefined;
 
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    elementRef: ElementRef,
-    injector: Injector,
-    domAdapter: SkyDockDomAdapterService
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#elementRef = elementRef;
-    this.#injector = injector;
-    this.#domAdapter = domAdapter;
-  }
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #domAdapter = inject(SkyDockDomAdapterService);
+  readonly #dynamicComponentSvc = inject(SkyDynamicComponentService);
+  readonly #elementRef = inject(ElementRef);
+  readonly #environmentInjector = inject(EnvironmentInjector);
 
   public insertComponent<T>(
     component: Type<T>,
@@ -68,14 +58,12 @@ export class SkyDockComponent {
       );
     }
 
-    const injector = Injector.create({
-      providers: config.providers || [],
-      parent: this.#injector,
+    const componentRef = this.#dynamicComponentSvc.createComponent(component, {
+      environmentInjector: this.#environmentInjector,
+      providers: config.providers,
+      viewContainerRef: this.target,
     });
 
-    const componentRef = this.target.createComponent<T>(component, {
-      injector,
-    });
     const stackOrder =
       config.stackOrder !== null && config.stackOrder !== undefined
         ? config.stackOrder

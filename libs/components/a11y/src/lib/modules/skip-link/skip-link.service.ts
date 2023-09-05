@@ -16,7 +16,7 @@ import { SkySkipLinkHostComponent } from './skip-link-host.component';
  * otherwise, focus will move to the first focusable element on the page.
  */
 @Injectable({
-  providedIn: 'any',
+  providedIn: 'root',
 })
 export class SkySkipLinkService {
   private static host: ComponentRef<SkySkipLinkHostComponent> | undefined;
@@ -35,8 +35,11 @@ export class SkySkipLinkService {
 
     // Timeout needed in case the consumer sets the skip links within an Angular lifecycle hook.
     setTimeout(() => {
-      const host = this.#createHostComponent();
-      host.instance.links = args.links;
+      if (!SkySkipLinkService.host) {
+        SkySkipLinkService.host = this.#createHostComponent();
+      }
+
+      SkySkipLinkService.host.instance.links = args.links;
     });
   }
 
@@ -48,17 +51,13 @@ export class SkySkipLinkService {
   }
 
   #createHostComponent(): ComponentRef<SkySkipLinkHostComponent> {
-    if (!SkySkipLinkService.host) {
-      const componentRef = this.#dynamicComponentService.createComponent(
-        SkySkipLinkHostComponent,
-        {
-          location: SkyDynamicComponentLocation.BodyTop,
-        }
-      );
+    const componentRef = this.#dynamicComponentService.createComponent(
+      SkySkipLinkHostComponent,
+      {
+        location: SkyDynamicComponentLocation.BodyTop,
+      }
+    );
 
-      SkySkipLinkService.host = componentRef;
-    }
-
-    return SkySkipLinkService.host;
+    return componentRef;
   }
 }

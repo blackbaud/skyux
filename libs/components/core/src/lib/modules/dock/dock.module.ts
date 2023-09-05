@@ -1,13 +1,7 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { SkyMutationObserverService } from '../mutation/mutation-observer-service';
-
-import { SkyDockComponent } from './dock.component';
-
-@NgModule({
-  imports: [CommonModule],
-  declarations: [SkyDockComponent],
-  providers: [SkyMutationObserverService],
-})
+/**
+ * @deprecated The `SkyDockModule` is no longer needed and can be removed from your application.
+ */
+@NgModule({})
 export class SkyDockModule {}
