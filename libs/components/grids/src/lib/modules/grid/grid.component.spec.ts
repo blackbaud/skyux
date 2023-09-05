@@ -937,7 +937,7 @@ describe('Grid Component', () => {
 
           SkyAppTestUtility.fireDomEvent(inputRange.nativeElement, 'focus');
           let resizeBar = fixture.nativeElement.querySelector(
-            '#sky-grid-resize-bar'
+            '.sky-grid-resize-bar'
           );
 
           expect(resizeBar).not.toBeNull();
@@ -945,7 +945,7 @@ describe('Grid Component', () => {
           SkyAppTestUtility.fireDomEvent(inputRange.nativeElement, 'blur');
           fixture.detectChanges();
           resizeBar = fixture.nativeElement.querySelector(
-            '#sky-grid-resize-bar'
+            '.sky-grid-resize-bar'
           );
 
           expect(resizeBar).toBeNull();

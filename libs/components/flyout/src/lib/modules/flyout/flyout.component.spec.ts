@@ -1263,7 +1263,7 @@ describe('Flyout component', () => {
   describe('iterator', () => {
     function getIteratorButtons(): NodeListOf<HTMLButtonElement> {
       return document.querySelectorAll(
-        '#iterators button'
+        '.sky-flyout-iterators button'
       ) as NodeListOf<HTMLButtonElement>;
     }
 
