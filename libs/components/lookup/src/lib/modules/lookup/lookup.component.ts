@@ -82,6 +82,8 @@ export class SkyLookupComponent
 
   /**
    * The value for the `autocomplete` attribute on the form input.
+   * @default 'off'
+   * @deprecated SKY UX only supports browser autofill on components where the direct input matches the return value. This input may not behave as expected due to the dropdown selection interaction.
    */
   @Input()
   public autocompleteAttribute: string | undefined;
