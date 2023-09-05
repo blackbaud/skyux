@@ -590,6 +590,17 @@
   </sky-input-box>
 </div>
 
+<div class="input-easy-mode-no-autocomplete">
+  <sky-input-box
+    labelText="Easy mode"
+    [characterLimit]="easyModeCharacterLimit"
+    [helpPopoverContent]="easyModeHelpPopoverContent"
+    [stacked]="easyModeStacked"
+  >
+    <input type="text" minlength="3" required [(ngModel)]="easyModeValue" />
+  </sky-input-box>
+</div>
+
 <div class="input-easy-mode-required">
   <sky-input-box labelText="Easy mode (required)">
     <input type="text" [formControl]="errorField" />
@@ -613,12 +624,17 @@
   <div class="sky-form-group">
     <input
       [autocomplete]="autocomplete"
-      class="sky-form-control"
       type="text"
       minlength="3"
       required
       [(ngModel)]="easyModeValue"
     />
+  </div>
+</div>
+
+<div class="input-not-wrapped-no-autocomplete">
+  <div class="sky-form-group">
+    <input type="text" minlength="3" required [(ngModel)]="easyModeValue" />
   </div>
 </div>
 

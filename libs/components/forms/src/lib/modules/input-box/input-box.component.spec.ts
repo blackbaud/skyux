@@ -341,6 +341,7 @@ describe('Input box component', () => {
       const parentEl = document.querySelector(`.${parentCls}`);
       const inputBoxEl = getInputBoxEl(fixture, parentCls);
 
+      // Cases where we use `(inputBoxEl || parentEl)` are to handle tests that test an input without a wrapping input box
       const formGroupEl = (inputBoxEl || parentEl)?.querySelector(
         '.sky-form-group'
       ) as HTMLElement | null;
@@ -365,9 +366,16 @@ describe('Input box component', () => {
         '.sky-input-box-input-group-inner'
       ) as HTMLElement | null;
 
-      const inputEl = (inputGroupInnerEl || parentEl)?.querySelector(
+      let inputEl = (inputGroupInnerEl || parentEl)?.querySelector(
         '.sky-form-control'
       ) as HTMLElement | null;
+
+      // Handles tests where we test a standard input with the control directive
+      if (!inputEl) {
+        inputEl = (inputGroupInnerEl || parentEl)?.querySelector(
+          'input'
+        ) as HTMLElement | null;
+      }
 
       const insetBtnEl = inputGroupInnerEl?.querySelector(
         '.sky-input-box-btn-inset'
@@ -684,6 +692,17 @@ describe('Input box component', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 
+      const els = getDefaultEls(fixture, 'input-easy-mode-no-autocomplete');
+
+      expect(els.inputEl?.attributes?.getNamedItem('autocomplete')?.value).toBe(
+        'off'
+      );
+    });
+
+    it('should set autocomplete to off if specified as undefined', async () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+
       const els = getDefaultEls(fixture, 'input-easy-mode');
 
       expect(els.inputEl?.attributes?.getNamedItem('autocomplete')?.value).toBe(
@@ -704,6 +723,17 @@ describe('Input box component', () => {
     });
 
     it('should not set autocomplete to off if not specified if not wrapped in an input box', async () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+
+      const els = getDefaultEls(fixture, 'input-not-wrapped-no-autocomplete');
+
+      expect(els.inputEl?.attributes?.getNamedItem('autocomplete')?.value).toBe(
+        'undefined'
+      );
+    });
+
+    it('should not set autocomplete to off if specified as undefined if not wrapped in an input box', async () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 

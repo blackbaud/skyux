@@ -17,15 +17,14 @@ export class SkyInputBoxControlDirective {
   @Input()
   public set autocomplete(value: string | undefined) {
     this.#_autocomplete = value;
-    if (!value && this.#hostService) {
-      this.#_autocomplete = 'off';
-    }
   }
 
   public get autocomplete(): string | undefined {
-    return this.#_autocomplete;
+    console.log(this.#_autocomplete);
+    console.log(this.#hostSvc);
+    return this.#_autocomplete || (this.#hostSvc ? 'off' : undefined);
   }
 
   #_autocomplete: string | undefined;
-  #hostService = inject(SkyInputBoxHostService, { optional: true });
+  #hostSvc = inject(SkyInputBoxHostService, { optional: true });
 }
