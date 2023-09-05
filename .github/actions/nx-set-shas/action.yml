@@ -37,6 +37,13 @@ runs:
       uses: actions/github-script@v6
       with:
         script: |
+          const headSha = await exec.getExecOutput('git', ['show-ref', '-s', 'HEAD'])
+            .then(({stdout}) => stdout.trim());
+          core.setOutput('head', headSha);
+          const baseSha = await exec.getExecOutput('git', ['merge-base', 'origin/${{ steps.read-default-base.outputs.main-branch-name }}', 'HEAD'])
+            .then(({stdout}) => stdout.trim());
+          core.setOutput('base', baseSha);
+
           // Find the last workflow run that intersects with commits to this PR.
           const pullRequests = await github.rest.pulls.list({
             owner: context.repo.owner,
@@ -46,8 +53,6 @@ runs:
             head: `${context.repo.owner}:${process.env.GITHUB_REF_NAME}`
           });
           if (pullRequests.data.length > 0) {
-            core.setOutput('base', pullRequests.data[0].base.sha);
-            core.setOutput('head', pullRequests.data[0].head.sha);
             core.setOutput('pr-number', pullRequests.data[0].number);
             core.setOutput('pr-created_at', pullRequests.data[0].created_at);
           } else {
@@ -61,7 +66,7 @@ runs:
       uses: actions/github-script@v6
       with:
         script: |
-          const headSha = await exec.getExecOutput('git', ['rev-parse', 'HEAD'])
+          const headSha = await exec.getExecOutput('git', ['show-ref', '-s', 'HEAD'])
             .then(({stdout}) => stdout.trim());
           core.setOutput('head', headSha);
           const baseSha = await exec.getExecOutput('git', ['merge-base', 'origin/${{ steps.read-default-base.outputs.main-branch-name }}', 'HEAD'])
