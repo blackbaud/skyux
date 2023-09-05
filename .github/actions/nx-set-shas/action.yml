@@ -67,8 +67,15 @@ runs:
               process.exit(1);
             });
           core.setOutput('head', headSha);
-          core.info('git merge-base refs/heads/origin/${{ steps.read-default-base.outputs.main-branch-name }} HEAD');
-          const baseSha = await exec.getExecOutput('git', ['merge-base', 'refs/heads/origin/${{ steps.read-default-base.outputs.main-branch-name }}', 'HEAD'])
+          const baseBranch = '${{ steps.read-default-base.outputs.main-branch-name }}';
+          core.info(`git fetch origin ${baseBranch}`);
+          await exec.getExecOutput('git', ['fetch', `--refmap=+refs/heads/*:refs/remotes/origin/*`, 'origin', baseBranch])
+            .catch((error) => {
+              core.setFailed(`Error fetching ${baseBranch}: ${error.message}`);
+              process.exit(1);
+            });
+          core.info(`git merge-base refs/remotes/origin/${baseBranch} HEAD`);
+          const baseSha = await exec.getExecOutput('git', ['merge-base', `refs/remotes/origin/${baseBranch}`, 'HEAD'])
             .then(({stdout}) => stdout.trim())
             .catch((error) => {
               core.setFailed(`Error getting BASE SHA: ${error.message}`);
