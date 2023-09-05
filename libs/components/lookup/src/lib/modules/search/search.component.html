@@ -64,7 +64,6 @@
               <sky-icon
                 *skyThemeIf="'modern'"
                 icon="close"
-                iconType="skyux"
                 size="sm"
               ></sky-icon>
             </button>
@@ -105,23 +104,12 @@
       >
         <sky-icon *skyThemeIf="'default'" icon="chevron-circle-left" size="lg">
         </sky-icon>
-        <sky-icon
-          *skyThemeIf="'modern'"
-          icon="double-chevron-left"
-          iconType="skyux"
-        >
-        </sky-icon>
+        <sky-icon *skyThemeIf="'modern'" icon="double-chevron-left"> </sky-icon>
       </button>
     </div>
   </div>
 </div>
 
 <ng-template #searchIconTemplate>
-  <sky-icon *skyThemeIf="'default'" icon="search" size="lg"></sky-icon>
-  <sky-icon
-    *skyThemeIf="'modern'"
-    icon="search"
-    iconType="skyux"
-    size="lg"
-  ></sky-icon>
+  <sky-icon icon="search" size="lg"></sky-icon>
 </ng-template>

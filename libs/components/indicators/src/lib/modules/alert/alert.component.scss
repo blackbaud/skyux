@@ -14,8 +14,6 @@
   --sky-alert-close-btn-focus-border: none;
   --sky-alert-close-btn-focus-box-shadow: none;
   --sky-alert-close-btn-opacity: 0.8;
-  --sky-alert-close-icon-default-display: initial;
-  --sky-alert-close-icon-modern-display: none;
   --sky-alert-content-padding-top-bottom: #{$sky-padding};
   --sky-alert-content-padding-left-right: 0;
   --sky-alert-icon-default-display: initial;
@@ -38,8 +36,6 @@
     --sky-alert-close-btn-focus-box-shadow: #{$sky-theme-modern-elevation-1-shadow-size}
       #{$sky-theme-modern-elevation-3-shadow-color};
     --sky-alert-close-btn-opacity: 1;
-    --sky-alert-close-icon-default-display: none;
-    --sky-alert-close-icon-modern-display: initial;
     --sky-alert-content-padding-left-right: var(--sky-padding-even-md);
     --sky-alert-content-padding-top-bottom: var(--sky-padding-even-md);
     --sky-alert-icon-default-display: none;
@@ -178,14 +174,6 @@
 
 .sky-alert-icon-theme-modern {
   display: var(--sky-alert-icon-modern-display);
-}
-
-.sky-alert-close-icon-theme-default {
-  display: var(--sky-alert-icon-default-display);
-}
-
-.sky-alert-close-icon-theme-modern {
-  display: var(--sky-alert-close-icon-modern-display);
 }
 
 .sky-alert-info .sky-alert-icon-theme-modern {

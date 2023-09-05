@@ -223,7 +223,7 @@ describe('Icon harness', () => {
   });
 
   it('should return `line` if the skyux icon does not have variant', async () => {
-    const { iconHarness, fixture } = await setupTest();
+    const { iconHarness, fixture } = await setupTest({ theme: 'modern' });
     fixture.componentInstance.iconName = 'sort';
     fixture.componentInstance.iconType = 'skyux';
 

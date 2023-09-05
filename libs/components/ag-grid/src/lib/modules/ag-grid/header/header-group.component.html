@@ -10,12 +10,7 @@
       | skyLibResources : params?.displayName
   "
 >
-  <sky-icon *skyThemeIf="'default'" icon="angle-double-left"></sky-icon>
-  <sky-icon
-    *skyThemeIf="'modern'"
-    icon="double-chevron-left"
-    iconType="skyux"
-  ></sky-icon>
+  <sky-icon icon="double-chevron-left"></sky-icon>
 </button>
 <ng-template #openIcons>
   <button
@@ -26,12 +21,7 @@
         | skyLibResources : params?.displayName
     "
   >
-    <sky-icon *skyThemeIf="'default'" icon="angle-double-right"></sky-icon>
-    <sky-icon
-      *skyThemeIf="'modern'"
-      icon="double-chevron-right"
-      iconType="skyux"
-    ></sky-icon>
+    <sky-icon icon="double-chevron-right"></sky-icon>
   </button>
 </ng-template>
 <span class="sky-control-help-container" #inlineHelpContainer></span>

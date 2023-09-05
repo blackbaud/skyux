@@ -29,12 +29,7 @@
               class="sky-btn sky-btn-link sky-lookup-show-more-modal-add"
               (click)="addButtonClicked()"
             >
-              <sky-icon
-                *skyThemeIf="'modern'"
-                icon="add"
-                iconType="skyux"
-              ></sky-icon>
-              <sky-icon *skyThemeIf="'default'" icon="plus-circle"></sky-icon>
+              <sky-icon icon="add"></sky-icon>
               {{ 'skyux_lookup_show_more_add' | skyLibResources }}
             </button>
           </sky-toolbar-view-actions>
