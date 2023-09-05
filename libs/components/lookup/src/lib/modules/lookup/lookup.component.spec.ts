@@ -65,7 +65,7 @@ describe('Lookup component', function () {
 
   function clickSearchButton(
     fixture: ComponentFixture<any>,
-    async: boolean = false
+    async = false
   ): void {
     getSearchButton(async).click();
     fixture.detectChanges();
@@ -101,7 +101,7 @@ describe('Lookup component', function () {
   function clickToken(
     index: number,
     fixture: ComponentFixture<any>,
-    async: boolean = false
+    async = false
   ): void {
     if (async) {
       (
@@ -255,7 +255,7 @@ describe('Lookup component', function () {
     return document.querySelectorAll('sky-modal').length > 0;
   }
 
-  function getSearchButton(async: boolean = false): HTMLElement {
+  function getSearchButton(async = false): HTMLElement {
     if (async) {
       return document.querySelector(
         '#my-async-lookup .sky-input-group-btn .sky-btn'
@@ -315,7 +315,7 @@ describe('Lookup component', function () {
     return document.querySelector('.sky-lookup-show-more-no-results');
   }
 
-  function getTokenElements(async: boolean = false): NodeListOf<Element> {
+  function getTokenElements(async = false): NodeListOf<Element> {
     if (async) {
       return document.querySelectorAll(
         '#my-async-lookup .sky-token-btn-action'
@@ -328,7 +328,7 @@ describe('Lookup component', function () {
   function performSearch(
     searchText: string,
     fixture: ComponentFixture<any>,
-    async: boolean = false
+    async = false
   ): void {
     let inputElement: HTMLInputElement;
     if (async) {
@@ -458,7 +458,7 @@ describe('Lookup component', function () {
 
   function triggerInputFocus(
     fixture: ComponentFixture<any>,
-    async: boolean = false
+    async = false
   ): void {
     let inputElement: HTMLInputElement;
     if (async) {
@@ -3746,6 +3746,13 @@ describe('Lookup component', function () {
         fixture.componentInstance.ariaLabelledBy = 'my-lookup-label';
         fixture.componentInstance.setSingleSelect();
         fixture.componentInstance.setValue(2);
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+
+        fixture.componentInstance.ariaLabel = 'My lookup label';
+        fixture.componentInstance.ariaLabelledBy = undefined;
 
         fixture.detectChanges();
         await fixture.whenStable();

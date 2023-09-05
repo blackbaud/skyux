@@ -14,6 +14,8 @@ export class CountryFieldDemoComponent {
 
   public countryForm: UntypedFormGroup;
 
+  public labelText = 'Country';
+
   constructor() {
     this.countryControl = new UntypedFormControl();
     this.countryControl.setValue({

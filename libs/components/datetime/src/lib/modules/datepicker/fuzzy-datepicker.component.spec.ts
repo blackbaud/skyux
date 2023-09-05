@@ -39,7 +39,7 @@ function getTriggerButton(
 
 function clickDatepickerButton(
   fixture: ComponentFixture<any>,
-  isFakeAsync: boolean = true
+  isFakeAsync = true
 ): void {
   getTriggerButton(fixture)?.click();
   if (isFakeAsync) {
@@ -238,12 +238,6 @@ describe('fuzzy datepicker input', () => {
 
       expect(getInputElement(fixture)).toHaveCssClass('sky-form-control');
       expect(getTriggerButton(fixture)).not.toBeNull();
-    });
-
-    it('should apply aria-label to the datepicker input when none is provided', () => {
-      fixture.detectChanges();
-
-      expect(getInputElement(fixture)?.getAttribute('aria-label')).toBe('Date');
     });
 
     it('should not overwrite aria-label on the datepicker input when one is provided', () => {

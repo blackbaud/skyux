@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { SkyFlyoutModule } from '@skyux/flyout';
 import { SkyInfiniteScrollModule } from '@skyux/lists';
 import { SkyModalModule } from '@skyux/modals';
 import { SkyDropdownModule } from '@skyux/popovers';
@@ -27,7 +26,6 @@ import { FlyoutComponent } from './flyout.component';
     DataManagerFlyoutModule,
     FlyoutRoutingModule,
     SkyDropdownModule,
-    SkyFlyoutModule,
     SkyInfiniteScrollModule,
     SkyModalModule,
     RouterModule,

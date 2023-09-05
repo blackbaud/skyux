@@ -15,10 +15,7 @@ import { sortByStackOrder } from './sort-by-stack-order';
  * This service docks components to specific areas on the page.
  */
 @Injectable({
-  // Must be 'any' so that the dock component is created in the context of its module's injector.
-  // If set to 'root', the component's dependency injections would only be derived from the root
-  // injector and may loose context if the dock was opened from within a lazy-loaded module.
-  providedIn: 'any',
+  providedIn: 'root',
 })
 export class SkyDockService {
   private static dockRef: ComponentRef<SkyDockComponent> | undefined;

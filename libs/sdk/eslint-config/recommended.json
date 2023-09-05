@@ -55,10 +55,6 @@
     "no-unmodified-loop-condition": "error",
     "no-unreachable-loop": "error",
     "no-unused-private-class-members": "error",
-    "no-use-before-define": [
-      "error",
-      { "functions": false, "classes": true, "variables": true }
-    ],
     "no-useless-return": "error",
     "prefer-arrow-callback": "error",
     "prefer-regex-literals": "error",
@@ -89,6 +85,16 @@
     "@typescript-eslint/no-unsafe-declaration-merging": "error",
     "no-unused-expressions": "off",
     "@typescript-eslint/no-unused-expressions": "error",
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": [
+      "error",
+      {
+        "functions": false,
+        "classes": true,
+        "variables": true,
+        "allowNamedExports": false
+      }
+    ],
     "@typescript-eslint/non-nullable-type-assertion-style": "error",
     "@typescript-eslint/prefer-for-of": "error",
     "@typescript-eslint/prefer-function-type": "error",

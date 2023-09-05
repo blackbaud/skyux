@@ -7,7 +7,7 @@ import { SkyPageHarness } from '@skyux/pages/testing';
 import { RecordPageTabsLayoutDemoComponent } from './record-page-tabs-layout-demo.component';
 import { RecordPageTabsLayoutDemoModule } from './record-page-tabs-layout-demo.module';
 
-fdescribe('Record page tabs layout demo', async () => {
+describe('Record page tabs layout demo', async () => {
   async function setupTest(): Promise<{
     pageHarness: SkyPageHarness;
     fixture: ComponentFixture<RecordPageTabsLayoutDemoComponent>;

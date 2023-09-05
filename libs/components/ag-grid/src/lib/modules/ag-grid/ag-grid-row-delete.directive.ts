@@ -5,26 +5,26 @@ import {
   ContentChild,
   Directive,
   ElementRef,
+  EnvironmentInjector,
   EventEmitter,
-  Inject,
   Input,
   OnDestroy,
-  Optional,
   Output,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import {
   SKY_STACKING_CONTEXT,
   SkyAffixAutoFitContext,
   SkyAffixService,
   SkyAffixer,
+  SkyDynamicComponentService,
   SkyOverlayService,
   SkyScrollableHostService,
-  SkyStackingContext,
 } from '@skyux/core';
 
 import { AgGridAngular } from 'ag-grid-angular';
-import { RowNode } from 'ag-grid-community';
+import { IRowNode } from 'ag-grid-community';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -71,6 +71,7 @@ export class SkyAgGridRowDeleteDirective
 
         const overlay = this.#overlayService.create({
           enableScroll: true,
+          environmentInjector: this.#environmentInjector,
           showBackdrop: false,
           closeOnNavigation: true,
           enableClose: false,
@@ -85,9 +86,9 @@ export class SkyAgGridRowDeleteDirective
               tableWidth: () =>
                 this.#elementRef.nativeElement.querySelector('.sky-ag-grid')
                   .offsetWidth,
-              getRowDeleteItem: (row: RowNode) => this.getRowDeleteItem(row),
-              cancelRowDelete: (row: RowNode) => this.cancelRowDelete(row),
-              confirmRowDelete: (row: RowNode) => this.confirmRowDelete(row),
+              getRowDeleteItem: (row: IRowNode) => this.getRowDeleteItem(row),
+              cancelRowDelete: (row: IRowNode) => this.cancelRowDelete(row),
+              confirmRowDelete: (row: IRowNode) => this.confirmRowDelete(row),
             }
           );
         }
@@ -168,36 +169,25 @@ export class SkyAgGridRowDeleteDirective
   #rowDeleteContents: { [id: string]: SkyAgGridRowDeleteContents } = {};
 
   #rowDeleteIdsInternal: string[] | undefined;
-  #affixService: SkyAffixService;
-  #changeDetector: ChangeDetectorRef;
-  #elementRef: ElementRef;
-  #overlayService: SkyOverlayService;
-  #viewContainerRef: ViewContainerRef;
-  #scrollableHostService: SkyScrollableHostService;
   #clipPath = new BehaviorSubject<string | undefined>(undefined);
   #zIndex = new BehaviorSubject(998);
   #hasStackingContext: boolean;
 
-  constructor(
-    affixService: SkyAffixService,
-    changeDetector: ChangeDetectorRef,
-    elementRef: ElementRef,
-    overlayService: SkyOverlayService,
-    viewContainerRef: ViewContainerRef,
-    scrollableHostService: SkyScrollableHostService,
-    @Optional()
-    @Inject(SKY_STACKING_CONTEXT)
-    stackingContext?: SkyStackingContext
-  ) {
-    this.#affixService = affixService;
-    this.#changeDetector = changeDetector;
-    this.#elementRef = elementRef;
-    this.#overlayService = overlayService;
-    this.#viewContainerRef = viewContainerRef;
-    this.#scrollableHostService = scrollableHostService;
-    this.#hasStackingContext = !!stackingContext;
-    if (stackingContext) {
-      stackingContext.zIndex
+  readonly #affixService = inject(SkyAffixService);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #dynamicComponentSvc = inject(SkyDynamicComponentService);
+  readonly #elementRef = inject(ElementRef);
+  readonly #environmentInjector = inject(EnvironmentInjector);
+  readonly #overlayService = inject(SkyOverlayService);
+  readonly #scrollableHostService = inject(SkyScrollableHostService);
+  readonly #stackingContext = inject(SKY_STACKING_CONTEXT, { optional: true });
+  readonly #viewContainerRef = inject(ViewContainerRef);
+
+  constructor() {
+    this.#hasStackingContext = !!this.#stackingContext;
+
+    if (this.#stackingContext) {
+      this.#stackingContext.zIndex
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((zIndex) => {
           this.#zIndex.next(zIndex);
@@ -206,8 +196,12 @@ export class SkyAgGridRowDeleteDirective
   }
 
   public ngAfterContentInit(): void {
-    this.#rowDeleteComponent = this.#viewContainerRef.createComponent(
-      SkyAgGridRowDeleteComponent
+    this.#rowDeleteComponent = this.#dynamicComponentSvc.createComponent(
+      SkyAgGridRowDeleteComponent,
+      {
+        environmentInjector: this.#environmentInjector,
+        viewContainerRef: this.#viewContainerRef,
+      }
     ).instance;
 
     if (this.agGrid) {
@@ -251,7 +245,7 @@ export class SkyAgGridRowDeleteDirective
     });
   }
 
-  public cancelRowDelete(row: RowNode): void {
+  public cancelRowDelete(row: IRowNode): void {
     if (row.id) {
       this.#rowDeleteConfigs = this.#rowDeleteConfigs.filter(
         (config) => config.id !== row.id
@@ -262,7 +256,7 @@ export class SkyAgGridRowDeleteDirective
     }
   }
 
-  public confirmRowDelete(row: RowNode): void {
+  public confirmRowDelete(row: IRowNode): void {
     if (row.id) {
       const rowConfig = this.#rowDeleteConfigs.find(
         (config) => config.id === row.id
@@ -275,7 +269,7 @@ export class SkyAgGridRowDeleteDirective
     }
   }
 
-  public getRowDeleteItem(row: RowNode): SkyAgGridRowDeleteConfig | undefined {
+  public getRowDeleteItem(row: IRowNode): SkyAgGridRowDeleteConfig | undefined {
     return this.#rowDeleteConfigs.find((rowDelete) => rowDelete.id === row.id);
   }
 

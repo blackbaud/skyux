@@ -16,7 +16,7 @@
   </sky-split-view-drawer>
 
   <sky-split-view-workspace ariaLabel="Transaction form">
-    <sky-split-view-workspace-content class="sky-padding-even-large">
+    <sky-split-view-workspace-content class="sky-padding-even-xl">
       <form [formGroup]="splitViewDemoForm" (ngSubmit)="onApprove()">
         <sky-description-list class="sky-margin-stacked-xl">
           <sky-description-list-content>
@@ -48,8 +48,8 @@
             </sky-description-list-description>
           </sky-description-list-content>
         </sky-description-list>
-        <div class="sky-form-group">
-          <sky-input-box>
+        <div>
+          <sky-input-box stacked="true">
             <label class="sky-control-label" [for]="amountInput.id">
               Approved amount
             </label>
@@ -64,8 +64,8 @@
           </sky-input-box>
         </div>
 
-        <div class="sky-form-group">
-          <sky-input-box>
+        <div>
+          <sky-input-box stacked="true">
             <label class="sky-control-label" [for]="commentsInput.id">
               Comments
             </label>

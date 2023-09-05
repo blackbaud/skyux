@@ -19,6 +19,7 @@ import {
 import {
   Beans,
   Column,
+  GridApi,
   ICellEditorParams,
   KeyCode,
   RowNode,
@@ -102,6 +103,34 @@ describe('SkyCellEditorDatepickerComponent', () => {
 
       expect(datepickerEditorElement).toBeVisible();
     });
+
+    it('should respond to changes in focus', fakeAsync(() => {
+      const api = jasmine.createSpyObj('GridApi', GridApi.prototype);
+      const column = jasmine.createSpyObj('Column', Column.prototype);
+      datepickerEditorComponent.agInit({
+        ...(datepickerEditorComponent as any).params,
+        api,
+        column,
+        context: {
+          gridOptions: {
+            stopEditingWhenCellsLoseFocus: true,
+          },
+        },
+        node: {
+          rowHeight: 37,
+        },
+      });
+      datepickerEditorComponent.onCalendarOpenChange(false);
+      tick();
+      expect(api.stopEditing).toHaveBeenCalled();
+
+      (api.stopEditing as jasmine.Spy).calls.reset();
+      datepickerEditorComponent.onFocusOut({
+        target: datepickerEditorComponent.datepickerInput?.nativeElement,
+      } as FocusEvent);
+      tick();
+      expect(api.stopEditing).toHaveBeenCalled();
+    }));
   });
 
   describe('agInit', () => {

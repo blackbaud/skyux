@@ -27,12 +27,11 @@ import {
   ValidationErrors,
   Validator,
 } from '@angular/forms';
-import { SkyAppWindowRef } from '@skyux/core';
 import { SkyInputBoxHostService } from '@skyux/forms';
 import { SkyThemeService } from '@skyux/theme';
 
 import 'intl-tel-input';
-import { Subject, fromEvent } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyAutocompleteInputDirective } from '../autocomplete/autocomplete-input.directive';
@@ -64,6 +63,8 @@ export class SkyCountryFieldComponent
 {
   /**
    * The value for the HTML `autocomplete` attribute on the form input.
+   * @default 'off'
+   * @deprecated SKY UX only supports browser autofill on components where the direct input matches the return value. This input may not behave as expected due to the dropdown selection interaction.
    */
   @Input()
   public autocompleteAttribute: string | undefined;
@@ -102,12 +103,6 @@ export class SkyCountryFieldComponent
    */
   @Input()
   public set disabled(isDisabled: boolean | undefined) {
-    this.#removeEventListeners();
-
-    if (!isDisabled) {
-      this.#addEventListeners();
-    }
-
     this.#_disabled = isDisabled ?? false;
 
     if (isDisabled) {
@@ -181,8 +176,6 @@ export class SkyCountryFieldComponent
   public countries: SkyCountryFieldCountry[] = [];
 
   public countrySearchFormControl: UntypedFormControl;
-
-  public isInputFocused = false;
 
   public searchTextMinimumCharacters = 2;
 
@@ -273,8 +266,6 @@ export class SkyCountryFieldComponent
 
   #elRef: ElementRef;
 
-  #idle = new Subject<void>();
-
   #injector: Injector;
 
   #internalFormChange = false;
@@ -286,8 +277,6 @@ export class SkyCountryFieldComponent
   #ngUnsubscribe = new Subject<void>();
 
   #themeSvc: SkyThemeService | undefined;
-
-  #windowRef: SkyAppWindowRef;
 
   #_defaultCountry: string | undefined;
 
@@ -304,14 +293,12 @@ export class SkyCountryFieldComponent
   constructor(
     changeDetector: ChangeDetectorRef,
     elRef: ElementRef,
-    windowRef: SkyAppWindowRef,
     injector: Injector,
     @Optional() public inputBoxHostSvc?: SkyInputBoxHostService,
     @Optional() themeSvc?: SkyThemeService
   ) {
     this.#changeDetector = changeDetector;
     this.#elRef = elRef;
-    this.#windowRef = windowRef;
     this.#injector = injector;
     this.#themeSvc = themeSvc;
 
@@ -355,10 +342,6 @@ export class SkyCountryFieldComponent
           this.selectedCountry = newValue;
         }
       });
-
-    if (!this.disabled) {
-      this.#addEventListeners();
-    }
   }
 
   public ngAfterViewInit(): void {
@@ -378,7 +361,6 @@ export class SkyCountryFieldComponent
    */
   public ngOnDestroy(): void {
     this.selectedCountryChange.complete();
-    this.#removeEventListeners();
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
   }
@@ -451,28 +433,6 @@ export class SkyCountryFieldComponent
     this.#changeDetector.markForCheck();
   }
 
-  #addEventListeners(): void {
-    this.#removeEventListeners();
-
-    this.#idle = new Subject();
-
-    const documentObj = this.#windowRef.nativeWindow.document;
-
-    fromEvent<MouseEvent>(documentObj, 'mousedown')
-      .pipe(takeUntil(this.#idle))
-      .subscribe((event) => {
-        this.isInputFocused = this.#elRef.nativeElement.contains(event.target);
-        this.#changeDetector.markForCheck();
-      });
-
-    fromEvent<KeyboardEvent>(documentObj, 'focusin')
-      .pipe(takeUntil(this.#idle))
-      .subscribe((event) => {
-        this.isInputFocused = this.#elRef.nativeElement.contains(event.target);
-        this.#changeDetector.markForCheck();
-      });
-  }
-
   #countriesAreEqual(
     country1: SkyCountryFieldCountry | undefined,
     country2: SkyCountryFieldCountry | undefined
@@ -492,11 +452,6 @@ export class SkyCountryFieldComponent
     b: SkyCountryFieldCountry
   ): boolean {
     return a.iso2 === b.iso2 && a.name === b.name;
-  }
-
-  #removeEventListeners(): void {
-    this.#idle.next();
-    this.#idle.complete();
   }
 
   #setupCountries(): void {

@@ -4,12 +4,13 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EnvironmentInjector,
   OnDestroy,
   ViewChild,
+  inject,
 } from '@angular/core';
 import {
   SkyDynamicComponentLocation,
-  SkyDynamicComponentOptions,
   SkyDynamicComponentService,
 } from '@skyux/core';
 
@@ -50,17 +51,14 @@ export class SkyAgGridHeaderGroupComponent
   #columnGroup: ProvidedColumnGroup | undefined = undefined;
   #isExpandedSubject = new BehaviorSubject<boolean>(false);
   #subscriptions = new Subscription();
-  readonly #changeDetector: ChangeDetectorRef;
-  readonly #dynamicComponentService: SkyDynamicComponentService;
   #viewInitialized = false;
   #agInitialized = false;
 
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    dynamicComponentService: SkyDynamicComponentService
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#dynamicComponentService = dynamicComponentService;
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #dynamicComponentService = inject(SkyDynamicComponentService);
+  readonly #environmentInjector = inject(EnvironmentInjector);
+
+  constructor() {
     this.isExpanded$ = this.#isExpandedSubject.asObservable();
   }
 
@@ -115,9 +113,11 @@ export class SkyAgGridHeaderGroupComponent
     if (!this.#viewInitialized || !this.#agInitialized) {
       return;
     }
+
     const colGroupDef = this.params?.columnGroup?.getColGroupDef();
     const inlineHelpComponent =
       colGroupDef?.headerGroupComponentParams?.inlineHelpComponent;
+
     if (inlineHelpComponent) {
       const headerGroupInfo = new SkyAgGridHeaderGroupInfo();
       headerGroupInfo.columnGroup = this.params?.columnGroup;
@@ -131,9 +131,10 @@ export class SkyAgGridHeaderGroupComponent
             useValue: headerGroupInfo,
           },
         ],
+        environmentInjector: this.#environmentInjector,
         referenceEl: this.inlineHelpContainer?.nativeElement,
         location: SkyDynamicComponentLocation.ElementBottom,
-      } as SkyDynamicComponentOptions);
+      });
     }
   }
 }

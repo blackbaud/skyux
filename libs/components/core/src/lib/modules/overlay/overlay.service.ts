@@ -1,11 +1,15 @@
 import {
   ApplicationRef,
-  ComponentFactoryResolver,
   ComponentRef,
-  EmbeddedViewRef,
+  EnvironmentInjector,
   Injectable,
-  Injector,
+  inject,
 } from '@angular/core';
+
+import {
+  SkyDynamicComponentLegacyService,
+  SkyDynamicComponentService,
+} from '../dynamic-component/dynamic-component.service';
 
 import { SkyOverlayAdapterService } from './overlay-adapter.service';
 import { SkyOverlayConfig } from './overlay-config';
@@ -15,7 +19,7 @@ import { SkyOverlayComponent } from './overlay.component';
 
 /**
  * This service is used to create new overlays.
- * @dynamic
+ * @internal
  */
 @Injectable({
   providedIn: 'root',
@@ -23,25 +27,13 @@ import { SkyOverlayComponent } from './overlay.component';
 export class SkyOverlayService {
   private static overlays: SkyOverlayInstance[] = [];
 
-  #adapter: SkyOverlayAdapterService;
+  readonly #adapter = inject(SkyOverlayAdapterService);
+  readonly #applicationRef = inject(ApplicationRef);
+  readonly #dynamicComponentSvc: SkyDynamicComponentService;
+  readonly #environmentInjector = inject(EnvironmentInjector);
 
-  #applicationRef: ApplicationRef;
-
-  #componentFactoryResolver: ComponentFactoryResolver;
-
-  #injector: Injector;
-
-  // TODO: Replace deprecated `ComponentFactoryResolver`.
-  constructor(
-    applicationRef: ApplicationRef,
-    componentFactoryResolver: ComponentFactoryResolver,
-    injector: Injector,
-    adapter: SkyOverlayAdapterService
-  ) {
-    this.#applicationRef = applicationRef;
-    this.#componentFactoryResolver = componentFactoryResolver;
-    this.#injector = injector;
-    this.#adapter = adapter;
+  constructor(dynamicComponentSvc: SkyDynamicComponentService) {
+    this.#dynamicComponentSvc = dynamicComponentSvc;
   }
 
   /**
@@ -105,8 +97,8 @@ export class SkyOverlayService {
   }
 
   #createOverlay(config: SkyOverlayConfig): ComponentRef<SkyOverlayComponent> {
-    const injector = Injector.create({
-      parent: this.#injector,
+    return this.#dynamicComponentSvc.createComponent(SkyOverlayComponent, {
+      environmentInjector: this.#environmentInjector,
       providers: [
         {
           provide: SkyOverlayContext,
@@ -114,19 +106,6 @@ export class SkyOverlayService {
         },
       ],
     });
-
-    const componentRef = this.#componentFactoryResolver
-      .resolveComponentFactory(SkyOverlayComponent)
-      .create(injector);
-
-    this.#applicationRef.attachView(componentRef.hostView);
-
-    const domElem = (componentRef.hostView as EmbeddedViewRef<any>)
-      .rootNodes[0] as HTMLElement;
-
-    document.body.appendChild(domElem);
-
-    return componentRef;
   }
 
   #prepareConfig(config: SkyOverlayConfig = {}): SkyOverlayConfig {
@@ -157,5 +136,20 @@ export class SkyOverlayService {
         this.#adapter.releaseBodyScroll();
       }
     }
+  }
+}
+
+/**
+ * This service is used to create new overlays.
+ * @internal
+ * @deprecated Use `SkyOverlayService` to open a standalone component instead.
+ */
+@Injectable({
+  providedIn: 'any',
+})
+export class SkyOverlayLegacyService extends SkyOverlayService {
+  /* istanbul ignore next */
+  constructor(dynamicComponentSvc: SkyDynamicComponentLegacyService) {
+    super(dynamicComponentSvc);
   }
 }

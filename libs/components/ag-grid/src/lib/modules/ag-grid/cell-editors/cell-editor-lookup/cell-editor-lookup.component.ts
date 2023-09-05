@@ -4,11 +4,12 @@ import {
   Component,
   ElementRef,
   HostBinding,
+  HostListener,
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
-import { ColumnResizedEvent } from 'ag-grid-community';
+import { ColumnResizedEvent, Events } from 'ag-grid-community';
 import { IPopupComponent } from 'ag-grid-community/dist/lib/interfaces/iPopupComponent';
 
 import { applySkyLookupPropertiesDefaults } from '../../apply-lookup-properties-defaults';
@@ -42,6 +43,9 @@ export class SkyAgGridCellEditorLookupComponent
   });
   public useAsyncSearch = false;
 
+  protected ariaLabel: string | undefined = undefined;
+
+  #lookupOpen = false;
   #params: SkyCellEditorLookupParams | undefined;
   #triggerType: SkyAgGridCellEditorInitialAction | undefined;
   #changeDetector: ChangeDetectorRef;
@@ -52,6 +56,11 @@ export class SkyAgGridCellEditorLookupComponent
     this.#elementRef = elementRef;
   }
 
+  @HostListener('blur')
+  public onBlur(): void {
+    this.#stopEditingOnBlur();
+  }
+
   public agInit(params: SkyCellEditorLookupParams): void {
     this.#params = params;
     if (!Array.isArray(this.#params.value)) {
@@ -60,6 +69,13 @@ export class SkyAgGridCellEditorLookupComponent
 
     this.#triggerType = SkyAgGridCellEditorUtils.getEditorInitialAction(params);
     const control = this.editorForm.get('selection');
+    this.ariaLabel = params.skyComponentProperties?.ariaLabelledBy
+      ? undefined
+      : params.skyComponentProperties?.ariaLabel ||
+        params.colDef.headerName ||
+        params.colDef.headerTooltip ||
+        params.colDef.field ||
+        params.colDef.colId;
 
     if (control) {
       switch (this.#triggerType) {
@@ -84,11 +100,13 @@ export class SkyAgGridCellEditorLookupComponent
       typeof this.skyComponentProperties.searchAsync === 'function';
     this.isAlive = true;
     this.width = this.#params.column.getActualWidth();
-    this.#params.column.addEventListener(
-      'uiColumnResized',
+    this.#params.api.addEventListener(
+      Events.EVENT_COLUMN_RESIZED,
       (event: ColumnResizedEvent) => {
-        this.width = event.column?.getActualWidth();
-        this.#changeDetector.markForCheck();
+        if (event.column?.getColId() === this.#params?.column.getColId()) {
+          this.width = event.column?.getActualWidth();
+          this.#changeDetector.markForCheck();
+        }
       }
     );
     this.#changeDetector.markForCheck();
@@ -133,10 +151,25 @@ export class SkyAgGridCellEditorLookupComponent
     }
   }
 
+  public onLookupOpenChange(isOpen: boolean): void {
+    this.#lookupOpen = isOpen;
+    this.#stopEditingOnBlur();
+  }
+
   #updateComponentProperties(
     params: SkyCellEditorLookupParams
   ): SkyAgGridLookupProperties {
     const skyLookupProperties = params.skyComponentProperties;
     return applySkyLookupPropertiesDefaults(skyLookupProperties);
+  }
+
+  #stopEditingOnBlur(): void {
+    if (
+      !this.#lookupOpen &&
+      this.#params?.context?.gridOptions?.stopEditingWhenCellsLoseFocus &&
+      !this.#elementRef.nativeElement.matches(':focus-within')
+    ) {
+      this.#params?.api.stopEditing();
+    }
   }
 }

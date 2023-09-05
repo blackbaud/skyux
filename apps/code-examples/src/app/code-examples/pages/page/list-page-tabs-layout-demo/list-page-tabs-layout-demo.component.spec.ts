@@ -7,7 +7,7 @@ import { SkyPageHarness } from '@skyux/pages/testing';
 import { ListPageTabsLayoutDemoComponent } from './list-page-tabs-layout-demo.component';
 import { ListPageTabsLayoutDemoModule } from './list-page-tabs-layout-demo.module';
 
-fdescribe('List page tabs layout demo', async () => {
+describe('List page tabs layout demo', async () => {
   async function setupTest(): Promise<{
     pageHarness: SkyPageHarness;
     fixture: ComponentFixture<ListPageTabsLayoutDemoComponent>;

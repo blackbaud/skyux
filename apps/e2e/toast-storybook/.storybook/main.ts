@@ -1,6 +1,6 @@
 import type { StorybookConfig } from '@storybook/angular';
 
-import { rootMain } from '../../../..//.storybook/main';
+import { rootMain } from '../../../../.storybook/main';
 
 const config: StorybookConfig = {
   ...rootMain,

@@ -51,10 +51,7 @@ export class ListStateDispatcher extends StateDispatcher<ListStateAction> {
     this.next(new ListToolbarItemsDisableAction(disabled));
   }
 
-  public toolbarAddItems(
-    items: ListToolbarItemModel[],
-    index: number = -1
-  ): void {
+  public toolbarAddItems(items: ListToolbarItemModel[], index = -1): void {
     this.next(new ListToolbarItemsLoadAction(items, index));
   }
 
@@ -112,7 +109,7 @@ export class ListStateDispatcher extends StateDispatcher<ListStateAction> {
   public setSelected(
     selectedIds: string[],
     selected: boolean,
-    refresh: boolean = false
+    refresh = false
   ): void {
     this.next(
       new ListSelectedSetItemsSelectedAction(selectedIds, selected, refresh)

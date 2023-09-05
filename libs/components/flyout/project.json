@@ -9,8 +9,7 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/flyout"],
       "options": {
-        "project": "libs/components/flyout/ng-package.json",
-        "updateBuildableProjectDepsInPackageJson": false
+        "project": "libs/components/flyout/ng-package.json"
       },
       "configurations": {
         "production": {

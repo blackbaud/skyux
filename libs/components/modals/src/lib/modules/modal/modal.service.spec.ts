@@ -1,5 +1,5 @@
 import { ApplicationRef } from '@angular/core';
-import { TestBed, fakeAsync, inject, tick } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 
 import { SkyModalFixturesModule } from './fixtures/modal-fixtures.module';
@@ -48,15 +48,10 @@ describe('Modal service', () => {
     TestBed.configureTestingModule({
       imports: [SkyModalModule, SkyModalFixturesModule],
     });
-  });
 
-  beforeEach(inject(
-    [SkyModalService, ApplicationRef],
-    (_modalService: SkyModalService, _applicationRef: ApplicationRef) => {
-      modalService = _modalService;
-      applicationRef = _applicationRef;
-    }
-  ));
+    applicationRef = TestBed.inject(ApplicationRef);
+    modalService = TestBed.inject(SkyModalService);
+  });
 
   it('should show a modal and return an instance that can then be closed', fakeAsync(() => {
     const modalInstance = openModal(ModalTestComponent);

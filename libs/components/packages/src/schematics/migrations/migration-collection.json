@@ -5,20 +5,30 @@
       "factory": "./noop/noop.schematic",
       "description": "Update all SKY UX component packages"
     },
-    "update-polyfill": {
-      "version": "8.0.0-alpha.0",
-      "factory": "./update-8/update-polyfill/update-polyfill.schematic",
-      "description": "Remove code from polyfills.ts/test.ts and add @skyux/packages/polyfills to workspace config."
+    "update-angular-tree-component": {
+      "version": "9.0.0-0",
+      "factory": "./update-9/update-angular-tree-component/update-angular-tree-component.schematic",
+      "description": "Update the Angular tree component package to point to the Blackbaud forked version"
+    },
+    "add-forms-popovers-peer-dependency": {
+      "version": "9.0.0-0",
+      "factory": "./update-9/add-forms-popovers-peer-dependency/add-forms-popovers-peer-dependency.schematic",
+      "description": "Add @skyux/popovers peer dependency for @skyux/forms"
     },
     "add-compat-stylesheets": {
-      "version": "8.0.0-alpha.0",
-      "factory": "./update-8/add-compat-stylesheets/add-compat-stylesheets",
-      "description": "Add a backwards-compatible stylesheet with styles that have been removed from components in SKY UX 8."
+      "version": "9.0.0-0",
+      "factory": "./update-9/add-compat-stylesheets/add-compat-stylesheet.schematic",
+      "description": "Add a backwards-compatible stylesheet with styles that have been removed from components in SKY UX 9."
     },
-    "update-autonumeric": {
-      "version": "8.0.0-alpha.0",
-      "factory": "./update-8/update-autonumeric/update-autonumeric",
-      "description": "Update autonumeric to version `4.8.1`."
+    "ag-grid-29": {
+      "version": "9.0.0-0",
+      "factory": "./update-9/ag-grid-29/ag-grid-29.schematic",
+      "description": "Apply changes to support AG Grid 29"
+    },
+    "legacy-services": {
+      "version": "9.0.0-0",
+      "factory": "./update-9/legacy-services/legacy-services.schematic",
+      "description": "Modal and flyout services were previously provided in 'any' but are now provided in 'root'. Replace with a 'legacy' version for backward compatibility."
     }
   }
 }

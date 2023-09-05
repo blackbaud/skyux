@@ -1,4 +1,4 @@
-import { Rule } from '@angular-devkit/schematics';
+import { Rule, chain } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import {
   NodeDependencyType,
@@ -9,24 +9,53 @@ import {
 import { readRequiredFile } from '../utility/tree';
 
 type PackageDetails = {
+  matchVersion?: boolean;
   name: string;
-  version: string;
+  version?: string;
   type: NodeDependencyType;
 };
 
-function installPackages(packages: PackageDetails[]): Rule {
+type PackageJson = {
+  dependencies?: Record<string, string>;
+  devDependencies?: Record<string, string>;
+};
+
+function installPackages(
+  packages: PackageDetails[],
+  targetPackageVersion?: string
+): Rule {
   return (tree, context) => {
     for (const details of packages) {
       // Remove the package (if it exists) so we can ensure it's added to the appropriate section.
       removePackageJsonDependency(tree, details.name, '/package.json');
-      addPackageJsonDependency(tree, {
-        type: details.type,
-        name: details.name,
-        version: details.version,
-      });
+
+      const version = details.matchVersion
+        ? targetPackageVersion
+        : details.version;
+
+      if (version) {
+        addPackageJsonDependency(tree, {
+          type: details.type,
+          name: details.name,
+          version,
+        });
+      }
     }
 
     context.addTask(new NodePackageInstallTask());
+  };
+}
+
+function uninstallPackages(packages?: Pick<PackageDetails, 'name'>[]): Rule {
+  return (tree, context) => {
+    /* istanbul ignore else */
+    if (packages) {
+      for (const details of packages) {
+        removePackageJsonDependency(tree, details.name, '/package.json');
+      }
+
+      context.addTask(new NodePackageInstallTask());
+    }
   };
 }
 
@@ -35,22 +64,31 @@ function installPackages(packages: PackageDetails[]): Rule {
  * If the client does not use the target package, this function is skipped.
  * @param targetPackageName The name of the package that has peer dependencies.
  * @param peers The target package's peer dependencies to install on the client's workspace.
+ * @param peersToRemove The target package's prior peer dependencies that should be removed. NOTE: This should be done with extreme caution and only on things that we have high certainty won't be there for other reasons.
  */
 export function ensurePeersInstalled(
   targetPackageName: string,
-  peers: PackageDetails[]
+  peers: PackageDetails[],
+  peersToRemove?: Pick<PackageDetails, 'name'>[]
 ): Rule {
-  return (tree) => {
-    const packageJson: {
-      dependencies?: Record<string, string>;
-      devDependencies?: Record<string, string>;
-    } = JSON.parse(readRequiredFile(tree, '/package.json'));
+  return async (tree) => {
+    const packageJson: PackageJson = JSON.parse(
+      readRequiredFile(tree, '/package.json')
+    );
+    const targetPackageVersion =
+      packageJson.dependencies?.[targetPackageName] ??
+      packageJson.devDependencies?.[targetPackageName];
 
     const dependencies: Record<string, string> = {
       ...(packageJson.dependencies || {}),
       ...(packageJson.devDependencies || {}),
     };
 
-    return dependencies[targetPackageName] ? installPackages(peers) : undefined;
+    return dependencies[targetPackageName]
+      ? chain([
+          uninstallPackages(peersToRemove),
+          installPackages(peers, targetPackageVersion),
+        ])
+      : undefined;
   };
 }

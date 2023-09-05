@@ -1,15 +1,14 @@
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
   ElementRef,
-  Host,
   HostBinding,
   HostListener,
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   ViewChild,
   inject,
 } from '@angular/core';
@@ -18,12 +17,16 @@ import {
   SkyCoreAdapterService,
   SkyDockLocation,
   SkyDockService,
+  SkyIdModule,
   SkyLiveAnnouncerService,
   SkyResizeObserverMediaQueryService,
 } from '@skyux/core';
+import { SkyIconModule } from '@skyux/indicators';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
+import { SkyModalsResourcesModule } from '../shared/sky-modals-resources.module';
 
 import { SkyModalComponentAdapterService } from './modal-component-adapter.service';
 import { SkyModalConfiguration } from './modal-configuration';
@@ -31,6 +34,7 @@ import { SkyModalError } from './modal-error';
 import { SkyModalErrorsService } from './modal-errors.service';
 import { SkyModalHostService } from './modal-host.service';
 import { SkyModalScrollShadowEventArgs } from './modal-scroll-shadow-event-args';
+import { SkyModalScrollShadowDirective } from './modal-scroll-shadow.directive';
 
 const ARIA_ROLE_DEFAULT = 'dialog';
 
@@ -40,6 +44,7 @@ const ARIA_ROLE_DEFAULT = 'dialog';
  * and buttons.
  */
 @Component({
+  standalone: true,
   selector: 'sky-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
@@ -47,6 +52,13 @@ const ARIA_ROLE_DEFAULT = 'dialog';
     SkyModalComponentAdapterService,
     SkyModalErrorsService,
     SkyDockService,
+  ],
+  imports: [
+    CommonModule,
+    SkyIconModule,
+    SkyIdModule,
+    SkyModalScrollShadowDirective,
+    SkyModalsResourcesModule,
   ],
 })
 export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
@@ -116,57 +128,51 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
   @ViewChild('modalContentWrapper', { read: ElementRef })
   public modalContentWrapperElement: ElementRef | undefined;
 
-  #hostService: SkyModalHostService;
-  #elRef: ElementRef;
-  #windowRef: SkyAppWindowRef;
-  #componentAdapter: SkyModalComponentAdapterService;
-  #coreAdapter: SkyCoreAdapterService;
-  #dockService: SkyDockService;
-  #mediaQueryService: SkyResizeObserverMediaQueryService | undefined;
   #ngUnsubscribe = new Subject<void>();
 
   #_ariaDescribedBy: string | undefined;
   #_ariaLabelledBy: string | undefined;
 
-  #changeDetector = inject(ChangeDetectorRef);
-  #errorsSvc = inject(SkyModalErrorsService);
-  #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #componentAdapter = inject(SkyModalComponentAdapterService);
+  readonly #coreAdapter = inject(SkyCoreAdapterService);
+  readonly #dockService = inject(SkyDockService, { host: true });
+  readonly #elRef = inject(ElementRef);
+  readonly #errorsSvc = inject(SkyModalErrorsService);
+  readonly #hostService = inject(SkyModalHostService);
+  readonly #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
+  readonly #mediaQueryService = inject(SkyResizeObserverMediaQueryService, {
+    optional: true,
+  });
+  readonly #windowRef = inject(SkyAppWindowRef);
 
-  constructor(
-    hostService: SkyModalHostService,
-    config: SkyModalConfiguration,
-    elRef: ElementRef,
-    windowRef: SkyAppWindowRef,
-    componentAdapter: SkyModalComponentAdapterService,
-    coreAdapter: SkyCoreAdapterService,
-    @Host() dockService: SkyDockService,
-    @Optional()
-    mediaQueryService?: SkyResizeObserverMediaQueryService
-  ) {
-    this.#hostService = hostService;
-    this.#elRef = elRef;
-    this.#windowRef = windowRef;
-    this.#componentAdapter = componentAdapter;
-    this.#coreAdapter = coreAdapter;
-    this.#dockService = dockService;
-    this.#mediaQueryService = mediaQueryService;
+  /**
+   * This provider is optional to account for situations where a modal component
+   * is implemented without the modal service. For example, when a consumer tests
+   * a component that uses the modal component but doesn't launch the modal from
+   * the modal service before executing assertions.
+   */
+  readonly #config =
+    inject(SkyModalConfiguration, { optional: true }) ??
+    new SkyModalConfiguration();
 
-    this.ariaDescribedBy = config.ariaDescribedBy;
-    this.ariaLabelledBy = config.ariaLabelledBy;
-    this.ariaRole = config.ariaRole;
-    this.helpKey = config.helpKey;
-    this.tiledBody = config.tiledBody;
-    this.wrapperClass = config.wrapperClass;
+  constructor() {
+    this.ariaDescribedBy = this.#config.ariaDescribedBy;
+    this.ariaLabelledBy = this.#config.ariaLabelledBy;
+    this.ariaRole = this.#config.ariaRole;
+    this.helpKey = this.#config.helpKey;
+    this.tiledBody = this.#config.tiledBody;
+    this.wrapperClass = this.#config.wrapperClass;
 
-    this.size = config.fullPage
+    this.size = this.#config.fullPage
       ? 'full-page'
-      : config.size?.toLowerCase() || 'medium';
+      : this.#config.size?.toLowerCase() || 'medium';
 
     this.modalZIndex = this.#hostService.zIndex;
   }
 
   @HostListener('document:keyup', ['$event'])
-  public onDocumentKeyUp(event: KeyboardEvent) {
+  public onDocumentKeyUp(event: KeyboardEvent): void {
     /* istanbul ignore else */
     /* sanity check */
     if (SkyModalHostService.openModalCount > 0) {
@@ -182,7 +188,7 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   @HostListener('document:keydown', ['$event'])
-  public onDocumentKeyDown(event: KeyboardEvent) {
+  public onDocumentKeyDown(event: KeyboardEvent): void {
     /* istanbul ignore else */
     /* sanity check */
     if (SkyModalHostService.openModalCount > 0) {
@@ -234,7 +240,7 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
       });
   }
 
-  public ngAfterViewInit() {
+  public ngAfterViewInit(): void {
     this.#componentAdapter.handleWindowChange(this.#elRef);
 
     // Adding a timeout to avoid ExpressionChangedAfterItHasBeenCheckedError.
@@ -264,17 +270,17 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
     this.#ngUnsubscribe.complete();
   }
 
-  public helpButtonClick() {
+  public helpButtonClick(): void {
     if (this.helpKey) {
       this.#hostService.onOpenHelp(this.helpKey);
     }
   }
 
-  public closeButtonClick() {
+  public closeButtonClick(): void {
     this.#hostService.onClose();
   }
 
-  public windowResize() {
+  public windowResize(): void {
     this.#componentAdapter.handleWindowChange(this.#elRef);
   }
 

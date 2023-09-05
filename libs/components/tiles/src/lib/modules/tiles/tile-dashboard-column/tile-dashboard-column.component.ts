@@ -1,9 +1,11 @@
 import {
   Component,
-  Injector,
+  EnvironmentInjector,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
+
+import { DragulaModule } from 'ng2-dragula';
 
 import { SkyTileDashboardService } from '../tile-dashboard/tile-dashboard.service';
 
@@ -13,9 +15,11 @@ let columnIdIndex = 0;
  * @internal
  */
 @Component({
+  standalone: true,
   selector: 'sky-tile-dashboard-column',
   styleUrls: ['./tile-dashboard-column.component.scss'],
   templateUrl: './tile-dashboard-column.component.html',
+  imports: [DragulaModule],
 })
 export class SkyTileDashboardColumnComponent {
   public bagId: string;
@@ -31,7 +35,7 @@ export class SkyTileDashboardColumnComponent {
   #dashboardService: SkyTileDashboardService;
 
   constructor(
-    public injector: Injector,
+    public injector: EnvironmentInjector,
     dashboardService: SkyTileDashboardService
   ) {
     this.#dashboardService = dashboardService;

@@ -5,13 +5,14 @@ import {
   Component,
   ComponentRef,
   ElementRef,
+  EnvironmentInjector,
   HostBinding,
   OnDestroy,
   ViewChild,
+  inject,
 } from '@angular/core';
 import {
   SkyDynamicComponentLocation,
-  SkyDynamicComponentOptions,
   SkyDynamicComponentService,
 } from '@skyux/core';
 
@@ -51,19 +52,13 @@ export class SkyAgGridHeaderComponent
   public readonly sortIndexDisplay$ = new BehaviorSubject<string>('');
 
   #subscriptions = new Subscription();
-  readonly #changeDetector: ChangeDetectorRef;
-  readonly #dynamicComponentService: SkyDynamicComponentService;
   #inlineHelpComponentRef: ComponentRef<unknown> | undefined;
   #viewInitialized = false;
   #agInitialized = false;
 
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    dynamicComponentService: SkyDynamicComponentService
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#dynamicComponentService = dynamicComponentService;
-  }
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #dynamicComponentService = inject(SkyDynamicComponentService);
+  readonly #environmentInjector = inject(EnvironmentInjector);
 
   public ngAfterViewInit(): void {
     this.#viewInitialized = true;
@@ -158,7 +153,9 @@ export class SkyAgGridHeaderComponent
     if (!this.#viewInitialized || !this.#agInitialized) {
       return;
     }
+
     const inlineHelpComponent = this.params?.inlineHelpComponent;
+
     if (
       inlineHelpComponent &&
       (!this.#inlineHelpComponentRef ||
@@ -181,9 +178,10 @@ export class SkyAgGridHeaderComponent
               useValue: headerInfo,
             },
           ],
+          environmentInjector: this.#environmentInjector,
           referenceEl: this.inlineHelpContainer?.nativeElement,
           location: SkyDynamicComponentLocation.ElementBottom,
-        } as SkyDynamicComponentOptions);
+        });
     } else if (!inlineHelpComponent) {
       this.#dynamicComponentService.removeComponent(
         this.#inlineHelpComponentRef

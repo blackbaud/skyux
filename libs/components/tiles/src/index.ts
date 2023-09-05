@@ -1,22 +1,22 @@
-export * from './lib/modules/tiles/tile/tile.module';
+export { SkyTileModule } from './lib/modules/tiles/tile/tile.module';
 
-export * from './lib/modules/tiles/tile-content/tile-content.module';
+export { SkyTileContentModule } from './lib/modules/tiles/tile-content/tile-content.module';
 
-export * from './lib/modules/tiles/tile-dashboard/tile-dashboard-message';
-export * from './lib/modules/tiles/tile-dashboard/tile-dashboard-message-type';
-export * from './lib/modules/tiles/tile-dashboard/tile-dashboard.module';
-export * from './lib/modules/tiles/tile-dashboard/tile-dashboard.service';
+export { SkyTileDashboardMessage } from './lib/modules/tiles/tile-dashboard/tile-dashboard-message';
+export { SkyTileDashboardMessageType } from './lib/modules/tiles/tile-dashboard/tile-dashboard-message-type';
+export { SkyTileDashboardModule } from './lib/modules/tiles/tile-dashboard/tile-dashboard.module';
+export { SkyTileDashboardService } from './lib/modules/tiles/tile-dashboard/tile-dashboard.service';
 
-export * from './lib/modules/tiles/tile-dashboard-column/tile-dashboard-column.module';
+export { SkyTileDashboardColumnModule } from './lib/modules/tiles/tile-dashboard-column/tile-dashboard-column.module';
 
-export * from './lib/modules/tiles/tile-dashboard-config/tile-dashboard-config';
-export * from './lib/modules/tiles/tile-dashboard-config/tile-dashboard-config-layout';
-export * from './lib/modules/tiles/tile-dashboard-config/tile-dashboard-config-layout-column';
-export * from './lib/modules/tiles/tile-dashboard-config/tile-dashboard-config-layout-tile';
-export * from './lib/modules/tiles/tile-dashboard-config/tile-dashboard-config-reorder-data';
-export * from './lib/modules/tiles/tile-dashboard-config/tile-dashboard-config-tile';
+export { SkyTileDashboardConfig } from './lib/modules/tiles/tile-dashboard-config/tile-dashboard-config';
+export { SkyTileDashboardConfigLayout } from './lib/modules/tiles/tile-dashboard-config/tile-dashboard-config-layout';
+export { SkyTileDashboardConfigLayoutColumn } from './lib/modules/tiles/tile-dashboard-config/tile-dashboard-config-layout-column';
+export { SkyTileDashboardConfigLayoutTile } from './lib/modules/tiles/tile-dashboard-config/tile-dashboard-config-layout-tile';
+export { SkyTileDashboardConfigReorderData } from './lib/modules/tiles/tile-dashboard-config/tile-dashboard-config-reorder-data';
+export { SkyTileDashboardConfigTile } from './lib/modules/tiles/tile-dashboard-config/tile-dashboard-config-tile';
 
-export * from './lib/modules/tiles/tiles.module';
+export { SkyTilesModule } from './lib/modules/tiles/tiles.module';
 
 // Components and directives must be exported to support Angular’s “partial” Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.

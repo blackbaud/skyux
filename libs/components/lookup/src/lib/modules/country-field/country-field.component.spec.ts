@@ -398,7 +398,6 @@ describe('Country Field Component', () => {
         fixture.detectChanges();
         tick();
         component.isDisabled = true;
-        expect(component.countryFieldComponent.isInputFocused).toBeFalsy();
         fixture.detectChanges();
         tick();
 
@@ -408,12 +407,6 @@ describe('Country Field Component', () => {
         expect(
           textAreaElement?.attributes.getNamedItem('disabled')
         ).not.toBeNull();
-        SkyAppTestUtility.fireDomEvent(textAreaElement, 'mousedown');
-        SkyAppTestUtility.fireDomEvent(textAreaElement, 'focusin');
-        fixture.detectChanges();
-        tick();
-
-        expect(component.countryFieldComponent.isInputFocused).toBeFalsy();
       }));
 
       it('should enable the field correctly', fakeAsync(() => {
@@ -431,15 +424,9 @@ describe('Country Field Component', () => {
           nativeElement.querySelector('textarea');
 
         expect(
-          (
-            nativeElement.querySelector('textarea') as HTMLElement
-          ).attributes.getNamedItem('disabled')
+          textAreaElement.attributes.getNamedItem('disabled')
         ).not.toBeNull();
         component.isDisabled = false;
-        fixture.detectChanges();
-        tick();
-
-        SkyAppTestUtility.fireDomEvent(textAreaElement, 'mousedown');
         fixture.detectChanges();
         tick();
 
@@ -448,14 +435,6 @@ describe('Country Field Component', () => {
             nativeElement.querySelector('textarea') as HTMLElement
           ).attributes.getNamedItem('disabled')
         ).toBeNull();
-        expect(component.countryFieldComponent.isInputFocused).toBeTruthy();
-
-        component.countryFieldComponent.isInputFocused = false;
-        expect(component.countryFieldComponent.isInputFocused).toBeFalsy();
-        SkyAppTestUtility.fireDomEvent(textAreaElement, 'focusin');
-        fixture.detectChanges();
-
-        expect(component.countryFieldComponent.isInputFocused).toBeTruthy();
       }));
 
       it('should emit the countryChange event correctly', fakeAsync(() => {
@@ -1010,64 +989,6 @@ describe('Country Field Component', () => {
         ).toBeNull();
       }));
 
-      it('should disable the field correctly', fakeAsync(() => {
-        component.initialValue = {
-          name: 'United States',
-          iso2: 'us',
-        };
-        fixture.detectChanges();
-        tick();
-        component.isDisabled = true;
-        expect(component.countryFieldComponent.isInputFocused).toBeFalsy();
-        fixture.detectChanges();
-        tick();
-
-        const textAreaElement: HTMLElement | null =
-          nativeElement.querySelector('textarea');
-
-        expect(component.countryFieldComponent.disabled).toBeTruthy();
-        SkyAppTestUtility.fireDomEvent(textAreaElement, 'mousedown');
-        SkyAppTestUtility.fireDomEvent(textAreaElement, 'focusin');
-        fixture.detectChanges();
-        tick();
-
-        expect(component.countryFieldComponent.isInputFocused).toBeFalsy();
-      }));
-
-      it('should enable the field correctly', fakeAsync(() => {
-        component.initialValue = {
-          name: 'United States',
-          iso2: 'us',
-        };
-        fixture.detectChanges();
-        tick();
-        component.isDisabled = true;
-        fixture.detectChanges();
-        tick();
-
-        const textAreaElement: HTMLElement | null =
-          nativeElement.querySelector('textarea');
-
-        expect(component.countryFieldComponent.disabled).toBeTruthy();
-        component.isDisabled = false;
-        fixture.detectChanges();
-        tick();
-
-        SkyAppTestUtility.fireDomEvent(textAreaElement, 'mousedown');
-        fixture.detectChanges();
-        tick();
-
-        expect(component.countryFieldComponent.disabled).toBeFalsy();
-        expect(component.countryFieldComponent.isInputFocused).toBeTruthy();
-
-        component.countryFieldComponent.isInputFocused = false;
-        expect(component.countryFieldComponent.isInputFocused).toBeFalsy();
-        SkyAppTestUtility.fireDomEvent(textAreaElement, 'focusin');
-        fixture.detectChanges();
-
-        expect(component.countryFieldComponent.isInputFocused).toBeTruthy();
-      }));
-
       it('should mark the form as touched when the form loses focus', fakeAsync(() => {
         fixture.detectChanges();
         const textAreaElement = getInputElement();
@@ -1493,58 +1414,6 @@ describe('Country Field Component', () => {
         expect(
           nativeElement.querySelector('.sky-country-field-flag')
         ).toBeNull();
-      }));
-
-      it('should disable the field correctly', fakeAsync(() => {
-        fixture.detectChanges();
-        tick();
-        component.isDisabled = true;
-        expect(component.countryFieldComponent.isInputFocused).toBeFalsy();
-        fixture.detectChanges();
-        tick();
-        fixture.detectChanges();
-        tick();
-
-        const textAreaElement: HTMLElement | null =
-          nativeElement.querySelector('textarea');
-
-        expect(component.countryFieldComponent.disabled).toBeTruthy();
-        SkyAppTestUtility.fireDomEvent(textAreaElement, 'mousedown');
-        SkyAppTestUtility.fireDomEvent(textAreaElement, 'focusin');
-        fixture.detectChanges();
-        tick();
-
-        expect(component.countryFieldComponent.isInputFocused).toBeFalsy();
-      }));
-
-      it('should enable the field correctly', fakeAsync(() => {
-        fixture.detectChanges();
-        tick();
-        component.isDisabled = true;
-        fixture.detectChanges();
-        tick();
-
-        const textAreaElement: HTMLElement | null =
-          nativeElement.querySelector('textarea');
-
-        expect(component.countryFieldComponent.disabled).toBeTruthy();
-        component.isDisabled = false;
-        fixture.detectChanges();
-        tick();
-
-        SkyAppTestUtility.fireDomEvent(textAreaElement, 'mousedown');
-        fixture.detectChanges();
-        tick();
-
-        expect(component.countryFieldComponent.disabled).toBeFalsy();
-        expect(component.countryFieldComponent.isInputFocused).toBeTruthy();
-
-        component.countryFieldComponent.isInputFocused = false;
-        expect(component.countryFieldComponent.isInputFocused).toBeFalsy();
-        SkyAppTestUtility.fireDomEvent(textAreaElement, 'focusin');
-        fixture.detectChanges();
-
-        expect(component.countryFieldComponent.isInputFocused).toBeTruthy();
       }));
 
       it('should emit the countryChange event correctly', fakeAsync(() => {

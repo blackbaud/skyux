@@ -205,8 +205,8 @@ describe('SkyCellRendererCheckboxComponent', () => {
         rowSelectorCellComponent.refresh({
           node: {
             isSelected: () => true,
-          } as RowNode,
-        } as ICellRendererParams)
+          } as unknown as RowNode,
+        } as unknown as ICellRendererParams)
       ).toBe(true);
     });
   });
@@ -215,7 +215,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
     function testRowSelected(
       colDefinition: ColDef | undefined,
       isSelectedValues: boolean[],
-      dataPropertySet: boolean = false
+      dataPropertySet = false
     ): void {
       let rowClickListener: ((event: RowClickedEvent) => void) | undefined;
       const rowNode = new RowNode({} as Beans);

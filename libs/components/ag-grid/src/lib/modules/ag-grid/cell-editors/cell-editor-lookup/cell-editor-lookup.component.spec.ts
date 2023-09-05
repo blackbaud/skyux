@@ -1,11 +1,23 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ElementRef } from '@angular/core';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyLookupModule, SkyLookupSelectModeType } from '@skyux/lookup';
 
-import { Column, ICellEditorParams, KeyCode } from 'ag-grid-community';
+import {
+  Column,
+  GridApi,
+  GridOptions,
+  ICellEditorParams,
+  KeyCode,
+} from 'ag-grid-community';
 import { of } from 'rxjs';
 
 import { SkyCellEditorLookupParams } from '../../types/cell-editor-lookup-params';
@@ -25,8 +37,12 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
   let callback: ((args: Record<string, unknown>) => void) | undefined;
   const selection = [data[0]];
   let cellEditorParams: Partial<SkyCellEditorLookupParams>;
+  let elementRef: ElementRef<HTMLElement>;
 
   beforeEach(() => {
+    elementRef = {
+      nativeElement: jasmine.createSpyObj('nativeElement', ['matches']),
+    };
     TestBed.configureTestingModule({
       declarations: [SkyAgGridCellEditorLookupComponent],
       imports: [
@@ -35,15 +51,16 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         SkyInputBoxModule,
         SkyLookupModule,
       ],
+      providers: [
+        {
+          provide: ElementRef,
+          useValue: elementRef,
+        },
+      ],
     });
 
     cellEditorParams = {
-      cellStartedEdit: true,
-      colDef: {
-        headerName: 'header',
-      },
-      column: {
-        getActualWidth: () => 123,
+      api: {
         addEventListener: (
           event: string,
           listener: (args: Record<string, unknown>) => void
@@ -51,8 +68,19 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
           callback = listener;
           [event].pop();
         },
+        stopEditing: jasmine.createSpy('stopEditing'),
+      } as unknown as GridApi,
+      cellStartedEdit: true,
+      colDef: {
+        headerName: 'header',
+      },
+      column: {
+        getColId: () => 'colId',
+        getActualWidth: () => 123,
       } as Column,
-      context: undefined,
+      context: {
+        gridOptions: {} as Partial<GridOptions>,
+      },
       data: undefined,
       formatValue: jasmine.createSpy('formatValue'),
       onKeyDown: jasmine.createSpy('onKeyDown'),
@@ -101,6 +129,43 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
       expect(component).toBeTruthy();
     });
 
+    it('should initialize with different label sources', () => {
+      component.agInit({
+        ...(cellEditorParams as ICellEditorParams),
+      });
+      fixture.detectChanges();
+      expect(component).toBeTruthy();
+
+      component.agInit({
+        ...(cellEditorParams as ICellEditorParams),
+        colDef: {},
+      });
+      fixture.detectChanges();
+      expect(component).toBeTruthy();
+
+      component.agInit({
+        ...(cellEditorParams as ICellEditorParams),
+        colDef: {},
+        skyComponentProperties: {
+          ...cellEditorParams.skyComponentProperties,
+          ariaLabel: 'label',
+        },
+      });
+      fixture.detectChanges();
+      expect(component).toBeTruthy();
+
+      component.agInit({
+        ...(cellEditorParams as ICellEditorParams),
+        colDef: {},
+        skyComponentProperties: {
+          ...cellEditorParams.skyComponentProperties,
+          ariaLabelledBy: 'label-id',
+        },
+      });
+      fixture.detectChanges();
+      expect(component).toBeTruthy();
+    });
+
     it('should initialize with disabled control', () => {
       component.agInit({
         ...(cellEditorParams as ICellEditorParams),
@@ -123,15 +188,19 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
     });
 
     it('should maintain column width', () => {
+      let width = 123;
+      const column = {
+        ...cellEditorParams.column,
+        getActualWidth: (): number => width,
+      } as Column;
       component.agInit({ ...(cellEditorParams as ICellEditorParams) });
       fixture.detectChanges();
       expect(component.width).toBe(123);
       expect(callback).toBeTruthy();
       if (callback) {
+        width = 456;
         callback({
-          column: {
-            getActualWidth: () => 456,
-          } as Column,
+          column,
         });
       }
       expect(component.width).toBe(456);
@@ -172,7 +241,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
           },
         });
 
-        expect(component.editorForm.get('selection')?.value).toBe(selection);
+        expect(component.editorForm.get('selection')?.value).toEqual(selection);
 
         fixture.detectChanges();
         await fixture.whenStable();
@@ -198,7 +267,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
           eventKey: KeyCode.ENTER,
         });
 
-        expect(component.editorForm.get('selection')?.value).toBe(selection);
+        expect(component.editorForm.get('selection')?.value).toEqual(selection);
 
         fixture.detectChanges();
         await fixture.whenStable();
@@ -225,8 +294,29 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
           charPress: 'a',
         });
 
-        expect(component.editorForm.get('selection')?.value).toBe(selection);
+        expect(component.editorForm.get('selection')?.value).toEqual(selection);
       });
+
+      it('should respond to focus changes', fakeAsync(() => {
+        cellEditorParams.context.gridOptions = {
+          stopEditingWhenCellsLoseFocus: true,
+        };
+        (elementRef.nativeElement.matches as jasmine.Spy).and.returnValue(
+          false
+        );
+        component.agInit({
+          ...(cellEditorParams as ICellEditorParams),
+        });
+
+        component.onLookupOpenChange(false);
+        tick();
+        expect(cellEditorParams.api?.stopEditing).toHaveBeenCalledTimes(1);
+
+        (cellEditorParams.api?.stopEditing as jasmine.Spy).calls.reset();
+        component.onBlur();
+        tick();
+        expect(cellEditorParams.api?.stopEditing).toHaveBeenCalledTimes(1);
+      }));
     });
 
     describe('cellStartedEdit is false', () => {
@@ -264,7 +354,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
           eventKey: KeyCode.F2,
         });
 
-        expect(component.editorForm.get('selection')?.value).toBe(selection);
+        expect(component.editorForm.get('selection')?.value).toEqual(selection);
       });
 
       it('initializes with the current value when Enter triggers the edit', () => {
@@ -275,7 +365,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
           eventKey: KeyCode.ENTER,
         });
 
-        expect(component.editorForm.get('selection')?.value).toBe(selection);
+        expect(component.editorForm.get('selection')?.value).toEqual(selection);
       });
 
       // NOTE: This is different than other editors due to the selection nature of autocomplete
@@ -287,7 +377,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
           charPress: 'a',
         });
 
-        expect(component.editorForm.get('selection')?.value).toBe(selection);
+        expect(component.editorForm.get('selection')?.value).toEqual(selection);
       });
     });
   });

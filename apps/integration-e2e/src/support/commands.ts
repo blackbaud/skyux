@@ -9,6 +9,11 @@ declare namespace Cypress {
       name: string,
       options?: Record<string, unknown>
     ): Chainable<void>;
+
+    /**
+     * Choose theme for visual regression testing.
+     */
+    skyChooseTheme(theme: string): Chainable<void>;
   }
 }
 
@@ -27,3 +32,13 @@ Cypress.Commands.add(
     });
   }
 );
+
+/**
+ * Choose theme for visual regression testing.
+ */
+Cypress.Commands.add('skyChooseTheme', (theme: string) => {
+  cy.get('select.sky-theme-selector').should('be.visible').select(theme);
+  const [themeName, themeMode] = theme.split('-');
+  cy.get('body').should('have.class', `sky-theme-${themeName}`);
+  cy.get('body').should('have.class', `sky-theme-mode-${themeMode || 'light'}`);
+});

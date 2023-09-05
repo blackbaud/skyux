@@ -3,22 +3,17 @@
 exports[`component generator should run successfully 1`] = `
 "import { ExampleComponent } from './example.component';
 import { ExampleModule } from './example.module';
-import { Meta, moduleMetadata } from '@storybook/angular';
+import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 
-export default {
+const meta: Meta<ExampleComponent> = {
+  component: ExampleComponent,
   id: 'examplecomponent-example',
   title: 'Components/Example',
-  component: ExampleComponent,
-  decorators: [
-    moduleMetadata({
-      imports: [ExampleModule],
-    }),
-  ],
-} as Meta<ExampleComponent>;
-export const Example = {
-  render: (args: ExampleComponent) => ({
-    props: args,
-  }),
+  decorators: [moduleMetadata({ imports: [ExampleModule] })],
+};
+export default meta;
+type Story = StoryObj<ExampleComponent>;
+export const Example: Story = {
   args: {},
 };
 "
@@ -27,22 +22,17 @@ export const Example = {
 exports[`component generator should run successfully with --module 1`] = `
 "import { ExampleComponent } from './example.component';
 import { ExampleModule } from './example.module';
-import { Meta, moduleMetadata } from '@storybook/angular';
+import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 
-export default {
+const meta: Meta<ExampleComponent> = {
+  component: ExampleComponent,
   id: 'examplecomponent-example',
   title: 'Components/Example',
-  component: ExampleComponent,
-  decorators: [
-    moduleMetadata({
-      imports: [ExampleModule],
-    }),
-  ],
-} as Meta<ExampleComponent>;
-export const Example = {
-  render: (args: ExampleComponent) => ({
-    props: args,
-  }),
+  decorators: [moduleMetadata({ imports: [ExampleModule] })],
+};
+export default meta;
+type Story = StoryObj<ExampleComponent>;
+export const Example: Story = {
   args: {},
 };
 "
@@ -51,22 +41,17 @@ export const Example = {
 exports[`component generator should run successfully with sub directory 1`] = `
 "import { SubExampleComponent } from './sub-example.component';
 import { SubExampleModule } from './sub-example.module';
-import { Meta, moduleMetadata } from '@storybook/angular';
+import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 
-export default {
+const meta: Meta<SubExampleComponent> = {
+  component: SubExampleComponent,
   id: 'subexamplecomponent-subexample',
   title: 'Components/Example/Sub Example',
-  component: SubExampleComponent,
-  decorators: [
-    moduleMetadata({
-      imports: [SubExampleModule],
-    }),
-  ],
-} as Meta<SubExampleComponent>;
-export const SubExample = {
-  render: (args: SubExampleComponent) => ({
-    props: args,
-  }),
+  decorators: [moduleMetadata({ imports: [SubExampleModule] })],
+};
+export default meta;
+type Story = StoryObj<SubExampleComponent>;
+export const SubExample: Story = {
   args: {},
 };
 "
@@ -75,22 +60,17 @@ export const SubExample = {
 exports[`component generator should run successfully, finding a module 1`] = `
 "import { ExampleComponent } from './example.component';
 import { ExampleModule } from './example.module';
-import { Meta, moduleMetadata } from '@storybook/angular';
+import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 
-export default {
+const meta: Meta<ExampleComponent> = {
+  component: ExampleComponent,
   id: 'examplecomponent-example',
   title: 'Components/Example',
-  component: ExampleComponent,
-  decorators: [
-    moduleMetadata({
-      imports: [ExampleModule],
-    }),
-  ],
-} as Meta<ExampleComponent>;
-export const Example = {
-  render: (args: ExampleComponent) => ({
-    props: args,
-  }),
+  decorators: [moduleMetadata({ imports: [ExampleModule] })],
+};
+export default meta;
+type Story = StoryObj<ExampleComponent>;
+export const Example: Story = {
   args: {},
 };
 "
@@ -174,22 +154,17 @@ describe('ExampleComponent', () => {
 exports[`component generator should run successfully, when not including tests 1`] = `
 "import { ExampleComponent } from './example.component';
 import { ExampleModule } from './example.module';
-import { Meta, moduleMetadata } from '@storybook/angular';
+import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 
-export default {
+const meta: Meta<ExampleComponent> = {
+  component: ExampleComponent,
   id: 'examplecomponent-example',
   title: 'Components/Example',
-  component: ExampleComponent,
-  decorators: [
-    moduleMetadata({
-      imports: [ExampleModule],
-    }),
-  ],
-} as Meta<ExampleComponent>;
-export const Example = {
-  render: (args: ExampleComponent) => ({
-    props: args,
-  }),
+  decorators: [moduleMetadata({ imports: [ExampleModule] })],
+};
+export default meta;
+type Story = StoryObj<ExampleComponent>;
+export const Example: Story = {
   args: {},
 };
 "
@@ -248,22 +223,17 @@ export class TestRouterModule { }
 exports[`component generator should use -storybook project 1`] = `
 "import { ExampleComponent } from './example.component';
 import { ExampleModule } from './example.module';
-import { Meta, moduleMetadata } from '@storybook/angular';
+import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 
-export default {
+const meta: Meta<ExampleComponent> = {
+  component: ExampleComponent,
   id: 'examplecomponent-example',
   title: 'Components/Example',
-  component: ExampleComponent,
-  decorators: [
-    moduleMetadata({
-      imports: [ExampleModule],
-    }),
-  ],
-} as Meta<ExampleComponent>;
-export const Example = {
-  render: (args: ExampleComponent) => ({
-    props: args,
-  }),
+  decorators: [moduleMetadata({ imports: [ExampleModule] })],
+};
+export default meta;
+type Story = StoryObj<ExampleComponent>;
+export const Example: Story = {
   args: {},
 };
 "

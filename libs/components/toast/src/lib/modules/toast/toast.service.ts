@@ -1,19 +1,18 @@
 import {
   ComponentRef,
-  INJECTOR,
+  EnvironmentInjector,
   Injectable,
   OnDestroy,
   Provider,
-  StaticProvider,
   Type,
   inject,
 } from '@angular/core';
-import { SkyDynamicComponentService } from '@skyux/core';
-import { SKY_LIB_RESOURCES_PROVIDERS } from '@skyux/i18n';
+import {
+  SkyDynamicComponentLegacyService,
+  SkyDynamicComponentService,
+} from '@skyux/core';
 
 import { BehaviorSubject, Observable } from 'rxjs';
-
-import { SkyToastResourcesProvider } from '../shared/sky-toast-resources.module';
 
 import { SkyToast } from './toast';
 import { SkyToastBodyContext } from './toast-body-context';
@@ -26,6 +25,8 @@ import { SkyToastConfig } from './types/toast-config';
   providedIn: 'root',
 })
 export class SkyToastService implements OnDestroy {
+  private static host: ComponentRef<SkyToasterComponent> | undefined;
+
   /**
    * @internal
    */
@@ -34,8 +35,7 @@ export class SkyToastService implements OnDestroy {
   }
 
   #dynamicComponentService: SkyDynamicComponentService;
-  #injector = inject(INJECTOR);
-  #host: ComponentRef<SkyToasterComponent> | undefined;
+  #environmentInjector = inject(EnvironmentInjector);
   #toasts: SkyToast[] = [];
   #toastStream = new BehaviorSubject<SkyToast[]>([]);
 
@@ -44,7 +44,7 @@ export class SkyToastService implements OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    if (this.#host) {
+    if (SkyToastService.host) {
       this.closeAll();
       this.#removeHostComponent();
     }
@@ -103,16 +103,16 @@ export class SkyToastService implements OnDestroy {
    * Closes all active toast components.
    */
   public closeAll(): void {
-    if (!this.#host) {
+    if (!SkyToastService.host) {
       return;
     }
 
-    this.#host.instance.closeAll();
+    SkyToastService.host.instance.closeAll();
   }
 
   #addToast(toast: SkyToast, instance: SkyToastInstance): void {
-    if (!this.#host) {
-      this.#createHostComponent();
+    if (!SkyToastService.host) {
+      SkyToastService.host = this.#createHostComponent();
     }
 
     this.#toasts.push(toast);
@@ -132,26 +132,36 @@ export class SkyToastService implements OnDestroy {
   }
 
   #createHostComponent(): ComponentRef<SkyToasterComponent> {
-    this.#host = this.#dynamicComponentService.createComponent(
+    const componentRef = this.#dynamicComponentService.createComponent(
       SkyToasterComponent,
       {
-        parentInjector: this.#injector,
-        providers: [
-          {
-            provide: SKY_LIB_RESOURCES_PROVIDERS,
-            useClass: SkyToastResourcesProvider,
-            multi: true,
-          },
-        ] as StaticProvider[],
+        environmentInjector: this.#environmentInjector,
       }
     );
-    return this.#host;
+
+    return componentRef;
   }
 
   #removeHostComponent(): void {
-    if (this.#host) {
-      this.#dynamicComponentService.removeComponent(this.#host);
-      this.#host = undefined;
+    if (SkyToastService.host) {
+      this.#dynamicComponentService.removeComponent(SkyToastService.host);
+      SkyToastService.host = undefined;
     }
+  }
+}
+
+/**
+ * @internal
+ * @deprecated Use `SkyToastService` to open a standalone component instead.
+ */
+@Injectable({
+  // Toast service has always been provided in root, but we need
+  // to inject SkyDynamicComponentLegacyService for backward compatibility.
+  providedIn: 'root',
+})
+export class SkyToastLegacyService extends SkyToastService {
+  /* istanbul ignore next */
+  constructor(dynamicComponentSvc: SkyDynamicComponentLegacyService) {
+    super(dynamicComponentSvc);
   }
 }

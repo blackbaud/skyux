@@ -9,8 +9,7 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/progress-indicator"],
       "options": {
-        "project": "libs/components/progress-indicator/ng-package.json",
-        "updateBuildableProjectDepsInPackageJson": false
+        "project": "libs/components/progress-indicator/ng-package.json"
       },
       "configurations": {
         "production": {

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TreeModule } from '@circlon/angular-tree-component';
+import { TreeModule } from '@blackbaud/angular-tree-component';
 import { SkyAngularTreeModule } from '@skyux/angular-tree-component';
 import { SkyHelpInlineModule } from '@skyux/indicators';
 import { SkyDropdownModule } from '@skyux/popovers';

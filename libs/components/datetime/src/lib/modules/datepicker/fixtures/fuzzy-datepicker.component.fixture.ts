@@ -7,6 +7,8 @@ import { SkyFuzzyDatepickerInputDirective } from '../datepicker-input-fuzzy.dire
   templateUrl: './fuzzy-datepicker.component.fixture.html',
 })
 export class FuzzyDatepickerTestComponent {
+  public ariaLabel = 'This is a date field.';
+
   public futureDisabled: boolean | undefined;
 
   public dateFormat: string | undefined;

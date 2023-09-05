@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -12,11 +13,13 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SkyLogService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
-import { SkyToken } from '@skyux/indicators';
+import { SkyIconModule, SkyToken, SkyTokensModule } from '@skyux/indicators';
 import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 
 import { Observable, of as observableOf } from 'rxjs';
 import { take } from 'rxjs/operators';
+
+import { SkySelectFieldResourcesModule } from '../shared/sky-select-field-resources.module';
 
 import { SkySelectFieldPickerContext } from './select-field-picker-context';
 import { SkySelectFieldPickerComponent } from './select-field-picker.component';
@@ -28,6 +31,7 @@ import { SkySelectFieldSelectMode } from './types/select-field-select-mode';
  * @deprecated `SkySelectFieldComponent` is deprecated. Use `SkyLookupComponent` instead.
  */
 @Component({
+  standalone: true,
   selector: 'sky-select-field',
   templateUrl: './select-field.component.html',
   styleUrls: ['./select-field.component.scss'],
@@ -38,6 +42,12 @@ import { SkySelectFieldSelectMode } from './types/select-field-select-mode';
       useExisting: forwardRef(() => SkySelectFieldComponent),
       multi: true,
     },
+  ],
+  imports: [
+    CommonModule,
+    SkyIconModule,
+    SkySelectFieldResourcesModule,
+    SkyTokensModule,
   ],
 })
 export class SkySelectFieldComponent

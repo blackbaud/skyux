@@ -1,1 +1,1 @@
-export * from './skip-link/skip-links-harness';
+export { SkySkipLinksHarness } from './skip-link/skip-links-harness';

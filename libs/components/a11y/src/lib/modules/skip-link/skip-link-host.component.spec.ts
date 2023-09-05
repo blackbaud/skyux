@@ -5,7 +5,6 @@ import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import { SkySkipLink } from './skip-link';
 import { SkySkipLinkHostComponent } from './skip-link-host.component';
-import { SkySkipLinkModule } from './skip-link.module';
 
 describe('Skip link host component', () => {
   let testEl1: HTMLDivElement;
@@ -24,7 +23,7 @@ describe('Skip link host component', () => {
     link: SkySkipLink,
     skipLinkEl: DebugElement,
     elToFocus: HTMLElement
-  ) {
+  ): void {
     expect(skipLinkEl.nativeElement).toHaveText(`Skip to ${link.title}`);
 
     skipLinkEl.nativeElement.click();
@@ -33,10 +32,6 @@ describe('Skip link host component', () => {
   }
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [SkySkipLinkModule],
-    });
-
     testEl1 = createTestDiv();
     testEl2 = createTestDiv();
   });

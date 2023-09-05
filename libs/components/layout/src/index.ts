@@ -1,43 +1,43 @@
-export * from './lib/modules/action-button/action-button-permalink';
-export * from './lib/modules/action-button/action-button.module';
-export * from './lib/modules/action-button/types/action-button-container-align-items';
-export * from './lib/modules/action-button/types/action-button-container-align-items-type';
+export { SkyActionButtonPermalink } from './lib/modules/action-button/action-button-permalink';
+export { SkyActionButtonModule } from './lib/modules/action-button/action-button.module';
+export { SkyActionButtonContainerAlignItems } from './lib/modules/action-button/types/action-button-container-align-items';
+export { SkyActionButtonContainerAlignItemsType } from './lib/modules/action-button/types/action-button-container-align-items-type';
 
-export * from './lib/modules/back-to-top/back-to-top.module';
-export * from './lib/modules/back-to-top/models/back-to-top-message';
-export * from './lib/modules/back-to-top/models/back-to-top-message-type';
-export * from './lib/modules/back-to-top/models/back-to-top-options';
+export { SkyBackToTopModule } from './lib/modules/back-to-top/back-to-top.module';
+export { SkyBackToTopMessage } from './lib/modules/back-to-top/models/back-to-top-message';
+export { SkyBackToTopMessageType } from './lib/modules/back-to-top/models/back-to-top-message-type';
+export { SkyBackToTopOptions } from './lib/modules/back-to-top/models/back-to-top-options';
 
-export * from './lib/modules/box/box.module';
+export { SkyBoxModule } from './lib/modules/box/box.module';
 
-export * from './lib/modules/card/card.module';
+export { SkyCardModule } from './lib/modules/card/card.module';
 
-export * from './lib/modules/definition-list/definition-list.module';
+export { SkyDefinitionListModule } from './lib/modules/definition-list/definition-list.module';
 
-export * from './lib/modules/description-list/description-list.module';
-export * from './lib/modules/description-list/types/description-list-mode';
-export * from './lib/modules/description-list/types/description-list-mode-type';
+export { SkyDescriptionListModule } from './lib/modules/description-list/description-list.module';
+export { SkyDescriptionListMode } from './lib/modules/description-list/types/description-list-mode';
+export { SkyDescriptionListModeType } from './lib/modules/description-list/types/description-list-mode-type';
 
-export * from './lib/modules/fluid-grid/fluid-grid.module';
-export * from './lib/modules/fluid-grid/types/fluid-grid-gutter-size-type';
+export { SkyFluidGridModule } from './lib/modules/fluid-grid/fluid-grid.module';
+export { SkyFluidGridGutterSizeType } from './lib/modules/fluid-grid/types/fluid-grid-gutter-size-type';
 
-export * from './lib/modules/format/format-item';
-export * from './lib/modules/format/format.module';
+export { SkyFormatItem } from './lib/modules/format/format-item';
+export { SkyFormatModule } from './lib/modules/format/format.module';
 
-export * from './lib/modules/inline-delete/inline-delete-type';
-export * from './lib/modules/inline-delete/inline-delete.module';
+export { SkyInlineDeleteType } from './lib/modules/inline-delete/inline-delete-type';
+export { SkyInlineDeleteModule } from './lib/modules/inline-delete/inline-delete.module';
 
-export * from './lib/modules/page/page-layout-type';
-export * from './lib/modules/page/page.module';
+export { SkyPageLayoutType } from './lib/modules/page/page-layout-type';
+export { SkyPageModule } from './lib/modules/page/page.module';
 
-export * from './lib/modules/page-summary/page-summary.module';
+export { SkyPageSummaryModule } from './lib/modules/page-summary/page-summary.module';
 
-export * from './lib/modules/text-expand/text-expand.module';
+export { SkyTextExpandModule } from './lib/modules/text-expand/text-expand.module';
 
-export * from './lib/modules/text-expand-repeater/types/text-expand-repeater-list-style-type';
-export * from './lib/modules/text-expand-repeater/text-expand-repeater.module';
+export { SkyTextExpandRepeaterListStyleType } from './lib/modules/text-expand-repeater/types/text-expand-repeater-list-style-type';
+export { SkyTextExpandRepeaterModule } from './lib/modules/text-expand-repeater/text-expand-repeater.module';
 
-export * from './lib/modules/toolbar/toolbar.module';
+export { SkyToolbarModule } from './lib/modules/toolbar/toolbar.module';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of public API.

@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   EventEmitter,
   HostBinding,
   Input,
@@ -9,7 +10,13 @@ import {
   OnDestroy,
   Output,
   SimpleChanges,
+  ViewChild,
+  inject,
 } from '@angular/core';
+import {
+  SkyMediaQueryService,
+  SkyResizeObserverMediaQueryService,
+} from '@skyux/core';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -28,6 +35,13 @@ let nextId = 0;
   templateUrl: './tab.component.html',
   styleUrls: ['./tab.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    SkyResizeObserverMediaQueryService,
+    {
+      provide: SkyMediaQueryService,
+      useExisting: SkyResizeObserverMediaQueryService,
+    },
+  ],
 })
 export class SkyTabComponent implements OnChanges, OnDestroy {
   /**
@@ -126,11 +140,11 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
   }
 
   /**
-   * The page layout that corresponds with the top-level component type
-   * used on the page. For laying out custom content, use `auto` to allow
-   * the page contents to expand beyond the bottom of the browser window
-   * or `fit` to constrain the page contents to the available viewport.
-   * @default "auto"
+   * The tab layout that applies spacing to the tab container element. Use the layout
+   * that corresponds with the top-level component type used within the tab, or use `fit` to
+   * constrain the tab contents to the available viewport.
+   * Use `none` for custom content that does not adhere to predefined spacing or constraints.
+   * @default "none"
    */
   @Input()
   public set layout(value: SkyTabLayoutType | undefined) {
@@ -168,6 +182,18 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
 
   public get tabIndexChange(): Observable<SkyTabIndex | undefined> {
     return this.#tabIndexChange;
+  }
+
+  @ViewChild('tabContentWrapper')
+  public set tabContentWrapper(tabContentWrapper: ElementRef | undefined) {
+    /* istanbul ignore else */
+    if (tabContentWrapper) {
+      this.#mediaQueryService.observe(tabContentWrapper, {
+        updateResponsiveClasses: true,
+      });
+    } else {
+      this.#mediaQueryService.unobserve();
+    }
   }
 
   public permalinkValueOrDefault = '';
@@ -219,6 +245,8 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
     this.#setPermalinkValueOrDefault();
   }
 
+  #mediaQueryService = inject(SkyResizeObserverMediaQueryService);
+
   public ngOnChanges(changes: SimpleChanges): void {
     if (
       (changes['disabled'] && !changes['disabled'].firstChange) ||
@@ -237,6 +265,7 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
     if (this.tabIndex !== undefined) {
       this.#tabsetService.unregisterTab(this.tabIndex);
     }
+    this.#mediaQueryService.unobserve();
   }
 
   public init(): void {

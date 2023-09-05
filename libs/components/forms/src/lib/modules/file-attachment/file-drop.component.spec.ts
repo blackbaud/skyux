@@ -971,7 +971,7 @@ describe('File drop component', () => {
 
     expect(
       linkInput.nativeElement.attributes.getNamedItem('aria-label').value
-    ).toBe('Add a link to a file');
+    ).toBe('Link to a file');
     expect(dropEl.attributes.getNamedItem('aria-label')?.value).toBe(
       'Drag a file here or click to browse'
     );

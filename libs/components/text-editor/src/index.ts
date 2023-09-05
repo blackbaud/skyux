@@ -1,12 +1,12 @@
-export * from './lib/modules/rich-text-display/rich-text-display.module';
+export { SkyRichTextDisplayModule } from './lib/modules/rich-text-display/rich-text-display.module';
 
-export * from './lib/modules/text-editor/types/font-state';
-export * from './lib/modules/text-editor/types/menu-type';
-export * from './lib/modules/text-editor/types/style-state';
-export * from './lib/modules/text-editor/types/text-editor-merge-field';
-export * from './lib/modules/text-editor/types/toolbar-action-type';
+export { SkyTextEditorFont } from './lib/modules/text-editor/types/font-state';
+export { SkyTextEditorMenuType } from './lib/modules/text-editor/types/menu-type';
+export { SkyTextEditorStyleState } from './lib/modules/text-editor/types/style-state';
+export { SkyTextEditorMergeField } from './lib/modules/text-editor/types/text-editor-merge-field';
+export { SkyTextEditorToolbarActionType } from './lib/modules/text-editor/types/toolbar-action-type';
 
-export * from './lib/modules/text-editor/text-editor.module';
+export { SkyTextEditorModule } from './lib/modules/text-editor/text-editor.module';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.

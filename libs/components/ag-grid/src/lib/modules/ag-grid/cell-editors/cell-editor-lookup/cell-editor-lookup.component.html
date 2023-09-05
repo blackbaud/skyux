@@ -4,7 +4,7 @@
   [formGroup]="editorForm"
 >
   <sky-lookup
-    [ariaLabel]="skyComponentProperties?.ariaLabel"
+    [ariaLabel]="ariaLabel"
     [ariaLabelledBy]="skyComponentProperties?.ariaLabelledBy"
     [autocompleteAttribute]="skyComponentProperties?.autocompleteAttribute"
     [data]="skyComponentProperties?.data"
@@ -23,12 +23,13 @@
     [searchTextMinimumCharacters]="
       skyComponentProperties?.searchTextMinimumCharacters
     "
-    (searchAsync)="skyComponentProperties?.searchAsync($event)"
+    (searchAsync)="skyComponentProperties?.searchAsync?.($event)"
     [selectMode]="skyComponentProperties?.selectMode"
     [showAddButton]="skyComponentProperties?.showAddButton"
     [showMoreConfig]="skyComponentProperties?.showMoreConfig"
     [wrapperClass]="skyComponentProperties?.wrapperClass"
-    (addClick)="skyComponentProperties?.addClick($event)"
+    (addClick)="skyComponentProperties?.addClick?.($event)"
+    (openChange)="onLookupOpenChange($event)"
   >
   </sky-lookup>
 </sky-input-box>
@@ -38,7 +39,7 @@
   [formGroup]="editorForm"
 >
   <sky-lookup
-    [ariaLabel]="skyComponentProperties?.ariaLabel"
+    [ariaLabel]="ariaLabel"
     [ariaLabelledBy]="skyComponentProperties?.ariaLabelledBy"
     [autocompleteAttribute]="skyComponentProperties?.autocompleteAttribute"
     [data]="skyComponentProperties?.data"
@@ -61,7 +62,8 @@
     [showAddButton]="skyComponentProperties?.showAddButton"
     [showMoreConfig]="skyComponentProperties?.showMoreConfig"
     [wrapperClass]="skyComponentProperties?.wrapperClass"
-    (addClick)="skyComponentProperties?.addClick($event)"
+    (addClick)="skyComponentProperties?.addClick?.($event)"
+    (openChange)="onLookupOpenChange($event)"
   >
   </sky-lookup>
 </sky-input-box>

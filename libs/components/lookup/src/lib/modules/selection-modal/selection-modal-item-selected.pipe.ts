@@ -4,6 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
  * @internal
  */
 @Pipe({
+  standalone: true,
   name: 'skySelectionModalItemSelected',
 })
 export class SkySelectionModalItemSelectedPipe implements PipeTransform {

@@ -11,7 +11,9 @@ import { SkyLiveAnnouncerArgs } from './types/live-announcer-args';
  * Allows for announcing messages to screen reader users through the use of a common `aria-live` element.
  * @internal
  */
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root',
+})
 export class SkyLiveAnnouncerService implements OnDestroy {
   public announcerElementChanged = new ReplaySubject<HTMLElement | undefined>(
     1

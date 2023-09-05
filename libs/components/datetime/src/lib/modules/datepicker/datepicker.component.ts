@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EnvironmentInjector,
   EventEmitter,
   Inject,
   Input,
@@ -12,6 +13,7 @@ import {
   Output,
   TemplateRef,
   ViewChild,
+  inject,
 } from '@angular/core';
 import {
   SKY_STACKING_CONTEXT,
@@ -81,6 +83,12 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
   @Output()
   public calendarDateRangeChange =
     new EventEmitter<SkyDatepickerCalendarChange>();
+
+  /**
+   * @internal
+   */
+  @Output()
+  public openChange = new EventEmitter<boolean>();
 
   public calendarId: string;
 
@@ -184,8 +192,9 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
   #affixService: SkyAffixService;
   #changeDetector: ChangeDetectorRef;
   #coreAdapter: SkyCoreAdapterService;
+  readonly #environmentInjector = inject(EnvironmentInjector);
   #overlayService: SkyOverlayService;
-  #zIndex: Observable<number> | undefined;
+  readonly #zIndex: Observable<number> | undefined;
 
   constructor(
     affixService: SkyAffixService,
@@ -226,6 +235,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
 
   public ngOnDestroy(): void {
     this.dateChange.complete();
+    this.openChange.complete();
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
     this.#removePickerEventListeners();
@@ -282,7 +292,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
           });
       } else {
         // If consumer returns an undefined value after custom dates have
-        // already ben established, remove custom dates.
+        // already been established, remove custom dates.
         if (this.customDates) {
           this.customDates = undefined;
           // Avoid an ExpressionChangedAfterItHasBeenCheckedError.
@@ -292,12 +302,13 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
     }
   }
 
-  #closePicker() {
+  #closePicker(): void {
     this.#destroyAffixer();
     this.#destroyOverlay();
     this.#removePickerEventListeners();
     this.triggerButtonRef?.nativeElement.focus();
     this.isOpen = false;
+    this.openChange.emit(false);
   }
 
   #openPicker(): void {
@@ -310,13 +321,14 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
 
     this.isOpen = true;
     this.#changeDetector.markForCheck();
+    this.openChange.emit(true);
   }
 
   #createAffixer(): void {
     if (this.calendarRef && this.triggerButtonRef) {
       const affixer = this.#affixService.createAffixer(this.calendarRef);
 
-      // Hide calendar when trigger button is scrolled off screen.
+      // Hide calendar when trigger button is scrolled off-screen.
       affixer.placementChange
         .pipe(takeUntil(this.#calendarUnsubscribe))
         .subscribe((change) => {
@@ -350,6 +362,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
         wrapperClass: this.pickerClass,
         enableClose: false,
         enablePointerEvents: false,
+        environmentInjector: this.#environmentInjector,
       });
 
       if (this.#zIndex) {

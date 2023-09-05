@@ -72,7 +72,7 @@ describe('Repeater item component', () => {
     fixture: ComponentFixture<any>,
     itemIndex: number,
     direction: 'up' | 'down',
-    activationKey: string = ' '
+    activationKey = ' '
   ): void {
     let key: string | undefined;
     if (direction === 'up') {

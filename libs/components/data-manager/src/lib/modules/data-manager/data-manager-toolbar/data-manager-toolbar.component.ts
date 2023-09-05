@@ -1,11 +1,22 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
-import { SkyCheckboxChange } from '@skyux/forms';
+import { FormsModule } from '@angular/forms';
+import {
+  SkyCheckboxChange,
+  SkyCheckboxModule,
+  SkyRadioModule,
+} from '@skyux/forms';
+import { SkyIconModule } from '@skyux/indicators';
+import { SkyToolbarModule } from '@skyux/layout';
+import { SkyFilterModule, SkySortModule } from '@skyux/lists';
+import { SkySearchModule } from '@skyux/lookup';
 import {
   SkyModalCloseArgs,
   SkyModalConfigurationInterface,
@@ -15,6 +26,7 @@ import {
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { SkyDataManagerResourcesModule } from '../../shared/sky-data-manager-resources.module';
 import { SkyDataManagerColumnPickerContext } from '../data-manager-column-picker/data-manager-column-picker-context';
 import { SkyDataManagerColumnPickerService } from '../data-manager-column-picker/data-manager-column-picker.service';
 import { SkyDataManagerFilterModalContext } from '../data-manager-filter-context';
@@ -31,10 +43,23 @@ import { SkyDataViewConfig } from '../models/data-view-config';
  * and `SkyDataManagerToolbarSectionComponent` wrappers.
  */
 @Component({
+  standalone: true,
   selector: 'sky-data-manager-toolbar',
   templateUrl: './data-manager-toolbar.component.html',
   styleUrls: ['./data-manager-toolbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    FormsModule,
+    SkyCheckboxModule,
+    SkyDataManagerResourcesModule,
+    SkyIconModule,
+    SkyFilterModule,
+    SkyRadioModule,
+    SkySearchModule,
+    SkySortModule,
+    SkyToolbarModule,
+  ],
 })
 export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
   public get activeView(): SkyDataViewConfig | undefined {
@@ -78,10 +103,6 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
   public onlyShowSelected: boolean | undefined;
 
   #ngUnsubscribe = new Subject<void>();
-  #changeDetector: ChangeDetectorRef;
-  #dataManagerService: SkyDataManagerService;
-  #modalService: SkyModalService;
-  #columnPickerService: SkyDataManagerColumnPickerService;
 
   // the source to provide for data state changes
   #_source = 'toolbar';
@@ -90,17 +111,10 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
   #_dataState: SkyDataManagerState | undefined;
   #_views: SkyDataViewConfig[] = [];
 
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    dataManagerService: SkyDataManagerService,
-    modalService: SkyModalService,
-    columnPickerService: SkyDataManagerColumnPickerService
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#dataManagerService = dataManagerService;
-    this.#modalService = modalService;
-    this.#columnPickerService = columnPickerService;
-  }
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #columnPickerService = inject(SkyDataManagerColumnPickerService);
+  readonly #dataManagerService = inject(SkyDataManagerService);
+  readonly #modalService = inject(SkyModalService);
 
   public ngOnInit(): void {
     this.#dataManagerService

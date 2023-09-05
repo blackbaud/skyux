@@ -1,3 +1,5 @@
+import { EnvironmentInjector } from '@angular/core';
+
 import { SkyOverlayPosition } from './overlay-position';
 
 export interface SkyOverlayConfig {
@@ -20,6 +22,11 @@ export interface SkyOverlayConfig {
    * Whether window scrolling is enabled when the overlay is opened.
    */
   enableScroll?: boolean;
+
+  /**
+   * The environment injector for the overlay component.
+   */
+  environmentInjector?: EnvironmentInjector;
 
   /**
    * Whether the overlay's backdrop is visible.

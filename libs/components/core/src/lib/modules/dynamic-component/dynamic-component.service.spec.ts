@@ -3,9 +3,10 @@ import {
   Component,
   ComponentRef,
   EmbeddedViewRef,
-  Injector,
+  EnvironmentInjector,
   StaticProvider,
   ViewContainerRef,
+  createEnvironmentInjector,
 } from '@angular/core';
 import { TestBed, inject } from '@angular/core/testing';
 import { Router } from '@angular/router';
@@ -30,7 +31,7 @@ describe('Dynamic component service', () => {
     location?: SkyDynamicComponentLocation,
     reference?: HTMLElement,
     providers?: StaticProvider[],
-    injector?: Injector,
+    injector = TestBed.inject(EnvironmentInjector),
     viewRef?: ViewContainerRef
   ): ComponentRef<DynamicComponentTestComponent> {
     const svc: SkyDynamicComponentService = TestBed.inject(
@@ -42,7 +43,7 @@ describe('Dynamic component service', () => {
         location: location,
         referenceEl: reference,
         providers,
-        parentInjector: injector,
+        environmentInjector: injector,
         viewContainerRef: viewRef,
       });
 
@@ -209,10 +210,10 @@ describe('Dynamic component service', () => {
   });
 
   it('should use a parent injector if supplied', () => {
-    const injector: Injector = Injector.create({
-      providers: [{ provide: 'greeting', useValue: 'My name is Pat.' }],
-      name: 'test injector',
-    });
+    const injector = createEnvironmentInjector(
+      [{ provide: 'greeting', useValue: 'My name is Pat.' }],
+      TestBed.inject(EnvironmentInjector)
+    );
     createTestComponent(undefined, undefined, undefined, injector);
 
     const el = getComponentEl(0);

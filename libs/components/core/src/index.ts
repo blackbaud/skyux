@@ -1,95 +1,104 @@
-export * from './lib/modules/adapter-service/adapter.module';
-export * from './lib/modules/adapter-service/adapter.service';
-export * from './lib/modules/adapter-service/focusable-children-options';
+export { SkyCoreAdapterModule } from './lib/modules/adapter-service/adapter.module';
+export { SkyCoreAdapterService } from './lib/modules/adapter-service/adapter.service';
+export { SkyFocusableChildrenOptions } from './lib/modules/adapter-service/focusable-children-options';
 
-export * from './lib/modules/affix/affix-auto-fit-context';
-export * from './lib/modules/affix/affix-config';
-export * from './lib/modules/affix/affix-horizontal-alignment';
-export * from './lib/modules/affix/affix-offset';
-export * from './lib/modules/affix/affix-offset-change';
-export * from './lib/modules/affix/affix-placement';
-export * from './lib/modules/affix/affix-placement-change';
-export * from './lib/modules/affix/affix-position';
-export * from './lib/modules/affix/affix-vertical-alignment';
-export * from './lib/modules/affix/affix.module';
-export * from './lib/modules/affix/affix.service';
-export * from './lib/modules/affix/affixer';
+export { SkyAffixAutoFitContext } from './lib/modules/affix/affix-auto-fit-context';
+export { SkyAffixConfig } from './lib/modules/affix/affix-config';
+export { SkyAffixHorizontalAlignment } from './lib/modules/affix/affix-horizontal-alignment';
+export { SkyAffixOffset } from './lib/modules/affix/affix-offset';
+export { SkyAffixOffsetChange } from './lib/modules/affix/affix-offset-change';
+export { SkyAffixPlacement } from './lib/modules/affix/affix-placement';
+export { SkyAffixPlacementChange } from './lib/modules/affix/affix-placement-change';
+export { SkyAffixPosition } from './lib/modules/affix/affix-position';
+export { SkyAffixVerticalAlignment } from './lib/modules/affix/affix-vertical-alignment';
+export { SkyAffixModule } from './lib/modules/affix/affix.module';
+export { SkyAffixService } from './lib/modules/affix/affix.service';
+export { SkyAffixer } from './lib/modules/affix/affixer';
 
-export * from './lib/modules/default-input-provider/default-input-provider';
+export { SkyDefaultInputProvider } from './lib/modules/default-input-provider/default-input-provider';
 
-export * from './lib/modules/dock/dock-insert-component-config';
-export * from './lib/modules/dock/dock-item';
-export * from './lib/modules/dock/dock-item-config';
-export * from './lib/modules/dock/dock-location';
-export * from './lib/modules/dock/dock-options';
-export * from './lib/modules/dock/dock.module';
-export * from './lib/modules/dock/dock.service';
+export { SkyDockInsertComponentConfig } from './lib/modules/dock/dock-insert-component-config';
+export { SkyDockItem } from './lib/modules/dock/dock-item';
+export { SkyDockItemConfig } from './lib/modules/dock/dock-item-config';
+export { SkyDockLocation } from './lib/modules/dock/dock-location';
+export { SkyDockOptions } from './lib/modules/dock/dock-options';
+export { SkyDockModule } from './lib/modules/dock/dock.module';
+export { SkyDockService } from './lib/modules/dock/dock.service';
 
-export * from './lib/modules/dynamic-component/dynamic-component-location';
-export * from './lib/modules/dynamic-component/dynamic-component-options';
-export * from './lib/modules/dynamic-component/dynamic-component.module';
-export * from './lib/modules/dynamic-component/dynamic-component.service';
+export { SkyDynamicComponentLocation } from './lib/modules/dynamic-component/dynamic-component-location';
+export { SkyDynamicComponentOptions } from './lib/modules/dynamic-component/dynamic-component-options';
+export { SkyDynamicComponentModule } from './lib/modules/dynamic-component/dynamic-component.module';
+export {
+  SkyDynamicComponentLegacyService,
+  SkyDynamicComponentService,
+} from './lib/modules/dynamic-component/dynamic-component.service';
 
-export * from './lib/modules/format/app-format';
+export { SkyAppFormat } from './lib/modules/format/app-format';
 
-export * from './lib/modules/id/id.module';
-export * from './lib/modules/id/id.service';
+export { SkyIdModule } from './lib/modules/id/id.module';
+export { SkyIdService } from './lib/modules/id/id.service';
 
-export * from './lib/modules/layout-host/layout-host-for-child-args';
-export * from './lib/modules/layout-host/layout-host.service';
+export { SkyLayoutHostForChildArgs } from './lib/modules/layout-host/layout-host-for-child-args';
+export { SkyLayoutHostService } from './lib/modules/layout-host/layout-host.service';
 
-export * from './lib/modules/live-announcer/live-announcer.service';
-export * from './lib/modules/live-announcer/types/live-announcer-args';
-export * from './lib/modules/live-announcer/types/live-announcer-politeness';
+export { SkyLiveAnnouncerService } from './lib/modules/live-announcer/live-announcer.service';
+export { SkyLiveAnnouncerArgs } from './lib/modules/live-announcer/types/live-announcer-args';
+export { SkyLiveAnnouncerPoliteness } from './lib/modules/live-announcer/types/live-announcer-politeness';
 
-export * from './lib/modules/log/log.module';
-export * from './lib/modules/log/log.service';
-export * from './lib/modules/log/types/log-level';
-export * from './lib/modules/log/types/log-level-token';
+export { SkyLogModule } from './lib/modules/log/log.module';
+export { SkyLogService } from './lib/modules/log/log.service';
+export { SkyLogLevel } from './lib/modules/log/types/log-level';
+export { SKY_LOG_LEVEL } from './lib/modules/log/types/log-level-token';
 
-export * from './lib/modules/media-query/media-breakpoints';
-export * from './lib/modules/media-query/media-query-listener';
-export * from './lib/modules/media-query/media-query.module';
-export * from './lib/modules/media-query/media-query.service';
+export { SkyMediaBreakpoints } from './lib/modules/media-query/media-breakpoints';
+export { SkyMediaQueryListener } from './lib/modules/media-query/media-query-listener';
+export { SkyMediaQueryModule } from './lib/modules/media-query/media-query.module';
+export { SkyMediaQueryService } from './lib/modules/media-query/media-query.service';
 
-export * from './lib/modules/mutation/mutation-observer-service';
+export { SkyMutationObserverService } from './lib/modules/mutation/mutation-observer-service';
 
-export * from './lib/modules/numeric/numeric-symbol';
-export * from './lib/modules/numeric/numeric.module';
-export * from './lib/modules/numeric/numeric.options';
-export * from './lib/modules/numeric/numeric.pipe';
-export * from './lib/modules/numeric/numeric.service';
+export { SkyNumericSymbol } from './lib/modules/numeric/numeric-symbol';
+export { SkyNumericModule } from './lib/modules/numeric/numeric.module';
+export {
+  SkyNumericOptions,
+  NumericOptions,
+} from './lib/modules/numeric/numeric.options';
+export { SkyNumericPipe } from './lib/modules/numeric/numeric.pipe';
+export { SkyNumericService } from './lib/modules/numeric/numeric.service';
 
-export * from './lib/modules/overlay/overlay-config';
-export * from './lib/modules/overlay/overlay-instance';
-export * from './lib/modules/overlay/overlay-position';
-export * from './lib/modules/overlay/overlay.module';
-export * from './lib/modules/overlay/overlay.service';
+export { SkyOverlayConfig } from './lib/modules/overlay/overlay-config';
+export { SkyOverlayInstance } from './lib/modules/overlay/overlay-instance';
+export { SkyOverlayPosition } from './lib/modules/overlay/overlay-position';
+export { SkyOverlayModule } from './lib/modules/overlay/overlay.module';
+export {
+  SkyOverlayLegacyService,
+  SkyOverlayService,
+} from './lib/modules/overlay/overlay.service';
 
-export * from './lib/modules/percent-pipe/percent-pipe.module';
-export * from './lib/modules/percent-pipe/percent.pipe';
+export { SkyPercentPipeModule } from './lib/modules/percent-pipe/percent-pipe.module';
+export { SkyPercentPipe } from './lib/modules/percent-pipe/percent.pipe';
 
-export * from './lib/modules/resize-observer/resize-observer.service';
-export * from './lib/modules/resize-observer/resize-observer-media-query.service';
+export { SkyResizeObserverService } from './lib/modules/resize-observer/resize-observer.service';
+export { SkyResizeObserverMediaQueryService } from './lib/modules/resize-observer/resize-observer-media-query.service';
 
-export * from './lib/modules/scrollable-host/scrollable-host.service';
+export { SkyScrollableHostService } from './lib/modules/scrollable-host/scrollable-host.service';
 
-export * from './lib/modules/stacking-context/stacking-context';
-export * from './lib/modules/stacking-context/stacking-context-token';
+export { SkyStackingContext } from './lib/modules/stacking-context/stacking-context';
+export { SKY_STACKING_CONTEXT } from './lib/modules/stacking-context/stacking-context-token';
 
-export * from './lib/modules/title/set-title-args';
-export * from './lib/modules/title/title.service';
+export { SkyAppSetTitleArgs } from './lib/modules/title/set-title-args';
+export { SkyAppTitleService } from './lib/modules/title/title.service';
 
-export * from './lib/modules/trim/trim.module';
+export { SkyTrimModule } from './lib/modules/trim/trim.module';
 
-export * from './lib/modules/ui-config/ui-config.service';
+export { SkyUIConfigService } from './lib/modules/ui-config/ui-config.service';
 
-export * from './lib/modules/viewkeeper/viewkeeper-host-options';
-export * from './lib/modules/viewkeeper/viewkeeper-options';
-export * from './lib/modules/viewkeeper/viewkeeper.module';
-export * from './lib/modules/viewkeeper/viewkeeper.service';
+export { SkyViewkeeperHostOptions } from './lib/modules/viewkeeper/viewkeeper-host-options';
+export { SkyViewkeeperOptions } from './lib/modules/viewkeeper/viewkeeper-options';
+export { SkyViewkeeperModule } from './lib/modules/viewkeeper/viewkeeper.module';
+export { SkyViewkeeperService } from './lib/modules/viewkeeper/viewkeeper.service';
 
-export * from './lib/modules/window/window-ref';
+export { SkyAppWindowRef } from './lib/modules/window/window-ref';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.

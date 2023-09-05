@@ -289,7 +289,7 @@ const matchers: jasmine.CustomMatcherFactories = {
         el: any,
         name: string,
         args?: any[],
-        trimWhitespace: boolean = true,
+        trimWhitespace = true,
         callback?: () => void
       ): jasmine.CustomMatcherResult {
         let actual = el.textContent;
@@ -451,7 +451,7 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
         element: any,
         name: string,
         args?: any[],
-        trimWhitespace: boolean = true
+        trimWhitespace = true
       ): Promise<jasmine.CustomMatcherResult> {
         return new Promise((resolve) => {
           let actual = element.textContent;
@@ -484,7 +484,7 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
         element: any,
         name: string,
         args?: any[],
-        trimWhitespace: boolean = true
+        trimWhitespace = true
       ): Promise<jasmine.CustomMatcherResult> {
         return new Promise((resolve) => {
           let actual = element.textContent;

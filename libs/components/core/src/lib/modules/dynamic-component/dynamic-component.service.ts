@@ -4,11 +4,12 @@ import {
   EmbeddedViewRef,
   EnvironmentInjector,
   Injectable,
-  Injector,
   Renderer2,
   RendererFactory2,
   Type,
   createComponent,
+  createEnvironmentInjector,
+  inject,
 } from '@angular/core';
 
 import { SkyAppWindowRef } from '../window/window-ref';
@@ -21,33 +22,24 @@ import { SkyDynamicComponentOptions } from './dynamic-component-options';
  * @internal
  */
 @Injectable({
-  // Must be 'any' so that the component is created in the context of its module's injector.
-  // If set to 'root', the component's dependency injections would only be derived from the root
-  // injector and may lose context if the component is created within a lazy-loaded module.
-  providedIn: 'any',
+  providedIn: 'root',
 })
 export class SkyDynamicComponentService {
   #applicationRef: ApplicationRef;
-
-  #environmentInjector: EnvironmentInjector;
-
-  #injector: Injector;
 
   #renderer: Renderer2;
 
   #windowRef: SkyAppWindowRef;
 
+  #environmentInjector = inject(EnvironmentInjector);
+
   constructor(
     applicationRef: ApplicationRef,
-    injector: Injector,
     windowRef: SkyAppWindowRef,
-    rendererFactory: RendererFactory2,
-    environmentInjector: EnvironmentInjector
+    rendererFactory: RendererFactory2
   ) {
     this.#applicationRef = applicationRef;
-    this.#injector = injector;
     this.#windowRef = windowRef;
-    this.#environmentInjector = environmentInjector;
 
     // Based on suggestions from https://github.com/angular/angular/issues/17824
     // for accessing an instance of Renderer2 in a service since Renderer2 can't
@@ -64,25 +56,24 @@ export class SkyDynamicComponentService {
     componentType: Type<T>,
     options?: SkyDynamicComponentOptions
   ): ComponentRef<T> {
-    options = options || {
+    options ||= {
       location: SkyDynamicComponentLocation.BodyBottom,
     };
 
-    const injector = Injector.create({
-      providers: options.providers || [],
-      parent: options.parentInjector || this.#injector,
-    });
+    const environmentInjector = createEnvironmentInjector(
+      options.providers ?? [],
+      options.environmentInjector ?? this.#environmentInjector
+    );
 
     let componentRef: ComponentRef<T>;
 
     if (options.viewContainerRef) {
       componentRef = options.viewContainerRef.createComponent(componentType, {
-        injector,
+        environmentInjector,
       });
     } else {
       componentRef = createComponent<T>(componentType, {
-        environmentInjector: this.#environmentInjector,
-        elementInjector: injector,
+        environmentInjector,
       });
 
       this.#applicationRef.attachView(componentRef.hostView);
@@ -152,3 +143,13 @@ export class SkyDynamicComponentService {
     return (componentRef.hostView as EmbeddedViewRef<T>).rootNodes[0];
   }
 }
+
+/**
+ * Angular service for creating and rendering a dynamic component.
+ * @internal
+ * @deprecated Use `SkyDynamicComponentService` to create a standalone component instead.
+ */
+@Injectable({
+  providedIn: 'any',
+})
+export class SkyDynamicComponentLegacyService extends SkyDynamicComponentService {}

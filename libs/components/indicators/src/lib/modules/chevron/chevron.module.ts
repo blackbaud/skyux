@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SkyI18nModule } from '@skyux/i18n';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyExpansionIndicatorModule } from '../expansion-indicator/expansion-indicator.module';
@@ -12,7 +11,6 @@ import { SkyChevronComponent } from './chevron.component';
   declarations: [SkyChevronComponent],
   imports: [
     CommonModule,
-    SkyI18nModule,
     SkyIndicatorsResourcesModule,
     SkyThemeModule,
     SkyExpansionIndicatorModule,

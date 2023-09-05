@@ -6,6 +6,7 @@ import {
   Component,
   ContentChildren,
   ElementRef,
+  EnvironmentInjector,
   EventEmitter,
   HostListener,
   Input,
@@ -18,6 +19,7 @@ import {
   TemplateRef,
   ViewChild,
   ViewChildren,
+  inject,
 } from '@angular/core';
 import {
   SkyAffixAutoFitContext,
@@ -341,6 +343,8 @@ export class SkyGridComponent
   private _columns: Array<SkyGridColumnModel>;
   private _selectedColumnIds: Array<string>;
   private _selectedRowIds: Array<string>;
+
+  readonly #environmentInjector = inject(EnvironmentInjector);
 
   constructor(
     private affixService: SkyAffixService,
@@ -907,6 +911,7 @@ export class SkyGridComponent
               closeOnNavigation: true,
               enableClose: false,
               enablePointerEvents: true,
+              environmentInjector: this.#environmentInjector,
             });
 
             overlay.attachTemplate(this.inlineDeleteTemplateRef, {
@@ -980,7 +985,7 @@ export class SkyGridComponent
     this.changeDetector.markForCheck();
   }
 
-  private setDisplayedColumns(respectHidden: boolean = false) {
+  private setDisplayedColumns(respectHidden = false) {
     /* sanity check */
     /* istanbul ignore else */
     if (this.columns) {

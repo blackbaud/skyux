@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { SkyFlyoutService } from '@skyux/flyout';
 import { SkyModalService } from '@skyux/modals';
 import { SkyToastService, SkyToastType } from '@skyux/toast';
 
@@ -10,7 +9,6 @@ import { FlyoutModalDemoComponent } from './flyout-modal.component';
 @Component({
   selector: 'app-flyout-demo',
   templateUrl: './flyout-demo.component.html',
-  providers: [SkyFlyoutService],
 })
 export class FlyoutDemoComponent implements OnInit {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

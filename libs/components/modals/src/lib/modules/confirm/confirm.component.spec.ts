@@ -4,13 +4,11 @@ import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyModalConfiguration } from '../modal/modal-configuration';
 import { SkyModalHostService } from '../modal/modal-host.service';
 import { SkyModalInstance } from '../modal/modal-instance';
-import { SkyModalModule } from '../modal/modal.module';
 
 import { SkyConfirmConfig } from './confirm-config';
 import { SKY_CONFIRM_CONFIG } from './confirm-config-token';
 import { SkyConfirmType } from './confirm-type';
 import { SkyConfirmComponent } from './confirm.component';
-import { SkyConfirmModule } from './confirm.module';
 import {
   MockSkyModalHostService,
   MockSkyModalInstance,
@@ -37,7 +35,6 @@ describe('Confirm component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyModalModule, SkyConfirmModule],
       providers: [
         { provide: SkyModalHostService, useValue: modalHost },
         { provide: SkyModalConfiguration, useValue: {} },

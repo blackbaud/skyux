@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SkyI18nModule } from '@skyux/i18n';
 import { SkyWaitModule } from '@skyux/indicators';
 import { SkyBoxModule, SkyFluidGridModule } from '@skyux/layout';
 import { SkyThemeModule } from '@skyux/theme';
@@ -22,7 +21,6 @@ import { SkyActionHubComponent } from './action-hub.component';
     CommonModule,
     SkyBoxModule,
     SkyFluidGridModule,
-    SkyI18nModule,
     SkyLinkListModule,
     SkyModalLinkListModule,
     SkyNeedsAttentionModule,

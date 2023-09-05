@@ -64,14 +64,14 @@
     color: $sky-text-color-deemphasized;
     cursor: pointer;
     padding: $sky-theme-modern-space-sm 0 $sky-theme-modern-space-sm
-      $sky-theme-modern-space-sm;
-    margin: $sky-theme-modern-margin-inline-sm 0
-      $sky-theme-modern-margin-inline-lg $sky-theme-modern-margin-inline-sm;
+      $sky-theme-modern-space-md;
+    margin: $sky-theme-modern-margin-inline-md 0
+      $sky-theme-modern-margin-inline-md $sky-theme-modern-margin-inline-sm;
 
     &:not(.sky-vertical-tab-active):not(:active):hover {
       color: $sky-text-color-default;
       background-color: transparent;
-      padding-left: 9px;
+      padding-left: 14px;
       border-left: 1px solid $sky-highlight-color-info;
     }
 
@@ -88,9 +88,9 @@
     }
 
     &:active {
-      border-left: 3px solid $sky-highlight-color-info;
+      border-left: 4px solid $sky-highlight-color-info;
       color: $sky-text-color-default;
-      padding-left: 7px;
+      padding-left: 11px;
     }
     .sky-vertical-tab-heading-error {
       padding-left: $sky-theme-modern-space-sm;
@@ -101,7 +101,7 @@
   .sky-vertical-tab-active {
     background: none;
     color: $sky-text-color-default;
-    padding-left: 7px;
-    border-left: 3px solid $sky-theme-modern-color-blue-74;
+    padding-left: 11px;
+    border-left: 4px solid $sky-theme-modern-color-blue-74;
   }
 }

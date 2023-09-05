@@ -163,12 +163,24 @@ sky-repeater-item {
 }
 
 .sky-theme-modern {
+  .sky-split-view-drawer {
+    sky-repeater-item .sky-repeater-item {
+      padding-left: var(--sky-padding-even-md);
+
+      &.sky-repeater-item-active {
+        padding-left: calc(
+          var(--sky-padding-even-md) - $sky-nav-selected-border-width
+        );
+      }
+    }
+  }
+
   sky-repeater-item {
     .sky-repeater-item {
       padding-bottom: $sky-theme-modern-margin-stacked-lg;
 
       &.sky-repeater-item-active {
-        background-color: transparent;
+        background-color: $sky-color-white;
         border-left-color: $sky-theme-modern-background-color-primary-dark;
       }
 

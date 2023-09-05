@@ -324,11 +324,7 @@ export class SkyDatepickerCalendarInnerComponent
     return newDate;
   }
 
-  public selectCalendar(
-    event: Event,
-    date: Date,
-    closePicker: boolean = false
-  ) {
+  public selectCalendar(event: Event, date: Date, closePicker = false) {
     if (!closePicker) {
       event.preventDefault();
       event.stopPropagation();
@@ -336,7 +332,7 @@ export class SkyDatepickerCalendarInnerComponent
     this.select(date);
   }
 
-  public select(date: Date, isManual: boolean = true): void {
+  public select(date: Date, isManual = true): void {
     this.activeDate = new Date(
       date.getFullYear(),
       date.getMonth(),

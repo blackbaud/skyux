@@ -16,7 +16,6 @@ import {
   SkyThemeSettings,
 } from '@skyux/theme';
 
-import { ModalMockMutationObserverService } from './fixtures/mock-modal-mutation-observer';
 import { ModalMockThemeService } from './fixtures/mock-theme.service';
 import { ModalAutofocusTestComponent } from './fixtures/modal-autofocus.component.fixture';
 import { SkyModalFixturesModule } from './fixtures/modal-fixtures.module';
@@ -37,7 +36,7 @@ import { SkyModalError } from './modal-error';
 import { SkyModalHostComponent } from './modal-host.component';
 import { SkyModalHostService } from './modal-host.service';
 import { SkyModalInstance } from './modal-instance';
-import { SkyModalScrollShadowDirective } from './modal-scroll-shadow.directive';
+import { SkyModalModule } from './modal.module';
 import { SkyModalService } from './modal.service';
 
 describe('Modal component', () => {
@@ -965,8 +964,6 @@ describe('Modal component', () => {
   });
 
   describe('when modern theme', () => {
-    let mutationObserverCreateSpy: jasmine.Spy;
-
     function scrollContent(contentEl: HTMLElement, top: number): void {
       contentEl.scrollTop = top;
 
@@ -997,8 +994,9 @@ describe('Modal component', () => {
     }
 
     function setModernTheme(): void {
-      const themeSvc: ModalMockThemeService =
-        TestBed.inject<any>(SkyThemeService);
+      const themeSvc = TestBed.inject(
+        SkyThemeService
+      ) as unknown as ModalMockThemeService;
 
       themeSvc.settingsChange.next({
         currentSettings: new SkyThemeSettings(
@@ -1009,29 +1007,20 @@ describe('Modal component', () => {
       });
     }
 
-    beforeEach(() => {
-      const modalMockMutationObserverService =
-        new ModalMockMutationObserverService();
-
-      TestBed.overrideDirective(SkyModalScrollShadowDirective, {
-        add: {
-          providers: [
-            {
-              provide: SkyMutationObserverService,
-              useValue: modalMockMutationObserverService,
-            },
-          ],
-        },
-      });
-      mutationObserverCreateSpy = spyOn(
-        modalMockMutationObserverService,
-        'create'
-      ).and.callThrough();
-
-      setModernTheme();
-    });
+    function triggerMutation(
+      mutateCallback: MutationCallback | undefined,
+      mutationObserver: MutationObserver
+    ): void {
+      if (mutateCallback) {
+        mutateCallback([], mutationObserver);
+      } else {
+        fail('Mutation callback is not defined.');
+      }
+    }
 
     it('should progressively show a drop shadow as the modal content scrolls', fakeAsync(() => {
+      setModernTheme();
+
       const modalInstance1 = openModal(ModalTestComponent);
 
       const modalHeaderEl = document.querySelector(
@@ -1083,18 +1072,23 @@ describe('Modal component', () => {
     }));
 
     it('should check for shadow when elements are added to the modal content', fakeAsync(() => {
-      let mutateCallback: any;
+      let mutateCallback: MutationCallback | undefined;
 
-      const fakeMutationObserver = {
+      const fakeMutationObserver: MutationObserver = {
         observe: jasmine.createSpy('observe'),
         disconnect: jasmine.createSpy('disconnect'),
+        takeRecords: jasmine.createSpy('takeRecords'),
       };
 
-      mutationObserverCreateSpy.and.callFake((cb) => {
-        mutateCallback = cb;
+      spyOn(TestBed.inject(SkyMutationObserverService), 'create').and.callFake(
+        (cb) => {
+          mutateCallback = cb;
 
-        return fakeMutationObserver;
-      });
+          return fakeMutationObserver;
+        }
+      );
+
+      setModernTheme();
 
       const modalInstance1 = openModal(ModalTestComponent);
 
@@ -1112,7 +1106,7 @@ describe('Modal component', () => {
 
       fixtureContentEl.appendChild(childEl);
 
-      mutateCallback();
+      triggerMutation(mutateCallback, fakeMutationObserver);
 
       tick();
       getApplicationRef().tick();
@@ -1121,7 +1115,7 @@ describe('Modal component', () => {
 
       fixtureContentEl.removeChild(childEl);
 
-      mutateCallback();
+      triggerMutation(mutateCallback, fakeMutationObserver);
 
       tick();
       getApplicationRef().tick();
@@ -1133,6 +1127,11 @@ describe('Modal component', () => {
 
     it('should not create multiple mutation observers', fakeAsync(() => {
       const modalInstance1 = openModal(ModalTestComponent);
+
+      const mutationObserverCreateSpy = spyOn(
+        TestBed.inject(SkyMutationObserverService),
+        'create'
+      ).and.callThrough();
 
       setModernTheme();
       setModernTheme();
@@ -1266,5 +1265,34 @@ describe('Modal component', () => {
         expect(getModalElement()).toBeNull();
       }
     }));
+  });
+});
+
+describe('Modal component (created w/o SkyModalService)', () => {
+  it('should setup a default modal configuration', () => {
+    TestBed.configureTestingModule({
+      declarations: [ModalTestComponent],
+      imports: [SkyModalModule],
+      providers: [
+        {
+          provide: SkyModalHostService,
+          useValue: {
+            onClose: (): void => {
+              /** */
+            },
+          },
+        },
+      ],
+    });
+
+    const fixture = TestBed.createComponent(ModalTestComponent);
+
+    fixture.detectChanges();
+
+    // Medium is the default size for modals.
+    expect(fixture.nativeElement.querySelector('.sky-modal-medium')).toExist();
+
+    // Close the modal.
+    fixture.nativeElement.querySelector('.sky-modal-btn-close').click();
   });
 });

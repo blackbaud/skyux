@@ -389,7 +389,7 @@ describe('Numeric service', () => {
           style: SkyIntlNumberFormatStyle,
           digits?: string | null,
           currency: string | null = null,
-          currencyAsSymbol: boolean = false
+          currencyAsSymbol = false
         ) => {
           return value as string | null;
         }

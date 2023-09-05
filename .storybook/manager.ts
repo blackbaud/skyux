@@ -1,7 +1,8 @@
 import { addons } from '@storybook/addons';
+import { ThemeVars } from '@storybook/theming';
 
-import blackbaudTheme from './blackbaud';
+import { blackbaud } from './blackbaud';
 
 addons.setConfig({
-  theme: blackbaudTheme,
+  theme: blackbaud as Required<ThemeVars>,
 });

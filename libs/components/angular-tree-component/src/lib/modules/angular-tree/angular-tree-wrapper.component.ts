@@ -11,8 +11,8 @@ import {
   TreeComponent,
   TreeModel,
   TreeNode,
-} from '@circlon/angular-tree-component';
-import { IDTypeDictionary } from '@circlon/angular-tree-component/lib/defs/api';
+} from '@blackbaud/angular-tree-component';
+import { IDTypeDictionary } from '@blackbaud/angular-tree-component/lib/defs/api';
 
 /**
  * Wraps the Angular `tree-root` component as part of the `SkyAngularTreeModule` that provides

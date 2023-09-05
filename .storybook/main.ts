@@ -1,12 +1,15 @@
 import type { StorybookConfig } from '@storybook/angular';
+import type { DocsOptions } from '@storybook/types';
 
 const frameworkName: '@storybook/angular' = '@storybook/angular';
 export const framework = {
   name: frameworkName,
   options: {},
 };
-export const docs = {
-  autodocs: true,
+export const docs: DocsOptions = {
+  autodocs: false,
+  docsMode: false,
+  defaultName: 'Documentation',
 };
 export const rootMain: StorybookConfig = {
   stories: [],
@@ -25,4 +28,12 @@ export const rootMain: StorybookConfig = {
   features: {
     buildStoriesJson: true,
   },
+  // Workaround for https://github.com/storybookjs/storybook/issues/23883
+  previewHead: (head: string) => `
+    ${head}
+    <script>
+      window.beforeEach = window.beforeEach || (() => {});
+      window.afterEach = window.afterEach || (() => {});
+    </script>
+  `,
 };
