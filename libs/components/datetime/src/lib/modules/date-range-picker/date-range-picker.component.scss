@@ -1,6 +1,10 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
+:host {
+  display: block;
+}
+
 .sky-date-range-picker {
   display: flex;
 }
@@ -8,7 +12,7 @@
 @media (max-width: $sky-screen-sm-min) {
   .sky-date-range-picker-form-group {
     &:not(.sky-date-range-picker-last-input) {
-      margin-bottom: $sky-space-md;
+      margin-bottom: var(--sky-margin-stacked-lg);
     }
   }
 }
@@ -67,7 +71,7 @@
   @media (max-width: $sky-screen-sm-min) {
     .sky-date-range-picker-form-group {
       &:not(.sky-date-range-picker-last-input) {
-        margin-bottom: $sky-theme-modern-margin-stacked-lg;
+        margin-bottom: var(--sky-margin-stacked-lg);
       }
     }
   }
