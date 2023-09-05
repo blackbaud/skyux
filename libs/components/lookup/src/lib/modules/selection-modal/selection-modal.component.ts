@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -5,13 +6,23 @@ import {
   OnDestroy,
   OnInit,
   TemplateRef,
+  inject,
 } from '@angular/core';
-import { SkyIdService } from '@skyux/core';
-import { SkyModalInstance } from '@skyux/modals';
+import { SkyIdService, SkyViewkeeperModule } from '@skyux/core';
+import { SkyCheckboxModule } from '@skyux/forms';
+import { SkyIconModule, SkyWaitModule } from '@skyux/indicators';
+import { SkyToolbarModule } from '@skyux/layout';
+import { SkyInfiniteScrollModule, SkyRepeaterModule } from '@skyux/lists';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
+import { SkyThemeModule } from '@skyux/theme';
 
 import { Subject, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 
+import { SkySearchModule } from '../search/search.module';
+import { SkyLookupResourcesModule } from '../shared/sky-lookup-resources.module';
+
+import { SkySelectionModalItemSelectedPipe } from './selection-modal-item-selected.pipe';
 import { SkySelectionModalContext } from './types/selection-modal-context';
 import { SkySelectionModalSearchResult } from './types/selection-modal-search-result';
 
@@ -19,10 +30,26 @@ import { SkySelectionModalSearchResult } from './types/selection-modal-search-re
  * @internal
  */
 @Component({
+  standalone: true,
   selector: 'sky-selection-modal',
   templateUrl: './selection-modal.component.html',
   styleUrls: ['./selection-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    SkyCheckboxModule,
+    SkyIconModule,
+    SkyInfiniteScrollModule,
+    SkyLookupResourcesModule,
+    SkyModalModule,
+    SkyRepeaterModule,
+    SkySearchModule,
+    SkySelectionModalItemSelectedPipe,
+    SkyThemeModule,
+    SkyToolbarModule,
+    SkyWaitModule,
+    SkyViewkeeperModule,
+  ],
 })
 export class SkySelectionModalComponent implements OnInit, OnDestroy {
   /**
@@ -56,8 +83,6 @@ export class SkySelectionModalComponent implements OnInit, OnDestroy {
 
   public selectedIdMap: Map<unknown, unknown> = new Map();
 
-  #changeDetector: ChangeDetectorRef;
-
   #continuationData: unknown;
 
   #currentSearchSub: Subscription | undefined;
@@ -66,15 +91,13 @@ export class SkySelectionModalComponent implements OnInit, OnDestroy {
 
   #offset = 0;
 
-  constructor(
-    public modalInstance: SkyModalInstance,
-    public context: SkySelectionModalContext,
-    changeDetector: ChangeDetectorRef,
-    idSvc: SkyIdService
-  ) {
-    this.#changeDetector = changeDetector;
+  protected readonly context = inject(SkySelectionModalContext);
+  protected readonly modalInstance = inject(SkyModalInstance);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #idSvc = inject(SkyIdService);
 
-    this.id = idSvc.generateId();
+  constructor() {
+    this.id = this.#idSvc.generateId();
   }
 
   public ngOnInit(): void {

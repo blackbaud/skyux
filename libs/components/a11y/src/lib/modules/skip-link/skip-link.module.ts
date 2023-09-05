@@ -1,15 +1,9 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-
-import { SkyA11yResourcesModule } from '../shared/sky-a11y-resources.module';
-
-import { SkySkipLinkHostComponent } from './skip-link-host.component';
 
 /**
  * The Angular module that enables "skip links" to be added to the page.
+ * @deprecated The `SkySkipLinkModule` is no longer needed and can be removed from your application.
+ * @internal
  */
-@NgModule({
-  declarations: [SkySkipLinkHostComponent],
-  imports: [CommonModule, SkyA11yResourcesModule],
-})
+@NgModule({})
 export class SkySkipLinkModule {}

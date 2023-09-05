@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -5,6 +6,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 
 import { Subject } from 'rxjs';
@@ -18,9 +20,11 @@ import { SkyDataManagerService } from './data-manager.service';
  * search text, and more to the data it displays.
  */
 @Component({
+  standalone: true,
   selector: 'sky-data-view',
   templateUrl: './data-view.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule],
 })
 export class SkyDataViewComponent implements OnDestroy, OnInit {
   /**
@@ -42,16 +46,9 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
   #_isActive = false;
 
   #ngUnsubscribe = new Subject<void>();
-  #dataManagerService: SkyDataManagerService;
-  #changeDetector: ChangeDetectorRef;
 
-  constructor(
-    dataManagerService: SkyDataManagerService,
-    changeDetector: ChangeDetectorRef
-  ) {
-    this.#dataManagerService = dataManagerService;
-    this.#changeDetector = changeDetector;
-  }
+  readonly #dataManagerService = inject(SkyDataManagerService);
+  readonly #changeDetector = inject(ChangeDetectorRef);
 
   public ngOnInit(): void {
     this.#dataManagerService

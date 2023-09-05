@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectorRef,
   Component,
@@ -10,20 +11,33 @@ import {
   ViewChild,
 } from '@angular/core';
 import { skyAnimationSlide } from '@skyux/animations';
+import { SkyIdModule } from '@skyux/core';
+import { SkyChevronModule, SkyIconModule } from '@skyux/indicators';
+import { SkyThemeModule } from '@skyux/theme';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { SkyTilesResourcesModule } from '../../shared/sky-tiles-resources.module';
 import { SkyTileDashboardService } from '../tile-dashboard/tile-dashboard.service';
 
 /**
  * Provides a common look-and-feel for tab content.
  */
 @Component({
+  standalone: true,
   selector: 'sky-tile',
   styleUrls: ['./tile.component.scss'],
   templateUrl: './tile.component.html',
   animations: [skyAnimationSlide],
+  imports: [
+    CommonModule,
+    SkyChevronModule,
+    SkyIconModule,
+    SkyIdModule,
+    SkyThemeModule,
+    SkyTilesResourcesModule,
+  ],
 })
 export class SkyTileComponent implements OnDestroy {
   /**

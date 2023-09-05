@@ -8,7 +8,6 @@ import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
 import { SkyDefinitionListModule } from '@skyux/layout';
 import { SkyRepeaterModule } from '@skyux/lists';
-import { SkyConfirmModule } from '@skyux/modals';
 import { SkyThemeService } from '@skyux/theme';
 
 import { SplitViewTestComponent } from './fixtures/split-view-fixture-test.component';
@@ -59,7 +58,6 @@ describe('SplitView fixture', () => {
       imports: [
         NoopAnimationsModule,
         ReactiveFormsModule,
-        SkyConfirmModule,
         SkyDefinitionListModule,
         SkyRepeaterModule,
         SkySummaryActionBarModule,

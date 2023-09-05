@@ -12,7 +12,7 @@ env:
 jobs:
   install-deps:
     name: Install and cache dependencies
-    if: ${{ !startsWith( github.event.pull_request.labels[0].name, 'autorelease' ) }}
+    if: ${{ !startsWith( github.ref_name, 'release-please--' ) }}
     runs-on: ubuntu-latest
     outputs:
       node-version: ${{ steps.setup-node.outputs.node-version }}

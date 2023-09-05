@@ -35,11 +35,10 @@ describe('Flyout service', () => {
   ));
 
   it('should only create a single host component', () => {
-    const dynamicService = TestBed.inject(SkyDynamicComponentService);
-    const spy = spyOn(dynamicService, 'createComponent').and.callThrough();
     service.open(SkyFlyoutHostsTestComponent);
     service.open(SkyFlyoutHostsTestComponent);
-    expect(spy.calls.count()).toEqual(1);
+
+    expect(document.querySelectorAll('sky-flyout').length).toEqual(1);
   });
 
   it('should return an instance with a close method', () => {

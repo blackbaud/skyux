@@ -1,0 +1,90 @@
+name: E2E Affected Check
+description: 'Check if e2e tests are affected by the changes since the last visual snapshot'
+inputs:
+  project:
+    description: 'The name of the project'
+    required: true
+  base:
+    description: 'The base commit to compare against'
+    required: true
+  head:
+    description: 'The head commit to compare with'
+    required: true
+  percy-token:
+    description: 'The Percy API token'
+    required: true
+outputs:
+  affected:
+    description: 'Whether the e2e tests are affected by the changes'
+    value: ${{ steps.affected.outputs.affected }}
+runs:
+  using: 'composite'
+  steps:
+    - name: Check if e2e tests are affected by the changes
+      id: affected
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const options = {
+            method: 'GET',
+            headers: {
+              Authorization: 'Token ${{ inputs.percy-token }}'
+            }
+          };
+
+          const shas = await exec.getExecOutput('git', ['log', '--format=%H', '${{ inputs.base }}..${{ inputs.head }}'])
+            .then(({stdout}) => stdout.trim().split('\n'));
+          if (shas.length < 2) {
+            core.info('Only one commit, running e2e tests');
+            core.setOutput('affected', 'true');
+            process.exit(0);
+          }
+
+          // Call the Percy API to get the project ID.
+          core.info('Fetching Percy project ID...');
+          const projectId = await fetch('https://percy.io/api/v1/projects?project_slug=skyux-${{ inputs.project }}', options)
+            .then(response => response.json())
+            .then(response => response.data.id)
+            .catch((error) => {
+              core.setFailed(`Error fetching Percy ID: ${error.message}`);
+              process.exit(1);
+            });
+
+          // Call the Percy API to get the last good build among the PR commits.
+          const shaFilter = shas.map(sha => `filter[shas][]=${sha}`).join('&');
+          core.info('Fetching Percy builds...');
+          const percyBuilds = await fetch(`https://percy.io/api/v1/builds?project_id=${projectId}&${shaFilter}&filter[state]=finished&page[limit]=100`, options)
+            .then(response => response.json())
+            .then(response => response.data)
+            .catch((error) => {
+              core.setFailed(`Error fetching Percy builds: ${error.message}`);
+              process.exit(1);
+            });
+
+          const lastGoodBuild = percyBuilds.find(build => build.attributes.state === 'finished' && build.attributes['review-state'] === 'approved');
+
+          if (!lastGoodBuild) {
+            core.info('No good Percy test found, running e2e tests');
+            core.setOutput('affected', 'true');
+            process.exit(0);
+          }
+
+          const lastGoodCommit = lastGoodBuild.attributes['commit-html-url'].split('/').pop();
+          const affectedProjects = await exec.getExecOutput('npx', [
+            'nx',
+            'show',
+            'projects',
+            `--base=${lastGoodCommit}`,
+            '--head=${{ inputs.head }}',
+            '--withTarget=e2e',
+            '--affected',
+            '--json'
+          ]).then(({stdout}) => JSON.parse(stdout));
+          const projectAffected = affectedProjects.includes('${{ inputs.project }}');
+          if (projectAffected) {
+            core.info(`E2E tests affected`);
+            core.setOutput('affected', 'true');
+          } else {
+            core.info(`No e2e tests affected since ${lastGoodCommit.substring(0, 7)}`);
+            core.setOutput('affected', 'false');
+          }

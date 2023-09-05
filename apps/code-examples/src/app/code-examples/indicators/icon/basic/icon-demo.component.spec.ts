@@ -33,8 +33,9 @@ describe('Basic icon', () => {
     fixture.detectChanges();
 
     await expectAsync(iconHarness.getIconName()).toBeResolvedTo('calendar');
-    await expectAsync(iconHarness.getIconType()).toBeResolvedTo('skyux');
-    await expectAsync(iconHarness.getVariant()).toBeResolvedTo('solid');
+    await expectAsync(iconHarness.getVariant()).toBeRejectedWithError(
+      'Variant cannot be determined because variants are only assigned to icons with type `skyux`.'
+    );
     await expectAsync(iconHarness.getIconSize()).toBeResolvedTo('4x');
     await expectAsync(iconHarness.isFixedWidth()).toBeResolvedTo(true);
   });

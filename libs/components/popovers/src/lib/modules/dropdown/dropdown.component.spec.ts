@@ -177,9 +177,7 @@ describe('Dropdown component', function () {
         mockThemeService.settingsChange.getValue().currentSettings,
     });
     detectChangesFakeAsync();
-    const icon = fixture.nativeElement.querySelector(
-      '[ng-reflect-icon-type="skyux"]'
-    );
+    const icon = fixture.nativeElement.querySelector('.sky-i-chevron-down');
     expect(icon).toExist();
   }));
 

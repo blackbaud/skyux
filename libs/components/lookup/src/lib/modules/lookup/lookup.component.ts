@@ -82,6 +82,8 @@ export class SkyLookupComponent
 
   /**
    * The value for the `autocomplete` attribute on the form input.
+   * @default 'off'
+   * @deprecated SKY UX only supports browser autofill on components where the direct input matches the return value. This input may not behave as expected due to the dropdown selection interaction.
    */
   @Input()
   public autocompleteAttribute: string | undefined;
@@ -311,15 +313,15 @@ export class SkyLookupComponent
   #_tokens: SkyToken[] | undefined;
   #_value: any[] | undefined;
 
-  #adapter = inject(SkyLookupAdapterService);
-  #changeDetector = inject(ChangeDetectorRef);
-  #elementRef = inject(ElementRef);
-  #idService = inject(SkyIdService);
-  #logSvc = inject(SkyLogService);
-  #modalService = inject(SkyModalService);
-  #resourcesService = inject(SkyLibResourcesService);
-  #selectionModalSvc = inject(SkySelectionModalService);
-  #windowRef = inject(SkyAppWindowRef);
+  readonly #adapter = inject(SkyLookupAdapterService);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #elementRef = inject(ElementRef);
+  readonly #idService = inject(SkyIdService);
+  readonly #logSvc = inject(SkyLogService);
+  readonly #modalService = inject(SkyModalService);
+  readonly #resourcesService = inject(SkyLibResourcesService);
+  readonly #selectionModalSvc = inject(SkySelectionModalService);
+  readonly #windowRef = inject(SkyAppWindowRef);
 
   constructor(
     @Self() @Optional() ngControl?: NgControl,

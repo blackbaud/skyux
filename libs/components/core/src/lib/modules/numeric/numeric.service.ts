@@ -7,7 +7,7 @@ import { SkyNumericSymbol } from './numeric-symbol';
 import { SkyNumericOptions } from './numeric.options';
 
 @Injectable({
-  providedIn: 'any',
+  providedIn: 'root',
 })
 export class SkyNumericService {
   /**

@@ -1,9 +1,13 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { SkyModalError, SkyModalInstance } from '@skyux/modals';
+import { SkyHelpInlineModule } from '@skyux/indicators';
+import { SkyModalError, SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
+  standalone: true,
   selector: 'app-modal',
   templateUrl: './modal-basic.component.html',
+  imports: [CommonModule, SkyHelpInlineModule, SkyModalModule],
 })
 export class ModalBasicComponent {
   public showHelp = false;

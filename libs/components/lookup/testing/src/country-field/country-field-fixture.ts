@@ -12,6 +12,7 @@ export class SkyCountryFieldFixture {
 
   /**
    * The value of the input field's autocomplete attribute.
+   * @deprecated The country field component's `autocompleteAttribute` is deprecated.
    */
   public get autocompleteAttribute(): string | null {
     return this.#getInputElement().getAttribute('autocomplete');

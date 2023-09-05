@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SkyAffixModule, SkyOverlayModule } from '@skyux/core';
+import { SkyAffixModule } from '@skyux/core';
 import { SkyCheckboxModule } from '@skyux/forms';
 import {
   SkyHelpInlineModule,
@@ -38,7 +38,6 @@ import { SkyGridComponent } from './grid.component';
     SkyHelpInlineModule,
     SkyIconModule,
     SkyInlineDeleteModule,
-    SkyOverlayModule,
     SkyPopoverModule,
     SkyTextHighlightModule,
   ],
