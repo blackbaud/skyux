@@ -923,6 +923,7 @@ describe('Popover directive', () => {
         horizontalAlignment: 'center',
         isSticky: true,
         placement: 'above',
+        position: 'absolute',
       });
 
       fixture.componentInstance.sendMessage(SkyPopoverMessageType.Close);
@@ -941,6 +942,7 @@ describe('Popover directive', () => {
         horizontalAlignment: 'center',
         isSticky: true,
         placement: 'below',
+        position: 'absolute',
       });
 
       fixture.componentInstance.sendMessage(SkyPopoverMessageType.Close);
@@ -960,6 +962,7 @@ describe('Popover directive', () => {
         isSticky: true,
         placement: 'left',
         verticalAlignment: 'middle',
+        position: 'absolute',
       });
 
       fixture.componentInstance.sendMessage(SkyPopoverMessageType.Close);
@@ -979,6 +982,7 @@ describe('Popover directive', () => {
         isSticky: true,
         placement: 'right',
         verticalAlignment: 'middle',
+        position: 'absolute',
       });
     }));
 

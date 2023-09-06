@@ -339,6 +339,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
         horizontalAlignment: 'right',
         isSticky: true,
         placement: 'below',
+        position: 'absolute',
       });
 
       this.#affixer = affixer;

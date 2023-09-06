@@ -447,6 +447,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
           ),
           isSticky: true,
           placement: 'below',
+          position: 'absolute',
         });
 
         this.isVisible = true;

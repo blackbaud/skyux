@@ -247,6 +247,7 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
         ),
         isSticky: true,
         placement: parseAffixPlacement(this.placement as SkyPopoverPlacement),
+        position: 'absolute',
       };
 
       // Ensure vertical alignment is set according to the popover's placement value.

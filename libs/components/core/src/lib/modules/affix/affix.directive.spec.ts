@@ -1,8 +1,9 @@
-import { ElementRef, RendererFactory2 } from '@angular/core';
+import { ViewportRuler } from '@angular/cdk/overlay';
+import { ElementRef, NgZone, RendererFactory2 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility, expectAsync } from '@skyux-sdk/testing';
 
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyAffixAutoFitContext } from './affix-auto-fit-context';
@@ -114,6 +115,12 @@ describe('Affix directive', () => {
       const fixture = TestBed.createComponent(AffixFixtureComponent);
       const affixService = TestBed.inject(SkyAffixService);
       const rendererFactory = TestBed.inject(RendererFactory2);
+      const viewportRulerChange = new Subject<Event>();
+      const viewportRuler = {
+        getViewportScrollPosition: () => ({ top: 0, left: 0 }),
+        change: (): Observable<Event> => viewportRulerChange,
+      } as ViewportRuler;
+      const zone = TestBed.inject(NgZone);
       const renderer = rendererFactory.createRenderer(undefined, null);
 
       fixture.componentInstance.position = position;
@@ -127,7 +134,12 @@ describe('Affix directive', () => {
       spyOn(affixService, 'createAffixer').and.callFake(
         (affixed: ElementRef) => {
           ngUnsubscribe = new Subject<void>();
-          affixer = new SkyAffixer(affixed.nativeElement, renderer);
+          affixer = new SkyAffixer(
+            affixed.nativeElement,
+            renderer,
+            zone,
+            viewportRuler
+          );
           affixer.offsetChange.pipe(takeUntil(ngUnsubscribe)).subscribe((x) => {
             offset = x.offset;
           });
@@ -168,6 +180,7 @@ describe('Affix directive', () => {
         getRecentOffsetChange,
         getNumOverflowScrollEmitted,
         getRecentPlacementChange,
+        viewportRuler,
       };
     }
 
@@ -458,7 +471,8 @@ describe('Affix directive', () => {
     });
 
     it('should update placement on window resize', async () => {
-      const { fixture, getRecentPlacementChange } = await setupTest();
+      const { fixture, getRecentPlacementChange, viewportRuler } =
+        await setupTest();
       const componentInstance = fixture.componentInstance;
 
       componentInstance.isSticky = true;
@@ -469,7 +483,7 @@ describe('Affix directive', () => {
 
       // Scroll down until the affixed item is clipped at its top, then trigger the resize event.
       window.scrollTo(0, 200);
-      SkyAppTestUtility.fireDomEvent(window.visualViewport, 'resize');
+      (viewportRuler.change() as Subject<Event>).next(new Event('resize'));
       fixture.detectChanges();
 
       expect(getRecentPlacementChange()).toEqual('below');

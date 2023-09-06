@@ -416,6 +416,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
         horizontalAlignment: 'right',
         isSticky: true,
         placement: 'below',
+        position: 'absolute',
       });
 
       this.#affixer = affixer;

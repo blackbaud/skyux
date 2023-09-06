@@ -4,7 +4,7 @@ describe('Date picker', () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() => {
-        cy.viewport(1000, 900).visit(
+        cy.visit(
           `/iframe.html?globals=theme:${theme}&id=datepickercomponent-datepicker--datepicker`
         );
         cy.get('app-datepicker')
@@ -67,12 +67,7 @@ describe('Date picker', () => {
         cy.get('#screenshot-datepicker')
           .should('exist')
           .should('be.visible')
-          .scrollIntoView({
-            offset: {
-              top: -100,
-              left: 0,
-            },
-          })
+          .scrollIntoView()
           .end()
           .get('#set-value-button')
           .click()
@@ -81,13 +76,6 @@ describe('Date picker', () => {
           .click()
           .end()
           .get('#screenshot-datepicker')
-          .scrollIntoView({
-            offset: {
-              top: -150,
-              left: 0,
-            },
-          })
-          .should('be.visible')
           .skyVisualTest(`datepicker-input-open-${theme}`, {
             overwrite: true,
             disableTimersAndAnimations: true,

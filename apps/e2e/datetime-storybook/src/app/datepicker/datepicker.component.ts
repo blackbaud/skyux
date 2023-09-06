@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -18,16 +18,8 @@ import { delay, distinctUntilChanged } from 'rxjs/operators';
 @Component({
   selector: 'app-datepicker',
   templateUrl: './datepicker.component.html',
-  styles: [
-    `
-      :host {
-        display: block;
-        height: 1500px;
-      }
-    `,
-  ],
 })
-export class DatepickerComponent implements OnInit {
+export class DatepickerComponent {
   public dateFormat: string | undefined = undefined;
   public disabled = false;
   public minDate: Date | undefined;
