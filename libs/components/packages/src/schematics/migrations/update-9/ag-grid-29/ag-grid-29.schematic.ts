@@ -44,10 +44,13 @@ function removeAgGridCssFiles(): Rule {
         }
         const targetDefinition = project.targets.get(targetName);
         if (
-          targetDefinition?.options &&
-          Array.isArray(targetDefinition.options['styles'])
+          targetDefinition?.['options']?.['styles'] &&
+          Array.isArray(targetDefinition.options['styles']) &&
+          targetDefinition.options['styles'].includes(
+            'node_modules/@skyux/theme/css/sky.css'
+          )
         ) {
-          targetDefinition.options['styles'] = (
+          targetDefinition['options']['styles'] = (
             targetDefinition.options['styles'] as string[]
           ).filter(
             (cssFile) => !cssFile.startsWith('ag-grid-community/dist/styles/')
@@ -55,9 +58,6 @@ function removeAgGridCssFiles(): Rule {
           if (
             !targetDefinition.options['styles'].includes(
               'node_modules/@skyux/ag-grid/css/sky-ag-grid.css'
-            ) &&
-            targetDefinition.options['styles'].includes(
-              'node_modules/@skyux/theme/css/sky.css'
             )
           ) {
             targetDefinition.options['styles'].push(
