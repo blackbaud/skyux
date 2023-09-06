@@ -20,8 +20,6 @@ export class SkyInputBoxControlDirective {
   }
 
   public get autocomplete(): string | undefined {
-    console.log(this.#_autocomplete);
-    console.log(this.#hostSvc);
     return this.#_autocomplete || (this.#hostSvc ? 'off' : undefined);
   }
 
