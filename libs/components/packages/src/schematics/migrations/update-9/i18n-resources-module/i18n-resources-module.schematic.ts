@@ -27,7 +27,14 @@ export default function (): Rule {
           continue;
         }
 
-        tree.getDir(projectDefinition.root).visit((filePath) => {
+        const srcRoot =
+          projectDefinition.sourceRoot ??
+          /* istanbul ignore next */
+          `${projectDefinition.root}/src`;
+
+        const srcRootRegex = new RegExp(`^/${srcRoot}/`);
+
+        tree.getDir(srcRoot).visit((filePath) => {
           if (filePath.endsWith(RESOURCES_MODULE_SUFFIX)) {
             const content = readRequiredFile(tree, filePath);
 
@@ -35,9 +42,9 @@ export default function (): Rule {
               rules.push(
                 externalSchematic('@skyux/i18n', 'lib-resources-module', {
                   project: projectName,
-                  name: content
-                    .split('ng generate @skyux/i18n:lib-resources-module ')[1]
-                    .split("'")[0],
+                  name: filePath
+                    .replace(srcRootRegex, '')
+                    .replace(/-resources\.module\.ts$/, ''),
                 })
               );
             }
