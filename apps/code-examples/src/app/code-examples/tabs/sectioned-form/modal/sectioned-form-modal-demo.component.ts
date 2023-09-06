@@ -1,16 +1,30 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ViewChild,
 } from '@angular/core';
-import { SkyModalInstance } from '@skyux/modals';
-import { SkySectionedFormComponent } from '@skyux/tabs';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
+import { SkySectionedFormComponent, SkySectionedFormModule } from '@skyux/tabs';
+
+import { AddressFormDemoComponent } from './address-form-demo.component';
+import { InformationFormDemoComponent } from './information-form-demo.component';
+import { PhoneFormDemoComponent } from './phone-form-demo.component';
 
 @Component({
   selector: 'app-sectioned-form-modal-demo',
   templateUrl: './sectioned-form-modal-demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    AddressFormDemoComponent,
+    CommonModule,
+    InformationFormDemoComponent,
+    PhoneFormDemoComponent,
+    SkyModalModule,
+    SkySectionedFormModule,
+  ],
 })
 export class SectionedFormModalDemoComponent {
   public activeIndexDisplay: number | undefined;

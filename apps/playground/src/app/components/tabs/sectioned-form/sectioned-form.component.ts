@@ -7,10 +7,10 @@ import { SectionedFormModalComponent } from './sectioned-form-modal.component';
   selector: 'app-sectioned-form',
   templateUrl: './sectioned-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [SkyModalModule],
+  standalone: true,
 })
-export class SectionedFormComponent {
+export default class SectionedFormComponent {
   #modalService: SkyModalService;
 
   constructor(modalService: SkyModalService) {
