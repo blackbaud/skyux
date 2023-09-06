@@ -29,6 +29,11 @@
       "version": "9.0.0-0",
       "factory": "./update-9/legacy-services/legacy-services.schematic",
       "description": "Modal and flyout services were previously provided in 'any' but are now provided in 'root'. Replace with a 'legacy' version for backward compatibility."
+    },
+    "i18n-resources-module": {
+      "version": "9.0.0-0",
+      "factory": "./update-9/i18n-resources-module/i18n-resources-module.schematic",
+      "description": "Regenerate i18n resources modules for libraries."
     }
   }
 }
