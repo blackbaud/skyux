@@ -28,9 +28,7 @@ export default function (): Rule {
         }
 
         const srcRoot =
-          projectDefinition.sourceRoot ??
-          /* istanbul ignore next */
-          `${projectDefinition.root}/src`;
+          projectDefinition.sourceRoot ?? `${projectDefinition.root}/src`;
 
         const srcRootRegex = new RegExp(`^/${srcRoot}/`);
 

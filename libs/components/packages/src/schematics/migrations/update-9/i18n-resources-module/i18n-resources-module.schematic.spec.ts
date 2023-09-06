@@ -21,6 +21,7 @@ describe('i18n-resources-module.schematic', () => {
 
   async function setupTest(options?: {
     moduleContents?: string;
+    moduleFilePath?: string;
     packageJson?: {
       dependencies?: Record<string, string>;
       devDependencies?: Record<string, string>;
@@ -38,7 +39,8 @@ describe('i18n-resources-module.schematic', () => {
     );
 
     tree.create(
-      '/projects/my-lib/src/lib/modules/shared/my-lib-resources.module.ts',
+      options?.moduleFilePath ??
+        '/projects/my-lib/src/lib/modules/shared/my-lib-resources.module.ts',
       options?.moduleContents ??
         `/**
 * NOTICE: DO NOT MODIFY THIS FILE!
@@ -123,5 +125,29 @@ export class MyLibResourcesModule { }
     await runSchematic();
 
     expect(spies.externalSchematic).not.toHaveBeenCalled();
+  });
+
+  it('should run schematic for projects without a `sourceRoot`', async () => {
+    const { runSchematic, spies, tree } = await setupTest({
+      // Module path doesn't match what's provided in the comment block at the top of the resources module.
+      moduleFilePath:
+        '/projects/my-lib/src/lib/src/src/foobar/modules/shared/my-lib-resources.module.ts',
+    });
+
+    // Remove `sourceRoot` property.
+    const angularJson = JSON.parse(tree.readText('/angular.json'));
+    delete angularJson.projects['my-lib'].sourceRoot;
+    tree.overwrite('/angular.json', JSON.stringify(angularJson));
+
+    await runSchematic();
+
+    expect(spies.externalSchematic).toHaveBeenCalledWith(
+      '@skyux/i18n',
+      'lib-resources-module',
+      {
+        name: 'lib/src/src/foobar/modules/shared/my-lib',
+        project: 'my-lib',
+      }
+    );
   });
 });
