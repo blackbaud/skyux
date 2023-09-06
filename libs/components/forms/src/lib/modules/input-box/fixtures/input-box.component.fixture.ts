@@ -27,6 +27,9 @@ export class InputBoxFixtureComponent {
   public a11yNormalButton = false;
 
   @Input()
+  public autocomplete: string | undefined;
+
+  @Input()
   public basicDisabled: boolean | undefined;
 
   @Input()

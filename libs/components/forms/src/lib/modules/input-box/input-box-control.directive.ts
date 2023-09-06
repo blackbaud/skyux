@@ -1,4 +1,7 @@
-import { Directive } from '@angular/core';
+import { inject } from '@angular/core';
+import { Directive, HostBinding, Input } from '@angular/core';
+
+import { SkyInputBoxHostService } from './input-box-host.service';
 
 /**
  * @internal
@@ -9,4 +12,17 @@ import { Directive } from '@angular/core';
     'input:not([skyId]):not(.sky-form-control),select:not([skyId]):not(.sky-form-control),textarea:not([skyId]):not(.sky-form-control)',
   standalone: true,
 })
-export class SkyInputBoxControlDirective {}
+export class SkyInputBoxControlDirective {
+  @HostBinding('autocomplete')
+  @Input()
+  public set autocomplete(value: string | undefined) {
+    this.#_autocomplete = value;
+  }
+
+  public get autocomplete(): string | undefined {
+    return this.#_autocomplete || (this.#hostSvc ? 'off' : undefined);
+  }
+
+  #_autocomplete: string | undefined;
+  #hostSvc = inject(SkyInputBoxHostService, { optional: true });
+}
