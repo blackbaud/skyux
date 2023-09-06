@@ -1,5 +1,23 @@
 # Changelog
 
+## [9.0.0-alpha.10](https://github.com/blackbaud/skyux/compare/9.0.0-alpha.9...9.0.0-alpha.10) (2023-09-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/lookup:** use `click` events for selecting items in an autocomplete or lookup dropdown and only close when clicking outside the dropdown ([#1654](https://github.com/blackbaud/skyux/issues/1654))
+
+### Bug Fixes
+
+* **components/lookup:** use `click` events for selecting items in an autocomplete or lookup dropdown and only close when clicking outside the dropdown ([#1654](https://github.com/blackbaud/skyux/issues/1654)) ([083e6d3](https://github.com/blackbaud/skyux/commit/083e6d3a6d197038093d8f7c2ebf53229b66375e))
+* **components/pages:** `lastAccessed` property on the `SkyRecentLink` interface is more descriptive ([#1673](https://github.com/blackbaud/skyux/issues/1673)) ([5b0a47a](https://github.com/blackbaud/skyux/commit/5b0a47a948d97c82b3f871c0a39b9f2f3f5d5544))
+
+
+### Deprecations
+
+* **components/indicators:** deprecate icon `iconType` input ([#1659](https://github.com/blackbaud/skyux/issues/1659)) ([af1e3fa](https://github.com/blackbaud/skyux/commit/af1e3fa02edd4ff5fab6d3f3981ad93f453e05c0))
+* **components/lookup:** inputs to set autcomplete HTML attributes on the autocomplete, lookup, and country field components have been deprecated ([#1668](https://github.com/blackbaud/skyux/issues/1668)) ([464fe29](https://github.com/blackbaud/skyux/commit/464fe29986a493ba69efb61e26821e52186a8b49))
+
 ## [9.0.0-alpha.9](https://github.com/blackbaud/skyux/compare/9.0.0-alpha.8...9.0.0-alpha.9) (2023-08-31)
 
 
