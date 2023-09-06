@@ -232,6 +232,7 @@ export class SkyPopoverComponent implements OnDestroy {
       const overlay = this.#overlayService.create({
         enableScroll: true,
         enablePointerEvents: true,
+        position: 'absolute',
       });
 
       if (this.#zIndex) {
