@@ -49,6 +49,7 @@ export class SkyIconHarness extends SkyComponentHarness {
 
   /**
    * Gets the icon type.
+   * @deprecated The `iconType` input is no longer used. This method will be removed in a future version.
    */
   public async getIconType(): Promise<string> {
     return (await this.#getSpecifiedIconInfo()).iconType || 'fa';

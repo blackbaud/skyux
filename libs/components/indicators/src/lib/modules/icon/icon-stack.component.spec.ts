@@ -33,7 +33,7 @@ describe('Icon stack component', () => {
   });
 
   it('should display an icon stack based on the given icons', async () => {
-    setupIcon({ icon: 'circle' }, { icon: 'bell' }, '3x');
+    setupIcon({ icon: 'circle' }, { icon: 'bell-solid' }, '3x');
 
     const wrapperEl = element.querySelector('span');
 

@@ -32,11 +32,12 @@ describe('Icon component', () => {
   beforeEach(() => {
     mockResolver = jasmine.createSpyObj('mockResolver', ['resolveIcon']);
 
-    mockResolver.resolveIcon.and.callFake((icon, variant, iconType) => {
-      iconType = iconType ||= 'fa';
+    mockResolver.resolveIcon.and.callFake((icon, variant) => {
+      let iconType = 'fa';
 
       if (icon === 'variant-test') {
         icon = 'variant-test-' + variant;
+        iconType = 'skyux';
       }
 
       return {

@@ -58,10 +58,6 @@
   }
 }
 
-.sky-token-btn-close-icon-modern {
-  display: none;
-}
-
 @include mixins.sky-theme-modern {
   .sky-token {
     align-items: center;
@@ -140,12 +136,7 @@
     }
   }
 
-  .sky-token-btn-close-icon-default {
-    display: none;
-  }
-
-  .sky-token-btn-close-icon-modern {
-    display: inline-block;
+  .sky-token-btn-close-icon {
     width: 100%;
   }
 }

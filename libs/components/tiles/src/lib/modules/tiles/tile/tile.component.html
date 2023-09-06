@@ -66,12 +66,7 @@
           }"
           (click)="settingsButtonClicked()"
         >
-          <sky-icon *skyThemeIf="'default'" icon="cog"></sky-icon>
-          <sky-icon
-            *skyThemeIf="'modern'"
-            icon="cog-line"
-            iconType="skyux"
-          ></sky-icon>
+          <sky-icon icon="cog"></sky-icon>
         </button>
         <button
           *ngIf="isInDashboardColumn"
@@ -90,12 +85,7 @@
           (keydown)="moveTile($event)"
           #grabHandle
         >
-          <sky-icon *skyThemeIf="'default'" icon="th"></sky-icon>
-          <sky-icon
-            *skyThemeIf="'modern'"
-            icon="tile-drag"
-            iconType="skyux"
-          ></sky-icon>
+          <sky-icon icon="tile-drag"></sky-icon>
         </button>
       </div>
     </div>
