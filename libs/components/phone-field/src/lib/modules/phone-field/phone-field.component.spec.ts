@@ -136,7 +136,7 @@ describe('Phone Field Component', () => {
 
     SkyAppTestUtility.fireDomEvent(
       document.querySelector('.sky-autocomplete-result:first-child'),
-      'mousedown'
+      'click'
     );
 
     detectChangesAndTick(compFixture);

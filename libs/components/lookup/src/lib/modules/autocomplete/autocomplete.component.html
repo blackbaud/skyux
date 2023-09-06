@@ -3,21 +3,30 @@
   aria-haspopup="listbox"
   class="sky-autocomplete"
   role="combobox"
-  [attr.aria-expanded]="isDropdownVisible | async"
+  [attr.aria-expanded]="
+    isOpen && (showActionsArea || (isResultsVisible | async))
+  "
   [attr.aria-labelledby]="ariaLabelledBy"
-  [attr.aria-controls]="(isDropdownVisible | async) ? resultsListId : null"
+  [attr.aria-controls]="
+    isOpen && (showActionsArea || (isResultsVisible | async))
+      ? resultsListId
+      : null
+  "
   [attr.id]="resultsWrapperId"
 >
   <ng-content></ng-content>
 </div>
 
 <ng-template #resultsTemplateRef>
+  <!-- We do not want the blur to fire here so that the dropdown does not close. This is why we are preventing the mousedown default. -->
   <div
     class="sky-autocomplete-results-container"
+    [attr.id]="resultsListId"
     [skyThemeClass]="{
       'sky-shadow': 'default',
       'sky-elevation-4': 'modern'
     }"
+    (mousedown)="$event.preventDefault()"
     (keydown)="handleKeydown($event)"
     #resultsRef
   >
@@ -32,11 +41,10 @@
 
 <ng-template #resultControlsTemplateRef>
   <div
-    *ngIf="isDropdownVisible | async"
+    *ngIf="isResultsVisible | async"
     class="sky-autocomplete-results"
     role="listbox"
     [attr.aria-labelledby]="ariaLabelledBy"
-    [attr.id]="resultsListId"
   >
     <ng-container *ngFor="let result of searchResults; let i = index">
       <div
@@ -51,7 +59,7 @@
         [attr.data-descriptor-value]="result.data[descriptorProperty]"
         [attr.id]="result.elementId"
         [skyHighlight]="highlightText"
-        (mousedown)="onResultMouseDown(result.elementId, $event)"
+        (click)="onResultClick(result.elementId, $event)"
         (mousemove)="onResultMouseMove(i)"
         #searchResultEl
       >
@@ -79,7 +87,7 @@
       *ngIf="enableShowMore && (!searchText || searchResults.length > 0)"
       class="sky-autocomplete-action sky-autocomplete-action-more sky-btn sky-btn-link"
       type="button"
-      (mousedown)="moreButtonClicked()"
+      (click)="moreButtonClicked()"
     >
       <ng-container
         *ngIf="
@@ -130,7 +138,7 @@
       tabindex="0"
       type="button"
       [class.focused]="isElementFocused(addButtonEl)"
-      (mousedown)="addButtonClicked()"
+      (click)="addButtonClicked()"
       #addButtonEl
     >
       <sky-icon icon="add"></sky-icon>

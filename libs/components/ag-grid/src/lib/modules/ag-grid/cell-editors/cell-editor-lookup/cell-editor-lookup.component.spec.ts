@@ -255,7 +255,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
           '.sky-overlay.ag-custom-component-popup button.sky-autocomplete-action-add'
         );
         expect(addButton).toBeTruthy();
-        SkyAppTestUtility.fireDomEvent(addButton, 'mousedown');
+        SkyAppTestUtility.fireDomEvent(addButton, 'click');
         expect(component.skyComponentProperties?.addClick).toHaveBeenCalled();
       });
 
@@ -281,7 +281,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
           '.sky-overlay.ag-custom-component-popup button.sky-autocomplete-action-add'
         );
         expect(addButton).toBeTruthy();
-        SkyAppTestUtility.fireDomEvent(addButton, 'mousedown');
+        SkyAppTestUtility.fireDomEvent(addButton, 'click');
         expect(component.skyComponentProperties?.addClick).toHaveBeenCalled();
       });
 

@@ -99,7 +99,7 @@ describe('Country Field Component', () => {
 
     // Note: the ordering of these events is important!
     SkyAppTestUtility.fireDomEvent(inputElement, 'change');
-    SkyAppTestUtility.fireDomEvent(searchResults[index], 'mousedown');
+    SkyAppTestUtility.fireDomEvent(searchResults[index], 'click');
     blurInput(fixture);
   }
 
@@ -1564,7 +1564,7 @@ describe('Country Field Component', () => {
 
         // Note: the ordering of these events is important!
         SkyAppTestUtility.fireDomEvent(inputElement, 'change');
-        SkyAppTestUtility.fireDomEvent(searchResults[0], 'mousedown');
+        SkyAppTestUtility.fireDomEvent(searchResults[0], 'click');
         SkyAppTestUtility.fireDomEvent(getInputElement(), 'blur');
 
         fixture.detectChanges();
