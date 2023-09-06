@@ -8,6 +8,9 @@ jobs:
     if: ${{ github.event.label.name == 'skip e2e' }}
     runs-on: ubuntu-latest
     steps:
+      # Avoid race conditions where the e2e job and this job both kick off at the same time.
+      - name: Pause
+        run: sleep 10
       - name: Cancel
         uses: actions/github-script@v6
         with:
