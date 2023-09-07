@@ -24,7 +24,6 @@ runs:
         echo "main-branch-name=$(jq -r '.affected.defaultBase' nx.json)" >> $GITHUB_OUTPUT
 
     - name: Derive appropriate SHAs for base and head for `nx affected` commands (using nrwl/nx-set-shas).
-      if: ${{ ! contains(fromJson('["pull_request", "pull_request_target", "workflow_dispatch"]'), github.event_name) }}
       id: nx-set-shas
       uses: nrwl/nx-set-shas@v3
       with:
@@ -53,50 +52,12 @@ runs:
             process.exit(1);
           }
 
-    - name: Derive appropriate SHAs for base and head for `nx affected` commands (pull_request, pull_request_target, workflow_dispatch).
-      if: ${{ contains(fromJson('["pull_request", "pull_request_target", "workflow_dispatch"]'), github.event_name) }}
-      id: set-shas
-      uses: actions/github-script@v6
-      with:
-        script: |
-          core.info('git rev-parse HEAD');
-          const headSha = await exec.getExecOutput('git', ['rev-parse', 'HEAD'])
-            .then(({stdout}) => stdout.trim())
-            .catch((error) => {
-              core.setFailed(`Error getting HEAD SHA: ${error.message}`);
-              process.exit(1);
-            });
-          core.setOutput('head', headSha);
-          const baseBranch = '${{ steps.read-default-base.outputs.main-branch-name }}';
-          core.info(`git fetch origin ${baseBranch}`);
-          await exec.getExecOutput('git', ['fetch', `--refmap=+refs/heads/*:refs/remotes/origin/*`, 'origin', baseBranch])
-            .catch((error) => {
-              core.setFailed(`Error fetching ${baseBranch}: ${error.message}`);
-              process.exit(1);
-            });
-          core.info(`git merge-base refs/remotes/origin/${baseBranch} HEAD`);
-          const baseSha = await exec.getExecOutput('git', ['merge-base', `refs/remotes/origin/${baseBranch}`, 'HEAD'])
-            .then(({stdout}) => stdout.trim())
-            .catch((error) => {
-              core.setFailed(`Error getting BASE SHA: ${error.message}`);
-              process.exit(1);
-            });
-          core.setOutput('base', baseSha);
-
     - name: Log base and head SHAs used for nx affected
       shell: bash
       run: |
         echo "Base SHA"
-        echo ${{ steps.nx-set-shas.outputs.base || steps.set-shas.outputs.base }}
+        echo ${{ steps.nx-set-shas.outputs.base }}
         echo ""
         echo "Head SHA"
-        echo ${{ steps.nx-set-shas.outputs.head || steps.set-shas.outputs.head }}
+        echo ${{ steps.nx-set-shas.outputs.head }}
         echo ""
-
-    - name: Set the derived SHAs as NX_BASE and NX_HEAD environment variables for the current job
-      if: ${{ contains(fromJson('["pull_request", "pull_request_target", "workflow_dispatch"]'), github.event_name) }}
-      shell: bash
-      run: |
-        echo "NX_BASE=${{ steps.set-shas.outputs.base }}" >> $GITHUB_ENV
-        echo "NX_HEAD=${{ steps.set-shas.outputs.head }}" >> $GITHUB_ENV
-        echo "NX_BASE and NX_HEAD environment variables have been set for the current Job"
