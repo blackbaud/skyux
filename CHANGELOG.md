@@ -1,5 +1,12 @@
 # Changelog
 
+## [8.10.2](https://github.com/blackbaud/skyux/compare/8.10.1...8.10.2) (2023-09-05)
+
+
+### Bug Fixes
+
+* **components/layout:** fix action button margins in responsive containers ([#1661](https://github.com/blackbaud/skyux/issues/1661)) ([c51f45c](https://github.com/blackbaud/skyux/commit/c51f45c34a5a25b14bef75026b601245694e0a50))
+
 ## [8.10.1](https://github.com/blackbaud/skyux/compare/8.10.0...8.10.1) (2023-08-29)
 
 
