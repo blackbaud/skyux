@@ -106,3 +106,9 @@
     border-left: 4px solid $sky-theme-modern-color-blue-74;
   }
 }
+
+:host-context(.sky-sectioned-form-tabs) {
+  .sky-vertical-tab {
+    margin-left: 0;
+  }
+}
