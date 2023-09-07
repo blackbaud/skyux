@@ -64,14 +64,16 @@ describe('Affixer', () => {
     component = fixture.componentInstance;
   });
 
-  it('should create an instance', async () => {
+  it('should create an instance, place above the top', async () => {
     fixture.detectChanges();
     await fixture.whenStable();
     expect(component).toBeTruthy();
     expect(component.affixedElement?.nativeElement).toBeTruthy();
     const affixer = new SkyAffixer(
       component.affixedElement?.nativeElement as HTMLElement,
-      TestBed.inject(RendererFactory2).createRenderer(undefined, null)
+      TestBed.inject(RendererFactory2).createRenderer(undefined, null),
+      TestBed.inject(NgZone),
+      TestBed.inject(ViewportRuler)
     );
     expect(affixer).toBeTruthy();
     expect(component.baseRef?.nativeElement).toBeTruthy();
@@ -84,13 +86,14 @@ describe('Affixer', () => {
     affixer.destroy();
   });
 
-  it('should create an instance with NgZone', async () => {
+  it('should create an instance, place at top right', async () => {
     fixture.detectChanges();
     await fixture.whenStable();
     const affixer = new SkyAffixer(
       component.affixedElement?.nativeElement as HTMLElement,
       TestBed.inject(RendererFactory2).createRenderer(undefined, null),
-      TestBed.inject(NgZone)
+      TestBed.inject(NgZone),
+      TestBed.inject(ViewportRuler)
     );
     expect(affixer).toBeTruthy();
     affixer.affixTo(component.baseRef?.nativeElement as HTMLElement, {
@@ -100,7 +103,7 @@ describe('Affixer', () => {
     expect(component.affixedElement?.nativeElement.style.top).toEqual('1px');
   });
 
-  it('should create an instance with viewport ruler', async () => {
+  it('should use viewport ruler change observable', async () => {
     fixture.detectChanges();
     await fixture.whenStable();
     const viewportRulerChange = new Subject<Event>();
@@ -111,7 +114,7 @@ describe('Affixer', () => {
     const affixer = new SkyAffixer(
       component.affixedElement?.nativeElement as HTMLElement,
       TestBed.inject(RendererFactory2).createRenderer(undefined, null),
-      undefined,
+      TestBed.inject(NgZone),
       viewportRuler
     );
     expect(affixer).toBeTruthy();

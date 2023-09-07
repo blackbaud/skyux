@@ -114,9 +114,9 @@ export class SkyAffixer {
 
   #resizeListener = new Subscription();
 
-  #viewportRuler: ViewportRuler | undefined;
+  #viewportRuler: ViewportRuler;
 
-  #zone: NgZone | undefined;
+  #zone: NgZone;
 
   #_config: AffixConfigOrDefaults = DEFAULT_AFFIX_CONFIG;
 
@@ -134,8 +134,8 @@ export class SkyAffixer {
   constructor(
     affixedElement: HTMLElement,
     renderer: Renderer2,
-    zone?: NgZone,
-    viewportRuler?: ViewportRuler
+    zone: NgZone,
+    viewportRuler: ViewportRuler
   ) {
     this.#affixedElement = affixedElement;
     this.#renderer = renderer;
@@ -223,7 +223,7 @@ export class SkyAffixer {
       top: 0,
     };
 
-    if (this.#config.position === 'absolute' && this.#viewportRuler) {
+    if (this.#config.position === 'absolute') {
       const { top, left } = this.#viewportRuler.getViewportScrollPosition();
       autoFitOverflowOffset.top = (autoFitOverflowOffset.top || 0) + top;
       autoFitOverflowOffset.left = (autoFitOverflowOffset.left || 0) + left;
@@ -283,7 +283,7 @@ export class SkyAffixer {
       height: baseDomRect.height,
     };
 
-    if (this.#config.position === 'absolute' && this.#viewportRuler) {
+    if (this.#config.position === 'absolute') {
       const { left, top } = this.#viewportRuler.getViewportScrollPosition();
       baseRect.top += top;
       baseRect.left += left;
@@ -495,7 +495,6 @@ export class SkyAffixer {
 
   #reset(): void {
     this.#removeScrollListeners();
-    this.#removeResizeListener();
     this.#resizeListener.unsubscribe();
     this.#resizeListener = new Subscription();
     this.#resizeListener.add(
@@ -555,7 +554,7 @@ export class SkyAffixer {
   }
 
   #addScrollListeners(): void {
-    const addScrollListener = (): void => {
+    this.#zone.runOutsideAngular(() =>
       this.#overflowParents.forEach((parentElement) => {
         if (parentElement === document.body) {
           this.#viewport.addEventListener('scroll', this.#scrollChangeListener);
@@ -563,60 +562,20 @@ export class SkyAffixer {
         } else {
           parentElement.addEventListener('scroll', this.#scrollChangeListener);
         }
-      });
-    };
-    if (this.#zone) {
-      this.#zone.runOutsideAngular(addScrollListener);
-    } else {
-      addScrollListener();
-    }
+      })
+    );
   }
 
   #addResizeListener(): void {
-    if (this.#viewportRuler) {
-      this.#resizeListener.add(
-        this.#viewportRuler.change().subscribe(() => {
-          this.#viewportChangeListener();
-        })
-      );
-    } else {
-      const addResizeListener = (): void => {
-        this.#viewport.addEventListener('resize', this.#viewportChangeListener);
-        this.#viewport.addEventListener(
-          'orientationchange',
-          this.#viewportChangeListener
-        );
-      };
-      if (this.#zone) {
-        this.#zone.runOutsideAngular(addResizeListener);
-      } else {
-        addResizeListener();
-      }
-    }
-  }
-
-  #removeResizeListener(): void {
-    if (!this.#viewportRuler) {
-      const removeResizeListener = (): void => {
-        this.#viewport.removeEventListener(
-          'resize',
-          this.#viewportChangeListener
-        );
-        this.#viewport.removeEventListener(
-          'orientationchange',
-          this.#viewportChangeListener
-        );
-      };
-      if (this.#zone) {
-        this.#zone.runOutsideAngular(removeResizeListener);
-      } else {
-        removeResizeListener();
-      }
-    }
+    this.#resizeListener.add(
+      this.#viewportRuler.change().subscribe(() => {
+        this.#viewportChangeListener();
+      })
+    );
   }
 
   #removeScrollListeners(): void {
-    const removeScrollListener = (): void => {
+    this.#zone.runOutsideAngular(() =>
       this.#overflowParents.forEach((parentElement) => {
         if (parentElement === document.body) {
           this.#viewport.removeEventListener(
@@ -630,12 +589,7 @@ export class SkyAffixer {
             this.#scrollChangeListener
           );
         }
-      });
-    };
-    if (this.#zone) {
-      this.#zone.runOutsideAngular(removeScrollListener);
-    } else {
-      removeScrollListener();
-    }
+      })
+    );
   }
 }
