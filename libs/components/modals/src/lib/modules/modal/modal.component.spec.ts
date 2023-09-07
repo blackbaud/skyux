@@ -739,12 +739,20 @@ describe('Modal component', () => {
     closeModal(modalInstance);
   }));
 
-  it('should not contain small,medium, or large classes in full size mode', fakeAsync(() => {
+  it('should not contain small, medium, or large classes in full size mode', fakeAsync(() => {
     const modalInstance = openModal(ModalTestComponent, { fullPage: true });
 
     expect(document.querySelector('.sky-modal-small')).not.toExist();
     expect(document.querySelector('.sky-modal-medium')).not.toExist();
     expect(document.querySelector('.sky-modal-large')).not.toExist();
+
+    closeModal(modalInstance);
+  }));
+
+  it('should contain responsive size class', fakeAsync(() => {
+    const modalInstance = openModal(ModalTestComponent, { size: 'medium' });
+
+    expect(document.querySelector('.sky-responsive-container-xs')).toExist();
 
     closeModal(modalInstance);
   }));
