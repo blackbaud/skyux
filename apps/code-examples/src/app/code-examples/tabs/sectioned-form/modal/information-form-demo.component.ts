@@ -13,6 +13,7 @@ import {
 } from '@angular/forms';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
+import { SkyFluidGridModule } from '@skyux/layout';
 import { SkySectionedFormService } from '@skyux/tabs';
 
 @Component({
@@ -24,6 +25,7 @@ import { SkySectionedFormService } from '@skyux/tabs';
     CommonModule,
     ReactiveFormsModule,
     SkyInputBoxModule,
+    SkyFluidGridModule,
     SkyStatusIndicatorModule,
   ],
 })

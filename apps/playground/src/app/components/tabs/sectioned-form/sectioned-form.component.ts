@@ -18,6 +18,6 @@ export default class SectionedFormComponent {
   }
 
   public openSectionedForm(): void {
-    this.#modalService.open(SectionedFormModalComponent);
+    this.#modalService.open(SectionedFormModalComponent, { size: 'large' });
   }
 }
