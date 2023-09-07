@@ -3,8 +3,14 @@
   class="sky-date-range-picker"
   [formGroup]="formGroup"
 >
-  <div class="sky-date-range-picker-form-group">
-    <sky-input-box stacked="true" [disabled]="disabled">
+  <div
+    class="sky-date-range-picker-form-group"
+    [ngClass]="{
+      'sky-date-range-picker-last-input':
+        !showStartDatePicker && !showEndDatePicker
+    }"
+  >
+    <sky-input-box [disabled]="disabled">
       <label
         class="sky-control-label"
         [attr.for]="dateRangePickerId + '-select-calculator'"
@@ -27,8 +33,15 @@
     </sky-input-box>
   </div>
 
-  <div class="sky-date-range-picker-form-group" [hidden]="!showStartDatePicker">
-    <sky-input-box stacked="true" [disabled]="disabled">
+  <div
+    class="sky-date-range-picker-form-group"
+    [ngClass]="{
+      'sky-date-range-picker-last-input':
+        showStartDatePicker && !showEndDatePicker
+    }"
+    [hidden]="!showStartDatePicker"
+  >
+    <sky-input-box [disabled]="disabled">
       <label
         class="sky-control-label"
         [attr.for]="dateRangePickerId + '-start-date'"
@@ -60,8 +73,14 @@
     </sky-input-box>
   </div>
 
-  <div class="sky-date-range-picker-form-group" [hidden]="!showEndDatePicker">
-    <sky-input-box stacked="true" [disabled]="disabled">
+  <div
+    class="sky-date-range-picker-form-group"
+    [ngClass]="{
+      'sky-date-range-picker-last-input': showEndDatePicker
+    }"
+    [hidden]="!showEndDatePicker"
+  >
+    <sky-input-box [disabled]="disabled">
       <label
         class="sky-control-label"
         [attr.for]="dateRangePickerId + '-end-date'"
