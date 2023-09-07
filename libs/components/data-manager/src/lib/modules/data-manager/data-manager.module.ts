@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { SkyDataManagerColumnPickerImplService } from './data-manager-column-picker/data-manager-column-picker-impl.service';
-import { SkyDataManagerColumnPickerService } from './data-manager-column-picker/data-manager-column-picker.service';
+import { SKY_DATA_MANAGER_COLUMN_PICKER_PROVIDERS } from './data-manager-column-picker/data-manager-column-picker-providers';
 import { SkyDataManagerToolbarLeftItemComponent } from './data-manager-toolbar/data-manager-toolbar-left-item.component';
 import { SkyDataManagerToolbarPrimaryItemComponent } from './data-manager-toolbar/data-manager-toolbar-primary-item.component';
 import { SkyDataManagerToolbarRightItemComponent } from './data-manager-toolbar/data-manager-toolbar-right-item.component';
@@ -29,11 +28,6 @@ import { SkyDataViewComponent } from './data-view.component';
     SkyDataManagerToolbarSectionComponent,
     SkyDataViewComponent,
   ],
-  providers: [
-    {
-      provide: SkyDataManagerColumnPickerService,
-      useClass: SkyDataManagerColumnPickerImplService,
-    },
-  ],
+  providers: [SKY_DATA_MANAGER_COLUMN_PICKER_PROVIDERS],
 })
 export class SkyDataManagerModule {}
