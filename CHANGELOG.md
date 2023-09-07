@@ -1,5 +1,63 @@
 # Changelog
 
+## [9.0.0-alpha.10](https://github.com/blackbaud/skyux/compare/9.0.0-alpha.9...9.0.0-alpha.10) (2023-09-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/lookup:** use `click` events for selecting items in an autocomplete or lookup dropdown and only close when clicking outside the dropdown ([#1654](https://github.com/blackbaud/skyux/issues/1654))
+
+### Features
+
+* **components/packages:** add schematic to regenerate i18n resources modules for libraries ([#1677](https://github.com/blackbaud/skyux/issues/1677)) ([ff3bd36](https://github.com/blackbaud/skyux/commit/ff3bd36d7e399d9fb4c911be23fa2608225d65c3))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** improve schematic for AG Grid 29 changes ([#1675](https://github.com/blackbaud/skyux/issues/1675)) ([16cd189](https://github.com/blackbaud/skyux/commit/16cd1894123dd083223370c7429e109c46bd3c7c))
+* **components/forms:** easy mode input box inputs default to turning off browser autofill but respect consumer set values ([#1660](https://github.com/blackbaud/skyux/issues/1660)) ([ea951a4](https://github.com/blackbaud/skyux/commit/ea951a4d3328ad1d808c99fe1c490c6a445bc29a))
+* **components/lookup:** use `click` events for selecting items in an autocomplete or lookup dropdown and only close when clicking outside the dropdown ([#1654](https://github.com/blackbaud/skyux/issues/1654)) ([083e6d3](https://github.com/blackbaud/skyux/commit/083e6d3a6d197038093d8f7c2ebf53229b66375e))
+* **components/pages:** `lastAccessed` property on the `SkyRecentLink` interface is more descriptive ([#1673](https://github.com/blackbaud/skyux/issues/1673)) ([5b0a47a](https://github.com/blackbaud/skyux/commit/5b0a47a948d97c82b3f871c0a39b9f2f3f5d5544))
+
+
+### Deprecations
+
+* **components/indicators:** deprecate icon `iconType` input ([#1659](https://github.com/blackbaud/skyux/issues/1659)) ([af1e3fa](https://github.com/blackbaud/skyux/commit/af1e3fa02edd4ff5fab6d3f3981ad93f453e05c0))
+* **components/lookup:** inputs to set autcomplete HTML attributes on the autocomplete, lookup, and country field components have been deprecated ([#1668](https://github.com/blackbaud/skyux/issues/1668)) ([464fe29](https://github.com/blackbaud/skyux/commit/464fe29986a493ba69efb61e26821e52186a8b49))
+
+## [8.10.2](https://github.com/blackbaud/skyux/compare/8.10.1...8.10.2) (2023-09-05)
+
+
+### Bug Fixes
+
+* **components/layout:** fix action button margins in responsive containers ([#1661](https://github.com/blackbaud/skyux/issues/1661)) ([c51f45c](https://github.com/blackbaud/skyux/commit/c51f45c34a5a25b14bef75026b601245694e0a50))
+
+## [9.0.0-alpha.9](https://github.com/blackbaud/skyux/compare/9.0.0-alpha.8...9.0.0-alpha.9) (2023-08-31)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/datetime:** timepicker hardcoded `aria-label` is removed and the label should now be provided through a wrapping input box ([#1644](https://github.com/blackbaud/skyux/issues/1644))
+* **components/datetime:** datepicker hardcoded `aria-label` is removed and the label should now be provided through a wrapping input box ([#1646](https://github.com/blackbaud/skyux/issues/1646))
+* **components/phone-field:** phone field hardcoded `aria-label` is removed and the label should now be provided through a wrapping input box ([#1643](https://github.com/blackbaud/skyux/issues/1643))
+
+### Features
+
+* **components/datetime:** datepicker hardcoded `aria-label` is removed and the label should now be provided through a wrapping input box ([#1646](https://github.com/blackbaud/skyux/issues/1646)) ([81ac802](https://github.com/blackbaud/skyux/commit/81ac8027e432e1ee2c90e14ed4e80dc334cc02c8))
+* **components/datetime:** timepicker hardcoded `aria-label` is removed and the label should now be provided through a wrapping input box ([#1644](https://github.com/blackbaud/skyux/issues/1644)) ([23a00c1](https://github.com/blackbaud/skyux/commit/23a00c17425ecb0495243e8733bd11050676df22))
+* **components/phone-field:** phone field hardcoded `aria-label` is removed and the label should now be provided through a wrapping input box ([#1643](https://github.com/blackbaud/skyux/issues/1643)) ([7308d9c](https://github.com/blackbaud/skyux/commit/7308d9c645a7d229d2af325e7a12bbfd6c822805))
+* **components/tabs:** make all tabs responsive containers ([#1642](https://github.com/blackbaud/skyux/issues/1642)) ([80e77ce](https://github.com/blackbaud/skyux/commit/80e77ced7abbd571f7d73de8737346a44e7b3e01))
+
+
+### Bug Fixes
+
+* **components/forms:** update file attachment accessibility and visual labels on the input for linking to a file to be more descriptive ([#1625](https://github.com/blackbaud/skyux/issues/1625)) ([#1647](https://github.com/blackbaud/skyux/issues/1647)) ([c7d54ef](https://github.com/blackbaud/skyux/commit/c7d54ef25dced024d8ae59bab8e2f6e94252bd68))
+* **components/forms:** updated single file attachment to use more descriptive aria labels ([#1630](https://github.com/blackbaud/skyux/issues/1630)) ([#1651](https://github.com/blackbaud/skyux/issues/1651)) ([928aaa8](https://github.com/blackbaud/skyux/commit/928aaa83b7dc866440642122a809a6325932df37))
+* **components/layout:** fix action button margins in responsive containers ([#1661](https://github.com/blackbaud/skyux/issues/1661)) ([#1664](https://github.com/blackbaud/skyux/issues/1664)) ([ca19bc6](https://github.com/blackbaud/skyux/commit/ca19bc6e22b165033c44ad2d1652c74140001888))
+* **components/lookup:** fix regression for lookup in modal ([#1656](https://github.com/blackbaud/skyux/issues/1656)) ([#1657](https://github.com/blackbaud/skyux/issues/1657)) ([301044e](https://github.com/blackbaud/skyux/commit/301044ee5fde820830b202ffa63f01eb33c392e5))
+* **components/split-view:** update split view drawer and active item styling ([#1655](https://github.com/blackbaud/skyux/issues/1655)) ([b347dab](https://github.com/blackbaud/skyux/commit/b347dab60136345e97d970afb816012551fef793))
+* refactor services provided in "any" to provided in "root" ([#1641](https://github.com/blackbaud/skyux/issues/1641)) ([0ce9cc6](https://github.com/blackbaud/skyux/commit/0ce9cc61d1bb8ed3330e470bddd8861a7645d6a8))
+
 ## [8.10.1](https://github.com/blackbaud/skyux/compare/8.10.0...8.10.1) (2023-08-29)
 
 

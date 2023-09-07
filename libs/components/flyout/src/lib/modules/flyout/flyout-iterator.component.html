@@ -1,4 +1,4 @@
-<div id="iterators" class="sky-flyout-iterators">
+<div class="sky-flyout-iterators">
   <button
     class="sky-btn"
     [attr.aria-label]="
@@ -12,13 +12,7 @@
     (click)="onIteratorPreviousClick()"
   >
     <sky-icon *skyThemeIf="'default'" icon="chevron-up"> </sky-icon>
-    <sky-icon
-      *skyThemeIf="'modern'"
-      icon="chevron-up"
-      iconType="skyux"
-      size="lg"
-    >
-    </sky-icon>
+    <sky-icon *skyThemeIf="'modern'" icon="chevron-up" size="lg"> </sky-icon>
   </button>
   <button
     class="sky-btn"
@@ -31,12 +25,6 @@
     (click)="onIteratorNextClick()"
   >
     <sky-icon *skyThemeIf="'default'" icon="chevron-down"> </sky-icon>
-    <sky-icon
-      *skyThemeIf="'modern'"
-      icon="chevron-down"
-      iconType="skyux"
-      size="lg"
-    >
-    </sky-icon>
+    <sky-icon *skyThemeIf="'modern'" icon="chevron-down" size="lg"> </sky-icon>
   </button>
 </div>

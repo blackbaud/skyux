@@ -17,7 +17,7 @@ export class RadioButtonComponent {
 
   public radioIconOptions = [
     { icon: 'table', label: 'Table', name: 'table', disabled: false },
-    { icon: 'list', label: 'List', name: 'list', disabled: true },
+    { icon: 'list-ul', label: 'List', name: 'list', disabled: true },
     { icon: 'map-marker', label: 'Map', name: 'map', disabled: false },
   ];
 

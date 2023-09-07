@@ -70,7 +70,7 @@ export class DataManagerComponent implements OnInit, AfterViewInit, OnDestroy {
     this.#dataManagerService.initDataView({
       id: 'view-1',
       name: 'View 1',
-      icon: 'list',
+      icon: 'list-ul',
       searchEnabled: true,
       sortEnabled: true,
       multiselectToolbarEnabled: true,

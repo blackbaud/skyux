@@ -8,9 +8,7 @@
     class="sky-icon fa-stack-2x"
     [ngClass]="
       baseIcon.icon
-        | skyIconClassList
-          : (themeSvc?.settingsChange | async)?.currentSettings
-          : baseIcon.iconType
+        | skyIconClassList : (themeSvc?.settingsChange | async)?.currentSettings
     "
   ></i>
   <i
@@ -18,9 +16,7 @@
     class="sky-icon fa-stack-1x fa-inverse sky-icon-inverse"
     [ngClass]="
       topIcon.icon
-        | skyIconClassList
-          : (themeSvc?.settingsChange | async)?.currentSettings
-          : topIcon.iconType
+        | skyIconClassList : (themeSvc?.settingsChange | async)?.currentSettings
     "
   ></i>
 </span>

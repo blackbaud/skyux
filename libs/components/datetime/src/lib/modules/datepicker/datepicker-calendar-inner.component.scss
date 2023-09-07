@@ -41,10 +41,6 @@
     width: 100%;
   }
 
-  .sky-datepicker-chevron-modern {
-    display: none;
-  }
-
   .sky-datepicker-header-left {
     text-align: left;
   }
@@ -87,12 +83,7 @@
     width: 30px;
   }
 
-  .sky-datepicker-chevron-default {
-    display: none;
-  }
-
-  .sky-datepicker-chevron-modern {
-    display: inline;
+  .sky-datepicker-chevron {
     font-size: $sky-theme-modern-font-body-default-size;
   }
 

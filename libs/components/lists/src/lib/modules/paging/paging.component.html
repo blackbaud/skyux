@@ -14,11 +14,7 @@
         (click)="previousPage()"
       >
         <sky-icon *skyThemeIf="'default'" icon="caret-left"></sky-icon>
-        <sky-icon
-          *skyThemeIf="'modern'"
-          icon="chevron-left"
-          iconType="skyux"
-        ></sky-icon>
+        <sky-icon *skyThemeIf="'modern'" icon="chevron-left"></sky-icon>
       </button>
     </li>
     <li *ngFor="let pageNumber of displayedPages" class="sky-list-paging-link">
@@ -47,11 +43,7 @@
         (click)="nextPage()"
       >
         <sky-icon *skyThemeIf="'default'" icon="caret-right"></sky-icon>
-        <sky-icon
-          *skyThemeIf="'modern'"
-          icon="chevron-right"
-          iconType="skyux"
-        ></sky-icon>
+        <sky-icon *skyThemeIf="'modern'" icon="chevron-right"></sky-icon>
       </button>
     </li>
   </ul>

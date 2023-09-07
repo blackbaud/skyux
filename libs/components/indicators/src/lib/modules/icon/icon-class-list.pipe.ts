@@ -16,7 +16,6 @@ export class SkyIconClassListPipe implements PipeTransform {
   public transform(
     icon: string,
     themeSettings?: SkyThemeSettings,
-    iconType?: string,
     size?: string,
     fixedWidth?: boolean,
     variant?: SkyIconVariantType
@@ -24,7 +23,7 @@ export class SkyIconClassListPipe implements PipeTransform {
     let classList: string[];
 
     const { icon: resolvedIcon, iconType: resolvedIconType } =
-      this.#resolver.resolveIcon(icon, variant, iconType, themeSettings);
+      this.#resolver.resolveIcon(icon, variant, themeSettings);
 
     if (resolvedIconType === 'skyux') {
       classList = ['sky-i-' + resolvedIcon];

@@ -53,7 +53,6 @@
       <sky-icon
         class="sky-colorpicker-button-modern-chevron"
         icon="chevron-down"
-        iconType="skyux"
         size="xs"
         [ngClass]="{
           'sky-colorpicker-button-modern-chevron-disabled': disabled
@@ -312,7 +311,6 @@
     (click)="onResetClick()"
   >
     <sky-icon *skyThemeIf="'default'" icon="times" size="sm"> </sky-icon>
-    <sky-icon *skyThemeIf="'modern'" icon="trash" iconType="skyux" size="lg">
-    </sky-icon>
+    <sky-icon *skyThemeIf="'modern'" icon="trash" size="lg"> </sky-icon>
   </button>
 </div>

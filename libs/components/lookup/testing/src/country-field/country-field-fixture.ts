@@ -12,6 +12,7 @@ export class SkyCountryFieldFixture {
 
   /**
    * The value of the input field's autocomplete attribute.
+   * @deprecated The country field component's `autocompleteAttribute` is deprecated.
    */
   public get autocompleteAttribute(): string | null {
     return this.#getInputElement().getAttribute('autocomplete');
@@ -156,7 +157,7 @@ export class SkyCountryFieldFixture {
 
     // Note: the ordering of these events is important!
     SkyAppTestUtility.fireDomEvent(inputElement, 'change');
-    SkyAppTestUtility.fireDomEvent(searchResults[index], 'mousedown');
+    SkyAppTestUtility.fireDomEvent(searchResults[index], 'click');
     this.#blurInput(fixture);
   }
 

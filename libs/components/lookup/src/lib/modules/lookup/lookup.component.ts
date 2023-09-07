@@ -82,6 +82,8 @@ export class SkyLookupComponent
 
   /**
    * The value for the `autocomplete` attribute on the form input.
+   * @default 'off'
+   * @deprecated SKY UX only supports browser autofill on components where the direct input matches the return value. This input may not behave as expected due to the dropdown selection interaction.
    */
   @Input()
   public autocompleteAttribute: string | undefined;
@@ -789,24 +791,24 @@ export class SkyLookupComponent
     // The input should NOT be focused if other elements (tokens, etc.)
     // are currently focused or being tabbed through.
 
-    observableFromEvent<MouseEvent>(documentObj, 'mousedown')
+    observableFromEvent<MouseEvent>(documentObj, 'click')
       .pipe(takeUntil(this.#idle))
-      .subscribe((event) => {
+      .subscribe(() => {
         hostElement = !this.inputBoxHostSvc
           ? this.#elementRef.nativeElement
           : this.lookupWrapperRef?.nativeElement;
-        this.isInputFocused = hostElement.contains(event.target);
+        this.isInputFocused = hostElement.contains(document.activeElement);
 
         this.#changeDetector.markForCheck();
       });
 
     observableFromEvent<KeyboardEvent>(documentObj, 'focusin')
       .pipe(takeUntil(this.#idle))
-      .subscribe((event) => {
+      .subscribe(() => {
         hostElement = !this.inputBoxHostSvc
           ? this.#elementRef.nativeElement
           : this.lookupWrapperRef?.nativeElement;
-        this.isInputFocused = hostElement.contains(event.target);
+        this.isInputFocused = hostElement.contains(document.activeElement);
 
         this.#changeDetector.markForCheck();
       });

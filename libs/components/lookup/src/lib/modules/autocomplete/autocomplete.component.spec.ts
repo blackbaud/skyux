@@ -25,7 +25,7 @@ describe('Autocomplete component', () => {
   //#region helpers
 
   function clickAddButton(): void {
-    SkyAppTestUtility.fireDomEvent(getAddButton(), 'mousedown');
+    SkyAppTestUtility.fireDomEvent(getAddButton(), 'click');
   }
 
   function getAddButton(): HTMLElement {
@@ -67,7 +67,7 @@ describe('Autocomplete component', () => {
   }
 
   function clickShowMoreButton(): void {
-    SkyAppTestUtility.fireDomEvent(getShowMoreButton(), 'mousedown');
+    SkyAppTestUtility.fireDomEvent(getShowMoreButton(), 'click');
   }
 
   function getShowMoreButton(): HTMLElement {
@@ -128,7 +128,7 @@ describe('Autocomplete component', () => {
 
     // Note: the ordering of these events is important!
     SkyAppTestUtility.fireDomEvent(inputElement, 'change');
-    SkyAppTestUtility.fireDomEvent(searchResults[index], 'mousedown');
+    SkyAppTestUtility.fireDomEvent(searchResults[index], 'click');
     blurInput(inputElement, fixture);
   }
 
@@ -790,7 +790,7 @@ describe('Autocomplete component', () => {
       // Type 'r' to activate the autocomplete dropdown, then click the first result.
       enterSearch('r', fixture);
       const firstItem = getSearchResultItems().item(0);
-      SkyAppTestUtility.fireDomEvent(firstItem, 'mousedown');
+      SkyAppTestUtility.fireDomEvent(firstItem, 'click');
       tick();
 
       // Expect new changes to have been emitted.
@@ -1135,7 +1135,7 @@ describe('Autocomplete component', () => {
 
       enterSearch('r', fixture);
 
-      const searchResultsContainer = getSearchResultsSection();
+      const searchResultsContainer = getSearchResultsContainer();
       expect(wrapper?.getAttribute('aria-controls')).toEqual(
         searchResultsContainer?.id
       );
@@ -1737,7 +1737,7 @@ describe('Autocomplete component', () => {
         ).and.callThrough();
         const firstItem = getSearchResultItems().item(0);
 
-        SkyAppTestUtility.fireDomEvent(firstItem, 'mousedown');
+        SkyAppTestUtility.fireDomEvent(firstItem, 'click');
         tick();
 
         expect(getSearchResultsContainer()).toBeNull();
@@ -1755,7 +1755,7 @@ describe('Autocomplete component', () => {
         expect(getSearchResultsContainer()).not.toBeNull();
         const firstItem = getSearchResultItems().item(0);
 
-        SkyAppTestUtility.fireDomEvent(firstItem, 'mousedown');
+        SkyAppTestUtility.fireDomEvent(firstItem, 'click');
         tick();
 
         expect(getSearchResultsContainer()).not.toBeNull();
@@ -1769,7 +1769,7 @@ describe('Autocomplete component', () => {
         expect(getSearchResultsContainer()).not.toBeNull();
         const firstItem = getSearchResultItems().item(0);
 
-        SkyAppTestUtility.fireDomEvent(firstItem, 'mousedown');
+        SkyAppTestUtility.fireDomEvent(firstItem, 'click');
         tick();
 
         expect(getSearchResultsContainer()).not.toBeNull();
