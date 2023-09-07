@@ -24,7 +24,7 @@ import {
   ValueFormatterParams,
 } from 'ag-grid-community';
 
-import { SkyAgGridDemoRow } from './data-manager-multiselect-data-grid-docs-demo-data';
+import { AgGridDemoRow } from './data-manager-multiselect-data-grid-docs-demo-data';
 
 @Component({
   selector: 'app-data-manager-multiselect-data-grid-docs-demo-view-grid',
@@ -36,7 +36,7 @@ export class DataManagerMultiselectDataGridDocsDemoViewGridComponent
   implements OnInit
 {
   @Input()
-  public items: SkyAgGridDemoRow[] = [];
+  public items: AgGridDemoRow[] = [];
 
   public viewId = 'dataGridMultiselectWithDataManagerView';
 
@@ -120,7 +120,7 @@ export class DataManagerMultiselectDataGridDocsDemoViewGridComponent
   public dataState = new SkyDataManagerState({});
 
   public columnApi?: ColumnApi;
-  public displayedItems: SkyAgGridDemoRow[] = [];
+  public displayedItems: AgGridDemoRow[] = [];
   public gridApi?: GridApi;
   public isGridReadyForInitialization = false;
   public gridOptions!: GridOptions;
@@ -187,12 +187,12 @@ export class DataManagerMultiselectDataGridDocsDemoViewGridComponent
     }
   }
 
-  private searchItems(items: SkyAgGridDemoRow[]): SkyAgGridDemoRow[] {
+  private searchItems(items: AgGridDemoRow[]): AgGridDemoRow[] {
     let searchedItems = items;
     const searchText = this.dataState && this.dataState.searchText;
 
     if (searchText) {
-      searchedItems = items.filter(function (item: SkyAgGridDemoRow) {
+      searchedItems = items.filter(function (item: AgGridDemoRow) {
         let property: keyof typeof item;
 
         for (property in item) {
@@ -212,13 +212,13 @@ export class DataManagerMultiselectDataGridDocsDemoViewGridComponent
     return searchedItems;
   }
 
-  private filterItems(items: SkyAgGridDemoRow[]): SkyAgGridDemoRow[] {
+  private filterItems(items: AgGridDemoRow[]): AgGridDemoRow[] {
     let filteredItems = items;
     const filterData = this.dataState && this.dataState.filterData;
 
     if (filterData && filterData.filters) {
       const filters = filterData.filters;
-      filteredItems = items.filter((item: SkyAgGridDemoRow) => {
+      filteredItems = items.filter((item: AgGridDemoRow) => {
         return (
           ((filters.hideSales && item.department.name !== 'Sales') ||
             !filters.hideSales) &&

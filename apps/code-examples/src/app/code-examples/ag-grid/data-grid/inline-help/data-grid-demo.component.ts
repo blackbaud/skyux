@@ -13,7 +13,7 @@ import {
   ValueFormatterParams,
 } from 'ag-grid-community';
 
-import { SKY_AG_GRID_DEMO_DATA } from './data-grid-demo-data';
+import { AG_GRID_DEMO_DATA } from './data-grid-demo-data';
 import { InlineHelpComponent } from './inline-help.component';
 
 @Component({
@@ -80,7 +80,7 @@ export class DataGridDemoComponent {
   ];
 
   public gridApi: GridApi | undefined;
-  public gridData = SKY_AG_GRID_DEMO_DATA;
+  public gridData = AG_GRID_DEMO_DATA;
   public gridOptions: GridOptions;
   public searchText = '';
   public noRowsTemplate: string;

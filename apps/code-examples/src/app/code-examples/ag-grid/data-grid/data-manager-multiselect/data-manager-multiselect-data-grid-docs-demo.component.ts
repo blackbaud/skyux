@@ -9,7 +9,7 @@ import {
   SkyDataManagerState,
 } from '@skyux/data-manager';
 
-import { SKY_AG_GRID_DEMO_DATA } from './data-manager-multiselect-data-grid-docs-demo-data';
+import { AG_GRID_DEMO_DATA } from './data-manager-multiselect-data-grid-docs-demo-data';
 import { DataManagerMultiselectDataGridDocsDemoFiltersModalComponent } from './data-manager-multiselect-data-grid-docs-demo-filter-modal.component';
 
 @Component({
@@ -19,7 +19,7 @@ import { DataManagerMultiselectDataGridDocsDemoFiltersModalComponent } from './d
   providers: [SkyDataManagerService],
 })
 export class SkyDataManagerMultiselectDataGridDemoComponent implements OnInit {
-  public items = SKY_AG_GRID_DEMO_DATA;
+  public items = AG_GRID_DEMO_DATA;
 
   public dataState = new SkyDataManagerState({});
 

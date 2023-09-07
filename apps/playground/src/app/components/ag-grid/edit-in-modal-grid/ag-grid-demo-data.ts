@@ -1,9 +1,9 @@
-export class SkyAutocompleteOption {
+export class AutocompleteOption {
   public id: string;
   public name: string;
 }
 
-export const SKY_DEPARTMENTS = [
+export const DEPARTMENTS = [
   {
     id: '1',
     name: 'Marketing',
@@ -22,7 +22,7 @@ export const SKY_DEPARTMENTS = [
   },
 ];
 
-export const SKY_JOB_TITLES: { [name: string]: SkyAutocompleteOption[] } = {
+export const JOB_TITLES: { [name: string]: AutocompleteOption[] } = {
   Marketing: [
     {
       id: '1',
@@ -85,32 +85,32 @@ export const SKY_JOB_TITLES: { [name: string]: SkyAutocompleteOption[] } = {
   ],
 };
 
-export class SkyAgGridDemoRow {
+export class AgGridDemoRow {
   public selected: boolean;
   public name: string;
   public age: number;
   public startDate: Date;
   public endDate?: Date;
-  public department: SkyAutocompleteOption;
-  public jobTitle?: SkyAutocompleteOption;
+  public department: AutocompleteOption;
+  public jobTitle?: AutocompleteOption;
 }
 
-export const SKY_AG_GRID_DEMO_DATA = [
+export const AG_GRID_DEMO_DATA = [
   {
     selected: true,
     name: 'Billy Bob',
     age: 55,
     startDate: new Date('12/1/1994'),
-    department: SKY_DEPARTMENTS[3],
-    jobTitle: SKY_JOB_TITLES['Customer Support'][1],
+    department: DEPARTMENTS[3],
+    jobTitle: JOB_TITLES['Customer Support'][1],
   },
   {
     selected: false,
     name: 'Jane Deere',
     age: 33,
     startDate: new Date('7/15/2009'),
-    department: SKY_DEPARTMENTS[2],
-    jobTitle: SKY_JOB_TITLES['Engineering'][3],
+    department: DEPARTMENTS[2],
+    jobTitle: JOB_TITLES['Engineering'][3],
   },
   {
     selected: false,
@@ -118,6 +118,6 @@ export const SKY_AG_GRID_DEMO_DATA = [
     age: 38,
     startDate: new Date('9/1/2017'),
     endDate: new Date('9/30/2017'),
-    department: SKY_DEPARTMENTS[1],
+    department: DEPARTMENTS[1],
   },
 ];

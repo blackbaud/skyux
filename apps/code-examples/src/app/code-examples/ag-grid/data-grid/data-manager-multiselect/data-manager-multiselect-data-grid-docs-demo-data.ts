@@ -1,9 +1,9 @@
-export interface SkyAutocompleteOption {
+export interface AutocompleteOption {
   id: string;
   name: string;
 }
 
-export const SKY_DEPARTMENTS = [
+export const DEPARTMENTS = [
   {
     id: '1',
     name: 'Marketing',
@@ -22,7 +22,7 @@ export const SKY_DEPARTMENTS = [
   },
 ];
 
-export const SKY_JOB_TITLES: { [name: string]: SkyAutocompleteOption[] } = {
+export const JOB_TITLES: { [name: string]: AutocompleteOption[] } = {
   Marketing: [
     {
       id: '1',
@@ -85,32 +85,32 @@ export const SKY_JOB_TITLES: { [name: string]: SkyAutocompleteOption[] } = {
   ],
 };
 
-export interface SkyAgGridDemoRow {
+export interface AgGridDemoRow {
   selected?: boolean;
   name: string;
   age: number;
   startDate: Date;
   endDate?: Date;
-  department: SkyAutocompleteOption;
-  jobTitle?: SkyAutocompleteOption;
+  department: AutocompleteOption;
+  jobTitle?: AutocompleteOption;
 }
 
-export const SKY_AG_GRID_DEMO_DATA = [
+export const AG_GRID_DEMO_DATA = [
   {
     selected: false,
     name: 'Billy Bob',
     age: 55,
     startDate: new Date('12/1/1994'),
-    department: SKY_DEPARTMENTS[3],
-    jobTitle: SKY_JOB_TITLES['Customer Support'][1],
+    department: DEPARTMENTS[3],
+    jobTitle: JOB_TITLES['Customer Support'][1],
   },
   {
     selected: false,
     name: 'Jane Deere',
     age: 33,
     startDate: new Date('7/15/2009'),
-    department: SKY_DEPARTMENTS[2],
-    jobTitle: SKY_JOB_TITLES['Engineering'][2],
+    department: DEPARTMENTS[2],
+    jobTitle: JOB_TITLES['Engineering'][2],
   },
   {
     selected: false,
@@ -118,8 +118,8 @@ export const SKY_AG_GRID_DEMO_DATA = [
     age: 38,
     startDate: new Date('9/1/2017'),
     endDate: new Date('9/30/2017'),
-    department: SKY_DEPARTMENTS[1],
-    jobTitle: SKY_JOB_TITLES['Sales'][1],
+    department: DEPARTMENTS[1],
+    jobTitle: JOB_TITLES['Sales'][1],
   },
   {
     selected: false,
@@ -127,31 +127,31 @@ export const SKY_AG_GRID_DEMO_DATA = [
     age: 51,
     startDate: new Date('1/1/2012'),
     endDate: new Date('6/15/2018'),
-    department: SKY_DEPARTMENTS[2],
-    jobTitle: SKY_JOB_TITLES['Engineering'][4],
+    department: DEPARTMENTS[2],
+    jobTitle: JOB_TITLES['Engineering'][4],
   },
   {
     selected: true,
     name: 'Emily Johnson',
     age: 41,
     startDate: new Date('1/15/2014'),
-    department: SKY_DEPARTMENTS[0],
-    jobTitle: SKY_JOB_TITLES['Marketing'][2],
+    department: DEPARTMENTS[0],
+    jobTitle: JOB_TITLES['Marketing'][2],
   },
   {
     selected: false,
     name: 'Nicole Davidson',
     age: 22,
     startDate: new Date('11/1/2019'),
-    department: SKY_DEPARTMENTS[2],
-    jobTitle: SKY_JOB_TITLES['Engineering'][0],
+    department: DEPARTMENTS[2],
+    jobTitle: JOB_TITLES['Engineering'][0],
   },
   {
     selected: false,
     name: 'Carl Roberts',
     age: 23,
     startDate: new Date('11/1/2019'),
-    department: SKY_DEPARTMENTS[2],
-    jobTitle: SKY_JOB_TITLES['Engineering'][3],
+    department: DEPARTMENTS[2],
+    jobTitle: JOB_TITLES['Engineering'][3],
   },
 ];

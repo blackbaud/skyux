@@ -1,5 +1,5 @@
-import { SkyAgGridDemoRow } from './ag-grid-demo-data';
+import { AgGridDemoRow } from './ag-grid-demo-data';
 
 export class SkyAgGridEditModalContext {
-  public gridData: SkyAgGridDemoRow[];
+  public gridData: AgGridDemoRow[];
 }

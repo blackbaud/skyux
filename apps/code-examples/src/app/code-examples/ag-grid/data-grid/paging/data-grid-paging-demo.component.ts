@@ -19,7 +19,7 @@ import {
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
-import { SKY_AG_GRID_DEMO_DATA } from './data-grid-paging-demo-data';
+import { AG_GRID_DEMO_DATA } from './data-grid-paging-demo-data';
 
 @Component({
   selector: 'app-data-grid-paging-demo',
@@ -66,7 +66,7 @@ export class DataGridPagingDemoComponent implements OnInit, OnDestroy {
   ];
 
   public gridApi: GridApi | undefined;
-  public gridData = SKY_AG_GRID_DEMO_DATA;
+  public gridData = AG_GRID_DEMO_DATA;
   public gridOptions: GridOptions;
   public searchText = '';
 

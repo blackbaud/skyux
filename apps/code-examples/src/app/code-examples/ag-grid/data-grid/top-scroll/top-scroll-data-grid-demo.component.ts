@@ -9,7 +9,7 @@ import {
   ValueFormatterParams,
 } from 'ag-grid-community';
 
-import { SKY_AG_GRID_DEMO_DATA } from './top-scroll-data-grid-demo-data';
+import { AG_GRID_DEMO_DATA } from './top-scroll-data-grid-demo-data';
 
 @Component({
   selector: 'app-basic-data-grid-docs-demo',
@@ -57,7 +57,7 @@ export class SkyTopScrollDataGridDemoComponent {
   ];
 
   public gridApi: GridApi | undefined;
-  public gridData = SKY_AG_GRID_DEMO_DATA;
+  public gridData = AG_GRID_DEMO_DATA;
   public gridOptions: GridOptions;
   public searchText = '';
   public noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
