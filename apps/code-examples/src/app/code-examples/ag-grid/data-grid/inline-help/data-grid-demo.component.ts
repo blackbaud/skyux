@@ -5,6 +5,7 @@ import {
   inject,
 } from '@angular/core';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import { SkyDataManagerService } from '@skyux/data-manager';
 
 import {
   ColDef,
@@ -21,6 +22,7 @@ import { InlineHelpComponent } from './inline-help.component';
   selector: 'app-data-grid-demo',
   templateUrl: './data-grid-demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [SkyDataManagerService],
 })
 export class DataGridDemoComponent {
   protected gridData = AG_GRID_DEMO_DATA;

@@ -16,4 +16,4 @@ import { DataManagerDataGridDemoComponent } from './data-manager-data-grid-demo.
   exports: [DataManagerDataGridDemoComponent],
   imports: [AgGridModule, CommonModule, SkyAgGridModule, SkyDataManagerModule],
 })
-export class DataManagerDataGridDocsDemoModule {}
+export class DataManagerDataGridDemoModule {}

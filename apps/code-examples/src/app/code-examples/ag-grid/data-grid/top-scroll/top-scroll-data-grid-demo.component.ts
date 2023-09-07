@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import { SkyDataManagerService } from '@skyux/data-manager';
 
 import {
   ColDef,
@@ -15,9 +16,15 @@ import { AG_GRID_DEMO_DATA } from './top-scroll-data-grid-demo-data';
   selector: 'app-basic-data-grid-docs-demo',
   templateUrl: './top-scroll-data-grid-demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [SkyDataManagerService],
 })
-export class SkyTopScrollDataGridDemoComponent {
-  public columnDefs: ColDef[] = [
+export class TopScrollDataGridDemoComponent {
+  protected gridData = AG_GRID_DEMO_DATA;
+  protected gridOptions: GridOptions;
+  protected searchText = '';
+  protected noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
+
+  #columnDefs: ColDef[] = [
     {
       field: 'selected',
       type: SkyCellType.RowSelector,
@@ -42,7 +49,7 @@ export class SkyTopScrollDataGridDemoComponent {
       field: 'endDate',
       headerName: 'End date',
       type: SkyCellType.Date,
-      valueFormatter: this.endDateFormatter,
+      valueFormatter: this.#endDateFormatter,
     },
     {
       field: 'department',
@@ -56,17 +63,15 @@ export class SkyTopScrollDataGridDemoComponent {
     },
   ];
 
-  public gridApi: GridApi | undefined;
-  public gridData = AG_GRID_DEMO_DATA;
-  public gridOptions: GridOptions;
-  public searchText = '';
-  public noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
+  #gridApi: GridApi | undefined;
 
-  constructor(private agGridService: SkyAgGridService) {
-    this.gridOptions = this.agGridService.getGridOptions({
+  readonly #agGridSvc = inject(SkyAgGridService);
+
+  constructor() {
+    this.gridOptions = this.#agGridSvc.getGridOptions({
       gridOptions: {
-        columnDefs: this.columnDefs,
-        onGridReady: this.onGridReady.bind(this),
+        columnDefs: this.#columnDefs,
+        onGridReady: (gridReadyEvent): void => this.onGridReady(gridReadyEvent),
         context: {
           enableTopScroll: true,
         },
@@ -75,28 +80,25 @@ export class SkyTopScrollDataGridDemoComponent {
   }
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
-    this.gridApi = gridReadyEvent.api;
-    this.gridApi.sizeColumnsToFit();
+    this.#gridApi = gridReadyEvent.api;
+    this.#gridApi.sizeColumnsToFit();
   }
 
-  public searchApplied(searchText: string | void): void {
-    if (searchText) {
-      this.searchText = searchText;
-    } else {
-      this.searchText = '';
-    }
-    if (this.gridApi) {
-      this.gridApi.setQuickFilter(this.searchText);
-      const displayedRowCount = this.gridApi.getDisplayedRowCount();
+  protected searchApplied(searchText: string | void): void {
+    this.searchText = searchText ?? '';
+
+    if (this.#gridApi) {
+      this.#gridApi.setQuickFilter(this.searchText);
+      const displayedRowCount = this.#gridApi.getDisplayedRowCount();
       if (displayedRowCount > 0) {
-        this.gridApi.hideOverlay();
+        this.#gridApi.hideOverlay();
       } else {
-        this.gridApi.showNoRowsOverlay();
+        this.#gridApi.showNoRowsOverlay();
       }
     }
   }
 
-  private endDateFormatter(params: ValueFormatterParams): string {
+  #endDateFormatter(params: ValueFormatterParams): string {
     const dateConfig = { year: 'numeric', month: '2-digit', day: '2-digit' };
     return params.value
       ? params.value.toLocaleDateString('en-us', dateConfig)

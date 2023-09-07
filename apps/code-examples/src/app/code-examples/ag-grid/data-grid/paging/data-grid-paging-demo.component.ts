@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import { SkyDataManagerService } from '@skyux/data-manager';
 
 import {
   ColDef,
@@ -25,12 +26,14 @@ import { AG_GRID_DEMO_DATA } from './data-grid-paging-demo-data';
   selector: 'app-data-grid-paging-demo',
   templateUrl: './data-grid-paging-demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [SkyDataManagerService],
 })
 export class DataGridPagingDemoComponent implements OnInit, OnDestroy {
-  public currentPage = 1;
+  protected currentPage = 1;
 
-  public readonly pageSize = 3;
-  public columnDefs: ColDef[] = [
+  protected readonly pageSize = 3;
+
+  #columnDefs: ColDef[] = [
     {
       field: 'name',
       headerName: 'Name',
@@ -51,7 +54,7 @@ export class DataGridPagingDemoComponent implements OnInit, OnDestroy {
       field: 'endDate',
       headerName: 'End date',
       type: SkyCellType.Date,
-      valueFormatter: this.endDateFormatter,
+      valueFormatter: this.#endDateFormatter,
     },
     {
       field: 'department',
@@ -65,28 +68,29 @@ export class DataGridPagingDemoComponent implements OnInit, OnDestroy {
     },
   ];
 
-  public gridApi: GridApi | undefined;
-  public gridData = AG_GRID_DEMO_DATA;
-  public gridOptions: GridOptions;
-  public searchText = '';
+  protected gridData = AG_GRID_DEMO_DATA;
+  protected gridOptions: GridOptions;
 
-  #activatedRoute = inject(ActivatedRoute);
-  #agGridService = inject(SkyAgGridService);
-  #changeDetector = inject(ChangeDetectorRef);
-  #router = inject(Router);
+  #gridApi: GridApi | undefined;
   #subscriptions = new Subscription();
 
+  readonly #activatedRoute = inject(ActivatedRoute);
+  readonly #agGridSvc = inject(SkyAgGridService);
+  readonly #changeDetectorRef = inject(ChangeDetectorRef);
+  readonly #router = inject(Router);
+
   constructor() {
-    this.gridOptions = {
-      columnDefs: this.columnDefs,
+    const gridOptions: GridOptions = {
+      columnDefs: this.#columnDefs,
       onGridReady: (gridReadyEvent): void => this.onGridReady(gridReadyEvent),
       rowSelection: 'single',
       pagination: true,
       suppressPaginationPanel: true,
       paginationPageSize: this.pageSize,
     };
-    this.gridOptions = this.#agGridService.getGridOptions({
-      gridOptions: this.gridOptions,
+
+    this.gridOptions = this.#agGridSvc.getGridOptions({
+      gridOptions,
     });
   }
 
@@ -96,20 +100,23 @@ export class DataGridPagingDemoComponent implements OnInit, OnDestroy {
         .pipe(map((params) => params.get('page') || '1'))
         .subscribe((page) => {
           this.currentPage = Number(page);
-          this.gridApi?.paginationGoToPage(this.currentPage - 1);
-          this.#changeDetector.detectChanges();
+          this.#gridApi?.paginationGoToPage(this.currentPage - 1);
+          this.#changeDetectorRef.detectChanges();
         })
     );
+
     this.#subscriptions.add(
       this.#router.events
         .pipe(filter((event) => event instanceof NavigationEnd))
         .subscribe(() => {
           const page = this.#activatedRoute.snapshot.paramMap.get('page');
+
           if (page) {
             this.currentPage = Number(page);
           }
-          this.gridApi?.paginationGoToPage(this.currentPage - 1);
-          this.#changeDetector.detectChanges();
+
+          this.#gridApi?.paginationGoToPage(this.currentPage - 1);
+          this.#changeDetectorRef.detectChanges();
         })
     );
   }
@@ -119,12 +126,12 @@ export class DataGridPagingDemoComponent implements OnInit, OnDestroy {
   }
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
-    this.gridApi = gridReadyEvent.api;
-    this.gridApi.sizeColumnsToFit();
-    this.gridApi.paginationGoToPage(this.currentPage - 1);
+    this.#gridApi = gridReadyEvent.api;
+    this.#gridApi.sizeColumnsToFit();
+    this.#gridApi.paginationGoToPage(this.currentPage - 1);
   }
 
-  public onPageChange(page: number): void {
+  protected onPageChange(page: number): void {
     this.#router
       .navigate(['.'], {
         relativeTo: this.#activatedRoute,
@@ -134,7 +141,7 @@ export class DataGridPagingDemoComponent implements OnInit, OnDestroy {
       .then();
   }
 
-  private endDateFormatter(params: ValueFormatterParams): string {
+  #endDateFormatter(params: ValueFormatterParams): string {
     const dateConfig = { year: 'numeric', month: '2-digit', day: '2-digit' };
     return params.value
       ? params.value.toLocaleDateString('en-us', dateConfig)

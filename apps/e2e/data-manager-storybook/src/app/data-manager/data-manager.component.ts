@@ -18,6 +18,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
   selector: 'app-data-manager',
   templateUrl: './data-manager.component.html',
   styleUrls: ['./data-manager.component.scss'],
+  providers: [SkyDataManagerService],
 })
 export class DataManagerComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input()
