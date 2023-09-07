@@ -22,16 +22,9 @@ jobs:
               console.log('Release PRs are not subject to risk assessment. 🚢');
             } else {
               const authorRisk = labels.find(label => label.startsWith('risk level (author):'));
-              const reviewerRisk = labels.find(label => label.startsWith('risk level (reviewer):'));
-              if (authorRisk && reviewerRisk) {
-                console.log('PR has both author and reviewer risk labels. Good luck. 🫡');
+              if (authorRisk) {
+                console.log('PR has an author risk label. Good luck. 🫡');
               } else {
-                if (authorRisk) {
-                  core.setFailed(`PR has author risk label but no reviewer risk label. 🛑`);
-                } else if (reviewerRisk) {
-                  core.setFailed(`PR has reviewer risk label but no author risk label. 🛑`);
-                } else {
-                  core.setFailed(`PR has no risk labels. 🛑`);
-                }
+                core.setFailed(`PR has no author risk label. 🛑`);
               }
             }
