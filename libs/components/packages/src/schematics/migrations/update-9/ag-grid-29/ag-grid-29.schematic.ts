@@ -1,4 +1,4 @@
-import { JsonValue, Path } from '@angular-devkit/core';
+import { Path } from '@angular-devkit/core';
 import { Rule, Tree, chain } from '@angular-devkit/schematics';
 import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 import { readWorkspace, writeWorkspace } from '@schematics/angular/utility';
@@ -35,25 +35,39 @@ function removeAgGridCssFiles(): Rule {
   return async (tree: Tree): Promise<void> => {
     const workspace = await readWorkspace(tree);
     workspace.projects.forEach((project, projectName) => {
-      const build = project.targets.get('build');
-      if (build) {
-        build.options ??= {} as Record<string, JsonValue | undefined>;
-        build.options['styles'] ??= [] as string[];
-        build.options['styles'] = (build.options['styles'] as string[]).filter(
-          (cssFile) => !cssFile.startsWith('ag-grid-community/dist/styles/')
-        );
+      ['build', 'test'].forEach((targetName) => {
         if (
-          !build.options['styles'].includes(
-            'node_modules/@skyux/ag-grid/css/sky-ag-grid.css'
+          targetName === 'build' &&
+          project.extensions['projectType'] === 'library'
+        ) {
+          return;
+        }
+        const targetDefinition = project.targets.get(targetName);
+        if (
+          targetDefinition?.['options']?.['styles'] &&
+          Array.isArray(targetDefinition.options['styles']) &&
+          targetDefinition.options['styles'].includes(
+            'node_modules/@skyux/theme/css/sky.css'
           )
         ) {
-          build.options['styles'].push(
-            'node_modules/@skyux/ag-grid/css/sky-ag-grid.css'
+          targetDefinition['options']['styles'] = (
+            targetDefinition.options['styles'] as string[]
+          ).filter(
+            (cssFile) => !cssFile.startsWith('ag-grid-community/dist/styles/')
           );
+          if (
+            !targetDefinition.options['styles'].includes(
+              'node_modules/@skyux/ag-grid/css/sky-ag-grid.css'
+            )
+          ) {
+            targetDefinition.options['styles'].push(
+              'node_modules/@skyux/ag-grid/css/sky-ag-grid.css'
+            );
+          }
+          project.targets.set(targetName, targetDefinition);
         }
-        project.targets.set('build', build);
-        workspace.projects.set(projectName, project);
-      }
+      });
+      workspace.projects.set(projectName, project);
     });
     await writeWorkspace(tree, workspace);
   };
