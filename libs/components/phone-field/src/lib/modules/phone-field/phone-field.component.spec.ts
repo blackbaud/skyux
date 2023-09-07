@@ -1679,6 +1679,21 @@ describe('Phone Field Component', () => {
         );
       });
 
+      it('should validate properly when a number is invalid for the current country but valid for another country with the same dial code', fakeAsync(() => {
+        component.initialValue = '8675558309';
+        component.defaultCountry = 'us';
+        detectChangesAndTick(fixture);
+
+        validateInputAndModel(
+          '8675558309',
+          '(867) 555-8309',
+          false,
+          true,
+          component.phoneControl,
+          fixture
+        );
+      }));
+
       it('should not mark the input dirty when validation fails while the field is still active', fakeAsync(() => {
         component.defaultCountry = 'us';
         detectChangesAndTick(fixture);
