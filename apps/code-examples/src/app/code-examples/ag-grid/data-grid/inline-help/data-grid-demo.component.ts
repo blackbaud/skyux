@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
 } from '@angular/core';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 
@@ -22,7 +23,12 @@ import { InlineHelpComponent } from './inline-help.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DataGridDemoComponent {
-  public columnDefs: ColDef[] = [
+  protected gridData = AG_GRID_DEMO_DATA;
+  protected gridOptions: GridOptions;
+  protected searchText = '';
+  protected noRowsTemplate: string;
+
+  #columnDefs: ColDef[] = [
     {
       field: 'selected',
       type: SkyCellType.RowSelector,
@@ -79,50 +85,44 @@ export class DataGridDemoComponent {
     },
   ];
 
-  public gridApi: GridApi | undefined;
-  public gridData = AG_GRID_DEMO_DATA;
-  public gridOptions: GridOptions;
-  public searchText = '';
-  public noRowsTemplate: string;
+  #gridApi: GridApi | undefined;
 
-  #agGridService: SkyAgGridService;
-  #changeDetector: ChangeDetectorRef;
+  readonly #agGridSvc = inject(SkyAgGridService);
+  readonly #changeDetectorRef = inject(ChangeDetectorRef);
 
-  constructor(
-    agGridService: SkyAgGridService,
-    changeDetector: ChangeDetectorRef
-  ) {
-    this.#agGridService = agGridService;
-    this.#changeDetector = changeDetector;
+  constructor() {
     this.noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
-    this.gridOptions = this.#agGridService.getGridOptions({
+
+    this.gridOptions = this.#agGridSvc.getGridOptions({
       gridOptions: {
-        columnDefs: this.columnDefs,
+        columnDefs: this.#columnDefs,
         onGridReady: this.onGridReady.bind(this),
       },
     });
-    this.#changeDetector.markForCheck();
+
+    this.#changeDetectorRef.markForCheck();
   }
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
-    this.gridApi = gridReadyEvent.api;
-    this.gridApi.sizeColumnsToFit();
-    this.#changeDetector.markForCheck();
+    this.#gridApi = gridReadyEvent.api;
+    this.#gridApi.sizeColumnsToFit();
+    this.#changeDetectorRef.markForCheck();
   }
 
-  public searchApplied(searchText: string | void): void {
+  protected searchApplied(searchText: string | void): void {
     if (searchText) {
       this.searchText = searchText;
     } else {
       this.searchText = '';
     }
-    if (this.gridApi) {
-      this.gridApi.setQuickFilter(this.searchText);
-      const displayedRowCount = this.gridApi.getDisplayedRowCount();
+    if (this.#gridApi) {
+      this.#gridApi.setQuickFilter(this.searchText);
+      const displayedRowCount = this.#gridApi.getDisplayedRowCount();
+
       if (displayedRowCount > 0) {
-        this.gridApi.hideOverlay();
+        this.#gridApi.hideOverlay();
       } else {
-        this.gridApi.showNoRowsOverlay();
+        this.#gridApi.showNoRowsOverlay();
       }
     }
   }

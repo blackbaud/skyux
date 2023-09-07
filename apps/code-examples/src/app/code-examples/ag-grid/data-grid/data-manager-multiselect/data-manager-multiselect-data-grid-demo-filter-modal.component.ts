@@ -15,12 +15,13 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
   standalone: true,
-  selector: 'app-data-manager-data-grid-demo-filter-modal',
-  templateUrl: './data-manager-data-grid-demo-filter-modal.component.html',
+  selector: 'app-data-manager-multiselect-data-grid-demo-filter-modal',
+  templateUrl:
+    './data-manager-multiselect-data-grid-demo-filter-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule, SkyCheckboxModule, SkyIdModule, SkyModalModule],
 })
-export class DataManagerDataGridDemoFiltersModalComponent {
+export class DataManagerMultiselectDataGridDemoFiltersModalComponent {
   protected hideSales = false;
   protected jobTitle = '';
 
