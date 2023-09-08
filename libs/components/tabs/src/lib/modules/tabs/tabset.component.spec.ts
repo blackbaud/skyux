@@ -1,3 +1,5 @@
+import { ViewportRuler } from '@angular/cdk/overlay';
+import { ViewportScrollPosition } from '@angular/cdk/scrolling';
 import { Location } from '@angular/common';
 import { DebugElement } from '@angular/core';
 import {
@@ -18,7 +20,7 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { SkyTabsFixturesModule } from './fixtures/tabs-fixtures.module';
 import { TabsetActiveTwoWayBindingTestComponent } from './fixtures/tabset-active-two-way.component.fixture';
@@ -48,8 +50,10 @@ describe('Tabset component', () => {
   let mockThemeSvc: {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
+  let viewportRulerChange: Subject<Event>;
 
   beforeEach(() => {
+    viewportRulerChange = new Subject();
     mockThemeSvc = {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
@@ -85,8 +89,22 @@ describe('Tabset component', () => {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
         },
+        {
+          provide: ViewportRuler,
+          useValue: {
+            change: (): Observable<Event> => viewportRulerChange,
+            getViewportScrollPosition: (): ViewportScrollPosition => ({
+              top: 0,
+              left: 0,
+            }),
+          } as ViewportRuler,
+        },
       ],
     });
+  });
+
+  afterEach(() => {
+    viewportRulerChange.complete();
   });
 
   function validateTabSelected(
@@ -627,6 +645,7 @@ describe('Tabset component', () => {
 
     function fireResizeEvent() {
       SkyAppTestUtility.fireDomEvent(window, 'resize');
+      viewportRulerChange.next(new Event('resize'));
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
