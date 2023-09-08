@@ -58,14 +58,14 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
     this.#_active = value;
 
     if (this.tabs) {
-      this.#tabsetService.setActiveTabIndex(value);
+      this.#tabsetService.setActiveTabIndex({ tabIndex: value });
     } else {
       // On init, wait for children tabs to render before broadcasting the active tab index.
       setTimeout(() => {
         if (this.#tabsetService.isValidTabIndex(value)) {
           // On init, yield to the permalink ID, if it exists.
           if (this.#getActiveTabIndexByPermalinkId() === undefined) {
-            this.#tabsetService.setActiveTabIndex(value);
+            this.#tabsetService.setActiveTabIndex({ tabIndex: value });
           }
         } else {
           // Activate the first tab if the new tab index is invalid.
@@ -240,7 +240,10 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
     this.#initTabComponents();
 
     const initialTabIndex = this.#getInitialTabIndex();
-    this.#tabsetService.setActiveTabIndex(initialTabIndex);
+    this.#tabsetService.setActiveTabIndex({
+      tabIndex: initialTabIndex,
+      initial: true,
+    });
 
     this.#listenTabButtonsOverflowChange();
     this.#listenLocationPopStateChange();
@@ -293,7 +296,7 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
   }
 
   public onTabButtonClick(tabButton: TabButtonViewModel): void {
-    this.#tabsetService.setActiveTabIndex(tabButton.tabIndex);
+    this.#tabsetService.setActiveTabIndex({ tabIndex: tabButton.tabIndex });
   }
 
   public onNewTabClick(): void {
@@ -340,10 +343,14 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
   }
 
   #listenActiveIndexChange(): void {
-    this.#tabsetService.activeTabIndex
+    this.#tabsetService.activeTabChange
       .pipe(distinctUntilChanged(), takeUntil(this.#ngUnsubscribe))
-      .subscribe((activeIndex) => {
-        this.#updateTabsetComponent(activeIndex);
+      .subscribe((tabChange) => {
+        this.#updateTabsetComponent(
+          tabChange.tabIndex,
+          false,
+          tabChange.initial
+        );
         const activeTab = this.#getActiveTabComponent();
 
         this.#updateLayout(activeTab?.layout);
@@ -372,7 +379,7 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
           // Wait for the tab components to render changes before finding the active one.
           setTimeout(() => {
             const tabIndex = this.#getActiveTabComponent()?.tabIndex;
-            this.#tabsetService.setActiveTabIndex(tabIndex);
+            this.#tabsetService.setActiveTabIndex({ tabIndex });
           });
         });
 
@@ -430,9 +437,14 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
 
     this.#initTabComponents();
     const activeIndex = this.#getActiveTabComponent()?.tabIndex;
-    this.#tabsetService.setActiveTabIndex(activeIndex, {
-      emitChange: false,
-    });
+    this.#tabsetService.setActiveTabIndex(
+      {
+        tabIndex: activeIndex,
+      },
+      {
+        emitChange: false,
+      }
+    );
     this.#listenTabComponentsStateChange();
   }
 
@@ -474,7 +486,9 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
 
   #setActiveTabIndexByPermalinkId(): void {
     const activeIndex = this.#getActiveTabIndexByPermalinkId();
-    this.#tabsetService.setActiveTabIndex(activeIndex);
+    this.#tabsetService.setActiveTabIndex({
+      tabIndex: activeIndex,
+    });
   }
 
   #getActiveTabIndexByPermalinkId(): SkyTabIndex | undefined {
@@ -543,10 +557,14 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
    * Setting this value to `false` will simply update the existing tab buttons. Setting this value
    * to `true` is only necessary when the underlying tab components have changed and the tab
    * buttons must reflect those changes.
+   * @param initial Indicates whether tabs are being updated during initialization of the tabset
+   * component. This is passed through to the permalink service where it prevents adding an extra
+   * item to browser history when the URL is updated with the selected tab's permalink value.
    */
   #updateTabsetComponent(
     activeIndex: SkyTabIndex | undefined,
-    regenerateTabButtons = false
+    regenerateTabButtons: boolean,
+    initial?: boolean
   ): void {
     // Activate/deactivate tab components.
     this.tabs?.forEach((tab) => {
@@ -576,7 +594,8 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
       if (activeTabComponent) {
         this.#permalinkService.setParam(
           this.permalinkId,
-          activeTabComponent.permalinkValueOrDefault
+          activeTabComponent.permalinkValueOrDefault,
+          initial
         );
       }
     }
