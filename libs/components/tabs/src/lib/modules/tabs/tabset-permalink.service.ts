@@ -63,7 +63,7 @@ export class SkyTabsetPermalinkService implements OnDestroy {
   /**
    * Sets the value of a URL query param.
    */
-  public setParam(name: string, value: string | null): void {
+  public setParam(name: string, value: string | null, initial?: boolean): void {
     const params = this.#getParams();
 
     if (value === null) {
@@ -87,14 +87,21 @@ export class SkyTabsetPermalinkService implements OnDestroy {
       return;
     }
 
-    this.#location.go(url);
+    // Use `replaceState()` when the tabset is being initialized so an extra
+    // history item isn't added to the browser's back stack.
+    this.#location[initial ? 'replaceState' : 'go'](url);
   }
 
   /**
    * Removes the provided query param from the URL.
    */
   public clearParam(name: string): void {
-    this.setParam(name, null);
+    // Don't overwrite the URL while the Angular router is in the process
+    // of navigating (e.g. when the tabset is destroyed due to navigating
+    // away from the current page).
+    if (!this.#router.getCurrentNavigation()) {
+      this.setParam(name, null);
+    }
   }
 
   /**
