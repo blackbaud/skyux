@@ -403,7 +403,12 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   }
 
   public setCountryByDialCode(phoneNumber: string): boolean {
-    if (!phoneNumber || !phoneNumber.startsWith('+')) {
+    if (
+      !phoneNumber ||
+      !phoneNumber.startsWith('+') ||
+      (this.selectedCountry?.dialCode &&
+        phoneNumber.startsWith(`${this.selectedCountry?.dialCode}`))
+    ) {
       return false;
     }
 
@@ -414,7 +419,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
 
       if (this.#defaultCountryData?.dialCode === dialCode) {
         newCountry = this.#defaultCountryData;
-      } else {
+      } else if (this.selectedCountry?.dialCode !== dialCode) {
         let foundCountry = this.countries.find(
           (country) => country.dialCode === dialCode && country.priority === 0
         );
