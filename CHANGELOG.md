@@ -1,5 +1,12 @@
 # Changelog
 
+## [8.10.3](https://github.com/blackbaud/skyux/compare/8.10.2...8.10.3) (2023-09-08)
+
+
+### Bug Fixes
+
+* **components/lookup:** fix dropdown position in Safari on iOS ([#1665](https://github.com/blackbaud/skyux/issues/1665)) ([88c7cb3](https://github.com/blackbaud/skyux/commit/88c7cb310bf2bdf8eba2fe53a961747dbe9319bd))
+
 ## [9.0.0-alpha.10](https://github.com/blackbaud/skyux/compare/9.0.0-alpha.9...9.0.0-alpha.10) (2023-09-07)
 
 
