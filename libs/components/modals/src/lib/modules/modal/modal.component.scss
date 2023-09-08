@@ -136,6 +136,7 @@
 
 :host ::ng-deep .sky-sectioned-form {
   min-height: 460px;
+  margin: -$sky-margin-plus-half;
 }
 
 .sky-modal-content > ::ng-deep sky-dock {
@@ -189,6 +190,12 @@
         padding-right: $sky-theme-modern-space-xl;
       }
     }
+  }
+
+  :host ::ng-deep .sky-sectioned-form {
+    min-height: 460px;
+    margin: (-$sky-theme-modern-space-sm) (-$sky-theme-modern-space-xl)
+      (-$sky-theme-modern-space-xl) (-$sky-theme-modern-space-xl);
   }
 }
 

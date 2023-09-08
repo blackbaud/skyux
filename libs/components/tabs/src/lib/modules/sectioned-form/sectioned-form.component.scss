@@ -2,8 +2,6 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
 @include mixins.sky-host-responsive-container-xs-min() {
-  --sky-sectioned-form-left-padding: var(--sky-padding-even-md);
-
   .sky-sectioned-form {
     display: block;
     max-height: none;
@@ -21,7 +19,14 @@
 
   .sky-sectioned-form-tabs + .sky-sectioned-form-content {
     border-left: 1px solid var(--sky-border-color-neutral-medium);
-    padding-left: var(--sky-sectioned-form-left-padding);
+  }
+
+  .sky-sectioned-form-content {
+    padding: var(--sky-padding-even-md) var(--sky-padding-even-xl);
+  }
+
+  .sky-sectioned-form-tabs-only {
+    padding: var(--sky-padding-even-md);
   }
 }
 
@@ -48,8 +53,4 @@
 
 .sky-sectioned-form-content-hidden {
   display: none;
-}
-
-@include mixins.sky-theme-modern {
-  --sky-sectioned-form-left-padding: var(--sky-padding-even-xl);
 }
