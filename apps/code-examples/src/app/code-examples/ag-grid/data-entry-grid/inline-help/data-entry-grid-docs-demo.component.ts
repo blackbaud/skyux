@@ -26,7 +26,7 @@ import { DataEntryGridEditModalComponent } from './data-entry-grid-docs-demo-edi
 import { InlineHelpComponent } from './inline-help.component';
 
 @Component({
-  selector: 'app-data-entry-grid-demo',
+  selector: 'app-data-entry-grid-docs-demo',
   templateUrl: './data-entry-grid-docs-demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

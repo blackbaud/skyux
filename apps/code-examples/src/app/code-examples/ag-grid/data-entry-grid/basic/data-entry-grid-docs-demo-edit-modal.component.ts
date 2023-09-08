@@ -34,7 +34,7 @@ import { DataEntryGridEditModalContext } from './data-entry-grid-docs-demo-edit-
 
 @Component({
   standalone: true,
-  selector: 'app-data-entry-grid-demo-edit-modal',
+  selector: 'app-data-entry-grid-docs-demo-edit-modal',
   templateUrl: './data-entry-grid-docs-demo-edit-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AgGridModule, SkyAgGridModule, SkyModalModule],

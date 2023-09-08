@@ -17,7 +17,7 @@ import { AG_GRID_DEMO_DATA } from './data-manager-data-grid-docs-demo-data';
 import { DataManagerDataGridDemoFiltersModalComponent } from './data-manager-data-grid-docs-demo-filter-modal.component';
 
 @Component({
-  selector: 'app-data-manager-data-grid-demo',
+  selector: 'app-data-manager-data-grid-docs-demo',
   templateUrl: './data-manager-data-grid-docs-demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SkyDataManagerService],

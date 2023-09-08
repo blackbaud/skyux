@@ -28,7 +28,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { AgGridDemoRow } from './data-manager-data-entry-grid-docs-demo-data';
 
 @Component({
-  selector: 'app-data-manager-data-entry-grid-demo-view-grid',
+  selector: 'app-data-manager-data-entry-grid-docs-demo-view-grid',
   templateUrl:
     './data-manager-data-entry-grid-docs-demo-view-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

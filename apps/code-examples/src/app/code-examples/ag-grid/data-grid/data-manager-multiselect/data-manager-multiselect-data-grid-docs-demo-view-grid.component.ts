@@ -30,7 +30,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { AgGridDemoRow } from './data-manager-multiselect-data-grid-docs-demo-data';
 
 @Component({
-  selector: 'app-data-manager-multiselect-data-grid-demo-view-grid',
+  selector: 'app-data-manager-multiselect-data-grid-docs-demo-view-grid',
   templateUrl:
     './data-manager-multiselect-data-grid-docs-demo-view-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

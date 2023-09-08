@@ -20,7 +20,7 @@ import { DataManagerDataEntryGridEditModalComponent } from './data-manager-data-
 import { DataManagerDataEntryGridDemoFiltersModalComponent } from './data-manager-data-entry-grid-docs-demo-filter-modal.component';
 
 @Component({
-  selector: 'app-data-manager-data-entry-grid-demo',
+  selector: 'app-data-manager-data-entry-grid-docs-demo',
   templateUrl: './data-manager-data-entry-grid-docs-demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SkyDataManagerService],

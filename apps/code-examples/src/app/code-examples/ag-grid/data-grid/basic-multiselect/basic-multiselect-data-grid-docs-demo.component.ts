@@ -13,7 +13,7 @@ import {
 import { AG_GRID_DEMO_DATA } from './basic-multiselect-data-grid-docs-demo-data';
 
 @Component({
-  selector: 'app-basic-multiselect-data-grid-demo',
+  selector: 'app-basic-multiselect-data-grid-docs-demo',
   templateUrl: './basic-multiselect-data-grid-docs-demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SkyDataManagerService],

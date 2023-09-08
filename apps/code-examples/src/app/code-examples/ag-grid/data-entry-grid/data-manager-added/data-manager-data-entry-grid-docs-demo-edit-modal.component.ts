@@ -33,7 +33,7 @@ import { DataEntryGridEditModalContext } from './data-manager-data-entry-grid-do
 
 @Component({
   standalone: true,
-  selector: 'app-data-manager-data-entry-grid-demo-edit-modal',
+  selector: 'app-data-manager-data-entry-grid-docs-demo-edit-modal',
   templateUrl:
     './data-manager-data-entry-grid-docs-demo-edit-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

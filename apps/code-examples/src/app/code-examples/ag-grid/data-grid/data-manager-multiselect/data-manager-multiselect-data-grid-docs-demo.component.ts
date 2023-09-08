@@ -18,7 +18,7 @@ import { AG_GRID_DEMO_DATA } from './data-manager-multiselect-data-grid-docs-dem
 import { DataManagerMultiselectDataGridDemoFiltersModalComponent } from './data-manager-multiselect-data-grid-docs-demo-filter-modal.component';
 
 @Component({
-  selector: 'app-data-manager-multiselect-data-grid-demo',
+  selector: 'app-data-manager-multiselect-data-grid-docs-demo',
   templateUrl: './data-manager-multiselect-data-grid-docs-demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SkyDataManagerService],

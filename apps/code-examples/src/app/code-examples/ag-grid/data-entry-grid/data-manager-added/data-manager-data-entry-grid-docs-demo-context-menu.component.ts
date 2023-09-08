@@ -6,7 +6,7 @@ import { ICellRendererParams } from 'ag-grid-community';
 
 @Component({
   standalone: true,
-  selector: 'app-data-manager-data-entry-grid-demo-context-menu',
+  selector: 'app-data-manager-data-entry-grid-docs-demo-context-menu',
   templateUrl:
     './data-manager-data-entry-grid-docs-demo-context-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

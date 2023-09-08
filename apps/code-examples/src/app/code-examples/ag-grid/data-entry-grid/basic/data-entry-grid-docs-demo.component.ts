@@ -21,7 +21,7 @@ import { DataEntryGridEditModalContext } from './data-entry-grid-docs-demo-edit-
 import { DataEntryGridEditModalComponent } from './data-entry-grid-docs-demo-edit-modal.component';
 
 @Component({
-  selector: 'app-data-entry-grid-demo',
+  selector: 'app-data-entry-grid-docs-demo',
   templateUrl: './data-entry-grid-docs-demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -13,7 +13,7 @@ import {
 import { AG_GRID_DEMO_DATA } from './basic-data-grid-docs-demo-data';
 
 @Component({
-  selector: 'app-basic-data-grid-demo',
+  selector: 'app-basic-data-grid-docs-demo',
   templateUrl: './basic-data-grid-docs-demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SkyDataManagerService],
