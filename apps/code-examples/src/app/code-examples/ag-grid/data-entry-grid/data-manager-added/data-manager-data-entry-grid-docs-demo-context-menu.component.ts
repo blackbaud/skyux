@@ -8,7 +8,7 @@ import { ICellRendererParams } from 'ag-grid-community';
   standalone: true,
   selector: 'app-data-manager-data-entry-grid-demo-context-menu',
   templateUrl:
-    './data-manager-data-entry-grid-demo-context-menu.component.html',
+    './data-manager-data-entry-grid-docs-demo-context-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyDropdownModule],
 })

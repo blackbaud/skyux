@@ -14,14 +14,14 @@ import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
 import { Subject, takeUntil } from 'rxjs';
 
-import { AG_GRID_DEMO_DATA } from './data-manager-data-entry-grid-demo-data';
-import { DataEntryGridEditModalContext } from './data-manager-data-entry-grid-demo-edit-modal-context';
-import { DataManagerDataEntryGridEditModalComponent } from './data-manager-data-entry-grid-demo-edit-modal.component';
-import { DataManagerDataEntryGridDemoFiltersModalComponent } from './data-manager-data-entry-grid-demo-filter-modal.component';
+import { AG_GRID_DEMO_DATA } from './data-manager-data-entry-grid-docs-demo-data';
+import { DataEntryGridEditModalContext } from './data-manager-data-entry-grid-docs-demo-edit-modal-context';
+import { DataManagerDataEntryGridEditModalComponent } from './data-manager-data-entry-grid-docs-demo-edit-modal.component';
+import { DataManagerDataEntryGridDemoFiltersModalComponent } from './data-manager-data-entry-grid-docs-demo-filter-modal.component';
 
 @Component({
   selector: 'app-data-manager-data-entry-grid-demo',
-  templateUrl: './data-manager-data-entry-grid-demo.component.html',
+  templateUrl: './data-manager-data-entry-grid-docs-demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SkyDataManagerService],
 })

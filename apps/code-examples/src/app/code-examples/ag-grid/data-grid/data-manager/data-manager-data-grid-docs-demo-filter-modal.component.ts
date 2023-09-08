@@ -16,7 +16,7 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 @Component({
   standalone: true,
   selector: 'app-data-manager-data-grid-demo-filter-modal',
-  templateUrl: './data-manager-data-grid-demo-filter-modal.component.html',
+  templateUrl: './data-manager-data-grid-docs-demo-filter-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule, SkyCheckboxModule, SkyIdModule, SkyModalModule],
 })

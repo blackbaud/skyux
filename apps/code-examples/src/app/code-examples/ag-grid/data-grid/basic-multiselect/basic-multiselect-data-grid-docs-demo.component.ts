@@ -10,11 +10,11 @@ import {
   ValueFormatterParams,
 } from 'ag-grid-community';
 
-import { AG_GRID_DEMO_DATA } from './basic-multiselect-data-grid-demo-data';
+import { AG_GRID_DEMO_DATA } from './basic-multiselect-data-grid-docs-demo-data';
 
 @Component({
   selector: 'app-basic-multiselect-data-grid-demo',
-  templateUrl: './basic-multiselect-data-grid-demo.component.html',
+  templateUrl: './basic-multiselect-data-grid-docs-demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SkyDataManagerService],
 })

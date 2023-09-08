@@ -27,12 +27,12 @@ import {
 } from 'ag-grid-community';
 import { Subject, takeUntil } from 'rxjs';
 
-import { AgGridDemoRow } from './data-manager-multiselect-data-grid-demo-data';
+import { AgGridDemoRow } from './data-manager-multiselect-data-grid-docs-demo-data';
 
 @Component({
   selector: 'app-data-manager-multiselect-data-grid-demo-view-grid',
   templateUrl:
-    './data-manager-multiselect-data-grid-demo-view-grid.component.html',
+    './data-manager-multiselect-data-grid-docs-demo-view-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DataManagerMultiselectDataGridDemoViewGridComponent

@@ -10,8 +10,8 @@ import { SkyDropdownModule } from '@skyux/popovers';
 
 import { AgGridModule } from 'ag-grid-angular';
 
-import { DataManagerDataEntryGridDemoViewGridComponent } from './data-manager-data-entry-grid-demo-view-grid.component';
-import { DataManagerDataEntryGridDemoComponent } from './data-manager-data-entry-grid-demo.component';
+import { DataManagerDataEntryGridDemoViewGridComponent } from './data-manager-data-entry-grid-docs-demo-view-grid.component';
+import { DataManagerDataEntryGridDemoComponent } from './data-manager-data-entry-grid-docs-demo.component';
 
 @NgModule({
   declarations: [

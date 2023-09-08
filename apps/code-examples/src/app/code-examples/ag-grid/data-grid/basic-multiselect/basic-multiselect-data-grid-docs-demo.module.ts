@@ -3,7 +3,7 @@ import { SkyAgGridModule } from '@skyux/ag-grid';
 
 import { AgGridModule } from 'ag-grid-angular';
 
-import { BasicMultiselectDataGridDemoComponent } from './basic-multiselect-data-grid-demo.component';
+import { BasicMultiselectDataGridDemoComponent } from './basic-multiselect-data-grid-docs-demo.component';
 
 @NgModule({
   declarations: [BasicMultiselectDataGridDemoComponent],

@@ -14,12 +14,12 @@ import {
 
 import { Subject, takeUntil } from 'rxjs';
 
-import { AG_GRID_DEMO_DATA } from './data-manager-multiselect-data-grid-demo-data';
-import { DataManagerMultiselectDataGridDemoFiltersModalComponent } from './data-manager-multiselect-data-grid-demo-filter-modal.component';
+import { AG_GRID_DEMO_DATA } from './data-manager-multiselect-data-grid-docs-demo-data';
+import { DataManagerMultiselectDataGridDemoFiltersModalComponent } from './data-manager-multiselect-data-grid-docs-demo-filter-modal.component';
 
 @Component({
   selector: 'app-data-manager-multiselect-data-grid-demo',
-  templateUrl: './data-manager-multiselect-data-grid-demo.component.html',
+  templateUrl: './data-manager-multiselect-data-grid-docs-demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SkyDataManagerService],
 })

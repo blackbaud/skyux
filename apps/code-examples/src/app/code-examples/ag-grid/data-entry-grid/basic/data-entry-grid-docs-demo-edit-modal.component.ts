@@ -22,23 +22,24 @@ import {
   GridReadyEvent,
   ICellEditorParams,
   IRowNode,
+  NewValueParams,
 } from 'ag-grid-community';
 
 import {
   AgGridDemoRow,
   DEPARTMENTS,
   JOB_TITLES,
-} from './data-manager-data-entry-grid-demo-data';
-import { DataEntryGridEditModalContext } from './data-manager-data-entry-grid-demo-edit-modal-context';
+} from './data-entry-grid-docs-demo-data';
+import { DataEntryGridEditModalContext } from './data-entry-grid-docs-demo-edit-modal-context';
 
 @Component({
   standalone: true,
-  selector: 'app-data-manager-data-entry-grid-demo-edit-modal',
-  templateUrl: './data-manager-data-entry-grid-demo-edit-modal.component.html',
+  selector: 'app-data-entry-grid-demo-edit-modal',
+  templateUrl: './data-entry-grid-docs-demo-edit-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AgGridModule, SkyAgGridModule, SkyModalModule],
 })
-export class DataManagerDataEntryGridEditModalComponent {
+export class DataEntryGridEditModalComponent {
   protected gridData: AgGridDemoRow[];
   protected gridOptions: GridOptions;
 
@@ -46,8 +47,8 @@ export class DataManagerDataEntryGridEditModalComponent {
   #gridApi: GridApi | undefined;
 
   protected readonly instance = inject(SkyModalInstance);
-  readonly #agGridService = inject(SkyAgGridService);
-  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #agGridSvc = inject(SkyAgGridService);
+  readonly #changeDetectorRef = inject(ChangeDetectorRef);
   readonly #context = inject(DataEntryGridEditModalContext);
 
   constructor() {
@@ -55,12 +56,36 @@ export class DataManagerDataEntryGridEditModalComponent {
       {
         field: 'name',
         headerName: 'Name',
+        type: SkyCellType.Text,
+        cellRendererParams: {
+          skyComponentProperties: {
+            validator: (value: string): boolean => String(value).length <= 10,
+            validatorMessage: `Value exceeds maximum length`,
+          },
+        },
+        cellEditorParams: {
+          skyComponentProperties: {
+            maxlength: 10,
+          },
+        },
+        editable: true,
       },
       {
         field: 'age',
         headerName: 'Age',
         type: SkyCellType.Number,
+        cellRendererParams: {
+          skyComponentProperties: {
+            validator: (value: number): boolean => value >= 18,
+            validatorMessage: `Age must be 18+`,
+          },
+        },
         maxWidth: 60,
+        cellEditorParams: {
+          skyComponentProperties: {
+            min: 18,
+          },
+        },
         editable: true,
       },
       {
@@ -77,11 +102,7 @@ export class DataManagerDataEntryGridEditModalComponent {
         cellEditorParams: (
           params: ICellEditorParams
         ): { skyComponentProperties: SkyAgGridDatepickerProperties } => {
-          return {
-            skyComponentProperties: {
-              minDate: params.data.startDate,
-            },
-          };
+          return { skyComponentProperties: { minDate: params.data.startDate } };
         },
       },
       {
@@ -95,13 +116,15 @@ export class DataManagerDataEntryGridEditModalComponent {
           return {
             skyComponentProperties: {
               data: DEPARTMENTS,
-              selectionChange: (change): void => {
+              selectionChange: (
+                change: SkyAutocompleteSelectionChange
+              ): void => {
                 this.#departmentSelectionChange(change, params.node);
               },
             },
           };
         },
-        onCellValueChanged: (event): void => {
+        onCellValueChanged: (event: NewValueParams): void => {
           if (event.newValue !== event.oldValue) {
             this.#clearJobTitle(event.node);
           }
@@ -148,7 +171,7 @@ export class DataManagerDataEntryGridEditModalComponent {
           skyComponentProperties: {
             validator: (value: Date): boolean =>
               !!value && value > new Date(1985, 9, 26),
-            validatorMessage: 'Enter a future date.',
+            validatorMessage: 'Please enter a future date',
           },
         },
         editable: true,
@@ -157,22 +180,22 @@ export class DataManagerDataEntryGridEditModalComponent {
 
     this.gridData = this.#context.gridData;
 
-    const gridOptions: GridOptions = {
+    this.gridOptions = {
       columnDefs: this.#columnDefs,
       onGridReady: (gridReadyEvent): void => this.onGridReady(gridReadyEvent),
     };
 
-    this.gridOptions = this.#agGridService.getEditableGridOptions({
-      gridOptions,
+    this.gridOptions = this.#agGridSvc.getEditableGridOptions({
+      gridOptions: this.gridOptions,
     });
 
-    this.#changeDetector.markForCheck();
+    this.#changeDetectorRef.markForCheck();
   }
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.#gridApi = gridReadyEvent.api;
     this.#gridApi.sizeColumnsToFit();
-    this.#changeDetector.markForCheck();
+    this.#changeDetectorRef.markForCheck();
   }
 
   #departmentSelectionChange(
@@ -187,14 +210,11 @@ export class DataManagerDataEntryGridEditModalComponent {
   #clearJobTitle(node: IRowNode | null): void {
     if (node) {
       node.data.jobTitle = undefined;
+      this.#changeDetectorRef.markForCheck();
 
       if (this.#gridApi) {
-        this.#gridApi.refreshCells({
-          rowNodes: [node],
-        });
+        this.#gridApi.refreshCells({ rowNodes: [node] });
       }
     }
-
-    this.#changeDetector.markForCheck();
   }
 }

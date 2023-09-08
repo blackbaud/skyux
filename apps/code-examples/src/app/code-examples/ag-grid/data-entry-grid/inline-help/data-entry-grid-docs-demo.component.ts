@@ -19,15 +19,15 @@ import {
   ValueFormatterParams,
 } from 'ag-grid-community';
 
-import { DataEntryGridContextMenuComponent } from './data-entry-grid-demo-context-menu.component';
-import { AG_GRID_DEMO_DATA } from './data-entry-grid-demo-data';
-import { DataEntryGridEditModalContext } from './data-entry-grid-demo-edit-modal-context';
-import { DataEntryGridEditModalComponent } from './data-entry-grid-demo-edit-modal.component';
+import { DataEntryGridContextMenuComponent } from './data-entry-grid-docs-demo-context-menu.component';
+import { AG_GRID_DEMO_DATA } from './data-entry-grid-docs-demo-data';
+import { DataEntryGridEditModalContext } from './data-entry-grid-docs-demo-edit-modal-context';
+import { DataEntryGridEditModalComponent } from './data-entry-grid-docs-demo-edit-modal.component';
 import { InlineHelpComponent } from './inline-help.component';
 
 @Component({
   selector: 'app-data-entry-grid-demo',
-  templateUrl: './data-entry-grid-demo.component.html',
+  templateUrl: './data-entry-grid-docs-demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DataEntryGridDemoComponent {

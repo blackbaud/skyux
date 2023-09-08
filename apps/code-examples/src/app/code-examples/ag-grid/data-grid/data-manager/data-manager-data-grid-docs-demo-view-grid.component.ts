@@ -27,11 +27,11 @@ import {
 } from 'ag-grid-community';
 import { Subject, takeUntil } from 'rxjs';
 
-import { AgGridDemoRow } from './data-manager-data-grid-demo-data';
+import { AgGridDemoRow } from './data-manager-data-grid-docs-demo-data';
 
 @Component({
   selector: 'app-data-manager-data-grid-demo-view-grid',
-  templateUrl: './data-manager-data-grid-demo-view-grid.component.html',
+  templateUrl: './data-manager-data-grid-docs-demo-view-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DataManagerDataGridDemoViewGridComponent

@@ -28,13 +28,13 @@ import {
   AgGridDemoRow,
   DEPARTMENTS,
   JOB_TITLES,
-} from './data-entry-grid-demo-data';
-import { DataEntryGridEditModalContext } from './data-entry-grid-demo-edit-modal-context';
+} from './data-entry-grid-docs-demo-data';
+import { DataEntryGridEditModalContext } from './data-entry-grid-docs-demo-edit-modal-context';
 
 @Component({
   standalone: true,
   selector: 'app-data-entry-grid-demo-edit-modal',
-  templateUrl: './data-entry-grid-demo-edit-modal.component.html',
+  templateUrl: './data-entry-grid-docs-demo-edit-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AgGridModule, SkyAgGridModule, SkyModalModule],
 })

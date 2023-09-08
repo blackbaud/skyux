@@ -13,12 +13,12 @@ import {
 
 import { Subject, takeUntil } from 'rxjs';
 
-import { AG_GRID_DEMO_DATA } from './data-manager-data-grid-demo-data';
-import { DataManagerDataGridDemoFiltersModalComponent } from './data-manager-data-grid-demo-filter-modal.component';
+import { AG_GRID_DEMO_DATA } from './data-manager-data-grid-docs-demo-data';
+import { DataManagerDataGridDemoFiltersModalComponent } from './data-manager-data-grid-docs-demo-filter-modal.component';
 
 @Component({
   selector: 'app-data-manager-data-grid-demo',
-  templateUrl: './data-manager-data-grid-demo.component.html',
+  templateUrl: './data-manager-data-grid-docs-demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SkyDataManagerService],
 })

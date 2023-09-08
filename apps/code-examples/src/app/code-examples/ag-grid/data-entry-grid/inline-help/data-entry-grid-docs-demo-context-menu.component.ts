@@ -7,7 +7,7 @@ import { ICellRendererParams } from 'ag-grid-community';
 @Component({
   standalone: true,
   selector: 'app-data-entry-grid-demo-context-menu',
-  templateUrl: './data-entry-grid-demo-context-menu.component.html',
+  templateUrl: './data-entry-grid-docs-demo-context-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyDropdownModule],
 })

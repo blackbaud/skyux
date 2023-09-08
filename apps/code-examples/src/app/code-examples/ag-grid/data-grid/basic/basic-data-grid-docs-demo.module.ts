@@ -3,7 +3,7 @@ import { SkyAgGridModule } from '@skyux/ag-grid';
 
 import { AgGridModule } from 'ag-grid-angular';
 
-import { BasicDataGridDemoComponent } from './basic-data-grid-demo.component';
+import { BasicDataGridDemoComponent } from './basic-data-grid-docs-demo.component';
 
 @NgModule({
   declarations: [BasicDataGridDemoComponent],

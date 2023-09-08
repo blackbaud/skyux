@@ -5,7 +5,7 @@ import { SkySearchModule } from '@skyux/lookup';
 
 import { AgGridModule } from 'ag-grid-angular';
 
-import { DataEntryGridDemoComponent } from './data-entry-grid-demo.component';
+import { DataEntryGridDemoComponent } from './data-entry-grid-docs-demo.component';
 
 @NgModule({
   declarations: [DataEntryGridDemoComponent],

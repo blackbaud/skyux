@@ -5,8 +5,8 @@ import { SkyDataManagerModule } from '@skyux/data-manager';
 
 import { AgGridModule } from 'ag-grid-angular';
 
-import { DataManagerDataGridDemoViewGridComponent } from './data-manager-data-grid-demo-view-grid.component';
-import { DataManagerDataGridDemoComponent } from './data-manager-data-grid-demo.component';
+import { DataManagerDataGridDemoViewGridComponent } from './data-manager-data-grid-docs-demo-view-grid.component';
+import { DataManagerDataGridDemoComponent } from './data-manager-data-grid-docs-demo.component';
 
 @NgModule({
   declarations: [
