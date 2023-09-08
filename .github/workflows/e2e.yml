@@ -164,7 +164,7 @@ jobs:
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' }}
       - name: Build ${{ matrix.app }}
         run: |
-          npx nx build ${{ matrix.app }} --baseHref="https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/${{ matrix.app }}/"
+          npx nx build ${{ matrix.app }} --baseHref="https://blackbaud.github.io/skyux-pr-preview/${{ needs.install-deps.outputs.pr-number }}/${{ matrix.app }}/"
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' && matrix.app != 'dep-graph' }}
       - name: Build ${{ matrix.app }}
         run: npx nx dep-graph --file=dist/apps/dep-graph/index.html
