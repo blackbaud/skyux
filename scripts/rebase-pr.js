@@ -22,21 +22,19 @@ function exec(command) {
  */
 function rebasePullRequest() {
   try {
-    console.log('Attempting to rebase pull request...');
+    console.log('Attempting to update pull request...');
 
     const targetBranch = process.env.GITHUB_BASE_REF || '';
     if (!targetBranch) {
-      console.log('Skipping rebase since event is not a pull request.');
+      console.log('Skipping update since event is not a pull request.');
       process.exit();
     }
 
     console.log(` - Target branch: ${targetBranch}`);
 
-    exec('git config user.name "blackbaud-sky-build-user"');
-    exec('git config user.email "sky-build-user@blackbaud.com"');
-    exec(`git rebase --rebase-merges origin/${targetBranch}`);
+    exec(`git merge --no-commit origin/${targetBranch}`);
 
-    console.log(`Rebased current branch onto ${targetBranch}.`);
+    console.log(`Updated current branch with ${targetBranch}.`);
   } catch (err) {
     console.log(err);
     process.exit(1);
