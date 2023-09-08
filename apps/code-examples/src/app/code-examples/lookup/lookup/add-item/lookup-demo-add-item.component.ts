@@ -1,12 +1,26 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SkyModalInstance } from '@skyux/modals';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 let nextId = 21;
 
 @Component({
+  standalone: true,
   selector: 'app-lookup-demo-add-item',
   templateUrl: './lookup-demo-add-item.component.html',
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    SkyInputBoxModule,
+    SkyModalModule,
+  ],
 })
 export class LookupDemoAddItemComponent {
   public readonly formGroup: FormGroup;

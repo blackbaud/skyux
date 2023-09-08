@@ -1,12 +1,16 @@
 import { Component } from '@angular/core';
-import { SkyModalInstance } from '@skyux/modals';
+import { FormsModule } from '@angular/forms';
+import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 import { Filter } from './filter';
 import { FilterDemoModalContext } from './filter-demo-modal-context';
 
 @Component({
+  standalone: true,
   selector: 'app-filter-demo-modal',
   templateUrl: './filter-demo-modal.component.html',
+  imports: [FormsModule, SkyCheckboxModule, SkyInputBoxModule, SkyModalModule],
 })
 export class FilterDemoModalComponent {
   public hideOrange = false;

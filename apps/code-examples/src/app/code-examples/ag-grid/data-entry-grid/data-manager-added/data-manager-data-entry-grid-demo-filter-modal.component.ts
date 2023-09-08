@@ -21,7 +21,7 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule, SkyCheckboxModule, SkyIdModule, SkyModalModule],
 })
-export class DataManagerDataEntryGridDocsDemoFiltersModalComponent {
+export class DataManagerDataEntryGridDemoFiltersModalComponent {
   protected hideSales = false;
   protected jobTitle = '';
 

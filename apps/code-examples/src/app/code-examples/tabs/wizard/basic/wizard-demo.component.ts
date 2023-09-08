@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SkyModalService } from '@skyux/modals';
 
 import { WizardDemoModalComponent } from './wizard-demo-modal.component';
@@ -8,15 +8,11 @@ import { WizardDemoModalComponent } from './wizard-demo-modal.component';
   templateUrl: './wizard-demo.component.html',
 })
 export class WizardDemoComponent {
-  #modalService: SkyModalService;
-
-  constructor(modalService: SkyModalService) {
-    this.#modalService = modalService;
-  }
+  readonly #modalSvc = inject(SkyModalService);
 
   public modalSize = 'large';
 
   public openWizard(): void {
-    this.#modalService.open(WizardDemoModalComponent, { size: this.modalSize });
+    this.#modalSvc.open(WizardDemoModalComponent, { size: this.modalSize });
   }
 }

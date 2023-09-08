@@ -17,7 +17,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { AG_GRID_DEMO_DATA } from './data-manager-data-entry-grid-demo-data';
 import { DataEntryGridEditModalContext } from './data-manager-data-entry-grid-demo-edit-modal-context';
 import { DataManagerDataEntryGridEditModalComponent } from './data-manager-data-entry-grid-demo-edit-modal.component';
-import { DataManagerDataEntryGridDocsDemoFiltersModalComponent } from './data-manager-data-entry-grid-demo-filter-modal.component';
+import { DataManagerDataEntryGridDemoFiltersModalComponent } from './data-manager-data-entry-grid-demo-filter-modal.component';
 
 @Component({
   selector: 'app-data-manager-data-entry-grid-demo',
@@ -58,7 +58,7 @@ export class DataManagerDataEntryGridDemoComponent
   });
 
   #dataManagerConfig = {
-    filterModalComponent: DataManagerDataEntryGridDocsDemoFiltersModalComponent,
+    filterModalComponent: DataManagerDataEntryGridDemoFiltersModalComponent,
     sortOptions: [
       {
         id: 'az',

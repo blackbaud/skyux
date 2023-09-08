@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
 } from '@angular/core';
 import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 
@@ -50,10 +51,10 @@ export class FilterDemoComponent {
 
   public showInlineFilters = false;
 
-  constructor(
-    private modal: SkyModalService,
-    private changeRef: ChangeDetectorRef
-  ) {
+  readonly #changeDetectorRef = inject(ChangeDetectorRef);
+  readonly #modalSvc = inject(SkyModalService);
+
+  constructor() {
     this.filteredItems = this.items.slice();
   }
 
@@ -67,7 +68,7 @@ export class FilterDemoComponent {
   }
 
   public onModalFilterButtonClick(): void {
-    const modalInstance = this.modal.open(FilterDemoModalComponent, [
+    const modalInstance = this.#modalSvc.open(FilterDemoModalComponent, [
       {
         provide: FilterDemoModalContext,
         useValue: {
@@ -80,7 +81,7 @@ export class FilterDemoComponent {
       if (result.reason === 'save') {
         this.appliedFilters = result.data.slice();
         this.filteredItems = this.filterItems(this.items, this.appliedFilters);
-        this.changeRef.markForCheck();
+        this.#changeDetectorRef.markForCheck();
       }
     });
   }

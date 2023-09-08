@@ -21,10 +21,11 @@ import { SelectionModalDemoService } from './selection-modal-demo.service';
 export class SelectionModalDemoComponent implements OnDestroy {
   public selectedPeople: SelectionModalDemoPerson[] | undefined;
 
-  #modalService = inject(SkyModalService);
-  #searchSvc = inject(SelectionModalDemoService);
-  #selectionModalSvc = inject(SkySelectionModalService);
   #subscriptions = new Subscription();
+
+  readonly #modalSvc = inject(SkyModalService);
+  readonly #searchSvc = inject(SelectionModalDemoService);
+  readonly #selectionModalSvc = inject(SkySelectionModalService);
 
   public ngOnDestroy(): void {
     this.#subscriptions.unsubscribe();
@@ -47,9 +48,7 @@ export class SelectionModalDemoComponent implements OnDestroy {
       selectMode: 'single',
       showAddButton: true,
       addClick: (args: SkySelectionModalAddClickEventArgs) => {
-        const modal = this.#modalService.open(
-          SelectionModalDemoAddItemComponent
-        );
+        const modal = this.#modalSvc.open(SelectionModalDemoAddItemComponent);
         this.#subscriptions.add(
           modal.closed.subscribe((close: SkyModalCloseArgs) => {
             if (close.reason === 'save') {
