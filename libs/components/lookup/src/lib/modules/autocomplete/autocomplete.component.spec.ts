@@ -1,3 +1,5 @@
+import { ViewportRuler } from '@angular/cdk/overlay';
+import { ViewportScrollPosition } from '@angular/cdk/scrolling';
 import {
   ComponentFixture,
   TestBed,
@@ -235,8 +237,10 @@ describe('Autocomplete component', () => {
     let component: SkyAutocompleteFixtureComponent;
     let autocomplete: SkyAutocompleteComponent;
     let asyncAutocomplete: SkyAutocompleteComponent;
+    let viewportRulerChange: Subject<Event>;
 
     beforeEach(() => {
+      viewportRulerChange = new Subject();
       TestBed.configureTestingModule({
         imports: [SkyAutocompleteFixturesModule],
         providers: [
@@ -245,6 +249,16 @@ describe('Autocomplete component', () => {
             useValue: {
               zIndex: new BehaviorSubject(10),
             },
+          },
+          {
+            provide: ViewportRuler,
+            useValue: {
+              change: (): Observable<Event> => viewportRulerChange,
+              getViewportScrollPosition: (): ViewportScrollPosition => ({
+                top: 0,
+                left: 0,
+              }),
+            } as ViewportRuler,
           },
         ],
       });
@@ -256,6 +270,7 @@ describe('Autocomplete component', () => {
     });
 
     afterEach(() => {
+      viewportRulerChange.complete();
       (
         TestBed.inject(SKY_STACKING_CONTEXT).zIndex as BehaviorSubject<number>
       ).complete();
@@ -681,6 +696,7 @@ describe('Autocomplete component', () => {
       ).and.callThrough();
 
       SkyAppTestUtility.fireDomEvent(window, 'resize');
+      viewportRulerChange.next(new Event('resize'));
       fixture.detectChanges();
       tick();
 

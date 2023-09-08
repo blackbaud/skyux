@@ -527,7 +527,7 @@ describe('Timepicker', () => {
 
       // Scroll timepicker offscreen.
       window.scrollTo(0, 1000);
-      SkyAppTestUtility.fireDomEvent(window, 'scroll');
+      SkyAppTestUtility.fireDomEvent(window.visualViewport, 'scroll');
       detectChangesAndTick(fixture);
 
       expect(component.timepickerComponent.isVisible).toBe(false);

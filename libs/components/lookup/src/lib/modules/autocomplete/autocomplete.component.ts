@@ -879,6 +879,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
         enablePointerEvents: true,
         environmentInjector: this.#environmentInjector,
         wrapperClass: this.wrapperClass,
+        position: 'absolute',
       });
 
       if (this.#zIndex) {
@@ -991,6 +992,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
         isSticky: true,
         placement: 'below',
         horizontalAlignment: 'left',
+        position: 'absolute',
       });
 
       this.#affixer = affixer;
