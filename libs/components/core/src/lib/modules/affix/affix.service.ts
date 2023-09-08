@@ -1,8 +1,10 @@
+import { ViewportRuler } from '@angular/cdk/overlay';
 import {
   ElementRef,
   Injectable,
-  Renderer2,
+  NgZone,
   RendererFactory2,
+  inject,
 } from '@angular/core';
 
 import { SkyAffixer } from './affixer';
@@ -11,17 +13,22 @@ import { SkyAffixer } from './affixer';
   providedIn: 'root',
 })
 export class SkyAffixService {
-  #renderer: Renderer2;
+  readonly #renderer = inject(RendererFactory2).createRenderer(undefined, null);
 
-  constructor(rendererFactory: RendererFactory2) {
-    this.#renderer = rendererFactory.createRenderer(undefined, null);
-  }
+  readonly #viewportRuler = inject(ViewportRuler);
+
+  readonly #zone = inject(NgZone);
 
   /**
    * Creates an instance of [[SkyAffixer]].
    * @param affixed The element to be affixed.
    */
   public createAffixer(affixed: ElementRef): SkyAffixer {
-    return new SkyAffixer(affixed.nativeElement, this.#renderer);
+    return new SkyAffixer(
+      affixed.nativeElement,
+      this.#renderer,
+      this.#viewportRuler,
+      this.#zone
+    );
   }
 }

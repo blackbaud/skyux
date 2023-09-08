@@ -308,7 +308,10 @@ export class SkyPhoneFieldInputDirective
         return false;
       }
 
-      return this.#phoneUtils.isValidNumber(numberObj);
+      return this.#phoneUtils.isValidNumberForRegion(
+        numberObj,
+        this.#phoneFieldComponent?.selectedCountry?.iso2
+      );
     } catch (e) {
       return false;
     }
