@@ -112,7 +112,9 @@ export class SkyAffixer {
 
   #renderer: Renderer2;
 
-  #resizeListener = new Subscription();
+  #scrollChange = new Subject<void>();
+
+  #viewportListeners: Subscription | undefined;
 
   #viewportRuler: ViewportRuler;
 
@@ -120,22 +122,13 @@ export class SkyAffixer {
 
   #_config: AffixConfigOrDefaults = DEFAULT_AFFIX_CONFIG;
 
-  #scrollChange = new Subject<void>();
-
-  /* istanbul ignore next */
-  #viewport = window.visualViewport || window;
-
-  #viewportChange = new Subject<void>();
-
-  #scrollChangeListener = (): void => this.#scrollChange.next();
-
-  #viewportChangeListener = (): void => this.#viewportChange.next();
+  #scrollChangeListener: () => void = () => this.#scrollChange.next();
 
   constructor(
     affixedElement: HTMLElement,
     renderer: Renderer2,
-    zone: NgZone,
-    viewportRuler: ViewportRuler
+    viewportRuler: ViewportRuler,
+    zone: NgZone
   ) {
     this.#affixedElement = affixedElement;
     this.#renderer = renderer;
@@ -166,8 +159,7 @@ export class SkyAffixer {
     this.#affix();
 
     if (this.#config.isSticky) {
-      this.#addScrollListeners();
-      this.#addResizeListener();
+      this.#addViewportListeners();
     }
   }
 
@@ -192,7 +184,7 @@ export class SkyAffixer {
     this.#placementChange.complete();
     this.#offsetChange.complete();
     this.#overflowScroll.complete();
-    this.#viewportChange.complete();
+    this.#scrollChange.complete();
   }
 
   #affix(): void {
@@ -494,18 +486,7 @@ export class SkyAffixer {
   }
 
   #reset(): void {
-    this.#removeScrollListeners();
-    this.#resizeListener.unsubscribe();
-    this.#resizeListener = new Subscription();
-    this.#resizeListener.add(
-      this.#scrollChange.subscribe(() => {
-        this.#affix();
-        this.#overflowScroll.next();
-      })
-    );
-    this.#resizeListener.add(
-      this.#viewportChange.subscribe(() => this.#affix())
-    );
+    this.#removeViewportListeners();
 
     this.#overflowParents = [];
 
@@ -553,43 +534,46 @@ export class SkyAffixer {
     );
   }
 
-  #addScrollListeners(): void {
-    this.#zone.runOutsideAngular(() =>
-      this.#overflowParents.forEach((parentElement) => {
-        if (parentElement === document.body) {
-          this.#viewport.addEventListener('scroll', this.#scrollChangeListener);
-          window.addEventListener('scroll', this.#scrollChangeListener);
-        } else {
-          parentElement.addEventListener('scroll', this.#scrollChangeListener);
-        }
-      })
-    );
-  }
+  #addViewportListeners(): void {
+    this.#viewportListeners = new Subscription();
 
-  #addResizeListener(): void {
-    this.#resizeListener.add(
+    // Resize and orientation changes.
+    this.#viewportListeners.add(
       this.#viewportRuler.change().subscribe(() => {
-        this.#viewportChangeListener();
+        this.#affix();
       })
     );
+
+    this.#viewportListeners.add(
+      this.#scrollChange.subscribe(() => {
+        this.#affix();
+        this.#overflowScroll.next();
+      })
+    );
+
+    // Listen for scroll events on the window, visual viewport, and any overflow parents.
+    // https://developer.chrome.com/blog/visual-viewport-api/#events-only-fire-when-the-visual-viewport-changes
+    this.#zone.runOutsideAngular(() => {
+      [window, window.visualViewport, ...this.#overflowParents].forEach(
+        (parentElement) => {
+          parentElement?.addEventListener('scroll', this.#scrollChangeListener);
+        }
+      );
+    });
   }
 
-  #removeScrollListeners(): void {
-    this.#zone.runOutsideAngular(() =>
-      this.#overflowParents.forEach((parentElement) => {
-        if (parentElement === document.body) {
-          this.#viewport.removeEventListener(
-            'scroll',
-            this.#scrollChangeListener
-          );
-          window.removeEventListener('scroll', this.#scrollChangeListener);
-        } else {
-          parentElement.removeEventListener(
+  #removeViewportListeners(): void {
+    this.#viewportListeners?.unsubscribe();
+
+    this.#zone.runOutsideAngular(() => {
+      [window, window.visualViewport, ...this.#overflowParents].forEach(
+        (parentElement) => {
+          parentElement?.removeEventListener(
             'scroll',
             this.#scrollChangeListener
           );
         }
-      })
-    );
+      );
+    });
   }
 }

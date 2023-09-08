@@ -3,7 +3,6 @@ import {
   ElementRef,
   Injectable,
   NgZone,
-  Renderer2,
   RendererFactory2,
   inject,
 } from '@angular/core';
@@ -14,15 +13,11 @@ import { SkyAffixer } from './affixer';
   providedIn: 'root',
 })
 export class SkyAffixService {
-  readonly #renderer: Renderer2;
+  readonly #renderer = inject(RendererFactory2).createRenderer(undefined, null);
 
   readonly #viewportRuler = inject(ViewportRuler);
 
   readonly #zone = inject(NgZone);
-
-  constructor(rendererFactory: RendererFactory2) {
-    this.#renderer = rendererFactory.createRenderer(undefined, null);
-  }
 
   /**
    * Creates an instance of [[SkyAffixer]].
@@ -32,8 +27,8 @@ export class SkyAffixService {
     return new SkyAffixer(
       affixed.nativeElement,
       this.#renderer,
-      this.#zone,
-      this.#viewportRuler
+      this.#viewportRuler,
+      this.#zone
     );
   }
 }

@@ -72,8 +72,8 @@ describe('Affixer', () => {
     const affixer = new SkyAffixer(
       component.affixedElement?.nativeElement as HTMLElement,
       TestBed.inject(RendererFactory2).createRenderer(undefined, null),
-      TestBed.inject(NgZone),
-      TestBed.inject(ViewportRuler)
+      TestBed.inject(ViewportRuler),
+      TestBed.inject(NgZone)
     );
     expect(affixer).toBeTruthy();
     expect(component.baseRef?.nativeElement).toBeTruthy();
@@ -92,8 +92,8 @@ describe('Affixer', () => {
     const affixer = new SkyAffixer(
       component.affixedElement?.nativeElement as HTMLElement,
       TestBed.inject(RendererFactory2).createRenderer(undefined, null),
-      TestBed.inject(NgZone),
-      TestBed.inject(ViewportRuler)
+      TestBed.inject(ViewportRuler),
+      TestBed.inject(NgZone)
     );
     expect(affixer).toBeTruthy();
     affixer.affixTo(component.baseRef?.nativeElement as HTMLElement, {
@@ -114,8 +114,8 @@ describe('Affixer', () => {
     const affixer = new SkyAffixer(
       component.affixedElement?.nativeElement as HTMLElement,
       TestBed.inject(RendererFactory2).createRenderer(undefined, null),
-      TestBed.inject(NgZone),
-      viewportRuler
+      viewportRuler,
+      TestBed.inject(NgZone)
     );
     expect(affixer).toBeTruthy();
     affixer.affixTo(component.baseRef?.nativeElement as HTMLElement, {

@@ -137,8 +137,8 @@ describe('Affix directive', () => {
           affixer = new SkyAffixer(
             affixed.nativeElement,
             renderer,
-            zone,
-            viewportRuler
+            viewportRuler,
+            zone
           );
           affixer.offsetChange.pipe(takeUntil(ngUnsubscribe)).subscribe((x) => {
             offset = x.offset;
