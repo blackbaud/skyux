@@ -53,31 +53,27 @@ describe('MovePageComponentSchematic', () => {
       version: '0.0.0',
     });
     tree.create(
-      `${project.sourceRoot}/app/custom.component.ts`,
+      `${project.sourceRoot}/app/custom.module.ts`,
       stripIndents`
-      import { Component } from '@angular/core';
-      import { SkyPageComponent } from '@skyux/layout';
+      import { NgModule } from '@angular/core';
+      import { SkyPageModule } from '@skyux/layout';
 
-      @Component({
-      selector: 'app-custom',
-      templateUrl: './custom.component.html',
-      styleUrls: ['./custom.component.scss']
+      @NgModule({
+      imports: [SkyPageModule],
       })
-      export class CustomComponent {}
+      export class CustomModule {}
     `
     );
     const result = await runner.runSchematic('move-page-component', {}, tree);
-    expect(result.readContent(`${project.sourceRoot}/app/custom.component.ts`))
+    expect(result.readContent(`${project.sourceRoot}/app/custom.module.ts`))
       .toMatchInlineSnapshot(`
-      "import { Component } from '@angular/core';
-      import { SkyPageComponent } from '@skyux/pages';
+      "import { NgModule } from '@angular/core';
+      import { SkyPageModule } from '@skyux/pages';
 
-      @Component({
-      selector: 'app-custom',
-      templateUrl: './custom.component.html',
-      styleUrls: ['./custom.component.scss']
+      @NgModule({
+      imports: [SkyPageModule],
       })
-      export class CustomComponent {}"
+      export class CustomModule {}"
     `);
     expect(
       (result.readJson('package.json') as any).dependencies['@skyux/pages']
@@ -92,32 +88,28 @@ describe('MovePageComponentSchematic', () => {
       version: '0.0.0',
     });
     tree.create(
-      `${project.sourceRoot}/app/custom.component.ts`,
+      `${project.sourceRoot}/app/custom.module.ts`,
       stripIndents`
-      import { Component } from '@angular/core';
-      import { SkyActionButtonPermalink, SkyPageComponent } from '@skyux/layout';
+      import { NgModule } from '@angular/core';
+      import { SkyActionButtonPermalink, SkyPageModule } from '@skyux/layout';
 
-      @Component({
-      selector: 'app-custom',
-      templateUrl: './custom.component.html',
-      styleUrls: ['./custom.component.scss']
+      @NgModule({
+      imports: [SkyPageModule],
       })
-      export class CustomComponent {}
+      export class CustomModule {}
     `
     );
     const result = await runner.runSchematic('move-page-component', {}, tree);
-    expect(result.readContent(`${project.sourceRoot}/app/custom.component.ts`))
+    expect(result.readContent(`${project.sourceRoot}/app/custom.module.ts`))
       .toMatchInlineSnapshot(`
-      "import { Component } from '@angular/core';
+      "import { NgModule } from '@angular/core';
       import { SkyActionButtonPermalink } from '@skyux/layout';
-      import { SkyPageComponent } from '@skyux/pages';
+      import { SkyPageModule } from '@skyux/pages';
 
-      @Component({
-      selector: 'app-custom',
-      templateUrl: './custom.component.html',
-      styleUrls: ['./custom.component.scss']
+      @NgModule({
+      imports: [SkyPageModule],
       })
-      export class CustomComponent {}"
+      export class CustomModule {}"
     `);
   });
 
@@ -129,17 +121,15 @@ describe('MovePageComponentSchematic', () => {
       version: '0.0.0',
     });
     tree.create(
-      `${project.sourceRoot}/app/custom.component.ts`,
+      `${project.sourceRoot}/app/custom.module.ts`,
       stripIndents`
-      import { Component } from '@angular/core';
-      import { SkyPageComponent, SkyTextExpandRepeaterListStyleType } from '@skyux/layout';
+      import { NgModule } from '@angular/core';
+      import { SkyPageModule, SkyTextExpandRepeaterListStyleType } from '@skyux/layout';
 
-      @Component({
-      selector: 'app-custom',
-      templateUrl: './custom.component.html',
-      styleUrls: ['./custom.component.scss']
+      @NgModule({
+      imports: [SkyPageModule],
       })
-      export class CustomComponent {}
+      export class CustomModule {}
     `
     );
 
@@ -159,18 +149,16 @@ describe('MovePageComponentSchematic', () => {
       {},
       updatedTree
     );
-    expect(result.readContent(`${project.sourceRoot}/app/custom.component.ts`))
+    expect(result.readContent(`${project.sourceRoot}/app/custom.module.ts`))
       .toMatchInlineSnapshot(`
-      "import { Component } from '@angular/core';
+      "import { NgModule } from '@angular/core';
       import { SkyTextExpandRepeaterListStyleType } from '@skyux/layout';
-      import { SkyPageComponent } from '@skyux/pages';
+      import { SkyPageModule } from '@skyux/pages';
 
-      @Component({
-      selector: 'app-custom',
-      templateUrl: './custom.component.html',
-      styleUrls: ['./custom.component.scss']
+      @NgModule({
+      imports: [SkyPageModule],
       })
-      export class CustomComponent {}"
+      export class CustomModule {}"
     `);
   });
 
@@ -182,21 +170,19 @@ describe('MovePageComponentSchematic', () => {
       version: '0.0.0',
     });
     tree.create(
-      `${project.sourceRoot}/app/custom.component.ts`,
+      `${project.sourceRoot}/app/custom.module.ts`,
       stripIndents`
-      import { Component } from '@angular/core';
+      import { NgModule } from '@angular/core';
       import {
       SkyActionButtonPermalink,
-      SkyPageComponent,
+      SkyPageModule,
       SkyTextExpandRepeaterListStyleType,
       } from '@skyux/layout';
 
-      @Component({
-      selector: 'app-custom',
-      templateUrl: './custom.component.html',
-      styleUrls: ['./custom.component.scss']
+      @NgModule({
+      imports: [SkyPageModule],
       })
-      export class CustomComponent {}
+      export class CustomModule {}
     `
     );
 
@@ -216,21 +202,19 @@ describe('MovePageComponentSchematic', () => {
       {},
       updatedTree
     );
-    expect(result.readContent(`${project.sourceRoot}/app/custom.component.ts`))
+    expect(result.readContent(`${project.sourceRoot}/app/custom.module.ts`))
       .toMatchInlineSnapshot(`
-      "import { Component } from '@angular/core';
+      "import { NgModule } from '@angular/core';
       import {
       SkyActionButtonPermalink,
       SkyTextExpandRepeaterListStyleType,
       } from '@skyux/layout';
-      import { SkyPageComponent } from '@skyux/pages';
+      import { SkyPageModule } from '@skyux/pages';
 
-      @Component({
-      selector: 'app-custom',
-      templateUrl: './custom.component.html',
-      styleUrls: ['./custom.component.scss']
+      @NgModule({
+      imports: [SkyPageModule],
       })
-      export class CustomComponent {}"
+      export class CustomModule {}"
     `);
   });
 
@@ -247,32 +231,28 @@ describe('MovePageComponentSchematic', () => {
       version: '0.0.0',
     });
     tree.create(
-      `${project.sourceRoot}/app/custom.component.ts`,
+      `${project.sourceRoot}/app/custom.module.ts`,
       stripIndents`
-      import { Component } from '@angular/core';
-      import { SkyPageComponent } from '@skyux/layout';
+      import { NgModule } from '@angular/core';
+      import { SkyPageModule } from '@skyux/layout';
       import { SkyPageLink } from '@skyux/pages';
 
-      @Component({
-      selector: 'app-custom',
-      templateUrl: './custom.component.html',
-      styleUrls: ['./custom.component.scss']
+      @NgModule({
+      imports: [SkyPageModule],
       })
-      export class CustomComponent {}
+      export class CustomModule {}
     `
     );
     const result = await runner.runSchematic('move-page-component', {}, tree);
-    expect(result.readContent(`${project.sourceRoot}/app/custom.component.ts`))
+    expect(result.readContent(`${project.sourceRoot}/app/custom.module.ts`))
       .toMatchInlineSnapshot(`
-      "import { Component } from '@angular/core';
-      import { SkyPageLink, SkyPageComponent } from '@skyux/pages';
+      "import { NgModule } from '@angular/core';
+      import { SkyPageLink, SkyPageModule } from '@skyux/pages';
 
-      @Component({
-      selector: 'app-custom',
-      templateUrl: './custom.component.html',
-      styleUrls: ['./custom.component.scss']
+      @NgModule({
+      imports: [SkyPageModule],
       })
-      export class CustomComponent {}"
+      export class CustomModule {}"
     `);
   });
 

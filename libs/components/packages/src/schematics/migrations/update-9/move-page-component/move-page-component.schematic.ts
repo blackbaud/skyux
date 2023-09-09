@@ -30,10 +30,10 @@ export default function movePageComponent(): Rule {
             true
           );
 
-          // Find all imports of SkyPageComponent from @skyux/layout.
+          // Find all imports of SkyPageLayoutType and SkyPageModule from @skyux/layout.
           const componentImports = getImports(
             source,
-            new Map([['@skyux/layout', ['SkyPageComponent']]])
+            new Map([['@skyux/layout', ['SkyPageLayoutType', 'SkyPageModule']]])
           );
 
           // Found one.
@@ -41,36 +41,38 @@ export default function movePageComponent(): Rule {
             // We'll need to add the dependency to @skyux/pages.
             addDependency = true;
 
-            // Angular uses a change recorder and the magic string library.
-            const insertRecorder = tree.beginUpdate(path);
-
-            // Add the new import.
-            const change = insertImport(
-              source,
-              path,
-              'SkyPageComponent',
-              '@skyux/pages'
-            ) as InsertChange;
-            insertRecorder.insertRight(change.pos, change.toAdd);
-
-            // Commit the update.
-            tree.commitUpdate(insertRecorder);
-
-            const removeRecorder = tree.beginUpdate(path);
             componentImports.forEach((componentImport: ts.ImportSpecifier) => {
+              // Angular uses a change recorder and the magic string library.
+              const insertRecorder = tree.beginUpdate(path);
+
+              // Add the new import.
+              const change = insertImport(
+                source,
+                path,
+                componentImport.getText(),
+                '@skyux/pages'
+              ) as InsertChange;
+              insertRecorder.insertRight(change.pos, change.toAdd);
+
+              // Commit the update.
+              tree.commitUpdate(insertRecorder);
+
+              const removeRecorder = tree.beginUpdate(path);
+
               // Is anything else imported from @skyux/layout?
               if (componentImport.parent.elements.length > 1) {
-                // Yes. Remove only the SkyPageComponent import.
+                // Yes. Remove only one named import.
                 const index = componentImport.parent.elements.findIndex(
-                  (element) => element.name.getText() === 'SkyPageComponent'
+                  (element) =>
+                    element.name.getText() === componentImport.getText()
                 );
 
-                // Find the start and end of the SkyPageComponent import.
+                // Find the start and end of the import.
                 let importStart: number;
                 let importEnd: number;
                 if (index > 0) {
                   // Not the first import.
-                  // Remove text from the end of the previous import to the end of the SkyPageComponent import.
+                  // Remove text from the end of the previous import to the end of the import.
                   importStart = (
                     componentImport.parent.elements.at(
                       index - 1
@@ -83,7 +85,7 @@ export default function movePageComponent(): Rule {
                   ).getEnd();
                 } else {
                   // First import.
-                  // Remove text from the start of the SkyPageComponent import to the start of the next import.
+                  // Remove text from the start of the import to the start of the next import.
                   importStart = (
                     componentImport.parent.elements.at(
                       index
@@ -96,7 +98,7 @@ export default function movePageComponent(): Rule {
                   ).getStart();
                 }
 
-                // Remove the SkyPageComponent import.
+                // Remove the import.
                 removeRecorder.remove(importStart, importEnd - importStart);
               } else {
                 // No. Remove the whole import declaration.
@@ -106,10 +108,10 @@ export default function movePageComponent(): Rule {
                   importDeclaration.getFullWidth()
                 );
               }
-            });
 
-            // Commit the update.
-            tree.commitUpdate(removeRecorder);
+              // Commit the update.
+              tree.commitUpdate(removeRecorder);
+            });
           }
         } else if (
           path.endsWith('.component.html') &&
