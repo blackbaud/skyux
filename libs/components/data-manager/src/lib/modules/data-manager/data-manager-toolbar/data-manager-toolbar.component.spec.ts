@@ -12,6 +12,7 @@ import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 import { Subject } from 'rxjs';
 
 import { SkyDataManagerColumnPickerContext } from '../data-manager-column-picker/data-manager-column-picker-context';
+import { SKY_DATA_MANAGER_COLUMN_PICKER_PROVIDERS } from '../data-manager-column-picker/data-manager-column-picker-providers';
 import { SkyDataManagerColumnPickerComponent } from '../data-manager-column-picker/data-manager-column-picker.component';
 import { SkyDataManagerService } from '../data-manager.service';
 import { DataManagerFixtureComponent } from '../fixtures/data-manager.component.fixture';
@@ -658,6 +659,7 @@ describe('SkyDataManagerToolbarComponent', () => {
     );
     const options: SkyModalConfigurationInterface = {
       providers: [
+        SKY_DATA_MANAGER_COLUMN_PICKER_PROVIDERS,
         {
           provide: SkyDataManagerColumnPickerContext,
           useValue: context,
@@ -705,6 +707,7 @@ describe('SkyDataManagerToolbarComponent', () => {
     );
     const options: SkyModalConfigurationInterface = {
       providers: [
+        SKY_DATA_MANAGER_COLUMN_PICKER_PROVIDERS,
         {
           provide: SkyDataManagerColumnPickerContext,
           useValue: context,

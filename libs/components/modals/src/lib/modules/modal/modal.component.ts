@@ -257,7 +257,9 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
 
     /* istanbul ignore next */
     if (this.#mediaQueryService) {
-      this.#mediaQueryService.observe(this.modalContentWrapperElement!);
+      this.#mediaQueryService.observe(this.modalContentWrapperElement!, {
+        updateResponsiveClasses: true,
+      });
     }
   }
 
