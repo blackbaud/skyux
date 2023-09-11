@@ -2,9 +2,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
 } from '@angular/core';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
-import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
+import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
 import {
   ColDef,
@@ -14,19 +15,23 @@ import {
   ValueFormatterParams,
 } from 'ag-grid-community';
 
-import { SkyDataEntryGridContextMenuComponent } from './data-entry-grid-docs-demo-context-menu.component';
-import { SKY_AG_GRID_DEMO_DATA } from './data-entry-grid-docs-demo-data';
-import { SkyDataEntryGridEditModalContext } from './data-entry-grid-docs-demo-edit-modal-context';
-import { SkyDataEntryGridEditModalComponent } from './data-entry-grid-docs-demo-edit-modal.component';
+import { DataEntryGridContextMenuComponent } from './data-entry-grid-docs-demo-context-menu.component';
+import { AG_GRID_DEMO_DATA } from './data-entry-grid-docs-demo-data';
+import { DataEntryGridEditModalContext } from './data-entry-grid-docs-demo-edit-modal-context';
+import { DataEntryGridEditModalComponent } from './data-entry-grid-docs-demo-edit-modal.component';
 
 @Component({
   selector: 'app-data-entry-grid-docs-demo',
   templateUrl: './data-entry-grid-docs-demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyDataEntryGridDemoComponent {
-  public gridData = SKY_AG_GRID_DEMO_DATA;
-  public columnDefs: ColDef[] = [
+export class DataEntryGridDemoComponent {
+  protected gridData = AG_GRID_DEMO_DATA;
+  protected gridOptions: GridOptions;
+  protected noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
+  protected searchText = '';
+
+  #columnDefs: ColDef[] = [
     {
       field: 'selected',
       type: SkyCellType.RowSelector,
@@ -36,7 +41,7 @@ export class SkyDataEntryGridDemoComponent {
       headerName: '',
       maxWidth: 50,
       sortable: false,
-      cellRenderer: SkyDataEntryGridContextMenuComponent,
+      cellRenderer: DataEntryGridContextMenuComponent,
     },
     {
       field: 'name',
@@ -71,7 +76,7 @@ export class SkyDataEntryGridDemoComponent {
       field: 'endDate',
       headerName: 'End date',
       type: SkyCellType.Date,
-      valueFormatter: this.endDateFormatter,
+      valueFormatter: this.#endDateFormatter,
     },
     {
       field: 'department',
@@ -104,82 +109,86 @@ export class SkyDataEntryGridDemoComponent {
     },
   ];
 
-  public gridApi: GridApi | undefined;
-  public gridOptions: GridOptions;
-  public searchText = '';
-  public noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
+  #gridApi: GridApi | undefined;
 
-  constructor(
-    private agGridService: SkyAgGridService,
-    private modalService: SkyModalService,
-    private changeDetection: ChangeDetectorRef
-  ) {
-    this.gridOptions = {
-      columnDefs: this.columnDefs,
+  readonly #agGridSvc = inject(SkyAgGridService);
+  readonly #changeDetectorRef = inject(ChangeDetectorRef);
+  readonly #modalSvc = inject(SkyModalService);
+
+  constructor() {
+    const gridOptions: GridOptions = {
+      columnDefs: this.#columnDefs,
       onGridReady: (gridReadyEvent): void => this.onGridReady(gridReadyEvent),
     };
 
-    this.gridOptions = this.agGridService.getGridOptions({
-      gridOptions: this.gridOptions,
+    this.gridOptions = this.#agGridSvc.getGridOptions({
+      gridOptions,
     });
-    this.changeDetection.markForCheck();
+
+    this.#changeDetectorRef.markForCheck();
   }
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
-    this.gridApi = gridReadyEvent.api;
-    this.gridApi.sizeColumnsToFit();
-    this.changeDetection.markForCheck();
+    this.#gridApi = gridReadyEvent.api;
+    this.#gridApi.sizeColumnsToFit();
+    this.#changeDetectorRef.markForCheck();
   }
 
-  public openModal(): void {
-    const context = new SkyDataEntryGridEditModalContext();
+  protected openModal(): void {
+    const context = new DataEntryGridEditModalContext();
+
     context.gridData = this.gridData;
 
-    const options = {
-      providers: [
-        { provide: SkyDataEntryGridEditModalContext, useValue: context },
-      ],
+    const options: SkyModalConfigurationInterface = {
       ariaDescribedBy: 'docs-edit-grid-modal-content',
+      providers: [
+        {
+          provide: DataEntryGridEditModalContext,
+          useValue: context,
+        },
+      ],
       size: 'large',
     };
 
-    const modalInstance = this.modalService.open(
-      SkyDataEntryGridEditModalComponent,
+    const modalInstance = this.#modalSvc.open(
+      DataEntryGridEditModalComponent,
       options
     );
 
-    modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {
+    modalInstance.closed.subscribe((result) => {
       if (result.reason === 'cancel' || result.reason === 'close') {
         alert('Edits canceled!');
       } else {
         this.gridData = result.data;
-        if (this.gridApi) {
-          this.gridApi.refreshCells();
+
+        if (this.#gridApi) {
+          this.#gridApi.refreshCells();
         }
+
         alert('Saving data!');
       }
     });
   }
 
-  public searchApplied(searchText: string | void): void {
-    if (searchText) {
-      this.searchText = searchText;
-    } else {
-      this.searchText = '';
-    }
-    if (this.gridApi) {
-      this.gridApi.setQuickFilter(this.searchText);
-      const displayedRowCount = this.gridApi.getDisplayedRowCount();
+  protected searchApplied(searchText: string | void): void {
+    this.searchText = searchText ?? '';
+
+    if (this.#gridApi) {
+      this.#gridApi.setQuickFilter(this.searchText);
+
+      const displayedRowCount = this.#gridApi.getDisplayedRowCount();
+
       if (displayedRowCount > 0) {
-        this.gridApi.hideOverlay();
+        this.#gridApi.hideOverlay();
       } else {
-        this.gridApi.showNoRowsOverlay();
+        this.#gridApi.showNoRowsOverlay();
       }
     }
   }
 
-  private endDateFormatter(params: ValueFormatterParams): string {
+  #endDateFormatter(params: ValueFormatterParams): string {
     const dateConfig = { year: 'numeric', month: '2-digit', day: '2-digit' };
+
     return params.value
       ? params.value.toLocaleDateString('en-us', dateConfig)
       : 'N/A';

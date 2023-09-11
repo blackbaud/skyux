@@ -1,5 +1,5 @@
-import { SkyAgGridDemoRow } from './data-manager-data';
+import { AgGridDemoRow } from './data-manager-data';
 
 export class DataManagerEditModalContext {
-  public gridData: SkyAgGridDemoRow[] = [];
+  public gridData: AgGridDemoRow[] = [];
 }

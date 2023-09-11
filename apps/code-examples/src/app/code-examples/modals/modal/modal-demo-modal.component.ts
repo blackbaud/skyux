@@ -1,24 +1,27 @@
 import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyWaitService } from '@skyux/indicators';
-import { SkyModalInstance } from '@skyux/modals';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 import { ModalDemoContext } from './modal-demo-context';
 import { ModalDemoDataService } from './modal-demo-data.service';
 
 @Component({
+  standalone: true,
   selector: 'app-modal-demo-modal',
   templateUrl: './modal-demo-modal.component.html',
+  imports: [ReactiveFormsModule, SkyInputBoxModule, SkyModalModule],
 })
 export class ModalDemoModalComponent {
   protected demoForm: FormGroup<{
     value1: FormControl<string | null | undefined>;
   }>;
 
-  #instance = inject(SkyModalInstance);
-  #waitSvc = inject(SkyWaitService);
-  #context = inject(ModalDemoContext);
-  #dataSvc = inject(ModalDemoDataService);
+  readonly #context = inject(ModalDemoContext);
+  readonly #dataSvc = inject(ModalDemoDataService);
+  readonly #instance = inject(SkyModalInstance);
+  readonly #waitSvc = inject(SkyWaitService);
 
   constructor() {
     this.demoForm = new FormGroup({

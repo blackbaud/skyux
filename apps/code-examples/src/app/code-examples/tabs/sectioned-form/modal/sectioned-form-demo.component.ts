@@ -1,23 +1,19 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 
 import { SectionedFormModalDemoComponent } from './sectioned-form-modal-demo.component';
 
 @Component({
+  standalone: true,
   selector: 'app-sectioned-form-demo',
   templateUrl: './sectioned-form-demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
 })
 export class SectionedFormDemoComponent {
-  #modal: SkyModalService;
-
-  constructor(modal: SkyModalService) {
-    this.#modal = modal;
-  }
+  readonly #modalSvc = inject(SkyModalService);
 
   public openModal(): void {
-    const modalInstance = this.#modal.open(SectionedFormModalDemoComponent, {
+    const modalInstance = this.#modalSvc.open(SectionedFormModalDemoComponent, {
       size: 'large',
     });
 

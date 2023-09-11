@@ -2,18 +2,22 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import {
   SkyDataManagerService,
   SkyDataManagerState,
 } from '@skyux/data-manager';
-import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
+import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
-import { SKY_AG_GRID_DEMO_DATA } from './data-manager-data-entry-grid-docs-demo-data';
-import { SkyDataEntryGridEditModalContext } from './data-manager-data-entry-grid-docs-demo-edit-modal-context';
-import { SkyDataManagerDataEntryGridEditModalComponent } from './data-manager-data-entry-grid-docs-demo-edit-modal.component';
-import { DataManagerDataEntryGridDocsDemoFiltersModalComponent } from './data-manager-data-entry-grid-docs-demo-filter-modal.component';
+import { Subject, takeUntil } from 'rxjs';
+
+import { AG_GRID_DEMO_DATA } from './data-manager-data-entry-grid-docs-demo-data';
+import { DataEntryGridEditModalContext } from './data-manager-data-entry-grid-docs-demo-edit-modal-context';
+import { DataManagerDataEntryGridEditModalComponent } from './data-manager-data-entry-grid-docs-demo-edit-modal.component';
+import { DataManagerDataEntryGridDemoFiltersModalComponent } from './data-manager-data-entry-grid-docs-demo-filter-modal.component';
 
 @Component({
   selector: 'app-data-manager-data-entry-grid-docs-demo',
@@ -21,32 +25,14 @@ import { DataManagerDataEntryGridDocsDemoFiltersModalComponent } from './data-ma
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SkyDataManagerService],
 })
-export class SkyDataManagerDataEntryGridDemoComponent implements OnInit {
-  public items = SKY_AG_GRID_DEMO_DATA;
+export class DataManagerDataEntryGridDemoComponent
+  implements OnInit, OnDestroy
+{
+  protected items = AG_GRID_DEMO_DATA;
 
-  public activeViewId = 'dataEntryGridWithDataManagerView';
+  #activeViewId = 'dataEntryGridWithDataManagerView';
 
-  public dataState = new SkyDataManagerState({});
-
-  public dataManagerConfig = {
-    filterModalComponent: DataManagerDataEntryGridDocsDemoFiltersModalComponent,
-    sortOptions: [
-      {
-        id: 'az',
-        label: 'Name (A - Z)',
-        descending: false,
-        propertyName: 'name',
-      },
-      {
-        id: 'za',
-        label: 'Name (Z - A)',
-        descending: true,
-        propertyName: 'name',
-      },
-    ],
-  };
-
-  public defaultDataState = new SkyDataManagerState({
+  #defaultDataState = new SkyDataManagerState({
     filterData: {
       filtersApplied: false,
       filters: {
@@ -71,59 +57,84 @@ export class SkyDataManagerDataEntryGridDemoComponent implements OnInit {
     ],
   });
 
-  constructor(
-    private changeDetector: ChangeDetectorRef,
-    private dataManagerService: SkyDataManagerService,
-    private modalService: SkyModalService
-  ) {
-    this.dataManagerService
-      .getDataStateUpdates('dataEntryGridDataManager')
-      .subscribe((state) => {
-        this.dataState = state;
-        this.changeDetector.detectChanges();
-      });
-    this.dataManagerService
+  #dataManagerConfig = {
+    filterModalComponent: DataManagerDataEntryGridDemoFiltersModalComponent,
+    sortOptions: [
+      {
+        id: 'az',
+        label: 'Name (A - Z)',
+        descending: false,
+        propertyName: 'name',
+      },
+      {
+        id: 'za',
+        label: 'Name (Z - A)',
+        descending: true,
+        propertyName: 'name',
+      },
+    ],
+  };
+
+  #ngUnsubscribe = new Subject<void>();
+
+  readonly #changeDetectorRef = inject(ChangeDetectorRef);
+  readonly #dataManagerSvc = inject(SkyDataManagerService);
+  readonly #modalSvc = inject(SkyModalService);
+
+  constructor() {
+    this.#dataManagerSvc
       .getActiveViewIdUpdates()
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((activeViewId) => {
-        this.activeViewId = activeViewId;
-        this.changeDetector.detectChanges();
+        this.#activeViewId = activeViewId;
+        this.#changeDetectorRef.detectChanges();
       });
   }
 
   public ngOnInit(): void {
-    this.dataManagerService.initDataManager({
-      activeViewId: this.activeViewId,
-      dataManagerConfig: this.dataManagerConfig,
-      defaultDataState: this.defaultDataState,
+    this.#dataManagerSvc.initDataManager({
+      activeViewId: this.#activeViewId,
+      dataManagerConfig: this.#dataManagerConfig,
+      defaultDataState: this.#defaultDataState,
     });
   }
 
-  public openModal(): void {
-    const context = new SkyDataEntryGridEditModalContext();
-    context.gridData = this.items.slice();
-    this.changeDetector.markForCheck();
+  public ngOnDestroy(): void {
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
+  }
 
-    const options = {
-      providers: [
-        { provide: SkyDataEntryGridEditModalContext, useValue: context },
-      ],
+  protected openModal(): void {
+    const context = new DataEntryGridEditModalContext();
+    context.gridData = this.items.slice();
+
+    this.#changeDetectorRef.markForCheck();
+
+    const options: SkyModalConfigurationInterface = {
       ariaDescribedBy: 'docs-edit-grid-modal-content',
+      providers: [
+        {
+          provide: DataEntryGridEditModalContext,
+          useValue: context,
+        },
+      ],
       size: 'large',
     };
 
-    const modalInstance = this.modalService.open(
-      SkyDataManagerDataEntryGridEditModalComponent,
+    const modalInstance = this.#modalSvc.open(
+      DataManagerDataEntryGridEditModalComponent,
       options
     );
 
-    modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {
+    modalInstance.closed.subscribe((result) => {
       if (result.reason === 'cancel' || result.reason === 'close') {
         alert('Edits canceled!');
       } else {
         this.items = result.data;
         alert('Saving data!');
       }
-      this.changeDetector.markForCheck();
+
+      this.#changeDetectorRef.markForCheck();
     });
   }
 }

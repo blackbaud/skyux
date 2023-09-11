@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import { SkyDataManagerService } from '@skyux/data-manager';
 
 import {
   ColDef,
@@ -9,15 +10,19 @@ import {
   ValueFormatterParams,
 } from 'ag-grid-community';
 
-import { SKY_AG_GRID_DEMO_DATA } from './basic-data-grid-docs-demo-data';
+import { AG_GRID_DEMO_DATA } from './basic-data-grid-docs-demo-data';
 
 @Component({
   selector: 'app-basic-data-grid-docs-demo',
   templateUrl: './basic-data-grid-docs-demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [SkyDataManagerService],
 })
-export class SkyBasicDataGridDemoComponent {
-  public columnDefs: ColDef[] = [
+export class BasicDataGridDemoComponent {
+  protected gridData = AG_GRID_DEMO_DATA;
+  protected gridOptions: GridOptions;
+
+  #columnDefs: ColDef[] = [
     {
       field: 'name',
       headerName: 'Name',
@@ -38,7 +43,7 @@ export class SkyBasicDataGridDemoComponent {
       field: 'endDate',
       headerName: 'End date',
       type: SkyCellType.Date,
-      valueFormatter: this.endDateFormatter,
+      valueFormatter: this.#endDateFormatter,
     },
     {
       field: 'department',
@@ -52,28 +57,28 @@ export class SkyBasicDataGridDemoComponent {
     },
   ];
 
-  public gridApi: GridApi | undefined;
-  public gridData = SKY_AG_GRID_DEMO_DATA;
-  public gridOptions: GridOptions;
-  public searchText = '';
+  #gridApi: GridApi | undefined;
 
-  constructor(private agGridService: SkyAgGridService) {
-    this.gridOptions = {
-      columnDefs: this.columnDefs,
+  readonly #agGridSvc = inject(SkyAgGridService);
+
+  constructor() {
+    const gridOptions: GridOptions = {
+      columnDefs: this.#columnDefs,
       onGridReady: (gridReadyEvent): void => this.onGridReady(gridReadyEvent),
       rowSelection: 'single',
     };
-    this.gridOptions = this.agGridService.getGridOptions({
-      gridOptions: this.gridOptions,
+
+    this.gridOptions = this.#agGridSvc.getGridOptions({
+      gridOptions,
     });
   }
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
-    this.gridApi = gridReadyEvent.api;
-    this.gridApi.sizeColumnsToFit();
+    this.#gridApi = gridReadyEvent.api;
+    this.#gridApi.sizeColumnsToFit();
   }
 
-  private endDateFormatter(params: ValueFormatterParams): string {
+  #endDateFormatter(params: ValueFormatterParams): string {
     const dateConfig = { year: 'numeric', month: '2-digit', day: '2-digit' };
     return params.value
       ? params.value.toLocaleDateString('en-us', dateConfig)

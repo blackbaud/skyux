@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { SkyWaitService } from '@skyux/indicators';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
@@ -21,19 +21,9 @@ export class ModalDemoComponent implements OnDestroy {
 
   #ngUnsubscribe = new Subject<void>();
 
-  #modalSvc: SkyModalService;
-  #waitSvc: SkyWaitService;
-  #dataSvc: ModalDemoDataService;
-
-  constructor(
-    modalSvc: SkyModalService,
-    waitSvc: SkyWaitService,
-    dataSvc: ModalDemoDataService
-  ) {
-    this.#modalSvc = modalSvc;
-    this.#waitSvc = waitSvc;
-    this.#dataSvc = dataSvc;
-  }
+  readonly #dataSvc = inject(ModalDemoDataService);
+  readonly #modalSvc = inject(SkyModalService);
+  readonly #waitSvc = inject(SkyWaitService);
 
   public onOpenModalClick(): void {
     // Display a blocking wait while data is loaded from the data service.

@@ -1,7 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyWaitService } from '@skyux/indicators';
-import { SkyModalService } from '@skyux/modals';
 import { SkyModalHarness } from '@skyux/modals/testing';
 
 import { Observable, of } from 'rxjs';
@@ -39,8 +38,10 @@ describe('Basic modal', () => {
     TestBed.configureTestingModule({
       imports: [ModalDemoModule],
       providers: [
-        SkyModalService,
-        { provide: SkyWaitService, useClass: mockWaitSvc },
+        {
+          provide: SkyWaitService,
+          useClass: mockWaitSvc,
+        },
         ModalDemoDataService,
       ],
     });

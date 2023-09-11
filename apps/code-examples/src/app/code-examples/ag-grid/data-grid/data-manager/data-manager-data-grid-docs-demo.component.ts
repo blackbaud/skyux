@@ -2,15 +2,19 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import {
   SkyDataManagerService,
   SkyDataManagerState,
 } from '@skyux/data-manager';
 
-import { SKY_AG_GRID_DEMO_DATA } from './data-manager-data-grid-docs-demo-data';
-import { DataManagerDataGridDocsDemoFiltersModalComponent } from './data-manager-data-grid-docs-demo-filter-modal.component';
+import { Subject, takeUntil } from 'rxjs';
+
+import { AG_GRID_DEMO_DATA } from './data-manager-data-grid-docs-demo-data';
+import { DataManagerDataGridDemoFiltersModalComponent } from './data-manager-data-grid-docs-demo-filter-modal.component';
 
 @Component({
   selector: 'app-data-manager-data-grid-docs-demo',
@@ -18,13 +22,13 @@ import { DataManagerDataGridDocsDemoFiltersModalComponent } from './data-manager
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SkyDataManagerService],
 })
-export class SkyDataManagerDataGridDemoComponent implements OnInit {
-  public items = SKY_AG_GRID_DEMO_DATA;
+export class DataManagerDataGridDemoComponent implements OnInit, OnDestroy {
+  protected items = AG_GRID_DEMO_DATA;
 
-  public dataState = new SkyDataManagerState({});
+  #activeViewId = 'dataGridWithDataManagerView';
 
-  public dataManagerConfig = {
-    filterModalComponent: DataManagerDataGridDocsDemoFiltersModalComponent,
+  #dataManagerConfig = {
+    filterModalComponent: DataManagerDataGridDemoFiltersModalComponent,
     sortOptions: [
       {
         id: 'az',
@@ -41,7 +45,7 @@ export class SkyDataManagerDataGridDemoComponent implements OnInit {
     ],
   };
 
-  public defaultDataState = new SkyDataManagerState({
+  #defaultDataState = new SkyDataManagerState({
     filterData: {
       filtersApplied: false,
       filters: {
@@ -72,31 +76,31 @@ export class SkyDataManagerDataGridDemoComponent implements OnInit {
     ],
   });
 
-  public activeViewId = 'dataGridWithDataManagerView';
+  #ngUnsubscribe = new Subject<void>();
 
-  constructor(
-    private changeDetector: ChangeDetectorRef,
-    private dataManagerService: SkyDataManagerService
-  ) {
-    this.dataManagerService
-      .getDataStateUpdates('dataGridDataManager')
-      .subscribe((state) => {
-        this.dataState = state;
-        this.changeDetector.detectChanges();
-      });
-    this.dataManagerService
+  readonly #changeDetectorRef = inject(ChangeDetectorRef);
+  readonly #dataManagerSvc = inject(SkyDataManagerService);
+
+  constructor() {
+    this.#dataManagerSvc
       .getActiveViewIdUpdates()
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((activeViewId) => {
-        this.activeViewId = activeViewId;
-        this.changeDetector.detectChanges();
+        this.#activeViewId = activeViewId;
+        this.#changeDetectorRef.detectChanges();
       });
   }
 
   public ngOnInit(): void {
-    this.dataManagerService.initDataManager({
-      activeViewId: this.activeViewId,
-      dataManagerConfig: this.dataManagerConfig,
-      defaultDataState: this.defaultDataState,
+    this.#dataManagerSvc.initDataManager({
+      activeViewId: this.#activeViewId,
+      dataManagerConfig: this.#dataManagerConfig,
+      defaultDataState: this.#defaultDataState,
     });
+  }
+
+  public ngOnDestroy(): void {
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 }

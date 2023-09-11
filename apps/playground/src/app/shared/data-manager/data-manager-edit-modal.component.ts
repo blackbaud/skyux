@@ -22,11 +22,7 @@ import {
   NewValueParams,
 } from 'ag-grid-community';
 
-import {
-  SKY_DEPARTMENTS,
-  SKY_JOB_TITLES,
-  SkyAgGridDemoRow,
-} from './data-manager-data';
+import { AgGridDemoRow, DEPARTMENTS, JOB_TITLES } from './data-manager-data';
 import { DataManagerEditModalContext } from './data-manager-edit-modal-context';
 
 @Component({
@@ -37,7 +33,7 @@ import { DataManagerEditModalContext } from './data-manager-edit-modal-context';
 export class DataManagerEditModalComponent {
   public columnDefs: ColDef[];
   private gridApi: GridApi | undefined;
-  public gridData: SkyAgGridDemoRow[];
+  public gridData: AgGridDemoRow[];
   public gridOptions: GridOptions;
 
   constructor(
@@ -85,7 +81,7 @@ export class DataManagerEditModalComponent {
         ): { skyComponentProperties: SkyAgGridAutocompleteProperties } => {
           return {
             skyComponentProperties: {
-              data: SKY_DEPARTMENTS,
+              data: DEPARTMENTS,
               selectionChange: (
                 change: SkyAutocompleteSelectionChange
               ): void => {
@@ -118,7 +114,7 @@ export class DataManagerEditModalComponent {
 
           if (selectedDepartment) {
             editParams.skyComponentProperties.data =
-              SKY_JOB_TITLES[selectedDepartment];
+              JOB_TITLES[selectedDepartment];
           }
           return editParams;
         },
