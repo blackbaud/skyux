@@ -1,5 +1,28 @@
 # Changelog
 
+## [9.0.0-beta.0](https://github.com/blackbaud/skyux/compare/9.0.0-alpha.10...9.0.0-beta.0) (2023-09-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/phone-field:** phone numbers that are valid for a country with the same dial code as the selected country but not the selected country are now properly validated ([#1680](https://github.com/blackbaud/skyux/issues/1680))
+
+### Features
+
+* **components/modals:** make modals responsive containers ([#1682](https://github.com/blackbaud/skyux/issues/1682)) ([09ac208](https://github.com/blackbaud/skyux/commit/09ac2081aabc26af142a7478680e70388f50c48b))
+* **components/pages:** provide schematic for updating `SkyPageComponent` ([#1701](https://github.com/blackbaud/skyux/issues/1701)) ([9907c02](https://github.com/blackbaud/skyux/commit/9907c0247ceb27c65fe3065ce914f32513e15d28))
+* **components/tabs:** sectioned form styling improvements ([#1689](https://github.com/blackbaud/skyux/issues/1689)) ([8093473](https://github.com/blackbaud/skyux/commit/8093473bfcffc9599babd5ce5c5f93a3f94b166f))
+* **sdk/testing:** update axe-core peer dependency ([#1690](https://github.com/blackbaud/skyux/issues/1690)) ([c0ac54a](https://github.com/blackbaud/skyux/commit/c0ac54a1be2be64baade226e5aa8cfabd4027f76))
+
+
+### Bug Fixes
+
+* **components/data-manager:** add providers to column picker modal ([#1685](https://github.com/blackbaud/skyux/issues/1685)) ([3dd7d36](https://github.com/blackbaud/skyux/commit/3dd7d36342adae13d87bd9c97145d62c0f48adac))
+* **components/datetime:** remove vertical spacing and fix horizontal padding ([#1662](https://github.com/blackbaud/skyux/issues/1662)) ([3e99165](https://github.com/blackbaud/skyux/commit/3e9916595be6c5bb2920997c47aa11f27b0f1161))
+* **components/lookup:** fix dropdown position in Safari on iOS ([#1665](https://github.com/blackbaud/skyux/issues/1665)) ([#1691](https://github.com/blackbaud/skyux/issues/1691)) ([ceacb40](https://github.com/blackbaud/skyux/commit/ceacb401adf3fb5d5863f9f9029ea088d2b0d984))
+* **components/phone-field:** phone numbers that are valid for a country with the same dial code as the selected country but not the selected country are now properly validated ([#1680](https://github.com/blackbaud/skyux/issues/1680)) ([16ab192](https://github.com/blackbaud/skyux/commit/16ab192089464e7591e01d9d29e7b0eb3f7a7386))
+* **components/tabs:** fixed tab permalink back button behavior ([#1698](https://github.com/blackbaud/skyux/issues/1698)) ([39472f4](https://github.com/blackbaud/skyux/commit/39472f45ef2d9253341ee162170d73a25c88274f))
+
 ## [8.10.3](https://github.com/blackbaud/skyux/compare/8.10.2...8.10.3) (2023-09-08)
 
 

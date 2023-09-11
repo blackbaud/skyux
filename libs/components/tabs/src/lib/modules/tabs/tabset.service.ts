@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { TabButtonViewModel } from './tab-button-view-model';
 import { SkyTabIndex } from './tab-index';
 import { SkyTabLayoutType } from './tab-layout-type';
+import { SkyTabsetActiveTabChangeArgs } from './tabset-active-tab-change-args';
 import { SkyTabsetActiveTabUnregisteredArgs } from './tabset-active-tab-unregistered-args';
 
 /**
@@ -12,33 +13,25 @@ import { SkyTabsetActiveTabUnregisteredArgs } from './tabset-active-tab-unregist
  */
 @Injectable()
 export class SkyTabsetService implements OnDestroy {
-  public get activeTabUnregistered(): Observable<SkyTabsetActiveTabUnregisteredArgs> {
-    return this.#activeTabUnregistered;
-  }
+  public readonly activeTabUnregistered: Observable<SkyTabsetActiveTabUnregisteredArgs>;
 
-  public get activeTabIndex(): Observable<SkyTabIndex> {
-    return this.#activeTabIndex;
-  }
+  public readonly activeTabChange: Observable<SkyTabsetActiveTabChangeArgs>;
 
-  public get focusedTabBtnIndex(): Observable<SkyTabIndex> {
-    return this.#focusedTabBtnIndex;
-  }
+  public readonly focusedTabBtnIndex: Observable<SkyTabIndex>;
 
-  public get activeTabLayout(): Observable<SkyTabLayoutType> {
-    return this.#activeTabLayout;
-  }
+  public readonly activeTabLayout: Observable<SkyTabLayoutType>;
 
   public currentActiveTabIndex: SkyTabIndex | undefined = 0;
 
   public currentFocusedTabBtnIndex: SkyTabIndex = 0;
 
-  #activeTabIndex: BehaviorSubject<SkyTabIndex>;
+  #activeTabChange: BehaviorSubject<SkyTabsetActiveTabChangeArgs>;
 
   #focusedTabBtnIndex: Subject<SkyTabIndex>;
 
   #activeTabUnregistered: Subject<SkyTabsetActiveTabUnregisteredArgs>;
 
-  #activeTabLayout = new Subject<SkyTabLayoutType>();
+  #activeTabLayout: Subject<SkyTabLayoutType>;
 
   #tabs: {
     tabIndex: SkyTabIndex | undefined;
@@ -47,16 +40,24 @@ export class SkyTabsetService implements OnDestroy {
   #tabCounter = 0;
 
   constructor() {
-    this.#activeTabIndex = new BehaviorSubject<SkyTabIndex>(0);
+    this.#activeTabChange = new BehaviorSubject<SkyTabsetActiveTabChangeArgs>({
+      tabIndex: 0,
+    });
 
-    this.#activeTabUnregistered =
-      new Subject<SkyTabsetActiveTabUnregisteredArgs>();
+    this.#activeTabLayout = new Subject();
 
-    this.#focusedTabBtnIndex = new Subject<SkyTabIndex>();
+    this.#activeTabUnregistered = new Subject();
+
+    this.#focusedTabBtnIndex = new Subject();
+
+    this.activeTabChange = this.#activeTabChange.asObservable();
+    this.activeTabLayout = this.#activeTabLayout.asObservable();
+    this.activeTabUnregistered = this.#activeTabUnregistered.asObservable();
+    this.focusedTabBtnIndex = this.#focusedTabBtnIndex.asObservable();
   }
 
   public ngOnDestroy(): void {
-    this.#activeTabIndex.complete();
+    this.#activeTabChange.complete();
     this.#activeTabUnregistered.complete();
     this.#focusedTabBtnIndex.complete();
     this.#activeTabLayout.complete();
@@ -66,23 +67,23 @@ export class SkyTabsetService implements OnDestroy {
    * Sets the active tab by its unique `tabIndex` property.
    */
   public setActiveTabIndex(
-    value: SkyTabIndex | undefined,
+    value: SkyTabsetActiveTabChangeArgs,
     config = {
       emitChange: true,
     }
   ): void {
     if (
-      value !== undefined &&
-      !this.tabIndexesEqual(value, this.currentActiveTabIndex)
+      value.tabIndex !== undefined &&
+      !this.tabIndexesEqual(value.tabIndex, this.currentActiveTabIndex)
     ) {
-      this.currentActiveTabIndex = value;
+      this.currentActiveTabIndex = value.tabIndex;
 
       /* istanbul ignore else */
       if (config.emitChange) {
-        this.#activeTabIndex.next(value);
+        this.#activeTabChange.next(value);
       }
 
-      this.setFocusedTabBtnIndex(value);
+      this.setFocusedTabBtnIndex(value.tabIndex);
     }
   }
 
@@ -234,7 +235,9 @@ export class SkyTabsetService implements OnDestroy {
   public activateFirstTab(): SkyTabIndex | undefined {
     const firstTabIndex = this.#tabs[0] && this.#tabs[0].tabIndex;
     if (firstTabIndex !== undefined) {
-      this.setActiveTabIndex(firstTabIndex);
+      this.setActiveTabIndex({
+        tabIndex: firstTabIndex,
+      });
       return firstTabIndex;
     }
     return undefined;

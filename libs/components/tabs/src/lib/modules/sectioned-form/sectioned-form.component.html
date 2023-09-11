@@ -18,7 +18,10 @@
   <div
     *ngIf="maintainSectionContent || tabsVisible()"
     class="sky-sectioned-form-tabs"
-    [ngClass]="{ 'sky-sectioned-form-tabs-hidden': !tabsVisible() }"
+    [ngClass]="{
+      'sky-sectioned-form-tabs-hidden': !tabsVisible(),
+      'sky-sectioned-form-tabs-only': !tabService.contentVisible()
+    }"
     [@tabEnter]="tabService.animationTabsVisibleState"
   >
     <ng-content></ng-content>

@@ -4,10 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: 'sectioned-form',
-    loadChildren: () =>
-      import('./sectioned-form/sectioned-form.module').then(
-        (m) => m.SectionedFormModule
-      ),
+    loadChildren: () => import('./sectioned-form/routes'),
   },
   {
     path: 'tabs',
