@@ -1,23 +1,11 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
-.sky-checkbox-icon-modern {
-  display: none;
-}
-
 .sky-checkbox-icon-indeterminate {
   font-size: 14px;
 }
 
 @include mixins.sky-theme-modern {
-  .sky-checkbox-icon-default {
-    display: none;
-  }
-
-  .sky-checkbox-icon-modern {
-    display: inline;
-  }
-
   .sky-checkbox-icon-modern-checked,
   .sky-checkbox-icon-modern-indeterminate {
     color: $sky-theme-modern-background-color-primary-dark;
