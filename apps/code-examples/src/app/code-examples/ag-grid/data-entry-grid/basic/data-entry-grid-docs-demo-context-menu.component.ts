@@ -1,27 +1,30 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { SkyDropdownModule } from '@skyux/popovers';
 
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 
 @Component({
+  standalone: true,
   selector: 'app-data-entry-grid-docs-demo-context-menu',
   templateUrl: './data-entry-grid-docs-demo-context-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [SkyDropdownModule],
 })
-export class SkyDataEntryGridContextMenuComponent
+export class DataEntryGridContextMenuComponent
   implements ICellRendererAngularComp
 {
-  private name = '';
+  #name = '';
 
   public agInit(params: ICellRendererParams): void {
-    this.name = params.data && params.data.name;
+    this.#name = params.data && params.data.name;
   }
 
   public refresh(): boolean {
     return false;
   }
 
-  public actionClicked(action: string): void {
-    alert(`${action} clicked for ${this.name}`);
+  protected actionClicked(action: string): void {
+    alert(`${action} clicked for ${this.#name}`);
   }
 }

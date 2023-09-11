@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
 } from '@angular/core';
 import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 import {
@@ -28,10 +29,8 @@ export class WaterfallIndicatorDocsComponent {
     SkyProgressIndicatorMessage | SkyProgressIndicatorMessageType
   >();
 
-  constructor(
-    private changeDetector: ChangeDetectorRef,
-    private modal: SkyModalService
-  ) {}
+  readonly #changeDetectorRef = inject(ChangeDetectorRef);
+  readonly #modalSvc = inject(SkyModalService);
 
   public configureConnection(isProgress: boolean): void {
     this.openModalForm(
@@ -69,7 +68,7 @@ export class WaterfallIndicatorDocsComponent {
 
   public updateIndex(changes: SkyProgressIndicatorChange): void {
     this.activeIndex = changes.activeIndex;
-    this.changeDetector.detectChanges();
+    this.#changeDetectorRef.detectChanges();
   }
 
   public resetClicked(): void {
@@ -84,7 +83,7 @@ export class WaterfallIndicatorDocsComponent {
     context: SkyProgressIndicatorWaterfallDemoContext,
     isProgress: boolean
   ): void {
-    const modalForm = this.modal.open(
+    const modalForm = this.#modalSvc.open(
       SkyProgressIndicatorWaterfallDemoFormComponent,
       [
         {

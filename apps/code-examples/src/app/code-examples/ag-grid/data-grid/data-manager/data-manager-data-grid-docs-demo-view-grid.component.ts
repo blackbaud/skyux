@@ -3,7 +3,9 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import {
@@ -23,21 +25,29 @@ import {
   RowSelectedEvent,
   ValueFormatterParams,
 } from 'ag-grid-community';
+import { Subject, takeUntil } from 'rxjs';
 
-import { SkyAgGridDemoRow } from './data-manager-data-grid-docs-demo-data';
+import { AgGridDemoRow } from './data-manager-data-grid-docs-demo-data';
 
 @Component({
   selector: 'app-data-manager-data-grid-docs-demo-view-grid',
   templateUrl: './data-manager-data-grid-docs-demo-view-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DataManagerDataGridDocsDemoViewGridComponent implements OnInit {
+export class DataManagerDataGridDemoViewGridComponent
+  implements OnInit, OnDestroy
+{
   @Input()
-  public items: SkyAgGridDemoRow[] = [];
+  public items: AgGridDemoRow[] = [];
 
-  public viewId = 'dataGridWithDataManagerView';
+  protected displayedItems: AgGridDemoRow[] = [];
+  protected gridOptions!: GridOptions;
+  protected isGridReadyForInitialization = false;
+  protected isViewActive = false;
+  protected noRowsTemplate = `<div class="sky-deemphasized">No results found.</div>`;
+  protected viewConfig: SkyDataViewConfig;
 
-  public columnDefinitions: ColDef[] = [
+  #columnDefs: ColDef[] = [
     {
       field: 'name',
       headerName: 'Name',
@@ -58,7 +68,7 @@ export class DataManagerDataGridDocsDemoViewGridComponent implements OnInit {
       field: 'endDate',
       headerName: 'End date',
       type: SkyCellType.Date,
-      valueFormatter: this.endDateFormatter,
+      valueFormatter: this.#endDateFormatter,
     },
     {
       field: 'department',
@@ -72,7 +82,7 @@ export class DataManagerDataGridDocsDemoViewGridComponent implements OnInit {
     },
   ];
 
-  private columnPickerOptions: SkyDataManagerColumnPickerOption[] = [
+  #columnPickerOptions: SkyDataManagerColumnPickerOption[] = [
     {
       id: 'name',
       label: 'Name',
@@ -105,81 +115,86 @@ export class DataManagerDataGridDocsDemoViewGridComponent implements OnInit {
     },
   ];
 
-  public dataState = new SkyDataManagerState({});
+  #columnApi: ColumnApi | undefined;
+  #dataState = new SkyDataManagerState({});
+  #gridApi: GridApi | undefined;
+  #ngUnsubscribe = new Subject<void>();
+  #viewId = 'dataGridWithDataManagerView';
 
-  public columnApi?: ColumnApi;
-  public displayedItems: SkyAgGridDemoRow[] = [];
-  public gridApi?: GridApi;
-  public isGridReadyForInitialization = false;
-  public gridOptions!: GridOptions;
-  public noRowsTemplate = `<div class="sky-deemphasized">No results found.</div>`;
-  public isViewActive = false;
+  readonly #agGridSvc = inject(SkyAgGridService);
+  readonly #changeDetectorRef = inject(ChangeDetectorRef);
+  readonly #dataManagerSvc = inject(SkyDataManagerService);
 
-  public viewConfig: SkyDataViewConfig = {
-    id: this.viewId,
-    name: 'Data Grid View',
-    icon: 'table',
-    searchEnabled: true,
-    sortEnabled: true,
-    columnPickerEnabled: true,
-    filterButtonEnabled: true,
-    columnOptions: this.columnPickerOptions,
-  };
-
-  constructor(
-    private skyAgGridService: SkyAgGridService,
-    private changeDetector: ChangeDetectorRef,
-    private dataManagerService: SkyDataManagerService
-  ) {}
+  constructor() {
+    this.viewConfig = {
+      id: this.#viewId,
+      name: 'Data Grid View',
+      icon: 'table',
+      searchEnabled: true,
+      sortEnabled: true,
+      columnPickerEnabled: true,
+      filterButtonEnabled: true,
+      columnOptions: this.#columnPickerOptions,
+    };
+  }
 
   public ngOnInit(): void {
     this.displayedItems = this.items;
 
-    this.dataManagerService.initDataView(this.viewConfig);
+    this.#dataManagerSvc.initDataView(this.viewConfig);
 
-    this.gridOptions = this.skyAgGridService.getGridOptions({
+    this.gridOptions = this.#agGridSvc.getGridOptions({
       gridOptions: {
-        columnDefs: this.columnDefinitions,
+        columnDefs: this.#columnDefs,
         rowSelection: 'single',
         onGridReady: this.onGridReady.bind(this),
       },
     });
 
-    this.dataManagerService
-      .getDataStateUpdates(this.viewId)
+    this.#dataManagerSvc
+      .getDataStateUpdates(this.#viewId)
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((state) => {
-        this.dataState = state;
-        this.updateColumnOrder();
+        this.#dataState = state;
+        this.#updateColumnOrder();
         this.isGridReadyForInitialization = true;
-        this.updateDisplayedItems();
-        this.changeDetector.detectChanges();
+        this.#updateDisplayedItems();
+        this.#changeDetectorRef.detectChanges();
       });
 
-    this.dataManagerService.getActiveViewIdUpdates().subscribe((id) => {
-      this.isViewActive = id === this.viewId;
-      this.changeDetector.detectChanges();
-    });
+    this.#dataManagerSvc
+      .getActiveViewIdUpdates()
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((id) => {
+        this.isViewActive = id === this.#viewId;
+        this.#changeDetectorRef.detectChanges();
+      });
+  }
+
+  public ngOnDestroy(): void {
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
-    this.gridApi = gridReadyEvent.api;
-    this.gridApi.sizeColumnsToFit();
-    this.columnApi = gridReadyEvent.columnApi;
-    this.updateDisplayedItems();
+    this.#gridApi = gridReadyEvent.api;
+    this.#gridApi.sizeColumnsToFit();
+    this.#columnApi = gridReadyEvent.columnApi;
+    this.#updateDisplayedItems();
   }
 
-  public onRowSelected(rowSelectedEvent: RowSelectedEvent): void {
+  protected onRowSelected(rowSelectedEvent: RowSelectedEvent): void {
     if (!rowSelectedEvent.data.selected) {
-      this.updateDisplayedItems();
+      this.#updateDisplayedItems();
     }
   }
 
-  private searchItems(items: SkyAgGridDemoRow[]): SkyAgGridDemoRow[] {
+  #searchItems(items: AgGridDemoRow[]): AgGridDemoRow[] {
     let searchedItems = items;
-    const searchText = this.dataState && this.dataState.searchText;
+    const searchText = this.#dataState && this.#dataState.searchText;
 
     if (searchText) {
-      searchedItems = items.filter(function (item: SkyAgGridDemoRow) {
+      searchedItems = items.filter(function (item: AgGridDemoRow) {
         let property: keyof typeof item;
 
         for (property in item) {
@@ -188,24 +203,27 @@ export class DataManagerDataGridDocsDemoViewGridComponent implements OnInit {
             property === 'name'
           ) {
             const propertyText = item[property].toLowerCase();
+
             if (propertyText.indexOf(searchText) > -1) {
               return true;
             }
           }
         }
+
         return false;
       });
     }
+
     return searchedItems;
   }
 
-  private filterItems(items: SkyAgGridDemoRow[]): SkyAgGridDemoRow[] {
+  #filterItems(items: AgGridDemoRow[]): AgGridDemoRow[] {
     let filteredItems = items;
-    const filterData = this.dataState && this.dataState.filterData;
+    const filterData = this.#dataState && this.#dataState.filterData;
 
     if (filterData && filterData.filters) {
       const filters = filterData.filters;
-      filteredItems = items.filter((item: SkyAgGridDemoRow) => {
+      filteredItems = items.filter((item: AgGridDemoRow) => {
         return (
           ((filters.hideSales && item.department.name !== 'Sales') ||
             !filters.hideSales) &&
@@ -220,24 +238,25 @@ export class DataManagerDataGridDocsDemoViewGridComponent implements OnInit {
     return filteredItems;
   }
 
-  private endDateFormatter(params: ValueFormatterParams): string {
+  #endDateFormatter(params: ValueFormatterParams): string {
     const dateConfig = { year: 'numeric', month: '2-digit', day: '2-digit' };
     return params.value
       ? params.value.toLocaleDateString('en-us', dateConfig)
       : 'N/A';
   }
 
-  private updateColumnOrder(): void {
+  #updateColumnOrder(): void {
     const viewState: SkyDataViewState | undefined =
-      this.dataState.getViewStateById(this.viewId);
+      this.#dataState.getViewStateById(this.#viewId);
 
     if (viewState) {
-      this.columnDefinitions.sort((columnDefinition1, columnDefinition2) => {
+      this.#columnDefs.sort((columnDefinition1, columnDefinition2) => {
         const displayedColumnIdIndex1: number =
           viewState.displayedColumnIds.findIndex(
             (aDisplayedColumnId: string) =>
               aDisplayedColumnId === columnDefinition1.field
           );
+
         const displayedColumnIdIndex2: number =
           viewState.displayedColumnIds.findIndex(
             (aDisplayedColumnId: string) =>
@@ -252,14 +271,16 @@ export class DataManagerDataGridDocsDemoViewGridComponent implements OnInit {
           return displayedColumnIdIndex1 - displayedColumnIdIndex2;
         }
       });
-      this.changeDetector.markForCheck();
+
+      this.#changeDetectorRef.markForCheck();
     }
   }
 
-  private updateDisplayedItems(): void {
-    const sortOption = this.dataState.activeSortOption;
-    if (this.columnApi && sortOption) {
-      this.columnApi.applyColumnState({
+  #updateDisplayedItems(): void {
+    const sortOption = this.#dataState.activeSortOption;
+
+    if (this.#columnApi && sortOption) {
+      this.#columnApi.applyColumnState({
         state: [
           {
             colId: sortOption.propertyName,
@@ -269,16 +290,16 @@ export class DataManagerDataGridDocsDemoViewGridComponent implements OnInit {
       });
     }
 
-    this.displayedItems = this.filterItems(this.searchItems(this.items));
+    this.displayedItems = this.#filterItems(this.#searchItems(this.items));
 
-    if (this.dataState.onlyShowSelected) {
+    if (this.#dataState.onlyShowSelected) {
       this.displayedItems = this.displayedItems.filter((item) => item.selected);
     }
 
     if (this.displayedItems.length > 0) {
-      this.gridApi?.hideOverlay();
+      this.#gridApi?.hideOverlay();
     } else {
-      this.gridApi?.showNoRowsOverlay();
+      this.#gridApi?.showNoRowsOverlay();
     }
   }
 }

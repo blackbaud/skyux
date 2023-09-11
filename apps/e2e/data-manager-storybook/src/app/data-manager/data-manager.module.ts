@@ -1,10 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {
-  SkyDataManagerModule,
-  SkyDataManagerService,
-} from '@skyux/data-manager';
+import { SkyDataManagerModule } from '@skyux/data-manager';
 import { SkyRadioModule } from '@skyux/forms';
 
 import { DataManagerComponent } from './data-manager.component';
@@ -19,6 +16,5 @@ const routes: Routes = [{ path: '', component: DataManagerComponent }];
     SkyRadioModule,
   ],
   exports: [DataManagerComponent],
-  providers: [SkyDataManagerService],
 })
 export class DataManagerModule {}

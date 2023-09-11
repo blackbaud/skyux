@@ -14,10 +14,10 @@ import { InformationFormDemoComponent } from './information-form-demo.component'
 import { PhoneFormDemoComponent } from './phone-form-demo.component';
 
 @Component({
+  standalone: true,
   selector: 'app-sectioned-form-modal-demo',
   templateUrl: './sectioned-form-modal-demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     AddressFormDemoComponent,
     CommonModule,

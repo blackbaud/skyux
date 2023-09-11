@@ -1,13 +1,33 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { SkyCheckboxModule, SkySelectionBoxModule } from '@skyux/forms';
+import { SkyIconModule } from '@skyux/indicators';
 import { SkyLookupShowMoreCustomPickerContext } from '@skyux/lookup';
-import { SkyModalInstance } from '@skyux/modals';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 import { LookupDemoPerson } from './lookup-demo-person';
 
 @Component({
+  standalone: true,
   selector: 'app-lookup-demo-modal',
   templateUrl: './lookup-custom-picker-demo-modal.component.html',
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SkyCheckboxModule,
+    SkyIconModule,
+    SkyModalModule,
+    SkySelectionBoxModule,
+  ],
 })
 export class LookupCustomPickerDemoModalComponent {
   public peopleForm: FormGroup<{

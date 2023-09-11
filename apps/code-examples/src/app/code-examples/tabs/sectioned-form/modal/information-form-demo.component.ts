@@ -17,10 +17,10 @@ import { SkyFluidGridModule } from '@skyux/layout';
 import { SkySectionedFormService } from '@skyux/tabs';
 
 @Component({
+  standalone: true,
   selector: 'app-information-form-demo',
   templateUrl: './information-form-demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,

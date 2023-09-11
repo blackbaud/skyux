@@ -2,16 +2,19 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
 } from '@angular/core';
 import {
   SkyAgGridAutocompleteProperties,
   SkyAgGridDatepickerProperties,
+  SkyAgGridModule,
   SkyAgGridService,
   SkyCellType,
 } from '@skyux/ag-grid';
 import { SkyAutocompleteSelectionChange } from '@skyux/lookup';
-import { SkyModalInstance } from '@skyux/modals';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
+import { AgGridModule } from 'ag-grid-angular';
 import {
   ColDef,
   GridApi,
@@ -19,35 +22,37 @@ import {
   GridReadyEvent,
   ICellEditorParams,
   IRowNode,
-  NewValueParams,
 } from 'ag-grid-community';
 
 import {
-  SKY_DEPARTMENTS,
-  SKY_JOB_TITLES,
-  SkyAgGridDemoRow,
+  AgGridDemoRow,
+  DEPARTMENTS,
+  JOB_TITLES,
 } from './data-manager-data-entry-grid-docs-demo-data';
-import { SkyDataEntryGridEditModalContext } from './data-manager-data-entry-grid-docs-demo-edit-modal-context';
+import { DataEntryGridEditModalContext } from './data-manager-data-entry-grid-docs-demo-edit-modal-context';
 
 @Component({
+  standalone: true,
   selector: 'app-data-manager-data-entry-grid-docs-demo-edit-modal',
   templateUrl:
     './data-manager-data-entry-grid-docs-demo-edit-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [AgGridModule, SkyAgGridModule, SkyModalModule],
 })
-export class SkyDataManagerDataEntryGridEditModalComponent {
-  public columnDefs: ColDef[];
-  private gridApi: GridApi | undefined;
-  public gridData: SkyAgGridDemoRow[];
-  public gridOptions: GridOptions;
+export class DataManagerDataEntryGridEditModalComponent {
+  protected gridData: AgGridDemoRow[];
+  protected gridOptions: GridOptions;
 
-  constructor(
-    private agGridService: SkyAgGridService,
-    public context: SkyDataEntryGridEditModalContext,
-    public instance: SkyModalInstance,
-    private changeDetector: ChangeDetectorRef
-  ) {
-    this.columnDefs = [
+  #columnDefs: ColDef[];
+  #gridApi: GridApi | undefined;
+
+  protected readonly instance = inject(SkyModalInstance);
+  readonly #agGridService = inject(SkyAgGridService);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #context = inject(DataEntryGridEditModalContext);
+
+  constructor() {
+    this.#columnDefs = [
       {
         field: 'name',
         headerName: 'Name',
@@ -73,7 +78,11 @@ export class SkyDataManagerDataEntryGridEditModalComponent {
         cellEditorParams: (
           params: ICellEditorParams
         ): { skyComponentProperties: SkyAgGridDatepickerProperties } => {
-          return { skyComponentProperties: { minDate: params.data.startDate } };
+          return {
+            skyComponentProperties: {
+              minDate: params.data.startDate,
+            },
+          };
         },
       },
       {
@@ -86,18 +95,16 @@ export class SkyDataManagerDataEntryGridEditModalComponent {
         ): { skyComponentProperties: SkyAgGridAutocompleteProperties } => {
           return {
             skyComponentProperties: {
-              data: SKY_DEPARTMENTS,
-              selectionChange: (
-                change: SkyAutocompleteSelectionChange
-              ): void => {
-                this.departmentSelectionChange(change, params.node);
+              data: DEPARTMENTS,
+              selectionChange: (change): void => {
+                this.#departmentSelectionChange(change, params.node);
               },
             },
           };
         },
-        onCellValueChanged: (event: NewValueParams): void => {
+        onCellValueChanged: (event): void => {
           if (event.newValue !== event.oldValue) {
-            this.clearJobTitle(event.node);
+            this.#clearJobTitle(event.node);
           }
         },
       },
@@ -113,14 +120,16 @@ export class SkyDataManagerDataEntryGridEditModalComponent {
             params.data &&
             params.data.department &&
             params.data.department.name;
+
           const editParams: {
             skyComponentProperties: SkyAgGridAutocompleteProperties;
           } = { skyComponentProperties: { data: [] } };
 
           if (selectedDepartment) {
             editParams.skyComponentProperties.data =
-              SKY_JOB_TITLES[selectedDepartment];
+              JOB_TITLES[selectedDepartment];
           }
+
           return editParams;
         },
       },
@@ -146,40 +155,47 @@ export class SkyDataManagerDataEntryGridEditModalComponent {
         editable: true,
       },
     ];
-    this.gridData = this.context.gridData;
-    this.gridOptions = {
-      columnDefs: this.columnDefs,
+
+    this.gridData = this.#context.gridData;
+
+    const gridOptions: GridOptions = {
+      columnDefs: this.#columnDefs,
       onGridReady: (gridReadyEvent): void => this.onGridReady(gridReadyEvent),
     };
-    this.gridOptions = this.agGridService.getEditableGridOptions({
-      gridOptions: this.gridOptions,
+
+    this.gridOptions = this.#agGridService.getEditableGridOptions({
+      gridOptions,
     });
-    this.changeDetector.markForCheck();
+
+    this.#changeDetector.markForCheck();
   }
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
-    this.gridApi = gridReadyEvent.api;
-
-    this.gridApi.sizeColumnsToFit();
-    this.changeDetector.markForCheck();
+    this.#gridApi = gridReadyEvent.api;
+    this.#gridApi.sizeColumnsToFit();
+    this.#changeDetector.markForCheck();
   }
 
-  private departmentSelectionChange(
+  #departmentSelectionChange(
     change: SkyAutocompleteSelectionChange,
     node: IRowNode
   ): void {
     if (change.selectedItem && change.selectedItem !== node.data.department) {
-      this.clearJobTitle(node);
+      this.#clearJobTitle(node);
     }
   }
 
-  private clearJobTitle(node: IRowNode | null): void {
+  #clearJobTitle(node: IRowNode | null): void {
     if (node) {
       node.data.jobTitle = undefined;
-      if (this.gridApi) {
-        this.gridApi.refreshCells({ rowNodes: [node] });
+
+      if (this.#gridApi) {
+        this.#gridApi.refreshCells({
+          rowNodes: [node],
+        });
       }
     }
-    this.changeDetector.markForCheck();
+
+    this.#changeDetector.markForCheck();
   }
 }

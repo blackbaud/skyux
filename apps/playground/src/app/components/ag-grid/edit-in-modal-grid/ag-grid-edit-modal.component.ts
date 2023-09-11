@@ -13,11 +13,7 @@ import {
   IRowNode,
 } from 'ag-grid-community';
 
-import {
-  SKY_DEPARTMENTS,
-  SKY_JOB_TITLES,
-  SkyAgGridDemoRow,
-} from './ag-grid-demo-data';
+import { AgGridDemoRow, DEPARTMENTS, JOB_TITLES } from './ag-grid-demo-data';
 import { SkyAgGridEditModalContext } from './ag-grid-edit-modal-context';
 
 @Component({
@@ -25,7 +21,7 @@ import { SkyAgGridEditModalContext } from './ag-grid-edit-modal-context';
   templateUrl: './ag-grid-edit-modal.component.html',
 })
 export class SkyAgGridEditModalComponent implements OnInit {
-  public gridData: SkyAgGridDemoRow[];
+  public gridData: AgGridDemoRow[];
   public columnDefs: ColDef[];
   public gridOptions: GridOptions;
   public gridApi: GridApi;
@@ -73,7 +69,7 @@ export class SkyAgGridEditModalComponent implements OnInit {
         cellEditorParams: (params: ICellEditorParams) => {
           return {
             skyComponentProperties: {
-              data: SKY_DEPARTMENTS,
+              data: DEPARTMENTS,
               selectionChange: (change: SkyAutocompleteSelectionChange) => {
                 this.departmentSelectionChange(change, params.node);
               },
@@ -100,7 +96,7 @@ export class SkyAgGridEditModalComponent implements OnInit {
 
           if (selectedDepartment) {
             editParams.skyComponentProperties.data =
-              SKY_JOB_TITLES[selectedDepartment];
+              JOB_TITLES[selectedDepartment];
           }
           return editParams;
         },

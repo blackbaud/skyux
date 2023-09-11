@@ -1,16 +1,14 @@
 <sky-modal>
   <sky-modal-header> Edit employee information </sky-modal-header>
   <sky-modal-content>
-    <div id="docs-edit-grid-modal-content">
-      <sky-ag-grid-wrapper>
-        <ag-grid-angular
-          class="sky-ag-grid-editable"
-          [gridOptions]="gridOptions"
-          [rowData]="gridData"
-        >
-        </ag-grid-angular>
-      </sky-ag-grid-wrapper>
-    </div>
+    <sky-ag-grid-wrapper>
+      <ag-grid-angular
+        class="sky-ag-grid-editable"
+        [gridOptions]="gridOptions"
+        [rowData]="gridData"
+      >
+      </ag-grid-angular>
+    </sky-ag-grid-wrapper>
   </sky-modal-content>
   <sky-modal-footer>
     <button
