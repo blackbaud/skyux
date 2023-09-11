@@ -15,7 +15,18 @@
   .sky-sectioned-form-tabs {
     flex-basis: auto;
     overflow-y: visible;
-    @include mixins.sky-border(light, right);
+  }
+
+  .sky-sectioned-form-tabs + .sky-sectioned-form-content {
+    border-left: 1px solid var(--sky-border-color-neutral-medium);
+  }
+
+  .sky-sectioned-form-content {
+    padding: var(--sky-padding-even-md) var(--sky-padding-even-xl);
+  }
+
+  .sky-sectioned-form-tabs-only {
+    padding: var(--sky-padding-even-md);
   }
 }
 
@@ -27,7 +38,6 @@
 
   .sky-sectioned-form-content {
     flex-basis: 70%;
-    padding: $sky-padding-even-large;
     overflow-y: auto;
   }
 
@@ -43,18 +53,4 @@
 
 .sky-sectioned-form-content-hidden {
   display: none;
-}
-
-@include mixins.sky-theme-modern {
-  .sky-sectioned-form-content {
-    padding: $sky-theme-modern-space-md;
-  }
-  .sky-sectioned-form-tabs {
-    border-right: 1px solid $sky-theme-modern-border-color-neutral-medium;
-  }
-  @include mixins.sky-host-responsive-container-sm-min() {
-    .sky-sectioned-form-content {
-      margin: $sky-theme-modern-space-lg $sky-theme-modern-space-xl;
-    }
-  }
 }

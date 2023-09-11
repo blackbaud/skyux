@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { SectionedFormDemoComponent } from './sectioned-form-demo.component';
 
 @NgModule({
-  declarations: [SectionedFormDemoComponent],
+  imports: [SectionedFormDemoComponent],
   exports: [SectionedFormDemoComponent],
 })
 export class SectionedFormDemoModule {}

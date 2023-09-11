@@ -5,6 +5,7 @@ import {
   Component,
   ViewChild,
 } from '@angular/core';
+import { SkyIconModule } from '@skyux/indicators';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 import { SkySectionedFormComponent, SkySectionedFormModule } from '@skyux/tabs';
 
@@ -22,6 +23,7 @@ import { PhoneFormDemoComponent } from './phone-form-demo.component';
     CommonModule,
     InformationFormDemoComponent,
     PhoneFormDemoComponent,
+    SkyIconModule,
     SkyModalModule,
     SkySectionedFormModule,
   ],

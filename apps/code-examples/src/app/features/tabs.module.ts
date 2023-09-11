@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { SectionedFormDemoComponent as SectionedFormModalDemoComponent } from '../code-examples/tabs/sectioned-form/modal/sectioned-form-demo.component';
-import { SectionedFormDemoModule as SectionedFormModalSectionedFormDemoModule } from '../code-examples/tabs/sectioned-form/modal/sectioned-form-demo.module';
 import { TabsDemoComponent as TabsDynamicAddCloseTabsDemoComponent } from '../code-examples/tabs/tabs/dynamic-add-close/tabs-demo.component';
 import { TabsDemoModule as TabsDynamicAddCloseTabsDemoModule } from '../code-examples/tabs/tabs/dynamic-add-close/tabs-demo.module';
 import { TabsDemoComponent as TabsDynamicTabsDemoComponent } from '../code-examples/tabs/tabs/dynamic/tabs-demo.component';
@@ -52,7 +51,6 @@ export class TabsFeatureRoutingModule {}
 
 @NgModule({
   imports: [
-    SectionedFormModalSectionedFormDemoModule,
     TabsDynamicTabsDemoModule,
     TabsDynamicAddCloseTabsDemoModule,
     TabsStaticTabsDemoModule,

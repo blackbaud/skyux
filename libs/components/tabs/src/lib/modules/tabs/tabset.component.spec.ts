@@ -30,6 +30,7 @@ import { TabsetActiveTwoWayBindingTestComponent } from './fixtures/tabset-active
 import { TabsetActiveTestComponent } from './fixtures/tabset-active.component.fixture';
 import { MockTabsetAdapterService } from './fixtures/tabset-adapter.service.mock';
 import { TabsetLoopTestComponent } from './fixtures/tabset-loop.component.fixture';
+import { TabsetOtherPageComponent } from './fixtures/tabset-other-page.component.fixture';
 import { SkyTabsetPermalinksFixtureComponent } from './fixtures/tabset-permalinks.component.fixture';
 import { SkyWizardTestFormComponent } from './fixtures/tabset-wizard.component.fixture';
 import { TabsetTestComponent } from './fixtures/tabset.component.fixture';
@@ -85,6 +86,10 @@ describe('Tabset component', () => {
                 ],
               },
             ],
+          },
+          {
+            path: 'other-page',
+            component: TabsetOtherPageComponent,
           },
         ]),
       ],
@@ -679,7 +684,7 @@ describe('Tabset component', () => {
     expect(tabEl).toBeNull();
   }));
 
-  it('should collapse into a dropdown  on initialization', fakeAsync(() => {
+  it('should collapse into a dropdown on initialization', fakeAsync(() => {
     const fixture = TestBed.createComponent(TabsetTestComponent);
     fixture.componentInstance.tabMaxWidth = 20;
 
@@ -1786,6 +1791,31 @@ describe('Tabset component', () => {
       validateTabSelected(fixture.nativeElement, 0);
     }));
 
+    it('should not add to browser history when setting a query param on init', fakeAsync(() => {
+      const goSpy = spyOn(location, 'go');
+      const replaceStateSpy = spyOn(location, 'replaceState').and.callFake(
+        (path) => {
+          // Fake the location after `replaceState()` is called so subsequent calls to the
+          // permalink service's setParam() method don't try to navigate again.
+          spyOn(location, 'path').and.returnValue(path);
+        }
+      );
+
+      fixture.componentInstance.permalinkId = 'foobar';
+      fixture.componentInstance.activeIndex = 1;
+
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      expect(replaceStateSpy).toHaveBeenCalledOnceWith(
+        '/?foobar-active-tab=design-guidelines'
+      );
+
+      expect(goSpy).not.toHaveBeenCalled();
+    }));
+
     it('should set a query param when a tab is selected', fakeAsync(() => {
       fixture.componentInstance.permalinkId = 'foobar';
 
@@ -1998,6 +2028,25 @@ describe('Tabset component', () => {
       tick();
 
       expect(location.path()).toEqual('/example-path/example-child-path');
+    }));
+
+    it('should not remove query params when the tabset component is destroyed due to navigation', fakeAsync(() => {
+      fixture.componentInstance.activeIndex = 0;
+      fixture.componentInstance.permalinkId = 'foobar';
+      fixture.componentInstance.router.navigate([
+        'example-path',
+        'example-child-path',
+      ]);
+
+      fixture.detectChanges();
+      tick();
+
+      const goSpy = spyOn(location, 'go');
+
+      fixture.componentInstance.router.navigate(['other-page']);
+      fixture.destroy();
+
+      expect(goSpy).not.toHaveBeenCalled();
     }));
   });
 

@@ -38,6 +38,7 @@
 
 .sky-vertical-tab-display {
   display: flex;
+  justify-content: space-between;
   flex-grow: 1;
 }
 
@@ -103,5 +104,11 @@
     color: $sky-text-color-default;
     padding-left: 11px;
     border-left: 4px solid $sky-theme-modern-color-blue-74;
+  }
+}
+
+:host-context(.sky-sectioned-form-tabs-only) {
+  .sky-vertical-tab {
+    margin-left: 0;
   }
 }
