@@ -4,6 +4,7 @@ import { SkyToastInstance } from '@skyux/toast';
 import { ToastContentDemoContext } from './toast-content-demo-context';
 
 @Component({
+  standalone: true,
   selector: 'app-toast-content-demo',
   templateUrl: './toast-content-demo.component.html',
 })

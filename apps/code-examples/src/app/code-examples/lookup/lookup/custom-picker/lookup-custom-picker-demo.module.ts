@@ -1,33 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import {
-  SkyCheckboxModule,
-  SkyInputBoxModule,
-  SkySelectionBoxModule,
-} from '@skyux/forms';
-import { SkyIconModule } from '@skyux/indicators';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyLookupModule } from '@skyux/lookup';
-import { SkyModalModule } from '@skyux/modals';
 
-import { LookupCustomPickerDemoModalComponent } from './lookup-custom-picker-demo-modal.component';
 import { LookupCustomPickerDemoComponent } from './lookup-custom-picker-demo.component';
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     ReactiveFormsModule,
-    SkyCheckboxModule,
-    SkyIconModule,
     SkyInputBoxModule,
     SkyLookupModule,
-    SkyModalModule,
-    SkySelectionBoxModule,
   ],
-  declarations: [
-    LookupCustomPickerDemoComponent,
-    LookupCustomPickerDemoModalComponent,
-  ],
+  declarations: [LookupCustomPickerDemoComponent],
   exports: [LookupCustomPickerDemoComponent],
 })
 export class LookupCustomPickerDemoModule {}

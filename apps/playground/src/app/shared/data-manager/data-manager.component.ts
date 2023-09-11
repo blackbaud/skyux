@@ -10,7 +10,7 @@ import {
 } from '@skyux/data-manager';
 import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 
-import { SKY_AG_GRID_DEMO_DATA } from './data-manager-data';
+import { AG_GRID_DEMO_DATA } from './data-manager-data';
 import { DataManagerEditModalContext } from './data-manager-edit-modal-context';
 import { DataManagerEditModalComponent } from './data-manager-edit-modal.component';
 import { DataManagerFiltersModalComponent } from './data-manager-filter-modal.component';
@@ -22,7 +22,7 @@ import { DataManagerFiltersModalComponent } from './data-manager-filter-modal.co
   providers: [SkyDataManagerService],
 })
 export class DataManagerComponent implements OnInit {
-  public items = SKY_AG_GRID_DEMO_DATA;
+  public items = AG_GRID_DEMO_DATA;
 
   public activeViewId = 'dataEntryGridWithDataManagerView';
 

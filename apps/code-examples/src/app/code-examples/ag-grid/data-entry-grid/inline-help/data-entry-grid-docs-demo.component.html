@@ -3,7 +3,7 @@
     <sky-toolbar-item>
       <button
         class="sky-btn sky-btn-primary"
-        id="edit-btn"
+        type="button"
         (click)="openModal()"
       >
         Edit
@@ -11,8 +11,8 @@
     </sky-toolbar-item>
     <sky-toolbar-item>
       <sky-search
-        [searchText]="searchText"
         [debounceTime]="250"
+        [searchText]="searchText"
         (searchApply)="searchApplied($event)"
         (searchChange)="searchApplied($event)"
         (searchClear)="searchApplied($event)"
@@ -23,8 +23,8 @@
   <sky-ag-grid-wrapper>
     <ag-grid-angular
       [gridOptions]="gridOptions"
-      [rowData]="gridData"
       [overlayNoRowsTemplate]="noRowsTemplate"
+      [rowData]="gridData"
     >
     </ag-grid-angular>
   </sky-ag-grid-wrapper>

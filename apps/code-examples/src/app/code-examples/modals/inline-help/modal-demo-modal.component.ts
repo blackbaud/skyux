@@ -1,14 +1,27 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { SkyWaitService } from '@skyux/indicators';
-import { SkyModalInstance } from '@skyux/modals';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyHelpInlineModule, SkyWaitService } from '@skyux/indicators';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 import { ModalDemoContext } from './modal-demo-context';
 import { ModalDemoDataService } from './modal-demo-data.service';
 
 @Component({
+  standalone: true,
   selector: 'app-modal-demo-modal',
   templateUrl: './modal-demo-modal.component.html',
+  imports: [
+    ReactiveFormsModule,
+    SkyHelpInlineModule,
+    SkyInputBoxModule,
+    SkyModalModule,
+  ],
 })
 export class ModalDemoModalComponent {
   public demoForm: FormGroup<{

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
+  standalone: true,
   selector: 'app-flyout-demo-flyout',
   template: `
     <div class="sky-padding-even-xl">

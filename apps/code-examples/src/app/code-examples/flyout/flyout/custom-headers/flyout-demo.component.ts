@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   SkyFlyoutConfig,
   SkyFlyoutInstance,
@@ -12,39 +12,36 @@ import { FlyoutDemoFlyoutComponent } from './flyout-demo-flyout.component';
   templateUrl: './flyout-demo.component.html',
 })
 export class FlyoutDemoComponent {
-  public flyout: SkyFlyoutInstance<FlyoutDemoFlyoutComponent> | undefined;
+  #flyout: SkyFlyoutInstance<FlyoutDemoFlyoutComponent> | undefined;
 
-  #flyoutService: SkyFlyoutService;
+  readonly #flyoutSvc = inject(SkyFlyoutService);
 
-  constructor(flyoutService: SkyFlyoutService) {
-    this.#flyoutService = flyoutService;
-  }
-
-  public openFlyoutWithIterators(): void {
+  protected openFlyoutWithIterators(): void {
     const flyoutConfig: SkyFlyoutConfig = {
       ariaLabelledBy: 'flyout-title',
       ariaRole: 'dialog',
       showIterator: true,
     };
-    this.flyout = this.#flyoutService.open(
+
+    this.#flyout = this.#flyoutSvc.open(
       FlyoutDemoFlyoutComponent,
       flyoutConfig
     );
 
-    this.flyout.iteratorNextButtonClick.subscribe(() => {
+    this.#flyout.iteratorNextButtonClick.subscribe(() => {
       alert('Next iterator button clicked!');
     });
 
-    this.flyout.iteratorPreviousButtonClick.subscribe(() => {
+    this.#flyout.iteratorPreviousButtonClick.subscribe(() => {
       alert('Previous iterator button clicked!');
     });
 
-    this.flyout.closed.subscribe(() => {
-      this.flyout = undefined;
+    this.#flyout.closed.subscribe(() => {
+      this.#flyout = undefined;
     });
   }
 
-  public openFlyoutWithRoutePermalink(): void {
+  protected openFlyoutWithRoutePermalink(): void {
     const flyoutConfig: SkyFlyoutConfig = {
       ariaLabelledBy: 'flyout-title',
       ariaRole: 'dialog',
@@ -61,17 +58,18 @@ export class FlyoutDemoComponent {
         },
       },
     };
-    this.flyout = this.#flyoutService.open(
+
+    this.#flyout = this.#flyoutSvc.open(
       FlyoutDemoFlyoutComponent,
       flyoutConfig
     );
 
-    this.flyout.closed.subscribe(() => {
-      this.flyout = undefined;
+    this.#flyout.closed.subscribe(() => {
+      this.#flyout = undefined;
     });
   }
 
-  public openFlyoutWithUrlPermalink(): void {
+  protected openFlyoutWithUrlPermalink(): void {
     const flyoutConfig: SkyFlyoutConfig = {
       ariaLabelledBy: 'flyout-title',
       ariaRole: 'dialog',
@@ -80,13 +78,14 @@ export class FlyoutDemoComponent {
         url: 'http://www.blackbaud.com',
       },
     };
-    this.flyout = this.#flyoutService.open(
+
+    this.#flyout = this.#flyoutSvc.open(
       FlyoutDemoFlyoutComponent,
       flyoutConfig
     );
 
-    this.flyout.closed.subscribe(() => {
-      this.flyout = undefined;
+    this.#flyout.closed.subscribe(() => {
+      this.#flyout = undefined;
     });
   }
 }

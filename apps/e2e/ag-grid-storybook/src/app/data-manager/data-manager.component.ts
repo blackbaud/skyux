@@ -30,6 +30,7 @@ type GridSettingsType = {
   templateUrl: './data-manager.component.html',
   styleUrls: ['./data-manager.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  providers: [SkyDataManagerService],
 })
 export class DataManagerComponent implements OnInit {
   @HostBinding('class.use-normal-dom-layout')

@@ -3,10 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { SkyAgGridModule } from '@skyux/ag-grid';
-import {
-  SkyDataManagerModule,
-  SkyDataManagerService,
-} from '@skyux/data-manager';
+import { SkyDataManagerModule } from '@skyux/data-manager';
 import { SkyCheckboxModule, SkyRadioModule } from '@skyux/forms';
 
 import { AgGridModule } from 'ag-grid-angular';
@@ -30,6 +27,5 @@ const routes: Routes = [{ path: '', component: DataManagerComponent }];
     InlineHelpModule,
   ],
   exports: [DataManagerComponent],
-  providers: [SkyDataManagerService],
 })
 export class DataManagerModule {}

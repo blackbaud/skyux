@@ -24,10 +24,11 @@ export class LookupAsyncDemoComponent implements OnInit, OnDestroy {
     favoriteNames: FormControl<LookupDemoPerson[] | null>;
   }>;
 
-  #modalService = inject(SkyModalService);
   #subscriptions = new Subscription();
-  #svc = inject(LookupAsyncDemoService);
-  #waitSvc = inject(SkyWaitService);
+
+  readonly #modalSvc = inject(SkyModalService);
+  readonly #svc = inject(LookupAsyncDemoService);
+  readonly #waitSvc = inject(SkyWaitService);
 
   constructor(formBuilder: FormBuilder) {
     const names = new FormControl<LookupDemoPerson[]>([
@@ -70,7 +71,7 @@ export class LookupAsyncDemoComponent implements OnInit, OnDestroy {
   }
 
   public addClick(args: SkyLookupAddClickEventArgs): void {
-    const modal = this.#modalService.open(LookupDemoAddItemComponent);
+    const modal = this.#modalSvc.open(LookupDemoAddItemComponent);
     this.#subscriptions.add(
       modal.closed.subscribe((close: SkyModalCloseArgs) => {
         if (close.reason === 'save') {

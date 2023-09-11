@@ -6,24 +6,17 @@ import { SkyDataManagerModule } from '@skyux/data-manager';
 import { SkyCheckboxModule } from '@skyux/forms';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkySearchModule } from '@skyux/lookup';
-import { SkyModalModule } from '@skyux/modals';
 import { SkyDropdownModule } from '@skyux/popovers';
 
 import { AgGridModule } from 'ag-grid-angular';
 
-import { SkyDataManagerDataEntryGridContextMenuComponent } from './data-manager-data-entry-grid-docs-demo-context-menu.component';
-import { SkyDataManagerDataEntryGridEditModalComponent } from './data-manager-data-entry-grid-docs-demo-edit-modal.component';
-import { DataManagerDataEntryGridDocsDemoFiltersModalComponent } from './data-manager-data-entry-grid-docs-demo-filter-modal.component';
-import { DataManagerDataEntryGridDocsDemoViewGridComponent } from './data-manager-data-entry-grid-docs-demo-view-grid.component';
-import { SkyDataManagerDataEntryGridDemoComponent } from './data-manager-data-entry-grid-docs-demo.component';
+import { DataManagerDataEntryGridDemoViewGridComponent } from './data-manager-data-entry-grid-docs-demo-view-grid.component';
+import { DataManagerDataEntryGridDemoComponent } from './data-manager-data-entry-grid-docs-demo.component';
 
 @NgModule({
   declarations: [
-    SkyDataManagerDataEntryGridContextMenuComponent,
-    SkyDataManagerDataEntryGridDemoComponent,
-    SkyDataManagerDataEntryGridEditModalComponent,
-    DataManagerDataEntryGridDocsDemoFiltersModalComponent,
-    DataManagerDataEntryGridDocsDemoViewGridComponent,
+    DataManagerDataEntryGridDemoComponent,
+    DataManagerDataEntryGridDemoViewGridComponent,
   ],
   imports: [
     CommonModule,
@@ -32,11 +25,10 @@ import { SkyDataManagerDataEntryGridDemoComponent } from './data-manager-data-en
     SkySearchModule,
     AgGridModule,
     SkyAgGridModule,
-    SkyModalModule,
     SkyDropdownModule,
     SkyDataManagerModule,
     SkyCheckboxModule,
   ],
-  exports: [SkyDataManagerDataEntryGridDemoComponent],
+  exports: [DataManagerDataEntryGridDemoComponent],
 })
-export class SkyDataManagerDataEntryGridDocsDemoModule {}
+export class DataManagerDataEntryGridDemoModule {}

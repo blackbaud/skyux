@@ -1,17 +1,25 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SkyModalInstance } from '@skyux/modals';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 let nextId = 21;
 
 @Component({
+  standalone: true,
   selector: 'app-selection-modal-demo-add-item',
   templateUrl: './selection-modal-demo-add-item.component.html',
+  imports: [ReactiveFormsModule, SkyInputBoxModule, SkyModalModule],
 })
 export class SelectionModalDemoAddItemComponent {
-  public readonly formGroup: FormGroup;
+  protected readonly formGroup: FormGroup;
 
-  #modal = inject(SkyModalInstance);
+  readonly #modal = inject(SkyModalInstance);
 
   constructor() {
     this.formGroup = inject(FormBuilder).group({
@@ -20,11 +28,11 @@ export class SelectionModalDemoAddItemComponent {
     });
   }
 
-  public close() {
+  protected close(): void {
     this.#modal.close();
   }
 
-  public save() {
+  protected save(): void {
     if (this.formGroup.valid) {
       this.#modal.close(this.formGroup.value, 'save');
     } else {

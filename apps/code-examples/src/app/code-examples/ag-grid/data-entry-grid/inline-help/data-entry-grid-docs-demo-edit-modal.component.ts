@@ -2,16 +2,19 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
 } from '@angular/core';
 import {
   SkyAgGridAutocompleteProperties,
   SkyAgGridDatepickerProperties,
+  SkyAgGridModule,
   SkyAgGridService,
   SkyCellType,
 } from '@skyux/ag-grid';
 import { SkyAutocompleteSelectionChange } from '@skyux/lookup';
-import { SkyModalInstance } from '@skyux/modals';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
+import { AgGridModule } from 'ag-grid-angular';
 import {
   ColDef,
   GridApi,
@@ -19,40 +22,36 @@ import {
   GridReadyEvent,
   ICellEditorParams,
   IRowNode,
-  NewValueParams,
 } from 'ag-grid-community';
 
 import {
-  SKY_DEPARTMENTS,
-  SKY_JOB_TITLES,
-  SkyAgGridDemoRow,
+  AgGridDemoRow,
+  DEPARTMENTS,
+  JOB_TITLES,
 } from './data-entry-grid-docs-demo-data';
-import { SkyDataEntryGridEditModalContext } from './data-entry-grid-docs-demo-edit-modal-context';
+import { DataEntryGridEditModalContext } from './data-entry-grid-docs-demo-edit-modal-context';
 
 @Component({
+  standalone: true,
   selector: 'app-data-entry-grid-docs-demo-edit-modal',
   templateUrl: './data-entry-grid-docs-demo-edit-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [AgGridModule, SkyAgGridModule, SkyModalModule],
 })
-export class SkyDataEntryGridEditModalComponent {
-  public columnDefs: ColDef[];
-  public gridData: SkyAgGridDemoRow[];
-  public gridOptions: GridOptions;
+export class DataEntryGridEditModalComponent {
+  protected gridData: AgGridDemoRow[];
+  protected gridOptions: GridOptions;
 
+  #columnDefs: ColDef[];
   #gridApi: GridApi | undefined;
-  #agGridService: SkyAgGridService;
-  #changeDetector: ChangeDetectorRef;
 
-  constructor(
-    public context: SkyDataEntryGridEditModalContext,
-    public instance: SkyModalInstance,
-    agGridService: SkyAgGridService,
-    changeDetector: ChangeDetectorRef
-  ) {
-    this.#agGridService = agGridService;
-    this.#changeDetector = changeDetector;
+  protected readonly instance = inject(SkyModalInstance);
+  readonly #agGridSvc = inject(SkyAgGridService);
+  readonly #changeDetectorRef = inject(ChangeDetectorRef);
+  readonly #context = inject(DataEntryGridEditModalContext);
 
-    this.columnDefs = [
+  constructor() {
+    this.#columnDefs = [
       {
         field: 'name',
         headerName: 'Name',
@@ -115,16 +114,14 @@ export class SkyDataEntryGridEditModalComponent {
         ): { skyComponentProperties: SkyAgGridAutocompleteProperties } => {
           return {
             skyComponentProperties: {
-              data: SKY_DEPARTMENTS,
-              selectionChange: (
-                change: SkyAutocompleteSelectionChange
-              ): void => {
+              data: DEPARTMENTS,
+              selectionChange: (change): void => {
                 this.#departmentSelectionChange(change, params.node);
               },
             },
           };
         },
-        onCellValueChanged: (event: NewValueParams): void => {
+        onCellValueChanged: (event): void => {
           if (event.newValue !== event.oldValue) {
             this.#clearJobTitle(event.node);
           }
@@ -148,8 +145,9 @@ export class SkyDataEntryGridEditModalComponent {
 
           if (selectedDepartment) {
             editParams.skyComponentProperties.data =
-              SKY_JOB_TITLES[selectedDepartment];
+              JOB_TITLES[selectedDepartment];
           }
+
           return editParams;
         },
       },
@@ -175,21 +173,25 @@ export class SkyDataEntryGridEditModalComponent {
         editable: true,
       },
     ];
-    this.gridData = this.context.gridData;
-    this.gridOptions = {
-      columnDefs: this.columnDefs,
+
+    this.gridData = this.#context.gridData;
+
+    const gridOptions: GridOptions = {
+      columnDefs: this.#columnDefs,
       onGridReady: (gridReadyEvent): void => this.onGridReady(gridReadyEvent),
     };
-    this.gridOptions = this.#agGridService.getEditableGridOptions({
-      gridOptions: this.gridOptions,
+
+    this.gridOptions = this.#agGridSvc.getEditableGridOptions({
+      gridOptions,
     });
-    this.#changeDetector.markForCheck();
+
+    this.#changeDetectorRef.markForCheck();
   }
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.#gridApi = gridReadyEvent.api;
     this.#gridApi.sizeColumnsToFit();
-    this.#changeDetector.markForCheck();
+    this.#changeDetectorRef.markForCheck();
   }
 
   #departmentSelectionChange(
@@ -204,10 +206,9 @@ export class SkyDataEntryGridEditModalComponent {
   #clearJobTitle(node: IRowNode | null): void {
     if (node) {
       node.data.jobTitle = undefined;
-      this.#changeDetector.markForCheck();
-      if (this.#gridApi) {
-        this.#gridApi.refreshCells({ rowNodes: [node] });
-      }
+
+      this.#changeDetectorRef.markForCheck();
+      this.#gridApi?.refreshCells({ rowNodes: [node] });
     }
   }
 }
