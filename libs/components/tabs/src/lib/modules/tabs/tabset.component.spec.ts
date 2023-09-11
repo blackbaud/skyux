@@ -1816,6 +1816,31 @@ describe('Tabset component', () => {
       expect(goSpy).not.toHaveBeenCalled();
     }));
 
+    it('should not add to browser history when setting a query param on init and active index is not specified', fakeAsync(() => {
+      const goSpy = spyOn(location, 'go');
+      const replaceStateSpy = spyOn(location, 'replaceState').and.callFake(
+        (path) => {
+          // Fake the location after `replaceState()` is called so subsequent calls to the
+          // permalink service's setParam() method don't try to navigate again.
+          spyOn(location, 'path').and.returnValue(path);
+        }
+      );
+
+      fixture.componentInstance.permalinkId = 'foobar';
+      fixture.componentInstance.activeIndex = undefined;
+
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      expect(replaceStateSpy).toHaveBeenCalledOnceWith(
+        '/?foobar-active-tab=api'
+      );
+
+      expect(goSpy).not.toHaveBeenCalled();
+    }));
+
     it('should set a query param when a tab is selected', fakeAsync(() => {
       fixture.componentInstance.permalinkId = 'foobar';
 
