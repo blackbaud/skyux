@@ -21,7 +21,7 @@ export default function movePageComponent(): Rule {
 
       // Visit all TypeScript files in each project.
       tree.getDir(source).visit((path) => {
-        if (path.endsWith('.ts') && !path.includes('node_modules')) {
+        if (path.endsWith('.ts')) {
           // Parse the TypeScript file.
           const source = ts.createSourceFile(
             path,
@@ -31,17 +31,17 @@ export default function movePageComponent(): Rule {
           );
 
           // Find all imports of SkyPageLayoutType and SkyPageModule from @skyux/layout.
-          const componentImports = getImports(
+          const pageImports = getImports(
             source,
             new Map([['@skyux/layout', ['SkyPageLayoutType', 'SkyPageModule']]])
           );
 
           // Found one.
-          if (componentImports.length > 0) {
+          if (pageImports.length > 0) {
             // We'll need to add the dependency to @skyux/pages.
             addDependency = true;
 
-            componentImports.forEach((componentImport: ts.ImportSpecifier) => {
+            pageImports.forEach((pageImport) => {
               // Angular uses a change recorder and the magic string library.
               const insertRecorder = tree.beginUpdate(path);
 
@@ -49,7 +49,7 @@ export default function movePageComponent(): Rule {
               const change = insertImport(
                 source,
                 path,
-                componentImport.getText(),
+                pageImport.getText(),
                 '@skyux/pages'
               ) as InsertChange;
               insertRecorder.insertRight(change.pos, change.toAdd);
@@ -60,11 +60,10 @@ export default function movePageComponent(): Rule {
               const removeRecorder = tree.beginUpdate(path);
 
               // Is anything else imported from @skyux/layout?
-              if (componentImport.parent.elements.length > 1) {
+              if (pageImport.parent.elements.length > 1) {
                 // Yes. Remove only one named import.
-                const index = componentImport.parent.elements.findIndex(
-                  (element) =>
-                    element.name.getText() === componentImport.getText()
+                const index = pageImport.parent.elements.findIndex(
+                  (element) => element.name.getText() === pageImport.getText()
                 );
 
                 // Find the start and end of the import.
@@ -74,25 +73,21 @@ export default function movePageComponent(): Rule {
                   // Not the first import.
                   // Remove text from the end of the previous import to the end of the import.
                   importStart = (
-                    componentImport.parent.elements.at(
+                    pageImport.parent.elements.at(
                       index - 1
                     ) as ts.ImportSpecifier
                   ).getEnd();
                   importEnd = (
-                    componentImport.parent.elements.at(
-                      index
-                    ) as ts.ImportSpecifier
+                    pageImport.parent.elements.at(index) as ts.ImportSpecifier
                   ).getEnd();
                 } else {
                   // First import.
                   // Remove text from the start of the import to the start of the next import.
                   importStart = (
-                    componentImport.parent.elements.at(
-                      index
-                    ) as ts.ImportSpecifier
+                    pageImport.parent.elements.at(index) as ts.ImportSpecifier
                   ).getStart();
                   importEnd = (
-                    componentImport.parent.elements.at(
+                    pageImport.parent.elements.at(
                       index + 1
                     ) as ts.ImportSpecifier
                   ).getStart();
@@ -102,7 +97,7 @@ export default function movePageComponent(): Rule {
                 removeRecorder.remove(importStart, importEnd - importStart);
               } else {
                 // No. Remove the whole import declaration.
-                const importDeclaration = componentImport.parent.parent.parent;
+                const importDeclaration = pageImport.parent.parent.parent;
                 removeRecorder.remove(
                   importDeclaration.getFullStart(),
                   importDeclaration.getFullWidth()
@@ -113,12 +108,10 @@ export default function movePageComponent(): Rule {
               tree.commitUpdate(removeRecorder);
             });
           }
-        } else if (
-          path.endsWith('.component.html') &&
-          !path.includes('node_modules')
-        ) {
+        } else if (path.endsWith('.component.html')) {
           // Update <sky-page layout="auto"> to remove the layout attribute.
           const content = tree.readText(path);
+          // Based on code search, any use of `layout="auto"` matches this pattern.
           const search = '<sky-page layout="auto"';
           const skyPageIndex = content.indexOf(search);
           if (skyPageIndex > -1) {
