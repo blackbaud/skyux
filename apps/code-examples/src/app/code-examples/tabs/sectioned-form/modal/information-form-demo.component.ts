@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -5,16 +6,28 @@ import {
   OnInit,
 } from '@angular/core';
 import {
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyStatusIndicatorModule } from '@skyux/indicators';
+import { SkyFluidGridModule } from '@skyux/layout';
 import { SkySectionedFormService } from '@skyux/tabs';
 
 @Component({
   selector: 'app-information-form-demo',
   templateUrl: './information-form-demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    SkyInputBoxModule,
+    SkyFluidGridModule,
+    SkyStatusIndicatorModule,
+  ],
 })
 export class InformationFormDemoComponent implements OnInit {
   public id = '5324901';

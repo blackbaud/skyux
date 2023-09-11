@@ -4,5 +4,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   selector: 'app-phone-form-demo',
   templateUrl: './phone-form-demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class PhoneFormDemoComponent {}

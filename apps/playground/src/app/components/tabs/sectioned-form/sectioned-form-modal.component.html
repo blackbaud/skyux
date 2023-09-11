@@ -1,18 +1,15 @@
 <sky-modal>
+  <sky-modal-header> Sectioned form </sky-modal-header>
   <sky-modal-content>
     <form>
       <sky-sectioned-form [maintainSectionContent]="maintainSectionContent">
         <div>
-          <sky-sectioned-form-section heading="Basic information">
+          <sky-sectioned-form-section active="true" heading="Basic information">
             <app-sectioned-form-information-form-demo>
             </app-sectioned-form-information-form-demo>
           </sky-sectioned-form-section>
         </div>
-        <sky-sectioned-form-section
-          active="true"
-          heading="Addresses"
-          itemCount="2"
-        >
+        <sky-sectioned-form-section heading="Addresses" itemCount="2">
           <app-sectioned-form-address-form-demo></app-sectioned-form-address-form-demo>
         </sky-sectioned-form-section>
         <sky-sectioned-form-section heading="Phone numbers" itemCount="3">
@@ -24,4 +21,29 @@
       </sky-sectioned-form>
     </form>
   </sky-modal-content>
+  <sky-modal-footer>
+    <button
+      *ngIf="tabsHidden()"
+      class="sky-btn sky-btn-default"
+      type="button"
+      (click)="showTabs()"
+    >
+      <sky-icon icon="chevron-left" />
+      Show sections
+    </button>
+    <button
+      class="sky-btn sky-btn-primary"
+      type="button"
+      (click)="modalInstance.save()"
+    >
+      Save
+    </button>
+    <button
+      class="sky-btn sky-btn-link"
+      type="button"
+      (click)="modalInstance.cancel()"
+    >
+      Cancel
+    </button>
+  </sky-modal-footer>
 </sky-modal>

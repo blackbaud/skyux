@@ -7,6 +7,7 @@ import { SectionedFormModalDemoComponent } from './sectioned-form-modal-demo.com
   selector: 'app-sectioned-form-demo',
   templateUrl: './sectioned-form-demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class SectionedFormDemoComponent {
   #modal: SkyModalService;
