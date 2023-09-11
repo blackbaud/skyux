@@ -750,7 +750,7 @@ describe('Modal component', () => {
   }));
 
   it('should contain responsive size class', fakeAsync(() => {
-    const modalInstance = openModal(ModalTestComponent, { size: 'medium' });
+    const modalInstance = openModal(ModalTestComponent);
 
     expect(document.querySelector('.sky-responsive-container-xs')).toExist();
 
