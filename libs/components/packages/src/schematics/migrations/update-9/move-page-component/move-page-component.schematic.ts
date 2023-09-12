@@ -1,7 +1,7 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
-import { insertImport } from '@schematics/angular/utility/ast-utils';
+import { findNodes, insertImport } from '@schematics/angular/utility/ast-utils';
 import { InsertChange } from '@schematics/angular/utility/change';
 import {
   NodeDependencyType,
@@ -9,8 +9,15 @@ import {
   getPackageJsonDependency,
 } from '@schematics/angular/utility/dependencies';
 
-import { getImports } from '../../../utility/typescript/imports';
 import { getWorkspace } from '../../../utility/workspace';
+
+function getImportNames(importDeclaration: ts.ImportDeclaration): string[] {
+  return (
+    importDeclaration.importClause?.namedBindings as ts.NamedImports
+  ).elements
+    .map((element) => element.name.getText())
+    .sort();
+}
 
 export default function movePageComponent(): Rule {
   return async (tree: Tree, context: SchematicContext) => {
@@ -31,9 +38,21 @@ export default function movePageComponent(): Rule {
           );
 
           // Find all imports of SkyPageLayoutType and SkyPageModule from @skyux/layout.
-          const pageImports = getImports(
+          const importsToMove = ['SkyPageLayoutType', 'SkyPageModule'];
+          const pageImports = findNodes<ts.ImportDeclaration>(
             source,
-            new Map([['@skyux/layout', ['SkyPageLayoutType', 'SkyPageModule']]])
+            (node): node is ts.ImportDeclaration => {
+              return (
+                ts.isImportDeclaration(node) &&
+                ts.isStringLiteral(node.moduleSpecifier) &&
+                node.moduleSpecifier.text.startsWith('@skyux/layout') &&
+                !!node.importClause?.namedBindings &&
+                ts.isNamedImports(node.importClause.namedBindings) &&
+                node.importClause.namedBindings.elements.some((element) =>
+                  importsToMove.includes(element.name.getText())
+                )
+              );
+            }
           );
 
           // Found one.
@@ -41,72 +60,62 @@ export default function movePageComponent(): Rule {
             // We'll need to add the dependency to @skyux/pages.
             addDependency = true;
 
-            pageImports.forEach((pageImport) => {
-              // Angular uses a change recorder and the magic string library.
-              const insertRecorder = tree.beginUpdate(path);
+            // Angular uses a change recorder and the magic string library.
+            const updateRecorder = tree.beginUpdate(path);
+            const importsToAdd = pageImports
+              .map((pageImport) =>
+                getImportNames(pageImport).filter((importName) =>
+                  importsToMove.includes(importName)
+                )
+              )
+              .flat();
 
-              // Add the new import.
-              const change = insertImport(
-                source,
-                path,
-                pageImport.getText(),
-                '@skyux/pages'
-              ) as InsertChange;
-              insertRecorder.insertRight(change.pos, change.toAdd);
-
-              // Commit the update.
-              tree.commitUpdate(insertRecorder);
-
-              const removeRecorder = tree.beginUpdate(path);
-
+            pageImports.forEach((importToUpdate: ts.ImportDeclaration) => {
+              const otherImports = getImportNames(importToUpdate).filter(
+                (importName) => !importsToMove.includes(importName)
+              );
               // Is anything else imported from @skyux/layout?
-              if (pageImport.parent.elements.length > 1) {
-                // Yes. Remove only one named import.
-                const index = pageImport.parent.elements.findIndex(
-                  (element) => element.name.getText() === pageImport.getText()
+              if (
+                otherImports.length > 0 &&
+                importToUpdate.importClause?.namedBindings
+              ) {
+                // Yes. Update the import.
+                updateRecorder.remove(
+                  importToUpdate.importClause.namedBindings.getStart(),
+                  importToUpdate.importClause.namedBindings.getWidth()
                 );
-
-                // Find the start and end of the import.
-                let importStart: number;
-                let importEnd: number;
-                if (index > 0) {
-                  // Not the first import.
-                  // Remove text from the end of the previous import to the end of the import.
-                  importStart = (
-                    pageImport.parent.elements.at(
-                      index - 1
-                    ) as ts.ImportSpecifier
-                  ).getEnd();
-                  importEnd = (
-                    pageImport.parent.elements.at(index) as ts.ImportSpecifier
-                  ).getEnd();
-                } else {
-                  // First import.
-                  // Remove text from the start of the import to the start of the next import.
-                  importStart = (
-                    pageImport.parent.elements.at(index) as ts.ImportSpecifier
-                  ).getStart();
-                  importEnd = (
-                    pageImport.parent.elements.at(
-                      index + 1
-                    ) as ts.ImportSpecifier
-                  ).getStart();
-                }
-
-                // Remove the import.
-                removeRecorder.remove(importStart, importEnd - importStart);
+                updateRecorder.insertLeft(
+                  importToUpdate.importClause.namedBindings.getStart(),
+                  `{ ${otherImports.join(', ')} }`
+                );
               } else {
                 // No. Remove the whole import declaration.
-                const importDeclaration = pageImport.parent.parent.parent;
-                removeRecorder.remove(
-                  importDeclaration.getFullStart(),
-                  importDeclaration.getFullWidth()
+                updateRecorder.remove(
+                  importToUpdate.getFullStart(),
+                  importToUpdate.getFullWidth()
                 );
               }
-
-              // Commit the update.
-              tree.commitUpdate(removeRecorder);
             });
+
+            // Commit the update and parse the file again.
+            tree.commitUpdate(updateRecorder);
+
+            // Add the new import.
+            const updatedSource = ts.createSourceFile(
+              path,
+              tree.readText(path),
+              ts.ScriptTarget.Latest,
+              true
+            );
+            const recorder = tree.beginUpdate(path);
+            const change = insertImport(
+              updatedSource,
+              path,
+              importsToAdd.join(', '),
+              '@skyux/pages'
+            ) as InsertChange;
+            recorder.insertLeft(change.pos, change.toAdd);
+            tree.commitUpdate(recorder);
           }
         } else if (path.endsWith('.component.html')) {
           // Update <sky-page layout="auto"> to remove the layout attribute.
