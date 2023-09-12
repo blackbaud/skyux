@@ -1,26 +1,57 @@
-import { Rule, chain } from '@angular-devkit/schematics';
+import { Rule, Tree, chain } from '@angular-devkit/schematics';
+import * as ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
+import { findNodes } from '@schematics/angular/utility/ast-utils';
 import { NodeDependencyType } from '@schematics/angular/utility/dependencies';
+import { getWorkspace } from '@schematics/angular/utility/workspace';
 
 import { ensurePeersInstalled } from '../../../rules/ensure-peers-installed';
-import { readRequiredFile } from '../../../utility/tree';
-import { getWorkspace } from '../../../utility/workspace';
+
+const OLD_PACKAGE = '@circlon/angular-tree-component';
+const NEW_PACKAGE = '@blackbaud/angular-tree-component';
 
 function renameTypeScriptImportPaths(): Rule {
-  return async (tree) => {
-    const { workspace } = await getWorkspace(tree);
+  return async (tree: Tree) => {
+    const workspace = await getWorkspace(tree);
 
     for (const [, projectDefinition] of workspace.projects.entries()) {
       tree.getDir(projectDefinition.root).visit((filePath) => {
         if (filePath.match(/\.ts$/)) {
-          const content = readRequiredFile(tree, filePath);
-
-          const updatedContent = content.replace(
-            /import {\s*(?:\w|,|\s)+\s*} from ['"](@circlon)\/angular-tree-component(?:\w|\/)*['"];/g,
-            (match, importPath) => match.replace(importPath, '@blackbaud')
+          const source = ts.createSourceFile(
+            filePath,
+            tree.readText(filePath),
+            ts.ScriptTarget.Latest,
+            true
           );
-
-          if (updatedContent !== content) {
-            tree.overwrite(filePath, updatedContent);
+          const oldImports = findNodes<ts.ImportDeclaration>(
+            source,
+            (node): node is ts.ImportDeclaration =>
+              ts.isImportDeclaration(node) &&
+              ts.isStringLiteral(node.moduleSpecifier) &&
+              node.moduleSpecifier.text.startsWith(OLD_PACKAGE)
+          );
+          if (oldImports.length > 0) {
+            const recorder = tree.beginUpdate(filePath);
+            oldImports.forEach((node) => {
+              const moduleSpecifier = node.moduleSpecifier as ts.StringLiteral;
+              recorder.remove(
+                moduleSpecifier.getStart() + 1,
+                OLD_PACKAGE.length
+              );
+              recorder.insertLeft(moduleSpecifier.getStart() + 1, NEW_PACKAGE);
+            });
+            tree.commitUpdate(recorder);
+          }
+        } else if (filePath.match(/\.s?css$/)) {
+          const content = tree.readText(filePath);
+          let pos = content.indexOf(OLD_PACKAGE);
+          if (pos > -1) {
+            const recorder = tree.beginUpdate(filePath);
+            do {
+              recorder.remove(pos, OLD_PACKAGE.length);
+              recorder.insertLeft(pos, NEW_PACKAGE);
+              pos = content.indexOf(OLD_PACKAGE, pos + 1);
+            } while (pos > -1);
+            tree.commitUpdate(recorder);
           }
         }
       });
