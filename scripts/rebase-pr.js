@@ -32,6 +32,8 @@ function rebasePullRequest() {
 
     console.log(` - Target branch: ${targetBranch}`);
 
+    exec('git config user.name "blackbaud-sky-build-user"');
+    exec('git config user.email "sky-build-user@blackbaud.com"');
     exec(`git merge --no-commit origin/${targetBranch}`);
 
     console.log(`Updated current branch with ${targetBranch}.`);
