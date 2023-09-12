@@ -1129,7 +1129,7 @@ describe('Dropdown component', function () {
   });
 
   describe('accessibility', function () {
-    it('should set default ARIA attributes', fakeAsync(() => {
+    it('should set default ARIA attributes - standard dropdown', fakeAsync(() => {
       detectChangesFakeAsync();
       const button = getButtonElement();
 
@@ -1142,7 +1142,28 @@ describe('Dropdown component', function () {
       expect(button?.getAttribute('aria-haspopup')).toEqual(
         menu?.getAttribute('role')
       );
-      expect(button?.getAttribute('aria-label')).toEqual('Context menu');
+      expect(button?.getAttribute('aria-label')).toBeNull();
+      expect(button?.getAttribute('aria-expanded')).toEqual('true');
+      expect(menu?.getAttribute('role')).toEqual('menu');
+      expect(menu?.getAttribute('aria-labelledby')).toBeNull();
+      expect(item?.getAttribute('role')).toEqual('menuitem');
+    }));
+
+    it('should set default ARIA attributes - context menu', fakeAsync(() => {
+      fixture.componentInstance.buttonType = 'context-menu';
+      detectChangesFakeAsync();
+      const button = getButtonElement();
+
+      button?.click();
+      detectChangesFakeAsync();
+
+      const menu = getMenuElement();
+      const item = getFirstMenuItem();
+
+      expect(button?.getAttribute('aria-haspopup')).toEqual(
+        menu?.getAttribute('role')
+      );
+      expect(button?.getAttribute('aria-label')).toBe('Context menu');
       expect(button?.getAttribute('aria-expanded')).toEqual('true');
       expect(menu?.getAttribute('role')).toEqual('menu');
       expect(menu?.getAttribute('aria-labelledby')).toBeNull();

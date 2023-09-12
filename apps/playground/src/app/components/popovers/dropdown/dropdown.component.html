@@ -31,6 +31,24 @@
   </sky-dropdown>
   <br />
 
+  <sky-dropdown label="Filter">
+    <sky-dropdown-button
+      ><sky-icon icon="filter"></sky-icon
+    ></sky-dropdown-button>
+    <sky-dropdown-menu>
+      <sky-dropdown-item *ngFor="let item of items">
+        <button
+          type="button"
+          [attr.disabled]="item.disabled ? '' : null"
+          (click)="actionClicked(item.name)"
+        >
+          {{ item.name }}
+        </button>
+      </sky-dropdown-item>
+    </sky-dropdown-menu>
+  </sky-dropdown>
+  <br />
+
   <button
     class="sky-btn sky-btn-primary"
     type="button"

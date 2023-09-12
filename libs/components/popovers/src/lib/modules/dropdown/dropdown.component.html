@@ -6,7 +6,10 @@
     [attr.aria-controls]="isOpen ? menuId : null"
     [attr.aria-haspopup]="menuAriaRole"
     [attr.aria-label]="
-      label || ('skyux_dropdown_context_menu_default_label' | skyLibResources)
+      label ||
+      (buttonType === 'context-menu'
+        ? ('skyux_dropdown_context_menu_default_label' | skyLibResources)
+        : undefined)
     "
     [attr.title]="title"
     [disabled]="disabled"
