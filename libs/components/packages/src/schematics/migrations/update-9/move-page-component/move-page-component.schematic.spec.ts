@@ -80,6 +80,72 @@ describe('MovePageComponentSchematic', () => {
     ).toEqual('0.0.0');
   });
 
+  it('should update import among multiple import blocks', async () => {
+    const { tree, project, runner } = await setupTest();
+    addPackageJsonDependency(tree, {
+      type: NodeDependencyType.Default,
+      name: '@skyux/layout',
+      version: '0.0.0',
+    });
+    tree.create(
+      `${project.sourceRoot}/app/custom.module.ts`,
+      `import { SkyIdModule, SkyNumericModule } from '@skyux/core';
+      import {
+        SkyDataManagerModule,
+        SkyDataManagerService,
+      } from '@skyux/data-manager';
+      import { SkyDateRangePickerModule } from '@skyux/datetime';
+      import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
+      import {
+        SkyIconModule,
+        SkyKeyInfoModule,
+        SkyTokensModule,
+        SkyWaitModule,
+      } from '@skyux/indicators';
+      import {
+        SkyDescriptionListModule,
+        SkyPageSummaryModule,
+        SkyToolbarModule,
+      } from '@skyux/layout';
+      import { SkyPagingModule } from '@skyux/lists';
+      import { SkySearchModule, SkyLookupModule } from '@skyux/lookup';
+      import { SkyModalModule } from '@skyux/modals';
+      import { SkyPageHeaderModule } from '@skyux/pages';
+      import { SkyPageModule } from '@skyux/layout';
+      import { AgGridModule } from 'ag-grid-angular';`
+    );
+    const result = await runner.runSchematic('move-page-component', {}, tree);
+    expect(result.readContent(`${project.sourceRoot}/app/custom.module.ts`))
+      .toMatchInlineSnapshot(`
+      "import { SkyIdModule, SkyNumericModule } from '@skyux/core';
+            import {
+              SkyDataManagerModule,
+              SkyDataManagerService,
+            } from '@skyux/data-manager';
+            import { SkyDateRangePickerModule } from '@skyux/datetime';
+            import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
+            import {
+              SkyIconModule,
+              SkyKeyInfoModule,
+              SkyTokensModule,
+              SkyWaitModule,
+            } from '@skyux/indicators';
+            import {
+              SkyDescriptionListModule,
+              SkyPageSummaryModule,
+              SkyToolbarModule,
+            } from '@skyux/layout';
+            import { SkyPagingModule } from '@skyux/lists';
+            import { SkySearchModule, SkyLookupModule } from '@skyux/lookup';
+            import { SkyModalModule } from '@skyux/modals';
+            import { SkyPageHeaderModule, SkyPageModule } from '@skyux/pages';
+            import { AgGridModule } from 'ag-grid-angular';"
+    `);
+    expect(
+      (result.readJson('package.json') as any).dependencies['@skyux/pages']
+    ).toEqual('0.0.0');
+  });
+
   it('should update multiple import', async () => {
     const { tree, project, runner } = await setupTest();
     addPackageJsonDependency(tree, {
@@ -205,10 +271,7 @@ describe('MovePageComponentSchematic', () => {
     expect(result.readContent(`${project.sourceRoot}/app/custom.module.ts`))
       .toMatchInlineSnapshot(`
       "import { NgModule } from '@angular/core';
-      import {
-      SkyActionButtonPermalink,
-      SkyTextExpandRepeaterListStyleType,
-      } from '@skyux/layout';
+      import { SkyActionButtonPermalink, SkyTextExpandRepeaterListStyleType } from '@skyux/layout';
       import { SkyPageModule } from '@skyux/pages';
 
       @NgModule({
