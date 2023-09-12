@@ -41,6 +41,7 @@ export class SkyTabsetService implements OnDestroy {
 
   constructor() {
     this.#activeTabChange = new BehaviorSubject<SkyTabsetActiveTabChangeArgs>({
+      initial: true,
       tabIndex: 0,
     });
 

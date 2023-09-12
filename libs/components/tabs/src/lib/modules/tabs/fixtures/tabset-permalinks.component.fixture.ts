@@ -8,7 +8,7 @@ import { SkyTabIndex } from '../tab-index';
   templateUrl: './tabset-permalinks.component.fixture.html',
 })
 export class SkyTabsetPermalinksFixtureComponent {
-  public activeIndex: SkyTabIndex = 0;
+  public activeIndex: SkyTabIndex | undefined = 0;
 
   public permalinkId: string | undefined;
 
