@@ -79,7 +79,12 @@ describe('Migrations > Update angular-tree-component dependency', () => {
         FooService,
         BarService
       } from '@circlon/angular-tree-component';
+      import * as angularTreeComponent from '@circlon/angular-tree-component';
       `
+    );
+    tree.create(
+      '/src/app/app.component.css',
+      `@import 'node_modules/@circlon/angular-tree-component/css/angular-tree-component';`
     );
 
     await runSchematic();
@@ -91,6 +96,10 @@ describe('Migrations > Update angular-tree-component dependency', () => {
         FooService,
         BarService
       } from '@blackbaud/angular-tree-component';
+      import * as angularTreeComponent from '@blackbaud/angular-tree-component';
       `);
+    expect(tree.readText('/src/app/app.component.css')).toEqual(
+      `@import 'node_modules/@blackbaud/angular-tree-component/css/angular-tree-component';`
+    );
   });
 });
