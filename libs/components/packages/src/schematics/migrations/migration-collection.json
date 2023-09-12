@@ -39,6 +39,11 @@
       "version": "9.0.0-0",
       "factory": "./update-9/move-page-component/move-page-component.schematic",
       "description": "Move SkyPageComponent from @skyux/layout to @skyux/pages."
+    },
+    "rxjs-operators": {
+      "version": "9.0.0-0",
+      "factory": "./update-9/rxjs-operators/rxjs-operators.schematic",
+      "description": "Update RxJS operator imports"
     }
   }
 }
