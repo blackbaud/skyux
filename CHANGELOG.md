@@ -1,5 +1,21 @@
 # Changelog
 
+## [9.0.0-beta.1](https://github.com/blackbaud/skyux/compare/9.0.0-beta.0...9.0.0-beta.1) (2023-09-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/popovers:** dropdown menu buttons only specify a default aria-label when configured to be a context menu ([#1712](https://github.com/blackbaud/skyux/issues/1712))
+
+### Bug Fixes
+
+* **code-examples:** use standalone components when opened by modal and flyout services ([#1696](https://github.com/blackbaud/skyux/issues/1696)) ([fa572e6](https://github.com/blackbaud/skyux/commit/fa572e6e24a154a4e909a93b10cebff1758af17a))
+* **components/angular-tree-component:** node expansion button uses the node name as its aria-label ([#1711](https://github.com/blackbaud/skyux/issues/1711)) ([fbe39bb](https://github.com/blackbaud/skyux/commit/fbe39bb358fe09a2dc1dccdd417430af1fbf3a3d))
+* **components/angular-tree-component:** update schematic to work in more cases ([#1708](https://github.com/blackbaud/skyux/issues/1708)) ([ee1e252](https://github.com/blackbaud/skyux/commit/ee1e252a0a6b5343cb6effe25fc8a2f72b7dfd01))
+* **components/pages:** update schematic to handle more cases ([#1709](https://github.com/blackbaud/skyux/issues/1709)) ([e868e08](https://github.com/blackbaud/skyux/commit/e868e08208b0f4e9a4ce58363d44f557a73e2fa2))
+* **components/popovers:** dropdown menu buttons only specify a default aria-label when configured to be a context menu ([#1712](https://github.com/blackbaud/skyux/issues/1712)) ([cfa4e18](https://github.com/blackbaud/skyux/commit/cfa4e188d7dc23d2081ae1cacd996304bae20092))
+* **components/tabs:** use `replaceState()` for default tab permalink ([#1705](https://github.com/blackbaud/skyux/issues/1705)) ([3c1a0ab](https://github.com/blackbaud/skyux/commit/3c1a0ab4cadce05efe9b136849dc7ff01f5030fc))
+
 ## [9.0.0-beta.0](https://github.com/blackbaud/skyux/compare/9.0.0-alpha.10...9.0.0-beta.0) (2023-09-11)
 
 
