@@ -71,8 +71,8 @@
 
 ### Deprecations
 
-* **components/indicators:** deprecate icon `iconType` input ([#1659](https://github.com/blackbaud/skyux/issues/1659)) ([af1e3fa](https://github.com/blackbaud/skyux/commit/af1e3fa02edd4ff5fab6d3f3981ad93f453e05c0))
-* **components/lookup:** inputs to set autcomplete HTML attributes on the autocomplete, lookup, and country field components have been deprecated ([#1668](https://github.com/blackbaud/skyux/issues/1668)) ([464fe29](https://github.com/blackbaud/skyux/commit/464fe29986a493ba69efb61e26821e52186a8b49))
+* **components/indicators:** deprecate icon `iconType` input ([#1659](https://github.com/blackbaud/skyux/issues/1659)) ([af1e3fa](https://github.com/blackbaud/skyux/commit/af1e3fa02edd4ff5fab6d3f3981ad93f453e05c0)) SKY UX icons will be used by default and Font Awesome icons will be used as a fallback.
+* **components/lookup:** inputs to set autcomplete HTML attributes on the autocomplete, lookup, and country field components have been deprecated ([#1668](https://github.com/blackbaud/skyux/issues/1668)) ([464fe29](https://github.com/blackbaud/skyux/commit/464fe29986a493ba69efb61e26821e52186a8b49)) By default, browser autocomplete is turned off for these fields, and the ability to override that setting will be removed in a future version.
 
 ## [9.0.0-beta.1](https://github.com/blackbaud/skyux/compare/9.0.0-beta.0...9.0.0-beta.1) (2023-09-12)
 
