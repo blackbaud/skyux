@@ -5,7 +5,8 @@
 
 ### ⚠ BREAKING CHANGES
 
-* support Angular 16 ([#1525](https://github.com/blackbaud/skyux/issues/1525))
+* **support Angular 16** ([#1525](https://github.com/blackbaud/skyux/issues/1525))
+* **refactor services provided in "any" to provided in "root"** ([#1641](https://github.com/blackbaud/skyux/issues/1641)) [Angular 15 deprecated services provided in 'any'](https://v15.angular.io/guide/deprecations#angularcore). We refactored all services that were provided in 'any' to provided in 'root' and replaced existing instances of `SkyFlyoutService` and `SkyModalService` with `SkyFlyoutLegacyService` and `SkyModalLegacyService` to avoid introducing breaking changes for our consumers. The `SkyFlyoutLegacyService` and `SkyModalLegacyService` are provided in 'any' but are deprecated and will be removed in a future major version of SKY UX. We recommend you replace the legacy services with `SkyFlyoutService` and `SkyModalService` as soon as possible, but use them to open [standalone components](https://angular.io/guide/standalone-components) instead. The [flyout](https://developer.blackbaud.com/skyux/components/flyout?docs-active-tab=code-examples) and [modal](https://developer.blackbaud.com/skyux/components/modal?docs-active-tab=code-examples) code examples on our documentation site have been updated to use standalone components for your reference.
 * **components/a11y:** The SkySkipLinkService cannot be used in isolation; any component that injects SkySkipLinkService must also import SkySkipLinkModule into its module's providers.
 * **components/ag-grid:** `SkyCellType.Date` uses the same date formatting logic as the `SkyDatePipe` ([#1611](https://github.com/blackbaud/skyux/issues/1611))
 * **components/ag-grid:** move `SkyAgGridService` to `SkyAgGridModule` providers ([#1576](https://github.com/blackbaud/skyux/issues/1576))
