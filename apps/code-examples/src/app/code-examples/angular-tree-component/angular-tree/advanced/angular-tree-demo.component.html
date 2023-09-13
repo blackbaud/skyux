@@ -129,6 +129,7 @@
             <sky-dropdown
               *ngIf="demoOptions.value.showContextMenus"
               buttonType="context-menu"
+              [label]="'Context menu for ' + node.data.name"
             >
               <sky-dropdown-menu>
                 <sky-dropdown-item *ngFor="let item of dropdownItems">
@@ -136,8 +137,9 @@
                     type="button"
                     (click)="actionClicked(item.name, node)"
                   >
-                    {{ item.name }}
+                    <sky-format [text]="item.name" [args]="[itemName]" />
                   </button>
+                  <ng-template #itemName>{{ node.data.name }}</ng-template>
                 </sky-dropdown-item>
               </sky-dropdown-menu>
             </sky-dropdown>
