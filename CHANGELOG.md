@@ -3,9 +3,96 @@
 ## [9.0.0](https://github.com/blackbaud/skyux/compare/9.0.0-beta.1...9.0.0) (2023-09-13)
 
 
+### ⚠ BREAKING CHANGES
+
+* support Angular 16 ([#1525](https://github.com/blackbaud/skyux/issues/1525))
+* **components/a11y:** The SkySkipLinkService cannot be used in isolation; any component that injects SkySkipLinkService must also import SkySkipLinkModule into its module's providers.
+* **components/ag-grid:** `SkyCellType.Date` uses the same date formatting logic as the `SkyDatePipe` ([#1611](https://github.com/blackbaud/skyux/issues/1611))
+* **components/ag-grid:** move `SkyAgGridService` to `SkyAgGridModule` providers ([#1576](https://github.com/blackbaud/skyux/issues/1576))
+* **components/ag-grid:** support AG Grid 29 ([#1549](https://github.com/blackbaud/skyux/issues/1549))
+* **components/core:** The `SkyNumericService` cannot be used in isolation; any component that injects `SkyNumericService` must also import `SkyNumericModule` into its module's providers.
+* **components/datetime:** datepicker hardcoded `aria-label` is removed and the label should now be provided through a wrapping input box ([#1646](https://github.com/blackbaud/skyux/issues/1646))
+* **components/datetime:** timepicker hardcoded `aria-label` is removed and the label should now be provided through a wrapping input box ([#1644](https://github.com/blackbaud/skyux/issues/1644))
+* **components/flyout:** The `SkyFlyoutService` cannot be used in isolation; any component that injects `SkyFlyoutService` must also import `SkyFlyoutModule` into its module's providers.
+* **components/forms:** remove source property from SkyCheckboxChange and SkyRadioChange ([#1532](https://github.com/blackbaud/skyux/issues/1532))
+* **components/indicators:** The `SkyWaitService` cannot be used in isolation; any component that injects `SkyWaitService` must also import `SkyWaitModule` into its module's providers.
+* **components/lookup:** country field hardcoded `aria-label` is removed and the label should now be provided through a wrapping input box ([#1626](https://github.com/blackbaud/skyux/issues/1626))
+* **components/lookup:** The `SkySelectionModalService` cannot be used in isolation; any component that injects `SkySelectionModalService` must also import `SkySelectionModalModule` into its module's providers.
+* **components/lookup:** use `click` events for selecting items in an autocomplete or lookup dropdown and only close when clicking outside the dropdown ([#1654](https://github.com/blackbaud/skyux/issues/1654))
+* **components/phone-field:** phone field hardcoded `aria-label` is removed and the label should now be provided through a wrapping input box ([#1643](https://github.com/blackbaud/skyux/issues/1643))
+* **components/phone-field:** phone numbers that are valid for a country with the same dial code as the selected country but not the selected country are now properly validated ([#1680](https://github.com/blackbaud/skyux/issues/1680))
+* **components/popovers:** dropdown menu buttons only specify a default aria-label when configured to be a context menu ([#1712](https://github.com/blackbaud/skyux/issues/1712))
+* **components/tabs:** vertical tab modern theme spacing has been updated to match design specifications
+* **components/toast:** The `SkyToastService` cannot be used in isolation; any component that injects `SkyToastService` must also import `SkyToastModule` into its module's providers.
+
+
+### Features
+
+* support Angular 16 ([#1525](https://github.com/blackbaud/skyux/issues/1525)) ([65c7caf](https://github.com/blackbaud/skyux/commit/65c7caf6f747265cf2d9b34b2387298682a485b5))
+* update `autonumeric`, `dompurify`, `tslib`, and `validator` dependencies ([#1620](https://github.com/blackbaud/skyux/issues/1620)) ([f7e329a](https://github.com/blackbaud/skyux/commit/f7e329a3610917e6906989b4b2a6eaeb07e9410b))
+* update `intl-tel-input` and `google-libphonenumber` dependencies ([#1619](https://github.com/blackbaud/skyux/issues/1619)) ([488b799](https://github.com/blackbaud/skyux/commit/488b7994fc2eb7246b531284fee9a396d8c7ea39))
+* **components/a11y:** move SkySkipLinkService to SkySkipLinkModule module providers ([#1573](https://github.com/blackbaud/skyux/issues/1573)) ([e970f12](https://github.com/blackbaud/skyux/commit/e970f129c4ed81308df7b14647463c5b66e95df2))
+* **components/ag-grid:** `SkyCellType.Date` uses the same date formatting logic as the `SkyDatePipe` ([#1611](https://github.com/blackbaud/skyux/issues/1611)) ([d9c418a](https://github.com/blackbaud/skyux/commit/d9c418a216245fb64ca61399219df5e1133a78ae))
+* **components/ag-grid:** move `SkyAgGridService` to `SkyAgGridModule` providers ([#1576](https://github.com/blackbaud/skyux/issues/1576)) ([a55f51d](https://github.com/blackbaud/skyux/commit/a55f51dd0712ff4ba66ab8f89b9537a8a0339409))
+* **components/ag-grid:** provide schematic for AG Grid 29 changes ([#1593](https://github.com/blackbaud/skyux/issues/1593)) ([27ac5eb](https://github.com/blackbaud/skyux/commit/27ac5eb18a3cbac30d678d2f122631429fe1a019))
+* **components/ag-grid:** support AG Grid 29 ([#1549](https://github.com/blackbaud/skyux/issues/1549)) ([7e8dd3d](https://github.com/blackbaud/skyux/commit/7e8dd3d3d929178632e8dcfa4d004b7eb5d0fcc1))
+* **components/datetime:** datepicker hardcoded `aria-label` is removed and the label should now be provided through a wrapping input box ([#1646](https://github.com/blackbaud/skyux/issues/1646)) ([81ac802](https://github.com/blackbaud/skyux/commit/81ac8027e432e1ee2c90e14ed4e80dc334cc02c8))
+* **components/datetime:** timepicker hardcoded `aria-label` is removed and the label should now be provided through a wrapping input box ([#1644](https://github.com/blackbaud/skyux/issues/1644)) ([23a00c1](https://github.com/blackbaud/skyux/commit/23a00c17425ecb0495243e8733bd11050676df22))
+* **components/forms:** remove bottom margin for input box ([#1564](https://github.com/blackbaud/skyux/issues/1564)) ([4a22a4a](https://github.com/blackbaud/skyux/commit/4a22a4a7bf8d94a0f57325d3cceaa7bc3155eb75))
+* **components/forms:** remove source property from SkyCheckboxChange and SkyRadioChange ([#1532](https://github.com/blackbaud/skyux/issues/1532)) ([2bd66a5](https://github.com/blackbaud/skyux/commit/2bd66a53b0603ae4d65579dd7b068c2595222e1f))
+* **components/lookup:** country field hardcoded `aria-label` is removed and the label should now be provided through a wrapping input box ([#1626](https://github.com/blackbaud/skyux/issues/1626)) ([6a5fbb7](https://github.com/blackbaud/skyux/commit/6a5fbb722dbc0571da941ab7e1f13e90fd5d9cfe))
+* **components/modals:** make modals responsive containers ([#1682](https://github.com/blackbaud/skyux/issues/1682)) ([09ac208](https://github.com/blackbaud/skyux/commit/09ac2081aabc26af142a7478680e70388f50c48b))
+* **components/packages:** add schematic to regenerate i18n resources modules for libraries ([#1677](https://github.com/blackbaud/skyux/issues/1677)) ([ff3bd36](https://github.com/blackbaud/skyux/commit/ff3bd36d7e399d9fb4c911be23fa2608225d65c3))
+* **components/packages:** update ag-grid in ng update group ([#1562](https://github.com/blackbaud/skyux/issues/1562)) ([baa5bb9](https://github.com/blackbaud/skyux/commit/baa5bb98f1542cfd7b41fc7196d41ea89b658399))
+* **components/pages:** provide schematic for updating `SkyPageComponent` ([#1701](https://github.com/blackbaud/skyux/issues/1701)) ([9907c02](https://github.com/blackbaud/skyux/commit/9907c0247ceb27c65fe3065ce914f32513e15d28))
+* **components/phone-field:** phone field hardcoded `aria-label` is removed and the label should now be provided through a wrapping input box ([#1643](https://github.com/blackbaud/skyux/issues/1643)) ([7308d9c](https://github.com/blackbaud/skyux/commit/7308d9c645a7d229d2af325e7a12bbfd6c822805))
+* **components/tabs:** make all tabs responsive containers ([#1642](https://github.com/blackbaud/skyux/issues/1642)) ([80e77ce](https://github.com/blackbaud/skyux/commit/80e77ced7abbd571f7d73de8737346a44e7b3e01))
+* **components/tabs:** sectioned form styling improvements ([#1689](https://github.com/blackbaud/skyux/issues/1689)) ([8093473](https://github.com/blackbaud/skyux/commit/8093473bfcffc9599babd5ce5c5f93a3f94b166f))
+* **sdk/eslint-config:** use typescript-eslint version of no-use-before-define ([#1601](https://github.com/blackbaud/skyux/issues/1601)) ([2d60a98](https://github.com/blackbaud/skyux/commit/2d60a98209bbd44feca7caf62c1dd89324fafb30))
+* **sdk/testing:** update axe-core peer dependency ([#1690](https://github.com/blackbaud/skyux/issues/1690)) ([c0ac54a](https://github.com/blackbaud/skyux/commit/c0ac54a1be2be64baade226e5aa8cfabd4027f76))
+
+
 ### Bug Fixes
 
+* refactor services provided in "any" to provided in "root" ([#1641](https://github.com/blackbaud/skyux/issues/1641)) ([0ce9cc6](https://github.com/blackbaud/skyux/commit/0ce9cc61d1bb8ed3330e470bddd8861a7645d6a8))
+* replace '*' with named exports for the public API ([#1559](https://github.com/blackbaud/skyux/issues/1559)) ([ed3b604](https://github.com/blackbaud/skyux/commit/ed3b6041eebee0fc8498010f1f1d9d514d327731))
+* **code-examples:** use standalone components when opened by modal and flyout services ([#1696](https://github.com/blackbaud/skyux/issues/1696)) ([fa572e6](https://github.com/blackbaud/skyux/commit/fa572e6e24a154a4e909a93b10cebff1758af17a))
+* **components/ag-grid:** improve schematic for AG Grid 29 changes ([#1675](https://github.com/blackbaud/skyux/issues/1675)) ([16cd189](https://github.com/blackbaud/skyux/commit/16cd1894123dd083223370c7429e109c46bd3c7c))
+* **components/ag-grid:** set environment injector when creating the header ([#1586](https://github.com/blackbaud/skyux/issues/1586)) ([c358e2e](https://github.com/blackbaud/skyux/commit/c358e2e08be1884678c64eae0a371d09161337f6))
+* **components/angular-tree-component:** node expansion button uses the node name as its aria-label ([#1711](https://github.com/blackbaud/skyux/issues/1711)) ([fbe39bb](https://github.com/blackbaud/skyux/commit/fbe39bb358fe09a2dc1dccdd417430af1fbf3a3d))
 * **components/angular-tree-component:** tree view code examples now use context specific accessibility labels and dropdown menu labels ([#1715](https://github.com/blackbaud/skyux/issues/1715)) ([5bef12e](https://github.com/blackbaud/skyux/commit/5bef12e23d02c9019269c4a32fd801798dc9c93e))
+* **components/angular-tree-component:** update schematic to work in more cases ([#1708](https://github.com/blackbaud/skyux/issues/1708)) ([ee1e252](https://github.com/blackbaud/skyux/commit/ee1e252a0a6b5343cb6effe25fc8a2f72b7dfd01))
+* **components/core:** move `SkyNumericService` to `SkyNumericModule` providers ([#1584](https://github.com/blackbaud/skyux/issues/1584)) ([22b3902](https://github.com/blackbaud/skyux/commit/22b390278f9d89ce65265e92c2800d40e8dae56e))
+* **components/data-manager:** add providers to column picker modal ([#1685](https://github.com/blackbaud/skyux/issues/1685)) ([3dd7d36](https://github.com/blackbaud/skyux/commit/3dd7d36342adae13d87bd9c97145d62c0f48adac))
+* **components/datetime:** remove vertical spacing and fix horizontal padding ([#1662](https://github.com/blackbaud/skyux/issues/1662)) ([3e99165](https://github.com/blackbaud/skyux/commit/3e9916595be6c5bb2920997c47aa11f27b0f1161))
+* **components/flyout:** move `SkyFlyoutService` to `SkyFlyoutModule` providers ([#1583](https://github.com/blackbaud/skyux/issues/1583)) ([05f57db](https://github.com/blackbaud/skyux/commit/05f57db1d0c476ca553fadace4de0572e6a67d65))
+* **components/forms:** easy mode input box inputs default to turning off browser autofill but respect consumer set values ([#1660](https://github.com/blackbaud/skyux/issues/1660)) ([ea951a4](https://github.com/blackbaud/skyux/commit/ea951a4d3328ad1d808c99fe1c490c6a445bc29a))
+* **components/indicators:** fix content roles ([#1513](https://github.com/blackbaud/skyux/issues/1513)) ([feaa2de](https://github.com/blackbaud/skyux/commit/feaa2ded5bcbb3a51a38c4eee2478825ac585acc))
+* **components/indicators:** move `SkyWaitService` to `SkyWaitModule` providers ([#1585](https://github.com/blackbaud/skyux/issues/1585)) ([24147fa](https://github.com/blackbaud/skyux/commit/24147faffa04b50e113080b55138c4ad8039b06e))
+* **components/lists:** repeater item spacing in split view ([#1618](https://github.com/blackbaud/skyux/issues/1618)) ([49a912c](https://github.com/blackbaud/skyux/commit/49a912cc1662b27bc201e90ff8c9f3dc9906de62))
+* **components/lookup:** move `SkySelectionModalService` to `SkySelectionModalModule` providers ([#1589](https://github.com/blackbaud/skyux/issues/1589)) ([bd06749](https://github.com/blackbaud/skyux/commit/bd06749272162c7e59f27226614f09f8caa7d8ca))
+* **components/lookup:** use `click` events for selecting items in an autocomplete or lookup dropdown and only close when clicking outside the dropdown ([#1654](https://github.com/blackbaud/skyux/issues/1654)) ([083e6d3](https://github.com/blackbaud/skyux/commit/083e6d3a6d197038093d8f7c2ebf53229b66375e))
+* **components/modals:** add support for standalone modal components ([#1563](https://github.com/blackbaud/skyux/issues/1563)) ([d695011](https://github.com/blackbaud/skyux/commit/d6950117edb66eea1a95fc766a4c93bee21de8d6))
+* **components/modals:** use environment injector when creating a modal component ([#1591](https://github.com/blackbaud/skyux/issues/1591)) ([528946d](https://github.com/blackbaud/skyux/commit/528946d68ead0aa2088c7d7cd89f8cd770ad8fc5))
+* **components/modals:** use optional injector for `SkyModalConfiguration` ([#1615](https://github.com/blackbaud/skyux/issues/1615)) ([ac86119](https://github.com/blackbaud/skyux/commit/ac86119697e039d02475400e4072cedaa92514c1))
+* **components/packages:** replace '@circlon/angular-tree-component' import paths ([#1560](https://github.com/blackbaud/skyux/issues/1560)) ([2d0cfa0](https://github.com/blackbaud/skyux/commit/2d0cfa0ac16954b4060dd1964b8f09da98989458))
+* **components/packages:** update schematic version numbers and add @skyux/popovers dependency ([#1555](https://github.com/blackbaud/skyux/issues/1555)) ([2d59800](https://github.com/blackbaud/skyux/commit/2d598005514657e7101b5e7b50ece10b11e47ef9))
+* **components/pages:** `lastAccessed` property on the `SkyRecentLink` interface is more descriptive ([#1673](https://github.com/blackbaud/skyux/issues/1673)) ([5b0a47a](https://github.com/blackbaud/skyux/commit/5b0a47a948d97c82b3f871c0a39b9f2f3f5d5544))
+* **components/pages:** update schematic to handle more cases ([#1709](https://github.com/blackbaud/skyux/issues/1709)) ([e868e08](https://github.com/blackbaud/skyux/commit/e868e08208b0f4e9a4ce58363d44f557a73e2fa2))
+* **components/phone-field:** phone numbers that are valid for a country with the same dial code as the selected country but not the selected country are now properly validated ([#1680](https://github.com/blackbaud/skyux/issues/1680)) ([16ab192](https://github.com/blackbaud/skyux/commit/16ab192089464e7591e01d9d29e7b0eb3f7a7386))
+* **components/popovers:** dropdown menu buttons only specify a default aria-label when configured to be a context menu ([#1712](https://github.com/blackbaud/skyux/issues/1712)) ([cfa4e18](https://github.com/blackbaud/skyux/commit/cfa4e188d7dc23d2081ae1cacd996304bae20092))
+* **components/split-view:** update split view drawer and active item styling ([#1655](https://github.com/blackbaud/skyux/issues/1655)) ([b347dab](https://github.com/blackbaud/skyux/commit/b347dab60136345e97d970afb816012551fef793))
+* **components/split-view:** use correct spacing class in examples ([#1613](https://github.com/blackbaud/skyux/issues/1613)) ([880332f](https://github.com/blackbaud/skyux/commit/880332f1be065780c1502d9fd207d902b4893302))
+* **components/tabs:** fixed tab permalink back button behavior ([#1698](https://github.com/blackbaud/skyux/issues/1698)) ([39472f4](https://github.com/blackbaud/skyux/commit/39472f45ef2d9253341ee162170d73a25c88274f))
+* **components/tabs:** use `replaceState()` for default tab permalink ([#1705](https://github.com/blackbaud/skyux/issues/1705)) ([3c1a0ab](https://github.com/blackbaud/skyux/commit/3c1a0ab4cadce05efe9b136849dc7ff01f5030fc))
+* **components/tabs:** vertical tab modern theme spacing has been updated to match design specifications ([51089df](https://github.com/blackbaud/skyux/commit/51089dfd5932c272cef9e5c8bfeb37adcd2787f3))
+* **components/toast:** move `SkyToastService` to `SkyToastModule` providers ([#1581](https://github.com/blackbaud/skyux/issues/1581)) ([2457559](https://github.com/blackbaud/skyux/commit/2457559e7fffe16a77b0e6230427d2fa88a27bd8))
+
+
+### Deprecations
+
+* **components/indicators:** deprecate icon `iconType` input ([#1659](https://github.com/blackbaud/skyux/issues/1659)) ([af1e3fa](https://github.com/blackbaud/skyux/commit/af1e3fa02edd4ff5fab6d3f3981ad93f453e05c0))
+* **components/lookup:** inputs to set autcomplete HTML attributes on the autocomplete, lookup, and country field components have been deprecated ([#1668](https://github.com/blackbaud/skyux/issues/1668)) ([464fe29](https://github.com/blackbaud/skyux/commit/464fe29986a493ba69efb61e26821e52186a8b49))
 
 ## [9.0.0-beta.1](https://github.com/blackbaud/skyux/compare/9.0.0-beta.0...9.0.0-beta.1) (2023-09-12)
 
