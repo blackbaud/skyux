@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.0.0](https://github.com/blackbaud/skyux/compare/9.0.0-beta.1...9.0.0) (2023-09-13)
+
+
+### Bug Fixes
+
+* **components/angular-tree-component:** tree view code examples now use context specific accessibility labels and dropdown menu labels ([#1715](https://github.com/blackbaud/skyux/issues/1715)) ([5bef12e](https://github.com/blackbaud/skyux/commit/5bef12e23d02c9019269c4a32fd801798dc9c93e))
+
 ## [9.0.0-beta.1](https://github.com/blackbaud/skyux/compare/9.0.0-beta.0...9.0.0-beta.1) (2023-09-12)
 
 
