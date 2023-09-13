@@ -133,7 +133,10 @@
             >
               <sky-dropdown-menu>
                 <sky-dropdown-item *ngFor="let item of dropdownItems">
-                  <button type="button" (click)="actionClicked(item.name, node)">
+                  <button
+                    type="button"
+                    (click)="actionClicked(item.name, node)"
+                  >
                     <sky-format [text]="item.name" [args]="[itemName]" />
                   </button>
                   <ng-template #itemName>{{ node.data.name }}</ng-template>
