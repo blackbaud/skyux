@@ -3,7 +3,9 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import {
@@ -21,8 +23,9 @@ import {
   RowSelectedEvent,
   ValueFormatterParams,
 } from 'ag-grid-community';
+import { Subject, takeUntil } from 'rxjs';
 
-import { SkyAgGridDemoRow } from './data-manager-data-entry-grid-docs-demo-data';
+import { AgGridDemoRow } from './data-manager-data-entry-grid-docs-demo-data';
 
 @Component({
   selector: 'app-data-manager-data-entry-grid-docs-demo-view-grid',
@@ -30,21 +33,24 @@ import { SkyAgGridDemoRow } from './data-manager-data-entry-grid-docs-demo-data'
     './data-manager-data-entry-grid-docs-demo-view-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DataManagerDataEntryGridDocsDemoViewGridComponent
-  implements OnInit
+export class DataManagerDataEntryGridDemoViewGridComponent
+  implements OnInit, OnDestroy
 {
   @Input()
-  public set items(value: SkyAgGridDemoRow[]) {
-    this._items = value;
-    this.changeDetector.markForCheck();
-    if (this.gridApi) {
-      this.gridApi.refreshCells();
-    }
+  public set items(value: AgGridDemoRow[]) {
+    this.#_items = value;
+    this.#changeDetectorRef.markForCheck();
+
+    this.#gridApi?.refreshCells();
   }
 
-  public viewId = 'dataEntryGridWithDataManagerView';
+  public get items(): AgGridDemoRow[] {
+    return this.#_items;
+  }
 
-  public columnDefs: ColDef[] = [
+  #viewId = 'dataEntryGridWithDataManagerView';
+
+  #columnDefs: ColDef[] = [
     {
       field: 'selected',
       type: SkyCellType.RowSelector,
@@ -69,7 +75,7 @@ export class DataManagerDataEntryGridDocsDemoViewGridComponent
       field: 'endDate',
       headerName: 'End date',
       type: SkyCellType.Date,
-      valueFormatter: this.endDateFormatter,
+      valueFormatter: this.#endDateFormatter,
     },
     {
       field: 'department',
@@ -100,18 +106,13 @@ export class DataManagerDataEntryGridDocsDemoViewGridComponent
     },
   ];
 
-  public dataState = new SkyDataManagerState({});
-
-  public columnApi?: ColumnApi;
-  public displayedItems: SkyAgGridDemoRow[] = [];
-  public gridApi?: GridApi;
-  public gridInitialized = false;
-  public gridOptions!: GridOptions;
-  public noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
-  public isActive = false;
-
-  public viewConfig: SkyDataViewConfig = {
-    id: this.viewId,
+  protected displayedItems: AgGridDemoRow[] = [];
+  protected gridOptions: GridOptions;
+  protected isActive = false;
+  protected isGridInitialized = false;
+  protected noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
+  protected viewConfig: SkyDataViewConfig = {
+    id: this.#viewId,
     name: 'Data Grid View',
     icon: 'table',
     searchEnabled: true,
@@ -168,119 +169,104 @@ export class DataManagerDataEntryGridDocsDemoViewGridComponent
     ],
   };
 
-  private _items: SkyAgGridDemoRow[] = [];
+  #_items: AgGridDemoRow[] = [];
 
-  constructor(
-    private agGridService: SkyAgGridService,
-    private changeDetector: ChangeDetectorRef,
-    private dataManagerService: SkyDataManagerService
-  ) {}
+  #columnApi: ColumnApi | undefined;
+  #dataState = new SkyDataManagerState({});
+  #gridApi: GridApi | undefined;
+  #ngUnsubscribe = new Subject<void>();
 
-  public ngOnInit(): void {
-    this.displayedItems = this._items;
+  readonly #agGridSvc = inject(SkyAgGridService);
+  readonly #changeDetectorRef = inject(ChangeDetectorRef);
+  readonly #dataManagerSvc = inject(SkyDataManagerService);
 
-    this.dataManagerService.initDataView(this.viewConfig);
-
-    this.gridOptions = this.agGridService.getGridOptions({
+  constructor() {
+    this.gridOptions = this.#agGridSvc.getGridOptions({
       gridOptions: {
-        columnDefs: this.columnDefs,
+        columnDefs: this.#columnDefs,
         onGridReady: this.onGridReady.bind(this),
       },
     });
+  }
 
-    this.dataManagerService
-      .getDataStateUpdates(this.viewId)
+  public ngOnInit(): void {
+    this.displayedItems = this.items;
+
+    this.#dataManagerSvc.initDataView(this.viewConfig);
+
+    this.#dataManagerSvc
+      .getDataStateUpdates(this.#viewId)
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((state) => {
-        this.dataState = state;
-        this.setInitialColumnOrder();
-        this.updateData();
-        this.changeDetector.detectChanges();
+        this.#dataState = state;
+        this.#setInitialColumnOrder();
+        this.#updateData();
+        this.#changeDetectorRef.detectChanges();
       });
 
-    this.dataManagerService.getActiveViewIdUpdates().subscribe((id) => {
-      this.isActive = id === this.viewId;
-      this.changeDetector.detectChanges();
-    });
+    this.#dataManagerSvc
+      .getActiveViewIdUpdates()
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((id) => {
+        this.isActive = id === this.#viewId;
+        this.#changeDetectorRef.detectChanges();
+      });
   }
 
-  public updateData(): void {
-    this.sortItems();
-    this.displayedItems = this.filterItems(this.searchItems(this._items));
-
-    if (this.dataState.onlyShowSelected) {
-      this.displayedItems = this.displayedItems.filter((item) => item.selected);
-    }
-
-    if (this.displayedItems.length > 0) {
-      this.gridApi?.hideOverlay();
-    } else {
-      this.gridApi?.showNoRowsOverlay();
-    }
-
-    this.changeDetector.markForCheck();
+  public ngOnDestroy(): void {
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
-  public setInitialColumnOrder(): void {
-    const viewState = this.dataState.getViewStateById(this.viewId);
-    const visibleColumns = viewState?.displayedColumnIds || [];
-
-    this.columnDefs.sort((col1, col2) => {
-      const col1Index = visibleColumns.findIndex(
-        (colId: string) => colId === col1.colId
-      );
-      const col2Index = visibleColumns.findIndex(
-        (colId: string) => colId === col2.colId
-      );
-
-      if (col1Index === -1) {
-        col1.hide = true;
-        return 0;
-      } else if (col2Index === -1) {
-        col2.hide = true;
-        return 0;
-      } else {
-        return col1Index - col2Index;
-      }
-    });
-
-    this.gridInitialized = true;
-    this.changeDetector.markForCheck();
+  protected onGridReady(gridReadyEvent: GridReadyEvent): void {
+    this.#gridApi = gridReadyEvent.api;
+    this.#gridApi.sizeColumnsToFit();
+    this.#columnApi = gridReadyEvent.columnApi;
+    this.#updateData();
+    this.#changeDetectorRef.markForCheck();
   }
 
-  public onGridReady(gridReadyEvent: GridReadyEvent): void {
-    this.gridApi = gridReadyEvent.api;
-    this.gridApi.sizeColumnsToFit();
-    this.columnApi = gridReadyEvent.columnApi;
-    this.updateData();
-    this.changeDetector.markForCheck();
-  }
-
-  public onRowSelected(rowSelectedEvent: RowSelectedEvent): void {
+  protected onRowSelected(rowSelectedEvent: RowSelectedEvent): void {
     if (!rowSelectedEvent.data.selected) {
-      this.updateData();
+      this.#updateData();
     }
   }
 
-  public sortItems(): void {
-    const sortOption = this.dataState.activeSortOption;
-    if (this.columnApi && sortOption) {
-      this.columnApi.applyColumnState({
-        state: [
-          {
-            colId: sortOption.propertyName,
-            sort: sortOption.descending ? 'desc' : 'asc',
-          },
-        ],
+  #endDateFormatter(params: ValueFormatterParams): string {
+    const dateConfig = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    return params.value
+      ? params.value.toLocaleDateString('en-us', dateConfig)
+      : 'N/A';
+  }
+
+  #filterItems(items: AgGridDemoRow[]): AgGridDemoRow[] {
+    let filteredItems = items;
+    const filterData = this.#dataState.filterData;
+
+    if (filterData?.filters) {
+      const filters = filterData.filters;
+
+      filteredItems = items.filter((item) => {
+        return (
+          ((filters.hideSales && item.department.name !== 'Sales') ||
+            !filters.hideSales) &&
+          ((filters.jobTitle !== 'any' &&
+            item.jobTitle?.name === filters.jobTitle) ||
+            !filters.jobTitle ||
+            filters.jobTitle === 'any')
+        );
       });
     }
+
+    return filteredItems;
   }
 
-  public searchItems(items: SkyAgGridDemoRow[]): SkyAgGridDemoRow[] {
+  #searchItems(items: AgGridDemoRow[]): AgGridDemoRow[] {
     let searchedItems = items;
-    const searchText = this.dataState && this.dataState.searchText;
+    const searchText = this.#dataState.searchText;
 
     if (searchText) {
-      searchedItems = items.filter(function (item: SkyAgGridDemoRow) {
+      searchedItems = items.filter((item) => {
         let property: keyof typeof item;
         for (property in item) {
           if (
@@ -301,31 +287,62 @@ export class DataManagerDataEntryGridDocsDemoViewGridComponent
     return searchedItems;
   }
 
-  public filterItems(items: SkyAgGridDemoRow[]): SkyAgGridDemoRow[] {
-    let filteredItems = items;
-    const filterData = this.dataState && this.dataState.filterData;
+  #setInitialColumnOrder(): void {
+    const viewState = this.#dataState.getViewStateById(this.#viewId);
+    const visibleColumns = viewState?.displayedColumnIds || [];
 
-    if (filterData && filterData.filters) {
-      const filters = filterData.filters;
-      filteredItems = items.filter((item: SkyAgGridDemoRow) => {
-        return (
-          ((filters.hideSales && item.department.name !== 'Sales') ||
-            !filters.hideSales) &&
-          ((filters.jobTitle !== 'any' &&
-            item.jobTitle?.name === filters.jobTitle) ||
-            !filters.jobTitle ||
-            filters.jobTitle === 'any')
-        );
-      });
-    }
+    this.#columnDefs.sort((col1, col2) => {
+      const col1Index = visibleColumns.findIndex(
+        (colId: string) => colId === col1.colId
+      );
+      const col2Index = visibleColumns.findIndex(
+        (colId: string) => colId === col2.colId
+      );
 
-    return filteredItems;
+      if (col1Index === -1) {
+        col1.hide = true;
+        return 0;
+      } else if (col2Index === -1) {
+        col2.hide = true;
+        return 0;
+      } else {
+        return col1Index - col2Index;
+      }
+    });
+
+    this.isGridInitialized = true;
+    this.#changeDetectorRef.markForCheck();
   }
 
-  private endDateFormatter(params: ValueFormatterParams): string {
-    const dateConfig = { year: 'numeric', month: '2-digit', day: '2-digit' };
-    return params.value
-      ? params.value.toLocaleDateString('en-us', dateConfig)
-      : 'N/A';
+  #sortItems(): void {
+    const sortOption = this.#dataState.activeSortOption;
+
+    if (this.#columnApi && sortOption) {
+      this.#columnApi.applyColumnState({
+        state: [
+          {
+            colId: sortOption.propertyName,
+            sort: sortOption.descending ? 'desc' : 'asc',
+          },
+        ],
+      });
+    }
+  }
+
+  #updateData(): void {
+    this.#sortItems();
+    this.displayedItems = this.#filterItems(this.#searchItems(this.items));
+
+    if (this.#dataState.onlyShowSelected) {
+      this.displayedItems = this.displayedItems.filter((item) => item.selected);
+    }
+
+    if (this.displayedItems.length > 0) {
+      this.#gridApi?.hideOverlay();
+    } else {
+      this.#gridApi?.showNoRowsOverlay();
+    }
+
+    this.#changeDetectorRef.markForCheck();
   }
 }

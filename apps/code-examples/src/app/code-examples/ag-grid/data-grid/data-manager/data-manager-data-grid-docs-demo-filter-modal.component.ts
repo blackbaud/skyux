@@ -2,36 +2,44 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { SkyIdModule } from '@skyux/core';
 import {
   SkyDataManagerFilterData,
   SkyDataManagerFilterModalContext,
 } from '@skyux/data-manager';
-import { SkyModalInstance } from '@skyux/modals';
+import { SkyCheckboxModule } from '@skyux/forms';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
+  standalone: true,
   selector: 'app-data-manager-data-grid-docs-demo-filter-modal',
   templateUrl: './data-manager-data-grid-docs-demo-filter-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [FormsModule, SkyCheckboxModule, SkyIdModule, SkyModalModule],
 })
-export class DataManagerDataGridDocsDemoFiltersModalComponent {
-  public jobTitle = '';
+export class DataManagerDataGridDemoFiltersModalComponent {
+  protected hideSales = false;
+  protected jobTitle = '';
 
-  public hideSales = false;
+  readonly #changeDetectorRef = inject(ChangeDetectorRef);
+  readonly #context = inject(SkyDataManagerFilterModalContext);
+  readonly #instance = inject(SkyModalInstance);
 
-  constructor(
-    public context: SkyDataManagerFilterModalContext,
-    public instance: SkyModalInstance,
-    private changeDetector: ChangeDetectorRef
-  ) {
-    if (this.context.filterData && this.context.filterData.filters) {
-      const filters = this.context.filterData.filters;
+  constructor() {
+    if (this.#context.filterData && this.#context.filterData.filters) {
+      const filters = this.#context.filterData.filters;
+
       this.jobTitle = filters.jobTitle || 'any';
       this.hideSales = filters.hideSales || false;
     }
+
+    this.#changeDetectorRef.markForCheck();
   }
 
-  public applyFilters(): void {
+  protected applyFilters(): void {
     const result: SkyDataManagerFilterData = {};
 
     result.filtersApplied = this.jobTitle !== 'any' || this.hideSales;
@@ -39,17 +47,18 @@ export class DataManagerDataGridDocsDemoFiltersModalComponent {
       jobTitle: this.jobTitle,
       hideSales: this.hideSales,
     };
-    this.changeDetector.markForCheck();
 
-    this.instance.save(result);
+    this.#changeDetectorRef.markForCheck();
+    this.#instance.save(result);
   }
 
-  public clearAllFilters(): void {
+  protected clearAllFilters(): void {
     this.hideSales = false;
     this.jobTitle = 'any';
+    this.#changeDetectorRef.markForCheck();
   }
 
-  public cancel(): void {
-    this.instance.cancel();
+  protected cancel(): void {
+    this.#instance.cancel();
   }
 }

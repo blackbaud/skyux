@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TreeModule } from '@blackbaud/angular-tree-component';
 import { SkyAngularTreeModule } from '@skyux/angular-tree-component';
 import { SkyCheckboxModule, SkyRadioModule } from '@skyux/forms';
-import { SkyFluidGridModule } from '@skyux/layout';
+import { SkyFluidGridModule, SkyFormatModule } from '@skyux/layout';
 import { SkyDropdownModule } from '@skyux/popovers';
 
 import { AngularTreeDemoComponent } from './angular-tree-demo.component';
@@ -17,6 +17,7 @@ import { AngularTreeDemoComponent } from './angular-tree-demo.component';
     SkyCheckboxModule,
     SkyDropdownModule,
     SkyFluidGridModule,
+    SkyFormatModule,
     SkyRadioModule,
     TreeModule,
   ],

@@ -11,7 +11,7 @@ import {
   ValueFormatterParams,
 } from 'ag-grid-community';
 
-import { SKY_AG_GRID_DEMO_DATA } from './ag-grid-demo-data';
+import { AG_GRID_DEMO_DATA } from './ag-grid-demo-data';
 import { SkyAgGridEditModalContext } from './ag-grid-edit-modal-context';
 import { SkyAgGridEditModalComponent } from './ag-grid-edit-modal.component';
 
@@ -20,7 +20,7 @@ import { SkyAgGridEditModalComponent } from './ag-grid-edit-modal.component';
   templateUrl: './ag-grid-demo.component.html',
 })
 export class SkyAgGridDemoComponent implements OnInit {
-  public gridData = SKY_AG_GRID_DEMO_DATA;
+  public gridData = AG_GRID_DEMO_DATA;
   public columnDefs: ColDef[] = [
     {
       field: 'selected',

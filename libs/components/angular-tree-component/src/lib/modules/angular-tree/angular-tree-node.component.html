@@ -50,9 +50,7 @@
         class="sky-btn sky-btn-link sky-toggle-children"
         tabindex="-1"
         type="button"
-        [attr.aria-label]="
-          'skyux_angular_tree_click_to_expand' | skyLibResources
-        "
+        [attr.aria-label]="node.data.name"
         [class.toggle-children-wrapper-expanded]="node.isExpanded"
         [class.toggle-children-wrapper-collapsed]="node.isCollapsed"
         (click)="node.mouseAction('expanderClick', $event)"

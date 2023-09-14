@@ -1,15 +1,26 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { SkyModalInstance } from '@skyux/modals';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { SkyCheckboxModule } from '@skyux/forms';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 import {
   SkyProgressIndicatorActionClickArgs,
   SkyProgressIndicatorChange,
   SkyProgressIndicatorDisplayMode,
+  SkyProgressIndicatorModule,
 } from '@skyux/progress-indicator';
 
 @Component({
+  standalone: true,
   selector: 'app-wizard-demo-modal',
   templateUrl: './wizard-demo-modal.component.html',
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    SkyCheckboxModule,
+    SkyModalModule,
+    SkyProgressIndicatorModule,
+  ],
 })
 export class WizardDemoModalComponent {
   public activeIndex: number | undefined = 0;

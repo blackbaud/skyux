@@ -1,19 +1,23 @@
-import { Component } from '@angular/core';
-import { SkyModalInstance } from '@skyux/modals';
+import { Component, inject } from '@angular/core';
+import { SkySummaryActionBarModule } from '@skyux/action-bars';
+import { SkyKeyInfoModule } from '@skyux/indicators';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
+  standalone: true,
   selector: 'app-test-cmp-modal',
   templateUrl: './summary-action-bar-modal-demo.component.html',
   styleUrls: ['./summary-action-bar-modal-demo.component.scss'],
+  imports: [SkyKeyInfoModule, SkyModalModule, SkySummaryActionBarModule],
 })
-export class SkySummaryActionBarModalDemoComponent {
-  constructor(public instance: SkyModalInstance) {}
+export class SummaryActionBarModalDemoComponent {
+  protected readonly instance = inject(SkyModalInstance);
 
-  public onSecondaryActionClick(): void {
+  protected onSecondaryActionClick(): void {
     alert('Secondary action button clicked.');
   }
 
-  public onSecondaryAction2Click(): void {
+  protected onSecondaryAction2Click(): void {
     alert('Secondary action 2 button clicked.');
   }
 }

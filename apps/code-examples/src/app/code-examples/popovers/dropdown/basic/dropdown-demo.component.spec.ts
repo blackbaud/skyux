@@ -39,7 +39,7 @@ describe('Basic dropdown', () => {
     await expectAsync(dropdownHarness.getButtonType()).toBeResolvedTo('select');
     await expectAsync(dropdownHarness.isDisabled()).toBeResolvedTo(false);
     await expectAsync(dropdownHarness.getAriaLabel()).toBeResolvedTo(
-      'Context menu'
+      'Test dropdown'
     );
     await expectAsync(dropdownHarness.getTitle()).toBeResolvedTo(null);
     await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(false);

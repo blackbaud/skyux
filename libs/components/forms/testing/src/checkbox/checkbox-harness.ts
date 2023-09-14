@@ -54,21 +54,21 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
   /**
    * Gets the checkbox's aria-label.
    */
-  async getAriaLabel(): Promise<string | null> {
+  public async getAriaLabel(): Promise<string | null> {
     return (await this.#getInput()).getAttribute('aria-label');
   }
 
   /**
    * Gets the checkbox's aria-labelledby.
    */
-  async getAriaLabelledby(): Promise<string | null> {
+  public async getAriaLabelledby(): Promise<string | null> {
     return (await this.#getInput()).getAttribute('aria-labelledby');
   }
 
   /**
    * Gets the checkbox's label text.
    */
-  async getLabelText(): Promise<string | undefined> {
+  public async getLabelText(): Promise<string | undefined> {
     const label = await this.#getLabel();
     if (label) {
       return label.getText();
@@ -79,14 +79,14 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
   /**
    * Gets the checkbox's name.
    */
-  async getName(): Promise<string | null> {
+  public async getName(): Promise<string | null> {
     return (await this.#getInput()).getAttribute('name');
   }
 
   /**
    * Gets the checkbox's value.
    */
-  async getValue(): Promise<string | null> {
+  public async getValue(): Promise<string | null> {
     return (await this.#getInput()).getProperty<string | null>('value');
   }
 

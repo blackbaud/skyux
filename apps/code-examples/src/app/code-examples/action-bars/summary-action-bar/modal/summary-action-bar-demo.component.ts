@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SkyModalService } from '@skyux/modals';
 
-import { SkySummaryActionBarModalDemoComponent } from './summary-action-bar-modal-demo.component';
+import { SummaryActionBarModalDemoComponent } from './summary-action-bar-modal-demo.component';
 
 @Component({
   selector: 'app-summary-action-bar-demo',
@@ -15,10 +15,10 @@ import { SkySummaryActionBarModalDemoComponent } from './summary-action-bar-moda
   ],
 })
 export class SummaryActionBarDemoComponent {
-  constructor(private modalService: SkyModalService) {}
+  readonly #modalSvc = inject(SkyModalService);
 
-  public openModal(): void {
-    this.modalService.open(SkySummaryActionBarModalDemoComponent, {
+  protected openModal(): void {
+    this.#modalSvc.open(SummaryActionBarModalDemoComponent, {
       size: 'large',
     });
   }

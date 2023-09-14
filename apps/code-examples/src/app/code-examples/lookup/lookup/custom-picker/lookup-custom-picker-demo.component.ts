@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {
   SkyAutocompleteSearchFunctionFilter,
@@ -106,8 +106,11 @@ export class LookupCustomPickerDemoComponent implements OnInit {
     },
   ];
 
-  constructor(formBuilder: FormBuilder, modalService: SkyModalService) {
-    this.favoritesForm = formBuilder.group({
+  readonly #formBuilder = inject(FormBuilder);
+  readonly #modalSvc = inject(SkyModalService);
+
+  constructor() {
+    this.favoritesForm = this.#formBuilder.group({
       favoriteNames: [[this.people[15]]],
     });
 
@@ -123,7 +126,7 @@ export class LookupCustomPickerDemoComponent implements OnInit {
     this.showMoreConfig = {
       customPicker: {
         open: (context): void => {
-          const instance = modalService.open(
+          const instance = this.#modalSvc.open(
             LookupCustomPickerDemoModalComponent,
             {
               providers: [

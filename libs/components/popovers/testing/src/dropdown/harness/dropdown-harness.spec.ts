@@ -148,8 +148,9 @@ describe('Dropdown test harness', () => {
     await expectAsync(dropdownHarness.isDisabled()).toBeResolvedTo(false);
   });
 
-  it('should have default aria-label', async () => {
+  it('should have default aria-label for context menus', async () => {
     const { dropdownHarness, fixture } = await setupTest();
+    fixture.componentInstance.buttonType = 'context-menu';
 
     fixture.detectChanges();
 

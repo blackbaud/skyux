@@ -71,14 +71,17 @@ export class AngularTreeDemoComponent implements OnInit {
   };
 
   public dropdownItems: { name: string; disabled: boolean }[] = [
-    { name: 'Insert an item at this level', disabled: false },
-    { name: 'Insert an item under this level', disabled: false },
-    { name: 'Move up', disabled: false },
-    { name: 'Move down', disabled: false },
-    { name: 'Move left', disabled: false },
-    { name: 'Move right', disabled: false },
-    { name: 'Edit', disabled: false },
-    { name: 'Delete', disabled: false },
+    {
+      name: 'Insert an item adjacent to {0}',
+      disabled: false,
+    },
+    { name: 'Insert an item under {0}', disabled: false },
+    { name: 'Move up {0}', disabled: false },
+    { name: 'Move down {0}', disabled: false },
+    { name: 'Move left {0}', disabled: false },
+    { name: 'Move right {0}', disabled: false },
+    { name: 'Edit {0}', disabled: false },
+    { name: 'Delete {0}', disabled: false },
   ];
 
   public nodes: AngularTreeDemoNode[] = [
@@ -183,7 +186,7 @@ export class AngularTreeDemoComponent implements OnInit {
 
   public actionClicked(name: string, node: TreeNode): void {
     // Add custom actions here.
-    alert(name + `: "${node.data.name}"`);
+    alert(name.replace('{0}', node.data.name) + ' clicked!');
   }
 
   public onTreeStateChange(treeModel: ITreeState): void {
