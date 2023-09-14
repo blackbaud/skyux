@@ -18,7 +18,7 @@
   "peerDependencies": {
     "@angular/common": "^16.2.5",
     "@angular/core": "^16.2.5",
-    "@blackbaud/auth-client": "^2.68.0",
+    "@blackbaud/auth-client": "^2.71.0",
     "@skyux/config": "0.0.0-PLACEHOLDER"
   },
   "dependencies": {
