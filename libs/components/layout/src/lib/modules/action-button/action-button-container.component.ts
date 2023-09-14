@@ -76,6 +76,7 @@ export class SkyActionButtonContainerComponent
 
   #_themeName: string | undefined;
 
+  #isInitialContentChange = true;
   #viewInitialized = false;
 
   #actionButtonAdapterService: SkyActionButtonAdapterService;
@@ -108,11 +109,6 @@ export class SkyActionButtonContainerComponent
           this.#changeDetector.markForCheck();
         });
     }
-
-    // Wait for children components to complete rendering before container width is determined.
-    setTimeout(() => {
-      this.#updateResponsiveClass();
-    });
   }
 
   public ngAfterViewInit(): void {
@@ -135,6 +131,12 @@ export class SkyActionButtonContainerComponent
   }
 
   public onContentChange(): void {
+    // Update the responsive container when the buttons are initially loaded.
+    if (this.#isInitialContentChange) {
+      this.#isInitialContentChange = false;
+      this.#updateResponsiveClass();
+    }
+
     this.#updateHeight();
   }
 
