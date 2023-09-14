@@ -1,4 +1,5 @@
 import {
+  AfterContentInit,
   AfterViewInit,
   ChangeDetectorRef,
   Component,
@@ -35,7 +36,7 @@ import { SkyActionButtonContainerAlignItemsType } from './types/action-button-co
   encapsulation: ViewEncapsulation.None,
 })
 export class SkyActionButtonContainerComponent
-  implements AfterViewInit, OnDestroy, OnInit
+  implements AfterViewInit, AfterContentInit, OnDestroy, OnInit
 {
   /**
    * How to display the action buttons inside the action button container.
@@ -58,9 +59,8 @@ export class SkyActionButtonContainerComponent
 
   @ViewChild('container', {
     read: ElementRef,
-    static: true,
   })
-  public containerRef: ElementRef | undefined;
+  private containerRef: ElementRef | undefined;
 
   #ngUnsubscribe = new Subject<void>();
 
@@ -76,7 +76,7 @@ export class SkyActionButtonContainerComponent
 
   #_themeName: string | undefined;
 
-  #isInitialContentChange = true;
+  // #isInitialContentChange = true;
   #viewInitialized = false;
 
   #actionButtonAdapterService: SkyActionButtonAdapterService;
@@ -109,6 +109,11 @@ export class SkyActionButtonContainerComponent
           this.#changeDetector.markForCheck();
         });
     }
+
+    // Wait for children components to complete rendering before container width is determined.
+    setTimeout(() => {
+      this.#updateResponsiveClass();
+    });
   }
 
   public ngAfterViewInit(): void {
@@ -121,8 +126,16 @@ export class SkyActionButtonContainerComponent
           this.#updateHeight();
         });
     }
+
     this.#viewInitialized = true;
     this.#updateHeight();
+  }
+
+  public ngAfterContentInit(): void {
+    console.log('h');
+    // setTimeout(() => {
+    //   this.#updateResponsiveClass();
+    // });
   }
 
   public ngOnDestroy(): void {
@@ -132,10 +145,10 @@ export class SkyActionButtonContainerComponent
 
   public onContentChange(): void {
     // Update the responsive container when the buttons are initially loaded.
-    if (this.#isInitialContentChange) {
-      this.#isInitialContentChange = false;
-      this.#updateResponsiveClass();
-    }
+    // if (this.#isInitialContentChange) {
+    //   this.#isInitialContentChange = false;
+    //   this.#updateResponsiveClass();
+    // }
 
     this.#updateHeight();
   }

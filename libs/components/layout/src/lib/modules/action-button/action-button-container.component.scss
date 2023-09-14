@@ -2,7 +2,7 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
 // Host element must be a block to allow FF to make proper getBoundingClientRect() calculations.
-sky-action-button-container {
+:host {
   display: block;
 }
 
