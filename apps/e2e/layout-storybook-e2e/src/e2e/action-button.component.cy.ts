@@ -9,11 +9,9 @@ describe('layout-storybook - action button', () => {
         )
       );
       it('should render the component on desktop', () => {
-        // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.get('app-action-button')
           .should('exist')
           .should('be.visible')
-          .wait(1000)
           .screenshot(
             `actionbuttoncomponent-actionbutton--action-button-${theme}`
           )
