@@ -1,5 +1,4 @@
 import {
-  AfterContentInit,
   AfterViewInit,
   ChangeDetectorRef,
   Component,
@@ -36,7 +35,7 @@ import { SkyActionButtonContainerAlignItemsType } from './types/action-button-co
   encapsulation: ViewEncapsulation.None,
 })
 export class SkyActionButtonContainerComponent
-  implements AfterViewInit, AfterContentInit, OnDestroy, OnInit
+  implements AfterViewInit, OnDestroy, OnInit
 {
   /**
    * How to display the action buttons inside the action button container.
@@ -59,8 +58,9 @@ export class SkyActionButtonContainerComponent
 
   @ViewChild('container', {
     read: ElementRef,
+    static: true,
   })
-  private containerRef: ElementRef | undefined;
+  public containerRef: ElementRef | undefined;
 
   #ngUnsubscribe = new Subject<void>();
 
@@ -76,7 +76,6 @@ export class SkyActionButtonContainerComponent
 
   #_themeName: string | undefined;
 
-  // #isInitialContentChange = true;
   #viewInitialized = false;
 
   #actionButtonAdapterService: SkyActionButtonAdapterService;
@@ -126,16 +125,8 @@ export class SkyActionButtonContainerComponent
           this.#updateHeight();
         });
     }
-
     this.#viewInitialized = true;
     this.#updateHeight();
-  }
-
-  public ngAfterContentInit(): void {
-    console.log('h');
-    // setTimeout(() => {
-    //   this.#updateResponsiveClass();
-    // });
   }
 
   public ngOnDestroy(): void {
@@ -144,12 +135,6 @@ export class SkyActionButtonContainerComponent
   }
 
   public onContentChange(): void {
-    // Update the responsive container when the buttons are initially loaded.
-    // if (this.#isInitialContentChange) {
-    //   this.#isInitialContentChange = false;
-    //   this.#updateResponsiveClass();
-    // }
-
     this.#updateHeight();
   }
 
