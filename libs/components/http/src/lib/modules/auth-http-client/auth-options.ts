@@ -1,4 +1,4 @@
-import { HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpContext, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import {
   SKY_AUTH_PARAM_AUTH,
@@ -12,6 +12,7 @@ import {
  */
 export function skyAuthHttpOptions(options?: {
   body?: any;
+  context?: HttpContext;
   headers?: HttpHeaders;
   observe?: 'body' | 'events' | 'response';
   params?: HttpParams;
@@ -46,6 +47,7 @@ export function skyAuthHttpOptions(options?: {
  */
 export function skyAuthHttpJsonOptions(options?: {
   body?: any;
+  context?: HttpContext;
   headers?: HttpHeaders;
   observe?: 'body';
   params?: HttpParams;
@@ -55,6 +57,7 @@ export function skyAuthHttpJsonOptions(options?: {
   withCredentials?: boolean;
 }): {
   body?: any;
+  context?: HttpContext;
   headers?: HttpHeaders;
   observe?: 'body';
   params?: HttpParams;
