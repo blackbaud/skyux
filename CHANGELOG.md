@@ -1,5 +1,14 @@
 # Changelog
 
+## [9.1.0](https://github.com/blackbaud/skyux/compare/9.0.0...9.1.0) (2023-09-14)
+
+
+### Features
+
+* add support for `@angular/core@16.2.5` ([#1721](https://github.com/blackbaud/skyux/issues/1721)) ([bae7d20](https://github.com/blackbaud/skyux/commit/bae7d20aac018f73176de7b4186e582a6aef46b2))
+* **components/http:** add `context` to `skyAuthHttpOptions` and `skyAuthHttpJsonOptions` ([#1723](https://github.com/blackbaud/skyux/issues/1723)) ([cab5fc8](https://github.com/blackbaud/skyux/commit/cab5fc84c42fb57bdc1f022e8df874cc1244ea60))
+* **components/theme:** update SKY UX icons to latest versions ([#1720](https://github.com/blackbaud/skyux/issues/1720)) ([3645191](https://github.com/blackbaud/skyux/commit/36451912153274db1e995d36a080fc520aeb2429))
+
 ## [9.0.0](https://github.com/blackbaud/skyux/compare/9.0.0-beta.1...9.0.0) (2023-09-13)
 
 
