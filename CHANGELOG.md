@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.1.1](https://github.com/blackbaud/skyux/compare/9.1.0...9.1.1) (2023-09-15)
+
+
+### Bug Fixes
+
+* **components/popovers:** update background style for dropdown items ([#1725](https://github.com/blackbaud/skyux/issues/1725)) ([530274e](https://github.com/blackbaud/skyux/commit/530274e0b024fd2693c538dd5a454ad73eb2282d))
+
 ## [9.1.0](https://github.com/blackbaud/skyux/compare/9.0.0...9.1.0) (2023-09-14)
 
 
