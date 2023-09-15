@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -7,7 +8,7 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
-import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import {
   SkyDataManagerColumnPickerOption,
   SkyDataManagerService,
@@ -16,6 +17,7 @@ import {
   SkyDataViewState,
 } from '@skyux/data-manager';
 
+import { AgGridModule } from 'ag-grid-angular';
 import {
   ColDef,
   ColumnApi,
@@ -27,17 +29,16 @@ import {
 } from 'ag-grid-community';
 import { Subject, takeUntil } from 'rxjs';
 
-import { AgGridDemoRow } from './data-manager-multiselect-data-grid-docs-demo-data';
+import { AgGridDemoRow } from './data';
 
 @Component({
-  selector: 'app-data-manager-multiselect-data-grid-docs-demo-view-grid',
-  templateUrl:
-    './data-manager-multiselect-data-grid-docs-demo-view-grid.component.html',
+  standalone: true,
+  selector: 'app-view-grid',
+  templateUrl: './view-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [AgGridModule, CommonModule, SkyAgGridModule],
 })
-export class DataManagerMultiselectDataGridDemoViewGridComponent
-  implements OnInit, OnDestroy
-{
+export class ViewGridComponent implements OnInit, OnDestroy {
   @Input()
   public items: AgGridDemoRow[] = [];
 
@@ -49,10 +50,6 @@ export class DataManagerMultiselectDataGridDemoViewGridComponent
   protected viewConfig: SkyDataViewConfig;
 
   #columnDefs: ColDef[] = [
-    {
-      field: 'selected',
-      type: SkyCellType.RowSelector,
-    },
     {
       field: 'name',
       headerName: 'Name',
@@ -89,11 +86,6 @@ export class DataManagerMultiselectDataGridDemoViewGridComponent
 
   #columnPickerOptions: SkyDataManagerColumnPickerOption[] = [
     {
-      id: 'selected',
-      label: '',
-      alwaysDisplayed: true,
-    },
-    {
       id: 'name',
       label: 'Name',
       description: 'The name of the employee.',
@@ -125,11 +117,11 @@ export class DataManagerMultiselectDataGridDemoViewGridComponent
     },
   ];
 
-  #columnApi?: ColumnApi;
+  #columnApi: ColumnApi | undefined;
   #dataState = new SkyDataManagerState({});
-  #gridApi?: GridApi;
+  #gridApi: GridApi | undefined;
   #ngUnsubscribe = new Subject<void>();
-  #viewId = 'dataGridMultiselectWithDataManagerView';
+  #viewId = 'dataGridWithDataManagerView';
 
   readonly #agGridSvc = inject(SkyAgGridService);
   readonly #changeDetectorRef = inject(ChangeDetectorRef);
@@ -142,7 +134,6 @@ export class DataManagerMultiselectDataGridDemoViewGridComponent
       icon: 'table',
       searchEnabled: true,
       sortEnabled: true,
-      multiselectToolbarEnabled: true,
       columnPickerEnabled: true,
       filterButtonEnabled: true,
       columnOptions: this.#columnPickerOptions,
@@ -157,7 +148,7 @@ export class DataManagerMultiselectDataGridDemoViewGridComponent
     this.gridOptions = this.#agGridSvc.getGridOptions({
       gridOptions: {
         columnDefs: this.#columnDefs,
-        rowSelection: 'multiple',
+        rowSelection: 'single',
         onGridReady: this.onGridReady.bind(this),
       },
     });
@@ -205,7 +196,7 @@ export class DataManagerMultiselectDataGridDemoViewGridComponent
     const searchText = this.#dataState && this.#dataState.searchText;
 
     if (searchText) {
-      searchedItems = items.filter((item) => {
+      searchedItems = items.filter(function (item: AgGridDemoRow) {
         let property: keyof typeof item;
 
         for (property in item) {
@@ -214,6 +205,7 @@ export class DataManagerMultiselectDataGridDemoViewGridComponent
             property === 'name'
           ) {
             const propertyText = item[property].toLowerCase();
+
             if (propertyText.indexOf(searchText) > -1) {
               return true;
             }
@@ -233,8 +225,7 @@ export class DataManagerMultiselectDataGridDemoViewGridComponent
 
     if (filterData && filterData.filters) {
       const filters = filterData.filters;
-
-      filteredItems = items.filter((item) => {
+      filteredItems = items.filter((item: AgGridDemoRow) => {
         return (
           ((filters.hideSales && item.department.name !== 'Sales') ||
             !filters.hideSales) &&

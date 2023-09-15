@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { SkyDataManagerService } from '@skyux/data-manager';
 
+import { AgGridModule } from 'ag-grid-angular';
 import {
   ColDef,
   GridApi,
@@ -10,19 +11,25 @@ import {
   ValueFormatterParams,
 } from 'ag-grid-community';
 
-import { AG_GRID_DEMO_DATA } from './basic-data-grid-docs-demo-data';
+import { AG_GRID_DEMO_DATA } from './data';
 
 @Component({
-  selector: 'app-basic-data-grid-docs-demo',
-  templateUrl: './basic-data-grid-docs-demo.component.html',
+  standalone: true,
+  selector: 'app-demo',
+  templateUrl: './demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SkyDataManagerService],
+  imports: [AgGridModule, SkyAgGridModule],
 })
-export class BasicDataGridDemoComponent {
+export class DemoComponent {
   protected gridData = AG_GRID_DEMO_DATA;
   protected gridOptions: GridOptions;
 
   #columnDefs: ColDef[] = [
+    {
+      field: 'selected',
+      type: SkyCellType.RowSelector,
+    },
     {
       field: 'name',
       headerName: 'Name',
@@ -65,7 +72,7 @@ export class BasicDataGridDemoComponent {
     const gridOptions: GridOptions = {
       columnDefs: this.#columnDefs,
       onGridReady: (gridReadyEvent): void => this.onGridReady(gridReadyEvent),
-      rowSelection: 'single',
+      rowSelection: 'multiple',
     };
 
     this.gridOptions = this.#agGridSvc.getGridOptions({

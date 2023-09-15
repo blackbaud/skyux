@@ -7,28 +7,31 @@ import {
   inject,
 } from '@angular/core';
 import {
+  SkyDataManagerConfig,
+  SkyDataManagerModule,
   SkyDataManagerService,
   SkyDataManagerState,
 } from '@skyux/data-manager';
 
 import { Subject, takeUntil } from 'rxjs';
 
-import { AG_GRID_DEMO_DATA } from './data-manager-data-grid-docs-demo-data';
-import { DataManagerDataGridDemoFiltersModalComponent } from './data-manager-data-grid-docs-demo-filter-modal.component';
+import { AG_GRID_DEMO_DATA } from './data';
+import { FilterModalComponent } from './filter-modal.component';
+import { ViewGridComponent } from './view-grid.component';
 
 @Component({
-  selector: 'app-data-manager-data-grid-docs-demo',
-  templateUrl: './data-manager-data-grid-docs-demo.component.html',
+  standalone: true,
+  selector: 'app-demo',
+  templateUrl: './demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SkyDataManagerService],
+  imports: [SkyDataManagerModule, ViewGridComponent],
 })
-export class DataManagerDataGridDemoComponent implements OnInit, OnDestroy {
+export class DemoComponent implements OnInit, OnDestroy {
   protected items = AG_GRID_DEMO_DATA;
 
-  #activeViewId = 'dataGridWithDataManagerView';
-
-  #dataManagerConfig = {
-    filterModalComponent: DataManagerDataGridDemoFiltersModalComponent,
+  #dataManagerConfig: SkyDataManagerConfig = {
+    filterModalComponent: FilterModalComponent,
     sortOptions: [
       {
         id: 'az',
@@ -55,8 +58,9 @@ export class DataManagerDataGridDemoComponent implements OnInit, OnDestroy {
     },
     views: [
       {
-        viewId: 'dataGridWithDataManagerView',
+        viewId: 'dataGridMultiselectWithDataManagerView',
         columnIds: [
+          'selected',
           'name',
           'age',
           'startDate',
@@ -65,6 +69,7 @@ export class DataManagerDataGridDemoComponent implements OnInit, OnDestroy {
           'jobTitle',
         ],
         displayedColumnIds: [
+          'selected',
           'name',
           'age',
           'startDate',
@@ -76,6 +81,7 @@ export class DataManagerDataGridDemoComponent implements OnInit, OnDestroy {
     ],
   });
 
+  #activeViewId = 'dataGridMultiselectWithDataManagerView';
   #ngUnsubscribe = new Subject<void>();
 
   readonly #changeDetectorRef = inject(ChangeDetectorRef);

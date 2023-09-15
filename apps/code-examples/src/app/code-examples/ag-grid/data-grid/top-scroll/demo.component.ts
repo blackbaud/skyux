@@ -1,12 +1,10 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  inject,
-} from '@angular/core';
-import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { SkyDataManagerService } from '@skyux/data-manager';
+import { SkyToolbarModule } from '@skyux/layout';
+import { SkySearchModule } from '@skyux/lookup';
 
+import { AgGridModule } from 'ag-grid-angular';
 import {
   ColDef,
   GridApi,
@@ -15,20 +13,21 @@ import {
   ValueFormatterParams,
 } from 'ag-grid-community';
 
-import { AG_GRID_DEMO_DATA } from './data-grid-demo-data';
-import { InlineHelpComponent } from './inline-help.component';
+import { AG_GRID_DEMO_DATA } from './data';
 
 @Component({
-  selector: 'app-data-grid-demo',
-  templateUrl: './data-grid-demo.component.html',
+  standalone: true,
+  selector: 'app-demo',
+  templateUrl: './demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SkyDataManagerService],
+  imports: [AgGridModule, SkyAgGridModule, SkySearchModule, SkyToolbarModule],
 })
-export class DataGridDemoComponent {
+export class DemoComponent {
   protected gridData = AG_GRID_DEMO_DATA;
   protected gridOptions: GridOptions;
   protected searchText = '';
-  protected noRowsTemplate: string;
+  protected noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
 
   #columnDefs: ColDef[] = [
     {
@@ -38,89 +37,64 @@ export class DataGridDemoComponent {
     {
       field: 'name',
       headerName: 'Name',
-      headerComponentParams: {
-        inlineHelpComponent: InlineHelpComponent,
-      },
     },
     {
       field: 'age',
       headerName: 'Age',
       type: SkyCellType.Number,
       maxWidth: 60,
-      headerComponentParams: {
-        inlineHelpComponent: InlineHelpComponent,
-      },
     },
     {
       field: 'startDate',
       headerName: 'Start date',
       type: SkyCellType.Date,
       sort: 'asc',
-      headerComponentParams: {
-        inlineHelpComponent: InlineHelpComponent,
-      },
     },
     {
       field: 'endDate',
       headerName: 'End date',
       type: SkyCellType.Date,
       valueFormatter: this.#endDateFormatter,
-      headerComponentParams: {
-        inlineHelpComponent: InlineHelpComponent,
-      },
     },
     {
       field: 'department',
       headerName: 'Department',
       type: SkyCellType.Autocomplete,
-      headerComponentParams: {
-        inlineHelpComponent: InlineHelpComponent,
-      },
     },
     {
       field: 'jobTitle',
       headerName: 'Title',
       type: SkyCellType.Autocomplete,
-      headerComponentParams: {
-        inlineHelpComponent: InlineHelpComponent,
-      },
     },
   ];
 
   #gridApi: GridApi | undefined;
 
   readonly #agGridSvc = inject(SkyAgGridService);
-  readonly #changeDetectorRef = inject(ChangeDetectorRef);
 
   constructor() {
-    this.noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
-
     this.gridOptions = this.#agGridSvc.getGridOptions({
       gridOptions: {
         columnDefs: this.#columnDefs,
-        onGridReady: this.onGridReady.bind(this),
+        onGridReady: (gridReadyEvent): void => this.onGridReady(gridReadyEvent),
+        context: {
+          enableTopScroll: true,
+        },
       },
     });
-
-    this.#changeDetectorRef.markForCheck();
   }
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.#gridApi = gridReadyEvent.api;
     this.#gridApi.sizeColumnsToFit();
-    this.#changeDetectorRef.markForCheck();
   }
 
   protected searchApplied(searchText: string | void): void {
-    if (searchText) {
-      this.searchText = searchText;
-    } else {
-      this.searchText = '';
-    }
+    this.searchText = searchText ?? '';
+
     if (this.#gridApi) {
       this.#gridApi.setQuickFilter(this.searchText);
       const displayedRowCount = this.#gridApi.getDisplayedRowCount();
-
       if (displayedRowCount > 0) {
         this.#gridApi.hideOverlay();
       } else {

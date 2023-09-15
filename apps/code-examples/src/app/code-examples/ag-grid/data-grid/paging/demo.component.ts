@@ -7,9 +7,11 @@ import {
   inject,
 } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { SkyDataManagerService } from '@skyux/data-manager';
+import { SkyPagingModule } from '@skyux/lists';
 
+import { AgGridModule } from 'ag-grid-angular';
 import {
   ColDef,
   GridApi,
@@ -20,15 +22,17 @@ import {
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
-import { AG_GRID_DEMO_DATA } from './data-grid-paging-demo-data';
+import { AG_GRID_DEMO_DATA } from './data';
 
 @Component({
-  selector: 'app-data-grid-paging-demo',
-  templateUrl: './data-grid-paging-demo.component.html',
+  standalone: true,
+  selector: 'app-demo',
+  templateUrl: './demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SkyDataManagerService],
+  imports: [AgGridModule, SkyAgGridModule, SkyPagingModule],
 })
-export class DataGridPagingDemoComponent implements OnInit, OnDestroy {
+export class DemoComponent implements OnInit, OnDestroy {
   protected currentPage = 1;
 
   protected readonly pageSize = 3;

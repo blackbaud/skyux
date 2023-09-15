@@ -6,15 +6,14 @@
       (searchApply)="searchApplied($event)"
       (searchChange)="searchApplied($event)"
       (searchClear)="searchApplied($event)"
-    >
-    </sky-search>
+    />
   </sky-toolbar-item>
 </sky-toolbar>
+
 <sky-ag-grid-wrapper>
   <ag-grid-angular
     [gridOptions]="gridOptions"
     [overlayNoRowsTemplate]="noRowsTemplate"
     [rowData]="gridData"
-  >
-  </ag-grid-angular>
+  />
 </sky-ag-grid-wrapper>

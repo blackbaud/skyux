@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { SkyDataManagerService } from '@skyux/data-manager';
 
+import { AgGridModule } from 'ag-grid-angular';
 import {
   ColDef,
   GridApi,
@@ -10,25 +11,21 @@ import {
   ValueFormatterParams,
 } from 'ag-grid-community';
 
-import { AG_GRID_DEMO_DATA } from './top-scroll-data-grid-demo-data';
+import { AG_GRID_DEMO_DATA } from './data';
 
 @Component({
-  selector: 'app-basic-data-grid-docs-demo',
-  templateUrl: './top-scroll-data-grid-demo.component.html',
+  standalone: true,
+  selector: 'app-demo',
+  templateUrl: './demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SkyDataManagerService],
+  imports: [AgGridModule, SkyAgGridModule],
 })
-export class TopScrollDataGridDemoComponent {
+export class DemoComponent {
   protected gridData = AG_GRID_DEMO_DATA;
   protected gridOptions: GridOptions;
-  protected searchText = '';
-  protected noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
 
   #columnDefs: ColDef[] = [
-    {
-      field: 'selected',
-      type: SkyCellType.RowSelector,
-    },
     {
       field: 'name',
       headerName: 'Name',
@@ -68,34 +65,20 @@ export class TopScrollDataGridDemoComponent {
   readonly #agGridSvc = inject(SkyAgGridService);
 
   constructor() {
+    const gridOptions: GridOptions = {
+      columnDefs: this.#columnDefs,
+      onGridReady: (gridReadyEvent): void => this.onGridReady(gridReadyEvent),
+      rowSelection: 'single',
+    };
+
     this.gridOptions = this.#agGridSvc.getGridOptions({
-      gridOptions: {
-        columnDefs: this.#columnDefs,
-        onGridReady: (gridReadyEvent): void => this.onGridReady(gridReadyEvent),
-        context: {
-          enableTopScroll: true,
-        },
-      },
+      gridOptions,
     });
   }
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.#gridApi = gridReadyEvent.api;
     this.#gridApi.sizeColumnsToFit();
-  }
-
-  protected searchApplied(searchText: string | void): void {
-    this.searchText = searchText ?? '';
-
-    if (this.#gridApi) {
-      this.#gridApi.setQuickFilter(this.searchText);
-      const displayedRowCount = this.#gridApi.getDisplayedRowCount();
-      if (displayedRowCount > 0) {
-        this.#gridApi.hideOverlay();
-      } else {
-        this.#gridApi.showNoRowsOverlay();
-      }
-    }
   }
 
   #endDateFormatter(params: ValueFormatterParams): string {

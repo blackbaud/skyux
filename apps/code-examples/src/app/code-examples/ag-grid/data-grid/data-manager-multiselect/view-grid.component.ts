@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -7,7 +8,7 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
-import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import {
   SkyDataManagerColumnPickerOption,
   SkyDataManagerService,
@@ -16,6 +17,7 @@ import {
   SkyDataViewState,
 } from '@skyux/data-manager';
 
+import { AgGridModule } from 'ag-grid-angular';
 import {
   ColDef,
   ColumnApi,
@@ -27,16 +29,16 @@ import {
 } from 'ag-grid-community';
 import { Subject, takeUntil } from 'rxjs';
 
-import { AgGridDemoRow } from './data-manager-data-grid-docs-demo-data';
+import { AgGridDemoRow } from './data';
 
 @Component({
-  selector: 'app-data-manager-data-grid-docs-demo-view-grid',
-  templateUrl: './data-manager-data-grid-docs-demo-view-grid.component.html',
+  standalone: true,
+  selector: 'app-view-grid',
+  templateUrl: './view-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [AgGridModule, CommonModule, SkyAgGridModule],
 })
-export class DataManagerDataGridDemoViewGridComponent
-  implements OnInit, OnDestroy
-{
+export class ViewGridComponent implements OnInit, OnDestroy {
   @Input()
   public items: AgGridDemoRow[] = [];
 
@@ -48,6 +50,10 @@ export class DataManagerDataGridDemoViewGridComponent
   protected viewConfig: SkyDataViewConfig;
 
   #columnDefs: ColDef[] = [
+    {
+      field: 'selected',
+      type: SkyCellType.RowSelector,
+    },
     {
       field: 'name',
       headerName: 'Name',
@@ -84,6 +90,11 @@ export class DataManagerDataGridDemoViewGridComponent
 
   #columnPickerOptions: SkyDataManagerColumnPickerOption[] = [
     {
+      id: 'selected',
+      label: '',
+      alwaysDisplayed: true,
+    },
+    {
       id: 'name',
       label: 'Name',
       description: 'The name of the employee.',
@@ -115,11 +126,11 @@ export class DataManagerDataGridDemoViewGridComponent
     },
   ];
 
-  #columnApi: ColumnApi | undefined;
+  #columnApi?: ColumnApi;
   #dataState = new SkyDataManagerState({});
-  #gridApi: GridApi | undefined;
+  #gridApi?: GridApi;
   #ngUnsubscribe = new Subject<void>();
-  #viewId = 'dataGridWithDataManagerView';
+  #viewId = 'dataGridMultiselectWithDataManagerView';
 
   readonly #agGridSvc = inject(SkyAgGridService);
   readonly #changeDetectorRef = inject(ChangeDetectorRef);
@@ -132,6 +143,7 @@ export class DataManagerDataGridDemoViewGridComponent
       icon: 'table',
       searchEnabled: true,
       sortEnabled: true,
+      multiselectToolbarEnabled: true,
       columnPickerEnabled: true,
       filterButtonEnabled: true,
       columnOptions: this.#columnPickerOptions,
@@ -146,7 +158,7 @@ export class DataManagerDataGridDemoViewGridComponent
     this.gridOptions = this.#agGridSvc.getGridOptions({
       gridOptions: {
         columnDefs: this.#columnDefs,
-        rowSelection: 'single',
+        rowSelection: 'multiple',
         onGridReady: this.onGridReady.bind(this),
       },
     });
@@ -194,7 +206,7 @@ export class DataManagerDataGridDemoViewGridComponent
     const searchText = this.#dataState && this.#dataState.searchText;
 
     if (searchText) {
-      searchedItems = items.filter(function (item: AgGridDemoRow) {
+      searchedItems = items.filter((item) => {
         let property: keyof typeof item;
 
         for (property in item) {
@@ -203,7 +215,6 @@ export class DataManagerDataGridDemoViewGridComponent
             property === 'name'
           ) {
             const propertyText = item[property].toLowerCase();
-
             if (propertyText.indexOf(searchText) > -1) {
               return true;
             }
@@ -223,7 +234,8 @@ export class DataManagerDataGridDemoViewGridComponent
 
     if (filterData && filterData.filters) {
       const filters = filterData.filters;
-      filteredItems = items.filter((item: AgGridDemoRow) => {
+
+      filteredItems = items.filter((item) => {
         return (
           ((filters.hideSales && item.department.name !== 'Sales') ||
             !filters.hideSales) &&
