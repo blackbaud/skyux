@@ -6,14 +6,12 @@ import { ICellRendererParams } from 'ag-grid-community';
 
 @Component({
   standalone: true,
-  selector: 'app-data-entry-grid-docs-demo-context-menu',
-  templateUrl: './data-entry-grid-docs-demo-context-menu.component.html',
+  selector: 'app-demo-context-menu',
+  templateUrl: './demo-context-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyDropdownModule],
 })
-export class DataEntryGridContextMenuComponent
-  implements ICellRendererAngularComp
-{
+export class DemoContextMenuComponent implements ICellRendererAngularComp {
   #name = '';
 
   public agInit(params: ICellRendererParams): void {
