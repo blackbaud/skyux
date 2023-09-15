@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -7,13 +8,14 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
-import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import {
   SkyDataManagerService,
   SkyDataManagerState,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
 
+import { AgGridModule } from 'ag-grid-angular';
 import {
   ColDef,
   ColumnApi,
@@ -25,22 +27,20 @@ import {
 } from 'ag-grid-community';
 import { Subject, takeUntil } from 'rxjs';
 
-import { AgGridDemoRow } from './data-manager-data-entry-grid-docs-demo-data';
+import { AgGridDemoRow } from './data';
 
 @Component({
-  selector: 'app-data-manager-data-entry-grid-docs-demo-view-grid',
-  templateUrl:
-    './data-manager-data-entry-grid-docs-demo-view-grid.component.html',
+  standalone: true,
+  selector: 'app-view-grid',
+  templateUrl: './view-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [AgGridModule, CommonModule, SkyAgGridModule],
 })
-export class DataManagerDataEntryGridDemoViewGridComponent
-  implements OnInit, OnDestroy
-{
+export class ViewGridComponent implements OnInit, OnDestroy {
   @Input()
   public set items(value: AgGridDemoRow[]) {
     this.#_items = value;
     this.#changeDetectorRef.markForCheck();
-
     this.#gridApi?.refreshCells();
   }
 

@@ -1,10 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { DataEntryGridDemoComponent as DataEntryGridBasicDataEntryGridDemoComponent } from '../code-examples/ag-grid/data-entry-grid/basic/data-entry-grid-docs-demo.component';
-import { DataEntryGridDemoModule as DataEntryGridBasicDataEntryGridDemoModule } from '../code-examples/ag-grid/data-entry-grid/basic/data-entry-grid-docs-demo.module';
-import { DataManagerDataEntryGridDemoComponent as DataEntryGridDataManagerAddedDataManagerDataEntryGridDemoComponent } from '../code-examples/ag-grid/data-entry-grid/data-manager-added/data-manager-data-entry-grid-docs-demo.component';
-import { DataManagerDataEntryGridDemoModule as DataEntryGridDataManagerAddedDataManagerDataEntryGridDemoModule } from '../code-examples/ag-grid/data-entry-grid/data-manager-added/data-manager-data-entry-grid-docs-demo.module';
+import { DemoComponent as BasicDataEntryGridComponent } from '../code-examples/ag-grid/data-entry-grid/basic/demo.component';
+import { DemoComponent as DataManagerDataEntryGridComponent } from '../code-examples/ag-grid/data-entry-grid/data-manager-added/demo.component';
 import { DataEntryGridDemoComponent as DataEntryGridInlineHelpDataEntryGridDemoComponent } from '../code-examples/ag-grid/data-entry-grid/inline-help/data-entry-grid-docs-demo.component';
 import { DataEntryGridDemoModule as DataEntryGridInlineHelpDataEntryGridDemoModule } from '../code-examples/ag-grid/data-entry-grid/inline-help/data-entry-grid-docs-demo.module';
 import { BasicMultiselectDataGridDemoComponent as DataGridBasicMultiselectDataGridDemoComponent } from '../code-examples/ag-grid/data-grid/basic-multiselect/basic-multiselect-data-grid-docs-demo.component';
@@ -25,12 +23,11 @@ import { TopScrollDataGridDemoModule } from '../code-examples/ag-grid/data-grid/
 const routes: Routes = [
   {
     path: 'data-entry-grid/basic',
-    component: DataEntryGridBasicDataEntryGridDemoComponent,
+    component: BasicDataEntryGridComponent,
   },
   {
     path: 'data-entry-grid/data-manager-added',
-    component:
-      DataEntryGridDataManagerAddedDataManagerDataEntryGridDemoComponent,
+    component: DataManagerDataEntryGridComponent,
   },
   {
     path: 'data-entry-grid/inline-help',
@@ -75,8 +72,8 @@ export class AgGridFeatureRoutingModule {}
 
 @NgModule({
   imports: [
-    DataEntryGridBasicDataEntryGridDemoModule,
-    DataEntryGridDataManagerAddedDataManagerDataEntryGridDemoModule,
+    BasicDataEntryGridComponent,
+    DataManagerDataEntryGridComponent,
     DataEntryGridInlineHelpDataEntryGridDemoModule,
     DataGridBasicBasicDataGridDemoModule,
     DataGridPagingDemoModule,

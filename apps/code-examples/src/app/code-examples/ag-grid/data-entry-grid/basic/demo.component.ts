@@ -18,10 +18,10 @@ import {
   ValueFormatterParams,
 } from 'ag-grid-community';
 
-import { DemoContextMenuComponent } from './demo-context-menu.component';
-import { AG_GRID_DEMO_DATA } from './demo-data';
-import { DemoEditModalContext } from './demo-edit-modal-context';
-import { DemoEditModalComponent } from './demo-edit-modal.component';
+import { ContextMenuComponent } from './context-menu.component';
+import { AG_GRID_DEMO_DATA } from './data';
+import { EditModalContext } from './edit-modal-context';
+import { EditModalComponent } from './edit-modal.component';
 
 @Component({
   standalone: true,
@@ -46,7 +46,7 @@ export class DemoComponent {
       headerName: '',
       maxWidth: 50,
       sortable: false,
-      cellRenderer: DemoContextMenuComponent,
+      cellRenderer: ContextMenuComponent,
     },
     {
       field: 'name',
@@ -140,7 +140,7 @@ export class DemoComponent {
   }
 
   protected openModal(): void {
-    const context = new DemoEditModalContext();
+    const context = new EditModalContext();
 
     context.gridData = this.gridData;
 
@@ -148,14 +148,14 @@ export class DemoComponent {
       ariaDescribedBy: 'docs-edit-grid-modal-content',
       providers: [
         {
-          provide: DemoEditModalContext,
+          provide: EditModalContext,
           useValue: context,
         },
       ],
       size: 'large',
     };
 
-    const modalInstance = this.#modalSvc.open(DemoEditModalComponent, options);
+    const modalInstance = this.#modalSvc.open(EditModalComponent, options);
 
     modalInstance.closed.subscribe((result) => {
       if (result.reason === 'cancel' || result.reason === 'close') {

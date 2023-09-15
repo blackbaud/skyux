@@ -7,6 +7,7 @@ import {
   inject,
 } from '@angular/core';
 import {
+  SkyDataManagerModule,
   SkyDataManagerService,
   SkyDataManagerState,
 } from '@skyux/data-manager';
@@ -14,20 +15,21 @@ import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
 import { Subject, takeUntil } from 'rxjs';
 
-import { AG_GRID_DEMO_DATA } from './data-manager-data-entry-grid-docs-demo-data';
-import { DataEntryGridEditModalContext } from './data-manager-data-entry-grid-docs-demo-edit-modal-context';
-import { DataManagerDataEntryGridEditModalComponent } from './data-manager-data-entry-grid-docs-demo-edit-modal.component';
-import { DataManagerDataEntryGridDemoFiltersModalComponent } from './data-manager-data-entry-grid-docs-demo-filter-modal.component';
+import { AG_GRID_DEMO_DATA } from './data';
+import { EditModalContext } from './edit-modal-context';
+import { EditModalComponent } from './edit-modal.component';
+import { FilterModalComponent } from './filter-modal.component';
+import { ViewGridComponent } from './view-grid.component';
 
 @Component({
-  selector: 'app-data-manager-data-entry-grid-docs-demo',
-  templateUrl: './data-manager-data-entry-grid-docs-demo.component.html',
+  standalone: true,
+  selector: 'app-demo',
+  templateUrl: './demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SkyDataManagerService],
+  imports: [ViewGridComponent, SkyDataManagerModule],
 })
-export class DataManagerDataEntryGridDemoComponent
-  implements OnInit, OnDestroy
-{
+export class DemoComponent implements OnInit, OnDestroy {
   protected items = AG_GRID_DEMO_DATA;
 
   #activeViewId = 'dataEntryGridWithDataManagerView';
@@ -58,7 +60,7 @@ export class DataManagerDataEntryGridDemoComponent
   });
 
   #dataManagerConfig = {
-    filterModalComponent: DataManagerDataEntryGridDemoFiltersModalComponent,
+    filterModalComponent: FilterModalComponent,
     sortOptions: [
       {
         id: 'az',
@@ -105,7 +107,7 @@ export class DataManagerDataEntryGridDemoComponent
   }
 
   protected openModal(): void {
-    const context = new DataEntryGridEditModalContext();
+    const context = new EditModalContext();
     context.gridData = this.items.slice();
 
     this.#changeDetectorRef.markForCheck();
@@ -114,17 +116,14 @@ export class DataManagerDataEntryGridDemoComponent
       ariaDescribedBy: 'docs-edit-grid-modal-content',
       providers: [
         {
-          provide: DataEntryGridEditModalContext,
+          provide: EditModalContext,
           useValue: context,
         },
       ],
       size: 'large',
     };
 
-    const modalInstance = this.#modalSvc.open(
-      DataManagerDataEntryGridEditModalComponent,
-      options
-    );
+    const modalInstance = this.#modalSvc.open(EditModalComponent, options);
 
     modalInstance.closed.subscribe((result) => {
       if (result.reason === 'cancel' || result.reason === 'close') {

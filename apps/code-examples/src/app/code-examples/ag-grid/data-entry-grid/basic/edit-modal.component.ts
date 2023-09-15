@@ -25,17 +25,17 @@ import {
   NewValueParams,
 } from 'ag-grid-community';
 
-import { AgGridDemoRow, DEPARTMENTS, JOB_TITLES } from './demo-data';
-import { DemoEditModalContext } from './demo-edit-modal-context';
+import { AgGridDemoRow, DEPARTMENTS, JOB_TITLES } from './data';
+import { EditModalContext } from './edit-modal-context';
 
 @Component({
   standalone: true,
-  selector: 'app-demo-edit-modal',
-  templateUrl: './demo-edit-modal.component.html',
+  selector: 'app-edit-modal',
+  templateUrl: './edit-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AgGridModule, SkyAgGridModule, SkyModalModule],
 })
-export class DemoEditModalComponent {
+export class EditModalComponent {
   protected gridData: AgGridDemoRow[];
   protected gridOptions: GridOptions;
 
@@ -45,7 +45,7 @@ export class DemoEditModalComponent {
   protected readonly instance = inject(SkyModalInstance);
   readonly #agGridSvc = inject(SkyAgGridService);
   readonly #changeDetectorRef = inject(ChangeDetectorRef);
-  readonly #context = inject(DemoEditModalContext);
+  readonly #context = inject(EditModalContext);
 
   constructor() {
     this.#columnDefs = [
