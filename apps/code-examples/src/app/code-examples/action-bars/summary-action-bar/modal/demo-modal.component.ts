@@ -5,13 +5,12 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
   standalone: true,
-  selector: 'app-test-cmp-modal',
-  templateUrl: './summary-action-bar-modal-demo.component.html',
-  styleUrls: ['./summary-action-bar-modal-demo.component.scss'],
+  selector: 'app-demo-modal',
+  templateUrl: './demo-modal.component.html',
   imports: [SkyKeyInfoModule, SkyModalModule, SkySummaryActionBarModule],
 })
-export class SummaryActionBarModalDemoComponent {
-  protected readonly instance = inject(SkyModalInstance);
+export class DemoModalComponent {
+  readonly #modalInstance = inject(SkyModalInstance);
 
   protected onSecondaryActionClick(): void {
     alert('Secondary action button clicked.');
@@ -19,5 +18,13 @@ export class SummaryActionBarModalDemoComponent {
 
   protected onSecondaryAction2Click(): void {
     alert('Secondary action 2 button clicked.');
+  }
+
+  protected cancel(): void {
+    this.#modalInstance.cancel();
+  }
+
+  protected save(): void {
+    this.#modalInstance.save();
   }
 }
