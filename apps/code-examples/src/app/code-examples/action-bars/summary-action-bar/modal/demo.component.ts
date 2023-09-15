@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { SkyModalService } from '@skyux/modals';
 
-import { DemoModalComponent } from './demo-modal.component';
+import { ModalComponent } from './modal.component';
 
 @Component({
   standalone: true,
@@ -12,7 +12,7 @@ export class DemoComponent {
   readonly #modalSvc = inject(SkyModalService);
 
   protected openModal(): void {
-    this.#modalSvc.open(DemoModalComponent, {
+    this.#modalSvc.open(ModalComponent, {
       size: 'large',
     });
   }

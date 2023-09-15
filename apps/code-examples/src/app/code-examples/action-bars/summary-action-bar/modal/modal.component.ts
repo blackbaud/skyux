@@ -5,11 +5,11 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
   standalone: true,
-  selector: 'app-demo-modal',
-  templateUrl: './demo-modal.component.html',
+  selector: 'app-modal',
+  templateUrl: './modal.component.html',
   imports: [SkyKeyInfoModule, SkyModalModule, SkySummaryActionBarModule],
 })
-export class DemoModalComponent {
+export class ModalComponent {
   readonly #modalInstance = inject(SkyModalInstance);
 
   protected onSecondaryActionClick(): void {
