@@ -3,8 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { DemoComponent as BasicDataEntryGridComponent } from '../code-examples/ag-grid/data-entry-grid/basic/demo.component';
 import { DemoComponent as DataManagerDataEntryGridComponent } from '../code-examples/ag-grid/data-entry-grid/data-manager-added/demo.component';
-import { DataEntryGridDemoComponent as DataEntryGridInlineHelpDataEntryGridDemoComponent } from '../code-examples/ag-grid/data-entry-grid/inline-help/data-entry-grid-docs-demo.component';
-import { DataEntryGridDemoModule as DataEntryGridInlineHelpDataEntryGridDemoModule } from '../code-examples/ag-grid/data-entry-grid/inline-help/data-entry-grid-docs-demo.module';
+import { DemoComponent as InlineHelpDataEntryGridComponent } from '../code-examples/ag-grid/data-entry-grid/inline-help/demo.component';
 import { BasicMultiselectDataGridDemoComponent as DataGridBasicMultiselectDataGridDemoComponent } from '../code-examples/ag-grid/data-grid/basic-multiselect/basic-multiselect-data-grid-docs-demo.component';
 import { BasicMultiselectDataGridDemoModule } from '../code-examples/ag-grid/data-grid/basic-multiselect/basic-multiselect-data-grid-docs-demo.module';
 import { BasicDataGridDemoComponent as DataGridBasicDataGridDemoComponent } from '../code-examples/ag-grid/data-grid/basic/basic-data-grid-docs-demo.component';
@@ -31,7 +30,7 @@ const routes: Routes = [
   },
   {
     path: 'data-entry-grid/inline-help',
-    component: DataEntryGridInlineHelpDataEntryGridDemoComponent,
+    component: InlineHelpDataEntryGridComponent,
   },
   {
     path: 'data-grid/basic',
@@ -74,7 +73,7 @@ export class AgGridFeatureRoutingModule {}
   imports: [
     BasicDataEntryGridComponent,
     DataManagerDataEntryGridComponent,
-    DataEntryGridInlineHelpDataEntryGridDemoModule,
+    InlineHelpDataEntryGridComponent,
     DataGridBasicBasicDataGridDemoModule,
     DataGridPagingDemoModule,
     InlineHelpDataGridDemoModule,

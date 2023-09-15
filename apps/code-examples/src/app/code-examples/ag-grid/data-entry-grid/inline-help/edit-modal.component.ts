@@ -24,21 +24,17 @@ import {
   IRowNode,
 } from 'ag-grid-community';
 
-import {
-  AgGridDemoRow,
-  DEPARTMENTS,
-  JOB_TITLES,
-} from './data-entry-grid-docs-demo-data';
-import { DataEntryGridEditModalContext } from './data-entry-grid-docs-demo-edit-modal-context';
+import { AgGridDemoRow, DEPARTMENTS, JOB_TITLES } from './data';
+import { EditModalContext } from './edit-modal-context';
 
 @Component({
   standalone: true,
-  selector: 'app-data-entry-grid-docs-demo-edit-modal',
-  templateUrl: './data-entry-grid-docs-demo-edit-modal.component.html',
+  selector: 'app-edit-modal',
+  templateUrl: './edit-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AgGridModule, SkyAgGridModule, SkyModalModule],
 })
-export class DataEntryGridEditModalComponent {
+export class EditModalComponent {
   protected gridData: AgGridDemoRow[];
   protected gridOptions: GridOptions;
 
@@ -48,7 +44,7 @@ export class DataEntryGridEditModalComponent {
   protected readonly instance = inject(SkyModalInstance);
   readonly #agGridSvc = inject(SkyAgGridService);
   readonly #changeDetectorRef = inject(ChangeDetectorRef);
-  readonly #context = inject(DataEntryGridEditModalContext);
+  readonly #context = inject(EditModalContext);
 
   constructor() {
     this.#columnDefs = [

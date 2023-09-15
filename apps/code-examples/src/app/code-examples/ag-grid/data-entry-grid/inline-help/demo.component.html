@@ -1,0 +1,24 @@
+<sky-toolbar>
+  <sky-toolbar-item>
+    <button class="sky-btn sky-btn-primary" type="button" (click)="openModal()">
+      Edit
+    </button>
+  </sky-toolbar-item>
+  <sky-toolbar-item>
+    <sky-search
+      [debounceTime]="250"
+      [searchText]="searchText"
+      (searchApply)="searchApplied($event)"
+      (searchChange)="searchApplied($event)"
+      (searchClear)="searchApplied($event)"
+    />
+  </sky-toolbar-item>
+</sky-toolbar>
+
+<sky-ag-grid-wrapper>
+  <ag-grid-angular
+    [gridOptions]="gridOptions"
+    [overlayNoRowsTemplate]="noRowsTemplate"
+    [rowData]="gridData"
+  />
+</sky-ag-grid-wrapper>

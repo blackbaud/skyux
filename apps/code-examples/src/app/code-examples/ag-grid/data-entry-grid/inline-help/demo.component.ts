@@ -4,13 +4,16 @@ import {
   Component,
   inject,
 } from '@angular/core';
-import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import { SkyToolbarModule } from '@skyux/layout';
+import { SkySearchModule } from '@skyux/lookup';
 import {
   SkyModalCloseArgs,
   SkyModalConfigurationInterface,
   SkyModalService,
 } from '@skyux/modals';
 
+import { AgGridModule } from 'ag-grid-angular';
 import {
   ColDef,
   GridApi,
@@ -19,18 +22,20 @@ import {
   ValueFormatterParams,
 } from 'ag-grid-community';
 
-import { DataEntryGridContextMenuComponent } from './data-entry-grid-docs-demo-context-menu.component';
-import { AG_GRID_DEMO_DATA } from './data-entry-grid-docs-demo-data';
-import { DataEntryGridEditModalContext } from './data-entry-grid-docs-demo-edit-modal-context';
-import { DataEntryGridEditModalComponent } from './data-entry-grid-docs-demo-edit-modal.component';
+import { ContextMenuComponent } from './context-menu.component';
+import { AG_GRID_DEMO_DATA } from './data';
+import { EditModalContext } from './edit-modal-context';
+import { EditModalComponent } from './edit-modal.component';
 import { InlineHelpComponent } from './inline-help.component';
 
 @Component({
-  selector: 'app-data-entry-grid-docs-demo',
-  templateUrl: './data-entry-grid-docs-demo.component.html',
+  standalone: true,
+  selector: 'app-demo',
+  templateUrl: './demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [AgGridModule, SkyAgGridModule, SkySearchModule, SkyToolbarModule],
 })
-export class DataEntryGridDemoComponent {
+export class DemoComponent {
   protected gridData = AG_GRID_DEMO_DATA;
   protected gridOptions: GridOptions;
   protected noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
@@ -46,7 +51,7 @@ export class DataEntryGridDemoComponent {
       headerName: '',
       maxWidth: 50,
       sortable: false,
-      cellRenderer: DataEntryGridContextMenuComponent,
+      cellRenderer: ContextMenuComponent,
     },
     {
       field: 'name',
@@ -163,13 +168,13 @@ export class DataEntryGridDemoComponent {
   }
 
   protected openModal(): void {
-    const context = new DataEntryGridEditModalContext();
+    const context = new EditModalContext();
     context.gridData = this.gridData;
 
     const options: SkyModalConfigurationInterface = {
       providers: [
         {
-          provide: DataEntryGridEditModalContext,
+          provide: EditModalContext,
           useValue: context,
         },
       ],
@@ -177,10 +182,7 @@ export class DataEntryGridDemoComponent {
       size: 'large',
     };
 
-    const modalInstance = this.#modalSvc.open(
-      DataEntryGridEditModalComponent,
-      options
-    );
+    const modalInstance = this.#modalSvc.open(EditModalComponent, options);
 
     modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {
       if (result.reason === 'cancel' || result.reason === 'close') {
