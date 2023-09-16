@@ -1,0 +1,31 @@
+<sky-colorpicker
+  [messageStream]="colorpickerController"
+  [showResetButton]="showResetButton"
+  #colorPicker
+>
+  <input [skyColorpickerInput]="colorPicker" />
+</sky-colorpicker>
+
+<button
+  class="sky-btn sky-btn-primary sky-margin-inline-sm"
+  type="button"
+  (click)="openColorpicker()"
+>
+  Open colorpicker
+</button>
+
+<button
+  class="sky-btn sky-btn-default sky-margin-inline-sm"
+  type="button"
+  (click)="resetColorpicker()"
+>
+  Reset colorpicker
+</button>
+
+<button
+  class="sky-btn sky-btn-default sky-margin-inline-sm"
+  type="button"
+  (click)="toggleResetButton()"
+>
+  Toggle reset button
+</button>
