@@ -1,7 +1,9 @@
+import { Injectable } from '@angular/core';
 import { SkyAutonumericOptions } from '@skyux/autonumeric';
 import { SkyAutonumericOptionsProvider } from '@skyux/autonumeric';
 
-export class AutonumericDemoOptionsProvider extends SkyAutonumericOptionsProvider {
+@Injectable()
+export class DemoAutonumericOptionsProvider extends SkyAutonumericOptionsProvider {
   constructor() {
     super();
   }
