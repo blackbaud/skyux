@@ -1,13 +1,23 @@
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { TreeModule } from '@blackbaud/angular-tree-component';
+import { SkyAngularTreeModule } from '@skyux/angular-tree-component';
+import { SkyHelpInlineModule } from '@skyux/indicators';
 
 @Component({
-  selector: 'app-angular-tree-component-demo',
-  styleUrls: ['./angular-tree-demo.component.scss'],
-  templateUrl: './angular-tree-demo.component.html',
+  standalone: true,
+  selector: 'app-demo',
+  templateUrl: './demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    SkyAngularTreeModule,
+    SkyHelpInlineModule,
+    TreeModule,
+  ],
 })
-export class AngularTreeDemoComponent {
-  public nodes = [
+export class DemoComponent {
+  protected nodes = [
     {
       name: 'Animals',
       isExpanded: true,
@@ -39,7 +49,7 @@ export class AngularTreeDemoComponent {
     },
   ];
 
-  public onActionClick(): void {
+  protected onActionClick(): void {
     alert('Help inline button clicked!');
   }
 }

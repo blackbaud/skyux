@@ -1,10 +1,10 @@
 <div class="sky-margin-stacked-xl">
   <!-- #region The following tree options are for demonstration purposes only. -->
-  <form novalidate [formGroup]="demoOptions">
+  <form novalidate [formGroup]="formGroup">
     <sky-fluid-grid>
       <sky-row>
         <sky-column [screenSmall]="6">
-          <h4 id="sky-demo-modes">Modes</h4>
+          <h4>Modes</h4>
           <sky-radio-group ariaLabel="Tree modes" formControlName="treeMode">
             <ul class="sky-list-unstyled">
               <li>
@@ -28,7 +28,7 @@
             <li>
               <sky-checkbox
                 [disabled]="
-                  demoOptions.value.treeMode !== 'selection' || enableCascading
+                  formGroup.value.treeMode !== 'selection' || enableCascading
                 "
                 formControlName="selectLeafNodesOnly"
               >
@@ -46,7 +46,7 @@
                   <li>
                     <sky-radio
                       value="singleSelect"
-                      [disabled]="demoOptions.value.treeMode !== 'selection'"
+                      [disabled]="formGroup.value.treeMode !== 'selection'"
                     >
                       <sky-radio-label> Single-select </sky-radio-label>
                     </sky-radio>
@@ -54,7 +54,7 @@
                   <li>
                     <sky-radio
                       value="multiSelect"
-                      [disabled]="demoOptions.value.treeMode !== 'selection'"
+                      [disabled]="formGroup.value.treeMode !== 'selection'"
                     >
                       <sky-radio-label> Multi-select </sky-radio-label>
                     </sky-radio>
@@ -66,7 +66,7 @@
                         <sky-checkbox
                           formControlName="enableCascading"
                           [disabled]="
-                            demoOptions.value.treeMode !== 'selection' ||
+                            formGroup.value.treeMode !== 'selection' ||
                             selectLeafNodesOnly ||
                             selectSingle
                           "
@@ -107,7 +107,7 @@
       [readOnly]="readOnly"
       [selectLeafNodesOnly]="selectLeafNodesOnly"
       [selectSingle]="selectSingle"
-      [showToolbar]="demoOptions.value.showToolbar"
+      [showToolbar]="formGroup.value.showToolbar"
     >
       <tree-root
         [nodes]="nodes"
@@ -127,7 +127,7 @@
             [templates]="templates"
           >
             <sky-dropdown
-              *ngIf="demoOptions.value.showContextMenus"
+              *ngIf="formGroup.value.showContextMenus"
               buttonType="context-menu"
               [label]="'Context menu for ' + node.data.name"
             >
