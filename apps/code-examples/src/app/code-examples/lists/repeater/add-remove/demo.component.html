@@ -1,14 +1,14 @@
 <div class="sky-margin-stacked-lg">
   <sky-repeater
+    data-sky-id="repeater-demo"
+    [expandMode]="'single'"
     [reorderable]="true"
     (orderChange)="changeItems($event)"
-    [expandMode]="'single'"
-    data-sky-id="repeater-demo"
   >
     <sky-repeater-item
       *ngFor="let item of items"
-      [tag]="item.note"
       [selectable]="true"
+      [tag]="item.note"
       [(isSelected)]="item.isSelected"
     >
       <sky-repeater-item-title class="demo-repeater-flex">

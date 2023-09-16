@@ -1,12 +1,17 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { SkyRepeaterModule } from '@skyux/lists';
+import { SkyDropdownModule } from '@skyux/popovers';
 
 @Component({
-  selector: 'app-repeater-demo',
-  templateUrl: './repeater-demo.component.html',
-  styleUrls: ['./repeater-demo.component.scss'],
+  standalone: true,
+  selector: 'app-demo',
+  templateUrl: './demo.component.html',
+  styleUrls: ['./demo.component.scss'],
+  imports: [CommonModule, SkyDropdownModule, SkyRepeaterModule],
 })
-export class RepeaterDemoComponent {
-  public items: any[] = [
+export class DemoComponent {
+  protected items: { note: string; status: string; title: string }[] = [
     {
       title: 'Call Robert Hernandez',
       note: 'Robert recently gave a very generous gift. We should call him to thank him.',
@@ -29,7 +34,7 @@ export class RepeaterDemoComponent {
     },
   ];
 
-  public onActionClicked(buttonText: string): void {
+  protected onActionClicked(buttonText: string): void {
     alert(buttonText + ' was clicked!');
   }
 }

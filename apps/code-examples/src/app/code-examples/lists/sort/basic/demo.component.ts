@@ -1,16 +1,31 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { SkyToolbarModule } from '@skyux/layout';
+import { SkyRepeaterModule, SkySortModule } from '@skyux/lists';
 
-import { RepeaterDemoItem } from './repeater-demo-item';
-import { SortOption } from './sort-option';
+type Item = {
+  title: string;
+  note: string;
+  assignee: string;
+  date: Date;
+};
+type SortOption = {
+  id: number;
+  label: string;
+  name: keyof Item;
+  descending: boolean;
+};
 
 @Component({
-  selector: 'app-sort-demo',
-  templateUrl: './sort-demo.component.html',
+  standalone: true,
+  selector: 'app-demo',
+  templateUrl: './demo.component.html',
+  imports: [CommonModule, SkyRepeaterModule, SkySortModule, SkyToolbarModule],
 })
-export class SortDemoComponent implements OnInit {
-  public initialState = 3;
+export class DemoComponent implements OnInit {
+  protected initialState = 3;
 
-  public sortedItems: RepeaterDemoItem[] = [
+  protected sortedItems: Item[] = [
     {
       title: 'Call Robert Hernandez',
       note: 'Robert recently gave a very generous gift. We should call to thank him.',
@@ -43,7 +58,7 @@ export class SortDemoComponent implements OnInit {
     },
   ];
 
-  public sortOptions: SortOption[] = [
+  protected sortOptions: SortOption[] = [
     {
       id: 1,
       label: 'Assigned to (A - Z)',
@@ -86,11 +101,8 @@ export class SortDemoComponent implements OnInit {
     this.sortItems(this.sortOptions[2]);
   }
 
-  public sortItems(option: SortOption): void {
-    this.sortedItems = this.sortedItems.sort(function (
-      a: RepeaterDemoItem,
-      b: RepeaterDemoItem
-    ) {
+  protected sortItems(option: SortOption): void {
+    this.sortedItems = this.sortedItems.sort(function (a: Item, b: Item) {
       const descending = option.descending ? -1 : 1;
       const sortProperty: keyof typeof a = option.name;
 

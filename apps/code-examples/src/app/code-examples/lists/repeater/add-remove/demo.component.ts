@@ -1,16 +1,20 @@
 import { Component } from '@angular/core';
+import { SkyRepeaterModule } from '@skyux/lists';
+import { SkyDropdownModule } from '@skyux/popovers';
 
-import { RepeaterDemoItem } from './repeater-demo-item';
+import { Item } from './item';
 
 let nextId = 0;
 
 @Component({
-  selector: 'app-repeater-demo',
-  templateUrl: './repeater-demo.component.html',
-  styleUrls: ['./repeater-demo.component.scss'],
+  standalone: true,
+  selector: 'app-demo',
+  templateUrl: './demo.component.html',
+  styleUrls: ['./demo.component.scss'],
+  imports: [SkyDropdownModule, SkyRepeaterModule],
 })
-export class RepeaterDemoComponent {
-  public items: RepeaterDemoItem[] = [
+export class DemoComponent {
+  protected items: Item[] = [
     {
       title: 'Call Robert Hernandez',
       note: 'Robert recently gave a very generous gift. We should call him to thank him.',
@@ -37,7 +41,7 @@ export class RepeaterDemoComponent {
     },
   ];
 
-  public addItem(): void {
+  protected addItem(): void {
     this.items.push({
       title: 'New reminder ' + ++nextId,
       note: 'This is a new reminder',
@@ -46,15 +50,15 @@ export class RepeaterDemoComponent {
     });
   }
 
-  public changeItems(tags: RepeaterDemoItem[]): void {
+  protected changeItems(tags: Item[]): void {
     console.log('Tags in order ', tags);
   }
 
-  public onActionClicked(buttonText: string): void {
+  protected onActionClicked(buttonText: string): void {
     alert(buttonText + ' was clicked!');
   }
 
-  public removeItems(): void {
+  protected removeItems(): void {
     this.items = this.items.filter((item) => !item.isSelected);
   }
 }

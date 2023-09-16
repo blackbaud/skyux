@@ -6,16 +6,15 @@ import {
   SkyRepeaterItemHarness,
 } from '@skyux/lists/testing';
 
-import { RepeaterDemoComponent } from './repeater-demo.component';
-import { RepeaterDemoModule } from './repeater-demo.module';
+import { DemoComponent } from './demo.component';
 
 describe('Repeater add remove demo', () => {
   async function setupTest(): Promise<{
     repeaterHarness: SkyRepeaterHarness | null;
     repeaterItems: SkyRepeaterItemHarness[] | null;
-    fixture: ComponentFixture<RepeaterDemoComponent>;
+    fixture: ComponentFixture<DemoComponent>;
   }> {
-    const fixture = TestBed.createComponent(RepeaterDemoComponent);
+    const fixture = TestBed.createComponent(DemoComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
     const repeaterHarness = await loader.getHarness(
@@ -29,21 +28,26 @@ describe('Repeater add remove demo', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RepeaterDemoModule, NoopAnimationsModule],
+      imports: [DemoComponent, NoopAnimationsModule],
     });
   });
 
   it('should allow items to be expanded and collapsed', async () => {
     const { repeaterItems } = await setupTest();
+
     let first = true;
 
     for (const item of repeaterItems!) {
       await expectAsync(item.isCollapsible()).toBeResolvedTo(true);
+
       // in single expand mode, the first item is expanded by default
       await expectAsync(item.isExpanded()).toBeResolvedTo(first ? true : false);
+
       first = false;
+
       await item.collapse();
       await expectAsync(item.isExpanded()).toBeResolvedTo(false);
+
       await item.expand();
       await expectAsync(item.isExpanded()).toBeResolvedTo(true);
     }
@@ -72,6 +76,7 @@ describe('Repeater add remove demo', () => {
     ];
 
     let repeaterItems = await repeaterHarness?.getRepeaterItems();
+
     expect(repeaterItems).toBeDefined();
     expect(repeaterItems?.length).toBe(expectedContent.length);
 
@@ -83,9 +88,10 @@ describe('Repeater add remove demo', () => {
       await expectAsync(repeaterItems?.[1].getTitleText()).toBeResolvedTo(
         expectedContent[1].title
       );
-      await repeaterItems?.[1].sendToTop();
 
+      await repeaterItems?.[1].sendToTop();
       repeaterItems = await repeaterHarness?.getRepeaterItems();
+
       await expectAsync(repeaterItems?.[1].getTitleText()).toBeResolvedTo(
         expectedContent[0].title
       );
@@ -96,6 +102,7 @@ describe('Repeater add remove demo', () => {
     const { repeaterHarness, fixture } = await setupTest();
 
     let repeaterItems = await repeaterHarness?.getRepeaterItems();
+
     expect(repeaterItems).toBeDefined();
     expect(repeaterItems?.length).toBe(4);
 
@@ -107,6 +114,7 @@ describe('Repeater add remove demo', () => {
       const addButton = fixture.nativeElement.querySelector(
         '[data-sky-id="add-button"]'
       );
+
       const removeButton = fixture.nativeElement.querySelector(
         '[data-sky-id="remove-button"]'
       );
@@ -120,8 +128,10 @@ describe('Repeater add remove demo', () => {
 
       await expectAsync(repeaterItems?.[0].isSelected()).toBeResolvedTo(false);
       await repeaterItems?.[0].select();
+
       await expectAsync(repeaterItems?.[0].isSelected()).toBeResolvedTo(true);
       await expectAsync(repeaterItems?.[1].isSelected()).toBeResolvedTo(false);
+
       await repeaterItems?.[1].select();
       await expectAsync(repeaterItems?.[1].isSelected()).toBeResolvedTo(true);
 

@@ -1,5 +1,5 @@
 import { Filter } from './filter';
 
-export class FilterDemoModalContext {
+export class FilterModalContext {
   public appliedFilters: Filter[] = [];
 }

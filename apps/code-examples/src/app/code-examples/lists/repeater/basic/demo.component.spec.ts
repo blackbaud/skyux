@@ -6,16 +6,15 @@ import {
   SkyRepeaterItemHarness,
 } from '@skyux/lists/testing';
 
-import { RepeaterDemoComponent } from './repeater-demo.component';
-import { RepeaterDemoModule } from './repeater-demo.module';
+import { DemoComponent } from './demo.component';
 
 describe('Repeater basic demo', () => {
   async function setupTest(): Promise<{
     repeaterHarness: SkyRepeaterHarness | null;
     repeaterItems: SkyRepeaterItemHarness[] | null;
-    fixture: ComponentFixture<RepeaterDemoComponent>;
+    fixture: ComponentFixture<DemoComponent>;
   }> {
-    const fixture = TestBed.createComponent(RepeaterDemoComponent);
+    const fixture = TestBed.createComponent(DemoComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
     const repeaterHarness = await loader.getHarness(
@@ -29,7 +28,7 @@ describe('Repeater basic demo', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RepeaterDemoModule, NoopAnimationsModule],
+      imports: [DemoComponent, NoopAnimationsModule],
     });
   });
 

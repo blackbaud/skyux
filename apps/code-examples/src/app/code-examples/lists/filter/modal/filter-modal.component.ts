@@ -1,53 +1,49 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 import { Filter } from './filter';
-import { FilterDemoModalContext } from './filter-demo-modal-context';
+import { FilterModalContext } from './filter-modal-context';
 
 @Component({
   standalone: true,
-  selector: 'app-filter-demo-modal',
-  templateUrl: './filter-demo-modal.component.html',
+  selector: 'app-filter-modal',
+  templateUrl: './filter-modal.component.html',
   imports: [FormsModule, SkyCheckboxModule, SkyInputBoxModule, SkyModalModule],
 })
-export class FilterDemoModalComponent {
-  public hideOrange = false;
+export class FilterModalComponent {
+  protected hideOrange = false;
+  protected fruitType = 'any';
 
-  public fruitType = 'any';
+  protected readonly context = inject(FilterModalContext);
+  protected readonly instance = inject(SkyModalInstance);
 
-  constructor(
-    public context: FilterDemoModalContext,
-    public instance: SkyModalInstance
-  ) {
-    if (
-      this.context &&
-      this.context.appliedFilters &&
-      this.context.appliedFilters.length > 0
-    ) {
-      this.setFormFilters(this.context.appliedFilters);
+  constructor() {
+    if (this.context.appliedFilters.length > 0) {
+      this.#setFormFilters(this.context.appliedFilters);
     } else {
       this.clearAllFilters();
     }
   }
 
-  public applyFilters(): void {
-    const result = this.getAppliedFiltersArray();
+  protected applyFilters(): void {
+    const result = this.#getAppliedFiltersArray();
     this.instance.save(result);
   }
 
-  public cancel(): void {
+  protected cancel(): void {
     this.instance.cancel();
   }
 
-  public clearAllFilters(): void {
+  protected clearAllFilters(): void {
     this.hideOrange = false;
     this.fruitType = 'any';
   }
 
-  private getAppliedFiltersArray(): Filter[] {
+  #getAppliedFiltersArray(): Filter[] {
     const appliedFilters: Filter[] = [];
+
     if (this.fruitType !== 'any') {
       appliedFilters.push({
         name: 'fruitType',
@@ -67,7 +63,7 @@ export class FilterDemoModalComponent {
     return appliedFilters;
   }
 
-  private setFormFilters(appliedFilters: Filter[]): void {
+  #setFormFilters(appliedFilters: Filter[]): void {
     for (let i = 0; i < appliedFilters.length; i++) {
       if (appliedFilters[i].name === 'fruitType') {
         this.fruitType = `${appliedFilters[i].value}`;

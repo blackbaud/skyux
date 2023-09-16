@@ -1,27 +1,30 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   inject,
 } from '@angular/core';
+import { SkyToolbarModule } from '@skyux/layout';
+import { SkyFilterModule, SkyRepeaterModule } from '@skyux/lists';
 import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 
 import { Filter } from './filter';
-import { FilterDemoModalContext } from './filter-demo-modal-context';
-import { FilterDemoModalComponent } from './filter-demo-modal.component';
+import { FilterModalContext } from './filter-modal-context';
+import { FilterModalComponent } from './filter-modal.component';
 import { Fruit } from './fruit';
 
 @Component({
-  selector: 'app-filter-demo',
-  templateUrl: './filter-demo.component.html',
+  standalone: true,
+  selector: 'app-demo',
+  templateUrl: './demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule, SkyFilterModule, SkyRepeaterModule, SkyToolbarModule],
 })
-export class FilterDemoComponent {
-  public appliedFilters: Filter[] = [];
-
-  public filteredItems: Fruit[];
-
-  public items: Fruit[] = [
+export class DemoComponent {
+  protected appliedFilters: Filter[] = [];
+  protected filteredItems: Fruit[];
+  protected items: Fruit[] = [
     {
       name: 'Orange',
       type: 'citrus',
@@ -49,7 +52,7 @@ export class FilterDemoComponent {
     },
   ];
 
-  public showInlineFilters = false;
+  protected showInlineFilters = false;
 
   readonly #changeDetectorRef = inject(ChangeDetectorRef);
   readonly #modalSvc = inject(SkyModalService);
@@ -58,19 +61,19 @@ export class FilterDemoComponent {
     this.filteredItems = this.items.slice();
   }
 
-  public onDismiss(index: number): void {
+  protected onDismiss(index: number): void {
     this.appliedFilters.splice(index, 1);
-    this.filteredItems = this.filterItems(this.items, this.appliedFilters);
+    this.filteredItems = this.#filterItems(this.items, this.appliedFilters);
   }
 
-  public onInlineFilterButtonClicked(): void {
+  protected onInlineFilterButtonClicked(): void {
     this.showInlineFilters = !this.showInlineFilters;
   }
 
-  public onModalFilterButtonClick(): void {
-    const modalInstance = this.#modalSvc.open(FilterDemoModalComponent, [
+  protected onModalFilterButtonClick(): void {
+    const modalInstance = this.#modalSvc.open(FilterModalComponent, [
       {
-        provide: FilterDemoModalContext,
+        provide: FilterModalContext,
         useValue: {
           appliedFilters: this.appliedFilters,
         },
@@ -80,13 +83,13 @@ export class FilterDemoComponent {
     modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {
       if (result.reason === 'save') {
         this.appliedFilters = result.data.slice();
-        this.filteredItems = this.filterItems(this.items, this.appliedFilters);
+        this.filteredItems = this.#filterItems(this.items, this.appliedFilters);
         this.#changeDetectorRef.markForCheck();
       }
     });
   }
 
-  private fruitTypeFilterFailed(filter: Filter, item: Fruit): boolean {
+  #fruitTypeFilterFailed(filter: Filter, item: Fruit): boolean {
     return (
       filter.name === 'fruitType' &&
       filter.value !== 'any' &&
@@ -94,14 +97,14 @@ export class FilterDemoComponent {
     );
   }
 
-  private itemIsShown(filters: Filter[], item: Fruit): boolean {
+  #itemIsShown(filters: Filter[], item: Fruit): boolean {
     let passesFilter = true,
       j: number;
 
     for (j = 0; j < filters.length; j++) {
-      if (this.orangeFilterFailed(filters[j], item)) {
+      if (this.#orangeFilterFailed(filters[j], item)) {
         passesFilter = false;
-      } else if (this.fruitTypeFilterFailed(filters[j], item)) {
+      } else if (this.#fruitTypeFilterFailed(filters[j], item)) {
         passesFilter = false;
       }
     }
@@ -109,12 +112,12 @@ export class FilterDemoComponent {
     return passesFilter;
   }
 
-  private filterItems(items: Fruit[], filters: Filter[]): Fruit[] {
+  #filterItems(items: Fruit[], filters: Filter[]): Fruit[] {
     let i: number, passesFilter: boolean;
     const result: Fruit[] = [];
 
     for (i = 0; i < items.length; i++) {
-      passesFilter = this.itemIsShown(filters, items[i]);
+      passesFilter = this.#itemIsShown(filters, items[i]);
       if (passesFilter) {
         result.push(items[i]);
       }
@@ -123,7 +126,7 @@ export class FilterDemoComponent {
     return result;
   }
 
-  private orangeFilterFailed(filter: Filter, item: Fruit): boolean {
+  #orangeFilterFailed(filter: Filter, item: Fruit): boolean {
     return (
       filter.name === 'hideOrange' && !!filter.value && item.color === 'orange'
     );

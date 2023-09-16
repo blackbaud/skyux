@@ -1,30 +1,33 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { SkyInfiniteScrollModule, SkyRepeaterModule } from '@skyux/lists';
 
-import { InfiniteScrollDemoItem } from './infinite-scroll-demo-item';
+import { InfiniteScrollDemoItem } from './item';
 
 let nextId = 0;
 
 @Component({
-  selector: 'app-infinite-scroll-demo',
-  templateUrl: './infinite-scroll-demo.component.html',
+  standalone: true,
+  selector: 'app-demo',
+  templateUrl: './demo.component.html',
+  imports: [CommonModule, SkyInfiniteScrollModule, SkyRepeaterModule],
 })
-export class InfiniteScrollDemoComponent implements OnInit {
-  public items: InfiniteScrollDemoItem[] = [];
-
-  public itemsHaveMore = true;
+export class DemoComponent implements OnInit {
+  protected items: InfiniteScrollDemoItem[] = [];
+  protected itemsHaveMore = true;
 
   public ngOnInit(): void {
-    this.addData();
+    this.#addData();
   }
 
-  public onScrollEnd(): void {
+  protected onScrollEnd(): void {
     if (this.itemsHaveMore) {
-      this.addData();
+      this.#addData();
     }
   }
 
-  private addData(): void {
-    this.mockRemote().then(
+  #addData(): void {
+    this.#mockRemote().then(
       (result: { data: InfiniteScrollDemoItem[]; hasMore: boolean }) => {
         this.items = this.items.concat(result.data);
         this.itemsHaveMore = result.hasMore;
@@ -32,7 +35,7 @@ export class InfiniteScrollDemoComponent implements OnInit {
     );
   }
 
-  private mockRemote(): Promise<{
+  #mockRemote(): Promise<{
     data: InfiniteScrollDemoItem[];
     hasMore: boolean;
   }> {
