@@ -5,9 +5,8 @@ import { SkyModalHarness } from '@skyux/modals/testing';
 
 import { Observable, of } from 'rxjs';
 
-import { ModalDemoDataService } from './modal-demo-data.service';
-import { ModalDemoComponent } from './modal-demo.component';
-import { ModalDemoModule } from './modal-demo.module';
+import { ModalDemoDataService } from './data.service';
+import { DemoComponent } from './demo.component';
 
 class mockWaitSvc {
   public blockingWrap(data: unknown): Observable<unknown> {
@@ -18,9 +17,9 @@ class mockWaitSvc {
 describe('Basic modal', () => {
   async function setupTest(): Promise<{
     modalHarness: SkyModalHarness;
-    fixture: ComponentFixture<ModalDemoComponent>;
+    fixture: ComponentFixture<DemoComponent>;
   }> {
-    const fixture = TestBed.createComponent(ModalDemoComponent);
+    const fixture = TestBed.createComponent(DemoComponent);
     fixture.componentInstance.onOpenModalClick();
     fixture.detectChanges();
 
@@ -36,7 +35,7 @@ describe('Basic modal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ModalDemoModule],
+      imports: [DemoComponent],
       providers: [
         {
           provide: SkyWaitService,

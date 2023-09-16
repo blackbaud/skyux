@@ -9,13 +9,13 @@ import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyHelpInlineModule, SkyWaitService } from '@skyux/indicators';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
-import { ModalDemoContext } from './modal-demo-context';
-import { ModalDemoDataService } from './modal-demo-data.service';
+import { ModalDemoContext } from './context';
+import { ModalDemoDataService } from './data.service';
 
 @Component({
   standalone: true,
-  selector: 'app-modal-demo-modal',
-  templateUrl: './modal-demo-modal.component.html',
+  selector: 'app-modal',
+  templateUrl: './modal.component.html',
   imports: [
     ReactiveFormsModule,
     SkyHelpInlineModule,
@@ -23,7 +23,7 @@ import { ModalDemoDataService } from './modal-demo-data.service';
     SkyModalModule,
   ],
 })
-export class ModalDemoModalComponent {
+export class ModalComponent {
   public demoForm: FormGroup<{
     value1: FormControl<string | null | undefined>;
   }>;

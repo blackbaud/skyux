@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import {
   SkyConfirmButtonConfig,
   SkyConfirmInstance,
@@ -7,21 +8,18 @@ import {
 } from '@skyux/modals';
 
 @Component({
-  selector: 'app-confirm-demo',
-  templateUrl: './confirm-demo.component.html',
+  standalone: true,
+  selector: 'app-demo',
+  templateUrl: './demo.component.html',
+  imports: [CommonModule],
 })
-export class ConfirmDemoComponent {
-  public selectedAction: string | undefined;
+export class DemoComponent {
+  protected selectedAction: string | undefined;
+  protected selectedText: string | undefined;
 
-  public selectedText: string | undefined;
+  readonly #confirmSvc = inject(SkyConfirmService);
 
-  #confirmSvc: SkyConfirmService;
-
-  constructor(confirmSvc: SkyConfirmService) {
-    this.#confirmSvc = confirmSvc;
-  }
-
-  public openOKConfirm(): void {
+  protected openOKConfirm(): void {
     const dialog: SkyConfirmInstance = this.#confirmSvc.open({
       message:
         'Cannot delete invoice because it has vendor, credit memo, or purchase order activity.',
@@ -34,7 +32,7 @@ export class ConfirmDemoComponent {
     });
   }
 
-  public openTwoActionConfirm(): void {
+  protected openTwoActionConfirm(): void {
     const buttons: SkyConfirmButtonConfig[] = [
       { text: 'Finalize', action: 'save', styleType: 'primary' },
       { text: 'Cancel', action: 'cancel', styleType: 'link' },
@@ -59,7 +57,7 @@ export class ConfirmDemoComponent {
     });
   }
 
-  public openThreeActionConfirm(): void {
+  protected openThreeActionConfirm(): void {
     const buttons: SkyConfirmButtonConfig[] = [
       { text: 'Save', action: 'save', styleType: 'primary' },
       { text: 'Delete', action: 'delete' },
@@ -84,7 +82,7 @@ export class ConfirmDemoComponent {
     });
   }
 
-  public openDeleteConfirm(): void {
+  protected openDeleteConfirm(): void {
     const buttons: SkyConfirmButtonConfig[] = [
       { text: 'Delete', action: 'delete', styleType: 'danger' },
       { text: 'Cancel', action: 'cancel', styleType: 'link' },

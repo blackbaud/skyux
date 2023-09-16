@@ -1,4 +1,4 @@
-import { ModalDemoData } from './modal-demo-data';
+import { ModalDemoData } from './data';
 
 export class ModalDemoContext {
   constructor(public data: ModalDemoData) {}

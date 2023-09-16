@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, inject } from '@angular/core';
 import { SkyWaitService } from '@skyux/indicators';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
@@ -5,25 +6,31 @@ import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { ModalDemoContext } from './modal-demo-context';
-import { ModalDemoData } from './modal-demo-data';
-import { ModalDemoDataService } from './modal-demo-data.service';
-import { ModalDemoModalComponent } from './modal-demo-modal.component';
+import { ModalDemoContext } from './context';
+import { ModalDemoData } from './data';
+import { ModalDemoDataService } from './data.service';
+import { ModalComponent } from './modal.component';
 
 @Component({
-  selector: 'app-modal-demo',
-  templateUrl: './modal-demo.component.html',
+  standalone: true,
+  selector: 'app-demo',
+  templateUrl: './demo.component.html',
+  imports: [CommonModule],
 })
-export class ModalDemoComponent implements OnDestroy {
-  public modalSize = 'medium';
-
-  public demoValue: string | null | undefined;
+export class DemoComponent implements OnDestroy {
+  protected modalSize = 'medium';
+  protected demoValue: string | null | undefined;
 
   #ngUnsubscribe = new Subject<void>();
 
   readonly #dataSvc = inject(ModalDemoDataService);
   readonly #modalSvc = inject(SkyModalService);
   readonly #waitSvc = inject(SkyWaitService);
+
+  public ngOnDestroy(): void {
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
+  }
 
   public onOpenModalClick(): void {
     // Display a blocking wait while data is loaded from the data service.
@@ -42,7 +49,7 @@ export class ModalDemoComponent implements OnDestroy {
         };
 
         // Show the modal after data is loaded.
-        const instance = this.#modalSvc.open(ModalDemoModalComponent, options);
+        const instance = this.#modalSvc.open(ModalComponent, options);
 
         instance.closed.subscribe((result) => {
           if (result.reason === 'save') {
@@ -52,10 +59,5 @@ export class ModalDemoComponent implements OnDestroy {
           }
         });
       });
-  }
-
-  public ngOnDestroy(): void {
-    this.#ngUnsubscribe.next();
-    this.#ngUnsubscribe.complete();
   }
 }

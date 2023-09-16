@@ -4,16 +4,16 @@ import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyWaitService } from '@skyux/indicators';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
-import { ModalDemoContext } from './modal-demo-context';
-import { ModalDemoDataService } from './modal-demo-data.service';
+import { ModalDemoContext } from './context';
+import { ModalDemoDataService } from './data.service';
 
 @Component({
   standalone: true,
-  selector: 'app-modal-demo-modal',
-  templateUrl: './modal-demo-modal.component.html',
+  selector: 'app-modal',
+  templateUrl: './modal.component.html',
   imports: [ReactiveFormsModule, SkyInputBoxModule, SkyModalModule],
 })
-export class ModalDemoModalComponent {
+export class ModalComponent {
   protected demoForm: FormGroup<{
     value1: FormControl<string | null | undefined>;
   }>;
@@ -29,7 +29,7 @@ export class ModalDemoModalComponent {
     });
   }
 
-  public saveForm(): void {
+  protected saveForm(): void {
     // Use the data service to save the data.
 
     this.#waitSvc
@@ -40,7 +40,7 @@ export class ModalDemoModalComponent {
       });
   }
 
-  public cancelForm(): void {
+  protected cancelForm(): void {
     this.#instance.cancel();
   }
 }

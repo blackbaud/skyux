@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
-import { ModalDemoData } from './modal-demo-data';
+import { ModalDemoData } from './data';
 
 @Injectable({
   providedIn: 'root',
