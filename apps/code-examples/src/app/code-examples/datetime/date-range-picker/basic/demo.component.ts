@@ -1,14 +1,18 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
-  UntypedFormControl,
-  UntypedFormGroup,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
 } from '@angular/forms';
 import {
   SkyDateRangeCalculation,
   SkyDateRangeCalculatorId,
   SkyDateRangeCalculatorType,
+  SkyDateRangePickerModule,
   SkyDateRangeService,
 } from '@skyux/datetime';
 
@@ -16,28 +20,33 @@ import { Subject } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-date-range-picker-demo',
-  templateUrl: './date-range-picker-demo.component.html',
+  standalone: true,
+  selector: 'app-demo',
+  templateUrl: './demo.component.html',
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SkyDateRangePickerModule,
+  ],
 })
-export class DateRangePickerDemoComponent implements OnInit, OnDestroy {
-  public calculatorIds: SkyDateRangeCalculatorId[] | undefined;
-
-  public dateFormat: string | undefined;
-
-  public reactiveForm: UntypedFormGroup;
-
-  public get reactiveRange(): AbstractControl | null {
-    return this.reactiveForm.get('lastDonation');
+export class DemoComponent implements OnInit, OnDestroy {
+  protected get reactiveRange(): AbstractControl | null {
+    return this.formGroup.get('lastDonation');
   }
+
+  protected calculatorIds: SkyDateRangeCalculatorId[] | undefined;
+  protected dateFormat: string | undefined;
+  protected formGroup: FormGroup;
 
   #ngUnsubscribe = new Subject<void>();
 
-  #dateRangeService: SkyDateRangeService;
+  readonly #dateRangeSvc = inject(SkyDateRangeService);
+  readonly #formBuilder = inject(FormBuilder);
 
-  constructor(dateRangeService: SkyDateRangeService, formBuilder: FormBuilder) {
-    this.#dateRangeService = dateRangeService;
-    this.reactiveForm = formBuilder.group({
-      lastDonation: new UntypedFormControl(),
+  constructor() {
+    this.formGroup = this.#formBuilder.group({
+      lastDonation: new FormControl(),
     });
   }
 
@@ -66,23 +75,23 @@ export class DateRangePickerDemoComponent implements OnInit, OnDestroy {
     this.#ngUnsubscribe.complete();
   }
 
-  public toggleDisabled(): void {
-    if (this.reactiveForm.disabled) {
-      this.reactiveForm.enable();
+  protected toggleDisabled(): void {
+    if (this.formGroup.disabled) {
+      this.formGroup.enable();
     } else {
-      this.reactiveForm.disable();
+      this.formGroup.disable();
     }
   }
 
-  public resetForm(): void {
+  protected resetForm(): void {
     this.dateFormat = undefined;
     this.calculatorIds = undefined;
-    this.reactiveForm.reset();
-    this.reactiveForm.markAsPristine();
-    this.reactiveForm.markAsUntouched();
+    this.formGroup.reset();
+    this.formGroup.markAsPristine();
+    this.formGroup.markAsUntouched();
   }
 
-  public setRange(): void {
+  protected setRange(): void {
     const range: SkyDateRangeCalculation = {
       calculatorId: SkyDateRangeCalculatorId.SpecificRange,
       startDate: new Date('1/1/2012'),
@@ -92,7 +101,7 @@ export class DateRangePickerDemoComponent implements OnInit, OnDestroy {
     this.reactiveRange?.setValue(range);
   }
 
-  public setInvalidRange(): void {
+  protected setInvalidRange(): void {
     const range: SkyDateRangeCalculation = {
       calculatorId: SkyDateRangeCalculatorId.SpecificRange,
       startDate: new Date('1/1/2013'),
@@ -102,7 +111,7 @@ export class DateRangePickerDemoComponent implements OnInit, OnDestroy {
     this.reactiveRange?.setValue(range);
   }
 
-  public setInvalidDates(): void {
+  protected setInvalidDates(): void {
     const range: SkyDateRangeCalculation = {
       calculatorId: SkyDateRangeCalculatorId.SpecificRange,
       startDate: 'invalid' as never as Date,
@@ -112,8 +121,8 @@ export class DateRangePickerDemoComponent implements OnInit, OnDestroy {
     this.reactiveRange?.setValue(range);
   }
 
-  public setCalculatorIds(): void {
-    const calculator = this.#dateRangeService.createCalculator({
+  protected setCalculatorIds(): void {
+    const calculator = this.#dateRangeSvc.createCalculator({
       shortDescription: 'Since 1999',
       type: SkyDateRangeCalculatorType.Relative,
       getValue: () => {
@@ -131,7 +140,7 @@ export class DateRangePickerDemoComponent implements OnInit, OnDestroy {
     ];
   }
 
-  public setDateFormat(): void {
+  protected setDateFormat(): void {
     this.dateFormat = 'YYYY-MM-DD';
   }
 }

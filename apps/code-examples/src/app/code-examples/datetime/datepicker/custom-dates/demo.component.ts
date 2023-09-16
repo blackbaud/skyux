@@ -1,27 +1,46 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   SkyDatepickerCalendarChange,
   SkyDatepickerCustomDate,
+  SkyDatepickerModule,
 } from '@skyux/datetime';
+import { SkyInputBoxModule } from '@skyux/forms';
 
 import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-datepicker-demo',
-  templateUrl: './datepicker-demo.component.html',
+  standalone: true,
+  selector: 'app-demo',
+  templateUrl: './demo.component.html',
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    SkyDatepickerModule,
+    SkyInputBoxModule,
+  ],
 })
-export class DatepickerDemoComponent {
-  public myForm: FormGroup;
+export class DemoComponent {
+  protected formGroup: FormGroup;
 
-  constructor(formBuilder: FormBuilder) {
-    this.myForm = formBuilder.group({
+  readonly #formBuilder = inject(FormBuilder);
+
+  constructor() {
+    this.formGroup = this.#formBuilder.group({
       myDate: new FormControl(new Date(1999, 10, 5)),
     });
   }
 
-  public onCalendarDateRangeChange(event: SkyDatepickerCalendarChange): void {
+  protected onCalendarDateRangeChange(
+    event: SkyDatepickerCalendarChange
+  ): void {
     if (event) {
       // Bind observable to `customDates` argument and simulate delay for async process to finish.
       // Normally, `getCustomDates()` would be replaced by an async call to fetch data.

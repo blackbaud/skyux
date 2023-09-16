@@ -1,12 +1,11 @@
-<form novalidate [formGroup]="reactiveForm">
+<form novalidate [formGroup]="formGroup">
   <div class="sky-margin-stacked-lg">
     <sky-date-range-picker
       formControlName="lastDonation"
       label="Last donation"
       [calculatorIds]="calculatorIds"
       [dateFormat]="dateFormat"
-    >
-    </sky-date-range-picker>
+    />
 
     <ng-container *ngIf="reactiveRange?.errors && reactiveRange?.touched">
       <div
@@ -43,9 +42,9 @@
 
 <h3>Form control value</h3>
 
-<pre><code style="display:block;">calculatorId: {{ reactiveForm.value.lastDonation?.calculatorId }}
-startDate: {{ reactiveForm.value.lastDonation?.startDate | date }}
-endDate: {{ reactiveForm.value.lastDonation?.endDate | date }}</code></pre>
+<pre><code style="display:block;">calculatorId: {{ formGroup.value.lastDonation?.calculatorId }}
+startDate: {{ formGroup.value.lastDonation?.startDate | date }}
+endDate: {{ formGroup.value.lastDonation?.endDate | date }}</code></pre>
 
 <h3>Manipulate value and state</h3>
 
@@ -54,7 +53,7 @@ endDate: {{ reactiveForm.value.lastDonation?.endDate | date }}</code></pre>
   type="button"
   (click)="toggleDisabled()"
 >
-  {{ reactiveForm.disabled ? 'Enable' : 'Disable' }} picker
+  {{ formGroup.disabled ? 'Enable' : 'Disable' }} picker
 </button>
 
 <button
