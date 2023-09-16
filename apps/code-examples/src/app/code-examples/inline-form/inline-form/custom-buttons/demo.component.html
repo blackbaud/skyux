@@ -16,7 +16,7 @@
           class="sky-btn sky-btn-icon-borderless"
           (click)="onInlineFormOpen()"
         >
-          <sky-icon icon="edit"></sky-icon>
+          <sky-icon icon="edit" />
         </button>
       </td>
     </tr>
@@ -24,7 +24,7 @@
 </sky-inline-form>
 
 <ng-template #inlineFormTemplate>
-  <form novalidate [formGroup]="myForm">
+  <form novalidate [formGroup]="formGroup">
     <div>
       <sky-input-box stacked="true" labelText="First name">
         <input formControlName="myFirstName" required type="text" />

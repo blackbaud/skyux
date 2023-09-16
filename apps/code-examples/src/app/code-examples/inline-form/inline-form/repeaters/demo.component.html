@@ -18,7 +18,7 @@
         type="button"
         (click)="showInlineForm(item)"
       >
-        <sky-icon icon="edit"></sky-icon>
+        <sky-icon icon="edit" />
       </button>
     </sky-repeater-item-context-menu>
 
@@ -29,7 +29,7 @@
 </sky-repeater>
 
 <ng-template #inlineFormTemplate>
-  <form novalidate [formGroup]="myForm">
+  <form novalidate [formGroup]="formGroup">
     <sky-input-box labelTex="Title" stacked="true">
       <input formControlName="title" type="text" />
     </sky-input-box>
