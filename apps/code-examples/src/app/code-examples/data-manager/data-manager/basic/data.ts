@@ -1,4 +1,4 @@
-export interface SkyDataManagerDemoRow {
+export interface DataManagerDemoRow {
   selected?: boolean;
   id: string;
   name: string;
@@ -7,7 +7,7 @@ export interface SkyDataManagerDemoRow {
   color: string;
 }
 
-export const SKY_DATA_MANAGER_DEMO_DATA: SkyDataManagerDemoRow[] = [
+export const DATA_MANAGER_DEMO_DATA: DataManagerDemoRow[] = [
   {
     id: '1',
     name: 'Orange',

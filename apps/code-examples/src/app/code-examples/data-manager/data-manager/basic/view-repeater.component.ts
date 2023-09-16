@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -8,29 +9,33 @@ import {
   inject,
 } from '@angular/core';
 import {
+  SkyDataManagerModule,
   SkyDataManagerService,
   SkyDataManagerState,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
+import { SkyRepeaterModule } from '@skyux/lists';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyDataManagerDemoRow } from './data-manager-demo-data';
+import { DataManagerDemoRow } from './data';
 
 @Component({
-  selector: 'app-data-view-repeater-demo',
-  templateUrl: './data-view-repeater.component.html',
+  standalone: true,
+  selector: 'app-view-repeater',
+  templateUrl: './view-repeater.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule, SkyDataManagerModule, SkyRepeaterModule],
 })
-export class DataViewRepeaterDemoComponent implements OnInit, OnDestroy {
+export class ViewRepeaterComponent implements OnInit, OnDestroy {
   @Input()
-  public items: SkyDataManagerDemoRow[] = [];
+  public items: DataManagerDemoRow[] = [];
 
-  public readonly viewId = 'repeaterView';
+  protected displayedItems: DataManagerDemoRow[] = [];
+  protected isActive = false;
 
-  public displayedItems: SkyDataManagerDemoRow[] = [];
-  public isActive = false;
+  protected readonly viewId = 'repeaterView';
 
   #dataState = new SkyDataManagerState({});
   #ngUnsubscribe = new Subject<void>();
@@ -46,8 +51,8 @@ export class DataViewRepeaterDemoComponent implements OnInit, OnDestroy {
     onSelectAllClick: () => this.#selectAll(),
   };
 
-  #changeDetector = inject(ChangeDetectorRef);
-  #dataManagerSvc = inject(SkyDataManagerService);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #dataManagerSvc = inject(SkyDataManagerService);
 
   public ngOnInit(): void {
     this.displayedItems = this.items;
@@ -76,7 +81,7 @@ export class DataViewRepeaterDemoComponent implements OnInit, OnDestroy {
     this.#ngUnsubscribe.complete();
   }
 
-  public onItemSelect(isSelected: boolean, item: SkyDataManagerDemoRow): void {
+  protected onItemSelect(isSelected: boolean, item: DataManagerDemoRow): void {
     const selectedItems = this.#dataState.selectedIds || [];
     const itemIndex = selectedItems.indexOf(item.id);
 
@@ -111,13 +116,13 @@ export class DataViewRepeaterDemoComponent implements OnInit, OnDestroy {
     this.#changeDetector.markForCheck();
   }
 
-  #searchItems(items: SkyDataManagerDemoRow[]): SkyDataManagerDemoRow[] {
+  #searchItems(items: DataManagerDemoRow[]): DataManagerDemoRow[] {
     let searchedItems = items;
     const searchText =
       this.#dataState && this.#dataState.searchText?.toUpperCase();
 
     if (searchText) {
-      searchedItems = items.filter(function (item: SkyDataManagerDemoRow) {
+      searchedItems = items.filter(function (item: DataManagerDemoRow) {
         let property: keyof typeof item;
 
         for (property in item) {
@@ -139,13 +144,13 @@ export class DataViewRepeaterDemoComponent implements OnInit, OnDestroy {
     return searchedItems;
   }
 
-  #filterItems(items: SkyDataManagerDemoRow[]): SkyDataManagerDemoRow[] {
+  #filterItems(items: DataManagerDemoRow[]): DataManagerDemoRow[] {
     let filteredItems = items;
     const filterData = this.#dataState && this.#dataState.filterData;
 
     if (filterData && filterData.filters) {
       const filters = filterData.filters;
-      filteredItems = items.filter((item: SkyDataManagerDemoRow) => {
+      filteredItems = items.filter((item: DataManagerDemoRow) => {
         if (
           ((filters.hideOrange && item.color !== 'orange') ||
             !filters.hideOrange) &&

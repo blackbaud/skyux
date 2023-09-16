@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -7,13 +8,14 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
-import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import {
   SkyDataManagerService,
   SkyDataManagerState,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
 
+import { AgGridModule } from 'ag-grid-angular';
 import {
   ColDef,
   ColumnApi,
@@ -26,24 +28,26 @@ import {
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyDataManagerDemoRow } from './data-manager-demo-data';
+import { DataManagerDemoRow } from './data';
 
 @Component({
-  selector: 'app-data-view-grid-demo',
-  templateUrl: './data-view-grid.component.html',
+  standalone: true,
+  selector: 'app-view-grid',
+  templateUrl: './view-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [AgGridModule, CommonModule, SkyAgGridModule],
 })
-export class DataViewGridDemoComponent implements OnInit, OnDestroy {
+export class ViewGridComponent implements OnInit, OnDestroy {
   @Input()
-  public items: SkyDataManagerDemoRow[] = [];
+  public items: DataManagerDemoRow[] = [];
 
-  public readonly viewId = 'gridView';
+  protected displayedItems: DataManagerDemoRow[] = [];
+  protected gridOptions: GridOptions;
+  protected isActive = false;
+  protected isGridInitialized = false;
+  protected noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
 
-  public displayedItems: SkyDataManagerDemoRow[] = [];
-  public gridInitialized = false;
-  public gridOptions: GridOptions;
-  public isActive = false;
-  public noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
+  protected readonly viewId = 'gridView';
 
   #columnDefs: ColDef[] = [
     {
@@ -69,9 +73,9 @@ export class DataViewGridDemoComponent implements OnInit, OnDestroy {
     },
   ];
 
-  #columnApi?: ColumnApi;
+  #columnApi: ColumnApi | undefined;
   #dataState = new SkyDataManagerState({});
-  #gridApi?: GridApi;
+  #gridApi: GridApi | undefined;
   #ngUnsubscribe = new Subject<void>();
 
   #viewConfig: SkyDataViewConfig = {
@@ -102,9 +106,9 @@ export class DataViewGridDemoComponent implements OnInit, OnDestroy {
     ],
   };
 
-  #agGridSvc = inject(SkyAgGridService);
-  #changeDetector = inject(ChangeDetectorRef);
-  #dataManagerSvc = inject(SkyDataManagerService);
+  readonly #agGridSvc = inject(SkyAgGridService);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #dataManagerSvc = inject(SkyDataManagerService);
 
   constructor() {
     this.gridOptions = this.#agGridSvc.getGridOptions({
@@ -146,13 +150,13 @@ export class DataViewGridDemoComponent implements OnInit, OnDestroy {
     this.#ngUnsubscribe.complete();
   }
 
-  public onRowSelected(rowSelectedEvent: RowSelectedEvent): void {
+  protected onRowSelected(rowSelectedEvent: RowSelectedEvent): void {
     if (!rowSelectedEvent.data.selected) {
       this.#updateData();
     }
   }
 
-  #filterItems(items: SkyDataManagerDemoRow[]): SkyDataManagerDemoRow[] {
+  #filterItems(items: DataManagerDemoRow[]): DataManagerDemoRow[] {
     let filteredItems = items;
 
     const filterData = this.#dataState && this.#dataState.filterData;
@@ -181,12 +185,12 @@ export class DataViewGridDemoComponent implements OnInit, OnDestroy {
     this.#updateData();
   }
 
-  #searchItems(items: SkyDataManagerDemoRow[]): SkyDataManagerDemoRow[] {
+  #searchItems(items: DataManagerDemoRow[]): DataManagerDemoRow[] {
     let searchedItems = items;
     const searchText = this.#dataState && this.#dataState.searchText;
 
     if (searchText) {
-      searchedItems = items.filter(function (item: SkyDataManagerDemoRow) {
+      searchedItems = items.filter(function (item: DataManagerDemoRow) {
         let property: keyof typeof item;
 
         for (property in item) {
@@ -230,7 +234,7 @@ export class DataViewGridDemoComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.gridInitialized = true;
+    this.isGridInitialized = true;
   }
 
   #sortItems(): void {

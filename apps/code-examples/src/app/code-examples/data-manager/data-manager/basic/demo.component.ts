@@ -6,32 +6,34 @@ import {
 } from '@angular/core';
 import { SkyUIConfigService } from '@skyux/core';
 import {
+  SkyDataManagerModule,
   SkyDataManagerService,
   SkyDataManagerState,
 } from '@skyux/data-manager';
 
-import { DataManagerFiltersModalDemoComponent } from './data-filter-modal.component';
-import {
-  SKY_DATA_MANAGER_DEMO_DATA,
-  SkyDataManagerDemoRow,
-} from './data-manager-demo-data';
+import { DATA_MANAGER_DEMO_DATA, DataManagerDemoRow } from './data';
+import { FilterModalComponent } from './filter-modal.component';
+import { ViewGridComponent } from './view-grid.component';
+import { ViewRepeaterComponent } from './view-repeater.component';
 
 @Component({
-  selector: 'app-data-manager-demo',
-  templateUrl: './data-manager-demo.component.html',
+  standalone: true,
+  selector: 'app-demo',
+  templateUrl: './demo.component.html',
   providers: [SkyDataManagerService, SkyUIConfigService],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [SkyDataManagerModule, ViewGridComponent, ViewRepeaterComponent],
 })
-export class DataManagerDemoComponent implements OnInit {
-  public items: SkyDataManagerDemoRow[] = SKY_DATA_MANAGER_DEMO_DATA;
+export class DemoComponent implements OnInit {
+  protected items: DataManagerDemoRow[] = DATA_MANAGER_DEMO_DATA;
 
-  #dataManagerService = inject(SkyDataManagerService);
+  readonly #dataManagerSvc = inject(SkyDataManagerService);
 
   public ngOnInit(): void {
-    this.#dataManagerService.initDataManager({
+    this.#dataManagerSvc.initDataManager({
       activeViewId: 'repeaterView',
       dataManagerConfig: {
-        filterModalComponent: DataManagerFiltersModalDemoComponent,
+        filterModalComponent: FilterModalComponent,
         sortOptions: [
           {
             id: 'az',
