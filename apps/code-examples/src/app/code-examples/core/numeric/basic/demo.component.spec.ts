@@ -2,18 +2,15 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyNumericOptions } from '@skyux/core';
 
-import { NumericDemoComponent } from './numeric-demo.component';
-import { NumericDemoModule } from './numeric-demo.module';
+import { DemoComponent } from './demo.component';
 
 describe('Basic numeric options', () => {
-  let fixture: ComponentFixture<NumericDemoComponent>;
-
   async function setupTest(options?: {
     defaultValue?: number;
     configuredValue?: number;
     config?: SkyNumericOptions;
-  }): Promise<void> {
-    fixture = TestBed.createComponent(NumericDemoComponent);
+  }): Promise<{ fixture: ComponentFixture<DemoComponent> }> {
+    const fixture = TestBed.createComponent(DemoComponent);
 
     if (options?.defaultValue !== undefined) {
       fixture.componentInstance.defaultValue = options.defaultValue;
@@ -28,17 +25,20 @@ describe('Basic numeric options', () => {
     }
 
     fixture.detectChanges();
-    return fixture.whenStable().then();
+    await fixture.whenStable().then();
+
+    return { fixture };
   }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NumericDemoModule],
+      imports: [DemoComponent],
     });
   });
 
   it('should show the expected number in the default format', async () => {
-    await setupTest({ defaultValue: 123456 });
+    const { fixture } = await setupTest({ defaultValue: 123456 });
+
     fixture.detectChanges();
 
     expect(
@@ -49,7 +49,7 @@ describe('Basic numeric options', () => {
   });
 
   it('should show the expected number in a specified format', async () => {
-    await setupTest({
+    const { fixture } = await setupTest({
       configuredValue: 5000000,
       config: { truncate: false },
     });

@@ -1,9 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   SkyColorpickerMessage,
   SkyColorpickerMessageType,
   SkyColorpickerModule,
 } from '@skyux/colorpicker';
+import { SkyIdModule } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 
@@ -11,12 +19,25 @@ import { Subject } from 'rxjs';
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [SkyColorpickerModule],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    SkyColorpickerModule,
+    SkyIdModule,
+  ],
 })
 export class DemoComponent {
   protected colorpickerController = new Subject<SkyColorpickerMessage>();
-
+  protected formGroup: FormGroup;
   protected showResetButton = false;
+
+  readonly #formBuilder = inject(FormBuilder);
+
+  constructor() {
+    this.formGroup = this.#formBuilder.group({
+      favoriteColor: new FormControl('#f00'),
+    });
+  }
 
   protected openColorpicker(): void {
     this.#sendMessage(SkyColorpickerMessageType.Open);

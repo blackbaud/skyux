@@ -1,13 +1,26 @@
-<sky-colorpicker
-  [messageStream]="colorpickerController"
-  [showResetButton]="showResetButton"
-  #colorPicker
->
-  <input [skyColorpickerInput]="colorPicker" />
-</sky-colorpicker>
+<form class="sky-margin-stacked-xxl" novalidate [formGroup]="formGroup">
+  <div class="sky-margin-stacked-lg">
+    <label class="sky-control-label" [for]="colorInput.id">
+      What is your favorite color?
+    </label>
+    <sky-colorpicker
+      [messageStream]="colorpickerController"
+      [showResetButton]="showResetButton"
+      #colorPicker
+    >
+      <input
+        formControlName="favoriteColor"
+        skyId
+        type="text"
+        [skyColorpickerInput]="colorPicker"
+        #colorInput="skyId"
+      />
+    </sky-colorpicker>
+  </div>
+</form>
 
 <button
-  class="sky-btn sky-btn-primary sky-margin-inline-sm"
+  class="sky-btn sky-btn-default sky-margin-inline-sm"
   type="button"
   (click)="openColorpicker()"
 >
