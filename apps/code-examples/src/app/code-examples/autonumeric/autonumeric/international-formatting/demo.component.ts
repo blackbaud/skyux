@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   ReactiveFormsModule,
-  UntypedFormControl,
   Validators,
 } from '@angular/forms';
 import {
@@ -27,7 +27,7 @@ export class DemoComponent {
 
   constructor() {
     this.formGroup = this.#formBuilder.group({
-      donationAmount: new UntypedFormControl(1234.5678, [Validators.required]),
+      donationAmount: new FormControl(1234.5678, [Validators.required]),
     });
 
     this.autonumericOptions = {
