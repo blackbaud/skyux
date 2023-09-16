@@ -1,6 +1,8 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { SkyPageModalLinksInput } from '@skyux/pages';
+import { SkyActionHubModule, SkyPageModalLinksInput } from '@skyux/pages';
 
+import { MODAL_TITLE } from './modal-title-token';
 import { SettingsModalComponent } from './settings-modal.component';
 
 const pastHours = Array.from(Array(5).keys()).map((i) => {
@@ -10,10 +12,12 @@ const pastHours = Array.from(Array(5).keys()).map((i) => {
 });
 
 @Component({
-  selector: 'app-action-hub-visual',
-  templateUrl: './action-hub-demo.component.html',
+  standalone: true,
+  selector: 'app-demo',
+  templateUrl: './demo.component.html',
+  imports: [CommonModule, SkyActionHubModule],
 })
-export class ActionHubDemoComponent {
+export class DemoComponent {
   public buttons = [
     {
       label: 'Action 1',
@@ -169,7 +173,7 @@ export class ActionHubDemoComponent {
           size: 'large',
           providers: [
             {
-              provide: 'modalTitle',
+              provide: MODAL_TITLE,
               useValue: 'Number',
             },
           ],
@@ -184,7 +188,7 @@ export class ActionHubDemoComponent {
           size: 'large',
           providers: [
             {
-              provide: 'modalTitle',
+              provide: MODAL_TITLE,
               useValue: 'Color',
             },
           ],

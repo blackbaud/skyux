@@ -4,17 +4,15 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SkyPageHarness } from '@skyux/pages/testing';
 
-import { RecordPageBlocksLayoutDemoComponent } from './record-page-blocks-layout-demo.component';
-import { RecordPageBlocksLayoutDemoModule } from './record-page-blocks-layout-demo.module';
+import { ListPageTabsLayoutDemoComponent } from './demo.component';
+import { ListPageTabsLayoutDemoModule } from './list-page-tabs-layout-demo.module';
 
-describe('Record page blocks layout demo', async () => {
+describe('List page tabs layout demo', async () => {
   async function setupTest(): Promise<{
     pageHarness: SkyPageHarness;
-    fixture: ComponentFixture<RecordPageBlocksLayoutDemoComponent>;
+    fixture: ComponentFixture<ListPageTabsLayoutDemoComponent>;
   }> {
-    const fixture = TestBed.createComponent(
-      RecordPageBlocksLayoutDemoComponent
-    );
+    const fixture = TestBed.createComponent(ListPageTabsLayoutDemoComponent);
 
     const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
     const pageHarness = await loader.getHarness(SkyPageHarness);
@@ -25,19 +23,17 @@ describe('Record page blocks layout demo', async () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
+        ListPageTabsLayoutDemoModule,
         NoopAnimationsModule,
-        RecordPageBlocksLayoutDemoModule,
         RouterTestingModule,
       ],
     });
   });
 
-  it('should have a blocks layout', async () => {
-    const { pageHarness, fixture } = await setupTest();
+  it('should have a tabs layout', async () => {
+    const { pageHarness } = await setupTest();
 
-    fixture.detectChanges();
-
-    await expectAsync(pageHarness.getLayout()).toBeResolvedTo('blocks');
+    await expectAsync(pageHarness.getLayout()).toBeResolvedTo('tabs');
   });
 
   it('should have the correct page header text', async () => {
@@ -46,11 +42,7 @@ describe('Record page blocks layout demo', async () => {
     const pageHeaderHarness = await pageHarness.getPageHeader();
 
     await expectAsync(pageHeaderHarness.getPageTitle()).toBeResolvedTo(
-      '$500 pledge'
-    );
-
-    await expectAsync(pageHeaderHarness.getParentLinkText()).toBeResolvedTo(
-      'Pledges'
+      'Contacts'
     );
   });
 });

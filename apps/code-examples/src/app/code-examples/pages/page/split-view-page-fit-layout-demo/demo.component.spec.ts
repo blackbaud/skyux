@@ -4,17 +4,14 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SkyPageHarness } from '@skyux/pages/testing';
 
-import { SplitViewPageFitLayoutDemoComponent } from './split-view-page-fit-layout-demo.component';
-import { SplitViewPageFitLayoutDemoModule } from './split-view-page-fit-layout-demo.module';
+import { DemoComponent } from './demo.component';
 
 describe('Split view page fit layout demo', async () => {
   async function setupTest(): Promise<{
     pageHarness: SkyPageHarness;
-    fixture: ComponentFixture<SplitViewPageFitLayoutDemoComponent>;
+    fixture: ComponentFixture<DemoComponent>;
   }> {
-    const fixture = TestBed.createComponent(
-      SplitViewPageFitLayoutDemoComponent
-    );
+    const fixture = TestBed.createComponent(DemoComponent);
 
     const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
     const pageHarness = await loader.getHarness(SkyPageHarness);
@@ -24,11 +21,7 @@ describe('Split view page fit layout demo', async () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        NoopAnimationsModule,
-        RouterTestingModule,
-        SplitViewPageFitLayoutDemoModule,
-      ],
+      imports: [DemoComponent, NoopAnimationsModule, RouterTestingModule],
     });
   });
 

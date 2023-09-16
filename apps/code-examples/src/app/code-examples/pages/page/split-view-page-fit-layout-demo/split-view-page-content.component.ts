@@ -1,9 +1,15 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SkySummaryActionBarModule } from '@skyux/action-bars';
+import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyDescriptionListModule } from '@skyux/layout';
+import { SkyRepeaterModule } from '@skyux/lists';
 import { SkyConfirmService, SkyConfirmType } from '@skyux/modals';
 import {
   SkySplitViewMessage,
   SkySplitViewMessageType,
+  SkySplitViewModule,
 } from '@skyux/split-view';
 
 import { Subject } from 'rxjs';
@@ -19,8 +25,19 @@ interface WorkspaceItem {
 }
 
 @Component({
+  standalone: true,
   selector: 'app-split-view-page-content',
   templateUrl: './split-view-page-content.component.html',
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SkyDescriptionListModule,
+    SkyInputBoxModule,
+    SkyRepeaterModule,
+    SkySplitViewModule,
+    SkySummaryActionBarModule,
+  ],
 })
 export class SplitViewPageContentComponent {
   protected set activeIndex(value: number) {

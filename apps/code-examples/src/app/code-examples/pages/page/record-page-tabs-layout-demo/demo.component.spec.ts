@@ -1,17 +1,17 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 import { SkyPageHarness } from '@skyux/pages/testing';
 
-import { ListPageListLayoutDemoComponent } from './list-page-list-layout-demo.component';
-import { ListPageListLayoutDemoModule } from './list-page-list-layout-demo.module';
+import { DemoComponent } from './demo.component';
 
-describe('List page list layout demo', async () => {
+describe('Record page tabs layout demo', async () => {
   async function setupTest(): Promise<{
     pageHarness: SkyPageHarness;
-    fixture: ComponentFixture<ListPageListLayoutDemoComponent>;
+    fixture: ComponentFixture<DemoComponent>;
   }> {
-    const fixture = TestBed.createComponent(ListPageListLayoutDemoComponent);
+    const fixture = TestBed.createComponent(DemoComponent);
 
     const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
     const pageHarness = await loader.getHarness(SkyPageHarness);
@@ -21,14 +21,16 @@ describe('List page list layout demo', async () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ListPageListLayoutDemoModule, NoopAnimationsModule],
+      imports: [DemoComponent, NoopAnimationsModule, RouterTestingModule],
     });
   });
 
-  it('should have a list layout', async () => {
-    const { pageHarness } = await setupTest();
+  it('should have a tabs layout', async () => {
+    const { pageHarness, fixture } = await setupTest();
 
-    await expectAsync(pageHarness.getLayout()).toBeResolvedTo('list');
+    fixture.detectChanges();
+
+    await expectAsync(pageHarness.getLayout()).toBeResolvedTo('tabs');
   });
 
   it('should have the correct page header text', async () => {
@@ -37,7 +39,7 @@ describe('List page list layout demo', async () => {
     const pageHeaderHarness = await pageHarness.getPageHeader();
 
     await expectAsync(pageHeaderHarness.getPageTitle()).toBeResolvedTo(
-      'Dashboards'
+      'Charlene Conners'
     );
   });
 });
