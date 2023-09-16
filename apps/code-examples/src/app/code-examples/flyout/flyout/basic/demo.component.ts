@@ -1,18 +1,15 @@
 import { Component, inject } from '@angular/core';
-import {
-  SkyFlyoutConfig,
-  SkyFlyoutInstance,
-  SkyFlyoutService,
-} from '@skyux/flyout';
+import { SkyFlyoutInstance, SkyFlyoutService } from '@skyux/flyout';
 
-import { FlyoutDemoFlyoutComponent } from './flyout-demo-flyout.component';
+import { FlyoutComponent } from './flyout.component';
 
 @Component({
-  selector: 'app-flyout-demo',
-  templateUrl: './flyout-demo.component.html',
+  standalone: true,
+  selector: 'app-demo',
+  templateUrl: './demo.component.html',
 })
-export class FlyoutDemoComponent {
-  #flyout: SkyFlyoutInstance<FlyoutDemoFlyoutComponent> | undefined;
+export class DemoComponent {
+  #flyout: SkyFlyoutInstance<FlyoutComponent> | undefined;
 
   readonly #flyoutSvc = inject(SkyFlyoutService);
 
@@ -25,18 +22,13 @@ export class FlyoutDemoComponent {
   }
 
   protected openFlyoutWithCustomWidth(): void {
-    const flyoutConfig: SkyFlyoutConfig = {
+    this.#flyout = this.#flyoutSvc.open(FlyoutComponent, {
       ariaLabelledBy: 'flyout-title',
       ariaRole: 'dialog',
       defaultWidth: 350,
       maxWidth: 500,
       minWidth: 200,
-    };
-
-    this.#flyout = this.#flyoutSvc.open(
-      FlyoutDemoFlyoutComponent,
-      flyoutConfig
-    );
+    });
 
     this.#flyout.closed.subscribe(() => {
       this.#flyout = undefined;
@@ -44,15 +36,10 @@ export class FlyoutDemoComponent {
   }
 
   protected openSimpleFlyout(): void {
-    const flyoutConfig: SkyFlyoutConfig = {
+    this.#flyout = this.#flyoutSvc.open(FlyoutComponent, {
       ariaLabelledBy: 'flyout-title',
       ariaRole: 'dialog',
-    };
-
-    this.#flyout = this.#flyoutSvc.open(
-      FlyoutDemoFlyoutComponent,
-      flyoutConfig
-    );
+    });
 
     this.#flyout.closed.subscribe(() => {
       this.#flyout = undefined;

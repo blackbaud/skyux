@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 
 @Component({
   standalone: true,
-  selector: 'app-flyout-demo-flyout',
+  selector: 'app-flyout',
   template: `
     <div class="sky-padding-even-xl">
-      <h2 id="flyout-title">Sample flyout</h2>
+      <h2>Sample flyout</h2>
       <p>
         Flyouts can display large quantities of supplementary information
         related to a task, including:
@@ -18,4 +18,4 @@ import { Component } from '@angular/core';
     </div>
   `,
 })
-export class FlyoutDemoFlyoutComponent {}
+export class FlyoutComponent {}
