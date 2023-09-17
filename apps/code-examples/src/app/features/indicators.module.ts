@@ -1,121 +1,108 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AlertDemoComponent as AlertBasicDemoComponent } from '../code-examples/indicators/alert/basic/alert-demo.component';
-import { AlertDemoModule as AlertBasicDemoModule } from '../code-examples/indicators/alert/basic/alert-demo.module';
-import { HelpInlineDemoComponent } from '../code-examples/indicators/help-inline/basic/help-inline-demo.component';
-import { HelpInlineDemoModule } from '../code-examples/indicators/help-inline/basic/help-inline-demo.module';
-import { IconDemoComponent } from '../code-examples/indicators/icon/basic/icon-demo.component';
-import { IconDemoModule } from '../code-examples/indicators/icon/basic/icon-demo.module';
-import { IconDemoComponent as IconButtonDemoComponent } from '../code-examples/indicators/icon/icon-button/icon-button-demo.component';
-import { IconDemoModule as IconButtonDemoModule } from '../code-examples/indicators/icon/icon-button/icon-button-demo.module';
-import { KeyInfoDemoComponent as KeyInfoBasicDemoComponent } from '../code-examples/indicators/key-info/basic/key-info-demo.component';
-import { KeyInfoDemoModule as KeyInfoBasicDemoModule } from '../code-examples/indicators/key-info/basic/key-info-demo.module';
-import { KeyInfoDemoComponent as KeyInfoInlineHelpDemoComponent } from '../code-examples/indicators/key-info/inline-help/key-info-demo.component';
-import { KeyInfoDemoModule as KeyInfoInlineHelpDemoModule } from '../code-examples/indicators/key-info/inline-help/key-info-demo.module';
-import { LabelDemoComponent } from '../code-examples/indicators/label/basic/label-demo.component';
-import { LabelDemoModule } from '../code-examples/indicators/label/basic/label-demo.module';
-import { StatusIndicatorDemoComponent as StatusIndicatorBasicDemoComponent } from '../code-examples/indicators/status-indicator/basic/status-indicator-demo.component';
-import { StatusIndicatorDemoModule as StatusIndicatorBasicDemoModule } from '../code-examples/indicators/status-indicator/basic/status-indicator-demo.module';
-import { StatusIndicatorDemoComponent as StatusIndicatorInlineHelpDemoComponent } from '../code-examples/indicators/status-indicator/inline-help/status-indicator-demo.component';
-import { StatusIndicatorDemoModule as StatusIndicatorInlineHelpDemoModule } from '../code-examples/indicators/status-indicator/inline-help/status-indicator-demo.module';
-import { TextHighlightDemoComponent } from '../code-examples/indicators/text-highlight/basic/text-highlight-demo.component';
-import { TextHighlightDemoModule } from '../code-examples/indicators/text-highlight/basic/text-highlight-demo.module';
-import { TokensDemoComponent as TokensBasicDemoComponent } from '../code-examples/indicators/tokens/basic/tokens-demo.component';
-import { TokensDemoModule as TokensBasicDemoModule } from '../code-examples/indicators/tokens/basic/tokens-demo.module';
-import { TokensDemoComponent as TokensCustomDemoComponent } from '../code-examples/indicators/tokens/custom/tokens-demo.component';
-import { TokensDemoModule as TokensCustomDemoModule } from '../code-examples/indicators/tokens/custom/tokens-demo.module';
-import { WaitDemoComponent } from '../code-examples/indicators/wait/element/wait-demo.component';
-import { WaitDemoModule } from '../code-examples/indicators/wait/element/wait-demo.module';
-import { WaitDemoComponent as WaitPageComponent } from '../code-examples/indicators/wait/page/wait-demo.component';
-import { WaitDemoModule as WaitPageModule } from '../code-examples/indicators/wait/page/wait-demo.module';
-
 const routes: Routes = [
   {
     path: 'alert/basic',
-    component: AlertBasicDemoComponent,
+    loadComponent: () =>
+      import('../code-examples/indicators/alert/basic/demo.component').then(
+        (c) => c.DemoComponent
+      ),
   },
   {
     path: 'help-inline/basic',
-    component: HelpInlineDemoComponent,
+    loadComponent: () =>
+      import(
+        '../code-examples/indicators/help-inline/basic/demo.component'
+      ).then((c) => c.DemoComponent),
   },
   {
     path: 'icon/basic',
-    component: IconDemoComponent,
+    loadComponent: () =>
+      import('../code-examples/indicators/icon/basic/demo.component').then(
+        (c) => c.DemoComponent
+      ),
   },
   {
     path: 'icon/button',
-    component: IconButtonDemoComponent,
-  },
-  {
-    path: 'status-indicator/basic',
-    component: StatusIndicatorBasicDemoComponent,
-  },
-  {
-    path: 'status-indicator/inline-help',
-    component: StatusIndicatorInlineHelpDemoComponent,
+    loadComponent: () =>
+      import(
+        '../code-examples/indicators/icon/icon-button/demo.component'
+      ).then((c) => c.DemoComponent),
   },
   {
     path: 'key-info/basic',
-    component: KeyInfoBasicDemoComponent,
+    loadComponent: () =>
+      import('../code-examples/indicators/key-info/basic/demo.component').then(
+        (c) => c.DemoComponent
+      ),
   },
   {
     path: 'key-info/inline-help',
-    component: KeyInfoInlineHelpDemoComponent,
+    loadComponent: () =>
+      import(
+        '../code-examples/indicators/key-info/inline-help/demo.component'
+      ).then((c) => c.DemoComponent),
   },
   {
     path: 'label/basic',
-    component: LabelDemoComponent,
+    loadComponent: () =>
+      import('../code-examples/indicators/label/basic/demo.component').then(
+        (c) => c.DemoComponent
+      ),
   },
   {
     path: 'status-indicator/basic',
-    component: StatusIndicatorBasicDemoComponent,
+    loadComponent: () =>
+      import(
+        '../code-examples/indicators/status-indicator/basic/demo.component'
+      ).then((c) => c.DemoComponent),
+  },
+  {
+    path: 'status-indicator/inline-help',
+    loadComponent: () =>
+      import(
+        '../code-examples/indicators/status-indicator/inline-help/demo.component'
+      ).then((c) => c.DemoComponent),
   },
   {
     path: 'text-highlight/basic',
-    component: TextHighlightDemoComponent,
+    loadComponent: () =>
+      import(
+        '../code-examples/indicators/text-highlight/basic/demo.component'
+      ).then((c) => c.DemoComponent),
   },
   {
     path: 'tokens/basic',
-    component: TokensBasicDemoComponent,
+    loadComponent: () =>
+      import('../code-examples/indicators/tokens/basic/demo.component').then(
+        (c) => c.DemoComponent
+      ),
   },
   {
     path: 'tokens/custom',
-    component: TokensCustomDemoComponent,
+    loadComponent: () =>
+      import('../code-examples/indicators/tokens/custom/demo.component').then(
+        (c) => c.DemoComponent
+      ),
   },
   {
     path: 'wait/element',
-    component: WaitDemoComponent,
+    loadComponent: () =>
+      import('../code-examples/indicators/wait/element/demo.component').then(
+        (c) => c.DemoComponent
+      ),
   },
   {
     path: 'wait/page',
-    component: WaitPageComponent,
+    loadComponent: () =>
+      import('../code-examples/indicators/wait/page/demo.component').then(
+        (c) => c.DemoComponent
+      ),
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-})
-export class IndicatorsFeatureRoutingModule {}
-
-@NgModule({
-  imports: [
-    IndicatorsFeatureRoutingModule,
-    AlertBasicDemoModule,
-    StatusIndicatorBasicDemoModule,
-    StatusIndicatorInlineHelpDemoModule,
-    KeyInfoBasicDemoModule,
-    KeyInfoInlineHelpDemoModule,
-    LabelDemoModule,
-    TextHighlightDemoModule,
-    TokensBasicDemoModule,
-    TokensCustomDemoModule,
-    HelpInlineDemoModule,
-    IconDemoModule,
-    IconButtonDemoModule,
-    WaitDemoModule,
-    WaitPageModule,
-  ],
 })
 export class IndicatorsFeatureModule {}

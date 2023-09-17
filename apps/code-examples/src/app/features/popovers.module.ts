@@ -1,40 +1,31 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { DropdownDemoComponent as DropdownBasicDemoComponent } from '../code-examples/popovers/dropdown/basic/dropdown-demo.component';
-import { DropdownDemoModule as DropdownBasicDemoModule } from '../code-examples/popovers/dropdown/basic/dropdown-demo.module';
-import { PopoverDemoComponent as PopoverBasicDemoComponent } from '../code-examples/popovers/popover/basic/popover-demo.component';
-import { PopoverDemoModule as PopoverBasicDemoModule } from '../code-examples/popovers/popover/basic/popover-demo.module';
-import { PopoverDemoComponent as PopoverProgrammaticDemoComponent } from '../code-examples/popovers/popover/programmatic/popover-demo.component';
-import { PopoverDemoModule as PopoverProgrammaticDemoModule } from '../code-examples/popovers/popover/programmatic/popover-demo.module';
-
 const routes: Routes = [
   {
     path: 'dropdown/basic',
-    component: DropdownBasicDemoComponent,
+    loadComponent: () =>
+      import('../code-examples/popovers/dropdown/basic/demo.component').then(
+        (c) => c.DemoComponent
+      ),
   },
   {
     path: 'popover/basic',
-    component: PopoverBasicDemoComponent,
+    loadComponent: () =>
+      import('../code-examples/popovers/popover/basic/demo.component').then(
+        (c) => c.DemoComponent
+      ),
   },
   {
     path: 'popover/programmatic',
-    component: PopoverProgrammaticDemoComponent,
+    loadComponent: () =>
+      import(
+        '../code-examples/popovers/popover/programmatic/demo.component'
+      ).then((c) => c.DemoComponent),
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-})
-export class PopoversRoutingModule {}
-
-@NgModule({
-  imports: [
-    DropdownBasicDemoModule,
-    PopoversRoutingModule,
-    PopoverBasicDemoModule,
-    PopoverProgrammaticDemoModule,
-  ],
 })
 export class PopoversFeatureModule {}
