@@ -1,11 +1,17 @@
 import { Component } from '@angular/core';
-import { SkyPopoverAlignment, SkyPopoverPlacement } from '@skyux/popovers';
+import {
+  SkyPopoverAlignment,
+  SkyPopoverModule,
+  SkyPopoverPlacement,
+} from '@skyux/popovers';
 
 @Component({
-  selector: 'app-popover-demo',
-  templateUrl: './popover-demo.component.html',
+  standalone: true,
+  selector: 'app-demo',
+  templateUrl: './demo.component.html',
+  imports: [SkyPopoverModule],
 })
-export class PopoverDemoComponent {
+export class DemoComponent {
   public dismissOnBlur: boolean | undefined;
   public popoverAlignment: SkyPopoverAlignment | undefined;
   public popoverBody = 'This is a popover.';

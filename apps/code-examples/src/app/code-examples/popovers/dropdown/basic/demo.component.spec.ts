@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 import { SkyDropdownHarness } from '@skyux/popovers/testing';
 
-import { DropdownDemoComponent } from './dropdown-demo.component';
+import { DropdownDemoComponent } from './demo.component';
 import { DropdownDemoModule } from './dropdown-demo.module';
 
 describe('Basic dropdown', () => {

@@ -4,8 +4,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyPopoverAlignment, SkyPopoverPlacement } from '@skyux/popovers';
 import { SkyPopoverHarness } from '@skyux/popovers/testing';
 
-import { PopoverDemoComponent } from './popover-demo.component';
-import { PopoverDemoModule } from './popover-demo.module';
+import { DemoComponent } from './demo.component';
 
 describe('Basic popover', () => {
   async function setupTest(options?: {
@@ -15,9 +14,9 @@ describe('Basic popover', () => {
     dismissOnBlur?: boolean;
   }): Promise<{
     popoverHarness: SkyPopoverHarness;
-    fixture: ComponentFixture<PopoverDemoComponent>;
+    fixture: ComponentFixture<DemoComponent>;
   }> {
-    const fixture = TestBed.createComponent(PopoverDemoComponent);
+    const fixture = TestBed.createComponent(DemoComponent);
     const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
 
     if (options) {
@@ -41,7 +40,7 @@ describe('Basic popover', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [PopoverDemoModule, NoopAnimationsModule],
+      imports: [DemoComponent, NoopAnimationsModule],
     });
   });
 
