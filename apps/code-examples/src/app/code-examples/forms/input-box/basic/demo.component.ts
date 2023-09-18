@@ -41,8 +41,6 @@ export class DemoComponent {
     favoriteColor: FormControl<string | null>;
   }>;
 
-  readonly #formBuilder = inject(FormBuilder);
-
   constructor() {
     this.favoriteColor = new FormControl('none', [
       (control): ValidationErrors | null => {
@@ -59,7 +57,7 @@ export class DemoComponent {
       },
     ]);
 
-    this.formGroup = this.#formBuilder.group({
+    this.formGroup = inject(FormBuilder).group({
       firstName: new FormControl(''),
       lastName: new FormControl('', Validators.required),
       bio: new FormControl(''),

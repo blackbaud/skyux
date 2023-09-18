@@ -47,10 +47,8 @@ export class DemoComponent {
     },
   ];
 
-  readonly #formBuilder = inject(FormBuilder);
-
   constructor() {
-    this.formGroup = this.#formBuilder.group({
+    this.formGroup = inject(FormBuilder).group({
       favoriteColor: undefined,
     });
   }

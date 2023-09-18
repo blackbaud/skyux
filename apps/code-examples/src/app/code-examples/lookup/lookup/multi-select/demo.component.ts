@@ -58,10 +58,8 @@ export class DemoComponent implements OnInit {
     { name: 'Vicki' },
   ];
 
-  readonly #formBuilder = inject(FormBuilder);
-
   constructor() {
-    this.favoritesForm = this.#formBuilder.group({
+    this.favoritesForm = inject(FormBuilder).group({
       favoriteNames: [[this.people[15]]],
     });
   }

@@ -67,10 +67,8 @@ export class DemoComponent {
     favoriteColor: FormControl<string | null>;
   }>;
 
-  readonly #formBuilder = inject(FormBuilder);
-
   constructor() {
-    this.formGroup = this.#formBuilder.group({
+    this.formGroup = inject(FormBuilder).group({
       firstName: new FormControl(''),
       lastName: this.lastName,
       bio: new FormControl(''),

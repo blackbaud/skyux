@@ -67,10 +67,8 @@ export class DemoComponent {
 
   protected formGroup: FormGroup;
 
-  readonly #formBuilder = inject(FormBuilder);
-
   constructor() {
-    this.formGroup = this.#formBuilder.group({
+    this.formGroup = inject(FormBuilder).group({
       id: new FormControl(),
       title: new FormControl(),
       note: new FormControl(),

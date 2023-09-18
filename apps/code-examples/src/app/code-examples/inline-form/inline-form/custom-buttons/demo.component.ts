@@ -59,10 +59,8 @@ export class DemoComponent implements OnInit {
 
   protected showForm = false;
 
-  readonly #formBuilder = inject(FormBuilder);
-
   constructor() {
-    this.formGroup = this.#formBuilder.group({
+    this.formGroup = inject(FormBuilder).group({
       myFirstName: new FormControl(),
     });
   }

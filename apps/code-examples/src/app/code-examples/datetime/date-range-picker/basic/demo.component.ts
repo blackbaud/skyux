@@ -42,10 +42,9 @@ export class DemoComponent implements OnInit, OnDestroy {
   #ngUnsubscribe = new Subject<void>();
 
   readonly #dateRangeSvc = inject(SkyDateRangeService);
-  readonly #formBuilder = inject(FormBuilder);
 
   constructor() {
-    this.formGroup = this.#formBuilder.group({
+    this.formGroup = inject(FormBuilder).group({
       lastDonation: new FormControl(),
     });
   }

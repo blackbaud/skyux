@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -36,23 +36,19 @@ export class PickerModalComponent {
 
   protected people: Person[];
 
-  #modalInstance: SkyModalInstance;
+  protected readonly context = inject(SkyLookupShowMoreCustomPickerContext);
+  readonly #formBuilder = inject(FormBuilder);
+  readonly #modalInstance = inject(SkyModalInstance);
 
-  constructor(
-    context: SkyLookupShowMoreCustomPickerContext,
-    modalInstance: SkyModalInstance,
-    formBuilder: FormBuilder
-  ) {
-    this.#modalInstance = modalInstance;
-
+  constructor() {
     // This list of people will be rendered as selection boxes.
-    this.people = context.items;
+    this.people = this.context.items;
 
     // Create a control for each selection box.
-    this.peopleForm = formBuilder.group({
-      people: formBuilder.array(
-        context.items.map((item) =>
-          formBuilder.control(context.initialValue?.includes(item))
+    this.peopleForm = this.#formBuilder.group({
+      people: this.#formBuilder.array(
+        this.context.items.map((item) =>
+          this.#formBuilder.control(this.context.initialValue?.includes(item))
         )
       ),
     });

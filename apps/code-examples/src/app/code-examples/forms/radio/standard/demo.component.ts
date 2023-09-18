@@ -29,10 +29,8 @@ export class DemoComponent {
     { name: 'Option 3 is disabled', value: '3', disabled: true },
   ];
 
-  readonly #formBuilder = inject(FormBuilder);
-
   constructor() {
-    this.formGroup = this.#formBuilder.group({
+    this.formGroup = inject(FormBuilder).group({
       myOption: this.options[0].name,
     });
   }

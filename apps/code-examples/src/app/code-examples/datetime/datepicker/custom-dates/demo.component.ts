@@ -30,10 +30,8 @@ import { delay } from 'rxjs/operators';
 export class DemoComponent {
   protected formGroup: FormGroup;
 
-  readonly #formBuilder = inject(FormBuilder);
-
   constructor() {
-    this.formGroup = this.#formBuilder.group({
+    this.formGroup = inject(FormBuilder).group({
       myDate: new FormControl(new Date(1999, 10, 5)),
     });
   }

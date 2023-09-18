@@ -28,10 +28,8 @@ export class DemoComponent {
     return this.formGroup.get('time') as FormControl;
   }
 
-  readonly #formBuilder = inject(FormBuilder);
-
   constructor() {
-    this.formGroup = this.#formBuilder.group({
+    this.formGroup = inject(FormBuilder).group({
       time: new FormControl('2:45', Validators.required),
     });
   }

@@ -23,10 +23,8 @@ export class DemoComponent {
 
   protected formGroup: FormGroup;
 
-  readonly #formBuilder = inject(FormBuilder);
-
   constructor() {
-    this.formGroup = this.#formBuilder.group({
+    this.formGroup = inject(FormBuilder).group({
       donationAmount: new FormControl(1234.5678, [Validators.required]),
     });
   }

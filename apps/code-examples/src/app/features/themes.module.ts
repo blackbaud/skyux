@@ -1,29 +1,24 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { BoxDemoComponent } from '../code-examples/theme/box/basic/box-demo.component';
-import { BoxDemoModule } from '../code-examples/theme/box/basic/box-demo.module';
-import { StatusIndicatorDemoComponent } from '../code-examples/theme/status-indicator/basic/status-indicator-demo.component';
-import { StatusIndicatorDemoModule } from '../code-examples/theme/status-indicator/basic/status-indicator-demo.module';
-
 const routes: Routes = [
   {
     path: 'box/basic',
-    component: BoxDemoComponent,
+    loadComponent: () =>
+      import('../code-examples/theme/box/basic/demo.component').then(
+        (c) => c.DemoComponent
+      ),
   },
   {
     path: 'status-indicator/basic',
-    component: StatusIndicatorDemoComponent,
+    loadComponent: () =>
+      import(
+        '../code-examples/theme/status-indicator/basic/demo.component'
+      ).then((c) => c.DemoComponent),
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-})
-export class ThemesRoutingModule {}
-
-@NgModule({
-  imports: [ThemesRoutingModule, StatusIndicatorDemoModule, BoxDemoModule],
 })
 export class ThemesFeatureModule {}

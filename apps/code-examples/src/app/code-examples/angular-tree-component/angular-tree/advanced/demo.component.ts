@@ -135,10 +135,9 @@ export class DemoComponent implements OnInit, OnDestroy {
   #ngUnsubscribe = new Subject<void>();
 
   readonly #changeDetectorRef = inject(ChangeDetectorRef);
-  readonly #formBuilder = inject(FormBuilder);
 
   constructor() {
-    this.formGroup = this.#formBuilder.group({
+    this.formGroup = inject(FormBuilder).group({
       treeMode: new FormControl('navigation'),
       selectMode: new FormControl('multiSelect'),
       selectLeafNodesOnly: new FormControl(),

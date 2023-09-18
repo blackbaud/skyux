@@ -28,10 +28,8 @@ export class DemoComponent {
     { icon: 'map-marker', label: 'Map', name: 'map' },
   ];
 
-  readonly #formBuilder = inject(FormBuilder);
-
   constructor() {
-    this.formGroup = this.#formBuilder.group({
+    this.formGroup = inject(FormBuilder).group({
       myView: this.views[0].name,
     });
   }

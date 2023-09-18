@@ -46,14 +46,14 @@ export class DemoComponent implements OnInit, OnDestroy {
   #subscriptions = new Subscription();
 
   readonly #svc = inject(DemoService);
-  readonly #formBuilder = inject(FormBuilder);
+
   readonly #modalSvc = inject(SkyModalService);
   readonly #waitSvc = inject(SkyWaitService);
 
   constructor() {
     const names = new FormControl<Person[]>([{ id: '16', name: 'Shirley' }]);
 
-    this.favoritesForm = this.#formBuilder.group({
+    this.favoritesForm = inject(FormBuilder).group({
       favoriteNames: names,
     });
   }

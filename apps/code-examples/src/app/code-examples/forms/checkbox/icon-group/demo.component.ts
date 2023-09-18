@@ -17,10 +17,8 @@ import { SkyCheckboxModule } from '@skyux/forms';
 export class DemoComponent {
   protected formGroup: FormGroup;
 
-  readonly #formBuilder = inject(FormBuilder);
-
   constructor() {
-    this.formGroup = this.#formBuilder.group({
+    this.formGroup = inject(FormBuilder).group({
       bold: new FormControl(false),
       italic: new FormControl(false),
       underline: new FormControl(false),

@@ -37,11 +37,9 @@ export class DemoComponent {
     return this.formGroup.get('attachment');
   }
 
-  readonly #formBuilder = inject(FormBuilder);
-
   constructor() {
     this.attachment = new FormControl(undefined, Validators.required);
-    this.formGroup = this.#formBuilder.group({
+    this.formGroup = inject(FormBuilder).group({
       attachment: this.attachment,
     });
   }

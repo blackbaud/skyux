@@ -31,10 +31,8 @@ export class DemoComponent {
   protected formGroup: FormGroup;
   protected showResetButton = false;
 
-  readonly #formBuilder = inject(FormBuilder);
-
   constructor() {
-    this.formGroup = this.#formBuilder.group({
+    this.formGroup = inject(FormBuilder).group({
       favoriteColor: new FormControl('#f00'),
     });
   }

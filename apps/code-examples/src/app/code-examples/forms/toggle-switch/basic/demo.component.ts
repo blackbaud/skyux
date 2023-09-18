@@ -22,10 +22,8 @@ type ToggleSwitchFormType = {
 export class DemoComponent {
   protected formGroup: FormGroup;
 
-  readonly #formBuilder = inject(FormBuilder);
-
   constructor() {
-    this.formGroup = this.#formBuilder.group<ToggleSwitchFormType>({
+    this.formGroup = inject(FormBuilder).group<ToggleSwitchFormType>({
       controlToggle: new FormControl(false),
       dynamicToggle: new FormControl({ value: true, disabled: true }),
     });

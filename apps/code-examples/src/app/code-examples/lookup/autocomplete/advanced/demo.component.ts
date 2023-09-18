@@ -58,11 +58,11 @@ export class DemoComponent {
     },
   ];
 
-  readonly #formBuilder = inject(FormBuilder);
+
 
   constructor() {
     this.farthestPlanet = this.#formBuilder.control({});
-    this.formGroup = this.#formBuilder.group({
+    this.formGroup = inject(FormBuilder).group({
       farthestPlanet: this.farthestPlanet,
     });
   }

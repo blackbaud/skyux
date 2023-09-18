@@ -38,14 +38,13 @@ export class DemoComponent implements OnInit {
     favoriteNames: FormControl<Person[] | null>;
   }>;
 
-  readonly #formBuilder = inject(FormBuilder);
   readonly #svc = inject(DemoService);
   readonly #waitSvc = inject(SkyWaitService);
 
   constructor() {
     const names = new FormControl<Person[]>([{ name: 'Shirley' }]);
 
-    this.favoritesForm = this.#formBuilder.group({
+    this.favoritesForm = inject(FormBuilder).group({
       favoriteNames: names,
     });
   }

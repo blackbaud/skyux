@@ -41,11 +41,11 @@ export class DemoComponent {
     { title: 'Pacific', id: 4 },
   ];
 
-  readonly #formBuilder = inject(FormBuilder);
+
 
   constructor() {
     this.largestOcean = this.#formBuilder.control({ title: 'Arctic', id: 1 });
-    this.formGroup = this.#formBuilder.group({
+    this.formGroup = inject(FormBuilder).group({
       largestOcean: this.largestOcean,
     });
   }
