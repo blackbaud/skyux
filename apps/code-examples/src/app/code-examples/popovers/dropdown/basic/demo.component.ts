@@ -22,7 +22,7 @@ export class DemoComponent {
     { name: 'Option 5', disabled: false },
   ];
 
-  protected actionClicked(action: string): void {
+  public actionClicked(action: string): void {
     alert(`You selected ${action}.`);
   }
 }

@@ -5,18 +5,17 @@ import { SkySelectionModalHarness } from '@skyux/lookup/testing';
 
 import { of } from 'rxjs';
 
-import { SelectionModalDemoComponent } from './demo.component';
+import { DemoComponent } from './demo.component';
 import { DemoService } from './demo.service';
-import { SelectionModalDemoModule } from './selection-modal-demo.module';
 
 describe('Selection modal demo', () => {
   let mockSvc: jasmine.SpyObj<DemoService>;
 
   async function setupTest(): Promise<{
     harness: SkySelectionModalHarness;
-    fixture: ComponentFixture<SelectionModalDemoComponent>;
+    fixture: ComponentFixture<DemoComponent>;
   }> {
-    const fixture = TestBed.createComponent(SelectionModalDemoComponent);
+    const fixture = TestBed.createComponent(DemoComponent);
     const openBtn = fixture.nativeElement.querySelector(
       '.selection-modal-demo-show-btn'
     );
@@ -52,7 +51,7 @@ describe('Selection modal demo', () => {
     });
 
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, SelectionModalDemoModule],
+      imports: [DemoComponent, NoopAnimationsModule],
     });
   });
 

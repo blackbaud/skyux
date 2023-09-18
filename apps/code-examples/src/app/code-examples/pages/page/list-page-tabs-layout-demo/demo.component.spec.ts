@@ -4,15 +4,14 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SkyPageHarness } from '@skyux/pages/testing';
 
-import { ListPageTabsLayoutDemoComponent } from './demo.component';
-import { ListPageTabsLayoutDemoModule } from './list-page-tabs-layout-demo.module';
+import { DemoComponent } from './demo.component';
 
 describe('List page tabs layout demo', async () => {
   async function setupTest(): Promise<{
     pageHarness: SkyPageHarness;
-    fixture: ComponentFixture<ListPageTabsLayoutDemoComponent>;
+    fixture: ComponentFixture<DemoComponent>;
   }> {
-    const fixture = TestBed.createComponent(ListPageTabsLayoutDemoComponent);
+    const fixture = TestBed.createComponent(DemoComponent);
 
     const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
     const pageHarness = await loader.getHarness(SkyPageHarness);
@@ -22,11 +21,7 @@ describe('List page tabs layout demo', async () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ListPageTabsLayoutDemoModule,
-        NoopAnimationsModule,
-        RouterTestingModule,
-      ],
+      imports: [DemoComponent, NoopAnimationsModule, RouterTestingModule],
     });
   });
 

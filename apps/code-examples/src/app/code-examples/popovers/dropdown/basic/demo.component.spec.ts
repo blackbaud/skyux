@@ -3,15 +3,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 import { SkyDropdownHarness } from '@skyux/popovers/testing';
 
-import { DropdownDemoComponent } from './demo.component';
-import { DropdownDemoModule } from './dropdown-demo.module';
+import { DemoComponent } from './demo.component';
 
 describe('Basic dropdown', () => {
   async function setupTest(): Promise<{
     dropdownHarness: SkyDropdownHarness;
-    fixture: ComponentFixture<DropdownDemoComponent>;
+    fixture: ComponentFixture<DemoComponent>;
   }> {
-    const fixture = TestBed.createComponent(DropdownDemoComponent);
+    const fixture = TestBed.createComponent(DemoComponent);
     const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
     const dropdownHarness = await loader.getHarness(
       SkyDropdownHarness.with({
@@ -24,7 +23,7 @@ describe('Basic dropdown', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [DropdownDemoModule],
+      imports: [DemoComponent],
     });
   });
 

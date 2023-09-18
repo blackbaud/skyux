@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SkyRepeaterModule } from '@skyux/lists';
 import { SkyDropdownModule } from '@skyux/popovers';
@@ -11,7 +12,7 @@ let nextId = 0;
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   styleUrls: ['./demo.component.scss'],
-  imports: [SkyDropdownModule, SkyRepeaterModule],
+  imports: [CommonModule, SkyDropdownModule, SkyRepeaterModule],
 })
 export class DemoComponent {
   protected items: Item[] = [

@@ -4,17 +4,14 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SkyPageHarness } from '@skyux/pages/testing';
 
-import { RecordPageBlocksLayoutDemoComponent } from './demo.component';
-import { RecordPageBlocksLayoutDemoModule } from './record-page-blocks-layout-demo.module';
+import { DemoComponent } from './demo.component';
 
 describe('Record page blocks layout demo', async () => {
   async function setupTest(): Promise<{
     pageHarness: SkyPageHarness;
-    fixture: ComponentFixture<RecordPageBlocksLayoutDemoComponent>;
+    fixture: ComponentFixture<DemoComponent>;
   }> {
-    const fixture = TestBed.createComponent(
-      RecordPageBlocksLayoutDemoComponent
-    );
+    const fixture = TestBed.createComponent(DemoComponent);
 
     const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
     const pageHarness = await loader.getHarness(SkyPageHarness);
@@ -24,11 +21,7 @@ describe('Record page blocks layout demo', async () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        NoopAnimationsModule,
-        RecordPageBlocksLayoutDemoModule,
-        RouterTestingModule,
-      ],
+      imports: [DemoComponent, NoopAnimationsModule, RouterTestingModule],
     });
   });
 
