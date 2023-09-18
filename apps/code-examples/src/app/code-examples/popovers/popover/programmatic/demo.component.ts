@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SkyHelpInlineModule } from '@skyux/indicators';
 import {
   SkyPopoverMessage,
   SkyPopoverMessageType,
@@ -11,7 +12,7 @@ import { Subject } from 'rxjs';
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [SkyPopoverModule],
+  imports: [SkyHelpInlineModule, SkyPopoverModule],
 })
 export class DemoComponent {
   protected popoverController = new Subject<SkyPopoverMessage>();

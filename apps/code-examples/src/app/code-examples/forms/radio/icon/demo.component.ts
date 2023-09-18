@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
@@ -17,7 +18,7 @@ type Item = {
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [FormsModule, ReactiveFormsModule, SkyRadioModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, SkyRadioModule],
 })
 export class DemoComponent {
   protected formGroup: FormGroup;

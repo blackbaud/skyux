@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
@@ -21,6 +22,7 @@ type Fruit = {
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [
+    CommonModule,
     FormsModule,
     SkyCheckboxModule,
     SkyIdModule,
