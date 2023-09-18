@@ -17,18 +17,21 @@ export class ActionHubDemoComponent {
   public buttons = [
     {
       label: 'Action 1',
+      ariaLabel: 'Accounts action 1',
       permalink: {
         url: '#',
       },
     },
     {
       label: 'Action 2',
+      ariaLabel: 'Accounts action 2',
       permalink: {
         url: '#',
       },
     },
     {
       label: 'Action 3',
+      ariaLabel: 'Accounts action 3',
       permalink: {
         url: '#',
       },
@@ -193,5 +196,5 @@ export class ActionHubDemoComponent {
     },
   ];
 
-  public title = 'Page title';
+  public title = 'Active accounts';
 }

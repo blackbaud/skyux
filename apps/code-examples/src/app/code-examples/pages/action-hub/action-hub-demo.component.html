@@ -10,6 +10,7 @@
       *ngFor="let button of buttons"
       class="sky-btn sky-btn-default sky-margin-inline-sm"
       [href]="button.permalink.url"
+      [attr.aria-label]="button.ariaLabel"
     >
       {{ button.label }}
     </a>
