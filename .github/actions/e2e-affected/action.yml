@@ -61,7 +61,7 @@ runs:
               process.exit(1);
             });
 
-          const lastGoodBuild = percyBuilds.find(build => build.attributes.state === 'finished' && build.attributes['review-state'] === 'approved');
+          const lastGoodBuild = Array.isArray(percyBuilds) && percyBuilds.find(build => build.attributes.state === 'finished' && build.attributes['review-state'] === 'approved');
 
           if (!lastGoodBuild) {
             core.info('No good Percy test found, running e2e tests');
