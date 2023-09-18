@@ -60,13 +60,13 @@ export class DemoComponent implements OnInit, OnDestroy {
 
   #ngUnsubscribe = new Subject<void>();
 
-
+  readonly #formBuilder = inject(FormBuilder);
 
   constructor() {
     const checkboxArray = this.#buildCheckboxes();
     this.checkboxControls = checkboxArray.controls as FormControl[];
 
-    this.formGroup = inject(FormBuilder).group({
+    this.formGroup = this.#formBuilder.group({
       checkboxes: checkboxArray,
     });
   }

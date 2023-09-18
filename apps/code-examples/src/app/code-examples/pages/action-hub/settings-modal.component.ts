@@ -34,7 +34,7 @@ export class SettingsModalComponent {
 
   protected readonly modalInstance = inject(SkyModalInstance);
   protected readonly title = inject(MODAL_TITLE);
-
+  readonly #formBuilder = inject(FormBuilder);
 
   constructor() {
     const controls: Record<string, AbstractControl> = {};
@@ -45,7 +45,7 @@ export class SettingsModalComponent {
       controls[field] = this.#formBuilder.control('');
     }
 
-    this.formGroup = inject(FormBuilder).group(controls);
+    this.formGroup = this.#formBuilder.group(controls);
 
     this.modalInstance.closed.subscribe((args) => {
       if (args.reason === 'save') {

@@ -28,14 +28,14 @@ export class DemoComponent {
   protected formGroup: FormGroup;
   protected maxDescriptionCharacterCount = 50;
 
-
+  readonly #formBuilder = inject(FormBuilder);
 
   constructor() {
     this.description = this.#formBuilder.control(
       'Boys and Girls Club of South Carolina donation'
     );
 
-    this.formGroup = inject(FormBuilder).group({
+    this.formGroup = this.#formBuilder.group({
       description: this.description,
     });
   }
