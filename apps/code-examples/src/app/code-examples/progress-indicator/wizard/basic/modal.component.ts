@@ -1,19 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { SkyCheckboxModule } from '@skyux/forms';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 import {
   SkyProgressIndicatorActionClickArgs,
   SkyProgressIndicatorChange,
-  SkyProgressIndicatorDisplayMode,
+  SkyProgressIndicatorDisplayModeType,
   SkyProgressIndicatorModule,
 } from '@skyux/progress-indicator';
 
 @Component({
   standalone: true,
-  selector: 'app-wizard-demo-modal',
-  templateUrl: './wizard-demo-modal.component.html',
+  selector: 'app-modal',
+  templateUrl: './modal.component.html',
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -22,43 +22,42 @@ import {
     SkyProgressIndicatorModule,
   ],
 })
-export class WizardDemoModalComponent {
-  public activeIndex: number | undefined = 0;
+export class ModalComponent {
+  protected activeIndex: number | undefined = 0;
+  protected displayMode: SkyProgressIndicatorDisplayModeType = 'horizontal';
+  protected formGroup: FormGroup;
+  protected title = 'Wizard example';
 
-  public displayMode = SkyProgressIndicatorDisplayMode.Horizontal;
-
-  public myForm: FormGroup;
-
-  public title = 'Wizard example';
-
-  public get requirementsMet(): boolean {
+  protected get requirementsMet(): boolean {
     switch (this.activeIndex) {
       case 0:
-        return !!this.myForm.get('requiredValue1')?.value;
+        return !!this.formGroup.get('requiredValue1')?.value;
       case 1:
-        return !!this.myForm.get('requiredValue2')?.value;
+        return !!this.formGroup.get('requiredValue2')?.value;
       default:
         return false;
     }
   }
 
-  constructor(formBuilder: FormBuilder, public instance: SkyModalInstance) {
-    this.myForm = formBuilder.group({
+  protected readonly instance = inject(SkyModalInstance);
+
+  constructor() {
+    this.formGroup = inject(FormBuilder).group({
       requiredValue1: undefined,
       requiredValue2: undefined,
     });
   }
 
-  public onCancelClick(): void {
+  protected onCancelClick(): void {
     this.instance.cancel();
   }
 
-  public onSaveClick(args: SkyProgressIndicatorActionClickArgs): void {
+  protected onSaveClick(args: SkyProgressIndicatorActionClickArgs): void {
     args.progressHandler.advance();
     this.instance.save();
   }
 
-  public updateIndex(changes: SkyProgressIndicatorChange): void {
+  protected updateIndex(changes: SkyProgressIndicatorChange): void {
     this.activeIndex = changes.activeIndex;
   }
 }

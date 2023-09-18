@@ -10,10 +10,7 @@
   </sky-progress-indicator-title>
 
   <sky-progress-indicator-item title="Configure connection">
-    <sky-help-inline
-      class="sky-control-help"
-      (actionClick)="onActionClick()"
-    ></sky-help-inline>
+    <sky-help-inline class="sky-control-help" (actionClick)="onActionClick()" />
     <div>
       <button
         *ngIf="activeIndex === 0"
@@ -35,10 +32,7 @@
   </sky-progress-indicator-item>
 
   <sky-progress-indicator-item title="Select remote server">
-    <sky-help-inline
-      class="sky-control-help"
-      (actionClick)="onActionClick()"
-    ></sky-help-inline>
+    <sky-help-inline class="sky-control-help" (actionClick)="onActionClick()" />
     <div *ngIf="activeIndex && activeIndex >= 1">
       <button
         *ngIf="activeIndex === 1"
@@ -60,10 +54,7 @@
   </sky-progress-indicator-item>
 
   <sky-progress-indicator-item title="Test connection">
-    <sky-help-inline
-      class="sky-control-help"
-      (actionClick)="onActionClick()"
-    ></sky-help-inline>
+    <sky-help-inline class="sky-control-help" (actionClick)="onActionClick()" />
     <div *ngIf="activeIndex && activeIndex >= 2">
       <button
         *ngIf="activeIndex === 2"
@@ -85,10 +76,7 @@
   </sky-progress-indicator-item>
 
   <sky-progress-indicator-item title="Turn on connection">
-    <sky-help-inline
-      class="sky-control-help"
-      (actionClick)="onActionClick()"
-    ></sky-help-inline>
+    <sky-help-inline class="sky-control-help" (actionClick)="onActionClick()" />
     <div *ngIf="activeIndex && activeIndex >= 3">
       <button
         *ngIf="activeIndex === 3"

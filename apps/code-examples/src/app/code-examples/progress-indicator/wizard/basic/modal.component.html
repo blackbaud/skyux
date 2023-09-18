@@ -3,7 +3,7 @@
     {{ title }}
   </sky-modal-header>
   <sky-modal-content>
-    <form [formGroup]="myForm">
+    <form [formGroup]="formGroup">
       <sky-progress-indicator
         [displayMode]="displayMode"
         (progressChanges)="updateIndex($event)"
@@ -40,21 +40,18 @@
     <sky-progress-indicator-nav-button
       buttonType="previous"
       [progressIndicator]="wizardDemo"
-    >
-    </sky-progress-indicator-nav-button>
+    />
     <sky-progress-indicator-nav-button
       buttonType="next"
       [disabled]="!requirementsMet"
       [progressIndicator]="wizardDemo"
-    >
-    </sky-progress-indicator-nav-button>
+    />
     <sky-progress-indicator-nav-button
       buttonType="finish"
       buttonText="Finish"
       [progressIndicator]="wizardDemo"
       (actionClick)="onSaveClick($event)"
-    >
-    </sky-progress-indicator-nav-button>
+    />
     <button
       class="sky-btn sky-btn-link"
       type="button"
