@@ -1698,7 +1698,7 @@ describe('Autocomplete component', () => {
         expect(getSearchResultsContainer()).toBeNull();
       }));
 
-      it('should reset the value and not emit the add event if enter is pressed when the add button is focused but space is then entered', fakeAsync(() => {
+      it('should reset reset focus for search result controls when new text entered in input', fakeAsync(() => {
         component.showAddButton = true;
         fixture.detectChanges();
         const input: SkyAutocompleteInputDirective =
