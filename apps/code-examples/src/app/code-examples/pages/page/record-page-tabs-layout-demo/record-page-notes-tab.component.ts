@@ -1,11 +1,28 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { SkyIconModule, SkyKeyInfoModule } from '@skyux/indicators';
+import { SkyToolbarModule } from '@skyux/layout';
+import { SkyRepeaterModule, SkySortModule } from '@skyux/lists';
+import { SkySearchModule } from '@skyux/lookup';
+import { SkyDropdownModule } from '@skyux/popovers';
 
 @Component({
+  standalone: true,
   selector: 'app-record-page-notes-tab',
   templateUrl: './record-page-notes-tab.component.html',
+  imports: [
+    CommonModule,
+    SkyDropdownModule,
+    SkyIconModule,
+    SkyKeyInfoModule,
+    SkyRepeaterModule,
+    SkySearchModule,
+    SkySortModule,
+    SkyToolbarModule,
+  ],
 })
 export class RecordPageNotesTabComponent {
-  public notes = [
+  protected notes = [
     {
       noteNumber: 1,
       content: 'Attended our gala last year and had a great time.',

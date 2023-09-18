@@ -56,7 +56,10 @@
 
     &.sky-dropdown-item-active,
     &:hover {
-      background-color: transparent;
+      a,
+      button {
+        background-color: transparent;
+      }
     }
 
     & > a,

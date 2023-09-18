@@ -1,12 +1,30 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { SkyIconModule, SkyKeyInfoModule } from '@skyux/indicators';
+import {
+  SkyBoxModule,
+  SkyDescriptionListModule,
+  SkyFluidGridModule,
+} from '@skyux/layout';
+import { SkyRepeaterModule } from '@skyux/lists';
 
 @Component({
+  standalone: true,
   selector: 'app-record-page-content',
   templateUrl: './record-page-content.component.html',
   styleUrls: ['./record-page-content.component.scss'],
+  imports: [
+    CommonModule,
+    SkyBoxModule,
+    SkyDescriptionListModule,
+    SkyFluidGridModule,
+    SkyIconModule,
+    SkyKeyInfoModule,
+    SkyRepeaterModule,
+  ],
 })
 export class RecordPageContentComponent {
-  public recordDetails = [
+  protected recordDetails = [
     {
       detail: 'Designation',
       info: 'General operating',
@@ -33,7 +51,7 @@ export class RecordPageContentComponent {
     },
   ];
 
-  public actualPayments = [
+  protected actualPayments = [
     {
       category: 'Amount',
       value: '$845.00',
@@ -52,7 +70,7 @@ export class RecordPageContentComponent {
     },
   ];
 
-  public projectedPayments = [
+  protected projectedPayments = [
     {
       category: 'Amount',
       value: '$0',
@@ -63,7 +81,7 @@ export class RecordPageContentComponent {
     },
   ];
 
-  public recentActivity = [
+  protected recentActivity = [
     {
       activity: '$250.00 payment processed successfully.',
       date: '07/01/2023 12:02 am',

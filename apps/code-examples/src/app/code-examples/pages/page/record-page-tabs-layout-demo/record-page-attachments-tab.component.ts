@@ -1,22 +1,35 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { SkyAgGridService } from '@skyux/ag-grid';
+import { SkyAgGridModule, SkyAgGridService } from '@skyux/ag-grid';
 import {
+  SkyDataManagerModule,
   SkyDataManagerService,
   SkyDataManagerState,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
+import { SkyIconModule, SkyKeyInfoModule } from '@skyux/indicators';
 
+import { AgGridModule } from 'ag-grid-angular';
 import { ColDef, GridOptions, ICellRendererParams } from 'ag-grid-community';
 
 import { AttachmentsGridContextMenuComponent } from './attachments-grid-context-menu.component';
 
 @Component({
+  standalone: true,
   selector: 'app-record-page-attachments-tab',
   templateUrl: './record-page-attachments-tab.component.html',
   providers: [SkyDataManagerService],
+  imports: [
+    CommonModule,
+    AgGridModule,
+    SkyAgGridModule,
+    SkyDataManagerModule,
+    SkyKeyInfoModule,
+    SkyIconModule,
+  ],
 })
 export class RecordPageAttachmentsTabComponent implements OnInit {
-  public items = [
+  protected items = [
     {
       name: 'Agreement.pdf',
       description: 'Cardholder agreement',
@@ -30,7 +43,7 @@ export class RecordPageAttachmentsTabComponent implements OnInit {
       dateAdded: '05/05/2023',
     },
   ];
-  public gridOptions: GridOptions;
+  protected gridOptions: GridOptions;
 
   #dataManagerService = inject(SkyDataManagerService);
   #agGridSvc = inject(SkyAgGridService);

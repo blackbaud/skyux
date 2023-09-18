@@ -1,22 +1,33 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { SkyAgGridService } from '@skyux/ag-grid';
+import { SkyAgGridModule, SkyAgGridService } from '@skyux/ag-grid';
 import {
+  SkyDataManagerModule,
   SkyDataManagerService,
   SkyDataManagerState,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
+import { SkyIconModule, SkyKeyInfoModule } from '@skyux/indicators';
 
+import { AgGridModule } from 'ag-grid-angular';
 import { ColDef, GridOptions, ICellRendererParams } from 'ag-grid-community';
 
 import { DashboardGridContextMenuComponent } from './dashboards-grid-context-menu.component';
 
 @Component({
+  standalone: true,
   selector: 'app-list-page-content',
   templateUrl: './list-page-content.component.html',
   providers: [SkyDataManagerService],
+  imports: [
+    AgGridModule,
+    SkyAgGridModule,
+    SkyDataManagerModule,
+    SkyIconModule,
+    SkyKeyInfoModule,
+  ],
 })
 export class ListPageContentComponent implements OnInit {
-  public items = [
+  protected items = [
     {
       dashboard: 'Cash Flow Tracker',
       name: 'Kanesha Hutto',
@@ -48,10 +59,8 @@ export class ListPageContentComponent implements OnInit {
       lastUpdated: '09/10/2023',
     },
   ];
-  public gridOptions: GridOptions;
 
-  #dataManagerService = inject(SkyDataManagerService);
-  #agGridSvc = inject(SkyAgGridService);
+  protected gridOptions: GridOptions;
 
   #columnDefs: ColDef[] = [
     {
@@ -87,6 +96,9 @@ export class ListPageContentComponent implements OnInit {
     name: 'Grid View',
     searchEnabled: true,
   };
+
+  readonly #dataManagerService = inject(SkyDataManagerService);
+  readonly #agGridSvc = inject(SkyAgGridService);
 
   constructor() {
     this.gridOptions = this.#agGridSvc.getGridOptions({

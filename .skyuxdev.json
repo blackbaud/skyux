@@ -13,5 +13,6 @@
     "router",
     "storybook",
     "testing"
-  ]
+  ],
+  "packageNameUsedToDetermineDistTags": "@skyux/packages"
 }

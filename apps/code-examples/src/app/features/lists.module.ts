@@ -1,75 +1,67 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { FilterDemoComponent } from '../code-examples/lists/filter/inline/filter-demo.component';
-import { FilterDemoModule } from '../code-examples/lists/filter/inline/filter-demo.module';
-import { FilterDemoComponent as FilterModalComponent } from '../code-examples/lists/filter/modal/filter-demo.component';
-import { FilterDemoModule as FilterModalModule } from '../code-examples/lists/filter/modal/filter-demo.module';
-import { InfiniteScrollDemoComponent as InfiniteScrollRepeaterComponent } from '../code-examples/lists/infinite-scroll/repeater/infinite-scroll-demo.component';
-import { InfiniteScrollDemoModule as InfiniteScrollRepeaterModule } from '../code-examples/lists/infinite-scroll/repeater/infinite-scroll-demo.module';
-import { PagingDemoComponent } from '../code-examples/lists/paging/basic/paging-demo.component';
-import { PagingDemoModule } from '../code-examples/lists/paging/basic/paging-demo.module';
-import { RepeaterDemoComponent as RepeaterAddRemoveDemoComponent } from '../code-examples/lists/repeater/add-remove/repeater-demo.component';
-import { RepeaterDemoModule as RepeaterAddRemoveDemoModule } from '../code-examples/lists/repeater/add-remove/repeater-demo.module';
-import { RepeaterDemoComponent as RepeaterBasicDemoComponent } from '../code-examples/lists/repeater/basic/repeater-demo.component';
-import { RepeaterDemoModule as RepeaterBasicDemoModule } from '../code-examples/lists/repeater/basic/repeater-demo.module';
-import { RepeaterDemoComponent as RepeaterInlineFormDemoComponent } from '../code-examples/lists/repeater/inline-form/repeater-demo.component';
-import { RepeaterDemoModule as RepeaterInlineFormDemoModule } from '../code-examples/lists/repeater/inline-form/repeater-demo.module';
-import { SortDemoComponent } from '../code-examples/lists/sort/basic/sort-demo.component';
-import { SortDemoModule } from '../code-examples/lists/sort/basic/sort-demo.module';
-
 const routes: Routes = [
   {
     path: 'filter/inline',
-    component: FilterDemoComponent,
+    loadComponent: () =>
+      import('../code-examples/lists/filter/inline/demo.component').then(
+        (c) => c.DemoComponent
+      ),
   },
   {
     path: 'filter/modal',
-    component: FilterModalComponent,
+    loadComponent: () =>
+      import('../code-examples/lists/filter/modal/demo.component').then(
+        (c) => c.DemoComponent
+      ),
   },
   {
     path: 'infinite-scroll/repeater',
-    component: InfiniteScrollRepeaterComponent,
+    loadComponent: () =>
+      import(
+        '../code-examples/lists/infinite-scroll/repeater/demo.component'
+      ).then((c) => c.DemoComponent),
   },
   {
     path: 'paging/basic',
-    component: PagingDemoComponent,
-  },
-  {
-    path: 'repeater/basic',
-    component: RepeaterBasicDemoComponent,
+    loadComponent: () =>
+      import('../code-examples/lists/paging/basic/demo.component').then(
+        (c) => c.DemoComponent
+      ),
   },
   {
     path: 'repeater/add-remove',
-    component: RepeaterAddRemoveDemoComponent,
+    loadComponent: () =>
+      import('../code-examples/lists/repeater/add-remove/demo.component').then(
+        (c) => c.DemoComponent
+      ),
   },
   {
+    path: 'repeater/basic',
+    loadComponent: () =>
+      import('../code-examples/lists/repeater/basic/demo.component').then(
+        (c) => c.DemoComponent
+      ),
+  },
+
+  {
     path: 'repeater/inline-form',
-    component: RepeaterInlineFormDemoComponent,
+    loadComponent: () =>
+      import('../code-examples/lists/repeater/inline-form/demo.component').then(
+        (c) => c.DemoComponent
+      ),
   },
   {
     path: 'sort/basic',
-    component: SortDemoComponent,
+    loadComponent: () =>
+      import('../code-examples/lists/sort/basic/demo.component').then(
+        (c) => c.DemoComponent
+      ),
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-})
-export class ListsFeatureRoutingModule {}
-
-@NgModule({
-  imports: [
-    ListsFeatureRoutingModule,
-    RepeaterAddRemoveDemoModule,
-    RepeaterBasicDemoModule,
-    RepeaterInlineFormDemoModule,
-    FilterDemoModule,
-    FilterModalModule,
-    InfiniteScrollRepeaterModule,
-    PagingDemoModule,
-    SortDemoModule,
-  ],
 })
 export class ListsFeatureModule {}
