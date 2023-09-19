@@ -15,8 +15,9 @@ const buildPath = `dist/libs/sdk/code-examples-sdk`;
 
 function findExamplePaths(tree: Tree, basePath: string): string[] {
   const children = tree.children(basePath);
+  const hasDemoComponentFile = tree.exists(`${basePath}/demo.component.ts`);
   const hasModuleFile = children.some((file) => file.endsWith('.module.ts'));
-  if (hasModuleFile) {
+  if (hasDemoComponentFile || hasModuleFile) {
     return [basePath];
   } else {
     const noFiles = !children.some((file) =>

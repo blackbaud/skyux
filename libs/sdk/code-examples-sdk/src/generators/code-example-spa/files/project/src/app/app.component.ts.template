@@ -17,7 +17,7 @@ import {
 
 @Component({
   selector: 'app-root',
-  template: '<<%= selector %>></<%= selector %>>'
+  template: '<<%= selector %> />'
 })
 export class AppComponent {
   constructor(
