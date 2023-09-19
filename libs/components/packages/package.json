@@ -36,7 +36,7 @@
   "ng-update": {
     "migrations": "./src/schematics/migrations/migration-collection.json",
     "packageGroup": {
-      "@blackbaud/angular-tree-component": "^1.0.0-alpha.0",
+      "@blackbaud/angular-tree-component": "^1.0.0",
       "@skyux-sdk/eslint-config": "0.0.0-PLACEHOLDER",
       "@skyux-sdk/prettier-schematics": "0.0.0-PLACEHOLDER",
       "@skyux-sdk/testing": "0.0.0-PLACEHOLDER",
@@ -92,8 +92,8 @@
     }
   },
   "peerDependencies": {
-    "@angular/cli": "^16.2.0",
-    "@angular/core": "^16.2.1"
+    "@angular/cli": "^16.2.2",
+    "@angular/core": "^16.2.5"
   },
   "dependencies": {
     "fs-extra": "10.1.0",

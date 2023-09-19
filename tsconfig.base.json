@@ -27,6 +27,9 @@
       "*": ["./vendor/types/*"],
       "@skyux-sdk/code-examples": ["libs/sdk/code-examples-sdk/src/index.ts"],
       "@skyux-sdk/e2e-schematics": ["libs/sdk/e2e-schematics/src/index.ts"],
+      "@skyux-sdk/e2e-schematics/cypress-preset": [
+        "libs/sdk/e2e-schematics/src/cypress-preset.ts"
+      ],
       "@skyux-sdk/eslint-config": ["libs/sdk/eslint-config/src/index.ts"],
       "@skyux-sdk/prettier-schematics": [
         "libs/sdk/prettier-schematics/src/index.ts"

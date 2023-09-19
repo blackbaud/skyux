@@ -1,34 +1,55 @@
-import { Component, Inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
-  UntypedFormBuilder,
-  UntypedFormGroup,
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
 } from '@angular/forms';
-import { SkyModalInstance } from '@skyux/modals';
+import { SkyColorpickerModule } from '@skyux/colorpicker';
+import { SkyIdModule } from '@skyux/core';
+import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
+
+import { MODAL_TITLE } from './modal-title-token';
 
 @Component({
+  standalone: true,
   selector: 'app-settings-modal',
   templateUrl: './settings-modal.component.html',
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SkyColorpickerModule,
+    SkyIdModule,
+    SkyInputBoxModule,
+    SkyModalModule,
+  ],
 })
 export class SettingsModalComponent {
-  public form: UntypedFormGroup;
-  public fields: string[] = [];
+  protected formGroup: FormGroup;
+  protected fields: string[] = [];
 
-  constructor(
-    fb: UntypedFormBuilder,
-    public modal: SkyModalInstance,
-    @Inject('modalTitle') public title: string
-  ) {
+  protected readonly modalInstance = inject(SkyModalInstance);
+  protected readonly title = inject(MODAL_TITLE);
+  readonly #formBuilder = inject(FormBuilder);
+
+  constructor() {
     const controls: Record<string, AbstractControl> = {};
+
     for (let i = 1; i <= 5; i++) {
       const field = `${this.title} ${i}`;
       this.fields.push(field);
-      controls[field] = fb.control('');
+      controls[field] = this.#formBuilder.control('');
     }
-    this.form = fb.group(controls);
-    this.modal.closed.subscribe((args) => {
+
+    this.formGroup = this.#formBuilder.group(controls);
+
+    this.modalInstance.closed.subscribe((args) => {
       if (args.reason === 'save') {
-        console.log(this.form.value);
+        console.log(this.formGroup.value);
       }
     });
   }

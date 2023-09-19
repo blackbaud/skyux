@@ -16,7 +16,6 @@ import {
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
   NgControl,
-  UntypedFormControl,
   ValidationErrors,
   Validator,
 } from '@angular/forms';
@@ -264,9 +263,11 @@ export class SkyColorpickerInputDirective
         this.skyColorpickerInput.initialColor = value;
       }
       this.skyColorpickerInput.lastAppliedColor = value;
-      const control: UntypedFormControl = this.#injector.get<NgControl>(
-        NgControl
-      ).control as UntypedFormControl;
+
+      const control = this.#injector.get<NgControl>(NgControl, undefined, {
+        optional: true,
+      })?.control;
+
       if (control) {
         control.setValue(this.#modelValue, { emitEvent: false });
       }

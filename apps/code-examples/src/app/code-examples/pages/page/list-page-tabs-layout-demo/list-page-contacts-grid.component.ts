@@ -1,11 +1,14 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
-import { SkyAgGridService } from '@skyux/ag-grid';
+import { SkyAgGridModule, SkyAgGridService } from '@skyux/ag-grid';
 import {
+  SkyDataManagerModule,
   SkyDataManagerService,
   SkyDataManagerState,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
+import { SkyIconModule, SkyKeyInfoModule } from '@skyux/indicators';
 
+import { AgGridModule } from 'ag-grid-angular';
 import { ColDef, GridOptions, ICellRendererParams } from 'ag-grid-community';
 
 import { ContactContextMenuComponent } from './contact-context-menu.component';
@@ -17,15 +20,23 @@ type Contact = {
 };
 
 @Component({
+  standalone: true,
   selector: 'app-list-page-contacts-grid',
   templateUrl: './list-page-contacts-grid.component.html',
   providers: [SkyDataManagerService],
+  imports: [
+    AgGridModule,
+    SkyAgGridModule,
+    SkyDataManagerModule,
+    SkyIconModule,
+    SkyKeyInfoModule,
+  ],
 })
 export class ListPageContactsGridComponent implements OnInit {
   @Input()
   public contacts: Contact[] = [];
 
-  public gridOptions: GridOptions;
+  protected gridOptions: GridOptions;
 
   #dataManagerService = inject(SkyDataManagerService);
   #agGridSvc = inject(SkyAgGridService);
