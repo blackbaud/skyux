@@ -20,10 +20,21 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       code-examples: ${{ steps.list-code-examples.outputs.code-examples }}
+      lts-branch: ${{ steps.get-lts-branch.outputs.lts-branch }}
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - name: Get LTS branch
+        id: get-lts-branch
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const version = require('./package.json').version;
+            const major = version.split('.')[0];
+            const ltsBranch = `${major}.x.x`;
+            core.setOutput('lts-branch', ltsBranch);
+            console.info(`LTS branch: ${ltsBranch}`);
       - name: List code examples
         id: list-code-examples
         run: |
@@ -97,7 +108,7 @@ jobs:
           bash ./dist/libs/sdk/code-examples-sdk/clean-ignored-files.sh
           echo "::endgroup::"
       - name: Save artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.code-example }}
           path: dist/libs/sdk/code-examples-sdk/for-github/${{ matrix.code-example }}
@@ -105,13 +116,13 @@ jobs:
 
   publish:
     name: Publish
-    needs: update
+    needs: [list-code-examples, update]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
           repository: blackbaud/skyux-code-examples
-          ref: main
+          ref: ${{ needs.list-code-examples.outputs.lts-branch }}
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
       - name: Clear existing code examples
         run: git rm -rf .
@@ -124,10 +135,10 @@ jobs:
           git config user.email 'sky-build-user@blackbaud.com'
           git add -A .
           git commit -m "chore: update code examples for skyux v${{ github.event.release.tag_name }}"
-          git push origin main
+          git push origin ${{ needs.list-code-examples.outputs.lts-branch }}
       - name: Save artifact
         if: ${{ always() }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: skyux-code-examples
           path: .
