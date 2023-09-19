@@ -122,8 +122,13 @@ jobs:
       - uses: actions/checkout@v3
         with:
           repository: blackbaud/skyux-code-examples
-          ref: ${{ needs.list-code-examples.outputs.lts-branch }}
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          fetch-depth: 0
+      - name: Switch to LTS branch
+        run: |
+          git checkout \
+            -B ${{ needs.list-code-examples.outputs.lts-branch }} \
+            $(git show-ref -s origin/${{ needs.list-code-examples.outputs.lts-branch }})
       - name: Clear existing code examples
         run: git rm -rf .
       - name: Download code examples
