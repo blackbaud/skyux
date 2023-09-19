@@ -6,22 +6,19 @@
   "properties": {
     "component": {
       "type": "string",
-      "description": "",
-      "$default": {
-        "$source": "argv",
-        "index": 0
-      },
+      "description": "Name of the component under apps/code-examples/src/app/code-examples",
       "x-prompt": "Which component is this code example?"
     },
     "path": {
       "type": "string",
-      "description": "",
-      "$default": {
-        "$source": "argv",
-        "index": 1
-      },
+      "description": "Subpath under apps/code-examples/src/app/code-examples/<component>, such as 'data-entry-grid/basic' or 'popover/programmatic'",
       "x-prompt": "What code-example path would you like to use?"
+    },
+    "ltsBranch": {
+      "type": "string",
+      "description": "LTS branch for Stackblitz links, such as '9.x.x'",
+      "x-prompt": "What LTS branch would you like to use for Stackblitz links?"
     }
   },
-  "required": ["component", "path"]
+  "required": ["component", "ltsBranch", "path"]
 }

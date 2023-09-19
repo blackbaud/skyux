@@ -33,7 +33,10 @@ function findExamplePaths(tree: Tree, basePath: string): string[] {
   }
 }
 
-export default async function (tree: Tree, options: BuildGeneratorSchema) {
+export async function buildCodeExamples(
+  tree: Tree,
+  options: BuildGeneratorSchema
+) {
   let components: string[];
   if (options.component) {
     components = [...options.component.split(/[ ,]+/)];
@@ -64,6 +67,7 @@ export default async function (tree: Tree, options: BuildGeneratorSchema) {
       await codeExampleSpa(tree, {
         component,
         path: examplePath,
+        ltsBranch: options.ltsBranch,
       });
       projectPaths.push(`${component}/${examplePath}`);
     }
@@ -76,3 +80,5 @@ export default async function (tree: Tree, options: BuildGeneratorSchema) {
 
   await formatFiles(tree);
 }
+
+export default buildCodeExamples;

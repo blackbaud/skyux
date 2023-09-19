@@ -19,6 +19,11 @@
         "$source": "argv",
         "index": 1
       }
+    },
+    "ltsBranch": {
+      "type": "string",
+      "description": "LTS branch for Stackblitz links, such as '9.x.x'",
+      "x-prompt": "What LTS branch would you like to use for Stackblitz links?"
     }
   },
   "required": []

@@ -8,19 +8,13 @@ import {
 } from '@nx/devkit';
 import { dasherize } from '@nx/devkit/src/utils/string-utils';
 import { Schema as NgNewSchema } from '@schematics/angular/ng-new/schema';
-import { findNodes } from '@schematics/angular/utility/ast-utils';
+import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 
 import { wrapAngularDevkitSchematic } from 'nx/src/adapter/ngcli-adapter';
 import { getHoistedPackageVersion } from 'nx/src/plugins/js/lock-file/utils/package-json';
 import { readPackageJson } from 'nx/src/project-graph/file-utils';
-import * as ts from 'typescript';
 
-import {
-  DecoratedClass,
-  findComponentClass,
-  findNgModuleClass,
-  readSourceFile,
-} from '../../utils/ast-utils';
+import { findComponentClass, readSourceFile } from '../../utils/ast-utils';
 import {
   findDependenciesFromCode,
   findPeerDependencies,
@@ -59,106 +53,46 @@ function normalizeOptions(
   };
 }
 
-function findExampleModule(tree: Tree, config: CodeExampleSpaGeneratorConfig) {
-  let exampleModuleFile = 'demo.component.ts';
+function findDemoComponent(tree: Tree, config: CodeExampleSpaGeneratorConfig) {
+  const demoComponentFile = 'demo.component.ts';
   const standaloneDemo = tree.exists(
-    `${codeExamplesBasePath}/${config.projectPath}/${exampleModuleFile}`
+    `${codeExamplesBasePath}/${config.projectPath}/${demoComponentFile}`
   );
   if (!standaloneDemo) {
-    // Get the module file
-    const exampleModuleFiles = tree
-      .children(`${codeExamplesBasePath}/${config.projectPath}`)
-      .filter((child) => child.endsWith('.module.ts'));
-    if (exampleModuleFiles.length !== 1) {
-      throw new Error(
-        `Expected exactly one module file for ${config.projectPath} but found ${
-          exampleModuleFiles.length
-        }: ${exampleModuleFiles.join(', ')}; ${exampleModuleFile}`
-      );
-    }
-    exampleModuleFile = exampleModuleFiles[0];
+    throw new Error(`Missing demo.component.ts file in ${config.projectPath}`);
   }
 
   // Get the module class name
   const exampleModuleSource = readSourceFile(
     tree,
-    `${codeExamplesBasePath}/${config.projectPath}/${exampleModuleFile}`
+    `${codeExamplesBasePath}/${config.projectPath}/${demoComponentFile}`
   );
-  let exampleModuleClass: DecoratedClass | undefined;
-  let exampleModuleClassName: string | undefined;
-  let exampleComponentClassName: string | undefined;
-  let exampleComponentSelector: string | undefined;
-  if (standaloneDemo) {
-    exampleModuleClass = findComponentClass(exampleModuleSource);
-    exampleModuleClassName =
-      exampleModuleClass?.classDeclaration.name?.getText();
-    exampleComponentClassName =
-      exampleModuleClass?.classDeclaration.name?.getText();
-    exampleComponentSelector = 'app-demo';
-    if (!exampleModuleClass || !exampleModuleClassName) {
-      throw new Error(
-        `Could not find standalone component in ${config.projectPath}/${exampleModuleFile}`
-      );
-    }
-  } else {
-    exampleModuleClass = findNgModuleClass(exampleModuleSource);
-    exampleModuleClassName =
-      exampleModuleClass?.classDeclaration.name?.getText();
-
-    // Get the example component class name
-    const exampleModuleExportsArray = exampleModuleClass?.properties[
-      'exports'
-    ] as ts.ArrayLiteralExpression;
-    const exampleModuleExportIdentifiers =
-      exampleModuleExportsArray.elements.filter(
-        ts.isIdentifier
-      ) as ts.Identifier[];
-    const exampleComponentClassIdentifier =
-      exampleModuleExportIdentifiers.filter((identifier) =>
-        identifier.getText().endsWith('Component')
-      )[0];
-    exampleComponentClassName = exampleComponentClassIdentifier.getText();
-
-    // Get the import path for the example component.
-    const exampleComponentImport = findNodes(
-      exampleModuleSource,
-      ts.SyntaxKind.ImportDeclaration
-    ).filter((node) =>
-      (node as ts.ImportDeclaration)
-        .getText()
-        .includes(`${exampleComponentClassName}`)
-    )[0] as ts.ImportDeclaration;
-    if (
-      !exampleModuleClass ||
-      !exampleModuleClassName ||
-      !exampleComponentImport
-    ) {
-      throw new Error(
-        `Could not find import for example component in ${config.projectPath}/${exampleModuleFile}`
-      );
-    }
-    let exampleComponentFile = exampleComponentImport.moduleSpecifier.getText();
-    // Remove quotes, add .ts extension.
-    exampleComponentFile =
-      exampleComponentFile.substring(1, exampleComponentFile.length - 1) +
-      '.ts';
-
-    // Get the example component source.
-    const exampleComponentSource = readSourceFile(
-      tree,
-      `${codeExamplesBasePath}/${config.projectPath}/${exampleComponentFile}`
+  const componentClass = findComponentClass(exampleModuleSource);
+  if (!componentClass) {
+    throw new Error(
+      `Could not find component class in ${config.projectPath}/${demoComponentFile}`
     );
-
-    // Get the example component selector.
-    const exampleComponent = findComponentClass(exampleComponentSource);
-    if (!exampleComponent) {
-      throw new Error(
-        `Could not find Component decorator in ${config.projectPath}/${exampleComponentFile}`
-      );
-    }
-    exampleComponentSelector = (
-      exampleComponent.properties['selector'] as ts.StringLiteral
-    ).text;
+  }
+  const componentClassName = componentClass?.classDeclaration.name?.getText();
+  if (componentClassName !== 'DemoComponent') {
+    throw new Error(
+      `Class name should be DemoComponent in ${config.projectPath}/${demoComponentFile}`
+    );
+  }
+  const componentSelector =
+    componentClass?.properties?.['selector'] &&
+    (componentClass.properties['selector'] as ts.StringLiteral).text;
+  if (componentSelector !== 'app-demo') {
+    throw new Error(
+      `Selector should be "app-demo" in ${config.projectPath}/${demoComponentFile}`
+    );
+  }
+  const componentStandalone =
+    componentClass?.properties?.['standalone']?.getText();
+  if (componentStandalone !== 'true') {
+    throw new Error(
+      `Component should be standalone in ${config.projectPath}/${demoComponentFile}`
+    );
   }
 
   const hasTests = tree
@@ -166,9 +100,9 @@ function findExampleModule(tree: Tree, config: CodeExampleSpaGeneratorConfig) {
     .some((child) => child.endsWith('.spec.ts'));
 
   return {
-    exampleComponentSelector,
-    exampleModuleFile,
-    exampleModuleClassName,
+    exampleComponentSelector: componentSelector,
+    exampleModuleFile: demoComponentFile,
+    exampleModuleClassName: componentClassName,
     hasTests,
   };
 }
@@ -339,6 +273,7 @@ async function generateSpa(
   // Overwrite files with our own
   generateFiles(tree, `${__dirname}/files/project`, outputPath, {
     name: config.project,
+    ltsBranch: config.ltsBranch,
     exampleModuleClassName,
     exampleModuleFile: `${exampleModuleFile}`.replace('.ts', ''),
     selector: exampleComponentSelector,
@@ -387,7 +322,7 @@ export async function codeExampleSpa(
     exampleModuleClassName,
     exampleComponentSelector,
     hasTests,
-  } = findExampleModule(tree, config);
+  } = findDemoComponent(tree, config);
   const exampleCodeDependencies = findDependenciesFromCode(
     tree,
     `${codeExamplesBasePath}/${config.projectPath}`

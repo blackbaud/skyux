@@ -1,7 +1,7 @@
 import { Tree, generateFiles, logger, workspaceRoot } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 
-import generator from './generator';
+import { buildCodeExamples } from './generator';
 
 describe('build generator', () => {
   let tree: Tree;
@@ -19,9 +19,10 @@ describe('build generator', () => {
       'apps/code-examples/src/app/code-examples/ag-grid',
       {}
     );
-    await generator(tree, {
+    await buildCodeExamples(tree, {
       component: 'ag-grid',
       path: 'data-entry-grid/basic',
+      ltsBranch: 'x.x.x',
     });
     expect(
       tree.isFile(
@@ -37,8 +38,9 @@ describe('build generator', () => {
       'apps/code-examples/src/app/code-examples/ag-grid',
       {}
     );
-    await generator(tree, {
+    await buildCodeExamples(tree, {
       component: 'ag-grid',
+      ltsBranch: 'x.x.x',
     });
     expect(
       tree.isFile(
@@ -55,7 +57,7 @@ describe('build generator', () => {
       {}
     );
     tree.write('apps/code-examples/src/app/code-examples/.gitignore', 'test');
-    await generator(tree, {});
+    await buildCodeExamples(tree, { ltsBranch: 'x.x.x' });
     expect(
       tree.isFile(
         'dist/libs/sdk/code-examples-sdk/for-github/ag-grid/data-entry-grid/basic/angular.json'
@@ -74,8 +76,9 @@ describe('build generator', () => {
       'apps/code-examples/src/app/code-examples/ag-grid/data-entry-grid/script.sh',
       'test'
     );
-    await generator(tree, {
+    await buildCodeExamples(tree, {
       component: 'ag-grid',
+      ltsBranch: 'x.x.x',
     });
     expect(
       tree.isFile(
@@ -86,8 +89,9 @@ describe('build generator', () => {
 
   it('should log a warning when there are no examples', async () => {
     const loggerSpy = jest.spyOn(logger, 'warn');
-    await generator(tree, {
+    await buildCodeExamples(tree, {
       component: 'ag-grid',
+      ltsBranch: 'x.x.x',
     });
     expect(loggerSpy).toHaveBeenCalledWith('No examples found for ag-grid');
   });
