@@ -46,6 +46,7 @@ export class DemoComponent implements OnInit, OnDestroy {
         viewId: 'dataEntryGridWithDataManagerView',
         displayedColumnIds: [
           'selected',
+          'context',
           'name',
           'age',
           'startDate',

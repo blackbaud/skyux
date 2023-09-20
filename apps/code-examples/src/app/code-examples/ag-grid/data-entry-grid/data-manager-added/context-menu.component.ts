@@ -12,10 +12,19 @@ import { ICellRendererParams } from 'ag-grid-community';
   imports: [SkyDropdownModule],
 })
 export class ContextMenuComponent implements ICellRendererAngularComp {
+  public contextMenuAriaLabel = '';
+  public deleteAriaLabel = '';
+  public markInactiveAriaLabel = '';
+  public moreInfoAriaLabel = '';
+
   #name = '';
 
   public agInit(params: ICellRendererParams): void {
     this.#name = params.data && params.data.name;
+    this.contextMenuAriaLabel = `Context menu for ${this.#name}`;
+    this.deleteAriaLabel = `Delete ${this.#name}`;
+    this.markInactiveAriaLabel = `Mark ${this.#name} inactive`;
+    this.moreInfoAriaLabel = `More info for ${this.#name}`;
   }
 
   public refresh(): boolean {

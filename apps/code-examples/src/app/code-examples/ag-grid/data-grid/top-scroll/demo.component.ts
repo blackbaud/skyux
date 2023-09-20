@@ -13,6 +13,7 @@ import {
   ValueFormatterParams,
 } from 'ag-grid-community';
 
+import { ContextMenuComponent } from './context-menu.component';
 import { AG_GRID_DEMO_DATA } from './data';
 
 @Component({
@@ -30,6 +31,12 @@ export class DemoComponent {
   protected noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
 
   #columnDefs: ColDef[] = [
+    {
+      colId: 'context',
+      maxWidth: 50,
+      sortable: false,
+      cellRenderer: ContextMenuComponent,
+    },
     {
       field: 'selected',
       type: SkyCellType.RowSelector,

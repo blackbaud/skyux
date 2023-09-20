@@ -43,7 +43,6 @@ export class DemoComponent {
     },
     {
       colId: 'context',
-      headerName: '',
       maxWidth: 50,
       sortable: false,
       cellRenderer: ContextMenuComponent,

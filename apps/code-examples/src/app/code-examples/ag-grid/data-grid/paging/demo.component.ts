@@ -22,6 +22,7 @@ import {
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
+import { ContextMenuComponent } from './context-menu.component';
 import { AG_GRID_DEMO_DATA } from './data';
 
 @Component({
@@ -38,6 +39,12 @@ export class DemoComponent implements OnInit, OnDestroy {
   protected readonly pageSize = 3;
 
   #columnDefs: ColDef[] = [
+    {
+      colId: 'context',
+      maxWidth: 50,
+      sortable: false,
+      cellRenderer: ContextMenuComponent,
+    },
     {
       field: 'name',
       headerName: 'Name',
