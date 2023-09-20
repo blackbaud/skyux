@@ -50,7 +50,7 @@
         class="sky-btn sky-btn-link sky-toggle-children"
         tabindex="-1"
         type="button"
-        [attr.aria-label]="node.data.name"
+        [attr.aria-label]="nodeName"
         [class.toggle-children-wrapper-expanded]="node.isExpanded"
         [class.toggle-children-wrapper-collapsed]="node.isCollapsed"
         (click)="node.mouseAction('expanderClick', $event)"
@@ -73,19 +73,13 @@
         *ngIf="showCheckbox()"
         [checked]="isSelected"
         [id]="node.data.id"
-        [label]="node.data.name"
+        [label]="nodeName"
         [indeterminate]="isPartiallySelected"
         (change)="node.mouseAction('checkboxClick', $event)"
       >
       </sky-checkbox>
 
-      <sky-angular-tree-context-menu
-        [ariaLabel]="
-          'skyux_angular_tree_context_menu_aria_default'
-            | skyLibResources : node.data.name
-        "
-        [defaultInputProvider]="defaultInputProvider"
-      >
+      <sky-angular-tree-context-menu>
         <ng-content select="sky-dropdown"></ng-content>
       </sky-angular-tree-context-menu>
 

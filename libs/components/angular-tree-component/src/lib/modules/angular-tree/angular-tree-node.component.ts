@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   Input,
+  OnDestroy,
   OnInit,
   Optional,
   ViewChild,
@@ -11,6 +12,9 @@ import {
 } from '@angular/core';
 import { ITreeState, TreeNode } from '@blackbaud/angular-tree-component';
 import { SkyDefaultInputProvider } from '@skyux/core';
+import { SkyLibResourcesService } from '@skyux/i18n';
+
+import { Subject, takeUntil } from 'rxjs';
 
 import { SkyAngularTreeAdapterService } from './angular-tree-adapter.service';
 import { SkyAngularTreeWrapperComponent } from './angular-tree-wrapper.component';
@@ -30,7 +34,9 @@ import { SkyAngularTreeWrapperComponent } from './angular-tree-wrapper.component
   templateUrl: './angular-tree-node.component.html',
   providers: [SkyAngularTreeAdapterService, SkyDefaultInputProvider],
 })
-export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
+export class SkyAngularTreeNodeComponent
+  implements AfterViewInit, OnDestroy, OnInit
+{
   /**
    * The `index` property from the parent `ng-template`.
    * @required
@@ -107,6 +113,8 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
   @ViewChild('nodeContentWrapper', { read: ElementRef })
   public nodeContentWrapperRef: ElementRef | undefined;
 
+  protected nodeName = '';
+
   #focusableChildren: HTMLElement[] = [];
 
   #mouseDown = false;
@@ -119,18 +127,22 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
 
   #_tabIndex = -1;
 
-  #changeDetectorRef: ChangeDetectorRef;
   #adapterService: SkyAngularTreeAdapterService;
+  #changeDetectorRef: ChangeDetectorRef;
+  #contextMenuResourceUnsubscribe = new Subject<void>();
+  #defaultInputProvider = inject(SkyDefaultInputProvider);
+  #resourceSvc: SkyLibResourcesService;
   #skyAngularTreeWrapper: SkyAngularTreeWrapperComponent | undefined;
-  protected defaultInputProvider = inject(SkyDefaultInputProvider);
 
   constructor(
     changeDetectorRef: ChangeDetectorRef,
     adapterService: SkyAngularTreeAdapterService,
+    resourceSvc: SkyLibResourcesService,
     @Optional() skyAngularTreeWrapper?: SkyAngularTreeWrapperComponent
   ) {
     this.#changeDetectorRef = changeDetectorRef;
     this.#adapterService = adapterService;
+    this.#resourceSvc = resourceSvc;
     this.#skyAngularTreeWrapper = skyAngularTreeWrapper;
   }
 
@@ -142,6 +154,8 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
     }
 
     if (this.node) {
+      this.nodeName = this.node.data.name;
+      this.#updateDefaultContextMenuAriaLabel();
       // Because we're binding the checkbox to node's children properties, we need to manually control change detection.
       // Here, we listen to the tree's state and force change detection in the setters if the value has changed.
       this.node.treeModel.subscribeToState((state: ITreeState) => {
@@ -152,6 +166,13 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
           if (state.focusedNodeId) {
             this.focused = state.focusedNodeId === this.node.id;
           }
+        }
+      });
+
+      this.node.treeModel.subscribe('updateData', () => {
+        if (this.node) {
+          this.nodeName = this.node.data.name;
+          this.#updateDefaultContextMenuAriaLabel();
         }
       });
 
@@ -176,6 +197,11 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
         );
       }
     }, 1000);
+  }
+
+  public ngOnDestroy(): void {
+    this.#contextMenuResourceUnsubscribe.next();
+    this.#contextMenuResourceUnsubscribe.complete();
   }
 
   /**
@@ -321,5 +347,15 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
     } else {
       return false;
     }
+  }
+
+  #updateDefaultContextMenuAriaLabel(): void {
+    this.#contextMenuResourceUnsubscribe.next();
+    this.#resourceSvc
+      .getString('skyux_angular_tree_context_menu_aria_default', this.nodeName)
+      .pipe(takeUntil(this.#contextMenuResourceUnsubscribe))
+      .subscribe((resourceString) =>
+        this.#defaultInputProvider.setValue('dropdown', 'label', resourceString)
+      );
   }
 }
