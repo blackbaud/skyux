@@ -1,6 +1,6 @@
 # Changelog
 
-## [9.2.1](https://github.com/blackbaud/skyux/compare/9.1.1...9.2.0) (2023-09-20)
+## [9.2.0](https://github.com/blackbaud/skyux/compare/9.1.1...9.2.0) (2023-09-20)
 
 
 ### Features
