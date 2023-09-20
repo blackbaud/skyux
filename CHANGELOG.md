@@ -1,6 +1,6 @@
 # Changelog
 
-## [9.2.0](https://github.com/blackbaud/skyux/compare/9.1.1...9.2.0) (2023-09-20)
+## [9.2.1](https://github.com/blackbaud/skyux/compare/9.1.1...9.2.0) (2023-09-20)
 
 
 ### Features
@@ -13,6 +13,10 @@
 ### Bug Fixes
 
 * **components/lookup:** reset focus for search result controls when new text entered in input ([#1727](https://github.com/blackbaud/skyux/issues/1727)) ([d2a56d6](https://github.com/blackbaud/skyux/commit/d2a56d672da1b10c26825ffbbed6e6d7b3fd7710))
+
+## [9.2.0](https://github.com/blackbaud/skyux/compare/9.1.1...9.2.0) (2023-09-20)
+
+* The release failed part way through the publish process, some packages were not published. Do not use this version.
 
 ## [9.1.1](https://github.com/blackbaud/skyux/compare/9.1.0...9.1.1) (2023-09-15)
 
