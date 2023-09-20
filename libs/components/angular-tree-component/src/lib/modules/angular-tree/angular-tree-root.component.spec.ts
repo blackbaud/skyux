@@ -1263,6 +1263,69 @@ describe('tree view', () => {
       expect(nodes[4].getAttribute('aria-current')).toBeNull();
     });
 
+    it('should set the correct default aria-label on context menus', fakeAsync(() => {
+      component.showContextMenus = true;
+      fixture.detectChanges();
+      tick(1000); // Allow angular-tree-node-component to set tabIndexes & render context dropdown.
+      const dropdownButtons = document.querySelectorAll(
+        '.sky-dropdown-button'
+      ) as NodeListOf<HTMLButtonElement>;
+
+      expect(dropdownButtons[0].getAttribute('aria-label')).toEqual(
+        'Context menu for United States'
+      );
+      expect(dropdownButtons[1].getAttribute('aria-label')).toEqual(
+        'Context menu for California'
+      );
+      expect(dropdownButtons[2].getAttribute('aria-label')).toEqual(
+        'Context menu for Indiana'
+      );
+      expect(dropdownButtons[3].getAttribute('aria-label')).toEqual(
+        'Context menu for Adams'
+      );
+      expect(dropdownButtons[4].getAttribute('aria-label')).toEqual(
+        'Context menu for Allen'
+      );
+      expect(dropdownButtons[5].getAttribute('aria-label')).toEqual(
+        'Context menu for Mexico'
+      );
+
+      fixture.destroy();
+      flush();
+    }));
+
+    it('should set given aria-labels on context menus', fakeAsync(() => {
+      component.showContextMenus = true;
+      component.contextMenuAriaLabel = 'Foo bar for ';
+      fixture.detectChanges();
+      tick(1000); // Allow angular-tree-node-component to set tabIndexes & render context dropdown.
+      const dropdownButtons = document.querySelectorAll(
+        '.sky-dropdown-button'
+      ) as NodeListOf<HTMLButtonElement>;
+
+      expect(dropdownButtons[0].getAttribute('aria-label')).toEqual(
+        'Foo bar for United States'
+      );
+      expect(dropdownButtons[1].getAttribute('aria-label')).toEqual(
+        'Foo bar for California'
+      );
+      expect(dropdownButtons[2].getAttribute('aria-label')).toEqual(
+        'Foo bar for Indiana'
+      );
+      expect(dropdownButtons[3].getAttribute('aria-label')).toEqual(
+        'Foo bar for Adams'
+      );
+      expect(dropdownButtons[4].getAttribute('aria-label')).toEqual(
+        'Foo bar for Allen'
+      );
+      expect(dropdownButtons[5].getAttribute('aria-label')).toEqual(
+        'Foo bar for Mexico'
+      );
+
+      fixture.destroy();
+      flush();
+    }));
+
     it('should not set aria-multiselectable when checkboxes are disabled', () => {
       fixture.detectChanges();
       const tree = getTreeWrapper();

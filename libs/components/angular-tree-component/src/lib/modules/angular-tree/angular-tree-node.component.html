@@ -79,7 +79,13 @@
       >
       </sky-checkbox>
 
-      <sky-angular-tree-context-menu>
+      <sky-angular-tree-context-menu
+        [ariaLabel]="
+          'skyux_angular_tree_context_menu_aria_default'
+            | skyLibResources : node.data.name
+        "
+        [defaultInputProvider]="defaultInputProvider"
+      >
         <ng-content select="sky-dropdown"></ng-content>
       </sky-angular-tree-context-menu>
 

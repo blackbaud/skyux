@@ -7,8 +7,10 @@ import {
   OnInit,
   Optional,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { ITreeState, TreeNode } from '@blackbaud/angular-tree-component';
+import { SkyDefaultInputProvider } from '@skyux/core';
 
 import { SkyAngularTreeAdapterService } from './angular-tree-adapter.service';
 import { SkyAngularTreeWrapperComponent } from './angular-tree-wrapper.component';
@@ -26,7 +28,7 @@ import { SkyAngularTreeWrapperComponent } from './angular-tree-wrapper.component
 @Component({
   selector: 'sky-angular-tree-node',
   templateUrl: './angular-tree-node.component.html',
-  providers: [SkyAngularTreeAdapterService],
+  providers: [SkyAngularTreeAdapterService, SkyDefaultInputProvider],
 })
 export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
   /**
@@ -120,6 +122,7 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
   #changeDetectorRef: ChangeDetectorRef;
   #adapterService: SkyAngularTreeAdapterService;
   #skyAngularTreeWrapper: SkyAngularTreeWrapperComponent | undefined;
+  protected defaultInputProvider = inject(SkyDefaultInputProvider);
 
   constructor(
     changeDetectorRef: ChangeDetectorRef,

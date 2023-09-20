@@ -7,6 +7,7 @@
     [attr.aria-haspopup]="menuAriaRole"
     [attr.aria-label]="
       label ||
+      (labelDefault | async) ||
       (buttonType === 'context-menu'
         ? ('skyux_dropdown_context_menu_default_label' | skyLibResources)
         : undefined)
