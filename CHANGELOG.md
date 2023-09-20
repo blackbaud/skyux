@@ -2,6 +2,10 @@
 
 ## [9.2.1](https://github.com/blackbaud/skyux/compare/9.2.0...9.2.1) (2023-09-20)
 
+* The release failed part way through the publish process, some packages were not published. Do not use this version.
+
+## [9.2.1](https://github.com/blackbaud/skyux/compare/9.2.0...9.2.1) (2023-09-20)
+
 
 ### Bug Fixes
 
