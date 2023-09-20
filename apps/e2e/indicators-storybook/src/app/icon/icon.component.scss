@@ -1,3 +1,12 @@
 :host {
   display: block;
 }
+
+.icon-sheet {
+  columns: 4;
+
+  &--icon {
+    display: flex;
+    gap: var(--sky-margin-inline-sm);
+  }
+}
