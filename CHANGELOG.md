@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.2.1](https://github.com/blackbaud/skyux/compare/9.2.0...9.2.1) (2023-09-20)
+
+
+### Bug Fixes
+
+* release 9.2.1 ([#1738](https://github.com/blackbaud/skyux/issues/1738)) ([1b1e38d](https://github.com/blackbaud/skyux/commit/1b1e38d679eae3dc746d9295c0f31ebc3449150e))
+
 ## [9.2.0](https://github.com/blackbaud/skyux/compare/9.1.1...9.2.0) (2023-09-20)
 
 
