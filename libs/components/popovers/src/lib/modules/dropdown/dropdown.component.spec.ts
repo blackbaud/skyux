@@ -11,6 +11,7 @@ import {
   SkyAffixConfig,
   SkyAffixService,
   SkyAffixer,
+  SkyDefaultInputProvider,
 } from '@skyux/core';
 import {
   SkyTheme,
@@ -30,6 +31,7 @@ import { SkyDropdownMessageType } from './types/dropdown-message-type';
 
 describe('Dropdown component', function () {
   let fixture: ComponentFixture<DropdownFixtureComponent>;
+  let defaultInputProvider: SkyDefaultInputProvider;
   let mockThemeService: {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
@@ -129,10 +131,13 @@ describe('Dropdown component', function () {
             zIndex: new BehaviorSubject(111),
           },
         },
+        SkyDefaultInputProvider,
       ],
     });
 
     fixture = TestBed.createComponent(DropdownFixtureComponent);
+
+    defaultInputProvider = TestBed.inject(SkyDefaultInputProvider);
   });
 
   afterEach(() => {
@@ -1197,6 +1202,25 @@ describe('Dropdown component', function () {
         'menu-labelled-by-override'
       );
       expect(item?.getAttribute('role')).toEqual('item-role-override');
+    }));
+
+    it('should set the correct aria label when it is specified via SkyDefaultInputProvider', fakeAsync(() => {
+      defaultInputProvider.setValue('dropdown', 'label', 'default label');
+
+      detectChangesFakeAsync();
+      const button = getButtonElement();
+
+      expect(button?.getAttribute('aria-label')).toEqual('default label');
+    }));
+
+    it('should set the correct aria label when it is specified via a consumer and SkyDefaultInputProvider', fakeAsync(() => {
+      defaultInputProvider.setValue('dropdown', 'label', 'default label');
+      fixture.componentInstance.label = 'consumer label';
+
+      detectChangesFakeAsync();
+      const button = getButtonElement();
+
+      expect(button?.getAttribute('aria-label')).toEqual('consumer label');
     }));
 
     it('should set the aria-expanded attribute', fakeAsync(() => {

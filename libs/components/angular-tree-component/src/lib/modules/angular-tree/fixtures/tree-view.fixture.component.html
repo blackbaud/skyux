@@ -22,7 +22,15 @@
         [node]="node"
         [templates]="templates"
       >
-        <sky-dropdown *ngIf="showContextMenus" buttonType="context-menu">
+        <sky-dropdown
+          *ngIf="showContextMenus"
+          buttonType="context-menu"
+          [label]="
+            contextMenuAriaLabel
+              ? contextMenuAriaLabel + node.data.name
+              : undefined
+          "
+        >
           <sky-dropdown-menu>
             <sky-dropdown-item>
               <button type="button">FOO BAR</button>

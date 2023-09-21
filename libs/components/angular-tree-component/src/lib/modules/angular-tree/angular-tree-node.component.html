@@ -50,7 +50,7 @@
         class="sky-btn sky-btn-link sky-toggle-children"
         tabindex="-1"
         type="button"
-        [attr.aria-label]="node.data.name"
+        [attr.aria-label]="nodeName"
         [class.toggle-children-wrapper-expanded]="node.isExpanded"
         [class.toggle-children-wrapper-collapsed]="node.isCollapsed"
         (click)="node.mouseAction('expanderClick', $event)"
@@ -73,7 +73,7 @@
         *ngIf="showCheckbox()"
         [checked]="isSelected"
         [id]="node.data.id"
-        [label]="node.data.name"
+        [label]="nodeName"
         [indeterminate]="isPartiallySelected"
         (change)="node.mouseAction('checkboxClick', $event)"
       >

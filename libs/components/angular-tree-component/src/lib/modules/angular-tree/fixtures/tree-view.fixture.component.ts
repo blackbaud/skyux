@@ -12,6 +12,8 @@ import { IDTypeDictionary } from '@blackbaud/angular-tree-component/lib/defs/api
 export class SkyTreeViewFixtureComponent {
   public activeNodeIds: any;
 
+  public contextMenuAriaLabel: string | undefined;
+
   public expandedNodeIds: IDTypeDictionary | undefined;
 
   public focusedNodeId: any;
