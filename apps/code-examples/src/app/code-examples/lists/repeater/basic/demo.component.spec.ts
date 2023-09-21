@@ -52,6 +52,10 @@ describe('Repeater basic demo', () => {
         title: 'Process gift receipts  Due next week',
         body: 'There are 28 recent gifts that are not receipted.',
       },
+      {
+        title: '',
+        body: 'Three other tasks were not displayed',
+      },
     ];
 
     expect(repeaterItems?.length).toBe(expectedContent.length);

@@ -101,7 +101,7 @@ describe('Dropdown component', function () {
    */
   function detectChangesFakeAsync(): void {
     fixture.detectChanges();
-    tick();
+    tick(5);
     fixture.detectChanges();
     tick();
   }
