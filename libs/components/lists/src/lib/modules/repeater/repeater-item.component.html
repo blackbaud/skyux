@@ -1,6 +1,6 @@
 <div
   class="sky-repeater-item sky-padding-even-default"
-  [attr.aria-label]="itemName"
+  [attr.aria-label]="itemNameOrDefault"
   [attr.aria-selected]="selectable ? !!isSelected : undefined"
   [attr.role]="(itemRole$ | async)?.item"
   [attr.tabIndex]="tabindex"
@@ -57,8 +57,9 @@
         type="button"
         [attr.aria-describedby]="contentId + '-reorder-instructions'"
         [attr.aria-label]="
-          itemName
-            ? ('skyux_repeater_item_reorder_label' | skyLibResources : itemName)
+          itemNameOrDefault
+            ? ('skyux_repeater_item_reorder_label'
+              | skyLibResources : itemNameOrDefault)
             : ('skyux_repeater_item_reorder_label_default' | skyLibResources)
         "
         (blur)="onReorderHandleBlur($event)"
@@ -73,8 +74,9 @@
       class="sky-repeater-item-checkbox"
       [checked]="isSelected"
       [label]="
-        itemName
-          ? ('skyux_repeater_item_checkbox_label' | skyLibResources : itemName)
+        itemNameOrDefault
+          ? ('skyux_repeater_item_checkbox_label'
+            | skyLibResources : itemNameOrDefault)
           : ('skyux_repeater_item_checkbox_label_default' | skyLibResources)
       "
       (change)="onCheckboxChange($event)"
@@ -106,9 +108,9 @@
         class="sky-btn sky-btn-link sky-repeater-item-reorder-top"
         type="button"
         [attr.aria-label]="
-          itemName
+          itemNameOrDefault
             ? ('skyux_repeater_item_reorder_top_label'
-              | skyLibResources : itemName)
+              | skyLibResources : itemNameOrDefault)
             : ('skyux_repeater_item_reorder_top_label_default'
               | skyLibResources)
         "
@@ -121,10 +123,12 @@
         <sky-chevron
           [ariaControls]="contentId"
           [ariaLabel]="
-            itemName
+            itemNameOrDefault
               ? isExpanded
-                ? ('skyux_repeater_item_expand' | skyLibResources : itemName)
-                : ('skyux_repeater_item_collapse' | skyLibResources : itemName)
+                ? ('skyux_repeater_item_expand'
+                  | skyLibResources : itemNameOrDefault)
+                : ('skyux_repeater_item_collapse'
+                  | skyLibResources : itemNameOrDefault)
               : isExpanded
               ? ('skyux_repeater_item_expand_default' | skyLibResources)
               : ('skyux_repeater_item_collapse_default' | skyLibResources)

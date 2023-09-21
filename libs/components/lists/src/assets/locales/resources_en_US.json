@@ -43,6 +43,10 @@
     "_description": "Generic label for the expand-and-collapse button on a repeater item. Used when a human-readable name is not provided.",
     "message": "Collapse"
   },
+  "skyux_repeater_item_context_menu_default_aria_label": {
+    "_description": "The default aria label for a repeater item context menu",
+    "message": "Context menu for {0}"
+  },
   "skyux_repeater_item_expand": {
     "_description": "Accessible label for the expand-and-collapse button on a repeater item. Identifies the item with its human-readable name.",
     "message": "Expand {0}"

@@ -129,8 +129,6 @@ describe('Sort component', () => {
     fixture.detectChanges();
     tick();
 
-    console.log(component.sortedItem);
-
     expect(component.sortedItem).toEqual({
       id: 2,
       label: 'Assigned to (Z - A)',

@@ -24,7 +24,7 @@ import {
 import { SkyThemeService } from '@skyux/theme';
 
 import { Observable, Subject, fromEvent as observableFromEvent } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 
 import { parseAffixHorizontalAlignment } from './dropdown-extensions';
 import { SkyDropdownButtonType } from './types/dropdown-button-type';
@@ -228,10 +228,10 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   #_triggerButton: ElementRef | undefined;
 
   constructor() {
-    this.labelDefault = this.#defaultInputProvider?.getValue<string>(
-      'dropdown',
-      'label'
-    );
+    // The debounce time here is to help avoid "Expression changed after checked" issues when this result comes back quickly on initialization
+    this.labelDefault = this.#defaultInputProvider
+      ?.getValue<string>('dropdown', 'label')
+      ?.pipe(debounceTime(5));
   }
 
   public ngOnInit(): void {

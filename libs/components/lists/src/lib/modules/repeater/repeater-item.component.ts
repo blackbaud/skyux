@@ -16,8 +16,13 @@ import {
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { skyAnimationSlide } from '@skyux/animations';
+import {
+  SkyDefaultInputProvider,
+  SkyMutationObserverService,
+} from '@skyux/core';
 import { SkyCheckboxChange } from '@skyux/forms';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import {
@@ -44,6 +49,7 @@ let nextContentId = 0;
   styleUrls: ['./repeater-item.component.scss'],
   templateUrl: './repeater-item.component.html',
   animations: [skyAnimationSlide],
+  providers: [SkyDefaultInputProvider],
   encapsulation: ViewEncapsulation.None,
 })
 export class SkyRepeaterItemComponent
@@ -94,7 +100,16 @@ export class SkyRepeaterItemComponent
    * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
   @Input()
-  public itemName: string | undefined;
+  public set itemName(value: string | undefined) {
+    this.#_itemName = value;
+    this.itemNameOrDefault = value ?? this.#titleContent;
+    this.#updateContextMenuAriaLabel();
+    this.#changeDetector.markForCheck();
+  }
+
+  public get itemName(): string | undefined {
+    return this.#_itemName;
+  }
 
   /**
    * Configuration options for the buttons to display on an inline form
@@ -220,6 +235,8 @@ export class SkyRepeaterItemComponent
     return this.#_isCollapsible;
   }
 
+  public itemNameOrDefault: string | undefined;
+
   public itemRole$: Observable<SkyRepeaterItemRolesType>;
 
   public reorderButtonLabel = '';
@@ -247,6 +264,29 @@ export class SkyRepeaterItemComponent
   @ViewChild('itemRef', { read: ElementRef })
   public itemRef: ElementRef | undefined;
 
+  @ViewChild('titleRef', { read: ElementRef })
+  public set titleRef(value: ElementRef | undefined) {
+    this.#_titleRef = value;
+
+    this.#titleObserver.disconnect();
+
+    if (value) {
+      this.#titleContent = this.titleRef?.nativeElement.textContent.trim();
+      this.itemNameOrDefault = this.itemName ?? this.#titleContent;
+      this.#updateContextMenuAriaLabel();
+      this.#titleObserver.observe(value?.nativeElement, {
+        characterData: true,
+        childList: true,
+        subtree: true,
+      });
+      this.#changeDetector.markForCheck();
+    }
+  }
+
+  public get titleRef(): ElementRef | undefined {
+    return this.#_titleRef;
+  }
+
   @ContentChildren(SkyRepeaterItemContentComponent)
   public repeaterItemContentComponents:
     | QueryList<SkyRepeaterItemContentComponent>
@@ -254,9 +294,12 @@ export class SkyRepeaterItemComponent
 
   #adapterService: SkyRepeaterAdapterService;
   #changeDetector: ChangeDetectorRef;
+  #contextMenuResourceUnsubscribe = new Subject<void>();
+  #defaultInputProvider = inject(SkyDefaultInputProvider);
   #elementRef: ElementRef;
   #isExpanded = true;
   #keyboardReorderingEnabled = false;
+  #mutationObserverSvc = inject(SkyMutationObserverService);
   #ngUnsubscribe = new Subject<void>();
   #reorderCancelText = '';
   #reorderCurrentIndex = -1;
@@ -267,9 +310,13 @@ export class SkyRepeaterItemComponent
   #reorderSteps = 0;
   #repeaterService: SkyRepeaterService;
   #resourceService: SkyLibResourcesService;
+  #titleContent: string | undefined;
+  #titleObserver: MutationObserver;
   #_isCollapsible = true;
   #_isDisabled: boolean | undefined = false;
   #_isSelected: boolean | undefined;
+  #_itemName: string | undefined;
+  #_titleRef: ElementRef | undefined;
 
   constructor(
     repeaterService: SkyRepeaterService,
@@ -285,6 +332,13 @@ export class SkyRepeaterItemComponent
     this.#resourceService = resourceService;
 
     this.#slideForExpanded(false);
+
+    this.#titleObserver = this.#mutationObserverSvc.create(() => {
+      this.#titleContent = this.titleRef?.nativeElement.textContent.trim();
+      this.itemNameOrDefault = this.itemName ?? this.#titleContent;
+      this.#updateContextMenuAriaLabel();
+      this.#changeDetector.markForCheck();
+    });
 
     observableForkJoin([
       this.#resourceService.getString('skyux_repeater_item_reorder_cancel'),
@@ -312,7 +366,6 @@ export class SkyRepeaterItemComponent
           this.reorderButtonLabel = this.#reorderInstructions;
         }
       );
-
     this.contentId = `sky-repeater-item-content-${++nextContentId}`;
     this.itemRole$ = this.#repeaterService.itemRole.asObservable();
   }
@@ -340,6 +393,9 @@ export class SkyRepeaterItemComponent
     this.expand.complete();
     this.inlineFormClose.complete();
     this.isSelectedChange.complete();
+
+    this.#contextMenuResourceUnsubscribe.next();
+    this.#contextMenuResourceUnsubscribe.complete();
 
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
@@ -617,6 +673,34 @@ export class SkyRepeaterItemComponent
       );
     }
     this.#repeaterService.registerOrderChange();
+  }
+
+  #updateContextMenuAriaLabel(): void {
+    this.#contextMenuResourceUnsubscribe.next();
+    if (this.itemNameOrDefault) {
+      this.#resourceService
+        .getString(
+          'skyux_repeater_item_context_menu_default_aria_label',
+          this.itemNameOrDefault
+        )
+        .pipe(takeUntil(this.#contextMenuResourceUnsubscribe))
+        .subscribe((resourceString) => {
+          this.#defaultInputProvider.setValue(
+            'repeaterItemContextMenu',
+            'ariaLabel',
+            resourceString
+          );
+          this.#changeDetector.detectChanges();
+        });
+    } else {
+      this.#defaultInputProvider.setValue(
+        'repeaterItemContextMenu',
+        'ariaLabel',
+        undefined
+      );
+    }
+    // This is to void "Expression changed after checked" issues. `markForCheck` did not resolve the issue.
+    this.#changeDetector.detectChanges();
   }
 
   #updateExpandOnContentChange(): void {
