@@ -11,6 +11,7 @@ import {
   ValueFormatterParams,
 } from 'ag-grid-community';
 
+import { ContextMenuComponent } from './context-menu.component';
 import { AG_GRID_DEMO_DATA } from './data';
 
 @Component({
@@ -29,6 +30,12 @@ export class DemoComponent {
     {
       field: 'selected',
       type: SkyCellType.RowSelector,
+    },
+    {
+      colId: 'context',
+      maxWidth: 50,
+      sortable: false,
+      cellRenderer: ContextMenuComponent,
     },
     {
       field: 'name',

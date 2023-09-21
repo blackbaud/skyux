@@ -59,17 +59,9 @@ export class DemoComponent implements OnInit, OnDestroy {
     views: [
       {
         viewId: 'dataGridMultiselectWithDataManagerView',
-        columnIds: [
-          'selected',
-          'name',
-          'age',
-          'startDate',
-          'endDate',
-          'department',
-          'jobTitle',
-        ],
         displayedColumnIds: [
           'selected',
+          'context',
           'name',
           'age',
           'startDate',

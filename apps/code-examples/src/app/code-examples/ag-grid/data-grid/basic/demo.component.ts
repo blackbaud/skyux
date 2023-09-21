@@ -11,6 +11,7 @@ import {
   ValueFormatterParams,
 } from 'ag-grid-community';
 
+import { ContextMenuComponent } from './context-menu.component';
 import { AG_GRID_DEMO_DATA } from './data';
 
 @Component({
@@ -26,6 +27,12 @@ export class DemoComponent {
   protected gridOptions: GridOptions;
 
   #columnDefs: ColDef[] = [
+    {
+      colId: 'context',
+      maxWidth: 50,
+      sortable: false,
+      cellRenderer: ContextMenuComponent,
+    },
     {
       field: 'name',
       headerName: 'Name',
