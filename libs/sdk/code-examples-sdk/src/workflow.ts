@@ -4,8 +4,8 @@ import { execSync } from 'child_process';
 import { glob } from 'glob';
 import { dirname, relative } from 'path';
 
-function getChanges(baseBranch: string, headBranch: string): string[] {
-  const command = `git diff --name-only origin/${baseBranch} ${headBranch}`;
+function getChanges(baseBranch: string): string[] {
+  const command = `git diff --name-only origin/${baseBranch}`;
   const changes = execSync(command, { encoding: 'utf-8' });
   return changes.split('\n').filter((change) => change);
 }
@@ -31,7 +31,7 @@ export async function workflow(
   let codeExamples = [...allExamples];
 
   if (isPullRequest) {
-    const changes = getChanges(baseBranch, headBranch);
+    const changes = getChanges(baseBranch);
     if (
       !changes.includes('.github/workflows/code-examples.yml') &&
       !changes.some((change) => change.startsWith('libs/sdk/code-examples-sdk'))
