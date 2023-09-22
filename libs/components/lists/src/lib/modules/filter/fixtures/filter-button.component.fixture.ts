@@ -12,6 +12,7 @@ export class FilterButtonTestComponent {
   public buttonId: string | undefined;
   public ariaExpanded: boolean | undefined;
   public ariaControls: string | undefined;
+  public ariaLabel: string | undefined;
   public skyThemeSettings!: SkyThemeSettings;
 
   constructor() {

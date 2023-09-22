@@ -50,14 +50,23 @@ describe('Filter button', () => {
     );
   });
 
-  it('should allow setting aria labels', () => {
+  it('should allow setting aria properties', () => {
     component.ariaControls = 'filter-zone-2';
     component.ariaExpanded = true;
+    component.ariaLabel = 'Test label';
     fixture.detectChanges();
 
     const button = nativeElement.querySelector('.sky-btn');
     expect(button?.getAttribute('aria-controls')).toBe('filter-zone-2');
     expect(button?.getAttribute('aria-expanded')).toBe('true');
+    expect(button?.getAttribute('aria-label')).toBe('Test label');
+  });
+
+  it('should set a default aria label when the ariaLabel property is not given', () => {
+    fixture.detectChanges();
+
+    const button = nativeElement.querySelector('.sky-btn');
+    expect(button?.getAttribute('aria-label')).toBe('Filter');
   });
 
   it('should emit event on click', () => {
