@@ -29,6 +29,7 @@ import {
 } from 'ag-grid-community';
 import { Subject, takeUntil } from 'rxjs';
 
+import { ContextMenuComponent } from './context-menu.component';
 import { AgGridDemoRow } from './data';
 
 @Component({
@@ -50,6 +51,12 @@ export class ViewGridComponent implements OnInit, OnDestroy {
   protected viewConfig: SkyDataViewConfig;
 
   #columnDefs: ColDef[] = [
+    {
+      colId: 'context',
+      maxWidth: 50,
+      sortable: false,
+      cellRenderer: ContextMenuComponent,
+    },
     {
       field: 'name',
       headerName: 'Name',
@@ -85,6 +92,11 @@ export class ViewGridComponent implements OnInit, OnDestroy {
   ];
 
   #columnPickerOptions: SkyDataManagerColumnPickerOption[] = [
+    {
+      id: 'context',
+      label: '',
+      alwaysDisplayed: true,
+    },
     {
       id: 'name',
       label: 'Name',

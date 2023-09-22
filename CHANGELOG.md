@@ -1,5 +1,30 @@
 # Changelog
 
+## [9.2.1](https://github.com/blackbaud/skyux/compare/9.2.0...9.2.1) (2023-09-20)
+
+
+### Bug Fixes
+
+* release 9.2.1 ([#1738](https://github.com/blackbaud/skyux/issues/1738)) ([1b1e38d](https://github.com/blackbaud/skyux/commit/1b1e38d679eae3dc746d9295c0f31ebc3449150e))
+
+## [9.2.0](https://github.com/blackbaud/skyux/compare/9.1.1...9.2.0) (2023-09-20)
+
+
+### Features
+
+* **components/core:** add `VERSION` to public exports API; update to `@skyux/icons@6.3.0` ([#1734](https://github.com/blackbaud/skyux/issues/1734)) ([dda1151](https://github.com/blackbaud/skyux/commit/dda11519e70495221d53c0416a86a477d4485604))
+* **components/indicators:** icon visual test ([#1168](https://github.com/blackbaud/skyux/issues/1168)) ([#1170](https://github.com/blackbaud/skyux/issues/1170)) ([#1736](https://github.com/blackbaud/skyux/issues/1736)) ([2170ea4](https://github.com/blackbaud/skyux/commit/2170ea4e8d5aa16badf377b043316a67a52d2b0d))
+* refactor code examples to use standalone components ([#1728](https://github.com/blackbaud/skyux/issues/1728)) ([65012ce](https://github.com/blackbaud/skyux/commit/65012ce47abea005f233a9df6612586b29d96e73))
+
+
+### Bug Fixes
+
+* **components/lookup:** reset focus for search result controls when new text entered in input ([#1727](https://github.com/blackbaud/skyux/issues/1727)) ([d2a56d6](https://github.com/blackbaud/skyux/commit/d2a56d672da1b10c26825ffbbed6e6d7b3fd7710))
+
+## [9.2.0](https://github.com/blackbaud/skyux/compare/9.1.1...9.2.0) (2023-09-20)
+
+* The release failed part way through the publish process, some packages were not published. Do not use this version.
+
 ## [9.1.1](https://github.com/blackbaud/skyux/compare/9.1.0...9.1.1) (2023-09-15)
 
 

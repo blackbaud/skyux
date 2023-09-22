@@ -1,6 +1,6 @@
 {
   "name": "skyux",
-  "version": "9.1.1",
+  "version": "9.2.1",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
@@ -95,7 +95,7 @@
     "@blackbaud/skyux-design-tokens": "0.0.27",
     "@nx/angular": "16.8.1",
     "@skyux/auth-client-factory": "1.2.0",
-    "@skyux/icons": "6.2.4",
+    "@skyux/icons": "6.3.0",
     "ag-grid-angular": "29.3.5",
     "ag-grid-community": "29.3.5",
     "autonumeric": "4.9.0",
@@ -149,7 +149,7 @@
     "@ryansonshine/commitizen": "4.2.8",
     "@ryansonshine/cz-conventional-changelog": "3.3.4",
     "@schematics/angular": "16.2.0",
-    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#9.0.0-alpha.9",
+    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#9.0.0-alpha.13",
     "@storybook/addon-a11y": "7.4.1",
     "@storybook/addon-actions": "7.4.1",
     "@storybook/addon-controls": "7.4.1",

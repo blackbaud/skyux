@@ -76,7 +76,7 @@ jobs:
         run: npm ci
       - name: Build
         if: ${{ steps.release.outputs.release_created }}
-        run: npx skyux-dev create-packages-dist
+        run: npx skyux-dev create-packages-dist --skipNxCache
       - name: Publish
         if: ${{ steps.release.outputs.release_created }}
         run: npx skyux-dev publish-packages-dist

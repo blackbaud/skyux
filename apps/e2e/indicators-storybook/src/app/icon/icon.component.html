@@ -1,0 +1,39 @@
+<div class="icon-sheet">
+  <sky-icon icon="calendar"></sky-icon>
+  <sky-icon icon="calendar" size="lg"></sky-icon>
+  <sky-icon icon="calendar" size="2x" iconType="skyux"></sky-icon>
+  <sky-icon
+    icon="calendar"
+    iconType="skyux"
+    variant="line"
+    size="3x"
+  ></sky-icon>
+  <sky-icon
+    data-sky-id="icon-demo"
+    icon="calendar"
+    iconType="skyux"
+    variant="solid"
+    size="4x"
+    [fixedWidth]="true"
+  ></sky-icon>
+
+  <div>
+    <sky-icon icon="bars" size="5x"></sky-icon>
+  </div>
+  <div>
+    <sky-icon icon="chevron-down" size="5x"></sky-icon>
+  </div>
+
+  <div>
+    <sky-icon icon="bars" size="5x" [fixedWidth]="true"></sky-icon>
+  </div>
+  <div>
+    <sky-icon icon="chevron-down" size="5x" [fixedWidth]="true"></sky-icon>
+  </div>
+</div>
+<div class="icon-sheet">
+  <div *ngFor="let icon of icons" class="icon-sheet--icon sky-padding-even-md">
+    <sky-icon [icon]="icon.name" size="lg"></sky-icon>
+    <span>{{ icon.name }}</span>
+  </div>
+</div>

@@ -129,7 +129,6 @@
             <sky-dropdown
               *ngIf="formGroup.value.showContextMenus"
               buttonType="context-menu"
-              [label]="'Context menu for ' + node.data.name"
             >
               <sky-dropdown-menu>
                 <sky-dropdown-item *ngFor="let item of dropdownItems">

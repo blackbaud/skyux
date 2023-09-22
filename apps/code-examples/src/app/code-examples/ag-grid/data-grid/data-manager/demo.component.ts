@@ -60,15 +60,8 @@ export class DemoComponent implements OnInit, OnDestroy {
     views: [
       {
         viewId: 'dataGridWithDataManagerView',
-        columnIds: [
-          'name',
-          'age',
-          'startDate',
-          'endDate',
-          'department',
-          'jobTitle',
-        ],
         displayedColumnIds: [
+          'context',
           'name',
           'age',
           'startDate',
