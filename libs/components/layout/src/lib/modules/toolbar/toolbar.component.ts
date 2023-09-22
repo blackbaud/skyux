@@ -36,6 +36,7 @@ export class SkyToolbarComponent implements OnDestroy {
   @Input()
   public set listDescriptor(value: string | undefined) {
     this.#listDescriptorResourcesUnsubscribe.next();
+    console.log(value);
     if (value) {
       this.#resourcesSvc
         .getStrings({

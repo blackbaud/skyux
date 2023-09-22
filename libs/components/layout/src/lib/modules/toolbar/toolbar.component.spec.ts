@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyDefaultInputProvider } from '@skyux/core';
 
 import { SkyToolbarSectionedTestComponent } from './fixtures/toolbar-sectioned.component.fixture';
 import { SkyToolbarTestComponent } from './fixtures/toolbar.component.fixture';
@@ -25,6 +26,66 @@ describe('toolbar component', () => {
 
       expect(buttonEls.item(0)).toHaveText('Button 1');
       expect(buttonEls.item(1)).toHaveText('Button 2');
+    });
+
+    it('should not call the default input provider for standard components if no listDescriptor is given', async () => {
+      const setValueSpy = spyOn(
+        SkyDefaultInputProvider.prototype,
+        'setValue'
+      ).and.stub();
+
+      const fixture = TestBed.createComponent(SkyToolbarTestComponent);
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      expect(setValueSpy.calls.count()).toBe(3);
+      expect(setValueSpy.calls.all()[0].args).toEqual([
+        'filter',
+        'ariaLabel',
+        undefined,
+      ]);
+      expect(setValueSpy.calls.all()[1].args).toEqual([
+        'search',
+        'ariaLabel',
+        undefined,
+      ]);
+      expect(setValueSpy.calls.all()[2].args).toEqual([
+        'sort',
+        'ariaLabel',
+        undefined,
+      ]);
+    });
+
+    it('should call the default input provider for standard components if a listDescriptor is given', async () => {
+      const setValueSpy = spyOn(
+        SkyDefaultInputProvider.prototype,
+        'setValue'
+      ).and.stub();
+
+      const fixture = TestBed.createComponent(SkyToolbarTestComponent);
+      fixture.componentInstance.listDescriptor = 'constituents';
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      expect(setValueSpy.calls.count()).toBe(3);
+      expect(setValueSpy.calls.all()[0].args).toEqual([
+        'filter',
+        'ariaLabel',
+        'Filter constituents',
+      ]);
+      expect(setValueSpy.calls.all()[1].args).toEqual([
+        'search',
+        'ariaLabel',
+        'Search constituents',
+      ]);
+      expect(setValueSpy.calls.all()[2].args).toEqual([
+        'sort',
+        'ariaLabel',
+        'Sort constituents',
+      ]);
     });
 
     it('should be accessible', async () => {
