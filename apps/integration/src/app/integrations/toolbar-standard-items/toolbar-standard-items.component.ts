@@ -6,5 +6,5 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToolbarStandardItemsComponent {
-  public listDescriptor: string | undefined = 'constituents';
+  public listDescriptor: string | undefined;
 }
