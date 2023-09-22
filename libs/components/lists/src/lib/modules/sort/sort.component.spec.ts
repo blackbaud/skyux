@@ -5,6 +5,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyDefaultInputProvider } from '@skyux/core';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -22,6 +23,7 @@ import { SkySortModule } from './sort.module';
 describe('Sort component', () => {
   let fixture: ComponentFixture<SortTestComponent>;
   let component: SortTestComponent;
+  let defaultInputProvider: SkyDefaultInputProvider;
   let mockThemeSvc: {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
@@ -45,11 +47,14 @@ describe('Sort component', () => {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
         },
+        SkyDefaultInputProvider,
       ],
     });
 
     fixture = TestBed.createComponent(SortTestComponent);
     component = fixture.componentInstance;
+
+    defaultInputProvider = TestBed.inject(SkyDefaultInputProvider);
   });
 
   function getDropdownButtonEl(): HTMLElement | null {
@@ -109,6 +114,23 @@ describe('Sort component', () => {
       getDropdownMenuHeadingEl()?.getAttribute('id')
     );
   }));
+
+  it('should use the default input provider for aria label when applicable', () => {
+    defaultInputProvider.setValue('sort', 'ariaLabel', 'Default label');
+    fixture.detectChanges();
+
+    const dropdownButtonEl = getDropdownButtonEl();
+    expect(dropdownButtonEl?.getAttribute('aria-label')).toBe('Default label');
+  });
+
+  // it('should not use the default input provider for aria label when overwritten', () => {
+  //   defaultInputProvider.setValue('sort', 'ariaLabel', 'Default label');
+  //   component.ariaLabel = 'Overwritten label';
+  //   fixture.detectChanges();
+
+  //   const dropdownButtonEl = getDropdownButtonEl();
+  //   expect(dropdownButtonEl?.getAttribute('aria-label')).toBe('Overwritten label');
+  // });
 
   it('changes active item on click and emits proper event', fakeAsync(() => {
     fixture.detectChanges();
