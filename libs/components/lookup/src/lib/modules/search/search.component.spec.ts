@@ -8,7 +8,11 @@ import {
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
+import {
+  SkyDefaultInputProvider,
+  SkyMediaBreakpoints,
+  SkyMediaQueryService,
+} from '@skyux/core';
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
 import {
   SkyTheme,
@@ -28,6 +32,7 @@ describe('Search component', () => {
   let fixture: ComponentFixture<SearchTestComponent>;
   let component: SearchTestComponent;
   let element: DebugElement;
+  let defaultInputProvider: SkyDefaultInputProvider;
   let mockMediaQueryService: MockSkyMediaQueryService;
   let mockThemeSvc: { settingsChange: BehaviorSubject<SkyThemeSettingsChange> };
 
@@ -56,6 +61,7 @@ describe('Search component', () => {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
         },
+        SkyDefaultInputProvider,
       ],
     });
 
@@ -71,6 +77,8 @@ describe('Search component', () => {
     }).createComponent(SearchTestComponent);
     component = fixture.componentInstance;
     element = fixture.debugElement as DebugElement;
+
+    defaultInputProvider = TestBed.inject(SkyDefaultInputProvider);
   });
 
   afterEach(() => {
@@ -533,6 +541,31 @@ describe('Search component', () => {
       await fixture.whenStable();
       await expectAsync(fixture.nativeElement).toBeAccessible();
       expect(getInput().attributes['aria-label']).toBe('Test label');
+      expect(getInput().attributes['aria-labelledby']).toBeUndefined();
+    });
+
+    it('should be accessible using default theme at wide and small breakpoints (ariaLabel: "Default label" - via default input, ariaLabelledBy: undefined)', async () => {
+      defaultInputProvider.setValue('search', 'ariaLabel', 'Default label');
+      fixture.detectChanges();
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+      setInput('foo bar');
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+      expect(getInput().attributes['aria-label']).toBe('Default label');
+      expect(getInput().attributes['aria-labelledby']).toBeUndefined();
+    });
+
+    it('should be accessible using default theme at wide and small breakpoints (ariaLabel: "Overwritten label" - overwriting default input, ariaLabelledBy: undefined)', async () => {
+      defaultInputProvider.setValue('search', 'ariaLabel', 'Default label');
+      component.ariaLabel = 'Overwritten label';
+      fixture.detectChanges();
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+      setInput('foo bar');
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+      expect(getInput().attributes['aria-label']).toBe('Overwritten label');
       expect(getInput().attributes['aria-labelledby']).toBeUndefined();
     });
 
