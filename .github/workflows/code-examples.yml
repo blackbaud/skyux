@@ -138,17 +138,17 @@ jobs:
           git checkout \
             -B ${{ needs.list-code-examples.outputs.lts-branch }} \
             $(git show-ref -s origin/${{ needs.list-code-examples.outputs.lts-branch }})
-          mkdir -p ${{ github.temp }}/code-examples
+          mkdir -p ${{ runner.temp }}/code-examples
       - name: Clear existing code examples
         run: git rm -rf .
       - name: Download code examples
         uses: actions/download-artifact@v3
         with:
-          path: ${{ github.temp }}/code-examples
+          path: ${{ runner.temp }}/code-examples
       - name: Stage code examples
         run: |
           set -eo pipefail
-          for dir in ${{ github.temp }}/code-examples/code-example-*; do
+          for dir in ${{ runner.temp }}/code-examples/code-example-*; do
             if [ -d "$dir" ]; then
               rsync -a "${dir}/" .
             fi
