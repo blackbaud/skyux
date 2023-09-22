@@ -4,7 +4,11 @@ import {
   EventEmitter,
   Input,
   Output,
+  inject,
 } from '@angular/core';
+import { SkyDefaultInputProvider } from '@skyux/core';
+
+import { Observable } from 'rxjs';
 
 let nextId = 0;
 
@@ -81,9 +85,18 @@ export class SkyFilterButtonComponent {
   @Output()
   public filterButtonClick: EventEmitter<void> = new EventEmitter();
 
+  protected ariaLabelDefault: Observable<string> | undefined;
+
+  #defaultInputProvider = inject(SkyDefaultInputProvider, { optional: true });
+
   constructor() {
     this.#filterButtonIdOrDefault =
       this.#defaultButtonId = `sky-filter-button-${++nextId}`;
+
+    this.ariaLabelDefault = this.#defaultInputProvider?.getValue<string>(
+      'filter',
+      'ariaLabel'
+    );
   }
 
   #defaultButtonId: string;

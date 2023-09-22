@@ -1,7 +1,9 @@
 <div class="sky-sort">
   <sky-dropdown
     buttonType="select"
-    [label]="'skyux_sort_button_label' | skyLibResources"
+    [label]="
+      (ariaLabelDefault | async) || 'skyux_sort_button_label' | skyLibResources
+    "
     [messageStream]="dropdownController"
     [title]="'skyux_sort_button_label' | skyLibResources"
   >

@@ -35,7 +35,9 @@
             [attr.aria-label]="
               ariaLabelledBy
                 ? undefined
-                : (ariaLabel ?? 'skyux_search_label' | skyLibResources)
+                : (ariaLabel ||
+                    (ariaLabelDefault | async) ||
+                    'skyux_search_label' | skyLibResources)
             "
             [attr.aria-labelledby]="ariaLabelledBy"
             [attr.placeholder]="

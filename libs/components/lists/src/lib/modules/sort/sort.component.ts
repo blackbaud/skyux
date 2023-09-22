@@ -1,7 +1,13 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  inject,
+} from '@angular/core';
+import { SkyDefaultInputProvider } from '@skyux/core';
 import { SkyDropdownMessage, SkyDropdownMessageType } from '@skyux/popovers';
 
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 import { SkySortService } from './sort.service';
 
@@ -20,6 +26,17 @@ export class SkySortComponent {
   public showButtonText: boolean | undefined = false;
 
   public dropdownController = new Subject<SkyDropdownMessage>();
+
+  protected ariaLabelDefault: Observable<string> | undefined;
+
+  #defaultInputProvider = inject(SkyDefaultInputProvider, { optional: true });
+
+  constructor() {
+    this.ariaLabelDefault = this.#defaultInputProvider?.getValue<string>(
+      'sort',
+      'ariaLabel'
+    );
+  }
 
   public dropdownClicked(): void {
     this.dropdownController.next({

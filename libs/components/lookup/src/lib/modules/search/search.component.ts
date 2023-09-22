@@ -18,10 +18,15 @@ import {
   Output,
   SimpleChanges,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
-import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
+import {
+  SkyDefaultInputProvider,
+  SkyMediaBreakpoints,
+  SkyMediaQueryService,
+} from '@skyux/core';
 
-import { Subject, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { SkySearchAdapterService } from './search-adapter.service';
@@ -169,7 +174,11 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
 
   public searchButtonShown = false;
 
+  protected ariaLabelDefault: Observable<string> | undefined;
+
   #changeRef: ChangeDetectorRef;
+
+  #defaultInputProvider = inject(SkyDefaultInputProvider, { optional: true });
 
   #elRef: ElementRef;
 
@@ -197,6 +206,11 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     this.#elRef = elRef;
     this.#searchAdapter = searchAdapter;
     this.#changeRef = changeRef;
+
+    this.ariaLabelDefault = this.#defaultInputProvider?.getValue<string>(
+      'search',
+      'ariaLabel'
+    );
   }
 
   public ngOnInit() {

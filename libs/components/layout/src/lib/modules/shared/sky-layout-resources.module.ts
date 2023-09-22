@@ -33,6 +33,9 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     skyux_text_expand_modal_title: { message: 'Expanded view' },
     skyux_text_expand_see_less: { message: 'See less' },
     skyux_text_expand_see_more: { message: 'See more' },
+    skyux_toolbar_filter_aria_label_descriptor: { message: 'Filter {0}' },
+    skyux_toolbar_search_aria_label_descriptor: { message: 'Search {0}' },
+    skyux_toolbar_sort_aria_label_descriptor: { message: 'Sort {0}' },
   },
 };
 
