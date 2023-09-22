@@ -37,11 +37,21 @@ export async function buildCodeExamples(
   tree: Tree,
   options: BuildGeneratorSchema
 ) {
-  let components: string[];
+  if (options.paths && options.component) {
+    throw new Error(
+      'The --paths and --component options are mutually exclusive. Only use one of them.'
+    );
+  }
+  let paths: string[];
   if (options.component) {
-    components = [...options.component.split(/[ ,]+/)];
+    paths = [...options.component.split(/[ ,]+/)];
+  } else if (options.paths) {
+    paths = options.paths
+      .split(/[\s,]+/)
+      .map((path) => path.trim())
+      .map((path) => path.replace(`${codeExamplesBasePath}/`, ''));
   } else {
-    components = tree
+    paths = tree
       .children(`${codeExamplesBasePath}`)
       .filter(
         (file) =>
@@ -50,26 +60,21 @@ export async function buildCodeExamples(
       );
   }
   const projectPaths: string[] = [];
-  for (const component of components) {
-    let examplePaths = findExamplePaths(
+  for (const examplePath of paths) {
+    const examplePaths = findExamplePaths(
       tree,
-      `${codeExamplesBasePath}/${component}`
-    ).map((path) => path.replace(`${codeExamplesBasePath}/${component}/`, ''));
-    if (options.path) {
-      examplePaths = examplePaths.filter((path) =>
-        path.startsWith(`${options.path}`)
-      );
-    }
+      `${codeExamplesBasePath}/${examplePath}`
+    ).map((path) => path.replace(`${codeExamplesBasePath}/`, ''));
     if (examplePaths.length === 0) {
-      logger.warn(`No examples found for ${component}`);
+      logger.warn(`No examples found in ${examplePath}`);
     }
     for (const examplePath of examplePaths) {
       await codeExampleSpa(tree, {
-        component,
         path: examplePath,
         ltsBranch: options.ltsBranch,
+        skipFormat: options.skipFormat,
       });
-      projectPaths.push(`${component}/${examplePath}`);
+      projectPaths.push(examplePath);
     }
   }
   generateFiles(tree, `${__dirname}/files`, buildPath, {
@@ -78,7 +83,10 @@ export async function buildCodeExamples(
     projectPaths,
   });
 
-  await formatFiles(tree);
+  /* istanbul ignore if */
+  if (!options.skipFormat) {
+    await formatFiles(tree);
+  }
 }
 
 export default buildCodeExamples;

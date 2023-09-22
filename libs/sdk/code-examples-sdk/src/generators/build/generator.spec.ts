@@ -20,9 +20,9 @@ describe('build generator', () => {
       {}
     );
     await buildCodeExamples(tree, {
-      component: 'ag-grid',
-      path: 'data-entry-grid/basic',
+      paths: 'ag-grid/data-entry-grid/basic',
       ltsBranch: 'x.x.x',
+      skipFormat: true,
     });
     expect(
       tree.isFile(
@@ -41,6 +41,7 @@ describe('build generator', () => {
     await buildCodeExamples(tree, {
       component: 'ag-grid',
       ltsBranch: 'x.x.x',
+      skipFormat: true,
     });
     expect(
       tree.isFile(
@@ -57,7 +58,7 @@ describe('build generator', () => {
       {}
     );
     tree.write('apps/code-examples/src/app/code-examples/.gitignore', 'test');
-    await buildCodeExamples(tree, { ltsBranch: 'x.x.x' });
+    await buildCodeExamples(tree, { ltsBranch: 'x.x.x', skipFormat: true });
     expect(
       tree.isFile(
         'dist/libs/sdk/code-examples-sdk/for-github/ag-grid/data-entry-grid/basic/angular.json'
@@ -79,6 +80,7 @@ describe('build generator', () => {
     await buildCodeExamples(tree, {
       component: 'ag-grid',
       ltsBranch: 'x.x.x',
+      skipFormat: true,
     });
     expect(
       tree.isFile(
@@ -92,7 +94,21 @@ describe('build generator', () => {
     await buildCodeExamples(tree, {
       component: 'ag-grid',
       ltsBranch: 'x.x.x',
+      skipFormat: true,
     });
-    expect(loggerSpy).toHaveBeenCalledWith('No examples found for ag-grid');
+    expect(loggerSpy).toHaveBeenCalledWith('No examples found in ag-grid');
+  });
+
+  it('should error when using both component and paths', async () => {
+    await expect(
+      buildCodeExamples(tree, {
+        component: 'ag-grid',
+        paths: 'data-entry-grid',
+        ltsBranch: 'x.x.x',
+        skipFormat: true,
+      })
+    ).rejects.toThrowError(
+      'The --paths and --component options are mutually exclusive. Only use one of them.'
+    );
   });
 });

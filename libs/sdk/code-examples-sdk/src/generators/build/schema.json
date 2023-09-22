@@ -6,25 +6,23 @@
   "properties": {
     "component": {
       "type": "string",
-      "description": "",
-      "$default": {
-        "$source": "argv",
-        "index": 0
-      }
+      "description": "Name of the component under apps/code-examples/src/app/code-examples"
     },
-    "path": {
+    "paths": {
       "type": "string",
-      "description": "",
-      "$default": {
-        "$source": "argv",
-        "index": 1
-      }
+      "description": "List of paths to build, such as a `git diff --name-only` output. Each path should contain a demo.component.ts file."
     },
     "ltsBranch": {
       "type": "string",
       "description": "LTS branch for Stackblitz links, such as '9.x.x'",
       "x-prompt": "What LTS branch would you like to use for Stackblitz links?"
+    },
+    "skipFormat": {
+      "type": "boolean",
+      "description": "Skip formatting files",
+      "x-prompt": "Would you like to skip formatting files?",
+      "$default": false
     }
   },
-  "required": []
+  "required": ["ltsBranch"]
 }

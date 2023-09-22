@@ -10,8 +10,10 @@ import {
 describe('angularModuleGenerator', () => {
   it('should generate an angular module', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    tree.write('.gitignore', '# empty');
     await applicationGenerator(tree, {
       name: 'my-app',
+      skipFormat: true,
     });
     await angularModuleGenerator(tree, {
       name: 'my-module',
@@ -24,8 +26,10 @@ describe('angularModuleGenerator', () => {
 
   it('should generate an angular module with routing', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    tree.write('.gitignore', '# empty');
     await applicationGenerator(tree, {
       name: 'my-app',
+      skipFormat: true,
     });
     await angularModuleGenerator(tree, {
       name: 'my-module',
@@ -54,8 +58,10 @@ describe('angularModuleGenerator', () => {
 
   it('should generate an angular component', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    tree.write('.gitignore', '# empty');
     await applicationGenerator(tree, {
       name: 'my-app',
+      skipFormat: true,
     });
     await angularComponentGenerator(tree, {
       name: 'my-component',

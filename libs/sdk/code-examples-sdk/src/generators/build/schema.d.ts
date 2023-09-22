@@ -1,5 +1,6 @@
 export interface BuildGeneratorSchema {
   component?: string;
-  path?: string;
+  paths?: string;
   ltsBranch: string;
+  skipFormat: boolean;
 }

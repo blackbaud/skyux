@@ -21,9 +21,9 @@ describe('code-example-spa generator', () => {
       {}
     );
     await codeExampleSpa(tree, {
-      component: 'ag-grid',
-      path: 'data-entry-grid/basic',
+      path: 'ag-grid/data-entry-grid/basic',
       ltsBranch: 'x.x.x',
+      skipFormat: true,
     });
     expect(
       tree.isFile(
@@ -45,9 +45,9 @@ describe('code-example-spa generator', () => {
     );
     await expect(() =>
       codeExampleSpa(tree, {
-        component: 'ag-grid',
-        path: 'data-entry-grid/basic',
+        path: 'ag-grid/data-entry-grid/basic',
         ltsBranch: 'x.x.x',
+        skipFormat: true,
       })
     ).rejects.toThrowError(
       'The project build dist/libs/sdk/code-examples-sdk/for-github/ag-grid/data-entry-grid/basic already exists. Please delete it before running this schematic.'
@@ -66,9 +66,9 @@ describe('code-example-spa generator', () => {
     );
     await expect(() =>
       codeExampleSpa(tree, {
-        component: 'ag-grid',
-        path: 'data-entry-grid/basic',
+        path: 'ag-grid/data-entry-grid/basic',
         ltsBranch: 'x.x.x',
+        skipFormat: true,
       })
     ).rejects.toThrowError(/^Missing demo\.component\.ts file/);
   });
@@ -93,9 +93,9 @@ describe('code-example-spa generator', () => {
     );
     await expect(() =>
       codeExampleSpa(tree, {
-        component: 'ag-grid',
-        path: 'data-entry-grid/basic',
+        path: 'ag-grid/data-entry-grid/basic',
         ltsBranch: 'x.x.x',
+        skipFormat: true,
       })
     ).rejects.toThrowError(/^Component should be standalone/);
 
@@ -109,9 +109,9 @@ describe('code-example-spa generator', () => {
     );
     await expect(() =>
       codeExampleSpa(tree, {
-        component: 'ag-grid',
-        path: 'data-entry-grid/basic',
+        path: 'ag-grid/data-entry-grid/basic',
         ltsBranch: 'x.x.x',
+        skipFormat: true,
       })
     ).rejects.toThrowError(/^Class name should be DemoComponent/);
 
@@ -119,9 +119,9 @@ describe('code-example-spa generator', () => {
     tree.write(filePath, 'const good = false;');
     await expect(() =>
       codeExampleSpa(tree, {
-        component: 'ag-grid',
-        path: 'data-entry-grid/basic',
+        path: 'ag-grid/data-entry-grid/basic',
         ltsBranch: 'x.x.x',
+        skipFormat: true,
       })
     ).rejects.toThrowError(/^Could not find component class/);
   });
@@ -144,9 +144,9 @@ describe('code-example-spa generator', () => {
     );
     await expect(() =>
       codeExampleSpa(tree, {
-        component: 'ag-grid',
-        path: 'data-entry-grid/basic',
+        path: 'ag-grid/data-entry-grid/basic',
         ltsBranch: 'x.x.x',
+        skipFormat: true,
       })
     ).rejects.toThrowError(/^Selector should be "app-demo"/);
   });
@@ -159,9 +159,9 @@ describe('code-example-spa generator', () => {
       {}
     );
     await codeExampleSpa(tree, {
-      component: 'lookup',
-      path: 'lookup/async',
+      path: 'lookup/lookup/async',
       ltsBranch: 'x.x.x',
+      skipFormat: true,
     });
     expect(
       tree.isFile(

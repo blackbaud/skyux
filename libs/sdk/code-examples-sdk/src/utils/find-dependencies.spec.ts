@@ -17,6 +17,7 @@ describe('find-dependencies', () => {
 
   it('should find code dependencies', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    tree.write('.gitignore', 'node_modules');
     await applicationGenerator(tree, {
       name: 'my-app',
     });
@@ -39,6 +40,7 @@ describe('find-dependencies', () => {
 
   it('should find peer dependencies', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    tree.write('.gitignore', 'node_modules');
     tree.write(
       `node_modules/@angular/common/package.json`,
       JSON.stringify({

@@ -44,12 +44,11 @@ const startingDependencies = [
 function normalizeOptions(
   options: CodeExampleSpaGeneratorSchema
 ): CodeExampleSpaGeneratorConfig {
+  const projectPath = options.path.replace(`${codeExamplesBasePath}/`, '');
   return {
     ...options,
-    project: `${dasherize(options.component)}-${dasherize(
-      options.path.replaceAll('/', '-')
-    )}`,
-    projectPath: `${dasherize(options.component)}/${dasherize(options.path)}`,
+    project: `${dasherize(projectPath.replaceAll('/', '-'))}`,
+    projectPath,
   };
 }
 
@@ -100,9 +99,9 @@ function findDemoComponent(tree: Tree, config: CodeExampleSpaGeneratorConfig) {
     .some((child) => child.endsWith('.spec.ts'));
 
   return {
-    exampleComponentSelector: componentSelector,
-    exampleModuleFile: demoComponentFile,
-    exampleModuleClassName: componentClassName,
+    componentSelector,
+    componentClassName,
+    demoComponentFile,
     hasTests,
   };
 }
@@ -317,12 +316,8 @@ export async function codeExampleSpa(
   options: CodeExampleSpaGeneratorSchema
 ) {
   const config = normalizeOptions(options);
-  const {
-    exampleModuleFile,
-    exampleModuleClassName,
-    exampleComponentSelector,
-    hasTests,
-  } = findDemoComponent(tree, config);
+  const { componentClassName, componentSelector, demoComponentFile, hasTests } =
+    findDemoComponent(tree, config);
   const exampleCodeDependencies = findDependenciesFromCode(
     tree,
     `${codeExamplesBasePath}/${config.projectPath}`
@@ -336,10 +331,10 @@ export async function codeExampleSpa(
   const outputPath = await generateSpa(
     config,
     tree,
-    exampleModuleClassName,
-    exampleModuleFile,
+    componentClassName,
+    demoComponentFile,
     exampleDependencies,
-    exampleComponentSelector,
+    componentSelector,
     hasTests
   );
 
@@ -352,13 +347,19 @@ export async function codeExampleSpa(
   );
 
   // Format before generating launcher file.
-  await formatFiles(tree);
+  /* istanbul ignore if */
+  if (!options.skipFormat) {
+    await formatFiles(tree);
+  }
 
   // Generate an HTML launcher file.
   generateHtmlLauncherFile(tree, outputPath, config);
 
   // Format again after generating launcher file.
-  await formatFiles(tree);
+  /* istanbul ignore if */
+  if (!options.skipFormat) {
+    await formatFiles(tree);
+  }
 }
 
 export default codeExampleSpa;

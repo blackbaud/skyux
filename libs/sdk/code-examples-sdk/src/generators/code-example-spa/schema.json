@@ -4,21 +4,22 @@
   "title": "",
   "type": "object",
   "properties": {
-    "component": {
-      "type": "string",
-      "description": "Name of the component under apps/code-examples/src/app/code-examples",
-      "x-prompt": "Which component is this code example?"
-    },
     "path": {
       "type": "string",
-      "description": "Subpath under apps/code-examples/src/app/code-examples/<component>, such as 'data-entry-grid/basic' or 'popover/programmatic'",
+      "description": "Path to build, containing a demo.component.ts file.",
       "x-prompt": "What code-example path would you like to use?"
     },
     "ltsBranch": {
       "type": "string",
       "description": "LTS branch for Stackblitz links, such as '9.x.x'",
       "x-prompt": "What LTS branch would you like to use for Stackblitz links?"
+    },
+    "skipFormat": {
+      "type": "boolean",
+      "description": "Skip formatting files",
+      "x-prompt": "Would you like to skip formatting files?",
+      "$default": false
     }
   },
-  "required": ["component", "ltsBranch", "path"]
+  "required": ["ltsBranch", "path"]
 }

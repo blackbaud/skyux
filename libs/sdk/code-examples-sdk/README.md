@@ -12,4 +12,6 @@ Run `nx test sdk-code-examples-sdk` to execute the unit tests via [Jest](https:/
 
 ## Generating Code Example SPAs
 
-Run `npx nx g @skyux-sdk/code-examples:build <library>` to generate code examples for a library under `apps/code-examples/src/app/code-examples`.
+Run `npx nx g @skyux-sdk/code-examples:build --component <library>` to generate code examples for a library under `apps/code-examples/src/app/code-examples`.
+
+Run `npx nx g @skyux-sdk/code-examples:build --paths <library>/<example>/basic,<library>/<example>/advanced` to generate SPAs for specific code examples.

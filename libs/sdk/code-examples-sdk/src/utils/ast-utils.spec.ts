@@ -132,8 +132,13 @@ describe('ast-utils', () => {
 
   it('should findComponentClass', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-    await applicationGenerator(tree, { name: 'test' });
-    await componentGenerator(tree, { name: 'test', project: 'test' });
+    tree.write('.gitignore', '# empty');
+    await applicationGenerator(tree, { name: 'test', skipFormat: true });
+    await componentGenerator(tree, {
+      name: 'test',
+      project: 'test',
+      skipFormat: true,
+    });
     const componentClass = findComponentClass(
       readSourceFile(tree, 'apps/test/src/app/test/test.component.ts')
     );
@@ -150,7 +155,8 @@ describe('ast-utils', () => {
 
   it('should findComponentClass, not component', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-    await applicationGenerator(tree, { name: 'test' });
+    tree.write('.gitignore', '# empty');
+    await applicationGenerator(tree, { name: 'test', skipFormat: true });
     await angularModuleGenerator(tree, { name: 'test', project: 'test' });
     await wrapAngularDevkitSchematic('@schematics/angular', 'pipe')(tree, {
       name: 'test/test',
@@ -169,8 +175,13 @@ describe('ast-utils', () => {
 
   it('should findComponentClass, component options not object', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-    await applicationGenerator(tree, { name: 'test' });
-    await componentGenerator(tree, { name: 'test', project: 'test' });
+    tree.write('.gitignore', '# empty');
+    await applicationGenerator(tree, { name: 'test', skipFormat: true });
+    await componentGenerator(tree, {
+      name: 'test',
+      project: 'test',
+      skipFormat: true,
+    });
     tree.write(
       'apps/test/src/app/test/test.component.ts',
       `
@@ -190,8 +201,13 @@ describe('ast-utils', () => {
 
   it('should findComponentClass, no decorated class', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-    await applicationGenerator(tree, { name: 'test' });
-    await componentGenerator(tree, { name: 'test', project: 'test' });
+    tree.write('.gitignore', '# empty');
+    await applicationGenerator(tree, { name: 'test', skipFormat: true });
+    await componentGenerator(tree, {
+      name: 'test',
+      project: 'test',
+      skipFormat: true,
+    });
     tree.write(
       'apps/test/src/app/test/test.component.ts',
       `
