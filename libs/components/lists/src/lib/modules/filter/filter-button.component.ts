@@ -46,6 +46,16 @@ export class SkyFilterButtonComponent {
   public ariaExpanded: boolean | undefined = false;
 
   /**
+   * The ARIA label for the filter button. This sets the
+   * filter button's `aria-label` attribute to provide a text equivalent for screen readers
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * The aria label should normally be context sensitive, e.g. "Filter constituents". This is especially true when multiple filter buttons are in close proximity.
+   * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
+   */
+  @Input()
+  public ariaLabel: string | undefined;
+
+  /**
    * Whether to highlight the filter button to indicate that filters were applied.
    * We recommend setting this property to `true` when no indication of filtering is visible
    * to users. For example, set it to `true` if you do not display the filter summary.
