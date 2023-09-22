@@ -44,8 +44,8 @@ export async function workflow(
   }
   codeExamples.sort((a, b) => a.localeCompare(b));
 
-  // Break up the code examples into clusters of 8 to even the workflow.
-  const clusterSize = 8;
+  // Break up the code examples into clusters to even out the workflow. Some libraries have way more code examples than others.
+  const clusterSize = 4;
   const codeExampleClusters = [];
   const clusters = Math.ceil(codeExamples.length / clusterSize);
   for (let i = 0; i < clusters; i++) {

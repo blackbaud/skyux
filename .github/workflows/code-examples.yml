@@ -138,6 +138,7 @@ jobs:
           git checkout \
             -B ${{ needs.list-code-examples.outputs.lts-branch }} \
             $(git show-ref -s origin/${{ needs.list-code-examples.outputs.lts-branch }})
+          mkdir -p ${{ github.temp }}/code-examples
       - name: Clear existing code examples
         run: git rm -rf .
       - name: Download code examples
