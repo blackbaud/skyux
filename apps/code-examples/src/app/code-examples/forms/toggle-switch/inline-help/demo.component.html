@@ -4,7 +4,11 @@
       <sky-toggle-switch-label>
         Enable the bottom toggle switch
       </sky-toggle-switch-label>
-      <sky-help-inline class="sky-control-help" (actionClick)="onHelpClick()" />
+      <sky-help-inline
+        class="sky-control-help"
+        (actionClick)="onHelpClick()"
+        ariaLabel="Help content for top toggle switch"
+      />
     </sky-toggle-switch>
   </div>
   <div class="sky-margin-stacked-lg">
@@ -12,7 +16,11 @@
       <sky-toggle-switch-label>
         This switch can be enabled and disabled dynamically
       </sky-toggle-switch-label>
-      <sky-help-inline class="sky-control-help" (actionClick)="onHelpClick()" />
+      <sky-help-inline
+        class="sky-control-help"
+        (actionClick)="onHelpClick()"
+        ariaLabel="Help content for bottom toggle switch"
+      />
     </sky-toggle-switch>
   </div>
 </form>

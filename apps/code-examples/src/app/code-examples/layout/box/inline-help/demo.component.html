@@ -1,7 +1,11 @@
 <sky-box>
   <sky-box-header>
     <h2 class="sky-font-heading-2">Box header</h2>
-    <sky-help-inline class="sky-control-help" (actionClick)="onActionClick()" />
+    <sky-help-inline
+      class="sky-control-help"
+      ariaLabel="More information about Box"
+      (actionClick)="onActionClick()"
+    />
   </sky-box-header>
   <sky-box-controls>
     <sky-dropdown buttonType="context-menu" label="Box demo context menu">

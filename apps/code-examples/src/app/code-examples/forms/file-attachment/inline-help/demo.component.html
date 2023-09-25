@@ -2,7 +2,11 @@
   <label class="sky-control-label" skyId #label="skyId">
     File attachment
   </label>
-  <sky-help-inline class="sky-control-help" (actionClick)="onActionClick()" />
+  <sky-help-inline
+    class="sky-control-help"
+    ariaLabel="More information about File attachment"
+    (actionClick)="onActionClick()"
+  />
   <sky-file-drop
     class="sky-form-control"
     [acceptedTypes]="acceptedTypes"
