@@ -13,7 +13,7 @@ export class SkyContentInfoProvider {
   #contentInfo: ReplaySubject<SkyContentInfo> = new ReplaySubject(1);
   #currentValue: SkyContentInfo = {};
 
-  public patchContentInfo(value: SkyContentInfo): void {
+  public patchInfo(value: SkyContentInfo): void {
     const newValue = {
       ...this.#currentValue,
       ...value,
@@ -23,7 +23,7 @@ export class SkyContentInfoProvider {
     this.#contentInfo.next(newValue);
   }
 
-  public getContentInfo(): Observable<SkyContentInfo> {
+  public getInfo(): Observable<SkyContentInfo> {
     return this.#contentInfo.asObservable();
   }
 }

@@ -109,7 +109,7 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
 
   protected set nodeName(value: string) {
     this.#_nodeName = value;
-    this.#contentInfoProvider.patchContentInfo({ descriptor: value });
+    this.#contentInfoProvider.patchInfo({ descriptor: value });
   }
 
   protected get nodeName(): string {

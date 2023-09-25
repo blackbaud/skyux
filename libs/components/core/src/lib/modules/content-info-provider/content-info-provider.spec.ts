@@ -13,20 +13,20 @@ describe('SkyContentInfoProvider', () => {
   });
 
   it('should get an observable of the content info', () => {
-    const obs = contentInfoProvider.getContentInfo();
+    const obs = contentInfoProvider.getInfo();
     expect(obs).toBeDefined();
   });
 
   it('should receive values from setContentInfo calls', (done) => {
     const contentDescriptorValue = 'value';
-    const obs = contentInfoProvider.getContentInfo();
+    const obs = contentInfoProvider.getInfo();
 
     obs?.subscribe((value) => {
       expect(value.descriptor).toEqual(contentDescriptorValue);
       done();
     });
 
-    contentInfoProvider.patchContentInfo({
+    contentInfoProvider.patchInfo({
       descriptor: contentDescriptorValue,
     });
   });
@@ -34,12 +34,12 @@ describe('SkyContentInfoProvider', () => {
   it('should receive the last value from setContentInfo when a value is set before getting observable', (done) => {
     const contentDescriptorValue = 'value';
 
-    contentInfoProvider.patchContentInfo({ descriptor: 'notTheLastValue' });
-    contentInfoProvider.patchContentInfo({
+    contentInfoProvider.patchInfo({ descriptor: 'notTheLastValue' });
+    contentInfoProvider.patchInfo({
       descriptor: contentDescriptorValue,
     });
 
-    const obs = contentInfoProvider.getContentInfo();
+    const obs = contentInfoProvider.getInfo();
 
     obs?.subscribe((value) => {
       expect(value.descriptor).toEqual(contentDescriptorValue);
