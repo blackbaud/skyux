@@ -4,17 +4,13 @@ import {
   Component,
   ElementRef,
   Input,
-  OnDestroy,
   OnInit,
   Optional,
   ViewChild,
   inject,
 } from '@angular/core';
 import { ITreeState, TreeNode } from '@blackbaud/angular-tree-component';
-import { SkyDefaultInputProvider } from '@skyux/core';
-import { SkyLibResourcesService } from '@skyux/i18n';
-
-import { Subject, takeUntil } from 'rxjs';
+import { SkyContentDescriptorProvider } from '@skyux/core';
 
 import { SkyAngularTreeAdapterService } from './angular-tree-adapter.service';
 import { SkyAngularTreeWrapperComponent } from './angular-tree-wrapper.component';
@@ -32,11 +28,9 @@ import { SkyAngularTreeWrapperComponent } from './angular-tree-wrapper.component
 @Component({
   selector: 'sky-angular-tree-node',
   templateUrl: './angular-tree-node.component.html',
-  providers: [SkyAngularTreeAdapterService, SkyDefaultInputProvider],
+  providers: [SkyAngularTreeAdapterService, SkyContentDescriptorProvider],
 })
-export class SkyAngularTreeNodeComponent
-  implements AfterViewInit, OnDestroy, OnInit
-{
+export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
   /**
    * The `index` property from the parent `ng-template`.
    * @required
@@ -113,7 +107,14 @@ export class SkyAngularTreeNodeComponent
   @ViewChild('nodeContentWrapper', { read: ElementRef })
   public nodeContentWrapperRef: ElementRef | undefined;
 
-  protected nodeName = '';
+  protected set nodeName(value: string) {
+    this.#_nodeName = value;
+    this.#contentDescriptorProvider.setContentDescriptor(value);
+  }
+
+  protected get nodeName(): string {
+    return this.#_nodeName;
+  }
 
   #focusableChildren: HTMLElement[] = [];
 
@@ -127,22 +128,20 @@ export class SkyAngularTreeNodeComponent
 
   #_tabIndex = -1;
 
+  #_nodeName = '';
+
   #adapterService: SkyAngularTreeAdapterService;
   #changeDetectorRef: ChangeDetectorRef;
-  #contextMenuResourceUnsubscribe = new Subject<void>();
-  #defaultInputProvider = inject(SkyDefaultInputProvider);
-  #resourceSvc: SkyLibResourcesService;
+  #contentDescriptorProvider = inject(SkyContentDescriptorProvider);
   #skyAngularTreeWrapper: SkyAngularTreeWrapperComponent | undefined;
 
   constructor(
     changeDetectorRef: ChangeDetectorRef,
     adapterService: SkyAngularTreeAdapterService,
-    resourceSvc: SkyLibResourcesService,
     @Optional() skyAngularTreeWrapper?: SkyAngularTreeWrapperComponent
   ) {
     this.#changeDetectorRef = changeDetectorRef;
     this.#adapterService = adapterService;
-    this.#resourceSvc = resourceSvc;
     this.#skyAngularTreeWrapper = skyAngularTreeWrapper;
   }
 
@@ -155,7 +154,6 @@ export class SkyAngularTreeNodeComponent
 
     if (this.node) {
       this.nodeName = this.node.data.name;
-      this.#updateDefaultContextMenuAriaLabel();
       // Because we're binding the checkbox to node's children properties, we need to manually control change detection.
       // Here, we listen to the tree's state and force change detection in the setters if the value has changed.
       this.node.treeModel.subscribeToState((state: ITreeState) => {
@@ -172,7 +170,6 @@ export class SkyAngularTreeNodeComponent
       this.node.treeModel.subscribe('updateData', () => {
         if (this.node) {
           this.nodeName = this.node.data.name;
-          this.#updateDefaultContextMenuAriaLabel();
         }
       });
 
@@ -197,11 +194,6 @@ export class SkyAngularTreeNodeComponent
         );
       }
     }, 1000);
-  }
-
-  public ngOnDestroy(): void {
-    this.#contextMenuResourceUnsubscribe.next();
-    this.#contextMenuResourceUnsubscribe.complete();
   }
 
   /**
@@ -347,15 +339,5 @@ export class SkyAngularTreeNodeComponent
     } else {
       return false;
     }
-  }
-
-  #updateDefaultContextMenuAriaLabel(): void {
-    this.#contextMenuResourceUnsubscribe.next();
-    this.#resourceSvc
-      .getString('skyux_angular_tree_context_menu_aria_default', this.nodeName)
-      .pipe(takeUntil(this.#contextMenuResourceUnsubscribe))
-      .subscribe((resourceString) =>
-        this.#defaultInputProvider.setValue('dropdown', 'label', resourceString)
-      );
   }
 }
