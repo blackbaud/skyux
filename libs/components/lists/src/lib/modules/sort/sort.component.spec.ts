@@ -115,6 +115,14 @@ describe('Sort component', () => {
     );
   }));
 
+  it('creates a sort dropdown with a specified aria label', fakeAsync(() => {
+    component.ariaLabel = 'Test label';
+    fixture.detectChanges();
+    tick();
+    const dropdownButtonEl = getDropdownButtonEl();
+    expect(dropdownButtonEl?.getAttribute('aria-label')).toBe('Test label');
+  }));
+
   it('should use the default input provider for aria label when applicable', () => {
     defaultInputProvider.setValue('sort', 'ariaLabel', 'Default label');
     fixture.detectChanges();
@@ -123,14 +131,16 @@ describe('Sort component', () => {
     expect(dropdownButtonEl?.getAttribute('aria-label')).toBe('Default label');
   });
 
-  // it('should not use the default input provider for aria label when overwritten', () => {
-  //   defaultInputProvider.setValue('sort', 'ariaLabel', 'Default label');
-  //   component.ariaLabel = 'Overwritten label';
-  //   fixture.detectChanges();
+  it('should not use the default input provider for aria label when overwritten', () => {
+    defaultInputProvider.setValue('sort', 'ariaLabel', 'Default label');
+    component.ariaLabel = 'Overwritten label';
+    fixture.detectChanges();
 
-  //   const dropdownButtonEl = getDropdownButtonEl();
-  //   expect(dropdownButtonEl?.getAttribute('aria-label')).toBe('Overwritten label');
-  // });
+    const dropdownButtonEl = getDropdownButtonEl();
+    expect(dropdownButtonEl?.getAttribute('aria-label')).toBe(
+      'Overwritten label'
+    );
+  });
 
   it('changes active item on click and emits proper event', fakeAsync(() => {
     fixture.detectChanges();
