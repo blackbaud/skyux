@@ -1205,6 +1205,7 @@ describe('Dropdown component', function () {
     }));
 
     it('should set the correct aria label when it is specified via SkyContentProvider', fakeAsync(() => {
+      fixture.componentInstance.buttonType = 'context-menu';
       contentDescriptorProvider.setContentDescriptor('Robert Hernandez');
 
       detectChangesFakeAsync();
@@ -1216,6 +1217,7 @@ describe('Dropdown component', function () {
     }));
 
     it('should set the correct aria label when it is specified via a consumer and SkyContentDescriptorProvider', fakeAsync(() => {
+      fixture.componentInstance.buttonType = 'context-menu';
       contentDescriptorProvider.setContentDescriptor('default label');
       fixture.componentInstance.label = 'consumer label';
 
