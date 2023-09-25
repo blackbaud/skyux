@@ -1,5 +1,5 @@
 import { Component, Type } from '@angular/core';
-import { SkyModalService } from '@skyux/modals';
+import { SkyModalService } from '../modal.service';
 
 /**
  * Use this component to launch modals using the modal service.

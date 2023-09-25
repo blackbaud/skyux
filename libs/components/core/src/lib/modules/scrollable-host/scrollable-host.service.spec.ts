@@ -1,7 +1,8 @@
 import { ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
-import { SkyAppWindowRef, SkyResizeObserverService } from '@skyux/core';
+import { SkyAppWindowRef } from '../window/window-ref';
+import { SkyResizeObserverService } from '../resize-observer/resize-observer.service';
 
 import { Subject } from 'rxjs';
 import { delay, take, takeUntil } from 'rxjs/operators';

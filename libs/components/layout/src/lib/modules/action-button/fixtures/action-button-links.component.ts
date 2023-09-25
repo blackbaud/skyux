@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { SkyActionButtonPermalink } from '@skyux/layout';
+import { SkyActionButtonPermalink } from '../action-button-permalink';
 
 import { SkyActionButtonContainerComponent } from '../action-button-container.component';
 

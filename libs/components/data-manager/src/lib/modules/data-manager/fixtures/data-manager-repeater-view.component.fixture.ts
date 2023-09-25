@@ -5,11 +5,9 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import {
-  SkyDataManagerService,
-  SkyDataManagerState,
-  SkyDataViewConfig,
-} from '@skyux/data-manager';
+import { SkyDataManagerService } from '../data-manager.service';
+import { SkyDataManagerState } from '../models/data-manager-state';
+import { SkyDataViewConfig } from '../models/data-view-config';
 
 import { DataManagerTestItem } from './data-manager-test-item';
 

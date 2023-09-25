@@ -1,9 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-import {
-  SkyDataManagerService,
-  SkyDataManagerState,
-} from '@skyux/data-manager';
+import { SkyDataManagerService } from './data-manager.service';
+import { SkyDataManagerState } from './models/data-manager-state';
 import { SkyBackToTopMessageType } from '@skyux/layout';
 
 import { DataViewCardFixtureComponent } from './fixtures/data-manager-card-view.component.fixture';
