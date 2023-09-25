@@ -15,7 +15,8 @@ export { SkyAffixModule } from './lib/modules/affix/affix.module';
 export { SkyAffixService } from './lib/modules/affix/affix.service';
 export { SkyAffixer } from './lib/modules/affix/affixer';
 
-export { SkyContentDescriptorProvider } from './lib/modules/content-descriptor-provider/content-descriptor-provider';
+export { SkyContentInfoProvider } from './lib/modules/content-info-provider/content-info-provider';
+export { SkyContentInfo } from './lib/modules/content-info-provider/content-info';
 
 export { SkyDefaultInputProvider } from './lib/modules/default-input-provider/default-input-provider';
 

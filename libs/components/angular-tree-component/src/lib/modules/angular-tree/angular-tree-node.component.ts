@@ -10,7 +10,7 @@ import {
   inject,
 } from '@angular/core';
 import { ITreeState, TreeNode } from '@blackbaud/angular-tree-component';
-import { SkyContentDescriptorProvider } from '@skyux/core';
+import { SkyContentInfoProvider } from '@skyux/core';
 
 import { SkyAngularTreeAdapterService } from './angular-tree-adapter.service';
 import { SkyAngularTreeWrapperComponent } from './angular-tree-wrapper.component';
@@ -28,7 +28,7 @@ import { SkyAngularTreeWrapperComponent } from './angular-tree-wrapper.component
 @Component({
   selector: 'sky-angular-tree-node',
   templateUrl: './angular-tree-node.component.html',
-  providers: [SkyAngularTreeAdapterService, SkyContentDescriptorProvider],
+  providers: [SkyAngularTreeAdapterService, SkyContentInfoProvider],
 })
 export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
   /**
@@ -109,7 +109,7 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
 
   protected set nodeName(value: string) {
     this.#_nodeName = value;
-    this.#contentDescriptorProvider.setContentDescriptor(value);
+    this.#contentInfoProvider.patchContentInfo({ descriptor: value });
   }
 
   protected get nodeName(): string {
@@ -132,7 +132,7 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
 
   #adapterService: SkyAngularTreeAdapterService;
   #changeDetectorRef: ChangeDetectorRef;
-  #contentDescriptorProvider = inject(SkyContentDescriptorProvider);
+  #contentInfoProvider = inject(SkyContentInfoProvider);
   #skyAngularTreeWrapper: SkyAngularTreeWrapperComponent | undefined;
 
   constructor(

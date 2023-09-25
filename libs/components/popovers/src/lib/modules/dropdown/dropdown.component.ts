@@ -17,7 +17,7 @@ import {
   SkyAffixHorizontalAlignment,
   SkyAffixService,
   SkyAffixer,
-  SkyContentDescriptorProvider,
+  SkyContentInfoProvider,
   SkyOverlayInstance,
   SkyOverlayService,
 } from '@skyux/core';
@@ -178,7 +178,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     }
   }
 
-  #contentDescriptorProvider = inject(SkyContentDescriptorProvider, {
+  #contentInfoProvider = inject(SkyContentInfoProvider, {
     optional: true,
   });
 
@@ -230,12 +230,10 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   #_triggerButton: ElementRef | undefined;
 
   constructor() {
-    this.#contentDescriptorProvider
-      ?.getContentDescriptor()
-      .subscribe((value) => {
-        this.contentDescriptor = value;
-        this.#changeDetector.markForCheck();
-      });
+    this.#contentInfoProvider?.getContentInfo().subscribe((info) => {
+      this.contentDescriptor = info.descriptor;
+      this.#changeDetector.markForCheck();
+    });
   }
 
   public ngOnInit(): void {
