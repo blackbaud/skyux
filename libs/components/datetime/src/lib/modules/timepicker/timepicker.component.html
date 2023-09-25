@@ -8,7 +8,7 @@
 </div>
 
 <ng-template #inputTemplateRef>
-  <ng-content></ng-content>
+  <ng-content />
 </ng-template>
 
 <ng-template #triggerButtonTemplateRef>
@@ -26,7 +26,7 @@
       (click)="onTriggerButtonClick()"
       #triggerButtonRef
     >
-      <sky-icon icon="clock" size="lg"></sky-icon>
+      <sky-icon icon="clock" size="lg" />
     </button>
   </div>
 </ng-template>

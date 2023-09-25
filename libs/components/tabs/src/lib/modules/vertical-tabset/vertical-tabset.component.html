@@ -24,7 +24,7 @@
     [@tabGroupEnter]="tabService.animationTabsVisibleState"
     [ngClass]="{ 'sky-vertical-tabset-hidden': !tabService.tabsVisible() }"
   >
-    <ng-content></ng-content>
+    <ng-content />
   </div>
   <div
     *ngIf="maintainTabContent || tabService.contentVisible()"
@@ -41,7 +41,7 @@
       (click)="tabService.showTabs()"
       class="sky-btn sky-btn-primary sky-vertical-tabset-show-tabs-btn"
     >
-      <sky-icon icon="chevron-left"></sky-icon>
+      <sky-icon icon="chevron-left" />
       {{ showTabsText }}
     </button>
   </div>
