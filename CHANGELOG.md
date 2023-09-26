@@ -1,5 +1,12 @@
 # Changelog
 
+## [8.10.4](https://github.com/blackbaud/skyux/compare/8.10.3...8.10.4) (2023-09-26)
+
+
+### Bug Fixes
+
+* **components/phone-field:** new Canadian area codes properly validate ([#1754](https://github.com/blackbaud/skyux/issues/1754)) ([170af61](https://github.com/blackbaud/skyux/commit/170af61d841b9a56d5197b841a9be9f384303cdf))
+
 ## [9.2.1](https://github.com/blackbaud/skyux/compare/9.2.0...9.2.1) (2023-09-20)
 
 

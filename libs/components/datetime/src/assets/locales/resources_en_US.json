@@ -118,5 +118,9 @@
   "skyux_date_range_picker_after_date_label": {
     "_description": "The label for the date picker of the After format type.",
     "message": "After date"
+  },
+  "skyux_date_range_picker_default_aria_label": {
+    "_description": "Context specific default aria label for the datepickers within a date range picker",
+    "message": "{0} for {1}"
   }
 }
