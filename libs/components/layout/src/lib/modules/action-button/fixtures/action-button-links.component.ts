@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { SkyActionButtonPermalink } from '../action-button-permalink';
 
 import { SkyActionButtonContainerComponent } from '../action-button-container.component';
+import { SkyActionButtonPermalink } from '../action-button-permalink';
 
 @Component({
   selector: 'sky-action-button-skyhref',

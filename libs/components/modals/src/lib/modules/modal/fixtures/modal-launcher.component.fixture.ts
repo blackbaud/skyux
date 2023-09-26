@@ -1,4 +1,5 @@
 import { Component, Type } from '@angular/core';
+
 import { SkyModalService } from '../modal.service';
 
 /**

@@ -4,10 +4,10 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { SkyDataManagerService } from '../data-manager.service';
-import { SkyDataManagerState } from '../models/data-manager-state';
 
 import { SkyDataManagerComponent } from '../data-manager.component';
+import { SkyDataManagerService } from '../data-manager.service';
+import { SkyDataManagerState } from '../models/data-manager-state';
 
 import { DataViewRepeaterFixtureComponent } from './data-manager-repeater-view.component.fixture';
 import { DataManagerTestItem } from './data-manager-test-item';
