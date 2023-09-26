@@ -20,6 +20,9 @@ import {
 const RESOURCES: { [locale: string]: SkyLibResources } = {
   'EN-US': {
     skyux_dropdown_context_menu_default_label: { message: 'Context menu' },
+    skyux_dropdown_context_menu_with_content_descriptor_default_label: {
+      message: 'Context menu for {0}',
+    },
   },
 };
 
