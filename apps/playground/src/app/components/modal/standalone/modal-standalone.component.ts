@@ -9,7 +9,7 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
     <sky-modal-header>Modal test</sky-modal-header>
     <sky-modal-content> Hello World! </sky-modal-content>
     <sky-modal-footer>
-      <button (click)="instance.close()">Close</button>
+      <button type="button" (click)="instance.close()">Close</button>
     </sky-modal-footer>
   </sky-modal> `,
 })
