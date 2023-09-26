@@ -409,7 +409,6 @@ jobs:
                 listJobsForWorkflowRun: github.rest.actions.listJobsForWorkflowRun
               },
               ${{ contains( fromJSON( needs.install-deps.outputs.pr-labels ), 'screenshot removed' ) }},
-              options,
               (url) => fetch(url, options),
               (number) => process.exit(number)
             );
