@@ -78,7 +78,6 @@ describe('verify-e2e', () => {
         listJobsForWorkflowRun,
       },
       true, // allowMissingScreenshots
-      {}, // percyFetchOptions
       fetch
     );
     expect(coreSetFailed).not.toHaveBeenCalled();
@@ -139,7 +138,6 @@ describe('verify-e2e', () => {
         listJobsForWorkflowRun,
       },
       true, // allowMissingScreenshots
-      {}, // percyFetchOptions
       fetch
     );
     expect(coreSetFailed).not.toHaveBeenCalled();
@@ -173,7 +171,6 @@ describe('verify-e2e', () => {
         listJobsForWorkflowRun,
       },
       true, // allowMissingScreenshots
-      {}, // percyFetchOptions
       fetch
     );
     expect(coreSetFailed).not.toHaveBeenCalled();
@@ -222,7 +219,6 @@ describe('verify-e2e', () => {
         listJobsForWorkflowRun,
       },
       true, // allowMissingScreenshots
-      {}, // percyFetchOptions
       fetch
     );
     expect(coreSetFailed).not.toHaveBeenCalled();
@@ -271,7 +267,6 @@ describe('verify-e2e', () => {
         listJobsForWorkflowRun,
       },
       true, // allowMissingScreenshots
-      {}, // percyFetchOptions
       fetch
     );
     expect(coreInfo).toHaveBeenCalledWith('❌ percy/skyux-project1');
@@ -310,7 +305,6 @@ describe('verify-e2e', () => {
         listJobsForWorkflowRun,
       },
       true, // allowMissingScreenshots
-      {}, // percyFetchOptions
       fetch
     );
     expect(coreSetFailed).toHaveBeenCalledWith(
@@ -343,7 +337,6 @@ describe('verify-e2e', () => {
         listJobsForWorkflowRun,
       },
       false, // allowMissingScreenshots
-      {}, // percyFetchOptions
       fetch
     );
     expect(coreSetFailed).not.toHaveBeenCalled();
@@ -382,7 +375,6 @@ describe('verify-e2e', () => {
         listJobsForWorkflowRun,
       },
       false, // allowMissingScreenshots
-      {}, // percyFetchOptions
       fetch,
       exit
     );
@@ -426,7 +418,6 @@ describe('verify-e2e', () => {
         listJobsForWorkflowRun,
       },
       false, // allowMissingScreenshots
-      {}, // percyFetchOptions
       fetch,
       exit
     );

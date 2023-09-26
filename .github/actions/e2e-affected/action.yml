@@ -39,7 +39,11 @@ runs:
             .then(({stdout}) => stdout.trim().split('\n'));
 
           const { getLastGoodPercyBuild } = require('./dist/libs/sdk/e2e-schematics/src/workflow');
-          const lastGoodCommit = await getLastGoodPercyBuild('skyux-${{ inputs.project }}', shas, options);
+          const lastGoodCommit = await getLastGoodPercyBuild(
+            'skyux-${{ inputs.project }}',
+            shas,
+            (url) => fetch(url, options)
+          );
 
           if (!lastGoodCommit) {
             core.info('No good Percy test found, running e2e tests');

@@ -1,4 +1,4 @@
-import { Fetch, checkPercyBuild } from '../percy-api/percy-api';
+import { BuildSummary, Fetch, checkPercyBuild } from '../percy-api/percy-api';
 
 type Status = { context: string; state: string };
 type WorkflowJob = { name: string; steps: WorkflowJobStep[] };
@@ -43,23 +43,16 @@ export async function verifyE2e(
       ref: string;
       per_page: number;
       page: number;
-    }) => Promise<{
-      data: [Status];
-    }>;
+    }) => Promise<{ data: [Status] }>;
     listJobsForWorkflowRun: (params: {
       owner: string;
       repo: string;
       run_id: string;
       per_page: number;
       page: number;
-    }) => Promise<{
-      data: {
-        jobs: WorkflowJob[];
-      };
-    }>;
+    }) => Promise<{ data: { jobs: WorkflowJob[] } }>;
   },
   allowMissingScreenshots: boolean,
-  percyFetchOptions: object,
   /* istanbul ignore next */
   fetchClient: Fetch = fetch,
   /* istanbul ignore next */
@@ -117,22 +110,19 @@ export async function verifyE2e(
           }[] = [];
           await Promise.all(
             percyProjects.map((project) =>
-              checkPercyBuild(
-                `skyux-${project}`,
-                headSha,
-                percyFetchOptions,
-                fetchClient
-              ).then((result) => {
-                if (!result.approved) {
-                  notApproved.push(result.project);
+              checkPercyBuild(`skyux-${project}`, headSha, fetchClient).then(
+                (result: BuildSummary) => {
+                  if (!result.approved) {
+                    notApproved.push(result.project);
+                  }
+                  if (result.removedSnapshots.length > 0) {
+                    missingScreenshots.push({
+                      project: result.project,
+                      removedSnapshots: result.removedSnapshots,
+                    });
+                  }
                 }
-                if (result.removedSnapshots.length > 0) {
-                  missingScreenshots.push({
-                    project: result.project,
-                    removedSnapshots: result.removedSnapshots,
-                  });
-                }
-              })
+              )
             )
           );
           if (notApproved.length > 0) {
@@ -150,6 +140,18 @@ export async function verifyE2e(
                     .join('')}`
               )
               .join(`\n`)}`;
+            const missingScreenshotMessageForSlack = `Projects with missing screenshots: ${missingScreenshots
+              .map(
+                (result) =>
+                  ` **${result.project}** (${result.removedSnapshots.join(
+                    ', '
+                  )})`
+              )
+              .join(`; `)}`;
+            core.setOutput(
+              'missingScreenshots',
+              missingScreenshotMessageForSlack
+            );
             core.setFailed(missingScreenshotMessage);
             return exit(1);
           }

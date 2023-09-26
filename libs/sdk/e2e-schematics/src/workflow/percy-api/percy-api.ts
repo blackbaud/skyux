@@ -27,6 +27,12 @@ type Build = {
   };
 };
 
+export type BuildSummary = {
+  project: string;
+  approved: boolean;
+  removedSnapshots: string[];
+};
+
 export type Fetch = (
   input: RequestInfo | URL,
   init?: RequestInit
@@ -43,14 +49,10 @@ type Snapshot = {
 };
 
 function getFetchJson(
-  fetchClient: (
-    input: RequestInfo | URL,
-    init?: RequestInit
-  ) => Promise<Response>,
-  options: object
+  fetchClient: (input: RequestInfo | URL) => Promise<Response>
 ): FetchJson {
   return async (url: string, name: string) =>
-    fetchClient(url, options)
+    fetchClient(url)
       .then((res) => res.json())
       .then((res) => res.data)
       .catch((error) => {
@@ -61,15 +63,10 @@ function getFetchJson(
 export async function checkPercyBuild(
   project: string,
   commitSha: string,
-  options: object,
   /* istanbul ignore next */
   fetchClient: Fetch = fetch
-): Promise<{
-  project: string;
-  approved: boolean;
-  removedSnapshots: string[];
-}> {
-  const fetchJson = getFetchJson(fetchClient, options);
+): Promise<BuildSummary> {
+  const fetchJson = getFetchJson(fetchClient);
   try {
     const projectId = await getProjectId(project, fetchJson);
     const build = await getBuilds(projectId, [commitSha], fetchJson).then(
@@ -100,11 +97,10 @@ export async function checkPercyBuild(
 export async function getLastGoodPercyBuild(
   project: string,
   shaArray: string[],
-  options: object,
   /* istanbul ignore next */
   fetchClient: Fetch = fetch
 ): Promise<string> {
-  const fetchJson = getFetchJson(fetchClient, options);
+  const fetchJson = getFetchJson(fetchClient);
   try {
     const projectId = await getProjectId(project, fetchJson);
     const builds = await getBuilds(projectId, shaArray, fetchJson);
