@@ -145,6 +145,7 @@
           aria-label="Bulleted list"
           class="sky-btn sky-btn-default sky-btn-icon"
           title="Bulleted list"
+          type="button"
           [disabled]="disabled"
           (click)="execCommand('insertUnorderedList')"
         >
@@ -154,6 +155,7 @@
           aria-label="Numbered list"
           class="sky-btn sky-btn-default sky-btn-icon"
           title="Numbered list"
+          type="button"
           [disabled]="disabled"
           (click)="execCommand('insertOrderedList')"
         >
@@ -167,6 +169,7 @@
           aria-label="Align left"
           class="sky-btn sky-btn-default sky-btn-icon"
           title="Align left"
+          type="button"
           [disabled]="disabled"
           (click)="execCommand('justifyLeft')"
         >
@@ -176,6 +179,7 @@
           aria-label="Align center"
           class="sky-btn sky-btn-default sky-btn-icon"
           title="Align center"
+          type="button"
           [disabled]="disabled"
           (click)="execCommand('justifyCenter')"
         >
@@ -185,6 +189,7 @@
           aria-label="Align right"
           class="sky-btn sky-btn-default sky-btn-icon"
           title="Align right"
+          type="button"
           [disabled]="disabled"
           (click)="execCommand('justifyRight')"
         >
@@ -198,6 +203,7 @@
           aria-label="Outdent"
           class="sky-btn sky-btn-default sky-btn-icon"
           title="Outdent"
+          type="button"
           [disabled]="disabled"
           (click)="execCommand('outdent')"
         >
@@ -207,6 +213,7 @@
           aria-label="Indent"
           class="sky-btn sky-btn-default sky-btn-icon"
           title="Indent"
+          type="button"
           [disabled]="disabled"
           (click)="execCommand('indent')"
         >
@@ -220,6 +227,7 @@
           aria-label="Undo"
           class="sky-btn sky-btn-default sky-btn-icon"
           title="Undo"
+          type="button"
           [disabled]="disabled"
           (click)="execCommand('undo')"
         >
@@ -229,6 +237,7 @@
           aria-label="Redo"
           class="sky-btn sky-btn-default sky-btn-icon"
           title="Redo"
+          type="button"
           [disabled]="disabled"
           (click)="execCommand('redo')"
         >
@@ -242,6 +251,7 @@
           aria-label="Link"
           class="sky-btn sky-btn-default sky-btn-icon"
           title="Link"
+          type="button"
           [disabled]="disabled"
           [ngClass]="{
             'icon-btn-active': styleState.linkState
@@ -254,6 +264,7 @@
           aria-label="Unlink"
           class="sky-btn sky-btn-default sky-btn-icon"
           title="Unlink"
+          type="button"
           [disabled]="!styleState.linkState || disabled"
           (click)="unlink()"
         >
