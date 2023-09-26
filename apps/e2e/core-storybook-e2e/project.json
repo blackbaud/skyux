@@ -11,6 +11,12 @@
         "devServerTarget": "core-storybook:storybook",
         "testingType": "e2e",
         "baseUrl": "http://localhost:4400"
+      },
+      "configurations": {
+        "ci": {
+          "devServerTarget": "core-storybook:storybook:ci",
+          "browser": "chrome"
+        }
       }
     },
     "lint": {

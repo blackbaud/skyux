@@ -14,7 +14,8 @@
       },
       "configurations": {
         "ci": {
-          "skipServe": true
+          "devServerTarget": "modals-storybook:storybook:ci",
+          "browser": "chrome"
         }
       }
     },

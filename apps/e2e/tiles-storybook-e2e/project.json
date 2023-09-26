@@ -14,7 +14,8 @@
       },
       "configurations": {
         "ci": {
-          "skipServe": true
+          "devServerTarget": "tiles-storybook:storybook:ci",
+          "browser": "chrome"
         }
       }
     },

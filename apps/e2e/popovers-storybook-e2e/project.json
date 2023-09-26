@@ -14,7 +14,8 @@
       },
       "configurations": {
         "ci": {
-          "skipServe": true
+          "devServerTarget": "popovers-storybook:storybook:ci",
+          "browser": "chrome"
         }
       }
     },
