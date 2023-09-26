@@ -29,6 +29,7 @@ jobs:
       node-version: ${{ steps.setup-node.outputs.node-version }}
       parameters: ${{ steps.parameters.outputs.parameters }}
       pr-number: ${{ steps.set-shas.outputs.pr-number }}
+      pr-labels: ${{ steps.set-shas.outputs.pr-labels }}
       base: ${{ steps.set-shas.outputs.base }}
       head: ${{ steps.set-shas.outputs.head }}
     steps:
@@ -388,6 +389,13 @@ jobs:
             const e2eProjects = ${{ needs.install-deps.outputs.parameters }}.e2eTargets.map(project => project.project);
             const { verifyE2e } = require('./dist/libs/sdk/e2e-schematics/src/workflow');
 
+            const options = {
+              method: 'GET',
+              headers: {
+                Authorization: 'Token ${{ inputs.percy-token }}'
+              }
+            };
+
             await verifyE2e(
               e2eProjects,
               context.repo.owner,
@@ -398,5 +406,7 @@ jobs:
               {
                 listCommitStatusesForRef: github.rest.repos.listCommitStatusesForRef,
                 listJobsForWorkflowRun: github.rest.actions.listJobsForWorkflowRun
-              }
+              },
+              ${{ contains( fromJSON( needs.install-deps.outputs.pr-labels ), 'screenshot removed' ) }},
+              options
             );

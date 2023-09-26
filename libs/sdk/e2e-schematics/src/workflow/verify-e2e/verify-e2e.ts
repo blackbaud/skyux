@@ -1,3 +1,5 @@
+import { Fetch, checkPercyBuild } from '../percy-api/percy-api';
+
 type Status = { context: string; state: string };
 type WorkflowJob = { name: string; steps: WorkflowJobStep[] };
 type WorkflowJobStep = { name: string; conclusion: string };
@@ -16,7 +18,11 @@ type WorkflowStepSummary = { project: string; skipped: boolean };
  *   {
  *     listCommitStatusesForRef: github.rest.repos.listCommitStatusesForRef,
  *     listJobsForWorkflowRun: github.rest.actions.listJobsForWorkflowRun
- *   }
+ *   },
+ *   allowMissingScreenshots,
+ *   percyFetchOptions,
+ *   fetch,
+ *   exit
  * );
  */
 export async function verifyE2e(
@@ -28,6 +34,7 @@ export async function verifyE2e(
   core: {
     info: (message: string) => void;
     setFailed: (message: string) => void;
+    setOutput: (name: string, value: string) => void;
   },
   githubApi: {
     listCommitStatusesForRef: (params: {
@@ -50,8 +57,14 @@ export async function verifyE2e(
         jobs: WorkflowJob[];
       };
     }>;
-  }
-) {
+  },
+  allowMissingScreenshots: boolean,
+  percyFetchOptions: object,
+  /* istanbul ignore next */
+  fetchClient: Fetch = fetch,
+  /* istanbul ignore next */
+  exit: (code?: number) => void = process.exit
+): Promise<void> {
   if (e2eProjects.length > 0 && e2eProjects[0] !== 'skip') {
     // Verify that Percy has finished processing the E2E Visual Review and that all snapshots have passed.
 
@@ -84,11 +97,11 @@ export async function verifyE2e(
     });
     skippedE2e.forEach((project) => core.info(`⏭️ ${project}`));
 
-    const percyProjects = latestPercyStatuses
-      .map((status) => status.context.replace(/^percy\/skyux-/, ''))
-      .concat(skippedE2e);
+    const percyProjects = latestPercyStatuses.map((status) =>
+      status.context.replace(/^percy\/skyux-/, '')
+    );
     const missingProjects = e2eProjects.filter(
-      (project) => !percyProjects.includes(project)
+      (project) => !percyProjects.concat(skippedE2e).includes(project)
     );
 
     if (missingProjects.length === 0) {
@@ -96,6 +109,51 @@ export async function verifyE2e(
       if (latestPercyStatuses.some((status) => status.state !== 'success')) {
         core.setFailed(`E2E Visual Review not complete.`);
       } else {
+        if (!allowMissingScreenshots) {
+          const notApproved: string[] = [];
+          const missingScreenshots: {
+            project: string;
+            removedSnapshots: string[];
+          }[] = [];
+          await Promise.all(
+            percyProjects.map((project) =>
+              checkPercyBuild(
+                `skyux-${project}`,
+                headSha,
+                percyFetchOptions,
+                fetchClient
+              ).then((result) => {
+                if (!result.approved) {
+                  notApproved.push(result.project);
+                }
+                if (result.removedSnapshots.length > 0) {
+                  missingScreenshots.push({
+                    project: result.project,
+                    removedSnapshots: result.removedSnapshots,
+                  });
+                }
+              })
+            )
+          );
+          if (notApproved.length > 0) {
+            core.setFailed(
+              `Projects not yet approved: ${notApproved.join(', ')}`
+            );
+            return exit(1);
+          }
+          if (missingScreenshots.length > 0) {
+            const missingScreenshotMessage = `Projects with missing screenshots:\n${missingScreenshots
+              .map(
+                (result) =>
+                  ` * ${result.project}\n${result.removedSnapshots
+                    .map((s) => `   - ${s}\n`)
+                    .join('')}`
+              )
+              .join(`\n`)}`;
+            core.setFailed(missingScreenshotMessage);
+            return exit(1);
+          }
+        }
         core.info('E2E Visual Review passed!');
       }
     } else {

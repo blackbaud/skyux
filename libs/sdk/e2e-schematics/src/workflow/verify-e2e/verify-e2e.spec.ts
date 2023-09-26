@@ -1,7 +1,14 @@
-import { verifyE2e } from './verify-e2e';
-
 describe('verify-e2e', () => {
-  function setupTest() {
+  async function setupTest() {
+    const checkPercyBuild = jest.fn().mockResolvedValue({
+      project: 'project1',
+      approved: true,
+      removedSnapshots: [],
+    });
+    jest.mock('../percy-api/percy-api', () => ({
+      checkPercyBuild,
+    }));
+    const { verifyE2e } = await import('./verify-e2e');
     const jobs = [
       {
         name: 'End to end tests (project1)',
@@ -20,8 +27,12 @@ describe('verify-e2e', () => {
       },
     ];
     return {
+      checkPercyBuild,
+      verifyE2e,
       coreInfo: jest.fn(),
       coreSetFailed: jest.fn(),
+      coreSetOutput: jest.fn(),
+      fetch: jest.fn(),
       statuses,
       listCommitStatusesForRef: jest.fn().mockReturnValue({
         data: statuses,
@@ -32,16 +43,25 @@ describe('verify-e2e', () => {
           jobs,
         },
       }),
+      exit: jest.fn(),
     };
   }
 
+  afterEach(() => {
+    jest.resetAllMocks();
+    jest.resetModules();
+  });
+
   it('should pass', async () => {
     const {
+      verifyE2e,
       coreInfo,
       coreSetFailed,
+      coreSetOutput,
+      fetch,
       listCommitStatusesForRef,
       listJobsForWorkflowRun,
-    } = setupTest();
+    } = await setupTest();
     await verifyE2e(
       ['project1'],
       'owner',
@@ -51,11 +71,15 @@ describe('verify-e2e', () => {
       {
         info: coreInfo,
         setFailed: coreSetFailed,
+        setOutput: coreSetOutput,
       },
       {
         listCommitStatusesForRef,
         listJobsForWorkflowRun,
-      }
+      },
+      true, // allowMissingScreenshots
+      {}, // percyFetchOptions
+      fetch
     );
     expect(coreSetFailed).not.toHaveBeenCalled();
     expect(coreInfo).toHaveBeenCalledWith('E2E Visual Review passed!');
@@ -63,11 +87,13 @@ describe('verify-e2e', () => {
 
   it('should page', async () => {
     const {
+      verifyE2e,
       coreInfo,
       coreSetFailed,
+      coreSetOutput,
       listCommitStatusesForRef,
       listJobsForWorkflowRun,
-    } = setupTest();
+    } = await setupTest();
     listCommitStatusesForRef.mockImplementation(({ page }) => {
       if (page === 1) {
         return {
@@ -106,11 +132,15 @@ describe('verify-e2e', () => {
       {
         info: coreInfo,
         setFailed: coreSetFailed,
+        setOutput: coreSetOutput,
       },
       {
         listCommitStatusesForRef,
         listJobsForWorkflowRun,
-      }
+      },
+      true, // allowMissingScreenshots
+      {}, // percyFetchOptions
+      fetch
     );
     expect(coreSetFailed).not.toHaveBeenCalled();
     expect(listCommitStatusesForRef).toHaveBeenCalledTimes(2);
@@ -120,11 +150,13 @@ describe('verify-e2e', () => {
 
   it('should handle "skip" project', async () => {
     const {
+      verifyE2e,
       coreInfo,
       coreSetFailed,
+      coreSetOutput,
       listCommitStatusesForRef,
       listJobsForWorkflowRun,
-    } = setupTest();
+    } = await setupTest();
     await verifyE2e(
       ['skip'],
       'owner',
@@ -134,11 +166,15 @@ describe('verify-e2e', () => {
       {
         info: coreInfo,
         setFailed: coreSetFailed,
+        setOutput: coreSetOutput,
       },
       {
         listCommitStatusesForRef,
         listJobsForWorkflowRun,
-      }
+      },
+      true, // allowMissingScreenshots
+      {}, // percyFetchOptions
+      fetch
     );
     expect(coreSetFailed).not.toHaveBeenCalled();
     expect(listCommitStatusesForRef).not.toHaveBeenCalled();
@@ -148,11 +184,13 @@ describe('verify-e2e', () => {
 
   it('should handle skipped job', async () => {
     const {
+      verifyE2e,
       coreInfo,
       coreSetFailed,
+      coreSetOutput,
       listCommitStatusesForRef,
       listJobsForWorkflowRun,
-    } = setupTest();
+    } = await setupTest();
     listJobsForWorkflowRun.mockReturnValue({
       data: {
         jobs: [
@@ -177,11 +215,15 @@ describe('verify-e2e', () => {
       {
         info: coreInfo,
         setFailed: coreSetFailed,
+        setOutput: coreSetOutput,
       },
       {
         listCommitStatusesForRef,
         listJobsForWorkflowRun,
-      }
+      },
+      true, // allowMissingScreenshots
+      {}, // percyFetchOptions
+      fetch
     );
     expect(coreSetFailed).not.toHaveBeenCalled();
     expect(coreInfo).toHaveBeenCalledWith('⏭️ project1');
@@ -190,11 +232,13 @@ describe('verify-e2e', () => {
 
   it('should handle non-success statuses', async () => {
     const {
+      verifyE2e,
       coreInfo,
       coreSetFailed,
+      coreSetOutput,
       listCommitStatusesForRef,
       listJobsForWorkflowRun,
-    } = setupTest();
+    } = await setupTest();
     listCommitStatusesForRef.mockReturnValue({
       data: [
         {
@@ -220,11 +264,15 @@ describe('verify-e2e', () => {
       {
         info: coreInfo,
         setFailed: coreSetFailed,
+        setOutput: coreSetOutput,
       },
       {
         listCommitStatusesForRef,
         listJobsForWorkflowRun,
-      }
+      },
+      true, // allowMissingScreenshots
+      {}, // percyFetchOptions
+      fetch
     );
     expect(coreInfo).toHaveBeenCalledWith('❌ percy/skyux-project1');
     expect(coreInfo).toHaveBeenCalledWith('⏳ percy/skyux-project2');
@@ -236,11 +284,13 @@ describe('verify-e2e', () => {
 
   it('should handle missing statuses', async () => {
     const {
+      verifyE2e,
       coreInfo,
       coreSetFailed,
+      coreSetOutput,
       listCommitStatusesForRef,
       listJobsForWorkflowRun,
-    } = setupTest();
+    } = await setupTest();
     listCommitStatusesForRef.mockReturnValue({
       data: [],
     });
@@ -253,14 +303,136 @@ describe('verify-e2e', () => {
       {
         info: coreInfo,
         setFailed: coreSetFailed,
+        setOutput: coreSetOutput,
       },
       {
         listCommitStatusesForRef,
         listJobsForWorkflowRun,
-      }
+      },
+      true, // allowMissingScreenshots
+      {}, // percyFetchOptions
+      fetch
     );
     expect(coreSetFailed).toHaveBeenCalledWith(
       'E2E Visual Review not complete. Missing results for: project1'
+    );
+  });
+
+  it('should check for missing screenshots', async () => {
+    const {
+      verifyE2e,
+      coreInfo,
+      coreSetFailed,
+      coreSetOutput,
+      listCommitStatusesForRef,
+      listJobsForWorkflowRun,
+    } = await setupTest();
+    await verifyE2e(
+      ['project1'],
+      'owner',
+      'repo',
+      'headSha',
+      'run_id',
+      {
+        info: coreInfo,
+        setFailed: coreSetFailed,
+        setOutput: coreSetOutput,
+      },
+      {
+        listCommitStatusesForRef,
+        listJobsForWorkflowRun,
+      },
+      false, // allowMissingScreenshots
+      {}, // percyFetchOptions
+      fetch
+    );
+    expect(coreSetFailed).not.toHaveBeenCalled();
+    expect(coreInfo).toHaveBeenCalledWith('E2E Visual Review passed!');
+  });
+
+  it('should fail for missing screenshots', async () => {
+    const {
+      checkPercyBuild,
+      verifyE2e,
+      coreInfo,
+      coreSetFailed,
+      coreSetOutput,
+      listCommitStatusesForRef,
+      listJobsForWorkflowRun,
+      exit,
+    } = await setupTest();
+    checkPercyBuild.mockResolvedValue({
+      project: 'project1',
+      approved: true,
+      removedSnapshots: ['component/component1'],
+    });
+    await verifyE2e(
+      ['project1'],
+      'owner',
+      'repo',
+      'headSha',
+      'run_id',
+      {
+        info: coreInfo,
+        setFailed: coreSetFailed,
+        setOutput: coreSetOutput,
+      },
+      {
+        listCommitStatusesForRef,
+        listJobsForWorkflowRun,
+      },
+      false, // allowMissingScreenshots
+      {}, // percyFetchOptions
+      fetch,
+      exit
+    );
+    expect(coreInfo).not.toHaveBeenCalledWith('E2E Visual Review passed!');
+    expect(coreSetFailed).toHaveBeenCalledWith(
+      'Projects with missing screenshots:\n' +
+        ' * project1\n' +
+        '   - component/component1\n'
+    );
+  });
+
+  it('should fail for unapproved screenshots', async () => {
+    const {
+      checkPercyBuild,
+      verifyE2e,
+      coreInfo,
+      coreSetFailed,
+      coreSetOutput,
+      listCommitStatusesForRef,
+      listJobsForWorkflowRun,
+      exit,
+    } = await setupTest();
+    checkPercyBuild.mockResolvedValue({
+      project: 'project1',
+      approved: false,
+      removedSnapshots: [],
+    });
+    await verifyE2e(
+      ['project1'],
+      'owner',
+      'repo',
+      'headSha',
+      'run_id',
+      {
+        info: coreInfo,
+        setFailed: coreSetFailed,
+        setOutput: coreSetOutput,
+      },
+      {
+        listCommitStatusesForRef,
+        listJobsForWorkflowRun,
+      },
+      false, // allowMissingScreenshots
+      {}, // percyFetchOptions
+      fetch,
+      exit
+    );
+    expect(coreInfo).not.toHaveBeenCalledWith('E2E Visual Review passed!');
+    expect(coreSetFailed).toHaveBeenCalledWith(
+      `Projects not yet approved: project1`
     );
   });
 });
