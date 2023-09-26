@@ -7,10 +7,6 @@
     "_description": "Text for expand/collapse button for tree nodes.",
     "message": "Click to expand"
   },
-  "skyux_angular_tree_context_menu_aria_default": {
-    "_description": "Default aria label text for tree node context menus",
-    "message": "Context menu for {0}"
-  },
   "skyux_angular_tree_collapse_all": {
     "_description": "Text for the link to collapse all tree nodes.",
     "message": "Collapse"
