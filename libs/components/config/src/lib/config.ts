@@ -10,7 +10,10 @@ export interface RuntimeConfigApp {
   template: string;
 }
 
-export interface RuntimeConfigLocalDev {
+/**
+ * @experimental
+ */
+export interface SkyuxRuntimeConfigLocalDev {
   assetsBaseUrl?: string;
   hasRemoteModules?: boolean;
 }
@@ -60,7 +63,7 @@ export interface RuntimeConfig {
   skyuxPathAlias: string;
   srcPath: string;
   useTemplateUrl: boolean;
-  localDev?: RuntimeConfigLocalDev;
+  localDev?: SkyuxRuntimeConfigLocalDev;
 }
 
 export interface SkyuxConfigA11y {
