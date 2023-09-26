@@ -22,6 +22,10 @@ export class SkyIconResolverService {
   constructor() {
     // Map the icons by name for more efficient lookup.
     for (const glyph of this.#manifestSvc.getManifest().glyphs) {
+      // TODO: remove after pulling in new Icons
+      if (glyph.faName && !glyph.faNames) {
+        glyph.faNames = [glyph.faName];
+      }
       this.#glyphMap.set(glyph.name, glyph);
     }
   }
@@ -35,30 +39,51 @@ export class SkyIconResolverService {
     const variantIcon = variant && `${icon}-${variant}`;
     const lineIcon = `${icon}-line`;
 
-    // Get the specified variant, or fall back to the line variant.
-    // If the icon has no variants, try to fall back to the icon name without a variant suffix.
-    // If no icon is found, fall back to the first glyph with the icon name as a FA alias.
-    const glyph =
+    // Get the specified variant, or fall back to the icon name.
+    // If the pure icon name doesn't exist, try the line variant.
+    let glyph =
       this.#glyphMap.get(variantIcon as string) ??
-      this.#glyphMap.get(lineIcon) ??
       this.#glyphMap.get(icon) ??
+      this.#glyphMap.get(lineIcon) ??
       Array.from(this.#glyphMap.values()).find(
         (glyph) =>
-          glyph.faName === icon ||
           glyph.aliases?.includes(variantIcon as string) ||
           glyph.aliases?.includes(lineIcon) ||
           glyph.aliases?.includes(icon)
       );
 
+    // If still no icon is found, search through the icons that match the FA name.
+    if (!glyph) {
+      let glyphs = Array.from(this.#glyphMap.values()).filter((g) =>
+        g.faNames?.includes(icon)
+      );
+      if (glyphs.length) {
+        if (glyphs.length > 1) {
+          // If multiples are found, make sure we select the correct variant, if requested.
+          // The icons are ordered such that the "default" variant will be the first one.
+          if (variant) {
+            const variantGlyph = glyphs.find((g) => g.name.endsWith(variant));
+            if (variantGlyph) {
+              glyphs = [variantGlyph];
+            }
+          }
+        }
+        glyph = glyphs[0];
+      }
+      // If none of the above works, no matching icon was found
+    }
+
     if (glyph) {
       // If a glyph is found, use it for modern theme or if no FA fallback exists.
-      if (themeSettings?.theme.name === 'modern' || !glyph.faName) {
+      if (themeSettings?.theme.name === 'modern' || !glyph.faNames?.length) {
         icon = glyph.name;
         iconType = 'skyux';
       } else {
-        // For default theme, use known FA fallback.
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        icon = glyph.faName!;
+        // For default theme, use a known FA fallback.
+        // If the icon name requested is already a FA icon, just use it. Otherwise use the first one.
+        if (!glyph.faNames?.includes(icon)) {
+          icon = glyph.faNames[0];
+        }
       }
     }
 
