@@ -10,6 +10,11 @@ export interface RuntimeConfigApp {
   template: string;
 }
 
+export interface RuntimeConfigLocalDev {
+  assetsBaseUrl?: string;
+  hasRemoteModules?: boolean;
+}
+
 export class SkyuxPactConfig {
   public providers?: {
     [provider: string]: {
@@ -55,6 +60,7 @@ export interface RuntimeConfig {
   skyuxPathAlias: string;
   srcPath: string;
   useTemplateUrl: boolean;
+  localDev?: RuntimeConfigLocalDev;
 }
 
 export interface SkyuxConfigA11y {
