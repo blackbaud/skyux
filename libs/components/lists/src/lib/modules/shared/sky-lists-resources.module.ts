@@ -30,9 +30,6 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     skyux_repeater_label: { message: 'List of items' },
     skyux_repeater_item_collapse: { message: 'Collapse {0}' },
     skyux_repeater_item_collapse_default: { message: 'Collapse' },
-    skyux_repeater_item_context_menu_default_aria_label: {
-      message: 'Context menu for {0}',
-    },
     skyux_repeater_item_expand: { message: 'Expand {0}' },
     skyux_repeater_item_expand_default: { message: 'Expand' },
     skyux_repeater_item_checkbox_label: { message: 'Select {0}' },
