@@ -110,6 +110,14 @@ describe('Sort component', () => {
     );
   }));
 
+  it('creates a sort dropdown with a specified aria label', fakeAsync(() => {
+    component.ariaLabel = 'Test label';
+    fixture.detectChanges();
+    tick();
+    const dropdownButtonEl = getDropdownButtonEl();
+    expect(dropdownButtonEl?.getAttribute('aria-label')).toBe('Test label');
+  }));
+
   it('changes active item on click and emits proper event', fakeAsync(() => {
     fixture.detectChanges();
     tick();
