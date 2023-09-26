@@ -414,6 +414,7 @@ describe('Repeater item component', () => {
     await fixture.whenStable();
     fixture.detectChanges();
     await fixture.whenStable();
+    fixture.detectChanges();
     const el = fixture.nativeElement;
 
     const contextMenus = getContextMenuButtons(el);
@@ -433,6 +434,7 @@ describe('Repeater item component', () => {
     await fixture.whenStable();
     fixture.detectChanges();
     await fixture.whenStable();
+    fixture.detectChanges();
     const el = fixture.nativeElement;
 
     const contextMenus = getContextMenuButtons(el);

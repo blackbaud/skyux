@@ -20,7 +20,7 @@ import {
 } from '@angular/core';
 import { skyAnimationSlide } from '@skyux/animations';
 import {
-  SkyDefaultInputProvider,
+  SkyContentInfoProvider,
   SkyMutationObserverService,
 } from '@skyux/core';
 import { SkyCheckboxChange } from '@skyux/forms';
@@ -49,7 +49,7 @@ let nextContentId = 0;
   styleUrls: ['./repeater-item.component.scss'],
   templateUrl: './repeater-item.component.html',
   animations: [skyAnimationSlide],
-  providers: [SkyDefaultInputProvider],
+  providers: [SkyContentInfoProvider],
   encapsulation: ViewEncapsulation.None,
 })
 export class SkyRepeaterItemComponent
@@ -104,7 +104,7 @@ export class SkyRepeaterItemComponent
   public set itemName(value: string | undefined) {
     this.#_itemName = value;
     this.itemNameOrDefault = value ?? this.#titleContent;
-    this.#updateContextMenuAriaLabel();
+    this.#updateContentInfo();
     this.#changeDetector.markForCheck();
   }
 
@@ -274,7 +274,7 @@ export class SkyRepeaterItemComponent
     if (value) {
       this.#titleContent = this.titleRef?.nativeElement.textContent.trim();
       this.itemNameOrDefault = this.itemName ?? this.#titleContent;
-      this.#updateContextMenuAriaLabel();
+      this.#updateContentInfo();
       this.#titleObserver.observe(value?.nativeElement, {
         characterData: true,
         childList: true,
@@ -295,8 +295,8 @@ export class SkyRepeaterItemComponent
 
   #adapterService: SkyRepeaterAdapterService;
   #changeDetector: ChangeDetectorRef;
+  #contentInfoProvider = inject(SkyContentInfoProvider);
   #contextMenuResourceUnsubscribe = new Subject<void>();
-  #defaultInputProvider = inject(SkyDefaultInputProvider);
   #elementRef: ElementRef;
   #isExpanded = true;
   #keyboardReorderingEnabled = false;
@@ -337,7 +337,7 @@ export class SkyRepeaterItemComponent
     this.#titleObserver = this.#mutationObserverSvc.create(() => {
       this.#titleContent = this.titleRef?.nativeElement.textContent.trim();
       this.itemNameOrDefault = this.itemName ?? this.#titleContent;
-      this.#updateContextMenuAriaLabel();
+      this.#updateContentInfo();
       this.#changeDetector.markForCheck();
     });
 
@@ -676,29 +676,16 @@ export class SkyRepeaterItemComponent
     this.#repeaterService.registerOrderChange();
   }
 
-  #updateContextMenuAriaLabel(): void {
+  #updateContentInfo(): void {
     this.#contextMenuResourceUnsubscribe.next();
     if (this.itemNameOrDefault) {
-      this.#resourceService
-        .getString(
-          'skyux_repeater_item_context_menu_default_aria_label',
-          this.itemNameOrDefault
-        )
-        .pipe(takeUntil(this.#contextMenuResourceUnsubscribe))
-        .subscribe((resourceString) => {
-          this.#defaultInputProvider.setValue(
-            'repeaterItemContextMenu',
-            'ariaLabel',
-            resourceString
-          );
-          this.#changeDetector.detectChanges();
-        });
+      this.#contentInfoProvider.patchInfo({
+        descriptor: this.itemNameOrDefault,
+      });
     } else {
-      this.#defaultInputProvider.setValue(
-        'repeaterItemContextMenu',
-        'ariaLabel',
-        undefined
-      );
+      this.#contentInfoProvider.patchInfo({
+        descriptor: undefined,
+      });
     }
     // This is to void "Expression changed after checked" issues. `markForCheck` did not resolve the issue.
     this.#changeDetector.detectChanges();

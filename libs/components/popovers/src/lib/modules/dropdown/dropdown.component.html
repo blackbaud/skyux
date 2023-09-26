@@ -8,9 +8,9 @@
     [attr.aria-label]="
       label ||
       (buttonType === 'context-menu'
-        ? (contentInfoObs | async)?.descriptor
+        ? contentInfoDescriptor
           ? ('skyux_dropdown_context_menu_with_content_descriptor_default_label'
-            | skyLibResources : (contentInfoObs | async)?.descriptor)
+            | skyLibResources : contentInfoDescriptor)
           : ('skyux_dropdown_context_menu_default_label' | skyLibResources)
         : undefined)
     "
