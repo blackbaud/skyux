@@ -34,11 +34,6 @@ runs:
 
           const shas = await exec.getExecOutput('git', ['log', '--format=%H', '${{ inputs.base }}..${{ inputs.head }}'])
             .then(({stdout}) => stdout.trim().split('\n'));
-          if (shas.length < 2) {
-            core.info('Only one commit, running e2e tests');
-            core.setOutput('affected', 'true');
-            process.exit(0);
-          }
 
           // Call the Percy API to get the project ID.
           core.info('Fetching Percy project ID...');

@@ -17,7 +17,8 @@ import {
   SkyAffixHorizontalAlignment,
   SkyAffixService,
   SkyAffixer,
-  SkyDefaultInputProvider,
+  SkyContentInfo,
+  SkyContentInfoProvider,
   SkyOverlayInstance,
   SkyOverlayService,
 } from '@skyux/core';
@@ -107,7 +108,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   @Input()
   public label: string | undefined;
 
-  protected labelDefault: Observable<string> | undefined;
+  protected contentInfoObs: Observable<SkyContentInfo> | undefined;
 
   /**
    * The horizontal alignment of the dropdown menu in relation to the dropdown button.
@@ -178,7 +179,9 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     }
   }
 
-  #defaultInputProvider = inject(SkyDefaultInputProvider, { optional: true });
+  #contentInfoProvider = inject(SkyContentInfoProvider, {
+    optional: true,
+  });
 
   public isMouseEnter = false;
 
@@ -228,10 +231,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   #_triggerButton: ElementRef | undefined;
 
   constructor() {
-    this.labelDefault = this.#defaultInputProvider?.getValue<string>(
-      'dropdown',
-      'label'
-    );
+    this.contentInfoObs = this.#contentInfoProvider?.getInfo();
   }
 
   public ngOnInit(): void {
