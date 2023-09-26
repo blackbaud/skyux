@@ -46,17 +46,5 @@
   "skyux_text_expand_see_more": {
     "_description": "",
     "message": "See more"
-  },
-  "skyux_toolbar_filter_aria_label_descriptor": {
-    "_description": "Default for a toolbar's filter button when a descriptor is given",
-    "message": "Filter {0}"
-  },
-  "skyux_toolbar_search_aria_label_descriptor": {
-    "_description": "Default for a toolbar's search when a descriptor is given",
-    "message": "Search {0}"
-  },
-  "skyux_toolbar_sort_aria_label_descriptor": {
-    "_description": "Default for a toolbar's sort button when a descriptor is given",
-    "message": "Sort {0}"
   }
 }

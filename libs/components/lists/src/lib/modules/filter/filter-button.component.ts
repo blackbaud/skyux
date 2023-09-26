@@ -6,7 +6,7 @@ import {
   Output,
   inject,
 } from '@angular/core';
-import { SkyDefaultInputProvider } from '@skyux/core';
+import { SkyContentInfo, SkyContentInfoProvider } from '@skyux/core';
 
 import { Observable } from 'rxjs';
 
@@ -85,18 +85,15 @@ export class SkyFilterButtonComponent {
   @Output()
   public filterButtonClick: EventEmitter<void> = new EventEmitter();
 
-  protected ariaLabelDefault: Observable<string> | undefined;
+  protected contentInfoObs: Observable<SkyContentInfo> | undefined;
 
-  #defaultInputProvider = inject(SkyDefaultInputProvider, { optional: true });
+  #contentInfoProvider = inject(SkyContentInfoProvider, { optional: true });
 
   constructor() {
     this.#filterButtonIdOrDefault =
       this.#defaultButtonId = `sky-filter-button-${++nextId}`;
 
-    this.ariaLabelDefault = this.#defaultInputProvider?.getValue<string>(
-      'filter',
-      'ariaLabel'
-    );
+    this.contentInfoObs = this.#contentInfoProvider?.getInfo();
   }
 
   #defaultButtonId: string;

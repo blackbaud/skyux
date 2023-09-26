@@ -21,7 +21,8 @@ import {
   inject,
 } from '@angular/core';
 import {
-  SkyDefaultInputProvider,
+  SkyContentInfo,
+  SkyContentInfoProvider,
   SkyMediaBreakpoints,
   SkyMediaQueryService,
 } from '@skyux/core';
@@ -174,11 +175,11 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
 
   public searchButtonShown = false;
 
-  protected ariaLabelDefault: Observable<string> | undefined;
+  protected contentInfoObs: Observable<SkyContentInfo> | undefined;
 
   #changeRef: ChangeDetectorRef;
 
-  #defaultInputProvider = inject(SkyDefaultInputProvider, { optional: true });
+  #contentInfoProvider = inject(SkyContentInfoProvider, { optional: true });
 
   #elRef: ElementRef;
 
@@ -207,10 +208,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     this.#searchAdapter = searchAdapter;
     this.#changeRef = changeRef;
 
-    this.ariaLabelDefault = this.#defaultInputProvider?.getValue<string>(
-      'search',
-      'ariaLabel'
-    );
+    this.contentInfoObs = this.#contentInfoProvider?.getInfo();
   }
 
   public ngOnInit() {

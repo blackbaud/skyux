@@ -2,8 +2,11 @@
   <sky-dropdown
     buttonType="select"
     [label]="
-      ariaLabel || (ariaLabelDefault | async) || 'skyux_sort_button_label'
-        | skyLibResources
+      ariaLabel ||
+      ((contentInfoObs | async)?.descriptor
+        ? ('skyux_sort_aria_label_descriptor'
+          | skyLibResources : (contentInfoObs | async)?.descriptor)
+        : ('skyux_sort_button_label' | skyLibResources))
     "
     [messageStream]="dropdownController"
     [title]="'skyux_sort_button_label' | skyLibResources"

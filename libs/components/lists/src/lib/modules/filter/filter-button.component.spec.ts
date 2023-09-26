@@ -1,13 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyDefaultInputProvider } from '@skyux/core';
+import { SkyContentInfoProvider } from '@skyux/core';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyFilterModule } from './filter.module';
 import { FilterButtonTestComponent } from './fixtures/filter-button.component.fixture';
 
 describe('Filter button', () => {
-  let defaultInputProvider: SkyDefaultInputProvider;
+  let contentInfoProvider: SkyContentInfoProvider;
   let fixture: ComponentFixture<FilterButtonTestComponent>;
   let nativeElement: HTMLElement;
   let component: FilterButtonTestComponent;
@@ -16,7 +16,7 @@ describe('Filter button', () => {
     TestBed.configureTestingModule({
       declarations: [FilterButtonTestComponent],
       imports: [SkyFilterModule, SkyThemeModule],
-      providers: [SkyDefaultInputProvider],
+      providers: [SkyContentInfoProvider],
     });
 
     fixture = TestBed.createComponent(FilterButtonTestComponent);
@@ -24,7 +24,7 @@ describe('Filter button', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    defaultInputProvider = TestBed.inject(SkyDefaultInputProvider);
+    contentInfoProvider = TestBed.inject(SkyContentInfoProvider);
   });
 
   function getButtonEl(): HTMLButtonElement {
@@ -67,16 +67,16 @@ describe('Filter button', () => {
     expect(button?.getAttribute('aria-label')).toBe('Test label');
   });
 
-  it('should use the default input provider for aria label when applicable', () => {
-    defaultInputProvider.setValue('filter', 'ariaLabel', 'Default label');
+  it('should use the content info provider for aria label when applicable', () => {
+    contentInfoProvider.patchInfo({ descriptor: 'constituents' });
     fixture.detectChanges();
 
     const button = nativeElement.querySelector('.sky-btn');
-    expect(button?.getAttribute('aria-label')).toBe('Default label');
+    expect(button?.getAttribute('aria-label')).toBe('Filter constituents');
   });
 
   it('should not use the default input provider for aria label when overwritten', () => {
-    defaultInputProvider.setValue('filter', 'ariaLabel', 'Default label');
+    contentInfoProvider.patchInfo({ descriptor: 'constituents' });
     component.ariaLabel = 'Overwritten label';
     fixture.detectChanges();
 

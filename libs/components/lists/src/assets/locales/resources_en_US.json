@@ -1,4 +1,8 @@
 {
+  "skyux_filter_aria_label_descriptor": {
+    "_description": "Default Default aria label for a filter button when a descriptor is given",
+    "message": "Filter {0}"
+  },
   "skyux_filter_button_title": {
     "_description": "Text for the filter button title",
     "message": "Filter"
@@ -98,6 +102,10 @@
   "skyux_repeater_item_reorder_top_label_default": {
     "_description": "Generic label for the button to move a repeater item to the top of the list. Used when a human-readable name is not provided.",
     "message": "Move to top"
+  },
+  "skyux_sort_aria_label_descriptor": {
+    "_description": "Default aria label for a sort button when a descriptor is given",
+    "message": "Sort {0}"
   },
   "skyux_sort_button_label": {
     "_description": "Text for the sort button",

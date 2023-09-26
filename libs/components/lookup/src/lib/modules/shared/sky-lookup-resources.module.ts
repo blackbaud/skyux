@@ -40,6 +40,7 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     skyux_lookup_show_more_no_results: { message: 'No matches found' },
     skyux_lookup_show_more_select: { message: 'Select' },
     skyux_lookup_tokens_summary: { message: '{0} items selected' },
+    skyux_search_aria_label_descriptor: { message: 'Search {0}' },
     skyux_search_dismiss: { message: 'Dismiss search' },
     skyux_search_label: { message: 'Search items' },
     skyux_search_open: { message: 'Open search' },
