@@ -40,6 +40,7 @@
     <button
       sky-cmp-id="apply-changes"
       class="sky-btn sky-btn-primary"
+      type="button"
       [disabled]="!isAnyDisplayedColumnSelected"
       (click)="applyChanges()"
     >
@@ -48,6 +49,7 @@
     <button
       sky-cmp-id="cancel"
       class="sky-btn sky-btn-link"
+      type="button"
       (click)="cancelChanges()"
     >
       {{ 'skyux_data_manager_cancel_button_title' | skyLibResources }}
