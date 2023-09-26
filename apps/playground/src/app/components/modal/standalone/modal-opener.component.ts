@@ -9,7 +9,9 @@ import { ModalStandaloneComponent } from './modal-standalone.component';
 @Component({
   standalone: true,
   template: `
-    <button class="sky-btn sky-btn-default" (click)="open()">Open modal</button>
+    <button class="sky-btn sky-btn-default" type="button" (click)="open()">
+      Open modal
+    </button>
   `,
 })
 export default class ModalOpenerComponent {
