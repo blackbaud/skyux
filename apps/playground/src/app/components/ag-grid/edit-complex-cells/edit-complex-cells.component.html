@@ -7,24 +7,34 @@
         <button
           class="sky-btn sky-btn-primary"
           id="edit-btn"
+          type="button"
           (click)="setEditMode(true)"
         >
           Edit
         </button>
       </sky-toolbar-item>
       <sky-toolbar-item *ngIf="editMode">
-        <button class="sky-btn sky-btn-primary" (click)="saveData()">
+        <button
+          class="sky-btn sky-btn-primary"
+          type="button"
+          (click)="saveData()"
+        >
           Save
         </button>
       </sky-toolbar-item>
       <sky-toolbar-item *ngIf="editMode">
-        <button class="sky-btn sky-btn-default" (click)="cancelEdits()">
+        <button
+          class="sky-btn sky-btn-default"
+          type="button"
+          (click)="cancelEdits()"
+        >
           Cancel
         </button>
       </sky-toolbar-item>
       <sky-toolbar-item *ngIf="rowModelType === 'clientSide'">
         <button
           class="sky-btn sky-btn-default"
+          type="button"
           (click)="switchRowModelTypeTo('infinite')"
         >
           Use infinite row model
@@ -33,6 +43,7 @@
       <sky-toolbar-item *ngIf="rowModelType === 'infinite'">
         <button
           class="sky-btn sky-btn-default"
+          type="button"
           (click)="switchRowModelTypeTo('clientSide')"
         >
           Use client-side row model

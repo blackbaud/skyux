@@ -15,7 +15,9 @@
         class="sky-control-label"
         [attr.for]="dateRangePickerId + '-select-calculator'"
       >
-        {{ label || 'skyux_date_range_picker_default_label' | skyLibResources }}
+        {{
+          label || ('skyux_date_range_picker_default_label' | skyLibResources)
+        }}
       </label>
       <select
         class="sky-form-control"
@@ -56,11 +58,19 @@
 
       <sky-datepicker>
         <input
+          class="sky-form-control"
           formControlName="startDate"
           [attr.aria-label]="
-            selectedCalculator?.type
-              | skyDateRangePickerStartDateResourceKey
-              | skyLibResources
+            label
+              ? ('skyux_date_range_picker_default_aria_label'
+                | skyLibResources
+                  : (selectedCalculator?.type
+                      | skyDateRangePickerStartDateResourceKey
+                      | skyLibResources)
+                  : label)
+              : (selectedCalculator?.type
+                | skyDateRangePickerStartDateResourceKey
+                | skyLibResources)
           "
           [attr.id]="dateRangePickerId + '-start-date'"
           [attr.placeholder]="dateFormatOrDefault"
@@ -95,12 +105,20 @@
 
       <sky-datepicker>
         <input
+          class="sky-form-control"
           formControlName="endDate"
           skyDatepickerInput
           [attr.aria-label]="
-            selectedCalculator?.type
-              | skyDateRangePickerEndDateResourceKey
-              | skyLibResources
+            label
+              ? ('skyux_date_range_picker_default_aria_label'
+                | skyLibResources
+                  : (selectedCalculator?.type
+                      | skyDateRangePickerEndDateResourceKey
+                      | skyLibResources)
+                  : label)
+              : (selectedCalculator?.type
+                | skyDateRangePickerEndDateResourceKey
+                | skyLibResources)
           "
           [attr.id]="dateRangePickerId + '-end-date'"
           [attr.placeholder]="dateFormatOrDefault"

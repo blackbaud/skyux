@@ -11,6 +11,13 @@
         "devServerTarget": "split-view-storybook:storybook",
         "testingType": "e2e",
         "baseUrl": "http://localhost:4400"
+      },
+      "configurations": {
+        "ci": {
+          "devServerTarget": "split-view-storybook:static-storybook:ci",
+          "browser": "chrome",
+          "baseUrl": "http://localhost:4200"
+        }
       }
     },
     "lint": {

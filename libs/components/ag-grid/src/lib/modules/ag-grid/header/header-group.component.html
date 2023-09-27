@@ -4,6 +4,7 @@
 <button
   *ngIf="isExpanded$ | async; else openIcons"
   class="sky-btn sky-btn-icon-borderless"
+  type="button"
   (click)="setExpanded(false)"
   [attr.aria-label]="
     'sky_ag_grid_column_group_header_collapse_aria_label'
@@ -15,6 +16,7 @@
 <ng-template #openIcons>
   <button
     class="sky-btn sky-btn-icon-borderless"
+    type="button"
     (click)="setExpanded(true)"
     [attr.aria-label]="
       'sky_ag_grid_column_group_header_expand_aria_label'
