@@ -1,4 +1,10 @@
 <div class="sky-dropdown">
+  <div class="sky-screen-reader-only" id="sky-sr-label-context-menu">
+    {{
+      'skyux_dropdown_context_menu_with_content_descriptor_el_default_label'
+        | skyLibResources
+    }}
+  </div>
   <button
     class="sky-btn sky-dropdown-button"
     type="button"
@@ -8,11 +14,19 @@
     [attr.aria-label]="
       label ||
       (buttonType === 'context-menu'
-        ? (contentInfoObs | async)?.descriptor
+        ? (contentInfoObs | async)?.descriptor?.type === 'text'
           ? ('skyux_dropdown_context_menu_with_content_descriptor_default_label'
-            | skyLibResources : (contentInfoObs | async)?.descriptor)
+            | skyLibResources : (contentInfoObs | async)?.descriptor?.value)
           : ('skyux_dropdown_context_menu_default_label' | skyLibResources)
         : undefined)
+    "
+    [attr.aria-labelledBy]="
+      !label &&
+      buttonType === 'context-menu' &&
+      (contentInfoObs | async)?.descriptor?.type === 'elementId'
+        ? 'sky-sr-label-context-menu ' +
+          (contentInfoObs | async)?.descriptor?.value
+        : undefined
     "
     [attr.title]="title"
     [disabled]="disabled"

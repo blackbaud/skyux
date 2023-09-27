@@ -15,7 +15,13 @@ import { Component } from '@angular/core';
 export class BoxComponent {
   public showHelp = true;
 
+  public boxHeader = 'Initial box header';
+
   public onHelpClick() {
     alert(`Help is available for this component.`);
+  }
+
+  public changeHeader(): void {
+    this.boxHeader = 'A new box header';
   }
 }

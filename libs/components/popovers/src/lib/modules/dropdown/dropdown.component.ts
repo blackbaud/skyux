@@ -179,10 +179,6 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     }
   }
 
-  #contentInfoProvider = inject(SkyContentInfoProvider, {
-    optional: true,
-  });
-
   public isMouseEnter = false;
 
   public isVisible = false;
@@ -221,6 +217,9 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   readonly #overlayService = inject(SkyOverlayService);
   readonly #themeSvc = inject(SkyThemeService, { optional: true });
   readonly #zIndex = inject(SKY_STACKING_CONTEXT, { optional: true })?.zIndex;
+  readonly #contentInfoProvider = inject(SkyContentInfoProvider, {
+    optional: true,
+  });
 
   #_buttonStyle = DEFAULT_BUTTON_STYLE;
   #_buttonType = DEFAULT_BUTTON_TYPE;

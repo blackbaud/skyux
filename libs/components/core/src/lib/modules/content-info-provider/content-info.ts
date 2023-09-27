@@ -1,3 +1,5 @@
+import { SkyDescriptor } from './descriptor';
+
 export type SkyContentInfo = {
-  descriptor?: string;
+  descriptor?: SkyDescriptor;
 };

@@ -1,6 +1,6 @@
 <sky-box>
   <sky-box-header>
-    <h2 class="sky-font-heading-2">Box header</h2>
+    <h2 class="sky-font-heading-2">{{ boxHeader }}</h2>
     <sky-help-inline
       *ngIf="showHelp"
       (actionClick)="onHelpClick()"
@@ -8,7 +8,7 @@
     ></sky-help-inline>
   </sky-box-header>
   <sky-box-controls>
-    <sky-dropdown buttonType="context-menu" label="Box demo context menu">
+    <sky-dropdown buttonType="context-menu">
       <sky-dropdown-menu>
         <sky-dropdown-item>
           <button type="button">Action 1</button>
@@ -21,6 +21,13 @@
   </sky-box-controls>
   <sky-box-content>
     <p>Box content</p>
+    <button
+      type="button"
+      class="sky-btn sky-btn-default"
+      (click)="changeHeader()"
+    >
+      Change box header
+    </button>
   </sky-box-content>
 </sky-box>
 

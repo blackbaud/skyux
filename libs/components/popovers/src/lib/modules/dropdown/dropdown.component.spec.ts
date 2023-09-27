@@ -1204,9 +1204,11 @@ describe('Dropdown component', function () {
       expect(item?.getAttribute('role')).toEqual('item-role-override');
     }));
 
-    it('should set the correct aria label when it is specified via SkyContentProvider', fakeAsync(() => {
+    it('should set the correct aria label when a text descriptor is specified via SkyContentProvider', fakeAsync(() => {
       fixture.componentInstance.buttonType = 'context-menu';
-      contentInfoProvider.patchInfo({ descriptor: 'Robert Hernandez' });
+      contentInfoProvider.patchInfo({
+        descriptor: { type: 'text', value: 'Robert Hernandez' },
+      });
 
       detectChangesFakeAsync();
       const button = getButtonElement();
@@ -1216,9 +1218,25 @@ describe('Dropdown component', function () {
       );
     }));
 
-    it('should set the correct aria label when it is specified via a consumer and SkyContentInfoProvider', fakeAsync(() => {
+    it('should set the correct aria label when an elementId descriptor is specified via SkyContentProvider', fakeAsync(() => {
       fixture.componentInstance.buttonType = 'context-menu';
-      contentInfoProvider.patchInfo({ descriptor: 'default label' });
+      contentInfoProvider.patchInfo({
+        descriptor: { type: 'elementId', value: 'sr-descriptor-label' },
+      });
+
+      detectChangesFakeAsync();
+      const button = getButtonElement();
+
+      expect(button?.getAttribute('aria-labelledBy')).toEqual(
+        'sky-sr-label-context-menu, sr-label-descriptor'
+      );
+    }));
+
+    it('should set the correct aria label when it is specified via a consumer and a text descriptor is provided', fakeAsync(() => {
+      fixture.componentInstance.buttonType = 'context-menu';
+      contentInfoProvider.patchInfo({
+        descriptor: { type: 'text', value: 'default label' },
+      });
       fixture.componentInstance.label = 'consumer label';
 
       detectChangesFakeAsync();
