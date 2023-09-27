@@ -238,6 +238,7 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       uiFramework: '@storybook/angular',
       configureCypress: true,
       linter: Linter.EsLint,
+      configureStaticServe: true,
     });
   } else if (!moveProject) {
     await storiesGenerator(tree, {
