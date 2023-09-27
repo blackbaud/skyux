@@ -17,8 +17,9 @@
           "devServerTarget": "errors-storybook:serve:production"
         },
         "ci": {
-          "devServerTarget": "errors-storybook:storybook:ci",
-          "browser": "chrome"
+          "devServerTarget": "errors-storybook:static-storybook:ci",
+          "browser": "chrome",
+          "baseUrl": "http://localhost:4200"
         }
       }
     },

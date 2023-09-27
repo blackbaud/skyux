@@ -17,8 +17,9 @@
           "devServerTarget": "navbar-storybook:serve:production"
         },
         "ci": {
-          "devServerTarget": "navbar-storybook:storybook:ci",
-          "browser": "chrome"
+          "devServerTarget": "navbar-storybook:static-storybook:ci",
+          "browser": "chrome",
+          "baseUrl": "http://localhost:4200"
         }
       }
     },

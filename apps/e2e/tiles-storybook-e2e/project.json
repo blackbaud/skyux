@@ -14,8 +14,9 @@
       },
       "configurations": {
         "ci": {
-          "devServerTarget": "tiles-storybook:storybook:ci",
-          "browser": "chrome"
+          "devServerTarget": "tiles-storybook:static-storybook:ci",
+          "browser": "chrome",
+          "baseUrl": "http://localhost:4200"
         }
       }
     },

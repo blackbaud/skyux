@@ -120,6 +120,18 @@
           "quiet": true
         }
       }
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "colorpicker-storybook:build-storybook",
+        "staticFilePath": "dist/storybook/colorpicker-storybook"
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "colorpicker-storybook:build-storybook:ci"
+        }
+      }
     }
   }
 }

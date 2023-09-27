@@ -119,6 +119,18 @@
           "quiet": true
         }
       }
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "modals-storybook:build-storybook",
+        "staticFilePath": "dist/storybook/modals-storybook"
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "modals-storybook:build-storybook:ci"
+        }
+      }
     }
   },
   "tags": ["component-e2e"]

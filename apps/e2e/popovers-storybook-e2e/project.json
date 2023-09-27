@@ -14,8 +14,9 @@
       },
       "configurations": {
         "ci": {
-          "devServerTarget": "popovers-storybook:storybook:ci",
-          "browser": "chrome"
+          "devServerTarget": "popovers-storybook:static-storybook:ci",
+          "browser": "chrome",
+          "baseUrl": "http://localhost:4200"
         }
       }
     },

@@ -15,8 +15,9 @@
       },
       "configurations": {
         "ci": {
-          "devServerTarget": "ag-grid-storybook:storybook:ci",
-          "browser": "chrome"
+          "devServerTarget": "ag-grid-storybook:static-storybook:ci",
+          "browser": "chrome",
+          "baseUrl": "http://localhost:4200"
         }
       }
     },

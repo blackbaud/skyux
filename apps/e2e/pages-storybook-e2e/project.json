@@ -14,8 +14,9 @@
       },
       "configurations": {
         "ci": {
-          "devServerTarget": "pages-storybook:storybook:ci",
-          "browser": "chrome"
+          "devServerTarget": "pages-storybook:static-storybook:ci",
+          "browser": "chrome",
+          "baseUrl": "http://localhost:4200"
         }
       }
     },

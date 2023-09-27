@@ -120,6 +120,18 @@
           "quiet": true
         }
       }
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "inline-form-storybook:build-storybook",
+        "staticFilePath": "dist/storybook/inline-form-storybook"
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "inline-form-storybook:build-storybook:ci"
+        }
+      }
     }
   }
 }

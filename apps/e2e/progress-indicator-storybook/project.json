@@ -120,6 +120,18 @@
           "quiet": true
         }
       }
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "progress-indicator-storybook:build-storybook",
+        "staticFilePath": "dist/storybook/progress-indicator-storybook"
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "progress-indicator-storybook:build-storybook:ci"
+        }
+      }
     }
   }
 }

@@ -120,6 +120,18 @@
           "quiet": true
         }
       }
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "toast-storybook:build-storybook",
+        "staticFilePath": "dist/storybook/toast-storybook"
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "toast-storybook:build-storybook:ci"
+        }
+      }
     }
   }
 }

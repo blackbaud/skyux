@@ -17,8 +17,9 @@
           "devServerTarget": "angular-tree-component-storybook:serve:production"
         },
         "ci": {
-          "devServerTarget": "angular-tree-component-storybook:storybook:ci",
-          "browser": "chrome"
+          "devServerTarget": "angular-tree-component-storybook:static-storybook:ci",
+          "browser": "chrome",
+          "baseUrl": "http://localhost:4200"
         }
       }
     },

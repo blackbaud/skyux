@@ -120,6 +120,18 @@
           "quiet": true
         }
       }
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "text-editor-storybook:build-storybook",
+        "staticFilePath": "dist/storybook/text-editor-storybook"
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "text-editor-storybook:build-storybook:ci"
+        }
+      }
     }
   }
 }

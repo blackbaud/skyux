@@ -17,8 +17,9 @@
           "devServerTarget": "toast-storybook:serve:production"
         },
         "ci": {
-          "devServerTarget": "toast-storybook:storybook:ci",
-          "browser": "chrome"
+          "devServerTarget": "toast-storybook:static-storybook:ci",
+          "browser": "chrome",
+          "baseUrl": "http://localhost:4200"
         }
       }
     },

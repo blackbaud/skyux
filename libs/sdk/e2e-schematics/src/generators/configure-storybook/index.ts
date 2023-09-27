@@ -9,6 +9,7 @@ import {
   readProjectConfiguration,
   updateJson,
 } from '@nx/devkit';
+import { addStaticTarget } from '@nx/storybook/src/generators/configuration/lib/util-functions';
 import { TsConfig } from '@nx/storybook/src/utils/utilities';
 
 import { updateProjectConfiguration } from 'nx/src/generators/utils/project-configuration';
@@ -28,6 +29,15 @@ export default async function (tree: Tree, schema: Schema) {
     const targets = Object.keys(
       project.targets as Record<string, TargetConfiguration>
     );
+    if (!targets.includes('static-storybook')) {
+      addStaticTarget(tree, {
+        name: projectName,
+        interactionTests: false,
+        uiFramework: '@storybook/angular',
+        skipFormat: true,
+        tsConfiguration: true,
+      });
+    }
     targets.forEach((target) => {
       project.targets = project.targets as Record<string, TargetConfiguration>;
       const targetConfig = project.targets[target] as TargetConfiguration;
@@ -112,7 +122,7 @@ export default async function (tree: Tree, schema: Schema) {
         e2eProject.targets['e2e'].options.devServerTarget ===
           `${projectName}:storybook` &&
         e2eProject.targets['e2e'].configurations?.['ci'].devServerTarget !==
-          `${projectName}:storybook:ci`
+          `${projectName}:static-storybook`
       ) {
         hasChanged = true;
 
@@ -120,8 +130,9 @@ export default async function (tree: Tree, schema: Schema) {
           ...e2eProject.targets['e2e'].configurations,
           ci: {
             ...e2eProject.targets['e2e'].configurations?.['ci'],
+            baseUrl: `http://localhost:4200`,
             browser: 'chrome',
-            devServerTarget: `${projectName}:storybook:ci`,
+            devServerTarget: `${projectName}:static-storybook:ci`,
             skipServe: undefined,
           },
         };

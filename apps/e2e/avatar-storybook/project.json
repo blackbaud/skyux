@@ -120,6 +120,18 @@
           "quiet": true
         }
       }
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "avatar-storybook:build-storybook",
+        "staticFilePath": "dist/storybook/avatar-storybook"
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "avatar-storybook:build-storybook:ci"
+        }
+      }
     }
   }
 }

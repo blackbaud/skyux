@@ -14,7 +14,8 @@
       },
       "configurations": {
         "ci": {
-          "devServerTarget": "modals-storybook:storybook:ci",
+          "devServerTarget": "modals-storybook:static-storybook:ci",
+          "baseUrl": "http://localhost:4200",
           "browser": "chrome"
         }
       }

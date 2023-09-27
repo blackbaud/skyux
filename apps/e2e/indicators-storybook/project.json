@@ -119,6 +119,18 @@
           "quiet": true
         }
       }
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "indicators-storybook:build-storybook",
+        "staticFilePath": "dist/storybook/indicators-storybook"
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "indicators-storybook:build-storybook:ci"
+        }
+      }
     }
   },
   "tags": ["component-e2e"]

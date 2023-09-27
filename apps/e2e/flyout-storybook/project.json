@@ -120,6 +120,18 @@
           "quiet": true
         }
       }
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "flyout-storybook:build-storybook",
+        "staticFilePath": "dist/storybook/flyout-storybook"
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "flyout-storybook:build-storybook:ci"
+        }
+      }
     }
   }
 }

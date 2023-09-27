@@ -119,6 +119,18 @@
           "quiet": true
         }
       }
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "tabs-storybook:build-storybook",
+        "staticFilePath": "dist/storybook/tabs-storybook"
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "tabs-storybook:build-storybook:ci"
+        }
+      }
     }
   },
   "tags": ["component-e2e"]

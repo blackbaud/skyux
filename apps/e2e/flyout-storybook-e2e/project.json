@@ -17,8 +17,9 @@
           "devServerTarget": "flyout-storybook:serve:production"
         },
         "ci": {
-          "devServerTarget": "flyout-storybook:storybook:ci",
-          "browser": "chrome"
+          "devServerTarget": "flyout-storybook:static-storybook:ci",
+          "browser": "chrome",
+          "baseUrl": "http://localhost:4200"
         }
       }
     },
