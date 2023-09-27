@@ -17,7 +17,9 @@
           "devServerTarget": "phone-field-storybook:serve:production"
         },
         "ci": {
-          "devServerTarget": "phone-field-storybook:serve-static"
+          "devServerTarget": "phone-field-storybook:static-storybook:ci",
+          "browser": "chrome",
+          "baseUrl": "http://localhost:4200"
         }
       }
     },
