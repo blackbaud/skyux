@@ -1,5 +1,22 @@
 # Changelog
 
+## [9.3.0](https://github.com/blackbaud/skyux/compare/9.2.1...9.3.0) (2023-09-27)
+
+
+### Features
+
+* **components/angular-tree-component:** context menu aria labels are automatically node specific ([#1737](https://github.com/blackbaud/skyux/issues/1737)) ([1004462](https://github.com/blackbaud/skyux/commit/1004462719364ece103920f8a8f9f4e94254d490))
+* **components/config:** add local dev config ([#1758](https://github.com/blackbaud/skyux/issues/1758)) ([9a14fd8](https://github.com/blackbaud/skyux/commit/9a14fd8cb3b3a00c627977d55f54f4eef671ab7a))
+* **components/datetime:** date range picker input aria labels are now context specific ([#1752](https://github.com/blackbaud/skyux/issues/1752)) ([4dc7e2a](https://github.com/blackbaud/skyux/commit/4dc7e2af1400e9443704d04e397931ee8b79de4f))
+* **components/lists:** filter button aria label property can be specified ([#1745](https://github.com/blackbaud/skyux/issues/1745)) ([788580e](https://github.com/blackbaud/skyux/commit/788580e6e6c78da2d546591b1be576902098d0e9))
+* **components/lists:** sort button aria label property can be specified ([#1746](https://github.com/blackbaud/skyux/issues/1746)) ([089bc11](https://github.com/blackbaud/skyux/commit/089bc114b5ecc704ac14e1f4c2db82a928b2d324))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** update existing ag grid context menus with aria labels, add new ones ([#1735](https://github.com/blackbaud/skyux/issues/1735)) ([745d8ab](https://github.com/blackbaud/skyux/commit/745d8ab353430b49ffd95d640207340129a6834c))
+* ensure all HTML buttons have a type ([#1748](https://github.com/blackbaud/skyux/issues/1748)) ([1a58094](https://github.com/blackbaud/skyux/commit/1a580943ddd113805081b75e7f45306bc2010e58))
+
 ## [8.10.4](https://github.com/blackbaud/skyux/compare/8.10.3...8.10.4) (2023-09-26)
 
 
