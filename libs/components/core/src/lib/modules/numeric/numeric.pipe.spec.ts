@@ -52,6 +52,14 @@ describe('Numeric pipe', () => {
     expect(spy).toHaveBeenCalledWith(2.45, expectedConfig);
   });
 
+  it('should handle undefined number', () => {
+    // const spy = spyOn(numericService, 'formatNumber').and.callThrough();
+    const result = pipe.transform(undefined!, { truncate: false });
+
+    expect(result).toEqual('');
+    // expect(spy).not.toHaveBeenCalled();
+  });
+
   it('should default digits to zero if truncate set to false', () => {
     const options: SkyNumericOptions = {
       truncate: false,
@@ -74,6 +82,22 @@ describe('Numeric pipe', () => {
     expect(() => {
       pipe.transform(42.87549, options);
     }).toThrowError();
+  });
+
+  it('should properly handle undefined being passed in', async () => {
+    const fixture = TestBed.createComponent(NumericPipeFixtureComponent);
+    const component = fixture.componentInstance;
+    // NOTE: We had a previous issue with change detection and undefined. This issue only appeared in unit tests when auto detecting changes.
+    fixture.autoDetectChanges();
+    component.value = undefined;
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    // Get formatted date and remove unwanted special characters.
+    const el = document.querySelector('p') as HTMLParagraphElement;
+    const actual = el.innerHTML.trim().replace(/&nbsp;/g, ' ');
+
+    expect(actual).toBe('');
   });
 
   describe('locale support', () => {

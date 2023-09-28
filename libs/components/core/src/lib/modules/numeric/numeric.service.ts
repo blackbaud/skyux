@@ -41,8 +41,11 @@ export class SkyNumericService {
    * @param value The number to format.
    * @param options Format options.
    */
-  public formatNumber(value: number, options: SkyNumericOptions): string {
-    if (isNaN(value) || value === null) {
+  public formatNumber(
+    value: number | undefined,
+    options: SkyNumericOptions
+  ): string {
+    if (value === undefined || isNaN(value) || value === null) {
       return '';
     }
 
