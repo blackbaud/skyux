@@ -17,7 +17,7 @@ export { SkyAffixer } from './lib/modules/affix/affixer';
 
 export { SkyContentInfoProvider } from './lib/modules/content-info-provider/content-info-provider';
 export { SkyContentInfo } from './lib/modules/content-info-provider/content-info';
-export { SkyContentInfoDescriptor as SkyDescriptor } from './lib/modules/content-info-provider/descriptor';
+export { SkyContentInfoDescriptor } from './lib/modules/content-info-provider/descriptor';
 
 export { SkyDefaultInputProvider } from './lib/modules/default-input-provider/default-input-provider';
 
