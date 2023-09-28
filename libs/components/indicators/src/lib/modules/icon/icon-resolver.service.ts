@@ -22,7 +22,7 @@ export class SkyIconResolverService {
   constructor() {
     // Map the icons by name for more efficient lookup.
     for (const glyph of this.#manifestSvc.getManifest().glyphs) {
-      // TODO: remove after pulling in new Icons
+      // TODO: keep this until `faName` is removed just in case any icons get added with the wrong shape
       if (glyph.faName && !glyph.faNames) {
         glyph.faNames = [glyph.faName];
       }
