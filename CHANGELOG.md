@@ -17,6 +17,10 @@
 * **components/ag-grid:** update existing ag grid context menus with aria labels, add new ones ([#1735](https://github.com/blackbaud/skyux/issues/1735)) ([745d8ab](https://github.com/blackbaud/skyux/commit/745d8ab353430b49ffd95d640207340129a6834c))
 * ensure all HTML buttons have a type ([#1748](https://github.com/blackbaud/skyux/issues/1748)) ([1a58094](https://github.com/blackbaud/skyux/commit/1a580943ddd113805081b75e7f45306bc2010e58))
 
+### Note
+
+* The release failed part way through the publish process, some packages were not published. Do not use this version.
+
 ## [8.10.4](https://github.com/blackbaud/skyux/compare/8.10.3...8.10.4) (2023-09-26)
 
 
