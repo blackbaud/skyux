@@ -9,7 +9,7 @@
     [attr.role]="ariaRole"
   >
     <div aria-hidden="true" class="sky-toast-icon-theme-default">
-      <sky-icon [icon]="icon"></sky-icon>
+      <sky-icon [icon]="icon" />
     </div>
     <div aria-hidden="true" class="sky-toast-icon-theme-modern">
       <sky-icon-stack
@@ -18,7 +18,7 @@
       ></sky-icon-stack>
     </div>
     <div class="sky-toast-content">
-      <ng-content></ng-content>
+      <ng-content />
     </div>
     <button
       class="sky-toast-btn-close"
@@ -26,7 +26,7 @@
       [attr.title]="'skyux_toast_close_button' | skyLibResources"
       (click)="close()"
     >
-      <sky-icon icon="close"></sky-icon>
+      <sky-icon icon="close" />
     </button>
   </div>
 </aside>

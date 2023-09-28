@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'sky-split-view-workspace',
   template: `
     <div class="sky-split-view-workspace">
-      <ng-content></ng-content>
+      <ng-content />
     </div>
   `,
 })

@@ -19,7 +19,7 @@ import { PreviewWrapperThemeValue } from './preview-wrapper-theme-value';
 
 @Component({
   selector: 'sky-preview-wrapper',
-  template: '<ng-content></ng-content>',
+  template: '<ng-content />',
   styleUrls: ['./preview-wrapper.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
