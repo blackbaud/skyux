@@ -26,17 +26,17 @@
         </sky-list-toolbar-item-renderer>
       </sky-toolbar-item>
 
-      <ng-content></ng-content>
+      <ng-content />
 
       <sky-toolbar-view-actions *ngIf="hasViewActions">
-        <ng-content select="sky-list-toolbar-view-actions"> </ng-content>
+        <ng-content select="sky-list-toolbar-view-actions" />
       </sky-toolbar-view-actions>
     </sky-toolbar-section>
 
     <sky-toolbar-section
       *ngIf="showFilterSummary && (hasAppliedFilters | async)"
     >
-      <ng-content select="sky-list-filter-summary"> </ng-content>
+      <ng-content select="sky-list-filter-summary" />
     </sky-toolbar-section>
   </sky-toolbar>
 
@@ -83,10 +83,10 @@
           >
           </sky-list-toolbar-item-renderer>
         </sky-toolbar-item>
-        <ng-content></ng-content>
+        <ng-content />
 
         <sky-toolbar-view-actions *ngIf="hasViewActions">
-          <ng-content select="sky-list-toolbar-view-actions"> </ng-content>
+          <ng-content select="sky-list-toolbar-view-actions" />
         </sky-toolbar-view-actions>
       </sky-toolbar-section>
     </sky-toolbar>
@@ -96,7 +96,7 @@
     [attr.aria-labelledby]="filterButtonId"
     [id]="listFilterInlineId"
   >
-    <ng-content select="sky-list-filter-inline"> </ng-content>
+    <ng-content select="sky-list-filter-inline" />
   </div>
   <sky-list-multiselect-toolbar *ngIf="isMultiselectEnabled | async">
   </sky-list-multiselect-toolbar>
@@ -112,7 +112,7 @@
       (searchApply)="updateSearchText($event)"
     >
     </sky-search>
-    <ng-content select="sky-list-toolbar-search-actions"></ng-content>
+    <ng-content select="sky-list-toolbar-search-actions" />
   </div>
 </ng-template>
 

@@ -8,7 +8,7 @@
   }"
 >
   <div class="sky-summary-action-bar-actions">
-    <ng-content select="sky-summary-action-bar-actions"></ng-content>
+    <ng-content select="sky-summary-action-bar-actions" />
   </div>
   <ng-container *ngIf="summaryContentExists()">
     <div
@@ -20,7 +20,7 @@
     >
       <div class="sky-summary-action-bar-summary-body">
         <div class="sky-summary-action-bar-summary-items">
-          <ng-content select="sky-summary-action-bar-summary"></ng-content>
+          <ng-content select="sky-summary-action-bar-summary" />
         </div>
         <div
           *ngIf="

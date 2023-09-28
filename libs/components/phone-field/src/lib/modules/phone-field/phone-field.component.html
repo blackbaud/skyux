@@ -46,7 +46,7 @@
     [@phoneInputAnimation]="phoneInputShown ? 'open' : 'closed'"
     (@phoneInputAnimation.done)="phoneInputAnimationEnd($event)"
   >
-    <ng-content></ng-content>
+    <ng-content />
   </span>
   <span
     *ngIf="countrySearchShown"
@@ -68,8 +68,7 @@
         [includePhoneInfo]="true"
         [supportedCountryISOs]="supportedCountryISOs"
         (selectedCountryChange)="onCountrySelected($event)"
-      >
-      </sky-country-field>
+      />
     </div>
   </span>
 </ng-template>
@@ -92,10 +91,8 @@
       }"
       (click)="toggleCountrySearch(false)"
     >
-      <sky-icon *skyThemeIf="'default'" icon="chevron-circle-left" size="lg">
-      </sky-icon>
-      <sky-icon *skyThemeIf="'modern'" icon="double-chevron-left" size="2x">
-      </sky-icon>
+      <sky-icon *skyThemeIf="'default'" icon="chevron-circle-left" size="lg" />
+      <sky-icon *skyThemeIf="'modern'" icon="double-chevron-left" size="2x" />
     </button>
   </div>
 </ng-template>

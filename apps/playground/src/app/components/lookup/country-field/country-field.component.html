@@ -8,8 +8,7 @@
         required
         [disabled]="disableFields"
         [(ngModel)]="countryData"
-      >
-      </sky-country-field>
+      />
     </form>
   </div>
 
@@ -26,8 +25,10 @@
     id="screenshot-country-field-populated"
     [formGroup]="countryForm"
   >
-    <sky-country-field formControlName="countryControl" [defaultCountry]="'AU'">
-    </sky-country-field>
+    <sky-country-field
+      formControlName="countryControl"
+      [defaultCountry]="'AU'"
+    />
   </form>
 
   <p *ngIf="countryControl.value">
@@ -66,8 +67,7 @@
           name="countryField"
           required
           [disabled]="disableFields"
-        >
-        </sky-country-field>
+        />
       </sky-input-box>
     </form>
   </div>
@@ -89,8 +89,7 @@
         [defaultCountry]="'AU'"
         [disabled]="disableFields"
         [(ngModel)]="countryDataInputBox"
-      >
-      </sky-country-field>
+      />
     </sky-input-box>
   </form>
 </div>
@@ -110,8 +109,7 @@
         [defaultCountry]="'AU'"
         [disabled]="disableFields"
         [(ngModel)]="countryDataInputBox"
-      >
-      </sky-country-field>
+      />
     </sky-input-box>
   </form>
 </div>

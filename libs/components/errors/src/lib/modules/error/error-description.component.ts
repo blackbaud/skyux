@@ -7,7 +7,7 @@ import { SkyErrorService } from './error.service';
  */
 @Component({
   selector: 'sky-error-description',
-  template: '<ng-content></ng-content>',
+  template: '<ng-content />',
 })
 export class SkyErrorDescriptionComponent {
   /**

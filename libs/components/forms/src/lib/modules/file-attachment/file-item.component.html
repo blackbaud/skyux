@@ -18,7 +18,7 @@
         "
         (click)="itemDelete()"
       >
-        <sky-icon icon="trash-o" size="lg"></sky-icon>
+        <sky-icon icon="trash-o" size="lg" />
       </button>
     </div>
   </div>
@@ -35,11 +35,11 @@
         />
       </div>
       <div *ngIf="!isImage" class="sky-file-item-preview-other">
-        <sky-icon [icon]="icon"></sky-icon>
+        <sky-icon [icon]="icon" />
       </div>
     </div>
     <div class="sky-file-item-content-custom">
-      <ng-content></ng-content>
+      <ng-content />
     </div>
   </div>
 </div>
