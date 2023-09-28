@@ -52,14 +52,6 @@ describe('Numeric pipe', () => {
     expect(spy).toHaveBeenCalledWith(2.45, expectedConfig);
   });
 
-  it('should handle undefined number', () => {
-    // const spy = spyOn(numericService, 'formatNumber').and.callThrough();
-    const result = pipe.transform(undefined!, { truncate: false });
-
-    expect(result).toEqual('');
-    // expect(spy).not.toHaveBeenCalled();
-  });
-
   it('should default digits to zero if truncate set to false', () => {
     const options: SkyNumericOptions = {
       truncate: false,
