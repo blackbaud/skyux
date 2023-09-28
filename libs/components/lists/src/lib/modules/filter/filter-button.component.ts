@@ -54,6 +54,7 @@ export class SkyFilterButtonComponent {
    * filter button's `aria-label` attribute to provide a text equivalent for screen readers
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * The aria label should normally be context sensitive, e.g. "Filter constituents". This is especially true when multiple filter buttons are in close proximity.
+   * When used inside of a toolbar which has been provided the `listDescriptor` input the ARIA label defaults to "Filter <listDescriptor>".
    * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
   @Input()
