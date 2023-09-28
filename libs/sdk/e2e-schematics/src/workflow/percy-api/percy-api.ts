@@ -29,6 +29,15 @@ type Build = {
 
 export type BuildSummary = {
   project: string;
+  state:
+    | 'unsaved'
+    | 'pending'
+    | 'processing'
+    | 'finished'
+    | 'failed'
+    | 'expired'
+    | 'waiting'
+    | undefined;
   approved: boolean;
   removedSnapshots: string[];
 };
@@ -69,20 +78,26 @@ export async function checkPercyBuild(
   const fetchJson = getFetchJson(fetchClient);
   try {
     const projectId = await getProjectId(project, fetchJson);
-    const build = await getBuilds(projectId, [commitSha], fetchJson).then(
+    const build = await getBuilds(projectId, [commitSha], [], fetchJson).then(
       (builds) => builds.pop()
     );
     if (build?.id) {
-      const approved = build.attributes['review-state'] === 'approved';
-      const removedSnapshots = await getRemovedSnapshots(build.id, fetchJson);
+      const finished = build.attributes.state === 'finished';
+      const approved =
+        finished && build.attributes['review-state'] === 'approved';
+      const removedSnapshots = finished
+        ? await getRemovedSnapshots(build.id, fetchJson)
+        : [];
       return {
         project,
+        state: build.attributes.state as BuildSummary['state'],
         approved,
         removedSnapshots,
       };
     } else {
       return {
         project,
+        state: undefined,
         approved: false,
         removedSnapshots: [],
       };
@@ -97,16 +112,32 @@ export async function checkPercyBuild(
 export async function getLastGoodPercyBuild(
   project: string,
   shaArray: string[],
+  allowDeletedScreenshots: boolean,
   /* istanbul ignore next */
   fetchClient: Fetch = fetch
 ): Promise<string> {
   const fetchJson = getFetchJson(fetchClient);
   try {
     const projectId = await getProjectId(project, fetchJson);
-    const builds = await getBuilds(projectId, shaArray, fetchJson);
+    const builds = await getBuilds(
+      projectId,
+      shaArray,
+      ['finished'],
+      fetchJson
+    );
     const lastApprovedBuild = builds.find(
       (build) => build.attributes['review-state'] === 'approved'
     );
+    if (!allowDeletedScreenshots && lastApprovedBuild?.id) {
+      const removedSnapshots = await getRemovedSnapshots(
+        lastApprovedBuild.id,
+        fetchJson
+      );
+      if (removedSnapshots.length > 0) {
+        // Force the build to re-run.
+        return '';
+      }
+    }
     return lastApprovedBuild
       ? (lastApprovedBuild.attributes['commit-html-url']
           .split('/')
@@ -132,11 +163,15 @@ async function getProjectId(
 async function getBuilds(
   projectId: string,
   shas: string[],
+  states: string[],
   fetchJson: FetchJson
 ): Promise<Build[]> {
   const shaFilter = shas.map((sha) => `&filter[shas][]=${sha}`).join('');
+  const stateFilter = states
+    .map((state) => `&filter[state][]=${state}`)
+    .join('');
   return fetchJson<Build[]>(
-    `https://percy.io/api/v1/builds?project_id=${projectId}${shaFilter}&filter[state]=finished&page[limit]=100`,
+    `https://percy.io/api/v1/builds?project_id=${projectId}${shaFilter}${stateFilter}&page[limit]=100`,
     'Percy builds'
   ).then((builds) => builds.filter((build) => build.type === 'builds'));
 }

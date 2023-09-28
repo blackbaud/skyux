@@ -13,6 +13,10 @@ inputs:
   percy-token:
     description: 'The Percy API token'
     required: true
+  allow-deleted-screenshots:
+    description: 'Whether to allow deleted screenshots'
+    required: false
+    default: 'false'
 outputs:
   affected:
     description: 'Whether the e2e tests are affected by the changes'
@@ -42,6 +46,7 @@ runs:
           const lastGoodCommit = await getLastGoodPercyBuild(
             'skyux-${{ inputs.project }}',
             shas,
+            ${{ inputs.allow-deleted-screenshots }},
             (url) => fetch(url, options)
           );
 

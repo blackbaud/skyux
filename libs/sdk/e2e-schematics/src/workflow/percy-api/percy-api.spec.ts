@@ -1,6 +1,11 @@
 import { checkPercyBuild, getLastGoodPercyBuild } from './percy-api';
 
 describe('percy-api', () => {
+  afterEach(() => {
+    jest.resetAllMocks();
+    jest.resetModules();
+  });
+
   it('should check build', async () => {
     const fetchClient = jest.fn().mockImplementation((url: string) => {
       if (url.startsWith('https://percy.io/api/v1/projects')) {
@@ -59,6 +64,7 @@ describe('percy-api', () => {
       approved: true,
       project: 'test-storybook-e2e',
       removedSnapshots: ['anotherName', 'snapshotName'],
+      state: 'finished',
     });
   });
 
@@ -92,9 +98,69 @@ describe('percy-api', () => {
     const result = await getLastGoodPercyBuild(
       'test-storybook-e2e',
       ['commitSha'],
+      true,
       fetchClient
     );
     expect(result).toEqual('commitSha');
+  });
+
+  it('should not return a build with missing screenshots', async () => {
+    const fetchClient = jest.fn().mockImplementation((url: string) => {
+      if (url.startsWith('https://percy.io/api/v1/projects')) {
+        return Promise.resolve({
+          json: () => Promise.resolve({ data: { id: 'projectId' } }),
+        });
+      }
+      if (url.startsWith('https://percy.io/api/v1/builds')) {
+        if (url.endsWith('/removed-snapshots')) {
+          return Promise.resolve({
+            json: () =>
+              Promise.resolve({
+                data: [
+                  {
+                    type: 'snapshots',
+                    id: 'snapshotId',
+                    attributes: {
+                      name: 'snapshotName',
+                    },
+                  },
+                  {
+                    type: 'snapshots',
+                    id: 'anotherId',
+                    attributes: {
+                      name: 'anotherName',
+                    },
+                  },
+                ],
+              }),
+          });
+        }
+        return Promise.resolve({
+          json: () =>
+            Promise.resolve({
+              data: [
+                {
+                  id: 'buildId',
+                  type: 'builds',
+                  attributes: {
+                    'review-state': 'approved',
+                    state: 'finished',
+                    'commit-html-url': 'https://.../commitSha',
+                  },
+                },
+              ],
+            }),
+        });
+      }
+      return Promise.reject(new Error('Unexpected URL'));
+    });
+    const result = await getLastGoodPercyBuild(
+      'test-storybook-e2e',
+      ['commitSha'],
+      false,
+      fetchClient
+    );
+    expect(result).toEqual('');
   });
 
   it('should handle no good builds', async () => {
@@ -117,6 +183,7 @@ describe('percy-api', () => {
     const result = await getLastGoodPercyBuild(
       'test-storybook-e2e',
       ['commitSha'],
+      true,
       fetchClient
     );
     expect(result).toEqual('');
@@ -148,6 +215,47 @@ describe('percy-api', () => {
       approved: false,
       project: 'test-storybook-e2e',
       removedSnapshots: [],
+      state: undefined,
+    });
+  });
+
+  it('should handle unfinished build', async () => {
+    const fetchClient = jest.fn().mockImplementation((url: string) => {
+      if (url.startsWith('https://percy.io/api/v1/projects')) {
+        return Promise.resolve({
+          json: () => Promise.resolve({ data: { id: 'projectId' } }),
+        });
+      }
+      if (url.startsWith('https://percy.io/api/v1/builds')) {
+        return Promise.resolve({
+          json: () =>
+            Promise.resolve({
+              data: [
+                {
+                  id: 'buildId',
+                  type: 'builds',
+                  attributes: {
+                    'review-state': 'approved',
+                    state: 'pending',
+                    'commit-html-url': 'https://.../commitSha',
+                  },
+                },
+              ],
+            }),
+        });
+      }
+      return Promise.reject(new Error('Unexpected URL'));
+    });
+    const result = await checkPercyBuild(
+      'test-storybook-e2e',
+      'commitSha',
+      fetchClient
+    );
+    expect(result).toEqual({
+      approved: false,
+      project: 'test-storybook-e2e',
+      removedSnapshots: [],
+      state: 'pending',
     });
   });
 
@@ -159,7 +267,12 @@ describe('percy-api', () => {
       checkPercyBuild('test-storybook-e2e', 'commitSha', fetchClient)
     ).rejects.toThrowError('Error checking Percy build: Error: Nope.');
     await expect(
-      getLastGoodPercyBuild('test-storybook-e2e', ['commitSha'], fetchClient)
+      getLastGoodPercyBuild(
+        'test-storybook-e2e',
+        ['commitSha'],
+        true,
+        fetchClient
+      )
     ).rejects.toThrowError('Error checking Percy: Error: Nope.');
   });
 

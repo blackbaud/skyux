@@ -292,6 +292,7 @@ jobs:
           head: ${{ needs.install-deps.outputs.head }}
           project: ${{ matrix.project }}
           percy-token: ${{ secrets.PERCY_API }}
+          allow-deleted-screenshots: ${{ contains( fromJSON( needs.install-deps.outputs.pr-labels ), 'screenshot removed' ) }}
       - name: Verify Cypress
         run: npx cypress verify
         if: ${{ matrix.project != 'skip' && steps.affected.outputs.affected == 'true' }}
