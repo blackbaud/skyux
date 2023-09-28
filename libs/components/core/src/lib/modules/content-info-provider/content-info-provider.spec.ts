@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { SkyContentInfoProvider } from './content-info-provider';
-import { SkyDescriptor } from './descriptor';
+import { SkyContentInfoDescriptor } from './descriptor';
 
 describe('SkyContentInfoProvider', () => {
   let contentInfoProvider: SkyContentInfoProvider;
@@ -19,14 +19,14 @@ describe('SkyContentInfoProvider', () => {
   });
 
   it('should receive values from setContentInfo calls', (done) => {
-    const contentDescriptor: SkyDescriptor = {
+    const contentDescriptor: SkyContentInfoDescriptor = {
       type: 'text',
       value: 'value',
     };
     const obs = contentInfoProvider.getInfo();
 
     obs?.subscribe((value) => {
-      expect(value.descriptor?.value).toEqual(contentDescriptor.value);
+      expect(value.descriptor).toEqual(contentDescriptor);
       done();
     });
 
@@ -36,7 +36,7 @@ describe('SkyContentInfoProvider', () => {
   });
 
   it('should receive the last value from setContentInfo when a value is set before getting observable', (done) => {
-    const contentDescriptor: SkyDescriptor = {
+    const contentDescriptor: SkyContentInfoDescriptor = {
       type: 'text',
       value: 'value',
     };

@@ -12,6 +12,7 @@ import {
   SkyAffixService,
   SkyAffixer,
   SkyContentInfoProvider,
+  SkyIdService,
 } from '@skyux/core';
 import {
   SkyTheme,
@@ -35,6 +36,7 @@ describe('Dropdown component', function () {
   let mockThemeService: {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
+  let idService: SkyIdService;
 
   //#region helpers
 
@@ -138,6 +140,8 @@ describe('Dropdown component', function () {
     fixture = TestBed.createComponent(DropdownFixtureComponent);
 
     contentInfoProvider = TestBed.inject(SkyContentInfoProvider);
+
+    idService = TestBed.inject(SkyIdService);
   });
 
   afterEach(() => {
@@ -1219,6 +1223,8 @@ describe('Dropdown component', function () {
     }));
 
     it('should set the correct aria label when an elementId descriptor is specified via SkyContentProvider', fakeAsync(() => {
+      const contextMenuSrId = 'sr-context-menu';
+      spyOn(idService, 'generateId').and.callFake(() => contextMenuSrId);
       fixture.componentInstance.buttonType = 'context-menu';
       contentInfoProvider.patchInfo({
         descriptor: { type: 'elementId', value: 'sr-descriptor-label' },
@@ -1228,7 +1234,7 @@ describe('Dropdown component', function () {
       const button = getButtonElement();
 
       expect(button?.getAttribute('aria-labelledBy')).toEqual(
-        'sky-sr-label-context-menu, sr-label-descriptor'
+        `${contextMenuSrId} sr-descriptor-label`
       );
     }));
 

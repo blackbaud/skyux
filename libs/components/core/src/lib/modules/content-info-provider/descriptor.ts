@@ -1,4 +1,4 @@
-export type SkyDescriptor = {
+export type SkyContentInfoDescriptor = {
   type: 'text' | 'elementId';
   value: string;
 };

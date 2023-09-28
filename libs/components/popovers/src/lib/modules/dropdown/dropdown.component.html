@@ -1,5 +1,5 @@
 <div class="sky-dropdown">
-  <div class="sky-screen-reader-only" id="sky-sr-label-context-menu">
+  <div class="sky-screen-reader-only" skyId #srLabelContextMenu="skyId">
     {{
       'skyux_dropdown_context_menu_with_content_descriptor_el_default_label'
         | skyLibResources
@@ -20,11 +20,12 @@
           : ('skyux_dropdown_context_menu_default_label' | skyLibResources)
         : undefined)
     "
-    [attr.aria-labelledBy]="
+    [attr.aria-labelledby]="
       !label &&
       buttonType === 'context-menu' &&
       (contentInfoObs | async)?.descriptor?.type === 'elementId'
-        ? 'sky-sr-label-context-menu ' +
+        ? srLabelContextMenu.id +
+          ' ' +
           (contentInfoObs | async)?.descriptor?.value
         : undefined
     "
