@@ -102,6 +102,7 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     skyux_date_range_picker_end_date_label: { message: 'To date' },
     skyux_date_range_picker_before_date_label: { message: 'Before date' },
     skyux_date_range_picker_after_date_label: { message: 'After date' },
+    skyux_date_range_picker_default_aria_label: { message: '{0} for {1}' },
   },
 };
 
