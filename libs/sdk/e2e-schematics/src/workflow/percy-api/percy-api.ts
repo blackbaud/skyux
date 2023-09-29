@@ -63,7 +63,13 @@ function getFetchJson(
   return async (url: string, name: string) =>
     fetchClient(url)
       .then((res) => res.json())
-      .then((res) => res.data)
+      .then((res) => {
+        if (res.data) {
+          return res.data;
+        } else {
+          throw new Error(`Error fetching ${name}: ${res}`, { cause: res });
+        }
+      })
       .catch((error) => {
         throw new Error(`Error fetching ${name}: ${error}`, { cause: error });
       });
@@ -157,7 +163,15 @@ async function getProjectId(
   return fetchJson<{ id: string }>(
     `https://percy.io/api/v1/projects?project_slug=${slug}`,
     'Percy project ID'
-  ).then((response) => response.id);
+  ).then((response) => {
+    if (response.id) {
+      return response.id;
+    } else {
+      throw new Error(
+        `Error fetching Percy project ID for ${slug}: ${response}`
+      );
+    }
+  });
 }
 
 async function getBuilds(

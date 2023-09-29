@@ -219,6 +219,22 @@ describe('percy-api', () => {
     });
   });
 
+  it('should handle no matching project', async () => {
+    const fetchClient = jest.fn().mockImplementation((url: string) => {
+      if (url.startsWith('https://percy.io/api/v1/projects')) {
+        return Promise.resolve({
+          json: () => Promise.resolve({ data: {} }),
+        });
+      }
+      return Promise.reject(new Error('Unexpected URL'));
+    });
+    await expect(
+      checkPercyBuild('test-storybook-e2e', 'commitSha', fetchClient)
+    ).rejects.toThrowError(
+      'Error checking Percy build: Error: Error fetching Percy project ID for test-storybook-e2e: [object Object]'
+    );
+  });
+
   it('should handle unfinished build', async () => {
     const fetchClient = jest.fn().mockImplementation((url: string) => {
       if (url.startsWith('https://percy.io/api/v1/projects')) {
@@ -285,6 +301,21 @@ describe('percy-api', () => {
     ).rejects.toEqual(
       new Error(
         'Error checking Percy build: Error: Error fetching Percy project ID: Nope.'
+      )
+    );
+  });
+
+  it('should handle response without data', async () => {
+    const fetchClient = jest
+      .fn()
+      .mockImplementation(() =>
+        Promise.resolve({ json: () => Promise.resolve({}) })
+      );
+    await expect(
+      checkPercyBuild('test-storybook-e2e', 'commitSha', fetchClient)
+    ).rejects.toEqual(
+      new Error(
+        'Error checking Percy build: Error: Error fetching Percy project ID: Error: Error fetching Percy project ID: [object Object]'
       )
     );
   });
