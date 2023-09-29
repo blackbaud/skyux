@@ -16,8 +16,8 @@ export class SkyDefaultInputProvider {
     componentName: string,
     inputName: string
   ): Observable<T> | undefined {
-    const test = this.#getSubject(componentName, inputName);
-    return test.asObservable() as Observable<T>;
+    const inputDefault = this.#getSubject(componentName, inputName);
+    return inputDefault.asObservable() as Observable<T>;
   }
 
   #getSubject(

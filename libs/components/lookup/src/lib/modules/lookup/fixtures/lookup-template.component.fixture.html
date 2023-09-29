@@ -20,8 +20,7 @@
     (addClick)="addButtonClicked($event)"
     [(ngModel)]="selectedFriends"
     #standardLookup
-  >
-  </sky-lookup>
+  />
 </form>
 
 <ng-template let-item="item" #customSearchResultTemplate>
@@ -55,7 +54,8 @@
     (searchAsync)="searchAsync($event)"
     [(ngModel)]="selectedFriendsAsync"
     #asyncLookup
-  >
-  </sky-lookup>
+  />
 </form>
-<button class="sky-btn sky-btn-primary" id="test-button">Test</button>
+<button class="sky-btn sky-btn-primary" id="test-button" type="button">
+  Test
+</button>

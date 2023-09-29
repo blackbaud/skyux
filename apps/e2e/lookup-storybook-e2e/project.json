@@ -17,7 +17,8 @@
           "devServerTarget": "lookup-storybook:serve:production"
         },
         "ci": {
-          "devServerTarget": "lookup-storybook:serve-static"
+          "devServerTarget": "lookup-storybook:storybook:ci",
+          "browser": "chrome"
         }
       }
     },

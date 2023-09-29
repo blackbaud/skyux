@@ -58,8 +58,7 @@
         <sky-icon
           [icon]="node.isExpanded ? 'chevron-down' : 'chevron-right'"
           size="sm"
-        >
-        </sky-icon>
+        />
       </button>
       <span *ngIf="showTogglePlaceholder()" class="toggle-children-placeholder">
       </span>
@@ -80,7 +79,7 @@
       </sky-checkbox>
 
       <sky-angular-tree-context-menu>
-        <ng-content select="sky-dropdown"></ng-content>
+        <ng-content select="sky-dropdown" />
       </sky-angular-tree-context-menu>
 
       <tree-node-content

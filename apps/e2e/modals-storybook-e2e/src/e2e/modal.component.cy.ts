@@ -26,18 +26,35 @@ describe('modals-storybook', () => {
             .end()
             .get('.sky-modal')
             .should('exist')
-            .should('be.visible')
-            .screenshot(`modalcomponent-modal--${modalType}-modal-${theme}`, {
-              disableTimersAndAnimations: true,
-              scale: false,
-            })
-            .percySnapshot(
-              `modalcomponent-modal--${modalType}-modal-${theme}`,
-              {
-                widths: E2eVariations.DISPLAY_WIDTHS,
-              }
-            )
-            .get('.sky-btn-close')
+            .should('be.visible');
+          if (modalType === 'full-page') {
+            // Full page modals fit the viewport, which conflicts with how Cypress determines element screenshot bounds.
+            cy.window()
+              .screenshot(`modalcomponent-modal--${modalType}-modal-${theme}`, {
+                disableTimersAndAnimations: true,
+                scale: false,
+                capture: 'viewport',
+              })
+              .percySnapshot(
+                `modalcomponent-modal--${modalType}-modal-${theme}`,
+                {
+                  widths: E2eVariations.DISPLAY_WIDTHS,
+                }
+              );
+          } else {
+            cy.get('.sky-modal')
+              .screenshot(`modalcomponent-modal--${modalType}-modal-${theme}`, {
+                disableTimersAndAnimations: true,
+                scale: false,
+              })
+              .percySnapshot(
+                `modalcomponent-modal--${modalType}-modal-${theme}`,
+                {
+                  widths: E2eVariations.DISPLAY_WIDTHS,
+                }
+              );
+          }
+          cy.get('.sky-btn-close')
             .should('exist')
             .should('be.visible')
             .click()

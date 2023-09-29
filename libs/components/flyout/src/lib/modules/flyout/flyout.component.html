@@ -38,11 +38,12 @@
       <button
         *skyThemeIf="'modern'"
         class="sky-btn sky-btn-icon-borderless sky-margin-inline-sm sky-flyout-header-grab-handle"
+        type="button"
         [attr.aria-label]="'skyux_flyout_resize_handle' | skyLibResources"
         (keydown)="onHeaderGrabHandleKeyDown($event)"
         (mousedown)="onHeaderGrabHandleMouseDown($event)"
       >
-        <sky-icon icon="tile-drag" size="lg"> </sky-icon>
+        <sky-icon icon="tile-drag" size="lg" />
       </button>
 
       <sky-flyout-iterator
@@ -67,8 +68,8 @@
         }"
         (click)="close()"
       >
-        <sky-icon *skyThemeIf="'default'" icon="close"> </sky-icon>
-        <sky-icon *skyThemeIf="'modern'" icon="close" size="lg"> </sky-icon>
+        <sky-icon *skyThemeIf="'default'" icon="close" />
+        <sky-icon *skyThemeIf="'modern'" icon="close" size="lg" />
       </button>
     </div>
   </div>
