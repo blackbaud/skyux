@@ -9,7 +9,10 @@ describe('indicators-storybook', () => {
         )
       );
       it('should render the component', () => {
-        cy.get('app-icon')
+        cy.get('#ready')
+          .should('exist')
+          .end()
+          .get('app-icon')
           .should('exist')
           .should('be.visible')
           .screenshot(`iconcomponent-icon--icon-${theme}`)
