@@ -1,6 +1,6 @@
 {
   "skyux_filter_aria_label_descriptor": {
-    "_description": "Default Default aria label for a filter button when a descriptor is given",
+    "_description": "Default ARIA label for a filter button when a descriptor is given",
     "message": "Filter {0}"
   },
   "skyux_filter_button_title": {
@@ -104,7 +104,7 @@
     "message": "Move to top"
   },
   "skyux_sort_aria_label_descriptor": {
-    "_description": "Default aria label for a sort button when a descriptor is given",
+    "_description": "Default ARIA label for a sort button when a descriptor is given",
     "message": "Sort {0}"
   },
   "skyux_sort_button_label": {

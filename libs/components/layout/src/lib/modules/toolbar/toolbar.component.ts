@@ -29,8 +29,8 @@ export class SkyToolbarComponent {
   }
 
   /**
-   * A descriptor term for the items that the toolbar actions are manipulating. This term should be plural and is used to construct context specific accessibility labels for the search inputs, sort menus, and filter buttons.
-   * For example, if a value of 'constituents' is given the accessibility labels will default to values such as "Search constituents". For more information about accessibility labels, see the [WAI-ARIA definition for `aria-label`](https://www.w3.org/TR/wai-aria/#aria-label).
+   * A descriptor for the items that the toolbar manipulates. Use a plural term. The descriptor helps set the toolbar’s `aria-label` attributes for search inputs, sort buttons, and filter buttons to provide text equivalents for screen readers [to support accessibility](https://developer.blackbaud.com/skyux/components/checkbox#accessibility).
+   * For example, when the descriptor is “constituents,” the search input’s `aria-label` is “Search constituents.” For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
   @Input()
   public set listDescriptor(value: string | undefined) {

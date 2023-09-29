@@ -66,10 +66,10 @@ const EXPAND_MODE_NONE = 'none';
 })
 export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   /**
-   * The ARIA label for the search. This sets the search's `aria-label` attribute to provide a text equivalent for screen readers
+   * The ARIA label for the search input. This sets the search input's `aria-label` attribute to provide a text equivalent for screen readers
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
-   * The aria label should normally be context sensitive, e.g. "Search constituents". This is especially true when multiple search boxes are in close proximity.
-   * When used inside of a toolbar which has been provided the `listDescriptor` input the ARIA label defaults to "Search <listDescriptor>".
+   * Use a context-sensitive label, such as "Search constituents." Context is especially important when multiple search inputs are in close proximity.
+   * In toolbars, search inputs use the `listDescriptor` to provide context, and the ARIA label defaults to "Search <listDescriptor>."
    * If the box includes a visible label, use `ariaLabelledBy` instead.
    * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
