@@ -19,6 +19,7 @@ import {
 
 const RESOURCES: { [locale: string]: SkyLibResources } = {
   'EN-US': {
+    skyux_filter_aria_label_descriptor: { message: 'Filter {0}' },
     skyux_filter_button_title: { message: 'Filter' },
     skyux_filter_summary_close: { message: 'Remove filter' },
     skyux_filter_summary_header: { message: 'Filter' },
@@ -56,6 +57,7 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     skyux_repeater_item_reorder_top: { message: 'Top' },
     skyux_repeater_item_reorder_top_label: { message: 'Move {0} to top' },
     skyux_repeater_item_reorder_top_label_default: { message: 'Move to top' },
+    skyux_sort_aria_label_descriptor: { message: 'Sort {0}' },
     skyux_sort_button_label: { message: 'Sort' },
     skyux_sort_menu_heading: { message: 'Sort by' },
   },

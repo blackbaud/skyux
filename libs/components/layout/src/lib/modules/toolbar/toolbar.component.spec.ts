@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyContentInfoProvider } from '@skyux/core';
 
 import { SkyToolbarSectionedTestComponent } from './fixtures/toolbar-sectioned.component.fixture';
 import { SkyToolbarTestComponent } from './fixtures/toolbar.component.fixture';
@@ -25,6 +26,42 @@ describe('toolbar component', () => {
 
       expect(buttonEls.item(0)).toHaveText('Button 1');
       expect(buttonEls.item(1)).toHaveText('Button 2');
+    });
+
+    it('should call the content info provider for standard components with undefined if no listDescriptor is given', async () => {
+      const patchInfoSpy = spyOn(
+        SkyContentInfoProvider.prototype,
+        'patchInfo'
+      ).and.stub();
+
+      const fixture = TestBed.createComponent(SkyToolbarTestComponent);
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      expect(patchInfoSpy.calls.count()).toBe(1);
+      expect(patchInfoSpy.calls.all()[0].args).toEqual([
+        { descriptor: undefined },
+      ]);
+    });
+
+    it('should call the default input provider for standard components with the listDescriptor if a listDescriptor is given', async () => {
+      const patchInfoSpy = spyOn(
+        SkyContentInfoProvider.prototype,
+        'patchInfo'
+      ).and.stub();
+
+      const fixture = TestBed.createComponent(SkyToolbarTestComponent);
+      fixture.componentInstance.listDescriptor = 'constituents';
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      expect(patchInfoSpy.calls.count()).toBe(1);
+      expect(patchInfoSpy.calls.all()[0].args).toEqual([
+        { descriptor: 'constituents' },
+      ]);
     });
 
     it('should be accessible', async () => {
