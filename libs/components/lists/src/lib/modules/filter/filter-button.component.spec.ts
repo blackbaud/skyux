@@ -1,11 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyContentInfoProvider } from '@skyux/core';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyFilterModule } from './filter.module';
 import { FilterButtonTestComponent } from './fixtures/filter-button.component.fixture';
 
 describe('Filter button', () => {
+  let contentInfoProvider: SkyContentInfoProvider;
   let fixture: ComponentFixture<FilterButtonTestComponent>;
   let nativeElement: HTMLElement;
   let component: FilterButtonTestComponent;
@@ -14,12 +16,15 @@ describe('Filter button', () => {
     TestBed.configureTestingModule({
       declarations: [FilterButtonTestComponent],
       imports: [SkyFilterModule, SkyThemeModule],
+      providers: [SkyContentInfoProvider],
     });
 
     fixture = TestBed.createComponent(FilterButtonTestComponent);
     nativeElement = fixture.nativeElement as HTMLElement;
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+    contentInfoProvider = TestBed.inject(SkyContentInfoProvider);
   });
 
   function getButtonEl(): HTMLButtonElement {
@@ -60,6 +65,23 @@ describe('Filter button', () => {
     expect(button?.getAttribute('aria-controls')).toBe('filter-zone-2');
     expect(button?.getAttribute('aria-expanded')).toBe('true');
     expect(button?.getAttribute('aria-label')).toBe('Test label');
+  });
+
+  it('should use the content info provider for aria label when applicable', () => {
+    contentInfoProvider.patchInfo({ descriptor: 'constituents' });
+    fixture.detectChanges();
+
+    const button = nativeElement.querySelector('.sky-btn');
+    expect(button?.getAttribute('aria-label')).toBe('Filter constituents');
+  });
+
+  it('should not use the default input provider for aria label when overwritten', () => {
+    contentInfoProvider.patchInfo({ descriptor: 'constituents' });
+    component.ariaLabel = 'Overwritten label';
+    fixture.detectChanges();
+
+    const button = nativeElement.querySelector('.sky-btn');
+    expect(button?.getAttribute('aria-label')).toBe('Overwritten label');
   });
 
   it('should set a default aria label when the ariaLabel property is not given', () => {

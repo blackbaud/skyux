@@ -55,6 +55,32 @@ describe('Icon resolver service', () => {
               name: 'no-fa',
               usage: [],
             },
+            {
+              code: 16,
+              faNames: ['fa-name1', 'fa-name2'],
+              name: 'has-fa-2-line',
+              usage: [],
+            },
+
+            {
+              code: 17,
+              faNames: ['fa-name1', 'fa-name2'],
+              name: 'has-fa-2-solid',
+              usage: [],
+            },
+            {
+              code: 18,
+              faNames: ['fa-name3'],
+              name: 'has-fa-3',
+              usage: [],
+            },
+
+            {
+              code: 19,
+              faNames: ['fa-name3'],
+              name: 'has-fa-3-solid',
+              usage: [],
+            },
           ],
           name: 'test',
         };
@@ -93,6 +119,18 @@ describe('Icon resolver service', () => {
     it('should return a Font Awesome icon when a SKY UX icon is specified that has a Font Awesome equivalent', () => {
       expect(svc.resolveIcon('has-fa', undefined, themeSettings)).toEqual({
         icon: 'fa-name',
+        iconType: 'fa',
+      });
+    });
+
+    it('should return the correct Font Awesome icon even if specifying a variant for modern theme', () => {
+      expect(svc.resolveIcon('has-fa-2', 'line', themeSettings)).toEqual({
+        icon: 'fa-name1',
+        iconType: 'fa',
+      });
+
+      expect(svc.resolveIcon('fa-name2', 'solid', themeSettings)).toEqual({
+        icon: 'fa-name2',
         iconType: 'fa',
       });
     });
@@ -153,6 +191,26 @@ describe('Icon resolver service', () => {
     it('should return the solid variant if it exists', () => {
       expect(svc.resolveIcon('widget', 'solid', themeSettings)).toEqual({
         icon: 'widget-solid',
+        iconType: 'skyux',
+      });
+    });
+
+    it('should return the correct variant when given a Font Awesome icon name', () => {
+      // find the default icon variant
+      expect(svc.resolveIcon('fa-name1', undefined, themeSettings)).toEqual({
+        icon: 'has-fa-2-line',
+        iconType: 'skyux',
+      });
+
+      // find the correct icon variant
+      expect(svc.resolveIcon('fa-name2', 'solid', themeSettings)).toEqual({
+        icon: 'has-fa-2-solid',
+        iconType: 'skyux',
+      });
+
+      // find the correct "default" icon when no variant matching the request exists
+      expect(svc.resolveIcon('fa-name3', 'line', themeSettings)).toEqual({
+        icon: 'has-fa-3',
         iconType: 'skyux',
       });
     });

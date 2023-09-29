@@ -35,7 +35,11 @@
             [attr.aria-label]="
               ariaLabelledBy
                 ? undefined
-                : (ariaLabel ?? 'skyux_search_label' | skyLibResources)
+                : ariaLabel ||
+                  ((contentInfoObs | async)?.descriptor
+                    ? ('skyux_search_aria_label_descriptor'
+                      | skyLibResources : (contentInfoObs | async)?.descriptor)
+                    : ('skyux_search_label' | skyLibResources))
             "
             [attr.aria-labelledby]="ariaLabelledBy"
             [attr.placeholder]="
@@ -60,12 +64,8 @@
               [disabled]="disabled"
               (click)="clearSearchText()"
             >
-              <sky-icon *skyThemeIf="'default'" icon="times"></sky-icon>
-              <sky-icon
-                *skyThemeIf="'modern'"
-                icon="close"
-                size="sm"
-              ></sky-icon>
+              <sky-icon *skyThemeIf="'default'" icon="times" />
+              <sky-icon *skyThemeIf="'modern'" icon="close" size="sm" />
             </button>
           </span>
           <span
@@ -102,14 +102,17 @@
         [attr.title]="'skyux_search_dismiss' | skyLibResources"
         (click)="toggleSearchInput(false)"
       >
-        <sky-icon *skyThemeIf="'default'" icon="chevron-circle-left" size="lg">
-        </sky-icon>
-        <sky-icon *skyThemeIf="'modern'" icon="double-chevron-left"> </sky-icon>
+        <sky-icon
+          *skyThemeIf="'default'"
+          icon="chevron-circle-left"
+          size="lg"
+        />
+        <sky-icon *skyThemeIf="'modern'" icon="double-chevron-left" />
       </button>
     </div>
   </div>
 </div>
 
 <ng-template #searchIconTemplate>
-  <sky-icon icon="search" size="lg"></sky-icon>
+  <sky-icon icon="search" size="lg" />
 </ng-template>
