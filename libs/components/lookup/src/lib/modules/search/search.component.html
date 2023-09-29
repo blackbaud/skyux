@@ -64,12 +64,8 @@
               [disabled]="disabled"
               (click)="clearSearchText()"
             >
-              <sky-icon *skyThemeIf="'default'" icon="times"></sky-icon>
-              <sky-icon
-                *skyThemeIf="'modern'"
-                icon="close"
-                size="sm"
-              ></sky-icon>
+              <sky-icon *skyThemeIf="'default'" icon="times" />
+              <sky-icon *skyThemeIf="'modern'" icon="close" size="sm" />
             </button>
           </span>
           <span
@@ -106,14 +102,17 @@
         [attr.title]="'skyux_search_dismiss' | skyLibResources"
         (click)="toggleSearchInput(false)"
       >
-        <sky-icon *skyThemeIf="'default'" icon="chevron-circle-left" size="lg">
-        </sky-icon>
-        <sky-icon *skyThemeIf="'modern'" icon="double-chevron-left"> </sky-icon>
+        <sky-icon
+          *skyThemeIf="'default'"
+          icon="chevron-circle-left"
+          size="lg"
+        />
+        <sky-icon *skyThemeIf="'modern'" icon="double-chevron-left" />
       </button>
     </div>
   </div>
 </div>
 
 <ng-template #searchIconTemplate>
-  <sky-icon icon="search" size="lg"></sky-icon>
+  <sky-icon icon="search" size="lg" />
 </ng-template>

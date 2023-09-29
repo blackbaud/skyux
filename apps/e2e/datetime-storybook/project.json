@@ -102,7 +102,8 @@
       },
       "configurations": {
         "ci": {
-          "quiet": true
+          "quiet": true,
+          "ci": true
         }
       }
     },
@@ -122,6 +123,18 @@
       "configurations": {
         "ci": {
           "quiet": true
+        }
+      }
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "datetime-storybook:build-storybook",
+        "staticFilePath": "dist/storybook/datetime-storybook"
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "datetime-storybook:build-storybook:ci"
         }
       }
     }

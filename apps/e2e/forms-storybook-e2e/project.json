@@ -11,6 +11,13 @@
         "devServerTarget": "forms-storybook:storybook",
         "testingType": "e2e",
         "baseUrl": "http://localhost:4400"
+      },
+      "configurations": {
+        "ci": {
+          "devServerTarget": "forms-storybook:static-storybook:ci",
+          "browser": "chrome",
+          "baseUrl": "http://localhost:4200"
+        }
       }
     },
     "lint": {

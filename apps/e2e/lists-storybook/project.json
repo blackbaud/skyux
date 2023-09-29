@@ -97,7 +97,8 @@
       },
       "configurations": {
         "ci": {
-          "quiet": true
+          "quiet": true,
+          "ci": true
         }
       }
     },
@@ -117,6 +118,18 @@
       "configurations": {
         "ci": {
           "quiet": true
+        }
+      }
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "lists-storybook:build-storybook",
+        "staticFilePath": "dist/storybook/lists-storybook"
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "lists-storybook:build-storybook:ci"
         }
       }
     }

@@ -14,7 +14,9 @@
       },
       "configurations": {
         "ci": {
-          "skipServe": true
+          "devServerTarget": "pages-storybook:static-storybook:ci",
+          "browser": "chrome",
+          "baseUrl": "http://localhost:4200"
         }
       }
     },

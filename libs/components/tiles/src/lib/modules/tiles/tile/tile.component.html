@@ -10,10 +10,10 @@
   <header class="sky-tile-header">
     <div class="sky-tile-header-content" (click)="titleClick()">
       <div class="sky-tile-header-title" #titleContainer>
-        <ng-content select="sky-tile-title"></ng-content>
+        <ng-content select="sky-tile-title" />
       </div>
       <div class="sky-tile-summary sky-font-display-3">
-        <ng-content select="sky-tile-summary"></ng-content>
+        <ng-content select="sky-tile-summary" />
       </div>
     </div>
     <div class="sky-tile-header-column-tools">
@@ -33,7 +33,7 @@
             }"
             (click)="helpButtonClicked()"
           >
-            <sky-icon icon="question-circle"></sky-icon>
+            <sky-icon icon="question-circle" />
           </button>
         </ng-container>
         <sky-chevron
@@ -66,7 +66,7 @@
           }"
           (click)="settingsButtonClicked()"
         >
-          <sky-icon icon="cog"></sky-icon>
+          <sky-icon icon="cog" />
         </button>
         <button
           *ngIf="isInDashboardColumn"
@@ -86,7 +86,7 @@
           (keydown)="moveTile($event)"
           #grabHandle
         >
-          <sky-icon icon="tile-drag"></sky-icon>
+          <sky-icon icon="tile-drag" />
         </button>
       </div>
     </div>
@@ -99,6 +99,6 @@
     [@skyAnimationSlide]="isCollapsed ? 'up' : 'down'"
     #tileContent="skyId"
   >
-    <ng-content select="sky-tile-content"></ng-content>
+    <ng-content select="sky-tile-content" />
   </div>
 </section>
