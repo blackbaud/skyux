@@ -67,11 +67,15 @@ function getFetchJson(
         if (res.data) {
           return res.data;
         } else {
-          throw new Error(`Error fetching ${name}: ${res}`, { cause: res });
+          return Promise.reject(
+            `Error fetching ${name}: ${JSON.stringify(res, null, 2)}`
+          );
         }
       })
       .catch((error) => {
-        throw new Error(`Error fetching ${name}: ${error}`, { cause: error });
+        return Promise.reject(
+          new Error(`Error fetching ${name}`, { cause: error })
+        );
       });
 }
 
@@ -109,9 +113,11 @@ export async function checkPercyBuild(
       };
     }
   } catch (error) {
-    throw new Error(`Error checking Percy build: ${error}`, {
-      cause: error,
-    });
+    return Promise.reject(
+      new Error(`Error checking Percy build: ${error}`, {
+        cause: error,
+      })
+    );
   }
 }
 
@@ -167,8 +173,8 @@ async function getProjectId(
     if (response.id) {
       return response.id;
     } else {
-      throw new Error(
-        `Error fetching Percy project ID for ${slug}: ${response}`
+      return Promise.reject(
+        `Percy project ID response for ${slug}: ${JSON.stringify(response)}`
       );
     }
   });

@@ -394,7 +394,7 @@ jobs:
             const options = {
               method: 'GET',
               headers: {
-                Authorization: 'Token ${{ inputs.percy-token }}'
+                Authorization: 'Token ${{ secrets.PERCY_API }}'
               }
             };
 
