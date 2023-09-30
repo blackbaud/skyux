@@ -17,7 +17,8 @@
           "devServerTarget": "colorpicker-storybook:serve:production"
         },
         "ci": {
-          "devServerTarget": "colorpicker-storybook:serve-static"
+          "devServerTarget": "colorpicker-storybook:storybook:ci",
+          "browser": "chrome"
         }
       }
     },

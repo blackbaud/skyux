@@ -17,7 +17,8 @@
           "devServerTarget": "progress-indicator-storybook:serve:production"
         },
         "ci": {
-          "devServerTarget": "progress-indicator-storybook:serve-static"
+          "devServerTarget": "progress-indicator-storybook:storybook:ci",
+          "browser": "chrome"
         }
       }
     },

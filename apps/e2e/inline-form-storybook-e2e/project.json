@@ -17,7 +17,8 @@
           "devServerTarget": "inline-form-storybook:serve:production"
         },
         "ci": {
-          "devServerTarget": "inline-form-storybook:serve-static"
+          "devServerTarget": "inline-form-storybook:storybook:ci",
+          "browser": "chrome"
         }
       }
     },

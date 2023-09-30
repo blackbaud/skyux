@@ -17,7 +17,8 @@
           "devServerTarget": "navbar-storybook:serve:production"
         },
         "ci": {
-          "devServerTarget": "navbar-storybook:serve-static"
+          "devServerTarget": "navbar-storybook:storybook:ci",
+          "browser": "chrome"
         }
       }
     },

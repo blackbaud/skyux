@@ -59,6 +59,19 @@ export default async function (tree: Tree, schema: Schema) {
             }
           }
         });
+        if (
+          targetConfig.executor === '@storybook/angular:start-storybook' &&
+          !targetConfig.configurations?.['ci']['ci']
+        ) {
+          hasChanged = true;
+          targetConfig.configurations = {
+            ...targetConfig.configurations,
+            ci: {
+              ...targetConfig.configurations?.['ci'],
+              ci: true,
+            },
+          };
+        }
       }
       // Drop the asset path.
       if (target === 'build' && targetConfig.options.assets) {
@@ -93,6 +106,24 @@ export default async function (tree: Tree, schema: Schema) {
           ...e2eProject.targets['e2e'].options,
           devServerTarget: `${projectName}:storybook`,
           baseUrl: `http://localhost:4400`,
+        };
+      }
+      if (
+        e2eProject.targets['e2e'].options.devServerTarget ===
+          `${projectName}:storybook` &&
+        e2eProject.targets['e2e'].configurations?.['ci'].devServerTarget !==
+          `${projectName}:storybook:ci`
+      ) {
+        hasChanged = true;
+
+        e2eProject.targets['e2e'].configurations = {
+          ...e2eProject.targets['e2e'].configurations,
+          ci: {
+            ...e2eProject.targets['e2e'].configurations?.['ci'],
+            browser: 'chrome',
+            devServerTarget: `${projectName}:storybook:ci`,
+            skipServe: undefined,
+          },
         };
       }
       if (hasChanged) {

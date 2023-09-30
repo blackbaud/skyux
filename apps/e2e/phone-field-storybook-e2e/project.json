@@ -17,7 +17,8 @@
           "devServerTarget": "phone-field-storybook:serve:production"
         },
         "ci": {
-          "devServerTarget": "phone-field-storybook:serve-static"
+          "devServerTarget": "phone-field-storybook:storybook:ci",
+          "browser": "chrome"
         }
       }
     },
