@@ -296,6 +296,9 @@ export class SkyColorpickerService {
       hsla.lightness = (value * (2 - saturation)) / 2;
       hsla.saturation =
         (value * saturation) / (1 - Math.abs(2 * hsla.lightness - 1));
+      if (Number.isNaN(hsla.saturation)) {
+        hsla.saturation = 0;
+      }
     }
     return hsla;
   }
