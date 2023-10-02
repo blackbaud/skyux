@@ -62,10 +62,10 @@ export class SkyNumericPipe implements PipeTransform, OnDestroy {
    * Formats a number based on the provided options.
    */
   public transform(
-    value: number | undefined,
+    value: number | undefined | null,
     config?: SkyNumericOptions
   ): string {
-    if (value === undefined || isNaN(value) || value === null) {
+    if (value === undefined || value === null || isNaN(value)) {
       return '';
     }
 

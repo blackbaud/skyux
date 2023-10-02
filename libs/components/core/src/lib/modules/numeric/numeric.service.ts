@@ -42,10 +42,10 @@ export class SkyNumericService {
    * @param options Format options.
    */
   public formatNumber(
-    value: number | undefined,
+    value: number | undefined | null,
     options: SkyNumericOptions
   ): string {
-    if (value === undefined || isNaN(value) || value === null) {
+    if (value === undefined || value === null || isNaN(value)) {
       return '';
     }
 

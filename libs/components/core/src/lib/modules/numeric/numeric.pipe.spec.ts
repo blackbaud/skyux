@@ -76,7 +76,7 @@ describe('Numeric pipe', () => {
     }).toThrowError();
   });
 
-  it('should properly handle undefined being passed in', async () => {
+  it('should handle undefined and null values', async () => {
     const fixture = TestBed.createComponent(NumericPipeFixtureComponent);
     const component = fixture.componentInstance;
     // NOTE: We had a previous issue with change detection and undefined. This issue only appeared in unit tests when auto detecting changes.
@@ -85,11 +85,10 @@ describe('Numeric pipe', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    // Get formatted date and remove unwanted special characters.
+    // Get formatted date.
     const el = document.querySelector('p') as HTMLParagraphElement;
-    const actual = el.innerHTML.trim().replace(/&nbsp;/g, ' ');
 
-    expect(actual).toBe('');
+    expect(el.innerHTML.trim()).toBe('');
   });
 
   describe('locale support', () => {
