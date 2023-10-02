@@ -3,7 +3,11 @@ import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 // This is to mitigate a Cypress issue (https://github.com/cypress-io/cypress/issues/20341) where a ResizeObserver exception is thrown.
 Cypress.on(
   'uncaught:exception',
-  (err) => !err.message.includes('ResizeObserver loop limit exceeded')
+  (err) =>
+    !err.message.includes('ResizeObserver loop limit exceeded') &&
+    !err.message.includes(
+      'ResizeObserver loop completed with undelivered notifications'
+    )
 );
 
 describe('action-bars-storybook - summary action bar', () => {
@@ -96,21 +100,26 @@ describe('action-bars-storybook - summary action bar', () => {
                 });
 
                 it(`should render the component at width ${width} and with and open secondary actions menu (${style})`, () => {
-                  cy.viewport(width, height).visit(
-                    `/iframe.html?globals=theme:${theme}&id=summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}`
-                  );
+                  cy.viewport(width, height)
+                    .visit(
+                      `/iframe.html?globals=theme:${theme}&id=summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}`
+                    )
 
-                  cy.get('app-summary-action-bar')
+                    .get('app-summary-action-bar')
                     .should('exist')
-                    .should('be.visible');
+                    .should('be.visible')
+                    .end()
 
-                  cy.get('#ready').should('exist');
-
-                  cy.get('.sky-summary-action-bar')
+                    .get('#ready')
                     .should('exist')
-                    .should('be.visible');
+                    .end()
 
-                  cy.get('sky-summary-action-bar-secondary-actions button')
+                    .get('.sky-summary-action-bar')
+                    .should('exist')
+                    .should('be.visible')
+                    .end()
+
+                    .get('sky-summary-action-bar-secondary-actions button')
                     .should('exist')
                     .should('be.visible')
                     .click()
@@ -120,15 +129,16 @@ describe('action-bars-storybook - summary action bar', () => {
                     )
                     .should('exist')
                     .should('be.visible')
-                    .end();
+                    .end()
 
-                  cy.window().skyVisualTest(
-                    `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}-${width}-${theme}-open-secondary-actions`,
-                    {
-                      width: width,
-                      capture: 'viewport',
-                    }
-                  );
+                    .window()
+                    .skyVisualTest(
+                      `summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}-${width}-${theme}-open-secondary-actions`,
+                      {
+                        width: width,
+                        capture: 'viewport',
+                      }
+                    );
                 });
               }
             });
