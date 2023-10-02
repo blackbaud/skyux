@@ -1,6 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SkyAffixModule, SkyIdModule } from '@skyux/core';
+import {
+  SkyAffixModule,
+  SkyIdModule,
+  SkyScreenReaderOnlyDirective,
+} from '@skyux/core';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
 
@@ -24,6 +28,7 @@ import { SkyDropdownComponent } from './dropdown.component';
     SkyIconModule,
     SkyIdModule,
     SkyPopoversResourcesModule,
+    SkyScreenReaderOnlyDirective,
     SkyThemeModule,
   ],
   exports: [
