@@ -12,6 +12,12 @@
         "testingType": "e2e",
         "browser": "chrome",
         "baseUrl": "http://localhost:4400"
+      },
+      "configurations": {
+        "ci": {
+          "browser": "chrome",
+          "devServerTarget": "a11y-storybook:storybook:ci"
+        }
       }
     },
     "lint": {

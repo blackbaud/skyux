@@ -17,7 +17,8 @@
           "devServerTarget": "action-bars-storybook:serve:production"
         },
         "ci": {
-          "devServerTarget": "action-bars-storybook:serve-static"
+          "devServerTarget": "action-bars-storybook:storybook:ci",
+          "browser": "chrome"
         }
       }
     },

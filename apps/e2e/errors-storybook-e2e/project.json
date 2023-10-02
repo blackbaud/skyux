@@ -17,7 +17,8 @@
           "devServerTarget": "errors-storybook:serve:production"
         },
         "ci": {
-          "devServerTarget": "errors-storybook:serve-static"
+          "devServerTarget": "errors-storybook:storybook:ci",
+          "browser": "chrome"
         }
       }
     },

@@ -17,7 +17,8 @@
           "devServerTarget": "text-editor-storybook:serve:production"
         },
         "ci": {
-          "devServerTarget": "text-editor-storybook:serve-static"
+          "devServerTarget": "text-editor-storybook:storybook:ci",
+          "browser": "chrome"
         }
       }
     },
