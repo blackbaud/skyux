@@ -1,5 +1,5 @@
 <div class="sky-data-manager-toolbar">
-  <sky-toolbar>
+  <sky-toolbar [listDescriptor]="dataManagerConfig?.listDescriptor">
     <sky-toolbar-section>
       <ng-content select="sky-data-manager-toolbar-primary-item" />
 
@@ -28,7 +28,10 @@
           class="sky-btn sky-btn-default sky-col-picker-btn"
           type="button"
           [attr.aria-label]="
-            'skyux_data_manager_columns_button_title' | skyLibResources
+            dataManagerConfig?.listDescriptor
+              ? ('skyux_data_manager_columns_button_aria_label'
+                | skyLibResources : dataManagerConfig.listDescriptor)
+              : ('skyux_data_manager_columns_button_title' | skyLibResources)
           "
           [attr.title]="
             'skyux_data_manager_columns_button_title' | skyLibResources
@@ -86,6 +89,12 @@
         <button
           class="sky-btn sky-btn-link sky-data-manager-select-all-btn"
           type="button"
+          [attr.aria-label]="
+            dataManagerConfig?.listDescriptor
+              ? ('skyux_data_manager_select_all_button_aria_label'
+                | skyLibResources : dataManagerConfig.listDescriptor)
+              : undefined
+          "
           (click)="selectAll()"
         >
           {{ 'skyux_data_manager_select_all_button_title' | skyLibResources }}
@@ -95,6 +104,12 @@
         <button
           class="sky-btn sky-btn-link sky-data-manager-clear-all-btn"
           type="button"
+          [attr.aria-label]="
+            dataManagerConfig?.listDescriptor
+              ? ('skyux_data_manager_clear_all_button_aria_label'
+                | skyLibResources : dataManagerConfig.listDescriptor)
+              : undefined
+          "
           (click)="clearAll()"
         >
           {{ 'skyux_data_manager_clear_all_button_title' | skyLibResources }}
@@ -103,6 +118,12 @@
       <sky-toolbar-view-actions>
         <sky-checkbox
           [checked]="onlyShowSelected"
+          [label]="
+            dataManagerConfig?.listDescriptor
+              ? ('skyux_data_manager_show_selected_option_aria_label'
+                | skyLibResources : dataManagerConfig.listDescriptor)
+              : undefined
+          "
           (change)="onOnlyShowSelected($event)"
         >
           <sky-checkbox-label>
