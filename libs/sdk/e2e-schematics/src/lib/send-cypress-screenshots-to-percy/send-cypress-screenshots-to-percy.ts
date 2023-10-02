@@ -1,8 +1,8 @@
-import { join, normalize } from '@angular-devkit/core';
 import { stripIndent } from '@angular-devkit/core/src/utils/literals';
 import utils from '@percy/sdk-utils';
 
 import { readFileSync } from 'fs';
+import path from 'path';
 
 export function sendCypressScreenshotsToPercy(
   on: Cypress.PluginEvents,
@@ -17,8 +17,8 @@ export function sendCypressScreenshotsToPercy(
 
   const sdkPkg = JSON.parse(
     readFileSync(
-      join(
-        normalize(__dirname),
+      path.resolve(
+        __dirname,
         '../../../../../../node_modules/@percy/sdk-utils/package.json'
       )
     ).toString()

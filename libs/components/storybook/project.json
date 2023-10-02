@@ -9,8 +9,7 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/storybook"],
       "options": {
-        "project": "libs/components/storybook/ng-package.json",
-        "updateBuildableProjectDepsInPackageJson": false
+        "project": "libs/components/storybook/ng-package.json"
       },
       "configurations": {
         "production": {
@@ -59,7 +58,8 @@
       },
       "configurations": {
         "ci": {
-          "quiet": true
+          "quiet": true,
+          "ci": true
         }
       }
     },

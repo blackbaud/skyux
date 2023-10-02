@@ -12,6 +12,12 @@
         "baseUrl": "http://localhost:4400",
         "browser": "chrome",
         "testingType": "e2e"
+      },
+      "configurations": {
+        "ci": {
+          "browser": "chrome",
+          "devServerTarget": "ag-grid-storybook:storybook:ci"
+        }
       }
     },
     "lint": {

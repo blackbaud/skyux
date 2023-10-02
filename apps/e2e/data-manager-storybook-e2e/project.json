@@ -17,7 +17,8 @@
           "devServerTarget": "data-manager-storybook:serve:production"
         },
         "ci": {
-          "devServerTarget": "data-manager-storybook:serve-static"
+          "devServerTarget": "data-manager-storybook:storybook:ci",
+          "browser": "chrome"
         }
       }
     },
