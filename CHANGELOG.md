@@ -1,5 +1,12 @@
 # Changelog
 
+## [8.10.5](https://github.com/blackbaud/skyux/compare/8.10.4...8.10.5) (2023-10-02)
+
+
+### Bug Fixes
+
+* **components/core:** numeric pipe now handles undefined values ([#1765](https://github.com/blackbaud/skyux/issues/1765)) ([fe977d4](https://github.com/blackbaud/skyux/commit/fe977d4d9efb8a7b89596f81f9dcc8817b14c0fc))
+
 ## [9.3.1](https://github.com/blackbaud/skyux/compare/9.3.0...9.3.1) (2023-09-28)
 
 
