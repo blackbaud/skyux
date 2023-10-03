@@ -507,6 +507,16 @@ describe('Colorpicker Component', () => {
       verifyColorpicker(nativeElement, '#2438ae', '36, 56, 174');
     }));
 
+    it('should accept an HSLA color with zero saturation.', fakeAsync(() => {
+      component.selectedOutputFormat = 'hsla';
+      openColorpicker(nativeElement);
+      setInputElementValue(nativeElement, 'hex', 'hsla(0,0%,100%,0)');
+      applyColorpicker();
+      expect(component.lastColorApplied?.color.hslaText).toEqual(
+        'hsla(0,0%,100%,0)'
+      );
+    }));
+
     it('should allow user to click cancel the color change.', fakeAsync(() => {
       component.selectedOutputFormat = 'hex';
       component.colorModel = '#2889e5';
