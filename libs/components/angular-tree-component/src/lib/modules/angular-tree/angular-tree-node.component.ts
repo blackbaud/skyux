@@ -7,8 +7,10 @@ import {
   OnInit,
   Optional,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { ITreeState, TreeNode } from '@blackbaud/angular-tree-component';
+import { SkyContentInfoProvider } from '@skyux/core';
 
 import { SkyAngularTreeAdapterService } from './angular-tree-adapter.service';
 import { SkyAngularTreeWrapperComponent } from './angular-tree-wrapper.component';
@@ -26,7 +28,7 @@ import { SkyAngularTreeWrapperComponent } from './angular-tree-wrapper.component
 @Component({
   selector: 'sky-angular-tree-node',
   templateUrl: './angular-tree-node.component.html',
-  providers: [SkyAngularTreeAdapterService],
+  providers: [SkyAngularTreeAdapterService, SkyContentInfoProvider],
 })
 export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
   /**
@@ -105,6 +107,15 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
   @ViewChild('nodeContentWrapper', { read: ElementRef })
   public nodeContentWrapperRef: ElementRef | undefined;
 
+  protected set nodeName(value: string) {
+    this.#_nodeName = value;
+    this.#contentInfoProvider.patchInfo({ descriptor: value });
+  }
+
+  protected get nodeName(): string {
+    return this.#_nodeName;
+  }
+
   #focusableChildren: HTMLElement[] = [];
 
   #mouseDown = false;
@@ -117,8 +128,11 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
 
   #_tabIndex = -1;
 
-  #changeDetectorRef: ChangeDetectorRef;
+  #_nodeName = '';
+
   #adapterService: SkyAngularTreeAdapterService;
+  #changeDetectorRef: ChangeDetectorRef;
+  #contentInfoProvider = inject(SkyContentInfoProvider);
   #skyAngularTreeWrapper: SkyAngularTreeWrapperComponent | undefined;
 
   constructor(
@@ -139,6 +153,7 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
     }
 
     if (this.node) {
+      this.nodeName = this.node.data.name;
       // Because we're binding the checkbox to node's children properties, we need to manually control change detection.
       // Here, we listen to the tree's state and force change detection in the setters if the value has changed.
       this.node.treeModel.subscribeToState((state: ITreeState) => {
@@ -149,6 +164,12 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
           if (state.focusedNodeId) {
             this.focused = state.focusedNodeId === this.node.id;
           }
+        }
+      });
+
+      this.node.treeModel.subscribe('updateData', () => {
+        if (this.node) {
+          this.nodeName = this.node.data.name;
         }
       });
 

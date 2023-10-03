@@ -1,10 +1,12 @@
 name: CI
 
 on:
+  merge_group:
+    types: [checks_requested]
+  pull_request:
   push:
     branches:
       - main
-  pull_request:
 
 env:
   NX_CLOUD_DISTRIBUTED_EXECUTION: true
@@ -142,7 +144,7 @@ jobs:
     name: Build packages distribution
     needs: install-deps
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' }}
+    if: ${{ github.event_name != 'pull_request' }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -160,7 +162,7 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Build packages dist
-        run: npx skyux-dev create-packages-dist
+        run: npx skyux-dev create-packages-dist --skipNxCache
       - name: Notify Slack (failure)
         if: ${{ failure() }}
         uses: rtCamp/action-slack-notify@v2

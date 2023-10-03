@@ -17,15 +17,15 @@ import { SkyHelpInlineModule } from '@skyux/indicators';
   imports: [SkyHelpInlineModule],
 })
 export class InlineHelpComponent {
-  readonly #displayName: string | undefined;
+  protected displayName: string | undefined;
 
   readonly #headerInfo = inject(SkyAgGridHeaderInfo);
 
   constructor() {
-    this.#displayName = this.#headerInfo.displayName;
+    this.displayName = this.#headerInfo.displayName;
   }
 
   protected onHelpClick(): void {
-    alert(`Help was clicked for ${this.#displayName}.`);
+    alert(`Help was clicked for ${this.displayName}.`);
   }
 }

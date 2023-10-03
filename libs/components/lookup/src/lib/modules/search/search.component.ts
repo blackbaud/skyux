@@ -18,10 +18,16 @@ import {
   Output,
   SimpleChanges,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
-import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
+import {
+  SkyContentInfo,
+  SkyContentInfoProvider,
+  SkyMediaBreakpoints,
+  SkyMediaQueryService,
+} from '@skyux/core';
 
-import { Subject, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { SkySearchAdapterService } from './search-adapter.service';
@@ -60,8 +66,10 @@ const EXPAND_MODE_NONE = 'none';
 })
 export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   /**
-   * The ARIA label for the search. This sets the search's `aria-label` attribute to provide a text equivalent for screen readers
+   * The ARIA label for the search input. This sets the search input's `aria-label` attribute to provide a text equivalent for screen readers
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * Use a context-sensitive label, such as "Search constituents." Context is especially important when multiple search inputs are in close proximity.
+   * In toolbars, search inputs use the `listDescriptor` to provide context, and the ARIA label defaults to "Search <listDescriptor>."
    * If the box includes a visible label, use `ariaLabelledBy` instead.
    * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
@@ -169,7 +177,11 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
 
   public searchButtonShown = false;
 
+  protected contentInfoObs: Observable<SkyContentInfo> | undefined;
+
   #changeRef: ChangeDetectorRef;
+
+  #contentInfoProvider = inject(SkyContentInfoProvider, { optional: true });
 
   #elRef: ElementRef;
 
@@ -197,6 +209,8 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     this.#elRef = elRef;
     this.#searchAdapter = searchAdapter;
     this.#changeRef = changeRef;
+
+    this.contentInfoObs = this.#contentInfoProvider?.getInfo();
   }
 
   public ngOnInit() {

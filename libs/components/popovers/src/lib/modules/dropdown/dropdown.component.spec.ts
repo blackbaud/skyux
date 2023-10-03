@@ -11,6 +11,7 @@ import {
   SkyAffixConfig,
   SkyAffixService,
   SkyAffixer,
+  SkyContentInfoProvider,
 } from '@skyux/core';
 import {
   SkyTheme,
@@ -30,6 +31,7 @@ import { SkyDropdownMessageType } from './types/dropdown-message-type';
 
 describe('Dropdown component', function () {
   let fixture: ComponentFixture<DropdownFixtureComponent>;
+  let contentInfoProvider: SkyContentInfoProvider;
   let mockThemeService: {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
@@ -129,10 +131,13 @@ describe('Dropdown component', function () {
             zIndex: new BehaviorSubject(111),
           },
         },
+        SkyContentInfoProvider,
       ],
     });
 
     fixture = TestBed.createComponent(DropdownFixtureComponent);
+
+    contentInfoProvider = TestBed.inject(SkyContentInfoProvider);
   });
 
   afterEach(() => {
@@ -1197,6 +1202,29 @@ describe('Dropdown component', function () {
         'menu-labelled-by-override'
       );
       expect(item?.getAttribute('role')).toEqual('item-role-override');
+    }));
+
+    it('should set the correct aria label when it is specified via SkyContentProvider', fakeAsync(() => {
+      fixture.componentInstance.buttonType = 'context-menu';
+      contentInfoProvider.patchInfo({ descriptor: 'Robert Hernandez' });
+
+      detectChangesFakeAsync();
+      const button = getButtonElement();
+
+      expect(button?.getAttribute('aria-label')).toEqual(
+        'Context menu for Robert Hernandez'
+      );
+    }));
+
+    it('should set the correct aria label when it is specified via a consumer and SkyContentInfoProvider', fakeAsync(() => {
+      fixture.componentInstance.buttonType = 'context-menu';
+      contentInfoProvider.patchInfo({ descriptor: 'default label' });
+      fixture.componentInstance.label = 'consumer label';
+
+      detectChangesFakeAsync();
+      const button = getButtonElement();
+
+      expect(button?.getAttribute('aria-label')).toEqual('consumer label');
     }));
 
     it('should set the aria-expanded attribute', fakeAsync(() => {

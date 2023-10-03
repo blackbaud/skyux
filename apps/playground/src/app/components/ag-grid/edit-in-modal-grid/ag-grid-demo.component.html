@@ -15,6 +15,7 @@
         <button
           class="sky-btn sky-btn-primary"
           id="edit-btn"
+          type="button"
           (click)="openModal()"
         >
           Edit
@@ -32,8 +33,7 @@
       </sky-toolbar-item>
     </sky-toolbar>
     <sky-ag-grid-wrapper>
-      <ag-grid-angular [gridOptions]="gridOptions" [rowData]="gridData">
-      </ag-grid-angular>
+      <ag-grid-angular [gridOptions]="gridOptions" [rowData]="gridData" />
     </sky-ag-grid-wrapper>
   </div>
 </ng-template>

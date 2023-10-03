@@ -1,0 +1,40 @@
+<div class="icon-sheet">
+  <sky-icon icon="calendar" />
+  <sky-icon icon="calendar" size="lg" />
+  <sky-icon icon="calendar" size="2x" />
+  <sky-icon icon="calendar" variant="line" size="3x" />
+  <sky-icon
+    data-sky-id="icon-demo"
+    icon="calendar"
+    variant="solid"
+    size="4x"
+    [fixedWidth]="true"
+  />
+
+  <div>
+    <sky-icon icon="bars" size="5x" />
+  </div>
+  <div>
+    <sky-icon icon="chevron-down" size="5x" />
+  </div>
+
+  <div>
+    <sky-icon icon="bars" size="5x" [fixedWidth]="true" />
+  </div>
+  <div>
+    <sky-icon icon="chevron-down" size="5x" [fixedWidth]="true" />
+  </div>
+</div>
+<div class="icon-sheet">
+  <div *ngFor="let icon of icons" class="icon-sheet--icon sky-padding-even-md">
+    <sky-icon [icon]="icon.name" size="lg" />
+    <span>{{ icon.name }}</span>
+  </div>
+</div>
+<div class="icon-sheet">
+  <div *ngFor="let fa of faIcons" class="icon-sheet--icon sky-padding-even-md">
+    <sky-icon [icon]="fa" size="lg" />
+    <span>{{ fa }}</span>
+  </div>
+</div>
+<span id="ready" *ngIf="ready | async"></span>

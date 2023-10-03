@@ -16,12 +16,12 @@
   },
   "homepage": "https://github.com/blackbaud/skyux#readme",
   "peerDependencies": {
-    "@angular/common": "^16.2.1",
-    "@angular/core": "^16.2.1"
+    "@angular/common": "^16.2.5",
+    "@angular/core": "^16.2.5"
   },
   "dependencies": {
     "@blackbaud/skyux-design-tokens": "0.0.27",
-    "@skyux/icons": "6.2.2",
+    "@skyux/icons": "6.4.0",
     "fontfaceobserver": "2.3.0",
     "tslib": "^2.6.2"
   }

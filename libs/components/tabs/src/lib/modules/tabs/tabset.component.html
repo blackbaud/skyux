@@ -64,7 +64,7 @@
       }"
       (click)="onNewTabClick()"
     >
-      <sky-icon icon="plus-circle" size="lg"> </sky-icon>
+      <sky-icon icon="plus-circle" size="lg" />
     </button>
     <button
       *ngIf="openTab.observers.length > 0"
@@ -76,11 +76,11 @@
       }"
       (click)="onOpenTabClick()"
     >
-      <sky-icon icon="folder-open-o" size="lg"> </sky-icon>
+      <sky-icon icon="folder-open-o" size="lg" />
     </button>
   </span>
 </div>
-<ng-content></ng-content>
+<ng-content />
 
 <ng-template let-tabButton #tabButtonTemplate>
   <sky-tab-button

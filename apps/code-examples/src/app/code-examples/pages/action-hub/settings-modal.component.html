@@ -1,7 +1,7 @@
 <sky-modal>
   <sky-modal-header>{{ title }}</sky-modal-header>
   <sky-modal-content>
-    <form [formGroup]="form" (submit)="modal.save()">
+    <form [formGroup]="formGroup" (submit)="modalInstance.save()">
       <ng-container *ngFor="let field of fields" class="row">
         <ng-container [ngSwitch]="title">
           <ng-container *ngSwitchDefault>
@@ -33,11 +33,15 @@
     <button
       class="sky-btn sky-btn-primary sky-margin-inline-sm"
       type="button"
-      (click)="modal.save()"
+      (click)="modalInstance.save()"
     >
       Save
     </button>
-    <button class="sky-btn sky-btn-link" type="button" (click)="modal.close()">
+    <button
+      class="sky-btn sky-btn-link"
+      type="button"
+      (click)="modalInstance.close()"
+    >
       Close
     </button>
   </sky-modal-footer>

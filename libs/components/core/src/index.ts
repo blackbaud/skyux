@@ -15,6 +15,9 @@ export { SkyAffixModule } from './lib/modules/affix/affix.module';
 export { SkyAffixService } from './lib/modules/affix/affix.service';
 export { SkyAffixer } from './lib/modules/affix/affixer';
 
+export { SkyContentInfoProvider } from './lib/modules/content-info-provider/content-info-provider';
+export { SkyContentInfo } from './lib/modules/content-info-provider/content-info';
+
 export { SkyDefaultInputProvider } from './lib/modules/default-input-provider/default-input-provider';
 
 export { SkyDockInsertComponentConfig } from './lib/modules/dock/dock-insert-component-config';
@@ -99,6 +102,8 @@ export { SkyViewkeeperModule } from './lib/modules/viewkeeper/viewkeeper.module'
 export { SkyViewkeeperService } from './lib/modules/viewkeeper/viewkeeper.service';
 
 export { SkyAppWindowRef } from './lib/modules/window/window-ref';
+
+export { VERSION } from './version';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.

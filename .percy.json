@@ -1,5 +1,8 @@
 {
   "version": 2,
+  "percy": {
+    "defer-uploads": true
+  },
   "snapshot": {
     "widths": [1280]
   },

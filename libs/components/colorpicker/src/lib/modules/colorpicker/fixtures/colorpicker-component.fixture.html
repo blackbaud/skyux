@@ -1,5 +1,6 @@
 <div>
   <sky-colorpicker
+    (selectedColorApplied)="lastColorApplied = $event"
     [pickerButtonIcon]="pickerButtonIcon"
     [pickerButtonIconType]="pickerButtonIconType"
     [label]="label"

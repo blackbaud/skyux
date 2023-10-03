@@ -1,14 +1,19 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { SkyTabIndex } from '@skyux/tabs';
+import { SkyTabIndex, SkyTabsModule } from '@skyux/tabs';
+
+import { ListPageContactsGridComponent } from './list-page-contacts-grid.component';
 
 @Component({
+  standalone: true,
   selector: 'app-list-page-content',
   templateUrl: './list-page-content.component.html',
+  imports: [CommonModule, ListPageContactsGridComponent, SkyTabsModule],
 })
 export class ListPageContentComponent {
-  public activeTabIndex: SkyTabIndex = 0;
+  protected activeTabIndex: SkyTabIndex = 0;
 
-  public myContacts = [
+  protected myContacts = [
     {
       name: 'Wonda Lumpkin',
       organization: 'Riverfront College of the Arts',
@@ -41,7 +46,7 @@ export class ListPageContentComponent {
     },
   ];
 
-  public allContacts = [
+  protected allContacts = [
     ...this.myContacts,
     {
       name: 'Kanesha Hutto',

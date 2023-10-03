@@ -46,8 +46,7 @@ jobs:
           pull-request-title-pattern: 'chore: release ${version}'
           labels: 'autorelease ${{ github.ref_name }}: pending'
           release-labels: 'autorelease ${{ github.ref_name }}: tagged'
-          # release-as: '${{ steps.next-release.outputs.next-release }}'
-          release-as: '9.0.0'
+          release-as: '${{ steps.next-release.outputs.next-release }}'
           prerelease: ${{ env.PRERELEASE == 'true' }}
           draft-pull-request: true
           include-v-in-tag: false
@@ -77,7 +76,7 @@ jobs:
         run: npm ci
       - name: Build
         if: ${{ steps.release.outputs.release_created }}
-        run: npx skyux-dev create-packages-dist
+        run: npx skyux-dev create-packages-dist --skipNxCache
       - name: Publish
         if: ${{ steps.release.outputs.release_created }}
         run: npx skyux-dev publish-packages-dist

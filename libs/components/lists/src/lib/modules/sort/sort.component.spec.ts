@@ -5,6 +5,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyContentInfoProvider } from '@skyux/core';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -22,6 +23,7 @@ import { SkySortModule } from './sort.module';
 describe('Sort component', () => {
   let fixture: ComponentFixture<SortTestComponent>;
   let component: SortTestComponent;
+  let contentInfo: SkyContentInfoProvider;
   let mockThemeSvc: {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
@@ -45,11 +47,14 @@ describe('Sort component', () => {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
         },
+        SkyContentInfoProvider,
       ],
     });
 
     fixture = TestBed.createComponent(SortTestComponent);
     component = fixture.componentInstance;
+
+    contentInfo = TestBed.inject(SkyContentInfoProvider);
   });
 
   function getDropdownButtonEl(): HTMLElement | null {
@@ -109,6 +114,35 @@ describe('Sort component', () => {
       getDropdownMenuHeadingEl()?.getAttribute('id')
     );
   }));
+
+  it('creates a sort dropdown with a specified aria label', fakeAsync(() => {
+    component.ariaLabel = 'Test label';
+    fixture.detectChanges();
+    tick();
+    const dropdownButtonEl = getDropdownButtonEl();
+    expect(dropdownButtonEl?.getAttribute('aria-label')).toBe('Test label');
+  }));
+
+  it('should use the content info provider for aria label when applicable', () => {
+    contentInfo.patchInfo({ descriptor: 'constituents' });
+    fixture.detectChanges();
+
+    const dropdownButtonEl = getDropdownButtonEl();
+    expect(dropdownButtonEl?.getAttribute('aria-label')).toBe(
+      'Sort constituents'
+    );
+  });
+
+  it('should not use the content info provider for aria label when overwritten', () => {
+    contentInfo.patchInfo({ descriptor: 'constituents' });
+    component.ariaLabel = 'Overwritten label';
+    fixture.detectChanges();
+
+    const dropdownButtonEl = getDropdownButtonEl();
+    expect(dropdownButtonEl?.getAttribute('aria-label')).toBe(
+      'Overwritten label'
+    );
+  });
 
   it('changes active item on click and emits proper event', fakeAsync(() => {
     fixture.detectChanges();

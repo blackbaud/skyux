@@ -1698,6 +1698,43 @@ describe('Autocomplete component', () => {
         expect(getSearchResultsContainer()).toBeNull();
       }));
 
+      it('should reset reset focus for search result controls when new text entered in input', fakeAsync(() => {
+        component.showAddButton = true;
+        fixture.detectChanges();
+        const input: SkyAutocompleteInputDirective =
+          component.autocompleteInput;
+        const inputElement: HTMLInputElement = getInputElement();
+        const selectedValue = { name: 'Red' };
+        const addButtonSpy = spyOn(
+          component,
+          'addButtonClicked'
+        ).and.callThrough();
+
+        updateNgModel(fixture, selectedValue);
+        enterSearch('r', fixture);
+
+        // Cycle up and around to the add button.
+        sendArrowUp(inputElement, fixture);
+
+        const addButton = getAddButton();
+        expect(addButton).toHaveCssClass('sky-autocomplete-descendant-focus');
+        expect(getSearchResultsContainer()).not.toBeNull();
+
+        enterSearch(' ', fixture);
+
+        expect(addButton).not.toHaveCssClass(
+          'sky-autocomplete-descendant-focus'
+        );
+
+        sendEnter(inputElement, fixture);
+
+        expect(component.myForm.value.favoriteColor).toBeUndefined();
+        expect(input.value).toBeUndefined();
+        expect(inputElement.value).toEqual('');
+        expect(addButtonSpy).not.toHaveBeenCalled();
+        expect(getSearchResultsContainer()).not.toBeNull();
+      }));
+
       it('should navigate items with arrow keys with search results limits', fakeAsync(() => {
         component.searchResultsLimit = 4;
         fixture.detectChanges();
