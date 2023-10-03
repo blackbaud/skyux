@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { SkyModalInstance } from '@skyux/modals';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
+  standalone: true,
   selector: 'app-test-cmp-modal-content',
   templateUrl: './modal-content-demo.component.html',
+  imports: [SkyModalModule],
 })
 export class ModalContentDemoComponent {
   constructor(public instance: SkyModalInstance) {}

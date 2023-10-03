@@ -1,10 +1,14 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SkyModalInstance } from '@skyux/modals';
+import { FormsModule } from '@angular/forms';
+import { SkyToggleSwitchModule } from '@skyux/forms';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
+  standalone: true,
   selector: 'app-modal-dirt',
   templateUrl: './modal-dirty.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [FormsModule, SkyModalModule, SkyToggleSwitchModule],
 })
 export class ModalDirtyComponent {
   public isDirty = true;

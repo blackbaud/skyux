@@ -6,14 +6,11 @@ import { SkyDataManagerModule } from '@skyux/data-manager';
 import { SkyCheckboxModule } from '@skyux/forms';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkySearchModule } from '@skyux/lookup';
-import { SkyModalModule } from '@skyux/modals';
 import { SkyDropdownModule } from '@skyux/popovers';
 
 import { AgGridModule } from 'ag-grid-angular';
 
 import { DataManagerMenuComponent } from './data-manager-context-menu.component';
-import { DataManagerEditModalComponent } from './data-manager-edit-modal.component';
-import { DataManagerFiltersModalComponent } from './data-manager-filter-modal.component';
 import { DataManagerViewGridComponent } from './data-manager-view-grid.component';
 import { DataManagerComponent } from './data-manager.component';
 
@@ -24,8 +21,6 @@ import { DataManagerComponent } from './data-manager.component';
   declarations: [
     DataManagerMenuComponent,
     DataManagerComponent,
-    DataManagerEditModalComponent,
-    DataManagerFiltersModalComponent,
     DataManagerViewGridComponent,
   ],
   imports: [
@@ -35,7 +30,6 @@ import { DataManagerComponent } from './data-manager.component';
     SkySearchModule,
     AgGridModule,
     SkyAgGridModule,
-    SkyModalModule,
     SkyDropdownModule,
     SkyDataManagerModule,
     SkyCheckboxModule,
