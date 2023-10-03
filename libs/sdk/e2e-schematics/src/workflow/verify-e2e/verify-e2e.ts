@@ -150,7 +150,7 @@ export async function verifyE2e(
         const missingScreenshotMessageForSlack = `Projects with missing screenshots: ${missingScreenshots
           .map(
             (result) =>
-              ` **${result.project}** (${result.removedSnapshots.join(', ')})`
+              ` 👉 ${result.project} (${result.removedSnapshots.join(', ')})`
           )
           .join(`; `)}. ${instructions}`;
         core.setOutput('missingScreenshots', missingScreenshotMessageForSlack);
