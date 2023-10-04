@@ -33,7 +33,6 @@ import { AngularTreeDemoNode } from './node';
 @Component({
   standalone: true,
   selector: 'app-demo',
-  styleUrls: ['./demo.component.scss'],
   templateUrl: './demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
