@@ -29,16 +29,27 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
       message: 'Show all search results',
     },
     skyux_lookup_show_more_add: { message: 'New' },
+    skyux_lookup_show_more_select_all_button_aria_label: {
+      message: 'Select all {0}',
+    },
     skyux_lookup_show_more_select_all_button_title: { message: 'Select all' },
+    skyux_lookup_show_more_clear_all_button_aria_label: {
+      message: 'Clear all {0}',
+    },
     skyux_lookup_show_more_clear_all_button_title: { message: 'Clear all' },
+    skyux_lookup_show_more_show_selected_option_aria_label: {
+      message: 'Show only selected {0}',
+    },
     skyux_lookup_show_more_show_selected_option_title: {
       message: 'Show only selected items',
     },
     skyux_lookup_show_more_cancel: { message: 'Cancel' },
+    skyux_lookup_show_more_modal_title: { message: 'Select {0}' },
     skyux_lookup_show_more_modal_title_single: { message: 'Select an option' },
     skyux_lookup_show_more_modal_title_multiple: { message: 'Select options' },
     skyux_lookup_show_more_no_results: { message: 'No matches found' },
     skyux_lookup_show_more_select: { message: 'Select' },
+    skyux_lookup_show_more_select_context: { message: 'Select {0}' },
     skyux_lookup_tokens_summary: { message: '{0} items selected' },
     skyux_search_aria_label_descriptor: { message: 'Search {0}' },
     skyux_search_dismiss: { message: 'Dismiss search' },

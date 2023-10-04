@@ -23,6 +23,7 @@ export interface SkySelectionModalOpenArgs {
   /**
    * The title for the selection modal.
    * @default "Select an option/Select options"
+   * @deprecated Use the `selectionDescriptor` input to give context to the title and accessibility labels instead.
    */
   title?: string;
 
@@ -76,4 +77,9 @@ export interface SkySelectionModalOpenArgs {
    * using a modal as part of a cell editor in Data Entry Grid.
    */
   wrapperClass?: string;
+
+  /**
+   * @default "item"/"items"
+   */
+  selectionDescriptor?: string;
 }

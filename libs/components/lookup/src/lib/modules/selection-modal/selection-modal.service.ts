@@ -46,6 +46,8 @@ export class SkySelectionModalService {
         }) as Observable<SkyAutocompleteSearchAsyncResult>;
       },
       args.selectMode,
+      args.selectionDescriptor ||
+        (args.selectMode === 'single' ? 'item' : 'items'),
       args.showAddButton || false,
       {
         itemTemplate: args.itemTemplate,
