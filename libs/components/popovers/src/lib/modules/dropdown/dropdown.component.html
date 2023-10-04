@@ -1,7 +1,10 @@
 <span
   skySrLabel
   [destroyRef]="destroyRef"
-  [createLabel]="buttonType === 'context-menu'"
+  [createLabel]="
+    buttonType === 'context-menu' &&
+    (contentInfoObs | async)?.descriptor?.type === 'elementId'
+  "
   skyId
   #srLabelContextMenu="skyId"
 >
