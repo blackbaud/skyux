@@ -19,7 +19,7 @@ export interface SkyDataManagerConfig {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   filterModalComponent?: any;
   /**
-   * A descriptor for the items that the data manager is managing. Use a plural term. The descriptor helps set the data manager's `aria-label` attributes for multiselect toolbars, search inputs, sort buttons, and filter buttons to provide text equivalents for screen readers [to support accessibility](https://developer.blackbaud.com/skyux/components/checkbox#accessibility).
+   * A descriptor for the data that the data manager manipulates. Use a plural term. The descriptor helps set the data manager's `aria-label` attributes for multiselect toolbars, search inputs, sort buttons, and filter buttons to provide text equivalents for screen readers [to support accessibility](https://developer.blackbaud.com/skyux/components/checkbox#accessibility).
    * For example, when the descriptor is “constituents,” the search input’s `aria-label` is “Search constituents.” For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
   listDescriptor?: string;
