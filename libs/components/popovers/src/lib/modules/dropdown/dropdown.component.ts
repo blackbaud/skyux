@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   ElementRef,
   EnvironmentInjector,
   Input,
@@ -205,6 +206,8 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   public get triggerButton(): ElementRef | undefined {
     return this.#_triggerButton;
   }
+
+  public destroyRef = inject(DestroyRef);
 
   #affixer: SkyAffixer | undefined;
   #overlay: SkyOverlayInstance | undefined;

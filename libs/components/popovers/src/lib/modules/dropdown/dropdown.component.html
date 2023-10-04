@@ -1,9 +1,15 @@
-<ng-template skyScreenReaderOnly #srLabelContextMenu="skyScreenReaderOnly">
+<span
+  skySrLabel
+  [destroyRef]="destroyRef"
+  [createLabel]="buttonType === 'context-menu'"
+  skyId
+  #srLabelContextMenu="skyId"
+>
   {{
     'skyux_dropdown_context_menu_with_content_descriptor_el_default_label'
       | skyLibResources
   }}
-</ng-template>
+</span>
 <div class="sky-dropdown">
   <button
     class="sky-btn sky-dropdown-button"
