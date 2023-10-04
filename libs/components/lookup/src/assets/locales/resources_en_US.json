@@ -41,7 +41,7 @@
   },
   "skyux_lookup_show_more_clear_all_button_aria_label": {
     "_description": "Aria-label text for the select all button in the lookup show more multiselect toolbar",
-    "message": "Clear all {0}"
+    "message": "Clear all selected {0}"
   },
   "skyux_lookup_show_more_clear_all_button_title": {
     "_description": "Text for the clear all button in the lookup show more multiselect toolbar",

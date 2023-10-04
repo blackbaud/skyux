@@ -2714,7 +2714,7 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               clickShowMore(fixture);
 
-              expect(getShowMoreModalTitle()).toBe('Select options');
+              expect(getShowMoreModalTitle()).toBe('Select items');
 
               closeModal(fixture);
             }));
@@ -3167,7 +3167,7 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               clickShowMore(fixture);
 
-              expect(getShowMoreModalTitle()).toBe('Select an option');
+              expect(getShowMoreModalTitle()).toBe('Select item');
 
               closeModal(fixture);
             }));
@@ -5888,7 +5888,7 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               clickShowMore(fixture);
 
-              expect(getShowMoreModalTitle()).toBe('Select options');
+              expect(getShowMoreModalTitle()).toBe('Select items');
 
               closeModal(fixture);
             }));
@@ -6324,7 +6324,7 @@ describe('Lookup component', function () {
               performSearch('s', fixture, true);
               clickShowMore(fixture);
 
-              expect(getShowMoreModalTitle()).toBe('Select an option');
+              expect(getShowMoreModalTitle()).toBe('Select item');
 
               closeModal(fixture);
             }));

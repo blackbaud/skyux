@@ -34,7 +34,7 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     },
     skyux_lookup_show_more_select_all_button_title: { message: 'Select all' },
     skyux_lookup_show_more_clear_all_button_aria_label: {
-      message: 'Clear all {0}',
+      message: 'Clear all selected {0}',
     },
     skyux_lookup_show_more_clear_all_button_title: { message: 'Clear all' },
     skyux_lookup_show_more_show_selected_option_aria_label: {
