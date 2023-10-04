@@ -61,7 +61,14 @@ export class SkyNumericPipe implements PipeTransform, OnDestroy {
   /**
    * Formats a number based on the provided options.
    */
-  public transform(value: number, config?: SkyNumericOptions): string {
+  public transform(
+    value: number | undefined | null,
+    config?: SkyNumericOptions
+  ): string {
+    if (value === undefined || value === null || isNaN(value)) {
+      return '';
+    }
+
     const newCacheKey =
       (config ? JSON.stringify(config, Object.keys(config).sort()) : '') +
       `${value}_${config?.locale || this.#providerLocale}`;

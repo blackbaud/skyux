@@ -26,21 +26,22 @@ import { SkyToastConfig } from './types/toast-config';
 })
 export class SkyToastService implements OnDestroy {
   private static host: ComponentRef<SkyToasterComponent> | undefined;
+  private static toasts: SkyToast[] = [];
+  private static toastStream: BehaviorSubject<SkyToast[]>;
 
   /**
    * @internal
    */
   public get toastStream(): Observable<SkyToast[]> {
-    return this.#toastStream;
+    return SkyToastService.toastStream;
   }
 
   #dynamicComponentService: SkyDynamicComponentService;
   #environmentInjector = inject(EnvironmentInjector);
-  #toasts: SkyToast[] = [];
-  #toastStream = new BehaviorSubject<SkyToast[]>([]);
 
   constructor(dynamicComponentService: SkyDynamicComponentService) {
     this.#dynamicComponentService = dynamicComponentService;
+    SkyToastService.toastStream = new BehaviorSubject<SkyToast[]>([]);
   }
 
   public ngOnDestroy(): void {
@@ -49,7 +50,8 @@ export class SkyToastService implements OnDestroy {
       this.#removeHostComponent();
     }
 
-    this.#toastStream.complete();
+    SkyToastService.toasts = [];
+    SkyToastService.toastStream.complete();
   }
 
   /**
@@ -115,18 +117,18 @@ export class SkyToastService implements OnDestroy {
       SkyToastService.host = this.#createHostComponent();
     }
 
-    this.#toasts.push(toast);
-    this.#toastStream.next(this.#toasts);
+    SkyToastService.toasts.push(toast);
+    SkyToastService.toastStream.next(SkyToastService.toasts);
     instance.closed.subscribe(() => {
       this.#removeToast(toast);
     });
   }
 
   #removeToast(toast: SkyToast): void {
-    this.#toasts = this.#toasts.filter((t) => t !== toast);
-    this.#toastStream.next(this.#toasts);
+    SkyToastService.toasts = SkyToastService.toasts.filter((t) => t !== toast);
+    SkyToastService.toastStream.next(SkyToastService.toasts);
 
-    if (this.#toasts.length === 0) {
+    if (SkyToastService.toasts.length === 0) {
       this.#removeHostComponent();
     }
   }

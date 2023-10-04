@@ -1,7 +1,7 @@
 <div id="radioSelectionBoxes">
   <sky-radio-group ariaLabel="Test options" value="red">
     <sky-selection-box *ngFor="let item of radioArray" [control]="radio">
-      <sky-icon [icon]="item.icon" [iconType]="item.iconType"></sky-icon>
+      <sky-icon [icon]="item.icon" [iconType]="item.iconType" />
       <sky-selection-box-header skyId #radioHeaderId="skyId">
         {{ item.header }}
       </sky-selection-box-header>
@@ -20,7 +20,7 @@
       <sky-icon
         [icon]="checkboxSelectionBoxes[i].icon"
         [iconType]="checkboxSelectionBoxes[i].iconType"
-      ></sky-icon>
+      />
       <sky-selection-box-header skyId #checkboxHeaderId="skyId">
         {{ checkboxSelectionBoxes[i].header }}
       </sky-selection-box-header>

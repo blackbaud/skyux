@@ -1,5 +1,33 @@
 # Changelog
 
+## [9.4.1](https://github.com/blackbaud/skyux/compare/9.4.0...9.4.1) (2023-10-04)
+
+
+### Bug Fixes
+
+* **components/toast:** `SkyToastService` and `SkyToastLegacyService` add toast instances to the same pool ([#1779](https://github.com/blackbaud/skyux/issues/1779)) ([5372a83](https://github.com/blackbaud/skyux/commit/5372a8306fa4a586942b31cba8c7e0b84d112162))
+
+## [9.4.0](https://github.com/blackbaud/skyux/compare/9.3.1...9.4.0) (2023-10-02)
+
+
+### Features
+
+* **components/layout:** toolbars include a listDescriptor which passes context to standard items aria labels ([#1747](https://github.com/blackbaud/skyux/issues/1747)) ([3d4f941](https://github.com/blackbaud/skyux/commit/3d4f9414fd87e6f48e7f06c4eb7f11266ad124ba))
+* **components/theme:** update to latest @skyux/icons ([#1755](https://github.com/blackbaud/skyux/issues/1755)) ([6532fa8](https://github.com/blackbaud/skyux/commit/6532fa8e8f336f75a6435693b82681a470781f4a))
+
+
+### Bug Fixes
+
+* **components/colorpicker:** hsla formula should not divide by zero ([#1768](https://github.com/blackbaud/skyux/issues/1768)) ([ae6dc1e](https://github.com/blackbaud/skyux/commit/ae6dc1ed0647d5d552a2bc0c4a14a4b9e860a096))
+* **components/core:** numeric pipe now handles undefined values ([#1765](https://github.com/blackbaud/skyux/issues/1765)) ([#1770](https://github.com/blackbaud/skyux/issues/1770)) ([9873961](https://github.com/blackbaud/skyux/commit/9873961a723d713b68d05936e998409062405b82))
+
+## [8.10.5](https://github.com/blackbaud/skyux/compare/8.10.4...8.10.5) (2023-10-02)
+
+
+### Bug Fixes
+
+* **components/core:** numeric pipe now handles undefined values ([#1765](https://github.com/blackbaud/skyux/issues/1765)) ([fe977d4](https://github.com/blackbaud/skyux/commit/fe977d4d9efb8a7b89596f81f9dcc8817b14c0fc))
+
 ## [9.3.1](https://github.com/blackbaud/skyux/compare/9.3.0...9.3.1) (2023-09-28)
 
 

@@ -24,10 +24,22 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     },
     skyux_data_manager_apply_changes_button_title: { message: 'Apply changes' },
     skyux_data_manager_cancel_button_title: { message: 'Cancel' },
+    skyux_data_manager_select_all_button_aria_label: {
+      message: 'Select all {0}',
+    },
     skyux_data_manager_select_all_button_title: { message: 'Select all' },
+    skyux_data_manager_clear_all_button_aria_label: {
+      message: 'Clear all selected {0}',
+    },
     skyux_data_manager_clear_all_button_title: { message: 'Clear all' },
+    skyux_data_manager_show_selected_option_aria_label: {
+      message: 'Show only selected {0}',
+    },
     skyux_data_manager_show_selected_option_title: {
       message: 'Show only selected items',
+    },
+    skyux_data_manager_columns_button_aria_label: {
+      message: 'Choose columns for {0}',
     },
     skyux_data_manager_columns_button_title: { message: 'Columns' },
     skyux_data_manager_select_column_status_indicator_title: {

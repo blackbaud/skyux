@@ -8,25 +8,19 @@
       [(rowDeleteIds)]="rowDeleteIds"
       (rowDeleteConfirm)="deleteConfirm($event)"
     >
-      <ag-grid-angular
-        [gridOptions]="gridOptions['row-delete']"
-      ></ag-grid-angular>
+      <ag-grid-angular [gridOptions]="gridOptions['row-delete']" />
     </sky-ag-grid-wrapper>
   </div>
 
   <div class="scrollable" id="back-to-top">
     <sky-ag-grid-wrapper *ngIf="isActive$ | async" [skyBackToTop]="">
-      <ag-grid-angular
-        [gridOptions]="gridOptions['back-to-top']"
-      ></ag-grid-angular>
+      <ag-grid-angular [gridOptions]="gridOptions['back-to-top']" />
     </sky-ag-grid-wrapper>
   </div>
 
   <div class="scrollable" id="validation">
     <sky-ag-grid-wrapper *ngIf="isActive$ | async">
-      <ag-grid-angular
-        [gridOptions]="gridOptions['validation']"
-      ></ag-grid-angular>
+      <ag-grid-angular [gridOptions]="gridOptions['validation']" />
     </sky-ag-grid-wrapper>
   </div>
 </div>

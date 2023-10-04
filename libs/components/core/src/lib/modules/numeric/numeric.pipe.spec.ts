@@ -76,6 +76,21 @@ describe('Numeric pipe', () => {
     }).toThrowError();
   });
 
+  it('should handle undefined and null values', async () => {
+    const fixture = TestBed.createComponent(NumericPipeFixtureComponent);
+    const component = fixture.componentInstance;
+    // NOTE: We had a previous issue with change detection and undefined. This issue only appeared in unit tests when auto detecting changes.
+    fixture.autoDetectChanges();
+    component.value = undefined;
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    // Get formatted date.
+    const el = document.querySelector('p') as HTMLParagraphElement;
+
+    expect(el.innerHTML.trim()).toBe('');
+  });
+
   describe('locale support', () => {
     let fixture: ComponentFixture<NumericPipeFixtureComponent>;
     let component: NumericPipeFixtureComponent;

@@ -50,7 +50,7 @@
               | skyLibResources
           }}
         </div>
-        <sky-icon icon="cloud-upload" class="sky-file-upload-icon"></sky-icon>
+        <sky-icon icon="cloud-upload" class="sky-file-upload-icon" />
       </div>
 
       <!-- This will appear when file is dragged over and is valid -->
@@ -61,7 +61,7 @@
               | skyLibResources
           }}
         </div>
-        <sky-icon icon="bullseye" class="sky-file-upload-icon"></sky-icon>
+        <sky-icon icon="bullseye" class="sky-file-upload-icon" />
       </div>
 
       <!-- This will appear when file is dragged over and is invalid -->
@@ -71,12 +71,12 @@
             'skyux_file_attachment_file_upload_invalid_file' | skyLibResources
           }}
         </div>
-        <sky-icon icon="times-circle" class="sky-file-upload-icon"></sky-icon>
+        <sky-icon icon="times-circle" class="sky-file-upload-icon" />
       </div>
     </div>
 
     <div class="sky-file-drop-contents-custom" #customEl>
-      <ng-content></ng-content>
+      <ng-content />
     </div>
   </div>
   <div class="sky-file-drop-col" *ngIf="allowLinks">

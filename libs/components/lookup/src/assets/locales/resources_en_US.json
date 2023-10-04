@@ -67,6 +67,10 @@
     "_description": "Text displayed when the user has more than the maximum items selected",
     "message": "{0} items selected"
   },
+  "skyux_search_aria_label_descriptor": {
+    "_description": "Default aria label for a search when a descriptor is given",
+    "message": "Search {0}"
+  },
   "skyux_search_dismiss": {
     "_description": "Label for dismissing search input",
     "message": "Dismiss search"

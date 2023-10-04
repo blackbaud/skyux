@@ -63,7 +63,7 @@ let idIndex = 0;
  */
 @Component({
   selector: 'sky-list',
-  template: '<ng-content></ng-content>',
+  template: '<ng-content />',
   providers: [ListState, ListStateDispatcher],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
