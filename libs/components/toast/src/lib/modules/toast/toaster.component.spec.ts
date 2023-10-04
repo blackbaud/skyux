@@ -22,7 +22,7 @@ import { SkyToastContainerOptions } from './types/toast-container-options';
 import { SkyToastDisplayDirection } from './types/toast-display-direction';
 import { SkyToastType } from './types/toast-type';
 
-describe('Toast component', () => {
+describe('Toaster component', () => {
   let fixture: ComponentFixture<SkyToasterTestComponent>;
   let toastService: SkyToastService;
   let toasterService: SkyToasterService;
