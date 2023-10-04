@@ -27,7 +27,7 @@ import { SkyToastConfig } from './types/toast-config';
 export class SkyToastService implements OnDestroy {
   private static host: ComponentRef<SkyToasterComponent> | undefined;
   private static toasts: SkyToast[] = [];
-  private static toastStream = new BehaviorSubject<SkyToast[]>([]);
+  private static toastStream: BehaviorSubject<SkyToast[]>;
 
   /**
    * @internal
@@ -41,6 +41,7 @@ export class SkyToastService implements OnDestroy {
 
   constructor(dynamicComponentService: SkyDynamicComponentService) {
     this.#dynamicComponentService = dynamicComponentService;
+    SkyToastService.toastStream = new BehaviorSubject<SkyToast[]>([]);
   }
 
   public ngOnDestroy(): void {
@@ -49,6 +50,7 @@ export class SkyToastService implements OnDestroy {
       this.#removeHostComponent();
     }
 
+    SkyToastService.toasts = [];
     SkyToastService.toastStream.complete();
   }
 
