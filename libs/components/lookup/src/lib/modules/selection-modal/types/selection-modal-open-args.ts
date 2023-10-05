@@ -69,7 +69,7 @@ export interface SkySelectionModalOpenArgs {
   /**
    * Called when users select the button to add options to the list.
    */
-  addClick?: (args: SkySelectionModalAddClickEventArgs) => void;
+  addClick?: ( args: SkySelectionModalAddClickEventArgs) => void;
 
   /**
    * The CSS class to add to the modal, such as `ag-custom-component-popup` for
