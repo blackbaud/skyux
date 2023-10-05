@@ -103,16 +103,60 @@ jobs:
         with:
           path: node_modules
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
+      - name: Run lint
+        run: npx nx affected:lint --quiet --silent --parallel=3
+
+  check-workspace:
+    name: Check workspace
+    needs: install-deps
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          # We need to fetch all branches and commits so that Nx affected has a base to compare against.
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+      # Rebase must happen before installing dependencies.
+      - name: Rebase current branch
+        run: node ./scripts/rebase-pr.js
+      - name: Retrieve node_modules cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Check library dependencies
         run: npx skyux-dev check-lib-dependencies
       - name: Check library missing peers
         run: npx skyux-dev check-lib-missing-peers
       - name: Check library resources
         run: npx skyux-dev check-lib-resources
+
+  format:
+    name: Format
+    needs: install-deps
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          # We need to fetch all branches and commits so that Nx affected has a base to compare against.
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+      # Rebase must happen before installing dependencies.
+      - name: Rebase current branch
+        run: node ./scripts/rebase-pr.js
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        uses: nrwl/nx-set-shas@v3
+      - name: Retrieve node_modules cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Check code formatting
-        run: npx prettier --check .
-      - name: Run lint
-        run: npx nx affected:lint --quiet --silent --parallel=3
+        run: npx nx format:check
 
   build:
     name: Build
@@ -207,7 +251,7 @@ jobs:
     name: Stop Nx Cloud agents
     runs-on: ubuntu-latest
     if: ${{ !cancelled() }}
-    needs: [install-deps, lint, build, build-dist, coverage]
+    needs: [install-deps, format, lint, build, build-dist, coverage]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
