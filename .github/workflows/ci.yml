@@ -107,7 +107,7 @@ jobs:
         run: npx nx affected:lint --quiet --silent --parallel=3
 
   check-workspace:
-    name: Check workspace
+    name: Check dependencies and resources
     needs: install-deps
     runs-on: ubuntu-latest
     steps:
@@ -134,7 +134,7 @@ jobs:
         run: npx skyux-dev check-lib-resources
 
   format:
-    name: Format
+    name: Check formatting
     needs: install-deps
     runs-on: ubuntu-latest
     steps:
