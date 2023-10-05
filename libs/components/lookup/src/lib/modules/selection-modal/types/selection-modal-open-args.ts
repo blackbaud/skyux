@@ -79,6 +79,8 @@ export interface SkySelectionModalOpenArgs {
   wrapperClass?: string;
 
   /**
+   * A descriptor for the item or items being selected. Use a plural term when `selectMode` is set to `multiple`; otherwise, use a singular term. The descriptor helps set the selection modal's `aria-label` attributes for the multiselect toolbar controls, the search input, and the save button to provide text equivalents for screen readers [to support accessibility](https://developer.blackbaud.com/skyux/components/checkbox#accessibility).
+   * For example, when the descriptor is “constituents,” the search input’s `aria-label` is “Search constituents.” For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    * @default "item"/"items"
    */
   selectionDescriptor?: string;

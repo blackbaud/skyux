@@ -87,4 +87,15 @@ describe('Selection modal demo', () => {
 
     expect(selectedItemEls).toHaveSize(0);
   });
+
+  it('should respect the selection descriptor', async () => {
+    const { harness } = await setupTest();
+
+    await expectAsync(harness.getSearchAriaLabel()).toBeResolvedTo(
+      'Search person'
+    );
+    await expectAsync(harness.getSaveButtonAriaLabel()).toBeResolvedTo(
+      'Select person'
+    );
+  });
 });
