@@ -12,6 +12,7 @@ import { SkyAffixPlacementChange } from './affix-placement-change';
 import { AffixRect } from './affix-rect';
 import { getInversePlacement, getNextPlacement } from './affix-utils';
 import {
+  getBodyMargin,
   getElementOffset,
   getOverflowParents,
   isOffsetFullyVisibleWithinParent,
@@ -225,6 +226,15 @@ export class SkyAffixer {
 
     do {
       offset = this.#getPreferredOffset(placement);
+
+      if (this.#config.position === 'absolute') {
+        const { top, left } = getBodyMargin();
+        offset.top -= top;
+        offset.left -= left;
+        offset.bottom -= top;
+        offset.right -= left;
+      }
+
       isAffixedElementFullyVisible = isOffsetFullyVisibleWithinParent(
         parent,
         offset,

@@ -108,3 +108,17 @@ export function isOffsetPartiallyVisibleWithinParent(
     parentOffset.left >= offset.right
   );
 }
+
+/**
+ * Returns the offset values of the body element.
+ */
+export function getBodyMargin(): { top: number; left: number } {
+  const bodyStyle = window.getComputedStyle(document.body, undefined);
+  const top = parseInt(bodyStyle.marginTop, 10);
+  const left = parseInt(bodyStyle.marginLeft, 10);
+
+  return {
+    top,
+    left,
+  };
+}
