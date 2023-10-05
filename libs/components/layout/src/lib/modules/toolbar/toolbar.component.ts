@@ -38,6 +38,8 @@ export class SkyToolbarComponent {
       this.#contentInfoProvider.patchInfo({
         descriptor: { type: 'text', value },
       });
+    } else {
+      this.#contentInfoProvider.patchInfo({ descriptor: undefined });
     }
   }
 
