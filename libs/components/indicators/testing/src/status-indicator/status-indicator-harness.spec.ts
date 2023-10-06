@@ -100,7 +100,7 @@ describe('Status indicator harness', () => {
       component.customDescription = customDescription;
       fixture.detectChanges();
 
-      await expectAsync(await harness.getDescriptionType()).toBeResolvedTo(
+      await expectAsync(harness.getDescriptionType()).toBeResolvedTo(
         descriptionType
       );
     }
