@@ -1,9 +1,13 @@
 import { Component, Inject } from '@angular/core';
-import { SkyModalInstance } from '@skyux/modals';
+import { SkyIdModule } from '@skyux/core';
+import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
+  standalone: true,
   selector: 'app-settings-modal',
   templateUrl: './settings-modal.component.html',
+  imports: [SkyIdModule, SkyInputBoxModule, SkyModalModule],
 })
 export class SettingsModalComponent {
   constructor(

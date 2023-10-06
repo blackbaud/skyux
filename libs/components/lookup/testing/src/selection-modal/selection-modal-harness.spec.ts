@@ -9,6 +9,7 @@ import { SkySelectionModalHarness } from './selection-modal-harness';
 
 async function setupTest(options: {
   selectMode: 'multiple' | 'single';
+  selectionDescriptor?: string;
   showAddButton?: boolean;
   addClick?: () => void;
 }): Promise<{
@@ -40,6 +41,7 @@ async function setupTest(options: {
       });
     },
     selectMode: options.selectMode,
+    selectionDescriptor: options.selectionDescriptor,
     showAddButton: options.showAddButton,
     addClick: options.addClick,
   });
@@ -139,6 +141,35 @@ describe('Selection modal harness', () => {
         'Could not clear all selections because the "Clear all" button could not be found.'
       );
     });
+
+    it('should get accessibility labels', async () => {
+      const { harness } = await setupTest({
+        selectMode: 'single',
+        selectionDescriptor: 'person',
+      });
+
+      await expectAsync(
+        harness.getClearAllButtonAriaLabel()
+      ).toBeRejectedWithError(
+        'Could not get the aria-label for the clear all button because the "Clear all" button could not be found.'
+      );
+      await expectAsync(
+        harness.getSelectAllButtonAriaLabel()
+      ).toBeRejectedWithError(
+        'Could not get the aria-label for the select all button because the "Select all" button could not be found.'
+      );
+      await expectAsync(
+        harness.getOnlyShowSelectedAriaLabel()
+      ).toBeRejectedWithError(
+        'Could not get the "Show only selected items" checkbox because it could not be found.'
+      );
+      await expectAsync(harness.getSearchAriaLabel()).toBeResolvedTo(
+        'Search person'
+      );
+      await expectAsync(harness.getSaveButtonAriaLabel()).toBeResolvedTo(
+        'Select person'
+      );
+    });
   });
 
   describe('multiselect', () => {
@@ -161,6 +192,29 @@ describe('Selection modal harness', () => {
           name: 'Shirley',
         },
       ]);
+    });
+
+    it('should get accessibility labels', async () => {
+      const { harness } = await setupTest({
+        selectMode: 'multiple',
+        selectionDescriptor: 'people',
+      });
+
+      await expectAsync(harness.getClearAllButtonAriaLabel()).toBeResolvedTo(
+        'Clear all selected people'
+      );
+      await expectAsync(harness.getSelectAllButtonAriaLabel()).toBeResolvedTo(
+        'Select all people'
+      );
+      await expectAsync(harness.getSearchAriaLabel()).toBeResolvedTo(
+        'Search people'
+      );
+      await expectAsync(harness.getSaveButtonAriaLabel()).toBeResolvedTo(
+        'Select people'
+      );
+      await expectAsync(harness.getOnlyShowSelectedAriaLabel()).toBeResolvedTo(
+        'Show only selected people'
+      );
     });
   });
 });

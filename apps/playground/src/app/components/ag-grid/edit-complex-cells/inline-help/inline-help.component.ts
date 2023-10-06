@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { SkyHelpInlineModule } from '@skyux/indicators';
 
 @Component({
+  standalone: true,
   selector: 'app-inline-help',
   templateUrl: './inline-help.component.html',
   styles: [
@@ -11,6 +13,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [SkyHelpInlineModule],
 })
 export class InlineHelpComponent {
   public onHelpClick(): void {

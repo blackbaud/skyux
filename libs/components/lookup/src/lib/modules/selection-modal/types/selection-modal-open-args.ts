@@ -23,6 +23,7 @@ export interface SkySelectionModalOpenArgs {
   /**
    * The title for the selection modal.
    * @default "Select an option/Select options"
+   * @deprecated Use the `selectionDescriptor` input to give context to the title and accessibility labels instead.
    */
   title?: string;
 
@@ -76,4 +77,11 @@ export interface SkySelectionModalOpenArgs {
    * using a modal as part of a cell editor in Data Entry Grid.
    */
   wrapperClass?: string;
+
+  /**
+   * A descriptor for the item or items being selected. Use a plural term when `selectMode` is set to `multiple`; otherwise, use a singular term. The descriptor helps set the selection modal's `aria-label` attributes for the multiselect toolbar controls, the search input, and the save button to provide text equivalents for screen readers [to support accessibility](https://developer.blackbaud.com/skyux/components/checkbox#accessibility).
+   * For example, when the descriptor is “constituents,” the search input’s `aria-label` is “Search constituents.” For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
+   * @default "item"/"items"
+   */
+  selectionDescriptor?: string;
 }

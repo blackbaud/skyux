@@ -1,11 +1,14 @@
+import { CommonModule } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
 import {
+  SkyAgGridModule,
   SkyAgGridRowDeleteConfirmArgs,
   SkyAgGridService,
   SkyCellType,
 } from '@skyux/ag-grid';
 import { SkyThemeService } from '@skyux/theme';
 
+import { AgGridModule } from 'ag-grid-angular';
 import {
   Events,
   GridApi,
@@ -22,9 +25,11 @@ import { READONLY_GRID_DATA, RowStatusNames } from './readonly-grid-data';
 let nextId = 0;
 
 @Component({
+  standalone: true,
   selector: 'app-readonly-grid-visual',
   templateUrl: './readonly-grid.component.html',
   styleUrls: ['./readonly-grid.component.scss'],
+  imports: [AgGridModule, CommonModule, SkyAgGridModule],
 })
 export class ReadonlyGridComponent implements OnInit {
   public gridApi: GridApi;

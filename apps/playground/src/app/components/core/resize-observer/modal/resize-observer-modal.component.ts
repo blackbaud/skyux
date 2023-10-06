@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -11,18 +12,21 @@ import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 import {
   SkyModalConfigurationInterface,
   SkyModalInstance,
+  SkyModalModule,
   SkyModalService,
 } from '@skyux/modals';
-import { SkySectionedFormComponent } from '@skyux/tabs';
+import { SkySectionedFormComponent, SkySectionedFormModule } from '@skyux/tabs';
 
 type SizeOptions = 'small' | 'medium' | 'large';
 
 let identifier = 1;
 
 @Component({
+  standalone: true,
   selector: 'app-resize-observer-modal',
   templateUrl: './resize-observer-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule, SkyModalModule, SkySectionedFormModule],
 })
 export class ResizeObserverModalComponent implements AfterViewInit, OnInit {
   @ViewChild(SkySectionedFormComponent)
