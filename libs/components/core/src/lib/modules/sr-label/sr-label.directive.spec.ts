@@ -3,7 +3,7 @@ import { expect } from '@skyux-sdk/testing';
 
 import { SrLabelFixtureComponent } from './fixtures/sr-label.directive.fixture';
 
-fdescribe('Screen reader label directive', () => {
+describe('Screen reader label directive', () => {
   function validateExists(
     el: HTMLElement,
     selector: string,
