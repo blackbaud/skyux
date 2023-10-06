@@ -5,10 +5,13 @@
         Transaction description
       </label>
 
-      <sky-character-counter-indicator #descriptionIndicator />
+      <sky-character-counter-indicator
+        data-sky-id="description-indicator"
+        #descriptionIndicator
+      />
 
       <input
-        class="sky-form-control"
+        class="sky-form-control description-input"
         formControlName="description"
         skyCharacterCounter
         skyId
@@ -22,6 +25,7 @@
       <span class="sky-error-indicator" skyId #characterCountError="skyId">
         <sky-status-indicator
           *ngIf="description.errors?.['skyCharacterCounter']"
+          data-sky-id="description-status-indicator-over-limit"
           descriptionType="error"
           indicatorType="danger"
         >
