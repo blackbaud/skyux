@@ -19,7 +19,7 @@ export class SelectionModalComponent {
   readonly #searchSvc = inject(SelectionModalPlaygroundService);
   readonly #selectionModalSvc = inject(SkySelectionModalService);
 
-  protected showSelectionModal(): void {
+  protected showSelectionModal(single = true): void {
     const instance = this.#selectionModalSvc.open({
       descriptorProperty: 'name',
       idProperty: 'id',
@@ -33,7 +33,8 @@ export class SelectionModalComponent {
             })
           )
         ),
-      selectMode: 'single',
+      selectionDescriptor: single ? 'person' : 'people',
+      selectMode: single ? 'single' : 'multiple',
     });
 
     instance.closed.subscribe((args) => {

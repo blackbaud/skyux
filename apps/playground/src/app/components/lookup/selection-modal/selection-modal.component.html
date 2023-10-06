@@ -8,6 +8,15 @@
       Select a value
     </button>
   </div>
+  <div class="sky-margin-stacked-xl">
+    <button
+      type="button"
+      class="sky-btn sky-btn-primary selection-modal-demo-show-btn"
+      (click)="showSelectionModal(false)"
+    >
+      Select multiple values
+    </button>
+  </div>
 
   <div *ngIf="selectedPeople?.length">
     Selected people:

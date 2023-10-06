@@ -17,6 +17,8 @@ export class SkySelectionModalContext {
 
   public searchAsync: SkyAutocompleteSearchAsyncFunction;
 
+  public selectionDescriptor: string;
+
   public selectMode: SkyLookupSelectModeType;
 
   public showAddButton: boolean;
@@ -30,6 +32,7 @@ export class SkySelectionModalContext {
     initialValue: unknown[],
     searchAsync: SkyAutocompleteSearchAsyncFunction,
     selectMode: SkyLookupSelectModeType,
+    selectionDescriptor: string,
     showAddButton: boolean,
     userConfig: SkyLookupShowMoreNativePickerConfig
   ) {
@@ -39,6 +42,7 @@ export class SkySelectionModalContext {
     this.initialValue = initialValue;
     this.searchAsync = searchAsync;
     this.selectMode = selectMode;
+    this.selectionDescriptor = selectionDescriptor;
     this.showAddButton = showAddButton;
     this.userConfig = userConfig;
   }
