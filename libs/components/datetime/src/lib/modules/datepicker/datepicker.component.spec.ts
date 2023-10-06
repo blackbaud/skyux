@@ -1807,9 +1807,12 @@ describe('datepicker', () => {
   });
 
   describe('inside input box', () => {
-    it('should render in the expected input box containers', fakeAsync(() => {
-      const fixture = TestBed.createComponent(DatepickerInputBoxTestComponent);
+    let fixture: ComponentFixture<DatepickerInputBoxTestComponent>;
 
+    beforeEach(() => {
+      fixture = TestBed.createComponent(DatepickerInputBoxTestComponent);
+    });
+    it('should render in the expected input box containers', fakeAsync(() => {
       detectChanges(fixture);
 
       const inputBoxEl = fixture.nativeElement.querySelector('sky-input-box');
@@ -1820,6 +1823,31 @@ describe('datepicker', () => {
 
       expect(inputEl).toHaveCssClass('input-box-datepicker-input');
       expect(inputGroupBtnEl).toHaveCssClass('sky-input-group-datepicker-btn');
+    }));
+
+    it('should set the calendar button to a context specific aria label when input box easy mode is used', fakeAsync(() => {
+      detectChanges(fixture);
+      tick();
+
+      const calendarButton = fixture.nativeElement.querySelector(
+        '.sky-input-group-datepicker-btn'
+      );
+
+      expect(calendarButton.getAttribute('aria-label')).toBe(
+        'Open calendar for Input box test'
+      );
+    }));
+
+    it('should set the calendar button to a default aria label when input box easy mode is not used', fakeAsync(() => {
+      fixture.componentInstance.labelText = '';
+      detectChanges(fixture);
+      tick();
+
+      const calendarButton = fixture.nativeElement.querySelector(
+        '.sky-input-group-datepicker-btn'
+      );
+
+      expect(calendarButton.getAttribute('aria-label')).toBe('Select date');
     }));
   });
 });

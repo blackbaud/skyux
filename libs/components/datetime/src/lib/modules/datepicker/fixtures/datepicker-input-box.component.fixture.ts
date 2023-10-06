@@ -5,5 +5,6 @@ import { Component } from '@angular/core';
   templateUrl: './datepicker-input-box.component.fixture.html',
 })
 export class DatepickerInputBoxTestComponent {
+  public labelText = 'Input box test';
   public selectedDate: any;
 }
