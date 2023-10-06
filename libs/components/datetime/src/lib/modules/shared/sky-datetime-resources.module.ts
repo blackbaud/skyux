@@ -53,6 +53,9 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
   },
   'EN-US': {
     skyux_datepicker_trigger_button_label: { message: 'Select date' },
+    skyux_datepicker_trigger_button_label_context: {
+      message: 'Open calendar for {0}',
+    },
     skyux_timepicker_button_label: { message: 'Choose time' },
     skyux_timepicker_button_label_context: {
       message: 'Open time picker for {0}',

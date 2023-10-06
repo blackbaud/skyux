@@ -1,9 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { SkyModalInstance, SkyModalService } from '@skyux/modals';
+import {
+  SkyModalInstance,
+  SkyModalModule,
+  SkyModalService,
+} from '@skyux/modals';
+
+import { ReadonlyGridComponent } from './readonly-grid.component';
 
 @Component({
+  standalone: true,
   selector: 'app-readonly-grid-in-modal-modal',
   templateUrl: './readonly-grid-in-modal.component.html',
+  imports: [SkyModalModule],
 })
 export class ReadonlyGridInModalModalComponent {
   constructor(
@@ -25,24 +33,29 @@ export class ReadonlyGridInModalModalComponent {
 }
 
 @Component({
+  standalone: true,
   template: `
     <app-readonly-grid-in-modal-modal>
-      <app-readonly-grid-visual></app-readonly-grid-visual>
+      <app-readonly-grid-visual />
     </app-readonly-grid-in-modal-modal>
   `,
+  imports: [ReadonlyGridComponent, ReadonlyGridInModalModalComponent],
 })
 export class ReadonlyGridInModalModalGridComponent {}
 
 @Component({
+  standalone: true,
   template: `
     <app-readonly-grid-in-modal-modal>
       <p>Not a grid.</p>
     </app-readonly-grid-in-modal-modal>
   `,
+  imports: [ReadonlyGridInModalModalComponent],
 })
 export class ReadonlyGridInModalModalNotGridComponent {}
 
 @Component({
+  standalone: true,
   selector: 'app-readonly-grid-in-modal',
   template: '',
 })

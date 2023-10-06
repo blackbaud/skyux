@@ -1,15 +1,20 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import {
   SkyConfirmCloseEventArgs,
   SkyConfirmService,
   SkyConfirmType,
   SkyModalBeforeCloseHandler,
   SkyModalInstance,
+  SkyModalModule,
 } from '@skyux/modals';
 
 @Component({
+  standalone: true,
   selector: 'app-test-cmp-modal-close-confirm',
   templateUrl: './modal-close-confirm.component.html',
+  imports: [CommonModule, FormsModule, SkyModalModule],
 })
 export class ModalCloseConfirmComponent {
   public showHelp = false;
