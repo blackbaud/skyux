@@ -8,7 +8,7 @@ import type {
 import { SkyStatusIndicatorHarnessFilters } from './status-indicator-harness-filters';
 
 /**
- * Harness for interacting with an status indicator component in tests.
+ * Harness for interacting with a status indicator component in tests.
  */
 export class SkyStatusIndicatorHarness extends SkyComponentHarness {
   /**
