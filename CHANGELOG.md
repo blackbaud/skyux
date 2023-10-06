@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.4.1](https://github.com/blackbaud/skyux/compare/9.4.0...9.4.1) (2023-10-04)
+
+
+### Bug Fixes
+
+* **components/toast:** `SkyToastService` and `SkyToastLegacyService` add toast instances to the same pool ([#1779](https://github.com/blackbaud/skyux/issues/1779)) ([5372a83](https://github.com/blackbaud/skyux/commit/5372a8306fa4a586942b31cba8c7e0b84d112162))
+
 ## [9.4.0](https://github.com/blackbaud/skyux/compare/9.3.1...9.4.0) (2023-10-02)
 
 

@@ -58,7 +58,7 @@ export class SkyTileComponent implements OnDestroy {
 
   /**
    * The human-readable name for the tile that is available to the tile controls for multiple purposes, such as accessibility and instrumentation. The component uses the name to construct ARIA labels for the help, expand/collapse, settings, and drag handle buttons to [support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
-   * For example, if the tile name is “Constituents,” the help input’s `aria-label` is “Constituents help.” and the drag handle’s `aria-label` is “Move Constituents.”. For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
+   * For example, if the tile name is “Constituents,” the help input’s `aria-label` is “Constituents help” and the drag handle’s `aria-label` is “Move Constituents.” For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
   @Input()
   public tileName: string | undefined;

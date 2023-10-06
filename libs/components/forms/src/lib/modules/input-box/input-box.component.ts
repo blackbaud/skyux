@@ -85,7 +85,9 @@ export class SkyInputBoxComponent implements OnInit, AfterContentChecked {
    */
   @Input()
   public set characterLimit(value: NumberInput) {
-    this.#_characterLimit = coerceNumberProperty(value, undefined);
+    this.#_characterLimit =
+      value === undefined ? undefined : coerceNumberProperty(value, undefined);
+
     this.#updateMaxLengthValidator();
   }
 
