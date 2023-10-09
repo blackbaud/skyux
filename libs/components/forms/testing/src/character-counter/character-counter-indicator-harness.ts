@@ -10,7 +10,6 @@ type LabelParts = {
 
 /**
  * Harness for interacting with a character counter indicator component in tests.
- * @internal
  */
 export class SkyCharacterCounterIndicatorHarness extends SkyComponentHarness {
   /**
