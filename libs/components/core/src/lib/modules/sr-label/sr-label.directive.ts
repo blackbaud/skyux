@@ -18,9 +18,6 @@ const SR_LABELS_CONTAINER_ID = 'sky-sr-labels-container';
   standalone: true,
 })
 export class SkySrLabelDirective implements OnInit {
-  readonly #elementRef = inject(ElementRef);
-  #_createLabel = true;
-
   public ngOnInit(): void {
     this.#insertSrLabel();
   }
@@ -32,13 +29,16 @@ export class SkySrLabelDirective implements OnInit {
 
   @Input()
   public set createLabel(value: boolean | undefined) {
-    this.#_createLabel = value ?? true;
+    this.#_createLabel = value ?? false;
     this.#insertSrLabel();
   }
 
   public get createLabel(): boolean {
     return this.#_createLabel;
   }
+
+  readonly #elementRef = inject(ElementRef);
+  #_createLabel = false;
 
   #insertSrLabel(): void {
     const srLabelsContainerEl = this.#getSrLabelsContainerEl();

@@ -34,13 +34,9 @@ export class SkyToolbarComponent {
    */
   @Input()
   public set listDescriptor(value: string | undefined) {
-    if (value) {
-      this.#contentInfoProvider.patchInfo({
-        descriptor: { type: 'text', value },
-      });
-    } else {
-      this.#contentInfoProvider.patchInfo({ descriptor: undefined });
-    }
+    this.#contentInfoProvider.patchInfo({
+      descriptor: value ? { type: 'text', value } : undefined,
+    });
   }
 
   #contentInfoProvider = inject(SkyContentInfoProvider);

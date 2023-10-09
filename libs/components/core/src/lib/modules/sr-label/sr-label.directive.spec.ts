@@ -47,6 +47,7 @@ describe('Screen reader label directive', () => {
 
   it('should render the label element in the container element in the body instead of where specified in the template', () => {
     const fixture = TestBed.createComponent(SrLabelFixtureComponent);
+    fixture.componentInstance.createLabel1 = true;
     fixture.detectChanges();
 
     validateLabels(fixture, { label1Exists: true, containerExists: true });
@@ -54,7 +55,6 @@ describe('Screen reader label directive', () => {
 
   it('should not render the label element or the container element in the body of the document or the template if createLabel is false', () => {
     const fixture = TestBed.createComponent(SrLabelFixtureComponent);
-    fixture.componentInstance.createLabel1 = false;
     fixture.detectChanges();
 
     validateLabels(fixture, { label1Exists: false, containerExists: false });
@@ -62,6 +62,7 @@ describe('Screen reader label directive', () => {
 
   it('should remove the label element and container element from the body if createLabel is changed to false', () => {
     const fixture = TestBed.createComponent(SrLabelFixtureComponent);
+    fixture.componentInstance.createLabel1 = true;
     fixture.detectChanges();
 
     validateLabels(fixture, { label1Exists: true, containerExists: true });
@@ -74,6 +75,7 @@ describe('Screen reader label directive', () => {
 
   it('should remove the label element but leave the container element in the body if createLabel is changed to false but another sr label exists', () => {
     const fixture = TestBed.createComponent(SrLabelFixtureComponent);
+    fixture.componentInstance.createLabel1 = true;
     fixture.componentInstance.createLabel2 = true;
     fixture.detectChanges();
 
@@ -95,6 +97,7 @@ describe('Screen reader label directive', () => {
 
   it('should remove the label element and container element if the component specifying the label element is destroyed', () => {
     const fixture = TestBed.createComponent(SrLabelFixtureComponent);
+    fixture.componentInstance.createLabel1 = true;
     fixture.detectChanges();
 
     validateLabels(fixture, {

@@ -11,7 +11,7 @@ import { SkySrLabelDirective } from '../sr-label.directive';
 })
 export class SrLabelFixtureComponent {
   @Input()
-  public createLabel1?: boolean;
+  public createLabel1 = false;
 
   @Input()
   public createLabel2 = false;

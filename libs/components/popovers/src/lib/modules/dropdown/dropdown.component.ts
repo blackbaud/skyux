@@ -207,7 +207,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     return this.#_triggerButton;
   }
 
-  public destroyRef = inject(DestroyRef);
+  protected destroyRef = inject(DestroyRef);
 
   #affixer: SkyAffixer | undefined;
   #overlay: SkyOverlayInstance | undefined;
