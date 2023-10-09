@@ -50,8 +50,6 @@ export class SkyBoxComponent {
 
   @ViewChild('titleRef', { read: ElementRef })
   public set boxHeaderRef(value: ElementRef | undefined) {
-    console.log('hello');
-    console.log(value);
     if (value) {
       this.#contentInfoProvider.patchInfo({
         descriptor: { type: 'elementId', value: 'sky-sr-label-box' },

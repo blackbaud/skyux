@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, Input, inject } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { SkyScreenReaderLabelDirective } from '../screen-reader-label.directive';
 
@@ -15,6 +15,4 @@ export class ScreenReaderLabelFixtureComponent {
 
   @Input()
   public createLabel2?: boolean;
-
-  public destroyRef = inject(DestroyRef);
 }

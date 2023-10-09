@@ -1,9 +1,9 @@
 import {
-  DestroyRef,
   Directive,
   ElementRef,
   Input,
-  OnInit,
+  OnDestroy,
+  Renderer2,
   inject,
 } from '@angular/core';
 
@@ -12,25 +12,26 @@ const SCREEN_READER_LABELS_CONTAINER_ID = 'sky-screen-reader-labels-container';
 /**
  * Adds the element to a screen reader only section of the body.
  * This prevents components' DOM from including text only intended for screen readers.
+ *
+ * @internal
  */
 @Directive({
   selector: '[skyScreenReaderLabel]',
   standalone: true,
 })
-export class SkyScreenReaderLabelDirective implements OnInit {
-  public ngOnInit(): void {
-    this.#insertScreenReaderLabel();
+export class SkyScreenReaderLabelDirective implements OnDestroy {
+  public ngOnDestroy(): void {
+    this.#removeLabelEl();
   }
 
-  @Input()
-  public set destroyRef(ref: DestroyRef) {
-    ref.onDestroy(() => this.#removeScreenReaderLabel());
-  }
-
+  /**
+   * Indicates if the label should be created in the DOM.
+   * @default false
+   */
   @Input()
   public set createLabel(value: boolean | undefined) {
     this.#_createLabel = value ?? false;
-    this.#insertScreenReaderLabel();
+    this.#updateLabelEl();
   }
 
   public get createLabel(): boolean {
@@ -38,42 +39,40 @@ export class SkyScreenReaderLabelDirective implements OnInit {
   }
 
   readonly #elementRef = inject(ElementRef);
+  readonly #renderer = inject(Renderer2);
   #_createLabel = false;
 
-  #insertScreenReaderLabel(): void {
-    const screenReaderLabelsContainerEl =
-      this.#getScreenReaderLabelsContainerEl();
+  #updateLabelEl(): void {
     if (this.createLabel) {
-      screenReaderLabelsContainerEl.append(this.#elementRef.nativeElement);
+      const containerEl = this.#getContainerEl() || this.#createContainerEl();
+
+      this.#renderer.appendChild(containerEl, this.#elementRef.nativeElement);
     } else {
-      this.#removeScreenReaderLabel();
+      this.#removeLabelEl();
     }
   }
 
-  #getScreenReaderLabelsContainerEl(): HTMLElement {
-    let containerEl = document.getElementById(
-      SCREEN_READER_LABELS_CONTAINER_ID
-    );
-
-    if (!containerEl) {
-      const el = document.createElement('div');
-      el.id = SCREEN_READER_LABELS_CONTAINER_ID;
-      el.style.display = 'none';
-
-      document.body.append(el);
-      containerEl = el;
-    }
-
-    return containerEl;
+  #getContainerEl(): HTMLElement | null {
+    return document.getElementById(SCREEN_READER_LABELS_CONTAINER_ID);
   }
 
-  #removeScreenReaderLabel(): void {
-    const screenReaderLabelsContainerEl =
-      this.#getScreenReaderLabelsContainerEl();
+  #createContainerEl(): HTMLElement {
+    const el = document.createElement('div');
+    el.id = SCREEN_READER_LABELS_CONTAINER_ID;
+    el.style.display = 'none';
+
+    this.#renderer.appendChild(document.body, el);
+
+    return el;
+  }
+
+  #removeLabelEl(): void {
+    const containerEl = this.#getContainerEl();
+
     this.#elementRef.nativeElement.remove();
 
-    if (screenReaderLabelsContainerEl.childNodes.length === 0) {
-      screenReaderLabelsContainerEl.remove();
+    if (containerEl && containerEl.childNodes.length === 0) {
+      containerEl.remove();
     }
   }
 }

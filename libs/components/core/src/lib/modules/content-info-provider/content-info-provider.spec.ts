@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
+import { SkyContentInfoDescriptor } from './content-info-descriptor';
 import { SkyContentInfoProvider } from './content-info-provider';
-import { SkyContentInfoDescriptor } from './descriptor';
 
 describe('SkyContentInfoProvider', () => {
   let contentInfoProvider: SkyContentInfoProvider;
