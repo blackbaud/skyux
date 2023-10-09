@@ -85,7 +85,7 @@ export { SkyPercentPipe } from './lib/modules/percent-pipe/percent.pipe';
 export { SkyResizeObserverService } from './lib/modules/resize-observer/resize-observer.service';
 export { SkyResizeObserverMediaQueryService } from './lib/modules/resize-observer/resize-observer-media-query.service';
 
-export { SkySrLabelDirective } from './lib/modules/sr-label/sr-label.directive';
+export { SkyScreenReaderLabelDirective } from './lib/modules/screen-reader-label/screen-reader-label.directive';
 
 export { SkyScrollableHostService } from './lib/modules/scrollable-host/scrollable-host.service';
 
