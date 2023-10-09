@@ -1,5 +1,16 @@
 # Changelog
 
+## [9.5.0](https://github.com/blackbaud/skyux/compare/9.4.1...9.5.0) (2023-10-09)
+
+
+### Features
+
+* add character counter, input box, and status indicator harnesses ([#1784](https://github.com/blackbaud/skyux/issues/1784)) ([6a55f2d](https://github.com/blackbaud/skyux/commit/6a55f2df05f691d96ff392dc311f904c89f11319))
+* **components/data-manager:** data managers include a listDescriptor which passes context to standard items aria labels ([#1775](https://github.com/blackbaud/skyux/issues/1775)) ([fcf1c2f](https://github.com/blackbaud/skyux/commit/fcf1c2f7df989a5b65e321b96b60b26efd06cf8a))
+* **components/datetime:** datepicker calendar button aria label is now context specific ([#1788](https://github.com/blackbaud/skyux/issues/1788)) ([2da13fc](https://github.com/blackbaud/skyux/commit/2da13fc946e63df764a14381a78f9e056952de25))
+* **components/datetime:** timepicker button aria label is now context specific ([#1789](https://github.com/blackbaud/skyux/issues/1789)) ([9938902](https://github.com/blackbaud/skyux/commit/9938902d76150694d0378fede9b3791a6673d43b))
+* **components/lookup:** add selection modals include a `selectionDescriptor` which passes context to aria labels and the modal title ([#1787](https://github.com/blackbaud/skyux/issues/1787)) ([e5de803](https://github.com/blackbaud/skyux/commit/e5de803996fea1095b8a318bf912fb7fb75e7486))
+
 ## [9.4.1](https://github.com/blackbaud/skyux/compare/9.4.0...9.4.1) (2023-10-04)
 
 
