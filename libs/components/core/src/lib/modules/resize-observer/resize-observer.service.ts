@@ -1,7 +1,15 @@
-import { ElementRef, Injectable, NgZone, OnDestroy } from '@angular/core';
+import {
+  ElementRef,
+  Injectable,
+  NgZone,
+  OnDestroy,
+  inject,
+} from '@angular/core';
 
 import { Observable, Subject } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+
+import { SkyAppWindowRef } from '../window/window-ref';
 
 type ResizeObserverTracking = {
   element: Element;
@@ -13,22 +21,25 @@ type ResizeObserverTracking = {
  * Service to create rxjs observables for changes to the content box dimensions of elements.
  */
 @Injectable({
-  providedIn: 'any',
+  providedIn: 'root',
 })
 export class SkyResizeObserverService implements OnDestroy {
-  #resizeObserver: ResizeObserver;
-
+  #next = new Map<Subject<ResizeObserverEntry>, number>();
+  #resizeObserver = new ResizeObserver((entries) => {
+    entries.forEach((entry) => this.#callback(entry));
+  });
   #tracking: ResizeObserverTracking[] = [];
-  #zone: NgZone;
-
-  constructor(zone: NgZone) {
-    this.#zone = zone;
-    this.#resizeObserver = new ResizeObserver((entries) => {
-      entries.forEach((entry) => this.#callback(entry));
-    });
-  }
+  #window = inject(SkyAppWindowRef);
+  #zone = inject(NgZone);
 
   public ngOnDestroy(): void {
+    this.#next.forEach((value) =>
+      this.#window.nativeWindow.cancelAnimationFrame(value)
+    );
+    this.#tracking.forEach((value) => {
+      value.subject.complete();
+      this.#resizeObserver.unobserve(value.element);
+    });
     this.#resizeObserver.disconnect();
   }
 
@@ -62,6 +73,12 @@ export class SkyResizeObserverService implements OnDestroy {
 
         if (checkTracking === -1) {
           this.#resizeObserver.unobserve(element.nativeElement);
+          const deleteTracking = this.#tracking.findIndex(
+            (value) => value.subject === subject
+          );
+          if (deleteTracking > -1) {
+            this.#tracking.splice(deleteTracking, 1);
+          }
         }
       })
     );
@@ -79,15 +96,25 @@ export class SkyResizeObserverService implements OnDestroy {
 
   #callback(entry: ResizeObserverEntry): void {
     this.#tracking
-      .filter((value) => !(value.subject.closed || value.subject.isStopped))
+      .filter((value) => !value.subject.closed)
       .forEach((value) => {
         /* istanbul ignore else */
         if (value.element === entry.target) {
           // Execute the callback within NgZone because Angular does not "monkey patch"
           // ResizeObserver like it does for other features in the DOM.
-          this.#zone.run(() => {
-            value.subject.next(entry);
-          });
+          if (this.#next.has(value.subject)) {
+            this.#window.nativeWindow.cancelAnimationFrame(
+              this.#next.get(value.subject)
+            );
+          }
+          this.#next.set(
+            value.subject,
+            (this.#window.nativeWindow as Window).requestAnimationFrame(() => {
+              this.#zone.run(() => {
+                value.subject.next(entry);
+              });
+            })
+          );
         }
       });
   }
