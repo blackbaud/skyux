@@ -47,7 +47,7 @@ export function getElementOffset(
 
 export function getOverflowParents(child: HTMLElement): HTMLElement[] {
   const bodyElement = window.document.body;
-  const results = [bodyElement];
+  const results = [];
 
   let parentElement = child?.parentNode;
 
@@ -65,11 +65,13 @@ export function getOverflowParents(child: HTMLElement): HTMLElement[] {
       overflowY === 'hidden' ||
       overflowY === 'scroll'
     ) {
-      results.push(parentElement);
+      results.unshift(parentElement);
     }
 
     parentElement = parentElement.parentNode;
   }
+
+  results.unshift(bodyElement);
 
   return results;
 }
