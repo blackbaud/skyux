@@ -10,7 +10,7 @@ import {
   Output,
   Renderer2,
 } from '@angular/core';
-import { Router, UrlTree } from '@angular/router';
+import { Params, Router, UrlTree } from '@angular/router';
 import { SkyAppConfig, SkyAppRuntimeConfigParamsProvider } from '@skyux/config';
 
 import { SkyHrefResolverService } from './href-resolver.service';
@@ -43,6 +43,9 @@ export class SkyHrefDirective {
   public get skyHref(): string {
     return this.#_skyHref;
   }
+
+  @Input()
+  public queryParams?: Params | null;
 
   /**
    * Set the behavior for when the link is not available to either hide the link or display unlinked text.
@@ -137,7 +140,7 @@ export class SkyHrefDirective {
     return true;
   }
 
-  #applyChanges(change: HrefChanges) {
+  #applyChanges(change: HrefChanges): void {
     this.#renderer.addClass(this.#element.nativeElement, 'sky-href');
     if (change.hidden) {
       this.#renderer.setAttribute(
@@ -160,7 +163,7 @@ export class SkyHrefDirective {
     this.skyHrefChange.emit({ userHasAccess: !change.hidden });
   }
 
-  #checkRouteAccess() {
+  #checkRouteAccess(): void {
     this.#route = {
       url: this.skyHref,
       userHasAccess: false,
@@ -201,7 +204,7 @@ export class SkyHrefDirective {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         this.#skyAppConfig?.runtime.params ?? this.#paramsProvider!.params;
 
-      this.#href = params.getLinkUrl(this.#route.url);
+      this.#href = params.getLinkUrl(this.#route.url, this.queryParams);
 
       return {
         href: this.#href,

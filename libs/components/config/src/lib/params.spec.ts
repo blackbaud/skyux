@@ -278,6 +278,50 @@ describe('SkyAppRuntimeConfigParams', () => {
     expect(params.getAllKeys()).toEqual([]);
   });
 
+  it('should add provided params to a url link', () => {
+    const params: SkyAppRuntimeConfigParams = new SkyAppRuntimeConfigParams(
+      '',
+      allowed
+    );
+    expect(params.getLinkUrl('https://mysite.com', { q1: 5 })).toEqual(
+      'https://mysite.com?q1=5'
+    );
+  });
+
+  it('should ignore null, undefined, or empty provided params to a url link', () => {
+    const params: SkyAppRuntimeConfigParams = new SkyAppRuntimeConfigParams(
+      '',
+      allowed
+    );
+    expect(params.getLinkUrl('https://mysite.com', null)).toEqual(
+      'https://mysite.com'
+    );
+    expect(params.getLinkUrl('https://mysite.com', undefined)).toEqual(
+      'https://mysite.com'
+    );
+    expect(params.getLinkUrl('https://mysite.com', {})).toEqual(
+      'https://mysite.com'
+    );
+  });
+
+  it('should add provided params to a url link with a query string', () => {
+    const params: SkyAppRuntimeConfigParams = new SkyAppRuntimeConfigParams(
+      '',
+      {
+        q3: { value: 3 },
+        q4: { value: 4, excludeFromLinks: true },
+      }
+    );
+    expect(
+      params.getLinkUrl('https://mysite.com?q1=1&q2=2', {
+        q1: 5,
+        q5: null,
+        q6: undefined,
+        q7: '',
+      })
+    ).toEqual('https://mysite.com?q1=5&q2=2&q3=3');
+  });
+
   it("should exclude certain parameters from being added to a link's querystring", () => {
     const params = new SkyAppRuntimeConfigParams('https://mysite.com?a=1&b=2', {
       a: true,
@@ -296,10 +340,40 @@ describe('SkyAppRuntimeConfigParams', () => {
       },
     });
 
-    // Parameter 'f' should remain in the link because it already exists in the URL.
-    expect(params.getLinkUrl('https://mysite.com?c=3&f=6#foobar')).toEqual(
-      'https://mysite.com?c=3&f=6&a=1&b=2#foobar'
+    expect(params.getLinkUrl('https://mysite.com?c=3&f=6&g=9#foobar')).toEqual(
+      'https://mysite.com?c=3&g=9&a=1&b=2#foobar'
     );
+  });
+
+  it('should combine app config params, provided params, and url params', () => {
+    const params = new SkyAppRuntimeConfigParams(
+      'https://mysite.com?a=1&b=2&c=3',
+      {
+        b: {
+          excludeFromRequests: true,
+        },
+        c: {
+          value: 42,
+        },
+        d: {
+          value: 43,
+        },
+        m: {
+          excludeFromRequests: true,
+        },
+        n: {
+          excludeFromLinks: true,
+        },
+      }
+    );
+
+    expect(
+      params.getLinkUrl('https://mysite.com?a=10&c=13&f=6&m=14#foobar', {
+        a: 5,
+        m: 10,
+        n: 11,
+      })
+    ).toEqual('https://mysite.com?a=5&c=13&f=6&m=10&n=11&d=43#foobar');
   });
 
   it('should support query params with multiple values', () => {
@@ -319,6 +393,6 @@ describe('SkyAppRuntimeConfigParams', () => {
 
     expect(
       params.getLinkUrl('https://mysite.com?foobar=Robert+Hernandez')
-    ).toEqual('https://mysite.com?foobar=Robert+Hernandez&a1=%20');
+    ).toEqual('https://mysite.com?foobar=Robert%2BHernandez&a1=%20');
   });
 });
