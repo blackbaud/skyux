@@ -1,4 +1,4 @@
-import { ElementRef, Injectable, OnDestroy } from '@angular/core';
+import { ElementRef, Injectable, OnDestroy, inject } from '@angular/core';
 
 import { ReplaySubject, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -50,13 +50,9 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
 
   #ngUnsubscribe = new Subject<void>();
 
-  #resizeObserverSvc: SkyResizeObserverService;
+  #resizeObserverSvc = inject(SkyResizeObserverService);
 
   #target: ElementRef | undefined;
-
-  constructor(resizeObserverSvc: SkyResizeObserverService) {
-    this.#resizeObserverSvc = resizeObserverSvc;
-  }
 
   public ngOnDestroy(): void {
     this.unobserve();
