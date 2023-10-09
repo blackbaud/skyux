@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.5.1](https://github.com/blackbaud/skyux/compare/9.5.0...9.5.1) (2023-10-09)
+
+
+### Bug Fixes
+
+* **components/forms:** remove internal flag from character counter harness ([#1791](https://github.com/blackbaud/skyux/issues/1791)) ([730d0ef](https://github.com/blackbaud/skyux/commit/730d0ef9dbd48a4149bb05c834a7d27d280f7ae6))
+
 ## [9.5.0](https://github.com/blackbaud/skyux/compare/9.4.1...9.5.0) (2023-10-09)
 
 
