@@ -47,4 +47,19 @@ describe('Lookup single select demo', () => {
       { name: 'Ben' },
     ]);
   });
+
+  it('should respect the selection descriptor', async () => {
+    const { lookupHarness } = await setupTest();
+
+    await lookupHarness?.clickShowMoreButton();
+
+    const picker = await lookupHarness?.getShowMorePicker();
+
+    await expectAsync(picker?.getSearchAriaLabel()).toBeResolvedTo(
+      'Search name'
+    );
+    await expectAsync(picker?.getSaveButtonAriaLabel()).toBeResolvedTo(
+      'Select name'
+    );
+  });
 });

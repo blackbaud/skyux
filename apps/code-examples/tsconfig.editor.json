@@ -1,9 +1,6 @@
 {
   "extends": "./tsconfig.json",
-  "include": [
-    "**/*.ts",
-    "../../libs/components/lookup/src/lib/modules/selection-modal/fixtures/search-results.ts"
-  ],
+  "include": ["**/*.ts"],
   "compilerOptions": {
     "types": ["jasmine", "node"]
   }

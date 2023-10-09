@@ -13,6 +13,7 @@ import {
   SkyAutocompleteSearchAsyncArgs,
   SkyLookupAddClickEventArgs,
   SkyLookupModule,
+  SkyLookupShowMoreConfig,
 } from '@skyux/lookup';
 
 import { map } from 'rxjs/operators';
@@ -37,6 +38,12 @@ export class DemoComponent implements OnInit {
   public favoritesForm: FormGroup<{
     favoriteNames: FormControl<Person[] | null>;
   }>;
+
+  public showMoreConfig: SkyLookupShowMoreConfig = {
+    nativePickerConfig: {
+      selectionDescriptor: 'names',
+    },
+  };
 
   readonly #svc = inject(DemoService);
   readonly #waitSvc = inject(SkyWaitService);

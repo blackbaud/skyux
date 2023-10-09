@@ -126,7 +126,9 @@ export class DemoComponent implements OnInit {
   ];
 
   protected showMoreConfig: SkyLookupShowMoreConfig = {
-    nativePickerConfig: {},
+    nativePickerConfig: {
+      selectionDescriptor: 'names',
+    },
   };
 
   @ViewChild('modalItemTemplate')
