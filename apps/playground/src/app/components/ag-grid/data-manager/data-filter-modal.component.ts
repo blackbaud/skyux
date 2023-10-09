@@ -9,8 +9,9 @@ import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
-  selector: 'app-demo-filter-modal-form',
   standalone: true,
+  selector: 'app-demo-filter-modal-form',
+  templateUrl: './data-filter-modal.component.html',
   imports: [
     CommonModule,
     FormsModule,
@@ -18,7 +19,6 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
     SkyInputBoxModule,
     SkyModalModule,
   ],
-  templateUrl: './data-filter-modal.component.html',
 })
 export class SkyDataManagerFiltersModalVisualComponent {
   public fruitType: string;

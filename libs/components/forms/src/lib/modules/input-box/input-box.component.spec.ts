@@ -679,6 +679,22 @@ describe('Input box component', () => {
       expect(characterCountLabelEl).toHaveText('3/11');
     });
 
+    it('should remove character count when character limit is set to undefined', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+
+      let els = getDefaultEls(fixture, 'input-easy-mode');
+
+      expect(els.characterCountEl).toExist();
+
+      fixture.componentInstance.easyModeCharacterLimit = undefined;
+      fixture.detectChanges();
+
+      els = getDefaultEls(fixture, 'input-easy-mode');
+
+      expect(els.characterCountEl).not.toExist();
+    });
+
     it('should not set the input ID if it is already set', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();

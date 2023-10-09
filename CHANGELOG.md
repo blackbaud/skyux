@@ -1,5 +1,30 @@
 # Changelog
 
+## [9.5.1](https://github.com/blackbaud/skyux/compare/9.5.0...9.5.1) (2023-10-09)
+
+
+### Bug Fixes
+
+* **components/forms:** remove internal flag from character counter harness ([#1791](https://github.com/blackbaud/skyux/issues/1791)) ([730d0ef](https://github.com/blackbaud/skyux/commit/730d0ef9dbd48a4149bb05c834a7d27d280f7ae6))
+
+## [9.5.0](https://github.com/blackbaud/skyux/compare/9.4.1...9.5.0) (2023-10-09)
+
+
+### Features
+
+* add character counter, input box, and status indicator harnesses ([#1784](https://github.com/blackbaud/skyux/issues/1784)) ([6a55f2d](https://github.com/blackbaud/skyux/commit/6a55f2df05f691d96ff392dc311f904c89f11319))
+* **components/data-manager:** data managers include a listDescriptor which passes context to standard items aria labels ([#1775](https://github.com/blackbaud/skyux/issues/1775)) ([fcf1c2f](https://github.com/blackbaud/skyux/commit/fcf1c2f7df989a5b65e321b96b60b26efd06cf8a))
+* **components/datetime:** datepicker calendar button aria label is now context specific ([#1788](https://github.com/blackbaud/skyux/issues/1788)) ([2da13fc](https://github.com/blackbaud/skyux/commit/2da13fc946e63df764a14381a78f9e056952de25))
+* **components/datetime:** timepicker button aria label is now context specific ([#1789](https://github.com/blackbaud/skyux/issues/1789)) ([9938902](https://github.com/blackbaud/skyux/commit/9938902d76150694d0378fede9b3791a6673d43b))
+* **components/lookup:** add selection modals include a `selectionDescriptor` which passes context to aria labels and the modal title ([#1787](https://github.com/blackbaud/skyux/issues/1787)) ([e5de803](https://github.com/blackbaud/skyux/commit/e5de803996fea1095b8a318bf912fb7fb75e7486))
+
+## [9.4.1](https://github.com/blackbaud/skyux/compare/9.4.0...9.4.1) (2023-10-04)
+
+
+### Bug Fixes
+
+* **components/toast:** `SkyToastService` and `SkyToastLegacyService` add toast instances to the same pool ([#1779](https://github.com/blackbaud/skyux/issues/1779)) ([5372a83](https://github.com/blackbaud/skyux/commit/5372a8306fa4a586942b31cba8c7e0b84d112162))
+
 ## [9.4.0](https://github.com/blackbaud/skyux/compare/9.3.1...9.4.0) (2023-10-02)
 
 

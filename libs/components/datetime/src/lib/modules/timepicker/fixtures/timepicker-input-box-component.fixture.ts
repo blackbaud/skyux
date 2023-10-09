@@ -16,6 +16,8 @@ export class TimepickerInputBoxTestComponent {
   @ViewChild(SkyTimepickerInputDirective)
   public timepicker!: SkyTimepickerInputDirective;
 
+  public labelText = 'Time';
+
   public returnFormat: string | undefined;
 
   public selectedTime: SkyTimepickerTimeOutput | undefined;

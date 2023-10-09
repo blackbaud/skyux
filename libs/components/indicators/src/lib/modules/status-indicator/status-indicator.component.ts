@@ -40,8 +40,8 @@ export class SkyStatusIndicatorComponent implements OnInit {
   }
 
   /**
-   * The predefined text to be read by screen readers for users
-   * who cannot see the indicator icon.
+   * The predefined text to be read by screen readers for users who
+   * cannot see the indicator icon.
    * @required
    */
   @Input()

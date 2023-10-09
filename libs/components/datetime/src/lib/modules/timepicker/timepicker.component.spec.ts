@@ -807,6 +807,8 @@ describe('Timepicker', () => {
   });
 
   describe('inside input box', () => {
+    let fixture: ComponentFixture<TimepickerInputBoxTestComponent>;
+
     beforeEach(() => {
       TestBed.configureTestingModule({
         declarations: [TimepickerInputBoxTestComponent],
@@ -818,11 +820,11 @@ describe('Timepicker', () => {
           },
         ],
       });
+
+      fixture = TestBed.createComponent(TimepickerInputBoxTestComponent);
     });
 
     it('should render in the expected input box containers', fakeAsync(() => {
-      const fixture = TestBed.createComponent(TimepickerInputBoxTestComponent);
-
       detectChangesAndTick(fixture);
 
       const inputBoxEl = fixture.nativeElement.querySelector('sky-input-box');
@@ -833,6 +835,29 @@ describe('Timepicker', () => {
 
       expect(inputEl).toHaveCssClass('input-box-timepicker-input');
       expect(inputGroupBtnEl).toHaveCssClass('sky-input-group-timepicker-btn');
+    }));
+
+    it('should set the picker button to a context specific aria label when input box easy mode is used', fakeAsync(() => {
+      detectChangesAndTick(fixture);
+
+      const pickerButton = fixture.nativeElement.querySelector(
+        '.sky-input-group-timepicker-btn'
+      );
+
+      expect(pickerButton.getAttribute('aria-label')).toBe(
+        'Open time picker for Time'
+      );
+    }));
+
+    it('should set the calendar button to a default aria label when input box easy mode is not used', fakeAsync(() => {
+      fixture.componentInstance.labelText = '';
+      detectChangesAndTick(fixture);
+
+      const pickerButton = fixture.nativeElement.querySelector(
+        '.sky-input-group-timepicker-btn'
+      );
+
+      expect(pickerButton.getAttribute('aria-label')).toBe('Choose time');
     }));
   });
 });

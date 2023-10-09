@@ -6,12 +6,14 @@ import {
 import {
   SkyAgGridAutocompleteProperties,
   SkyAgGridDatepickerProperties,
+  SkyAgGridModule,
   SkyAgGridService,
   SkyCellType,
 } from '@skyux/ag-grid';
 import { SkyAutocompleteSelectionChange } from '@skyux/lookup';
-import { SkyModalInstance } from '@skyux/modals';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
+import { AgGridModule } from 'ag-grid-angular';
 import {
   ColDef,
   GridApi,
@@ -26,9 +28,11 @@ import { AgGridDemoRow, DEPARTMENTS, JOB_TITLES } from './data-manager-data';
 import { DataManagerEditModalContext } from './data-manager-edit-modal-context';
 
 @Component({
+  standalone: true,
   selector: 'app-data-manager-edit-modal',
   templateUrl: './data-manager-edit-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [AgGridModule, SkyAgGridModule, SkyModalModule],
 })
 export class DataManagerEditModalComponent {
   public columnDefs: ColDef[];
