@@ -231,6 +231,15 @@ export class SkyTextEditorComponent
     return this.#_toolbarActions;
   }
 
+  @Input()
+  public set openLinksInNewWindowOnly(value: boolean) {
+    this.#_openLinksInNewWindowOnly = value;
+  }
+
+  public get openLinksInNewWindowOnly(): boolean {
+    return this.#_openLinksInNewWindowOnly;
+  }
+
   @ViewChild('iframe')
   public iframeRef: ElementRef | undefined;
 
@@ -311,6 +320,7 @@ export class SkyTextEditorComponent
   #_mergeFields: SkyTextEditorMergeField[] = [];
   #_menus = MENU_DEFAULTS;
   #_toolbarActions: SkyTextEditorToolbarActionType[] = TOOLBAR_ACTION_DEFAULTS;
+  #_openLinksInNewWindowOnly: boolean;
   #_disabled = false;
   #_initialStyleState = Object.assign({}, STYLE_STATE_DEFAULTS);
   #_placeholder = '';
