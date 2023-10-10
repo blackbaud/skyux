@@ -1,17 +1,3 @@
-<span
-  skyScreenReaderLabel
-  [createLabel]="
-    buttonType === 'context-menu' &&
-    (contentInfoObs | async)?.descriptor?.type === 'elementId'
-  "
-  skyId
-  #screenReaderLabelContextMenu="skyId"
->
-  {{
-    'skyux_dropdown_context_menu_with_content_descriptor_el_default_label'
-      | skyLibResources
-  }}
-</span>
 <div class="sky-dropdown">
   <button
     class="sky-btn sky-dropdown-button"
@@ -82,3 +68,17 @@
     <ng-content select="sky-dropdown-menu" />
   </div>
 </ng-template>
+<span
+  skyScreenReaderLabel
+  [createLabel]="
+    buttonType === 'context-menu' &&
+    (contentInfoObs | async)?.descriptor?.type === 'elementId'
+  "
+  skyId
+  #screenReaderLabelContextMenu="skyId"
+>
+  {{
+    'skyux_dropdown_context_menu_with_content_descriptor_el_default_label'
+      | skyLibResources
+  }}
+</span>
