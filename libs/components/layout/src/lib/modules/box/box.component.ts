@@ -1,4 +1,12 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  ViewChild,
+  ViewEncapsulation,
+  inject,
+} from '@angular/core';
+import { SkyContentInfoProvider } from '@skyux/core';
 
 /**
  * Provides a common look-and-feel for box content with options to display a common box header, specify body content, and display common box controls.
@@ -8,6 +16,7 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
   templateUrl: './box.component.html',
   styleUrls: ['./box.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  providers: [SkyContentInfoProvider],
 })
 export class SkyBoxComponent {
   /**
@@ -38,4 +47,15 @@ export class SkyBoxComponent {
    */
   @Input()
   public ariaRole: string | undefined;
+
+  @ViewChild('titleRef', { read: ElementRef })
+  public set boxHeaderRef(value: ElementRef | undefined) {
+    if (value) {
+      this.#contentInfoProvider.patchInfo({
+        descriptor: { type: 'elementId', value: 'sky-sr-label-box' },
+      });
+    }
+  }
+
+  #contentInfoProvider = inject(SkyContentInfoProvider);
 }
