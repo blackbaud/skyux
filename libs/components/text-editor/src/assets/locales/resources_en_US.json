@@ -107,6 +107,10 @@
     "_description": "Text for the 'Current window' option label in the url modal",
     "message": "Current window"
   },
+  "skyux_text_editor_url_modal_open_in_new_window_label": {
+    "_description": "Text for the 'Link will open in:' label in the url modal",
+    "message": "Link will open in:"
+  },
   "skyux_text_editor_url_modal_new_option_label": {
     "_description": "Text for the 'New window' option label in the url modal",
     "message": "New window"
