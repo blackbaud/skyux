@@ -18,6 +18,18 @@ import { SkyToggleSwitchFixturesModule } from './fixtures/toggle-switch.module.f
 import { SkyToggleSwitchComponent } from './toggle-switch.component';
 
 describe('Toggle switch component', () => {
+  function getButtonElement(
+    fixture: ComponentFixture<unknown>
+  ): HTMLButtonElement | null {
+    return fixture.nativeElement.querySelector('.sky-toggle-switch-button');
+  }
+
+  function getLabelElement(
+    fixture: ComponentFixture<unknown>
+  ): HTMLLabelElement {
+    return fixture.nativeElement.querySelector('label.sky-toggle-switch-label');
+  }
+
   let fixture: ComponentFixture<unknown>;
 
   beforeEach(() => {
@@ -46,7 +58,7 @@ describe('Toggle switch component', () => {
       toggleInstance = toggleDebugElement.componentInstance;
       testComponent = fixture.debugElement.componentInstance;
 
-      buttonElement = toggleNativeElement.querySelector('button');
+      buttonElement = getButtonElement(fixture);
     }));
 
     it('should add and remove the checked state', () => {
@@ -132,9 +144,7 @@ describe('Toggle switch component', () => {
     it('should project the toggle content into the label element', () => {
       fixture.detectChanges();
 
-      const label = toggleNativeElement.querySelector(
-        'label.sky-toggle-switch-label'
-      );
+      const label = getLabelElement(fixture);
 
       expect(label?.textContent?.trim()).toEqual('Simple toggle');
     });
@@ -153,6 +163,10 @@ describe('Toggle switch component', () => {
 
     it('should pass accessibility with label element and no `ariaLabel`', async () => {
       fixture.detectChanges();
+      expect(buttonElement?.getAttribute('aria-labelledby')).toEqual(
+        getLabelElement(fixture).id
+      );
+      expect(buttonElement?.getAttribute('aria-label')).toBeNull();
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
@@ -161,6 +175,10 @@ describe('Toggle switch component', () => {
       testComponent.buttonLabel = undefined;
 
       fixture.detectChanges();
+      expect(buttonElement?.getAttribute('aria-labelledby')).toBeNull();
+      expect(buttonElement?.getAttribute('aria-label')).toEqual(
+        'My aria label'
+      );
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
@@ -170,6 +188,10 @@ describe('Toggle switch component', () => {
       testComponent.buttonLabel = 'My button label';
 
       fixture.detectChanges();
+      expect(buttonElement?.getAttribute('aria-labelledby')).toBeNull();
+      expect(buttonElement?.getAttribute('aria-label')).toEqual(
+        'My button label with more content'
+      );
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
@@ -178,6 +200,10 @@ describe('Toggle switch component', () => {
       testComponent.buttonLabel = 'Text that does not match aria label';
 
       fixture.detectChanges();
+      expect(buttonElement?.getAttribute('aria-labelledby')).toBeNull();
+      expect(buttonElement?.getAttribute('aria-label')).toEqual(
+        'My aria label'
+      );
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
@@ -186,13 +212,16 @@ describe('Toggle switch component', () => {
       testComponent.showLabel = false;
 
       fixture.detectChanges();
+      expect(buttonElement?.getAttribute('aria-labelledby')).toBeNull();
+      expect(buttonElement?.getAttribute('aria-label')).toEqual(
+        'My aria label'
+      );
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
   });
 
   describe('with change event and no initial value', () => {
     let toggleDebugElement: DebugElement;
-    let toggleNativeElement: HTMLElement;
     let toggleInstance: SkyToggleSwitchComponent;
     let testComponent: SkyToggleSwitchChangeEventFixtureComponent;
     let buttonElement: HTMLButtonElement | null;
@@ -207,10 +236,9 @@ describe('Toggle switch component', () => {
       toggleDebugElement = fixture.debugElement.query(
         By.directive(SkyToggleSwitchComponent)
       );
-      toggleNativeElement = toggleDebugElement.nativeElement;
       toggleInstance = toggleDebugElement.componentInstance;
       testComponent = fixture.debugElement.componentInstance;
-      buttonElement = toggleNativeElement.querySelector('button');
+      buttonElement = getButtonElement(fixture);
     });
 
     it('should call not call the change event when the toggle is not interacted with', () => {
@@ -240,10 +268,6 @@ describe('Toggle switch component', () => {
   });
 
   describe('with provided ariaLabel attribute ', () => {
-    let toggleDebugElement: DebugElement;
-    let toggleNativeElement: HTMLElement;
-    let buttonElement: HTMLButtonElement | null;
-
     it('should use the provided ariaLabel as the input aria-label', () => {
       fixture = TestBed.createComponent(SkyToggleSwitchFixtureComponent);
 
@@ -251,12 +275,7 @@ describe('Toggle switch component', () => {
         'Super effective';
       fixture.detectChanges();
 
-      toggleDebugElement = fixture.debugElement.query(
-        By.directive(SkyToggleSwitchComponent)
-      );
-      toggleNativeElement = toggleDebugElement.nativeElement;
-
-      buttonElement = toggleNativeElement.querySelector('button');
+      const buttonElement = getButtonElement(fixture);
 
       expect(buttonElement?.getAttribute('aria-label')).toEqual(
         'Super effective'
@@ -265,8 +284,6 @@ describe('Toggle switch component', () => {
   });
 
   describe('with provided tabIndex', () => {
-    let toggleDebugElement: DebugElement;
-    let toggleNativeElement: HTMLElement;
     let testComponent: SkyToggleSwitchFixtureComponent;
     let buttonElement: HTMLButtonElement | null;
 
@@ -276,15 +293,11 @@ describe('Toggle switch component', () => {
       fixture.detectChanges();
 
       testComponent = fixture.debugElement.componentInstance;
-      toggleDebugElement = fixture.debugElement.query(
-        By.directive(SkyToggleSwitchComponent)
-      );
-      toggleNativeElement = toggleDebugElement.nativeElement;
-
-      buttonElement = toggleNativeElement.querySelector('button');
 
       testComponent.customTabIndex = 7;
       fixture.detectChanges();
+
+      buttonElement = getButtonElement(fixture);
     });
 
     it('should preserve any given tabIndex', () => {
@@ -309,7 +322,6 @@ describe('Toggle switch component', () => {
     let toggleElement: DebugElement;
     let testComponent: SkyToggleSwitchFormDirectivesFixtureComponent;
     let buttonElement: HTMLButtonElement | null;
-    let toggleNativeElement: HTMLElement;
     let ngModel: NgModel;
 
     beforeEach(fakeAsync(() => {
@@ -325,9 +337,8 @@ describe('Toggle switch component', () => {
       toggleElement = fixture.debugElement.query(
         By.directive(SkyToggleSwitchComponent)
       );
-      toggleNativeElement = toggleElement.nativeElement;
 
-      buttonElement = toggleNativeElement.querySelector('button');
+      buttonElement = getButtonElement(fixture);
 
       ngModel = toggleElement.injector.get(NgModel);
     }));
@@ -363,7 +374,6 @@ describe('Toggle switch component', () => {
     let toggleElement: DebugElement;
     let testComponent: SkyToggleSwitchFormDirectivesFixtureComponent;
     let buttonElement: HTMLButtonElement | null;
-    let toggleNativeElement: HTMLElement;
     let ngModel: NgModel;
 
     beforeEach(fakeAsync(() => {
@@ -377,11 +387,10 @@ describe('Toggle switch component', () => {
       toggleElement = fixture.debugElement.query(
         By.directive(SkyToggleSwitchComponent)
       );
-      toggleNativeElement = toggleElement.nativeElement;
 
       testComponent = fixture.debugElement.componentInstance;
 
-      buttonElement = toggleNativeElement.querySelector('button');
+      buttonElement = getButtonElement(fixture);
 
       ngModel = toggleElement.injector.get(NgModel);
     }));
@@ -435,10 +444,8 @@ describe('Toggle switch component', () => {
   });
 
   describe('with reactive form', () => {
-    let toggleElement: DebugElement;
     let testComponent: SkyToggleSwitchReactiveFormFixtureComponent;
     let buttonElement: HTMLButtonElement | null;
-    let toggleNativeElement: HTMLElement;
     let formControl: UntypedFormControl;
 
     beforeEach(fakeAsync(() => {
@@ -449,14 +456,9 @@ describe('Toggle switch component', () => {
       fixture.detectChanges();
       tick();
 
-      toggleElement = fixture.debugElement.query(
-        By.directive(SkyToggleSwitchComponent)
-      );
-      toggleNativeElement = toggleElement.nativeElement;
-
       testComponent = fixture.debugElement.componentInstance;
 
-      buttonElement = toggleNativeElement.querySelector('button');
+      buttonElement = getButtonElement(fixture);
 
       formControl = testComponent.toggle1;
     }));
@@ -542,10 +544,8 @@ describe('Toggle switch component', () => {
   });
 
   describe('with a consumer using OnPush change detection', () => {
-    let toggleElement: DebugElement;
     let testComponent: SkyToggleSwitchOnPushFixtureComponent;
     let buttonElement: HTMLButtonElement | null;
-    let toggleNativeElement: HTMLElement;
 
     beforeEach(fakeAsync(() => {
       fixture = TestBed.createComponent(SkyToggleSwitchOnPushFixtureComponent);
@@ -553,14 +553,9 @@ describe('Toggle switch component', () => {
       fixture.detectChanges();
       tick();
 
-      toggleElement = fixture.debugElement.query(
-        By.directive(SkyToggleSwitchComponent)
-      );
-      toggleNativeElement = toggleElement.nativeElement;
-
       testComponent = fixture.debugElement.componentInstance;
 
-      buttonElement = toggleNativeElement.querySelector('button');
+      buttonElement = getButtonElement(fixture);
     }));
 
     it('should change toggle state through ngModel programmatically', fakeAsync(() => {
@@ -591,7 +586,7 @@ describe('Toggle switch component', () => {
       tick();
       fixture.detectChanges();
 
-      let label = toggleNativeElement.querySelector('.sky-toggle-switch-label');
+      let label = getLabelElement(fixture);
 
       expect(label).toBeNull();
 
@@ -601,7 +596,7 @@ describe('Toggle switch component', () => {
       tick();
       fixture.detectChanges();
 
-      label = toggleNativeElement.querySelector('.sky-toggle-switch-label');
+      label = getLabelElement(fixture);
 
       expect(label).not.toBeNull();
     }));
