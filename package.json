@@ -10,7 +10,7 @@
     "build:affected": "nx affected:build --parallel --maxParallel=5 && nx affected --target=postbuild --parallel --maxParallel=5",
     "test": "nx run-many --target=test --all --browsers=ChromeHeadlessNoSandbox --parallel --maxParallel=5 --exclude=storybook",
     "posttest": "nx run-many --target=posttest --all --parallel --maxParallel=5",
-    "test:affected": "nx affected:test --browsers=ChromeHeadlessNoSandbox --parallel --maxParallel=5 --exclude=storybook && nx affected --target=posttest --parallel --maxParallel=5",
+    "test:affected": "nx affected --target=test --browsers=ChromeHeadlessNoSandbox --code-coverage --parallel --maxParallel=5 --progress=false --source-map --watch=false && nx affected --target=posttest --parallel --maxParallel=5",
     "lint": "nx run-many --target=lint --all --parallel --maxParallel=5",
     "lint:affected": "nx affected:lint --parallel --maxParallel=5",
     "format": "nx format:write",
