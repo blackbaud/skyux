@@ -1,4 +1,4 @@
-import { E2EVariationName, E2eVariations } from '@skyux-sdk/e2e-schematics';
+import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 
 describe('lookup in modal', () => {
   E2eVariations.forEachTheme((theme) => {
@@ -13,27 +13,27 @@ describe('lookup in modal', () => {
       });
 
       it('should affix autocomplete to the bottom of the input when the body has top margin', () => {
-        const expectedPosition: Record<
-          E2EVariationName,
-          { top: string; left: string }
-        > = {
-          default: {
-            top: '299.672px',
-            left: '506px',
-          },
-          'modern-light': {
-            top: '370.078px',
-            left: '521px',
-          },
-          'modern-dark': {
-            top: '370.078px',
-            left: '521px',
-          },
-        };
+        // const expectedPosition: Record<
+        //   E2EVariationName,
+        //   { top: string; left: string }
+        // > = {
+        //   default: {
+        //     top: '324.172px',
+        //     left: '507px',
+        //   },
+        //   'modern-light': {
+        //     top: '384.203px',
+        //     left: '521px',
+        //   },
+        //   'modern-dark': {
+        //     top: '384.203px',
+        //     left: '521px',
+        //   },
+        // };
         cy.get('#ready')
           .should('exist')
           .end()
-          .get('textarea[aria-labelledby="my-friends-label"]')
+          .get('textarea[placeholder="Type a person\'s name..."]')
           .should('exist')
           .should('be.visible')
           .click()
@@ -46,9 +46,16 @@ describe('lookup in modal', () => {
           .should('contain.text', 'Show all 21')
           .end()
           .get('.sky-autocomplete-results-container')
-          .should('have.css', 'top', expectedPosition[theme].top)
-          .should('have.css', 'left', expectedPosition[theme].left)
-          .end();
+          .then((container) => container.get(0).getBoundingClientRect().top)
+          .then((top) => {
+            cy.get('textarea[placeholder="Type a person\'s name..."]')
+              .then(($el) => $el.get(0).getBoundingClientRect().bottom)
+              .then((inputBottom) => {
+                expect(top).to.be.gte(inputBottom);
+                // Allow for some margin of error in the position, specifically for headless Chrome.
+                expect(top).to.be.lte(inputBottom + 6);
+              });
+          });
         cy.window().skyVisualTest(`lookup-in-modal-${theme}`, {
           capture: 'viewport',
           disableTimersAndAnimations: true,
