@@ -1,4 +1,4 @@
-import { ElementRef, NgZone } from '@angular/core';
+import { ElementRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import {
@@ -14,7 +14,7 @@ describe('ResizeObserver service', async () => {
   });
 
   it('should return a new instance of a resize observer', async () => {
-    const service = new SkyResizeObserverService(TestBed.inject(NgZone));
+    const service = TestBed.inject(SkyResizeObserverService);
     expect(service).toBeTruthy();
     service.ngOnDestroy();
   });
@@ -24,7 +24,7 @@ describe('ResizeObserver service', async () => {
       nativeElement: { id: 'element' },
     } as ElementRef;
     let result: ResizeObserverEntry | undefined;
-    const service = new SkyResizeObserverService(TestBed.inject(NgZone));
+    const service = TestBed.inject(SkyResizeObserverService);
     const subscription = service
       .observe(target)
       .subscribe((resizeObserverEntry) => {
@@ -49,7 +49,7 @@ describe('ResizeObserver service', async () => {
       nativeElement: { id: 'element' },
     } as ElementRef;
     let result: ResizeObserverEntry | undefined;
-    const service = new SkyResizeObserverService(TestBed.inject(NgZone));
+    const service = TestBed.inject(SkyResizeObserverService);
     const subscription1 = service
       .observe(target)
       .subscribe((resizeObserverEntry) => {
