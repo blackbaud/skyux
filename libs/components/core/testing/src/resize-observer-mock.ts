@@ -29,6 +29,11 @@ export const mockResizeObserverHandle = {
 };
 
 export function mockResizeObserver() {
+  (window as any).requestAnimationFrame = (callback: () => void): number => {
+    callback();
+    return 0;
+  };
+  (window as any).cancelAnimationFrame = (_: number): void => undefined;
   window.ResizeObserver = class {
     constructor(callback: ResizeObserverCallback) {
       mockResizeObserverHandle.callback = callback;

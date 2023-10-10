@@ -4,13 +4,15 @@ import {
   HarnessQuery,
 } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
+import { SkyStatusIndicatorHarness } from '@skyux/indicators/testing';
 import { SkyPopoverHarness } from '@skyux/popovers/testing';
+
+import { SkyCharacterCounterIndicatorHarness } from '../character-counter/character-counter-indicator-harness';
 
 import { SkyInputBoxHarnessFilters } from './input-box-harness-filters';
 
 /**
  * Harness for interacting with an input box component in tests.
- * @internal
  */
 export class SkyInputBoxHarness extends SkyComponentHarness {
   /**
@@ -41,6 +43,41 @@ export class SkyInputBoxHarness extends SkyComponentHarness {
   }
 
   /**
+   * Gets the character counter indicator for the input box or throws an error if
+   * a character limit is not specified.
+   */
+  public async getCharacterCounter(): Promise<SkyCharacterCounterIndicatorHarness> {
+    const characterCounter = await this.locatorForOptional(
+      new HarnessPredicate(SkyCharacterCounterIndicatorHarness, {
+        ancestor: '.sky-input-box-label-wrapper',
+      })
+    )();
+
+    if (!characterCounter) {
+      throw new Error(
+        'The input box does not have a character limit specified.'
+      );
+    }
+
+    return characterCounter;
+  }
+
+  /**
+   * Gets a list of status indicator harnesses for errors not automatically
+   * handled by input box.
+   */
+  public async getCustomErrors(): Promise<SkyStatusIndicatorHarness[]> {
+    const errors = await this.locatorForAll(
+      new HarnessPredicate(SkyStatusIndicatorHarness, {
+        selector:
+          'sky-status-indicator:not(sky-input-box-errors sky-status-indicator)',
+      })
+    )();
+
+    return errors;
+  }
+
+  /**
    * Indicates whether the input box has disabled styles applied.
    */
   public async getDisabled(): Promise<boolean> {
@@ -51,7 +88,6 @@ export class SkyInputBoxHarness extends SkyComponentHarness {
 
   /**
    * Gets the text for the input box label.
-   * @returns
    */
   public async getLabelText(): Promise<string> {
     const label = await this.#getLabel();

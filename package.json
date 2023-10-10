@@ -1,6 +1,6 @@
 {
   "name": "skyux",
-  "version": "9.4.1",
+  "version": "9.5.1",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
@@ -11,6 +11,10 @@
     "test": "nx run-many --target=test --all --browsers=ChromeHeadlessNoSandbox --parallel --maxParallel=5 --exclude=storybook",
     "posttest": "nx run-many --target=posttest --all --parallel --maxParallel=5",
     "test:affected": "nx affected:test --browsers=ChromeHeadlessNoSandbox --parallel --maxParallel=5 --exclude=storybook && nx affected --target=posttest --parallel --maxParallel=5",
+    "lint": "nx run-many --target=lint --all --parallel --maxParallel=5",
+    "lint:affected": "nx affected:lint --parallel --maxParallel=5",
+    "format": "nx format:write",
+    "format:check": "nx format:check",
     "dev:check-library-dependencies": "skyux-dev check-lib-dependencies",
     "dev:check-library-missing-peers": "skyux-dev check-lib-missing-peers",
     "dev:cherry-pick": "skyux-dev cherry-pick",

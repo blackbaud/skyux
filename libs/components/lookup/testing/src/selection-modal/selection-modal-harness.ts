@@ -1,4 +1,5 @@
 import { ComponentHarness } from '@angular/cdk/testing';
+import { SkyCheckboxHarness } from '@skyux/forms/testing';
 import {
   SkyInfiniteScrollHarness,
   SkyRepeaterItemHarness,
@@ -23,6 +24,8 @@ export class SkySelectionModalHarness extends ComponentHarness {
   #getClearAllButton = this.locatorForOptional(
     'button.sky-lookup-show-more-modal-clear-all-btn'
   );
+
+  #getCheckboxHarness = this.locatorFor(SkyCheckboxHarness);
 
   #getInfiniteScroll = this.locatorFor(SkyInfiniteScrollHarness);
 
@@ -53,6 +56,14 @@ export class SkySelectionModalHarness extends ComponentHarness {
   }
 
   /**
+   *
+   * Gets the search input's aria-label.
+   */
+  public async getSearchAriaLabel(): Promise<string | null> {
+    return (await this.#getSearchHarness()).getAriaLabel();
+  }
+
+  /**
    * Selects multiple search results based on a set of criteria.
    */
   public async selectSearchResult(
@@ -75,6 +86,14 @@ export class SkySelectionModalHarness extends ComponentHarness {
    */
   public async saveAndClose(): Promise<void> {
     return (await this.#getSaveButton()).click();
+  }
+
+  /**
+   *
+   * Gets the save button's aria-label.
+   */
+  public async getSaveButtonAriaLabel(): Promise<string | null> {
+    return (await this.#getSaveButton()).getAttribute('aria-label');
   }
 
   /**
@@ -125,6 +144,22 @@ export class SkySelectionModalHarness extends ComponentHarness {
   }
 
   /**
+   *
+   * Gets the clear all button's aria-label.
+   */
+  public async getClearAllButtonAriaLabel(): Promise<string | null> {
+    const button = await this.#getClearAllButton();
+
+    if (!button) {
+      throw new Error(
+        'Could not get the aria-label for the clear all button because the "Clear all" button could not be found.'
+      );
+    }
+
+    return button.getAttribute('aria-label');
+  }
+
+  /**
    * Whether the selection modal is configured to allow multiple selections.
    */
   public async isMultiselect(): Promise<boolean> {
@@ -145,6 +180,22 @@ export class SkySelectionModalHarness extends ComponentHarness {
     }
 
     await button.click();
+  }
+
+  /**
+   *
+   * Gets the select all button's aria-label.
+   */
+  public async getSelectAllButtonAriaLabel(): Promise<string | null> {
+    const button = await this.#getSelectAllButton();
+
+    if (!button) {
+      throw new Error(
+        'Could not get the aria-label for the select all button because the "Select all" button could not be found.'
+      );
+    }
+
+    return button.getAttribute('aria-label');
   }
 
   /**
@@ -174,5 +225,18 @@ export class SkySelectionModalHarness extends ComponentHarness {
     }
 
     await button.click();
+  }
+
+  /**
+   * Gets the "Only show selected" checkbox's aria-label
+   */
+  public async getOnlyShowSelectedAriaLabel(): Promise<string | null> {
+    try {
+      return (await this.#getCheckboxHarness()).getAriaLabel();
+    } catch {
+      throw new Error(
+        'Could not get the "Show only selected items" checkbox because it could not be found.'
+      );
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { ElementRef, NgZone } from '@angular/core';
+import { ElementRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import { SkyMediaBreakpoints } from '../media-query/media-breakpoints';
@@ -16,11 +16,14 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
     mockResizeObserver();
   });
 
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [SkyResizeObserverService, SkyResizeObserverMediaQueryService],
+    });
+  });
+
   it('should return a new instance of a resize observer media query service', async () => {
-    const zone = TestBed.inject(NgZone);
-    const service = new SkyResizeObserverMediaQueryService(
-      new SkyResizeObserverService(zone)
-    );
+    const service = TestBed.inject(SkyResizeObserverMediaQueryService);
     expect(service).toBeTruthy();
     service.ngOnDestroy();
   });
@@ -32,10 +35,7 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
 
     let result: SkyMediaBreakpoints | undefined;
 
-    const zone = TestBed.inject(NgZone);
-    const service = new SkyResizeObserverMediaQueryService(
-      new SkyResizeObserverService(zone)
-    );
+    const service = TestBed.inject(SkyResizeObserverMediaQueryService);
     service.observe(target);
     const subscription = service.subscribe((breakpoint) => {
       result = breakpoint;
@@ -69,10 +69,7 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
     const testEl = document.createElement('div');
     const target = new ElementRef(testEl);
 
-    const zone = TestBed.inject(NgZone);
-    const service = new SkyResizeObserverMediaQueryService(
-      new SkyResizeObserverService(zone)
-    );
+    const service = TestBed.inject(SkyResizeObserverMediaQueryService);
 
     service.observe(target, { updateResponsiveClasses: true });
 
@@ -112,10 +109,7 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
       nativeElement: { id: 'element2', offsetWidth: 220 },
     } as ElementRef;
     let result: SkyMediaBreakpoints | undefined;
-    const zone = TestBed.inject(NgZone);
-    const service = new SkyResizeObserverMediaQueryService(
-      new SkyResizeObserverService(zone)
-    );
+    const service = TestBed.inject(SkyResizeObserverMediaQueryService);
     service.observe(target1);
     const subscription = service.subscribe((breakpoint) => {
       result = breakpoint;

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import {
   SkyModalConfigurationInterface,
   SkyModalInstance,
@@ -17,9 +18,11 @@ import { ModalLookupComponent } from './modal-lookup.component';
 import { ModalTiledDemoComponent } from './modal-tiled-demo.component';
 
 @Component({
+  standalone: true,
   selector: 'app-modal-visual',
   templateUrl: './modal-visual.component.html',
   styleUrls: ['./modal-visual.component.scss'],
+  imports: [FormsModule],
 })
 export class ModalVisualComponent {
   public showHelp = false;

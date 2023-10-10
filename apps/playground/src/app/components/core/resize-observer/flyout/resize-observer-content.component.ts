@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -6,16 +7,28 @@ import {
   OnDestroy,
   ViewChild,
 } from '@angular/core';
-import { SkyResizeObserverMediaQueryService } from '@skyux/core';
-import { SkySectionedFormComponent } from '@skyux/tabs';
+import {
+  SkyMediaQueryService,
+  SkyResizeObserverMediaQueryService,
+} from '@skyux/core';
+import { SkySectionedFormComponent, SkySectionedFormModule } from '@skyux/tabs';
 
 import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: true,
   selector: 'app-resize-observer-content',
   templateUrl: './resize-observer-content.component.html',
   styleUrls: ['./resize-observer-content.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule, SkySectionedFormModule],
+  providers: [
+    SkyResizeObserverMediaQueryService,
+    {
+      provide: SkyMediaQueryService,
+      useClass: SkyResizeObserverMediaQueryService,
+    },
+  ],
 })
 export class ResizeObserverContentComponent
   implements AfterViewInit, OnDestroy
