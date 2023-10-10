@@ -20,12 +20,14 @@ async function setupTest(options: {
     { selectionDescriptor: options.selectionDescriptor },
     fixture.componentInstance.showMoreConfig.nativePickerConfig
   );
+
   if (options.enableCustomTemplate) {
     fixture.componentInstance.showMoreConfig.nativePickerConfig = Object.assign(
       { itemTemplate: fixture.componentInstance.showMoreSearchResultTemplate },
       fixture.componentInstance.showMoreConfig.nativePickerConfig
     );
   }
+
   const loader = TestbedHarnessEnvironment.loader(fixture);
 
   let lookupHarness: SkyLookupHarness;
