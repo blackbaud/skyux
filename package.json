@@ -1,6 +1,6 @@
 {
   "name": "skyux",
-  "version": "8.10.5",
+  "version": "8.10.6",
   "license": "MIT",
   "scripts": {
     "ng": "nx",

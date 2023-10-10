@@ -1,5 +1,13 @@
 # Changelog
 
+## [8.10.6](https://github.com/blackbaud/skyux/compare/8.10.5...8.10.6) (2023-10-10)
+
+
+### Bug Fixes
+
+* **components/core:** prevent resize observer loop error ([#1790](https://github.com/blackbaud/skyux/issues/1790)) ([143431f](https://github.com/blackbaud/skyux/commit/143431f382046ee7d6f258fef741e2f62242248f))
+* **components/lookup:** autocomplete position in modal with omnibar ([#1799](https://github.com/blackbaud/skyux/issues/1799)) ([13d4919](https://github.com/blackbaud/skyux/commit/13d4919fa24c9a8dade82226a3914dcb93226137))
+
 ## [8.10.5](https://github.com/blackbaud/skyux/compare/8.10.4...8.10.5) (2023-10-02)
 
 
