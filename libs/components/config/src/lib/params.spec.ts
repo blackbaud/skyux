@@ -293,9 +293,6 @@ describe('SkyAppRuntimeConfigParams', () => {
       '',
       allowed
     );
-    expect(params.getLinkUrl('https://mysite.com', null)).toEqual(
-      'https://mysite.com'
-    );
     expect(params.getLinkUrl('https://mysite.com', undefined)).toEqual(
       'https://mysite.com'
     );

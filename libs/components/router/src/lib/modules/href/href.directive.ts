@@ -45,7 +45,7 @@ export class SkyHrefDirective {
   }
 
   @Input()
-  public queryParams?: Params | null;
+  public queryParams: Params | undefined;
 
   /**
    * Set the behavior for when the link is not available to either hide the link or display unlinked text.

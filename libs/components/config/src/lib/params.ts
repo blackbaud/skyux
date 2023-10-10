@@ -1,5 +1,4 @@
 import { HttpParams, HttpUrlEncodingCodec } from '@angular/common/http';
-import { Params } from '@angular/router';
 
 import { SkyuxConfigParams } from './config-params';
 
@@ -182,7 +181,11 @@ export class SkyAppRuntimeConfigParams {
    * @param url The url to update
    * @param queryParams Optional query parameters to include in the constructed url
    */
-  public getLinkUrl(url: string, queryParams?: Params | null): string {
+  public getLinkUrl(
+    url: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    queryParams?: Record<string, any>
+  ): string {
     return this.#buildUrlWithParams(
       url,
       new Set([
@@ -196,7 +199,8 @@ export class SkyAppRuntimeConfigParams {
   #buildUrlWithParams(
     url: string,
     excludeParams: Set<string>,
-    queryParams?: Params | null
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    queryParams?: Record<string, any>
   ): string {
     let unifiedParams = getUrlSearchParams(url);
 
