@@ -4,7 +4,11 @@
     "message": "Context menu"
   },
   "skyux_dropdown_context_menu_with_content_descriptor_default_label": {
-    "_description": "The label on the context menu button used for screen readers when the consumer has not specified a label and the component has a content description provided",
+    "_description": "The label on the context menu button used for screen readers when the consumer has not specified a label and the component has content descriptor text provided",
     "message": "Context menu for {0}"
+  },
+  "skyux_dropdown_context_menu_with_content_descriptor_el_default_label": {
+    "_description": "The label on the context menu button used for screen readers when the consumer has not specified a label and the component has a content descriptor element id provided",
+    "message": "Context menu for "
   }
 }

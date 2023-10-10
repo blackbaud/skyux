@@ -60,7 +60,7 @@ describe('toolbar component', () => {
 
       expect(patchInfoSpy.calls.count()).toBe(1);
       expect(patchInfoSpy.calls.all()[0].args).toEqual([
-        { descriptor: 'constituents' },
+        { descriptor: { type: 'text', value: 'constituents' } },
       ]);
     });
 

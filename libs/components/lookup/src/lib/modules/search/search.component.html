@@ -36,9 +36,10 @@
               ariaLabelledBy
                 ? undefined
                 : ariaLabel ||
-                  ((contentInfoObs | async)?.descriptor
+                  ((contentInfoObs | async)?.descriptor?.type === 'text'
                     ? ('skyux_search_aria_label_descriptor'
-                      | skyLibResources : (contentInfoObs | async)?.descriptor)
+                      | skyLibResources
+                        : (contentInfoObs | async)?.descriptor?.value)
                     : ('skyux_search_label' | skyLibResources))
             "
             [attr.aria-labelledby]="ariaLabelledBy"

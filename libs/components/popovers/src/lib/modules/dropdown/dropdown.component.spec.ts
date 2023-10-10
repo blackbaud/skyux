@@ -12,6 +12,7 @@ import {
   SkyAffixService,
   SkyAffixer,
   SkyContentInfoProvider,
+  SkyIdService,
 } from '@skyux/core';
 import {
   SkyTheme,
@@ -35,6 +36,7 @@ describe('Dropdown component', function () {
   let mockThemeService: {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
+  let idService: SkyIdService;
 
   //#region helpers
 
@@ -138,6 +140,8 @@ describe('Dropdown component', function () {
     fixture = TestBed.createComponent(DropdownFixtureComponent);
 
     contentInfoProvider = TestBed.inject(SkyContentInfoProvider);
+
+    idService = TestBed.inject(SkyIdService);
   });
 
   afterEach(() => {
@@ -1204,9 +1208,11 @@ describe('Dropdown component', function () {
       expect(item?.getAttribute('role')).toEqual('item-role-override');
     }));
 
-    it('should set the correct aria label when it is specified via SkyContentProvider', fakeAsync(() => {
+    it('should set the correct aria label when a text descriptor is specified via SkyContentProvider', fakeAsync(() => {
       fixture.componentInstance.buttonType = 'context-menu';
-      contentInfoProvider.patchInfo({ descriptor: 'Robert Hernandez' });
+      contentInfoProvider.patchInfo({
+        descriptor: { type: 'text', value: 'Robert Hernandez' },
+      });
 
       detectChangesFakeAsync();
       const button = getButtonElement();
@@ -1216,9 +1222,27 @@ describe('Dropdown component', function () {
       );
     }));
 
-    it('should set the correct aria label when it is specified via a consumer and SkyContentInfoProvider', fakeAsync(() => {
+    it('should set the correct aria label when an elementId descriptor is specified via SkyContentProvider', fakeAsync(() => {
+      const contextMenuSrId = 'sr-context-menu';
+      spyOn(idService, 'generateId').and.callFake(() => contextMenuSrId);
       fixture.componentInstance.buttonType = 'context-menu';
-      contentInfoProvider.patchInfo({ descriptor: 'default label' });
+      contentInfoProvider.patchInfo({
+        descriptor: { type: 'elementId', value: 'sr-descriptor-label' },
+      });
+
+      detectChangesFakeAsync();
+      const button = getButtonElement();
+
+      expect(button?.getAttribute('aria-labelledBy')).toEqual(
+        `${contextMenuSrId} sr-descriptor-label`
+      );
+    }));
+
+    it('should set the correct aria label when it is specified via a consumer and a text descriptor is provided', fakeAsync(() => {
+      fixture.componentInstance.buttonType = 'context-menu';
+      contentInfoProvider.patchInfo({
+        descriptor: { type: 'text', value: 'default label' },
+      });
       fixture.componentInstance.label = 'consumer label';
 
       detectChangesFakeAsync();
