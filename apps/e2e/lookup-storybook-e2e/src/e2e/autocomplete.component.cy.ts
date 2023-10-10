@@ -7,7 +7,7 @@ describe('lookup-storybook', () => {
         cy.visit(
           `/iframe.html?globals=theme:${theme}&id=autocompletecomponent-autocomplete--autocomplete`
         );
-        cy.viewport(1300, 900);
+        cy.viewport(1300, 900).get('#ready').should('exist').end();
       });
       it('should render the component', () => {
         cy.get('app-autocomplete')
