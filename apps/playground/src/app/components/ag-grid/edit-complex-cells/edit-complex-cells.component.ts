@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
   HostListener,
@@ -6,14 +7,17 @@ import {
 } from '@angular/core';
 import {
   SkyAgGridLookupProperties,
+  SkyAgGridModule,
   SkyAgGridRowDeleteCancelArgs,
   SkyAgGridRowDeleteConfirmArgs,
   SkyAgGridService,
   SkyCellType,
 } from '@skyux/ag-grid';
+import { SkyToolbarModule } from '@skyux/layout';
 import { SkyAutocompleteSearchAsyncArgs } from '@skyux/lookup';
 import { SkyThemeService } from '@skyux/theme';
 
+import { AgGridModule } from 'ag-grid-angular';
 import {
   ColDef,
   GridApi,
@@ -39,10 +43,12 @@ import {
 import { InlineHelpComponent } from './inline-help/inline-help.component';
 
 @Component({
+  standalone: true,
   selector: 'app-edit-complex-cells-visual',
   templateUrl: './edit-complex-cells.component.html',
   styleUrls: ['./edit-complex-cells.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  imports: [AgGridModule, CommonModule, SkyAgGridModule, SkyToolbarModule],
 })
 export class EditComplexCellsComponent implements OnInit {
   public gridData = EDITABLE_GRID_DATA;

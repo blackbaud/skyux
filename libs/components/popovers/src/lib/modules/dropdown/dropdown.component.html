@@ -8,11 +8,20 @@
     [attr.aria-label]="
       label ||
       (buttonType === 'context-menu'
-        ? (contentInfoObs | async)?.descriptor
+        ? (contentInfoObs | async)?.descriptor?.type === 'text'
           ? ('skyux_dropdown_context_menu_with_content_descriptor_default_label'
-            | skyLibResources : (contentInfoObs | async)?.descriptor)
+            | skyLibResources : (contentInfoObs | async)?.descriptor?.value)
           : ('skyux_dropdown_context_menu_default_label' | skyLibResources)
         : undefined)
+    "
+    [attr.aria-labelledby]="
+      !label &&
+      buttonType === 'context-menu' &&
+      (contentInfoObs | async)?.descriptor?.type === 'elementId'
+        ? screenReaderLabelContextMenu.id +
+          ' ' +
+          (contentInfoObs | async)?.descriptor?.value
+        : undefined
     "
     [attr.title]="title"
     [disabled]="disabled"
@@ -24,27 +33,25 @@
   >
     <ng-container [ngSwitch]="buttonType">
       <ng-template ngSwitchCase="context-menu">
-        <sky-icon icon="ellipsis"></sky-icon>
+        <sky-icon icon="ellipsis" />
       </ng-template>
 
       <ng-template ngSwitchDefault>
         <div class="sky-dropdown-button-container">
           <div class="sky-dropdown-button-content-container">
-            <ng-content select="sky-dropdown-button"> </ng-content>
+            <ng-content select="sky-dropdown-button" />
           </div>
           <div class="sky-dropdown-button-icon-container">
             <sky-icon
               *skyThemeIf="'default'"
               class="sky-dropdown-caret"
               icon="caret-down"
-            >
-            </sky-icon>
+            />
             <sky-icon
               *skyThemeIf="'modern'"
               class="sky-dropdown-caret"
               icon="chevron-down"
-            >
-            </sky-icon>
+            />
           </div>
         </div>
       </ng-template>
@@ -58,6 +65,20 @@
     [class.hidden]="!isVisible"
     #menuContainerElementRef
   >
-    <ng-content select="sky-dropdown-menu"></ng-content>
+    <ng-content select="sky-dropdown-menu" />
   </div>
 </ng-template>
+<span
+  skyScreenReaderLabel
+  [createLabel]="
+    buttonType === 'context-menu' &&
+    (contentInfoObs | async)?.descriptor?.type === 'elementId'
+  "
+  skyId
+  #screenReaderLabelContextMenu="skyId"
+>
+  {{
+    'skyux_dropdown_context_menu_with_content_descriptor_el_default_label'
+      | skyLibResources
+  }}
+</span>

@@ -465,11 +465,11 @@ export class SkyAffixer {
   }
 
   #getImmediateOverflowParent(): HTMLElement {
-    return this.#overflowParents[this.#overflowParents.length - 1];
+    return this.#overflowParents[0];
   }
 
   #getAutoFitContextParent(): HTMLElement {
-    const bodyElement = this.#overflowParents[0];
+    const bodyElement = this.#overflowParents[this.#overflowParents.length - 1];
 
     return this.#config.autoFitContext === SkyAffixAutoFitContext.OverflowParent
       ? this.#getImmediateOverflowParent()

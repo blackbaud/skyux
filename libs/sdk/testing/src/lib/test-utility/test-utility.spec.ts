@@ -23,7 +23,7 @@ class TestParentComponent {}
 
 @Component({
   selector: 'test-cmp',
-  template: `<ng-content></ng-content>`,
+  template: `<ng-content />`,
 })
 class TestComponent {}
 

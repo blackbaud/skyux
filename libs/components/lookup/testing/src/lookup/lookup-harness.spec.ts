@@ -6,12 +6,28 @@ import { LookupHarnessTestComponent } from './fixtures/lookup-harness-test.compo
 import { LookupHarnessTestModule } from './fixtures/lookup-harness-test.module';
 import { SkyLookupHarness } from './lookup-harness';
 
-async function setupTest(options: { dataSkyId: string }) {
+async function setupTest(options: {
+  dataSkyId: string;
+  selectionDescriptor?: string;
+  enableCustomTemplate?: boolean;
+}) {
   await TestBed.configureTestingModule({
     imports: [LookupHarnessTestModule],
   }).compileComponents();
 
   const fixture = TestBed.createComponent(LookupHarnessTestComponent);
+  fixture.componentInstance.showMoreConfig.nativePickerConfig = Object.assign(
+    { selectionDescriptor: options.selectionDescriptor },
+    fixture.componentInstance.showMoreConfig.nativePickerConfig
+  );
+
+  if (options.enableCustomTemplate) {
+    fixture.componentInstance.showMoreConfig.nativePickerConfig = Object.assign(
+      { itemTemplate: fixture.componentInstance.showMoreSearchResultTemplate },
+      fixture.componentInstance.showMoreConfig.nativePickerConfig
+    );
+  }
+
   const loader = TestbedHarnessEnvironment.loader(fixture);
 
   let lookupHarness: SkyLookupHarness;
@@ -116,6 +132,37 @@ function testSingleSelect(dataSkyId: string) {
 
     await expectAsync(picker?.clearAll()).toBeRejectedWithError(
       'Could not clear all selections because the "Clear all" button could not be found.'
+    );
+  });
+
+  it('should get accessibility labels', async () => {
+    const { lookupHarness } = await setupTest({
+      dataSkyId,
+      selectionDescriptor: 'person',
+    });
+
+    await lookupHarness.clickShowMoreButton();
+    const picker = await lookupHarness.getShowMorePicker();
+    await expectAsync(
+      picker.getClearAllButtonAriaLabel()
+    ).toBeRejectedWithError(
+      'Could not get the aria-label for the clear all button because the "Clear all" button could not be found.'
+    );
+    await expectAsync(
+      picker.getSelectAllButtonAriaLabel()
+    ).toBeRejectedWithError(
+      'Could not get the aria-label for the select all button because the "Select all" button could not be found.'
+    );
+    await expectAsync(
+      picker.getOnlyShowSelectedAriaLabel()
+    ).toBeRejectedWithError(
+      'Could not get the "Show only selected items" checkbox because it could not be found.'
+    );
+    await expectAsync(picker.getSearchAriaLabel()).toBeResolvedTo(
+      'Search person'
+    );
+    await expectAsync(picker.getSaveButtonAriaLabel()).toBeResolvedTo(
+      'Select person'
     );
   });
 }
@@ -287,6 +334,31 @@ function testMultiselect(dataSkyId: string) {
       'Cannot get the "Show more" picker because it is not open.'
     );
   });
+
+  it('should get accessibility labels', async () => {
+    const { lookupHarness } = await setupTest({
+      dataSkyId,
+      selectionDescriptor: 'people',
+    });
+
+    await lookupHarness.clickShowMoreButton();
+    const picker = await lookupHarness.getShowMorePicker();
+    await expectAsync(picker.getClearAllButtonAriaLabel()).toBeResolvedTo(
+      'Clear all selected people'
+    );
+    await expectAsync(picker.getSelectAllButtonAriaLabel()).toBeResolvedTo(
+      'Select all people'
+    );
+    await expectAsync(picker.getSearchAriaLabel()).toBeResolvedTo(
+      'Search people'
+    );
+    await expectAsync(picker.getSaveButtonAriaLabel()).toBeResolvedTo(
+      'Select people'
+    );
+    await expectAsync(picker.getOnlyShowSelectedAriaLabel()).toBeResolvedTo(
+      'Show only selected people'
+    );
+  });
 }
 
 describe('Lookup harness', () => {
@@ -305,6 +377,7 @@ describe('Lookup harness', () => {
     it('should get search result text and value', async () => {
       const { lookupHarness } = await setupTest({
         dataSkyId: 'my-custom-template-lookup',
+        enableCustomTemplate: true,
       });
 
       await lookupHarness.enterText('d');

@@ -1,9 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { SkyModalInstance, SkyModalService } from '@skyux/modals';
+import {
+  SkyModalInstance,
+  SkyModalModule,
+  SkyModalService,
+} from '@skyux/modals';
+
+import { EditComplexCellsComponent } from './edit-complex-cells.component';
 
 @Component({
+  standalone: true,
   selector: 'app-edit-complex-cells-in-modal-modal',
   templateUrl: './edit-complex-cells-in-modal.component.html',
+  imports: [SkyModalModule],
 })
 export class EditComplexCellsInModalModalComponent {
   constructor(
@@ -25,24 +33,29 @@ export class EditComplexCellsInModalModalComponent {
 }
 
 @Component({
+  standalone: true,
   template: `
     <app-edit-complex-cells-in-modal-modal>
-      <app-edit-complex-cells-visual></app-edit-complex-cells-visual>
+      <app-edit-complex-cells-visual />
     </app-edit-complex-cells-in-modal-modal>
   `,
+  imports: [EditComplexCellsComponent, EditComplexCellsInModalModalComponent],
 })
 export class EditComplexCellsInModalModalGridComponent {}
 
 @Component({
+  standalone: true,
   template: `
     <app-edit-complex-cells-in-modal-modal>
       <p>Not a grid.</p>
     </app-edit-complex-cells-in-modal-modal>
   `,
+  imports: [EditComplexCellsInModalModalComponent],
 })
 export class EditComplexCellsInModalModalNotGridComponent {}
 
 @Component({
+  standalone: true,
   selector: 'app-edit-complex-cells-in-modal',
   template: '',
 })

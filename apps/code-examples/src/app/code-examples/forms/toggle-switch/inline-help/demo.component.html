@@ -1,18 +1,29 @@
 <form [formGroup]="formGroup">
+  <div class="sky-font-heading-2 sky-margin-stacked-lg">Annual fundraiser</div>
   <div class="sky-margin-stacked-lg">
-    <sky-toggle-switch formControlName="controlToggle">
-      <sky-toggle-switch-label>
-        Enable the bottom toggle switch
-      </sky-toggle-switch-label>
-      <sky-help-inline class="sky-control-help" (actionClick)="onHelpClick()" />
+    <sky-toggle-switch
+      ariaLabel="Annual fundraiser is active"
+      formControlName="controlToggle"
+    >
+      <sky-toggle-switch-label> Active </sky-toggle-switch-label>
+      <sky-help-inline
+        class="sky-control-help"
+        (actionClick)="onHelpClick()"
+        ariaLabel="Information about top toggle switch"
+      />
     </sky-toggle-switch>
   </div>
   <div class="sky-margin-stacked-lg">
-    <sky-toggle-switch formControlName="dynamicToggle">
-      <sky-toggle-switch-label>
-        This switch can be enabled and disabled dynamically
-      </sky-toggle-switch-label>
-      <sky-help-inline class="sky-control-help" (actionClick)="onHelpClick()" />
+    <sky-toggle-switch
+      ariaLabel="Annual fundraiser is accepting donations"
+      formControlName="dynamicToggle"
+    >
+      <sky-toggle-switch-label> Accepting donations </sky-toggle-switch-label>
+      <sky-help-inline
+        class="sky-control-help"
+        (actionClick)="onHelpClick()"
+        ariaLabel="Information about bottom toggle switch"
+      />
     </sky-toggle-switch>
   </div>
 </form>

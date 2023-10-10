@@ -17,6 +17,7 @@ export { SkyAffixer } from './lib/modules/affix/affixer';
 
 export { SkyContentInfoProvider } from './lib/modules/content-info-provider/content-info-provider';
 export { SkyContentInfo } from './lib/modules/content-info-provider/content-info';
+export { SkyContentInfoDescriptor } from './lib/modules/content-info-provider/content-info-descriptor';
 
 export { SkyDefaultInputProvider } from './lib/modules/default-input-provider/default-input-provider';
 
@@ -83,6 +84,8 @@ export { SkyPercentPipe } from './lib/modules/percent-pipe/percent.pipe';
 
 export { SkyResizeObserverService } from './lib/modules/resize-observer/resize-observer.service';
 export { SkyResizeObserverMediaQueryService } from './lib/modules/resize-observer/resize-observer-media-query.service';
+
+export { SkyScreenReaderLabelDirective } from './lib/modules/screen-reader-label/screen-reader-label.directive';
 
 export { SkyScrollableHostService } from './lib/modules/scrollable-host/scrollable-host.service';
 

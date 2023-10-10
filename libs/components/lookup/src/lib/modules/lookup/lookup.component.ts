@@ -686,6 +686,7 @@ export class SkyLookupComponent
       },
       initialSearch,
       itemTemplate: modalConfig.itemTemplate,
+      selectionDescriptor: modalConfig.selectionDescriptor,
       showAddButton: this.showAddButton,
       title: modalConfig.title,
       value: initialValue,
@@ -699,6 +700,11 @@ export class SkyLookupComponent
 
     if (!modalConfig.itemTemplate) {
       modalConfig.itemTemplate = this.searchResultTemplate;
+    }
+
+    if (!modalConfig.selectionDescriptor) {
+      modalConfig.selectionDescriptor =
+        this.selectMode === 'single' ? 'item' : 'items';
     }
 
     const contextProviderValue = new SkyLookupShowMoreNativePickerContext(

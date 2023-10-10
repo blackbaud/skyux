@@ -25,8 +25,8 @@ import { SkyIconHarness } from './icon-harness';
       [fixedWidth]="fixedWidth"
       [variant]="variant"
       [size]="size"
-    ></sky-icon>
-    <sky-icon data-sky-id="test-icon" icon="sort"></sky-icon>
+    />
+    <sky-icon data-sky-id="test-icon" icon="sort" />
   `,
 })
 class TestComponent {

@@ -7,6 +7,7 @@ import {
 
 import { SkyDataManagerComponent } from '../data-manager.component';
 import { SkyDataManagerService } from '../data-manager.service';
+import { SkyDataManagerConfig } from '../models/data-manager-config';
 import { SkyDataManagerState } from '../models/data-manager-state';
 
 import { DataViewRepeaterFixtureComponent } from './data-manager-repeater-view.component.fixture';
@@ -26,7 +27,7 @@ export class DataManagerFixtureComponent implements OnInit {
 
   public activeViewId = 'repeaterView';
 
-  public dataManagerConfig = {
+  public dataManagerConfig: SkyDataManagerConfig = {
     sortOptions: [
       {
         id: 'az',

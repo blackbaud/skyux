@@ -16,6 +16,9 @@ describe('lookup-storybook', () => {
                 `/iframe.html?globals=theme:${theme}&id=lookupcomponent-lookup--lookup-${mode}`
               )
               .viewport(1300, 900)
+              .get('#ready')
+              .should('exist')
+              .end()
           );
           it(`should render the component`, () => {
             cy.get('app-lookup')

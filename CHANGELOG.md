@@ -1,5 +1,75 @@
 # Changelog
 
+## [9.6.0](https://github.com/blackbaud/skyux/compare/9.5.1...9.6.0) (2023-10-10)
+
+
+### Features
+
+* **components/core:** update content info provider to support element IDs, create screen reader label directive ([#1783](https://github.com/blackbaud/skyux/issues/1783)) ([e7c3aaf](https://github.com/blackbaud/skyux/commit/e7c3aafe02eb0414ed72b3c23782214a3d547914))
+* **components/lookup:** lookup show more modal native picker configurations include a `selectionDescriptor` which passes context to aria labels and the modal title ([#1797](https://github.com/blackbaud/skyux/issues/1797)) ([e084886](https://github.com/blackbaud/skyux/commit/e0848860591259cf71f838b2a077263f3cc0326d))
+
+
+### Bug Fixes
+
+* **components/core:** prevent resize observer loop error ([#1790](https://github.com/blackbaud/skyux/issues/1790)) ([#1794](https://github.com/blackbaud/skyux/issues/1794)) ([c30e707](https://github.com/blackbaud/skyux/commit/c30e707a96e42fea0398a19ef39dbe3d8b33e524))
+* **components/forms:** toggle switch buttons will no point to the visible label via `aria-labelledby` when the `ariaLabel` input is given ([#1802](https://github.com/blackbaud/skyux/issues/1802)) ([9fab02d](https://github.com/blackbaud/skyux/commit/9fab02d828b3f9ea5f340ac9fddf388b4bf4b598))
+* **components/layout:** fix action button responsive behavior in modals ([#1798](https://github.com/blackbaud/skyux/issues/1798)) ([b4b4df0](https://github.com/blackbaud/skyux/commit/b4b4df0b0ed954ea3db724b01e913209be7de98b))
+* **components/lookup:** autocomplete position in modal with omnibar ([#1799](https://github.com/blackbaud/skyux/issues/1799)) ([#1801](https://github.com/blackbaud/skyux/issues/1801)) ([8d03883](https://github.com/blackbaud/skyux/commit/8d038836eb1b659a4ecc4e30d24ab2e0a8946b5c))
+
+## [8.10.6](https://github.com/blackbaud/skyux/compare/8.10.5...8.10.6) (2023-10-10)
+
+
+### Bug Fixes
+
+* **components/core:** prevent resize observer loop error ([#1790](https://github.com/blackbaud/skyux/issues/1790)) ([143431f](https://github.com/blackbaud/skyux/commit/143431f382046ee7d6f258fef741e2f62242248f))
+* **components/lookup:** autocomplete position in modal with omnibar ([#1799](https://github.com/blackbaud/skyux/issues/1799)) ([13d4919](https://github.com/blackbaud/skyux/commit/13d4919fa24c9a8dade82226a3914dcb93226137))
+
+## [9.5.1](https://github.com/blackbaud/skyux/compare/9.5.0...9.5.1) (2023-10-09)
+
+
+### Bug Fixes
+
+* **components/forms:** remove internal flag from character counter harness ([#1791](https://github.com/blackbaud/skyux/issues/1791)) ([730d0ef](https://github.com/blackbaud/skyux/commit/730d0ef9dbd48a4149bb05c834a7d27d280f7ae6))
+
+## [9.5.0](https://github.com/blackbaud/skyux/compare/9.4.1...9.5.0) (2023-10-09)
+
+
+### Features
+
+* add character counter, input box, and status indicator harnesses ([#1784](https://github.com/blackbaud/skyux/issues/1784)) ([6a55f2d](https://github.com/blackbaud/skyux/commit/6a55f2df05f691d96ff392dc311f904c89f11319))
+* **components/data-manager:** data managers include a listDescriptor which passes context to standard items aria labels ([#1775](https://github.com/blackbaud/skyux/issues/1775)) ([fcf1c2f](https://github.com/blackbaud/skyux/commit/fcf1c2f7df989a5b65e321b96b60b26efd06cf8a))
+* **components/datetime:** datepicker calendar button aria label is now context specific ([#1788](https://github.com/blackbaud/skyux/issues/1788)) ([2da13fc](https://github.com/blackbaud/skyux/commit/2da13fc946e63df764a14381a78f9e056952de25))
+* **components/datetime:** timepicker button aria label is now context specific ([#1789](https://github.com/blackbaud/skyux/issues/1789)) ([9938902](https://github.com/blackbaud/skyux/commit/9938902d76150694d0378fede9b3791a6673d43b))
+* **components/lookup:** add selection modals include a `selectionDescriptor` which passes context to aria labels and the modal title ([#1787](https://github.com/blackbaud/skyux/issues/1787)) ([e5de803](https://github.com/blackbaud/skyux/commit/e5de803996fea1095b8a318bf912fb7fb75e7486))
+
+## [9.4.1](https://github.com/blackbaud/skyux/compare/9.4.0...9.4.1) (2023-10-04)
+
+
+### Bug Fixes
+
+* **components/toast:** `SkyToastService` and `SkyToastLegacyService` add toast instances to the same pool ([#1779](https://github.com/blackbaud/skyux/issues/1779)) ([5372a83](https://github.com/blackbaud/skyux/commit/5372a8306fa4a586942b31cba8c7e0b84d112162))
+
+## [9.4.0](https://github.com/blackbaud/skyux/compare/9.3.1...9.4.0) (2023-10-02)
+
+
+### Features
+
+* **components/layout:** toolbars include a listDescriptor which passes context to standard items aria labels ([#1747](https://github.com/blackbaud/skyux/issues/1747)) ([3d4f941](https://github.com/blackbaud/skyux/commit/3d4f9414fd87e6f48e7f06c4eb7f11266ad124ba))
+* **components/theme:** update to latest @skyux/icons ([#1755](https://github.com/blackbaud/skyux/issues/1755)) ([6532fa8](https://github.com/blackbaud/skyux/commit/6532fa8e8f336f75a6435693b82681a470781f4a))
+
+
+### Bug Fixes
+
+* **components/colorpicker:** hsla formula should not divide by zero ([#1768](https://github.com/blackbaud/skyux/issues/1768)) ([ae6dc1e](https://github.com/blackbaud/skyux/commit/ae6dc1ed0647d5d552a2bc0c4a14a4b9e860a096))
+* **components/core:** numeric pipe now handles undefined values ([#1765](https://github.com/blackbaud/skyux/issues/1765)) ([#1770](https://github.com/blackbaud/skyux/issues/1770)) ([9873961](https://github.com/blackbaud/skyux/commit/9873961a723d713b68d05936e998409062405b82))
+
+## [8.10.5](https://github.com/blackbaud/skyux/compare/8.10.4...8.10.5) (2023-10-02)
+
+
+### Bug Fixes
+
+* **components/core:** numeric pipe now handles undefined values ([#1765](https://github.com/blackbaud/skyux/issues/1765)) ([fe977d4](https://github.com/blackbaud/skyux/commit/fe977d4d9efb8a7b89596f81f9dcc8817b14c0fc))
+
 ## [9.3.1](https://github.com/blackbaud/skyux/compare/9.3.0...9.3.1) (2023-09-28)
 
 

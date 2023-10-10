@@ -34,10 +34,24 @@ const routes: Routes = [
       import('./toast/toast.module').then((m) => m.ToastModule),
   },
   {
+    path: 'toolbar-standard-items',
+    loadChildren: () =>
+      import('./toolbar-standard-items/toolbar-standard-items.module').then(
+        (m) => m.ToolbarStandardItemsModule
+      ),
+  },
+  {
     path: 'field-heights',
     loadChildren: () =>
       import('./field-heights/field-heights.module').then(
         (m) => m.FieldHeightsModule
+      ),
+  },
+  {
+    path: 'lookup-in-modal',
+    loadChildren: () =>
+      import('./lookup-in-modal/lookup-in-modal.module').then(
+        (m) => m.LookupInModalModule
       ),
   },
 ];

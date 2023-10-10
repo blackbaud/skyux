@@ -23,6 +23,9 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     skyux_dropdown_context_menu_with_content_descriptor_default_label: {
       message: 'Context menu for {0}',
     },
+    skyux_dropdown_context_menu_with_content_descriptor_el_default_label: {
+      message: 'Context menu for ',
+    },
   },
 };
 
