@@ -31,13 +31,25 @@
     "_description": "Label for lookup's show more modal add button",
     "message": "New"
   },
+  "skyux_lookup_show_more_select_all_button_aria_label": {
+    "_description": "Aria-label text for the select all button in the lookup show more multiselect toolbar",
+    "message": "Select all {0}"
+  },
   "skyux_lookup_show_more_select_all_button_title": {
     "_description": "Text for the select all button in the lookup show more multiselect toolbar",
     "message": "Select all"
   },
+  "skyux_lookup_show_more_clear_all_button_aria_label": {
+    "_description": "Aria-label text for the select all button in the lookup show more multiselect toolbar",
+    "message": "Clear all selected {0}"
+  },
   "skyux_lookup_show_more_clear_all_button_title": {
     "_description": "Text for the clear all button in the lookup show more multiselect toolbar",
     "message": "Clear all"
+  },
+  "skyux_lookup_show_more_show_selected_option_aria_label": {
+    "_description": "Aria-label text for the show selected checkbox in the lookup show more multiselect toolbar",
+    "message": "Show only selected {0}"
   },
   "skyux_lookup_show_more_show_selected_option_title": {
     "_description": "Text for the show selected checkbox in the lookup show more multiselect toolbar",
@@ -47,13 +59,9 @@
     "_description": "Label for lookup's show more modal cancel button",
     "message": "Cancel"
   },
-  "skyux_lookup_show_more_modal_title_single": {
-    "_description": "Default show more modal title for single select mode",
-    "message": "Select an option"
-  },
-  "skyux_lookup_show_more_modal_title_multiple": {
-    "_description": "Default show more modal title for multiple select mode",
-    "message": "Select options"
+  "skyux_lookup_show_more_modal_title": {
+    "_description": "Default show more modal title using selection context",
+    "message": "Select {0}"
   },
   "skyux_lookup_show_more_no_results": {
     "_description": "Placeholder text for lookup's show more modal when no results are found",
@@ -63,9 +71,17 @@
     "_description": "Label for lookup's show more modal select (save) button",
     "message": "Select"
   },
+  "skyux_lookup_show_more_select_context": {
+    "_description": "Label for lookup's show more modal select (save) button when context is given",
+    "message": "Select {0}"
+  },
   "skyux_lookup_tokens_summary": {
     "_description": "Text displayed when the user has more than the maximum items selected",
     "message": "{0} items selected"
+  },
+  "skyux_search_aria_label_descriptor": {
+    "_description": "Default aria label for a search when a descriptor is given",
+    "message": "Search {0}"
   },
   "skyux_search_dismiss": {
     "_description": "Label for dismissing search input",

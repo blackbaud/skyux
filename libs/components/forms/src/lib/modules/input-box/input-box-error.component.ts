@@ -9,7 +9,7 @@ import { SkyStatusIndicatorModule } from '@skyux/indicators';
   standalone: true,
   imports: [SkyStatusIndicatorModule],
   template: `<sky-status-indicator
-    class="sky-error-indicator"
+    class="sky-error-indicator sky-input-box-error"
     descriptionType="error"
     indicatorType="danger"
   >

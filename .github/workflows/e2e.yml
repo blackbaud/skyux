@@ -29,6 +29,7 @@ jobs:
       node-version: ${{ steps.setup-node.outputs.node-version }}
       parameters: ${{ steps.parameters.outputs.parameters }}
       pr-number: ${{ steps.set-shas.outputs.pr-number }}
+      pr-labels: ${{ steps.set-shas.outputs.pr-labels }}
       base: ${{ steps.set-shas.outputs.base }}
       head: ${{ steps.set-shas.outputs.head }}
     steps:
@@ -291,6 +292,7 @@ jobs:
           head: ${{ needs.install-deps.outputs.head }}
           project: ${{ matrix.project }}
           percy-token: ${{ secrets.PERCY_API }}
+          allow-deleted-screenshots: ${{ contains( fromJSON( needs.install-deps.outputs.pr-labels ), 'screenshot removed' ) }}
       - name: Verify Cypress
         run: npx cypress verify
         if: ${{ matrix.project != 'skip' && steps.affected.outputs.affected == 'true' }}
@@ -299,7 +301,7 @@ jobs:
         with:
           script: |
             // Timing setting recommended by https://docs.percy.io/docs/cypress#missing-assets
-            const percyCommand = 'npx percy exec -t 350 -- nx e2e ${{ matrix.project }} --skip-nx-cache';
+            const percyCommand = 'npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci --skip-nx-cache';
             await exec.getExecOutput('bash', ['-c', percyCommand], { ignoreReturnCode: true })
               .then((result) => {
                 if (result.exitCode !== 0) {
@@ -381,12 +383,20 @@ jobs:
         run: npx nx build e2e-schematics
       - uses: actions/github-script@v6
         name: Verify E2E Visual Review
+        id: verify-e2e
         with:
           github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           script: |
 
             const e2eProjects = ${{ needs.install-deps.outputs.parameters }}.e2eTargets.map(project => project.project);
             const { verifyE2e } = require('./dist/libs/sdk/e2e-schematics/src/workflow');
+
+            const options = {
+              method: 'GET',
+              headers: {
+                Authorization: 'Token ${{ secrets.PERCY_API }}'
+              }
+            };
 
             await verifyE2e(
               e2eProjects,
@@ -398,5 +408,20 @@ jobs:
               {
                 listCommitStatusesForRef: github.rest.repos.listCommitStatusesForRef,
                 listJobsForWorkflowRun: github.rest.actions.listJobsForWorkflowRun
-              }
+              },
+              ${{ contains( fromJSON( needs.install-deps.outputs.pr-labels ), 'screenshot removed' ) }},
+              (url) => fetch(url, options),
+              (number) => process.exit(number)
             );
+      - name: Notify Slack (missing screenshots)
+        if: ${{ failure() && steps.verify-e2e.outputs.missingScreenshots }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_COLOR: 'fail'
+          SLACK_MESSAGE: 'E2E missing screenshots on `${{ github.head_ref || github.ref_name }}` branch, details: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} 🧐 ${{ steps.verify-e2e.outputs.missingScreenshots }}'
+          SLACK_ICON_EMOJI: ':github:'
+          SLACK_USERNAME: GitHub
+          #cor-skyux-notifications
+          SLACK_CHANNEL: C01GY7ZP4HM
+          SLACK_FOOTER: 'Blackbaud Sky Build User'

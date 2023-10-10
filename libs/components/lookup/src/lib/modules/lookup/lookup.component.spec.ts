@@ -81,20 +81,12 @@ describe('Lookup component', function () {
   }
 
   function clickShowMoreClearAll(fixture: ComponentFixture<any>): void {
-    (
-      document.querySelector(
-        '.sky-lookup-show-more-modal-clear-all-btn'
-      ) as HTMLElement
-    ).click();
+    getModalClearAllButton().click();
     fixture.detectChanges();
   }
 
   function clickShowMoreSelectAll(fixture: ComponentFixture<any>): void {
-    (
-      document.querySelector(
-        '.sky-lookup-show-more-modal-select-all-btn'
-      ) as HTMLElement
-    ).click();
+    getModalSelectAllButton().click();
     fixture.detectChanges();
   }
 
@@ -226,8 +218,22 @@ describe('Lookup component', function () {
     ) as HTMLElement;
   }
 
+  function getModalClearAllButton(): HTMLButtonElement | null {
+    return document.querySelector('.sky-lookup-show-more-modal-clear-all-btn');
+  }
+
   function getModalContentScrollTop(): number | undefined {
     return getModalEl().querySelector('.sky-modal-content')?.scrollTop;
+  }
+
+  function getModalOnlyShowSelectedInput(): HTMLInputElement | null {
+    return document.querySelector(
+      'sky-toolbar-view-actions sky-checkbox input'
+    );
+  }
+
+  function getModalSaveButton(): HTMLButtonElement | null {
+    return document.querySelector('.sky-lookup-show-more-modal-save');
   }
 
   function getModalSearchButton(): HTMLButtonElement | null {
@@ -245,6 +251,10 @@ describe('Lookup component', function () {
   function getModalSearchInputValue(): string {
     const modalSearchInput = getModalSearchInput();
     return modalSearchInput?.value ?? '';
+  }
+
+  function getModalSelectAllButton(): HTMLButtonElement | null {
+    return document.querySelector('.sky-lookup-show-more-modal-select-all-btn');
   }
 
   function getRepeaterItemCount(): number {
@@ -370,9 +380,7 @@ describe('Lookup component', function () {
     // Ensure the search async timer in the lookup fixture component is cleared
     // before saving the form.
     tick(200);
-    (
-      document.querySelector('.sky-lookup-show-more-modal-save') as HTMLElement
-    ).click();
+    getModalSaveButton().click();
     fixture.detectChanges();
   }
 
@@ -2299,19 +2307,6 @@ describe('Lookup component', function () {
               closeModalBase();
             });
 
-            it('the default modal title should be correct', fakeAsync(() => {
-              component.enableShowMore = true;
-              fixture.detectChanges();
-              expect(lookupComponent.value).toEqual([]);
-
-              performSearch('s', fixture);
-              clickShowMore(fixture);
-
-              expect(getShowMoreModalTitle()).toBe('Select options');
-
-              closeModal(fixture);
-            }));
-
             it('should respect a custom modal title', fakeAsync(() => {
               component.enableShowMore = true;
               component.setShowMoreNativePickerConfig({
@@ -2324,6 +2319,97 @@ describe('Lookup component', function () {
               clickShowMore(fixture);
 
               expect(getShowMoreModalTitle()).toBe('Custom title');
+
+              closeModal(fixture);
+            }));
+
+            it('should set default title and aria labels without a selection descriptor', fakeAsync(() => {
+              component.enableShowMore = true;
+              fixture.detectChanges();
+              expect(lookupComponent.value).toEqual([]);
+
+              performSearch('s', fixture);
+              clickShowMore(fixture);
+
+              const selectButton = getModalSaveButton();
+
+              expect(getShowMoreModalTitle()).toBe('Select items');
+
+              expect(getModalSearchInput()?.getAttribute('aria-label')).toBe(
+                'Search items'
+              );
+              // Test that button text isn't contextual and only the `aria-label`
+              expect(selectButton?.textContent.trim()).toBe('Select');
+              expect(selectButton?.getAttribute('aria-label')).toBe(
+                'Select items'
+              );
+
+              // Test that button text isn't contextual and only the `aria-label`
+              expect(getModalClearAllButton()?.textContent.trim()).toBe(
+                'Clear all'
+              );
+              expect(getModalClearAllButton().getAttribute('aria-label')).toBe(
+                'Clear all selected items'
+              );
+
+              // Test that button text isn't contextual and only the `aria-label`
+              expect(getModalSelectAllButton()?.textContent.trim()).toBe(
+                'Select all'
+              );
+              expect(getModalSelectAllButton().getAttribute('aria-label')).toBe(
+                'Select all items'
+              );
+
+              expect(
+                getModalOnlyShowSelectedInput().getAttribute('aria-label')
+              ).toBe('Show only selected items');
+
+              closeModal(fixture);
+            }));
+
+            it('should respect a selection descriptor', fakeAsync(() => {
+              component.enableShowMore = true;
+              component.setShowMoreNativePickerConfig({
+                selectionDescriptor: 'people',
+              });
+              fixture.detectChanges();
+              expect(lookupComponent.value).toEqual([]);
+
+              performSearch('s', fixture);
+              clickShowMore(fixture);
+
+              const selectButton = getModalSaveButton();
+
+              expect(getShowMoreModalTitle()).toBe('Select people');
+
+              expect(getModalSearchInput()?.getAttribute('aria-label')).toBe(
+                'Search people'
+              );
+              // Test that button text isn't contextual and only the `aria-label`
+              expect(selectButton?.textContent.trim()).toBe('Select');
+              expect(selectButton?.getAttribute('aria-label')).toBe(
+                'Select people'
+              );
+
+              // Test that button text isn't contextual and only the `aria-label`
+              expect(getModalClearAllButton()?.textContent.trim()).toBe(
+                'Clear all'
+              );
+              expect(getModalClearAllButton().getAttribute('aria-label')).toBe(
+                'Clear all selected people'
+              );
+
+              // Test that button text isn't contextual and only the `aria-label`
+              expect(getModalSelectAllButton()?.textContent.trim()).toBe(
+                'Select all'
+              );
+              expect(getModalSelectAllButton().getAttribute('aria-label')).toBe(
+                'Select all people'
+              );
+
+              expect(
+                getModalOnlyShowSelectedInput().getAttribute('aria-label')
+              ).toBe('Show only selected people');
 
               closeModal(fixture);
             }));
@@ -2706,19 +2792,6 @@ describe('Lookup component', function () {
               closeModal(fixture);
             }));
 
-            it('the default modal title should be correct', fakeAsync(() => {
-              component.enableShowMore = true;
-              fixture.detectChanges();
-              expect(asyncLookupComponent.value).toEqual([]);
-
-              performSearch('s', fixture, true);
-              clickShowMore(fixture);
-
-              expect(getShowMoreModalTitle()).toBe('Select options');
-
-              closeModal(fixture);
-            }));
-
             it('should respect a custom modal title', fakeAsync(() => {
               component.enableShowMore = true;
               component.setShowMoreNativePickerConfig({
@@ -2731,6 +2804,97 @@ describe('Lookup component', function () {
               clickShowMore(fixture);
 
               expect(getShowMoreModalTitle()).toBe('Custom title');
+
+              closeModal(fixture);
+            }));
+
+            it('should set default title and aria labels without a selection descriptor', fakeAsync(() => {
+              component.enableShowMore = true;
+              fixture.detectChanges();
+              expect(lookupComponent.value).toEqual([]);
+
+              performSearch('s', fixture);
+              clickShowMore(fixture);
+
+              const selectButton = getModalSaveButton();
+
+              expect(getShowMoreModalTitle()).toBe('Select items');
+
+              expect(getModalSearchInput()?.getAttribute('aria-label')).toBe(
+                'Search items'
+              );
+              // Test that button text isn't contextual and only the `aria-label`
+              expect(selectButton?.textContent.trim()).toBe('Select');
+              expect(selectButton?.getAttribute('aria-label')).toBe(
+                'Select items'
+              );
+
+              // Test that button text isn't contextual and only the `aria-label`
+              expect(getModalClearAllButton()?.textContent.trim()).toBe(
+                'Clear all'
+              );
+              expect(getModalClearAllButton().getAttribute('aria-label')).toBe(
+                'Clear all selected items'
+              );
+
+              // Test that button text isn't contextual and only the `aria-label`
+              expect(getModalSelectAllButton()?.textContent.trim()).toBe(
+                'Select all'
+              );
+              expect(getModalSelectAllButton().getAttribute('aria-label')).toBe(
+                'Select all items'
+              );
+
+              expect(
+                getModalOnlyShowSelectedInput().getAttribute('aria-label')
+              ).toBe('Show only selected items');
+
+              closeModal(fixture);
+            }));
+
+            it('should respect a selection descriptor', fakeAsync(() => {
+              component.enableShowMore = true;
+              component.setShowMoreNativePickerConfig({
+                selectionDescriptor: 'people',
+              });
+              fixture.detectChanges();
+              expect(lookupComponent.value).toEqual([]);
+
+              performSearch('s', fixture);
+              clickShowMore(fixture);
+
+              const selectButton = getModalSaveButton();
+
+              expect(getShowMoreModalTitle()).toBe('Select people');
+
+              expect(getModalSearchInput()?.getAttribute('aria-label')).toBe(
+                'Search people'
+              );
+              // Test that button text isn't contextual and only the `aria-label`
+              expect(selectButton?.textContent.trim()).toBe('Select');
+              expect(selectButton?.getAttribute('aria-label')).toBe(
+                'Select people'
+              );
+
+              // Test that button text isn't contextual and only the `aria-label`
+              expect(getModalClearAllButton()?.textContent.trim()).toBe(
+                'Clear all'
+              );
+              expect(getModalClearAllButton().getAttribute('aria-label')).toBe(
+                'Clear all selected people'
+              );
+
+              // Test that button text isn't contextual and only the `aria-label`
+              expect(getModalSelectAllButton()?.textContent.trim()).toBe(
+                'Select all'
+              );
+              expect(getModalSelectAllButton().getAttribute('aria-label')).toBe(
+                'Select all people'
+              );
+
+              expect(
+                getModalOnlyShowSelectedInput().getAttribute('aria-label')
+              ).toBe('Show only selected people');
 
               closeModal(fixture);
             }));
@@ -2963,19 +3127,6 @@ describe('Lookup component', function () {
               closeModal(fixture);
             }));
 
-            it('the default modal title should be correct', fakeAsync(() => {
-              component.enableShowMore = true;
-              fixture.detectChanges();
-              expect(lookupComponent.value).toEqual([]);
-
-              performSearch('s', fixture);
-              clickShowMore(fixture);
-
-              expect(getShowMoreModalTitle()).toBe('Select an option');
-
-              closeModal(fixture);
-            }));
-
             it('should respect a custom modal title', fakeAsync(() => {
               component.enableShowMore = true;
               component.setShowMoreNativePickerConfig({
@@ -2988,6 +3139,57 @@ describe('Lookup component', function () {
               clickShowMore(fixture);
 
               expect(getShowMoreModalTitle()).toBe('Custom title');
+
+              closeModal(fixture);
+            }));
+
+            it('should set default title and aria labels without a selection descriptor', fakeAsync(() => {
+              component.enableShowMore = true;
+              fixture.detectChanges();
+              expect(lookupComponent.value).toEqual([]);
+
+              performSearch('s', fixture);
+              clickShowMore(fixture);
+
+              const selectButton = getModalSaveButton();
+
+              expect(getShowMoreModalTitle()).toBe('Select item');
+
+              expect(getModalSearchInput()?.getAttribute('aria-label')).toBe(
+                'Search item'
+              );
+              // Test that button text isn't contextual and only the `aria-label`
+              expect(selectButton?.textContent.trim()).toBe('Select');
+              expect(selectButton?.getAttribute('aria-label')).toBe(
+                'Select item'
+              );
+
+              closeModal(fixture);
+            }));
+
+            it('should respect a selection descriptor', fakeAsync(() => {
+              component.enableShowMore = true;
+              component.setShowMoreNativePickerConfig({
+                selectionDescriptor: 'person',
+              });
+              fixture.detectChanges();
+              expect(lookupComponent.value).toEqual([]);
+
+              performSearch('s', fixture);
+              clickShowMore(fixture);
+
+              const selectButton = getModalSaveButton();
+
+              expect(getShowMoreModalTitle()).toBe('Select person');
+
+              expect(getModalSearchInput()?.getAttribute('aria-label')).toBe(
+                'Search person'
+              );
+              // Test that button text isn't contextual and only the `aria-label`
+              expect(selectButton?.textContent.trim()).toBe('Select');
+              expect(selectButton?.getAttribute('aria-label')).toBe(
+                'Select person'
+              );
 
               closeModal(fixture);
             }));
@@ -3159,19 +3361,6 @@ describe('Lookup component', function () {
               closeModal(fixture);
             }));
 
-            it('the default modal title should be correct', fakeAsync(() => {
-              component.enableShowMore = true;
-              fixture.detectChanges();
-              expect(asyncLookupComponent.value).toEqual([]);
-
-              performSearch('s', fixture, true);
-              clickShowMore(fixture);
-
-              expect(getShowMoreModalTitle()).toBe('Select an option');
-
-              closeModal(fixture);
-            }));
-
             it('should respect a custom modal title', fakeAsync(() => {
               component.enableShowMore = true;
               component.setShowMoreNativePickerConfig({
@@ -3184,6 +3373,57 @@ describe('Lookup component', function () {
               clickShowMore(fixture);
 
               expect(getShowMoreModalTitle()).toBe('Custom title');
+
+              closeModal(fixture);
+            }));
+
+            it('should set default title and aria labels without a selection descriptor', fakeAsync(() => {
+              component.enableShowMore = true;
+              fixture.detectChanges();
+              expect(lookupComponent.value).toEqual([]);
+
+              performSearch('s', fixture);
+              clickShowMore(fixture);
+
+              const selectButton = getModalSaveButton();
+
+              expect(getShowMoreModalTitle()).toBe('Select item');
+
+              expect(getModalSearchInput()?.getAttribute('aria-label')).toBe(
+                'Search item'
+              );
+              // Test that button text isn't contextual and only the `aria-label`
+              expect(selectButton?.textContent.trim()).toBe('Select');
+              expect(selectButton?.getAttribute('aria-label')).toBe(
+                'Select item'
+              );
+
+              closeModal(fixture);
+            }));
+
+            it('should respect a selection descriptor', fakeAsync(() => {
+              component.enableShowMore = true;
+              component.setShowMoreNativePickerConfig({
+                selectionDescriptor: 'person',
+              });
+              fixture.detectChanges();
+              expect(lookupComponent.value).toEqual([]);
+
+              performSearch('s', fixture);
+              clickShowMore(fixture);
+
+              const selectButton = getModalSaveButton();
+
+              expect(getShowMoreModalTitle()).toBe('Select person');
+
+              expect(getModalSearchInput()?.getAttribute('aria-label')).toBe(
+                'Search person'
+              );
+              // Test that button text isn't contextual and only the `aria-label`
+              expect(selectButton?.textContent.trim()).toBe('Select');
+              expect(selectButton?.getAttribute('aria-label')).toBe(
+                'Select person'
+              );
 
               closeModal(fixture);
             }));
@@ -5485,19 +5725,6 @@ describe('Lookup component', function () {
               closeModalBase();
             });
 
-            it('the default modal title should be correct', fakeAsync(() => {
-              component.enableShowMore = true;
-              fixture.detectChanges();
-              expect(lookupComponent.value).toEqual([]);
-
-              performSearch('s', fixture);
-              clickShowMore(fixture);
-
-              expect(getShowMoreModalTitle()).toBe('Select options');
-
-              closeModal(fixture);
-            }));
-
             it('should respect a custom modal title', fakeAsync(() => {
               component.enableShowMore = true;
               component.setShowMoreNativePickerConfig({
@@ -5510,6 +5737,97 @@ describe('Lookup component', function () {
               clickShowMore(fixture);
 
               expect(getShowMoreModalTitle()).toBe('Custom title');
+
+              closeModal(fixture);
+            }));
+
+            it('should set default title and aria labels without a selection descriptor', fakeAsync(() => {
+              component.enableShowMore = true;
+              fixture.detectChanges();
+              expect(lookupComponent.value).toEqual([]);
+
+              performSearch('s', fixture);
+              clickShowMore(fixture);
+
+              const selectButton = getModalSaveButton();
+
+              expect(getShowMoreModalTitle()).toBe('Select items');
+
+              expect(getModalSearchInput()?.getAttribute('aria-label')).toBe(
+                'Search items'
+              );
+              // Test that button text isn't contextual and only the `aria-label`
+              expect(selectButton?.textContent.trim()).toBe('Select');
+              expect(selectButton?.getAttribute('aria-label')).toBe(
+                'Select items'
+              );
+
+              // Test that button text isn't contextual and only the `aria-label`
+              expect(getModalClearAllButton()?.textContent.trim()).toBe(
+                'Clear all'
+              );
+              expect(getModalClearAllButton().getAttribute('aria-label')).toBe(
+                'Clear all selected items'
+              );
+
+              // Test that button text isn't contextual and only the `aria-label`
+              expect(getModalSelectAllButton()?.textContent.trim()).toBe(
+                'Select all'
+              );
+              expect(getModalSelectAllButton().getAttribute('aria-label')).toBe(
+                'Select all items'
+              );
+
+              expect(
+                getModalOnlyShowSelectedInput().getAttribute('aria-label')
+              ).toBe('Show only selected items');
+
+              closeModal(fixture);
+            }));
+
+            it('should respect a selection descriptor', fakeAsync(() => {
+              component.enableShowMore = true;
+              component.setShowMoreNativePickerConfig({
+                selectionDescriptor: 'people',
+              });
+              fixture.detectChanges();
+              expect(lookupComponent.value).toEqual([]);
+
+              performSearch('s', fixture);
+              clickShowMore(fixture);
+
+              const selectButton = getModalSaveButton();
+
+              expect(getShowMoreModalTitle()).toBe('Select people');
+
+              expect(getModalSearchInput()?.getAttribute('aria-label')).toBe(
+                'Search people'
+              );
+              // Test that button text isn't contextual and only the `aria-label`
+              expect(selectButton?.textContent.trim()).toBe('Select');
+              expect(selectButton?.getAttribute('aria-label')).toBe(
+                'Select people'
+              );
+
+              // Test that button text isn't contextual and only the `aria-label`
+              expect(getModalClearAllButton()?.textContent.trim()).toBe(
+                'Clear all'
+              );
+              expect(getModalClearAllButton().getAttribute('aria-label')).toBe(
+                'Clear all selected people'
+              );
+
+              // Test that button text isn't contextual and only the `aria-label`
+              expect(getModalSelectAllButton()?.textContent.trim()).toBe(
+                'Select all'
+              );
+              expect(getModalSelectAllButton().getAttribute('aria-label')).toBe(
+                'Select all people'
+              );
+
+              expect(
+                getModalOnlyShowSelectedInput().getAttribute('aria-label')
+              ).toBe('Show only selected people');
 
               closeModal(fixture);
             }));
@@ -5880,19 +6198,6 @@ describe('Lookup component', function () {
               closeModal(fixture);
             }));
 
-            it('the default modal title should be correct', fakeAsync(() => {
-              component.enableShowMore = true;
-              fixture.detectChanges();
-              expect(asyncLookupComponent.value).toEqual([]);
-
-              performSearch('s', fixture, true);
-              clickShowMore(fixture);
-
-              expect(getShowMoreModalTitle()).toBe('Select options');
-
-              closeModal(fixture);
-            }));
-
             it('should respect a custom modal title', fakeAsync(() => {
               component.enableShowMore = true;
               component.setShowMoreNativePickerConfig({
@@ -5905,6 +6210,97 @@ describe('Lookup component', function () {
               clickShowMore(fixture);
 
               expect(getShowMoreModalTitle()).toBe('Custom title');
+
+              closeModal(fixture);
+            }));
+
+            it('should set default title and aria labels without a selection descriptor', fakeAsync(() => {
+              component.enableShowMore = true;
+              fixture.detectChanges();
+              expect(lookupComponent.value).toEqual([]);
+
+              performSearch('s', fixture);
+              clickShowMore(fixture);
+
+              const selectButton = getModalSaveButton();
+
+              expect(getShowMoreModalTitle()).toBe('Select items');
+
+              expect(getModalSearchInput()?.getAttribute('aria-label')).toBe(
+                'Search items'
+              );
+              // Test that button text isn't contextual and only the `aria-label`
+              expect(selectButton?.textContent.trim()).toBe('Select');
+              expect(selectButton?.getAttribute('aria-label')).toBe(
+                'Select items'
+              );
+
+              // Test that button text isn't contextual and only the `aria-label`
+              expect(getModalClearAllButton()?.textContent.trim()).toBe(
+                'Clear all'
+              );
+              expect(getModalClearAllButton().getAttribute('aria-label')).toBe(
+                'Clear all selected items'
+              );
+
+              // Test that button text isn't contextual and only the `aria-label`
+              expect(getModalSelectAllButton()?.textContent.trim()).toBe(
+                'Select all'
+              );
+              expect(getModalSelectAllButton().getAttribute('aria-label')).toBe(
+                'Select all items'
+              );
+
+              expect(
+                getModalOnlyShowSelectedInput().getAttribute('aria-label')
+              ).toBe('Show only selected items');
+
+              closeModal(fixture);
+            }));
+
+            it('should respect a selection descriptor', fakeAsync(() => {
+              component.enableShowMore = true;
+              component.setShowMoreNativePickerConfig({
+                selectionDescriptor: 'people',
+              });
+              fixture.detectChanges();
+              expect(lookupComponent.value).toEqual([]);
+
+              performSearch('s', fixture);
+              clickShowMore(fixture);
+
+              const selectButton = getModalSaveButton();
+
+              expect(getShowMoreModalTitle()).toBe('Select people');
+
+              expect(getModalSearchInput()?.getAttribute('aria-label')).toBe(
+                'Search people'
+              );
+              // Test that button text isn't contextual and only the `aria-label`
+              expect(selectButton?.textContent.trim()).toBe('Select');
+              expect(selectButton?.getAttribute('aria-label')).toBe(
+                'Select people'
+              );
+
+              // Test that button text isn't contextual and only the `aria-label`
+              expect(getModalClearAllButton()?.textContent.trim()).toBe(
+                'Clear all'
+              );
+              expect(getModalClearAllButton().getAttribute('aria-label')).toBe(
+                'Clear all selected people'
+              );
+
+              // Test that button text isn't contextual and only the `aria-label`
+              expect(getModalSelectAllButton()?.textContent.trim()).toBe(
+                'Select all'
+              );
+              expect(getModalSelectAllButton().getAttribute('aria-label')).toBe(
+                'Select all people'
+              );
+
+              expect(
+                getModalOnlyShowSelectedInput().getAttribute('aria-label')
+              ).toBe('Show only selected people');
 
               closeModal(fixture);
             }));
@@ -6143,19 +6539,6 @@ describe('Lookup component', function () {
               closeModal(fixture);
             }));
 
-            it('the default modal title should be correct', fakeAsync(() => {
-              component.enableShowMore = true;
-              fixture.detectChanges();
-              expect(lookupComponent.value).toEqual([]);
-
-              performSearch('s', fixture);
-              clickShowMore(fixture);
-
-              expect(getShowMoreModalTitle()).toBe('Select an option');
-
-              closeModal(fixture);
-            }));
-
             it('should respect a custom modal title', fakeAsync(() => {
               component.enableShowMore = true;
               component.setShowMoreNativePickerConfig({
@@ -6168,6 +6551,57 @@ describe('Lookup component', function () {
               clickShowMore(fixture);
 
               expect(getShowMoreModalTitle()).toBe('Custom title');
+
+              closeModal(fixture);
+            }));
+
+            it('should set default title and aria labels without a selection descriptor', fakeAsync(() => {
+              component.enableShowMore = true;
+              fixture.detectChanges();
+              expect(lookupComponent.value).toEqual([]);
+
+              performSearch('s', fixture);
+              clickShowMore(fixture);
+
+              const selectButton = getModalSaveButton();
+
+              expect(getShowMoreModalTitle()).toBe('Select item');
+
+              expect(getModalSearchInput()?.getAttribute('aria-label')).toBe(
+                'Search item'
+              );
+              // Test that button text isn't contextual and only the `aria-label`
+              expect(selectButton?.textContent.trim()).toBe('Select');
+              expect(selectButton?.getAttribute('aria-label')).toBe(
+                'Select item'
+              );
+
+              closeModal(fixture);
+            }));
+
+            it('should respect a selection descriptor', fakeAsync(() => {
+              component.enableShowMore = true;
+              component.setShowMoreNativePickerConfig({
+                selectionDescriptor: 'person',
+              });
+              fixture.detectChanges();
+              expect(lookupComponent.value).toEqual([]);
+
+              performSearch('s', fixture);
+              clickShowMore(fixture);
+
+              const selectButton = getModalSaveButton();
+
+              expect(getShowMoreModalTitle()).toBe('Select person');
+
+              expect(getModalSearchInput()?.getAttribute('aria-label')).toBe(
+                'Search person'
+              );
+              // Test that button text isn't contextual and only the `aria-label`
+              expect(selectButton?.textContent.trim()).toBe('Select');
+              expect(selectButton?.getAttribute('aria-label')).toBe(
+                'Select person'
+              );
 
               closeModal(fixture);
             }));
@@ -6316,19 +6750,6 @@ describe('Lookup component', function () {
               closeModal(fixture);
             }));
 
-            it('the default modal title should be correct', fakeAsync(() => {
-              component.enableShowMore = true;
-              fixture.detectChanges();
-              expect(asyncLookupComponent.value).toEqual([]);
-
-              performSearch('s', fixture, true);
-              clickShowMore(fixture);
-
-              expect(getShowMoreModalTitle()).toBe('Select an option');
-
-              closeModal(fixture);
-            }));
-
             it('should respect a custom modal title', fakeAsync(() => {
               component.enableShowMore = true;
               component.setShowMoreNativePickerConfig({
@@ -6341,6 +6762,57 @@ describe('Lookup component', function () {
               clickShowMore(fixture);
 
               expect(getShowMoreModalTitle()).toBe('Custom title');
+
+              closeModal(fixture);
+            }));
+
+            it('should set default title and aria labels without a selection descriptor', fakeAsync(() => {
+              component.enableShowMore = true;
+              fixture.detectChanges();
+              expect(lookupComponent.value).toEqual([]);
+
+              performSearch('s', fixture);
+              clickShowMore(fixture);
+
+              const selectButton = getModalSaveButton();
+
+              expect(getShowMoreModalTitle()).toBe('Select item');
+
+              expect(getModalSearchInput()?.getAttribute('aria-label')).toBe(
+                'Search item'
+              );
+              // Test that button text isn't contextual and only the `aria-label`
+              expect(selectButton?.textContent.trim()).toBe('Select');
+              expect(selectButton?.getAttribute('aria-label')).toBe(
+                'Select item'
+              );
+
+              closeModal(fixture);
+            }));
+
+            it('should respect a selection descriptor', fakeAsync(() => {
+              component.enableShowMore = true;
+              component.setShowMoreNativePickerConfig({
+                selectionDescriptor: 'person',
+              });
+              fixture.detectChanges();
+              expect(lookupComponent.value).toEqual([]);
+
+              performSearch('s', fixture);
+              clickShowMore(fixture);
+
+              const selectButton = getModalSaveButton();
+
+              expect(getShowMoreModalTitle()).toBe('Select person');
+
+              expect(getModalSearchInput()?.getAttribute('aria-label')).toBe(
+                'Search person'
+              );
+              // Test that button text isn't contextual and only the `aria-label`
+              expect(selectButton?.textContent.trim()).toBe('Select');
+              expect(selectButton?.getAttribute('aria-label')).toBe(
+                'Select person'
+              );
 
               closeModal(fixture);
             }));

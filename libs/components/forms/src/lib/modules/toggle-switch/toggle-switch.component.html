@@ -11,7 +11,7 @@
     skyId
     [attr.aria-checked]="checked"
     [attr.aria-label]="ariaLabel"
-    [attr.aria-labelledby]="hasLabelComponent ? labelId : null"
+    [attr.aria-labelledby]="!ariaLabel && hasLabelComponent ? labelId : null"
     [disabled]="disabled"
     [ngClass]="{
       'sky-toggle-switch-checked': checked,
@@ -40,9 +40,9 @@
       class="sky-toggle-switch-label"
       ><ng-container *ngTemplateOutlet="labelContent"></ng-container></label
     ><span class="sky-control-help-container"
-      ><ng-content select=".sky-control-help"></ng-content></span></span
+      ><ng-content select=".sky-control-help" /></span></span
 ></span>
 
 <ng-template #labelContent>
-  <ng-content select="sky-toggle-switch-label"></ng-content>
+  <ng-content select="sky-toggle-switch-label" />
 </ng-template>

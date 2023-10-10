@@ -7,6 +7,7 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyContentInfoProvider } from '@skyux/core';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
 import { Subject } from 'rxjs';
@@ -62,6 +63,32 @@ describe('SkyDataManagerToolbarComponent', () => {
   let dataManagerService: SkyDataManagerService;
   let modalServiceInstance: MockModalService;
   let viewConfig: SkyDataViewConfig;
+
+  function getClearAllButton(): HTMLButtonElement | undefined {
+    return dataManagerToolbarFixture.debugElement.query(
+      By.css('.sky-data-manager-clear-all-btn')
+    ).nativeElement;
+  }
+
+  function getColumnPickerButton(): HTMLButtonElement | undefined {
+    return dataManagerToolbarFixture.debugElement.query(
+      By.css('.sky-col-picker-btn')
+    ).nativeElement;
+  }
+
+  function getSelectAllButton(): HTMLButtonElement | undefined {
+    return dataManagerToolbarFixture.debugElement.query(
+      By.css('.sky-data-manager-select-all-btn')
+    ).nativeElement;
+  }
+
+  function getSectionFilterCheckbox(): HTMLInputElement | undefined {
+    return dataManagerToolbarFixture.debugElement.query(
+      By.css(
+        '.sky-data-manager-multiselect-toolbar sky-toolbar-view-actions input'
+      )
+    ).nativeElement;
+  }
 
   function setSearchInput(text: string): void {
     const inputEl = dataManagerToolbarFixture.debugElement.query(
@@ -807,7 +834,74 @@ describe('SkyDataManagerToolbarComponent', () => {
     expect(dataManagerService.updateDataState).not.toHaveBeenCalled();
   });
 
-  it('should pass accessibility', async () => {
-    await expectAsync(dataManagerToolbarNativeElement).toBeAccessible();
+  describe('a11y', () => {
+    it('should set accessibility labels correctly when no list descriptor is given', async () => {
+      const patchInfoSpy = spyOn(
+        SkyContentInfoProvider.prototype,
+        'patchInfo'
+      ).and.stub();
+
+      spyOn(dataManagerService, 'getViewById').and.returnValue({
+        ...(dataManagerToolbarComponent.activeView as SkyDataViewConfig),
+        multiselectToolbarEnabled: true,
+        columnPickerEnabled: true,
+      });
+      dataManagerToolbarFixture.detectChanges();
+
+      expect(patchInfoSpy.calls.count()).toBe(1);
+      expect(patchInfoSpy.calls.all()[0].args).toEqual([
+        { descriptor: undefined },
+      ]);
+
+      expect(getClearAllButton()?.getAttribute('aria-label')).toBeNull();
+      expect(getColumnPickerButton()?.getAttribute('aria-label')).toBe(
+        'Columns'
+      );
+      expect(getSectionFilterCheckbox()?.getAttribute('aria-label')).toBeNull();
+      expect(getSelectAllButton()?.getAttribute('aria-label')).toBeNull();
+    });
+
+    it('should set accessibility labels correctly when a list descriptor is given', async () => {
+      const patchInfoSpy = spyOn(
+        SkyContentInfoProvider.prototype,
+        'patchInfo'
+      ).and.stub();
+
+      const dataManagerFixture = TestBed.createComponent(
+        DataManagerFixtureComponent
+      );
+      dataManagerFixture.componentInstance.dataManagerConfig.listDescriptor =
+        'constituents';
+      dataManagerFixture.detectChanges();
+
+      expect(patchInfoSpy.calls.count()).toBe(1);
+      expect(patchInfoSpy.calls.all()[0].args).toEqual([
+        { descriptor: { value: 'constituents', type: 'text' } },
+      ]);
+
+      spyOn(dataManagerService, 'getViewById').and.returnValue({
+        ...(dataManagerToolbarComponent.activeView as SkyDataViewConfig),
+        multiselectToolbarEnabled: true,
+        columnPickerEnabled: true,
+      });
+      dataManagerToolbarFixture.detectChanges();
+
+      expect(getClearAllButton()?.getAttribute('aria-label')).toBe(
+        'Clear all selected constituents'
+      );
+      expect(getColumnPickerButton()?.getAttribute('aria-label')).toBe(
+        'Choose columns for constituents'
+      );
+      expect(getSectionFilterCheckbox()?.getAttribute('aria-label')).toBe(
+        'Show only selected constituents'
+      );
+      expect(getSelectAllButton()?.getAttribute('aria-label')).toBe(
+        'Select all constituents'
+      );
+    });
+
+    it('should pass accessibility', async () => {
+      await expectAsync(dataManagerToolbarNativeElement).toBeAccessible();
+    });
   });
 });

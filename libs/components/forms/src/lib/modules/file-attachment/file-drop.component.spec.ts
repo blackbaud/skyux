@@ -2,10 +2,10 @@ import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyFileItem } from '@skyux/forms';
 
 import { SkyFileAttachmentsModule } from './file-attachments.module';
 import { SkyFileDropComponent } from './file-drop.component';
+import { SkyFileItem } from './file-item';
 import { SkyFileLink } from './file-link';
 import { SkyFileDropChange } from './types/file-drop-change';
 

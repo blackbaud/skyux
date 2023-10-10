@@ -42,7 +42,9 @@
   </tree-root>
 </sky-angular-tree-wrapper>
 
-<button id="updateStateButton" (click)="updateState()">Update state</button>
+<button id="updateStateButton" type="button" (click)="updateState()">
+  Update state
+</button>
 
 <tree-root *ngIf="showInvalidTree" [nodes]="nodes" #tree>
   <ng-template

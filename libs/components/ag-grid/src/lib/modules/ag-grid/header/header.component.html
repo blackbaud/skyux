@@ -5,7 +5,7 @@
     aria-hidden="true"
     (click)="onMenuClick($event)"
   >
-    <sky-icon icon="ellipsis"></sky-icon>
+    <sky-icon icon="ellipsis" />
   </span>
   <ng-template #notSortingHeader>
     <span class="ag-header-cell-text">{{ params?.displayName }}</span>
@@ -24,7 +24,7 @@
         class="ag-header-icon ag-header-label-icon ag-filter-icon"
         aria-hidden="true"
       >
-        <sky-icon icon="filter"></sky-icon>
+        <sky-icon icon="filter" />
       </span>
       <span *ngIf="params?.enableSorting" class="ag-sort-indicator-container">
         <ng-container *skyThemeIf="'default'">
@@ -32,24 +32,24 @@
             *ngIf="(sortOrder$ | async) === 'desc'"
             icon="caret-down"
             class="ag-header-label-icon"
-          ></sky-icon>
+          />
           <sky-icon
             *ngIf="(sortOrder$ | async) === 'asc'"
             icon="caret-up"
             class="ag-header-label-icon"
-          ></sky-icon>
+          />
         </ng-container>
         <ng-container *skyThemeIf="'modern'">
           <sky-icon
             *ngIf="(sortOrder$ | async) === 'desc'"
             icon="chevron-down"
             class="ag-header-label-icon"
-          ></sky-icon>
+          />
           <sky-icon
             *ngIf="(sortOrder$ | async) === 'asc'"
             icon="chevron-up"
             class="ag-header-label-icon"
-          ></sky-icon>
+          />
         </ng-container>
         <span
           *ngIf="sortIndexDisplay$ | async as sortIndexDisplay"

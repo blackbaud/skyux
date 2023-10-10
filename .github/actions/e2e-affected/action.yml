@@ -13,6 +13,10 @@ inputs:
   percy-token:
     description: 'The Percy API token'
     required: true
+  allow-deleted-screenshots:
+    description: 'Whether to allow deleted screenshots'
+    required: false
+    default: 'false'
 outputs:
   affected:
     description: 'Whether the e2e tests are affected by the changes'
@@ -20,6 +24,9 @@ outputs:
 runs:
   using: 'composite'
   steps:
+    - name: Build e2e-schematics
+      shell: bash
+      run: npx nx build e2e-schematics
     - name: Check if e2e tests are affected by the changes
       id: affected
       uses: actions/github-script@v6
@@ -35,36 +42,20 @@ runs:
           const shas = await exec.getExecOutput('git', ['log', '--format=%H', '${{ inputs.base }}..${{ inputs.head }}'])
             .then(({stdout}) => stdout.trim().split('\n'));
 
-          // Call the Percy API to get the project ID.
-          core.info('Fetching Percy project ID...');
-          const projectId = await fetch('https://percy.io/api/v1/projects?project_slug=skyux-${{ inputs.project }}', options)
-            .then(response => response.json())
-            .then(response => response.data.id)
-            .catch((error) => {
-              core.setFailed(`Error fetching Percy ID: ${error.message}`);
-              process.exit(1);
-            });
+          const { getLastGoodPercyBuild } = require('./dist/libs/sdk/e2e-schematics/src/workflow');
+          const lastGoodCommit = await getLastGoodPercyBuild(
+            'skyux-${{ inputs.project }}',
+            shas,
+            ${{ inputs.allow-deleted-screenshots }},
+            (url) => fetch(url, options)
+          );
 
-          // Call the Percy API to get the last good build among the PR commits.
-          const shaFilter = shas.map(sha => `filter[shas][]=${sha}`).join('&');
-          core.info('Fetching Percy builds...');
-          const percyBuilds = await fetch(`https://percy.io/api/v1/builds?project_id=${projectId}&${shaFilter}&filter[state]=finished&page[limit]=100`, options)
-            .then(response => response.json())
-            .then(response => response.data)
-            .catch((error) => {
-              core.setFailed(`Error fetching Percy builds: ${error.message}`);
-              process.exit(1);
-            });
-
-          const lastGoodBuild = Array.isArray(percyBuilds) && percyBuilds.find(build => build.attributes.state === 'finished' && build.attributes['review-state'] === 'approved');
-
-          if (!lastGoodBuild) {
+          if (!lastGoodCommit) {
             core.info('No good Percy test found, running e2e tests');
             core.setOutput('affected', 'true');
             process.exit(0);
           }
 
-          const lastGoodCommit = lastGoodBuild.attributes['commit-html-url'].split('/').pop();
           const affectedProjects = await exec.getExecOutput('npx', [
             'nx',
             'show',

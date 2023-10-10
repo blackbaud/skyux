@@ -79,16 +79,29 @@ describe('Date range picker', function () {
     SkyAppTestUtility.fireDomEvent(selectElement, 'change');
   }
 
-  function enterStartDate(date: string): void {
-    const inputElement = fixture.nativeElement
-      .querySelectorAll('input')
-      .item(0);
-    inputElement.value = date;
-    fixture.detectChanges();
+  function getEndDateInput(): HTMLInputElement | undefined {
+    return fixture.nativeElement.querySelector(
+      `#${component.dateRangePicker.dateRangePickerId}-end-date`
+    );
+  }
 
-    SkyAppTestUtility.fireDomEvent(inputElement, 'change');
-    fixture.detectChanges();
-    tick();
+  function getStartDateInput(): HTMLInputElement | undefined {
+    return fixture.nativeElement.querySelector(
+      `#${component.dateRangePicker.dateRangePickerId}-start-date`
+    );
+  }
+
+  function enterStartDate(date: string): void {
+    const inputElement = getStartDateInput();
+
+    if (inputElement) {
+      inputElement.value = date;
+      fixture.detectChanges();
+
+      SkyAppTestUtility.fireDomEvent(inputElement, 'change');
+      fixture.detectChanges();
+      tick();
+    }
   }
 
   function verifyVisiblePickers(
@@ -606,9 +619,110 @@ describe('Date range picker', function () {
     expect(calculatorIdControl?.errors).toEqual(expectedError);
   }));
 
-  it('should be accessible', async () => {
-    fixture.detectChanges();
-    await fixture.whenStable();
-    await expectAsync(fixture.elementRef.nativeElement).toBeAccessible();
+  describe('accessibility', () => {
+    it('should use a context specific datepicker aria label when using the "Before" calculator', fakeAsync(() => {
+      detectChanges();
+
+      component.label = 'Last donation';
+      const control = component.dateRange;
+      control?.setValue({
+        calculatorId: SkyDateRangeCalculatorId.Before,
+      });
+
+      detectChanges();
+      const input = getEndDateInput();
+      expect(input?.getAttribute('aria-label')).toBe(
+        'Before date for Last donation'
+      );
+    }));
+
+    it('should use a context specific datepicker aria label when using the "After" calculator', fakeAsync(() => {
+      detectChanges();
+
+      component.label = 'Last donation';
+      const control = component.dateRange;
+      control?.setValue({
+        calculatorId: SkyDateRangeCalculatorId.After,
+      });
+
+      detectChanges();
+      const input = getStartDateInput();
+      expect(input?.getAttribute('aria-label')).toBe(
+        'After date for Last donation'
+      );
+    }));
+
+    it('should use context specific datepicker aria labels when using the "Specific Range" calculator', fakeAsync(() => {
+      detectChanges();
+
+      component.label = 'Last donation';
+      const control = component.dateRange;
+      control?.setValue({
+        calculatorId: SkyDateRangeCalculatorId.SpecificRange,
+      });
+
+      detectChanges();
+      const fromInput = getStartDateInput();
+      const toInput = getEndDateInput();
+      expect(fromInput?.getAttribute('aria-label')).toBe(
+        'From date for Last donation'
+      );
+      expect(toInput?.getAttribute('aria-label')).toBe(
+        'To date for Last donation'
+      );
+    }));
+
+    it('should use a default datepicker aria label when using the "Before" calculator with no label', fakeAsync(() => {
+      detectChanges();
+
+      const control = component.dateRange;
+      control?.setValue({
+        calculatorId: SkyDateRangeCalculatorId.Before,
+      });
+
+      detectChanges();
+      const input = getEndDateInput();
+      expect(input?.getAttribute('aria-label')).toBe('Before date');
+    }));
+
+    it('should use a default datepicker aria label when using the "After" calculator with no label', fakeAsync(() => {
+      detectChanges();
+
+      const control = component.dateRange;
+      control?.setValue({
+        calculatorId: SkyDateRangeCalculatorId.After,
+      });
+
+      detectChanges();
+      const input = getStartDateInput();
+      expect(input?.getAttribute('aria-label')).toBe('After date');
+    }));
+
+    it('should use default datepicker aria labels when using the "Specific Range" calculator with no labe;', fakeAsync(() => {
+      detectChanges();
+      const control = component.dateRange;
+      control?.setValue({
+        calculatorId: SkyDateRangeCalculatorId.SpecificRange,
+      });
+
+      detectChanges();
+      const fromInput = getStartDateInput();
+      const toInput = getEndDateInput();
+      expect(fromInput?.getAttribute('aria-label')).toBe('From date');
+      expect(toInput?.getAttribute('aria-label')).toBe('To date');
+    }));
+
+    it('should be accessible with no label', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+      await expectAsync(fixture.elementRef.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible with a label', async () => {
+      component.label = 'Last donation';
+      fixture.detectChanges();
+      await fixture.whenStable();
+      await expectAsync(fixture.elementRef.nativeElement).toBeAccessible();
+    });
   });
 });

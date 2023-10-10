@@ -43,4 +43,8 @@ describe('Input box host service', () => {
   it('should return an empty string for control ID when host is undefined', () => {
     expect(hostService.controlId).toBe('');
   });
+
+  it('should return an empty string for label text when host is undefined', () => {
+    expect(hostService.labelText).toBe('');
+  });
 });

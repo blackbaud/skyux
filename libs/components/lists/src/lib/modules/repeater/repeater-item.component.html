@@ -13,7 +13,7 @@
   #itemRef
 >
   <div #inlineDelete>
-    <ng-content select="sky-inline-delete"></ng-content>
+    <ng-content select="sky-inline-delete" />
   </div>
 
   <ng-container *ngIf="inlineFormTemplate">
@@ -66,7 +66,7 @@
         (keydown)="onReorderHandleKeyDown($event)"
         #grabHandle
       >
-        <sky-icon icon="arrows-v"></sky-icon>
+        <sky-icon icon="arrows-v" />
       </button>
     </ng-container>
     <sky-checkbox
@@ -87,7 +87,7 @@
       [hidden]="contextMenuEl.children.length === 0"
       #contextMenuEl
     >
-      <ng-content select="sky-repeater-item-context-menu"></ng-content>
+      <ng-content select="sky-repeater-item-context-menu" />
     </div>
   </div>
 </ng-template>
@@ -101,7 +101,7 @@
       (click)="headerClick()"
     >
       <div class="sky-repeater-item-title sky-font-emphasized" #titleRef>
-        <ng-content select="sky-repeater-item-title"></ng-content>
+        <ng-content select="sky-repeater-item-title" />
       </div>
       <button
         *ngIf="reorderable"
@@ -116,7 +116,7 @@
         "
         (click)="moveToTop($event)"
       >
-        <sky-icon icon="arrow-circle-up"></sky-icon>
+        <sky-icon icon="arrow-circle-up" />
         {{ 'skyux_repeater_item_reorder_top' | skyLibResources }}
       </button>
       <div *ngIf="isCollapsible" class="sky-repeater-item-chevron">
@@ -157,7 +157,7 @@
       #itemContentRef
       [attr.role]="(itemRole$ | async)?.content"
     >
-      <ng-content select="sky-repeater-item-content"></ng-content>
+      <ng-content select="sky-repeater-item-content" />
     </div>
   </div>
 </ng-template>

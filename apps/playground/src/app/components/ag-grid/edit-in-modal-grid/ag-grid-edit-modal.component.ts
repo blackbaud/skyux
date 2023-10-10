@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { SkyAutocompleteSelectionChange } from '@skyux/lookup';
-import { SkyModalInstance } from '@skyux/modals';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
+import { AgGridModule } from 'ag-grid-angular';
 import {
   CellValueChangedEvent,
   ColDef,
@@ -17,8 +18,10 @@ import { AgGridDemoRow, DEPARTMENTS, JOB_TITLES } from './ag-grid-demo-data';
 import { SkyAgGridEditModalContext } from './ag-grid-edit-modal-context';
 
 @Component({
+  standalone: true,
   selector: 'app-demo-edit-modal-form',
   templateUrl: './ag-grid-edit-modal.component.html',
+  imports: [AgGridModule, SkyAgGridModule, SkyModalModule],
 })
 export class SkyAgGridEditModalComponent implements OnInit {
   public gridData: AgGridDemoRow[];

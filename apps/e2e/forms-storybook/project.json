@@ -91,7 +91,8 @@
       },
       "configurations": {
         "ci": {
-          "quiet": true
+          "quiet": true,
+          "ci": true
         }
       }
     },
@@ -111,6 +112,18 @@
       "configurations": {
         "ci": {
           "quiet": true
+        }
+      }
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "forms-storybook:build-storybook",
+        "staticFilePath": "dist/storybook/forms-storybook"
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "forms-storybook:build-storybook:ci"
         }
       }
     }

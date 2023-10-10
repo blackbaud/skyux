@@ -27,7 +27,7 @@
       }"
       #actionButton
     >
-      <ng-content></ng-content>
+      <ng-content />
     </button>
   </span>
   <span
@@ -54,7 +54,7 @@
       (document:mouseup)="setCloseActive(false)"
       (mousedown)="setCloseActive(true)"
     >
-      <sky-icon class="sky-token-btn-close-icon" icon="close"></sky-icon>
+      <sky-icon class="sky-token-btn-close-icon" icon="close" />
     </button>
   </span>
 </div>

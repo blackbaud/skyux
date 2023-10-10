@@ -24,8 +24,7 @@ const DATA_SKY_ID = 'test-country-field';
       [disabled]="disabled"
       [hideSelectedCountryFlag]="hideSelectedCountryFlag"
       (selectedCountryChange)="selectedCountryChange($event)"
-    >
-    </sky-country-field>
+    />
   `,
 })
 class CountryFieldTestComponent {

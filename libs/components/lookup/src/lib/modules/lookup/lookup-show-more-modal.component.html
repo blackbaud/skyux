@@ -12,7 +12,10 @@
     [skyViewkeeper]="['.sky-lookup-show-more-toolbar-wrapper']"
   >
     <div class="sky-lookup-show-more-toolbar-wrapper">
-      <sky-toolbar class="sky-lookup-show-more-modal-toolbar">
+      <sky-toolbar
+        [listDescriptor]="context.userConfig.selectionDescriptor"
+        class="sky-lookup-show-more-modal-toolbar"
+      >
         <sky-toolbar-section>
           <sky-toolbar-item>
             <sky-search
@@ -29,7 +32,7 @@
               class="sky-btn sky-btn-link sky-lookup-show-more-modal-add"
               (click)="addButtonClicked()"
             >
-              <sky-icon icon="add"></sky-icon>
+              <sky-icon icon="add" />
               {{ 'skyux_lookup_show_more_add' | skyLibResources }}
             </button>
           </sky-toolbar-view-actions>
@@ -44,6 +47,10 @@
             <button
               class="sky-btn sky-btn-link sky-lookup-show-more-modal-select-all-btn"
               type="button"
+              [attr.aria-label]="
+                'skyux_lookup_show_more_select_all_button_aria_label'
+                  | skyLibResources : context.userConfig.selectionDescriptor
+              "
               (click)="selectAll()"
             >
               {{
@@ -56,6 +63,10 @@
             <button
               class="sky-btn sky-btn-link sky-lookup-show-more-modal-clear-all-btn"
               type="button"
+              [attr.aria-label]="
+                'skyux_lookup_show_more_clear_all_button_aria_label'
+                  | skyLibResources : context.userConfig.selectionDescriptor
+              "
               (click)="clearAll()"
             >
               {{
@@ -67,6 +78,10 @@
           <sky-toolbar-view-actions>
             <sky-checkbox
               [(checked)]="onlyShowSelected"
+              [label]="
+                'skyux_lookup_show_more_show_selected_option_aria_label'
+                  | skyLibResources : context.userConfig.selectionDescriptor
+              "
               (change)="updateDataState()"
             >
               <sky-checkbox-label>
@@ -117,6 +132,10 @@
     <button
       class="sky-btn sky-btn-primary sky-margin-inline-compact sky-lookup-show-more-modal-save"
       type="button"
+      [attr.aria-label]="
+        'skyux_lookup_show_more_select_context'
+          | skyLibResources : context.userConfig.selectionDescriptor
+      "
       (click)="modalInstance.save(selectedItems)"
     >
       {{ 'skyux_lookup_show_more_select' | skyLibResources }}
@@ -136,10 +155,8 @@
 </ng-template>
 
 <ng-template #defaultTitle>
-  <ng-container *ngIf="context.selectMode === 'single'">
-    {{ 'skyux_lookup_show_more_modal_title_single' | skyLibResources }}
-  </ng-container>
-  <ng-container *ngIf="context.selectMode === 'multiple'">
-    {{ 'skyux_lookup_show_more_modal_title_multiple' | skyLibResources }}
-  </ng-container>
+  {{
+    'skyux_lookup_show_more_modal_title'
+      | skyLibResources : context.userConfig.selectionDescriptor
+  }}
 </ng-template>

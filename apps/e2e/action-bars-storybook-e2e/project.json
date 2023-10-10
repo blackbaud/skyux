@@ -17,7 +17,9 @@
           "devServerTarget": "action-bars-storybook:serve:production"
         },
         "ci": {
-          "devServerTarget": "action-bars-storybook:serve-static"
+          "devServerTarget": "action-bars-storybook:static-storybook:ci",
+          "browser": "chrome",
+          "baseUrl": "http://localhost:4200"
         }
       }
     },

@@ -21,6 +21,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./lookup/lookup.module').then((m) => m.LookupModule),
   },
+  {
+    path: 'selection-modal',
+    loadChildren: () =>
+      import('./selection-modal/selection-modal.module').then(
+        (m) => m.SelectionModalModule
+      ),
+  },
 ];
 
 @NgModule({

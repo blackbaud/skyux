@@ -1,12 +1,13 @@
 import { ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
-import { SkyAppWindowRef, SkyResizeObserverService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { delay, take, takeUntil } from 'rxjs/operators';
 
 import { SkyMutationObserverService } from '../mutation/mutation-observer-service';
+import { SkyResizeObserverService } from '../resize-observer/resize-observer.service';
+import { SkyAppWindowRef } from '../window/window-ref';
 
 import { ScrollableHostFixtureComponent } from './fixtures/scrollable-host.component.fixture';
 import { SkyScrollableHostService } from './scrollable-host.service';
