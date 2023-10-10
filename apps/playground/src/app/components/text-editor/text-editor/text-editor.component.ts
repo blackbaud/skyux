@@ -54,8 +54,10 @@ export class TextEditorComponent implements OnInit {
     'alignment',
     'indentation',
     'undo-redo',
-    'link',
+    'link'
   ];
+
+  public openLinksInNewWindow = true;
 
   constructor(
     private formBuilder: FormBuilder,
