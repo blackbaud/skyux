@@ -545,7 +545,9 @@ describe('Search component', () => {
     });
 
     it('should be accessible using default theme at wide and small breakpoints (ariaLabel: "Search constituents" - via content info, ariaLabelledBy: undefined)', async () => {
-      contentInfoProvider.patchInfo({ descriptor: 'constituents' });
+      contentInfoProvider.patchInfo({
+        descriptor: { value: 'constituents', type: 'text' },
+      });
       fixture.detectChanges();
       await fixture.whenStable();
       await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -557,7 +559,9 @@ describe('Search component', () => {
     });
 
     it('should be accessible using default theme at wide and small breakpoints (ariaLabel: "Overwritten label" - overwriting content info, ariaLabelledBy: undefined)', async () => {
-      contentInfoProvider.patchInfo({ descriptor: 'constituents' });
+      contentInfoProvider.patchInfo({
+        descriptor: { value: 'constituents', type: 'text' },
+      });
       component.ariaLabel = 'Overwritten label';
       fixture.detectChanges();
       await fixture.whenStable();
