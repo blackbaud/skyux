@@ -13,23 +13,6 @@ describe('lookup in modal', () => {
       });
 
       it('should affix autocomplete to the bottom of the input when the body has top margin', () => {
-        // const expectedPosition: Record<
-        //   E2EVariationName,
-        //   { top: string; left: string }
-        // > = {
-        //   default: {
-        //     top: '324.172px',
-        //     left: '507px',
-        //   },
-        //   'modern-light': {
-        //     top: '384.203px',
-        //     left: '521px',
-        //   },
-        //   'modern-dark': {
-        //     top: '384.203px',
-        //     left: '521px',
-        //   },
-        // };
         cy.get('#ready')
           .should('exist')
           .end()
@@ -48,11 +31,13 @@ describe('lookup in modal', () => {
           .get('.sky-autocomplete-results-container')
           .then((container) => container.get(0).getBoundingClientRect().top)
           .then((top) => {
+            expect(top).to.be.gt(100);
             cy.get('textarea[placeholder="Type a person\'s name..."]')
               .then(($el) => $el.get(0).getBoundingClientRect().bottom)
               .then((inputBottom) => {
                 expect(top).to.be.gte(inputBottom);
                 // Allow for some margin of error in the position, specifically for headless Chrome.
+                // The top of the results should be within 6 pixels of the bottom of the input.
                 expect(top).to.be.lte(inputBottom + 6);
               });
           });
