@@ -208,8 +208,7 @@ export class SkyAppRuntimeConfigParams {
     // Add provided parameters to the URL which are not on the exclusion list
     // Respect pre-existing params which already have values
     if (queryParams) {
-      for (const paramName of Object.keys(queryParams)) {
-        const decodedValue = queryParams[paramName];
+      for (const [paramName, decodedValue] of Object.entries(queryParams)) {
         if (decodedValue) {
           unifiedParams = unifiedParams.set(paramName, decodedValue);
         }
