@@ -45,8 +45,6 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     },
     skyux_lookup_show_more_cancel: { message: 'Cancel' },
     skyux_lookup_show_more_modal_title: { message: 'Select {0}' },
-    skyux_lookup_show_more_modal_title_single: { message: 'Select an option' },
-    skyux_lookup_show_more_modal_title_multiple: { message: 'Select options' },
     skyux_lookup_show_more_no_results: { message: 'No matches found' },
     skyux_lookup_show_more_select: { message: 'Select' },
     skyux_lookup_show_more_select_context: { message: 'Select {0}' },

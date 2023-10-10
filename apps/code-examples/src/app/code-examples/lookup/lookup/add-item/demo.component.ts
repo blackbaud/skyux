@@ -14,6 +14,7 @@ import {
   SkyAutocompleteSearchAsyncArgs,
   SkyLookupAddClickEventArgs,
   SkyLookupModule,
+  SkyLookupShowMoreConfig,
 } from '@skyux/lookup';
 import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 
@@ -42,6 +43,12 @@ export class DemoComponent implements OnInit, OnDestroy {
   public favoritesForm: FormGroup<{
     favoriteNames: FormControl<Person[] | null>;
   }>;
+
+  public showMoreConfig: SkyLookupShowMoreConfig = {
+    nativePickerConfig: {
+      selectionDescriptor: 'names',
+    },
+  };
 
   #subscriptions = new Subscription();
 
