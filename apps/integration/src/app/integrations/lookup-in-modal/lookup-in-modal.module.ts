@@ -1,6 +1,8 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterLink, RouterModule } from '@angular/router';
+import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyLookupModule } from '@skyux/lookup';
 import { SkyModalModule } from '@skyux/modals';
 
@@ -29,6 +31,8 @@ const routes: IntegrationRouteInfo[] = [
     SkyModalModule,
     RouterLink,
     RouterModule.forChild(routes),
+    ReactiveFormsModule,
+    SkyInputBoxModule,
   ],
   exports: [RouterModule],
 })

@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-modal-lookup',
@@ -6,7 +7,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModalLookupComponent {
-  public readonly people = [
+  protected readonly people = [
     { id: 1, name: 'Andy' },
     { id: 2, name: 'Beth' },
     { id: 3, name: 'David' },
@@ -29,4 +30,16 @@ export class ModalLookupComponent {
     { id: 20, name: 'Yolanda' },
     { id: 21, name: 'Zack' },
   ];
+  protected readonly lookupDemoForm: FormGroup;
+
+  constructor() {
+    const formBuilder = inject(FormBuilder);
+    this.lookupDemoForm = formBuilder.group({
+      favoriteNames: [[]],
+    });
+  }
+
+  public onSubmit(): void {
+    console.log({ submitted: this.lookupDemoForm.value });
+  }
 }

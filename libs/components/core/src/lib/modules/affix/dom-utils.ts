@@ -65,13 +65,13 @@ export function getOverflowParents(child: HTMLElement): HTMLElement[] {
       overflowY === 'hidden' ||
       overflowY === 'scroll'
     ) {
-      results.unshift(parentElement);
+      results.push(parentElement);
     }
 
     parentElement = parentElement.parentNode;
   }
 
-  results.unshift(bodyElement);
+  results.push(bodyElement);
 
   return results;
 }

@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { AfterViewInit, Component, OnDestroy, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { SkyModalService } from '@skyux/modals';
 
 import { BehaviorSubject } from 'rxjs';
@@ -10,13 +10,13 @@ import { ModalLookupComponent } from './modal-lookup.component';
   selector: 'app-lookup-in-modal',
   template: '<span *ngIf="ready$ | async" id="ready"></span>',
 })
-export class LookupInModalComponent implements AfterViewInit, OnDestroy {
+export class LookupInModalComponent implements OnInit, OnDestroy {
   protected readonly ready$ = new BehaviorSubject(false);
 
   #document = inject(DOCUMENT);
   #modalService = inject(SkyModalService);
 
-  public ngAfterViewInit(): void {
+  public ngOnInit(): void {
     this.#document.body.setAttribute('style', 'margin-top: 50px');
     this.#modalService.open(ModalLookupComponent, {
       size: 'small',
