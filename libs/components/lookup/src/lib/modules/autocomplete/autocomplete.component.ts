@@ -879,7 +879,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
         enablePointerEvents: true,
         environmentInjector: this.#environmentInjector,
         wrapperClass: this.wrapperClass,
-        position: 'absolute',
+        position: 'fixed',
       });
 
       if (this.#zIndex) {

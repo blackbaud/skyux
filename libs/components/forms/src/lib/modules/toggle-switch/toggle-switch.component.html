@@ -11,7 +11,7 @@
     skyId
     [attr.aria-checked]="checked"
     [attr.aria-label]="ariaLabel"
-    [attr.aria-labelledby]="hasLabelComponent ? labelId : null"
+    [attr.aria-labelledby]="!ariaLabel && hasLabelComponent ? labelId : null"
     [disabled]="disabled"
     [ngClass]="{
       'sky-toggle-switch-checked': checked,
