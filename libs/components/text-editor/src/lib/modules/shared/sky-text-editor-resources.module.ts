@@ -74,6 +74,9 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     skyux_text_editor_url_modal_current_option_label: {
       message: 'Current window',
     },
+    skyux_text_editor_url_modal_open_in_new_window_label: {
+      message: 'Link will open in:',
+    },
     skyux_text_editor_url_modal_new_option_label: { message: 'New window' },
     skyux_text_editor_url_modal_email_label: { message: 'Email address' },
     skyux_text_editor_url_modal_subject_label: { message: 'Subject line' },
