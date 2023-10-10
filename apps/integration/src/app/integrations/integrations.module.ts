@@ -47,6 +47,13 @@ const routes: Routes = [
         (m) => m.FieldHeightsModule
       ),
   },
+  {
+    path: 'lookup-in-modal',
+    loadChildren: () =>
+      import('./lookup-in-modal/lookup-in-modal.module').then(
+        (m) => m.LookupInModalModule
+      ),
+  },
 ];
 
 @NgModule({
