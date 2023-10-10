@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
@@ -30,7 +31,8 @@ const queryStringParamKey = '?Subject=';
     SkyInputBoxModule,
     SkyTabsModule,
     SkyTextEditorResourcesModule,
-  ],
+    NgIf
+  ]
 })
 export class SkyTextEditorUrlModalComponent {
   public set activeTab(value: number) {
@@ -61,6 +63,7 @@ export class SkyTextEditorUrlModalComponent {
   }
 
   public emailAddressValid = false;
+  public openLinksInNewWindowOnly = false;
   public subject = '';
   public target: number | string = 0;
   public valid = false;
@@ -73,6 +76,11 @@ export class SkyTextEditorUrlModalComponent {
   readonly #modalInstance = inject(SkyModalInstance);
 
   constructor() {
+    if(this.#modalContext.openLinksInNewWindowOnly) {
+      this.openLinksInNewWindowOnly = true;
+      this.target = 1;
+    }
+
     if (this.#modalContext.urlResult) {
       if (this.#modalContext.urlResult.url.startsWith(emailKey)) {
         this.emailAddress = this.#modalContext.urlResult.url.replace(

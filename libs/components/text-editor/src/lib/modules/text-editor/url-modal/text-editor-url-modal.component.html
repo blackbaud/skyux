@@ -26,7 +26,7 @@
             />
           </sky-input-box>
         </div>
-        <sky-input-box stacked="true" class="sky-form-group">
+        <sky-input-box *ngIf="!openLinksInNewWindowOnly; else onlyOpenLinksInNewWindow" stacked="true" class="sky-form-group">
           <label class="sky-control-label" [for]="targetInput.id">
             {{ 'skyux_text_editor_url_modal_open_label' | skyLibResources }}
           </label>
@@ -49,6 +49,14 @@
             </option>
           </select>
         </sky-input-box>
+        <ng-template #onlyOpenLinksInNewWindow>
+          <sky-input-box stacked="true" class="sky-form-group">
+            <label class="sky-control-label">
+              {{ 'skyux_text_editor_url_modal_open_in_new_window_label' | skyLibResources }}
+            </label>
+            <input type="text" value="{{ 'skyux_text_editor_url_modal_new_option_label' | skyLibResources }}" readonly>
+          </sky-input-box>
+        </ng-template>
       </sky-tab>
       <sky-tab tabHeading="Email address">
         <div class="sky-form-group first-field">
