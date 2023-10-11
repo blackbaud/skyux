@@ -4,9 +4,13 @@ describe('lookup-storybook', () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
-        cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=searchcomponent-search--search`
-        )
+        cy
+          .visit(
+            `/iframe.html?globals=theme:${theme}&id=searchcomponent-search--search`
+          )
+          .get('#ready')
+          .should('exist')
+          .end()
       );
       it('should render the component', () => {
         cy.get('app-search')
