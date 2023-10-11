@@ -1,4 +1,4 @@
-import { SkyuxConfigRemoteModulesReference } from './config-remote-modules-reference';
+import { SkyuxConfigRemoteEntryReference } from './config-remote-entry-reference';
 
 /**
  * Information about remote modules referenced by this application.
@@ -7,5 +7,5 @@ export interface SkyuxConfigRemoteModules {
   /**
    * A collection of remote modules referenced by this application.
    */
-  referenced?: SkyuxConfigRemoteModulesReference[];
+  referenced?: SkyuxConfigRemoteEntryReference[];
 }

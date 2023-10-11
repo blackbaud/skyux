@@ -4,7 +4,7 @@ export { SkyAppConfigModuleForRootArgs } from './lib/app-config-module-for-root-
 export { SkyAppConfigModule } from './lib/app-config.module';
 
 export { SkyuxConfigParams } from './lib/config-params';
-export { SkyuxConfigRemoteModulesReference } from './lib/config-remote-modules-reference';
+export { SkyuxConfigRemoteEntryReference } from './lib/config-remote-entry-reference';
 export { SkyuxConfigRemoteModules } from './lib/config-remote-modules';
 
 export {

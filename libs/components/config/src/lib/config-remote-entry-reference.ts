@@ -1,7 +1,7 @@
 /**
  * Information about referenced remote modules.
  */
-export interface SkyuxConfigRemoteModulesReference {
+export interface SkyuxConfigRemoteEntryReference {
   /**
    * The name of the SKY UX SPA containing the referenced remote modules.
    */
