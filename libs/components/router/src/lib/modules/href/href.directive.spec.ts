@@ -197,7 +197,7 @@ describe('SkyHref Directive', () => {
 
     const element: HTMLElement | null = el.querySelector('.dynamicLink a');
     expect(element?.getAttribute('href')).toEqual(
-      'https://example.com/example/page?foo=override'
+      'https://example.com/example/page?foo=override&query=param'
     );
   }));
 

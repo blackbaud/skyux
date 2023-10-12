@@ -202,11 +202,29 @@ export class SkyAppRuntimeConfigParams {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     queryParams?: Record<string, any>
   ): string {
-    let unifiedParams = getUrlSearchParams(url);
+    const [beforeFragment, fragment] = url.split('#', 2);
+    const urlParams = getUrlSearchParams(url);
+
+    // Determine if the url params need to be modified
+    const urlParamsRequireModification = !!urlParams
+      .keys()
+      .find(
+        (key) => excludeParams.has(key) || (queryParams && queryParams[key])
+      );
+
+    const root = urlParamsRequireModification
+      ? beforeFragment.split('?')[0]
+      : beforeFragment;
+
+    let unifiedParams = urlParamsRequireModification
+      ? urlParams
+      : getUrlSearchParams('');
 
     // Remove excluded params
-    for (const paramName of excludeParams.keys()) {
-      unifiedParams = unifiedParams.delete(paramName);
+    if (urlParamsRequireModification) {
+      for (const paramName of excludeParams.keys()) {
+        unifiedParams = unifiedParams.delete(paramName);
+      }
     }
 
     // Add provided parameters to the URL which are not on the exclusion list
@@ -222,7 +240,11 @@ export class SkyAppRuntimeConfigParams {
     // Add default parameters to the URL which are not on the exclusion list
     // Respect pre-existing params which already have values
     for (const key of this.getAllKeys()) {
-      if (!excludeParams.has(key) && !unifiedParams.has(key)) {
+      if (
+        !excludeParams.has(key) &&
+        !urlParams.has(key) &&
+        !unifiedParams.has(key)
+      ) {
         const decodedValue = this.get(key);
         if (decodedValue) {
           unifiedParams = unifiedParams.append(key, decodedValue);
@@ -232,17 +254,12 @@ export class SkyAppRuntimeConfigParams {
 
     // Combine all requested parameters and their values, e.g. 'a=b'.
     const joinedParams = unifiedParams.toString();
+    const delimiter = root.includes('?') ? '&' : '?';
 
     // Build and return the final URL.
-    const [beforeFragment, fragment] = url.split('#', 2);
-    const root =
-      beforeFragment.indexOf('?') > -1
-        ? beforeFragment.split('?')[0]
-        : beforeFragment;
-
     return (
       root +
-      (joinedParams.length === 0 ? '' : `?${joinedParams}`) +
+      (joinedParams.length === 0 ? '' : `${delimiter}${joinedParams}`) +
       (fragment ? `#${fragment}` : '')
     );
   }

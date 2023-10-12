@@ -390,6 +390,18 @@ describe('SkyAppRuntimeConfigParams', () => {
 
     expect(
       params.getLinkUrl('https://mysite.com?foobar=Robert+Hernandez')
-    ).toEqual('https://mysite.com?foobar=Robert%2BHernandez&a1=%20');
+    ).toEqual('https://mysite.com?foobar=Robert+Hernandez&a1=%20');
+  });
+
+  it('should validate query string encoding', () => {
+    const params = new SkyAppRuntimeConfigParams('?a1=str+1', {
+      a4: {
+        value: 'str+4',
+      },
+    });
+
+    expect(
+      params.getLinkUrl('https://mysite.com?a2=str+2', { a3: 'str+3' })
+    ).toEqual('https://mysite.com?a2=str+2&a3=str%2B3&a4=str%2B4');
   });
 });
