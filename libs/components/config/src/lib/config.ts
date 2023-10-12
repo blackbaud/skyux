@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { SkyuxConfigParams } from './config-params';
+import { SkyuxConfigRemoteModules } from './config-remote-modules';
 import { SkyAppRuntimeConfigParams } from './params';
 
 export interface RuntimeConfigApp {
@@ -162,6 +163,7 @@ export interface SkyuxConfig {
   pipelineSettings?: any;
   plugins?: string[];
   redirects?: { [from: string]: string };
+  remoteModules?: SkyuxConfigRemoteModules;
   routes?: {
     public?: {
       title?: string;
