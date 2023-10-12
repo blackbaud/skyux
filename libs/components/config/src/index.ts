@@ -4,6 +4,9 @@ export { SkyAppConfigModuleForRootArgs } from './lib/app-config-module-for-root-
 export { SkyAppConfigModule } from './lib/app-config.module';
 
 export { SkyuxConfigParams } from './lib/config-params';
+export { SkyuxConfigRemoteContainerReference } from './lib/config-remote-container-reference';
+export { SkyuxConfigRemoteModules } from './lib/config-remote-modules';
+
 export {
   RuntimeConfigApp,
   SkyuxPactConfig,
