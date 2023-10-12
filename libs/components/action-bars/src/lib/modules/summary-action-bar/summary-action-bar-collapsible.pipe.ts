@@ -5,6 +5,7 @@ import { SkySummaryActionBarType } from './types/summary-action-bar-type';
 
 @Pipe({
   name: 'skySummaryActionBarCollapsible',
+  standalone: true,
 })
 export class SkySummaryActionBarCollapsiblePipe implements PipeTransform {
   public transform(

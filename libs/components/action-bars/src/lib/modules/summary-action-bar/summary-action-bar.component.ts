@@ -1,4 +1,5 @@
 import { AnimationEvent } from '@angular/animations';
+import { NgClass, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -16,13 +17,18 @@ import {
   SkyMediaQueryService,
   SkyMutationObserverService,
 } from '@skyux/core';
+import { SkyChevronModule } from '@skyux/indicators';
+import { SkyThemeModule } from '@skyux/theme';
 
 import { fromEvent } from 'rxjs';
 import { Subject } from 'rxjs';
 import { Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { SkyActionBarsResourcesModule } from '../shared/sky-action-bars-resources.module';
+
 import { SkySummaryActionBarAdapterService } from './summary-action-bar-adapter.service';
+import { SkySummaryActionBarCollapsiblePipe } from './summary-action-bar-collapsible.pipe';
 import { SkySummaryActionBarSummaryComponent } from './summary/summary-action-bar-summary.component';
 import { SkySummaryActionBarType } from './types/summary-action-bar-type';
 
@@ -42,6 +48,16 @@ let nextId = 0;
   animations: [skyAnimationSlide],
   providers: [SkySummaryActionBarAdapterService],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgClass,
+    SkySummaryActionBarCollapsiblePipe,
+    NgIf,
+    NgTemplateOutlet,
+    SkyChevronModule,
+    SkyActionBarsResourcesModule,
+    SkyThemeModule,
+  ],
+  standalone: true,
 })
 export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
   public isSummaryCollapsed = false;

@@ -1,3 +1,4 @@
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -6,6 +7,8 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { SkyDropdownModule } from '@skyux/popovers';
+import { SkyThemeModule } from '@skyux/theme';
 
 /**
  * Specifies secondary actions.
@@ -15,6 +18,8 @@ import {
   templateUrl: './summary-action-bar-secondary-action.component.html',
   styleUrls: ['./summary-action-bar-secondary-action.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [SkyThemeModule, NgIf, NgTemplateOutlet, SkyDropdownModule],
+  standalone: true,
 })
 export class SkySummaryActionBarSecondaryActionComponent {
   /**

@@ -8,5 +8,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   templateUrl: './summary-action-bar-actions.component.html',
   styleUrls: ['./summary-action-bar-actions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class SkySummaryActionBarActionsComponent {}

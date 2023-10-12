@@ -14,6 +14,7 @@ import {
   templateUrl: './summary-action-bar-cancel.component.html',
   styleUrls: ['./summary-action-bar-cancel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class SkySummaryActionBarCancelComponent {
   /**

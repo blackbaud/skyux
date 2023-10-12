@@ -14,6 +14,7 @@ import {
   templateUrl: './summary-action-bar-primary-action.component.html',
   styleUrls: ['./summary-action-bar-primary-action.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class SkySummaryActionBarPrimaryActionComponent {
   /**

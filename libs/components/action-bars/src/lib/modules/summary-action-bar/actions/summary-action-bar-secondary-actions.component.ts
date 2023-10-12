@@ -1,3 +1,4 @@
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   AfterContentInit,
   ChangeDetectionStrategy,
@@ -8,9 +9,16 @@ import {
   QueryList,
 } from '@angular/core';
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
-import { SkyDropdownMessage, SkyDropdownMessageType } from '@skyux/popovers';
+import { SkyIconModule } from '@skyux/indicators';
+import {
+  SkyDropdownMessage,
+  SkyDropdownMessageType,
+  SkyDropdownModule,
+} from '@skyux/popovers';
 
 import { Subject, Subscription } from 'rxjs';
+
+import { SkyActionBarsResourcesModule } from '../../shared/sky-action-bars-resources.module';
 
 import { SkySummaryActionBarSecondaryActionComponent } from './summary-action-bar-secondary-action.component';
 
@@ -22,6 +30,14 @@ import { SkySummaryActionBarSecondaryActionComponent } from './summary-action-ba
   selector: 'sky-summary-action-bar-secondary-actions',
   templateUrl: './summary-action-bar-secondary-actions.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    NgTemplateOutlet,
+    SkyDropdownModule,
+    SkyActionBarsResourcesModule,
+    SkyIconModule,
+  ],
+  standalone: true,
 })
 export class SkySummaryActionBarSecondaryActionsComponent
   implements AfterContentInit, OnDestroy

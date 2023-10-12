@@ -7,5 +7,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   selector: 'sky-summary-action-bar-summary',
   templateUrl: './summary-action-bar-summary.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class SkySummaryActionBarSummaryComponent {}
