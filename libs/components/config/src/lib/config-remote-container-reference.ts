@@ -1,7 +1,7 @@
 /**
- * Information about referenced remote modules.
+ * Information about a referenced remote container.
  */
-export interface SkyuxConfigRemoteEntryReference {
+export interface SkyuxConfigRemoteContainerReference {
   /**
    * A collection of paths to the referenced remote modules.
    */
