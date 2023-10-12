@@ -3,17 +3,12 @@
  */
 export interface SkyuxConfigRemoteEntryReference {
   /**
-   * The name of the SKY UX SPA containing the referenced remote modules.
-   */
-  app: string;
-
-  /**
    * A collection of paths to the referenced remote modules.
    */
-  exposedModules: string[];
+  modules: string[];
 
   /**
-   * The version of the referenced SPA's remote entry.
+   * The version of the referenced SPA's remote container.
    */
-  version: number;
+  containerVersion: number;
 }

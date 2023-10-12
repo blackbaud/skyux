@@ -5,7 +5,7 @@ import { SkyuxConfigRemoteEntryReference } from './config-remote-entry-reference
  */
 export interface SkyuxConfigRemoteModules {
   /**
-   * A collection of remote modules referenced by this application.
+   * A collection of remote modules keyed by the remote container name.
    */
-  referenced?: SkyuxConfigRemoteEntryReference[];
+  referenced?: Record<string, SkyuxConfigRemoteEntryReference>;
 }
