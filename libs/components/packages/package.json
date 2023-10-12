@@ -93,10 +93,10 @@
   },
   "peerDependencies": {
     "@angular/cli": "^16.2.2",
-    "@angular/core": "^16.2.5"
+    "@angular/core": "^16.2.9"
   },
   "dependencies": {
-    "fs-extra": "10.1.0",
+    "fs-extra": "11.1.1",
     "jsonc-parser": "3.2.0"
   }
 }
