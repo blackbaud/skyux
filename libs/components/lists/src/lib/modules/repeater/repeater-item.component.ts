@@ -19,10 +19,7 @@ import {
   inject,
 } from '@angular/core';
 import { skyAnimationSlide } from '@skyux/animations';
-import {
-  SkyContentInfoProvider,
-  SkyMutationObserverService,
-} from '@skyux/core';
+import { SkyContentInfoProvider } from '@skyux/core';
 import { SkyCheckboxChange } from '@skyux/forms';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import {
@@ -103,9 +100,7 @@ export class SkyRepeaterItemComponent
   @Input()
   public set itemName(value: string | undefined) {
     this.#_itemName = value;
-    this.itemNameOrDefault = value ?? this.#titleContent;
     this.#updateContentInfo();
-    this.#changeDetector.markForCheck();
   }
 
   public get itemName(): string | undefined {
@@ -236,8 +231,6 @@ export class SkyRepeaterItemComponent
     return this.#_isCollapsible;
   }
 
-  public itemNameOrDefault: string | undefined;
-
   public itemRole$: Observable<SkyRepeaterItemRolesType>;
 
   public reorderButtonLabel = '';
@@ -268,20 +261,8 @@ export class SkyRepeaterItemComponent
   @ViewChild('titleRef', { read: ElementRef })
   public set titleRef(value: ElementRef | undefined) {
     this.#_titleRef = value;
-
-    this.#titleObserver.disconnect();
-
-    if (value) {
-      this.#titleContent = this.titleRef?.nativeElement.textContent.trim();
-      this.itemNameOrDefault = this.itemName ?? this.#titleContent;
-      this.#updateContentInfo();
-      this.#titleObserver.observe(value?.nativeElement, {
-        characterData: true,
-        childList: true,
-        subtree: true,
-      });
-      this.#changeDetector.markForCheck();
-    }
+    this.#updateContentInfo();
+    this.#changeDetector.detectChanges();
   }
 
   public get titleRef(): ElementRef | undefined {
@@ -300,7 +281,6 @@ export class SkyRepeaterItemComponent
   #elementRef: ElementRef;
   #isExpanded = true;
   #keyboardReorderingEnabled = false;
-  #mutationObserverSvc = inject(SkyMutationObserverService);
   #ngUnsubscribe = new Subject<void>();
   #reorderCancelText = '';
   #reorderCurrentIndex = -1;
@@ -311,8 +291,6 @@ export class SkyRepeaterItemComponent
   #reorderSteps = 0;
   #repeaterService: SkyRepeaterService;
   #resourceService: SkyLibResourcesService;
-  #titleContent: string | undefined;
-  #titleObserver: MutationObserver;
   #_isCollapsible = true;
   #_isDisabled: boolean | undefined = false;
   #_isSelected: boolean | undefined;
@@ -333,13 +311,6 @@ export class SkyRepeaterItemComponent
     this.#resourceService = resourceService;
 
     this.#slideForExpanded(false);
-
-    this.#titleObserver = this.#mutationObserverSvc.create(() => {
-      this.#titleContent = this.titleRef?.nativeElement.textContent.trim();
-      this.itemNameOrDefault = this.itemName ?? this.#titleContent;
-      this.#updateContentInfo();
-      this.#changeDetector.markForCheck();
-    });
 
     observableForkJoin([
       this.#resourceService.getString('skyux_repeater_item_reorder_cancel'),
@@ -677,18 +648,18 @@ export class SkyRepeaterItemComponent
   }
 
   #updateContentInfo(): void {
-    this.#contextMenuResourceUnsubscribe.next();
-    if (this.itemNameOrDefault) {
+    if (this.itemName) {
       this.#contentInfoProvider.patchInfo({
-        descriptor: this.itemNameOrDefault,
+        descriptor: { type: 'text', value: this.itemName },
       });
-    } else {
+    } else if (this.titleRef) {
       this.#contentInfoProvider.patchInfo({
-        descriptor: undefined,
+        descriptor: {
+          type: 'elementId',
+          value: this.titleRef.nativeElement.id,
+        },
       });
     }
-    // This is to void "Expression changed after checked" issues. `markForCheck` did not resolve the issue.
-    this.#changeDetector.detectChanges();
   }
 
   #updateExpandOnContentChange(): void {

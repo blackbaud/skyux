@@ -18,13 +18,14 @@ import {
   SkyAffixHorizontalAlignment,
   SkyAffixService,
   SkyAffixer,
+  SkyContentInfo,
   SkyContentInfoProvider,
   SkyOverlayInstance,
   SkyOverlayService,
 } from '@skyux/core';
 import { SkyThemeService } from '@skyux/theme';
 
-import { Subject, fromEvent as observableFromEvent } from 'rxjs';
+import { Observable, Subject, fromEvent as observableFromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { parseAffixHorizontalAlignment } from './dropdown-extensions';
@@ -108,7 +109,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   @Input()
   public label: string | undefined;
 
-  protected contentInfoDescriptor: string | undefined;
+  protected contentInfoObs: Observable<SkyContentInfo> | undefined;
 
   /**
    * The horizontal alignment of the dropdown menu in relation to the dropdown button.
@@ -231,6 +232,10 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   #_trigger = DEFAULT_TRIGGER_TYPE;
   #_triggerButton: ElementRef | undefined;
 
+  constructor() {
+    this.contentInfoObs = this.#contentInfoProvider?.getInfo();
+  }
+
   public ngOnInit(): void {
     this.messageStream
       ?.pipe(takeUntil(this.#ngUnsubscribe))
@@ -244,12 +249,6 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.#changeDetector.markForCheck();
       });
-
-    this.#contentInfoProvider?.getInfo()?.subscribe((contentInfo) => {
-      this.contentInfoDescriptor = contentInfo.descriptor;
-      // This is to void "Expression changed after checked" issues. `markForCheck` did not resolve the issue.
-      this.#changeDetector.detectChanges();
-    });
   }
 
   public ngOnDestroy(): void {
