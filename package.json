@@ -96,7 +96,7 @@
     "@angular/router": "16.2.5",
     "@blackbaud/angular-tree-component": "1.0.0",
     "@blackbaud/auth-client": "2.71.0",
-    "@blackbaud/skyux-design-tokens": "0.0.27",
+    "@blackbaud/skyux-design-tokens": "0.0.28",
     "@nx/angular": "16.8.1",
     "@skyux/auth-client-factory": "1.2.0",
     "@skyux/icons": "6.4.0",
