@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -10,11 +11,13 @@ import {
   OnDestroy,
   OnInit,
   Optional,
+  RendererFactory2,
   StaticProvider,
   TemplateRef,
   Type,
   ViewChild,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 
@@ -26,7 +29,7 @@ import {
   Subscription,
   fromEvent,
 } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, throttleTime } from 'rxjs/operators';
 
 import { SkyCoreAdapterService } from '../adapter-service/adapter.service';
 import { SkyIdService } from '../id/id.service';
@@ -118,9 +121,13 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
 
   #coreAdapter: SkyCoreAdapterService;
 
+  #doc = inject(DOCUMENT);
+
   #injector: Injector;
 
   #ngUnsubscribe = new Subject<void>();
+
+  #renderer = inject(RendererFactory2).createRenderer(null, null);
 
   #router: Router | undefined;
 
@@ -154,6 +161,7 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
 
     setTimeout(() => {
       this.#addBackdropClickListener();
+      this.#addScrollListener();
     });
 
     if (this.#context.config.closeOnNavigation) {
@@ -279,6 +287,27 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
     if (this.#routerSubscription) {
       this.#routerSubscription.unsubscribe();
       this.#routerSubscription = undefined;
+    }
+  }
+
+  #addScrollListener(): void {
+    if (
+      this.#doc.defaultView?.visualViewport &&
+      this.#context.config.position === 'fixed'
+    ) {
+      // Safari on iOS allows fixed position elements to scroll with the page.
+      fromEvent(this.#doc.defaultView.visualViewport, 'scroll')
+        .pipe(takeUntil(this.#ngUnsubscribe), throttleTime(10))
+        .subscribe(() => {
+          /* istanbul ignore else */
+          if (this.#doc.defaultView?.visualViewport) {
+            this.#renderer.setStyle(
+              this.overlayRef?.nativeElement,
+              'top',
+              `${this.#doc.defaultView.visualViewport.offsetTop}px`
+            );
+          }
+        });
     }
   }
 }

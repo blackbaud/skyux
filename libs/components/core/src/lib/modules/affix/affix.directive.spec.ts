@@ -104,9 +104,9 @@ describe('Affix directive', () => {
 
   function runTestsForPosition(position: SkyAffixPosition | undefined): void {
     async function setupTest() {
-      await TestBed.configureTestingModule({
+      TestBed.configureTestingModule({
         imports: [AffixFixturesModule],
-      }).compileComponents();
+      });
 
       // Make the body element scrollable.
       window.document.body.style.height = '5000px';

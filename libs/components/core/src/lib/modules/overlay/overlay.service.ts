@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import {
   ApplicationRef,
   ComponentFactoryResolver,
@@ -5,7 +6,11 @@ import {
   EmbeddedViewRef,
   Injectable,
   Injector,
+  OnDestroy,
+  inject,
 } from '@angular/core';
+
+import { Subscription, fromEvent } from 'rxjs';
 
 import { SkyOverlayAdapterService } from './overlay-adapter.service';
 import { SkyOverlayConfig } from './overlay-config';
@@ -20,7 +25,7 @@ import { SkyOverlayComponent } from './overlay.component';
 @Injectable({
   providedIn: 'root',
 })
-export class SkyOverlayService {
+export class SkyOverlayService implements OnDestroy {
   private static overlays: SkyOverlayInstance[] = [];
 
   #adapter: SkyOverlayAdapterService;
@@ -29,7 +34,11 @@ export class SkyOverlayService {
 
   #componentFactoryResolver: ComponentFactoryResolver;
 
+  #doc = inject(DOCUMENT);
+
   #injector: Injector;
+
+  #subscription = new Subscription();
 
   // TODO: Replace deprecated `ComponentFactoryResolver`.
   constructor(
@@ -42,6 +51,12 @@ export class SkyOverlayService {
     this.#componentFactoryResolver = componentFactoryResolver;
     this.#injector = injector;
     this.#adapter = adapter;
+    this.#maintainVhProperty();
+  }
+
+  public ngOnDestroy(): void {
+    this.#subscription.unsubscribe();
+    this.#doc.documentElement.style.removeProperty('--skyux-vh');
   }
 
   /**
@@ -124,7 +139,7 @@ export class SkyOverlayService {
     const domElem = (componentRef.hostView as EmbeddedViewRef<any>)
       .rootNodes[0] as HTMLElement;
 
-    document.body.appendChild(domElem);
+    this.#doc.body.appendChild(domElem);
 
     return componentRef;
   }
@@ -156,6 +171,26 @@ export class SkyOverlayService {
       if (!anotherOverlayDisablesScroll) {
         this.#adapter.releaseBodyScroll();
       }
+    }
+  }
+
+  #maintainVhProperty(): void {
+    // Maintain a --skyux-vh CSS property that is equal to 1% of the viewport height.
+    if (this.#doc.defaultView) {
+      const setVhProperty = (): void => {
+        this.#doc.documentElement.style.setProperty(
+          '--skyux-vh',
+          // Fallback value b/c it can technically be undefined.
+          /* istanbul ignore next */
+          this.#doc.defaultView?.innerHeight
+            ? `${this.#doc.defaultView.innerHeight * 0.01}px`
+            : '1vh'
+        );
+      };
+      setVhProperty();
+      this.#subscription.add(
+        fromEvent(this.#doc.defaultView, 'resize').subscribe(setVhProperty)
+      );
     }
   }
 }

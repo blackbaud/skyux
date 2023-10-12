@@ -45,6 +45,13 @@ export function getElementOffset(
   };
 }
 
+export function getViewportOffset(): { top: number; left: number } {
+  return {
+    top: window.visualViewport?.offsetTop || 0,
+    left: window.visualViewport?.offsetLeft || 0,
+  };
+}
+
 export function getOverflowParents(child: HTMLElement): HTMLElement[] {
   const bodyElement = window.document.body;
   const results = [];
@@ -56,9 +63,8 @@ export function getOverflowParents(child: HTMLElement): HTMLElement[] {
     parentElement !== bodyElement &&
     parentElement instanceof HTMLElement
   ) {
-    const overflowY = window
-      .getComputedStyle(parentElement, undefined)
-      .overflowY.toLowerCase();
+    const computedStyle = window.getComputedStyle(parentElement, undefined);
+    const overflowY = computedStyle.overflowY.toLowerCase();
 
     if (
       overflowY === 'auto' ||
@@ -66,6 +72,10 @@ export function getOverflowParents(child: HTMLElement): HTMLElement[] {
       overflowY === 'scroll'
     ) {
       results.push(parentElement);
+    }
+
+    if (computedStyle.position === 'fixed') {
+      break;
     }
 
     parentElement = parentElement.parentNode;
