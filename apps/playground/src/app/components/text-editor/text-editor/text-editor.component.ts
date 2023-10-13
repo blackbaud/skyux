@@ -9,6 +9,7 @@ import {
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import {
   SkyTextEditorMenuType,
+  SkyTextEditorLinkWindowOptionsType,
   SkyTextEditorToolbarActionType,
 } from '@skyux/text-editor';
 
@@ -57,7 +58,9 @@ export class TextEditorComponent implements OnInit {
     'link'
   ];
 
-  public openLinksInNewWindow = true;
+  public linkWindowOptions: SkyTextEditorLinkWindowOptionsType[] = [
+    'new'
+  ];
 
   constructor(
     private formBuilder: FormBuilder,
