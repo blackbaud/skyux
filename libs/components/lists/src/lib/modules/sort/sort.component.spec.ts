@@ -124,7 +124,9 @@ describe('Sort component', () => {
   }));
 
   it('should use the content info provider for aria label when applicable', () => {
-    contentInfo.patchInfo({ descriptor: 'constituents' });
+    contentInfo.patchInfo({
+      descriptor: { value: 'constituents', type: 'text' },
+    });
     fixture.detectChanges();
 
     const dropdownButtonEl = getDropdownButtonEl();
@@ -134,7 +136,9 @@ describe('Sort component', () => {
   });
 
   it('should not use the content info provider for aria label when overwritten', () => {
-    contentInfo.patchInfo({ descriptor: 'constituents' });
+    contentInfo.patchInfo({
+      descriptor: { value: 'constituents', type: 'text' },
+    });
     component.ariaLabel = 'Overwritten label';
     fixture.detectChanges();
 

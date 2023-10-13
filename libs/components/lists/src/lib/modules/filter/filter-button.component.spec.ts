@@ -68,7 +68,9 @@ describe('Filter button', () => {
   });
 
   it('should use the content info provider for aria label when applicable', () => {
-    contentInfoProvider.patchInfo({ descriptor: 'constituents' });
+    contentInfoProvider.patchInfo({
+      descriptor: { value: 'constituents', type: 'text' },
+    });
     fixture.detectChanges();
 
     const button = nativeElement.querySelector('.sky-btn');
@@ -76,7 +78,9 @@ describe('Filter button', () => {
   });
 
   it('should not use the default input provider for aria label when overwritten', () => {
-    contentInfoProvider.patchInfo({ descriptor: 'constituents' });
+    contentInfoProvider.patchInfo({
+      descriptor: { value: 'constituents', type: 'text' },
+    });
     component.ariaLabel = 'Overwritten label';
     fixture.detectChanges();
 

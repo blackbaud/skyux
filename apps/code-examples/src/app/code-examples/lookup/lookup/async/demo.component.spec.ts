@@ -79,4 +79,32 @@ describe('Lookup asynchronous search demo', () => {
       [{ name: 'Shirley' }, { name: 'Bernard' }]
     );
   });
+
+  it('should respect the selection descriptor', async () => {
+    const { lookupHarness } = await setupTest();
+
+    mockSvc.search.and.callFake(() =>
+      of({
+        hasMore: false,
+        people: [
+          {
+            id: '21',
+            name: 'Bernard',
+          },
+        ],
+        totalCount: 1,
+      })
+    );
+
+    await lookupHarness?.clickShowMoreButton();
+
+    const picker = await lookupHarness?.getShowMorePicker();
+
+    await expectAsync(picker?.getSearchAriaLabel()).toBeResolvedTo(
+      'Search names'
+    );
+    await expectAsync(picker?.getSaveButtonAriaLabel()).toBeResolvedTo(
+      'Select names'
+    );
+  });
 });

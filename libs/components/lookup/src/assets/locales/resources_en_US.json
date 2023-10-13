@@ -63,14 +63,6 @@
     "_description": "Default show more modal title using selection context",
     "message": "Select {0}"
   },
-  "skyux_lookup_show_more_modal_title_single": {
-    "_description": "Default show more modal title for single select mode",
-    "message": "Select an option"
-  },
-  "skyux_lookup_show_more_modal_title_multiple": {
-    "_description": "Default show more modal title for multiple select mode",
-    "message": "Select options"
-  },
   "skyux_lookup_show_more_no_results": {
     "_description": "Placeholder text for lookup's show more modal when no results are found",
     "message": "No matches found"

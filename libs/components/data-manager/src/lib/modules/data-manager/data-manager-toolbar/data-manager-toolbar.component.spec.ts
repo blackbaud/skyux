@@ -876,7 +876,7 @@ describe('SkyDataManagerToolbarComponent', () => {
 
       expect(patchInfoSpy.calls.count()).toBe(1);
       expect(patchInfoSpy.calls.all()[0].args).toEqual([
-        { descriptor: 'constituents' },
+        { descriptor: { value: 'constituents', type: 'text' } },
       ]);
 
       spyOn(dataManagerService, 'getViewById').and.returnValue({

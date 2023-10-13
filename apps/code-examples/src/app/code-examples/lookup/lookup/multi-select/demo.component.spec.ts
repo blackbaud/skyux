@@ -49,4 +49,19 @@ describe('Lookup multi-select demo', () => {
       fixture.componentInstance.favoritesForm.controls.favoriteNames.value
     ).toEqual([{ name: 'Shirley' }, { name: 'Ben' }]);
   });
+
+  it('should respect the selection descriptor', async () => {
+    const { lookupHarness } = await setupTest();
+
+    await lookupHarness?.clickShowMoreButton();
+
+    const picker = await lookupHarness?.getShowMorePicker();
+
+    await expectAsync(picker?.getSearchAriaLabel()).toBeResolvedTo(
+      'Search names'
+    );
+    await expectAsync(picker?.getSaveButtonAriaLabel()).toBeResolvedTo(
+      'Select names'
+    );
+  });
 });

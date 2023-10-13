@@ -1,5 +1,29 @@
 # Changelog
 
+## [9.6.0](https://github.com/blackbaud/skyux/compare/9.5.1...9.6.0) (2023-10-10)
+
+
+### Features
+
+* **components/core:** update content info provider to support element IDs, create screen reader label directive ([#1783](https://github.com/blackbaud/skyux/issues/1783)) ([e7c3aaf](https://github.com/blackbaud/skyux/commit/e7c3aafe02eb0414ed72b3c23782214a3d547914))
+* **components/lookup:** lookup show more modal native picker configurations include a `selectionDescriptor` which passes context to aria labels and the modal title ([#1797](https://github.com/blackbaud/skyux/issues/1797)) ([e084886](https://github.com/blackbaud/skyux/commit/e0848860591259cf71f838b2a077263f3cc0326d))
+
+
+### Bug Fixes
+
+* **components/core:** prevent resize observer loop error ([#1790](https://github.com/blackbaud/skyux/issues/1790)) ([#1794](https://github.com/blackbaud/skyux/issues/1794)) ([c30e707](https://github.com/blackbaud/skyux/commit/c30e707a96e42fea0398a19ef39dbe3d8b33e524))
+* **components/forms:** toggle switch buttons will no point to the visible label via `aria-labelledby` when the `ariaLabel` input is given ([#1802](https://github.com/blackbaud/skyux/issues/1802)) ([9fab02d](https://github.com/blackbaud/skyux/commit/9fab02d828b3f9ea5f340ac9fddf388b4bf4b598))
+* **components/layout:** fix action button responsive behavior in modals ([#1798](https://github.com/blackbaud/skyux/issues/1798)) ([b4b4df0](https://github.com/blackbaud/skyux/commit/b4b4df0b0ed954ea3db724b01e913209be7de98b))
+* **components/lookup:** autocomplete position in modal with omnibar ([#1799](https://github.com/blackbaud/skyux/issues/1799)) ([#1801](https://github.com/blackbaud/skyux/issues/1801)) ([8d03883](https://github.com/blackbaud/skyux/commit/8d038836eb1b659a4ecc4e30d24ab2e0a8946b5c))
+
+## [8.10.6](https://github.com/blackbaud/skyux/compare/8.10.5...8.10.6) (2023-10-10)
+
+
+### Bug Fixes
+
+* **components/core:** prevent resize observer loop error ([#1790](https://github.com/blackbaud/skyux/issues/1790)) ([143431f](https://github.com/blackbaud/skyux/commit/143431f382046ee7d6f258fef741e2f62242248f))
+* **components/lookup:** autocomplete position in modal with omnibar ([#1799](https://github.com/blackbaud/skyux/issues/1799)) ([13d4919](https://github.com/blackbaud/skyux/commit/13d4919fa24c9a8dade82226a3914dcb93226137))
+
 ## [9.5.1](https://github.com/blackbaud/skyux/compare/9.5.0...9.5.1) (2023-10-09)
 
 
