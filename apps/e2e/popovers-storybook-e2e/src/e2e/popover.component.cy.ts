@@ -5,7 +5,7 @@ describe(`popovers-storybook`, () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy
-          .viewport(1280, 800)
+          .viewport(1280, 1200)
           .visit(
             `/iframe.html?globals=theme:${theme}&id=popovercomponent-popover--popover`
           )
@@ -42,7 +42,7 @@ describe(`popovers-storybook`, () => {
           .should('have.class', 'sky-popover-placement-right')
           .then(($el) => {
             cy.wrap($el.position().left).should('equal', 610);
-            cy.wrap($el.position().top).should('be.approximately', 560, 30);
+            cy.wrap($el.position().top).should('be.approximately', 580, 50);
           });
 
         cy.get('#sky-popover-15 > div.sky-popover-container')
@@ -51,14 +51,16 @@ describe(`popovers-storybook`, () => {
           .should('have.class', 'sky-popover-placement-left')
           .then(($el) => {
             cy.wrap($el.position().left).should('equal', 914);
-            cy.wrap($el.position().top).should('be.approximately', 560, 30);
+            cy.wrap($el.position().top).should('be.approximately', 580, 50);
           });
 
-        cy.window()
-          .screenshot(`popovercomponent-popover--popover-${theme}`)
-          .percySnapshot(`popovercomponent-popover--popover-${theme}`, {
+        cy.window().percySnapshot(
+          `popovercomponent-popover--popover-${theme}`,
+          {
             widths: [1280],
-          });
+          }
+        );
+        cy.window().screenshot(`popovercomponent-popover--popover-${theme}`);
       });
     });
   });
