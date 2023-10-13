@@ -300,7 +300,10 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe(() => {
           /* istanbul ignore else */
-          if (this.#doc.defaultView?.visualViewport) {
+          if (
+            this.#doc.defaultView?.visualViewport &&
+            this.overlayRef?.nativeElement
+          ) {
             this.#renderer.setStyle(
               this.overlayRef?.nativeElement,
               'top',

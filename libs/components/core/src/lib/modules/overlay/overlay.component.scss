@@ -7,7 +7,6 @@
   height: 100%;
   display: flex;
   pointer-events: auto;
-  overflow: hidden;
 
   &-position {
     &-absolute {
@@ -16,8 +15,8 @@
 
     &-fixed {
       position: fixed;
+      overflow: hidden;
       height: calc(var(--skyux-vh, 1vh) * 100);
-      -webkit-overflow-scrolling: touch;
     }
   }
 }
