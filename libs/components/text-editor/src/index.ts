@@ -4,6 +4,7 @@ export { SkyTextEditorFont } from './lib/modules/text-editor/types/font-state';
 export { SkyTextEditorMenuType } from './lib/modules/text-editor/types/menu-type';
 export { SkyTextEditorStyleState } from './lib/modules/text-editor/types/style-state';
 export { SkyTextEditorMergeField } from './lib/modules/text-editor/types/text-editor-merge-field';
+export { SkyTextEditorLinkWindowOptionsType } from './lib/modules/text-editor/types/link-window-options-type';
 export { SkyTextEditorToolbarActionType } from './lib/modules/text-editor/types/toolbar-action-type';
 
 export { SkyTextEditorModule } from './lib/modules/text-editor/text-editor.module';
