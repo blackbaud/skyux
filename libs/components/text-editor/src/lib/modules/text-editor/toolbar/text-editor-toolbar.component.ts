@@ -32,6 +32,7 @@ import { SkyFormsUtility } from '../../shared/forms-utility';
 import { STYLE_STATE_DEFAULTS } from '../defaults/style-state-defaults';
 import { SkyTextEditorAdapterService } from '../services/text-editor-adapter.service';
 import { SkyTextEditorFont } from '../types/font-state';
+import { SkyTextEditorLinkWindowOptionsType } from '../types/link-window-options-type';
 import { SkyTextEditorStyleState } from '../types/style-state';
 import { SkyTextEditorToolbarActionType } from '../types/toolbar-action-type';
 import { SkyUrlModalContext } from '../url-modal/text-editor-url-modal-context';
@@ -79,7 +80,7 @@ export class SkyTextEditorToolbarComponent implements OnInit {
   public toolbarActions: SkyTextEditorToolbarActionType[] = [];
 
   @Input()
-  public openLinksInNewWindowOnly: boolean;
+  public linkWindowOptions: SkyTextEditorLinkWindowOptionsType[] = [];
 
   @Input()
   public set styleState(value: SkyTextEditorStyleState) {
@@ -163,7 +164,7 @@ export class SkyTextEditorToolbarComponent implements OnInit {
         provide: SkyUrlModalContext,
         useValue: {
           urlResult: currentLink,
-          openLinksInNewWindowOnly: this.openLinksInNewWindowOnly
+          linkWindowOptions: this.linkWindowOptions
         }
       }
     ]);

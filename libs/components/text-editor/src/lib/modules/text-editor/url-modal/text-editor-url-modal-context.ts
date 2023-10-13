@@ -1,3 +1,4 @@
+import { SkyTextEditorLinkWindowOptionsType } from '../types/link-window-options-type';
 import { UrlModalResult } from './text-editor-url-modal-result';
 
 /**
@@ -5,5 +6,5 @@ import { UrlModalResult } from './text-editor-url-modal-result';
  */
 export class SkyUrlModalContext {
   public urlResult: UrlModalResult | undefined;
-  public openLinksInNewWindowOnly: boolean | undefined;
+  public linkWindowOptions: SkyTextEditorLinkWindowOptionsType[] | undefined;
 }
