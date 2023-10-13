@@ -2,6 +2,9 @@ import { HttpParams, HttpUrlEncodingCodec } from '@angular/common/http';
 
 import { SkyuxConfigParams } from './config-params';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type QueryParams = Record<string, any>;
+
 /**
  * Override Angular's default encoder because it excludes certain characters.
  * @see https://github.com/angular/angular/blob/cb31dbc75ca4141d61cec3ba6e60505198208a0a/packages/common/http/src/params.ts#L96-L111
@@ -181,11 +184,7 @@ export class SkyAppRuntimeConfigParams {
    * @param url The url to update
    * @param queryParams Optional query parameters to include in the constructed url
    */
-  public getLinkUrl(
-    url: string,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    queryParams?: Record<string, any>
-  ): string {
+  public getLinkUrl(url: string, queryParams?: QueryParams): string {
     return this.#buildUrlWithParams(
       url,
       new Set([
@@ -199,8 +198,7 @@ export class SkyAppRuntimeConfigParams {
   #buildUrlWithParams(
     url: string,
     excludeParams: Set<string>,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    queryParams?: Record<string, any>
+    queryParams?: QueryParams
   ): string {
     const [beforeFragment, fragment] = url.split('#', 2);
     const urlParams = getUrlSearchParams(url);
