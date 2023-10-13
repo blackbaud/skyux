@@ -29,7 +29,7 @@ import {
   Subscription,
   fromEvent,
 } from 'rxjs';
-import { takeUntil, throttleTime } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 import { SkyCoreAdapterService } from '../adapter-service/adapter.service';
 import { SkyIdService } from '../id/id.service';
@@ -297,7 +297,7 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
     ) {
       // Safari on iOS allows fixed position elements to scroll with the page.
       fromEvent(this.#doc.defaultView.visualViewport, 'scroll')
-        .pipe(takeUntil(this.#ngUnsubscribe), throttleTime(10))
+        .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe(() => {
           /* istanbul ignore else */
           if (this.#doc.defaultView?.visualViewport) {

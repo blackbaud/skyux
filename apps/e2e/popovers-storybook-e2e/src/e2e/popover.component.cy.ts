@@ -18,6 +18,42 @@ describe(`popovers-storybook`, () => {
           .should('be.visible')
           .should('have.length', 16);
 
+        cy.get('#sky-popover-12 > div.sky-popover-container')
+          .should('exist')
+          .should('be.visible')
+          .should('have.class', 'sky-popover-placement-above')
+          .then(($el) => {
+            cy.wrap($el.position().left).should('equal', 12);
+            cy.wrap($el.position().top).should('be.approximately', 580, 50);
+          });
+
+        cy.get('#sky-popover-13 > div.sky-popover-container')
+          .should('exist')
+          .should('be.visible')
+          .should('have.class', 'sky-popover-placement-below')
+          .then(($el) => {
+            cy.wrap($el.position().left).should('equal', 312);
+            cy.wrap($el.position().top).should('be.approximately', 580, 50);
+          });
+
+        cy.get('#sky-popover-14 > div.sky-popover-container')
+          .should('exist')
+          .should('be.visible')
+          .should('have.class', 'sky-popover-placement-right')
+          .then(($el) => {
+            cy.wrap($el.position().left).should('equal', 610);
+            cy.wrap($el.position().top).should('be.approximately', 560, 30);
+          });
+
+        cy.get('#sky-popover-15 > div.sky-popover-container')
+          .should('exist')
+          .should('be.visible')
+          .should('have.class', 'sky-popover-placement-left')
+          .then(($el) => {
+            cy.wrap($el.position().left).should('equal', 914);
+            cy.wrap($el.position().top).should('be.approximately', 560, 30);
+          });
+
         cy.get('body')
           .screenshot(`popovercomponent-popover--popover-${theme}`)
           .percySnapshot(`popovercomponent-popover--popover-${theme}`, {

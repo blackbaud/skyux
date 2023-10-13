@@ -63,8 +63,9 @@ export function getOverflowParents(child: HTMLElement): HTMLElement[] {
     parentElement !== bodyElement &&
     parentElement instanceof HTMLElement
   ) {
-    const computedStyle = window.getComputedStyle(parentElement, undefined);
-    const overflowY = computedStyle.overflowY.toLowerCase();
+    const overflowY = window
+      .getComputedStyle(parentElement, undefined)
+      .overflowY.toLowerCase();
 
     if (
       overflowY === 'auto' ||
@@ -72,10 +73,6 @@ export function getOverflowParents(child: HTMLElement): HTMLElement[] {
       overflowY === 'scroll'
     ) {
       results.push(parentElement);
-    }
-
-    if (computedStyle.position === 'fixed') {
-      break;
     }
 
     parentElement = parentElement.parentNode;

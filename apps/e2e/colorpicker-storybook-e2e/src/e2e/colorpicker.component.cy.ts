@@ -25,6 +25,11 @@ describe('colorpicker-storybook', () => {
         )
       );
       it('should render the components', () => {
+        cy.get('#ready').should('exist');
+        cy.get('#sky-colorpicker-button--1')
+          .should('exist')
+          .should('be.visible')
+          .click();
         cy.get('app-colorpicker')
           .should('exist')
           .should('be.visible')
@@ -39,6 +44,7 @@ describe('colorpicker-storybook', () => {
 
       colorpickerVariations.forEach((colorpicker) => {
         it(`should open the ${colorpicker.description}`, () => {
+          cy.get('#ready').should('exist');
           cy.get('app-colorpicker').should('exist').should('be.visible');
           cy.get(`#${colorpicker.id} .sky-colorpicker-button`)
             .should('exist')

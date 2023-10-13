@@ -76,6 +76,6 @@ export class PopoverComponent implements AfterViewInit {
 
     setTimeout(() => {
       this.ready.next(true);
-    }, 100);
+    }, 1200);
   }
 }
