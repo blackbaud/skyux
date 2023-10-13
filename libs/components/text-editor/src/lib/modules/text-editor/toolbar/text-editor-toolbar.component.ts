@@ -5,14 +5,14 @@ import {
   Component,
   Input,
   OnInit,
-  inject
+  inject,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   SkyColorpickerMessage,
   SkyColorpickerMessageType,
   SkyColorpickerModule,
-  SkyColorpickerOutput
+  SkyColorpickerOutput,
 } from '@skyux/colorpicker';
 import { SkyCheckboxModule } from '@skyux/forms';
 import { SkyIconModule } from '@skyux/indicators';
@@ -21,7 +21,7 @@ import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 import {
   SkyDropdownMessage,
   SkyDropdownMessageType,
-  SkyDropdownModule
+  SkyDropdownModule,
 } from '@skyux/popovers';
 import { SkyThemeModule } from '@skyux/theme';
 
@@ -56,8 +56,8 @@ import { UrlTarget } from '../url-modal/text-editor-url-target';
     SkyDropdownModule,
     SkyIconModule,
     SkyThemeModule,
-    SkyToolbarModule
-  ]
+    SkyToolbarModule,
+  ],
 })
 export class SkyTextEditorToolbarComponent implements OnInit {
   @Input()
@@ -135,11 +135,11 @@ export class SkyTextEditorToolbarComponent implements OnInit {
   public execCommand(command: string, value = ''): void {
     this.#adapterService.execCommand({
       command: command,
-      value: value
+      value: value,
     });
     this.styleState = {
       ...this.styleState,
-      ...this.#adapterService.getStyleState()
+      ...this.#adapterService.getStyleState(),
     };
   }
 
@@ -164,9 +164,9 @@ export class SkyTextEditorToolbarComponent implements OnInit {
         provide: SkyUrlModalContext,
         useValue: {
           urlResult: currentLink,
-          linkWindowOptions: this.linkWindowOptions
-        }
-      }
+          linkWindowOptions: this.linkWindowOptions,
+        },
+      },
     ]);
     inputModal.closed.subscribe((result: SkyModalCloseArgs) => {
       if (result.reason === 'save' && priorSelection) {
@@ -188,10 +188,10 @@ export class SkyTextEditorToolbarComponent implements OnInit {
           this.execCommand(
             'insertHTML',
             '<a href="' +
-            result.data.url +
-            '" rel="noopener noreferrer" target="_blank">' +
-            sText +
-            '</a>'
+              result.data.url +
+              '" rel="noopener noreferrer" target="_blank">' +
+              sText +
+              '</a>'
           );
         }
       }
@@ -215,7 +215,7 @@ export class SkyTextEditorToolbarComponent implements OnInit {
     this.#adapterService.setFontSize(size);
     this.styleState = {
       ...this.styleState,
-      ...this.#adapterService.getStyleState()
+      ...this.#adapterService.getStyleState(),
     };
   }
 
@@ -234,7 +234,7 @@ export class SkyTextEditorToolbarComponent implements OnInit {
       .subscribe(() => {
         this.styleState = {
           ...this.styleState,
-          ...this.#adapterService.getStyleState()
+          ...this.#adapterService.getStyleState(),
         };
         this.#closeDropdowns();
         this.#changeDetector.detectChanges();
@@ -243,7 +243,7 @@ export class SkyTextEditorToolbarComponent implements OnInit {
 
   #closeDropdowns(): void {
     const message: SkyColorpickerMessage = {
-      type: SkyColorpickerMessageType.Close
+      type: SkyColorpickerMessageType.Close,
     };
     this.colorpickerStream.next(message);
     this.backColorpickerStream.next(message);

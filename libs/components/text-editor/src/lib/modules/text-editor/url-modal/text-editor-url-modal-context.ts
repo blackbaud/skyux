@@ -1,4 +1,5 @@
 import { SkyTextEditorLinkWindowOptionsType } from '../types/link-window-options-type';
+
 import { UrlModalResult } from './text-editor-url-modal-result';
 
 /**

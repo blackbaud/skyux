@@ -31,8 +31,8 @@ const queryStringParamKey = '?Subject=';
     SkyInputBoxModule,
     SkyTabsModule,
     SkyTextEditorResourcesModule,
-    NgIf
-  ]
+    NgIf,
+  ],
 })
 export class SkyTextEditorUrlModalComponent {
   public set activeTab(value: number) {
@@ -76,8 +76,8 @@ export class SkyTextEditorUrlModalComponent {
   readonly #modalInstance = inject(SkyModalInstance);
 
   constructor() {
-    if(this.#modalContext.linkWindowOptions?.length === 1) {
-      if(this.#modalContext.linkWindowOptions.includes('new')) {
+    if (this.#modalContext.linkWindowOptions?.length === 1) {
+      if (this.#modalContext.linkWindowOptions.includes('new')) {
         this.openLinksInNewWindowOnly = true;
         this.target = 1;
       }

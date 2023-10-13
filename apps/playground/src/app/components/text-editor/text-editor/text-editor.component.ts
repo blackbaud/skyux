@@ -8,8 +8,8 @@ import {
 } from '@angular/forms';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import {
-  SkyTextEditorMenuType,
   SkyTextEditorLinkWindowOptionsType,
+  SkyTextEditorMenuType,
   SkyTextEditorToolbarActionType,
 } from '@skyux/text-editor';
 
@@ -55,12 +55,10 @@ export class TextEditorComponent implements OnInit {
     'alignment',
     'indentation',
     'undo-redo',
-    'link'
+    'link',
   ];
 
-  public linkWindowOptions: SkyTextEditorLinkWindowOptionsType[] = [
-    'new'
-  ];
+  public linkWindowOptions: SkyTextEditorLinkWindowOptionsType[] = ['new'];
 
   constructor(
     private formBuilder: FormBuilder,
