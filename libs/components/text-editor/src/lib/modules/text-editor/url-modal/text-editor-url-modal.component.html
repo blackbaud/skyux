@@ -50,12 +50,9 @@
           </select>
         </sky-input-box>
         <ng-template #onlyOpenLinksInNewWindow>
-          <sky-input-box stacked="true" class="sky-form-group">
-            <label class="sky-control-label">
-              {{ 'skyux_text_editor_url_modal_open_in_new_window_label' | skyLibResources }}
-            </label>
-            <input type="text" value="{{ 'skyux_text_editor_url_modal_new_option_label' | skyLibResources }}" readonly>
-          </sky-input-box>
+          <div class="sky-font-deemphasized">
+            {{ 'skyux_text_editor_url_modal_open_in_new_window_label' | skyLibResources }}
+          </div>
         </ng-template>
       </sky-tab>
       <sky-tab tabHeading="Email address">
