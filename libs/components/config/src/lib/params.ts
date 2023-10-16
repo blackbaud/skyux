@@ -2,9 +2,6 @@ import { HttpParams, HttpUrlEncodingCodec } from '@angular/common/http';
 
 import { SkyuxConfigParams } from './config-params';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type QueryParams = Record<string, any>;
-
 /**
  * Override Angular's default encoder because it excludes certain characters.
  * @see https://github.com/angular/angular/blob/cb31dbc75ca4141d61cec3ba6e60505198208a0a/packages/common/http/src/params.ts#L96-L111
@@ -181,34 +178,38 @@ export class SkyAppRuntimeConfigParams {
 
   /**
    * Adds the current params to the supplied link URL.
-   * @param url The url to update
-   * @param queryParams Optional query parameters to include in the constructed url
+   * @param url The url to update.
+   * @param queryParams Optional query parameters to include in the constructed url.
    */
-  public getLinkUrl(url: string, queryParams?: QueryParams): string {
+  public getLinkUrl(
+    url: string,
+    queryParams?: Record<string, string | number | boolean | null | undefined>
+  ): string {
+    const queryParamsMap = queryParams && this.#convertToCleanMap(queryParams);
+
     return this.#buildUrlWithParams(
       url,
       new Set([
         ...this.#excludeFromRequestsParams,
         ...this.#excludeFromLinksParams,
       ]),
-      queryParams
+      queryParamsMap
     );
   }
 
   #buildUrlWithParams(
     url: string,
     excludeParams: Set<string>,
-    queryParams?: QueryParams
+    queryParams?: Map<string, string | number | boolean>
   ): string {
-    const [beforeFragment, fragment] = url.split('#', 2);
     const urlParams = getUrlSearchParams(url);
 
-    // Determine if the url params need to be modified
-    const urlParamsRequireModification = !!urlParams
+    // Determine if the url params need to be modified.
+    const urlParamsRequireModification = urlParams
       .keys()
-      .find(
-        (key) => excludeParams.has(key) || (queryParams && queryParams[key])
-      );
+      .some((key) => excludeParams.has(key) || queryParams?.has(key));
+
+    const [beforeFragment, fragment] = url.split('#', 2);
 
     const root = urlParamsRequireModification
       ? beforeFragment.split('?')[0]
@@ -218,25 +219,21 @@ export class SkyAppRuntimeConfigParams {
       ? urlParams
       : getUrlSearchParams('');
 
-    // Remove excluded params
+    // Remove excluded params.
     if (urlParamsRequireModification) {
       for (const paramName of excludeParams.keys()) {
         unifiedParams = unifiedParams.delete(paramName);
       }
     }
 
-    // Add provided parameters to the URL which are not on the exclusion list
-    // Respect pre-existing params which already have values
+    // Add provided parameters to the URL.
     if (queryParams) {
-      for (const [paramName, decodedValue] of Object.entries(queryParams)) {
-        if (decodedValue) {
-          unifiedParams = unifiedParams.set(paramName, decodedValue);
-        }
+      for (const [paramName, decodedValue] of queryParams.entries()) {
+        unifiedParams = unifiedParams.set(paramName, decodedValue);
       }
     }
 
-    // Add default parameters to the URL which are not on the exclusion list
-    // Respect pre-existing params which already have values
+    // Respect pre-existing params which already have values.
     for (const key of this.getAllKeys()) {
       if (
         !excludeParams.has(key) &&
@@ -259,6 +256,19 @@ export class SkyAppRuntimeConfigParams {
       root +
       (joinedParams.length === 0 ? '' : `${delimiter}${joinedParams}`) +
       (fragment ? `#${fragment}` : '')
+    );
+  }
+
+  /**
+   * Removes undefined and null values from the given object and converts to a map.
+   */
+  #convertToCleanMap(
+    obj: Record<string, string | number | boolean | null | undefined>
+  ): Map<string, string | number | boolean> {
+    return new Map(
+      Object.entries(obj).filter(
+        ([, value]) => value !== undefined && value !== null
+      ) as [string, string | number | boolean][]
     );
   }
 }

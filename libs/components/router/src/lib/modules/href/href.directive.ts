@@ -10,12 +10,13 @@ import {
   Output,
   Renderer2,
 } from '@angular/core';
-import { Params, Router, UrlTree } from '@angular/router';
+import { Router, UrlTree } from '@angular/router';
 import { SkyAppConfig, SkyAppRuntimeConfigParamsProvider } from '@skyux/config';
 
 import { SkyHrefResolverService } from './href-resolver.service';
 import { SkyHref } from './types/href';
 import { SkyHrefChange } from './types/href-change';
+import { SkyHrefQueryParams } from './types/href-query-params';
 
 type HrefChanges = { href: string; hidden: boolean };
 
@@ -44,8 +45,20 @@ export class SkyHrefDirective {
     return this.#_skyHref;
   }
 
+  /**
+   * A collection of query URL parameters.
+   */
   @Input()
-  public queryParams: Params | undefined;
+  public set queryParams(value: SkyHrefQueryParams | undefined) {
+    if (value !== this.#_queryParams) {
+      this.#_queryParams = value;
+      this.#applyChanges(this.#getChanges());
+    }
+  }
+
+  public get queryParams(): SkyHrefQueryParams | undefined {
+    return this.#_queryParams;
+  }
 
   /**
    * Set the behavior for when the link is not available to either hide the link or display unlinked text.
@@ -72,8 +85,8 @@ export class SkyHrefDirective {
 
   #href = '';
 
+  #_queryParams: SkyHrefQueryParams | undefined;
   #_skyHref = '';
-
   #_skyHrefElse: 'hide' | 'unlink' | undefined = 'hide';
 
   #router: Router;
