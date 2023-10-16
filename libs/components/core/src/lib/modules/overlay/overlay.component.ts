@@ -295,7 +295,7 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
       this.#doc.defaultView?.visualViewport &&
       this.#context.config.position === 'fixed'
     ) {
-      // Safari on iOS allows fixed position elements to scroll with the page.
+      // Safari on iOS allows the visual viewport to scroll, moving fixed position elements.
       fromEvent(this.#doc.defaultView.visualViewport, 'scroll')
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe(() => {
