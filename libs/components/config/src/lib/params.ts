@@ -265,10 +265,16 @@ export class SkyAppRuntimeConfigParams {
   #convertToCleanMap(
     obj: Record<string, string | number | boolean | null | undefined>
   ): Map<string, string | number | boolean> {
+    for (const key in obj) {
+      const value = obj[key];
+
+      if (value === undefined || value === null) {
+        delete obj[key];
+      }
+    }
+
     return new Map(
-      Object.entries(obj).filter(
-        ([, value]) => value !== undefined && value !== null
-      ) as [string, string | number | boolean][]
+      Object.entries(obj) as [string, string | number | boolean][]
     );
   }
 }
