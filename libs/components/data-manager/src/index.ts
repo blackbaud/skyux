@@ -14,13 +14,11 @@ export { SkyDataViewConfig } from './lib/modules/data-manager/models/data-view-c
 export { SkyDataViewState } from './lib/modules/data-manager/models/data-view-state';
 export { SkyDataViewStateOptions } from './lib/modules/data-manager/models/data-view-state-options';
 
-// Components and directives must be exported to support Angular's "partial" Ivy compiler.
-// Obscure names are used to indicate types are not part of public API.
-export { SkyDataManagerColumnPickerComponent as λ1 } from './lib/modules/data-manager/data-manager-column-picker/data-manager-column-picker.component';
-export { SkyDataManagerComponent as λ2 } from './lib/modules/data-manager/data-manager.component';
-export { SkyDataManagerToolbarLeftItemComponent as λ3 } from './lib/modules/data-manager/data-manager-toolbar/data-manager-toolbar-left-item.component';
-export { SkyDataManagerToolbarPrimaryItemComponent as λ4 } from './lib/modules/data-manager/data-manager-toolbar/data-manager-toolbar-primary-item.component';
-export { SkyDataManagerToolbarRightItemComponent as λ5 } from './lib/modules/data-manager/data-manager-toolbar/data-manager-toolbar-right-item.component';
-export { SkyDataManagerToolbarSectionComponent as λ6 } from './lib/modules/data-manager/data-manager-toolbar/data-manager-toolbar-section.component';
-export { SkyDataManagerToolbarComponent as λ7 } from './lib/modules/data-manager/data-manager-toolbar/data-manager-toolbar.component';
-export { SkyDataViewComponent as λ8 } from './lib/modules/data-manager/data-view.component';
+export { SkyDataManagerColumnPickerComponent } from './lib/modules/data-manager/data-manager-column-picker/data-manager-column-picker.component';
+export { SkyDataManagerComponent } from './lib/modules/data-manager/data-manager.component';
+export { SkyDataManagerToolbarLeftItemComponent } from './lib/modules/data-manager/data-manager-toolbar/data-manager-toolbar-left-item.component';
+export { SkyDataManagerToolbarPrimaryItemComponent } from './lib/modules/data-manager/data-manager-toolbar/data-manager-toolbar-primary-item.component';
+export { SkyDataManagerToolbarRightItemComponent } from './lib/modules/data-manager/data-manager-toolbar/data-manager-toolbar-right-item.component';
+export { SkyDataManagerToolbarSectionComponent } from './lib/modules/data-manager/data-manager-toolbar/data-manager-toolbar-section.component';
+export { SkyDataManagerToolbarComponent } from './lib/modules/data-manager/data-manager-toolbar/data-manager-toolbar.component';
+export { SkyDataViewComponent } from './lib/modules/data-manager/data-view.component';
