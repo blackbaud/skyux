@@ -36,7 +36,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          repository: ${{ github.event.head.repo.full_name || github.repository }}
+          repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
       - uses: actions/setup-node@v3
         id: setup-node
