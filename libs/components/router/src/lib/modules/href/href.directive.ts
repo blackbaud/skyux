@@ -217,7 +217,9 @@ export class SkyHrefDirective {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         this.#skyAppConfig?.runtime.params ?? this.#paramsProvider!.params;
 
-      this.#href = params.getLinkUrl(this.#route.url, this.queryParams);
+      this.#href = params.getLinkUrl(this.#route.url, {
+        queryParams: this.queryParams ?? {},
+      });
 
       return {
         href: this.#href,

@@ -1,6 +1,9 @@
 import { HttpParams, HttpUrlEncodingCodec } from '@angular/common/http';
 
 import { SkyuxConfigParams } from './config-params';
+import { SkyAppRuntimeConfigParamsGetLinkUrlOptions } from './params-get-link-url-options';
+
+type QueryParams = Record<string, string | number | boolean>;
 
 /**
  * Override Angular's default encoder because it excludes certain characters.
@@ -32,6 +35,26 @@ function getUrlSearchParams(url: string): HttpParams {
     encoder: new UrlEncoder(),
     fromString: qs,
   });
+}
+
+/**
+ * Removes undefined and null values from an object.
+ */
+function filterUndefined(
+  obj: Record<string, unknown>
+): Record<string, unknown> {
+  // Clone the object to avoid modifying the original.
+  const clone = { ...obj };
+
+  for (const key in clone) {
+    const value = clone[key];
+
+    if (value === undefined || value === null) {
+      delete clone[key];
+    }
+  }
+
+  return clone;
 }
 
 export class SkyAppRuntimeConfigParams {
@@ -183,9 +206,10 @@ export class SkyAppRuntimeConfigParams {
    */
   public getLinkUrl(
     url: string,
-    queryParams?: Record<string, string | number | boolean | null | undefined>
+    options?: SkyAppRuntimeConfigParamsGetLinkUrlOptions
   ): string {
-    const queryParamsMap = queryParams && this.#convertToCleanMap(queryParams);
+    const filteredParams = (options?.queryParams &&
+      filterUndefined(options.queryParams)) as QueryParams | undefined;
 
     return this.#buildUrlWithParams(
       url,
@@ -193,21 +217,21 @@ export class SkyAppRuntimeConfigParams {
         ...this.#excludeFromRequestsParams,
         ...this.#excludeFromLinksParams,
       ]),
-      queryParamsMap
+      filteredParams
     );
   }
 
   #buildUrlWithParams(
     url: string,
     excludeParams: Set<string>,
-    queryParams?: Map<string, string | number | boolean>
+    queryParams?: QueryParams
   ): string {
     const urlParams = getUrlSearchParams(url);
 
     // Determine if the url params need to be modified.
     const urlParamsRequireModification = urlParams
       .keys()
-      .some((key) => excludeParams.has(key) || queryParams?.has(key));
+      .some((key) => excludeParams.has(key) || queryParams?.[key]);
 
     const [beforeFragment, fragment] = url.split('#', 2);
 
@@ -228,7 +252,7 @@ export class SkyAppRuntimeConfigParams {
 
     // Add provided parameters to the URL.
     if (queryParams) {
-      for (const [paramName, decodedValue] of queryParams.entries()) {
+      for (const [paramName, decodedValue] of Object.entries(queryParams)) {
         unifiedParams = unifiedParams.set(paramName, decodedValue);
       }
     }
@@ -256,25 +280,6 @@ export class SkyAppRuntimeConfigParams {
       root +
       (joinedParams.length === 0 ? '' : `${delimiter}${joinedParams}`) +
       (fragment ? `#${fragment}` : '')
-    );
-  }
-
-  /**
-   * Removes undefined and null values from the given object and converts to a map.
-   */
-  #convertToCleanMap(
-    obj: Record<string, string | number | boolean | null | undefined>
-  ): Map<string, string | number | boolean> {
-    for (const key in obj) {
-      const value = obj[key];
-
-      if (value === undefined || value === null) {
-        delete obj[key];
-      }
-    }
-
-    return new Map(
-      Object.entries(obj) as [string, string | number | boolean][]
     );
   }
 }
