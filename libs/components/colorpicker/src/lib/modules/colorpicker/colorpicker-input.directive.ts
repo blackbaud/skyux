@@ -47,6 +47,7 @@ const SKY_COLORPICKER_DEFAULT_COLOR = '#FFFFFF';
 @Directive({
   selector: '[skyColorpickerInput]',
   providers: [SKY_COLORPICKER_VALUE_ACCESSOR, SKY_COLORPICKER_VALIDATOR],
+  standalone: true,
 })
 export class SkyColorpickerInputDirective
   implements OnInit, OnChanges, ControlValueAccessor, Validator, OnDestroy

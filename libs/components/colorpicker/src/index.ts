@@ -10,7 +10,7 @@ export { SkyColorpickerOutput } from './lib/modules/colorpicker/types/colorpicke
 export { SkyColorpickerResult } from './lib/modules/colorpicker/types/colorpicker-result';
 export { SkyColorpickerRgba } from './lib/modules/colorpicker/types/colorpicker-rgba';
 
-// Components and directives must be exported to support Angular's "partial" Ivy compiler.
-// Obscure names are used to indicate types are not part of the public API.
-export { SkyColorpickerComponent as λ1 } from './lib/modules/colorpicker/colorpicker.component';
-export { SkyColorpickerInputDirective as λ2 } from './lib/modules/colorpicker/colorpicker-input.directive';
+// Now that these are standalone they can be exported directly thus removing the need to
+// import the SkyColorpickerModule in the consuming application.
+export { SkyColorpickerComponent } from './lib/modules/colorpicker/colorpicker.component';
+export { SkyColorpickerInputDirective } from './lib/modules/colorpicker/colorpicker-input.directive';

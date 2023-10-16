@@ -13,6 +13,7 @@ import { SkyColorpickerChangeColor } from './types/colorpicker-color';
  */
 @Directive({
   selector: '[skyColorpickerText]',
+  standalone: true,
 })
 export class SkyColorpickerTextDirective {
   @Output()

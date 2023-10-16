@@ -1,3 +1,4 @@
+import { NgClass, NgForOf, NgIf, SlicePipe } from '@angular/common';
 import {
   ChangeDetectorRef,
   Component,
@@ -22,13 +23,18 @@ import {
   SkyOverlayInstance,
   SkyOverlayService,
 } from '@skyux/core';
-import { SkyIconType } from '@skyux/indicators';
-import { SkyThemeService } from '@skyux/theme';
+import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyIconModule, SkyIconType } from '@skyux/indicators';
+import { SkyThemeModule, SkyThemeService } from '@skyux/theme';
 
 import { Subject, fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { SkyColorpickerResourcesModule } from '../shared/sky-colorpicker-resources.module';
+
 import { SliderDimension, SliderPosition } from './colorpicker-classes';
+import { SkyColorpickerSliderDirective } from './colorpicker-slider.directive';
+import { SkyColorpickerTextDirective } from './colorpicker-text.directive';
 import { SkyColorpickerService } from './colorpicker.service';
 import { SkyColorpickerChangeAxis } from './types/colorpicker-axis';
 import { SkyColorpickerChangeColor } from './types/colorpicker-color';
@@ -52,6 +58,19 @@ let componentIdIndex = 0;
   styleUrls: ['./colorpicker.component.scss'],
   providers: [SkyColorpickerService],
   encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [
+    NgClass,
+    NgForOf,
+    NgIf,
+    SkyColorpickerResourcesModule,
+    SkyColorpickerSliderDirective,
+    SkyColorpickerTextDirective,
+    SkyIconModule,
+    SkyInputBoxModule,
+    SkyThemeModule,
+    SlicePipe,
+  ],
 })
 export class SkyColorpickerComponent implements OnInit, OnDestroy {
   /**
