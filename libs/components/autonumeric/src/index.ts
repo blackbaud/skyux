@@ -2,6 +2,6 @@ export { SkyAutonumericOptionsProvider } from './lib/modules/autonumeric/autonum
 export { SkyAutonumericOptions } from './lib/modules/autonumeric/autonumeric-options';
 export { SkyAutonumericModule } from './lib/modules/autonumeric/autonumeric.module';
 
-// Components and directives must be exported to support Angular's "partial" Ivy compiler.
-// Obscure names are used to indicate types are not part of the public API.
-export { SkyAutonumericDirective as λ1 } from './lib/modules/autonumeric/autonumeric.directive';
+// Now that the SkyAutonumericDirective is standalone it can be exported directly thus removing the need to
+// import the SkyAutonumericModule in the consuming application.
+export { SkyAutonumericDirective } from './lib/modules/autonumeric/autonumeric.directive';
