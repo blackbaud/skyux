@@ -15,6 +15,14 @@ describe('forms-storybook', () => {
           .get('app-selection-box')
           .should('exist')
           .should('be.visible')
+          .end()
+          .get('app-selection-box sky-selection-box-header')
+          .should('contain.text', 'Icon')
+          .end()
+          .get('app-selection-box sky-selection-box-header')
+          .should('contain.text', 'No icon no description')
+          .end()
+          .get('app-selection-box')
           .screenshot(
             `selectionboxcomponent-selectionbox--selection-box-${theme}`
           )
