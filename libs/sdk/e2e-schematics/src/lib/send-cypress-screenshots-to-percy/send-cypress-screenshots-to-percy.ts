@@ -71,7 +71,6 @@ export function sendCypressScreenshotsToPercy(
                 <style>
                   *, *::before, *::after { margin: 0; padding: 0; font-size: 0; }
                   html, body { width: 100%; }
-                  body { min-height: ${height / 2}px; overflow: hidden; }
                   img { max-width: 100%; }
                 </style>
               </head>
