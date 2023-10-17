@@ -249,8 +249,6 @@ describe('SkyAppRuntimeConfigParams', () => {
       params.getLinkUrl('https://mysite.com?q1=1&q2=2', {
         queryParams: {
           q1: 5,
-          q5: null,
-          q6: undefined,
           q7: '',
           q8: false,
         },

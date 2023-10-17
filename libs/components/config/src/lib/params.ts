@@ -1,9 +1,8 @@
 import { HttpParams, HttpUrlEncodingCodec } from '@angular/common/http';
 
 import { SkyuxConfigParams } from './config-params';
-import { SkyAppRuntimeConfigParamsGetLinkUrlOptions } from './params-get-link-url-options';
-
-type QueryParams = Record<string, string | number | boolean>;
+import { SkyConfigGetLinkUrlOptions } from './types/get-link-url-options';
+import { SkyConfigQueryParams } from './types/query-params';
 
 /**
  * Override Angular's default encoder because it excludes certain characters.
@@ -35,26 +34,6 @@ function getUrlSearchParams(url: string): HttpParams {
     encoder: new UrlEncoder(),
     fromString: qs,
   });
-}
-
-/**
- * Removes undefined and null values from an object.
- */
-function filterUndefined(
-  obj: Record<string, unknown>
-): Record<string, unknown> {
-  // Clone the object to avoid modifying the original.
-  const clone = { ...obj };
-
-  for (const key in clone) {
-    const value = clone[key];
-
-    if (value === undefined || value === null) {
-      delete clone[key];
-    }
-  }
-
-  return clone;
 }
 
 export class SkyAppRuntimeConfigParams {
@@ -204,27 +183,21 @@ export class SkyAppRuntimeConfigParams {
    * @param url The url to update.
    * @param queryParams Optional query parameters to include in the constructed url.
    */
-  public getLinkUrl(
-    url: string,
-    options?: SkyAppRuntimeConfigParamsGetLinkUrlOptions
-  ): string {
-    const filteredParams = (options?.queryParams &&
-      filterUndefined(options.queryParams)) as QueryParams | undefined;
-
+  public getLinkUrl(url: string, options?: SkyConfigGetLinkUrlOptions): string {
     return this.#buildUrlWithParams(
       url,
       new Set([
         ...this.#excludeFromRequestsParams,
         ...this.#excludeFromLinksParams,
       ]),
-      filteredParams
+      options?.queryParams
     );
   }
 
   #buildUrlWithParams(
     url: string,
     excludeParams: Set<string>,
-    queryParams?: QueryParams
+    queryParams?: SkyConfigQueryParams
   ): string {
     const urlParams = getUrlSearchParams(url);
 
