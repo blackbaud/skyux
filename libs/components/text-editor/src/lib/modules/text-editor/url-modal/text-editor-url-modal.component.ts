@@ -1,7 +1,7 @@
 import { NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SkyIdModule } from '@skyux/core';
+import { SkyIdModule, SkyIdService } from '@skyux/core';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 import { SkyTabIndex, SkyTabsModule } from '@skyux/tabs';
@@ -64,6 +64,7 @@ export class SkyTextEditorUrlModalComponent {
 
   public emailAddressValid = false;
   public openLinksInNewWindowOnly = false;
+  public openInNewWindowLabelId: string;
   public subject = '';
   public target: number | string = 0;
   public valid = false;
@@ -75,7 +76,9 @@ export class SkyTextEditorUrlModalComponent {
   readonly #modalContext = inject(SkyUrlModalContext);
   readonly #modalInstance = inject(SkyModalInstance);
 
-  constructor() {
+  constructor(idService: SkyIdService) {
+    this.openInNewWindowLabelId = idService.generateId();
+
     if (this.#modalContext.linkWindowOptions?.length === 1) {
       if (this.#modalContext.linkWindowOptions.includes('new')) {
         this.openLinksInNewWindowOnly = true;

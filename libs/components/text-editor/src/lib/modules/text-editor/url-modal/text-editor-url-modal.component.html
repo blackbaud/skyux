@@ -23,6 +23,7 @@
               [(ngModel)]="url"
               skyId
               #urlInput="skyId"
+              [attr.aria-describedby]="openLinksInNewWindowOnly ? openInNewWindowLabelId : null"
             />
           </sky-input-box>
         </div>
@@ -54,7 +55,7 @@
           </select>
         </sky-input-box>
         <ng-template #onlyOpenLinksInNewWindow>
-          <div class="sky-font-deemphasized">
+          <div class="sky-font-deemphasized" [id]="openInNewWindowLabelId">
             {{
               'skyux_text_editor_url_modal_open_in_new_window_label'
                 | skyLibResources
