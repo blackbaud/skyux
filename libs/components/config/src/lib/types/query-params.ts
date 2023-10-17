@@ -1,4 +1,4 @@
 /**
  * A collection of query URL parameters.
  */
-export type SkyConfigQueryParams = Record<string, string | number | boolean>;
+export type SkyConfigQueryParams = Record<string, string>;

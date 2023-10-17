@@ -343,10 +343,8 @@ describe('SkyHref Directive', () => {
     fixture.componentInstance.queryParams = {
       a: 'foo',
       b: '',
-      c: 0,
-      d: false,
-      e: null,
-      f: undefined,
+      c: '0',
+      d: 'false',
     };
 
     fixture.detectChanges();

@@ -236,7 +236,7 @@ describe('SkyAppRuntimeConfigParams', () => {
   it('should add provided params to a url link', () => {
     const params = new SkyAppRuntimeConfigParams('', allowed);
     expect(
-      params.getLinkUrl('https://mysite.com', { queryParams: { q1: 5 } })
+      params.getLinkUrl('https://mysite.com', { queryParams: { q1: '5' } })
     ).toEqual('https://mysite.com?q1=5');
   });
 
@@ -248,9 +248,9 @@ describe('SkyAppRuntimeConfigParams', () => {
     expect(
       params.getLinkUrl('https://mysite.com?q1=1&q2=2', {
         queryParams: {
-          q1: 5,
+          q1: '5',
           q7: '',
-          q8: false,
+          q8: 'false',
         },
       })
     ).toEqual('https://mysite.com?q1=5&q2=2&q7=&q8=false&q3=3');
@@ -304,9 +304,9 @@ describe('SkyAppRuntimeConfigParams', () => {
     expect(
       params.getLinkUrl('https://mysite.com?a=10&c=13&f=6&m=14#foobar', {
         queryParams: {
-          a: 5,
-          m: 10,
-          n: 11,
+          a: '5',
+          m: '10',
+          n: '11',
         },
       })
     ).toEqual('https://mysite.com?a=5&c=13&f=6&m=10&n=11&d=43#foobar');

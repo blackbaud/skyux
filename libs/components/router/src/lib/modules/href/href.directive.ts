@@ -11,11 +11,7 @@ import {
   Renderer2,
 } from '@angular/core';
 import { Router, UrlTree } from '@angular/router';
-import {
-  SkyAppConfig,
-  SkyAppRuntimeConfigParamsProvider,
-  SkyConfigQueryParams,
-} from '@skyux/config';
+import { SkyAppConfig, SkyAppRuntimeConfigParamsProvider } from '@skyux/config';
 
 import { SkyHrefResolverService } from './href-resolver.service';
 import { SkyHref } from './types/href';
@@ -23,24 +19,6 @@ import { SkyHrefChange } from './types/href-change';
 import { SkyHrefQueryParams } from './types/href-query-params';
 
 type HrefChanges = { href: string; hidden: boolean };
-
-/**
- * Transforms SkyHrefQueryParams into SkyConfigQueryParams.
- */
-function toConfigQueryParams(params: SkyHrefQueryParams): SkyConfigQueryParams {
-  // Clone the object to avoid modifying the original.
-  const clone = { ...params };
-
-  for (const key in clone) {
-    const value = clone[key];
-
-    if (value === undefined || value === null) {
-      delete clone[key];
-    }
-  }
-
-  return clone as SkyConfigQueryParams;
-}
 
 @Directive({
   selector: '[skyHref]',
@@ -240,7 +218,7 @@ export class SkyHrefDirective {
         this.#skyAppConfig?.runtime.params ?? this.#paramsProvider!.params;
 
       this.#href = params.getLinkUrl(this.#route.url, {
-        queryParams: toConfigQueryParams(this.queryParams ?? {}),
+        queryParams: this.queryParams ?? {},
       });
 
       return {
