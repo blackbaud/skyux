@@ -324,8 +324,7 @@ export class SkyTextEditorComponent
   #_mergeFields: SkyTextEditorMergeField[] = [];
   #_menus = MENU_DEFAULTS;
   #_toolbarActions: SkyTextEditorToolbarActionType[] = TOOLBAR_ACTION_DEFAULTS;
-  #_linkWindowOptions: SkyTextEditorLinkWindowOptionsType[] =
-    LINK_WINDOW_OPTIONS_DEFAULT;
+  #_linkWindowOptions = LINK_WINDOW_OPTIONS_DEFAULT;
   #_disabled = false;
   #_initialStyleState = Object.assign({}, STYLE_STATE_DEFAULTS);
   #_placeholder = '';
