@@ -4,9 +4,11 @@ describe('forms-storybook', () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
-        cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=selectionboxcomponent-selectionbox--selection-box`
-        )
+        cy
+          .viewport(1280, 1200)
+          .visit(
+            `/iframe.html?globals=theme:${theme}&id=selectionboxcomponent-selectionbox--selection-box`
+          )
       );
       it('should render the component', () => {
         cy.get('#ready')
@@ -16,13 +18,24 @@ describe('forms-storybook', () => {
           .should('exist')
           .should('be.visible')
           .end()
+          .get('app-selection-box label.sky-selection-box')
+          .should('exist')
+          .should('be.visible')
+          .should('have.length', 6)
+          .then((el) => {
+            el.each((_, box) => {
+              cy.wrap(Cypress.$(box).outerHeight()).should('be.gte', 83);
+            });
+          })
+          .end()
           .get('app-selection-box sky-selection-box-header')
           .should('contain.text', 'Icon')
-          .end()
-          .get('app-selection-box sky-selection-box-header')
+          .should('contain.text', 'No icon')
+          .should('contain.text', 'Icon no description')
           .should('contain.text', 'No icon no description')
+          .should('contain.text', 'Disabled')
           .end()
-          .get('app-selection-box')
+          .window()
           .screenshot(
             `selectionboxcomponent-selectionbox--selection-box-${theme}`
           )

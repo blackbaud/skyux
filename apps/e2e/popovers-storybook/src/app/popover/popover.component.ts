@@ -1,8 +1,14 @@
-import { AfterViewInit, Component, ViewEncapsulation } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+} from '@angular/core';
 import {
   SkyPopoverMessage,
   SkyPopoverMessageType,
   SkyPopoverPlacement,
+  SkyPopoverType,
 } from '@skyux/popovers';
 
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -12,58 +18,23 @@ import { BehaviorSubject, Subject } from 'rxjs';
   templateUrl: './popover.component.html',
   styleUrls: ['./popover.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PopoverComponent implements AfterViewInit {
-  public ready = new BehaviorSubject(false);
+  public readonly ready = new BehaviorSubject(false);
+  public readonly placements: SkyPopoverPlacement[] = [
+    'above',
+    'below',
+    'right',
+    'left',
+  ];
+  public readonly titles: (string | undefined)[] = [undefined, 'Did you know?'];
+  public readonly popoverTypes: (SkyPopoverType | undefined)[] = [
+    undefined,
+    'danger',
+  ];
 
   public staticPopoverMessageStream = new Subject<SkyPopoverMessage>();
-
-  public configs: {
-    horizontalAlignment: string;
-    placement: SkyPopoverPlacement;
-    popoverTitle: string | undefined;
-  }[] = [
-    {
-      horizontalAlignment: 'center',
-      placement: 'above',
-      popoverTitle: undefined,
-    },
-    {
-      horizontalAlignment: 'center',
-      placement: 'below',
-      popoverTitle: undefined,
-    },
-    {
-      horizontalAlignment: 'center',
-      placement: 'right',
-      popoverTitle: undefined,
-    },
-    {
-      horizontalAlignment: 'center',
-      placement: 'left',
-      popoverTitle: undefined,
-    },
-    {
-      horizontalAlignment: 'center',
-      placement: 'above',
-      popoverTitle: 'Did you know?',
-    },
-    {
-      horizontalAlignment: 'center',
-      placement: 'below',
-      popoverTitle: 'Did you know?',
-    },
-    {
-      horizontalAlignment: 'center',
-      placement: 'right',
-      popoverTitle: 'Did you know?',
-    },
-    {
-      horizontalAlignment: 'center',
-      placement: 'left',
-      popoverTitle: 'Did you know?',
-    },
-  ];
 
   public ngAfterViewInit(): void {
     this.staticPopoverMessageStream.next({
