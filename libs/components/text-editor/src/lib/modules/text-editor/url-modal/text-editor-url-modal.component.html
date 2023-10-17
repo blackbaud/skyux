@@ -28,7 +28,7 @@
           </sky-input-box>
         </div>
         <sky-input-box
-          *ngIf="!openLinksInNewWindowOnly; else onlyOpenLinksInNewWindow"
+          *ngIf="allowAllOpenLinkOptions; else linksOpenInSpecificWindow"
           stacked="true"
           class="sky-form-group"
         >
@@ -54,8 +54,8 @@
             </option>
           </select>
         </sky-input-box>
-        <ng-template #onlyOpenLinksInNewWindow>
-          <div class="sky-font-deemphasized" [id]="openInNewWindowLabelId">
+        <ng-template #linksOpenInSpecificWindow>
+          <div *ngIf="openLinksInNewWindowOnly" class="sky-font-deemphasized" [id]="openInNewWindowLabelId">
             {{
               'skyux_text_editor_url_modal_open_in_new_window_label'
                 | skyLibResources

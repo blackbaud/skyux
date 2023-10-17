@@ -63,6 +63,7 @@ export class SkyTextEditorUrlModalComponent {
   }
 
   public emailAddressValid = false;
+  public allowAllOpenLinkOptions = true;
   public openLinksInNewWindowOnly = false;
   public openInNewWindowLabelId: string;
   public subject = '';
@@ -81,9 +82,14 @@ export class SkyTextEditorUrlModalComponent {
 
     this.openInNewWindowLabelId = idService.generateId();
 
-    if (linkWindowOptions?.length === 1 && linkWindowOptions[0] === 'new') {
-      this.openLinksInNewWindowOnly = true;
-      this.target = 1;
+    if (linkWindowOptions?.length === 1) {
+      this.allowAllOpenLinkOptions = false;
+      if (linkWindowOptions[0] === 'new') {
+        this.openLinksInNewWindowOnly = true;
+        this.target = 1;
+      } else {
+        this.target = 0;
+      }
     }
 
     if (this.#modalContext.urlResult) {
