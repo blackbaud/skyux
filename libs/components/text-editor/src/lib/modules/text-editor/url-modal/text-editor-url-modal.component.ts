@@ -77,13 +77,13 @@ export class SkyTextEditorUrlModalComponent {
   readonly #modalInstance = inject(SkyModalInstance);
 
   constructor(idService: SkyIdService) {
+    const linkWindowOptions = this.#modalContext.linkWindowOptions;
+
     this.openInNewWindowLabelId = idService.generateId();
 
-    if (this.#modalContext.linkWindowOptions?.length === 1) {
-      if (this.#modalContext.linkWindowOptions.includes('new')) {
-        this.openLinksInNewWindowOnly = true;
-        this.target = 1;
-      }
+    if (linkWindowOptions?.length === 1 && linkWindowOptions[0] === 'new') {
+      this.openLinksInNewWindowOnly = true;
+      this.target = 1;
     }
 
     if (this.#modalContext.urlResult) {
