@@ -9,7 +9,7 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyLogService, SkyMutationObserverService } from '@skyux/core';
+import { SkyLogService } from '@skyux/core';
 import { SkyScrollableHostService } from '@skyux/core';
 import { SkyInlineFormButtonLayout } from '@skyux/inline-form';
 
@@ -30,8 +30,6 @@ import { SkyRepeaterComponent } from './repeater.component';
 import { SkyRepeaterService } from './repeater.service';
 
 describe('Repeater item component', () => {
-  let mutationCallbacks: (() => void)[];
-
   // #region helpers
   function flushDropdownTimer(): void {
     flush();
@@ -107,18 +105,6 @@ describe('Repeater item component', () => {
     return fixture.nativeElement.querySelectorAll('.sky-repeater-item');
   }
 
-  /**
-   * Mocks the mutation observer callback on DOM change.
-   * Angular does not patch `MutationObserver` as a `Task` (like `setTimeout`) so observer callbacks
-   * never get triggered in a `fakeAsync` zone.
-   * See: https://github.com/angular/angular/issues/31695#issuecomment-425589295
-   */
-  function triggerMutationChange(fixture: ComponentFixture<any>): void {
-    mutationCallbacks[0]();
-    fixture.detectChanges();
-    tick();
-  }
-
   function validateDeprecatedCalled(
     deprecatedSpy: jasmine.Spy,
     expected: boolean
@@ -160,30 +146,7 @@ describe('Repeater item component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyRepeaterFixturesModule],
-      providers: [
-        {
-          provide: SkyMutationObserverService,
-          useValue: {
-            create: function (callback: () => void): {
-              observe: () => void;
-              disconnect: () => void;
-            } {
-              mutationCallbacks.push(callback);
-              return {
-                observe(): void {
-                  return;
-                },
-                disconnect(): void {
-                  return;
-                },
-              };
-            },
-          },
-        },
-      ],
     });
-
-    mutationCallbacks = [];
   });
 
   it('should default expand mode to "none" when no expand mode is specified', fakeAsync(() => {
@@ -279,64 +242,13 @@ describe('Repeater item component', () => {
     const reorderTopButtons = getReorderTopButtons(el);
     const expandButtons = getChevronButtons(el);
 
-    expect(reorderHandles[0].getAttribute('aria-label')).toEqual(
-      'Reorder Title 1'
-    );
-    expect(checkboxes[0].getAttribute('aria-label')).toEqual('Select Title 1');
+    expect(reorderHandles[0].getAttribute('aria-label')).toEqual('Reorder');
+    expect(checkboxes[0].getAttribute('aria-label')).toEqual('Select row');
     expect(reorderTopButtons[0].getAttribute('aria-label')).toEqual(
-      'Move Title 1 to top'
+      'Move to top'
     );
-    expect(expandButtons[0].getAttribute('aria-label')).toEqual(
-      'Expand Title 1'
-    );
-    expect(expandButtons[1].getAttribute('aria-label')).toEqual(
-      'Collapse Title 2'
-    );
-  }));
-
-  it('should update default aria labels when itemName is not defined and the title of an item changes', fakeAsync(() => {
-    const fixture = TestBed.createComponent(RepeaterTestComponent);
-    fixture.componentInstance.showRepeaterWithNgFor = true;
-    fixture.componentInstance.selectable = true;
-    fixture.componentInstance.reorderable = true;
-    fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
-    tick();
-    const el = fixture.nativeElement;
-
-    let reorderHandles = getReorderHandles(el);
-    let checkboxes = getCheckboxes(el);
-    let reorderTopButtons = getReorderTopButtons(el);
-
-    expect(reorderHandles[0].getAttribute('aria-label')).toEqual(
-      'Reorder Title 1'
-    );
-    expect(checkboxes[0].getAttribute('aria-label')).toEqual('Select Title 1');
-    expect(reorderTopButtons[0].getAttribute('aria-label')).toEqual(
-      'Move Title 1 to top'
-    );
-
-    fixture.componentInstance.items[0].title = 'New title';
-    fixture.detectChanges();
-    tick();
-    triggerMutationChange(fixture);
-    fixture.detectChanges();
-    tick();
-
-    reorderHandles = getReorderHandles(el);
-    checkboxes = getCheckboxes(el);
-    reorderTopButtons = getReorderTopButtons(el);
-
-    expect(reorderHandles[0].getAttribute('aria-label')).toEqual(
-      'Reorder New title'
-    );
-    expect(checkboxes[0].getAttribute('aria-label')).toEqual(
-      'Select New title'
-    );
-    expect(reorderTopButtons[0].getAttribute('aria-label')).toEqual(
-      'Move New title to top'
-    );
+    expect(expandButtons[0].getAttribute('aria-label')).toEqual('Expand');
+    expect(expandButtons[1].getAttribute('aria-label')).toEqual('Collapse');
   }));
 
   it('should warn when itemName is not defined', fakeAsync(() => {

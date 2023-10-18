@@ -262,7 +262,7 @@ export class SkyRepeaterItemComponent
   public set titleRef(value: ElementRef | undefined) {
     this.#_titleRef = value;
     this.#updateContentInfo();
-    this.#changeDetector.detectChanges();
+    this.#changeDetector.markForCheck();
   }
 
   public get titleRef(): ElementRef | undefined {
