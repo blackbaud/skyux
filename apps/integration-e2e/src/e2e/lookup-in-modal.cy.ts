@@ -42,7 +42,6 @@ describe('lookup in modal', () => {
               });
           });
         cy.window().skyVisualTest(`lookup-in-modal-${theme}`, {
-          capture: 'viewport',
           disableTimersAndAnimations: true,
         });
       });
