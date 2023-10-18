@@ -5,6 +5,8 @@ export { SkyAppConfigModule } from './lib/app-config.module';
 
 export { SkyuxConfigParams } from './lib/config-params';
 export { SkyuxConfigRemoteContainerReference } from './lib/config-remote-container-reference';
+export { SkyuxConfigRemoteModulesPublic } from './lib/config-remote-modules-public';
+export { SkyuxConfigRemoteModulesReferenced } from './lib/config-remote-modules-referenced';
 export { SkyuxConfigRemoteModules } from './lib/config-remote-modules';
 
 export {
