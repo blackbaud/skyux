@@ -5,9 +5,10 @@ import { defineConfig } from 'cypress';
 
 export default defineConfig({
   e2e: {
-    ...skyE2ePreset(__dirname),
-    setupNodeEvents: (on, config) => {
-      sendCypressScreenshotsToPercy(on, config);
-    },
+    ...skyE2ePreset(__dirname, {
+      setupNodeEvents: (on, config) => {
+        sendCypressScreenshotsToPercy(on, config);
+      },
+    }),
   },
 });
