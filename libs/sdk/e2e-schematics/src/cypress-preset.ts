@@ -21,6 +21,7 @@ export function skyE2ePreset(
       runMode: 2,
       openMode: 0,
     },
+    ...options,
     setupNodeEvents: (on, config) => {
       if (options.setupNodeEvents) {
         options.setupNodeEvents(on, config);
@@ -46,6 +47,5 @@ export function skyE2ePreset(
         return launchOptions;
       });
     },
-    ...options,
   };
 }
