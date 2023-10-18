@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 
 import { SkyHrefModule } from '../href.module';
+import { SkyHrefQueryParams } from '../types/href-query-params';
 
 @Component({
   selector: 'sky-smart-link-fixture',
@@ -34,6 +35,7 @@ export class HrefDirectiveFixtureComponent {
     return this.#_dynamicElse;
   }
 
+  public queryParams: SkyHrefQueryParams | undefined;
   public testSlowLink = false;
 
   #_dynamicElse: 'hide' | 'unlink' = 'hide';
