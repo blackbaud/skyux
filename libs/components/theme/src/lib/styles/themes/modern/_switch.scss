@@ -59,7 +59,6 @@ $sky-switch-size-modern: 26px !default;
 
       &:disabled + .sky-switch-control {
         background-color: $sky-theme-modern-background-color-neutral-medium;
-        border: none;
         color: var(--sky-text-color-deemphasized);
       }
 
@@ -72,7 +71,6 @@ $sky-switch-size-modern: 26px !default;
     }
 
     .sky-switch-control {
-      border: none;
       border-radius: $sky-theme-modern-box-border-radius-default;
 
       &.sky-switch-control-icon {
