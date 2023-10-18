@@ -6,7 +6,9 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import { SkyContentInfoProvider } from '@skyux/core';
+import { SkyContentInfoProvider, SkyIdService } from '@skyux/core';
+
+import { SKY_BOX_HEADER_ID } from './box-header-id-token';
 
 /**
  * Provides a common look-and-feel for box content with options to display a common box header, specify body content, and display common box controls.
@@ -16,7 +18,16 @@ import { SkyContentInfoProvider } from '@skyux/core';
   templateUrl: './box.component.html',
   styleUrls: ['./box.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  providers: [SkyContentInfoProvider],
+  providers: [
+    SkyContentInfoProvider,
+    {
+      provide: SKY_BOX_HEADER_ID,
+      useFactory(): string {
+        const idService = inject(SkyIdService);
+        return idService.generateId();
+      },
+    },
+  ],
 })
 export class SkyBoxComponent {
   /**
@@ -52,10 +63,11 @@ export class SkyBoxComponent {
   public set boxHeaderRef(value: ElementRef | undefined) {
     if (value) {
       this.#contentInfoProvider.patchInfo({
-        descriptor: { type: 'elementId', value: 'sky-sr-label-box' },
+        descriptor: { type: 'elementId', value: this.#boxTitleId },
       });
     }
   }
 
   #contentInfoProvider = inject(SkyContentInfoProvider);
+  #boxTitleId = inject(SKY_BOX_HEADER_ID);
 }

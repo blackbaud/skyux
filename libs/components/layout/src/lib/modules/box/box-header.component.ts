@@ -1,4 +1,6 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, inject } from '@angular/core';
+
+import { SKY_BOX_HEADER_ID } from './box-header-id-token';
 
 /**
  * Specifies a header for the box.
@@ -9,4 +11,6 @@ import { Component, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./box-header.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class SkyBoxHeaderComponent {}
+export class SkyBoxHeaderComponent {
+  protected boxHeaderId = inject(SKY_BOX_HEADER_ID);
+}
