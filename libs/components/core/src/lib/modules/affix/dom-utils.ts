@@ -45,7 +45,7 @@ export function getElementOffset(
   };
 }
 
-export function getViewportOffset(): { top: number; left: number } {
+export function getVisualViewportOffset(): { top: number; left: number } {
   return {
     top: window.visualViewport?.offsetTop || 0,
     left: window.visualViewport?.offsetLeft || 0,

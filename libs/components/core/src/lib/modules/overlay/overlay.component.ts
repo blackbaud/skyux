@@ -28,6 +28,7 @@ import {
   Subject,
   Subscription,
   fromEvent,
+  merge,
 } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -121,13 +122,13 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
 
   #coreAdapter: SkyCoreAdapterService;
 
-  #doc = inject(DOCUMENT);
+  readonly #doc = inject(DOCUMENT);
 
   #injector: Injector;
 
   #ngUnsubscribe = new Subject<void>();
 
-  #renderer = inject(RendererFactory2).createRenderer(null, null);
+  readonly #renderer = inject(RendererFactory2).createRenderer(null, null);
 
   #router: Router | undefined;
 
@@ -291,23 +292,21 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
   }
 
   #addScrollListener(): void {
-    if (
-      this.#doc.defaultView?.visualViewport &&
-      this.#context.config.position === 'fixed'
-    ) {
+    const visualViewport = this.#doc.defaultView?.visualViewport;
+    if (visualViewport && this.#context.config.position === 'fixed') {
       // Safari on iOS allows the visual viewport to scroll, moving fixed position elements.
-      fromEvent(this.#doc.defaultView.visualViewport, 'scroll')
+      merge(
+        fromEvent(visualViewport, 'scroll'),
+        fromEvent(visualViewport, 'resize')
+      )
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe(() => {
           /* istanbul ignore else */
-          if (
-            this.#doc.defaultView?.visualViewport &&
-            this.overlayRef?.nativeElement
-          ) {
+          if (visualViewport && this.overlayRef?.nativeElement) {
             this.#renderer.setStyle(
               this.overlayRef?.nativeElement,
               'top',
-              `${this.#doc.defaultView.visualViewport.offsetTop}px`
+              `${visualViewport.offsetTop}px`
             );
           }
         });

@@ -14,7 +14,7 @@ import { getInversePlacement, getNextPlacement } from './affix-utils';
 import {
   getElementOffset,
   getOverflowParents,
-  getViewportOffset,
+  getVisualViewportOffset,
   isOffsetFullyVisibleWithinParent,
   isOffsetPartiallyVisibleWithinParent,
 } from './dom-utils';
@@ -192,8 +192,8 @@ export class SkyAffixer {
     const offset = this.#getOffset();
 
     // In Safari on iOS, fixed position elements may scroll with the viewport.
-    if (offset && this.#config.position !== 'absolute') {
-      const { top, left } = getViewportOffset();
+    if (offset && this.#config.position === 'fixed') {
+      const { top, left } = getVisualViewportOffset();
       offset.top = (offset.top || 0) + top;
       offset.left = (offset.left || 0) + left;
       offset.bottom = (offset.bottom || 0) + top;
