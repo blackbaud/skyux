@@ -9,7 +9,10 @@ describe('layout-storybook', () => {
         )
       );
       it('should render the component', () => {
-        cy.get('app-box')
+        cy.get('#ready')
+          .should('exist')
+          .end()
+          .get('app-box')
           .should('exist')
           .should('be.visible')
           .screenshot(`boxcomponent-box--box-${theme}`)
