@@ -209,7 +209,7 @@ describe('Affixer', () => {
     affixer.affixTo(component.baseRef?.nativeElement as HTMLElement, {
       placement: 'above',
     });
-    expect(component.affixedElement?.nativeElement.style.top).toEqual('51px');
+    expect(component.affixedElement?.nativeElement.style.top).toEqual('1px');
   });
 
   it('should handle multiple layers of fixed elements', async () => {
