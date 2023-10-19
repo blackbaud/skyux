@@ -464,7 +464,7 @@ describe('Affix directive', () => {
 
       // Scroll down until the affixed item is clipped at its top, then trigger the scroll event.
       window.scrollTo(0, 200);
-      SkyAppTestUtility.fireDomEvent(window.visualViewport, 'scroll');
+      SkyAppTestUtility.fireDomEvent(document.body, 'scroll');
       fixture.detectChanges();
 
       expect(getRecentPlacementChange()).toEqual('below');
@@ -882,7 +882,7 @@ describe('Affix directive', () => {
       fixture.detectChanges();
 
       componentInstance.scrollTargetToBottom();
-      SkyAppTestUtility.fireDomEvent(window.visualViewport, 'scroll');
+      SkyAppTestUtility.fireDomEvent(document.body, 'scroll');
       fixture.detectChanges();
 
       // Confirm baseline expectation.
@@ -892,7 +892,7 @@ describe('Affix directive', () => {
       const baseElementHeight =
         componentInstance.baseRef.nativeElement.getBoundingClientRect().height;
       componentInstance.scrollTargetToBottom(baseElementHeight);
-      SkyAppTestUtility.fireDomEvent(window.visualViewport, 'scroll');
+      SkyAppTestUtility.fireDomEvent(document.body, 'scroll');
       fixture.detectChanges();
 
       expect(getRecentPlacementChange()).toBeNull();

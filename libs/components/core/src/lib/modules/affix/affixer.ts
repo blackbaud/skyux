@@ -14,7 +14,6 @@ import { getInversePlacement, getNextPlacement } from './affix-utils';
 import {
   getElementOffset,
   getOverflowParents,
-  getVisualViewportOffset,
   isOffsetFullyVisibleWithinParent,
   isOffsetPartiallyVisibleWithinParent,
 } from './dom-utils';
@@ -191,15 +190,6 @@ export class SkyAffixer {
   #affix(): void {
     const offset = this.#getOffset();
 
-    // In Safari on iOS, fixed position elements may scroll with the viewport.
-    if (offset && this.#config.position === 'fixed') {
-      const { top, left } = getVisualViewportOffset();
-      offset.top = (offset.top || 0) + top;
-      offset.left = (offset.left || 0) + left;
-      offset.bottom = (offset.bottom || 0) + top;
-      offset.right = (offset.right || 0) + left;
-    }
-
     if (this.#isNewOffset(offset)) {
       this.#renderer.setStyle(this.#affixedElement, 'top', `${offset.top}px`);
       this.#renderer.setStyle(this.#affixedElement, 'left', `${offset.left}px`);
@@ -208,7 +198,7 @@ export class SkyAffixer {
     }
   }
 
-  #getOffset(): SkyAffixOffset {
+  #getOffset(): Required<SkyAffixOffset> {
     const parent = this.#getAutoFitContextParent();
 
     const maxAttempts = 4;
@@ -218,11 +208,12 @@ export class SkyAffixer {
     let offset: Required<SkyAffixOffset>;
     let placement = this.#config.placement;
 
-    const autoFitOverflowOffset = this.#config.autoFitOverflowOffset || {
+    const autoFitOverflowOffset = {
       bottom: 0,
       left: 0,
       right: 0,
       top: 0,
+      ...this.#config.autoFitOverflowOffset,
     };
 
     if (this.#config.position === 'absolute') {
@@ -285,13 +276,11 @@ export class SkyAffixer {
       height: baseDomRect.height,
     };
 
-    if (this.#config.position === 'absolute') {
-      const { left, top } = this.#viewportRuler.getViewportScrollPosition();
-      baseRect.top += top;
-      baseRect.left += left;
-      baseRect.bottom += top;
-      baseRect.right += left;
-    }
+    const { left, top } = this.#viewportRuler.getViewportScrollPosition();
+    baseRect.top += top;
+    baseRect.left += left;
+    baseRect.bottom += top;
+    baseRect.right += left;
 
     return baseRect;
   }
@@ -563,12 +552,14 @@ export class SkyAffixer {
 
     // Listen for scroll events on the window, visual viewport, and any overflow parents.
     // https://developer.chrome.com/blog/visual-viewport-api/#events-only-fire-when-the-visual-viewport-changes
+    const scrollParents =
+      this.#config.position === 'absolute'
+        ? [window, window.visualViewport, ...this.#overflowParents]
+        : [...this.#overflowParents];
     this.#zone.runOutsideAngular(() => {
-      [window, window.visualViewport, ...this.#overflowParents].forEach(
-        (parentElement) => {
-          parentElement?.addEventListener('scroll', this.#scrollChangeListener);
-        }
-      );
+      scrollParents.forEach((parentElement) => {
+        parentElement?.addEventListener('scroll', this.#scrollChangeListener);
+      });
     });
   }
 

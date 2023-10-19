@@ -45,28 +45,19 @@ export function getElementOffset(
   };
 }
 
-export function getVisualViewportOffset(): { top: number; left: number } {
-  return {
-    top: window.visualViewport?.offsetTop || 0,
-    left: window.visualViewport?.offsetLeft || 0,
-  };
-}
-
 export function getOverflowParents(child: HTMLElement): HTMLElement[] {
   const bodyElement = window.document.body;
   const results = [];
 
   let parentElement = child?.parentNode;
 
-  while (
-    parentElement !== undefined &&
-    parentElement !== bodyElement &&
-    parentElement instanceof HTMLElement
-  ) {
-    const overflowY = window
-      .getComputedStyle(parentElement, undefined)
-      .overflowY.toLowerCase();
+  while (parentElement !== undefined && parentElement instanceof HTMLElement) {
+    const computedStyle = window.getComputedStyle(parentElement, undefined);
+    const overflowY = computedStyle.overflowY.toLowerCase();
 
+    if (computedStyle.position === 'fixed' || parentElement === bodyElement) {
+      break;
+    }
     if (
       overflowY === 'auto' ||
       overflowY === 'hidden' ||
