@@ -58,7 +58,6 @@ $sky-switch-size: 22px !default;
 
   &:disabled + .sky-switch-control {
     background-color: var(--sky-background-color-disabled);
-    border-color: transparent;
   }
 
   &:focus + .sky-switch-control {
