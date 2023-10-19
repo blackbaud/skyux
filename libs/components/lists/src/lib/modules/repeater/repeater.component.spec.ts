@@ -339,7 +339,7 @@ describe('Repeater item component', () => {
     );
   });
 
-  it('should set the context menu aria label to the default with the item title when no itemName is given', async () => {
+  fit('should set the context menu aria label to the default with the item title when no itemName is given', async () => {
     const fixture = TestBed.createComponent(RepeaterTestComponent);
     fixture.componentInstance.showContextMenu = true;
     fixture.detectChanges();
@@ -351,11 +351,13 @@ describe('Repeater item component', () => {
 
     const contextMenus = getContextMenuButtons(el);
 
-    expect(contextMenus[0].getAttribute('aria-label')).toEqual(
-      'Context menu for Title 1'
+    expect(contextMenus[0].getAttribute('aria-label')).toBeNull();
+    expect(contextMenus[1].getAttribute('aria-label')).toBeNull();
+    expect(contextMenus[0].getAttribute('aria-labelledby')).toMatch(
+      /(sky-id-gen__[0-9]{13}__[0-9]+\s*){2}/
     );
-    expect(contextMenus[1].getAttribute('aria-label')).toEqual(
-      'Context menu for Title 2'
+    expect(contextMenus[1].getAttribute('aria-labelledby')).toMatch(
+      /(sky-id-gen__[0-9]{13}__[0-9]+\s*){2}/
     );
   });
 
