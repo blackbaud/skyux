@@ -109,7 +109,7 @@ describe('SkyHref Directive', () => {
     tick();
 
     const links = Array.from(el.querySelectorAll('a'));
-    expect(links.filter((e) => e.offsetParent).length).toEqual(6);
+    expect(links.filter((e) => e.offsetParent).length).toEqual(7);
   }));
 
   it('should hide links that the user cannot access', fakeAsync(() => {
@@ -197,7 +197,7 @@ describe('SkyHref Directive', () => {
 
     const element: HTMLElement | null = el.querySelector('.dynamicLink a');
     expect(element?.getAttribute('href')).toEqual(
-      'https://example.com/example/page?foo=override?query=param'
+      'https://example.com/example/page?foo=override&query=param'
     );
   }));
 
@@ -328,6 +328,32 @@ describe('SkyHref Directive', () => {
 
     expect(element?.getAttribute('href')).toEqual(
       'https://success/example/page#foobar'
+    );
+  }));
+
+  it('should append additional query params', fakeAsync(() => {
+    const { el, fixture } = setupTest({
+      params: {
+        envid: {
+          value: 'abc123',
+        },
+      },
+    });
+
+    fixture.componentInstance.queryParams = {
+      a: 'foo',
+      b: '',
+      c: '0',
+      d: 'false',
+    };
+
+    fixture.detectChanges();
+    tick();
+
+    const element = el.querySelector('a[data-sky-id="query-params"]');
+
+    expect(element?.getAttribute('href')).toEqual(
+      'https://success/example/page?a=foo&b=&c=0&d=false&envid=abc123#foobar'
     );
   }));
 

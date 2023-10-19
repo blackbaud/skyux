@@ -31,5 +31,7 @@ export {
   SkyAppConfig,
 } from './lib/config';
 
+export { SkyConfigGetLinkUrlOptions } from './lib/types/get-link-url-options';
+export { SkyConfigQueryParams } from './lib/types/query-params';
 export { SkyAppRuntimeConfigParamsProvider } from './lib/params-provider';
 export { SkyAppRuntimeConfigParams } from './lib/params';
