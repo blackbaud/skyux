@@ -345,7 +345,7 @@ describe('SkyHref Directive', () => {
       b: '',
       c: '0',
       d: 'false',
-      e: undefined
+      e: undefined,
     };
 
     fixture.detectChanges();
@@ -354,7 +354,7 @@ describe('SkyHref Directive', () => {
     const element = el.querySelector('a[data-sky-id="query-params"]');
 
     expect(element?.getAttribute('href')).toEqual(
-      'https://success/example/page?a=foo&c=0&d=false&envid=abc123#foobar'
+      'https://success/example/page?a=foo&b=&c=0&d=false&envid=abc123#foobar'
     );
   }));
 

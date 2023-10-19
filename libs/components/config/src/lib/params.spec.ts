@@ -254,7 +254,7 @@ describe('SkyAppRuntimeConfigParams', () => {
           q9: undefined
         },
       })
-    ).toEqual('https://mysite.com?q1=5&q2=2&q8=false&q3=3');
+    ).toEqual('https://mysite.com?q1=5&q2=2&q7=&q8=false&q3=3');
   });
 
   it("should exclude certain parameters from being added to a link's querystring", () => {
