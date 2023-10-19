@@ -1,4 +1,3 @@
-import { DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -11,13 +10,11 @@ import {
   OnDestroy,
   OnInit,
   Optional,
-  RendererFactory2,
   StaticProvider,
   TemplateRef,
   Type,
   ViewChild,
   ViewContainerRef,
-  inject,
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 
@@ -28,7 +25,6 @@ import {
   Subject,
   Subscription,
   fromEvent,
-  merge,
 } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -122,13 +118,9 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
 
   #coreAdapter: SkyCoreAdapterService;
 
-  readonly #doc = inject(DOCUMENT);
-
   #injector: Injector;
 
   #ngUnsubscribe = new Subject<void>();
-
-  readonly #renderer = inject(RendererFactory2).createRenderer(null, null);
 
   #router: Router | undefined;
 
@@ -162,7 +154,6 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
 
     setTimeout(() => {
       this.#addBackdropClickListener();
-      this.#addScrollListener();
     });
 
     if (this.#context.config.closeOnNavigation) {
@@ -288,28 +279,6 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
     if (this.#routerSubscription) {
       this.#routerSubscription.unsubscribe();
       this.#routerSubscription = undefined;
-    }
-  }
-
-  #addScrollListener(): void {
-    const visualViewport = this.#doc.defaultView?.visualViewport;
-    if (visualViewport && this.#context.config.position === 'fixed') {
-      // Safari on iOS allows the visual viewport to scroll, moving fixed position elements.
-      merge(
-        fromEvent(visualViewport, 'scroll'),
-        fromEvent(visualViewport, 'resize')
-      )
-        .pipe(takeUntil(this.#ngUnsubscribe))
-        .subscribe(() => {
-          /* istanbul ignore else */
-          if (visualViewport && this.overlayRef?.nativeElement) {
-            this.#renderer.setStyle(
-              this.overlayRef?.nativeElement,
-              'top',
-              `${visualViewport.offsetTop}px`
-            );
-          }
-        });
     }
   }
 }

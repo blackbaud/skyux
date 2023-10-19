@@ -276,11 +276,13 @@ export class SkyAffixer {
       height: baseDomRect.height,
     };
 
-    const { left, top } = this.#viewportRuler.getViewportScrollPosition();
-    baseRect.top += top;
-    baseRect.left += left;
-    baseRect.bottom += top;
-    baseRect.right += left;
+    if (this.#hasOverflowParents()) {
+      const { left, top } = this.#viewportRuler.getViewportScrollPosition();
+      baseRect.top += top;
+      baseRect.left += left;
+      baseRect.bottom += top;
+      baseRect.right += left;
+    }
 
     return baseRect;
   }
@@ -475,6 +477,10 @@ export class SkyAffixer {
       : bodyElement;
   }
 
+  #hasOverflowParents(): boolean {
+    return this.#overflowParents.length > 1;
+  }
+
   #notifyPlacementChange(placement: SkyAffixPlacement | null): void {
     if (this.#currentPlacement !== placement) {
       this.#currentPlacement = placement ?? undefined;
@@ -552,14 +558,12 @@ export class SkyAffixer {
 
     // Listen for scroll events on the window, visual viewport, and any overflow parents.
     // https://developer.chrome.com/blog/visual-viewport-api/#events-only-fire-when-the-visual-viewport-changes
-    const scrollParents =
-      this.#config.position === 'absolute'
-        ? [window, window.visualViewport, ...this.#overflowParents]
-        : [...this.#overflowParents];
     this.#zone.runOutsideAngular(() => {
-      scrollParents.forEach((parentElement) => {
-        parentElement?.addEventListener('scroll', this.#scrollChangeListener);
-      });
+      [window, window.visualViewport, ...this.#overflowParents].forEach(
+        (parentElement) => {
+          parentElement?.addEventListener('scroll', this.#scrollChangeListener);
+        }
+      );
     });
   }
 

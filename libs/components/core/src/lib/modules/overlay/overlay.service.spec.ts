@@ -1,4 +1,3 @@
-import { DOCUMENT } from '@angular/common';
 import { NgZone } from '@angular/core';
 import {
   ComponentFixture,
@@ -427,32 +426,5 @@ describe('Overlay service', () => {
 
     expect(el).toBeTruthy();
     expect((el as HTMLElement).style.clipPath).toBeTruthy();
-  });
-
-  it('should maintain a --skyux-vh property', () => {
-    const doc = TestBed.inject(DOCUMENT);
-    expect(
-      doc.documentElement.style.getPropertyValue('--skyux-vh')
-    ).toBeTruthy();
-    (doc.defaultView as Window).dispatchEvent(new Event('resize'));
-    expect(doc.documentElement.style.getPropertyValue('--skyux-vh')).toMatch(
-      /^\d/
-    );
-  });
-
-  it('should maintain a fixed position', async () => {
-    service.create({
-      position: 'fixed',
-    });
-    fixture.detectChanges();
-    await fixture.whenStable();
-    const doc = TestBed.inject(DOCUMENT);
-    expect(doc.defaultView?.visualViewport).toBeTruthy();
-    (doc.defaultView?.visualViewport as VisualViewport).dispatchEvent(
-      new Event('scroll')
-    );
-    await fixture.whenStable();
-    const el = getAllOverlays().item(0) as HTMLElement;
-    expect(el.style.top).toEqual('0px');
   });
 });

@@ -15,8 +15,6 @@
 
     &-fixed {
       position: fixed;
-      overflow: hidden;
-      height: calc(var(--skyux-vh, 1vh) * 100);
     }
   }
 }
