@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 
+import { Observable } from 'rxjs';
+
 import { SkyInputBoxPopulateArgs } from './input-box-populate-args';
 import { SkyInputBoxComponent } from './input-box.component';
 
@@ -18,8 +20,15 @@ export class SkyInputBoxHostService {
     return this.#host?.labelText ?? '';
   }
 
+  public get ariaDescribedBy(): Observable<string | undefined> | undefined {
+    return this.#ariaDescribedBy;
+  }
+
+  #ariaDescribedBy: Observable<string | undefined> | undefined;
+
   public init(host: SkyInputBoxComponent): void {
     this.#host = host;
+    this.#ariaDescribedBy = host.ariaDescribedBy.asObservable();
   }
 
   public populate(args: SkyInputBoxPopulateArgs): void {

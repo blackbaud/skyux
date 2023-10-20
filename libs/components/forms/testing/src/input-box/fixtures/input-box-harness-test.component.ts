@@ -25,6 +25,7 @@ export class InputBoxHarnessTestComponent {
   public easyModeStacked = false;
   public easyModelValue = 'test';
   public easyModeCharacterLimit: number | undefined;
+  public easyModeHintText: string | undefined;
 
   constructor(formBuilder: UntypedFormBuilder) {
     this.myForm = formBuilder.group({

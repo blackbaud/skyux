@@ -578,9 +578,11 @@
     labelText="Easy mode"
     [characterLimit]="easyModeCharacterLimit"
     [helpPopoverContent]="easyModeHelpPopoverContent"
+    [hintText]="easyModeHintText"
     [stacked]="easyModeStacked"
   >
     <input
+      [attr.aria-describedby]="easyModeAriaDescribedBy"
       [autocomplete]="autocomplete"
       type="text"
       minlength="3"

@@ -19,6 +19,10 @@ const routes: Routes = [
     loadChildren: () =>
       import('./datepicker/datepicker.module').then((m) => m.DatepickerModule),
   },
+  {
+    path: 'timepicker',
+    loadChildren: () => import('./timepicker/routes'),
+  },
 ];
 
 @NgModule({

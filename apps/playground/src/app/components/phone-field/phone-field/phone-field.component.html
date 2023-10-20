@@ -53,7 +53,11 @@
   id="screenshot-phone-field-input-box-easy"
   style="width: 50%; height: 160px; margin: 10px; padding: 10px"
 >
-  <sky-input-box labelText="Input box (easy)" mode="detect">
+  <sky-input-box
+    hintText="We'll call this number when it's your birthday."
+    labelText="Input box (easy)"
+    mode="detect"
+  >
     <sky-phone-field>
       <input [(ngModel)]="phoneNumberInputBox" skyPhoneFieldInput />
     </sky-phone-field>
