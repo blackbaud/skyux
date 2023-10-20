@@ -1,5 +1,14 @@
 # Changelog
 
+## [9.7.0](https://github.com/blackbaud/skyux/compare/9.6.0...9.7.0) (2023-10-19)
+
+
+### Features
+
+* add support for `@angular/core@16.2.9` ([#1811](https://github.com/blackbaud/skyux/issues/1811)) ([1885b2a](https://github.com/blackbaud/skyux/commit/1885b2af84d387e421b2d00488ebb19c3748ce19))
+* **components/config:** add referenced remote module config ([#1804](https://github.com/blackbaud/skyux/issues/1804)) ([80938b8](https://github.com/blackbaud/skyux/commit/80938b8d3b2b79ba91e651c95e26b3c54bfcd0ad))
+* **components/router:** add `queryParams` to `skyHref` directive ([#1800](https://github.com/blackbaud/skyux/issues/1800)) ([#1814](https://github.com/blackbaud/skyux/issues/1814)) ([c7ac082](https://github.com/blackbaud/skyux/commit/c7ac082579dccb83e722f774a482d9f499c86e57))
+
 ## [9.6.0](https://github.com/blackbaud/skyux/compare/9.5.1...9.6.0) (2023-10-10)
 
 

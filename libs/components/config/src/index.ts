@@ -4,6 +4,9 @@ export { SkyAppConfigModuleForRootArgs } from './lib/app-config-module-for-root-
 export { SkyAppConfigModule } from './lib/app-config.module';
 
 export { SkyuxConfigParams } from './lib/config-params';
+export { SkyuxConfigRemoteContainerReference } from './lib/config-remote-container-reference';
+export { SkyuxConfigRemoteModules } from './lib/config-remote-modules';
+
 export {
   RuntimeConfigApp,
   SkyuxPactConfig,
@@ -28,5 +31,7 @@ export {
   SkyAppConfig,
 } from './lib/config';
 
+export { SkyConfigGetLinkUrlOptions } from './lib/types/get-link-url-options';
+export { SkyConfigQueryParams } from './lib/types/query-params';
 export { SkyAppRuntimeConfigParamsProvider } from './lib/params-provider';
 export { SkyAppRuntimeConfigParams } from './lib/params';
