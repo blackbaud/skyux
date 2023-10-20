@@ -5,13 +5,11 @@
 // 80% brightness of our standard highlight green #71bf43
 // and exceeds 3:1 contrast against both white and our modern page background #FCFCFC.
 $sky-progress-indicator-success-color: #5a9936;
-:root {
+
+.sky-progress-indicator-status-marker {
   --sky-progress-indicator-marker-line-icon-color: var(
     --sky-border-color-neutral-medium
   );
-}
-
-.sky-progress-indicator-status-marker {
   display: flex;
   height: 100%;
 
@@ -135,11 +133,10 @@ $sky-progress-indicator-success-color: #5a9936;
 }
 
 @include mixins.sky-theme-modern {
-  --sky-progress-indicator-marker-line-icon-color: var(
-    --sky-border-color-neutral-medium-dark
-  );
-
   .sky-progress-indicator-status-marker {
+    --sky-progress-indicator-marker-line-icon-color: var(
+      --sky-border-color-neutral-medium-dark
+    );
     &.sky-progress-indicator-status-marker-mode-vertical {
       position: relative;
       top: 3px;
