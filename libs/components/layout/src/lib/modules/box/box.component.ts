@@ -67,6 +67,6 @@ export class SkyBoxComponent {
     });
   }
 
-  #contentInfoProvider = inject(SkyContentInfoProvider);
-  #boxTitleId = inject(SKY_BOX_HEADER_ID);
+  readonly #contentInfoProvider = inject(SkyContentInfoProvider);
+  readonly #boxTitleId = inject(SKY_BOX_HEADER_ID);
 }

@@ -12,5 +12,5 @@ import { SKY_BOX_HEADER_ID } from './box-header-id-token';
   encapsulation: ViewEncapsulation.None,
 })
 export class SkyBoxHeaderComponent {
-  protected boxHeaderId = inject(SKY_BOX_HEADER_ID);
+  protected readonly boxHeaderId = inject(SKY_BOX_HEADER_ID);
 }
