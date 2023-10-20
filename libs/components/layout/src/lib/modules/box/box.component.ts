@@ -1,14 +1,15 @@
 import {
   Component,
+  ContentChild,
   ElementRef,
   Input,
-  ViewChild,
   ViewEncapsulation,
   inject,
 } from '@angular/core';
 import { SkyContentInfoProvider, SkyIdService } from '@skyux/core';
 
 import { SKY_BOX_HEADER_ID } from './box-header-id-token';
+import { SkyBoxHeaderComponent } from './box-header.component';
 
 /**
  * Provides a common look-and-feel for box content with options to display a common box header, specify body content, and display common box controls.
@@ -59,13 +60,11 @@ export class SkyBoxComponent {
   @Input()
   public ariaRole: string | undefined;
 
-  @ViewChild('titleRef', { read: ElementRef })
+  @ContentChild(SkyBoxHeaderComponent, { read: ElementRef })
   public set boxHeaderRef(value: ElementRef | undefined) {
-    if (value) {
-      this.#contentInfoProvider.patchInfo({
-        descriptor: { type: 'elementId', value: this.#boxTitleId },
-      });
-    }
+    this.#contentInfoProvider.patchInfo({
+      descriptor: { type: 'elementId', value: this.#boxTitleId },
+    });
   }
 
   #contentInfoProvider = inject(SkyContentInfoProvider);
