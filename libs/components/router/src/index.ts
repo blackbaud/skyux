@@ -1,10 +1,12 @@
 export { SkyAppLinkQueryParams } from './lib/modules/link/link-query-params';
 export { SkyAppLinkModule } from './lib/modules/link/link.module';
+
 export { SkyHrefModule } from './lib/modules/href/href.module';
 export { SkyHrefResolver } from './lib/modules/href/href-resolver';
 export { SkyHrefResolverService } from './lib/modules/href/href-resolver.service';
 export { SkyHref } from './lib/modules/href/types/href';
 export { SkyHrefChange } from './lib/modules/href/types/href-change';
+export { SkyHrefQueryParams } from './lib/modules/href/types/href-query-params';
 export { SkyHrefResolverArgs } from './lib/modules/href/types/href-resolver.args';
 
 export { SkyRecentlyAccessedAddLinkArgs } from './lib/modules/recently-accessed/recently-accessed-add-link-args';

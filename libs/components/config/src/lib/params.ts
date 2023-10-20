@@ -1,6 +1,8 @@
 import { HttpParams, HttpUrlEncodingCodec } from '@angular/common/http';
 
 import { SkyuxConfigParams } from './config-params';
+import { SkyConfigGetLinkUrlOptions } from './types/get-link-url-options';
+import { SkyConfigQueryParams } from './types/query-params';
 
 /**
  * Override Angular's default encoder because it excludes certain characters.
@@ -178,44 +180,81 @@ export class SkyAppRuntimeConfigParams {
 
   /**
    * Adds the current params to the supplied link URL.
+   * @param url The url to update.
+   * @param queryParams Optional query parameters to include in the constructed url.
    */
-  public getLinkUrl(url: string): string {
+  public getLinkUrl(url: string, options?: SkyConfigGetLinkUrlOptions): string {
     return this.#buildUrlWithParams(
       url,
       new Set([
         ...this.#excludeFromRequestsParams,
         ...this.#excludeFromLinksParams,
-      ])
+      ]),
+      options?.queryParams
     );
   }
 
-  #buildUrlWithParams(url: string, excludeParams: Set<string>): string {
-    const existingParams = getUrlSearchParams(url);
+  #buildUrlWithParams(
+    url: string,
+    excludeParams: Set<string>,
+    queryParams?: SkyConfigQueryParams
+  ): string {
+    const urlParams = getUrlSearchParams(url);
 
-    // When encoding the params, keep the requested params separate so that
-    // we can leave the existing params as-is.
-    let requestedParams = getUrlSearchParams('');
+    // Determine if the url params need to be modified.
+    const urlParamsRequireModification = urlParams
+      .keys()
+      .some((key) => excludeParams.has(key) || queryParams?.[key]);
 
-    // Add requested parameters to the URL.
+    const [beforeFragment, fragment] = url.split('#', 2);
+
+    const root = urlParamsRequireModification
+      ? beforeFragment.split('?')[0]
+      : beforeFragment;
+
+    let unifiedParams = urlParamsRequireModification
+      ? urlParams
+      : getUrlSearchParams('');
+
+    // Remove excluded params.
+    if (urlParamsRequireModification) {
+      for (const paramName of excludeParams.keys()) {
+        unifiedParams = unifiedParams.delete(paramName);
+      }
+    }
+
+    // Add provided parameters to the URL.
+    if (queryParams) {
+      for (const [paramName, decodedValue] of Object.entries(queryParams)) {
+        if (decodedValue !== undefined) {
+          unifiedParams = unifiedParams.set(paramName, decodedValue);
+        }
+      }
+    }
+
+    // Respect pre-existing params which already have values.
     for (const key of this.getAllKeys()) {
-      if (!excludeParams.has(key) && !existingParams.has(key)) {
+      if (
+        !excludeParams.has(key) &&
+        !urlParams.has(key) &&
+        !unifiedParams.has(key)
+      ) {
         const decodedValue = this.get(key);
         if (decodedValue) {
-          requestedParams = requestedParams.set(key, decodedValue);
+          unifiedParams = unifiedParams.append(key, decodedValue);
         }
       }
     }
 
     // Combine all requested parameters and their values, e.g. 'a=b'.
-    const joinedParams = requestedParams.toString();
+    const joinedParams = unifiedParams.toString();
+    const delimiter = root.includes('?') ? '&' : '?';
 
     // Build and return the final URL.
-    const [beforeFragment, fragment] = url.split('#', 2);
-    const delimiter = url.includes('?') ? '&' : '?';
-
-    return joinedParams.length === 0
-      ? url
-      : `${beforeFragment}${delimiter}${joinedParams}` +
-          (fragment ? `#${fragment}` : '');
+    return (
+      root +
+      (joinedParams.length === 0 ? '' : `${delimiter}${joinedParams}`) +
+      (fragment ? `#${fragment}` : '')
+    );
   }
 }
