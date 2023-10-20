@@ -31,7 +31,7 @@ import { SkyInputBoxHostService } from '@skyux/forms';
 import { SkyThemeService } from '@skyux/theme';
 
 import 'intl-tel-input';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyAutocompleteInputDirective } from '../autocomplete/autocomplete-input.directive';
@@ -247,6 +247,7 @@ export class SkyCountryFieldComponent
   public currentTheme = 'default';
 
   public inputId: string;
+  protected ariaDescribedBy: Observable<string | undefined> | undefined;
 
   @ViewChild('inputTemplateRef', {
     read: TemplateRef,
@@ -392,11 +393,11 @@ export class SkyCountryFieldComponent
   }
 
   // Angular automatically constructs these methods.
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  public onChange = (value: SkyCountryFieldCountry | undefined) => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
+  public onChange = (value: SkyCountryFieldCountry | undefined): void => {};
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  public onTouched = () => {};
+  public onTouched = (): void => {};
 
   public registerOnChange(
     fn: (value: SkyCountryFieldCountry | undefined) => void
@@ -548,6 +549,7 @@ export class SkyCountryFieldComponent
   #updateInputBox(): void {
     if (this.inputBoxHostSvc && this.inputTemplateRef) {
       this.inputId = this.inputBoxHostSvc.controlId;
+      this.ariaDescribedBy = this.inputBoxHostSvc.ariaDescribedBy;
 
       this.inputBoxHostSvc.populate({
         inputTemplate: this.inputTemplateRef,

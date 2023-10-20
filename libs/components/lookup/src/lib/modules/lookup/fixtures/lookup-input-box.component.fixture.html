@@ -1,11 +1,12 @@
 <form [formGroup]="form" novalidate>
-  <sky-input-box id="my-lookup">
+  <sky-input-box hintText="Some hint text." id="my-lookup">
     <label id="my-lookup-label"> My friends </label>
     <sky-lookup
       formControlName="friends"
       [autocompleteAttribute]="autocompleteAttribute"
       [data]="data"
       [enableShowMore]="enableShowMore"
+      [selectMode]="selectMode"
     />
   </sky-input-box>
 </form>

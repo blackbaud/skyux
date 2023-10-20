@@ -117,6 +117,11 @@ sky-input-box {
       width: initial;
     }
   }
+
+  .sky-input-box-hint-text {
+    flex-basis: 100%;
+    margin-top: var(--sky-margin-stacked-xs);
+  }
 }
 
 .sky-theme-modern {

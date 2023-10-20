@@ -158,4 +158,19 @@ describe('Input box harness', () => {
       50
     );
   });
+
+  it('should return hint text', async () => {
+    const { component, fixture, inputBoxHarness } = await setupTest({
+      dataSkyId: DATA_SKY_ID_EASY_MODE,
+    });
+
+    await expectAsync(inputBoxHarness.getHintText()).toBeResolvedTo('');
+
+    component.easyModeHintText = 'Test hint text';
+    fixture.detectChanges();
+
+    await expectAsync(inputBoxHarness.getHintText()).toBeResolvedTo(
+      'Test hint text'
+    );
+  });
 });
