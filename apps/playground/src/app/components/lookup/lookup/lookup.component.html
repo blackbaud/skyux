@@ -30,6 +30,7 @@
     </p>
 
     <sky-input-box
+      hintText="I'm some help text."
       labelText="Who are your friends?"
       mode="detect"
       [disabled]="disabled"
@@ -38,7 +39,6 @@
       <sky-lookup
         formControlName="friends2"
         idProperty="id"
-        placeholderText="Type a person's name..."
         [data]="people"
         [debounceTime]="1000"
         [disabled]="disabled"
