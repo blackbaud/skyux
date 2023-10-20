@@ -24,6 +24,7 @@ $sky-switch-size-modern: 26px !default;
 
   .sky-switch-control {
     transition: box-shadow $sky-transition-time-short;
+    border: 1px solid var(--sky-border-color-neutral-medium-dark);
 
     &:not(.sky-switch-control-icon) {
       width: $sky-switch-size-modern;
@@ -39,7 +40,6 @@ $sky-switch-size-modern: 26px !default;
 
   .sky-switch-input:disabled + .sky-switch-control {
     background-color: $sky-theme-modern-background-color-neutral-medium;
-    border: solid 1px $sky-theme-modern-background-color-disabled;
   }
 
   .sky-switch-disabled {
