@@ -1,7 +1,3 @@
-*, *::before, *::after {
-  box-sizing: border-box;
-}
-
 body {
   min-height: 1500px;
   margin: 72px 0;
@@ -33,7 +29,6 @@ app-affix {
   height: 60px;
   width: 60px;
   display: inline-block;
-
 
   &__position-fixed .affixed-element {
     position: fixed;

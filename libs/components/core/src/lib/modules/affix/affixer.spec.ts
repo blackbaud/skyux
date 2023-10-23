@@ -2,15 +2,16 @@ import { ViewportRuler } from '@angular/cdk/overlay';
 import { NgClass } from '@angular/common';
 import {
   Component,
+  ComponentRef,
   ElementRef,
   NgZone,
   RendererFactory2,
   ViewChild,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SkyDynamicComponentService } from '@skyux/core';
 
-import { Observable, Subject } from 'rxjs';
-
+import { SkyAffixLayoutViewportComponent } from './affix-layout-viewport.component';
 import { SkyAffixer } from './affixer';
 
 @Component({
@@ -89,6 +90,7 @@ import { SkyAffixer } from './affixer';
       }
 
       .affixed {
+        position: fixed;
         font-size: 8px;
         height: 10px;
         width: 15px;
@@ -116,13 +118,22 @@ class AffixerSpecComponent {
 describe('Affixer', () => {
   let fixture: ComponentFixture<AffixerSpecComponent>;
   let component: AffixerSpecComponent;
+  let layoutViewport: ComponentRef<SkyAffixLayoutViewportComponent> | undefined;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AffixerSpecComponent],
     });
+    const dynamicComponentService = TestBed.inject(SkyDynamicComponentService);
+    layoutViewport = dynamicComponentService.createComponent(
+      SkyAffixLayoutViewportComponent
+    );
     fixture = TestBed.createComponent(AffixerSpecComponent);
     component = fixture.componentInstance;
+  });
+
+  afterEach(() => {
+    layoutViewport?.destroy();
   });
 
   it('should create an instance, place above the top', async () => {
@@ -134,7 +145,8 @@ describe('Affixer', () => {
       component.affixedElement?.nativeElement as HTMLElement,
       TestBed.inject(RendererFactory2).createRenderer(undefined, null),
       TestBed.inject(ViewportRuler),
-      TestBed.inject(NgZone)
+      TestBed.inject(NgZone),
+      layoutViewport?.instance.element
     );
     const offsetChangeObserver = jasmine.createSpy('offsetChange');
     const overflowScrollObserver = jasmine.createSpy('overflowScroll');
@@ -194,15 +206,10 @@ describe('Affixer', () => {
   it('should use viewport ruler change observable', async () => {
     fixture.detectChanges();
     await fixture.whenStable();
-    const viewportRulerChange = new Subject<Event>();
-    const viewportRuler = {
-      getViewportScrollPosition: () => ({ top: 50, left: 0 }),
-      change: (): Observable<Event> => viewportRulerChange,
-    } as ViewportRuler;
     const affixer = new SkyAffixer(
       component.affixedElement?.nativeElement as HTMLElement,
       TestBed.inject(RendererFactory2).createRenderer(undefined, null),
-      viewportRuler,
+      TestBed.inject(ViewportRuler),
       TestBed.inject(NgZone)
     );
     expect(affixer).toBeTruthy();

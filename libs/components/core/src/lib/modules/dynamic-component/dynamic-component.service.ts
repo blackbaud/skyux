@@ -142,7 +142,9 @@ export class SkyDynamicComponentService {
       return;
     }
 
-    this.#applicationRef.detachView(componentRef.hostView);
+    if (!this.#applicationRef.destroyed) {
+      this.#applicationRef.detachView(componentRef.hostView);
+    }
     componentRef.destroy();
   }
 

@@ -1,5 +1,4 @@
 import { ViewportRuler } from '@angular/cdk/overlay';
-import { ViewportScrollPosition } from '@angular/cdk/scrolling';
 import {
   ComponentFixture,
   TestBed,
@@ -250,18 +249,12 @@ describe('Autocomplete component', () => {
               zIndex: new BehaviorSubject(10),
             },
           },
-          {
-            provide: ViewportRuler,
-            useValue: {
-              change: (): Observable<Event> => viewportRulerChange,
-              getViewportScrollPosition: (): ViewportScrollPosition => ({
-                top: 0,
-                left: 0,
-              }),
-            } as ViewportRuler,
-          },
         ],
       });
+
+      spyOn(ViewportRuler.prototype, 'change').and.returnValue(
+        viewportRulerChange
+      );
 
       fixture = TestBed.createComponent(SkyAutocompleteFixtureComponent);
       component = fixture.componentInstance;

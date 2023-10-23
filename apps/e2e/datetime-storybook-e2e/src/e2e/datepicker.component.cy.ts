@@ -67,7 +67,9 @@ describe('Date picker', () => {
         cy.get('#screenshot-datepicker')
           .should('exist')
           .should('be.visible')
-          .scrollIntoView()
+          .then(($datepicker) => {
+            cy.window().scrollTo(0, $datepicker.position().top);
+          })
           .end()
           .get('#set-value-button')
           .click()

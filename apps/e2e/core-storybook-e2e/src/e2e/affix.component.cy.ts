@@ -19,7 +19,7 @@ describe('affix', () => {
             capture: 'viewport',
           })
           .window()
-          .scrollTo(0, 50)
+          .scrollTo(0, 175)
           .skyVisualTest(`affix-${theme}--scrolled`, {
             capture: 'viewport',
           });

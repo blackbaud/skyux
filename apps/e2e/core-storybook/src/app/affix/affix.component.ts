@@ -22,8 +22,8 @@ export class AffixComponent {
     'right',
   ];
   protected readonly placements: SkyAffixPlacement[] = [
-    // 'above',
-    'below',
+    'above',
+    // 'below',
     // 'left',
     // 'right',
   ];
