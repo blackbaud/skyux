@@ -10,7 +10,13 @@
     >
       <sky-tab tabHeading="Web page">
         <div class="sky-form-group sky-text-editor-url-modal-first-field">
-          <sky-input-box stacked="true">
+          <sky-input-box
+            class="sky-text-editor-url-input"
+            stacked="true"
+            [hintText]="openLinksInNewWindowOnly ?
+              ('skyux_text_editor_url_modal_open_in_new_window_label'
+                | skyLibResources)
+             : undefined">
             <label
               class="sky-control-label sky-control-label-required"
               [for]="urlInput.id"
@@ -26,7 +32,11 @@
             />
           </sky-input-box>
         </div>
-        <sky-input-box stacked="true" class="sky-form-group">
+        <sky-input-box
+          *ngIf="allowAllOpenLinkOptions"
+          stacked="true"
+          class="sky-form-group"
+        >
           <label class="sky-control-label" [for]="targetInput.id">
             {{ 'skyux_text_editor_url_modal_open_label' | skyLibResources }}
           </label>

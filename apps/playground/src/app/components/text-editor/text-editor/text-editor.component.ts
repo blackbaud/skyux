@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import {
+  SkyTextEditorLinkWindowOptionsType,
   SkyTextEditorMenuType,
   SkyTextEditorToolbarActionType,
 } from '@skyux/text-editor';
@@ -56,6 +57,8 @@ export class TextEditorComponent implements OnInit {
     'undo-redo',
     'link',
   ];
+
+  public linkWindowOptions: SkyTextEditorLinkWindowOptionsType[] = ['new'];
 
   constructor(
     private formBuilder: FormBuilder,

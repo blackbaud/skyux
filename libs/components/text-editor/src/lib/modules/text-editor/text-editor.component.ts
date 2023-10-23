@@ -26,6 +26,7 @@ import { SkyFormsUtility } from '../shared/forms-utility';
 
 import { FONT_LIST_DEFAULTS } from './defaults/font-list-defaults';
 import { FONT_SIZE_LIST_DEFAULTS } from './defaults/font-size-list-defaults';
+import { LINK_WINDOW_OPTIONS_DEFAULT } from './defaults/link-window-options-defaults';
 import { MENU_DEFAULTS } from './defaults/menu-defaults';
 import { STYLE_STATE_DEFAULTS } from './defaults/style-state-defaults';
 import { TOOLBAR_ACTION_DEFAULTS } from './defaults/toolbar-action-defaults';
@@ -36,6 +37,7 @@ import { SkyTextEditorService } from './services/text-editor.service';
 import { SkyTextSanitizationService } from './services/text-sanitization.service';
 import { SkyTextEditorToolbarComponent } from './toolbar/text-editor-toolbar.component';
 import { SkyTextEditorFont } from './types/font-state';
+import { SkyTextEditorLinkWindowOptionsType } from './types/link-window-options-type';
 import { SkyTextEditorMenuType } from './types/menu-type';
 import { SkyTextEditorStyleState } from './types/style-state';
 import { SkyTextEditorMergeField } from './types/text-editor-merge-field';
@@ -231,6 +233,17 @@ export class SkyTextEditorComponent
     return this.#_toolbarActions;
   }
 
+  @Input()
+  public set linkWindowOptions(
+    value: SkyTextEditorLinkWindowOptionsType[] | undefined
+  ) {
+    this.#_linkWindowOptions = value ?? LINK_WINDOW_OPTIONS_DEFAULT;
+  }
+
+  public get linkWindowOptions(): SkyTextEditorLinkWindowOptionsType[] {
+    return this.#_linkWindowOptions;
+  }
+
   @ViewChild('iframe')
   public iframeRef: ElementRef | undefined;
 
@@ -311,6 +324,7 @@ export class SkyTextEditorComponent
   #_mergeFields: SkyTextEditorMergeField[] = [];
   #_menus = MENU_DEFAULTS;
   #_toolbarActions: SkyTextEditorToolbarActionType[] = TOOLBAR_ACTION_DEFAULTS;
+  #_linkWindowOptions = LINK_WINDOW_OPTIONS_DEFAULT;
   #_disabled = false;
   #_initialStyleState = Object.assign({}, STYLE_STATE_DEFAULTS);
   #_placeholder = '';
