@@ -542,10 +542,8 @@ describe('Text editor', () => {
         testComponent.value = '<p>Click here</p>';
         if (testArgs.windowOption === 'new') {
           testComponent.linkWindowOptions = ['new'];
-          console.log('josie in new');
         } else {
           testComponent.linkWindowOptions = ['existing'];
-          console.log('josie in existing');
         }
 
         fixture.detectChanges();
