@@ -1,4 +1,4 @@
-import { SkyTextEditorLinkWindowOptionsType } from '@skyux/text-editor';
+import { SkyTextEditorLinkWindowOptionsType } from '../types/link-window-options-type';
 
-export const LINK_WINDOW_OPTIONS_DEFAULT: SkyTextEditorLinkWindowOptionsType[] =
+export const LINK_WINDOW_OPTIONS_DEFAULTS: SkyTextEditorLinkWindowOptionsType[] =
   ['new', 'existing'];

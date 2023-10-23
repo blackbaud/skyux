@@ -26,7 +26,7 @@ import { SkyFormsUtility } from '../shared/forms-utility';
 
 import { FONT_LIST_DEFAULTS } from './defaults/font-list-defaults';
 import { FONT_SIZE_LIST_DEFAULTS } from './defaults/font-size-list-defaults';
-import { LINK_WINDOW_OPTIONS_DEFAULT } from './defaults/link-window-options-defaults';
+import { LINK_WINDOW_OPTIONS_DEFAULTS } from './defaults/link-window-options-defaults';
 import { MENU_DEFAULTS } from './defaults/menu-defaults';
 import { STYLE_STATE_DEFAULTS } from './defaults/style-state-defaults';
 import { TOOLBAR_ACTION_DEFAULTS } from './defaults/toolbar-action-defaults';
@@ -237,7 +237,7 @@ export class SkyTextEditorComponent
   public set linkWindowOptions(
     value: SkyTextEditorLinkWindowOptionsType[] | undefined
   ) {
-    this.#_linkWindowOptions = value ?? LINK_WINDOW_OPTIONS_DEFAULT;
+    this.#_linkWindowOptions = value ?? LINK_WINDOW_OPTIONS_DEFAULTS;
   }
 
   public get linkWindowOptions(): SkyTextEditorLinkWindowOptionsType[] {
@@ -324,7 +324,7 @@ export class SkyTextEditorComponent
   #_mergeFields: SkyTextEditorMergeField[] = [];
   #_menus = MENU_DEFAULTS;
   #_toolbarActions: SkyTextEditorToolbarActionType[] = TOOLBAR_ACTION_DEFAULTS;
-  #_linkWindowOptions = LINK_WINDOW_OPTIONS_DEFAULT;
+  #_linkWindowOptions = LINK_WINDOW_OPTIONS_DEFAULTS;
   #_disabled = false;
   #_initialStyleState = Object.assign({}, STYLE_STATE_DEFAULTS);
   #_placeholder = '';
