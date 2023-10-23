@@ -217,12 +217,12 @@ export class SkyAffixer {
     } else {
       const layoutRect = this.#getOuterRect(this.#layoutViewport);
       return {
-        top: -1 * Math.abs(layoutRect.top),
-        left: -1 * Math.abs(layoutRect.left),
+        top: layoutRect.top,
+        left: layoutRect.left,
         height: layoutRect.height,
         width: layoutRect.width,
-        bottom: -1 * Math.abs(layoutRect.top) - layoutRect.height,
-        right: -1 * Math.abs(layoutRect.left) - layoutRect.width,
+        bottom: layoutRect.top - layoutRect.height,
+        right: layoutRect.left - layoutRect.width,
       };
     }
   }
@@ -301,7 +301,7 @@ export class SkyAffixer {
     }
 
     const affixedRect = this.#getOuterRect(this.#affixedElement);
-    const baseRect = this.#getOuterRect(this.#baseElement);
+    const baseRect = this.#getRect(this.#baseElement);
 
     const horizontalAlignment = this.#config.horizontalAlignment;
     const verticalAlignment = this.#config.verticalAlignment;
@@ -421,13 +421,13 @@ export class SkyAffixer {
       parentOffset = {
         top: -viewportRect.top,
         left: -viewportRect.left,
-        bottom: viewportRect.bottom,
-        right: viewportRect.right,
+        bottom: -viewportRect.bottom,
+        right: -viewportRect.right,
       };
     }
 
     const affixedRect = this.#getOuterRect(this.#affixedElement);
-    const baseRect = this.#getOuterRect(baseElement);
+    const baseRect = this.#getRect(baseElement);
 
     // A pixel value representing the leeway between the edge of the overflow parent and the edge
     // of the base element before it disappears from view.
@@ -443,7 +443,7 @@ export class SkyAffixer {
       case 'above':
       case 'below':
         // Keep the affixed element within the overflow parent.
-        if (offset.left < parentOffset.left) {
+        if (offset.left <= parentOffset.left) {
           offset.left = parentOffset.left;
         } else if (offset.left + affixedRect.width > parentOffset.right) {
           offset.left = parentOffset.right - affixedRect.width;
@@ -465,7 +465,7 @@ export class SkyAffixer {
       case 'left':
       case 'right':
         // Keep the affixed element within the overflow parent.
-        if (offset.top < parentOffset.top) {
+        if (offset.top <= parentOffset.top) {
           offset.top = parentOffset.top;
         } else if (offset.top + affixedRect.height > parentOffset.bottom) {
           offset.top = parentOffset.bottom - affixedRect.height;

@@ -99,6 +99,14 @@ export class SkyAutocompleteInputDirective
     return this.#focusObs;
   }
 
+  /**
+   * Used to attach the autocomplete dropdown directly to the input without any extra spacing.
+   * @internal
+   */
+  public get inputElement(): HTMLElement {
+    return this.#elementRef.nativeElement;
+  }
+
   public get inputTextValue(): string {
     return this.#elementRef.nativeElement.value;
   }

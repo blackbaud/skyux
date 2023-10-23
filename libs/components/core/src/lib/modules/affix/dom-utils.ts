@@ -79,11 +79,19 @@ export function getVisibleRectForElement(
     right: Math.min(elementRect.right, viewportRect.width),
   };
 
-  return {
-    ...visibleRect,
-    width: visibleRect.right - visibleRect.left,
-    height: visibleRect.bottom - visibleRect.top,
-  };
+  if (element.nodeName.toLowerCase() === 'body') {
+    return {
+      ...visibleRect,
+      width: viewportRect.width,
+      height: viewportRect.height,
+    };
+  } else {
+    return {
+      ...visibleRect,
+      width: visibleRect.right - visibleRect.left,
+      height: visibleRect.bottom - visibleRect.top,
+    };
+  }
 }
 
 export function getOverflowParents(child: HTMLElement): HTMLElement[] {

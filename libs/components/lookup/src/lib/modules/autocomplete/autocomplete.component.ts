@@ -971,7 +971,11 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   #createAffixer(): void {
     /* Sanity check */
     /* istanbul ignore else */
-    if (!this.#affixer && this.resultsRef) {
+    if (
+      !this.#affixer &&
+      this.resultsRef &&
+      this.inputDirective?.inputElement
+    ) {
       const affixer = this.#affixService.createAffixer(this.resultsRef);
 
       this.#adapterService.setDropdownWidth(
@@ -980,7 +984,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
         !!this.#inputBoxHostSvc
       );
 
-      affixer.affixTo(this.#elementRef.nativeElement, {
+      affixer.affixTo(this.inputDirective.inputElement, {
         autoFitContext: SkyAffixAutoFitContext.Viewport,
         enableAutoFit: true,
         isSticky: true,
