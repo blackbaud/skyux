@@ -330,6 +330,7 @@ describe('Input box component', () => {
       parentCls: string
     ): {
       characterCountEl: HTMLElement | null;
+      hintTextEl: HTMLElement | null;
       inputBoxEl: HTMLElement | null;
       inputEl: HTMLElement | null;
       inputGroupBtnEls: HTMLElement[];
@@ -366,6 +367,10 @@ describe('Input box component', () => {
         '.sky-input-box-input-group-inner'
       ) as HTMLElement | null;
 
+      const hintTextEl = formGroupEl?.querySelector(
+        '.sky-input-box-hint-text'
+      ) as HTMLElement | null;
+
       let inputEl = (inputGroupInnerEl || parentEl)?.querySelector(
         '.sky-form-control'
       ) as HTMLElement | null;
@@ -387,6 +392,7 @@ describe('Input box component', () => {
 
       return {
         characterCountEl,
+        hintTextEl,
         inputBoxEl,
         inputEl,
         inputGroupBtnEls,
@@ -693,6 +699,58 @@ describe('Input box component', () => {
       els = getDefaultEls(fixture, 'input-easy-mode');
 
       expect(els.characterCountEl).not.toExist();
+    });
+
+    it('should add hint text', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+
+      let els = getDefaultEls(fixture, 'input-easy-mode');
+
+      expect(els.hintTextEl).not.toExist();
+
+      fixture.componentInstance.easyModeHintText = 'Some hint text.';
+      fixture.detectChanges();
+
+      els = getDefaultEls(fixture, 'input-easy-mode');
+
+      expect(els.hintTextEl).toHaveText('Some hint text.');
+
+      const ariaDescribedBy = els.inputEl?.getAttribute('aria-describedby');
+
+      expect(ariaDescribedBy).toBeTruthy();
+      expect(ariaDescribedBy).toBe(els.hintTextEl?.id);
+
+      fixture.componentInstance.easyModeHintText = undefined;
+      fixture.detectChanges();
+
+      els = getDefaultEls(fixture, 'input-easy-mode');
+
+      expect(els.hintTextEl).not.toExist();
+
+      expect(els.inputEl?.hasAttribute('aria-describedby')).toBeFalse();
+    });
+
+    it('should preserve existing aria-describedby attributes when adding hint text', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+
+      fixture.componentInstance.easyModeHintText = 'Some hint text.';
+      fixture.componentInstance.easyModeAriaDescribedBy =
+        'existing-aria-describedby';
+      fixture.detectChanges();
+
+      const els = getDefaultEls(fixture, 'input-easy-mode');
+
+      expect(els.inputEl?.getAttribute('aria-describedby')).toBe(
+        `existing-aria-describedby ${els.hintTextEl?.id}`
+      );
+
+      fixture.componentInstance.easyModeHintText = undefined;
+      fixture.detectChanges();
+
+      expect(els.inputEl?.getAttribute('aria-describedby')).toBe(
+        'existing-aria-describedby'
+      );
     });
 
     it('should not set the input ID if it is already set', () => {
