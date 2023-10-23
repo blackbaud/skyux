@@ -17,6 +17,7 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyCoreAdapterService, SkyIdService } from '@skyux/core';
+import { SkyTextEditorLinkWindowOptionsType } from '@skyux/text-editor';
 
 import { FONT_LIST_DEFAULTS } from './defaults/font-list-defaults';
 import { FONT_SIZE_LIST_DEFAULTS } from './defaults/font-size-list-defaults';
@@ -369,6 +370,45 @@ describe('Text editor', () => {
     fixture.detectChanges();
   }
 
+  function getUrlField(): HTMLInputElement {
+    return document.querySelector('.sky-modal input') as HTMLInputElement;
+  }
+
+  function enterUrlInUrlModal(value: string): void {
+    const urlField = getUrlField();
+    urlField.value = value;
+    SkyAppTestUtility.fireDomEvent(urlField, 'input');
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+  }
+
+  function getUrlModalSelectField(): HTMLInputElement {
+    return document.querySelector('.sky-modal select') as HTMLInputElement;
+  }
+
+  function selectFieldInUrlModal(field: string): void {
+    const selectField = getUrlModalSelectField();
+    selectField.value = field;
+    SkyAppTestUtility.fireDomEvent(selectField, 'change');
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+  }
+
+  function getUrlModalSaveButton(): HTMLButtonElement {
+    return document.querySelector(
+      '.sky-modal-footer-container .sky-btn-primary'
+    ) as HTMLButtonElement;
+  }
+
+  function clickUrlModalSaveButton(): void {
+    SkyAppTestUtility.fireDomEvent(getUrlModalSaveButton(), 'click');
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+  }
+
   function validateIframeDocumentAttribute(
     name: string,
     expectedValue: string
@@ -463,6 +503,58 @@ describe('Text editor', () => {
       validateToolbarActions(testComponent.toolbarActions);
     });
 
+    [
+      {
+        desc: 'new window',
+        windowOption: 'new',
+        urlStrings: ['<a href="https://google.com">'],
+        linkSubtextExpectation: (
+          newWindowOptionSubtext = document.querySelector(
+            '.ng-template div'
+          ) as HTMLDivElement
+        ) => expect(newWindowOptionSubtext).toExist(),
+      },
+      {
+        desc: 'current window',
+        windowOption: 'existing',
+        urlStrings: [
+          'href="https://google.com',
+          'rel="noopener noreferrer"',
+          'target="_blank"',
+        ],
+        linkSubtextExpectation: (
+          newWindowOptionSubtext = document.querySelector(
+            '.ng-template div'
+          ) as HTMLDivElement
+        ) => expect(newWindowOptionSubtext).not.toExist(),
+      },
+    ].forEach((testArgs) => {
+      it(`should show correct link window options when ${testArgs.desc} option is specified`, () => {
+        testComponent.value = '<p>Click here</p>';
+        testComponent.linkWindowOptions?.push(<SkyTextEditorLinkWindowOptionsType>testArgs.windowOption);
+        tick();
+        fixture.detectChanges();
+
+        selectContent('p');
+
+        clickLinkButton();
+
+        enterUrlInUrlModal('https://google.com');
+
+        expect(getUrlModalSelectField()).not.toExist();
+        testArgs.linkSubtextExpectation();
+
+        clickUrlModalSaveButton();
+        tick();
+        fixture.detectChanges();
+
+        expect(document.querySelector('.sky-modal')).toBeFalsy();
+        testArgs.urlStrings.forEach((urlString) =>
+          expect(testComponent.value).toContain(urlString)
+        );
+      });
+    });
+
     it('should use default values when "unsetting" inputs', fakeAsync(() => {
       testComponent.fontList = undefined;
       testComponent.fontSizeList = undefined;
@@ -470,6 +562,7 @@ describe('Text editor', () => {
       testComponent.menus = undefined;
       testComponent.mergeFields = undefined;
       testComponent.toolbarActions = undefined;
+      testComponent.linkWindowOptions = undefined;
 
       fixture.detectChanges();
 
@@ -995,22 +1088,9 @@ describe('Text editor', () => {
 
       clickLinkButton();
 
-      const urlField = document.querySelector(
-        '.sky-modal input'
-      ) as HTMLInputElement;
-      urlField.value = 'https://google.com';
-      SkyAppTestUtility.fireDomEvent(urlField, 'input');
-      fixture.detectChanges();
-      tick();
-      fixture.detectChanges();
+      enterUrlInUrlModal('https://google.com');
 
-      const saveButton = document.querySelector(
-        '.sky-modal-footer-container .sky-btn-primary'
-      );
-      SkyAppTestUtility.fireDomEvent(saveButton, 'click');
-      fixture.detectChanges();
-      tick();
-      fixture.detectChanges();
+      clickUrlModalSaveButton();
       tick();
       fixture.detectChanges();
 
@@ -1028,32 +1108,11 @@ describe('Text editor', () => {
 
       clickLinkButton();
 
-      const urlField = document.querySelector(
-        '.sky-modal input'
-      ) as HTMLInputElement;
-      urlField.value = 'https://google.com';
-      SkyAppTestUtility.fireDomEvent(urlField, 'input');
-      fixture.detectChanges();
-      tick();
-      fixture.detectChanges();
+      enterUrlInUrlModal('https://google.com');
 
-      const selectField = document.querySelector(
-        '.sky-modal select'
-      ) as HTMLInputElement;
-      selectField.value = '1';
-      SkyAppTestUtility.fireDomEvent(selectField, 'change');
-      fixture.detectChanges();
-      tick();
-      fixture.detectChanges();
+      selectFieldInUrlModal('1');
 
-      const saveButton = document.querySelector(
-        '.sky-modal-footer-container .sky-btn-primary'
-      ) as HTMLElement;
-      saveButton.click();
-      SkyAppTestUtility.fireDomEvent(saveButton, 'click');
-      fixture.detectChanges();
-      tick();
-      fixture.detectChanges();
+      clickUrlModalSaveButton();
       tick();
       fixture.detectChanges();
 
