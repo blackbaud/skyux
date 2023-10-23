@@ -61,7 +61,7 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     },
     skyux_file_attachment_file_upload_file_rejected_max_size: {
       message:
-        'File {0} was rejected as the max file size of {1} bytes was exceeded.',
+        'File {0} was rejected as the maximum file size of {1} bytes was exceeded.',
     },
     skyux_file_attachment_file_upload_file_rejected_min_size: {
       message:

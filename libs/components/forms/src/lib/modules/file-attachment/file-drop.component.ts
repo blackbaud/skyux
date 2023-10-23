@@ -147,15 +147,9 @@ export class SkyFileDropComponent implements OnDestroy {
 
   #_minFileSize = MIN_FILE_SIZE_DEFAULT;
 
-  #fileAttachmentService: SkyFileAttachmentService;
-
+  readonly #fileAttachmentService = inject(SkyFileAttachmentService);
   readonly #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
-
   readonly #resourcesSvc = inject(SkyLibResourcesService);
-
-  constructor(fileAttachmentService: SkyFileAttachmentService) {
-    this.#fileAttachmentService = fileAttachmentService;
-  }
 
   public ngOnDestroy(): void {
     this.filesChanged.complete();
@@ -306,6 +300,36 @@ export class SkyFileDropComponent implements OnDestroy {
   ): void {
     rejectedFileArray.push(file);
     this.#emitFileChangeEvent(totalFiles, rejectedFileArray, validFileArray);
+    switch (file.errorType) {
+      case 'fileType':
+        this.#announceState(
+          'skyux_file_attachment_file_upload_file_rejected_file_type',
+          file.file.name,
+          this.acceptedTypes
+        );
+        break;
+      case 'maxFileSize':
+        this.#announceState(
+          'skyux_file_attachment_file_upload_file_rejected_max_size',
+          file.file.name,
+          this.maxFileSize
+        );
+        break;
+      case 'minFileSize':
+        this.#announceState(
+          'skyux_file_attachment_file_upload_file_rejected_min_size',
+          file.file.name,
+          this.minFileSize
+        );
+        break;
+      case 'validate':
+      default:
+        this.#announceState(
+          'skyux_file_attachment_file_upload_file_rejected',
+          file.file.name
+        );
+        break;
+    }
   }
 
   #loadFile(
@@ -325,9 +349,13 @@ export class SkyFileDropComponent implements OnDestroy {
         rejectedFileArray,
         validFileArray
       );
+      this.#announceState(
+        'skyux_file_attachment_file_upload_file_added',
+        file.file.name
+      );
     });
 
-    reader.addEventListener('error', (event: any) => {
+    reader.addEventListener('error', () => {
       fileDrop.#filesRejected(
         file,
         validFileArray,
@@ -336,7 +364,7 @@ export class SkyFileDropComponent implements OnDestroy {
       );
     });
 
-    reader.addEventListener('abort', (event: any) => {
+    reader.addEventListener('abort', () => {
       fileDrop.#filesRejected(
         file,
         validFileArray,
@@ -370,35 +398,6 @@ export class SkyFileDropComponent implements OnDestroy {
             rejectedFileArray,
             totalFiles
           );
-          switch (file.errorType) {
-            case 'fileType':
-              this.#announceState(
-                'skyux_file_attachment_file_upload_file_rejected_file_type',
-                file.file.name,
-                this.acceptedTypes
-              );
-              break;
-            case 'maxFileSize':
-              this.#announceState(
-                'skyux_file_attachment_file_upload_file_rejected_max_size',
-                file.file.name,
-                this.maxFileSize
-              );
-              break;
-            case 'minFileSize':
-              this.#announceState(
-                'skyux_file_attachment_file_upload_file_rejected_min_size',
-                file.file.name,
-                this.minFileSize
-              );
-              break;
-            case 'validate':
-              this.#announceState(
-                'skyux_file_attachment_file_upload_file_rejected',
-                file.file.name
-              );
-              break;
-          }
         } else {
           this.#loadFile(
             this,
@@ -406,10 +405,6 @@ export class SkyFileDropComponent implements OnDestroy {
             validFileArray,
             rejectedFileArray,
             totalFiles
-          );
-          this.#announceState(
-            'skyux_file_attachment_file_upload_file_added',
-            file.file.name
           );
         }
       }

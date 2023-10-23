@@ -2,6 +2,7 @@ import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyLiveAnnouncerService } from '@skyux/core';
 
 import { SkyFileAttachmentsModule } from './file-attachments.module';
 import { SkyFileDropComponent } from './file-drop.component';
@@ -22,33 +23,38 @@ describe('File drop component', () => {
   let el: any;
   let componentInstance: SkyFileDropComponent;
 
+  let liveAnnouncerSpy: jasmine.Spy;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyFileAttachmentsModule],
       declarations: [FileDropContentComponent],
     });
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(SkyFileDropComponent);
     el = fixture.nativeElement;
     componentInstance = fixture.componentInstance;
+
+    liveAnnouncerSpy = spyOn(
+      TestBed.inject(SkyLiveAnnouncerService),
+      'announce'
+    );
   });
 
   //#region helper functions
-  function getInputDebugEl() {
+  function getInputDebugEl(): DebugElement {
     return fixture.debugElement.query(By.css('input.sky-file-input-hidden'));
   }
 
-  function getDropEl() {
+  function getDropEl(): HTMLElement | null {
     return el.querySelector('.sky-file-drop');
   }
 
-  function getDropDebugEl() {
+  function getDropDebugEl(): DebugElement {
     return fixture.debugElement.query(By.css('.sky-file-drop'));
   }
 
-  function getDropElWrapper() {
+  function getDropElWrapper(): HTMLElement | null {
     return el.querySelector('.sky-file-drop-col');
   }
 
@@ -56,20 +62,20 @@ describe('File drop component', () => {
     hasAccept: boolean,
     hasReject: boolean,
     dropEl: any
-  ) {
+  ): void {
     expect(dropEl.classList.contains('sky-file-drop-accept')).toBe(hasAccept);
     expect(dropEl.classList.contains('sky-file-drop-reject')).toBe(hasReject);
   }
 
-  function getLinkInput() {
+  function getLinkInput(): DebugElement {
     return fixture.debugElement.query(By.css('.sky-file-drop-link input'));
   }
 
-  function getLinkButton() {
+  function getLinkButton(): DebugElement {
     return fixture.debugElement.query(By.css('.sky-file-drop-link button'));
   }
 
-  function testClick(expectedResult: boolean) {
+  function testClick(expectedResult: boolean): void {
     let inputClicked = false;
 
     fixture.detectChanges();
@@ -82,21 +88,21 @@ describe('File drop component', () => {
 
     const dropEl = getDropEl();
 
-    dropEl.click();
+    dropEl?.click();
 
     fixture.detectChanges();
 
     expect(inputClicked).toBe(expectedResult);
   }
 
-  function triggerChangeEvent(expectedChangeFiles: any[]) {
+  function triggerChangeEvent(expectedChangeFiles: any[]): void {
     const inputEl = getInputDebugEl();
 
     const fileChangeEvent = {
       target: {
         files: {
           length: expectedChangeFiles.length,
-          item: function (index: number) {
+          item: function (index: number): any {
             return expectedChangeFiles[index];
           },
         },
@@ -106,7 +112,16 @@ describe('File drop component', () => {
     inputEl.triggerEventHandler('change', fileChangeEvent);
   }
 
-  function setupFileReaderSpy(existingSpy?: jasmine.Spy) {
+  function setupFileReaderSpy(existingSpy?: jasmine.Spy): {
+    loadCallbacks: ((opts: {
+      target: {
+        result: string;
+      };
+    }) => void)[];
+    errorCallbacks: (() => void)[];
+    abortCallbacks: (() => void)[];
+    fileReaderSpy: jasmine.Spy;
+  } {
     const loadCallbacks: ((opts: {
       target: {
         result: string;
@@ -117,7 +132,9 @@ describe('File drop component', () => {
 
     const fileReaderSpy = existingSpy ?? spyOn(window as any, 'FileReader');
     fileReaderSpy.and.returnValue({
-      readAsDataURL: function () {},
+      readAsDataURL: function () {
+        return;
+      },
       addEventListener: function (type: string, callback: () => void) {
         if (type === 'load') {
           loadCallbacks.push(callback);
@@ -181,16 +198,16 @@ describe('File drop component', () => {
     return fileReaderSpyData.fileReaderSpy;
   }
 
-  function triggerDragEnter(enterTarget: any, dropDebugEl: DebugElement) {
+  function triggerDragEnter(enterTarget: any, dropDebugEl: DebugElement): void {
     let dragEnterPropStopped = false;
     let dragEnterPreventDefault = false;
 
     const dragEnterEvent = {
       target: enterTarget,
-      stopPropagation: function () {
+      stopPropagation: function (): void {
         dragEnterPropStopped = true;
       },
-      preventDefault: function () {
+      preventDefault: function (): void {
         dragEnterPreventDefault = true;
       },
     };
@@ -201,7 +218,7 @@ describe('File drop component', () => {
     expect(dragEnterPropStopped).toBe(true);
   }
 
-  function triggerDragOver(files: any, dropDebugEl: DebugElement) {
+  function triggerDragOver(files: any, dropDebugEl: DebugElement): void {
     let dragOverPropStopped = false;
     let dragOverPreventDefault = false;
 
@@ -210,10 +227,10 @@ describe('File drop component', () => {
         files: {} as any,
         items: files,
       },
-      stopPropagation: function () {
+      stopPropagation: function (): void {
         dragOverPropStopped = true;
       },
-      preventDefault: function () {
+      preventDefault: function (): void {
         dragOverPreventDefault = true;
       },
     };
@@ -224,7 +241,7 @@ describe('File drop component', () => {
     expect(dragOverPropStopped).toBe(true);
   }
 
-  function triggerDrop(files: any, dropDebugEl: DebugElement) {
+  function triggerDrop(files: any, dropDebugEl: DebugElement): void {
     let dropPropStopped = false;
     let dropPreventDefault = false;
     const fileLength = files ? files.length : 0;
@@ -233,16 +250,16 @@ describe('File drop component', () => {
       dataTransfer: {
         files: {
           length: fileLength,
-          item: function (index: number) {
+          item: function (index: number): any {
             return files[index];
           },
         },
         items: files,
       },
-      stopPropagation: function () {
+      stopPropagation: function (): void {
         dropPropStopped = true;
       },
-      preventDefault: function () {
+      preventDefault: function (): void {
         dropPreventDefault = true;
       },
     };
@@ -253,7 +270,7 @@ describe('File drop component', () => {
     expect(dropPropStopped).toBe(true);
   }
 
-  function triggerDragLeave(leaveTarget: any, dropDebugEl: DebugElement) {
+  function triggerDragLeave(leaveTarget: any, dropDebugEl: DebugElement): void {
     const dragLeaveEvent = {
       target: leaveTarget,
     };
@@ -262,7 +279,7 @@ describe('File drop component', () => {
     fixture.detectChanges();
   }
 
-  function triggerInputChange(value: string, linkInput: DebugElement) {
+  function triggerInputChange(value: string, linkInput: DebugElement): void {
     linkInput.triggerEventHandler('input', { target: { value: value } });
     fixture.detectChanges();
   }
@@ -303,10 +320,17 @@ describe('File drop component', () => {
     expect(filesChangedActual?.files[0].url).toBe('url');
     expect(filesChangedActual?.files[0].file.name).toBe('foo.txt');
     expect(filesChangedActual?.files[0].file.size).toBe(1000);
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      'File foo.txt was added successfully.'
+    );
 
     expect(filesChangedActual?.files[1].url).toBe('newUrl');
     expect(filesChangedActual?.files[1].file.name).toBe('woo.txt');
     expect(filesChangedActual?.files[1].file.size).toBe(2000);
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      'File woo.txt was added successfully.'
+    );
+    expect(liveAnnouncerSpy.calls.count()).toBe(2);
   });
 
   it('should load and emit files on file change event when file reader has an error and aborts', () => {
@@ -351,14 +375,21 @@ describe('File drop component', () => {
     expect(filesChangedActual?.files[0].url).toBe('anotherUrl');
     expect(filesChangedActual?.files[0].file.name).toBe('woo.txt');
     expect(filesChangedActual?.files[0].file.size).toBe(2000);
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      'File woo.txt was added successfully.'
+    );
 
     expect(filesChangedActual?.rejectedFiles.length).toBe(2);
 
     expect(filesChangedActual?.rejectedFiles[0].file.name).toBe('foo.txt');
     expect(filesChangedActual?.rejectedFiles[0].file.size).toBe(1000);
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith('File foo.txt was rejected.');
 
     expect(filesChangedActual?.rejectedFiles[1].file.name).toBe('goo.txt');
     expect(filesChangedActual?.rejectedFiles[1].file.size).toBe(3000);
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith('File goo.txt was rejected.');
+
+    expect(liveAnnouncerSpy.calls.count()).toBe(3);
   });
 
   it('should allow the user to specify to not allow multiple files', () => {
@@ -398,11 +429,19 @@ describe('File drop component', () => {
     expect(filesChangedActual?.rejectedFiles[0].file.size).toBe(1000);
     expect(filesChangedActual?.rejectedFiles[0].errorType).toBe('minFileSize');
     expect(filesChangedActual?.rejectedFiles[0].errorParam).toBe('1500');
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      'File foo.txt was rejected as the minimum file size of 1500 bytes was not met.'
+    );
 
     expect(filesChangedActual?.files.length).toBe(1);
     expect(filesChangedActual?.files[0].url).toBe('url');
     expect(filesChangedActual?.files[0].file.name).toBe('woo.txt');
     expect(filesChangedActual?.files[0].file.size).toBe(2000);
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      'File woo.txt was added successfully.'
+    );
+
+    expect(liveAnnouncerSpy.calls.count()).toBe(2);
   });
 
   it('should respect a default min file size of 0', () => {
@@ -423,6 +462,16 @@ describe('File drop component', () => {
     expect(filesChangedActual?.files[1].file.name).toBe('woo.txt');
     expect(filesChangedActual?.files[1].file.size).toBe(2000);
     expect(filesChangedActual?.files[1].url).toBe('newUrl');
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      'File foo.txt was added successfully.'
+    );
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      'File woo.txt was added successfully.'
+    );
+
+    expect(liveAnnouncerSpy.calls.count()).toBe(2);
+
+    liveAnnouncerSpy.calls.reset();
 
     // The `as` statement is needed as the analyzer does not know about the subscription that sets this back and causes issues with the future check.
     filesChangedActual = undefined as SkyFileDropChange | undefined;
@@ -436,11 +485,21 @@ describe('File drop component', () => {
     expect(filesChangedActual?.rejectedFiles[0].file.size).toBe(1000);
     expect(filesChangedActual?.rejectedFiles[0].errorType).toBe('minFileSize');
     expect(filesChangedActual?.rejectedFiles[0].errorParam).toBe('1500');
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      'File foo.txt was rejected as the minimum file size of 1500 bytes was not met.'
+    );
 
     expect(filesChangedActual?.files.length).toBe(1);
     expect(filesChangedActual?.files[0].url).toBe('url');
     expect(filesChangedActual?.files[0].file.name).toBe('woo.txt');
     expect(filesChangedActual?.files[0].file.size).toBe(2000);
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      'File woo.txt was added successfully.'
+    );
+
+    expect(liveAnnouncerSpy.calls.count()).toBe(2);
+
+    liveAnnouncerSpy.calls.reset();
 
     // The `as` statement is needed as the analyzer does not know about the subscription that sets this back and causes issues with the future check.
     filesChangedActual = undefined as SkyFileDropChange | undefined;
@@ -458,6 +517,14 @@ describe('File drop component', () => {
     expect(filesChangedActual?.files[1].file.name).toBe('woo.txt');
     expect(filesChangedActual?.files[1].file.size).toBe(2000);
     expect(filesChangedActual?.files[1].url).toBe('newUrl');
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      'File foo.txt was added successfully.'
+    );
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      'File woo.txt was added successfully.'
+    );
+
+    expect(liveAnnouncerSpy.calls.count()).toBe(2);
   });
 
   it('should allow the user to specify a max file size', () => {
@@ -477,11 +544,19 @@ describe('File drop component', () => {
     expect(filesChangedActual?.rejectedFiles[0].file.size).toBe(2000);
     expect(filesChangedActual?.rejectedFiles[0].errorType).toBe('maxFileSize');
     expect(filesChangedActual?.rejectedFiles[0].errorParam).toBe('1500');
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      'File woo.txt was rejected as the maximum file size of 1500 bytes was exceeded.'
+    );
 
     expect(filesChangedActual?.files.length).toBe(1);
     expect(filesChangedActual?.files[0].url).toBe('url');
     expect(filesChangedActual?.files[0].file.name).toBe('foo.txt');
     expect(filesChangedActual?.files[0].file.size).toBe(1000);
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      'File foo.txt was added successfully.'
+    );
+
+    expect(liveAnnouncerSpy.calls.count()).toBe(2);
   });
 
   it('should respect a default max file size of 500000', () => {
@@ -502,6 +577,16 @@ describe('File drop component', () => {
     expect(filesChangedActual?.files[1].file.name).toBe('woo.txt');
     expect(filesChangedActual?.files[1].file.size).toBe(2000);
     expect(filesChangedActual?.files[1].url).toBe('newUrl');
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      'File foo.txt was added successfully.'
+    );
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      'File woo.txt was added successfully.'
+    );
+
+    expect(liveAnnouncerSpy.calls.count()).toBe(2);
+
+    liveAnnouncerSpy.calls.reset();
 
     // The `as` statement is needed as the analyzer does not know about the subscription that sets this back and causes issues with the future check.
     filesChangedActual = undefined as SkyFileDropChange | undefined;
@@ -515,11 +600,21 @@ describe('File drop component', () => {
     expect(filesChangedActual?.rejectedFiles[0].file.size).toBe(2000);
     expect(filesChangedActual?.rejectedFiles[0].errorType).toBe('maxFileSize');
     expect(filesChangedActual?.rejectedFiles[0].errorParam).toBe('1500');
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      'File woo.txt was rejected as the maximum file size of 1500 bytes was exceeded.'
+    );
 
     expect(filesChangedActual?.files.length).toBe(1);
     expect(filesChangedActual?.files[0].url).toBe('url');
     expect(filesChangedActual?.files[0].file.name).toBe('foo.txt');
     expect(filesChangedActual?.files[0].file.size).toBe(1000);
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      'File foo.txt was added successfully.'
+    );
+
+    expect(liveAnnouncerSpy.calls.count()).toBe(2);
+
+    liveAnnouncerSpy.calls.reset();
 
     // The `as` statement is needed as the analyzer does not know about the subscription that sets this back and causes issues with the future check.
     filesChangedActual = undefined as SkyFileDropChange | undefined;
@@ -537,6 +632,14 @@ describe('File drop component', () => {
     expect(filesChangedActual?.files[1].file.name).toBe('woo.txt');
     expect(filesChangedActual?.files[1].file.size).toBe(2000);
     expect(filesChangedActual?.files[1].url).toBe('newUrl');
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      'File foo.txt was added successfully.'
+    );
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      'File woo.txt was added successfully.'
+    );
+
+    expect(liveAnnouncerSpy.calls.count()).toBe(2);
   });
 
   it('should allow the user to specify a validation function', () => {
@@ -567,11 +670,17 @@ describe('File drop component', () => {
     expect(filesChangedActual?.rejectedFiles[0].file.size).toBe(2000);
     expect(filesChangedActual?.rejectedFiles[0].errorType).toBe('validate');
     expect(filesChangedActual?.rejectedFiles[0].errorParam).toBe(errorMessage);
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith('File woo.txt was rejected.');
 
     expect(filesChangedActual?.files.length).toBe(1);
     expect(filesChangedActual?.files[0].url).toBe('url');
     expect(filesChangedActual?.files[0].file.name).toBe('foo.txt');
     expect(filesChangedActual?.files[0].file.size).toBe(1000);
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      'File foo.txt was added successfully.'
+    );
+
+    expect(liveAnnouncerSpy.calls.count()).toBe(2);
   });
 
   it('should allow the user to specify accepted types', () => {
@@ -594,11 +703,19 @@ describe('File drop component', () => {
     expect(filesChangedActual?.rejectedFiles[0].errorParam).toBe(
       componentInstance.acceptedTypes
     );
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      `File woo.txt was rejected as the file does not have the correct file type. The file must be of one of the following types: ${componentInstance.acceptedTypes}.`
+    );
 
     expect(filesChangedActual?.files.length).toBe(1);
     expect(filesChangedActual?.files[0].url).toBe('url');
     expect(filesChangedActual?.files[0].file.name).toBe('foo.txt');
     expect(filesChangedActual?.files[0].file.size).toBe(1000);
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      'File foo.txt was added successfully.'
+    );
+
+    expect(liveAnnouncerSpy.calls.count()).toBe(2);
   });
 
   it('should reject a file with no type when accepted types are defined', () => {
@@ -633,6 +750,9 @@ describe('File drop component', () => {
     expect(filesChangedActual?.rejectedFiles[1].errorParam).toBe(
       componentInstance.acceptedTypes
     );
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      `File woo.txt was rejected as the file does not have the correct file type. The file must be of one of the following types: ${componentInstance.acceptedTypes}.`
+    );
 
     expect(filesChangedActual?.rejectedFiles[0].file.name).toBe('foo.txt');
     expect(filesChangedActual?.rejectedFiles[0].file.size).toBe(1000);
@@ -640,6 +760,11 @@ describe('File drop component', () => {
     expect(filesChangedActual?.rejectedFiles[0].errorParam).toBe(
       componentInstance.acceptedTypes
     );
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      `File foo.txt was rejected as the file does not have the correct file type. The file must be of one of the following types: ${componentInstance.acceptedTypes}.`
+    );
+
+    expect(liveAnnouncerSpy.calls.count()).toBe(2);
   });
 
   it('should allow the user to specify accepted type with wildcards', () => {
@@ -664,6 +789,14 @@ describe('File drop component', () => {
     expect(filesChangedActual?.files[1].url).toBe('newUrl');
     expect(filesChangedActual?.files[1].file.name).toBe('woo.txt');
     expect(filesChangedActual?.files[1].file.size).toBe(2000);
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      'File foo.txt was added successfully.'
+    );
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      'File woo.txt was added successfully.'
+    );
+
+    expect(liveAnnouncerSpy.calls.count()).toBe(2);
   });
 
   it('should load files and set classes on drag and drop', () => {
@@ -720,6 +853,11 @@ describe('File drop component', () => {
     expect(filesChangedActual?.files[0].url).toBe('url');
     expect(filesChangedActual?.files[0].file.name).toBe('foo.txt');
     expect(filesChangedActual?.files[0].file.size).toBe(1000);
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      'File foo.txt was added successfully.'
+    );
+
+    expect(liveAnnouncerSpy.calls.count()).toBe(1);
 
     // Verify reject classes when appropriate
     triggerDragEnter('sky-drop', dropDebugEl);
@@ -907,6 +1045,9 @@ describe('File drop component', () => {
     fixture.detectChanges();
 
     expect(fileLinkActual?.url).toBe('link.com');
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      'Link to link.com was added successfully.'
+    );
   });
 
   it('should emit link event when link is added on enter press', () => {
@@ -938,6 +1079,9 @@ describe('File drop component', () => {
     fixture.detectChanges();
 
     expect(fileLinkActual?.url).toBe('link.com');
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      'Link to link.com was added successfully.'
+    );
   });
 
   it('should allow custom content inside of the file drop component', () => {
@@ -966,13 +1110,13 @@ describe('File drop component', () => {
     componentInstance.allowLinks = true;
     fixture.detectChanges();
 
-    const linkInput: DebugElement = getLinkInput();
-    const dropEl: HTMLElement = getDropEl();
+    const linkInput = getLinkInput();
+    const dropEl = getDropEl();
 
     expect(
       linkInput.nativeElement.attributes.getNamedItem('aria-label').value
     ).toBe('Link to a file');
-    expect(dropEl.attributes.getNamedItem('aria-label')?.value).toBe(
+    expect(dropEl?.attributes.getNamedItem('aria-label')?.value).toBe(
       'Drag a file here or click to browse'
     );
 
@@ -984,7 +1128,9 @@ describe('File drop component', () => {
     expect(
       linkInput.nativeElement.attributes.getNamedItem('aria-label').value
     ).toBe('Test 34');
-    expect(dropEl.attributes.getNamedItem('aria-label')?.value).toBe('Test 12');
+    expect(dropEl?.attributes.getNamedItem('aria-label')?.value).toBe(
+      'Test 12'
+    );
   });
 
   it('should pass accessibility', async () => {
