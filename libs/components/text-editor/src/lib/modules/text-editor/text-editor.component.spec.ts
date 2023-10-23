@@ -17,7 +17,9 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyCoreAdapterService, SkyIdService } from '@skyux/core';
-import { SkyTextEditorLinkWindowOptionsType } from '@skyux/text-editor';
+import { SkyAppResourcesService, SkyLibResourcesService } from '@skyux/i18n';
+
+import { SkyTextEditorResourcesModule } from '../shared/sky-text-editor-resources.module';
 
 import { FONT_LIST_DEFAULTS } from './defaults/font-list-defaults';
 import { FONT_SIZE_LIST_DEFAULTS } from './defaults/font-size-list-defaults';
@@ -74,11 +76,13 @@ describe('Text editor', () => {
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
+        SkyTextEditorResourcesModule,
         SkyTextEditorModule,
         RouterTestingModule,
       ],
       declarations: [componentType],
       providers: [
+        { provide: SkyAppResourcesService, useClass: SkyLibResourcesService },
         {
           provide: SkyIdService,
           useValue: {
@@ -455,6 +459,7 @@ describe('Text editor', () => {
       toolbarActions[i].classList.contains(expected[i]);
     }
   }
+
   //#endregion
 
   describe('basic behaviors', () => {
@@ -507,42 +512,54 @@ describe('Text editor', () => {
       {
         desc: 'new window',
         windowOption: 'new',
-        urlStrings: ['<a href="https://google.com">'],
-        linkSubtextExpectation: (
-          newWindowOptionSubtext = document.querySelector(
-            '.ng-template div'
-          ) as HTMLDivElement
-        ) => expect(newWindowOptionSubtext).toExist(),
-      },
-      {
-        desc: 'current window',
-        windowOption: 'existing',
         urlStrings: [
           'href="https://google.com',
           'rel="noopener noreferrer"',
           'target="_blank"',
         ],
-        linkSubtextExpectation: (
-          newWindowOptionSubtext = document.querySelector(
-            '.ng-template div'
-          ) as HTMLDivElement
-        ) => expect(newWindowOptionSubtext).not.toExist(),
+        containsHintTextExpect: (
+          inputBoxText = document.querySelector('.sky-modal .sky-input-box')
+            ?.textContent
+        ) =>
+          expect(inputBoxText).toContain(
+            'This link will open in a new window.'
+          ),
+      },
+      {
+        desc: 'current window',
+        windowOption: 'existing',
+        urlStrings: ['<a', 'href="https://google.com">'],
+        containsHintTextExpect: (
+          inputBoxText = document.querySelector('.sky-modal .sky-input-box')
+            ?.textContent
+        ) =>
+          expect(inputBoxText).not.toContain(
+            'This link will open in a new window.'
+          ),
       },
     ].forEach((testArgs) => {
-      it(`should show correct link window options when ${testArgs.desc} option is specified`, () => {
+      it(`should show correct link window options when ${testArgs.desc} option is specified`, fakeAsync(() => {
         testComponent.value = '<p>Click here</p>';
-        testComponent.linkWindowOptions?.push(<SkyTextEditorLinkWindowOptionsType>testArgs.windowOption);
+        if (testArgs.windowOption === 'new') {
+          testComponent.linkWindowOptions = ['new'];
+          console.log('josie in new');
+        } else {
+          testComponent.linkWindowOptions = ['existing'];
+          console.log('josie in existing');
+        }
+
+        fixture.detectChanges();
         tick();
         fixture.detectChanges();
 
-        selectContent('p');
+        selectContent();
 
         clickLinkButton();
 
         enterUrlInUrlModal('https://google.com');
 
         expect(getUrlModalSelectField()).not.toExist();
-        testArgs.linkSubtextExpectation();
+        testArgs.containsHintTextExpect();
 
         clickUrlModalSaveButton();
         tick();
@@ -552,7 +569,7 @@ describe('Text editor', () => {
         testArgs.urlStrings.forEach((urlString) =>
           expect(testComponent.value).toContain(urlString)
         );
-      });
+      }));
     });
 
     it('should use default values when "unsetting" inputs', fakeAsync(() => {
