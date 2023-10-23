@@ -49,6 +49,27 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     skyux_file_attachment_file_upload_drop_files_here: {
       message: 'Drop files here',
     },
+    skyux_file_attachment_file_upload_file_added: {
+      message: 'File {0} was added successfully.',
+    },
+    skyux_file_attachment_file_upload_file_rejected: {
+      message: 'File {0} was rejected.',
+    },
+    skyux_file_attachment_file_upload_file_rejected_file_type: {
+      message:
+        'File {0} was rejected as the file does not have the correct file type. The file must be of one of the following types: {1}.',
+    },
+    skyux_file_attachment_file_upload_file_rejected_max_size: {
+      message:
+        'File {0} was rejected as the max file size of {1} bytes was exceeded.',
+    },
+    skyux_file_attachment_file_upload_file_rejected_min_size: {
+      message:
+        'File {0} was rejected as the minimum file size of {1} bytes was not met.',
+    },
+    skyux_file_attachment_file_upload_file_removed: {
+      message: 'File {0} was removed.',
+    },
     skyux_file_attachment_file_upload_image_preview_alt_text: {
       message: 'Image preview',
     },
@@ -63,6 +84,12 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
       message: 'or click to browse',
     },
     skyux_file_attachment_file_upload_link_done: { message: 'Done' },
+    skyux_file_attachment_file_upload_link_added: {
+      message: 'Link to {0} was added successfully.',
+    },
+    skyux_file_attachment_file_upload_link_removed: {
+      message: 'Link to {0} was removed.',
+    },
     skyux_file_attachment_label_no_file_chosen: { message: 'No file chosen.' },
     skyux_input_box_error_character_count: {
       message: 'Limit {0} to {1} character(s).',

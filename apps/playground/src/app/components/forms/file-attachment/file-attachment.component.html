@@ -9,6 +9,7 @@
     [acceptedTypes]="acceptedTypes"
     [allowLinks]="true"
     [maxFileSize]="maxFileSize"
+    [minFileSize]="minFileSize"
     [validateFn]="validateFile"
     (filesChanged)="filesUpdated($event)"
     (linkChanged)="linkAdded($event)"
@@ -21,8 +22,8 @@
     indicatorType="danger"
   >
     The file
-    <strong>{{ rejectedFiles[rejectedFiles.length - 1].file.name }}</strong> is
-    invalid. Reason:
+    <strong> {{ rejectedFiles[rejectedFiles.length - 1].file.name }} </strong>
+    is invalid. Reason:
     {{ rejectedFiles[rejectedFiles.length - 1].errorType }} violation. Error
     param: {{ rejectedFiles[rejectedFiles.length - 1].errorParam }}
   </sky-status-indicator>
