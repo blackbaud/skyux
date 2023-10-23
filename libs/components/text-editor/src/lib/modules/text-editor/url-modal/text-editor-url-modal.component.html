@@ -10,7 +10,12 @@
     >
       <sky-tab tabHeading="Web page">
         <div class="sky-form-group sky-text-editor-url-modal-first-field">
-          <sky-input-box stacked="true">
+          <sky-input-box
+            stacked="true"
+            [hintText]="openLinksInNewWindowOnly ?
+              ('skyux_text_editor_url_modal_open_in_new_window_label'
+                | skyLibResources)
+             : null">
             <label
               class="sky-control-label sky-control-label-required"
               [for]="urlInput.id"
@@ -23,12 +28,11 @@
               [(ngModel)]="url"
               skyId
               #urlInput="skyId"
-              [attr.aria-describedby]="openLinksInNewWindowOnly ? openInNewWindowLabelId : null"
             />
           </sky-input-box>
         </div>
         <sky-input-box
-          *ngIf="allowAllOpenLinkOptions; else linksOpenInSpecificWindow"
+          *ngIf="allowAllOpenLinkOptions"
           stacked="true"
           class="sky-form-group"
         >
@@ -54,14 +58,6 @@
             </option>
           </select>
         </sky-input-box>
-        <ng-template #linksOpenInSpecificWindow>
-          <div *ngIf="openLinksInNewWindowOnly" class="sky-font-deemphasized" [id]="openInNewWindowLabelId">
-            {{
-              'skyux_text_editor_url_modal_open_in_new_window_label'
-                | skyLibResources
-            }}
-          </div>
-        </ng-template>
       </sky-tab>
       <sky-tab tabHeading="Email address">
         <div class="sky-form-group first-field">

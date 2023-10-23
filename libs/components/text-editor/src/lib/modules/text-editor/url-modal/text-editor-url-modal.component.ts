@@ -65,7 +65,6 @@ export class SkyTextEditorUrlModalComponent {
   public emailAddressValid = false;
   public allowAllOpenLinkOptions = true;
   public openLinksInNewWindowOnly = false;
-  public openInNewWindowLabelId: string;
   public subject = '';
   public target: number | string = 0;
   public valid = false;
@@ -79,8 +78,6 @@ export class SkyTextEditorUrlModalComponent {
 
   constructor(idService: SkyIdService) {
     const linkWindowOptions = this.#modalContext.linkWindowOptions;
-
-    this.openInNewWindowLabelId = idService.generateId();
 
     if (linkWindowOptions?.length === 1) {
       this.allowAllOpenLinkOptions = false;
