@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.9.0](https://github.com/blackbaud/skyux/compare/9.8.0...9.9.0) (2023-10-23)
+
+
+### Features
+
+* **components/layout:** automatically set box context menu aria label ([#1826](https://github.com/blackbaud/skyux/issues/1826)) ([65fa9a3](https://github.com/blackbaud/skyux/commit/65fa9a33d2b35f2be4d55d34cc8f73b0105f8f28))
+
 ## [9.8.0](https://github.com/blackbaud/skyux/compare/9.7.0...9.8.0) (2023-10-20)
 
 
