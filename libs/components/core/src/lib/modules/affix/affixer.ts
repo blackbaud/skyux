@@ -211,11 +211,9 @@ export class SkyAffixer {
 
   #getOffsetParentRect(): AffixRect {
     if (this.#affixedElement.offsetParent) {
-      return this.#getOuterRect(
-        this.#affixedElement.offsetParent as HTMLElement
-      );
+      return getOuterRect(this.#affixedElement.offsetParent as HTMLElement);
     } else {
-      const layoutRect = this.#getOuterRect(this.#layoutViewport);
+      const layoutRect = getOuterRect(this.#layoutViewport);
       return {
         top: layoutRect.top,
         left: layoutRect.left,
@@ -278,30 +276,13 @@ export class SkyAffixer {
     return this.#getPreferredOffset(this.#config.placement);
   }
 
-  #getRect(baseElement: HTMLElement): AffixRect {
-    const baseDomRect = baseElement.getBoundingClientRect();
-
-    return {
-      top: baseDomRect.top,
-      bottom: baseDomRect.bottom,
-      left: baseDomRect.left,
-      right: baseDomRect.right,
-      width: baseDomRect.width,
-      height: baseDomRect.height,
-    };
-  }
-
-  #getOuterRect(baseElement: HTMLElement): AffixRect {
-    return getOuterRect(baseElement);
-  }
-
   #getPreferredOffset(placement: SkyAffixPlacement): Required<SkyAffixOffset> {
     if (!this.#baseElement) {
       return { top: 0, left: 0, bottom: 0, right: 0 };
     }
 
-    const affixedRect = this.#getOuterRect(this.#affixedElement);
-    const baseRect = this.#getRect(this.#baseElement);
+    const affixedRect = getOuterRect(this.#affixedElement);
+    const baseRect = this.#baseElement.getBoundingClientRect();
 
     const horizontalAlignment = this.#config.horizontalAlignment;
     const verticalAlignment = this.#config.verticalAlignment;
@@ -414,7 +395,7 @@ export class SkyAffixer {
           this.#config.autoFitOverflowOffset
         );
       } else {
-        parentOffset = this.#getOuterRect(parent);
+        parentOffset = getOuterRect(parent);
       }
     } else {
       const viewportRect = this.#viewportRuler.getViewportRect();
@@ -426,8 +407,8 @@ export class SkyAffixer {
       };
     }
 
-    const affixedRect = this.#getOuterRect(this.#affixedElement);
-    const baseRect = this.#getRect(baseElement);
+    const affixedRect = getOuterRect(this.#affixedElement);
+    const baseRect = baseElement.getBoundingClientRect();
 
     // A pixel value representing the leeway between the edge of the overflow parent and the edge
     // of the base element before it disappears from view.
@@ -443,7 +424,7 @@ export class SkyAffixer {
       case 'above':
       case 'below':
         // Keep the affixed element within the overflow parent.
-        if (offset.left <= parentOffset.left) {
+        if (offset.left < parentOffset.left) {
           offset.left = parentOffset.left;
         } else if (offset.left + affixedRect.width > parentOffset.right) {
           offset.left = parentOffset.right - affixedRect.width;
@@ -465,7 +446,7 @@ export class SkyAffixer {
       case 'left':
       case 'right':
         // Keep the affixed element within the overflow parent.
-        if (offset.top <= parentOffset.top) {
+        if (offset.top < parentOffset.top) {
           offset.top = parentOffset.top;
         } else if (offset.top + affixedRect.height > parentOffset.bottom) {
           offset.top = parentOffset.bottom - affixedRect.height;
@@ -546,7 +527,7 @@ export class SkyAffixer {
       return false;
     }
 
-    const baseRect = this.#getRect(this.#baseElement);
+    const baseRect = this.#baseElement.getBoundingClientRect();
 
     return isOffsetPartiallyVisibleWithinParent(
       this.#viewportRuler,
