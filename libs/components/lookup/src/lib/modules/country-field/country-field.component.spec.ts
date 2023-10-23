@@ -6,7 +6,6 @@ import {
 } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyInputBoxModule } from '@skyux/forms';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -1599,8 +1598,7 @@ describe('Country Field Component', () => {
     describe('without country context', () => {
       beforeEach(() => {
         TestBed.configureTestingModule({
-          declarations: [CountryFieldInputBoxTestComponent],
-          imports: [FormsModule, SkyCountryFieldModule, SkyInputBoxModule],
+          imports: [CountryFieldInputBoxTestComponent],
           providers: [
             {
               provide: SkyThemeService,
@@ -1658,13 +1656,32 @@ describe('Country Field Component', () => {
         const modernInput = nativeElement.querySelector('.sky-form-control');
         expect(modernInput?.getAttribute('placeholder')).toEqual('');
       }));
+
+      it('should set aria-describedby when hint text is specified', () => {
+        fixture.componentInstance.hintText = 'Some hint text.';
+        fixture.detectChanges();
+
+        const inputEl = nativeElement.querySelector('.sky-form-control');
+        const hintTextEl = nativeElement.querySelector(
+          'sky-input-box .sky-input-box-hint-text'
+        );
+
+        const ariaDescribedBy = inputEl.getAttribute('aria-describedby');
+
+        expect(ariaDescribedBy).toBeTruthy();
+        expect(ariaDescribedBy).toBe(hintTextEl.id);
+
+        fixture.componentInstance.hintText = undefined;
+        fixture.detectChanges();
+
+        expect(inputEl.hasAttribute('aria-describedby')).toBeFalse();
+      });
     });
 
     describe('with country field context', () => {
       beforeEach(() => {
         TestBed.configureTestingModule({
-          declarations: [CountryFieldInputBoxTestComponent],
-          imports: [FormsModule, SkyCountryFieldModule, SkyInputBoxModule],
+          imports: [CountryFieldInputBoxTestComponent],
           providers: [
             {
               provide: SkyThemeService,

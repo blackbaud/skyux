@@ -28,7 +28,7 @@ import {
 import { SkyModalInstance, SkyModalService } from '@skyux/modals';
 import { SkyThemeService } from '@skyux/theme';
 
-import { Subject, fromEvent as observableFromEvent } from 'rxjs';
+import { Observable, Subject, fromEvent as observableFromEvent } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
 import { SkyAutocompleteInputDirective } from '../autocomplete/autocomplete-input.directive';
@@ -257,6 +257,7 @@ export class SkyLookupComponent
   public showMorePickerId: string | undefined;
   public tokensController = new Subject<SkyTokensMessage>();
   protected controlId: string | undefined;
+  protected ariaDescribedBy: Observable<string | undefined> | undefined;
 
   @ViewChild(SkyAutocompleteInputDirective, {
     read: SkyAutocompleteInputDirective,
@@ -338,6 +339,7 @@ export class SkyLookupComponent
   public ngOnInit(): void {
     if (this.inputBoxHostSvc && this.inputTemplateRef) {
       this.controlId = this.inputBoxHostSvc.controlId;
+      this.ariaDescribedBy = this.inputBoxHostSvc.ariaDescribedBy;
 
       this.inputBoxHostSvc.populate({
         inputTemplate: this.inputTemplateRef,

@@ -1,5 +1,7 @@
 import { ElementRef, Injectable } from '@angular/core';
 
+const ARIA_DESCRIBEDBY_ATTR = 'aria-describedby';
+
 /**
  * @internal
  */
@@ -30,5 +32,40 @@ export class SkyInputBoxAdapterService {
       );
     }
     return false;
+  }
+
+  public updateDescribedBy(
+    inputRef: ElementRef,
+    hintTextId: string,
+    hintText: string | undefined
+  ): void {
+    const inputEl = inputRef.nativeElement as HTMLElement;
+
+    const describedByIds =
+      inputEl
+        .getAttribute(ARIA_DESCRIBEDBY_ATTR)
+        ?.split(' ')
+        .map((id) => id.trim()) ?? [];
+
+    const hintTextIdIndex = describedByIds.indexOf(hintTextId);
+    const previousCount = describedByIds.length;
+
+    if (hintText && hintTextIdIndex < 0) {
+      describedByIds.push(hintTextId);
+    } else if (!hintText && hintTextIdIndex >= 0) {
+      describedByIds.splice(hintTextIdIndex, 1);
+    }
+
+    if (describedByIds.length !== previousCount) {
+      this.#setDescribedByIds(inputEl, describedByIds);
+    }
+  }
+
+  #setDescribedByIds(inputEl: HTMLElement, describedByIds: string[]): void {
+    if (describedByIds.length === 0) {
+      inputEl.removeAttribute(ARIA_DESCRIBEDBY_ATTR);
+    } else {
+      inputEl.setAttribute(ARIA_DESCRIBEDBY_ATTR, describedByIds.join(' '));
+    }
   }
 }
