@@ -520,7 +520,7 @@ describe('Text editor', () => {
         containsHintTextExpect: (
           inputBoxText = document.querySelector(
             '.sky-modal .sky-text-editor-url-input .sky-input-box-hint-text'
-          )?.textContent
+          )
         ) =>
           expect(inputBoxText).toHaveText(
             'This link will open in a new window.'
