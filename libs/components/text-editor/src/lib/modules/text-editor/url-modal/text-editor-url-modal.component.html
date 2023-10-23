@@ -13,10 +13,13 @@
           <sky-input-box
             class="sky-text-editor-url-input"
             stacked="true"
-            [hintText]="openLinksInNewWindowOnly ?
-              ('skyux_text_editor_url_modal_open_in_new_window_label'
-                | skyLibResources)
-             : undefined">
+            [hintText]="
+              openLinksInNewWindowOnly
+                ? ('skyux_text_editor_url_modal_open_in_new_window_label'
+                  | skyLibResources)
+                : undefined
+            "
+          >
             <label
               class="sky-control-label sky-control-label-required"
               [for]="urlInput.id"
