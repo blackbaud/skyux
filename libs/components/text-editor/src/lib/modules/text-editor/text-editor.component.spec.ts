@@ -518,10 +518,11 @@ describe('Text editor', () => {
           'target="_blank"',
         ],
         containsHintTextExpect: (
-          inputBoxText = document.querySelector('.sky-modal .sky-input-box')
-            ?.textContent
+          inputBoxText = document.querySelector(
+            '.sky-modal .sky-text-editor-url-input .sky-input-box-hint-text'
+          )?.textContent
         ) =>
-          expect(inputBoxText).toContain(
+          expect(inputBoxText).toHaveText(
             'This link will open in a new window.'
           ),
       },
@@ -530,12 +531,10 @@ describe('Text editor', () => {
         windowOption: 'existing',
         urlStrings: ['<a', 'href="https://google.com">'],
         containsHintTextExpect: (
-          inputBoxText = document.querySelector('.sky-modal .sky-input-box')
-            ?.textContent
-        ) =>
-          expect(inputBoxText).not.toContain(
-            'This link will open in a new window.'
-          ),
+          inputBoxText = document.querySelector(
+            '.sky-modal .sky-text-editor-url-input .sky-input-box-hint-text'
+          )
+        ) => expect(inputBoxText).not.toExist(),
       },
     ].forEach((testArgs) => {
       it(`should show correct link window options when ${testArgs.desc} option is specified`, fakeAsync(() => {
