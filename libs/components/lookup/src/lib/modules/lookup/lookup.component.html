@@ -62,6 +62,7 @@
               rows="1"
               skyAutocomplete
               wrap="off"
+              [attr.aria-describedby]="ariaDescribedBy | async"
               [attr.aria-label]="ariaLabel"
               [attr.aria-labelledby]="ariaLabelledBy"
               [attr.id]="controlId"
@@ -87,6 +88,7 @@
               rows="1"
               skyAutocomplete
               wrap="off"
+              [attr.aria-describedby]="ariaDescribedBy | async"
               [attr.aria-label]="ariaLabel"
               [attr.aria-labelledby]="ariaLabelledBy"
               [attr.id]="controlId"

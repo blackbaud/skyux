@@ -19,6 +19,7 @@ import { SkyLookupInputBoxTestComponent } from './fixtures/lookup-input-box.comp
 import { SkyLookupTemplateTestComponent } from './fixtures/lookup-template.component.fixture';
 import { SkyLookupTestComponent } from './fixtures/lookup.component.fixture';
 import { SkyLookupComponent } from './lookup.component';
+import { SkyLookupSelectModeType } from './types/lookup-select-mode-type';
 
 describe('Lookup component', function () {
   //#region helpers
@@ -7380,6 +7381,19 @@ describe('Lookup component', function () {
     let component: SkyLookupInputBoxTestComponent;
     let lookupComponent: SkyLookupComponent;
 
+    function validateDescribedBy(selectMode: SkyLookupSelectModeType): void {
+      fixture.componentInstance.selectMode = selectMode;
+      fixture.detectChanges();
+
+      const hintTextEl = nativeElement.querySelector(
+        'sky-input-box .sky-input-box-hint-text'
+      );
+
+      const textareaEl = nativeElement.querySelector('textarea');
+
+      expect(textareaEl.getAttribute('aria-describedby')).toBe(hintTextEl.id);
+    }
+
     beforeEach(() => {
       fixture = TestBed.createComponent(SkyLookupInputBoxTestComponent);
       component = fixture.componentInstance;
@@ -7439,6 +7453,16 @@ describe('Lookup component', function () {
       await fixture.whenStable();
 
       expect(lookupComponent.isInputFocused).toEqual(false);
+    });
+
+    describe('aria-describedby attribute', () => {
+      it('should be set when hint text is specified and select mode is single', () => {
+        validateDescribedBy('single');
+      });
+
+      it('should be set when hint text is specified and select mode is multiple', () => {
+        validateDescribedBy('multiple');
+      });
     });
 
     describe('mouse interactions', function () {
