@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SkyTextEditorLinkWindowOptionsType } from '@skyux/text-editor';
 
 import { FONT_LIST_DEFAULTS } from '../defaults/font-list-defaults';
 import { FONT_SIZE_LIST_DEFAULTS } from '../defaults/font-size-list-defaults';
@@ -53,6 +54,10 @@ export class TextEditorFixtureComponent {
     'indentation',
     'undo-redo',
     'link',
+  ];
+  public linkWindowOptions: SkyTextEditorLinkWindowOptionsType[] | undefined = [
+    'new',
+    'existing',
   ];
   public value = '<p>Some text</p>';
 }
