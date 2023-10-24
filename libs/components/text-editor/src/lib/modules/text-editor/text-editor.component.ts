@@ -219,7 +219,7 @@ export class SkyTextEditorComponent
   }
 
   /**
-   * The actions to include in the toolbar and determines their order.
+   * The actions to include in the toolbar in the specified order.
    * @default [ 'font-family', 'font-size', 'font-style', 'color', 'list', 'link ]
    */
   @Input()
@@ -233,6 +233,10 @@ export class SkyTextEditorComponent
     return this.#_toolbarActions;
   }
 
+  /**
+   * The target window options for adding a hyperlink.
+   * @default [ 'new', 'existing' ]
+   */
   @Input()
   public set linkWindowOptions(
     value: SkyTextEditorLinkWindowOptionsType[] | undefined
