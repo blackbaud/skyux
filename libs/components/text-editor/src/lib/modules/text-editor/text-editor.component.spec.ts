@@ -17,7 +17,6 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyCoreAdapterService, SkyIdService } from '@skyux/core';
-import { SkyAppResourcesService, SkyLibResourcesService } from '@skyux/i18n';
 
 import { SkyTextEditorResourcesModule } from '../shared/sky-text-editor-resources.module';
 
@@ -82,7 +81,6 @@ describe('Text editor', () => {
       ],
       declarations: [componentType],
       providers: [
-        { provide: SkyAppResourcesService, useClass: SkyLibResourcesService },
         {
           provide: SkyIdService,
           useValue: {
