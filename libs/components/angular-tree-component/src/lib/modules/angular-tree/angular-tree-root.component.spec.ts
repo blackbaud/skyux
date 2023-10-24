@@ -1267,7 +1267,6 @@ describe('tree view', () => {
       component.showContextMenus = true;
       fixture.detectChanges();
       tick(1000); // Allow angular-tree-node-component to set tabIndexes & render context dropdown.
-      fixture.detectChanges();
       const dropdownButtons = document.querySelectorAll(
         '.sky-dropdown-button'
       ) as NodeListOf<HTMLButtonElement>;

@@ -275,7 +275,6 @@ export class SkyRepeaterItemComponent
   #adapterService: SkyRepeaterAdapterService;
   #changeDetector: ChangeDetectorRef;
   #contentInfoProvider = inject(SkyContentInfoProvider);
-  #contextMenuResourceUnsubscribe = new Subject<void>();
   #elementRef: ElementRef;
   #isExpanded = true;
   #keyboardReorderingEnabled = false;
@@ -295,7 +294,7 @@ export class SkyRepeaterItemComponent
   #_isSelected: boolean | undefined;
   #_itemName: string | undefined;
 
-  #idSvc = inject(SkyIdService);
+  readonly #idSvc = inject(SkyIdService);
 
   constructor(
     repeaterService: SkyRepeaterService,
@@ -365,9 +364,6 @@ export class SkyRepeaterItemComponent
     this.expand.complete();
     this.inlineFormClose.complete();
     this.isSelectedChange.complete();
-
-    this.#contextMenuResourceUnsubscribe.next();
-    this.#contextMenuResourceUnsubscribe.complete();
 
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
