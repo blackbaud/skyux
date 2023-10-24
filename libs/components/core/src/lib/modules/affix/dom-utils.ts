@@ -139,12 +139,7 @@ export function isOffsetFullyVisibleWithinParent(
 
   if (parent.nodeName.toLowerCase() === 'body') {
     const viewport = viewportRuler.getViewportSize();
-    return (
-      offset.top >= 0 &&
-      offset.left >= 0 &&
-      offset.bottom <= viewport.height &&
-      offset.right <= viewport.width
-    );
+    return offset.bottom <= viewport.height && offset.right <= viewport.width;
   }
 
   const parentOffset = bufferOffset

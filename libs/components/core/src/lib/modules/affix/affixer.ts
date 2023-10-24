@@ -15,6 +15,7 @@ import {
   getElementOffset,
   getOuterRect,
   getOverflowParents,
+  getVisibleRectForElement,
   isOffsetFullyVisibleWithinParent,
   isOffsetPartiallyVisibleWithinParent,
 } from './dom-utils';
@@ -395,7 +396,7 @@ export class SkyAffixer {
           this.#config.autoFitOverflowOffset
         );
       } else {
-        parentOffset = getOuterRect(parent);
+        parentOffset = getVisibleRectForElement(this.#viewportRuler, parent);
       }
     } else {
       const viewportRect = this.#viewportRuler.getViewportRect();

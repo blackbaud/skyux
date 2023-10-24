@@ -981,7 +981,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       );
 
       affixer.affixTo(this.#elementRef.nativeElement, {
-        autoFitContext: SkyAffixAutoFitContext.Viewport,
+        autoFitContext: SkyAffixAutoFitContext.OverflowParent,
         enableAutoFit: true,
         isSticky: true,
         placement: 'below',
