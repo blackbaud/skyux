@@ -339,7 +339,7 @@ describe('Repeater item component', () => {
     );
   });
 
-  fit('should set the context menu aria label to the default with the item title when no itemName is given', async () => {
+  it('should set the context menu aria label to the default with the item title when no itemName is given', async () => {
     const fixture = TestBed.createComponent(RepeaterTestComponent);
     fixture.componentInstance.showContextMenu = true;
     fixture.detectChanges();

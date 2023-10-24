@@ -19,7 +19,7 @@ import {
   inject,
 } from '@angular/core';
 import { skyAnimationSlide } from '@skyux/animations';
-import { SkyContentInfoProvider } from '@skyux/core';
+import { SkyContentInfoProvider, SkyIdService } from '@skyux/core';
 import { SkyCheckboxChange } from '@skyux/forms';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import {
@@ -258,11 +258,11 @@ export class SkyRepeaterItemComponent
   @ViewChild('itemRef', { read: ElementRef })
   public itemRef: ElementRef | undefined;
 
+  // TODO: change to content child that looks for title component
   @ViewChild('titleRef', { read: ElementRef })
   public set titleRef(value: ElementRef | undefined) {
     this.#_titleRef = value;
     this.#updateContentInfo();
-    this.#changeDetector.markForCheck();
   }
 
   public get titleRef(): ElementRef | undefined {
@@ -273,6 +273,8 @@ export class SkyRepeaterItemComponent
   public repeaterItemContentComponents:
     | QueryList<SkyRepeaterItemContentComponent>
     | undefined;
+
+  protected titleId: string | undefined;
 
   #adapterService: SkyRepeaterAdapterService;
   #changeDetector: ChangeDetectorRef;
@@ -296,6 +298,8 @@ export class SkyRepeaterItemComponent
   #_isSelected: boolean | undefined;
   #_itemName: string | undefined;
   #_titleRef: ElementRef | undefined;
+
+  #idSvc = inject(SkyIdService);
 
   constructor(
     repeaterService: SkyRepeaterService,
@@ -648,18 +652,24 @@ export class SkyRepeaterItemComponent
   }
 
   #updateContentInfo(): void {
-    if (this.itemName) {
-      this.#contentInfoProvider.patchInfo({
-        descriptor: { type: 'text', value: this.itemName },
-      });
-    } else if (this.titleRef) {
-      this.#contentInfoProvider.patchInfo({
-        descriptor: {
-          type: 'elementId',
-          value: this.titleRef.nativeElement.id,
-        },
-      });
-    }
+    setTimeout(() => {
+      if (this.itemName) {
+        this.#contentInfoProvider.patchInfo({
+          descriptor: { type: 'text', value: this.itemName },
+        });
+      } else if (this.titleRef) {
+        this.titleId = this.#idSvc.generateId();
+
+        this.#contentInfoProvider.patchInfo({
+          descriptor: {
+            type: 'elementId',
+            value: this.titleRef.nativeElement.id,
+          },
+        });
+      } else {
+        this.titleId = undefined;
+      }
+    });
   }
 
   #updateExpandOnContentChange(): void {
