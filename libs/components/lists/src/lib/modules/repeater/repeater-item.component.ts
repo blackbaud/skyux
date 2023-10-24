@@ -34,6 +34,7 @@ import { SkyRepeaterAdapterService } from './repeater-adapter.service';
 import { SkyRepeaterItemContentComponent } from './repeater-item-content.component';
 import { SkyRepeaterItemContextMenuComponent } from './repeater-item-context-menu.component';
 import { SkyRepeaterItemRolesType } from './repeater-item-roles.type';
+import { SkyRepeaterItemTitleComponent } from './repeater-item-title.component';
 import { SkyRepeaterService } from './repeater.service';
 
 let nextContentId = 0;
@@ -258,15 +259,10 @@ export class SkyRepeaterItemComponent
   @ViewChild('itemRef', { read: ElementRef })
   public itemRef: ElementRef | undefined;
 
-  // TODO: change to content child that looks for title component
-  @ViewChild('titleRef', { read: ElementRef })
-  public set titleRef(value: ElementRef | undefined) {
-    this.#_titleRef = value;
+  @ContentChild(SkyRepeaterItemTitleComponent, { read: ElementRef })
+  public set titleComponent(value: ElementRef | undefined) {
+    this.#titleComponent = value;
     this.#updateContentInfo();
-  }
-
-  public get titleRef(): ElementRef | undefined {
-    return this.#_titleRef;
   }
 
   @ContentChildren(SkyRepeaterItemContentComponent)
@@ -293,11 +289,11 @@ export class SkyRepeaterItemComponent
   #reorderSteps = 0;
   #repeaterService: SkyRepeaterService;
   #resourceService: SkyLibResourcesService;
+  #titleComponent: ElementRef | undefined;
   #_isCollapsible = true;
   #_isDisabled: boolean | undefined = false;
   #_isSelected: boolean | undefined;
   #_itemName: string | undefined;
-  #_titleRef: ElementRef | undefined;
 
   #idSvc = inject(SkyIdService);
 
@@ -652,18 +648,20 @@ export class SkyRepeaterItemComponent
   }
 
   #updateContentInfo(): void {
+    // The `setTimeout` here is necessary to counteract the timing for change detection with the content child for the title component.
+    // Because the title component is rendered within a template ref - the loading of the content child and then acting upon that can cause "changed after checked" errors.
     setTimeout(() => {
       if (this.itemName) {
         this.#contentInfoProvider.patchInfo({
           descriptor: { type: 'text', value: this.itemName },
         });
-      } else if (this.titleRef) {
+      } else if (this.#titleComponent) {
         this.titleId = this.#idSvc.generateId();
 
         this.#contentInfoProvider.patchInfo({
           descriptor: {
             type: 'elementId',
-            value: this.titleRef.nativeElement.id,
+            value: this.titleId,
           },
         });
       } else {
