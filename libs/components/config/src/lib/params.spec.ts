@@ -251,6 +251,7 @@ describe('SkyAppRuntimeConfigParams', () => {
           q1: '5',
           q7: '',
           q8: 'false',
+          q9: undefined,
         },
       })
     ).toEqual('https://mysite.com?q1=5&q2=2&q7=&q8=false&q3=3');

@@ -226,7 +226,9 @@ export class SkyAppRuntimeConfigParams {
     // Add provided parameters to the URL.
     if (queryParams) {
       for (const [paramName, decodedValue] of Object.entries(queryParams)) {
-        unifiedParams = unifiedParams.set(paramName, decodedValue);
+        if (decodedValue !== undefined) {
+          unifiedParams = unifiedParams.set(paramName, decodedValue);
+        }
       }
     }
 

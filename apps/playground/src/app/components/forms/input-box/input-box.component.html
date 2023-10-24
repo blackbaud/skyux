@@ -5,8 +5,15 @@
       labelText="Easy mode"
       stacked="true"
       helpPopoverContent="I'm some help content."
+      hintText="Here's some hint text."
     >
-      <input type="text" minlength="3" required [(ngModel)]="myValue" />
+      <input
+        type="text"
+        minlength="3"
+        required
+        [(ngModel)]="myValue"
+        aria-describedby="someOtherId"
+      />
     </sky-input-box>
   </div>
 

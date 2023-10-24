@@ -2,6 +2,7 @@ import {
   ComponentHarness,
   HarnessPredicate,
   HarnessQuery,
+  TestElement,
 } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyStatusIndicatorHarness } from '@skyux/indicators/testing';
@@ -20,6 +21,7 @@ export class SkyInputBoxHarness extends SkyComponentHarness {
    */
   public static hostSelector = 'sky-input-box';
 
+  #getHintText = this.locatorForOptional('.sky-input-box-hint-text');
   #getLabel = this.locatorForOptional('.sky-control-label');
   #getWrapper = this.locatorFor('.sky-input-box');
 
@@ -92,7 +94,7 @@ export class SkyInputBoxHarness extends SkyComponentHarness {
   public async getLabelText(): Promise<string> {
     const label = await this.#getLabel();
 
-    return (await label?.text())?.trim() ?? '';
+    return this.#getElementTextOrDefault(label);
   }
 
   /**
@@ -114,6 +116,15 @@ export class SkyInputBoxHarness extends SkyComponentHarness {
   }
 
   /**
+   * Gets the hint text for the input box.
+   */
+  public async getHintText(): Promise<string> {
+    const hintText = await this.#getHintText();
+
+    return this.#getElementTextOrDefault(hintText);
+  }
+
+  /**
    * Indicates whether the input box has stacked styles applied.
    * @returns
    */
@@ -121,5 +132,9 @@ export class SkyInputBoxHarness extends SkyComponentHarness {
     const host = await this.host();
 
     return host.hasClass('sky-margin-stacked-lg');
+  }
+
+  async #getElementTextOrDefault(el: TestElement | null): Promise<string> {
+    return (await el?.text())?.trim() ?? '';
   }
 }

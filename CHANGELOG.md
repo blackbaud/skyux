@@ -1,5 +1,30 @@
 # Changelog
 
+## [9.9.0](https://github.com/blackbaud/skyux/compare/9.8.0...9.9.0) (2023-10-23)
+
+
+### Features
+
+* **components/layout:** automatically set box context menu aria label ([#1826](https://github.com/blackbaud/skyux/issues/1826)) ([65fa9a3](https://github.com/blackbaud/skyux/commit/65fa9a33d2b35f2be4d55d34cc8f73b0105f8f28))
+
+## [9.8.0](https://github.com/blackbaud/skyux/compare/9.7.0...9.8.0) (2023-10-20)
+
+
+### Features
+
+* **components/colorpicker:** update modern border styles for color picker ([#1834](https://github.com/blackbaud/skyux/issues/1834)) ([e3a5457](https://github.com/blackbaud/skyux/commit/e3a54570a83db2cbdc329be8b0036bf1d06f5fe9))
+* **components/forms:** add `hintText` to input box ([#1837](https://github.com/blackbaud/skyux/issues/1837)) ([e55756f](https://github.com/blackbaud/skyux/commit/e55756f260034c8098e1c850e6800dac9d3798c2))
+* **components/forms:** update modern border styles for toggle switch ([#1835](https://github.com/blackbaud/skyux/issues/1835)) ([607f2e6](https://github.com/blackbaud/skyux/commit/607f2e63b8f91c6f9ae5159f43f8762cb318f71e))
+* **components/progress-indicator:** update modern border styles for progress indicators ([#1836](https://github.com/blackbaud/skyux/issues/1836)) ([ec35a5f](https://github.com/blackbaud/skyux/commit/ec35a5f5db6f85d0071c03a11e12f4b817920642))
+* **components/theme:** update modern border styles for `sky-switch-control` ([#1827](https://github.com/blackbaud/skyux/issues/1827)) ([abacd60](https://github.com/blackbaud/skyux/commit/abacd6042b7fc508e8569959f8ea5aa58478922b))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** fix height css expression for wrap-text ([#1833](https://github.com/blackbaud/skyux/issues/1833)) ([b1a317e](https://github.com/blackbaud/skyux/commit/b1a317e7d4ade9a51c34c339093f493160cfbbda)), closes [#1830](https://github.com/blackbaud/skyux/issues/1830)
+* **components/config:** update `queryParams` handling to ensure params can be optional ([#1829](https://github.com/blackbaud/skyux/issues/1829)) ([9baa59b](https://github.com/blackbaud/skyux/commit/9baa59b33c064ac1bacd5ed0d8e9565162fcec45))
+* **components/forms:** toggle switch `ariaLabel` input gives info on when to be contextual ([#1806](https://github.com/blackbaud/skyux/issues/1806)) ([29446b6](https://github.com/blackbaud/skyux/commit/29446b62023a95347aacd262e59aebef9a7fbe89))
+
 ## [9.7.0](https://github.com/blackbaud/skyux/compare/9.6.0...9.7.0) (2023-10-19)
 
 

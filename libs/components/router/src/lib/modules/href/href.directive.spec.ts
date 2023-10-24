@@ -345,6 +345,7 @@ describe('SkyHref Directive', () => {
       b: '',
       c: '0',
       d: 'false',
+      e: undefined,
     };
 
     fixture.detectChanges();

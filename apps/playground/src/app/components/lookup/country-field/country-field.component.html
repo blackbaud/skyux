@@ -61,7 +61,10 @@
     id="screenshot-country-field-empty-input-box"
   >
     <form>
-      <sky-input-box [disabled]="disableFields">
+      <sky-input-box
+        [disabled]="disableFields"
+        hintText="Here's some hint text."
+      >
         <label class="sky-control-label"> Country </label>
         <sky-country-field
           name="countryField"

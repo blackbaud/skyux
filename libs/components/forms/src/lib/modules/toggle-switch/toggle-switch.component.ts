@@ -52,9 +52,10 @@ export class SkyToggleSwitchComponent
   implements AfterContentInit, OnDestroy, ControlValueAccessor, Validator
 {
   /**
-   * The ARIA label for the toggle switch. This sets the toggle switch's `aria-label`
+   * The ARIA label for the toggle switch. This sets the `aria-label`
    * attribute to provide a text equivalent for screen readers [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
-   * If the `sky-toggle-switch-label` component displays a visible label, do not use this property.
+   * Use a context-sensitive label, such as "Activate annual fundraiser" for a toggle switch that activates and deactivates an annual fundraiser. Context is especially important if multiple toggle switches are in close proximity.
+   * When the `sky-toggle-switch-label` component displays a visible label, this property is only necessary if that label requires extra context.
    * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
   @Input()

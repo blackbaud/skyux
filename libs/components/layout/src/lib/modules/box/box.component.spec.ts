@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SkyContentInfoProvider } from '@skyux/core';
 
+import { SkyBoxComponent } from './box.component';
 import { BoxTestComponent } from './fixtures/box.component.fixture';
 import { SkyBoxFixturesModule } from './fixtures/box.module.fixture';
 
@@ -10,16 +12,30 @@ function getBoxEl(fixture: ComponentFixture<any>): HTMLElement {
 describe('BoxComponent', () => {
   let component: BoxTestComponent;
   let fixture: ComponentFixture<BoxTestComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [BoxTestComponent],
-      imports: [SkyBoxFixturesModule],
-    }).compileComponents();
-  });
+  let mockContentInfoProvider: SkyContentInfoProvider;
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BoxTestComponent);
+    mockContentInfoProvider = jasmine.createSpyObj('SkyContentInfoProvider', [
+      'patchInfo',
+      'getInfo',
+    ]);
+
+    TestBed.configureTestingModule({
+      declarations: [BoxTestComponent],
+      imports: [SkyBoxFixturesModule],
+    });
+
+    fixture = TestBed.overrideComponent(SkyBoxComponent, {
+      add: {
+        providers: [
+          {
+            provide: SkyContentInfoProvider,
+            useValue: mockContentInfoProvider,
+          },
+        ],
+      },
+    }).createComponent(BoxTestComponent);
+
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -45,5 +61,17 @@ describe('BoxComponent', () => {
     expect(getBoxEl(fixture).getAttribute('aria-labelledby')).toEqual(
       'my-header'
     );
+  });
+
+  it('should set an id on the header and provide it via contentInfoProvider', () => {
+    const header = getBoxEl(fixture).querySelector('sky-box-header span');
+
+    fixture.detectChanges();
+    expect(header).not.toBeNull();
+    if (header) {
+      expect(mockContentInfoProvider.patchInfo).toHaveBeenCalledWith({
+        descriptor: { type: 'elementId', value: header.id },
+      });
+    }
   });
 });
