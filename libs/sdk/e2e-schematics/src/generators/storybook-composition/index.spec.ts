@@ -4,7 +4,7 @@ import {
 } from '@nx/angular/generators';
 import { NxJsonConfiguration, readNxJson, updateNxJson } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-import { Linter } from '@nx/linter';
+import { Linter } from '@nx/eslint';
 
 import configureStorybook from '../configure-storybook';
 

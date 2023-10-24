@@ -11,7 +11,7 @@ import {
   updateNxJson,
 } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-import { Linter } from '@nx/linter';
+import { Linter } from '@nx/eslint';
 
 import { updateProjectConfiguration } from 'nx/src/generators/utils/project-configuration';
 

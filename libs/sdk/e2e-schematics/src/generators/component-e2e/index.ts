@@ -16,7 +16,7 @@ import {
   updateProjectConfiguration,
 } from '@nx/devkit';
 import { addDependenciesToPackageJson } from '@nx/devkit/src/utils/package-json';
-import { Linter } from '@nx/linter';
+import { Linter } from '@nx/eslint';
 import { configurationGenerator } from '@nx/storybook';
 import { moveGenerator } from '@nx/workspace';
 

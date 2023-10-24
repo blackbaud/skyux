@@ -7,11 +7,11 @@
     "@percy/cypress": "^3.1.2",
     "@nx/devkit": "^16.8.1",
     "@nx/workspace": "^16.8.1",
-    "@nx/linter": "^16.8.1",
     "@nx/storybook": "^16.8.1",
     "@nx/angular": "^16.8.1",
     "@percy/sdk-utils": "^1.27.1",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "@nx/eslint": "^16.8.1"
   },
   "main": "src/index.js",
   "generators": "./generators.json"
