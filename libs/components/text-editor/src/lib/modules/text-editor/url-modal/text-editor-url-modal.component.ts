@@ -1,7 +1,7 @@
 import { NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SkyIdModule, SkyIdService } from '@skyux/core';
+import { SkyIdModule } from '@skyux/core';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 import { SkyTabIndex, SkyTabsModule } from '@skyux/tabs';
@@ -76,7 +76,7 @@ export class SkyTextEditorUrlModalComponent {
   readonly #modalContext = inject(SkyUrlModalContext);
   readonly #modalInstance = inject(SkyModalInstance);
 
-  constructor(idService: SkyIdService) {
+  constructor() {
     const linkWindowOptions = this.#modalContext.linkWindowOptions;
 
     if (linkWindowOptions?.length === 1) {
