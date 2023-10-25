@@ -34,11 +34,11 @@ export class AffixComponent {
   ];
   protected readonly positions: SkyAffixPosition[] = ['absolute', 'fixed'];
   protected readonly autoFitContext: Record<
-    SkyAffixPosition,
+    'overflow' | 'viewport',
     SkyAffixAutoFitContext
   > = {
-    absolute: SkyAffixAutoFitContext.OverflowParent,
-    fixed: SkyAffixAutoFitContext.Viewport,
+    overflow: SkyAffixAutoFitContext.OverflowParent,
+    viewport: SkyAffixAutoFitContext.Viewport,
   };
   protected readonly isSticky = true;
 

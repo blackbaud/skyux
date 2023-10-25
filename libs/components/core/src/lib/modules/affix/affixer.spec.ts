@@ -2,16 +2,13 @@ import { ViewportRuler } from '@angular/cdk/overlay';
 import { NgClass } from '@angular/common';
 import {
   Component,
-  ComponentRef,
   ElementRef,
   NgZone,
   RendererFactory2,
   ViewChild,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkyDynamicComponentService } from '@skyux/core';
 
-import { SkyAffixLayoutViewportComponent } from './affix-layout-viewport.component';
 import { SkyAffixer } from './affixer';
 
 @Component({
@@ -118,22 +115,13 @@ class AffixerSpecComponent {
 describe('Affixer', () => {
   let fixture: ComponentFixture<AffixerSpecComponent>;
   let component: AffixerSpecComponent;
-  let layoutViewport: ComponentRef<SkyAffixLayoutViewportComponent> | undefined;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AffixerSpecComponent],
     });
-    const dynamicComponentService = TestBed.inject(SkyDynamicComponentService);
-    layoutViewport = dynamicComponentService.createComponent(
-      SkyAffixLayoutViewportComponent
-    );
     fixture = TestBed.createComponent(AffixerSpecComponent);
     component = fixture.componentInstance;
-  });
-
-  afterEach(() => {
-    layoutViewport?.destroy();
   });
 
   it('should create an instance, place above the top', async () => {
@@ -145,8 +133,7 @@ describe('Affixer', () => {
       component.affixedElement?.nativeElement as HTMLElement,
       TestBed.inject(RendererFactory2).createRenderer(undefined, null),
       TestBed.inject(ViewportRuler),
-      TestBed.inject(NgZone),
-      layoutViewport?.instance.element
+      TestBed.inject(NgZone)
     );
     const offsetChangeObserver = jasmine.createSpy('offsetChange');
     const overflowScrollObserver = jasmine.createSpy('overflowScroll');

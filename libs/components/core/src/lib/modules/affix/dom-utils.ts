@@ -47,10 +47,10 @@ export function getElementOffset(
 export function getOuterRect(element: HTMLElement): Required<AffixRect> {
   const rect = element.getBoundingClientRect();
   const computedStyle = window.getComputedStyle(element, undefined);
-  const marginTop = parseInt(computedStyle.marginTop, 10);
-  const marginLeft = parseInt(computedStyle.marginLeft, 10);
-  const marginRight = parseInt(computedStyle.marginRight, 10);
-  const marginBottom = parseInt(computedStyle.marginBottom, 10);
+  const marginTop = parseFloat(computedStyle.marginTop);
+  const marginLeft = parseFloat(computedStyle.marginLeft);
+  const marginRight = parseFloat(computedStyle.marginRight);
+  const marginBottom = parseFloat(computedStyle.marginBottom);
 
   return {
     top: rect.top - marginTop,
@@ -79,7 +79,7 @@ export function getVisibleRectForElement(
     right: Math.min(elementRect.right, viewportRect.width),
   };
 
-  if (element.nodeName.toLowerCase() === 'body') {
+  if (element === window.document.body) {
     return {
       ...visibleRect,
       width: viewportRect.width,
@@ -137,7 +137,7 @@ export function isOffsetFullyVisibleWithinParent(
     return false;
   }
 
-  if (parent.nodeName.toLowerCase() === 'body') {
+  if (parent === window.document.body) {
     const viewport = viewportRuler.getViewportSize();
     return offset.bottom <= viewport.height && offset.right <= viewport.width;
   }

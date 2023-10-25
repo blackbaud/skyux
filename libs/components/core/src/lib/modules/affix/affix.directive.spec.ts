@@ -1,20 +1,13 @@
 import { ViewportRuler } from '@angular/cdk/overlay';
-import {
-  ComponentRef,
-  ElementRef,
-  NgZone,
-  RendererFactory2,
-} from '@angular/core';
+import { ElementRef, NgZone, RendererFactory2 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility, expectAsync } from '@skyux-sdk/testing';
-import { SkyDynamicComponentService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyAffixAutoFitContext } from './affix-auto-fit-context';
 import { SkyAffixConfig } from './affix-config';
-import { SkyAffixLayoutViewportComponent } from './affix-layout-viewport.component';
 import { SkyAffixOffset } from './affix-offset';
 import { SkyAffixPlacement } from './affix-placement';
 import { SkyAffixPosition } from './affix-position';
@@ -25,7 +18,6 @@ import { AffixFixturesModule } from './fixtures/affix.module.fixture';
 
 describe('Affix directive', () => {
   let ngUnsubscribe: Subject<void> | undefined;
-  let layoutViewport: ComponentRef<SkyAffixLayoutViewportComponent> | undefined;
 
   const expectedOffsets = {
     aboveLeft: {
@@ -113,7 +105,7 @@ describe('Affix directive', () => {
   function runTestsForPosition(position: SkyAffixPosition | undefined): void {
     async function setupTest() {
       TestBed.configureTestingModule({
-        imports: [AffixFixturesModule, SkyAffixLayoutViewportComponent],
+        imports: [AffixFixturesModule],
       });
 
       // Make the body element scrollable.
@@ -121,12 +113,6 @@ describe('Affix directive', () => {
       window.document.body.style.width = '5000px';
 
       const fixture = TestBed.createComponent(AffixFixtureComponent);
-      const dynamicComponentService = TestBed.inject(
-        SkyDynamicComponentService
-      );
-      layoutViewport = dynamicComponentService.createComponent(
-        SkyAffixLayoutViewportComponent
-      );
       const affixService = TestBed.inject(SkyAffixService);
       const rendererFactory = TestBed.inject(RendererFactory2);
       const viewportRulerChange = new Subject<Event>();
@@ -152,8 +138,7 @@ describe('Affix directive', () => {
             affixed.nativeElement,
             renderer,
             viewportRuler,
-            zone,
-            layoutViewport?.instance.element
+            zone
           );
           affixer.offsetChange.pipe(takeUntil(ngUnsubscribe)).subscribe((x) => {
             offset = x.offset;
@@ -200,10 +185,6 @@ describe('Affix directive', () => {
         viewportRulerResize,
       };
     }
-
-    afterEach(() => {
-      layoutViewport?.destroy();
-    });
 
     it('should set default config', async () => {
       const { fixture, getAffixedOffset, getAffixer } = await setupTest();
