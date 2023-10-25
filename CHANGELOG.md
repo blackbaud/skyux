@@ -1,5 +1,25 @@
 # Changelog
 
+## [9.10.0](https://github.com/blackbaud/skyux/compare/9.9.0...9.10.0) (2023-10-25)
+
+
+### Features
+
+* **components/config:** add `allowDynamicLoading` to remote module config ([#1843](https://github.com/blackbaud/skyux/issues/1843)) ([f951d3d](https://github.com/blackbaud/skyux/commit/f951d3de769cec14c72fa94757e5993a45d924cd))
+* **components/text-editor:** add options to 'Create link' ([#1808](https://github.com/blackbaud/skyux/issues/1808)) ([#1844](https://github.com/blackbaud/skyux/issues/1844)) ([76c7833](https://github.com/blackbaud/skyux/commit/76c78335f2aebaaa3e5625ce87853d794c9f37db))
+
+
+### Bug Fixes
+
+* **code-examples:** add `sky-switch-icon-group` CSS class to icon radio group code example ([#1842](https://github.com/blackbaud/skyux/issues/1842)) ([b0f68c9](https://github.com/blackbaud/skyux/commit/b0f68c9ee2cb50a98b352a19f090aaf8ef429508))
+
+## [9.9.0](https://github.com/blackbaud/skyux/compare/9.8.0...9.9.0) (2023-10-23)
+
+
+### Features
+
+* **components/layout:** automatically set box context menu aria label ([#1826](https://github.com/blackbaud/skyux/issues/1826)) ([65fa9a3](https://github.com/blackbaud/skyux/commit/65fa9a33d2b35f2be4d55d34cc8f73b0105f8f28))
+
 ## [9.8.0](https://github.com/blackbaud/skyux/compare/9.7.0...9.8.0) (2023-10-20)
 
 

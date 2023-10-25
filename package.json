@@ -1,6 +1,6 @@
 {
   "name": "skyux",
-  "version": "9.8.0",
+  "version": "9.10.0",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
@@ -164,7 +164,7 @@
     "@storybook/core-server": "7.4.6",
     "@storybook/preview-api": "7.4.6",
     "@storybook/types": "7.4.6",
-    "@trivago/prettier-plugin-sort-imports": "4.2.0",
+    "@trivago/prettier-plugin-sort-imports": "4.2.1",
     "@types/cross-spawn": "6.0.3",
     "@types/dompurify": "3.0.3",
     "@types/dragula": "2.1.36",
