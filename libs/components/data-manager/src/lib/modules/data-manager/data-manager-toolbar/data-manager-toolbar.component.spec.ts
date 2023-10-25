@@ -870,6 +870,7 @@ describe('SkyDataManagerToolbarComponent', () => {
       const dataManagerFixture = TestBed.createComponent(
         DataManagerFixtureComponent
       );
+      dataManagerFixture.componentInstance.activeViewId = 'cardsView';
       dataManagerFixture.componentInstance.dataManagerConfig.listDescriptor =
         'constituents';
       dataManagerFixture.detectChanges();
