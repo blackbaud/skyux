@@ -4,7 +4,6 @@ We encourage contributions from all SKY UX users. To contribute, follow this ste
 
 - [Contribution process](#contribution-process)
 - [Coding rules](#coding-rules)
-- [Coding conventions](#coding-conventions)
 - [Test harnesses](#test-harnesses)
 - [Unit tests](#unit-tests)
 - [Accessibility tests](#accessibility-tests)
@@ -95,16 +94,13 @@ npm run dev:pristine
 
 1. All features and bug fixes must include at least one test spec and must not lower the overall code coverage percentage.
 1. Provide JSDocs comments for all public API component inputs and outputs and all public service methods.
+1. Use small, single-purpose components and break up large components into smaller, more cohesive components. Smaller components are easier to test because you can isolate functionality to ensure that components are immune to changes in other components. In general, larger components lead to larger tests that are more difficult to write and more difficult to understand.
+1. Use the `Sky` prefix when naming all classes, directives, services, components, etc. The prefix indicates to other contributors that items are owned by SKY UX and not a third-party library. It also prevents potential class-name clashes with other libraries. Keep in mind that while we generally use the uppercase `Sky` prefix, we also use the `sky-` prefix in some cases, such as selector properties in components.
 1. Style code using our Prettier rules.
 
 ```
 npm run dev:format
 ```
-
-## Coding conventions
-
-1. We recommend small, single-purpose components. We recommend breaking up large components into smaller, more cohesive components. Smaller components are easier to test because you can isolate functionality to ensure that components are immune to changes in other components. In general, larger components lead to larger tests that are more difficult to write and more difficult to understand.
-1. Use the `Sky` prefix when naming all classes, directives, services, components, etc. The prefix indicates to other contributors that items are owned by SKY UX and not a third-party library. It also prevents potential class-name clashes with other libraries. Keep in mind that while we generally use the uppercase `Sky` prefix, we also use the `sky-` prefix in some cases, such as selector properties in components.
 
 ## Test harnesses
 
@@ -116,21 +112,23 @@ All items in the `testing` folder should be fully unit tested with same standard
 
 ## Unit tests
 
+For new components, we recommend that you reach out to the SKY UX team for a "soft" review of the initial implementation before you write unit tests. This allows you to make requested changes to your code before writing the tests. For tips and techniques on testing Angular applications, see the [Angular testing guidelines](https://angular.io/guide/testing).
+
 ### Code coverage
 
-All new code requires 100 percent unit test code coverage. This doesn't guarantee that every use case is accounted for, but anything less than 100 percent code coverage guarantees that at least one use case is not accounted for. This can be verified by running tests with npm run watch and viewing the code coverage results in `./coverage/index.html`. You can launch this straight from disk and view the SKY UX unit test code coverage results in your default web browser.
+All new code requires 100 percent unit test code coverage. This doesn't guarantee that every use case is accounted for, but anything less than 100 percent code coverage guarantees that at least one use case is not accounted for. This can be verified by running tests with `npm run test:affected` and viewing the code coverage results in `./coverage/index.html`. You can launch this straight from disk and view the SKY UX unit test code coverage results in your default web browser.
 
-### Naming convention
+### Naming conventions
 
-Unit tests should follow the Angular guidelines for naming and storing spec files. Name tests after the components or services that they test, and place them in the same folders as their components or services. For example, the test file for `foo/foo.component.ts` should be `foo/foo.component.spec.ts`.
+Unit tests should follow the [Angular guidelines](https://angular.io/styleguide#!#naming) for naming and storing spec files. Name tests after the components or services that they test, and place them in the same folders as their components or services. For example, the test file for `foo/foo.component.ts` should be `foo/foo.component.spec.ts`.
 
 ### Run tests
 
-To run unit tests from the command line, use the `npm run test:affected` command. To run unit tests and watch the file system for changes, use the command `npx nx test <library> --watch`. SKY UX styles are loaded when running unit tests, so CSS rules defined in SKY UX take effect during tests. This allows you to check the expected computed style of elements with properties, such as the HTML hidden property, that only take effect when SKY UX styles are loaded.
+To run unit tests from the command line, use the `npm run test:affected` command. To run unit tests and watch the file system for changes, use the command `npx nx test <library> --watch`. SKY UX styles are loaded when running unit tests, so CSS rules defined in SKY UX take effect during tests. This allows you to check the expected computed style of elements with properties, such as the HTML `hidden` property, that only take effect when SKY UX styles are loaded.
 
 ## Accessibility tests
 
-All new components and changes to existing components require passing accessibility tests. This includes automated tests to run during unit tests as well as code review and manual keyboard tests. For more information about accessibility tests, see the [accessibility section of the SKY UX documentation](https://developer.blackbaud.com/skyux/learn/accessibility).
+All new components and changes to existing components require accessibility tests. This includes automated tests to run during unit tests as well as code review and manual keyboard tests. For more information about accessibility tests, see the [accessibility section of the SKY UX documentation](https://developer.blackbaud.com/skyux/learn/accessibility).
 
 ## Visual regression tests
 
@@ -142,7 +140,7 @@ cause components to render in an unexpected manner. Visual tests utilize [storyb
 
 The SKY UX repo includes at least three types of branches:
 
-- The **Next branch**, which holds beta features for the upcoming major version of SKY UX (e.g. `9.0.0-beta.0`). This branch is always named `main` and is the default branch of the repo.
+- The **Next branch** holds beta features for the upcoming major version of SKY UX (e.g. `9.0.0-beta.0`). This branch is always named `main` and is the default branch of the repo.
 - The **Latest branch** holds the features of the stable version of SKY UX. This version is actively maintained with new features and bug fixes. This branch's name starts with the major version number, followed by the letter "x" as placeholders for the minor and patch versions (e.g. `8.x.x`).
 - The **LTS branch** holds the features of the LTS (long-term support) version of SKY UX. This version is only updated when a critical security vulnerability is discovered. New features are generally not added to this branch. This branch's name starts with the major version number, followed by the letter "x" as placeholders for the minor and patch versions (e.g. `7.x.x`).
 

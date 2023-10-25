@@ -1,0 +1,6 @@
+[NX Daemon Server] - 2023-10-25T17:27:58.494Z - Started listening on: \\.\pipe\nx\C:\Users\TREVOR~1.BUR\AppData\Local\Temp\3d743b8c988a92b47039\d.sock
+[NX Daemon Server] - 2023-10-25T17:27:58.501Z - [WATCHER]: Subscribed to changes within: C:\Blackbaud_Repos\skyux (native)
+[NX Daemon Server] - 2023-10-25T17:27:58.509Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2023-10-25T17:27:58.513Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2023-10-25T17:27:58.514Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2023-10-25T17:27:58.520Z - [REQUEST]: Client Request for Project Graph Received

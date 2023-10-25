@@ -1,0 +1,20 @@
+[karma.waitwebpack] Webpack build completed.
+[32m25 10 2023 13:35:06.563:INFO [karma-server]: [39mKarma v6.4.2 server started at http://localhost:9876/
+[32m25 10 2023 13:35:06.567:INFO [launcher]: [39mLaunching browsers ChromeHeadlessNoSandbox with concurrency unlimited
+[32m25 10 2023 13:35:06.582:INFO [launcher]: [39mStarting browser ChromeHeadless
+[32m25 10 2023 13:35:09.276:INFO [Chrome Headless 118.0.5993.90 (Windows 10)]: [39mConnected on socket nuzFP6NFl3MA0Cj0AAAB with id 9084113
+Chrome Headless 118.0.5993.90 (Windows 10): Executed 0 of 1[32m SUCCESS[39m (0 secs / 0 secs)
+[1A[2KChrome Headless 118.0.5993.90 (Windows 10): Executed 1 of 1[32m SUCCESS[39m (0 secs / 0.259 secs)
+[1A[2KChrome Headless 118.0.5993.90 (Windows 10): Executed 1 of 1[32m SUCCESS[39m (0.271 secs / 0.259 secs)
+[32mTOTAL: 1 SUCCESS[39m
+[91m25 10 2023 13:35:12.158:ERROR [coverage]: [39mChrome Headless 118.0.5993.90 (Windows 10): Coverage for statements (23.85%) does not meet global threshold (100%)
+[91m25 10 2023 13:35:12.159:ERROR [coverage]: [39mChrome Headless 118.0.5993.90 (Windows 10): Coverage for branches (1.29%) does not meet global threshold (100%)
+[91m25 10 2023 13:35:12.159:ERROR [coverage]: [39mChrome Headless 118.0.5993.90 (Windows 10): Coverage for lines (23.19%) does not meet global threshold (100%)
+[91m25 10 2023 13:35:12.159:ERROR [coverage]: [39mChrome Headless 118.0.5993.90 (Windows 10): Coverage for functions (13.72%) does not meet global threshold (100%)
+
+=============================== Coverage summary ===============================
+[31;1mStatements   : 23.85% ( 47/197 )[0m
+[31;1mBranches     : 1.29% ( 1/77 )[0m
+[31;1mFunctions    : 13.72% ( 7/51 )[0m
+[31;1mLines        : 23.19% ( 45/194 )[0m
+================================================================================

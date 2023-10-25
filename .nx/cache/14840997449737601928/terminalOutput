@@ -1,0 +1,21 @@
+[karma.waitwebpack] Webpack build completed.
+[32m24 10 2023 17:34:06.442:INFO [karma-server]: [39mKarma v6.4.2 server started at http://localhost:9878/
+[32m24 10 2023 17:34:06.447:INFO [launcher]: [39mLaunching browsers ChromeHeadlessNoSandbox with concurrency unlimited
+[32m24 10 2023 17:34:06.450:INFO [launcher]: [39mStarting browser ChromeHeadless
+[32m24 10 2023 17:34:07.082:INFO [Chrome Headless 118.0.5993.70 (Linux x86_64)]: [39mConnected on socket f6qWMhM9a6RCwmqhAAAB with id 87262727
+Chrome Headless 118.0.5993.70 (Linux x86_64): Executed 0 of 6[32m SUCCESS[39m (0 secs / 0 secs)
+[1A[2KChrome Headless 118.0.5993.70 (Linux x86_64): Executed 1 of 6[32m SUCCESS[39m (0 secs / 0.383 secs)
+[1A[2KChrome Headless 118.0.5993.70 (Linux x86_64): Executed 2 of 6[32m SUCCESS[39m (0 secs / 0.907 secs)
+[1A[2KChrome Headless 118.0.5993.70 (Linux x86_64): Executed 3 of 6[32m SUCCESS[39m (0 secs / 1.426 secs)
+[1A[2KChrome Headless 118.0.5993.70 (Linux x86_64): Executed 4 of 6[32m SUCCESS[39m (0 secs / 2.016 secs)
+[1A[2KChrome Headless 118.0.5993.70 (Linux x86_64): Executed 5 of 6[32m SUCCESS[39m (0 secs / 2.05 secs)
+[1A[2KChrome Headless 118.0.5993.70 (Linux x86_64): Executed 6 of 6[32m SUCCESS[39m (0 secs / 2.079 secs)
+[1A[2KChrome Headless 118.0.5993.70 (Linux x86_64): Executed 6 of 6[32m SUCCESS[39m (2.112 secs / 2.079 secs)
+[32mTOTAL: 6 SUCCESS[39m
+
+=============================== Coverage summary ===============================
+[32;1mStatements   : 100% ( 51/51 )[0m
+[32;1mBranches     : 100% ( 1/1 )[0m
+[32;1mFunctions    : 100% ( 10/10 )[0m
+[32;1mLines        : 100% ( 50/50 )[0m
+================================================================================

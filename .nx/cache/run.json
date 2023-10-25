@@ -1,0 +1,9 @@
+{
+  "run": {
+    "command": "nx affected --target=posttest --parallel --maxParallel=5",
+    "startTime": "2023-10-25T17:35:38.493Z",
+    "endTime": "2023-10-25T17:35:38.496Z",
+    "inner": false
+  },
+  "tasks": []
+}

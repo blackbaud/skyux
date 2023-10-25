@@ -1,0 +1,79 @@
+[karma.waitwebpack] Webpack build completed.
+[1m[31m[39m[22m
+[1m[31m[0m[36m./libs/components/phone-field/src/lib/modules/phone-field/phone-field.component.spec.ts[39m[31m[0m - [0m[91mError: [39m[31m[0mModule build failed (from ./node_modules/@angular-devkit/build-angular/src/tools/babel/webpack-loader.js):[39m[22m
+[1m[31mSyntaxError: C:\Blackbaud_Repos\skyux\libs\components\phone-field\src\lib\modules\phone-field\phone-field.component.spec.ts: Unexpected token (31:23)[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m [90m 29 |[39m[31m [90m// import { SkyPhoneFieldModule } from './phone-field.module';[39m[31m[0m[39m[22m
+[1m[31m[0m [90m 30 |[39m[31m describe([32m'Phone Field Component'[39m[31m[33m,[39m[31m () [33m=>[39m[31m {[0m[39m[22m
+[1m[31m[0m[31m[1m>[22m[1m[39m[31m[90m 31 |[39m[31m     it([32m'should pass'[39m[31m[33m,[39m[31m () [33m-[39m[31m  [33m>[39m[31m {[0m[39m[22m
+[1m[31m[0m [90m    |[39m[31m                        [31m[1m^[22m[1m[39m[31m[0m[39m[22m
+[1m[31m[0m [90m 32 |[39m[31m         expect() { }[33m,[39m[31m [33m:[39m[31m [33m.[39m[31mtoBe([35m2[39m[31m)[0m[39m[22m
+[1m[31m[0m [90m 33 |[39m[31m     })[33m;[39m[31m[0m[39m[22m
+[1m[31m[0m [90m 34 |[39m[31m     [90m// let mockThemeSvc: Partial<SkyThemeService>;[39m[31m[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mlibs/components/phone-field/src/lib/modules/phone-field/phone-field.component.spec.ts[0m:[93m34[0m:[93m21[0m - [91merror[0m[90m TS2345: [0mArgument of type 'boolean' is not assignable to parameter of type 'ImplementationCallback | undefined'.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m34[0m   it('should pass', () -> {[39m[22m
+[1m[31m[7m  [0m [91m                    ~~~~~~~[0m[39m[22m
+[1m[31m[7m35[0m     expect(2).toBe(2);[39m[22m
+[1m[31m[7m  [0m [91m~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
+[1m[31m[7m36[0m   });[39m[22m
+[1m[31m[7m  [0m [91m~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mlibs/components/phone-field/src/lib/modules/phone-field/phone-field.component.spec.ts[0m:[93m34[0m:[93m21[0m - [91merror[0m[90m TS2365: [0mOperator '>' cannot be applied to types 'number' and '{ expect(: any): any; "": any; }'.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m34[0m   it('should pass', () -> {[39m[22m
+[1m[31m[7m  [0m [91m                    ~~~~~~~[0m[39m[22m
+[1m[31m[7m35[0m     expect(2).toBe(2);[39m[22m
+[1m[31m[7m  [0m [91m~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
+[1m[31m[7m36[0m   });[39m[22m
+[1m[31m[7m  [0m [91m~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [3[39m[22m[1m[31m9m[0m[96mlibs/components/phone-field/src/lib/modules/phone-field/phone-field.component.spec.ts[0m:[93m34[0m:[93m22[0m - [91merror[0m[90m TS1109: [0mExpression expected.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m34[0m   it('should pass', () -> {[39m[22m
+[1m[31m[7m  [0m [91m                     ~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mlibs/components/phone-field/src/lib/modules/phone-field/phone-field.component.spec.ts[0m:[93m34[0m:[93m25[0m - [91merror[0m[90m TS1109: [0mExpression expected.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m34[0m   it('should pass', () -> {[39m[22m
+[1m[31m[7m  [0m [91m                        ~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mlibs/components/phone-field/src/lib/modules/phone-field/phone-field.component.spec.ts[0m:[93m35[0m:[93m12[0m - [91merror[0m[90m TS1003: [0mIdentifier expected.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m35[0m     expect(2).toBe(2);[39m[22m
+[1m[31m[7m  [0m [91m           ~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mlibs/components/phone-field/src/lib/modules/phone-field/phone-field.component.spec.ts[0m:[93m35[0m:[93m12[0m - [91merror[0m[90m TS7006: [0mParameter '(Missing)' implicitly has an 'any' type.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m35[0m     expect(2).toBe(2);[39m[22m
+[1m[31m[7m  [0m [91m           [0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mlibs/components/phone-field/src/lib/modules/phone-field/phone-field.component.spec.ts[0m:[93m35[0m:[93m14[0m - [91merror[0m[90m TS1005: [0m'{' expected.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m35[0m     expect(2).toBe(2);[39m[22m
+[1m[31m[7m  [0m [91m             ~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [39m[31m[0m[96mlibs/components/phone-field/src/lib/modules/phone-field/phone-field.component.spec.ts[0m:[93m35[0m:[93m22[0m - [91merror[0m[90m TS1005: [0m',' expected.[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m35[0m     expect(2).toBe(2);[39m[22m
+[1m[31m[7m  [0m [91m                     ~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[39m[22m
+[32m25 10 2023 13:31:01.409:INFO [karma-server]: [39mKarma v6.4.2 server started at http://localhost:9876/
+[32m25 10 2023 13:31:01.413:INFO [launcher]: [39mLaunching browsers ChromeHeadlessNoSandbox with concurrency unlimited
+[91m25 10 2023 13:31:01.414:ERROR [karma-server]: [39mError: Found 1 load error
+    at Server.<anonymous> (C:\Blackbaud_Repos\skyux\node_modules\karma\lib\server.js:243:26)
+    at Object.onceWrapper (node:events:628:28)
+    at Server.emit (node:events:526:35)
+    at Server.emit (node:domain:489:12)
+    at emitListeningNT (node:net:1785:10)
+    at process.processTicksAndRejections (node:internal/process/task_queues:81:21)
