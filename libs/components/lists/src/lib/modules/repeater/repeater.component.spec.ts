@@ -46,6 +46,12 @@ describe('Repeater item component', () => {
     return el.querySelectorAll('.sky-repeater-item');
   }
 
+  function getContextMenuButtons(
+    el: HTMLElement
+  ): NodeListOf<HTMLButtonElement> {
+    return el.querySelectorAll('.sky-dropdown-button');
+  }
+
   function getReorderHandles(el: HTMLElement): NodeListOf<HTMLElement> {
     return el.querySelectorAll(
       '.sky-repeater-item .sky-repeater-item-grab-handle'
@@ -311,6 +317,64 @@ describe('Repeater item component', () => {
       'Collapse Item 2'
     );
   }));
+
+  it('should set the context menu aria label to the default with itemName when given', async () => {
+    const fixture = TestBed.createComponent(RepeaterTestComponent);
+    fixture.componentInstance.showContextMenu = true;
+    fixture.componentInstance.showItemName = true; // Show item name to remove default labels
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const el = fixture.nativeElement;
+
+    const contextMenus = getContextMenuButtons(el);
+
+    expect(contextMenus[0].getAttribute('aria-label')).toEqual(
+      'Context menu for Item 1'
+    );
+    expect(contextMenus[1].getAttribute('aria-label')).toEqual(
+      'Context menu for Item 2'
+    );
+  });
+
+  it('should set the context menu aria label to the default with the item title when no itemName is given', async () => {
+    const fixture = TestBed.createComponent(RepeaterTestComponent);
+    fixture.componentInstance.showContextMenu = true;
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const el = fixture.nativeElement;
+
+    const contextMenus = getContextMenuButtons(el);
+
+    expect(contextMenus[0].getAttribute('aria-label')).toBeNull();
+    expect(contextMenus[1].getAttribute('aria-label')).toBeNull();
+    expect(contextMenus[0].getAttribute('aria-labelledby')).toMatch(
+      /(sky-id-gen__[0-9]{13}__[0-9]+\s*){2}/
+    );
+    expect(contextMenus[1].getAttribute('aria-labelledby')).toMatch(
+      /(sky-id-gen__[0-9]{13}__[0-9]+\s*){2}/
+    );
+  });
+
+  it('should set the context menu aria label to the default with no other information if no title or itemName are given', async () => {
+    const fixture = TestBed.createComponent(RepeaterTestComponent);
+    fixture.componentInstance.showContextMenu = true;
+    fixture.componentInstance.showItemWithNoTitle = true;
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const el = fixture.nativeElement;
+
+    const contextMenus = getContextMenuButtons(el);
+
+    expect(contextMenus[3].getAttribute('aria-label')).toEqual('Context menu');
+  });
 
   it('should not have aria-selected attribute when item is not selectable', fakeAsync(() => {
     const fixture = TestBed.createComponent(RepeaterTestComponent);
