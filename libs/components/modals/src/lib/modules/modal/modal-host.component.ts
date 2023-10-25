@@ -18,7 +18,7 @@ import {
   SkyResizeObserverMediaQueryService,
 } from '@skyux/core';
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { takeUntil, takeWhile } from 'rxjs/operators';
 
 import { SkyModalsResourcesModule } from '../shared/sky-modals-resources.module';
@@ -56,7 +56,7 @@ export class SkyModalHostComponent implements OnDestroy {
   })
   public target: ViewContainerRef | undefined;
 
-  #modalInstances: SkyModalInstance[] = [];
+  readonly #modalInstances: SkyModalInstance[] = [];
 
   readonly #adapter = inject(SkyModalAdapterService);
   readonly #changeDetector = inject(ChangeDetectorRef);
@@ -65,11 +65,13 @@ export class SkyModalHostComponent implements OnDestroy {
   readonly #environmentInjector = inject(EnvironmentInjector);
   readonly #modalHostContext = inject(SkyModalHostContext);
   readonly #router = inject(Router, { optional: true });
+  readonly #subscription = new Subscription();
 
   public ngOnDestroy(): void {
     // Close all modal instances before disposing of the host container.
     this.#closeAllModalInstances();
     this.#modalHostContext.args.teardownCallback();
+    this.#subscription.unsubscribe();
   }
 
   public open<T>(
@@ -173,26 +175,35 @@ export class SkyModalHostComponent implements OnDestroy {
       modalComponentRef.destroy();
     };
 
-    hostService.openHelp.subscribe((helpKey) => {
-      modalInstance.openHelp(helpKey);
-    });
+    hostService.openHelp
+      .pipe(takeUntil(modalInstance.closed))
+      .subscribe((helpKey) => {
+        modalInstance.openHelp(helpKey);
+      });
 
-    hostService.close.subscribe(() => {
+    hostService.close.pipe(takeUntil(modalInstance.closed)).subscribe(() => {
       modalInstance.close();
     });
 
-    this.#router?.events.pipe(takeWhile(() => isOpen)).subscribe((event) => {
-      /* istanbul ignore else */
-      if (event instanceof NavigationStart) {
-        modalInstance.close();
-      }
-    });
+    this.#router?.events
+      .pipe(
+        takeWhile(() => isOpen),
+        takeUntil(modalInstance.closed)
+      )
+      .subscribe((event) => {
+        /* istanbul ignore else */
+        if (event instanceof NavigationStart) {
+          modalInstance.close();
+        }
+      });
 
-    modalInstance.closed.subscribe(() => {
-      isOpen = false;
-      this.#unregisterModalInstance(modalInstance);
-      closeModal();
-    });
+    this.#subscription.add(
+      modalInstance.closed.subscribe(() => {
+        isOpen = false;
+        this.#unregisterModalInstance(modalInstance);
+        closeModal();
+      })
+    );
 
     // Necessary if the host was created via a consumer's lifecycle hook such as ngOnInit
     this.#changeDetector.detectChanges();

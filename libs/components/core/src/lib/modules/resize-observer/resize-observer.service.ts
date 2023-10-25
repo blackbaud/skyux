@@ -1,4 +1,5 @@
 import {
+  ApplicationRef,
   ElementRef,
   Injectable,
   NgZone,
@@ -6,13 +7,13 @@ import {
   inject,
 } from '@angular/core';
 
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, sample } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
-import { SkyAppWindowRef } from '../window/window-ref';
+import { ResizeObserverScheduler } from './resize-observer-scheduler';
 
 type ResizeObserverTracking = {
-  element: Element;
+  observing: boolean;
   subject: Subject<ResizeObserverEntry>;
   subjectObservable: Observable<ResizeObserverEntry>;
 };
@@ -24,23 +25,19 @@ type ResizeObserverTracking = {
   providedIn: 'root',
 })
 export class SkyResizeObserverService implements OnDestroy {
-  #next = new Map<Subject<ResizeObserverEntry>, number>();
-  #resizeObserver = new ResizeObserver((entries) => {
-    entries.forEach((entry) => this.#callback(entry));
-  });
-  #tracking: ResizeObserverTracking[] = [];
-  #window = inject(SkyAppWindowRef);
-  #zone = inject(NgZone);
+  #resizeObserver: ResizeObserver | undefined;
+  readonly #scheduler = inject(ResizeObserverScheduler);
+  readonly #tracking = new Map<Element, ResizeObserverTracking>();
+  readonly #zone = inject(NgZone);
+
+  constructor() {
+    inject(ApplicationRef).onDestroy(() => this.ngOnDestroy());
+  }
 
   public ngOnDestroy(): void {
-    this.#next.forEach((value) =>
-      this.#window.nativeWindow.cancelAnimationFrame(value)
-    );
-    this.#tracking.forEach((value) => {
-      value.subject.complete();
-      this.#resizeObserver.unobserve(value.element);
-    });
-    this.#resizeObserver.disconnect();
+    this.#tracking.forEach((value) => value.subject.complete());
+    this.#cleanup();
+    this.#resizeObserver?.disconnect();
   }
 
   /**
@@ -50,72 +47,90 @@ export class SkyResizeObserverService implements OnDestroy {
     return this.#observeAndTrack(element).subjectObservable;
   }
 
-  #observeAndTrack(element: ElementRef): ResizeObserverTracking {
-    const checkTracking = this.#tracking.findIndex((value) => {
-      return !value.subject.closed && value.element === element.nativeElement;
+  #cleanup(): void {
+    const untrackElements: Element[] = [];
+    this.#tracking.forEach((value, element) => {
+      // If the element is no longer in the DOM or no longer observed,
+      // complete the subject and stop observing.
+      if (!element.parentElement || !value.subject.observed) {
+        this.#zone.run(() => value.subject.complete());
+        this.#resizeObserver?.unobserve(element);
+        untrackElements.push(element);
+      }
     });
+    untrackElements.forEach((element) => this.#tracking.delete(element));
+  }
 
-    if (checkTracking === -1) {
-      this.#resizeObserver.observe(element.nativeElement);
+  #observeAndTrack(element: ElementRef): ResizeObserverTracking {
+    const resizeObserver = this.#getResizeObserver();
+
+    if (!this.#tracking.has(element.nativeElement)) {
+      const box = element.nativeElement.getBoundingClientRect();
+      const initialValue: ResizeObserverEntry = {
+        target: element.nativeElement,
+        borderBoxSize: [
+          {
+            blockSize: box.height,
+            inlineSize: box.width,
+          },
+        ],
+        contentRect: box,
+        contentBoxSize: [
+          {
+            blockSize: box.height,
+            inlineSize: box.width,
+          },
+        ],
+        devicePixelContentBoxSize: [
+          {
+            blockSize: box.height,
+            inlineSize: box.width,
+          },
+        ],
+      };
+      const subject = new BehaviorSubject<ResizeObserverEntry>(initialValue);
+      const subjectObservable = subject.pipe(
+        sample(this.#scheduler),
+        finalize(() => this.#cleanup())
+      );
+
+      this.#tracking.set(element.nativeElement, {
+        observing: false,
+        subject,
+        subjectObservable,
+      });
     }
 
-    const subject = new Subject<ResizeObserverEntry>();
-    const subjectObservable = subject.pipe(
-      finalize(() => {
-        // Are there any other tracking entries still watching this element?
-        const checkTracking = this.#tracking.findIndex((value) => {
-          return (
-            value.subject !== subject &&
-            !value.subject.closed &&
-            value.element === element.nativeElement
-          );
-        });
-
-        if (checkTracking === -1) {
-          this.#resizeObserver.unobserve(element.nativeElement);
-          const deleteTracking = this.#tracking.findIndex(
-            (value) => value.subject === subject
-          );
-          if (deleteTracking > -1) {
-            this.#tracking.splice(deleteTracking, 1);
-          }
-        }
-      })
-    );
-
-    const tracking = {
-      element: element.nativeElement,
-      subject,
-      subjectObservable,
-    };
-
-    this.#tracking.push(tracking);
-
+    const tracking = this.#tracking.get(
+      element.nativeElement
+    ) as ResizeObserverTracking;
+    if (!tracking.observing && element.nativeElement.parentElement) {
+      this.#zone.runOutsideAngular(() =>
+        resizeObserver.observe(element.nativeElement)
+      );
+      tracking.observing = true;
+    }
     return tracking;
   }
 
-  #callback(entry: ResizeObserverEntry): void {
-    this.#tracking
-      .filter((value) => !value.subject.closed)
-      .forEach((value) => {
-        /* istanbul ignore else */
-        if (value.element === entry.target) {
-          // Execute the callback within NgZone because Angular does not "monkey patch"
-          // ResizeObserver like it does for other features in the DOM.
-          if (this.#next.has(value.subject)) {
-            this.#window.nativeWindow.cancelAnimationFrame(
-              this.#next.get(value.subject)
-            );
+  #getResizeObserver(): ResizeObserver {
+    if (!this.#resizeObserver) {
+      this.#resizeObserver = new ResizeObserver(
+        (entries: ResizeObserverEntry[]) => {
+          if (!Array.isArray(entries) || !entries.length) {
+            return;
           }
-          this.#next.set(
-            value.subject,
-            (this.#window.nativeWindow as Window).requestAnimationFrame(() => {
-              this.#zone.run(() => {
-                value.subject.next(entry);
-              });
-            })
-          );
+          entries.forEach((entry) => this.#callback(entry));
         }
-      });
+      );
+    }
+    return this.#resizeObserver;
+  }
+
+  #callback(entry: ResizeObserverEntry): void {
+    const tracking = this.#tracking.get(entry.target);
+    if (tracking?.subject && tracking?.subject.closed === false) {
+      tracking.subject.next(entry);
+    }
   }
 }
