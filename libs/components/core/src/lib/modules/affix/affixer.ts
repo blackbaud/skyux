@@ -387,16 +387,26 @@ export class SkyAffixer {
     placement: SkyAffixPlacement,
     baseElement: HTMLElement
   ): { top: number; left: number } {
+    const affixedRect = getOuterRect(this.#affixedElement);
+    const baseRect = baseElement.getBoundingClientRect();
+
     const parent = this.#getAutoFitContextParent();
     let parentOffset: Required<SkyAffixOffset>;
     if (this.#config.autoFitContext === SkyAffixAutoFitContext.OverflowParent) {
       if (this.#config.autoFitOverflowOffset) {
+        // When the config contains a specific offset.
         parentOffset = getElementOffset(
           parent,
           this.#config.autoFitOverflowOffset
         );
-      } else {
+      } else if (
+        isOffsetFullyVisibleWithinParent(this.#viewportRuler, parent, baseRect)
+      ) {
+        // When the base element is fully visible within the parent, aim for the visible portion of the parent element.
         parentOffset = getVisibleRectForElement(this.#viewportRuler, parent);
+      } else {
+        // Anywhere in the parent element.
+        parentOffset = getOuterRect(parent);
       }
     } else {
       const viewportRect = this.#viewportRuler.getViewportRect();
@@ -407,9 +417,6 @@ export class SkyAffixer {
         right: -viewportRect.right,
       };
     }
-
-    const affixedRect = getOuterRect(this.#affixedElement);
-    const baseRect = baseElement.getBoundingClientRect();
 
     // A pixel value representing the leeway between the edge of the overflow parent and the edge
     // of the base element before it disappears from view.
