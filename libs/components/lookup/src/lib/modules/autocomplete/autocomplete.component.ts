@@ -874,7 +874,6 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
         enableClose: false,
         enablePointerEvents: true,
         wrapperClass: this.wrapperClass,
-        position: 'fixed',
       });
 
       if (this.#zIndex) {
@@ -982,12 +981,11 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       );
 
       affixer.affixTo(this.#elementRef.nativeElement, {
-        autoFitContext: SkyAffixAutoFitContext.Viewport,
+        autoFitContext: SkyAffixAutoFitContext.OverflowParent,
         enableAutoFit: true,
         isSticky: true,
         placement: 'below',
         horizontalAlignment: 'left',
-        position: 'absolute',
       });
 
       this.#affixer = affixer;

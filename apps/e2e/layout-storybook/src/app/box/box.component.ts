@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { FontLoadingService } from '@skyux/storybook';
 
 @Component({
   selector: 'app-box',
@@ -16,4 +17,6 @@ export class BoxComponent {
       showHelp: true,
     },
   ];
+
+  protected readonly ready$ = inject(FontLoadingService).ready();
 }

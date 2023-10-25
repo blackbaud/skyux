@@ -1,4 +1,7 @@
+import { ViewportRuler } from '@angular/cdk/overlay';
+
 import { SkyAffixOffset } from './affix-offset';
+import { AffixRect } from './affix-rect';
 
 /**
  * Returns the offset values of a given element.
@@ -19,18 +22,11 @@ export function getElementOffset(
   let right: number;
   let bottom: number;
 
-  if (element === document.body) {
-    left = 0;
-    top = 0;
-    right = document.documentElement.clientWidth;
-    bottom = document.documentElement.clientHeight;
-  } else {
-    const clientRect = element.getBoundingClientRect();
-    left = clientRect.left;
-    top = clientRect.top;
-    right = clientRect.right;
-    bottom = clientRect.bottom;
-  }
+  const clientRect = element.getBoundingClientRect();
+  left = clientRect.left;
+  top = clientRect.top;
+  right = clientRect.right;
+  bottom = clientRect.bottom;
 
   bottom -= bufferOffsetBottom;
   left += bufferOffsetLeft;
@@ -45,21 +41,64 @@ export function getElementOffset(
   };
 }
 
+/**
+ * Returns an AffixRect that represents the outer dimensions of a given element.
+ */
+export function getOuterRect(element: HTMLElement): Required<AffixRect> {
+  const rect = element.getBoundingClientRect();
+  const computedStyle = window.getComputedStyle(element, undefined);
+  const marginTop = parseFloat(computedStyle.marginTop);
+  const marginLeft = parseFloat(computedStyle.marginLeft);
+  const marginRight = parseFloat(computedStyle.marginRight);
+  const marginBottom = parseFloat(computedStyle.marginBottom);
+
+  return {
+    top: rect.top - marginTop,
+    left: rect.left - marginLeft,
+    bottom: rect.top + rect.height + marginBottom,
+    right: rect.left + rect.width + marginLeft + marginRight,
+    width: rect.width + marginLeft + marginRight,
+    height: rect.height + marginTop + marginBottom,
+  };
+}
+
+/**
+ * Returns the visible rect for a given element.
+ */
+export function getVisibleRectForElement(
+  viewportRuler: ViewportRuler,
+  element: HTMLElement
+): Required<AffixRect> {
+  const elementRect = getOuterRect(element);
+  const viewportRect = viewportRuler.getViewportRect();
+
+  const visibleRect = {
+    top: Math.max(elementRect.top, 0),
+    left: Math.max(elementRect.left, 0),
+    bottom: Math.min(elementRect.bottom, viewportRect.bottom),
+    right: Math.min(elementRect.right, viewportRect.right),
+  };
+
+  return {
+    ...visibleRect,
+    width: visibleRect.right - visibleRect.left,
+    height: visibleRect.bottom - visibleRect.top,
+  };
+}
+
 export function getOverflowParents(child: HTMLElement): HTMLElement[] {
   const bodyElement = window.document.body;
   const results = [];
 
   let parentElement = child?.parentNode;
 
-  while (
-    parentElement !== undefined &&
-    parentElement !== bodyElement &&
-    parentElement instanceof HTMLElement
-  ) {
-    const overflowY = window
-      .getComputedStyle(parentElement, undefined)
-      .overflowY.toLowerCase();
+  while (parentElement !== undefined && parentElement instanceof HTMLElement) {
+    const computedStyle = window.getComputedStyle(parentElement, undefined);
+    const overflowY = computedStyle.overflowY.toLowerCase();
 
+    if (computedStyle.position === 'fixed' || parentElement.matches('body')) {
+      break;
+    }
     if (
       overflowY === 'auto' ||
       overflowY === 'hidden' ||
@@ -78,30 +117,46 @@ export function getOverflowParents(child: HTMLElement): HTMLElement[] {
 
 /**
  * Confirms offset is fully visible within a parent element.
- * @param parent
- * @param offset
  */
 export function isOffsetFullyVisibleWithinParent(
+  viewportRuler: ViewportRuler,
   parent: HTMLElement,
   offset: Required<SkyAffixOffset>,
   bufferOffset?: SkyAffixOffset
 ): boolean {
-  const parentOffset = getElementOffset(parent, bufferOffset);
+  let parentOffset: Required<SkyAffixOffset>;
 
-  return !(
-    parentOffset.top > offset.top ||
-    parentOffset.right < offset.right ||
-    parentOffset.bottom < offset.bottom ||
-    parentOffset.left > offset.left
+  if (parent.matches('body')) {
+    const viewportRect = viewportRuler.getViewportRect();
+    parentOffset = {
+      top: 0,
+      left: 0,
+      right: viewportRect.right,
+      bottom: viewportRect.bottom,
+    };
+  } else if (bufferOffset) {
+    parentOffset = getElementOffset(parent, bufferOffset);
+  } else {
+    parentOffset = getVisibleRectForElement(viewportRuler, parent);
+  }
+
+  return (
+    parentOffset.top <= offset.top &&
+    parentOffset.right >= offset.right &&
+    parentOffset.bottom >= offset.bottom &&
+    parentOffset.left <= offset.left
   );
 }
 
 export function isOffsetPartiallyVisibleWithinParent(
+  viewportRuler: ViewportRuler,
   parent: HTMLElement,
   offset: Required<SkyAffixOffset>,
   bufferOffset?: SkyAffixOffset
 ): boolean {
-  const parentOffset = getElementOffset(parent, bufferOffset);
+  const parentOffset = bufferOffset
+    ? getElementOffset(parent, bufferOffset)
+    : getVisibleRectForElement(viewportRuler, parent);
 
   return !(
     parentOffset.top >= offset.bottom ||

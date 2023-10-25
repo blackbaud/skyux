@@ -67,13 +67,34 @@ describe('Date picker', () => {
         cy.get('#screenshot-datepicker')
           .should('exist')
           .should('be.visible')
-          .scrollIntoView()
+          .then(($datepicker) => {
+            cy.window().scrollTo(0, $datepicker.position().top);
+          })
           .end()
           .get('#set-value-button')
           .click()
           .end()
           .get('#screenshot-datepicker .sky-datepicker button')
           .click()
+          .end()
+          .get('body')
+          .should('exist')
+          .should('be.visible')
+          .then(($body) => {
+            // Verify the datepicker calendar is open and positioned.
+            const buttonBottom = Math.round(
+              $body
+                .find('[aria-expanded="true"]')
+                .get(0)
+                .getBoundingClientRect().bottom
+            );
+            cy.wrap(buttonBottom).should('be.gt', 0);
+            const dialogTop = Math.round(
+              $body.find('[role="dialog"]').position().top
+            );
+            cy.wrap(buttonBottom).should('equal', dialogTop);
+            return cy.wrap($body.get(0));
+          })
           .end()
           .get('#screenshot-datepicker')
           .skyVisualTest(`datepicker-input-open-${theme}`, {
