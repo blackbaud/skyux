@@ -1,5 +1,4 @@
 import { ViewportRuler } from '@angular/cdk/overlay';
-import { ElementRef, NgZone, RendererFactory2 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility, expectAsync } from '@skyux-sdk/testing';
 
@@ -12,7 +11,6 @@ import { SkyAffixOffset } from './affix-offset';
 import { SkyAffixPlacement } from './affix-placement';
 import { SkyAffixPosition } from './affix-position';
 import { SkyAffixService } from './affix.service';
-import { SkyAffixer } from './affixer';
 import { AffixFixtureComponent } from './fixtures/affix.component.fixture';
 import { AffixFixturesModule } from './fixtures/affix.module.fixture';
 
@@ -113,51 +111,43 @@ describe('Affix directive', () => {
       window.document.body.style.width = '5000px';
 
       const fixture = TestBed.createComponent(AffixFixtureComponent);
+      const directive = fixture.componentInstance.affixDirective;
       const affixService = TestBed.inject(SkyAffixService);
-      const rendererFactory = TestBed.inject(RendererFactory2);
       const viewportRulerChange = new Subject<Event>();
       const viewportRuler = TestBed.inject(ViewportRuler);
       spyOn(viewportRuler, 'change').and.returnValue(viewportRulerChange);
       const viewportRulerResize = (): void =>
         viewportRulerChange.next(new Event('resize'));
-      const zone = TestBed.inject(NgZone);
-      const renderer = rendererFactory.createRenderer(undefined, null);
 
       fixture.componentInstance.position = position;
 
       fixture.componentInstance.scrollTargetIntoView();
 
-      let affixer: SkyAffixer | undefined;
       let offset: SkyAffixOffset | undefined;
       let numOverflowScrollEmitted = 0;
       const placement: (SkyAffixPlacement | null | undefined)[] = [];
-      spyOn(affixService, 'createAffixer').and.callFake(
-        (affixed: ElementRef) => {
-          ngUnsubscribe = new Subject<void>();
-          affixer = new SkyAffixer(
-            affixed.nativeElement,
-            renderer,
-            viewportRuler,
-            zone
-          );
-          affixer.offsetChange.pipe(takeUntil(ngUnsubscribe)).subscribe((x) => {
-            offset = x.offset;
-          });
-          affixer.overflowScroll
-            .pipe(takeUntil(ngUnsubscribe))
-            .subscribe(() => {
-              numOverflowScrollEmitted++;
-            });
-          affixer.placementChange
-            .pipe(takeUntil(ngUnsubscribe))
-            .subscribe((x) => {
-              placement.push(x.placement);
-            });
-          return affixer;
-        }
-      );
+      const createAffixer = spyOn(
+        affixService,
+        'createAffixer'
+      ).and.callThrough();
+      ngUnsubscribe = new Subject<void>();
+      directive.affixOverflowScroll
+        .pipe(takeUntil(ngUnsubscribe))
+        .subscribe(() => {
+          numOverflowScrollEmitted++;
+        });
+      directive.affixOffsetChange
+        .pipe(takeUntil(ngUnsubscribe))
+        .subscribe((x) => {
+          offset = x.offset;
+        });
+      directive.affixPlacementChange
+        .pipe(takeUntil(ngUnsubscribe))
+        .subscribe((x) => {
+          placement.push(x.placement);
+        });
 
-      const getAffixer = () => affixer;
+      const getAffixer = () => createAffixer.calls.mostRecent().returnValue;
 
       const getAffixedOffset = (): SkyAffixOffset => {
         const styles = window.getComputedStyle(
@@ -465,7 +455,7 @@ describe('Affix directive', () => {
       expect(getRecentPlacementChange()).toEqual('above');
 
       // Scroll down until the affixed item is clipped at its top, then trigger the scroll event.
-      window.scrollTo(0, 245);
+      window.scrollTo(0, 247);
       SkyAppTestUtility.fireDomEvent(window.visualViewport, 'scroll');
       fixture.detectChanges();
 

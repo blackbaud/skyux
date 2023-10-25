@@ -75,23 +75,15 @@ export function getVisibleRectForElement(
   const visibleRect = {
     top: Math.max(elementRect.top, 0),
     left: Math.max(elementRect.left, 0),
-    bottom: Math.min(elementRect.bottom, viewportRect.height),
-    right: Math.min(elementRect.right, viewportRect.width),
+    bottom: Math.min(elementRect.bottom, viewportRect.bottom),
+    right: Math.min(elementRect.right, viewportRect.right),
   };
 
-  if (element === window.document.body) {
-    return {
-      ...visibleRect,
-      width: viewportRect.width,
-      height: viewportRect.height,
-    };
-  } else {
-    return {
-      ...visibleRect,
-      width: visibleRect.right - visibleRect.left,
-      height: visibleRect.bottom - visibleRect.top,
-    };
-  }
+  return {
+    ...visibleRect,
+    width: visibleRect.right - visibleRect.left,
+    height: visibleRect.bottom - visibleRect.top,
+  };
 }
 
 export function getOverflowParents(child: HTMLElement): HTMLElement[] {
@@ -104,7 +96,7 @@ export function getOverflowParents(child: HTMLElement): HTMLElement[] {
     const computedStyle = window.getComputedStyle(parentElement, undefined);
     const overflowY = computedStyle.overflowY.toLowerCase();
 
-    if (computedStyle.position === 'fixed' || parentElement === bodyElement) {
+    if (computedStyle.position === 'fixed' || parentElement.matches('body')) {
       break;
     }
     if (
@@ -132,19 +124,21 @@ export function isOffsetFullyVisibleWithinParent(
   offset: Required<SkyAffixOffset>,
   bufferOffset?: SkyAffixOffset
 ): boolean {
-  // If the parent is not defined or the offset is partially out of view, return false.
-  if (!parent || offset.top < 0 || offset.left < 0) {
-    return false;
-  }
+  let parentOffset: Required<SkyAffixOffset>;
 
-  if (parent === window.document.body) {
-    const viewport = viewportRuler.getViewportSize();
-    return offset.bottom <= viewport.height && offset.right <= viewport.width;
+  if (parent.matches('body')) {
+    const viewportRect = viewportRuler.getViewportRect();
+    parentOffset = {
+      top: 0,
+      left: 0,
+      right: viewportRect.right,
+      bottom: viewportRect.bottom,
+    };
+  } else if (bufferOffset) {
+    parentOffset = getElementOffset(parent, bufferOffset);
+  } else {
+    parentOffset = getVisibleRectForElement(viewportRuler, parent);
   }
-
-  const parentOffset = bufferOffset
-    ? getElementOffset(parent, bufferOffset)
-    : getVisibleRectForElement(viewportRuler, parent);
 
   return (
     parentOffset.top <= offset.top &&

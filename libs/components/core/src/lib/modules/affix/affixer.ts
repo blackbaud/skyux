@@ -132,11 +132,12 @@ export class SkyAffixer {
     affixedElement: HTMLElement,
     renderer: Renderer2,
     viewportRuler: ViewportRuler,
-    zone: NgZone
+    zone: NgZone,
+    layoutViewport: HTMLElement
   ) {
     this.#affixedElement = affixedElement;
     this.#renderer = renderer;
-    this.#layoutViewport = this.#createLayoutViewportShim();
+    this.#layoutViewport = layoutViewport;
     this.#viewportRuler = viewportRuler;
     this.#zone = zone;
 
@@ -190,8 +191,6 @@ export class SkyAffixer {
     this.#offsetChange.complete();
     this.#overflowScroll.complete();
     this.#scrollChange.complete();
-    this.#renderer.removeChild(document.body, this.#layoutViewport);
-    this.#layoutViewport.remove();
   }
 
   #affix(): void {
@@ -585,28 +584,5 @@ export class SkyAffixer {
         }
       );
     });
-  }
-
-  /**
-   * Create a layout viewport element that can be used to determine the relative position
-   * of the visual viewport. Inspired by
-   * https://github.com/WICG/visual-viewport/blob/gh-pages/examples/fixed-to-viewport.html
-   */
-  #createLayoutViewportShim(): HTMLElement {
-    const layoutViewportElement = this.#renderer.createElement('div');
-    this.#renderer.addClass(
-      layoutViewportElement,
-      'sky-affix-layout-viewport-shim'
-    );
-    this.#renderer.setStyle(layoutViewportElement, 'width', '100%');
-    this.#renderer.setStyle(layoutViewportElement, 'height', '100%');
-    this.#renderer.setStyle(layoutViewportElement, 'position', 'fixed');
-    this.#renderer.setStyle(layoutViewportElement, 'top', '0');
-    this.#renderer.setStyle(layoutViewportElement, 'left', '0');
-    this.#renderer.setStyle(layoutViewportElement, 'visibility', 'hidden');
-    this.#renderer.setStyle(layoutViewportElement, 'pointerEvents', 'none');
-    this.#renderer.appendChild(document.body, layoutViewportElement);
-
-    return layoutViewportElement;
   }
 }
