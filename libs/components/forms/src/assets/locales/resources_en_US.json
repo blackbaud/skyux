@@ -63,6 +63,14 @@
     "_description": "",
     "message": "Drop files here"
   },
+  "skyux_file_attachment_file_upload_file_added": {
+    "_description": "Screen reader text when a file is added",
+    "message": "{0} added."
+  },
+  "skyux_file_attachment_file_upload_file_removed": {
+    "_description": "Screen reader text when a file is removed",
+    "message": "{0} removed."
+  },
   "skyux_file_attachment_file_upload_image_preview_alt_text": {
     "_description": "Alt text for uploaded image",
     "message": "Image preview"
@@ -86,6 +94,14 @@
   "skyux_file_attachment_file_upload_link_done": {
     "_description": "",
     "message": "Done"
+  },
+  "skyux_file_attachment_file_upload_link_added": {
+    "_description": "Screen reader text when a link is added",
+    "message": "Link to {0} added."
+  },
+  "skyux_file_attachment_file_upload_link_removed": {
+    "_description": "Screen reader text when a link is removed",
+    "message": "Link to {0} removed."
   },
   "skyux_file_attachment_label_no_file_chosen": {
     "_description": "Label for single file attachment when no file is chosen",

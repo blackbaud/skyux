@@ -2,6 +2,7 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyLiveAnnouncerService } from '@skyux/core';
 
 import { SkyFileAttachmentsModule } from './file-attachments.module';
 import { SkyFileItem } from './file-item';
@@ -79,7 +80,7 @@ describe('File item component', () => {
     expect(otherEl).toBeFalsy();
   }
 
-  function testOtherPreview(extension: string, type: string) {
+  function testOtherPreview(extension: string, type: string): void {
     componentInstance.fileItem = {
       file: {
         name: 'myFile.' + extension,
@@ -156,6 +157,11 @@ describe('File item component', () => {
   });
 
   it('emits the delete event when the delete button is clicked', () => {
+    const liveAnnouncerSpy = spyOn(
+      TestBed.inject(SkyLiveAnnouncerService),
+      'announce'
+    );
+
     componentInstance.fileItem = {
       url: '$/myFile.txt',
     };
@@ -169,6 +175,9 @@ describe('File item component', () => {
     triggerDelete();
 
     expect(deletedItem?.url).toBe('$/myFile.txt');
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      'Link to $/myFile.txt removed.'
+    );
 
     componentInstance.fileItem = {
       file: {
@@ -189,6 +198,9 @@ describe('File item component', () => {
 
     expect(deletedFile?.file.name).toBe('myFile.txt');
     expect(deletedFile?.file.size).toBe(1000);
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith('myFile.txt removed.');
+
+    expect(liveAnnouncerSpy.calls.count()).toBe(2);
   });
 
   it('shows an image if the item is an image', () => {
