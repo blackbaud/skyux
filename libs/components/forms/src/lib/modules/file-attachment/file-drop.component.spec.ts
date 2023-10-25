@@ -320,16 +320,12 @@ describe('File drop component', () => {
     expect(filesChangedActual?.files[0].url).toBe('url');
     expect(filesChangedActual?.files[0].file.name).toBe('foo.txt');
     expect(filesChangedActual?.files[0].file.size).toBe(1000);
-    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      'File foo.txt was added successfully.'
-    );
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith('foo.txt added.');
 
     expect(filesChangedActual?.files[1].url).toBe('newUrl');
     expect(filesChangedActual?.files[1].file.name).toBe('woo.txt');
     expect(filesChangedActual?.files[1].file.size).toBe(2000);
-    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      'File woo.txt was added successfully.'
-    );
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith('woo.txt added.');
     expect(liveAnnouncerSpy.calls.count()).toBe(2);
   });
 
@@ -375,21 +371,17 @@ describe('File drop component', () => {
     expect(filesChangedActual?.files[0].url).toBe('anotherUrl');
     expect(filesChangedActual?.files[0].file.name).toBe('woo.txt');
     expect(filesChangedActual?.files[0].file.size).toBe(2000);
-    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      'File woo.txt was added successfully.'
-    );
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith('woo.txt added.');
 
     expect(filesChangedActual?.rejectedFiles.length).toBe(2);
 
     expect(filesChangedActual?.rejectedFiles[0].file.name).toBe('foo.txt');
     expect(filesChangedActual?.rejectedFiles[0].file.size).toBe(1000);
-    expect(liveAnnouncerSpy).toHaveBeenCalledWith('File foo.txt was rejected.');
 
     expect(filesChangedActual?.rejectedFiles[1].file.name).toBe('goo.txt');
     expect(filesChangedActual?.rejectedFiles[1].file.size).toBe(3000);
-    expect(liveAnnouncerSpy).toHaveBeenCalledWith('File goo.txt was rejected.');
 
-    expect(liveAnnouncerSpy.calls.count()).toBe(3);
+    expect(liveAnnouncerSpy.calls.count()).toBe(1);
   });
 
   it('should allow the user to specify to not allow multiple files', () => {
@@ -429,19 +421,14 @@ describe('File drop component', () => {
     expect(filesChangedActual?.rejectedFiles[0].file.size).toBe(1000);
     expect(filesChangedActual?.rejectedFiles[0].errorType).toBe('minFileSize');
     expect(filesChangedActual?.rejectedFiles[0].errorParam).toBe('1500');
-    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      'File foo.txt was rejected as the minimum file size of 1500 bytes was not met.'
-    );
 
     expect(filesChangedActual?.files.length).toBe(1);
     expect(filesChangedActual?.files[0].url).toBe('url');
     expect(filesChangedActual?.files[0].file.name).toBe('woo.txt');
     expect(filesChangedActual?.files[0].file.size).toBe(2000);
-    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      'File woo.txt was added successfully.'
-    );
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith('woo.txt added.');
 
-    expect(liveAnnouncerSpy.calls.count()).toBe(2);
+    expect(liveAnnouncerSpy.calls.count()).toBe(1);
   });
 
   it('should respect a default min file size of 0', () => {
@@ -462,12 +449,8 @@ describe('File drop component', () => {
     expect(filesChangedActual?.files[1].file.name).toBe('woo.txt');
     expect(filesChangedActual?.files[1].file.size).toBe(2000);
     expect(filesChangedActual?.files[1].url).toBe('newUrl');
-    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      'File foo.txt was added successfully.'
-    );
-    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      'File woo.txt was added successfully.'
-    );
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith('foo.txt added.');
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith('woo.txt added.');
 
     expect(liveAnnouncerSpy.calls.count()).toBe(2);
 
@@ -485,19 +468,14 @@ describe('File drop component', () => {
     expect(filesChangedActual?.rejectedFiles[0].file.size).toBe(1000);
     expect(filesChangedActual?.rejectedFiles[0].errorType).toBe('minFileSize');
     expect(filesChangedActual?.rejectedFiles[0].errorParam).toBe('1500');
-    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      'File foo.txt was rejected as the minimum file size of 1500 bytes was not met.'
-    );
 
     expect(filesChangedActual?.files.length).toBe(1);
     expect(filesChangedActual?.files[0].url).toBe('url');
     expect(filesChangedActual?.files[0].file.name).toBe('woo.txt');
     expect(filesChangedActual?.files[0].file.size).toBe(2000);
-    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      'File woo.txt was added successfully.'
-    );
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith('woo.txt added.');
 
-    expect(liveAnnouncerSpy.calls.count()).toBe(2);
+    expect(liveAnnouncerSpy.calls.count()).toBe(1);
 
     liveAnnouncerSpy.calls.reset();
 
@@ -517,12 +495,8 @@ describe('File drop component', () => {
     expect(filesChangedActual?.files[1].file.name).toBe('woo.txt');
     expect(filesChangedActual?.files[1].file.size).toBe(2000);
     expect(filesChangedActual?.files[1].url).toBe('newUrl');
-    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      'File foo.txt was added successfully.'
-    );
-    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      'File woo.txt was added successfully.'
-    );
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith('foo.txt added.');
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith('woo.txt added.');
 
     expect(liveAnnouncerSpy.calls.count()).toBe(2);
   });
@@ -544,19 +518,14 @@ describe('File drop component', () => {
     expect(filesChangedActual?.rejectedFiles[0].file.size).toBe(2000);
     expect(filesChangedActual?.rejectedFiles[0].errorType).toBe('maxFileSize');
     expect(filesChangedActual?.rejectedFiles[0].errorParam).toBe('1500');
-    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      'File woo.txt was rejected as the maximum file size of 1500 bytes was exceeded.'
-    );
 
     expect(filesChangedActual?.files.length).toBe(1);
     expect(filesChangedActual?.files[0].url).toBe('url');
     expect(filesChangedActual?.files[0].file.name).toBe('foo.txt');
     expect(filesChangedActual?.files[0].file.size).toBe(1000);
-    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      'File foo.txt was added successfully.'
-    );
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith('foo.txt added.');
 
-    expect(liveAnnouncerSpy.calls.count()).toBe(2);
+    expect(liveAnnouncerSpy.calls.count()).toBe(1);
   });
 
   it('should respect a default max file size of 500000', () => {
@@ -577,12 +546,8 @@ describe('File drop component', () => {
     expect(filesChangedActual?.files[1].file.name).toBe('woo.txt');
     expect(filesChangedActual?.files[1].file.size).toBe(2000);
     expect(filesChangedActual?.files[1].url).toBe('newUrl');
-    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      'File foo.txt was added successfully.'
-    );
-    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      'File woo.txt was added successfully.'
-    );
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith('foo.txt added.');
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith('woo.txt added.');
 
     expect(liveAnnouncerSpy.calls.count()).toBe(2);
 
@@ -600,19 +565,14 @@ describe('File drop component', () => {
     expect(filesChangedActual?.rejectedFiles[0].file.size).toBe(2000);
     expect(filesChangedActual?.rejectedFiles[0].errorType).toBe('maxFileSize');
     expect(filesChangedActual?.rejectedFiles[0].errorParam).toBe('1500');
-    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      'File woo.txt was rejected as the maximum file size of 1500 bytes was exceeded.'
-    );
 
     expect(filesChangedActual?.files.length).toBe(1);
     expect(filesChangedActual?.files[0].url).toBe('url');
     expect(filesChangedActual?.files[0].file.name).toBe('foo.txt');
     expect(filesChangedActual?.files[0].file.size).toBe(1000);
-    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      'File foo.txt was added successfully.'
-    );
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith('foo.txt added.');
 
-    expect(liveAnnouncerSpy.calls.count()).toBe(2);
+    expect(liveAnnouncerSpy.calls.count()).toBe(1);
 
     liveAnnouncerSpy.calls.reset();
 
@@ -632,12 +592,8 @@ describe('File drop component', () => {
     expect(filesChangedActual?.files[1].file.name).toBe('woo.txt');
     expect(filesChangedActual?.files[1].file.size).toBe(2000);
     expect(filesChangedActual?.files[1].url).toBe('newUrl');
-    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      'File foo.txt was added successfully.'
-    );
-    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      'File woo.txt was added successfully.'
-    );
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith('foo.txt added.');
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith('woo.txt added.');
 
     expect(liveAnnouncerSpy.calls.count()).toBe(2);
   });
@@ -670,17 +626,14 @@ describe('File drop component', () => {
     expect(filesChangedActual?.rejectedFiles[0].file.size).toBe(2000);
     expect(filesChangedActual?.rejectedFiles[0].errorType).toBe('validate');
     expect(filesChangedActual?.rejectedFiles[0].errorParam).toBe(errorMessage);
-    expect(liveAnnouncerSpy).toHaveBeenCalledWith('File woo.txt was rejected.');
 
     expect(filesChangedActual?.files.length).toBe(1);
     expect(filesChangedActual?.files[0].url).toBe('url');
     expect(filesChangedActual?.files[0].file.name).toBe('foo.txt');
     expect(filesChangedActual?.files[0].file.size).toBe(1000);
-    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      'File foo.txt was added successfully.'
-    );
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith('foo.txt added.');
 
-    expect(liveAnnouncerSpy.calls.count()).toBe(2);
+    expect(liveAnnouncerSpy.calls.count()).toBe(1);
   });
 
   it('should allow the user to specify accepted types', () => {
@@ -703,19 +656,14 @@ describe('File drop component', () => {
     expect(filesChangedActual?.rejectedFiles[0].errorParam).toBe(
       componentInstance.acceptedTypes
     );
-    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      `File woo.txt was rejected as the file does not have the correct file type. The file must be of one of the following types: ${componentInstance.acceptedTypes}.`
-    );
 
     expect(filesChangedActual?.files.length).toBe(1);
     expect(filesChangedActual?.files[0].url).toBe('url');
     expect(filesChangedActual?.files[0].file.name).toBe('foo.txt');
     expect(filesChangedActual?.files[0].file.size).toBe(1000);
-    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      'File foo.txt was added successfully.'
-    );
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith('foo.txt added.');
 
-    expect(liveAnnouncerSpy.calls.count()).toBe(2);
+    expect(liveAnnouncerSpy.calls.count()).toBe(1);
   });
 
   it('should reject a file with no type when accepted types are defined', () => {
@@ -750,9 +698,6 @@ describe('File drop component', () => {
     expect(filesChangedActual?.rejectedFiles[1].errorParam).toBe(
       componentInstance.acceptedTypes
     );
-    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      `File woo.txt was rejected as the file does not have the correct file type. The file must be of one of the following types: ${componentInstance.acceptedTypes}.`
-    );
 
     expect(filesChangedActual?.rejectedFiles[0].file.name).toBe('foo.txt');
     expect(filesChangedActual?.rejectedFiles[0].file.size).toBe(1000);
@@ -760,11 +705,8 @@ describe('File drop component', () => {
     expect(filesChangedActual?.rejectedFiles[0].errorParam).toBe(
       componentInstance.acceptedTypes
     );
-    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      `File foo.txt was rejected as the file does not have the correct file type. The file must be of one of the following types: ${componentInstance.acceptedTypes}.`
-    );
 
-    expect(liveAnnouncerSpy.calls.count()).toBe(2);
+    expect(liveAnnouncerSpy.calls.count()).toBe(0);
   });
 
   it('should allow the user to specify accepted type with wildcards', () => {
@@ -789,12 +731,8 @@ describe('File drop component', () => {
     expect(filesChangedActual?.files[1].url).toBe('newUrl');
     expect(filesChangedActual?.files[1].file.name).toBe('woo.txt');
     expect(filesChangedActual?.files[1].file.size).toBe(2000);
-    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      'File foo.txt was added successfully.'
-    );
-    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      'File woo.txt was added successfully.'
-    );
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith('foo.txt added.');
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith('woo.txt added.');
 
     expect(liveAnnouncerSpy.calls.count()).toBe(2);
   });
@@ -853,9 +791,7 @@ describe('File drop component', () => {
     expect(filesChangedActual?.files[0].url).toBe('url');
     expect(filesChangedActual?.files[0].file.name).toBe('foo.txt');
     expect(filesChangedActual?.files[0].file.size).toBe(1000);
-    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      'File foo.txt was added successfully.'
-    );
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith('foo.txt added.');
 
     expect(liveAnnouncerSpy.calls.count()).toBe(1);
 
@@ -1045,9 +981,7 @@ describe('File drop component', () => {
     fixture.detectChanges();
 
     expect(fileLinkActual?.url).toBe('link.com');
-    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      'Link to link.com was added successfully.'
-    );
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith('Link to link.com added.');
   });
 
   it('should emit link event when link is added on enter press', () => {
@@ -1079,9 +1013,7 @@ describe('File drop component', () => {
     fixture.detectChanges();
 
     expect(fileLinkActual?.url).toBe('link.com');
-    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      'Link to link.com was added successfully.'
-    );
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith('Link to link.com added.');
   });
 
   it('should allow custom content inside of the file drop component', () => {

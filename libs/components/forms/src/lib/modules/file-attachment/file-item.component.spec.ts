@@ -176,7 +176,7 @@ describe('File item component', () => {
 
     expect(deletedItem?.url).toBe('$/myFile.txt');
     expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      'Link to $/myFile.txt was removed.'
+      'Link to $/myFile.txt removed.'
     );
 
     componentInstance.fileItem = {
@@ -198,9 +198,7 @@ describe('File item component', () => {
 
     expect(deletedFile?.file.name).toBe('myFile.txt');
     expect(deletedFile?.file.size).toBe(1000);
-    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      'File myFile.txt was removed.'
-    );
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith('myFile.txt removed.');
 
     expect(liveAnnouncerSpy.calls.count()).toBe(2);
   });

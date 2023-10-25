@@ -300,36 +300,6 @@ export class SkyFileDropComponent implements OnDestroy {
   ): void {
     rejectedFileArray.push(file);
     this.#emitFileChangeEvent(totalFiles, rejectedFileArray, validFileArray);
-    switch (file.errorType) {
-      case 'fileType':
-        this.#announceState(
-          'skyux_file_attachment_file_upload_file_rejected_file_type',
-          file.file.name,
-          this.acceptedTypes
-        );
-        break;
-      case 'maxFileSize':
-        this.#announceState(
-          'skyux_file_attachment_file_upload_file_rejected_max_size',
-          file.file.name,
-          this.maxFileSize
-        );
-        break;
-      case 'minFileSize':
-        this.#announceState(
-          'skyux_file_attachment_file_upload_file_rejected_min_size',
-          file.file.name,
-          this.minFileSize
-        );
-        break;
-      case 'validate':
-      default:
-        this.#announceState(
-          'skyux_file_attachment_file_upload_file_rejected',
-          file.file.name
-        );
-        break;
-    }
   }
 
   #loadFile(
