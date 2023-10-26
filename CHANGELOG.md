@@ -1,5 +1,12 @@
 # Changelog
 
+## [8.10.7](https://github.com/blackbaud/skyux/compare/8.10.6...8.10.7) (2023-10-25)
+
+
+### Bug Fixes
+
+* **components/lookup:** autocomplete position with nested overflow elements ([#1813](https://github.com/blackbaud/skyux/issues/1813)) ([97f5ec5](https://github.com/blackbaud/skyux/commit/97f5ec56e1a8c6c5c7580240b252b91d04ba54ff))
+
 ## [8.10.6](https://github.com/blackbaud/skyux/compare/8.10.5...8.10.6) (2023-10-10)
 
 
