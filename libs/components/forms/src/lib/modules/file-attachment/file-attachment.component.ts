@@ -377,8 +377,7 @@ export class SkyFileAttachmentComponent
     this.value = undefined;
     this.#emitFileChangeEvent(this.value);
 
-    // Safety check
-    // istanbul ignore else
+    /* istanbul ignore else: safety check */
     if (fileName) {
       this.#announceState(
         'skyux_file_attachment_file_upload_file_removed',
