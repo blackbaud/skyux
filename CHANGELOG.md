@@ -1,5 +1,19 @@
 # Changelog
 
+## [9.11.0](https://github.com/blackbaud/skyux/compare/9.10.0...9.11.0) (2023-10-26)
+
+
+### Features
+
+* **components/forms:** file attachment component announces state changes to screen readers ([#1841](https://github.com/blackbaud/skyux/issues/1841)) ([9e1e737](https://github.com/blackbaud/skyux/commit/9e1e737a37421c66b190431a2e6a91c454520504))
+* **components/lists:** repeater item context menu aria labels are automatically item specific ([#1743](https://github.com/blackbaud/skyux/issues/1743)) ([54ecd43](https://github.com/blackbaud/skyux/commit/54ecd43ac1d2d6fabf306189a613f70cefc72bc2))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** specify tooltip background color ([#1850](https://github.com/blackbaud/skyux/issues/1850)) ([710f0d1](https://github.com/blackbaud/skyux/commit/710f0d18ee2ce3f8464111e030a7d8d85db09e71)), closes [#1839](https://github.com/blackbaud/skyux/issues/1839)
+* **components/lookup:** autocomplete position with nested overflow elements ([#1813](https://github.com/blackbaud/skyux/issues/1813)) ([#1853](https://github.com/blackbaud/skyux/issues/1853)) ([fa857c4](https://github.com/blackbaud/skyux/commit/fa857c4050d7f2b890fbba55bea59a8e28017e9c))
+
 ## [8.10.7](https://github.com/blackbaud/skyux/compare/8.10.6...8.10.7) (2023-10-25)
 
 
