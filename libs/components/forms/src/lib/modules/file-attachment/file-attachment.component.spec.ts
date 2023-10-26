@@ -7,6 +7,7 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyLiveAnnouncerService } from '@skyux/core';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -41,6 +42,8 @@ describe('File attachment', () => {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
 
+  let liveAnnouncerSpy: jasmine.Spy;
+
   beforeEach(() => {
     mockThemeSvc = {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
@@ -60,6 +63,11 @@ describe('File attachment', () => {
         },
       ],
     });
+
+    liveAnnouncerSpy = spyOn(
+      TestBed.inject(SkyLiveAnnouncerService),
+      'announce'
+    );
   });
 
   beforeEach(() => {
@@ -502,6 +510,8 @@ describe('File attachment', () => {
     expect(fileChangeActual?.file?.url).toBe('$/url');
     expect(fileChangeActual?.file?.file.name).toBe('foo.txt');
     expect(fileChangeActual?.file?.file.size).toBe(1000);
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith('foo.txt added.');
+    expect(liveAnnouncerSpy.calls.count()).toBe(1);
   });
 
   it('should load and emit files on file change event when file reader has an error and aborts', () => {
@@ -564,6 +574,7 @@ describe('File attachment', () => {
     ];
 
     setupStandardFileChangeEvent(file);
+    liveAnnouncerSpy.calls.reset();
 
     const deleteEl = getDeleteEl();
 
@@ -572,6 +583,8 @@ describe('File attachment', () => {
     fixture.detectChanges();
 
     expect(fileChangeActual?.file).toBeFalsy();
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith('foo.txt removed.');
+    expect(liveAnnouncerSpy.calls.count()).toBe(1);
   });
 
   it('should show the appropriate file name', () => {
@@ -765,6 +778,75 @@ describe('File attachment', () => {
     dropDebugEl.triggerEventHandler('drop', emptyEvent);
     fixture.detectChanges();
     expect(fileReaderSpy.loadCallbacks.length).toBe(0);
+  });
+
+  it('should allow for replacing the selected file with drag and drop', () => {
+    let fileChangeActual: SkyFileAttachmentChange | undefined;
+
+    fileAttachmentInstance.fileChange.subscribe(
+      (fileChange: SkyFileAttachmentChange) => (fileChangeActual = fileChange)
+    );
+
+    fileAttachmentInstance.acceptedTypes = 'image/png, image/tiff';
+
+    fixture.detectChanges();
+
+    const initialFile = [
+      {
+        name: 'foo.txt',
+        size: 1000,
+        type: 'image/png',
+      },
+    ];
+
+    const fileReaderSpy = setupStandardFileChangeEvent(initialFile);
+
+    expect(fileChangeActual?.file).toBeTruthy();
+    expect(fileChangeActual?.file?.url).toBe('$/url');
+    expect(fileChangeActual?.file?.file.name).toBe('foo.txt');
+    expect(fileChangeActual?.file?.file.size).toBe(1000);
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith('foo.txt added.');
+    expect(liveAnnouncerSpy.calls.count()).toBe(1);
+
+    // Resets the file reader spy
+    const spyData = getFileReaderSpyData(fileReaderSpy);
+
+    const dropDebugEl = getDropDebugEl();
+    const dropEl = getDropEl();
+
+    const replacementFile = [
+      {
+        name: 'woo.txt',
+        size: 1000,
+        type: 'image/png',
+      },
+    ];
+
+    triggerDragEnter('sky-file-attachment', dropDebugEl);
+    triggerDragOver(undefined, replacementFile, dropDebugEl);
+    validateDropClasses(true, false, dropEl);
+
+    triggerDrop(replacementFile, dropDebugEl);
+    validateDropClasses(false, false, dropEl);
+
+    // Triggers the change event for watching
+    spyData.loadCallbacks[0]({
+      target: {
+        result: '$/url',
+      },
+    });
+
+    fixture.detectChanges();
+
+    expect(fileChangeActual?.file).toBeTruthy();
+    expect(fileChangeActual?.file?.errorType).toBeFalsy();
+    expect(fileChangeActual?.file?.url).toBe('$/url');
+    expect(fileChangeActual?.file?.file.name).toBe('woo.txt');
+    expect(fileChangeActual?.file?.file.size).toBe(1000);
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      'foo.txt removed. woo.txt added.'
+    );
+    expect(liveAnnouncerSpy.calls.count()).toBe(2);
   });
 
   it(
