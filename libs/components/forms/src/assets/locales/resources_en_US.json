@@ -67,6 +67,10 @@
     "_description": "Screen reader text when a file is added",
     "message": "{0} added."
   },
+  "skyux_file_attachment_file_upload_file_replaced": {
+    "_description": "Screen reader text when a file is replaced",
+    "message": "{0} removed. {1} added."
+  },
   "skyux_file_attachment_file_upload_file_removed": {
     "_description": "Screen reader text when a file is removed",
     "message": "{0} removed."
