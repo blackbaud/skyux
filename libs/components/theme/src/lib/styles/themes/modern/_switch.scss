@@ -66,7 +66,7 @@ $sky-switch-size-modern: 26px !default;
       &:checked + .sky-switch-control,
       &:disabled:checked + .sky-switch-control,
       &[type='checkbox']:indeterminate + .sky-switch-control,
-      &:disabled:indeterminate + .sky-switch-control {
+      &[type='checkbox']:disabled:indeterminate + .sky-switch-control {
         color: var(--sky-background-color-primary-dark);
       }
     }
