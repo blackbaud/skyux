@@ -1,4 +1,5 @@
 import { ViewportRuler } from '@angular/cdk/overlay';
+import { DOCUMENT, NgClass } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -8,19 +9,69 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Observable, Subject } from 'rxjs';
-
 import { SkyAffixer } from './affixer';
 
 @Component({
   template: `
-    <div class="affixer-container">
-      <div #baseElement class="affixer-base">base</div>
+    <div
+      class="affixer-layer"
+      [ngClass]="{
+        'affix-layer-fixed': fixedLayer1,
+        'affix-layer-overflow': overflowLayer1
+      }"
+    >
+      <div
+        class="affixer-layer"
+        [ngClass]="{
+          'affix-layer-fixed': fixedLayer2,
+          'affix-layer-overflow': overflowLayer2
+        }"
+      >
+        <div
+          class="affixer-layer"
+          [ngClass]="{
+            'affix-layer-fixed': fixedLayer3,
+            'affix-layer-overflow': overflowLayer3
+          }"
+        >
+          <div class="affixer-container">
+            <div #baseElement class="affixer-base">base</div>
+          </div>
+          <div #affixedElement class="affixed">affixed</div>
+        </div>
+      </div>
     </div>
-    <div #affixedElement class="affixed">affixed</div>
   `,
   styles: [
     `
+      .affixer-layer {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+
+      .affix-layer-overflow {
+        overflow: hidden;
+        padding: 5px;
+      }
+
+      .affix-layer-fixed {
+        overflow: scroll;
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        height: 120px;
+        width: 60px;
+      }
+
+      .affix-layer-fixed .affix-layer-fixed {
+        top: 40px;
+        left: 30px;
+      }
+
+      .affix-layer-fixed .affix-layer-fixed .affix-layer-fixed {
+        top: 60px;
+        left: 40px;
+      }
+
       .affixer-container {
         position: relative;
         height: 100px;
@@ -36,6 +87,7 @@ import { SkyAffixer } from './affixer';
       }
 
       .affixed {
+        position: fixed;
         font-size: 8px;
         height: 10px;
         width: 15px;
@@ -43,6 +95,7 @@ import { SkyAffixer } from './affixer';
     `,
   ],
   standalone: true,
+  imports: [NgClass],
 })
 class AffixerSpecComponent {
   @ViewChild('affixedElement', { static: true })
@@ -50,6 +103,13 @@ class AffixerSpecComponent {
 
   @ViewChild('baseElement', { static: true })
   public baseRef: ElementRef<HTMLDivElement> | undefined;
+
+  public fixedLayer1 = false;
+  public overflowLayer1 = false;
+  public fixedLayer2 = false;
+  public overflowLayer2 = false;
+  public fixedLayer3 = false;
+  public overflowLayer3 = false;
 }
 
 describe('Affixer', () => {
@@ -73,7 +133,19 @@ describe('Affixer', () => {
       component.affixedElement?.nativeElement as HTMLElement,
       TestBed.inject(RendererFactory2).createRenderer(undefined, null),
       TestBed.inject(ViewportRuler),
-      TestBed.inject(NgZone)
+      TestBed.inject(NgZone),
+      TestBed.inject(DOCUMENT).documentElement
+    );
+    const offsetChangeObserver = jasmine.createSpy('offsetChange');
+    const overflowScrollObserver = jasmine.createSpy('overflowScroll');
+    const placementChangeObserver = jasmine.createSpy('placementChange');
+    const offsetChangeSubscription =
+      affixer.offsetChange.subscribe(offsetChangeObserver);
+    const overflowScrollSubscription = affixer.overflowScroll.subscribe(
+      overflowScrollObserver
+    );
+    const placementChangeSubscription = affixer.placementChange.subscribe(
+      placementChangeObserver
     );
     expect(affixer).toBeTruthy();
     expect(component.baseRef?.nativeElement).toBeTruthy();
@@ -83,7 +155,23 @@ describe('Affixer', () => {
       isSticky: true,
     });
     expect(component.affixedElement?.nativeElement.style.top).toEqual('11px');
+    affixer.reaffix();
+    expect(component.affixedElement?.nativeElement.style.top).toEqual('11px');
+    expect(offsetChangeObserver).toHaveBeenCalled();
+    expect(overflowScrollObserver).not.toHaveBeenCalled();
+    expect(placementChangeObserver).toHaveBeenCalled();
+    expect(affixer.getConfig()).toEqual({
+      autoFitContext: 0,
+      enableAutoFit: false,
+      horizontalAlignment: 'center',
+      isSticky: true,
+      placement: 'above',
+      verticalAlignment: 'top',
+    });
     affixer.destroy();
+    offsetChangeSubscription.unsubscribe();
+    overflowScrollSubscription.unsubscribe();
+    placementChangeSubscription.unsubscribe();
   });
 
   it('should create an instance, place at top right', async () => {
@@ -93,7 +181,8 @@ describe('Affixer', () => {
       component.affixedElement?.nativeElement as HTMLElement,
       TestBed.inject(RendererFactory2).createRenderer(undefined, null),
       TestBed.inject(ViewportRuler),
-      TestBed.inject(NgZone)
+      TestBed.inject(NgZone),
+      TestBed.inject(DOCUMENT).documentElement
     );
     expect(affixer).toBeTruthy();
     affixer.affixTo(component.baseRef?.nativeElement as HTMLElement, {
@@ -106,22 +195,69 @@ describe('Affixer', () => {
   it('should use viewport ruler change observable', async () => {
     fixture.detectChanges();
     await fixture.whenStable();
-    const viewportRulerChange = new Subject<Event>();
-    const viewportRuler = {
-      getViewportScrollPosition: () => ({ top: 50, left: 0 }),
-      change: (): Observable<Event> => viewportRulerChange,
-    } as ViewportRuler;
     const affixer = new SkyAffixer(
       component.affixedElement?.nativeElement as HTMLElement,
       TestBed.inject(RendererFactory2).createRenderer(undefined, null),
-      viewportRuler,
-      TestBed.inject(NgZone)
+      TestBed.inject(ViewportRuler),
+      TestBed.inject(NgZone),
+      TestBed.inject(DOCUMENT).documentElement
+    );
+    expect(affixer).toBeTruthy();
+    affixer.affixTo(component.baseRef?.nativeElement as HTMLElement, {
+      placement: 'above',
+    });
+    expect(component.affixedElement?.nativeElement.style.top).toEqual('1px');
+  });
+
+  it('should handle multiple layers of fixed elements', async () => {
+    component.fixedLayer1 = true;
+    fixture.detectChanges();
+    const affixer = new SkyAffixer(
+      component.affixedElement?.nativeElement as HTMLElement,
+      TestBed.inject(RendererFactory2).createRenderer(undefined, null),
+      TestBed.inject(ViewportRuler),
+      TestBed.inject(NgZone),
+      TestBed.inject(DOCUMENT).documentElement
     );
     expect(affixer).toBeTruthy();
     affixer.affixTo(component.baseRef?.nativeElement as HTMLElement, {
       isSticky: true,
       placement: 'above',
     });
-    expect(component.affixedElement?.nativeElement.style.top).toEqual('1px');
+    expect(component.affixedElement?.nativeElement.style.top).toEqual('11px');
+    component.fixedLayer2 = true;
+    fixture.detectChanges();
+    affixer.reaffix();
+    expect(component.affixedElement?.nativeElement.style.top).toEqual('41px');
+    component.fixedLayer3 = true;
+    fixture.detectChanges();
+    affixer.reaffix();
+    expect(component.affixedElement?.nativeElement.style.top).toEqual('61px');
+  });
+
+  it('should handle multiple layers of overflow elements', async () => {
+    component.overflowLayer1 = true;
+    fixture.detectChanges();
+    const affixer = new SkyAffixer(
+      component.affixedElement?.nativeElement as HTMLElement,
+      TestBed.inject(RendererFactory2).createRenderer(undefined, null),
+      TestBed.inject(ViewportRuler),
+      TestBed.inject(NgZone),
+      TestBed.inject(DOCUMENT).documentElement
+    );
+    expect(affixer).toBeTruthy();
+    affixer.affixTo(component.baseRef?.nativeElement as HTMLElement, {
+      isSticky: true,
+      placement: 'above',
+    });
+    expect(component.affixedElement?.nativeElement.style.top).toEqual('6px');
+    component.overflowLayer2 = true;
+    fixture.detectChanges();
+    affixer.reaffix();
+    expect(component.affixedElement?.nativeElement.style.top).toEqual('11px');
+    component.overflowLayer3 = true;
+    fixture.detectChanges();
+    affixer.reaffix();
+    expect(component.affixedElement?.nativeElement.style.top).toEqual('16px');
   });
 });

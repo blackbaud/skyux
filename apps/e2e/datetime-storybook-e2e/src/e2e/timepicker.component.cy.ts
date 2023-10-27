@@ -17,9 +17,32 @@ describe('datetime-storybook', () => {
               .should('be.visible')
               .click()
               .end()
+              .get(
+                'sky-overlay .sky-timepicker-container .sky-timepicker-footer'
+              )
+              .should('exist')
+              .should('be.visible')
+              // Move focus so the focus ring is not in the screenshot.
+              .click()
+              .end()
               .get('body')
               .should('exist')
               .should('be.visible')
+              .then(($body) => {
+                // Verify the timepicker is open and positioned.
+                const buttonBottom = Math.round(
+                  $body
+                    .find('[aria-expanded="true"]')
+                    .get(0)
+                    .getBoundingClientRect().bottom
+                );
+                cy.wrap(buttonBottom).should('be.gt', 0);
+                const dialogTop = Math.round(
+                  $body.find('[role="dialog"]').position().top
+                );
+                cy.wrap(buttonBottom).should('equal', dialogTop);
+                return cy.wrap($body.get(0));
+              })
               .skyVisualTest(
                 `timepickercomponent-timepicker--timepicker-${mode}-${theme}`,
                 {

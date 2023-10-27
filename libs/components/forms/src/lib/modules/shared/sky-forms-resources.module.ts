@@ -50,6 +50,9 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
       message: 'Drop files here',
     },
     skyux_file_attachment_file_upload_file_added: { message: '{0} added.' },
+    skyux_file_attachment_file_upload_file_replaced: {
+      message: '{0} removed. {1} added.',
+    },
     skyux_file_attachment_file_upload_file_removed: { message: '{0} removed.' },
     skyux_file_attachment_file_upload_image_preview_alt_text: {
       message: 'Image preview',

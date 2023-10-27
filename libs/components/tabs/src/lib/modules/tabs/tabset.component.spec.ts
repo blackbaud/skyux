@@ -1,5 +1,4 @@
 import { ViewportRuler } from '@angular/cdk/overlay';
-import { ViewportScrollPosition } from '@angular/cdk/scrolling';
 import { Location } from '@angular/common';
 import { DebugElement } from '@angular/core';
 import {
@@ -23,7 +22,7 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 import { SkyTabsFixturesModule } from './fixtures/tabs-fixtures.module';
 import { TabsetActiveTwoWayBindingTestComponent } from './fixtures/tabset-active-two-way.component.fixture';
@@ -98,18 +97,12 @@ describe('Tabset component', () => {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
         },
-        {
-          provide: ViewportRuler,
-          useValue: {
-            change: (): Observable<Event> => viewportRulerChange,
-            getViewportScrollPosition: (): ViewportScrollPosition => ({
-              top: 0,
-              left: 0,
-            }),
-          } as ViewportRuler,
-        },
       ],
     });
+
+    spyOn(ViewportRuler.prototype, 'change').and.returnValue(
+      viewportRulerChange
+    );
   });
 
   afterEach(() => {
