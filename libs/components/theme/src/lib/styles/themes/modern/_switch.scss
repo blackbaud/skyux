@@ -5,7 +5,7 @@ $sky-switch-size-modern: 26px !default;
 .sky-theme-modern {
   .sky-switch-input:not(:disabled) {
     &:checked + .sky-switch-control,
-    &:indeterminate + .sky-switch-control,
+    &[type='checkbox']:indeterminate + .sky-switch-control,
     &:hover + .sky-switch-control {
       border: solid 1px var(--sky-background-color-primary-dark);
     }
@@ -53,7 +53,7 @@ $sky-switch-size-modern: 26px !default;
 
     .sky-switch-input {
       &:checked + .sky-switch-control,
-      &:indeterminate + .sky-switch-control {
+      &[type='checkbox']:indeterminate + .sky-switch-control {
         background-color: var(--sky-background-color-input-selected);
       }
 
@@ -65,8 +65,8 @@ $sky-switch-size-modern: 26px !default;
 
       &:checked + .sky-switch-control,
       &:disabled:checked + .sky-switch-control,
-      &:indeterminate + .sky-switch-control,
-      &:disabled:indeterminate + .sky-switch-control {
+      &[type='checkbox']:indeterminate + .sky-switch-control,
+      &[type='checkbox']:disabled:indeterminate + .sky-switch-control {
         color: var(--sky-background-color-primary-dark);
       }
     }
