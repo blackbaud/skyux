@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.12.1](https://github.com/blackbaud/skyux/compare/9.12.0...9.12.1) (2023-10-27)
+
+
+### Bug Fixes
+
+* **components/lookup:** fit lookup dropdown to viewport ([#1858](https://github.com/blackbaud/skyux/issues/1858)) ([#1859](https://github.com/blackbaud/skyux/issues/1859)) ([d5becfb](https://github.com/blackbaud/skyux/commit/d5becfbd8d0deaa14665db10f2e269c8e151daff))
+
 ## [8.10.8](https://github.com/blackbaud/skyux/compare/8.10.7...8.10.8) (2023-10-27)
 
 
