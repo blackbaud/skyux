@@ -1,5 +1,17 @@
 # Changelog
 
+## [9.12.0](https://github.com/blackbaud/skyux/compare/9.11.0...9.12.0) (2023-10-27)
+
+
+### Features
+
+* **components/forms:** single file attachment component announces state changes to screen readers ([#1855](https://github.com/blackbaud/skyux/issues/1855)) ([310b966](https://github.com/blackbaud/skyux/commit/310b96658c4d88fb32c43d9c433cdba0f4410801))
+
+
+### Bug Fixes
+
+* **components/theme:** apply "indeterminate" styles to checkbox inputs only ([#1857](https://github.com/blackbaud/skyux/issues/1857)) ([e8c61d4](https://github.com/blackbaud/skyux/commit/e8c61d4c44ee64b5e858ed7807cd406b13ed19ec))
+
 ## [9.11.0](https://github.com/blackbaud/skyux/compare/9.10.0...9.11.0) (2023-10-26)
 
 
