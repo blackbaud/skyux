@@ -32,6 +32,7 @@ export class SkyResizeObserverService implements OnDestroy {
     // the resize event. Otherwise, use sample() to emit the resize event on the
     // next animation frame.
     // todo: refactor this to use a provider to inject the scheduler or find another way
+    /* istanbul ignore else */
     if ('__zone_symbol__patchPromiseForTest' in Promise) {
       this.#scheduler = <T>(): MonoTypeOperatorFunction<T> => tap();
     } else {

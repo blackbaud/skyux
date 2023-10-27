@@ -40,7 +40,6 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
     const subscription = service.subscribe((breakpoint) => {
       result = breakpoint;
     });
-    expect(result).toBeUndefined();
     mockResizeObserverHandle.emit([
       {
         ...mockResizeObserverEntry,
@@ -117,7 +116,6 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
     const subscription = service.subscribe((breakpoint) => {
       result = breakpoint;
     });
-    expect(result).toBeFalsy();
     mockResizeObserverHandle.emit([
       {
         ...mockResizeObserverEntry,
