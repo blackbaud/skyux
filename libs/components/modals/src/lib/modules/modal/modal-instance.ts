@@ -136,7 +136,7 @@ export class SkyModalInstance {
     args.reason = type;
     args.data = result;
 
-    if (!this.#_beforeClose.observed || ignoreBeforeClose) {
+    if (this.#_beforeClose.observers.length === 0 || ignoreBeforeClose) {
       this.#notifyClosed(args);
     } else {
       this.#_beforeClose.next(

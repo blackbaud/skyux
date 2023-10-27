@@ -1,8 +1,6 @@
 import { ElementRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import { Subject } from 'rxjs';
-
 import { SkyMediaBreakpoints } from '../media-query/media-breakpoints';
 
 import {
@@ -11,32 +9,17 @@ import {
   mockResizeObserverHandle,
 } from './fixtures/resize-observer-mock';
 import { SkyResizeObserverMediaQueryService } from './resize-observer-media-query.service';
-import { ResizeObserverScheduler } from './resize-observer-scheduler';
 import { SkyResizeObserverService } from './resize-observer.service';
 
 describe('SkyResizeObserverMediaQueryService service', async () => {
-  let resizeObserverScheduler: Subject<void>;
-
   beforeAll(() => {
     mockResizeObserver();
-    resizeObserverScheduler = new Subject<void>();
   });
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        {
-          provide: ResizeObserverScheduler,
-          useValue: resizeObserverScheduler,
-        },
-        SkyResizeObserverService,
-        SkyResizeObserverMediaQueryService,
-      ],
+      providers: [SkyResizeObserverService, SkyResizeObserverMediaQueryService],
     });
-  });
-
-  afterAll(() => {
-    resizeObserverScheduler.complete();
   });
 
   it('should return a new instance of a resize observer media query service', async () => {
@@ -57,14 +40,13 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
     const subscription = service.subscribe((breakpoint) => {
       result = breakpoint;
     });
-    expect(result).toBeTruthy();
+    expect(result).toBeUndefined();
     mockResizeObserverHandle.emit([
       {
         ...mockResizeObserverEntry,
         target: target.nativeElement,
       },
     ]);
-    resizeObserverScheduler.next();
     expect(result).toEqual(SkyMediaBreakpoints.xs);
     mockResizeObserverHandle.emit([
       {
@@ -76,7 +58,6 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
         },
       },
     ]);
-    resizeObserverScheduler.next();
     expect(result).toEqual(SkyMediaBreakpoints.lg);
     expect(service.current).toEqual(SkyMediaBreakpoints.lg);
     service.unobserve();
@@ -99,7 +80,6 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
         target: target.nativeElement,
       },
     ]);
-    resizeObserverScheduler.next();
 
     expect(testEl.className).toEqual('sky-responsive-container-xs');
 
@@ -113,7 +93,6 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
         },
       },
     ]);
-    resizeObserverScheduler.next();
 
     expect(testEl.className).toEqual('sky-responsive-container-lg');
 
@@ -138,14 +117,13 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
     const subscription = service.subscribe((breakpoint) => {
       result = breakpoint;
     });
-    expect(result).toBeTruthy();
+    expect(result).toBeFalsy();
     mockResizeObserverHandle.emit([
       {
         ...mockResizeObserverEntry,
         target: target1.nativeElement,
       },
     ]);
-    resizeObserverScheduler.next();
     expect(result).toEqual(SkyMediaBreakpoints.xs);
     mockResizeObserverHandle.emit([
       {
@@ -157,7 +135,6 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
         },
       },
     ]);
-    resizeObserverScheduler.next();
     expect(result).toEqual(SkyMediaBreakpoints.lg);
     service.observe(target1);
     expect(service.current).toEqual(SkyMediaBreakpoints.lg);
