@@ -5,6 +5,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyLiveAnnouncerService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 
@@ -15,6 +16,8 @@ import { SkyTokensMessageType } from './types/tokens-message-type';
 describe('Tokens component', () => {
   let fixture: ComponentFixture<SkyTokensTestComponent>;
   let component: SkyTokensTestComponent;
+
+  let liveAnnouncerSpy: jasmine.Spy;
 
   function getTokenElements(): NodeListOf<HTMLElement> {
     const tokensElement = component.tokensElementRef?.nativeElement;
@@ -85,6 +88,11 @@ describe('Tokens component', () => {
 
     fixture = TestBed.createComponent(SkyTokensTestComponent);
     component = fixture.componentInstance;
+
+    liveAnnouncerSpy = spyOn(
+      TestBed.inject(SkyLiveAnnouncerService),
+      'announce'
+    );
   });
 
   afterEach(() => {
@@ -448,6 +456,7 @@ describe('Tokens component', () => {
       tokenElements = getTokenElements();
       expect(component.tokensComponent?.tokens).not.toContain(removedToken);
       expect(component.tokensComponent?.tokens.length).toEqual(2);
+      expect(liveAnnouncerSpy).toHaveBeenCalledOnceWith('Red removed');
     });
 
     it('should add a sky-btn-disabled class if disabled', async () => {
