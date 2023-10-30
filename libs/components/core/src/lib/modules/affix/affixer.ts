@@ -1,7 +1,8 @@
+import { ContentObserver } from '@angular/cdk/observers';
 import { ViewportRuler } from '@angular/cdk/overlay';
 import { NgZone, Renderer2 } from '@angular/core';
 
-import { Observable, Subject, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription, merge } from 'rxjs';
 
 import { SkyAffixAutoFitContext } from './affix-auto-fit-context';
 import { SkyAffixConfig } from './affix-config';
@@ -94,6 +95,8 @@ export class SkyAffixer {
 
   #baseElement: HTMLElement | undefined;
 
+  #contentObserver: ContentObserver;
+
   #currentOffset: SkyAffixOffset | undefined;
 
   #currentPlacement: SkyAffixPlacement | undefined;
@@ -131,11 +134,13 @@ export class SkyAffixer {
   constructor(
     affixedElement: HTMLElement,
     renderer: Renderer2,
+    contentObserver: ContentObserver,
     viewportRuler: ViewportRuler,
     zone: NgZone,
     layoutViewport: HTMLElement
   ) {
     this.#affixedElement = affixedElement;
+    this.#contentObserver = contentObserver;
     this.#renderer = renderer;
     this.#layoutViewport = layoutViewport;
     this.#viewportRuler = viewportRuler;
@@ -553,9 +558,19 @@ export class SkyAffixer {
   #addViewportListeners(): void {
     this.#viewportListeners = new Subscription();
 
-    // Resize and orientation changes.
+    // Resize, orientation, and content changes.
+    const viewportAndContentObservables: Observable<unknown>[] = [
+      this.#viewportRuler.change(),
+    ];
+    const contentParent =
+      this.#overflowParents[this.#overflowParents.length - 2];
+    if (contentParent instanceof HTMLElement) {
+      viewportAndContentObservables.push(
+        this.#contentObserver.observe(contentParent)
+      );
+    }
     this.#viewportListeners.add(
-      this.#viewportRuler.change().subscribe(() => {
+      merge(...viewportAndContentObservables).subscribe(() => {
         this.#affix();
       })
     );

@@ -1,3 +1,4 @@
+import { ContentObserver } from '@angular/cdk/observers';
 import { ViewportRuler } from '@angular/cdk/overlay';
 import { DOCUMENT } from '@angular/common';
 import {
@@ -15,6 +16,8 @@ import { SkyAffixer } from './affixer';
   providedIn: 'root',
 })
 export class SkyAffixService implements OnDestroy {
+  readonly #contentObserver = inject(ContentObserver);
+
   readonly #renderer = inject(RendererFactory2).createRenderer(undefined, null);
 
   readonly #viewportRuler = inject(ViewportRuler);
@@ -38,6 +41,7 @@ export class SkyAffixService implements OnDestroy {
     return new SkyAffixer(
       affixed.nativeElement,
       this.#renderer,
+      this.#contentObserver,
       this.#viewportRuler,
       this.#zone,
       this.#layoutViewport

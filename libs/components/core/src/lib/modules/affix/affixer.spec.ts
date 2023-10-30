@@ -1,3 +1,4 @@
+import { ContentObserver } from '@angular/cdk/observers';
 import { ViewportRuler } from '@angular/cdk/overlay';
 import { DOCUMENT, NgClass } from '@angular/common';
 import {
@@ -132,6 +133,7 @@ describe('Affixer', () => {
     const affixer = new SkyAffixer(
       component.affixedElement?.nativeElement as HTMLElement,
       TestBed.inject(RendererFactory2).createRenderer(undefined, null),
+      TestBed.inject(ContentObserver),
       TestBed.inject(ViewportRuler),
       TestBed.inject(NgZone),
       TestBed.inject(DOCUMENT).documentElement
@@ -180,6 +182,7 @@ describe('Affixer', () => {
     const affixer = new SkyAffixer(
       component.affixedElement?.nativeElement as HTMLElement,
       TestBed.inject(RendererFactory2).createRenderer(undefined, null),
+      TestBed.inject(ContentObserver),
       TestBed.inject(ViewportRuler),
       TestBed.inject(NgZone),
       TestBed.inject(DOCUMENT).documentElement
@@ -198,6 +201,7 @@ describe('Affixer', () => {
     const affixer = new SkyAffixer(
       component.affixedElement?.nativeElement as HTMLElement,
       TestBed.inject(RendererFactory2).createRenderer(undefined, null),
+      TestBed.inject(ContentObserver),
       TestBed.inject(ViewportRuler),
       TestBed.inject(NgZone),
       TestBed.inject(DOCUMENT).documentElement
@@ -215,6 +219,7 @@ describe('Affixer', () => {
     const affixer = new SkyAffixer(
       component.affixedElement?.nativeElement as HTMLElement,
       TestBed.inject(RendererFactory2).createRenderer(undefined, null),
+      TestBed.inject(ContentObserver),
       TestBed.inject(ViewportRuler),
       TestBed.inject(NgZone),
       TestBed.inject(DOCUMENT).documentElement
@@ -241,6 +246,7 @@ describe('Affixer', () => {
     const affixer = new SkyAffixer(
       component.affixedElement?.nativeElement as HTMLElement,
       TestBed.inject(RendererFactory2).createRenderer(undefined, null),
+      TestBed.inject(ContentObserver),
       TestBed.inject(ViewportRuler),
       TestBed.inject(NgZone),
       TestBed.inject(DOCUMENT).documentElement
