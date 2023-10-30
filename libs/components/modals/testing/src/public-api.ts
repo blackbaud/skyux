@@ -6,3 +6,4 @@ export { SkyConfirmButtonHarnessFilters } from './confirm/confirm-button-harness
 
 export { SkyModalHarness } from './modal/modal-harness';
 export { SkyModalHarnessFilters } from './modal/modal-harness-filters';
+export { SkyModalTestingModule } from './modal/modal-testing.module';
