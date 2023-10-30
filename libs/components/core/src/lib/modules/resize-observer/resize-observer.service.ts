@@ -7,14 +7,19 @@ import {
 } from '@angular/core';
 
 import {
-  MonoTypeOperatorFunction,
   Observable,
-  Subscriber,
+  Subject,
   animationFrames,
   filter,
-  sample,
-  tap,
+  finalize,
+  first,
+  throttle,
 } from 'rxjs';
+
+type ResizeObserverTracking = {
+  resizeObserver: ResizeObserver;
+  subject: Subject<ResizeObserverEntry>;
+};
 
 /**
  * Service to create rxjs observables for changes to the content box dimensions of elements.
@@ -23,48 +28,38 @@ import {
   providedIn: 'root',
 })
 export class SkyResizeObserverService implements OnDestroy {
-  readonly #scheduler: { <T>(): MonoTypeOperatorFunction<T> };
-  readonly #tracking: Subscriber<ResizeObserverEntry>[] = [];
+  readonly #tracking = new Map<ElementRef, ResizeObserverTracking>();
   readonly #zone = inject(NgZone);
 
-  constructor() {
-    // If Promise is patched by zone.js/testing, use tap() to immediately emit
-    // the resize event. Otherwise, use sample() to emit the resize event on the
-    // next animation frame.
-    // todo: refactor this to use a provider to inject the scheduler or find another way
-    /* istanbul ignore else */
-    if ('__zone_symbol__patchPromiseForTest' in Promise) {
-      this.#scheduler = <T>(): MonoTypeOperatorFunction<T> => tap();
-    } else {
-      this.#scheduler = <T>(): MonoTypeOperatorFunction<T> =>
-        sample(animationFrames());
-    }
-  }
-
   public ngOnDestroy(): void {
-    this.#tracking.forEach((value) => value.complete());
+    this.#tracking.forEach((tracking) => {
+      tracking.resizeObserver.disconnect();
+      tracking.subject.complete();
+    });
   }
 
   /**
    * Create rxjs observable to get size changes for an element ref.
    */
   public observe(element: ElementRef): Observable<ResizeObserverEntry> {
-    const obs = new Observable<ResizeObserverEntry>(
-      (subscriber: Subscriber<ResizeObserverEntry>) => {
-        const resizeObserver = new ResizeObserver(
-          (entries: ResizeObserverEntry[]) =>
-            this.#zone.run(() => subscriber.next(entries[0]))
-        );
-        resizeObserver.observe(element.nativeElement);
-        this.#tracking.push(subscriber);
-        return () => {
-          resizeObserver.unobserve(element.nativeElement);
-          resizeObserver.disconnect();
-          const idx = this.#tracking.findIndex((val) => val === subscriber);
-          this.#tracking.splice(idx, 1);
-        };
+    const subject = new Subject<ResizeObserverEntry>();
+    const resizeObserver = new ResizeObserver(
+      (entries: ResizeObserverEntry[]) => {
+        this.#zone.run(() => subject.next(entries[0]));
       }
     );
-    return obs.pipe(filter(Boolean), this.#scheduler());
+    this.#tracking.set(element, { subject, resizeObserver });
+    resizeObserver.observe(element.nativeElement);
+    return subject.pipe(
+      filter(Boolean),
+      throttle(() => animationFrames().pipe(first()), {
+        leading: false,
+        trailing: true,
+      }),
+      finalize(() => {
+        resizeObserver.disconnect();
+        subject.complete();
+      })
+    );
   }
 }
