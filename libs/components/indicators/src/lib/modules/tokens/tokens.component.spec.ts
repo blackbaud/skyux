@@ -245,7 +245,6 @@ describe('Tokens component', () => {
 
       const token = fixture.nativeElement.querySelector('.sky-token-btn-close');
       expect(token.getAttribute('aria-label')).toBe('this is a custom label');
-      expect(token.getAttribute('title')).toBe('this is a custom label');
     }));
 
     it('should not emit when token is clicked if disabled', () => {

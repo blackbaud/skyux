@@ -53,7 +53,6 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     skyux_status_indicator_sr_success: { message: 'Success:' },
     skyux_status_indicator_sr_warning: { message: 'Warning:' },
     skyux_tokens_dismiss_button_default_label: { message: 'Remove ' },
-    skyux_tokens_dismiss_button_title: { message: 'Remove item' },
     skyux_tokens_token_dismissed: { message: '{0} removed' },
     skyux_wait_aria_alt_text: { message: 'Loading.' },
     skyux_wait_blocking_aria_alt_text: { message: 'Loading. Please wait.' },
