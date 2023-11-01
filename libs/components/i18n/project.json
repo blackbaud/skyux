@@ -65,6 +65,7 @@
     },
     "posttest": {
       "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/coverage/libs/components/i18n-schematics"],
       "options": {
         "command": "ts-node --project ./scripts/tsconfig.json ./scripts/posttest-i18n.ts"
       }
