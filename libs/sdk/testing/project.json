@@ -40,10 +40,17 @@
       },
       "configurations": {
         "ci": {
-          "browsers": "ChromeHeadlessNoSandbox,FirefoxHeadless",
+          "browsers": "ChromeHeadlessNoSandbox",
           "codeCoverage": true,
           "progress": false,
           "sourceMap": true,
+          "watch": false
+        },
+        "ci-firefox": {
+          "browsers": "FirefoxHeadless",
+          "codeCoverage": false,
+          "progress": false,
+          "sourceMap": false,
           "watch": false
         }
       }
@@ -58,5 +65,5 @@
       }
     }
   },
-  "tags": ["sdk", "npm"]
+  "tags": ["sdk", "npm", "test-firefox"]
 }

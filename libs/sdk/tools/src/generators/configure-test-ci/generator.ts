@@ -14,13 +14,22 @@ export async function configureTestCiGenerator(
       project.targets['test'].configurations = {
         ...project.targets['test'].configurations,
         ci: {
-          browsers: 'ChromeHeadlessNoSandbox,FirefoxHeadless',
+          browsers: 'ChromeHeadlessNoSandbox',
           codeCoverage: true,
           progress: false,
           sourceMap: true,
           watch: false,
         },
+        'ci-firefox': {
+          browsers: 'FirefoxHeadless',
+          codeCoverage: false,
+          progress: false,
+          sourceMap: false,
+          watch: false,
+        },
       };
+      project.tags ||= [];
+      project.tags = [...project.tags, 'test-firefox'];
     }
     updateProjectConfiguration(tree, projectName, project);
   });

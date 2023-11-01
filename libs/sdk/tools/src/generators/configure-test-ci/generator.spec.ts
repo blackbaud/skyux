@@ -31,10 +31,17 @@ describe('configure-test-ci generator', () => {
       Object {
         "configurations": Object {
           "ci": Object {
-            "browsers": "ChromeHeadlessNoSandbox,FirefoxHeadless",
+            "browsers": "ChromeHeadlessNoSandbox",
             "codeCoverage": true,
             "progress": false,
             "sourceMap": true,
+            "watch": false,
+          },
+          "ci-firefox": Object {
+            "browsers": "FirefoxHeadless",
+            "codeCoverage": false,
+            "progress": false,
+            "sourceMap": false,
             "watch": false,
           },
         },
