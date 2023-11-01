@@ -242,7 +242,7 @@ jobs:
         with:
           path: node_modules
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
-      - name: Code coverage
+      - name: Code coverage unit tests in Chrome
         run: |
           npx nx affected --target=test --parallel=3 -c ci
           npx nx affected --target=posttest --parallel=3 -c ci
@@ -269,7 +269,7 @@ jobs:
         with:
           path: node_modules
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
-      - name: Code coverage
+      - name: Unit tests in Firefox
         run: |
           npx nx affected --target=test --parallel=3 -c ci-firefox --exclude='*,!tag:test-firefox'
 
@@ -278,7 +278,14 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ !cancelled() }}
     needs:
-      [install-deps, check-workspace, format, lint, build, build-dist, coverage]
+      - install-deps
+      - check-workspace
+      - format
+      - lint
+      - build
+      - build-dist
+      - coverage
+      - coverage-firefox
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
