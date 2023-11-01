@@ -244,9 +244,9 @@ jobs:
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Code coverage
         run: |
-          npx nx affected --target=test --parallel -c ci
-          npx nx affected --target=test --parallel -c ci-firefox --exclude='*,!tag:test-firefox'
-          npx nx affected --target=posttest --parallel -c ci
+          npx nx affected --target=test --parallel=5 -c ci
+          npx nx affected --target=test --parallel=5 -c ci-firefox --exclude='*,!tag:test-firefox'
+          npx nx affected --target=posttest --parallel=5 -c ci
 
   stop-agents:
     name: Stop Nx Cloud agents
