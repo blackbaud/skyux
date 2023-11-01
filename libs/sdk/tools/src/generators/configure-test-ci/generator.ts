@@ -29,14 +29,13 @@ export async function configureTestCiGenerator(
         },
       };
       project.tags ||= [];
-      project.tags = [...project.tags, 'test-firefox'];
+      project.tags.includes('test-firefox') ||
+        project.tags.push('test-firefox');
     }
     updateProjectConfiguration(tree, projectName, project);
   });
-  /* istanbul ignore if */
-  if (!options.skipFormat) {
-    await formatFiles(tree);
-  }
+  /* istanbul ignore next */
+  options.skipFormat || (await formatFiles(tree));
 }
 
 export default configureTestCiGenerator;

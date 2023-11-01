@@ -25,6 +25,8 @@ describe('configure-test-ci generator', () => {
       updateProjectConfiguration(tree, 'test', projectConfig);
     }
     await configureTestCiGenerator(tree, { skipFormat: true });
+    // Run twice to ensure that the generator is idempotent.
+    await configureTestCiGenerator(tree, { skipFormat: true });
     const config = readProjectConfiguration(tree, 'test');
     expect(config.targets?.['test']).toBeDefined();
     expect(config.targets?.['test']).toMatchInlineSnapshot(`

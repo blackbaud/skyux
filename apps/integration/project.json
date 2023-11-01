@@ -104,7 +104,11 @@
         "codeCoverage": true,
         "codeCoverageExclude": ["**/fixtures/**"],
         "scripts": [],
-        "assets": []
+        "assets": [],
+        "inlineStyleLanguage": "scss",
+        "stylePreprocessorOptions": {
+          "includePaths": ["{workspaceRoot}"]
+        }
       },
       "configurations": {
         "ci": {

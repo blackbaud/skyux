@@ -32,7 +32,11 @@
           "zone.js",
           "zone.js/testing",
           "libs/components/packages/src/polyfills.js"
-        ]
+        ],
+        "inlineStyleLanguage": "scss",
+        "stylePreprocessorOptions": {
+          "includePaths": ["{workspaceRoot}"]
+        }
       },
       "configurations": {
         "ci": {
