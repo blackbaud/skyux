@@ -16,6 +16,7 @@ module.exports = () => {
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
       require('karma-coverage'),
+      require('karma-firefox-launcher'),
       require('@angular-devkit/build-angular/plugins/karma'),
       {
         'middleware:fake-url': [

@@ -490,7 +490,7 @@ describe('Text expand component', () => {
 
       expect(modal).not.toBeNull();
       expect(modalHeader?.innerText.trim()).toBe('Expanded view');
-      expect(modalContent?.innerText.trim()).toBe(expandedText);
+      expect(modalContent?.textContent?.trim()).toBe(expandedText);
       expect(closeButton?.innerText.trim()).toBe('Close');
 
       closeButton?.click();

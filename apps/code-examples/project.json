@@ -103,6 +103,15 @@
         ],
         "scripts": [],
         "assets": []
+      },
+      "configurations": {
+        "ci": {
+          "browsers": "ChromeHeadlessNoSandbox,FirefoxHeadless",
+          "codeCoverage": true,
+          "progress": false,
+          "sourceMap": true,
+          "watch": false
+        }
       }
     }
   },

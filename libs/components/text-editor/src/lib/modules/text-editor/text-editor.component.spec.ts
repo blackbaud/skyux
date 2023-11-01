@@ -1425,7 +1425,9 @@ describe('Text editor', () => {
         'rgb(51, 51, 51)'
       );
       expect(style.getPropertyValue('color')).toEqual('rgb(238, 238, 238)');
-      expect(style.getPropertyValue('font-family')).toEqual(`"${font}"`);
+      expect(
+        style.getPropertyValue('font-family').replace(/^"|"$/g, '')
+      ).toEqual(font);
       expect(style.getPropertyValue('font-size')).toEqual(`${fontSize}px`);
     }));
 

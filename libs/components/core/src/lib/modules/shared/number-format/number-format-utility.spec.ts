@@ -55,7 +55,7 @@ describe('Number format utility', function () {
     const digits = '0.9-0';
 
     expect(() => formatCurrency(50, digits)).toThrowError(
-      'minimumIntegerDigits value is out of range.'
+      /^(minimumIntegerDigits value is out of range\.|invalid digits value: 0)$/
     );
   });
 });
