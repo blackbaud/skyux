@@ -11,24 +11,25 @@ export const mockResizeObserverEntry: ResizeObserverEntry = {
     bottom: 20,
     left: 20,
     right: 20,
+    /* istanbul ignore next */
     toJSON: () => 'true',
   } as DOMRectReadOnly,
   devicePixelContentBoxSize: [],
 };
 
 const defaultCallback: ResizeObserverCallback = (
-  entries: ResizeObserverEntry[],
-  observer: ResizeObserver
-) => {};
+  _entries: ResizeObserverEntry[],
+  _observer: ResizeObserver
+) => undefined;
 
 export const mockResizeObserverHandle = {
   callback: defaultCallback,
-  emit: (entries: ResizeObserverEntry[], observer?: ResizeObserver) => {
-    mockResizeObserverHandle.callback(entries, observer!);
+  emit: (entries: ResizeObserverEntry[], observer?: ResizeObserver): void => {
+    mockResizeObserverHandle.callback(entries, observer as ResizeObserver);
   },
 };
 
-export function mockResizeObserver() {
+export function mockResizeObserver(): void {
   (window as any).requestAnimationFrame = (callback: () => void): number => {
     callback();
     return 0;
@@ -39,10 +40,13 @@ export function mockResizeObserver() {
       mockResizeObserverHandle.callback = callback;
     }
 
-    public disconnect() {}
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    public disconnect(): void {}
 
-    public observe(target: Element, options?: ResizeObserverOptions) {}
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    public observe(_target: Element, _options?: ResizeObserverOptions): void {}
 
-    public unobserve(element: HTMLElement) {}
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    public unobserve(_element: HTMLElement): void {}
   };
 }
