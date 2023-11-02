@@ -10,3 +10,4 @@ export {
   mockResizeObserverEntry,
   mockResizeObserverHandle,
 } from './resize-observer-mock';
+export { SkyResizeObserverTestingModule } from './resize-observer-testing.module';
