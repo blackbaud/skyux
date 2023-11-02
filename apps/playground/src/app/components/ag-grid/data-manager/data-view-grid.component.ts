@@ -67,7 +67,6 @@ export class DataViewGridComponent implements OnInit {
     name: 'Grid View',
     icon: 'table',
     searchEnabled: true,
-    sortEnabled: true,
     multiselectToolbarEnabled: true,
     columnPickerEnabled: true,
     filterButtonEnabled: true,
@@ -130,7 +129,6 @@ export class DataViewGridComponent implements OnInit {
   }
 
   public updateData(): void {
-    this.sortItems();
     this.displayedItems = this.filterItems(this.searchItems(this.items));
 
     if (this.dataState.onlyShowSelected) {
@@ -169,20 +167,6 @@ export class DataViewGridComponent implements OnInit {
     this.gridApi = event.api;
     this.gridApi.sizeColumnsToFit();
     this.updateData();
-  }
-
-  public sortItems(): void {
-    const sortOption = this.dataState.activeSortOption;
-    if (this.columnApi && sortOption) {
-      const allColumns = this.columnApi.getColumns();
-      allColumns.forEach((column) => {
-        if (column.getColId() === sortOption.propertyName) {
-          column.setSort(sortOption.descending ? 'desc' : 'asc');
-        } else {
-          column.setSort(undefined);
-        }
-      });
-    }
   }
 
   public searchItems(items: any[]): any[] {

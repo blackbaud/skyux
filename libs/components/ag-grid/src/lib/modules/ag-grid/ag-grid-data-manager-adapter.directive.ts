@@ -9,7 +9,6 @@ import {
 } from '@angular/core';
 import {
   SkyDataManagerService,
-  SkyDataManagerSortOption,
   SkyDataManagerState,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
@@ -168,6 +167,7 @@ export class SkyAgGridDataManagerAdapterDirective
             .subscribe((dataState: SkyDataManagerState) => {
               this.#currentDataState = dataState;
               this.#displayColumns(dataState);
+              this.#applySort(dataState);
             });
 
           if (agGrid.gridOptions?.context?.enableTopScroll) {
@@ -232,34 +232,25 @@ export class SkyAgGridDataManagerAdapterDirective
         const gridColumnStates: ColumnState[] =
           agGrid.columnApi.getColumnState();
 
-        let sortOption: SkyDataManagerSortOption | undefined;
+        const activeSortColumnState = gridColumnStates?.find(
+          (aGridColumnState) => aGridColumnState.sortIndex === 0
+        );
 
-        /* istanbul ignore else */
-        if (gridColumnStates.length) {
-          const activeSortColumnState = gridColumnStates.find(
-            (aGridColumnState) => aGridColumnState.sortIndex === 0
+        if (
+          this.#viewConfig &&
+          this.#currentDataState &&
+          activeSortColumnState
+        ) {
+          const activeSortColumnDef = agGrid.api.getColumnDef(
+            activeSortColumnState.colId
           );
-
-          const dataManagerConfig =
-            this.#dataManagerSvc.getCurrentDataManagerConfig();
-
-          /* istanbul ignore else */
-          if (dataManagerConfig.sortOptions && activeSortColumnState) {
-            sortOption = dataManagerConfig.sortOptions.find(
-              (option: SkyDataManagerSortOption) => {
-                return (
-                  option.propertyName === activeSortColumnState.colId &&
-                  option.descending === (activeSortColumnState.sort === 'desc')
-                );
-              }
-            );
-          } else {
-            sortOption = undefined;
-          }
-        }
-
-        if (this.#viewConfig && this.#currentDataState) {
-          this.#currentDataState.activeSortOption = sortOption;
+          this.#currentDataState.activeSortOption = {
+            descending: activeSortColumnState.sort === 'desc',
+            id: activeSortColumnState.colId,
+            propertyName: activeSortColumnDef?.field || '',
+            label: activeSortColumnDef?.headerName || '',
+          };
+          console.log(this.#currentDataState);
           this.#dataManagerSvc.updateDataState(
             this.#currentDataState,
             this.#viewConfig.id
@@ -329,6 +320,16 @@ export class SkyAgGridDataManagerAdapterDirective
         agGrid.columnApi.setColumnsVisible(displayedColumnIds, true);
         agGrid.columnApi.moveColumns(displayedColumnIds, 0);
       }
+    }
+  }
+
+  #applySort(dataState: SkyDataManagerState): void {
+    const agGrid = this.#currentAgGrid;
+    const activeSort = dataState.activeSortOption;
+
+    if (activeSort) {
+      const column = agGrid?.columnApi.getColumn(activeSort.id);
+      column?.setSort(activeSort.descending ? 'desc' : 'asc');
     }
   }
 
