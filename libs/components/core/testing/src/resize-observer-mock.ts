@@ -11,7 +11,6 @@ export const mockResizeObserverEntry: ResizeObserverEntry = {
     bottom: 20,
     left: 20,
     right: 20,
-    /* istanbul ignore next */
     toJSON: () => 'true',
   } as DOMRectReadOnly,
   devicePixelContentBoxSize: [],
