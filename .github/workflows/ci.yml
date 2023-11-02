@@ -221,7 +221,7 @@ jobs:
           SLACK_FOOTER: 'Blackbaud Sky Build User'
 
   coverage:
-    name: Code coverage unit tests in Chrome
+    name: Code coverage
     needs: install-deps
     runs-on: ubuntu-latest
     steps:
