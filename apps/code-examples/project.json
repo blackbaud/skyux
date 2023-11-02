@@ -102,9 +102,21 @@
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ],
         "scripts": [],
-        "assets": []
+        "assets": [],
+        "inlineStyleLanguage": "scss",
+        "stylePreprocessorOptions": {
+          "includePaths": ["{workspaceRoot}"]
+        }
+      },
+      "configurations": {
+        "ci": {
+          "browsers": "ChromeHeadlessNoSandbox",
+          "codeCoverage": true,
+          "progress": false,
+          "sourceMap": true,
+          "watch": false
+        }
       }
     }
-  },
-  "tags": []
+  }
 }
