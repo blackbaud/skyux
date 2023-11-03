@@ -63,6 +63,8 @@ export class AffixFixtureComponent {
 
   public enableOverflowParent = false;
 
+  public enablePositionedParent = false;
+
   public onAffixOffsetChange(): void {}
 
   public onAffixOverflowScroll(): void {}
