@@ -1,13 +1,14 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { SkyResizeObserverService } from '@skyux/core';
 
-import { mockResizeObserver } from './resize-observer-mock';
+import { MockSkyResizeObserverService } from './mock-resize-observer.service';
 
 @NgModule({
   providers: [
     {
-      provide: APP_INITIALIZER,
-      useFactory: () => (): void => mockResizeObserver(),
-      multi: true,
+      provide: SkyResizeObserverService,
+      useClass: MockSkyResizeObserverService,
     },
   ],
 })

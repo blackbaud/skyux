@@ -1,6 +1,8 @@
 import { ElementRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
+import { finalize } from 'rxjs';
+
 import {
   mockResizeObserver,
   mockResizeObserverEntry,
@@ -89,5 +91,99 @@ describe('ResizeObserver service', async () => {
     expect(subscriber).not.toHaveBeenCalled();
     subscription.unsubscribe();
     nativeElement.remove();
+  });
+
+  it('should capture resize observer error event on destroy', async () => {
+    const nativeElement = document.createElement('div');
+    document.body.appendChild(nativeElement);
+    const target = new ElementRef(nativeElement);
+    const error: ErrorEvent[] = [];
+    window.addEventListener('error', (event) => error.push(event));
+    const service = TestBed.inject(SkyResizeObserverService);
+    const subscription = service.observe(target).subscribe({
+      complete: () => {
+        window.dispatchEvent(
+          new ErrorEvent('error', {
+            message:
+              'ResizeObserver loop completed with undelivered notifications.',
+          })
+        );
+      },
+    });
+    subscription.unsubscribe();
+    nativeElement.remove();
+    expect(error).toEqual([]);
+  });
+
+  it('should capture resize observer error via onerror on destroy', async () => {
+    // window.onerror is how Karma/Jasmine captures errors.
+    // This test expects window errors and needs the test runner not to fail on errors.
+    window.onerror = null;
+    const nativeElement = document.createElement('div');
+    document.body.appendChild(nativeElement);
+    const target = new ElementRef(nativeElement);
+    const service = TestBed.inject(SkyResizeObserverService);
+    expect(window.onerror).toBeTruthy();
+    spyOn(window as any, 'onerror').and.callThrough();
+    const subscription = service
+      .observe(target)
+      .pipe(
+        finalize(() => {
+          window.onerror &&
+            window.onerror(
+              new ErrorEvent('error', {
+                message:
+                  'ResizeObserver loop completed with undelivered notifications.',
+              })
+            );
+          window.onerror && window.onerror('Other error.');
+        })
+      )
+      .subscribe();
+    subscription.unsubscribe();
+    nativeElement.remove();
+    expect(window.onerror).toHaveBeenCalledWith(
+      new ErrorEvent('error', {
+        message:
+          'ResizeObserver loop completed with undelivered notifications.',
+      })
+    );
+    expect(window.onerror).toHaveBeenCalledWith('Other error.');
+  });
+
+  it('should not capture other errors on destroy', async () => {
+    // window.onerror is how Karma/Jasmine captures errors.
+    // This test expects window errors and needs the test runner not to fail on errors.
+    window.onerror = null;
+    const nativeElement = document.createElement('div');
+    document.body.appendChild(nativeElement);
+    const target = new ElementRef(nativeElement);
+    const error: ErrorEvent[] = [];
+    window.addEventListener('error', (event) => error.push(event));
+    const service = TestBed.inject(SkyResizeObserverService);
+    const subscription = service
+      .observe(target)
+      .pipe(
+        finalize(() => {
+          window.dispatchEvent(
+            new ErrorEvent('error', {
+              message:
+                'ResizeObserver loop completed with undelivered notifications.',
+            })
+          );
+          window.dispatchEvent(
+            new ErrorEvent('error', {
+              message: 'Other error.',
+            })
+          );
+        })
+      )
+      .subscribe();
+    subscription.unsubscribe();
+    nativeElement.remove();
+    expect(error.map((e) => e.message)).toContain('Other error.');
+    expect(error.map((e) => e.message)).not.toContain(
+      'ResizeObserver loop completed with undelivered notifications.'
+    );
   });
 });
