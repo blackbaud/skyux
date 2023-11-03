@@ -211,7 +211,11 @@ export class SkyAffixer {
   }
 
   #getOffsetParentRect(): AffixRect {
-    if (this.#affixedElement.offsetParent) {
+    // Firefox sets the offsetParent to document.body if the element uses fixed positioning.
+    if (
+      this.#config.position === 'absolute' &&
+      this.#affixedElement.offsetParent
+    ) {
       return getOuterRect(this.#affixedElement.offsetParent as HTMLElement);
     } else {
       const layoutRect = getOuterRect(this.#layoutViewport);
