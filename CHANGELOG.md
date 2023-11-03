@@ -1,5 +1,12 @@
 # Changelog
 
+## [8.10.9](https://github.com/blackbaud/skyux/compare/8.10.8...8.10.9) (2023-11-03)
+
+
+### Bug Fixes
+
+* **components/popovers:** dropdown position not working in firefox ([#1869](https://github.com/blackbaud/skyux/issues/1869)) ([6e76cf4](https://github.com/blackbaud/skyux/commit/6e76cf4e72cc3513292d78bf3b15e94a2d19032a))
+
 ## [9.12.1](https://github.com/blackbaud/skyux/compare/9.12.0...9.12.1) (2023-10-27)
 
 
