@@ -7,20 +7,31 @@ export async function configureTestCiGenerator(
 ) {
   const projects = getProjects(tree);
   projects.forEach((project, projectName) => {
-    if (
-      project.targets?.['test'] &&
-      project.targets['test'].executor === '@angular-devkit/build-angular:karma'
-    ) {
-      project.targets['test'].configurations = {
-        ...project.targets['test'].configurations,
-        ci: {
-          browsers: 'ChromeHeadlessNoSandbox',
-          codeCoverage: true,
-          progress: false,
-          sourceMap: true,
-          watch: false,
-        },
-      };
+    if (project.targets?.['test']) {
+      if (
+        project.targets['test'].executor ===
+        '@angular-devkit/build-angular:karma'
+      ) {
+        project.targets['test'].configurations = {
+          ...project.targets['test'].configurations,
+          ci: {
+            browsers: 'ChromeHeadlessNoSandbox',
+            codeCoverage: true,
+            progress: false,
+            sourceMap: true,
+            watch: false,
+          },
+        };
+      } else if (project.targets['test'].executor === '@nx/jest:jest') {
+        project.targets['test'].configurations = {
+          ...project.targets['test'].configurations,
+          ci: {
+            ci: true,
+            codeCoverage: true,
+            runInBand: true,
+          },
+        };
+      }
     }
     updateProjectConfiguration(tree, projectName, project);
   });
