@@ -6,6 +6,7 @@ import {
   SkyModalService,
 } from '@skyux/modals';
 
+// See: https://github.com/microsoft/TypeScript/issues/471#issuecomment-381842426
 type Interface<T> = {
   [P in keyof T]: T[P];
 };
