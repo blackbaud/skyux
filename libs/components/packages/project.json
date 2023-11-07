@@ -19,6 +19,13 @@
         "passWithNoTests": true,
         "codeCoverage": true,
         "coverageReporters": ["html", "text"]
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true,
+          "runInBand": true
+        }
       }
     },
     "build": {
