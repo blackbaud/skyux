@@ -1,8 +1,6 @@
 import { ElementRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import { finalize } from 'rxjs';
-
 import {
   mockResizeObserver,
   mockResizeObserverEntry,
@@ -74,6 +72,42 @@ describe('ResizeObserver service', async () => {
       ...mockResizeObserverEntry,
       target: target.nativeElement,
     });
+    mockResizeObserverHandle.emit([
+      {
+        ...mockResizeObserverEntry,
+        contentRect: {
+          ...mockResizeObserverEntry.contentRect,
+          height: 100,
+        },
+        target: target.nativeElement,
+      },
+    ]);
+    expect(result).toEqual({
+      ...mockResizeObserverEntry,
+      contentRect: {
+        ...mockResizeObserverEntry.contentRect,
+        height: 100,
+      },
+      target: target.nativeElement,
+    });
+    mockResizeObserverHandle.emit([
+      {
+        ...mockResizeObserverEntry,
+        contentRect: {
+          ...mockResizeObserverEntry.contentRect,
+          height: 100.1,
+        },
+        target: target.nativeElement,
+      },
+    ]);
+    expect(result).toEqual({
+      ...mockResizeObserverEntry,
+      contentRect: {
+        ...mockResizeObserverEntry.contentRect,
+        height: 100,
+      },
+      target: target.nativeElement,
+    });
     subscription1.unsubscribe();
     subscription2.unsubscribe();
     nativeElement.remove();
@@ -125,29 +159,15 @@ describe('ResizeObserver service', async () => {
     const service = TestBed.inject(SkyResizeObserverService);
     expect(window.onerror).toBeTruthy();
     spyOn(window as any, 'onerror').and.callThrough();
-    const subscription = service
-      .observe(target)
-      .pipe(
-        finalize(() => {
-          window.onerror &&
-            window.onerror(
-              new ErrorEvent('error', {
-                message:
-                  'ResizeObserver loop completed with undelivered notifications.',
-              })
-            );
-          window.onerror && window.onerror('Other error.');
-        })
-      )
-      .subscribe();
+    const subscription = service.observe(target).subscribe();
+    const errorEvent = new ErrorEvent('error', {
+      message: 'ResizeObserver loop completed with undelivered notifications.',
+    });
+    window.onerror && (window as any).onerror(errorEvent);
+    window.onerror && (window as any).onerror('Other error.');
     subscription.unsubscribe();
     nativeElement.remove();
-    expect(window.onerror).toHaveBeenCalledWith(
-      new ErrorEvent('error', {
-        message:
-          'ResizeObserver loop completed with undelivered notifications.',
-      })
-    );
+    expect(window.onerror).toHaveBeenCalledWith(errorEvent);
     expect(window.onerror).toHaveBeenCalledWith('Other error.');
   });
 
@@ -159,26 +179,20 @@ describe('ResizeObserver service', async () => {
     document.body.appendChild(nativeElement);
     const target = new ElementRef(nativeElement);
     const error: ErrorEvent[] = [];
-    window.addEventListener('error', (event) => error.push(event));
     const service = TestBed.inject(SkyResizeObserverService);
-    const subscription = service
-      .observe(target)
-      .pipe(
-        finalize(() => {
-          window.dispatchEvent(
-            new ErrorEvent('error', {
-              message:
-                'ResizeObserver loop completed with undelivered notifications.',
-            })
-          );
-          window.dispatchEvent(
-            new ErrorEvent('error', {
-              message: 'Other error.',
-            })
-          );
-        })
-      )
-      .subscribe();
+    window.addEventListener('error', (event) => error.push(event));
+    const subscription = service.observe(target).subscribe();
+    window.dispatchEvent(
+      new ErrorEvent('error', {
+        message:
+          'ResizeObserver loop completed with undelivered notifications.',
+      })
+    );
+    window.dispatchEvent(
+      new ErrorEvent('error', {
+        message: 'Other error.',
+      })
+    );
     subscription.unsubscribe();
     nativeElement.remove();
     expect(error.map((e) => e.message)).toContain('Other error.');
