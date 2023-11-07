@@ -19,10 +19,18 @@ describe('ResizeObserver service', async () => {
     service.ngOnDestroy();
   });
 
-  it('should observe an element resize', async () => {
+  function createNewElementRef(): ElementRef<HTMLDivElement> {
     const nativeElement = document.createElement('div');
     document.body.appendChild(nativeElement);
-    const target = new ElementRef(nativeElement);
+    return new ElementRef(nativeElement);
+  }
+
+  function destroyElementRef(target: ElementRef): void {
+    target.nativeElement.remove();
+  }
+
+  it('should observe an element resize', async () => {
+    const target = createNewElementRef();
     let result: ResizeObserverEntry | undefined;
     const service = TestBed.inject(SkyResizeObserverService);
     const subscription = service
@@ -42,13 +50,11 @@ describe('ResizeObserver service', async () => {
       target: target.nativeElement,
     });
     subscription.unsubscribe();
-    nativeElement.remove();
+    destroyElementRef(target);
   });
 
   it('should handle multiple observers', async () => {
-    const nativeElement = document.createElement('div');
-    document.body.appendChild(nativeElement);
-    const target = new ElementRef(nativeElement);
+    const target = createNewElementRef();
     let result: ResizeObserverEntry | undefined;
     const service = TestBed.inject(SkyResizeObserverService);
     const subscription1 = service
@@ -110,7 +116,7 @@ describe('ResizeObserver service', async () => {
     });
     subscription1.unsubscribe();
     subscription2.unsubscribe();
-    nativeElement.remove();
+    destroyElementRef(target);
   });
 
   it('should handle empty entry list', async () => {
@@ -128,9 +134,7 @@ describe('ResizeObserver service', async () => {
   });
 
   it('should capture resize observer error event on destroy', async () => {
-    const nativeElement = document.createElement('div');
-    document.body.appendChild(nativeElement);
-    const target = new ElementRef(nativeElement);
+    const target = createNewElementRef();
     const error: ErrorEvent[] = [];
     window.addEventListener('error', (event) => error.push(event));
     const service = TestBed.inject(SkyResizeObserverService);
@@ -145,7 +149,7 @@ describe('ResizeObserver service', async () => {
       },
     });
     subscription.unsubscribe();
-    nativeElement.remove();
+    destroyElementRef(target);
     expect(error).toEqual([]);
   });
 
@@ -153,9 +157,7 @@ describe('ResizeObserver service', async () => {
     // window.onerror is how Karma/Jasmine captures errors.
     // This test expects window errors and needs the test runner not to fail on errors.
     window.onerror = null;
-    const nativeElement = document.createElement('div');
-    document.body.appendChild(nativeElement);
-    const target = new ElementRef(nativeElement);
+    const target = createNewElementRef();
     const service = TestBed.inject(SkyResizeObserverService);
     expect(window.onerror).toBeTruthy();
     spyOn(window as any, 'onerror').and.callThrough();
@@ -166,7 +168,7 @@ describe('ResizeObserver service', async () => {
     window.onerror && (window as any).onerror(errorEvent);
     window.onerror && (window as any).onerror('Other error.');
     subscription.unsubscribe();
-    nativeElement.remove();
+    destroyElementRef(target);
     expect(window.onerror).toHaveBeenCalledWith(errorEvent);
     expect(window.onerror).toHaveBeenCalledWith('Other error.');
   });
@@ -175,9 +177,7 @@ describe('ResizeObserver service', async () => {
     // window.onerror is how Karma/Jasmine captures errors.
     // This test expects window errors and needs the test runner not to fail on errors.
     window.onerror = null;
-    const nativeElement = document.createElement('div');
-    document.body.appendChild(nativeElement);
-    const target = new ElementRef(nativeElement);
+    const target = createNewElementRef();
     const error: ErrorEvent[] = [];
     const service = TestBed.inject(SkyResizeObserverService);
     window.addEventListener('error', (event) => error.push(event));
@@ -194,7 +194,7 @@ describe('ResizeObserver service', async () => {
       })
     );
     subscription.unsubscribe();
-    nativeElement.remove();
+    destroyElementRef(target);
     expect(error.map((e) => e.message)).toContain('Other error.');
     expect(error.map((e) => e.message)).not.toContain(
       'ResizeObserver loop completed with undelivered notifications.'

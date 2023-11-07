@@ -10,5 +10,3 @@ export {
   mockResizeObserverEntry,
   mockResizeObserverHandle,
 } from './resize-observer-mock';
-export { MockSkyResizeObserverService } from './mock-resize-observer.service';
-export { SkyResizeObserverTestingModule } from './resize-observer-testing.module';

@@ -17,18 +17,18 @@ export const mockResizeObserverEntry: ResizeObserverEntry = {
 };
 
 const defaultCallback: ResizeObserverCallback = (
-  _entries: ResizeObserverEntry[],
-  _observer: ResizeObserver
-) => undefined;
+  entries: ResizeObserverEntry[],
+  observer: ResizeObserver
+) => {};
 
 export const mockResizeObserverHandle = {
   callback: defaultCallback,
-  emit: (entries: ResizeObserverEntry[], observer?: ResizeObserver): void => {
-    mockResizeObserverHandle.callback(entries, observer as ResizeObserver);
+  emit: (entries: ResizeObserverEntry[], observer?: ResizeObserver) => {
+    mockResizeObserverHandle.callback(entries, observer!);
   },
 };
 
-export function mockResizeObserver(): void {
+export function mockResizeObserver() {
   (window as any).requestAnimationFrame = (callback: () => void): number => {
     callback();
     return 0;
@@ -39,13 +39,10 @@ export function mockResizeObserver(): void {
       mockResizeObserverHandle.callback = callback;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    public disconnect(): void {}
+    public disconnect() {}
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    public observe(_target: Element, _options?: ResizeObserverOptions): void {}
+    public observe(target: Element, options?: ResizeObserverOptions) {}
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    public unobserve(_element: HTMLElement): void {}
+    public unobserve(element: HTMLElement) {}
   };
 }
