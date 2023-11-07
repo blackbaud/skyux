@@ -28,7 +28,7 @@ export class SkyDropdownHarness extends SkyComponentHarness {
    * Clicks the dropdown button.
    */
   public async clickDropdownButton(): Promise<void> {
-    (await this.#getDropdownButton()).click();
+    await (await this.#getDropdownButton()).click();
   }
 
   /**

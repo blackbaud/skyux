@@ -2,20 +2,12 @@ import { TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { expect } from '@skyux-sdk/testing';
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import {
-  mockResizeObserver,
-  mockResizeObserverEntry,
-  mockResizeObserverHandle,
-} from '@skyux/core/testing';
 
 import { PageHeaderFixturesComponent } from './fixtures/page-header-fixtures.component';
 import { SkyPageHeaderModule } from './page-header.module';
 
 describe('Page header component', () => {
   beforeEach(() => {
-    mockResizeObserver();
-
     TestBed.configureTestingModule({
       imports: [
         PageHeaderFixturesComponent,
@@ -47,6 +39,7 @@ describe('Page header component', () => {
   it('should render an avatar at size large when page is at a large breakpoint', () => {
     const fixture = TestBed.createComponent(PageHeaderFixturesComponent);
     fixture.componentInstance.showAvatar = true;
+    fixture.componentInstance.width = 900;
     fixture.detectChanges();
 
     const largeAvatar = fixture.nativeElement.querySelector(
@@ -59,15 +52,6 @@ describe('Page header component', () => {
   it('should render an avatar at size small when page is at an xs breakpoint', () => {
     const fixture = TestBed.createComponent(PageHeaderFixturesComponent);
     fixture.componentInstance.showAvatar = true;
-    fixture.detectChanges();
-
-    mockResizeObserverHandle.emit([
-      {
-        ...mockResizeObserverEntry,
-        target: fixture.componentInstance.pageHeaderEl?.nativeElement,
-      },
-    ]);
-
     fixture.detectChanges();
 
     const smallAvatar = fixture.nativeElement.querySelector(
