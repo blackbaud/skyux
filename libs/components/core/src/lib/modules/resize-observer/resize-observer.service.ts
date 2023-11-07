@@ -113,6 +113,7 @@ export class SkyResizeObserverService implements OnDestroy {
                 (entry) => entry.target === element.nativeElement
               ) as ResizeObserverEntry
           ),
+          // Ignore subpixel changes.
           distinctUntilChanged(
             (a, b) =>
               Math.round(a.contentRect.width) ===
@@ -120,7 +121,10 @@ export class SkyResizeObserverService implements OnDestroy {
               Math.round(a.contentRect.height) ===
                 Math.round(b.contentRect.height)
           ),
+          // Emit the last value for late subscribers. Track references so it
+          // un-observes when all subscribers are gone.
           shareReplay({ bufferSize: 1, refCount: true }),
+          // Only emit prior to an animation frame to prevent layout thrashing.
           throttle(() => animationFrames().pipe(take(1)), {
             leading: false,
             trailing: true,
