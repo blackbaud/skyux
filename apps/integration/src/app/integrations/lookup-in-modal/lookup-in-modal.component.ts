@@ -1,8 +1,9 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { SkyModalService } from '@skyux/modals';
+import { FontLoadingService } from '@skyux/storybook';
 
-import { BehaviorSubject } from 'rxjs';
+import { delay } from 'rxjs';
 
 import { ModalLookupComponent } from './modal-lookup.component';
 
@@ -11,7 +12,9 @@ import { ModalLookupComponent } from './modal-lookup.component';
   template: '<span *ngIf="ready$ | async" id="ready"></span>',
 })
 export class LookupInModalComponent implements OnInit, OnDestroy {
-  protected readonly ready$ = new BehaviorSubject(false);
+  protected readonly ready$ = inject(FontLoadingService)
+    .ready()
+    .pipe(delay(100));
 
   #document = inject(DOCUMENT);
   #modalService = inject(SkyModalService);
@@ -21,7 +24,6 @@ export class LookupInModalComponent implements OnInit, OnDestroy {
     this.#modalService.open(ModalLookupComponent, {
       size: 'small',
     });
-    setTimeout(() => this.ready$.next(true), 100);
   }
 
   public ngOnDestroy(): void {
