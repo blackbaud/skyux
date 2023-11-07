@@ -1,5 +1,17 @@
 # Changelog
 
+## [9.13.0](https://github.com/blackbaud/skyux/compare/9.12.1...9.13.0) (2023-11-06)
+
+
+### Features
+
+* **components/theme:** update to icons 6.5.0 ([#1872](https://github.com/blackbaud/skyux/issues/1872)) ([b0b9955](https://github.com/blackbaud/skyux/commit/b0b9955080286e5516b2c44f6a5ed9a29995bb98))
+
+
+### Bug Fixes
+
+* **components/popovers:** dropdown position not working in firefox ([#1869](https://github.com/blackbaud/skyux/issues/1869)) ([#1873](https://github.com/blackbaud/skyux/issues/1873)) ([c457529](https://github.com/blackbaud/skyux/commit/c4575299e3e069186b7d514bfd633a9ac49eccf0))
+
 ## [8.10.9](https://github.com/blackbaud/skyux/compare/8.10.8...8.10.9) (2023-11-03)
 
 
