@@ -103,7 +103,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
 
   /**
    * The ARIA label for the dropdown. This sets the dropdown's `aria-label` attribute to provide a text equivalent for screen readers
-   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility). If multiple dropdowns are used in proximity to each
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility). If multiple dropdowns with no label or the same label appear on the same page,
    * other, they must have unique aria labels that provide context. For example, "Context menu for Robert Hernandez".
    * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
