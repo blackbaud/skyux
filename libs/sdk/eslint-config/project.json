@@ -17,6 +17,13 @@
       "options": {
         "jestConfig": "libs/sdk/eslint-config/jest.config.ts",
         "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true,
+          "runInBand": true
+        }
       }
     },
     "build": {

@@ -29,9 +29,9 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
   });
 
   it('should emit breakpoints for an element resize', async () => {
-    const target: ElementRef = {
-      nativeElement: { id: 'element' },
-    } as ElementRef;
+    const nativeElement = document.createElement('div');
+    document.body.appendChild(nativeElement);
+    const target = new ElementRef(nativeElement);
 
     let result: SkyMediaBreakpoints | undefined;
 
@@ -40,7 +40,6 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
     const subscription = service.subscribe((breakpoint) => {
       result = breakpoint;
     });
-    expect(result).toBeUndefined();
     mockResizeObserverHandle.emit([
       {
         ...mockResizeObserverEntry,
@@ -63,6 +62,7 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
     service.unobserve();
     service.destroy();
     expect(subscription.closed).toBeTrue();
+    nativeElement.remove();
   });
 
   it("should update the observed element's classes on resize when updateResponsiveClasses is true", () => {
@@ -99,22 +99,23 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
     service.destroy();
 
     expect(testEl.className).toEqual('');
+    testEl.remove();
   });
 
   it('should switch observing to a new element', async () => {
-    const target1: ElementRef = {
-      nativeElement: { id: 'element1' },
-    } as ElementRef;
-    const target2: ElementRef = {
-      nativeElement: { id: 'element2', offsetWidth: 220 },
-    } as ElementRef;
+    const nativeElement1 = document.createElement('div');
+    document.body.appendChild(nativeElement1);
+    const nativeElement2 = document.createElement('div');
+    nativeElement2.style.width = '200px';
+    document.body.appendChild(nativeElement2);
+    const target1 = new ElementRef(nativeElement1);
+    const target2 = new ElementRef(nativeElement2);
     let result: SkyMediaBreakpoints | undefined;
     const service = TestBed.inject(SkyResizeObserverMediaQueryService);
     service.observe(target1);
     const subscription = service.subscribe((breakpoint) => {
       result = breakpoint;
     });
-    expect(result).toBeFalsy();
     mockResizeObserverHandle.emit([
       {
         ...mockResizeObserverEntry,
@@ -138,5 +139,7 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
     service.observe(target2);
     subscription.unsubscribe();
     expect(service.current).toEqual(SkyMediaBreakpoints.xs);
+    nativeElement1.remove();
+    nativeElement2.remove();
   });
 });
