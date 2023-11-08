@@ -17,6 +17,13 @@
       "options": {
         "jestConfig": "libs/sdk/prettier-schematics/jest.config.ts",
         "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true,
+          "runInBand": true
+        }
       }
     },
     "build": {

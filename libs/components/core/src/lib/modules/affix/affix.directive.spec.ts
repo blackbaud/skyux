@@ -272,6 +272,26 @@ describe('Affix directive', () => {
       expect(getRecentPlacementChange()).toEqual('left');
     });
 
+    it('should adjust to a positioned parent offset', async () => {
+      const { fixture, getAffixedOffset } = await setupTest();
+      const componentInstance = fixture.componentInstance;
+
+      componentInstance.enablePositionedParent = true;
+      fixture.detectChanges();
+
+      const affixedOffset = getAffixedOffset();
+
+      if (position === 'absolute') {
+        // Absolute position is relative to the positioned parent.
+        expect(affixedOffset.top).toEqual(195);
+        expect(affixedOffset.left).toEqual(225);
+      } else {
+        // Fixed position is relative to the viewport.
+        expect(affixedOffset.top).toEqual(295);
+        expect(affixedOffset.left).toEqual(325);
+      }
+    });
+
     it('should affix element using vertical alignments', async () => {
       const { fixture, getAffixedOffset } = await setupTest();
       const componentInstance = fixture.componentInstance;

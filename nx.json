@@ -51,7 +51,7 @@
       "inputs": ["testInputs", "^buildInputs"]
     },
     "e2e": {
-      "inputs": ["e2eInputs", "^buildInputs"]
+      "inputs": ["e2eInputs", "^storybookInputs", "^buildInputs"]
     },
     "lint": {
       "inputs": ["lintInputs"]
