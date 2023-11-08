@@ -250,7 +250,6 @@ export class SkyAgGridDataManagerAdapterDirective
             propertyName: activeSortColumnDef?.field || '',
             label: activeSortColumnDef?.headerName || '',
           };
-          console.log(this.#currentDataState);
           this.#dataManagerSvc.updateDataState(
             this.#currentDataState,
             this.#viewConfig.id
