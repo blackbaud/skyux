@@ -12,10 +12,10 @@
   </div>
   <ng-container *ngIf="summaryContentExists()">
     <div
-      class="sky-summary-action-bar-summary"
-      [id]="summaryId"
       aria-live="polite"
       aria-atomic="true"
+      class="sky-summary-action-bar-summary"
+      [id]="summaryId"
       [@skyAnimationSlide]="slideDirection"
       (@skyAnimationSlide.start)="summaryTransitionStart()"
       (@skyAnimationSlide.done)="summaryTransitionEnd($event)"
