@@ -17,18 +17,9 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
   ],
 })
 export class SummaryActionBarModalComponent {
-  public value = '50';
   constructor(public instance: SkyModalInstance) {}
 
   public printHello() {
     console.log('hello');
-  }
-
-  public switch() {
-    this.value = '60';
-  }
-
-  public switchback() {
-    this.value = '50';
   }
 }
