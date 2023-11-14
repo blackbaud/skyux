@@ -104,7 +104,20 @@
         "codeCoverage": true,
         "codeCoverageExclude": ["**/fixtures/**"],
         "scripts": [],
-        "assets": []
+        "assets": [],
+        "inlineStyleLanguage": "scss",
+        "stylePreprocessorOptions": {
+          "includePaths": ["{workspaceRoot}"]
+        }
+      },
+      "configurations": {
+        "ci": {
+          "browsers": "ChromeHeadlessNoSandbox",
+          "codeCoverage": true,
+          "progress": false,
+          "sourceMap": true,
+          "watch": false
+        }
       }
     }
   },
