@@ -6,12 +6,13 @@ import {
   SkyModalService,
 } from '@skyux/modals';
 
-// See: https://github.com/microsoft/TypeScript/issues/471#issuecomment-381842426
+/**
+ * Creates an interface from a type's public properties.
+ * @see https://github.com/microsoft/TypeScript/issues/471#issuecomment-381842426
+ */
 type Interface<T> = {
   [P in keyof T]: T[P];
 };
-
-// TODO: Take a look at 'skyux-spa-notification-supportal' for an example of how consumers are mocking modal service.
 
 /**
  * @internal
@@ -25,12 +26,12 @@ class SkyModalTestingService implements Interface<SkyModalService> {
   }
 
   public open(
-    component: any,
-    config?: SkyModalConfigurationInterface | any[]
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+    _component: any,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+    _config?: SkyModalConfigurationInterface | any[]
   ): SkyModalInstance {
-    const instance = new SkyModalInstance();
-
-    return instance;
+    return new SkyModalInstance();
   }
 }
 

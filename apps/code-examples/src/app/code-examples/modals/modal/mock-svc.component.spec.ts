@@ -33,24 +33,31 @@ class TestComponent {
 }
 
 describe('Modal service', () => {
-  let fixture: ComponentFixture<TestComponent>;
-  let modalSvc: SkyModalService;
+  function setupTest(): {
+    fixture: ComponentFixture<TestComponent>;
+    modalSvc: SkyModalService;
+  } {
+    const fixture = TestBed.createComponent(TestComponent);
+    const modalSvc = TestBed.inject(SkyModalService);
+
+    return { fixture, modalSvc };
+  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyModalTestingModule, TestComponent],
     });
-
-    fixture = TestBed.createComponent(TestComponent);
-    modalSvc = TestBed.inject(SkyModalService);
   });
 
   it('should open and close a modal', () => {
+    const { fixture, modalSvc } = setupTest();
+
     expect(fixture.componentInstance.modalOpen).toEqual(false);
 
     const modalInstance = new SkyModalInstance();
     const openSpy = spyOn(modalSvc, 'open').and.returnValue(modalInstance);
 
+    // Open the modal.
     fixture.debugElement
       .query(By.css('[data-sky-id="my-modal-open-button"]'))
       .triggerEventHandler('click');
@@ -59,6 +66,7 @@ describe('Modal service', () => {
     expect(openSpy).toHaveBeenCalledOnceWith(ModalComponent);
     expect(fixture.componentInstance.modalOpen).toEqual(true);
 
+    // Close the modal.
     modalInstance.close();
     fixture.detectChanges();
 

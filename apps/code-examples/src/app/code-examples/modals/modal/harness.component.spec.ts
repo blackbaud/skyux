@@ -46,7 +46,7 @@ describe('Basic modal', () => {
     });
   });
 
-  it('should open the correct modal', async () => {
+  it('should open a modal', async () => {
     const { modalHarness, fixture } = await setupTest();
 
     fixture.detectChanges();
