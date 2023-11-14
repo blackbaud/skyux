@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.13.1](https://github.com/blackbaud/skyux/compare/9.13.0...9.13.1) (2023-11-07)
+
+
+### Bug Fixes
+
+* **components/core:** prevent ResizeObserver loop error ([#1852](https://github.com/blackbaud/skyux/issues/1852)) ([4fbc5a9](https://github.com/blackbaud/skyux/commit/4fbc5a99c56c00615fc87247f81808503d2e4c0b))
+
 ## [9.13.0](https://github.com/blackbaud/skyux/compare/9.12.1...9.13.0) (2023-11-06)
 
 
