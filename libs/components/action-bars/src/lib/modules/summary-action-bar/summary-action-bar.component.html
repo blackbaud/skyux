@@ -12,8 +12,6 @@
   </div>
   <ng-container *ngIf="summaryContentExists()">
     <div
-      aria-live="polite"
-      aria-atomic="true"
       class="sky-summary-action-bar-summary"
       [id]="summaryId"
       [@skyAnimationSlide]="slideDirection"
@@ -21,7 +19,11 @@
       (@skyAnimationSlide.done)="summaryTransitionEnd($event)"
     >
       <div class="sky-summary-action-bar-summary-body">
-        <div class="sky-summary-action-bar-summary-items">
+        <div
+          aria-live="polite"
+          aria-atomic="true"
+          class="sky-summary-action-bar-summary-items"
+        >
           <ng-content select="sky-summary-action-bar-summary" />
         </div>
         <div
