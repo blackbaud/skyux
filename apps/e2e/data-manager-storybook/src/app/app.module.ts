@@ -9,7 +9,7 @@ const routes: Route[] = [
     path: 'data-manager',
     loadChildren: () =>
       import('./data-manager/data-manager.module').then(
-        (m) => m.DataManagerModule
+        (m) => m.DataManagerModule,
       ),
   },
 ];

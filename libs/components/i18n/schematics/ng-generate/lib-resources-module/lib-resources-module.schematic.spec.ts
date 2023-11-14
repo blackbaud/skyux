@@ -34,14 +34,14 @@ describe('lib-resources-module.schematic', () => {
           _description: 'A simple message.',
           message: 'Hello, world!',
         },
-      })
+      }),
     );
   });
 
   function runSchematic(
     options: { name?: string; project?: string } = {
       project: defaultProjectName,
-    }
+    },
   ): Promise<UnitTestTree> {
     return runner.runSchematic(schematicName, options, tree);
   }
@@ -49,7 +49,7 @@ describe('lib-resources-module.schematic', () => {
   it('should generate a resources module', async () => {
     tree.create(
       `/projects/${defaultProjectName}/src/assets/locales/resources_fr_CA.json`,
-      '{}'
+      '{}',
     );
 
     const updatedTree = await runSchematic();
@@ -116,7 +116,7 @@ export class MyLibResourcesModule { }
     "message": "Hello, world!"
   }
 }
-`
+`,
     );
   });
 
@@ -126,15 +126,15 @@ export class MyLibResourcesModule { }
     const updatedTree = await runSchematic();
 
     expect(readRequiredFile(updatedTree, resourcesModulePath)).not.toContain(
-      'ORIGINAL CONTENT'
+      'ORIGINAL CONTENT',
     );
   });
 
   it('should handle invalid project name', async () => {
     await expectAsync(
-      runSchematic({ project: 'invalid-project' })
+      runSchematic({ project: 'invalid-project' }),
     ).toBeRejectedWithError(
-      'The "invalid-project" project is not defined in angular.json. Provide a valid project name.'
+      'The "invalid-project" project is not defined in angular.json. Provide a valid project name.',
     );
   });
 
@@ -205,7 +205,7 @@ export class FoobarResourcesModule { }
     const updatedTree = await runSchematic();
 
     const packageJsonContents = JSON.parse(
-      readRequiredFile(updatedTree, packageJsonPath)
+      readRequiredFile(updatedTree, packageJsonPath),
     );
 
     expect(packageJsonContents.peerDependencies['@skyux/i18n']).toEqual('^7');
@@ -219,17 +219,17 @@ export class FoobarResourcesModule { }
   "peerDependencies": {
     "@skyux/i18n": "defaultVersion"
   }
-}`
+}`,
     );
 
     const updatedTree = await runSchematic();
 
     const packageJsonContents = JSON.parse(
-      readRequiredFile(updatedTree, packageJsonPath)
+      readRequiredFile(updatedTree, packageJsonPath),
     );
 
     expect(packageJsonContents.peerDependencies['@skyux/i18n']).toEqual(
-      'defaultVersion'
+      'defaultVersion',
     );
   });
 
@@ -243,7 +243,7 @@ export class FoobarResourcesModule { }
       {
         project: 'foo-app',
       },
-      app
+      app,
     );
 
     expect(app.exists(resourcesModulePath)).toBeFalse();
@@ -253,13 +253,13 @@ export class FoobarResourcesModule { }
     tree.delete(packageJsonPath);
 
     await expectAsync(runSchematic()).toBeRejectedWithError(
-      `The file '${packageJsonPath}' was expected to exist but was not found.`
+      `The file '${packageJsonPath}' was expected to exist but was not found.`,
     );
   });
 
   it('should throw an error if project not defined', async () => {
     await expectAsync(
-      runSchematic({ project: undefined })
+      runSchematic({ project: undefined }),
     ).toBeRejectedWithError(`A project name is required.`);
   });
 });

@@ -8,7 +8,7 @@ export class SkyAgGridCellEditorUtils {
    * @param params The editor's initializing parameters.
    */
   public static getEditorInitialAction(
-    params: ICellEditorParams | undefined
+    params: ICellEditorParams | undefined,
   ): SkyAgGridCellEditorInitialAction {
     if (params?.cellStartedEdit) {
       if (
@@ -32,7 +32,7 @@ export class SkyAgGridCellEditorUtils {
 
   public static subtractOrZero(
     minuend: number | null | undefined,
-    subtrahend: number
+    subtrahend: number,
   ): number {
     // Swapping minuend with subtrahend when minuend is null or undefined results in
     // the subtrahend being subtracted from itself, which will always be 0.

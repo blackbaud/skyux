@@ -118,7 +118,7 @@ export class SkyModalScrollShadowDirective implements OnInit, OnDestroy {
       const topShadow = this.#buildShadowStyle(el.scrollTop);
 
       const bottomShadow = this.#buildShadowStyle(
-        el.scrollHeight - el.scrollTop - el.clientHeight
+        el.scrollHeight - el.scrollTop - el.clientHeight,
       );
 
       this.#emitShadow({

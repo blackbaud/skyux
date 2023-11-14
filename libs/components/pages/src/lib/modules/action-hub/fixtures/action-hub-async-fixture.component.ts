@@ -17,6 +17,6 @@ export class ActionHubAsyncFixtureComponent {
   >('loading');
   public relatedLinks = new BehaviorSubject<SkyLink[] | 'loading'>('loading');
   public recentLinks = new BehaviorSubject<SkyRecentLink[] | 'loading'>(
-    'loading'
+    'loading',
   );
 }

@@ -16,7 +16,7 @@ export class SkyAgGridAdapterService {
 
   public getElementOrParentWithClass(
     element: HTMLElement,
-    className: string
+    className: string,
   ): HTMLElement | undefined {
     if (element && element.classList.contains(className)) {
       return element;
@@ -43,7 +43,7 @@ export class SkyAgGridAdapterService {
   public getNextFocusableElement(
     currentEl: HTMLElement,
     parentEl?: HTMLElement,
-    moveFocusLeft?: boolean
+    moveFocusLeft?: boolean,
   ): HTMLElement | undefined {
     if (parentEl) {
       const focusableChildren =
@@ -75,7 +75,7 @@ export class SkyAgGridAdapterService {
 
   public focusOnColumnHeader(parentEl: HTMLElement, colId: string): void {
     const columnHeader = parentEl.querySelector(
-      `.ag-header-cell[col-id="${colId}"]`
+      `.ag-header-cell[col-id="${colId}"]`,
     ) as HTMLElement | undefined;
     columnHeader?.focus();
   }

@@ -100,7 +100,7 @@ export class DataViewGridComponent implements OnInit {
   constructor(
     private agGridService: SkyAgGridService,
     private changeDetector: ChangeDetectorRef,
-    private dataManagerService: SkyDataManagerService
+    private dataManagerService: SkyDataManagerService,
   ) {}
 
   public ngOnInit(): void {
@@ -144,10 +144,10 @@ export class DataViewGridComponent implements OnInit {
 
     this.columnDefs.sort((col1, col2) => {
       const col1Index = visibleColumns.findIndex(
-        (colId: string) => colId === col1.colId
+        (colId: string) => colId === col1.colId,
       );
       const col2Index = visibleColumns.findIndex(
-        (colId: string) => colId === col2.colId
+        (colId: string) => colId === col2.colId,
       );
 
       if (col1Index === -1) {

@@ -50,14 +50,14 @@ const EXPAND_MODE_NONE = 'none';
         style({
           opacity: 0,
           width: 0,
-        })
+        }),
       ),
       state(
         INPUT_SHOWN_STATE,
         style({
           opacity: 1,
           width: '100%',
-        })
+        }),
       ),
       transition('* <=> *', animate('150ms')),
     ]),
@@ -203,7 +203,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     mediaQueryService: SkyMediaQueryService,
     elRef: ElementRef,
     searchAdapter: SkySearchAdapterService,
-    changeRef: ChangeDetectorRef
+    changeRef: ChangeDetectorRef,
   ) {
     this.#mediaQueryService = mediaQueryService;
     this.#elRef = elRef;
@@ -219,7 +219,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
         (args: SkyMediaBreakpoints) => {
           this.#mediaQueryCallback(args);
           this.#changeRef.detectChanges();
-        }
+        },
       );
     }
 

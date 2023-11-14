@@ -30,8 +30,8 @@ export class SelectionModalComponent {
               hasMore: results.hasMore,
               items: results.people,
               totalCount: results.totalCount,
-            })
-          )
+            }),
+          ),
         ),
       selectionDescriptor: single ? 'person' : 'people',
       selectMode: single ? 'single' : 'multiple',

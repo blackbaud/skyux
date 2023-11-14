@@ -116,7 +116,7 @@ describe('SkyDataManagerColumnPickerComponent', () => {
     });
 
     dataManagerColumnPickerFixture = TestBed.createComponent(
-      SkyDataManagerColumnPickerComponent
+      SkyDataManagerColumnPickerComponent,
     );
     dataManagerColumnPickerElement =
       dataManagerColumnPickerFixture.nativeElement;
@@ -129,7 +129,7 @@ describe('SkyDataManagerColumnPickerComponent', () => {
   describe('column search', () => {
     it('should display the expected title', () => {
       expect(
-        dataManagerColumnPickerElement.querySelector('sky-modal-header')
+        dataManagerColumnPickerElement.querySelector('sky-modal-header'),
       ).toHaveText('Choose columns to show in the list');
     });
 
@@ -222,7 +222,7 @@ describe('SkyDataManagerColumnPickerComponent', () => {
 
   it('should not sort columns if column picker sorting is set to none', () => {
     dataManagerColumnPickerFixture = TestBed.createComponent(
-      SkyDataManagerColumnPickerComponent
+      SkyDataManagerColumnPickerComponent,
     );
     dataManagerColumnPickerComponent =
       dataManagerColumnPickerFixture.componentInstance;

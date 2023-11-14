@@ -36,7 +36,7 @@ describe('Phone Field Component', () => {
   function getPhoneFieldInput(
     fixture: ComponentFixture<
       PhoneFieldTestComponent | PhoneFieldReactiveTestComponent
-    >
+    >,
   ): HTMLInputElement {
     return fixture.nativeElement.querySelector('input[skyPhoneFieldInput]');
   }
@@ -44,20 +44,20 @@ describe('Phone Field Component', () => {
   function getCountrySearchInput(
     fixture: ComponentFixture<
       PhoneFieldTestComponent | PhoneFieldReactiveTestComponent
-    >
+    >,
   ): HTMLInputElement {
     return fixture.nativeElement.querySelector(
-      '.sky-country-field-input input, .sky-country-field-input textarea'
+      '.sky-country-field-input input, .sky-country-field-input textarea',
     );
   }
 
   function getCountrySearchToggleButton(
     fixture: ComponentFixture<
       PhoneFieldTestComponent | PhoneFieldReactiveTestComponent
-    >
+    >,
   ): HTMLInputElement {
     return fixture.nativeElement.querySelector(
-      '.sky-phone-field-country-btn .sky-btn-default'
+      '.sky-phone-field-country-btn .sky-btn-default',
     );
   }
 
@@ -66,7 +66,7 @@ describe('Phone Field Component', () => {
       | PhoneFieldTestComponent
       | PhoneFieldReactiveTestComponent
       | PhoneFieldInputBoxTestComponent
-    >
+    >,
   ): void {
     fixture.detectChanges();
     tick();
@@ -80,7 +80,7 @@ describe('Phone Field Component', () => {
     compFixture: ComponentFixture<
       PhoneFieldTestComponent | PhoneFieldReactiveTestComponent
     >,
-    isAsync?: boolean
+    isAsync?: boolean,
   ): void {
     const inputEl = element.querySelector('input');
     if (inputEl) {
@@ -105,7 +105,7 @@ describe('Phone Field Component', () => {
     text: string,
     compFixture: ComponentFixture<
       PhoneFieldTestComponent | PhoneFieldReactiveTestComponent
-    >
+    >,
   ): void {
     const inputEl = element.querySelector('input');
     if (inputEl) {
@@ -121,7 +121,7 @@ describe('Phone Field Component', () => {
     countryName: string,
     compFixture: ComponentFixture<
       PhoneFieldTestComponent | PhoneFieldReactiveTestComponent
-    >
+    >,
   ): void {
     const countryInput = getCountrySearchToggleButton(compFixture);
     countryInput.click();
@@ -136,7 +136,7 @@ describe('Phone Field Component', () => {
 
     SkyAppTestUtility.fireDomEvent(
       document.querySelector('.sky-autocomplete-result:first-child'),
-      'click'
+      'click',
     );
 
     detectChangesAndTick(compFixture);
@@ -146,14 +146,14 @@ describe('Phone Field Component', () => {
     countryName: string,
     compFixture: ComponentFixture<
       PhoneFieldTestComponent | PhoneFieldReactiveTestComponent
-    >
+    >,
   ): NodeListOf<HTMLElement> {
     const countryInput = getCountrySearchToggleButton(compFixture);
     countryInput.click();
     detectChangesAndTick(compFixture);
 
     const countrySearchInput: HTMLInputElement = compFixture.debugElement.query(
-      By.css('textarea')
+      By.css('textarea'),
     ).nativeElement;
     countrySearchInput.value = countryName;
 
@@ -168,7 +168,7 @@ describe('Phone Field Component', () => {
     compFixture: ComponentFixture<
       PhoneFieldTestComponent | PhoneFieldReactiveTestComponent
     >,
-    isAsync?: boolean
+    isAsync?: boolean,
   ): void {
     const inputEl = element.querySelector('input');
 
@@ -188,7 +188,7 @@ describe('Phone Field Component', () => {
     model: NgModel | UntypedFormControl | undefined,
     fixture: ComponentFixture<
       PhoneFieldTestComponent | PhoneFieldReactiveTestComponent
-    >
+    >,
   ): void {
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('input').value).toBe(modelValue);
@@ -213,11 +213,11 @@ describe('Phone Field Component', () => {
   function setModernTheme(
     fixture: ComponentFixture<
       PhoneFieldTestComponent | PhoneFieldReactiveTestComponent
-    >
+    >,
   ): void {
     const modernTheme = new SkyThemeSettings(
       SkyTheme.presets.modern,
-      SkyThemeMode.presets.light
+      SkyThemeMode.presets.light,
     );
     (
       mockThemeSvc.settingsChange as BehaviorSubject<SkyThemeSettingsChange>
@@ -240,7 +240,7 @@ describe('Phone Field Component', () => {
         settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
           currentSettings: new SkyThemeSettings(
             SkyTheme.presets.default,
-            SkyThemeMode.presets.light
+            SkyThemeMode.presets.light,
           ),
           previousSettings: undefined,
         }),
@@ -265,12 +265,12 @@ describe('Phone Field Component', () => {
     it('should create the component with the appropriate styles', () => {
       fixture.detectChanges();
       expect(nativeElement.querySelector('input')).toHaveCssClass(
-        'sky-form-control'
+        'sky-form-control',
       );
       expect(
         nativeElement.querySelector(
-          '.sky-input-group .sky-input-group-btn .sky-btn-default'
-        )
+          '.sky-input-group .sky-input-group-btn .sky-btn-default',
+        ),
       ).not.toBeNull();
       expect(nativeElement.querySelector('input')?.type).toEqual('tel');
     });
@@ -289,8 +289,8 @@ describe('Phone Field Component', () => {
 
         expect(nativeElement.querySelector('input')?.placeholder).toBe(
           component.phoneFieldComponent?.countries.find(
-            (country) => country.iso2 === 'us'
-          )?.exampleNumber
+            (country) => country.iso2 === 'us',
+          )?.exampleNumber,
         );
       }));
 
@@ -299,8 +299,8 @@ describe('Phone Field Component', () => {
 
         expect(nativeElement.querySelector('input')?.placeholder).toBe(
           component.phoneFieldComponent?.countries.find(
-            (country) => country.iso2 === 'us'
-          )?.exampleNumber
+            (country) => country.iso2 === 'us',
+          )?.exampleNumber,
         );
       }));
 
@@ -313,8 +313,8 @@ describe('Phone Field Component', () => {
 
         expect(nativeElement.querySelector('input')?.placeholder).toBe(
           component.phoneFieldComponent?.countries.find(
-            (country) => country.iso2 === 'de'
-          )?.exampleNumber
+            (country) => country.iso2 === 'de',
+          )?.exampleNumber,
         );
       }));
 
@@ -344,7 +344,7 @@ describe('Phone Field Component', () => {
         expect(nativeElement.querySelector('input')?.value).toBe('');
 
         expect(nativeElement.querySelector('input')).not.toHaveCssClass(
-          'ng-invalid'
+          'ng-invalid',
         );
       }));
 
@@ -539,7 +539,7 @@ describe('Phone Field Component', () => {
           false,
           true,
           ngModel,
-          fixture
+          fixture,
         );
 
         blurInput(fixture.nativeElement, fixture, true);
@@ -551,7 +551,7 @@ describe('Phone Field Component', () => {
           false,
           true,
           ngModel,
-          fixture
+          fixture,
         );
       });
 
@@ -568,7 +568,7 @@ describe('Phone Field Component', () => {
           true,
           false,
           ngModel,
-          fixture
+          fixture,
         );
 
         blurInput(fixture.nativeElement, fixture, true);
@@ -580,7 +580,7 @@ describe('Phone Field Component', () => {
           true,
           true,
           ngModel,
-          fixture
+          fixture,
         );
       });
 
@@ -638,7 +638,7 @@ describe('Phone Field Component', () => {
           true,
           true,
           ngModel,
-          fixture
+          fixture,
         );
       });
 
@@ -667,7 +667,7 @@ describe('Phone Field Component', () => {
           true,
           false,
           ngModel,
-          fixture
+          fixture,
         );
       });
 
@@ -683,7 +683,7 @@ describe('Phone Field Component', () => {
           false,
           true,
           ngModel,
-          fixture
+          fixture,
         );
       });
 
@@ -720,7 +720,7 @@ describe('Phone Field Component', () => {
 
         expect(fixture.componentInstance.inputDirective?.disabled).toBeTruthy();
         expect(
-          fixture.debugElement.query(By.css('input')).nativeElement.disabled
+          fixture.debugElement.query(By.css('input')).nativeElement.disabled,
         ).toBeTruthy();
         expect(countryInput.disabled).toBeTruthy();
       });
@@ -732,7 +732,7 @@ describe('Phone Field Component', () => {
 
         expect(fixture.componentInstance.inputDirective?.disabled).toBeFalsy();
         expect(
-          fixture.debugElement.query(By.css('input')).nativeElement.disabled
+          fixture.debugElement.query(By.css('input')).nativeElement.disabled,
         ).toBeFalsy();
         expect(countryInput.disabled).toBeFalsy();
       });
@@ -746,7 +746,7 @@ describe('Phone Field Component', () => {
         detectChangesAndTick(fixture);
 
         expect(
-          document.activeElement === getCountrySearchInput(fixture)
+          document.activeElement === getCountrySearchInput(fixture),
         ).toBeTruthy();
       }));
 
@@ -759,13 +759,13 @@ describe('Phone Field Component', () => {
         const inputEl = getCountrySearchInput(fixture);
 
         expect(inputEl.getAttribute('placeholder')).toEqual(
-          'Search for a country'
+          'Search for a country',
         );
 
         setModernTheme(fixture);
 
         expect(inputEl.getAttribute('placeholder')).toEqual(
-          'Search for a country'
+          'Search for a country',
         );
       }));
 
@@ -792,7 +792,7 @@ describe('Phone Field Component', () => {
 
         expect(nativeElement.querySelector('input')?.placeholder).toBe(
           originalCountryData?.find((country) => country.name === 'Canada')
-            ?.exampleNumber
+            ?.exampleNumber,
         );
       }));
 
@@ -812,7 +812,7 @@ describe('Phone Field Component', () => {
           true,
           false,
           ngModel,
-          fixture
+          fixture,
         );
 
         setCountry('Albania', fixture);
@@ -823,7 +823,7 @@ describe('Phone Field Component', () => {
           false,
           true,
           ngModel,
-          fixture
+          fixture,
         );
       }));
 
@@ -846,7 +846,7 @@ describe('Phone Field Component', () => {
           true,
           false,
           ngModel,
-          fixture
+          fixture,
         );
 
         component.modelValue = '+3556675555309';
@@ -862,7 +862,7 @@ describe('Phone Field Component', () => {
           false,
           true,
           ngModel,
-          fixture
+          fixture,
         );
       }));
 
@@ -882,7 +882,7 @@ describe('Phone Field Component', () => {
           true,
           false,
           ngModel,
-          fixture
+          fixture,
         );
 
         setInput(nativeElement, '+3556675555309', fixture);
@@ -896,7 +896,7 @@ describe('Phone Field Component', () => {
           false,
           true,
           ngModel,
-          fixture
+          fixture,
         );
       }));
 
@@ -917,7 +917,7 @@ describe('Phone Field Component', () => {
           true,
           false,
           ngModel,
-          fixture
+          fixture,
         );
 
         setInput(nativeElement, '+3556675555309', fixture);
@@ -931,7 +931,7 @@ describe('Phone Field Component', () => {
           false,
           true,
           ngModel,
-          fixture
+          fixture,
         );
       }));
 
@@ -954,7 +954,7 @@ describe('Phone Field Component', () => {
           true,
           false,
           ngModel,
-          fixture
+          fixture,
         );
 
         setInput(nativeElement, '+1116675555309', fixture);
@@ -971,7 +971,7 @@ describe('Phone Field Component', () => {
           false,
           true,
           ngModel,
-          fixture
+          fixture,
         );
       }));
 
@@ -994,7 +994,7 @@ describe('Phone Field Component', () => {
           true,
           false,
           ngModel,
-          fixture
+          fixture,
         );
 
         setInput(nativeElement, '+61', fixture);
@@ -1032,7 +1032,7 @@ describe('Phone Field Component', () => {
           true,
           false,
           ngModel,
-          fixture
+          fixture,
         );
 
         setInput(nativeElement, '+1', fixture);
@@ -1070,7 +1070,7 @@ describe('Phone Field Component', () => {
           true,
           false,
           ngModel,
-          fixture
+          fixture,
         );
 
         setInput(nativeElement, '+1', fixture);
@@ -1108,7 +1108,7 @@ describe('Phone Field Component', () => {
           true,
           false,
           ngModel,
-          fixture
+          fixture,
         );
 
         setInput(nativeElement, '+1', fixture);
@@ -1139,7 +1139,7 @@ describe('Phone Field Component', () => {
           true,
           false,
           ngModel,
-          fixture
+          fixture,
         );
 
         setCountry('Albania', fixture);
@@ -1150,7 +1150,7 @@ describe('Phone Field Component', () => {
           false,
           true,
           ngModel,
-          fixture
+          fixture,
         );
 
         component.modelValue = '024569874';
@@ -1162,7 +1162,7 @@ describe('Phone Field Component', () => {
           true,
           true,
           ngModel,
-          fixture
+          fixture,
         );
       }));
 
@@ -1189,7 +1189,7 @@ describe('Phone Field Component', () => {
           true,
           false,
           ngModel,
-          fixture
+          fixture,
         );
       }));
     });
@@ -1205,7 +1205,7 @@ describe('Phone Field Component', () => {
         settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
           currentSettings: new SkyThemeSettings(
             SkyTheme.presets.default,
-            SkyThemeMode.presets.light
+            SkyThemeMode.presets.light,
           ),
           previousSettings: undefined,
         }),
@@ -1243,8 +1243,8 @@ describe('Phone Field Component', () => {
 
         expect(nativeElement.querySelector('input')?.placeholder).toBe(
           component.phoneFieldComponent?.countries.find(
-            (country) => country.iso2 === 'us'
-          )?.exampleNumber
+            (country) => country.iso2 === 'us',
+          )?.exampleNumber,
         );
       }));
 
@@ -1254,8 +1254,8 @@ describe('Phone Field Component', () => {
 
         expect(nativeElement.querySelector('input')?.placeholder).toBe(
           component.phoneFieldComponent?.countries.find(
-            (country) => country.iso2 === 'au'
-          )?.exampleNumber
+            (country) => country.iso2 === 'au',
+          )?.exampleNumber,
         );
       }));
 
@@ -1264,8 +1264,8 @@ describe('Phone Field Component', () => {
 
         expect(nativeElement.querySelector('input')?.placeholder).toBe(
           component.phoneFieldComponent?.countries.find(
-            (country) => country.iso2 === 'us'
-          )?.exampleNumber
+            (country) => country.iso2 === 'us',
+          )?.exampleNumber,
         );
       }));
 
@@ -1278,8 +1278,8 @@ describe('Phone Field Component', () => {
 
         expect(nativeElement.querySelector('input')?.placeholder).toBe(
           component.phoneFieldComponent?.countries.find(
-            (country) => country.iso2 === 'de'
-          )?.exampleNumber
+            (country) => country.iso2 === 'de',
+          )?.exampleNumber,
         );
       }));
 
@@ -1309,7 +1309,7 @@ describe('Phone Field Component', () => {
         expect(nativeElement.querySelector('input')?.value).toBe('');
 
         expect(nativeElement.querySelector('input')).not.toHaveCssClass(
-          'ng-invalid'
+          'ng-invalid',
         );
       }));
 
@@ -1488,7 +1488,7 @@ describe('Phone Field Component', () => {
           false,
           true,
           component.phoneControl,
-          fixture
+          fixture,
         );
       }));
 
@@ -1503,7 +1503,7 @@ describe('Phone Field Component', () => {
           false,
           true,
           component.phoneControl,
-          fixture
+          fixture,
         );
 
         blurInput(fixture.nativeElement, fixture);
@@ -1514,7 +1514,7 @@ describe('Phone Field Component', () => {
           false,
           true,
           component.phoneControl,
-          fixture
+          fixture,
         );
       }));
 
@@ -1529,7 +1529,7 @@ describe('Phone Field Component', () => {
           false,
           true,
           component.phoneControl,
-          fixture
+          fixture,
         );
 
         blurInput(fixture.nativeElement, fixture);
@@ -1540,7 +1540,7 @@ describe('Phone Field Component', () => {
           false,
           true,
           component.phoneControl,
-          fixture
+          fixture,
         );
       }));
 
@@ -1554,7 +1554,7 @@ describe('Phone Field Component', () => {
           true,
           false,
           component.phoneControl,
-          fixture
+          fixture,
         );
 
         blurInput(fixture.nativeElement, fixture);
@@ -1565,7 +1565,7 @@ describe('Phone Field Component', () => {
           true,
           true,
           component.phoneControl,
-          fixture
+          fixture,
         );
       }));
 
@@ -1583,7 +1583,7 @@ describe('Phone Field Component', () => {
           false,
           true,
           component.phoneControl,
-          fixture
+          fixture,
         );
       }));
 
@@ -1603,7 +1603,7 @@ describe('Phone Field Component', () => {
           true,
           true,
           component.phoneControl,
-          fixture
+          fixture,
         );
       }));
 
@@ -1625,7 +1625,7 @@ describe('Phone Field Component', () => {
           true,
           true,
           component.phoneControl,
-          fixture
+          fixture,
         );
       }));
 
@@ -1644,7 +1644,7 @@ describe('Phone Field Component', () => {
           true,
           false,
           component.phoneControl,
-          fixture
+          fixture,
         );
       }));
 
@@ -1659,7 +1659,7 @@ describe('Phone Field Component', () => {
           true,
           false,
           component.phoneControl,
-          fixture
+          fixture,
         );
       });
 
@@ -1675,7 +1675,7 @@ describe('Phone Field Component', () => {
           false,
           true,
           component.phoneControl,
-          fixture
+          fixture,
         );
       });
 
@@ -1690,7 +1690,7 @@ describe('Phone Field Component', () => {
           false,
           true,
           component.phoneControl,
-          fixture
+          fixture,
         );
       }));
 
@@ -1710,7 +1710,7 @@ describe('Phone Field Component', () => {
           false,
           false,
           component.phoneControl,
-          fixture
+          fixture,
         );
 
         blurInput(fixture.nativeElement, fixture);
@@ -1723,7 +1723,7 @@ describe('Phone Field Component', () => {
           false,
           true,
           component.phoneControl,
-          fixture
+          fixture,
         );
       }));
     });
@@ -1737,7 +1737,7 @@ describe('Phone Field Component', () => {
 
         expect(fixture.componentInstance.inputDirective?.disabled).toBeTruthy();
         expect(
-          fixture.debugElement.query(By.css('input')).nativeElement.disabled
+          fixture.debugElement.query(By.css('input')).nativeElement.disabled,
         ).toBeTruthy();
         expect(countryInput.disabled).toBeTruthy();
       }));
@@ -1750,7 +1750,7 @@ describe('Phone Field Component', () => {
 
         expect(fixture.componentInstance.inputDirective?.disabled).toBeFalsy();
         expect(
-          fixture.debugElement.query(By.css('input')).nativeElement.disabled
+          fixture.debugElement.query(By.css('input')).nativeElement.disabled,
         ).toBeFalsy();
         expect(countryInput.disabled).toBeFalsy();
       }));
@@ -1788,13 +1788,13 @@ describe('Phone Field Component', () => {
         const inputEl = getCountrySearchInput(fixture);
 
         expect(inputEl.getAttribute('placeholder')).toEqual(
-          'Search for a country'
+          'Search for a country',
         );
 
         setModernTheme(fixture);
 
         expect(inputEl.getAttribute('placeholder')).toEqual(
-          'Search for a country'
+          'Search for a country',
         );
       }));
 
@@ -1820,15 +1820,15 @@ describe('Phone Field Component', () => {
 
         expect(nativeElement.querySelector('input')?.placeholder).toBe(
           originalCountryData?.find((country) => country.name === 'Canada')
-            ?.exampleNumber
+            ?.exampleNumber,
         );
 
         setCountry('United States', fixture);
 
         expect(nativeElement.querySelector('input')?.placeholder).toBe(
           originalCountryData?.find(
-            (country) => country.name === 'United States'
-          )?.exampleNumber
+            (country) => country.name === 'United States',
+          )?.exampleNumber,
         );
         setCountry('United States', fixture);
       }));
@@ -1846,7 +1846,7 @@ describe('Phone Field Component', () => {
           true,
           false,
           component.phoneControl,
-          fixture
+          fixture,
         );
 
         setCountry('Albania', fixture);
@@ -1857,7 +1857,7 @@ describe('Phone Field Component', () => {
           false,
           true,
           component.phoneControl,
-          fixture
+          fixture,
         );
       }));
 
@@ -1877,7 +1877,7 @@ describe('Phone Field Component', () => {
           true,
           false,
           component.phoneControl,
-          fixture
+          fixture,
         );
 
         component.phoneControl?.setValue('+3556675555309');
@@ -1893,7 +1893,7 @@ describe('Phone Field Component', () => {
           false,
           true,
           component.phoneControl,
-          fixture
+          fixture,
         );
       }));
 
@@ -1913,7 +1913,7 @@ describe('Phone Field Component', () => {
           true,
           false,
           component.phoneControl,
-          fixture
+          fixture,
         );
 
         setInput(nativeElement, '+3556675555309', fixture);
@@ -1930,7 +1930,7 @@ describe('Phone Field Component', () => {
           false,
           true,
           component.phoneControl,
-          fixture
+          fixture,
         );
       }));
 
@@ -1951,7 +1951,7 @@ describe('Phone Field Component', () => {
           true,
           false,
           component.phoneControl,
-          fixture
+          fixture,
         );
 
         setInput(nativeElement, '+3556675555309', fixture);
@@ -1968,7 +1968,7 @@ describe('Phone Field Component', () => {
           false,
           true,
           component.phoneControl,
-          fixture
+          fixture,
         );
       }));
 
@@ -1988,7 +1988,7 @@ describe('Phone Field Component', () => {
           true,
           false,
           component.phoneControl,
-          fixture
+          fixture,
         );
 
         setInput(nativeElement, '+1116675555309', fixture);
@@ -2002,7 +2002,7 @@ describe('Phone Field Component', () => {
           false,
           true,
           component.phoneControl,
-          fixture
+          fixture,
         );
       }));
 
@@ -2023,7 +2023,7 @@ describe('Phone Field Component', () => {
           true,
           false,
           component.phoneControl,
-          fixture
+          fixture,
         );
 
         setInput(nativeElement, '+61', fixture);
@@ -2037,7 +2037,7 @@ describe('Phone Field Component', () => {
           false,
           true,
           component.phoneControl,
-          fixture
+          fixture,
         );
       }));
 
@@ -2054,7 +2054,7 @@ describe('Phone Field Component', () => {
           true,
           false,
           component.phoneControl,
-          fixture
+          fixture,
         );
 
         setCountry('Albania', fixture);
@@ -2065,7 +2065,7 @@ describe('Phone Field Component', () => {
           false,
           true,
           component.phoneControl,
-          fixture
+          fixture,
         );
 
         component.phoneControl?.setValue('024569874');
@@ -2077,7 +2077,7 @@ describe('Phone Field Component', () => {
           true,
           true,
           component.phoneControl,
-          fixture
+          fixture,
         );
       }));
 
@@ -2097,7 +2097,7 @@ describe('Phone Field Component', () => {
           true,
           false,
           component.phoneControl,
-          fixture
+          fixture,
         );
       }));
     });
@@ -2112,7 +2112,7 @@ describe('Phone Field Component', () => {
         settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
           currentSettings: new SkyThemeSettings(
             SkyTheme.presets.default,
-            SkyThemeMode.presets.light
+            SkyThemeMode.presets.light,
           ),
           previousSettings: undefined,
         }),
@@ -2144,7 +2144,7 @@ describe('Phone Field Component', () => {
       const inputBoxEl = nativeElement.querySelector('sky-input-box');
 
       const inputGroupEl = inputBoxEl?.querySelector(
-        '.sky-form-group > .sky-input-group'
+        '.sky-form-group > .sky-input-group',
       );
       const countryBtnEl = inputGroupEl?.children.item(0);
       const containerEl = inputGroupEl?.children.item(1)?.children.item(1);

@@ -49,7 +49,7 @@ export class SkyAppResourcesService {
     @Inject(forwardRef(() => SkyAppAssetsService))
     assets: SkyAppAssetsService,
     @Optional() localeProvider: SkyAppLocaleProvider,
-    @Optional() resourceNameProvider: SkyAppResourceNameProvider
+    @Optional() resourceNameProvider: SkyAppResourceNameProvider,
   ) {
     this.#http = http;
     this.#assets = assets;
@@ -90,7 +90,7 @@ export class SkyAppResourcesService {
    * ```
    */
   public getStrings<T extends ResourceDictionary>(
-    dictionary: T
+    dictionary: T,
   ): Observable<{ [K in keyof T]: string }> {
     const resources$: Record<string, Observable<string>> = {};
 
@@ -122,7 +122,7 @@ export class SkyAppResourcesService {
     return this.#getStringForLocaleInfoObservable(
       observableOf(localeInfo),
       name,
-      ...args
+      ...args,
     );
   }
 
@@ -167,7 +167,7 @@ export class SkyAppResourcesService {
                 // fall back to the default locale if it differs from the specified
                 // locale.
                 const defaultResourcesUrl = this.#getUrlForLocale(
-                  this.#localeProvider.defaultLocale
+                  this.#localeProvider.defaultLocale,
                 );
 
                 if (
@@ -178,7 +178,7 @@ export class SkyAppResourcesService {
                 }
 
                 return getDefaultObs();
-              })
+              }),
             );
         } else {
           obs = getDefaultObs();
@@ -194,7 +194,7 @@ export class SkyAppResourcesService {
       // Don't keep trying after a failed attempt to load resources, or else
       // impure pipes like resources pipe that call this service will keep
       // firing requests indefinitely every few milliseconds.
-      catchError(() => getDefaultObs())
+      catchError(() => getDefaultObs()),
     );
 
     const mappedNameObs = this.#resourceNameProvider
@@ -216,13 +216,13 @@ export class SkyAppResourcesService {
         }
 
         return name;
-      })
+      }),
     );
   }
 
   #getUrlForLocale(locale: string): string | undefined {
     return this.#assets?.getUrl(
-      `locales/resources_${locale.replace('-', '_')}.json`
+      `locales/resources_${locale.replace('-', '_')}.json`,
     );
   }
 }

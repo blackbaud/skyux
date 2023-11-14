@@ -43,7 +43,7 @@ export default function (): Rule {
                   name: filePath
                     .replace(srcRootRegex, '')
                     .replace(/-resources\.module\.ts$/, ''),
-                })
+                }),
               );
             }
           }

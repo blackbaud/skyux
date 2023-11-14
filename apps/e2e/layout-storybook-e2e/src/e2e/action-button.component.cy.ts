@@ -7,8 +7,8 @@ describe('layout-storybook - action button', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=actionbuttoncomponent-actionbutton--action-button`
-        )
+          `/iframe.html?globals=theme:${theme}&id=actionbuttoncomponent-actionbutton--action-button`,
+        ),
       );
       it('should render the component on desktop', () => {
         cy.get('app-action-button')

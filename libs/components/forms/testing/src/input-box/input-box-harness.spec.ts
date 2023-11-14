@@ -26,7 +26,7 @@ describe('Input box harness', () => {
     const inputBoxHarness = await loader.getHarness(
       SkyInputBoxHarness.with({
         dataSkyId: options.dataSkyId,
-      })
+      }),
     );
 
     return { component, fixture, inputBoxHarness };
@@ -61,7 +61,7 @@ describe('Input box harness', () => {
     });
 
     await expectAsync(inputBoxHarness.getLabelText()).toBeResolvedTo(
-      'Last name (easy mode)'
+      'Last name (easy mode)',
     );
 
     fixture.componentInstance.easyModeLabel = undefined;
@@ -89,7 +89,7 @@ describe('Input box harness', () => {
     fixture.detectChanges();
 
     await expectAsync(helpContent.getBodyText()).toBeResolvedTo(
-      'Help content from template'
+      'Help content from template',
     );
 
     // No content
@@ -97,7 +97,7 @@ describe('Input box harness', () => {
     fixture.detectChanges();
 
     await expectAsync(inputBoxHarness.getHelpPopover()).toBeRejectedWithError(
-      'The input box does not have a help popover configured.'
+      'The input box does not have a help popover configured.',
     );
   });
 
@@ -144,9 +144,9 @@ describe('Input box harness', () => {
     });
 
     await expectAsync(
-      inputBoxHarness.getCharacterCounter()
+      inputBoxHarness.getCharacterCounter(),
     ).toBeRejectedWithError(
-      'The input box does not have a character limit specified.'
+      'The input box does not have a character limit specified.',
     );
 
     component.easyModeCharacterLimit = 50;
@@ -155,7 +155,7 @@ describe('Input box harness', () => {
     const characterCounter = await inputBoxHarness.getCharacterCounter();
 
     await expectAsync(characterCounter.getCharacterCountLimit()).toBeResolvedTo(
-      50
+      50,
     );
   });
 
@@ -170,7 +170,7 @@ describe('Input box harness', () => {
     fixture.detectChanges();
 
     await expectAsync(inputBoxHarness.getHintText()).toBeResolvedTo(
-      'Test hint text'
+      'Test hint text',
     );
   });
 });

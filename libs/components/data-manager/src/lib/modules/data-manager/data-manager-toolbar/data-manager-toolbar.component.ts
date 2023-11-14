@@ -136,7 +136,7 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
         this.views = views;
         if (this.activeView) {
           this.activeView = this.#dataManagerService.getViewById(
-            this.activeView.id
+            this.activeView.id,
           );
         }
         this.#changeDetector.markForCheck();
@@ -204,7 +204,7 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
           this.dataState.filterData = result.data;
           this.#dataManagerService.updateDataState(
             this.dataState,
-            this.#_source
+            this.#_source,
           );
         }
       });
@@ -217,7 +217,7 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
       if (viewState) {
         const context = new SkyDataManagerColumnPickerContext(
           this.activeView.columnOptions,
-          viewState.displayedColumnIds
+          viewState.displayedColumnIds,
         );
 
         if (this.activeView.columnPickerSortStrategy) {
@@ -237,20 +237,20 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
 
         const modalInstance = this.#modalService.open(
           this.#columnPickerService.getComponentType(),
-          options
+          options,
         );
 
         modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {
           if (result.reason === 'save') {
             const displayedColumnIds = result.data.map(
-              (col: SkyDataManagerColumnPickerOption) => col.id
+              (col: SkyDataManagerColumnPickerOption) => col.id,
             );
 
             viewState.displayedColumnIds = displayedColumnIds;
             if (this.dataState && this.activeView) {
               this.dataState = this.dataState.addOrUpdateView(
                 this.activeView.id,
-                viewState
+                viewState,
               );
             }
           }

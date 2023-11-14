@@ -14,7 +14,7 @@ export class StateOrchestrator<TStateNode, TAction> {
 
   public register(
     action: any,
-    callback: (state: TStateNode, action: TAction, initialState?: any) => any
+    callback: (state: TStateNode, action: TAction, initialState?: any) => any,
   ): StateOrchestrator<TStateNode, TAction> {
     if (this.registeredActions.indexOf(action) === -1) {
       this.registeredActions.push(action);
@@ -26,12 +26,12 @@ export class StateOrchestrator<TStateNode, TAction> {
 
   public scan(
     initialState: TStateNode,
-    actions: Observable<TAction>
+    actions: Observable<TAction>,
   ): Observable<any> {
     // eslint-disable-next-line eqeqeq
     if (initialState == null) {
       throw new Error(
-        'Initial state for an orchestrator should never be null. Check your StateNode definition and registrations.'
+        'Initial state for an orchestrator should never be null. Check your StateNode definition and registrations.',
       );
     }
 
@@ -54,7 +54,7 @@ export class StateOrchestrator<TStateNode, TAction> {
         }
 
         return state;
-      }, initialState)
+      }, initialState),
     );
   }
 }

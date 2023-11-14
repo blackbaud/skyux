@@ -30,7 +30,7 @@ export class SkyInputBoxHarness extends SkyComponentHarness {
    * `SkyInputBoxHarness` that meets certain criteria.
    */
   public static with(
-    filters: SkyInputBoxHarnessFilters
+    filters: SkyInputBoxHarnessFilters,
   ): HarnessPredicate<SkyInputBoxHarness> {
     return SkyInputBoxHarness.getDataSkyIdPredicate(filters);
   }
@@ -39,7 +39,7 @@ export class SkyInputBoxHarness extends SkyComponentHarness {
    * Returns a child harness.
    */
   public async queryHarness<T extends ComponentHarness>(
-    query: HarnessQuery<T>
+    query: HarnessQuery<T>,
   ): Promise<T | null> {
     return this.locatorForOptional(query)();
   }
@@ -52,12 +52,12 @@ export class SkyInputBoxHarness extends SkyComponentHarness {
     const characterCounter = await this.locatorForOptional(
       new HarnessPredicate(SkyCharacterCounterIndicatorHarness, {
         ancestor: '.sky-input-box-label-wrapper',
-      })
+      }),
     )();
 
     if (!characterCounter) {
       throw new Error(
-        'The input box does not have a character limit specified.'
+        'The input box does not have a character limit specified.',
       );
     }
 
@@ -73,7 +73,7 @@ export class SkyInputBoxHarness extends SkyComponentHarness {
       new HarnessPredicate(SkyStatusIndicatorHarness, {
         selector:
           'sky-status-indicator:not(sky-input-box-errors sky-status-indicator)',
-      })
+      }),
     )();
 
     return errors;
@@ -105,7 +105,7 @@ export class SkyInputBoxHarness extends SkyComponentHarness {
     const helpPopover = await this.locatorForOptional(
       new HarnessPredicate(SkyPopoverHarness, {
         ancestor: '.sky-control-help',
-      })
+      }),
     )();
 
     if (!helpPopover) {

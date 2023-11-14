@@ -20,7 +20,7 @@ export class SkyModalHarness extends SkyComponentHarness {
    * `SkyModalHarness` that meets certain criteria
    */
   public static with(
-    filters: SkyModalHarnessFilters
+    filters: SkyModalHarnessFilters,
   ): HarnessPredicate<SkyModalHarness> {
     return SkyModalHarness.getDataSkyIdPredicate(filters);
   }
@@ -52,7 +52,7 @@ export class SkyModalHarness extends SkyComponentHarness {
   public async getSize(): Promise<string> {
     if (await this.isFullPage()) {
       throw new Error(
-        'Size cannot be determined because size property is overridden when modal is full page'
+        'Size cannot be determined because size property is overridden when modal is full page',
       );
     }
 
@@ -90,7 +90,7 @@ export class SkyModalHarness extends SkyComponentHarness {
   public async isDirty(): Promise<boolean> {
     const modalHost = await this.host();
     const isDirtyAttribute = await modalHost.getAttribute(
-      'data-sky-modal-is-dirty'
+      'data-sky-modal-is-dirty',
     );
     return isDirtyAttribute === 'true';
   }

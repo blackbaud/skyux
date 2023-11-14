@@ -40,7 +40,7 @@ describe('Summary Action Bar action components', () => {
             },
           ],
         },
-      }
+      },
     )
       .overrideComponent(SkySummaryActionBarComponent, {
         add: {
@@ -96,8 +96,8 @@ describe('Summary Action Bar action components', () => {
       fixture.detectChanges();
       expect(
         debugElement.query(
-          By.css('sky-summary-action-bar-primary-action button')
-        ).nativeElement.disabled
+          By.css('sky-summary-action-bar-primary-action button'),
+        ).nativeElement.disabled,
       ).toBeTruthy();
     });
 
@@ -106,8 +106,8 @@ describe('Summary Action Bar action components', () => {
       fixture.detectChanges();
       expect(
         debugElement.query(
-          By.css('sky-summary-action-bar-secondary-action button')
-        ).nativeElement.disabled
+          By.css('sky-summary-action-bar-secondary-action button'),
+        ).nativeElement.disabled,
       ).toBeTruthy();
     });
 
@@ -116,7 +116,7 @@ describe('Summary Action Bar action components', () => {
       fixture.detectChanges();
       expect(
         debugElement.query(By.css('sky-summary-action-bar-cancel button'))
-          .nativeElement.disabled
+          .nativeElement.disabled,
       ).toBeTruthy();
     });
   });
@@ -126,7 +126,7 @@ describe('Summary Action Bar action components', () => {
       fixture.detectChanges();
 
       expect(
-        cmp.secondaryActions?.secondaryActionComponents?.length
+        cmp.secondaryActions?.secondaryActionComponents?.length,
       ).toBeTruthy();
       cmp.secondaryActions?.secondaryActionComponents?.forEach((action) => {
         expect(action.isDropdown).toBeFalsy();
@@ -137,7 +137,7 @@ describe('Summary Action Bar action components', () => {
       fixture.detectChanges();
 
       expect(
-        cmp.secondaryActions?.secondaryActionComponents?.length
+        cmp.secondaryActions?.secondaryActionComponents?.length,
       ).toBeTruthy();
       cmp.secondaryActions?.secondaryActionComponents?.forEach((action) => {
         expect(action.isDropdown).toBeFalsy();
@@ -148,7 +148,7 @@ describe('Summary Action Bar action components', () => {
       fixture.detectChanges();
 
       expect(
-        cmp.secondaryActions?.secondaryActionComponents?.length
+        cmp.secondaryActions?.secondaryActionComponents?.length,
       ).toBeTruthy();
       cmp.secondaryActions?.secondaryActionComponents?.forEach((action) => {
         expect(action.isDropdown).toBeTruthy();
@@ -160,7 +160,7 @@ describe('Summary Action Bar action components', () => {
       fixture.detectChanges();
 
       expect(
-        cmp.secondaryActions?.secondaryActionComponents?.length
+        cmp.secondaryActions?.secondaryActionComponents?.length,
       ).toBeTruthy();
       cmp.secondaryActions?.secondaryActionComponents?.forEach((action) => {
         expect(action.isDropdown).toBeTruthy();
@@ -177,8 +177,8 @@ describe('Summary Action Bar action components', () => {
       }
       expect(
         root.querySelector(
-          'sky-dropdown-menu sky-summary-action-bar-secondary-action button'
-        )
+          'sky-dropdown-menu sky-summary-action-bar-secondary-action button',
+        ),
       ).toBeFalsy();
       cmp.secondaryActions?.dropdownMessageStream.next({
         type: SkyDropdownMessageType.Open,
@@ -187,16 +187,16 @@ describe('Summary Action Bar action components', () => {
       tick();
       expect(
         root.querySelector(
-          'sky-dropdown-menu sky-summary-action-bar-secondary-action button'
-        )
+          'sky-dropdown-menu sky-summary-action-bar-secondary-action button',
+        ),
       ).toBeTruthy();
       cmp.secondaryActions?.secondaryActionComponents?.first.actionClick.emit();
       fixture.detectChanges();
       tick();
       expect(
         root.querySelector(
-          'sky-dropdown-menu sky-summary-action-bar-secondary-action button'
-        )
+          'sky-dropdown-menu sky-summary-action-bar-secondary-action button',
+        ),
       ).toBeFalsy();
     }));
   });

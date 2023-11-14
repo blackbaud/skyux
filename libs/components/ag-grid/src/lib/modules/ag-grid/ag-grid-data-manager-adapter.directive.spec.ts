@@ -40,7 +40,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     });
 
     agGridDataManagerFixture = TestBed.createComponent(
-      SkyAgGridDataManagerFixtureComponent
+      SkyAgGridDataManagerFixtureComponent,
     );
     agGridDataManagerFixtureComponent =
       agGridDataManagerFixture.componentInstance;
@@ -50,10 +50,10 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
     agGridComponent = agGridDataManagerFixtureComponent.agGrid as AgGridAngular;
     dataViewEl = agGridDataManagerFixture.debugElement.query(
-      By.directive(SkyAgGridDataManagerAdapterDirective)
+      By.directive(SkyAgGridDataManagerAdapterDirective),
     );
     agGridDataManagerDirective = dataViewEl.injector.get(
-      SkyAgGridDataManagerAdapterDirective
+      SkyAgGridDataManagerAdapterDirective,
     );
 
     dataManagerService
@@ -89,7 +89,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
     expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
       dataState,
-      agGridDataManagerFixtureComponent.viewConfig.id
+      agGridDataManagerFixtureComponent.viewConfig.id,
     );
   });
 
@@ -121,7 +121,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
     expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
       dataState,
-      agGridDataManagerFixtureComponent.viewConfig.id
+      agGridDataManagerFixtureComponent.viewConfig.id,
     );
   });
 
@@ -171,7 +171,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
     expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
       dataState,
-      agGridDataManagerFixtureComponent.viewConfig.id
+      agGridDataManagerFixtureComponent.viewConfig.id,
     );
   });
 
@@ -275,7 +275,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     ];
 
     spyOn(agGridComponent.columnApi, 'getColumnState').and.returnValue(
-      gridColumnStates
+      gridColumnStates,
     );
     spyOn(dataManagerService, 'updateDataState');
 
@@ -290,7 +290,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
     expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
       dataState,
-      agGridDataManagerFixtureComponent.viewConfig.id
+      agGridDataManagerFixtureComponent.viewConfig.id,
     );
   });
 
@@ -302,7 +302,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       await agGridDataManagerFixture.whenStable();
 
       const viewConfig = dataManagerService.getViewById(
-        agGridDataManagerFixtureComponent.viewConfig.id
+        agGridDataManagerFixtureComponent.viewConfig.id,
       );
       viewConfig?.onSelectAllClick?.();
 
@@ -316,7 +316,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       await agGridDataManagerFixture.whenStable();
 
       const viewConfig = dataManagerService.getViewById(
-        agGridDataManagerFixtureComponent.viewConfig.id
+        agGridDataManagerFixtureComponent.viewConfig.id,
       );
       viewConfig?.onClearAllClick?.();
 
@@ -330,7 +330,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     agGridDataManagerFixture.detectChanges();
 
     expect(console.warn).toHaveBeenCalledWith(
-      'More than one ag-grid child component was found. Using the first ag-Grid.'
+      'More than one ag-grid child component was found. Using the first ag-Grid.',
     );
   });
 
@@ -377,7 +377,7 @@ it('should move the horizontal scroll based on enableTopScroll check', async () 
   fixture.detectChanges();
   await fixture.whenStable();
   const gridComponents: string[] = Array.from(
-    fixture.nativeElement.querySelector('.ag-root')?.children || []
+    fixture.nativeElement.querySelector('.ag-root')?.children || [],
   ).map((el) => (el as HTMLElement).classList[0]);
   // Expect the scrollbar below the header.
   expect(gridComponents).toEqual([

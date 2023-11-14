@@ -33,7 +33,7 @@ export class SkyAuthTokenMockProvider {
   }
 
   public getDecodedContextToken(
-    args?: SkyAuthTokenContextArgs
+    args?: SkyAuthTokenContextArgs,
   ): Promise<SkyAuthToken> {
     return this.getDecodedToken();
   }

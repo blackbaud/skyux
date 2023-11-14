@@ -165,7 +165,7 @@ export class SkyFileDropComponent implements OnDestroy {
 
   public fileChangeEvent(fileChangeEvent: Event): void {
     this.#handleFiles(
-      (fileChangeEvent.target as HTMLInputElement | undefined)?.files
+      (fileChangeEvent.target as HTMLInputElement | undefined)?.files,
     );
   }
 
@@ -193,7 +193,7 @@ export class SkyFileDropComponent implements OnDestroy {
             file.type &&
             this.#fileAttachmentService.fileTypeRejected(
               file.type,
-              this.acceptedTypes
+              this.acceptedTypes,
             )
           ) {
             this.rejectedOver = true;
@@ -226,7 +226,7 @@ export class SkyFileDropComponent implements OnDestroy {
 
     if (dropEvent.dataTransfer && dropEvent.dataTransfer.files) {
       const hasDirectory = this.#fileAttachmentService.hasDirectory(
-        dropEvent.dataTransfer.files
+        dropEvent.dataTransfer.files,
       );
       const invalidNumberOfFiles =
         !this.multiple && dropEvent.dataTransfer.files.length > 1;
@@ -257,7 +257,7 @@ export class SkyFileDropComponent implements OnDestroy {
     this.linkChanged.emit({ url: this.linkUrl } as SkyFileLink);
     this.#announceState(
       'skyux_file_attachment_file_upload_link_added',
-      this.linkUrl
+      this.linkUrl,
     );
     this.linkUrl = undefined;
   }
@@ -278,7 +278,7 @@ export class SkyFileDropComponent implements OnDestroy {
   #emitFileChangeEvent(
     totalFiles: number,
     rejectedFileArray: Array<SkyFileItem>,
-    validFileArray: Array<SkyFileItem>
+    validFileArray: Array<SkyFileItem>,
   ): void {
     if (totalFiles === rejectedFileArray.length + validFileArray.length) {
       this.filesChanged.emit({
@@ -296,7 +296,7 @@ export class SkyFileDropComponent implements OnDestroy {
     file: SkyFileItem,
     validFileArray: Array<SkyFileItem>,
     rejectedFileArray: Array<SkyFileItem>,
-    totalFiles: number
+    totalFiles: number,
   ): void {
     rejectedFileArray.push(file);
     this.#emitFileChangeEvent(totalFiles, rejectedFileArray, validFileArray);
@@ -307,7 +307,7 @@ export class SkyFileDropComponent implements OnDestroy {
     file: SkyFileItem,
     validFileArray: Array<SkyFileItem>,
     rejectedFileArray: Array<SkyFileItem>,
-    totalFiles: number
+    totalFiles: number,
   ): void {
     const reader = new FileReader();
 
@@ -317,11 +317,11 @@ export class SkyFileDropComponent implements OnDestroy {
       fileDrop.#emitFileChangeEvent(
         totalFiles,
         rejectedFileArray,
-        validFileArray
+        validFileArray,
       );
       this.#announceState(
         'skyux_file_attachment_file_upload_file_added',
-        file.file.name
+        file.file.name,
       );
     });
 
@@ -330,7 +330,7 @@ export class SkyFileDropComponent implements OnDestroy {
         file,
         validFileArray,
         rejectedFileArray,
-        totalFiles
+        totalFiles,
       );
     });
 
@@ -339,7 +339,7 @@ export class SkyFileDropComponent implements OnDestroy {
         file,
         validFileArray,
         rejectedFileArray,
-        totalFiles
+        totalFiles,
       );
     });
 
@@ -357,7 +357,7 @@ export class SkyFileDropComponent implements OnDestroy {
         this.minFileSize,
         this.maxFileSize,
         this.acceptedTypes,
-        this.validateFn
+        this.validateFn,
       );
 
       for (const file of processedFiles) {
@@ -366,7 +366,7 @@ export class SkyFileDropComponent implements OnDestroy {
             file,
             validFileArray,
             rejectedFileArray,
-            totalFiles
+            totalFiles,
           );
         } else {
           this.#loadFile(
@@ -374,7 +374,7 @@ export class SkyFileDropComponent implements OnDestroy {
             file,
             validFileArray,
             rejectedFileArray,
-            totalFiles
+            totalFiles,
           );
         }
       }

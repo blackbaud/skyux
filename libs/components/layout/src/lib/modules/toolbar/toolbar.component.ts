@@ -23,7 +23,7 @@ export class SkyToolbarComponent {
 
   @ContentChildren(SkyToolbarSectionComponent, { descendants: true })
   public set sectionComponents(
-    value: QueryList<SkyToolbarSectionComponent> | undefined
+    value: QueryList<SkyToolbarSectionComponent> | undefined,
   ) {
     this.hasSections = !!value && value.length > 0;
   }

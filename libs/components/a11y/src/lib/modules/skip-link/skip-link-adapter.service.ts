@@ -18,7 +18,7 @@ export class SkySkipLinkAdapterService {
 
     const bodyMarginTop = parseInt(
       win.getComputedStyle(bodyElement).marginTop,
-      10
+      10,
     );
     const bodyDefaultPadding = 10;
     const scrollTop =

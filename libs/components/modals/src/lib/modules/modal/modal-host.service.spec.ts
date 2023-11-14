@@ -29,7 +29,7 @@ describe('Modal host service', () => {
     service2.destroy();
 
     expect(SkyModalHostService.backdropZIndex).toBe(
-      twoModalBackdropZIndex - 10
+      twoModalBackdropZIndex - 10,
     );
 
     service1.destroy();

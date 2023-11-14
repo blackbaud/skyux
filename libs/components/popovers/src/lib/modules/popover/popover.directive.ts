@@ -61,7 +61,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
    */
   @Input()
   public set skyPopoverMessageStream(
-    value: Subject<SkyPopoverMessage> | undefined
+    value: Subject<SkyPopoverMessage> | undefined,
   ) {
     this.#_skyPopoverMessageStream = value ?? new Subject<SkyPopoverMessage>();
     this.#subscribeMessageStream();
@@ -128,7 +128,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
     this.skyPopover?.positionNextTo(
       this.#elementRef,
       this.skyPopoverPlacement,
-      this.skyPopoverAlignment
+      this.skyPopoverAlignment,
     );
   }
 
@@ -266,7 +266,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
     this.#messageStreamSub = this.skyPopoverMessageStream.subscribe(
       (message) => {
         this.#handleIncomingMessages(message);
-      }
+      },
     );
   }
 

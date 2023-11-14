@@ -48,7 +48,7 @@ describe('Token component', () => {
 
     const focusSpy = spyOn(
       fixture.componentInstance.tokenFocus,
-      'emit'
+      'emit',
     ).and.callThrough();
 
     fixture.componentInstance.focusable = true;
@@ -87,7 +87,7 @@ describe('Token component', () => {
       fixture.detectChanges();
 
       const btnEl = fixture.nativeElement.querySelector(
-        'sky-token .sky-token-btn-close'
+        'sky-token .sky-token-btn-close',
       );
 
       expect(btnEl.getAttribute('aria-label')).toBe('test');
@@ -101,7 +101,7 @@ describe('Token component', () => {
     it('should not have a role by default', () => {
       fixture.detectChanges();
       expect(
-        fixture.nativeElement.querySelector('.sky-token').getAttribute('role')
+        fixture.nativeElement.querySelector('.sky-token').getAttribute('role'),
       ).toBeNull();
     });
 

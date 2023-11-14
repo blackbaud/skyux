@@ -7,8 +7,8 @@ describe('layout-storybook', () => {
         cy
           .viewport(1280, 900)
           .visit(
-            `/iframe.html?globals=theme:${theme}&id=textexpandcomponent-textexpand--text-expand`
-          )
+            `/iframe.html?globals=theme:${theme}&id=textexpandcomponent-textexpand--text-expand`,
+          ),
       );
       it('should render the component', () => {
         cy.get('.sky-text-expand-see-more')
@@ -26,7 +26,7 @@ describe('layout-storybook', () => {
             `textexpandcomponent-textexpand--text-expand-${theme}`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
-            }
+            },
           );
       });
     });

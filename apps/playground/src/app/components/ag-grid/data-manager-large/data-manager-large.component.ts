@@ -79,7 +79,7 @@ export class DataManagerLargeComponent implements OnInit {
   constructor(
     private formBuilder: UntypedFormBuilder,
     private dataManagerService: SkyDataManagerService,
-    private agGridService: SkyAgGridService
+    private agGridService: SkyAgGridService,
   ) {
     this.gridSettings = this.formBuilder.group({
       enableTopScroll: this.enableTopScroll,

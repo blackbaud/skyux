@@ -49,7 +49,7 @@ export class SkyAgGridCellRendererRowSelectorComponent
       RowNode.EVENT_ROW_SELECTED,
       (event: RowSelectedEvent) => {
         this.#rowSelectedListener(event);
-      }
+      },
     );
   }
 

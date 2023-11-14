@@ -354,7 +354,7 @@ export class SkyGridComponent
     private overlayService: SkyOverlayService,
     private skyWindow: SkyAppWindowRef,
     private uiConfigService: SkyUIConfigService,
-    logger: SkyLogService
+    logger: SkyLogService,
   ) {
     logger.deprecated('SkyGridComponent', {
       deprecationMajorVersion: 6,
@@ -394,7 +394,7 @@ export class SkyGridComponent
       this.dragulaService,
       (selectedColumnIds: Array<string>) => {
         this.onHeaderDrop(selectedColumnIds);
-      }
+      },
     );
 
     this.applySelectedRows();
@@ -428,7 +428,7 @@ export class SkyGridComponent
             // continue to render correctly.
             const rowElement: HTMLElement =
               this.tableElementRef.nativeElement.querySelector(
-                '[sky-cmp-id="' + id + '"]'
+                '[sky-cmp-id="' + id + '"]',
               );
 
             this.rowDeleteContents[id].affixer.affixTo(rowElement, {
@@ -545,7 +545,7 @@ export class SkyGridComponent
             }
             this.sortFieldChange.emit(selector);
             this.currentSortField.next(selector);
-          })
+          }),
         )
         .subscribe();
     }
@@ -560,7 +560,7 @@ export class SkyGridComponent
             ? 'desc'
             : 'asc'
           : undefined;
-      })
+      }),
     );
   }
 
@@ -575,7 +575,7 @@ export class SkyGridComponent
           : column.isSortable
           ? 'none'
           : undefined;
-      })
+      }),
     );
   }
 
@@ -584,7 +584,7 @@ export class SkyGridComponent
       distinctUntilChanged(),
       map((field) => {
         return field.fieldSelector === columnField ? 'visible' : 'hidden';
-      })
+      }),
     );
   }
 
@@ -592,7 +592,7 @@ export class SkyGridComponent
     return this.getCaretVisibility(columnField).pipe(
       map((visibility: string) => {
         return visibility === 'hidden';
-      })
+      }),
     );
   }
 
@@ -616,7 +616,7 @@ export class SkyGridComponent
   }
 
   public updateInlineHelpPopover(
-    change: SkyGridColumnInlineHelpPopoverModelChange
+    change: SkyGridColumnInlineHelpPopoverModelChange,
   ) {
     const foundColumnModel = this.columns.find((column: SkyGridColumnModel) => {
       return (
@@ -678,7 +678,7 @@ export class SkyGridComponent
       .pipe(
         takeWhile(() => {
           return this.isDraggingResizeHandle;
-        })
+        }),
       )
       .subscribe((moveEvent: any) => {
         this.onResizeHandleMove(moveEvent);
@@ -691,7 +691,7 @@ export class SkyGridComponent
       .pipe(
         takeWhile(() => {
           return this.isDraggingResizeHandle;
-        })
+        }),
       )
       .subscribe((endEvent: any) => {
         this.onResizeHandleRelease(endEvent);
@@ -787,7 +787,7 @@ export class SkyGridComponent
 
   public cancelRowDelete(id: string) {
     this.rowDeleteConfigs = this.rowDeleteConfigs.filter(
-      (config) => config.id !== id
+      (config) => config.id !== id,
     );
     this.rowDeleteCancel.emit({ id: id });
 
@@ -847,12 +847,12 @@ export class SkyGridComponent
       this.columnElementRefs.forEach((col) => {
         if (!this.showTopScroll) {
           const computedWidth = parseFloat(
-            window.getComputedStyle(col.nativeElement).width
+            window.getComputedStyle(col.nativeElement).width,
           );
           const offsetWidth = col.nativeElement.offsetWidth;
           const width = Math.max(
             computedWidth || offsetWidth,
-            this.minColWidth
+            this.minColWidth,
           );
           columnsWidthTotal = columnsWidthTotal + width;
           if (columnsWidthTotal > windowSize) {
@@ -896,7 +896,7 @@ export class SkyGridComponent
         /* istanbul ignore else */
         if (message.data && message.data.promptDeleteRow) {
           const existingConfig = this.rowDeleteConfigs.find(
-            (config) => config.id === message.data.promptDeleteRow.id
+            (config) => config.id === message.data.promptDeleteRow.id,
           );
           if (existingConfig) {
             existingConfig.pending = false;
@@ -916,7 +916,7 @@ export class SkyGridComponent
 
             overlay.attachTemplate(this.inlineDeleteTemplateRef, {
               $implicit: this.data.find(
-                (item) => item.id === message.data.promptDeleteRow.id
+                (item) => item.id === message.data.promptDeleteRow.id,
               ),
             });
 
@@ -941,7 +941,7 @@ export class SkyGridComponent
 
               const rowElement: HTMLElement =
                 this.tableElementRef.nativeElement.querySelector(
-                  '[sky-cmp-id="' + message.data.promptDeleteRow.id + '"]'
+                  '[sky-cmp-id="' + message.data.promptDeleteRow.id + '"]',
                 );
 
               affixer.affixTo(rowElement, {
@@ -966,7 +966,7 @@ export class SkyGridComponent
         /* istanbul ignore else */
         if (message.data && message.data.abortDeleteRow) {
           this.rowDeleteConfigs = this.rowDeleteConfigs.filter(
-            (config) => config.id !== message.data.abortDeleteRow.id
+            (config) => config.id !== message.data.abortDeleteRow.id,
           );
 
           this.destroyRowDelete(message.data.abortDeleteRow.id);
@@ -1051,7 +1051,7 @@ export class SkyGridComponent
 
   private setSortHeaders() {
     this.currentSortField.next(
-      this.sortField || { fieldSelector: '', descending: false }
+      this.sortField || { fieldSelector: '', descending: false },
     );
   }
 
@@ -1073,7 +1073,7 @@ export class SkyGridComponent
   private resizeColumnByIndex(
     columnIndex: string,
     newColWidth: number,
-    deltaX: number
+    deltaX: number,
   ) {
     const column = this.getColumnModelByIndex(columnIndex);
 
@@ -1101,7 +1101,7 @@ export class SkyGridComponent
       this.gridAdapter.setStyle(
         this.tableElementRef,
         'width',
-        `${this.tableWidth + deltaX}px`
+        `${this.tableWidth + deltaX}px`,
       );
       column.width = newColWidth;
     }
@@ -1118,13 +1118,13 @@ export class SkyGridComponent
     // computedWidth prevents accidental overflow for browsers with sub-pixel widths.
     this.columnElementRefs.forEach((col, index) => {
       const computedWidth = parseFloat(
-        window.getComputedStyle(col.nativeElement).width
+        window.getComputedStyle(col.nativeElement).width,
       );
       const offsetWidth = col.nativeElement.offsetWidth;
       /* istanbul ignore next */
       this.getColumnModelByIndex(index).width = Math.max(
         computedWidth || offsetWidth,
-        this.minColWidth
+        this.minColWidth,
       );
     });
 
@@ -1143,7 +1143,7 @@ export class SkyGridComponent
 
   private transferColumnWidths(
     oldColumns: SkyGridColumnModel[],
-    newColumns: SkyGridColumnModel[]
+    newColumns: SkyGridColumnModel[],
   ) {
     /* sanity check */
     /* istanbul ignore else */
@@ -1151,7 +1151,7 @@ export class SkyGridComponent
       for (const oldColumn of oldColumns) {
         if (oldColumn.width) {
           const matchingColumn = newColumns.find(
-            (newColumn) => oldColumn.id === newColumn.id
+            (newColumn) => oldColumn.id === newColumn.id,
           );
           if (matchingColumn && !matchingColumn.width) {
             matchingColumn.width = oldColumn.width;
@@ -1199,7 +1199,7 @@ export class SkyGridComponent
       this.gridAdapter.setStyle(
         this.tableElementRef,
         'width',
-        `${this.tableWidth}px`
+        `${this.tableWidth}px`,
       );
       this.changeDetector.detectChanges();
     });
@@ -1208,7 +1208,7 @@ export class SkyGridComponent
   private getRangeInputByIndex(index: string | number) {
     return this.columnRangeInputElementRefs.find(
       (input) =>
-        input.nativeElement.getAttribute('sky-cmp-index') === index.toString()
+        input.nativeElement.getAttribute('sky-cmp-index') === index.toString(),
     );
   }
 
@@ -1218,10 +1218,10 @@ export class SkyGridComponent
 
   private getMaxRangeByIndex(index: string) {
     const columnElementRef = this.columnElementRefs.find(
-      (th) => th.nativeElement.getAttribute('sky-cmp-index') === index
+      (th) => th.nativeElement.getAttribute('sky-cmp-index') === index,
     );
     const rangeInput = columnElementRef.nativeElement.querySelector(
-      '.sky-grid-column-input-aria-only'
+      '.sky-grid-column-input-aria-only',
     );
     return Number(rangeInput.max);
   }
@@ -1304,7 +1304,7 @@ export class SkyGridComponent
             if (config && config.selectedColumnIds) {
               // Remove any columnIds that don't exist in the current data set.
               this.selectedColumnIds = config.selectedColumnIds.filter((id) =>
-                this.columns.find((column) => column.id === id)
+                this.columns.find((column) => column.id === id),
               );
               this.changeDetector.markForCheck();
             }
@@ -1313,7 +1313,7 @@ export class SkyGridComponent
           },
           () => {
             resolve();
-          }
+          },
         );
     });
   }
@@ -1332,7 +1332,7 @@ export class SkyGridComponent
         (err) => {
           console.warn('Could not save grid settings.');
           console.warn(err);
-        }
+        },
       );
   }
 
@@ -1352,7 +1352,7 @@ export class SkyGridComponent
 
     // Watch for added/removed columns:
     this.subscriptions.push(
-      this.columnComponents.changes.subscribe(() => this.updateColumns())
+      this.columnComponents.changes.subscribe(() => this.updateColumns()),
     );
 
     // Watch for column heading changes:
@@ -1361,22 +1361,22 @@ export class SkyGridComponent
         comp.headingModelChanges.subscribe(
           (change: SkyGridColumnHeadingModelChange) => {
             this.updateColumnHeading(change);
-          }
-        )
+          },
+        ),
       );
       this.subscriptions.push(
         comp.descriptionModelChanges.subscribe(
           (change: SkyGridColumnDescriptionModelChange) => {
             this.updateColumnDescription(change);
-          }
-        )
+          },
+        ),
       );
       this.subscriptions.push(
         comp.inlineHelpPopoverModelChanges.subscribe(
           (change: SkyGridColumnInlineHelpPopoverModelChange) => {
             this.updateInlineHelpPopover(change);
-          }
-        )
+          },
+        ),
       );
     });
   }
