@@ -25,7 +25,8 @@
       "configurations": {
         "ci": {
           "ci": true,
-          "codeCoverage": true
+          "codeCoverage": true,
+          "runInBand": true
         }
       }
     }
