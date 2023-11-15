@@ -1,3 +1,7 @@
+/**
+ * Note: This spec demonstrates how to test a modal component
+ * using the `SkyModalHarness`.
+ */
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyWaitService } from '@skyux/indicators';

@@ -1,3 +1,7 @@
+/**
+ * Note: This spec demonstrates how to mock out the `SkyModalService`
+ * and spy on calls to its methods.
+ */
 import { Component, inject } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -17,17 +21,15 @@ import { ModalComponent } from './modal.component';
   </button>`,
 })
 class TestComponent {
-  public modalOpen = false;
+  public modalClosedReason: string | undefined;
 
   readonly #modalSvc = inject(SkyModalService);
 
   protected edit(): void {
     const instance = this.#modalSvc.open(ModalComponent);
 
-    // Used to test state changes caused by a modal closing.
-    this.modalOpen = true;
-    instance.closed.subscribe(() => {
-      this.modalOpen = false;
+    instance.closed.subscribe((args) => {
+      this.modalClosedReason = args.reason;
     });
   }
 }
@@ -52,8 +54,6 @@ describe('Modal service', () => {
   it('should open and close a modal', () => {
     const { fixture, modalSvc } = setupTest();
 
-    expect(fixture.componentInstance.modalOpen).toEqual(false);
-
     const modalInstance = new SkyModalInstance();
     const openSpy = spyOn(modalSvc, 'open').and.returnValue(modalInstance);
 
@@ -64,12 +64,11 @@ describe('Modal service', () => {
     fixture.detectChanges();
 
     expect(openSpy).toHaveBeenCalledOnceWith(ModalComponent);
-    expect(fixture.componentInstance.modalOpen).toEqual(true);
 
     // Close the modal.
-    modalInstance.close();
+    modalInstance.close(undefined, 'save');
     fixture.detectChanges();
 
-    expect(fixture.componentInstance.modalOpen).toEqual(false);
+    expect(fixture.componentInstance.modalClosedReason).toEqual('save');
   });
 });

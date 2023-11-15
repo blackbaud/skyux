@@ -21,10 +21,12 @@ type Interface<T> = {
   providedIn: 'root',
 })
 class SkyModalTestingService implements Interface<SkyModalService> {
+  /* istanbul ignore next */
   public dispose(): void {
     /* */
   }
 
+  /* istanbul ignore next */
   public open(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
     _component: any,
