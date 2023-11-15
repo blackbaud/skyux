@@ -33,6 +33,10 @@ const people: SelectionModalPlaygroundPerson[] = [
   providedIn: 'root',
 })
 export class SelectionModalPlaygroundService {
+  public addItem(item: SelectionModalPlaygroundPerson): void {
+    people.push(item);
+  }
+
   public search(
     searchText: string
   ): Observable<SelectionModalPlaygroundSearchResults> {
