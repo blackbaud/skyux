@@ -1,6 +1,6 @@
 import { Component, Input, inject, isStandalone } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
-import { SkyModalService } from '@skyux/modals';
+import { SkyModalLegacyService, SkyModalService } from '@skyux/modals';
 
 import { SkyPageModalLink } from '../action-hub/types/page-modal-link';
 import { SkyPageModalLinksInput } from '../action-hub/types/page-modal-links-input';
@@ -35,7 +35,10 @@ export class SkyModalLinkListComponent {
     const modal = link.modal;
 
     if (modal) {
-      if (!isStandalone(modal.component)) {
+      if (
+        !(this.#modalSvc instanceof SkyModalLegacyService) &&
+        !isStandalone(modal.component)
+      ) {
         this.#logger
           ?.deprecated('SkyPageModalLink.modal.component not standalone', {
             deprecationMajorVersion: 9,

@@ -22,6 +22,7 @@ import { SkySearchModule } from '@skyux/lookup';
 import {
   SkyModalCloseArgs,
   SkyModalConfigurationInterface,
+  SkyModalLegacyService,
   SkyModalService,
 } from '@skyux/modals';
 
@@ -201,7 +202,10 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
     };
 
     if (filterModal) {
-      if (!isStandalone(filterModal)) {
+      if (
+        !(this.#modalService instanceof SkyModalLegacyService) &&
+        !isStandalone(filterModal)
+      ) {
         this.#logger
           ?.deprecated(
             'SkyDataManagerConfig.filterModalComponent not standalone',
