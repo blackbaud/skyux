@@ -209,8 +209,6 @@ export class SkyAgGridDataManagerAdapterDirective
         .subscribe((event: RowSelectedEvent) => {
           if (this.#viewConfig && this.#currentDataState) {
             const row = event.node;
-            console.log(row);
-            console.log(row.id);
             const selectedIds = this.#currentDataState.selectedIds || [];
             const rowIndex = selectedIds.indexOf(row.data.id);
 
