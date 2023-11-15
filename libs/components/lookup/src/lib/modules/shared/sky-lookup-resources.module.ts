@@ -20,7 +20,9 @@ import {
 const RESOURCES: { [locale: string]: SkyLibResources } = {
   'EN-US': {
     skyux_autocomplete_add: { message: 'New' },
+    skyux_autocomplete_multiple_results: { message: '{0} results available' },
     skyux_autocomplete_no_results: { message: 'No matches found' },
+    skyux_autocomplete_one_result: { message: 'One result available' },
     skyux_autocomplete_show_all: { message: 'Show all' },
     skyux_autocomplete_show_all_count: { message: 'Show all {0}' },
     skyux_autocomplete_show_matches_count: { message: 'Show matches ({0})' },

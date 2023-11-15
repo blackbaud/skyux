@@ -44,6 +44,7 @@
     *ngIf="isResultsVisible | async"
     class="sky-autocomplete-results"
     role="listbox"
+    aria-live="polite"
     [attr.aria-labelledby]="ariaLabelledBy"
   >
     <ng-container *ngFor="let result of searchResults; let i = index">
@@ -72,6 +73,22 @@
         </ng-container>
       </div>
     </ng-container>
+    <div
+      class="sky-screen-reader-only"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      <div *ngIf="searchResultsCount! === 1">
+        {{ 'skyux_autocomplete_one_result' | skyLibResources }}
+      </div>
+      <div *ngIf="searchResultsCount! > 1">
+        {{
+          'skyux_autocomplete_multiple_results'
+            | skyLibResources : searchResultsCount
+        }}
+      </div>
+    </div>
     <div
       *ngIf="searchResults.length === 0"
       class="sky-deemphasized sky-padding-squish-default"
