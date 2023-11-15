@@ -71,7 +71,7 @@ export interface SkyFlyoutConfig {
   /**
    * Displays a configurable button in the flyout header.
    */
-  primaryAction?: SkyFlyoutAction;http
+  primaryAction?: SkyFlyoutAction;
 
   /**
    * The array of custom providers to pass to the component's constructor.
