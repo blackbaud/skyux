@@ -37,7 +37,7 @@
   },
   "skyux_lookup_show_more_displayed_items_updated": {
     "_description": "Live announcer text for when the list of selectable items changes state",
-    "message": "Showing {1} {2}, with {0} selected."
+    "message": "Showing {1} items, with {0} selected."
   },
   "skyux_lookup_show_more_select_all_button_aria_label": {
     "_description": "Aria-label text for the select all button in the lookup show more multiselect toolbar",

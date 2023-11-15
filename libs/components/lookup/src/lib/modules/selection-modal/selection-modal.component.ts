@@ -313,8 +313,7 @@ export class SkySelectionModalComponent implements OnInit, OnDestroy {
       .getString(
         'skyux_lookup_show_more_displayed_items_updated',
         selectedItemCount.toString(),
-        displayedItemCount.toString(),
-        this.context.selectionDescriptor
+        displayedItemCount.toString()
       )
       .pipe(take(1))
       .subscribe((resourceString) => {
