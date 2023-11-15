@@ -18,8 +18,6 @@ import {
 import { AgGridModule } from 'ag-grid-angular';
 import {
   ColDef,
-  ColumnApi,
-  ColumnState,
   GridApi,
   GridOptions,
   GridReadyEvent,
@@ -73,7 +71,6 @@ export class ViewGridComponent implements OnInit, OnDestroy {
     },
   ];
 
-  #columnApi: ColumnApi | undefined;
   #dataState = new SkyDataManagerState({});
   #gridApi: GridApi | undefined;
   #ngUnsubscribe = new Subject<void>();
@@ -83,7 +80,6 @@ export class ViewGridComponent implements OnInit, OnDestroy {
     name: 'Grid View',
     icon: 'table',
     searchEnabled: true,
-    sortEnabled: true,
     multiselectToolbarEnabled: true,
     columnPickerEnabled: true,
     filterButtonEnabled: true,
@@ -179,7 +175,6 @@ export class ViewGridComponent implements OnInit, OnDestroy {
   }
 
   #onGridReady(event: GridReadyEvent): void {
-    this.#columnApi = event.columnApi;
     this.#gridApi = event.api;
     this.#gridApi.sizeColumnsToFit();
     this.#updateData();
@@ -237,24 +232,7 @@ export class ViewGridComponent implements OnInit, OnDestroy {
     this.isGridInitialized = true;
   }
 
-  #sortItems(): void {
-    const sortOption = this.#dataState.activeSortOption;
-    if (this.#columnApi && sortOption) {
-      const sort: ColumnState[] = [
-        {
-          colId: sortOption.propertyName,
-          sort: sortOption.descending ? 'desc' : 'asc',
-        },
-      ];
-
-      this.#columnApi.applyColumnState({
-        state: sort,
-      });
-    }
-  }
-
   #updateData(): void {
-    this.#sortItems();
     this.displayedItems = this.#filterItems(this.#searchItems(this.items));
 
     if (this.#dataState.onlyShowSelected) {

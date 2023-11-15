@@ -63,6 +63,11 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
   it('should update the data state when a row is selected', async () => {
     await agGridDataManagerFixture.whenStable();
+    agGridComponent.api.deselectAll();
+    dataState.selectedIds = [];
+    dataManagerService.updateDataState(dataState, 'unitTest');
+
+    agGridDataManagerFixture.detectChanges();
 
     const rowNode = new RowNode({} as Beans);
     rowNode.data = { id: '1' };
@@ -81,20 +86,26 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       rowPinned: null,
     } as RowSelectedEvent;
 
-    dataState.selectedIds = ['3', '1'];
+    const newDataState = new SkyDataManagerState({ ...dataState });
+    newDataState.selectedIds = ['1'];
 
     agGridDataManagerFixture.detectChanges();
 
     agGridComponent.rowSelected.emit(rowSelected);
 
     expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
-      dataState,
+      newDataState,
       agGridDataManagerFixtureComponent.viewConfig.id,
     );
   });
 
   it('should update the data state when a row is deselected', async () => {
     await agGridDataManagerFixture.whenStable();
+
+    agGridComponent.api.selectAll();
+    dataState.selectedIds = ['0', '1', '2', '3'];
+    dataManagerService.updateDataState(dataState, 'unitTest');
+    agGridDataManagerFixture.detectChanges();
 
     const rowNode = new RowNode({} as Beans);
     rowNode.data = { id: '3' };
@@ -113,14 +124,15 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       rowPinned: null,
     } as RowSelectedEvent;
 
-    dataState.selectedIds = [];
+    const newDataState = new SkyDataManagerState({ ...dataState });
+    newDataState.selectedIds = ['0', '1', '2'];
 
     agGridDataManagerFixture.detectChanges();
 
     agGridComponent.rowSelected.emit(rowSelected);
 
     expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
-      dataState,
+      newDataState,
       agGridDataManagerFixtureComponent.viewConfig.id,
     );
   });
@@ -232,45 +244,17 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     const gridColumnStates: ColumnState[] = [
       {
         colId: 'selected',
-        width: 50,
-        hide: false,
-        pinned: null,
-        sort: null,
-        sortIndex: null,
-        aggFunc: null,
-        rowGroup: false,
-        rowGroupIndex: null,
-        pivot: false,
-        pivotIndex: null,
-        flex: null,
       },
       {
         colId: 'name',
-        width: 699,
-        hide: false,
-        pinned: null,
         sort: 'desc',
         sortIndex: 0,
-        aggFunc: null,
-        rowGroup: false,
-        rowGroupIndex: null,
-        pivot: false,
-        pivotIndex: null,
-        flex: null,
       },
       {
         colId: 'target',
-        width: 931,
-        hide: false,
-        pinned: null,
-        sort: null,
-        sortIndex: null,
-        aggFunc: null,
-        rowGroup: false,
-        rowGroupIndex: null,
-        pivot: false,
-        pivotIndex: null,
-        flex: null,
+      },
+      {
+        colId: 'noHeader',
       },
     ];
 
@@ -283,7 +267,47 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       id: 'name',
       descending: true,
       propertyName: 'name',
-      label: 'Name',
+      label: 'First Name',
+    };
+
+    agGridComponent.sortChanged.emit();
+
+    expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
+      dataState,
+      agGridDataManagerFixtureComponent.viewConfig.id,
+    );
+  });
+
+  it('should update the data state when the sort changes and use empty strings for header/field when not present', async () => {
+    await agGridDataManagerFixture.whenStable();
+
+    const gridColumnStates: ColumnState[] = [
+      {
+        colId: 'selected',
+      },
+      {
+        colId: 'name',
+      },
+      {
+        colId: 'target',
+      },
+      {
+        colId: 'noHeader',
+        sort: 'desc',
+        sortIndex: 0,
+      },
+    ];
+
+    spyOn(agGridComponent.columnApi, 'getColumnState').and.returnValue(
+      gridColumnStates,
+    );
+    spyOn(dataManagerService, 'updateDataState');
+
+    dataState.activeSortOption = {
+      id: 'noHeader',
+      descending: true,
+      propertyName: '',
+      label: '',
     };
 
     agGridComponent.sortChanged.emit();
@@ -358,6 +382,64 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
     expect(agGridDataManagerDirective.agGridList?.length).toBe(1);
     expect(agGridDataManagerDirective.skyAgGridWrapperList?.length).toBe(1);
+  });
+
+  it('should apply descending sort to rows when data manager active sort changes', async () => {
+    const colId = 'name';
+    const applyColStateSpy = spyOn(
+      agGridComponent.columnApi,
+      'applyColumnState',
+    );
+
+    const newDataState = new SkyDataManagerState({ ...dataState });
+    newDataState.activeSortOption = {
+      id: colId,
+      propertyName: colId,
+      descending: true,
+      label: 'Name',
+    };
+    dataManagerService.updateDataState(newDataState, 'unitTest');
+    agGridDataManagerFixture.detectChanges();
+    await agGridDataManagerFixture.whenStable();
+
+    expect(applyColStateSpy).toHaveBeenCalledWith({
+      state: [
+        {
+          colId,
+          sort: 'desc',
+        },
+      ],
+      defaultState: { sort: null },
+    });
+  });
+
+  it('should apply ascending sort to rows when data manager active sort changes', async () => {
+    const colId = 'name';
+    const applyColStateSpy = spyOn(
+      agGridComponent.columnApi,
+      'applyColumnState',
+    );
+
+    const newDataState = new SkyDataManagerState({ ...dataState });
+    newDataState.activeSortOption = {
+      id: colId,
+      propertyName: colId,
+      descending: false,
+      label: 'Name',
+    };
+    dataManagerService.updateDataState(newDataState, 'unitTest');
+    agGridDataManagerFixture.detectChanges();
+    await agGridDataManagerFixture.whenStable();
+
+    expect(applyColStateSpy).toHaveBeenCalledWith({
+      state: [
+        {
+          colId,
+          sort: 'asc',
+        },
+      ],
+      defaultState: { sort: null },
+    });
   });
 });
 

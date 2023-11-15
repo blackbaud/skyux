@@ -107,7 +107,6 @@ export class DataManagerLargeComponent implements OnInit {
       name: 'Grid View',
       icon: 'table',
       searchEnabled: true,
-      sortEnabled: true,
       multiselectToolbarEnabled: true,
       columnPickerEnabled: true,
       filterButtonEnabled: true,

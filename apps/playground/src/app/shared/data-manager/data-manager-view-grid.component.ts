@@ -109,7 +109,6 @@ export class DataManagerViewGridComponent implements OnInit {
     name: 'Data Grid View',
     icon: 'table',
     searchEnabled: true,
-    sortEnabled: true,
     multiselectToolbarEnabled: true,
     columnPickerEnabled: true,
     filterButtonEnabled: true,
@@ -198,7 +197,6 @@ export class DataManagerViewGridComponent implements OnInit {
   }
 
   public updateData(): void {
-    this.sortItems();
     this.displayedItems = this.filterItems(this.searchItems(this._items));
 
     if (this.dataState.onlyShowSelected) {
@@ -252,20 +250,6 @@ export class DataManagerViewGridComponent implements OnInit {
   public onRowSelected(rowSelectedEvent: RowSelectedEvent): void {
     if (!rowSelectedEvent.data.selected) {
       this.updateData();
-    }
-  }
-
-  public sortItems(): void {
-    const sortOption = this.dataState.activeSortOption;
-    if (this.columnApi && sortOption) {
-      this.columnApi.applyColumnState({
-        state: [
-          {
-            colId: sortOption.propertyName,
-            sort: sortOption.descending ? 'desc' : 'asc',
-          },
-        ],
-      });
     }
   }
 
