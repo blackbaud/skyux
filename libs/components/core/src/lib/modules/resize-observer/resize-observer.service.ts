@@ -1,4 +1,5 @@
 import {
+  ApplicationRef,
   ElementRef,
   Injectable,
   NgZone,
@@ -6,15 +7,51 @@ import {
   inject,
 } from '@angular/core';
 
-import { Observable, Subject } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import {
+  Observable,
+  Subject,
+  animationFrames,
+  distinctUntilChanged,
+  filter,
+  map,
+  shareReplay,
+  take,
+  takeUntil,
+  throttle,
+} from 'rxjs';
 
 import { SkyAppWindowRef } from '../window/window-ref';
 
-type ResizeObserverTracking = {
-  element: Element;
-  subject: Subject<ResizeObserverEntry>;
-  subjectObservable: Observable<ResizeObserverEntry>;
+const errorTest =
+  /ResizeObserver loop completed with undelivered notifications/i;
+let errorLogRegistered = false;
+let originalOnError:
+  | ((event: string | Event) => boolean | undefined)
+  | undefined = undefined;
+
+const errorHandler = (event: ErrorEvent): boolean | undefined => {
+  if (errorTest.test(event.message)) {
+    event.stopImmediatePropagation();
+    event.stopPropagation();
+    event.preventDefault();
+    return false;
+  }
+  return undefined;
+};
+
+const onError = (event: string | ErrorEvent): boolean | undefined => {
+  const message = typeof event === 'string' ? event : event.message;
+  // This is necessary to prevent the test runner from failing on errors, but challenging to reliably test.
+  /* istanbul ignore next */
+  if (errorTest.test(message)) {
+    if (event instanceof ErrorEvent) {
+      event.stopImmediatePropagation();
+      event.stopPropagation();
+      event.preventDefault();
+    }
+    return false;
+  }
+  return originalOnError?.call(window, event);
 };
 
 /**
@@ -24,22 +61,27 @@ type ResizeObserverTracking = {
   providedIn: 'root',
 })
 export class SkyResizeObserverService implements OnDestroy {
-  #next = new Map<Subject<ResizeObserverEntry>, number>();
-  #resizeObserver = new ResizeObserver((entries) => {
-    entries.forEach((entry) => this.#callback(entry));
-  });
-  #tracking: ResizeObserverTracking[] = [];
-  #window = inject(SkyAppWindowRef);
-  #zone = inject(NgZone);
+  readonly #ngUnsubscribe = new Subject<void>();
+  readonly #resizeObserver = new ResizeObserver((entries) =>
+    this.#resizeSubject.next(entries)
+  );
+  readonly #resizeSubject = new Subject<ResizeObserverEntry[]>();
+  readonly #tracking = new Map<Element, Observable<ResizeObserverEntry>>();
+  readonly #window = inject(SkyAppWindowRef);
+  readonly #zone = inject(NgZone);
+
+  constructor() {
+    this.#expectWindowError();
+    // Because the resize observer is a native browser API, it does not shut down
+    // synchronously when the service is destroyed. Leave the error handling
+    // accommodation in place until the application is destroyed. This also works
+    // for the test runner.
+    inject(ApplicationRef).onDestroy(() => this.#resetWindowError());
+  }
 
   public ngOnDestroy(): void {
-    this.#next.forEach((value) =>
-      this.#window.nativeWindow.cancelAnimationFrame(value)
-    );
-    this.#tracking.forEach((value) => {
-      value.subject.complete();
-      this.#resizeObserver.unobserve(value.element);
-    });
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
     this.#resizeObserver.disconnect();
   }
 
@@ -47,75 +89,78 @@ export class SkyResizeObserverService implements OnDestroy {
    * Create rxjs observable to get size changes for an element ref.
    */
   public observe(element: ElementRef): Observable<ResizeObserverEntry> {
-    return this.#observeAndTrack(element).subjectObservable;
-  }
+    const checkTracking = this.#tracking.has(element.nativeElement);
 
-  #observeAndTrack(element: ElementRef): ResizeObserverTracking {
-    const checkTracking = this.#tracking.findIndex((value) => {
-      return !value.subject.closed && value.element === element.nativeElement;
-    });
-
-    if (checkTracking === -1) {
-      this.#resizeObserver.observe(element.nativeElement);
+    if (!checkTracking) {
+      this.#tracking.set(
+        element.nativeElement,
+        new Observable<ResizeObserverEntry[]>((observer) => {
+          const subscription = this.#resizeSubject.subscribe(observer);
+          this.#resizeObserver?.observe(element.nativeElement);
+          return () => {
+            this.#resizeObserver?.unobserve(element.nativeElement);
+            subscription.unsubscribe();
+            this.#tracking.delete(element.nativeElement);
+          };
+        }).pipe(
+          filter(Boolean),
+          filter((entries) =>
+            entries.some((entry) => entry.target === element.nativeElement)
+          ),
+          map(
+            (entries) =>
+              entries.find(
+                (entry) => entry.target === element.nativeElement
+              ) as ResizeObserverEntry
+          ),
+          // Ignore subpixel changes.
+          distinctUntilChanged(
+            (a, b) =>
+              Math.round(a.contentRect.width) ===
+                Math.round(b.contentRect.width) &&
+              Math.round(a.contentRect.height) ===
+                Math.round(b.contentRect.height)
+          ),
+          // Emit the last value for late subscribers. Track references so it
+          // un-observes when all subscribers are gone.
+          shareReplay({ bufferSize: 1, refCount: true }),
+          // Only emit prior to an animation frame to prevent layout thrashing.
+          throttle(() => animationFrames().pipe(take(1)), {
+            leading: false,
+            trailing: true,
+          }),
+          takeUntil(this.#ngUnsubscribe)
+        )
+      );
     }
 
-    const subject = new Subject<ResizeObserverEntry>();
-    const subjectObservable = subject.pipe(
-      finalize(() => {
-        // Are there any other tracking entries still watching this element?
-        const checkTracking = this.#tracking.findIndex((value) => {
-          return (
-            value.subject !== subject &&
-            !value.subject.closed &&
-            value.element === element.nativeElement
-          );
-        });
-
-        if (checkTracking === -1) {
-          this.#resizeObserver.unobserve(element.nativeElement);
-          const deleteTracking = this.#tracking.findIndex(
-            (value) => value.subject === subject
-          );
-          if (deleteTracking > -1) {
-            this.#tracking.splice(deleteTracking, 1);
-          }
-        }
-      })
-    );
-
-    const tracking = {
-      element: element.nativeElement,
-      subject,
-      subjectObservable,
-    };
-
-    this.#tracking.push(tracking);
-
-    return tracking;
+    return this.#tracking.get(
+      element.nativeElement
+    ) as Observable<ResizeObserverEntry>;
   }
 
-  #callback(entry: ResizeObserverEntry): void {
-    this.#tracking
-      .filter((value) => !value.subject.closed)
-      .forEach((value) => {
-        /* istanbul ignore else */
-        if (value.element === entry.target) {
-          // Execute the callback within NgZone because Angular does not "monkey patch"
-          // ResizeObserver like it does for other features in the DOM.
-          if (this.#next.has(value.subject)) {
-            this.#window.nativeWindow.cancelAnimationFrame(
-              this.#next.get(value.subject)
-            );
-          }
-          this.#next.set(
-            value.subject,
-            (this.#window.nativeWindow as Window).requestAnimationFrame(() => {
-              this.#zone.run(() => {
-                value.subject.next(entry);
-              });
-            })
-          );
-        }
-      });
+  #expectWindowError(): void {
+    if (!errorLogRegistered) {
+      errorLogRegistered = true;
+      // ResizeObserver throws an error when it is disconnected while it is
+      // still observing an element. When an element is no longer observed, this
+      // is not a concern.
+      this.#zone.runOutsideAngular(() =>
+        this.#window.nativeWindow.addEventListener('error', errorHandler)
+      );
+    }
+    if (this.#window.nativeWindow.onerror !== onError) {
+      originalOnError = this.#window.nativeWindow.onerror;
+      this.#window.nativeWindow.onerror = onError;
+    }
+  }
+
+  #resetWindowError(): void {
+    this.#window.nativeWindow.removeEventListener('error', errorHandler);
+    if (originalOnError) {
+      this.#window.nativeWindow.onerror = originalOnError;
+      originalOnError = undefined;
+    }
+    errorLogRegistered = false;
   }
 }
