@@ -209,6 +209,8 @@ export class SkyAgGridDataManagerAdapterDirective
         .subscribe((event: RowSelectedEvent) => {
           if (this.#viewConfig && this.#currentDataState) {
             const row = event.node;
+            console.log(row);
+            console.log(row.id);
             const selectedIds = this.#currentDataState.selectedIds || [];
             const rowIndex = selectedIds.indexOf(row.data.id);
 
@@ -327,8 +329,15 @@ export class SkyAgGridDataManagerAdapterDirective
     const activeSort = dataState.activeSortOption;
 
     if (activeSort) {
-      const column = agGrid?.columnApi.getColumn(activeSort.id);
-      column?.setSort(activeSort.descending ? 'desc' : 'asc');
+      agGrid?.columnApi.applyColumnState({
+        state: [
+          {
+            colId: activeSort.id,
+            sort: activeSort.descending ? 'desc' : 'asc',
+          },
+        ],
+        defaultState: { sort: null },
+      });
     }
   }
 

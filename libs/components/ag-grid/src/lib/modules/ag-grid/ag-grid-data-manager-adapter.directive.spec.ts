@@ -386,48 +386,60 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
   it('should apply descending sort to rows when data manager active sort changes', async () => {
     const colId = 'name';
-    const column = agGridComponent.columnApi.getColumn(colId);
-    expect(column).not.toBeNull();
+    const applyColStateSpy = spyOn(
+      agGridComponent.columnApi,
+      'applyColumnState'
+    );
 
-    if (column) {
-      const sortSpy = spyOn(column, 'setSort');
+    const newDataState = new SkyDataManagerState({ ...dataState });
+    newDataState.activeSortOption = {
+      id: colId,
+      propertyName: colId,
+      descending: true,
+      label: 'Name',
+    };
+    dataManagerService.updateDataState(newDataState, 'unitTest');
+    agGridDataManagerFixture.detectChanges();
+    await agGridDataManagerFixture.whenStable();
 
-      const newDataState = new SkyDataManagerState({ ...dataState });
-      newDataState.activeSortOption = {
-        id: colId,
-        propertyName: 'colId',
-        descending: true,
-        label: 'Name',
-      };
-      dataManagerService.updateDataState(newDataState, 'unitTest');
-      agGridDataManagerFixture.detectChanges();
-      await agGridDataManagerFixture.whenStable();
-
-      expect(sortSpy).toHaveBeenCalledWith('desc');
-    }
+    expect(applyColStateSpy).toHaveBeenCalledWith({
+      state: [
+        {
+          colId,
+          sort: 'desc',
+        },
+      ],
+      defaultState: { sort: null },
+    });
   });
 
   it('should apply ascending sort to rows when data manager active sort changes', async () => {
     const colId = 'name';
-    const column = agGridComponent.columnApi.getColumn(colId);
-    expect(column).not.toBeNull();
+    const applyColStateSpy = spyOn(
+      agGridComponent.columnApi,
+      'applyColumnState'
+    );
 
-    if (column) {
-      const sortSpy = spyOn(column, 'setSort');
+    const newDataState = new SkyDataManagerState({ ...dataState });
+    newDataState.activeSortOption = {
+      id: colId,
+      propertyName: colId,
+      descending: false,
+      label: 'Name',
+    };
+    dataManagerService.updateDataState(newDataState, 'unitTest');
+    agGridDataManagerFixture.detectChanges();
+    await agGridDataManagerFixture.whenStable();
 
-      const newDataState = new SkyDataManagerState({ ...dataState });
-      newDataState.activeSortOption = {
-        id: colId,
-        propertyName: 'colId',
-        descending: false,
-        label: 'Name',
-      };
-      dataManagerService.updateDataState(newDataState, 'unitTest');
-      agGridDataManagerFixture.detectChanges();
-      await agGridDataManagerFixture.whenStable();
-
-      expect(sortSpy).toHaveBeenCalledWith('asc');
-    }
+    expect(applyColStateSpy).toHaveBeenCalledWith({
+      state: [
+        {
+          colId,
+          sort: 'asc',
+        },
+      ],
+      defaultState: { sort: null },
+    });
   });
 });
 

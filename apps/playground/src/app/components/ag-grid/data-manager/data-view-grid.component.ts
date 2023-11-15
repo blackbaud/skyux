@@ -92,7 +92,6 @@ export class DataViewGridComponent implements OnInit {
   public columnApi: ColumnApi;
   public displayedItems: any[];
   public gridApi: GridApi;
-  public gridInitialized: boolean;
   public gridOptions: GridOptions;
   public isActive: boolean;
 
@@ -118,7 +117,6 @@ export class DataViewGridComponent implements OnInit {
       .getDataStateUpdates(this.viewId)
       .subscribe((state) => {
         this.dataState = state;
-        this.setInitialColumnOrder();
         this.updateData();
         this.changeDetector.detectChanges();
       });
@@ -134,32 +132,6 @@ export class DataViewGridComponent implements OnInit {
     if (this.dataState.onlyShowSelected) {
       this.displayedItems = this.displayedItems.filter((item) => item.selected);
     }
-  }
-
-  public setInitialColumnOrder(): void {
-    const viewState = this.dataState.getViewStateById(this.viewId);
-    const visibleColumns = viewState.displayedColumnIds;
-
-    this.columnDefs.sort((col1, col2) => {
-      const col1Index = visibleColumns.findIndex(
-        (colId: string) => colId === col1.colId
-      );
-      const col2Index = visibleColumns.findIndex(
-        (colId: string) => colId === col2.colId
-      );
-
-      if (col1Index === -1) {
-        col1.hide = true;
-        return 0;
-      } else if (col2Index === -1) {
-        col2.hide = true;
-        return 0;
-      } else {
-        return col1Index - col2Index;
-      }
-    });
-
-    this.gridInitialized = true;
   }
 
   public onGridReady(event: GridReadyEvent): void {
