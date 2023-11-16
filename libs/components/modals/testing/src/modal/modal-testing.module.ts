@@ -7,7 +7,8 @@ import {
 } from '@skyux/modals';
 
 /**
- * Creates an interface from a type's public properties.
+ * Creates an interface from a class's public properties.
+ * (Otherwise, hash properties would need to be defined from the implemented class.)
  * @see https://github.com/microsoft/TypeScript/issues/471#issuecomment-381842426
  */
 type Interface<T> = {

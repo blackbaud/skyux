@@ -13,6 +13,7 @@ import { ModalComponent } from './modal.component';
 @Component({
   standalone: true,
   template: `<button
+    class="sky-btn"
     data-sky-id="my-modal-open-button"
     type="button"
     (click)="edit()"
