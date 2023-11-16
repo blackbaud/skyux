@@ -212,7 +212,7 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
             {
               deprecationMajorVersion: 9,
               replacementRecommendation: `The SkyDataManagerConfig.filterModalComponent must be a standalone component in order to receive the right dependency injector context.`,
-            }
+            },
           )
           .then();
       }

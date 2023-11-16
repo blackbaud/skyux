@@ -595,7 +595,7 @@ describe('SkyDataManagerToolbarComponent', () => {
     };
 
     const filterBtn = dataManagerToolbarNativeElement.querySelector(
-      'sky-filter-button button'
+      'sky-filter-button button',
     ) as HTMLButtonElement;
 
     filterBtn.click();
