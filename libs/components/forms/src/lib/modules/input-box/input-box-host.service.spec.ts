@@ -27,9 +27,9 @@ describe('Input box host service', () => {
         inputTemplate: jasmine.createSpyObj('TemplateRef', [
           'createEmbeddedView',
         ]),
-      })
+      }),
     ).toThrowError(
-      'Cannot populate the input box because `SkyInputBoxHostService` has not yet been initialized. Try running the `populate` method within an Angular lifecycle hook, such as `ngOnInit`.'
+      'Cannot populate the input box because `SkyInputBoxHostService` has not yet been initialized. Try running the `populate` method within an Angular lifecycle hook, such as `ngOnInit`.',
     );
   });
 
@@ -51,7 +51,7 @@ describe('Input box host service', () => {
     mockInputBox.ariaDescribedBy.next('test');
 
     await expectAsync(
-      firstValueFrom(hostService.ariaDescribedBy as Observable<string>)
+      firstValueFrom(hostService.ariaDescribedBy as Observable<string>),
     ).toBeResolvedTo('test');
   });
 

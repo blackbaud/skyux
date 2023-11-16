@@ -214,7 +214,7 @@ export class SkySelectionModalComponent implements OnInit, OnDestroy {
       (itemData, index) => ({
         index,
         itemData,
-      })
+      }),
     ).sort((a, b) => {
       return this.items.indexOf(a.itemData) < this.items.indexOf(b.itemData)
         ? -1
@@ -227,7 +227,7 @@ export class SkySelectionModalComponent implements OnInit, OnDestroy {
   public updateDisplayedItems(): void {
     if (this.onlyShowSelected) {
       this.displayedItems = this.items.filter((item) =>
-        this.selectedIdMap.has(item[this.context.idProperty])
+        this.selectedIdMap.has(item[this.context.idProperty]),
       );
     } else {
       this.displayedItems = this.items;
@@ -252,12 +252,12 @@ export class SkySelectionModalComponent implements OnInit, OnDestroy {
       this.context.initialValue.map((item) => [
         (item as Record<string, unknown>)[this.context.idProperty],
         item,
-      ])
+      ]),
     );
   }
 
   #performSearch(
-    processResults: (result: SkySelectionModalSearchResult) => void
+    processResults: (result: SkySelectionModalSearchResult) => void,
   ): void {
     this.#currentSearchSub = this.context
       .searchAsync({

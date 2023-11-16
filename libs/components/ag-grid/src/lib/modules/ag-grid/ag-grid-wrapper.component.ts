@@ -113,7 +113,7 @@ export class SkyAgGridWrapperComponent
         if (this.agGrid.gridOptions?.context?.enableTopScroll) {
           this.viewkeeperClasses.push(
             '.ag-header',
-            '.ag-body-horizontal-scroll'
+            '.ag-body-horizontal-scroll',
           );
         } else {
           this.viewkeeperClasses.push('.ag-header');
@@ -145,7 +145,7 @@ export class SkyAgGridWrapperComponent
               ? params.colDef.type
               : [params.colDef.type];
             const addClasses = types.map(
-              (t) => `sky-ag-grid-cell-editing-${t}`
+              (t) => `sky-ag-grid-cell-editing-${t}`,
             );
             this.#wrapperClasses.next([
               ...this.#wrapperClasses.getValue(),
@@ -159,7 +159,7 @@ export class SkyAgGridWrapperComponent
           this.#wrapperClasses.next(
             this.#wrapperClasses
               .getValue()
-              .filter((c) => c.startsWith('ag-theme-'))
+              .filter((c) => c.startsWith('ag-theme-')),
           );
         });
     }
@@ -182,7 +182,7 @@ export class SkyAgGridWrapperComponent
           // On subsequent theme changes, we need to call the api to re-render the grid.
           this.#currentTheme = settings.currentSettings;
           this.agGrid.api.setHeaderHeight(
-            this.#agGridService.getHeaderHeight()
+            this.#agGridService.getHeaderHeight(),
           );
           this.agGrid.api.resetRowHeights();
           this.agGrid.api.refreshCells();
@@ -195,7 +195,7 @@ export class SkyAgGridWrapperComponent
       this.#elementRef.nativeElement.querySelector('ag-grid-angular');
     const callback = (): void => {
       this.#hasEditableClass = !!agGridElement?.classList.contains(
-        'sky-ag-grid-editable'
+        'sky-ag-grid-editable',
       );
       this.#updateGridTheme(this.#currentTheme);
     };
@@ -227,7 +227,7 @@ export class SkyAgGridWrapperComponent
         : this.afterAnchorId;
       this.#adapterService.setFocusedElementById(
         this.#elementRef.nativeElement,
-        idToFocus
+        idToFocus,
       );
     }
   }
@@ -244,7 +244,7 @@ export class SkyAgGridWrapperComponent
         this.agGrid.api.ensureColumnVisible(firstColumn);
         this.#adapterService.focusOnColumnHeader(
           this.#elementRef.nativeElement,
-          firstColumn.getColId()
+          firstColumn.getColId(),
         );
       }
     }
@@ -257,21 +257,21 @@ export class SkyAgGridWrapperComponent
         this.#elementRef.nativeElement.querySelector('.ag-root');
       const header: HTMLDivElement | null = root.querySelector('.ag-header');
       const floatingBottom: HTMLDivElement | null = root.querySelector(
-        '.ag-floating-bottom'
+        '.ag-floating-bottom',
       );
       const scrollbar: HTMLDivElement | null = root.querySelector(
-        '.ag-body-horizontal-scroll'
+        '.ag-body-horizontal-scroll',
       );
       if (header && floatingBottom && scrollbar) {
         if (
           scrollbar.style.height !==
           scrollbar.style.getPropertyValue(
-            '--sky-ag-body-horizontal-scroll-width'
+            '--sky-ag-body-horizontal-scroll-width',
           )
         ) {
           scrollbar.style.setProperty(
             '--sky-ag-body-horizontal-scroll-width',
-            scrollbar.style.height
+            scrollbar.style.height,
           );
         }
         const isTop = !!root.children[1].matches('.ag-body-horizontal-scroll');

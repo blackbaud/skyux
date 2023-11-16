@@ -32,7 +32,7 @@ export class SkyLookupShowMoreNativePickerContext {
     search: SkyAutocompleteSearchFunction,
     selectMode: SkyLookupSelectModeType,
     showAddButton: boolean,
-    userConfig: SkyLookupShowMoreNativePickerConfig
+    userConfig: SkyLookupShowMoreNativePickerConfig,
   ) {
     this.descriptorProperty = descriptorProperty;
     this.initialSearch = initialSearch;

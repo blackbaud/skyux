@@ -6,7 +6,7 @@ const routes: Routes = [
     path: 'url-validation',
     loadChildren: () =>
       import('./url-validation/url-validation.module').then(
-        (m) => m.UrlValidationModule
+        (m) => m.UrlValidationModule,
       ),
   },
 ];

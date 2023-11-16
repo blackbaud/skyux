@@ -124,13 +124,13 @@ export class SkyOverlayService {
   #destroyOverlay(instance: SkyOverlayInstance): void {
     SkyOverlayService.overlays.splice(
       SkyOverlayService.overlays.indexOf(instance),
-      1
+      1,
     );
 
     if (instance.config.enableScroll === false) {
       // Only release the body scroll if no other overlay wishes it to be disabled.
       const anotherOverlayDisablesScroll = SkyOverlayService.overlays.some(
-        (o) => !o.config.enableScroll
+        (o) => !o.config.enableScroll,
       );
       if (!anotherOverlayDisablesScroll) {
         this.#adapter.releaseBodyScroll();

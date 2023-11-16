@@ -14,7 +14,7 @@ export default {
   ],
 } as Meta<FileAttachmentComponent>;
 const BaseFileAttachment: StoryFn<FileAttachmentComponent> = (
-  args: FileAttachmentComponent
+  args: FileAttachmentComponent,
 ) => ({
   props: args,
 });

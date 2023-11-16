@@ -53,7 +53,7 @@ export class SkyViewkeeperDirective implements OnInit, OnDestroy {
     el: ElementRef,
     mutationObserverSvc: SkyMutationObserverService,
     viewkeeperSvc: SkyViewkeeperService,
-    @Optional() scrollableHostSvc?: SkyScrollableHostService
+    @Optional() scrollableHostSvc?: SkyScrollableHostService,
   ) {
     this.#el = el;
     this.#mutationObserverSvc = mutationObserverSvc;
@@ -63,7 +63,7 @@ export class SkyViewkeeperDirective implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.#observer = this.#mutationObserverSvc.create(() =>
-      this.#detectElements()
+      this.#detectElements(),
     );
 
     this.#observer.observe(this.#el.nativeElement, {
@@ -103,7 +103,7 @@ export class SkyViewkeeperDirective implements OnInit, OnDestroy {
 
       for (const item of this.skyViewkeeper) {
         const matchingEls = Array.from(
-          (this.#el.nativeElement as HTMLElement).querySelectorAll(item)
+          (this.#el.nativeElement as HTMLElement).querySelectorAll(item),
         ) as HTMLElement[];
 
         viewkeeperEls = [...viewkeeperEls, ...matchingEls];
@@ -165,7 +165,7 @@ export class SkyViewkeeperDirective implements OnInit, OnDestroy {
                   el: viewkeeperEl,
                   setWidth: true,
                   verticalOffsetEl: previousViewkeeperEl,
-                })
+                }),
               );
 
               previousViewkeeperEl = viewkeeperEl;

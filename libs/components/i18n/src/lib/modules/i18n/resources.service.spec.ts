@@ -25,7 +25,7 @@ describe('Resources service', () => {
   function configureTestingModule(
     mockLocaleProvider?: any,
     mockResourceNameProvider?: any,
-    excludeAssetsService?: boolean
+    excludeAssetsService?: boolean,
   ): void {
     enUsUrl = 'https://example.com/locales/resources_en_US.json';
     enGbUrl = 'https://example.com/locales/resources_en_GB.json';
@@ -256,7 +256,7 @@ describe('Resources service', () => {
         resources.getString('hi').pipe(take(1)).subscribe();
 
         addTestResourceResponse(esUrl);
-      }
+      },
     );
 
     it('should fall back to the default locale if the specified locale does not have a corresponding resource file', (done) => {
@@ -314,7 +314,7 @@ describe('Resources service', () => {
           status: 404,
           statusText: 'Not Found',
         });
-      }
+      },
     );
 
     it('should fall back to the resource name if the locale provider throws an error', (done) => {

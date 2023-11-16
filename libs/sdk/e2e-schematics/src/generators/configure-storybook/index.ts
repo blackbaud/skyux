@@ -27,7 +27,7 @@ export default async function (tree: Tree, schema: Schema) {
   projects.forEach((project, projectName) => {
     let hasChanged = false;
     const targets = Object.keys(
-      project.targets as Record<string, TargetConfiguration>
+      project.targets as Record<string, TargetConfiguration>,
     );
     if (!targets.includes('static-storybook')) {
       addStaticTarget(tree, {
@@ -142,7 +142,7 @@ export default async function (tree: Tree, schema: Schema) {
       }
     } else if (e2eProject) {
       console.warn(
-        `Project "${e2eProjectName}" does not have an e2e target with @nx/cypress:cypress`
+        `Project "${e2eProjectName}" does not have an e2e target with @nx/cypress:cypress`,
       );
     }
 
@@ -161,7 +161,7 @@ export default async function (tree: Tree, schema: Schema) {
           },
           exclude: ['../**/*.spec.ts', 'jest.config.ts'],
           include: ['../src/**/*', './*'],
-        })
+        }),
       );
     }
     updateJson(tree, tsconfigFile, (tsconfig: TsConfig) => {
@@ -216,14 +216,14 @@ export default async function (tree: Tree, schema: Schema) {
         {
           ...schema,
           relativeToRoot,
-        }
+        },
       );
     }
 
     if (!tree.isFile(`${projectRoot}/.storybook/manager.ts`)) {
       tree.write(
         `${projectRoot}/.storybook/manager.ts`,
-        `export * from '${relativeToRoot}/.storybook/manager';`
+        `export * from '${relativeToRoot}/.storybook/manager';`,
       );
     }
   });

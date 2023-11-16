@@ -20,7 +20,7 @@ export class SkyPageHeaderHarness extends SkyComponentHarness {
    * `SkyPageHeaderHarness` that meets certain criteria.
    */
   public static with(
-    filters: SkyPageHeaderHarnessFilters
+    filters: SkyPageHeaderHarnessFilters,
   ): HarnessPredicate<SkyPageHeaderHarness> {
     return SkyPageHeaderHarness.getDataSkyIdPredicate(filters);
   }

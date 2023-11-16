@@ -20,7 +20,7 @@ export class AppComponent {
     private router: Router,
     renderer: Renderer2,
     themeService: SkyThemeService,
-    viewportService: SkyAppViewportService
+    viewportService: SkyAppViewportService,
   ) {
     viewportService.reserveSpace({
       id: 'playground-controls',
@@ -33,8 +33,8 @@ export class AppComponent {
       renderer,
       new SkyThemeSettings(
         SkyTheme.presets['default'],
-        SkyThemeMode.presets.light
-      )
+        SkyThemeMode.presets.light,
+      ),
     );
   }
 

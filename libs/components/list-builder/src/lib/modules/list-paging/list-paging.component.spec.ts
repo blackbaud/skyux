@@ -67,8 +67,8 @@ describe('List Paging Component', () => {
             new ListItemModel('6', {}),
             new ListItemModel('7', {}),
           ],
-          true
-        )
+          true,
+        ),
       );
 
       fixture.detectChanges();
@@ -98,17 +98,17 @@ describe('List Paging Component', () => {
         expect(
           element
             .query(By.css(getPagingSelector('2')))
-            .nativeElement.classList.contains('sky-paging-current')
+            .nativeElement.classList.contains('sky-paging-current'),
         ).toBe(true);
 
         expect(
           element.query(By.css(getPagingSelector('previous'))).nativeElement
-            .disabled
+            .disabled,
         ).toBeFalsy();
 
         expect(
           element.query(By.css(getPagingSelector('next'))).nativeElement
-            .disabled
+            .disabled,
         ).toBeFalsy();
       });
 
@@ -118,7 +118,7 @@ describe('List Paging Component', () => {
           [new ListItemModel('1', {}), new ListItemModel('2', {})],
           new Date('3/25/2016'),
           false,
-          2
+          2,
         );
 
         state.next(newState);

@@ -70,7 +70,7 @@ export class SkyDropdownFixture {
     this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
-      'sky-dropdown'
+      'sky-dropdown',
     );
   }
 
@@ -107,7 +107,7 @@ export class SkyDropdownFixture {
    * Returns information about the dropdown item at the provided index.
    */
   public getDropdownItem(
-    index: number
+    index: number,
   ): SkyPopoversFixtureDropdownItem | undefined {
     const itemEls = this.#getDropdownItemEls();
 

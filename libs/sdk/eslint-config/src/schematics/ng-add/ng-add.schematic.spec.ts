@@ -15,7 +15,7 @@ const ESLINT_CONFIG_PATH = './.eslintrc.json';
 
 jest.mock('../shared/utility/get-latest-version', () => ({
   getLatestVersion: jest.fn((_, version) =>
-    Promise.resolve(`LATEST_${version}`)
+    Promise.resolve(`LATEST_${version}`),
   ),
 }));
 
@@ -55,7 +55,7 @@ describe('ng-add.schematic', () => {
   function validateJsonFile(
     tree: UnitTestTree,
     path: string,
-    expectedContents: unknown
+    expectedContents: unknown,
   ) {
     const contents = readJsonFile(tree, path);
     expect(contents).toEqual(expectedContents);
@@ -69,7 +69,7 @@ describe('ng-add.schematic', () => {
     await runSchematic();
 
     expect(runner.tasks.some((task) => task.name === 'node-package')).toEqual(
-      true
+      true,
     );
 
     validateJsonFile(
@@ -79,7 +79,7 @@ describe('ng-add.schematic', () => {
         devDependencies: expect.objectContaining({
           'eslint-plugin-deprecation': 'LATEST_^1.4.1',
         }),
-      })
+      }),
     );
   });
 
@@ -104,7 +104,7 @@ describe('ng-add.schematic', () => {
             files: ['*.ts'],
           },
         ],
-      })
+      }),
     );
   });
 
@@ -126,7 +126,7 @@ describe('ng-add.schematic', () => {
         compilerOptions: expect.objectContaining({
           strictNullChecks: true,
         }),
-      })
+      }),
     );
   });
 
@@ -175,7 +175,7 @@ describe('ng-add.schematic', () => {
     await expect(() => runSchematic()).rejects.toThrowError(
       "The package '@angular-eslint/schematics' is not installed. " +
         "Run 'ng add @angular-eslint/schematics' and try this command again.\n" +
-        'See: https://github.com/angular-eslint/angular-eslint#quick-start'
+        'See: https://github.com/angular-eslint/angular-eslint#quick-start',
     );
   });
 
@@ -193,7 +193,7 @@ describe('ng-add.schematic', () => {
 
     const packageJson = readJsonFile(tree, '/package.json') as PackageJson;
     expect(packageJson.devDependencies?.['@skyux-sdk/eslint-config']).toEqual(
-      '0.0.0-PLACEHOLDER'
+      '0.0.0-PLACEHOLDER',
     );
   });
 });

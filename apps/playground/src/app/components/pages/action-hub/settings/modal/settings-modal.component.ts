@@ -12,6 +12,6 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 export class SettingsModalComponent {
   constructor(
     public instance: SkyModalInstance,
-    @Inject('modalTitle') public title: string
+    @Inject('modalTitle') public title: string,
   ) {}
 }

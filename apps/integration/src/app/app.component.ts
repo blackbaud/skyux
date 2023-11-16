@@ -18,15 +18,15 @@ export class AppComponent {
   constructor(
     private router: Router,
     renderer: Renderer2,
-    themeService: SkyThemeService
+    themeService: SkyThemeService,
   ) {
     themeService.init(
       document.body,
       renderer,
       new SkyThemeSettings(
         SkyTheme.presets['default'],
-        SkyThemeMode.presets.light
-      )
+        SkyThemeMode.presets.light,
+      ),
     );
   }
 

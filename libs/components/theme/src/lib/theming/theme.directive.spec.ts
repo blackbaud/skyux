@@ -14,7 +14,7 @@ import { SkyThemeService } from './theme.service';
 
 describe('Theme directive', () => {
   function getSkyThemeDebugEl(
-    fixture: ComponentFixture<SkyThemeTestComponent>
+    fixture: ComponentFixture<SkyThemeTestComponent>,
   ): DebugElement {
     return fixture.debugElement.query(By.directive(SkyThemeDirective));
   }
@@ -33,7 +33,7 @@ describe('Theme directive', () => {
     const skyThemeDebugEl = getSkyThemeDebugEl(fixture);
 
     const renderer = skyThemeDebugEl.injector.get<Renderer2>(
-      Renderer2 as Type<Renderer2>
+      Renderer2 as Type<Renderer2>,
     );
     const themeSvc = skyThemeDebugEl.injector.get(SkyThemeService);
 
@@ -44,7 +44,10 @@ describe('Theme directive', () => {
     expect(initSpy).toHaveBeenCalledWith(
       skyThemeDebugEl.nativeElement,
       renderer,
-      new SkyThemeSettings(SkyTheme.presets.default, SkyThemeMode.presets.light)
+      new SkyThemeSettings(
+        SkyTheme.presets.default,
+        SkyThemeMode.presets.light,
+      ),
     );
   });
 
@@ -54,7 +57,7 @@ describe('Theme directive', () => {
     const skyThemeDebugEl = getSkyThemeDebugEl(fixture);
 
     const renderer = skyThemeDebugEl.injector.get<Renderer2>(
-      Renderer2 as Type<Renderer2>
+      Renderer2 as Type<Renderer2>,
     );
     const themeSvc = skyThemeDebugEl.injector.get(SkyThemeService);
 
@@ -63,7 +66,7 @@ describe('Theme directive', () => {
 
     const settings = new SkyThemeSettings(
       SkyTheme.presets.modern,
-      SkyThemeMode.presets.dark
+      SkyThemeMode.presets.dark,
     );
 
     fixture.componentInstance.themeSettings = settings;
@@ -76,7 +79,7 @@ describe('Theme directive', () => {
     expect(initSpy).toHaveBeenCalledWith(
       skyThemeDebugEl.nativeElement,
       renderer,
-      settings
+      settings,
     );
   });
 
@@ -93,7 +96,7 @@ describe('Theme directive', () => {
 
     const newSettings = new SkyThemeSettings(
       SkyTheme.presets.modern,
-      SkyThemeMode.presets.dark
+      SkyThemeMode.presets.dark,
     );
 
     fixture.componentInstance.themeSettings = newSettings;

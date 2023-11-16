@@ -70,8 +70,8 @@ describe('component generator', () => {
     expect(
       appTree.read(
         'apps/test-storybook/src/app/example/example.component.stories.ts',
-        'utf-8'
-      )
+        'utf-8',
+      ),
     ).toMatchSnapshot();
   });
 
@@ -103,8 +103,8 @@ describe('component generator', () => {
     expect(
       appTree.read(
         'apps/test-storybook/src/app/example/sub-example/sub-example.component.stories.ts',
-        'utf-8'
-      )
+        'utf-8',
+      ),
     ).toMatchSnapshot();
   });
 
@@ -116,8 +116,8 @@ describe('component generator', () => {
     expect(
       appTree.read(
         'apps/test-storybook/src/app/example/example.component.stories.ts',
-        'utf-8'
-      )
+        'utf-8',
+      ),
     ).toMatchSnapshot();
   });
 
@@ -151,29 +151,32 @@ describe('component generator', () => {
     expect(
       appTree.read(
         'apps/test-storybook/src/app/example/example.component.stories.ts',
-        'utf-8'
-      )
+        'utf-8',
+      ),
     ).toMatchSnapshot();
     expect(
       appTree.read(
         'apps/test-storybook/src/app/example/example.component.ts',
-        'utf-8'
-      )
+        'utf-8',
+      ),
     ).toMatchSnapshot();
     expect(
       appTree.read(
         'apps/test-storybook/src/app/example/example.module.ts',
-        'utf-8'
-      )
+        'utf-8',
+      ),
     ).toMatchSnapshot();
     expect(
-      appTree.read('apps/test-storybook/src/app/test-router.module.ts', 'utf-8')
+      appTree.read(
+        'apps/test-storybook/src/app/test-router.module.ts',
+        'utf-8',
+      ),
     ).toMatchSnapshot();
     expect(
       appTree.read(
         'apps/test-storybook/src/app/example/example.component.spec.ts',
-        'utf-8'
-      )
+        'utf-8',
+      ),
     ).toMatchSnapshot();
   });
 
@@ -208,29 +211,32 @@ describe('component generator', () => {
     expect(
       appTree.read(
         'apps/test-storybook/src/app/example/example.component.stories.ts',
-        'utf-8'
-      )
+        'utf-8',
+      ),
     ).toMatchSnapshot();
     expect(
       appTree.read(
         'apps/test-storybook/src/app/example/example.component.ts',
-        'utf-8'
-      )
+        'utf-8',
+      ),
     ).toMatchSnapshot();
     expect(
       appTree.read(
         'apps/test-storybook/src/app/example/example.component.spec.ts',
-        'utf-8'
-      )
+        'utf-8',
+      ),
     ).toBeNull();
     expect(
       appTree.read(
         'apps/test-storybook/src/app/example/example.module.ts',
-        'utf-8'
-      )
+        'utf-8',
+      ),
     ).toMatchSnapshot();
     expect(
-      appTree.read('apps/test-storybook/src/app/test-router.module.ts', 'utf-8')
+      appTree.read(
+        'apps/test-storybook/src/app/test-router.module.ts',
+        'utf-8',
+      ),
     ).toMatchSnapshot();
   });
 
@@ -242,18 +248,18 @@ describe('component generator', () => {
     expect(
       appTree.read(
         'apps/test-storybook/src/app/example/example.component.stories.ts',
-        'utf-8'
-      )
+        'utf-8',
+      ),
     ).toMatchSnapshot();
     // expect(appTree.listChanges().filter(c => c.path.includes('test-storybook')).map(c => c.path)).toEqual([]);
     expect(
-      appTree.isFile('apps/test-storybook-e2e/src/e2e/example.component.cy.ts')
+      appTree.isFile('apps/test-storybook-e2e/src/e2e/example.component.cy.ts'),
     ).toBeTruthy();
     expect(
       appTree.read(
         'apps/test-storybook-e2e/src/e2e/example.component.cy.ts',
-        'utf-8'
-      )
+        'utf-8',
+      ),
     ).toMatchSnapshot();
   });
 
@@ -291,7 +297,7 @@ describe('component generator', () => {
       fail();
     } catch (e) {
       expect((e as Error).message).toEqual(
-        'Unable to find project wrong-storybook'
+        'Unable to find project wrong-storybook',
       );
     }
     await applicationGenerator(appTree, {
@@ -305,7 +311,7 @@ describe('component generator', () => {
       fail();
     } catch (e) {
       expect((e as Error).message).toEqual(
-        'Storybook is not configured for wrong-storybook'
+        'Storybook is not configured for wrong-storybook',
       );
     }
     appTree.delete('apps/test-storybook/src/app/test-router-routing.module.ts');
@@ -314,7 +320,7 @@ describe('component generator', () => {
       fail();
     } catch (e) {
       expect((e as Error).message).toEqual(
-        'Could not find a router module to add the component to. Please specify a module using the --module option.'
+        'Could not find a router module to add the component to. Please specify a module using the --module option.',
       );
     }
   });

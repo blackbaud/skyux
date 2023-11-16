@@ -7,8 +7,8 @@ describe('character-counter', () => {
         cy
           .viewport(E2eVariations.MOBILE_WIDTHS[0], 1600)
           .visit(
-            `/iframe.html?globals=theme:${theme}&id=charactercountercomponent-charactercounter--character-counter`
-          )
+            `/iframe.html?globals=theme:${theme}&id=charactercountercomponent-charactercounter--character-counter`,
+          ),
       );
       it('should render the component', () => {
         cy.get('app-character-counter')

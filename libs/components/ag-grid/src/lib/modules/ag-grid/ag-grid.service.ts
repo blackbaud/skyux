@@ -40,7 +40,7 @@ import { SkyGetGridOptionsArgs } from './types/sky-grid-options';
 
 function autocompleteComparator(
   value1: { name: string },
-  value2: { name: string }
+  value2: { name: string },
 ): number {
   if (value1 && value2) {
     if (value1.name > value2.name) {
@@ -101,7 +101,7 @@ function getValidatorCellRendererSelector(component: string, fallback?: any) {
         !params.colDef.cellRendererParams.skyComponentProperties.validator(
           params.value,
           params.data,
-          params.rowIndex
+          params.rowIndex,
         )
       ) {
         return {
@@ -136,7 +136,7 @@ export class SkyAgGridService implements OnDestroy {
   constructor(
     agGridAdapterService: SkyAgGridAdapterService,
     @Optional() themeSvc?: SkyThemeService,
-    @Optional() resources?: SkyLibResourcesService
+    @Optional() resources?: SkyLibResourcesService,
   ) {
     this.#agGridAdapterService = agGridAdapterService;
     this.#resources = resources;
@@ -165,7 +165,7 @@ export class SkyAgGridService implements OnDestroy {
     const defaultGridOptions = this.#getDefaultGridOptions(args);
     const mergedGridOptions = this.#mergeGridOptions(
       defaultGridOptions,
-      args.gridOptions
+      args.gridOptions,
     );
 
     return mergedGridOptions;
@@ -180,7 +180,7 @@ export class SkyAgGridService implements OnDestroy {
     const defaultGridOptions = this.#getDefaultEditableGridOptions(args);
     const mergedGridOptions = this.#mergeGridOptions(
       defaultGridOptions,
-      args.gridOptions
+      args.gridOptions,
     );
     mergedGridOptions.context ||= {};
     mergedGridOptions.context.gridOptions = {
@@ -196,7 +196,7 @@ export class SkyAgGridService implements OnDestroy {
 
   #mergeGridOptions(
     defaultGridOptions: GridOptions,
-    providedGridOptions: GridOptions
+    providedGridOptions: GridOptions,
   ): GridOptions {
     const mergedGridOptions: GridOptions = {
       ...defaultGridOptions,
@@ -240,7 +240,7 @@ export class SkyAgGridService implements OnDestroy {
     const cellClassRuleTrueExpression = (): boolean => true;
 
     function getEditableFn(
-      isUneditable?: boolean
+      isUneditable?: boolean,
     ): (params: CellClassParams) => boolean {
       return function (params: CellClassParams): boolean {
         let isEditable = params.colDef.editable;
@@ -272,7 +272,7 @@ export class SkyAgGridService implements OnDestroy {
           return !param.colDef.cellRendererParams.skyComponentProperties.validator(
             param.value,
             param.data,
-            param.rowIndex
+            param.rowIndex,
           );
         }
         return false;
@@ -303,7 +303,7 @@ export class SkyAgGridService implements OnDestroy {
           },
           cellRendererSelector: getValidatorCellRendererSelector(
             'sky-ag-grid-cell-renderer-currency-validator',
-            { component: 'sky-ag-grid-cell-renderer-currency' }
+            { component: 'sky-ag-grid-cell-renderer-currency' },
           ),
           cellEditor: SkyAgGridCellEditorCurrencyComponent,
           headerClass: SkyHeaderClass.RightAligned,
@@ -323,7 +323,7 @@ export class SkyAgGridService implements OnDestroy {
                 this.dateService.format(
                   params.value,
                   args.locale,
-                  args.dateFormat || 'shortDate'
+                  args.dateFormat || 'shortDate',
                 ) || ''
               );
             } catch (err) {
@@ -357,7 +357,7 @@ export class SkyAgGridService implements OnDestroy {
             ...editableCellClassRules,
           },
           cellRendererSelector: getValidatorCellRendererSelector(
-            'sky-ag-grid-cell-renderer-validator-tooltip'
+            'sky-ag-grid-cell-renderer-validator-tooltip',
           ),
           cellEditor: SkyAgGridCellEditorNumberComponent,
           headerClass: SkyHeaderClass.RightAligned,
@@ -382,7 +382,7 @@ export class SkyAgGridService implements OnDestroy {
           },
           cellEditor: SkyAgGridCellEditorTextComponent,
           cellRendererSelector: getValidatorCellRendererSelector(
-            'sky-ag-grid-cell-renderer-validator-tooltip'
+            'sky-ag-grid-cell-renderer-validator-tooltip',
           ),
         },
         [SkyCellType.Validator]: {
@@ -391,7 +391,7 @@ export class SkyAgGridService implements OnDestroy {
             ...editableCellClassRules,
           },
           cellRendererSelector: getValidatorCellRendererSelector(
-            'sky-ag-grid-cell-renderer-validator-tooltip'
+            'sky-ag-grid-cell-renderer-validator-tooltip',
           ),
         },
       },
@@ -402,7 +402,7 @@ export class SkyAgGridService implements OnDestroy {
         resizable: true,
         sortable: true,
         suppressHeaderKeyboardEvent: (
-          keypress: SuppressHeaderKeyboardEventParams
+          keypress: SuppressHeaderKeyboardEventParams,
         ) => keypress.event.code === 'Tab',
         suppressKeyboardEvent: (keypress: SuppressKeyboardEventParams) =>
           this.#suppressTab(keypress),
@@ -549,11 +549,11 @@ export class SkyAgGridService implements OnDestroy {
         // inline cell editors have the 'ag-cell' class, while popup editors have the 'ag-popup-editor' class
         const cellEl = this.#agGridAdapterService.getElementOrParentWithClass(
           currentlyFocusedEl,
-          'ag-cell'
+          'ag-cell',
         );
         const popupEl = this.#agGridAdapterService.getElementOrParentWithClass(
           currentlyFocusedEl,
-          'ag-popup-editor'
+          'ag-popup-editor',
         );
         const parentEl = cellEl || popupEl;
 
@@ -561,7 +561,7 @@ export class SkyAgGridService implements OnDestroy {
           this.#agGridAdapterService.getNextFocusableElement(
             currentlyFocusedEl,
             parentEl,
-            params.event.shiftKey
+            params.event.shiftKey,
           );
         return !!nextFocusableElementInCell;
       }

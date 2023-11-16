@@ -14,7 +14,7 @@ export default {
   ],
 } as Meta<SplitViewDockFillComponent>;
 const Template: Story<SplitViewDockFillComponent> = (
-  args: SplitViewDockFillComponent
+  args: SplitViewDockFillComponent,
 ) => ({
   props: args,
 });

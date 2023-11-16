@@ -60,7 +60,7 @@ describe('Tile dashboard service', () => {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.default,
-          SkyThemeMode.presets.light
+          SkyThemeMode.presets.light,
         ),
         previousSettings: undefined,
       }),
@@ -241,7 +241,7 @@ describe('Tile dashboard service', () => {
         };
 
         expect(config).toEqual(expectedConfig);
-      }
+      },
     );
 
     fixture.detectChanges();
@@ -265,7 +265,7 @@ describe('Tile dashboard service', () => {
     tick();
     fixture.detectChanges();
     const tile: Element = fixture.nativeElement.querySelector(
-      'div.sky-test-tile-1'
+      'div.sky-test-tile-1',
     );
     const handle = tile.querySelector('.sky-tile-grab-handle i');
     const setOptionsSpy = spyOn(mockDragulaService, 'createGroup').and.callFake(
@@ -277,7 +277,7 @@ describe('Tile dashboard service', () => {
           fail('Missing moves handler and/or handle');
         }
         return {} as Group;
-      }
+      },
     );
 
     TestBed.runInInjectionContext(() => {
@@ -289,10 +289,10 @@ describe('Tile dashboard service', () => {
 
   function testIntercolumnNavigation(
     fixture: ComponentFixture<TileDashboardTestComponent>,
-    keyName: string
+    keyName: string,
   ): void {
     const handle: HTMLElement = fixture.nativeElement.querySelector(
-      'div.sky-test-tile-1 .sky-tile-grab-handle'
+      'div.sky-test-tile-1 .sky-tile-grab-handle',
     );
     SkyAppTestUtility.fireDomEvent(handle, 'keydown', {
       keyboardEventInit: { key: keyName },
@@ -303,19 +303,19 @@ describe('Tile dashboard service', () => {
     fixture.detectChanges();
 
     const columnEls = fixture.nativeElement.querySelectorAll(
-      '.sky-tile-dashboard-column'
+      '.sky-tile-dashboard-column',
     );
     if (keyName === 'Right' || keyName === 'ArrowRight') {
       expect(columnEls[0].querySelector('div.sky-test-tile-1')).toBeFalsy();
       expect(columnEls[1].querySelector('div.sky-test-tile-1')).toBeTruthy();
       expect(
-        columnEls[1].querySelectorAll('sky-tile')[1].parentElement
+        columnEls[1].querySelectorAll('sky-tile')[1].parentElement,
       ).toHaveCssClass('sky-test-tile-1');
     } else {
       expect(columnEls[1].querySelector('div.sky-test-tile-1')).toBeFalsy();
       expect(columnEls[0].querySelector('div.sky-test-tile-1')).toBeTruthy();
       expect(
-        columnEls[0].querySelectorAll('sky-tile')[2].parentElement
+        columnEls[0].querySelectorAll('sky-tile')[2].parentElement,
       ).toHaveCssClass('sky-test-tile-1');
     }
   }
@@ -374,15 +374,15 @@ describe('Tile dashboard service', () => {
         fixture.componentRef.changeDetectorRef,
         {
           configChange: new EventEmitter<SkyTileDashboardConfig>(),
-        } as SkyTileDashboardService
+        } as SkyTileDashboardService,
       ),
       'left',
-      'Tile 1'
+      'Tile 1',
     );
 
     // Make sure everything is still in the same spot
     const columnEls = fixture.nativeElement.querySelectorAll(
-      '.sky-tile-dashboard-column'
+      '.sky-tile-dashboard-column',
     );
     expect(columnEls[1].querySelector('div.sky-test-tile-2')).toBeTruthy();
     expect(columnEls[0].querySelector('div.sky-test-tile-1')).toBeTruthy();
@@ -392,10 +392,10 @@ describe('Tile dashboard service', () => {
     fixture: ComponentFixture<TileDashboardTestComponent>,
     keyName: string,
     expectedPosition: number,
-    isSingleColumn = false
+    isSingleColumn = false,
   ): void {
     const handle = fixture.nativeElement.querySelector(
-      'div.sky-test-tile-1 .sky-tile-grab-handle'
+      'div.sky-test-tile-1 .sky-tile-grab-handle',
     );
     SkyAppTestUtility.fireDomEvent(handle, 'keydown', {
       keyboardEventInit: { key: keyName },
@@ -406,17 +406,17 @@ describe('Tile dashboard service', () => {
     fixture.detectChanges();
 
     const columnEls = fixture.nativeElement.querySelectorAll(
-      '.sky-tile-dashboard-column'
+      '.sky-tile-dashboard-column',
     );
     if (isSingleColumn) {
       expect(
         columnEls[2].querySelectorAll('sky-tile')[expectedPosition]
-          .parentElement
+          .parentElement,
       ).toHaveCssClass('sky-test-tile-1');
     } else {
       expect(
         columnEls[0].querySelectorAll('sky-tile')[expectedPosition]
-          .parentElement
+          .parentElement,
       ).toHaveCssClass('sky-test-tile-1');
     }
   }
@@ -495,14 +495,14 @@ describe('Tile dashboard service', () => {
         configChanged = true;
 
         expect(config.layout.multiColumn[0].tiles[0].isCollapsed).toBe(true);
-      }
+      },
     );
 
     dashboardService.init(
       dashboardConfig,
       undefined,
       undefined,
-      'mySettingsKey'
+      'mySettingsKey',
     );
 
     const fixture = TestBed.createComponent(Tile1TestComponent);
@@ -516,7 +516,7 @@ describe('Tile dashboard service', () => {
         id: 'tile-1',
         isCollapsed: false,
       },
-      fixture.componentRef
+      fixture.componentRef,
     );
 
     dashboardService.setTileCollapsed(cmp.tile, true);
@@ -538,7 +538,7 @@ describe('Tile dashboard service', () => {
         id: 'tile-1',
         isCollapsed: false,
       },
-      fixture.componentRef
+      fixture.componentRef,
     );
 
     expect(dashboardService.tileIsCollapsed(cmp.tile)).toBe(false);
@@ -556,10 +556,10 @@ describe('Tile dashboard service', () => {
     const column2 = multiColumn[1];
 
     expect(dashboardService.getTileComponentType(column1.tiles[0])).toBe(
-      Tile1TestComponent
+      Tile1TestComponent,
     );
     expect(dashboardService.getTileComponentType(column2.tiles[0])).toBe(
-      Tile2TestComponent
+      Tile2TestComponent,
     );
 
     expect(dashboardService.getTileComponentType(undefined)).toBe(undefined);
@@ -579,10 +579,10 @@ describe('Tile dashboard service', () => {
     fixture.detectChanges();
 
     const multiColumnEls = el.querySelectorAll(
-      '.sky-tile-dashboard-layout-multi'
+      '.sky-tile-dashboard-layout-multi',
     );
     const singleColumnEl = el.querySelector(
-      '.sky-tile-dashboard-layout-single'
+      '.sky-tile-dashboard-layout-single',
     );
 
     expect(getTileCount(multiColumnEls[0])).toBe(0);
@@ -603,10 +603,10 @@ describe('Tile dashboard service', () => {
     tick();
 
     const multiColumnEls = el.querySelectorAll(
-      '.sky-tile-dashboard-layout-multi'
+      '.sky-tile-dashboard-layout-multi',
     );
     const singleColumnEl = el.querySelector(
-      '.sky-tile-dashboard-layout-single'
+      '.sky-tile-dashboard-layout-single',
     );
 
     expect(getTileCount(multiColumnEls[0])).toBe(3);
@@ -668,7 +668,7 @@ describe('Tile dashboard service', () => {
       dashboardConfig,
       undefined,
       undefined,
-      'mySettingsKey'
+      'mySettingsKey',
     );
 
     dashboardService.destroy();
@@ -681,13 +681,13 @@ describe('Tile dashboard service', () => {
       dashboardConfig,
       undefined,
       undefined,
-      'defaultSettings'
+      'defaultSettings',
     );
 
     dashboardService.configChange.subscribe(
       (config: SkyTileDashboardConfig) => {
         expect(config.layout).toEqual(dashboardConfig.layout);
-      }
+      },
     );
   });
 
@@ -697,7 +697,7 @@ describe('Tile dashboard service', () => {
     dashboardService.configChange.subscribe(
       (config: SkyTileDashboardConfig) => {
         expect(config.layout).toEqual(dashboardConfig.layout);
-      }
+      },
     );
   });
 
@@ -707,7 +707,7 @@ describe('Tile dashboard service', () => {
     dashboardService.configChange.subscribe(
       (config: SkyTileDashboardConfig) => {
         expect(config.layout).toEqual(dashboardConfig.layout);
-      }
+      },
     );
   });
 
@@ -716,7 +716,7 @@ describe('Tile dashboard service', () => {
       dashboardConfig,
       undefined,
       undefined,
-      'mySettingsKey'
+      'mySettingsKey',
     );
 
     dashboardService.configChange.subscribe(
@@ -754,7 +754,7 @@ describe('Tile dashboard service', () => {
           ],
         };
         expect(config.layout).toEqual(expectedLayout);
-      }
+      },
     );
   });
 
@@ -879,7 +879,7 @@ describe('Tile dashboard service', () => {
           ],
         };
         expect(config.layout).toEqual(expectedLayout);
-      }
+      },
     );
     dashboardService.init(newTileConfig, undefined, undefined, 'mySettingsKey');
   });
@@ -943,7 +943,7 @@ describe('Tile dashboard service', () => {
           ],
         };
         expect(config.layout).toEqual(expectedLayout);
-      }
+      },
     );
     dashboardService.init(newTileConfig, undefined, undefined, 'mySettingsKey');
   });
@@ -964,13 +964,13 @@ describe('Tile dashboard service', () => {
         id: 'tile-1',
         isCollapsed: false,
       },
-      fixture.componentRef
+      fixture.componentRef,
     );
 
     dashboardService.setTileCollapsed(cmp.tile, true);
 
     expect(warnSpy).toHaveBeenCalledWith(
-      'Could not save tile dashboard settings.'
+      'Could not save tile dashboard settings.',
     );
     expect(warnSpy).toHaveBeenCalledWith({
       message: 'Test error',

@@ -60,7 +60,7 @@ describe('Chevron harness', () => {
     fixture.detectChanges();
 
     await expectAsync(chevronHarness.toggle()).toBeRejectedWithError(
-      'Could not toggle the checkbox because it is disabled.'
+      'Could not toggle the checkbox because it is disabled.',
     );
   });
 });

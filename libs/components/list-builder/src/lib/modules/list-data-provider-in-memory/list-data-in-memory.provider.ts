@@ -29,7 +29,7 @@ export class SkyListInMemoryDataProvider extends ListDataProvider {
 
   constructor(
     data?: Observable<Array<any>>,
-    searchFunction?: (data: any, searchText: string) => boolean
+    searchFunction?: (data: any, searchText: string) => boolean,
   ) {
     super(data);
 
@@ -42,9 +42,9 @@ export class SkyListInMemoryDataProvider extends ListDataProvider {
             (d) =>
               new ListItemModel(
                 d.id || `sky-list-data-in-memory-provider-item-${++idIndex}`,
-                d
-              )
-          )
+                d,
+              ),
+          ),
         );
       });
     }
@@ -61,7 +61,7 @@ export class SkyListInMemoryDataProvider extends ListDataProvider {
           const itemStart = (request.pageNumber - 1) * request.pageSize;
           const pagedResult = result.slice(
             itemStart,
-            itemStart + request.pageSize
+            itemStart + request.pageSize,
           );
           return new ListDataResponseModel({
             count: result.length,
@@ -73,12 +73,12 @@ export class SkyListInMemoryDataProvider extends ListDataProvider {
             items: result,
           });
         }
-      })
+      }),
     );
   }
 
   private filteredItems(
-    request: ListDataRequestModel
+    request: ListDataRequestModel,
   ): Observable<Array<ListItemModel>> {
     const showSelectedId = ['show-selected'];
 
@@ -223,7 +223,7 @@ export class SkyListInMemoryDataProvider extends ListDataProvider {
             });
         }
         return result;
-      })
+      }),
     );
   }
 }

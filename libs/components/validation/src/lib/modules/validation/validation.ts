@@ -13,7 +13,7 @@ export abstract class SkyValidation {
 
   public static isUrl(
     value: unknown,
-    options?: SkyUrlValidationOptions
+    options?: SkyUrlValidationOptions,
   ): boolean {
     if (typeof value !== 'string') {
       return false;

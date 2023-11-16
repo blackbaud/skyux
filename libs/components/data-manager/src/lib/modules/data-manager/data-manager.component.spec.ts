@@ -36,12 +36,12 @@ describe('SkyDataManagerComponent', () => {
     dataManagerFixture.detectChanges();
 
     const toolbarEl = dataManagerNativeElement.querySelector(
-      'sky-data-manager-toolbar'
+      'sky-data-manager-toolbar',
     );
     const viewEl = dataManagerNativeElement.querySelector('sky-data-view');
 
     expect(
-      dataManagerFixtureComponent.dataManagerComponent.isInitialized
+      dataManagerFixtureComponent.dataManagerComponent.isInitialized,
     ).toBeTrue();
     expect(toolbarEl).toBeVisible();
     expect(viewEl).toBeVisible();
@@ -59,21 +59,21 @@ describe('SkyDataManagerComponent', () => {
 
     expect(
       dataManagerFixtureComponent.dataManagerComponent.currentViewkeeperClasses.indexOf(
-        '.sky-data-manager-toolbar'
-      ) >= 0
+        '.sky-data-manager-toolbar',
+      ) >= 0,
     ).toBeTrue();
     expect(
       dataManagerFixtureComponent.dataManagerComponent.currentViewkeeperClasses.indexOf(
-        newClass
-      ) >= 0
+        newClass,
+      ) >= 0,
     ).toBeFalse();
 
     dataManagerService.setViewkeeperClasses(viewId, [newClass]);
 
     expect(
       dataManagerFixtureComponent.dataManagerComponent.currentViewkeeperClasses.indexOf(
-        newClass
-      ) >= 0
+        newClass,
+      ) >= 0,
     ).toBeTrue();
   });
 

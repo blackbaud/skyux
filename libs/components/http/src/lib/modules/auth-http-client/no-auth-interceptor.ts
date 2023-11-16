@@ -20,7 +20,7 @@ export class SkyNoAuthInterceptor implements HttpInterceptor {
 
   constructor(
     @Optional() config?: SkyAppConfig,
-    @Optional() paramsProvider?: SkyAppRuntimeConfigParamsProvider
+    @Optional() paramsProvider?: SkyAppRuntimeConfigParamsProvider,
   ) {
     this.#config = config;
     this.#paramsProvider = paramsProvider;
@@ -28,7 +28,7 @@ export class SkyNoAuthInterceptor implements HttpInterceptor {
 
   public intercept(
     request: HttpRequest<any>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     const noAuth =
       !request.params ||
@@ -46,7 +46,7 @@ export class SkyNoAuthInterceptor implements HttpInterceptor {
           });
 
           return next.handle(newRequest);
-        })
+        }),
       );
     } else {
       return next.handle(request);

@@ -17,7 +17,7 @@ describe('Selection modal demo', () => {
   }> {
     const fixture = TestBed.createComponent(DemoComponent);
     const openBtn = fixture.nativeElement.querySelector(
-      '.selection-modal-demo-show-btn'
+      '.selection-modal-demo-show-btn',
     );
 
     openBtn.click();
@@ -65,7 +65,7 @@ describe('Selection modal demo', () => {
     await harness.saveAndClose();
 
     const selectedItemEls = fixture.nativeElement.querySelectorAll(
-      '.selection-modal-demo-selected li'
+      '.selection-modal-demo-selected li',
     );
 
     expect(selectedItemEls).toHaveSize(1);
@@ -82,7 +82,7 @@ describe('Selection modal demo', () => {
     await harness.cancel();
 
     const selectedItemEls = fixture.nativeElement.querySelectorAll(
-      '.selection-modal-demo-selected li'
+      '.selection-modal-demo-selected li',
     );
 
     expect(selectedItemEls).toHaveSize(0);
@@ -92,10 +92,10 @@ describe('Selection modal demo', () => {
     const { harness } = await setupTest();
 
     await expectAsync(harness.getSearchAriaLabel()).toBeResolvedTo(
-      'Search person'
+      'Search person',
     );
     await expectAsync(harness.getSaveButtonAriaLabel()).toBeResolvedTo(
-      'Select person'
+      'Select person',
     );
   });
 });

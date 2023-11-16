@@ -15,7 +15,7 @@ describe('Tokens harness', () => {
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
     const tokensHarness = await loader.getHarness(
-      SkyTokensHarness.with({ dataSkyId: options.dataSkyId })
+      SkyTokensHarness.with({ dataSkyId: options.dataSkyId }),
     );
 
     return { tokensHarness, fixture, loader };
@@ -89,7 +89,7 @@ describe('Tokens harness', () => {
 
     await expectAsync(tokens[0].isDismissible()).toBeResolvedTo(false);
     await expectAsync(tokens[0].dismiss()).toBeRejectedWithError(
-      'Could not dismiss the token because it is not dismissible.'
+      'Could not dismiss the token because it is not dismissible.',
     );
   });
 
@@ -134,7 +134,7 @@ describe('Tokens harness', () => {
     const tokens = await tokensHarness.getTokens();
 
     await expectAsync(tokens[0].select()).toBeRejectedWithError(
-      'Could not select the token because it is disabled.'
+      'Could not select the token because it is disabled.',
     );
   });
 
