@@ -318,6 +318,46 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     );
   });
 
+  it('should update the data state when the sort changes and use empty strings for header/field when not present', async () => {
+    await agGridDataManagerFixture.whenStable();
+
+    const gridColumnStates: ColumnState[] = [
+      {
+        colId: 'selected',
+      },
+      {
+        colId: 'name',
+      },
+      {
+        colId: 'target',
+      },
+      {
+        colId: 'noHeader',
+        sort: 'desc',
+        sortIndex: 0,
+      },
+    ];
+
+    spyOn(agGridComponent.columnApi, 'getColumnState').and.returnValue(
+      gridColumnStates,
+    );
+    spyOn(dataManagerService, 'updateDataState');
+
+    dataState.activeSortOption = {
+      id: 'noHeader',
+      descending: true,
+      propertyName: '',
+      label: '',
+    };
+
+    agGridComponent.sortChanged.emit();
+
+    expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
+      dataState,
+      agGridDataManagerFixtureComponent.viewConfig.id,
+    );
+  });
+
   describe('selecting rows', () => {
     it('should use the ag grid API to select all rows when onSelectAllClick is called', async () => {
       spyOn(agGridComponent.api, 'selectAll');

@@ -62,7 +62,7 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
    * from a database. The UI Config Service saves configuration settings for users
    * to preserve the layout and collapsed state of tile dashboards. The UI Config Service relies on `id` values from the `config` property to maintain user settings. For more information
    * about the UI Config Service, see the
-   * [sticky settings documentation](https://developer.blackbaud.com/skyux/learn/get-started/sticky-settings).
+   * [sticky settings documentation](https://developer.blackbaud.com/skyux/learn/develop/sticky-settings).
    */
   @Input()
   public settingsKey: string | undefined;
