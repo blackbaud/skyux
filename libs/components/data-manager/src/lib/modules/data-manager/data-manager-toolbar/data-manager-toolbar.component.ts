@@ -6,8 +6,10 @@ import {
   OnDestroy,
   OnInit,
   inject,
+  isStandalone,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { SkyLogService } from '@skyux/core';
 import {
   SkyCheckboxChange,
   SkyCheckboxModule,
@@ -20,6 +22,7 @@ import { SkySearchModule } from '@skyux/lookup';
 import {
   SkyModalCloseArgs,
   SkyModalConfigurationInterface,
+  SkyModalLegacyService,
   SkyModalService,
 } from '@skyux/modals';
 
@@ -102,6 +105,8 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
   }
 
   public onlyShowSelected: boolean | undefined;
+
+  readonly #logger = inject(SkyLogService, { optional: true });
 
   #ngUnsubscribe = new Subject<void>();
 
@@ -197,6 +202,20 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
     };
 
     if (filterModal) {
+      if (
+        !(this.#modalService instanceof SkyModalLegacyService) &&
+        !isStandalone(filterModal)
+      ) {
+        this.#logger
+          ?.deprecated(
+            'SkyDataManagerConfig.filterModalComponent not standalone',
+            {
+              deprecationMajorVersion: 9,
+              replacementRecommendation: `The SkyDataManagerConfig.filterModalComponent must be a standalone component in order to receive the right dependency injector context.`,
+            },
+          )
+          .then();
+      }
       const modalInstance = this.#modalService.open(filterModal, options);
 
       modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {

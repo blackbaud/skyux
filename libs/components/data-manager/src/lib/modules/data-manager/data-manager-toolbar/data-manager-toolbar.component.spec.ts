@@ -7,7 +7,7 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyContentInfoProvider } from '@skyux/core';
+import { SkyContentInfoProvider, SkyLogService } from '@skyux/core';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
 import { Subject } from 'rxjs';
@@ -55,6 +55,11 @@ class MockModalService {
   template: '',
 })
 class MockModalComponent {}
+
+@Component({
+  template: '',
+})
+class MockModalLegacyComponent {}
 
 describe('SkyDataManagerToolbarComponent', () => {
   let dataManagerToolbarFixture: ComponentFixture<SkyDataManagerToolbarComponent>;
@@ -136,6 +141,7 @@ describe('SkyDataManagerToolbarComponent', () => {
     modalServiceInstance = new MockModalService();
 
     TestBed.configureTestingModule({
+      declarations: [MockModalLegacyComponent],
       imports: [DataManagerFixtureModule],
       providers: [
         {
@@ -572,6 +578,29 @@ describe('SkyDataManagerToolbarComponent', () => {
     filterBtn.click();
 
     expect(modalServiceInstance.open).toHaveBeenCalled();
+  });
+
+  it('should open the provided filter modal when the filter button is clicked, using legacy modal service', () => {
+    const logger = TestBed.inject(SkyLogService);
+    spyOn(logger, 'deprecated').and.returnValue(Promise.resolve());
+    spyOn(dataManagerService, 'getViewById').and.returnValue({
+      ...(dataManagerToolbarComponent.activeView as SkyDataViewConfig),
+      filterButtonEnabled: true,
+    });
+
+    dataManagerToolbarFixture.detectChanges();
+
+    dataManagerToolbarComponent.dataManagerConfig = {
+      filterModalComponent: MockModalLegacyComponent,
+    };
+
+    const filterBtn = dataManagerToolbarNativeElement.querySelector(
+      'sky-filter-button button',
+    ) as HTMLButtonElement;
+
+    filterBtn.click();
+
+    expect(logger.deprecated).toHaveBeenCalled();
   });
 
   it('should save the returned filter data when the provided filter modal is saved', () => {
