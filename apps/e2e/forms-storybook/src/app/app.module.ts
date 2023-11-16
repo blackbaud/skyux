@@ -19,42 +19,42 @@ const routes: Route[] = [
     path: 'radio-button',
     loadChildren: () =>
       import('./radio-button/radio-button.module').then(
-        (m) => m.RadioButtonModule
+        (m) => m.RadioButtonModule,
       ),
   },
   {
     path: 'toggle-switch',
     loadChildren: () =>
       import('./toggle-switch/toggle-switch.module').then(
-        (m) => m.ToggleSwitchModule
+        (m) => m.ToggleSwitchModule,
       ),
   },
   {
     path: 'character-counter',
     loadChildren: () =>
       import('./character-counter/character-counter.module').then(
-        (m) => m.CharacterCounterModule
+        (m) => m.CharacterCounterModule,
       ),
   },
   {
     path: 'single-file-attachment',
     loadChildren: () =>
       import('./single-file-attachment/single-file-attachment.module').then(
-        (m) => m.SingleFileAttachmentModule
+        (m) => m.SingleFileAttachmentModule,
       ),
   },
   {
     path: 'file-attachment',
     loadChildren: () =>
       import('./file-attachment/file-attachment.module').then(
-        (m) => m.FileAttachmentModule
+        (m) => m.FileAttachmentModule,
       ),
   },
   {
     path: 'selection-box',
     loadChildren: () =>
       import('./selection-box/selection-box.module').then(
-        (m) => m.SelectionBoxModule
+        (m) => m.SelectionBoxModule,
       ),
   },
 ];

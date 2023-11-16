@@ -15,7 +15,7 @@ import { UrlValidationTestComponent } from './fixtures/url-validation.component.
 function getInputElement(
   fixture: ComponentFixture<
     UrlValidationTestComponent | UrlValidationRulesetTestComponent
-  >
+  >,
 ): HTMLInputElement {
   return fixture.nativeElement.querySelector('input') as HTMLInputElement;
 }
@@ -23,7 +23,7 @@ function getInputElement(
 describe('URL validation via directive - ruleset v1 (implicit)', () => {
   function setInput(
     text: string,
-    compFixture: ComponentFixture<UrlValidationTestComponent>
+    compFixture: ComponentFixture<UrlValidationTestComponent>,
   ) {
     const inputEvent = document.createEvent('Event');
     const params = {
@@ -182,7 +182,7 @@ describe('URL validation via directive - ruleset v1 (explicit)', () => {
 describe('URL validation via directive - ruleset v2', () => {
   function setInput(
     text: string,
-    compFixture: ComponentFixture<UrlValidationRulesetTestComponent>
+    compFixture: ComponentFixture<UrlValidationRulesetTestComponent>,
   ) {
     const params = {
       bubbles: false,

@@ -199,14 +199,14 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
           let focusChanged = false;
 
           const focusElementList = this.#coreAdapter.getFocusableChildren(
-            this.#elRef.nativeElement
+            this.#elRef.nativeElement,
           );
 
           if (
             event.shiftKey &&
             (this.#componentAdapter.isFocusInFirstItem(
               event,
-              focusElementList
+              focusElementList,
             ) ||
               this.#componentAdapter.isModalFocused(event, this.#elRef))
           ) {
@@ -292,7 +292,7 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
 
   public viewkeeperEnabled(): boolean {
     return this.#componentAdapter.modalContentHasDirectChildViewkeeper(
-      this.#elRef
+      this.#elRef,
     );
   }
 }

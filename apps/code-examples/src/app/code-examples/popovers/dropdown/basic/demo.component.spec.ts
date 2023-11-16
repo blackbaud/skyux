@@ -15,7 +15,7 @@ describe('Basic dropdown', () => {
     const dropdownHarness = await loader.getHarness(
       SkyDropdownHarness.with({
         dataSkyId: 'dropdown-demo',
-      })
+      }),
     );
 
     return { dropdownHarness, fixture };
@@ -33,12 +33,12 @@ describe('Basic dropdown', () => {
     fixture.detectChanges();
 
     await expectAsync(dropdownHarness.getButtonStyle()).toBeResolvedTo(
-      'default'
+      'default',
     );
     await expectAsync(dropdownHarness.getButtonType()).toBeResolvedTo('select');
     await expectAsync(dropdownHarness.isDisabled()).toBeResolvedTo(false);
     await expectAsync(dropdownHarness.getAriaLabel()).toBeResolvedTo(
-      'Test dropdown'
+      'Test dropdown',
     );
     await expectAsync(dropdownHarness.getTitle()).toBeResolvedTo(null);
     await expectAsync(dropdownHarness.isOpen()).toBeResolvedTo(false);
@@ -58,7 +58,7 @@ describe('Basic dropdown', () => {
     await expectAsync(dropdownMenu.getAriaRole()).toBeResolvedTo('menu');
 
     await expectAsync(dropdownMenuItems?.[0].getText()).toBeResolvedTo(
-      'Option 1'
+      'Option 1',
     );
   });
 

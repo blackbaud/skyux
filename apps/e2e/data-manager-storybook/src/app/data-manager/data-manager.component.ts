@@ -97,7 +97,7 @@ export class DataManagerComponent implements OnInit, AfterViewInit, OnDestroy {
     this.#subscriptions.add(
       this.#fontLoadingService.ready().subscribe(() => {
         this.ready.next(true);
-      })
+      }),
     );
   }
 

@@ -17,8 +17,8 @@ describe('LinkAsPipe', () => {
             [1].pop();
           },
         },
-        'button'
-      )
+        'button',
+      ),
     ).toBeTruthy();
     expect(
       pipe.transform(
@@ -29,27 +29,30 @@ describe('LinkAsPipe', () => {
             [1].pop();
           },
         },
-        'button'
-      )
+        'button',
+      ),
     ).toBeFalsy();
     expect(
       pipe.transform(
         { title: 'Action', permalink: { url: 'https://www.example.com' } },
-        'button'
-      )
+        'button',
+      ),
     ).toBeFalsy();
     expect(
       pipe.transform(
         { title: 'Action', permalink: { route: { commands: ['test'] } } },
-        'button'
-      )
+        'button',
+      ),
     ).toBeFalsy();
     expect(
-      pipe.transform({ title: 'Action', permalink: { url: '' } }, 'button')
+      pipe.transform({ title: 'Action', permalink: { url: '' } }, 'button'),
     ).toBeFalsy();
     expect(pipe.transform(undefined, 'button')).toBeFalsy();
     expect(
-      pipe.transform({ label: 'Link', permalink: { url: 'invalid' } }, 'button')
+      pipe.transform(
+        { label: 'Link', permalink: { url: 'invalid' } },
+        'button',
+      ),
     ).toBeFalsy();
   });
 
@@ -58,17 +61,17 @@ describe('LinkAsPipe', () => {
     expect(
       pipe.transform(
         { label: 'Link', permalink: { url: 'https://www.example.com' } },
-        'href'
-      )
+        'href',
+      ),
     ).toBeFalsy();
     expect(
-      pipe.transform({ label: 'Link', permalink: { url: '/path' } }, 'href')
+      pipe.transform({ label: 'Link', permalink: { url: '/path' } }, 'href'),
     ).toBeTruthy();
     expect(
-      pipe.transform({ label: 'Link', permalink: { url: '' } }, 'href')
+      pipe.transform({ label: 'Link', permalink: { url: '' } }, 'href'),
     ).toBeTruthy();
     expect(
-      pipe.transform({ label: 'Link', title: 'Title' }, 'href')
+      pipe.transform({ label: 'Link', title: 'Title' }, 'href'),
     ).toBeFalsy();
     expect(pipe.transform(undefined, 'href')).toBeFalsy();
   });
@@ -78,14 +81,14 @@ describe('LinkAsPipe', () => {
     expect(
       pipe.transform(
         { label: 'Link', permalink: { url: 'https://www.example.com' } },
-        'skyAppLink'
-      )
+        'skyAppLink',
+      ),
     ).toBeFalsy();
     expect(
       pipe.transform(
         { label: 'Link', permalink: { route: { commands: ['test'] } } },
-        'skyAppLink'
-      )
+        'skyAppLink',
+      ),
     ).toBeTruthy();
     expect(
       pipe.transform(
@@ -96,17 +99,17 @@ describe('LinkAsPipe', () => {
             route: { commands: ['test'] },
           },
         },
-        'skyAppLink'
-      )
+        'skyAppLink',
+      ),
     ).toBeFalsy();
     expect(
       pipe.transform(
         { label: 'Link', permalink: { route: undefined } },
-        'skyAppLink'
-      )
+        'skyAppLink',
+      ),
     ).toBeFalsy();
     expect(
-      pipe.transform({ label: 'Link', title: 'Title' }, 'skyAppLink')
+      pipe.transform({ label: 'Link', title: 'Title' }, 'skyAppLink'),
     ).toBeFalsy();
     expect(pipe.transform(undefined, 'skyAppLink')).toBeFalsy();
   });
@@ -116,23 +119,23 @@ describe('LinkAsPipe', () => {
     expect(
       pipe.transform(
         { label: 'Link', permalink: { url: 'https://www.example.com' } },
-        'skyHref'
-      )
+        'skyHref',
+      ),
     ).toBeTruthy();
     expect(
       pipe.transform(
         { label: 'Link', permalink: { url: '1bb-nav://spa/path' } },
-        'skyHref'
-      )
+        'skyHref',
+      ),
     ).toBeTruthy();
     expect(
-      pipe.transform({ label: 'Link', permalink: { url: '/path' } }, 'skyHref')
+      pipe.transform({ label: 'Link', permalink: { url: '/path' } }, 'skyHref'),
     ).toBeFalsy();
     expect(
-      pipe.transform({ label: 'Link', permalink: { url: '' } }, 'skyHref')
+      pipe.transform({ label: 'Link', permalink: { url: '' } }, 'skyHref'),
     ).toBeFalsy();
     expect(
-      pipe.transform({ label: 'Link', title: 'Title' }, 'skyHref')
+      pipe.transform({ label: 'Link', title: 'Title' }, 'skyHref'),
     ).toBeFalsy();
     expect(pipe.transform(undefined, 'skyHref')).toBeFalsy();
   });

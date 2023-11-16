@@ -52,11 +52,11 @@ export class SkyYearPickerComponent implements OnInit {
 
   #refreshYearView() {
     const years: Array<SkyDatepickerDate> = new Array(
-      this.datepicker.yearRange
+      this.datepicker.yearRange,
     );
     let date: Date;
     const start = this.getStartingYear(
-      this.datepicker.activeDate.getFullYear()
+      this.datepicker.activeDate.getFullYear(),
     );
 
     for (let i = 0; i < this.datepicker.yearRange; i++) {
@@ -67,7 +67,7 @@ export class SkyYearPickerComponent implements OnInit {
         date,
         this.datepicker.formatYear,
         false,
-        this.datepicker.datepickerId + '-' + i
+        this.datepicker.datepickerId + '-' + i,
       );
     }
 
@@ -77,7 +77,7 @@ export class SkyYearPickerComponent implements OnInit {
     ].join(' - ');
     this.rows = this.datepicker.createCalendarRows(
       years,
-      this.datepicker.yearColLimit
+      this.datepicker.yearColLimit,
     );
   }
 

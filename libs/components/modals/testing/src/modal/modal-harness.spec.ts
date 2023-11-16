@@ -77,7 +77,7 @@ describe('Modal test harness', () => {
     config?: SkyModalConfigurationInterface,
     options: {
       dataSkyId?: string;
-    } = {}
+    } = {},
   ): Promise<{
     modalHarness: SkyModalHarness;
     service: SkyModalService;
@@ -108,7 +108,7 @@ describe('Modal test harness', () => {
       modalHarness = await loader.getHarness(
         SkyModalHarness.with({
           dataSkyId: options.dataSkyId,
-        })
+        }),
       );
     } else {
       modalHarness = await loader.getHarness(SkyModalHarness);
@@ -132,7 +132,7 @@ describe('Modal test harness', () => {
     const isDirtyModalHarness = await loader.getHarness(
       SkyModalHarness.with({
         dataSkyId: 'isDirtyModal',
-      })
+      }),
     );
 
     await expectAsync(isDirtyModalHarness.isDirty()).toBeResolvedTo(isDirty);
@@ -141,13 +141,13 @@ describe('Modal test harness', () => {
   it('should get the correct modal by data sky id', async () => {
     const { modalHarness, fixture } = await setupTest(
       {},
-      { dataSkyId: 'otherModal' }
+      { dataSkyId: 'otherModal' },
     );
 
     fixture.detectChanges();
 
     await expectAsync(modalHarness.getAriaDescribedBy()).toBeResolvedTo(
-      'otherModal'
+      'otherModal',
     );
   });
 
@@ -159,7 +159,7 @@ describe('Modal test harness', () => {
     fixture.detectChanges();
 
     await expectAsync(modalHarness.getAriaDescribedBy()).toBeResolvedTo(
-      'ariaDescribedBy'
+      'ariaDescribedBy',
     );
   });
 
@@ -171,7 +171,7 @@ describe('Modal test harness', () => {
     fixture.detectChanges();
 
     await expectAsync(modalHarness.getAriaLabelledBy()).toBeResolvedTo(
-      'ariaLabelledBy'
+      'ariaLabelledBy',
     );
   });
 
@@ -223,7 +223,7 @@ describe('Modal test harness', () => {
     fixture.detectChanges();
 
     await expectAsync(modalHarness.getSize()).toBeRejectedWithError(
-      'Size cannot be determined because size property is overridden when modal is full page'
+      'Size cannot be determined because size property is overridden when modal is full page',
     );
   });
 
@@ -235,7 +235,7 @@ describe('Modal test harness', () => {
     fixture.detectChanges();
 
     await expectAsync(modalHarness.getWrapperClass()).toBeResolvedTo(
-      'test-class'
+      'test-class',
     );
   });
 

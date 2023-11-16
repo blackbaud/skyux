@@ -90,13 +90,13 @@ describe('Error component', () => {
     expect(getSecurityImage('#test-error')).not.toExist();
 
     expect(getErrorTitle('#test-error')).toHaveText(
-      resourceStrings.brokenTitle
+      resourceStrings.brokenTitle,
     );
     expect(getErrorDescription('#test-error')).toHaveText(
-      resourceStrings.brokenDescription
+      resourceStrings.brokenDescription,
     );
     expect(getErrorActionButton('#test-error')).toHaveText(
-      component.buttonText
+      component.buttonText,
     );
   });
 
@@ -112,13 +112,13 @@ describe('Error component', () => {
     expect(getSecurityImage('#test-error')).not.toExist();
 
     expect(getErrorTitle('#test-error')).toHaveText(
-      resourceStrings.brokenTitle
+      resourceStrings.brokenTitle,
     );
     expect(getErrorDescription('#test-error')).toHaveText(
-      resourceStrings.brokenDescription
+      resourceStrings.brokenDescription,
     );
     expect(getErrorActionButton('#test-error')).toHaveText(
-      component.buttonText
+      component.buttonText,
     );
   });
 
@@ -132,13 +132,13 @@ describe('Error component', () => {
     expect(getSecurityImage('#test-error')).not.toExist();
 
     expect(getErrorTitle('#test-error')).toHaveText(
-      resourceStrings.notFoundTitle
+      resourceStrings.notFoundTitle,
     );
     expect(getErrorDescription('#test-error')).toHaveText(
-      resourceStrings.notFoundDescription
+      resourceStrings.notFoundDescription,
     );
     expect(getErrorActionButton('#test-error')).toHaveText(
-      component.buttonText
+      component.buttonText,
     );
   });
 
@@ -151,13 +151,13 @@ describe('Error component', () => {
     expect(getConstructionImage('#test-error')).toExist();
 
     expect(getErrorTitle('#test-error')).toHaveText(
-      resourceStrings.constructionTitle
+      resourceStrings.constructionTitle,
     );
     expect(getErrorDescription('#test-error')).toHaveText(
-      resourceStrings.constructionDescription
+      resourceStrings.constructionDescription,
     );
     expect(getErrorActionButton('#test-error')).toHaveText(
-      component.buttonText
+      component.buttonText,
     );
   });
 
@@ -171,13 +171,13 @@ describe('Error component', () => {
     expect(getSecurityImage('#test-error')).toExist();
 
     expect(getErrorTitle('#test-error')).toHaveText(
-      resourceStrings.securityTitle
+      resourceStrings.securityTitle,
     );
     expect(getErrorDescription('#test-error')).toHaveText(
-      resourceStrings.securityDescription
+      resourceStrings.securityDescription,
     );
     expect(getErrorActionButton('#test-error')).toHaveText(
-      component.buttonText
+      component.buttonText,
     );
   });
 
@@ -190,16 +190,16 @@ describe('Error component', () => {
     expect(getSecurityImage('#test-error-custom')).not.toExist();
 
     expect(getImageContainer('#test-error-custom')).toHaveText(
-      component.customImage
+      component.customImage,
     );
     expect(getErrorTitle('#test-error-custom')).toHaveText(
-      component.customTitle
+      component.customTitle,
     );
     expect(getErrorDescription('#test-error-custom')).toHaveText(
-      component.customDescription
+      component.customDescription,
     );
     expect(getErrorActionButton('#test-error-custom')).toHaveText(
-      component.buttonText
+      component.buttonText,
     );
   });
 
@@ -208,7 +208,7 @@ describe('Error component', () => {
     fixture.detectChanges();
 
     expect(getErrorDescription('#test-error').innerText).toBe(
-      resourceStrings.brokenDescription
+      resourceStrings.brokenDescription,
     );
   });
 
@@ -220,20 +220,20 @@ describe('Error component', () => {
 
     expect(getBrokenImage('#test-error-custom-replace-default')).toExist();
     expect(
-      getNotFoundImage('#test-error-custom-replace-default')
+      getNotFoundImage('#test-error-custom-replace-default'),
     ).not.toExist();
     expect(
-      getConstructionImage('#test-error-custom-replace-default')
+      getConstructionImage('#test-error-custom-replace-default'),
     ).not.toExist();
     expect(
-      getSecurityImage('#test-error-custom-replace-default')
+      getSecurityImage('#test-error-custom-replace-default'),
     ).not.toExist();
 
     expect(getErrorTitle('#test-error-custom-replace-default')).toHaveText(
-      `${component.customTitle}`
+      `${component.customTitle}`,
     );
     expect(
-      getErrorDescription('#test-error-custom-replace-default')
+      getErrorDescription('#test-error-custom-replace-default'),
     ).toHaveText(`${component.customDescription}`);
   });
 
@@ -245,22 +245,22 @@ describe('Error component', () => {
 
     expect(getBrokenImage('#test-error-custom-replace-default')).toExist();
     expect(
-      getNotFoundImage('#test-error-custom-replace-default')
+      getNotFoundImage('#test-error-custom-replace-default'),
     ).not.toExist();
     expect(
-      getConstructionImage('#test-error-custom-replace-default')
+      getConstructionImage('#test-error-custom-replace-default'),
     ).not.toExist();
     expect(
-      getSecurityImage('#test-error-custom-replace-default')
+      getSecurityImage('#test-error-custom-replace-default'),
     ).not.toExist();
 
     expect(getErrorTitle('#test-error-custom-replace-default')).toHaveText(
-      `${resourceStrings.brokenTitle} ${component.customTitle}`
+      `${resourceStrings.brokenTitle} ${component.customTitle}`,
     );
     expect(
-      getErrorDescription('#test-error-custom-replace-default')
+      getErrorDescription('#test-error-custom-replace-default'),
     ).toHaveText(
-      `${resourceStrings.brokenDescription} ${component.customDescription}`
+      `${resourceStrings.brokenDescription} ${component.customDescription}`,
     );
   });
 
@@ -275,10 +275,10 @@ describe('Error component', () => {
   it('should not display previous default title or description after errorType is set to undefined', () => {
     fixture.detectChanges();
     expect(getErrorTitle('#test-error')).toHaveText(
-      resourceStrings.brokenTitle
+      resourceStrings.brokenTitle,
     );
     expect(getErrorDescription('#test-error')).toHaveText(
-      resourceStrings.brokenDescription
+      resourceStrings.brokenDescription,
     );
 
     component.errorType = undefined;
@@ -292,7 +292,7 @@ describe('Error component', () => {
     expect(getErrorTitle('#test-error')).toHaveText('');
     expect(getErrorDescription('#test-error')).toHaveText('');
     expect(getErrorActionButton('#test-error')).toHaveText(
-      component.buttonText
+      component.buttonText,
     );
   });
 

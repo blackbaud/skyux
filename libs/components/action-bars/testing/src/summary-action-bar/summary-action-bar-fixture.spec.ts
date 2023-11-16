@@ -17,7 +17,7 @@ describe('Summary action bar fixture', () => {
   //#region helpers
 
   async function initiateResponsiveMode(
-    breakpoint: SkyMediaBreakpoints
+    breakpoint: SkyMediaBreakpoints,
   ): Promise<void> {
     mockQueryService.fire(breakpoint);
     fixture.detectChanges();
@@ -43,7 +43,7 @@ describe('Summary action bar fixture', () => {
     fixture.detectChanges();
     summaryActionBarFixture = new SkySummaryActionBarFixture(
       fixture,
-      SummaryActionBarTestComponent.dataSkyId
+      SummaryActionBarTestComponent.dataSkyId,
     );
   });
 
@@ -102,10 +102,10 @@ describe('Summary action bar fixture', () => {
 
         // verify button state
         expect(action.buttonText).toEqual(
-          testComponent.secondaryActions[i].buttonText
+          testComponent.secondaryActions[i].buttonText,
         );
         expect(action.isDisabled).toEqual(
-          testComponent.secondaryActions[i].isDisabled
+          testComponent.secondaryActions[i].isDisabled,
         );
 
         // verify the click methods work on the button state
@@ -124,10 +124,10 @@ describe('Summary action bar fixture', () => {
 
         // verify button state
         expect(action.buttonText).toEqual(
-          testComponent.secondaryActions[i].buttonText
+          testComponent.secondaryActions[i].buttonText,
         );
         expect(action.isDisabled).toEqual(
-          testComponent.secondaryActions[i].isDisabled
+          testComponent.secondaryActions[i].isDisabled,
         );
 
         // verify the click methods work on the button state
@@ -155,10 +155,10 @@ describe('Summary action bar fixture', () => {
 
         // verify button state
         expect(action.buttonText).toEqual(
-          testComponent.secondaryActions[i].buttonText
+          testComponent.secondaryActions[i].buttonText,
         );
         expect(action.isDisabled).toEqual(
-          testComponent.secondaryActions[i].isDisabled
+          testComponent.secondaryActions[i].isDisabled,
         );
       }
     });
@@ -214,7 +214,7 @@ describe('Summary action bar fixture', () => {
     it('should support summary body query selectors', async () => {
       const summaryContent = summaryActionBarFixture.querySummaryBody('div');
       expect(SkyAppTestUtility.getText(summaryContent)).toEqual(
-        testComponent.summaryBody
+        testComponent.summaryBody,
       );
     });
 
@@ -225,7 +225,7 @@ describe('Summary action bar fixture', () => {
 
       const summaryContent = results[0];
       expect(SkyAppTestUtility.getText(summaryContent)).toEqual(
-        testComponent.summaryBody
+        testComponent.summaryBody,
       );
     });
 
@@ -234,7 +234,7 @@ describe('Summary action bar fixture', () => {
 
       const summaryContent = summaryActionBarFixture.querySummaryBody('div');
       expect(SkyAppTestUtility.getText(summaryContent)).toEqual(
-        testComponent.summaryBody
+        testComponent.summaryBody,
       );
     });
 
@@ -249,7 +249,7 @@ describe('Summary action bar fixture', () => {
       // - we use textContent since safari/firefox won't populate innerText for hidden elements
       const summaryContent = summaryActionBarFixture.querySummaryBody('div');
       expect(summaryContent.textContent?.trim()).toEqual(
-        testComponent.summaryBody
+        testComponent.summaryBody,
       );
     });
 

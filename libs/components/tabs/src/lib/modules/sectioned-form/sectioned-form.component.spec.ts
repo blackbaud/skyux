@@ -12,25 +12,25 @@ import { SkySectionedFormMessageType } from './types/sectioned-form-message-type
 
 function getVisibleTabs(el: any) {
   return el.querySelectorAll(
-    '.sky-sectioned-form-tabs:not(.sky-sectioned-form-tabs-hidden)'
+    '.sky-sectioned-form-tabs:not(.sky-sectioned-form-tabs-hidden)',
   );
 }
 
 function getVisibleContent(el: any) {
   return el.querySelectorAll(
-    '.sky-sectioned-form-content:not(.sky-sectioned-form-content-hidden)'
+    '.sky-sectioned-form-content:not(.sky-sectioned-form-content-hidden)',
   );
 }
 
 function getVisibleTabContent(el: any) {
   return el.querySelectorAll(
-    '.sky-vertical-tab-content-pane:not(.sky-vertical-tab-hidden)'
+    '.sky-vertical-tab-content-pane:not(.sky-vertical-tab-hidden)',
   );
 }
 
 function getActiveSection(el: any) {
   return el.querySelectorAll(
-    'sky-sectioned-form-section .sky-vertical-tab-active'
+    'sky-sectioned-form-section .sky-vertical-tab-active',
   );
 }
 
@@ -51,8 +51,8 @@ describe('Sectioned form component', () => {
 
   function validateShowTabs(
     showTabsCallback: (
-      fixture: ComponentFixture<SkySectionedFormFixtureComponent>
-    ) => void
+      fixture: ComponentFixture<SkySectionedFormFixtureComponent>,
+    ) => void,
   ): void {
     mockQueryService.fire(SkyMediaBreakpoints.xs);
 
@@ -103,7 +103,7 @@ describe('Sectioned form component', () => {
     expect(activeSection.length).toBe(1);
 
     const heading = activeSection[0].querySelector(
-      '.sky-vertical-tab-heading-value'
+      '.sky-vertical-tab-heading-value',
     );
     expect(heading.textContent.trim()).toBe('Information 1a');
 
@@ -124,11 +124,11 @@ describe('Sectioned form component', () => {
 
     // check order of vertical tab content
     let allTabContentElements = el.querySelectorAll(
-      '.sky-vertical-tab-content-pane'
+      '.sky-vertical-tab-content-pane',
     );
     expect(allTabContentElements.length).toBe(2);
     expect(allTabContentElements[0].textContent.trim()).toBe(
-      'information 1Mark requiredMark invalid'
+      'information 1Mark requiredMark invalid',
     );
     expect(allTabContentElements[1].textContent.trim()).toBe('information 2');
 
@@ -156,12 +156,12 @@ describe('Sectioned form component', () => {
 
     // check order of vertical tab content - order changes when tabs are clicked
     allTabContentElements = el.querySelectorAll(
-      '.sky-vertical-tab-content-pane'
+      '.sky-vertical-tab-content-pane',
     );
     expect(allTabContentElements.length).toBe(2);
     expect(allTabContentElements[0].textContent.trim()).toBe('information 2');
     expect(allTabContentElements[1].textContent.trim()).toBe(
-      'information 1Mark requiredMark invalid'
+      'information 1Mark requiredMark invalid',
     );
   });
 
@@ -242,7 +242,7 @@ describe('Sectioned form component', () => {
     fixture.detectChanges();
 
     expect(
-      fixture.componentInstance.sectionedForm?.messageStream
+      fixture.componentInstance.sectionedForm?.messageStream,
     ).not.toBeFalsy();
   });
 
@@ -269,7 +269,7 @@ describe('Sectioned form component', () => {
 
     expect(
       fixture.componentInstance.sectionedForm?.tabService
-        .animationContentVisibleState
+        .animationContentVisibleState,
     ).toBe('shown');
   });
 
@@ -277,7 +277,7 @@ describe('Sectioned form component', () => {
     validateShowTabs(
       (fixture: ComponentFixture<SkySectionedFormFixtureComponent>) => {
         fixture.componentInstance.sectionedForm?.showTabs();
-      }
+      },
     );
   });
 
@@ -287,7 +287,7 @@ describe('Sectioned form component', () => {
         fixture.componentInstance.messageStream?.next({
           type: SkySectionedFormMessageType.ShowTabs,
         });
-      }
+      },
     );
   });
 
@@ -347,19 +347,19 @@ describe('Sectioned form component', () => {
 
     const inactiveTab = tabs[0];
     const inactiveTabContent = el.querySelector(
-      '#' + inactiveTab.getAttribute('aria-controls')
+      '#' + inactiveTab.getAttribute('aria-controls'),
     );
     expect(inactiveTab.getAttribute('aria-selected')).toEqual('false');
     expect(inactiveTab.getAttribute('aria-controls')).toBe(
-      inactiveTabContent.id
+      inactiveTabContent.id,
     );
     expect(inactiveTabContent.getAttribute('aria-labelledby')).toBe(
-      inactiveTab.id
+      inactiveTab.id,
     );
 
     const activeTab = tabs[1];
     const activeTabContent = el.querySelector(
-      '#' + activeTab.getAttribute('aria-controls')
+      '#' + activeTab.getAttribute('aria-controls'),
     );
     expect(activeTab.getAttribute('aria-selected')).toBe('true');
     expect(activeTab.getAttribute('aria-controls')).toBe(activeTabContent.id);
@@ -426,11 +426,11 @@ describe('Sectioned form component', () => {
 
     // check order of vertical tab content
     let allTabContentElements = el.querySelectorAll(
-      '.sky-vertical-tab-content-pane'
+      '.sky-vertical-tab-content-pane',
     );
     expect(allTabContentElements.length).toBe(2);
     expect(allTabContentElements[0].textContent.trim()).toBe(
-      'information 1Mark requiredMark invalid'
+      'information 1Mark requiredMark invalid',
     );
     expect(allTabContentElements[1].textContent.trim()).toBe('information 2');
 
@@ -458,11 +458,11 @@ describe('Sectioned form component', () => {
 
     // check order of vertical tab content - order should not change
     allTabContentElements = el.querySelectorAll(
-      '.sky-vertical-tab-content-pane'
+      '.sky-vertical-tab-content-pane',
     );
     expect(allTabContentElements.length).toBe(2);
     expect(allTabContentElements[0].textContent.trim()).toBe(
-      'information 1Mark requiredMark invalid'
+      'information 1Mark requiredMark invalid',
     );
     expect(allTabContentElements[1].textContent.trim()).toBe('information 2');
   });
@@ -477,7 +477,7 @@ describe('Sectioned form component - no sections', () => {
 
   function createTestComponent() {
     const fixture = TestBed.createComponent(
-      SkySectionedFormNoSectionsFixtureComponent
+      SkySectionedFormNoSectionsFixtureComponent,
     );
     return fixture;
   }
@@ -503,7 +503,7 @@ describe('Sectioned form component - no active sections', () => {
 
   function createTestComponent() {
     const fixture = TestBed.createComponent(
-      SkySectionedFormNoActiveFixtureComponent
+      SkySectionedFormNoActiveFixtureComponent,
     );
     return fixture;
   }

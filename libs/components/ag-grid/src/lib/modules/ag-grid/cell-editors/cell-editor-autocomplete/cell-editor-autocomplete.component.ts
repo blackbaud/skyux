@@ -81,7 +81,7 @@ export class SkyAgGridCellEditorAutocompleteComponent
         // Ensure the cursor is at the end of the text.
         this.input.nativeElement.setSelectionRange(
           charPress.length,
-          charPress.length
+          charPress.length,
         );
         this.input.nativeElement.dispatchEvent(new Event('input'));
       }

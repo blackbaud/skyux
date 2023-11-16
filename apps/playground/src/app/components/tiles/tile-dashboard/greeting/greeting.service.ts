@@ -1,7 +1,7 @@
 import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
 
 export const GREETING_CONFIG = new InjectionToken<GreetingConfig>(
-  'GreetingConfig'
+  'GreetingConfig',
 );
 
 export interface GreetingConfig {

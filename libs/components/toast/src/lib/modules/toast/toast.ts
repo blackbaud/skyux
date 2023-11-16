@@ -42,7 +42,7 @@ export class SkyToast {
     bodyComponent: Type<unknown>,
     bodyComponentProviders: Provider[],
     instance: SkyToastInstance,
-    config?: SkyToastConfig
+    config?: SkyToastConfig,
   ) {
     this.#bodyComponent = bodyComponent;
     this.#bodyComponentProviders = bodyComponentProviders;

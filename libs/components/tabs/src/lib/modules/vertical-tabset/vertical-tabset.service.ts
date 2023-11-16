@@ -150,7 +150,7 @@ export class SkyVerticalTabsetService {
       this.tabs.forEach((tab) => {
         if (!tab.contentRendered) {
           this.content?.nativeElement.appendChild(
-            tab.tabContent?.nativeElement
+            tab.tabContent?.nativeElement,
           );
           tab.contentRendered = true;
         }

@@ -16,7 +16,7 @@ import { ReadonlyGridComponent } from './readonly-grid.component';
 export class ReadonlyGridInModalModalComponent {
   constructor(
     public modal: SkyModalInstance,
-    private modalService: SkyModalService
+    private modalService: SkyModalService,
   ) {}
 
   public openGridModal(): void {

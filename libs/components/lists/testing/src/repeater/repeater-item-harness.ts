@@ -20,7 +20,7 @@ export class SkyRepeaterItemHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-repeater-item';
 
   #getBackToTop = this.locatorForOptional(
-    'button.sky-repeater-item-reorder-top'
+    'button.sky-repeater-item-reorder-top',
   );
 
   #getCheckbox = this.locatorForOptional(SkyCheckboxHarness);
@@ -32,7 +32,7 @@ export class SkyRepeaterItemHarness extends SkyComponentHarness {
   #getItem = this.locatorFor('.sky-repeater-item');
 
   #getReorderHandle = this.locatorForOptional(
-    'button.sky-repeater-item-grab-handle'
+    'button.sky-repeater-item-grab-handle',
   );
 
   #getTitle = this.locatorFor('.sky-repeater-item-title');
@@ -42,14 +42,14 @@ export class SkyRepeaterItemHarness extends SkyComponentHarness {
    * `SkyRepeaterItemHarness` that meets certain criteria.
    */
   public static with(
-    filters: SkyRepeaterItemHarnessFilters
+    filters: SkyRepeaterItemHarnessFilters,
   ): HarnessPredicate<SkyRepeaterItemHarness> {
     return SkyRepeaterItemHarness.getDataSkyIdPredicate(filters)
       .addOption('contentText', filters.contentText, async (harness, text) =>
-        HarnessPredicate.stringMatches(await harness.getContentText(), text)
+        HarnessPredicate.stringMatches(await harness.getContentText(), text),
       )
       .addOption('titleText', filters.titleText, async (harness, text) =>
-        HarnessPredicate.stringMatches(await harness.getTitleText(), text)
+        HarnessPredicate.stringMatches(await harness.getTitleText(), text),
       );
   }
 
@@ -57,7 +57,7 @@ export class SkyRepeaterItemHarness extends SkyComponentHarness {
    * Returns a child harness.
    */
   public async queryHarness<T extends ComponentHarness>(
-    query: HarnessQuery<T>
+    query: HarnessQuery<T>,
   ): Promise<T | null> {
     return this.locatorForOptional(query)();
   }
@@ -66,7 +66,7 @@ export class SkyRepeaterItemHarness extends SkyComponentHarness {
    * Returns child harnesses.
    */
   public async queryHarnesses<T extends ComponentHarness>(
-    harness: HarnessQuery<T>
+    harness: HarnessQuery<T>,
   ): Promise<T[]> {
     return this.locatorForAll(harness)();
   }
@@ -106,7 +106,7 @@ export class SkyRepeaterItemHarness extends SkyComponentHarness {
     const checkbox = await this.#getCheckbox();
     if (!checkbox) {
       throw new Error(
-        'Could not determine if repeater item is selected because it is not selectable.'
+        'Could not determine if repeater item is selected because it is not selectable.',
       );
     }
 
@@ -120,7 +120,7 @@ export class SkyRepeaterItemHarness extends SkyComponentHarness {
     const checkbox = await this.#getCheckbox();
     if (!checkbox) {
       throw new Error(
-        'Could not select the repeater item because it is not selectable.'
+        'Could not select the repeater item because it is not selectable.',
       );
     }
 
@@ -134,7 +134,7 @@ export class SkyRepeaterItemHarness extends SkyComponentHarness {
     const checkbox = await this.#getCheckbox();
     if (!checkbox) {
       throw new Error(
-        'Could not deselect the repeater item because it is not selectable.'
+        'Could not deselect the repeater item because it is not selectable.',
       );
     }
 
@@ -171,7 +171,7 @@ export class SkyRepeaterItemHarness extends SkyComponentHarness {
       return (await chevron.getDirection()) === 'up';
     }
     throw new Error(
-      'Could not determine if repeater item is expanded because it is not collapsible.'
+      'Could not determine if repeater item is expanded because it is not collapsible.',
     );
   }
 
@@ -187,7 +187,7 @@ export class SkyRepeaterItemHarness extends SkyComponentHarness {
       return;
     }
     throw new Error(
-      'Could not expand the repeater item because it is not collapsible.'
+      'Could not expand the repeater item because it is not collapsible.',
     );
   }
 
@@ -203,7 +203,7 @@ export class SkyRepeaterItemHarness extends SkyComponentHarness {
       return;
     }
     throw new Error(
-      'Could not collapse the repeater item because it is not collapsible.'
+      'Could not collapse the repeater item because it is not collapsible.',
     );
   }
 
@@ -222,7 +222,7 @@ export class SkyRepeaterItemHarness extends SkyComponentHarness {
       await (await this.#getBackToTop())?.click();
     } else {
       throw new Error(
-        'Could not send to top because the repeater is not reorderable.'
+        'Could not send to top because the repeater is not reorderable.',
       );
     }
   }

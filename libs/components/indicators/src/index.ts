@@ -37,9 +37,10 @@ export { SkyWaitService } from './lib/modules/wait/wait.service';
 // Obscure names are used to indicate types are not part of the public API.
 export { SkyAlertComponent as λ1 } from './lib/modules/alert/alert.component';
 export { SkyChevronComponent as λ2 } from './lib/modules/chevron/chevron.component';
+export { SkyExpansionIndicatorComponent as λ15 } from './lib/modules/expansion-indicator/expansion-indicator.component';
 export { SkyHelpInlineComponent as λ3 } from './lib/modules/help-inline/help-inline.component';
-export { SkyIconComponent as λ4 } from './lib/modules/icon/icon.component';
 export { SkyIconStackComponent as λ5 } from './lib/modules/icon/icon-stack.component';
+export { SkyIconComponent as λ4 } from './lib/modules/icon/icon.component';
 export { SkyKeyInfoLabelComponent as λ6 } from './lib/modules/key-info/key-info-label.component';
 export { SkyKeyInfoValueComponent as λ7 } from './lib/modules/key-info/key-info-value.component';
 export { SkyKeyInfoComponent as λ8 } from './lib/modules/key-info/key-info.component';
@@ -49,4 +50,3 @@ export { SkyTextHighlightDirective as λ11 } from './lib/modules/text-highlight/
 export { SkyTokenComponent as λ12 } from './lib/modules/tokens/token.component';
 export { SkyTokensComponent as λ13 } from './lib/modules/tokens/tokens.component';
 export { SkyWaitComponent as λ14 } from './lib/modules/wait/wait.component';
-export { SkyExpansionIndicatorComponent as λ15 } from './lib/modules/expansion-indicator/expansion-indicator.component';

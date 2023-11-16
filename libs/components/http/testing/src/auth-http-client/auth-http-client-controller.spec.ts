@@ -23,13 +23,13 @@ class HttpConsumingService {
   constructor(
     public skyAppConfig: SkyAppConfig,
     public skyAuthTokenProvider: SkyAuthTokenProvider,
-    public httpClient: HttpClient
+    public httpClient: HttpClient,
   ) {}
 
   public doSomething(): Observable<unknown> {
     return this.httpClient.get(
       'https://www.example.com/',
-      skyAuthHttpJsonOptions()
+      skyAuthHttpJsonOptions(),
     );
   }
 }
@@ -59,7 +59,7 @@ describe('Auth HTTP client controller', () => {
 
   it('should provide a mock token provider', () => {
     expect(TestBed.inject(SkyAuthTokenProvider)).toEqual(
-      jasmine.any(SkyAuthTokenMockProvider)
+      jasmine.any(SkyAuthTokenMockProvider),
     );
   });
 
@@ -89,14 +89,14 @@ describe('Auth HTTP client controller', () => {
     const req = httpTestingController.expectOne('https://www.example.com/');
     expect(req.request.headers.has('Authorization')).toBeFalse();
     expect(() => skyAuthHttpTestingController.expectAuth(req)).toThrowError(
-      'The specified request does not contain the expected BBID Authorization header.'
+      'The specified request does not contain the expected BBID Authorization header.',
     );
   }));
 
   it('should error when the request is invalid', () => {
     const req = {} as TestRequest;
     expect(() => skyAuthHttpTestingController.expectAuth(req)).toThrowError(
-      'The specified request does not contain the expected BBID Authorization header.'
+      'The specified request does not contain the expected BBID Authorization header.',
     );
   });
 });

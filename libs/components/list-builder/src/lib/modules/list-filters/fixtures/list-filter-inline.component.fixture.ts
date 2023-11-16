@@ -10,14 +10,14 @@ export class ListFilterInlineTestComponent {
 
   public fruitTypeFilterFunction(
     item: ListItemModel,
-    filterValue: any
+    filterValue: any,
   ): boolean {
     return filterValue === 'any' || filterValue === item.data.type;
   }
 
   public hideOrangeFilterFunction(
     item: ListItemModel,
-    filterValue: any
+    filterValue: any,
   ): boolean {
     return !filterValue || (filterValue && item.data.color !== 'orange');
   }

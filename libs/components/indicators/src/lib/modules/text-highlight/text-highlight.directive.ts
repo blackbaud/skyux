@@ -62,7 +62,7 @@ function markTextNodes(node: Node, searchRegex: RegExp): number {
 
 function removeHighlight(el: ElementRef): void {
   const matchedElements = (el.nativeElement as Element).querySelectorAll(
-    `mark.${CLASS_NAME}`
+    `mark.${CLASS_NAME}`,
   );
 
   if (matchedElements) {
@@ -85,7 +85,7 @@ function createSearchRegex(searchTerms: string[]): RegExp | undefined {
     // Escape all the special regular expression characters by adding a
     // preceding '\' to each match.
     searchTerms = searchTerms.map((searchTerm) =>
-      searchTerm.replace(SPECIAL_CHAR_REGEX, '\\$&')
+      searchTerm.replace(SPECIAL_CHAR_REGEX, '\\$&'),
     );
 
     searchRegex = new RegExp(searchTerms.join('|'), 'gi');

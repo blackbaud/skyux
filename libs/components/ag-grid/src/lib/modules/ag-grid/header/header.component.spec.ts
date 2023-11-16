@@ -51,7 +51,7 @@ describe('HeaderComponent', () => {
         removeEventListener: (eventType: string, listener: () => void) => {
           apiEvents[eventType] = apiEvents[eventType] || [];
           apiEvents[eventType] = apiEvents[eventType].filter(
-            (l) => l !== listener
+            (l) => l !== listener,
           );
         },
       },
@@ -63,7 +63,7 @@ describe('HeaderComponent', () => {
         removeEventListener: (eventType: string, listener: () => void) => {
           columnEvents[eventType] = columnEvents[eventType] || [];
           columnEvents[eventType] = columnEvents[eventType].filter(
-            (l) => l !== listener
+            (l) => l !== listener,
           );
         },
         isFilterActive: () => false,
@@ -100,7 +100,7 @@ describe('HeaderComponent', () => {
     fixture.detectChanges();
     expect(
       fixture.debugElement.query(By.css('.ag-header-cell-text')).nativeElement
-        .textContent
+        .textContent,
     ).toBe('Test Column');
     const sortSpy = spyOn(params, 'progressSort');
     component.onSortRequested({ shiftKey: false } as MouseEvent);
@@ -152,7 +152,7 @@ describe('HeaderComponent', () => {
     expect(
       fixture.debugElement.query(By.css('.ag-header-label-icon')).attributes[
         'icon'
-      ]
+      ],
     ).toBe('caret-up');
     useSort = undefined;
     apiEvents['sortChanged'].forEach((listener) => listener());
@@ -160,7 +160,7 @@ describe('HeaderComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     expect(
-      fixture.debugElement.query(By.css('.ag-header-label-icon'))
+      fixture.debugElement.query(By.css('.ag-header-label-icon')),
     ).toBeFalsy();
 
     columnEvents['filterChanged'].forEach((listener) => listener());
@@ -191,7 +191,7 @@ describe('HeaderComponent', () => {
     });
     fixture.detectChanges();
     expect(
-      fixture.debugElement.query(By.css('.test-help-component'))
+      fixture.debugElement.query(By.css('.test-help-component')),
     ).toBeTruthy();
     component.refresh({
       ...params,
@@ -199,10 +199,10 @@ describe('HeaderComponent', () => {
     });
     fixture.detectChanges();
     expect(
-      fixture.debugElement.query(By.css('.test-help-component'))
+      fixture.debugElement.query(By.css('.test-help-component')),
     ).toBeFalsy();
     expect(
-      fixture.debugElement.query(By.css('.other-help-component'))
+      fixture.debugElement.query(By.css('.other-help-component')),
     ).toBeTruthy();
   });
 

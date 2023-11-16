@@ -5,8 +5,8 @@ describe('core-storybook', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=dockcomponent-dock--dock`
-        )
+          `/iframe.html?globals=theme:${theme}&id=dockcomponent-dock--dock`,
+        ),
       );
       it('should render the component', () => {
         cy.get('sky-dock').should('exist').should('be.visible');

@@ -19,7 +19,7 @@ export class SkyDropdownHarness extends SkyComponentHarness {
    * `SkyDropdownHarness` that meets certain criteria.
    */
   public static with(
-    filters: SkyDropdownHarnessFilters
+    filters: SkyDropdownHarnessFilters,
   ): HarnessPredicate<SkyDropdownHarness> {
     return SkyDropdownHarness.getDataSkyIdPredicate(filters);
   }
@@ -80,12 +80,12 @@ export class SkyDropdownHarness extends SkyComponentHarness {
 
     if (!dropdownMenuId) {
       throw new Error(
-        'Unable to retrieve dropdown menu harness because dropdown is closed.'
+        'Unable to retrieve dropdown menu harness because dropdown is closed.',
       );
     }
 
     return this.#documentRootLocator.locatorFor(
-      SkyDropdownMenuHarness.with({ selector: `#${dropdownMenuId}` })
+      SkyDropdownMenuHarness.with({ selector: `#${dropdownMenuId}` }),
     )();
   }
 

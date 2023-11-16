@@ -18,7 +18,7 @@ describe('Repeater basic demo', () => {
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
     const repeaterHarness = await loader.getHarness(
-      SkyRepeaterHarness.with({ dataSkyId: 'repeater-demo' })
+      SkyRepeaterHarness.with({ dataSkyId: 'repeater-demo' }),
     );
 
     const repeaterItems = await repeaterHarness.getRepeaterItems();
@@ -63,10 +63,10 @@ describe('Repeater basic demo', () => {
     if (repeaterItems) {
       for (let i = 0; i < repeaterItems.length; i++) {
         await expectAsync(repeaterItems[i].getTitleText()).toBeResolvedTo(
-          expectedContent[i].title
+          expectedContent[i].title,
         );
         await expectAsync(repeaterItems[i].getContentText()).toBeResolvedTo(
-          expectedContent[i].body
+          expectedContent[i].body,
         );
       }
     }

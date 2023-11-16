@@ -14,7 +14,7 @@ export class SkyHrefHarness extends SkyComponentHarness {
    * `SkyHrefHarness` that meets certain criteria.
    */
   public static with(
-    filters: SkyHrefHarnessFilters
+    filters: SkyHrefHarnessFilters,
   ): HarnessPredicate<SkyHrefHarness> {
     return this.getDataSkyIdPredicate(filters);
   }

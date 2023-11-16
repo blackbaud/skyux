@@ -19,19 +19,19 @@ describe('Selection box component', () => {
   //#region helpers
   function getRadioSelectionBoxes(): NodeListOf<HTMLElement> {
     return fixture.nativeElement.querySelectorAll(
-      '#radioSelectionBoxes .sky-selection-box'
+      '#radioSelectionBoxes .sky-selection-box',
     );
   }
 
   function getCheckboxSelectionBoxes(): NodeListOf<HTMLElement> {
     return fixture.nativeElement.querySelectorAll(
-      '#checkboxSelectionBoxes .sky-selection-box'
+      '#checkboxSelectionBoxes .sky-selection-box',
     );
   }
 
   function getDescription(): NodeListOf<HTMLElement> {
     return fixture.nativeElement.querySelectorAll(
-      '.sky-selection-box-description'
+      '.sky-selection-box-description',
     );
   }
 
@@ -49,7 +49,7 @@ describe('Selection box component', () => {
 
   function getCheckboxes(): NodeListOf<HTMLInputElement> {
     return fixture.nativeElement.querySelectorAll(
-      '#checkboxSelectionBoxes input'
+      '#checkboxSelectionBoxes input',
     );
   }
   //#endregion
@@ -66,7 +66,7 @@ describe('Selection box component', () => {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.default,
-          SkyThemeMode.presets.light
+          SkyThemeMode.presets.light,
         ),
         previousSettings: undefined,
       }),
@@ -92,8 +92,8 @@ describe('Selection box component', () => {
   it('should enable and disable AfterViewInit', async () => {
     const outermostDiv = debugElement.query(
       By.css(
-        'div#checkboxSelectionBoxes > form > sky-selection-box > .sky-selection-box'
-      )
+        'div#checkboxSelectionBoxes > form > sky-selection-box > .sky-selection-box',
+      ),
     ).nativeElement;
     fixture.detectChanges();
 
@@ -235,7 +235,7 @@ describe('Selection box component', () => {
     await fixture.whenStable();
     fixture.detectChanges();
     const disabledSelectionBox = fixture.nativeElement.querySelector(
-      '#disabled-selection-box .sky-selection-box'
+      '#disabled-selection-box .sky-selection-box',
     );
     const tabIndex: string = disabledSelectionBox.getAttribute('tabindex');
     expect(tabIndex).toBe('-1');

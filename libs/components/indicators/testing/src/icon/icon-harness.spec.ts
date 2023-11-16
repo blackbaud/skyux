@@ -41,7 +41,7 @@ class TestComponent {
 async function validateIconName(
   iconHarness: SkyIconHarness,
   fixture: ComponentFixture<TestComponent>,
-  iconName: string | undefined
+  iconName: string | undefined,
 ): Promise<void> {
   fixture.componentInstance.iconName = iconName;
 
@@ -53,35 +53,35 @@ async function validateIconName(
 async function validateIconType(
   iconHarness: SkyIconHarness,
   fixture: ComponentFixture<TestComponent>,
-  iconType: string | undefined
+  iconType: string | undefined,
 ): Promise<void> {
   fixture.componentInstance.iconType = iconType;
 
   fixture.detectChanges();
 
   await expectAsync(iconHarness.getIconType()).toBeResolvedTo(
-    iconType ? iconType : 'fa'
+    iconType ? iconType : 'fa',
   );
 }
 
 async function validateFixedWidth(
   iconHarness: SkyIconHarness,
   fixture: ComponentFixture<TestComponent>,
-  fixedWidth: boolean | undefined
+  fixedWidth: boolean | undefined,
 ): Promise<void> {
   fixture.componentInstance.fixedWidth = fixedWidth;
 
   fixture.detectChanges();
 
   await expectAsync(iconHarness.isFixedWidth()).toBeResolvedTo(
-    fixedWidth ? fixedWidth : false
+    fixedWidth ? fixedWidth : false,
   );
 }
 
 async function validateIconSize(
   iconHarness: SkyIconHarness,
   fixture: ComponentFixture<TestComponent>,
-  iconSize: string | undefined
+  iconSize: string | undefined,
 ): Promise<void> {
   fixture.componentInstance.size = iconSize;
 
@@ -93,7 +93,7 @@ async function validateIconSize(
 async function validateVariant(
   iconHarness: SkyIconHarness,
   fixture: ComponentFixture<TestComponent>,
-  variant: string
+  variant: string,
 ): Promise<void> {
   fixture.componentInstance.variant = variant;
 
@@ -112,7 +112,7 @@ describe('Icon harness', () => {
   };
 
   async function setupTest(
-    options: { dataSkyId?: string; theme?: 'default' | 'modern' } = {}
+    options: { dataSkyId?: string; theme?: 'default' | 'modern' } = {},
   ): Promise<{
     iconHarness: SkyIconHarness;
     fixture: ComponentFixture<TestComponent>;
@@ -123,7 +123,7 @@ describe('Icon harness', () => {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets[options?.theme || 'default'],
-          SkyThemeMode.presets.light
+          SkyThemeMode.presets.light,
         ),
         previousSettings: undefined,
       }),
@@ -145,7 +145,7 @@ describe('Icon harness', () => {
     const pageLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
     const iconHarness: SkyIconHarness = options.dataSkyId
       ? await loader.getHarness(
-          SkyIconHarness.with({ dataSkyId: options.dataSkyId })
+          SkyIconHarness.with({ dataSkyId: options.dataSkyId }),
         )
       : await loader.getHarness(SkyIconHarness);
 
@@ -163,7 +163,7 @@ describe('Icon harness', () => {
         await validateIconName(
           iconHarness,
           fixture,
-          fixture.componentInstance.iconName
+          fixture.componentInstance.iconName,
         );
       }
     }
@@ -176,7 +176,7 @@ describe('Icon harness', () => {
     fixture.detectChanges();
 
     await expectAsync(iconHarness.getIconName()).toBeRejectedWithError(
-      'Icon could not be rendered.'
+      'Icon could not be rendered.',
     );
   });
 
@@ -238,7 +238,7 @@ describe('Icon harness', () => {
     fixture.detectChanges();
 
     await expectAsync(iconHarness.getVariant()).toBeRejectedWithError(
-      'Variant cannot be determined because variants are only assigned to icons with type `skyux`.'
+      'Variant cannot be determined because variants are only assigned to icons with type `skyux`.',
     );
   });
 

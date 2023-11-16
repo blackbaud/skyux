@@ -41,13 +41,13 @@ describe('Toolbar with standard items', () => {
     fixture.detectChanges();
 
     expect(getFilterButton()?.getAttribute('aria-label')).toBe(
-      'Filter constituents'
+      'Filter constituents',
     );
     expect(getSearchInput()?.getAttribute('aria-label')).toBe(
-      'Search constituents'
+      'Search constituents',
     );
     expect(getSortButton()?.getAttribute('aria-label')).toBe(
-      'Sort constituents'
+      'Sort constituents',
     );
   });
 });

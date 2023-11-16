@@ -37,7 +37,7 @@ export class ModalComponent {
     waitSvc: SkyWaitService,
     dataSvc: ModalDemoDataService,
     context: ModalDemoContext,
-    fb: FormBuilder
+    fb: FormBuilder,
   ) {
     this.#instance = instance;
     this.#waitSvc = waitSvc;

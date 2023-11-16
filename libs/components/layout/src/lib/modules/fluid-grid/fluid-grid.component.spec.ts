@@ -21,7 +21,7 @@ describe('SkyFluidGridComponent', () => {
     expectedGutterSizeClass:
       | 'sky-fluid-grid-gutter-size-small'
       | 'sky-fluid-grid-gutter-size-medium'
-      | 'sky-fluid-grid-gutter-size-large'
+      | 'sky-fluid-grid-gutter-size-large',
   ): void {
     component.gutterSize = gutterSize;
     fixture.detectChanges();
@@ -67,7 +67,7 @@ describe('SkyFluidGridComponent', () => {
     validateGutterSize(
       fluidGrid,
       'medium',
-      'sky-fluid-grid-gutter-size-medium'
+      'sky-fluid-grid-gutter-size-medium',
     );
 
     validateGutterSize(fluidGrid, 'large', 'sky-fluid-grid-gutter-size-large');

@@ -19,14 +19,14 @@ export class SkyThemeClassTestComponent {
   public useDefaultTheme(): void {
     this.themeSettings = new SkyThemeSettings(
       SkyTheme.presets.default,
-      SkyThemeMode.presets.light
+      SkyThemeMode.presets.light,
     );
   }
 
   public useModernTheme(): void {
     this.themeSettings = new SkyThemeSettings(
       SkyTheme.presets.modern,
-      SkyThemeMode.presets.light
+      SkyThemeMode.presets.light,
     );
   }
 }

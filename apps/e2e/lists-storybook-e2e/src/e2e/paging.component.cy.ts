@@ -5,8 +5,8 @@ describe('lists-storybook - paging', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=pagingcomponent-paging--paging`
-        )
+          `/iframe.html?globals=theme:${theme}&id=pagingcomponent-paging--paging`,
+        ),
       );
       it('should render the component', () => {
         cy.get('app-paging')

@@ -11,7 +11,7 @@ describe('Help inline component', () => {
   async function checkAriaPropertiesAndAccessibility(
     ariaLabel: string,
     ariaControls: string | null,
-    ariaExpanded: string | null
+    ariaExpanded: string | null,
   ): Promise<void> {
     const helpInlineElement =
       fixture.nativeElement.querySelector('.sky-help-inline');
@@ -61,7 +61,7 @@ describe('Help inline component', () => {
     await checkAriaPropertiesAndAccessibility(
       'Show help content',
       'help-text',
-      'false'
+      'false',
     );
   });
 
@@ -74,7 +74,7 @@ describe('Help inline component', () => {
     await checkAriaPropertiesAndAccessibility(
       'Show help content',
       'help-text',
-      'false'
+      'false',
     );
   });
 
@@ -87,7 +87,7 @@ describe('Help inline component', () => {
     await checkAriaPropertiesAndAccessibility(
       'Show help content',
       'help-text',
-      'true'
+      'true',
     );
   });
 
@@ -108,7 +108,7 @@ describe('Help inline component', () => {
     await checkAriaPropertiesAndAccessibility(
       'Test label',
       'help-text',
-      'false'
+      'false',
     );
   });
 
@@ -122,7 +122,7 @@ describe('Help inline component', () => {
     await checkAriaPropertiesAndAccessibility(
       'Test label',
       'help-text',
-      'false'
+      'false',
     );
   });
 
@@ -136,7 +136,7 @@ describe('Help inline component', () => {
     await checkAriaPropertiesAndAccessibility(
       'Test label',
       'help-text',
-      'true'
+      'true',
     );
   });
 });

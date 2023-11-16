@@ -18,7 +18,7 @@ describe('SkyAgGridCellRendererValidatorTooltipComponent', () => {
 
   it('should create an instance', () => {
     const fixture = TestBed.createComponent(
-      SkyAgGridCellRendererValidatorTooltipComponent
+      SkyAgGridCellRendererValidatorTooltipComponent,
     );
     fixture.componentInstance.cellRendererParams = {
       addRenderedRowListener: NOOP,
@@ -45,15 +45,15 @@ describe('SkyAgGridCellRendererValidatorTooltipComponent', () => {
 
     expect(
       fixture.componentInstance.refresh(
-        fixture.componentInstance.cellRendererParams
-      )
+        fixture.componentInstance.cellRendererParams,
+      ),
     ).toBeFalse();
 
     const valueFormatter = jasmine.createSpy('valueFormatter');
 
     fixture.componentInstance.cellRendererParams.colDef = { valueFormatter };
     fixture.componentInstance.agInit(
-      fixture.componentInstance.cellRendererParams
+      fixture.componentInstance.cellRendererParams,
     );
     expect(valueFormatter).toHaveBeenCalled();
   });

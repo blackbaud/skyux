@@ -62,14 +62,14 @@ export class TextEditorComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
   ) {}
 
   public ngOnInit(): void {
     this.myForm = this.formBuilder.group({
       textEditor: new FormControl(
         '<font style="font-size: 16px" color="#a25353"><b><i><u>Super styled text</u></i></b></font>',
-        [Validators.required]
+        [Validators.required],
       ),
     });
 

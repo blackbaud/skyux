@@ -6,14 +6,14 @@ const routes: Routes = [
     path: 'dropdown/basic',
     loadComponent: () =>
       import('../code-examples/popovers/dropdown/basic/demo.component').then(
-        (c) => c.DemoComponent
+        (c) => c.DemoComponent,
       ),
   },
   {
     path: 'popover/basic',
     loadComponent: () =>
       import('../code-examples/popovers/popover/basic/demo.component').then(
-        (c) => c.DemoComponent
+        (c) => c.DemoComponent,
       ),
   },
   {

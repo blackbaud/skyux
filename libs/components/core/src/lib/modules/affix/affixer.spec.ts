@@ -134,7 +134,7 @@ describe('Affixer', () => {
       TestBed.inject(RendererFactory2).createRenderer(undefined, null),
       TestBed.inject(ViewportRuler),
       TestBed.inject(NgZone),
-      TestBed.inject(DOCUMENT).documentElement
+      TestBed.inject(DOCUMENT).documentElement,
     );
     const offsetChangeObserver = jasmine.createSpy('offsetChange');
     const overflowScrollObserver = jasmine.createSpy('overflowScroll');
@@ -142,10 +142,10 @@ describe('Affixer', () => {
     const offsetChangeSubscription =
       affixer.offsetChange.subscribe(offsetChangeObserver);
     const overflowScrollSubscription = affixer.overflowScroll.subscribe(
-      overflowScrollObserver
+      overflowScrollObserver,
     );
     const placementChangeSubscription = affixer.placementChange.subscribe(
-      placementChangeObserver
+      placementChangeObserver,
     );
     expect(affixer).toBeTruthy();
     expect(component.baseRef?.nativeElement).toBeTruthy();
@@ -182,7 +182,7 @@ describe('Affixer', () => {
       TestBed.inject(RendererFactory2).createRenderer(undefined, null),
       TestBed.inject(ViewportRuler),
       TestBed.inject(NgZone),
-      TestBed.inject(DOCUMENT).documentElement
+      TestBed.inject(DOCUMENT).documentElement,
     );
     expect(affixer).toBeTruthy();
     affixer.affixTo(component.baseRef?.nativeElement as HTMLElement, {
@@ -200,7 +200,7 @@ describe('Affixer', () => {
       TestBed.inject(RendererFactory2).createRenderer(undefined, null),
       TestBed.inject(ViewportRuler),
       TestBed.inject(NgZone),
-      TestBed.inject(DOCUMENT).documentElement
+      TestBed.inject(DOCUMENT).documentElement,
     );
     expect(affixer).toBeTruthy();
     affixer.affixTo(component.baseRef?.nativeElement as HTMLElement, {
@@ -217,7 +217,7 @@ describe('Affixer', () => {
       TestBed.inject(RendererFactory2).createRenderer(undefined, null),
       TestBed.inject(ViewportRuler),
       TestBed.inject(NgZone),
-      TestBed.inject(DOCUMENT).documentElement
+      TestBed.inject(DOCUMENT).documentElement,
     );
     expect(affixer).toBeTruthy();
     affixer.affixTo(component.baseRef?.nativeElement as HTMLElement, {
@@ -243,7 +243,7 @@ describe('Affixer', () => {
       TestBed.inject(RendererFactory2).createRenderer(undefined, null),
       TestBed.inject(ViewportRuler),
       TestBed.inject(NgZone),
-      TestBed.inject(DOCUMENT).documentElement
+      TestBed.inject(DOCUMENT).documentElement,
     );
     expect(affixer).toBeTruthy();
     affixer.affixTo(component.baseRef?.nativeElement as HTMLElement, {
