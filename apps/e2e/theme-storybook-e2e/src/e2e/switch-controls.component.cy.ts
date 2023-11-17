@@ -6,7 +6,7 @@ describe('theme-storybook', () => {
       beforeEach(() => {
         cy.viewport(E2eVariations.MOBILE_WIDTHS[0], 800);
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=switchcontrolscomponent-switchcontrols--switch-controls`
+          `/iframe.html?globals=theme:${theme}&id=switchcontrolscomponent-switchcontrols--switch-controls`,
         );
       });
       it('should render the component', () => {
@@ -16,13 +16,13 @@ describe('theme-storybook', () => {
           .end()
           .document()
           .screenshot(
-            `switchcontrolscomponent-switchcontrols--switch-controls-${theme}`
+            `switchcontrolscomponent-switchcontrols--switch-controls-${theme}`,
           )
           .percySnapshot(
             `switchcontrolscomponent-switchcontrols--switch-controls-${theme}`,
             {
               widths: E2eVariations.MOBILE_WIDTHS,
-            }
+            },
           );
       });
     });

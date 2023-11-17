@@ -37,7 +37,7 @@ export class SkyInputBoxAdapterService {
   public updateDescribedBy(
     inputRef: ElementRef,
     hintTextId: string,
-    hintText: string | undefined
+    hintText: string | undefined,
   ): void {
     const inputEl = inputRef.nativeElement as HTMLElement;
 

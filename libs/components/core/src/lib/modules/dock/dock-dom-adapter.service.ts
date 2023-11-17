@@ -30,7 +30,7 @@ export class SkyDockDomAdapterService implements OnDestroy {
 
   constructor(
     mutationSvc: SkyMutationObserverService,
-    rendererFactory: RendererFactory2
+    rendererFactory: RendererFactory2,
   ) {
     this.#mutationSvc = mutationSvc;
     this.#renderer = rendererFactory.createRenderer(undefined, null);
@@ -88,14 +88,14 @@ export class SkyDockDomAdapterService implements OnDestroy {
     // Create a style element to avoid overwriting any existing inline body styles.
     const styleElement = this.#renderer.createElement('style');
     const textNode = this.#renderer.createText(
-      `body { margin-bottom: ${dockHeight}px; }`
+      `body { margin-bottom: ${dockHeight}px; }`,
     );
 
     // Apply a `data-` attribute to make unit testing easier.
     this.#renderer.setAttribute(
       styleElement,
       'data-test-selector',
-      'sky-layout-dock-bottom-styles'
+      'sky-layout-dock-bottom-styles',
     );
 
     this.#renderer.appendChild(styleElement, textNode);

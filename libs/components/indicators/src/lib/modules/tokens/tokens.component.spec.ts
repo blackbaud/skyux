@@ -40,7 +40,7 @@ describe('Tokens component', () => {
     fixture.detectChanges();
     expect(component.tokensComponent?.activeIndex).toEqual(1);
     expect(document.activeElement).toEqual(
-      tokenElements.item(1).querySelector('.sky-token-btn-action')
+      tokenElements.item(1).querySelector('.sky-token-btn-action'),
     );
 
     SkyAppTestUtility.fireDomEvent(tokenElements.item(1), 'keydown', {
@@ -50,19 +50,19 @@ describe('Tokens component', () => {
 
     expect(component.tokensComponent?.activeIndex).toEqual(0);
     expect(document.activeElement).toEqual(
-      tokenElements.item(0).querySelector('.sky-token-btn-action')
+      tokenElements.item(0).querySelector('.sky-token-btn-action'),
     );
   }
 
   function verifyItemFocusedWithMessage(
     type: SkyTokensMessageType,
-    index: number
+    index: number,
   ): void {
     component.messageStream?.next({ type });
     fixture.detectChanges();
 
     const tokenElements = fixture.nativeElement.querySelectorAll(
-      '.sky-token-btn-action'
+      '.sky-token-btn-action',
     );
     const focusedToken = tokenElements[index] as HTMLElement;
 
@@ -109,7 +109,7 @@ describe('Tokens component', () => {
       expect(component.tokensComponent?.displayWith).toEqual('name');
       expect(component.tokensComponent?.activeIndex).toEqual(0);
       expect(component.tokensComponent?.messageStream).toEqual(
-        jasmine.any(Subject)
+        jasmine.any(Subject),
       );
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -118,7 +118,7 @@ describe('Tokens component', () => {
     it('should wrap internal content', () => {
       fixture.detectChanges();
       expect(component.tokensElementRef?.nativeElement).toHaveText(
-        'INNER CONTENT'
+        'INNER CONTENT',
       );
     });
 
@@ -293,7 +293,7 @@ describe('Tokens component', () => {
         fixture.nativeElement.querySelectorAll('.sky-token');
       verifyItemFocusedWithMessage(
         SkyTokensMessageType.FocusLastToken,
-        tokenElements.length - 1
+        tokenElements.length - 1,
       );
     });
 
@@ -341,12 +341,12 @@ describe('Tokens component', () => {
       fixture.detectChanges();
 
       const tokenElements = fixture.nativeElement.querySelectorAll(
-        '.sky-token-btn-action'
+        '.sky-token-btn-action',
       );
       const lastToken = tokenElements[tokenElements.length - 1] as HTMLElement;
 
       expect(component.tokensComponent?.activeIndex).toEqual(
-        tokenElements.length - 1
+        tokenElements.length - 1,
       );
 
       expect(document.activeElement).toEqual(lastToken);
@@ -476,7 +476,7 @@ describe('Tokens component', () => {
 
       tokenElements = getTokenElements();
       expect(
-        tokenElements.item(0).querySelector('.sky-btn-disabled')
+        tokenElements.item(0).querySelector('.sky-btn-disabled'),
       ).not.toBeNull();
       expect(component.tokensComponent?.tokens.length).toEqual(3);
 
@@ -490,7 +490,7 @@ describe('Tokens component', () => {
 
       let tokenButtons: NodeListOf<HTMLDivElement> =
         component.tokensElementRef?.nativeElement.querySelectorAll(
-          '.sky-token-btn-action'
+          '.sky-token-btn-action',
         );
 
       expect(tokenButtons.item(0).tabIndex).toEqual(0);
@@ -499,7 +499,7 @@ describe('Tokens component', () => {
       fixture.detectChanges();
       tokenButtons =
         component.tokensElementRef?.nativeElement.querySelectorAll(
-          '.sky-token'
+          '.sky-token',
         );
       expect(tokenButtons.item(0).tabIndex).toEqual(-1);
 

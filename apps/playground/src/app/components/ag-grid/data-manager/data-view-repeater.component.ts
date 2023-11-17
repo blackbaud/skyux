@@ -42,7 +42,7 @@ export class DataViewRepeaterComponent implements OnInit {
 
   constructor(
     private changeDetector: ChangeDetectorRef,
-    private dataManagerService: SkyDataManagerService
+    private dataManagerService: SkyDataManagerService,
   ) {}
 
   public ngOnInit(): void {

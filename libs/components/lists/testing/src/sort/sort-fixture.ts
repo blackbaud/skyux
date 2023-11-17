@@ -64,7 +64,7 @@ export class SkySortFixture {
     this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
-      'sky-sort'
+      'sky-sort',
     );
   }
 
@@ -127,7 +127,7 @@ export class SkySortFixture {
    * @param menuItemText The text of the menu item to select.
    */
   public async selectMenuItemByText(
-    menuItemText: string | undefined
+    menuItemText: string | undefined,
   ): Promise<void> {
     /* istanbul ignore else */
     if (menuItemText) {
@@ -164,7 +164,7 @@ export class SkySortFixture {
    * @param selectionPredicate The menu item selector method to use.
    */
   async #selectMenuItem(
-    selectionPredicate: (item: HTMLElement, index: number) => boolean
+    selectionPredicate: (item: HTMLElement, index: number) => boolean,
   ): Promise<void> {
     // make sure the sort menu is open
     if (!this.menu.isOpen) {
@@ -174,7 +174,7 @@ export class SkySortFixture {
     // find the requested menu item using the selectionPredicate parameter
     const items = this.#getSortItems();
     const targetItem = items.find((item: HTMLElement, index: number) =>
-      selectionPredicate(item, index)
+      selectionPredicate(item, index),
     );
 
     // if we found the item, select it

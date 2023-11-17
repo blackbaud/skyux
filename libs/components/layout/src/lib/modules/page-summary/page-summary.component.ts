@@ -55,7 +55,7 @@ export class SkyPageSummaryComponent
     adapter: SkyPageSummaryAdapterService,
     mediaQueryService: SkyMediaQueryService,
     logger: SkyLogService,
-    changeDetector: ChangeDetectorRef
+    changeDetector: ChangeDetectorRef,
   ) {
     this.#elRef = elRef;
     this.#adapter = adapter;
@@ -75,9 +75,9 @@ export class SkyPageSummaryComponent
       (args: SkyMediaBreakpoints) => {
         this.#adapter.updateKeyInfoLocation(
           this.#elRef,
-          args === SkyMediaBreakpoints.xs
+          args === SkyMediaBreakpoints.xs,
         );
-      }
+      },
     );
   }
 

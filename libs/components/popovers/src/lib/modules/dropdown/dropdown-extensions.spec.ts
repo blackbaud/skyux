@@ -14,7 +14,7 @@ describe('Dropdown extensions', function () {
     expect(() => {
       parseAffixHorizontalAlignment('foobar' as any);
     }).toThrow(
-      "SkyAffixHorizontalAlignment does not have a matching value for 'foobar'!"
+      "SkyAffixHorizontalAlignment does not have a matching value for 'foobar'!",
     );
   });
 });

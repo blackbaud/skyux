@@ -34,7 +34,7 @@ export default function movePageComponent(): Rule {
             path,
             tree.readText(path),
             ts.ScriptTarget.Latest,
-            true
+            true,
           );
 
           // Find all imports of SkyPageLayoutType and SkyPageModule from @skyux/layout.
@@ -49,10 +49,10 @@ export default function movePageComponent(): Rule {
                 !!node.importClause?.namedBindings &&
                 ts.isNamedImports(node.importClause.namedBindings) &&
                 node.importClause.namedBindings.elements.some((element) =>
-                  importsToMove.includes(element.name.getText())
+                  importsToMove.includes(element.name.getText()),
                 )
               );
-            }
+            },
           );
 
           // Found one.
@@ -65,14 +65,14 @@ export default function movePageComponent(): Rule {
             const importsToAdd = pageImports
               .map((pageImport) =>
                 getImportNames(pageImport).filter((importName) =>
-                  importsToMove.includes(importName)
-                )
+                  importsToMove.includes(importName),
+                ),
               )
               .flat();
 
             pageImports.forEach((importToUpdate: ts.ImportDeclaration) => {
               const otherImports = getImportNames(importToUpdate).filter(
-                (importName) => !importsToMove.includes(importName)
+                (importName) => !importsToMove.includes(importName),
               );
               // Is anything else imported from @skyux/layout?
               if (
@@ -82,17 +82,17 @@ export default function movePageComponent(): Rule {
                 // Yes. Update the import.
                 updateRecorder.remove(
                   importToUpdate.importClause.namedBindings.getStart(),
-                  importToUpdate.importClause.namedBindings.getWidth()
+                  importToUpdate.importClause.namedBindings.getWidth(),
                 );
                 updateRecorder.insertLeft(
                   importToUpdate.importClause.namedBindings.getStart(),
-                  `{ ${otherImports.join(', ')} }`
+                  `{ ${otherImports.join(', ')} }`,
                 );
               } else {
                 // No. Remove the whole import declaration.
                 updateRecorder.remove(
                   importToUpdate.getFullStart(),
-                  importToUpdate.getFullWidth()
+                  importToUpdate.getFullWidth(),
                 );
               }
             });
@@ -105,14 +105,14 @@ export default function movePageComponent(): Rule {
               path,
               tree.readText(path),
               ts.ScriptTarget.Latest,
-              true
+              true,
             );
             const recorder = tree.beginUpdate(path);
             const change = insertImport(
               updatedSource,
               path,
               importsToAdd.join(', '),
-              '@skyux/pages'
+              '@skyux/pages',
             ) as InsertChange;
             recorder.insertLeft(change.pos, change.toAdd);
             tree.commitUpdate(recorder);

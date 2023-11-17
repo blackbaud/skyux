@@ -17,14 +17,14 @@ export class SkyDropdownItemHarness extends SkyComponentHarness {
    * `SkyAutocompleteHarness` that meets certain criteria.
    */
   public static with(
-    filters: SkyDropdownItemHarnessFilters
+    filters: SkyDropdownItemHarnessFilters,
   ): HarnessPredicate<SkyDropdownItemHarness> {
     return SkyDropdownItemHarness.getDataSkyIdPredicate(filters)
       .addOption('text', filters.text, async (harness, text) =>
-        HarnessPredicate.stringMatches(await harness.getText(), text)
+        HarnessPredicate.stringMatches(await harness.getText(), text),
       )
       .addOption('ariaRole', filters.ariaRole, async (harness, ariaRole) =>
-        HarnessPredicate.stringMatches(await harness.getAriaRole(), ariaRole)
+        HarnessPredicate.stringMatches(await harness.getAriaRole(), ariaRole),
       );
   }
 

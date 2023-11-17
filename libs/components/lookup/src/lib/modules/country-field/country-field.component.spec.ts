@@ -32,7 +32,7 @@ describe('Country Field Component', () => {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.default,
-          SkyThemeMode.presets.light
+          SkyThemeMode.presets.light,
         ),
         previousSettings: undefined,
       }),
@@ -45,7 +45,7 @@ describe('Country Field Component', () => {
       | CountryFieldReactiveTestComponent
       | CountryFieldInputBoxTestComponent
       | CountryFieldNoFormTestComponent
-    >
+    >,
   ): void {
     SkyAppTestUtility.fireDomEvent(getInputElement(), 'blur');
     fixture.detectChanges();
@@ -59,7 +59,7 @@ describe('Country Field Component', () => {
       | CountryFieldReactiveTestComponent
       | CountryFieldInputBoxTestComponent
       | CountryFieldNoFormTestComponent
-    >
+    >,
   ): void {
     const inputElement = getInputElement();
     inputElement.value = newValue;
@@ -87,13 +87,13 @@ describe('Country Field Component', () => {
       | CountryFieldReactiveTestComponent
       | CountryFieldInputBoxTestComponent
       | CountryFieldNoFormTestComponent
-    >
+    >,
   ): void {
     const inputElement = getInputElement();
 
     enterSearch(newValue, fixture);
     const searchResults = getAutocompleteElement().querySelectorAll(
-      '.sky-autocomplete-result'
+      '.sky-autocomplete-result',
     );
 
     // Note: the ordering of these events is important!
@@ -108,18 +108,18 @@ describe('Country Field Component', () => {
       | CountryFieldReactiveTestComponent
       | CountryFieldInputBoxTestComponent
       | CountryFieldNoFormTestComponent
-    >
+    >,
   ): NodeListOf<HTMLElement> {
     enterSearch(newValue, fixture);
     return getAutocompleteElement().querySelectorAll(
-      '.sky-autocomplete-result'
+      '.sky-autocomplete-result',
     );
   }
 
   function validateSelectedCountry(
     nativeElement: HTMLElement,
     value: string,
-    flag?: string
+    flag?: string,
   ): void {
     expect(nativeElement.querySelector('textarea')?.value).toBe(value);
 
@@ -204,7 +204,7 @@ describe('Country Field Component', () => {
         validateSelectedCountry(nativeElement, '');
 
         expect(
-          nativeElement.querySelector('.sky-country-field-flag')
+          nativeElement.querySelector('.sky-country-field-flag'),
         ).toBeNull();
       }));
     });
@@ -385,7 +385,7 @@ describe('Country Field Component', () => {
         const textAreaElement = getInputElement();
 
         expect(textAreaElement.getAttribute('autocomplete')).toEqual(
-          'new-custom-field'
+          'new-custom-field',
         );
       }));
 
@@ -404,7 +404,7 @@ describe('Country Field Component', () => {
           nativeElement.querySelector('textarea');
 
         expect(
-          textAreaElement?.attributes.getNamedItem('disabled')
+          textAreaElement?.attributes.getNamedItem('disabled'),
         ).not.toBeNull();
       }));
 
@@ -423,7 +423,7 @@ describe('Country Field Component', () => {
           nativeElement.querySelector('textarea');
 
         expect(
-          textAreaElement.attributes.getNamedItem('disabled')
+          textAreaElement.attributes.getNamedItem('disabled'),
         ).not.toBeNull();
         component.isDisabled = false;
         fixture.detectChanges();
@@ -432,14 +432,14 @@ describe('Country Field Component', () => {
         expect(
           (
             nativeElement.querySelector('textarea') as HTMLElement
-          ).attributes.getNamedItem('disabled')
+          ).attributes.getNamedItem('disabled'),
         ).toBeNull();
       }));
 
       it('should emit the countryChange event correctly', fakeAsync(() => {
         const changeEventSpy = spyOn(
           component,
-          'countryChanged'
+          'countryChanged',
         ).and.callThrough();
         component.modelValue = {
           name: 'United States',
@@ -474,7 +474,7 @@ describe('Country Field Component', () => {
       it('should not include dial code information when the `includePhoneInfo` input is not set', fakeAsync(() => {
         const changeEventSpy = spyOn(
           component,
-          'countryChanged'
+          'countryChanged',
         ).and.callThrough();
         component.countryFieldComponent.includePhoneInfo = false;
         component.modelValue = {
@@ -513,7 +513,7 @@ describe('Country Field Component', () => {
       it('should include dial code information when the `includePhoneInfo` input is set', fakeAsync(() => {
         const changeEventSpy = spyOn(
           component,
-          'countryChanged'
+          'countryChanged',
         ).and.callThrough();
         component.countryFieldComponent.includePhoneInfo = true;
         component.modelValue = {
@@ -538,7 +538,7 @@ describe('Country Field Component', () => {
 
         const searchResults = searchAndGetResults('Austr', fixture);
         expect(searchResults[0].querySelector('.sky-deemphasized')).toHaveText(
-          '61'
+          '61',
         );
       }));
 
@@ -553,7 +553,7 @@ describe('Country Field Component', () => {
         fixture.detectChanges();
 
         expect(
-          nativeElement.querySelector('.sky-country-field-flag')
+          nativeElement.querySelector('.sky-country-field-flag'),
         ).not.toBeNull();
       }));
 
@@ -568,7 +568,7 @@ describe('Country Field Component', () => {
         fixture.detectChanges();
 
         expect(
-          nativeElement.querySelector('.sky-country-field-flag')
+          nativeElement.querySelector('.sky-country-field-flag'),
         ).toBeNull();
       }));
     });
@@ -757,7 +757,7 @@ describe('Country Field Component', () => {
 
         expect(nativeElement.querySelector('textarea')?.value).toBe('');
         expect(
-          nativeElement.querySelector('.sky-country-field-flag')
+          nativeElement.querySelector('.sky-country-field-flag'),
         ).toBeNull();
       }));
     });
@@ -929,7 +929,7 @@ describe('Country Field Component', () => {
 
         expect(component.countryFieldComponent.countries.length).toBe(
           3,
-          'Expected total number of countries to be "3".'
+          'Expected total number of countries to be "3".',
         );
 
         component.supportedCountryISOs = undefined;
@@ -938,10 +938,10 @@ describe('Country Field Component', () => {
         fixture.detectChanges();
 
         expect(
-          component.countryFieldComponent.countries.length
+          component.countryFieldComponent.countries.length,
         ).toBeGreaterThan(
           2,
-          'Expected total number of countries to be greater than 2.'
+          'Expected total number of countries to be greater than 2.',
         );
       }));
 
@@ -984,7 +984,7 @@ describe('Country Field Component', () => {
         expect(component.countryControl?.value).toBeUndefined();
         expect(nativeElement.querySelector('textarea')?.value).toBe('');
         expect(
-          nativeElement.querySelector('.sky-country-field-flag')
+          nativeElement.querySelector('.sky-country-field-flag'),
         ).toBeNull();
       }));
 
@@ -1004,7 +1004,7 @@ describe('Country Field Component', () => {
       it('should emit the countryChange event correctly', fakeAsync(() => {
         const changeEventSpy = spyOn(
           component,
-          'countryChanged'
+          'countryChanged',
         ).and.callThrough();
         component.initialValue = {
           name: 'United States',
@@ -1039,7 +1039,7 @@ describe('Country Field Component', () => {
       it('should emit the valueChange form control event correctly with an initial value', fakeAsync(() => {
         const changeEventSpy = spyOn(
           component,
-          'formValueChanged'
+          'formValueChanged',
         ).and.callThrough();
         component.initialValue = {
           name: 'United States',
@@ -1061,7 +1061,7 @@ describe('Country Field Component', () => {
       it('should emit the valueChange form control event correctly when no initial value', fakeAsync(() => {
         const changeEventSpy = spyOn(
           component,
-          'formValueChanged'
+          'formValueChanged',
         ).and.callThrough();
         fixture.detectChanges();
         tick();
@@ -1079,7 +1079,7 @@ describe('Country Field Component', () => {
       it('should emit the valueChange form control event correctly when initialized to undefined', fakeAsync(() => {
         const changeEventSpy = spyOn(
           component,
-          'formValueChanged'
+          'formValueChanged',
         ).and.callThrough();
         component.initializeToUndefined = true;
         fixture.detectChanges();
@@ -1098,7 +1098,7 @@ describe('Country Field Component', () => {
       it('should not include dial code information when the `includePhoneInfo` input is not set', fakeAsync(() => {
         const changeEventSpy = spyOn(
           component,
-          'formValueChanged'
+          'formValueChanged',
         ).and.callThrough();
         component.countryFieldComponent.includePhoneInfo = false;
         component.initialValue = {
@@ -1124,7 +1124,7 @@ describe('Country Field Component', () => {
       it('should include dial code information when the `includePhoneInfo` input is set', fakeAsync(() => {
         const changeEventSpy = spyOn(
           component,
-          'formValueChanged'
+          'formValueChanged',
         ).and.callThrough();
         component.countryFieldComponent.includePhoneInfo = true;
         component.initialValue = {
@@ -1148,7 +1148,7 @@ describe('Country Field Component', () => {
 
         const searchResults = searchAndGetResults('Austr', fixture);
         expect(searchResults[0].querySelector('.sky-deemphasized')).toHaveText(
-          '61'
+          '61',
         );
       }));
 
@@ -1162,7 +1162,7 @@ describe('Country Field Component', () => {
         tick();
 
         expect(
-          nativeElement.querySelector('.sky-country-field-flag')
+          nativeElement.querySelector('.sky-country-field-flag'),
         ).not.toBeNull();
       }));
 
@@ -1176,7 +1176,7 @@ describe('Country Field Component', () => {
         tick();
 
         expect(
-          nativeElement.querySelector('.sky-country-field-flag')
+          nativeElement.querySelector('.sky-country-field-flag'),
         ).toBeNull();
       }));
     });
@@ -1411,14 +1411,14 @@ describe('Country Field Component', () => {
 
         expect(nativeElement.querySelector('textarea')?.value).toBe('');
         expect(
-          nativeElement.querySelector('.sky-country-field-flag')
+          nativeElement.querySelector('.sky-country-field-flag'),
         ).toBeNull();
       }));
 
       it('should emit the countryChange event correctly', fakeAsync(() => {
         const changeEventSpy = spyOn(
           component,
-          'countryChanged'
+          'countryChanged',
         ).and.callThrough();
         fixture.detectChanges();
         tick();
@@ -1436,7 +1436,7 @@ describe('Country Field Component', () => {
       it('should not include dial code information when the `includePhoneInfo` input is not set', fakeAsync(() => {
         const changeEventSpy = spyOn(
           component,
-          'countryChanged'
+          'countryChanged',
         ).and.callThrough();
         component.countryFieldComponent.includePhoneInfo = false;
         fixture.detectChanges();
@@ -1458,7 +1458,7 @@ describe('Country Field Component', () => {
       it('should include dial code information when the `includePhoneInfo` input is set', fakeAsync(() => {
         const changeEventSpy = spyOn(
           component,
-          'countryChanged'
+          'countryChanged',
         ).and.callThrough();
         component.countryFieldComponent.includePhoneInfo = true;
         fixture.detectChanges();
@@ -1478,7 +1478,7 @@ describe('Country Field Component', () => {
 
         const searchResults = searchAndGetResults('Austr', fixture);
         expect(searchResults[0].querySelector('.sky-deemphasized')).toHaveText(
-          '61'
+          '61',
         );
       }));
 
@@ -1493,7 +1493,7 @@ describe('Country Field Component', () => {
         tick();
 
         expect(
-          nativeElement.querySelector('.sky-country-field-flag')
+          nativeElement.querySelector('.sky-country-field-flag'),
         ).not.toBeNull();
 
         component.countryFieldComponent.hideSelectedCountryFlag = undefined;
@@ -1506,7 +1506,7 @@ describe('Country Field Component', () => {
         tick();
 
         expect(
-          nativeElement.querySelector('.sky-country-field-flag')
+          nativeElement.querySelector('.sky-country-field-flag'),
         ).not.toBeNull();
       }));
 
@@ -1521,7 +1521,7 @@ describe('Country Field Component', () => {
         tick();
 
         expect(
-          nativeElement.querySelector('.sky-country-field-flag')
+          nativeElement.querySelector('.sky-country-field-flag'),
         ).toBeNull();
       }));
     });
@@ -1558,7 +1558,7 @@ describe('Country Field Component', () => {
         await fixture.whenStable();
 
         const searchResults = getAutocompleteElement().querySelectorAll(
-          '.sky-autocomplete-result'
+          '.sky-autocomplete-result',
         ) as NodeListOf<HTMLElement>;
 
         // Note: the ordering of these events is important!
@@ -1582,7 +1582,7 @@ describe('Country Field Component', () => {
     function setModernTheme(): void {
       const modernTheme = new SkyThemeSettings(
         SkyTheme.presets.modern,
-        SkyThemeMode.presets.light
+        SkyThemeMode.presets.light,
       );
       (
         mockThemeSvc.settingsChange as BehaviorSubject<SkyThemeSettingsChange>
@@ -1617,7 +1617,7 @@ describe('Country Field Component', () => {
         const inputBoxEl = nativeElement.querySelector('sky-input-box');
 
         const inputGroupEl = inputBoxEl?.querySelector(
-          '.sky-input-box-input-group-inner'
+          '.sky-input-box-input-group-inner',
         );
         const containerEl = inputGroupEl?.children.item(1);
 
@@ -1630,14 +1630,14 @@ describe('Country Field Component', () => {
 
         const inputBoxEl = nativeElement.querySelector('sky-input-box');
         let inputBoxInsetIcon = inputBoxEl?.querySelector(
-          '.sky-input-box-icon-inset'
+          '.sky-input-box-icon-inset',
         );
         expect(inputBoxInsetIcon).toBeNull();
 
         setModernTheme();
 
         inputBoxInsetIcon = inputBoxEl?.querySelector(
-          '.sky-input-box-icon-inset'
+          '.sky-input-box-icon-inset',
         );
         expect(inputBoxInsetIcon).not.toBeNull();
       }));
@@ -1648,7 +1648,7 @@ describe('Country Field Component', () => {
 
         const input = nativeElement.querySelector('.sky-form-control');
         expect(input?.getAttribute('placeholder')).toEqual(
-          'Search for a country'
+          'Search for a country',
         );
 
         setModernTheme();
@@ -1663,7 +1663,7 @@ describe('Country Field Component', () => {
 
         const inputEl = nativeElement.querySelector('.sky-form-control');
         const hintTextEl = nativeElement.querySelector(
-          'sky-input-box .sky-input-box-hint-text'
+          'sky-input-box .sky-input-box-hint-text',
         );
 
         const ariaDescribedBy = inputEl.getAttribute('aria-describedby');
@@ -1704,14 +1704,14 @@ describe('Country Field Component', () => {
 
         const input = nativeElement.querySelector('.sky-form-control');
         expect(input?.getAttribute('placeholder')).toEqual(
-          'Search for a country'
+          'Search for a country',
         );
 
         setModernTheme();
 
         const modernInput = nativeElement.querySelector('.sky-form-control');
         expect(modernInput?.getAttribute('placeholder')).toEqual(
-          'Search for a country'
+          'Search for a country',
         );
       }));
     });

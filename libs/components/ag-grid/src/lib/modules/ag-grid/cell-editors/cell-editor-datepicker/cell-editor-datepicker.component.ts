@@ -113,7 +113,7 @@ export class SkyAgGridCellEditorDatepickerComponent
           this.columnWidth === undefined ? undefined : this.columnWidth - 2;
         this.rowHeightWithoutBorders = SkyAgGridCellEditorUtils.subtractOrZero(
           this.#params?.node.rowHeight,
-          3
+          3,
         );
       }
     });
@@ -147,7 +147,7 @@ export class SkyAgGridCellEditorDatepickerComponent
           // Ensure the cursor is at the end of the text.
           datepickerInputEl.setSelectionRange(
             charPress.length,
-            charPress.length
+            charPress.length,
           );
         }
       }

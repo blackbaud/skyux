@@ -39,7 +39,7 @@ export class DataViewCardFixtureComponent implements OnInit {
 
   constructor(
     changeDetector: ChangeDetectorRef,
-    dataManagerService: SkyDataManagerService
+    dataManagerService: SkyDataManagerService,
   ) {
     this.#changeDetector = changeDetector;
     this.#dataManagerService = dataManagerService;

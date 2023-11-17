@@ -6,7 +6,7 @@ describe('theme-storybook', () => {
       beforeEach(() => {
         cy.viewport(E2eVariations.DISPLAY_WIDTHS[0], 800);
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=buttonscomponent-buttons--buttons`
+          `/iframe.html?globals=theme:${theme}&id=buttonscomponent-buttons--buttons`,
         );
       });
       it('should render the component', () => {

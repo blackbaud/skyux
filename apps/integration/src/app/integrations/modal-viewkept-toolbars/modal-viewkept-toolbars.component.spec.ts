@@ -38,7 +38,7 @@ describe('Modals with viewkept toolbars', () => {
 
   function getToolbarContainers(): NodeListOf<HTMLElement> {
     return document.querySelectorAll(
-      '.sky-modal-content .sky-toolbar-container'
+      '.sky-modal-content .sky-toolbar-container',
     );
   }
 
@@ -86,8 +86,8 @@ describe('Modals with viewkept toolbars', () => {
         TestBed.inject(RendererFactory2).createRenderer(undefined, null),
         new SkyThemeSettings(
           SkyTheme.presets.modern,
-          SkyThemeMode.presets.light
-        )
+          SkyThemeMode.presets.light,
+        ),
       );
 
       await fixture.whenStable();
@@ -101,15 +101,15 @@ describe('Modals with viewkept toolbars', () => {
       TestBed.inject(SkyThemeService).setTheme(
         new SkyThemeSettings(
           SkyTheme.presets.default,
-          SkyThemeMode.presets.light
-        )
+          SkyThemeMode.presets.light,
+        ),
       );
     });
 
     it('should not have a modal header box shadow when scroll is active', async () => {
       await scrollContentDown();
       expect(
-        window.getComputedStyle(getModalHeader() as Element).boxShadow
+        window.getComputedStyle(getModalHeader() as Element).boxShadow,
       ).toBe('none');
     });
 

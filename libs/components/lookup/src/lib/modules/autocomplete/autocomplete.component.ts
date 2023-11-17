@@ -234,7 +234,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    */
   @Input()
   public set searchFilters(
-    value: SkyAutocompleteSearchFunctionFilter[] | undefined
+    value: SkyAutocompleteSearchFunctionFilter[] | undefined,
   ) {
     this.#_searchFilters = value;
 
@@ -363,7 +363,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   @ContentChild(SkyAutocompleteInputDirective)
   public set inputDirective(
-    directive: SkyAutocompleteInputDirective | undefined
+    directive: SkyAutocompleteInputDirective | undefined,
   ) {
     if (!directive) {
       throw Error(
@@ -371,7 +371,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
           'The SkyAutocompleteComponent requires a ContentChild input or',
           'textarea bound with the SkyAutocomplete directive. For example:',
           '`<input type="text" skyAutocomplete>`.',
-        ].join(' ')
+        ].join(' '),
       );
     }
 
@@ -390,7 +390,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
           switchMap((change) => {
             this.isSearchingAsync = true;
             return of(change);
-          })
+          }),
         )
         .subscribe((change) => {
           this.#searchTextChanged(change.value);
@@ -529,7 +529,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     @Optional() inputBoxHostSvc?: SkyInputBoxHostService,
     @Optional()
     @Inject(SKY_STACKING_CONTEXT)
-    stackingContext?: SkyStackingContext
+    stackingContext?: SkyStackingContext,
   ) {
     this.#changeDetector = changeDetector;
     this.#elementRef = elementRef;
@@ -582,7 +582,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       const activeElement = this.#getActiveElement();
       const activeElementId = activeElement?.id;
       const targetIsSearchResult = this.searchResults.find(
-        (r) => r.elementId === activeElementId
+        (r) => r.elementId === activeElementId,
       );
 
       switch (key) {
@@ -813,7 +813,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
           items,
           totalCount: items.length,
         };
-      })
+      }),
     );
   }
 
@@ -961,7 +961,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
           this.#adapterService.setDropdownWidth(
             this.#elementRef,
             this.resultsRef,
-            !!this.#inputBoxHostSvc
+            !!this.#inputBoxHostSvc,
           );
         }
       });
@@ -983,7 +983,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       this.#adapterService.setDropdownWidth(
         this.#elementRef,
         this.resultsRef,
-        !!this.#inputBoxHostSvc
+        !!this.#inputBoxHostSvc,
       );
 
       affixer.affixTo(this.#elementRef.nativeElement, {
@@ -1053,7 +1053,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     if (this.#activeElementIndex > -1) {
       this.#adapterService.removeCSSClass(
         this.#overlayFocusableElements[this.#activeElementIndex],
-        'sky-autocomplete-descendant-focus'
+        'sky-autocomplete-descendant-focus',
       );
     }
   }
@@ -1062,7 +1062,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     if (this.#activeElementIndex > -1) {
       this.#adapterService.addCSSClass(
         this.#overlayFocusableElements[this.#activeElementIndex],
-        'sky-autocomplete-descendant-focus'
+        'sky-autocomplete-descendant-focus',
       );
       this.#setActiveDescendant();
     }

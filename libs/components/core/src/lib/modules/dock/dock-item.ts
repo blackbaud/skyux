@@ -21,7 +21,7 @@ export class SkyDockItem<T> {
    */
   constructor(
     public readonly componentInstance: T,
-    public readonly stackOrder: number
+    public readonly stackOrder: number,
   ) {
     this.#destroyedObs = this.#destroyed.asObservable();
   }

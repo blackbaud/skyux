@@ -43,7 +43,7 @@ export class SkyVerticalTabMediaQueryService {
 
   public isWidthWithinBreakpoint(
     width: number,
-    breakpoint: SkyMediaBreakpoints
+    breakpoint: SkyMediaBreakpoints,
   ): boolean {
     const xsBreakpointMaxPixels = 767;
     const smBreakpointMinPixels = 768;

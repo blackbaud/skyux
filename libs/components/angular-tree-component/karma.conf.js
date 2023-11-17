@@ -12,7 +12,7 @@ module.exports = function (config) {
       ...baseConfig.coverageReporter,
       dir: join(
         __dirname,
-        '../../../coverage/libs/components/angular-tree-component'
+        '../../../coverage/libs/components/angular-tree-component',
       ),
     },
   });

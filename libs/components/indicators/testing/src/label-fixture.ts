@@ -48,7 +48,7 @@ export class SkyLabelFixture {
     this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
-      'sky-label'
+      'sky-label',
     );
   }
 

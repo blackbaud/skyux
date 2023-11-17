@@ -35,12 +35,12 @@ describe('ModalLookupComponent', () => {
     const modalHarness = await loader.getHarness(
       SkyModalHarness.with({
         dataSkyId: 'modal-lookup',
-      })
+      }),
     );
     expect(await modalHarness.getSize()).toBe('medium');
     const lookupHarness = await (
       await loader.getHarness(
-        SkyInputBoxHarness.with({ dataSkyId: 'favorite-names-field' })
+        SkyInputBoxHarness.with({ dataSkyId: 'favorite-names-field' }),
       )
     ).queryHarness(SkyLookupHarness);
     expect(await lookupHarness?.isFocused()).toBeTruthy();

@@ -11,7 +11,7 @@ export interface ImportUsage {
 
 export function getImports(
   sourceFile: ts.SourceFile,
-  packages: Map<string, string[]>
+  packages: Map<string, string[]>,
 ): ts.ImportSpecifier[] {
   const importSpecifiers: ts.ImportSpecifier[] = [];
 
@@ -30,7 +30,7 @@ export function getImports(
 
 export function getUsages(
   sourceFile: ts.SourceFile,
-  importSpecifier: ts.ImportSpecifier
+  importSpecifier: ts.ImportSpecifier,
 ): ImportUsage[] {
   const usages: ImportUsage[] = [];
 
@@ -74,7 +74,7 @@ export function getUsages(
 function getImportSpecifiers(
   sourceFile: ts.SourceFile,
   moduleName: string,
-  specifierName: string
+  specifierName: string,
 ): ts.ImportSpecifier[] {
   const importSpecifiers: ts.ImportSpecifier[] = [];
 
@@ -90,7 +90,7 @@ function getImportSpecifiers(
       if (namedBindings && ts.isNamedImports(namedBindings)) {
         const match = findImportSpecifier(
           namedBindings.elements,
-          specifierName
+          specifierName,
         );
 
         if (match) {
@@ -108,7 +108,7 @@ function getImportSpecifiers(
  */
 function findImportSpecifier(
   nodes: ts.NodeArray<ts.ImportSpecifier>,
-  specifierName: string
+  specifierName: string,
 ): ts.ImportSpecifier | undefined {
   return nodes.find((element) => {
     const { name, propertyName } = element;

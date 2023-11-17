@@ -21,7 +21,7 @@ describe('toolbar component', () => {
       fixture.detectChanges();
 
       const buttonEls = el.querySelectorAll(
-        '.sky-toolbar-container .sky-toolbar-item .sky-btn'
+        '.sky-toolbar-container .sky-toolbar-item .sky-btn',
       );
 
       expect(buttonEls.item(0)).toHaveText('Button 1');
@@ -31,7 +31,7 @@ describe('toolbar component', () => {
     it('should call the content info provider for standard components with undefined if no listDescriptor is given', async () => {
       const patchInfoSpy = spyOn(
         SkyContentInfoProvider.prototype,
-        'patchInfo'
+        'patchInfo',
       ).and.stub();
 
       const fixture = TestBed.createComponent(SkyToolbarTestComponent);
@@ -49,7 +49,7 @@ describe('toolbar component', () => {
     it('should call the default input provider for standard components with the listDescriptor if a listDescriptor is given', async () => {
       const patchInfoSpy = spyOn(
         SkyContentInfoProvider.prototype,
-        'patchInfo'
+        'patchInfo',
       ).and.stub();
 
       const fixture = TestBed.createComponent(SkyToolbarTestComponent);
@@ -86,14 +86,14 @@ describe('toolbar component', () => {
       fixture.detectChanges();
 
       const buttonEls = el.querySelectorAll(
-        '.sky-toolbar-container .sky-toolbar-section .sky-toolbar-item .sky-btn'
+        '.sky-toolbar-container .sky-toolbar-section .sky-toolbar-item .sky-btn',
       );
 
       expect(buttonEls.item(0)).toHaveText('Button 1');
       expect(buttonEls.item(1)).toHaveText('Button 2');
 
       expect(el.querySelector('.sky-toolbar-container')).toHaveCssClass(
-        'sky-toolbar-sectioned'
+        'sky-toolbar-sectioned',
       );
     });
 

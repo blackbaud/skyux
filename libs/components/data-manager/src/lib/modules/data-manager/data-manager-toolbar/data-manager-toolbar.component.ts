@@ -6,8 +6,10 @@ import {
   OnDestroy,
   OnInit,
   inject,
+  isStandalone,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { SkyLogService } from '@skyux/core';
 import {
   SkyCheckboxChange,
   SkyCheckboxModule,
@@ -20,6 +22,7 @@ import { SkySearchModule } from '@skyux/lookup';
 import {
   SkyModalCloseArgs,
   SkyModalConfigurationInterface,
+  SkyModalLegacyService,
   SkyModalService,
 } from '@skyux/modals';
 
@@ -103,6 +106,8 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
 
   public onlyShowSelected: boolean | undefined;
 
+  readonly #logger = inject(SkyLogService, { optional: true });
+
   #ngUnsubscribe = new Subject<void>();
 
   // the source to provide for data state changes
@@ -136,7 +141,7 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
         this.views = views;
         if (this.activeView) {
           this.activeView = this.#dataManagerService.getViewById(
-            this.activeView.id
+            this.activeView.id,
           );
         }
         this.#changeDetector.markForCheck();
@@ -197,6 +202,20 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
     };
 
     if (filterModal) {
+      if (
+        !(this.#modalService instanceof SkyModalLegacyService) &&
+        !isStandalone(filterModal)
+      ) {
+        this.#logger
+          ?.deprecated(
+            'SkyDataManagerConfig.filterModalComponent not standalone',
+            {
+              deprecationMajorVersion: 9,
+              replacementRecommendation: `The SkyDataManagerConfig.filterModalComponent must be a standalone component in order to receive the right dependency injector context.`,
+            },
+          )
+          .then();
+      }
       const modalInstance = this.#modalService.open(filterModal, options);
 
       modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {
@@ -204,7 +223,7 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
           this.dataState.filterData = result.data;
           this.#dataManagerService.updateDataState(
             this.dataState,
-            this.#_source
+            this.#_source,
           );
         }
       });
@@ -217,7 +236,7 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
       if (viewState) {
         const context = new SkyDataManagerColumnPickerContext(
           this.activeView.columnOptions,
-          viewState.displayedColumnIds
+          viewState.displayedColumnIds,
         );
 
         if (this.activeView.columnPickerSortStrategy) {
@@ -237,20 +256,20 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
 
         const modalInstance = this.#modalService.open(
           this.#columnPickerService.getComponentType(),
-          options
+          options,
         );
 
         modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {
           if (result.reason === 'save') {
             const displayedColumnIds = result.data.map(
-              (col: SkyDataManagerColumnPickerOption) => col.id
+              (col: SkyDataManagerColumnPickerOption) => col.id,
             );
 
             viewState.displayedColumnIds = displayedColumnIds;
             if (this.dataState && this.activeView) {
               this.dataState = this.dataState.addOrUpdateView(
                 this.activeView.id,
-                viewState
+                viewState,
               );
             }
           }

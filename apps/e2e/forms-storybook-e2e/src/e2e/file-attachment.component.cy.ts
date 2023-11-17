@@ -7,21 +7,21 @@ describe('forms-storybook', () => {
         describe(`in ${mode} file attachment`, () => {
           beforeEach(() =>
             cy.visit(
-              `/iframe.html?globals=theme:${theme}&id=fileattachmentcomponent-fileattachment--file-attachment-${mode}`
-            )
+              `/iframe.html?globals=theme:${theme}&id=fileattachmentcomponent-fileattachment--file-attachment-${mode}`,
+            ),
           );
           it('should render the component', () => {
             cy.get('app-file-attachment')
               .should('exist')
               .should('be.visible')
               .screenshot(
-                `fileattachmentcomponent-fileattachment--file-attachment-${mode}-${theme}`
+                `fileattachmentcomponent-fileattachment--file-attachment-${mode}-${theme}`,
               )
               .percySnapshot(
                 `fileattachmentcomponent-fileattachment--file-attachment-${mode}-${theme}`,
                 {
                   widths: E2eVariations.DISPLAY_WIDTHS,
-                }
+                },
               );
           });
         });
@@ -29,8 +29,8 @@ describe('forms-storybook', () => {
       describe(`in file attachment`, () => {
         beforeEach(() =>
           cy.visit(
-            `/iframe.html?globals=theme:${theme}&id=fileattachmentcomponent-fileattachment--file-attachment-basic`
-          )
+            `/iframe.html?globals=theme:${theme}&id=fileattachmentcomponent-fileattachment--file-attachment-basic`,
+          ),
         );
         it(`should render component drag and drop`, () => {
           cy.get('app-file-attachment').should('exist').should('be.visible');
@@ -40,13 +40,13 @@ describe('forms-storybook', () => {
             .should('exist')
             .should('be.visible')
             .screenshot(
-              `fileattachmentcomponent-fileattachment--file-attachment-drag-and-drop-${theme}`
+              `fileattachmentcomponent-fileattachment--file-attachment-drag-and-drop-${theme}`,
             )
             .percySnapshot(
               `fileattachmentcomponent-fileattachment--file-attachment-drag-and-drop-${theme}`,
               {
                 widths: E2eVariations.DISPLAY_WIDTHS,
-              }
+              },
             );
         });
       });

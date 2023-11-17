@@ -68,7 +68,7 @@ describe('Country field fixture', () => {
 
     // verify updated values
     expect(countryFieldFixture.autocompleteAttribute).toBe(
-      testComponent.autocompleteAttribute
+      testComponent.autocompleteAttribute,
     );
     expect(countryFieldFixture.disabled).toBe(testComponent.disabled);
   });
@@ -76,7 +76,7 @@ describe('Country field fixture', () => {
   it('should properly select country', async () => {
     const selectedCountryChangeSpy = spyOn(
       fixture.componentInstance,
-      'selectedCountryChange'
+      'selectedCountryChange',
     );
 
     // make a selection
@@ -101,7 +101,7 @@ describe('Country field fixture', () => {
   it('should return undefined properties for no selection', async () => {
     const selectedCountryChangeSpy = spyOn(
       fixture.componentInstance,
-      'selectedCountryChange'
+      'selectedCountryChange',
     );
 
     // make a selection
@@ -182,7 +182,7 @@ describe('Country field fixture', () => {
 
   it('should throw an index out of range error', async () => {
     await expectAsync(
-      countryFieldFixture.searchAndSelectFirstResult('FOOBAR')
+      countryFieldFixture.searchAndSelectFirstResult('FOOBAR'),
     ).toBeRejectedWithError('Index out of range for results');
   });
 });

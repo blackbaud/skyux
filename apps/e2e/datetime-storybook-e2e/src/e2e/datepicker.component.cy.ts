@@ -5,7 +5,7 @@ describe('Date picker', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() => {
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=datepickercomponent-datepicker--datepicker`
+          `/iframe.html?globals=theme:${theme}&id=datepickercomponent-datepicker--datepicker`,
         );
         cy.get('app-datepicker')
           .should('exist')
@@ -22,7 +22,7 @@ describe('Date picker', () => {
           {
             overwrite: true,
             disableTimersAndAnimations: true,
-          }
+          },
         );
       });
 
@@ -86,11 +86,11 @@ describe('Date picker', () => {
               $body
                 .find('[aria-expanded="true"]')
                 .get(0)
-                .getBoundingClientRect().bottom
+                .getBoundingClientRect().bottom,
             );
             cy.wrap(buttonBottom).should('be.gt', 0);
             const dialogTop = Math.round(
-              $body.find('[role="dialog"]').position().top
+              $body.find('[role="dialog"]').position().top,
             );
             cy.wrap(buttonBottom).should('equal', dialogTop);
             return cy.wrap($body.get(0));

@@ -59,19 +59,19 @@ function simplifyWorkspaceName(tree: Tree, projectName: string) {
   projects.forEach((projectConfig) => {
     let projectConfigJson = JSON.stringify(projectConfig).replace(
       new RegExp(`${BASE_PATH}-${projectName}`, 'g'),
-      projectName
+      projectName,
     );
     if (projectName.endsWith('-e2e')) {
       const withoutE2e = projectName.replace(/-e2e$/, '');
       projectConfigJson = projectConfigJson.replace(
         new RegExp(`${BASE_PATH}-${withoutE2e}`, 'g'),
-        withoutE2e
+        withoutE2e,
       );
     }
     updateProjectConfiguration(
       tree,
       `${BASE_PATH}-${projectName}`,
-      JSON.parse(projectConfigJson)
+      JSON.parse(projectConfigJson),
     );
   });
 }
@@ -93,13 +93,13 @@ function addPackagesPolyfills(tree: Tree, projectName: string) {
     ['build', 'test'].forEach((target) => {
       if (
         polyfillsBuilders.includes(
-          `${projectConfig.targets?.[target].executor}`
+          `${projectConfig.targets?.[target].executor}`,
         ) &&
         projectConfig.targets?.[target].options.polyfills &&
         Array.isArray(projectConfig.targets[target].options.polyfills)
       ) {
         projectConfig.targets[target].options.polyfills.push(
-          'libs/components/packages/src/polyfills.js'
+          'libs/components/packages/src/polyfills.js',
         );
         hasChanged = true;
       }
@@ -143,7 +143,7 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
     }
     e2eProjectConfig = readProjectConfiguration(
       tree,
-      `${options.storybookAppName}-e2e`
+      `${options.storybookAppName}-e2e`,
     );
     if (e2eProjectConfig.root === `apps/${options.storybookAppName}-e2e`) {
       moveProject = true;
@@ -156,12 +156,12 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       simplifyWorkspaceName(tree, `${options.storybookAppName}-e2e`);
       e2eProjectConfig = readProjectConfiguration(
         tree,
-        `${options.storybookAppName}-e2e`
+        `${options.storybookAppName}-e2e`,
       );
     }
     if (!moveProject) {
       (schema.ansiColor === false ? console.warn : logger.warn)(
-        `The project "${options.storybookAppName}" already exists.`
+        `The project "${options.storybookAppName}" already exists.`,
       );
     }
   } catch (e) {
@@ -185,7 +185,7 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
     projectConfig = readProjectConfiguration(tree, options.storybookAppName);
     e2eProjectConfig = readProjectConfiguration(
       tree,
-      `${options.storybookAppName}-e2e`
+      `${options.storybookAppName}-e2e`,
     );
 
     // Delete boilerplate files from the storybook project.
@@ -198,7 +198,7 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
 
     indexFile = indexFile.replace(
       '<link rel="icon" type="image/x-icon" href="favicon.ico" />',
-      ''
+      '',
     );
     tree.write(`${projectConfig.sourceRoot}/index.html`, indexFile);
     [
@@ -212,14 +212,14 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       'app/nx-welcome.component.ts',
     ].forEach((file) => tree.delete(`${projectConfig.sourceRoot}/${file}`));
     ['e2e/app.cy.ts', 'fixtures/example.json', 'support/app.po.ts'].forEach(
-      (file) => tree.delete(`${e2eProjectConfig.sourceRoot}/${file}`)
+      (file) => tree.delete(`${e2eProjectConfig.sourceRoot}/${file}`),
     );
     // Create an empty app.
     generateFiles(
       tree,
       joinPathFragments(__dirname, 'files/app'),
       `${projectConfig.sourceRoot}/app`,
-      {}
+      {},
     );
     tree.write(`${e2eProjectConfig.sourceRoot}/e2e/.gitkeep`, ``);
   }
@@ -264,7 +264,7 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
     removeDependenciesFromPackageJson(
       tree,
       [],
-      ['@storybook/angular', '@storybook/core-server']
+      ['@storybook/angular', '@storybook/core-server'],
     );
     addDependenciesToPackageJson(
       tree,
@@ -272,14 +272,14 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       {
         '@storybook/angular': storybookVersion,
         '@storybook/core-server': storybookVersion,
-      }
+      },
     );
   }
   // Do not add explicit dependencies for @storybook/addon-essentials or webpack.
   removeDependenciesFromPackageJson(
     tree,
     [],
-    ['@storybook/addon-essentials', 'html-webpack-plugin', 'webpack']
+    ['@storybook/addon-essentials', 'html-webpack-plugin', 'webpack'],
   );
 
   // Clean up duplicate entries in nx.json
@@ -292,7 +292,7 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       json.targetDefaults['build-storybook'].inputs = json.targetDefaults[
         'build-storybook'
       ].inputs.filter(
-        (v: string, i: number, a: string[]) => a.indexOf(v) === i
+        (v: string, i: number, a: string[]) => a.indexOf(v) === i,
       );
     }
     if (
@@ -301,7 +301,7 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
     ) {
       // Remove duplicate entries
       json.namedInputs.production = json.namedInputs.production.filter(
-        (v: string, i: number, a: string[]) => a.indexOf(v) === i
+        (v: string, i: number, a: string[]) => a.indexOf(v) === i,
       );
     }
     return json;

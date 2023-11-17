@@ -111,7 +111,7 @@ export class SkyTokenComponent {
 
   protected onFocusOut(event: FocusEvent): void {
     this.isFocused = this.#elementRef.nativeElement.contains(
-      event.relatedTarget
+      event.relatedTarget,
     );
   }
 

@@ -5,20 +5,20 @@ describe('inline-form-storybook', () => {
     describe(`in ${theme} theme`, () => {
       it(`should render the closed inline form component`, () => {
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=inlineformcomponent-inlineform--inline-form-custom-buttons`
+          `/iframe.html?globals=theme:${theme}&id=inlineformcomponent-inlineform--inline-form-custom-buttons`,
         );
 
         cy.get('app-inline-form')
           .should('exist')
           .should('be.visible')
           .screenshot(
-            `inlineformcomponent-inlineform--inline-form-closed-${theme}`
+            `inlineformcomponent-inlineform--inline-form-closed-${theme}`,
           )
           .percySnapshot(
             `inlineformcomponent-inlineform--inline-form-closed-${theme}`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
-            }
+            },
           );
       });
       [
@@ -31,8 +31,8 @@ describe('inline-form-storybook', () => {
         describe(`with ${buttonCombo} buttons`, () => {
           beforeEach(() =>
             cy.visit(
-              `/iframe.html?globals=theme:${theme}&id=inlineformcomponent-inlineform--inline-form-${buttonCombo}-buttons`
-            )
+              `/iframe.html?globals=theme:${theme}&id=inlineformcomponent-inlineform--inline-form-${buttonCombo}-buttons`,
+            ),
           );
           it(`should render the open inline form component`, () => {
             cy.get('app-inline-form').should('exist').should('be.visible');
@@ -46,13 +46,13 @@ describe('inline-form-storybook', () => {
 
             cy.get('app-inline-form')
               .screenshot(
-                `inlineformcomponent-inlineform--inline-form-${buttonCombo}-buttons-${theme}`
+                `inlineformcomponent-inlineform--inline-form-${buttonCombo}-buttons-${theme}`,
               )
               .percySnapshot(
                 `inlineformcomponent-inlineform--inline-form-${buttonCombo}-buttons-${theme}`,
                 {
                   widths: E2eVariations.DISPLAY_WIDTHS,
-                }
+                },
               );
           });
         });

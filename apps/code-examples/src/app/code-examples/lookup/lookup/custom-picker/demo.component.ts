@@ -155,7 +155,7 @@ export class DemoComponent implements OnInit {
           instance.closed.subscribe((closeArgs) => {
             if (closeArgs.reason === 'save') {
               this.favoritesForm.controls.favoriteNames.setValue(
-                closeArgs.data
+                closeArgs.data,
               );
             }
           });

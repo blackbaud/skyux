@@ -14,7 +14,7 @@ export default {
   ],
 } as Meta<TileDashboardComponent>;
 const Template: Story<TileDashboardComponent> = (
-  args: TileDashboardComponent
+  args: TileDashboardComponent,
 ) => ({
   props: args,
 });

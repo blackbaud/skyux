@@ -24,7 +24,7 @@ const routes: Route[] = [
     path: 'switch-controls',
     loadChildren: () =>
       import('./switch-controls/switch-controls.module').then(
-        (m) => m.SwitchControlsModule
+        (m) => m.SwitchControlsModule,
       ),
   },
   {
