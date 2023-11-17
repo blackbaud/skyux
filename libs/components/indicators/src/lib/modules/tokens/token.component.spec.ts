@@ -104,7 +104,7 @@ describe('Token component', () => {
 
       expect(btnEl.getAttribute('aria-label')).toBeNull();
       expect(btnEl.getAttribute('aria-labelledby')).toEqual(
-        jasmine.stringMatching(/MOCK_ID_[0-9] MOCK_ID_[0-9]/)
+        jasmine.stringMatching(/MOCK_ID_[0-9] MOCK_ID_[0-9]/),
       );
     });
 

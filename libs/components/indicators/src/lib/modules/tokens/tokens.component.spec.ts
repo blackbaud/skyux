@@ -91,7 +91,7 @@ describe('Tokens component', () => {
 
     liveAnnouncerSpy = spyOn(
       TestBed.inject(SkyLiveAnnouncerService),
-      'announce'
+      'announce',
     );
   });
 

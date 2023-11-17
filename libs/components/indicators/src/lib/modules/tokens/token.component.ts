@@ -119,7 +119,7 @@ export class SkyTokenComponent {
     event.stopPropagation();
     this.#announceState(
       'skyux_tokens_token_dismissed',
-      this.actionButtonRef?.nativeElement.textContent.trim()
+      this.actionButtonRef?.nativeElement.textContent.trim(),
     );
     this.dismiss.emit();
   }
