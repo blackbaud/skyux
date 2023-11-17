@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility, expectAsync } from '@skyux-sdk/testing';
+import { SkyIdService } from '@skyux/core';
 
 import { SkyTokenComponent } from '../tokens/token.component';
 import { SkyTokensModule } from '../tokens/tokens.module';
@@ -11,6 +12,11 @@ describe('Token component', () => {
     TestBed.configureTestingModule({
       imports: [SkyTokensModule],
     });
+
+    // Mock the ID service.
+    let uniqueId = 0;
+    const idSvc = TestBed.inject(SkyIdService);
+    spyOn(idSvc, 'generateId').and.callFake(() => `MOCK_ID_${++uniqueId}`);
   });
 
   function validateActive(elClass: string): void {
@@ -91,11 +97,15 @@ describe('Token component', () => {
       );
 
       expect(btnEl.getAttribute('aria-label')).toBe('test');
+      expect(btnEl.getAttribute('aria-labelledby')).toBeNull();
 
       component.ariaLabel = undefined;
       fixture.detectChanges();
 
-      expect(btnEl.getAttribute('aria-label')).toBe('Remove item');
+      expect(btnEl.getAttribute('aria-label')).toBeNull();
+      expect(btnEl.getAttribute('aria-labelledby')).toEqual(
+        jasmine.stringMatching(/MOCK_ID_[0-9] MOCK_ID_[0-9]/),
+      );
     });
 
     it('should not have a role by default', () => {
