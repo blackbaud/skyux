@@ -97,6 +97,7 @@ describe('Token component', () => {
       );
 
       expect(btnEl.getAttribute('aria-label')).toBe('test');
+      expect(btnEl.getAttribute('aria-labelledby')).toBeNull();
 
       component.ariaLabel = undefined;
       fixture.detectChanges();
