@@ -66,6 +66,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'data-grid/template-ref-column',
+    loadComponent: () =>
+      import(
+        '../code-examples/ag-grid/data-grid/template-ref-column/demo.component'
+      ).then((c) => c.DemoComponent),
+  },
+  {
     path: 'data-grid/top-scroll',
     loadComponent: () =>
       import(
