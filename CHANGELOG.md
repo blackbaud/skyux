@@ -1,5 +1,13 @@
 # Changelog
 
+## [9.14.1](https://github.com/blackbaud/skyux/compare/9.14.0...9.14.1) (2023-11-20)
+
+
+### Bug Fixes
+
+* **components/flyout:** use local environment injector when opening flyout ([#1890](https://github.com/blackbaud/skyux/issues/1890)) ([a855aac](https://github.com/blackbaud/skyux/commit/a855aacc772a3a103c6d14d76f14b238620f67dc))
+* **components/modals:** use local environment injector when opening modal ([#1888](https://github.com/blackbaud/skyux/issues/1888)) ([b552435](https://github.com/blackbaud/skyux/commit/b5524355c42ee110da78ccff6068b755b85045f0))
+
 ## [9.14.0](https://github.com/blackbaud/skyux/compare/9.13.1...9.14.0) (2023-11-20)
 
 
