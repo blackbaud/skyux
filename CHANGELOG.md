@@ -1,5 +1,20 @@
 # Changelog
 
+## [9.14.0](https://github.com/blackbaud/skyux/compare/9.13.1...9.14.0) (2023-11-20)
+
+
+### Features
+
+* **components/action-bars:** summary action bar announce content changes to screen readers ([#1881](https://github.com/blackbaud/skyux/issues/1881)) ([5a26dc5](https://github.com/blackbaud/skyux/commit/5a26dc52b3299a5b800983c97969934d792773f7))
+* **components/indicators:** use more descriptive default ARIA labels for tokens and announce when they are dismissed to screen readers ([#1865](https://github.com/blackbaud/skyux/issues/1865)) ([d4f0cd1](https://github.com/blackbaud/skyux/commit/d4f0cd10dd9697638a79004e0950ca7cb3c98b98))
+* **components/popovers:** update dropdown docs and code example for aria label ([#1866](https://github.com/blackbaud/skyux/issues/1866)) ([ef4282c](https://github.com/blackbaud/skyux/commit/ef4282cbadd91d52c81fc727aa9b1023dbd9708b))
+
+
+### Bug Fixes
+
+* **components/data-manager:** always persist sort sticky settings ([#1871](https://github.com/blackbaud/skyux/issues/1871)) ([55b9a12](https://github.com/blackbaud/skyux/commit/55b9a128124611077289ef53a098a4039a501438))
+* **components/modals:** log warning about modal parameters ([#1885](https://github.com/blackbaud/skyux/issues/1885)) ([3b70712](https://github.com/blackbaud/skyux/commit/3b70712749b2c8dddb439b7c4e10542b72141a42))
+
 ## [9.13.1](https://github.com/blackbaud/skyux/compare/9.13.0...9.13.1) (2023-11-07)
 
 
