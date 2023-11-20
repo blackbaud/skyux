@@ -62,7 +62,7 @@ describe('Selection modal component', () => {
 
     liveAnnouncerSpy = spyOn(
       TestBed.inject(SkyLiveAnnouncerService),
-      'announce'
+      'announce',
     );
 
     return TestBed.createComponent(SkySelectionModalComponent);
@@ -113,10 +113,10 @@ describe('Selection modal component', () => {
   }
 
   function getAddButton(
-    fixture: ComponentFixture<SkySelectionModalComponent>
+    fixture: ComponentFixture<SkySelectionModalComponent>,
   ): HTMLButtonElement | undefined {
     return fixture.nativeElement.querySelector(
-      '.sky-lookup-show-more-modal-add'
+      '.sky-lookup-show-more-modal-add',
     );
   }
 
@@ -155,7 +155,7 @@ describe('Selection modal component', () => {
     expect(addButton?.textContent.trim()).toBe('New');
     expect(addButton?.getAttribute('aria-label')).toBe('Add person');
     expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      'Showing 20 items, with 0 selected.'
+      'Showing 20 items, with 0 selected.',
     );
   });
 
@@ -199,7 +199,7 @@ describe('Selection modal component', () => {
     expect(addButton?.getAttribute('aria-label')).toBe('Add people');
 
     expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      'Showing 20 items, with 0 selected.'
+      'Showing 20 items, with 0 selected.',
     );
   });
 });

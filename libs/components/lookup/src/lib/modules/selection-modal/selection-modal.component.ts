@@ -235,6 +235,7 @@ export class SkySelectionModalComponent implements OnInit, OnDestroy {
     const selectedItems = this.items.filter((item) =>
       this.selectedIdMap.has(item[this.context.idProperty]),
     );
+
     if (this.onlyShowSelected) {
       this.displayedItems = selectedItems;
     } else {
