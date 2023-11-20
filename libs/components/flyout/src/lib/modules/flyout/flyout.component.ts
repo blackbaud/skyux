@@ -220,6 +220,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   public attach<T>(
     component: Type<T>,
     config?: SkyFlyoutConfig,
+    environmentInjector?: EnvironmentInjector,
   ): SkyFlyoutInstance<T> {
     this.#cleanTemplate();
 
@@ -268,8 +269,9 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
         ? this.config.primaryAction.label
         : this.#getString('skyux_flyout_primary_action_button');
 
+    environmentInjector ||= this.#environmentInjector;
     const componentRef = this.#dynamicComponentSvc.createComponent(component, {
-      environmentInjector: this.#environmentInjector,
+      environmentInjector: environmentInjector,
       providers: this.config.providers,
       viewContainerRef: this.target,
     });

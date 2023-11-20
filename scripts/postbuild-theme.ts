@@ -24,6 +24,9 @@ function addPackageExport(filePath: string) {
   packageJson.exports[filePathNoExtension] = {
     default: rootRelativePath,
   };
+  packageJson.exports[rootRelativePath] = {
+    default: rootRelativePath,
+  };
 
   fs.writeJsonSync(packageJsonPath, packageJson, { spaces: 2 });
 }
