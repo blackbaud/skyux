@@ -65,7 +65,12 @@ export class SkyModalService {
     });
 
     if (SkyModalService.host) {
-      SkyModalService.host.instance.open(modalInstance, component, params);
+      SkyModalService.host.instance.open(
+        modalInstance,
+        component,
+        params,
+        this.#environmentInjector,
+      );
     }
 
     return modalInstance;
