@@ -23,8 +23,8 @@ describe('colorpicker-storybook', () => {
         cy
           .viewport(960, 1100)
           .visit(
-            `/iframe.html?globals=theme:${theme}&id=colorpickercomponent-colorpicker--colorpicker`
-          )
+            `/iframe.html?globals=theme:${theme}&id=colorpickercomponent-colorpicker--colorpicker`,
+          ),
       );
       it('should render the components', () => {
         cy.get('#ready').should('exist');
@@ -36,7 +36,7 @@ describe('colorpicker-storybook', () => {
             `colorpickercomponent-colorpicker--colorpicker-${theme}`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
-            }
+            },
           );
       });
 
@@ -64,13 +64,13 @@ describe('colorpicker-storybook', () => {
               `colorpickercomponent-colorpicker--${colorpicker.id}-menu-${theme}`,
               {
                 disableTimersAndAnimations: true,
-              }
+              },
             )
             .percySnapshot(
               `colorpickercomponent-colorpicker--${colorpicker.id}-menu-${theme}`,
               {
                 widths: E2eVariations.DISPLAY_WIDTHS,
-              }
+              },
             );
         });
       });

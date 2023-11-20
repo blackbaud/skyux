@@ -62,7 +62,7 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
    * from a database. The UI Config Service saves configuration settings for users
    * to preserve the layout and collapsed state of tile dashboards. The UI Config Service relies on `id` values from the `config` property to maintain user settings. For more information
    * about the UI Config Service, see the
-   * [sticky settings documentation](https://developer.blackbaud.com/skyux/learn/get-started/sticky-settings).
+   * [sticky settings documentation](https://developer.blackbaud.com/skyux/learn/develop/sticky-settings).
    */
   @Input()
   public settingsKey: string | undefined;
@@ -99,7 +99,7 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
   constructor(
     dashboardService: SkyTileDashboardService,
     mediaQueryService: SkyMediaQueryService,
-    @Optional() resourcesService?: SkyLibResourcesService
+    @Optional() resourcesService?: SkyLibResourcesService,
   ) {
     this.#dashboardService = dashboardService;
     this.#mediaQueryService = mediaQueryService;
@@ -124,7 +124,7 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
               '1',
               '1',
               config.movedTile.position.toString(),
-              config.layout.singleColumn.tiles.length.toString()
+              config.layout.singleColumn.tiles.length.toString(),
             );
           } else {
             messageObservable = this.#resourcesService.getString(
@@ -135,14 +135,14 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
               config.movedTile.position.toString(),
               config.layout.multiColumn[
                 config.movedTile.column - 1
-              ].tiles.length.toString()
+              ].tiles.length.toString(),
             );
           }
           messageObservable.pipe(take(1)).subscribe((message: string) => {
             this.tileMovedReport = message;
           });
         }
-      }
+      },
     );
   }
 
@@ -171,7 +171,7 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
             this.config,
             this.columns,
             this.singleColumn,
-            this.settingsKey
+            this.settingsKey,
           );
         }
       }, 0);

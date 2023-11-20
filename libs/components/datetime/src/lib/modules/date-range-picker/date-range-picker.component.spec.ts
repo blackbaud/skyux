@@ -67,7 +67,7 @@ describe('Date range picker', function () {
 
   function getCalculatorSelect(): HTMLSelectElement {
     return fixture.nativeElement.querySelector(
-      `#` + component.dateRangePicker.dateRangePickerId + `-select-calculator`
+      `#` + component.dateRangePicker.dateRangePickerId + `-select-calculator`,
     );
   }
 
@@ -81,13 +81,13 @@ describe('Date range picker', function () {
 
   function getEndDateInput(): HTMLInputElement | undefined {
     return fixture.nativeElement.querySelector(
-      `#${component.dateRangePicker.dateRangePickerId}-end-date`
+      `#${component.dateRangePicker.dateRangePickerId}-end-date`,
     );
   }
 
   function getStartDateInput(): HTMLInputElement | undefined {
     return fixture.nativeElement.querySelector(
-      `#${component.dateRangePicker.dateRangePickerId}-start-date`
+      `#${component.dateRangePicker.dateRangePickerId}-start-date`,
     );
   }
 
@@ -106,7 +106,7 @@ describe('Date range picker', function () {
 
   function verifyVisiblePickers(
     id: SkyDateRangeCalculatorId,
-    type: SkyDateRangeCalculatorType
+    type: SkyDateRangeCalculatorType,
   ): void {
     detectChanges();
 
@@ -156,7 +156,7 @@ describe('Date range picker', function () {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.default,
-          SkyThemeMode.presets.light
+          SkyThemeMode.presets.light,
         ),
         previousSettings: undefined,
       }),
@@ -217,7 +217,7 @@ describe('Date range picker', function () {
     detectChanges();
 
     expect(component.dateRangePicker.calculatorIds).toEqual(
-      defaultCalculatorIds
+      defaultCalculatorIds,
     );
   }));
 
@@ -263,28 +263,28 @@ describe('Date range picker', function () {
   it('should only show end date picker for Before type', fakeAsync(function () {
     verifyVisiblePickers(
       SkyDateRangeCalculatorId.Before,
-      SkyDateRangeCalculatorType.Before
+      SkyDateRangeCalculatorType.Before,
     );
   }));
 
   it('should only show start date picker for After type', fakeAsync(function () {
     verifyVisiblePickers(
       SkyDateRangeCalculatorId.After,
-      SkyDateRangeCalculatorType.After
+      SkyDateRangeCalculatorType.After,
     );
   }));
 
   it('should both pickers for Range type', fakeAsync(function () {
     verifyVisiblePickers(
       SkyDateRangeCalculatorId.SpecificRange,
-      SkyDateRangeCalculatorType.Range
+      SkyDateRangeCalculatorType.Range,
     );
   }));
 
   it('should hide both pickers for Relative type', fakeAsync(function () {
     verifyVisiblePickers(
       SkyDateRangeCalculatorId.Tomorrow,
-      SkyDateRangeCalculatorType.Relative
+      SkyDateRangeCalculatorType.Relative,
     );
   }));
 
@@ -414,7 +414,7 @@ describe('Date range picker', function () {
     detectChanges();
 
     expect(component.dateRange?.value.calculatorId).toEqual(
-      SkyDateRangeCalculatorId.NextFiscalYear
+      SkyDateRangeCalculatorId.NextFiscalYear,
     );
 
     expect(component.numValueChangeNotifications).toEqual(1);
@@ -539,7 +539,7 @@ describe('Date range picker', function () {
     expect(calculatorIdControl?.errors).toBeFalsy();
 
     const datepickerInputs = fixture.nativeElement.querySelectorAll(
-      '.sky-input-group input'
+      '.sky-input-group input',
     );
 
     datepickerInputs.item(0).value = '1/2/2000';
@@ -582,7 +582,7 @@ describe('Date range picker', function () {
     });
     detectChanges();
     const datepickerInputs = fixture.nativeElement.querySelectorAll(
-      '.sky-input-group input'
+      '.sky-input-group input',
     );
 
     SkyAppTestUtility.fireDomEvent(datepickerInputs.item(0), 'blur');
@@ -606,7 +606,7 @@ describe('Date range picker', function () {
     });
     detectChanges();
     const datepickerInputs = fixture.nativeElement.querySelectorAll(
-      '.sky-input-group input'
+      '.sky-input-group input',
     );
 
     SkyAppTestUtility.fireDomEvent(datepickerInputs.item(1), 'blur');
@@ -632,7 +632,7 @@ describe('Date range picker', function () {
       detectChanges();
       const input = getEndDateInput();
       expect(input?.getAttribute('aria-label')).toBe(
-        'Before date for Last donation'
+        'Before date for Last donation',
       );
     }));
 
@@ -648,7 +648,7 @@ describe('Date range picker', function () {
       detectChanges();
       const input = getStartDateInput();
       expect(input?.getAttribute('aria-label')).toBe(
-        'After date for Last donation'
+        'After date for Last donation',
       );
     }));
 
@@ -665,10 +665,10 @@ describe('Date range picker', function () {
       const fromInput = getStartDateInput();
       const toInput = getEndDateInput();
       expect(fromInput?.getAttribute('aria-label')).toBe(
-        'From date for Last donation'
+        'From date for Last donation',
       );
       expect(toInput?.getAttribute('aria-label')).toBe(
-        'To date for Last donation'
+        'To date for Last donation',
       );
     }));
 

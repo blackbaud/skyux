@@ -11,7 +11,7 @@ export async function createTestApp(
   runner: SchematicTestRunner,
   appOptions: {
     projectName: string;
-  }
+  },
 ): Promise<UnitTestTree> {
   return await runner.runExternalSchematic('@schematics/angular', 'ng-new', {
     directory: '/',
@@ -30,7 +30,7 @@ export async function createTestLibrary(
   runner: SchematicTestRunner,
   libOptions: {
     projectName: string;
-  }
+  },
 ): Promise<UnitTestTree> {
   const workspaceTree = await runner.runExternalSchematic(
     '@schematics/angular',
@@ -41,7 +41,7 @@ export async function createTestLibrary(
       createApplication: false,
       strict: true,
       version: VERSION.major,
-    }
+    },
   );
 
   await runner.runExternalSchematic(
@@ -50,7 +50,7 @@ export async function createTestLibrary(
     {
       name: libOptions.projectName,
     },
-    workspaceTree
+    workspaceTree,
   );
 
   // Create a "showcase" application for library projects.
@@ -60,7 +60,7 @@ export async function createTestLibrary(
     {
       name: `${libOptions.projectName}-showcase`,
     },
-    workspaceTree
+    workspaceTree,
   );
 
   return workspaceTree;

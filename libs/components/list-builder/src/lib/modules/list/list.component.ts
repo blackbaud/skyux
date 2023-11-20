@@ -12,10 +12,11 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
-import { AsyncItem, getValue } from '@skyux/list-builder-common';
 import {
+  AsyncItem,
   ListItemModel,
   ListSortFieldSelectorModel,
+  getValue,
   isObservable,
 } from '@skyux/list-builder-common';
 
@@ -167,7 +168,7 @@ export class SkyListComponent
   constructor(
     private state: ListState,
     private dispatcher: ListStateDispatcher,
-    logger: SkyLogService
+    logger: SkyLogService,
   ) {
     logger.deprecated('SkyListComponent', {
       deprecationMajorVersion: 6,
@@ -190,8 +191,8 @@ export class SkyListComponent
 
       this.dispatcher.next(
         new ListViewsLoadAction(
-          this.listViews.map((v) => new ListViewModel(v.id, v.label))
-        )
+          this.listViews.map((v) => new ListViewModel(v.id, v.label)),
+        ),
       );
 
       // activate the default view
@@ -204,7 +205,7 @@ export class SkyListComponent
     getValue(
       this.sortFields,
       (
-        sortFields: ListSortFieldSelectorModel[] | ListSortFieldSelectorModel
+        sortFields: ListSortFieldSelectorModel[] | ListSortFieldSelectorModel,
       ) => {
         let sortArray: ListSortFieldSelectorModel[];
         if (!Array.isArray(sortFields) && sortFields) {
@@ -213,15 +214,15 @@ export class SkyListComponent
           sortArray = sortFields as ListSortFieldSelectorModel[];
         }
         this.dispatcher.next(
-          new ListSortSetFieldSelectorsAction(sortArray || [])
+          new ListSortSetFieldSelectorsAction(sortArray || []),
         );
-      }
+      },
     );
 
     this.displayedItems.subscribe((result) => {
       this.dispatcher.next(new ListItemsSetLoadingAction());
       this.dispatcher.next(
-        new ListItemsLoadAction(result.items, true, true, result.count)
+        new ListItemsLoadAction(result.items, true, true, result.count),
       );
     });
 
@@ -230,7 +231,7 @@ export class SkyListComponent
       .pipe(
         observableMap((current) => current.selected),
         takeUntil(this.ngUnsubscribe),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       )
       .subscribe((selected) => {
         // Update lastSelectedIds to help us retain user selections.
@@ -244,7 +245,7 @@ export class SkyListComponent
         // If changes are distinct, emit selectedIdsChange.
         const distinctChanges = !this.arraysEqual(
           this.lastSelectedIds,
-          selectedIdsList
+          selectedIdsList,
         );
         if (this.selectedIdsChange.observers.length > 0 && distinctChanges) {
           this.selectedIdsChange.emit(selected.item.selectedIdMap);
@@ -258,7 +259,7 @@ export class SkyListComponent
         .pipe(
           observableMap((current) => current.filters),
           takeUntil(this.ngUnsubscribe),
-          skip(1)
+          skip(1),
         )
         .subscribe((filters) => {
           /**
@@ -309,7 +310,7 @@ export class SkyListComponent
     this.displayedItems.pipe(take(1)).subscribe((result) => {
       this.dispatcher.next(new ListItemsSetLoadingAction());
       this.dispatcher.next(
-        new ListItemsLoadAction(result.items, true, true, result.count)
+        new ListItemsLoadAction(result.items, true, true, result.count),
       );
     });
   }
@@ -327,7 +328,7 @@ export class SkyListComponent
     if (!this.dataProvider) {
       this.dataProvider = new SkyListInMemoryDataProvider(
         data,
-        this.searchFunction
+        this.searchFunction,
       );
     }
 
@@ -347,34 +348,34 @@ export class SkyListComponent
       [
         this.state.pipe(
           observableMap((s) => s.filters),
-          distinctUntilChanged()
+          distinctUntilChanged(),
         ),
         this.state.pipe(
           observableMap((s) => s.search),
-          distinctUntilChanged()
+          distinctUntilChanged(),
         ),
         this.state.pipe(
           observableMap((s) => s.sort.fieldSelectors),
-          distinctUntilChanged()
+          distinctUntilChanged(),
         ),
         this.state.pipe(
           observableMap((s) => s.paging.itemsPerPage),
-          distinctUntilChanged()
+          distinctUntilChanged(),
         ),
         this.state.pipe(
           observableMap((s) => s.paging.pageNumber),
-          distinctUntilChanged()
+          distinctUntilChanged(),
         ),
         this.state.pipe(
           observableMap((s) => s.toolbar.disabled),
-          distinctUntilChanged()
+          distinctUntilChanged(),
         ),
         selectedIds.pipe(
           distinctUntilChanged(),
           observableMap((selected) => {
             selectedChanged = true;
             return selected;
-          })
+          }),
         ),
         data.pipe(distinctUntilChanged()),
       ],
@@ -386,7 +387,7 @@ export class SkyListComponent
         pageNumber: number,
         isToolbarDisabled: boolean,
         selected: Array<string>,
-        itemsData: Array<any>
+        itemsData: Array<any>,
       ) => {
         cancelLastRequest.next();
         cancelLastRequest.complete();
@@ -402,13 +403,13 @@ export class SkyListComponent
           this.dataFirstLoad = false;
           const initialItems = itemsData.map(
             (d) =>
-              new ListItemModel(d.id || `sky-list-item-model-${++idIndex}`, d)
+              new ListItemModel(d.id || `sky-list-item-model-${++idIndex}`, d),
           );
           response = observableOf(
             new ListDataResponseModel({
               count: this.initialTotal,
               items: initialItems,
-            })
+            }),
           ).pipe(takeUntil(cancelLastRequest));
         } else {
           response = this.dataProvider
@@ -420,13 +421,13 @@ export class SkyListComponent
                 search: search,
                 sort: new ListSortModel({ fieldSelectors: sortFieldSelectors }),
                 isToolbarDisabled: isToolbarDisabled,
-              })
+              }),
             )
             .pipe(takeUntil(cancelLastRequest));
         }
 
         return response;
-      }
+      },
     ).pipe(
       takeUntil(this.ngUnsubscribe),
 
@@ -439,13 +440,13 @@ export class SkyListComponent
               count: listDataResponseModel.count,
               items: this.getItemsAndRetainSelections(
                 listDataResponseModel.items,
-                this.lastSelectedIds
+                this.lastSelectedIds,
               ),
             });
-          })
+          }),
         );
       }),
-      flatMap((value) => value)
+      flatMap((value) => value),
     );
   }
 
@@ -453,15 +454,15 @@ export class SkyListComponent
     return observableCombineLatest(
       this.state.pipe(
         observableMap((current) => current.items.items),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       ),
       this.state.pipe(
         observableMap((current) => current.selected),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       ),
       (items: Array<ListItemModel>, selected: AsyncItem<ListSelectedModel>) => {
         return items.filter((i) => selected.item.selectedIdMap.get(i.id));
-      }
+      },
     ).pipe(takeUntil(this.ngUnsubscribe));
   }
 
@@ -469,8 +470,8 @@ export class SkyListComponent
     return this.state.pipe(
       takeUntil(this.ngUnsubscribe),
       observableMap((s) =>
-        s.items.lastUpdate ? new Date(s.items.lastUpdate) : undefined
-      )
+        s.items.lastUpdate ? new Date(s.items.lastUpdate) : undefined,
+      ),
     );
   }
 
@@ -484,7 +485,7 @@ export class SkyListComponent
 
   private getItemsAndRetainSelections(
     newList: ListItemModel[],
-    selectedIds: string[]
+    selectedIds: string[],
   ): ListItemModel[] {
     const updatedListModel = newList.slice();
     updatedListModel.forEach((item) => {

@@ -16,7 +16,7 @@ export class SkyToastBodyTestComponent {
 
   constructor(
     public context: SkyToastBodyTestContext,
-    instance: SkyToastInstance
+    instance: SkyToastInstance,
   ) {
     this.#instance = instance;
   }

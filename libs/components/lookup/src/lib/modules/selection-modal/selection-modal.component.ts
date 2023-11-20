@@ -221,7 +221,7 @@ export class SkySelectionModalComponent implements OnInit, OnDestroy {
       (itemData, index) => ({
         index,
         itemData,
-      })
+      }),
     ).sort((a, b) => {
       return this.items.indexOf(a.itemData) < this.items.indexOf(b.itemData)
         ? -1
@@ -233,7 +233,7 @@ export class SkySelectionModalComponent implements OnInit, OnDestroy {
 
   public updateDisplayedItems(): void {
     const selectedItems = this.items.filter((item) =>
-      this.selectedIdMap.has(item[this.context.idProperty])
+      this.selectedIdMap.has(item[this.context.idProperty]),
     );
     if (this.onlyShowSelected) {
       this.displayedItems = selectedItems;
@@ -244,7 +244,7 @@ export class SkySelectionModalComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.#announceSelectionState(
         selectedItems.length,
-        this.displayedItems.length
+        this.displayedItems.length,
       );
       this.#changeDetector.markForCheck();
     });
@@ -268,12 +268,12 @@ export class SkySelectionModalComponent implements OnInit, OnDestroy {
       this.context.initialValue.map((item) => [
         (item as Record<string, unknown>)[this.context.idProperty],
         item,
-      ])
+      ]),
     );
   }
 
   #performSearch(
-    processResults: (result: SkySelectionModalSearchResult) => void
+    processResults: (result: SkySelectionModalSearchResult) => void,
   ): void {
     this.#currentSearchSub = this.context
       .searchAsync({
@@ -307,13 +307,13 @@ export class SkySelectionModalComponent implements OnInit, OnDestroy {
 
   #announceSelectionState(
     selectedItemCount: number,
-    displayedItemCount: number
+    displayedItemCount: number,
   ): void {
     this.#resourcesSvc
       .getString(
         'skyux_lookup_show_more_displayed_items_updated',
         selectedItemCount.toString(),
-        displayedItemCount.toString()
+        displayedItemCount.toString(),
       )
       .pipe(take(1))
       .subscribe((resourceString) => {

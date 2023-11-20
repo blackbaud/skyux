@@ -48,8 +48,8 @@ export class PickerModalComponent {
     this.peopleForm = this.#formBuilder.group({
       people: this.#formBuilder.array(
         this.context.items.map((item) =>
-          this.#formBuilder.control(this.context.initialValue?.includes(item))
-        )
+          this.#formBuilder.control(this.context.initialValue?.includes(item)),
+        ),
       ),
     });
   }
@@ -58,7 +58,7 @@ export class PickerModalComponent {
     // Return a list of selected people to the lookup component.
     const selectedPeople = this.people.filter(
       (_, index) =>
-        this.peopleForm.value.people && this.peopleForm.value.people[index]
+        this.peopleForm.value.people && this.peopleForm.value.people[index],
     );
 
     this.#modalInstance.save(selectedPeople);

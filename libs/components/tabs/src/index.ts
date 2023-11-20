@@ -2,11 +2,11 @@ export { SkySectionedFormModule } from './lib/modules/sectioned-form/sectioned-f
 export { SkySectionedFormService } from './lib/modules/sectioned-form/sectioned-form.service';
 
 export { SkyTabIndex } from './lib/modules/tabs/tab-index';
+export { SkyTabLayoutType } from './lib/modules/tabs/tab-layout-type';
+export { SkyTabsModule } from './lib/modules/tabs/tabs.module';
 export { SkyTabsetButtonsDisplayMode } from './lib/modules/tabs/tabset-buttons-display-mode';
 export { SkyTabsetStyle } from './lib/modules/tabs/tabset-style';
 export { SkyTabsetTabIndexesChange } from './lib/modules/tabs/tabset-tab-indexes-change';
-export { SkyTabsModule } from './lib/modules/tabs/tabs.module';
-export { SkyTabLayoutType } from './lib/modules/tabs/tab-layout-type';
 
 export { SkyVerticalTabsetModule } from './lib/modules/vertical-tabset/vertical-tabset.module';
 
@@ -21,10 +21,10 @@ export { SkySectionedFormMessageType } from './lib/modules/sectioned-form/types/
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of public API.
-export { SkyTabComponent as λ1 } from './lib/modules/tabs/tab.component';
-export { SkyTabsetComponent as λ2 } from './lib/modules/tabs/tabset.component';
-export { SkyTabsetNavButtonComponent as λ3 } from './lib/modules/tabs/tabset-nav-button.component';
-export { SkyVerticalTabComponent as λ4 } from './lib/modules/vertical-tabset/vertical-tab.component';
 export { SkySectionedFormSectionComponent as λ5 } from './lib/modules/sectioned-form/sectioned-form-section.component';
-export { SkyVerticalTabsetComponent as λ6 } from './lib/modules/vertical-tabset/vertical-tabset.component';
+export { SkyTabComponent as λ1 } from './lib/modules/tabs/tab.component';
+export { SkyTabsetNavButtonComponent as λ3 } from './lib/modules/tabs/tabset-nav-button.component';
+export { SkyTabsetComponent as λ2 } from './lib/modules/tabs/tabset.component';
+export { SkyVerticalTabComponent as λ4 } from './lib/modules/vertical-tabset/vertical-tab.component';
 export { SkyVerticalTabsetGroupComponent as λ7 } from './lib/modules/vertical-tabset/vertical-tabset-group.component';
+export { SkyVerticalTabsetComponent as λ6 } from './lib/modules/vertical-tabset/vertical-tabset.component';

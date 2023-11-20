@@ -5,7 +5,7 @@ import { SkyNumberFormatUtility } from './number-format-utility';
 function formatCurrency(
   value: any,
   digits: string,
-  currencySign?: 'accounting' | 'standard'
+  currencySign?: 'accounting' | 'standard',
 ): string | null {
   return SkyNumberFormatUtility.formatNumber(
     'en-US',
@@ -14,7 +14,7 @@ function formatCurrency(
     digits,
     'USD',
     true,
-    currencySign || 'standard'
+    currencySign || 'standard',
   );
 }
 
@@ -33,7 +33,7 @@ describe('Number format utility', function () {
 
   it('should throw error for invalid types', function () {
     expect(() => formatCurrency({}, '')).toThrowError(
-      "SkyInvalidPipeArgument: '[object Object]'"
+      "SkyInvalidPipeArgument: '[object Object]'",
     );
   });
 
@@ -47,7 +47,7 @@ describe('Number format utility', function () {
     const digits = 'abcd-foobar';
 
     expect(() => formatCurrency(50, digits)).toThrowError(
-      `${digits} is not a valid digit info for number pipes`
+      `${digits} is not a valid digit info for number pipes`,
     );
   });
 
@@ -55,7 +55,7 @@ describe('Number format utility', function () {
     const digits = '0.9-0';
 
     expect(() => formatCurrency(50, digits)).toThrowError(
-      'minimumIntegerDigits value is out of range.'
+      'minimumIntegerDigits value is out of range.',
     );
   });
 });

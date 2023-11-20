@@ -38,7 +38,7 @@ export class SkyActionButtonIconComponent implements OnDestroy {
         } else {
           this.fontSizeClass = FONTSIZECLASS_LARGE;
         }
-      }
+      },
     );
   }
 

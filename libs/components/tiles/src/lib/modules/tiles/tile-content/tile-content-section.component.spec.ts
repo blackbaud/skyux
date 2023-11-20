@@ -25,7 +25,7 @@ describe('Tile content section component', () => {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.default,
-          SkyThemeMode.presets.light
+          SkyThemeMode.presets.light,
         ),
         previousSettings: undefined,
       }),
@@ -50,7 +50,7 @@ describe('Tile content section component', () => {
     fixture.detectChanges();
 
     expect(
-      el.querySelectorAll('.sky-tile-content-section .test-content').length
+      el.querySelectorAll('.sky-tile-content-section .test-content').length,
     ).toBe(1);
   });
 

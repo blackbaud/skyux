@@ -15,14 +15,14 @@ export class SkyConfirmButtonHarness extends ComponentHarness {
    * `SkyConfirmButtonHarness` that meets certain criteria.
    */
   public static with(
-    filters: SkyConfirmButtonHarnessFilters
+    filters: SkyConfirmButtonHarnessFilters,
   ): HarnessPredicate<SkyConfirmButtonHarness> {
     return new HarnessPredicate(SkyConfirmButtonHarness, filters)
       .addOption('text', filters.text, async (harness, text) =>
-        HarnessPredicate.stringMatches(await harness.getText(), text)
+        HarnessPredicate.stringMatches(await harness.getText(), text),
       )
       .addOption('styleType', filters.styleType, async (harness, styleType) =>
-        HarnessPredicate.stringMatches(await harness.getStyleType(), styleType)
+        HarnessPredicate.stringMatches(await harness.getStyleType(), styleType),
       );
   }
 

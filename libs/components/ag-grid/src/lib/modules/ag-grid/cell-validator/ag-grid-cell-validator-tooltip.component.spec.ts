@@ -20,7 +20,7 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
 
   it('should create an instance', () => {
     const fixture = TestBed.createComponent(
-      SkyAgGridCellValidatorTooltipFixtureComponent
+      SkyAgGridCellValidatorTooltipFixtureComponent,
     );
     fixture.componentInstance.parameters = {
       addRenderedRowListener: NOOP,
@@ -41,7 +41,7 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
 
   it('should toggle popover', fakeAsync(() => {
     const fixture = TestBed.createComponent(
-      SkyAgGridCellValidatorTooltipComponent
+      SkyAgGridCellValidatorTooltipComponent,
     );
 
     const parameters = {
@@ -81,7 +81,7 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
 
   it('should show popover on delayed hover', fakeAsync(() => {
     const fixture = TestBed.createComponent(
-      SkyAgGridCellValidatorTooltipComponent
+      SkyAgGridCellValidatorTooltipComponent,
     );
     const eventHandlers: { [eventName: string]: (event: Event) => void } = {};
     fixture.componentInstance.params = {
@@ -107,7 +107,7 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
     } as unknown as SkyCellRendererValidatorParams;
     const popover = (): HTMLElement | null =>
       (fixture.nativeElement as HTMLElement).ownerDocument.querySelector(
-        'sky-popover-content'
+        'sky-popover-content',
       );
     fixture.detectChanges();
     expect(eventHandlers['keyup']).toBeTruthy();

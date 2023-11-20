@@ -36,7 +36,7 @@ export class WizardDropdownDemoModalComponent implements OnInit {
 
   constructor(
     public instance: SkyModalInstance,
-    formBuilder: UntypedFormBuilder
+    formBuilder: UntypedFormBuilder,
   ) {
     this.#formBuilder = formBuilder;
   }

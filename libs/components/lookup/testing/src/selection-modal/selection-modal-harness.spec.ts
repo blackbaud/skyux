@@ -99,7 +99,7 @@ describe('Selection modal harness', () => {
       });
 
       await expectAsync(harness.clickAddButton()).toBeRejectedWithError(
-        'Could not click the add button because the button could not be found.'
+        'Could not click the add button because the button could not be found.',
       );
     });
   });
@@ -128,7 +128,7 @@ describe('Selection modal harness', () => {
       });
 
       await expectAsync(harness.selectAll()).toBeRejectedWithError(
-        'Could not select all selections because the "Select all" button could not be found.'
+        'Could not select all selections because the "Select all" button could not be found.',
       );
     });
 
@@ -138,7 +138,7 @@ describe('Selection modal harness', () => {
       });
 
       await expectAsync(harness.clearAll()).toBeRejectedWithError(
-        'Could not clear all selections because the "Clear all" button could not be found.'
+        'Could not clear all selections because the "Clear all" button could not be found.',
       );
     });
 
@@ -149,25 +149,25 @@ describe('Selection modal harness', () => {
       });
 
       await expectAsync(
-        harness.getClearAllButtonAriaLabel()
+        harness.getClearAllButtonAriaLabel(),
       ).toBeRejectedWithError(
-        'Could not get the aria-label for the clear all button because the "Clear all" button could not be found.'
+        'Could not get the aria-label for the clear all button because the "Clear all" button could not be found.',
       );
       await expectAsync(
-        harness.getSelectAllButtonAriaLabel()
+        harness.getSelectAllButtonAriaLabel(),
       ).toBeRejectedWithError(
-        'Could not get the aria-label for the select all button because the "Select all" button could not be found.'
+        'Could not get the aria-label for the select all button because the "Select all" button could not be found.',
       );
       await expectAsync(
-        harness.getOnlyShowSelectedAriaLabel()
+        harness.getOnlyShowSelectedAriaLabel(),
       ).toBeRejectedWithError(
-        'Could not get the "Show only selected items" checkbox because it could not be found.'
+        'Could not get the "Show only selected items" checkbox because it could not be found.',
       );
       await expectAsync(harness.getSearchAriaLabel()).toBeResolvedTo(
-        'Search person'
+        'Search person',
       );
       await expectAsync(harness.getSaveButtonAriaLabel()).toBeResolvedTo(
-        'Select person'
+        'Select person',
       );
     });
   });
@@ -201,19 +201,19 @@ describe('Selection modal harness', () => {
       });
 
       await expectAsync(harness.getClearAllButtonAriaLabel()).toBeResolvedTo(
-        'Clear all selected people'
+        'Clear all selected people',
       );
       await expectAsync(harness.getSelectAllButtonAriaLabel()).toBeResolvedTo(
-        'Select all people'
+        'Select all people',
       );
       await expectAsync(harness.getSearchAriaLabel()).toBeResolvedTo(
-        'Search people'
+        'Search people',
       );
       await expectAsync(harness.getSaveButtonAriaLabel()).toBeResolvedTo(
-        'Select people'
+        'Select people',
       );
       await expectAsync(harness.getOnlyShowSelectedAriaLabel()).toBeResolvedTo(
-        'Show only selected people'
+        'Show only selected people',
       );
     });
   });

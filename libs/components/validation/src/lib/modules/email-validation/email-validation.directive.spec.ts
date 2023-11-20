@@ -13,14 +13,14 @@ import { EmailValidationTestComponent } from './fixtures/email-validation.compon
 
 describe('Email validation', () => {
   function getInputElement(
-    fixture: ComponentFixture<EmailValidationTestComponent>
+    fixture: ComponentFixture<EmailValidationTestComponent>,
   ): HTMLInputElement {
     return fixture.nativeElement.querySelector('input') as HTMLInputElement;
   }
 
   function setInput(
     text: string,
-    compFixture: ComponentFixture<EmailValidationTestComponent>
+    compFixture: ComponentFixture<EmailValidationTestComponent>,
   ) {
     const inputEvent = document.createEvent('Event');
     const params = {

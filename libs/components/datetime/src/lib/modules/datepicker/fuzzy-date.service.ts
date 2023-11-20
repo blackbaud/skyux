@@ -75,7 +75,7 @@ export class SkyFuzzyDateService implements OnDestroy {
   public format(
     fuzzyDate: SkyFuzzyDate,
     format?: string,
-    locale?: string
+    locale?: string,
   ): string {
     if (!this.#isFuzzyDateValid(fuzzyDate)) {
       return '';
@@ -145,7 +145,7 @@ export class SkyFuzzyDateService implements OnDestroy {
    */
   public getStringFromFuzzyDate(
     fuzzyDate?: SkyFuzzyDate,
-    dateFormat?: string
+    dateFormat?: string,
   ): string | undefined {
     if (!fuzzyDate || !dateFormat) {
       return;
@@ -177,7 +177,7 @@ export class SkyFuzzyDateService implements OnDestroy {
 
   public getFuzzyDateFromSelectedDate(
     selectedDate?: Date,
-    dateFormat?: string
+    dateFormat?: string,
   ): SkyFuzzyDate | undefined {
     if (!selectedDate || !dateFormat) {
       return;
@@ -203,7 +203,7 @@ export class SkyFuzzyDateService implements OnDestroy {
 
   public getFuzzyDateFromString(
     date: string,
-    dateFormat?: string
+    dateFormat?: string,
   ): SkyFuzzyDate | undefined {
     if (!date || !dateFormat) {
       return;
@@ -307,7 +307,7 @@ export class SkyFuzzyDateService implements OnDestroy {
 
   public getFuzzyDateRange(
     startFuzzyDate: SkyFuzzyDate,
-    endFuzzyDate: SkyFuzzyDate
+    endFuzzyDate: SkyFuzzyDate,
   ): SkyFuzzyDateRange {
     let start;
     let end;

@@ -27,7 +27,7 @@ export class SkyDataManagerFiltersModalVisualComponent {
 
   constructor(
     public context: SkyDataManagerFilterModalContext,
-    public instance: SkyModalInstance
+    public instance: SkyModalInstance,
   ) {
     if (this.context.filterData && this.context.filterData.filters) {
       const filters = this.context.filterData.filters;

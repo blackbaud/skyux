@@ -76,7 +76,7 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
     element: ElementRef,
     options?: {
       updateResponsiveClasses?: boolean;
-    }
+    },
   ): SkyResizeObserverMediaQueryService {
     if (this.#target) {
       if (this.#target === element) {
@@ -124,7 +124,7 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
 
   #updateBreakpoint(
     breakpoint: SkyMediaBreakpoints,
-    updateResponsiveClasses?: boolean
+    updateResponsiveClasses?: boolean,
   ): void {
     if (updateResponsiveClasses) {
       this.#updateResponsiveClasses(this.current, breakpoint);
@@ -138,7 +138,7 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
 
   #updateResponsiveClasses(
     oldBreakpoint: SkyMediaBreakpoints,
-    newBreakpoint: SkyMediaBreakpoints
+    newBreakpoint: SkyMediaBreakpoints,
   ): void {
     const oldClass = this.#getClassForBreakpoint(oldBreakpoint);
     const newClass = this.#getClassForBreakpoint(newBreakpoint);
@@ -165,7 +165,7 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
 
   #checkBreakpoint(width: number): SkyMediaBreakpoints | undefined {
     const breakpoint = this.#breakpoints.find((breakpoint) =>
-      breakpoint.check(width)
+      breakpoint.check(width),
     );
 
     return breakpoint ? breakpoint.name : undefined;

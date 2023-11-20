@@ -16,23 +16,23 @@ describe('Definition list component', () => {
   }
 
   function getLabelEls(
-    listEl: Element | null
+    listEl: Element | null,
   ): NodeListOf<Element> | undefined {
     return listEl?.querySelectorAll(
-      'sky-definition-list-label .sky-definition-list-label'
+      'sky-definition-list-label .sky-definition-list-label',
     );
   }
 
   function getValueEls(
-    listEl: Element | null
+    listEl: Element | null,
   ): NodeListOf<Element> | undefined {
     return listEl?.querySelectorAll(
-      'sky-definition-list-value .sky-definition-list-value'
+      'sky-definition-list-value .sky-definition-list-value',
     );
   }
 
   function getDefaultValueEl(
-    valueEl: Element | undefined
+    valueEl: Element | undefined,
   ): Element | null | undefined {
     return valueEl?.querySelector('.sky-deemphasized');
   }
@@ -46,7 +46,7 @@ describe('Definition list component', () => {
     const list1El = getListEl(el, 1);
 
     const headingEl = list1El?.querySelector(
-      'sky-definition-list-heading .sky-definition-list-heading'
+      'sky-definition-list-heading .sky-definition-list-heading',
     );
 
     expect(headingEl).toHaveText('Personal information');

@@ -22,7 +22,7 @@ export class InfiniteScrollComponent implements AfterViewInit, OnDestroy {
     this.#subscriptions.add(
       this.#fontLoadingService.ready().subscribe(() => {
         this.ready.next(true);
-      })
+      }),
     );
   }
 

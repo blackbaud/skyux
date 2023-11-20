@@ -5,8 +5,8 @@ describe('forms-storybook - radio button', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=radiobuttoncomponent-radiobutton--radio-button`
-        )
+          `/iframe.html?globals=theme:${theme}&id=radiobuttoncomponent-radiobutton--radio-button`,
+        ),
       );
 
       it('should render the radio buttons', () => {
@@ -18,7 +18,7 @@ describe('forms-storybook - radio button', () => {
             `radiobuttoncomponent-radiobutton--radio-button-${theme}`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
-            }
+            },
           );
       });
     });

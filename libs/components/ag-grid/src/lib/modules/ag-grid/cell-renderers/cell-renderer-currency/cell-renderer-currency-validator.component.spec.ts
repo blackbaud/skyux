@@ -19,7 +19,7 @@ describe('SkyAgGridCellRendererCurrencyValidatorComponent', () => {
 
   it('should create an instance', () => {
     const fixture = TestBed.createComponent(
-      SkyAgGridCellRendererCurrencyValidatorComponent
+      SkyAgGridCellRendererCurrencyValidatorComponent,
     );
     fixture.componentInstance.parameters = {
       addRenderedRowListener: NOOP,
@@ -45,7 +45,7 @@ describe('SkyAgGridCellRendererCurrencyValidatorComponent', () => {
     expect(fixture.componentInstance).toBeTruthy();
 
     expect(
-      fixture.componentInstance.refresh(fixture.componentInstance.parameters)
+      fixture.componentInstance.refresh(fixture.componentInstance.parameters),
     ).toBeFalse();
   });
 });

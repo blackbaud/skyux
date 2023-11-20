@@ -254,7 +254,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
         this.#coreAdapter.getFocusableChildrenAndApplyFocus(
           value,
           '.sky-colorpicker',
-          false
+          false,
         );
         this.#changeDetector.markForCheck();
       });
@@ -312,7 +312,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     coreAdapter: SkyCoreAdapterService,
     overlaySvc: SkyOverlayService,
     svc: SkyColorpickerService,
-    @Optional() themeSvc?: SkyThemeService
+    @Optional() themeSvc?: SkyThemeService,
   ) {
     this.#affixSvc = affixSvc;
     this.#changeDetector = changeDetector;
@@ -342,7 +342,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     outputFormat: string,
     presetColors: Array<string>,
     alphaChannel: string,
-    allowTransparency: boolean
+    allowTransparency: boolean,
   ): void {
     this.initialColor = color;
     this.#outputFormat = outputFormat;
@@ -482,7 +482,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
         this.#hsva.hue * this.#sliderDimMax.hue - 8,
         this.#hsva.saturation * this.#sliderDimMax.saturation - 8,
         (1 - this.#hsva.value) * this.#sliderDimMax.value - 8,
-        this.#hsva.alpha * this.#sliderDimMax.alpha - 8
+        this.#hsva.alpha * this.#sliderDimMax.alpha - 8,
       );
     }
   }
@@ -625,7 +625,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   }
 
   #getAccessibleIconColor(
-    backgroundColor: SkyColorpickerOutput | undefined
+    backgroundColor: SkyColorpickerOutput | undefined,
   ): string | undefined {
     if (backgroundColor) {
       // https://www.w3.org/WAI/GL/wiki/Relative_luminance

@@ -72,7 +72,7 @@ export class SkyAgGridDataManagerFixtureComponent implements OnInit {
 
   constructor(
     dataManagerService: SkyDataManagerService,
-    gridService: SkyAgGridService
+    gridService: SkyAgGridService,
   ) {
     this.#dataManagerService = dataManagerService;
     this.#gridService = gridService;

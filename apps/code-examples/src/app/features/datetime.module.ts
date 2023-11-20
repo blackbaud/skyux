@@ -6,7 +6,7 @@ const routes: Routes = [
     path: 'date-pipe/basic',
     loadComponent: () =>
       import('../code-examples/datetime/date-pipe/basic/demo.component').then(
-        (c) => c.DemoComponent
+        (c) => c.DemoComponent,
       ),
   },
   {
@@ -20,7 +20,7 @@ const routes: Routes = [
     path: 'datepicker/basic',
     loadComponent: () =>
       import('../code-examples/datetime/datepicker/basic/demo.component').then(
-        (c) => c.DemoComponent
+        (c) => c.DemoComponent,
       ),
   },
   {
@@ -34,14 +34,14 @@ const routes: Routes = [
     path: 'datepicker/fuzzy',
     loadComponent: () =>
       import('../code-examples/datetime/datepicker/fuzzy/demo.component').then(
-        (c) => c.DemoComponent
+        (c) => c.DemoComponent,
       ),
   },
   {
     path: 'timepicker/basic',
     loadComponent: () =>
       import('../code-examples/datetime/timepicker/basic/demo.component').then(
-        (c) => c.DemoComponent
+        (c) => c.DemoComponent,
       ),
   },
 ];

@@ -160,11 +160,11 @@ export class SkyToasterComponent implements AfterViewInit, OnDestroy {
               {
                 environmentInjector: this.#environmentInjector,
                 providers,
-              }
+              },
             );
 
             const toastEl = document.querySelector(
-              `[data-toast-id="${toast.toastId}"]`
+              `[data-toast-id="${toast.toastId}"]`,
             );
 
             /* istanbul ignore else */

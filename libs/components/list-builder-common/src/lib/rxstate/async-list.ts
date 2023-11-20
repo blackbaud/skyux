@@ -7,6 +7,6 @@ export class AsyncList<T> {
     public items: T[] = [],
     public lastUpdate: any = null,
     public loading: boolean = false,
-    public count: number = items.length
+    public count: number = items.length,
   ) {}
 }

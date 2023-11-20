@@ -42,7 +42,7 @@ describe('Dropdown test harness', () => {
   async function setupTest(
     options: {
       dataSkyId?: string;
-    } = {}
+    } = {},
   ): Promise<{
     dropdownHarness: SkyDropdownHarness;
     fixture: ComponentFixture<TestDropdownComponent>;
@@ -62,7 +62,7 @@ describe('Dropdown test harness', () => {
       dropdownHarness = await loader.getHarness(
         SkyDropdownHarness.with({
           dataSkyId: options.dataSkyId,
-        })
+        }),
       );
     } else {
       dropdownHarness = await loader.getHarness(SkyDropdownHarness);
@@ -79,7 +79,7 @@ describe('Dropdown test harness', () => {
     fixture.detectChanges();
 
     await expectAsync(dropdownHarness.getButtonStyle()).toBeResolvedTo(
-      'primary'
+      'primary',
     );
   });
 
@@ -89,7 +89,7 @@ describe('Dropdown test harness', () => {
     fixture.detectChanges();
 
     await expectAsync(dropdownHarness.getButtonStyle()).toBeResolvedTo(
-      'default'
+      'default',
     );
   });
 
@@ -155,7 +155,7 @@ describe('Dropdown test harness', () => {
     fixture.detectChanges();
 
     await expectAsync(dropdownHarness.getAriaLabel()).toBeResolvedTo(
-      'Context menu'
+      'Context menu',
     );
   });
 
@@ -166,7 +166,7 @@ describe('Dropdown test harness', () => {
     fixture.detectChanges();
 
     await expectAsync(dropdownHarness.getAriaLabel()).toBeResolvedTo(
-      'aria-label'
+      'aria-label',
     );
   });
 
@@ -185,7 +185,7 @@ describe('Dropdown test harness', () => {
     fixture.detectChanges();
 
     await expectAsync(dropdownHarness.getTitle()).toBeResolvedTo(
-      'dropdown demo'
+      'dropdown demo',
     );
   });
 
@@ -242,7 +242,7 @@ describe('Dropdown test harness', () => {
     const dropdownMenuHarness = await dropdownHarness.getDropdownMenu();
 
     await expectAsync(dropdownMenuHarness.getAriaRole()).toBeResolvedTo(
-      'dropdown-menu'
+      'dropdown-menu',
     );
   });
 
@@ -253,9 +253,9 @@ describe('Dropdown test harness', () => {
       fixture.detectChanges();
 
       await expectAsync(
-        dropdownHarness.getDropdownMenu()
+        dropdownHarness.getDropdownMenu(),
       ).toBeRejectedWithError(
-        'Unable to retrieve dropdown menu harness because dropdown is closed.'
+        'Unable to retrieve dropdown menu harness because dropdown is closed.',
       );
     });
 
@@ -269,7 +269,7 @@ describe('Dropdown test harness', () => {
       const dropdownMenuHarness = await dropdownHarness.getDropdownMenu();
 
       await expectAsync(dropdownMenuHarness.getItems()).toBeRejectedWithError(
-        'Unable to retrieve item(s) because dropdown menu is empty.'
+        'Unable to retrieve item(s) because dropdown menu is empty.',
       );
     });
   });

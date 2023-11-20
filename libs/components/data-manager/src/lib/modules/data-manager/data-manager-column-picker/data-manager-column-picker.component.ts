@@ -110,17 +110,17 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
 
   public updateData(): void {
     this.displayedColumnData = this.searchColumns(
-      this.columnData.filter((col) => !col.alwaysDisplayed)
+      this.columnData.filter((col) => !col.alwaysDisplayed),
     );
 
     if (this.dataState.onlyShowSelected) {
       this.displayedColumnData = this.displayedColumnData.filter(
-        (col) => col.isSelected
+        (col) => col.isSelected,
       );
     }
 
     this.isAnyDisplayedColumnSelected = this.displayedColumnData.some(
-      (col) => col.isSelected
+      (col) => col.isSelected,
     );
   }
 
@@ -175,7 +175,7 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
 
   public applyChanges(): void {
     this.instance.save(
-      this.columnData.filter((col) => col.isSelected || col.alwaysDisplayed)
+      this.columnData.filter((col) => col.isSelected || col.alwaysDisplayed),
     );
   }
 
@@ -219,10 +219,10 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
       SkyDataManagerColumnPickerSortStrategy.SelectedThenAlphabetical
     ) {
       unselectedColumnOptions.sort((col1, col2) =>
-        col1.label.localeCompare(col2.label)
+        col1.label.localeCompare(col2.label),
       );
       formattedColumnOptions = formattedColumnOptions.concat(
-        unselectedColumnOptions
+        unselectedColumnOptions,
       );
     }
 

@@ -4,6 +4,6 @@ module.exports = function (config) {
 
   config.coverageReporter.dir = require('path').join(
     __dirname,
-    '../../../../coverage/libs/components/list-builder-view-checklist/testing'
+    '../../../../coverage/libs/components/list-builder-view-checklist/testing',
   );
 };

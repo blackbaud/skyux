@@ -21,7 +21,7 @@ describe('Lookup asynchronous search demo', () => {
 
     const lookupHarness = await (
       await loader.getHarness(
-        SkyInputBoxHarness.with({ dataSkyId: 'favorite-names-field' })
+        SkyInputBoxHarness.with({ dataSkyId: 'favorite-names-field' }),
       )
     ).queryHarness(SkyLookupHarness);
 
@@ -68,7 +68,7 @@ describe('Lookup asynchronous search demo', () => {
               ]
             : [],
         totalCount: 1,
-      })
+      }),
     );
 
     await lookupHarness?.enterText('b');
@@ -80,7 +80,7 @@ describe('Lookup asynchronous search demo', () => {
       [
         { id: '16', name: 'Shirley' },
         { id: '21', name: 'Bernard' },
-      ]
+      ],
     );
   });
 
@@ -97,7 +97,7 @@ describe('Lookup asynchronous search demo', () => {
           },
         ],
         totalCount: 1,
-      })
+      }),
     );
 
     await lookupHarness?.clickShowMoreButton();
@@ -105,10 +105,10 @@ describe('Lookup asynchronous search demo', () => {
     const picker = await lookupHarness?.getShowMorePicker();
 
     await expectAsync(picker?.getSearchAriaLabel()).toBeResolvedTo(
-      'Search names'
+      'Search names',
     );
     await expectAsync(picker?.getSaveButtonAriaLabel()).toBeResolvedTo(
-      'Select names'
+      'Select names',
     );
   });
 });

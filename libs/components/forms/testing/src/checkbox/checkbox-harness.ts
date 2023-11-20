@@ -23,7 +23,7 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
    * `SkyCheckboxHarness` that meets certain criteria.
    */
   public static with(
-    filters: SkyCheckboxHarnessFilters
+    filters: SkyCheckboxHarnessFilters,
   ): HarnessPredicate<SkyCheckboxHarness> {
     return SkyCheckboxHarness.getDataSkyIdPredicate(filters);
   }

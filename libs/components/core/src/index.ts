@@ -15,9 +15,9 @@ export { SkyAffixModule } from './lib/modules/affix/affix.module';
 export { SkyAffixService } from './lib/modules/affix/affix.service';
 export { SkyAffixer } from './lib/modules/affix/affixer';
 
-export { SkyContentInfoProvider } from './lib/modules/content-info-provider/content-info-provider';
 export { SkyContentInfo } from './lib/modules/content-info-provider/content-info';
 export { SkyContentInfoDescriptor } from './lib/modules/content-info-provider/content-info-descriptor';
+export { SkyContentInfoProvider } from './lib/modules/content-info-provider/content-info-provider';
 
 export { SkyDefaultInputProvider } from './lib/modules/default-input-provider/default-input-provider';
 
@@ -64,8 +64,8 @@ export { SkyMutationObserverService } from './lib/modules/mutation/mutation-obse
 export { SkyNumericSymbol } from './lib/modules/numeric/numeric-symbol';
 export { SkyNumericModule } from './lib/modules/numeric/numeric.module';
 export {
-  SkyNumericOptions,
   NumericOptions,
+  SkyNumericOptions,
 } from './lib/modules/numeric/numeric.options';
 export { SkyNumericPipe } from './lib/modules/numeric/numeric.pipe';
 export { SkyNumericService } from './lib/modules/numeric/numeric.service';
@@ -82,8 +82,8 @@ export {
 export { SkyPercentPipeModule } from './lib/modules/percent-pipe/percent-pipe.module';
 export { SkyPercentPipe } from './lib/modules/percent-pipe/percent.pipe';
 
-export { SkyResizeObserverService } from './lib/modules/resize-observer/resize-observer.service';
 export { SkyResizeObserverMediaQueryService } from './lib/modules/resize-observer/resize-observer-media-query.service';
+export { SkyResizeObserverService } from './lib/modules/resize-observer/resize-observer.service';
 
 export { SkyScreenReaderLabelDirective } from './lib/modules/screen-reader-label/screen-reader-label.directive';
 
@@ -112,5 +112,5 @@ export { VERSION } from './version';
 // Obscure names are used to indicate types are not part of the public API.
 export { SkyAffixDirective as λ1 } from './lib/modules/affix/affix.directive';
 export { SkyIdDirective as λ2 } from './lib/modules/id/id.directive';
-export { SkyViewkeeperDirective as λ3 } from './lib/modules/viewkeeper/viewkeeper.directive';
 export { SkyTrimDirective as λ4 } from './lib/modules/trim/trim.directive';
+export { SkyViewkeeperDirective as λ3 } from './lib/modules/viewkeeper/viewkeeper.directive';

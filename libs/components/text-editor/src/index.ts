@@ -1,10 +1,10 @@
 export { SkyRichTextDisplayModule } from './lib/modules/rich-text-display/rich-text-display.module';
 
 export { SkyTextEditorFont } from './lib/modules/text-editor/types/font-state';
+export { SkyTextEditorLinkWindowOptionsType } from './lib/modules/text-editor/types/link-window-options-type';
 export { SkyTextEditorMenuType } from './lib/modules/text-editor/types/menu-type';
 export { SkyTextEditorStyleState } from './lib/modules/text-editor/types/style-state';
 export { SkyTextEditorMergeField } from './lib/modules/text-editor/types/text-editor-merge-field';
-export { SkyTextEditorLinkWindowOptionsType } from './lib/modules/text-editor/types/link-window-options-type';
 export { SkyTextEditorToolbarActionType } from './lib/modules/text-editor/types/toolbar-action-type';
 
 export { SkyTextEditorModule } from './lib/modules/text-editor/text-editor.module';
@@ -13,6 +13,6 @@ export { SkyTextEditorModule } from './lib/modules/text-editor/text-editor.modul
 // Obscure names are used to indicate types are not part of the public API.
 export { SkyRichTextDisplayComponent as λ1 } from './lib/modules/rich-text-display/rich-text-display.component';
 export { SkyTextEditorMenubarComponent as λ2 } from './lib/modules/text-editor/menubar/text-editor-menubar.component';
-export { SkyTextEditorUrlModalComponent as λ3 } from './lib/modules/text-editor/url-modal/text-editor-url-modal.component';
-export { SkyTextEditorToolbarComponent as λ4 } from './lib/modules/text-editor/toolbar/text-editor-toolbar.component';
 export { SkyTextEditorComponent as λ5 } from './lib/modules/text-editor/text-editor.component';
+export { SkyTextEditorToolbarComponent as λ4 } from './lib/modules/text-editor/toolbar/text-editor-toolbar.component';
+export { SkyTextEditorUrlModalComponent as λ3 } from './lib/modules/text-editor/url-modal/text-editor-url-modal.component';

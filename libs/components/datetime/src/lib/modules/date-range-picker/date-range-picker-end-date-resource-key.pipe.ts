@@ -7,7 +7,7 @@ import { SkyDateRangeCalculatorType } from './types/date-range-calculator-type';
 })
 export class SkyDateRangePickerEndDateResourceKeyPipe implements PipeTransform {
   public transform(
-    calculatorType: SkyDateRangeCalculatorType | undefined
+    calculatorType: SkyDateRangeCalculatorType | undefined,
   ): string {
     if (calculatorType === SkyDateRangeCalculatorType.Range) {
       return 'skyux_date_range_picker_end_date_label';

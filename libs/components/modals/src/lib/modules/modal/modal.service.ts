@@ -48,7 +48,7 @@ export class SkyModalService {
    */
   public open(
     component: any,
-    config?: SkyModalConfigurationInterface | any[]
+    config?: SkyModalConfigurationInterface | any[],
   ): SkyModalInstance {
     const modalInstance = new SkyModalInstance();
 
@@ -72,7 +72,7 @@ export class SkyModalService {
   }
 
   #getConfigFromParameter(
-    providersOrConfig: any
+    providersOrConfig: any,
   ): SkyModalConfigurationInterface {
     const defaultParams: SkyModalConfigurationInterface = {
       providers: [],
@@ -115,7 +115,7 @@ export class SkyModalService {
             }),
           },
         ],
-      }
+      },
     );
 
     return componentRef;

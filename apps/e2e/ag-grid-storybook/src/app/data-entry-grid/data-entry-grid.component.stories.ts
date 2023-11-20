@@ -22,7 +22,7 @@ export default {
   },
 } as Meta<DataEntryGridComponent>;
 const Template: Story<DataEntryGridComponent> = (
-  args: DataEntryGridComponent
+  args: DataEntryGridComponent,
 ) => ({
   props: args,
 });

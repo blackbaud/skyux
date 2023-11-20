@@ -27,7 +27,7 @@ describe('find-module', () => {
       name: 'test',
     });
     expect(readProjectConfiguration(tree, 'test').sourceRoot).toBe(
-      'apps/test/src'
+      'apps/test/src',
     );
     await angularModuleGenerator(tree, { name: 'test', project: 'test' });
     await angularComponentGenerator(tree, {
@@ -37,12 +37,12 @@ describe('find-module', () => {
     });
     expect(tree.listChanges().map((c) => c.path)).toMatchSnapshot();
     expect(
-      tree.read('apps/test/src/app/test/test.module.ts', 'utf-8')
+      tree.read('apps/test/src/app/test/test.module.ts', 'utf-8'),
     ).toMatchSnapshot();
     const module = findDeclaringModule(
       tree,
       'apps/test/src',
-      'apps/test/src/app/test/test.component.ts'
+      'apps/test/src/app/test/test.component.ts',
     );
     expect(module?.filepath).toBe('apps/test/src/app/test/test.module.ts');
     expect(module?.module.classDeclaration.name?.text).toBe('TestModule');
@@ -70,7 +70,7 @@ describe('find-module', () => {
     const module = findDeclaringModule(
       tree,
       'apps/test/src',
-      'apps/test/src/app/test/test.component.ts'
+      'apps/test/src/app/test/test.component.ts',
     );
     expect(module?.filepath).toBe('apps/test/src/app/test/test.module.ts');
     expect(module?.module.classDeclaration.name?.text).toBe('TestModule');
@@ -102,7 +102,7 @@ describe('find-module', () => {
             ?.includes('export class TestRoutingModule ') ?? false
         );
       },
-      '-routing.module.ts'
+      '-routing.module.ts',
     );
     expect(modules).toEqual(['apps/test/src/app/test/test-routing.module.ts']);
   });
@@ -155,22 +155,22 @@ describe('find-module', () => {
       'apps/test/src/app/something/something-routing.module.ts',
     ];
     expect(findClosestModule(moduleList, 'apps/test/src', 'app/other')).toBe(
-      'app-routing'
+      'app-routing',
     );
     expect(
-      findClosestModule(moduleList, 'apps/test/src', 'app/test/sub/deep')
+      findClosestModule(moduleList, 'apps/test/src', 'app/test/sub/deep'),
     ).toBe('sub-routing');
     expect(findClosestModule(moduleList, 'apps/test/src', 'app/test/sub')).toBe(
-      'sub-routing'
+      'sub-routing',
     );
     expect(findClosestModule(moduleList, 'apps/test/src', 'app/test')).toBe(
-      'test-routing'
+      'test-routing',
     );
     expect(findClosestModule(moduleList, 'apps/test/src', 'app')).toBe(
-      'app-routing'
+      'app-routing',
     );
     expect(
-      findClosestModule(moduleList, 'apps/test/src', 'outside')
+      findClosestModule(moduleList, 'apps/test/src', 'outside'),
     ).toBeFalsy();
     expect(findClosestModule(moduleList, 'apps/other/src', 'app')).toBeFalsy();
   });

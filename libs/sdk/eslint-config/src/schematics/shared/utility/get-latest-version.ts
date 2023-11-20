@@ -2,7 +2,7 @@ import packageJson from 'package-json';
 
 export async function getLatestVersion(
   packageName: string,
-  versionRange: string
+  versionRange: string,
 ): Promise<string> {
   const result = (await packageJson(packageName, {
     version: versionRange,

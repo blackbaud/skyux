@@ -1,6 +1,6 @@
 export { SkyAppConfigHost } from './lib/app-config-host';
-export { SkyAppConfigParams } from './lib/app-config-params';
 export { SkyAppConfigModuleForRootArgs } from './lib/app-config-module-for-root-args';
+export { SkyAppConfigParams } from './lib/app-config-params';
 export { SkyAppConfigModule } from './lib/app-config.module';
 
 export { SkyuxConfigParams } from './lib/config-params';
@@ -8,30 +8,30 @@ export { SkyuxConfigRemoteContainerReference } from './lib/config-remote-contain
 export { SkyuxConfigRemoteModules } from './lib/config-remote-modules';
 
 export {
-  RuntimeConfigApp,
-  SkyuxPactConfig,
-  SkyuxConfigE2ETestSettings,
-  SkyuxConfigUnitTestSettings,
-  SkyuxConfigTestSettings,
-  SkyuxConfigLibrarySettings,
   RuntimeConfig,
+  RuntimeConfigApp,
+  SkyAppConfig,
+  SkyuxConfig,
   SkyuxConfigA11y,
+  SkyuxConfigAnyAllSet,
+  SkyuxConfigApp,
   SkyuxConfigAppSupportedTheme,
   SkyuxConfigAppTheming,
-  SkyuxConfigApp,
   SkyuxConfigAuthSettings,
+  SkyuxConfigE2ETestSettings,
+  SkyuxConfigHost,
   SkyuxConfigHostBBCheckout,
+  SkyuxConfigHostCsp,
+  SkyuxConfigHostCspDirectives,
   SkyuxConfigHostFrameOptionsNone,
   SkyuxConfigHostFrameOptionsOthers,
-  SkyuxConfigHostCspDirectives,
-  SkyuxConfigHostCsp,
-  SkyuxConfigHost,
-  SkyuxConfigAnyAllSet,
-  SkyuxConfig,
-  SkyAppConfig,
+  SkyuxConfigLibrarySettings,
+  SkyuxConfigTestSettings,
+  SkyuxConfigUnitTestSettings,
+  SkyuxPactConfig,
 } from './lib/config';
 
+export { SkyAppRuntimeConfigParams } from './lib/params';
+export { SkyAppRuntimeConfigParamsProvider } from './lib/params-provider';
 export { SkyConfigGetLinkUrlOptions } from './lib/types/get-link-url-options';
 export { SkyConfigQueryParams } from './lib/types/query-params';
-export { SkyAppRuntimeConfigParamsProvider } from './lib/params-provider';
-export { SkyAppRuntimeConfigParams } from './lib/params';

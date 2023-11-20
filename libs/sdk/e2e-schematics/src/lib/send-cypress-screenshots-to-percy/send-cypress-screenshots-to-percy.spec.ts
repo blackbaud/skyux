@@ -34,7 +34,7 @@ describe('SendCypressScreenshotsToPercy', () => {
     expect(readFileSync).toHaveBeenCalledTimes(1);
     expect(on).toHaveBeenCalledWith(
       'before:browser:launch',
-      expect.any(Function)
+      expect.any(Function),
     );
     expect(on).toHaveBeenCalledWith('after:screenshot', expect.any(Function));
   });
@@ -52,7 +52,7 @@ describe('SendCypressScreenshotsToPercy', () => {
     sendCypressScreenshotsToPercy(on, config);
     expect(on).toHaveBeenCalledWith(
       'before:browser:launch',
-      expect.any(Function)
+      expect.any(Function),
     );
     const launchOptions = {
       preferences: {},
@@ -74,7 +74,7 @@ describe('SendCypressScreenshotsToPercy', () => {
     sendCypressScreenshotsToPercy(on, config);
     expect(on).toHaveBeenCalledWith(
       'before:browser:launch',
-      expect.any(Function)
+      expect.any(Function),
     );
     const launchOptions = {
       preferences: {},
@@ -92,7 +92,7 @@ describe('SendCypressScreenshotsToPercy', () => {
     sendCypressScreenshotsToPercy(on, config);
     expect(on).toHaveBeenCalledWith(
       'before:browser:launch',
-      expect.any(Function)
+      expect.any(Function),
     );
     const launchOptions = {
       preferences: {},

@@ -70,7 +70,7 @@ export class EditComplexCellsComponent implements OnInit {
 
   constructor(
     private agGridService: SkyAgGridService,
-    public themeSvc: SkyThemeService
+    public themeSvc: SkyThemeService,
   ) {}
 
   public ngOnInit(): void {
@@ -236,7 +236,7 @@ export class EditComplexCellsComponent implements OnInit {
             selectMode: 'single',
             searchAsync: (search: SkyAutocompleteSearchAsyncArgs) => {
               const items = EDITABLE_GRID_LOOKUP_ASYNC.filter((value) =>
-                value.name.startsWith(search.searchText.toUpperCase())
+                value.name.startsWith(search.searchText.toUpperCase()),
               );
               search.result = of({
                 hasMore: false,
@@ -308,10 +308,10 @@ export class EditComplexCellsComponent implements OnInit {
           this.rowDeleteIds = this.rowDeleteIds.concat([$event.node.id]);
         } else {
           this.rowDeleteIds = this.rowDeleteIds.filter(
-            (id) => id !== $event.node.id
+            (id) => id !== $event.node.id,
           );
         }
-      }
+      },
     );
 
     this.sizeGrid();
@@ -350,7 +350,7 @@ export class EditComplexCellsComponent implements OnInit {
             const rowsThisBlock = EDITABLE_GRID_DATA_FACTORY(
               params.startRow,
               params.endRow - params.startRow,
-              this.deletedRowIds
+              this.deletedRowIds,
             );
             params.successCallback(rowsThisBlock, 300);
           });

@@ -96,7 +96,7 @@ export class ReadonlyGridComponent implements OnInit {
 
   constructor(
     private agGridService: SkyAgGridService,
-    public themeSvc: SkyThemeService
+    public themeSvc: SkyThemeService,
   ) {}
 
   public ngOnInit(): void {
@@ -106,7 +106,7 @@ export class ReadonlyGridComponent implements OnInit {
   public deleteConfirm(confirmArgs: SkyAgGridRowDeleteConfirmArgs): void {
     setTimeout(() => {
       this.gridData = this.gridData.filter(
-        (data) => data.id !== confirmArgs.id
+        (data) => data.id !== confirmArgs.id,
       );
     }, 3000);
   }
@@ -153,7 +153,7 @@ export class ReadonlyGridComponent implements OnInit {
           this.gridOptions.context.rowDeleteIds =
             this.gridOptions.context.rowDeleteIds.filter((id) => id !== row.id);
         }
-      }
+      },
     );
   }
 

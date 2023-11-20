@@ -58,7 +58,7 @@ describe('percy-api', () => {
     const result = await checkPercyBuild(
       'test-storybook-e2e',
       'commitSha',
-      fetchClient
+      fetchClient,
     );
     expect(result).toEqual({
       approved: true,
@@ -99,7 +99,7 @@ describe('percy-api', () => {
       'test-storybook-e2e',
       ['commitSha'],
       true,
-      fetchClient
+      fetchClient,
     );
     expect(result).toEqual('commitSha');
   });
@@ -158,7 +158,7 @@ describe('percy-api', () => {
       'test-storybook-e2e',
       ['commitSha'],
       false,
-      fetchClient
+      fetchClient,
     );
     expect(result).toEqual('');
   });
@@ -184,7 +184,7 @@ describe('percy-api', () => {
       'test-storybook-e2e',
       ['commitSha'],
       true,
-      fetchClient
+      fetchClient,
     );
     expect(result).toEqual('');
   });
@@ -209,7 +209,7 @@ describe('percy-api', () => {
     const result = await checkPercyBuild(
       'test-storybook-e2e',
       'commitSha',
-      fetchClient
+      fetchClient,
     );
     expect(result).toEqual({
       approved: false,
@@ -229,9 +229,9 @@ describe('percy-api', () => {
       return Promise.reject(new Error('Unexpected URL'));
     });
     await expect(
-      checkPercyBuild('test-storybook-e2e', 'commitSha', fetchClient)
+      checkPercyBuild('test-storybook-e2e', 'commitSha', fetchClient),
     ).rejects.toThrowError(
-      'Error checking Percy build: Percy project ID response for test-storybook-e2e: {}'
+      'Error checking Percy build: Percy project ID response for test-storybook-e2e: {}',
     );
   });
 
@@ -265,7 +265,7 @@ describe('percy-api', () => {
     const result = await checkPercyBuild(
       'test-storybook-e2e',
       'commitSha',
-      fetchClient
+      fetchClient,
     );
     expect(result).toEqual({
       approved: false,
@@ -280,15 +280,15 @@ describe('percy-api', () => {
       throw new Error('Nope.');
     });
     await expect(
-      checkPercyBuild('test-storybook-e2e', 'commitSha', fetchClient)
+      checkPercyBuild('test-storybook-e2e', 'commitSha', fetchClient),
     ).rejects.toThrowError('Error checking Percy build: Error: Nope.');
     await expect(
       getLastGoodPercyBuild(
         'test-storybook-e2e',
         ['commitSha'],
         true,
-        fetchClient
-      )
+        fetchClient,
+      ),
     ).rejects.toThrowError('Error checking Percy: Error: Nope.');
   });
 
@@ -297,9 +297,9 @@ describe('percy-api', () => {
       .fn()
       .mockImplementation(() => Promise.reject('Nope.'));
     await expect(
-      checkPercyBuild('test-storybook-e2e', 'commitSha', fetchClient)
+      checkPercyBuild('test-storybook-e2e', 'commitSha', fetchClient),
     ).rejects.toThrowError(
-      'Error checking Percy build: Error: Error fetching Percy project ID'
+      'Error checking Percy build: Error: Error fetching Percy project ID',
     );
   });
 
@@ -307,12 +307,12 @@ describe('percy-api', () => {
     const fetchClient = jest
       .fn()
       .mockImplementation(() =>
-        Promise.resolve({ json: () => Promise.resolve({}) })
+        Promise.resolve({ json: () => Promise.resolve({}) }),
       );
     await expect(
-      checkPercyBuild('test-storybook-e2e', 'commitSha', fetchClient)
+      checkPercyBuild('test-storybook-e2e', 'commitSha', fetchClient),
     ).rejects.toThrowError(
-      'Error checking Percy build: Error: Error fetching Percy project ID'
+      'Error checking Percy build: Error: Error fetching Percy project ID',
     );
   });
 });

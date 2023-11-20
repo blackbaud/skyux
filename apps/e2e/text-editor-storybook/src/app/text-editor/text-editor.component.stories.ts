@@ -25,7 +25,7 @@ export default {
   ],
 } as Meta<TextEditorComponent>;
 const BaseTextEditor: StoryFn<TextEditorComponent> = (
-  args: TextEditorComponent
+  args: TextEditorComponent,
 ) => ({
   props: args,
 });

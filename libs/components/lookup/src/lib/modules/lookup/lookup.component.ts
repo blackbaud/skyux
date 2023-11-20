@@ -264,7 +264,7 @@ export class SkyLookupComponent
     static: false,
   })
   public set autocompleteInputDirective(
-    value: SkyAutocompleteInputDirective | undefined
+    value: SkyAutocompleteInputDirective | undefined,
   ) {
     this.#_autocompleteInputDirective = value;
     this.#updateForSelectMode();
@@ -327,7 +327,7 @@ export class SkyLookupComponent
   constructor(
     @Self() @Optional() ngControl?: NgControl,
     @Optional() public inputBoxHostSvc?: SkyInputBoxHostService,
-    @Optional() public themeSvc?: SkyThemeService
+    @Optional() public themeSvc?: SkyThemeService,
   ) {
     super();
 
@@ -389,7 +389,7 @@ export class SkyLookupComponent
   }
 
   public onAutocompleteSelectionChange(
-    change: SkyAutocompleteSelectionChange
+    change: SkyAutocompleteSelectionChange,
   ): void {
     /* istanbul ignore else */
     if (change.selectedItem) {
@@ -454,7 +454,7 @@ export class SkyLookupComponent
 
   public onTokensRendered(): void {
     this.#sendAutocompleteMessage(
-      SkyAutocompleteMessageType.RepositionDropdown
+      SkyAutocompleteMessageType.RepositionDropdown,
     );
   }
 
@@ -603,7 +603,9 @@ export class SkyLookupComponent
 
         this.#openSelectionModal.closed.subscribe((closeArgs) => {
           this.#processPickerResult(
-            closeArgs.reason === 'save' ? closeArgs.selectedItems : initialValue
+            closeArgs.reason === 'save'
+              ? closeArgs.selectedItems
+              : initialValue,
           );
         });
       } else {
@@ -652,7 +654,7 @@ export class SkyLookupComponent
   }
 
   #createSelectionModalInstance(
-    initialSearch: string
+    initialSearch: string,
   ): SkySelectionModalInstance {
     const initialValue = this.value;
     const modalConfig = this.showMoreConfig?.nativePickerConfig || {};
@@ -663,7 +665,7 @@ export class SkyLookupComponent
 
     if (this.idProperty === undefined) {
       this.#logSvc.error(
-        "The lookup component's 'idProperty' input is required when `enableShowMore` and 'searchAsync' are used together."
+        "The lookup component's 'idProperty' input is required when `enableShowMore` and 'searchAsync' are used together.",
       );
     }
 
@@ -717,7 +719,7 @@ export class SkyLookupComponent
       this.searchOrDefault,
       this.selectMode,
       this.showAddButton,
-      modalConfig
+      modalConfig,
     );
 
     return this.#modalService.open(SkyLookupShowMoreModalComponent, {
@@ -767,7 +769,7 @@ export class SkyLookupComponent
       if (
         !this.idProperty ||
         !this.value.some(
-          (existingItem) => existingItem[idProperty] === item[idProperty]
+          (existingItem) => existingItem[idProperty] === item[idProperty],
         )
       ) {
         selectedItems.push(item);

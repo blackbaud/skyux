@@ -98,7 +98,7 @@ export class DataViewGridComponent implements OnInit {
   constructor(
     private agGridService: SkyAgGridService,
     private changeDetector: ChangeDetectorRef,
-    private dataManagerService: SkyDataManagerService
+    private dataManagerService: SkyDataManagerService,
   ) {}
 
   public ngOnInit(): void {

@@ -23,6 +23,6 @@ describe('List secondary actions service', () => {
       expect(service.secondaryActionsCount).toEqual(1);
       service.removeSecondaryAction(action);
       expect(service.secondaryActionsCount).toEqual(0);
-    }
+    },
   ));
 });
