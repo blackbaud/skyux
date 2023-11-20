@@ -42,10 +42,8 @@ export class SkyAgGridCellRendererTemplateComponent
       params.colDef.cellRendererParams.template
     );
     const template: TemplateRef<CellRendererTemplateContext> | undefined =
-      params.colDef?.cellRendererParams &&
-      'template' in params.colDef.cellRendererParams &&
-      params.colDef.cellRendererParams.template
-        ? (params.colDef.cellRendererParams
+      hasTemplate
+        ? (params.colDef?.cellRendererParams
             .template as TemplateRef<CellRendererTemplateContext>)
         : undefined;
     this.state = {
