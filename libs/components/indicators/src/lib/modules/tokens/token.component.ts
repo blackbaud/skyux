@@ -8,6 +8,10 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
+import { SkyLiveAnnouncerService } from '@skyux/core';
+import { SkyLibResourcesService } from '@skyux/i18n';
+
+import { take } from 'rxjs';
 
 @Component({
   selector: 'sky-token',
@@ -92,6 +96,9 @@ export class SkyTokenComponent {
 
   #elementRef = inject(ElementRef);
 
+  readonly #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
+  readonly #resourcesSvc = inject(SkyLibResourcesService);
+
   #_disabled = false;
   #_dismissible = true;
 
@@ -110,6 +117,10 @@ export class SkyTokenComponent {
 
   public dismissToken(event: Event): void {
     event.stopPropagation();
+    this.#announceState(
+      'skyux_tokens_token_dismissed',
+      this.actionButtonRef?.nativeElement.textContent.trim(),
+    );
     this.dismiss.emit();
   }
 
@@ -123,5 +134,14 @@ export class SkyTokenComponent {
 
   public setCloseActive(closeActive: boolean): void {
     this.closeActive = closeActive;
+  }
+
+  #announceState(resourceString: string, ...args: any[]): void {
+    this.#resourcesSvc
+      .getString(resourceString, ...args)
+      .pipe(take(1))
+      .subscribe((internationalizedString) => {
+        this.#liveAnnouncerSvc.announce(internationalizedString);
+      });
   }
 }
