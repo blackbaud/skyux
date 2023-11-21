@@ -34,6 +34,7 @@ export class DataViewRepeaterComponent implements OnInit {
     name: 'Repeater View',
     icon: 'list',
     searchEnabled: true,
+    searchHighlightEnabled: true,
     filterButtonEnabled: true,
     multiselectToolbarEnabled: true,
     onClearAllClick: this.clearAll.bind(this),

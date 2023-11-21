@@ -8,6 +8,7 @@ import { DataViewRepeaterFixtureComponent } from './fixtures/data-manager-repeat
 import { DataManagerFixtureComponent } from './fixtures/data-manager.component.fixture';
 import { DataManagerFixtureModule } from './fixtures/data-manager.module.fixture';
 import { SkyDataManagerState } from './models/data-manager-state';
+import { SkyDataViewConfig } from './models/data-view-config';
 
 describe('SkyDataManagerComponent', () => {
   let dataManagerFixture: ComponentFixture<DataManagerFixtureComponent>;
@@ -90,6 +91,64 @@ describe('SkyDataManagerComponent', () => {
     expect(backToTopController.next).toHaveBeenCalledWith({
       type: SkyBackToTopMessageType.BackToTop,
     });
+  });
+
+  it('should highlight matching search text searchHighlightEnabled is true', () => {
+    dataManagerFixture.detectChanges();
+
+    const repeaterViewConfig = dataManagerService.getViewById('repeaterView');
+    const newConfig = {
+      ...repeaterViewConfig,
+      searchHighlightEnabled: true,
+    } as SkyDataViewConfig;
+
+    dataManagerService.updateViewConfig(newConfig);
+    dataManagerService.updateDataState(
+      new SkyDataManagerState({
+        searchText: dataManagerFixtureComponent.items[0].name,
+      }),
+      'unitTest',
+    );
+
+    dataManagerFixture.detectChanges();
+
+    const highlightedItem = dataManagerNativeElement.querySelector(
+      '.sky-highlight-mark',
+    );
+
+    expect(highlightedItem).toExist();
+  });
+
+  it('should clear the highlight if searchHighlightEnabled changes to false', () => {
+    dataManagerFixture.detectChanges();
+
+    const repeaterViewConfig = dataManagerService.getViewById('repeaterView');
+    const newConfig = {
+      ...repeaterViewConfig,
+      searchHighlightEnabled: true,
+    } as SkyDataViewConfig;
+    const state = new SkyDataManagerState({
+      searchText: dataManagerFixtureComponent.items[0].name,
+    });
+
+    dataManagerService.updateViewConfig(newConfig);
+    dataManagerService.updateDataState(state, 'unitTest');
+    dataManagerFixture.detectChanges();
+
+    let highlightedItem = dataManagerNativeElement.querySelector(
+      '.sky-highlight-mark',
+    );
+
+    expect(highlightedItem).toExist();
+
+    newConfig.searchHighlightEnabled = false;
+    dataManagerService.updateViewConfig(newConfig);
+    dataManagerFixture.detectChanges();
+
+    highlightedItem = dataManagerNativeElement.querySelector(
+      '.sky-highlight-mark',
+    );
+    expect(highlightedItem).not.toExist();
   });
 
   it('should pass accessibility', async () => {

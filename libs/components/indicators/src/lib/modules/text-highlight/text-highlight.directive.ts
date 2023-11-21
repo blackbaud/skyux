@@ -186,6 +186,7 @@ export class SkyTextHighlightDirective
         attributes: false,
         childList: true,
         characterData: true,
+        subtree: true,
       };
 
       this.#observer.observe(this.#el.nativeElement, config);
