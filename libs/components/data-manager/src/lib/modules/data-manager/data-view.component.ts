@@ -2,13 +2,13 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component,
+  Component, // HostBinding,
   Input,
   OnDestroy,
   OnInit,
   inject,
 } from '@angular/core';
-import { SkyTextHighlightModule } from '@skyux/indicators';
+import { SkyTextHighlightDirective } from '@skyux/indicators';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -26,9 +26,12 @@ import { SkyDataManagerState } from './models/data-manager-state';
   selector: 'sky-data-view',
   templateUrl: './data-view.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, SkyTextHighlightModule],
+  imports: [CommonModule],
+  hostDirectives: [SkyTextHighlightDirective],
 })
 export class SkyDataViewComponent implements OnDestroy, OnInit {
+  // @HostBinding('skyHighlight') public test = 'or';
+
   /**
    * The configuration for the view. See the `SkyDataViewConfig` interface.
    * @required
@@ -45,23 +48,28 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
     this.#changeDetector.markForCheck();
   }
 
-  public get highlightText(): string | undefined {
-    return this.#_searchText;
+  public get textHighlight(): string | undefined {
+    return this.#_textHighlight;
   }
 
-  public set highlightText(value: string | undefined) {
-    this.#_searchText = value;
+  public set textHighlight(value: string | undefined) {
+    this.#_textHighlight = value;
+    this.#textHighlight.skyHighlight = value;
     this.#changeDetector.markForCheck();
   }
 
   #_isActive = false;
-  #_searchText: string | undefined;
+  #_textHighlight: string | undefined;
 
   #ngUnsubscribe = new Subject<void>();
   #currentState: SkyDataManagerState | undefined;
 
   readonly #dataManagerService = inject(SkyDataManagerService);
   readonly #changeDetector = inject(ChangeDetectorRef);
+  #textHighlight: SkyTextHighlightDirective = inject(
+    SkyTextHighlightDirective,
+    { self: true },
+  );
 
   public ngOnInit(): void {
     this.#dataManagerService
@@ -100,9 +108,9 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
       const view = this.#dataManagerService.getViewById(this.viewId);
 
       if (view?.searchHighlightEnabled) {
-        this.highlightText = state?.searchText;
-      } else if (this.highlightText) {
-        this.highlightText = undefined;
+        this.textHighlight = state?.searchText;
+      } else if (this.textHighlight) {
+        this.textHighlight = undefined;
       }
     }
   }

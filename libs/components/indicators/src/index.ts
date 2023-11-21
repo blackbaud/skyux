@@ -50,3 +50,4 @@ export { SkyTextHighlightDirective as λ11 } from './lib/modules/text-highlight/
 export { SkyTokenComponent as λ12 } from './lib/modules/tokens/token.component';
 export { SkyTokensComponent as λ13 } from './lib/modules/tokens/tokens.component';
 export { SkyWaitComponent as λ14 } from './lib/modules/wait/wait.component';
+export { SkyTextHighlightDirective } from './lib/modules/text-highlight/text-highlight.directive';

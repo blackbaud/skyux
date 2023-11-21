@@ -1,8 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyTextHighlightDirective } from '@skyux/indicators';
 import { SkyBackToTopMessageType } from '@skyux/layout';
 
 import { SkyDataManagerService } from './data-manager.service';
+import { SkyDataViewComponent } from './data-view.component';
 import { DataViewCardFixtureComponent } from './fixtures/data-manager-card-view.component.fixture';
 import { DataViewRepeaterFixtureComponent } from './fixtures/data-manager-repeater-view.component.fixture';
 import { DataManagerFixtureComponent } from './fixtures/data-manager.component.fixture';
@@ -15,6 +17,10 @@ describe('SkyDataManagerComponent', () => {
   let dataManagerFixtureComponent: DataManagerFixtureComponent;
   let dataManagerNativeElement: HTMLElement;
   let dataManagerService: SkyDataManagerService;
+  const mockSkyHighlightDirective = jasmine.createSpyObj(
+    'SkyTextHighlightDirective',
+    ['skyHighlight'],
+  );
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -26,7 +32,16 @@ describe('SkyDataManagerComponent', () => {
       imports: [DataManagerFixtureModule],
     });
 
-    dataManagerFixture = TestBed.createComponent(DataManagerFixtureComponent);
+    dataManagerFixture = TestBed.overrideComponent(SkyDataViewComponent, {
+      set: {
+        providers: [
+          {
+            provide: SkyTextHighlightDirective,
+            useValue: mockSkyHighlightDirective,
+          },
+        ],
+      },
+    }).createComponent(DataManagerFixtureComponent);
     dataManagerNativeElement = dataManagerFixture.nativeElement;
     dataManagerFixtureComponent = dataManagerFixture.componentInstance;
     dataManagerService = TestBed.inject(SkyDataManagerService);
@@ -93,7 +108,7 @@ describe('SkyDataManagerComponent', () => {
     });
   });
 
-  it('should highlight matching search text searchHighlightEnabled is true', () => {
+  it('should highlight matching search text searchHighlightEnabled is true', async () => {
     dataManagerFixture.detectChanges();
 
     const repeaterViewConfig = dataManagerService.getViewById('repeaterView');
@@ -111,15 +126,14 @@ describe('SkyDataManagerComponent', () => {
     );
 
     dataManagerFixture.detectChanges();
+    await dataManagerFixture.whenStable();
 
-    const highlightedItem = dataManagerNativeElement.querySelector(
-      '.sky-highlight-mark',
+    expect(mockSkyHighlightDirective.skyHighlight).toBe(
+      dataManagerFixtureComponent.items[0].name,
     );
-
-    expect(highlightedItem).toExist();
   });
 
-  it('should clear the highlight if searchHighlightEnabled changes to false', () => {
+  it('should clear the highlight if searchHighlightEnabled changes to false', async () => {
     dataManagerFixture.detectChanges();
 
     const repeaterViewConfig = dataManagerService.getViewById('repeaterView');
@@ -134,21 +148,18 @@ describe('SkyDataManagerComponent', () => {
     dataManagerService.updateViewConfig(newConfig);
     dataManagerService.updateDataState(state, 'unitTest');
     dataManagerFixture.detectChanges();
+    await dataManagerFixture.whenStable();
 
-    let highlightedItem = dataManagerNativeElement.querySelector(
-      '.sky-highlight-mark',
+    expect(mockSkyHighlightDirective.skyHighlight).toBe(
+      dataManagerFixtureComponent.items[0].name,
     );
-
-    expect(highlightedItem).toExist();
 
     newConfig.searchHighlightEnabled = false;
     dataManagerService.updateViewConfig(newConfig);
     dataManagerFixture.detectChanges();
+    await dataManagerFixture.whenStable();
 
-    highlightedItem = dataManagerNativeElement.querySelector(
-      '.sky-highlight-mark',
-    );
-    expect(highlightedItem).not.toExist();
+    expect(mockSkyHighlightDirective.skyHighlight).toBeUndefined();
   });
 
   it('should pass accessibility', async () => {
