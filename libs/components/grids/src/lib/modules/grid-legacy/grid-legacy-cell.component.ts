@@ -11,15 +11,15 @@ import { ListItemModel, getData } from '@skyux/list-builder-common';
 
 /**
  * @internal
- * @deprecated `SkyGridComponent` and its features are deprecated. We recommend using the data grid instead. For more information, see https://developer.blackbaud.com/skyux/components/data-grid
+ * @deprecated `SkyGridLegacyComponent` and its features are deprecated. We recommend using the data grid instead. For more information, see https://developer.blackbaud.com/skyux/components/data-grid
  */
 @Component({
   selector: 'sky-grid-cell',
   template: '<ng-template #cell></ng-template>',
-  styleUrls: ['./grid-cell.component.scss'],
+  styleUrls: ['./grid-legacy-cell.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyGridCellComponent implements OnInit {
+export class SkyGridLegacyCellComponent implements OnInit {
   @Input()
   public item: ListItemModel;
 

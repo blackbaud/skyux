@@ -15,18 +15,18 @@ import { DragulaModule } from 'ng2-dragula';
 
 import { SkyGridsResourcesModule } from '../shared/sky-grids-resources.module';
 
-import { SkyGridCellComponent } from './grid-cell.component';
-import { SkyGridColumnComponent } from './grid-column.component';
-import { SkyGridComponent } from './grid.component';
+import { SkyGridLegacyCellComponent } from './grid-legacy-cell.component';
+import { SkyGridLegacyColumnComponent } from './grid-legacy-column.component';
+import { SkyGridLegacyComponent } from './grid-legacy.component';
 
 /**
- * @deprecated `SkyGridComponent` and its features are deprecated. We recommend using the data grid instead. For more information, see https://developer.blackbaud.com/skyux/components/data-grid
+ * @deprecated `SkyGridLegacyComponent` and its features are deprecated. We recommend using the data grid instead. For more information, see https://developer.blackbaud.com/skyux/components/data-grid
  */
 @NgModule({
   declarations: [
-    SkyGridComponent,
-    SkyGridColumnComponent,
-    SkyGridCellComponent,
+    SkyGridLegacyComponent,
+    SkyGridLegacyColumnComponent,
+    SkyGridLegacyCellComponent,
   ],
   imports: [
     CommonModule,
@@ -41,6 +41,6 @@ import { SkyGridComponent } from './grid.component';
     SkyPopoverModule,
     SkyTextHighlightModule,
   ],
-  exports: [SkyGridComponent, SkyGridColumnComponent],
+  exports: [SkyGridLegacyComponent, SkyGridLegacyColumnComponent],
 })
-export class SkyGridModule {}
+export class SkyGridLegacyModule {}

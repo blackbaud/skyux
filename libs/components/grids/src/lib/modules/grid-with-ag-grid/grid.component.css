@@ -1,0 +1,43 @@
+:host {
+  display: block;
+  width: 100%;
+  --eg-grid-height: 400px;
+  --eg-paging-height: 0;
+  --eg-toolbar-height: 101px;
+  --eg-easy-grid-visible-rows: 6;
+}
+
+:host.eg-visible-rows-fit {
+  height: 100%;
+}
+
+sky-data-manager {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 100%;
+  width: 100%;
+  height: 100%;
+}
+
+sky-data-manager ::ng-deep .sky-data-manager {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 1fr auto;
+  width: 100%;
+  height: 100%;
+}
+
+sky-data-manager-toolbar {
+  display: block;
+}
+
+ag-grid-angular {
+  height: var(--eg-grid-height);
+  min-height: 250px;
+  max-height: calc(100vh - var(--eg-toolbar-height) - var(--eg-paging-height));
+  overflow: hidden;
+}
+
+.hidden {
+  display: none;
+}

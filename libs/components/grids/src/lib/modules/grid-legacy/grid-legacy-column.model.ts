@@ -1,12 +1,12 @@
 import { TemplateRef } from '@angular/core';
 
-import { SkyGridColumnAlignment } from './types/grid-column-alignment';
+import { SkyGridLegacyColumnAlignment } from './types/grid-legacy-column-alignment';
 
 /**
  * @internal
- * @deprecated `SkyGridComponent` and its features are deprecated. We recommend using the data grid instead. For more information, see https://developer.blackbaud.com/skyux/components/data-grid
+ * @deprecated `SkyGridLegacyComponent` and its features are deprecated. We recommend using the data grid instead. For more information, see https://developer.blackbaud.com/skyux/components/data-grid
  */
-export class SkyGridColumnModel {
+export class SkyGridLegacyColumnModel {
   public template: TemplateRef<unknown>;
   public id: string;
   public field: string;
@@ -23,7 +23,7 @@ export class SkyGridColumnModel {
   /**
    * The horizontal alignment of the column's data and header.
    */
-  public alignment: SkyGridColumnAlignment;
+  public alignment: SkyGridLegacyColumnAlignment;
 
   public searchFunction: (data: any, searchText: string) => boolean;
 

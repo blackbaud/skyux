@@ -52,6 +52,11 @@ export const componentRoutes: Routes = [
       import('./forms/forms.module').then((m) => m.FormsModule),
   },
   {
+    path: 'grids',
+    loadChildren: () =>
+      import('./grids/grids.module').then((m) => m.GridsModule),
+  },
+  {
     path: 'indicators',
     loadChildren: () =>
       import('./indicators/indicators.module').then((m) => m.IndicatorsModule),

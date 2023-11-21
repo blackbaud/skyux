@@ -1,0 +1,20 @@
+<ng-container
+  *ngIf="headerInfo.column?.getColDef()?.headerComponentParams as params"
+>
+  <sky-help-inline
+    class="sky-control-help"
+    ariaLabel="Information about {{ headerInfo.displayName }}"
+    [skyPopover]="helpPopover"
+  />
+  <ng-template #defaultInlineHelp>{{ params?.description }}</ng-template>
+  <sky-popover #helpPopover>
+    <ng-container
+      *ngIf="
+        params['inlineHelpTemplate'] as inlineHelpTemplate;
+        else defaultInlineHelp
+      "
+    >
+      <ng-container *ngTemplateOutlet="inlineHelpTemplate" />
+    </ng-container>
+  </sky-popover>
+</ng-container>

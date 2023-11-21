@@ -1,0 +1,33 @@
+<sky-data-manager>
+  <sky-data-manager-toolbar>
+    <ng-content select="sky-data-manager-toolbar-primary-item" />
+    <ng-content select="sky-data-manager-toolbar-left-item" />
+    <ng-content select="sky-data-manager-toolbar-right-item" />
+    <ng-content select="sky-data-manager-toolbar-section" />
+  </sky-data-manager-toolbar>
+  <sky-data-view
+    *ngIf="gridOptions$ | async as gridOptions"
+    skyAgGridDataManagerAdapter
+    [viewId]="viewId"
+  >
+    <sky-ag-grid-wrapper>
+      <ag-grid-angular
+        [gridOptions]="gridOptions || undefined"
+        [rowData]="data"
+        [attr.style]="agGridStyle$ | async"
+      />
+    </sky-ag-grid-wrapper>
+
+    <sky-paging
+      *ngIf="
+        totalRows > 0 &&
+        settings.pageSize > 0 &&
+        totalRows / settings.pageSize > 1
+      "
+      [currentPage]="page"
+      [itemCount]="totalRows"
+      [pageSize]="settings.pageSize"
+      (currentPageChange)="pageChange($event)"
+    />
+  </sky-data-view>
+</sky-data-manager>

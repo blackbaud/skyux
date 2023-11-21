@@ -1,0 +1,92 @@
+import {
+  Component,
+  ContentChildren,
+  QueryList,
+  TemplateRef,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
+import { ListSortFieldSelectorModel } from '@skyux/list-builder-common';
+
+import { SkyGridLegacyComponent } from '../grid-legacy.component';
+import { SkyGridLegacyColumnWidthModelChange } from '../types/grid-legacy-column-width-model-change';
+import { SkyGridLegacySelectedRowsModelChange } from '../types/grid-legacy-selected-rows-model-change';
+
+@Component({
+  selector: 'sky-test-cmp',
+  templateUrl: './grid-legacy-interactive.component.fixture.html',
+})
+export class GridLegacyInteractiveTestComponent {
+  @ViewChild(SkyGridLegacyComponent)
+  public grid: SkyGridLegacyComponent;
+
+  @ContentChildren(TemplateRef)
+  public templates: QueryList<TemplateRef<unknown>>;
+
+  @ViewChildren(TemplateRef)
+  public viewTemplates: QueryList<TemplateRef<unknown>>;
+
+  public hasToolbar = false;
+  public searchedData: any;
+  public searchText: string;
+  public activeSortSelector: ListSortFieldSelectorModel;
+  public sortField: ListSortFieldSelectorModel;
+  public columnWidthsChange: Array<SkyGridLegacyColumnWidthModelChange>;
+  public fitType = 'scroll';
+  public enableMultiselect = true;
+  public multiselectRowId: string;
+  public selectedRowsChange: SkyGridLegacySelectedRowsModelChange;
+
+  public selectedColumnIds: string[] = ['column1', 'column2', 'column3'];
+
+  public data: any[] = [
+    {
+      id: '1',
+      column1: '1',
+      column2: 'Apple',
+      column3: 1,
+      column4: new Date().getTime() + 600000,
+      customId: '101',
+    },
+    {
+      id: '2',
+      column1: '01',
+      column2: 'Banana',
+      column3: 1,
+      column4: new Date().getTime() + 3600000,
+      column5: 'test',
+      customId: '102',
+    },
+    {
+      id: '3',
+      column1: '11',
+      column2: 'Carrot',
+      column3: 11,
+    },
+    {
+      id: '4',
+      column1: '12',
+      column2: 'Daikon',
+      column3: 12,
+    },
+    {
+      id: '5',
+      column1: '13',
+      column2: 'Edamame',
+      column3: 13,
+    },
+    {
+      id: '6',
+      column1: '20',
+      column2: 'Fig',
+      column3: 20,
+    },
+    {
+      id: '7',
+      column1: '21',
+      column2:
+        'Some long text that would provoke an overflow of monster proportions!',
+      column3: 21,
+    },
+  ];
+}
