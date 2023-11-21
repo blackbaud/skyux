@@ -1,6 +1,11 @@
 import { DestroyRef, Injectable, QueryList, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import {
+  SkyAgGridService,
+  SkyCellClass,
+  SkyCellType,
+  SkyHeaderClass,
+} from '@skyux/ag-grid';
 import { SkyLogService } from '@skyux/core';
 
 import { ColDef, GridOptions } from 'ag-grid-community';
@@ -9,6 +14,7 @@ import { Observable, map, merge, of, switchMap, takeUntil } from 'rxjs';
 import { SkyGridColumnComponent } from './grid-column.component';
 import { SkyGridColumnModel, SkyGridColumnType } from './grid-column.model';
 import { SkyGridInlineHelpComponent } from './grid-inline-help/grid-inline-help.component';
+import { SkyGridColumnAlignment } from './types/grid-column-alignment';
 import {
   SkyGridDefaultOptions,
   SkyGridOptions,
@@ -101,6 +107,7 @@ export class SkyGridService {
         cellRendererParams: {
           template: column.template,
         },
+        cellClass: this.#getCellClass(column.alignment),
         field: column.field || `column${`${index + 1}`.padStart(3, '0')}`,
         headerComponentParams: {
           description: column.description,
@@ -110,6 +117,7 @@ export class SkyGridService {
           inlineHelpPopover: column.inlineHelpPopover,
         },
         headerName: column.heading,
+        headerClass: this.#getHeaderClass(column.alignment),
         hide: column.hidden,
         resizable: column.locked ? false : undefined,
         sortable: column.isSortable && options.sortEnabled,
@@ -118,5 +126,29 @@ export class SkyGridService {
         width: column.width,
       } as ColDefWithField<TData>;
     });
+  }
+
+  #getHeaderClass(alignment: SkyGridColumnAlignment): string[] {
+    const classes: string[] = [];
+
+    if (alignment === 'right') {
+      classes.push(SkyHeaderClass.RightAligned);
+    } else if (alignment === 'center') {
+      classes.push(SkyHeaderClass.CenterAligned);
+    }
+
+    return classes;
+  }
+
+  #getCellClass(alignment: SkyGridColumnAlignment): string[] {
+    const classes: string[] = [];
+
+    if (alignment === 'right') {
+      classes.push(SkyCellClass.RightAligned);
+    } else if (alignment === 'center') {
+      classes.push(SkyCellClass.CenterAligned);
+    }
+
+    return classes;
   }
 }

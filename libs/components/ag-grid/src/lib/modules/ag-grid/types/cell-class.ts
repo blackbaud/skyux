@@ -12,4 +12,6 @@ export enum SkyCellClass {
   RowSelector = 'sky-ag-grid-cell-row-selector',
   Text = 'sky-ag-grid-cell-text',
   Uneditable = 'sky-ag-grid-cell-uneditable',
+  RightAligned = 'sky-ag-grid-cell-right-aligned',
+  CenterAligned = 'sky-ag-grid-cell-center-aligned',
 }
