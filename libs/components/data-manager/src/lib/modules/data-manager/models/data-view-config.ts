@@ -71,6 +71,10 @@ export interface SkyDataViewConfig {
    */
   searchExpandMode?: string;
   /**
+   * Highlights text that matches the search text using the text highlight directive.
+   */
+  searchHighlightEnabled?: boolean;
+  /**
    * Whether to include the "Filter" text on the displayed filter button for this view.
    * If it is not set, no text appears.
    */
