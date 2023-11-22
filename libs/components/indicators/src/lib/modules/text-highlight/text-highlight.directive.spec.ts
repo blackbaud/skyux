@@ -4,7 +4,6 @@ import { SkyMutationObserverService } from '@skyux/core';
 
 import { SkyTextHighlightTestComponent } from './fixtures/text-highlight.component.fixture';
 import { SkyTextHighlightFixtureModule } from './fixtures/text-highlight.module.fixture';
-import { SkyTextHighlightDirective } from './text-highlight.directive';
 
 function getContainerEl(
   fixture: ComponentFixture<SkyTextHighlightTestComponent>,
@@ -48,27 +47,24 @@ describe('Text Highlight', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyTextHighlightFixtureModule],
-    }).overrideDirective(SkyTextHighlightDirective, {
-      add: {
-        providers: [
-          {
-            provide: SkyMutationObserverService,
-            useValue: {
-              create(callback: () => void): {
-                observe: jasmine.Spy;
-                disconnect: jasmine.Spy;
-              } {
-                callbacks.push(callback);
+      providers: [
+        {
+          provide: SkyMutationObserverService,
+          useValue: {
+            create(callback: () => void): {
+              observe: jasmine.Spy;
+              disconnect: jasmine.Spy;
+            } {
+              callbacks.push(callback);
 
-                return {
-                  observe: jasmine.createSpy('observe'),
-                  disconnect: jasmine.createSpy('disconnect'),
-                };
-              },
+              return {
+                observe: jasmine.createSpy('observe'),
+                disconnect: jasmine.createSpy('disconnect'),
+              };
             },
           },
-        ],
-      },
+        },
+      ],
     });
 
     callbacks = [];

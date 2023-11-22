@@ -103,7 +103,6 @@ function createSearchRegex(searchTerms: string[]): RegExp | undefined {
 @Directive({
   selector: '[skyHighlight]',
   standalone: true,
-  providers: [SkyMutationObserverService],
 })
 export class SkyTextHighlightDirective
   implements OnChanges, AfterViewInit, OnDestroy
