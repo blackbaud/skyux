@@ -6,7 +6,7 @@
 ### Features
 
 * **components/ag-grid:** add template cell renderer ([#1891](https://github.com/blackbaud/skyux/issues/1891)) ([45509c7](https://github.com/blackbaud/skyux/commit/45509c7fcd66ed143c4256f52296905450a0f293))
-* **components/data-manager:** text highlight search terms ([#1893](https://github.com/blackbaud/skyux/issues/1893)) ([4625874](https://github.com/blackbaud/skyux/commit/46258743b4cc5abce65c1c01acd9a62f0d397464))
+* **components/data-manager:** add option to enable text highlighting for items matching the search term ([#1893](https://github.com/blackbaud/skyux/issues/1893)) ([4625874](https://github.com/blackbaud/skyux/commit/46258743b4cc5abce65c1c01acd9a62f0d397464))
 
 ## [9.14.1](https://github.com/blackbaud/skyux/compare/9.14.0...9.14.1) (2023-11-20)
 
