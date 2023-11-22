@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component, // HostBinding,
+  Component,
   Input,
   OnDestroy,
   OnInit,
