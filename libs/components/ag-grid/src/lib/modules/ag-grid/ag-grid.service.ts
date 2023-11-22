@@ -29,6 +29,7 @@ import { SkyAgGridCellRendererCurrencyValidatorComponent } from './cell-renderer
 import { SkyAgGridCellRendererCurrencyComponent } from './cell-renderers/cell-renderer-currency/cell-renderer-currency.component';
 import { SkyAgGridCellRendererLookupComponent } from './cell-renderers/cell-renderer-lookup/cell-renderer-lookup.component';
 import { SkyAgGridCellRendererRowSelectorComponent } from './cell-renderers/cell-renderer-row-selector/cell-renderer-row-selector.component';
+import { SkyAgGridCellRendererTemplateComponent } from './cell-renderers/cell-renderer-template/cell-renderer-template.component';
 import { SkyAgGridCellRendererValidatorTooltipComponent } from './cell-renderers/cell-renderer-validator-tooltip/cell-renderer-validator-tooltip.component';
 import { SkyAgGridHeaderGroupComponent } from './header/header-group.component';
 import { SkyAgGridHeaderComponent } from './header/header.component';
@@ -373,6 +374,9 @@ export class SkyAgGridService implements OnDestroy {
           maxWidth: 55,
           sortable: false,
           width: 55,
+        },
+        [SkyCellType.Template]: {
+          cellRenderer: SkyAgGridCellRendererTemplateComponent,
         },
         [SkyCellType.Text]: {
           cellClassRules: {
