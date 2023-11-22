@@ -30,8 +30,6 @@ import { SkyDataManagerState } from './models/data-manager-state';
   hostDirectives: [SkyTextHighlightDirective],
 })
 export class SkyDataViewComponent implements OnDestroy, OnInit {
-  // @HostBinding('skyHighlight') public test = 'or';
-
   /**
    * The configuration for the view. See the `SkyDataViewConfig` interface.
    * @required
