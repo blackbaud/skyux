@@ -67,6 +67,7 @@ export class DataViewGridComponent implements OnInit {
     name: 'Grid View',
     icon: 'table',
     searchEnabled: true,
+    searchHighlightEnabled: true,
     multiselectToolbarEnabled: true,
     columnPickerEnabled: true,
     filterButtonEnabled: true,
