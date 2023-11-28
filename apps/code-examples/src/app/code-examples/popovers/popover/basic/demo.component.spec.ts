@@ -32,7 +32,7 @@ describe('Basic popover', () => {
     const popoverHarness = await loader.getHarness(
       SkyPopoverHarness.with({
         dataSkyId: 'popover-demo',
-      })
+      }),
     );
 
     return { popoverHarness, fixture };
@@ -66,10 +66,10 @@ describe('Basic popover', () => {
     const contentHarness = await popoverHarness.getPopoverContent();
 
     await expectAsync(contentHarness.getTitleText()).toBeResolvedTo(
-      'Did you know?'
+      'Did you know?',
     );
     await expectAsync(contentHarness.getBodyText()).toBeResolvedTo(
-      'This is a popover.'
+      'This is a popover.',
     );
     await expectAsync(contentHarness.getAlignment()).toBeResolvedTo('center');
     await expectAsync(contentHarness.getPlacement()).toBeResolvedTo('right');
@@ -77,7 +77,7 @@ describe('Basic popover', () => {
     await popoverHarness.clickPopoverButton();
     // Attempting to call this method when the popover is closed will result in an error.
     await expectAsync(popoverHarness.getPopoverContent()).toBeRejectedWithError(
-      'Unable to retrieve the popover content because the popover is not open.'
+      'Unable to retrieve the popover content because the popover is not open.',
     );
   });
 });

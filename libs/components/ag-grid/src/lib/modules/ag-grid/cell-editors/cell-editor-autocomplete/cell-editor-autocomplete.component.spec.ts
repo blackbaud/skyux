@@ -59,7 +59,7 @@ describe('SkyCellEditorAutocompleteComponent', () => {
         },
         null,
         'col',
-        true
+        true,
       );
 
       cellEditorParams = {
@@ -246,7 +246,7 @@ describe('SkyCellEditorAutocompleteComponent', () => {
         },
         null,
         'col',
-        true
+        true,
       );
 
       cellEditorParams = {

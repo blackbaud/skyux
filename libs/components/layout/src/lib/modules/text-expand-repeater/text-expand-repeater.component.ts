@@ -36,14 +36,14 @@ let nextId = 0;
         style({
           maxHeight: '{{transitionHeight}}px',
         }),
-        { params: { transitionHeight: 0 } }
+        { params: { transitionHeight: 0 } },
       ),
       state(
         'false',
         style({
           maxHeight: '{{transitionHeight}}px',
         }),
-        { params: { transitionHeight: 0 } }
+        { params: { transitionHeight: 0 } },
       ),
       transition('true => false', animate('250ms ease')),
       transition('false => true', animate('250ms ease')),
@@ -131,7 +131,7 @@ export class SkyTextExpandRepeaterComponent implements AfterViewInit {
     resources: SkyLibResourcesService,
     elRef: ElementRef,
     textExpandRepeaterAdapter: SkyTextExpandRepeaterAdapterService,
-    changeDetector: ChangeDetectorRef
+    changeDetector: ChangeDetectorRef,
   ) {
     this.#resources = resources;
     this.#elRef = elRef;
@@ -170,7 +170,7 @@ export class SkyTextExpandRepeaterComponent implements AfterViewInit {
       if (this.containerEl) {
         // Set height back to auto so the browser can change the height as needed with window changes
         this.#textExpandRepeaterAdapter.removeContainerMaxHeight(
-          this.containerEl
+          this.containerEl,
         );
       }
     });
@@ -218,7 +218,7 @@ export class SkyTextExpandRepeaterComponent implements AfterViewInit {
         if (this.containerEl) {
           this.transitionHeight =
             this.#textExpandRepeaterAdapter.getContainerHeight(
-              this.containerEl
+              this.containerEl,
             );
         }
         this.isExpanded = false;

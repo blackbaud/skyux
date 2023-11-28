@@ -1,5 +1,4 @@
-import { inject } from '@angular/core';
-import { Directive, HostBinding, Input } from '@angular/core';
+import { Directive, HostBinding, Input, inject } from '@angular/core';
 
 import { SkyInputBoxHostService } from './input-box-host.service';
 

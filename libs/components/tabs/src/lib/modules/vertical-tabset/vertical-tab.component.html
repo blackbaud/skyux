@@ -34,8 +34,7 @@
       *ngIf="isMobile && showTabRightArrow"
       class="sky-vertical-tab-right-arrow"
       icon="chevron-right"
-    >
-    </sky-icon>
+    />
   </div>
 </a>
 
@@ -49,7 +48,7 @@
     [ngClass]="{ 'sky-vertical-tab-hidden': !active }"
     #tabContentPane
   >
-    <ng-content></ng-content>
+    <ng-content />
 
     <div></div>
   </div>

@@ -5,8 +5,8 @@ describe('lists-storybook', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=filtercomponent-filter--filter`
-        )
+          `/iframe.html?globals=theme:${theme}&id=filtercomponent-filter--filter`,
+        ),
       );
       it('should render the component', () => {
         cy.get('app-filter')

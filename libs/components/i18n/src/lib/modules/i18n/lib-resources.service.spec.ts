@@ -12,7 +12,7 @@ import { SkyAppLocaleProvider } from './locale-provider';
 class MockSkyLibResourcesProvider implements SkyLibResourcesProvider {
   public getString(
     localeInfo: SkyAppLocaleInfo,
-    name: string
+    name: string,
   ): string | undefined {
     const resources: any = {
       en_US: {
@@ -63,13 +63,13 @@ describe('Library resources service', () => {
     service = new SkyLibResourcesService(
       mockLocaleProvider,
       mockProviders,
-      undefined
+      undefined,
     );
     const value = service.getStringForLocale(
       {
         locale: 'en_US',
       },
-      'greeting'
+      'greeting',
     );
     expect(value).toEqual('hello');
   });
@@ -86,7 +86,7 @@ describe('Library resources service', () => {
     });
 
     expect(
-      service.getStringForLocale({ locale: 'EN-US' }, 'my_string')
+      service.getStringForLocale({ locale: 'EN-US' }, 'my_string'),
     ).toEqual('Hello, world!');
   });
 
@@ -94,7 +94,7 @@ describe('Library resources service', () => {
     service = new SkyLibResourcesService(
       mockLocaleProvider,
       mockProviders,
-      undefined
+      undefined,
     );
     service
       .getString('greeting')
@@ -108,12 +108,12 @@ describe('Library resources service', () => {
     spyOn(mockLocaleProvider, 'getLocaleInfo').and.returnValue(
       observableOf({
         locale: 'fr_CA',
-      })
+      }),
     );
     service = new SkyLibResourcesService(
       mockLocaleProvider,
       mockProviders,
-      undefined
+      undefined,
     );
     service
       .getString('greeting')
@@ -127,7 +127,7 @@ describe('Library resources service', () => {
     service = new SkyLibResourcesService(
       mockLocaleProvider,
       undefined,
-      undefined
+      undefined,
     );
     service
       .getString('greeting')
@@ -141,12 +141,12 @@ describe('Library resources service', () => {
     spyOn(mockLocaleProvider, 'getLocaleInfo').and.returnValue(
       observableOf({
         locale: 'fr_FR',
-      })
+      }),
     );
     service = new SkyLibResourcesService(
       mockLocaleProvider,
       mockProviders,
-      undefined
+      undefined,
     );
     service
       .getString('greeting', 'foo', 'bar')
@@ -166,7 +166,7 @@ describe('Library resources service', () => {
     service = new SkyLibResourcesService(
       mockLocaleProvider,
       mockProviders,
-      mockResourceNameProvider
+      mockResourceNameProvider,
     );
 
     service
@@ -181,13 +181,13 @@ describe('Library resources service', () => {
     spyOn(mockLocaleProvider, 'getLocaleInfo').and.returnValue(
       observableOf({
         locale: 'is_empty',
-      })
+      }),
     );
 
     service = new SkyLibResourcesService(
       mockLocaleProvider,
       mockProviders,
-      undefined
+      undefined,
     );
     service
       .getString('greeting')
@@ -202,7 +202,7 @@ describe('Library resources service', () => {
       service = new SkyLibResourcesService(
         mockLocaleProvider,
         mockProviders,
-        undefined
+        undefined,
       );
       const resources$ = service.getStrings({}).pipe(take(1));
 
@@ -217,7 +217,7 @@ describe('Library resources service', () => {
       service = new SkyLibResourcesService(
         mockLocaleProvider,
         mockProviders,
-        undefined
+        undefined,
       );
       const resources$ = service.getStrings({ hi: 'hello' }).pipe(take(1));
 
@@ -234,7 +234,7 @@ describe('Library resources service', () => {
       service = new SkyLibResourcesService(
         mockLocaleProvider,
         mockProviders,
-        undefined
+        undefined,
       );
       const resources$ = service
         .getStrings({
@@ -256,7 +256,7 @@ describe('Library resources service', () => {
       service = new SkyLibResourcesService(
         mockLocaleProvider,
         mockProviders,
-        undefined
+        undefined,
       );
       const resources$ = service
         .getStrings({
@@ -281,12 +281,12 @@ describe('Library resources service', () => {
 
     it('handles locales', (done) => {
       spyOn(mockLocaleProvider, 'getLocaleInfo').and.returnValue(
-        observableOf({ locale: 'fr_FR' })
+        observableOf({ locale: 'fr_FR' }),
       );
       service = new SkyLibResourcesService(
         mockLocaleProvider,
         mockProviders,
-        undefined
+        undefined,
       );
       const resources$ = service
         .getStrings({

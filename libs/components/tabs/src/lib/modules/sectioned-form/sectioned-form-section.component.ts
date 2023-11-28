@@ -65,7 +65,7 @@ export class SkySectionedFormSectionComponent implements OnInit, OnDestroy {
   constructor(
     sectionedFormService: SkySectionedFormService,
     tabsetService: SkyVerticalTabsetService,
-    changeRef: ChangeDetectorRef
+    changeRef: ChangeDetectorRef,
   ) {
     this.#sectionedFormService = sectionedFormService;
     this.#tabsetService = tabsetService;
@@ -82,13 +82,13 @@ export class SkySectionedFormSectionComponent implements OnInit, OnDestroy {
     this.#sectionedFormService.requiredChange
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(
-        (required: boolean | undefined) => (this.fieldRequired = required)
+        (required: boolean | undefined) => (this.fieldRequired = required),
       );
 
     this.#sectionedFormService.invalidChange
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(
-        (invalid: boolean | undefined) => (this.fieldInvalid = invalid)
+        (invalid: boolean | undefined) => (this.fieldInvalid = invalid),
       );
   }
 

@@ -5,8 +5,8 @@ describe(`tabs-storybook`, () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=wizardcomponent-wizard--wizard`
-        )
+          `/iframe.html?globals=theme:${theme}&id=wizardcomponent-wizard--wizard`,
+        ),
       );
       it('should render the component on a large screen', () => {
         cy.get('app-wizard')

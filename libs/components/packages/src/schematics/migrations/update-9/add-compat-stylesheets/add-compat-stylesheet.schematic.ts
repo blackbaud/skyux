@@ -69,7 +69,7 @@ function buildComponentCss(component: {
   styles: { css: string; instructions: string }[];
 }): string {
   let contents = buildCommentBlock(
-    `COMPONENT: ${component.name.toUpperCase()}`
+    `COMPONENT: ${component.name.toUpperCase()}`,
   );
 
   for (const style of component.styles) {
@@ -149,7 +149,7 @@ ${buildComponentCss(component)}`;
   in each block of CSS, then remove the block.
 - Delete this file after all blocks have been addressed.
 - Remove each occurrence of this file in your project's
-  angular.json file.`
+  angular.json file.`,
       )}
 ${contents}`
     : undefined;

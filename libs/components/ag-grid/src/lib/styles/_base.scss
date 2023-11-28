@@ -20,6 +20,7 @@ $defaultsForAllThemes: (
   popup-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3),
   selected-row-background-color: var(--sky-background-color-selected),
   toggle-button-width: calc(var(--ag-toggle-button-height) * 2),
+  tooltip-background-color: var(--sky-background-color-neutral-light),
 );
 
 $defaultsForDataEntryGrid: (

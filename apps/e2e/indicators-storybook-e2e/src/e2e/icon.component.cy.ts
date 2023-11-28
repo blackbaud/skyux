@@ -5,11 +5,14 @@ describe('indicators-storybook', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=iconcomponent-icon--icon`
-        )
+          `/iframe.html?globals=theme:${theme}&id=iconcomponent-icon--icon`,
+        ),
       );
       it('should render the component', () => {
-        cy.get('app-icon')
+        cy.get('#ready')
+          .should('exist')
+          .end()
+          .get('app-icon')
           .should('exist')
           .should('be.visible')
           .screenshot(`iconcomponent-icon--icon-${theme}`)

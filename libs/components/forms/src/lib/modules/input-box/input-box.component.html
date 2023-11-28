@@ -30,6 +30,7 @@
       </div>
       <ng-container *ngTemplateOutlet="buttonsTemplate" />
     </div>
+    <ng-container *ngTemplateOutlet="hintTextTemplate" />
     <ng-container *ngTemplateOutlet="errorLabelTemplate" />
   </div>
 </div>
@@ -69,6 +70,7 @@
     </div>
     <ng-container *ngTemplateOutlet="buttonsTemplate" />
   </div>
+  <ng-container *ngTemplateOutlet="hintTextTemplate" />
   <ng-container *ngTemplateOutlet="errorLabelTemplate" />
 </div>
 
@@ -180,5 +182,15 @@
       [labelText]="labelText"
     />
     <ng-content select=".sky-error-label,.sky-error-indicator" />
+  </div>
+</ng-template>
+
+<ng-template #hintTextTemplate>
+  <div
+    *ngIf="hintText"
+    class="sky-font-deemphasized sky-input-box-hint-text"
+    [id]="hintTextId"
+  >
+    {{ hintText }}
   </div>
 </ng-template>

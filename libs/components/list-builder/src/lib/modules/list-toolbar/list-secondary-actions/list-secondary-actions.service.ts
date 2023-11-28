@@ -25,7 +25,7 @@ export class SkyListSecondaryActionsService implements OnDestroy {
     this.secondaryActionsCount--;
     this.secondaryActionsSubject.next(this.secondaryActionsCount);
     this.actions = this.actions.filter(
-      (existingItem) => existingItem !== action
+      (existingItem) => existingItem !== action,
     );
     this.actionsStream.next(this.actions);
   }

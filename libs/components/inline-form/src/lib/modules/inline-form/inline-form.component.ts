@@ -108,7 +108,7 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
     elementRef: ElementRef,
     resourcesService: SkyLibResourcesService,
     skyAppWindowRef: SkyAppWindowRef,
-    changeDetectorRef: ChangeDetectorRef
+    changeDetectorRef: ChangeDetectorRef,
   ) {
     this.#adapter = adapter;
     this.#elementRef = elementRef;
@@ -167,7 +167,7 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
       case SkyInlineFormButtonLayout.DoneCancel:
         observableZip(
           this.#resourcesService.getString('skyux_inline_form_button_done'),
-          this.#resourcesService.getString('skyux_inline_form_button_cancel')
+          this.#resourcesService.getString('skyux_inline_form_button_cancel'),
         )
           .pipe(takeUntil(this.#ngUnsubscribe))
           .subscribe((values: string[]) => {
@@ -189,7 +189,7 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
       case SkyInlineFormButtonLayout.SaveCancel:
         observableZip(
           this.#resourcesService.getString('skyux_inline_form_button_save'),
-          this.#resourcesService.getString('skyux_inline_form_button_cancel')
+          this.#resourcesService.getString('skyux_inline_form_button_cancel'),
         )
           .pipe(takeUntil(this.#ngUnsubscribe))
           .subscribe((values: string[]) => {
@@ -212,7 +212,7 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
         observableZip(
           this.#resourcesService.getString('skyux_inline_form_button_done'),
           this.#resourcesService.getString('skyux_inline_form_button_delete'),
-          this.#resourcesService.getString('skyux_inline_form_button_cancel')
+          this.#resourcesService.getString('skyux_inline_form_button_cancel'),
         )
           .pipe(takeUntil(this.#ngUnsubscribe))
           .subscribe((values: string[]) => {
@@ -240,7 +240,7 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
         observableZip(
           this.#resourcesService.getString('skyux_inline_form_button_save'),
           this.#resourcesService.getString('skyux_inline_form_button_delete'),
-          this.#resourcesService.getString('skyux_inline_form_button_cancel')
+          this.#resourcesService.getString('skyux_inline_form_button_cancel'),
         )
           .pipe(takeUntil(this.#ngUnsubscribe))
           .subscribe((values: string[]) => {
@@ -269,7 +269,7 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
   }
 
   #getCustomButtons(
-    buttonConfigs: SkyInlineFormButtonConfig[]
+    buttonConfigs: SkyInlineFormButtonConfig[],
   ): SkyInlineFormButtonConfig[] {
     const buttons: SkyInlineFormButtonConfig[] = [];
 

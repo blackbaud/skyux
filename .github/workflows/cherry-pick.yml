@@ -39,8 +39,9 @@ jobs:
 
       - name: Cherry pick
         run: |
-          git config user.name 'Blackbaud Sky Build User'
-          git config user.email 'sky-build-user@blackbaud.com'
+          # Set the git user to the author of the merge commit.
+          git config user.name "$(git log -1 --pretty=format:'%an' ${{ github.event.pull_request.merge_commit_sha }})"
+          git config user.email "$(git log -1 --pretty=format:'%ae' ${{ github.event.pull_request.merge_commit_sha }})"
 
           # Echo commands to the log.
           set -x

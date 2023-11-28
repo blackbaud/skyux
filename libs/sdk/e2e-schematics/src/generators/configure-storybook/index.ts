@@ -9,6 +9,7 @@ import {
   readProjectConfiguration,
   updateJson,
 } from '@nx/devkit';
+import { addStaticTarget } from '@nx/storybook/src/generators/configuration/lib/util-functions';
 import { TsConfig } from '@nx/storybook/src/utils/utilities';
 
 import { updateProjectConfiguration } from 'nx/src/generators/utils/project-configuration';
@@ -26,8 +27,17 @@ export default async function (tree: Tree, schema: Schema) {
   projects.forEach((project, projectName) => {
     let hasChanged = false;
     const targets = Object.keys(
-      project.targets as Record<string, TargetConfiguration>
+      project.targets as Record<string, TargetConfiguration>,
     );
+    if (!targets.includes('static-storybook')) {
+      addStaticTarget(tree, {
+        name: projectName,
+        interactionTests: false,
+        uiFramework: '@storybook/angular',
+        skipFormat: true,
+        tsConfiguration: true,
+      });
+    }
     targets.forEach((target) => {
       project.targets = project.targets as Record<string, TargetConfiguration>;
       const targetConfig = project.targets[target] as TargetConfiguration;
@@ -59,6 +69,19 @@ export default async function (tree: Tree, schema: Schema) {
             }
           }
         });
+        if (
+          targetConfig.executor === '@storybook/angular:start-storybook' &&
+          !targetConfig.configurations?.['ci']['ci']
+        ) {
+          hasChanged = true;
+          targetConfig.configurations = {
+            ...targetConfig.configurations,
+            ci: {
+              ...targetConfig.configurations?.['ci'],
+              ci: true,
+            },
+          };
+        }
       }
       // Drop the asset path.
       if (target === 'build' && targetConfig.options.assets) {
@@ -95,12 +118,31 @@ export default async function (tree: Tree, schema: Schema) {
           baseUrl: `http://localhost:4400`,
         };
       }
+      if (
+        e2eProject.targets['e2e'].options.devServerTarget ===
+          `${projectName}:storybook` &&
+        e2eProject.targets['e2e'].configurations?.['ci'].devServerTarget !==
+          `${projectName}:static-storybook`
+      ) {
+        hasChanged = true;
+
+        e2eProject.targets['e2e'].configurations = {
+          ...e2eProject.targets['e2e'].configurations,
+          ci: {
+            ...e2eProject.targets['e2e'].configurations?.['ci'],
+            baseUrl: `http://localhost:4200`,
+            browser: 'chrome',
+            devServerTarget: `${projectName}:static-storybook:ci`,
+            skipServe: undefined,
+          },
+        };
+      }
       if (hasChanged) {
         updateProjectConfiguration(tree, e2eProjectName, e2eProject);
       }
     } else if (e2eProject) {
       console.warn(
-        `Project "${e2eProjectName}" does not have an e2e target with @nx/cypress:cypress`
+        `Project "${e2eProjectName}" does not have an e2e target with @nx/cypress:cypress`,
       );
     }
 
@@ -119,7 +161,7 @@ export default async function (tree: Tree, schema: Schema) {
           },
           exclude: ['../**/*.spec.ts', 'jest.config.ts'],
           include: ['../src/**/*', './*'],
-        })
+        }),
       );
     }
     updateJson(tree, tsconfigFile, (tsconfig: TsConfig) => {
@@ -174,14 +216,14 @@ export default async function (tree: Tree, schema: Schema) {
         {
           ...schema,
           relativeToRoot,
-        }
+        },
       );
     }
 
     if (!tree.isFile(`${projectRoot}/.storybook/manager.ts`)) {
       tree.write(
         `${projectRoot}/.storybook/manager.ts`,
-        `export * from '${relativeToRoot}/.storybook/manager';`
+        `export * from '${relativeToRoot}/.storybook/manager';`,
       );
     }
   });

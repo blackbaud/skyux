@@ -64,11 +64,11 @@ describe('Flyout instance', () => {
     const flyout = new SkyFlyoutInstance(undefined);
     const previousSpy = spyOn(
       flyout.iteratorPreviousButtonClick,
-      'complete'
+      'complete',
     ).and.callThrough();
     const nextSpy = spyOn(
       flyout.iteratorNextButtonClick,
-      'complete'
+      'complete',
     ).and.callThrough();
 
     flyout.close();

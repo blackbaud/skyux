@@ -26,7 +26,7 @@ export class SkyLogService {
     formatter: SkyAppFormat,
     @Optional()
     @Inject(SKY_LOG_LEVEL)
-    applicationLogLevel?: SkyLogLevel
+    applicationLogLevel?: SkyLogLevel,
   ) {
     this.#formatter = formatter;
     this.#applicationLogLevel = applicationLogLevel ?? SkyLogLevel.Error;
@@ -50,7 +50,7 @@ export class SkyLogService {
    */
   public async deprecated(
     name: string,
-    args?: SkyLogDeprecatedArgs
+    args?: SkyLogDeprecatedArgs,
   ): Promise<void> {
     const logLevel = args?.logLevel ?? SkyLogLevel.Warn;
     name = this.#convertStringToCode(name);
@@ -63,12 +63,12 @@ export class SkyLogService {
           this.#formatter.formatText(
             '{0} is deprecated starting in SKY UX {1}.',
             name,
-            args.deprecationMajorVersion.toLocaleString()
-          )
+            args.deprecationMajorVersion.toLocaleString(),
+          ),
         );
       } else {
         messageParts.push(
-          this.#formatter.formatText('{0} is deprecated.', name)
+          this.#formatter.formatText('{0} is deprecated.', name),
         );
       }
 
@@ -76,8 +76,8 @@ export class SkyLogService {
         messageParts.push(
           this.#formatter.formatText(
             'We will remove it in version {0}.',
-            args.removalMajorVersion.toLocaleString()
-          )
+            args.removalMajorVersion.toLocaleString(),
+          ),
         );
       } else {
         messageParts.push('We will remove it in a future major version.');
@@ -91,8 +91,8 @@ export class SkyLogService {
         messageParts.push(
           this.#formatter.formatText(
             'For more information, see {0}.',
-            args.moreInfoUrl
-          )
+            args.moreInfoUrl,
+          ),
         );
       }
 
@@ -155,7 +155,7 @@ export class SkyLogService {
   #logBasedOnLevel(
     logLevel: SkyLogLevel,
     message: string,
-    params?: unknown[]
+    params?: unknown[],
   ): void {
     switch (logLevel) {
       case SkyLogLevel.Info:
@@ -173,7 +173,7 @@ export class SkyLogService {
   #logWithParams(
     logMethod: 'log' | 'warn' | 'error',
     message: string,
-    params: unknown[] | undefined
+    params: unknown[] | undefined,
   ): void {
     if (params) {
       console[logMethod](message, ...params);

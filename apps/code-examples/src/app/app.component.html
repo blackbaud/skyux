@@ -6,7 +6,12 @@
   }"
 >
   <div>
-    <button class="sky-btn sky-btn-primary" id="home-btn" routerLink="/">
+    <button
+      class="sky-btn sky-btn-primary"
+      id="home-btn"
+      routerLink="/"
+      type="button"
+    >
       Go home
     </button>
   </div>
@@ -69,6 +74,11 @@
       </li>
       <li>
         <a routerLink="ag-grid/data-grid/paging"> Data Grid with paging </a>
+      </li>
+      <li>
+        <a routerLink="ag-grid/data-grid/template-ref-column">
+          Data Grid with TemplateRef column
+        </a>
       </li>
     </ul>
   </li>
@@ -756,4 +766,4 @@
     </ul>
   </li>
 </ul>
-<router-outlet></router-outlet>
+<router-outlet />

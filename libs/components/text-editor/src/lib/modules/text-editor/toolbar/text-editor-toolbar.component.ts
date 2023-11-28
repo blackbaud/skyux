@@ -32,6 +32,7 @@ import { SkyFormsUtility } from '../../shared/forms-utility';
 import { STYLE_STATE_DEFAULTS } from '../defaults/style-state-defaults';
 import { SkyTextEditorAdapterService } from '../services/text-editor-adapter.service';
 import { SkyTextEditorFont } from '../types/font-state';
+import { SkyTextEditorLinkWindowOptionsType } from '../types/link-window-options-type';
 import { SkyTextEditorStyleState } from '../types/style-state';
 import { SkyTextEditorToolbarActionType } from '../types/toolbar-action-type';
 import { SkyUrlModalContext } from '../url-modal/text-editor-url-modal-context';
@@ -77,6 +78,9 @@ export class SkyTextEditorToolbarComponent implements OnInit {
 
   @Input()
   public toolbarActions: SkyTextEditorToolbarActionType[] = [];
+
+  @Input()
+  public linkWindowOptions: SkyTextEditorLinkWindowOptionsType[] = [];
 
   @Input()
   public set styleState(value: SkyTextEditorStyleState) {
@@ -142,7 +146,7 @@ export class SkyTextEditorToolbarComponent implements OnInit {
   public toggleFontStyle(
     currentState: boolean,
     newState: boolean,
-    command: string
+    command: string,
   ): void {
     if (currentState !== newState) {
       this.execCommand(command);
@@ -158,7 +162,13 @@ export class SkyTextEditorToolbarComponent implements OnInit {
     const inputModal = this.#modalService.open(SkyTextEditorUrlModalComponent, [
       {
         provide: SkyUrlModalContext,
-        useValue: { urlResult: currentLink },
+        useFactory: () => {
+          const context = new SkyUrlModalContext();
+          context.urlResult = currentLink;
+          context.linkWindowOptions = this.linkWindowOptions;
+
+          return context;
+        },
       },
     ]);
     inputModal.closed.subscribe((result: SkyModalCloseArgs) => {
@@ -184,7 +194,7 @@ export class SkyTextEditorToolbarComponent implements OnInit {
               result.data.url +
               '" rel="noopener noreferrer" target="_blank">' +
               sText +
-              '</a>'
+              '</a>',
           );
         }
       }
@@ -214,7 +224,7 @@ export class SkyTextEditorToolbarComponent implements OnInit {
 
   public onColorpickerColorChanged(
     color: SkyColorpickerOutput,
-    isBackground = false
+    isBackground = false,
   ): void {
     this.execCommand(isBackground ? 'backColor' : 'foreColor', color.hex);
   }

@@ -8,7 +8,7 @@
       class="sky-error-image-svg"
       [ngClass]="['sky-error-' + errorType + '-image']"
     ></div>
-    <ng-content select="sky-error-image"></ng-content>
+    <ng-content select="sky-error-image" />
   </div>
 
   <div class="sky-error-title sky-font-heading-1 sky-margin-stacked-lg">
@@ -16,7 +16,7 @@
       *ngIf="defaultTitle && (errorSvc.replaceDefaultTitle | async) === false"
       >{{ defaultTitle }}</ng-container
     >
-    <ng-content select="sky-error-title"></ng-content>
+    <ng-content select="sky-error-title" />
   </div>
 
   <div
@@ -29,10 +29,10 @@
       "
       >{{ defaultDescription }}</span
     >
-    <ng-content select="sky-error-description"></ng-content>
+    <ng-content select="sky-error-description" />
   </div>
 
   <div class="sky-error-action">
-    <ng-content select="sky-error-action"></ng-content>
+    <ng-content select="sky-error-action" />
   </div>
 </div>

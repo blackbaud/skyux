@@ -7,7 +7,11 @@
     </sky-row>
     <sky-row>
       <sky-column [screenSmall]="12" [screenMedium]="6">
-        <sky-input-box labelText="First name" stacked="true">
+        <sky-input-box
+          data-sky-id="input-box-first-name"
+          labelText="First name"
+          stacked="true"
+        >
           <input formControlName="firstName" spellcheck="false" type="text" />
         </sky-input-box>
       </sky-column>
@@ -21,6 +25,7 @@
       <sky-column [screenSmall]="12">
         <sky-input-box
           characterLimit="250"
+          data-sky-id="input-box-bio"
           helpPopoverContent="A brief description of the member's background, such as hometown, school, hobbies, etc."
           labelText="Bio"
           stacked="true"
@@ -45,8 +50,14 @@
     </sky-row>
     <sky-row>
       <sky-column [screenSmall]="12">
-        <sky-input-box labelText="Favorite color">
-          <select formControlName="favoriteColor">
+        <sky-input-box
+          data-sky-id="input-box-favorite-color"
+          labelText="Favorite color"
+        >
+          <select
+            class="input-box-favorite-color-select"
+            formControlName="favoriteColor"
+          >
             <option value="none">None</option>
             <option value="red">Red</option>
             <option value="orange">Orange</option>

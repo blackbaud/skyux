@@ -32,7 +32,20 @@
           "zone.js",
           "zone.js/testing",
           "libs/components/packages/src/polyfills.js"
-        ]
+        ],
+        "inlineStyleLanguage": "scss",
+        "stylePreprocessorOptions": {
+          "includePaths": ["{workspaceRoot}"]
+        }
+      },
+      "configurations": {
+        "ci": {
+          "browsers": "ChromeHeadlessNoSandbox",
+          "codeCoverage": true,
+          "progress": false,
+          "sourceMap": true,
+          "watch": false
+        }
       }
     },
     "lint": {
@@ -58,7 +71,8 @@
       },
       "configurations": {
         "ci": {
-          "quiet": true
+          "quiet": true,
+          "ci": true
         }
       }
     },
@@ -80,7 +94,18 @@
           "quiet": true
         }
       }
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "storybook:build-storybook",
+        "staticFilePath": "dist/storybook/storybook"
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "storybook:build-storybook:ci"
+        }
+      }
     }
-  },
-  "tags": []
+  }
 }

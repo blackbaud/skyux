@@ -37,10 +37,10 @@ function getFlexParent(fixture: ComponentFixture<any>): HTMLElement {
 }
 
 function getActionButtons(
-  fixture: ComponentFixture<any>
+  fixture: ComponentFixture<any>,
 ): NodeListOf<HTMLElement> {
   return fixture.nativeElement.querySelectorAll(
-    '.sky-action-button-container .sky-action-button:not([hidden])'
+    '.sky-action-button-container .sky-action-button:not([hidden])',
   );
 }
 //#endregion
@@ -60,7 +60,7 @@ describe('Action button component', () => {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.default,
-          SkyThemeMode.presets.light
+          SkyThemeMode.presets.light,
         ),
         previousSettings: undefined,
       }),
@@ -104,7 +104,7 @@ describe('Action button component', () => {
     const actionButton = el.querySelectorAll('.sky-action-button').item(1);
     expect(actionButton.tagName.toLowerCase() === 'a').toBeTrue();
     expect(actionButton.getAttribute('href')).toBe(
-      'https://developer.blackbaud.com/skyux/components'
+      'https://developer.blackbaud.com/skyux/components',
     );
   }));
 
@@ -159,10 +159,10 @@ describe('Action button component', () => {
 
   it('should have a role of button and tabindex on the clickable area', () => {
     expect(
-      debugElement.query(By.css('.sky-action-button')).attributes['role']
+      debugElement.query(By.css('.sky-action-button')).attributes['role'],
     ).toBe('button');
     expect(
-      debugElement.query(By.css('.sky-action-button')).attributes['tabindex']
+      debugElement.query(By.css('.sky-action-button')).attributes['tabindex'],
     ).toBe('0');
   });
 
@@ -191,12 +191,12 @@ describe('Action button component', () => {
     expect(
       fixture.nativeElement
         .querySelector('[ng-reflect-sky-href="1bb-nav://yep/"]')
-        .matches('[hidden]')
+        .matches('[hidden]'),
     ).toBeFalse();
     expect(
       fixture.nativeElement
         .querySelector('[ng-reflect-sky-href="1bb-nav://nope/"]')
-        .matches('[hidden]')
+        .matches('[hidden]'),
     ).toBeTrue();
   });
 
@@ -220,7 +220,7 @@ describe('Action button component modern theme', () => {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.modern,
-          SkyThemeMode.presets.light
+          SkyThemeMode.presets.light,
         ),
         previousSettings: undefined,
       }),
@@ -229,7 +229,7 @@ describe('Action button component modern theme', () => {
     mockMediaQueryService = new MockSkyMediaQueryService();
     mockActionButtonAdapterService = jasmine.createSpyObj(
       'SkyActionButtonAdapterService',
-      ['getParentWidth', 'setResponsiveClass']
+      ['getParentWidth', 'setResponsiveClass'],
     );
     TestBed.configureTestingModule({
       imports: [SkyActionButtonFixturesModule],
@@ -280,7 +280,7 @@ describe('Action button component modern theme', () => {
     const flexParent = getFlexParent(fixture);
     expect(flexParent).toHaveCssClass('sky-action-button-flex-align-left');
     expect(flexParent).not.toHaveCssClass(
-      'sky-action-button-flex-align-center'
+      'sky-action-button-flex-align-center',
     );
   });
 
@@ -306,14 +306,14 @@ describe('Action button component modern theme', () => {
   it(`should update CSS responsive classes on window resize`, () => {
     // called during constructor, ngOnInit -> themeSvc subscribe -> set themeName
     expect(
-      mockActionButtonAdapterService.setResponsiveClass
+      mockActionButtonAdapterService.setResponsiveClass,
     ).toHaveBeenCalledTimes(2);
 
     SkyAppTestUtility.fireDomEvent(window, 'resize');
 
     // called during ngOnInit -> setTimeout & onWindowResize
     expect(
-      mockActionButtonAdapterService.setResponsiveClass
+      mockActionButtonAdapterService.setResponsiveClass,
     ).toHaveBeenCalledTimes(3);
   });
 
@@ -379,7 +379,7 @@ describe('Action button container with dynamic action buttons', () => {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.default,
-          SkyThemeMode.presets.light
+          SkyThemeMode.presets.light,
         ),
         previousSettings: undefined,
       }),

@@ -25,7 +25,7 @@ describe('vertical-tabset-back-to-top', () => {
                 .should('contain', 'Group 1 Tab 1')
                 .click();
               cy.get(
-                'div[aria-labelledby="sky-vertical-tab-1"] > div:first-child'
+                'div[aria-labelledby="sky-vertical-tab-1"] > div:first-child',
               )
                 .should('be.visible')
                 .should('contain', 'Group 1 Tab 1 content')
@@ -35,7 +35,7 @@ describe('vertical-tabset-back-to-top', () => {
                 .should('contain', 'Back to top');
             });
           });
-        }
+        },
       );
     });
   });

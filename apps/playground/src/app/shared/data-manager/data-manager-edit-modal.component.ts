@@ -6,12 +6,14 @@ import {
 import {
   SkyAgGridAutocompleteProperties,
   SkyAgGridDatepickerProperties,
+  SkyAgGridModule,
   SkyAgGridService,
   SkyCellType,
 } from '@skyux/ag-grid';
 import { SkyAutocompleteSelectionChange } from '@skyux/lookup';
-import { SkyModalInstance } from '@skyux/modals';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
+import { AgGridModule } from 'ag-grid-angular';
 import {
   ColDef,
   GridApi,
@@ -26,9 +28,11 @@ import { AgGridDemoRow, DEPARTMENTS, JOB_TITLES } from './data-manager-data';
 import { DataManagerEditModalContext } from './data-manager-edit-modal-context';
 
 @Component({
+  standalone: true,
   selector: 'app-data-manager-edit-modal',
   templateUrl: './data-manager-edit-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [AgGridModule, SkyAgGridModule, SkyModalModule],
 })
 export class DataManagerEditModalComponent {
   public columnDefs: ColDef[];
@@ -40,7 +44,7 @@ export class DataManagerEditModalComponent {
     private agGridService: SkyAgGridService,
     public context: DataManagerEditModalContext,
     public instance: SkyModalInstance,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
   ) {
     this.columnDefs = [
       {
@@ -66,7 +70,7 @@ export class DataManagerEditModalComponent {
         type: SkyCellType.Date,
         editable: true,
         cellEditorParams: (
-          params: ICellEditorParams
+          params: ICellEditorParams,
         ): { skyComponentProperties: SkyAgGridDatepickerProperties } => {
           return { skyComponentProperties: { minDate: params.data.startDate } };
         },
@@ -77,13 +81,13 @@ export class DataManagerEditModalComponent {
         type: SkyCellType.Autocomplete,
         editable: true,
         cellEditorParams: (
-          params: ICellEditorParams
+          params: ICellEditorParams,
         ): { skyComponentProperties: SkyAgGridAutocompleteProperties } => {
           return {
             skyComponentProperties: {
               data: DEPARTMENTS,
               selectionChange: (
-                change: SkyAutocompleteSelectionChange
+                change: SkyAutocompleteSelectionChange,
               ): void => {
                 this.departmentSelectionChange(change, params.node);
               },
@@ -102,7 +106,7 @@ export class DataManagerEditModalComponent {
         type: SkyCellType.Autocomplete,
         editable: true,
         cellEditorParams: (
-          params: ICellEditorParams
+          params: ICellEditorParams,
         ): { skyComponentProperties: SkyAgGridAutocompleteProperties } => {
           const selectedDepartment: string =
             params.data &&
@@ -161,7 +165,7 @@ export class DataManagerEditModalComponent {
 
   private departmentSelectionChange(
     change: SkyAutocompleteSelectionChange,
-    node: IRowNode
+    node: IRowNode,
   ): void {
     if (change.selectedItem && change.selectedItem !== node.data.department) {
       this.clearJobTitle(node);

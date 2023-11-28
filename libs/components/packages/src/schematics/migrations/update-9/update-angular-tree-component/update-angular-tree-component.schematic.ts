@@ -20,14 +20,14 @@ function renameTypeScriptImportPaths(): Rule {
             filePath,
             tree.readText(filePath),
             ts.ScriptTarget.Latest,
-            true
+            true,
           );
           const oldImports = findNodes<ts.ImportDeclaration>(
             source,
             (node): node is ts.ImportDeclaration =>
               ts.isImportDeclaration(node) &&
               ts.isStringLiteral(node.moduleSpecifier) &&
-              node.moduleSpecifier.text.startsWith(OLD_PACKAGE)
+              node.moduleSpecifier.text.startsWith(OLD_PACKAGE),
           );
           if (oldImports.length > 0) {
             const recorder = tree.beginUpdate(filePath);
@@ -35,7 +35,7 @@ function renameTypeScriptImportPaths(): Rule {
               const moduleSpecifier = node.moduleSpecifier as ts.StringLiteral;
               recorder.remove(
                 moduleSpecifier.getStart() + 1,
-                OLD_PACKAGE.length
+                OLD_PACKAGE.length,
               );
               recorder.insertLeft(moduleSpecifier.getStart() + 1, NEW_PACKAGE);
             });
@@ -75,7 +75,7 @@ export default function (): Rule {
         {
           name: '@circlon/angular-tree-component',
         },
-      ]
+      ],
     ),
   ]);
 }

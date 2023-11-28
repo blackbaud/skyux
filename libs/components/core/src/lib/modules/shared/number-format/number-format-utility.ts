@@ -33,7 +33,7 @@ export class SkyNumberFormatUtility {
     digits?: string | null,
     currency: string | null = null,
     currencyAsSymbol = false,
-    currencySign?: 'accounting' | 'standard'
+    currencySign?: 'accounting' | 'standard',
   ): string | null {
     if (value == null) {
       return null;

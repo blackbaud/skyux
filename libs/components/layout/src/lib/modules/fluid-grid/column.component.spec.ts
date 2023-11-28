@@ -62,13 +62,13 @@ describe('SkyColumnComponent', () => {
     fixture.detectChanges();
     expect(element.className).toContain('sky-column-xs-12');
     expect(element.className).not.toContain(
-      jasmine.stringMatching(/sky-column-sm-[0-9]/)
+      jasmine.stringMatching(/sky-column-sm-[0-9]/),
     );
     expect(element.className).not.toContain(
-      jasmine.stringMatching(/sky-column-md-[0-9]/)
+      jasmine.stringMatching(/sky-column-md-[0-9]/),
     );
     expect(element.className).not.toContain(
-      jasmine.stringMatching(/sky-column-lg-[0-9]/)
+      jasmine.stringMatching(/sky-column-lg-[0-9]/),
     );
   });
 

@@ -15,12 +15,12 @@ function copyFilesToDist() {
     const sourcePath = path.join(
       process.cwd(),
       'libs/components/packages',
-      ...pathArr
+      ...pathArr,
     );
     const distPath = path.join(
       process.cwd(),
       'dist/libs/components/packages',
-      ...pathArr
+      ...pathArr,
     );
 
     console.log(`Copying '${sourcePath.replace(process.cwd(), '')}'...`);
@@ -36,7 +36,7 @@ function copyFilesToDist() {
   // Copy schematics templates.
   const templateFiles = globSync(
     'libs/components/packages/src/schematics/**/*.template',
-    { nodir: true }
+    { nodir: true },
   );
   for (const templateFile of templateFiles) {
     fs.copySync(templateFile, path.join(process.cwd(), 'dist', templateFile));

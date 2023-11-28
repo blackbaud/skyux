@@ -4,24 +4,26 @@
 <button
   *ngIf="isExpanded$ | async; else openIcons"
   class="sky-btn sky-btn-icon-borderless"
+  type="button"
   (click)="setExpanded(false)"
   [attr.aria-label]="
     'sky_ag_grid_column_group_header_collapse_aria_label'
       | skyLibResources : params?.displayName
   "
 >
-  <sky-icon icon="double-chevron-left"></sky-icon>
+  <sky-icon icon="double-chevron-left" />
 </button>
 <ng-template #openIcons>
   <button
     class="sky-btn sky-btn-icon-borderless"
+    type="button"
     (click)="setExpanded(true)"
     [attr.aria-label]="
       'sky_ag_grid_column_group_header_expand_aria_label'
         | skyLibResources : params?.displayName
     "
   >
-    <sky-icon icon="double-chevron-right"></sky-icon>
+    <sky-icon icon="double-chevron-right" />
   </button>
 </ng-template>
 <span class="sky-control-help-container" #inlineHelpContainer></span>

@@ -6,8 +6,8 @@ describe('indicators-storybook', () => {
       describe('element and nonBlocking waits', () => {
         beforeEach(() =>
           cy.visit(
-            `/iframe.html?globals=theme:${theme}&id=waitcomponent-wait--wait`
-          )
+            `/iframe.html?globals=theme:${theme}&id=waitcomponent-wait--wait`,
+          ),
         );
         it('should render the component', () => {
           cy.get('app-wait')
@@ -23,8 +23,8 @@ describe('indicators-storybook', () => {
       describe('page blocking wait', () => {
         beforeEach(() =>
           cy.visit(
-            `/iframe.html?globals=theme:${theme}&id=waitcomponent-wait--wait-page-blocking`
-          )
+            `/iframe.html?globals=theme:${theme}&id=waitcomponent-wait--wait-page-blocking`,
+          ),
         );
         it('should render the component', () => {
           cy.get('app-wait')

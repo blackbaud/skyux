@@ -5,7 +5,7 @@ describe(`ag-grid-storybook`, () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() => {
         cy.viewport(1300, 900).visit(
-          `/iframe.html?globals=theme:${theme}&id=aggridstoriescomponent-aggridstories--ag-grid`
+          `/iframe.html?globals=theme:${theme}&id=aggridstoriescomponent-aggridstories--ag-grid`,
         );
       });
 
@@ -54,7 +54,7 @@ describe(`ag-grid-storybook`, () => {
             {
               overwrite: true,
               disableTimersAndAnimations: true,
-            }
+            },
           );
       });
     });

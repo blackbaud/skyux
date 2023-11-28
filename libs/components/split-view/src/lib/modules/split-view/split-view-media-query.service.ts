@@ -19,7 +19,7 @@ export class SkySplitViewMediaQueryService {
 
   constructor() {
     this.#currentSubject = new BehaviorSubject<SkyMediaBreakpoints>(
-      this.#_current
+      this.#_current,
     );
   }
 
@@ -50,7 +50,7 @@ export class SkySplitViewMediaQueryService {
 
   public isWidthWithinBreakpoint(
     width: number | undefined,
-    breakpoint: SkyMediaBreakpoints
+    breakpoint: SkyMediaBreakpoints,
   ): boolean {
     if (width === undefined) {
       return false;

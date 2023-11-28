@@ -109,7 +109,7 @@ export class SkyAvatarComponent {
   constructor(
     errorService: SkyErrorModalService,
     fileSizePipe: SkyFileSizePipe,
-    resourcesService: SkyLibResourcesService
+    resourcesService: SkyLibResourcesService,
   ) {
     this.#errorService = errorService;
     this.#fileSizePipe = fileSizePipe;
@@ -117,7 +117,7 @@ export class SkyAvatarComponent {
 
     this.sizeDefault = this.#defaultInputProvider?.getValue<SkyAvatarSize>(
       'avatar',
-      'size'
+      'size',
     );
   }
 
@@ -138,14 +138,14 @@ export class SkyAvatarComponent {
       const title = this.#getString('skyux_avatar_error_too_large_title');
       const description = this.#getString(
         'skyux_avatar_error_too_large_description',
-        this.#maxFileSizeText()
+        this.#maxFileSizeText(),
       );
 
       this.#openErrorModal(title, description);
     } else if (rejectedFile.errorType === 'fileType') {
       const title = this.#getString('skyux_avatar_error_not_image_title');
       const description = this.#getString(
-        'skyux_avatar_error_not_image_description'
+        'skyux_avatar_error_not_image_description',
       );
 
       this.#openErrorModal(title, description);
@@ -171,7 +171,7 @@ export class SkyAvatarComponent {
     return this.#resourcesService.getStringForLocale(
       { locale: 'en-US' },
       key,
-      ...args
+      ...args,
     );
   }
 }

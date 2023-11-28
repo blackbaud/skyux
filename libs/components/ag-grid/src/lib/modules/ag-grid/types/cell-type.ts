@@ -73,6 +73,12 @@ export enum SkyCellType {
    */
   RowSelector = 'skyCellRowSelector',
   /**
+   * **Read-only mode**
+   * <br/>
+   * Cells in the column will render in a `TemplateRef` passed in the column definition's `cellRendererParams.template` property, with `value` and `row` context. See the demo for an example.
+   */
+  Template = 'skyCellTemplate',
+  /**
    * **Edit mode**
    * <br/>
    * Cells in the column will be edited as HTML text `inputs`. Any characters can be entered.

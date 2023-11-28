@@ -25,13 +25,13 @@ export class ListToolbarOrchestrator extends ListStateOrchestrator<ListToolbarMo
       .register(ListToolbarItemsRemoveAction, this.remove)
       .register(
         ListToolbarShowMultiselectToolbarAction,
-        this.showMultiselectToolbar
+        this.showMultiselectToolbar,
       );
   }
 
   private setExists(
     state: ListToolbarModel,
-    action: ListToolbarSetExistsAction
+    action: ListToolbarSetExistsAction,
   ): ListToolbarModel {
     const newModel = new ListToolbarModel(state);
     newModel.exists = action.exists;
@@ -40,7 +40,7 @@ export class ListToolbarOrchestrator extends ListStateOrchestrator<ListToolbarMo
 
   private setDisabled(
     state: ListToolbarModel,
-    action: ListToolbarItemsDisableAction
+    action: ListToolbarItemsDisableAction,
   ): ListToolbarModel {
     const newModel = new ListToolbarModel(state);
     newModel.disabled = action.disable;
@@ -49,7 +49,7 @@ export class ListToolbarOrchestrator extends ListStateOrchestrator<ListToolbarMo
 
   private setType(
     state: ListToolbarModel,
-    action: ListToolbarSetTypeAction
+    action: ListToolbarSetTypeAction,
   ): ListToolbarModel {
     const newModel = new ListToolbarModel(state);
     newModel.type = action.type;
@@ -58,7 +58,7 @@ export class ListToolbarOrchestrator extends ListStateOrchestrator<ListToolbarMo
 
   private load(
     state: ListToolbarModel,
-    action: ListToolbarItemsLoadAction
+    action: ListToolbarItemsLoadAction,
   ): ListToolbarModel {
     const newModel = new ListToolbarModel(state);
 
@@ -92,7 +92,7 @@ export class ListToolbarOrchestrator extends ListStateOrchestrator<ListToolbarMo
 
   private remove(
     state: ListToolbarModel,
-    action: ListToolbarItemsRemoveAction
+    action: ListToolbarItemsRemoveAction,
   ): ListToolbarModel {
     const newModel = new ListToolbarModel(state);
 
@@ -105,7 +105,7 @@ export class ListToolbarOrchestrator extends ListStateOrchestrator<ListToolbarMo
 
   private showMultiselectToolbar(
     state: ListToolbarModel,
-    action: ListToolbarShowMultiselectToolbarAction
+    action: ListToolbarShowMultiselectToolbarAction,
   ): ListToolbarModel {
     const newModel = new ListToolbarModel(state);
     newModel.showMultiselectToolbar = action.exists;

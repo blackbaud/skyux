@@ -80,7 +80,7 @@ export class SkyAutonumericDirective
     elementRef: ElementRef,
     globalConfig: SkyAutonumericOptionsProvider,
     renderer: Renderer2,
-    changeDetector: ChangeDetectorRef
+    changeDetector: ChangeDetectorRef,
   ) {
     this.#elementRef = elementRef;
     this.#globalConfig = globalConfig;
@@ -129,7 +129,7 @@ export class SkyAutonumericDirective
     this.#renderer.setProperty(
       this.#elementRef.nativeElement,
       'disabled',
-      value
+      value,
     );
   }
 
@@ -219,12 +219,12 @@ export class SkyAutonumericDirective
 
   #updateAutonumericInstance(): void {
     this.#autonumericInstance.update(
-      this.#autonumericOptions as AutoNumeric.Options
+      this.#autonumericOptions as AutoNumeric.Options,
     );
   }
 
   #mergeOptions(
-    value: SkyAutonumericOptions | undefined
+    value: SkyAutonumericOptions | undefined,
   ): SkyAutonumericOptions {
     const globalOptions: SkyAutonumericOptions = this.#globalConfig.getConfig();
 

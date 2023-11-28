@@ -43,7 +43,7 @@ export class SkyDockService {
    */
   public insertComponent<T>(
     component: Type<T>,
-    config?: SkyDockInsertComponentConfig
+    config?: SkyDockInsertComponentConfig,
   ): SkyDockItem<T> {
     const dockRef = (SkyDockService.dockRef =
       SkyDockService.dockRef || this.#createDock());
@@ -51,7 +51,7 @@ export class SkyDockService {
     const itemRef = dockRef.instance.insertComponent(component, config);
     const item = new SkyDockItem(
       itemRef.componentRef.instance,
-      itemRef.stackOrder
+      itemRef.stackOrder,
     );
 
     item.destroyed.subscribe(() => {
@@ -104,7 +104,7 @@ export class SkyDockService {
 
     const dockRef = this.#dynamicComponentSvc.createComponent(
       SkyDockComponent,
-      dockOptions
+      dockOptions,
     );
 
     dockRef.instance.setOptions(this.#options);

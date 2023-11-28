@@ -39,7 +39,7 @@ describe('Error modal service', () => {
 
     const logServiceSpy = spyOn(
       SkyLogService.prototype,
-      'deprecated'
+      'deprecated',
     ).and.stub();
 
     const service = new SkyErrorModalService(modalService as SkyModalService);
@@ -47,7 +47,7 @@ describe('Error modal service', () => {
 
     expect(modalService.openCalls.length).toBe(1);
     expect(modalService.openCalls[0].component).toBe(
-      SkyErrorModalFormComponent
+      SkyErrorModalFormComponent,
     );
 
     // Since the log service was not provided the deprecation call should be skipped.
@@ -74,18 +74,18 @@ describe('Error modal service', () => {
 
     const logServiceSpy = spyOn(
       SkyLogService.prototype,
-      'deprecated'
+      'deprecated',
     ).and.stub();
 
     const service = new SkyErrorModalService(
       modalService as SkyModalService,
-      TestBed.inject(SkyLogService)
+      TestBed.inject(SkyLogService),
     );
     service.open(config);
 
     expect(modalService.openCalls.length).toBe(1);
     expect(modalService.openCalls[0].component).toBe(
-      SkyErrorModalFormComponent
+      SkyErrorModalFormComponent,
     );
 
     expect(logServiceSpy).toHaveBeenCalledWith(
@@ -94,7 +94,7 @@ describe('Error modal service', () => {
         deprecationMajorVersion: 6,
         replacementRecommendation:
           'We recommend using a standard modal with an error component instead.',
-      }
+      },
     );
 
     // Uses the modalService Open overload that takes config

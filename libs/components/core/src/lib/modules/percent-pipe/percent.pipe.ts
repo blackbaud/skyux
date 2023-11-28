@@ -63,7 +63,7 @@ export class SkyPercentPipe implements OnDestroy, PipeTransform {
           locale,
           this.#value,
           SkyIntlNumberFormatStyle.Percent,
-          format
+          format,
         ) as string)
       : '';
   }

@@ -6,7 +6,7 @@ const routes: Routes = [
     path: 'href/basic',
     loadComponent: () =>
       import('../code-examples/router/href/basic/demo.component').then(
-        (c) => c.DemoComponent
+        (c) => c.DemoComponent,
       ),
   },
 ];

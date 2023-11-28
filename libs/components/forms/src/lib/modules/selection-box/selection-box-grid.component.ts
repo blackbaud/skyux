@@ -97,7 +97,7 @@ export class SkySelectionBoxGridComponent implements OnDestroy, OnInit {
     hostElRef: ElementRef,
     mutationObserverSvc: SkyMutationObserverService,
     ngZone: NgZone,
-    @Optional() themeSvc?: SkyThemeService
+    @Optional() themeSvc?: SkyThemeService,
   ) {
     this.#coreAdapterService = coreAdapterService;
     this.#selectionBoxAdapter = selectionBoxAdapter;
@@ -161,13 +161,13 @@ export class SkySelectionBoxGridComponent implements OnDestroy, OnInit {
 
   #updateBreakpointClass(): void {
     const parentWidth = this.#selectionBoxAdapter.getParentWidth(
-      this.#hostElRef
+      this.#hostElRef,
     );
 
     if (this.containerElementRef) {
       this.#selectionBoxAdapter.setResponsiveClass(
         this.containerElementRef,
-        this.#selectionBoxAdapter.getBreakpointForWidth(parentWidth)
+        this.#selectionBoxAdapter.getBreakpointForWidth(parentWidth),
       );
     }
     this.#updateChildrenHeights();
@@ -177,11 +177,11 @@ export class SkySelectionBoxGridComponent implements OnDestroy, OnInit {
     if (this.containerElementRef) {
       this.#coreAdapterService.resetHeight(
         this.containerElementRef,
-        SKY_SELECTION_BOX_CLASS_NAME
+        SKY_SELECTION_BOX_CLASS_NAME,
       );
       this.#coreAdapterService.syncMaxHeight(
         this.containerElementRef,
-        SKY_SELECTION_BOX_CLASS_NAME
+        SKY_SELECTION_BOX_CLASS_NAME,
       );
     }
   }

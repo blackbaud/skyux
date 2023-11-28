@@ -101,7 +101,7 @@ export class SkyDayPickerComponent implements OnDestroy, OnInit {
       current = new Date(
         current.getFullYear(),
         current.getMonth(),
-        current.getDate() + 1
+        current.getDate() + 1,
       );
     }
     return dates;
@@ -140,7 +140,7 @@ export class SkyDayPickerComponent implements OnDestroy, OnInit {
         days[i],
         this.datepicker.formatDay,
         days[i].getMonth() !== month,
-        this.datepicker.datepickerId + '-' + i
+        this.datepicker.datepickerId + '-' + i,
       );
       pickerDates[i] = _dateObject;
     }
@@ -150,17 +150,17 @@ export class SkyDayPickerComponent implements OnDestroy, OnInit {
       this.labels[j] = {};
       this.labels[j].abbr = this.datepicker.dateFilter(
         pickerDates[j].date,
-        this.datepicker.formatDayHeader
+        this.datepicker.formatDayHeader,
       );
       this.labels[j].full = this.datepicker.dateFilter(
         pickerDates[j].date,
-        'EEEE'
+        'EEEE',
       );
     }
 
     this.title = this.datepicker.dateFilter(
       this.datepicker.activeDate,
-      this.datepicker.formatDayTitle
+      this.datepicker.formatDayTitle,
     );
 
     const oldDateRange = this.#getDateRange(this.rows);
@@ -200,16 +200,16 @@ export class SkyDayPickerComponent implements OnDestroy, OnInit {
       date = Math.min(
         this.#getDaysInMonth(
           this.datepicker.activeDate.getFullYear(),
-          this.datepicker.activeDate.getMonth()
+          this.datepicker.activeDate.getMonth(),
         ),
-        date
+        date,
       );
     } else if (key === 'home') {
       date = 1;
     } else if (key === 'end') {
       date = this.#getDaysInMonth(
         this.datepicker.activeDate.getFullYear(),
-        this.datepicker.activeDate.getMonth()
+        this.datepicker.activeDate.getMonth(),
       );
     }
     this.datepicker.activeDate.setDate(date);
@@ -228,7 +228,7 @@ export class SkyDayPickerComponent implements OnDestroy, OnInit {
    */
   #applyCustomDates(
     customDates: SkyDatepickerCustomDate[],
-    dateRows: SkyDatepickerDate[][]
+    dateRows: SkyDatepickerDate[][],
   ): void {
     let date: SkyDatepickerDate;
     let newDate: SkyDatepickerDate;
@@ -267,7 +267,7 @@ export class SkyDayPickerComponent implements OnDestroy, OnInit {
 
   #dateRangeRowsAreEqual(
     rangeA?: SkyDateRange,
-    rangeB?: SkyDateRange
+    rangeB?: SkyDateRange,
   ): boolean | undefined {
     /* istanbul ignore if */
     if (!rangeA && !rangeB) {
@@ -283,7 +283,7 @@ export class SkyDayPickerComponent implements OnDestroy, OnInit {
   }
 
   #getDateRange(
-    rows: Array<Array<SkyDatepickerDate>>
+    rows: Array<Array<SkyDatepickerDate>>,
   ): SkyDateRange | undefined {
     /* istanbul ignore else */
     if (rows && rows.length > 0) {

@@ -227,7 +227,7 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
     elementRef: ElementRef,
     adapterService: SkyTabsetAdapterService,
     permalinkService: SkyTabsetPermalinkService,
-    tabsetService: SkyTabsetService
+    tabsetService: SkyTabsetService,
   ) {
     this.#changeDetector = changeDetector;
     this.#elementRef = elementRef;
@@ -289,7 +289,7 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
 
   public onTabCloseClick(tabButton: TabButtonViewModel): void {
     const tabComponent = this.tabs?.find((tab) =>
-      this.#tabsetService.tabIndexesEqual(tab.tabIndex, tabButton.tabIndex)
+      this.#tabsetService.tabIndexesEqual(tab.tabIndex, tabButton.tabIndex),
     );
 
     tabComponent?.close.emit();
@@ -349,7 +349,7 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
         this.#updateTabsetComponent(
           tabChange.tabIndex,
           false,
-          tabChange.initial
+          tabChange.initial,
         );
         const activeTab = this.#getActiveTabComponent();
 
@@ -372,8 +372,11 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
       combineLatest(this.tabs.map((tab) => tab.activeChange))
         .pipe(
           takeUntil(
-            race(this.#tabComponentsStateChangeUnsubscribe, this.#ngUnsubscribe)
-          )
+            race(
+              this.#tabComponentsStateChangeUnsubscribe,
+              this.#ngUnsubscribe,
+            ),
+          ),
         )
         .subscribe(() => {
           // Wait for the tab components to render changes before finding the active one.
@@ -386,8 +389,11 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
       combineLatest(this.tabs.map((tab) => tab.tabIndexChange))
         .pipe(
           takeUntil(
-            race(this.#tabComponentsStateChangeUnsubscribe, this.#ngUnsubscribe)
-          )
+            race(
+              this.#tabComponentsStateChangeUnsubscribe,
+              this.#ngUnsubscribe,
+            ),
+          ),
         )
         .subscribe(() => {
           // Don't emit the first change.
@@ -396,7 +402,7 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
             setTimeout(() => {
               this.#updateTabsetComponent(
                 this.#tabsetService.currentActiveTabIndex,
-                true
+                true,
               );
               this.#emitTabIndexChange();
             });
@@ -406,15 +412,18 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
       combineLatest(this.tabs.map((tab) => tab.stateChange))
         .pipe(
           takeUntil(
-            race(this.#tabComponentsStateChangeUnsubscribe, this.#ngUnsubscribe)
-          )
+            race(
+              this.#tabComponentsStateChangeUnsubscribe,
+              this.#ngUnsubscribe,
+            ),
+          ),
         )
         .subscribe(() => {
           // Wait for the tab components to render changes before finding the active one.
           setTimeout(() => {
             this.#updateTabsetComponent(
               this.#tabsetService.currentActiveTabIndex,
-              true
+              true,
             );
           });
         });
@@ -443,7 +452,7 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
       },
       {
         emitChange: false,
-      }
+      },
     );
     this.#listenTabComponentsStateChange();
   }
@@ -496,7 +505,7 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
       const paramValue = this.#permalinkService.getParam(this.permalinkId);
       if (paramValue) {
         return this.tabs?.find(
-          (tab) => tab.permalinkValueOrDefault === paramValue
+          (tab) => tab.permalinkValueOrDefault === paramValue,
         )?.tabIndex;
       }
       return undefined;
@@ -512,7 +521,7 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
   }
 
   #createTabButtons(
-    activeIndex: SkyTabIndex | undefined
+    activeIndex: SkyTabIndex | undefined,
   ): TabButtonViewModel[] {
     // Safety check
     /* istanbul ignore next */
@@ -529,7 +538,7 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
         ? null
         : this.#permalinkService.getParamHref(
             this.permalinkId,
-            tab.permalinkValueOrDefault
+            tab.permalinkValueOrDefault,
           ),
       buttonId: tab.tabButtonId,
       buttonTextCount: tab.tabHeaderCount,
@@ -544,7 +553,7 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
     this.tabButtons.forEach((button) => {
       button.active = this.#tabsetService.tabIndexesEqual(
         button.tabIndex,
-        activeIndex
+        activeIndex,
       );
     });
   }
@@ -564,7 +573,7 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
   #updateTabsetComponent(
     activeIndex: SkyTabIndex | undefined,
     regenerateTabButtons: boolean,
-    initial?: boolean
+    initial?: boolean,
   ): void {
     // Activate/deactivate tab components.
     this.tabs?.forEach((tab) => {
@@ -595,7 +604,7 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
         this.#permalinkService.setParam(
           this.permalinkId,
           activeTabComponent.permalinkValueOrDefault,
-          initial
+          initial,
         );
       }
     }

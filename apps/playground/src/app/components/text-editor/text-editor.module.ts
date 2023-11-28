@@ -6,14 +6,14 @@ const routes: Routes = [
     path: 'rich-text-display',
     loadChildren: () =>
       import('./rich-text-display/rich-text-display.module').then(
-        (m) => m.RichTextDisplayModule
+        (m) => m.RichTextDisplayModule,
       ),
   },
   {
     path: 'text-editor',
     loadChildren: () =>
       import('./text-editor/text-editor.module').then(
-        (m) => m.TextEditorModule
+        (m) => m.TextEditorModule,
       ),
   },
 ];

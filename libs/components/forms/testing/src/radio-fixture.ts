@@ -16,7 +16,7 @@ export class SkyRadioFixture {
     this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
-      'sky-radio-group'
+      'sky-radio-group',
     );
   }
 
@@ -25,7 +25,7 @@ export class SkyRadioFixture {
    */
   public get value(): string {
     const selectedRadio = this.#debugEl.query(
-      By.css('sky-radio input:checked')
+      By.css('sky-radio input:checked'),
     );
     const selectedValue = selectedRadio && selectedRadio.nativeElement.value;
 

@@ -46,18 +46,18 @@ export class AdapterServiceFixtureComponent {
   public getFocusableChildrenAndApplyFocus(
     element: ElementRef,
     containerSelector?: string,
-    focusOnContainerIfNotFound?: boolean
+    focusOnContainerIfNotFound?: boolean,
   ): void {
     return this.#adapterSvc.getFocusableChildrenAndApplyFocus(
       element,
       containerSelector,
-      focusOnContainerIfNotFound
+      focusOnContainerIfNotFound,
     );
   }
 
   public getFocusableChildren(
     element?: HTMLElement,
-    options?: SkyFocusableChildrenOptions
+    options?: SkyFocusableChildrenOptions,
   ): any[] {
     return this.#adapterSvc.getFocusableChildren(element, options);
   }
@@ -77,7 +77,7 @@ export class AdapterServiceFixtureComponent {
   public setParagraphContainerClass(breakpoint: SkyMediaBreakpoints): void {
     this.#adapterSvc.setResponsiveContainerClass(
       this.paragraphContainer,
-      breakpoint
+      breakpoint,
     );
   }
 }

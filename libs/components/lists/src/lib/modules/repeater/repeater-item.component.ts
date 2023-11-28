@@ -16,8 +16,10 @@ import {
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { skyAnimationSlide } from '@skyux/animations';
+import { SkyContentInfoProvider, SkyIdService } from '@skyux/core';
 import { SkyCheckboxChange } from '@skyux/forms';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import {
@@ -32,6 +34,7 @@ import { SkyRepeaterAdapterService } from './repeater-adapter.service';
 import { SkyRepeaterItemContentComponent } from './repeater-item-content.component';
 import { SkyRepeaterItemContextMenuComponent } from './repeater-item-context-menu.component';
 import { SkyRepeaterItemRolesType } from './repeater-item-roles.type';
+import { SkyRepeaterItemTitleComponent } from './repeater-item-title.component';
 import { SkyRepeaterService } from './repeater.service';
 
 let nextContentId = 0;
@@ -44,6 +47,7 @@ let nextContentId = 0;
   styleUrls: ['./repeater-item.component.scss'],
   templateUrl: './repeater-item.component.html',
   animations: [skyAnimationSlide],
+  providers: [SkyContentInfoProvider],
   encapsulation: ViewEncapsulation.None,
 })
 export class SkyRepeaterItemComponent
@@ -91,10 +95,18 @@ export class SkyRepeaterItemComponent
    * such as accessibility and instrumentation. For example, the component uses the name to
    * construct ARIA labels for the repeater item controls
    * to [support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * If not specified, the repeater item's title will be used for this value.
    * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
   @Input()
-  public itemName: string | undefined;
+  public set itemName(value: string | undefined) {
+    this.#_itemName = value;
+    this.#updateContentInfo();
+  }
+
+  public get itemName(): string | undefined {
+    return this.#_itemName;
+  }
 
   /**
    * Configuration options for the buttons to display on an inline form
@@ -247,13 +259,22 @@ export class SkyRepeaterItemComponent
   @ViewChild('itemRef', { read: ElementRef })
   public itemRef: ElementRef | undefined;
 
+  @ContentChild(SkyRepeaterItemTitleComponent, { read: ElementRef })
+  public set titleComponent(value: ElementRef | undefined) {
+    this.#titleComponent = value;
+    this.#updateContentInfo();
+  }
+
   @ContentChildren(SkyRepeaterItemContentComponent)
   public repeaterItemContentComponents:
     | QueryList<SkyRepeaterItemContentComponent>
     | undefined;
 
+  protected titleId: string | undefined;
+
   #adapterService: SkyRepeaterAdapterService;
   #changeDetector: ChangeDetectorRef;
+  #contentInfoProvider = inject(SkyContentInfoProvider);
   #elementRef: ElementRef;
   #isExpanded = true;
   #keyboardReorderingEnabled = false;
@@ -267,16 +288,20 @@ export class SkyRepeaterItemComponent
   #reorderSteps = 0;
   #repeaterService: SkyRepeaterService;
   #resourceService: SkyLibResourcesService;
+  #titleComponent: ElementRef | undefined;
   #_isCollapsible = true;
   #_isDisabled: boolean | undefined = false;
   #_isSelected: boolean | undefined;
+  #_itemName: string | undefined;
+
+  readonly #idSvc = inject(SkyIdService);
 
   constructor(
     repeaterService: SkyRepeaterService,
     changeDetector: ChangeDetectorRef,
     adapterService: SkyRepeaterAdapterService,
     elementRef: ElementRef,
-    resourceService: SkyLibResourcesService
+    resourceService: SkyLibResourcesService,
   ) {
     this.#repeaterService = repeaterService;
     this.#changeDetector = changeDetector;
@@ -290,7 +315,7 @@ export class SkyRepeaterItemComponent
       this.#resourceService.getString('skyux_repeater_item_reorder_cancel'),
       this.#resourceService.getString('skyux_repeater_item_reorder_finish'),
       this.#resourceService.getString(
-        'skyux_repeater_item_reorder_instructions'
+        'skyux_repeater_item_reorder_instructions',
       ),
       this.#resourceService.getString('skyux_repeater_item_reorder_operation'),
       this.#resourceService.getString('skyux_repeater_item_reorder_moved'),
@@ -310,9 +335,8 @@ export class SkyRepeaterItemComponent
           this.#reorderInstructions = reorderOperationText;
           this.#reorderMovedText = reorderMovedText;
           this.reorderButtonLabel = this.#reorderInstructions;
-        }
+        },
       );
-
     this.contentId = `sky-repeater-item-content-${++nextContentId}`;
     this.itemRole$ = this.#repeaterService.itemRole.asObservable();
   }
@@ -354,7 +378,7 @@ export class SkyRepeaterItemComponent
     ) {
       if (
         ($event.target as HTMLElement).matches(
-          'input, textarea, select, option, [contenteditable], [contenteditable] *'
+          'input, textarea, select, option, [contenteditable], [contenteditable] *',
         )
       ) {
         return;
@@ -373,7 +397,7 @@ export class SkyRepeaterItemComponent
       /* istanbul ignore else */
       if (['Home', 'End'].includes($event.key)) {
         const items = this.#repeaterService.items.filter(
-          (item) => !item.disabled
+          (item) => !item.disabled,
         );
         if ($event.key === 'Home') {
           activateItem = items.shift();
@@ -384,7 +408,7 @@ export class SkyRepeaterItemComponent
       /* istanbul ignore else */
       if (['ArrowUp', 'ArrowDown'].includes($event.key)) {
         const currentIndex = this.#repeaterService.items.findIndex(
-          (item) => item === this
+          (item) => item === this,
         );
         let sliceFrom: number;
         let sliceTo: number | undefined;
@@ -419,7 +443,7 @@ export class SkyRepeaterItemComponent
         this.#repeaterService.activateItem(activateItem);
         if (
           !(activateItem.#elementRef.nativeElement as Element).matches(
-            ':focus-within'
+            ':focus-within',
           )
         ) {
           activateItem.itemRef?.nativeElement.focus();
@@ -455,7 +479,7 @@ export class SkyRepeaterItemComponent
     if (this.isCollapsible === false && value === false) {
       console.warn(
         `Setting isExpanded to false when the repeater item is not collapsible
-        will have no effect.`
+        will have no effect.`,
       );
     } else if (this.#isExpanded !== value) {
       this.#isExpanded = value;
@@ -560,7 +584,7 @@ export class SkyRepeaterItemComponent
 
   #keyboardReorderUp(): void {
     const newIndex = this.#adapterService.moveItemUp(
-      this.#elementRef.nativeElement
+      this.#elementRef.nativeElement,
     );
     if (newIndex !== undefined) {
       this.#reorderCurrentIndex = newIndex;
@@ -575,7 +599,7 @@ export class SkyRepeaterItemComponent
 
   #keyboardReorderDown(): void {
     const newIndex = this.#adapterService.moveItemDown(
-      this.#elementRef.nativeElement
+      this.#elementRef.nativeElement,
     );
     if (newIndex) {
       this.#reorderCurrentIndex = newIndex;
@@ -607,16 +631,39 @@ export class SkyRepeaterItemComponent
     if (this.#reorderSteps < 0) {
       this.#adapterService.moveItemDown(
         this.#elementRef.nativeElement,
-        Math.abs(this.#reorderSteps)
+        Math.abs(this.#reorderSteps),
       );
     } else if (this.#reorderSteps > 0) {
       this.#adapterService.moveItemUp(
         this.#elementRef.nativeElement,
         false,
-        this.#reorderSteps
+        this.#reorderSteps,
       );
     }
     this.#repeaterService.registerOrderChange();
+  }
+
+  #updateContentInfo(): void {
+    // The `setTimeout` here is necessary to counteract the timing for change detection with the content child for the title component.
+    // Because the title component is rendered within a template ref - the loading of the content child and then acting upon that can cause "changed after checked" errors.
+    setTimeout(() => {
+      if (this.itemName) {
+        this.#contentInfoProvider.patchInfo({
+          descriptor: { type: 'text', value: this.itemName },
+        });
+      } else if (this.#titleComponent) {
+        this.titleId = this.#idSvc.generateId();
+
+        this.#contentInfoProvider.patchInfo({
+          descriptor: {
+            type: 'elementId',
+            value: this.titleId,
+          },
+        });
+      } else {
+        this.titleId = undefined;
+      }
+    });
   }
 
   #updateExpandOnContentChange(): void {

@@ -26,6 +26,7 @@ import { SkyFormsUtility } from '../shared/forms-utility';
 
 import { FONT_LIST_DEFAULTS } from './defaults/font-list-defaults';
 import { FONT_SIZE_LIST_DEFAULTS } from './defaults/font-size-list-defaults';
+import { LINK_WINDOW_OPTIONS_DEFAULTS } from './defaults/link-window-options-defaults';
 import { MENU_DEFAULTS } from './defaults/menu-defaults';
 import { STYLE_STATE_DEFAULTS } from './defaults/style-state-defaults';
 import { TOOLBAR_ACTION_DEFAULTS } from './defaults/toolbar-action-defaults';
@@ -36,6 +37,7 @@ import { SkyTextEditorService } from './services/text-editor.service';
 import { SkyTextSanitizationService } from './services/text-sanitization.service';
 import { SkyTextEditorToolbarComponent } from './toolbar/text-editor-toolbar.component';
 import { SkyTextEditorFont } from './types/font-state';
+import { SkyTextEditorLinkWindowOptionsType } from './types/link-window-options-type';
 import { SkyTextEditorMenuType } from './types/menu-type';
 import { SkyTextEditorStyleState } from './types/style-state';
 import { SkyTextEditorMergeField } from './types/text-editor-merge-field';
@@ -92,18 +94,18 @@ export class SkyTextEditorComponent
           {
             ignoreVisibility: true,
             ignoreTabIndex: true,
-          }
+          },
         );
 
         if (this.#_disabled) {
           this.#adapterService.disableEditor(
             focusableChildren,
-            this.iframeRef.nativeElement
+            this.iframeRef.nativeElement,
           );
         } else {
           this.#adapterService.enableEditor(
             focusableChildren,
-            this.iframeRef.nativeElement
+            this.iframeRef.nativeElement,
           );
         }
         this.#changeDetector.markForCheck();
@@ -217,18 +219,33 @@ export class SkyTextEditorComponent
   }
 
   /**
-   * The actions to include in the toolbar and determines their order.
+   * The actions to include in the toolbar in the specified order.
    * @default [ 'font-family', 'font-size', 'font-style', 'color', 'list', 'link ]
    */
   @Input()
   public set toolbarActions(
-    value: SkyTextEditorToolbarActionType[] | undefined
+    value: SkyTextEditorToolbarActionType[] | undefined,
   ) {
     this.#_toolbarActions = value || TOOLBAR_ACTION_DEFAULTS;
   }
 
   public get toolbarActions(): SkyTextEditorToolbarActionType[] {
     return this.#_toolbarActions;
+  }
+
+  /**
+   * The target window options for adding a hyperlink.
+   * @default [ 'new', 'existing' ]
+   */
+  @Input()
+  public set linkWindowOptions(
+    value: SkyTextEditorLinkWindowOptionsType[] | undefined,
+  ) {
+    this.#_linkWindowOptions = value ?? LINK_WINDOW_OPTIONS_DEFAULTS;
+  }
+
+  public get linkWindowOptions(): SkyTextEditorLinkWindowOptionsType[] {
+    return this.#_linkWindowOptions;
   }
 
   @ViewChild('iframe')
@@ -311,6 +328,7 @@ export class SkyTextEditorComponent
   #_mergeFields: SkyTextEditorMergeField[] = [];
   #_menus = MENU_DEFAULTS;
   #_toolbarActions: SkyTextEditorToolbarActionType[] = TOOLBAR_ACTION_DEFAULTS;
+  #_linkWindowOptions = LINK_WINDOW_OPTIONS_DEFAULTS;
   #_disabled = false;
   #_initialStyleState = Object.assign({}, STYLE_STATE_DEFAULTS);
   #_placeholder = '';
@@ -396,7 +414,7 @@ export class SkyTextEditorComponent
       this.id,
       (this.iframeRef as ElementRef).nativeElement,
       this.initialStyleState,
-      this.placeholder
+      this.placeholder,
     );
 
     this.#editorService
@@ -470,7 +488,7 @@ export class SkyTextEditorComponent
   /* istanbul ignore next */
   #_onChange: (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    value: any
+    value: any,
   ) => void = () => {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
   };

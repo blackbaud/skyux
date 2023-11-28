@@ -11,7 +11,12 @@ import { SkyDropdownModule } from '@skyux/popovers';
   imports: [CommonModule, SkyDropdownModule, SkyRepeaterModule],
 })
 export class DemoComponent {
-  protected items: { note: string; status: string; title: string }[] = [
+  protected items: {
+    note: string;
+    status?: string;
+    title?: string;
+    accessibilityLabel?: string;
+  }[] = [
     {
       title: 'Call Robert Hernandez',
       note: 'Robert recently gave a very generous gift. We should call him to thank him.',
@@ -31,6 +36,10 @@ export class DemoComponent {
       title: 'Process gift receipts',
       note: 'There are 28 recent gifts that are not receipted.',
       status: 'Due next week',
+    },
+    {
+      note: 'Three other tasks were not displayed',
+      accessibilityLabel: 'Other tasks',
     },
   ];
 

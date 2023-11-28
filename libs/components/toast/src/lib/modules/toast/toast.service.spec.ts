@@ -37,11 +37,11 @@ describe('Toast service', () => {
 
     mockSkyDynamicComponentSvc = jasmine.createSpyObj(
       'mockSkyDynamicComponentSvc',
-      ['createComponent', 'removeComponent']
+      ['createComponent', 'removeComponent'],
     );
 
     mockSkyDynamicComponentSvc.createComponent.and.returnValue(
-      fakeToasterCompRef
+      fakeToasterCompRef,
     );
 
     TestBed.configureTestingModule({
@@ -64,7 +64,7 @@ describe('Toast service', () => {
       SkyToasterComponent,
       {
         environmentInjector: TestBed.inject(EnvironmentInjector),
-      }
+      },
     );
   });
 
@@ -78,7 +78,7 @@ describe('Toast service', () => {
     instance.close();
 
     expect(mockSkyDynamicComponentSvc.removeComponent).toHaveBeenCalledOnceWith(
-      fakeToasterCompRef
+      fakeToasterCompRef,
     );
   });
 
@@ -153,7 +153,7 @@ describe('Toast service', () => {
         {
           type: SkyToastType.Danger,
         },
-        [providers]
+        [providers],
       );
 
       toastSvc.toastStream.pipe(take(1)).subscribe((toasts: SkyToast[]) => {

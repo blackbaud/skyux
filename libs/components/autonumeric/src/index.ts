@@ -1,5 +1,5 @@
-export { SkyAutonumericOptionsProvider } from './lib/modules/autonumeric/autonumeric-options-provider';
 export { SkyAutonumericOptions } from './lib/modules/autonumeric/autonumeric-options';
+export { SkyAutonumericOptionsProvider } from './lib/modules/autonumeric/autonumeric-options-provider';
 export { SkyAutonumericModule } from './lib/modules/autonumeric/autonumeric.module';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.

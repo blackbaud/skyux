@@ -47,7 +47,7 @@ function updatePeerDependencies(tree: Tree) {
                     json[dependencyType][name] = `^${rootVersion}`;
                   } else if (!semver.satisfies(rootVersion, `${version}`)) {
                     throw new Error(
-                      `The version of ${name} in ${projectConfig.root} (${version}) is not compatible with the version ${rootVersion} from the root package.json.`
+                      `The version of ${name} in ${projectConfig.root} (${version}) is not compatible with the version ${rootVersion} from the root package.json.`,
                     );
                   }
                 }

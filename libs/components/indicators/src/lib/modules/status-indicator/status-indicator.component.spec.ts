@@ -15,38 +15,38 @@ import { SkyStatusIndicatorModule } from './status-indicator.module';
 
 describe('Status indicator component', () => {
   function getStatusIndicatorEl(
-    fixture: ComponentFixture<StatusIndicatorTestComponent>
+    fixture: ComponentFixture<StatusIndicatorTestComponent>,
   ): HTMLDivElement {
     return fixture.nativeElement.querySelector(
-      '#status-indicator-with-indicator-type .sky-status-indicator'
+      '#status-indicator-with-indicator-type .sky-status-indicator',
     );
   }
 
   function getStatusIndicatorElWithoutIndicatorType(
-    fixture: ComponentFixture<StatusIndicatorTestComponent>
+    fixture: ComponentFixture<StatusIndicatorTestComponent>,
   ): HTMLDivElement {
     return fixture.nativeElement.querySelector(
-      '#status-indicator-without-indicator-type .sky-status-indicator'
+      '#status-indicator-without-indicator-type .sky-status-indicator',
     );
   }
 
   function validateIconWrapperClass(
     statusIndicatorEl: HTMLElement,
-    indicatorType: string | undefined
+    indicatorType: string | undefined,
   ): void {
     const iconWrapperEl = statusIndicatorEl.querySelector(
-      '.sky-status-indicator-icon'
+      '.sky-status-indicator-icon',
     );
 
     expect(iconWrapperEl).toHaveCssClass(
-      `sky-status-indicator-icon-${indicatorType || 'warning'}`
+      `sky-status-indicator-icon-${indicatorType || 'warning'}`,
     );
   }
 
   function validateIcon(
     fixture: ComponentFixture<StatusIndicatorTestComponent>,
     indicatorType: string | undefined,
-    expectedIcon: string
+    expectedIcon: string,
   ): void {
     let statusIndicatorEl;
     if (indicatorType) {
@@ -71,7 +71,7 @@ describe('Status indicator component', () => {
   function validateDescription(
     fixture: ComponentFixture<StatusIndicatorTestComponent>,
     descriptionType: string,
-    expectedDescription?: string
+    expectedDescription?: string,
   ): void {
     fixture.componentInstance.descriptionType = descriptionType;
 
@@ -80,7 +80,7 @@ describe('Status indicator component', () => {
     const statusIndicatorEl = getStatusIndicatorEl(fixture);
 
     const descriptionEl = statusIndicatorEl.querySelector(
-      '.sky-status-indicator-message-wrapper .sky-screen-reader-only'
+      '.sky-status-indicator-message-wrapper .sky-screen-reader-only',
     );
 
     if (expectedDescription) {
@@ -114,7 +114,7 @@ describe('Status indicator component', () => {
     const statusIndicatorEl = getStatusIndicatorEl(fixture);
 
     const messageEl = statusIndicatorEl.querySelector(
-      '.sky-status-indicator-message'
+      '.sky-status-indicator-message',
     );
 
     // Check exact text content here to ensure it has been trimmed by the skyTrim directive.
@@ -143,7 +143,7 @@ describe('Status indicator component', () => {
     const statusIndicatorEl = getStatusIndicatorEl(fixture);
 
     const helpEl = statusIndicatorEl.querySelector(
-      '.sky-control-help-container .sky-control-help'
+      '.sky-control-help-container .sky-control-help',
     );
 
     expect(helpEl).toHaveText('Help inline');
@@ -161,7 +161,7 @@ describe('Status indicator component', () => {
     validateDescription(
       fixture,
       'custom',
-      fixture.componentInstance.customDescription
+      fixture.componentInstance.customDescription,
     );
     validateDescription(fixture, 'error', 'Error:');
     validateDescription(fixture, 'important-info', 'Important information:');
@@ -190,7 +190,7 @@ describe('Status indicator component', () => {
         settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
           currentSettings: new SkyThemeSettings(
             SkyTheme.presets.modern,
-            SkyThemeMode.presets.light
+            SkyThemeMode.presets.light,
           ),
           previousSettings: undefined,
         }),
@@ -212,7 +212,7 @@ describe('Status indicator component', () => {
       fixture: ComponentFixture<StatusIndicatorTestComponent>,
       indicatorType: string | undefined,
       expectedBaseIcon: string,
-      expectedTopIcon: string
+      expectedTopIcon: string,
     ): void {
       fixture.componentInstance.indicatorType = indicatorType;
 

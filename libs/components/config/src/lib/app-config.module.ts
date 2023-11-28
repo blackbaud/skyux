@@ -10,7 +10,7 @@ import { SkyAppConfigParams } from './app-config-params';
 @NgModule({})
 export class SkyAppConfigModule {
   public static forRoot(
-    config: SkyAppConfigModuleForRootArgs = {}
+    config: SkyAppConfigModuleForRootArgs = {},
   ): ModuleWithProviders<SkyAppConfigModule> {
     return {
       ngModule: SkyAppConfigModule,

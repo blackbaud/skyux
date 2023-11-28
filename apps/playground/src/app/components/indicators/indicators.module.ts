@@ -11,7 +11,7 @@ const routes: Routes = [
     path: 'help-inline',
     loadChildren: () =>
       import('./help-inline/help-inline.module').then(
-        (m) => m.HelpInlineModule
+        (m) => m.HelpInlineModule,
       ),
   },
   {
@@ -28,7 +28,7 @@ const routes: Routes = [
     path: 'status-indicator',
     loadChildren: () =>
       import('./status-indicator/status-indicator.module').then(
-        (m) => m.StatusIndicatorModule
+        (m) => m.StatusIndicatorModule,
       ),
   },
   {

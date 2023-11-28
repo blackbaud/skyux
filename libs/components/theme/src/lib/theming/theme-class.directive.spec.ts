@@ -15,11 +15,11 @@ import { SkyThemeService } from './theme.service';
 
 const DEFAULT_THEME = new SkyThemeSettings(
   SkyTheme.presets.default,
-  SkyThemeMode.presets.light
+  SkyThemeMode.presets.light,
 );
 const MODERN_THEME = new SkyThemeSettings(
   SkyTheme.presets.modern,
-  SkyThemeMode.presets.light
+  SkyThemeMode.presets.light,
 );
 
 describe('ThemeClass directive', () => {
@@ -27,7 +27,7 @@ describe('ThemeClass directive', () => {
   function expectElementWithClasses(
     fixture: ComponentFixture<any>,
     selector: string,
-    expected: string
+    expected: string,
   ): void {
     const element = fixture.debugElement.nativeElement.querySelector(selector);
     expected
@@ -38,7 +38,7 @@ describe('ThemeClass directive', () => {
   async function changeTheme(
     fixture: ComponentFixture<any>,
     mockThemeSvc: MockThemeService,
-    theme: SkyThemeSettings
+    theme: SkyThemeSettings,
   ): Promise<void> {
     mockThemeSvc.settingsChange!.next({
       currentSettings: theme,
@@ -66,7 +66,7 @@ describe('ThemeClass directive', () => {
     // Establish that our test is set up correctly.
     it('should not have a SkyThemeService provider', () => {
       expect(() => TestBed.inject(SkyThemeService)).toThrowError(
-        /No provider for SkyThemeService/
+        /No provider for SkyThemeService/,
       );
     });
 
@@ -76,7 +76,7 @@ describe('ThemeClass directive', () => {
       expectElementWithClasses(
         fixture,
         '.sky-theme-class-test',
-        'example-default'
+        'example-default',
       );
     });
   });
@@ -91,7 +91,7 @@ describe('ThemeClass directive', () => {
         {
           currentSettings: DEFAULT_THEME,
           previousSettings: undefined,
-        }
+        },
       );
 
       TestBed.configureTestingModule({
@@ -107,7 +107,7 @@ describe('ThemeClass directive', () => {
     // Establish that our test is set up correctly.
     it('should have a SkyThemeService provider', () => {
       expect(() => TestBed.inject(SkyThemeService)).not.toThrowError(
-        /No provider for SkyThemeService/
+        /No provider for SkyThemeService/,
       );
     });
 
@@ -115,7 +115,7 @@ describe('ThemeClass directive', () => {
       expectElementWithClasses(
         fixture,
         '.sky-theme-class-test',
-        'sky-theme-class-test added-ng-class'
+        'sky-theme-class-test added-ng-class',
       );
     });
 
@@ -124,7 +124,7 @@ describe('ThemeClass directive', () => {
       expectElementWithClasses(
         fixture,
         '.sky-theme-class-test',
-        'sky-theme-class-test added-ng-class example-default'
+        'sky-theme-class-test added-ng-class example-default',
       );
     });
 
@@ -133,7 +133,7 @@ describe('ThemeClass directive', () => {
       expectElementWithClasses(
         fixture,
         '.sky-theme-class-test',
-        'sky-theme-class-test added-ng-class example-modern'
+        'sky-theme-class-test added-ng-class example-modern',
       );
     });
 
@@ -143,7 +143,7 @@ describe('ThemeClass directive', () => {
       expectElementWithClasses(
         fixture,
         '.sky-theme-class-test',
-        'sky-theme-class-test added-ng-class example-modern'
+        'sky-theme-class-test added-ng-class example-modern',
       );
     });
 
@@ -153,14 +153,14 @@ describe('ThemeClass directive', () => {
       expectElementWithClasses(
         fixture,
         '.sky-theme-class-test',
-        'added-ng-class example-default hello-world sky-theme-class-test'
+        'added-ng-class example-default hello-world sky-theme-class-test',
       );
 
       await changeTheme(fixture, mockThemeSvc, MODERN_THEME);
       expectElementWithClasses(
         fixture,
         '.sky-theme-class-test',
-        'added-ng-class example-modern hello-world sky-theme-class-test'
+        'added-ng-class example-modern hello-world sky-theme-class-test',
       );
     });
 
@@ -170,7 +170,7 @@ describe('ThemeClass directive', () => {
       expectElementWithClasses(
         fixture,
         'div:first-child',
-        'added-ng-class example-default'
+        'added-ng-class example-default',
       );
     });
 
@@ -179,7 +179,7 @@ describe('ThemeClass directive', () => {
       expectElementWithClasses(
         fixture,
         '.sky-theme-class-wrapped-test',
-        'sky-theme-class-wrapped-test example-default'
+        'sky-theme-class-wrapped-test example-default',
       );
 
       fixture.componentInstance.useModernTheme();
@@ -188,7 +188,7 @@ describe('ThemeClass directive', () => {
       expectElementWithClasses(
         fixture,
         '.sky-theme-class-wrapped-test',
-        'sky-theme-class-wrapped-test example-modern'
+        'sky-theme-class-wrapped-test example-modern',
       );
     });
   });
@@ -210,7 +210,7 @@ describe('ThemeClass directive', () => {
       expectElementWithClasses(
         fixture,
         '.sky-theme-class-test',
-        'example-default'
+        'example-default',
       );
     });
   });

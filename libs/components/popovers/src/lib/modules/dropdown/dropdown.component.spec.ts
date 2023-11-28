@@ -11,7 +11,8 @@ import {
   SkyAffixConfig,
   SkyAffixService,
   SkyAffixer,
-  SkyDefaultInputProvider,
+  SkyContentInfoProvider,
+  SkyIdService,
 } from '@skyux/core';
 import {
   SkyTheme,
@@ -31,10 +32,11 @@ import { SkyDropdownMessageType } from './types/dropdown-message-type';
 
 describe('Dropdown component', function () {
   let fixture: ComponentFixture<DropdownFixtureComponent>;
-  let defaultInputProvider: SkyDefaultInputProvider;
+  let contentInfoProvider: SkyContentInfoProvider;
   let mockThemeService: {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
+  let idService: SkyIdService;
 
   //#region helpers
 
@@ -70,12 +72,12 @@ describe('Dropdown component', function () {
       if (i === index) {
         expect(item.isActive).toEqual(true);
         expect(
-          item.elementRef.nativeElement.querySelector('.sky-dropdown-item')
+          item.elementRef.nativeElement.querySelector('.sky-dropdown-item'),
         ).toHaveCssClass('sky-dropdown-item-active');
       } else {
         expect(item.isActive).toEqual(false);
         expect(
-          item.elementRef.nativeElement.querySelector('.sky-dropdown-item')
+          item.elementRef.nativeElement.querySelector('.sky-dropdown-item'),
         ).not.toHaveCssClass('sky-dropdown-item-active');
       }
     });
@@ -83,7 +85,7 @@ describe('Dropdown component', function () {
 
   function isMenuItemFocused(index: number): boolean {
     const menuItemButtons = document.querySelectorAll(
-      '.sky-dropdown-item button'
+      '.sky-dropdown-item button',
     );
     return isElementFocused(menuItemButtons[index]);
   }
@@ -113,7 +115,7 @@ describe('Dropdown component', function () {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.default,
-          SkyThemeMode.presets.light
+          SkyThemeMode.presets.light,
         ),
         previousSettings: undefined,
       }),
@@ -131,13 +133,15 @@ describe('Dropdown component', function () {
             zIndex: new BehaviorSubject(111),
           },
         },
-        SkyDefaultInputProvider,
+        SkyContentInfoProvider,
       ],
     });
 
     fixture = TestBed.createComponent(DropdownFixtureComponent);
 
-    defaultInputProvider = TestBed.inject(SkyDefaultInputProvider);
+    contentInfoProvider = TestBed.inject(SkyContentInfoProvider);
+
+    idService = TestBed.inject(SkyIdService);
   });
 
   afterEach(() => {
@@ -176,7 +180,7 @@ describe('Dropdown component', function () {
     mockThemeService.settingsChange.next({
       currentSettings: new SkyThemeSettings(
         SkyTheme.presets.modern,
-        SkyThemeMode.presets.light
+        SkyThemeMode.presets.light,
       ),
       previousSettings:
         mockThemeService.settingsChange.getValue().currentSettings,
@@ -220,7 +224,7 @@ describe('Dropdown component', function () {
       const button = getButtonElement();
       const createAffixerSpy = spyOn(
         affixService,
-        'createAffixer'
+        'createAffixer',
       ).and.returnValue(mockAffixer);
 
       detectChangesFakeAsync();
@@ -231,7 +235,7 @@ describe('Dropdown component', function () {
 
       // Clear the spy to return the service to normal.
       createAffixerSpy.and.callThrough();
-    })
+    }),
   ));
 
   it('should allow setting button style and type', fakeAsync(() => {
@@ -257,7 +261,7 @@ describe('Dropdown component', function () {
 
     const spy = spyOn(
       fixture.componentInstance.messageStream,
-      'next'
+      'next',
     ).and.callThrough();
     fixture.componentInstance.changeItems();
 
@@ -292,11 +296,11 @@ describe('Dropdown component', function () {
   it('should emit when a menu item is clicked', fakeAsync(() => {
     const menuChangesSpy = spyOn(
       fixture.componentInstance,
-      'onMenuChanges'
+      'onMenuChanges',
     ).and.callThrough();
     const itemClickSpy = spyOn(
       fixture.componentInstance,
-      'onItemClick'
+      'onItemClick',
     ).and.callThrough();
     detectChangesFakeAsync();
 
@@ -317,13 +321,13 @@ describe('Dropdown component', function () {
     const selectedItem = fixture.componentInstance.dropdownItemRefs?.find(
       (item, i) => {
         return i === buttonIndex;
-      }
+      },
     );
 
     expect(menuChangesSpy).toHaveBeenCalledWith({ activeIndex: buttonIndex });
     expect(menuChangesSpy).toHaveBeenCalledWith({ selectedItem });
     expect(itemClickSpy).toHaveBeenCalledWith(
-      fixture.componentInstance.items[buttonIndex].name
+      fixture.componentInstance.items[buttonIndex].name,
     );
   }));
 
@@ -482,7 +486,7 @@ describe('Dropdown component', function () {
       detectChangesFakeAsync();
       const spy = spyOn(
         fixture.componentInstance.messageStream,
-        'next'
+        'next',
       ).and.callThrough();
       const button = getButtonElement();
       button?.click();
@@ -602,10 +606,10 @@ describe('Dropdown component', function () {
       const menuItems = getMenuItems();
       expect(isElementVisible(container)).toEqual(true);
       expect(menuItems && isMenuItemFocused(menuItems.length - 1)).toEqual(
-        false
+        false,
       );
       expect(menuItems && isMenuItemFocused(menuItems.length - 2)).toEqual(
-        true
+        true,
       );
     }));
 
@@ -1024,7 +1028,7 @@ describe('Dropdown component', function () {
       expect(isElementFocused(button)).toEqual(false);
 
       fixture.componentInstance.sendMessage(
-        SkyDropdownMessageType.FocusTriggerButton
+        SkyDropdownMessageType.FocusTriggerButton,
       );
       detectChangesFakeAsync();
 
@@ -1040,7 +1044,7 @@ describe('Dropdown component', function () {
 
       // Focus the first item.
       fixture.componentInstance.sendMessage(
-        SkyDropdownMessageType.FocusFirstItem
+        SkyDropdownMessageType.FocusFirstItem,
       );
       detectChangesFakeAsync();
 
@@ -1049,7 +1053,7 @@ describe('Dropdown component', function () {
 
       // Focus the next item.
       fixture.componentInstance.sendMessage(
-        SkyDropdownMessageType.FocusNextItem
+        SkyDropdownMessageType.FocusNextItem,
       );
       detectChangesFakeAsync();
 
@@ -1059,7 +1063,7 @@ describe('Dropdown component', function () {
 
       // Focus the previous item.
       fixture.componentInstance.sendMessage(
-        SkyDropdownMessageType.FocusPreviousItem
+        SkyDropdownMessageType.FocusPreviousItem,
       );
       detectChangesFakeAsync();
 
@@ -1102,7 +1106,7 @@ describe('Dropdown component', function () {
 
       fixture.componentInstance.sendMessage(SkyDropdownMessageType.Open);
       fixture.componentInstance.sendMessage(
-        SkyDropdownMessageType.FocusLastItem
+        SkyDropdownMessageType.FocusLastItem,
       );
 
       detectChangesFakeAsync();
@@ -1121,14 +1125,14 @@ describe('Dropdown component', function () {
       detectChangesFakeAsync();
 
       fixture.componentInstance.sendMessage(
-        SkyDropdownMessageType.FocusLastItem
+        SkyDropdownMessageType.FocusLastItem,
       );
 
       detectChangesFakeAsync();
 
       expect(getMenuElement()?.contains(document.activeElement)).toEqual(
         false,
-        'Requesting to focus the last item of an empty menu should not trigger focus within the menu container.'
+        'Requesting to focus the last item of an empty menu should not trigger focus within the menu container.',
       );
     }));
   });
@@ -1145,7 +1149,7 @@ describe('Dropdown component', function () {
       const item = getFirstMenuItem();
 
       expect(button?.getAttribute('aria-haspopup')).toEqual(
-        menu?.getAttribute('role')
+        menu?.getAttribute('role'),
       );
       expect(button?.getAttribute('aria-label')).toBeNull();
       expect(button?.getAttribute('aria-expanded')).toEqual('true');
@@ -1166,7 +1170,7 @@ describe('Dropdown component', function () {
       const item = getFirstMenuItem();
 
       expect(button?.getAttribute('aria-haspopup')).toEqual(
-        menu?.getAttribute('role')
+        menu?.getAttribute('role'),
       );
       expect(button?.getAttribute('aria-label')).toBe('Context menu');
       expect(button?.getAttribute('aria-expanded')).toEqual('true');
@@ -1195,26 +1199,50 @@ describe('Dropdown component', function () {
       const item = getFirstMenuItem();
 
       expect(button?.getAttribute('aria-label')).toEqual(
-        'button-label-override'
+        'button-label-override',
       );
       expect(menu?.getAttribute('role')).toEqual('menu-role-override');
       expect(menu?.getAttribute('aria-labelledby')).toEqual(
-        'menu-labelled-by-override'
+        'menu-labelled-by-override',
       );
       expect(item?.getAttribute('role')).toEqual('item-role-override');
     }));
 
-    it('should set the correct aria label when it is specified via SkyDefaultInputProvider', fakeAsync(() => {
-      defaultInputProvider.setValue('dropdown', 'label', 'default label');
+    it('should set the correct aria label when a text descriptor is specified via SkyContentProvider', fakeAsync(() => {
+      fixture.componentInstance.buttonType = 'context-menu';
+      contentInfoProvider.patchInfo({
+        descriptor: { type: 'text', value: 'Robert Hernandez' },
+      });
 
       detectChangesFakeAsync();
       const button = getButtonElement();
 
-      expect(button?.getAttribute('aria-label')).toEqual('default label');
+      expect(button?.getAttribute('aria-label')).toEqual(
+        'Context menu for Robert Hernandez',
+      );
     }));
 
-    it('should set the correct aria label when it is specified via a consumer and SkyDefaultInputProvider', fakeAsync(() => {
-      defaultInputProvider.setValue('dropdown', 'label', 'default label');
+    it('should set the correct aria label when an elementId descriptor is specified via SkyContentProvider', fakeAsync(() => {
+      const contextMenuSrId = 'sr-context-menu';
+      spyOn(idService, 'generateId').and.callFake(() => contextMenuSrId);
+      fixture.componentInstance.buttonType = 'context-menu';
+      contentInfoProvider.patchInfo({
+        descriptor: { type: 'elementId', value: 'sr-descriptor-label' },
+      });
+
+      detectChangesFakeAsync();
+      const button = getButtonElement();
+
+      expect(button?.getAttribute('aria-labelledBy')).toEqual(
+        `${contextMenuSrId} sr-descriptor-label`,
+      );
+    }));
+
+    it('should set the correct aria label when it is specified via a consumer and a text descriptor is provided', fakeAsync(() => {
+      fixture.componentInstance.buttonType = 'context-menu';
+      contentInfoProvider.patchInfo({
+        descriptor: { type: 'text', value: 'default label' },
+      });
       fixture.componentInstance.label = 'consumer label';
 
       detectChangesFakeAsync();
@@ -1251,7 +1279,7 @@ describe('Dropdown component', function () {
 
       const menu = getMenuElement();
       expect(button?.getAttribute('aria-controls')).toEqual(
-        menu?.getAttribute('id')
+        menu?.getAttribute('id'),
       );
 
       button?.click();

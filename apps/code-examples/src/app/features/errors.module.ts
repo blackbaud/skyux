@@ -6,14 +6,14 @@ const routes: Routes = [
     path: 'embedded',
     loadComponent: () =>
       import('../code-examples/errors/error/embedded/demo.component').then(
-        (c) => c.DemoComponent
+        (c) => c.DemoComponent,
       ),
   },
   {
     path: 'modal',
     loadComponent: () =>
       import('../code-examples/errors/error/modal/demo.component').then(
-        (c) => c.DemoComponent
+        (c) => c.DemoComponent,
       ),
   },
 ];

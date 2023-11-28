@@ -20,6 +20,12 @@ import {
 const RESOURCES: { [locale: string]: SkyLibResources } = {
   'EN-US': {
     skyux_dropdown_context_menu_default_label: { message: 'Context menu' },
+    skyux_dropdown_context_menu_with_content_descriptor_default_label: {
+      message: 'Context menu for {0}',
+    },
+    skyux_dropdown_context_menu_with_content_descriptor_el_default_label: {
+      message: 'Context menu for ',
+    },
   },
 };
 
@@ -28,7 +34,7 @@ SkyLibResourcesService.addResources(RESOURCES);
 export class SkyPopoversResourcesProvider implements SkyLibResourcesProvider {
   public getString(
     localeInfo: SkyAppLocaleInfo,
-    name: string
+    name: string,
   ): string | undefined {
     return getLibStringForLocale(RESOURCES, localeInfo.locale, name);
   }

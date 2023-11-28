@@ -7,8 +7,8 @@ describe('navbar-storybook', () => {
         cy
           .viewport(1280, 400)
           .visit(
-            `/iframe.html?globals=theme:${theme}&id=navbarcomponent-navbar--navbar`
-          )
+            `/iframe.html?globals=theme:${theme}&id=navbarcomponent-navbar--navbar`,
+          ),
       );
       it('should render the component', () => {
         cy.get('#ready')

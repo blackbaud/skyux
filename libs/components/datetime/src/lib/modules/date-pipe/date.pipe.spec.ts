@@ -237,7 +237,7 @@ describe('Date pipe', () => {
     expect(spy).toHaveBeenCalledWith(
       jasmine.any(Date),
       jasmine.any(String),
-      'NOT_A_REAL_FORMAT'
+      'NOT_A_REAL_FORMAT',
     );
   });
 
@@ -254,7 +254,7 @@ describe('Date pipe', () => {
     const result = fixture.componentInstance.getDatePipeResult(
       date,
       'short',
-      'fr-CA'
+      'fr-CA',
     );
 
     expect(expectedValues).toContain(result);

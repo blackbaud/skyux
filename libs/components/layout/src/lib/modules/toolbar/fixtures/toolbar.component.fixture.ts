@@ -4,4 +4,6 @@ import { Component } from '@angular/core';
   selector: 'sky-test-cmp',
   templateUrl: './toolbar.component.fixture.html',
 })
-export class SkyToolbarTestComponent {}
+export class SkyToolbarTestComponent {
+  public listDescriptor: string | undefined;
+}

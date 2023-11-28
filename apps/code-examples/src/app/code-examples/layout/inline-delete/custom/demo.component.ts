@@ -28,7 +28,7 @@ export class DemoComponent {
       this.deleting = false;
 
       alert(
-        'Custom element deletion was triggered. In a real scenario the item would be removed. Item was not removed just for demo purposes.'
+        'Custom element deletion was triggered. In a real scenario the item would be removed. Item was not removed just for demo purposes.',
       );
     }, 3000);
 

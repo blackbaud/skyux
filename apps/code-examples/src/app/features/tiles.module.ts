@@ -6,14 +6,14 @@ const routes: Routes = [
     path: 'basic',
     loadComponent: () =>
       import('../code-examples/tiles/tiles/basic/demo.component').then(
-        (c) => c.DemoComponent
+        (c) => c.DemoComponent,
       ),
   },
   {
     path: 'inline-help',
     loadComponent: () =>
       import('../code-examples/tiles/tiles/inline-help/demo.component').then(
-        (c) => c.DemoComponent
+        (c) => c.DemoComponent,
       ),
   },
 ];

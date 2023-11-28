@@ -73,7 +73,7 @@ export class SkyListColumnSelectorActionComponent implements AfterContentInit {
     public listState: ListState,
     private modalService: SkyModalService,
     private dispatcher: ListStateDispatcher,
-    @Optional() public secondaryActions: SkyListSecondaryActionsComponent
+    @Optional() public secondaryActions: SkyListSecondaryActionsComponent,
   ) {}
 
   public ngAfterContentInit() {
@@ -86,7 +86,7 @@ export class SkyListColumnSelectorActionComponent implements AfterContentInit {
 
       this.dispatcher.toolbarAddItems(
         [columnChooserItem],
-        this.columnSelectorActionItemToolbarIndex
+        this.columnSelectorActionItemToolbarIndex,
       );
     }
   }
@@ -97,7 +97,7 @@ export class SkyListColumnSelectorActionComponent implements AfterContentInit {
       observableMap((activeView) => {
         return this.gridView && activeView === this.gridView.id;
       }),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
   }
 
@@ -111,7 +111,7 @@ export class SkyListColumnSelectorActionComponent implements AfterContentInit {
           activeView === this.gridView.id
         );
       }),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
   }
 
@@ -176,8 +176,8 @@ export class SkyListColumnSelectorActionComponent implements AfterContentInit {
           this.gridView.gridDispatcher.next(
             new ListViewDisplayedGridColumnsLoadAction(
               newDisplayedColumns,
-              true
-            )
+              true,
+            ),
           );
         }
       });

@@ -32,18 +32,19 @@ describe('Selection modal service', () => {
     return context;
   }
 
-  function createTestOpenArgs(
-    addClickSpy?: jasmine.Spy
-  ): SkySelectionModalOpenArgs {
-    const args: SkySelectionModalOpenArgs = {
-      addClick: addClickSpy,
+  function createTestOpenArgs(args?: {
+    addClickSpy?: jasmine.Spy;
+    multiple?: boolean;
+  }): SkySelectionModalOpenArgs {
+    const openArgs: SkySelectionModalOpenArgs = {
+      addClick: args?.addClickSpy,
       descriptorProperty: 'name',
       idProperty: 'id',
       searchAsync: jasmine.createSpy('searchAsync'),
-      selectMode: 'single',
+      selectMode: args?.multiple ? 'multiple' : 'single',
     };
 
-    return args;
+    return openArgs;
   }
 
   beforeEach(() => {
@@ -85,6 +86,7 @@ describe('Selection modal service', () => {
       searchAsync: jasmine.createSpy('searchAsync'),
       selectMode: 'single',
       initialSearch: 'abc',
+      selectionDescriptor: 'person',
       showAddButton: true,
       title: 'Test title',
       value: ['1'],
@@ -105,6 +107,7 @@ describe('Selection modal service', () => {
               initialValue: args.value,
               searchAsync: jasmine.any(Function),
               selectMode: args.selectMode,
+              selectionDescriptor: args.selectionDescriptor,
               showAddButton: args.showAddButton,
               userConfig: jasmine.objectContaining({
                 title: args.title,
@@ -113,11 +116,11 @@ describe('Selection modal service', () => {
           }),
         ]),
         size: 'large',
-      })
+      }),
     );
   });
 
-  it('should specify default values for optional args', () => {
+  it('should specify default values for optional args - single', () => {
     selectionModalSvc.open(createTestOpenArgs());
 
     expect(mockModalSvc.open).toHaveBeenCalledOnceWith(
@@ -130,10 +133,32 @@ describe('Selection modal service', () => {
               initialSearch: '',
               initialValue: [],
               showAddButton: false,
+              selectionDescriptor: 'item',
             }),
           }),
         ]),
-      })
+      }),
+    );
+  });
+
+  it('should specify default values for optional args - multiple', () => {
+    selectionModalSvc.open(createTestOpenArgs({ multiple: true }));
+
+    expect(mockModalSvc.open).toHaveBeenCalledOnceWith(
+      SkySelectionModalComponent,
+      jasmine.objectContaining<SkyModalConfigurationInterface>({
+        providers: jasmine.arrayWithExactContents([
+          jasmine.objectContaining<StaticProvider>({
+            provide: SkySelectionModalContext,
+            useValue: jasmine.objectContaining<SkySelectionModalContext>({
+              initialSearch: '',
+              initialValue: [],
+              showAddButton: false,
+              selectionDescriptor: 'items',
+            }),
+          }),
+        ]),
+      }),
     );
   });
 
@@ -166,7 +191,7 @@ describe('Selection modal service', () => {
     });
 
     expect(
-      mockModalInstance.componentInstance.addItem
+      mockModalInstance.componentInstance.addItem,
     ).toHaveBeenCalledOnceWith({
       name: 'test name',
     });
@@ -197,14 +222,14 @@ describe('Selection modal service', () => {
           itemData: selectedItem,
         },
       ],
-      'save'
+      'save',
     );
 
     const result = await closePromise;
 
     expect(result.reason).toBe('save');
     expect(result.selectedItems).toEqual(
-      jasmine.arrayWithExactContents([selectedItem])
+      jasmine.arrayWithExactContents([selectedItem]),
     );
   });
 
@@ -222,7 +247,7 @@ describe('Selection modal service', () => {
 
   it('should handle add button click events', () => {
     const addClickSpy = jasmine.createSpy('addClick');
-    const args = createTestOpenArgs(addClickSpy);
+    const args = createTestOpenArgs({ addClickSpy: addClickSpy });
 
     selectionModalSvc.open(args);
 
@@ -240,7 +265,7 @@ describe('Selection modal service', () => {
     });
 
     expect(
-      mockModalInstance.componentInstance.addItem
+      mockModalInstance.componentInstance.addItem,
     ).toHaveBeenCalledOnceWith(newItem);
   });
 });

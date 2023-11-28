@@ -11,6 +11,7 @@ import { SkyInputBoxModule } from '@skyux/forms';
 import {
   SkyAutocompleteSearchFunctionFilter,
   SkyLookupModule,
+  SkyLookupShowMoreConfig,
 } from '@skyux/lookup';
 
 import { Person } from './person';
@@ -32,6 +33,12 @@ export class DemoComponent implements OnInit {
   public favoritesForm: FormGroup<{
     favoriteName: FormControl<Person[] | null>;
   }>;
+
+  public showMoreConfig: SkyLookupShowMoreConfig = {
+    nativePickerConfig: {
+      selectionDescriptor: 'name',
+    },
+  };
 
   protected searchFilters: SkyAutocompleteSearchFunctionFilter[];
 

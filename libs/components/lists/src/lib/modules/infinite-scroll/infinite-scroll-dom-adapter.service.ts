@@ -18,7 +18,7 @@ export class SkyInfiniteScrollDomAdapterService implements OnDestroy {
 
   constructor(
     scrollableHostSvc: SkyScrollableHostService,
-    windowRef: SkyAppWindowRef
+    windowRef: SkyAppWindowRef,
   ) {
     this.#scrollableHostSvc = scrollableHostSvc;
     this.#windowRef = windowRef;
@@ -56,7 +56,7 @@ export class SkyInfiniteScrollDomAdapterService implements OnDestroy {
       filter(() => {
         return this.#isElementScrolledInView(elementRef.nativeElement, parent);
       }),
-      map(() => undefined) // Change to void return type
+      map(() => undefined), // Change to void return type
     );
   }
 
@@ -87,7 +87,7 @@ export class SkyInfiniteScrollDomAdapterService implements OnDestroy {
 
   #isElementScrolledInView(
     element: HTMLElement,
-    parentElement: HTMLElement | Window
+    parentElement: HTMLElement | Window,
   ): boolean {
     const windowObj = this.#windowRef.nativeWindow as Window;
 

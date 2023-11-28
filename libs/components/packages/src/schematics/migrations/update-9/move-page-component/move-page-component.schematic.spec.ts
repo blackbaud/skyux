@@ -12,13 +12,15 @@ import {
 import { firstValueFrom } from 'rxjs';
 
 import { createTestLibrary } from '../../../testing/scaffold';
-import { getRequiredProject } from '../../../utility/workspace';
-import { updateWorkspace } from '../../../utility/workspace';
+import {
+  getRequiredProject,
+  updateWorkspace,
+} from '../../../utility/workspace';
 
 describe('MovePageComponentSchematic', () => {
   const runner = new SchematicTestRunner(
     'schematics',
-    require.resolve('../../migration-collection.json')
+    require.resolve('../../migration-collection.json'),
   );
 
   async function setupTest(): Promise<{
@@ -41,7 +43,7 @@ describe('MovePageComponentSchematic', () => {
   it('should run successfully', async () => {
     const { tree, runner } = await setupTest();
     expect(() =>
-      runner.runSchematic('move-page-component', {}, tree)
+      runner.runSchematic('move-page-component', {}, tree),
     ).not.toThrow();
   });
 
@@ -62,7 +64,7 @@ describe('MovePageComponentSchematic', () => {
       imports: [SkyPageModule],
       })
       export class CustomModule {}
-    `
+    `,
     );
     const result = await runner.runSchematic('move-page-component', {}, tree);
     expect(result.readContent(`${project.sourceRoot}/app/custom.module.ts`))
@@ -76,7 +78,7 @@ describe('MovePageComponentSchematic', () => {
       export class CustomModule {}"
     `);
     expect(
-      (result.readJson('package.json') as any).dependencies['@skyux/pages']
+      (result.readJson('package.json') as any).dependencies['@skyux/pages'],
     ).toEqual('0.0.0');
   });
 
@@ -112,7 +114,7 @@ describe('MovePageComponentSchematic', () => {
       import { SkyModalModule } from '@skyux/modals';
       import { SkyPageHeaderModule } from '@skyux/pages';
       import { SkyPageModule } from '@skyux/layout';
-      import { AgGridModule } from 'ag-grid-angular';`
+      import { AgGridModule } from 'ag-grid-angular';`,
     );
     const result = await runner.runSchematic('move-page-component', {}, tree);
     expect(result.readContent(`${project.sourceRoot}/app/custom.module.ts`))
@@ -142,7 +144,7 @@ describe('MovePageComponentSchematic', () => {
             import { AgGridModule } from 'ag-grid-angular';"
     `);
     expect(
-      (result.readJson('package.json') as any).dependencies['@skyux/pages']
+      (result.readJson('package.json') as any).dependencies['@skyux/pages'],
     ).toEqual('0.0.0');
   });
 
@@ -163,7 +165,7 @@ describe('MovePageComponentSchematic', () => {
       imports: [SkyPageModule],
       })
       export class CustomModule {}
-    `
+    `,
     );
     const result = await runner.runSchematic('move-page-component', {}, tree);
     expect(result.readContent(`${project.sourceRoot}/app/custom.module.ts`))
@@ -196,7 +198,7 @@ describe('MovePageComponentSchematic', () => {
       imports: [SkyPageModule],
       })
       export class CustomModule {}
-    `
+    `,
     );
 
     // One update where sourceRoot is undefined.
@@ -207,13 +209,13 @@ describe('MovePageComponentSchematic', () => {
       });
     });
     const updatedTree = await firstValueFrom(
-      runner.callRule(workspaceUpdate, tree)
+      runner.callRule(workspaceUpdate, tree),
     );
 
     const result = await runner.runSchematic(
       'move-page-component',
       {},
-      updatedTree
+      updatedTree,
     );
     expect(result.readContent(`${project.sourceRoot}/app/custom.module.ts`))
       .toMatchInlineSnapshot(`
@@ -249,7 +251,7 @@ describe('MovePageComponentSchematic', () => {
       imports: [SkyPageModule],
       })
       export class CustomModule {}
-    `
+    `,
     );
 
     // One update where sourceRoot is undefined.
@@ -260,13 +262,13 @@ describe('MovePageComponentSchematic', () => {
       });
     });
     const updatedTree = await firstValueFrom(
-      runner.callRule(workspaceUpdate, tree)
+      runner.callRule(workspaceUpdate, tree),
     );
 
     const result = await runner.runSchematic(
       'move-page-component',
       {},
-      updatedTree
+      updatedTree,
     );
     expect(result.readContent(`${project.sourceRoot}/app/custom.module.ts`))
       .toMatchInlineSnapshot(`
@@ -304,7 +306,7 @@ describe('MovePageComponentSchematic', () => {
       imports: [SkyPageModule],
       })
       export class CustomModule {}
-    `
+    `,
     );
     const result = await runner.runSchematic('move-page-component', {}, tree);
     expect(result.readContent(`${project.sourceRoot}/app/custom.module.ts`))
@@ -329,7 +331,7 @@ describe('MovePageComponentSchematic', () => {
         Example...
         </sky-page-header>
         </sky-page>
-      `
+      `,
     );
     const result = await runner.runSchematic('move-page-component', {}, tree);
     expect(result.readText(`${project.sourceRoot}/app/custom.component.html`))
@@ -352,7 +354,7 @@ describe('MovePageComponentSchematic', () => {
         Example...
         </sky-page-header>
         </sky-page>
-      `
+      `,
     );
     const result = await runner.runSchematic('move-page-component', {}, tree);
     expect(result.readText(`${project.sourceRoot}/app/custom.component.html`))

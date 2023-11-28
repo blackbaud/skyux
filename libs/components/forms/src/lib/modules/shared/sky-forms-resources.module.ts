@@ -49,6 +49,11 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     skyux_file_attachment_file_upload_drop_files_here: {
       message: 'Drop files here',
     },
+    skyux_file_attachment_file_upload_file_added: { message: '{0} added.' },
+    skyux_file_attachment_file_upload_file_replaced: {
+      message: '{0} removed. {1} added.',
+    },
+    skyux_file_attachment_file_upload_file_removed: { message: '{0} removed.' },
     skyux_file_attachment_file_upload_image_preview_alt_text: {
       message: 'Image preview',
     },
@@ -63,6 +68,12 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
       message: 'or click to browse',
     },
     skyux_file_attachment_file_upload_link_done: { message: 'Done' },
+    skyux_file_attachment_file_upload_link_added: {
+      message: 'Link to {0} added.',
+    },
+    skyux_file_attachment_file_upload_link_removed: {
+      message: 'Link to {0} removed.',
+    },
     skyux_file_attachment_label_no_file_chosen: { message: 'No file chosen.' },
     skyux_input_box_error_character_count: {
       message: 'Limit {0} to {1} character(s).',
@@ -95,7 +106,7 @@ SkyLibResourcesService.addResources(RESOURCES);
 export class SkyFormsResourcesProvider implements SkyLibResourcesProvider {
   public getString(
     localeInfo: SkyAppLocaleInfo,
-    name: string
+    name: string,
   ): string | undefined {
     return getLibStringForLocale(RESOURCES, localeInfo.locale, name);
   }

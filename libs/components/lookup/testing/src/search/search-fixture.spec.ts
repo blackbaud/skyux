@@ -89,7 +89,7 @@ describe('Search fixture', () => {
       search.clear();
     }).toThrowError(
       'There currently is no search text or the current search text has not been applied, ' +
-        'so the clear button is not visible.'
+        'so the clear button is not visible.',
     );
   });
 });

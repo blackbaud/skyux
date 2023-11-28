@@ -20,12 +20,16 @@ export class HrefResolverFixtureService implements SkyHrefResolver {
             url: 'https://success' + path,
             userHasAccess: true,
           }),
-          500
+          500,
         );
       });
     } else if (url.startsWith('1bb-nav://')) {
       return Promise.resolve<SkyHref>({
-        url: 'https://example.com' + path + '?query=param',
+        url:
+          'https://example.com' +
+          path +
+          (path.includes('?') ? '&' : '?') +
+          'query=param',
         userHasAccess: true,
       });
     } else if (url.startsWith('nope://')) {

@@ -21,7 +21,7 @@ import { SkyGridColumnInlineHelpPopoverModelChange } from './types/grid-column-i
  */
 @Component({
   selector: 'sky-grid-column',
-  template: '<ng-content></ng-content>',
+  template: '<ng-content />',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyGridColumnComponent implements OnChanges {

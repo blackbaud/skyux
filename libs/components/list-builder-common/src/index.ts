@@ -1,6 +1,6 @@
+export { compare, getData, isObservable } from './lib/helpers';
 export { ListItemModel } from './lib/state/items/item.model';
 export { ListSortFieldSelectorModel } from './lib/state/sort/field-selector.model';
-export { getData, compare, isObservable } from './lib/helpers';
 
 // The following exports were migrated from `microedge-rxstate`.
 // See: https://github.com/blackbaud/microedge-rxstate

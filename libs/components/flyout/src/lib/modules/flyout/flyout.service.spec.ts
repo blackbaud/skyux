@@ -31,7 +31,7 @@ describe('Flyout service', () => {
     (_applicationRef: ApplicationRef, _router: Router) => {
       applicationRef = _applicationRef;
       router = _router;
-    }
+    },
   ));
 
   it('should only create a single host component', () => {
@@ -115,7 +115,7 @@ describe('Flyout service', () => {
     const dynamicService = TestBed.inject(SkyDynamicComponentService);
     const removeComponentSpy = spyOn(
       dynamicService,
-      'removeComponent'
+      'removeComponent',
     ).and.callThrough();
 
     tick();
@@ -134,7 +134,7 @@ describe('Flyout service', () => {
     const dynamicService = TestBed.inject(SkyDynamicComponentService);
     const removeComponentSpy = spyOn(
       dynamicService,
-      'removeComponent'
+      'removeComponent',
     ).and.callThrough();
     spyOn(instance.closed, 'emit');
 

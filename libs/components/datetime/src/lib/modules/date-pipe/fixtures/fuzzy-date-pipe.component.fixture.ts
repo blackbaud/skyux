@@ -26,7 +26,7 @@ export class FuzzyDatePipeTestComponent {
   public getFuzzyDatePipeResult(
     value: SkyFuzzyDate,
     format: string,
-    locale: string
+    locale: string,
   ): string {
     return this.#fuzzyDatePipe.transform(value, format, locale);
   }

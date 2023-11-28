@@ -124,7 +124,7 @@ export class GridTestComponent {
       this.selectedColumnIds.push('column6');
     } else {
       this.selectedColumnIds = this.selectedColumnIds.filter(
-        (id) => id !== 'column6'
+        (id) => id !== 'column6',
       );
     }
 
@@ -158,7 +158,7 @@ export class GridTestComponent {
 
   public searchFunction: (data: any, searchText: string) => boolean = (
     data: any,
-    searchText: string
+    searchText: string,
   ) => {
     this.searchedData = data;
     this.searchText = searchText;
@@ -196,7 +196,7 @@ export class GridTestComponent {
   }
 
   public onMultiselectChange(
-    selectedRows: SkyGridSelectedRowsModelChange
+    selectedRows: SkyGridSelectedRowsModelChange,
   ): void {
     this.selectedRowsChange = selectedRows;
   }
@@ -269,7 +269,7 @@ export class GridTestComponent {
   }
 
   public cancelRowDeleteViaMessageStream(
-    cancelArgs: SkyGridRowDeleteCancelArgs
+    cancelArgs: SkyGridRowDeleteCancelArgs,
   ): void {
     this.gridController.next({
       type: SkyGridMessageType.AbortDeleteRow,

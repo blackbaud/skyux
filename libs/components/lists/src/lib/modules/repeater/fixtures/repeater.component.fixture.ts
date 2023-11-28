@@ -25,15 +25,15 @@ export class RepeaterTestComponent {
   public items: { id?: string; title: string }[] = [
     {
       id: 'item1',
-      title: 'Item 1',
+      title: 'Title 1',
     },
     {
       id: 'item2',
-      title: 'Item 2',
+      title: 'Title 2',
     },
     {
       id: 'item3',
-      title: 'Item 3',
+      title: 'Title 3',
     },
   ];
 
@@ -54,6 +54,8 @@ export class RepeaterTestComponent {
   public showDynamicContent: boolean | undefined;
 
   public showItemWithNoContent: boolean | undefined;
+
+  public showItemWithNoTitle: boolean | undefined;
 
   public showRepeaterWithActiveIndex = false;
 

@@ -121,7 +121,7 @@ export class SkyWaitService {
             SkyWaitPageComponent,
             {
               environmentInjector: this.#environmentInjector,
-            }
+            },
           );
           waitComponent = waitComponentRef.instance;
         }

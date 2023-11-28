@@ -40,7 +40,7 @@ export class SkyWaitAdapterService implements OnDestroy {
     this.#renderer.setStyle(
       waitEl.nativeElement.parentElement,
       'position',
-      'relative'
+      'relative',
     );
   }
 
@@ -53,7 +53,7 @@ export class SkyWaitAdapterService implements OnDestroy {
     isFullPage: boolean,
     isWaiting: boolean,
     isNonBlocking: boolean,
-    waitComponentId?: string
+    waitComponentId?: string,
   ): void {
     const busyEl = isFullPage
       ? document.body
@@ -91,7 +91,7 @@ export class SkyWaitAdapterService implements OnDestroy {
                   this.#clearDocumentFocus();
                 }
               }
-            }
+            },
           );
 
           if (waitComponentId) {
@@ -125,7 +125,7 @@ export class SkyWaitAdapterService implements OnDestroy {
                   }
                 }
               }
-            }
+            },
           );
 
           if (waitComponentId) {
@@ -216,7 +216,7 @@ export class SkyWaitAdapterService implements OnDestroy {
   #isShift(event: Event): boolean {
     // Determine if shift+tab was used based on element order
     const elements = this.#getFocusableElements().filter(
-      (elem) => !this.#isElementHidden(elem)
+      (elem) => !this.#isElementHidden(elem),
     );
 
     const previousInd = elements.indexOf((event as any).relatedTarget);
@@ -286,7 +286,7 @@ export class SkyWaitAdapterService implements OnDestroy {
           element.offsetHeight > 0 ||
           element === document.activeElement
         );
-      }
+      },
     );
     return this.#focusableElements;
   }

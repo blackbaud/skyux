@@ -7,6 +7,7 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyContentInfoProvider, SkyLogService } from '@skyux/core';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
 import { Subject } from 'rxjs';
@@ -33,14 +34,14 @@ class MockModalService {
   public open(): {
     closed: {
       subscribe: (
-        callback: (args: { reason: string; data?: unknown }) => void
+        callback: (args: { reason: string; data?: unknown }) => void,
       ) => void;
     };
   } {
     return {
       closed: {
         subscribe: (
-          callback: (args: { reason: string; data?: unknown }) => void
+          callback: (args: { reason: string; data?: unknown }) => void,
         ): void => {
           this.closeCallback = callback;
         },
@@ -55,6 +56,11 @@ class MockModalService {
 })
 class MockModalComponent {}
 
+@Component({
+  template: '',
+})
+class MockModalLegacyComponent {}
+
 describe('SkyDataManagerToolbarComponent', () => {
   let dataManagerToolbarFixture: ComponentFixture<SkyDataManagerToolbarComponent>;
   let dataManagerToolbarComponent: SkyDataManagerToolbarComponent;
@@ -63,9 +69,35 @@ describe('SkyDataManagerToolbarComponent', () => {
   let modalServiceInstance: MockModalService;
   let viewConfig: SkyDataViewConfig;
 
+  function getClearAllButton(): HTMLButtonElement | undefined {
+    return dataManagerToolbarFixture.debugElement.query(
+      By.css('.sky-data-manager-clear-all-btn'),
+    ).nativeElement;
+  }
+
+  function getColumnPickerButton(): HTMLButtonElement | undefined {
+    return dataManagerToolbarFixture.debugElement.query(
+      By.css('.sky-col-picker-btn'),
+    ).nativeElement;
+  }
+
+  function getSelectAllButton(): HTMLButtonElement | undefined {
+    return dataManagerToolbarFixture.debugElement.query(
+      By.css('.sky-data-manager-select-all-btn'),
+    ).nativeElement;
+  }
+
+  function getSectionFilterCheckbox(): HTMLInputElement | undefined {
+    return dataManagerToolbarFixture.debugElement.query(
+      By.css(
+        '.sky-data-manager-multiselect-toolbar sky-toolbar-view-actions input',
+      ),
+    ).nativeElement;
+  }
+
   function setSearchInput(text: string): void {
     const inputEl = dataManagerToolbarFixture.debugElement.query(
-      By.css('input')
+      By.css('input'),
     );
     inputEl.nativeElement.value = text;
 
@@ -84,7 +116,7 @@ describe('SkyDataManagerToolbarComponent', () => {
 
   function triggerSearchInputEnter(): void {
     const inputEl = dataManagerToolbarFixture.debugElement.query(
-      By.css('.sky-search-container input')
+      By.css('.sky-search-container input'),
     );
 
     // The `any` cast here is because the typescript types for KeyboardEventInit do not include
@@ -99,7 +131,7 @@ describe('SkyDataManagerToolbarComponent', () => {
 
   function triggerSearchApplyButton(): void {
     const applyEl = dataManagerToolbarFixture.debugElement.query(
-      By.css('.sky-search-btn-apply')
+      By.css('.sky-search-btn-apply'),
     );
     SkyAppTestUtility.fireDomEvent(applyEl.nativeElement, 'click');
     dataManagerToolbarFixture.detectChanges();
@@ -109,6 +141,7 @@ describe('SkyDataManagerToolbarComponent', () => {
     modalServiceInstance = new MockModalService();
 
     TestBed.configureTestingModule({
+      declarations: [MockModalLegacyComponent],
       imports: [DataManagerFixtureModule],
       providers: [
         {
@@ -119,7 +152,7 @@ describe('SkyDataManagerToolbarComponent', () => {
     });
 
     dataManagerToolbarFixture = TestBed.createComponent(
-      SkyDataManagerToolbarComponent
+      SkyDataManagerToolbarComponent,
     );
     dataManagerToolbarNativeElement = dataManagerToolbarFixture.nativeElement;
     dataManagerToolbarComponent = dataManagerToolbarFixture.componentInstance;
@@ -134,13 +167,13 @@ describe('SkyDataManagerToolbarComponent', () => {
 
   it('should render custom buttons', () => {
     const dataManagerFixture = TestBed.createComponent(
-      DataManagerFixtureComponent
+      DataManagerFixtureComponent,
     );
     const dataManagerNativeElement = dataManagerFixture.nativeElement;
     dataManagerFixture.detectChanges();
 
     const primaryButton = dataManagerNativeElement.querySelector(
-      '.primary-test-button'
+      '.primary-test-button',
     );
     const leftButton =
       dataManagerNativeElement.querySelector('.left-test-button');
@@ -186,7 +219,7 @@ describe('SkyDataManagerToolbarComponent', () => {
     dataManagerToolbarFixture.detectChanges();
 
     const colPickerBtn = dataManagerToolbarNativeElement.querySelector(
-      '.sky-col-picker-btn'
+      '.sky-col-picker-btn',
     );
 
     expect(colPickerBtn).toBeVisible();
@@ -200,7 +233,7 @@ describe('SkyDataManagerToolbarComponent', () => {
     dataManagerToolbarFixture.detectChanges();
 
     const colPickerBtn = dataManagerToolbarNativeElement.querySelector(
-      '.sky-col-picker-btn'
+      '.sky-col-picker-btn',
     );
 
     expect(colPickerBtn).toBeNull();
@@ -264,7 +297,7 @@ describe('SkyDataManagerToolbarComponent', () => {
     dataManagerToolbarFixture.detectChanges();
 
     const multiselectToolbar = dataManagerToolbarNativeElement.querySelector(
-      '.sky-data-manager-multiselect-toolbar'
+      '.sky-data-manager-multiselect-toolbar',
     );
 
     expect(multiselectToolbar).toBeVisible();
@@ -278,7 +311,7 @@ describe('SkyDataManagerToolbarComponent', () => {
     dataManagerToolbarFixture.detectChanges();
 
     const multiselectToolbar = dataManagerToolbarNativeElement.querySelector(
-      '.sky-data-manager-multiselect-toolbar'
+      '.sky-data-manager-multiselect-toolbar',
     );
 
     expect(multiselectToolbar).toBeNull();
@@ -295,7 +328,7 @@ describe('SkyDataManagerToolbarComponent', () => {
     dataManagerToolbarFixture.detectChanges();
 
     const selectAllBtn = dataManagerToolbarNativeElement.querySelector(
-      '.sky-data-manager-select-all-btn'
+      '.sky-data-manager-select-all-btn',
     ) as HTMLButtonElement;
     selectAllBtn.click();
 
@@ -313,7 +346,7 @@ describe('SkyDataManagerToolbarComponent', () => {
     dataManagerToolbarFixture.detectChanges();
 
     const clearAllBtn = dataManagerToolbarNativeElement.querySelector(
-      '.sky-data-manager-clear-all-btn'
+      '.sky-data-manager-clear-all-btn',
     ) as HTMLButtonElement;
     clearAllBtn.click();
 
@@ -332,11 +365,11 @@ describe('SkyDataManagerToolbarComponent', () => {
 
     expect(
       (dataManagerToolbarComponent.dataState as SkyDataManagerState)
-        .onlyShowSelected
+        .onlyShowSelected,
     ).toBeTrue();
     expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
       updatedDataState,
-      'toolbar'
+      'toolbar',
     );
   });
 
@@ -344,7 +377,7 @@ describe('SkyDataManagerToolbarComponent', () => {
     const activeViewIdObservable = new Subject<string>();
     const nextId = 'test';
     spyOn(dataManagerService, 'getActiveViewIdUpdates').and.returnValue(
-      activeViewIdObservable
+      activeViewIdObservable,
     );
     spyOn(dataManagerService, 'getViewById');
 
@@ -373,7 +406,7 @@ describe('SkyDataManagerToolbarComponent', () => {
 
     expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
       dataState,
-      'toolbar'
+      'toolbar',
     );
   });
 
@@ -390,7 +423,7 @@ describe('SkyDataManagerToolbarComponent', () => {
 
     expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
       dataState,
-      'toolbar'
+      'toolbar',
     );
   });
 
@@ -440,7 +473,7 @@ describe('SkyDataManagerToolbarComponent', () => {
     expect(dataState.searchText).toBe('testing');
     expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
       dataState,
-      'toolbar'
+      'toolbar',
     );
   }));
 
@@ -467,7 +500,7 @@ describe('SkyDataManagerToolbarComponent', () => {
     expect(dataState.searchText).toBe('testing');
     expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
       dataState,
-      'toolbar'
+      'toolbar',
     );
   }));
 
@@ -478,7 +511,7 @@ describe('SkyDataManagerToolbarComponent', () => {
     dataManagerToolbarComponent.onViewChange(newViewId);
 
     expect(dataManagerService.updateActiveViewId).toHaveBeenCalledWith(
-      newViewId
+      newViewId,
     );
   });
 
@@ -506,7 +539,7 @@ describe('SkyDataManagerToolbarComponent', () => {
     dataManagerToolbarFixture.detectChanges();
 
     let filterBtn = dataManagerToolbarNativeElement.querySelector(
-      'sky-filter-button button'
+      'sky-filter-button button',
     ) as HTMLButtonElement;
 
     expect(filterBtn).toBeFalsy();
@@ -519,7 +552,7 @@ describe('SkyDataManagerToolbarComponent', () => {
     dataManagerToolbarFixture.detectChanges();
 
     filterBtn = dataManagerToolbarNativeElement.querySelector(
-      'sky-filter-button button'
+      'sky-filter-button button',
     ) as HTMLButtonElement;
 
     expect(filterBtn).toExist();
@@ -539,12 +572,35 @@ describe('SkyDataManagerToolbarComponent', () => {
     };
 
     const filterBtn = dataManagerToolbarNativeElement.querySelector(
-      'sky-filter-button button'
+      'sky-filter-button button',
     ) as HTMLButtonElement;
 
     filterBtn.click();
 
     expect(modalServiceInstance.open).toHaveBeenCalled();
+  });
+
+  it('should open the provided filter modal when the filter button is clicked, using legacy modal service', () => {
+    const logger = TestBed.inject(SkyLogService);
+    spyOn(logger, 'deprecated').and.returnValue(Promise.resolve());
+    spyOn(dataManagerService, 'getViewById').and.returnValue({
+      ...(dataManagerToolbarComponent.activeView as SkyDataViewConfig),
+      filterButtonEnabled: true,
+    });
+
+    dataManagerToolbarFixture.detectChanges();
+
+    dataManagerToolbarComponent.dataManagerConfig = {
+      filterModalComponent: MockModalLegacyComponent,
+    };
+
+    const filterBtn = dataManagerToolbarNativeElement.querySelector(
+      'sky-filter-button button',
+    ) as HTMLButtonElement;
+
+    filterBtn.click();
+
+    expect(logger.deprecated).toHaveBeenCalled();
   });
 
   it('should save the returned filter data when the provided filter modal is saved', () => {
@@ -563,7 +619,7 @@ describe('SkyDataManagerToolbarComponent', () => {
       filterModalComponent: mockModal,
     };
     const filterBtn = dataManagerToolbarNativeElement.querySelector(
-      'sky-filter-button button'
+      'sky-filter-button button',
     ) as HTMLButtonElement;
     const dataState =
       dataManagerToolbarComponent.dataState as SkyDataManagerState;
@@ -578,11 +634,11 @@ describe('SkyDataManagerToolbarComponent', () => {
     }
 
     expect(dataManagerToolbarComponent.dataState?.filterData).toEqual(
-      filterData
+      filterData,
     );
     expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
       dataState,
-      'toolbar'
+      'toolbar',
     );
   });
 
@@ -601,7 +657,7 @@ describe('SkyDataManagerToolbarComponent', () => {
     };
 
     const filterBtn = dataManagerToolbarNativeElement.querySelector(
-      'sky-filter-button button'
+      'sky-filter-button button',
     ) as HTMLButtonElement;
 
     filterBtn.click();
@@ -626,7 +682,7 @@ describe('SkyDataManagerToolbarComponent', () => {
     dataManagerToolbarFixture.detectChanges();
 
     const filterBtn = dataManagerToolbarNativeElement.querySelector(
-      'sky-filter-button button'
+      'sky-filter-button button',
     ) as HTMLButtonElement;
     filterBtn.click();
 
@@ -655,7 +711,7 @@ describe('SkyDataManagerToolbarComponent', () => {
 
     const context = new SkyDataManagerColumnPickerContext(
       columnOptions,
-      viewState.displayedColumnIds
+      viewState.displayedColumnIds,
     );
     const options: SkyModalConfigurationInterface = {
       providers: [
@@ -668,14 +724,14 @@ describe('SkyDataManagerToolbarComponent', () => {
     };
 
     const columnPickerBtn = dataManagerToolbarNativeElement.querySelector(
-      '.sky-col-picker-btn'
+      '.sky-col-picker-btn',
     ) as HTMLButtonElement;
 
     columnPickerBtn.click();
 
     expect(modalServiceInstance.open).toHaveBeenCalledWith(
       SkyDataManagerColumnPickerComponent,
-      options
+      options,
     );
   });
 
@@ -703,7 +759,7 @@ describe('SkyDataManagerToolbarComponent', () => {
     const context = new SkyDataManagerColumnPickerContext(
       columnOptions,
       viewState.displayedColumnIds,
-      SkyDataManagerColumnPickerSortStrategy.None
+      SkyDataManagerColumnPickerSortStrategy.None,
     );
     const options: SkyModalConfigurationInterface = {
       providers: [
@@ -716,14 +772,14 @@ describe('SkyDataManagerToolbarComponent', () => {
     };
 
     const columnPickerBtn = dataManagerToolbarNativeElement.querySelector(
-      '.sky-col-picker-btn'
+      '.sky-col-picker-btn',
     ) as HTMLButtonElement;
 
     columnPickerBtn.click();
 
     expect(modalServiceInstance.open).toHaveBeenCalledWith(
       SkyDataManagerColumnPickerComponent,
-      options
+      options,
     );
   });
 
@@ -746,7 +802,7 @@ describe('SkyDataManagerToolbarComponent', () => {
     ];
 
     const columnPickerBtn = dataManagerToolbarNativeElement.querySelector(
-      '.sky-col-picker-btn'
+      '.sky-col-picker-btn',
     ) as HTMLButtonElement;
     const dataState =
       dataManagerToolbarComponent.dataState as SkyDataManagerState;
@@ -764,11 +820,11 @@ describe('SkyDataManagerToolbarComponent', () => {
     dataState.views = [viewState];
 
     expect(
-      dataManagerToolbarComponent.dataState?.getViewStateById(viewConfig.id)
+      dataManagerToolbarComponent.dataState?.getViewStateById(viewConfig.id),
     ).toEqual(viewState);
     expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
       dataState,
-      'toolbar'
+      'toolbar',
     );
   });
 
@@ -793,7 +849,7 @@ describe('SkyDataManagerToolbarComponent', () => {
       viewState,
     ];
     const columnPickerBtn = dataManagerToolbarNativeElement.querySelector(
-      '.sky-col-picker-btn'
+      '.sky-col-picker-btn',
     ) as HTMLButtonElement;
 
     columnPickerBtn.click();
@@ -807,7 +863,75 @@ describe('SkyDataManagerToolbarComponent', () => {
     expect(dataManagerService.updateDataState).not.toHaveBeenCalled();
   });
 
-  it('should pass accessibility', async () => {
-    await expectAsync(dataManagerToolbarNativeElement).toBeAccessible();
+  describe('a11y', () => {
+    it('should set accessibility labels correctly when no list descriptor is given', async () => {
+      const patchInfoSpy = spyOn(
+        SkyContentInfoProvider.prototype,
+        'patchInfo',
+      ).and.stub();
+
+      spyOn(dataManagerService, 'getViewById').and.returnValue({
+        ...(dataManagerToolbarComponent.activeView as SkyDataViewConfig),
+        multiselectToolbarEnabled: true,
+        columnPickerEnabled: true,
+      });
+      dataManagerToolbarFixture.detectChanges();
+
+      expect(patchInfoSpy.calls.count()).toBe(1);
+      expect(patchInfoSpy.calls.all()[0].args).toEqual([
+        { descriptor: undefined },
+      ]);
+
+      expect(getClearAllButton()?.getAttribute('aria-label')).toBeNull();
+      expect(getColumnPickerButton()?.getAttribute('aria-label')).toBe(
+        'Columns',
+      );
+      expect(getSectionFilterCheckbox()?.getAttribute('aria-label')).toBeNull();
+      expect(getSelectAllButton()?.getAttribute('aria-label')).toBeNull();
+    });
+
+    it('should set accessibility labels correctly when a list descriptor is given', async () => {
+      const patchInfoSpy = spyOn(
+        SkyContentInfoProvider.prototype,
+        'patchInfo',
+      ).and.stub();
+
+      const dataManagerFixture = TestBed.createComponent(
+        DataManagerFixtureComponent,
+      );
+      dataManagerFixture.componentInstance.activeViewId = 'cardsView';
+      dataManagerFixture.componentInstance.dataManagerConfig.listDescriptor =
+        'constituents';
+      dataManagerFixture.detectChanges();
+
+      expect(patchInfoSpy.calls.count()).toBe(1);
+      expect(patchInfoSpy.calls.all()[0].args).toEqual([
+        { descriptor: { value: 'constituents', type: 'text' } },
+      ]);
+
+      spyOn(dataManagerService, 'getViewById').and.returnValue({
+        ...(dataManagerToolbarComponent.activeView as SkyDataViewConfig),
+        multiselectToolbarEnabled: true,
+        columnPickerEnabled: true,
+      });
+      dataManagerToolbarFixture.detectChanges();
+
+      expect(getClearAllButton()?.getAttribute('aria-label')).toBe(
+        'Clear all selected constituents',
+      );
+      expect(getColumnPickerButton()?.getAttribute('aria-label')).toBe(
+        'Choose columns for constituents',
+      );
+      expect(getSectionFilterCheckbox()?.getAttribute('aria-label')).toBe(
+        'Show only selected constituents',
+      );
+      expect(getSelectAllButton()?.getAttribute('aria-label')).toBe(
+        'Select all constituents',
+      );
+    });
+
+    it('should pass accessibility', async () => {
+      await expectAsync(dataManagerToolbarNativeElement).toBeAccessible();
+    });
   });
 });

@@ -16,7 +16,7 @@ describe('Tokens basic demo', () => {
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
     const tokensHarness = await loader.getHarness(
-      SkyTokensHarness.with({ dataSkyId: 'demo-tokens' })
+      SkyTokensHarness.with({ dataSkyId: 'demo-tokens' }),
     );
 
     return { tokensHarness, fixture };
@@ -24,7 +24,7 @@ describe('Tokens basic demo', () => {
 
   function clickButton(
     fixture: ComponentFixture<DemoComponent>,
-    buttonName: 'change' | 'destroy' | 'focus-last' | 'reset'
+    buttonName: 'change' | 'destroy' | 'focus-last' | 'reset',
   ): void {
     fixture.nativeElement
       .querySelector(`.tokens-demo-${buttonName}-btn`)
@@ -48,7 +48,7 @@ describe('Tokens basic demo', () => {
     const { tokensHarness } = await setupTest();
 
     await expectAsync(tokensHarness.getTokensText()).toBeResolvedTo(
-      initialTokenLabels
+      initialTokenLabels,
     );
   });
 
@@ -59,7 +59,7 @@ describe('Tokens basic demo', () => {
     await employedToken.select();
 
     expect(
-      fixture.nativeElement.querySelector('.tokens-demo-selected').innerText
+      fixture.nativeElement.querySelector('.tokens-demo-selected').innerText,
     ).toBe('Employed');
   });
 
@@ -81,13 +81,13 @@ describe('Tokens basic demo', () => {
     clickButton(fixture, 'change');
 
     await expectAsync(tokensHarness.getTokensText()).not.toBeResolvedTo(
-      initialTokenLabels
+      initialTokenLabels,
     );
 
     clickButton(fixture, 'reset');
 
     await expectAsync(tokensHarness.getTokensText()).toBeResolvedTo(
-      initialTokenLabels
+      initialTokenLabels,
     );
   });
 

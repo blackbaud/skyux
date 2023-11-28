@@ -51,7 +51,7 @@ export class SkyTabsetFixture {
     this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
-      'sky-tabset'
+      'sky-tabset',
     );
   }
 
@@ -65,10 +65,10 @@ export class SkyTabsetFixture {
     const active = this.activeTabIndex === tabIndex;
     const disabled = tabLinkEl.classList.contains('sky-btn-tab-disabled');
     const tabHeading = this.#getTextContent(
-      tabLinkEl.querySelector('.sky-tab-heading')?.childNodes[0]
+      tabLinkEl.querySelector('.sky-tab-heading')?.childNodes[0],
     );
     const tabHeaderCount = this.#getTextContent(
-      tabLinkEl.querySelector('.sky-tab-header-count')
+      tabLinkEl.querySelector('.sky-tab-header-count'),
     );
 
     let permalinkValue: string | undefined;
@@ -124,11 +124,11 @@ export class SkyTabsetFixture {
    */
   public async clickTabClose(tabIndex: number): Promise<any> {
     const tabWrapperEl = this.#getTabsetEl().querySelectorAll(
-      `.sky-tabset-tabs .sky-btn-tab-wrapper`
+      `.sky-tabset-tabs .sky-btn-tab-wrapper`,
     )[tabIndex];
 
     const closeBtnEl = tabWrapperEl.querySelector(
-      '.sky-btn-tab-close'
+      '.sky-btn-tab-close',
     ) as HTMLButtonElement;
 
     if (!closeBtnEl) {
@@ -145,7 +145,7 @@ export class SkyTabsetFixture {
     const tabsetEl = this.#getTabsetEl();
 
     const newButtonEl = tabsetEl.querySelector(
-      `.sky-tabset-btns .${buttonCls}`
+      `.sky-tabset-btns .${buttonCls}`,
     ) as HTMLButtonElement;
 
     newButtonEl.click();
@@ -162,7 +162,7 @@ export class SkyTabsetFixture {
 
   #getTabLinkEls(): NodeListOf<HTMLAnchorElement> {
     return this.#getTabsetEl().querySelectorAll(
-      `.sky-tabset-tabs .sky-btn-tab`
+      `.sky-tabset-tabs .sky-btn-tab`,
     );
   }
 

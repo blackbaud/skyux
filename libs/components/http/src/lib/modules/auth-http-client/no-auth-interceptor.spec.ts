@@ -17,13 +17,13 @@ describe('No-auth interceptor', () => {
 
   function validateTokenizedUrl(
     interceptor: SkyNoAuthInterceptor,
-    done: DoneFn
+    done: DoneFn,
   ): void {
     const request = createRequest(false, '1bb://eng-hub00-pusa01/version');
 
     validateRequest(next, done, (authRequest) => {
       expect(authRequest.url).toBe(
-        'https://eng-pusa01.app.blackbaud.net/hub00/version'
+        'https://eng-pusa01.app.blackbaud.net/hub00/version',
       );
     });
 
@@ -33,7 +33,7 @@ describe('No-auth interceptor', () => {
   beforeEach(() => {
     mockRuntimeConfigParameters = jasmine.createSpyObj(
       'RuntimeConfigParameters',
-      ['get', 'getUrl']
+      ['get', 'getUrl'],
     );
 
     mockConfig = {

@@ -24,7 +24,7 @@
     }"
     [@tabEnter]="tabService.animationTabsVisibleState"
   >
-    <ng-content></ng-content>
+    <ng-content />
   </div>
   <div
     *ngIf="maintainSectionContent || tabService.contentVisible()"

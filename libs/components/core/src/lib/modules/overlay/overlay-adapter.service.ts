@@ -24,7 +24,7 @@ export class SkyOverlayAdapterService {
     this.#renderer.setAttribute(
       styleElement,
       'data-test-selector',
-      'sky-overlay-restrict-scroll-styles'
+      'sky-overlay-restrict-scroll-styles',
     );
 
     this.#renderer.appendChild(styleElement, textNode);

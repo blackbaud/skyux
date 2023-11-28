@@ -6,7 +6,12 @@ import {
   KeyValueDiffer,
   KeyValueDiffers,
   Output,
+  inject,
 } from '@angular/core';
+import { SkyLiveAnnouncerService } from '@skyux/core';
+import { SkyLibResourcesService } from '@skyux/i18n';
+
+import { take } from 'rxjs/operators';
 
 import { SkyFileItem } from './file-item';
 import { SkyFileItemService } from './file-item.service';
@@ -68,6 +73,10 @@ export class SkyFileItemComponent implements DoCheck {
   #differ: KeyValueDiffer<any, any>;
   #fileItemService: SkyFileItemService;
 
+  readonly #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
+
+  readonly #resourcesSvc = inject(SkyLibResourcesService);
+
   constructor(differs: KeyValueDiffers, fileItemService: SkyFileItemService) {
     this.#differ = differs.find({}).create();
     this.#fileItemService = fileItemService;
@@ -80,7 +89,7 @@ export class SkyFileItemComponent implements DoCheck {
       if (changes) {
         let cls: string | undefined;
         const extensionUpper = this.#fileItemService.getFileExtensionUpper(
-          this.fileItem as SkyFileItem
+          this.fileItem as SkyFileItem,
         );
         let fileTypeUpper: string;
 
@@ -119,7 +128,7 @@ export class SkyFileItemComponent implements DoCheck {
 
         if (!cls) {
           fileTypeUpper = this.#fileItemService.getFileTypeUpper(
-            this.fileItem as SkyFileItem
+            this.fileItem as SkyFileItem,
           );
 
           switch (fileTypeUpper.substr(0, fileTypeUpper.indexOf('/'))) {
@@ -151,5 +160,23 @@ export class SkyFileItemComponent implements DoCheck {
 
   public itemDelete(): void {
     this.deleteFile.emit(this.fileItem);
+    if (!this.isFile) {
+      this.#resourcesSvc
+        .getString('skyux_file_attachment_file_upload_link_removed', this.url)
+        .pipe(take(1))
+        .subscribe((resourceString) => {
+          this.#liveAnnouncerSvc.announce(resourceString);
+        });
+    } else {
+      this.#resourcesSvc
+        .getString(
+          'skyux_file_attachment_file_upload_file_removed',
+          this.fileName,
+        )
+        .pipe(take(1))
+        .subscribe((resourceString) => {
+          this.#liveAnnouncerSvc.announce(resourceString);
+        });
+    }
   }
 }

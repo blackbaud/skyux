@@ -11,17 +11,33 @@
     "_description": "Text for the clear button in the data manager column picker",
     "message": "Cancel"
   },
+  "skyux_data_manager_select_all_button_aria_label": {
+    "_description": "Aria-label text for the select all button in the data manager multiselect toolbar",
+    "message": "Select all {0}"
+  },
   "skyux_data_manager_select_all_button_title": {
     "_description": "Text for the select all button in the data manager multiselect toolbar",
     "message": "Select all"
+  },
+  "skyux_data_manager_clear_all_button_aria_label": {
+    "_description": "Aria-label text for the clear all button in the data manager multiselect toolbar",
+    "message": "Clear all selected {0}"
   },
   "skyux_data_manager_clear_all_button_title": {
     "_description": "Text for the clear all button in the data manager multiselect toolbar",
     "message": "Clear all"
   },
+  "skyux_data_manager_show_selected_option_aria_label": {
+    "_description": "Aria-label text for the show selected checkbox in the data manager multiselect toolbar",
+    "message": "Show only selected {0}"
+  },
   "skyux_data_manager_show_selected_option_title": {
     "_description": "Text for the show selected checkbox in the data manager multiselect toolbar",
     "message": "Show only selected items"
+  },
+  "skyux_data_manager_columns_button_aria_label": {
+    "_description": "Aria-label text for the column picker button's aria label in the data manager toolbar",
+    "message": "Choose columns for {0}"
   },
   "skyux_data_manager_columns_button_title": {
     "_description": "Text for the column picker button in the data manager toolbar",

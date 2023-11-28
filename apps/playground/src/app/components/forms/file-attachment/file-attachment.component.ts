@@ -15,6 +15,7 @@ export class FileAttachmentComponent {
   public linksToUpload: SkyFileLink[];
 
   public maxFileSize = 4000000;
+  public minFileSize = 300000;
 
   public rejectedFiles: SkyFileItem[];
 

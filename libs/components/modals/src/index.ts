@@ -11,6 +11,8 @@ export { SkyConfirmService } from './lib/modules/confirm/confirm.service';
 export { SkyModalBeforeCloseHandler } from './lib/modules/modal/modal-before-close-handler';
 export { SkyModalCloseArgs } from './lib/modules/modal/modal-close-args';
 export { SkyModalConfiguration } from './lib/modules/modal/modal-configuration';
+export { SkyModalError } from './lib/modules/modal/modal-error';
+export { SkyModalErrorsService } from './lib/modules/modal/modal-errors.service';
 export { SkyModalHostService } from './lib/modules/modal/modal-host.service';
 export { SkyModalInstance } from './lib/modules/modal/modal-instance';
 export { SkyModalConfigurationInterface } from './lib/modules/modal/modal.interface';
@@ -19,8 +21,6 @@ export {
   SkyModalLegacyService,
   SkyModalService,
 } from './lib/modules/modal/modal.service';
-export { SkyModalError } from './lib/modules/modal/modal-error';
-export { SkyModalErrorsService } from './lib/modules/modal/modal-errors.service';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.
@@ -28,5 +28,5 @@ export { SkyConfirmComponent as λ1 } from './lib/modules/confirm/confirm.compon
 export { SkyModalContentComponent as λ2 } from './lib/modules/modal/modal-content.component';
 export { SkyModalFooterComponent as λ3 } from './lib/modules/modal/modal-footer.component';
 export { SkyModalHeaderComponent as λ4 } from './lib/modules/modal/modal-header.component';
-export { SkyModalComponent as λ5 } from './lib/modules/modal/modal.component';
 export { SkyModalIsDirtyDirective as λ6 } from './lib/modules/modal/modal-is-dirty.directive';
+export { SkyModalComponent as λ5 } from './lib/modules/modal/modal.component';

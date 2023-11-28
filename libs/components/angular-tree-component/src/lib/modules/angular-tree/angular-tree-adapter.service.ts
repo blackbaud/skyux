@@ -18,7 +18,7 @@ export class SkyAngularTreeAdapterService {
 
   public setTabIndexOfFocusableEls(
     element: HTMLElement,
-    tabIndex: number
+    tabIndex: number,
   ): void {
     const focusableEls = this.#coreAdapterService.getFocusableChildren(element);
     let index = focusableEls.length;

@@ -11,36 +11,36 @@ describe('Vertical tabset with a back to top', () => {
   }
 
   function getTabGroups(
-    fixture: ComponentFixture<VerticalTabsetBackToTopComponent>
+    fixture: ComponentFixture<VerticalTabsetBackToTopComponent>,
   ): HTMLElement[] {
     return fixture.nativeElement.querySelectorAll('.sky-vertical-tabset-group');
   }
 
   function getVisibleTabContentPane(
-    fixture: ComponentFixture<VerticalTabsetBackToTopComponent>
+    fixture: ComponentFixture<VerticalTabsetBackToTopComponent>,
   ): HTMLElement {
     return fixture.nativeElement.querySelector(
-      '.sky-vertical-tab-content-pane:not(.sky-vertical-tab-hidden)'
+      '.sky-vertical-tab-content-pane:not(.sky-vertical-tab-hidden)',
     );
   }
 
   function clickTab(
     fixture: ComponentFixture<VerticalTabsetBackToTopComponent>,
     groupIndex: number,
-    tabIndex: number
+    tabIndex: number,
   ): void {
     const tab = getTabGroups(fixture)[groupIndex].querySelectorAll(
-      '.sky-vertical-tab'
+      '.sky-vertical-tab',
     )[tabIndex] as HTMLElement;
     tab.click();
     fixture.detectChanges();
   }
 
   function scrollTabContent(
-    fixture: ComponentFixture<VerticalTabsetBackToTopComponent>
+    fixture: ComponentFixture<VerticalTabsetBackToTopComponent>,
   ): void {
     const wrappingDiv = getVisibleTabContentPane(fixture)?.querySelector(
-      'div'
+      'div',
     ) as HTMLElement | EventTarget;
     (wrappingDiv as HTMLElement)?.scrollTo({
       top: 1000,

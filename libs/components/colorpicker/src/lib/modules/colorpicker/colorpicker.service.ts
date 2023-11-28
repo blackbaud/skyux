@@ -99,12 +99,12 @@ export class SkyColorpickerService {
 
   public stringToHsva(
     colorString: string,
-    hex8: boolean
+    hex8: boolean,
   ): SkyColorpickerHsva | undefined {
     const stringParsers: {
       re: RegExp;
       parse: (
-        execResult: RegExpExecArray
+        execResult: RegExpExecArray,
       ) => SkyColorpickerRgba | SkyColorpickerHsla;
     }[] = [
       {
@@ -170,7 +170,7 @@ export class SkyColorpickerService {
             };
             return rgba;
           },
-        }
+        },
       );
     }
 
@@ -296,6 +296,9 @@ export class SkyColorpickerService {
       hsla.lightness = (value * (2 - saturation)) / 2;
       hsla.saturation =
         (value * saturation) / (1 - Math.abs(2 * hsla.lightness - 1));
+      if (Number.isNaN(hsla.saturation)) {
+        hsla.saturation = 0;
+      }
     }
     return hsla;
   }
@@ -318,7 +321,7 @@ export class SkyColorpickerService {
   #outputFormat(
     hsva: SkyColorpickerHsva,
     outputFormat: string,
-    allowHex8: boolean
+    allowHex8: boolean,
   ): string {
     if (['hsla', 'hex', 'cmyk'].indexOf(outputFormat) === -1) {
       outputFormat = 'rgba';
@@ -331,12 +334,12 @@ export class SkyColorpickerService {
       hex: () => {
         return this.hexText(
           this.denormalizeRGBA(this.hsvaToRgba(hsva)),
-          allowHex8
+          allowHex8,
         );
       },
       cmyk: () => {
         const cmyk = this.#denormalizeCMYK(
-          this.#rgbaToCmyk(this.hsvaToRgba(hsva))
+          this.#rgbaToCmyk(this.hsvaToRgba(hsva)),
         );
         return `cmyk(${cmyk.cyan}%,${cmyk.magenta}%,${cmyk.yellow}%,${cmyk.key}%)`;
       },

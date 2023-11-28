@@ -99,7 +99,8 @@
       },
       "configurations": {
         "ci": {
-          "quiet": true
+          "quiet": true,
+          "ci": true
         }
       }
     },
@@ -121,6 +122,18 @@
       "configurations": {
         "ci": {
           "quiet": true
+        }
+      }
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "ag-grid-storybook:build-storybook",
+        "staticFilePath": "dist/storybook/ag-grid-storybook"
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "ag-grid-storybook:build-storybook:ci"
         }
       }
     }

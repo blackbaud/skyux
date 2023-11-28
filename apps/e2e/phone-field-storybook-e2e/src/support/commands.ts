@@ -7,7 +7,7 @@ declare namespace Cypress {
      */
     skyVisualTest(
       name: string,
-      options?: Record<string, unknown>
+      options?: Record<string, unknown>,
     ): Chainable<void>;
   }
 }
@@ -25,5 +25,5 @@ Cypress.Commands.add(
         blackout: [`url:${url}`],
       });
     });
-  }
+  },
 );

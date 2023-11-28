@@ -14,6 +14,6 @@ $sky-cell-wrap-text-line-height-modern: variables.$sky-theme-modern-font-paragra
     line-height: #{$line-height};
     padding-top: $padding;
     padding-bottom: $padding;
-    min-height: var(--ag-row-height) - 2px;
+    min-height: calc(var(--ag-row-height) - 2px);
   }
 }

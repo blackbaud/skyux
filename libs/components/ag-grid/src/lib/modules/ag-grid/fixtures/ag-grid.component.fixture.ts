@@ -190,7 +190,7 @@ export class SkyAgGridFixtureComponent implements OnInit {
     public enableTopScroll = false,
     @Optional()
     @Inject(Editable)
-    public editable = true
+    public editable = true,
   ) {
     this.#gridService = gridService;
   }

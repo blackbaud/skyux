@@ -5,11 +5,14 @@ describe('layout-storybook', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=boxcomponent-box--box&args=showHelp:false;`
-        )
+          `/iframe.html?globals=theme:${theme}&id=boxcomponent-box--box&args=showHelp:false;`,
+        ),
       );
       it('should render the component', () => {
-        cy.get('app-box')
+        cy.get('#ready')
+          .should('exist')
+          .end()
+          .get('app-box')
           .should('exist')
           .should('be.visible')
           .screenshot(`boxcomponent-box--box-${theme}`)

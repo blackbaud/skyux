@@ -7,12 +7,12 @@ import { SkyAutocompleteSearchFunctionFilter } from './types/autocomplete-search
 import { SkyAutocompleteSearchFunctionResponse } from './types/autocomplete-search-function-response';
 
 export function skyAutocompleteDefaultSearchFunction(
-  options: SkyAutocompleteDefaultSearchFunctionOptions
+  options: SkyAutocompleteDefaultSearchFunctionOptions,
 ): SkyAutocompleteSearchFunction {
   const filterData = function (
     searchText: string,
     data: any[],
-    args?: SkyAutocompleteSearchArgs
+    args?: SkyAutocompleteSearchArgs,
   ): any[] {
     return data.filter((item: any) => {
       if (!options.searchFilters || !options.searchFilters.length) {
@@ -23,7 +23,7 @@ export function skyAutocompleteDefaultSearchFunction(
       const failedFilter = options.searchFilters.find(
         (filter: SkyAutocompleteSearchFunctionFilter) => {
           return !filter.call({}, searchText, item, args);
-        }
+        },
       );
 
       return failedFilter === undefined;
@@ -33,7 +33,7 @@ export function skyAutocompleteDefaultSearchFunction(
   const search = function (
     searchText: string,
     data: any[],
-    args?: SkyAutocompleteSearchArgs
+    args?: SkyAutocompleteSearchArgs,
   ): SkyAutocompleteSearchFunctionResponse {
     const results: any[] = [];
 

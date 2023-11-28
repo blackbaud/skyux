@@ -57,6 +57,7 @@
     <button
       class="sky-btn sky-btn-primary"
       id="autocomplete-reactive-disable-button"
+      type="button"
       (click)="toggleReactiveDisabled()"
     >
       Toggle reactive autocomplete disabled
@@ -123,7 +124,11 @@
       />
     </sky-input-box>
 
-    <button class="sky-btn sky-btn-primary" (click)="toggleTemplateDisabled()">
+    <button
+      class="sky-btn sky-btn-primary"
+      type="button"
+      (click)="toggleTemplateDisabled()"
+    >
       Toggle template autocomplete disabled
     </button>
   </form>

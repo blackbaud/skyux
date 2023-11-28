@@ -5,8 +5,8 @@ describe('forms-storybook - checkbox', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=checkboxcomponent-checkbox--checkbox`
-        )
+          `/iframe.html?globals=theme:${theme}&id=checkboxcomponent-checkbox--checkbox`,
+        ),
       );
 
       it('should render the standard components', () => {
@@ -22,7 +22,7 @@ describe('forms-storybook - checkbox', () => {
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
               scope: '#standard-checkboxes',
-            }
+            },
           );
       });
 

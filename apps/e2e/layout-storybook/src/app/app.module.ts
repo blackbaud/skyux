@@ -27,7 +27,7 @@ const routes: Route[] = [
     path: 'action-button',
     loadChildren: () =>
       import('./action-button/action-button.module').then(
-        (m) => m.ActionButtonModule
+        (m) => m.ActionButtonModule,
       ),
   },
   {
@@ -39,28 +39,28 @@ const routes: Route[] = [
     path: 'description-list',
     loadChildren: () =>
       import('./description-list/description-list.module').then(
-        (m) => m.DescriptionListModule
+        (m) => m.DescriptionListModule,
       ),
   },
   {
     path: 'inline-delete',
     loadChildren: () =>
       import('./inline-delete/inline-delete.module').then(
-        (m) => m.InlineDeleteModule
+        (m) => m.InlineDeleteModule,
       ),
   },
   {
     path: 'text-expand',
     loadChildren: () =>
       import('./text-expand/text-expand.module').then(
-        (m) => m.TextExpandModule
+        (m) => m.TextExpandModule,
       ),
   },
   {
     path: 'text-expand-repeater',
     loadChildren: () =>
       import('./text-expand-repeater/text-expand-repeater.module').then(
-        (m) => m.TextExpandRepeaterModule
+        (m) => m.TextExpandRepeaterModule,
       ),
   },
 ];

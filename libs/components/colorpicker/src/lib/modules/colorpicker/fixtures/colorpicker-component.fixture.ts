@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { SkyColorpickerResult } from '@skyux/colorpicker';
 
 import { Subject } from 'rxjs';
 
@@ -43,6 +44,7 @@ export class ColorpickerTestComponent {
   public colorpickerController = new Subject<SkyColorpickerMessage>();
 
   public colorModel: string | undefined;
+  public lastColorApplied: SkyColorpickerResult | undefined;
 
   public sendMessage(type: SkyColorpickerMessageType) {
     this.colorpickerController.next({ type });

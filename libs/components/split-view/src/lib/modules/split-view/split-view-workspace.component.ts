@@ -70,7 +70,7 @@ export class SkySplitViewWorkspaceComponent
     coreAdapterSvc: SkyCoreAdapterService,
     elementRef: ElementRef,
     splitViewMediaQuerySvc: SkySplitViewMediaQueryService,
-    splitViewSvc: SkySplitViewService
+    splitViewSvc: SkySplitViewService,
   ) {
     this.#changeDetectorRef = changeDetectorRef;
     this.#coreAdapterSvc = coreAdapterSvc;
@@ -113,7 +113,7 @@ export class SkySplitViewWorkspaceComponent
     const newDrawerBreakpoint = this.#splitViewMediaQuerySvc.current;
     this.#coreAdapterSvc.setResponsiveContainerClass(
       this.#elementRef,
-      newDrawerBreakpoint
+      newDrawerBreakpoint,
     );
     this.#changeDetectorRef.markForCheck();
   }

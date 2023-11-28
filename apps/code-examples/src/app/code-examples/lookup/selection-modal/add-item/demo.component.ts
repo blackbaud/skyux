@@ -38,6 +38,7 @@ export class DemoComponent implements OnDestroy {
     const instance = this.#selectionModalSvc.open({
       descriptorProperty: 'name',
       idProperty: 'id',
+      selectionDescriptor: 'person',
       searchAsync: (args) =>
         this.#searchSvc.search(args.searchText).pipe(
           map(
@@ -45,8 +46,8 @@ export class DemoComponent implements OnDestroy {
               hasMore: results.hasMore,
               items: results.people,
               totalCount: results.totalCount,
-            })
-          )
+            }),
+          ),
         ),
       selectMode: 'single',
       showAddButton: true,
@@ -59,7 +60,7 @@ export class DemoComponent implements OnDestroy {
               this.#searchSvc.addItem(close.data);
               args.itemAdded({ item: close.data });
             }
-          })
+          }),
         );
       },
     });
@@ -69,7 +70,7 @@ export class DemoComponent implements OnDestroy {
         if (args.reason === 'save') {
           this.selectedPeople = args.selectedItems as Person[];
         }
-      })
+      }),
     );
   }
 }

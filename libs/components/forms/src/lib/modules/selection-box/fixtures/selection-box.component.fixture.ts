@@ -71,7 +71,7 @@ export class SelectionBoxTestComponent {
     const checkboxItemControls = this.checkboxSelectionBoxes.map(
       (aCheckboxSelectionBox) => {
         return this.#formBuilder.control(aCheckboxSelectionBox.undefinedValue);
-      }
+      },
     );
     return this.#formBuilder.array(checkboxItemControls);
   }

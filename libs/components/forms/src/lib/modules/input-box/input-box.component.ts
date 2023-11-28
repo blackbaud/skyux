@@ -12,6 +12,7 @@ import {
   ElementRef,
   HostBinding,
   Input,
+  OnDestroy,
   OnInit,
   Renderer2,
   TemplateRef,
@@ -26,7 +27,9 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { SkyIdService } from '@skyux/core';
+import { SkyContentInfoProvider, SkyIdService } from '@skyux/core';
+
+import { ReplaySubject } from 'rxjs';
 
 import { SkyInputBoxAdapterService } from './input-box-adapter.service';
 import { SkyInputBoxControlDirective } from './input-box-control.directive';
@@ -40,12 +43,18 @@ import { SkyInputBoxPopulateArgs } from './input-box-populate-args';
   selector: 'sky-input-box',
   templateUrl: './input-box.component.html',
   styleUrls: ['./input-box.component.scss'],
-  providers: [SkyInputBoxAdapterService, SkyInputBoxHostService],
+  providers: [
+    SkyContentInfoProvider,
+    SkyInputBoxAdapterService,
+    SkyInputBoxHostService,
+  ],
   // Note that change detection is not set to OnPush; default change detection allows the
   // invalid CSS class to be added when the content control's invalid/dirty state changes.
   encapsulation: ViewEncapsulation.None,
 })
-export class SkyInputBoxComponent implements OnInit, AfterContentChecked {
+export class SkyInputBoxComponent
+  implements OnInit, AfterContentChecked, OnDestroy
+{
   #changeRef = inject(ChangeDetectorRef);
   #inputBoxHostSvc = inject(SkyInputBoxHostService);
   #adapterService = inject(SkyInputBoxAdapterService);
@@ -85,7 +94,9 @@ export class SkyInputBoxComponent implements OnInit, AfterContentChecked {
    */
   @Input()
   public set characterLimit(value: NumberInput) {
-    this.#_characterLimit = coerceNumberProperty(value, undefined);
+    this.#_characterLimit =
+      value === undefined ? undefined : coerceNumberProperty(value, undefined);
+
     this.#updateMaxLengthValidator();
   }
 
@@ -118,6 +129,21 @@ export class SkyInputBoxComponent implements OnInit, AfterContentChecked {
   @Input()
   public helpPopoverContent: string | TemplateRef<unknown> | undefined;
 
+  /**
+   * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides
+   * additional context to the user.
+   */
+  @Input()
+  public set hintText(value: string | undefined) {
+    this.#_hintText = value;
+
+    this.ariaDescribedBy.next(value ? this.hintTextId : undefined);
+  }
+
+  public get hintText(): string | undefined {
+    return this.#_hintText;
+  }
+
   public hostInputTemplate: TemplateRef<unknown> | undefined;
 
   public hostButtonsTemplate: TemplateRef<unknown> | undefined;
@@ -134,6 +160,8 @@ export class SkyInputBoxComponent implements OnInit, AfterContentChecked {
 
   public readonly controlId = this.#idSvc.generateId();
   public readonly errorId = this.#idSvc.generateId();
+  public readonly hintTextId = this.#idSvc.generateId();
+  public readonly ariaDescribedBy = new ReplaySubject<string | undefined>(1);
 
   @HostBinding('class')
   public cssClass = '';
@@ -171,6 +199,7 @@ export class SkyInputBoxComponent implements OnInit, AfterContentChecked {
 
   #_stacked = false;
   #_characterLimit: number | undefined;
+  #_hintText: string | undefined;
 
   #previousInputRef: ElementRef | undefined;
   #previousMaxLengthValidator: ValidatorFn | undefined;
@@ -183,9 +212,9 @@ export class SkyInputBoxComponent implements OnInit, AfterContentChecked {
     this.controlDir =
       this.formControl || this.formControlByName || this.ngModel;
 
-    const inputEl = this.inputRef?.nativeElement as HTMLElement | undefined;
+    if (this.inputRef) {
+      const inputEl = this.inputRef.nativeElement as HTMLElement;
 
-    if (inputEl) {
       // Check for the Angular required validator and add an aria-required attribute
       // to match. For template-driven forms, the input will have a `required` attribute
       // so the aria-required attribute is unnecessary.
@@ -206,6 +235,12 @@ export class SkyInputBoxComponent implements OnInit, AfterContentChecked {
         this.#renderer.removeAttribute(inputEl, 'aria-errormessage');
       }
 
+      this.#adapterService.updateDescribedBy(
+        this.inputRef,
+        this.hintTextId,
+        this.hintText,
+      );
+
       if (this.inputRef !== this.#previousInputRef) {
         this.#renderer.addClass(inputEl, 'sky-form-control');
         this.#renderer.setAttribute(inputEl, 'id', this.controlId);
@@ -217,9 +252,13 @@ export class SkyInputBoxComponent implements OnInit, AfterContentChecked {
     }
   }
 
+  public ngOnDestroy(): void {
+    this.ariaDescribedBy.complete();
+  }
+
   public formControlFocusIn(): void {
     const inlineHelpEl = this.#adapterService.getInlineHelpElement(
-      this.#elementRef
+      this.#elementRef,
     );
     if (!this.#adapterService.isFocusInElement(inlineHelpEl)) {
       this.#updateHasFocus(true);
@@ -273,7 +312,7 @@ export class SkyInputBoxComponent implements OnInit, AfterContentChecked {
 
     if (control && this.characterLimit !== undefined) {
       this.#previousMaxLengthValidator = Validators.maxLength(
-        this.characterLimit
+        this.characterLimit,
       );
 
       control.addValidators([this.#previousMaxLengthValidator]);

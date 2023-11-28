@@ -31,7 +31,7 @@ describe('Auth token provider', () => {
   describe('getToken() method', () => {
     it('should call BBAuth.getToken and add return its promise', (done) => {
       spyOn(BBAuthClientFactory.BBAuth, 'getToken').and.returnValue(
-        Promise.resolve(testToken)
+        Promise.resolve(testToken),
       );
 
       const provider = new SkyAuthTokenProvider();
@@ -46,7 +46,7 @@ describe('Auth token provider', () => {
   describe('getDecodedToken() method', () => {
     it('should return a decoded token', (done) => {
       spyOn(BBAuthClientFactory.BBAuth, 'getToken').and.returnValue(
-        Promise.resolve(testToken)
+        Promise.resolve(testToken),
       );
 
       const provider = new SkyAuthTokenProvider();
@@ -137,7 +137,7 @@ describe('Auth token provider', () => {
     function validate(provider: SkyAuthTokenProvider, done: DoneFn): void {
       const getTokenSpy = spyOn(
         BBAuthClientFactory.BBAuth,
-        'getToken'
+        'getToken',
       ).and.returnValue(Promise.resolve(testToken));
 
       provider

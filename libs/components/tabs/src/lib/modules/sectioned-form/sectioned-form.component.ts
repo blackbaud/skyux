@@ -64,7 +64,7 @@ export class SkySectionedFormComponent
 
   @Input()
   public set messageStream(
-    value: Subject<SkySectionedFormMessage> | undefined
+    value: Subject<SkySectionedFormMessage> | undefined,
   ) {
     this.#_messageStream = value || new Subject<SkySectionedFormMessage>();
     this.#initMessageStream();
@@ -107,7 +107,7 @@ export class SkySectionedFormComponent
     public tabService: SkyVerticalTabsetService,
     changeRef: ChangeDetectorRef,
     tabIdSvc: SkyTabIdService,
-    logger: SkyLogService
+    logger: SkyLogService,
   ) {
     this.#changeRef = changeRef;
     this.#tabIdSvc = tabIdSvc;

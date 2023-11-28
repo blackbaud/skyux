@@ -123,16 +123,15 @@
 
 <form novalidate>
   <h3 id="icon-radio-group-label">Do you like it?</h3>
-  <div id="screenshot-icon-radio" class="sky-switch-icon-group">
-    <sky-radio-group
-      name="iconRadioTest"
-      [disabled]="disabled"
-      [(ngModel)]="iconSelectedValue"
-    >
-      <sky-radio icon="thumbs-o-up" label="I like it" value="1"> </sky-radio>
-      <sky-radio disabled icon="balance-scale" label="meh" value="2">
-      </sky-radio>
-      <sky-radio icon="thumbs-o-down" label="I hate it" value="3"> </sky-radio>
-    </sky-radio-group>
-  </div>
+
+  <sky-radio-group
+    class="sky-switch-icon-group"
+    name="iconRadioTest"
+    [disabled]="disabled"
+    [(ngModel)]="iconSelectedValue"
+  >
+    <sky-radio icon="thumbs-o-up" label="I like it" value="1" />
+    <sky-radio disabled icon="balance-scale" label="meh" value="2" />
+    <sky-radio icon="thumbs-o-down" label="I hate it" value="3" />
+  </sky-radio-group>
 </form>

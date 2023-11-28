@@ -47,7 +47,7 @@ const DISPLAY_WITH_DEFAULT = 'name';
           style({
             opacity: 1,
             width: '*',
-          })
+          }),
         ),
       ]),
       transition(':leave', [
@@ -56,7 +56,7 @@ const DISPLAY_WITH_DEFAULT = 'name';
           style({
             opacity: 0,
             width: 0,
-          })
+          }),
         ),
       ]),
     ]),
@@ -315,7 +315,7 @@ export class SkyTokensComponent implements OnDestroy {
       const tokenComponent = this.tokenComponents.find(
         (_comp: SkyTokenComponent, i: number) => {
           return this.activeIndex === i;
-        }
+        },
       );
 
       if (tokenComponent) {

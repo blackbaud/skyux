@@ -68,7 +68,7 @@ export class SkyDatepickerCalendarInnerComponent
 
   @Output()
   public selectedDateChange: EventEmitter<Date> = new EventEmitter<Date>(
-    undefined
+    undefined,
   );
 
   @Output()
@@ -163,7 +163,7 @@ export class SkyDatepickerCalendarInnerComponent
 
   public compare(
     date1: Date | undefined,
-    date2: Date | undefined
+    date2: Date | undefined,
   ): number | undefined {
     if (date1 === undefined || date2 === undefined) {
       return undefined;
@@ -283,7 +283,7 @@ export class SkyDatepickerCalendarInnerComponent
     date: Date,
     format: string,
     isSecondary: boolean,
-    id: string
+    id: string,
   ): SkyDatepickerDate {
     const customDateMatch = this.#getCustomDate(date);
 
@@ -305,7 +305,7 @@ export class SkyDatepickerCalendarInnerComponent
 
   public createCalendarRows(
     dates: Array<SkyDatepickerDate>,
-    size: number
+    size: number,
   ): Array<Array<SkyDatepickerDate>> {
     const rows: Array<Array<SkyDatepickerDate>> = [];
     while (dates.length > 0) {
@@ -336,7 +336,7 @@ export class SkyDatepickerCalendarInnerComponent
     this.activeDate = new Date(
       date.getFullYear(),
       date.getMonth(),
-      date.getDate()
+      date.getDate(),
     );
 
     /*

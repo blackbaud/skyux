@@ -75,7 +75,7 @@ function setupTest(options?: {
     if (options.provideSkyAppConfig) {
       skyAppConfig.runtime.params = new SkyAppRuntimeConfigParams(
         window.location.href,
-        options.params
+        options.params,
       );
 
       providers.push({
@@ -109,7 +109,7 @@ describe('SkyHref Directive', () => {
     tick();
 
     const links = Array.from(el.querySelectorAll('a'));
-    expect(links.filter((e) => e.offsetParent).length).toEqual(6);
+    expect(links.filter((e) => e.offsetParent).length).toEqual(7);
   }));
 
   it('should hide links that the user cannot access', fakeAsync(() => {
@@ -163,7 +163,7 @@ describe('SkyHref Directive', () => {
 
     const element: HTMLElement | null = el.querySelector('.simpleLink a');
     expect(element?.getAttribute('href')).toEqual(
-      'https://example.com/example/page?query=param'
+      'https://example.com/example/page?query=param',
     );
   }));
 
@@ -180,7 +180,7 @@ describe('SkyHref Directive', () => {
 
     const element: HTMLElement | null = el.querySelector('.simpleLink a');
     expect(element?.getAttribute('href')).toEqual(
-      'https://example.com/example/page?query=param&asdf=123&jkl=mno'
+      'https://example.com/example/page?query=param&asdf=123&jkl=mno',
     );
   }));
 
@@ -197,7 +197,7 @@ describe('SkyHref Directive', () => {
 
     const element: HTMLElement | null = el.querySelector('.dynamicLink a');
     expect(element?.getAttribute('href')).toEqual(
-      'https://example.com/example/page?foo=override?query=param'
+      'https://example.com/example/page?foo=override&query=param',
     );
   }));
 
@@ -228,7 +228,7 @@ describe('SkyHref Directive', () => {
 
     const element: HTMLElement | null = el.querySelector('.simpleLink a');
     expect(element?.getAttribute('href')).toEqual(
-      'https://example.com/example/page?query=param&asdf=123&jkl=mno'
+      'https://example.com/example/page?query=param&asdf=123&jkl=mno',
     );
   }));
 
@@ -246,7 +246,7 @@ describe('SkyHref Directive', () => {
 
     const element = el.querySelector('.simpleLink a');
     expect(element?.getAttribute('href')).toEqual(
-      'https://example.com/example/page?query=param&asdf=123&jkl=mno'
+      'https://example.com/example/page?query=param&asdf=123&jkl=mno',
     );
   }));
 
@@ -266,7 +266,7 @@ describe('SkyHref Directive', () => {
     const element = el.querySelector('.simpleLink a');
 
     expect(element?.getAttribute('href')).toEqual(
-      'https://example.com/example/page?query=param'
+      'https://example.com/example/page?query=param',
     );
   }));
 
@@ -327,7 +327,34 @@ describe('SkyHref Directive', () => {
     const element = el.querySelector('.fragmentLink a');
 
     expect(element?.getAttribute('href')).toEqual(
-      'https://success/example/page#foobar'
+      'https://success/example/page#foobar',
+    );
+  }));
+
+  it('should append additional query params', fakeAsync(() => {
+    const { el, fixture } = setupTest({
+      params: {
+        envid: {
+          value: 'abc123',
+        },
+      },
+    });
+
+    fixture.componentInstance.queryParams = {
+      a: 'foo',
+      b: '',
+      c: '0',
+      d: 'false',
+      e: undefined,
+    };
+
+    fixture.detectChanges();
+    tick();
+
+    const element = el.querySelector('a[data-sky-id="query-params"]');
+
+    expect(element?.getAttribute('href')).toEqual(
+      'https://success/example/page?a=foo&b=&c=0&d=false&envid=abc123#foobar',
     );
   }));
 
@@ -353,7 +380,7 @@ describe('SkyHref Directive', () => {
     tick();
 
     expect(element?.getAttribute('href')).toBe(
-      'https://success/allowed/to/be/complicated'
+      'https://success/allowed/to/be/complicated',
     );
   }));
 
@@ -379,10 +406,10 @@ describe('anchor click event', () => {
     fixture: ComponentFixture<HrefDirectiveFixtureComponent>,
     selector: string,
     expectedDefaultPrevented: boolean,
-    options?: { pointerEventInit?: PointerEventInit; target?: string }
+    options?: { pointerEventInit?: PointerEventInit; target?: string },
   ): void {
     const parentEl = fixture.nativeElement.querySelector(
-      selector
+      selector,
     ) as HTMLParagraphElement;
     const anchorEl = parentEl.querySelector('a') as HTMLAnchorElement;
 

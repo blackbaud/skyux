@@ -16,7 +16,7 @@ import { SkyLiveAnnouncerArgs } from './types/live-announcer-args';
 })
 export class SkyLiveAnnouncerService implements OnDestroy {
   public announcerElementChanged = new ReplaySubject<HTMLElement | undefined>(
-    1
+    1,
   );
 
   #announcerElement: HTMLElement | undefined;

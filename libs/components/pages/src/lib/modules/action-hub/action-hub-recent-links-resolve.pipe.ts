@@ -20,7 +20,7 @@ import { SkyRecentLinksResolved } from './types/recent-links-resolved';
 const RECENTLY_ACCESSED_LIMIT = 5;
 
 function getRecentLinksSorted(
-  recentLinks: SkyRecentLinksResolved
+  recentLinks: SkyRecentLinksResolved,
 ): SkyRecentLinksResolved {
   if (recentLinks === 'loading') {
     return 'loading';
@@ -67,7 +67,7 @@ export class SkyActionHubRecentLinksResolvePipe
 
   constructor(
     changeDetector: ChangeDetectorRef,
-    @Optional() recentlyAccessedSvc?: SkyRecentlyAccessedService
+    @Optional() recentlyAccessedSvc?: SkyRecentlyAccessedService,
   ) {
     this.#changeDetector = changeDetector;
     this.#recentlyAccessedSvc = recentlyAccessedSvc;
@@ -124,7 +124,7 @@ export class SkyActionHubRecentLinksResolvePipe
   }
 
   #updateRecentLinksResolved(
-    recentLinksResolved: SkyRecentLinksResolved
+    recentLinksResolved: SkyRecentLinksResolved,
   ): void {
     this.#currentRecentLinksResolved =
       getRecentLinksSorted(recentLinksResolved);

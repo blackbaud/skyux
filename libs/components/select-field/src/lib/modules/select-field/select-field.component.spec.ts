@@ -48,7 +48,7 @@ describe('Select field component', () => {
 
   function savePicker() {
     const modalCloseButton = document.querySelector(
-      '.sky-select-field-picker-btn-save'
+      '.sky-select-field-picker-btn-save',
     );
     (modalCloseButton as HTMLElement).click();
     tick();
@@ -57,7 +57,7 @@ describe('Select field component', () => {
 
   function closePicker() {
     const modalCloseButton = document.querySelector(
-      '.sky-select-field-picker-btn-close'
+      '.sky-select-field-picker-btn-close',
     );
     (modalCloseButton as HTMLElement).click();
     tick();
@@ -66,10 +66,10 @@ describe('Select field component', () => {
 
   function applySearch(searchText: string): void {
     const searchInput = document.querySelector(
-      '.sky-search-input'
+      '.sky-search-input',
     ) as HTMLInputElement;
     const searchButton = document.querySelector(
-      '.sky-select-field-picker .sky-search-btn-apply'
+      '.sky-select-field-picker .sky-search-btn-apply',
     ) as HTMLButtonElement;
     searchInput.value = searchText;
     fixture.detectChanges();
@@ -83,7 +83,7 @@ describe('Select field component', () => {
 
   function clickNewButton(): void {
     const modalCloseButton = document.querySelector(
-      '.sky-select-field-picker-btn-new'
+      '.sky-select-field-picker-btn-new',
     );
     (modalCloseButton as HTMLElement).click();
 
@@ -104,7 +104,7 @@ describe('Select field component', () => {
 
   function selectOptions(numToSelect: number) {
     const checkboxes = document.querySelectorAll(
-      '.sky-list-view-checklist sky-checkbox input'
+      '.sky-list-view-checklist sky-checkbox input',
     );
 
     for (let i = 0; i < numToSelect; i++) {
@@ -116,7 +116,7 @@ describe('Select field component', () => {
 
   function selectOption(index: number) {
     const buttons = document.querySelectorAll(
-      '.sky-list-view-checklist-single-button'
+      '.sky-list-view-checklist-single-button',
     );
     (buttons.item(index) as HTMLElement).click();
     tick();
@@ -189,7 +189,7 @@ describe('Select field component', () => {
       fixture.detectChanges();
 
       const selectFieldHeading: HTMLElement = document.querySelector(
-        '.sky-modal-header-content'
+        '.sky-modal-header-content',
       );
 
       expect(selectFieldHeading.innerText.trim()).toEqual('FOOBAR');
@@ -397,7 +397,7 @@ describe('Select field component', () => {
       fixture.detectChanges();
       expect(selectField.value).toEqual(undefined);
       expect(document.activeElement.classList).toContain(
-        'sky-select-field-btn'
+        'sky-select-field-btn',
       );
     }));
 
@@ -461,7 +461,7 @@ describe('Select field component', () => {
       fixture.detectChanges();
 
       let values = document.querySelectorAll(
-        '.sky-list-view-checklist sky-checkbox input'
+        '.sky-list-view-checklist sky-checkbox input',
       );
       expect(values.length).toEqual(6);
 
@@ -475,7 +475,7 @@ describe('Select field component', () => {
       fixture.detectChanges();
 
       values = document.querySelectorAll(
-        '.sky-list-view-checklist sky-checkbox input'
+        '.sky-list-view-checklist sky-checkbox input',
       );
       expect(select.options.length).toEqual(5);
       expect(values.length).toEqual(2);
@@ -490,10 +490,10 @@ describe('Select field component', () => {
           .and.callFake(
             (
               _pickerContext: SkySelectFieldPickerContext,
-              updateValue: (value: SkySelectField[]) => void
+              updateValue: (value: SkySelectField[]) => void,
             ) => {
               updateValueFn = updateValue;
-            }
+            },
           ),
       };
 
@@ -510,7 +510,7 @@ describe('Select field component', () => {
           data: fixture.componentInstance.data,
           selectedValue: [component.staticData[1]],
         }),
-        updateValueFn
+        updateValueFn,
       );
 
       // Test multi-select mode.
@@ -545,10 +545,10 @@ describe('Select field component', () => {
           .and.callFake(
             (
               _pickerContext: SkySelectFieldPickerContext,
-              updateValue: (value: SkySelectField[]) => void
+              updateValue: (value: SkySelectField[]) => void,
             ) => {
               updateValueFn = updateValue;
-            }
+            },
           ),
       };
 

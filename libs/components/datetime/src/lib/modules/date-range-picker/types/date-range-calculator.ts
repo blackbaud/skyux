@@ -27,7 +27,7 @@ export class SkyDateRangeCalculator {
      * The calculator ID that specifies calculator objects that represent date ranges.
      */
     public readonly calculatorId: SkyDateRangeCalculatorId,
-    config: SkyDateRangeCalculatorConfig
+    config: SkyDateRangeCalculatorConfig,
   ) {
     this.#config = config;
     this.type = config.type;
@@ -41,7 +41,7 @@ export class SkyDateRangeCalculator {
    */
   public getValue(
     startDateInput?: Date | null,
-    endDateInput?: Date | null
+    endDateInput?: Date | null,
   ): SkyDateRangeCalculation {
     const result = this.#config.getValue(startDateInput, endDateInput);
 

@@ -14,7 +14,7 @@ export class DemoComponent {
 
   protected openToast(): void {
     const context = new CustomToastContext(
-      'This toast has embedded a custom component for its content.'
+      'This toast has embedded a custom component for its content.',
     );
 
     this.#toastSvc.openComponent(
@@ -27,7 +27,7 @@ export class DemoComponent {
           provide: CustomToastContext,
           useValue: context,
         },
-      ]
+      ],
     );
   }
 

@@ -14,7 +14,7 @@ export default {
   ],
 } as Meta<CountryFieldComponent>;
 const BaseCountryField: StoryFn<CountryFieldComponent> = (
-  args: CountryFieldComponent
+  args: CountryFieldComponent,
 ) => ({
   props: args,
 });

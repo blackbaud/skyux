@@ -12,3 +12,17 @@
     </sky-dropdown-item>
   </sky-dropdown-menu>
 </sky-dropdown>
+<br />
+<sky-dropdown buttonType="context-menu" label="Code example context menu">
+  <sky-dropdown-menu>
+    <sky-dropdown-item *ngFor="let item of items">
+      <button
+        type="button"
+        [attr.disabled]="item.disabled ? '' : null"
+        (click)="actionClicked(item.name)"
+      >
+        {{ item.name }}
+      </button>
+    </sky-dropdown-item>
+  </sky-dropdown-menu>
+</sky-dropdown>

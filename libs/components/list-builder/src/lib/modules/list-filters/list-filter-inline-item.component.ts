@@ -15,7 +15,7 @@ import { ListItemModel } from '@skyux/list-builder-common';
  */
 @Component({
   selector: 'sky-list-filter-inline-item',
-  template: '<ng-content></ng-content>',
+  template: '<ng-content />',
 })
 export class SkyListFilterInlineItemComponent implements OnInit {
   /**

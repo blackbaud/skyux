@@ -15,12 +15,15 @@ import {
   QueryList,
   Self,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
+import { SkyLiveAnnouncerService } from '@skyux/core';
+import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyThemeService } from '@skyux/theme';
 
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 
 import { SkyFormsUtility } from '../shared/forms-utility';
 
@@ -203,12 +206,15 @@ export class SkyFileAttachmentComponent
   #ngControl: NgControl | undefined;
   #themeSvc: SkyThemeService | undefined;
 
+  readonly #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
+  readonly #resourcesSvc = inject(SkyLibResourcesService);
+
   constructor(
     changeDetector: ChangeDetectorRef,
     fileAttachmentService: SkyFileAttachmentService,
     fileItemService: SkyFileItemService,
     @Self() @Optional() ngControl?: NgControl,
-    @Optional() themeSvc?: SkyThemeService
+    @Optional() themeSvc?: SkyThemeService,
   ) {
     this.#changeDetector = changeDetector;
     this.#fileAttachmentService = fileAttachmentService;
@@ -269,7 +275,7 @@ export class SkyFileAttachmentComponent
           (newLabelComponents: QueryList<SkyFileAttachmentLabelComponent>) => {
             this.hasLabelComponent = newLabelComponents.length > 0;
             this.#changeDetector.markForCheck();
-          }
+          },
         );
     }
   }
@@ -284,7 +290,7 @@ export class SkyFileAttachmentComponent
 
   public fileChangeEvent(fileChangeEvent: Event): void {
     this.#handleFiles(
-      (fileChangeEvent.target as HTMLInputElement | undefined)?.files
+      (fileChangeEvent.target as HTMLInputElement | undefined)?.files,
     );
   }
 
@@ -312,7 +318,7 @@ export class SkyFileAttachmentComponent
             file.type &&
             this.#fileAttachmentService.fileTypeRejected(
               file.type,
-              this.acceptedTypes
+              this.acceptedTypes,
             )
           ) {
             this.rejectedOver = true;
@@ -366,9 +372,19 @@ export class SkyFileAttachmentComponent
   }
 
   public deleteFileAttachment(): void {
+    const fileName = this.value?.file.name;
     this.value = undefined;
-    this.#changeDetector.markForCheck();
     this.#emitFileChangeEvent(this.value);
+
+    /* istanbul ignore else: safety check */
+    if (fileName) {
+      this.#announceState(
+        'skyux_file_attachment_file_upload_file_removed',
+        fileName,
+      );
+    }
+
+    this.#changeDetector.markForCheck();
   }
 
   public ngOnDestroy(): void {
@@ -394,7 +410,7 @@ export class SkyFileAttachmentComponent
    * Sets the disabled state of the control. Implemented as a part of ControlValueAccessor.
    * @param isDisabled Whether the control should be disabled.
    */
-  public setDisabledState(isDisabled: boolean) {
+  public setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
     this.#changeDetector.markForCheck();
   }
@@ -406,6 +422,15 @@ export class SkyFileAttachmentComponent
         file: this.value,
       });
     }
+  }
+
+  #announceState(resourceString: string, ...args: any[]): void {
+    this.#resourcesSvc
+      .getString(resourceString, ...args)
+      .pipe(take(1))
+      .subscribe((internationalizedString) => {
+        this.#liveAnnouncerSvc.announce(internationalizedString);
+      });
   }
 
   #emitFileChangeEvent(currentFile?: SkyFileItem): void {
@@ -427,15 +452,28 @@ export class SkyFileAttachmentComponent
       const reader = new FileReader();
 
       reader.addEventListener('load', (event: any): void => {
+        const previousFileName = this.value?.file.name;
         file.url = event.target.result;
         this.#emitFileChangeEvent(file);
+        if (previousFileName) {
+          this.#announceState(
+            'skyux_file_attachment_file_upload_file_replaced',
+            previousFileName,
+            file.file.name,
+          );
+        } else {
+          this.#announceState(
+            'skyux_file_attachment_file_upload_file_added',
+            file.file.name,
+          );
+        }
       });
 
-      reader.addEventListener('error', (event: any): void => {
+      reader.addEventListener('error', (): void => {
         this.#emitFileChangeEvent(file);
       });
 
-      reader.addEventListener('abort', (event: any): void => {
+      reader.addEventListener('abort', (): void => {
         this.#emitFileChangeEvent(file);
       });
 
@@ -450,7 +488,7 @@ export class SkyFileAttachmentComponent
         this.minFileSize,
         this.maxFileSize,
         this.acceptedTypes,
-        this.validateFn
+        this.validateFn,
       );
 
       for (const file of processedFiles) {
@@ -491,9 +529,13 @@ export class SkyFileAttachmentComponent
   }
 
   // istanbul ignore next
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  #onChange = (_: any) => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+  #onChange = (_: any): void => {
+    return;
+  };
   // istanbul ignore next
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  #onTouched = () => {};
+  #onTouched = (): void => {
+    return;
+  };
 }

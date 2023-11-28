@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { SkyIndicatorDescriptionType } from '@skyux/indicators';
-import { SkyLabelType } from '@skyux/indicators';
+import { SkyIndicatorDescriptionType, SkyLabelType } from '@skyux/indicators';
 
 @Component({
   selector: 'sky-test-cmp',

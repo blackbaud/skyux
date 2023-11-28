@@ -75,7 +75,7 @@ import { SkyPhoneFieldNumberReturnFormat } from './types/number-return-format';
           style({
             opacity: 1,
             width: '*',
-          })
+          }),
         ),
       ]),
       transition('open => void', [
@@ -84,7 +84,7 @@ import { SkyPhoneFieldNumberReturnFormat } from './types/number-return-format';
           style({
             opacity: 0,
             width: 0,
-          })
+          }),
         ),
       ]),
       transition('void => open-modern', [
@@ -95,7 +95,7 @@ import { SkyPhoneFieldNumberReturnFormat } from './types/number-return-format';
           '200ms ease-in',
           style({
             opacity: 1,
-          })
+          }),
         ),
       ]),
       transition('open-modern => void', [
@@ -103,7 +103,7 @@ import { SkyPhoneFieldNumberReturnFormat } from './types/number-return-format';
           '200ms ease-in',
           style({
             opacity: 0,
-          })
+          }),
         ),
       ]),
     ]),
@@ -116,7 +116,7 @@ import { SkyPhoneFieldNumberReturnFormat } from './types/number-return-format';
           '200ms ease-in',
           style({
             opacity: 1,
-          })
+          }),
         ),
       ]),
       transition('open => void', [
@@ -124,7 +124,7 @@ import { SkyPhoneFieldNumberReturnFormat } from './types/number-return-format';
           '200ms ease-in',
           style({
             opacity: 0,
-          })
+          }),
         ),
       ]),
     ]),
@@ -159,7 +159,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
       this.#_defaultCountry = value.toLowerCase();
 
       this.#defaultCountryData = this.countries.find(
-        (country) => country.iso2 === this.#_defaultCountry
+        (country) => country.iso2 === this.#_defaultCountry,
       );
     }
   }
@@ -222,17 +222,17 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
         this.#_selectedCountry.iso2 !== newCountry.iso2)
     ) {
       this.#_selectedCountry = this.countries.find(
-        (country) => country.iso2 === newCountry.iso2
+        (country) => country.iso2 === newCountry.iso2,
       );
 
       if (this.#_selectedCountry && !this.#_selectedCountry.exampleNumber) {
         const numberObj = this.#phoneUtils.getExampleNumberForType(
           newCountry.iso2,
-          PhoneNumberType.FIXED_LINE
+          PhoneNumberType.FIXED_LINE,
         );
         this.#_selectedCountry.exampleNumber = this.#phoneUtils.format(
           numberObj,
-          PhoneNumberFormat.NATIONAL
+          PhoneNumberFormat.NATIONAL,
         );
       }
 
@@ -286,7 +286,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     adapterService: SkyPhoneFieldAdapterService,
     changeDetector: ChangeDetectorRef,
     @Optional() public themeSvc?: SkyThemeService,
-    @Optional() @SkipSelf() public inputBoxHostSvc?: SkyInputBoxHostService
+    @Optional() @SkipSelf() public inputBoxHostSvc?: SkyInputBoxHostService,
   ) {
     this.#formBuilder = formBuilder;
     this.#adapterService = adapterService;
@@ -300,7 +300,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
      */
     this.countries = JSON.parse(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      JSON.stringify((window as any).intlTelInputGlobals.getCountryData())
+      JSON.stringify((window as any).intlTelInputGlobals.getCountryData()),
     );
     for (const country of this.countries) {
       country.dialCode = '+' + country.dialCode;
@@ -342,7 +342,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
         if (newValue?.iso2 !== this.selectedCountry?.iso2) {
           this.selectedCountry = newValue;
         }
-      }
+      },
     );
   }
 
@@ -359,7 +359,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   public onCountrySelected(newCountry: SkyCountryFieldCountry): void {
     if (newCountry) {
       this.selectedCountry = this.countries.find(
-        (countryInfo) => countryInfo.iso2 === newCountry.iso2
+        (countryInfo) => countryInfo.iso2 === newCountry.iso2,
       );
       this.toggleCountrySearch(false);
     }
@@ -421,7 +421,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
         newCountry = this.#defaultCountryData;
       } else if (this.selectedCountry?.dialCode !== dialCode) {
         let foundCountry = this.countries.find(
-          (country) => country.dialCode === dialCode && country.priority === 0
+          (country) => country.dialCode === dialCode && country.priority === 0,
         );
 
         if (foundCountry) {
@@ -430,7 +430,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
             this.supportedCountryISOs &&
             this.supportedCountryISOs.findIndex(
               (isoCode) =>
-                isoCode.toUpperCase() === foundCountry?.iso2.toUpperCase()
+                isoCode.toUpperCase() === foundCountry?.iso2.toUpperCase(),
             ) < 0
           ) {
             foundCountry = undefined;

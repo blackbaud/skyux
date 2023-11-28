@@ -60,7 +60,7 @@ describe('Checkbox fixture', () => {
     expect(checkbox.labelText).toEqual(fixture.componentInstance.label);
     expect(checkbox.iconType).toEqual(fixture.componentInstance.icon);
     expect(checkbox.checkboxType).toEqual(
-      fixture.componentInstance.checkboxType
+      fixture.componentInstance.checkboxType,
     );
 
     const validCheckboxTypes = ['info', 'success', 'warning', 'danger'];

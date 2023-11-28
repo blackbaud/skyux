@@ -7,7 +7,7 @@ export function writePrettierIgnore(): Rule {
     const filePath = '.prettierignore';
 
     context.logger.info(
-      `Creating ${filePath} file with commonly-ignored paths...`
+      `Creating ${filePath} file with commonly-ignored paths...`,
     );
 
     writeTextFile(
@@ -31,7 +31,7 @@ package-lock.json
 /.angular/cache
 
 # Don't format the following since the order of its import statements is deliberate.
-test.ts`
+test.ts`,
     );
   };
 }

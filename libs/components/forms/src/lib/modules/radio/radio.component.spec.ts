@@ -65,7 +65,7 @@ describe('Radio component', function () {
 
     it('should update the ngModel properly when radio button is changed', fakeAsync(function () {
       const radioElement = fixture.debugElement.queryAll(
-        By.directive(SkyRadioComponent)
+        By.directive(SkyRadioComponent),
       )[0];
       const ngModel = radioElement.injector.get(NgModel);
       const radios = fixture.nativeElement.querySelectorAll('input');
@@ -94,7 +94,7 @@ describe('Radio component', function () {
       tick();
 
       const radioElement = fixture.debugElement.queryAll(
-        By.directive(SkyRadioComponent)
+        By.directive(SkyRadioComponent),
       )[0];
       const ngModel = radioElement.injector.get(NgModel);
 
@@ -225,7 +225,7 @@ describe('Radio component', function () {
 
     it('should not change the selected value if input is disabled', fakeAsync(() => {
       const radioElement = fixture.debugElement.queryAll(
-        By.directive(SkyRadioComponent)
+        By.directive(SkyRadioComponent),
       )[2];
       const radioComponent = radioElement.componentInstance;
 
@@ -241,7 +241,7 @@ describe('Radio component', function () {
       tick();
 
       const radioElement = fixture.debugElement.queryAll(
-        By.directive(SkyRadioComponent)
+        By.directive(SkyRadioComponent),
       )[2];
       const radioComponent = radioElement.componentInstance;
 
@@ -339,7 +339,7 @@ describe('Radio component', function () {
         'SkyRadioComponent.radioType',
         Object({
           deprecationMajorVersion: 7,
-        })
+        }),
       );
     });
 

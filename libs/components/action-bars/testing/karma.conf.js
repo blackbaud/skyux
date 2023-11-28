@@ -4,7 +4,7 @@ module.exports = function (config) {
 
   config.coverageReporter.dir = require('path').join(
     __dirname,
-    '../../../../coverage/libs/components/action-bars/testing'
+    '../../../../coverage/libs/components/action-bars/testing',
   );
 
   // TODO: remove these threshold overrides to meet 100% coverage!

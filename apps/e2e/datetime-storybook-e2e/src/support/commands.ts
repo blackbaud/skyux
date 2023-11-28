@@ -7,7 +7,7 @@ declare namespace Cypress {
      */
     skyVisualTest(
       name: string,
-      options?: Record<string, unknown>
+      options?: Record<string, unknown>,
     ): Chainable<void>;
   }
 }
@@ -24,7 +24,7 @@ Cypress.Commands.add(
   (
     prevSubject: void | Window | Cypress.JQueryWithSelector<HTMLElement>,
     name: string,
-    options?: Record<string, unknown>
+    options?: Record<string, unknown>,
   ): void => {
     cy.url().then((url) => {
       if (prevSubject) {
@@ -42,5 +42,5 @@ Cypress.Commands.add(
         });
       }
     });
-  }
+  },
 );

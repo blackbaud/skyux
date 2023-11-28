@@ -1,5 +1,5 @@
-export { SkyGridModule } from './lib/modules/grid/grid.module';
 export { SkyGridColumnModel } from './lib/modules/grid/grid-column.model';
+export { SkyGridModule } from './lib/modules/grid/grid.module';
 export { SkyGridColumnAlignment } from './lib/modules/grid/types/grid-column-alignment';
 export { SkyGridColumnDescriptionModelChange } from './lib/modules/grid/types/grid-column-description-model-change';
 export { SkyGridColumnHeadingModelChange } from './lib/modules/grid/types/grid-column-heading-model-change';

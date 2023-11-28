@@ -45,7 +45,7 @@ describe('ast-utils', () => {
     const [result] = applyTransformers([sourceFile], [transformer]);
     const resultCode = getSourceAsString(result);
     expect(resultCode).toEqual(
-      `const update: string = "value";\nconsole.log(update);\n`
+      `const update: string = "value";\nconsole.log(update);\n`,
     );
     writeSourceFile(tree, fileName, result);
     expect(tree.read(fileName, 'utf-8')).toEqual(resultCode);
@@ -56,7 +56,7 @@ describe('ast-utils', () => {
     const fileName = 'script.ts';
     tree.write(
       fileName,
-      `const test: string = "value";\nconst obj = { property: "prop" };\n`
+      `const test: string = "value";\nconst obj = { property: "prop" };\n`,
     );
     const sourceFile = readSourceFile(tree, fileName);
     const value = getStringLiteral(sourceFile, 'test');
@@ -70,7 +70,7 @@ describe('ast-utils', () => {
     const fileName = 'script.ts';
     tree.write(
       fileName,
-      `const test: string = "value";\nconst obj = { property: "prop" };\n`
+      `const test: string = "value";\nconst obj = { property: "prop" };\n`,
     );
     const sourceFile = readSourceFile(tree, fileName);
     try {
@@ -86,7 +86,7 @@ describe('ast-utils', () => {
     const fileName = 'script.ts';
     tree.write(
       fileName,
-      `const test: string = "value";\nconst obj = { property: "prop" };\n`
+      `const test: string = "value";\nconst obj = { property: "prop" };\n`,
     );
     const transformer = getStringLiteralsSetterTransformer({
       test: 'new value',
@@ -94,7 +94,7 @@ describe('ast-utils', () => {
     });
     applyTransformersToPath(tree, fileName, [transformer]);
     expect(tree.read(fileName, 'utf-8')).toEqual(
-      `const test: string = "new value";\nconst obj = { property: "updated" };\n`
+      `const test: string = "new value";\nconst obj = { property: "updated" };\n`,
     );
   });
 
@@ -105,19 +105,19 @@ describe('ast-utils', () => {
     const transformerTest = getInsertStringPropertyTransformer(
       'test',
       'id',
-      'updated'
+      'updated',
     );
     const transformerBogus = getInsertStringPropertyTransformer(
       'bogus',
       'added',
-      'miss'
+      'miss',
     );
     applyTransformersToPath(tree, fileName, [
       transformerTest,
       transformerBogus,
     ]);
     expect(tree.read(fileName, 'utf-8')).toEqual(
-      `const test = { id: "updated", test: "value", property: "prop" };\n`
+      `const test = { id: "updated", test: "value", property: "prop" };\n`,
     );
   });
 
@@ -130,11 +130,11 @@ describe('ast-utils', () => {
         `export * from './lib/first.module'`,
         `export * from './lib/second.module'`,
         `export * from './lib/fourth.module'`,
-      ].join('\n')
+      ].join('\n'),
     );
     const transformer = getInsertExportTransformer(
       './lib/third.module',
-      './lib/second.module'
+      './lib/second.module',
     );
     applyTransformersToPath(tree, fileName, [transformer]);
     expect(tree.read(fileName, 'utf-8')).toMatchSnapshot();
@@ -155,11 +155,11 @@ describe('ast-utils', () => {
         }),
       ],
     }
-    `
+    `,
     );
     const transformer = getInsertIdentifierToArrayTransformer(
       'imports',
-      'XModule'
+      'XModule',
     );
     applyTransformersToPath(tree, fileName, [transformer]);
     expect(tree.read(fileName, 'utf-8')).toMatchSnapshot();
@@ -169,34 +169,34 @@ describe('ast-utils', () => {
     const importStatement = ts.createSourceFile(
       `script.ts`,
       `import { XComponent } from './lib/x-component';`,
-      ts.ScriptTarget.Latest
+      ts.ScriptTarget.Latest,
     ).statements[0] as ts.ImportDeclaration;
     expect(getNamedImport(importStatement, 'XComponent')).toBeTruthy();
     const aliasImportStatement = ts.createSourceFile(
       `script.ts`,
       `import { XComponent as XCom } from './lib/x-component';`,
-      ts.ScriptTarget.Latest
+      ts.ScriptTarget.Latest,
     ).statements[0] as ts.ImportDeclaration;
     expect(
-      getNamedImport(aliasImportStatement, 'XComponent')?.name.text
+      getNamedImport(aliasImportStatement, 'XComponent')?.name.text,
     ).toEqual('XCom');
     const noNameImportStatement = ts.createSourceFile(
       `script.ts`,
       `import * from './lib/x-component';`,
-      ts.ScriptTarget.Latest
+      ts.ScriptTarget.Latest,
     ).statements[0] as ts.ImportDeclaration;
     expect(() =>
-      getNamedImport(noNameImportStatement, 'XComponent')
+      getNamedImport(noNameImportStatement, 'XComponent'),
     ).toThrowError(
-      `The import from ./lib/x-component does not have named imports.`
+      `The import from ./lib/x-component does not have named imports.`,
     );
     const nonImportStatement = ts.createSourceFile(
       `script.ts`,
       `var foo = 'bar';`,
-      ts.ScriptTarget.Latest
+      ts.ScriptTarget.Latest,
     ).statements[0] as ts.ImportDeclaration;
     expect(() => getNamedImport(nonImportStatement, 'XComponent')).toThrowError(
-      `Could not find an import.`
+      `Could not find an import.`,
     );
   });
 
@@ -209,10 +209,10 @@ describe('ast-utils', () => {
     })
     export class XModule {}
     `,
-      ts.ScriptTarget.Latest
+      ts.ScriptTarget.Latest,
     );
     expect(() => findNgModuleClass(source)).toThrowError(
-      `Could not find @angular/core import.`
+      `Could not find @angular/core import.`,
     );
   });
 
@@ -226,10 +226,10 @@ describe('ast-utils', () => {
     })
     export class XModule {}
     `,
-      ts.ScriptTarget.Latest
+      ts.ScriptTarget.Latest,
     );
     expect(() => findNgModuleClass(source)).toThrowError(
-      `Could not find NgModule import.`
+      `Could not find NgModule import.`,
     );
   });
 
@@ -241,7 +241,7 @@ describe('ast-utils', () => {
     @NgModule()
     export class XModule {}
     `,
-      ts.ScriptTarget.Latest
+      ts.ScriptTarget.Latest,
     );
     const ngModuleClass = findNgModuleClass(source);
     expect(ngModuleClass).toBeTruthy();
@@ -261,7 +261,7 @@ describe('ast-utils', () => {
     })
     export class XModule {}
     `,
-      ts.ScriptTarget.Latest
+      ts.ScriptTarget.Latest,
     );
     const ngModuleClass = findNgModuleClass(source);
     expect(ngModuleClass).toBeTruthy();
@@ -276,12 +276,12 @@ describe('ast-utils', () => {
     await applicationGenerator(tree, { name: 'test' });
     await componentGenerator(tree, { name: 'test', project: 'test' });
     const componentClass = findComponentClass(
-      readSourceFile(tree, 'apps/test/src/app/test/test.component.ts')
+      readSourceFile(tree, 'apps/test/src/app/test/test.component.ts'),
     );
     expect(componentClass).toBeTruthy();
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     expect(componentClass!.classDeclaration.name?.text).toEqual(
-      'TestComponent'
+      'TestComponent',
     );
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     expect(componentClass!.properties).toHaveProperty('templateUrl');
@@ -299,11 +299,11 @@ describe('ast-utils', () => {
       module: 'test',
     });
     const pipeClass = findComponentClass(
-      readSourceFile(tree, 'apps/test/src/app/test/test.pipe.ts')
+      readSourceFile(tree, 'apps/test/src/app/test/test.pipe.ts'),
     );
     expect(pipeClass).toBeFalsy();
     const specClass = findComponentClass(
-      readSourceFile(tree, 'apps/test/src/app/test/test.pipe.spec.ts')
+      readSourceFile(tree, 'apps/test/src/app/test/test.pipe.spec.ts'),
     );
     expect(specClass).toBeFalsy();
   });
@@ -318,14 +318,14 @@ describe('ast-utils', () => {
       import { Component } from '@angular/core';
       @Component(false)
       export class TestComponent {}
-    `
+    `,
     );
     expect(() =>
       findComponentClass(
-        readSourceFile(tree, 'apps/test/src/app/test/test.component.ts')
-      )
+        readSourceFile(tree, 'apps/test/src/app/test/test.component.ts'),
+      ),
     ).toThrowError(
-      `The Component options for TestComponent are not an object literal`
+      `The Component options for TestComponent are not an object literal`,
     );
   });
 
@@ -338,10 +338,10 @@ describe('ast-utils', () => {
       `
       import { Component } from '@angular/core';
       export class TestComponent {}
-    `
+    `,
     );
     const componentClass = findComponentClass(
-      readSourceFile(tree, 'apps/test/src/app/test/test.component.ts')
+      readSourceFile(tree, 'apps/test/src/app/test/test.component.ts'),
     );
     expect(componentClass).toBeFalsy();
   });
@@ -372,7 +372,7 @@ describe('ast-utils', () => {
       import { NgModule } from '@angular/core';
       @NgModule({})
       export class TestModule {}
-    `
+    `,
     );
     const transformer = getTransformerToAddExportToNgModule('TestComponent');
     applyTransformersToPath(tree, fileName, [transformer]);
@@ -390,7 +390,7 @@ describe('ast-utils', () => {
         exports: [ExistingComponent],
       })
       export class TestModule {}
-    `
+    `,
     );
     const transformer = getTransformerToAddExportToNgModule('TestComponent');
     applyTransformersToPath(tree, fileName, [transformer]);
@@ -410,7 +410,7 @@ describe('ast-utils', () => {
         exports: [TestComponent],
       })
       export class TestModule {}
-    `
+    `,
     );
     const transformer = getTransformerToAddExportToNgModule('TestComponent');
     applyTransformersToPath(tree, fileName, [transformer]);
@@ -425,7 +425,7 @@ describe('ast-utils', () => {
         exports: false,
       })
       export class TestModule {}
-    `
+    `,
     );
     applyTransformersToPath(tree, fileName, [transformer]);
     expect(tree.read(fileName, 'utf-8')).toMatchSnapshot();
@@ -436,7 +436,7 @@ describe('ast-utils', () => {
       `
       import { NgModule } from '@angular/core';
       export class TestModule {}
-    `
+    `,
     );
     applyTransformersToPath(tree, fileName, [transformer]);
     expect(tree.read(fileName, 'utf-8')).toMatchSnapshot();
@@ -446,7 +446,7 @@ describe('ast-utils', () => {
       fileName,
       `
       export class TestModule {}
-    `
+    `,
     );
     applyTransformersToPath(tree, fileName, [transformer]);
     expect(tree.read(fileName, 'utf-8')).toMatchSnapshot();
@@ -457,7 +457,7 @@ describe('ast-utils', () => {
       `
       import { Component } from '@angular/core';
       export class TestModule {}
-    `
+    `,
     );
     applyTransformersToPath(tree, fileName, [transformer]);
     expect(tree.read(fileName, 'utf-8')).toMatchSnapshot();

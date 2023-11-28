@@ -8,16 +8,16 @@ export class SkyPageSummaryAdapterService {
   public updateKeyInfoLocation(elRef: ElementRef, isXS: boolean): void {
     const el = elRef.nativeElement;
     const keyInfoContainerEl = el.querySelector(
-      '.sky-page-summary-key-info-container'
+      '.sky-page-summary-key-info-container',
     );
 
     if (isXS) {
       el.querySelector('.sky-page-summary-key-info-xs').appendChild(
-        keyInfoContainerEl
+        keyInfoContainerEl,
       );
     } else {
       el.querySelector('.sky-page-summary-key-info-sm').appendChild(
-        keyInfoContainerEl
+        keyInfoContainerEl,
       );
     }
   }

@@ -44,7 +44,7 @@ describe('Basic numeric options', () => {
     expect(
       fixture.debugElement
         .query(By.css('.default-value'))
-        .nativeElement.innerText.trim()
+        .nativeElement.innerText.trim(),
     ).toBe('123.5K');
   });
 
@@ -57,7 +57,7 @@ describe('Basic numeric options', () => {
     expect(
       fixture.debugElement
         .query(By.css('.configured-value'))
-        .nativeElement.innerText.trim()
+        .nativeElement.innerText.trim(),
     ).toBe('5,000,000');
   });
 });

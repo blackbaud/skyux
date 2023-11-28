@@ -52,12 +52,12 @@ describe('Text expand component', () => {
 
       fixture.detectChanges();
       const buttonElem = el.querySelector(
-        '.sky-text-expand-see-more'
+        '.sky-text-expand-see-more',
       ) as HTMLElement | null;
 
       expect(buttonElem?.getAttribute('aria-expanded')).toBe('false');
       expect(buttonElem?.getAttribute('aria-controls')).toBe(
-        cmp.textExpand?.contentSectionId
+        cmp.textExpand?.contentSectionId,
       );
       expect(buttonElem?.getAttribute('aria-haspopup')).toBeNull();
 
@@ -65,7 +65,7 @@ describe('Text expand component', () => {
 
       expect(buttonElem?.getAttribute('aria-expanded')).toBe('true');
       expect(buttonElem?.getAttribute('aria-controls')).toBe(
-        cmp.textExpand?.contentSectionId
+        cmp.textExpand?.contentSectionId,
       );
       expect(buttonElem?.getAttribute('aria-haspopup')).toBeNull();
 
@@ -83,10 +83,10 @@ describe('Text expand component', () => {
       fixture.detectChanges();
 
       const ellipsis: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-ellipsis'
+        '.sky-text-expand-ellipsis',
       );
       const seeMoreButton: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-see-more'
+        '.sky-text-expand-see-more',
       );
       expect(ellipsis).toBeNull();
       expect(seeMoreButton).toBeNull();
@@ -99,10 +99,10 @@ describe('Text expand component', () => {
       fixture.detectChanges();
 
       const ellipsis: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-ellipsis'
+        '.sky-text-expand-ellipsis',
       );
       const seeMoreButton: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-see-more'
+        '.sky-text-expand-see-more',
       );
       expect(ellipsis).not.toBeNull();
       expect(seeMoreButton).not.toBeNull();
@@ -115,10 +115,10 @@ describe('Text expand component', () => {
       fixture.detectChanges();
 
       const ellipsis: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-ellipsis'
+        '.sky-text-expand-ellipsis',
       );
       const seeMoreButton: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-see-more'
+        '.sky-text-expand-see-more',
       );
       expect(ellipsis).toBeNull();
       expect(seeMoreButton).toBeNull();
@@ -129,10 +129,10 @@ describe('Text expand component', () => {
 
       fixture.detectChanges();
       const ellipsis: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-ellipsis'
+        '.sky-text-expand-ellipsis',
       );
       const seeMoreButton: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-see-more'
+        '.sky-text-expand-see-more',
       );
       expect(ellipsis).not.toBeNull();
       expect(seeMoreButton).not.toBeNull();
@@ -144,10 +144,10 @@ describe('Text expand component', () => {
 
       fixture.detectChanges();
       let ellipsis: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-ellipsis'
+        '.sky-text-expand-ellipsis',
       );
       let seeMoreButton: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-see-more'
+        '.sky-text-expand-see-more',
       );
       expect(ellipsis).not.toBeNull();
       expect(seeMoreButton).not.toBeNull();
@@ -167,10 +167,10 @@ describe('Text expand component', () => {
 
       fixture.detectChanges();
       let ellipsis: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-ellipsis'
+        '.sky-text-expand-ellipsis',
       );
       let seeMoreButton: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-see-more'
+        '.sky-text-expand-see-more',
       );
       expect(ellipsis).not.toBeNull();
       expect(seeMoreButton).not.toBeNull();
@@ -199,10 +199,10 @@ describe('Text expand component', () => {
 
       fixture.detectChanges();
       let ellipsis: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-ellipsis'
+        '.sky-text-expand-ellipsis',
       );
       let seeMoreButton: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-see-more'
+        '.sky-text-expand-see-more',
       );
       expect(ellipsis).not.toBeNull();
       expect(seeMoreButton).not.toBeNull();
@@ -223,13 +223,13 @@ describe('Text expand component', () => {
       fixture.detectChanges();
 
       const ellipsis: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-ellipsis'
+        '.sky-text-expand-ellipsis',
       );
       const seeMoreButton: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-see-more'
+        '.sky-text-expand-see-more',
       );
       const textArea: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-text'
+        '.sky-text-expand-text',
       );
       expect(ellipsis).toBeNull();
       expect(seeMoreButton).toBeNull();
@@ -242,10 +242,10 @@ describe('Text expand component', () => {
       fixture.detectChanges();
 
       const ellipsis: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-ellipsis'
+        '.sky-text-expand-ellipsis',
       );
       const seeMoreButton: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-see-more'
+        '.sky-text-expand-see-more',
       );
       expect(ellipsis).not.toBeNull();
       expect(seeMoreButton).not.toBeNull();
@@ -260,16 +260,16 @@ describe('Text expand component', () => {
       fixture.detectChanges();
 
       let ellipsis: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-ellipsis'
+        '.sky-text-expand-ellipsis',
       );
       const seeMoreButton: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-see-more'
+        '.sky-text-expand-see-more',
       );
       let textArea: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-text'
+        '.sky-text-expand-text',
       );
       const container: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-container'
+        '.sky-text-expand-container',
       );
       expect(ellipsis).not.toBeNull();
       expect(seeMoreButton?.innerText.trim()).toBe('See more');
@@ -303,10 +303,10 @@ describe('Text expand component', () => {
       fixture.detectChanges();
 
       const ellipsis: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-ellipsis'
+        '.sky-text-expand-ellipsis',
       );
       const seeMoreButton: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-see-more'
+        '.sky-text-expand-see-more',
       );
       expect(ellipsis).toBeNull();
       expect(seeMoreButton).toBeNull();
@@ -326,7 +326,7 @@ describe('Text expand component', () => {
       fixture.detectChanges();
 
       expect(el.textContent?.trim()).toContain(
-        cmp.text.replace(/(?:\r\n|\r|\n)/g, ' ')
+        cmp.text.replace(/(?:\r\n|\r|\n)/g, ' '),
       );
     });
 
@@ -346,13 +346,13 @@ describe('Text expand component', () => {
       fixture.detectChanges();
 
       const ellipsis: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-ellipsis'
+        '.sky-text-expand-ellipsis',
       );
       const seeMoreButton: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-see-more'
+        '.sky-text-expand-see-more',
       );
       const textArea: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-text'
+        '.sky-text-expand-text',
       );
       let modal = document.querySelector('.sky-modal');
 
@@ -370,7 +370,7 @@ describe('Text expand component', () => {
       const modalContent: HTMLElement | null =
         document.querySelector('sky-modal-content');
       const closeButton: HTMLElement | null = document.querySelector(
-        'sky-modal-footer button'
+        'sky-modal-footer button',
       );
 
       expect(modal).not.toBeNull();
@@ -395,13 +395,13 @@ describe('Text expand component', () => {
       fixture.detectChanges();
 
       const ellipsis: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-ellipsis'
+        '.sky-text-expand-ellipsis',
       );
       const seeMoreButton: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-see-more'
+        '.sky-text-expand-see-more',
       );
       const textArea: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-text'
+        '.sky-text-expand-text',
       );
       let modal = document.querySelector('.sky-modal');
 
@@ -419,7 +419,7 @@ describe('Text expand component', () => {
       const modalContent: HTMLElement | null =
         document.querySelector('sky-modal-content');
       const closeButton: HTMLElement | null = document.querySelector(
-        'sky-modal-footer button'
+        'sky-modal-footer button',
       );
 
       expect(modal).not.toBeNull();
@@ -461,13 +461,13 @@ describe('Text expand component', () => {
       fixture.detectChanges();
 
       const ellipsis: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-ellipsis'
+        '.sky-text-expand-ellipsis',
       );
       const seeMoreButton: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-see-more'
+        '.sky-text-expand-see-more',
       );
       const textArea: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-text'
+        '.sky-text-expand-text',
       );
       let modal = document.querySelector('.sky-modal');
 
@@ -485,7 +485,7 @@ describe('Text expand component', () => {
       const modalContent: HTMLElement | null =
         document.querySelector('sky-modal-content');
       const closeButton: HTMLElement | null = document.querySelector(
-        'sky-modal-footer button'
+        'sky-modal-footer button',
       );
 
       expect(modal).not.toBeNull();

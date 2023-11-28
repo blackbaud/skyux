@@ -102,7 +102,7 @@ export class SkyPagingComponent implements OnChanges {
   #getDisplayedPageNumbers(
     pageCount: number,
     maxDisplayedPages: number,
-    pageNumber: number
+    pageNumber: number,
   ): Array<number> {
     const pageIndex = pageNumber - 1;
     const pageBounds = Math.floor(maxDisplayedPages / 2);
@@ -150,7 +150,7 @@ export class SkyPagingComponent implements OnChanges {
     this.displayedPages = this.#getDisplayedPageNumbers(
       this.pageCount,
       this.maxPages,
-      this.currentPage
+      this.currentPage,
     );
   }
 }

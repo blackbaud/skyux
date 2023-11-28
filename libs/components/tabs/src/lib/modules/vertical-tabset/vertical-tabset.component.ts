@@ -133,7 +133,7 @@ export class SkyVerticalTabsetComponent
     public tabService: SkyVerticalTabsetService,
     resources: SkyLibResourcesService,
     changeRef: ChangeDetectorRef,
-    tabIdSvc: SkyTabIdService
+    tabIdSvc: SkyTabIdService,
   ) {
     this.#resources = resources;
     this.#changeRef = changeRef;

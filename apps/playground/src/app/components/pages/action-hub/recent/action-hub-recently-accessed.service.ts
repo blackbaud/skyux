@@ -12,7 +12,7 @@ import { delay } from 'rxjs/operators';
 @Injectable()
 export class ActionHubPlaygroundRecentlyAccessedService extends SkyRecentlyAccessedService {
   public getLinks(
-    args: SkyRecentlyAccessedGetLinksArgs
+    args: SkyRecentlyAccessedGetLinksArgs,
   ): Observable<SkyRecentlyAccessedLinkList> {
     const result: SkyRecentlyAccessedLinkList = {
       links: [],

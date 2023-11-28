@@ -38,7 +38,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
     });
 
     rowSelectorCellFixture = TestBed.createComponent(
-      SkyAgGridCellRendererRowSelectorComponent
+      SkyAgGridCellRendererRowSelectorComponent,
     );
     rowSelectorCellNativeElement = rowSelectorCellFixture.nativeElement;
     rowSelectorCellComponent = rowSelectorCellFixture.componentInstance;
@@ -56,7 +56,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
     gridFixture.detectChanges();
 
     const element = gridNativeElement.querySelector(
-      `.${SkyCellClass.RowSelector}`
+      `.${SkyCellClass.RowSelector}`,
     );
     expect(element).toBeVisible();
   });
@@ -72,7 +72,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
 
       const checkbox = new SkyCheckboxFixture(
         rowSelectorCellFixture,
-        'row-checkbox'
+        'row-checkbox',
       );
 
       expect(rowSelectorCellComponent.checked).toBeUndefined();
@@ -80,7 +80,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
       expect(rowSelectorCellComponent.rowNode).toBeUndefined();
 
       rowSelectorCellComponent.agInit(
-        cellRendererParams as ICellRendererParams
+        cellRendererParams as ICellRendererParams,
       );
 
       rowSelectorCellFixture.detectChanges();
@@ -91,7 +91,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
       expect(checkbox.selected).toBe(true);
       expect(rowSelectorCellComponent.rowNode).toEqual(rowNode);
       expect(
-        rowSelectorCellComponent.rowNode?.setSelected
+        rowSelectorCellComponent.rowNode?.setSelected,
       ).toHaveBeenCalledWith(true);
     }));
 
@@ -105,7 +105,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
 
       const checkbox = new SkyCheckboxFixture(
         rowSelectorCellFixture,
-        'row-checkbox'
+        'row-checkbox',
       );
 
       expect(rowSelectorCellComponent.checked).toBeUndefined();
@@ -113,7 +113,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
       expect(rowSelectorCellComponent.rowNode).toBeUndefined();
 
       rowSelectorCellComponent.agInit(
-        cellRendererParams as ICellRendererParams
+        cellRendererParams as ICellRendererParams,
       );
 
       rowSelectorCellFixture.detectChanges();
@@ -124,7 +124,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
       expect(checkbox.selected).toBe(false);
       expect(rowSelectorCellComponent.rowNode).toEqual(rowNode);
       expect(
-        rowSelectorCellComponent.rowNode?.setSelected
+        rowSelectorCellComponent.rowNode?.setSelected,
       ).not.toHaveBeenCalled();
     }));
   });
@@ -141,13 +141,13 @@ describe('SkyCellRendererCheckboxComponent', () => {
 
       rowSelectorCellFixture.detectChanges();
       rowSelectorCellComponent.agInit(
-        cellRendererParams as ICellRendererParams
+        cellRendererParams as ICellRendererParams,
       );
 
       rowSelectorCellComponent.updateRow();
 
       expect(
-        rowSelectorCellComponent.rowNode?.setSelected
+        rowSelectorCellComponent.rowNode?.setSelected,
       ).toHaveBeenCalledWith(true);
       expect(rowSelectorCellComponent.rowNode?.data[dataField]).toBe(true);
     });
@@ -163,7 +163,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
 
       rowSelectorCellFixture.detectChanges();
       rowSelectorCellComponent.agInit(
-        cellRendererParams as ICellRendererParams
+        cellRendererParams as ICellRendererParams,
       );
 
       spyOn(rowNode, 'setSelected');
@@ -171,7 +171,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
       rowSelectorCellComponent.updateRow();
 
       expect(
-        rowSelectorCellComponent.rowNode?.setSelected
+        rowSelectorCellComponent.rowNode?.setSelected,
       ).toHaveBeenCalledWith(true);
     });
 
@@ -186,7 +186,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
 
       rowSelectorCellFixture.detectChanges();
       rowSelectorCellComponent.agInit(
-        cellRendererParams as ICellRendererParams
+        cellRendererParams as ICellRendererParams,
       );
 
       spyOn(rowNode, 'setSelected');
@@ -194,7 +194,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
       rowSelectorCellComponent.updateRow();
 
       expect(
-        rowSelectorCellComponent.rowNode?.setSelected
+        rowSelectorCellComponent.rowNode?.setSelected,
       ).not.toHaveBeenCalled();
     });
   });
@@ -206,7 +206,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
           node: {
             isSelected: () => true,
           } as unknown as RowNode,
-        } as unknown as ICellRendererParams)
+        } as unknown as ICellRendererParams),
       ).toBe(true);
     });
   });
@@ -215,7 +215,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
     function testRowSelected(
       colDefinition: ColDef | undefined,
       isSelectedValues: boolean[],
-      dataPropertySet = false
+      dataPropertySet = false,
     ): void {
       let rowClickListener: ((event: RowClickedEvent) => void) | undefined;
       const rowNode = new RowNode({} as Beans);
@@ -240,7 +240,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
 
       rowNode.addEventListener = (
         event: unknown,
-        listener: (event: RowClickedEvent) => void
+        listener: (event: RowClickedEvent) => void,
       ): void => {
         // set event listener
         rowClickListener = listener;
@@ -252,11 +252,11 @@ describe('SkyCellRendererCheckboxComponent', () => {
 
       const checkbox = new SkyCheckboxFixture(
         rowSelectorCellFixture,
-        'row-checkbox'
+        'row-checkbox',
       );
 
       rowSelectorCellComponent.agInit(
-        cellRendererParams as ICellRendererParams
+        cellRendererParams as ICellRendererParams,
       );
 
       expect(rowSelectorCellComponent.checked).toBeFalsy();
@@ -273,7 +273,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
 
       expect(rowNode.addEventListener).toHaveBeenCalledWith(
         RowNode.EVENT_ROW_SELECTED,
-        jasmine.any(Function)
+        jasmine.any(Function),
       );
       expect(rowSelectorCellComponent.checked).toBe(true);
       expect(checkbox.selected).toBe(true);
@@ -281,7 +281,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
       if (dataPropertySet) {
         expect(
           cellRendererParams?.colDef?.field &&
-            rowNode.data[cellRendererParams.colDef.field]
+            rowNode.data[cellRendererParams.colDef.field],
         ).toBe(true);
       }
     }

@@ -8,7 +8,7 @@
     [hidden]="!drawerVisible"
     [@drawerEnter]="drawerVisible"
   >
-    <ng-content select="sky-split-view-drawer"></ng-content>
+    <ng-content select="sky-split-view-drawer" />
   </div>
 
   <div
@@ -17,6 +17,6 @@
     [@workspaceEnter]="workspaceVisible"
     (@workspaceEnter.done)="onWorkspaceEnterComplete()"
   >
-    <ng-content select="sky-split-view-workspace"></ng-content>
+    <ng-content select="sky-split-view-workspace" />
   </div>
 </div>

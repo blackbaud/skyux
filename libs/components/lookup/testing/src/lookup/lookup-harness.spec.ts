@@ -6,23 +6,39 @@ import { LookupHarnessTestComponent } from './fixtures/lookup-harness-test.compo
 import { LookupHarnessTestModule } from './fixtures/lookup-harness-test.module';
 import { SkyLookupHarness } from './lookup-harness';
 
-async function setupTest(options: { dataSkyId: string }) {
+async function setupTest(options: {
+  dataSkyId: string;
+  selectionDescriptor?: string;
+  enableCustomTemplate?: boolean;
+}) {
   await TestBed.configureTestingModule({
     imports: [LookupHarnessTestModule],
   }).compileComponents();
 
   const fixture = TestBed.createComponent(LookupHarnessTestComponent);
+  fixture.componentInstance.showMoreConfig.nativePickerConfig = Object.assign(
+    { selectionDescriptor: options.selectionDescriptor },
+    fixture.componentInstance.showMoreConfig.nativePickerConfig,
+  );
+
+  if (options.enableCustomTemplate) {
+    fixture.componentInstance.showMoreConfig.nativePickerConfig = Object.assign(
+      { itemTemplate: fixture.componentInstance.showMoreSearchResultTemplate },
+      fixture.componentInstance.showMoreConfig.nativePickerConfig,
+    );
+  }
+
   const loader = TestbedHarnessEnvironment.loader(fixture);
 
   let lookupHarness: SkyLookupHarness;
 
   if (options.dataSkyId === 'my-basic-lookup') {
     lookupHarness = await loader.getHarness(
-      SkyLookupHarness.with({ dataSkyId: options.dataSkyId })
+      SkyLookupHarness.with({ dataSkyId: options.dataSkyId }),
     );
   } else {
     const inputBoxHarness = await loader.getHarness(
-      SkyInputBoxHarness.with({ dataSkyId: options.dataSkyId })
+      SkyInputBoxHarness.with({ dataSkyId: options.dataSkyId }),
     );
     lookupHarness = (await inputBoxHarness.queryHarness(SkyLookupHarness))!;
   }
@@ -101,7 +117,7 @@ function testSingleSelect(dataSkyId: string) {
     const picker = await lookupHarness.getShowMorePicker();
 
     await expectAsync(picker?.selectAll()).toBeRejectedWithError(
-      'Could not select all selections because the "Select all" button could not be found.'
+      'Could not select all selections because the "Select all" button could not be found.',
     );
   });
 
@@ -115,7 +131,38 @@ function testSingleSelect(dataSkyId: string) {
     const picker = await lookupHarness.getShowMorePicker();
 
     await expectAsync(picker?.clearAll()).toBeRejectedWithError(
-      'Could not clear all selections because the "Clear all" button could not be found.'
+      'Could not clear all selections because the "Clear all" button could not be found.',
+    );
+  });
+
+  it('should get accessibility labels', async () => {
+    const { lookupHarness } = await setupTest({
+      dataSkyId,
+      selectionDescriptor: 'person',
+    });
+
+    await lookupHarness.clickShowMoreButton();
+    const picker = await lookupHarness.getShowMorePicker();
+    await expectAsync(
+      picker.getClearAllButtonAriaLabel(),
+    ).toBeRejectedWithError(
+      'Could not get the aria-label for the clear all button because the "Clear all" button could not be found.',
+    );
+    await expectAsync(
+      picker.getSelectAllButtonAriaLabel(),
+    ).toBeRejectedWithError(
+      'Could not get the aria-label for the select all button because the "Select all" button could not be found.',
+    );
+    await expectAsync(
+      picker.getOnlyShowSelectedAriaLabel(),
+    ).toBeRejectedWithError(
+      'Could not get the "Show only selected items" checkbox because it could not be found.',
+    );
+    await expectAsync(picker.getSearchAriaLabel()).toBeResolvedTo(
+      'Search person',
+    );
+    await expectAsync(picker.getSaveButtonAriaLabel()).toBeResolvedTo(
+      'Select person',
     );
   });
 }
@@ -272,9 +319,9 @@ function testMultiselect(dataSkyId: string) {
     const picker = await lookupHarness.getShowMorePicker();
 
     await expectAsync(
-      picker?.selectSearchResult({ contentText: 'Invalid search' })
+      picker?.selectSearchResult({ contentText: 'Invalid search' }),
     ).toBeRejectedWithError(
-      'Could not find search results in the picker matching filter(s): {"contentText":"Invalid search"}'
+      'Could not find search results in the picker matching filter(s): {"contentText":"Invalid search"}',
     );
   });
 
@@ -284,7 +331,32 @@ function testMultiselect(dataSkyId: string) {
     });
 
     await expectAsync(lookupHarness.getShowMorePicker()).toBeRejectedWithError(
-      'Cannot get the "Show more" picker because it is not open.'
+      'Cannot get the "Show more" picker because it is not open.',
+    );
+  });
+
+  it('should get accessibility labels', async () => {
+    const { lookupHarness } = await setupTest({
+      dataSkyId,
+      selectionDescriptor: 'people',
+    });
+
+    await lookupHarness.clickShowMoreButton();
+    const picker = await lookupHarness.getShowMorePicker();
+    await expectAsync(picker.getClearAllButtonAriaLabel()).toBeResolvedTo(
+      'Clear all selected people',
+    );
+    await expectAsync(picker.getSelectAllButtonAriaLabel()).toBeResolvedTo(
+      'Select all people',
+    );
+    await expectAsync(picker.getSearchAriaLabel()).toBeResolvedTo(
+      'Search people',
+    );
+    await expectAsync(picker.getSaveButtonAriaLabel()).toBeResolvedTo(
+      'Select people',
+    );
+    await expectAsync(picker.getOnlyShowSelectedAriaLabel()).toBeResolvedTo(
+      'Show only selected people',
     );
   });
 }
@@ -305,6 +377,7 @@ describe('Lookup harness', () => {
     it('should get search result text and value', async () => {
       const { lookupHarness } = await setupTest({
         dataSkyId: 'my-custom-template-lookup',
+        enableCustomTemplate: true,
       });
 
       await lookupHarness.enterText('d');
@@ -313,7 +386,7 @@ describe('Lookup harness', () => {
 
       await expectAsync(results[0].getDescriptorValue()).toBeResolvedTo('Abed');
       await expectAsync(results[0].getText()).toBeResolvedTo(
-        'Abed (Mr. Nadir)'
+        'Abed (Mr. Nadir)',
       );
     });
 
@@ -329,7 +402,7 @@ describe('Lookup harness', () => {
 
       const results = (await picker?.getSearchResults()) ?? [];
       await expectAsync(results[0].getContentText()).toBeResolvedTo(
-        'Abed (Mr. Nadir)'
+        'Abed (Mr. Nadir)',
       );
     });
   });

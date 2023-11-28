@@ -2,7 +2,7 @@ import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { SkyHref, SkyHrefResolver } from '@skyux/router';
 
 export const MockUserHasAccess = new InjectionToken<boolean>(
-  'MockUserHasAccess'
+  'MockUserHasAccess',
 );
 
 /**

@@ -7,16 +7,16 @@ import { wrapAngularDevkitSchematic } from 'nx/src/adapter/ngcli-adapter';
 export async function angularModuleGenerator(tree: Tree, schema: ModuleSchema) {
   return wrapAngularDevkitSchematic('@schematics/angular', 'module')(
     tree,
-    schema
+    schema,
   );
 }
 
 export async function angularComponentGenerator(
   tree: Tree,
-  schema: ComponentSchema
+  schema: ComponentSchema,
 ) {
   return wrapAngularDevkitSchematic('@schematics/angular', 'component')(
     tree,
-    schema
+    schema,
   );
 }

@@ -21,7 +21,7 @@ describe('Lookup asynchronous search demo', () => {
 
     const lookupHarness = await (
       await loader.getHarness(
-        SkyInputBoxHarness.with({ dataSkyId: 'favorite-names-field' })
+        SkyInputBoxHarness.with({ dataSkyId: 'favorite-names-field' }),
       )
     ).queryHarness(SkyLookupHarness);
 
@@ -67,7 +67,7 @@ describe('Lookup asynchronous search demo', () => {
               ]
             : [],
         totalCount: 1,
-      })
+      }),
     );
 
     await lookupHarness?.enterText('b');
@@ -76,7 +76,35 @@ describe('Lookup asynchronous search demo', () => {
     });
 
     expect(fixture.componentInstance.favoritesForm.value.favoriteNames).toEqual(
-      [{ name: 'Shirley' }, { name: 'Bernard' }]
+      [{ name: 'Shirley' }, { name: 'Bernard' }],
+    );
+  });
+
+  it('should respect the selection descriptor', async () => {
+    const { lookupHarness } = await setupTest();
+
+    mockSvc.search.and.callFake(() =>
+      of({
+        hasMore: false,
+        people: [
+          {
+            id: '21',
+            name: 'Bernard',
+          },
+        ],
+        totalCount: 1,
+      }),
+    );
+
+    await lookupHarness?.clickShowMoreButton();
+
+    const picker = await lookupHarness?.getShowMorePicker();
+
+    await expectAsync(picker?.getSearchAriaLabel()).toBeResolvedTo(
+      'Search names',
+    );
+    await expectAsync(picker?.getSaveButtonAriaLabel()).toBeResolvedTo(
+      'Select names',
     );
   });
 });

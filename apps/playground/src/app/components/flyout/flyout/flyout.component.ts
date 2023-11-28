@@ -56,7 +56,7 @@ export class FlyoutComponent implements OnDestroy {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     record: any,
     previousButtonDisabled: boolean,
-    nextButtonDisabled: boolean
+    nextButtonDisabled: boolean,
   ): void {
     this.flyout = this.#flyoutService.open(FlyoutDemoComponent, {
       providers: [

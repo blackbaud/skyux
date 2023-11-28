@@ -32,7 +32,7 @@ export class DynamicComponentTestComponent implements OnInit {
 
   constructor(
     @Inject('greeting') @Optional() public greeting?: string,
-    @Optional() greetingSvc?: GreetingService
+    @Optional() greetingSvc?: GreetingService,
   ) {
     this.#greetingSvc = greetingSvc;
   }

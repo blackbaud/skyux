@@ -30,8 +30,7 @@
     [wrapperClass]="skyComponentProperties?.wrapperClass"
     (addClick)="skyComponentProperties?.addClick?.($event)"
     (openChange)="onLookupOpenChange($event)"
-  >
-  </sky-lookup>
+  />
 </sky-input-box>
 <sky-input-box
   *ngIf="isAlive && !useAsyncSearch"
@@ -64,6 +63,5 @@
     [wrapperClass]="skyComponentProperties?.wrapperClass"
     (addClick)="skyComponentProperties?.addClick?.($event)"
     (openChange)="onLookupOpenChange($event)"
-  >
-  </sky-lookup>
+  />
 </sky-input-box>

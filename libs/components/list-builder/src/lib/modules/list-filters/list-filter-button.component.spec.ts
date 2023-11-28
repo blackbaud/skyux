@@ -44,7 +44,7 @@ describe('List filter button', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       expect(
-        nativeElement.querySelector('.sky-toolbar-item .sky-test-content')
+        nativeElement.querySelector('.sky-toolbar-item .sky-test-content'),
       ).not.toBeNull();
     });
   }));

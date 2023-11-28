@@ -8,8 +8,7 @@
       [ariaLabelledBy]="basicLabel.id"
       [attr.data-sky-id]="'my-basic-lookup'"
       [data]="people"
-    >
-    </sky-lookup>
+    />
   </div>
 
   <!-- SINGLE SELECT (STANDARD) -->
@@ -26,9 +25,9 @@
         [enableShowMore]="true"
         [searchFilters]="getSearchFilters()"
         [showAddButton]="true"
+        [showMoreConfig]="showMoreConfig"
         (addClick)="onAddClick()"
-      >
-      </sky-lookup>
+      />
     </sky-input-box>
   </div>
 
@@ -46,10 +45,10 @@
         [enableShowMore]="true"
         [searchFilters]="getSearchFilters()"
         [showAddButton]="true"
+        [showMoreConfig]="showMoreConfig"
         (addClick)="onAddClick()"
         (searchAsync)="onSearchAsync($event)"
-      >
-      </sky-lookup>
+      />
     </sky-input-box>
   </div>
 
@@ -67,8 +66,8 @@
         [enableShowMore]="true"
         [searchFilters]="getSearchFilters()"
         [showAddButton]="true"
-      >
-      </sky-lookup>
+        [showMoreConfig]="showMoreConfig"
+      />
     </sky-input-box>
   </div>
 
@@ -84,9 +83,10 @@
         [ariaLabelledBy]="asyncNamesLabel.id"
         [enableShowMore]="true"
         [showAddButton]="true"
+        [showMoreConfig]="showMoreConfig"
         (addClick)="onAddClick()"
         (searchAsync)="onSearchAsync($event)"
-      ></sky-lookup>
+      />
     </sky-input-box>
   </div>
 
@@ -107,8 +107,7 @@
         [showMoreConfig]="showMoreConfig"
         (addClick)="onAddClick()"
         (searchAsync)="onSearchAsync($event)"
-      >
-      </sky-lookup>
+      />
     </sky-input-box>
   </div>
 </form>

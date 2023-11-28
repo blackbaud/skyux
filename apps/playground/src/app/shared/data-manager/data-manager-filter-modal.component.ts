@@ -3,16 +3,20 @@ import {
   ChangeDetectorRef,
   Component,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import {
   SkyDataManagerFilterData,
   SkyDataManagerFilterModalContext,
 } from '@skyux/data-manager';
-import { SkyModalInstance } from '@skyux/modals';
+import { SkyCheckboxModule } from '@skyux/forms';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
+  standalone: true,
   selector: 'app-data-manager-filter-modal',
   templateUrl: './data-manager-filter-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [FormsModule, SkyCheckboxModule, SkyModalModule],
 })
 export class DataManagerFiltersModalComponent {
   public jobTitle = '';
@@ -22,7 +26,7 @@ export class DataManagerFiltersModalComponent {
   constructor(
     public context: SkyDataManagerFilterModalContext,
     public instance: SkyModalInstance,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
   ) {
     if (this.context.filterData && this.context.filterData.filters) {
       const filters = this.context.filterData.filters;

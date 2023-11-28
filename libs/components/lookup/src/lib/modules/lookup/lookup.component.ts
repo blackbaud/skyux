@@ -28,7 +28,7 @@ import {
 import { SkyModalInstance, SkyModalService } from '@skyux/modals';
 import { SkyThemeService } from '@skyux/theme';
 
-import { Subject, fromEvent as observableFromEvent } from 'rxjs';
+import { Observable, Subject, fromEvent as observableFromEvent } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
 import { SkyAutocompleteInputDirective } from '../autocomplete/autocomplete-input.directive';
@@ -257,13 +257,14 @@ export class SkyLookupComponent
   public showMorePickerId: string | undefined;
   public tokensController = new Subject<SkyTokensMessage>();
   protected controlId: string | undefined;
+  protected ariaDescribedBy: Observable<string | undefined> | undefined;
 
   @ViewChild(SkyAutocompleteInputDirective, {
     read: SkyAutocompleteInputDirective,
     static: false,
   })
   public set autocompleteInputDirective(
-    value: SkyAutocompleteInputDirective | undefined
+    value: SkyAutocompleteInputDirective | undefined,
   ) {
     this.#_autocompleteInputDirective = value;
     this.#updateForSelectMode();
@@ -326,7 +327,7 @@ export class SkyLookupComponent
   constructor(
     @Self() @Optional() ngControl?: NgControl,
     @Optional() public inputBoxHostSvc?: SkyInputBoxHostService,
-    @Optional() public themeSvc?: SkyThemeService
+    @Optional() public themeSvc?: SkyThemeService,
   ) {
     super();
 
@@ -338,6 +339,7 @@ export class SkyLookupComponent
   public ngOnInit(): void {
     if (this.inputBoxHostSvc && this.inputTemplateRef) {
       this.controlId = this.inputBoxHostSvc.controlId;
+      this.ariaDescribedBy = this.inputBoxHostSvc.ariaDescribedBy;
 
       this.inputBoxHostSvc.populate({
         inputTemplate: this.inputTemplateRef,
@@ -387,7 +389,7 @@ export class SkyLookupComponent
   }
 
   public onAutocompleteSelectionChange(
-    change: SkyAutocompleteSelectionChange
+    change: SkyAutocompleteSelectionChange,
   ): void {
     /* istanbul ignore else */
     if (change.selectedItem) {
@@ -452,7 +454,7 @@ export class SkyLookupComponent
 
   public onTokensRendered(): void {
     this.#sendAutocompleteMessage(
-      SkyAutocompleteMessageType.RepositionDropdown
+      SkyAutocompleteMessageType.RepositionDropdown,
     );
   }
 
@@ -601,7 +603,9 @@ export class SkyLookupComponent
 
         this.#openSelectionModal.closed.subscribe((closeArgs) => {
           this.#processPickerResult(
-            closeArgs.reason === 'save' ? closeArgs.selectedItems : initialValue
+            closeArgs.reason === 'save'
+              ? closeArgs.selectedItems
+              : initialValue,
           );
         });
       } else {
@@ -650,7 +654,7 @@ export class SkyLookupComponent
   }
 
   #createSelectionModalInstance(
-    initialSearch: string
+    initialSearch: string,
   ): SkySelectionModalInstance {
     const initialValue = this.value;
     const modalConfig = this.showMoreConfig?.nativePickerConfig || {};
@@ -661,7 +665,7 @@ export class SkyLookupComponent
 
     if (this.idProperty === undefined) {
       this.#logSvc.error(
-        "The lookup component's 'idProperty' input is required when `enableShowMore` and 'searchAsync' are used together."
+        "The lookup component's 'idProperty' input is required when `enableShowMore` and 'searchAsync' are used together.",
       );
     }
 
@@ -686,6 +690,7 @@ export class SkyLookupComponent
       },
       initialSearch,
       itemTemplate: modalConfig.itemTemplate,
+      selectionDescriptor: modalConfig.selectionDescriptor,
       showAddButton: this.showAddButton,
       title: modalConfig.title,
       value: initialValue,
@@ -701,6 +706,11 @@ export class SkyLookupComponent
       modalConfig.itemTemplate = this.searchResultTemplate;
     }
 
+    if (!modalConfig.selectionDescriptor) {
+      modalConfig.selectionDescriptor =
+        this.selectMode === 'single' ? 'item' : 'items';
+    }
+
     const contextProviderValue = new SkyLookupShowMoreNativePickerContext(
       this.descriptorProperty,
       initialSearch,
@@ -709,7 +719,7 @@ export class SkyLookupComponent
       this.searchOrDefault,
       this.selectMode,
       this.showAddButton,
-      modalConfig
+      modalConfig,
     );
 
     return this.#modalService.open(SkyLookupShowMoreModalComponent, {
@@ -759,7 +769,7 @@ export class SkyLookupComponent
       if (
         !this.idProperty ||
         !this.value.some(
-          (existingItem) => existingItem[idProperty] === item[idProperty]
+          (existingItem) => existingItem[idProperty] === item[idProperty],
         )
       ) {
         selectedItems.push(item);

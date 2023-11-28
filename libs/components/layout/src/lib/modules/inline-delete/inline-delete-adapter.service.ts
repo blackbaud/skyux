@@ -16,7 +16,7 @@ export class SkyInlineDeleteAdapterService {
 
   constructor(
     coreAdapterService: SkyCoreAdapterService,
-    rendererFactory: RendererFactory2
+    rendererFactory: RendererFactory2,
   ) {
     this.#coreAdapterService = coreAdapterService;
     this.#renderer = rendererFactory.createRenderer(undefined, null);
@@ -50,7 +50,7 @@ export class SkyInlineDeleteAdapterService {
               this.#focusNextElement(target, this.#isShift(event));
             }
           }
-        }
+        },
       );
     }
   }
@@ -118,7 +118,7 @@ export class SkyInlineDeleteAdapterService {
     }
 
     this.#focusableElements = this.#coreAdapterService.getFocusableChildren(
-      document.body
+      document.body,
     );
 
     return this.#focusableElements;
@@ -143,7 +143,7 @@ export class SkyInlineDeleteAdapterService {
   #isShift(event: Event): boolean {
     // Determine if shift+tab was used based on element order
     const elements = this.#getFocusableElements().filter(
-      (elem) => !this.#isElementHidden(elem)
+      (elem) => !this.#isElementHidden(elem),
     );
 
     const previousInd = elements.indexOf((event as any).relatedTarget);

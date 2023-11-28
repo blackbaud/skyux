@@ -8,7 +8,7 @@ import { SkyProgressIndicatorItemStatus } from '../types/progress-indicator-item
 export class SkyProgressIndicatorMarkerClassPipe implements PipeTransform {
   public transform(
     displayMode: string,
-    status: SkyProgressIndicatorItemStatus
+    status: SkyProgressIndicatorItemStatus,
   ): string {
     let statusName: string;
 

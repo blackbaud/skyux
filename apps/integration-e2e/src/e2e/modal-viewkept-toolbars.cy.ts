@@ -10,7 +10,10 @@ describe('modal-viewkept-toolbars', () => {
       });
 
       it('verify viewkept toolbar in modal', () => {
-        cy.get('#modal-viewkept-toolbars-modal-trigger')
+        cy.get('#ready')
+          .should('exist')
+          .end()
+          .get('#modal-viewkept-toolbars-modal-trigger')
           .should('be.visible')
           .should('contain', 'Open modal')
           .click();
@@ -19,15 +22,16 @@ describe('modal-viewkept-toolbars', () => {
           .should('contain', 'Viewkeeper inside a Modal');
         cy.get('.sky-lookup-show-more-modal-toolbar').should('be.visible');
         cy.get('.sky-lookup-show-more-modal-multiselect-toolbar').should(
-          'be.visible'
+          'be.visible',
         );
         cy.get('sky-modal-content > p:nth-child(2)').should('be.visible');
         cy.get('.sky-modal-content').should('be.visible').scrollTo('bottom');
         cy.get('sky-modal-content > p:nth-child(2)').should('not.be.visible');
         cy.get('.sky-lookup-show-more-modal-toolbar').should('be.visible');
         cy.get('.sky-lookup-show-more-modal-multiselect-toolbar').should(
-          'be.visible'
+          'be.visible',
         );
+        cy.get('sky-icon[icon="search"]').should('be.visible');
         cy.window().skyVisualTest(`modal-viewkept-toolbars-${theme}`);
       });
     });

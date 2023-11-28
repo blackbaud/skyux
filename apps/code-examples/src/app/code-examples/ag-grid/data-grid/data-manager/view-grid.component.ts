@@ -20,7 +20,6 @@ import {
 import { AgGridModule } from 'ag-grid-angular';
 import {
   ColDef,
-  ColumnApi,
   GridApi,
   GridOptions,
   GridReadyEvent,
@@ -129,7 +128,6 @@ export class ViewGridComponent implements OnInit, OnDestroy {
     },
   ];
 
-  #columnApi: ColumnApi | undefined;
   #dataState = new SkyDataManagerState({});
   #gridApi: GridApi | undefined;
   #ngUnsubscribe = new Subject<void>();
@@ -145,7 +143,6 @@ export class ViewGridComponent implements OnInit, OnDestroy {
       name: 'Data Grid View',
       icon: 'table',
       searchEnabled: true,
-      sortEnabled: true,
       columnPickerEnabled: true,
       filterButtonEnabled: true,
       columnOptions: this.#columnPickerOptions,
@@ -193,7 +190,6 @@ export class ViewGridComponent implements OnInit, OnDestroy {
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.#gridApi = gridReadyEvent.api;
     this.#gridApi.sizeColumnsToFit();
-    this.#columnApi = gridReadyEvent.columnApi;
     this.#updateDisplayedItems();
   }
 
@@ -268,13 +264,13 @@ export class ViewGridComponent implements OnInit, OnDestroy {
         const displayedColumnIdIndex1: number =
           viewState.displayedColumnIds.findIndex(
             (aDisplayedColumnId: string) =>
-              aDisplayedColumnId === columnDefinition1.field
+              aDisplayedColumnId === columnDefinition1.field,
           );
 
         const displayedColumnIdIndex2: number =
           viewState.displayedColumnIds.findIndex(
             (aDisplayedColumnId: string) =>
-              aDisplayedColumnId === columnDefinition2.field
+              aDisplayedColumnId === columnDefinition2.field,
           );
 
         if (displayedColumnIdIndex1 === -1) {
@@ -291,19 +287,6 @@ export class ViewGridComponent implements OnInit, OnDestroy {
   }
 
   #updateDisplayedItems(): void {
-    const sortOption = this.#dataState.activeSortOption;
-
-    if (this.#columnApi && sortOption) {
-      this.#columnApi.applyColumnState({
-        state: [
-          {
-            colId: sortOption.propertyName,
-            sort: sortOption.descending ? 'desc' : 'asc',
-          },
-        ],
-      });
-    }
-
     this.displayedItems = this.#filterItems(this.#searchItems(this.items));
 
     if (this.#dataState.onlyShowSelected) {

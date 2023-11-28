@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   ElementRef,
   EnvironmentInjector,
   Input,
@@ -17,7 +18,8 @@ import {
   SkyAffixHorizontalAlignment,
   SkyAffixService,
   SkyAffixer,
-  SkyDefaultInputProvider,
+  SkyContentInfo,
+  SkyContentInfoProvider,
   SkyOverlayInstance,
   SkyOverlayService,
 } from '@skyux/core';
@@ -101,13 +103,14 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
 
   /**
    * The ARIA label for the dropdown. This sets the dropdown's `aria-label` attribute to provide a text equivalent for screen readers
-   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility). If multiple dropdowns with no label or the same label appear on the same page,
+   * they must have unique ARIA labels that provide context, such as "Context menu for Robert Hernandez" or "Edit Robert Hernandez."
    * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
   @Input()
   public label: string | undefined;
 
-  protected labelDefault: Observable<string> | undefined;
+  protected contentInfoObs: Observable<SkyContentInfo> | undefined;
 
   /**
    * The horizontal alignment of the dropdown menu in relation to the dropdown button.
@@ -115,7 +118,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
    */
   @Input()
   public set horizontalAlignment(
-    value: SkyDropdownHorizontalAlignment | undefined
+    value: SkyDropdownHorizontalAlignment | undefined,
   ) {
     this.#_horizontalAlignment = value ?? DEFAULT_HORIZONTAL_ALIGNMENT;
   }
@@ -178,8 +181,6 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     }
   }
 
-  #defaultInputProvider = inject(SkyDefaultInputProvider, { optional: true });
-
   public isMouseEnter = false;
 
   public isVisible = false;
@@ -207,6 +208,8 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     return this.#_triggerButton;
   }
 
+  protected destroyRef = inject(DestroyRef);
+
   #affixer: SkyAffixer | undefined;
   #overlay: SkyOverlayInstance | undefined;
   #ngUnsubscribe = new Subject<void>();
@@ -218,6 +221,9 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   readonly #overlayService = inject(SkyOverlayService);
   readonly #themeSvc = inject(SkyThemeService, { optional: true });
   readonly #zIndex = inject(SKY_STACKING_CONTEXT, { optional: true })?.zIndex;
+  readonly #contentInfoProvider = inject(SkyContentInfoProvider, {
+    optional: true,
+  });
 
   #_buttonStyle = DEFAULT_BUTTON_STYLE;
   #_buttonType = DEFAULT_BUTTON_TYPE;
@@ -228,10 +234,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   #_triggerButton: ElementRef | undefined;
 
   constructor() {
-    this.labelDefault = this.#defaultInputProvider?.getValue<string>(
-      'dropdown',
-      'label'
-    );
+    this.contentInfoObs = this.#contentInfoProvider?.getInfo();
   }
 
   public ngOnInit(): void {
@@ -458,7 +461,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
           autoFitContext: SkyAffixAutoFitContext.Viewport,
           enableAutoFit: true,
           horizontalAlignment: parseAffixHorizontalAlignment(
-            this.horizontalAlignment
+            this.horizontalAlignment,
           ),
           isSticky: true,
           placement: 'below',

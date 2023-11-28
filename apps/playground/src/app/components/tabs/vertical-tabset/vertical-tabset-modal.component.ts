@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
-import { SkyModalInstance } from '@skyux/modals';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
+import { SkyVerticalTabsetModule } from '@skyux/tabs';
 
 @Component({
+  standalone: true,
   selector: 'app-vertical-tabset-modal',
   templateUrl: './vertical-tabset-modal.component.html',
+  imports: [SkyModalModule, SkyVerticalTabsetModule],
 })
 export class VerticalTabsetModalComponent {
   public maintainTabContent = false;

@@ -1,5 +1,4 @@
 import { ViewportRuler } from '@angular/cdk/overlay';
-import { ViewportScrollPosition } from '@angular/cdk/scrolling';
 import {
   ComponentFixture,
   TestBed,
@@ -32,7 +31,7 @@ describe('Autocomplete component', () => {
 
   function getAddButton(): HTMLElement {
     return document.querySelector(
-      '.sky-autocomplete-action-add'
+      '.sky-autocomplete-action-add',
     ) as HTMLElement;
   }
 
@@ -47,11 +46,11 @@ describe('Autocomplete component', () => {
   function getInputElement(async = false): HTMLInputElement {
     if (async) {
       return document.getElementById(
-        'my-async-autocomplete-input'
+        'my-async-autocomplete-input',
       ) as HTMLInputElement;
     } else {
       return document.getElementById(
-        'my-autocomplete-input'
+        'my-autocomplete-input',
       ) as HTMLInputElement;
     }
   }
@@ -74,7 +73,7 @@ describe('Autocomplete component', () => {
 
   function getShowMoreButton(): HTMLElement {
     return document.querySelector(
-      '.sky-autocomplete-action-more'
+      '.sky-autocomplete-action-more',
     ) as HTMLElement;
   }
 
@@ -83,7 +82,7 @@ describe('Autocomplete component', () => {
     fixture: ComponentFixture<
       SkyAutocompleteFixtureComponent | SkyAutocompleteReactiveFixtureComponent
     >,
-    async = false
+    async = false,
   ): void {
     const inputElement = getInputElement(async);
     inputElement.value = newValue;
@@ -103,7 +102,7 @@ describe('Autocomplete component', () => {
     element: HTMLInputElement,
     fixture: ComponentFixture<
       SkyAutocompleteFixtureComponent | SkyAutocompleteReactiveFixtureComponent
-    >
+    >,
   ) {
     (document.querySelector('#testButton') as HTMLElement).focus();
     fixture.detectChanges();
@@ -120,7 +119,7 @@ describe('Autocomplete component', () => {
     index: number,
     fixture: ComponentFixture<
       SkyAutocompleteFixtureComponent | SkyAutocompleteReactiveFixtureComponent
-    >
+    >,
   ): void {
     const inputElement = getInputElement();
 
@@ -138,7 +137,7 @@ describe('Autocomplete component', () => {
     element: HTMLElement,
     fixture: ComponentFixture<
       SkyAutocompleteFixtureComponent | SkyAutocompleteReactiveFixtureComponent
-    >
+    >,
   ): void {
     SkyAppTestUtility.fireDomEvent(element, 'keydown', {
       keyboardEventInit: { key: 'ArrowUp' },
@@ -151,7 +150,7 @@ describe('Autocomplete component', () => {
     element: HTMLElement,
     fixture: ComponentFixture<
       SkyAutocompleteFixtureComponent | SkyAutocompleteReactiveFixtureComponent
-    >
+    >,
   ): void {
     SkyAppTestUtility.fireDomEvent(element, 'keydown', {
       keyboardEventInit: { key: 'ArrowDown' },
@@ -164,7 +163,7 @@ describe('Autocomplete component', () => {
     element: HTMLElement,
     fixture: ComponentFixture<
       SkyAutocompleteFixtureComponent | SkyAutocompleteReactiveFixtureComponent
-    >
+    >,
   ): void {
     SkyAppTestUtility.fireDomEvent(element, 'keydown', {
       keyboardEventInit: { key: 'Enter' },
@@ -177,7 +176,7 @@ describe('Autocomplete component', () => {
     element: HTMLElement,
     fixture: ComponentFixture<
       SkyAutocompleteFixtureComponent | SkyAutocompleteReactiveFixtureComponent
-    >
+    >,
   ): void {
     SkyAppTestUtility.fireDomEvent(element, 'mousemove');
     fixture.detectChanges();
@@ -189,7 +188,7 @@ describe('Autocomplete component', () => {
     fixture: ComponentFixture<
       SkyAutocompleteFixtureComponent | SkyAutocompleteReactiveFixtureComponent
     >,
-    shiftKey?: boolean
+    shiftKey?: boolean,
   ): void {
     SkyAppTestUtility.fireDomEvent(element, 'keydown', {
       keyboardEventInit: { key: 'Tab', shiftKey: shiftKey },
@@ -202,7 +201,7 @@ describe('Autocomplete component', () => {
     element: HTMLElement,
     fixture: ComponentFixture<
       SkyAutocompleteFixtureComponent | SkyAutocompleteReactiveFixtureComponent
-    >
+    >,
   ): void {
     SkyAppTestUtility.fireDomEvent(element, 'keydown', {
       keyboardEventInit: { key: 'Escape' },
@@ -215,7 +214,7 @@ describe('Autocomplete component', () => {
     fixture: ComponentFixture<SkyAutocompleteFixtureComponent>,
     selectedValue:
       | { objectid?: string; name?: string; text?: string }
-      | undefined
+      | undefined,
   ) {
     fixture.componentInstance.model.favoriteColor = selectedValue;
     fixture.detectChanges();
@@ -223,7 +222,7 @@ describe('Autocomplete component', () => {
   }
 
   function getAdapterService(
-    fixture: ComponentFixture<SkyAutocompleteFixtureComponent>
+    fixture: ComponentFixture<SkyAutocompleteFixtureComponent>,
   ): SkyAutocompleteAdapterService {
     return fixture.debugElement
       .query(By.directive(SkyAutocompleteComponent))
@@ -250,18 +249,12 @@ describe('Autocomplete component', () => {
               zIndex: new BehaviorSubject(10),
             },
           },
-          {
-            provide: ViewportRuler,
-            useValue: {
-              change: (): Observable<Event> => viewportRulerChange,
-              getViewportScrollPosition: (): ViewportScrollPosition => ({
-                top: 0,
-                left: 0,
-              }),
-            } as ViewportRuler,
-          },
         ],
       });
+
+      spyOn(ViewportRuler.prototype, 'change').and.returnValue(
+        viewportRulerChange,
+      );
 
       fixture = TestBed.createComponent(SkyAutocompleteFixtureComponent);
       component = fixture.componentInstance;
@@ -310,7 +303,7 @@ describe('Autocomplete component', () => {
       const inputElement: HTMLInputElement = getInputElement();
 
       expect(inputElement.getAttribute('autocomplete')).toEqual(
-        'new-custom-field'
+        'new-custom-field',
       );
     });
 
@@ -341,7 +334,7 @@ describe('Autocomplete component', () => {
       fixture.detectChanges();
       const spy = spyOn(
         asyncAutocomplete.searchAsync,
-        'emit'
+        'emit',
       ).and.callThrough();
 
       enterSearch('r', fixture, true);
@@ -369,7 +362,7 @@ describe('Autocomplete component', () => {
 
       const spy = spyOn(
         asyncAutocomplete.searchAsync,
-        'emit'
+        'emit',
       ).and.callThrough();
 
       enterSearch('r', fixture, true);
@@ -422,7 +415,7 @@ describe('Autocomplete component', () => {
       fixture.componentInstance.searchFilters = [
         (
           searchText: string,
-          item: { objectid: string; name?: string; text?: string }
+          item: { objectid: string; name?: string; text?: string },
         ): boolean => {
           return item.name !== 'Red';
         },
@@ -500,7 +493,7 @@ describe('Autocomplete component', () => {
       enterSearch('r', fixture);
 
       const customElement = getSearchResultsContainer()?.querySelector(
-        '.custom-search-result-id'
+        '.custom-search-result-id',
       ) as HTMLElement;
 
       expect(customElement).not.toBeNull();
@@ -512,7 +505,7 @@ describe('Autocomplete component', () => {
       enterSearch('r', fixture);
 
       expect(getSearchResultItems().item(0)).toHaveCssClass(
-        'sky-autocomplete-descendant-focus'
+        'sky-autocomplete-descendant-focus',
       );
       expect(document.activeElement).toEqual(getInputElement());
     }));
@@ -559,7 +552,7 @@ describe('Autocomplete component', () => {
       let customSearchCalled = false;
       let customSearchParameter: string | undefined;
       const customFunction: SkyAutocompleteSearchFunction = (
-        searchText: string
+        searchText: string,
       ): Promise<[{ objectid?: string; name?: string; text?: string }]> => {
         return new Promise((resolve) => {
           customSearchParameter = searchText;
@@ -638,8 +631,8 @@ describe('Autocomplete component', () => {
 
         expect(
           e.message.indexOf(
-            'The SkyAutocompleteComponent requires a ContentChild input'
-          ) > -1
+            'The SkyAutocompleteComponent requires a ContentChild input',
+          ) > -1,
         ).toEqual(true);
       }
     }));
@@ -653,7 +646,7 @@ describe('Autocomplete component', () => {
         fixture.detectChanges();
       }).toThrowError(
         'The SkyAutocompleteComponent requires a ContentChild input or textarea bound with the SkyAutocomplete directive. ' +
-          'For example: `<input type="text" skyAutocomplete>`.'
+          'For example: `<input type="text" skyAutocomplete>`.',
       );
     });
 
@@ -662,7 +655,7 @@ describe('Autocomplete component', () => {
 
       const adapterSpy = spyOn(
         adapterService,
-        'setDropdownWidth'
+        'setDropdownWidth',
       ).and.callThrough();
 
       fixture.detectChanges();
@@ -692,7 +685,7 @@ describe('Autocomplete component', () => {
 
       const adapterSpy = spyOn(
         adapterService,
-        'setDropdownWidth'
+        'setDropdownWidth',
       ).and.callThrough();
 
       SkyAppTestUtility.fireDomEvent(window, 'resize');
@@ -827,7 +820,7 @@ describe('Autocomplete component', () => {
       component.showAddButton = true;
       const addButtonSpy = spyOn(
         component,
-        'addButtonClicked'
+        'addButtonClicked',
       ).and.callThrough();
       fixture.detectChanges();
 
@@ -849,7 +842,7 @@ describe('Autocomplete component', () => {
       component.showAddButton = false;
       const addButtonSpy = spyOn(
         component,
-        'addButtonClicked'
+        'addButtonClicked',
       ).and.callThrough();
       fixture.detectChanges();
 
@@ -903,7 +896,7 @@ describe('Autocomplete component', () => {
       fixture.detectChanges();
 
       expect(
-        document.querySelectorAll('.sky-autocomplete-results-container').length
+        document.querySelectorAll('.sky-autocomplete-results-container').length,
       ).toBe(1);
       expect(getAddButton()).not.toBeNull();
     }));
@@ -943,7 +936,7 @@ describe('Autocomplete component', () => {
       component.enableShowMore = true;
       const showMoreButtonSpy = spyOn(
         component,
-        'onShowMoreClick'
+        'onShowMoreClick',
       ).and.callThrough();
       fixture.detectChanges();
 
@@ -965,7 +958,7 @@ describe('Autocomplete component', () => {
       component.enableShowMore = false;
       const showMoreButtonSpy = spyOn(
         component,
-        'onShowMoreClick'
+        'onShowMoreClick',
       ).and.callThrough();
       fixture.detectChanges();
 
@@ -1153,7 +1146,7 @@ describe('Autocomplete component', () => {
 
       const searchResultsContainer = getSearchResultsContainer();
       expect(wrapper?.getAttribute('aria-controls')).toEqual(
-        searchResultsContainer?.id
+        searchResultsContainer?.id,
       );
 
       blurInput(getInputElement(), fixture);
@@ -1174,10 +1167,10 @@ describe('Autocomplete component', () => {
           getSearchResultsContainer()
             ?.querySelector('mark')
             ?.innerHTML.trim()
-            .toLowerCase()
+            .toLowerCase(),
         ).toBe('r');
         expect(
-          getSearchResultsContainer()?.querySelectorAll('mark').length
+          getSearchResultsContainer()?.querySelectorAll('mark').length,
         ).toBe(6);
       }));
 
@@ -1191,7 +1184,7 @@ describe('Autocomplete component', () => {
         fixture.detectChanges();
 
         expect(
-          getSearchResultsContainer()?.querySelectorAll('mark').length
+          getSearchResultsContainer()?.querySelectorAll('mark').length,
         ).toBe(6);
 
         enterSearch('\u0305', fixture);
@@ -1199,7 +1192,7 @@ describe('Autocomplete component', () => {
         fixture.detectChanges();
 
         expect(
-          getSearchResultsContainer()?.querySelectorAll('mark').length
+          getSearchResultsContainer()?.querySelectorAll('mark').length,
         ).toBe(0);
       }));
 
@@ -1213,7 +1206,7 @@ describe('Autocomplete component', () => {
         fixture.detectChanges();
 
         expect(
-          getSearchResultsContainer()?.querySelectorAll('mark').length
+          getSearchResultsContainer()?.querySelectorAll('mark').length,
         ).toBe(0);
         enterSearch('red', fixture);
         tick();
@@ -1223,10 +1216,10 @@ describe('Autocomplete component', () => {
           getSearchResultsContainer()
             ?.querySelector('mark')
             ?.innerHTML.trim()
-            .toLowerCase()
+            .toLowerCase(),
         ).toBe('red');
         expect(
-          getSearchResultsContainer()?.querySelectorAll('mark').length
+          getSearchResultsContainer()?.querySelectorAll('mark').length,
         ).toBe(1);
       }));
 
@@ -1243,10 +1236,10 @@ describe('Autocomplete component', () => {
           getSearchResultsContainer()
             ?.querySelector('mark')
             ?.innerHTML.trim()
-            .toLowerCase()
+            .toLowerCase(),
         ).toBe('bla');
         expect(
-          getSearchResultsContainer()?.querySelectorAll('mark').length
+          getSearchResultsContainer()?.querySelectorAll('mark').length,
         ).toBe(1);
         enterSearch('bl', fixture);
         tick();
@@ -1256,10 +1249,10 @@ describe('Autocomplete component', () => {
           getSearchResultsContainer()
             ?.querySelector('mark')
             ?.innerHTML.trim()
-            .toLowerCase()
+            .toLowerCase(),
         ).toBe('bl');
         expect(
-          getSearchResultsContainer()?.querySelectorAll('mark').length
+          getSearchResultsContainer()?.querySelectorAll('mark').length,
         ).toBe(2);
       }));
 
@@ -1277,7 +1270,7 @@ describe('Autocomplete component', () => {
         enterSearch('mis', fixture);
 
         expect(
-          getSearchResultsContainer()?.querySelectorAll('mark').length
+          getSearchResultsContainer()?.querySelectorAll('mark').length,
         ).toBe(2);
       }));
 
@@ -1297,10 +1290,10 @@ describe('Autocomplete component', () => {
           getSearchResultsContainer()
             ?.querySelector('mark')
             ?.innerHTML.trim()
-            .toLowerCase()
+            .toLowerCase(),
         );
         expect(
-          getSearchResultsContainer()?.querySelectorAll('mark').length
+          getSearchResultsContainer()?.querySelectorAll('mark').length,
         ).toBe(2);
       }));
 
@@ -1323,10 +1316,10 @@ describe('Autocomplete component', () => {
           getSearchResultsContainer()
             ?.querySelector('mark')
             ?.innerHTML.trim()
-            .toLowerCase()
+            .toLowerCase(),
         ).toContain('united');
         expect(
-          getSearchResultsContainer()?.querySelectorAll('mark').length
+          getSearchResultsContainer()?.querySelectorAll('mark').length,
         ).toBe(2);
       }));
     });
@@ -1373,7 +1366,7 @@ describe('Autocomplete component', () => {
         const inputElement: HTMLInputElement = getInputElement();
         const notifySpy = spyOn(
           autocomplete.selectionChange,
-          'emit'
+          'emit',
         ).and.callThrough();
 
         enterSearch('r', fixture);
@@ -1450,7 +1443,7 @@ describe('Autocomplete component', () => {
         const inputElement: HTMLInputElement = getInputElement();
         const notifySpy = spyOn(
           autocomplete.selectionChange,
-          'emit'
+          'emit',
         ).and.callThrough();
 
         enterSearch('r', fixture);
@@ -1496,33 +1489,33 @@ describe('Autocomplete component', () => {
         enterSearch('r', fixture);
 
         expect(getSearchResultItems().item(0)).toHaveCssClass(
-          'sky-autocomplete-descendant-focus'
+          'sky-autocomplete-descendant-focus',
         );
 
         sendArrowDown(inputElement, fixture);
 
         expect(getSearchResultItems().item(1)).toHaveCssClass(
-          'sky-autocomplete-descendant-focus'
+          'sky-autocomplete-descendant-focus',
         );
 
         sendArrowUp(inputElement, fixture);
 
         expect(getSearchResultItems().item(0)).toHaveCssClass(
-          'sky-autocomplete-descendant-focus'
+          'sky-autocomplete-descendant-focus',
         );
 
         // Move up again to loop back to the bottom of the list.
         sendArrowUp(inputElement, fixture);
 
         expect(getSearchResultItems().item(5)).toHaveCssClass(
-          'sky-autocomplete-descendant-focus'
+          'sky-autocomplete-descendant-focus',
         );
 
         // Move down to loop back to the top.
         sendArrowDown(inputElement, fixture);
 
         expect(getSearchResultItems().item(0)).toHaveCssClass(
-          'sky-autocomplete-descendant-focus'
+          'sky-autocomplete-descendant-focus',
         );
       }));
 
@@ -1566,7 +1559,7 @@ describe('Autocomplete component', () => {
         const spy = spyOnProperty(
           input,
           'inputTextValue',
-          'set'
+          'set',
         ).and.callThrough();
 
         updateNgModel(fixture, selectedValue);
@@ -1676,7 +1669,7 @@ describe('Autocomplete component', () => {
         const selectedValue = { name: 'Red' };
         const addButtonSpy = spyOn(
           component,
-          'addButtonClicked'
+          'addButtonClicked',
         ).and.callThrough();
 
         updateNgModel(fixture, selectedValue);
@@ -1707,7 +1700,7 @@ describe('Autocomplete component', () => {
         const selectedValue = { name: 'Red' };
         const addButtonSpy = spyOn(
           component,
-          'addButtonClicked'
+          'addButtonClicked',
         ).and.callThrough();
 
         updateNgModel(fixture, selectedValue);
@@ -1723,7 +1716,7 @@ describe('Autocomplete component', () => {
         enterSearch(' ', fixture);
 
         expect(addButton).not.toHaveCssClass(
-          'sky-autocomplete-descendant-focus'
+          'sky-autocomplete-descendant-focus',
         );
 
         sendEnter(inputElement, fixture);
@@ -1743,33 +1736,33 @@ describe('Autocomplete component', () => {
         enterSearch('r', fixture);
 
         expect(getSearchResultItems().item(0)).toHaveCssClass(
-          'sky-autocomplete-descendant-focus'
+          'sky-autocomplete-descendant-focus',
         );
 
         sendArrowDown(inputElement, fixture);
 
         expect(getSearchResultItems().item(1)).toHaveCssClass(
-          'sky-autocomplete-descendant-focus'
+          'sky-autocomplete-descendant-focus',
         );
 
         sendArrowUp(inputElement, fixture);
 
         expect(getSearchResultItems().item(0)).toHaveCssClass(
-          'sky-autocomplete-descendant-focus'
+          'sky-autocomplete-descendant-focus',
         );
 
         // Move up again to loop back to the bottom of the list.
         sendArrowUp(inputElement, fixture);
 
         expect(getSearchResultItems().item(3)).toHaveCssClass(
-          'sky-autocomplete-descendant-focus'
+          'sky-autocomplete-descendant-focus',
         );
 
         // Move down to loop back to the top.
         sendArrowDown(inputElement, fixture);
 
         expect(getSearchResultItems().item(0)).toHaveCssClass(
-          'sky-autocomplete-descendant-focus'
+          'sky-autocomplete-descendant-focus',
         );
       }));
     });
@@ -1786,7 +1779,7 @@ describe('Autocomplete component', () => {
 
         const notifySpy = spyOn(
           autocomplete.selectionChange,
-          'emit'
+          'emit',
         ).and.callThrough();
         const firstItem = getSearchResultItems().item(0);
 
@@ -1836,16 +1829,16 @@ describe('Autocomplete component', () => {
         const results: NodeListOf<Element> = getSearchResultItems();
 
         expect(results.item(0)).toHaveCssClass(
-          'sky-autocomplete-descendant-focus'
+          'sky-autocomplete-descendant-focus',
         );
 
         sendMouseMove(results.item(1) as HTMLElement, fixture);
 
         expect(results.item(0)).not.toHaveCssClass(
-          'sky-autocomplete-descendant-focus'
+          'sky-autocomplete-descendant-focus',
         );
         expect(results.item(1)).toHaveCssClass(
-          'sky-autocomplete-descendant-focus'
+          'sky-autocomplete-descendant-focus',
         );
       }));
 
@@ -1857,18 +1850,18 @@ describe('Autocomplete component', () => {
         const results: NodeListOf<Element> = getSearchResultItems();
 
         expect(results.item(0)).toHaveCssClass(
-          'sky-autocomplete-descendant-focus'
+          'sky-autocomplete-descendant-focus',
         );
 
         sendMouseMove(results.item(0) as HTMLElement, fixture);
 
         expect(results.item(0)).toHaveCssClass(
-          'sky-autocomplete-descendant-focus'
+          'sky-autocomplete-descendant-focus',
         );
 
         for (let i = 1; i < results.length; i++) {
           expect(results.item(i)).not.toHaveCssClass(
-            'sky-autocomplete-descendant-focus'
+            'sky-autocomplete-descendant-focus',
           );
         }
       }));
@@ -1882,20 +1875,20 @@ describe('Autocomplete component', () => {
         const results: NodeListOf<Element> = getSearchResultItems();
 
         expect(results.item(0)).toHaveCssClass(
-          'sky-autocomplete-descendant-focus'
+          'sky-autocomplete-descendant-focus',
         );
 
         sendMouseMove(results.item(1) as HTMLElement, fixture);
         sendArrowDown(inputElement, fixture);
 
         expect(results.item(0)).not.toHaveCssClass(
-          'sky-autocomplete-descendant-focus'
+          'sky-autocomplete-descendant-focus',
         );
         expect(results.item(1)).not.toHaveCssClass(
-          'sky-autocomplete-descendant-focus'
+          'sky-autocomplete-descendant-focus',
         );
         expect(results.item(2)).toHaveCssClass(
-          'sky-autocomplete-descendant-focus'
+          'sky-autocomplete-descendant-focus',
         );
       }));
     });
@@ -1997,7 +1990,7 @@ describe('Autocomplete component', () => {
       });
 
       fixture = TestBed.createComponent(
-        SkyAutocompleteReactiveFixtureComponent
+        SkyAutocompleteReactiveFixtureComponent,
       );
       component = fixture.componentInstance;
       inputElement = getInputElement();
@@ -2104,7 +2097,7 @@ describe('Autocomplete component', () => {
 
       const spy = spyOn(
         component.autocomplete,
-        'searchOrDefault'
+        'searchOrDefault',
       ).and.callThrough();
 
       enterSearch('r', fixture);
@@ -2130,7 +2123,7 @@ describe('Autocomplete component', () => {
       component.showAddButton = true;
       const addButtonSpy = spyOn(
         component,
-        'addButtonClicked'
+        'addButtonClicked',
       ).and.callThrough();
       fixture.detectChanges();
 
@@ -2152,7 +2145,7 @@ describe('Autocomplete component', () => {
       component.showAddButton = false;
       const addButtonSpy = spyOn(
         component,
-        'addButtonClicked'
+        'addButtonClicked',
       ).and.callThrough();
       fixture.detectChanges();
 
@@ -2194,7 +2187,7 @@ describe('Autocomplete component', () => {
       component.enableShowMore = true;
       const showMoreButtonSpy = spyOn(
         component,
-        'onShowMoreClick'
+        'onShowMoreClick',
       ).and.callThrough();
       fixture.detectChanges();
 
@@ -2216,7 +2209,7 @@ describe('Autocomplete component', () => {
       component.enableShowMore = false;
       const showMoreButtonSpy = spyOn(
         component,
-        'onShowMoreClick'
+        'onShowMoreClick',
       ).and.callThrough();
       fixture.detectChanges();
 
@@ -2276,7 +2269,7 @@ describe('Autocomplete component', () => {
 
       const adapterSpy = spyOn(
         adapterService,
-        'setDropdownWidth'
+        'setDropdownWidth',
       ).and.callThrough();
 
       fixture.detectChanges();

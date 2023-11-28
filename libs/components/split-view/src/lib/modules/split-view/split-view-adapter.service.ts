@@ -24,7 +24,7 @@ export class SkySplitViewAdapterService {
   constructor(
     observerSvc: SkyMutationObserverService,
     rendererFactory: RendererFactory2,
-    windowRef: SkyAppWindowRef
+    windowRef: SkyAppWindowRef,
   ) {
     this.#observerSvc = observerSvc;
     this.#rendererFactory = rendererFactory;
@@ -35,7 +35,7 @@ export class SkySplitViewAdapterService {
 
   public bindHeightToWindow(
     elementRef: ElementRef,
-    unsubscribeSubject: Subject<void>
+    unsubscribeSubject: Subject<void>,
   ): void {
     /*istanbul ignore else*/
     if (elementRef.nativeElement.offsetParent === document.body) {
@@ -81,7 +81,7 @@ export class SkySplitViewAdapterService {
     this.#renderer.setStyle(
       splitViewElement,
       'max-height',
-      'calc(100vh - ' + offsetTop + 'px - ' + marginBottom + ')'
+      'calc(100vh - ' + offsetTop + 'px - ' + marginBottom + ')',
     );
     this.#renderer.setStyle(splitViewElement, 'min-height', '300px');
   }

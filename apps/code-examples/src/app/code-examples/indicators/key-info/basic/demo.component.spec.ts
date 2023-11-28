@@ -18,7 +18,7 @@ describe('Basic key info', () => {
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
     const keyInfoHarness = await loader.getHarness(
-      SkyKeyInfoHarness.with({ dataSkyId: 'key-info-demo' })
+      SkyKeyInfoHarness.with({ dataSkyId: 'key-info-demo' }),
     );
 
     return { keyInfoHarness, fixture };
@@ -36,7 +36,7 @@ describe('Basic key info', () => {
     await expectAsync(keyInfoHarness.getLayout()).toBeResolvedTo('vertical');
     await expectAsync(keyInfoHarness.getValueText()).toBeResolvedTo('101');
     await expectAsync(keyInfoHarness.getLabelText()).toBeResolvedTo(
-      'New members'
+      'New members',
     );
   });
 
@@ -46,7 +46,7 @@ describe('Basic key info', () => {
     await expectAsync(keyInfoHarness.getLayout()).toBeResolvedTo('horizontal');
     await expectAsync(keyInfoHarness.getValueText()).toBeResolvedTo('50');
     await expectAsync(keyInfoHarness.getLabelText()).toBeResolvedTo(
-      'New members'
+      'New members',
     );
   });
 });

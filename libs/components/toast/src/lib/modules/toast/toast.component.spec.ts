@@ -57,7 +57,7 @@ describe('Toast component', () => {
 
   function validateIcon(
     type: SkyToastType | undefined,
-    expectedIcon: string
+    expectedIcon: string,
   ): void {
     if (type) {
       component.toastType = type;
@@ -149,7 +149,7 @@ describe('Toast component', () => {
 
       beforeEach(() => {
         withServiceFixture = TestBed.createComponent(
-          SkyToastWithToasterServiceTestComponent
+          SkyToastWithToasterServiceTestComponent,
         );
         fixture.detectChanges();
         withServiceComponent = withServiceFixture.componentInstance;

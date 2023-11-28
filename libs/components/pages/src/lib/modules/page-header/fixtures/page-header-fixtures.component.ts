@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostBinding,
+  Input,
+  ViewChild,
+} from '@angular/core';
 import { SkyAvatarModule } from '@skyux/avatar';
 import { SkyAlertModule } from '@skyux/indicators';
 
@@ -14,6 +20,10 @@ import { SkyPageHeaderModule } from '../page-header.module';
 export class PageHeaderFixturesComponent {
   @ViewChild('pageHeader', { read: ElementRef })
   public pageHeaderEl: ElementRef | undefined;
+
+  @Input()
+  @HostBinding('style.width.px')
+  public width = 512;
 
   protected spokeTitle = 'Page Title';
   protected hubLink = {

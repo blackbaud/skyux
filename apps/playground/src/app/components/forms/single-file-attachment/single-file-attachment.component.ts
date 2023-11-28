@@ -56,7 +56,7 @@ export class SingleFileAttachmentComponent implements OnInit {
       this.reactiveFile.setValue(undefined);
       this.reactiveUploadError = this.getErrorMessage(
         file.errorType,
-        file.errorParam
+        file.errorParam,
       );
     } else {
       this.reactiveFile.setValue(file);

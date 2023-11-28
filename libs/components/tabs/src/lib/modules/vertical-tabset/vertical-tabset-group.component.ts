@@ -74,7 +74,7 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
 
   constructor(
     tabService: SkyVerticalTabsetService,
-    changeRef: ChangeDetectorRef
+    changeRef: ChangeDetectorRef,
   ) {
     this.#tabService = tabService;
     this.#changeRef = changeRef;

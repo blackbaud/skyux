@@ -1,5 +1,8 @@
-import { ListItemModel } from '@skyux/list-builder-common';
-import { AsyncItem, AsyncList } from '@skyux/list-builder-common';
+import {
+  AsyncItem,
+  AsyncList,
+  ListItemModel,
+} from '@skyux/list-builder-common';
 
 import { ListFilterModel } from '../../list-filters/filter.model';
 

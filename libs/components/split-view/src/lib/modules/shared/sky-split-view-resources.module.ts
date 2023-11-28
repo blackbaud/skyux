@@ -32,7 +32,7 @@ SkyLibResourcesService.addResources(RESOURCES);
 export class SkySplitViewResourcesProvider implements SkyLibResourcesProvider {
   public getString(
     localeInfo: SkyAppLocaleInfo,
-    name: string
+    name: string,
   ): string | undefined {
     return getLibStringForLocale(RESOURCES, localeInfo.locale, name);
   }

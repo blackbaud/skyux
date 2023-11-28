@@ -15,6 +15,9 @@ export { SkyKeyInfoHarnessFilters } from './key-info/key-info-harness-filters';
 export { SkyLabelHarness } from './label/label-harness';
 export { SkyLabelHarnessFilters } from './label/label-harness-filters';
 
+export { SkyStatusIndicatorHarness } from './status-indicator/status-indicator-harness';
+export { SkyStatusIndicatorHarnessFilters } from './status-indicator/status-indicator-harness-filters';
+
 export { SkyTokenHarness } from './tokens/token-harness';
 export { SkyTokenHarnessFilters } from './tokens/token-harness-filters';
 export { SkyTokensHarness } from './tokens/tokens-harness';

@@ -16,7 +16,7 @@ export class SkyBoxHarness extends SkyComponentHarness {
    * `SkyBoxHarness` that meets certain criteria
    */
   public static with(
-    filters: SkyBoxHarnessFilters
+    filters: SkyBoxHarnessFilters,
   ): HarnessPredicate<SkyBoxHarness> {
     return SkyBoxHarness.getDataSkyIdPredicate(filters);
   }

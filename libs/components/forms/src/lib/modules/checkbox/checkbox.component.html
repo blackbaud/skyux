@@ -35,24 +35,21 @@
       *ngIf="icon; else checkedOrIndeterminateTemplate"
       [fixedWidth]="true"
       [icon]="icon"
-    >
-    </sky-icon>
+    />
     <ng-template #checkedOrIndeterminateTemplate>
       <sky-icon
         *ngIf="!indeterminate && checked"
         class="sky-checkbox-icon-modern-checked"
         [fixedWidth]="true"
         icon="check"
-      >
-      </sky-icon>
+      />
       <sky-icon
         *ngIf="indeterminate"
         class="sky-checkbox-icon-indeterminate sky-checkbox-icon-modern-indeterminate"
         [fixedWidth]="true"
         icon="square"
-      >
-      </sky-icon>
+      />
     </ng-template>
   </span>
-  <ng-content select="sky-checkbox-label"> </ng-content>
+  <ng-content select="sky-checkbox-label" />
 </label>

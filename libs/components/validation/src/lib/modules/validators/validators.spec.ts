@@ -91,7 +91,7 @@ describe('FormControl Validators', () => {
     it('should be valid on empty input (empty string) using ruleset v1 (explicitly)', () => {
       const control = new UntypedFormControl(
         '',
-        SkyValidators.url(optionsRulesetV1)
+        SkyValidators.url(optionsRulesetV1),
       );
       expect(control.valid).toBeTruthy();
       control.clearValidators;
@@ -100,7 +100,7 @@ describe('FormControl Validators', () => {
     it('should be valid on empty input (undefined) using ruleset v1 (explicitly)', () => {
       const control = new UntypedFormControl(
         '',
-        SkyValidators.url(optionsRulesetV1)
+        SkyValidators.url(optionsRulesetV1),
       );
       control.setValue(undefined);
       expect(control.valid).toBeTruthy();
@@ -109,7 +109,7 @@ describe('FormControl Validators', () => {
     it('should be valid on empty input (null) using ruleset v1 (explicitly)', () => {
       const control = new UntypedFormControl(
         '',
-        SkyValidators.url(optionsRulesetV1)
+        SkyValidators.url(optionsRulesetV1),
       );
       control.setValue(null);
       expect(control.valid).toBeTruthy();
@@ -118,7 +118,7 @@ describe('FormControl Validators', () => {
     it('should be valid on correct input using ruleset v1 (explicitly)', () => {
       const control = new UntypedFormControl(
         '',
-        SkyValidators.url(optionsRulesetV1)
+        SkyValidators.url(optionsRulesetV1),
       );
       control.setValue('https://blackbaud.com');
       expect(control.valid).toBeTruthy();
@@ -127,7 +127,7 @@ describe('FormControl Validators', () => {
     it('should be invalid on text that is not a url using ruleset v1 (explicitly)', () => {
       const control = new UntypedFormControl(
         '',
-        SkyValidators.url(optionsRulesetV1)
+        SkyValidators.url(optionsRulesetV1),
       );
       control.setValue('[]abcdefgh0293abcd]');
       expect(control.valid).toBeFalsy();
@@ -136,7 +136,7 @@ describe('FormControl Validators', () => {
     it('should be invalid on number input using ruleset v1 (explicitly)', () => {
       const control = new UntypedFormControl(
         '',
-        SkyValidators.url(optionsRulesetV1)
+        SkyValidators.url(optionsRulesetV1),
       );
       control.setValue(123);
       expect(control.valid).toBeFalsy();
@@ -150,7 +150,7 @@ describe('FormControl Validators', () => {
     it('should be valid on empty input (empty string) using ruleset v2', () => {
       const control = new UntypedFormControl(
         '',
-        SkyValidators.url(optionsRulesetV2)
+        SkyValidators.url(optionsRulesetV2),
       );
       expect(control.valid).toBeTruthy();
       control.clearValidators;
@@ -159,7 +159,7 @@ describe('FormControl Validators', () => {
     it('should be valid on empty input (undefined) using ruleset v2', () => {
       const control = new UntypedFormControl(
         '',
-        SkyValidators.url(optionsRulesetV2)
+        SkyValidators.url(optionsRulesetV2),
       );
       control.setValue(undefined);
       expect(control.valid).toBeTruthy();
@@ -168,7 +168,7 @@ describe('FormControl Validators', () => {
     it('should be valid on empty input (null) using ruleset v2', () => {
       const control = new UntypedFormControl(
         '',
-        SkyValidators.url(optionsRulesetV2)
+        SkyValidators.url(optionsRulesetV2),
       );
       control.setValue(null);
       expect(control.valid).toBeTruthy();
@@ -177,7 +177,7 @@ describe('FormControl Validators', () => {
     it('should be valid on correct input using ruleset v2', () => {
       const control = new UntypedFormControl(
         '',
-        SkyValidators.url(optionsRulesetV2)
+        SkyValidators.url(optionsRulesetV2),
       );
       control.setValue('https://blackbaud.com');
       expect(control.valid).toBeTruthy();
@@ -186,7 +186,7 @@ describe('FormControl Validators', () => {
     it('should be invalid on text that is not a url using ruleset v2', () => {
       const control = new UntypedFormControl(
         '',
-        SkyValidators.url(optionsRulesetV2)
+        SkyValidators.url(optionsRulesetV2),
       );
       control.setValue('[]abcdefgh0293abcd]');
       expect(control.valid).toBeFalsy();
@@ -195,7 +195,7 @@ describe('FormControl Validators', () => {
     it('should be invalid on number input using ruleset v2', () => {
       const control = new UntypedFormControl(
         '',
-        SkyValidators.url(optionsRulesetV2)
+        SkyValidators.url(optionsRulesetV2),
       );
       control.setValue(123);
       expect(control.valid).toBeFalsy();
@@ -213,7 +213,7 @@ describe('FormControl Validators', () => {
     it('should change validation rules asynchronously/reactively', () => {
       const control = new UntypedFormControl(
         '',
-        SkyValidators.url(optionsRulesetV1)
+        SkyValidators.url(optionsRulesetV1),
       );
       control.setValue('sub.domain,com/pagename');
       expect(control.valid).toBeTruthy();

@@ -71,7 +71,7 @@ export class AutocompleteComponent implements OnInit {
     const searchText = (args.searchText || '').toLowerCase();
 
     const filteredData = this.data.filter(
-      (item) => item.name.toLowerCase().indexOf(searchText) >= 0
+      (item) => item.name.toLowerCase().indexOf(searchText) >= 0,
     );
 
     args.result = of({

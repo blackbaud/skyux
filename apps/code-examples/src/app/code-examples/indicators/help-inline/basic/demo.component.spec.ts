@@ -14,7 +14,7 @@ describe('Basic help inline', () => {
     const helpInlineHarness = await loader.getHarness(
       SkyHelpInlineHarness.with({
         dataSkyId: 'help-inline-demo',
-      })
+      }),
     );
 
     return { helpInlineHarness, fixture };

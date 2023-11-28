@@ -12,7 +12,7 @@ import { ListToolbarStateDispatcher } from './toolbar-state.rxstate';
 export class ListToolbarState extends StateNode<ListToolbarStateModel> {
   constructor(
     initialState: ListToolbarStateModel,
-    dispatcher: ListToolbarStateDispatcher
+    dispatcher: ListToolbarStateDispatcher,
   ) {
     super(initialState, dispatcher);
 

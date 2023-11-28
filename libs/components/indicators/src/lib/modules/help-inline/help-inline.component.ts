@@ -25,6 +25,7 @@ export class SkyHelpInlineComponent {
   /**
    * The ARIA label for help inline button. This sets the button's `aria-label` to provide a text equivalent for screen readers
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * When you use multiple help inline components on a page, give each one a unique ARIA label so that users can differentiate which help element is currently in focus.
    * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    * @default "Show help content"
    */

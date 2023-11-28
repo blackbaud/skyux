@@ -37,7 +37,13 @@
     [selectable]="selectable"
   >
     <sky-repeater-item-context-menu *ngIf="showContextMenu">
-      a
+      <sky-dropdown buttonType="context-menu">
+        <sky-dropdown-menu>
+          <sky-dropdown-item>
+            <button type="button">Option 1</button>
+          </sky-dropdown-item>
+        </sky-dropdown-menu>
+      </sky-dropdown>
     </sky-repeater-item-context-menu>
     <sky-repeater-item-title> Title 2 </sky-repeater-item-title>
     <sky-repeater-item-content> Content 2 </sky-repeater-item-content>
@@ -51,7 +57,13 @@
     [(isSelected)]="lastItemSelected"
   >
     <sky-repeater-item-context-menu *ngIf="showContextMenu">
-      a
+      <sky-dropdown buttonType="context-menu">
+        <sky-dropdown-menu>
+          <sky-dropdown-item>
+            <button type="button">Option 1</button>
+          </sky-dropdown-item>
+        </sky-dropdown-menu>
+      </sky-dropdown>
     </sky-repeater-item-context-menu>
     <sky-repeater-item-title> Title 3 </sky-repeater-item-title>
     <sky-repeater-item-content> Content 3 </sky-repeater-item-content>
@@ -60,6 +72,20 @@
     <sky-repeater-item-title> No Content </sky-repeater-item-title>
     <sky-repeater-item-content *ngIf="showDynamicContent">
       Content 3
+    </sky-repeater-item-content>
+  </sky-repeater-item>
+  <sky-repeater-item *ngIf="showItemWithNoTitle">
+    <sky-repeater-item-context-menu *ngIf="showContextMenu">
+      <sky-dropdown buttonType="context-menu">
+        <sky-dropdown-menu>
+          <sky-dropdown-item>
+            <button type="button">Option 1</button>
+          </sky-dropdown-item>
+        </sky-dropdown-menu>
+      </sky-dropdown>
+    </sky-repeater-item-context-menu>
+    <sky-repeater-item-content>
+      Content with no title
     </sky-repeater-item-content>
   </sky-repeater-item>
 </sky-repeater>

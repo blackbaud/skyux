@@ -14,8 +14,8 @@ export class SkyPageSummaryFixture {
   public get titleText(): string | undefined {
     return SkyAppTestUtility.getText(
       this.#debugEl.query(
-        By.css('sky-page-summary-title .sky-page-summary-title')
-      )
+        By.css('sky-page-summary-title .sky-page-summary-title'),
+      ),
     );
   }
 
@@ -25,8 +25,8 @@ export class SkyPageSummaryFixture {
   public get subtitleText(): string | undefined {
     return SkyAppTestUtility.getText(
       this.#debugEl.query(
-        By.css('sky-page-summary-subtitle .sky-page-summary-subtitle')
-      )
+        By.css('sky-page-summary-subtitle .sky-page-summary-subtitle'),
+      ),
     );
   }
 
@@ -36,8 +36,8 @@ export class SkyPageSummaryFixture {
   public get contentText(): string | undefined {
     return SkyAppTestUtility.getText(
       this.#debugEl.query(
-        By.css('sky-page-summary-content .sky-page-summary-content')
-      )
+        By.css('sky-page-summary-content .sky-page-summary-content'),
+      ),
     );
   }
 
@@ -47,7 +47,7 @@ export class SkyPageSummaryFixture {
     this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
-      'sky-page-summary'
+      'sky-page-summary',
     );
   }
 }

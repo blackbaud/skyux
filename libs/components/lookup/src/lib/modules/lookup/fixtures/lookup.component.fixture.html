@@ -21,7 +21,7 @@
     [wrapperClass]="wrapperClass"
     (addClick)="addButtonClicked($event)"
     #standardLookup
-  ></sky-lookup>
+  />
 </form>
 
 <ng-template let-item="item" #customSearchResultTemplate>
@@ -54,6 +54,8 @@
     (addClick)="addButtonClicked($event)"
     (searchAsync)="searchAsync($event)"
     #asyncLookup
-  ></sky-lookup>
+  />
 </form>
-<button class="sky-btn sky-btn-primary" id="test-button">Test</button>
+<button class="sky-btn sky-btn-primary" id="test-button" type="button">
+  Test
+</button>

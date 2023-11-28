@@ -32,7 +32,7 @@ describe('Dock component', () => {
   let lastSpaceId: number;
 
   function resetDockItems(
-    itemConfigs: (SkyDockInsertComponentConfig | undefined)[]
+    itemConfigs: (SkyDockInsertComponentConfig | undefined)[],
   ): void {
     fixture.componentInstance.removeAllItems();
     fixture.detectChanges();
@@ -46,7 +46,7 @@ describe('Dock component', () => {
    */
   function verifyStackOrder(expected: number[]): void {
     const currentStackOrder = fixture.componentInstance.dockService.items.map(
-      (i) => i.stackOrder
+      (i) => i.stackOrder,
     );
     currentStackOrder.forEach((actual, i) => {
       expect(actual).toEqual(expected[i]);
@@ -90,7 +90,7 @@ describe('Dock component', () => {
 
   function getDockEl(): HTMLElement {
     const dock: HTMLElement = document.getElementsByTagName(
-      'sky-dock'
+      'sky-dock',
     )[0] as HTMLElement;
 
     return dock;
@@ -103,7 +103,7 @@ describe('Dock component', () => {
 
   function reserveSpace(
     position: SkyAppViewportReservedPositionType,
-    size: number
+    size: number,
   ): void {
     lastSpaceId++;
     const id = `dock-component-test-space-${lastSpaceId}`;
@@ -238,7 +238,7 @@ describe('Dock component', () => {
       const styleElement = getStyleElement();
 
       expect(styleElement.textContent).toContain(
-        `body { margin-bottom: 60px; }`
+        `body { margin-bottom: 60px; }`,
       );
     }));
 
@@ -260,7 +260,7 @@ describe('Dock component', () => {
       const styleElement = getStyleElement();
 
       expect(styleElement.textContent).toContain(
-        `body { margin-bottom: 60px; }`
+        `body { margin-bottom: 60px; }`,
       );
     }));
 

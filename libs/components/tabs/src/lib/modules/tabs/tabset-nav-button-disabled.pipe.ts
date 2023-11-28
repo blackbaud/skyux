@@ -10,7 +10,7 @@ export class SkyTabsetNavButtonDisabledPipe implements PipeTransform {
     disabled: boolean | undefined,
     buttonType?: SkyTabsetNavButtonType | string,
     tabToSelectExists?: boolean,
-    tabToSelectIsDisabled?: boolean
+    tabToSelectIsDisabled?: boolean,
   ): boolean {
     if (disabled !== undefined) {
       return disabled;

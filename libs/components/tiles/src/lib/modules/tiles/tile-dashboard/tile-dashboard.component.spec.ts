@@ -43,7 +43,7 @@ describe('Tile dashboard component', () => {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.default,
-          SkyThemeMode.presets.light
+          SkyThemeMode.presets.light,
         ),
         previousSettings: undefined,
       }),
@@ -196,7 +196,7 @@ describe('Tile dashboard component', () => {
       initialConfig,
       jasmine.any(QueryList),
       jasmine.any(SkyTileDashboardColumnComponent),
-      undefined
+      undefined,
     );
 
     initSpy.calls.reset();
@@ -269,7 +269,7 @@ describe('Tile dashboard component', () => {
       newConfig,
       jasmine.any(QueryList),
       jasmine.any(SkyTileDashboardColumnComponent),
-      undefined
+      undefined,
     );
   }));
 
@@ -364,7 +364,7 @@ describe('Tile dashboard component', () => {
     fixture.detectChanges();
     spyOn(cmp.dashboardComponent!.configChange, 'emit').and.callThrough();
     expect(
-      document.querySelector('.sky-test-tile-1 .sky-tile-collapsed')
+      document.querySelector('.sky-test-tile-1 .sky-tile-collapsed'),
     ).not.toBeNull();
 
     cmp.expandAll();
@@ -468,7 +468,7 @@ describe('Tile dashboard component', () => {
     };
 
     expect(
-      document.querySelector('.sky-test-tile-1 .sky-tile-collapsed')
+      document.querySelector('.sky-test-tile-1 .sky-tile-collapsed'),
     ).toBeNull();
     expect(cmp.dashboardConfig).toEqual(expectedDashboardConfig);
     expect(cmp.dashboardComponent.configChange.emit).toHaveBeenCalled();
@@ -486,7 +486,7 @@ describe('Tile dashboard component', () => {
     spyOn(cmp.dashboardComponent.configChange, 'emit').and.callThrough();
 
     expect(
-      document.querySelector('.sky-test-tile-2 .sky-tile-collapsed')
+      document.querySelector('.sky-test-tile-2 .sky-tile-collapsed'),
     ).toBeNull();
 
     cmp.collapseAll();
@@ -590,7 +590,7 @@ describe('Tile dashboard component', () => {
     };
 
     expect(
-      document.querySelector('.sky-test-tile-2 .sky-tile-collapsed')
+      document.querySelector('.sky-test-tile-2 .sky-tile-collapsed'),
     ).not.toBeNull();
     expect(cmp.dashboardConfig).toEqual(expectedDashboardConfig);
     expect(cmp.dashboardComponent.configChange.emit).toHaveBeenCalled();

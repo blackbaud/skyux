@@ -22,7 +22,7 @@ export class DockFixtureComponent {
 
   public addItem(config: SkyDockInsertComponentConfig | undefined): void {
     this.dockItems.push(
-      this.dockService.insertComponent(DockItemFixtureComponent, config)
+      this.dockService.insertComponent(DockItemFixtureComponent, config),
     );
   }
 

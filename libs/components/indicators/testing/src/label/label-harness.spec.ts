@@ -18,7 +18,7 @@ async function setupTest(options: { dataSkyId: string }) {
   const loader = TestbedHarnessEnvironment.loader(fixture);
 
   const labelHarness = await loader.getHarness(
-    SkyLabelHarness.with({ dataSkyId: options.dataSkyId })
+    SkyLabelHarness.with({ dataSkyId: options.dataSkyId }),
   );
 
   return { fixture, labelHarness };
@@ -46,7 +46,7 @@ function testGetLabelType(dataSkyId: string, labelType?: SkyLabelType) {
 function testGetDescriptionType(
   dataSkyId: string,
   descriptionType: SkyIndicatorDescriptionType,
-  customDescription?: string
+  customDescription?: string,
 ) {
   it('should return the description type', async () => {
     const { fixture, labelHarness } = await setupTest({ dataSkyId });
@@ -107,7 +107,7 @@ describe('Label harness', () => {
       });
 
       await expectAsync(labelHarness.getLabelText()).toBeResolvedTo(
-        'Test label'
+        'Test label',
       );
     });
   });

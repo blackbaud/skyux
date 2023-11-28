@@ -208,7 +208,7 @@ export class SplitViewPageContentComponent {
   #saveForm(): void {
     this.activeRecord = Object.assign(
       this.activeRecord,
-      this.splitViewDemoForm.value
+      this.splitViewDemoForm.value,
     );
 
     this.splitViewDemoForm.markAsPristine();

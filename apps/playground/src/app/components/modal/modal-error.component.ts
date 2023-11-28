@@ -1,16 +1,21 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { SkyToggleSwitchModule } from '@skyux/forms';
 import {
   SkyModalBeforeCloseHandler,
   SkyModalError,
   SkyModalInstance,
+  SkyModalModule,
 } from '@skyux/modals';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
+  standalone: true,
   selector: 'app-modal-error',
   templateUrl: './modal-error.component.html',
+  imports: [FormsModule, SkyModalModule, SkyToggleSwitchModule],
 })
 export class ModalErrorComponent implements OnInit, OnDestroy {
   public isError = false;

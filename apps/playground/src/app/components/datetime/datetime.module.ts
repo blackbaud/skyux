@@ -11,13 +11,17 @@ const routes: Routes = [
     path: 'date-range-picker',
     loadChildren: () =>
       import('./date-range-picker/date-range-picker.module').then(
-        (m) => m.DateRangePickerModule
+        (m) => m.DateRangePickerModule,
       ),
   },
   {
     path: 'datepicker',
     loadChildren: () =>
       import('./datepicker/datepicker.module').then((m) => m.DatepickerModule),
+  },
+  {
+    path: 'timepicker',
+    loadChildren: () => import('./timepicker/routes'),
   },
 ];
 

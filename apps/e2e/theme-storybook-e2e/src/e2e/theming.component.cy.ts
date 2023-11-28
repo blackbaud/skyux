@@ -7,7 +7,7 @@ describe('theme-storybook', () => {
       beforeEach(() => {
         cy.viewport(E2eVariations.MOBILE_WIDTHS[0], 800);
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=themingcomponent-theming--theming`
+          `/iframe.html?globals=theme:${theme}&id=themingcomponent-theming--theming`,
         );
       });
       it('should render the component', () => {
@@ -15,14 +15,14 @@ describe('theme-storybook', () => {
           .should('exist')
           .should('be.visible')
           .contains(
-            `${capitalize(String(theme.split('-').shift()))} Theme Element`
+            `${capitalize(String(theme.split('-').shift()))} Theme Element`,
           )
           .should('exist')
           .should('be.visible')
           .end()
           .get('app-theming')
           .contains(
-            `On-push ${theme.split('-').shift()} theme conditional element`
+            `On-push ${theme.split('-').shift()} theme conditional element`,
           )
           .should('exist')
           .should('be.visible')

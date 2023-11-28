@@ -97,7 +97,7 @@ describe('Popover fixture', () => {
     // expect the values to match our updates
     expect(popoverFixture.popoverTitle).toEqual(testComponent.popoverTitle);
     expect(SkyAppTestUtility.getText(popoverFixture.body)).toEqual(
-      testComponent.popoverBody
+      testComponent.popoverBody,
     );
     expect(popoverFixture.alignment).toEqual(testComponent.popoverAlignment);
     expect(popoverFixture.placement).toEqual(testComponent.popoverPlacement);

@@ -35,7 +35,7 @@ export class DateRangePickerComponent {
       console.log(
         'Date range status change:',
         status,
-        this.pickerFormControl.errors
+        this.pickerFormControl.errors,
       );
     });
 

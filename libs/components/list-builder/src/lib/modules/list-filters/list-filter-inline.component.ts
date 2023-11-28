@@ -32,7 +32,7 @@ export class SkyListFilterInlineComponent implements AfterContentInit {
 
   constructor(
     private dispatcher: ListStateDispatcher,
-    private state: ListState
+    private state: ListState,
   ) {}
 
   public ngAfterContentInit() {
@@ -53,7 +53,7 @@ export class SkyListFilterInlineComponent implements AfterContentInit {
     });
 
     this.dispatcher.filtersUpdate(
-      this.getFilterModelFromInline(this.inlineFilters)
+      this.getFilterModelFromInline(this.inlineFilters),
     );
   }
 
@@ -67,13 +67,13 @@ export class SkyListFilterInlineComponent implements AfterContentInit {
       }
 
       this.dispatcher.filtersUpdate(
-        this.getFilterModelFromInline(this.inlineFilters)
+        this.getFilterModelFromInline(this.inlineFilters),
       );
     });
   }
 
   private getFilterModelFromInline(
-    inlineFilters: Array<SkyListFilterInlineModel>
+    inlineFilters: Array<SkyListFilterInlineModel>,
   ) {
     return inlineFilters.map((filter) => {
       return new ListFilterModel({

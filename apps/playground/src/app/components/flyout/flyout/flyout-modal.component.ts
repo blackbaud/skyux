@@ -1,7 +1,9 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { SkyModalInstance } from '@skyux/modals';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
+  standalone: true,
   selector: 'app-flyout-modal-demo',
   template: `
     <sky-modal>
@@ -21,6 +23,7 @@ import { SkyModalInstance } from '@skyux/modals';
       </sky-modal-footer>
     </sky-modal>
   `,
+  imports: [CommonModule, SkyModalModule],
 })
 export class FlyoutModalDemoComponent {
   public visible = true;

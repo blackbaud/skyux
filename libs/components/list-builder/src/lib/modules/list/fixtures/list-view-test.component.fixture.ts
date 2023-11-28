@@ -41,7 +41,7 @@ export class ListViewTestComponent extends ListViewComponent {
     state
       .pipe(
         observableMap((s) => s.items),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       )
       .subscribe((items) => {
         this.items = items.items;

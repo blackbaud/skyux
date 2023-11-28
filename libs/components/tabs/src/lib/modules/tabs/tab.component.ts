@@ -227,7 +227,7 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
   constructor(
     changeDetector: ChangeDetectorRef,
     permalinkService: SkyTabsetPermalinkService,
-    tabsetService: SkyTabsetService
+    tabsetService: SkyTabsetService,
   ) {
     this.#changeDetector = changeDetector;
     this.#permalinkService = permalinkService;
@@ -239,7 +239,7 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
     this.#activeChange = new BehaviorSubject<void | undefined>(undefined);
     this.#stateChange = new BehaviorSubject<void>(undefined);
     this.#tabIndexChange = new BehaviorSubject<SkyTabIndex | undefined>(
-      undefined
+      undefined,
     );
 
     this.#setPermalinkValueOrDefault();

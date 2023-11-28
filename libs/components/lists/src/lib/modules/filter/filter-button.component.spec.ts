@@ -1,11 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyContentInfoProvider } from '@skyux/core';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyFilterModule } from './filter.module';
 import { FilterButtonTestComponent } from './fixtures/filter-button.component.fixture';
 
 describe('Filter button', () => {
+  let contentInfoProvider: SkyContentInfoProvider;
   let fixture: ComponentFixture<FilterButtonTestComponent>;
   let nativeElement: HTMLElement;
   let component: FilterButtonTestComponent;
@@ -14,12 +16,15 @@ describe('Filter button', () => {
     TestBed.configureTestingModule({
       declarations: [FilterButtonTestComponent],
       imports: [SkyFilterModule, SkyThemeModule],
+      providers: [SkyContentInfoProvider],
     });
 
     fixture = TestBed.createComponent(FilterButtonTestComponent);
     nativeElement = fixture.nativeElement as HTMLElement;
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+    contentInfoProvider = TestBed.inject(SkyContentInfoProvider);
   });
 
   function getButtonEl(): HTMLButtonElement {
@@ -38,7 +43,7 @@ describe('Filter button', () => {
     component.filtersActive = true;
     fixture.detectChanges();
     expect(nativeElement.querySelector('.sky-btn')).toHaveCssClass(
-      'sky-filter-btn-active'
+      'sky-filter-btn-active',
     );
   });
 
@@ -46,18 +51,48 @@ describe('Filter button', () => {
     component.buttonId = 'i-am-an-id-look-at-me';
     fixture.detectChanges();
     expect(nativeElement.querySelector('.sky-btn')?.id).toBe(
-      'i-am-an-id-look-at-me'
+      'i-am-an-id-look-at-me',
     );
   });
 
-  it('should allow setting aria labels', () => {
+  it('should allow setting aria properties', () => {
     component.ariaControls = 'filter-zone-2';
     component.ariaExpanded = true;
+    component.ariaLabel = 'Test label';
     fixture.detectChanges();
 
     const button = nativeElement.querySelector('.sky-btn');
     expect(button?.getAttribute('aria-controls')).toBe('filter-zone-2');
     expect(button?.getAttribute('aria-expanded')).toBe('true');
+    expect(button?.getAttribute('aria-label')).toBe('Test label');
+  });
+
+  it('should use the content info provider for aria label when applicable', () => {
+    contentInfoProvider.patchInfo({
+      descriptor: { value: 'constituents', type: 'text' },
+    });
+    fixture.detectChanges();
+
+    const button = nativeElement.querySelector('.sky-btn');
+    expect(button?.getAttribute('aria-label')).toBe('Filter constituents');
+  });
+
+  it('should not use the default input provider for aria label when overwritten', () => {
+    contentInfoProvider.patchInfo({
+      descriptor: { value: 'constituents', type: 'text' },
+    });
+    component.ariaLabel = 'Overwritten label';
+    fixture.detectChanges();
+
+    const button = nativeElement.querySelector('.sky-btn');
+    expect(button?.getAttribute('aria-label')).toBe('Overwritten label');
+  });
+
+  it('should set a default aria label when the ariaLabel property is not given', () => {
+    fixture.detectChanges();
+
+    const button = nativeElement.querySelector('.sky-btn');
+    expect(button?.getAttribute('aria-label')).toBe('Filter');
   });
 
   it('should emit event on click', () => {
@@ -83,13 +118,13 @@ describe('Filter button', () => {
 
   it('should use modern icon when applicable', async () => {
     const defaultIcon = fixture.nativeElement.querySelector(
-      'sky-filter-button sky-icon i'
+      'sky-filter-button sky-icon i',
     );
     expect(defaultIcon).toHaveCssClass('fa-filter');
     fixture.componentInstance.useModernTheme();
     fixture.detectChanges();
     const modernIcon = fixture.nativeElement.querySelector(
-      'sky-filter-button sky-icon i'
+      'sky-filter-button sky-icon i',
     );
     expect(modernIcon).toHaveCssClass('sky-i-filter');
   });

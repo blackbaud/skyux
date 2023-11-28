@@ -5,22 +5,22 @@ describe('lookup-storybook', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() => {
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=autocompletecomponent-autocomplete--autocomplete`
+          `/iframe.html?globals=theme:${theme}&id=autocompletecomponent-autocomplete--autocomplete`,
         );
-        cy.viewport(1300, 900);
+        cy.viewport(1300, 900).get('#ready').should('exist').end();
       });
       it('should render the component', () => {
         cy.get('app-autocomplete')
           .should('exist')
           .should('be.visible')
           .screenshot(
-            `autocompletecomponent-autocomplete--autocomplete-${theme}`
+            `autocompletecomponent-autocomplete--autocomplete-${theme}`,
           )
           .percySnapshot(
             `autocompletecomponent-autocomplete--autocomplete-${theme}`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
-            }
+            },
           );
       });
 
@@ -36,14 +36,14 @@ describe('lookup-storybook', () => {
           .should('exist')
           .should('be.visible')
           .screenshot(
-            `autocompletecomponent-autocomplete--autocomplete-dropdown-${theme}`
+            `autocompletecomponent-autocomplete--autocomplete-dropdown-${theme}`,
           )
           .percySnapshot(
             `autocompletecomponent-autocomplete--autocomplete-dropdown-${theme}`,
             {
               minHeight: 900,
               widths: E2eVariations.DISPLAY_WIDTHS,
-            }
+            },
           );
       });
 
@@ -63,14 +63,14 @@ describe('lookup-storybook', () => {
           .should('be.visible')
           .click()
           .screenshot(
-            `autocompletecomponent-autocomplete--autocomplete-selected-${theme}`
+            `autocompletecomponent-autocomplete--autocomplete-selected-${theme}`,
           )
           .percySnapshot(
             `autocompletecomponent-autocomplete--autocomplete-seleted-${theme}`,
             {
               minHeight: 900,
               widths: E2eVariations.DISPLAY_WIDTHS,
-            }
+            },
           );
       });
 
@@ -86,14 +86,14 @@ describe('lookup-storybook', () => {
           .should('exist')
           .should('be.visible')
           .screenshot(
-            `autocompletecomponent-autocomplete--autocomplete-no-results-${theme}`
+            `autocompletecomponent-autocomplete--autocomplete-no-results-${theme}`,
           )
           .percySnapshot(
             `autocompletecomponent-autocomplete--autocomplete-no-results-${theme}`,
             {
               minHeight: 900,
               widths: E2eVariations.DISPLAY_WIDTHS,
-            }
+            },
           );
       });
     });

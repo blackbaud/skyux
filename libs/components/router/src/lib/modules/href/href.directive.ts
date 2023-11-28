@@ -16,6 +16,7 @@ import { SkyAppConfig, SkyAppRuntimeConfigParamsProvider } from '@skyux/config';
 import { SkyHrefResolverService } from './href-resolver.service';
 import { SkyHref } from './types/href';
 import { SkyHrefChange } from './types/href-change';
+import { SkyHrefQueryParams } from './types/href-query-params';
 
 type HrefChanges = { href: string; hidden: boolean };
 
@@ -45,6 +46,21 @@ export class SkyHrefDirective {
   }
 
   /**
+   * A collection of query URL parameters.
+   */
+  @Input()
+  public set queryParams(value: SkyHrefQueryParams | undefined) {
+    if (value !== this.#_queryParams) {
+      this.#_queryParams = value;
+      this.#applyChanges(this.#getChanges());
+    }
+  }
+
+  public get queryParams(): SkyHrefQueryParams | undefined {
+    return this.#_queryParams;
+  }
+
+  /**
    * Set the behavior for when the link is not available to either hide the link or display unlinked text.
    *
    * @param value
@@ -69,8 +85,8 @@ export class SkyHrefDirective {
 
   #href = '';
 
+  #_queryParams: SkyHrefQueryParams | undefined;
   #_skyHref = '';
-
   #_skyHrefElse: 'hide' | 'unlink' | undefined = 'hide';
 
   #router: Router;
@@ -90,7 +106,7 @@ export class SkyHrefDirective {
     @Optional() paramsProvider?: SkyAppRuntimeConfigParamsProvider,
     @Optional() hrefResolver?: SkyHrefResolverService,
     @Optional() applicationRef?: ApplicationRef,
-    @Optional() changeDetectorRef?: ChangeDetectorRef
+    @Optional() changeDetectorRef?: ChangeDetectorRef,
   ) {
     this.#router = router;
     this.#renderer = renderer;
@@ -114,7 +130,7 @@ export class SkyHrefDirective {
     ctrlKey: boolean,
     shiftKey: boolean,
     altKey: boolean,
-    metaKey: boolean
+    metaKey: boolean,
   ): boolean {
     if (!this.#route || !this.#route.userHasAccess) {
       return false;
@@ -137,13 +153,13 @@ export class SkyHrefDirective {
     return true;
   }
 
-  #applyChanges(change: HrefChanges) {
+  #applyChanges(change: HrefChanges): void {
     this.#renderer.addClass(this.#element.nativeElement, 'sky-href');
     if (change.hidden) {
       this.#renderer.setAttribute(
         this.#element.nativeElement,
         'hidden',
-        'hidden'
+        'hidden',
       );
     } else {
       this.#renderer.removeAttribute(this.#element.nativeElement, 'hidden');
@@ -152,7 +168,7 @@ export class SkyHrefDirective {
       this.#renderer.setAttribute(
         this.#element.nativeElement,
         'href',
-        change.href
+        change.href,
       );
     } else {
       this.#renderer.removeAttribute(this.#element.nativeElement, 'href');
@@ -160,7 +176,7 @@ export class SkyHrefDirective {
     this.skyHrefChange.emit({ userHasAccess: !change.hidden });
   }
 
-  #checkRouteAccess() {
+  #checkRouteAccess(): void {
     this.#route = {
       url: this.skyHref,
       userHasAccess: false,
@@ -201,7 +217,9 @@ export class SkyHrefDirective {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         this.#skyAppConfig?.runtime.params ?? this.#paramsProvider!.params;
 
-      this.#href = params.getLinkUrl(this.#route.url);
+      this.#href = params.getLinkUrl(this.#route.url, {
+        queryParams: this.queryParams ?? {},
+      });
 
       return {
         href: this.#href,
@@ -226,7 +244,7 @@ export class SkyHrefDirective {
       this.#skyAppConfig.skyux.host.url +
       this.#skyAppConfig.runtime.app.base.substr(
         0,
-        this.#skyAppConfig.runtime.app.base.length - 1
+        this.#skyAppConfig.runtime.app.base.length - 1,
       )
     ).toLowerCase();
 

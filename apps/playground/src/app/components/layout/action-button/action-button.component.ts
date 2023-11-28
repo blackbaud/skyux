@@ -1,14 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   SkyActionButtonContainerAlignItemsType,
   SkyActionButtonPermalink,
 } from '@skyux/layout';
+import { SkyModalService } from '@skyux/modals';
+
+import { ActionButtonModalComponent } from './action-button-modal.component';
 
 @Component({
   selector: 'app-action-button',
   templateUrl: './action-button.component.html',
 })
 export class ActionButtonComponent {
+  #modalSvc = inject(SkyModalService);
+
   public alignItems: SkyActionButtonContainerAlignItemsType;
 
   public actionButtons = [
@@ -116,5 +121,9 @@ export class ActionButtonComponent {
 
   public onLeftAlignClick(): void {
     this.alignItems = 'left';
+  }
+
+  public onOpenModalClick(): void {
+    this.#modalSvc.open(ActionButtonModalComponent);
   }
 }

@@ -15,20 +15,20 @@ describe('Viewkeeper directive', () => {
   let mockMutationObserver: any;
 
   function getBoundaryEl(
-    fixture: ComponentFixture<ViewkeeperTestComponent>
+    fixture: ComponentFixture<ViewkeeperTestComponent>,
   ): void {
     return fixture.debugElement.query(By.css('.boundary-el')).nativeElement;
   }
 
   function getScrollableHostEl(
-    fixture: ComponentFixture<ViewkeeperTestComponent>
+    fixture: ComponentFixture<ViewkeeperTestComponent>,
   ): void {
     return fixture.debugElement.query(By.css('.scrollable-host'))
       ?.nativeElement;
   }
 
   function validateViewkeepersCreated(
-    fixture: ComponentFixture<ViewkeeperTestComponent>
+    fixture: ComponentFixture<ViewkeeperTestComponent>,
   ): void {
     const boundaryEl = getBoundaryEl(fixture);
     const scrollableHost = getScrollableHostEl(fixture);
@@ -80,7 +80,7 @@ describe('Viewkeeper directive', () => {
         scrollableHost:
           scrollableHost !== undefined ? scrollableHost : undefined,
         verticalOffsetEl: document.querySelector(
-          fixture.componentInstance.showEl3 ? '.el3' : '.el2'
+          fixture.componentInstance.showEl3 ? '.el3' : '.el2',
         ),
       });
     }
@@ -143,7 +143,7 @@ describe('Viewkeeper directive', () => {
       {
         childList: true,
         subtree: true,
-      }
+      },
     );
 
     validateViewkeepersCreated(fixture);
@@ -237,7 +237,7 @@ describe('Viewkeeper directive', () => {
       {
         childList: true,
         subtree: true,
-      }
+      },
     );
 
     validateViewkeepersCreated(fixture);

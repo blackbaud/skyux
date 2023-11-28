@@ -64,7 +64,7 @@ export class DockComponent implements AfterViewInit {
           provide: DockItemVisualContext,
           useValue: new DockItemVisualContext(
             config.backgroundColor,
-            config.stackOrder
+            config.stackOrder,
           ),
         },
       ],

@@ -72,7 +72,7 @@ export class SkyFuzzyDatepickerInputDirective
       const formattedDate = this.#fuzzyDateService.format(
         this.#value,
         this.dateFormat,
-        this.#locale
+        this.#locale,
       );
       this.#setInputElementValue(formattedDate);
       this.#changeDetector.markForCheck();
@@ -101,7 +101,7 @@ export class SkyFuzzyDatepickerInputDirective
     this.#renderer.setProperty(
       this.#elementRef.nativeElement,
       'disabled',
-      value
+      value,
     );
   }
 
@@ -246,12 +246,12 @@ export class SkyFuzzyDatepickerInputDirective
     fuzzyDateService: SkyFuzzyDateService,
     localeProvider: SkyAppLocaleProvider,
     renderer: Renderer2,
-    @Optional() datepickerComponent?: SkyDatepickerComponent
+    @Optional() datepickerComponent?: SkyDatepickerComponent,
   ) {
     if (!datepickerComponent) {
       throw new Error(
         'You must wrap the `skyFuzzyDatepickerInput` directive within a ' +
-          '`<sky-datepicker>` component!'
+          '`<sky-datepicker>` component!',
       );
     }
 
@@ -278,7 +278,7 @@ export class SkyFuzzyDatepickerInputDirective
     if (this.yearRequired) {
       if (this.dateFormat?.toLowerCase().indexOf('y') === -1) {
         throw new Error(
-          'You have configured conflicting settings. Year is required and dateFormat does not include year.'
+          'You have configured conflicting settings. Year is required and dateFormat does not include year.',
         );
       }
     }
@@ -333,7 +333,7 @@ export class SkyFuzzyDatepickerInputDirective
     const formattedDate = this.#fuzzyDateService.format(
       this.#value,
       this.dateFormat,
-      this.#locale
+      this.#locale,
     );
 
     if (this.#control?.valid) {
@@ -371,7 +371,7 @@ export class SkyFuzzyDatepickerInputDirective
     if (typeof value === 'string') {
       fuzzyDate = this.#fuzzyDateService.getFuzzyDateFromString(
         value,
-        this.dateFormat
+        this.dateFormat,
       );
     } else {
       fuzzyDate = value;
@@ -398,7 +398,7 @@ export class SkyFuzzyDatepickerInputDirective
         if (this.maxDate) {
           fuzzyDateRange = this.#fuzzyDateService.getFuzzyDateRange(
             fuzzyDate,
-            this.maxDate
+            this.maxDate,
           );
 
           if (!fuzzyDateRange.valid) {
@@ -413,7 +413,7 @@ export class SkyFuzzyDatepickerInputDirective
         if (!validationError && this.minDate) {
           fuzzyDateRange = this.#fuzzyDateService.getFuzzyDateRange(
             this.minDate,
-            fuzzyDate
+            fuzzyDate,
           );
           if (!fuzzyDateRange.valid) {
             validationError = {
@@ -427,7 +427,7 @@ export class SkyFuzzyDatepickerInputDirective
         if (!validationError && this.futureDisabled) {
           fuzzyDateRange = this.#fuzzyDateService.getFuzzyDateRange(
             fuzzyDate,
-            this.#fuzzyDateService.getCurrentFuzzyDate()
+            this.#fuzzyDateService.getCurrentFuzzyDate(),
           );
           if (!fuzzyDateRange.valid) {
             validationError = {
@@ -485,7 +485,7 @@ export class SkyFuzzyDatepickerInputDirective
   #getMaxDate(): Date | undefined {
     if (this.maxDate) {
       const maxDate = this.#fuzzyDateService.getMomentFromFuzzyDate(
-        this.maxDate
+        this.maxDate,
       );
       if (maxDate.isValid()) {
         return maxDate.toDate();
@@ -499,7 +499,7 @@ export class SkyFuzzyDatepickerInputDirective
   #getMinDate(): Date | undefined {
     if (this.minDate) {
       const minDate = this.#fuzzyDateService.getMomentFromFuzzyDate(
-        this.minDate
+        this.minDate,
       );
       if (minDate.isValid()) {
         return minDate.toDate();
@@ -552,18 +552,18 @@ export class SkyFuzzyDatepickerInputDirective
       formattedDate = this.#dateFormatter.format(value, this.dateFormat);
       fuzzyDate = this.#fuzzyDateService.getFuzzyDateFromSelectedDate(
         value,
-        this.dateFormat
+        this.dateFormat,
       );
     } else if (typeof value === 'string') {
       fuzzyDate = this.#fuzzyDateService.getFuzzyDateFromString(
         value,
-        this.dateFormat
+        this.dateFormat,
       );
       if (fuzzyDate) {
         formattedDate = this.#fuzzyDateService.format(
           fuzzyDate,
           this.dateFormat,
-          this.#locale
+          this.#locale,
         );
       }
 
@@ -581,7 +581,7 @@ export class SkyFuzzyDatepickerInputDirective
       formattedDate = this.#fuzzyDateService.format(
         fuzzyDate,
         this.dateFormat,
-        this.#locale
+        this.#locale,
       );
       fuzzyMoment = this.#fuzzyDateService.getMomentFromFuzzyDate(fuzzyDate);
 

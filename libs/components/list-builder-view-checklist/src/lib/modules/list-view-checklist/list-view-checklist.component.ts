@@ -147,7 +147,7 @@ export class SkyListViewChecklistComponent
     private dispatcher: ListStateDispatcher,
     private checklistState: ChecklistState,
     private checklistDispatcher: ChecklistStateDispatcher,
-    logger: SkyLogService
+    logger: SkyLogService,
   ) {
     super(state, 'Checklist View');
 
@@ -182,10 +182,10 @@ export class SkyListViewChecklistComponent
               newItems,
               true,
               dataChanged,
-              items.count
-            )
+              items.count,
+            ),
           );
-        })
+        }),
       )
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe();
@@ -193,7 +193,7 @@ export class SkyListViewChecklistComponent
     this.state
       .pipe(
         observableMap((t) => t.selected),
-        takeUntil(this.ngUnsubscribe)
+        takeUntil(this.ngUnsubscribe),
       )
       .subscribe((selectedItems: AsyncItem<ListSelectedModel>) => {
         this._selectedIdMap = selectedItems.item.selectedIdMap;
@@ -211,11 +211,11 @@ export class SkyListViewChecklistComponent
       .pipe(
         observableMap((t) => t.filters),
         takeUntil(this.ngUnsubscribe),
-        distinctUntilChanged(this.showSelectedValuesEqual)
+        distinctUntilChanged(this.showSelectedValuesEqual),
       )
       .subscribe((filters: ListFilterModel[]) => {
         const showSelectedFilter = filters.find(
-          (filter: ListFilterModel) => filter.name === 'show-selected'
+          (filter: ListFilterModel) => filter.name === 'show-selected',
         );
         if (showSelectedFilter) {
           this._showOnlySelected = showSelectedFilter.value === 'true';
@@ -251,15 +251,15 @@ export class SkyListViewChecklistComponent
     this.state
       .pipe(
         observableMap((state) => state.items.items),
-        take(1)
+        take(1),
       )
       .subscribe((items) => {
         this.dispatcher.next(
           new ListSelectedSetItemsSelectedAction(
             items.map((item) => item.id),
             false,
-            false
-          )
+            false,
+          ),
         );
 
         /* istanbul ignore else */
@@ -278,15 +278,15 @@ export class SkyListViewChecklistComponent
     this.state
       .pipe(
         observableMap((state) => state.items.items),
-        take(1)
+        take(1),
       )
       .subscribe((items) => {
         this.dispatcher.next(
           new ListSelectedSetItemsSelectedAction(
             items.map((item) => item.id),
             true,
-            false
-          )
+            false,
+          ),
         );
 
         /* istanbul ignore else */
@@ -322,7 +322,7 @@ export class SkyListViewChecklistComponent
 
   public get items(): Observable<ListViewChecklistItemModel[]> {
     return this.checklistState.pipe(
-      observableMap((state) => state.items.items)
+      observableMap((state) => state.items.items),
     );
   }
 
@@ -356,19 +356,19 @@ export class SkyListViewChecklistComponent
 
   public itemSelected(id: string): Observable<boolean> {
     return this.state.pipe(
-      observableMap((state) => state.selected.item.selectedIdMap.get(id))
+      observableMap((state) => state.selected.item.selectedIdMap.get(id)),
     );
   }
 
   public setItemSelection(item: ListItemModel, event: any) {
     this.dispatcher.next(
-      new ListSelectedSetItemSelectedAction(item.id, event.checked)
+      new ListSelectedSetItemSelectedAction(item.id, event.checked),
     );
   }
 
   public singleSelectRowClick(item: ListItemModel) {
     this.dispatcher.next(
-      new ListSelectedSetItemsSelectedAction([item.id], true, true)
+      new ListSelectedSetItemsSelectedAction([item.id], true, true),
     );
   }
 
@@ -390,7 +390,7 @@ export class SkyListViewChecklistComponent
     this.state
       .pipe(
         observableMap((state) => state.filters),
-        take(1)
+        take(1),
       )
       .subscribe((filters: ListFilterModel[]) => {
         filters = filters.filter((filter) => filter.name !== 'show-selected');
@@ -401,13 +401,13 @@ export class SkyListViewChecklistComponent
 
   private showSelectedValuesEqual(
     prev: ListFilterModel[],
-    next: ListFilterModel[]
+    next: ListFilterModel[],
   ) {
     const prevShowSelectedFilter = prev.find(
-      (filter) => filter.name === 'show-selected'
+      (filter) => filter.name === 'show-selected',
     );
     const nextShowSelectedFilter = next.find(
-      (filter) => filter.name === 'show-selected'
+      (filter) => filter.name === 'show-selected',
     );
 
     if (prevShowSelectedFilter && nextShowSelectedFilter) {

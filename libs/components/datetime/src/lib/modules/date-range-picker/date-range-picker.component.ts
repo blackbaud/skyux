@@ -258,7 +258,7 @@ export class SkyDateRangePickerComponent
     formBuilder: UntypedFormBuilder,
     localeProvider: SkyAppLocaleProvider,
     ngZone: NgZone,
-    @Optional() themeSvc?: SkyThemeService
+    @Optional() themeSvc?: SkyThemeService,
   ) {
     this.#changeDetector = changeDetector;
     this.#dateRangeService = dateRangeService;
@@ -309,7 +309,7 @@ export class SkyDateRangePickerComponent
         // allow the calculator to fill in the missing start and end dates.
         const defaultValue = this.selectedCalculator?.getValue(
           this.#valueOrDefault?.startDate,
-          this.#valueOrDefault?.endDate
+          this.#valueOrDefault?.endDate,
         );
         const newValue = Object.assign({}, defaultValue, this.#valueOrDefault);
 
@@ -438,7 +438,7 @@ export class SkyDateRangePickerComponent
   }
 
   public registerOnChange(
-    fn: (value: SkyDateRangeCalculation | undefined) => SkyDateRangeCalculation
+    fn: (value: SkyDateRangeCalculation | undefined) => SkyDateRangeCalculation,
   ): void {
     this.#onChange = fn;
   }
@@ -453,7 +453,7 @@ export class SkyDateRangePickerComponent
 
   #setValue(
     value: SkyDateRangeCalculation | undefined,
-    notifyChange = true
+    notifyChange = true,
   ): void {
     const isNewValue = !this.#dateRangesEqual(this.#value, value);
 
@@ -606,7 +606,7 @@ export class SkyDateRangePickerComponent
   }
 
   #getCalculatorById(
-    id: SkyDateRangeCalculatorId
+    id: SkyDateRangeCalculatorId,
   ): SkyDateRangeCalculator | undefined {
     return this.calculators.find((calculator) => {
       return calculator.calculatorId === id;
@@ -615,7 +615,7 @@ export class SkyDateRangePickerComponent
 
   #dateRangesEqual(
     rangeA: SkyDateRangeCalculation | undefined,
-    rangeB: SkyDateRangeCalculation | undefined
+    rangeB: SkyDateRangeCalculation | undefined,
   ): boolean {
     return (
       !!rangeA && !!rangeB && JSON.stringify(rangeA) === JSON.stringify(rangeB)

@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
+import { of } from 'rxjs';
+import { delay } from 'rxjs/operators';
+
 @Component({
   selector: 'app-colorpicker',
   templateUrl: './colorpicker.component.html',
@@ -32,6 +35,8 @@ export class ColorpickerComponent {
     '#E87134',
     '#DA9C9C',
   ];
+
+  protected ready$ = of(true).pipe(delay(1200));
 
   constructor(formBuilder: FormBuilder) {
     this.colorForm = formBuilder.group({

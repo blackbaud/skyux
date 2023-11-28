@@ -105,7 +105,7 @@ describe('Avatar component', () => {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.default,
-          SkyThemeMode.presets.light
+          SkyThemeMode.presets.light,
         ),
         previousSettings: undefined,
       }),
@@ -174,7 +174,7 @@ describe('Avatar component', () => {
     const screenReaderEl: HTMLElement = getScreenReaderEl(el) as HTMLElement;
     expect(screenReaderEl).not.toBeNull();
     expect(screenReaderEl?.textContent?.trim()).toBe(
-      'Profile picture of Robert Hernandez'
+      'Profile picture of Robert Hernandez',
     );
   });
 
@@ -238,10 +238,10 @@ describe('Avatar component', () => {
 
     expect(
       getFileDropTargetEl(fixture.nativeElement)?.attributes.getNamedItem(
-        'aria-label'
-      )?.value
+        'aria-label',
+      )?.value,
     ).toBe(
-      'Add profile photo of Robert Hernandez. Drag a file here or click to browse.'
+      'Add profile photo of Robert Hernandez. Drag a file here or click to browse.',
     );
   }));
 
@@ -260,10 +260,10 @@ describe('Avatar component', () => {
 
     expect(
       getFileDropTargetEl(fixture.nativeElement)?.attributes.getNamedItem(
-        'aria-label'
-      )?.value
+        'aria-label',
+      )?.value,
     ).toBe(
-      'Change profile photo of Robert Hernandez. Drag a file here or click to browse.'
+      'Change profile photo of Robert Hernandez. Drag a file here or click to browse.',
     );
   }));
 
@@ -309,7 +309,7 @@ describe('Avatar component', () => {
     } as SkyFileItem;
     instance.canChange = true;
     instance.avatarChanged.subscribe(
-      (newFile: SkyFileItem) => (expectedFile = newFile)
+      (newFile: SkyFileItem) => (expectedFile = newFile),
     );
 
     instance.photoDrop({
@@ -335,7 +335,7 @@ describe('Avatar component', () => {
 
     instance.canChange = true;
     instance.avatarChanged.subscribe(
-      (newFile: SkyFileItem) => (expectedFile = newFile)
+      (newFile: SkyFileItem) => (expectedFile = newFile),
     );
 
     instance.photoDrop({
@@ -439,7 +439,7 @@ describe('Avatar component', () => {
   function validateWrapperSizeClass(
     fixture: ComponentFixture<AvatarTestComponent>,
     size: SkyAvatarSize | undefined,
-    updateSize = true
+    updateSize = true,
   ): void {
     if (updateSize) {
       fixture.componentInstance.size = size;
@@ -450,7 +450,7 @@ describe('Avatar component', () => {
 
     (
       expect(wrapperEl).withContext(
-        `When size is set to ${size}`
+        `When size is set to ${size}`,
       ) as SkyMatchers<Element>
     ).toHaveCssClass(`sky-avatar-wrapper-size-${size || 'large'}`);
   }
@@ -497,18 +497,18 @@ describe('Avatar component', () => {
     function validatePlaceholderClass(
       fixture: ComponentFixture<AvatarTestComponent>,
       size: SkyAvatarSize | undefined,
-      expectedClass: string
+      expectedClass: string,
     ) {
       fixture.componentInstance.size = size;
       fixture.detectChanges();
 
       const initialsEl = fixture.nativeElement.querySelector(
-        '.sky-avatar-initials-inner'
+        '.sky-avatar-initials-inner',
       );
 
       (
         expect(initialsEl).withContext(
-          `When size is set to ${size}`
+          `When size is set to ${size}`,
         ) as SkyMatchers<Element>
       ).toHaveCssClass(expectedClass);
     }
@@ -517,7 +517,7 @@ describe('Avatar component', () => {
       mockThemeSvc.settingsChange.next({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.modern,
-          SkyThemeMode.presets.light
+          SkyThemeMode.presets.light,
         ),
         previousSettings:
           mockThemeSvc.settingsChange.getValue().currentSettings,

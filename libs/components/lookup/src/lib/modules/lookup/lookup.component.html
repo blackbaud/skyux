@@ -62,6 +62,7 @@
               rows="1"
               skyAutocomplete
               wrap="off"
+              [attr.aria-describedby]="ariaDescribedBy | async"
               [attr.aria-label]="ariaLabel"
               [attr.aria-labelledby]="ariaLabelledBy"
               [attr.id]="controlId"
@@ -87,6 +88,7 @@
               rows="1"
               skyAutocomplete
               wrap="off"
+              [attr.aria-describedby]="ariaDescribedBy | async"
               [attr.aria-label]="ariaLabel"
               [attr.aria-labelledby]="ariaLabelledBy"
               [attr.id]="controlId"
@@ -124,7 +126,7 @@
       "
       (click)="onSearchButtonClick()"
     >
-      <sky-icon icon="search"></sky-icon>
+      <sky-icon icon="search" />
     </button>
   </div>
 </ng-template>
@@ -134,6 +136,6 @@
     class="sky-input-group-icon sky-input-box-icon-inset"
     [ngClass]="{ 'sky-lookup-disabled': disabled }"
   >
-    <sky-icon icon="search"></sky-icon>
+    <sky-icon icon="search" />
   </div>
 </ng-template>

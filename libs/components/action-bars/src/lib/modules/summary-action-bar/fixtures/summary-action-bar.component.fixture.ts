@@ -53,7 +53,7 @@ export class SkySummaryActionBarTestComponent implements OnDestroy {
     this.#closeModal();
 
     this.#modalInstance = this.#modalService.open(
-      SkySummaryActionBarModalTestComponent
+      SkySummaryActionBarModalTestComponent,
     );
 
     this.openedModal = this.#modalInstance.componentInstance;
@@ -63,7 +63,7 @@ export class SkySummaryActionBarTestComponent implements OnDestroy {
     this.#closeModal();
 
     this.#modalInstance = this.#modalService.open(
-      SkySummaryActionBarModalEmptyTestComponent
+      SkySummaryActionBarModalEmptyTestComponent,
     );
 
     this.openedModal = this.#modalInstance.componentInstance;
@@ -74,7 +74,7 @@ export class SkySummaryActionBarTestComponent implements OnDestroy {
 
     this.#modalInstance = this.#modalService.open(
       SkySummaryActionBarModalTestComponent,
-      { fullPage: true }
+      { fullPage: true },
     );
 
     this.openedModal = this.#modalInstance.componentInstance;

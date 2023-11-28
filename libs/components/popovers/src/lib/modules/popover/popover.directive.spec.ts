@@ -76,7 +76,7 @@ describe('Popover directive', () => {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.default,
-          SkyThemeMode.presets.light
+          SkyThemeMode.presets.light,
         ),
         previousSettings: undefined,
       }),
@@ -252,7 +252,7 @@ describe('Popover directive', () => {
     detectChangesFakeAsync();
 
     const headingElement = getPopoverElement()?.querySelector(
-      '.sky-popover-header'
+      '.sky-popover-header',
     );
 
     expect(headingElement).toHaveText('Did you know?');
@@ -275,7 +275,7 @@ describe('Popover directive', () => {
 
     // Should now have a scrollbar.
     expect(popover && popover.scrollHeight > popover.clientHeight).toEqual(
-      true
+      true,
     );
   }));
 
@@ -518,7 +518,7 @@ describe('Popover directive', () => {
 
       const messageSpy = spyOn(
         fixture.componentInstance.messageStream as Subject<SkyPopoverMessage>,
-        'next'
+        'next',
       ).and.callThrough();
 
       // Escape key detection shouldn't work while the popover is closed.
@@ -601,7 +601,7 @@ describe('Popover directive', () => {
 
       const messageSpy = spyOn(
         fixture.componentInstance.messageStream as Subject<SkyPopoverMessage>,
-        'next'
+        'next',
       ).and.callThrough();
 
       SkyAppTestUtility.fireDomEvent(button, 'keydown', {
@@ -770,7 +770,7 @@ describe('Popover directive', () => {
       detectChangesFakeAsync();
 
       expect(
-        fixture.componentInstance.noArgsDirectiveRef?.skyPopoverMessageStream
+        fixture.componentInstance.noArgsDirectiveRef?.skyPopoverMessageStream,
       ).toBeDefined();
     }));
 
@@ -778,7 +778,7 @@ describe('Popover directive', () => {
       detectChangesFakeAsync();
 
       expect(fixture.componentInstance.messageStream).toEqual(
-        fixture.componentInstance.directiveRef?.skyPopoverMessageStream
+        fixture.componentInstance.directiveRef?.skyPopoverMessageStream,
       );
 
       fixture.componentInstance.messageStream = undefined;
@@ -786,7 +786,7 @@ describe('Popover directive', () => {
       detectChangesFakeAsync();
 
       expect(
-        fixture.componentInstance.directiveRef?.skyPopoverMessageStream
+        fixture.componentInstance.directiveRef?.skyPopoverMessageStream,
       ).toBeDefined();
     }));
 
@@ -825,7 +825,7 @@ describe('Popover directive', () => {
 
       const applyFocusSpy = spyOn(
         TestBed.inject(SkyCoreAdapterService),
-        'getFocusableChildrenAndApplyFocus'
+        'getFocusableChildrenAndApplyFocus',
       ).and.callThrough();
 
       // The focus message shouldn't register when the popover is closed.
@@ -885,10 +885,10 @@ describe('Popover directive', () => {
 
         // The original, preferred placement should be re-applied.
         expect(
-          (affixSpy.calls.argsFor(0)[1] as SkyAffixPlacementChange).placement
+          (affixSpy.calls.argsFor(0)[1] as SkyAffixPlacementChange).placement,
         ).toEqual('below');
         expect(popover).toHaveCssClass('sky-popover-placement-below');
-      })
+      }),
     ));
   });
 
@@ -1033,7 +1033,7 @@ describe('Popover directive', () => {
 
       spyOn(
         SkyPopoverAdapterService.prototype,
-        'getArrowCoordinates'
+        'getArrowCoordinates',
       ).and.returnValue({ top: 50, left: 75 });
 
       const arrowElement = getArrowElement();

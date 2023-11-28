@@ -3,7 +3,7 @@ import { SkyAffixHorizontalAlignment } from '@skyux/core';
 import { SkyDropdownHorizontalAlignment } from './types/dropdown-horizontal-alignment';
 
 export function parseAffixHorizontalAlignment(
-  alignment: SkyDropdownHorizontalAlignment
+  alignment: SkyDropdownHorizontalAlignment,
 ): SkyAffixHorizontalAlignment {
   switch (alignment) {
     case 'center':

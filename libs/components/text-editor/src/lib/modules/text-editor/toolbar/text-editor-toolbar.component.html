@@ -145,19 +145,21 @@
           aria-label="Bulleted list"
           class="sky-btn sky-btn-default sky-btn-icon"
           title="Bulleted list"
+          type="button"
           [disabled]="disabled"
           (click)="execCommand('insertUnorderedList')"
         >
-          <sky-icon icon="bullet-list"> </sky-icon>
+          <sky-icon icon="bullet-list" />
         </button>
         <button
           aria-label="Numbered list"
           class="sky-btn sky-btn-default sky-btn-icon"
           title="Numbered list"
+          type="button"
           [disabled]="disabled"
           (click)="execCommand('insertOrderedList')"
         >
-          <sky-icon icon="number-list"> </sky-icon>
+          <sky-icon icon="number-list" />
         </button>
       </div>
     </ng-container>
@@ -167,28 +169,31 @@
           aria-label="Align left"
           class="sky-btn sky-btn-default sky-btn-icon"
           title="Align left"
+          type="button"
           [disabled]="disabled"
           (click)="execCommand('justifyLeft')"
         >
-          <sky-icon icon="align-left-text"> </sky-icon>
+          <sky-icon icon="align-left-text" />
         </button>
         <button
           aria-label="Align center"
           class="sky-btn sky-btn-default sky-btn-icon"
           title="Align center"
+          type="button"
           [disabled]="disabled"
           (click)="execCommand('justifyCenter')"
         >
-          <sky-icon icon="center-text"> </sky-icon>
+          <sky-icon icon="center-text" />
         </button>
         <button
           aria-label="Align right"
           class="sky-btn sky-btn-default sky-btn-icon"
           title="Align right"
+          type="button"
           [disabled]="disabled"
           (click)="execCommand('justifyRight')"
         >
-          <sky-icon icon="align-right-text"> </sky-icon>
+          <sky-icon icon="align-right-text" />
         </button>
       </div>
     </ng-container>
@@ -198,19 +203,21 @@
           aria-label="Outdent"
           class="sky-btn sky-btn-default sky-btn-icon"
           title="Outdent"
+          type="button"
           [disabled]="disabled"
           (click)="execCommand('outdent')"
         >
-          <sky-icon icon="outdent"> </sky-icon>
+          <sky-icon icon="outdent" />
         </button>
         <button
           aria-label="Indent"
           class="sky-btn sky-btn-default sky-btn-icon"
           title="Indent"
+          type="button"
           [disabled]="disabled"
           (click)="execCommand('indent')"
         >
-          <sky-icon icon="indent"> </sky-icon>
+          <sky-icon icon="indent" />
         </button>
       </div>
     </ng-container>
@@ -220,19 +227,21 @@
           aria-label="Undo"
           class="sky-btn sky-btn-default sky-btn-icon"
           title="Undo"
+          type="button"
           [disabled]="disabled"
           (click)="execCommand('undo')"
         >
-          <sky-icon icon="undo"> </sky-icon>
+          <sky-icon icon="undo" />
         </button>
         <button
           aria-label="Redo"
           class="sky-btn sky-btn-default sky-btn-icon"
           title="Redo"
+          type="button"
           [disabled]="disabled"
           (click)="execCommand('redo')"
         >
-          <sky-icon icon="redo"> </sky-icon>
+          <sky-icon icon="redo" />
         </button>
       </div>
     </ng-container>
@@ -242,22 +251,24 @@
           aria-label="Link"
           class="sky-btn sky-btn-default sky-btn-icon"
           title="Link"
+          type="button"
           [disabled]="disabled"
           [ngClass]="{
             'icon-btn-active': styleState.linkState
           }"
           (click)="link()"
         >
-          <sky-icon icon="link"></sky-icon>
+          <sky-icon icon="link" />
         </button>
         <button
           aria-label="Unlink"
           class="sky-btn sky-btn-default sky-btn-icon"
           title="Unlink"
+          type="button"
           [disabled]="!styleState.linkState || disabled"
           (click)="unlink()"
         >
-          <sky-icon icon="unlink"> </sky-icon>
+          <sky-icon icon="unlink" />
         </button>
       </div>
     </ng-container>

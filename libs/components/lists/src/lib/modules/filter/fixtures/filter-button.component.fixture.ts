@@ -12,6 +12,7 @@ export class FilterButtonTestComponent {
   public buttonId: string | undefined;
   public ariaExpanded: boolean | undefined;
   public ariaControls: string | undefined;
+  public ariaLabel: string | undefined;
   public skyThemeSettings!: SkyThemeSettings;
 
   constructor() {
@@ -21,14 +22,14 @@ export class FilterButtonTestComponent {
   public useDefaultTheme(): void {
     this.skyThemeSettings = new SkyThemeSettings(
       SkyTheme.presets.default,
-      SkyThemeMode.presets.light
+      SkyThemeMode.presets.light,
     );
   }
 
   public useModernTheme(): void {
     this.skyThemeSettings = new SkyThemeSettings(
       SkyTheme.presets.modern,
-      SkyThemeMode.presets.light
+      SkyThemeMode.presets.light,
     );
   }
 

@@ -4,7 +4,11 @@ import {
   EventEmitter,
   Input,
   Output,
+  inject,
 } from '@angular/core';
+import { SkyContentInfo, SkyContentInfoProvider } from '@skyux/core';
+
+import { Observable } from 'rxjs';
 
 let nextId = 0;
 
@@ -46,6 +50,17 @@ export class SkyFilterButtonComponent {
   public ariaExpanded: boolean | undefined = false;
 
   /**
+   * The ARIA label for the filter button. This sets the
+   * filter button's `aria-label` attribute to provide a text equivalent for screen readers
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * Use a context-sensitive label, such as "Filter constituents." Context is especially important when multiple filter buttons are in close proximity.
+   * In toolbars, filter buttons use the `listDescriptor` to provide context, and the ARIA label defaults to "Filter <listDescriptor>."
+   * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
+   */
+  @Input()
+  public ariaLabel: string | undefined;
+
+  /**
    * Whether to highlight the filter button to indicate that filters were applied.
    * We recommend setting this property to `true` when no indication of filtering is visible
    * to users. For example, set it to `true` if you do not display the filter summary.
@@ -71,9 +86,15 @@ export class SkyFilterButtonComponent {
   @Output()
   public filterButtonClick: EventEmitter<void> = new EventEmitter();
 
+  protected contentInfoObs: Observable<SkyContentInfo> | undefined;
+
+  #contentInfoProvider = inject(SkyContentInfoProvider, { optional: true });
+
   constructor() {
     this.#filterButtonIdOrDefault =
       this.#defaultButtonId = `sky-filter-button-${++nextId}`;
+
+    this.contentInfoObs = this.#contentInfoProvider?.getInfo();
   }
 
   #defaultButtonId: string;

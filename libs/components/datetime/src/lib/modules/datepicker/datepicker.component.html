@@ -8,7 +8,7 @@
 </div>
 
 <ng-template #inputTemplateRef>
-  <ng-content></ng-content>
+  <ng-content />
 </ng-template>
 
 <ng-template #triggerButtonTemplateRef>
@@ -20,15 +20,23 @@
       [attr.aria-controls]="isOpen ? calendarId : null"
       [attr.aria-expanded]="isOpen"
       [attr.aria-label]="
-        'skyux_datepicker_trigger_button_label' | skyLibResources
+        inputBoxHostService?.labelText
+          ? ('skyux_datepicker_trigger_button_label_context'
+            | skyLibResources : inputBoxHostService?.labelText)
+          : ('skyux_datepicker_trigger_button_label' | skyLibResources)
       "
       [attr.id]="triggerButtonId"
-      [attr.title]="'skyux_datepicker_trigger_button_label' | skyLibResources"
+      [attr.title]="
+        inputBoxHostService?.labelText
+          ? ('skyux_datepicker_trigger_button_label_context'
+            | skyLibResources : inputBoxHostService?.labelText)
+          : ('skyux_datepicker_trigger_button_label' | skyLibResources)
+      "
       [disabled]="disabled"
       (click)="onTriggerButtonClick()"
       #triggerButtonRef
     >
-      <sky-icon icon="calendar" size="lg"></sky-icon>
+      <sky-icon icon="calendar" size="lg" />
     </button>
   </div>
 </ng-template>

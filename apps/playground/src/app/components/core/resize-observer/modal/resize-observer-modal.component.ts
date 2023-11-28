@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -11,18 +12,21 @@ import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 import {
   SkyModalConfigurationInterface,
   SkyModalInstance,
+  SkyModalModule,
   SkyModalService,
 } from '@skyux/modals';
-import { SkySectionedFormComponent } from '@skyux/tabs';
+import { SkySectionedFormComponent, SkySectionedFormModule } from '@skyux/tabs';
 
 type SizeOptions = 'small' | 'medium' | 'large';
 
 let identifier = 1;
 
 @Component({
+  standalone: true,
   selector: 'app-resize-observer-modal',
   templateUrl: './resize-observer-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule, SkyModalModule, SkySectionedFormModule],
 })
 export class ResizeObserverModalComponent implements AfterViewInit, OnInit {
   @ViewChild(SkySectionedFormComponent)
@@ -41,7 +45,7 @@ export class ResizeObserverModalComponent implements AfterViewInit, OnInit {
     private changeDetectorRef: ChangeDetectorRef,
     private mediaQueryService: SkyMediaQueryService,
     private modalService: SkyModalService,
-    @Inject('size') public size: string
+    @Inject('size') public size: string,
   ) {
     this.identifier = identifier++;
   }
@@ -66,7 +70,7 @@ export class ResizeObserverModalComponent implements AfterViewInit, OnInit {
       }
       if (typeof console === 'object') {
         console.log(
-          `${this.size} modal ${this.identifier}: ${this.breakpoint}`
+          `${this.size} modal ${this.identifier}: ${this.breakpoint}`,
         );
       }
       this.changeDetectorRef.detectChanges();

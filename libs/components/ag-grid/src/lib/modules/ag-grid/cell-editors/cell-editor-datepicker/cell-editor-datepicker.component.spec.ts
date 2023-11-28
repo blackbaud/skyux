@@ -48,7 +48,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.default,
-          SkyThemeMode.presets.light
+          SkyThemeMode.presets.light,
         ),
         previousSettings: undefined,
       }),
@@ -65,7 +65,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
     });
 
     datepickerEditorFixture = TestBed.createComponent(
-      SkyAgGridCellEditorDatepickerComponent
+      SkyAgGridCellEditorDatepickerComponent,
     );
     datepickerEditorNativeElement = datepickerEditorFixture.nativeElement;
     datepickerEditorComponent = datepickerEditorFixture.componentInstance;
@@ -83,14 +83,14 @@ describe('SkyCellEditorDatepickerComponent', () => {
       gridFixture.detectChanges();
 
       dateCellElement = gridNativeElement.querySelector(
-        `.${SkyCellClass.Date}`
+        `.${SkyCellClass.Date}`,
       ) as HTMLElement;
     });
 
     it('renders a skyux datepicker', () => {
       const datepickerEditorSelector = `.sky-ag-grid-cell-editor-datepicker`;
       let datepickerEditorElement = gridNativeElement.querySelector(
-        datepickerEditorSelector
+        datepickerEditorSelector,
       );
 
       expect(datepickerEditorElement).toBeNull();
@@ -98,7 +98,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
       dateCellElement.click();
 
       datepickerEditorElement = gridNativeElement.querySelector(
-        datepickerEditorSelector
+        datepickerEditorSelector,
       );
 
       expect(datepickerEditorElement).toBeVisible();
@@ -148,7 +148,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
         },
         null,
         'col',
-        true
+        true,
       );
 
       cellEditorParams = {
@@ -163,10 +163,10 @@ describe('SkyCellEditorDatepickerComponent', () => {
     it('initializes the SkyAgGridCellEditorDatepickerComponent properties', fakeAsync(() => {
       const datepicker = new SkyDatepickerFixture(
         datepickerEditorFixture,
-        'cell-datepicker'
+        'cell-datepicker',
       );
       expect(
-        datepickerEditorComponent.editorForm.get('date')?.value
+        datepickerEditorComponent.editorForm.get('date')?.value,
       ).toBeNull();
 
       datepickerEditorComponent.agInit(cellEditorParams as ICellEditorParams);
@@ -175,7 +175,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
       datepickerEditorFixture.detectChanges();
 
       expect(datepickerEditorComponent.editorForm.get('date')?.value).toEqual(
-        date
+        date,
       );
       expect(datepicker.date).toEqual(dateString);
     }));
@@ -183,7 +183,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
     it('initializes disabled if the disabled property is passed in', () => {
       const disableSpy = spyOn(
         AbstractControl.prototype,
-        'disable'
+        'disable',
       ).and.callThrough();
 
       datepickerEditorComponent.agInit({
@@ -197,7 +197,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
     describe('cellStartedEdit is true', () => {
       it('initializes with a cleared value when Backspace triggers the edit', () => {
         expect(
-          datepickerEditorComponent.editorForm.get('date')?.value
+          datepickerEditorComponent.editorForm.get('date')?.value,
         ).toBeNull();
 
         datepickerEditorComponent.agInit({
@@ -206,13 +206,13 @@ describe('SkyCellEditorDatepickerComponent', () => {
         });
 
         expect(
-          datepickerEditorComponent.editorForm.get('date')?.value
+          datepickerEditorComponent.editorForm.get('date')?.value,
         ).toBeUndefined();
       });
 
       it('initializes with a cleared value when Delete triggers the edit', () => {
         expect(
-          datepickerEditorComponent.editorForm.get('date')?.value
+          datepickerEditorComponent.editorForm.get('date')?.value,
         ).toBeNull();
 
         datepickerEditorComponent.agInit({
@@ -221,13 +221,13 @@ describe('SkyCellEditorDatepickerComponent', () => {
         });
 
         expect(
-          datepickerEditorComponent.editorForm.get('date')?.value
+          datepickerEditorComponent.editorForm.get('date')?.value,
         ).toBeUndefined();
       });
 
       it('initializes with the current value when F2 triggers the edit', () => {
         expect(
-          datepickerEditorComponent.editorForm.get('date')?.value
+          datepickerEditorComponent.editorForm.get('date')?.value,
         ).toBeNull();
 
         datepickerEditorComponent.agInit({
@@ -236,13 +236,13 @@ describe('SkyCellEditorDatepickerComponent', () => {
         });
 
         expect(datepickerEditorComponent.editorForm.get('date')?.value).toBe(
-          date
+          date,
         );
       });
 
       it('initializes with the current value when Enter triggers the edit', () => {
         expect(
-          datepickerEditorComponent.editorForm.get('date')?.value
+          datepickerEditorComponent.editorForm.get('date')?.value,
         ).toBeNull();
 
         datepickerEditorComponent.agInit({
@@ -251,13 +251,13 @@ describe('SkyCellEditorDatepickerComponent', () => {
         });
 
         expect(datepickerEditorComponent.editorForm.get('date')?.value).toBe(
-          date
+          date,
         );
       });
 
       it('initializes with the character pressed when a standard keyboard event triggers the edit', () => {
         expect(
-          datepickerEditorComponent.editorForm.get('date')?.value
+          datepickerEditorComponent.editorForm.get('date')?.value,
         ).toBeNull();
 
         datepickerEditorComponent.agInit({
@@ -266,7 +266,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
         });
 
         expect(datepickerEditorComponent.editorForm.get('date')?.value).toBe(
-          'a'
+          'a',
         );
       });
     });
@@ -278,7 +278,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
 
       it('initializes with the current value when Backspace triggers the edit', () => {
         expect(
-          datepickerEditorComponent.editorForm.get('date')?.value
+          datepickerEditorComponent.editorForm.get('date')?.value,
         ).toBeNull();
 
         datepickerEditorComponent.agInit({
@@ -287,13 +287,13 @@ describe('SkyCellEditorDatepickerComponent', () => {
         });
 
         expect(datepickerEditorComponent.editorForm.get('date')?.value).toBe(
-          date
+          date,
         );
       });
 
       it('initializes with the current value when Delete triggers the edit', () => {
         expect(
-          datepickerEditorComponent.editorForm.get('date')?.value
+          datepickerEditorComponent.editorForm.get('date')?.value,
         ).toBeNull();
 
         datepickerEditorComponent.agInit({
@@ -302,13 +302,13 @@ describe('SkyCellEditorDatepickerComponent', () => {
         });
 
         expect(datepickerEditorComponent.editorForm.get('date')?.value).toBe(
-          date
+          date,
         );
       });
 
       it('initializes with the current value when F2 triggers the edit', () => {
         expect(
-          datepickerEditorComponent.editorForm.get('date')?.value
+          datepickerEditorComponent.editorForm.get('date')?.value,
         ).toBeNull();
 
         datepickerEditorComponent.agInit({
@@ -317,13 +317,13 @@ describe('SkyCellEditorDatepickerComponent', () => {
         });
 
         expect(datepickerEditorComponent.editorForm.get('date')?.value).toBe(
-          date
+          date,
         );
       });
 
       it('initializes with the current value when Enter triggers the edit', () => {
         expect(
-          datepickerEditorComponent.editorForm.get('date')?.value
+          datepickerEditorComponent.editorForm.get('date')?.value,
         ).toBeNull();
 
         datepickerEditorComponent.agInit({
@@ -332,13 +332,13 @@ describe('SkyCellEditorDatepickerComponent', () => {
         });
 
         expect(datepickerEditorComponent.editorForm.get('date')?.value).toBe(
-          date
+          date,
         );
       });
 
       it('initializes with the current value when a standard keyboard event triggers the edit', () => {
         expect(
-          datepickerEditorComponent.editorForm.get('date')?.value
+          datepickerEditorComponent.editorForm.get('date')?.value,
         ).toBeNull();
 
         datepickerEditorComponent.agInit({
@@ -347,7 +347,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
         });
 
         expect(datepickerEditorComponent.editorForm.get('date')?.value).toBe(
-          date
+          date,
         );
       });
     });
@@ -365,15 +365,15 @@ describe('SkyCellEditorDatepickerComponent', () => {
       mockThemeSvc.settingsChange.next({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.modern,
-          SkyThemeMode.presets.light
+          SkyThemeMode.presets.light,
         ),
         previousSettings: mockThemeSvc.settingsChange.value.currentSettings,
       });
       expect(
-        datepickerEditorComponent.columnWidthWithoutBorders
+        datepickerEditorComponent.columnWidthWithoutBorders,
       ).toBeGreaterThan(initialColumnWidthWithoutBorders as number);
       expect(datepickerEditorComponent.rowHeightWithoutBorders).toBeGreaterThan(
-        initialRowHeightWithoutBorders as number
+        initialRowHeightWithoutBorders as number,
       );
     }));
   });
@@ -405,7 +405,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
         },
         null,
         'col',
-        true
+        true,
       );
 
       cellEditorParams = {
@@ -425,7 +425,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
       datepickerEditorFixture.detectChanges();
 
       const input = datepickerEditorNativeElement.querySelector(
-        'input'
+        'input',
       ) as HTMLInputElement;
       spyOn(input, 'focus');
 
@@ -443,7 +443,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
         });
         datepickerEditorFixture.detectChanges();
         const input = datepickerEditorNativeElement.querySelector(
-          'input'
+          'input',
         ) as HTMLInputElement;
         const selectSpy = spyOn(input, 'select');
 
@@ -460,7 +460,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
         });
         datepickerEditorFixture.detectChanges();
         const input = datepickerEditorNativeElement.querySelector(
-          'input'
+          'input',
         ) as HTMLInputElement;
         const selectSpy = spyOn(input, 'select');
 
@@ -477,7 +477,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
         });
         datepickerEditorFixture.detectChanges();
         const input = datepickerEditorNativeElement.querySelector(
-          'input'
+          'input',
         ) as HTMLInputElement;
         const selectSpy = spyOn(input, 'select');
 
@@ -494,7 +494,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
         });
         datepickerEditorFixture.detectChanges();
         const input = datepickerEditorNativeElement.querySelector(
-          'input'
+          'input',
         ) as HTMLInputElement;
         const selectSpy = spyOn(input, 'select');
 
@@ -513,12 +513,12 @@ describe('SkyCellEditorDatepickerComponent', () => {
         tick();
         datepickerEditorFixture.detectChanges();
         const input = datepickerEditorNativeElement.querySelector(
-          'input'
+          'input',
         ) as HTMLInputElement;
         const selectSpy = spyOn(input, 'select').and.callThrough();
         const eventDispatchSpy = spyOn(
           input,
-          'dispatchEvent'
+          'dispatchEvent',
         ).and.callThrough();
 
         datepickerEditorComponent.afterGuiAttached();
@@ -547,7 +547,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
         });
         datepickerEditorFixture.detectChanges();
         const input = datepickerEditorNativeElement.querySelector(
-          'input'
+          'input',
         ) as HTMLInputElement;
         const selectSpy = spyOn(input, 'select');
 
@@ -564,7 +564,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
         });
         datepickerEditorFixture.detectChanges();
         const input = datepickerEditorNativeElement.querySelector(
-          'input'
+          'input',
         ) as HTMLInputElement;
         const selectSpy = spyOn(input, 'select');
 
@@ -581,7 +581,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
         });
         datepickerEditorFixture.detectChanges();
         const input = datepickerEditorNativeElement.querySelector(
-          'input'
+          'input',
         ) as HTMLInputElement;
         const selectSpy = spyOn(input, 'select');
 
@@ -598,7 +598,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
         });
         datepickerEditorFixture.detectChanges();
         const input = datepickerEditorNativeElement.querySelector(
-          'input'
+          'input',
         ) as HTMLInputElement;
         const selectSpy = spyOn(input, 'select');
 
@@ -617,12 +617,12 @@ describe('SkyCellEditorDatepickerComponent', () => {
         tick();
         datepickerEditorFixture.detectChanges();
         const input = datepickerEditorNativeElement.querySelector(
-          'input'
+          'input',
         ) as HTMLInputElement;
         const selectSpy = spyOn(input, 'select').and.callThrough();
         const eventDispatchSpy = spyOn(
           input,
-          'dispatchEvent'
+          'dispatchEvent',
         ).and.callThrough();
 
         datepickerEditorComponent.afterGuiAttached();
@@ -676,14 +676,14 @@ describe('SkyCellEditorDatepickerComponent without theme', () => {
       gridFixture.detectChanges();
 
       dateCellElement = gridNativeElement.querySelector(
-        `.${SkyCellClass.Date}`
+        `.${SkyCellClass.Date}`,
       ) as HTMLElement;
     });
 
     it('renders a skyux datepicker', () => {
       const datepickerEditorSelector = `.sky-ag-grid-cell-editor-datepicker`;
       let datepickerEditorElement = gridNativeElement.querySelector(
-        datepickerEditorSelector
+        datepickerEditorSelector,
       );
 
       expect(datepickerEditorElement).toBeNull();
@@ -691,7 +691,7 @@ describe('SkyCellEditorDatepickerComponent without theme', () => {
       dateCellElement.click();
 
       datepickerEditorElement = gridNativeElement.querySelector(
-        datepickerEditorSelector
+        datepickerEditorSelector,
       );
 
       expect(datepickerEditorElement).toBeVisible();

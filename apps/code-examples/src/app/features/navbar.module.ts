@@ -6,7 +6,7 @@ const routes: Routes = [
     path: 'navbar',
     loadComponent: () =>
       import('../code-examples/navbar/navbar/demo.component').then(
-        (c) => c.DemoComponent
+        (c) => c.DemoComponent,
       ),
   },
 ];

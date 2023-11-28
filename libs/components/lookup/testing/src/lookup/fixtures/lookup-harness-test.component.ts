@@ -1,9 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  TemplateRef,
-  ViewChild,
-} from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormControl,
@@ -27,7 +22,7 @@ interface Person {
   selector: 'test-lookup-1',
   templateUrl: './lookup-harness-test.component.html',
 })
-export class LookupHarnessTestComponent implements AfterViewInit {
+export class LookupHarnessTestComponent {
   public myForm: UntypedFormGroup;
 
   public people: Person[] = [
@@ -132,14 +127,6 @@ export class LookupHarnessTestComponent implements AfterViewInit {
       multiselect: new UntypedFormControl(this.names),
       asyncNames: new UntypedFormControl(this.names),
     });
-  }
-
-  public ngAfterViewInit(): void {
-    /* istanbul ignore else */
-    if (this.showMoreConfig.nativePickerConfig) {
-      this.showMoreConfig.nativePickerConfig.itemTemplate =
-        this.showMoreSearchResultTemplate;
-    }
   }
 
   // Only show people in the search results that have not been chosen already.

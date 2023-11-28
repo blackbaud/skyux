@@ -23,7 +23,7 @@ export class MockModalService extends SkyModalService {
 
   public override open(
     component: unknown,
-    config: unknown[]
+    config: unknown[],
   ): SkyModalInstance {
     this.openCalls.push({ component: component, providers: config });
 

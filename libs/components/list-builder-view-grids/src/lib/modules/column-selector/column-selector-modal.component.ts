@@ -12,7 +12,7 @@ export class SkyColumnSelectorComponent {
 
   constructor(
     public context: SkyColumnSelectorContext,
-    public instance: SkyModalInstance
+    public instance: SkyModalInstance,
   ) {
     this.newSelectedColumnIds = context.selectedColumnIds;
   }

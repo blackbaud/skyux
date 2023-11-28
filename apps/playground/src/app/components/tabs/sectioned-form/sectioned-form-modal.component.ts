@@ -15,10 +15,10 @@ import { SectionedFormInformationFormDemoComponent } from './sectioned-form-info
 import { SectionedFormPhoneFormDemoComponent } from './sectioned-form-phone-form-demo.component';
 
 @Component({
+  standalone: true,
   selector: 'app-sectioned-form-modal',
   templateUrl: './sectioned-form-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     CommonModule,
     SkyIconModule,
@@ -43,7 +43,7 @@ export class SectionedFormModalComponent {
 
   constructor(
     public modalInstance: SkyModalInstance,
-    changeDetector: ChangeDetectorRef
+    changeDetector: ChangeDetectorRef,
   ) {
     this.#changeDetector = changeDetector;
   }

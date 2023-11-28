@@ -59,10 +59,10 @@ export class HomeComponent implements AfterViewInit {
   constructor(
     router: Router,
     private changeDetector: ChangeDetectorRef,
-    private dataManagerService: SkyDataManagerService
+    private dataManagerService: SkyDataManagerService,
   ) {
     const integrationsRoute = router.config.find(
-      (route) => route.path === 'integrations'
+      (route) => route.path === 'integrations',
     );
     if (integrationsRoute?.loadChildren) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -70,7 +70,7 @@ export class HomeComponent implements AfterViewInit {
         (integrationsRoutes) => {
           this.createComponentData(
             integrationsRoutes.routes,
-            'integrations'
+            'integrations',
           ).then(() => {
             this.dataManagerService.initDataManager({
               activeViewId: 'integrations',
@@ -81,11 +81,11 @@ export class HomeComponent implements AfterViewInit {
             this.dataManagerService.initDataView(this.viewConfig);
 
             this.displayedItems = this.sortItems(
-              this.searchItems(this.integrationsData)
+              this.searchItems(this.integrationsData),
             );
             this.changeDetector.markForCheck();
           });
-        }
+        },
       );
     }
   }
@@ -97,7 +97,7 @@ export class HomeComponent implements AfterViewInit {
         this.dataState = state;
         if (this.integrationsData) {
           this.displayedItems = this.sortItems(
-            this.searchItems(this.integrationsData)
+            this.searchItems(this.integrationsData),
           );
           this.changeDetector.detectChanges();
         }
@@ -106,7 +106,7 @@ export class HomeComponent implements AfterViewInit {
 
   private createComponentData(
     routes: IntegrationRouteInfo[],
-    parentPath: string
+    parentPath: string,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): Promise<any> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -120,11 +120,11 @@ export class HomeComponent implements AfterViewInit {
             if (newRoutes.routes instanceof Array) {
               return this.createComponentData(
                 newRoutes.routes,
-                parentPath + '/' + route.path
+                parentPath + '/' + route.path,
               );
             }
             return undefined;
-          })
+          }),
         );
       } else if (route.data) {
         route.data.path = parentPath + '/' + route.path;

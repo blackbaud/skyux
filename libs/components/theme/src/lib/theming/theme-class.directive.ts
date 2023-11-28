@@ -73,7 +73,7 @@ export class SkyThemeClassDirective implements OnDestroy {
   constructor(
     ngEl: ElementRef,
     renderer: Renderer2,
-    @Optional() themeSvc?: SkyThemeService
+    @Optional() themeSvc?: SkyThemeService,
   ) {
     this.#ngEl = ngEl;
     this.#renderer = renderer;
@@ -116,11 +116,11 @@ export class SkyThemeClassDirective implements OnDestroy {
   }
 
   #removeSkyThemeClassMap(
-    skyThemeClassMap: SkyThemeClassMap | undefined
+    skyThemeClassMap: SkyThemeClassMap | undefined,
   ): void {
     if (skyThemeClassMap) {
       Object.keys(skyThemeClassMap).forEach((className) =>
-        this.#toggleClass(className, false)
+        this.#toggleClass(className, false),
       );
     }
   }

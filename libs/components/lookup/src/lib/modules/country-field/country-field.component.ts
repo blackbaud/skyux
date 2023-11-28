@@ -31,7 +31,7 @@ import { SkyInputBoxHostService } from '@skyux/forms';
 import { SkyThemeService } from '@skyux/theme';
 
 import 'intl-tel-input';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyAutocompleteInputDirective } from '../autocomplete/autocomplete-input.directive';
@@ -85,7 +85,7 @@ export class SkyCountryFieldComponent
       this.#_defaultCountry = value.toLowerCase();
 
       this.#defaultCountryData = this.countries.find(
-        (country) => country.iso2 === this.#_defaultCountry
+        (country) => country.iso2 === this.#_defaultCountry,
       );
 
       this.#sortCountriesWithSelectedAndDefault(this.selectedCountry);
@@ -189,7 +189,7 @@ export class SkyCountryFieldComponent
       const newCountryIso = newCountry && newCountry.iso2;
       if (newCountryIso) {
         const isoCountry = this.countries.find(
-          (country) => country.iso2 === newCountryIso
+          (country) => country.iso2 === newCountryIso,
         );
 
         if (isoCountry) {
@@ -241,12 +241,13 @@ export class SkyCountryFieldComponent
     SKY_COUNTRY_FIELD_CONTEXT,
     {
       optional: true,
-    }
+    },
   );
 
   public currentTheme = 'default';
 
   public inputId: string;
+  protected ariaDescribedBy: Observable<string | undefined> | undefined;
 
   @ViewChild('inputTemplateRef', {
     read: TemplateRef,
@@ -295,7 +296,7 @@ export class SkyCountryFieldComponent
     elRef: ElementRef,
     injector: Injector,
     @Optional() public inputBoxHostSvc?: SkyInputBoxHostService,
-    @Optional() themeSvc?: SkyThemeService
+    @Optional() themeSvc?: SkyThemeService,
   ) {
     this.#changeDetector = changeDetector;
     this.#elRef = elRef;
@@ -318,7 +319,7 @@ export class SkyCountryFieldComponent
 
     this.#ngControl = this.#injector.get<NgControl | null>(
       NgControl as unknown as Type<NgControl>,
-      null
+      null,
     );
 
     if (this.#ngControl) {
@@ -383,8 +384,8 @@ export class SkyCountryFieldComponent
     if (newCountry.selectedItem) {
       this.writeValue(
         this.countries.find(
-          (countryInfo) => countryInfo.iso2 === newCountry.selectedItem.iso2
-        )
+          (countryInfo) => countryInfo.iso2 === newCountry.selectedItem.iso2,
+        ),
       );
     } else {
       this.writeValue(undefined);
@@ -392,14 +393,14 @@ export class SkyCountryFieldComponent
   }
 
   // Angular automatically constructs these methods.
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  public onChange = (value: SkyCountryFieldCountry | undefined) => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
+  public onChange = (value: SkyCountryFieldCountry | undefined): void => {};
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  public onTouched = () => {};
+  public onTouched = (): void => {};
 
   public registerOnChange(
-    fn: (value: SkyCountryFieldCountry | undefined) => void
+    fn: (value: SkyCountryFieldCountry | undefined) => void,
   ): void {
     this.onChange = fn;
   }
@@ -435,7 +436,7 @@ export class SkyCountryFieldComponent
 
   #countriesAreEqual(
     country1: SkyCountryFieldCountry | undefined,
-    country2: SkyCountryFieldCountry | undefined
+    country2: SkyCountryFieldCountry | undefined,
   ): boolean {
     if (country1 && country2) {
       return country1.iso2 === country2.iso2;
@@ -449,7 +450,7 @@ export class SkyCountryFieldComponent
 
   #countriesEqual(
     a: SkyCountryFieldCountry,
-    b: SkyCountryFieldCountry
+    b: SkyCountryFieldCountry,
   ): boolean {
     return a.iso2 === b.iso2 && a.name === b.name;
   }
@@ -464,7 +465,7 @@ export class SkyCountryFieldComponent
      */
     this.countries = JSON.parse(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      JSON.stringify((window as any).intlTelInputGlobals.getCountryData())
+      JSON.stringify((window as any).intlTelInputGlobals.getCountryData()),
     );
 
     // Ignoring coverage here as this will be removed in the next release.
@@ -499,13 +500,13 @@ export class SkyCountryFieldComponent
       this.countries = this.countries.filter(
         (country: SkyCountryFieldCountry) => {
           return this.supportedCountryISOs.indexOf(country.iso2) >= 0;
-        }
+        },
       );
     }
   }
 
   #sortCountriesWithSelectedAndDefault(
-    selectedCountry: SkyCountryFieldCountry | undefined
+    selectedCountry: SkyCountryFieldCountry | undefined,
   ): void {
     let selectedCountryIndex: number;
     let selectedCountryData: SkyCountryFieldCountry;
@@ -528,7 +529,7 @@ export class SkyCountryFieldComponent
       // Note: We are looking up this data here to ensure we are using the official data from the
       // library and not the data provided by the user on initialization of the component
       const foundCountry = this.countries.find(
-        (country) => country.iso2 === selectedCountry.iso2.toLocaleLowerCase()
+        (country) => country.iso2 === selectedCountry.iso2.toLocaleLowerCase(),
       );
 
       if (foundCountry) {
@@ -548,6 +549,7 @@ export class SkyCountryFieldComponent
   #updateInputBox(): void {
     if (this.inputBoxHostSvc && this.inputTemplateRef) {
       this.inputId = this.inputBoxHostSvc.controlId;
+      this.ariaDescribedBy = this.inputBoxHostSvc.ariaDescribedBy;
 
       this.inputBoxHostSvc.populate({
         inputTemplate: this.inputTemplateRef,

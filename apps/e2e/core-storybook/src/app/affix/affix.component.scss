@@ -1,0 +1,81 @@
+body {
+  min-height: 1500px;
+  margin: 72px 0;
+}
+
+app-affix {
+  display: block;
+  min-height: 1200px;
+}
+
+.affixed-examples {
+  display: grid;
+  margin-bottom: 60px;
+  grid-template-columns: repeat(9, 120px);
+  grid-template-rows: 120px;
+
+  &__overflow-hidden {
+    overflow: hidden;
+  }
+
+  &__positioned {
+    position: relative;
+    top: 15px;
+    left: 25px;
+  }
+}
+
+.affixed-container {
+  height: 60px;
+  width: 60px;
+  display: inline-block;
+
+  &__position-fixed .affixed-element {
+    position: fixed;
+  }
+
+  &__position-absolute .affixed-element {
+    position: absolute;
+  }
+
+  &__placement-above .affix-base-element {
+    border-top: 2px solid currentColor;
+  }
+
+  &__placement-below .affix-base-element {
+    border-bottom: 2px solid currentColor;
+  }
+
+  &__placement-left .affix-base-element {
+    border-left: 2px solid currentColor;
+  }
+
+  &__placement-right .affix-base-element {
+    border-right: 2px solid currentColor;
+  }
+}
+
+.affix-base-element {
+  height: 50px;
+  width: 50px;
+  overflow: hidden;
+  font-size: 0.7em;
+  display: inline-block;
+  background-color: #b2e8ff;
+  color: #005493;
+  outline: 1px dotted currentColor;
+}
+
+.affixed-element {
+  height: 40px;
+  width: 40px;
+  overflow: hidden;
+  font-size: 0.7em;
+  opacity: 0.5;
+  display: inline-block;
+  background-color: #ffd479;
+  color: #ff9300;
+  outline: 1px solid currentColor;
+  padding: 0.3em;
+  border-radius: 0.5em;
+}

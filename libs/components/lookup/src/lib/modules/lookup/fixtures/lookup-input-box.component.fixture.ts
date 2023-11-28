@@ -6,6 +6,7 @@ import {
 } from '@angular/forms';
 
 import { SkyLookupComponent } from '../lookup.component';
+import { SkyLookupSelectModeType } from '../types/lookup-select-mode-type';
 
 @Component({
   selector: 'sky-test-cmp',
@@ -26,6 +27,8 @@ export class SkyLookupInputBoxTestComponent {
   public friends: any[] = [];
 
   public form: UntypedFormGroup;
+
+  public selectMode: SkyLookupSelectModeType | undefined;
 
   constructor(formBuilder: UntypedFormBuilder) {
     this.data = [

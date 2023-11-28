@@ -7,7 +7,7 @@ describe('Auth context provider', () => {
   it('should call BBContextProvider.ensureContext', async () => {
     const factorySpy = spyOn(
       BBAuthClientFactory.BBContextProvider,
-      'ensureContext'
+      'ensureContext',
     ).and.returnValue(Promise.resolve({}));
 
     const args: SkyAuthContextArgs = {

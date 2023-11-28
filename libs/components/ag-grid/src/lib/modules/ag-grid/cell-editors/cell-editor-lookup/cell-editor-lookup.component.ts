@@ -107,7 +107,7 @@ export class SkyAgGridCellEditorLookupComponent
           this.width = event.column?.getActualWidth();
           this.#changeDetector.markForCheck();
         }
-      }
+      },
     );
     this.#changeDetector.markForCheck();
   }
@@ -142,7 +142,7 @@ export class SkyAgGridCellEditorLookupComponent
       // Ensure the cursor is at the end of the text.
       lookupInput.setSelectionRange(
         lookupInput.value.length,
-        lookupInput.value.length
+        lookupInput.value.length,
       );
       lookupInput.dispatchEvent(new Event('input'));
     }
@@ -157,7 +157,7 @@ export class SkyAgGridCellEditorLookupComponent
   }
 
   #updateComponentProperties(
-    params: SkyCellEditorLookupParams
+    params: SkyCellEditorLookupParams,
   ): SkyAgGridLookupProperties {
     const skyLookupProperties = params.skyComponentProperties;
     return applySkyLookupPropertiesDefaults(skyLookupProperties);

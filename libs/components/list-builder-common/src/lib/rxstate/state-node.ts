@@ -12,7 +12,7 @@ export class StateNode<T> extends BehaviorSubject<T> {
 
   constructor(
     private initialState: T,
-    private dispatcher: StateDispatcher<any>
+    private dispatcher: StateDispatcher<any>,
   ) {
     super(initialState);
   }
@@ -31,7 +31,7 @@ export class StateNode<T> extends BehaviorSubject<T> {
     const init: { [stateKey: string]: any } = this.initialState;
 
     const orchestrators = stateKeys.map((key) =>
-      new this.stateMap[key]().scan(init[key], this.dispatcher)
+      new this.stateMap[key]().scan(init[key], this.dispatcher),
     );
 
     zip
@@ -45,7 +45,7 @@ export class StateNode<T> extends BehaviorSubject<T> {
           }
 
           return result;
-        })
+        }),
       )
       .subscribe((s: any) => this.next(s));
   }

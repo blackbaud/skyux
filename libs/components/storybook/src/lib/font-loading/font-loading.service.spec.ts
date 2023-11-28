@@ -10,7 +10,7 @@ describe('FontLoadingService', () => {
 
   beforeEach(() => {
     spyOn(FontFaceObserver.prototype, 'load').and.callFake(() =>
-      Promise.resolve()
+      Promise.resolve(),
     );
     TestBed.configureTestingModule({});
     service = TestBed.inject(FontLoadingService);
@@ -26,7 +26,7 @@ describe('FontLoadingService', () => {
       .pipe(
         map((ready) => {
           expect(ready).toBe(true);
-        })
+        }),
       )
       .toPromise();
   });

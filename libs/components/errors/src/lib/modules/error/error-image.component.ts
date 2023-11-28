@@ -5,6 +5,6 @@ import { Component } from '@angular/core';
  */
 @Component({
   selector: 'sky-error-image',
-  template: '<ng-content></ng-content>',
+  template: '<ng-content />',
 })
 export class SkyErrorImageComponent {}

@@ -1,20 +1,24 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
   SkyDataManagerFilterData,
   SkyDataManagerFilterModalContext,
 } from '@skyux/data-manager';
-import { SkyModalInstance } from '@skyux/modals';
+import { SkyRepeaterModule } from '@skyux/lists';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
+  standalone: true,
   selector: 'app-home-filter',
   templateUrl: './home-filter.component.html',
+  imports: [CommonModule, SkyModalModule, SkyRepeaterModule],
 })
 export class HomeFiltersModalDemoComponent {
   public libraries: { name: string; isSelected: boolean }[];
 
   constructor(
     public context: SkyDataManagerFilterModalContext,
-    public instance: SkyModalInstance
+    public instance: SkyModalInstance,
   ) {
     if (this.context.filterData && this.context.filterData.filters) {
       const filters = this.context.filterData.filters;

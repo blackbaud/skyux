@@ -37,7 +37,7 @@ export class SkyRichTextDisplayComponent {
 
   constructor(
     sanitizer: DomSanitizer,
-    sanitizationService: SkyTextSanitizationService
+    sanitizationService: SkyTextSanitizationService,
   ) {
     this.#sanitizer = sanitizer;
     this.#sanitizationService = sanitizationService;

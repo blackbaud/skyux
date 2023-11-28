@@ -57,7 +57,7 @@ export class SkyAgGridCellEditorCurrencyComponent
     this.columnWidth = this.params.column.getActualWidth();
     this.rowHeightWithoutBorders = SkyAgGridCellEditorUtils.subtractOrZero(
       this.params.node?.rowHeight,
-      4
+      4,
     );
     this.skyComponentProperties = this.params.skyComponentProperties || {
       decimalPlaces: 2,
@@ -74,7 +74,7 @@ export class SkyAgGridCellEditorCurrencyComponent
     // This setup is in `afterGuiAttached` due to the lifecycle of autonumeric which will highlight the initial value if it is in place when it renders.
     // Since we don't want that, we set the initial value after autonumeric initializes.
     this.#triggerType = SkyAgGridCellEditorUtils.getEditorInitialAction(
-      this.params
+      this.params,
     );
     const control = this.editorForm.get('currency');
 
@@ -85,7 +85,7 @@ export class SkyAgGridCellEditorCurrencyComponent
           break;
         case SkyAgGridCellEditorInitialAction.Replace:
           control.setValue(
-            parseFloat(String(this.params?.charPress)) || undefined
+            parseFloat(String(this.params?.charPress)) || undefined,
           );
           break;
         case SkyAgGridCellEditorInitialAction.Highlighted:

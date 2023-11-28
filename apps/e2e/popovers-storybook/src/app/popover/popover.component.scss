@@ -1,12 +1,10 @@
 body {
   min-width: 1280px;
-  overflow: auto;
+  min-height: 800px;
 }
 
-app-popover {
-  display: grid;
-  grid-template-columns: 300px 300px 300px 300px;
-  grid-template-rows: repeat(auto-fill, 180px);
+.static-popover-row {
+  margin: 0;
 }
 
 .static-popover-wrapper {

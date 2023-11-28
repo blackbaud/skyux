@@ -22,6 +22,7 @@ class MockLocaleProvider extends SkyAppLocaleProvider {
 })
 export class NumericPipeFixtureComponent {
   public locale: string | undefined;
+  public value: number | undefined = 1234567.89;
 
   public updateLocaleProviderLocale(newLocale: string): void {
     providedLocale = newLocale;

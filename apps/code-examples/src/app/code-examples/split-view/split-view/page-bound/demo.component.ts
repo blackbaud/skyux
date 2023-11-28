@@ -220,7 +220,7 @@ export class DemoComponent {
 
   #saveForm(): void {
     this.activeRecord.approvedAmount = parseFloat(
-      this.splitViewDemoForm.value.approvedAmount
+      this.splitViewDemoForm.value.approvedAmount,
     );
     this.activeRecord.comments = this.splitViewDemoForm.value.comments;
 

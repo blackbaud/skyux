@@ -28,7 +28,7 @@ describe('SplitView fixture', () => {
   //#region helpers
 
   async function initiateResponsiveMode(
-    breakpoint: SkyMediaBreakpoints
+    breakpoint: SkyMediaBreakpoints,
   ): Promise<void> {
     mockQueryService.fire(breakpoint);
     fixture.detectChanges();
@@ -76,7 +76,7 @@ describe('SplitView fixture', () => {
     testComponent = fixture.componentInstance;
     splitViewFixture = new SkySplitViewFixture(
       fixture,
-      SplitViewTestComponent.dataSkyId
+      SplitViewTestComponent.dataSkyId,
     );
   });
 
@@ -108,7 +108,7 @@ describe('SplitView fixture', () => {
   it('should expose workspace properties', async () => {
     // non-responsive mode
     expect(splitViewFixture.workspace.ariaLabel).toBe(
-      DEFAULT_WORKSPACE_ARIA_LABEL
+      DEFAULT_WORKSPACE_ARIA_LABEL,
     );
     expect(splitViewFixture.workspace.backButtonText).toBeUndefined();
     expect(splitViewFixture.workspace.isVisible).toBeTrue();
@@ -116,10 +116,10 @@ describe('SplitView fixture', () => {
     // responsive mode
     await initiateResponsiveMode(SkyMediaBreakpoints.xs);
     expect(splitViewFixture.workspace.ariaLabel).toBe(
-      DEFAULT_WORKSPACE_ARIA_LABEL
+      DEFAULT_WORKSPACE_ARIA_LABEL,
     );
     expect(splitViewFixture.workspace.backButtonText).toBe(
-      DEFAULT_BACK_BUTTON_TEXT
+      DEFAULT_BACK_BUTTON_TEXT,
     );
     expect(splitViewFixture.workspace.isVisible).toBeTrue();
   });
@@ -134,10 +134,10 @@ describe('SplitView fixture', () => {
     // verify updates
     await initiateResponsiveMode(SkyMediaBreakpoints.xs);
     expect(splitViewFixture.workspace.ariaLabel).toBe(
-      testComponent.workspaceAriaLabel
+      testComponent.workspaceAriaLabel,
     );
     expect(splitViewFixture.workspace.backButtonText).toBe(
-      testComponent.backButtonText
+      testComponent.backButtonText,
     );
   });
 

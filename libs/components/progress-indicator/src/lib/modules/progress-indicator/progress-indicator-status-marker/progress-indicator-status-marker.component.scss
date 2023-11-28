@@ -7,6 +7,9 @@
 $sky-progress-indicator-success-color: #5a9936;
 
 .sky-progress-indicator-status-marker {
+  --sky-progress-indicator-marker-line-icon-color: var(
+    --sky-border-color-neutral-medium
+  );
   display: flex;
   height: 100%;
 
@@ -90,12 +93,12 @@ $sky-progress-indicator-success-color: #5a9936;
 
 .sky-progress-indicator-status-marker-icon {
   border-radius: $status-marker-width;
-  border: 2px solid $sky-border-color-neutral-medium;
+  border: 2px solid var(--sky-progress-indicator-marker-line-icon-color);
   flex: 0 0 $status-marker-width;
 }
 
 .sky-progress-indicator-status-marker-line {
-  background-color: $sky-border-color-neutral-medium;
+  background-color: var(--sky-progress-indicator-marker-line-icon-color);
   flex: 1 0 auto;
 }
 
@@ -131,6 +134,9 @@ $sky-progress-indicator-success-color: #5a9936;
 
 @include mixins.sky-theme-modern {
   .sky-progress-indicator-status-marker {
+    --sky-progress-indicator-marker-line-icon-color: var(
+      --sky-border-color-neutral-medium-dark
+    );
     &.sky-progress-indicator-status-marker-mode-vertical {
       position: relative;
       top: 3px;

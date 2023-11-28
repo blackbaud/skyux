@@ -21,9 +21,6 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
   'EN-US': {
     skyux_angular_tree_clear_all: { message: 'Clear all' },
     skyux_angular_tree_click_to_expand: { message: 'Click to expand' },
-    skyux_angular_tree_context_menu_aria_default: {
-      message: 'Context menu for {0}',
-    },
     skyux_angular_tree_collapse_all: { message: 'Collapse' },
     skyux_angular_tree_expand_all: { message: 'Expand' },
     skyux_angular_tree_select_all: { message: 'Select all' },
@@ -37,7 +34,7 @@ export class SkyAngularTreeComponentResourcesProvider
 {
   public getString(
     localeInfo: SkyAppLocaleInfo,
-    name: string
+    name: string,
   ): string | undefined {
     return getLibStringForLocale(RESOURCES, localeInfo.locale, name);
   }

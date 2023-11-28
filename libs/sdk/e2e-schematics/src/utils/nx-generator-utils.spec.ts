@@ -15,7 +15,7 @@ describe('nx-generator-utils', () => {
       emptyTree,
       'nx',
       'generator',
-      'my-project'
+      'my-project',
     );
     expect(empty).toEqual({});
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
@@ -52,7 +52,7 @@ describe('nx-generator-utils', () => {
       tree,
       'nx',
       'generator',
-      'my-library'
+      'my-library',
     );
     expect(defaults).toEqual({
       setting1: 'my-value',

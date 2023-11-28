@@ -36,7 +36,7 @@ describe('List page list layout demo', async () => {
     const pageHeaderHarness = await pageHarness.getPageHeader();
 
     await expectAsync(pageHeaderHarness.getPageTitle()).toBeResolvedTo(
-      'Dashboards'
+      'Dashboards',
     );
   });
 });

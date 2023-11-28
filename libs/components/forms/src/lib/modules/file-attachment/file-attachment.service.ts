@@ -13,7 +13,7 @@ export class SkyFileAttachmentService {
     minFileSize: number,
     maxFileSize: number,
     acceptedTypes?: string,
-    validateFn?: SkyFileValidateFn
+    validateFn?: SkyFileValidateFn,
   ): SkyFileItem[] {
     const fileResults: SkyFileItem[] = [];
 

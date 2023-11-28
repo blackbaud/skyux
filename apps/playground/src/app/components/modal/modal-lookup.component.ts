@@ -1,9 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { SkyLookupModule } from '@skyux/lookup';
+import { SkyModalModule } from '@skyux/modals';
 
 @Component({
+  standalone: true,
   selector: 'app-modal-lookup',
   templateUrl: './modal-lookup.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [SkyLookupModule, SkyModalModule],
 })
 export class ModalLookupComponent {
   public readonly people = [

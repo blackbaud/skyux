@@ -8,8 +8,7 @@
         required
         [disabled]="disableFields"
         [(ngModel)]="countryData"
-      >
-      </sky-country-field>
+      />
     </form>
   </div>
 
@@ -26,8 +25,10 @@
     id="screenshot-country-field-populated"
     [formGroup]="countryForm"
   >
-    <sky-country-field formControlName="countryControl" [defaultCountry]="'AU'">
-    </sky-country-field>
+    <sky-country-field
+      formControlName="countryControl"
+      [defaultCountry]="'AU'"
+    />
   </form>
 
   <p *ngIf="countryControl.value">
@@ -37,12 +38,17 @@
   <button
     class="sky-btn sky-btn-primary"
     id="disable-toggle"
+    type="button"
     (click)="toggleDisabledStates()"
   >
     Toggle Disabled States
   </button>
 
-  <button class="sky-btn sky-btn-primary" (click)="toggleGermany()">
+  <button
+    class="sky-btn sky-btn-primary"
+    type="button"
+    (click)="toggleGermany()"
+  >
     Set Germany
   </button>
 </div>
@@ -55,14 +61,16 @@
     id="screenshot-country-field-empty-input-box"
   >
     <form>
-      <sky-input-box [disabled]="disableFields">
+      <sky-input-box
+        [disabled]="disableFields"
+        hintText="Here's some hint text."
+      >
         <label class="sky-control-label"> Country </label>
         <sky-country-field
           name="countryField"
           required
           [disabled]="disableFields"
-        >
-        </sky-country-field>
+        />
       </sky-input-box>
     </form>
   </div>
@@ -84,8 +92,7 @@
         [defaultCountry]="'AU'"
         [disabled]="disableFields"
         [(ngModel)]="countryDataInputBox"
-      >
-      </sky-country-field>
+      />
     </sky-input-box>
   </form>
 </div>
@@ -105,8 +112,7 @@
         [defaultCountry]="'AU'"
         [disabled]="disableFields"
         [(ngModel)]="countryDataInputBox"
-      >
-      </sky-country-field>
+      />
     </sky-input-box>
   </form>
 </div>

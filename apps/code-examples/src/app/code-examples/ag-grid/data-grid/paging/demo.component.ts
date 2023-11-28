@@ -113,7 +113,7 @@ export class DemoComponent implements OnInit, OnDestroy {
           this.currentPage = Number(page);
           this.#gridApi?.paginationGoToPage(this.currentPage - 1);
           this.#changeDetectorRef.detectChanges();
-        })
+        }),
     );
 
     this.#subscriptions.add(
@@ -128,7 +128,7 @@ export class DemoComponent implements OnInit, OnDestroy {
 
           this.#gridApi?.paginationGoToPage(this.currentPage - 1);
           this.#changeDetectorRef.detectChanges();
-        })
+        }),
     );
   }
 

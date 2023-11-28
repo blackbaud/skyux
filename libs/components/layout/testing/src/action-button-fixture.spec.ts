@@ -44,7 +44,7 @@ describe('Action button fixture', () => {
 
     expect(actionButton.headerText).toBe('Build a new list');
     expect(actionButton.detailsText).toBe(
-      'Start from scratch and fine-tune with filters'
+      'Start from scratch and fine-tune with filters',
     );
     expect(actionButton.iconType).toBe('filter');
   });
@@ -58,7 +58,7 @@ describe('Action button fixture', () => {
 
     const filterActionClickSpy = spyOn(
       fixture.componentInstance,
-      'filterActionClick'
+      'filterActionClick',
     );
 
     actionButton.actionClick();

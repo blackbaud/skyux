@@ -1,5 +1,261 @@
 # Changelog
 
+## [9.15.0](https://github.com/blackbaud/skyux/compare/9.14.1...9.15.0) (2023-11-22)
+
+
+### Features
+
+* **components/ag-grid:** add template cell renderer ([#1891](https://github.com/blackbaud/skyux/issues/1891)) ([45509c7](https://github.com/blackbaud/skyux/commit/45509c7fcd66ed143c4256f52296905450a0f293))
+* **components/data-manager:** add option to enable text highlighting for items matching the search term ([#1893](https://github.com/blackbaud/skyux/issues/1893)) ([4625874](https://github.com/blackbaud/skyux/commit/46258743b4cc5abce65c1c01acd9a62f0d397464))
+
+## [9.14.1](https://github.com/blackbaud/skyux/compare/9.14.0...9.14.1) (2023-11-20)
+
+
+### Bug Fixes
+
+* **components/flyout:** use local environment injector when opening flyout ([#1890](https://github.com/blackbaud/skyux/issues/1890)) ([a855aac](https://github.com/blackbaud/skyux/commit/a855aacc772a3a103c6d14d76f14b238620f67dc))
+* **components/modals:** use local environment injector when opening modal ([#1888](https://github.com/blackbaud/skyux/issues/1888)) ([b552435](https://github.com/blackbaud/skyux/commit/b5524355c42ee110da78ccff6068b755b85045f0))
+
+## [9.14.0](https://github.com/blackbaud/skyux/compare/9.13.1...9.14.0) (2023-11-20)
+
+
+### Features
+
+* **components/action-bars:** summary action bar announce content changes to screen readers ([#1881](https://github.com/blackbaud/skyux/issues/1881)) ([5a26dc5](https://github.com/blackbaud/skyux/commit/5a26dc52b3299a5b800983c97969934d792773f7))
+* **components/indicators:** use more descriptive default ARIA labels for tokens and announce when they are dismissed to screen readers ([#1865](https://github.com/blackbaud/skyux/issues/1865)) ([d4f0cd1](https://github.com/blackbaud/skyux/commit/d4f0cd10dd9697638a79004e0950ca7cb3c98b98))
+* **components/popovers:** update dropdown docs and code example for aria label ([#1866](https://github.com/blackbaud/skyux/issues/1866)) ([ef4282c](https://github.com/blackbaud/skyux/commit/ef4282cbadd91d52c81fc727aa9b1023dbd9708b))
+
+
+### Bug Fixes
+
+* **components/data-manager:** always persist sort sticky settings ([#1871](https://github.com/blackbaud/skyux/issues/1871)) ([55b9a12](https://github.com/blackbaud/skyux/commit/55b9a128124611077289ef53a098a4039a501438))
+* **components/modals:** log warning about modal parameters ([#1885](https://github.com/blackbaud/skyux/issues/1885)) ([3b70712](https://github.com/blackbaud/skyux/commit/3b70712749b2c8dddb439b7c4e10542b72141a42))
+
+## [9.13.1](https://github.com/blackbaud/skyux/compare/9.13.0...9.13.1) (2023-11-07)
+
+
+### Bug Fixes
+
+* **components/core:** prevent ResizeObserver loop error ([#1852](https://github.com/blackbaud/skyux/issues/1852)) ([4fbc5a9](https://github.com/blackbaud/skyux/commit/4fbc5a99c56c00615fc87247f81808503d2e4c0b))
+
+## [9.13.0](https://github.com/blackbaud/skyux/compare/9.12.1...9.13.0) (2023-11-06)
+
+
+### Features
+
+* **components/theme:** update to icons 6.5.0 ([#1872](https://github.com/blackbaud/skyux/issues/1872)) ([b0b9955](https://github.com/blackbaud/skyux/commit/b0b9955080286e5516b2c44f6a5ed9a29995bb98))
+
+
+### Bug Fixes
+
+* **components/popovers:** dropdown position not working in firefox ([#1869](https://github.com/blackbaud/skyux/issues/1869)) ([#1873](https://github.com/blackbaud/skyux/issues/1873)) ([c457529](https://github.com/blackbaud/skyux/commit/c4575299e3e069186b7d514bfd633a9ac49eccf0))
+
+## [8.10.9](https://github.com/blackbaud/skyux/compare/8.10.8...8.10.9) (2023-11-03)
+
+
+### Bug Fixes
+
+* **components/popovers:** dropdown position not working in firefox ([#1869](https://github.com/blackbaud/skyux/issues/1869)) ([6e76cf4](https://github.com/blackbaud/skyux/commit/6e76cf4e72cc3513292d78bf3b15e94a2d19032a))
+
+## [9.12.1](https://github.com/blackbaud/skyux/compare/9.12.0...9.12.1) (2023-10-27)
+
+
+### Bug Fixes
+
+* **components/lookup:** fit lookup dropdown to viewport ([#1858](https://github.com/blackbaud/skyux/issues/1858)) ([#1859](https://github.com/blackbaud/skyux/issues/1859)) ([d5becfb](https://github.com/blackbaud/skyux/commit/d5becfbd8d0deaa14665db10f2e269c8e151daff))
+
+## [8.10.8](https://github.com/blackbaud/skyux/compare/8.10.7...8.10.8) (2023-10-27)
+
+
+### Bug Fixes
+
+* **components/lookup:** fit lookup dropdown to viewport ([#1858](https://github.com/blackbaud/skyux/issues/1858)) ([17aff80](https://github.com/blackbaud/skyux/commit/17aff803ea004289fccd86f590f8a0a14c837421))
+
+## [9.12.0](https://github.com/blackbaud/skyux/compare/9.11.0...9.12.0) (2023-10-27)
+
+
+### Features
+
+* **components/forms:** single file attachment component announces state changes to screen readers ([#1855](https://github.com/blackbaud/skyux/issues/1855)) ([310b966](https://github.com/blackbaud/skyux/commit/310b96658c4d88fb32c43d9c433cdba0f4410801))
+
+
+### Bug Fixes
+
+* **components/theme:** apply "indeterminate" styles to checkbox inputs only ([#1857](https://github.com/blackbaud/skyux/issues/1857)) ([e8c61d4](https://github.com/blackbaud/skyux/commit/e8c61d4c44ee64b5e858ed7807cd406b13ed19ec))
+
+## [9.11.0](https://github.com/blackbaud/skyux/compare/9.10.0...9.11.0) (2023-10-26)
+
+
+### Features
+
+* **components/forms:** file attachment component announces state changes to screen readers ([#1841](https://github.com/blackbaud/skyux/issues/1841)) ([9e1e737](https://github.com/blackbaud/skyux/commit/9e1e737a37421c66b190431a2e6a91c454520504))
+* **components/lists:** repeater item context menu aria labels are automatically item specific ([#1743](https://github.com/blackbaud/skyux/issues/1743)) ([54ecd43](https://github.com/blackbaud/skyux/commit/54ecd43ac1d2d6fabf306189a613f70cefc72bc2))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** specify tooltip background color ([#1850](https://github.com/blackbaud/skyux/issues/1850)) ([710f0d1](https://github.com/blackbaud/skyux/commit/710f0d18ee2ce3f8464111e030a7d8d85db09e71)), closes [#1839](https://github.com/blackbaud/skyux/issues/1839)
+* **components/lookup:** autocomplete position with nested overflow elements ([#1813](https://github.com/blackbaud/skyux/issues/1813)) ([#1853](https://github.com/blackbaud/skyux/issues/1853)) ([fa857c4](https://github.com/blackbaud/skyux/commit/fa857c4050d7f2b890fbba55bea59a8e28017e9c))
+
+## [8.10.7](https://github.com/blackbaud/skyux/compare/8.10.6...8.10.7) (2023-10-25)
+
+
+### Bug Fixes
+
+* **components/lookup:** autocomplete position with nested overflow elements ([#1813](https://github.com/blackbaud/skyux/issues/1813)) ([97f5ec5](https://github.com/blackbaud/skyux/commit/97f5ec56e1a8c6c5c7580240b252b91d04ba54ff))
+
+## [9.10.0](https://github.com/blackbaud/skyux/compare/9.9.0...9.10.0) (2023-10-25)
+
+
+### Features
+
+* **components/config:** add `allowDynamicLoading` to remote module config ([#1843](https://github.com/blackbaud/skyux/issues/1843)) ([f951d3d](https://github.com/blackbaud/skyux/commit/f951d3de769cec14c72fa94757e5993a45d924cd))
+* **components/text-editor:** add options to 'Create link' ([#1808](https://github.com/blackbaud/skyux/issues/1808)) ([#1844](https://github.com/blackbaud/skyux/issues/1844)) ([76c7833](https://github.com/blackbaud/skyux/commit/76c78335f2aebaaa3e5625ce87853d794c9f37db))
+
+
+### Bug Fixes
+
+* **code-examples:** add `sky-switch-icon-group` CSS class to icon radio group code example ([#1842](https://github.com/blackbaud/skyux/issues/1842)) ([b0f68c9](https://github.com/blackbaud/skyux/commit/b0f68c9ee2cb50a98b352a19f090aaf8ef429508))
+
+## [9.9.0](https://github.com/blackbaud/skyux/compare/9.8.0...9.9.0) (2023-10-23)
+
+
+### Features
+
+* **components/layout:** automatically set box context menu aria label ([#1826](https://github.com/blackbaud/skyux/issues/1826)) ([65fa9a3](https://github.com/blackbaud/skyux/commit/65fa9a33d2b35f2be4d55d34cc8f73b0105f8f28))
+
+## [9.8.0](https://github.com/blackbaud/skyux/compare/9.7.0...9.8.0) (2023-10-20)
+
+
+### Features
+
+* **components/colorpicker:** update modern border styles for color picker ([#1834](https://github.com/blackbaud/skyux/issues/1834)) ([e3a5457](https://github.com/blackbaud/skyux/commit/e3a54570a83db2cbdc329be8b0036bf1d06f5fe9))
+* **components/forms:** add `hintText` to input box ([#1837](https://github.com/blackbaud/skyux/issues/1837)) ([e55756f](https://github.com/blackbaud/skyux/commit/e55756f260034c8098e1c850e6800dac9d3798c2))
+* **components/forms:** update modern border styles for toggle switch ([#1835](https://github.com/blackbaud/skyux/issues/1835)) ([607f2e6](https://github.com/blackbaud/skyux/commit/607f2e63b8f91c6f9ae5159f43f8762cb318f71e))
+* **components/progress-indicator:** update modern border styles for progress indicators ([#1836](https://github.com/blackbaud/skyux/issues/1836)) ([ec35a5f](https://github.com/blackbaud/skyux/commit/ec35a5f5db6f85d0071c03a11e12f4b817920642))
+* **components/theme:** update modern border styles for `sky-switch-control` ([#1827](https://github.com/blackbaud/skyux/issues/1827)) ([abacd60](https://github.com/blackbaud/skyux/commit/abacd6042b7fc508e8569959f8ea5aa58478922b))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** fix height css expression for wrap-text ([#1833](https://github.com/blackbaud/skyux/issues/1833)) ([b1a317e](https://github.com/blackbaud/skyux/commit/b1a317e7d4ade9a51c34c339093f493160cfbbda)), closes [#1830](https://github.com/blackbaud/skyux/issues/1830)
+* **components/config:** update `queryParams` handling to ensure params can be optional ([#1829](https://github.com/blackbaud/skyux/issues/1829)) ([9baa59b](https://github.com/blackbaud/skyux/commit/9baa59b33c064ac1bacd5ed0d8e9565162fcec45))
+* **components/forms:** toggle switch `ariaLabel` input gives info on when to be contextual ([#1806](https://github.com/blackbaud/skyux/issues/1806)) ([29446b6](https://github.com/blackbaud/skyux/commit/29446b62023a95347aacd262e59aebef9a7fbe89))
+
+## [9.7.0](https://github.com/blackbaud/skyux/compare/9.6.0...9.7.0) (2023-10-19)
+
+
+### Features
+
+* add support for `@angular/core@16.2.9` ([#1811](https://github.com/blackbaud/skyux/issues/1811)) ([1885b2a](https://github.com/blackbaud/skyux/commit/1885b2af84d387e421b2d00488ebb19c3748ce19))
+* **components/config:** add referenced remote module config ([#1804](https://github.com/blackbaud/skyux/issues/1804)) ([80938b8](https://github.com/blackbaud/skyux/commit/80938b8d3b2b79ba91e651c95e26b3c54bfcd0ad))
+* **components/router:** add `queryParams` to `skyHref` directive ([#1800](https://github.com/blackbaud/skyux/issues/1800)) ([#1814](https://github.com/blackbaud/skyux/issues/1814)) ([c7ac082](https://github.com/blackbaud/skyux/commit/c7ac082579dccb83e722f774a482d9f499c86e57))
+
+## [9.6.0](https://github.com/blackbaud/skyux/compare/9.5.1...9.6.0) (2023-10-10)
+
+
+### Features
+
+* **components/core:** update content info provider to support element IDs, create screen reader label directive ([#1783](https://github.com/blackbaud/skyux/issues/1783)) ([e7c3aaf](https://github.com/blackbaud/skyux/commit/e7c3aafe02eb0414ed72b3c23782214a3d547914))
+* **components/lookup:** lookup show more modal native picker configurations include a `selectionDescriptor` which passes context to aria labels and the modal title ([#1797](https://github.com/blackbaud/skyux/issues/1797)) ([e084886](https://github.com/blackbaud/skyux/commit/e0848860591259cf71f838b2a077263f3cc0326d))
+
+
+### Bug Fixes
+
+* **components/core:** prevent resize observer loop error ([#1790](https://github.com/blackbaud/skyux/issues/1790)) ([#1794](https://github.com/blackbaud/skyux/issues/1794)) ([c30e707](https://github.com/blackbaud/skyux/commit/c30e707a96e42fea0398a19ef39dbe3d8b33e524))
+* **components/forms:** toggle switch buttons will no point to the visible label via `aria-labelledby` when the `ariaLabel` input is given ([#1802](https://github.com/blackbaud/skyux/issues/1802)) ([9fab02d](https://github.com/blackbaud/skyux/commit/9fab02d828b3f9ea5f340ac9fddf388b4bf4b598))
+* **components/layout:** fix action button responsive behavior in modals ([#1798](https://github.com/blackbaud/skyux/issues/1798)) ([b4b4df0](https://github.com/blackbaud/skyux/commit/b4b4df0b0ed954ea3db724b01e913209be7de98b))
+* **components/lookup:** autocomplete position in modal with omnibar ([#1799](https://github.com/blackbaud/skyux/issues/1799)) ([#1801](https://github.com/blackbaud/skyux/issues/1801)) ([8d03883](https://github.com/blackbaud/skyux/commit/8d038836eb1b659a4ecc4e30d24ab2e0a8946b5c))
+
+## [8.10.6](https://github.com/blackbaud/skyux/compare/8.10.5...8.10.6) (2023-10-10)
+
+
+### Bug Fixes
+
+* **components/core:** prevent resize observer loop error ([#1790](https://github.com/blackbaud/skyux/issues/1790)) ([143431f](https://github.com/blackbaud/skyux/commit/143431f382046ee7d6f258fef741e2f62242248f))
+* **components/lookup:** autocomplete position in modal with omnibar ([#1799](https://github.com/blackbaud/skyux/issues/1799)) ([13d4919](https://github.com/blackbaud/skyux/commit/13d4919fa24c9a8dade82226a3914dcb93226137))
+
+## [9.5.1](https://github.com/blackbaud/skyux/compare/9.5.0...9.5.1) (2023-10-09)
+
+
+### Bug Fixes
+
+* **components/forms:** remove internal flag from character counter harness ([#1791](https://github.com/blackbaud/skyux/issues/1791)) ([730d0ef](https://github.com/blackbaud/skyux/commit/730d0ef9dbd48a4149bb05c834a7d27d280f7ae6))
+
+## [9.5.0](https://github.com/blackbaud/skyux/compare/9.4.1...9.5.0) (2023-10-09)
+
+
+### Features
+
+* add character counter, input box, and status indicator harnesses ([#1784](https://github.com/blackbaud/skyux/issues/1784)) ([6a55f2d](https://github.com/blackbaud/skyux/commit/6a55f2df05f691d96ff392dc311f904c89f11319))
+* **components/data-manager:** data managers include a listDescriptor which passes context to standard items aria labels ([#1775](https://github.com/blackbaud/skyux/issues/1775)) ([fcf1c2f](https://github.com/blackbaud/skyux/commit/fcf1c2f7df989a5b65e321b96b60b26efd06cf8a))
+* **components/datetime:** datepicker calendar button aria label is now context specific ([#1788](https://github.com/blackbaud/skyux/issues/1788)) ([2da13fc](https://github.com/blackbaud/skyux/commit/2da13fc946e63df764a14381a78f9e056952de25))
+* **components/datetime:** timepicker button aria label is now context specific ([#1789](https://github.com/blackbaud/skyux/issues/1789)) ([9938902](https://github.com/blackbaud/skyux/commit/9938902d76150694d0378fede9b3791a6673d43b))
+* **components/lookup:** add selection modals include a `selectionDescriptor` which passes context to aria labels and the modal title ([#1787](https://github.com/blackbaud/skyux/issues/1787)) ([e5de803](https://github.com/blackbaud/skyux/commit/e5de803996fea1095b8a318bf912fb7fb75e7486))
+
+## [9.4.1](https://github.com/blackbaud/skyux/compare/9.4.0...9.4.1) (2023-10-04)
+
+
+### Bug Fixes
+
+* **components/toast:** `SkyToastService` and `SkyToastLegacyService` add toast instances to the same pool ([#1779](https://github.com/blackbaud/skyux/issues/1779)) ([5372a83](https://github.com/blackbaud/skyux/commit/5372a8306fa4a586942b31cba8c7e0b84d112162))
+
+## [9.4.0](https://github.com/blackbaud/skyux/compare/9.3.1...9.4.0) (2023-10-02)
+
+
+### Features
+
+* **components/layout:** toolbars include a listDescriptor which passes context to standard items aria labels ([#1747](https://github.com/blackbaud/skyux/issues/1747)) ([3d4f941](https://github.com/blackbaud/skyux/commit/3d4f9414fd87e6f48e7f06c4eb7f11266ad124ba))
+* **components/theme:** update to latest @skyux/icons ([#1755](https://github.com/blackbaud/skyux/issues/1755)) ([6532fa8](https://github.com/blackbaud/skyux/commit/6532fa8e8f336f75a6435693b82681a470781f4a))
+
+
+### Bug Fixes
+
+* **components/colorpicker:** hsla formula should not divide by zero ([#1768](https://github.com/blackbaud/skyux/issues/1768)) ([ae6dc1e](https://github.com/blackbaud/skyux/commit/ae6dc1ed0647d5d552a2bc0c4a14a4b9e860a096))
+* **components/core:** numeric pipe now handles undefined values ([#1765](https://github.com/blackbaud/skyux/issues/1765)) ([#1770](https://github.com/blackbaud/skyux/issues/1770)) ([9873961](https://github.com/blackbaud/skyux/commit/9873961a723d713b68d05936e998409062405b82))
+
+## [8.10.5](https://github.com/blackbaud/skyux/compare/8.10.4...8.10.5) (2023-10-02)
+
+
+### Bug Fixes
+
+* **components/core:** numeric pipe now handles undefined values ([#1765](https://github.com/blackbaud/skyux/issues/1765)) ([fe977d4](https://github.com/blackbaud/skyux/commit/fe977d4d9efb8a7b89596f81f9dcc8817b14c0fc))
+
+## [9.3.1](https://github.com/blackbaud/skyux/compare/9.3.0...9.3.1) (2023-09-28)
+
+
+### Bug Fixes
+
+* release 9.3.1 ([#1762](https://github.com/blackbaud/skyux/issues/1762)) ([466ddd0](https://github.com/blackbaud/skyux/commit/466ddd07229f51058eb50ac4aad604c7880ceb18))
+
+## [9.3.0](https://github.com/blackbaud/skyux/compare/9.2.1...9.3.0) (2023-09-27)
+
+
+### Features
+
+* **components/angular-tree-component:** context menu aria labels are automatically node specific ([#1737](https://github.com/blackbaud/skyux/issues/1737)) ([1004462](https://github.com/blackbaud/skyux/commit/1004462719364ece103920f8a8f9f4e94254d490))
+* **components/config:** add local dev config ([#1758](https://github.com/blackbaud/skyux/issues/1758)) ([9a14fd8](https://github.com/blackbaud/skyux/commit/9a14fd8cb3b3a00c627977d55f54f4eef671ab7a))
+* **components/datetime:** date range picker input aria labels are now context specific ([#1752](https://github.com/blackbaud/skyux/issues/1752)) ([4dc7e2a](https://github.com/blackbaud/skyux/commit/4dc7e2af1400e9443704d04e397931ee8b79de4f))
+* **components/lists:** filter button aria label property can be specified ([#1745](https://github.com/blackbaud/skyux/issues/1745)) ([788580e](https://github.com/blackbaud/skyux/commit/788580e6e6c78da2d546591b1be576902098d0e9))
+* **components/lists:** sort button aria label property can be specified ([#1746](https://github.com/blackbaud/skyux/issues/1746)) ([089bc11](https://github.com/blackbaud/skyux/commit/089bc114b5ecc704ac14e1f4c2db82a928b2d324))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** update existing ag grid context menus with aria labels, add new ones ([#1735](https://github.com/blackbaud/skyux/issues/1735)) ([745d8ab](https://github.com/blackbaud/skyux/commit/745d8ab353430b49ffd95d640207340129a6834c))
+* ensure all HTML buttons have a type ([#1748](https://github.com/blackbaud/skyux/issues/1748)) ([1a58094](https://github.com/blackbaud/skyux/commit/1a580943ddd113805081b75e7f45306bc2010e58))
+
+### Note
+
+* The release failed part way through the publish process, some packages were not published. Do not use this version.
+
+## [8.10.4](https://github.com/blackbaud/skyux/compare/8.10.3...8.10.4) (2023-09-26)
+
+
+### Bug Fixes
+
+* **components/phone-field:** new Canadian area codes properly validate ([#1754](https://github.com/blackbaud/skyux/issues/1754)) ([170af61](https://github.com/blackbaud/skyux/commit/170af61d841b9a56d5197b841a9be9f384303cdf))
+
 ## [9.2.1](https://github.com/blackbaud/skyux/compare/9.2.0...9.2.1) (2023-09-20)
 
 

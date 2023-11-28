@@ -24,7 +24,7 @@ export class SkyPageHarness extends SkyComponentHarness {
    * `SkyPageHarness` that meets certain criteria.
    */
   public static with(
-    filters: SkyPageHarnessFilters
+    filters: SkyPageHarnessFilters,
   ): HarnessPredicate<SkyPageHarness> {
     return SkyPageHarness.getDataSkyIdPredicate(filters);
   }
@@ -49,17 +49,19 @@ export class SkyPageHarness extends SkyComponentHarness {
    * @param filters filters for which page header to return
    */
   public async getPageHeader(
-    filters?: SkyPageHeaderHarnessFilters
+    filters?: SkyPageHeaderHarnessFilters,
   ): Promise<SkyPageHeaderHarness> {
     const pageHeader = await this.locatorForOptional(
-      SkyPageHeaderHarness.with(filters || {})
+      SkyPageHeaderHarness.with(filters || {}),
     )();
     if (pageHeader) {
       return pageHeader;
     }
 
     throw new Error(
-      `Unable to find a page header with filter(s): ${JSON.stringify(filters)}.`
+      `Unable to find a page header with filter(s): ${JSON.stringify(
+        filters,
+      )}.`,
     );
   }
 }

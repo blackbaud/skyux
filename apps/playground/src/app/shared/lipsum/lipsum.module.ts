@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { LipsumComponent } from './lipsum.component';
 
 @NgModule({
-  declarations: [LipsumComponent],
+  imports: [LipsumComponent],
   exports: [LipsumComponent],
 })
 export class LipsumModule {}

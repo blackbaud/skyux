@@ -22,21 +22,21 @@ export class FontLoadingService {
           `BLKB Sans${weight.file.includes('-Cond') ? ' Condensed' : ''}`,
           {
             weight: weight.value,
-          }
-        )
+          },
+        ),
     );
     fonts.push(
       new FontFaceObserver('FontAwesome', {
         weight: 400,
-      })
+      }),
     );
     fonts.push(
       new FontFaceObserver('skyux-icons', {
         weight: 400,
-      })
+      }),
     );
     return from(
-      Promise.all(fonts.map(async (font): Promise<void> => font.load()))
+      Promise.all(fonts.map(async (font): Promise<void> => font.load())),
     ).pipe(map(() => true));
   }
 }

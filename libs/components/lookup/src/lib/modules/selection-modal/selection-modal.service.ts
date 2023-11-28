@@ -46,11 +46,13 @@ export class SkySelectionModalService {
         }) as Observable<SkyAutocompleteSearchAsyncResult>;
       },
       args.selectMode,
+      args.selectionDescriptor ||
+        (args.selectMode === 'single' ? 'item' : 'items'),
       args.showAddButton || false,
       {
         itemTemplate: args.itemTemplate,
         title: args.title,
-      }
+      },
     );
 
     const modalInstance = this.#modalSvc.open(SkySelectionModalComponent, {
@@ -65,7 +67,7 @@ export class SkySelectionModalService {
     });
 
     const instance = new SkySelectionModalInstance(
-      modalInstance.componentInstance.id
+      modalInstance.componentInstance.id,
     );
 
     instance.itemAdded
@@ -82,7 +84,7 @@ export class SkySelectionModalService {
           closeArgs = {
             reason: 'save',
             selectedItems: modalCloseArgs.data.map(
-              (item: { itemData: unknown }) => item.itemData
+              (item: { itemData: unknown }) => item.itemData,
             ),
           };
           break;

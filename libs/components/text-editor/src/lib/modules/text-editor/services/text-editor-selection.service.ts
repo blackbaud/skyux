@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 export class SkyTextEditorSelectionService {
   public isElementSelected(
     documentEl: Document,
-    element: HTMLElement
+    element: HTMLElement,
   ): boolean {
     const selectedNode = this.getCurrentSelection(documentEl)?.anchorNode;
     /* istanbul ignore next */
@@ -23,7 +23,7 @@ export class SkyTextEditorSelectionService {
   }
 
   public getCurrentSelectionParentElement(
-    documentEl: Document
+    documentEl: Document,
   ): Element | null | undefined {
     const selection = this.getCurrentSelection(documentEl);
     let selectedEl: Element | null;
@@ -44,7 +44,7 @@ export class SkyTextEditorSelectionService {
 
   public getCurrentSelectionRange(
     documentEl: Document,
-    windowEl: Window
+    windowEl: Window,
   ): Range | undefined {
     /* istanbul ignore else */
     if (windowEl.getSelection) {
@@ -64,7 +64,7 @@ export class SkyTextEditorSelectionService {
   public selectElement(
     documentEl: Document,
     windowEl: Window,
-    element: HTMLElement
+    element: HTMLElement,
   ): void {
     /* istanbul ignore else */
     if (element) {

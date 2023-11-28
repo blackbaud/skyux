@@ -14,7 +14,7 @@
   "
   [attr.id]="resultsWrapperId"
 >
-  <ng-content></ng-content>
+  <ng-content />
 </div>
 
 <ng-template #resultsTemplateRef>
@@ -141,7 +141,7 @@
       (click)="addButtonClicked()"
       #addButtonEl
     >
-      <sky-icon icon="add"></sky-icon>
+      <sky-icon icon="add" />
       {{ 'skyux_autocomplete_add' | skyLibResources }}
     </button>
   </div>

@@ -1,12 +1,13 @@
 import { ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
-import { SkyAppWindowRef, SkyResizeObserverService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { delay, take, takeUntil } from 'rxjs/operators';
 
 import { SkyMutationObserverService } from '../mutation/mutation-observer-service';
+import { SkyResizeObserverService } from '../resize-observer/resize-observer.service';
+import { SkyAppWindowRef } from '../window/window-ref';
 
 import { ScrollableHostFixtureComponent } from './fixtures/scrollable-host.component.fixture';
 import { SkyScrollableHostService } from './scrollable-host.service';
@@ -57,7 +58,7 @@ describe('Scrollable host service', () => {
     spyOnProperty(
       cmp.target.nativeElement,
       'parentNode',
-      'get'
+      'get',
     ).and.returnValue(undefined);
 
     expect(cmp.getScrollableHost()).toBe(window);
@@ -243,7 +244,7 @@ describe('Scrollable host service', () => {
 
     const disconnectSpy = spyOn(
       MutationObserver.prototype,
-      'disconnect'
+      'disconnect',
     ).and.callThrough();
 
     const subscription1 = scrollableHostObservable
@@ -300,7 +301,7 @@ describe('Scrollable host service', () => {
 
     const disconnectSpy = spyOn(
       MutationObserver.prototype,
-      'disconnect'
+      'disconnect',
     ).and.callThrough();
 
     const subscription1 = scrollableHostObservable
@@ -412,7 +413,7 @@ describe('Scrollable host service', () => {
         SkyAppTestUtility.fireDomEvent(
           cmp.grandparent.nativeElement,
           'scroll',
-          { bubbles: false }
+          { bubbles: false },
         );
         fixture.detectChanges();
         await fixture.whenStable();
@@ -425,7 +426,7 @@ describe('Scrollable host service', () => {
         done();
       } else {
         fail(
-          'observable should only be hit 3 times - second parent scroll should not fire observable'
+          'observable should only be hit 3 times - second parent scroll should not fire observable',
         );
       }
     });
@@ -509,7 +510,7 @@ describe('Scrollable host service', () => {
 
             SkyAppTestUtility.fireDomEvent(
               cmp.grandparent.nativeElement,
-              'scroll'
+              'scroll',
             );
 
             done();
@@ -541,7 +542,7 @@ describe('Scrollable host service', () => {
 
             SkyAppTestUtility.fireDomEvent(
               cmp.grandparent.nativeElement,
-              'scroll'
+              'scroll',
             );
 
             done();
@@ -562,7 +563,7 @@ describe('Scrollable host service', () => {
     const scrollableHostSvc = new SkyScrollableHostService(
       TestBed.inject(SkyMutationObserverService),
       windowRef,
-      TestBed.inject(SkyResizeObserverService)
+      TestBed.inject(SkyResizeObserverService),
     );
 
     cmp.isParentPositioned = true;
@@ -575,7 +576,7 @@ describe('Scrollable host service', () => {
       .pipe(take(1))
       .subscribe((clipPath) => {
         expect(clipPath).toBe(
-          `inset(0px ${viewport.width - 100}px ${viewport.height - 100}px 0px)`
+          `inset(0px ${viewport.width - 100}px ${viewport.height - 100}px 0px)`,
         );
         done();
       });
@@ -596,12 +597,12 @@ describe('Scrollable host service', () => {
     const scrollableHostSvc = new SkyScrollableHostService(
       {} as SkyMutationObserverService,
       {} as SkyAppWindowRef,
-      undefined
+      undefined,
     );
     await expectAsync(
       scrollableHostSvc
         .watchScrollableHostClipPathChanges({} as ElementRef)
-        .toPromise()
+        .toPromise(),
     ).toBeResolvedTo('none');
   });
 });

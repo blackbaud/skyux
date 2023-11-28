@@ -41,8 +41,11 @@ export class SkyNumericService {
    * @param value The number to format.
    * @param options Format options.
    */
-  public formatNumber(value: number, options: SkyNumericOptions): string {
-    if (isNaN(value) || value === null) {
+  public formatNumber(
+    value: number | undefined | null,
+    options: SkyNumericOptions,
+  ): string {
+    if (value === undefined || value === null || isNaN(value)) {
       return '';
     }
 
@@ -126,7 +129,7 @@ export class SkyNumericService {
           // and the appropriate string value for Angular 5+.
           // See: https://angular.io/api/common/CurrencyPipe#parameters
           'symbol' as any,
-          numericOptions.currencySign
+          numericOptions.currencySign,
         ) as string;
         //   ^^^^^^ Result can't be null since the sanitized input is always a number.
         break;
@@ -149,7 +152,7 @@ export class SkyNumericService {
           locale,
           parseFloat(output),
           SkyIntlNumberFormatStyle.Decimal,
-          digitsFormatted
+          digitsFormatted,
         ) as string;
         //   ^^^^^^ Result can't be null since the sanitized input is always a number.
         break;
@@ -184,13 +187,13 @@ export class SkyNumericService {
     const scaledValue: number = this.#scaleNumberByPowerOfTen(
       value,
       precision,
-      true
+      true,
     );
     const scaledRoundedValue: number = Math.round(scaledValue);
     const unscaledRoundedValue: number = this.#scaleNumberByPowerOfTen(
       scaledRoundedValue,
       precision,
-      false
+      false,
     );
 
     return unscaledRoundedValue;
@@ -205,7 +208,7 @@ export class SkyNumericService {
   #scaleNumberByPowerOfTen(
     value: number,
     scalar: number,
-    scaleUp: boolean
+    scaleUp: boolean,
   ): number {
     const valueStr: string = value.toString().toLowerCase();
     const isExponentFormat: boolean = valueStr.includes('e');

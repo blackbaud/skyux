@@ -17,7 +17,9 @@
           "devServerTarget": "avatar-storybook:serve:production"
         },
         "ci": {
-          "devServerTarget": "avatar-storybook:serve-static"
+          "devServerTarget": "avatar-storybook:static-storybook:ci",
+          "browser": "chrome",
+          "baseUrl": "http://localhost:4200"
         }
       }
     },

@@ -20,7 +20,7 @@ export class ListEmptyTestComponent {
 
   constructor(
     @Inject('items') public items: any,
-    public dataProvider: SkyListInMemoryDataProvider
+    public dataProvider: SkyListInMemoryDataProvider,
   ) {}
 
   public get options() {

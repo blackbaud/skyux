@@ -31,7 +31,11 @@
     },
     {
       "files": ["*.html"],
-      "extends": ["plugin:@nx/angular-template", "prettier"],
+      "extends": [
+        "plugin:@nx/angular-template",
+        "../../../.eslintrc-overrides.json",
+        "prettier"
+      ],
       "rules": {}
     },
     {

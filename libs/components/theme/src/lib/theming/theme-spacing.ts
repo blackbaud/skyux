@@ -18,6 +18,6 @@ export class SkyThemeSpacing {
    */
   constructor(
     public readonly name: string,
-    public readonly hostClass: string
+    public readonly hostClass: string,
   ) {}
 }

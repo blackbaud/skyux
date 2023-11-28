@@ -128,7 +128,7 @@ describe('List View Grid Component', () => {
       dispatcher.next(
         new ListViewsLoadAction([
           new ListViewModel(component.grid.id, component.grid.label),
-        ])
+        ]),
       );
       dispatcher.viewsSetActive(component.grid.id);
       fixture.detectChanges();
@@ -150,27 +150,27 @@ describe('List View Grid Component', () => {
         expect(
           element
             .query(By.css('th[sky-cmp-id="column1"]'))
-            .nativeElement.textContent.trim()
+            .nativeElement.textContent.trim(),
         ).toBe('Column1');
         expect(
           element
             .query(By.css('th[sky-cmp-id="column2"]'))
-            .nativeElement.textContent.trim()
+            .nativeElement.textContent.trim(),
         ).toBe('Column2');
         expect(
           element
             .query(By.css('th[sky-cmp-id="column3"]'))
-            .nativeElement.textContent.trim()
+            .nativeElement.textContent.trim(),
         ).toBe('Column3');
         expect(
           element
             .query(By.css('th[sky-cmp-id="column4"]'))
-            .nativeElement.textContent.trim()
+            .nativeElement.textContent.trim(),
         ).toBe('Column4');
         expect(
           element
             .query(By.css('th[sky-cmp-id="column5"]'))
-            .nativeElement.textContent.trim()
+            .nativeElement.textContent.trim(),
         ).toBe('Column5');
       }));
 
@@ -184,27 +184,27 @@ describe('List View Grid Component', () => {
         expect(
           element
             .query(By.css('th[sky-cmp-id="column1"]'))
-            .nativeElement.textContent.trim()
+            .nativeElement.textContent.trim(),
         ).toBe('Column1');
         expect(
           element
             .query(By.css('th[sky-cmp-id="column2"]'))
-            .nativeElement.textContent.trim()
+            .nativeElement.textContent.trim(),
         ).toBe('Column2');
         expect(
           element
             .query(By.css('th[sky-cmp-id="column3"]'))
-            .nativeElement.textContent.trim()
+            .nativeElement.textContent.trim(),
         ).toBe('Column3');
         expect(
           element
             .query(By.css('th[sky-cmp-id="column4"]'))
-            .nativeElement.textContent.trim()
+            .nativeElement.textContent.trim(),
         ).toBe('Column4');
         expect(
           element
             .query(By.css('th[sky-cmp-id="column5"]'))
-            .nativeElement.textContent.trim()
+            .nativeElement.textContent.trim(),
         ).toBe('Column5');
 
         component.showNgIfCol = true;
@@ -217,7 +217,7 @@ describe('List View Grid Component', () => {
         expect(
           element
             .query(By.css('th[sky-cmp-id="ngIfCol"]'))
-            .nativeElement.textContent.trim()
+            .nativeElement.textContent.trim(),
         ).toBe('Column8');
 
         expect(dispatcher.searchSetOptions).toHaveBeenCalledTimes(1);
@@ -231,11 +231,11 @@ describe('List View Grid Component', () => {
 
           const idsChangeSpy = spyOn(
             component.grid.selectedColumnIdsChange,
-            'emit'
+            'emit',
           ).and.callThrough();
           const dispatcherSpy = spyOn(
             component.grid.gridDispatcher,
-            'next'
+            'next',
           ).and.callThrough();
 
           fixture.detectChanges();
@@ -249,11 +249,11 @@ describe('List View Grid Component', () => {
             ]);
             fixture.detectChanges();
             expect(element.queryAll(By.css('th.sky-grid-heading')).length).toBe(
-              5
+              5,
             );
             expect(idsChangeSpy).not.toHaveBeenCalled();
             expect(dispatcherSpy).not.toHaveBeenCalledWith(
-              jasmine.any(ListViewDisplayedGridColumnsLoadAction)
+              jasmine.any(ListViewDisplayedGridColumnsLoadAction),
             );
           });
         });
@@ -268,12 +268,12 @@ describe('List View Grid Component', () => {
           component.grid.selectedColumnIdsChange.subscribe(
             (newColumnIds: string[]) => {
               expect(newColumnIds).toEqual(['column1', 'column2']);
-            }
+            },
           );
 
           const dispatcherSpy = spyOn(
             component.grid.gridDispatcher,
-            'next'
+            'next',
           ).and.callThrough();
           component.grid.gridComponent.selectedColumnIdsChange.emit([
             'column1',
@@ -282,20 +282,20 @@ describe('List View Grid Component', () => {
           fixture.detectChanges();
           fixture.whenStable().then(() => {
             expect(element.queryAll(By.css('th.sky-grid-heading')).length).toBe(
-              2
+              2,
             );
             expect(
               element
                 .query(By.css('th[sky-cmp-id="column1"]'))
-                .nativeElement.textContent.trim()
+                .nativeElement.textContent.trim(),
             ).toBe('Column1');
             expect(
               element
                 .query(By.css('th[sky-cmp-id="column2"]'))
-                .nativeElement.textContent.trim()
+                .nativeElement.textContent.trim(),
             ).toBe('Column2');
             expect(dispatcherSpy).toHaveBeenCalledWith(
-              jasmine.any(ListViewDisplayedGridColumnsLoadAction)
+              jasmine.any(ListViewDisplayedGridColumnsLoadAction),
             );
           });
         });
@@ -347,7 +347,7 @@ describe('List View Grid Component', () => {
       it('should handle async column descriptions', fakeAsync(() => {
         setupTest();
         const col1 = fixture.componentInstance.grid.gridComponent.columns.find(
-          (col) => col.id === 'column1'
+          (col) => col.id === 'column1',
         );
         expect(col1.description).toEqual('');
         tick(110); // Wait for setTimeout
@@ -382,7 +382,7 @@ describe('List View Grid Component', () => {
         state.pipe(take(1)).subscribe((current) => {
           const searchFound = current.search.functions[0](
             { column1: 'foobar' },
-            'foobar'
+            'foobar',
           );
           expect(searchFound).toBe(true);
         });
@@ -390,7 +390,7 @@ describe('List View Grid Component', () => {
         state.pipe(take(1)).subscribe((current) => {
           const searchFound = current.search.functions[0](
             { column1: 'foobar' },
-            'baz'
+            'baz',
           );
           expect(searchFound).toBe(false);
         });
@@ -479,7 +479,7 @@ describe('List View Grid Component', () => {
           gridDispatcher.next(
             new ListViewDisplayedGridColumnsLoadAction([
               new SkyGridColumnModel(component.viewTemplates.first),
-            ])
+            ]),
           );
 
           gridState.pipe(take(1)).subscribe((s) => {
@@ -489,7 +489,7 @@ describe('List View Grid Component', () => {
           gridDispatcher.next(
             new ListViewDisplayedGridColumnsLoadAction([
               new SkyGridColumnModel(component.viewTemplates.first),
-            ])
+            ]),
           );
 
           gridState.pipe(take(1)).subscribe((s) => {
@@ -586,7 +586,7 @@ describe('List View Grid Component', () => {
         fixture.detectChanges();
         expect(document.querySelector('#row-delete-ref-1')).not.toBeNull();
         expect(
-          document.querySelectorAll('.sky-inline-delete-standard').length
+          document.querySelectorAll('.sky-inline-delete-standard').length,
         ).toBe(1);
         fixture.componentInstance.deleteItem('2');
         fixture.detectChanges();
@@ -596,7 +596,7 @@ describe('List View Grid Component', () => {
         fixture.detectChanges();
         expect(document.querySelector('#row-delete-ref-2')).not.toBeNull();
         expect(
-          document.querySelectorAll('.sky-inline-delete-standard').length
+          document.querySelectorAll('.sky-inline-delete-standard').length,
         ).toBe(2);
       }));
 
@@ -612,7 +612,7 @@ describe('List View Grid Component', () => {
         fixture.detectChanges();
         expect(document.querySelector('#row-delete-ref-1')).not.toBeNull();
         expect(
-          document.querySelectorAll('.sky-inline-delete-standard').length
+          document.querySelectorAll('.sky-inline-delete-standard').length,
         ).toBe(1);
         fixture.componentInstance.cancelRowDelete({ id: '1' });
         fixture.detectChanges();
@@ -635,11 +635,11 @@ describe('List View Grid Component', () => {
         fixture.detectChanges();
         expect(document.querySelector('#row-delete-ref-1')).not.toBeNull();
         expect(
-          document.querySelectorAll('.sky-inline-delete-standard').length
+          document.querySelectorAll('.sky-inline-delete-standard').length,
         ).toBe(1);
         (
           document.querySelectorAll(
-            '.sky-inline-delete .sky-btn-default'
+            '.sky-inline-delete .sky-btn-default',
           )[0] as HTMLElement
         ).click();
         fixture.detectChanges();
@@ -663,17 +663,17 @@ describe('List View Grid Component', () => {
         fixture.detectChanges();
         expect(document.querySelector('#row-delete-ref-1')).not.toBeNull();
         expect(
-          document.querySelectorAll('.sky-inline-delete-standard').length
+          document.querySelectorAll('.sky-inline-delete-standard').length,
         ).toBe(1);
         expect(
           document.querySelectorAll(
-            '.sky-inline-delete-standard .sky-wait-mask-loading-blocking'
-          ).length
+            '.sky-inline-delete-standard .sky-wait-mask-loading-blocking',
+          ).length,
         ).toBe(0);
 
         (
           document.querySelectorAll(
-            '.sky-inline-delete-button'
+            '.sky-inline-delete-button',
           )[0] as HTMLElement
         ).click();
         fixture.detectChanges();
@@ -681,12 +681,12 @@ describe('List View Grid Component', () => {
         fixture.detectChanges();
         expect(document.querySelector('#row-delete-ref-1')).not.toBeNull();
         expect(
-          document.querySelectorAll('.sky-inline-delete-standard').length
+          document.querySelectorAll('.sky-inline-delete-standard').length,
         ).toBe(1);
         expect(
           document.querySelectorAll(
-            '.sky-inline-delete-standard .sky-wait-mask-loading-blocking'
-          ).length
+            '.sky-inline-delete-standard .sky-wait-mask-loading-blocking',
+          ).length,
         ).toBe(1);
 
         fixture.componentInstance.deleteItem('1');
@@ -697,12 +697,12 @@ describe('List View Grid Component', () => {
         fixture.detectChanges();
         expect(document.querySelector('#row-delete-ref-1')).not.toBeNull();
         expect(
-          document.querySelectorAll('.sky-inline-delete-standard').length
+          document.querySelectorAll('.sky-inline-delete-standard').length,
         ).toBe(1);
         expect(
           document.querySelectorAll(
-            '.sky-inline-delete-standard .sky-wait-mask-loading-blocking'
-          ).length
+            '.sky-inline-delete-standard .sky-wait-mask-loading-blocking',
+          ).length,
         ).toBe(0);
       }));
 
@@ -719,11 +719,11 @@ describe('List View Grid Component', () => {
         tick();
         fixture.detectChanges();
         expect(
-          fixture.componentInstance.finishRowDelete
+          fixture.componentInstance.finishRowDelete,
         ).not.toHaveBeenCalled();
         (
           document.querySelectorAll(
-            '.sky-inline-delete-button'
+            '.sky-inline-delete-button',
           )[0] as HTMLElement
         ).click();
         fixture.detectChanges();
@@ -732,7 +732,7 @@ describe('List View Grid Component', () => {
         tick(500);
         fixture.detectChanges();
         expect(
-          fixture.componentInstance.cancelRowDelete
+          fixture.componentInstance.cancelRowDelete,
         ).not.toHaveBeenCalled();
         expect(fixture.componentInstance.finishRowDelete).toHaveBeenCalledWith({
           id: '1',
@@ -750,11 +750,11 @@ describe('List View Grid Component', () => {
         fixture.detectChanges();
         tick();
         expect(
-          fixture.componentInstance.cancelRowDelete
+          fixture.componentInstance.cancelRowDelete,
         ).not.toHaveBeenCalled();
         (
           document.querySelectorAll(
-            '.sky-inline-delete .sky-btn-default'
+            '.sky-inline-delete .sky-btn-default',
           )[0] as HTMLElement
         ).click();
         fixture.detectChanges();
@@ -766,7 +766,7 @@ describe('List View Grid Component', () => {
           id: '1',
         });
         expect(
-          fixture.componentInstance.finishRowDelete
+          fixture.componentInstance.finishRowDelete,
         ).not.toHaveBeenCalled();
       }));
     });
@@ -784,27 +784,27 @@ describe('List View Grid Component', () => {
         expect(
           element
             .query(By.css('th[sky-cmp-id="column1"]'))
-            .nativeElement.textContent.trim()
+            .nativeElement.textContent.trim(),
         ).toBe('Column1');
         expect(
           element
             .query(By.css('th[sky-cmp-id="column2"]'))
-            .nativeElement.textContent.trim()
+            .nativeElement.textContent.trim(),
         ).toBe('Column2');
         expect(
           element
             .query(By.css('th[sky-cmp-id="column3"]'))
-            .nativeElement.textContent.trim()
+            .nativeElement.textContent.trim(),
         ).toBe('Column3');
         expect(
           element
             .query(By.css('th[sky-cmp-id="hiddenCol1"]'))
-            .nativeElement.textContent.trim()
+            .nativeElement.textContent.trim(),
         ).toBe('Column6');
         expect(
           element
             .query(By.css('th[sky-cmp-id="hiddenCol2"]'))
-            .nativeElement.textContent.trim()
+            .nativeElement.textContent.trim(),
         ).toBe('Column7');
       }));
 

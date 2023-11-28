@@ -54,7 +54,7 @@ export class SkyDateService implements OnDestroy {
   public format(
     value: any,
     locale?: string,
-    format?: string
+    format?: string,
   ): string | undefined {
     let date: Date;
     const pattern = format || this.#defaultFormat;
@@ -81,7 +81,7 @@ export class SkyDateService implements OnDestroy {
     return SkyIntlDateFormatter.format(
       date,
       locale || this.#defaultLocale,
-      this.#ALIASES[pattern] || pattern
+      this.#ALIASES[pattern] || pattern,
     );
   }
 }

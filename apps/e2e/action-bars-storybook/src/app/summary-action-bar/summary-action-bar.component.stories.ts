@@ -14,7 +14,7 @@ export default {
   ],
 } as Meta<SummaryActionBarComponent>;
 const SummaryActionBar: StoryFn<SummaryActionBarComponent> = (
-  args: SummaryActionBarComponent
+  args: SummaryActionBarComponent,
 ) => ({
   props: args,
 });

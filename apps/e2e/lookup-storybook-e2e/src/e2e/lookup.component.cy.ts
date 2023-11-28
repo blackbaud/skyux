@@ -13,9 +13,12 @@ describe('lookup-storybook', () => {
           beforeEach(() =>
             cy
               .visit(
-                `/iframe.html?globals=theme:${theme}&id=lookupcomponent-lookup--lookup-${mode}`
+                `/iframe.html?globals=theme:${theme}&id=lookupcomponent-lookup--lookup-${mode}`,
               )
               .viewport(1300, 900)
+              .get('#ready')
+              .should('exist')
+              .end(),
           );
           it(`should render the component`, () => {
             cy.get('app-lookup')
@@ -26,7 +29,7 @@ describe('lookup-storybook', () => {
                 `lookupcomponent-lookup--lookup-${mode}-${theme}`,
                 {
                   widths: E2eVariations.DISPLAY_WIDTHS,
-                }
+                },
               );
           });
         });
@@ -36,9 +39,9 @@ describe('lookup-storybook', () => {
           beforeEach(() =>
             cy
               .visit(
-                `/iframe.html?globals=theme:${theme}&id=lookupcomponent-lookup--lookup-${mode}`
+                `/iframe.html?globals=theme:${theme}&id=lookupcomponent-lookup--lookup-${mode}`,
               )
-              .viewport(1300, 900)
+              .viewport(1300, 900),
           );
           describe('with show more enabled', () => {
             it('should render show more dropdown with filtering', () => {
@@ -57,13 +60,13 @@ describe('lookup-storybook', () => {
 
               cy.get('app-lookup')
                 .screenshot(
-                  `lookupcomponent-lookup--lookup-${mode}-show-more-dropdown-with-filtering-${theme}`
+                  `lookupcomponent-lookup--lookup-${mode}-show-more-dropdown-with-filtering-${theme}`,
                 )
                 .percySnapshot(
                   `lookupcomponent-lookup--lookup-${mode}-show-more-dropdown-with-filtering-${theme}`,
                   {
                     widths: E2eVariations.DISPLAY_WIDTHS,
-                  }
+                  },
                 );
             });
             it('should render show more dropdown without filtering', () => {
@@ -82,13 +85,13 @@ describe('lookup-storybook', () => {
 
               cy.get('app-lookup')
                 .screenshot(
-                  `lookupcomponent-lookup--lookup-${mode}-show-more-dropdown-no-filtering-${theme}`
+                  `lookupcomponent-lookup--lookup-${mode}-show-more-dropdown-no-filtering-${theme}`,
                 )
                 .percySnapshot(
                   `lookupcomponent-lookup--lookup-${mode}-show-more-dropdown-no-filtering-${theme}`,
                   {
                     widths: E2eVariations.DISPLAY_WIDTHS,
-                  }
+                  },
                 );
             });
             it('should render show more dropdown with no results', () => {
@@ -107,13 +110,13 @@ describe('lookup-storybook', () => {
 
               cy.get('app-lookup')
                 .screenshot(
-                  `lookupcomponent-lookup--lookup-${mode}-show-more-dropdown-no-results-${theme}`
+                  `lookupcomponent-lookup--lookup-${mode}-show-more-dropdown-no-results-${theme}`,
                 )
                 .percySnapshot(
                   `lookupcomponent-lookup--lookup-${mode}-show-more-dropdown-no-results-${theme}`,
                   {
                     widths: E2eVariations.DISPLAY_WIDTHS,
-                  }
+                  },
                 );
             });
             it('should render show more dropdown add button', () => {
@@ -131,13 +134,13 @@ describe('lookup-storybook', () => {
 
               cy.get('app-lookup')
                 .screenshot(
-                  `lookupcomponent-lookup--lookup-${mode}-show-more-dropdown-add-more-button-${theme}`
+                  `lookupcomponent-lookup--lookup-${mode}-show-more-dropdown-add-more-button-${theme}`,
                 )
                 .percySnapshot(
                   `lookupcomponent-lookup--lookup-${mode}-show-more-dropdown-add-more-button-${theme}`,
                   {
                     widths: E2eVariations.DISPLAY_WIDTHS,
-                  }
+                  },
                 );
             });
             describe('in show more modal', () => {
@@ -159,13 +162,13 @@ describe('lookup-storybook', () => {
 
                 cy.get('app-lookup')
                   .screenshot(
-                    `lookupcomponent-lookup--lookup-${mode}-show-more-modal-${theme}`
+                    `lookupcomponent-lookup--lookup-${mode}-show-more-modal-${theme}`,
                   )
                   .percySnapshot(
                     `lookupcomponent-lookup--lookup-${mode}-show-more-modal-${theme}`,
                     {
                       widths: E2eVariations.DISPLAY_WIDTHS,
-                    }
+                    },
                   );
               });
               it('should open and render modal with add more', () => {
@@ -186,13 +189,13 @@ describe('lookup-storybook', () => {
 
                 cy.get('app-lookup')
                   .screenshot(
-                    `lookupcomponent-lookup--lookup-${mode}-show-more-modal-add-more-${theme}`
+                    `lookupcomponent-lookup--lookup-${mode}-show-more-modal-add-more-${theme}`,
                   )
                   .percySnapshot(
                     `lookupcomponent-lookup--lookup-${mode}-show-more-modal-add-more-${theme}`,
                     {
                       widths: E2eVariations.DISPLAY_WIDTHS,
-                    }
+                    },
                   );
               });
               it('should open and render modal with preselected values', () => {
@@ -213,13 +216,13 @@ describe('lookup-storybook', () => {
 
                 cy.get('app-lookup')
                   .screenshot(
-                    `lookupcomponent-lookup--lookup-${mode}-show-more-modal-preselected-values-${theme}`
+                    `lookupcomponent-lookup--lookup-${mode}-show-more-modal-preselected-values-${theme}`,
                   )
                   .percySnapshot(
                     `lookupcomponent-lookup--lookup-${mode}-show-more-modal-preselected-values-${theme}`,
                     {
                       widths: E2eVariations.DISPLAY_WIDTHS,
-                    }
+                    },
                   );
               });
             });

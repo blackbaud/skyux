@@ -8,7 +8,11 @@ import {
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
+import {
+  SkyContentInfoProvider,
+  SkyMediaBreakpoints,
+  SkyMediaQueryService,
+} from '@skyux/core';
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
 import {
   SkyTheme,
@@ -28,6 +32,7 @@ describe('Search component', () => {
   let fixture: ComponentFixture<SearchTestComponent>;
   let component: SearchTestComponent;
   let element: DebugElement;
+  let contentInfoProvider: SkyContentInfoProvider;
   let mockMediaQueryService: MockSkyMediaQueryService;
   let mockThemeSvc: { settingsChange: BehaviorSubject<SkyThemeSettingsChange> };
 
@@ -36,7 +41,7 @@ describe('Search component', () => {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.default,
-          SkyThemeMode.presets.light
+          SkyThemeMode.presets.light,
         ),
         previousSettings: undefined,
       }),
@@ -56,6 +61,7 @@ describe('Search component', () => {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
         },
+        SkyContentInfoProvider,
       ],
     });
 
@@ -71,6 +77,8 @@ describe('Search component', () => {
     }).createComponent(SearchTestComponent);
     component = fixture.componentInstance;
     element = fixture.debugElement as DebugElement;
+
+    contentInfoProvider = TestBed.inject(SkyContentInfoProvider);
   });
 
   afterEach(() => {
@@ -163,14 +171,14 @@ describe('Search component', () => {
   function verifySearchOpenMobile() {
     fixture.detectChanges();
     const searchDismissContainer = element.query(
-      By.css('.sky-search-dismiss-container')
+      By.css('.sky-search-dismiss-container'),
     );
     expect(
-      element.query(By.css('.sky-search-btn-open')).nativeElement
+      element.query(By.css('.sky-search-btn-open')).nativeElement,
     ).not.toBeVisible();
     expect(searchDismissContainer.nativeElement).toBeVisible();
     expect(searchDismissContainer.nativeElement).toHaveCssClass(
-      'sky-search-dismiss-absolute'
+      'sky-search-dismiss-absolute',
     );
     expect(element.query(By.css('.sky-search-btn-dismiss'))).not.toBeNull();
   }
@@ -178,14 +186,14 @@ describe('Search component', () => {
   function verifySearchOpenFullScreen() {
     fixture.detectChanges();
     const searchDismissContainer = element.query(
-      By.css('.sky-search-dismiss-container')
+      By.css('.sky-search-dismiss-container'),
     );
     expect(
-      element.query(By.css('.sky-search-btn-open')).nativeElement
+      element.query(By.css('.sky-search-btn-open')).nativeElement,
     ).not.toBeVisible();
     expect(searchDismissContainer.nativeElement).toBeVisible();
     expect(searchDismissContainer.nativeElement).not.toHaveCssClass(
-      'sky-search-dismiss-absolute'
+      'sky-search-dismiss-absolute',
     );
     expect(element.query(By.css('.sky-search-btn-dismiss'))).toBeNull();
   }
@@ -193,14 +201,14 @@ describe('Search component', () => {
   function verifySearchOpenFullScreenFullWidth() {
     fixture.detectChanges();
     const searchDismissContainer = element.query(
-      By.css('.sky-search-dismiss-container')
+      By.css('.sky-search-dismiss-container'),
     );
     expect(
-      element.query(By.css('.sky-search-btn-open')).nativeElement
+      element.query(By.css('.sky-search-btn-open')).nativeElement,
     ).not.toBeVisible();
     expect(searchDismissContainer.nativeElement).toBeVisible();
     expect(searchDismissContainer.nativeElement).toHaveCssClass(
-      'sky-search-dismiss-absolute'
+      'sky-search-dismiss-absolute',
     );
     expect(element.query(By.css('.sky-search-btn-dismiss'))).toBeNull();
   }
@@ -208,15 +216,15 @@ describe('Search component', () => {
   function verifySearchClosed() {
     fixture.detectChanges();
     const searchDismissContainer = element.query(
-      By.css('.sky-search-dismiss-container')
+      By.css('.sky-search-dismiss-container'),
     );
 
     expect(
-      element.query(By.css('.sky-search-btn-open')).nativeElement
+      element.query(By.css('.sky-search-btn-open')).nativeElement,
     ).toBeVisible();
     expect(searchDismissContainer.nativeElement).not.toBeVisible();
     expect(searchDismissContainer.nativeElement).not.toHaveCssClass(
-      'sky-search-dismiss-absolute'
+      'sky-search-dismiss-absolute',
     );
   }
 
@@ -267,7 +275,7 @@ describe('Search component', () => {
       fixture.detectChanges();
 
       expect(element.query(By.css('input')).attributes['placeholder']).toBe(
-        'Find in this list'
+        'Find in this list',
       );
     });
 
@@ -275,19 +283,19 @@ describe('Search component', () => {
       component.placeholderText = 'hey ya';
       fixture.detectChanges();
       expect(element.query(By.css('input')).attributes['placeholder']).toBe(
-        'hey ya'
+        'hey ya',
       );
     });
 
     it('should show the clear button when search is applied', () => {
       expect(
-        element.query(By.css('.sky-input-group-clear')).nativeElement
+        element.query(By.css('.sky-input-group-clear')).nativeElement,
       ).not.toBeVisible();
       setInput('applied text');
       triggerApplyButton();
 
       expect(
-        element.query(By.css('.sky-input-group-clear')).nativeElement
+        element.query(By.css('.sky-input-group-clear')).nativeElement,
       ).toBeVisible();
     });
 
@@ -297,7 +305,7 @@ describe('Search component', () => {
       triggerClearButton();
 
       expect(
-        element.query(By.css('.sky-input-group-clear')).nativeElement
+        element.query(By.css('.sky-input-group-clear')).nativeElement,
       ).not.toBeVisible();
       expect(component.lastSearchTextApplied).toBe('');
       expect(component.lastSearchTextChanged).toBe('');
@@ -310,7 +318,7 @@ describe('Search component', () => {
       triggerClearButton();
 
       expect(
-        element.query(By.css('.sky-input-group-clear')).nativeElement
+        element.query(By.css('.sky-input-group-clear')).nativeElement,
       ).not.toBeVisible();
       expect(component.searchComponent.searchClear.emit).toHaveBeenCalled();
     });
@@ -348,7 +356,7 @@ describe('Search component', () => {
       component.searchText = 'whatUp';
       fixture.detectChanges();
       expect(
-        element.query(By.css('.sky-input-group-clear')).nativeElement
+        element.query(By.css('.sky-input-group-clear')).nativeElement,
       ).toBeVisible();
     });
 
@@ -410,7 +418,7 @@ describe('Search component', () => {
           await fixture.whenStable();
           verifySearchOpenMobile();
           expect(element.query(By.css('input')).properties['value']).toBe(
-            'my search text'
+            'my search text',
           );
         });
       });
@@ -437,7 +445,7 @@ describe('Search component', () => {
           await triggerXsBreakpoint();
           fixture.detectChanges();
           expect(
-            element.query(By.css('.sky-search-btn-open')).nativeElement
+            element.query(By.css('.sky-search-btn-open')).nativeElement,
           ).toHaveCssClass('sky-search-btn-open-applied');
         });
       });
@@ -446,13 +454,13 @@ describe('Search component', () => {
         await triggerXsBreakpoint();
         fixture.detectChanges();
         let containerEl: HTMLElement = element.query(
-          By.css('.sky-search-input-container')
+          By.css('.sky-search-input-container'),
         ).nativeElement;
         expect(containerEl.style.minWidth).toBeFalsy();
         await triggerLgBreakpoint();
         verifySearchOpenFullScreen();
         containerEl = element.query(
-          By.css('.sky-search-input-container')
+          By.css('.sky-search-input-container'),
         ).nativeElement;
         expect(containerEl.style.minWidth).toBeFalsy();
       });
@@ -536,6 +544,35 @@ describe('Search component', () => {
       expect(getInput().attributes['aria-labelledby']).toBeUndefined();
     });
 
+    it('should be accessible using default theme at wide and small breakpoints (ariaLabel: "Search constituents" - via content info, ariaLabelledBy: undefined)', async () => {
+      contentInfoProvider.patchInfo({
+        descriptor: { value: 'constituents', type: 'text' },
+      });
+      fixture.detectChanges();
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+      setInput('foo bar');
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+      expect(getInput().attributes['aria-label']).toBe('Search constituents');
+      expect(getInput().attributes['aria-labelledby']).toBeUndefined();
+    });
+
+    it('should be accessible using default theme at wide and small breakpoints (ariaLabel: "Overwritten label" - overwriting content info, ariaLabelledBy: undefined)', async () => {
+      contentInfoProvider.patchInfo({
+        descriptor: { value: 'constituents', type: 'text' },
+      });
+      component.ariaLabel = 'Overwritten label';
+      fixture.detectChanges();
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+      setInput('foo bar');
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+      expect(getInput().attributes['aria-label']).toBe('Overwritten label');
+      expect(getInput().attributes['aria-labelledby']).toBeUndefined();
+    });
+
     it('should be accessible using default theme at wide and small breakpoints (ariaLabel: undefined, ariaLabelledBy: "test-label")', async () => {
       component.ariaLabelledBy = 'test-label';
       fixture.detectChanges();
@@ -552,7 +589,7 @@ describe('Search component', () => {
       mockThemeSvc.settingsChange.next({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.modern,
-          SkyThemeMode.presets.light
+          SkyThemeMode.presets.light,
         ),
         previousSettings: mockThemeSvc.settingsChange.value.currentSettings,
       });
@@ -570,7 +607,7 @@ describe('Search component', () => {
       mockThemeSvc.settingsChange.next({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.modern,
-          SkyThemeMode.presets.light
+          SkyThemeMode.presets.light,
         ),
         previousSettings: mockThemeSvc.settingsChange.value.currentSettings,
       });
@@ -589,7 +626,7 @@ describe('Search component', () => {
       mockThemeSvc.settingsChange.next({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.modern,
-          SkyThemeMode.presets.light
+          SkyThemeMode.presets.light,
         ),
         previousSettings: mockThemeSvc.settingsChange.value.currentSettings,
       });

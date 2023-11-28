@@ -36,7 +36,7 @@ export class WizardModalComponent implements OnInit {
 
   constructor(
     public instance: SkyModalInstance,
-    formBuilder: UntypedFormBuilder
+    formBuilder: UntypedFormBuilder,
   ) {
     this.#formBuilder = formBuilder;
 

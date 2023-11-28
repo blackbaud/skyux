@@ -308,7 +308,7 @@ describe('Tabset navigation button', () => {
       fixture.detectChanges();
 
       expect(errorLogSpy).toHaveBeenCalledWith(
-        'The SkyTabsetNavButtonComponent requires a reference to the SkyTabsetComponent it controls.'
+        'The SkyTabsetNavButtonComponent requires a reference to the SkyTabsetComponent it controls.',
       );
     });
   });

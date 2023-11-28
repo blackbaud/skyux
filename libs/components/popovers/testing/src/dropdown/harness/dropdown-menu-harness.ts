@@ -22,7 +22,7 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
    * `SkyDropdownMenuHarness` that meets certain criteria.
    */
   public static with(
-    filters: SkyDropdownMenuHarnessFilters
+    filters: SkyDropdownMenuHarnessFilters,
   ): HarnessPredicate<SkyDropdownMenuHarness> {
     return new HarnessPredicate(SkyDropdownMenuHarness, filters);
   }
@@ -53,22 +53,22 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
    * @param filters Optional filter for which menu items to return
    */
   public async getItems(
-    filters?: SkyDropdownItemHarnessFilters
+    filters?: SkyDropdownItemHarnessFilters,
   ): Promise<SkyDropdownItemHarness[]> {
     const harnesses = await this.locatorForAll(
-      SkyDropdownItemHarness.with(filters || {})
+      SkyDropdownItemHarness.with(filters || {}),
     )();
 
     if (harnesses.length === 0) {
       if (filters) {
         throw new Error(
           `Unable to find dropdown menu item(s) with filter(s): ${JSON.stringify(
-            filters
-          )}.`
+            filters,
+          )}.`,
         );
       } else {
         throw new Error(
-          'Unable to retrieve item(s) because dropdown menu is empty.'
+          'Unable to retrieve item(s) because dropdown menu is empty.',
         );
       }
     }
@@ -81,7 +81,7 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
    * @param filters filter for which menu item to return
    */
   public async getItem(
-    filters: SkyDropdownItemHarnessFilters
+    filters: SkyDropdownItemHarnessFilters,
   ): Promise<SkyDropdownItemHarness> {
     const harnesses = await this.getItems(filters);
     return harnesses[0];

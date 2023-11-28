@@ -5,7 +5,7 @@ describe('Date range picker', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() => {
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=daterangepickercomponent-daterangepicker--date-range-picker`
+          `/iframe.html?globals=theme:${theme}&id=daterangepickercomponent-daterangepicker--date-range-picker`,
         );
         cy.get('app-date-range-picker')
           .should('exist')

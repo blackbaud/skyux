@@ -41,7 +41,7 @@ export class SkyPagingFixture {
     this.#_debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
-      'sky-paging'
+      'sky-paging',
     );
 
     this.#waitForComponentInitialization();
@@ -93,7 +93,7 @@ export class SkyPagingFixture {
 
   get #activePageButton(): HTMLButtonElement {
     return this.#_debugEl.query(
-      By.css('.sky-list-paging-link .sky-paging-current')
+      By.css('.sky-list-paging-link .sky-paging-current'),
     )?.nativeElement as HTMLButtonElement;
   }
 
@@ -104,7 +104,7 @@ export class SkyPagingFixture {
 
   get #previousPageButton(): HTMLButtonElement {
     return this.#_debugEl.query(
-      By.css('.sky-paging-btn[sky-cmp-id="previous"]')
+      By.css('.sky-paging-btn[sky-cmp-id="previous"]'),
     )?.nativeElement as HTMLButtonElement;
   }
 
@@ -114,7 +114,7 @@ export class SkyPagingFixture {
 
   #getPageLink(id: string): HTMLButtonElement {
     return this.#_debugEl.query(
-      By.css(`.sky-list-paging-link button[sky-cmp-id="${id}"]`)
+      By.css(`.sky-list-paging-link button[sky-cmp-id="${id}"]`),
     )?.nativeElement as HTMLButtonElement;
   }
 

@@ -14,13 +14,13 @@ import { FormsModule } from '@angular/forms';
 import { SkyAppWindowRef } from '@skyux/core';
 import { SkyIconModule } from '@skyux/indicators';
 import {
+  SkyListFilterInlineModel,
   SkyListFiltersModule,
   SkyListModule,
   SkyListPagingModule,
   SkyListToolbarComponent,
   SkyListToolbarModule,
 } from '@skyux/list-builder';
-import { SkyListFilterInlineModel } from '@skyux/list-builder';
 import { ListItemModel } from '@skyux/list-builder-common';
 import {
   SkyListViewChecklistComponent,
@@ -113,7 +113,7 @@ export class SkySelectFieldPickerComponent
     private context: SkySelectFieldPickerContext,
     private instance: SkyModalInstance,
     private elementRef: ElementRef,
-    private windowRef: SkyAppWindowRef
+    private windowRef: SkyAppWindowRef,
   ) {}
 
   public ngOnInit() {
@@ -189,7 +189,7 @@ export class SkySelectFieldPickerComponent
       this.categories = allCategories.filter(
         (category: string, i: number, categories: string[]) => {
           return category && categories.indexOf(category) === i;
-        }
+        },
       );
     });
   }

@@ -14,7 +14,8 @@
       },
       "configurations": {
         "ci": {
-          "skipServe": true
+          "devServerTarget": "indicators-storybook:storybook:ci",
+          "browser": "chrome"
         }
       }
     },

@@ -18,7 +18,7 @@ const routes: Route[] = [
     path: 'vertical-tabs',
     loadChildren: () =>
       import('./vertical-tabs/vertical-tabs.module').then(
-        (m) => m.VerticalTabsModule
+        (m) => m.VerticalTabsModule,
       ),
   },
 ];

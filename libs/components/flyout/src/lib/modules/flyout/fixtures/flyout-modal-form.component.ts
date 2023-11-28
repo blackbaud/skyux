@@ -14,6 +14,6 @@ export class SkyFlyoutModalFixtureFormComponent {
   constructor(
     @Inject(SKY_FLYOUT_MODAL_CONTEXT)
     public context: SkyFlyoutModalFixtureContext,
-    public instance: SkyModalInstance
+    public instance: SkyModalInstance,
   ) {}
 }

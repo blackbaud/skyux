@@ -12,7 +12,7 @@ import { ListViewChecklistItemsOrchestrator } from './items/items.orchestrator';
 export class ChecklistState extends StateNode<ChecklistStateModel> {
   constructor(
     initialState: ChecklistStateModel,
-    dispatcher: ChecklistStateDispatcher
+    dispatcher: ChecklistStateDispatcher,
   ) {
     super(initialState, dispatcher);
 

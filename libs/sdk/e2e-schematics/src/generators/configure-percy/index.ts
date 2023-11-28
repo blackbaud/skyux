@@ -17,7 +17,7 @@ export default async function (tree: Tree, schema: Schema) {
       tree,
       joinPathFragments(__dirname, 'files'),
       project.root,
-      {}
+      {},
     );
     const filePath = joinPathFragments(project.root, 'src/support/e2e.ts');
     const importPercyCypress = `import` + ` '@percy/cypress';`;

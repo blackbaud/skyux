@@ -20,7 +20,7 @@ export class SkyConfirmHarness extends SkyComponentHarness {
    * Clicks a confirm button.
    */
   public async clickCustomButton(
-    filters: SkyConfirmButtonHarnessFilters
+    filters: SkyConfirmButtonHarnessFilters,
   ): Promise<void> {
     const buttons = await this.getCustomButtons(filters);
 
@@ -30,8 +30,8 @@ export class SkyConfirmHarness extends SkyComponentHarness {
       }
       throw new Error(
         `More than one button matches the filter(s): ${JSON.stringify(
-          filters
-        )}.`
+          filters,
+        )}.`,
       );
     }
     await buttons[0].click();
@@ -61,7 +61,7 @@ export class SkyConfirmHarness extends SkyComponentHarness {
    * Gets the confirm component's custom buttons.
    */
   public async getCustomButtons(
-    filters?: SkyConfirmButtonHarnessFilters
+    filters?: SkyConfirmButtonHarnessFilters,
   ): Promise<SkyConfirmButtonHarness[]> {
     const confirmType = await this.getType();
 
@@ -70,7 +70,7 @@ export class SkyConfirmHarness extends SkyComponentHarness {
     }
 
     const harnesses = await this.#queryHarnesses(
-      SkyConfirmButtonHarness.with(filters || {})
+      SkyConfirmButtonHarness.with(filters || {}),
     );
 
     if (filters && harnesses.length === 0) {
@@ -80,7 +80,9 @@ export class SkyConfirmHarness extends SkyComponentHarness {
       }
 
       throw new Error(
-        `Could not find buttons matching filter(s): ${JSON.stringify(filters)}.`
+        `Could not find buttons matching filter(s): ${JSON.stringify(
+          filters,
+        )}.`,
       );
     }
 
@@ -111,7 +113,7 @@ export class SkyConfirmHarness extends SkyComponentHarness {
    */
   public async isWhiteSpacePreserved(): Promise<boolean> {
     return (await this.#getMessageEl()).hasClass(
-      'sky-confirm-preserve-white-space'
+      'sky-confirm-preserve-white-space',
     );
   }
 
@@ -119,7 +121,7 @@ export class SkyConfirmHarness extends SkyComponentHarness {
    * Returns child harnesses.
    */
   async #queryHarnesses<T extends ComponentHarness>(
-    harness: HarnessQuery<T>
+    harness: HarnessQuery<T>,
   ): Promise<T[]> {
     return this.locatorForAll(harness)();
   }

@@ -27,7 +27,7 @@ export class SkySelectionBoxAdapterService {
 
   constructor(
     coreAdapterService: SkyCoreAdapterService,
-    rendererFactory: RendererFactory2
+    rendererFactory: RendererFactory2,
   ) {
     this.#coreAdapterService = coreAdapterService;
     this.#renderer = rendererFactory.createRenderer(undefined, null);
@@ -109,7 +109,7 @@ export class SkySelectionBoxAdapterService {
    */
   public setResponsiveClass(
     element: ElementRef,
-    breakpoint: SkyMediaBreakpoints
+    breakpoint: SkyMediaBreakpoints,
   ): void {
     const nativeEl: HTMLElement = element.nativeElement;
 

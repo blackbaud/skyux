@@ -7,8 +7,8 @@ describe('a11y-storybook', () => {
         cy
           .viewport(500, 200)
           .visit(
-            `/iframe.html?globals=theme:${theme}&id=skiplinkcomponent-skiplink--skip-link`
-          )
+            `/iframe.html?globals=theme:${theme}&id=skiplinkcomponent-skiplink--skip-link`,
+          ),
       );
       it('should render the component', () => {
         cy.get('#ready')

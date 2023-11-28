@@ -18,7 +18,7 @@ export abstract class SkyRecentlyAccessedService {
    * @param args The route to add.
    */
   public abstract addRoute(
-    args: SkyRecentlyAccessedAddRouteArgs
+    args: SkyRecentlyAccessedAddRouteArgs,
   ): Observable<SkyRecentlyAccessedAddLinkResult>;
 
   /**
@@ -26,7 +26,7 @@ export abstract class SkyRecentlyAccessedService {
    * @param args The link to add.
    */
   public abstract addLink(
-    args: SkyRecentlyAccessedAddLinkArgs
+    args: SkyRecentlyAccessedAddLinkArgs,
   ): Observable<SkyRecentlyAccessedAddLinkResult>;
 
   /**
@@ -34,6 +34,6 @@ export abstract class SkyRecentlyAccessedService {
    * @param args The links to retrieve.
    */
   public abstract getLinks(
-    args: SkyRecentlyAccessedGetLinksArgs
+    args: SkyRecentlyAccessedGetLinksArgs,
   ): Observable<SkyRecentlyAccessedLinkList>;
 }

@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './sort.component.fixture.html',
 })
 export class SortTestComponent implements OnInit {
+  public ariaLabel: string | undefined;
   public initialState: number | undefined;
   public showButtonText = false;
   public sortOptions = [

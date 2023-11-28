@@ -55,7 +55,7 @@ export class SkySkipLinkService {
       SkySkipLinkHostComponent,
       {
         location: SkyDynamicComponentLocation.BodyTop,
-      }
+      },
     );
 
     return componentRef;

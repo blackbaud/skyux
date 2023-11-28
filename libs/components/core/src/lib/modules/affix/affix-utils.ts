@@ -1,7 +1,7 @@
 import { SkyAffixPlacement } from './affix-placement';
 
 export function getNextPlacement(
-  placement: SkyAffixPlacement
+  placement: SkyAffixPlacement,
 ): SkyAffixPlacement {
   const placements: SkyAffixPlacement[] = ['above', 'right', 'below', 'left'];
 
@@ -14,7 +14,7 @@ export function getNextPlacement(
 }
 
 export function getInversePlacement(
-  placement: SkyAffixPlacement
+  placement: SkyAffixPlacement,
 ): SkyAffixPlacement {
   const pairings: { [_: string]: SkyAffixPlacement } = {
     above: 'below',

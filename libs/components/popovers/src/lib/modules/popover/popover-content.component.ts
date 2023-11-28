@@ -140,7 +140,7 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     coreAdapterService: SkyCoreAdapterService,
     adapterService: SkyPopoverAdapterService,
     context: SkyPopoverContext,
-    @Optional() themeSvc?: SkyThemeService
+    @Optional() themeSvc?: SkyThemeService,
   ) {
     this.#changeDetector = changeDetector;
     this.#elementRef = elementRef;
@@ -205,7 +205,7 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
       placement: SkyPopoverPlacement;
       popoverTitle?: string;
       popoverType: SkyPopoverType;
-    }
+    },
   ): void {
     this.#caller = caller;
     this.dismissOnBlur = config.dismissOnBlur;
@@ -243,7 +243,7 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
         autoFitContext: SkyAffixAutoFitContext.Viewport,
         enableAutoFit: true,
         horizontalAlignment: parseAffixHorizontalAlignment(
-          this.horizontalAlignment
+          this.horizontalAlignment,
         ),
         isSticky: true,
         placement: parseAffixPlacement(this.placement as SkyPopoverPlacement),
@@ -276,7 +276,7 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
       this.#coreAdapterService.getFocusableChildrenAndApplyFocus(
         this.popoverRef,
         '.sky-popover',
-        true
+        true,
       );
     }
   }
@@ -319,7 +319,7 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
           popoverArrow: this.arrowRef,
         },
         this.placement,
-        this.themeName
+        this.themeName,
       );
 
       this.arrowTop = top;
@@ -329,7 +329,7 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
 
   #isFocusLeavingElement(event: KeyboardEvent): boolean {
     const focusableItems = this.#coreAdapterService.getFocusableChildren(
-      this.#elementRef.nativeElement
+      this.#elementRef.nativeElement,
     );
 
     const isFirstItem = focusableItems[0] === event.target && event.shiftKey;

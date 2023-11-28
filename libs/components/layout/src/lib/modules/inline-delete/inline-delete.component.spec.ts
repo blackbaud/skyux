@@ -58,24 +58,24 @@ describe('Inline delete component', () => {
     expect(
       (
         el.querySelector('.sky-inline-delete') as HTMLElement
-      ).classList.contains('sky-inline-delete-standard')
+      ).classList.contains('sky-inline-delete-standard'),
     ).toBeTruthy();
     expect(
       (
         el.querySelector('.sky-inline-delete') as HTMLElement
-      ).classList.contains('sky-inline-delete-card')
+      ).classList.contains('sky-inline-delete-card'),
     ).toBeFalsy();
     cmp.inlineDelete.setType(SkyInlineDeleteType.Card);
     fixture.detectChanges();
     expect(
       (
         el.querySelector('.sky-inline-delete') as HTMLElement
-      ).classList.contains('sky-inline-delete-standard')
+      ).classList.contains('sky-inline-delete-standard'),
     ).toBeFalsy();
     expect(
       (
         el.querySelector('.sky-inline-delete') as HTMLElement
-      ).classList.contains('sky-inline-delete-card')
+      ).classList.contains('sky-inline-delete-card'),
     ).toBeTruthy();
   }));
 
@@ -112,7 +112,7 @@ describe('Inline delete component', () => {
           customEventInit: {
             relatedTarget: document.body,
           },
-        }
+        },
       );
       fixture.detectChanges();
       expect(document.activeElement).toBe(el.querySelector('.sky-btn-danger'));
@@ -130,7 +130,7 @@ describe('Inline delete component', () => {
           customEventInit: {
             relatedTarget: el.querySelector('.sky-btn-danger'),
           },
-        }
+        },
       );
       fixture.detectChanges();
       expect(document.activeElement).toBe(el.querySelector('#noop-button-1'));
@@ -148,11 +148,11 @@ describe('Inline delete component', () => {
           customEventInit: {
             relatedTarget: el.querySelector('.sky-btn-danger'),
           },
-        }
+        },
       );
       fixture.detectChanges();
       expect(document.activeElement).toBe(
-        el.querySelector('.sky-inline-delete .sky-btn-default')
+        el.querySelector('.sky-inline-delete .sky-btn-default'),
       );
     }));
 
@@ -169,11 +169,11 @@ describe('Inline delete component', () => {
           customEventInit: {
             relatedTarget: el.querySelector('.sky-btn-danger'),
           },
-        }
+        },
       );
       fixture.detectChanges();
       expect(document.activeElement).toBe(
-        el.querySelector('#inline-delete-fixture')
+        el.querySelector('#inline-delete-fixture'),
       );
     }));
   });

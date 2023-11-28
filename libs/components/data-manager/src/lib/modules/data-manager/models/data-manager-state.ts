@@ -90,7 +90,7 @@ export class SkyDataManagerState {
    */
   public addOrUpdateView(
     viewId: string,
-    view: SkyDataViewState
+    view: SkyDataViewState,
   ): SkyDataManagerState {
     const existingViewIndex = this.views.findIndex((v) => v.viewId === viewId);
 

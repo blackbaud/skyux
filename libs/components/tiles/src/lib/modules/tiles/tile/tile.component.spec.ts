@@ -41,7 +41,7 @@ describe('Tile component', () => {
   }
 
   function getSettingsButton(
-    fixture: ComponentFixture<any>
+    fixture: ComponentFixture<any>,
   ): HTMLButtonElement {
     return fixture.nativeElement.querySelector('.sky-tile-settings');
   }
@@ -51,7 +51,7 @@ describe('Tile component', () => {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.default,
-          SkyThemeMode.presets.light
+          SkyThemeMode.presets.light,
         ),
         previousSettings: undefined,
       }),
@@ -177,7 +177,7 @@ describe('Tile component', () => {
     const el = fixture.nativeElement;
     const dashboardSpy = spyOn(
       mockTileDashboardService,
-      'setTileCollapsed'
+      'setTileCollapsed',
     ).and.callThrough();
 
     fixture.detectChanges();
@@ -190,7 +190,7 @@ describe('Tile component', () => {
 
     expect(dashboardSpy).toHaveBeenCalledWith(
       jasmine.any(SkyTileComponent),
-      true
+      true,
     );
   });
 
@@ -362,7 +362,7 @@ describe('Tile component', () => {
     const settingsButton = getSettingsButton(fixture);
     expect(helpButton.getAttribute('aria-label')).toEqual('Help');
     expect(expandButton.getAttribute('aria-label')).toEqual(
-      'Expand or collapse'
+      'Expand or collapse',
     );
     expect(moveButton.getAttribute('aria-label')).toEqual('Move');
     expect(settingsButton.getAttribute('aria-label')).toEqual('Settings');
@@ -383,7 +383,7 @@ describe('Tile component', () => {
     const settingsButton = getSettingsButton(fixture);
     expect(helpButton.getAttribute('aria-label')).toEqual('Users help');
     expect(expandButton.getAttribute('aria-label')).toEqual(
-      'Expand or collapse Users'
+      'Expand or collapse Users',
     );
     expect(moveButton.getAttribute('aria-label')).toEqual('Move Users');
     expect(settingsButton.getAttribute('aria-label')).toEqual('Users settings');

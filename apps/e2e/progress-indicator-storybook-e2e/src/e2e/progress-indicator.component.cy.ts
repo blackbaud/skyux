@@ -5,21 +5,21 @@ describe('progress-indicator-storybook', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=progressindicatorcomponent-progressindicator--progress-indicator`
-        )
+          `/iframe.html?globals=theme:${theme}&id=progressindicatorcomponent-progressindicator--progress-indicator`,
+        ),
       );
       it('should render the component', () => {
         cy.get('app-progress-indicator')
           .should('exist')
           .should('be.visible')
           .screenshot(
-            `progressindicatorcomponent-progressindicator--progress-indicator-${theme}`
+            `progressindicatorcomponent-progressindicator--progress-indicator-${theme}`,
           )
           .percySnapshot(
             `progressindicatorcomponent-progressindicator--progress-indicator-${theme}`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
-            }
+            },
           );
       });
     });

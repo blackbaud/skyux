@@ -10,6 +10,6 @@ import { SkyModalHostContextArgs } from './modal-host-context-args';
 @Injectable()
 export class SkyModalHostContext {
   constructor(
-    @Inject('SkyModalHostContextArgs') public args: SkyModalHostContextArgs
+    @Inject('SkyModalHostContextArgs') public args: SkyModalHostContextArgs,
   ) {}
 }

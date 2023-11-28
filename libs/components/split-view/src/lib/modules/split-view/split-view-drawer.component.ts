@@ -114,7 +114,7 @@ export class SkySplitViewDrawerComponent
     elementRef: ElementRef,
     splitViewMediaQuerySvc: SkySplitViewMediaQueryService,
     splitViewSvc: SkySplitViewService,
-    windowRef: SkyAppWindowRef
+    windowRef: SkyAppWindowRef,
   ) {
     this.#changeDetectorRef = changeDetectorRef;
     this.#coreAdapterService = coreAdapterService;
@@ -153,7 +153,7 @@ export class SkySplitViewDrawerComponent
     if (
       this.#splitViewMediaQuerySvc.isWidthWithinBreakpoint(
         window.innerWidth,
-        SkyMediaBreakpoints.xs
+        SkyMediaBreakpoints.xs,
       )
     ) {
       return;
@@ -170,7 +170,7 @@ export class SkySplitViewDrawerComponent
         takeUntil(this.#ngUnsubscribe),
         takeWhile(() => {
           return this.#isDragging;
-        })
+        }),
       )
       .subscribe((moveEvent) => {
         this.onMouseMove(moveEvent);
@@ -181,7 +181,7 @@ export class SkySplitViewDrawerComponent
         takeUntil(this.#ngUnsubscribe),
         takeWhile(() => {
           return this.#isDragging;
-        })
+        }),
       )
       .subscribe(() => {
         this.onHandleRelease();
@@ -240,14 +240,14 @@ export class SkySplitViewDrawerComponent
     const newDrawerBreakpoint = this.#splitViewMediaQuerySvc.current;
     this.#coreAdapterService.setResponsiveContainerClass(
       this.#elementRef,
-      newDrawerBreakpoint
+      newDrawerBreakpoint,
     );
   }
 
   #setMaxWidth(): void {
     const splitView =
       this.#splitViewSvc.splitViewElementRef?.nativeElement.querySelector(
-        '.sky-split-view'
+        '.sky-split-view',
       );
     this.widthMax = splitView.clientWidth - this.widthTolerance;
   }

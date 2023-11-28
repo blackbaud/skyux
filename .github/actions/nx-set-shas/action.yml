@@ -14,6 +14,9 @@ outputs:
   pr-number:
     description: 'The PR number for all events, including workflow_dispatch.'
     value: ${{ steps.workflow-dispatch.outputs.pr-number || github.event.number }}
+  pr-labels:
+    description: 'The PR labels for all events, including workflow_dispatch.'
+    value: ${{ steps.workflow-dispatch.outputs.pr-labels || toJson( github.event.pull_request.labels.*.name ) }}
 runs:
   using: 'composite'
   steps:
@@ -47,6 +50,7 @@ runs:
           if (pullRequests.data.length > 0) {
             core.setOutput('pr-number', pullRequests.data[0].number);
             core.setOutput('pr-created_at', pullRequests.data[0].created_at);
+            core.setOutput('pr-labels', JSON.stringify(pullRequests.data[0].labels.map(label => label.name)));
           } else {
             core.setFailed(`Unable to find an open PR for branch ${process.env.GITHUB_REF_NAME}`);
             process.exit(1);

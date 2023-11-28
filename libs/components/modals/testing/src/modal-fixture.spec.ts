@@ -176,7 +176,7 @@ describe('Modal fixture', () => {
     fixture.detectChanges();
 
     expect(() => modal.ariaDescribedBy).toThrowError(
-      'Modal element no longer exists. Was the modal closed?'
+      'Modal element no longer exists. Was the modal closed?',
     );
   }));
 
@@ -194,7 +194,7 @@ describe('Modal fixture', () => {
     fixture.detectChanges();
 
     expect(() => modal.ariaLabelledBy).toThrowError(
-      'Modal element no longer exists. Was the modal closed?'
+      'Modal element no longer exists. Was the modal closed?',
     );
   }));
 
@@ -212,7 +212,7 @@ describe('Modal fixture', () => {
     fixture.detectChanges();
 
     expect(() => modal.ariaRole).toThrowError(
-      'Modal element no longer exists. Was the modal closed?'
+      'Modal element no longer exists. Was the modal closed?',
     );
   }));
 
@@ -231,7 +231,7 @@ describe('Modal fixture', () => {
     fixture.detectChanges();
 
     expect(() => modal.fullPage).toThrowError(
-      'Modal element no longer exists. Was the modal closed?'
+      'Modal element no longer exists. Was the modal closed?',
     );
   }));
 
@@ -250,7 +250,7 @@ describe('Modal fixture', () => {
     fixture.detectChanges();
 
     expect(() => modal.size).toThrowError(
-      'Modal element no longer exists. Was the modal closed?'
+      'Modal element no longer exists. Was the modal closed?',
     );
   }));
 
@@ -268,7 +268,7 @@ describe('Modal fixture', () => {
     fixture.detectChanges();
 
     expect(() => modal.tiledBody).toThrowError(
-      'Modal element no longer exists. Was the modal closed?'
+      'Modal element no longer exists. Was the modal closed?',
     );
   }));
 
@@ -278,7 +278,7 @@ describe('Modal fixture', () => {
     modal.clickHeaderCloseButton();
 
     expect(
-      document.querySelector('sky-modal[data-sky-id="test-modal"]')
+      document.querySelector('sky-modal[data-sky-id="test-modal"]'),
     ).toBeNull();
   }));
 
@@ -288,7 +288,7 @@ describe('Modal fixture', () => {
     fixture.componentInstance.closeModal();
 
     expect(() => modal.clickHeaderCloseButton()).toThrowError(
-      'Modal element no longer exists. Was the modal closed?'
+      'Modal element no longer exists. Was the modal closed?',
     );
   }));
 
@@ -297,7 +297,7 @@ describe('Modal fixture', () => {
     const modal = launchTestModal();
 
     expect(() => modal.clickHeaderCloseButton()).toThrowError(
-      'No header close button exists.'
+      'No header close button exists.',
     );
   }));
 
@@ -312,7 +312,7 @@ describe('Modal fixture', () => {
     fixture.detectChanges();
 
     expect(fixture.componentInstance.helpTriggered).toHaveBeenCalledWith(
-      'test-key'
+      'test-key',
     );
   }));
 
@@ -323,7 +323,7 @@ describe('Modal fixture', () => {
     fixture.componentInstance.closeModal();
 
     expect(() => modal.clickHelpButton()).toThrowError(
-      'Modal element no longer exists. Was the modal closed?'
+      'Modal element no longer exists. Was the modal closed?',
     );
   }));
 
@@ -331,7 +331,7 @@ describe('Modal fixture', () => {
     const modal = launchTestModal();
 
     expect(() => modal.clickHelpButton()).toThrowError(
-      'No help button exists.'
+      'No help button exists.',
     );
   }));
 
@@ -341,7 +341,7 @@ describe('Modal fixture', () => {
     const modal = launchTestModal();
 
     expect(() => modal.clickHelpButton()).toThrowError(
-      'No help button exists.'
+      'No help button exists.',
     );
   }));
 
@@ -361,7 +361,7 @@ describe('Modal fixture', () => {
     fixture.detectChanges();
 
     expect(() => modal.getModalDiv()).toThrowError(
-      'Modal element no longer exists. Was the modal closed?'
+      'Modal element no longer exists. Was the modal closed?',
     );
   }));
 
@@ -381,7 +381,7 @@ describe('Modal fixture', () => {
     fixture.detectChanges();
 
     expect(() => modal.getModalContentEl()).toThrowError(
-      'Modal element no longer exists. Was the modal closed?'
+      'Modal element no longer exists. Was the modal closed?',
     );
   }));
 
@@ -401,7 +401,7 @@ describe('Modal fixture', () => {
     fixture.detectChanges();
 
     expect(() => modal.getModalHeaderEl()).toThrowError(
-      'Modal element no longer exists. Was the modal closed?'
+      'Modal element no longer exists. Was the modal closed?',
     );
   }));
 
@@ -421,7 +421,7 @@ describe('Modal fixture', () => {
     fixture.detectChanges();
 
     expect(() => modal.getModalFooterEl()).toThrowError(
-      'Modal element no longer exists. Was the modal closed?'
+      'Modal element no longer exists. Was the modal closed?',
     );
   }));
 });

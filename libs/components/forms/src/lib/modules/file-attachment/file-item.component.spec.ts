@@ -2,6 +2,7 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyLiveAnnouncerService } from '@skyux/core';
 
 import { SkyFileAttachmentsModule } from './file-attachments.module';
 import { SkyFileItem } from './file-item';
@@ -30,19 +31,19 @@ describe('File item component', () => {
 
   function getNameEl(): DebugElement | null {
     return fixture.debugElement.query(
-      By.css('.sky-file-item-title .sky-file-item-name strong')
+      By.css('.sky-file-item-title .sky-file-item-name strong'),
     );
   }
 
   function getSizeEl(): DebugElement | null {
     return fixture.debugElement.query(
-      By.css('.sky-file-item-title .sky-file-item-size')
+      By.css('.sky-file-item-title .sky-file-item-size'),
     );
   }
 
   function triggerDelete(): void {
     const deleteEl = fixture.debugElement.query(
-      By.css('.sky-file-item-btn-delete')
+      By.css('.sky-file-item-btn-delete'),
     );
     deleteEl.nativeElement.click();
     fixture.detectChanges();
@@ -50,7 +51,7 @@ describe('File item component', () => {
 
   function getImage(): DebugElement | null {
     return fixture.debugElement.query(
-      By.css('.sky-file-item-preview-img-container img')
+      By.css('.sky-file-item-preview-img-container img'),
     );
   }
 
@@ -72,14 +73,14 @@ describe('File item component', () => {
 
     const imageEl = getImage();
     expect(imageEl?.nativeElement.getAttribute('src')).toBe(
-      '$/myFile.' + extension
+      '$/myFile.' + extension,
     );
 
     const otherEl = getOtherPreview();
     expect(otherEl).toBeFalsy();
   }
 
-  function testOtherPreview(extension: string, type: string) {
+  function testOtherPreview(extension: string, type: string): void {
     componentInstance.fileItem = {
       file: {
         name: 'myFile.' + extension,
@@ -111,7 +112,7 @@ describe('File item component', () => {
       expectedClassExtension = 'code';
     }
     expect(otherEl?.nativeElement.classList).toContain(
-      'fa-file-' + expectedClassExtension + '-o'
+      'fa-file-' + expectedClassExtension + '-o',
     );
 
     const imageEl = getImage();
@@ -156,19 +157,27 @@ describe('File item component', () => {
   });
 
   it('emits the delete event when the delete button is clicked', () => {
+    const liveAnnouncerSpy = spyOn(
+      TestBed.inject(SkyLiveAnnouncerService),
+      'announce',
+    );
+
     componentInstance.fileItem = {
       url: '$/myFile.txt',
     };
     let deletedItem: SkyFileLink | undefined;
 
     componentInstance.deleteFile.subscribe(
-      (newDeletedFile: SkyFileLink) => (deletedItem = newDeletedFile)
+      (newDeletedFile: SkyFileLink) => (deletedItem = newDeletedFile),
     );
 
     fixture.detectChanges();
     triggerDelete();
 
     expect(deletedItem?.url).toBe('$/myFile.txt');
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      'Link to $/myFile.txt removed.',
+    );
 
     componentInstance.fileItem = {
       file: {
@@ -181,7 +190,7 @@ describe('File item component', () => {
     let deletedFile: SkyFileItem | undefined;
 
     componentInstance.deleteFile.subscribe(
-      (newDeletedFile: SkyFileItem) => (deletedFile = newDeletedFile)
+      (newDeletedFile: SkyFileItem) => (deletedFile = newDeletedFile),
     );
     fixture.detectChanges();
 
@@ -189,6 +198,9 @@ describe('File item component', () => {
 
     expect(deletedFile?.file.name).toBe('myFile.txt');
     expect(deletedFile?.file.size).toBe(1000);
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith('myFile.txt removed.');
+
+    expect(liveAnnouncerSpy.calls.count()).toBe(2);
   });
 
   it('shows an image if the item is an image', () => {

@@ -16,7 +16,7 @@ export class SkyBackToTopDomAdapterService implements OnDestroy {
 
   constructor(
     windowRef: SkyAppWindowRef,
-    scrollableHostService: SkyScrollableHostService
+    scrollableHostService: SkyScrollableHostService,
   ) {
     this.#windowRef = windowRef;
     this.#scrollableHostService = scrollableHostService;
@@ -68,13 +68,13 @@ export class SkyBackToTopDomAdapterService implements OnDestroy {
       // Scroll to top of window, but account for the body margin that allows for the omnibar if it exists.
       const bodyMarginOffset = parseInt(
         getComputedStyle(document.body).marginTop,
-        10
+        10,
       );
       const newOffsetTop =
         elementRef.nativeElement.offsetTop - bodyMarginOffset;
       this.#windowRef.nativeWindow.scrollTo(
         elementRef.nativeElement.offsetLeft,
-        newOffsetTop
+        newOffsetTop,
       );
     } else {
       // Scroll to top of parent element.

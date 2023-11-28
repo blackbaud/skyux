@@ -79,7 +79,7 @@ export class DataManagerLargeComponent implements OnInit {
   constructor(
     private formBuilder: UntypedFormBuilder,
     private dataManagerService: SkyDataManagerService,
-    private agGridService: SkyAgGridService
+    private agGridService: SkyAgGridService,
   ) {
     this.gridSettings = this.formBuilder.group({
       enableTopScroll: this.enableTopScroll,
@@ -107,7 +107,6 @@ export class DataManagerLargeComponent implements OnInit {
       name: 'Grid View',
       icon: 'table',
       searchEnabled: true,
-      sortEnabled: true,
       multiselectToolbarEnabled: true,
       columnPickerEnabled: true,
       filterButtonEnabled: true,

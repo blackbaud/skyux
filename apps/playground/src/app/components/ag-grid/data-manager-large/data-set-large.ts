@@ -244,7 +244,7 @@ export const columnDefinitions: ColDef[] = [
   {
     field: 'credit_line',
     headerName: 'Credit Line',
-    type: [],
+    type: SkyCellType.Text,
     sortable: true,
   },
   {

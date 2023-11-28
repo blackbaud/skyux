@@ -3,4 +3,6 @@
 *::before {
   transition-property: none !important;
   animation: none !important;
+  /* remove blinking input caret from screenshots */
+  caret-color: transparent !important;
 }

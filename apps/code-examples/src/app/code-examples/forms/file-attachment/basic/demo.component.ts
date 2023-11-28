@@ -48,7 +48,7 @@ export class DemoComponent {
 
   #removeFromArray(
     items: (SkyFileItem | SkyFileLink)[],
-    obj: SkyFileItem | SkyFileLink
+    obj: SkyFileItem | SkyFileLink,
   ): void {
     if (items) {
       const index = items.indexOf(obj);

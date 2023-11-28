@@ -25,7 +25,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
    * `SkyAutocompleteHarness` that meets certain criteria.
    */
   public static with(
-    filters: SkyAutocompleteHarnessFilters
+    filters: SkyAutocompleteHarnessFilters,
   ): HarnessPredicate<SkyAutocompleteHarness> {
     return SkyAutocompleteHarness.getDataSkyIdPredicate(filters);
   }
@@ -62,18 +62,18 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
    * Returns search result harnesses.
    */
   public async getSearchResults(
-    filters?: SkyAutocompleteSearchResultHarnessFilters
+    filters?: SkyAutocompleteSearchResultHarnessFilters,
   ): Promise<SkyAutocompleteSearchResultHarness[]> {
     const overlay = await this.#getOverlay();
 
     if (!overlay) {
       throw new Error(
-        'Unable to retrieve search results. The autocomplete is closed.'
+        'Unable to retrieve search results. The autocomplete is closed.',
       );
     }
 
     const harnesses = await overlay.queryHarnesses(
-      SkyAutocompleteSearchResultHarness.with(filters || {})
+      SkyAutocompleteSearchResultHarness.with(filters || {}),
     );
 
     if (filters && harnesses.length === 0) {
@@ -84,8 +84,8 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
 
       throw new Error(
         `Could not find search results matching filter(s): ${JSON.stringify(
-          filters
-        )}`
+          filters,
+        )}`,
       );
     }
 
@@ -96,7 +96,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
    * Returns the text content for each search result.
    */
   public async getSearchResultsText(
-    filters?: SkyAutocompleteSearchResultHarnessFilters
+    filters?: SkyAutocompleteSearchResultHarnessFilters,
   ): Promise<string[]> {
     const harnesses = await this.getSearchResults(filters);
 
@@ -141,7 +141,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
    * Selects a search result.
    */
   public async selectSearchResult(
-    filters: SkyAutocompleteSearchResultHarnessFilters
+    filters: SkyAutocompleteSearchResultHarnessFilters,
   ): Promise<void> {
     const results = await this.getSearchResults(filters);
     if (results && results.length > 0) {
@@ -161,17 +161,17 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
     const overlay = await this.#getOverlay();
     if (!overlay) {
       throw new Error(
-        'Unable to find the "Add" button. The autocomplete is closed.'
+        'Unable to find the "Add" button. The autocomplete is closed.',
       );
     }
 
     const button = await overlay.querySelector(
-      'button.sky-autocomplete-action-add'
+      'button.sky-autocomplete-action-add',
     );
 
     if (!button) {
       throw new Error(
-        'The "Add" button cannot be clicked because it does not exist.'
+        'The "Add" button cannot be clicked because it does not exist.',
       );
     }
 
@@ -192,17 +192,17 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
     if (!overlay) {
       throw new Error(
         'Unable to find the "Show more" button. ' +
-          'The autocomplete is closed.'
+          'The autocomplete is closed.',
       );
     }
 
     const button = await overlay.querySelector(
-      'button.sky-autocomplete-action-more'
+      'button.sky-autocomplete-action-more',
     );
 
     if (!button) {
       throw new Error(
-        'The "Show more" button cannot be clicked because it does not exist.'
+        'The "Show more" button cannot be clicked because it does not exist.',
       );
     }
 
@@ -214,7 +214,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
 
     return overlayId
       ? this.#documentRootLocator.locatorForOptional(
-          SkyOverlayHarness.with({ selector: `#${overlayId}` })
+          SkyOverlayHarness.with({ selector: `#${overlayId}` }),
         )()
       : null;
   }

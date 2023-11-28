@@ -1,10 +1,14 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SkyModalInstance } from '@skyux/modals';
+import { SkySummaryActionBarModule } from '@skyux/action-bars';
+import { SkyKeyInfoModule } from '@skyux/indicators';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
+  standalone: true,
   selector: 'app-modal-summary-action-bar-modal',
   templateUrl: './modal-summary-action-bar-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [SkyKeyInfoModule, SkyModalModule, SkySummaryActionBarModule],
 })
 export class ModalSummaryActionBarModalComponent {
   #modalInstance: SkyModalInstance;

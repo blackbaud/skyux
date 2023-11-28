@@ -46,7 +46,7 @@ describe('Progress indicator component', () => {
     const el = fixture.nativeElement;
 
     expect(!!el.querySelector('.sky-progress-indicator-passive')).toBe(
-      expected
+      expected,
     );
   }
 
@@ -75,10 +75,10 @@ describe('Progress indicator component', () => {
   }
 
   function verifyItemStatuses(
-    statuses: SkyProgressIndicatorItemStatus[]
+    statuses: SkyProgressIndicatorItemStatus[],
   ): void {
     expect(statuses.length).toBe(
-      componentInstance.progressItems?.length as number
+      componentInstance.progressItems?.length as number,
     );
     componentInstance.progressItems?.forEach((item, i) => {
       expect(item.status).toEqual(statuses[i]);
@@ -90,16 +90,16 @@ describe('Progress indicator component', () => {
   }
 
   function getNavButtonElement(
-    type: SkyProgressIndicatorNavButtonType
+    type: SkyProgressIndicatorNavButtonType,
   ): HTMLButtonElement {
     return fixture.nativeElement.querySelector(
-      `.progress-indicator-fixture-external-nav-buttons .sky-progress-indicator-nav-button-${type}`
+      `.progress-indicator-fixture-external-nav-buttons .sky-progress-indicator-nav-button-${type}`,
     );
   }
 
   function getStepHeadingElements(): NodeList {
     return fixture.nativeElement.querySelectorAll(
-      '.sky-progress-indicator-item-heading'
+      '.sky-progress-indicator-item-heading',
     );
   }
 
@@ -108,7 +108,7 @@ describe('Progress indicator component', () => {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.default,
-          SkyThemeMode.presets.light
+          SkyThemeMode.presets.light,
         ),
         previousSettings: undefined,
       }),
@@ -175,13 +175,13 @@ describe('Progress indicator component', () => {
 
       expect(
         element.querySelector(
-          '.sky-progress-indicator-horizontal-status-markers'
-        )
+          '.sky-progress-indicator-horizontal-status-markers',
+        ),
       ).toBeTruthy();
       expect(
         element.querySelector(
-          '.sky-progress-indicator-item .sky-progress-indicator-status-marker'
-        )
+          '.sky-progress-indicator-item .sky-progress-indicator-status-marker',
+        ),
       ).toBeFalsy();
     }
 
@@ -214,7 +214,7 @@ describe('Progress indicator component', () => {
       const headingElement = stepHeadingElements.item(0);
 
       expect(headingElement?.textContent?.trim()).toEqual(
-        '1 - Do the first thing'
+        '1 - Do the first thing',
       );
     }
 
@@ -491,7 +491,7 @@ describe('Progress indicator component', () => {
 
       const spy = spyOn(
         componentInstance,
-        'onProgressChanges'
+        'onProgressChanges',
       ).and.callThrough();
 
       componentInstance.sendMessage({
@@ -662,7 +662,7 @@ describe('Progress indicator component', () => {
       ]);
 
       const resetButton = fixture.nativeElement.querySelector(
-        '.progress-indicator-fixture-internal-nav-button button'
+        '.progress-indicator-fixture-internal-nav-button button',
       );
 
       resetButton.click();
@@ -690,12 +690,12 @@ describe('Progress indicator component', () => {
         componentInstance.defaultNavButtonComponent as SkyProgressIndicatorNavButtonComponent;
       const defaultButtonElement =
         componentInstance.defaultNavButtonElement?.nativeElement.querySelector(
-          'button'
+          'button',
         );
 
       const clickSpy = spyOn(
         defaultButtonComponent,
-        'onClick'
+        'onClick',
       ).and.callThrough();
 
       defaultButtonComponent.buttonType = 'foobar' as never;
@@ -798,7 +798,7 @@ describe('Progress indicator component', () => {
 
     beforeEach(() => {
       handlerFixture = TestBed.createComponent(
-        SkyProgressIndicatorProgressHandlerFixtureComponent
+        SkyProgressIndicatorProgressHandlerFixtureComponent,
       );
     });
 
@@ -874,7 +874,7 @@ describe('Progress indicator component', () => {
       detectChanges();
 
       componentInstance.sendMessageLegacy(
-        SkyProgressIndicatorMessageType.Progress
+        SkyProgressIndicatorMessageType.Progress,
       );
 
       detectChanges();

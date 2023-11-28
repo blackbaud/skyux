@@ -11,7 +11,7 @@ describe('Key Info harness', () => {
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
     const keyInfoHarness = await loader.getHarness(
-      SkyKeyInfoHarness.with({ dataSkyId: options.dataSkyId })
+      SkyKeyInfoHarness.with({ dataSkyId: options.dataSkyId }),
     );
 
     return { fixture, keyInfoHarness };
@@ -31,7 +31,7 @@ describe('Key Info harness', () => {
     await expectAsync(keyInfoHarness.getLayout()).toBeResolvedTo('horizontal');
     await expectAsync(keyInfoHarness.getValueText()).toBeResolvedTo('200');
     await expectAsync(keyInfoHarness.getLabelText()).toBeResolvedTo(
-      'Horizontal label'
+      'Horizontal label',
     );
   });
 
@@ -43,7 +43,7 @@ describe('Key Info harness', () => {
     await expectAsync(keyInfoHarness.getLayout()).toBeResolvedTo('vertical');
     await expectAsync(keyInfoHarness.getValueText()).toBeResolvedTo('100');
     await expectAsync(keyInfoHarness.getLabelText()).toBeResolvedTo(
-      'Vertical label'
+      'Vertical label',
     );
   });
 });

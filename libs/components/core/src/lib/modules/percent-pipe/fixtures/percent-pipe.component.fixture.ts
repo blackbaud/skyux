@@ -23,7 +23,7 @@ export class PercentPipeTestComponent {
   public getDatePipeResult(
     value: string,
     format: string,
-    locale: string
+    locale: string,
   ): string {
     return this.#percentPipe.transform(value, format, locale);
   }

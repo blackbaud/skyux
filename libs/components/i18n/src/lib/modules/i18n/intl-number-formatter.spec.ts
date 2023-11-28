@@ -14,7 +14,7 @@ describe('Intl number formatter', function () {
       SkyIntlNumberFormatStyle.Currency,
       {
         currency: 'EUR',
-      }
+      },
     );
 
     verifyResult(result, '123.456,79 EUR');
@@ -28,7 +28,7 @@ describe('Intl number formatter', function () {
       {
         currency: 'EUR',
         currencyAsSymbol: true,
-      }
+      },
     );
 
     verifyResult(result, '123.456,79 €');
@@ -39,7 +39,7 @@ describe('Intl number formatter', function () {
       SkyIntlNumberFormatter.format(
         123456.789,
         'en-US',
-        SkyIntlNumberFormatStyle.Currency
+        SkyIntlNumberFormatStyle.Currency,
       );
       fail('It should fail!');
     } catch (error) {
@@ -51,7 +51,7 @@ describe('Intl number formatter', function () {
     const result = SkyIntlNumberFormatter.format(
       123456.789,
       'de-DE',
-      SkyIntlNumberFormatStyle.Decimal
+      SkyIntlNumberFormatStyle.Decimal,
     );
 
     verifyResult(result, '123.456,789');
@@ -61,7 +61,7 @@ describe('Intl number formatter', function () {
     const result = SkyIntlNumberFormatter.format(
       0.4789,
       'de-DE',
-      SkyIntlNumberFormatStyle.Percent
+      SkyIntlNumberFormatStyle.Percent,
     );
 
     verifyResult(result, '48 %');
@@ -76,7 +76,7 @@ describe('Intl number formatter', function () {
         currency: 'USD',
         currencyAsSymbol: true,
         currencySign: 'accounting',
-      }
+      },
     );
 
     verifyResult(result, '$100.12');
@@ -91,7 +91,7 @@ describe('Intl number formatter', function () {
         currency: 'USD',
         currencyAsSymbol: true,
         currencySign: 'accounting',
-      }
+      },
     );
 
     verifyResult(result, '($100.12)');

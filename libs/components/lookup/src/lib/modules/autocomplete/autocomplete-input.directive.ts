@@ -56,7 +56,7 @@ export class SkyAutocompleteInputDirective
     this.#renderer.setAttribute(
       this.#elementRef.nativeElement,
       'autocomplete',
-      this.#_autocompleteAttribute
+      this.#_autocompleteAttribute,
     );
   }
 
@@ -75,7 +75,7 @@ export class SkyAutocompleteInputDirective
     this.#renderer.setProperty(
       this.#elementRef.nativeElement,
       'disabled',
-      value
+      value,
     );
   }
 
@@ -274,12 +274,12 @@ export class SkyAutocompleteInputDirective
       this.#renderer.setAttribute(
         this.#elementRef.nativeElement,
         'aria-activedescendant',
-        descendantId
+        descendantId,
       );
     } else {
       this.#renderer.removeAttribute(
         this.#elementRef.nativeElement,
-        'aria-activedescendant'
+        'aria-activedescendant',
       );
     }
   }
@@ -292,12 +292,12 @@ export class SkyAutocompleteInputDirective
       this.#renderer.setAttribute(
         this.#elementRef.nativeElement,
         'aria-controls',
-        overlayId
+        overlayId,
       );
     } else {
       this.#renderer.removeAttribute(
         this.#elementRef.nativeElement,
-        'aria-controls'
+        'aria-controls',
       );
     }
   }
@@ -317,7 +317,7 @@ export class SkyAutocompleteInputDirective
     this.#renderer.setAttribute(
       element,
       'autocomplete',
-      this.autocompleteAttribute
+      this.autocompleteAttribute,
     );
     this.#renderer.setAttribute(element, 'autocapitalize', 'none');
     this.#renderer.setAttribute(element, 'autocorrect', 'off');

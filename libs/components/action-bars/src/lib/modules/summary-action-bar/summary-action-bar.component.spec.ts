@@ -39,13 +39,13 @@ describe('Summary Action Bar component', () => {
 
   function getCollapseButton(debugElement: DebugElement): HTMLElement {
     return debugElement.query(
-      By.css('.sky-summary-action-bar-details-collapse button')
+      By.css('.sky-summary-action-bar-details-collapse button'),
     )?.nativeElement;
   }
 
   function getExpandButton(debugElement: DebugElement): HTMLElement {
     return debugElement.query(
-      By.css('.sky-summary-action-bar-details-expand button')
+      By.css('.sky-summary-action-bar-details-expand button'),
     )?.nativeElement;
   }
 
@@ -79,12 +79,12 @@ describe('Summary Action Bar component', () => {
 
   function validateCollapsible(
     parentEl: HTMLElement | null,
-    expected: boolean
+    expected: boolean,
   ): void {
     expect(parentEl).not.toBeNull();
 
     let expectActionBar = expect(
-      parentEl?.querySelector('.sky-summary-action-bar')
+      parentEl?.querySelector('.sky-summary-action-bar'),
     );
 
     if (!expected) {
@@ -92,7 +92,7 @@ describe('Summary Action Bar component', () => {
     }
 
     expectActionBar.toHaveCssClass(
-      'sky-summary-action-bar-summary-collapsible'
+      'sky-summary-action-bar-summary-collapsible',
     );
   }
 
@@ -243,7 +243,7 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         expect(
           (document.querySelector('.sky-modal-footer-container') as HTMLElement)
-            .style.padding
+            .style.padding,
         ).toBe('0px');
       });
 
@@ -259,16 +259,16 @@ describe('Summary Action Bar component', () => {
         expect(
           (
             document.querySelector(
-              '#action-bar-modal .sky-modal-footer-container'
+              '#action-bar-modal .sky-modal-footer-container',
             ) as HTMLElement
-          ).style.padding
+          ).style.padding,
         ).toBe('0px');
         expect(
           (
             document.querySelector(
-              '#empty-modal .sky-modal-footer-container'
+              '#empty-modal .sky-modal-footer-container',
             ) as HTMLElement
-          ).style.padding
+          ).style.padding,
         ).not.toBe('0px');
       });
     });
@@ -370,7 +370,7 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
 
         expect(
-          cmp.openedModal?.summaryActionBar?.isSummaryCollapsed
+          cmp.openedModal?.summaryActionBar?.isSummaryCollapsed,
         ).toBeFalsy();
       });
     });
@@ -519,7 +519,7 @@ describe('Summary Action Bar component', () => {
         // Using query selector here due to the modal not being inside the debugElement
         (
           document.querySelector(
-            '.sky-summary-action-bar-details-collapse button'
+            '.sky-summary-action-bar-details-collapse button',
           ) as HTMLElement
         ).click();
         fixture.detectChanges();
@@ -573,7 +573,7 @@ describe('Summary Action Bar component', () => {
         // Using query selector here due to the modal not being inside the debugElement
         (
           document.querySelector(
-            '.sky-summary-action-bar-details-collapse button'
+            '.sky-summary-action-bar-details-collapse button',
           ) as HTMLElement
         ).click();
         fixture.detectChanges();
@@ -609,7 +609,7 @@ describe('Summary Action Bar component', () => {
             fixture.whenStable().then(() => {
               const actionBarHeight = getActionBarHeight(debugElement);
               expect(document.body.style.marginBottom).toBe(
-                actionBarHeight + 'px'
+                actionBarHeight + 'px',
               );
               done();
             });
@@ -641,7 +641,7 @@ describe('Summary Action Bar component', () => {
               fixture.whenStable().then(() => {
                 const actionBarHeight = getActionBarHeight(debugElement);
                 expect(document.body.style.marginBottom).toBe(
-                  actionBarHeight + 'px'
+                  actionBarHeight + 'px',
                 );
                 done();
               });
@@ -667,7 +667,7 @@ describe('Summary Action Bar component', () => {
                 fixture.whenStable().then(() => {
                   const actionBarHeight = getActionBarHeight(debugElement);
                   expect(document.body.style.marginBottom).toBe(
-                    actionBarHeight + 'px'
+                    actionBarHeight + 'px',
                   );
                   done();
                 });
@@ -713,7 +713,7 @@ describe('Summary Action Bar component', () => {
 
     beforeEach(() => {
       fixture = TestBed.createComponent(
-        SkySummaryActionBarSplitViewTestComponent
+        SkySummaryActionBarSplitViewTestComponent,
       );
 
       cmp =
@@ -731,7 +731,7 @@ describe('Summary Action Bar component', () => {
         fixture.whenStable().then(() => {
           fixture.detectChanges();
           const workspacePaddingBottom = debugElement.query(
-            By.css('.sky-split-view-workspace-content')
+            By.css('.sky-split-view-workspace-content'),
           ).nativeElement.style.paddingBottom;
           expect(workspacePaddingBottom).toBe('20px');
           done();
@@ -744,7 +744,7 @@ describe('Summary Action Bar component', () => {
         await fixture.whenStable();
         fixture.detectChanges();
         const workspacePaddingBottom = debugElement.query(
-          By.css('.sky-split-view-workspace-content')
+          By.css('.sky-split-view-workspace-content'),
         ).nativeElement.style.paddingBottom;
         expect(workspacePaddingBottom).toBe('');
       });

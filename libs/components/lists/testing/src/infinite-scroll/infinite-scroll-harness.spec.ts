@@ -17,7 +17,7 @@ describe('Infinite scroll harness', () => {
 
     const infiniteScrollHarness: SkyInfiniteScrollHarness = options.dataSkyId
       ? await loader.getHarness(
-          SkyInfiniteScrollHarness.with({ dataSkyId: options.dataSkyId })
+          SkyInfiniteScrollHarness.with({ dataSkyId: options.dataSkyId }),
         )
       : await loader.getHarness(SkyInfiniteScrollHarness);
 
@@ -26,7 +26,7 @@ describe('Infinite scroll harness', () => {
 
   function verifyNumListItems(
     fixture: ComponentFixture<InfiniteScrollHarnessTestComponent>,
-    count: number
+    count: number,
   ) {
     expect(fixture.debugElement.queryAll(By.css('li')).length).toEqual(count);
   }
@@ -52,7 +52,7 @@ describe('Infinite scroll harness', () => {
 
     await expectAsync(infiniteScrollHarness.isLoading()).toBeResolvedTo(true);
     await expectAsync(infiniteScrollHarness.loadMore()).toBeRejectedWithError(
-      'Unable to click the "Load more" button because the infinite scroll is loading.'
+      'Unable to click the "Load more" button because the infinite scroll is loading.',
     );
   });
 
@@ -65,7 +65,7 @@ describe('Infinite scroll harness', () => {
 
     await expectAsync(infiniteScrollHarness.isEnabled()).toBeResolvedTo(false);
     await expectAsync(infiniteScrollHarness.loadMore()).toBeRejectedWithError(
-      'Unable to click the "Load more" button because the infinite scroll is not enabled.'
+      'Unable to click the "Load more" button because the infinite scroll is not enabled.',
     );
   });
 });

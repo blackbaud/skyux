@@ -50,7 +50,7 @@ describe('Overlay service', () => {
     return document
       .getElementsByTagName('head')[0]
       .querySelector(
-        '[data-test-selector="sky-overlay-restrict-scroll-styles"]'
+        '[data-test-selector="sky-overlay-restrict-scroll-styles"]',
       ) as HTMLStyleElement;
   }
 
@@ -113,7 +113,7 @@ describe('Overlay service', () => {
       expect(adapterSpy).toHaveBeenCalled();
       expect(styleElement.textContent).toContain('body { overflow: hidden }');
       verifyOverlayCount(1);
-    })
+    }),
   ));
 
   it('should optionally allow closing overlay when clicking outside', fakeAsync(() => {
@@ -153,7 +153,7 @@ describe('Overlay service', () => {
 
     SkyAppTestUtility.fireDomEvent(
       document.querySelector('.sky-overlay-content') as Element,
-      'click'
+      'click',
     );
     fixture.detectChanges();
     tick();
@@ -223,7 +223,7 @@ describe('Overlay service', () => {
         tick();
         verifyOverlayCount(0);
       });
-    })
+    }),
   ));
 
   it('should optionally remain open on navigation change', fakeAsync(
@@ -241,7 +241,7 @@ describe('Overlay service', () => {
 
         verifyOverlayCount(1);
       });
-    })
+    }),
   ));
 
   it('should optionally allow pointer events to pass through the overlay', fakeAsync(() => {
@@ -250,7 +250,7 @@ describe('Overlay service', () => {
     });
 
     expect(getAllOverlays().item(0)).not.toHaveCssClass(
-      'enable-pointer-events-pass-through'
+      'enable-pointer-events-pass-through',
     );
     destroyOverlay(instance);
 
@@ -259,7 +259,7 @@ describe('Overlay service', () => {
     });
 
     expect(getAllOverlays().item(0)).toHaveCssClass(
-      'enable-pointer-events-pass-through'
+      'enable-pointer-events-pass-through',
     );
   }));
 
@@ -273,7 +273,7 @@ describe('Overlay service', () => {
     await fixture.whenStable();
 
     expect(getAllOverlays().item(0).textContent).toContain(
-      'Overlay content ID: none'
+      'Overlay content ID: none',
     );
   });
 
@@ -292,7 +292,7 @@ describe('Overlay service', () => {
     await fixture.whenStable();
 
     expect(getAllOverlays().item(0).textContent).toContain(
-      'Overlay content ID: 1'
+      'Overlay content ID: 1',
     );
   });
 
@@ -310,7 +310,7 @@ describe('Overlay service', () => {
     await fixture.whenStable();
 
     expect(getAllOverlays().item(0).textContent).toContain(
-      'Templated content ID: 5'
+      'Templated content ID: 5',
     );
   });
 
@@ -373,7 +373,7 @@ describe('Overlay service', () => {
     // Clicking the overlay content should not trigger the event.
     SkyAppTestUtility.fireDomEvent(
       getAllOverlays().item(0).querySelector('.sky-overlay-content') as Element,
-      'click'
+      'click',
     );
 
     fixture.detectChanges();
@@ -400,7 +400,7 @@ describe('Overlay service', () => {
     });
 
     expect(
-      Array.from(getAllOverlays()).shift()?.classList.contains('added-class')
+      Array.from(getAllOverlays()).shift()?.classList.contains('added-class'),
     ).toBeTrue();
   }));
 
@@ -417,7 +417,7 @@ describe('Overlay service', () => {
   it('should set the clip-path property on the overlay wrapper element', async () => {
     const instance = service.create();
     instance.componentRef.instance.updateClipPath(
-      'polygon(0 0, 100% 0, 100% 100%, 0 100%)'
+      'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
     );
     fixture.detectChanges();
     await fixture.whenStable();

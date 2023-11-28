@@ -60,7 +60,7 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
       !!this.isFullPage,
       !!value,
       !!this.isNonBlocking,
-      this.#id
+      this.#id,
     );
 
     if (value) {
@@ -68,7 +68,7 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
     } else if (this.#_isWaiting) {
       // NOTE: This should only happen if the wait was previously waiting and no longer is waiting.
       this.#liveAnnouncer.announce(
-        this.screenReaderCompletedTextStream.getValue()
+        this.screenReaderCompletedTextStream.getValue(),
       );
     }
 
@@ -179,7 +179,7 @@ export class SkyWaitComponent implements OnInit, OnDestroy {
   #publishScreenReaderCompletedText(): void {
     if (this.#customScreenReaderCompletedText) {
       this.screenReaderCompletedTextStream.next(
-        this.#customScreenReaderCompletedText
+        this.#customScreenReaderCompletedText,
       );
     } else {
       const type = this.isFullPage ? '_page' : '';

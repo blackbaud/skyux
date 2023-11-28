@@ -2,20 +2,12 @@ import { TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { expect } from '@skyux-sdk/testing';
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import {
-  mockResizeObserver,
-  mockResizeObserverEntry,
-  mockResizeObserverHandle,
-} from '@skyux/core/testing';
 
 import { PageHeaderFixturesComponent } from './fixtures/page-header-fixtures.component';
 import { SkyPageHeaderModule } from './page-header.module';
 
 describe('Page header component', () => {
   beforeEach(() => {
-    mockResizeObserver();
-
     TestBed.configureTestingModule({
       imports: [
         PageHeaderFixturesComponent,
@@ -30,7 +22,7 @@ describe('Page header component', () => {
     const fixture = TestBed.createComponent(PageHeaderFixturesComponent);
     fixture.detectChanges();
     expect(fixture.nativeElement).toHaveText(
-      'Parent Link Page Title  Details about the page header.'
+      'Parent Link Page Title  Details about the page header.',
     );
   });
 
@@ -47,10 +39,11 @@ describe('Page header component', () => {
   it('should render an avatar at size large when page is at a large breakpoint', () => {
     const fixture = TestBed.createComponent(PageHeaderFixturesComponent);
     fixture.componentInstance.showAvatar = true;
+    fixture.componentInstance.width = 900;
     fixture.detectChanges();
 
     const largeAvatar = fixture.nativeElement.querySelector(
-      '.sky-avatar-wrapper-size-large'
+      '.sky-avatar-wrapper-size-large',
     );
 
     expect(largeAvatar).toBeVisible();
@@ -61,17 +54,8 @@ describe('Page header component', () => {
     fixture.componentInstance.showAvatar = true;
     fixture.detectChanges();
 
-    mockResizeObserverHandle.emit([
-      {
-        ...mockResizeObserverEntry,
-        target: fixture.componentInstance.pageHeaderEl?.nativeElement,
-      },
-    ]);
-
-    fixture.detectChanges();
-
     const smallAvatar = fixture.nativeElement.querySelector(
-      '.sky-avatar-wrapper-size-small'
+      '.sky-avatar-wrapper-size-small',
     );
 
     expect(smallAvatar).toBeVisible();

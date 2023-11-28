@@ -17,9 +17,7 @@ import {
   SkyMutationObserverService,
 } from '@skyux/core';
 
-import { fromEvent } from 'rxjs';
-import { Subject } from 'rxjs';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription, fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkySummaryActionBarAdapterService } from './summary-action-bar-adapter.service';
@@ -82,7 +80,7 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
     elementRef: ElementRef,
     public mediaQueryService: SkyMediaQueryService,
     observerService: SkyMutationObserverService,
-    windowRef: SkyAppWindowRef
+    windowRef: SkyAppWindowRef,
   ) {
     this.#adapterService = adapterService;
     this.#changeDetector = changeDetector;
@@ -93,7 +91,7 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
 
   public ngAfterViewInit(): void {
     this.type = this.#adapterService.getSummaryActionBarType(
-      this.#elementRef.nativeElement
+      this.#elementRef.nativeElement,
     );
     if (
       !(
@@ -105,7 +103,7 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
 
       if (this.type === SkySummaryActionBarType.SplitView) {
         this.#adapterService.styleSplitViewElementForActionBar(
-          this.#elementRef
+          this.#elementRef,
         );
       } else {
         this.#adapterService.styleBodyElementForActionBar(this.#elementRef);
@@ -193,7 +191,7 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
           this.slideDirection = 'down';
         }
         this.#changeDetector.detectChanges();
-      }
+      },
     );
   }
 
@@ -204,7 +202,7 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
         (mutations: MutationRecord[]) => {
           if (
             (mutations[0].target as HTMLElement).attributes.getNamedItem(
-              'hidden'
+              'hidden',
             )
           ) {
             this.#adapterService.revertBodyElementStyles();
@@ -212,12 +210,12 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
           } else {
             setTimeout(() => {
               this.#adapterService.styleBodyElementForActionBar(
-                this.#elementRef
+                this.#elementRef,
               );
               this.#setupResizeListener();
             });
           }
-        }
+        },
       );
     }
 

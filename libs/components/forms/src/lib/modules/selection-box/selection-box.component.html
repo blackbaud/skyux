@@ -19,7 +19,7 @@
     }"
     #icon
   >
-    <ng-content select="sky-icon"> </ng-content>
+    <ng-content select="sky-icon" />
   </div>
 
   <div class="sky-selection-box-content">
@@ -30,7 +30,7 @@
         'sky-font-heading-3': !icon.innerHTML.trim()
       }"
     >
-      <ng-content select="sky-selection-box-header"></ng-content>
+      <ng-content select="sky-selection-box-header" />
     </div>
     <div
       class="sky-selection-box-description"
@@ -39,12 +39,12 @@
         'sky-deemphasized': 'default'
       }"
     >
-      <ng-content select="sky-selection-box-description"> </ng-content>
+      <ng-content select="sky-selection-box-description" />
     </div>
   </div>
 
   <div class="sky-selection-box-control" #control>
-    <ng-content select="sky-radio"> </ng-content>
-    <ng-content select="sky-checkbox"> </ng-content>
+    <ng-content select="sky-radio" />
+    <ng-content select="sky-checkbox" />
   </div>
 </label>

@@ -5,6 +5,6 @@ export class SkyDataManagerColumnPickerContext {
   constructor(
     public columnOptions: SkyDataManagerColumnPickerOption[],
     public displayedColumnIds: string[],
-    public columnPickerSortStrategy: SkyDataManagerColumnPickerSortStrategy = SkyDataManagerColumnPickerSortStrategy.SelectedThenAlphabetical
+    public columnPickerSortStrategy: SkyDataManagerColumnPickerSortStrategy = SkyDataManagerColumnPickerSortStrategy.SelectedThenAlphabetical,
   ) {}
 }

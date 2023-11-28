@@ -74,7 +74,7 @@ export class SkyProgressIndicatorNavButtonComponent
    */
   @Input()
   public set progressIndicator(
-    value: SkyProgressIndicatorComponent | undefined
+    value: SkyProgressIndicatorComponent | undefined,
   ) {
     this.#_progressIndicator = value;
 
@@ -107,7 +107,7 @@ export class SkyProgressIndicatorNavButtonComponent
                 '<sky-progress-indicator-nav-button\n' +
                 '  [progressIndicator]="myProgressIndicator"\n' +
                 '>\n' +
-                '</sky-progress-indicator-nav-button>'
+                '</sky-progress-indicator-nav-button>',
             );
           }
         }, 50);
@@ -151,7 +151,7 @@ export class SkyProgressIndicatorNavButtonComponent
 
   constructor(
     changeDetector: ChangeDetectorRef,
-    @Optional() parentComponent?: SkyProgressIndicatorComponent
+    @Optional() parentComponent?: SkyProgressIndicatorComponent,
   ) {
     this.#changeDetector = changeDetector;
     this.#parentComponent = parentComponent;
@@ -199,7 +199,7 @@ export class SkyProgressIndicatorNavButtonComponent
         progressHandler: new SkyProgressIndicatorActionClickProgressHandler(
           () => {
             this.#sendMessage(type);
-          }
+          },
         ),
       });
     } else {

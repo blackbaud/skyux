@@ -25,9 +25,10 @@
       [ngClass]="{
         'sky-btn-disabled': disabled
       }"
-      #actionButton
+      #actionButton="skyId"
+      skyId
     >
-      <ng-content></ng-content>
+      <ng-content />
     </button>
   </span>
   <span
@@ -38,8 +39,11 @@
     <button
       class="sky-btn sky-token-btn sky-token-btn-close"
       type="button"
-      [attr.aria-label]="
-        ariaLabel || ('skyux_tokens_dismiss_button_title' | skyLibResources)
+      [attr.aria-label]="ariaLabel"
+      [attr.aria-labelledby]="
+        !ariaLabel
+          ? screenReaderLabelDismiss.id + ' ' + actionButton.id
+          : undefined
       "
       [attr.tabindex]="tabIndex"
       [attr.title]="
@@ -54,7 +58,15 @@
       (document:mouseup)="setCloseActive(false)"
       (mousedown)="setCloseActive(true)"
     >
-      <sky-icon class="sky-token-btn-close-icon" icon="close"></sky-icon>
+      <sky-icon class="sky-token-btn-close-icon" icon="close" />
     </button>
   </span>
 </div>
+<span
+  skyScreenReaderLabel
+  [createLabel]="dismissible && !ariaLabel"
+  skyId
+  #screenReaderLabelDismiss="skyId"
+>
+  {{ 'skyux_tokens_dismiss_button_default_label' | skyLibResources }}
+</span>

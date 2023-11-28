@@ -15,6 +15,6 @@ export interface SkyDataManagerStateUpdateFilterArgs {
    */
   comparator?: (
     state1: SkyDataManagerState,
-    state2: SkyDataManagerState
+    state2: SkyDataManagerState,
   ) => boolean;
 }

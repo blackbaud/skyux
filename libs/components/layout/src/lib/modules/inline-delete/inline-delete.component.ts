@@ -40,7 +40,7 @@ let nextId = 0;
         }),
         query(
           '.sky-inline-delete-content-animation-container',
-          style({ transform: 'scale(0.0)' })
+          style({ transform: 'scale(0.0)' }),
         ),
         group([
           animate('300ms ease-in-out', style({ opacity: 1 })),
@@ -50,22 +50,22 @@ let nextId = 0;
               '300ms ease-in-out',
               style({
                 transform: 'scale(1)',
-              })
-            )
+              }),
+            ),
           ),
         ]),
       ]),
       transition(`shown <=> *`, [
         query(
           '.sky-inline-delete-content-animation-container',
-          style({ transform: 'scale(1)' })
+          style({ transform: 'scale(1)' }),
         ),
         group([
           animate(
             '300ms ease-in-out',
             style({
               opacity: 0,
-            })
+            }),
           ),
           query(
             '.sky-inline-delete-content-animation-container',
@@ -73,8 +73,8 @@ let nextId = 0;
               '300ms ease-in-out',
               style({
                 transform: 'scale(0.0)',
-              })
-            )
+              }),
+            ),
           ),
         ]),
       ]),
@@ -121,7 +121,7 @@ export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
   constructor(
     adapterService: SkyInlineDeleteAdapterService,
     changeDetector: ChangeDetectorRef,
-    elRef: ElementRef
+    elRef: ElementRef,
   ) {
     this.#adapterService = adapterService;
     this.#changeDetector = changeDetector;

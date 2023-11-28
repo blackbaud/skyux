@@ -1,5 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Validators } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { InputBoxHarnessTestComponent } from './fixtures/input-box-harness-test.component';
@@ -7,8 +8,14 @@ import { InputBoxHarnessTestModule } from './fixtures/input-box-harness-test.mod
 import { LastNameHarness } from './fixtures/last-name-harness';
 import { SkyInputBoxHarness } from './input-box-harness';
 
+const DATA_SKY_ID_EASY_MODE = 'my-input-box-last-name-easy-mode';
+
 describe('Input box harness', () => {
-  async function setupTest(options: { dataSkyId: string }) {
+  async function setupTest(options: { dataSkyId: string }): Promise<{
+    component: InputBoxHarnessTestComponent;
+    fixture: ComponentFixture<InputBoxHarnessTestComponent>;
+    inputBoxHarness: SkyInputBoxHarness;
+  }> {
     await TestBed.configureTestingModule({
       imports: [NoopAnimationsModule, InputBoxHarnessTestModule],
     }).compileComponents();
@@ -19,7 +26,7 @@ describe('Input box harness', () => {
     const inputBoxHarness = await loader.getHarness(
       SkyInputBoxHarness.with({
         dataSkyId: options.dataSkyId,
-      })
+      }),
     );
 
     return { component, fixture, inputBoxHarness };
@@ -37,7 +44,7 @@ describe('Input box harness', () => {
 
   it('should return disabled', async () => {
     const { fixture, inputBoxHarness } = await setupTest({
-      dataSkyId: 'my-input-box-last-name-easy-mode',
+      dataSkyId: DATA_SKY_ID_EASY_MODE,
     });
 
     await expectAsync(inputBoxHarness.getDisabled()).toBeResolvedTo(false);
@@ -50,11 +57,11 @@ describe('Input box harness', () => {
 
   it('should return label text', async () => {
     const { fixture, inputBoxHarness } = await setupTest({
-      dataSkyId: 'my-input-box-last-name-easy-mode',
+      dataSkyId: DATA_SKY_ID_EASY_MODE,
     });
 
     await expectAsync(inputBoxHarness.getLabelText()).toBeResolvedTo(
-      'Last name (easy mode)'
+      'Last name (easy mode)',
     );
 
     fixture.componentInstance.easyModeLabel = undefined;
@@ -65,7 +72,7 @@ describe('Input box harness', () => {
 
   it('should return help popover harness', async () => {
     const { component, fixture, inputBoxHarness } = await setupTest({
-      dataSkyId: 'my-input-box-last-name-easy-mode',
+      dataSkyId: DATA_SKY_ID_EASY_MODE,
     });
 
     // String content
@@ -82,7 +89,7 @@ describe('Input box harness', () => {
     fixture.detectChanges();
 
     await expectAsync(helpContent.getBodyText()).toBeResolvedTo(
-      'Help content from template'
+      'Help content from template',
     );
 
     // No content
@@ -90,13 +97,13 @@ describe('Input box harness', () => {
     fixture.detectChanges();
 
     await expectAsync(inputBoxHarness.getHelpPopover()).toBeRejectedWithError(
-      'The input box does not have a help popover configured.'
+      'The input box does not have a help popover configured.',
     );
   });
 
   it('should return stacked', async () => {
     const { fixture, inputBoxHarness } = await setupTest({
-      dataSkyId: 'my-input-box-last-name-easy-mode',
+      dataSkyId: DATA_SKY_ID_EASY_MODE,
     });
 
     await expectAsync(inputBoxHarness.getStacked()).toBeResolvedTo(false);
@@ -105,5 +112,65 @@ describe('Input box harness', () => {
     fixture.detectChanges();
 
     await expectAsync(inputBoxHarness.getStacked()).toBeResolvedTo(true);
+  });
+
+  it('should return custom errors', async () => {
+    const { component, fixture, inputBoxHarness } = await setupTest({
+      dataSkyId: DATA_SKY_ID_EASY_MODE,
+    });
+
+    const control = component.myForm.controls['lastName'];
+
+    control.addValidators(Validators.required);
+    control.setValue('');
+    control.markAsDirty();
+
+    fixture.detectChanges();
+
+    const customErrors = await inputBoxHarness.getCustomErrors();
+
+    expect(customErrors.length).toBe(1);
+
+    const customError = customErrors[0];
+
+    await expectAsync(customError.getDescriptionType()).toBeResolvedTo('error');
+    await expectAsync(customError.getIndicatorType()).toBeResolvedTo('danger');
+    await expectAsync(customError.getText()).toBeResolvedTo('Test error');
+  });
+
+  it('should return character counter indicator', async () => {
+    const { component, fixture, inputBoxHarness } = await setupTest({
+      dataSkyId: DATA_SKY_ID_EASY_MODE,
+    });
+
+    await expectAsync(
+      inputBoxHarness.getCharacterCounter(),
+    ).toBeRejectedWithError(
+      'The input box does not have a character limit specified.',
+    );
+
+    component.easyModeCharacterLimit = 50;
+    fixture.detectChanges();
+
+    const characterCounter = await inputBoxHarness.getCharacterCounter();
+
+    await expectAsync(characterCounter.getCharacterCountLimit()).toBeResolvedTo(
+      50,
+    );
+  });
+
+  it('should return hint text', async () => {
+    const { component, fixture, inputBoxHarness } = await setupTest({
+      dataSkyId: DATA_SKY_ID_EASY_MODE,
+    });
+
+    await expectAsync(inputBoxHarness.getHintText()).toBeResolvedTo('');
+
+    component.easyModeHintText = 'Test hint text';
+    fixture.detectChanges();
+
+    await expectAsync(inputBoxHarness.getHintText()).toBeResolvedTo(
+      'Test hint text',
+    );
   });
 });

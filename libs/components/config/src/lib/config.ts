@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { SkyuxConfigParams } from './config-params';
+import { SkyuxConfigRemoteModules } from './config-remote-modules';
 import { SkyAppRuntimeConfigParams } from './params';
 
 export interface RuntimeConfigApp {
@@ -8,6 +9,14 @@ export interface RuntimeConfigApp {
   inject: boolean;
   name?: string;
   template: string;
+}
+
+/**
+ * @experimental
+ */
+export interface SkyuxRuntimeConfigLocalDev {
+  assetsBaseUrl?: string;
+  hasRemoteModules?: boolean;
 }
 
 export class SkyuxPactConfig {
@@ -55,6 +64,7 @@ export interface RuntimeConfig {
   skyuxPathAlias: string;
   srcPath: string;
   useTemplateUrl: boolean;
+  localDev?: SkyuxRuntimeConfigLocalDev;
 }
 
 export interface SkyuxConfigA11y {
@@ -153,6 +163,7 @@ export interface SkyuxConfig {
   pipelineSettings?: any;
   plugins?: string[];
   redirects?: { [from: string]: string };
+  remoteModules?: SkyuxConfigRemoteModules;
   routes?: {
     public?: {
       title?: string;

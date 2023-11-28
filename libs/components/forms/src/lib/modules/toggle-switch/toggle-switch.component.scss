@@ -98,14 +98,13 @@ $indicator-size: 22px;
   .sky-toggle-switch-button {
     .sky-toggle-switch-switch {
       background-color: $sky-color-white;
-      border-width: 1px;
+      border: 1px solid var(--sky-border-color-neutral-medium-dark);
       width: 48px;
       transition: border-color $sky-transition-time-short,
         box-shadow $sky-transition-time-short;
     }
 
     &.sky-toggle-switch-disabled .sky-toggle-switch-switch {
-      border-color: $sky-theme-modern-background-color-disabled;
       cursor: not-allowed;
     }
 

@@ -14,7 +14,7 @@ const routes: Routes = [
     path: 'vertical-tabset',
     loadChildren: () =>
       import('./vertical-tabset/vertical-tabset.module').then(
-        (m) => m.VerticalTabsetModule
+        (m) => m.VerticalTabsetModule,
       ),
   },
   {

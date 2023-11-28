@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import {
+  SkyTextEditorLinkWindowOptionsType,
   SkyTextEditorMenuType,
   SkyTextEditorToolbarActionType,
 } from '@skyux/text-editor';
@@ -57,16 +58,18 @@ export class TextEditorComponent implements OnInit {
     'link',
   ];
 
+  public linkWindowOptions: SkyTextEditorLinkWindowOptionsType[] = ['new'];
+
   constructor(
     private formBuilder: FormBuilder,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
   ) {}
 
   public ngOnInit(): void {
     this.myForm = this.formBuilder.group({
       textEditor: new FormControl(
         '<font style="font-size: 16px" color="#a25353"><b><i><u>Super styled text</u></i></b></font>',
-        [Validators.required]
+        [Validators.required],
       ),
     });
 

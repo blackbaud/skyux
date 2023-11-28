@@ -105,7 +105,7 @@ describe('Datepicker fixture', () => {
     tick();
 
     expect(() => datepicker.clickDayEl(100)).toThrowError(
-      'No day exists at index 100.'
+      'No day exists at index 100.',
     );
   }));
 });

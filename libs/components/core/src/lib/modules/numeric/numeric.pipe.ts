@@ -38,7 +38,7 @@ export class SkyNumericPipe implements PipeTransform, OnDestroy {
   constructor(
     localeProvider: SkyAppLocaleProvider,
     numericSvc: SkyNumericService,
-    changeDetector: ChangeDetectorRef
+    changeDetector: ChangeDetectorRef,
   ) {
     this.#numericSvc = numericSvc;
     this.#changeDetector = changeDetector;
@@ -61,7 +61,14 @@ export class SkyNumericPipe implements PipeTransform, OnDestroy {
   /**
    * Formats a number based on the provided options.
    */
-  public transform(value: number, config?: SkyNumericOptions): string {
+  public transform(
+    value: number | undefined | null,
+    config?: SkyNumericOptions,
+  ): string {
+    if (value === undefined || value === null || isNaN(value)) {
+      return '';
+    }
+
     const newCacheKey =
       (config ? JSON.stringify(config, Object.keys(config).sort()) : '') +
       `${value}_${config?.locale || this.#providerLocale}`;
@@ -88,7 +95,7 @@ export class SkyNumericPipe implements PipeTransform, OnDestroy {
       config.minDigits > config.digits
     ) {
       throw new Error(
-        'The `digits` property must be greater than or equal to the `minDigits` property'
+        'The `digits` property must be greater than or equal to the `minDigits` property',
       );
 
       // If there is a minimum digits given but not a maximum then default the maximum to the minimum

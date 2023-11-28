@@ -42,7 +42,7 @@ export class SkyCoreAdapterService {
    */
   public setResponsiveContainerClass(
     elementRef: ElementRef,
-    breakpoint: SkyMediaBreakpoints
+    breakpoint: SkyMediaBreakpoints,
   ): void {
     const nativeEl = elementRef.nativeElement;
 
@@ -127,7 +127,7 @@ export class SkyCoreAdapterService {
   public getFocusableChildrenAndApplyFocus(
     elementRef: ElementRef,
     containerSelector?: string,
-    focusOnContainerIfNoChildrenFound = false
+    focusOnContainerIfNoChildrenFound = false,
   ): void {
     const containerElement =
       elementRef.nativeElement.querySelector(containerSelector);
@@ -153,14 +153,14 @@ export class SkyCoreAdapterService {
    */
   public getFocusableChildren(
     element?: HTMLElement,
-    options?: SkyFocusableChildrenOptions
+    options?: SkyFocusableChildrenOptions,
   ): HTMLElement[] {
     if (!element) {
       return [];
     }
 
     let elements = Array.prototype.slice.call(
-      element.querySelectorAll(SKY_TABBABLE_SELECTOR)
+      element.querySelectorAll(SKY_TABBABLE_SELECTOR),
     );
 
     // Unless ignoreTabIndex = true, filter out elements with tabindex = -1.
@@ -195,7 +195,7 @@ export class SkyCoreAdapterService {
    */
   public isTargetAboveElement(
     target: EventTarget,
-    element: HTMLElement
+    element: HTMLElement,
   ): boolean {
     const zIndex = getComputedStyle(element).zIndex;
 

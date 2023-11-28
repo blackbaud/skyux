@@ -25,7 +25,7 @@ export class SkyLabelHarness extends SkyComponentHarness {
    * `SkyLookupHarness` that meets certain criteria.
    */
   public static with(
-    filters: SkyLabelHarnessFilters
+    filters: SkyLabelHarnessFilters,
   ): HarnessPredicate<SkyLabelHarness> {
     return SkyLabelHarness.getDataSkyIdPredicate(filters);
   }

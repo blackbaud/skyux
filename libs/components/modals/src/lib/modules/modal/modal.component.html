@@ -34,7 +34,7 @@
         #headerContent
         #headerId="skyId"
       >
-        <ng-content select="sky-modal-header"></ng-content>
+        <ng-content select="sky-modal-header" />
       </div>
       <div class="sky-modal-header-buttons">
         <button
@@ -45,7 +45,7 @@
           [attr.aria-label]="'skyux_modal_open_help' | skyLibResources"
           (click)="helpButtonClick()"
         >
-          <sky-icon icon="question-circle"></sky-icon>
+          <sky-icon icon="question-circle" />
         </button>
 
         <button
@@ -54,7 +54,7 @@
           [attr.aria-label]="'skyux_modal_close' | skyLibResources"
           (click)="closeButtonClick()"
         >
-          <sky-icon icon="close"></sky-icon>
+          <sky-icon icon="close" />
         </button>
       </div>
     </div>
@@ -68,7 +68,7 @@
       #modalContentId="skyId"
       #modalContentWrapper
     >
-      <ng-content select="sky-modal-content"></ng-content>
+      <ng-content select="sky-modal-content" />
     </div>
     <div
       class="sky-modal-footer"
@@ -76,7 +76,7 @@
         'box-shadow': scrollShadow?.bottomShadow
       }"
     >
-      <ng-content select="sky-modal-footer"></ng-content>
+      <ng-content select="sky-modal-footer" />
     </div>
   </div>
 </div>

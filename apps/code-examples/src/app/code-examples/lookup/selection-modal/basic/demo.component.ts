@@ -26,6 +26,7 @@ export class DemoComponent {
     const instance = this.#selectionModalSvc.open({
       descriptorProperty: 'name',
       idProperty: 'id',
+      selectionDescriptor: 'person',
       searchAsync: (args) =>
         this.#searchSvc.search(args.searchText).pipe(
           map(
@@ -33,8 +34,8 @@ export class DemoComponent {
               hasMore: results.hasMore,
               items: results.people,
               totalCount: results.totalCount,
-            })
-          )
+            }),
+          ),
         ),
       selectMode: 'single',
     });

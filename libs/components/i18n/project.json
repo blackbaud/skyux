@@ -36,7 +36,20 @@
           "zone.js",
           "zone.js/testing",
           "libs/components/packages/src/polyfills.js"
-        ]
+        ],
+        "inlineStyleLanguage": "scss",
+        "stylePreprocessorOptions": {
+          "includePaths": ["{workspaceRoot}"]
+        }
+      },
+      "configurations": {
+        "ci": {
+          "browsers": "ChromeHeadlessNoSandbox",
+          "codeCoverage": true,
+          "progress": false,
+          "sourceMap": true,
+          "watch": false
+        }
       }
     },
     "lint": {
@@ -56,6 +69,7 @@
     },
     "posttest": {
       "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/coverage/libs/components/i18n-schematics"],
       "options": {
         "command": "ts-node --project ./scripts/tsconfig.json ./scripts/posttest-i18n.ts"
       }

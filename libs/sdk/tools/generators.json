@@ -4,6 +4,11 @@
       "factory": "./src/generators/update-dependencies/generator",
       "schema": "./src/generators/update-dependencies/schema.json",
       "description": "Update peer dependencies, such as during a major version upgrade"
+    },
+    "configure-test-ci": {
+      "factory": "./src/generators/configure-test-ci/generator",
+      "schema": "./src/generators/configure-test-ci/schema.json",
+      "description": "configure-test-ci generator"
     }
   }
 }

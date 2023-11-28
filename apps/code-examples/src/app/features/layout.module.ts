@@ -6,7 +6,7 @@ const routes: Routes = [
     path: 'action-button/basic',
     loadComponent: () =>
       import('../code-examples/layout/action-button/basic/demo.component').then(
-        (c) => c.DemoComponent
+        (c) => c.DemoComponent,
       ),
   },
   {
@@ -34,21 +34,21 @@ const routes: Routes = [
     path: 'box/basic',
     loadComponent: () =>
       import('../code-examples/layout/box/basic/demo.component').then(
-        (c) => c.DemoComponent
+        (c) => c.DemoComponent,
       ),
   },
   {
     path: 'box/inline-help',
     loadComponent: () =>
       import('../code-examples/layout/box/inline-help/demo.component').then(
-        (c) => c.DemoComponent
+        (c) => c.DemoComponent,
       ),
   },
   {
     path: 'card/basic',
     loadComponent: () =>
       import('../code-examples/layout/card/basic/demo.component').then(
-        (c) => c.DemoComponent
+        (c) => c.DemoComponent,
       ),
   },
   {
@@ -90,14 +90,14 @@ const routes: Routes = [
     path: 'fluid-grid',
     loadComponent: () =>
       import('../code-examples/layout/fluid-grid/demo.component').then(
-        (c) => c.DemoComponent
+        (c) => c.DemoComponent,
       ),
   },
   {
     path: 'format',
     loadComponent: () =>
       import('../code-examples/layout/format/demo.component').then(
-        (c) => c.DemoComponent
+        (c) => c.DemoComponent,
       ),
   },
   {
@@ -118,35 +118,35 @@ const routes: Routes = [
     path: 'page',
     loadComponent: () =>
       import('../code-examples/layout/page/layout-fit/demo.component').then(
-        (c) => c.DemoComponent
+        (c) => c.DemoComponent,
       ),
   },
   {
     path: 'page-summary/basic',
     loadComponent: () =>
       import('../code-examples/layout/page-summary/basic/demo.component').then(
-        (c) => c.DemoComponent
+        (c) => c.DemoComponent,
       ),
   },
   {
     path: 'text-expand/inline',
     loadComponent: () =>
       import('../code-examples/layout/text-expand/inline/demo.component').then(
-        (c) => c.DemoComponent
+        (c) => c.DemoComponent,
       ),
   },
   {
     path: 'text-expand/modal',
     loadComponent: () =>
       import('../code-examples/layout/text-expand/modal/demo.component').then(
-        (c) => c.DemoComponent
+        (c) => c.DemoComponent,
       ),
   },
   {
     path: 'text-expand/newline',
     loadComponent: () =>
       import('../code-examples/layout/text-expand/newline/demo.component').then(
-        (c) => c.DemoComponent
+        (c) => c.DemoComponent,
       ),
   },
   {
@@ -160,14 +160,14 @@ const routes: Routes = [
     path: 'toolbar/basic',
     loadComponent: () =>
       import('../code-examples/layout/toolbar/basic/demo.component').then(
-        (c) => c.DemoComponent
+        (c) => c.DemoComponent,
       ),
   },
   {
     path: 'toolbar/sectioned',
     loadComponent: () =>
       import('../code-examples/layout/toolbar/sectioned/demo.component').then(
-        (c) => c.DemoComponent
+        (c) => c.DemoComponent,
       ),
   },
 ];

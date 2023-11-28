@@ -6,18 +6,21 @@
   <sky-action-hub-buttons>
     <button
       class="sky-btn sky-btn-default sky-margin-inline-sm"
+      type="button"
       (click)="switchRecentLinks('foo')"
     >
       Foo list
     </button>
     <button
       class="sky-btn sky-btn-default sky-margin-inline-sm"
+      type="button"
       (click)="switchRecentLinks('bar')"
     >
       Bar list
     </button>
     <button
       class="sky-btn sky-btn-default sky-margin-inline-sm"
+      type="button"
       (click)="
         switchRecentLinks(undefined, [
           {
@@ -34,6 +37,7 @@
     </button>
     <button
       class="sky-btn sky-btn-default sky-margin-inline-sm"
+      type="button"
       (click)="switchRecentLinks()"
     >
       Undefined
