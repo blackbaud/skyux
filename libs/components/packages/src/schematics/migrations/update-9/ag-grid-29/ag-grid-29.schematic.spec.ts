@@ -53,7 +53,7 @@ describe('ag-grid-29.schematic', () => {
       {
         options: {
           styles: [
-            'node_modules/@skyux/theme/css/sky.css',
+            '@skyux/theme/css/sky.css',
             'ag-grid-community/dist/styles/ag-theme-alpine.css',
           ],
         },
@@ -71,8 +71,8 @@ describe('ag-grid-29.schematic', () => {
         'styles',
       ]),
     ).toEqual([
-      'node_modules/@skyux/theme/css/sky.css',
-      'node_modules/@skyux/ag-grid/css/sky-ag-grid.css',
+      '@skyux/theme/css/sky.css',
+      '@skyux/ag-grid/css/sky-ag-grid.css',
     ]);
   });
 
