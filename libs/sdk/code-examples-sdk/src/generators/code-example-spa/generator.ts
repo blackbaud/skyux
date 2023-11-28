@@ -42,7 +42,7 @@ const startingDependencies = [
 ];
 
 function normalizeOptions(
-  options: CodeExampleSpaGeneratorSchema
+  options: CodeExampleSpaGeneratorSchema,
 ): CodeExampleSpaGeneratorConfig {
   const projectPath = options.path.replace(`${codeExamplesBasePath}/`, '');
   return {
@@ -55,7 +55,7 @@ function normalizeOptions(
 function findDemoComponent(tree: Tree, config: CodeExampleSpaGeneratorConfig) {
   const demoComponentFile = 'demo.component.ts';
   const standaloneDemo = tree.exists(
-    `${codeExamplesBasePath}/${config.projectPath}/${demoComponentFile}`
+    `${codeExamplesBasePath}/${config.projectPath}/${demoComponentFile}`,
   );
   if (!standaloneDemo) {
     throw new Error(`Missing demo.component.ts file in ${config.projectPath}`);
@@ -64,18 +64,18 @@ function findDemoComponent(tree: Tree, config: CodeExampleSpaGeneratorConfig) {
   // Get the module class name
   const exampleModuleSource = readSourceFile(
     tree,
-    `${codeExamplesBasePath}/${config.projectPath}/${demoComponentFile}`
+    `${codeExamplesBasePath}/${config.projectPath}/${demoComponentFile}`,
   );
   const componentClass = findComponentClass(exampleModuleSource);
   if (!componentClass) {
     throw new Error(
-      `Could not find component class in ${config.projectPath}/${demoComponentFile}`
+      `Could not find component class in ${config.projectPath}/${demoComponentFile}`,
     );
   }
   const componentClassName = componentClass?.classDeclaration.name?.getText();
   if (componentClassName !== 'DemoComponent') {
     throw new Error(
-      `Class name should be DemoComponent in ${config.projectPath}/${demoComponentFile}`
+      `Class name should be DemoComponent in ${config.projectPath}/${demoComponentFile}`,
     );
   }
   const componentSelector =
@@ -83,14 +83,14 @@ function findDemoComponent(tree: Tree, config: CodeExampleSpaGeneratorConfig) {
     (componentClass.properties['selector'] as ts.StringLiteral).text;
   if (componentSelector !== 'app-demo') {
     throw new Error(
-      `Selector should be "app-demo" in ${config.projectPath}/${demoComponentFile}`
+      `Selector should be "app-demo" in ${config.projectPath}/${demoComponentFile}`,
     );
   }
   const componentStandalone =
     componentClass?.properties?.['standalone']?.getText();
   if (componentStandalone !== 'true') {
     throw new Error(
-      `Component should be standalone in ${config.projectPath}/${demoComponentFile}`
+      `Component should be standalone in ${config.projectPath}/${demoComponentFile}`,
     );
   }
 
@@ -113,7 +113,7 @@ async function generateSpa(
   exampleModuleFile: string,
   dependencies: string[],
   exampleComponentSelector: string,
-  hasTests: boolean
+  hasTests: boolean,
 ) {
   const ngNew = wrapAngularDevkitSchematic('@schematics/angular', 'ng-new');
   const cdkAdd = wrapAngularDevkitSchematic('@angular/cdk', 'ng-add');
@@ -121,7 +121,7 @@ async function generateSpa(
 
   if (tree.isFile(`${outputPath}/angular.json`)) {
     throw new Error(
-      `The project build ${outputPath} already exists. Please delete it before running this schematic.`
+      `The project build ${outputPath} already exists. Please delete it before running this schematic.`,
     );
   }
 
@@ -161,12 +161,22 @@ async function generateSpa(
       config.project
     ].architect.serve.options.browserTarget = `${config.project}:build`;
     json.projects[config.project].architect.build.options.polyfills.push(
-      '@skyux/packages/polyfills'
+      '@skyux/packages/polyfills',
     );
     json.projects[config.project].architect.build.options.assets = [];
     json.projects[config.project].architect.build.options.buildOptimizer =
       false;
     json.projects[config.project].architect.build.options.optimization = false;
+    json.projects[config.project].architect.build.options.styles ||= [];
+    if (dependencies.includes('ag-grid-angular')) {
+      json.projects[config.project].architect.build.options.styles.push(
+        '@skyux/ag-grid/css/sky-ag-grid.css',
+      );
+    }
+    json.projects[config.project].architect.build.options.styles.push(
+      '@skyux/theme/css/sky.css',
+      '@skyux/theme/css/themes/modern/styles.css',
+    );
     json.projects[
       config.project
     ].architect.build.options.allowedCommonJsDependencies = [
@@ -179,15 +189,15 @@ async function generateSpa(
           json.projects[
             config.project
           ].architect.build.options.allowedCommonJsDependencies.push(
-            dependency
+            dependency,
           );
         }
-      }
+      },
     );
 
     if (hasTests) {
       json.projects[config.project].architect.test.options.polyfills.push(
-        '@skyux/packages/polyfills'
+        '@skyux/packages/polyfills',
       );
       json.projects[config.project].architect.test.options.assets = [];
     } else {
@@ -209,14 +219,14 @@ async function generateSpa(
       if (dependency.startsWith('@skyux')) {
         if (tree.isFile(`node_modules/${dependency}/package.json`)) {
           json.dependencies[dependency] = `${getHoistedPackageVersion(
-            dependency
+            dependency,
           )}`;
         } else {
           json.dependencies[dependency] = skyuxVersion;
         }
       } else {
         json.dependencies[dependency] = `${getHoistedPackageVersion(
-          dependency
+          dependency,
         )}`;
       }
     });
@@ -286,7 +296,7 @@ async function generateSpa(
 function generateHtmlLauncherFile(
   tree: Tree,
   outputPath: string,
-  config: CodeExampleSpaGeneratorConfig
+  config: CodeExampleSpaGeneratorConfig,
 ) {
   // Generate an HTML launcher file.
   const files: Record<string, string> = {};
@@ -296,7 +306,7 @@ function generateHtmlLauncherFile(
       if (tree.isFile(filePath)) {
         files[filePath.replace(`${outputPath}/`, '')] = `${tree.read(
           filePath,
-          'utf-8'
+          'utf-8',
         )}`;
       } else {
         getFiles(filePath);
@@ -313,18 +323,18 @@ function generateHtmlLauncherFile(
 
 export async function codeExampleSpa(
   tree: Tree,
-  options: CodeExampleSpaGeneratorSchema
+  options: CodeExampleSpaGeneratorSchema,
 ) {
   const config = normalizeOptions(options);
   const { componentClassName, componentSelector, demoComponentFile, hasTests } =
     findDemoComponent(tree, config);
   const exampleCodeDependencies = findDependenciesFromCode(
     tree,
-    `${codeExamplesBasePath}/${config.projectPath}`
+    `${codeExamplesBasePath}/${config.projectPath}`,
   );
   const exampleDependencies = findPeerDependencies(
     tree,
-    exampleCodeDependencies.concat(startingDependencies)
+    exampleCodeDependencies.concat(startingDependencies),
   );
 
   // Create the basic SPA, including dependencies.
@@ -335,7 +345,7 @@ export async function codeExampleSpa(
     demoComponentFile,
     exampleDependencies,
     componentSelector,
-    hasTests
+    hasTests,
   );
 
   // Copy code example component
@@ -343,7 +353,7 @@ export async function codeExampleSpa(
     tree,
     `${workspaceRoot}/${codeExamplesBasePath}/${config.projectPath}`,
     `${outputPath}/src/app`,
-    {}
+    {},
   );
 
   // Format before generating launcher file.
