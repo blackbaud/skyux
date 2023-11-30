@@ -15,7 +15,7 @@ export type SkyGridColumnType =
   | 'template'
   | 'text';
 
-export interface SkyGridColumnModel {
+export interface SkyGridColumnModelInterface {
   /**
    * The horizontal alignment of the column's data and header.
    * Options include: `"left"`, `"center"`, and `"right"`.
@@ -91,7 +91,7 @@ export interface SkyGridColumnModel {
    */
   search?: (value: any, searchText: string) => boolean;
 
-  type: SkyGridColumnType;
+  type: SkyGridColumnType | string;
 
   /**
    * The template for a column. This can be assigned as a reference
@@ -107,4 +107,46 @@ export interface SkyGridColumnModel {
    * If undefined, the column width is evenly distributed.
    */
   width?: number;
+}
+
+export class SkyGridColumnModel implements SkyGridColumnModelInterface {
+  public template: TemplateRef<unknown>;
+  public id: string;
+  public field: string;
+  public heading: string;
+  public inlineHelpPopover: any;
+  public type: string;
+  public width: number;
+  public hidden: boolean;
+  public locked: boolean;
+  public description: string;
+  public isSortable = true;
+  public excludeFromHighlighting: boolean;
+
+  /**
+   * The horizontal alignment of the column's data and header.
+   */
+  public alignment: SkyGridColumnAlignment;
+
+  public searchFunction: (data: any, searchText: string) => boolean;
+
+  constructor(template: TemplateRef<unknown>, data?: any) {
+    this.template = template;
+
+    if (data) {
+      this.id = data.id || data.field;
+      this.type = data.type;
+      this.field = data.field;
+      this.heading = data.heading;
+      this.inlineHelpPopover = data.inlineHelpPopover;
+      this.width = data.width ? Number(data.width) : undefined;
+      this.hidden = data.hidden;
+      this.locked = data.locked;
+      this.description = data.description;
+      this.searchFunction = data.searchFunction;
+      this.isSortable = data.isSortable;
+      this.excludeFromHighlighting = data.excludeFromHighlighting;
+      this.alignment = data.alignment;
+    }
+  }
 }

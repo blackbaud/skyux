@@ -47,9 +47,11 @@ import {
 } from 'rxjs';
 
 import { SkyGridColumnComponent } from './grid-column.component';
-import { SkyGridColumnModel } from './grid-column.model';
+import { SkyGridColumnModelInterface } from './grid-column.model';
 import { SkyGridInlineHelpComponent } from './grid-inline-help/grid-inline-help.component';
 import { ColDefWithField, SkyGridService } from './grid.service';
+import { SkyGridColumnDescriptionModelChange } from './types/grid-column-description-model-change';
+import { SkyGridColumnHeadingModelChange } from './types/grid-column-heading-model-change';
 import { SkyGridColumnWidthModelChange } from './types/grid-column-width-model-change';
 import { SkyGridMessage } from './types/grid-message';
 import { SkyGridMessageType } from './types/grid-message-type';
@@ -81,14 +83,14 @@ let nextId = 0;
   styleUrls: ['./grid.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyGridComponent<TData extends Record<string, unknown>>
+export class SkyGridComponent<TData extends Record<string, unknown> = any>
   implements AfterViewInit, OnChanges, OnDestroy
 {
   /**
    * Columns and column properties for the grid. Provide either this input or use `sky-grid-column` child components.
    */
   @Input()
-  public columns: SkyGridColumnModel[] | undefined;
+  public columns: SkyGridColumnModelInterface[] | undefined;
 
   /**
    * The data for the grid. Each item requires an `id` and a property that maps
@@ -276,7 +278,7 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
   @Output()
   public sortFieldChange = new EventEmitter<ListSortFieldSelectorModel>();
 
-  public displayedColumns: Array<SkyGridColumnModel>;
+  public displayedColumns: Array<SkyGridColumnModelInterface>;
 
   @ContentChildren(SkyGridColumnComponent)
   protected columnComponents: QueryList<SkyGridColumnComponent> | undefined;
@@ -481,6 +483,42 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
     this.#subscriptionForLayout.unsubscribe();
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
+  }
+
+  public updateColumnHeading(change: SkyGridColumnHeadingModelChange): void {
+    const columns = this.#getAgGridColDefs();
+
+    const foundColumnModel = columns.find((column) => {
+      return (
+        (change.id !== undefined && change.id === column.colId) ||
+        (change.field !== undefined && change.field === column.field)
+      );
+    });
+
+    /* istanbul ignore else */
+    if (foundColumnModel) {
+      foundColumnModel.headerName = change.value;
+      this.agGrid?.api.setColumnDefs(columns);
+    }
+  }
+
+  public updateColumnDescription(
+    change: SkyGridColumnDescriptionModelChange,
+  ): void {
+    const columns = this.#getAgGridColDefs();
+
+    const foundColumnModel = columns.find((column) => {
+      return (
+        (change.id !== undefined && change.id === column.colId) ||
+        (change.field !== undefined && change.field === column.field)
+      );
+    });
+
+    /* istanbul ignore else */
+    if (foundColumnModel) {
+      foundColumnModel.headerComponentParams.description = change.value;
+      this.agGrid?.api.setColumnDefs(columns);
+    }
   }
 
   protected pageChange(page: number): void {

@@ -12,7 +12,10 @@ import { ColDef, GetRowIdParams, GridOptions } from 'ag-grid-community';
 import { Observable, map, merge, of, switchMap, takeUntil } from 'rxjs';
 
 import { SkyGridColumnComponent } from './grid-column.component';
-import { SkyGridColumnModel, SkyGridColumnType } from './grid-column.model';
+import {
+  SkyGridColumnModelInterface,
+  SkyGridColumnType,
+} from './grid-column.model';
 import { SkyGridInlineHelpComponent } from './grid-inline-help/grid-inline-help.component';
 import { SkyGridColumnAlignment } from './types/grid-column-alignment';
 import {
@@ -43,7 +46,7 @@ export class SkyGridService {
 
   public readGridOptionsFromColumns<TData>(
     options: Partial<SkyGridOptions>,
-    columns: Iterable<SkyGridColumnModel>,
+    columns: Iterable<SkyGridColumnModelInterface>,
   ): GridOptions<TData> {
     options = Object.assign({}, SkyGridDefaultOptions, options);
 
@@ -104,7 +107,7 @@ export class SkyGridService {
 
   #getAgGridColDefs<TData>(
     options: SkyGridOptions,
-    columns: Iterable<SkyGridColumnModel>,
+    columns: Iterable<SkyGridColumnModelInterface>,
   ): ColDefWithField<TData>[] {
     const columnDefs = Array.from(columns).map((column, index) => {
       return {

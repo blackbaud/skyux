@@ -15,7 +15,10 @@ import {
 
 import { Observable, Subject, Subscription } from 'rxjs';
 
-import { SkyGridColumnModel, SkyGridColumnType } from './grid-column.model';
+import {
+  SkyGridColumnModelInterface,
+  SkyGridColumnType,
+} from './grid-column.model';
 import { SkyGridColumnAlignment } from './types/grid-column-alignment';
 import { SkyGridColumnDescriptionModelChange } from './types/grid-column-description-model-change';
 import { SkyGridColumnHeadingModelChange } from './types/grid-column-heading-model-change';
@@ -31,7 +34,7 @@ import { SkyGridColumnInlineHelpPopoverModelChange } from './types/grid-column-i
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyGridColumnComponent
-  implements AfterViewInit, OnChanges, OnDestroy, SkyGridColumnModel
+  implements AfterViewInit, OnChanges, OnDestroy, SkyGridColumnModelInterface
 {
   /**
    * The horizontal alignment of the column's data and header.
