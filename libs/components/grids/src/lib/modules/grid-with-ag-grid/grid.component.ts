@@ -161,6 +161,12 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
   public multiselectRowId: string;
 
   /**
+   * The options for the grid. Providing individual options as inputs will override these values.
+   */
+  @Input()
+  public options: Partial<SkyGridOptions> | undefined;
+
+  /**
    * When using paged data, what is the current page number.
    */
   @Input({ transform: (value: unknown) => coerceNumberProperty(value) })
@@ -368,6 +374,7 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
   protected get settings(): SkyGridOptions {
     return {
       ...SkyGridDefaultOptions,
+      ...this.options,
       enableMultiselect: this.enableMultiselect,
       settingsKey: this.settingsKey,
       totalRows: this.totalRows,

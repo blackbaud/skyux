@@ -10,7 +10,16 @@ const routes: ComponentRouteInfo[] = [
     data: {
       name: 'AAA SKY Grid',
       icon: 'table',
-      library: 'grid',
+      library: 'grids',
+    },
+  },
+  {
+    path: 'paging',
+    loadComponent: () => import('./paging/grid-paging.component'),
+    data: {
+      name: 'AAB SKY Grid Paging',
+      icon: 'table',
+      library: 'grids',
     },
   },
 ];

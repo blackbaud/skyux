@@ -16,3 +16,4 @@ export { SkyGridUIConfig } from './lib/modules/grid-with-ag-grid/types/grid-ui-c
 
 export { SkyGridColumnComponent } from './lib/modules/grid-with-ag-grid/grid-column.component';
 export { SkyGridComponent } from './lib/modules/grid-with-ag-grid/grid.component';
+export { SkyGridOptions } from './lib/modules/grid-with-ag-grid/types/grid-options.type';
