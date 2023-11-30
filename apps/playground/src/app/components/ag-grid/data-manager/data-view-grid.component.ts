@@ -13,6 +13,7 @@ import {
   SkyDataManagerState,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
+import { SkyPagingContentChangeArgs, SkyPagingModule } from '@skyux/lists';
 
 import { AgGridModule } from 'ag-grid-angular';
 import {
@@ -23,10 +24,19 @@ import {
   GridReadyEvent,
 } from 'ag-grid-community';
 
+import { DataManagerPagedItemsPipe } from './data-manager-paged-items.pipe';
+
 @Component({
   selector: 'app-data-view-grid',
   standalone: true,
-  imports: [AgGridModule, CommonModule, SkyAgGridModule, SkyDataManagerModule],
+  imports: [
+    AgGridModule,
+    CommonModule,
+    DataManagerPagedItemsPipe,
+    SkyAgGridModule,
+    SkyDataManagerModule,
+    SkyPagingModule,
+  ],
   templateUrl: './data-view-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -91,11 +101,14 @@ export class DataViewGridComponent implements OnInit {
   };
 
   public columnApi: ColumnApi;
-  public displayedItems: any[];
+  public filteredItems: any[];
   public gridApi: GridApi;
   public gridInitialized: boolean;
   public gridOptions: GridOptions;
   public isActive: boolean;
+
+  protected currentPage = 1;
+  protected readonly pageSize = 5;
 
   constructor(
     private agGridService: SkyAgGridService,
@@ -104,7 +117,7 @@ export class DataViewGridComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.displayedItems = this.items;
+    this.filteredItems = this.items;
 
     this.dataManagerService.initDataView(this.viewConfig);
 
@@ -119,6 +132,7 @@ export class DataViewGridComponent implements OnInit {
       .getDataStateUpdates(this.viewId)
       .subscribe((state) => {
         this.dataState = state;
+        this.currentPage = state.additionalData?.currentPage ?? 1;
         this.setInitialColumnOrder();
         this.updateData();
         this.changeDetector.detectChanges();
@@ -131,10 +145,10 @@ export class DataViewGridComponent implements OnInit {
 
   public updateData(): void {
     this.sortItems();
-    this.displayedItems = this.filterItems(this.searchItems(this.items));
+    this.filteredItems = this.#filterItems(this.searchItems(this.items));
 
     if (this.dataState.onlyShowSelected) {
-      this.displayedItems = this.displayedItems.filter((item) => item.selected);
+      this.filteredItems = this.filteredItems.filter((item) => item.selected);
     }
   }
 
@@ -208,7 +222,18 @@ export class DataViewGridComponent implements OnInit {
     return searchedItems;
   }
 
-  public filterItems(items: any[]): any[] {
+  protected onContentChange(args: SkyPagingContentChangeArgs): void {
+    setTimeout(() => {
+      this.currentPage = args.currentPage;
+
+      this.dataState.additionalData.currentPage = args.currentPage;
+      this.#updateDataState();
+
+      args.loadingComplete();
+    }, 500);
+  }
+
+  #filterItems(items: any[]): any[] {
     let filteredItems = items;
     const filterData = this.dataState && this.dataState.filterData;
 
@@ -229,5 +254,9 @@ export class DataViewGridComponent implements OnInit {
     }
 
     return filteredItems;
+  }
+
+  #updateDataState(): void {
+    this.dataManagerService.updateDataState(this.dataState, this.viewId);
   }
 }

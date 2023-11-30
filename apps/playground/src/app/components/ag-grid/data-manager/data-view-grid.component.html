@@ -1,5 +1,22 @@
 <sky-data-view skyAgGridDataManagerAdapter [viewId]="viewConfig.id">
-  <sky-ag-grid-wrapper *ngIf="isActive && gridInitialized">
-    <ag-grid-angular [gridOptions]="gridOptions" [rowData]="displayedItems" />
-  </sky-ag-grid-wrapper>
+  <sky-paging
+    [currentPage]="dataState.additionalData.currentPage"
+    [itemCount]="filteredItems.length"
+    [pageSize]="pageSize"
+    (contentChange)="onContentChange($event)"
+  >
+    <sky-paging-content>
+      <sky-ag-grid-wrapper *ngIf="isActive && gridInitialized">
+        <ag-grid-angular
+          [gridOptions]="gridOptions"
+          [rowData]="
+            filteredItems
+              | dataManagerPagedItems
+                : pageSize
+                : dataState.additionalData.currentPage
+          "
+        />
+      </sky-ag-grid-wrapper>
+    </sky-paging-content>
+  </sky-paging>
 </sky-data-view>

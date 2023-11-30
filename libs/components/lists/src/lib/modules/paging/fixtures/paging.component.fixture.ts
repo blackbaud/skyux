@@ -18,7 +18,4 @@ export class SkyPagingTestComponent {
   public currentPage = 1;
   public itemCount = 8;
   public label: string | undefined;
-  public currentPageChanged(currentPage: number): void {
-    this.currentPage = currentPage;
-  }
 }

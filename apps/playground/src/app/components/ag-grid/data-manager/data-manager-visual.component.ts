@@ -50,6 +50,9 @@ export class DataManagerVisualComponent implements OnInit {
   };
 
   public defaultDataState = new SkyDataManagerState({
+    additionalData: {
+      currentPage: 1,
+    },
     filterData: {
       filtersApplied: true,
       filters: {

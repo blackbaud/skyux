@@ -7,6 +7,20 @@ $sky-paging-modern-padding-top-bottom: 3px;
   display: block;
 }
 
+.sky-paging-content-wrapper {
+  display: none;
+
+  &:not(:empty) {
+    display: block;
+    margin-bottom: var(--sky-margin-stacked-lg);
+  }
+
+  &:focus-visible {
+    outline: none;
+    border: none;
+  }
+}
+
 ul {
   margin: $sky-margin-plus-half 0 0 0;
   display: inline-block;

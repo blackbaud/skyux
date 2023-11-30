@@ -1,12 +1,18 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnChanges,
   Output,
   SimpleChanges,
+  ViewChild,
 } from '@angular/core';
+
+import { BehaviorSubject } from 'rxjs';
+
+import { SkyPagingContentChangeArgs } from './types/paging-content-change-args';
 
 @Component({
   selector: 'sky-paging',
@@ -53,17 +59,32 @@ export class SkyPagingComponent implements OnChanges {
    * Fires when the current page changes and emits the new current page.
    */
   @Output()
-  public currentPageChange: EventEmitter<number> = new EventEmitter<number>();
+  public currentPageChange = new EventEmitter<number>();
+
+  /**
+   * Fires when the current page changes and emits the new current page with a function
+   * to call when loading the new page completes. Handling this event will display the
+   * wait component until the callback function is called, and focus will move to the top
+   * of the list for keyboard navigation if the list contents are placed inside the
+   * sky-paging-content element.
+   */
+  @Output()
+  public contentChange = new EventEmitter<SkyPagingContentChangeArgs>();
+
+  @ViewChild('contentWrapper', { read: ElementRef })
+  public contentWrapper: ElementRef | undefined;
 
   public displayedPages: Array<number> = [];
 
   public pageCount = 0;
 
+  protected isLoading = new BehaviorSubject(false);
+
   public ngOnChanges(changes: SimpleChanges): void {
-    this.setPage(this.currentPage);
+    this.setPage(this.currentPage, changes['currentPage']?.isFirstChange());
   }
 
-  public setPage(pageNumber: number): void {
+  public setPage(pageNumber: number, forceContentChange?: boolean): void {
     const previousPage = this.currentPage;
 
     this.#setPageCount();
@@ -78,8 +99,21 @@ export class SkyPagingComponent implements OnChanges {
 
     this.#setDisplayedPages();
 
+    let doContentChange = forceContentChange;
+
     if (previousPage !== this.currentPage) {
       this.currentPageChange.emit(this.currentPage);
+      doContentChange = true;
+    }
+
+    if (doContentChange && this.contentChange.observed) {
+      this.#moveFocusToTop();
+      this.isLoading.next(true);
+
+      this.contentChange.emit({
+        currentPage: this.currentPage,
+        loadingComplete: () => this.isLoading.next(false),
+      });
     }
   }
 
@@ -152,5 +186,9 @@ export class SkyPagingComponent implements OnChanges {
       this.maxPages,
       this.currentPage
     );
+  }
+
+  #moveFocusToTop(): void {
+    this.contentWrapper?.nativeElement.focus();
   }
 }
