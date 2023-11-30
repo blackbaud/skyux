@@ -8,12 +8,6 @@
   height: 100%;
 }
 
-.grid-container {
-  --sky-grid-height: 400px;
-  --sky-grid-paging-height: 0;
-  --sky-grid-toolbar-height: 101px;
-}
-
 sky-data-manager {
   display: grid;
   grid-template-columns: 100%;
@@ -35,9 +29,7 @@ sky-data-manager-toolbar {
 }
 
 ag-grid-angular {
-  height: var(--sky-grid-height);
   min-height: 250px;
-  max-height: calc(100vh - var(--sky-grid-toolbar-height) - var(--sky-grid-paging-height));
   overflow: hidden;
 }
 

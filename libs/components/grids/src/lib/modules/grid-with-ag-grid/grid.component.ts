@@ -20,7 +20,6 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { SkyAgGridModule } from '@skyux/ag-grid';
-import { SkyResizeObserverService } from '@skyux/core';
 import {
   SkyDataManagerModule,
   SkyDataManagerService,
@@ -40,7 +39,6 @@ import {
 } from 'ag-grid-community';
 import {
   BehaviorSubject,
-  Observable,
   Subject,
   Subscription,
   filter,
@@ -355,9 +353,7 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
     }
   }
 
-  protected heightOfGrid: Observable<string>;
-  protected heightOfPaging: Observable<string>;
-  protected heightOfToolbar: Observable<string>;
+  protected heightOfGrid = new BehaviorSubject<string>('400px');
 
   @ViewChildren('paging', { read: ElementRef, emitDistinctChangesOnly: true })
   protected pagingElementRef!: QueryList<ElementRef>;
@@ -389,10 +385,6 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
   readonly #dataManagerService = inject(SkyDataManagerService);
   #dataManagerViewState: SkyDataViewStateOptions | undefined;
   readonly #gridService = inject(SkyGridService);
-  readonly #heightOfGrid = new BehaviorSubject<string>('400px');
-  readonly #heightOfPaging = new BehaviorSubject<string>('0');
-  readonly #heightOfToolbar = new BehaviorSubject<string>('101px');
-  readonly #resizeObserverService = inject(SkyResizeObserverService);
   readonly #router = inject(Router, { optional: true });
   readonly #subscriptionForDataManager = new Subscription();
   #subscriptions = new Subscription();
@@ -402,12 +394,6 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
   #viewReady = false;
   #_agGrid: AgGridAngular | undefined;
   #_messageStream: Subject<SkyGridMessage> | undefined;
-
-  constructor() {
-    this.heightOfGrid = this.#heightOfGrid.asObservable();
-    this.heightOfPaging = this.#heightOfPaging.asObservable();
-    this.heightOfToolbar = this.#heightOfToolbar.asObservable();
-  }
 
   public ngAfterViewInit(): void {
     this.#viewReady = true;
@@ -586,9 +572,9 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
     setTimeout(() => {
       // Set the height of the AG Grid element.
       if (!this.settings.visibleRows && this.height) {
-        this.#heightOfGrid.next(`${this.height}px`);
+        this.heightOfGrid.next(`${this.height}px`);
       } else if (this.settings.visibleRows || this.totalRows > 0) {
-        this.#heightOfGrid.next(`calc(
+        this.heightOfGrid.next(`calc(
             var(--ag-header-height)
             + var(--ag-row-height) * ${
               this.settings.visibleRows || this.settings.pageSize
@@ -596,37 +582,13 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
             + 2px
           )`);
       } else if (this.data?.length) {
-        this.#heightOfGrid.next(`calc(
+        this.heightOfGrid.next(`calc(
             var(--ag-header-height)
             + var(--ag-row-height) * ${this.data?.length}
             + 2px
           )`);
       } else {
-        this.#heightOfGrid.next(`400px`);
-      }
-
-      // Track the heights of the paging and toolbar elements.
-      if (this.pagingElementRef.length > 0) {
-        this.#subscriptionForLayout.add(
-          this.#resizeObserverService
-            .observe(this.pagingElementRef.get(0) as ElementRef<HTMLElement>)
-            .subscribe((entry) => {
-              this.#heightOfPaging.next(`${entry.contentRect.height}px`);
-            }),
-        );
-      } else {
-        this.#heightOfPaging.next(`0`);
-      }
-      if (this.toolbarElementRef.length > 0) {
-        this.#subscriptionForLayout.add(
-          this.#resizeObserverService
-            .observe(this.toolbarElementRef.get(0) as ElementRef<HTMLElement>)
-            .subscribe((entry) => {
-              this.#heightOfToolbar.next(`${entry.contentRect.height}px`);
-            }),
-        );
-      } else {
-        this.#heightOfToolbar.next(`0`);
+        this.heightOfGrid.next(`400px`);
       }
     });
   }

@@ -16,21 +16,22 @@
   },
   "homepage": "https://github.com/blackbaud/skyux#readme",
   "peerDependencies": {
+    "@angular/cdk": "^16.2.8",
     "@angular/common": "^16.2.9",
     "@angular/core": "^16.2.9",
-    "@angular/forms": "^16.2.9",
+    "@angular/router": "^16.2.9",
+    "@skyux/ag-grid": "0.0.0-PLACEHOLDER",
     "@skyux/core": "0.0.0-PLACEHOLDER",
-    "@skyux/forms": "0.0.0-PLACEHOLDER",
+    "@skyux/data-manager": "0.0.0-PLACEHOLDER",
     "@skyux/i18n": "0.0.0-PLACEHOLDER",
     "@skyux/indicators": "0.0.0-PLACEHOLDER",
-    "@skyux/layout": "0.0.0-PLACEHOLDER",
     "@skyux/list-builder-common": "0.0.0-PLACEHOLDER",
-    "@skyux/popovers": "0.0.0-PLACEHOLDER"
+    "@skyux/lists": "0.0.0-PLACEHOLDER",
+    "@skyux/popovers": "0.0.0-PLACEHOLDER",
+    "ag-grid-angular": "^29.3.5",
+    "ag-grid-community": "^29.3.5"
   },
   "dependencies": {
-    "@types/dragula": "2.1.36",
-    "dragula": "3.7.3",
-    "ng2-dragula": "5.0.1",
     "tslib": "^2.6.2"
   }
 }

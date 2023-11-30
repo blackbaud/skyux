@@ -5,6 +5,5 @@
     "entryFile": "src/index.ts",
     "styleIncludePaths": ["../../.."]
   },
-  "allowedNonPeerDependencies": ["dragula", "ng2-dragula"],
   "inlineStyleLanguage": "scss"
 }
