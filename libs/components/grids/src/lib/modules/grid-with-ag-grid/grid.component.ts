@@ -24,7 +24,6 @@ import { SkyResizeObserverService } from '@skyux/core';
 import {
   SkyDataManagerModule,
   SkyDataManagerService,
-  SkyDataManagerSortOption,
   SkyDataManagerState,
   SkyDataViewConfig,
   SkyDataViewStateOptions,
@@ -217,26 +216,7 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
    * This property accepts `boolean` values. Default is `false`.
    */
   @Input()
-  public set sortField(value: ListSortFieldSelectorModel | undefined) {
-    let activeSort: SkyDataManagerSortOption;
-
-    if (value) {
-      activeSort = {
-        descending: value.descending,
-        id: value.fieldSelector,
-        propertyName: value.fieldSelector,
-        label: '',
-      };
-    }
-
-    this.#activeSort = activeSort;
-
-    const newDataState = new SkyDataManagerState({
-      ...this.#currentDataState,
-      activeSortOption: activeSort,
-    });
-    this.#dataManagerService.updateDataState(newDataState, this.viewId);
-  }
+  public sortField: ListSortFieldSelectorModel;
 
   /**
    * When using paged data, what is the total number of rows.
@@ -419,8 +399,6 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
   #ngUnsubscribe = new Subject<void>();
   #gridChanged = new Subject<void>();
   #viewReady = false;
-  #currentDataState: SkyDataManagerState | undefined;
-  #activeSort: SkyDataManagerSortOption | undefined;
   #_agGrid: AgGridAngular | undefined;
   #_messageStream: Subject<SkyGridMessage> | undefined;
 
@@ -437,7 +415,6 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
         .getDataStateUpdates(this.viewId)
         .subscribe((state) => {
           this.agGrid?.api.setQuickFilter(state.searchText || '');
-          this.#currentDataState = state;
         }),
     );
 
@@ -465,9 +442,13 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
       if (Object.keys(changes).length === 1 && changes['data']) {
         this.agGrid?.api.setRowData(this.data || []);
       } else if (
-        ['enableMultiselect', 'settingsKey', 'viewId', 'columns'].some(
-          (key) => key in changes,
-        )
+        [
+          'enableMultiselect',
+          'settingsKey',
+          'viewId',
+          'columns',
+          'sortField',
+        ].some((key) => key in changes)
       ) {
         this.#updateGridView();
         this.agGrid?.api.setRowData(this.data || []);
@@ -536,12 +517,20 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
     const existingView = this.#dataManagerService.getViewById(this.viewId);
     this.#dataManagerViewState = this.#getDataManagerColumnsViewState();
     const viewConfig = this.#getViewConfig();
+    const sort = this.sortField
+      ? {
+          descending: this.sortField.descending,
+          propertyName: this.sortField.fieldSelector,
+          id: this.sortField.fieldSelector,
+          label: '',
+        }
+      : undefined;
     if (existingView) {
       this.#dataManagerService.updateViewConfig(viewConfig);
       this.#dataManagerService.updateDataState(
         new SkyDataManagerState({
           views: [this.#dataManagerViewState],
-          activeSortOption: this.#activeSort,
+          activeSortOption: sort,
         }),
         this.viewId,
       );
@@ -554,7 +543,7 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
         },
         defaultDataState: new SkyDataManagerState({
           views: [this.#dataManagerViewState],
-          activeSortOption: this.#activeSort,
+          activeSortOption: sort,
         }),
         settingsKey: this.settings.settingsKey,
       });
