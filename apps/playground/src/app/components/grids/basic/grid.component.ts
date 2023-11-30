@@ -156,6 +156,10 @@ export default class GridComponent {
     console.log(event);
   }
 
+  public onColumnWidthChange(event: any): void {
+    console.log(event);
+  }
+
   private performSort(
     activeSort: ListSortFieldSelectorModel,
     data: any[],
