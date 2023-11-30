@@ -40,11 +40,11 @@ export class SkyValidators {
    * validation errors or `null` immediately when users enter values.
    */
   public static url(
-    skyUrlValidationOptions: SkyUrlValidationOptions,
+    skyUrlValidationOptions: SkyUrlValidationOptions
   ): ValidatorFn;
 
   public static url(
-    value: AbstractControl | SkyUrlValidationOptions,
+    value: AbstractControl | SkyUrlValidationOptions
   ): ValidatorFn | ValidationErrors | null {
     const typeTester = value as SkyUrlValidationOptions;
     if (typeTester.rulesetVersion === undefined) {
@@ -68,7 +68,7 @@ export class SkyValidators {
 
         return SkyValidation.isUrl(
           abstractControl.value,
-          skyUrlValidationOptions,
+          skyUrlValidationOptions
         )
           ? null
           : { skyUrl: { invalid: abstractControl.value } };

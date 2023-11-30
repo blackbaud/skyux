@@ -5,8 +5,8 @@ Cypress.on(
   'uncaught:exception',
   (err) =>
     !err.message.includes(
-      'ResizeObserver loop completed with undelivered notifications',
-    ),
+      'ResizeObserver loop completed with undelivered notifications'
+    )
 );
 
 describe('action-bars-storybook - summary action bar', () => {
@@ -23,7 +23,7 @@ describe('action-bars-storybook - summary action bar', () => {
             describe(`at ${width}px (${style})`, () => {
               it(`should render the component at width ${width} (${style})`, () => {
                 cy.viewport(width, height).visit(
-                  `/iframe.html?globals=theme:${theme}&id=summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}`,
+                  `/iframe.html?globals=theme:${theme}&id=summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}`
                 );
                 cy.get('app-summary-action-bar')
                   .should('exist')
@@ -48,7 +48,7 @@ describe('action-bars-storybook - summary action bar', () => {
                   {
                     width: width,
                     capture: 'viewport',
-                  },
+                  }
                 );
               });
 
@@ -59,7 +59,7 @@ describe('action-bars-storybook - summary action bar', () => {
               ) {
                 it(`should render the component at width ${width} and with a collapsed summary (${style})`, () => {
                   cy.viewport(width, height).visit(
-                    `/iframe.html?globals=theme:${theme}&id=summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}`,
+                    `/iframe.html?globals=theme:${theme}&id=summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}`
                   );
 
                   cy.get('app-summary-action-bar')
@@ -94,14 +94,14 @@ describe('action-bars-storybook - summary action bar', () => {
                     {
                       width: width,
                       capture: 'viewport',
-                    },
+                    }
                   );
                 });
 
                 it(`should render the component at width ${width} and with and open secondary actions menu (${style})`, () => {
                   cy.viewport(width, height)
                     .visit(
-                      `/iframe.html?globals=theme:${theme}&id=summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}`,
+                      `/iframe.html?globals=theme:${theme}&id=summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}`
                     )
 
                     .get('app-summary-action-bar')
@@ -124,7 +124,7 @@ describe('action-bars-storybook - summary action bar', () => {
                     .click()
                     .end()
                     .get(
-                      'sky-dropdown-menu sky-summary-action-bar-secondary-action',
+                      'sky-dropdown-menu sky-summary-action-bar-secondary-action'
                     )
                     .should('exist')
                     .should('be.visible')
@@ -136,13 +136,13 @@ describe('action-bars-storybook - summary action bar', () => {
                       {
                         width: width,
                         capture: 'viewport',
-                      },
+                      }
                     );
                 });
               }
             });
           });
-        },
+        }
       );
     });
   });

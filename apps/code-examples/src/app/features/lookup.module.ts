@@ -13,7 +13,7 @@ const routes: Routes = [
     path: 'autocomplete/basic',
     loadComponent: () =>
       import('../code-examples/lookup/autocomplete/basic/demo.component').then(
-        (c) => c.DemoComponent,
+        (c) => c.DemoComponent
       ),
   },
   {
@@ -34,21 +34,21 @@ const routes: Routes = [
     path: 'country-field/basic',
     loadComponent: () =>
       import('../code-examples/lookup/country-field/basic/demo.component').then(
-        (c) => c.DemoComponent,
+        (c) => c.DemoComponent
       ),
   },
   {
     path: 'lookup/add-item',
     loadComponent: () =>
       import('../code-examples/lookup/lookup/add-item/demo.component').then(
-        (c) => c.DemoComponent,
+        (c) => c.DemoComponent
       ),
   },
   {
     path: 'lookup/async',
     loadComponent: () =>
       import('../code-examples/lookup/lookup/async/demo.component').then(
-        (c) => c.DemoComponent,
+        (c) => c.DemoComponent
       ),
   },
   {
@@ -62,7 +62,7 @@ const routes: Routes = [
     path: 'lookup/multi-select',
     loadComponent: () =>
       import('../code-examples/lookup/lookup/multi-select/demo.component').then(
-        (c) => c.DemoComponent,
+        (c) => c.DemoComponent
       ),
   },
   {
@@ -83,7 +83,7 @@ const routes: Routes = [
     path: 'search/basic',
     loadComponent: () =>
       import('../code-examples/lookup/search/basic/demo.component').then(
-        (c) => c.DemoComponent,
+        (c) => c.DemoComponent
       ),
   },
   {

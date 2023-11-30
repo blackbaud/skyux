@@ -48,7 +48,7 @@ export class SplitViewPageBoundComponent {
 
   constructor(
     public changeDetectorRef: ChangeDetectorRef,
-    public confirmService: SkyConfirmService,
+    public confirmService: SkyConfirmService
   ) {
     this.activeIndex = 0;
   }

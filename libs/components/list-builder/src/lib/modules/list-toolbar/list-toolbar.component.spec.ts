@@ -107,7 +107,7 @@ describe('List Toolbar Component', () => {
     fixture.detectChanges();
 
     const sections = fixture.nativeElement.querySelectorAll(
-      '.sky-list-toolbar-search .sky-toolbar-section',
+      '.sky-list-toolbar-search .sky-toolbar-section'
     );
     let items;
 
@@ -220,7 +220,7 @@ describe('List Toolbar Component', () => {
         fixture.detectChanges();
         const spy = spyOn(
           component.toolbar.searchApplied,
-          'next',
+          'next'
         ).and.callThrough();
 
         component.toolbar.searchComponent.applySearchText('something');
@@ -328,10 +328,8 @@ describe('List Toolbar Component', () => {
         fixture.detectChanges();
         expect(
           element.query(
-            By.css(
-              "sky-list-toolbar-item-renderer[sky-cmp-id='sort-selector']",
-            ),
-          ),
+            By.css("sky-list-toolbar-item-renderer[sky-cmp-id='sort-selector']")
+          )
         ).not.toBeNull();
       });
     }));
@@ -354,7 +352,7 @@ describe('List Toolbar Component', () => {
             expect(
               current.toolbar.items.filter((item) => {
                 return item.id === 'sort-selector';
-              }).length,
+              }).length
             ).toBe(0);
           });
         });
@@ -381,7 +379,7 @@ describe('List Toolbar Component', () => {
       tick();
 
       const dropdownButtonEl = nativeElement.querySelector(
-        '.sky-sort .sky-dropdown-button',
+        '.sky-sort .sky-dropdown-button'
       ) as HTMLButtonElement;
       dropdownButtonEl.click();
 
@@ -408,7 +406,7 @@ describe('List Toolbar Component', () => {
       tick();
 
       const sortSelectorDropdownButtonEl = nativeElement.querySelector(
-        '.sky-sort .sky-dropdown-button',
+        '.sky-sort .sky-dropdown-button'
       ) as HTMLButtonElement;
       sortSelectorDropdownButtonEl.click();
 
@@ -456,7 +454,7 @@ describe('List Toolbar Component', () => {
         fixture.whenStable().then(() => {
           fixture.detectChanges();
           const sortSelectorDropdownButtonEl = nativeElement.querySelector(
-            '.sky-sort .sky-dropdown-button',
+            '.sky-sort .sky-dropdown-button'
           ) as HTMLButtonElement;
           sortSelectorDropdownButtonEl.click();
 
@@ -491,7 +489,7 @@ describe('List Toolbar Component', () => {
         fixture.whenStable().then(() => {
           fixture.detectChanges();
           const sortSelectorDropdownButtonEl = nativeElement.querySelector(
-            '.sky-sort .sky-dropdown-button',
+            '.sky-sort .sky-dropdown-button'
           ) as HTMLButtonElement;
           sortSelectorDropdownButtonEl.click();
 
@@ -537,7 +535,7 @@ describe('List Toolbar Component', () => {
         let items: NodeList =
           fixture.nativeElement.querySelectorAll('.sky-toolbar-item');
         expect(
-          (items.item(1) as HTMLElement).querySelector('.sky-sort'),
+          (items.item(1) as HTMLElement).querySelector('.sky-sort')
         ).not.toBeNull();
         expect(items.item(3)).toHaveText('Custom Item 2');
         expect(items.item(4)).toHaveText('Custom Item');
@@ -548,7 +546,7 @@ describe('List Toolbar Component', () => {
         fixture.detectChanges();
         items = fixture.nativeElement.querySelectorAll('.sky-toolbar-item');
         expect(
-          (items.item(1) as HTMLElement).querySelector('.sky-sort'),
+          (items.item(1) as HTMLElement).querySelector('.sky-sort')
         ).not.toBeNull();
         expect(items.item(3)).toHaveText('Custom Item 2');
         expect(items.length).toBe(4);
@@ -558,7 +556,7 @@ describe('List Toolbar Component', () => {
         fixture.detectChanges();
         items = fixture.nativeElement.querySelectorAll('.sky-toolbar-item');
         expect(
-          (items.item(1) as HTMLElement).querySelector('.sky-sort'),
+          (items.item(1) as HTMLElement).querySelector('.sky-sort')
         ).not.toBeNull();
         expect(items.item(3)).toHaveText('Custom Item 2');
         expect(items.item(4)).toHaveText('Custom Item');
@@ -608,8 +606,8 @@ describe('List Toolbar Component', () => {
             new ListItemModel('6', {}),
             new ListItemModel('7', {}),
           ],
-          true,
-        ),
+          true
+        )
       );
 
       fixture.detectChanges();
@@ -647,7 +645,7 @@ describe('List Toolbar Component', () => {
       initializeToolbarWithMultiselect();
       const filtersUpdateSpy = spyOn(
         dispatcher,
-        'filtersUpdate',
+        'filtersUpdate'
       ).and.callThrough();
 
       // Click "Select all" and expect filters are NOT updated.
@@ -675,7 +673,7 @@ describe('List Toolbar Component', () => {
       initializeToolbarWithMultiselect();
       const filtersUpdateSpy = spyOn(
         dispatcher,
-        'filtersUpdate',
+        'filtersUpdate'
       ).and.callThrough();
 
       // Click "Clear all" and expect filters are NOT updated.
@@ -694,7 +692,7 @@ describe('List Toolbar Component', () => {
       initializeToolbarWithMultiselect();
       const filtersUpdateSpy = spyOn(
         dispatcher,
-        'filtersUpdate',
+        'filtersUpdate'
       ).and.callThrough();
 
       expect(filtersUpdateSpy).not.toHaveBeenCalled();
@@ -725,36 +723,36 @@ describe('List Toolbar Component', () => {
       state
         .pipe(
           observableMap((s) => s.filters),
-          take(1),
+          take(1)
         )
         .subscribe((filters) => {
           const showSelectedFilter = filters.filter(
-            (filter) => filter.name === 'show-selected',
+            (filter) => filter.name === 'show-selected'
           )[0];
           expect(showSelectedFilter).not.toBeNull();
 
           // Expect filter function to only return rows with id '1' and '2'.
           const filterFunction = showSelectedFilter.filterFunction;
           expect(filterFunction(new ListItemModel('1', {}), true)).toEqual(
-            true,
+            true
           );
           expect(filterFunction(new ListItemModel('2', {}), true)).toEqual(
-            true,
+            true
           );
           expect(filterFunction(new ListItemModel('3', {}), true)).toBe(
-            undefined,
+            undefined
           );
           expect(filterFunction(new ListItemModel('4', {}), true)).toBe(
-            undefined,
+            undefined
           );
           expect(filterFunction(new ListItemModel('5', {}), true)).toBe(
-            undefined,
+            undefined
           );
           expect(filterFunction(new ListItemModel('6', {}), true)).toBe(
-            undefined,
+            undefined
           );
           expect(filterFunction(new ListItemModel('7', {}), true)).toBe(
-            undefined,
+            undefined
           );
         });
     });
@@ -770,7 +768,7 @@ describe('List Toolbar Component', () => {
       state
         .pipe(
           observableMap((s) => s.paging),
-          take(1),
+          take(1)
         )
         .subscribe((paging) => {
           expect(paging.pageNumber).toEqual(99);
@@ -786,7 +784,7 @@ describe('List Toolbar Component', () => {
       state
         .pipe(
           observableMap((s) => s.paging),
-          take(1),
+          take(1)
         )
         .subscribe((paging) => {
           expect(paging.pageNumber).toEqual(1);
@@ -800,7 +798,7 @@ describe('List Toolbar Component', () => {
       fixture.detectChanges();
 
       dispatcher.next(
-        new ListViewsLoadAction([new ListViewModel('myView', 'view label')]),
+        new ListViewsLoadAction([new ListViewModel('myView', 'view label')])
       );
       fixture.detectChanges();
 
@@ -816,14 +814,14 @@ describe('List Toolbar Component', () => {
             view: 'myView',
             template: component.default,
           }),
-        ]),
+        ])
       );
       fixture.detectChanges();
 
       let items = element.queryAll(By.css('.sky-toolbar-item'));
       expect(items[1].query(By.css('.sky-sort'))).not.toBeNull();
       expect(items[2].query(By.css('span')).nativeElement).toHaveCssClass(
-        'sky-test-toolbar',
+        'sky-test-toolbar'
       );
       expect(items[3].query(By.css('.sky-search-input'))).not.toBeNull();
       expect(items[4].nativeElement).toHaveText('Custom Item 2');
@@ -837,14 +835,14 @@ describe('List Toolbar Component', () => {
             view: 'myView1',
             template: component.default,
           }),
-        ]),
+        ])
       );
       fixture.detectChanges();
 
       items = element.queryAll(By.css('.sky-toolbar-item'));
       expect(items[1].query(By.css('.sky-sort'))).not.toBeNull();
       expect(items[2].query(By.css('span')).nativeElement).toHaveCssClass(
-        'sky-test-toolbar',
+        'sky-test-toolbar'
       );
       expect(items[3].query(By.css('.sky-search-input'))).not.toBeNull();
       expect(items[4].nativeElement).toHaveText('Custom Item 2');

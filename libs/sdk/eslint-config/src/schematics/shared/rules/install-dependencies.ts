@@ -14,7 +14,7 @@ export function installDependencies(): Rule {
     const packages: Record<string, string> = {
       'eslint-plugin-deprecation': await getLatestVersion(
         'eslint-plugin-deprecation',
-        '^1.4.1',
+        '^1.4.1'
       ),
     };
 

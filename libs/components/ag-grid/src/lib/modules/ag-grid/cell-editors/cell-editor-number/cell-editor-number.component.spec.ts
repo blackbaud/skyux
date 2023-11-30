@@ -29,7 +29,7 @@ describe('SkyCellEditorNumberComponent', () => {
     });
 
     numberEditorFixture = TestBed.createComponent(
-      SkyAgGridCellEditorNumberComponent,
+      SkyAgGridCellEditorNumberComponent
     );
     numberEditorNativeElement = numberEditorFixture.nativeElement;
     numberEditorComponent = numberEditorFixture.componentInstance;
@@ -44,11 +44,11 @@ describe('SkyCellEditorNumberComponent', () => {
     gridFixture.detectChanges();
 
     const numberCellElement = gridNativeElement.querySelector(
-      `.${SkyCellClass.Number}`,
+      `.${SkyCellClass.Number}`
     );
     const numberCellEditorSelector = `.ag-cell-inline-editing.${SkyCellClass.Number}`;
     let inputElement = gridNativeElement.querySelector(
-      numberCellEditorSelector,
+      numberCellEditorSelector
     );
 
     expect(inputElement).toBeNull();
@@ -74,7 +74,7 @@ describe('SkyCellEditorNumberComponent', () => {
         },
         null,
         'col',
-        true,
+        true
       );
 
       cellEditorParams = {
@@ -97,14 +97,14 @@ describe('SkyCellEditorNumberComponent', () => {
       numberEditorComponent.agInit(cellEditorParams as ICellEditorParams);
 
       expect(numberEditorComponent.editorForm.get('number')?.value).toEqual(
-        value,
+        value
       );
     });
 
     describe('cellStartedEdit is true', () => {
       it('initializes with a cleared value when Backspace triggers the edit', () => {
         expect(
-          numberEditorComponent.editorForm.get('number')?.value,
+          numberEditorComponent.editorForm.get('number')?.value
         ).toBeNull();
 
         numberEditorComponent.agInit({
@@ -113,13 +113,13 @@ describe('SkyCellEditorNumberComponent', () => {
         });
 
         expect(
-          numberEditorComponent.editorForm.get('number')?.value,
+          numberEditorComponent.editorForm.get('number')?.value
         ).toBeUndefined();
       });
 
       it('initializes with a cleared value when Delete triggers the edit', () => {
         expect(
-          numberEditorComponent.editorForm.get('number')?.value,
+          numberEditorComponent.editorForm.get('number')?.value
         ).toBeNull();
 
         numberEditorComponent.agInit({
@@ -128,13 +128,13 @@ describe('SkyCellEditorNumberComponent', () => {
         });
 
         expect(
-          numberEditorComponent.editorForm.get('number')?.value,
+          numberEditorComponent.editorForm.get('number')?.value
         ).toBeUndefined();
       });
 
       it('initializes with the current value when F2 triggers the edit', () => {
         expect(
-          numberEditorComponent.editorForm.get('number')?.value,
+          numberEditorComponent.editorForm.get('number')?.value
         ).toBeNull();
 
         numberEditorComponent.agInit({
@@ -143,13 +143,13 @@ describe('SkyCellEditorNumberComponent', () => {
         });
 
         expect(numberEditorComponent.editorForm.get('number')?.value).toBe(
-          value,
+          value
         );
       });
 
       it('initializes with the current value when Enter triggers the edit', () => {
         expect(
-          numberEditorComponent.editorForm.get('number')?.value,
+          numberEditorComponent.editorForm.get('number')?.value
         ).toBeNull();
 
         numberEditorComponent.agInit({
@@ -158,13 +158,13 @@ describe('SkyCellEditorNumberComponent', () => {
         });
 
         expect(numberEditorComponent.editorForm.get('number')?.value).toBe(
-          value,
+          value
         );
       });
 
       it('initializes with the character pressed when a standard keyboard event triggers the edit', () => {
         expect(
-          numberEditorComponent.editorForm.get('number')?.value,
+          numberEditorComponent.editorForm.get('number')?.value
         ).toBeNull();
 
         numberEditorComponent.agInit({
@@ -177,7 +177,7 @@ describe('SkyCellEditorNumberComponent', () => {
 
       it('initializes with undefined when a non-numeric keyboard event triggers the edit', () => {
         expect(
-          numberEditorComponent.editorForm.get('number')?.value,
+          numberEditorComponent.editorForm.get('number')?.value
         ).toBeNull();
 
         numberEditorComponent.agInit({
@@ -186,7 +186,7 @@ describe('SkyCellEditorNumberComponent', () => {
         });
 
         expect(
-          numberEditorComponent.editorForm.get('number')?.value,
+          numberEditorComponent.editorForm.get('number')?.value
         ).toBeUndefined();
       });
     });
@@ -198,7 +198,7 @@ describe('SkyCellEditorNumberComponent', () => {
 
       it('initializes with the current value when Backspace triggers the edit', () => {
         expect(
-          numberEditorComponent.editorForm.get('number')?.value,
+          numberEditorComponent.editorForm.get('number')?.value
         ).toBeNull();
 
         numberEditorComponent.agInit({
@@ -207,13 +207,13 @@ describe('SkyCellEditorNumberComponent', () => {
         });
 
         expect(numberEditorComponent.editorForm.get('number')?.value).toBe(
-          value,
+          value
         );
       });
 
       it('initializes with the current value when Delete triggers the edit', () => {
         expect(
-          numberEditorComponent.editorForm.get('number')?.value,
+          numberEditorComponent.editorForm.get('number')?.value
         ).toBeNull();
 
         numberEditorComponent.agInit({
@@ -222,13 +222,13 @@ describe('SkyCellEditorNumberComponent', () => {
         });
 
         expect(numberEditorComponent.editorForm.get('number')?.value).toBe(
-          value,
+          value
         );
       });
 
       it('initializes with the current value when F2 triggers the edit', () => {
         expect(
-          numberEditorComponent.editorForm.get('number')?.value,
+          numberEditorComponent.editorForm.get('number')?.value
         ).toBeNull();
 
         numberEditorComponent.agInit({
@@ -237,13 +237,13 @@ describe('SkyCellEditorNumberComponent', () => {
         });
 
         expect(numberEditorComponent.editorForm.get('number')?.value).toBe(
-          value,
+          value
         );
       });
 
       it('initializes with the current value when Enter triggers the edit', () => {
         expect(
-          numberEditorComponent.editorForm.get('number')?.value,
+          numberEditorComponent.editorForm.get('number')?.value
         ).toBeNull();
 
         numberEditorComponent.agInit({
@@ -252,13 +252,13 @@ describe('SkyCellEditorNumberComponent', () => {
         });
 
         expect(numberEditorComponent.editorForm.get('number')?.value).toBe(
-          value,
+          value
         );
       });
 
       it('initializes with the current value when a standard keyboard event triggers the edit', () => {
         expect(
-          numberEditorComponent.editorForm.get('number')?.value,
+          numberEditorComponent.editorForm.get('number')?.value
         ).toBeNull();
 
         numberEditorComponent.agInit({
@@ -267,13 +267,13 @@ describe('SkyCellEditorNumberComponent', () => {
         });
 
         expect(numberEditorComponent.editorForm.get('number')?.value).toBe(
-          value,
+          value
         );
       });
 
       it('initializes with the current value when a non-numeric keyboard event triggers the edit', () => {
         expect(
-          numberEditorComponent.editorForm.get('number')?.value,
+          numberEditorComponent.editorForm.get('number')?.value
         ).toBeNull();
 
         numberEditorComponent.agInit({
@@ -282,7 +282,7 @@ describe('SkyCellEditorNumberComponent', () => {
         });
 
         expect(numberEditorComponent.editorForm.get('number')?.value).toBe(
-          value,
+          value
         );
       });
     });
@@ -321,7 +321,7 @@ describe('SkyCellEditorNumberComponent', () => {
           },
           null,
           'col',
-          true,
+          true
         );
 
         cellEditorParams = {
@@ -341,7 +341,7 @@ describe('SkyCellEditorNumberComponent', () => {
         numberEditorFixture.detectChanges();
 
         const input = numberEditorNativeElement.querySelector(
-          'input',
+          'input'
         ) as HTMLInputElement;
         spyOn(input, 'focus');
 
@@ -359,7 +359,7 @@ describe('SkyCellEditorNumberComponent', () => {
           });
           numberEditorFixture.detectChanges();
           const input = numberEditorNativeElement.querySelector(
-            'input',
+            'input'
           ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
@@ -376,7 +376,7 @@ describe('SkyCellEditorNumberComponent', () => {
           });
           numberEditorFixture.detectChanges();
           const input = numberEditorNativeElement.querySelector(
-            'input',
+            'input'
           ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
@@ -393,7 +393,7 @@ describe('SkyCellEditorNumberComponent', () => {
           });
           numberEditorFixture.detectChanges();
           const input = numberEditorNativeElement.querySelector(
-            'input',
+            'input'
           ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
@@ -410,7 +410,7 @@ describe('SkyCellEditorNumberComponent', () => {
           });
           numberEditorFixture.detectChanges();
           const input = numberEditorNativeElement.querySelector(
-            'input',
+            'input'
           ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
@@ -427,7 +427,7 @@ describe('SkyCellEditorNumberComponent', () => {
           });
           numberEditorFixture.detectChanges();
           const input = numberEditorNativeElement.querySelector(
-            'input',
+            'input'
           ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
@@ -450,7 +450,7 @@ describe('SkyCellEditorNumberComponent', () => {
           });
           numberEditorFixture.detectChanges();
           const input = numberEditorNativeElement.querySelector(
-            'input',
+            'input'
           ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
@@ -467,7 +467,7 @@ describe('SkyCellEditorNumberComponent', () => {
           });
           numberEditorFixture.detectChanges();
           const input = numberEditorNativeElement.querySelector(
-            'input',
+            'input'
           ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
@@ -484,7 +484,7 @@ describe('SkyCellEditorNumberComponent', () => {
           });
           numberEditorFixture.detectChanges();
           const input = numberEditorNativeElement.querySelector(
-            'input',
+            'input'
           ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
@@ -501,7 +501,7 @@ describe('SkyCellEditorNumberComponent', () => {
           });
           numberEditorFixture.detectChanges();
           const input = numberEditorNativeElement.querySelector(
-            'input',
+            'input'
           ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
@@ -518,7 +518,7 @@ describe('SkyCellEditorNumberComponent', () => {
           });
           numberEditorFixture.detectChanges();
           const input = numberEditorNativeElement.querySelector(
-            'input',
+            'input'
           ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 

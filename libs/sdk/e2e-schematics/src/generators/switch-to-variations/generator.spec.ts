@@ -33,12 +33,12 @@ describe('switch-to-variations generator', () => {
   it('should run successfully', async () => {
     const start = appTree.read(
       'apps/test-e2e/src/integration/app.spec.ts',
-      'utf-8',
+      'utf-8'
     );
     const changes = appTree.listChanges();
     await generator(appTree, options);
     expect(
-      appTree.read('apps/test-e2e/src/integration/app.spec.ts', 'utf-8'),
+      appTree.read('apps/test-e2e/src/integration/app.spec.ts', 'utf-8')
     ).toEqual(start);
     expect(appTree.listChanges()).toEqual(changes);
   });
@@ -75,11 +75,11 @@ describe('switch-to-variations generator', () => {
       appTree,
       joinPathFragments(__dirname, 'files/fixtures'),
       'apps/test-e2e/src/integration',
-      {},
+      {}
     );
     await generator(appTree, options);
     expect(
-      appTree.read('apps/test-e2e/src/integration/example1.spec.ts', 'utf-8'),
+      appTree.read('apps/test-e2e/src/integration/example1.spec.ts', 'utf-8')
     ).toMatchSnapshot();
   });
 });

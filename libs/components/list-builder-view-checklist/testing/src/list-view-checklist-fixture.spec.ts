@@ -61,7 +61,7 @@ describe('List view checklist fixture', () => {
   const SELECT_MODE_SINGLE = 'single';
 
   function getChecklistFixture(
-    fixture: ComponentFixture<TestComponent>,
+    fixture: ComponentFixture<TestComponent>
   ): SkyListViewChecklistFixture {
     return new SkyListViewChecklistFixture(fixture, 'my-list-view-checklist');
   }
@@ -98,7 +98,7 @@ describe('List view checklist fixture', () => {
     });
 
     expect(() => listViewChecklist.getItem(100)).toThrowError(
-      'No item exists at index 100.',
+      'No item exists at index 100.'
     );
   });
 
@@ -111,7 +111,7 @@ describe('List view checklist fixture', () => {
 
     const listViewChecklist = new SkyListViewChecklistFixture(
       fixture,
-      'my-list-view-checklist',
+      'my-list-view-checklist'
     );
 
     listViewChecklist.selectItem(1);
@@ -121,18 +121,18 @@ describe('List view checklist fixture', () => {
     fixture.detectChanges();
 
     expect(fixture.componentInstance.selectedItems).toEqual(
-      expectedSelectedItems,
+      expectedSelectedItems
     );
 
     // Ensure the item doesn't get de-selected by selecting it twice.
     listViewChecklist.selectItem(4);
 
     expect(fixture.componentInstance.selectedItems).toEqual(
-      expectedSelectedItems,
+      expectedSelectedItems
     );
 
     expect(() => listViewChecklist.selectItem(100)).toThrowError(
-      'No item exists at index 100.',
+      'No item exists at index 100.'
     );
   });
 
@@ -159,7 +159,7 @@ describe('List view checklist fixture', () => {
     expect(fixture.componentInstance.selectedItems).toEqual([]);
 
     expect(() => listViewChecklist.deselectItem(100)).toThrowError(
-      'No item exists at index 100.',
+      'No item exists at index 100.'
     );
   });
 
@@ -186,7 +186,7 @@ describe('List view checklist fixture', () => {
       });
 
       expect(() => listViewChecklist.getItem(100)).toThrowError(
-        'No item exists at index 100.',
+        'No item exists at index 100.'
       );
     });
 
@@ -220,7 +220,7 @@ describe('List view checklist fixture', () => {
       fixture.detectChanges();
 
       expect(() => listViewChecklist.deselectItem(1)).toThrowError(
-        'Items cannot be deselected in single select mode.',
+        'Items cannot be deselected in single select mode.'
       );
     });
   });

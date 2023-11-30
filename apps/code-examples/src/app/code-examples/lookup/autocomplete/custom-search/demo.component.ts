@@ -53,7 +53,7 @@ export class DemoComponent {
   protected getOceanSearchFunction(): SkyAutocompleteSearchFunction {
     const searchFunction = (
       searchText: string,
-      oceans: Ocean[],
+      oceans: Ocean[]
     ): SkyAutocompleteSearchFunctionResponse => {
       return new Promise((resolve) => {
         const searchTextLower = searchText.toLowerCase();

@@ -13,7 +13,7 @@ describe('Icon component', () => {
     iconType?: SkyIconType,
     size?: string,
     fixedWidth?: boolean,
-    variant?: SkyIconVariantType,
+    variant?: SkyIconVariantType
   ): void {
     cmp.icon = icon;
     cmp.iconType = iconType;
@@ -67,7 +67,7 @@ describe('Icon component', () => {
     expect(element.querySelector('.sky-icon')).toHaveCssClass('fa-3x');
     expect(element.querySelector('.sky-icon')).not.toHaveCssClass('fa-fw');
     expect(
-      element.querySelector('.sky-icon')?.getAttribute('aria-hidden'),
+      element.querySelector('.sky-icon')?.getAttribute('aria-hidden')
     ).toBe('true');
     expect(element.querySelector('.sky-icon')?.classList.length).toBe(4);
   });
@@ -81,7 +81,7 @@ describe('Icon component', () => {
     expect(element.querySelector('.sky-icon')).toHaveCssClass('fa-fw');
     expect(element.querySelector('.sky-icon')?.classList.length).toBe(5);
     expect(
-      element.querySelector('.sky-icon')?.getAttribute('aria-hidden'),
+      element.querySelector('.sky-icon')?.getAttribute('aria-hidden')
     ).toBe('true');
   });
 
@@ -96,7 +96,7 @@ describe('Icon component', () => {
     setupIcon('variant-test', 'skyux', undefined, undefined, 'solid');
 
     expect(element.querySelector('.sky-icon')).toHaveCssClass(
-      'sky-i-variant-test-solid',
+      'sky-i-variant-test-solid'
     );
   });
 

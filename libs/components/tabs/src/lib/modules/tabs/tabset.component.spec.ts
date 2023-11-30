@@ -62,7 +62,7 @@ describe('Tabset component', () => {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.default,
-          SkyThemeMode.presets.light,
+          SkyThemeMode.presets.light
         ),
         previousSettings: undefined,
       }),
@@ -101,7 +101,7 @@ describe('Tabset component', () => {
     });
 
     spyOn(ViewportRuler.prototype, 'change').and.returnValue(
-      viewportRulerChange,
+      viewportRulerChange
     );
   });
 
@@ -112,7 +112,7 @@ describe('Tabset component', () => {
   function validateTabSelected(
     el: Element,
     tabIndex: number,
-    content?: string,
+    content?: string
   ) {
     let selectedCls: string;
     let buttonEls: NodeListOf<Element>;
@@ -144,17 +144,17 @@ describe('Tabset component', () => {
 
       expect(buttonEl.classList.contains(selectedCls)).toBe(
         expectedHasClass,
-        `The tab button at array index ${tabIndex} was expected to have the CSS class ${selectedCls}.`,
+        `The tab button at array index ${tabIndex} was expected to have the CSS class ${selectedCls}.`
       );
       expect(panelDisplay).toBe(
         expectedDisplay,
-        `The tab panel at array index ${tabIndex} was expected to have the CSS display of ${expectedDisplay}.`,
+        `The tab panel at array index ${tabIndex} was expected to have the CSS display of ${expectedDisplay}.`
       );
 
       if (!inDropDownMode) {
         expect(buttonEl.getAttribute('aria-selected')).toBe(
           expectedHasClass.toString(),
-          `Expected tab button ${buttonEl.innerHTML} to set "aria-selected".`,
+          `Expected tab button ${buttonEl.innerHTML} to set "aria-selected".`
         );
       }
     }
@@ -221,11 +221,11 @@ describe('Tabset component', () => {
     mockThemeSvc.settingsChange.next({
       currentSettings: new SkyThemeSettings(
         SkyTheme.presets.modern,
-        SkyThemeMode.presets.light,
+        SkyThemeMode.presets.light
       ),
       previousSettings: new SkyThemeSettings(
         SkyTheme.presets.default,
-        SkyThemeMode.presets.light,
+        SkyThemeMode.presets.light
       ),
     });
 
@@ -397,7 +397,7 @@ describe('Tabset component', () => {
     const fixture = TestBed.createComponent(TabsetLoopTestComponent);
     const spy = spyOn(
       fixture.componentInstance,
-      'onTabIndexesChange',
+      'onTabIndexesChange'
     ).and.callThrough();
 
     fixture.componentInstance.activeIndex = 0;
@@ -446,7 +446,7 @@ describe('Tabset component', () => {
     const fixture = TestBed.createComponent(TabsetLoopTestComponent);
     const spy = spyOn(
       fixture.componentInstance,
-      'onTabIndexesChange',
+      'onTabIndexesChange'
     ).and.callThrough();
 
     fixture.componentInstance.tabArray = [
@@ -768,7 +768,7 @@ describe('Tabset component', () => {
       tick();
 
       const dropdownTabButtons = document.querySelectorAll(
-        '.sky-tab-dropdown-item .sky-btn-tab',
+        '.sky-tab-dropdown-item .sky-btn-tab'
       );
       expect(dropdownTabButtons[1]).toHaveText('Tab 2');
 
@@ -799,7 +799,7 @@ describe('Tabset component', () => {
       tick();
 
       const dropdownTabButtons = document.querySelectorAll(
-        '.sky-tab-dropdown-item .sky-btn-tab',
+        '.sky-tab-dropdown-item .sky-btn-tab'
       );
 
       (dropdownTabButtons[0] as HTMLElement).click();
@@ -828,7 +828,7 @@ describe('Tabset component', () => {
 
       const closeSpy = spyOn(
         fixture.componentInstance,
-        'closeTab2',
+        'closeTab2'
       ).and.callThrough();
 
       fixture.detectChanges();
@@ -871,7 +871,7 @@ describe('Tabset component', () => {
 
       const closeSpy = spyOn(
         fixture.componentInstance,
-        'closeTab2',
+        'closeTab2'
       ).and.callThrough();
 
       if (fixture.componentInstance.tabsetComponent) {
@@ -883,7 +883,7 @@ describe('Tabset component', () => {
       tick();
 
       const tabEl: HTMLElement | null = document.querySelector(
-        '.sky-dropdown-button',
+        '.sky-dropdown-button'
       );
       tabEl?.click();
       fixture.detectChanges();
@@ -894,7 +894,7 @@ describe('Tabset component', () => {
       expect(el.querySelectorAll('.sky-btn-tab').length).toBe(3);
 
       const closeButton = document.querySelectorAll(
-        '.sky-dropdown-item .sky-btn-tab-close',
+        '.sky-dropdown-item .sky-btn-tab-close'
       )[0] as HTMLElement;
 
       closeButton.click();
@@ -946,7 +946,7 @@ describe('Tabset component', () => {
     it('should observe the size of an active tab', fakeAsync(() => {
       const mockResizeObserverMediaQueryService = jasmine.createSpyObj(
         'SkyResizeObserverMediaQueryService',
-        ['observe', 'unobserve'],
+        ['observe', 'unobserve']
       );
 
       TestBed.overrideComponent(SkyTabComponent, {
@@ -1152,7 +1152,7 @@ describe('Tabset component', () => {
 
     it('should handle two-way binding on `active` input', fakeAsync(() => {
       const fixture = TestBed.createComponent(
-        TabsetActiveTwoWayBindingTestComponent,
+        TabsetActiveTwoWayBindingTestComponent
       );
       const component = fixture.componentInstance;
       const activeSpy = spyOn(component, 'onActiveChange').and.callThrough();
@@ -1291,7 +1291,7 @@ describe('Tabset component', () => {
       const tabSet = getTabset(fixture);
 
       expect(tabSet.getAttribute('aria-labelledby')).toEqual(
-        myAriaLabelledById,
+        myAriaLabelledById
       );
     });
 
@@ -1308,7 +1308,7 @@ describe('Tabset component', () => {
         const tabButton = document.getElementById(`${tabId}-nav-btn`);
 
         expect(tab.getAttribute('aria-labelledby')).toBe(
-          tabButton?.getAttribute('id') ?? null,
+          tabButton?.getAttribute('id') ?? null
         );
         expect(tabButton?.getAttribute('aria-controls')).toBe(tabId);
       }
@@ -1326,7 +1326,7 @@ describe('Tabset component', () => {
       fixture.detectChanges();
 
       const button = document.querySelector(
-        '.sky-dropdown-button',
+        '.sky-dropdown-button'
       ) as HTMLElement;
       button.click();
 
@@ -1342,7 +1342,7 @@ describe('Tabset component', () => {
         const tabButton = document.getElementById(`${tabId}-nav-btn`);
 
         expect(tab.getAttribute('aria-labelledby')).toBe(
-          tabButton?.getAttribute('id') ?? null,
+          tabButton?.getAttribute('id') ?? null
         );
         expect(tabButton?.getAttribute('aria-controls')).toBe(tabId);
       }
@@ -1704,7 +1704,7 @@ describe('Tabset component', () => {
     describe('button aria label', () => {
       it('should indicate the current state of a wizard step', fakeAsync(() => {
         const wizardFixture = TestBed.createComponent(
-          SkyWizardTestFormComponent,
+          SkyWizardTestFormComponent
         );
 
         wizardFixture.detectChanges();
@@ -1722,7 +1722,7 @@ describe('Tabset component', () => {
         tick();
 
         const tabBtns = wizardFixture.debugElement.queryAll(
-          By.css('.sky-btn-tab'),
+          By.css('.sky-btn-tab')
         );
         const tabBtn1 = tabBtns[0]?.nativeElement;
         const tabBtn2 = tabBtns[1]?.nativeElement;
@@ -1760,7 +1760,7 @@ describe('Tabset component', () => {
       fixture.componentInstance.activeIndex = 0;
       fixture.componentInstance.permalinkId = 'foobar';
       spyOn(location, 'path').and.returnValue(
-        '?foobar-active-tab=design-guidelines',
+        '?foobar-active-tab=design-guidelines'
       );
 
       fixture.detectChanges();
@@ -1791,7 +1791,7 @@ describe('Tabset component', () => {
           // Fake the location after `replaceState()` is called so subsequent calls to the
           // permalink service's setParam() method don't try to navigate again.
           spyOn(location, 'path').and.returnValue(path);
-        },
+        }
       );
 
       fixture.componentInstance.permalinkId = 'foobar';
@@ -1803,7 +1803,7 @@ describe('Tabset component', () => {
       tick();
 
       expect(replaceStateSpy).toHaveBeenCalledOnceWith(
-        '/?foobar-active-tab=design-guidelines',
+        '/?foobar-active-tab=design-guidelines'
       );
 
       expect(goSpy).not.toHaveBeenCalled();
@@ -1816,7 +1816,7 @@ describe('Tabset component', () => {
           // Fake the location after `replaceState()` is called so subsequent calls to the
           // permalink service's setParam() method don't try to navigate again.
           spyOn(location, 'path').and.returnValue(path);
-        },
+        }
       );
 
       fixture.componentInstance.permalinkId = 'foobar';
@@ -1828,7 +1828,7 @@ describe('Tabset component', () => {
       tick();
 
       expect(replaceStateSpy).toHaveBeenCalledOnceWith(
-        '/?foobar-active-tab=api',
+        '/?foobar-active-tab=api'
       );
 
       expect(goSpy).not.toHaveBeenCalled();
@@ -1921,7 +1921,7 @@ describe('Tabset component', () => {
       tick();
 
       expect(location.path()).toEqual(
-        `/?foobar-active-tab=${encodeURIComponent('片仮名')}`,
+        `/?foobar-active-tab=${encodeURIComponent('片仮名')}`
       );
     }));
 
@@ -1960,7 +1960,7 @@ describe('Tabset component', () => {
       fixture.componentInstance.activeIndex = 0;
       fixture.componentInstance.permalinkId = 'foobar';
       spyOn(location, 'path').and.returnValue(
-        '?foobar-active-tab=design-guidelines&bar=baz',
+        '?foobar-active-tab=design-guidelines&bar=baz'
       );
 
       fixture.detectChanges();
@@ -1986,7 +1986,7 @@ describe('Tabset component', () => {
 
       expect(location.path()).toBe(
         '?foobar-active-tab=design-guidelines&bar=baz',
-        'Existing query params should be unaffected.',
+        'Existing query params should be unaffected.'
       );
     }));
 
@@ -2034,7 +2034,7 @@ describe('Tabset component', () => {
       tick();
 
       expect(location.path()).toEqual(
-        '/example-path/example-child-path?foobar-active-tab=api',
+        '/example-path/example-child-path?foobar-active-tab=api'
       );
 
       fixture.detectChanges();
@@ -2075,7 +2075,7 @@ describe('Tabset component', () => {
       fixture: ComponentFixture<TabsetTestComponent>,
       layoutForChildHandler: jasmine.Spy,
       expectedLayout: SkyTabLayoutType,
-      newActiveTabIndex?: number,
+      newActiveTabIndex?: number
     ): void {
       if (newActiveTabIndex !== undefined) {
         fixture.componentInstance.activeTab = newActiveTabIndex;
@@ -2091,7 +2091,7 @@ describe('Tabset component', () => {
       });
 
       expect(fixture.nativeElement.querySelector('sky-tabset')).toHaveCssClass(
-        `sky-tabset-layout-${expectedLayout}`,
+        `sky-tabset-layout-${expectedLayout}`
       );
 
       layoutForChildHandler.calls.reset();

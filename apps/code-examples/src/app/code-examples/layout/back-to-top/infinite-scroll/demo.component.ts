@@ -142,7 +142,7 @@ export class DemoComponent implements OnInit {
         (result: { data: Person[]; hasMore: boolean }) => {
           this.personList = this.personList.concat(result.data);
           this.hasMore = result.hasMore;
-        },
+        }
       );
     }
   }
@@ -152,7 +152,7 @@ export class DemoComponent implements OnInit {
    */
   private mockRemote(
     start: number,
-    rowSize: number,
+    rowSize: number
   ): Promise<{ data: Person[]; hasMore: boolean }> {
     const data: Person[] = [];
 

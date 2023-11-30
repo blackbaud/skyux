@@ -2,13 +2,13 @@ import * as ts from '@schematics/angular/third_party/github.com/Microsoft/TypeSc
 
 export function createSourceFile(
   filePath: string,
-  fileContents: string,
+  fileContents: string
 ): ts.SourceFile {
   return ts.createSourceFile(
     filePath,
     fileContents,
     ts.ScriptTarget.Latest,
     false,
-    ts.ScriptKind.TS,
+    ts.ScriptKind.TS
   );
 }

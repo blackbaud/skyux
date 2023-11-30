@@ -17,7 +17,7 @@ export class ModalWithCloseConfirmTestComponent {
     this.#modalInstance.beforeClose.subscribe(
       (closeHandler: SkyModalBeforeCloseHandler) => {
         this.beforeCloseHandler(closeHandler);
-      },
+      }
     );
   }
 

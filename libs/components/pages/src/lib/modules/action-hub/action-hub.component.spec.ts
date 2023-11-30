@@ -23,7 +23,7 @@ describe('Action hub component', () => {
     links: {
       label: string;
       url: string;
-    }[],
+    }[]
   ): void {
     const listIndex = listType === 'recent' ? 1 : 0;
 
@@ -241,10 +241,10 @@ describe('Action hub component', () => {
       fixture.componentInstance.needsAttention.next([]);
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelectorAll('.sky-wait').length).toBe(
-        0,
+        0
       );
       const recent1 = fixture.nativeElement.querySelector(
-        'sky-link-list[ng-reflect-title="Recently accessed"] a',
+        'sky-link-list[ng-reflect-title="Recently accessed"] a'
       );
       expect(recent1).toHaveText('Recent link');
     }));
@@ -260,10 +260,10 @@ describe('Action hub component', () => {
       fixture.componentInstance.recentLinks.next([]);
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelectorAll('.sky-wait').length).toBe(
-        0,
+        0
       );
       expect(fixture.nativeElement.textContent).toContain(
-        'No issues currently need attention',
+        'No issues currently need attention'
       );
     }));
   });
@@ -330,7 +330,7 @@ describe('Action hub component', () => {
 
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelectorAll('.sky-wait').length).toBe(
-        0,
+        0
       );
 
       validateLinkList(fixture, 'recent', [
@@ -407,7 +407,7 @@ describe('Action hub component', () => {
               url: 'https://example.com/recent2/',
             },
           ],
-        }),
+        })
       );
 
       fixture.componentInstance.recentLinks = {
@@ -567,7 +567,7 @@ describe('Action hub component', () => {
               url: 'https://example.com/recent2/',
             },
           ],
-        }),
+        })
       );
 
       fixture.componentInstance.recentLinks = {

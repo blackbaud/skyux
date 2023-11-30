@@ -72,7 +72,7 @@ export class SkyTileDashboardService {
     config: SkyTileDashboardConfig,
     columns?: QueryList<SkyTileDashboardColumnComponent>,
     singleColumn?: SkyTileDashboardColumnComponent,
-    settingsKey?: string,
+    settingsKey?: string
   ): void {
     if (settingsKey) {
       // Clone this so changes to the config object outside of this class don't modify
@@ -102,7 +102,7 @@ export class SkyTileDashboardService {
           (error: any) => {
             // Config setting key doesn't exist or other config service error
             this.#initToDefaults(config, columns, singleColumn);
-          },
+          }
         );
     } else {
       this.#initToDefaults(config, columns, singleColumn);
@@ -116,7 +116,7 @@ export class SkyTileDashboardService {
    */
   public addTileComponent(
     tile: SkyTileDashboardConfigLayoutTile,
-    component: ComponentRef<any>,
+    component: ComponentRef<any>
   ): void {
     this.#tileComponents = this.#tileComponents || [];
 
@@ -170,7 +170,7 @@ export class SkyTileDashboardService {
    */
   public setTileCollapsed(
     tile: SkyTileComponent | undefined,
-    isCollapsed: boolean,
+    isCollapsed: boolean
   ): void {
     const tileConfig = this.#findTile(this.#getTileId(tile));
 
@@ -189,7 +189,7 @@ export class SkyTileDashboardService {
    * @internal
    */
   public getTileComponentType(
-    layoutTile: SkyTileDashboardConfigLayoutTile | undefined,
+    layoutTile: SkyTileDashboardConfigLayoutTile | undefined
   ): any {
     if (layoutTile && this.#config) {
       for (const tile of this.#config.tiles) {
@@ -251,7 +251,7 @@ export class SkyTileDashboardService {
   public moveTileOnKeyDown(
     tileCmp: SkyTileComponent,
     direction: string,
-    tileDescription: string,
+    tileDescription: string
   ): void {
     if (this.#config) {
       const isSingleColumnMode =
@@ -268,7 +268,7 @@ export class SkyTileDashboardService {
       } else {
         column = this.#findTileColumn(tileId);
         colIndex = this.#config.layout.multiColumn.findIndex(
-          (value) => value === column,
+          (value) => value === column
         );
       }
 
@@ -287,7 +287,7 @@ export class SkyTileDashboardService {
             column.tiles = column.tiles.filter((item) => item !== tile);
             this.#moveTilesToColumn(
               this.#columns?.toArray()[colIndex + operator],
-              [tile],
+              [tile]
             );
 
             // Report the change in configuration
@@ -303,7 +303,7 @@ export class SkyTileDashboardService {
         } else {
           const operator = direction === 'up' ? -1 : 1;
           const curIndex = column.tiles.findIndex(
-            (value) => value.id === tile.id,
+            (value) => value.id === tile.id
           );
           const tileComponentInstance = this.getTileComponent(tileId);
 
@@ -323,13 +323,13 @@ export class SkyTileDashboardService {
             // Move the tile element in the document
             if (curIndex + operator === column.tiles.length - 1) {
               columnEl?.appendChild(
-                tileComponentInstance.location.nativeElement,
+                tileComponentInstance.location.nativeElement
               );
             } else {
               columnEl?.insertBefore(
                 tileComponentInstance.location.nativeElement,
                 this.getTileComponent(column.tiles[curIndex + operator + 1].id)
-                  ?.location.nativeElement,
+                  ?.location.nativeElement
               );
             }
 
@@ -368,7 +368,7 @@ export class SkyTileDashboardService {
   }
 
   #getTileOrRemoveFromLayout(
-    layoutTile: SkyTileDashboardConfigLayoutTile,
+    layoutTile: SkyTileDashboardConfigLayoutTile
   ): SkyTileDashboardConfigTile | undefined {
     /*istanbul ignore else */
     if (layoutTile && this.#config) {
@@ -383,7 +383,7 @@ export class SkyTileDashboardService {
       if (this.#config?.layout.singleColumn) {
         this.#config.layout.singleColumn.tiles =
           this.#config.layout.singleColumn.tiles.filter(
-            (elem) => elem.id !== layoutTile.id,
+            (elem) => elem.id !== layoutTile.id
           );
       }
 
@@ -436,7 +436,7 @@ export class SkyTileDashboardService {
 
   #loadTileIntoColumn(
     column: SkyTileDashboardColumnComponent | undefined,
-    layoutTile: SkyTileDashboardConfigLayoutTile,
+    layoutTile: SkyTileDashboardConfigLayoutTile
   ): void {
     if (column) {
       const tile = this.#getTileOrRemoveFromLayout(layoutTile);
@@ -453,7 +453,7 @@ export class SkyTileDashboardService {
             providers: providers,
             viewContainerRef: column.content,
             environmentInjector: column.injector,
-          },
+          }
         );
 
         this.addTileComponent(layoutTile, componentRef);
@@ -468,7 +468,7 @@ export class SkyTileDashboardService {
   #moveTilesToSingleColumn(): void {
     this.#moveTilesToColumn(
       this.#singleColumn,
-      this.#config?.layout.singleColumn.tiles,
+      this.#config?.layout.singleColumn.tiles
     );
   }
 
@@ -491,7 +491,7 @@ export class SkyTileDashboardService {
 
   #moveTilesToColumn(
     column: SkyTileDashboardColumnComponent | undefined,
-    layoutTiles: SkyTileDashboardConfigLayoutTile[] | undefined,
+    layoutTiles: SkyTileDashboardConfigLayoutTile[] | undefined
   ): void {
     if (column && layoutTiles) {
       const columnEl = this.#getColumnEl(column);
@@ -523,7 +523,7 @@ export class SkyTileDashboardService {
   }
 
   #getSingleColumnLayoutForUIState(
-    config: SkyTileDashboardConfig,
+    config: SkyTileDashboardConfig
   ): SkyTileDashboardConfigLayoutColumn {
     if (
       this.#mediaQuery.current === SkyMediaBreakpoints.xs ||
@@ -538,7 +538,7 @@ export class SkyTileDashboardService {
   }
 
   #getMultiColumnLayoutForUIState(
-    config: SkyTileDashboardConfig,
+    config: SkyTileDashboardConfig
   ): SkyTileDashboardConfigLayoutColumn[] {
     if (
       !(
@@ -596,9 +596,9 @@ export class SkyTileDashboardService {
       this.#mediaSubscription = this.#mediaQuery.subscribe(
         (args: SkyMediaBreakpoints) => {
           this.changeColumnMode(
-            args === SkyMediaBreakpoints.xs || args === SkyMediaBreakpoints.sm,
+            args === SkyMediaBreakpoints.xs || args === SkyMediaBreakpoints.sm
           );
-        },
+        }
       );
     }
   }
@@ -626,13 +626,13 @@ export class SkyTileDashboardService {
   }
 
   #getColumnEl(
-    column: SkyTileDashboardColumnComponent | undefined,
+    column: SkyTileDashboardColumnComponent | undefined
   ): Element | undefined {
     return column?.content?.element.nativeElement.parentNode;
   }
 
   #findTile(
-    tileId: string | undefined | null,
+    tileId: string | undefined | null
   ): SkyTileDashboardConfigLayoutTile | undefined {
     /*istanbul ignore else */
     if (this.#config && this.#config.layout.multiColumn) {
@@ -652,12 +652,12 @@ export class SkyTileDashboardService {
   }
 
   #findTileColumn(
-    tileId: string | undefined,
+    tileId: string | undefined
   ): SkyTileDashboardConfigLayoutColumn | undefined {
     /*istanbul ignore else */
     if (this.#config && this.#config.layout.multiColumn) {
       return this.#config.layout.multiColumn.find(
-        (col) => col.tiles && !!col.tiles.find((tile) => tile.id === tileId),
+        (col) => col.tiles && !!col.tiles.find((tile) => tile.id === tileId)
       );
     }
 
@@ -668,7 +668,7 @@ export class SkyTileDashboardService {
   #initToDefaults(
     config: SkyTileDashboardConfig,
     columns: QueryList<SkyTileDashboardColumnComponent> | undefined,
-    singleColumn: SkyTileDashboardColumnComponent | undefined,
+    singleColumn: SkyTileDashboardColumnComponent | undefined
   ): void {
     this.#config = config;
     this.#columns = columns;
@@ -690,7 +690,7 @@ export class SkyTileDashboardService {
           (err) => {
             console.warn('Could not save tile dashboard settings.');
             console.warn(err);
-          },
+          }
         );
   }
 

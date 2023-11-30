@@ -49,7 +49,7 @@ describe('SkyAgGridService', () => {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.default,
-          SkyThemeMode.presets.light,
+          SkyThemeMode.presets.light
         ),
         previousSettings: undefined,
       }),
@@ -140,16 +140,16 @@ describe('SkyAgGridService', () => {
       const mergedColumnTypes = mergedGridOptions.columnTypes;
 
       expect(mergedColumnTypes?.[SkyCellType.Date].width).toEqual(
-        defaultDateColumnType?.width,
+        defaultDateColumnType?.width
       );
       expect(mergedColumnTypes?.[SkyCellType.Date].width).not.toEqual(
-        overrideDateColumnType.width,
+        overrideDateColumnType.width
       );
       expect(mergedColumnTypes?.[SkyCellType.Date].sortable).toEqual(
-        defaultDateColumnType?.sortable,
+        defaultDateColumnType?.sortable
       );
       expect(mergedColumnTypes?.[SkyCellType.Date].sortable).not.toEqual(
-        overrideDateColumnType.sortable,
+        overrideDateColumnType.sortable
       );
       expect(mergedColumnTypes?.[SkyCellType.Number]).toBeDefined();
       expect(mergedColumnTypes?.[SkyCellType.RowSelector]).toBeDefined();
@@ -171,16 +171,16 @@ describe('SkyAgGridService', () => {
       const mergedDefaultColDef = mergedGridOptions.defaultColDef;
 
       expect(mergedDefaultColDef?.sortable).not.toEqual(
-        defaultColDef?.sortable,
+        defaultColDef?.sortable
       );
       expect(mergedDefaultColDef?.sortable).toEqual(
-        overrideDefaultColDef.sortable,
+        overrideDefaultColDef.sortable
       );
       expect(mergedDefaultColDef?.resizable).not.toEqual(
-        defaultColDef?.resizable,
+        defaultColDef?.resizable
       );
       expect(mergedDefaultColDef?.resizable).toEqual(
-        overrideDefaultColDef.resizable,
+        overrideDefaultColDef.resizable
       );
     });
 
@@ -210,7 +210,7 @@ describe('SkyAgGridService', () => {
       mockThemeSvc.settingsChange.next({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.modern,
-          SkyThemeMode.presets.light,
+          SkyThemeMode.presets.light
         ),
         previousSettings:
           mockThemeSvc.settingsChange.getValue().currentSettings,
@@ -223,10 +223,10 @@ describe('SkyAgGridService', () => {
       expect(modernThemeGridOptions.rowHeight).toBe(60);
       expect(modernThemeGridOptions.headerHeight).toBe(60);
       expect(typeof modernThemeGridOptions.icons?.['sortDescending']).toBe(
-        'function',
+        'function'
       );
       expect(
-        (modernThemeGridOptions.icons?.['sortDescending'] as Function)(),
+        (modernThemeGridOptions.icons?.['sortDescending'] as Function)()
       ).toBe(`<i aria-hidden="true" class="sky-i-chevron-down"></i>`);
     });
 
@@ -240,7 +240,7 @@ describe('SkyAgGridService', () => {
       mockThemeSvc.settingsChange.next({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.modern,
-          SkyThemeMode.presets.light,
+          SkyThemeMode.presets.light
         ),
         previousSettings:
           mockThemeSvc.settingsChange.getValue().currentSettings,
@@ -257,7 +257,7 @@ describe('SkyAgGridService', () => {
       mockThemeSvc.settingsChange.next({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.default,
-          SkyThemeMode.presets.light,
+          SkyThemeMode.presets.light
         ),
         previousSettings:
           mockThemeSvc.settingsChange.getValue().currentSettings,
@@ -406,7 +406,7 @@ describe('SkyAgGridService', () => {
       autocompleteValueFormatterParams.value = { id: '1', name: 'Bob' };
 
       const formattedAutocomplete = autocompleteValueFormatter(
-        autocompleteValueFormatterParams,
+        autocompleteValueFormatterParams
       );
 
       expect(formattedAutocomplete).toEqual('Bob');
@@ -414,7 +414,7 @@ describe('SkyAgGridService', () => {
 
     it('should return undefined when the cell does not have a value', () => {
       const formattedAutocomplete = autocompleteValueFormatter(
-        autocompleteValueFormatterParams,
+        autocompleteValueFormatterParams
       );
 
       expect(formattedAutocomplete).toBeUndefined();
@@ -472,7 +472,7 @@ describe('SkyAgGridService', () => {
         lookupValueFormatter({
           ...baseParameters,
           value: [{ name: 'expected' }],
-        }),
+        })
       ).toBe('expected');
     });
   });
@@ -480,20 +480,20 @@ describe('SkyAgGridService', () => {
   describe('suppressKeyboardEvent', () => {
     const mockEl = document.createElement('div');
     let suppressHeaderKeypressFunction: (
-      params: SuppressHeaderKeyboardEventParams<any>,
+      params: SuppressHeaderKeyboardEventParams<any>
     ) => boolean;
     let suppressKeypressFunction: (
-      params: SuppressKeyboardEventParams<any>,
+      params: SuppressKeyboardEventParams<any>
     ) => boolean;
 
     beforeEach(() => {
       suppressHeaderKeypressFunction = defaultGridOptions.defaultColDef
         ?.suppressHeaderKeyboardEvent as (
-        params: SuppressHeaderKeyboardEventParams<any>,
+        params: SuppressHeaderKeyboardEventParams<any>
       ) => boolean;
       suppressKeypressFunction = defaultGridOptions.defaultColDef
         ?.suppressKeyboardEvent as (
-        params: SuppressKeyboardEventParams<any>,
+        params: SuppressKeyboardEventParams<any>
       ) => boolean;
     });
 
@@ -519,10 +519,10 @@ describe('SkyAgGridService', () => {
 
       spyOn(
         agGridAdapterService,
-        'getElementOrParentWithClass',
+        'getElementOrParentWithClass'
       ).and.returnValue(mockEl);
       spyOn(agGridAdapterService, 'getNextFocusableElement').and.returnValue(
-        mockEl,
+        mockEl
       );
 
       expect(suppressKeypressFunction(params)).toBe(true);
@@ -538,10 +538,10 @@ describe('SkyAgGridService', () => {
 
       spyOn(
         agGridAdapterService,
-        'getElementOrParentWithClass',
+        'getElementOrParentWithClass'
       ).and.returnValues(undefined, mockEl);
       spyOn(agGridAdapterService, 'getNextFocusableElement').and.returnValue(
-        undefined,
+        undefined
       );
 
       expect(suppressKeypressFunction(params)).toBe(false);
@@ -560,7 +560,7 @@ describe('SkyAgGridService', () => {
 
     beforeEach(() => {
       onCellFocusedFunction = defaultGridOptions.onCellFocused as (
-        event: CellFocusedEvent,
+        event: CellFocusedEvent
       ) => void;
     });
 
@@ -731,7 +731,7 @@ describe('SkyAgGridService', () => {
         value: 1.23,
       } as ICellRendererParams;
       expect(cellRendererSelector?.(params)?.component).toBe(
-        'sky-ag-grid-cell-renderer-currency',
+        'sky-ag-grid-cell-renderer-currency'
       );
     });
 
@@ -754,7 +754,7 @@ describe('SkyAgGridService', () => {
         value: 'invalid',
       } as ICellRendererParams;
       expect(cellRendererSelector?.(params)?.component).toBe(
-        'sky-ag-grid-cell-renderer-validator-tooltip',
+        'sky-ag-grid-cell-renderer-validator-tooltip'
       );
     });
 
@@ -774,7 +774,7 @@ describe('SkyAgGridService', () => {
         value: 1.23,
       } as ICellRendererParams;
       expect(cellRendererSelector?.(params)?.component).toBe(
-        'sky-ag-grid-cell-renderer-currency',
+        'sky-ag-grid-cell-renderer-currency'
       );
 
       const paramsWithEmptyComponentProperties = {
@@ -787,7 +787,7 @@ describe('SkyAgGridService', () => {
         value: 1.23,
       } as ICellRendererParams;
       expect(
-        cellRendererSelector?.(paramsWithEmptyComponentProperties)?.component,
+        cellRendererSelector?.(paramsWithEmptyComponentProperties)?.component
       ).toBe('sky-ag-grid-cell-renderer-currency');
 
       const paramsWithoutComponentProperties = {
@@ -800,7 +800,7 @@ describe('SkyAgGridService', () => {
         value: 1.23,
       } as ICellRendererParams;
       expect(
-        cellRendererSelector?.(paramsWithoutComponentProperties)?.component,
+        cellRendererSelector?.(paramsWithoutComponentProperties)?.component
       ).toBe('sky-ag-grid-cell-renderer-currency');
 
       const paramsWithoutRendererParams = {
@@ -811,7 +811,7 @@ describe('SkyAgGridService', () => {
         value: 1.23,
       } as ICellRendererParams;
       expect(
-        cellRendererSelector?.(paramsWithoutRendererParams)?.component,
+        cellRendererSelector?.(paramsWithoutRendererParams)?.component
       ).toBe('sky-ag-grid-cell-renderer-currency');
     });
 
@@ -834,7 +834,7 @@ describe('SkyAgGridService', () => {
         value: '',
       } as ICellRendererParams;
       expect(cellRendererSelector?.(params)?.component).toBe(
-        'sky-ag-grid-cell-renderer-currency-validator',
+        'sky-ag-grid-cell-renderer-currency-validator'
       );
     });
 
@@ -862,7 +862,7 @@ describe('SkyAgGridService', () => {
         value: '',
       } as ICellRendererParams;
       expect(cellRendererSelector?.(paramsInvalid)?.component).toBe(
-        'sky-ag-grid-cell-renderer-currency-validator',
+        'sky-ag-grid-cell-renderer-currency-validator'
       );
 
       const paramsValid = {
@@ -872,7 +872,7 @@ describe('SkyAgGridService', () => {
         value: 'valuable',
       } as ICellRendererParams;
       expect(cellRendererSelector?.(paramsValid)?.component).toBe(
-        'sky-ag-grid-cell-renderer-currency',
+        'sky-ag-grid-cell-renderer-currency'
       );
     });
   });
@@ -880,13 +880,13 @@ describe('SkyAgGridService', () => {
   describe('getRowId', () => {
     it('should use the id field when available', () => {
       expect(
-        defaultGridOptions.getRowId?.({ data: { id: 123 } } as GetRowIdParams),
+        defaultGridOptions.getRowId?.({ data: { id: 123 } } as GetRowIdParams)
       ).toEqual('123');
     });
 
     it('should generate an id regardless', () => {
       expect(
-        defaultGridOptions.getRowId?.({ data: {} } as GetRowIdParams),
+        defaultGridOptions.getRowId?.({ data: {} } as GetRowIdParams)
       ).toBeTruthy();
     });
 
@@ -930,7 +930,7 @@ describe('SkyAgGridService', () => {
           node: {
             id: '123',
           },
-        } as RowClassParams),
+        } as RowClassParams)
       ).toEqual('sky-ag-grid-row-123');
     });
 
@@ -951,7 +951,7 @@ describe('SkyAgGridService via fixture', () => {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.default,
-          SkyThemeMode.presets.light,
+          SkyThemeMode.presets.light
         ),
         previousSettings: undefined,
       }),
@@ -982,7 +982,7 @@ describe('SkyAgGridService via fixture', () => {
     mockThemeSvc.settingsChange.next({
       currentSettings: new SkyThemeSettings(
         SkyTheme.presets.modern,
-        SkyThemeMode.presets.light,
+        SkyThemeMode.presets.light
       ),
       previousSettings: undefined,
     });
@@ -994,7 +994,7 @@ describe('SkyAgGridService via fixture', () => {
     mockThemeSvc.settingsChange.next({
       currentSettings: new SkyThemeSettings(
         SkyTheme.presets.default,
-        SkyThemeMode.presets.light,
+        SkyThemeMode.presets.light
       ),
       previousSettings: undefined,
     });

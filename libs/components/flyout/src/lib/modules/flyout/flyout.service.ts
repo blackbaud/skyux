@@ -1,11 +1,9 @@
 import {
   ComponentRef,
-  EnvironmentInjector,
   Injectable,
   NgZone,
   OnDestroy,
   Type,
-  inject,
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import {
@@ -43,7 +41,6 @@ export class SkyFlyoutService implements OnDestroy {
   #coreAdapter: SkyCoreAdapterService;
   #windowRef: SkyAppWindowRef;
   #dynamicComponentService: SkyDynamicComponentService;
-  #environmentInjector = inject(EnvironmentInjector);
   #router: Router;
   #ngZone: NgZone;
 
@@ -52,7 +49,7 @@ export class SkyFlyoutService implements OnDestroy {
     windowRef: SkyAppWindowRef,
     dynamicComponentService: SkyDynamicComponentService,
     router: Router,
-    ngZone: NgZone,
+    ngZone: NgZone
   ) {
     this.#coreAdapter = coreAdapter;
     this.#windowRef = windowRef;
@@ -90,7 +87,7 @@ export class SkyFlyoutService implements OnDestroy {
    */
   public open<T>(
     component: Type<T>,
-    config?: SkyFlyoutConfig,
+    config?: SkyFlyoutConfig
   ): SkyFlyoutInstance<T> {
     // isOpening flag will prevent close() from firing when open() is also fired.
     this.#isOpening = true;
@@ -117,11 +114,7 @@ export class SkyFlyoutService implements OnDestroy {
         });
     }
 
-    const flyout = SkyFlyoutService.host.instance.attach(
-      component,
-      config,
-      this.#environmentInjector,
-    );
+    const flyout = SkyFlyoutService.host.instance.attach(component, config);
 
     this.#addListeners(flyout);
 
@@ -173,7 +166,7 @@ export class SkyFlyoutService implements OnDestroy {
               ? false
               : this.#coreAdapter.isTargetAboveElement(
                   event.target,
-                  flyoutInstance.flyoutRef?.nativeElement,
+                  flyoutInstance.flyoutRef?.nativeElement
                 );
 
           /* istanbul ignore else */
@@ -239,7 +232,7 @@ export class SkyFlyoutLegacyService extends SkyFlyoutService {
     windowRef: SkyAppWindowRef,
     dynamicComponentService: SkyDynamicComponentLegacyService,
     router: Router,
-    ngZone: NgZone,
+    ngZone: NgZone
   ) {
     super(coreAdapter, windowRef, dynamicComponentService, router, ngZone);
   }

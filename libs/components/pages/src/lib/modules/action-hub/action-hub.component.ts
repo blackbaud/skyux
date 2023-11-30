@@ -23,7 +23,7 @@ export class SkyActionHubComponent {
    */
   @Input()
   public set needsAttention(
-    value: SkyActionHubNeedsAttentionInput | undefined,
+    value: SkyActionHubNeedsAttentionInput | undefined
   ) {
     this.#_needsAttention = value;
     this.needsAttentionArray = Array.isArray(value) ? value : [];

@@ -84,7 +84,7 @@ export class DemoComponent implements OnInit, OnDestroy {
 
   #buildCheckboxes(): FormArray {
     const checkboxArray = this.selectionBoxes.map((checkbox) =>
-      this.#formBuilder.control(checkbox.selected),
+      this.#formBuilder.control(checkbox.selected)
     );
 
     return this.#formBuilder.array(checkboxArray);

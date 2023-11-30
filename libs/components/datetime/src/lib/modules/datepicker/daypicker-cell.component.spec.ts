@@ -15,7 +15,7 @@ import { SkyDatepickerService } from './datepicker.service';
 import { SkyDayPickerCellComponent } from './daypicker-cell.component';
 
 function getDaypickerCell(
-  fixture: ComponentFixture<SkyDayPickerCellComponent>,
+  fixture: ComponentFixture<SkyDayPickerCellComponent>
 ): HTMLElement | null {
   return fixture.nativeElement.querySelector('.sky-daypicker-cell');
 }
@@ -129,11 +129,11 @@ describe('daypicker cell', () => {
     beforeEach(() => {
       controllerSpy = spyOn(
         component.popoverController,
-        'next',
+        'next'
       ).and.callThrough();
 
       activeDateSpy = spyOn(calendarInnerComponent, 'isActive').and.returnValue(
-        true,
+        true
       );
       component.activeDateHasChanged = true;
     });
@@ -178,7 +178,7 @@ describe('daypicker cell', () => {
     beforeEach(() => {
       controllerSpy = spyOn(
         component.popoverController,
-        'next',
+        'next'
       ).and.callThrough();
 
       fixture.detectChanges();
@@ -232,12 +232,12 @@ describe('daypicker cell', () => {
     beforeEach(() => {
       controllerSpy = spyOn(
         component.popoverController,
-        'next',
+        'next'
       ).and.callThrough();
 
       nextDateSpy = spyOn(
         datepickerService.keyDatePopoverStream,
-        'next',
+        'next'
       ).and.callThrough();
     });
 
@@ -278,12 +278,12 @@ describe('daypicker cell', () => {
     beforeEach(() => {
       controllerSpy = spyOn(
         component.popoverController,
-        'next',
+        'next'
       ).and.callThrough();
 
       nextDateSpy = spyOn(
         datepickerService.keyDatePopoverStream,
-        'next',
+        'next'
       ).and.callThrough();
     });
 
@@ -324,7 +324,7 @@ describe('daypicker cell', () => {
     beforeEach(() => {
       controllerSpy = spyOn(
         component.popoverController,
-        'next',
+        'next'
       ).and.callThrough();
     });
 
@@ -373,7 +373,7 @@ describe('daypicker cell', () => {
     beforeEach(() => {
       controllerSpy = spyOn(
         component.popoverController,
-        'next',
+        'next'
       ).and.callThrough();
     });
 
@@ -404,7 +404,7 @@ describe('daypicker cell', () => {
     beforeEach(() => {
       controllerSpy = spyOn(
         component.popoverController,
-        'next',
+        'next'
       ).and.callThrough();
     });
 

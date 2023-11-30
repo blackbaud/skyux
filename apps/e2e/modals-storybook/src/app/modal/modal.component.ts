@@ -63,7 +63,7 @@ export class ModalComponent {
 
   private openModal(
     modalInstance: any,
-    options?: SkyModalConfigurationInterface,
+    options?: SkyModalConfigurationInterface
   ): SkyModalInstance {
     this.hideButtons();
 

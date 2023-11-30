@@ -45,7 +45,7 @@ export class ResizeObserverModalComponent implements AfterViewInit, OnInit {
     private changeDetectorRef: ChangeDetectorRef,
     private mediaQueryService: SkyMediaQueryService,
     private modalService: SkyModalService,
-    @Inject('size') public size: string,
+    @Inject('size') public size: string
   ) {
     this.identifier = identifier++;
   }
@@ -70,7 +70,7 @@ export class ResizeObserverModalComponent implements AfterViewInit, OnInit {
       }
       if (typeof console === 'object') {
         console.log(
-          `${this.size} modal ${this.identifier}: ${this.breakpoint}`,
+          `${this.size} modal ${this.identifier}: ${this.breakpoint}`
         );
       }
       this.changeDetectorRef.detectChanges();

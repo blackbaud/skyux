@@ -9,7 +9,7 @@ describe('Icon stack component', () => {
   function setupIcon(
     baseIcon: SkyIconStackItem,
     topIcon: SkyIconStackItem,
-    size?: string,
+    size?: string
   ): void {
     cmp.baseIcon = baseIcon;
     cmp.topIcon = topIcon;

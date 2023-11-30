@@ -39,11 +39,11 @@ describe('Record page blocks layout demo', async () => {
     const pageHeaderHarness = await pageHarness.getPageHeader();
 
     await expectAsync(pageHeaderHarness.getPageTitle()).toBeResolvedTo(
-      '$500 pledge',
+      '$500 pledge'
     );
 
     await expectAsync(pageHeaderHarness.getParentLinkText()).toBeResolvedTo(
-      'Pledges',
+      'Pledges'
     );
   });
 });

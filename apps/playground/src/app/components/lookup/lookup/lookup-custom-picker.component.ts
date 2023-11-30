@@ -27,7 +27,7 @@ export class LookupCustomPickerComponent implements OnInit {
   constructor(
     private formBuilder: UntypedFormBuilder,
     public context: SkyLookupShowMoreCustomPickerContext,
-    public modalInstance: SkyModalInstance,
+    public modalInstance: SkyModalInstance
   ) {}
 
   public ngOnInit(): void {

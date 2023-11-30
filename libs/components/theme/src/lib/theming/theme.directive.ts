@@ -1,11 +1,5 @@
-import {
-  Directive,
-  ElementRef,
-  Input,
-  OnDestroy,
-  OnInit,
-  Renderer2,
-} from '@angular/core';
+import { Directive } from '@angular/core';
+import { ElementRef, Input, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 
 import { SkyTheme } from './theme';
 import { SkyThemeMode } from './theme-mode';
@@ -14,7 +8,7 @@ import { SkyThemeService } from './theme.service';
 
 const defaultTheme = new SkyThemeSettings(
   SkyTheme.presets.default,
-  SkyThemeMode.presets.light,
+  SkyThemeMode.presets.light
 );
 
 /**
@@ -46,7 +40,7 @@ export class SkyThemeDirective implements OnInit, OnDestroy {
   constructor(
     elRef: ElementRef,
     renderer: Renderer2,
-    themeSvc: SkyThemeService,
+    themeSvc: SkyThemeService
   ) {
     this.#elRef = elRef;
     this.#renderer = renderer;
@@ -57,7 +51,7 @@ export class SkyThemeDirective implements OnInit, OnDestroy {
     this.#themeSvc.init(
       this.#elRef.nativeElement,
       this.#renderer,
-      this.skyThemeOrDefault,
+      this.skyThemeOrDefault
     );
 
     this.#initialized = true;

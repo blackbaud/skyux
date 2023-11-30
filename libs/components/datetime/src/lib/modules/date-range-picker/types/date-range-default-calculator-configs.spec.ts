@@ -66,7 +66,7 @@ describe('Default calculator configs', function () {
         const spy = spyOnProperty(
           SkyDateRangeRelativeValue as any,
           expectations[config.calculatorId].getValue,
-          'get',
+          'get'
         );
 
         const startDate = new Date();

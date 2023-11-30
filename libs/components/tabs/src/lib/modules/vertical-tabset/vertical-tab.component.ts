@@ -166,7 +166,7 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
     changeRef: ChangeDetectorRef,
     tabsetService: SkyVerticalTabsetService,
     verticalTabMediaQueryService: SkyVerticalTabMediaQueryService,
-    @Optional() tabIdSvc?: SkyTabIdService,
+    @Optional() tabIdSvc?: SkyTabIdService
   ) {
     this.#adapterService = adapterService;
     this.#changeRef = changeRef;

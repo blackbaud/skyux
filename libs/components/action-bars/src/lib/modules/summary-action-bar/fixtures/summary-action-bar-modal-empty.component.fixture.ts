@@ -13,7 +13,7 @@ export class SkySummaryActionBarModalEmptyTestComponent implements OnDestroy {
 
   constructor(
     public instance: SkyModalInstance,
-    modalService: SkyModalService,
+    modalService: SkyModalService
   ) {
     this.#modalService = modalService;
   }
@@ -25,7 +25,7 @@ export class SkySummaryActionBarModalEmptyTestComponent implements OnDestroy {
 
   public openModal(): void {
     this.#modal = this.#modalService.open(
-      SkySummaryActionBarModalTestComponent,
+      SkySummaryActionBarModalTestComponent
     );
   }
 }

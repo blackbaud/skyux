@@ -18,7 +18,7 @@ export class SkyListViewGridFixture {
     this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
-      'sky-list-view-grid',
+      'sky-list-view-grid'
     );
   }
 
@@ -36,7 +36,7 @@ export class SkyListViewGridFixture {
           el: cellEl,
           textContent: SkyAppTestUtility.getText(cellEl),
         };
-      },
+      }
     );
 
     return {
@@ -63,7 +63,7 @@ export class SkyListViewGridFixture {
 
     return {
       locked: headerEl.nativeElement.classList.contains(
-        'sky-grid-header-locked',
+        'sky-grid-header-locked'
       ),
       textContent: SkyAppTestUtility.getText(headerEl),
     };

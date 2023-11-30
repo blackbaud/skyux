@@ -4,7 +4,7 @@ import sass from 'sass';
 
 const STYLES_ROOT = path.resolve(
   __dirname,
-  '../libs/components/theme/src/lib/styles',
+  '../libs/components/theme/src/lib/styles'
 );
 const DEST_ROOT = path.resolve(__dirname, '../dist/libs/components/theme');
 
@@ -14,7 +14,7 @@ function addPackageExport(filePath: string) {
   const rootRelativePath = filePath.replace(DEST_ROOT, '.').replace(/\\/g, '/');
   const filePathNoExtension = rootRelativePath.substring(
     0,
-    rootRelativePath.lastIndexOf('.'),
+    rootRelativePath.lastIndexOf('.')
   );
 
   const packageJsonPath = path.resolve(DEST_ROOT, 'package.json');
@@ -22,9 +22,6 @@ function addPackageExport(filePath: string) {
 
   packageJson.exports = packageJson.exports || {};
   packageJson.exports[filePathNoExtension] = {
-    default: rootRelativePath,
-  };
-  packageJson.exports[rootRelativePath] = {
     default: rootRelativePath,
   };
 
@@ -37,7 +34,7 @@ function validateSkyuxIconVersionMatch() {
   const scssContents = fs.readFileSync(skyScssPath, 'utf8').toString();
 
   const scssVersionMatches = scssContents.match(
-    /@import url\('https:\/\/sky\.blackbaudcdn\.net\/static\/skyux-icons\/([A-z0-9\-.]+)\/assets\/css\/skyux-icons\.min\.css'\)/,
+    /@import url\('https:\/\/sky\.blackbaudcdn\.net\/static\/skyux-icons\/([A-z0-9\-.]+)\/assets\/css\/skyux-icons\.min\.css'\)/
   );
 
   if (!scssVersionMatches || scssVersionMatches.length !== 2) {
@@ -48,14 +45,14 @@ function validateSkyuxIconVersionMatch() {
 
   const packageJsonPath = path.resolve(
     __dirname,
-    '../libs/components/theme/package.json',
+    '../libs/components/theme/package.json'
   );
   const packageJson = fs.readJsonSync(packageJsonPath);
 
   const packageVersion = packageJson.dependencies['@skyux/icons'];
   if (!packageVersion) {
     throw new Error(
-      'Could not find the @skyux/icons dependency in package.json',
+      'Could not find the @skyux/icons dependency in package.json'
     );
   }
 
@@ -65,7 +62,7 @@ function validateSkyuxIconVersionMatch() {
         scssVersion +
         ', but package.json references @skyux/icons version ' +
         packageVersion +
-        '. These versions should match.',
+        '. These versions should match.'
     );
   }
 
@@ -89,7 +86,7 @@ function compileScss() {
 
   renderScss(
     path.join(STYLES_ROOT, 'themes/modern/styles.scss'),
-    path.join(DEST_ROOT, 'css/themes/modern/styles.css'),
+    path.join(DEST_ROOT, 'css/themes/modern/styles.css')
   );
 
   console.log('Done.');
@@ -105,12 +102,12 @@ function copyPublicScssFiles() {
 
   copyScss(
     path.join(STYLES_ROOT, '_public-api/_mixins.scss'),
-    path.join(DEST_ROOT, 'scss/mixins.scss'),
+    path.join(DEST_ROOT, 'scss/mixins.scss')
   );
 
   copyScss(
     path.join(STYLES_ROOT, '_public-api/_variables.scss'),
-    path.join(DEST_ROOT, 'scss/variables.scss'),
+    path.join(DEST_ROOT, 'scss/variables.scss')
   );
 
   console.log('Done.');
@@ -121,22 +118,22 @@ function copyCompatScssFiles() {
 
   copyScss(
     path.join(STYLES_ROOT, '_public-api/_compat/_variables.scss'),
-    path.join(DEST_ROOT, 'scss/_compat/_variables.scss'),
+    path.join(DEST_ROOT, 'scss/_compat/_variables.scss')
   );
 
   copyScss(
     path.join(STYLES_ROOT, '_public-api/_compat/_mixins.scss'),
-    path.join(DEST_ROOT, 'scss/_compat/_mixins.scss'),
+    path.join(DEST_ROOT, 'scss/_compat/_mixins.scss')
   );
 
   copyScss(
     path.join(STYLES_ROOT, '_public-api/themes/modern/_compat/_variables.scss'),
-    path.join(DEST_ROOT, 'scss/themes/modern/_compat/_variables.scss'),
+    path.join(DEST_ROOT, 'scss/themes/modern/_compat/_variables.scss')
   );
 
   copyScss(
     path.join(STYLES_ROOT, '_public-api/themes/modern/_compat/_mixins.scss'),
-    path.join(DEST_ROOT, 'scss/themes/modern/_compat/_mixins.scss'),
+    path.join(DEST_ROOT, 'scss/themes/modern/_compat/_mixins.scss')
   );
 
   console.log('Done.');

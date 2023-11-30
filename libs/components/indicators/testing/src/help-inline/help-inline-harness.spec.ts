@@ -48,7 +48,7 @@ describe('Inline help harness', () => {
       helpInlineHarness = await loader.getHarness(
         SkyHelpInlineHarness.with({
           dataSkyId: options.dataSkyId,
-        }),
+        })
       );
     } else {
       helpInlineHarness = await loader.getHarness(SkyHelpInlineHarness);

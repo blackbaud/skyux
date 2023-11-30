@@ -39,7 +39,7 @@ describe('ng-generate/polyfills.schematic', () => {
     tree.overwrite('angular.json', JSON.stringify(angularJson, undefined, 2));
 
     const runSchematic = (
-      config: { project?: string } = { project: projectName },
+      config: { project?: string } = { project: projectName }
     ): Promise<UnitTestTree> => {
       return runner.runSchematic('polyfills', config, tree);
     };

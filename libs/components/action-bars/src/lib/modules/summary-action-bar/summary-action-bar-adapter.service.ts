@@ -29,36 +29,36 @@ export class SkySummaryActionBarAdapterService {
     const window = this.#windowRef.nativeWindow;
     const body = window.document.body;
     const actionBarEl = summaryActionBarRef.nativeElement.querySelector(
-      '.sky-summary-action-bar',
+      '.sky-summary-action-bar'
     );
     /* istanbul ignore else */
     if (actionBarEl.style.visibility !== 'hidden') {
       this.#renderer.setStyle(
         body,
         'margin-bottom',
-        actionBarEl.offsetHeight + 'px',
+        actionBarEl.offsetHeight + 'px'
       );
     }
   }
 
   public styleSplitViewElementForActionBar(
-    summaryActionBarRef: ElementRef,
+    summaryActionBarRef: ElementRef
   ): void {
     const splitViewWorkspaceContent = document.querySelector(
-      '.sky-split-view-workspace-content',
+      '.sky-split-view-workspace-content'
     );
     const splitViewWorkspaceFooter = document.querySelector(
-      '.sky-split-view-workspace-footer',
+      '.sky-split-view-workspace-footer'
     );
     const actionBarEl = summaryActionBarRef.nativeElement.querySelector(
-      '.sky-summary-action-bar',
+      '.sky-summary-action-bar'
     );
     /* istanbul ignore else */
     if (actionBarEl.style.visibility !== 'hidden') {
       this.#renderer.setStyle(
         splitViewWorkspaceContent,
         'padding-bottom',
-        '20px',
+        '20px'
       );
       this.#renderer.setStyle(splitViewWorkspaceFooter, 'padding', 0);
     }
@@ -72,22 +72,22 @@ export class SkySummaryActionBarAdapterService {
 
   public revertSplitViewElementStyles(): void {
     const splitViewWorkspaceContent = document.querySelector(
-      '.sky-split-view-workspace-content',
+      '.sky-split-view-workspace-content'
     );
     const splitViewWorkspaceFooter = document.querySelector(
-      '.sky-split-view-workspace-footer',
+      '.sky-split-view-workspace-footer'
     );
     this.#renderer.setStyle(
       splitViewWorkspaceContent,
       'padding-bottom',
-      'none',
+      'none'
     );
     this.#renderer.setStyle(splitViewWorkspaceFooter, 'padding', '10px');
   }
 
   public styleModalFooter(summaryActionBarRef: ElementRef): void {
     const modalFooterEls = document.getElementsByClassName(
-      'sky-modal-footer-container',
+      'sky-modal-footer-container'
     );
     for (let i = 0; i < modalFooterEls.length; i++) {
       if (modalFooterEls.item(i)?.contains(summaryActionBarRef.nativeElement)) {

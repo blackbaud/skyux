@@ -8,7 +8,7 @@ describe('theme-storybook', () => {
       beforeEach(() => {
         cy.viewport(width, 960);
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=responsivecomponent-responsive--responsive`,
+          `/iframe.html?globals=theme:${theme}&id=responsivecomponent-responsive--responsive`
         );
       });
       it('should render the component', () => {
@@ -22,14 +22,14 @@ describe('theme-storybook', () => {
           .end()
           .document()
           .screenshot(
-            `responsivecomponent-responsive--responsive-${theme}-${width}px`,
+            `responsivecomponent-responsive--responsive-${theme}-${width}px`
           )
           .percySnapshot(
             `responsivecomponent-responsive--responsive-${theme}-${width}px`,
             {
               widths: [width],
               minHeight: 960,
-            },
+            }
           );
       });
     });

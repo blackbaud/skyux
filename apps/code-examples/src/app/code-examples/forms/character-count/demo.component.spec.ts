@@ -18,7 +18,7 @@ describe('Character count demo', () => {
     const harness = await loader.getHarness(
       SkyCharacterCounterIndicatorHarness.with({
         dataSkyId: 'description-indicator',
-      }),
+      })
     );
 
     fixture.detectChanges();
@@ -43,7 +43,7 @@ describe('Character count demo', () => {
 
     // Update the value to exceed the limit and validate.
     const inputEl = document.querySelector(
-      '.description-input',
+      '.description-input'
     ) as HTMLInputElement;
 
     inputEl.value += ' scholarship fund';
@@ -56,17 +56,17 @@ describe('Character count demo', () => {
     const statusIndicator = await loader.getHarness(
       SkyStatusIndicatorHarness.with({
         dataSkyId: 'description-status-indicator-over-limit',
-      }),
+      })
     );
 
     await expectAsync(statusIndicator.getDescriptionType()).toBeResolvedTo(
-      'error',
+      'error'
     );
     await expectAsync(statusIndicator.getIndicatorType()).toBeResolvedTo(
-      'danger',
+      'danger'
     );
     await expectAsync(statusIndicator.getText()).toBeResolvedTo(
-      'Limit Transaction description to 50 characters.',
+      'Limit Transaction description to 50 characters.'
     );
   });
 });

@@ -62,7 +62,7 @@ function markTextNodes(node: Node, searchRegex: RegExp): number {
 
 function removeHighlight(el: ElementRef): void {
   const matchedElements = (el.nativeElement as Element).querySelectorAll(
-    `mark.${CLASS_NAME}`,
+    `mark.${CLASS_NAME}`
   );
 
   if (matchedElements) {
@@ -85,7 +85,7 @@ function createSearchRegex(searchTerms: string[]): RegExp | undefined {
     // Escape all the special regular expression characters by adding a
     // preceding '\' to each match.
     searchTerms = searchTerms.map((searchTerm) =>
-      searchTerm.replace(SPECIAL_CHAR_REGEX, '\\$&'),
+      searchTerm.replace(SPECIAL_CHAR_REGEX, '\\$&')
     );
 
     searchRegex = new RegExp(searchTerms.join('|'), 'gi');
@@ -102,7 +102,6 @@ function createSearchRegex(searchTerms: string[]): RegExp | undefined {
  */
 @Directive({
   selector: '[skyHighlight]',
-  standalone: true,
 })
 export class SkyTextHighlightDirective
   implements OnChanges, AfterViewInit, OnDestroy
@@ -187,7 +186,6 @@ export class SkyTextHighlightDirective
         attributes: false,
         childList: true,
         characterData: true,
-        subtree: true,
       };
 
       this.#observer.observe(this.#el.nativeElement, config);

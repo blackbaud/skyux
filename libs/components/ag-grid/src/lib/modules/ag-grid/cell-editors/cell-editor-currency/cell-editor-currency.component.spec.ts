@@ -36,7 +36,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
     });
 
     currencyEditorFixture = TestBed.createComponent(
-      SkyAgGridCellEditorCurrencyComponent,
+      SkyAgGridCellEditorCurrencyComponent
     );
     currencyEditorNativeElement = currencyEditorFixture.nativeElement;
     currencyEditorComponent = currencyEditorFixture.componentInstance;
@@ -51,7 +51,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
     gridFixture.detectChanges();
 
     const currencyCellElement = gridNativeElement.querySelector(
-      `.${SkyCellClass.Currency}`,
+      `.${SkyCellClass.Currency}`
     );
 
     expect(currencyCellElement).toBeVisible();
@@ -77,7 +77,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
         },
         null,
         'col',
-        true,
+        true
       );
 
       cellEditorParams = {
@@ -142,7 +142,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
           },
           null,
           'col',
-          true,
+          true
         );
 
         cellEditorParams = {
@@ -156,7 +156,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
 
       it('sets the form control value correctly', () => {
         expect(
-          currencyEditorComponent.editorForm.get('currency')?.value,
+          currencyEditorComponent.editorForm.get('currency')?.value
         ).toBeNull();
 
         currencyEditorComponent.agInit(cellEditorParams as ICellEditorParams);
@@ -164,14 +164,14 @@ describe('SkyCellEditorCurrencyComponent', () => {
         currencyEditorComponent.afterGuiAttached();
 
         expect(
-          currencyEditorComponent.editorForm.get('currency')?.value,
+          currencyEditorComponent.editorForm.get('currency')?.value
         ).toEqual(value);
       });
 
       describe('cellStartedEdit is true', () => {
         it('initializes with a cleared value unselected when Backspace triggers the edit', fakeAsync(() => {
           expect(
-            currencyEditorComponent.editorForm.get('currency')?.value,
+            currencyEditorComponent.editorForm.get('currency')?.value
           ).toBeNull();
 
           currencyEditorComponent.agInit({
@@ -180,7 +180,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
           });
           currencyEditorFixture.detectChanges();
           const input = currencyEditorNativeElement.querySelector(
-            'input',
+            'input'
           ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
           currencyEditorComponent.afterGuiAttached();
@@ -188,14 +188,14 @@ describe('SkyCellEditorCurrencyComponent', () => {
           currencyEditorFixture.detectChanges();
 
           expect(
-            currencyEditorComponent.editorForm.get('currency')?.value,
+            currencyEditorComponent.editorForm.get('currency')?.value
           ).toBeUndefined();
           expect(selectSpy).not.toHaveBeenCalled();
         }));
 
         it('initializes with a cleared value unselected when Delete triggers the edit', fakeAsync(() => {
           expect(
-            currencyEditorComponent.editorForm.get('currency')?.value,
+            currencyEditorComponent.editorForm.get('currency')?.value
           ).toBeNull();
 
           currencyEditorComponent.agInit({
@@ -203,7 +203,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
             eventKey: KeyCode.DELETE,
           });
           const input = currencyEditorNativeElement.querySelector(
-            'input',
+            'input'
           ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
           currencyEditorComponent.afterGuiAttached();
@@ -211,14 +211,14 @@ describe('SkyCellEditorCurrencyComponent', () => {
           currencyEditorFixture.detectChanges();
 
           expect(
-            currencyEditorComponent.editorForm.get('currency')?.value,
+            currencyEditorComponent.editorForm.get('currency')?.value
           ).toBeUndefined();
           expect(selectSpy).not.toHaveBeenCalled();
         }));
 
         it('initializes with the current value unselected when F2 triggers the edit', fakeAsync(() => {
           expect(
-            currencyEditorComponent.editorForm.get('currency')?.value,
+            currencyEditorComponent.editorForm.get('currency')?.value
           ).toBeNull();
 
           currencyEditorComponent.agInit({
@@ -227,7 +227,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
           });
           currencyEditorFixture.detectChanges();
           const input = currencyEditorNativeElement.querySelector(
-            'input',
+            'input'
           ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
           currencyEditorComponent.afterGuiAttached();
@@ -235,14 +235,14 @@ describe('SkyCellEditorCurrencyComponent', () => {
           currencyEditorFixture.detectChanges();
 
           expect(
-            currencyEditorComponent.editorForm.get('currency')?.value,
+            currencyEditorComponent.editorForm.get('currency')?.value
           ).toBe(value);
           expect(selectSpy).not.toHaveBeenCalled();
         }));
 
         it('initializes with the current value selected when Enter triggers the edit', fakeAsync(() => {
           expect(
-            currencyEditorComponent.editorForm.get('currency')?.value,
+            currencyEditorComponent.editorForm.get('currency')?.value
           ).toBeNull();
 
           currencyEditorComponent.agInit({
@@ -251,7 +251,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
           });
           currencyEditorFixture.detectChanges();
           const input = currencyEditorNativeElement.querySelector(
-            'input',
+            'input'
           ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
           currencyEditorComponent.afterGuiAttached();
@@ -259,14 +259,14 @@ describe('SkyCellEditorCurrencyComponent', () => {
           currencyEditorFixture.detectChanges();
 
           expect(
-            currencyEditorComponent.editorForm.get('currency')?.value,
+            currencyEditorComponent.editorForm.get('currency')?.value
           ).toBe(value);
           expect(selectSpy).toHaveBeenCalled();
         }));
 
         it('initializes with the character pressed unselected when a standard keyboard event triggers the edit', fakeAsync(() => {
           expect(
-            currencyEditorComponent.editorForm.get('currency')?.value,
+            currencyEditorComponent.editorForm.get('currency')?.value
           ).toBeNull();
 
           currencyEditorComponent.agInit({
@@ -275,7 +275,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
           });
           currencyEditorFixture.detectChanges();
           const input = currencyEditorNativeElement.querySelector(
-            'input',
+            'input'
           ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
           currencyEditorComponent.afterGuiAttached();
@@ -283,14 +283,14 @@ describe('SkyCellEditorCurrencyComponent', () => {
           currencyEditorFixture.detectChanges();
 
           expect(
-            currencyEditorComponent.editorForm.get('currency')?.value,
+            currencyEditorComponent.editorForm.get('currency')?.value
           ).toBe(4);
           expect(selectSpy).not.toHaveBeenCalled();
         }));
 
         it('initializes with undefined when a non-numeric keyboard event triggers the edit', fakeAsync(() => {
           expect(
-            currencyEditorComponent.editorForm.get('currency')?.value,
+            currencyEditorComponent.editorForm.get('currency')?.value
           ).toBeNull();
 
           currencyEditorComponent.agInit({
@@ -299,7 +299,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
           });
           currencyEditorFixture.detectChanges();
           const input = currencyEditorNativeElement.querySelector(
-            'input',
+            'input'
           ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
           currencyEditorComponent.afterGuiAttached();
@@ -307,7 +307,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
           currencyEditorFixture.detectChanges();
 
           expect(
-            currencyEditorComponent.editorForm.get('currency')?.value,
+            currencyEditorComponent.editorForm.get('currency')?.value
           ).toBeUndefined();
           expect(selectSpy).not.toHaveBeenCalled();
         }));
@@ -320,7 +320,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
 
         it('initializes with the current value unselected when Backspace triggers the edit', fakeAsync(() => {
           expect(
-            currencyEditorComponent.editorForm.get('currency')?.value,
+            currencyEditorComponent.editorForm.get('currency')?.value
           ).toBeNull();
 
           currencyEditorComponent.agInit({
@@ -329,7 +329,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
           });
           currencyEditorFixture.detectChanges();
           const input = currencyEditorNativeElement.querySelector(
-            'input',
+            'input'
           ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
           currencyEditorComponent.afterGuiAttached();
@@ -337,14 +337,14 @@ describe('SkyCellEditorCurrencyComponent', () => {
           currencyEditorFixture.detectChanges();
 
           expect(
-            currencyEditorComponent.editorForm.get('currency')?.value,
+            currencyEditorComponent.editorForm.get('currency')?.value
           ).toBe(value);
           expect(selectSpy).not.toHaveBeenCalled();
         }));
 
         it('initializes with the current value unselected when Delete triggers the edit', fakeAsync(() => {
           expect(
-            currencyEditorComponent.editorForm.get('currency')?.value,
+            currencyEditorComponent.editorForm.get('currency')?.value
           ).toBeNull();
 
           currencyEditorComponent.agInit({
@@ -352,7 +352,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
             eventKey: KeyCode.DELETE,
           });
           const input = currencyEditorNativeElement.querySelector(
-            'input',
+            'input'
           ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
           currencyEditorComponent.afterGuiAttached();
@@ -360,14 +360,14 @@ describe('SkyCellEditorCurrencyComponent', () => {
           currencyEditorFixture.detectChanges();
 
           expect(
-            currencyEditorComponent.editorForm.get('currency')?.value,
+            currencyEditorComponent.editorForm.get('currency')?.value
           ).toBe(value);
           expect(selectSpy).not.toHaveBeenCalled();
         }));
 
         it('initializes with the current value unselected when F2 triggers the edit', fakeAsync(() => {
           expect(
-            currencyEditorComponent.editorForm.get('currency')?.value,
+            currencyEditorComponent.editorForm.get('currency')?.value
           ).toBeNull();
 
           currencyEditorComponent.agInit({
@@ -376,7 +376,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
           });
           currencyEditorFixture.detectChanges();
           const input = currencyEditorNativeElement.querySelector(
-            'input',
+            'input'
           ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
           currencyEditorComponent.afterGuiAttached();
@@ -384,14 +384,14 @@ describe('SkyCellEditorCurrencyComponent', () => {
           currencyEditorFixture.detectChanges();
 
           expect(
-            currencyEditorComponent.editorForm.get('currency')?.value,
+            currencyEditorComponent.editorForm.get('currency')?.value
           ).toBe(value);
           expect(selectSpy).not.toHaveBeenCalled();
         }));
 
         it('initializes with the current value unselected when Enter triggers the edit', fakeAsync(() => {
           expect(
-            currencyEditorComponent.editorForm.get('currency')?.value,
+            currencyEditorComponent.editorForm.get('currency')?.value
           ).toBeNull();
 
           currencyEditorComponent.agInit({
@@ -400,7 +400,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
           });
           currencyEditorFixture.detectChanges();
           const input = currencyEditorNativeElement.querySelector(
-            'input',
+            'input'
           ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
           currencyEditorComponent.afterGuiAttached();
@@ -408,14 +408,14 @@ describe('SkyCellEditorCurrencyComponent', () => {
           currencyEditorFixture.detectChanges();
 
           expect(
-            currencyEditorComponent.editorForm.get('currency')?.value,
+            currencyEditorComponent.editorForm.get('currency')?.value
           ).toBe(value);
           expect(selectSpy).not.toHaveBeenCalled();
         }));
 
         it('initializes with the current value unselected when a standard keyboard event triggers the edit', fakeAsync(() => {
           expect(
-            currencyEditorComponent.editorForm.get('currency')?.value,
+            currencyEditorComponent.editorForm.get('currency')?.value
           ).toBeNull();
 
           currencyEditorComponent.agInit({
@@ -424,7 +424,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
           });
           currencyEditorFixture.detectChanges();
           const input = currencyEditorNativeElement.querySelector(
-            'input',
+            'input'
           ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
           currencyEditorComponent.afterGuiAttached();
@@ -432,14 +432,14 @@ describe('SkyCellEditorCurrencyComponent', () => {
           currencyEditorFixture.detectChanges();
 
           expect(
-            currencyEditorComponent.editorForm.get('currency')?.value,
+            currencyEditorComponent.editorForm.get('currency')?.value
           ).toBe(value);
           expect(selectSpy).not.toHaveBeenCalled();
         }));
 
         it('initializes with the current value unselected when a non-numeric keyboard event triggers the edit', fakeAsync(() => {
           expect(
-            currencyEditorComponent.editorForm.get('currency')?.value,
+            currencyEditorComponent.editorForm.get('currency')?.value
           ).toBeNull();
 
           currencyEditorComponent.agInit({
@@ -448,7 +448,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
           });
           currencyEditorFixture.detectChanges();
           const input = currencyEditorNativeElement.querySelector(
-            'input',
+            'input'
           ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
           currencyEditorComponent.afterGuiAttached();
@@ -456,7 +456,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
           currencyEditorFixture.detectChanges();
 
           expect(
-            currencyEditorComponent.editorForm.get('currency')?.value,
+            currencyEditorComponent.editorForm.get('currency')?.value
           ).toBe(value);
           expect(selectSpy).not.toHaveBeenCalled();
         }));
@@ -467,7 +467,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
         currencyEditorFixture.detectChanges();
 
         const input = currencyEditorNativeElement.querySelector(
-          'input',
+          'input'
         ) as HTMLInputElement;
         spyOn(input, 'focus');
 

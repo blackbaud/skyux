@@ -12,7 +12,7 @@ describe('Progress indicator status marker', () => {
 
     expect(() => {
       const fixture = TestBed.createComponent(
-        SkyProgressIndicatorStatusMarkerComponent,
+        SkyProgressIndicatorStatusMarkerComponent
       );
       fixture.detectChanges();
     }).not.toThrowError();

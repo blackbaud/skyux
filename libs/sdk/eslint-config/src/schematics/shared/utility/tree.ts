@@ -11,7 +11,7 @@ export function readRequiredFile(tree: Tree, filePath: string): string {
   /* istanbul ignore next */
   if (!data) {
     throw new Error(
-      `The file '${filePath}' was expected to exist but was not found.`,
+      `The file '${filePath}' was expected to exist but was not found.`
     );
   }
 
@@ -29,7 +29,7 @@ export function readJsonFile<T>(tree: Tree, path: string): T {
 export function writeTextFile(
   tree: Tree,
   path: string,
-  contents: string,
+  contents: string
 ): void {
   if (tree.exists(path)) {
     tree.overwrite(path, contents);

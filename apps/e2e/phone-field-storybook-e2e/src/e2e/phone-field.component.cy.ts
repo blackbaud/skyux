@@ -7,8 +7,8 @@ describe('phone-field-storybook', () => {
         cy
           .viewport(600, 1300)
           .visit(
-            `/iframe.html?globals=theme:${theme}&id=phonefieldcomponent-phonefield--phone-field`,
-          ),
+            `/iframe.html?globals=theme:${theme}&id=phonefieldcomponent-phonefield--phone-field`
+          )
       );
       it('should render the component', () => {
         cy.get('app-phone-field').should('exist').should('be.visible');
@@ -49,7 +49,7 @@ describe('phone-field-storybook', () => {
             {
               capture: 'fullPage',
               overwrite: true,
-            },
+            }
           );
       });
     });

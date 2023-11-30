@@ -10,7 +10,7 @@ describe('layout-storybook - description-list', () => {
             beforeEach(() => {
               cy.viewport(width, 960);
               cy.visit(
-                `/iframe.html?globals=theme:${theme}&id=descriptionlistcomponent-descriptionlist--description-list`,
+                `/iframe.html?globals=theme:${theme}&id=descriptionlistcomponent-descriptionlist--description-list`
               );
             });
 
@@ -19,17 +19,17 @@ describe('layout-storybook - description-list', () => {
                 .should('exist')
                 .should('be.visible')
                 .screenshot(
-                  `descriptionlistcomponent-descriptionlist--description-list-${width}-${theme}`,
+                  `descriptionlistcomponent-descriptionlist--description-list-${width}-${theme}`
                 )
                 .percySnapshot(
                   `descriptionlistcomponent-descriptionlist--description-list-${width}-${theme}`,
                   {
                     widths: [width],
-                  },
+                  }
                 );
             });
           });
-        },
+        }
       );
     });
   });

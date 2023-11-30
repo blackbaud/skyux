@@ -74,7 +74,7 @@ export class CountryFieldReactiveTestComponent implements OnInit {
     });
 
     this.countryControl.valueChanges.subscribe((value) =>
-      this.formValueChanged(value),
+      this.formValueChanged(value)
     );
   }
 

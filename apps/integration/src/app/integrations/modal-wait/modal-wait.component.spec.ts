@@ -9,16 +9,16 @@ describe('Modals with wait', () => {
     const modalDialogElement = getModalDialog();
 
     const liveAnnouncerElement = document.querySelector(
-      '.sky-live-announcer-element',
+      '.sky-live-announcer-element'
     );
 
     expect(liveAnnouncerElement)
       .withContext(
-        'Announcer element should have been set when live announcer was injected',
+        'Announcer element should have been set when live announcer was injected'
       )
       .toBeTruthy();
     expect(modalDialogElement?.getAttribute('aria-owns')).toBe(
-      liveAnnouncerElement?.id,
+      liveAnnouncerElement?.id
     );
   }
 

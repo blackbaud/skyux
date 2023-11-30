@@ -46,7 +46,7 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
         });
     } else {
       this.#logger.error(
-        'The SkyTabsetNavButtonComponent requires a reference to the SkyTabsetComponent it controls.',
+        'The SkyTabsetNavButtonComponent requires a reference to the SkyTabsetComponent it controls.'
       );
     }
   }
@@ -160,7 +160,7 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
 
       // tab index can be a number or a string, but we need the actual number index
       this.#activeIndexNumber = tabs.findIndex(
-        (tab) => tab.tabIndex === this.#activeSkyTabIndex,
+        (tab) => tab.tabIndex === this.#activeSkyTabIndex
       );
 
       /* istanbul ignore else */

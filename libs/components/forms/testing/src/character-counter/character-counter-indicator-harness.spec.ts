@@ -52,7 +52,7 @@ describe('Character counter indicator harness', () => {
       harness = await loader.getHarness(
         SkyCharacterCounterIndicatorHarness.with({
           dataSkyId: options.dataSkyId,
-        }),
+        })
       );
     } else {
       harness = await loader.getHarness(SkyCharacterCounterIndicatorHarness);
@@ -103,7 +103,7 @@ describe('Character counter indicator harness', () => {
     await expectAsync(harness.isOverLimit()).toBeResolvedTo(false);
 
     await expectAsync(harness.getCharacterCount()).toBeRejectedWithError(
-      'The character counter indicator does not contain text in the expected format.',
+      'The character counter indicator does not contain text in the expected format.'
     );
   });
 });

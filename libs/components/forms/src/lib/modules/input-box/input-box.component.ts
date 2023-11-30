@@ -238,7 +238,7 @@ export class SkyInputBoxComponent
       this.#adapterService.updateDescribedBy(
         this.inputRef,
         this.hintTextId,
-        this.hintText,
+        this.hintText
       );
 
       if (this.inputRef !== this.#previousInputRef) {
@@ -258,7 +258,7 @@ export class SkyInputBoxComponent
 
   public formControlFocusIn(): void {
     const inlineHelpEl = this.#adapterService.getInlineHelpElement(
-      this.#elementRef,
+      this.#elementRef
     );
     if (!this.#adapterService.isFocusInElement(inlineHelpEl)) {
       this.#updateHasFocus(true);
@@ -312,7 +312,7 @@ export class SkyInputBoxComponent
 
     if (control && this.characterLimit !== undefined) {
       this.#previousMaxLengthValidator = Validators.maxLength(
-        this.characterLimit,
+        this.characterLimit
       );
 
       control.addValidators([this.#previousMaxLengthValidator]);

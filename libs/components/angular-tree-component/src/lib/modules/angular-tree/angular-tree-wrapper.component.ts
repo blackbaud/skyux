@@ -74,7 +74,7 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
     ) {
       console.warn(
         'Single select mode should not be enabled while the tree is in triState mode (cascading selection). ' +
-          'Please set "useTriState" to "false" if you want to remain in single select mode.',
+          'Please set "useTriState" to "false" if you want to remain in single select mode.'
       );
     }
     this.#overrideActionMapping();

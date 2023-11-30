@@ -13,7 +13,7 @@ export class SkyCardFixture {
    */
   public get titleText(): string | undefined {
     return SkyAppTestUtility.getText(
-      this.#debugEl.query(By.css('sky-card-title')),
+      this.#debugEl.query(By.css('sky-card-title'))
     );
   }
 
@@ -22,7 +22,7 @@ export class SkyCardFixture {
    */
   public get contentText(): string | undefined {
     return SkyAppTestUtility.getText(
-      this.#debugEl.query(By.css('sky-card-content')),
+      this.#debugEl.query(By.css('sky-card-content'))
     );
   }
 
@@ -51,7 +51,7 @@ export class SkyCardFixture {
     this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
-      'sky-card',
+      'sky-card'
     );
   }
 
@@ -81,7 +81,7 @@ export class SkyCardFixture {
 
   #getCheckInputEl(): DebugElement {
     return this.#debugEl.query(
-      By.css('.sky-card-check .sky-checkbox-wrapper input'),
+      By.css('.sky-card-check .sky-checkbox-wrapper input')
     );
   }
 }

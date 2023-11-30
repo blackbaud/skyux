@@ -71,7 +71,7 @@ export class SkyTabsetService implements OnDestroy {
     value: SkyTabsetActiveTabChangeArgs,
     config = {
       emitChange: true,
-    },
+    }
   ): void {
     if (
       value.tabIndex !== undefined &&
@@ -90,7 +90,7 @@ export class SkyTabsetService implements OnDestroy {
 
   public focusNextTabBtn(tabButtons: TabButtonViewModel[]): void {
     const currentTabArrayIndex = this.#tabs.findIndex((tab) =>
-      this.tabIndexesEqual(tab.tabIndex, this.currentFocusedTabBtnIndex),
+      this.tabIndexesEqual(tab.tabIndex, this.currentFocusedTabBtnIndex)
     );
 
     for (
@@ -108,7 +108,7 @@ export class SkyTabsetService implements OnDestroy {
 
   public focusPrevTabBtn(tabButtons: TabButtonViewModel[]): void {
     const currentTabArrayIndex = this.#tabs.findIndex((tab) =>
-      this.tabIndexesEqual(tab.tabIndex, this.currentFocusedTabBtnIndex),
+      this.tabIndexesEqual(tab.tabIndex, this.currentFocusedTabBtnIndex)
     );
 
     for (
@@ -167,10 +167,10 @@ export class SkyTabsetService implements OnDestroy {
 
   public updateTabIndex(
     currentTabIndex: SkyTabIndex,
-    newTabIndex: SkyTabIndex,
+    newTabIndex: SkyTabIndex
   ): void {
     const found = this.#tabs.find((tab) =>
-      this.tabIndexesEqual(tab.tabIndex, currentTabIndex),
+      this.tabIndexesEqual(tab.tabIndex, currentTabIndex)
     );
     if (found) {
       found.tabIndex = newTabIndex;
@@ -186,7 +186,7 @@ export class SkyTabsetService implements OnDestroy {
    */
   public unregisterTab(tabIndex: SkyTabIndex): void {
     const index = this.#tabs.findIndex((tab) =>
-      this.tabIndexesEqual(tab.tabIndex, tabIndex),
+      this.tabIndexesEqual(tab.tabIndex, tabIndex)
     );
 
     // Notify the tabset component when an active tab is unregistered.
@@ -211,7 +211,7 @@ export class SkyTabsetService implements OnDestroy {
    */
   public tabIndexesEqual(
     tabIndex1: SkyTabIndex | undefined,
-    tabIndex2: SkyTabIndex | undefined,
+    tabIndex2: SkyTabIndex | undefined
   ): boolean {
     return (
       tabIndex1 === tabIndex2 ||
@@ -226,7 +226,7 @@ export class SkyTabsetService implements OnDestroy {
    */
   public isValidTabIndex(tabIndex: SkyTabIndex): boolean {
     return this.#tabs.some((tab) =>
-      this.tabIndexesEqual(tab.tabIndex, tabIndex),
+      this.tabIndexesEqual(tab.tabIndex, tabIndex)
     );
   }
 

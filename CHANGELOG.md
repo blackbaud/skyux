@@ -1,36 +1,5 @@
 # Changelog
 
-## [9.15.0](https://github.com/blackbaud/skyux/compare/9.14.1...9.15.0) (2023-11-22)
-
-
-### Features
-
-* **components/ag-grid:** add template cell renderer ([#1891](https://github.com/blackbaud/skyux/issues/1891)) ([45509c7](https://github.com/blackbaud/skyux/commit/45509c7fcd66ed143c4256f52296905450a0f293))
-* **components/data-manager:** add option to enable text highlighting for items matching the search term ([#1893](https://github.com/blackbaud/skyux/issues/1893)) ([4625874](https://github.com/blackbaud/skyux/commit/46258743b4cc5abce65c1c01acd9a62f0d397464))
-
-## [9.14.1](https://github.com/blackbaud/skyux/compare/9.14.0...9.14.1) (2023-11-20)
-
-
-### Bug Fixes
-
-* **components/flyout:** use local environment injector when opening flyout ([#1890](https://github.com/blackbaud/skyux/issues/1890)) ([a855aac](https://github.com/blackbaud/skyux/commit/a855aacc772a3a103c6d14d76f14b238620f67dc))
-* **components/modals:** use local environment injector when opening modal ([#1888](https://github.com/blackbaud/skyux/issues/1888)) ([b552435](https://github.com/blackbaud/skyux/commit/b5524355c42ee110da78ccff6068b755b85045f0))
-
-## [9.14.0](https://github.com/blackbaud/skyux/compare/9.13.1...9.14.0) (2023-11-20)
-
-
-### Features
-
-* **components/action-bars:** summary action bar announce content changes to screen readers ([#1881](https://github.com/blackbaud/skyux/issues/1881)) ([5a26dc5](https://github.com/blackbaud/skyux/commit/5a26dc52b3299a5b800983c97969934d792773f7))
-* **components/indicators:** use more descriptive default ARIA labels for tokens and announce when they are dismissed to screen readers ([#1865](https://github.com/blackbaud/skyux/issues/1865)) ([d4f0cd1](https://github.com/blackbaud/skyux/commit/d4f0cd10dd9697638a79004e0950ca7cb3c98b98))
-* **components/popovers:** update dropdown docs and code example for aria label ([#1866](https://github.com/blackbaud/skyux/issues/1866)) ([ef4282c](https://github.com/blackbaud/skyux/commit/ef4282cbadd91d52c81fc727aa9b1023dbd9708b))
-
-
-### Bug Fixes
-
-* **components/data-manager:** always persist sort sticky settings ([#1871](https://github.com/blackbaud/skyux/issues/1871)) ([55b9a12](https://github.com/blackbaud/skyux/commit/55b9a128124611077289ef53a098a4039a501438))
-* **components/modals:** log warning about modal parameters ([#1885](https://github.com/blackbaud/skyux/issues/1885)) ([3b70712](https://github.com/blackbaud/skyux/commit/3b70712749b2c8dddb439b7c4e10542b72141a42))
-
 ## [9.13.1](https://github.com/blackbaud/skyux/compare/9.13.0...9.13.1) (2023-11-07)
 
 

@@ -14,7 +14,7 @@ export class ModalMockThemeService {
   public settingsChange = new BehaviorSubject<SkyThemeSettingsChange>({
     currentSettings: new SkyThemeSettings(
       SkyTheme.presets.default,
-      SkyThemeMode.presets.light,
+      SkyThemeMode.presets.light
     ),
     previousSettings: undefined,
   });

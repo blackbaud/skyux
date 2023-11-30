@@ -32,7 +32,7 @@ describe('SkyHrefDemoComponent', () => {
 
     const loader = TestbedHarnessEnvironment.loader(fixture);
     const hrefHarness = await loader.getHarness(
-      SkyHrefHarness.with({ dataSkyId: options.dataSkyId }),
+      SkyHrefHarness.with({ dataSkyId: options.dataSkyId })
     );
 
     return { fixture, loader, hrefHarness };
@@ -50,10 +50,10 @@ describe('SkyHrefDemoComponent', () => {
     });
     expect(hrefHarness).toBeTruthy();
     await expectAsync(hrefHarness.getHref()).toBeResolvedTo(
-      'allow://example.com',
+      'allow://example.com'
     );
     await expectAsync(hrefHarness.getText()).toBeResolvedTo(
-      'Example.com with “allow” protocol',
+      'Example.com with “allow” protocol'
     );
     await expectAsync(hrefHarness.isVisible()).toBeResolvedTo(true);
   });
@@ -76,7 +76,7 @@ describe('SkyHrefDemoComponent', () => {
     });
     await expectAsync(hrefHarness.getHref()).toBeResolvedTo(null);
     await expectAsync(hrefHarness.getText()).toBeResolvedTo(
-      'Example.com with “deny” protocol',
+      'Example.com with “deny” protocol'
     );
     await expectAsync(hrefHarness.isVisible()).toBeResolvedTo(true);
   });

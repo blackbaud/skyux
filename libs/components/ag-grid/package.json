@@ -35,10 +35,5 @@
   },
   "dependencies": {
     "tslib": "^2.6.2"
-  },
-  "exports": {
-    "./css/sky-ag-grid.css": {
-      "default": "./css/sky-ag-grid.css"
-    }
   }
 }

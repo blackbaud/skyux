@@ -21,13 +21,13 @@ export class SkyAutocompleteSearchResultHarness extends ComponentHarness {
    * `SkyAutocompleteSearchResultHarness` that meets certain criteria.
    */
   public static with(
-    filters: SkyAutocompleteSearchResultHarnessFilters,
+    filters: SkyAutocompleteSearchResultHarnessFilters
   ): HarnessPredicate<SkyAutocompleteSearchResultHarness> {
     return new HarnessPredicate(
       SkyAutocompleteSearchResultHarness,
-      filters,
+      filters
     ).addOption('textContent', filters.text, async (harness, text) =>
-      HarnessPredicate.stringMatches(await harness.getText(), text),
+      HarnessPredicate.stringMatches(await harness.getText(), text)
     );
   }
 
@@ -45,7 +45,7 @@ export class SkyAutocompleteSearchResultHarness extends ComponentHarness {
    * Returns a child harness.
    */
   public async queryHarness<T extends ComponentHarness>(
-    query: HarnessQuery<T>,
+    query: HarnessQuery<T>
   ): Promise<T | null> {
     return this.locatorForOptional(query)();
   }

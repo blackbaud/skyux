@@ -17,7 +17,7 @@ export class SkyIconHarness extends SkyComponentHarness {
    * `SkyIconHarness` that meets certain criteria.
    */
   public static with(
-    filters: SkyIconHarnessFilters,
+    filters: SkyIconHarnessFilters
   ): HarnessPredicate<SkyIconHarness> {
     return SkyIconHarness.getDataSkyIdPredicate(filters);
   }
@@ -66,7 +66,7 @@ export class SkyIconHarness extends SkyComponentHarness {
     }
 
     throw new Error(
-      'Variant cannot be determined because variants are only assigned to icons with type `skyux`.',
+      'Variant cannot be determined because variants are only assigned to icons with type `skyux`.'
     );
   }
 

@@ -6,11 +6,11 @@ describe('lookup-storybook', () => {
       beforeEach(() =>
         cy
           .visit(
-            `/iframe.html?globals=theme:${theme}&id=searchcomponent-search--search`,
+            `/iframe.html?globals=theme:${theme}&id=searchcomponent-search--search`
           )
           .get('#ready')
           .should('exist')
-          .end(),
+          .end()
       );
       it('should render the component', () => {
         cy.get('app-search')
@@ -48,7 +48,7 @@ describe('lookup-storybook', () => {
             `searchcomponent-search--search-${theme}-mobile-open`,
             {
               widths: E2eVariations.MOBILE_WIDTHS,
-            },
+            }
           );
       });
     });

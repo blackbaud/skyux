@@ -20,7 +20,7 @@ export class SkyHelpInlineHarness extends SkyComponentHarness {
    * `SkyInlineHelpHarness` that meets certain criteria
    */
   public static with(
-    filters: SkyHelpInlineHarnessFilters,
+    filters: SkyHelpInlineHarnessFilters
   ): HarnessPredicate<SkyHelpInlineHarness> {
     return SkyHelpInlineHarness.getDataSkyIdPredicate(filters);
   }

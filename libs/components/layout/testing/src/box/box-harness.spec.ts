@@ -31,7 +31,7 @@ describe('Box test harness', () => {
   async function setupTest(
     options: {
       dataSkyId?: string;
-    } = {},
+    } = {}
   ): Promise<{
     boxHarness: SkyBoxHarness;
     fixture: ComponentFixture<TestBoxComponent>;
@@ -51,7 +51,7 @@ describe('Box test harness', () => {
       boxHarness = await loader.getHarness(
         SkyBoxHarness.with({
           dataSkyId: options.dataSkyId,
-        }),
+        })
       );
     } else {
       boxHarness = await loader.getHarness(SkyBoxHarness);
@@ -84,7 +84,7 @@ describe('Box test harness', () => {
     fixture.detectChanges();
 
     await expectAsync(boxHarness.getAriaLabelledby()).toBeResolvedTo(
-      'aria-labelledby',
+      'aria-labelledby'
     );
   });
 

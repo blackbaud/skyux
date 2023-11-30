@@ -26,7 +26,7 @@ export class ErrorComponent implements AfterViewInit, OnDestroy {
     this.#subscriptions.add(
       this.#fontLoadingService.ready().subscribe(() => {
         this.ready.next(true);
-      }),
+      })
     );
   }
 

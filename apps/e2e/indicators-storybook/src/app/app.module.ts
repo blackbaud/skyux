@@ -14,7 +14,7 @@ const routes: Route[] = [
     path: 'help-inline',
     loadChildren: () =>
       import('./help-inline/help-inline.module').then(
-        (m) => m.HelpInlineModule,
+        (m) => m.HelpInlineModule
       ),
   },
   {
@@ -40,7 +40,7 @@ const routes: Route[] = [
     path: 'status-indicator',
     loadChildren: () =>
       import('./status-indicator/status-indicator.module').then(
-        (m) => m.StatusIndicatorModule,
+        (m) => m.StatusIndicatorModule
       ),
   },
   {
@@ -52,14 +52,14 @@ const routes: Route[] = [
     path: 'expansion-indicator',
     loadChildren: () =>
       import('./expansion-indicator/expansion-indicator.module').then(
-        (m) => m.ExpansionIndicatorModule,
+        (m) => m.ExpansionIndicatorModule
       ),
   },
   {
     path: 'text-highlight',
     loadChildren: () =>
       import('./text-highlight/text-highlight.module').then(
-        (m) => m.TextHighlightModule,
+        (m) => m.TextHighlightModule
       ),
   },
   {

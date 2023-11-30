@@ -33,7 +33,7 @@ export class CharacterCountTestComponent {
 
   constructor(
     formBuilder: UntypedFormBuilder,
-    changeDetector: ChangeDetectorRef,
+    changeDetector: ChangeDetectorRef
   ) {
     this.#formBuilder = formBuilder;
     this.#changeDetector = changeDetector;

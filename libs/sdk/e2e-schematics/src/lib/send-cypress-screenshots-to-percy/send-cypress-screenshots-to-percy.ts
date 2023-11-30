@@ -6,7 +6,7 @@ import path from 'path';
 
 export function sendCypressScreenshotsToPercy(
   on: Cypress.PluginEvents,
-  config: Cypress.PluginConfigOptions,
+  config: Cypress.PluginConfigOptions
 ): void {
   const percyServerAddress =
     config.env['PERCY_SERVER_ADDRESS'] || process.env['PERCY_SERVER_ADDRESS'];
@@ -19,9 +19,9 @@ export function sendCypressScreenshotsToPercy(
     readFileSync(
       path.resolve(
         __dirname,
-        '../../../../../../node_modules/@percy/sdk-utils/package.json',
-      ),
-    ).toString(),
+        '../../../../../../node_modules/@percy/sdk-utils/package.json'
+      )
+    ).toString()
   );
 
   // Use a large window size so screenshots fit within the viewport. If the browser isn't resized, Cypress scrolls
@@ -52,7 +52,7 @@ export function sendCypressScreenshotsToPercy(
   on(
     'after:screenshot',
     async (
-      details: Cypress.ScreenshotDetails,
+      details: Cypress.ScreenshotDetails
     ): Promise<Cypress.AfterScreenshotReturnObject> => {
       const url = (
         details.blackout.find((item) => item.startsWith('url:')) || ''
@@ -99,6 +99,6 @@ export function sendCypressScreenshotsToPercy(
         size: details.size,
         dimensions: details.dimensions,
       };
-    },
+    }
   );
 }

@@ -14,7 +14,7 @@ export default {
   ],
 } as Meta<InlineFormComponent>;
 const BaseInlineForm: StoryFn<InlineFormComponent> = (
-  args: InlineFormComponent,
+  args: InlineFormComponent
 ) => ({
   props: args,
 });

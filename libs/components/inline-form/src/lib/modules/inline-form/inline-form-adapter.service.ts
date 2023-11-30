@@ -28,7 +28,7 @@ export class SkyInlineFormAdapterService {
     } else {
       const focusEl: HTMLElement =
         inlineFormElementRef.nativeElement.querySelector(
-          '.sky-inline-form-content',
+          '.sky-inline-form-content'
         );
       const focusableChildren = this.#loadFocusableChildren(focusEl);
 
@@ -38,7 +38,7 @@ export class SkyInlineFormAdapterService {
 
   #loadFocusableChildren(elem: HTMLElement): HTMLElement[] {
     const elements: Array<HTMLElement> = Array.prototype.slice.call(
-      elem.querySelectorAll(SKY_TABBABLE_SELECTOR),
+      elem.querySelectorAll(SKY_TABBABLE_SELECTOR)
     );
 
     return elements.filter((element) => {

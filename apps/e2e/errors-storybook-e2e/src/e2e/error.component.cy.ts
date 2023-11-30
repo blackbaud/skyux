@@ -17,7 +17,7 @@ describe('errors-storybook - error', () => {
       ].forEach((style) => {
         it(`should render the component (${style})`, () => {
           cy.visit(
-            `/iframe.html?globals=theme:${theme}&id=errorcomponent-error--error-${style}`,
+            `/iframe.html?globals=theme:${theme}&id=errorcomponent-error--error-${style}`
           );
           cy.get('#ready')
             .should('exist')

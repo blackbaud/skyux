@@ -43,7 +43,7 @@ describe('Filter button', () => {
     component.filtersActive = true;
     fixture.detectChanges();
     expect(nativeElement.querySelector('.sky-btn')).toHaveCssClass(
-      'sky-filter-btn-active',
+      'sky-filter-btn-active'
     );
   });
 
@@ -51,7 +51,7 @@ describe('Filter button', () => {
     component.buttonId = 'i-am-an-id-look-at-me';
     fixture.detectChanges();
     expect(nativeElement.querySelector('.sky-btn')?.id).toBe(
-      'i-am-an-id-look-at-me',
+      'i-am-an-id-look-at-me'
     );
   });
 
@@ -118,13 +118,13 @@ describe('Filter button', () => {
 
   it('should use modern icon when applicable', async () => {
     const defaultIcon = fixture.nativeElement.querySelector(
-      'sky-filter-button sky-icon i',
+      'sky-filter-button sky-icon i'
     );
     expect(defaultIcon).toHaveCssClass('fa-filter');
     fixture.componentInstance.useModernTheme();
     fixture.detectChanges();
     const modernIcon = fixture.nativeElement.querySelector(
-      'sky-filter-button sky-icon i',
+      'sky-filter-button sky-icon i'
     );
     expect(modernIcon).toHaveCssClass('sky-i-filter');
   });

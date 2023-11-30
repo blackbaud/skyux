@@ -20,7 +20,7 @@ export class SkyWaitHarness extends SkyComponentHarness {
    * `SkyWaitHarness` that meets certain criteria.
    */
   public static with(
-    filters: SkyWaitHarnessFilters,
+    filters: SkyWaitHarnessFilters
   ): HarnessPredicate<SkyWaitHarness> {
     if (filters.servicePageWaitType === 'blocking') {
       return SkyWaitHarness.getDataSkyIdPredicate({
@@ -47,7 +47,7 @@ export class SkyWaitHarness extends SkyComponentHarness {
       );
     }
     throw new Error(
-      'An ARIA label cannot be determined because the wait component is not visible.',
+      'An ARIA label cannot be determined because the wait component is not visible.'
     );
   }
 

@@ -44,7 +44,7 @@ export class SkyDescriptionListDescriptionComponent
   constructor(
     public service: SkyDescriptionListService,
     changeDetector: ChangeDetectorRef,
-    @Optional() themeSvc?: SkyThemeService,
+    @Optional() themeSvc?: SkyThemeService
   ) {
     this.#changeDetector = changeDetector;
     this.#themeSvc = themeSvc;

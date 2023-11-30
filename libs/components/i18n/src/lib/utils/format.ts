@@ -11,7 +11,7 @@ export class Format {
       function (match, capture): string {
         const argsIndex = parseInt(capture, 10);
         return args[argsIndex] === undefined ? match : args[argsIndex];
-      },
+      }
     );
   }
 }

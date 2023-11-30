@@ -15,14 +15,14 @@ export const skyAnimationEmerge: AnimationTriggerMetadata = trigger(
       style({
         opacity: 1,
         transform: 'scale(1)',
-      }),
+      })
     ),
     state(
       'closed',
       style({
         opacity: 0,
         transform: 'scale(0.0)',
-      }),
+      })
     ),
     transition('void => *', [
       style({
@@ -32,5 +32,5 @@ export const skyAnimationEmerge: AnimationTriggerMetadata = trigger(
       animate('300ms ease-in-out'),
     ]),
     transition(`* <=> *`, animate('300ms ease-in-out')),
-  ],
+  ]
 );

@@ -16,7 +16,7 @@ describe('SkyLiveAnnouncer', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
       declarations: [SkyLiveAnnouncerFixtureComponent],
-    }),
+    })
   );
 
   beforeEach(fakeAsync(() => {
@@ -26,7 +26,7 @@ describe('SkyLiveAnnouncer', () => {
 
   it('should correctly update the announce text', fakeAsync(() => {
     const buttonElement: HTMLElement | undefined = fixture.debugElement.query(
-      By.css('button'),
+      By.css('button')
     ).nativeElement;
     buttonElement?.click();
     const ariaLiveElement = getLiveElement();
@@ -68,7 +68,7 @@ describe('SkyLiveAnnouncer', () => {
 
     expect(document.body.querySelector('.sky-live-announcer-element'))
       .withContext(
-        'Expected that the aria-live element was remove from the DOM.',
+        'Expected that the aria-live element was remove from the DOM.'
       )
       .toBeFalsy();
   }));

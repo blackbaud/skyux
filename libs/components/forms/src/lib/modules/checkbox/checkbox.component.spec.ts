@@ -181,7 +181,7 @@ class CheckboxWithReactiveFormRequiredInputComponent {
 class CheckboxWithReactiveFormRequiredValidatorComponent {
   public checkbox1: UntypedFormControl = new UntypedFormControl(
     false,
-    Validators.requiredTrue,
+    Validators.requiredTrue
   );
   public checkboxForm = new UntypedFormGroup({ checkbox1: this.checkbox1 });
 }
@@ -301,14 +301,14 @@ describe('Checkbox component', () => {
 
       await fixture.whenStable();
       checkboxDebugElement = fixture.debugElement.query(
-        By.directive(SkyCheckboxComponent),
+        By.directive(SkyCheckboxComponent)
       );
       checkboxNativeElement = checkboxDebugElement.nativeElement;
       checkboxInstance = checkboxDebugElement.componentInstance;
       testComponent = fixture.debugElement.componentInstance;
       inputElement = checkboxNativeElement?.querySelector('input');
       labelElement = checkboxNativeElement?.querySelector(
-        'label.sky-checkbox-wrapper',
+        'label.sky-checkbox-wrapper'
       );
     });
 
@@ -424,13 +424,13 @@ describe('Checkbox component', () => {
       testComponent.id = undefined;
       fixture.detectChanges();
       expect(inputElement?.id).toEqual(
-        jasmine.stringMatching(/sky-checkbox-MOCK_ID_[0-9]-input/),
+        jasmine.stringMatching(/sky-checkbox-MOCK_ID_[0-9]-input/)
       );
     });
 
     it('should project the checkbox content into the label element', () => {
       const label = checkboxNativeElement?.querySelector(
-        '.sky-checkbox-wrapper sky-checkbox-label',
+        '.sky-checkbox-wrapper sky-checkbox-label'
       );
       expect(label?.textContent?.trim()).toBe('Simple checkbox');
     });
@@ -468,7 +468,7 @@ describe('Checkbox component', () => {
 
       await fixture.whenStable();
       checkboxDebugElement = fixture.debugElement.query(
-        By.directive(SkyCheckboxComponent),
+        By.directive(SkyCheckboxComponent)
       );
       checkboxNativeElement = checkboxDebugElement.nativeElement;
       checkboxInstance = checkboxDebugElement.componentInstance;
@@ -514,7 +514,7 @@ describe('Checkbox component', () => {
       fixture = TestBed.createComponent(CheckboxWithAriaLabelComponent);
 
       checkboxDebugElement = fixture.debugElement.query(
-        By.directive(SkyCheckboxComponent),
+        By.directive(SkyCheckboxComponent)
       );
       checkboxNativeElement = checkboxDebugElement.nativeElement;
       inputElement = checkboxNativeElement?.querySelector('input');
@@ -535,7 +535,7 @@ describe('Checkbox component', () => {
       fixture = TestBed.createComponent(CheckboxWithAriaLabelledbyComponent);
 
       checkboxDebugElement = fixture.debugElement.query(
-        By.directive(SkyCheckboxComponent),
+        By.directive(SkyCheckboxComponent)
       );
       checkboxNativeElement = checkboxDebugElement.nativeElement;
       inputElement = checkboxNativeElement?.querySelector('input');
@@ -550,7 +550,7 @@ describe('Checkbox component', () => {
       fixture = TestBed.createComponent(SingleCheckboxComponent);
 
       checkboxDebugElement = fixture.debugElement.query(
-        By.directive(SkyCheckboxComponent),
+        By.directive(SkyCheckboxComponent)
       );
       checkboxNativeElement = checkboxDebugElement.nativeElement;
 
@@ -577,7 +577,7 @@ describe('Checkbox component', () => {
       await fixture.whenStable();
       testComponent = fixture.debugElement.componentInstance;
       checkboxDebugElement = fixture.debugElement.query(
-        By.directive(SkyCheckboxComponent),
+        By.directive(SkyCheckboxComponent)
       );
       checkboxNativeElement = checkboxDebugElement.nativeElement;
 
@@ -613,8 +613,7 @@ describe('Checkbox component', () => {
       const [firstId, secondId] = fixture.debugElement
         .queryAll(By.directive(SkyCheckboxComponent))
         .map(
-          (debugElement) =>
-            debugElement.nativeElement.querySelector('input').id,
+          (debugElement) => debugElement.nativeElement.querySelector('input').id
         );
 
       expect(firstId).toBeTruthy();
@@ -639,7 +638,7 @@ describe('Checkbox component', () => {
 
       await fixture.whenStable();
       checkboxElement = fixture.debugElement.query(
-        By.directive(SkyCheckboxComponent),
+        By.directive(SkyCheckboxComponent)
       );
       checkboxNativeElement = checkboxElement.nativeElement;
 
@@ -647,7 +646,7 @@ describe('Checkbox component', () => {
 
       ngModel = checkboxElement.injector.get(NgModel);
       labelElement = checkboxElement.nativeElement.querySelector(
-        'label.sky-checkbox-wrapper',
+        'label.sky-checkbox-wrapper'
       );
     });
 
@@ -691,7 +690,7 @@ describe('Checkbox component', () => {
 
       await fixture.whenStable();
       checkboxElement = fixture.debugElement.query(
-        By.directive(SkyCheckboxComponent),
+        By.directive(SkyCheckboxComponent)
       );
       checkboxNativeElement = checkboxElement.nativeElement;
 
@@ -701,7 +700,7 @@ describe('Checkbox component', () => {
 
       ngModel = checkboxElement.injector.get(NgModel);
       labelElement = checkboxElement.nativeElement.querySelector(
-        'label.sky-checkbox-wrapper',
+        'label.sky-checkbox-wrapper'
       );
     });
 
@@ -771,7 +770,7 @@ describe('Checkbox component', () => {
 
       await fixture.whenStable();
       checkboxElement = fixture.debugElement.query(
-        By.directive(SkyCheckboxComponent),
+        By.directive(SkyCheckboxComponent)
       );
       testComponent = fixture.componentInstance;
       checkboxNativeElement = checkboxElement.nativeElement;
@@ -780,7 +779,7 @@ describe('Checkbox component', () => {
 
       ngModel = checkboxElement.injector.get(NgModel);
       labelElement = checkboxElement.nativeElement.querySelector(
-        'label.sky-checkbox-wrapper',
+        'label.sky-checkbox-wrapper'
       );
     });
 
@@ -840,7 +839,7 @@ describe('Checkbox component', () => {
 
       await fixture.whenStable();
       checkboxElement = fixture.debugElement.query(
-        By.directive(SkyCheckboxComponent),
+        By.directive(SkyCheckboxComponent)
       );
       checkboxNativeElement = checkboxElement.nativeElement;
 
@@ -848,7 +847,7 @@ describe('Checkbox component', () => {
 
       ngModel = checkboxElement.injector.get(NgModel);
       labelElement = checkboxElement.nativeElement.querySelector(
-        'label.sky-checkbox-wrapper',
+        'label.sky-checkbox-wrapper'
       );
     });
 
@@ -884,7 +883,7 @@ describe('Checkbox component', () => {
 
       await fixture.whenStable();
       checkboxElement = fixture.debugElement.query(
-        By.directive(SkyCheckboxComponent),
+        By.directive(SkyCheckboxComponent)
       );
       checkboxNativeElement = checkboxElement.nativeElement;
 
@@ -894,7 +893,7 @@ describe('Checkbox component', () => {
 
       formControl = testComponent.checkbox1;
       labelElement = checkboxElement.nativeElement.querySelector(
-        'label.sky-checkbox-wrapper',
+        'label.sky-checkbox-wrapper'
       );
     });
 
@@ -1007,13 +1006,13 @@ describe('Checkbox component', () => {
 
     beforeEach(async () => {
       fixture = TestBed.createComponent(
-        CheckboxWithReactiveFormRequiredValidatorComponent,
+        CheckboxWithReactiveFormRequiredValidatorComponent
       );
       fixture.detectChanges();
 
       await fixture.whenStable();
       checkboxElement = fixture.debugElement.query(
-        By.directive(SkyCheckboxComponent),
+        By.directive(SkyCheckboxComponent)
       );
       checkboxNativeElement = checkboxElement.nativeElement;
       testComponent = fixture.debugElement.componentInstance;
@@ -1022,7 +1021,7 @@ describe('Checkbox component', () => {
 
       formControl = testComponent.checkbox1;
       labelElement = checkboxElement.nativeElement.querySelector(
-        'label.sky-checkbox-wrapper',
+        'label.sky-checkbox-wrapper'
       );
     });
 
@@ -1054,13 +1053,13 @@ describe('Checkbox component', () => {
 
     beforeEach(async () => {
       fixture = TestBed.createComponent(
-        CheckboxWithReactiveFormRequiredInputComponent,
+        CheckboxWithReactiveFormRequiredInputComponent
       );
       fixture.detectChanges();
 
       await fixture.whenStable();
       checkboxElement = fixture.debugElement.query(
-        By.directive(SkyCheckboxComponent),
+        By.directive(SkyCheckboxComponent)
       );
       checkboxNativeElement = checkboxElement.nativeElement;
       testComponent = fixture.debugElement.componentInstance;
@@ -1069,7 +1068,7 @@ describe('Checkbox component', () => {
 
       formControl = testComponent.checkbox1;
       labelElement = checkboxElement.nativeElement.querySelector(
-        'label.sky-checkbox-wrapper',
+        'label.sky-checkbox-wrapper'
       );
     });
 
@@ -1111,7 +1110,7 @@ describe('Checkbox component', () => {
 
     it('should forward name value to input element', () => {
       const checkboxElement = fixture.debugElement.query(
-        By.directive(SkyCheckboxComponent),
+        By.directive(SkyCheckboxComponent)
       );
       const inputElement = checkboxElement.nativeElement.querySelector('input');
       expect(inputElement.getAttribute('name')).toBe('test-name');
@@ -1119,14 +1118,14 @@ describe('Checkbox component', () => {
 
     it('should handle the name being set to undefined', () => {
       const checkboxElement = fixture.debugElement.query(
-        By.directive(SkyCheckboxComponent),
+        By.directive(SkyCheckboxComponent)
       );
       fixture.componentInstance.name = undefined;
       fixture.detectChanges();
 
       const inputElement = checkboxElement.nativeElement.querySelector('input');
       expect(inputElement.getAttribute('name')).toEqual(
-        jasmine.stringMatching(/sky-checkbox-MOCK_ID_[0-9]/),
+        jasmine.stringMatching(/sky-checkbox-MOCK_ID_[0-9]/)
       );
     });
   });
@@ -1194,7 +1193,7 @@ describe('Checkbox component', () => {
         'SkyCheckboxComponent.checkboxType',
         Object({
           deprecationMajorVersion: 7,
-        }),
+        })
       );
     });
 
@@ -1213,13 +1212,13 @@ describe('Checkbox component', () => {
 
     beforeEach(async () => {
       fixture = TestBed.createComponent(
-        CheckboxWithOnPushChangeDetectionComponent,
+        CheckboxWithOnPushChangeDetectionComponent
       );
       fixture.detectChanges();
 
       await fixture.whenStable();
       checkboxElement = fixture.debugElement.query(
-        By.directive(SkyCheckboxComponent),
+        By.directive(SkyCheckboxComponent)
       );
       checkboxNativeElement = checkboxElement.nativeElement;
 

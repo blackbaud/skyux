@@ -14,7 +14,7 @@ export default {
   ],
 } as Meta<SwitchControlsComponent>;
 const Template: Story<SwitchControlsComponent> = (
-  args: SwitchControlsComponent,
+  args: SwitchControlsComponent
 ) => ({
   props: args,
 });

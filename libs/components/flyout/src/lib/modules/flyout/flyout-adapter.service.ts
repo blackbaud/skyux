@@ -31,7 +31,7 @@ export class SkyFlyoutAdapterService {
 
   public setResponsiveClass(
     element: ElementRef,
-    breakpoint?: SkyMediaBreakpoints,
+    breakpoint?: SkyMediaBreakpoints
   ): void {
     /* istanbul ignore if */
     if (!breakpoint) {

@@ -21,10 +21,10 @@ export class ListViewDisplayedGridColumnsOrchestrator extends GridStateOrchestra
 
   private load(
     state: AsyncList<SkyGridColumnModel>,
-    action: ListViewDisplayedGridColumnsLoadAction,
+    action: ListViewDisplayedGridColumnsLoadAction
   ): AsyncList<SkyGridColumnModel> {
     const newColumns = action.columns.map(
-      (g) => new SkyGridColumnModel(g.template, g),
+      (g) => new SkyGridColumnModel(g.template, g)
     );
 
     if (action.refresh) {
@@ -33,7 +33,7 @@ export class ListViewDisplayedGridColumnsOrchestrator extends GridStateOrchestra
 
     return new AsyncList<SkyGridColumnModel>(
       [...state.items, ...newColumns],
-      new Date(),
+      new Date()
     );
   }
 }

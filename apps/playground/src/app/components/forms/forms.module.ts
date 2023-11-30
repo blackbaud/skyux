@@ -16,7 +16,7 @@ const routes: Routes = [
     path: 'toggle-switch',
     loadChildren: () =>
       import('./toggle-switch/toggle-switch.module').then(
-        (m) => m.ToggleSwitchModule,
+        (m) => m.ToggleSwitchModule
       ),
   },
   {
@@ -28,14 +28,14 @@ const routes: Routes = [
     path: 'file-attachment',
     loadChildren: () =>
       import('./file-attachment/file-attachment.module').then(
-        (m) => m.FileAttachmentModule,
+        (m) => m.FileAttachmentModule
       ),
   },
   {
     path: 'single-file-attachment',
     loadChildren: () =>
       import('./single-file-attachment/single-file-attachment.module').then(
-        (m) => m.SingleFileAttachmentModule,
+        (m) => m.SingleFileAttachmentModule
       ),
   },
 ];

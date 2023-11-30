@@ -21,28 +21,28 @@ export class ListPagingOrchestrator extends ListStateOrchestrator<ListPagingMode
 
   private setMaxPages(
     state: ListPagingModel,
-    action: ListPagingSetMaxPagesAction,
+    action: ListPagingSetMaxPagesAction
   ): ListPagingModel {
     return new ListPagingModel(
-      Object.assign({}, state, { maxDisplayedPages: Number(action.maxPages) }),
+      Object.assign({}, state, { maxDisplayedPages: Number(action.maxPages) })
     );
   }
 
   private setItemsPerPage(
     state: ListPagingModel,
-    action: ListPagingSetItemsPerPageAction,
+    action: ListPagingSetItemsPerPageAction
   ): ListPagingModel {
     return new ListPagingModel(
-      Object.assign({}, state, { itemsPerPage: Number(action.itemsPerPage) }),
+      Object.assign({}, state, { itemsPerPage: Number(action.itemsPerPage) })
     );
   }
 
   private setPageNumber(
     state: ListPagingModel,
-    action: ListPagingSetPageNumberAction,
+    action: ListPagingSetPageNumberAction
   ): ListPagingModel {
     return new ListPagingModel(
-      Object.assign({}, state, { pageNumber: Number(action.pageNumber) }),
+      Object.assign({}, state, { pageNumber: Number(action.pageNumber) })
     );
   }
 }

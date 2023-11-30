@@ -14,7 +14,7 @@ describe('Icon button', () => {
     const iconHarness = await loader.getHarness(
       SkyIconHarness.with({
         dataSkyId: options?.dataSkyId,
-      }),
+      })
     );
 
     return { iconHarness, fixture };

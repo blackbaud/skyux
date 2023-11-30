@@ -37,7 +37,7 @@ describe('SkyDataViewComponent', () => {
     dataViewFixture.detectChanges();
 
     expect(dataManagerService.initDataView).toHaveBeenCalledWith(
-      dataViewComponent.viewConfig,
+      dataViewComponent.viewConfig
     );
   }));
 

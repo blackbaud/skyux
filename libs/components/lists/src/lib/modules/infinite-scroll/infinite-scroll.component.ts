@@ -81,7 +81,7 @@ export class SkyInfiniteScrollComponent implements OnDestroy {
   constructor(
     changeDetector: ChangeDetectorRef,
     elementRef: ElementRef,
-    domAdapter: SkyInfiniteScrollDomAdapterService,
+    domAdapter: SkyInfiniteScrollDomAdapterService
   ) {
     this.#changeDetector = changeDetector;
     this.#elementRef = elementRef;

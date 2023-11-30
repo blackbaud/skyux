@@ -20,7 +20,7 @@ export class MockTileDashboardService {
     config: SkyTileDashboardConfig,
     columns?: QueryList<SkyTileDashboardColumnComponent>,
     singleColumn?: SkyTileDashboardColumnComponent,
-    settingsKey?: string,
+    settingsKey?: string
   ): void {
     this.config = config;
   }

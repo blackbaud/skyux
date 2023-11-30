@@ -148,7 +148,7 @@ describe('Tabset fixture', () => {
 
     const onActiveChangeSpy = spyOn(
       fixture.componentInstance,
-      'onActiveChange',
+      'onActiveChange'
     );
 
     fixture.detectChanges();
@@ -162,11 +162,11 @@ describe('Tabset fixture', () => {
 
     expect(
       fixture.debugElement.queryAll(By.css('.sky-tabset-tabs .sky-btn-tab'))[1]
-        .nativeElement,
+        .nativeElement
     ).toHaveCssClass('sky-btn-tab-selected');
 
     await expectAsync(tabset.clickTab(100)).toBeRejectedWithError(
-      'There is no tab at index 100.',
+      'There is no tab at index 100.'
     );
   }
 
@@ -183,7 +183,7 @@ describe('Tabset fixture', () => {
     expect(onTab1CloseSpy).toHaveBeenCalled();
 
     await expectAsync(tabset.clickTabClose(1)).toBeRejectedWithError(
-      'The specified tab does not have a close button.',
+      'The specified tab does not have a close button.'
     );
   }
 

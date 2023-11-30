@@ -18,7 +18,7 @@ describe('Basic alert', () => {
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
     const alertHarness = await loader.getHarness(
-      SkyAlertHarness.with({ dataSkyId: 'alert-demo' }),
+      SkyAlertHarness.with({ dataSkyId: 'alert-demo' })
     );
 
     return { alertHarness, fixture };
@@ -36,7 +36,7 @@ describe('Basic alert', () => {
 
     await expectAsync(alertHarness.getAlertType()).toBeResolvedTo('warning');
     await expectAsync(alertHarness.getText()).toBeResolvedTo(
-      'Your password expires in 8 day(s)!',
+      'Your password expires in 8 day(s)!'
     );
     await expectAsync(alertHarness.isCloseable()).toBeResolvedTo(true);
   });
@@ -47,7 +47,7 @@ describe('Basic alert', () => {
 
     await expectAsync(alertHarness.getAlertType()).toBeResolvedTo('danger');
     await expectAsync(alertHarness.getText()).toBeResolvedTo(
-      'Your password expires in 7 day(s)!',
+      'Your password expires in 7 day(s)!'
     );
     await expectAsync(alertHarness.isCloseable()).toBeResolvedTo(false);
   });

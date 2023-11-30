@@ -37,7 +37,7 @@ export class EditStopWhenLosesFocusComponent implements OnInit {
 
   constructor(
     private agGridService: SkyAgGridService,
-    public themeSvc: SkyThemeService,
+    public themeSvc: SkyThemeService
   ) {}
 
   public ngOnInit(): void {
@@ -191,11 +191,11 @@ export class EditStopWhenLosesFocusComponent implements OnInit {
   }
 
   public onUpdateCellValueChanged(
-    cellValueChangedData: CellValueChangedEvent,
+    cellValueChangedData: CellValueChangedEvent
   ): void {
     if (cellValueChangedData.newValue !== cellValueChangedData.oldValue) {
       cellValueChangedData.data.total = this.calculateRowTotal(
-        cellValueChangedData.data,
+        cellValueChangedData.data
       );
       this.gridApi.refreshCells({ rowNodes: [cellValueChangedData.node] });
     }

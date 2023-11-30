@@ -9,7 +9,7 @@ export function getStringForLocale(
     };
   },
   preferredLocale: string,
-  name: string,
+  name: string
 ): string | undefined {
   const defaultLocale = 'en-US';
 

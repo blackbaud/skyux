@@ -26,7 +26,7 @@ export class SkyAffixService implements OnDestroy {
   public ngOnDestroy(): void {
     this.#renderer.removeChild(
       this.#layoutViewport.parentNode,
-      this.#layoutViewport,
+      this.#layoutViewport
     );
   }
 
@@ -40,7 +40,7 @@ export class SkyAffixService implements OnDestroy {
       this.#renderer,
       this.#viewportRuler,
       this.#zone,
-      this.#layoutViewport,
+      this.#layoutViewport
     );
   }
 
@@ -53,7 +53,7 @@ export class SkyAffixService implements OnDestroy {
     const layoutViewportElement = this.#renderer.createElement('div');
     this.#renderer.addClass(
       layoutViewportElement,
-      'sky-affix-layout-viewport-shim',
+      'sky-affix-layout-viewport-shim'
     );
     this.#renderer.setStyle(layoutViewportElement, 'width', '100%');
     this.#renderer.setStyle(layoutViewportElement, 'height', '100%');

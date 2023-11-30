@@ -15,7 +15,7 @@ export class SkyCheckboxFixture {
     this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
-      'sky-checkbox',
+      'sky-checkbox'
     );
   }
 
@@ -31,7 +31,7 @@ export class SkyCheckboxFixture {
    */
   public get labelText(): string | undefined {
     return SkyAppTestUtility.getText(
-      this.#debugEl.query(By.css('label.sky-checkbox-wrapper')),
+      this.#debugEl.query(By.css('label.sky-checkbox-wrapper'))
     );
   }
 

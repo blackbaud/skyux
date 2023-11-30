@@ -35,7 +35,7 @@ export class SkyLibResourcesService {
     @Optional()
     @Inject(SKY_LIB_RESOURCES_PROVIDERS)
     providers?: SkyLibResourcesProvider[],
-    @Optional() resourceNameProvider?: SkyAppResourceNameProvider,
+    @Optional() resourceNameProvider?: SkyAppResourceNameProvider
   ) {
     this.#localeProvider = localeProvider;
     this.#providers = providers;
@@ -71,8 +71,8 @@ export class SkyLibResourcesService {
 
     return forkJoin([mappedNameObs, localeInfoObs]).pipe(
       map(([mappedName, localeInfo]) =>
-        this.getStringForLocale(localeInfo, mappedName, ...args),
-      ),
+        this.getStringForLocale(localeInfo, mappedName, ...args)
+      )
     );
   }
 
@@ -96,7 +96,7 @@ export class SkyLibResourcesService {
    * ```
    */
   public getStrings<T extends ResourceDictionary>(
-    dictionary: T,
+    dictionary: T
   ): Observable<{ [K in keyof T]: string }> {
     const resources$: Record<string, Observable<string>> = {};
 
@@ -125,7 +125,7 @@ export class SkyLibResourcesService {
     value = getLibStringForLocale(
       SkyLibResourcesService.resources,
       info.locale,
-      name,
+      name
     );
 
     // If it's not found there, look in the providers.

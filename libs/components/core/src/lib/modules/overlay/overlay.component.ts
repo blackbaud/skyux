@@ -162,12 +162,12 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
 
   public attachComponent<C>(
     component: Type<C>,
-    providers: StaticProvider[] = [],
+    providers: StaticProvider[] = []
   ): ComponentRef<C> {
     /*istanbul ignore if: untestable*/
     if (!this.targetRef) {
       throw new Error(
-        '[SkyOverlayComponent] Could not attach the component because the target element could not be found.',
+        '[SkyOverlayComponent] Could not attach the component because the target element could not be found.'
       );
     }
 
@@ -185,7 +185,7 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
         },
         ...providers,
       ],
-      this.#environmentInjector,
+      this.#environmentInjector
     );
 
     const componentRef = this.targetRef.createComponent<C>(component, {
@@ -200,12 +200,12 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
 
   public attachTemplate<T>(
     templateRef: TemplateRef<T>,
-    context: T,
+    context: T
   ): EmbeddedViewRef<T> {
     /*istanbul ignore if: untestable*/
     if (!this.targetRef) {
       throw new Error(
-        '[SkyOverlayComponent] Could not attach the template because the target element could not be found.',
+        '[SkyOverlayComponent] Could not attach the template because the target element could not be found.'
       );
     }
 
@@ -234,12 +234,12 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
       .subscribe((event) => {
         if (event.target && this.overlayContentRef && this.overlayRef) {
           const isChild = this.overlayContentRef.nativeElement.contains(
-            event.target,
+            event.target
           );
 
           const isAbove = this.#coreAdapter.isTargetAboveElement(
             event.target,
-            this.overlayRef.nativeElement,
+            this.overlayRef.nativeElement
           );
 
           /* istanbul ignore else */

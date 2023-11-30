@@ -10,7 +10,7 @@ export const componentRoutes: Routes = [
     path: 'action-bars',
     loadChildren: () =>
       import('./action-bars/action-bars.module').then(
-        (m) => m.ActionBarsModule,
+        (m) => m.ActionBarsModule
       ),
   },
   {
@@ -22,14 +22,14 @@ export const componentRoutes: Routes = [
     path: 'angular-tree-component',
     loadChildren: () =>
       import('./angular-tree-component/angular-tree-component.module').then(
-        (m) => m.AngularTreeComponentModule,
+        (m) => m.AngularTreeComponentModule
       ),
   },
   {
     path: 'colorpicker',
     loadChildren: () =>
       import('./colorpicker/colorpicker.module').then(
-        (m) => m.ColorpickerModule,
+        (m) => m.ColorpickerModule
       ),
   },
   {
@@ -94,7 +94,7 @@ export const componentRoutes: Routes = [
     path: 'phone-field',
     loadChildren: () =>
       import('./phone-field/phone-field.module').then(
-        (m) => m.PhoneFieldModule,
+        (m) => m.PhoneFieldModule
       ),
   },
   {
@@ -115,7 +115,7 @@ export const componentRoutes: Routes = [
     path: 'text-editor',
     loadChildren: () =>
       import('./text-editor/text-editor.module').then(
-        (m) => m.TextEditorModule,
+        (m) => m.TextEditorModule
       ),
   },
   {

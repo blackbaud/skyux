@@ -15,6 +15,6 @@ export interface SkySelectFieldCustomPicker {
    */
   open: (
     pickerContext: SkySelectFieldPickerContext,
-    updateValue: (value: SkySelectField[]) => void,
+    updateValue: (value: SkySelectField[]) => void
   ) => void;
 }

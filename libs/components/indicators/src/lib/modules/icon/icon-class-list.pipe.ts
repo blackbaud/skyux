@@ -18,7 +18,7 @@ export class SkyIconClassListPipe implements PipeTransform {
     themeSettings?: SkyThemeSettings,
     size?: string,
     fixedWidth?: boolean,
-    variant?: SkyIconVariantType,
+    variant?: SkyIconVariantType
   ): string[] {
     let classList: string[];
 

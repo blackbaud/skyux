@@ -133,7 +133,7 @@ export class SkyAffixer {
     renderer: Renderer2,
     viewportRuler: ViewportRuler,
     zone: NgZone,
-    layoutViewport: HTMLElement,
+    layoutViewport: HTMLElement
   ) {
     this.#affixedElement = affixedElement;
     this.#renderer = renderer;
@@ -246,7 +246,7 @@ export class SkyAffixer {
         this.#viewportRuler,
         parent,
         offset,
-        this.#config.autoFitOverflowOffset,
+        this.#config.autoFitOverflowOffset
       );
 
       if (!this.#config.enableAutoFit) {
@@ -370,7 +370,7 @@ export class SkyAffixer {
       const adjustments = this.#adjustOffsetToOverflowParent(
         { top, left },
         placement,
-        this.#baseElement,
+        this.#baseElement
       );
       offset.top = adjustments.top;
       offset.left = adjustments.left;
@@ -389,7 +389,7 @@ export class SkyAffixer {
   #adjustOffsetToOverflowParent(
     offset: { top: number; left: number },
     placement: SkyAffixPlacement,
-    baseElement: HTMLElement,
+    baseElement: HTMLElement
   ): { top: number; left: number } {
     const affixedRect = getOuterRect(this.#affixedElement);
     const baseRect = baseElement.getBoundingClientRect();
@@ -401,7 +401,7 @@ export class SkyAffixer {
         // When the config contains a specific offset.
         parentOffset = getElementOffset(
           parent,
-          this.#config.autoFitOverflowOffset,
+          this.#config.autoFitOverflowOffset
         );
       } else if (
         isOffsetFullyVisibleWithinParent(this.#viewportRuler, parent, baseRect)
@@ -550,7 +550,7 @@ export class SkyAffixer {
         right: baseRect.right,
         bottom: baseRect.bottom,
       },
-      this.#config.autoFitOverflowOffset,
+      this.#config.autoFitOverflowOffset
     );
   }
 
@@ -561,14 +561,14 @@ export class SkyAffixer {
     this.#viewportListeners.add(
       this.#viewportRuler.change().subscribe(() => {
         this.#affix();
-      }),
+      })
     );
 
     this.#viewportListeners.add(
       this.#scrollChange.subscribe(() => {
         this.#affix();
         this.#overflowScroll.next();
-      }),
+      })
     );
 
     // Listen for scroll events on the window, visual viewport, and any overflow parents.
@@ -577,7 +577,7 @@ export class SkyAffixer {
       [window, window.visualViewport, ...this.#overflowParents].forEach(
         (parentElement) => {
           parentElement?.addEventListener('scroll', this.#scrollChangeListener);
-        },
+        }
       );
     });
   }
@@ -590,9 +590,9 @@ export class SkyAffixer {
         (parentElement) => {
           parentElement?.removeEventListener(
             'scroll',
-            this.#scrollChangeListener,
+            this.#scrollChangeListener
           );
-        },
+        }
       );
     });
   }

@@ -20,7 +20,7 @@ export class SkyAppRuntimeConfigParamsProvider {
   constructor(@Optional() configParams?: SkyAppConfigParams) {
     this.#_params = new SkyAppRuntimeConfigParams(
       window.location.href,
-      configParams?.params || {},
+      configParams?.params || {}
     );
   }
 }

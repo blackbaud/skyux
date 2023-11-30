@@ -58,17 +58,17 @@ export class SkyMonthPickerComponent implements OnInit {
         date,
         this.datepicker.formatMonth,
         false,
-        this.datepicker.datepickerId + '-' + i,
+        this.datepicker.datepickerId + '-' + i
       );
     }
 
     this.title = this.datepicker.dateFilter(
       this.datepicker.activeDate,
-      this.datepicker.formatMonthTitle,
+      this.datepicker.formatMonthTitle
     );
     this.rows = this.datepicker.createCalendarRows(
       months,
-      this.datepicker.monthColLimit,
+      this.datepicker.monthColLimit
     );
   }
 

@@ -17,7 +17,7 @@ export class SkyAutocompleteAdapterService {
 
   constructor(
     coreAdapterService: SkyCoreAdapterService,
-    rendererFactory: RendererFactory2,
+    rendererFactory: RendererFactory2
   ) {
     this.#coreAdapterService = coreAdapterService;
     this.#renderer = rendererFactory.createRenderer(undefined, null);
@@ -35,13 +35,13 @@ export class SkyAutocompleteAdapterService {
   }
 
   public getOverlayFocusableElements(
-    overlay: SkyOverlayInstance,
+    overlay: SkyOverlayInstance
   ): HTMLElement[] {
     return this.#coreAdapterService.getFocusableChildren(
       /* Sanity check - calling function also has null check */
       /* istanbul ignore next */
       overlay?.componentRef.location.nativeElement,
-      { ignoreTabIndex: true },
+      { ignoreTabIndex: true }
     );
   }
 
@@ -59,7 +59,7 @@ export class SkyAutocompleteAdapterService {
   public setDropdownWidth(
     elementRef: ElementRef,
     dropdownRef: ElementRef,
-    isInputBox: boolean,
+    isInputBox: boolean
   ): void {
     const parentElement = isInputBox
       ? elementRef.nativeElement.closest('.sky-input-box')

@@ -93,7 +93,7 @@ export class SkyTextEditorUrlModalComponent {
       if (this.#modalContext.urlResult.url.startsWith(emailKey)) {
         this.emailAddress = this.#modalContext.urlResult.url.replace(
           emailKey,
-          '',
+          ''
         );
 
         let queryStringIndex = this.emailAddress.indexOf(queryStringParamKey);
@@ -105,7 +105,7 @@ export class SkyTextEditorUrlModalComponent {
         /* istanbul ignore else */
         if (queryStringIndex > -1) {
           this.subject = decodeURI(this.emailAddress).slice(
-            queryStringIndex + queryStringParamKey.length,
+            queryStringIndex + queryStringParamKey.length
           );
           this.emailAddress = this.emailAddress.slice(0, queryStringIndex);
         }

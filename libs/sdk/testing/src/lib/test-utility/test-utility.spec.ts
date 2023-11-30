@@ -151,17 +151,17 @@ describe('Test utility', () => {
 
   it('should throw and error if `fireDomEvent` is called with an null element', () => {
     expect(() =>
-      SkyAppTestUtility.fireDomEvent(null, 'mousedown'),
+      SkyAppTestUtility.fireDomEvent(null, 'mousedown')
     ).toThrowError(
-      'Event `mousedown` could not be fired because the element is not defined.',
+      'Event `mousedown` could not be fired because the element is not defined.'
     );
   });
 
   it('should throw and error if `fireDomEvent` is called with an undefined element', () => {
     expect(() =>
-      SkyAppTestUtility.fireDomEvent(undefined, 'mousedown'),
+      SkyAppTestUtility.fireDomEvent(undefined, 'mousedown')
     ).toThrowError(
-      'Event `mousedown` could not be fired because the element is not defined.',
+      'Event `mousedown` could not be fired because the element is not defined.'
     );
   });
 
@@ -185,7 +185,7 @@ describe('Test utility', () => {
       const debugElement = SkyAppTestUtility.getDebugElementByTestId(
         fixture,
         'my-id',
-        'test-cmp',
+        'test-cmp'
       );
 
       expect(debugElement).toBeDefined();
@@ -199,7 +199,7 @@ describe('Test utility', () => {
       expect(() => {
         SkyAppTestUtility.getDebugElementByTestId(fixture, testId, 'test-cmp');
       }).toThrowError(
-        `No element was found with a \`data-sky-id\` value of "${testId}".`,
+        `No element was found with a \`data-sky-id\` value of "${testId}".`
       );
     });
 
@@ -212,7 +212,7 @@ describe('Test utility', () => {
       expect(() => {
         SkyAppTestUtility.getDebugElementByTestId(fixture, testId, selector);
       }).toThrowError(
-        `The element with the test ID "${testId}" is not a component of type ${selector}."`,
+        `The element with the test ID "${testId}" is not a component of type ${selector}."`
       );
     });
   });

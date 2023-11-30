@@ -47,7 +47,7 @@ describe('Dropdown menu test harness', () => {
     fixture.detectChanges();
 
     await expectAsync(dropdownMenuHarness.getAriaLabelledBy()).toBeResolvedTo(
-      'aria-labelledBy',
+      'aria-labelledBy'
     );
   });
 
@@ -58,7 +58,7 @@ describe('Dropdown menu test harness', () => {
     fixture.detectChanges();
 
     await expectAsync(dropdownMenuHarness.getAriaRole()).toBeResolvedTo(
-      'menu-role',
+      'menu-role'
     );
   });
 
@@ -87,9 +87,9 @@ describe('Dropdown menu test harness', () => {
     fixture.detectChanges();
 
     await expectAsync(
-      dropdownMenuHarness.getItem({ text: 'Option nil' }),
+      dropdownMenuHarness.getItem({ text: 'Option nil' })
     ).toBeRejectedWithError(
-      'Unable to find dropdown menu item(s) with filter(s): {"text":"Option nil"}.',
+      'Unable to find dropdown menu item(s) with filter(s): {"text":"Option nil"}.'
     );
   });
 });

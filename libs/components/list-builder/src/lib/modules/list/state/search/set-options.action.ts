@@ -10,6 +10,6 @@ export class ListSearchSetOptionsAction {
   constructor(
     public searchTextAction: ListSearchSetSearchTextAction,
     public setFieldSelectorsAction: ListSearchSetFieldSelectorsAction,
-    public setFunctionsAction: ListSearchSetFunctionsAction,
+    public setFunctionsAction: ListSearchSetFunctionsAction
   ) {}
 }

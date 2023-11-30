@@ -71,7 +71,7 @@ describe('verify-e2e', () => {
         listJobsForWorkflowRun,
       },
       true, // allowMissingScreenshots
-      fetch,
+      fetch
     );
     expect(coreSetFailed).not.toHaveBeenCalled();
     expect(coreInfo).toHaveBeenCalledWith('E2E Visual Review passed!');
@@ -118,7 +118,7 @@ describe('verify-e2e', () => {
         listJobsForWorkflowRun,
       },
       true, // allowMissingScreenshots
-      fetch,
+      fetch
     );
     expect(coreSetFailed).not.toHaveBeenCalled();
     expect(listJobsForWorkflowRun).toHaveBeenCalledTimes(2);
@@ -148,7 +148,7 @@ describe('verify-e2e', () => {
         listJobsForWorkflowRun,
       },
       true, // allowMissingScreenshots
-      fetch,
+      fetch
     );
     expect(coreSetFailed).not.toHaveBeenCalled();
     expect(listJobsForWorkflowRun).not.toHaveBeenCalled();
@@ -193,7 +193,7 @@ describe('verify-e2e', () => {
         listJobsForWorkflowRun,
       },
       true, // allowMissingScreenshots
-      fetch,
+      fetch
     );
     expect(coreSetFailed).not.toHaveBeenCalled();
     expect(coreInfo).toHaveBeenCalledWith('⏭️ project1');
@@ -240,10 +240,10 @@ describe('verify-e2e', () => {
       },
       true, // allowMissingScreenshots
       fetch,
-      exit,
+      exit
     );
     expect(coreSetFailed).toHaveBeenCalledWith(
-      `E2E Visual Review not complete. Missing results for: project2`,
+      `E2E Visual Review not complete. Missing results for: project2`
     );
     expect(exit).toHaveBeenCalledWith(1);
   });
@@ -288,10 +288,10 @@ describe('verify-e2e', () => {
       },
       true, // allowMissingScreenshots
       fetch,
-      exit,
+      exit
     );
     expect(coreSetFailed).toHaveBeenCalledWith(
-      `E2E Visual Review not complete.`,
+      `E2E Visual Review not complete.`
     );
     expect(exit).toHaveBeenCalledWith(1);
   });
@@ -320,7 +320,7 @@ describe('verify-e2e', () => {
         listJobsForWorkflowRun,
       },
       false, // allowMissingScreenshots
-      fetch,
+      fetch
     );
     expect(coreSetFailed).not.toHaveBeenCalled();
     expect(exit).not.toHaveBeenCalled();
@@ -354,7 +354,7 @@ describe('verify-e2e', () => {
           ? ['removed-snapshot']
           : ([] as string[]),
         state: `${args[0]}`.replace(/^skyux-project-/, ''),
-      } as BuildSummary),
+      } as BuildSummary)
     );
     listJobsForWorkflowRun.mockReturnValue({
       data: {
@@ -385,7 +385,7 @@ describe('verify-e2e', () => {
       },
       false, // allowMissingScreenshots
       fetch,
-      exit,
+      exit
     );
     expect(coreInfo).not.toHaveBeenCalledWith('E2E Visual Review passed!');
     expect(coreSetFailed).toHaveBeenCalled();
@@ -430,11 +430,11 @@ describe('verify-e2e', () => {
       },
       false, // allowMissingScreenshots
       fetch,
-      exit,
+      exit
     );
     expect(coreInfo).not.toHaveBeenCalledWith('E2E Visual Review passed!');
     expect(coreSetFailed).toHaveBeenCalledWith(
-      `E2E Visual Review not complete.`,
+      `E2E Visual Review not complete.`
     );
   });
 });

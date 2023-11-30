@@ -13,7 +13,7 @@ export class SkyProgressIndicatorNavButtonDisabledPipe
     disabled: boolean | undefined,
     buttonType: SkyProgressIndicatorNavButtonType,
     activeIndex: number | undefined,
-    itemStatuses: SkyProgressIndicatorItemStatus[] | undefined,
+    itemStatuses: SkyProgressIndicatorItemStatus[] | undefined
   ): boolean | undefined {
     const isLastStep = itemStatuses && activeIndex === itemStatuses.length - 1;
 

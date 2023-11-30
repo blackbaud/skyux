@@ -65,7 +65,7 @@ async function validateWaitProperties(
   fixture: ComponentFixture<TestComponent>,
   isFullPage: boolean,
   isNonBlocking: boolean,
-  ariaLabel?: string,
+  ariaLabel?: string
 ): Promise<void> {
   fixture.componentInstance.isFullPage = isFullPage;
   fixture.componentInstance.isNonBlocking = isNonBlocking;
@@ -92,7 +92,7 @@ describe('Wait harness', () => {
       dataSkyId?: string;
       globalPageWaitType?: 'blocking' | 'non-blocking';
       ariaLabel?: string;
-    } = {},
+    } = {}
   ): Promise<{
     waitHarness: SkyWaitHarness;
     fixture: ComponentFixture<TestComponent>;
@@ -114,7 +114,7 @@ describe('Wait harness', () => {
       waitHarness = await loader.getHarness(
         SkyWaitHarness.with({
           dataSkyId: options.dataSkyId,
-        }),
+        })
       );
     } else if (options.globalPageWaitType) {
       const buttons = fixture.nativeElement.querySelectorAll('button');
@@ -125,9 +125,7 @@ describe('Wait harness', () => {
       }
       fixture.detectChanges();
       waitHarness = await pageLoader.getHarness(
-        SkyWaitHarness.with({
-          servicePageWaitType: options.globalPageWaitType,
-        }),
+        SkyWaitHarness.with({ servicePageWaitType: options.globalPageWaitType })
       );
     } else {
       waitHarness = await loader.getHarness(SkyWaitHarness);
@@ -151,7 +149,7 @@ describe('Wait harness', () => {
       fixture,
       true,
       true,
-      'test label',
+      'test label'
     );
   });
 
@@ -159,7 +157,7 @@ describe('Wait harness', () => {
     const { waitHarness, fixture } = await setupTest({ dataSkyId: 'wait-2' });
     fixture.componentInstance.isWaiting2 = true;
     await expectAsync(waitHarness.getAriaLabel()).toBeResolvedTo(
-      'this is another wait',
+      'this is another wait'
     );
   });
 
@@ -178,7 +176,7 @@ describe('Wait harness', () => {
   it('should throw an error when trying to get the ARIA label while not waiting', async () => {
     const { waitHarness } = await setupTest();
     await expectAsync(waitHarness.getAriaLabel()).toBeRejectedWithError(
-      'An ARIA label cannot be determined because the wait component is not visible.',
+      'An ARIA label cannot be determined because the wait component is not visible.'
     );
   });
 });

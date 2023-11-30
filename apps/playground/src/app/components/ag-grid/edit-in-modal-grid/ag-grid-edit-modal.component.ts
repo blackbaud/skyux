@@ -32,7 +32,7 @@ export class SkyAgGridEditModalComponent implements OnInit {
   constructor(
     private agGridService: SkyAgGridService,
     public context: SkyAgGridEditModalContext,
-    public instance: SkyModalInstance,
+    public instance: SkyModalInstance
   ) {}
 
   public ngOnInit(): void {
@@ -144,7 +144,7 @@ export class SkyAgGridEditModalComponent implements OnInit {
 
   private departmentSelectionChange(
     change: SkyAutocompleteSelectionChange,
-    node: IRowNode,
+    node: IRowNode
   ): void {
     if (change.selectedItem && change.selectedItem !== node.data.department) {
       this.clearJobTitle(node);

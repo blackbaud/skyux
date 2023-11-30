@@ -39,7 +39,7 @@ export class SkyRepeaterAdapterService {
   public moveItemUp(
     element: HTMLElement,
     top = false,
-    steps = 1,
+    steps = 1
   ): number | undefined {
     const index = this.getRepeaterItemIndex(element);
 
@@ -77,7 +77,7 @@ export class SkyRepeaterAdapterService {
 
       repeaterDiv.removeChild(element);
       const nextSibling = repeaterDiv.querySelectorAll(
-        this.#repeaterItemGroupSelector,
+        this.#repeaterItemGroupSelector
       )[newIndex];
 
       repeaterDiv.insertBefore(element, nextSibling);
@@ -93,8 +93,8 @@ export class SkyRepeaterAdapterService {
   #getRepeaterItemArray(): any[] {
     return Array.from(
       this.#host?.nativeElement.querySelectorAll(
-        this.#repeaterItemGroupSelector,
-      ),
+        this.#repeaterItemGroupSelector
+      )
     );
   }
 }

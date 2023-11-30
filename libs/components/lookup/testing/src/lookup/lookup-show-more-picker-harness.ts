@@ -16,7 +16,7 @@ export class SkyLookupShowMorePickerHarness extends SkySelectionModalHarness {
    * `SkyLookupShowMorePickerHarness` that meets certain criteria.
    */
   public static with(
-    filters: SkyLookupShowMorePickerHarnessFilters,
+    filters: SkyLookupShowMorePickerHarnessFilters
   ): HarnessPredicate<SkyLookupShowMorePickerHarness> {
     return new HarnessPredicate(SkyLookupShowMorePickerHarness, filters);
   }
@@ -25,7 +25,7 @@ export class SkyLookupShowMorePickerHarness extends SkySelectionModalHarness {
    * Selects multiple search results based on a set of criteria.
    */
   public override async selectSearchResult(
-    filters?: SkyLookupShowMorePickerSearchResultHarnessFilters,
+    filters?: SkyLookupShowMorePickerSearchResultHarnessFilters
   ): Promise<void> {
     return super.selectSearchResult(filters);
   }
@@ -34,7 +34,7 @@ export class SkyLookupShowMorePickerHarness extends SkySelectionModalHarness {
    * Gets a list of search results.
    */
   public override async getSearchResults(
-    filters?: SkyLookupShowMorePickerSearchResultHarnessFilters,
+    filters?: SkyLookupShowMorePickerSearchResultHarnessFilters
   ): Promise<SkyLookupShowMorePickerSearchResultHarness[]> {
     return super.getSearchResults(filters);
   }

@@ -43,7 +43,7 @@ export class DemoComponent {
         title: 'Configure connection',
         buttonText: 'Submit connection settings',
       },
-      isProgress,
+      isProgress
     );
   }
 
@@ -53,7 +53,7 @@ export class DemoComponent {
         title: 'Select remote server',
         buttonText: 'Submit server choice',
       },
-      isProgress,
+      isProgress
     );
   }
 
@@ -63,7 +63,7 @@ export class DemoComponent {
         title: 'Connection confirmed.',
         buttonText: 'OK',
       },
-      isProgress,
+      isProgress
     );
   }
 

@@ -87,18 +87,18 @@ export class SkyAgGridHeaderGroupComponent
           (handler) =>
             params.api.addEventListener(
               Events.EVENT_COLUMN_GROUP_OPENED,
-              handler,
+              handler
             ),
           (handler) =>
             params.api.removeEventListener(
               Events.EVENT_COLUMN_GROUP_OPENED,
-              handler,
-            ),
+              handler
+            )
         ).subscribe((event) => {
           if (event.columnGroup === this.#columnGroup) {
             this.#isExpandedSubject.next(this.#columnGroup.isExpanded());
           }
-        }),
+        })
       );
     }
     this.#updateInlineHelp();

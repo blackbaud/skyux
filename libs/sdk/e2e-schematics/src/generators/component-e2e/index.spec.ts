@@ -56,13 +56,13 @@ describe('component-e2e', () => {
       nxJson.targetDefaults['build-storybook'].inputs =
         nxJson.targetDefaults['build-storybook'].inputs || [];
       nxJson.targetDefaults['build-storybook'].inputs.push(
-        '!{projectRoot}/.storybook/**/*',
+        '!{projectRoot}/.storybook/**/*'
       );
       nxJson.namedInputs = nxJson.namedInputs || {};
       nxJson.namedInputs['production'] = nxJson.namedInputs['production'] || [];
       nxJson.namedInputs['production'].push(
         '!{projectRoot}/.storybook/**/*',
-        '!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)',
+        '!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)'
       );
       return nxJson;
     });
@@ -73,41 +73,41 @@ describe('component-e2e', () => {
       expect(config[projectName].projectType).toEqual('application');
       if (projectName === 'test-storybook') {
         expect(
-          config[projectName].targets?.['build'].options.polyfills,
+          config[projectName].targets?.['build'].options.polyfills
         ).toBeDefined();
         expect(
           config[projectName].targets?.['build'].options.polyfills.includes(
-            'libs/components/packages/src/polyfills.js',
-          ),
+            'libs/components/packages/src/polyfills.js'
+          )
         ).toBeTruthy();
       }
     }
     expect(
-      tree.exists(`${config['test-storybook'].root}/.storybook/main.ts`),
+      tree.exists(`${config['test-storybook'].root}/.storybook/main.ts`)
     ).toBeTruthy();
     expect(
       tree.read(
         `${config['test-storybook'].sourceRoot}/app/app.module.ts`,
-        'utf8',
-      ),
+        'utf8'
+      )
     ).toMatchSnapshot();
     expect(
       tree.isFile(
-        `${config['test-storybook'].sourceRoot}/app/app.component.spec.ts`,
-      ),
+        `${config['test-storybook'].sourceRoot}/app/app.component.spec.ts`
+      )
     ).toBeFalsy();
     expect(
       tree.isFile(
-        `${config['test-storybook'].sourceRoot}/app/nx-welcome.component.ts`,
-      ),
+        `${config['test-storybook'].sourceRoot}/app/nx-welcome.component.ts`
+      )
     ).toBeFalsy();
     expect(
-      tree.exists(`${config['test-storybook-e2e'].sourceRoot}/support/e2e.ts`),
+      tree.exists(`${config['test-storybook-e2e'].sourceRoot}/support/e2e.ts`)
     ).toBeTruthy();
     expect(
       tree
         .read(`${config['test-storybook-e2e'].sourceRoot}/support/e2e.ts`)
-        ?.toString(),
+        ?.toString()
     ).toContain('percy');
   });
 
@@ -118,7 +118,7 @@ describe('component-e2e', () => {
       fail();
     } catch (e) {
       expect((e as Error).message).toEqual(
-        'Please provide the component library name',
+        'Please provide the component library name'
       );
     }
   });
@@ -165,7 +165,7 @@ describe('component-e2e', () => {
     await componentE2eGenerator(tree, { name: 'test' });
     await componentE2eGenerator(tree, { name: 'test', ansiColor: false });
     expect(spy).toHaveBeenCalledWith(
-      `The project "test-storybook" already exists.`,
+      `The project "test-storybook" already exists.`
     );
     const config = readProjectConfiguration(tree, 'test-storybook');
     expect(config.projectType).toEqual('application');
@@ -211,7 +211,7 @@ describe('component-e2e', () => {
           '@storybook/angular': sbVersion,
           '@storybook/core-server': sbVersion,
         },
-      }),
+      })
     );
     await libraryGenerator(tree, {
       name: 'storybook',
@@ -223,7 +223,7 @@ describe('component-e2e', () => {
     await componentE2eGenerator(tree, { name: 'test-component' });
     const packageJson = readJson(tree, 'package.json');
     expect(packageJson.devDependencies['@storybook/angular']).toEqual(
-      sbVersion,
+      sbVersion
     );
   });
 });

@@ -36,8 +36,8 @@ describe('list items', () => {
             new ListItemModel('6', {}),
             new ListItemModel('7', {}),
           ],
-          true,
-        ),
+          true
+        )
       );
 
       tick();
@@ -73,8 +73,8 @@ describe('list items', () => {
             new ListItemModel('5', {}),
             new ListItemModel('6', {}),
           ],
-          true,
-        ),
+          true
+        )
       );
 
       tick();
@@ -114,8 +114,8 @@ describe('list items', () => {
             new ListItemModel('11', {}),
             new ListItemModel('67', {}),
           ],
-          false,
-        ),
+          false
+        )
       );
 
       tick();
@@ -147,8 +147,8 @@ describe('list items', () => {
           ],
           false,
           true,
-          3,
-        ),
+          3
+        )
       );
 
       tick();
@@ -179,8 +179,8 @@ describe('list items', () => {
             new ListItemModel('11', {}),
             new ListItemModel('67', {}),
           ],
-          true,
-        ),
+          true
+        )
       );
 
       tick(1000);
@@ -203,8 +203,8 @@ describe('list items', () => {
             new ListItemModel('67', {}),
           ],
           true,
-          false,
-        ),
+          false
+        )
       );
 
       tick();
@@ -232,7 +232,7 @@ describe('list items', () => {
           new ListItemModel('22', {}),
           new ListItemModel('11', {}),
           new ListItemModel('67', {}),
-        ]),
+        ])
       );
 
       tick();
@@ -266,8 +266,8 @@ describe('list items', () => {
             new ListItemModel('2', {}),
             new ListItemModel('3', {}),
           ],
-          true,
-        ),
+          true
+        )
       );
 
       tick();
@@ -321,7 +321,7 @@ describe('list items', () => {
 
     it('should select items when action is dispatched with refresh set to false', fakeAsync(() => {
       dispatcher.next(
-        new ListItemsSetSelectedAction(['1', '2', '3'], true, false),
+        new ListItemsSetSelectedAction(['1', '2', '3'], true, false)
       );
 
       tick();

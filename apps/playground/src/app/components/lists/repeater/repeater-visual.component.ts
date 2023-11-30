@@ -92,8 +92,8 @@ export class RepeaterVisualComponent {
     if (typeof this._itemsForReorderableRepeaterWithAddButton === 'undefined') {
       this._itemsForReorderableRepeaterWithAddButton = new UntypedFormArray(
         Array.from(Array(5).keys()).map((n) =>
-          this.newItemForReorderableRepeaterWithAddButton(n + 1),
-        ),
+          this.newItemForReorderableRepeaterWithAddButton(n + 1)
+        )
       );
     }
     return this._itemsForReorderableRepeaterWithAddButton as UntypedFormArray;
@@ -143,8 +143,8 @@ export class RepeaterVisualComponent {
   public addItemToReorderableRepeaterWithAddButton(): void {
     this.itemsForReorderableRepeaterWithAddButton.push(
       this.newItemForReorderableRepeaterWithAddButton(
-        this._itemsForReorderableRepeaterWithAddButton.length + 1,
-      ),
+        this._itemsForReorderableRepeaterWithAddButton.length + 1
+      )
     );
   }
 
@@ -153,7 +153,7 @@ export class RepeaterVisualComponent {
   }
 
   public onOrderChangeForReorderableRepeaterWithAddButton(
-    tags: UntypedFormControl[],
+    tags: UntypedFormControl[]
   ): void {
     console.log(tags);
     this.itemsForReorderableRepeaterWithAddButton.clear();
@@ -212,7 +212,7 @@ export class RepeaterVisualComponent {
   }
 
   private newItemForReorderableRepeaterWithAddButton(
-    n: number,
+    n: number
   ): UntypedFormControl {
     return new UntypedFormControl(`item ${n}`, [
       Validators.required,

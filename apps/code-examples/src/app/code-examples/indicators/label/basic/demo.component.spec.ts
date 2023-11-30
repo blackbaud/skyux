@@ -25,7 +25,7 @@ describe('Basic label', () => {
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
     const labelHarness = await loader.getHarness(
-      SkyLabelHarness.with({ dataSkyId: 'label-demo' }),
+      SkyLabelHarness.with({ dataSkyId: 'label-demo' })
     );
 
     return { labelHarness, fixture };
@@ -43,7 +43,7 @@ describe('Basic label', () => {
 
     await expectAsync(labelHarness.getLabelType()).toBeResolvedTo('info');
     await expectAsync(labelHarness.getDescriptionType()).toBeResolvedTo(
-      'attention',
+      'attention'
     );
     await expectAsync(labelHarness.getLabelText()).toBeResolvedTo('Incomplete');
   });
@@ -54,7 +54,7 @@ describe('Basic label', () => {
 
     await expectAsync(labelHarness.getLabelType()).toBeResolvedTo('warning');
     await expectAsync(labelHarness.getDescriptionType()).toBeResolvedTo(
-      'important-warning',
+      'important-warning'
     );
     await expectAsync(labelHarness.getLabelText()).toBeResolvedTo('Due soon');
   });
@@ -65,7 +65,7 @@ describe('Basic label', () => {
 
     await expectAsync(labelHarness.getLabelType()).toBeResolvedTo('danger');
     await expectAsync(labelHarness.getDescriptionType()).toBeResolvedTo(
-      'danger',
+      'danger'
     );
     await expectAsync(labelHarness.getLabelText()).toBeResolvedTo('Overdue');
   });
@@ -76,7 +76,7 @@ describe('Basic label', () => {
 
     await expectAsync(labelHarness.getLabelType()).toBeResolvedTo('success');
     await expectAsync(labelHarness.getDescriptionType()).toBeResolvedTo(
-      'completed',
+      'completed'
     );
     await expectAsync(labelHarness.getLabelText()).toBeResolvedTo('Submitted');
   });

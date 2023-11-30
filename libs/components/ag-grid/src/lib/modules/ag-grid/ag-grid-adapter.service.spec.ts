@@ -19,7 +19,7 @@ describe('SkyAgGridAdapterService', () => {
     });
 
     agGridAdapterServiceFixture = TestBed.createComponent(
-      SkyAgGridAdapterFixtureComponent,
+      SkyAgGridAdapterFixtureComponent
     );
     agGridAdapterService = TestBed.inject(SkyAgGridAdapterService);
     parentElement =
@@ -35,8 +35,8 @@ describe('SkyAgGridAdapterService', () => {
       expect(
         agGridAdapterService.getElementOrParentWithClass(
           firstChildElement,
-          'class2',
-        ),
+          'class2'
+        )
       ).toEqual(firstChildElement);
     });
 
@@ -44,8 +44,8 @@ describe('SkyAgGridAdapterService', () => {
       expect(
         agGridAdapterService.getElementOrParentWithClass(
           firstChildElement,
-          'class1',
-        ),
+          'class1'
+        )
       ).toEqual(parentElement);
     });
 
@@ -53,8 +53,8 @@ describe('SkyAgGridAdapterService', () => {
       expect(
         agGridAdapterService.getElementOrParentWithClass(
           firstChildElement,
-          'fakeClass',
-        ),
+          'fakeClass'
+        )
       ).toBeUndefined();
     });
   });
@@ -82,8 +82,8 @@ describe('SkyAgGridAdapterService', () => {
       expect(
         agGridAdapterService.getNextFocusableElement(
           firstChildElement,
-          parentElement,
-        ),
+          parentElement
+        )
       ).toEqual(secondChildElement);
     });
 
@@ -92,8 +92,8 @@ describe('SkyAgGridAdapterService', () => {
         agGridAdapterService.getNextFocusableElement(
           secondChildElement,
           parentElement,
-          true,
-        ),
+          true
+        )
       ).toEqual(firstChildElement);
     });
 
@@ -101,8 +101,8 @@ describe('SkyAgGridAdapterService', () => {
       expect(
         agGridAdapterService.getNextFocusableElement(
           secondChildElement,
-          parentElement,
-        ),
+          parentElement
+        )
       ).toBeUndefined();
     });
 
@@ -111,8 +111,8 @@ describe('SkyAgGridAdapterService', () => {
         agGridAdapterService.getNextFocusableElement(
           firstChildElement,
           parentElement,
-          true,
-        ),
+          true
+        )
       ).toBeUndefined();
     });
 
@@ -120,8 +120,8 @@ describe('SkyAgGridAdapterService', () => {
       expect(
         agGridAdapterService.getNextFocusableElement(
           firstChildElement,
-          undefined,
-        ),
+          undefined
+        )
       ).toBeUndefined();
     });
   });
@@ -148,10 +148,10 @@ describe('SkyAgGridAdapterService', () => {
     it('should move focus to the column header if there is one', () => {
       agGridAdapterService.focusOnColumnHeader(
         agGridAdapterServiceFixture.nativeElement,
-        'col1',
+        'col1'
       );
       expect(document.activeElement).toEqual(
-        document.getElementById('col1-header'),
+        document.getElementById('col1-header')
       );
     });
 
@@ -159,7 +159,7 @@ describe('SkyAgGridAdapterService', () => {
       firstChildElement.focus();
       agGridAdapterService.focusOnColumnHeader(
         agGridAdapterServiceFixture.nativeElement,
-        'col2',
+        'col2'
       );
       expect(document.activeElement).toEqual(firstChildElement);
     });

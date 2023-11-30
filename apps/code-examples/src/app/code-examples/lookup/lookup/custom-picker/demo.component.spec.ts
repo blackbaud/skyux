@@ -17,7 +17,7 @@ describe('Lookup custom picker demo', () => {
 
     const lookupHarness = await (
       await loader.getHarness(
-        SkyInputBoxHarness.with({ dataSkyId: 'favorite-names-field' }),
+        SkyInputBoxHarness.with({ dataSkyId: 'favorite-names-field' })
       )
     ).queryHarness(SkyLookupHarness);
 
@@ -54,7 +54,7 @@ describe('Lookup custom picker demo', () => {
       [
         { name: 'Shirley', formal: 'Ms. Bennett' },
         { name: 'Abed', formal: 'Mr. Nadir' },
-      ],
+      ]
     );
   });
 
@@ -79,7 +79,7 @@ describe('Lookup custom picker demo', () => {
       [
         { name: 'Ben', formal: 'Mr. Chang' },
         { name: 'Garrett', formal: 'Mr. Lambert' },
-      ],
+      ]
     );
   });
 });

@@ -51,7 +51,7 @@ export class SkySplitViewFixture {
     this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
-      'sky-split-view',
+      'sky-split-view'
     );
 
     // the component takes a while to initialize so we need to wait
@@ -79,7 +79,7 @@ export class SkySplitViewFixture {
 
   #drawerIsHidden(): boolean {
     const drawer = this.#debugEl.query(
-      By.css('.sky-split-view-drawer-flex-container'),
+      By.css('.sky-split-view-drawer-flex-container')
     ).nativeElement;
     return drawer.hasAttribute('hidden');
   }
@@ -91,14 +91,14 @@ export class SkySplitViewFixture {
 
   #workspaceIsHidden(): boolean {
     const workspace = this.#debugEl.query(
-      By.css('.sky-split-view-workspace-flex-container'),
+      By.css('.sky-split-view-workspace-flex-container')
     ).nativeElement;
     return workspace.hasAttribute('hidden');
   }
 
   #getBackToListButton(): HTMLButtonElement {
     return this.#debugEl.query(
-      By.css('.sky-split-view-workspace-header-content > button'),
+      By.css('.sky-split-view-workspace-header-content > button')
     )?.nativeElement as HTMLButtonElement;
   }
 

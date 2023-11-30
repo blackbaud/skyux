@@ -1,4 +1,3 @@
-export { SkyAutocompleteModule } from './lib/modules/autocomplete/autocomplete.module';
 export { SkyAutocompleteDefaultSearchFunctionOptions } from './lib/modules/autocomplete/types/autocomplete-default-search-function-options';
 export { SkyAutocompleteInputTextChange } from './lib/modules/autocomplete/types/autocomplete-input-text-change';
 export { SkyAutocompleteSearchAsyncArgs } from './lib/modules/autocomplete/types/autocomplete-search-async-args';
@@ -8,14 +7,13 @@ export { SkyAutocompleteSearchFunction } from './lib/modules/autocomplete/types/
 export { SkyAutocompleteSearchFunctionFilter } from './lib/modules/autocomplete/types/autocomplete-search-function-filter';
 export { SkyAutocompleteSearchFunctionResponse } from './lib/modules/autocomplete/types/autocomplete-search-function-response';
 export { SkyAutocompleteSelectionChange } from './lib/modules/autocomplete/types/autocomplete-selection-change';
+export { SkyAutocompleteModule } from './lib/modules/autocomplete/autocomplete.module';
 
 export { SkyCountryFieldModule } from './lib/modules/country-field/country-field.module';
 export { SkyCountryFieldCountry } from './lib/modules/country-field/types/country';
 export { SkyCountryFieldContext } from './lib/modules/country-field/types/country-field-context';
 export { SKY_COUNTRY_FIELD_CONTEXT } from './lib/modules/country-field/types/country-field-context-token';
 
-export { SkyAutocompleteSearchArgs } from './lib/modules/autocomplete/types/autocomplete-search-args';
-export { SkyAutocompleteSearchContext } from './lib/modules/autocomplete/types/autocomplete-search-context';
 export { SkyLookupModule } from './lib/modules/lookup/lookup.module';
 export { SkyLookupAddCallbackArgs } from './lib/modules/lookup/types/lookup-add-click-callback-args';
 export { SkyLookupAddClickEventArgs } from './lib/modules/lookup/types/lookup-add-click-event-args';
@@ -25,6 +23,8 @@ export { SkyLookupShowMoreConfig } from './lib/modules/lookup/types/lookup-show-
 export { SkyLookupShowMoreCustomPicker } from './lib/modules/lookup/types/lookup-show-more-custom-picker';
 export { SkyLookupShowMoreCustomPickerContext } from './lib/modules/lookup/types/lookup-show-more-custom-picker-context';
 export { SkyLookupShowMoreNativePickerConfig } from './lib/modules/lookup/types/lookup-show-more-native-picker-config';
+export { SkyAutocompleteSearchArgs } from './lib/modules/autocomplete/types/autocomplete-search-args';
+export { SkyAutocompleteSearchContext } from './lib/modules/autocomplete/types/autocomplete-search-context';
 
 export { SkySearchModule } from './lib/modules/search/search.module';
 

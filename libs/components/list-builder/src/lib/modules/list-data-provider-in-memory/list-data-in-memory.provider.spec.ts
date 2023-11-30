@@ -174,7 +174,7 @@ describe('in memory data provider', () => {
           column2: 'Strawberry',
           column3: 'Sally eats strawberries',
         },
-      ]),
+      ])
     );
     const request = new ListDataRequestModel({});
 
@@ -405,7 +405,7 @@ describe('in memory data provider', () => {
             name: 'blank',
             filterFunction: function (
               item: ListItemModel,
-              filterValue: any,
+              filterValue: any
             ): boolean {
               return false;
             },
@@ -498,7 +498,7 @@ describe('in memory data provider', () => {
             name: 'blank',
             filterFunction: function (
               item: ListItemModel,
-              filterValue: any,
+              filterValue: any
             ): boolean {
               return false;
             },

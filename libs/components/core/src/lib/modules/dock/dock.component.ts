@@ -49,12 +49,12 @@ export class SkyDockComponent {
 
   public insertComponent<T>(
     component: Type<T>,
-    config: SkyDockInsertComponentConfig = {},
+    config: SkyDockInsertComponentConfig = {}
   ): SkyDockItemReference<T> {
     /*istanbul ignore if: untestable*/
     if (!this.target) {
       throw Error(
-        '[SkyDockComponent] Could not insert the component because the target element could not be found.',
+        '[SkyDockComponent] Could not insert the component because the target element could not be found.'
       );
     }
 
@@ -88,7 +88,7 @@ export class SkyDockComponent {
     /*istanbul ignore if: untestable*/
     if (!this.target) {
       throw Error(
-        '[SkyDockComponent] Could not remove the item because the target element could not be found.',
+        '[SkyDockComponent] Could not remove the item because the target element could not be found.'
       );
     }
 
@@ -96,7 +96,7 @@ export class SkyDockComponent {
     this.target.remove(this.target.indexOf(viewRef));
 
     const found = this.#itemRefs.find(
-      (i) => i.componentRef.hostView === viewRef,
+      (i) => i.componentRef.hostView === viewRef
     );
 
     if (found) {

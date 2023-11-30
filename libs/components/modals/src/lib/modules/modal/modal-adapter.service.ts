@@ -72,7 +72,7 @@ export class SkyModalAdapterService {
         // preserve previous aria-hidden status of elements outside of modal host
         this.#hostSiblingAriaHiddenCache.set(
           element,
-          element.getAttribute('aria-hidden'),
+          element.getAttribute('aria-hidden')
         );
         element.setAttribute('aria-hidden', 'true');
       }
@@ -100,7 +100,7 @@ export class SkyModalAdapterService {
     if (topModal && topModal.nativeElement.previousElementSibling) {
       topModal.nativeElement.previousElementSibling.setAttribute(
         'aria-hidden',
-        'true',
+        'true'
       );
     }
   }
@@ -108,7 +108,7 @@ export class SkyModalAdapterService {
   public unhidePreviousModalFromScreenReaders(topModal: ElementRef): void {
     if (topModal && topModal.nativeElement.previousElementSibling) {
       topModal.nativeElement.previousElementSibling.removeAttribute(
-        'aria-hidden',
+        'aria-hidden'
       );
     }
   }

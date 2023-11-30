@@ -7,8 +7,8 @@ describe('data-manager-storybook', () => {
         describe(`in view "${view}"`, () => {
           beforeEach(() =>
             cy.visit(
-              `/iframe.html?globals=theme:${theme}&id=datamanagercomponent-datamanager--data-manager-${view}`,
-            ),
+              `/iframe.html?globals=theme:${theme}&id=datamanagercomponent-datamanager--data-manager-${view}`
+            )
           );
           it(`should render the component`, () => {
             // eslint-disable-next-line cypress/no-unnecessary-waiting
@@ -19,13 +19,13 @@ describe('data-manager-storybook', () => {
               .should('exist')
               .should('be.visible')
               .screenshot(
-                `datamanagercomponent-datamanager--data-manager-${view}-${theme}`,
+                `datamanagercomponent-datamanager--data-manager-${view}-${theme}`
               )
               .percySnapshot(
                 `datamanagercomponent-datamanager--data-manager-${view}-${theme}`,
                 {
                   widths: E2eVariations.DISPLAY_WIDTHS,
-                },
+                }
               );
           });
         });

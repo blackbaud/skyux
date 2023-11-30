@@ -38,7 +38,7 @@ describe('ng-add.schematic', () => {
     await runSchematic();
 
     expect(runner.tasks.some((task) => task.name === 'node-package')).toEqual(
-      true,
+      true
     );
   });
 
@@ -48,7 +48,7 @@ describe('ng-add.schematic', () => {
     expect(packageJson.dependencies).toEqual(
       jasmine.objectContaining({
         '@skyux/assets': '^7',
-      }),
+      })
     );
   });
 
@@ -56,7 +56,7 @@ describe('ng-add.schematic', () => {
     const updatedTree = await runSchematic();
     const packageJson = readPackageJson(updatedTree);
     expect(
-      packageJson.scripts?.['skyux:generate-lib-resources-module'],
+      packageJson.scripts?.['skyux:generate-lib-resources-module']
     ).toEqual('ng generate @skyux/i18n:lib-resources-module');
   });
 
@@ -71,7 +71,7 @@ describe('ng-add.schematic', () => {
     packageJson = readPackageJson(updatedTree);
 
     expect(
-      packageJson.scripts?.['skyux:generate-lib-resources-module'],
+      packageJson.scripts?.['skyux:generate-lib-resources-module']
     ).toEqual('ng generate @skyux/i18n:lib-resources-module');
   });
 });

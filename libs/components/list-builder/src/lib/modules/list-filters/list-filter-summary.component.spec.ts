@@ -74,7 +74,7 @@ describe('List filter summary', () => {
 
   function getSummaryItems() {
     return nativeElement.querySelectorAll(
-      '.sky-list-toolbar-container .sky-toolbar-section .sky-filter-summary .sky-filter-summary-item',
+      '.sky-list-toolbar-container .sky-toolbar-section .sky-filter-summary .sky-filter-summary-item'
     );
   }
 

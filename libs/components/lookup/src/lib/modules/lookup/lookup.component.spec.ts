@@ -31,7 +31,7 @@ describe('Lookup component', function () {
   function clearShowMoreSearch(fixture: ComponentFixture<any>): void {
     (
       document.querySelector(
-        '.sky-lookup-show-more-modal-toolbar .sky-search-btn-clear',
+        '.sky-lookup-show-more-modal-toolbar .sky-search-btn-clear'
       ) as HTMLElement
     ).click();
 
@@ -58,7 +58,7 @@ describe('Lookup component', function () {
   }
 
   async function clickShowMoreAsync(
-    fixture: ComponentFixture<any>,
+    fixture: ComponentFixture<any>
   ): Promise<void> {
     clickShowMoreBase(fixture);
     return fixture.whenStable();
@@ -66,7 +66,7 @@ describe('Lookup component', function () {
 
   function clickSearchButton(
     fixture: ComponentFixture<any>,
-    async = false,
+    async = false
   ): void {
     getSearchButton(async).click();
     fixture.detectChanges();
@@ -94,18 +94,18 @@ describe('Lookup component', function () {
   function clickToken(
     index: number,
     fixture: ComponentFixture<any>,
-    async = false,
+    async = false
   ): void {
     if (async) {
       (
         document.querySelectorAll(
-          '#my-async-lookup .sky-lookup-tokens .sky-token-btn-action',
+          '#my-async-lookup .sky-lookup-tokens .sky-token-btn-action'
         )[index] as HTMLElement
       ).click();
     } else {
       (
         document.querySelectorAll(
-          '#my-lookup .sky-lookup-tokens .sky-token-btn-action',
+          '#my-lookup .sky-lookup-tokens .sky-token-btn-action'
         )[index] as HTMLElement
       ).click();
     }
@@ -116,7 +116,7 @@ describe('Lookup component', function () {
     fixture: ComponentFixture<
       SkyLookupTestComponent | SkyLookupTemplateTestComponent
     >,
-    focused: boolean,
+    focused: boolean
   ) {
     const hostElement = document.querySelector('sky-lookup');
     const input = getInputElement(fixture.componentInstance.lookupComponent);
@@ -146,7 +146,7 @@ describe('Lookup component', function () {
 
   function dismissSelectedItem(
     index: number,
-    fixture: ComponentFixture<any>,
+    fixture: ComponentFixture<any>
   ): void {
     const tokenElements = document.querySelectorAll('.sky-token');
     (
@@ -161,7 +161,7 @@ describe('Lookup component', function () {
 
   function getAddButton(): HTMLElement {
     return document.querySelector(
-      '.sky-autocomplete-action-add',
+      '.sky-autocomplete-action-add'
     ) as HTMLElement;
   }
 
@@ -170,7 +170,7 @@ describe('Lookup component', function () {
    */
   function getCustomSearchFunctionSpy(
     name: string,
-    friends: any[],
+    friends: any[]
   ): jasmine.Spy {
     return jasmine
       .createSpy(name)
@@ -178,7 +178,7 @@ describe('Lookup component', function () {
         (
           searchText: string,
           data: any[],
-          args?: SkyAutocompleteSearchArgs,
+          args?: SkyAutocompleteSearchArgs
         ): SkyAutocompleteSearchFunctionResponse => {
           return data.filter((anItem) => {
             if (args?.context === 'modal') {
@@ -187,7 +187,7 @@ describe('Lookup component', function () {
             const found = friends.find((option) => option.name === anItem.name);
             return !found;
           });
-        },
+        }
       );
   }
 
@@ -197,15 +197,15 @@ describe('Lookup component', function () {
 
   function getInfiniteScrollWait(): HTMLElement | null {
     return document.querySelector(
-      '.sky-infinite-scroll .sky-wait-mask-loading-blocking',
+      '.sky-infinite-scroll .sky-wait-mask-loading-blocking'
     );
   }
 
   function getInputElement(
-    lookupComponent: SkyLookupComponent,
+    lookupComponent: SkyLookupComponent
   ): HTMLInputElement {
     return lookupComponent['lookupWrapperRef']?.nativeElement.querySelector(
-      '.sky-lookup-input',
+      '.sky-lookup-input'
     );
   }
 
@@ -215,7 +215,7 @@ describe('Lookup component', function () {
 
   function getModalAddButton(): HTMLElement {
     return document.querySelector(
-      '.sky-lookup-show-more-modal-add',
+      '.sky-lookup-show-more-modal-add'
     ) as HTMLElement;
   }
 
@@ -229,7 +229,7 @@ describe('Lookup component', function () {
 
   function getModalOnlyShowSelectedInput(): HTMLInputElement | null {
     return document.querySelector(
-      'sky-toolbar-view-actions sky-checkbox input',
+      'sky-toolbar-view-actions sky-checkbox input'
     );
   }
 
@@ -239,13 +239,13 @@ describe('Lookup component', function () {
 
   function getModalSearchButton(): HTMLButtonElement | null {
     return document.querySelector(
-      '.sky-lookup-show-more-modal .sky-search-btn-apply',
+      '.sky-lookup-show-more-modal .sky-search-btn-apply'
     );
   }
 
   function getModalSearchInput(): HTMLInputElement | null {
     return document.querySelector(
-      '.sky-search-input-container .sky-form-control',
+      '.sky-search-input-container .sky-form-control'
     );
   }
 
@@ -269,11 +269,11 @@ describe('Lookup component', function () {
   function getSearchButton(async = false): HTMLElement {
     if (async) {
       return document.querySelector(
-        '#my-async-lookup .sky-input-group-btn .sky-btn',
+        '#my-async-lookup .sky-input-group-btn .sky-btn'
       ) as HTMLElement;
     } else {
       return document.querySelector(
-        '#my-lookup .sky-input-group-btn .sky-btn',
+        '#my-lookup .sky-input-group-btn .sky-btn'
       ) as HTMLElement;
     }
   }
@@ -287,7 +287,7 @@ describe('Lookup component', function () {
    */
   function getSearchFunctionFilterSpy(
     name: string,
-    friends: any[],
+    friends: any[]
   ): jasmine.Spy {
     return jasmine
       .createSpy(name)
@@ -295,20 +295,20 @@ describe('Lookup component', function () {
         (
           searchText: string,
           item: any,
-          args?: SkyAutocompleteSearchArgs,
+          args?: SkyAutocompleteSearchArgs
         ): boolean => {
           if (args?.context === 'modal') {
             return true;
           }
           const found = friends.find((option) => option.name === item.name);
           return !found;
-        },
+        }
       );
   }
 
   function getShowMoreButton(): HTMLElement {
     return document.querySelector(
-      '.sky-autocomplete-action-more',
+      '.sky-autocomplete-action-more'
     ) as HTMLElement;
   }
 
@@ -333,7 +333,7 @@ describe('Lookup component', function () {
   function getTokenElements(async = false): NodeListOf<Element> {
     if (async) {
       return document.querySelectorAll(
-        '#my-async-lookup .sky-token-btn-action',
+        '#my-async-lookup .sky-token-btn-action'
       );
     } else {
       return document.querySelectorAll('#my-lookup .sky-token-btn-action');
@@ -343,12 +343,12 @@ describe('Lookup component', function () {
   function performSearch(
     searchText: string,
     fixture: ComponentFixture<any>,
-    async = false,
+    async = false
   ): void {
     let inputElement: HTMLInputElement;
     if (async) {
       inputElement = getInputElement(
-        fixture.componentInstance.asyncLookupComponent,
+        fixture.componentInstance.asyncLookupComponent
       );
     } else {
       inputElement = getInputElement(fixture.componentInstance.lookupComponent);
@@ -366,7 +366,7 @@ describe('Lookup component', function () {
 
   async function performModalSearchAsync(
     searchText: string,
-    fixture: ComponentFixture<any>,
+    fixture: ComponentFixture<any>
   ): Promise<void> {
     const modalSearchInput = getModalSearchInput();
     modalSearchInput.value = searchText;
@@ -387,10 +387,10 @@ describe('Lookup component', function () {
 
   function selectSearchResult(
     index: number,
-    fixture: ComponentFixture<any>,
+    fixture: ComponentFixture<any>
   ): void {
     const dropdownButtons = document.querySelectorAll(
-      '.sky-autocomplete-result',
+      '.sky-autocomplete-result'
     );
     SkyAppTestUtility.fireDomEvent(dropdownButtons.item(index), 'click');
     tick();
@@ -401,7 +401,7 @@ describe('Lookup component', function () {
   function selectShowOnlySelectedBase(fixture: ComponentFixture<any>): void {
     (
       document.querySelector(
-        '.sky-lookup-show-more-modal-multiselect-toolbar .sky-toolbar-view-actions input',
+        '.sky-lookup-show-more-modal-multiselect-toolbar .sky-toolbar-view-actions input'
       ) as HTMLElement
     ).click();
     fixture.detectChanges();
@@ -414,7 +414,7 @@ describe('Lookup component', function () {
   }
 
   async function selectShowOnlySelectedAsync(
-    fixture: ComponentFixture<any>,
+    fixture: ComponentFixture<any>
   ): Promise<void> {
     selectShowOnlySelectedBase(fixture);
     return fixture.whenStable();
@@ -422,11 +422,11 @@ describe('Lookup component', function () {
 
   function selectShowMoreItemMultiple(
     index: number,
-    fixture: ComponentFixture<any>,
+    fixture: ComponentFixture<any>
   ): void {
     (
       document.querySelectorAll(
-        '.sky-lookup-show-more-repeater sky-repeater-item input',
+        '.sky-lookup-show-more-repeater sky-repeater-item input'
       )[index] as HTMLElement
     ).click();
     fixture.detectChanges();
@@ -434,11 +434,11 @@ describe('Lookup component', function () {
 
   function selectShowMoreItemSingle(
     index: number,
-    fixture: ComponentFixture<any>,
+    fixture: ComponentFixture<any>
   ): void {
     (
       document.querySelectorAll(
-        '.sky-lookup-show-more-repeater sky-repeater-item',
+        '.sky-lookup-show-more-repeater sky-repeater-item'
       )[index] as HTMLElement
     ).click();
     fixture.detectChanges();
@@ -447,7 +447,7 @@ describe('Lookup component', function () {
   function triggerClick(
     element: Element | null,
     fixture: ComponentFixture<any>,
-    focusable = false,
+    focusable = false
   ): void {
     if (element) {
       SkyAppTestUtility.fireDomEvent(element, 'click');
@@ -471,12 +471,12 @@ describe('Lookup component', function () {
 
   function triggerInputFocus(
     fixture: ComponentFixture<any>,
-    async = false,
+    async = false
   ): void {
     let inputElement: HTMLInputElement;
     if (async) {
       inputElement = getInputElement(
-        fixture.componentInstance.asyncLookupComponent,
+        fixture.componentInstance.asyncLookupComponent
       );
     } else {
       inputElement = getInputElement(fixture.componentInstance.lookupComponent);
@@ -487,7 +487,7 @@ describe('Lookup component', function () {
   function triggerKeyPress(
     element: Element,
     key: string,
-    fixture: ComponentFixture<any>,
+    fixture: ComponentFixture<any>
   ): void {
     SkyAppTestUtility.fireDomEvent(element, 'keydown', {
       keyboardEventInit: { key },
@@ -510,7 +510,7 @@ describe('Lookup component', function () {
 
   async function triggerModalScrollAsync(
     fixture: ComponentFixture<any>,
-    newYPosition?: number,
+    newYPosition?: number
   ): Promise<void> {
     const modalContent = document.querySelector('.sky-modal-content');
     if (modalContent) {
@@ -523,7 +523,7 @@ describe('Lookup component', function () {
 
   function validateShowMoreModalWrapperClass(
     fixture: ComponentFixture<SkyLookupTestComponent>,
-    async?: boolean,
+    async?: boolean
   ): void {
     const component = fixture.componentInstance;
     component.enableShowMore = true;
@@ -596,7 +596,7 @@ describe('Lookup component', function () {
         fixture.detectChanges();
 
         expect(lookupComponent.autocompleteAttribute).toEqual(
-          'new-custom-field',
+          'new-custom-field'
         );
       });
 
@@ -609,7 +609,7 @@ describe('Lookup component', function () {
         expect(typeof lookupComponent.search).not.toBeUndefined();
         expect(typeof lookupComponent.searchResultTemplate).not.toBeUndefined();
         expect(
-          typeof lookupComponent.searchTextMinimumCharacters,
+          typeof lookupComponent.searchTextMinimumCharacters
         ).not.toBeUndefined();
         expect(typeof lookupComponent.searchFilters).not.toBeUndefined();
         expect(typeof lookupComponent.searchResultsLimit).not.toBeUndefined();
@@ -724,7 +724,7 @@ describe('Lookup component', function () {
         it('should not do anything on token click', fakeAsync(() => {
           const showMoreSpy = spyOn(
             component.lookupComponent,
-            'openPicker',
+            'openPicker'
           ).and.stub();
 
           component.friends = [
@@ -839,7 +839,7 @@ describe('Lookup component', function () {
       it('should call for the dropdown to be repositioned when tokens change', fakeAsync(() => {
         const spy = spyOn(
           lookupComponent.autocompleteController,
-          'next',
+          'next'
         ).and.stub();
         fixture.detectChanges();
 
@@ -852,7 +852,7 @@ describe('Lookup component', function () {
 
         // Remove a token with the dropdown still open
         const closeTokenButton = fixture.nativeElement.querySelector(
-          '.sky-token-btn-close',
+          '.sky-token-btn-close'
         );
         closeTokenButton.click();
         fixture.detectChanges();
@@ -1107,7 +1107,7 @@ describe('Lookup component', function () {
             component.showAddButton = true;
             const addButtonSpy = spyOn(
               component,
-              'addButtonClicked',
+              'addButtonClicked'
             ).and.callThrough();
             fixture.detectChanges();
 
@@ -1129,7 +1129,7 @@ describe('Lookup component', function () {
             component.showAddButton = false;
             const addButtonSpy = spyOn(
               component,
-              'addButtonClicked',
+              'addButtonClicked'
             ).and.callThrough();
             fixture.detectChanges();
 
@@ -1156,7 +1156,7 @@ describe('Lookup component', function () {
             component.enableShowMore = true;
             const addButtonSpy = spyOn(
               component,
-              'addButtonClicked',
+              'addButtonClicked'
             ).and.callThrough();
             fixture.detectChanges();
 
@@ -1190,7 +1190,7 @@ describe('Lookup component', function () {
             component.showAddButton = true;
             const addButtonSpy = spyOn(
               component,
-              'addButtonClicked',
+              'addButtonClicked'
             ).and.callThrough();
             fixture.detectChanges();
 
@@ -1212,7 +1212,7 @@ describe('Lookup component', function () {
             component.showAddButton = false;
             const addButtonSpy = spyOn(
               component,
-              'addButtonClicked',
+              'addButtonClicked'
             ).and.callThrough();
             fixture.detectChanges();
 
@@ -1229,7 +1229,7 @@ describe('Lookup component', function () {
             component.enableShowMore = true;
             const addButtonSpy = spyOn(
               component,
-              'addButtonClicked',
+              'addButtonClicked'
             ).and.callThrough();
             fixture.detectChanges();
 
@@ -1785,7 +1785,7 @@ describe('Lookup component', function () {
             performSearch('foo', fixture);
             SkyAppTestUtility.fireDomEvent(
               getInputElement(lookupComponent),
-              'blur',
+              'blur'
             );
             fixture.detectChanges();
 
@@ -1962,7 +1962,7 @@ describe('Lookup component', function () {
             performSearch('foo', fixture, true);
             SkyAppTestUtility.fireDomEvent(
               getInputElement(asyncLookupComponent),
-              'blur',
+              'blur'
             );
             fixture.detectChanges();
 
@@ -2041,7 +2041,7 @@ describe('Lookup component', function () {
             tick();
 
             expect(errorLogSpy).toHaveBeenCalledWith(
-              "The lookup component's 'idProperty' input is required when `enableShowMore` and 'searchAsync' are used together.",
+              "The lookup component's 'idProperty' input is required when `enableShowMore` and 'searchAsync' are used together."
             );
             closeModal(fixture);
           }));
@@ -2337,32 +2337,32 @@ describe('Lookup component', function () {
               expect(getShowMoreModalTitle()).toBe('Select items');
 
               expect(getModalSearchInput()?.getAttribute('aria-label')).toBe(
-                'Search items',
+                'Search items'
               );
               // Test that button text isn't contextual and only the `aria-label`
               expect(selectButton?.textContent.trim()).toBe('Select');
               expect(selectButton?.getAttribute('aria-label')).toBe(
-                'Select items',
+                'Select items'
               );
 
               // Test that button text isn't contextual and only the `aria-label`
               expect(getModalClearAllButton()?.textContent.trim()).toBe(
-                'Clear all',
+                'Clear all'
               );
               expect(getModalClearAllButton().getAttribute('aria-label')).toBe(
-                'Clear all selected items',
+                'Clear all selected items'
               );
 
               // Test that button text isn't contextual and only the `aria-label`
               expect(getModalSelectAllButton()?.textContent.trim()).toBe(
-                'Select all',
+                'Select all'
               );
               expect(getModalSelectAllButton().getAttribute('aria-label')).toBe(
-                'Select all items',
+                'Select all items'
               );
 
               expect(
-                getModalOnlyShowSelectedInput().getAttribute('aria-label'),
+                getModalOnlyShowSelectedInput().getAttribute('aria-label')
               ).toBe('Show only selected items');
 
               closeModal(fixture);
@@ -2384,32 +2384,32 @@ describe('Lookup component', function () {
               expect(getShowMoreModalTitle()).toBe('Select people');
 
               expect(getModalSearchInput()?.getAttribute('aria-label')).toBe(
-                'Search people',
+                'Search people'
               );
               // Test that button text isn't contextual and only the `aria-label`
               expect(selectButton?.textContent.trim()).toBe('Select');
               expect(selectButton?.getAttribute('aria-label')).toBe(
-                'Select people',
+                'Select people'
               );
 
               // Test that button text isn't contextual and only the `aria-label`
               expect(getModalClearAllButton()?.textContent.trim()).toBe(
-                'Clear all',
+                'Clear all'
               );
               expect(getModalClearAllButton().getAttribute('aria-label')).toBe(
-                'Clear all selected people',
+                'Clear all selected people'
               );
 
               // Test that button text isn't contextual and only the `aria-label`
               expect(getModalSelectAllButton()?.textContent.trim()).toBe(
-                'Select all',
+                'Select all'
               );
               expect(getModalSelectAllButton().getAttribute('aria-label')).toBe(
-                'Select all people',
+                'Select all people'
               );
 
               expect(
-                getModalOnlyShowSelectedInput().getAttribute('aria-label'),
+                getModalOnlyShowSelectedInput().getAttribute('aria-label')
               ).toBe('Show only selected people');
 
               closeModal(fixture);
@@ -2459,7 +2459,7 @@ describe('Lookup component', function () {
             it('should open the show more modal on token click', fakeAsync(() => {
               const showMoreSpy = spyOn(
                 component.lookupComponent,
-                'openPicker',
+                'openPicker'
               ).and.stub();
 
               component.enableShowMore = true;
@@ -2478,7 +2478,7 @@ describe('Lookup component', function () {
             it('should open the show more modal on collapsed token click', fakeAsync(() => {
               const showMoreSpy = spyOn(
                 component.lookupComponent,
-                'openPicker',
+                'openPicker'
               ).and.stub();
 
               component.enableShowMore = true;
@@ -2540,7 +2540,7 @@ describe('Lookup component', function () {
             it('should not open the show more modal when disabled', fakeAsync(() => {
               const showMoreSpy = spyOn(
                 component.lookupComponent,
-                'openPicker',
+                'openPicker'
               ).and.stub();
 
               component.enableShowMore = true;
@@ -2822,32 +2822,32 @@ describe('Lookup component', function () {
               expect(getShowMoreModalTitle()).toBe('Select items');
 
               expect(getModalSearchInput()?.getAttribute('aria-label')).toBe(
-                'Search items',
+                'Search items'
               );
               // Test that button text isn't contextual and only the `aria-label`
               expect(selectButton?.textContent.trim()).toBe('Select');
               expect(selectButton?.getAttribute('aria-label')).toBe(
-                'Select items',
+                'Select items'
               );
 
               // Test that button text isn't contextual and only the `aria-label`
               expect(getModalClearAllButton()?.textContent.trim()).toBe(
-                'Clear all',
+                'Clear all'
               );
               expect(getModalClearAllButton().getAttribute('aria-label')).toBe(
-                'Clear all selected items',
+                'Clear all selected items'
               );
 
               // Test that button text isn't contextual and only the `aria-label`
               expect(getModalSelectAllButton()?.textContent.trim()).toBe(
-                'Select all',
+                'Select all'
               );
               expect(getModalSelectAllButton().getAttribute('aria-label')).toBe(
-                'Select all items',
+                'Select all items'
               );
 
               expect(
-                getModalOnlyShowSelectedInput().getAttribute('aria-label'),
+                getModalOnlyShowSelectedInput().getAttribute('aria-label')
               ).toBe('Show only selected items');
 
               closeModal(fixture);
@@ -2869,32 +2869,32 @@ describe('Lookup component', function () {
               expect(getShowMoreModalTitle()).toBe('Select people');
 
               expect(getModalSearchInput()?.getAttribute('aria-label')).toBe(
-                'Search people',
+                'Search people'
               );
               // Test that button text isn't contextual and only the `aria-label`
               expect(selectButton?.textContent.trim()).toBe('Select');
               expect(selectButton?.getAttribute('aria-label')).toBe(
-                'Select people',
+                'Select people'
               );
 
               // Test that button text isn't contextual and only the `aria-label`
               expect(getModalClearAllButton()?.textContent.trim()).toBe(
-                'Clear all',
+                'Clear all'
               );
               expect(getModalClearAllButton().getAttribute('aria-label')).toBe(
-                'Clear all selected people',
+                'Clear all selected people'
               );
 
               // Test that button text isn't contextual and only the `aria-label`
               expect(getModalSelectAllButton()?.textContent.trim()).toBe(
-                'Select all',
+                'Select all'
               );
               expect(getModalSelectAllButton().getAttribute('aria-label')).toBe(
-                'Select all people',
+                'Select all people'
               );
 
               expect(
-                getModalOnlyShowSelectedInput().getAttribute('aria-label'),
+                getModalOnlyShowSelectedInput().getAttribute('aria-label')
               ).toBe('Show only selected people');
 
               closeModal(fixture);
@@ -2944,7 +2944,7 @@ describe('Lookup component', function () {
             it('should open the show more modal on token click', fakeAsync(() => {
               const showMoreSpy = spyOn(
                 component.asyncLookupComponent,
-                'openPicker',
+                'openPicker'
               ).and.stub();
 
               component.enableShowMore = true;
@@ -2963,7 +2963,7 @@ describe('Lookup component', function () {
             it('should open the show more modal on collapsed token click', fakeAsync(() => {
               const showMoreSpy = spyOn(
                 component.asyncLookupComponent,
-                'openPicker',
+                'openPicker'
               ).and.stub();
 
               component.enableShowMore = true;
@@ -3025,7 +3025,7 @@ describe('Lookup component', function () {
             it('should not open the show more modal when disabled', fakeAsync(() => {
               const showMoreSpy = spyOn(
                 component.asyncLookupComponent,
-                'openPicker',
+                'openPicker'
               ).and.stub();
 
               component.enableShowMore = true;
@@ -3034,7 +3034,7 @@ describe('Lookup component', function () {
 
               fixture.nativeElement
                 .querySelector(
-                  '#my-async-lookup button[aria-label="Show all search results"]',
+                  '#my-async-lookup button[aria-label="Show all search results"]'
                 )
                 .click();
 
@@ -3157,12 +3157,12 @@ describe('Lookup component', function () {
               expect(getShowMoreModalTitle()).toBe('Select item');
 
               expect(getModalSearchInput()?.getAttribute('aria-label')).toBe(
-                'Search item',
+                'Search item'
               );
               // Test that button text isn't contextual and only the `aria-label`
               expect(selectButton?.textContent.trim()).toBe('Select');
               expect(selectButton?.getAttribute('aria-label')).toBe(
-                'Select item',
+                'Select item'
               );
 
               closeModal(fixture);
@@ -3184,12 +3184,12 @@ describe('Lookup component', function () {
               expect(getShowMoreModalTitle()).toBe('Select person');
 
               expect(getModalSearchInput()?.getAttribute('aria-label')).toBe(
-                'Search person',
+                'Search person'
               );
               // Test that button text isn't contextual and only the `aria-label`
               expect(selectButton?.textContent.trim()).toBe('Select');
               expect(selectButton?.getAttribute('aria-label')).toBe(
-                'Select person',
+                'Select person'
               );
 
               closeModal(fixture);
@@ -3391,12 +3391,12 @@ describe('Lookup component', function () {
               expect(getShowMoreModalTitle()).toBe('Select item');
 
               expect(getModalSearchInput()?.getAttribute('aria-label')).toBe(
-                'Search item',
+                'Search item'
               );
               // Test that button text isn't contextual and only the `aria-label`
               expect(selectButton?.textContent.trim()).toBe('Select');
               expect(selectButton?.getAttribute('aria-label')).toBe(
-                'Select item',
+                'Select item'
               );
 
               closeModal(fixture);
@@ -3418,12 +3418,12 @@ describe('Lookup component', function () {
               expect(getShowMoreModalTitle()).toBe('Select person');
 
               expect(getModalSearchInput()?.getAttribute('aria-label')).toBe(
-                'Search person',
+                'Search person'
               );
               // Test that button text isn't contextual and only the `aria-label`
               expect(selectButton?.textContent.trim()).toBe('Select');
               expect(selectButton?.getAttribute('aria-label')).toBe(
-                'Select person',
+                'Select person'
               );
 
               closeModal(fixture);
@@ -3516,7 +3516,7 @@ describe('Lookup component', function () {
           component.enableShowMore = true;
           const addButtonSpy = spyOn(
             component,
-            'addButtonClicked',
+            'addButtonClicked'
           ).and.callThrough();
           fixture.detectChanges();
 
@@ -3613,7 +3613,7 @@ describe('Lookup component', function () {
 
           const customPickerSpy = spyOn(
             component.showMoreConfig!.customPicker!,
-            'open',
+            'open'
           ).and.callThrough();
 
           performSearch('p', fixture);
@@ -3635,7 +3635,7 @@ describe('Lookup component', function () {
 
           const customPickerSpy = spyOn(
             component.showMoreConfig!.customPicker!,
-            'open',
+            'open'
           ).and.callThrough();
 
           performSearch('p', fixture);
@@ -3755,7 +3755,7 @@ describe('Lookup component', function () {
           function validateFocusedToken(key: string): void {
             triggerKeyPress(inputElement, key, fixture);
             expect(document.activeElement).toEqual(
-              tokenElements.item(tokenElements.length - 1),
+              tokenElements.item(tokenElements.length - 1)
             );
 
             inputElement.focus();
@@ -3798,7 +3798,7 @@ describe('Lookup component', function () {
         it('should remove tokens when backspace or delete is pressed', fakeAsync(function () {
           function validate(key: string, expectedCount: number): void {
             const tokensHostElement = document.querySelector(
-              '#my-lookup sky-tokens',
+              '#my-lookup sky-tokens'
             );
             SkyAppTestUtility.fireDomEvent(tokensHostElement, 'keyup', {
               keyboardEventInit: { key },
@@ -3808,11 +3808,11 @@ describe('Lookup component', function () {
             tick();
 
             tokenHostElements = document.querySelectorAll(
-              '#my-lookup sky-token',
+              '#my-lookup sky-token'
             );
             expect(tokenHostElements.length).toEqual(expectedCount);
             expect(
-              tokenHostElements.item(0).contains(document.activeElement),
+              tokenHostElements.item(0).contains(document.activeElement)
             ).toEqual(true);
           }
 
@@ -3826,7 +3826,7 @@ describe('Lookup component', function () {
           fixture.detectChanges();
 
           let tokenHostElements = document.querySelectorAll(
-            '#my-lookup sky-token',
+            '#my-lookup sky-token'
           );
           expect(tokenHostElements.length).toEqual(4);
 
@@ -4026,7 +4026,7 @@ describe('Lookup component', function () {
         await expectAsync(document.body).toBeAccessible(axeConfig);
 
         const inputElement = getInputElement(
-          fixture.componentInstance.lookupComponent,
+          fixture.componentInstance.lookupComponent
         );
         inputElement.value = 'r';
         inputElement.focus();
@@ -4059,7 +4059,7 @@ describe('Lookup component', function () {
           it('should return popover context', fakeAsync(() => {
             searchFilterFunctionSpy = getSearchFunctionFilterSpy(
               'searchFunctionFilterPopover',
-              friends,
+              friends
             );
 
             // setting the SkyLookupComponent's "searchFilters" @Input() via the fixture's 'customSearchFilters' property
@@ -4078,7 +4078,7 @@ describe('Lookup component', function () {
               }),
               jasmine.objectContaining({
                 context: 'popover',
-              }),
+              })
             );
           }));
 
@@ -4086,7 +4086,7 @@ describe('Lookup component', function () {
             it('should return modal context', fakeAsync(() => {
               searchFilterFunctionSpy = getSearchFunctionFilterSpy(
                 'searchFunctionFilterModal',
-                friends,
+                friends
               );
 
               // setting the SkyLookupComponent's "searchFilters" @Input() via the fixture's 'customSearchFilters' property
@@ -4116,7 +4116,7 @@ describe('Lookup component', function () {
                 }),
                 jasmine.objectContaining({
                   context: 'modal',
-                }),
+                })
               );
             }));
           });
@@ -4127,7 +4127,7 @@ describe('Lookup component', function () {
           it('should return popover context', fakeAsync(() => {
             customSearchFunctionSpy = getCustomSearchFunctionSpy(
               'customSearchFunctionPopover',
-              friends,
+              friends
             );
 
             // setting the SkyLookupComponent's "search" @Input() via the fixture's 'customSearch' property
@@ -4144,7 +4144,7 @@ describe('Lookup component', function () {
               jasmine.arrayWithExactContents(component.data ?? []),
               jasmine.objectContaining({
                 context: 'popover',
-              }),
+              })
             );
           }));
 
@@ -4152,7 +4152,7 @@ describe('Lookup component', function () {
             it('should return modal context', fakeAsync(() => {
               customSearchFunctionSpy = getCustomSearchFunctionSpy(
                 'customSearchFunctionModal',
-                friends,
+                friends
               );
 
               // setting the SkyLookupComponent's "search" @Input() via the fixture's 'customSearch' property
@@ -4180,7 +4180,7 @@ describe('Lookup component', function () {
                 jasmine.arrayWithExactContents(component.data ?? []),
                 jasmine.objectContaining({
                   context: 'modal',
-                }),
+                })
               );
             }));
           });
@@ -4221,7 +4221,7 @@ describe('Lookup component', function () {
         expect(typeof lookupComponent.search).not.toBeUndefined();
         expect(typeof lookupComponent.searchResultTemplate).not.toBeUndefined();
         expect(
-          typeof lookupComponent.searchTextMinimumCharacters,
+          typeof lookupComponent.searchTextMinimumCharacters
         ).not.toBeUndefined();
         expect(typeof lookupComponent.searchFilters).not.toBeUndefined();
         expect(typeof lookupComponent.searchResultsLimit).not.toBeUndefined();
@@ -4353,7 +4353,7 @@ describe('Lookup component', function () {
         it('should not do anything on token click', fakeAsync(() => {
           const showMoreSpy = spyOn(
             component.lookupComponent,
-            'openPicker',
+            'openPicker'
           ).and.stub();
 
           component.selectedFriends = [
@@ -4524,7 +4524,7 @@ describe('Lookup component', function () {
             component.showAddButton = true;
             const addButtonSpy = spyOn(
               component,
-              'addButtonClicked',
+              'addButtonClicked'
             ).and.callThrough();
             fixture.detectChanges();
 
@@ -4546,7 +4546,7 @@ describe('Lookup component', function () {
             component.showAddButton = false;
             const addButtonSpy = spyOn(
               component,
-              'addButtonClicked',
+              'addButtonClicked'
             ).and.callThrough();
             fixture.detectChanges();
 
@@ -4563,7 +4563,7 @@ describe('Lookup component', function () {
             component.enableShowMore = true;
             const addButtonSpy = spyOn(
               component,
-              'addButtonClicked',
+              'addButtonClicked'
             ).and.callThrough();
             fixture.detectChanges();
 
@@ -4593,7 +4593,7 @@ describe('Lookup component', function () {
             component.showAddButton = true;
             const addButtonSpy = spyOn(
               component,
-              'addButtonClicked',
+              'addButtonClicked'
             ).and.callThrough();
             fixture.detectChanges();
 
@@ -4615,7 +4615,7 @@ describe('Lookup component', function () {
             component.showAddButton = false;
             const addButtonSpy = spyOn(
               component,
-              'addButtonClicked',
+              'addButtonClicked'
             ).and.callThrough();
             fixture.detectChanges();
 
@@ -4632,7 +4632,7 @@ describe('Lookup component', function () {
             component.enableShowMore = true;
             const addButtonSpy = spyOn(
               component,
-              'addButtonClicked',
+              'addButtonClicked'
             ).and.callThrough();
             fixture.detectChanges();
 
@@ -5190,7 +5190,7 @@ describe('Lookup component', function () {
             performSearch('foo', fixture);
             SkyAppTestUtility.fireDomEvent(
               getInputElement(lookupComponent),
-              'blur',
+              'blur'
             );
             fixture.detectChanges();
 
@@ -5380,7 +5380,7 @@ describe('Lookup component', function () {
             performSearch('foo', fixture, true);
             SkyAppTestUtility.fireDomEvent(
               getInputElement(asyncLookupComponent),
-              'blur',
+              'blur'
             );
             fixture.detectChanges();
 
@@ -5459,7 +5459,7 @@ describe('Lookup component', function () {
             tick();
 
             expect(errorLogSpy).toHaveBeenCalledWith(
-              "The lookup component's 'idProperty' input is required when `enableShowMore` and 'searchAsync' are used together.",
+              "The lookup component's 'idProperty' input is required when `enableShowMore` and 'searchAsync' are used together."
             );
             closeModal(fixture);
           }));
@@ -5755,32 +5755,32 @@ describe('Lookup component', function () {
               expect(getShowMoreModalTitle()).toBe('Select items');
 
               expect(getModalSearchInput()?.getAttribute('aria-label')).toBe(
-                'Search items',
+                'Search items'
               );
               // Test that button text isn't contextual and only the `aria-label`
               expect(selectButton?.textContent.trim()).toBe('Select');
               expect(selectButton?.getAttribute('aria-label')).toBe(
-                'Select items',
+                'Select items'
               );
 
               // Test that button text isn't contextual and only the `aria-label`
               expect(getModalClearAllButton()?.textContent.trim()).toBe(
-                'Clear all',
+                'Clear all'
               );
               expect(getModalClearAllButton().getAttribute('aria-label')).toBe(
-                'Clear all selected items',
+                'Clear all selected items'
               );
 
               // Test that button text isn't contextual and only the `aria-label`
               expect(getModalSelectAllButton()?.textContent.trim()).toBe(
-                'Select all',
+                'Select all'
               );
               expect(getModalSelectAllButton().getAttribute('aria-label')).toBe(
-                'Select all items',
+                'Select all items'
               );
 
               expect(
-                getModalOnlyShowSelectedInput().getAttribute('aria-label'),
+                getModalOnlyShowSelectedInput().getAttribute('aria-label')
               ).toBe('Show only selected items');
 
               closeModal(fixture);
@@ -5802,32 +5802,32 @@ describe('Lookup component', function () {
               expect(getShowMoreModalTitle()).toBe('Select people');
 
               expect(getModalSearchInput()?.getAttribute('aria-label')).toBe(
-                'Search people',
+                'Search people'
               );
               // Test that button text isn't contextual and only the `aria-label`
               expect(selectButton?.textContent.trim()).toBe('Select');
               expect(selectButton?.getAttribute('aria-label')).toBe(
-                'Select people',
+                'Select people'
               );
 
               // Test that button text isn't contextual and only the `aria-label`
               expect(getModalClearAllButton()?.textContent.trim()).toBe(
-                'Clear all',
+                'Clear all'
               );
               expect(getModalClearAllButton().getAttribute('aria-label')).toBe(
-                'Clear all selected people',
+                'Clear all selected people'
               );
 
               // Test that button text isn't contextual and only the `aria-label`
               expect(getModalSelectAllButton()?.textContent.trim()).toBe(
-                'Select all',
+                'Select all'
               );
               expect(getModalSelectAllButton().getAttribute('aria-label')).toBe(
-                'Select all people',
+                'Select all people'
               );
 
               expect(
-                getModalOnlyShowSelectedInput().getAttribute('aria-label'),
+                getModalOnlyShowSelectedInput().getAttribute('aria-label')
               ).toBe('Show only selected people');
 
               closeModal(fixture);
@@ -5879,7 +5879,7 @@ describe('Lookup component', function () {
             it('should open the show more modal on token click', fakeAsync(() => {
               const showMoreSpy = spyOn(
                 component.lookupComponent,
-                'openPicker',
+                'openPicker'
               ).and.stub();
 
               component.enableShowMore = true;
@@ -5900,7 +5900,7 @@ describe('Lookup component', function () {
             it('should open the show more modal on collapsed token click', fakeAsync(() => {
               const showMoreSpy = spyOn(
                 component.lookupComponent,
-                'openPicker',
+                'openPicker'
               ).and.stub();
 
               component.enableShowMore = true;
@@ -6228,32 +6228,32 @@ describe('Lookup component', function () {
               expect(getShowMoreModalTitle()).toBe('Select items');
 
               expect(getModalSearchInput()?.getAttribute('aria-label')).toBe(
-                'Search items',
+                'Search items'
               );
               // Test that button text isn't contextual and only the `aria-label`
               expect(selectButton?.textContent.trim()).toBe('Select');
               expect(selectButton?.getAttribute('aria-label')).toBe(
-                'Select items',
+                'Select items'
               );
 
               // Test that button text isn't contextual and only the `aria-label`
               expect(getModalClearAllButton()?.textContent.trim()).toBe(
-                'Clear all',
+                'Clear all'
               );
               expect(getModalClearAllButton().getAttribute('aria-label')).toBe(
-                'Clear all selected items',
+                'Clear all selected items'
               );
 
               // Test that button text isn't contextual and only the `aria-label`
               expect(getModalSelectAllButton()?.textContent.trim()).toBe(
-                'Select all',
+                'Select all'
               );
               expect(getModalSelectAllButton().getAttribute('aria-label')).toBe(
-                'Select all items',
+                'Select all items'
               );
 
               expect(
-                getModalOnlyShowSelectedInput().getAttribute('aria-label'),
+                getModalOnlyShowSelectedInput().getAttribute('aria-label')
               ).toBe('Show only selected items');
 
               closeModal(fixture);
@@ -6275,32 +6275,32 @@ describe('Lookup component', function () {
               expect(getShowMoreModalTitle()).toBe('Select people');
 
               expect(getModalSearchInput()?.getAttribute('aria-label')).toBe(
-                'Search people',
+                'Search people'
               );
               // Test that button text isn't contextual and only the `aria-label`
               expect(selectButton?.textContent.trim()).toBe('Select');
               expect(selectButton?.getAttribute('aria-label')).toBe(
-                'Select people',
+                'Select people'
               );
 
               // Test that button text isn't contextual and only the `aria-label`
               expect(getModalClearAllButton()?.textContent.trim()).toBe(
-                'Clear all',
+                'Clear all'
               );
               expect(getModalClearAllButton().getAttribute('aria-label')).toBe(
-                'Clear all selected people',
+                'Clear all selected people'
               );
 
               // Test that button text isn't contextual and only the `aria-label`
               expect(getModalSelectAllButton()?.textContent.trim()).toBe(
-                'Select all',
+                'Select all'
               );
               expect(getModalSelectAllButton().getAttribute('aria-label')).toBe(
-                'Select all people',
+                'Select all people'
               );
 
               expect(
-                getModalOnlyShowSelectedInput().getAttribute('aria-label'),
+                getModalOnlyShowSelectedInput().getAttribute('aria-label')
               ).toBe('Show only selected people');
 
               closeModal(fixture);
@@ -6352,7 +6352,7 @@ describe('Lookup component', function () {
             it('should open the show more modal on token click', fakeAsync(() => {
               const showMoreSpy = spyOn(
                 component.asyncLookupComponent,
-                'openPicker',
+                'openPicker'
               ).and.stub();
 
               component.enableShowMore = true;
@@ -6373,7 +6373,7 @@ describe('Lookup component', function () {
             it('should open the show more modal on collapsed token click', fakeAsync(() => {
               const showMoreSpy = spyOn(
                 component.asyncLookupComponent,
-                'openPicker',
+                'openPicker'
               ).and.stub();
 
               component.enableShowMore = true;
@@ -6437,7 +6437,7 @@ describe('Lookup component', function () {
             it('should not open the show more modal when disabled', fakeAsync(() => {
               const showMoreSpy = spyOn(
                 component.asyncLookupComponent,
-                'openPicker',
+                'openPicker'
               ).and.stub();
 
               component.enableShowMore = true;
@@ -6446,7 +6446,7 @@ describe('Lookup component', function () {
 
               fixture.nativeElement
                 .querySelector(
-                  '#my-async-lookup button[aria-label="Show all search results"]',
+                  '#my-async-lookup button[aria-label="Show all search results"]'
                 )
                 .click();
 
@@ -6569,12 +6569,12 @@ describe('Lookup component', function () {
               expect(getShowMoreModalTitle()).toBe('Select item');
 
               expect(getModalSearchInput()?.getAttribute('aria-label')).toBe(
-                'Search item',
+                'Search item'
               );
               // Test that button text isn't contextual and only the `aria-label`
               expect(selectButton?.textContent.trim()).toBe('Select');
               expect(selectButton?.getAttribute('aria-label')).toBe(
-                'Select item',
+                'Select item'
               );
 
               closeModal(fixture);
@@ -6596,12 +6596,12 @@ describe('Lookup component', function () {
               expect(getShowMoreModalTitle()).toBe('Select person');
 
               expect(getModalSearchInput()?.getAttribute('aria-label')).toBe(
-                'Search person',
+                'Search person'
               );
               // Test that button text isn't contextual and only the `aria-label`
               expect(selectButton?.textContent.trim()).toBe('Select');
               expect(selectButton?.getAttribute('aria-label')).toBe(
-                'Select person',
+                'Select person'
               );
 
               closeModal(fixture);
@@ -6780,12 +6780,12 @@ describe('Lookup component', function () {
               expect(getShowMoreModalTitle()).toBe('Select item');
 
               expect(getModalSearchInput()?.getAttribute('aria-label')).toBe(
-                'Search item',
+                'Search item'
               );
               // Test that button text isn't contextual and only the `aria-label`
               expect(selectButton?.textContent.trim()).toBe('Select');
               expect(selectButton?.getAttribute('aria-label')).toBe(
-                'Select item',
+                'Select item'
               );
 
               closeModal(fixture);
@@ -6807,12 +6807,12 @@ describe('Lookup component', function () {
               expect(getShowMoreModalTitle()).toBe('Select person');
 
               expect(getModalSearchInput()?.getAttribute('aria-label')).toBe(
-                'Search person',
+                'Search person'
               );
               // Test that button text isn't contextual and only the `aria-label`
               expect(selectButton?.textContent.trim()).toBe('Select');
               expect(selectButton?.getAttribute('aria-label')).toBe(
-                'Select person',
+                'Select person'
               );
 
               closeModal(fixture);
@@ -6905,7 +6905,7 @@ describe('Lookup component', function () {
           component.enableShowMore = true;
           const addButtonSpy = spyOn(
             component,
-            'addButtonClicked',
+            'addButtonClicked'
           ).and.callThrough();
           fixture.detectChanges();
 
@@ -6993,7 +6993,7 @@ describe('Lookup component', function () {
 
           const customPickerSpy = spyOn(
             component.showMoreConfig!.customPicker!,
-            'open',
+            'open'
           ).and.callThrough();
 
           performSearch('p', fixture);
@@ -7013,7 +7013,7 @@ describe('Lookup component', function () {
 
           const customPickerSpy = spyOn(
             component.showMoreConfig!.customPicker!,
-            'open',
+            'open'
           ).and.callThrough();
 
           performSearch('p', fixture);
@@ -7145,7 +7145,7 @@ describe('Lookup component', function () {
           function validateFocusedToken(key: string): void {
             triggerKeyPress(inputElement, key, fixture);
             expect(document.activeElement).toEqual(
-              tokenElements.item(tokenElements.length - 1),
+              tokenElements.item(tokenElements.length - 1)
             );
 
             inputElement.focus();
@@ -7232,7 +7232,7 @@ describe('Lookup component', function () {
           tokenHostElements = document.querySelectorAll('sky-token');
           expect(tokenHostElements.length).toEqual(2);
           expect(
-            tokenHostElements.item(0).contains(document.activeElement),
+            tokenHostElements.item(0).contains(document.activeElement)
           ).toEqual(true);
 
           SkyAppTestUtility.fireDomEvent(tokensHostElement, 'keyup', {
@@ -7245,7 +7245,7 @@ describe('Lookup component', function () {
           tokenHostElements = document.querySelectorAll('sky-token');
           expect(tokenHostElements.length).toEqual(1);
           expect(
-            tokenHostElements.item(0).contains(document.activeElement),
+            tokenHostElements.item(0).contains(document.activeElement)
           ).toEqual(true);
         }));
 
@@ -7386,7 +7386,7 @@ describe('Lookup component', function () {
       fixture.detectChanges();
 
       const hintTextEl = nativeElement.querySelector(
-        'sky-input-box .sky-input-box-hint-text',
+        'sky-input-box .sky-input-box-hint-text'
       );
 
       const textareaEl = nativeElement.querySelector('textarea');
@@ -7411,7 +7411,7 @@ describe('Lookup component', function () {
       const inputBoxEl = nativeElement.querySelector('sky-input-box');
 
       const inputGroupEl = inputBoxEl?.querySelector(
-        '.sky-input-box-input-group-inner',
+        '.sky-input-box-input-group-inner'
       );
       const containerEl = inputGroupEl?.children.item(1);
 
@@ -7425,7 +7425,7 @@ describe('Lookup component', function () {
       const inputBoxEl = nativeElement.querySelector('sky-input-box');
 
       const inputGroupEl = inputBoxEl?.querySelector(
-        '.sky-input-box-input-group-inner',
+        '.sky-input-box-input-group-inner'
       );
       const containerEl = inputGroupEl?.children.item(1);
 

@@ -29,7 +29,7 @@ export class SkySearchFixture {
     this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
-      'sky-search',
+      'sky-search'
     );
   }
 
@@ -42,7 +42,7 @@ export class SkySearchFixture {
     if (searchText) {
       SkyAppTestUtility.setInputValue(
         this.#getInputEl().nativeElement,
-        searchText,
+        searchText
       );
     }
 
@@ -61,7 +61,7 @@ export class SkySearchFixture {
     if (!SkyAppTestUtility.isVisible(clearEl)) {
       throw new Error(
         'There currently is no search text or the current search text has not been applied, ' +
-          'so the clear button is not visible.',
+          'so the clear button is not visible.'
       );
     }
 

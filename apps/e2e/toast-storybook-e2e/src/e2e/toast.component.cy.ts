@@ -5,8 +5,8 @@ describe('toast-storybook', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=toastcomponent-toast--toast`,
-        ),
+          `/iframe.html?globals=theme:${theme}&id=toastcomponent-toast--toast`
+        )
       );
 
       it('should render the components when only a message is used ', () => {

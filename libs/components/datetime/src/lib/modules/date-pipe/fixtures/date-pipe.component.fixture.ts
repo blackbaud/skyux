@@ -20,7 +20,7 @@ export class DatePipeTestComponent {
   public getDatePipeResult(
     value: Date,
     format: string,
-    locale: string,
+    locale: string
   ): string {
     return this.#datePipe.transform(value, format, locale);
   }

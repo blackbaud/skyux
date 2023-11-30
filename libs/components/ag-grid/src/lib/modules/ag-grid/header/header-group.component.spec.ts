@@ -38,14 +38,14 @@ describe('SkyAgGridHeaderGroupComponent', () => {
     api: {
       addEventListener: (
         eventType: string,
-        listener: (value: mockEventParam) => void,
+        listener: (value: mockEventParam) => void
       ) => {
         events[eventType] = events[eventType] || [];
         events[eventType].push(listener);
       },
       removeEventListener: (
         eventType: string,
-        listener: (value: mockEventParam) => void,
+        listener: (value: mockEventParam) => void
       ) => {
         events[eventType] = events[eventType] || [];
         events[eventType] = events[eventType].filter((l) => l !== listener);
@@ -57,7 +57,7 @@ describe('SkyAgGridHeaderGroupComponent', () => {
     setExpanded: (open: boolean) => {
       expanded = open;
       (events[Events.EVENT_COLUMN_GROUP_OPENED] || []).forEach((l) =>
-        l({ columnGroup: providedColumnGroup }),
+        l({ columnGroup: providedColumnGroup })
       );
     },
   } as unknown as SkyAgGridHeaderGroupParams;
@@ -87,7 +87,7 @@ describe('SkyAgGridHeaderGroupComponent', () => {
     expect(
       fixture.debugElement.query(By.css('.header-group-text')).properties[
         'innerText'
-      ],
+      ]
     ).toBeFalsy();
     providedColumnGroup = {
       ...baseProvidedColumnGroup,
@@ -123,7 +123,7 @@ describe('SkyAgGridHeaderGroupComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     expect(
-      fixture.debugElement.query(By.css('.test-help-component')),
+      fixture.debugElement.query(By.css('.test-help-component'))
     ).toBeTruthy();
     component.setExpanded(true);
     fixture.detectChanges();

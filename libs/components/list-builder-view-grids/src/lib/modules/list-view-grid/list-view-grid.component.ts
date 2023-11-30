@@ -30,12 +30,11 @@ import {
   ListStateDispatcher,
   ListViewComponent,
 } from '@skyux/list-builder';
+import { AsyncList, getValue } from '@skyux/list-builder-common';
 import {
-  AsyncList,
   ListItemModel,
   ListSortFieldSelectorModel,
   getData,
-  getValue,
   isObservable,
 } from '@skyux/list-builder-common';
 
@@ -261,7 +260,7 @@ export class SkyListViewGridComponent
     private dispatcher: ListStateDispatcher,
     public gridState: GridState,
     public gridDispatcher: GridStateDispatcher,
-    logger: SkyLogService,
+    logger: SkyLogService
   ) {
     super(state, 'Grid View');
 
@@ -279,7 +278,7 @@ export class SkyListViewGridComponent
       .pipe(
         observableMap((s) => s.selected.item),
         takeUntil(this.ngUnsubscribe),
-        distinctUntilChanged(this.selectedMapEqual),
+        distinctUntilChanged(this.selectedMapEqual)
       )
       .subscribe((items: ListSelectedModel) => {
         const selectedIds: string[] = [];
@@ -296,7 +295,7 @@ export class SkyListViewGridComponent
     /* istanbul ignore next */
     if (this.columnComponents.length === 0) {
       throw new Error(
-        'Grid view requires at least one sky-grid-column to render.',
+        'Grid view requires at least one sky-grid-column to render.'
       );
     }
 
@@ -316,7 +315,7 @@ export class SkyListViewGridComponent
     this.columns = this.gridState.pipe(
       observableMap((s) => s.columns.items),
       distinctUntilChanged(this.arraysEqual),
-      takeUntil(this.ngUnsubscribe),
+      takeUntil(this.ngUnsubscribe)
     );
 
     this.selectedColumnIds = this.getSelectedIds();
@@ -328,7 +327,7 @@ export class SkyListViewGridComponent
         return s.items.loading;
       }),
       distinctUntilChanged(),
-      takeUntil(this.ngUnsubscribe),
+      takeUntil(this.ngUnsubscribe)
     );
 
     this.sortField = this.state.pipe(
@@ -343,14 +342,14 @@ export class SkyListViewGridComponent
         return undefined;
       }),
       distinctUntilChanged(),
-      takeUntil(this.ngUnsubscribe),
+      takeUntil(this.ngUnsubscribe)
     );
 
     this.gridState
       .pipe(
         observableMap((s) => s.columns.items),
         takeUntil(this.ngUnsubscribe),
-        distinctUntilChanged(this.arraysEqual),
+        distinctUntilChanged(this.arraysEqual)
       )
       .subscribe((columns) => {
         /* istanbul ignore else */
@@ -364,8 +363,8 @@ export class SkyListViewGridComponent
                   const id = x.id || x.field;
                   return hiddenColumns.indexOf(id) === -1;
                 }),
-                true,
-              ),
+                true
+              )
             );
           });
         } else if (this.displayedColumns) {
@@ -374,18 +373,18 @@ export class SkyListViewGridComponent
             this.gridDispatcher.next(
               new ListViewDisplayedGridColumnsLoadAction(
                 columns.filter(
-                  (x) => displayedColumns.indexOf(x.id || x.field) !== -1,
+                  (x) => displayedColumns.indexOf(x.id || x.field) !== -1
                 ),
-                true,
-              ),
+                true
+              )
             );
           });
         } else {
           this.gridDispatcher.next(
             new ListViewDisplayedGridColumnsLoadAction(
               columns.filter((x) => !x.hidden),
-              true,
-            ),
+              true
+            )
           );
         }
       });
@@ -393,11 +392,11 @@ export class SkyListViewGridComponent
     this.currentSearchText = this.state.pipe(
       observableMap((s) => s.search.searchText),
       distinctUntilChanged(),
-      takeUntil(this.ngUnsubscribe),
+      takeUntil(this.ngUnsubscribe)
     );
 
     this.gridDispatcher.next(
-      new ListViewGridColumnsLoadAction(columnModels, true),
+      new ListViewGridColumnsLoadAction(columnModels, true)
     );
 
     this.handleColumnChange();
@@ -419,7 +418,7 @@ export class SkyListViewGridComponent
    * This logic should only run on user interaction - NOT programmatic updates.
    */
   public onMultiselectSelectionChange(
-    event: SkyGridSelectedRowsModelChange,
+    event: SkyGridSelectedRowsModelChange
   ): void {
     if (
       event.source === SkyGridSelectedRowsSource.CheckboxChange ||
@@ -428,12 +427,12 @@ export class SkyListViewGridComponent
       this.state
         .pipe(
           observableMap((s) => s.items.items),
-          take(1),
+          take(1)
         )
         .subscribe((items: ListItemModel[]) => {
           const newItemIds = this.arrayIntersection(
             items.map((i) => i.id),
-            this.multiselectSelectedIds,
+            this.multiselectSelectedIds
           );
           const newIds = items.filter((i) => i.isSelected).map((i) => i.id);
 
@@ -458,17 +457,14 @@ export class SkyListViewGridComponent
         this.gridState
           .pipe(
             observableMap((s) => s.columns.items),
-            take(1),
+            take(1)
           )
           .subscribe((columns) => {
             const displayedColumns = selectedColumnIds.map(
-              (columnId) => columns.filter((c) => c.id === columnId)[0],
+              (columnId) => columns.filter((c) => c.id === columnId)[0]
             );
             this.gridDispatcher.next(
-              new ListViewDisplayedGridColumnsLoadAction(
-                displayedColumns,
-                true,
-              ),
+              new ListViewDisplayedGridColumnsLoadAction(displayedColumns, true)
             );
           });
       }
@@ -507,7 +503,7 @@ export class SkyListViewGridComponent
           }
         }),
         observableMap((s) => s.displayedColumns.items),
-        distinctUntilChanged(this.arraysEqual),
+        distinctUntilChanged(this.arraysEqual)
       )
       .subscribe((displayedColumns) => {
         const setFunctions =
@@ -518,8 +514,8 @@ export class SkyListViewGridComponent
                   (column) => (data: any, searchText: string) =>
                     column.searchFunction(
                       getData(data, column.field),
-                      searchText,
-                    ),
+                      searchText
+                    )
                 )
                 .filter((c) => c !== undefined);
 
@@ -529,7 +525,7 @@ export class SkyListViewGridComponent
               searchText: s.search.searchText,
               functions: setFunctions,
               fieldSelectors: displayedColumns.map((d) => d.field),
-            }),
+            })
           );
         });
       });
@@ -569,7 +565,7 @@ export class SkyListViewGridComponent
           return new SkyGridColumnModel(column.template, column);
         });
         this.gridDispatcher.next(
-          new ListViewGridColumnsLoadAction(columnModels, true),
+          new ListViewGridColumnsLoadAction(columnModels, true)
         );
       });
 
@@ -601,19 +597,19 @@ export class SkyListViewGridComponent
       scan(
         (
           previousValue: AsyncList<ListItemModel>,
-          newValue: AsyncList<ListItemModel>,
+          newValue: AsyncList<ListItemModel>
         ) => {
           if (previousValue.lastUpdate > newValue.lastUpdate) {
             return previousValue;
           } else {
             return newValue;
           }
-        },
+        }
       ),
       observableMap((result: AsyncList<ListItemModel>) => {
         return result.items;
       }),
-      distinctUntilChanged(),
+      distinctUntilChanged()
     );
   }
 
@@ -628,14 +624,14 @@ export class SkyListViewGridComponent
       scan(
         (
           previousValue: AsyncList<SkyGridColumnModel>,
-          newValue: AsyncList<SkyGridColumnModel>,
+          newValue: AsyncList<SkyGridColumnModel>
         ) => {
           if (previousValue.lastUpdate > newValue.lastUpdate) {
             return previousValue;
           } else {
             return newValue;
           }
-        },
+        }
       ),
       observableMap((result: AsyncList<SkyGridColumnModel>) => {
         /* istanbul ignore next */
@@ -646,7 +642,7 @@ export class SkyListViewGridComponent
       }),
       distinctUntilChanged((previousValue: string[], newValue: string[]) => {
         return this.haveColumnIdsChanged(previousValue, newValue);
-      }),
+      })
     );
   }
 
@@ -668,7 +664,7 @@ export class SkyListViewGridComponent
 
   private selectedMapEqual(
     prev: ListSelectedModel,
-    next: ListSelectedModel,
+    next: ListSelectedModel
   ): boolean {
     if (prev.selectedIdMap.size !== next.selectedIdMap.size) {
       return false;

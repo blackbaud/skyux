@@ -26,7 +26,7 @@ describe('Intl date formatter', function () {
       const formattedDate = SkyIntlDateFormatter.format(
         testDate,
         'en-US',
-        pattern,
+        pattern
       );
       const expectation = dateFixtures[pattern];
 
@@ -38,7 +38,7 @@ describe('Intl date formatter', function () {
     const formattedDate = SkyIntlDateFormatter.format(
       testDate,
       'en-US',
-      'yyyy HH a Z',
+      'yyyy HH a Z'
     );
 
     let hours = testDate.getHours().toString();
@@ -68,7 +68,7 @@ describe('Intl date formatter', function () {
     const formattedDate = SkyIntlDateFormatter.format(
       testDate,
       'en-US',
-      "yyyy~''M",
+      "yyyy~''M"
     );
 
     expect(formattedDate).toBe("2019~'4");
@@ -78,7 +78,7 @@ describe('Intl date formatter', function () {
     const formattedDate = SkyIntlDateFormatter.format(
       new Date('invalid'),
       '',
-      '',
+      ''
     );
 
     expect(formattedDate).toEqual('');

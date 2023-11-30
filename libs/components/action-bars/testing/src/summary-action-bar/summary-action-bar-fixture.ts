@@ -32,7 +32,7 @@ export class SkySummaryActionBarFixture {
   public get secondaryActions(): SkySummaryActionBarFixtureAction[] {
     const secondaryBtns = this.#getSecondaryActionButtons();
     return secondaryBtns.map((btn: HTMLButtonElement) =>
-      this.#buildActionModel(btn),
+      this.#buildActionModel(btn)
     );
   }
 
@@ -59,7 +59,7 @@ export class SkySummaryActionBarFixture {
     this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
-      'sky-summary-action-bar',
+      'sky-summary-action-bar'
     );
   }
 
@@ -119,7 +119,7 @@ export class SkySummaryActionBarFixture {
   //#region helpers
 
   #buildActionModel(
-    buttonEl: HTMLButtonElement,
+    buttonEl: HTMLButtonElement
   ): SkySummaryActionBarFixtureAction {
     return {
       buttonText: SkyAppTestUtility.getText(buttonEl),
@@ -141,7 +141,7 @@ export class SkySummaryActionBarFixture {
 
   #getPrimaryActionButton(): HTMLButtonElement {
     return this.#debugEl.query(
-      By.css('sky-summary-action-bar-primary-action .sky-btn'),
+      By.css('sky-summary-action-bar-primary-action .sky-btn')
     )?.nativeElement;
   }
 
@@ -149,7 +149,7 @@ export class SkySummaryActionBarFixture {
     // get the secondary action buttons from the dropdown overlay in responsive mode
     if (this.#isResponsiveMode) {
       const resultNodes = document.querySelectorAll(
-        'sky-overlay sky-summary-action-bar-secondary-action .sky-btn',
+        'sky-overlay sky-summary-action-bar-secondary-action .sky-btn'
       );
       return Array.prototype.slice.call(resultNodes);
     }
@@ -162,7 +162,7 @@ export class SkySummaryActionBarFixture {
 
   #getSecondaryActionsDropdownButton(): HTMLButtonElement {
     return this.#debugEl.query(
-      By.css('sky-summary-action-bar-secondary-actions .sky-dropdown-button'),
+      By.css('sky-summary-action-bar-secondary-actions .sky-dropdown-button')
     )?.nativeElement;
   }
 
@@ -173,25 +173,25 @@ export class SkySummaryActionBarFixture {
 
   #getSummaryCollapseButton(): HTMLButtonElement {
     return this.#debugEl.query(
-      By.css('.sky-summary-action-bar-details-collapse button'),
+      By.css('.sky-summary-action-bar-details-collapse button')
     )?.nativeElement;
   }
 
   #getSummaryExpandButton(): HTMLButtonElement {
     return this.#debugEl.query(
-      By.css('.sky-summary-action-bar-details-expand button'),
+      By.css('.sky-summary-action-bar-details-expand button')
     )?.nativeElement;
   }
 
   #querySummaryBodyElement(query: string): HTMLElement {
     return this.#debugEl.nativeElement.querySelector(
-      `sky-summary-action-bar-summary ${query}`,
+      `sky-summary-action-bar-summary ${query}`
     );
   }
 
   queryAllSummaryBodyElement(query: string): NodeList {
     return this.#debugEl.nativeElement.querySelectorAll(
-      `sky-summary-action-bar-summary ${query}`,
+      `sky-summary-action-bar-summary ${query}`
     );
   }
 

@@ -11,7 +11,7 @@ import { ESLintConfig } from '../types/eslint-config';
 
 function addPrettierExtendsItem(
   configWithExtends: { extends?: string | string[] },
-  alwaysAdd: boolean,
+  alwaysAdd: boolean
 ): void {
   if (configWithExtends.extends || alwaysAdd) {
     // Info on how ESLint can extend other configuration files:
@@ -42,7 +42,7 @@ function addPrettierExtendsItem(
 function addPrettierExtendsToConfig(
   tree: Tree,
   eslintConfigPath: string,
-  eslintConfig: ESLintConfig,
+  eslintConfig: ESLintConfig
 ): void {
   // Always add 'prettier' to the top-level extends property.
   addPrettierExtendsItem(eslintConfig, true);
@@ -64,7 +64,7 @@ function processESLintConfig(
   tree: Tree,
   context: SchematicContext,
   eslintConfigPath: string,
-  updatedESLintConfigs: string[],
+  updatedESLintConfigs: string[]
 ): void {
   if (tree.exists(eslintConfigPath)) {
     const eslintConfig = readJsonFile<ESLintConfig>(tree, eslintConfigPath);
@@ -77,7 +77,7 @@ function processESLintConfig(
 }
 
 export function configureESLint(
-  workspace: workspaces.WorkspaceDefinition,
+  workspace: workspaces.WorkspaceDefinition
 ): Rule {
   return (tree, context) => {
     const fileName = '.eslintrc.json';
@@ -93,7 +93,7 @@ export function configureESLint(
         tree,
         context,
         normalize(`${project.root}/${fileName}`),
-        updatedESLintConfigs,
+        updatedESLintConfigs
       );
     }
 
@@ -101,7 +101,7 @@ export function configureESLint(
 
     if (updatedESLintConfigs.length === 0) {
       throw new SchematicsException(
-        `No ${fileName} file found in workspace. ESLint must be installed and configured before installing Prettier. See https://github.com/angular-eslint/angular-eslint#readme for instructions.`,
+        `No ${fileName} file found in workspace. ESLint must be installed and configured before installing Prettier. See https://github.com/angular-eslint/angular-eslint#readme for instructions.`
       );
     }
   };

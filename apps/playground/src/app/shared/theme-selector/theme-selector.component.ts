@@ -99,7 +99,7 @@ export class SkyThemeSelectorComponent implements OnInit {
     if (this.#currentThemeSettings) {
       this.spacingValues =
         this.#currentThemeSettings.theme.supportedSpacing.map(
-          (spacing) => spacing.name as ThemeSelectorSpacingValue,
+          (spacing) => spacing.name as ThemeSelectorSpacingValue
         );
     }
   }
@@ -124,7 +124,7 @@ export class SkyThemeSelectorComponent implements OnInit {
     }
 
     this.#themeSvc.setTheme(
-      new SkyThemeSettings(theme, themeMode, themeSpacing),
+      new SkyThemeSettings(theme, themeMode, themeSpacing)
     );
 
     this.#saveSettings({

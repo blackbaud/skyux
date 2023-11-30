@@ -5,8 +5,8 @@ describe('indicators-storybook - chevron', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=chevroncomponent-chevron--chevron`,
-        ),
+          `/iframe.html?globals=theme:${theme}&id=chevroncomponent-chevron--chevron`
+        )
       );
       it('should render the component', () => {
         cy.get('app-chevron')

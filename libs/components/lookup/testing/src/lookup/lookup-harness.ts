@@ -32,7 +32,7 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
    * `SkyLookupHarness` that meets certain criteria.
    */
   public static override with(
-    filters: SkyLookupHarnessFilters,
+    filters: SkyLookupHarnessFilters
   ): HarnessPredicate<SkyLookupHarness> {
     return SkyLookupHarness.getDataSkyIdPredicate(filters);
   }
@@ -69,12 +69,12 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
     ).getAttribute('data-sky-lookup-show-more-picker-id');
 
     const defaultPicker = await this.#documentRootLocator.locatorForOptional(
-      SkyLookupShowMorePickerHarness.with({ selector: `#${pickerId}` }),
+      SkyLookupShowMorePickerHarness.with({ selector: `#${pickerId}` })
     )();
 
     if (!defaultPicker) {
       throw new Error(
-        'Cannot get the "Show more" picker because it is not open.',
+        'Cannot get the "Show more" picker because it is not open.'
       );
     }
 

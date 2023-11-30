@@ -6,7 +6,7 @@ const routes: Routes = [
     path: 'action-button',
     loadChildren: () =>
       import('./action-button/action-button.module').then(
-        (m) => m.ActionButtonModule,
+        (m) => m.ActionButtonModule
       ),
   },
   {
@@ -22,14 +22,14 @@ const routes: Routes = [
     path: 'description-list',
     loadChildren: () =>
       import('./description-list/description-list.module').then(
-        (m) => m.DescriptionListModule,
+        (m) => m.DescriptionListModule
       ),
   },
   {
     path: 'text-expand-repeater',
     loadChildren: () =>
       import('./text-expand-repeater/text-expand-repeater.module').then(
-        (m) => m.TextExpandRepeaterModule,
+        (m) => m.TextExpandRepeaterModule
       ),
   },
   {

@@ -5,8 +5,8 @@ describe('indicators-storybook', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=keyinfocomponent-keyinfo--key-info`,
-        ),
+          `/iframe.html?globals=theme:${theme}&id=keyinfocomponent-keyinfo--key-info`
+        )
       );
       it('should render the component', () => {
         cy.get('app-key-info')

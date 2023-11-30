@@ -32,18 +32,18 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy {
       if (themeOrDefault.includes('dark')) {
         this.themeSettings = new SkyThemeSettings(
           SkyTheme.presets.modern,
-          SkyThemeMode.presets.dark,
+          SkyThemeMode.presets.dark
         );
       } else {
         this.themeSettings = new SkyThemeSettings(
           SkyTheme.presets.modern,
-          SkyThemeMode.presets.light,
+          SkyThemeMode.presets.light
         );
       }
     } else {
       this.themeSettings = new SkyThemeSettings(
         SkyTheme.presets.default,
-        SkyThemeMode.presets.light,
+        SkyThemeMode.presets.light
       );
     }
   }
@@ -60,7 +60,7 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy {
 
   #_themeSettings = new SkyThemeSettings(
     SkyTheme.presets.default,
-    SkyThemeMode.presets.light,
+    SkyThemeMode.presets.light
   );
   #initialized = false;
 
@@ -71,7 +71,7 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy {
   constructor(
     themeService: SkyThemeService,
     @Inject('BODY') body: HTMLElement,
-    renderer: Renderer2,
+    renderer: Renderer2
   ) {
     this.#themeService = themeService;
     this.#body = body;

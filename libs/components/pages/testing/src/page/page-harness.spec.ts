@@ -40,7 +40,7 @@ describe('Page harness', () => {
       harness = await loader.getHarness(
         SkyPageHarness.with({
           dataSkyId: options.dataSkyId,
-        }),
+        })
       );
     } else {
       harness = await loader.getHarness(SkyPageHarness);
@@ -92,7 +92,7 @@ describe('Page harness', () => {
     fixture.detectChanges();
 
     await expectAsync(harness.getPageHeader()).toBeRejectedWithError(
-      'Unable to find a page header with filter(s): undefined.',
+      'Unable to find a page header with filter(s): undefined.'
     );
   });
 });

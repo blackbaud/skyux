@@ -9,7 +9,7 @@ const routes: Route[] = [
     path: 'phone-field',
     loadChildren: () =>
       import('./phone-field/phone-field.module').then(
-        (m) => m.PhoneFieldModule,
+        (m) => m.PhoneFieldModule
       ),
   },
 ];

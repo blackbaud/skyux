@@ -16,7 +16,7 @@ describe('Lookup multi-select demo', () => {
 
     const lookupHarness = await (
       await loader.getHarness(
-        SkyInputBoxHarness.with({ dataSkyId: 'favorite-names-field' }),
+        SkyInputBoxHarness.with({ dataSkyId: 'favorite-names-field' })
       )
     ).queryHarness(SkyLookupHarness);
 
@@ -46,7 +46,7 @@ describe('Lookup multi-select demo', () => {
     });
 
     expect(
-      fixture.componentInstance.favoritesForm.controls.favoriteNames.value,
+      fixture.componentInstance.favoritesForm.controls.favoriteNames.value
     ).toEqual([{ name: 'Shirley' }, { name: 'Ben' }]);
   });
 
@@ -58,10 +58,10 @@ describe('Lookup multi-select demo', () => {
     const picker = await lookupHarness?.getShowMorePicker();
 
     await expectAsync(picker?.getSearchAriaLabel()).toBeResolvedTo(
-      'Search names',
+      'Search names'
     );
     await expectAsync(picker?.getSaveButtonAriaLabel()).toBeResolvedTo(
-      'Select names',
+      'Select names'
     );
   });
 });

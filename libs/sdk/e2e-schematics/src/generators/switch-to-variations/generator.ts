@@ -4,7 +4,7 @@ import { SwitchToVariationsGeneratorSchema } from './schema';
 
 export default async function (
   tree: Tree,
-  options: SwitchToVariationsGeneratorSchema,
+  options: SwitchToVariationsGeneratorSchema
 ) {
   const projectConfiguration = getProjects(tree).get(options.project);
   if (!projectConfiguration) {
@@ -28,7 +28,7 @@ export default async function (
       // Quick check if this looks like the old pattern
       if (
         source.startsWith(
-          `['default', 'modern-light', 'modern-dark'].forEach((theme) => {`,
+          `['default', 'modern-light', 'modern-dark'].forEach((theme) => {`
         )
       ) {
         const describePattern =
@@ -52,7 +52,7 @@ export default async function (
               '',
               describeLine.replace(
                 describePattern,
-                (_, description) => `describe(\`${description}\`, () => {`,
+                (_, description) => `describe(\`${description}\`, () => {`
               ),
               '  E2eVariations.forEachTheme((theme) => {',
               '    describe(`in ${theme} theme`, () => {',
@@ -61,7 +61,7 @@ export default async function (
               ...specLines.map((line) => (line === '' ? '' : `  ${line}`)),
               '  });',
               '});',
-              '',
+              ''
             );
             tree.write(filepath, newSpecLines.join(`\n`));
             return;

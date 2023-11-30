@@ -6,7 +6,7 @@ const routes: Routes = [
     path: 'basic',
     loadComponent: () =>
       import('../code-examples/toast/toast/basic/demo.component').then(
-        (c) => c.DemoComponent,
+        (c) => c.DemoComponent
       ),
   },
   {

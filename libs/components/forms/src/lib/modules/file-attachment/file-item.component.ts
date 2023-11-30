@@ -89,7 +89,7 @@ export class SkyFileItemComponent implements DoCheck {
       if (changes) {
         let cls: string | undefined;
         const extensionUpper = this.#fileItemService.getFileExtensionUpper(
-          this.fileItem as SkyFileItem,
+          this.fileItem as SkyFileItem
         );
         let fileTypeUpper: string;
 
@@ -128,7 +128,7 @@ export class SkyFileItemComponent implements DoCheck {
 
         if (!cls) {
           fileTypeUpper = this.#fileItemService.getFileTypeUpper(
-            this.fileItem as SkyFileItem,
+            this.fileItem as SkyFileItem
           );
 
           switch (fileTypeUpper.substr(0, fileTypeUpper.indexOf('/'))) {
@@ -171,7 +171,7 @@ export class SkyFileItemComponent implements DoCheck {
       this.#resourcesSvc
         .getString(
           'skyux_file_attachment_file_upload_file_removed',
-          this.fileName,
+          this.fileName
         )
         .pipe(take(1))
         .subscribe((resourceString) => {

@@ -36,7 +36,7 @@ export class SkyPhoneFieldFixture {
     this.#_debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
-      'sky-phone-field',
+      'sky-phone-field'
     );
 
     // The country selector needs extra time to initialize.
@@ -163,7 +163,7 @@ export class SkyPhoneFieldFixture {
       // initialize the country fixture
       this.#_countryFixture = new SkyCountryFieldFixture(
         this.#fixture,
-        countrySkyTestId,
+        countrySkyTestId
       );
 
       this.#fixture.detectChanges();

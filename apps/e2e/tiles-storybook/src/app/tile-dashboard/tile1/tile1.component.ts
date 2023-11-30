@@ -12,7 +12,7 @@ export class Tile1Component {
   public tileParameters: TileParametersType;
 
   constructor(
-    @Inject(TileParameters) tileParameters: TileParametersType | any,
+    @Inject(TileParameters) tileParameters: TileParametersType | any
   ) {
     this.tileParameters = tileParameters as TileParametersType;
   }

@@ -18,7 +18,7 @@ describe('angularModuleGenerator', () => {
       project: 'my-app',
     });
     expect(
-      tree.read('/apps/my-app/src/app/my-module/my-module.module.ts', 'utf-8'),
+      tree.read('/apps/my-app/src/app/my-module/my-module.module.ts', 'utf-8')
     ).toBeTruthy();
   });
 
@@ -42,13 +42,13 @@ describe('angularModuleGenerator', () => {
       routingScope: RoutingScope.Child,
     });
     expect(
-      tree.read('/apps/my-app/src/app/my-module/my-module.module.ts', 'utf-8'),
+      tree.read('/apps/my-app/src/app/my-module/my-module.module.ts', 'utf-8')
     ).toMatchSnapshot();
     expect(
       tree.read(
         '/apps/my-app/src/app/my-sub-module/my-sub-module.module.ts',
-        'utf-8',
-      ),
+        'utf-8'
+      )
     ).toMatchSnapshot();
   });
 
@@ -64,8 +64,8 @@ describe('angularModuleGenerator', () => {
     expect(
       tree.read(
         '/apps/my-app/src/app/my-component/my-component.component.ts',
-        'utf-8',
-      ),
+        'utf-8'
+      )
     ).toBeTruthy();
   });
 });

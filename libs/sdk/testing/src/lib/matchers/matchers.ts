@@ -14,7 +14,7 @@ const windowRef: any = window;
 
 function getResourcesObservable(
   name: string,
-  args: any[] = [],
+  args: any[] = []
 ): Observable<string> {
   const resourcesService = TestBed.inject(SkyAppResourcesService);
   return resourcesService.getString(name, ...args);
@@ -22,7 +22,7 @@ function getResourcesObservable(
 
 function getLibResourcesObservable(
   name: string,
-  args: any[] = [],
+  args: any[] = []
 ): Observable<string> {
   const resourcesService = TestBed.inject(SkyLibResourcesService);
   return resourcesService.getString(name, ...args);
@@ -48,7 +48,7 @@ const matchers: jasmine.CustomMatcherFactories = {
       compare(
         element: any,
         callback?: () => void,
-        config?: SkyA11yAnalyzerConfig,
+        config?: SkyA11yAnalyzerConfig
       ): jasmine.CustomMatcherResult {
         SkyA11yAnalyzer.run(element, config)
           .then(() => {
@@ -85,7 +85,7 @@ const matchers: jasmine.CustomMatcherFactories = {
     return {
       compare(
         el: Element,
-        options?: SkyToBeVisibleOptions,
+        options?: SkyToBeVisibleOptions
       ): jasmine.CustomMatcherResult {
         const defaults: SkyToBeVisibleOptions = {
           checkCssDisplay: true,
@@ -160,7 +160,7 @@ const matchers: jasmine.CustomMatcherFactories = {
 
         if (expectedClassName.indexOf('.') === 0) {
           throw new Error(
-            'Please remove the leading dot from your class name.',
+            'Please remove the leading dot from your class name.'
           );
         }
 
@@ -179,7 +179,7 @@ const matchers: jasmine.CustomMatcherFactories = {
     return {
       compare(
         el: any,
-        expectedStyles: { [index: string]: string },
+        expectedStyles: { [index: string]: string }
       ): jasmine.CustomMatcherResult {
         const message: string[] = [];
 
@@ -196,11 +196,11 @@ const matchers: jasmine.CustomMatcherFactories = {
             }
 
             message.push(
-              `Expected element not to have CSS style "${styleName}: ${expectedStyle}"`,
+              `Expected element not to have CSS style "${styleName}: ${expectedStyle}"`
             );
           } else {
             message.push(
-              `Expected element to have CSS style "${styleName}: ${expectedStyle}"`,
+              `Expected element to have CSS style "${styleName}: ${expectedStyle}"`
             );
           }
 
@@ -222,7 +222,7 @@ const matchers: jasmine.CustomMatcherFactories = {
       compare(
         el: any,
         expectedText: string,
-        trimWhitespace = true,
+        trimWhitespace = true
       ): jasmine.CustomMatcherResult {
         const result = {
           pass: false,
@@ -253,7 +253,7 @@ const matchers: jasmine.CustomMatcherFactories = {
         actual: string,
         name: string,
         args?: any[],
-        callback?: () => void,
+        callback?: () => void
       ): jasmine.CustomMatcherResult {
         getResourcesObservable(name, args)
           .toPromise()
@@ -290,7 +290,7 @@ const matchers: jasmine.CustomMatcherFactories = {
         name: string,
         args?: any[],
         trimWhitespace = true,
-        callback?: () => void,
+        callback?: () => void
       ): jasmine.CustomMatcherResult {
         let actual = el.textContent;
 
@@ -303,7 +303,7 @@ const matchers: jasmine.CustomMatcherFactories = {
           .then((message) => {
             if (actual !== message) {
               windowRef.fail(
-                `Expected element's inner text "${el.textContent}" to be "${message}"`,
+                `Expected element's inner text "${el.textContent}" to be "${message}"`
               );
             }
             /*istanbul ignore else*/
@@ -332,7 +332,7 @@ const matchers: jasmine.CustomMatcherFactories = {
       compare(
         el: any,
         name: string,
-        callback?: () => void,
+        callback?: () => void
       ): jasmine.CustomMatcherResult {
         const actual = el.textContent;
 
@@ -341,7 +341,7 @@ const matchers: jasmine.CustomMatcherFactories = {
           .subscribe((message) => {
             if (!isTemplateMatch(actual, message)) {
               windowRef.fail(
-                `Expected element's text "${actual}" to match "${message}"`,
+                `Expected element's text "${actual}" to match "${message}"`
               );
             }
             /*istanbul ignore else*/
@@ -371,7 +371,7 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
     return {
       compare<T extends axe.ElementContext>(
         element: T,
-        config?: SkyA11yAnalyzerConfig,
+        config?: SkyA11yAnalyzerConfig
       ): Promise<jasmine.CustomMatcherResult> {
         return new Promise((resolve) => {
           SkyA11yAnalyzer.run(element, config)
@@ -396,7 +396,7 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
       compare(
         actual: string,
         name: string,
-        args?: any[],
+        args?: any[]
       ): Promise<jasmine.CustomMatcherResult> {
         return new Promise((resolve) => {
           getResourcesObservable(name, args)
@@ -423,7 +423,7 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
       compare(
         actual: string,
         name: string,
-        args?: any[],
+        args?: any[]
       ): Promise<jasmine.CustomMatcherResult> {
         return new Promise((resolve) => {
           getLibResourcesObservable(name, args)
@@ -451,7 +451,7 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
         element: any,
         name: string,
         args?: any[],
-        trimWhitespace = true,
+        trimWhitespace = true
       ): Promise<jasmine.CustomMatcherResult> {
         return new Promise((resolve) => {
           let actual = element.textContent;
@@ -484,7 +484,7 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
         element: any,
         name: string,
         args?: any[],
-        trimWhitespace = true,
+        trimWhitespace = true
       ): Promise<jasmine.CustomMatcherResult> {
         return new Promise((resolve) => {
           let actual = element.textContent;
@@ -515,7 +515,7 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
     return {
       compare(
         element: any,
-        name: string,
+        name: string
       ): Promise<jasmine.CustomMatcherResult> {
         return new Promise((resolve) => {
           const actual = element.textContent;
@@ -543,7 +543,7 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
     return {
       compare(
         element: any,
-        name: string,
+        name: string
       ): Promise<jasmine.CustomMatcherResult> {
         return new Promise((resolve) => {
           const actual = element.textContent;
@@ -589,7 +589,7 @@ export interface SkyAsyncMatchers<T> {
    * @see https://developer.blackbaud.com/skyux/learn/get-started/advanced/accessibility-unit-tests
    */
   toBeAccessible(
-    config?: SkyA11yAnalyzerConfig,
+    config?: SkyA11yAnalyzerConfig
   ): Promise<jasmine.CustomMatcherResult>;
 
   /**
@@ -601,7 +601,7 @@ export interface SkyAsyncMatchers<T> {
    */
   toEqualResourceText(
     name: string,
-    args?: any[],
+    args?: any[]
   ): Promise<jasmine.CustomMatcherResult>;
 
   /**
@@ -613,7 +613,7 @@ export interface SkyAsyncMatchers<T> {
    */
   toEqualLibResourceText(
     name: string,
-    args?: any[],
+    args?: any[]
   ): Promise<jasmine.CustomMatcherResult>;
 
   /**
@@ -627,7 +627,7 @@ export interface SkyAsyncMatchers<T> {
   toHaveResourceText(
     name: string,
     args?: any[],
-    trimWhitespace?: boolean,
+    trimWhitespace?: boolean
   ): Promise<jasmine.CustomMatcherResult>;
 
   /**
@@ -641,7 +641,7 @@ export interface SkyAsyncMatchers<T> {
   toHaveLibResourceText(
     name: string,
     args?: any[],
-    trimWhitespace?: boolean,
+    trimWhitespace?: boolean
   ): Promise<jasmine.CustomMatcherResult>;
 
   /**
@@ -663,7 +663,7 @@ export interface SkyAsyncMatchers<T> {
    * @param name The resource string to fetch from the resource file and compare against.
    */
   toMatchLibResourceTemplate(
-    name: string,
+    name: string
   ): Promise<jasmine.CustomMatcherResult>;
 }
 
@@ -741,7 +741,7 @@ export interface SkyMatchers<T> extends jasmine.Matchers<T> {
     name: string,
     args?: any[],
     trimWhitespace?: boolean,
-    callback?: () => void,
+    callback?: () => void
   ): void;
 
   /**

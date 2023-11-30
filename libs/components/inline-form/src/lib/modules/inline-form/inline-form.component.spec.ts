@@ -14,32 +14,32 @@ import { SkyInlineFormFixtureModule } from './fixtures/inline-form.fixture.modul
 import { SkyInlineFormButtonLayout } from './types/inline-form-button-layout';
 
 function getPrimaryButton(
-  fixture: ComponentFixture<SkyInlineFormFixtureComponent>,
+  fixture: ComponentFixture<SkyInlineFormFixtureComponent>
 ): DebugElement {
   return fixture.debugElement.query(
-    By.css('.sky-inline-form-footer .sky-btn-primary'),
+    By.css('.sky-inline-form-footer .sky-btn-primary')
   );
 }
 
 function getDefaultButton(
-  fixture: ComponentFixture<SkyInlineFormFixtureComponent>,
+  fixture: ComponentFixture<SkyInlineFormFixtureComponent>
 ): DebugElement {
   return fixture.debugElement.query(
-    By.css('.sky-inline-form-footer .sky-btn-default'),
+    By.css('.sky-inline-form-footer .sky-btn-default')
   );
 }
 
 function getLinkButton(
-  fixture: ComponentFixture<SkyInlineFormFixtureComponent>,
+  fixture: ComponentFixture<SkyInlineFormFixtureComponent>
 ): DebugElement {
   return fixture.debugElement.query(
-    By.css('.sky-inline-form-footer .sky-btn-link'),
+    By.css('.sky-inline-form-footer .sky-btn-link')
   );
 }
 
 function verifyDoneButtonIsDefined(
   fixture: ComponentFixture<SkyInlineFormFixtureComponent>,
-  isDefined: boolean,
+  isDefined: boolean
 ): void {
   const doneButton = getPrimaryButton(fixture);
   expect(doneButton).not.toBeNull();
@@ -53,7 +53,7 @@ function verifyDoneButtonIsDefined(
 
 function verifySaveButtonIsDefined(
   fixture: ComponentFixture<SkyInlineFormFixtureComponent>,
-  isDefined: boolean,
+  isDefined: boolean
 ): void {
   const saveButton = getPrimaryButton(fixture);
   expect(saveButton).not.toBeNull();
@@ -67,7 +67,7 @@ function verifySaveButtonIsDefined(
 
 function verifyDeleteButtonIsDefined(
   fixture: ComponentFixture<SkyInlineFormFixtureComponent>,
-  isDefined: boolean,
+  isDefined: boolean
 ): void {
   const deleteButton = getDefaultButton(fixture);
   if (isDefined) {
@@ -80,7 +80,7 @@ function verifyDeleteButtonIsDefined(
 
 function verifyCancelButtonIsDefined(
   fixture: ComponentFixture<SkyInlineFormFixtureComponent>,
-  isDefined: boolean,
+  isDefined: boolean
 ): void {
   const cancelButton = getLinkButton(fixture);
   if (isDefined) {
@@ -259,7 +259,7 @@ describe('Inline form component', () => {
     showForm();
 
     expect(document.activeElement).toEqual(
-      document.querySelector('#demo-input-3'),
+      document.querySelector('#demo-input-3')
     );
   }));
 
@@ -268,7 +268,7 @@ describe('Inline form component', () => {
     showForm();
 
     expect(document.activeElement).toEqual(
-      document.querySelector('#demo-input-6'),
+      document.querySelector('#demo-input-6')
     );
   }));
 
@@ -277,7 +277,7 @@ describe('Inline form component', () => {
     showForm();
 
     expect(document.activeElement).toEqual(
-      document.querySelector('#demo-input-8'),
+      document.querySelector('#demo-input-8')
     );
   }));
 
@@ -286,7 +286,7 @@ describe('Inline form component', () => {
     showForm();
 
     expect(document.activeElement).toEqual(
-      document.querySelector('#demo-input-1'),
+      document.querySelector('#demo-input-1')
     );
   }));
 
@@ -332,10 +332,10 @@ describe('Inline form component', () => {
     const button3 = getLinkButton(fixture);
 
     expect(button1.nativeElement.textContent).toContain(
-      'CUSTOM_TEXT_CHANGED_1',
+      'CUSTOM_TEXT_CHANGED_1'
     );
     expect(button2.nativeElement.textContent).toContain(
-      'CUSTOM_TEXT_CHANGED_2',
+      'CUSTOM_TEXT_CHANGED_2'
     );
     expect(button3).toBeNull();
   }));

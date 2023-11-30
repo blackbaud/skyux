@@ -57,7 +57,7 @@ describe('Wait service', () => {
     if (doesExist) {
       expect(document.body.querySelector(pageBlockingSelector)).not.toBeNull();
       expect(document.body.querySelectorAll(pageBlockingSelector).length).toBe(
-        1,
+        1
       );
     } else {
       expect(document.body.querySelector(pageBlockingSelector)).toBeNull();
@@ -67,10 +67,10 @@ describe('Wait service', () => {
   function verifyNonBlockingPageWaitExists(doesExist: boolean): void {
     if (doesExist) {
       expect(
-        document.body.querySelector(pageNonBlockingSelector),
+        document.body.querySelector(pageNonBlockingSelector)
       ).not.toBeNull();
       expect(
-        document.body.querySelectorAll(pageNonBlockingSelector).length,
+        document.body.querySelectorAll(pageNonBlockingSelector).length
       ).toBe(1);
     } else {
       expect(document.body.querySelector(pageNonBlockingSelector)).toBeNull();

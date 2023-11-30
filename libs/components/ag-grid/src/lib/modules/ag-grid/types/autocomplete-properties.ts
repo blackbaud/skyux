@@ -8,7 +8,7 @@ export interface SkyAgGridAutocompleteProperties {
   propertiesToSearch?: string[];
   search?: (
     searchText: string,
-    data?: unknown[],
+    data?: unknown[]
   ) => unknown[] | Promise<unknown[]>;
   searchFilters?: ((searchText: string, item: unknown) => boolean)[];
   searchResultsLimit?: number;

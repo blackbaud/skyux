@@ -78,7 +78,7 @@ export class DemoComponent implements OnInit {
         hasMore: result.hasMore,
         items: result.people,
         totalCount: result.totalCount,
-      })),
+      }))
     );
   }
 

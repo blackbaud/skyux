@@ -5,8 +5,8 @@ describe('lists-storybook', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=repeatercomponent-repeater--repeater`,
-        ),
+          `/iframe.html?globals=theme:${theme}&id=repeatercomponent-repeater--repeater`
+        )
       );
       it('should render the component', () => {
         cy.get('app-repeater')

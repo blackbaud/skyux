@@ -6,28 +6,28 @@ const routes: Routes = [
     path: 'character-count',
     loadComponent: () =>
       import('../code-examples/forms/character-count/demo.component').then(
-        (c) => c.DemoComponent,
+        (c) => c.DemoComponent
       ),
   },
   {
     path: 'checkbox/basic',
     loadComponent: () =>
       import('../code-examples/forms/checkbox/basic/demo.component').then(
-        (c) => c.DemoComponent,
+        (c) => c.DemoComponent
       ),
   },
   {
     path: 'checkbox/icon-group',
     loadComponent: () =>
       import('../code-examples/forms/checkbox/icon-group/demo.component').then(
-        (c) => c.DemoComponent,
+        (c) => c.DemoComponent
       ),
   },
   {
     path: 'checkbox/inline-help',
     loadComponent: () =>
       import('../code-examples/forms/checkbox/inline-help/demo.component').then(
-        (c) => c.DemoComponent,
+        (c) => c.DemoComponent
       ),
   },
   {
@@ -48,7 +48,7 @@ const routes: Routes = [
     path: 'input-box/basic',
     loadComponent: () =>
       import('../code-examples/forms/input-box/basic/demo.component').then(
-        (c) => c.DemoComponent,
+        (c) => c.DemoComponent
       ),
   },
   {
@@ -62,21 +62,21 @@ const routes: Routes = [
     path: 'radio/icon',
     loadComponent: () =>
       import('../code-examples/forms/radio/icon/demo.component').then(
-        (c) => c.DemoComponent,
+        (c) => c.DemoComponent
       ),
   },
   {
     path: 'radio/inline-help',
     loadComponent: () =>
       import('../code-examples/forms/radio/inline-help/demo.component').then(
-        (c) => c.DemoComponent,
+        (c) => c.DemoComponent
       ),
   },
   {
     path: 'radio/standard',
     loadComponent: () =>
       import('../code-examples/forms/radio/standard/demo.component').then(
-        (c) => c.DemoComponent,
+        (c) => c.DemoComponent
       ),
   },
   {
@@ -90,7 +90,7 @@ const routes: Routes = [
     path: 'selection-box/radio',
     loadComponent: () =>
       import('../code-examples/forms/selection-box/radio/demo.component').then(
-        (c) => c.DemoComponent,
+        (c) => c.DemoComponent
       ),
   },
   {
@@ -111,7 +111,7 @@ const routes: Routes = [
     path: 'toggle-switch/basic',
     loadComponent: () =>
       import('../code-examples/forms/toggle-switch/basic/demo.component').then(
-        (c) => c.DemoComponent,
+        (c) => c.DemoComponent
       ),
   },
   {

@@ -17,7 +17,7 @@ describe('Tabset with viewkept elements', () => {
 
   function getTabs(): HTMLElement[] {
     return fixture.nativeElement.querySelectorAll(
-      'sky-tab-button .sky-btn-tab',
+      'sky-tab-button .sky-btn-tab'
     );
   }
 

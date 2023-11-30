@@ -39,7 +39,7 @@ export class SkyOverlayInstance {
      * The configuration for the overlay.
      */
     public readonly config: SkyOverlayConfig,
-    public readonly componentRef: ComponentRef<SkyOverlayComponent>,
+    public readonly componentRef: ComponentRef<SkyOverlayComponent>
   ) {
     this.id = this.componentRef.instance.id;
 
@@ -67,11 +67,11 @@ export class SkyOverlayInstance {
    */
   public attachComponent<C>(
     component: Type<C>,
-    providers?: StaticProvider[],
+    providers?: StaticProvider[]
   ): C {
     const componentRef = this.componentRef.instance.attachComponent(
       component,
-      providers,
+      providers
     );
     return componentRef.instance;
   }

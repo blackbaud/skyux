@@ -33,7 +33,7 @@ export class ResizeObserverBasicComponent implements AfterViewInit, OnDestroy {
   constructor(
     private skyResizeObserverService: SkyResizeObserverService,
     private skyResizeObserverMediaQueryService: SkyResizeObserverMediaQueryService,
-    private changeDetectorRef: ChangeDetectorRef,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   public ngAfterViewInit(): void {
@@ -59,7 +59,7 @@ export class ResizeObserverBasicComponent implements AfterViewInit, OnDestroy {
               this.breakpoint = '(unknown)';
           }
           this.changeDetectorRef.markForCheck();
-        }),
+        })
     );
     this.subscriptions.add(
       this.skyResizeObserverService
@@ -67,7 +67,7 @@ export class ResizeObserverBasicComponent implements AfterViewInit, OnDestroy {
         .subscribe((value) => {
           this.width = value.contentRect.width;
           this.changeDetectorRef.detectChanges();
-        }),
+        })
     );
   }
 

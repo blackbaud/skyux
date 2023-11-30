@@ -24,7 +24,7 @@ export class SkyKeyInfoHarness extends SkyComponentHarness {
    * `SkyKeyInfoHarness` that meets certain criteria.
    */
   public static with(
-    filters: SkyKeyInfoHarnessFilters,
+    filters: SkyKeyInfoHarnessFilters
   ): HarnessPredicate<SkyKeyInfoHarness> {
     return SkyKeyInfoHarness.getDataSkyIdPredicate(filters);
   }

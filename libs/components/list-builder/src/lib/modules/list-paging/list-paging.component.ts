@@ -73,7 +73,7 @@ export class SkyListPagingComponent
   constructor(
     state: ListState,
     dispatcher: ListStateDispatcher,
-    logger: SkyLogService,
+    logger: SkyLogService
   ) {
     super(state, dispatcher);
     logger.deprecated('SkyListPagingComponent', {
@@ -87,15 +87,15 @@ export class SkyListPagingComponent
 
   public ngOnInit() {
     this.currentPageNumber = this.state.pipe(
-      observableMap((s) => s.paging.pageNumber),
+      observableMap((s) => s.paging.pageNumber)
     );
 
     this.maxDisplayedPages = this.state.pipe(
-      observableMap((s) => s.paging.maxDisplayedPages),
+      observableMap((s) => s.paging.maxDisplayedPages)
     );
 
     this.itemsPerPage = this.state.pipe(
-      observableMap((s) => s.paging.itemsPerPage),
+      observableMap((s) => s.paging.itemsPerPage)
     );
 
     this.itemCount = this.state.pipe(
@@ -105,34 +105,34 @@ export class SkyListPagingComponent
       scan(
         (
           previousValue: AsyncList<ListItemModel>,
-          newValue: AsyncList<ListItemModel>,
+          newValue: AsyncList<ListItemModel>
         ) => {
           if (previousValue.lastUpdate > newValue.lastUpdate) {
             return previousValue;
           } else {
             return newValue;
           }
-        },
+        }
       ),
       observableMap((result: AsyncList<ListItemModel>) => {
         return result.count;
       }),
-      distinctUntilChanged(),
+      distinctUntilChanged()
     );
 
     // subscribe to or use inputs
     getValue(this.pageSize, (pageSize: number) =>
       this.dispatcher.next(
-        new ListPagingSetItemsPerPageAction(Number(pageSize)),
-      ),
+        new ListPagingSetItemsPerPageAction(Number(pageSize))
+      )
     );
     getValue(this.maxPages, (maxPages: number) =>
-      this.dispatcher.next(new ListPagingSetMaxPagesAction(Number(maxPages))),
+      this.dispatcher.next(new ListPagingSetMaxPagesAction(Number(maxPages)))
     );
     getValue(this.pageNumber, (pageNumber: number) =>
       this.dispatcher.next(
-        new ListPagingSetPageNumberAction(Number(pageNumber)),
-      ),
+        new ListPagingSetPageNumberAction(Number(pageNumber))
+      )
     );
   }
 
@@ -141,7 +141,7 @@ export class SkyListPagingComponent
     // Adding a setTimeout will pull it out of the stream.
     setTimeout(() => {
       this.dispatcher.next(
-        new ListPagingSetPageNumberAction(Number(currentPage)),
+        new ListPagingSetPageNumberAction(Number(currentPage))
       );
     });
   }

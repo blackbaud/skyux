@@ -10,21 +10,21 @@ const routes: Routes = [
     path: 'data-manager-large',
     loadChildren: () =>
       import('./data-manager-large/data-manager-large.module').then(
-        (m) => m.DataManagerLargeModule,
+        (m) => m.DataManagerLargeModule
       ),
   },
   {
     path: 'edit-complex-cells',
     loadChildren: () =>
       import('./edit-complex-cells/edit-complex-cells.module').then(
-        (m) => m.EditComplexCellsModule,
+        (m) => m.EditComplexCellsModule
       ),
   },
   {
     path: 'edit-in-modal-grid',
     loadChildren: () =>
       import('./edit-in-modal-grid/edit-in-modal-grid.module').then(
-        (m) => m.EditInModalGridModule,
+        (m) => m.EditInModalGridModule
       ),
   },
   {
@@ -38,14 +38,14 @@ const routes: Routes = [
     path: 'editable-grid',
     loadChildren: () =>
       import('./editable-grid/editable-grid.module').then(
-        (m) => m.EditableGridModule,
+        (m) => m.EditableGridModule
       ),
   },
   {
     path: 'readonly-grid',
     loadChildren: () =>
       import('./readonly-grid/readonly-grid.module').then(
-        (m) => m.ReadonlyGridModule,
+        (m) => m.ReadonlyGridModule
       ),
   },
 ];

@@ -39,7 +39,7 @@ function getInput(fixture: ComponentFixture<any>): HTMLInputElement {
 
 function getTriggerButton(fixture: ComponentFixture<any>): HTMLButtonElement {
   return fixture.nativeElement.querySelector(
-    '.sky-input-group-timepicker-btn',
+    '.sky-input-group-timepicker-btn'
   ) as HTMLButtonElement;
 }
 
@@ -60,21 +60,21 @@ function getTimepicker(): HTMLElement {
 function getHourButtons(): NodeListOf<HTMLElement> {
   const timepicker = getTimepicker();
   return timepicker.querySelectorAll(
-    'button[name="hour"]',
+    'button[name="hour"]'
   ) as NodeListOf<HTMLElement>;
 }
 
 function getMinuteButtons(): NodeListOf<HTMLElement> {
   const timepicker = getTimepicker();
   return timepicker.querySelectorAll(
-    'button[name="minute"]',
+    'button[name="minute"]'
   ) as NodeListOf<HTMLElement>;
 }
 
 function getMeridieButtons(): NodeListOf<HTMLElement> {
   const timepicker = getTimepicker();
   return timepicker.querySelectorAll(
-    'button[name="meridie"]',
+    'button[name="meridie"]'
   ) as NodeListOf<HTMLElement>;
 }
 
@@ -158,7 +158,7 @@ describe('Timepicker', () => {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.default,
-          SkyThemeMode.presets.light,
+          SkyThemeMode.presets.light
         ),
         previousSettings: undefined,
       }),
@@ -475,7 +475,7 @@ describe('Timepicker', () => {
       detectChangesAndTick(fixture);
 
       expect(getInput(fixture).getAttribute('aria-label')).toBe(
-        'This is a time field.',
+        'This is a time field.'
       );
     }));
 
@@ -546,7 +546,7 @@ describe('Timepicker', () => {
     it('should display the expected clock icon in the time button', fakeAsync(() => {
       function validateIcon(iconCls: string): void {
         const iconEl = fixture.nativeElement.querySelector(
-          '.sky-input-group-timepicker-btn .sky-icon',
+          '.sky-input-group-timepicker-btn .sky-icon'
         );
 
         expect(iconEl).toHaveCssClass(iconCls);
@@ -559,7 +559,7 @@ describe('Timepicker', () => {
       mockThemeSvc.settingsChange.next({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.modern,
-          SkyThemeMode.presets.light,
+          SkyThemeMode.presets.light
         ),
         previousSettings:
           mockThemeSvc.settingsChange.getValue().currentSettings,
@@ -657,10 +657,10 @@ describe('Timepicker', () => {
 
       expect(fixture.componentInstance.timepicker.disabled).toBeTruthy();
       expect(
-        fixture.componentInstance.timepickerComponent.disabled,
+        fixture.componentInstance.timepickerComponent.disabled
       ).toBeTruthy();
       expect(
-        fixture.debugElement.query(By.css('input')).nativeElement.disabled,
+        fixture.debugElement.query(By.css('input')).nativeElement.disabled
       ).toBeTruthy();
       expect(getTriggerButton(fixture).disabled).toBeTruthy();
 
@@ -669,10 +669,10 @@ describe('Timepicker', () => {
 
       expect(fixture.componentInstance.timepicker.disabled).toBeFalsy();
       expect(
-        fixture.componentInstance.timepickerComponent.disabled,
+        fixture.componentInstance.timepickerComponent.disabled
       ).toBeFalsy();
       expect(
-        fixture.debugElement.query(By.css('input')).nativeElement.disabled,
+        fixture.debugElement.query(By.css('input')).nativeElement.disabled
       ).toBeFalsy();
       expect(getTriggerButton(fixture).disabled).toBeFalsy();
     }));
@@ -778,10 +778,10 @@ describe('Timepicker', () => {
       fixture.detectChanges();
 
       expect(
-        fixture.componentInstance.timepickerDirective.disabled,
+        fixture.componentInstance.timepickerDirective.disabled
       ).toBeTruthy();
       expect(
-        fixture.componentInstance.timepickerComponent.disabled,
+        fixture.componentInstance.timepickerComponent.disabled
       ).toBeTruthy();
       expect(getInput(fixture).disabled).toBeTruthy();
       expect(getTriggerButton(fixture).disabled).toBeTruthy();
@@ -790,10 +790,10 @@ describe('Timepicker', () => {
       fixture.detectChanges();
 
       expect(
-        fixture.componentInstance.timepickerDirective.disabled,
+        fixture.componentInstance.timepickerDirective.disabled
       ).toBeFalsy();
       expect(
-        fixture.componentInstance.timepickerComponent.disabled,
+        fixture.componentInstance.timepickerComponent.disabled
       ).toBeFalsy();
       expect(getInput(fixture).disabled).toBeFalsy();
       expect(getTriggerButton(fixture).disabled).toBeFalsy();
@@ -830,7 +830,7 @@ describe('Timepicker', () => {
       const inputBoxEl = fixture.nativeElement.querySelector('sky-input-box');
       const inputEl = inputBoxEl.querySelector('input');
       const inputGroupBtnEl = inputBoxEl.querySelector(
-        '.sky-input-group-btn > button',
+        '.sky-input-group-btn > button'
       );
 
       expect(inputEl).toHaveCssClass('input-box-timepicker-input');
@@ -841,11 +841,11 @@ describe('Timepicker', () => {
       detectChangesAndTick(fixture);
 
       const pickerButton = fixture.nativeElement.querySelector(
-        '.sky-input-group-timepicker-btn',
+        '.sky-input-group-timepicker-btn'
       );
 
       expect(pickerButton.getAttribute('aria-label')).toBe(
-        'Open time picker for Time',
+        'Open time picker for Time'
       );
     }));
 
@@ -854,7 +854,7 @@ describe('Timepicker', () => {
       detectChangesAndTick(fixture);
 
       const pickerButton = fixture.nativeElement.querySelector(
-        '.sky-input-group-timepicker-btn',
+        '.sky-input-group-timepicker-btn'
       );
 
       expect(pickerButton.getAttribute('aria-label')).toBe('Choose time');

@@ -10,41 +10,41 @@ describe('Theme service', () => {
 
   function validateSettingsApplied(
     current: SkyThemeSettings,
-    previous?: SkyThemeSettings,
+    previous?: SkyThemeSettings
   ): void {
     expect(mockRenderer.addClass).toHaveBeenCalledWith(
       mockHostEl,
-      current.theme.hostClass,
+      current.theme.hostClass
     );
 
     if (current.theme.supportedModes.includes(current.mode)) {
       expect(mockRenderer.addClass).toHaveBeenCalledWith(
         mockHostEl,
-        current.mode.hostClass,
+        current.mode.hostClass
       );
     } else {
       expect(mockRenderer.addClass).not.toHaveBeenCalledWith(
         mockHostEl,
-        current.mode.hostClass,
+        current.mode.hostClass
       );
     }
 
     if (current.theme.supportedSpacing.includes(current.spacing)) {
       expect(mockRenderer.addClass).toHaveBeenCalledWith(
         mockHostEl,
-        current.spacing.hostClass,
+        current.spacing.hostClass
       );
     } else {
       expect(mockRenderer.addClass).not.toHaveBeenCalledWith(
         mockHostEl,
-        current.spacing.hostClass,
+        current.spacing.hostClass
       );
     }
 
     if (previous) {
       expect(mockRenderer.removeClass).toHaveBeenCalledWith(
         mockHostEl,
-        previous.theme.hostClass,
+        previous.theme.hostClass
       );
     } else {
       expect(mockRenderer.removeClass).not.toHaveBeenCalled();
@@ -67,7 +67,7 @@ describe('Theme service', () => {
 
     const settings = new SkyThemeSettings(
       SkyTheme.presets.modern,
-      SkyThemeMode.presets.dark,
+      SkyThemeMode.presets.dark
     );
 
     themeSvc.init(mockHostEl, mockRenderer, settings);
@@ -85,7 +85,7 @@ describe('Theme service', () => {
 
     let settings = new SkyThemeSettings(
       SkyTheme.presets.modern,
-      SkyThemeMode.presets.dark,
+      SkyThemeMode.presets.dark
     );
 
     themeSvc.init(mockHostEl, mockRenderer, settings);
@@ -99,13 +99,13 @@ describe('Theme service', () => {
 
       validateSettingsApplied(
         settingsChange.currentSettings,
-        settingsChange.previousSettings,
+        settingsChange.previousSettings
       );
     });
 
     let newSettings = new SkyThemeSettings(
       SkyTheme.presets.default,
-      SkyThemeMode.presets.light,
+      SkyThemeMode.presets.light
     );
 
     expectedCurrentSettings = newSettings;
@@ -118,7 +118,7 @@ describe('Theme service', () => {
     newSettings = new SkyThemeSettings(
       SkyTheme.presets.modern,
       SkyThemeMode.presets.light,
-      SkyThemeSpacing.presets.compact,
+      SkyThemeSpacing.presets.compact
     );
 
     expectedCurrentSettings = newSettings;
@@ -132,7 +132,7 @@ describe('Theme service', () => {
 
     const settings = new SkyThemeSettings(
       SkyTheme.presets.default,
-      SkyThemeMode.presets.dark,
+      SkyThemeMode.presets.dark
     );
 
     themeSvc.init(mockHostEl, mockRenderer, settings);
@@ -145,7 +145,7 @@ describe('Theme service', () => {
 
     const settings = new SkyThemeSettings(
       SkyTheme.presets.default,
-      SkyThemeMode.presets.dark,
+      SkyThemeMode.presets.dark
     );
 
     themeSvc.init(mockHostEl, mockRenderer, settings);
@@ -161,7 +161,7 @@ describe('Theme service', () => {
     const settings = new SkyThemeSettings(
       SkyTheme.presets.modern,
       SkyThemeMode.presets.light,
-      SkyThemeSpacing.presets.compact,
+      SkyThemeSpacing.presets.compact
     );
 
     themeSvc.init(mockHostEl, mockRenderer, settings);
@@ -175,7 +175,7 @@ describe('Theme service', () => {
     const settings = new SkyThemeSettings(
       SkyTheme.presets.default,
       SkyThemeMode.presets.light,
-      SkyThemeSpacing.presets.compact,
+      SkyThemeSpacing.presets.compact
     );
 
     themeSvc.init(mockHostEl, mockRenderer, settings);
@@ -188,7 +188,7 @@ describe('Theme service', () => {
 
     const settings = new SkyThemeSettings(
       SkyTheme.presets.default,
-      SkyThemeMode.presets.dark,
+      SkyThemeMode.presets.dark
     );
 
     themeSvc.init(mockHostEl, mockRenderer, settings);

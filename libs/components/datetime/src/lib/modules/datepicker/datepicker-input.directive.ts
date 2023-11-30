@@ -95,7 +95,7 @@ export class SkyDatepickerInputDirective
     this.#renderer.setProperty(
       this.#elementRef.nativeElement,
       'disabled',
-      value,
+      value
     );
   }
 
@@ -145,7 +145,7 @@ export class SkyDatepickerInputDirective
    */
   @Input()
   public set skyDatepickerInput(
-    value: SkyDatepickerComponent | undefined | '',
+    value: SkyDatepickerComponent | undefined | ''
   ) {
     if (value) {
       console.warn(
@@ -153,7 +153,7 @@ export class SkyDatepickerInputDirective
           'to the `skyDatepickerInput` attribute (this will be a breaking change in the next ' +
           'major version release).\n' +
           'Do this instead:\n' +
-          '<sky-datepicker>\n  <input skyDatepickerInput />\n</sky-datepicker>',
+          '<sky-datepicker>\n  <input skyDatepickerInput />\n</sky-datepicker>'
       );
     }
   }
@@ -238,12 +238,12 @@ export class SkyDatepickerInputDirective
     elementRef: ElementRef,
     localeProvider: SkyAppLocaleProvider,
     renderer: Renderer2,
-    @Optional() datepickerComponent?: SkyDatepickerComponent,
+    @Optional() datepickerComponent?: SkyDatepickerComponent
   ) {
     if (!datepickerComponent) {
       throw new Error(
         'You must wrap the `skyDatepickerInput` directive within a ' +
-          '`<sky-datepicker>` component!',
+          '`<sky-datepicker>` component!'
       );
     }
     this.#adapter = adapter;
@@ -450,7 +450,7 @@ export class SkyDatepickerInputDirective
     if (this.#value) {
       const formattedDate = this.#dateFormatter.format(
         this.#value,
-        this.dateFormat,
+        this.dateFormat
       );
       this.#setInputElementValue(formattedDate);
       this.#changeDetector.markForCheck();
@@ -499,7 +499,7 @@ export class SkyDatepickerInputDirective
           const date = this.#dateFormatter.getDateFromString(
             value,
             formatTokensOnly,
-            true,
+            true
           );
           if (this.#dateFormatter.dateIsValid(date)) {
             return date;
@@ -516,7 +516,7 @@ export class SkyDatepickerInputDirective
       const date = this.#dateFormatter.getDateFromString(
         value,
         this.dateFormat,
-        this.strict,
+        this.strict
       );
       if (this.#dateFormatter.dateIsValid(date)) {
         return date;
@@ -612,7 +612,7 @@ export class SkyDatepickerInputDirective
       if (dateValue) {
         const formattedDateString = this.#dateFormatter.format(
           dateValue,
-          this.dateFormat,
+          this.dateFormat
         );
         this.#setInputElementValue(formattedDateString);
       } else {

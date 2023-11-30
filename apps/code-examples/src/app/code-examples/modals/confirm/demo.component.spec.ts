@@ -37,13 +37,13 @@ describe('Confirm demo', () => {
 
     expect(displayedTextEl.innerText).toEqual('You selected the "ok" action.');
     await expectAsync(confirmHarness.getMessageText()).toBeResolvedTo(
-      'Cannot delete invoice because it has vendor, credit memo, or purchase order activity.',
+      'Cannot delete invoice because it has vendor, credit memo, or purchase order activity.'
     );
   });
 
   it('should show the correct text when "Finalize" is clicked on a custom confirm', async () => {
     const { confirmHarness, fixture } = await setupTest(
-      '.two-action-confirm-btn',
+      '.two-action-confirm-btn'
     );
 
     await confirmHarness.clickCustomButton({ text: 'Finalize' });
@@ -52,13 +52,13 @@ describe('Confirm demo', () => {
       fixture.nativeElement.querySelector('.displayed-text');
 
     expect(displayedTextEl.innerText).toEqual(
-      'You selected the "Finalize" button, which has an action of "save."',
+      'You selected the "Finalize" button, which has an action of "save."'
     );
     await expectAsync(confirmHarness.getMessageText()).toBeResolvedTo(
-      'Finalize report cards?',
+      'Finalize report cards?'
     );
     await expectAsync(confirmHarness.getBodyText()).toBeResolvedTo(
-      'Grades cannot be changed once the report cards are finalized.',
+      'Grades cannot be changed once the report cards are finalized.'
     );
   });
 });

@@ -25,7 +25,7 @@ export class SkyStatusIndicatorHarness extends SkyComponentHarness {
    * `SkyStatusIndicatorHarness` that meets certain criteria.
    */
   public static with(
-    filters: SkyStatusIndicatorHarnessFilters,
+    filters: SkyStatusIndicatorHarnessFilters
   ): HarnessPredicate<SkyStatusIndicatorHarness> {
     return SkyStatusIndicatorHarness.getDataSkyIdPredicate(filters);
   }
@@ -62,7 +62,7 @@ export class SkyStatusIndicatorHarness extends SkyComponentHarness {
     }
 
     throw new Error(
-      'Status indicator text was not found. Did you set the descriptionType input?',
+      'Status indicator text was not found. Did you set the descriptionType input?'
     );
   }
 

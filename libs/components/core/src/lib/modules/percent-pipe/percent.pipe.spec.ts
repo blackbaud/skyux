@@ -191,7 +191,7 @@ describe('Percent pipe', () => {
     const result = fixture.componentInstance.getDatePipeResult(
       '1.235487',
       '1.0-4',
-      'fr-CA',
+      'fr-CA'
     );
 
     if (!isIE) {

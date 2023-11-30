@@ -33,7 +33,7 @@ export class FlyoutDemoComponent implements OnInit {
     modalService: SkyModalService,
     toastService: SkyToastService,
     router: Router,
-    changeDetector: ChangeDetectorRef,
+    changeDetector: ChangeDetectorRef
   ) {
     this.#modalService = modalService;
     this.#toastService = toastService;
@@ -89,7 +89,7 @@ export class FlyoutDemoComponent implements OnInit {
             hasMore: this.#nextId < 24,
           });
         },
-        delay ? 1000 : 0,
+        delay ? 1000 : 0
       );
     });
   }

@@ -6,8 +6,8 @@ describe(`tabs-storybook`, () => {
       describe('default tabs', () => {
         beforeEach(() =>
           cy.visit(
-            `/iframe.html?globals=theme:${theme}&id=tabscomponent-tabs--tabs`,
-          ),
+            `/iframe.html?globals=theme:${theme}&id=tabscomponent-tabs--tabs`
+          )
         );
         it('should render the component', () => {
           cy.get('app-tabs')
@@ -21,8 +21,8 @@ describe(`tabs-storybook`, () => {
       describe('dropdown tabs', () => {
         beforeEach(() =>
           cy.visit(
-            `/iframe.html?globals=theme:${theme}&id=tabscomponent-tabs--tabs-dropdown`,
-          ),
+            `/iframe.html?globals=theme:${theme}&id=tabscomponent-tabs--tabs-dropdown`
+          )
         );
         it('should render the component', () => {
           cy.get('app-tabs')

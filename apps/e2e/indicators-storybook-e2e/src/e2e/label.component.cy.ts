@@ -5,8 +5,8 @@ describe(`indicators-storybook`, () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=labelcomponent-label--label`,
-        ),
+          `/iframe.html?globals=theme:${theme}&id=labelcomponent-label--label`
+        )
       );
       it('should render the component', () => {
         cy.get('app-label')

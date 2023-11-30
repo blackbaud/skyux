@@ -91,7 +91,7 @@ export class DemoComponent implements OnInit, OnDestroy {
         hasMore: result.hasMore,
         items: result.people,
         totalCount: result.totalCount,
-      })),
+      }))
     );
   }
 
@@ -108,10 +108,10 @@ export class DemoComponent implements OnInit, OnDestroy {
                   item: close.data,
                   data: data,
                 });
-              }),
+              })
           );
         }
-      }),
+      })
     );
   }
 }

@@ -144,7 +144,7 @@ describe('ResizeObserver service', async () => {
           new ErrorEvent('error', {
             message:
               'ResizeObserver loop completed with undelivered notifications.',
-          }),
+          })
         );
       },
     });
@@ -186,18 +186,18 @@ describe('ResizeObserver service', async () => {
       new ErrorEvent('error', {
         message:
           'ResizeObserver loop completed with undelivered notifications.',
-      }),
+      })
     );
     window.dispatchEvent(
       new ErrorEvent('error', {
         message: 'Other error.',
-      }),
+      })
     );
     subscription.unsubscribe();
     destroyElementRef(target);
     expect(error.map((e) => e.message)).toContain('Other error.');
     expect(error.map((e) => e.message)).not.toContain(
-      'ResizeObserver loop completed with undelivered notifications.',
+      'ResizeObserver loop completed with undelivered notifications.'
     );
   });
 });

@@ -47,7 +47,7 @@ describe('Colorpicker Component', () => {
     verifyMenuVisibility(false);
 
     const buttonElem = element.querySelector(
-      '.sky-colorpicker-button',
+      '.sky-colorpicker-button'
     ) as HTMLElement;
     buttonElem.click();
     tick();
@@ -73,7 +73,7 @@ describe('Colorpicker Component', () => {
 
   function applyColorpicker(): void {
     const buttonElem = getColorpickerContainer().querySelector(
-      '.sky-btn-colorpicker-apply',
+      '.sky-btn-colorpicker-apply'
     ) as HTMLElement;
     buttonElem.click();
     tick();
@@ -82,10 +82,10 @@ describe('Colorpicker Component', () => {
 
   function closeColorpicker(
     element: HTMLElement,
-    compFixture: ComponentFixture<ColorpickerTestComponent>,
+    compFixture: ComponentFixture<ColorpickerTestComponent>
   ): void {
     const buttonElem = getColorpickerContainer().querySelector(
-      '.sky-btn-colorpicker-close',
+      '.sky-btn-colorpicker-close'
     ) as HTMLElement;
     buttonElem.click();
     tick();
@@ -101,21 +101,21 @@ describe('Colorpicker Component', () => {
     }
 
     expect(getComputedStyle(popoverElem!).visibility !== 'hidden').toEqual(
-      isVisible,
+      isVisible
     );
   }
 
   function setPresetColor(
     element: HTMLElement,
     compFixture: ComponentFixture<any>,
-    key: number,
+    key: number
   ): void {
     const container = getColorpickerContainer();
     const presetColors = container?.querySelectorAll(
-      '.sky-preset-color',
+      '.sky-preset-color'
     ) as NodeListOf<HTMLElement>;
     const applyColor = container?.querySelector(
-      '.sky-btn-colorpicker-apply',
+      '.sky-btn-colorpicker-apply'
     ) as HTMLButtonElement;
     presetColors[key].click();
     applyColor.click();
@@ -153,7 +153,7 @@ describe('Colorpicker Component', () => {
         false,
         false,
         0,
-        null,
+        null
       );
       document.dispatchEvent(mouseEventDeprecated);
     } catch (error) {
@@ -170,7 +170,7 @@ describe('Colorpicker Component', () => {
   function verifyColorpicker(
     element: HTMLElement,
     spaColor: string,
-    test: string,
+    test: string
   ): void {
     fixture.detectChanges();
     fixture.whenStable();
@@ -178,7 +178,7 @@ describe('Colorpicker Component', () => {
       element.querySelector('input');
     expect(inputElement?.value).toBe(spaColor);
     const selectedColor: HTMLDivElement | null = element.querySelector(
-      '.sky-colorpicker-input',
+      '.sky-colorpicker-input'
     );
     const browserCSS = selectedColor?.style.backgroundColor
       .replace(/[rgba()]/g, '')
@@ -188,7 +188,7 @@ describe('Colorpicker Component', () => {
       return Math.round(Number(eachNumber) * 100) / 100;
     });
     expect(outcome?.toString()).toContain(
-      test.replace(/[\s]/g, '').split(',').toString(),
+      test.replace(/[\s]/g, '').split(',').toString()
     );
   }
 
@@ -210,7 +210,7 @@ describe('Colorpicker Component', () => {
   function setInputElementValue(
     element: HTMLElement,
     name: string,
-    value: string,
+    value: string
   ): void {
     fixture.detectChanges();
     fixture.whenStable();
@@ -241,7 +241,7 @@ describe('Colorpicker Component', () => {
 
   function verifyColorpickerHidden(isHidden: boolean): void {
     const hiddenPicker = nativeElement.querySelectorAll(
-      '.sky-colorpicker-hidden',
+      '.sky-colorpicker-hidden'
     );
     if (isHidden) {
       expect(hiddenPicker.length).toEqual(1);
@@ -260,7 +260,7 @@ describe('Colorpicker Component', () => {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.default,
-          SkyThemeMode.presets.light,
+          SkyThemeMode.presets.light
         ),
         previousSettings: undefined,
       }),
@@ -333,10 +333,10 @@ describe('Colorpicker Component', () => {
       tick();
 
       expect(
-        getColorpickerButton(nativeElement).getAttribute('aria-label'),
+        getColorpickerButton(nativeElement).getAttribute('aria-label')
       ).toBe(defaultLabel);
       expect(getColorpickerButton(nativeElement).getAttribute('title')).toBe(
-        defaultLabel,
+        defaultLabel
       );
     }));
 
@@ -348,10 +348,10 @@ describe('Colorpicker Component', () => {
       tick();
 
       expect(
-        getColorpickerButton(nativeElement).getAttribute('aria-label'),
+        getColorpickerButton(nativeElement).getAttribute('aria-label')
       ).toBe(newLabel);
       expect(getColorpickerButton(nativeElement).getAttribute('title')).toBe(
-        newLabel,
+        newLabel
       );
     }));
 
@@ -360,7 +360,7 @@ describe('Colorpicker Component', () => {
       tick();
 
       expect(
-        getColorpickerButton(nativeElement).getAttribute('aria-labelledby'),
+        getColorpickerButton(nativeElement).getAttribute('aria-labelledby')
       ).toBeNull();
     }));
 
@@ -372,7 +372,7 @@ describe('Colorpicker Component', () => {
       tick();
 
       expect(
-        getColorpickerButton(nativeElement).getAttribute('aria-labelledby'),
+        getColorpickerButton(nativeElement).getAttribute('aria-labelledby')
       ).toBe(customLabelledBy);
     }));
 
@@ -383,10 +383,10 @@ describe('Colorpicker Component', () => {
       tick();
 
       expect(
-        getColorpickerButton(nativeElement).getAttribute('aria-label'),
+        getColorpickerButton(nativeElement).getAttribute('aria-label')
       ).toBeNull();
       expect(
-        getColorpickerButton(nativeElement).getAttribute('title'),
+        getColorpickerButton(nativeElement).getAttribute('title')
       ).toBeNull();
     }));
 
@@ -513,7 +513,7 @@ describe('Colorpicker Component', () => {
       setInputElementValue(nativeElement, 'hex', 'hsla(0,0%,100%,0)');
       applyColorpicker();
       expect(component.lastColorApplied?.color.hslaText).toEqual(
-        'hsla(0,0%,100%,0)',
+        'hsla(0,0%,100%,0)'
       );
     }));
 
@@ -558,14 +558,14 @@ describe('Colorpicker Component', () => {
       openColorpicker(nativeElement);
       const container = getColorpickerContainer();
       const presetColors = container?.querySelectorAll(
-        '.sky-preset-color',
+        '.sky-preset-color'
       ) as NodeListOf<HTMLElement>;
       presetColors[0].click();
       fixture.detectChanges();
       closeColorpicker(nativeElement, fixture);
 
       expect(getColorpickerButtonBackgroundColor(nativeElement)).toEqual(
-        initialBackgroundColor,
+        initialBackgroundColor
       );
     }));
 
@@ -590,7 +590,7 @@ describe('Colorpicker Component', () => {
       closeColorpicker(nativeElement, fixture);
 
       expect(getColorpickerButtonBackgroundColor(nativeElement)).toEqual(
-        initialBackgroundColor,
+        initialBackgroundColor
       );
     }));
 
@@ -608,7 +608,7 @@ describe('Colorpicker Component', () => {
       closeColorpicker(nativeElement, fixture);
 
       expect(getColorpickerButtonBackgroundColor(nativeElement)).toEqual(
-        initialBackgroundColor,
+        initialBackgroundColor
       );
     }));
 
@@ -623,11 +623,11 @@ describe('Colorpicker Component', () => {
     it('should emit a selectedColorChanged and selectedColorApplied event on submit', fakeAsync(() => {
       spyOn(
         component.colorpickerComponent.selectedColorChanged,
-        'emit',
+        'emit'
       ).and.callThrough();
       spyOn(
         component.colorpickerComponent.selectedColorApplied,
-        'emit',
+        'emit'
       ).and.callThrough();
       component.selectedOutputFormat = 'hex';
       openColorpicker(nativeElement);
@@ -635,10 +635,10 @@ describe('Colorpicker Component', () => {
       applyColorpicker();
       verifyColorpicker(nativeElement, '#2b7230', '43, 114, 48');
       expect(
-        component.colorpickerComponent.selectedColorChanged.emit,
+        component.colorpickerComponent.selectedColorChanged.emit
       ).toHaveBeenCalled();
       expect(
-        component.colorpickerComponent.selectedColorApplied.emit,
+        component.colorpickerComponent.selectedColorApplied.emit
       ).toHaveBeenCalled();
     }));
 
@@ -695,7 +695,7 @@ describe('Colorpicker Component', () => {
       verifyColorpicker(
         nativeElement,
         'rgba(40,137,229,0.5)',
-        '40, 137, 229, 0.5',
+        '40, 137, 229, 0.5'
       );
 
       openColorpicker(nativeElement);
@@ -709,7 +709,7 @@ describe('Colorpicker Component', () => {
       verifyColorpicker(
         nativeElement,
         'rgba(40,137,229,0.23)',
-        '40, 137, 229, 0.23',
+        '40, 137, 229, 0.23'
       );
 
       openColorpicker(nativeElement);
@@ -723,7 +723,7 @@ describe('Colorpicker Component', () => {
       verifyColorpicker(
         nativeElement,
         'rgba(40,137,229,0.77)',
-        '40, 137, 229, 0.77',
+        '40, 137, 229, 0.77'
       );
     }));
 
@@ -732,7 +732,7 @@ describe('Colorpicker Component', () => {
       openColorpicker(nativeElement);
 
       const slBar = getColorpickerContainer().querySelector(
-        '.saturation-lightness',
+        '.saturation-lightness'
       );
       const axis = getElementCoords(slBar);
 
@@ -748,7 +748,7 @@ describe('Colorpicker Component', () => {
       component.selectedOutputFormat = 'hex';
       openColorpicker(nativeElement);
       let slBar = getColorpickerContainer().querySelector(
-        '.saturation-lightness',
+        '.saturation-lightness'
       );
       let axis = getElementCoords(slBar);
       SkyAppTestUtility.fireDomEvent(slBar, 'mousedown', {
@@ -867,17 +867,17 @@ describe('Colorpicker Component', () => {
       component.selectedOutputFormat = 'hex';
       openColorpicker(nativeElement);
       expect(
-        nativeElement.querySelectorAll('button:not([type="button"])').length,
+        nativeElement.querySelectorAll('button:not([type="button"])').length
       ).toBe(0);
     }));
 
     it('should hide when input type is set to hidden.', fakeAsync(() => {
       component.inputType = 'hidden';
       const directiveEl = fixture.debugElement.query(
-        By.directive(SkyColorpickerInputDirective),
+        By.directive(SkyColorpickerInputDirective)
       );
       const directiveInstance = directiveEl.injector.get(
-        SkyColorpickerInputDirective,
+        SkyColorpickerInputDirective
       );
       tick();
       fixture.detectChanges();
@@ -894,10 +894,10 @@ describe('Colorpicker Component', () => {
 
     it('should show when input type is set to anything other than hidden.', fakeAsync(() => {
       const directiveEl = fixture.debugElement.query(
-        By.directive(SkyColorpickerInputDirective),
+        By.directive(SkyColorpickerInputDirective)
       );
       const directiveInstance = directiveEl.injector.get(
-        SkyColorpickerInputDirective,
+        SkyColorpickerInputDirective
       );
       tick();
       fixture.detectChanges();
@@ -926,7 +926,7 @@ describe('Colorpicker Component', () => {
     it('should reset colorpicker via reset button.', fakeAsync(() => {
       const spyOnResetColorPicker = spyOn(
         colorpickerComponent,
-        'onResetClick',
+        'onResetClick'
       ).and.callThrough();
       fixture.detectChanges();
       tick();
@@ -935,7 +935,7 @@ describe('Colorpicker Component', () => {
       fixture.detectChanges();
       tick();
       const buttonElem = nativeElement.querySelector(
-        '.sky-colorpicker-reset-button',
+        '.sky-colorpicker-reset-button'
       ) as HTMLElement;
       buttonElem.click();
       tick();
@@ -1008,14 +1008,14 @@ describe('Colorpicker Component', () => {
 
       const alphaBar = getColorpickerContainer().querySelector('.alpha');
       const alphaChannelBackground = fixture.debugElement.query(
-        By.css('.sky-colorpicker-checkered-background'),
+        By.css('.sky-colorpicker-checkered-background')
       );
 
       expect(alphaBar).toBeTruthy();
       expect(alphaChannelBackground).toBeTruthy();
 
       const alphaInput = document.getElementById(
-        component.colorpickerComponent.skyColorpickerAlphaId,
+        component.colorpickerComponent.skyColorpickerAlphaId
       );
 
       expect(alphaInput).toBeTruthy();
@@ -1029,14 +1029,14 @@ describe('Colorpicker Component', () => {
 
       const alphaBar = getColorpickerContainer().querySelector('.alpha');
       const alphaChannelBackground = fixture.debugElement.query(
-        By.css('.sky-colorpicker-checkered-background'),
+        By.css('.sky-colorpicker-checkered-background')
       );
 
       expect(alphaBar).toBeFalsy();
       expect(alphaChannelBackground).toBeFalsy();
 
       const alphaInput = document.getElementById(
-        component.colorpickerComponent.skyColorpickerAlphaId,
+        component.colorpickerComponent.skyColorpickerAlphaId
       );
 
       expect(alphaInput).toBeFalsy();
@@ -1044,7 +1044,7 @@ describe('Colorpicker Component', () => {
 
     it('should enable and disable AfterViewInit using a template-driven form', async () => {
       const outermostDiv = debugElement.query(
-        By.css('div > sky-colorpicker > div'),
+        By.css('div > sky-colorpicker > div')
       ).nativeElement;
 
       expect(outermostDiv).not.toHaveCssClass('sky-colorpicker-disabled');
@@ -1144,7 +1144,7 @@ describe('Colorpicker Component', () => {
       fixture.detectChanges();
       const spyOnResetColorPicker = spyOn(
         colorpickerComponent,
-        'onResetClick',
+        'onResetClick'
       ).and.callThrough();
       fixture.detectChanges();
       tick();
@@ -1153,7 +1153,7 @@ describe('Colorpicker Component', () => {
       fixture.detectChanges();
       tick();
       const buttonElem = nativeElement.querySelector(
-        '.sky-colorpicker-reset-button',
+        '.sky-colorpicker-reset-button'
       ) as HTMLElement;
       buttonElem.click();
       tick();
@@ -1228,7 +1228,7 @@ describe('Colorpicker Component', () => {
 
       const overlaySpy = spyOn(
         TestBed.inject(SkyOverlayService),
-        'create',
+        'create'
       ).and.callThrough();
 
       component.sendMessage(SkyColorpickerMessageType.Open);
@@ -1258,7 +1258,7 @@ describe('Colorpicker Component', () => {
 
       const overlaySpy = spyOn(
         SkyAffixer.prototype,
-        'destroy',
+        'destroy'
       ).and.callThrough();
 
       component.sendMessage(SkyColorpickerMessageType.Close);
@@ -1278,7 +1278,7 @@ describe('Colorpicker Component', () => {
 
     it('should enable and disable AfterViewInit using a reactive form', async () => {
       const outermostDiv = debugElement.query(
-        By.css('form > sky-colorpicker > div'),
+        By.css('form > sky-colorpicker > div')
       ).nativeElement;
 
       expect(outermostDiv).not.toHaveCssClass('sky-colorpicker-disabled');

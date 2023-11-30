@@ -9,21 +9,21 @@ const routes: Route[] = [
     path: 'data-manager',
     loadChildren: () =>
       import('./data-manager/data-manager.module').then(
-        (m) => m.DataManagerModule,
+        (m) => m.DataManagerModule
       ),
   },
   {
     path: 'ag-grid',
     loadChildren: () =>
       import('./ag-grid/ag-grid-stories.module').then(
-        (m) => m.AgGridStoriesModule,
+        (m) => m.AgGridStoriesModule
       ),
   },
   {
     path: 'data-entry-grid',
     loadChildren: () =>
       import('./data-entry-grid/data-entry-grid.module').then(
-        (m) => m.DataEntryGridModule,
+        (m) => m.DataEntryGridModule
       ),
   },
 ];

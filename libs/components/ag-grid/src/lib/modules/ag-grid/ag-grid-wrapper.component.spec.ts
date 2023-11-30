@@ -57,7 +57,7 @@ describe('SkyAgGridWrapperComponent', () => {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.default,
-          SkyThemeMode.presets.light,
+          SkyThemeMode.presets.light
         ),
         previousSettings: undefined,
       }),
@@ -93,7 +93,7 @@ describe('SkyAgGridWrapperComponent', () => {
     agGrid.gridOptions = { domLayout: 'autoHeight' };
 
     const autoHeightGridWrapperFixture = TestBed.createComponent(
-      SkyAgGridWrapperComponent,
+      SkyAgGridWrapperComponent
     );
     const autoHeightGridWrapperComponent =
       autoHeightGridWrapperFixture.componentInstance;
@@ -102,7 +102,7 @@ describe('SkyAgGridWrapperComponent', () => {
     autoHeightGridWrapperFixture.detectChanges();
 
     expect(
-      autoHeightGridWrapperComponent.viewkeeperClasses.indexOf('.ag-header'),
+      autoHeightGridWrapperComponent.viewkeeperClasses.indexOf('.ag-header')
     ).not.toEqual(-1);
   });
 
@@ -110,7 +110,7 @@ describe('SkyAgGridWrapperComponent', () => {
     agGrid.gridOptions = { domLayout: 'normal' };
 
     const normalGridWrapperFixture = TestBed.createComponent(
-      SkyAgGridWrapperComponent,
+      SkyAgGridWrapperComponent
     );
     const autoHeightGridWrapperComponent =
       normalGridWrapperFixture.componentInstance;
@@ -126,43 +126,43 @@ describe('SkyAgGridWrapperComponent', () => {
     (agGrid.api.resetRowHeights as jasmine.Spy).and.returnValue(undefined);
     (agGrid.api.refreshCells as jasmine.Spy).and.returnValue(undefined);
     expect(
-      gridWrapperNativeElement.querySelector('.sky-ag-grid'),
+      gridWrapperNativeElement.querySelector('.sky-ag-grid')
     ).toHaveCssClass('ag-theme-sky-data-grid-default');
 
     mockThemeSvc.settingsChange.next({
       currentSettings: new SkyThemeSettings(
         SkyTheme.presets.modern,
-        SkyThemeMode.presets.light,
+        SkyThemeMode.presets.light
       ),
       previousSettings: undefined,
     });
     gridWrapperFixture.detectChanges();
     expect(
-      gridWrapperNativeElement.querySelector('.sky-ag-grid'),
+      gridWrapperNativeElement.querySelector('.sky-ag-grid')
     ).toHaveCssClass('ag-theme-sky-data-grid-modern-light');
 
     mockThemeSvc.settingsChange.next({
       currentSettings: new SkyThemeSettings(
         SkyTheme.presets.modern,
-        SkyThemeMode.presets.dark,
+        SkyThemeMode.presets.dark
       ),
       previousSettings: undefined,
     });
     gridWrapperFixture.detectChanges();
     expect(
-      gridWrapperNativeElement.querySelector('.sky-ag-grid'),
+      gridWrapperNativeElement.querySelector('.sky-ag-grid')
     ).toHaveCssClass('ag-theme-sky-data-grid-modern-dark');
 
     mockThemeSvc.settingsChange.next({
       currentSettings: new SkyThemeSettings(
         SkyTheme.presets.default,
-        SkyThemeMode.presets.light,
+        SkyThemeMode.presets.light
       ),
       previousSettings: undefined,
     });
     gridWrapperFixture.detectChanges();
     expect(
-      gridWrapperNativeElement.querySelector('.sky-ag-grid'),
+      gridWrapperNativeElement.querySelector('.sky-ag-grid')
     ).toHaveCssClass('ag-theme-sky-data-grid-default');
   });
 
@@ -176,12 +176,12 @@ describe('SkyAgGridWrapperComponent', () => {
     } as CellEditingStartedEvent);
     gridWrapperFixture.detectChanges();
     expect(
-      gridWrapperNativeElement.querySelector('.sky-ag-grid'),
+      gridWrapperNativeElement.querySelector('.sky-ag-grid')
     ).toHaveCssClass('sky-ag-grid-cell-editing-test');
     agGrid.cellEditingStopped.next({} as CellEditingStoppedEvent);
     gridWrapperFixture.detectChanges();
     expect(
-      gridWrapperNativeElement.querySelector('.sky-ag-grid'),
+      gridWrapperNativeElement.querySelector('.sky-ag-grid')
     ).not.toHaveCssClass('sky-ag-grid-cell-editing-test');
     agGrid.cellEditingStarted.next({
       colDef: {
@@ -190,12 +190,12 @@ describe('SkyAgGridWrapperComponent', () => {
     } as CellEditingStartedEvent);
     gridWrapperFixture.detectChanges();
     expect(
-      gridWrapperNativeElement.querySelector('.sky-ag-grid'),
+      gridWrapperNativeElement.querySelector('.sky-ag-grid')
     ).toHaveCssClass('sky-ag-grid-cell-editing-test');
     agGrid.cellEditingStopped.next({} as CellEditingStoppedEvent);
     gridWrapperFixture.detectChanges();
     expect(
-      gridWrapperNativeElement.querySelector('.sky-ag-grid'),
+      gridWrapperNativeElement.querySelector('.sky-ag-grid')
     ).not.toHaveCssClass('sky-ag-grid-cell-editing-test');
   });
 
@@ -203,7 +203,7 @@ describe('SkyAgGridWrapperComponent', () => {
     let skyAgGridDivEl: HTMLElement;
     beforeEach(() => {
       skyAgGridDivEl = gridWrapperNativeElement.querySelector(
-        `#${gridWrapperComponent.gridId}`,
+        `#${gridWrapperComponent.gridId}`
       ) as HTMLElement;
     });
 
@@ -243,7 +243,7 @@ describe('SkyAgGridWrapperComponent', () => {
               },
             } as GridApi,
           } as DetailGridInfo,
-          0,
+          0
         );
       });
 
@@ -273,11 +273,11 @@ describe('SkyAgGridWrapperComponent', () => {
               },
             } as GridApi,
           } as DetailGridInfo,
-          0,
+          0
         );
       });
       spyOn(gridAdapterService, 'getFocusedElement').and.returnValue(
-        skyAgGridDivEl,
+        skyAgGridDivEl
       );
       spyOn(gridAdapterService, 'setFocusedElementById');
 
@@ -285,7 +285,7 @@ describe('SkyAgGridWrapperComponent', () => {
 
       expect(gridAdapterService.setFocusedElementById).toHaveBeenCalledWith(
         gridWrapperNativeElement,
-        gridWrapperComponent.afterAnchorId,
+        gridWrapperComponent.afterAnchorId
       );
     });
 
@@ -293,7 +293,7 @@ describe('SkyAgGridWrapperComponent', () => {
       and the grid was previous focused`, () => {
       (agGrid.api.getEditingCells as jasmine.Spy).and.returnValue([]);
       spyOn(gridAdapterService, 'getFocusedElement').and.returnValue(
-        skyAgGridDivEl,
+        skyAgGridDivEl
       );
       spyOn(gridAdapterService, 'setFocusedElementById');
 
@@ -301,7 +301,7 @@ describe('SkyAgGridWrapperComponent', () => {
 
       expect(gridAdapterService.setFocusedElementById).toHaveBeenCalledWith(
         gridWrapperNativeElement,
-        gridWrapperComponent.beforeAnchorId,
+        gridWrapperComponent.beforeAnchorId
       );
     });
   });
@@ -310,7 +310,7 @@ describe('SkyAgGridWrapperComponent', () => {
     let skyAgGridDivEl: HTMLElement;
     beforeEach(() => {
       skyAgGridDivEl = gridWrapperNativeElement.querySelector(
-        `#${gridWrapperComponent.gridId}`,
+        `#${gridWrapperComponent.gridId}`
       ) as HTMLElement;
     });
 
@@ -333,7 +333,7 @@ describe('SkyAgGridWrapperComponent', () => {
   describe('onAnchorFocus', () => {
     function focusOnAnchor(
       anchorEl: HTMLElement,
-      previousFocusedEl: HTMLElement,
+      previousFocusedEl: HTMLElement
     ): void {
       SkyAppTestUtility.fireDomEvent(anchorEl, 'focusin', {
         customEventInit: {
@@ -346,10 +346,10 @@ describe('SkyAgGridWrapperComponent', () => {
 
     it('should shift focus to the first grid cell if it was not the previously focused element and there is a cell', () => {
       const afterAnchorEl = gridWrapperNativeElement.querySelector(
-        `#${gridWrapperComponent.afterAnchorId}`,
+        `#${gridWrapperComponent.afterAnchorId}`
       ) as HTMLElement;
       const afterButtonEl = gridWrapperNativeElement.querySelector(
-        '#button-after-grid',
+        '#button-after-grid'
       ) as HTMLElement;
       const column = new Column({}, {}, 'name', true);
 
@@ -365,10 +365,10 @@ describe('SkyAgGridWrapperComponent', () => {
 
     it('should not shift focus to the first grid cell if there is no cell', () => {
       const afterAnchorEl = gridWrapperNativeElement.querySelector(
-        `#${gridWrapperComponent.afterAnchorId}`,
+        `#${gridWrapperComponent.afterAnchorId}`
       ) as HTMLElement;
       const afterButtonEl = gridWrapperNativeElement.querySelector(
-        '#button-after-grid',
+        '#button-after-grid'
       ) as HTMLElement;
       const column = new Column({}, {}, 'name', true);
 
@@ -383,10 +383,10 @@ describe('SkyAgGridWrapperComponent', () => {
 
     it('should not shift focus to the grid if it was the previously focused element', () => {
       const afterAnchorEl = gridWrapperNativeElement.querySelector(
-        `#${gridWrapperComponent.afterAnchorId}`,
+        `#${gridWrapperComponent.afterAnchorId}`
       ) as HTMLElement;
       const gridEl = gridWrapperNativeElement.querySelector(
-        `#${gridWrapperComponent.gridId}`,
+        `#${gridWrapperComponent.gridId}`
       ) as HTMLElement;
       spyOn(gridAdapterService, 'setFocusedElementById');
 
@@ -402,7 +402,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
   let gridWrapperNativeElement: HTMLElement;
   const getChildrenClassNames = () =>
     Array.from(
-      gridWrapperNativeElement.querySelector('.ag-root')?.children || [],
+      gridWrapperNativeElement.querySelector('.ag-root')?.children || []
     ).map((el) => el.classList[0]);
 
   it('should move the horizontal scroll based on enableTopScroll check, static data', async () => {
@@ -499,18 +499,18 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
 
     expect(
       gridWrapperNativeElement.querySelector(
-        `[col-id="name"] .sky-control-help`,
-      ),
+        `[col-id="name"] .sky-control-help`
+      )
     ).toBeTruthy();
     expect(
       gridWrapperNativeElement.querySelector(
-        `[col-id="value"] .sky-control-help`,
-      ),
+        `[col-id="value"] .sky-control-help`
+      )
     ).toBeTruthy();
     expect(
       gridWrapperNativeElement
         .querySelector(`[col-id="value"] .sky-control-help`)
-        ?.getAttribute('title'),
+        ?.getAttribute('title')
     ).toEqual('Current Value help');
 
     gridWrapperFixture.componentInstance.agGrid?.api.setColumnDefs([
@@ -548,18 +548,18 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
 
     expect(
       gridWrapperNativeElement.querySelector(
-        `[col-id="name"] .sky-control-help`,
-      ),
+        `[col-id="name"] .sky-control-help`
+      )
     ).toBeFalsy();
     expect(
       gridWrapperNativeElement.querySelector(
-        `[col-id="value"] .sky-control-help`,
-      ),
+        `[col-id="value"] .sky-control-help`
+      )
     ).toBeTruthy();
     expect(
       gridWrapperNativeElement
         .querySelector(`[col-id="value"] .sky-control-help`)
-        ?.getAttribute('title'),
+        ?.getAttribute('title')
     ).toEqual('Current Value help replaced');
   });
 
@@ -632,7 +632,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       gridWrapperFixture.detectChanges();
       await gridWrapperFixture.whenStable();
       await expectAsync(
-        gridWrapperNativeElement.ownerDocument.body,
+        gridWrapperNativeElement.ownerDocument.body
       ).toBeAccessible({
         rules: {
           region: {

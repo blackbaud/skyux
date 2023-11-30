@@ -1,4 +1,5 @@
-import { AsyncList, ListItemModel } from '@skyux/list-builder-common';
+import { ListItemModel } from '@skyux/list-builder-common';
+import { AsyncList } from '@skyux/list-builder-common';
 
 import { ListStateOrchestrator } from '../list-state.rxstate';
 
@@ -24,22 +25,22 @@ export class ListItemsOrchestrator extends ListStateOrchestrator<
 
   private setLoading(
     state: AsyncList<ListItemModel>,
-    action: ListItemsSetLoadingAction,
+    action: ListItemsSetLoadingAction
   ): AsyncList<ListItemModel> {
     return new AsyncList<ListItemModel>(
       state.items,
       state.lastUpdate,
       action.loading,
-      state.count,
+      state.count
     );
   }
 
   private load(
     state: AsyncList<ListItemModel>,
-    action: ListItemsLoadAction,
+    action: ListItemsLoadAction
   ): AsyncList<ListItemModel> {
     const newListItems = action.items.map(
-      (g) => new ListItemModel(g.id, g.data, g.isSelected),
+      (g) => new ListItemModel(g.id, g.data, g.isSelected)
     );
     const resultItems = action.refresh
       ? [...newListItems]
@@ -51,13 +52,13 @@ export class ListItemsOrchestrator extends ListStateOrchestrator<
       resultItems,
       action.dataChanged ? Date.now() : state.lastUpdate,
       false,
-      count,
+      count
     );
   }
 
   private setItemsSelected(
     state: AsyncList<ListItemModel>,
-    action: ListItemsSetSelectedAction,
+    action: ListItemsSetSelectedAction
   ): AsyncList<ListItemModel> {
     /* istanbul ignore next */
     const newSelectedIds = action.items || [];
@@ -79,12 +80,12 @@ export class ListItemsOrchestrator extends ListStateOrchestrator<
       newListItemModels,
       Date.now(),
       state.loading,
-      state.count,
+      state.count
     );
   }
 
   private cloneListItemModelArray(
-    source: Array<ListItemModel>,
+    source: Array<ListItemModel>
   ): ListItemModel[] {
     const newListItems: Array<ListItemModel> = [];
     source.forEach((item) => {
@@ -92,8 +93,8 @@ export class ListItemsOrchestrator extends ListStateOrchestrator<
         new ListItemModel(
           item.id,
           Object.assign({}, item.data),
-          item.isSelected,
-        ),
+          item.isSelected
+        )
       );
     });
     return newListItems;

@@ -16,7 +16,7 @@ export class SkyAvatarFixture {
 
     if (SkyAppTestUtility.isVisible(initialsEl)) {
       return SkyAppTestUtility.getText(
-        initialsEl.query(By.css('.sky-avatar-initials-inner')),
+        initialsEl.query(By.css('.sky-avatar-initials-inner'))
       );
     }
 
@@ -42,7 +42,7 @@ export class SkyAvatarFixture {
     this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
-      'sky-avatar',
+      'sky-avatar'
     );
   }
 }

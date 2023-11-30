@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class SkyHelpInlineAriaExpandedPipe implements PipeTransform {
   public transform(
     ariaExpanded: boolean | undefined,
-    ariaControls: string | undefined,
+    ariaControls: string | undefined
   ): boolean | null {
     return ariaControls ? !!ariaExpanded : null;
   }

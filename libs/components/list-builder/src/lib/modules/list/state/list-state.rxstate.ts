@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
-import {
-  ListSortFieldSelectorModel,
-  StateDispatcher,
-  StateOrchestrator,
-} from '@skyux/list-builder-common';
+import { StateDispatcher, StateOrchestrator } from '@skyux/list-builder-common';
+import { ListSortFieldSelectorModel } from '@skyux/list-builder-common';
 
 import { ListFilterModel } from '../../list-filters/filter.model';
 
@@ -67,7 +64,7 @@ export class ListStateDispatcher extends StateDispatcher<ListStateAction> {
   }
 
   public searchSetFunctions(
-    sortFunctions: ((data: any, searchText: string) => boolean)[],
+    sortFunctions: ((data: any, searchText: string) => boolean)[]
   ): void {
     this.next(new ListSearchSetFunctionsAction(sortFunctions));
   }
@@ -86,8 +83,8 @@ export class ListStateDispatcher extends StateDispatcher<ListStateAction> {
       new ListSearchSetOptionsAction(
         new ListSearchSetSearchTextAction(searchOptions.searchText),
         new ListSearchSetFieldSelectorsAction(searchOptions.fieldSelectors),
-        new ListSearchSetFunctionsAction(searchOptions.functions),
-      ),
+        new ListSearchSetFunctionsAction(searchOptions.functions)
+      )
     );
   }
 
@@ -96,7 +93,7 @@ export class ListStateDispatcher extends StateDispatcher<ListStateAction> {
   }
 
   public sortSetFieldSelectors(
-    fieldSelectors: ListSortFieldSelectorModel[],
+    fieldSelectors: ListSortFieldSelectorModel[]
   ): void {
     this.next(new ListSortSetFieldSelectorsAction(fieldSelectors));
   }
@@ -112,10 +109,10 @@ export class ListStateDispatcher extends StateDispatcher<ListStateAction> {
   public setSelected(
     selectedIds: string[],
     selected: boolean,
-    refresh = false,
+    refresh = false
   ): void {
     this.next(
-      new ListSelectedSetItemsSelectedAction(selectedIds, selected, refresh),
+      new ListSelectedSetItemsSelectedAction(selectedIds, selected, refresh)
     );
   }
 }

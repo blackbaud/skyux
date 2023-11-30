@@ -36,7 +36,7 @@ export class SkyTileDashboardColumnComponent {
 
   constructor(
     public injector: EnvironmentInjector,
-    dashboardService: SkyTileDashboardService,
+    dashboardService: SkyTileDashboardService
   ) {
     this.#dashboardService = dashboardService;
 

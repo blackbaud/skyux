@@ -28,18 +28,18 @@ class TestProjectionComponent {}
 
 const DEFAULT_THEME = new SkyThemeSettings(
   SkyTheme.presets.default,
-  SkyThemeMode.presets.light,
+  SkyThemeMode.presets.light
 );
 const MODERN_THEME = new SkyThemeSettings(
   SkyTheme.presets.modern,
-  SkyThemeMode.presets.light,
+  SkyThemeMode.presets.light
 );
 
 describe('ThemeIf directive', () => {
   //#region helpers
   function expectOnlyElementShowing(
     fixture: ComponentFixture<any>,
-    expected: string,
+    expected: string
   ): void {
     const elements =
       fixture.debugElement.nativeElement.querySelectorAll('.sky-theme-if-test');
@@ -49,11 +49,11 @@ describe('ThemeIf directive', () => {
 
   function testForWrappedElementShowing(
     fixture: ComponentFixture<any>,
-    expected: string,
+    expected: string
   ): void {
     fixture.detectChanges();
     const elements = fixture.debugElement.nativeElement.querySelectorAll(
-      '.sky-theme-if-wrapped-test',
+      '.sky-theme-if-wrapped-test'
     );
     expect(elements.length).toBe(1);
     expect(elements[0]).toHaveText(expected);
@@ -61,7 +61,7 @@ describe('ThemeIf directive', () => {
 
   function testForInputElementShowing(
     fixture: ComponentFixture<any>,
-    expected: string,
+    expected: string
   ): void {
     fixture.detectChanges();
     const element = getInputTestElement(fixture);
@@ -70,11 +70,11 @@ describe('ThemeIf directive', () => {
 
   function testForContentProjectionShowing(
     fixture: ComponentFixture<any>,
-    expected: string,
+    expected: string
   ): void {
     fixture.detectChanges();
     const element = fixture.debugElement.nativeElement.querySelector(
-      '.sky-theme-template',
+      '.sky-theme-template'
     );
     expect(element).toHaveText(expected);
   }
@@ -82,7 +82,7 @@ describe('ThemeIf directive', () => {
   async function changeTheme(
     fixture: ComponentFixture<any>,
     mockThemeSvc: MockThemeService,
-    theme: SkyThemeSettings,
+    theme: SkyThemeSettings
   ): Promise<void> {
     mockThemeSvc.settingsChange!.next({
       currentSettings: theme,
@@ -95,7 +95,7 @@ describe('ThemeIf directive', () => {
 
   function getInputTestElement(fixture: ComponentFixture<any>): HTMLElement {
     return fixture.debugElement.nativeElement.querySelector(
-      '.sky-theme-if-input-test',
+      '.sky-theme-if-input-test'
     );
   }
   //#endregion
@@ -116,7 +116,7 @@ describe('ThemeIf directive', () => {
     // Establish that our test is set up correctly.
     it('should not have a SkyThemeService provider', () => {
       expect(() => TestBed.inject(SkyThemeService)).toThrowError(
-        /No provider for SkyThemeService/,
+        /No provider for SkyThemeService/
       );
     });
 
@@ -135,7 +135,7 @@ describe('ThemeIf directive', () => {
         {
           currentSettings: DEFAULT_THEME,
           previousSettings: undefined,
-        },
+        }
       );
 
       await TestBed.configureTestingModule({
@@ -151,7 +151,7 @@ describe('ThemeIf directive', () => {
     // Establish that our test is set up correctly.
     it('should have a SkyThemeService provider', () => {
       expect(() => TestBed.inject(SkyThemeService)).not.toThrowError(
-        /No provider for SkyThemeService/,
+        /No provider for SkyThemeService/
       );
     });
 
@@ -198,19 +198,19 @@ describe('ThemeIf directive', () => {
       const componentFixture = TestBed.createComponent(TestProjectionComponent);
       testForContentProjectionShowing(
         componentFixture,
-        'default: Example content projection.',
+        'default: Example content projection.'
       );
 
       await changeTheme(fixture, mockThemeSvc, MODERN_THEME);
       testForContentProjectionShowing(
         componentFixture,
-        'modern: Example content projection.',
+        'modern: Example content projection.'
       );
 
       await changeTheme(fixture, mockThemeSvc, DEFAULT_THEME);
       testForContentProjectionShowing(
         componentFixture,
-        'default: Example content projection.',
+        'default: Example content projection.'
       );
     });
   });

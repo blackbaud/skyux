@@ -18,6 +18,7 @@ import {
 import { AgGridModule } from 'ag-grid-angular';
 import {
   ColDef,
+  ColumnApi,
   GridApi,
   GridOptions,
   GridReadyEvent,
@@ -122,6 +123,7 @@ export class ViewGridComponent implements OnInit, OnDestroy {
     name: 'Data Grid View',
     icon: 'table',
     searchEnabled: true,
+    sortEnabled: true,
     multiselectToolbarEnabled: true,
     columnPickerEnabled: true,
     filterButtonEnabled: true,
@@ -181,6 +183,7 @@ export class ViewGridComponent implements OnInit, OnDestroy {
 
   #_items: AgGridDemoRow[] = [];
 
+  #columnApi: ColumnApi | undefined;
   #dataState = new SkyDataManagerState({});
   #gridApi: GridApi | undefined;
   #ngUnsubscribe = new Subject<void>();
@@ -230,6 +233,7 @@ export class ViewGridComponent implements OnInit, OnDestroy {
   protected onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.#gridApi = gridReadyEvent.api;
     this.#gridApi.sizeColumnsToFit();
+    this.#columnApi = gridReadyEvent.columnApi;
     this.#updateData();
     this.#changeDetectorRef.markForCheck();
   }
@@ -301,10 +305,10 @@ export class ViewGridComponent implements OnInit, OnDestroy {
 
     this.#columnDefs.sort((col1, col2) => {
       const col1Index = visibleColumns.findIndex(
-        (colId: string) => colId === col1.colId,
+        (colId: string) => colId === col1.colId
       );
       const col2Index = visibleColumns.findIndex(
-        (colId: string) => colId === col2.colId,
+        (colId: string) => colId === col2.colId
       );
 
       if (col1Index === -1) {
@@ -322,7 +326,23 @@ export class ViewGridComponent implements OnInit, OnDestroy {
     this.#changeDetectorRef.markForCheck();
   }
 
+  #sortItems(): void {
+    const sortOption = this.#dataState.activeSortOption;
+
+    if (this.#columnApi && sortOption) {
+      this.#columnApi.applyColumnState({
+        state: [
+          {
+            colId: sortOption.propertyName,
+            sort: sortOption.descending ? 'desc' : 'asc',
+          },
+        ],
+      });
+    }
+  }
+
   #updateData(): void {
+    this.#sortItems();
     this.displayedItems = this.#filterItems(this.#searchItems(this.items));
 
     if (this.#dataState.onlyShowSelected) {

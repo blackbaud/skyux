@@ -9,7 +9,8 @@ import {
 } from '@angular/core';
 import { SkyGridSelectedRowsModelChange } from '@skyux/grids';
 
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 import { SkyListViewGridComponent } from '../list-view-grid.component';
 import { SkyListViewGridMessage } from '../types/list-view-grid-message';
@@ -53,7 +54,7 @@ export class ListViewGridFixtureComponent implements OnInit {
   }
 
   public multiselectSelectionChange(
-    multiselectSelectionChange: SkyGridSelectedRowsModelChange,
+    multiselectSelectionChange: SkyGridSelectedRowsModelChange
   ) {
     console.log(multiselectSelectionChange);
   }
@@ -81,7 +82,7 @@ export class ListViewGridFixtureComponent implements OnInit {
   }
 
   public finishRowDelete(
-    confirmArgs: SkyListViewGridRowDeleteConfirmArgs,
+    confirmArgs: SkyListViewGridRowDeleteConfirmArgs
   ): void {
     return;
   }

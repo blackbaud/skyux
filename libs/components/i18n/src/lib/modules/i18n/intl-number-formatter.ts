@@ -6,7 +6,7 @@ export abstract class SkyIntlNumberFormatter {
     num: number,
     locale: string,
     style: SkyIntlNumberFormatStyle,
-    opts: SkyIntlNumberFormatterOptions = {},
+    opts: SkyIntlNumberFormatterOptions = {}
   ): string {
     const {
       minimumIntegerDigits,

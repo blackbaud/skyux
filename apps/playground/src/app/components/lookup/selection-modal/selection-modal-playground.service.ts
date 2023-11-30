@@ -33,12 +33,8 @@ const people: SelectionModalPlaygroundPerson[] = [
   providedIn: 'root',
 })
 export class SelectionModalPlaygroundService {
-  public addItem(item: SelectionModalPlaygroundPerson): void {
-    people.push(item);
-  }
-
   public search(
-    searchText: string,
+    searchText: string
   ): Observable<SelectionModalPlaygroundSearchResults> {
     // Simulate a network call with latency. A real-world application might
     // use Angular's HttpClient to create an Observable from a call to a
@@ -46,7 +42,7 @@ export class SelectionModalPlaygroundService {
     searchText = searchText.toUpperCase();
 
     const matchingPeople = people.filter((person) =>
-      person.name.toUpperCase().includes(searchText),
+      person.name.toUpperCase().includes(searchText)
     );
 
     return of({

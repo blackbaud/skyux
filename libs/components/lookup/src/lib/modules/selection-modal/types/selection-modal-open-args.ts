@@ -52,7 +52,7 @@ export interface SkySelectionModalOpenArgs {
    * Called when users enter new search information and returns results via an observable.
    */
   searchAsync: (
-    args: SkySelectionModalSearchArgs,
+    args: SkySelectionModalSearchArgs
   ) => Observable<SkySelectionModalSearchResult> | undefined;
 
   /**

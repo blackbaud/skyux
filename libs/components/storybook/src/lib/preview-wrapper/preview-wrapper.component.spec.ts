@@ -50,10 +50,10 @@ describe('PreviewWrapperComponent', () => {
     const subscription = themeService.settingsChange.subscribe(
       (settings: SkyThemeSettingsChange) => {
         expect(settings.currentSettings.theme.name).toEqual(
-          expectedTheme.theme,
+          expectedTheme.theme
         );
         expect(settings.currentSettings.mode.name).toEqual(expectedTheme.mode);
-      },
+      }
     );
     expectedTheme = {
       theme: 'modern',

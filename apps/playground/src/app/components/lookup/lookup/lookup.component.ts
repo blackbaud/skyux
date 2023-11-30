@@ -79,7 +79,7 @@ export class LookupComponent implements OnInit {
   constructor(
     private formBuilder: UntypedFormBuilder,
     private modalService: SkyModalService,
-    private changeDetector: ChangeDetectorRef,
+    private changeDetector: ChangeDetectorRef
   ) {}
 
   public ngOnInit(): void {
@@ -150,7 +150,7 @@ export class LookupComponent implements OnInit {
     const searchText = (args.searchText || '').toLowerCase();
 
     let items = this.people.filter(
-      (item) => item.name.toLowerCase().indexOf(searchText) >= 0,
+      (item) => item.name.toLowerCase().indexOf(searchText) >= 0
     );
 
     const totalCount = items.length;

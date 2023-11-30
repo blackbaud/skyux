@@ -26,7 +26,7 @@ describe('SkyAppLink Directive', () => {
     params: any,
     useQueryParams: boolean,
     provideSkyAppConfig = true,
-    provideParamProvider = true,
+    provideParamProvider = true
   ): void {
     const componentToUse = useQueryParams
       ? SkyAppLinkWithParamsTestComponent
@@ -93,12 +93,12 @@ describe('SkyAppLink Directive', () => {
         asdf: 123,
         jkl: 'mno',
       },
-      false,
+      false
     );
     const directive = debugElement.query(By.directive(SkyAppLinkDirective));
     expect(directive.attributes['skyAppLink']).toEqual('test');
     expect(
-      directive.properties['href'].endsWith('/test?asdf=123&jkl=mno'),
+      directive.properties['href'].endsWith('/test?asdf=123&jkl=mno')
     ).toBeTrue();
   });
 
@@ -107,7 +107,7 @@ describe('SkyAppLink Directive', () => {
     const directive = debugElement.query(By.directive(SkyAppLinkDirective));
     expect(directive.attributes['skyAppLink']).toEqual('test');
     expect(
-      directive.properties['href'].endsWith('/test?qp1=1&qp2=false'),
+      directive.properties['href'].endsWith('/test?qp1=1&qp2=false')
     ).toBeTrue();
   });
 
@@ -117,14 +117,14 @@ describe('SkyAppLink Directive', () => {
         asdf: 123,
         jkl: 'mno',
       },
-      true,
+      true
     );
     const directive = debugElement.query(By.directive(SkyAppLinkDirective));
     expect(directive.attributes['skyAppLink']).toEqual('test');
     expect(
       directive.properties['href'].endsWith(
-        '/test?qp1=1&qp2=false&asdf=123&jkl=mno',
-      ),
+        '/test?qp1=1&qp2=false&asdf=123&jkl=mno'
+      )
     ).toBeTrue();
   });
 
@@ -141,13 +141,13 @@ describe('SkyAppLink Directive', () => {
         jkl: 'mno',
       },
       true,
-      false,
+      false
     );
     const directive = debugElement.query(By.directive(SkyAppLinkDirective));
     expect(
       directive.properties['href'].endsWith(
-        '/test?qp1=1&qp2=false&asdf=123&jkl=mno',
-      ),
+        '/test?qp1=1&qp2=false&asdf=123&jkl=mno'
+      )
     ).toBeTrue();
   });
 
@@ -159,12 +159,12 @@ describe('SkyAppLink Directive', () => {
       },
       true,
       false,
-      false,
+      false
     );
     const directive = debugElement.query(By.directive(SkyAppLinkDirective));
     expect(directive.attributes['skyAppLink']).toEqual('test');
     expect(
-      directive.properties['href'].endsWith('/test?qp1=1&qp2=false'),
+      directive.properties['href'].endsWith('/test?qp1=1&qp2=false')
     ).toBeTrue();
   });
 });

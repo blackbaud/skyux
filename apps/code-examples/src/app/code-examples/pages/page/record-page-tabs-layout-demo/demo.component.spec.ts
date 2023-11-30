@@ -39,7 +39,7 @@ describe('Record page tabs layout demo', async () => {
     const pageHeaderHarness = await pageHarness.getPageHeader();
 
     await expectAsync(pageHeaderHarness.getPageTitle()).toBeResolvedTo(
-      'Charlene Conners',
+      'Charlene Conners'
     );
   });
 });

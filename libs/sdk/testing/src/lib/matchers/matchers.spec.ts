@@ -138,7 +138,7 @@ describe('Jasmine matchers', () => {
     } catch (err) {
       if (err instanceof Error) {
         expect(err.message).toEqual(
-          'Please remove the leading dot from your class name.',
+          'Please remove the leading dot from your class name.'
         );
       }
     }
@@ -192,7 +192,7 @@ describe('Jasmine matchers', () => {
       const failSpy = spyOn(window as any, 'fail').and.callFake(
         (message: string) => {
           expect(message.indexOf('duplicate-id') > -1).toEqual(true);
-        },
+        }
       );
 
       const element = createFailingElement();
@@ -235,9 +235,9 @@ describe('Jasmine matchers', () => {
           const element = createPassingElement();
           expect(element).toBeAccessible(
             undefined,
-            config.skyux.a11y as SkyA11yAnalyzerConfig,
+            config.skyux.a11y as SkyA11yAnalyzerConfig
           );
-        }),
+        })
       ));
     });
   });
@@ -279,7 +279,7 @@ describe('Jasmine matchers', () => {
             } else {
               return EMPTY;
             }
-          },
+          }
         );
 
         expect(text).toEqualResourceText(messageKey, messageArgs);
@@ -293,13 +293,13 @@ describe('Jasmine matchers', () => {
         const failSpy = spyOn(window as any, 'fail').and.callFake(
           (message: string) => {
             expect(message).toEqual(
-              `Expected "${text}" to equal "${messageValue}"`,
+              `Expected "${text}" to equal "${messageValue}"`
             );
-          },
+          }
         );
 
         spyOn(resourcesService, 'getString').and.returnValue(
-          observableOf(messageValue),
+          observableOf(messageValue)
         );
 
         // This will result in a failure on a consumer unit test.
@@ -364,7 +364,7 @@ describe('Jasmine matchers', () => {
             } else {
               return EMPTY;
             }
-          },
+          }
         );
 
         expect(elem).toHaveResourceText(messageKey, messageArgs);
@@ -378,13 +378,13 @@ describe('Jasmine matchers', () => {
         const failSpy = spyOn(window as any, 'fail').and.callFake(
           (message: string) => {
             expect(message).toEqual(
-              `Expected element's inner text "${elem.innerText}" to be "${messageValue}"`,
+              `Expected element's inner text "${elem.innerText}" to be "${messageValue}"`
             );
-          },
+          }
         );
 
         spyOn(resourcesService, 'getString').and.returnValue(
-          observableOf(messageValue),
+          observableOf(messageValue)
         );
 
         // This will result in a failure on a consumer unit test.
@@ -404,13 +404,13 @@ describe('Jasmine matchers', () => {
         const failSpy = spyOn(window as any, 'fail').and.callFake(
           (message: string) => {
             expect(message).toEqual(
-              `Expected element's inner text "   ${messageValue}   " to be "${messageValue}"`,
+              `Expected element's inner text "   ${messageValue}   " to be "${messageValue}"`
             );
-          },
+          }
         );
 
         spyOn(resourcesService, 'getString').and.returnValue(
-          observableOf(messageValue),
+          observableOf(messageValue)
         );
 
         // This will result in a failure on a consumer unit test.
@@ -505,13 +505,13 @@ describe('Jasmine matchers', () => {
         const failSpy = spyOn(window as any, 'fail').and.callFake(
           (message: string) => {
             expect(message).toEqual(
-              `Expected element's text "${elem.innerText}" to match "${messageValue}"`,
+              `Expected element's text "${elem.innerText}" to match "${messageValue}"`
             );
-          },
+          }
         );
 
         spyOn(resourcesService, 'getString').and.returnValue(
-          observableOf(messageValue),
+          observableOf(messageValue)
         );
 
         // This will result in a failure on a consumer unit test.
@@ -547,13 +547,13 @@ describe('Jasmine matchers', () => {
         const failSpy = spyOn(window as any, 'fail').and.callFake(
           (message: string) => {
             expect(message).toEqual(
-              `Expected element's text "${elem.innerText}" to match "${messageValue}"`,
+              `Expected element's text "${elem.innerText}" to match "${messageValue}"`
             );
-          },
+          }
         );
 
         spyOn(resourcesService, 'getString').and.returnValue(
-          observableOf(messageValue),
+          observableOf(messageValue)
         );
 
         // This will result in a failure on a consumer unit test.
@@ -617,7 +617,7 @@ describe('Jasmine matchers', () => {
               } else {
                 return EMPTY;
               }
-            },
+            }
           );
 
           await expectAsync(text).toEqualResourceText(messageKey, messageArgs);
@@ -629,7 +629,7 @@ describe('Jasmine matchers', () => {
           const text = "Some text that's not in the resources";
 
           spyOn(resourcesService, 'getString').and.returnValue(
-            observableOf(messageValue),
+            observableOf(messageValue)
           );
 
           await expectAsync(text).not.toEqualResourceText(messageKey);
@@ -683,19 +683,19 @@ describe('Jasmine matchers', () => {
           const elem = createElement(
             messageValue
               .replace('{0}', messageArgs[0])
-              .replace('{1}', messageArgs[1]),
+              .replace('{1}', messageArgs[1])
           );
 
           spyOn(resourcesService, 'getString').and.callFake(
             (name: string, arg1: string, arg2: string) => {
               if (name === messageKey) {
                 return observableOf(
-                  messageValue.replace('{0}', arg1).replace('{1}', arg2),
+                  messageValue.replace('{0}', arg1).replace('{1}', arg2)
                 );
               } else {
                 return EMPTY;
               }
-            },
+            }
           );
 
           await expectAsync(elem).toHaveResourceText(messageKey, messageArgs);
@@ -707,7 +707,7 @@ describe('Jasmine matchers', () => {
           const elem = createElement("Some text that's not in the resources");
 
           spyOn(resourcesService, 'getString').and.returnValue(
-            observableOf(messageValue),
+            observableOf(messageValue)
           );
 
           await expectAsync(elem).not.toHaveResourceText(messageKey);
@@ -719,7 +719,7 @@ describe('Jasmine matchers', () => {
           const elem = createElement(`    ${messageValue}    `);
 
           spyOn(resourcesService, 'getString').and.returnValue(
-            observableOf(messageValue),
+            observableOf(messageValue)
           );
 
           await expectAsync(elem).not.toHaveResourceText(messageKey, [], false);
@@ -805,7 +805,7 @@ describe('Jasmine matchers', () => {
           const messageValue = 'a{0}a{1}a{2}a{3}';
           const elem = createElement('a0a1a2');
           spyOn(resourcesService, 'getString').and.returnValue(
-            observableOf(messageValue),
+            observableOf(messageValue)
           );
           await expectAsync(elem).not.toMatchResourceTemplate(messageKey);
         });
@@ -831,7 +831,7 @@ describe('Jasmine matchers', () => {
           const messageValue = 'message from resource';
           const elem = createElement("Some text that's not in the resources");
           spyOn(resourcesService, 'getString').and.returnValue(
-            observableOf(messageValue),
+            observableOf(messageValue)
           );
           await expectAsync(elem).not.toMatchResourceTemplate(messageKey);
         });
@@ -875,12 +875,12 @@ describe('Jasmine matchers', () => {
               } else {
                 return EMPTY;
               }
-            },
+            }
           );
 
           await expectAsync(text).toEqualLibResourceText(
             messageKey,
-            messageArgs,
+            messageArgs
           );
         });
 
@@ -890,7 +890,7 @@ describe('Jasmine matchers', () => {
           const text = "Some text that's not in the resources";
 
           spyOn(resourcesService, 'getString').and.returnValue(
-            observableOf(messageValue),
+            observableOf(messageValue)
           );
 
           await expectAsync(text).not.toEqualLibResourceText(messageKey);
@@ -944,24 +944,24 @@ describe('Jasmine matchers', () => {
           const elem = createElement(
             messageValue
               .replace('{0}', messageArgs[0])
-              .replace('{1}', messageArgs[1]),
+              .replace('{1}', messageArgs[1])
           );
 
           spyOn(resourcesService, 'getString').and.callFake(
             (name: string, arg1: string, arg2: string) => {
               if (name === messageKey) {
                 return observableOf(
-                  messageValue.replace('{0}', arg1).replace('{1}', arg2),
+                  messageValue.replace('{0}', arg1).replace('{1}', arg2)
                 );
               } else {
                 return EMPTY;
               }
-            },
+            }
           );
 
           await expectAsync(elem).toHaveLibResourceText(
             messageKey,
-            messageArgs,
+            messageArgs
           );
         });
 
@@ -971,7 +971,7 @@ describe('Jasmine matchers', () => {
           const elem = createElement("Some text that's not in the resources");
 
           spyOn(resourcesService, 'getString').and.returnValue(
-            observableOf(messageValue),
+            observableOf(messageValue)
           );
 
           await expectAsync(elem).not.toHaveLibResourceText(messageKey);
@@ -983,13 +983,13 @@ describe('Jasmine matchers', () => {
           const elem = createElement(`    ${messageValue}    `);
 
           spyOn(resourcesService, 'getString').and.returnValue(
-            observableOf(messageValue),
+            observableOf(messageValue)
           );
 
           await expectAsync(elem).not.toHaveLibResourceText(
             messageKey,
             [],
-            false,
+            false
           );
         });
       });
@@ -1073,7 +1073,7 @@ describe('Jasmine matchers', () => {
           const messageValue = 'a{0}a{1}a{2}a{3}';
           const elem = createElement('a0a1a2');
           spyOn(resourcesService, 'getString').and.returnValue(
-            observableOf(messageValue),
+            observableOf(messageValue)
           );
           await expectAsync(elem).not.toMatchLibResourceTemplate(messageKey);
         });
@@ -1099,7 +1099,7 @@ describe('Jasmine matchers', () => {
           const messageValue = 'message from resource';
           const elem = createElement("Some text that's not in the resources");
           spyOn(resourcesService, 'getString').and.returnValue(
-            observableOf(messageValue),
+            observableOf(messageValue)
           );
           await expectAsync(elem).not.toMatchLibResourceTemplate(messageKey);
         });

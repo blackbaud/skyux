@@ -18,7 +18,7 @@ export class SkyInfiniteScrollFixture {
     this.#debugElement = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
-      'sky-infinite-scroll',
+      'sky-infinite-scroll'
     );
   }
 
@@ -37,7 +37,7 @@ export class SkyInfiniteScrollFixture {
 
   #getButton() {
     return this.#debugElement.nativeElement.querySelector(
-      '.sky-infinite-scroll .sky-btn',
+      '.sky-infinite-scroll .sky-btn'
     );
   }
 }

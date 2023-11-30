@@ -23,7 +23,7 @@ export class SkyAuthHttpTestingController {
         'Bearer ' + SkyAuthTokenMockProvider.MOCK_TOKEN
     ) {
       throw new Error(
-        'The specified request does not contain the expected BBID Authorization header.',
+        'The specified request does not contain the expected BBID Authorization header.'
       );
     }
   }

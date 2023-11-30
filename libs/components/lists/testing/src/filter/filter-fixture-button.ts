@@ -19,7 +19,7 @@ export class SkyFilterFixtureButton {
     this.#debugElement = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
-      'sky-filter-button',
+      'sky-filter-button'
     );
   }
 

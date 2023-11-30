@@ -7,8 +7,8 @@ describe('affix', () => {
         cy
           .viewport(1280, 1200)
           .visit(
-            `/iframe.html?globals=theme:${theme}&id=affixcomponent-affix--affix`,
-          ),
+            `/iframe.html?globals=theme:${theme}&id=affixcomponent-affix--affix`
+          )
       );
       it('should render the component', () => {
         cy.get('#ready')

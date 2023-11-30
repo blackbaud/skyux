@@ -52,7 +52,7 @@ export class SkyDayPickerCellComponent implements OnInit, OnDestroy {
 
   constructor(
     datepicker: SkyDatepickerCalendarInnerComponent,
-    datepickerService: SkyDatepickerService,
+    datepickerService: SkyDatepickerService
   ) {
     this.#datepicker = datepicker;
     this.#datepickerService = datepickerService;

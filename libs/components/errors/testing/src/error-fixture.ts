@@ -15,7 +15,7 @@ export class SkyErrorFixture {
    */
   public get errorType(): string | undefined {
     const imageEl = this.#debugEl.query(
-      By.css('.sky-error-image-container > div'),
+      By.css('.sky-error-image-container > div')
     );
 
     if (imageEl) {
@@ -41,7 +41,7 @@ export class SkyErrorFixture {
     this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
-      'sky-error',
+      'sky-error'
     );
   }
 }

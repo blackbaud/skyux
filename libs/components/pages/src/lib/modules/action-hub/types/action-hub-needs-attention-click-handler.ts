@@ -1,5 +1,5 @@
 export type SkyActionHubNeedsAttentionClickHandler = (
-  _: SkyActionHubNeedsAttentionClickHandlerArgs,
+  _: SkyActionHubNeedsAttentionClickHandlerArgs
 ) => void;
 
 export type SkyActionHubNeedsAttentionClickHandlerArgs = {

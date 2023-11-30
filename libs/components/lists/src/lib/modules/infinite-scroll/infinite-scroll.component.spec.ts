@@ -22,7 +22,7 @@ describe('Infinite scroll', () => {
     const windowRef = new SkyAppWindowRef();
     adapter = new SkyInfiniteScrollDomAdapterService(
       new SkyScrollableHostService(new SkyMutationObserverService(), windowRef),
-      windowRef,
+      windowRef
     );
 
     parentChangesSpy = spyOn(adapter, 'parentChanges').and.callThrough();
@@ -61,13 +61,13 @@ describe('Infinite scroll', () => {
 
   it('should set defaults', () => {
     expect(fixture.componentInstance.infiniteScrollComponent.enabled).toEqual(
-      false,
+      false
     );
     expect(fixture.componentInstance.infiniteScrollComponent.isWaiting).toEqual(
-      false,
+      false
     );
     expect(
-      fixture.componentInstance.infiniteScrollComponent.scrollEnd,
+      fixture.componentInstance.infiniteScrollComponent.scrollEnd
     ).toBeDefined();
     fixture.detectChanges();
   });
@@ -78,7 +78,7 @@ describe('Infinite scroll', () => {
     fixture.componentInstance.infiniteScrollComponent.isWaiting = true;
     fixture.detectChanges();
     expect(fixture.componentInstance.infiniteScrollComponent.isWaiting).toEqual(
-      true,
+      true
     );
   });
 
@@ -92,7 +92,7 @@ describe('Infinite scroll', () => {
   it('should emit a scrollEnd event on button click', async () => {
     const spy = spyOn(
       fixture.componentInstance,
-      'onScrollEnd',
+      'onScrollEnd'
     ).and.callThrough();
     fixture.componentInstance.enabled = true;
     fixture.detectChanges();
@@ -110,7 +110,7 @@ describe('Infinite scroll', () => {
 
     const spy = spyOn(
       fixture.componentInstance,
-      'onScrollEnd',
+      'onScrollEnd'
     ).and.callThrough();
 
     // Should not trigger scrollEnd if not at the bottom of the scrollable container.
@@ -131,7 +131,7 @@ describe('Infinite scroll', () => {
 
     const spy = spyOn(
       fixture.componentInstance,
-      'onScrollEnd',
+      'onScrollEnd'
     ).and.callThrough();
 
     scrollWindowBottom();
@@ -147,7 +147,7 @@ describe('Infinite scroll', () => {
   it('should not emit a scrollEnd event on scroll when enabled is false', async () => {
     const spy = spyOn(
       fixture.componentInstance,
-      'onScrollEnd',
+      'onScrollEnd'
     ).and.callThrough();
     fixture.componentInstance.enabled = false;
     fixture.componentInstance.loadItems(1000);
@@ -159,7 +159,7 @@ describe('Infinite scroll', () => {
   it('should emit a scrollEnd event on scroll when disabled and then re-enabled', async () => {
     const spy = spyOn(
       fixture.componentInstance,
-      'onScrollEnd',
+      'onScrollEnd'
     ).and.callThrough();
     fixture.componentInstance.enabled = false;
     fixture.componentInstance.loadItems(1000);
@@ -181,7 +181,7 @@ describe('Infinite scroll', () => {
 
     const spy = spyOn(
       fixture.componentInstance,
-      'onScrollEnd',
+      'onScrollEnd'
     ).and.callThrough();
 
     // Should not trigger scrollEnd if not at the bottom of the scrollable container.
@@ -198,7 +198,7 @@ describe('Infinite scroll', () => {
   it('should not emit a scrollEnd event on scroll when loading is true', async () => {
     const spy = spyOn(
       fixture.componentInstance,
-      'onScrollEnd',
+      'onScrollEnd'
     ).and.callThrough();
 
     // Simulate the component in a loading state.
@@ -231,7 +231,7 @@ describe('Infinite scroll', () => {
     parentChangesObs.next();
 
     expect(fixture.componentInstance.infiniteScrollComponent.isWaiting).toBe(
-      false,
+      false
     );
   });
 
@@ -246,14 +246,14 @@ describe('Infinite scroll', () => {
     fixture.detectChanges();
 
     expect(fixture.componentInstance.infiniteScrollComponent.isWaiting).toBe(
-      true,
+      true
     );
 
     // Parent DOM changes shouldn't change the isWaiting flag when loading is specified.
     parentChangesObs.next();
 
     expect(fixture.componentInstance.infiniteScrollComponent.isWaiting).toBe(
-      true,
+      true
     );
 
     // Changing loading to false should set isWaiting to false.
@@ -261,7 +261,7 @@ describe('Infinite scroll', () => {
     fixture.detectChanges();
 
     expect(fixture.componentInstance.infiniteScrollComponent.isWaiting).toBe(
-      false,
+      false
     );
   });
 
@@ -276,7 +276,7 @@ describe('Infinite scroll', () => {
 
     const spy = spyOn(
       fixture.componentInstance,
-      'onScrollEnd',
+      'onScrollEnd'
     ).and.callThrough();
     wrapper.scrollTop = wrapper.scrollHeight;
     SkyAppTestUtility.fireDomEvent(wrapper, 'scroll');

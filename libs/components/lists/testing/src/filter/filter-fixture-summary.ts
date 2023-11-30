@@ -17,13 +17,13 @@ export class SkyFilterFixtureSummary {
     this.#debugElement = SkyAppTestUtility.getDebugElementByTestId(
       this.#fixture,
       skyTestId,
-      'sky-filter-summary',
+      'sky-filter-summary'
     );
   }
 
   public async filterCloseClick(index: number): Promise<any> {
     const summaryItems = this.#debugElement.nativeElement.querySelectorAll(
-      'sky-filter-summary-item',
+      'sky-filter-summary-item'
     );
     if (summaryItems.length > index) {
       const summaryItem = summaryItems[index];

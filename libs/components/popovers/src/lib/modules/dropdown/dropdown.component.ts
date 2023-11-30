@@ -118,7 +118,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
    */
   @Input()
   public set horizontalAlignment(
-    value: SkyDropdownHorizontalAlignment | undefined,
+    value: SkyDropdownHorizontalAlignment | undefined
   ) {
     this.#_horizontalAlignment = value ?? DEFAULT_HORIZONTAL_ALIGNMENT;
   }
@@ -461,7 +461,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
           autoFitContext: SkyAffixAutoFitContext.Viewport,
           enableAutoFit: true,
           horizontalAlignment: parseAffixHorizontalAlignment(
-            this.horizontalAlignment,
+            this.horizontalAlignment
           ),
           isSticky: true,
           placement: 'below',

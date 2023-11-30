@@ -9,10 +9,6 @@ export { SkyListColumnSelectorActionModule } from './lib/modules/list-column-sel
 export { SkyListViewGridComponent } from './lib/modules/list-view-grid/list-view-grid.component';
 export { SkyListViewGridModule } from './lib/modules/list-view-grid/list-view-grid.module';
 
-export { ListViewGridColumnsOrchestrator } from './lib/modules/list-view-grid/state/columns/columns.orchestrator';
-export { ListViewGridColumnsLoadAction } from './lib/modules/list-view-grid/state/columns/load.action';
-export { ListViewDisplayedGridColumnsOrchestrator } from './lib/modules/list-view-grid/state/displayed-columns/displayed-columns.orchestrator';
-export { ListViewDisplayedGridColumnsLoadAction } from './lib/modules/list-view-grid/state/displayed-columns/load.action';
 export { GridStateAction } from './lib/modules/list-view-grid/state/grid-state-action.type';
 export { GridStateModel } from './lib/modules/list-view-grid/state/grid-state.model';
 export {
@@ -20,6 +16,10 @@ export {
   GridStateOrchestrator,
 } from './lib/modules/list-view-grid/state/grid-state.rxstate';
 export { GridState } from './lib/modules/list-view-grid/state/grid-state.state-node';
+export { ListViewGridColumnsOrchestrator } from './lib/modules/list-view-grid/state/columns/columns.orchestrator';
+export { ListViewGridColumnsLoadAction } from './lib/modules/list-view-grid/state/columns/load.action';
+export { ListViewDisplayedGridColumnsOrchestrator } from './lib/modules/list-view-grid/state/displayed-columns/displayed-columns.orchestrator';
+export { ListViewDisplayedGridColumnsLoadAction } from './lib/modules/list-view-grid/state/displayed-columns/load.action';
 
 export { SkyListViewGridMessage } from './lib/modules/list-view-grid/types/list-view-grid-message';
 export { SkyListViewGridMessageType } from './lib/modules/list-view-grid/types/list-view-grid-message-type';

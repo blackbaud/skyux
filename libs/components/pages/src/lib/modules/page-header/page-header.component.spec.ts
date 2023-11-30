@@ -22,7 +22,7 @@ describe('Page header component', () => {
     const fixture = TestBed.createComponent(PageHeaderFixturesComponent);
     fixture.detectChanges();
     expect(fixture.nativeElement).toHaveText(
-      'Parent Link Page Title  Details about the page header.',
+      'Parent Link Page Title  Details about the page header.'
     );
   });
 
@@ -43,7 +43,7 @@ describe('Page header component', () => {
     fixture.detectChanges();
 
     const largeAvatar = fixture.nativeElement.querySelector(
-      '.sky-avatar-wrapper-size-large',
+      '.sky-avatar-wrapper-size-large'
     );
 
     expect(largeAvatar).toBeVisible();
@@ -55,7 +55,7 @@ describe('Page header component', () => {
     fixture.detectChanges();
 
     const smallAvatar = fixture.nativeElement.querySelector(
-      '.sky-avatar-wrapper-size-small',
+      '.sky-avatar-wrapper-size-small'
     );
 
     expect(smallAvatar).toBeVisible();

@@ -14,6 +14,6 @@ export class SkyThemeSettings {
   constructor(
     public readonly theme: SkyTheme,
     public readonly mode: SkyThemeMode,
-    public readonly spacing = SkyThemeSpacing.presets.standard,
+    public readonly spacing = SkyThemeSpacing.presets.standard
   ) {}
 }

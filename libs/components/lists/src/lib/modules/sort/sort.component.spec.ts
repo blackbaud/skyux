@@ -33,7 +33,7 @@ describe('Sort component', () => {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.default,
-          SkyThemeMode.presets.light,
+          SkyThemeMode.presets.light
         ),
         previousSettings: undefined,
       }),
@@ -111,7 +111,7 @@ describe('Sort component', () => {
     tick();
 
     expect(getDropdownMenuEl()?.getAttribute('aria-labelledby')).toBe(
-      getDropdownMenuHeadingEl()?.getAttribute('id'),
+      getDropdownMenuHeadingEl()?.getAttribute('id')
     );
   }));
 
@@ -131,7 +131,7 @@ describe('Sort component', () => {
 
     const dropdownButtonEl = getDropdownButtonEl();
     expect(dropdownButtonEl?.getAttribute('aria-label')).toBe(
-      'Sort constituents',
+      'Sort constituents'
     );
   });
 
@@ -144,7 +144,7 @@ describe('Sort component', () => {
 
     const dropdownButtonEl = getDropdownButtonEl();
     expect(dropdownButtonEl?.getAttribute('aria-label')).toBe(
-      'Overwritten label',
+      'Overwritten label'
     );
   });
 
@@ -220,21 +220,21 @@ describe('Sort component', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     const defaultIcon = fixture.nativeElement.querySelector(
-      'sky-dropdown-button sky-icon i',
+      'sky-dropdown-button sky-icon i'
     );
     expect(defaultIcon).toHaveCssClass('fa-sort');
 
     mockThemeSvc.settingsChange.next({
       currentSettings: new SkyThemeSettings(
         SkyTheme.presets.modern,
-        SkyThemeMode.presets.light,
+        SkyThemeMode.presets.light
       ),
       previousSettings: mockThemeSvc.settingsChange.getValue().currentSettings,
     });
 
     fixture.detectChanges();
     const modernIcon = fixture.nativeElement.querySelector(
-      'sky-dropdown-button sky-icon i',
+      'sky-dropdown-button sky-icon i'
     );
     expect(modernIcon).toHaveCssClass('sky-i-sort');
   });

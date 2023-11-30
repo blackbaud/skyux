@@ -190,14 +190,14 @@ export class SkyAppRuntimeConfigParams {
         ...this.#excludeFromRequestsParams,
         ...this.#excludeFromLinksParams,
       ]),
-      options?.queryParams,
+      options?.queryParams
     );
   }
 
   #buildUrlWithParams(
     url: string,
     excludeParams: Set<string>,
-    queryParams?: SkyConfigQueryParams,
+    queryParams?: SkyConfigQueryParams
   ): string {
     const urlParams = getUrlSearchParams(url);
 

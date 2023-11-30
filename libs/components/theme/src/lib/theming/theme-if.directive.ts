@@ -46,7 +46,7 @@ export class SkyThemeIfDirective implements OnDestroy {
     templateRef: TemplateRef<unknown>,
     viewContainer: ViewContainerRef,
     changeDetector: ChangeDetectorRef,
-    @Optional() themeSvc?: SkyThemeService,
+    @Optional() themeSvc?: SkyThemeService
   ) {
     this.#templateRef = templateRef;
     this.#viewContainer = viewContainer;

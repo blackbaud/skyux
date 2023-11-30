@@ -301,7 +301,7 @@ export class SkyRepeaterItemComponent
     changeDetector: ChangeDetectorRef,
     adapterService: SkyRepeaterAdapterService,
     elementRef: ElementRef,
-    resourceService: SkyLibResourcesService,
+    resourceService: SkyLibResourcesService
   ) {
     this.#repeaterService = repeaterService;
     this.#changeDetector = changeDetector;
@@ -315,7 +315,7 @@ export class SkyRepeaterItemComponent
       this.#resourceService.getString('skyux_repeater_item_reorder_cancel'),
       this.#resourceService.getString('skyux_repeater_item_reorder_finish'),
       this.#resourceService.getString(
-        'skyux_repeater_item_reorder_instructions',
+        'skyux_repeater_item_reorder_instructions'
       ),
       this.#resourceService.getString('skyux_repeater_item_reorder_operation'),
       this.#resourceService.getString('skyux_repeater_item_reorder_moved'),
@@ -335,7 +335,7 @@ export class SkyRepeaterItemComponent
           this.#reorderInstructions = reorderOperationText;
           this.#reorderMovedText = reorderMovedText;
           this.reorderButtonLabel = this.#reorderInstructions;
-        },
+        }
       );
     this.contentId = `sky-repeater-item-content-${++nextContentId}`;
     this.itemRole$ = this.#repeaterService.itemRole.asObservable();
@@ -378,7 +378,7 @@ export class SkyRepeaterItemComponent
     ) {
       if (
         ($event.target as HTMLElement).matches(
-          'input, textarea, select, option, [contenteditable], [contenteditable] *',
+          'input, textarea, select, option, [contenteditable], [contenteditable] *'
         )
       ) {
         return;
@@ -397,7 +397,7 @@ export class SkyRepeaterItemComponent
       /* istanbul ignore else */
       if (['Home', 'End'].includes($event.key)) {
         const items = this.#repeaterService.items.filter(
-          (item) => !item.disabled,
+          (item) => !item.disabled
         );
         if ($event.key === 'Home') {
           activateItem = items.shift();
@@ -408,7 +408,7 @@ export class SkyRepeaterItemComponent
       /* istanbul ignore else */
       if (['ArrowUp', 'ArrowDown'].includes($event.key)) {
         const currentIndex = this.#repeaterService.items.findIndex(
-          (item) => item === this,
+          (item) => item === this
         );
         let sliceFrom: number;
         let sliceTo: number | undefined;
@@ -443,7 +443,7 @@ export class SkyRepeaterItemComponent
         this.#repeaterService.activateItem(activateItem);
         if (
           !(activateItem.#elementRef.nativeElement as Element).matches(
-            ':focus-within',
+            ':focus-within'
           )
         ) {
           activateItem.itemRef?.nativeElement.focus();
@@ -479,7 +479,7 @@ export class SkyRepeaterItemComponent
     if (this.isCollapsible === false && value === false) {
       console.warn(
         `Setting isExpanded to false when the repeater item is not collapsible
-        will have no effect.`,
+        will have no effect.`
       );
     } else if (this.#isExpanded !== value) {
       this.#isExpanded = value;
@@ -584,7 +584,7 @@ export class SkyRepeaterItemComponent
 
   #keyboardReorderUp(): void {
     const newIndex = this.#adapterService.moveItemUp(
-      this.#elementRef.nativeElement,
+      this.#elementRef.nativeElement
     );
     if (newIndex !== undefined) {
       this.#reorderCurrentIndex = newIndex;
@@ -599,7 +599,7 @@ export class SkyRepeaterItemComponent
 
   #keyboardReorderDown(): void {
     const newIndex = this.#adapterService.moveItemDown(
-      this.#elementRef.nativeElement,
+      this.#elementRef.nativeElement
     );
     if (newIndex) {
       this.#reorderCurrentIndex = newIndex;
@@ -631,13 +631,13 @@ export class SkyRepeaterItemComponent
     if (this.#reorderSteps < 0) {
       this.#adapterService.moveItemDown(
         this.#elementRef.nativeElement,
-        Math.abs(this.#reorderSteps),
+        Math.abs(this.#reorderSteps)
       );
     } else if (this.#reorderSteps > 0) {
       this.#adapterService.moveItemUp(
         this.#elementRef.nativeElement,
         false,
-        this.#reorderSteps,
+        this.#reorderSteps
       );
     }
     this.#repeaterService.registerOrderChange();

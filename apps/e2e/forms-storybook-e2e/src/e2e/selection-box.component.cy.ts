@@ -7,8 +7,8 @@ describe('forms-storybook', () => {
         cy
           .viewport(1280, 1200)
           .visit(
-            `/iframe.html?globals=theme:${theme}&id=selectionboxcomponent-selectionbox--selection-box`,
-          ),
+            `/iframe.html?globals=theme:${theme}&id=selectionboxcomponent-selectionbox--selection-box`
+          )
       );
       it('should render the component', () => {
         cy.get('#ready')
@@ -19,7 +19,7 @@ describe('forms-storybook', () => {
           .should('be.visible')
           .then((el) => {
             el.get(0).ownerDocument.defaultView?.dispatchEvent(
-              new Event('resize'),
+              new Event('resize')
             );
           })
           .end()
@@ -42,13 +42,13 @@ describe('forms-storybook', () => {
           .end()
           .window()
           .screenshot(
-            `selectionboxcomponent-selectionbox--selection-box-${theme}`,
+            `selectionboxcomponent-selectionbox--selection-box-${theme}`
           )
           .percySnapshot(
             `selectionboxcomponent-selectionbox--selection-box-${theme}`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
-            },
+            }
           );
       });
     });

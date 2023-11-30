@@ -46,7 +46,7 @@ export class SkyProgressIndicatorComponent
    */
   @Input()
   public set displayMode(
-    value: SkyProgressIndicatorDisplayModeType | undefined,
+    value: SkyProgressIndicatorDisplayModeType | undefined
   ) {
     switch (value) {
       case SkyProgressIndicatorDisplayMode.Horizontal:
@@ -95,7 +95,7 @@ export class SkyProgressIndicatorComponent
   public set messageStream(
     value:
       | Subject<SkyProgressIndicatorMessage | SkyProgressIndicatorMessageType>
-      | undefined,
+      | undefined
   ) {
     this.#messageStream = value || new Subject();
     this.#subscribeToMessageStream();
@@ -165,7 +165,7 @@ export class SkyProgressIndicatorComponent
   constructor(
     changeDetector: ChangeDetectorRef,
     windowRef: SkyAppWindowRef,
-    logger: SkyLogService,
+    logger: SkyLogService
   ) {
     this.#changeDetector = changeDetector;
     this.#windowRef = windowRef;
@@ -321,7 +321,7 @@ export class SkyProgressIndicatorComponent
   }
 
   #handleIncomingMessage(
-    message: SkyProgressIndicatorMessage | SkyProgressIndicatorMessageType,
+    message: SkyProgressIndicatorMessage | SkyProgressIndicatorMessageType
   ): void {
     const indicatorMessage = message as SkyProgressIndicatorMessage;
 
@@ -333,7 +333,7 @@ export class SkyProgressIndicatorComponent
         "[Deprecation warning] The progress indicator component's `messageStream` input is set " +
           'to `Subject<SkyProgressIndicatorMessageType>`. We will remove this deprecated type in ' +
           'the next major version release. Instead, set the `messageStream` input to a value of ' +
-          '`Subject<SkyProgressIndicatorMessage>`.',
+          '`Subject<SkyProgressIndicatorMessage>`.'
       );
 
       type = message as SkyProgressIndicatorMessageType;
@@ -370,7 +370,7 @@ export class SkyProgressIndicatorComponent
               '{\n' +
               '  type: SkyProgressIndicatorMessageType.GoTo,\n' +
               '  data: { activeIndex: 0 }\n' +
-              '}',
+              '}'
           );
           return;
         }
@@ -413,8 +413,8 @@ export class SkyProgressIndicatorComponent
           activeIndex: this.#activeIndex,
           itemStatuses: this.itemStatuses,
         },
-        change,
-      ),
+        change
+      )
     );
   }
 

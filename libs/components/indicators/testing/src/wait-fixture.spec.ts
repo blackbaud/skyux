@@ -37,7 +37,7 @@ describe('Wait fixture', () => {
     fixture.detectChanges();
     const waitFixture: SkyWaitFixture = new SkyWaitFixture(
       fixture,
-      'test-wait',
+      'test-wait'
     );
 
     expect(waitFixture.isWaiting).toEqual(true);

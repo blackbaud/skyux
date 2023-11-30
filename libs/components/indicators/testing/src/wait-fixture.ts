@@ -12,7 +12,7 @@ export class SkyWaitFixture {
 
   public get isFullPage(): boolean {
     return this.#innerWaitComponentContainsClass(
-      '.sky-wait-mask-loading-fixed',
+      '.sky-wait-mask-loading-fixed'
     );
   }
 
@@ -23,7 +23,7 @@ export class SkyWaitFixture {
 
   public get isNonBlocking(): boolean {
     return this.#innerWaitComponentContainsClass(
-      '.sky-wait-mask-loading-non-blocking',
+      '.sky-wait-mask-loading-non-blocking'
     );
   }
 
@@ -33,7 +33,7 @@ export class SkyWaitFixture {
     this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
-      'sky-wait',
+      'sky-wait'
     );
   }
 

@@ -14,7 +14,7 @@ export class LinkAsPipe implements PipeTransform {
       | SkyPageLink
       | SkyPageModalLink
       | undefined,
-    linkAs: 'button' | 'href' | 'skyHref' | 'skyAppLink' | undefined,
+    linkAs: 'button' | 'href' | 'skyHref' | 'skyAppLink' | undefined
   ): boolean {
     const permalink = value?.permalink;
     const permalinkUrl = permalink?.url;

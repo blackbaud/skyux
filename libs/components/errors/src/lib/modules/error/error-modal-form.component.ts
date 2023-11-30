@@ -17,6 +17,6 @@ import { ErrorModalConfig } from './error-modal-config';
 export class SkyErrorModalFormComponent {
   constructor(
     public context: ErrorModalConfig,
-    public instance: SkyModalInstance,
+    public instance: SkyModalInstance
   ) {}
 }

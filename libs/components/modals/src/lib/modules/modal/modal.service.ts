@@ -48,7 +48,7 @@ export class SkyModalService {
    */
   public open(
     component: any,
-    config?: SkyModalConfigurationInterface | any[],
+    config?: SkyModalConfigurationInterface | any[]
   ): SkyModalInstance {
     const modalInstance = new SkyModalInstance();
 
@@ -65,19 +65,14 @@ export class SkyModalService {
     });
 
     if (SkyModalService.host) {
-      SkyModalService.host.instance.open(
-        modalInstance,
-        component,
-        params,
-        this.#environmentInjector,
-      );
+      SkyModalService.host.instance.open(modalInstance, component, params);
     }
 
     return modalInstance;
   }
 
   #getConfigFromParameter(
-    providersOrConfig: any,
+    providersOrConfig: any
   ): SkyModalConfigurationInterface {
     const defaultParams: SkyModalConfigurationInterface = {
       providers: [],
@@ -120,7 +115,7 @@ export class SkyModalService {
             }),
           },
         ],
-      },
+      }
     );
 
     return componentRef;

@@ -27,7 +27,7 @@ describe('Basic modal', () => {
     const modalHarness = await loader.getHarness(
       SkyModalHarness.with({
         dataSkyId: 'modal-demo',
-      }),
+      })
     );
 
     return { modalHarness, fixture };

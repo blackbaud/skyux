@@ -11,7 +11,7 @@ function parseMessage(violations: axe.Result[]): string {
       .join(', ');
 
     const nodeResults = violation.nodes.filter(
-      filterViolationNodeResults(violation),
+      filterViolationNodeResults(violation)
     );
     const html = nodeResults.reduce(
       (accumulator: string, node: axe.NodeResult) => {
@@ -20,7 +20,7 @@ function parseMessage(violations: axe.Result[]): string {
             const relatedNodes = checkResult.relatedNodes || [];
             let relatedHtml = relatedNodes
               .map((relatedNode) =>
-                relatedNode.html.split(`\n`).join(`\n      `),
+                relatedNode.html.split(`\n`).join(`\n      `)
               )
               .join(`\n\n      `);
             if (relatedHtml) {
@@ -43,7 +43,7 @@ function parseMessage(violations: axe.Result[]): string {
 
         return `${accumulator}\n\n${newInformation.join(`\n`)}`;
       },
-      '',
+      ''
     );
 
     const error = [
@@ -59,7 +59,7 @@ function parseMessage(violations: axe.Result[]): string {
 }
 
 function filterViolationNodeResults(
-  result: axe.Result,
+  result: axe.Result
 ): (node: axe.NodeResult) => boolean {
   if (
     [
@@ -80,7 +80,7 @@ export abstract class SkyA11yAnalyzer {
 
   public static run(
     element?: axe.ElementContext,
-    config?: SkyA11yAnalyzerConfig,
+    config?: SkyA11yAnalyzerConfig
   ): Promise<void> {
     if (element === undefined) {
       throw new Error('No element was specified for accessibility checking.');
@@ -106,7 +106,7 @@ export abstract class SkyA11yAnalyzer {
         }
 
         const violations = results.violations.filter((violation) =>
-          violation.nodes.some(filterViolationNodeResults(violation)),
+          violation.nodes.some(filterViolationNodeResults(violation))
         );
         if (violations.length > 0) {
           const message = parseMessage(violations);
@@ -119,7 +119,7 @@ export abstract class SkyA11yAnalyzer {
       SkyA11yAnalyzer.analyzer.run(
         element,
         { ...defaults, ...config },
-        callback,
+        callback
       );
     });
   }

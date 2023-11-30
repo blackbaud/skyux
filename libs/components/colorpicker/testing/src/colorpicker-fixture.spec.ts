@@ -111,7 +111,7 @@ describe('Colorpicker fixture', () => {
     await colorpicker.setValueFromPresets(3);
 
     expect(colorpicker.value).toEqual(
-      fixture.componentInstance.presetColors[3],
+      fixture.componentInstance.presetColors[3]
     );
     expect(fixture.componentInstance.onColorChanged).toHaveBeenCalled();
     expect(fixture.componentInstance.onColorApplied).toHaveBeenCalled();

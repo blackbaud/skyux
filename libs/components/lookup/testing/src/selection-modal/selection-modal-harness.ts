@@ -22,7 +22,7 @@ export class SkySelectionModalHarness extends ComponentHarness {
   #getCancelButton = this.locatorFor('button.sky-lookup-show-more-modal-close');
 
   #getClearAllButton = this.locatorForOptional(
-    'button.sky-lookup-show-more-modal-clear-all-btn',
+    'button.sky-lookup-show-more-modal-clear-all-btn'
   );
 
   #getCheckboxHarness = this.locatorFor(SkyCheckboxHarness);
@@ -34,11 +34,11 @@ export class SkySelectionModalHarness extends ComponentHarness {
   #getSearchHarness = this.locatorFor(SkySearchHarness);
 
   #getSelectAllButton = this.locatorForOptional(
-    'button.sky-lookup-show-more-modal-select-all-btn',
+    'button.sky-lookup-show-more-modal-select-all-btn'
   );
 
   #getAddButton = this.locatorForOptional(
-    'button.sky-lookup-show-more-modal-add',
+    'button.sky-lookup-show-more-modal-add'
   );
 
   /**
@@ -67,7 +67,7 @@ export class SkySelectionModalHarness extends ComponentHarness {
    * Selects multiple search results based on a set of criteria.
    */
   public async selectSearchResult(
-    filters?: SkySelectionModalSearchResultHarnessFilters,
+    filters?: SkySelectionModalSearchResultHarnessFilters
   ): Promise<void> {
     const harnesses = await this.getSearchResults(filters);
 
@@ -107,7 +107,7 @@ export class SkySelectionModalHarness extends ComponentHarness {
    * Gets a list of search results.
    */
   public async getSearchResults(
-    filters?: SkySelectionModalSearchResultHarnessFilters,
+    filters?: SkySelectionModalSearchResultHarnessFilters
   ): Promise<SkySelectionModalSearchResultHarness[]> {
     const pickerId = (await (await this.host()).getAttribute('id')) as string;
 
@@ -115,14 +115,14 @@ export class SkySelectionModalHarness extends ComponentHarness {
       SkyRepeaterItemHarness.with({
         ...(filters || {}),
         ancestor: `#${pickerId}`,
-      }),
+      })
     )();
 
     if (filters && harnesses.length === 0) {
       throw new Error(
         `Could not find search results in the picker matching filter(s): ${JSON.stringify(
-          filters,
-        )}`,
+          filters
+        )}`
       );
     }
 
@@ -136,7 +136,7 @@ export class SkySelectionModalHarness extends ComponentHarness {
     const button = await this.#getClearAllButton();
     if (!button) {
       throw new Error(
-        'Could not clear all selections because the "Clear all" button could not be found.',
+        'Could not clear all selections because the "Clear all" button could not be found.'
       );
     }
 
@@ -152,7 +152,7 @@ export class SkySelectionModalHarness extends ComponentHarness {
 
     if (!button) {
       throw new Error(
-        'Could not get the aria-label for the clear all button because the "Clear all" button could not be found.',
+        'Could not get the aria-label for the clear all button because the "Clear all" button could not be found.'
       );
     }
 
@@ -175,7 +175,7 @@ export class SkySelectionModalHarness extends ComponentHarness {
     const button = await this.#getSelectAllButton();
     if (!button) {
       throw new Error(
-        'Could not select all selections because the "Select all" button could not be found.',
+        'Could not select all selections because the "Select all" button could not be found.'
       );
     }
 
@@ -191,7 +191,7 @@ export class SkySelectionModalHarness extends ComponentHarness {
 
     if (!button) {
       throw new Error(
-        'Could not get the aria-label for the select all button because the "Select all" button could not be found.',
+        'Could not get the aria-label for the select all button because the "Select all" button could not be found.'
       );
     }
 
@@ -220,7 +220,7 @@ export class SkySelectionModalHarness extends ComponentHarness {
     const button = await this.#getAddButton();
     if (!button) {
       throw new Error(
-        'Could not click the add button because the button could not be found.',
+        'Could not click the add button because the button could not be found.'
       );
     }
 
@@ -235,7 +235,7 @@ export class SkySelectionModalHarness extends ComponentHarness {
       return (await this.#getCheckboxHarness()).getAriaLabel();
     } catch {
       throw new Error(
-        'Could not get the "Show only selected items" checkbox because it could not be found.',
+        'Could not get the "Show only selected items" checkbox because it could not be found.'
       );
     }
   }

@@ -151,7 +151,7 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
   @Input()
   public set tabindex(value: number | undefined) {
     console.warn(
-      'The sky-radio `tabindex` property is deprecated. Please use the `tabindex` property on the sky-radio-group component.',
+      'The sky-radio `tabindex` property is deprecated. Please use the `tabindex` property on the sky-radio-group component.'
     );
     if (value) {
       this.#_tabindex = value;

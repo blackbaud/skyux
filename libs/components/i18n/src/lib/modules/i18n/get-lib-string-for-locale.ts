@@ -8,7 +8,7 @@ export function getLibStringForLocale(
     [locale: string]: SkyLibResources;
   },
   preferredLocale: string,
-  name: string,
+  name: string
 ): string | undefined {
   const defaultLocale = 'en-US';
 

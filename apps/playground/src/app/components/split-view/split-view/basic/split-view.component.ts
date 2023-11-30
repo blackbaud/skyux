@@ -78,7 +78,7 @@ export class SplitViewComponent {
 
   constructor(
     public changeRef: ChangeDetectorRef,
-    public confirmService: SkyConfirmService,
+    public confirmService: SkyConfirmService
   ) {
     // Start with the first item selected.
     this.activeIndex = 0;

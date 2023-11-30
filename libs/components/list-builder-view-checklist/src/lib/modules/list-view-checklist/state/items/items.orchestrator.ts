@@ -19,10 +19,10 @@ export class ListViewChecklistItemsOrchestrator extends ChecklistStateOrchestrat
 
   private load(
     state: AsyncList<ListViewChecklistItemModel>,
-    action: ListViewChecklistItemsLoadAction,
+    action: ListViewChecklistItemsLoadAction
   ): AsyncList<ListViewChecklistItemModel> {
     const newListItems = action.items.map(
-      (item) => new ListViewChecklistItemModel(item.id, item),
+      (item) => new ListViewChecklistItemModel(item.id, item)
     );
 
     if (action.refresh) {
@@ -30,7 +30,7 @@ export class ListViewChecklistItemsOrchestrator extends ChecklistStateOrchestrat
         [...newListItems],
         action.dataChanged ? Date.now() : state.lastUpdate,
         false,
-        state.count,
+        state.count
       );
     }
 
@@ -38,7 +38,7 @@ export class ListViewChecklistItemsOrchestrator extends ChecklistStateOrchestrat
       [...state.items, ...newListItems],
       action.dataChanged ? Date.now() : state.lastUpdate,
       false,
-      action.itemCount,
+      action.itemCount
     );
   }
 }

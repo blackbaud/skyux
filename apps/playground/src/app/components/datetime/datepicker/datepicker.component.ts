@@ -33,7 +33,7 @@ export class DatepickerComponent {
   constructor(formBuilder: UntypedFormBuilder) {
     this.reactiveDate = new UntypedFormControl(
       new Date(1955, 10, 5),
-      Validators.required,
+      Validators.required
     );
     this.reactiveForm = formBuilder.group({
       selectedDate: this.reactiveDate,

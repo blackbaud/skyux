@@ -51,7 +51,7 @@ export async function verifyE2e(
   /* istanbul ignore next */
   fetchClient: Fetch = fetch,
   /* istanbul ignore next */
-  exit: (code?: number) => void = process.exit,
+  exit: (code?: number) => void = process.exit
 ): Promise<void> {
   if (e2eProjects.length > 0 && e2eProjects[0] !== 'skip') {
     // Verify that Percy has finished processing the E2E Visual Review and that all snapshots have passed.
@@ -78,7 +78,7 @@ export async function verifyE2e(
         const projectStatus = await checkPercyBuild(
           `skyux-${e2eStep.project}`,
           headSha,
-          fetchClient,
+          fetchClient
         );
         if (projectStatus.state !== 'finished' || !projectStatus.approved) {
           reviewComplete = false;
@@ -97,7 +97,7 @@ export async function verifyE2e(
             projectStatus.removedSnapshots.length > 0:
             icon = '❌';
             summary = `missing screenshots: ${projectStatus.removedSnapshots.join(
-              ', ',
+              ', '
             )}`;
             break;
           case projectStatus.state === 'finished' && projectStatus.approved:
@@ -132,8 +132,7 @@ export async function verifyE2e(
 
     skippedPercyProjects.forEach((project) => core.info(`⏭️ ${project}`));
     const missingProjects = e2eProjects.filter(
-      (project) =>
-        !percyProjects.concat(skippedPercyProjects).includes(project),
+      (project) => !percyProjects.concat(skippedPercyProjects).includes(project)
     );
 
     if (missingProjects.length === 0) {
@@ -145,13 +144,13 @@ export async function verifyE2e(
             (result) =>
               ` * ${result.project}\n${result.removedSnapshots
                 .map((s) => `   - ${s}\n`)
-                .join('')}`,
+                .join('')}`
           )
           .join(`\n`)}\n${instructions}`;
         const missingScreenshotMessageForSlack = `Projects with missing screenshots: ${missingScreenshots
           .map(
             (result) =>
-              ` 👉 ${result.project} (${result.removedSnapshots.join(', ')})`,
+              ` 👉 ${result.project} (${result.removedSnapshots.join(', ')})`
           )
           .join(`; `)}. ${instructions}`;
         core.setOutput('missingScreenshots', missingScreenshotMessageForSlack);
@@ -167,8 +166,8 @@ export async function verifyE2e(
       // We don't have a check from Percy for all E2E projects.
       core.setFailed(
         `E2E Visual Review not complete. Missing results for: ${missingProjects.join(
-          ', ',
-        )}`,
+          ', '
+        )}`
       );
       return exit(1);
     }
@@ -190,8 +189,8 @@ export async function verifyE2e(
     const workflowE2eJobs: WorkflowJob[] = [];
     workflowE2eJobs.push(
       ...data.jobs.filter((job: WorkflowJob) =>
-        job.name.startsWith('End to end tests'),
-      ),
+        job.name.startsWith('End to end tests')
+      )
     );
     if (data.jobs.length === params.per_page) {
       workflowE2eJobs.push(...(await listJobsForWorkflowRun(page + 1)));
@@ -204,20 +203,20 @@ export async function verifyE2e(
       workflowE2eJobs
         .filter((job) =>
           job.steps.some((step: WorkflowJobStep) =>
-            step.name.startsWith('Percy'),
-          ),
+            step.name.startsWith('Percy')
+          )
         )
         .map((job) =>
           job.steps.find((step: WorkflowJobStep) =>
-            step.name.startsWith('Percy'),
-          ),
+            step.name.startsWith('Percy')
+          )
         )
         .filter((step) => step)
         .map((step) => ({
           project: (step as WorkflowJobStep).name.replace(/^Percy /, ''),
           skipped: (step as WorkflowJobStep).conclusion === 'skipped',
           succeeded: (step as WorkflowJobStep).conclusion === 'success',
-        })),
+        }))
     );
   }
 }

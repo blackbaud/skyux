@@ -10,7 +10,7 @@ describe('split-view-storybook', () => {
             beforeEach(() => {
               cy.viewport(width, 960);
               cy.visit(
-                `/iframe.html?globals=theme:${theme}&id=splitviewcomponent-splitview--split-view`,
+                `/iframe.html?globals=theme:${theme}&id=splitviewcomponent-splitview--split-view`
               );
             });
             it(`should fill the page when dock is set to fill at width ${width}`, () => {
@@ -21,17 +21,17 @@ describe('split-view-storybook', () => {
                 .should('exist')
                 .should('be.visible')
                 .screenshot(
-                  `splitviewcomponent-splitview--split-view-dock-fill-${theme}-${width}`,
+                  `splitviewcomponent-splitview--split-view-dock-fill-${theme}-${width}`
                 )
                 .percySnapshot(
                   `splitviewcomponent-splitview--split-view-dock-fill-${theme}-${width}`,
                   {
                     widths: [width],
-                  },
+                  }
                 );
             });
           });
-        },
+        }
       );
     });
   });

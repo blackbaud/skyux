@@ -31,7 +31,7 @@ export class SkyPageHeaderAvatarComponent implements OnDestroy {
         } else {
           this.#defaultInputProvider.setValue('avatar', 'size', 'large');
         }
-      },
+      }
     );
   }
 

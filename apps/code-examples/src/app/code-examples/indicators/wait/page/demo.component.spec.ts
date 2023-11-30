@@ -29,7 +29,7 @@ describe('Page wait', () => {
     buttons[0].click();
 
     const waitHarness = await rootLoader.getHarness(
-      SkyWaitHarness.with({ servicePageWaitType: 'blocking' }),
+      SkyWaitHarness.with({ servicePageWaitType: 'blocking' })
     );
 
     await expectAsync(waitHarness.isWaiting()).toBeResolvedTo(true);
@@ -44,7 +44,7 @@ describe('Page wait', () => {
     buttons[1].click();
 
     const waitHarness = await rootLoader.getHarness(
-      SkyWaitHarness.with({ servicePageWaitType: 'non-blocking' }),
+      SkyWaitHarness.with({ servicePageWaitType: 'non-blocking' })
     );
 
     await expectAsync(waitHarness.isWaiting()).toBeResolvedTo(true);

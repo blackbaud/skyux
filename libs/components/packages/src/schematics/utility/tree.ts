@@ -8,7 +8,7 @@ export function readRequiredFile(tree: Tree, filePath: string): string {
   const data = tree.read(filePath);
   if (!data) {
     throw new Error(
-      `The file '${filePath}' was expected to exist but was not found.`,
+      `The file '${filePath}' was expected to exist but was not found.`
     );
   }
 

@@ -14,7 +14,7 @@ export class SkyFileSizePipe implements PipeTransform {
 
   constructor(
     decimalPipe: DecimalPipe,
-    resourcesService: SkyLibResourcesService,
+    resourcesService: SkyLibResourcesService
   ) {
     this.#decimalPipe = decimalPipe;
     this.#resourcesService = resourcesService;
@@ -60,7 +60,7 @@ export class SkyFileSizePipe implements PipeTransform {
     return this.#resourcesService.getStringForLocale(
       { locale: 'en-US' },
       key,
-      ...args,
+      ...args
     );
   }
 }

@@ -25,7 +25,7 @@ describe('Autonumeric directive', () => {
 
   function getReactiveInput(): HTMLInputElement {
     return fixture.nativeElement.querySelector(
-      '#donationAmount',
+      '#donationAmount'
     ) as HTMLInputElement;
   }
 
@@ -47,15 +47,15 @@ describe('Autonumeric directive', () => {
 
   function getFormattedValue(): string {
     const reactiveValue = fixture.nativeElement.querySelector(
-      '.app-reactive-form-input',
+      '.app-reactive-form-input'
     ).value;
     const templateDrivenValue = fixture.nativeElement.querySelector(
-      '.app-template-driven-input',
+      '.app-template-driven-input'
     ).value;
 
     if (reactiveValue !== templateDrivenValue) {
       fail(
-        `The reactive and template-driven forms's formatted values do not match! ('${reactiveValue}' versus '${templateDrivenValue}')`,
+        `The reactive and template-driven forms's formatted values do not match! ('${reactiveValue}' versus '${templateDrivenValue}')`
       );
     }
 
@@ -68,7 +68,7 @@ describe('Autonumeric directive', () => {
 
     if (reactiveValue !== templateDrivenValue) {
       fail(
-        `The reactive and template-driven forms's model values do not match! ('${reactiveValue}' versus '${templateDrivenValue}')`,
+        `The reactive and template-driven forms's model values do not match! ('${reactiveValue}' versus '${templateDrivenValue}')`
       );
     }
 
@@ -78,22 +78,22 @@ describe('Autonumeric directive', () => {
   function triggerBlur(): void {
     SkyAppTestUtility.fireDomEvent(
       fixture.nativeElement.querySelector('.app-reactive-form-input'),
-      'blur',
+      'blur'
     );
     SkyAppTestUtility.fireDomEvent(
       fixture.nativeElement.querySelector('.app-template-driven-input'),
-      'blur',
+      'blur'
     );
   }
 
   function triggerInput(): void {
     SkyAppTestUtility.fireDomEvent(
       fixture.nativeElement.querySelector('.app-reactive-form-input'),
-      'input',
+      'input'
     );
     SkyAppTestUtility.fireDomEvent(
       fixture.nativeElement.querySelector('.app-template-driven-input'),
-      'input',
+      'input'
     );
   }
 
@@ -262,7 +262,7 @@ describe('Autonumeric directive', () => {
       spyOnProperty(
         SkyAutonumericDirective.prototype,
         'skyAutonumeric',
-        'set',
+        'set'
       ).and.stub();
 
       setValue(1000);

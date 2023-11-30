@@ -21,7 +21,7 @@ describe('Wait component', () => {
   function fireDomEvent(
     element: Element | null,
     eventName: string,
-    options?: SkyAppTestUtilityDomEventOptions,
+    options?: SkyAppTestUtilityDomEventOptions
   ): void {
     if (element) {
       SkyAppTestUtility.fireDomEvent(element, eventName, options);
@@ -42,7 +42,7 @@ describe('Wait component', () => {
     ariaLabel: string,
     completedText: string,
     isFullPage = false,
-    isNonBlocking = false,
+    isNonBlocking = false
   ): void {
     if (customValues) {
       fixture.componentInstance.ariaLabel = ariaLabel;
@@ -99,17 +99,17 @@ describe('Wait component', () => {
       const el = fixture.nativeElement;
 
       expect(el.querySelector('.sky-wait-test-component').style.position).toBe(
-        'relative',
+        'relative'
       );
       expect(
-        el.querySelector('.sky-wait-mask-loading-blocking'),
+        el.querySelector('.sky-wait-mask-loading-blocking')
       ).not.toBeNull();
 
       fixture.componentInstance.isWaiting = false;
       fixture.detectChanges();
 
       expect(el.querySelector('.sky-wait-test-component').style.position).toBe(
-        '',
+        ''
       );
     });
 
@@ -123,14 +123,14 @@ describe('Wait component', () => {
 
       expect(el.querySelector('.sky-wait-mask-loading-fixed')).not.toBeNull();
       expect(el.querySelector('.sky-wait-test-component').style.position).toBe(
-        '',
+        ''
       );
 
       fixture.componentInstance.isWaiting = false;
       fixture.detectChanges();
 
       expect(el.querySelector('.sky-wait-test-component').style.position).toBe(
-        '',
+        ''
       );
       expect(el.querySelector('.sky-wait')).toBeNull();
 
@@ -140,7 +140,7 @@ describe('Wait component', () => {
 
       expect(el.querySelector('.sky-wait-mask-loading-fixed')).toBeNull();
       expect(el.querySelector('.sky-wait-test-component').style.position).toBe(
-        'relative',
+        'relative'
       );
     });
 
@@ -153,7 +153,7 @@ describe('Wait component', () => {
       const el = fixture.nativeElement;
 
       expect(
-        el.querySelector('.sky-wait-mask-loading-non-blocking'),
+        el.querySelector('.sky-wait-mask-loading-non-blocking')
       ).not.toBeNull();
 
       fixture.componentInstance.isNonBlocking = true;
@@ -481,14 +481,14 @@ describe('Wait component', () => {
       const el = fixture.nativeElement;
 
       expect(
-        el.querySelector('.sky-wait-test-component').getAttribute('aria-busy'),
+        el.querySelector('.sky-wait-test-component').getAttribute('aria-busy')
       ).toBe('true');
 
       fixture.componentInstance.isWaiting = false;
       fixture.detectChanges();
 
       expect(
-        el.querySelector('.sky-wait-test-component').getAttribute('aria-busy'),
+        el.querySelector('.sky-wait-test-component').getAttribute('aria-busy')
       ).toBeNull();
     });
 
@@ -593,7 +593,7 @@ describe('Wait component', () => {
         fixture,
         true,
         'test label',
-        'test completed text',
+        'test completed text'
       );
     });
 
@@ -604,7 +604,7 @@ describe('Wait component', () => {
         fixture,
         true,
         'test label',
-        'test completed text',
+        'test completed text'
       );
 
       fixture.componentInstance.isWaiting = false;
@@ -614,7 +614,7 @@ describe('Wait component', () => {
         fixture,
         true,
         'test label 2',
-        'test completed text 2',
+        'test completed text 2'
       );
     });
 
@@ -626,7 +626,7 @@ describe('Wait component', () => {
         false,
         'Page loading. Please wait.',
         'Page loading complete.',
-        true,
+        true
       );
     });
 
@@ -639,7 +639,7 @@ describe('Wait component', () => {
         'Page loading.',
         'Page loading complete.',
         true,
-        true,
+        true
       );
     });
 
@@ -650,7 +650,7 @@ describe('Wait component', () => {
         fixture,
         false,
         'Loading. Please wait.',
-        'Loading complete.',
+        'Loading complete.'
       );
     });
 
@@ -663,7 +663,7 @@ describe('Wait component', () => {
         'Loading.',
         'Loading complete.',
         false,
-        true,
+        true
       );
     });
 
@@ -676,14 +676,14 @@ describe('Wait component', () => {
         'Page loading.',
         'Page loading complete.',
         true,
-        true,
+        true
       );
 
       testScreenReaderAnnouncements(
         fixture,
         false,
         'Loading. Please wait.',
-        'Loading complete.',
+        'Loading complete.'
       );
     });
 

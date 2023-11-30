@@ -7,8 +7,8 @@ describe('SkyAppFormat', () => {
       format.formatText(
         'This is the {0} test string. It {1}!',
         'first',
-        'worked',
-      ),
+        'worked'
+      )
     ).toBe('This is the first test string. It worked!');
   });
 });

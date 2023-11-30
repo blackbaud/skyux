@@ -4,6 +4,6 @@ module.exports = function (config) {
 
   config.coverageReporter.dir = require('path').join(
     __dirname,
-    '../../../../coverage/libs/components/colorpicker/testing',
+    '../../../../coverage/libs/components/colorpicker/testing'
   );
 };

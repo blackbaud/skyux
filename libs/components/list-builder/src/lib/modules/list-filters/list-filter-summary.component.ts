@@ -36,7 +36,7 @@ export class SkyListFilterSummaryComponent implements AfterContentInit {
 
   constructor(
     private state: ListState,
-    private dispatcher: ListStateDispatcher,
+    private dispatcher: ListStateDispatcher
   ) {}
 
   public ngAfterContentInit() {
@@ -52,7 +52,7 @@ export class SkyListFilterSummaryComponent implements AfterContentInit {
               filter.value !== filter.defaultValue
             );
           });
-        }),
+        })
       );
     });
   }

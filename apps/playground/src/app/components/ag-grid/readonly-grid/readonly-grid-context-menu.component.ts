@@ -32,7 +32,7 @@ export class ReadonlyGridContextMenuComponent
 
   public triggerRowDelete(): void {
     this.params.context.rowDeleteIds = this.params.context.rowDeleteIds.concat(
-      this.params.data.id.toString(),
+      this.params.data.id.toString()
     );
   }
 }

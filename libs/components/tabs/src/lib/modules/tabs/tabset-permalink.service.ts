@@ -31,7 +31,7 @@ export class SkyTabsetPermalinkService implements OnDestroy {
   constructor(
     activatedRoute: ActivatedRoute,
     location: Location,
-    router: Router,
+    router: Router
   ) {
     this.#activatedRoute = activatedRoute;
     this.#location = location;

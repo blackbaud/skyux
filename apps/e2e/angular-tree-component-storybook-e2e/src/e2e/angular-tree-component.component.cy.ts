@@ -13,8 +13,8 @@ describe('angular-tree-component-storybook', () => {
         describe(`in ${mode} Tree View Component`, () => {
           beforeEach(() =>
             cy.visit(
-              `/iframe.html?globals=theme:${theme}&id=angulartreecomponentcomponent-angulartreecomponent--${mode}-angular-tree-component`,
-            ),
+              `/iframe.html?globals=theme:${theme}&id=angulartreecomponentcomponent-angulartreecomponent--${mode}-angular-tree-component`
+            )
           );
           it('should render the component', () => {
             cy.get('app-angular-tree-component')
@@ -38,13 +38,13 @@ describe('angular-tree-component-storybook', () => {
 
             cy.get('app-angular-tree-component')
               .screenshot(
-                `angulartreecomponentcomponent-angulartreecomponent--${mode}-angular-tree-component-${theme}`,
+                `angulartreecomponentcomponent-angulartreecomponent--${mode}-angular-tree-component-${theme}`
               )
               .percySnapshot(
                 `angulartreecomponentcomponent-angulartreecomponent--${mode}-angular-tree-component-${theme}`,
                 {
                   widths: E2eVariations.DISPLAY_WIDTHS,
-                },
+                }
               );
           });
         });

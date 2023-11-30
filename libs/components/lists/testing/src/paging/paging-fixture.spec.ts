@@ -49,7 +49,7 @@ describe('Paging fixture', () => {
 
   function verifyActivePageLink(
     pages: SkyPagingFixtureButton[],
-    expectedActivePageId: string | number,
+    expectedActivePageId: string | number
   ): void {
     pages.forEach((page: SkyPagingFixtureButton) => {
       const shouldBeActive = page.id === expectedActivePageId.toString();
@@ -67,7 +67,7 @@ describe('Paging fixture', () => {
 
     // page count should never be higher than the max
     expect(pagingFixture.pageLinks.length).toBeLessThanOrEqual(
-      testComponent.maxPages,
+      testComponent.maxPages
     );
 
     // the page links should reflect the active page state
@@ -90,7 +90,7 @@ describe('Paging fixture', () => {
   it('should reflect default properties', () => {
     // verify active page
     expect(pagingFixture.activePageId).toBe(
-      testComponent.currentPage.toString(),
+      testComponent.currentPage.toString()
     );
 
     // verify page list
@@ -110,7 +110,7 @@ describe('Paging fixture', () => {
 
     // verify active page
     expect(pagingFixture.activePageId).toBe(
-      testComponent.currentPage.toString(),
+      testComponent.currentPage.toString()
     );
 
     // verify page list
@@ -140,14 +140,14 @@ describe('Paging fixture', () => {
   it('should select page if it is available', async () => {
     const currentPageChangeSpy = spyOn(
       fixture.componentInstance,
-      'currentPageChange',
+      'currentPageChange'
     );
     const targetPage = 2;
 
     // ensure we have a second page to select and we're not on that page already
     expect(pagingFixture.activePageId).toBe('1');
     expect(pagingFixture.pageLinks).toContain(
-      jasmine.objectContaining({ id: `${targetPage}` }),
+      jasmine.objectContaining({ id: `${targetPage}` })
     );
 
     // select the target page
@@ -164,7 +164,7 @@ describe('Paging fixture', () => {
   it('should do nothing when selecting the active page', async () => {
     const currentPageChangeSpy = spyOn(
       fixture.componentInstance,
-      'currentPageChange',
+      'currentPageChange'
     );
 
     // ensure we have an active page
@@ -185,7 +185,7 @@ describe('Paging fixture', () => {
   it('should do nothing when selecting non existent page', async () => {
     const currentPageChangeSpy = spyOn(
       fixture.componentInstance,
-      'currentPageChange',
+      'currentPageChange'
     );
 
     // ensure we have an active page
@@ -206,7 +206,7 @@ describe('Paging fixture', () => {
   it('should transition to the next page when one is available', async () => {
     const currentPageChangeSpy = spyOn(
       fixture.componentInstance,
-      'currentPageChange',
+      'currentPageChange'
     );
 
     // ensure we have an active page with a next page available
@@ -214,7 +214,7 @@ describe('Paging fixture', () => {
     const nextPage = originalPage + 1;
     expect(originalPage).toBe(1);
     expect(pagingFixture.pageLinks).toContain(
-      jasmine.objectContaining({ id: `${nextPage}` }),
+      jasmine.objectContaining({ id: `${nextPage}` })
     );
 
     // move to the next page
@@ -231,7 +231,7 @@ describe('Paging fixture', () => {
   it('should do nothing when selecting the next page from the last pge', async () => {
     const currentPageChangeSpy = spyOn(
       fixture.componentInstance,
-      'currentPageChange',
+      'currentPageChange'
     );
 
     // move to the last page
@@ -257,7 +257,7 @@ describe('Paging fixture', () => {
   it('should transition to the previous page when one is available', async () => {
     const currentPageChangeSpy = spyOn(
       fixture.componentInstance,
-      'currentPageChange',
+      'currentPageChange'
     );
 
     // move to the last page
@@ -270,7 +270,7 @@ describe('Paging fixture', () => {
     const previousPage = lastPage - 1;
     expect(testComponent.currentPage).toBe(lastPage);
     expect(pagingFixture.pageLinks).toContain(
-      jasmine.objectContaining({ id: `${previousPage}` }),
+      jasmine.objectContaining({ id: `${previousPage}` })
     );
 
     // move to the previous page
@@ -287,7 +287,7 @@ describe('Paging fixture', () => {
   it('should do nothing when selecting the previous page from the first page', async () => {
     const currentPageChangeSpy = spyOn(
       fixture.componentInstance,
-      'currentPageChange',
+      'currentPageChange'
     );
 
     // ensure we have an active page with no previous page available

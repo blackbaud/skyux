@@ -17,13 +17,13 @@ export default async function (tree: Tree, schema: Schema) {
   const storybookProject = allProjects.get('storybook');
   if (!allProjects || !storybookProject) {
     (schema.ansiColor === false ? console.error : logger.error)(
-      `Unable to load a project named "storybook"`,
+      `Unable to load a project named "storybook"`
     );
     return;
   }
   const storybookProjectRoot = storybookProject.root;
   const relativeToRoot = normalizePath(
-    relative(`/${storybookProjectRoot}/.storybook`, `/`),
+    relative(`/${storybookProjectRoot}/.storybook`, `/`)
   );
 
   let projectsArg: string[] = [];
@@ -42,7 +42,7 @@ export default async function (tree: Tree, schema: Schema) {
     }
   } catch (e) {
     (schema.ansiColor === false ? console.error : logger.error)(
-      `Unable to parse projectsJson: ${schema.projectsJson}`,
+      `Unable to parse projectsJson: ${schema.projectsJson}`
     );
     return;
   }
@@ -66,7 +66,7 @@ export default async function (tree: Tree, schema: Schema) {
       projects,
       baseUrl: schema.baseUrl.replace(/\/$/, ''),
       relativeToRoot,
-    },
+    }
   );
   return formatFiles(tree);
 }

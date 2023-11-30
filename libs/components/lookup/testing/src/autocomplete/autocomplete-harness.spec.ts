@@ -19,7 +19,7 @@ describe('Autocomplete harness', () => {
     let autocompleteHarness: SkyAutocompleteHarness | undefined;
     if (options.dataSkyId) {
       autocompleteHarness = await loader.getHarness(
-        SkyAutocompleteHarness.with({ dataSkyId: options.dataSkyId }),
+        SkyAutocompleteHarness.with({ dataSkyId: options.dataSkyId })
       );
     }
 
@@ -83,7 +83,7 @@ describe('Autocomplete harness', () => {
     await autocompleteHarness?.enterText('r');
 
     await expectAsync(
-      autocompleteHarness?.getSearchResultsText(),
+      autocompleteHarness?.getSearchResultsText()
     ).toBeResolvedTo([
       'Red',
       'Green',
@@ -142,9 +142,9 @@ describe('Autocomplete harness', () => {
     });
 
     await expectAsync(
-      autocompleteHarness?.getSearchResults(),
+      autocompleteHarness?.getSearchResults()
     ).toBeRejectedWithError(
-      'Unable to retrieve search results. The autocomplete is closed.',
+      'Unable to retrieve search results. The autocomplete is closed.'
     );
   });
 
@@ -158,9 +158,9 @@ describe('Autocomplete harness', () => {
     await expectAsync(
       autocompleteHarness?.getSearchResults({
         text: /invalidSearchText/,
-      }),
+      })
     ).toBeRejectedWithError(
-      'Could not find search results matching filter(s): {"text":"/invalidSearchText/"}',
+      'Could not find search results matching filter(s): {"text":"/invalidSearchText/"}'
     );
   });
 
@@ -172,7 +172,7 @@ describe('Autocomplete harness', () => {
     await autocompleteHarness?.enterText('invalidSearchText');
 
     await expectAsync(autocompleteHarness?.getSearchResults()).toBeResolvedTo(
-      [],
+      []
     );
   });
 
@@ -212,9 +212,9 @@ describe('Autocomplete harness', () => {
       const spy = spyOn(fixture.componentInstance, 'onAddClick');
 
       await expectAsync(
-        (await myHarness).clickAddButton(),
+        (await myHarness).clickAddButton()
       ).toBeRejectedWithError(
-        'Unable to find the "Add" button. The autocomplete is closed.',
+        'Unable to find the "Add" button. The autocomplete is closed.'
       );
 
       await (await myHarness).enterText('r');
@@ -230,9 +230,9 @@ describe('Autocomplete harness', () => {
       const spy = spyOn(fixture.componentInstance, 'onShowMoreClick');
 
       await expectAsync(
-        (await myHarness).clickShowMoreButton(),
+        (await myHarness).clickShowMoreButton()
       ).toBeRejectedWithError(
-        'Unable to find the "Show more" button. The autocomplete is closed.',
+        'Unable to find the "Show more" button. The autocomplete is closed.'
       );
 
       await (await myHarness).enterText('r');
@@ -252,15 +252,15 @@ describe('Autocomplete harness', () => {
       await (await myHarness).enterText('r');
 
       await expectAsync(
-        (await myHarness).clickAddButton(),
+        (await myHarness).clickAddButton()
       ).toBeRejectedWithError(
-        'The "Add" button cannot be clicked because it does not exist.',
+        'The "Add" button cannot be clicked because it does not exist.'
       );
 
       await expectAsync(
-        (await myHarness).clickShowMoreButton(),
+        (await myHarness).clickShowMoreButton()
       ).toBeRejectedWithError(
-        'The "Show more" button cannot be clicked because it does not exist.',
+        'The "Show more" button cannot be clicked because it does not exist.'
       );
     });
   });

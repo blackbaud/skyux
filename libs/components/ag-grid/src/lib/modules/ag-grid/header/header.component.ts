@@ -47,7 +47,7 @@ export class SkyAgGridHeaderComponent
   public sorted = '';
   public readonly filterEnabled$ = new BehaviorSubject<boolean>(false);
   public readonly sortOrder$ = new BehaviorSubject<'asc' | 'desc' | undefined>(
-    undefined,
+    undefined
   );
   public readonly sortIndexDisplay$ = new BehaviorSubject<string>('');
 
@@ -86,19 +86,19 @@ export class SkyAgGridHeaderComponent
           (handler) =>
             params.column.addEventListener(
               Events.EVENT_FILTER_CHANGED,
-              handler,
+              handler
             ),
           (handler) =>
             params.column.removeEventListener(
               Events.EVENT_FILTER_CHANGED,
-              handler,
-            ),
+              handler
+            )
         ).subscribe(() => {
           const isFilterActive = params.column.isFilterActive();
           if (isFilterActive !== this.filterEnabled$.getValue()) {
             this.filterEnabled$.next(isFilterActive);
           }
-        }),
+        })
       );
     }
     if (params.enableSorting) {
@@ -110,11 +110,11 @@ export class SkyAgGridHeaderComponent
           (handler) =>
             params.column.removeEventListener(
               Events.EVENT_SORT_CHANGED,
-              handler,
-            ),
+              handler
+            )
         ).subscribe(() => {
           this.#updateSort();
-        }),
+        })
       );
       // Other column sort state changes, for multi-column sorting
       this.#subscriptions.add(
@@ -122,10 +122,10 @@ export class SkyAgGridHeaderComponent
           (handler) =>
             params.api.addEventListener(Events.EVENT_SORT_CHANGED, handler),
           (handler) =>
-            params.api.removeEventListener(Events.EVENT_SORT_CHANGED, handler),
+            params.api.removeEventListener(Events.EVENT_SORT_CHANGED, handler)
         ).subscribe(() => {
           this.#updateSortIndex();
-        }),
+        })
       );
       this.#updateSort();
       this.#updateSortIndex();
@@ -162,7 +162,7 @@ export class SkyAgGridHeaderComponent
         this.#inlineHelpComponentRef.componentType !== inlineHelpComponent)
     ) {
       this.#dynamicComponentService.removeComponent(
-        this.#inlineHelpComponentRef,
+        this.#inlineHelpComponentRef
       );
 
       const headerInfo = new SkyAgGridHeaderInfo();
@@ -184,7 +184,7 @@ export class SkyAgGridHeaderComponent
         });
     } else if (!inlineHelpComponent) {
       this.#dynamicComponentService.removeComponent(
-        this.#inlineHelpComponentRef,
+        this.#inlineHelpComponentRef
       );
     }
   }
@@ -200,7 +200,7 @@ export class SkyAgGridHeaderComponent
       ?.some(
         (column) =>
           column.getColId() !== this.params?.column.getColId() &&
-          !!column.getSort(),
+          !!column.getSort()
       );
     if (sortIndex !== undefined && sortIndex !== null && otherSortColumns) {
       this.sortIndexDisplay$.next(`${sortIndex + 1}`);

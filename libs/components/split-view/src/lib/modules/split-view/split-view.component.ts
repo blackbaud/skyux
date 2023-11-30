@@ -86,7 +86,7 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
       this.#bindHeightToWindowUnsubscribe = new Subject();
       this.#adapter.bindHeightToWindow(
         this.#elementRef,
-        this.#bindHeightToWindowUnsubscribe,
+        this.#bindHeightToWindowUnsubscribe
       );
     }
   }
@@ -156,7 +156,7 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
     changeDetectorRef: ChangeDetectorRef,
     coreAdapterService: SkyCoreAdapterService,
     elementRef: ElementRef,
-    splitViewService: SkySplitViewService,
+    splitViewService: SkySplitViewService
   ) {
     this.#adapter = adapter;
     this.#changeDetectorRef = changeDetectorRef;
@@ -204,13 +204,13 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
 
   #applyAutofocus(): void {
     const applyAutoFocus = this.#coreAdapterService.applyAutoFocus(
-      this.#elementRef,
+      this.#elementRef
     );
     /*istanbul ignore else*/
     if (!applyAutoFocus) {
       this.#coreAdapterService.getFocusableChildrenAndApplyFocus(
         this.#elementRef,
-        '.sky-split-view-workspace-content',
+        '.sky-split-view-workspace-content'
       );
     }
   }

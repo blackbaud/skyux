@@ -99,7 +99,7 @@ export class DataManagerComponent implements OnInit {
     formBuilder: FormBuilder,
     dataManagerService: SkyDataManagerService,
     agGridService: SkyAgGridService,
-    fontLoadingService: FontLoadingService,
+    fontLoadingService: FontLoadingService
   ) {
     this.#agGridService = agGridService;
     this.#dataManagerService = dataManagerService;
@@ -115,7 +115,7 @@ export class DataManagerComponent implements OnInit {
     ]).pipe(
       filter(([gridReady, fontsLoaded]) => gridReady && fontsLoaded),
       first(),
-      map(() => true),
+      map(() => true)
     );
   }
 

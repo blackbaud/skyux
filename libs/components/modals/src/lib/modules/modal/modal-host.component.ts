@@ -75,8 +75,7 @@ export class SkyModalHostComponent implements OnDestroy {
   public open<T>(
     modalInstance: SkyModalInstance,
     component: Type<T>,
-    config?: SkyModalConfigurationInterface,
-    environmentInjector?: EnvironmentInjector,
+    config?: SkyModalConfigurationInterface
   ): void {
     /* Ignore coverage as we specify the target element and so the view child should never be undefined unless
      * we were to call the `open` method in an early lifecycle hook. */
@@ -117,22 +116,21 @@ export class SkyModalHostComponent implements OnDestroy {
             .asObservable()
             .pipe(takeUntil(modalInstance.closed)),
         },
-      },
+      }
     );
 
     adapter.setPageScroll(SkyModalHostService.openModalCount > 0);
     adapter.toggleFullPageModalClass(
-      SkyModalHostService.fullPageModalCount > 0,
+      SkyModalHostService.fullPageModalCount > 0
     );
 
-    environmentInjector ||= this.#environmentInjector;
     const modalComponentRef = this.#dynamicComponentSvc.createComponent(
       component,
       {
-        environmentInjector: environmentInjector,
+        environmentInjector: this.#environmentInjector,
         providers: params.providers,
         viewContainerRef: this.target,
-      },
+      }
     );
 
     // modal element that was just opened
@@ -165,7 +163,7 @@ export class SkyModalHostComponent implements OnDestroy {
       hostService.destroy();
       adapter.setPageScroll(SkyModalHostService.openModalCount > 0);
       adapter.toggleFullPageModalClass(
-        SkyModalHostService.fullPageModalCount > 0,
+        SkyModalHostService.fullPageModalCount > 0
       );
       /* istanbul ignore else */
       /* sanity check */

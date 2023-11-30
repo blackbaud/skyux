@@ -13,7 +13,7 @@ const routes: Routes = [
     path: 'text-editor',
     loadComponent: () =>
       import('../code-examples/text-editor/text-editor/demo.component').then(
-        (c) => c.DemoComponent,
+        (c) => c.DemoComponent
       ),
   },
   {

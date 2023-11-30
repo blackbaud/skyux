@@ -5,8 +5,8 @@ describe('forms-storybook - input box', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=inputboxcomponent-inputbox--input-box`,
-        ),
+          `/iframe.html?globals=theme:${theme}&id=inputboxcomponent-inputbox--input-box`
+        )
       );
       it('should render the component', () => {
         cy.get('app-input-box')
@@ -26,14 +26,14 @@ describe('forms-storybook - input box', () => {
           .click()
           .get('#input-box-basic')
           .screenshot(
-            `inputboxcomponent-inputbox--input-box-${theme}-standard-focus`,
+            `inputboxcomponent-inputbox--input-box-${theme}-standard-focus`
           )
           .percySnapshot(
             `inputboxcomponent-inputbox--input-box-${theme}-standard-focus`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
               scope: '#input-box-basic',
-            },
+            }
           );
       });
 
@@ -45,14 +45,14 @@ describe('forms-storybook - input box', () => {
           .click()
           .get('#input-box-textarea')
           .screenshot(
-            `inputboxcomponent-inputbox--input-box-${theme}-textarea-focus`,
+            `inputboxcomponent-inputbox--input-box-${theme}-textarea-focus`
           )
           .percySnapshot(
             `inputboxcomponent-inputbox--input-box-${theme}-textarea-focus`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
               scope: '#input-box-textarea',
-            },
+            }
           );
       });
 
@@ -64,14 +64,14 @@ describe('forms-storybook - input box', () => {
           .select(1)
           .get('#input-box-select')
           .screenshot(
-            `inputboxcomponent-inputbox--input-box-${theme}-select-focus`,
+            `inputboxcomponent-inputbox--input-box-${theme}-select-focus`
           )
           .percySnapshot(
             `inputboxcomponent-inputbox--input-box-${theme}-select-focus`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
               scope: '#input-box-select',
-            },
+            }
           );
       });
 
@@ -83,14 +83,14 @@ describe('forms-storybook - input box', () => {
           .click()
           .get('#input-box-button-multiple')
           .screenshot(
-            `inputboxcomponent-inputbox--input-box-${theme}-multiple-buttons-focus`,
+            `inputboxcomponent-inputbox--input-box-${theme}-multiple-buttons-focus`
           )
           .percySnapshot(
             `inputboxcomponent-inputbox--input-box-${theme}-multiple-buttons-focus`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
               scope: '#input-box-button-multiple',
-            },
+            }
           );
       });
 
@@ -102,14 +102,14 @@ describe('forms-storybook - input box', () => {
           .click()
           .get('#input-box-form-control-error')
           .screenshot(
-            `inputboxcomponent-inputbox--input-box-${theme}-error-focus`,
+            `inputboxcomponent-inputbox--input-box-${theme}-error-focus`
           )
           .percySnapshot(
             `inputboxcomponent-inputbox--input-box-${theme}-error-focus`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
               scope: '#input-box-form-control-error',
-            },
+            }
           );
       });
 
@@ -121,14 +121,14 @@ describe('forms-storybook - input box', () => {
           .click()
           .get('#input-box-button-single-left')
           .screenshot(
-            `inputboxcomponent-inputbox--input-box-${theme}-left-button-focus`,
+            `inputboxcomponent-inputbox--input-box-${theme}-left-button-focus`
           )
           .percySnapshot(
             `inputboxcomponent-inputbox--input-box-${theme}-left-button-focus`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
               scope: '#input-box-button-single-left',
-            },
+            }
           );
       });
 
@@ -140,14 +140,14 @@ describe('forms-storybook - input box', () => {
           .click()
           .get('#input-box-button-inset')
           .screenshot(
-            `inputboxcomponent-inputbox--input-box-${theme}-inset-button-focus`,
+            `inputboxcomponent-inputbox--input-box-${theme}-inset-button-focus`
           )
           .percySnapshot(
             `inputboxcomponent-inputbox--input-box-${theme}-inset-button-focus`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
               scope: '#input-box-button-inset',
-            },
+            }
           );
       });
 
@@ -159,14 +159,14 @@ describe('forms-storybook - input box', () => {
           .click()
           .get('#input-box-icon-inset')
           .screenshot(
-            `inputboxcomponent-inputbox--input-box-${theme}-inset-icon-focus`,
+            `inputboxcomponent-inputbox--input-box-${theme}-inset-icon-focus`
           )
           .percySnapshot(
             `inputboxcomponent-inputbox--input-box-${theme}-inset-icon-focus`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
               scope: '#input-box-icon-inset',
-            },
+            }
           );
       });
 
@@ -178,14 +178,14 @@ describe('forms-storybook - input box', () => {
           .click()
           .get('#input-box-icon-inset-left')
           .screenshot(
-            `inputboxcomponent-inputbox--input-box-${theme}-inset-icon-left-focus`,
+            `inputboxcomponent-inputbox--input-box-${theme}-inset-icon-left-focus`
           )
           .percySnapshot(
             `inputboxcomponent-inputbox--input-box-${theme}-inset-icon-left-focus`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
               scope: '#input-box-icon-inset-left',
-            },
+            }
           );
       });
     });

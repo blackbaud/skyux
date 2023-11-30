@@ -7,6 +7,6 @@ export class ListItemsSetSelectedAction {
     public items: string[],
     /* istanbul ignore next */
     public selected: boolean = false,
-    public refresh: boolean = true,
+    public refresh: boolean = true
   ) {}
 }

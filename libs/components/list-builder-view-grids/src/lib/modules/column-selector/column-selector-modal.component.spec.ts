@@ -47,17 +47,15 @@ describe('Column selector component', () => {
     expect(
       document.body
         .querySelector(checklistItemQuery)
-        .querySelector('.sky-emphasized'),
+        .querySelector('.sky-emphasized')
     ).toHaveText('Column 1');
 
     expect(
-      document.body
-        .querySelector(checklistItemQuery)
-        .querySelectorAll('div')[1],
+      document.body.querySelector(checklistItemQuery).querySelectorAll('div')[1]
     ).toHaveText('Column 1 desc');
 
     const closeButton = document.body.querySelector(
-      '.sky-modal-btn-close',
+      '.sky-modal-btn-close'
     ) as HTMLButtonElement;
     closeButton.click();
 
@@ -73,7 +71,7 @@ describe('Column selector component', () => {
     tick();
 
     const checkboxLabelEl = document.querySelector(
-      '.sky-modal .sky-list-view-checklist-item input',
+      '.sky-modal .sky-list-view-checklist-item input'
     ) as HTMLElement;
     checkboxLabelEl.click();
 
@@ -81,7 +79,7 @@ describe('Column selector component', () => {
     fixture.detectChanges();
 
     const submitButtonEl = document.querySelector(
-      '.sky-modal .sky-btn-primary',
+      '.sky-modal .sky-btn-primary'
     ) as HTMLButtonElement;
 
     submitButtonEl.click();
@@ -97,7 +95,7 @@ describe('Column selector component', () => {
     tick();
 
     const checkboxLabelEl = document.querySelector(
-      '.sky-modal .sky-list-view-checklist-item input',
+      '.sky-modal .sky-list-view-checklist-item input'
     ) as HTMLElement;
     checkboxLabelEl.click();
 
@@ -105,7 +103,7 @@ describe('Column selector component', () => {
     fixture.detectChanges();
 
     const cancelButtonEl = document.querySelector(
-      '.sky-modal [sky-cmp-id="cancel"]',
+      '.sky-modal [sky-cmp-id="cancel"]'
     ) as HTMLButtonElement;
 
     cancelButtonEl.click();

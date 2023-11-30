@@ -130,7 +130,7 @@ export class SkyPhoneFieldInputDirective
     changeDetector: ChangeDetectorRef,
     elRef: ElementRef,
     @Optional() adapterService?: SkyPhoneFieldAdapterService,
-    @Optional() phoneFieldComponent?: SkyPhoneFieldComponent,
+    @Optional() phoneFieldComponent?: SkyPhoneFieldComponent
   ) {
     this.#changeDetector = changeDetector;
     this.#elRef = elRef;
@@ -142,7 +142,7 @@ export class SkyPhoneFieldInputDirective
     if (!this.#phoneFieldComponent) {
       throw new Error(
         'You must wrap the `skyPhoneFieldInput` directive within a ' +
-          '`<sky-phone-field>` component!',
+          '`<sky-phone-field>` component!'
       );
     }
 
@@ -151,7 +151,7 @@ export class SkyPhoneFieldInputDirective
     if (this.#phoneFieldComponent?.selectedCountry?.exampleNumber) {
       this.#adapterService?.setElementPlaceholder(
         this.#elRef,
-        this.#phoneFieldComponent.selectedCountry.exampleNumber,
+        this.#phoneFieldComponent.selectedCountry.exampleNumber
       );
     }
   }
@@ -164,7 +164,7 @@ export class SkyPhoneFieldInputDirective
         if (country?.exampleNumber) {
           this.#adapterService?.setElementPlaceholder(
             this.#elRef,
-            country.exampleNumber,
+            country.exampleNumber
           );
         }
       });
@@ -297,7 +297,7 @@ export class SkyPhoneFieldInputDirective
     try {
       const numberObj = this.#phoneUtils.parseAndKeepRawInput(
         phoneNumber,
-        this.#phoneFieldComponent?.selectedCountry?.iso2,
+        this.#phoneFieldComponent?.selectedCountry?.iso2
       );
 
       if (
@@ -310,7 +310,7 @@ export class SkyPhoneFieldInputDirective
 
       return this.#phoneUtils.isValidNumberForRegion(
         numberObj,
-        this.#phoneFieldComponent?.selectedCountry?.iso2,
+        this.#phoneFieldComponent?.selectedCountry?.iso2
       );
     } catch (e) {
       return false;
@@ -325,19 +325,19 @@ export class SkyPhoneFieldInputDirective
     try {
       const numberObj = this.#phoneUtils.parseAndKeepRawInput(
         phoneNumber,
-        this.#phoneFieldComponent?.selectedCountry?.iso2,
+        this.#phoneFieldComponent?.selectedCountry?.iso2
       );
       if (this.#phoneUtils.isPossibleNumber(numberObj)) {
         switch (this.#phoneFieldComponent?.returnFormat) {
           case 'international':
             return this.#phoneUtils.format(
               numberObj,
-              PhoneNumberFormat.INTERNATIONAL,
+              PhoneNumberFormat.INTERNATIONAL
             );
           case 'national':
             return this.#phoneUtils.format(
               numberObj,
-              PhoneNumberFormat.NATIONAL,
+              PhoneNumberFormat.NATIONAL
             );
           case 'default':
           default:
@@ -347,12 +347,12 @@ export class SkyPhoneFieldInputDirective
             ) {
               return this.#phoneUtils.format(
                 numberObj,
-                PhoneNumberFormat.INTERNATIONAL,
+                PhoneNumberFormat.INTERNATIONAL
               );
             } else {
               return this.#phoneUtils.format(
                 numberObj,
-                PhoneNumberFormat.NATIONAL,
+                PhoneNumberFormat.NATIONAL
               );
             }
         }

@@ -27,7 +27,7 @@ describe('SkyHrefHarness', () => {
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
     const hrefHarness = await loader.getHarness(
-      SkyHrefHarness.with({ dataSkyId: options.dataSkyId }),
+      SkyHrefHarness.with({ dataSkyId: options.dataSkyId })
     );
 
     return { hrefHarness, fixture, loader };
@@ -40,7 +40,7 @@ describe('SkyHrefHarness', () => {
     });
     expect(hrefHarness).toBeTruthy();
     await expectAsync(hrefHarness.getHref()).toBeResolvedTo(
-      'https://example.com/test1',
+      'https://example.com/test1'
     );
     await expectAsync(hrefHarness.getText()).toBeResolvedTo('Link 1');
     await expectAsync(hrefHarness.isVisible()).toBeResolvedTo(true);
@@ -53,7 +53,7 @@ describe('SkyHrefHarness', () => {
     });
     expect(hrefHarness).toBeTruthy();
     await expectAsync(hrefHarness.getHref()).toBeResolvedTo(
-      'https://example.com/test2',
+      'https://example.com/test2'
     );
     await expectAsync(hrefHarness.getText()).toBeResolvedTo('Link 2');
     await expectAsync(hrefHarness.isVisible()).toBeResolvedTo(true);

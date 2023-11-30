@@ -1,11 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-import {
-  SkyModalConfiguration,
-  SkyModalHostService,
-  SkyModalInstance,
-  SkyModalModule,
-} from '@skyux/modals';
+import { SkyModalHostService } from '@skyux/modals';
+import { SkyModalConfiguration } from '@skyux/modals';
+import { SkyModalInstance } from '@skyux/modals';
+import { SkyModalModule } from '@skyux/modals';
 
 import { ErrorModalConfig } from './error-modal-config';
 import { SkyErrorModalFormComponent } from './error-modal-form.component';
@@ -59,7 +57,7 @@ describe('Error modal form component', () => {
     // test close method is called when clicked
     spyOn(modalInstance, 'close');
     const closeButtonEl = el.querySelector(
-      '.sky-error-modal-close button',
+      '.sky-error-modal-close button'
     ) as HTMLElement;
     closeButtonEl.click();
     expect(modalInstance.close).toHaveBeenCalled();

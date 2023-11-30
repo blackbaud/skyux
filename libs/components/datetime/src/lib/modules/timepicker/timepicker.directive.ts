@@ -138,7 +138,7 @@ export class SkyTimepickerInputDirective
   constructor(
     renderer: Renderer2,
     elRef: ElementRef,
-    changeDetector: ChangeDetectorRef,
+    changeDetector: ChangeDetectorRef
   ) {
     this.#renderer = renderer;
     this.#elRef = elRef;
@@ -152,7 +152,7 @@ export class SkyTimepickerInputDirective
         (newTime: string) => {
           this.writeValue(newTime);
           this.#_onTouched();
-        },
+        }
       );
   }
 
@@ -245,7 +245,7 @@ export class SkyTimepickerInputDirective
     this.#renderer.setProperty(
       this.#elRef.nativeElement,
       'value',
-      formattedValue,
+      formattedValue
     );
   }
 

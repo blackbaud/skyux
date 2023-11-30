@@ -16,7 +16,7 @@ jest.mock('@angular-devkit/schematics', () => {
 describe('i18n-resources-module.schematic', () => {
   const runner = new SchematicTestRunner(
     'migrations',
-    resolve(__dirname, '../../migration-collection.json'),
+    resolve(__dirname, '../../migration-collection.json')
   );
 
   async function setupTest(options?: {
@@ -34,8 +34,8 @@ describe('i18n-resources-module.schematic', () => {
     tree.overwrite(
       '/package.json',
       JSON.stringify(
-        options?.packageJson ?? { dependencies: { '@skyux/i18n': '1.0.0' } },
-      ),
+        options?.packageJson ?? { dependencies: { '@skyux/i18n': '1.0.0' } }
+      )
     );
 
     tree.create(
@@ -81,12 +81,12 @@ export class MyLibResourcesProvider implements SkyLibResourcesProvider {
   }]
 })
 export class MyLibResourcesModule { }
-`,
+`
     );
 
     const spies = {
       externalSchematic: (externalSchematic as jest.Mock).mockImplementation(
-        () => () => undefined,
+        () => () => undefined
       ),
     };
 
@@ -113,7 +113,7 @@ export class MyLibResourcesModule { }
       {
         name: 'lib/modules/shared/my-lib',
         project: 'my-lib',
-      },
+      }
     );
   });
 
@@ -147,7 +147,7 @@ export class MyLibResourcesModule { }
       {
         name: 'lib/src/src/foobar/modules/shared/my-lib',
         project: 'my-lib',
-      },
+      }
     );
   });
 });

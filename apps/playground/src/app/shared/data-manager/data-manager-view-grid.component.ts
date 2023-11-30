@@ -109,6 +109,7 @@ export class DataManagerViewGridComponent implements OnInit {
     name: 'Data Grid View',
     icon: 'table',
     searchEnabled: true,
+    sortEnabled: true,
     multiselectToolbarEnabled: true,
     columnPickerEnabled: true,
     filterButtonEnabled: true,
@@ -166,7 +167,7 @@ export class DataManagerViewGridComponent implements OnInit {
   constructor(
     private agGridService: SkyAgGridService,
     private changeDetector: ChangeDetectorRef,
-    private dataManagerService: SkyDataManagerService,
+    private dataManagerService: SkyDataManagerService
   ) {}
 
   public ngOnInit(): void {
@@ -197,6 +198,7 @@ export class DataManagerViewGridComponent implements OnInit {
   }
 
   public updateData(): void {
+    this.sortItems();
     this.displayedItems = this.filterItems(this.searchItems(this._items));
 
     if (this.dataState.onlyShowSelected) {
@@ -218,10 +220,10 @@ export class DataManagerViewGridComponent implements OnInit {
 
     this.columnDefs.sort((col1, col2) => {
       const col1Index = visibleColumns.findIndex(
-        (colId: string) => colId === col1.colId,
+        (colId: string) => colId === col1.colId
       );
       const col2Index = visibleColumns.findIndex(
-        (colId: string) => colId === col2.colId,
+        (colId: string) => colId === col2.colId
       );
 
       if (col1Index === -1) {
@@ -250,6 +252,20 @@ export class DataManagerViewGridComponent implements OnInit {
   public onRowSelected(rowSelectedEvent: RowSelectedEvent): void {
     if (!rowSelectedEvent.data.selected) {
       this.updateData();
+    }
+  }
+
+  public sortItems(): void {
+    const sortOption = this.dataState.activeSortOption;
+    if (this.columnApi && sortOption) {
+      this.columnApi.applyColumnState({
+        state: [
+          {
+            colId: sortOption.propertyName,
+            sort: sortOption.descending ? 'desc' : 'asc',
+          },
+        ],
+      });
     }
   }
 

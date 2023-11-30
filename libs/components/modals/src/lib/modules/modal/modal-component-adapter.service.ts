@@ -15,7 +15,7 @@ export class SkyModalComponentAdapterService {
   public handleWindowChange(modalEl: ElementRef): void {
     const boundedHeightEl = modalEl.nativeElement.querySelector('.sky-modal');
     const fullPageModalEl = modalEl.nativeElement.querySelector(
-      '.sky-modal-full-page',
+      '.sky-modal-full-page'
     );
     /*
       Set modal height equal to max height of window (accounting for padding above and below modal)
@@ -39,7 +39,7 @@ export class SkyModalComponentAdapterService {
 
   public isFocusInFirstItem(
     event: KeyboardEvent,
-    list: Array<HTMLElement>,
+    list: Array<HTMLElement>
   ): boolean {
     /* istanbul ignore next */
     /* sanity check */
@@ -49,7 +49,7 @@ export class SkyModalComponentAdapterService {
 
   public isFocusInLastItem(
     event: KeyboardEvent,
-    list: Array<HTMLElement>,
+    list: Array<HTMLElement>
   ): boolean {
     /* istanbul ignore next */
     /* sanity check */
@@ -84,10 +84,10 @@ export class SkyModalComponentAdapterService {
   }
 
   public modalContentHasDirectChildViewkeeper(
-    modalContentEl: ElementRef,
+    modalContentEl: ElementRef
   ): boolean {
     return !!modalContentEl.nativeElement.querySelector(
-      'sky-modal-content > .sky-viewkeeper-fixed',
+      'sky-modal-content > .sky-viewkeeper-fixed'
     );
   }
 
@@ -112,7 +112,7 @@ export class SkyModalComponentAdapterService {
         this.#coreAdapter.getFocusableChildrenAndApplyFocus(
           modalEl,
           '.sky-modal-content',
-          true,
+          true
         );
       }
       window.scrollTo(currentScrollX, currentScrollY);

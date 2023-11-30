@@ -42,7 +42,7 @@ export class SkyToastFixture {
     this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
-      'sky-toast',
+      'sky-toast'
     );
   }
 

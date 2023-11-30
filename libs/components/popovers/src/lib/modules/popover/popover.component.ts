@@ -157,7 +157,7 @@ export class SkyPopoverComponent implements OnDestroy {
     overlayService: SkyOverlayService,
     @Optional()
     @Inject(SKY_STACKING_CONTEXT)
-    stackingContext?: SkyStackingContext,
+    stackingContext?: SkyStackingContext
   ) {
     this.#overlayService = overlayService;
     this.#zIndex = stackingContext?.zIndex;
@@ -183,7 +183,7 @@ export class SkyPopoverComponent implements OnDestroy {
   public positionNextTo(
     caller: ElementRef,
     placement?: SkyPopoverPlacement,
-    alignment?: SkyPopoverAlignment,
+    alignment?: SkyPopoverAlignment
   ): void {
     if (!this.#overlay) {
       this.#setupOverlay();

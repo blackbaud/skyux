@@ -32,7 +32,7 @@ describe('Affix service', () => {
     fixture.detectChanges();
 
     const affixer = affixService.createAffixer(
-      fixture.componentInstance.target,
+      fixture.componentInstance.target
     );
 
     expect(affixer).toEqual(jasmine.any(SkyAffixer));
@@ -44,12 +44,12 @@ describe('Affix service', () => {
     fixture.detectChanges();
 
     const affixer = affixService.createAffixer(
-      fixture.componentInstance.target,
+      fixture.componentInstance.target
     );
 
     // Use 'any' to force the invalid element through.
     expect(() =>
-      affixer.affixTo(undefined as any, { enableAutoFit: true }),
+      affixer.affixTo(undefined as any, { enableAutoFit: true })
     ).not.toThrow();
   });
 });

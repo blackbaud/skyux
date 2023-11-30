@@ -16,13 +16,13 @@ describe('Page component', () => {
   function validateLayout(
     fixture: ComponentFixture<SkyPageComponent>,
     layout: SkyPageLayoutType | undefined,
-    expectedCssClass: string,
+    expectedCssClass: string
   ): void {
     fixture.componentInstance.layout = layout;
     fixture.detectChanges();
 
     expect(fixture.nativeElement.querySelector('div')).toHaveCssClass(
-      expectedCssClass,
+      expectedCssClass
     );
   }
 
@@ -35,8 +35,8 @@ describe('Page component', () => {
 
     styleEl.appendChild(
       document.createTextNode(
-        `body { background-color: ${defaultBackgroundColor}; }`,
-      ),
+        `body { background-color: ${defaultBackgroundColor}; }`
+      )
     );
 
     document.head.appendChild(styleEl);

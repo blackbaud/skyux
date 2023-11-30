@@ -16,7 +16,7 @@ describe('Lookup single select demo', () => {
 
     const lookupHarness = await (
       await loader.getHarness(
-        SkyInputBoxHarness.with({ dataSkyId: 'favorite-name-field' }),
+        SkyInputBoxHarness.with({ dataSkyId: 'favorite-name-field' })
       )
     ).queryHarness(SkyLookupHarness);
 
@@ -56,10 +56,10 @@ describe('Lookup single select demo', () => {
     const picker = await lookupHarness?.getShowMorePicker();
 
     await expectAsync(picker?.getSearchAriaLabel()).toBeResolvedTo(
-      'Search name',
+      'Search name'
     );
     await expectAsync(picker?.getSaveButtonAriaLabel()).toBeResolvedTo(
-      'Select name',
+      'Select name'
     );
   });
 });

@@ -1,6 +1,5 @@
 {
   "singleQuote": true,
-  "trailingComma": "all",
   "importOrder": ["^@(.*)$", "^\\w(.*)$", "^(../)(.*)$", "^(./)(.*)$"],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true,

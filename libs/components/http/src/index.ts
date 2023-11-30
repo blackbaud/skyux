@@ -9,8 +9,8 @@ export {
   SKY_AUTH_PARAM_PERMISSION_SCOPE,
 } from './lib/modules/auth-http-client/auth-interceptor-params';
 export {
-  skyAuthHttpJsonOptions,
   skyAuthHttpOptions,
+  skyAuthHttpJsonOptions,
 } from './lib/modules/auth-http-client/auth-options';
 export { SkyAuthToken } from './lib/modules/auth-http-client/auth-token';
 export { SkyAuthTokenContextArgs } from './lib/modules/auth-http-client/auth-token-context-args';

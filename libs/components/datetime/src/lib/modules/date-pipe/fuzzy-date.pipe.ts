@@ -37,7 +37,7 @@ export class SkyFuzzyDatePipe implements PipeTransform {
   public transform(
     value: SkyFuzzyDate,
     format?: string,
-    locale?: string,
+    locale?: string
   ): string {
     if (!value) {
       return '';
@@ -48,7 +48,7 @@ export class SkyFuzzyDatePipe implements PipeTransform {
     return this.#fuzzyDateService.format(
       value,
       fuzzyDateFormat,
-      fuzzyDateLocale,
+      fuzzyDateLocale
     );
   }
 }

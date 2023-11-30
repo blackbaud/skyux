@@ -6,16 +6,16 @@ import { SkyTextHighlightTestComponent } from './fixtures/text-highlight.compone
 import { SkyTextHighlightFixtureModule } from './fixtures/text-highlight.module.fixture';
 
 function getContainerEl(
-  fixture: ComponentFixture<SkyTextHighlightTestComponent>,
+  fixture: ComponentFixture<SkyTextHighlightTestComponent>
 ): HTMLElement {
   return fixture.nativeElement.querySelector(
-    '.sky-test-div-container',
+    '.sky-test-div-container'
   ) as HTMLElement;
 }
 
 function updateInputText(
   fixture: ComponentFixture<SkyTextHighlightTestComponent>,
-  text: string,
+  text: string
 ): void {
   const params = {
     bubbles: false,
@@ -26,7 +26,7 @@ function updateInputText(
   inputEvent.initEvent('input', params.bubbles, params.cancelable);
 
   const inputEl = fixture.nativeElement.querySelector(
-    '.sky-input-search-term',
+    '.sky-input-search-term'
   ) as HTMLInputElement;
   inputEl.value = text;
   inputEl.dispatchEvent(inputEvent);
@@ -232,7 +232,7 @@ describe('Text Highlight', () => {
 
     // check box to show extra content
     const checkboxEl = fixture.nativeElement.querySelector(
-      '.sky-test-checkbox',
+      '.sky-test-checkbox'
     ) as HTMLInputElement;
 
     checkboxEl.click();
@@ -258,7 +258,7 @@ describe('Text Highlight', () => {
 
     // check box to show extra content
     const checkboxEl = fixture.nativeElement.querySelector(
-      '.sky-test-checkbox',
+      '.sky-test-checkbox'
     ) as HTMLInputElement;
 
     checkboxEl.click();

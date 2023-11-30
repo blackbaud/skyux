@@ -78,7 +78,7 @@ describe('update dependencies generator', () => {
     await generator(appTree);
     const projectPackageJson = readJson(
       appTree,
-      `${originalConfig.root}/package.json`,
+      `${originalConfig.root}/package.json`
     );
     expect(projectPackageJson).toBeDefined();
     expect(projectPackageJson.peerDependencies).toEqual({
@@ -113,8 +113,8 @@ describe('update dependencies generator', () => {
     });
     await expect(() => generator(appTree)).rejects.toThrow(
       new Error(
-        `The version of @proj/one in test (^1.0.0) is not compatible with the version 2.0.0 from the root package.json.`,
-      ),
+        `The version of @proj/one in test (^1.0.0) is not compatible with the version 2.0.0 from the root package.json.`
+      )
     );
   });
 });

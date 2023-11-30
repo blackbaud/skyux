@@ -43,7 +43,7 @@ describe('Page header harness', () => {
       harness = await loader.getHarness(
         SkyPageHeaderHarness.with({
           dataSkyId: options.dataSkyId,
-        }),
+        })
       );
     } else {
       harness = await loader.getHarness(SkyPageHeaderHarness);
@@ -86,7 +86,7 @@ describe('Page header harness', () => {
     });
 
     await expectAsync(harness.getParentLinkText()).toBeRejectedWithError(
-      'No parent link was found in the page header.',
+      'No parent link was found in the page header.'
     );
   });
 });

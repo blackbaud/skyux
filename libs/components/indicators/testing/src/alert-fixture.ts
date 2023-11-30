@@ -63,7 +63,7 @@ export class SkyAlertFixture {
     this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
-      'sky-alert',
+      'sky-alert'
     );
   }
 

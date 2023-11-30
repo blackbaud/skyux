@@ -6,7 +6,7 @@ export function getGeneratorDefaults(
   tree: Tree,
   collectionName: string,
   generatorName: string,
-  projectName: string | null,
+  projectName: string | null
 ) {
   const nxConfig = readJsonFile(tree, 'nx.json');
   const projects = getProjects(tree);

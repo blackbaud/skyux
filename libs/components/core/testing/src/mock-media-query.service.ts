@@ -26,7 +26,7 @@ export class MockSkyMediaQueryService extends SkyMediaQueryService {
   }
 
   public currentMockSubject = new BehaviorSubject<SkyMediaBreakpoints>(
-    this.current,
+    this.current
   );
 
   protected currentBreakpoints = SkyMediaBreakpoints.md;
@@ -35,7 +35,7 @@ export class MockSkyMediaQueryService extends SkyMediaQueryService {
     super(
       new NgZone({
         enableLongStackTrace: true,
-      }),
+      })
     );
   }
 

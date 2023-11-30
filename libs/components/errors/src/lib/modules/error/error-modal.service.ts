@@ -18,7 +18,7 @@ export class SkyErrorModalService {
 
   constructor(
     modalSvc: SkyModalService,
-    @Optional() logService?: SkyLogService,
+    @Optional() logService?: SkyLogService
   ) {
     this.#modalSvc = modalSvc;
     this.#logSvc = logService;

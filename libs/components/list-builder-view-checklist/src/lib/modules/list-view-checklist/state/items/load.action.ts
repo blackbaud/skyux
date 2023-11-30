@@ -8,6 +8,6 @@ export class ListViewChecklistItemsLoadAction {
     public items: Array<ListViewChecklistItemModel> = [],
     public refresh: boolean = false,
     public dataChanged: boolean = true,
-    public itemCount: number = items.length,
+    public itemCount: number = items.length
   ) {}
 }

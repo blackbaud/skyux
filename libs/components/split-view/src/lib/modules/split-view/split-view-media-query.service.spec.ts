@@ -25,7 +25,7 @@ describe('Split view media query service', () => {
       const subscription = mediaQueryService.subscribe(
         (args: SkyMediaBreakpoints) => {
           result = args;
-        },
+        }
       );
 
       expect(result).toEqual(SkyMediaBreakpoints.xs);
@@ -52,7 +52,7 @@ describe('Split view media query service', () => {
       const subscription = mediaQueryService.subscribe(
         (args: SkyMediaBreakpoints) => {
           result = args;
-        },
+        }
       );
 
       mediaQueryService.setBreakpointForWidth(300);
@@ -90,17 +90,17 @@ describe('Split view media query service', () => {
         expect(
           mediaQueryService.isWidthWithinBreakpoint(
             undefined,
-            SkyMediaBreakpoints.xs,
-          ),
+            SkyMediaBreakpoints.xs
+          )
         ).toBeFalse();
 
         mediaQueryService.destroy();
-      },
+      }
     ));
 
     it('should return true from isWidthXs when appropriate', () => {
       expect(
-        mediaQueryService.isWidthWithinBreakpoint(767, SkyMediaBreakpoints.xs),
+        mediaQueryService.isWidthWithinBreakpoint(767, SkyMediaBreakpoints.xs)
       ).toBeTruthy();
 
       mediaQueryService.destroy();
@@ -108,7 +108,7 @@ describe('Split view media query service', () => {
 
     it('should return false from isWidthXs when appropriate', () => {
       expect(
-        mediaQueryService.isWidthWithinBreakpoint(768, SkyMediaBreakpoints.xs),
+        mediaQueryService.isWidthWithinBreakpoint(768, SkyMediaBreakpoints.xs)
       ).toBeFalsy();
 
       mediaQueryService.destroy();
@@ -116,10 +116,10 @@ describe('Split view media query service', () => {
 
     it('should return true from isWidthSm when appropriate', () => {
       expect(
-        mediaQueryService.isWidthWithinBreakpoint(768, SkyMediaBreakpoints.sm),
+        mediaQueryService.isWidthWithinBreakpoint(768, SkyMediaBreakpoints.sm)
       ).toBeTruthy();
       expect(
-        mediaQueryService.isWidthWithinBreakpoint(991, SkyMediaBreakpoints.sm),
+        mediaQueryService.isWidthWithinBreakpoint(991, SkyMediaBreakpoints.sm)
       ).toBeTruthy();
 
       mediaQueryService.destroy();
@@ -127,10 +127,10 @@ describe('Split view media query service', () => {
 
     it('should return false from isWidthSm when appropriate', () => {
       expect(
-        mediaQueryService.isWidthWithinBreakpoint(767, SkyMediaBreakpoints.sm),
+        mediaQueryService.isWidthWithinBreakpoint(767, SkyMediaBreakpoints.sm)
       ).toBeFalsy();
       expect(
-        mediaQueryService.isWidthWithinBreakpoint(992, SkyMediaBreakpoints.sm),
+        mediaQueryService.isWidthWithinBreakpoint(992, SkyMediaBreakpoints.sm)
       ).toBeFalsy();
 
       mediaQueryService.destroy();
@@ -138,10 +138,10 @@ describe('Split view media query service', () => {
 
     it('should return true from isWidthMd when appropriate', () => {
       expect(
-        mediaQueryService.isWidthWithinBreakpoint(992, SkyMediaBreakpoints.md),
+        mediaQueryService.isWidthWithinBreakpoint(992, SkyMediaBreakpoints.md)
       ).toBeTruthy();
       expect(
-        mediaQueryService.isWidthWithinBreakpoint(1199, SkyMediaBreakpoints.md),
+        mediaQueryService.isWidthWithinBreakpoint(1199, SkyMediaBreakpoints.md)
       ).toBeTruthy();
 
       mediaQueryService.destroy();
@@ -149,10 +149,10 @@ describe('Split view media query service', () => {
 
     it('should return false from isWidthMd when appropriate', () => {
       expect(
-        mediaQueryService.isWidthWithinBreakpoint(991, SkyMediaBreakpoints.md),
+        mediaQueryService.isWidthWithinBreakpoint(991, SkyMediaBreakpoints.md)
       ).toBeFalsy();
       expect(
-        mediaQueryService.isWidthWithinBreakpoint(1200, SkyMediaBreakpoints.md),
+        mediaQueryService.isWidthWithinBreakpoint(1200, SkyMediaBreakpoints.md)
       ).toBeFalsy();
 
       mediaQueryService.destroy();
@@ -160,10 +160,10 @@ describe('Split view media query service', () => {
 
     it('should return true from isWidthLg when appropriate', () => {
       expect(
-        mediaQueryService.isWidthWithinBreakpoint(1200, SkyMediaBreakpoints.lg),
+        mediaQueryService.isWidthWithinBreakpoint(1200, SkyMediaBreakpoints.lg)
       ).toBeTruthy();
       expect(
-        mediaQueryService.isWidthWithinBreakpoint(2000, SkyMediaBreakpoints.lg),
+        mediaQueryService.isWidthWithinBreakpoint(2000, SkyMediaBreakpoints.lg)
       ).toBeTruthy();
 
       mediaQueryService.destroy();
@@ -171,7 +171,7 @@ describe('Split view media query service', () => {
 
     it('should return false from isWidthLg when appropriate', () => {
       expect(
-        mediaQueryService.isWidthWithinBreakpoint(1199, SkyMediaBreakpoints.lg),
+        mediaQueryService.isWidthWithinBreakpoint(1199, SkyMediaBreakpoints.lg)
       ).toBeFalsy();
 
       mediaQueryService.destroy();

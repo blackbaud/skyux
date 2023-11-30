@@ -49,7 +49,7 @@ export class SkyCountryFieldFixture {
     this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
-      'sky-country-field',
+      'sky-country-field'
     );
   }
 
@@ -61,7 +61,7 @@ export class SkyCountryFieldFixture {
   public async search(searchText: string): Promise<string[]> {
     const resultNodes = await this.#searchAndGetResults(
       searchText,
-      this.#fixture,
+      this.#fixture
     );
     const resultArray = Array.prototype.slice.call(resultNodes);
     const results = resultArray.map((result: HTMLElement) => {
@@ -120,7 +120,7 @@ export class SkyCountryFieldFixture {
 
   #enterSearch(
     newValue: string,
-    fixture: ComponentFixture<any>,
+    fixture: ComponentFixture<any>
   ): Promise<void> {
     const inputElement = this.#getInputElement();
     inputElement.value = newValue;
@@ -133,20 +133,20 @@ export class SkyCountryFieldFixture {
 
   async #searchAndGetResults(
     newValue: string,
-    fixture: ComponentFixture<any>,
+    fixture: ComponentFixture<any>
   ): Promise<NodeListOf<HTMLElement>> {
     await this.#enterSearch(newValue, fixture);
     fixture.detectChanges();
     await fixture.whenStable();
     return this.#getAutocompleteElement().querySelectorAll(
-      '.sky-autocomplete-result',
+      '.sky-autocomplete-result'
     );
   }
 
   async #searchAndSelect(
     newValue: string,
     index: number,
-    fixture: ComponentFixture<any>,
+    fixture: ComponentFixture<any>
   ): Promise<void> {
     const inputElement = this.#getInputElement();
     const searchResults = await this.#searchAndGetResults(newValue, fixture);

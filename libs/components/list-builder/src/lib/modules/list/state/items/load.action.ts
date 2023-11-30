@@ -9,6 +9,6 @@ export class ListItemsLoadAction {
     public items: Array<ListItemModel>,
     public refresh: boolean = false,
     public dataChanged: boolean = true,
-    public count?: number,
+    public count?: number
   ) {}
 }

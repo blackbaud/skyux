@@ -28,13 +28,13 @@ export abstract class ListViewComponent {
     this.hasToolbar = this.state.pipe(observableMap((s) => s.toolbar.exists));
 
     this.active = this.state.pipe(
-      observableMap((s) => s.views.active === this.viewId),
+      observableMap((s) => s.views.active === this.viewId)
     );
 
     this.active
       .pipe(distinctUntilChanged())
       .subscribe((isActive) =>
-        isActive ? this.onViewActive() : this.onViewInactive(),
+        isActive ? this.onViewActive() : this.onViewInactive()
       );
   }
 

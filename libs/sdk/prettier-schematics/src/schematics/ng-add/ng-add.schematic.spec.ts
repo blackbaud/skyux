@@ -33,14 +33,14 @@ describe('ng-add.schematic', () => {
       {
         project: defaultProjectName,
       },
-      tree,
+      tree
     );
   }
 
   function validateJsonFile(
     tree: UnitTestTree,
     path: string,
-    expectedContents: unknown,
+    expectedContents: unknown
   ) {
     const contents = commentJson.parse(tree.readContent(path));
     expect(contents).toEqual(expectedContents);
@@ -50,7 +50,7 @@ describe('ng-add.schematic', () => {
     await runSchematic(tree);
 
     expect(runner.tasks.some((task) => task.name === 'node-package')).toEqual(
-      true,
+      true
     );
   });
 
@@ -58,7 +58,7 @@ describe('ng-add.schematic', () => {
     tree.delete(eslintConfigPath);
 
     await expect(() => runSchematic(tree)).rejects.toThrowError(
-      `No ${eslintConfigPath} file found in workspace. ESLint must be installed and configured before installing Prettier. See https://github.com/angular-eslint/angular-eslint#readme for instructions.`,
+      `No ${eslintConfigPath} file found in workspace. ESLint must be installed and configured before installing Prettier. See https://github.com/angular-eslint/angular-eslint#readme for instructions.`
     );
   });
 
@@ -73,7 +73,7 @@ describe('ng-add.schematic', () => {
           prettier: '2.8.4',
           'eslint-config-prettier': '8.7.0',
         }),
-      }),
+      })
     );
   });
 
@@ -90,7 +90,7 @@ describe('ng-add.schematic', () => {
         scripts: {
           'skyux:format': 'npx prettier --write .',
         },
-      }),
+      })
     );
   });
 
@@ -152,7 +152,7 @@ test.ts`);
             extends: ['foo'],
           },
         ],
-      }),
+      })
     );
 
     const updatedTree = await runSchematic(tree);
@@ -182,7 +182,7 @@ test.ts`);
             extends: ['foo'],
           },
         ],
-      }),
+      })
     );
 
     const updatedTree = await runSchematic(tree);
@@ -203,7 +203,7 @@ test.ts`);
       eslintConfigPath,
       commentJson.stringify({
         extends: 'foo',
-      }),
+      })
     );
 
     const projectEslintConfigPath = `projects/my-lib/${eslintConfigPath}`;
@@ -218,7 +218,7 @@ test.ts`);
             extends: 'bar',
           },
         ],
-      }),
+      })
     );
 
     const updatedTree = await runSchematic(tree);
@@ -248,7 +248,7 @@ test.ts`);
             files: '*.ts',
           },
         ],
-      }),
+      })
     );
 
     const updatedTree = await runSchematic(tree);
@@ -274,7 +274,7 @@ test.ts`);
             extends: ['bar', 'prettier'],
           },
         ],
-      }),
+      })
     );
 
     const updatedTree = await runSchematic(tree);
@@ -301,7 +301,7 @@ test.ts`);
             extends: ['prettier', 'bar'],
           },
         ],
-      }),
+      })
     );
 
     const updatedTree = await runSchematic(tree);
@@ -361,7 +361,7 @@ test.ts`);
       '.vscode/extensions.json',
       commentJson.stringify({
         recommendations: ['esbenp.prettier-vscode', 'foobar'],
-      }),
+      })
     );
     tree.create('.vscode/settings.json', '{}');
 

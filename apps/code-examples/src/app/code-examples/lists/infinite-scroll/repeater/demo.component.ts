@@ -31,7 +31,7 @@ export class DemoComponent implements OnInit {
       (result: { data: InfiniteScrollDemoItem[]; hasMore: boolean }) => {
         this.items = this.items.concat(result.data);
         this.itemsHaveMore = result.hasMore;
-      },
+      }
     );
   }
 

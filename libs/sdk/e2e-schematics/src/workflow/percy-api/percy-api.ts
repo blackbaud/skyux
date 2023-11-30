@@ -44,7 +44,7 @@ export type BuildSummary = {
 
 export type Fetch = (
   input: RequestInfo | URL,
-  init?: RequestInit,
+  init?: RequestInit
 ) => Promise<Response>;
 
 type FetchJson = <T extends object>(url: string, name: string) => Promise<T>;
@@ -58,7 +58,7 @@ type Snapshot = {
 };
 
 function getFetchJson(
-  fetchClient: (input: RequestInfo | URL) => Promise<Response>,
+  fetchClient: (input: RequestInfo | URL) => Promise<Response>
 ): FetchJson {
   return async (url: string, name: string) =>
     fetchClient(url)
@@ -68,13 +68,13 @@ function getFetchJson(
           return res.data;
         } else {
           return Promise.reject(
-            `Error fetching ${name}: ${JSON.stringify(res, null, 2)}`,
+            `Error fetching ${name}: ${JSON.stringify(res, null, 2)}`
           );
         }
       })
       .catch((error) => {
         return Promise.reject(
-          new Error(`Error fetching ${name}`, { cause: error }),
+          new Error(`Error fetching ${name}`, { cause: error })
         );
       });
 }
@@ -83,13 +83,13 @@ export async function checkPercyBuild(
   project: string,
   commitSha: string,
   /* istanbul ignore next */
-  fetchClient: Fetch = fetch,
+  fetchClient: Fetch = fetch
 ): Promise<BuildSummary> {
   const fetchJson = getFetchJson(fetchClient);
   try {
     const projectId = await getProjectId(project, fetchJson);
     const build = await getBuilds(projectId, [commitSha], [], fetchJson).then(
-      (builds) => builds.pop(),
+      (builds) => builds.pop()
     );
     if (build?.id) {
       const finished = build.attributes.state === 'finished';
@@ -116,7 +116,7 @@ export async function checkPercyBuild(
     return Promise.reject(
       new Error(`Error checking Percy build: ${error}`, {
         cause: error,
-      }),
+      })
     );
   }
 }
@@ -126,7 +126,7 @@ export async function getLastGoodPercyBuild(
   shaArray: string[],
   allowDeletedScreenshots: boolean,
   /* istanbul ignore next */
-  fetchClient: Fetch = fetch,
+  fetchClient: Fetch = fetch
 ): Promise<string> {
   const fetchJson = getFetchJson(fetchClient);
   try {
@@ -135,15 +135,15 @@ export async function getLastGoodPercyBuild(
       projectId,
       shaArray,
       ['finished'],
-      fetchJson,
+      fetchJson
     );
     const lastApprovedBuild = builds.find(
-      (build) => build.attributes['review-state'] === 'approved',
+      (build) => build.attributes['review-state'] === 'approved'
     );
     if (!allowDeletedScreenshots && lastApprovedBuild?.id) {
       const removedSnapshots = await getRemovedSnapshots(
         lastApprovedBuild.id,
-        fetchJson,
+        fetchJson
       );
       if (removedSnapshots.length > 0) {
         // Force the build to re-run.
@@ -164,17 +164,17 @@ export async function getLastGoodPercyBuild(
 
 async function getProjectId(
   slug: string,
-  fetchJson: FetchJson,
+  fetchJson: FetchJson
 ): Promise<string> {
   return fetchJson<{ id: string }>(
     `https://percy.io/api/v1/projects?project_slug=${slug}`,
-    'Percy project ID',
+    'Percy project ID'
   ).then((response) => {
     if (response.id) {
       return response.id;
     } else {
       return Promise.reject(
-        `Percy project ID response for ${slug}: ${JSON.stringify(response)}`,
+        `Percy project ID response for ${slug}: ${JSON.stringify(response)}`
       );
     }
   });
@@ -184,7 +184,7 @@ async function getBuilds(
   projectId: string,
   shas: string[],
   states: string[],
-  fetchJson: FetchJson,
+  fetchJson: FetchJson
 ): Promise<Build[]> {
   const shaFilter = shas.map((sha) => `&filter[shas][]=${sha}`).join('');
   const stateFilter = states
@@ -192,21 +192,21 @@ async function getBuilds(
     .join('');
   return fetchJson<Build[]>(
     `https://percy.io/api/v1/builds?project_id=${projectId}${shaFilter}${stateFilter}&page[limit]=100`,
-    'Percy builds',
+    'Percy builds'
   ).then((builds) => builds.filter((build) => build.type === 'builds'));
 }
 
 async function getRemovedSnapshots(
   buildId: string,
-  fetchJson: FetchJson,
+  fetchJson: FetchJson
 ): Promise<string[]> {
   return fetchJson<Snapshot[]>(
     `https://percy.io/api/v1/builds/${buildId}/removed-snapshots`,
-    'removed snapshots',
+    'removed snapshots'
   ).then((response) =>
     response
       .filter((snapshot: any) => snapshot.type === 'snapshots')
       .map((snapshot: Snapshot) => snapshot.attributes.name)
-      .sort((a: string, b: string) => a.localeCompare(b)),
+      .sort((a: string, b: string) => a.localeCompare(b))
   );
 }

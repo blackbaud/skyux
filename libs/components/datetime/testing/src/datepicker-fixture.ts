@@ -14,7 +14,7 @@ export class SkyDatepickerFixture {
     this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
-      'sky-datepicker',
+      'sky-datepicker'
     );
   }
 
@@ -37,7 +37,7 @@ export class SkyDatepickerFixture {
    */
   public get calendarEl(): any {
     const button = this.#debugEl.query(
-      By.css('.sky-datepicker .sky-input-group-datepicker-btn'),
+      By.css('.sky-datepicker .sky-input-group-datepicker-btn')
     ).nativeElement;
 
     const calendarId = button.getAttribute('aria-controls');

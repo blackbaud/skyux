@@ -96,7 +96,7 @@ export class FieldHeightsComponent implements AfterViewInit, OnDestroy {
     this.showCharacterCounterError = this.favoritesForm
       .get('favoriteWord')
       ?.valueChanges.pipe(
-        map((value) => value?.length > this.characterCounterLimit),
+        map((value) => value?.length > this.characterCounterLimit)
       ) as Observable<boolean>;
   }
 
@@ -107,8 +107,8 @@ export class FieldHeightsComponent implements AfterViewInit, OnDestroy {
         .subscribe(() => {
           Array.from(
             this.#elementRef.nativeElement.querySelectorAll(
-              'form > div.sky-form-group',
-            ),
+              'form > div.sky-form-group'
+            )
           ).forEach((element: unknown) => {
             const heightElement = (element as HTMLElement)
               .nextElementSibling as HTMLElement;
@@ -116,8 +116,8 @@ export class FieldHeightsComponent implements AfterViewInit, OnDestroy {
             if (heightElement?.matches('.height-measure')) {
               heightElement.innerText = Array.from(
                 (element as HTMLElement).querySelectorAll(
-                  'sky-input-box > div.sky-input-box',
-                ),
+                  'sky-input-box > div.sky-input-box'
+                )
               )
                 .map((input: unknown) => {
                   return `${(input as HTMLElement).clientHeight}px`;
@@ -128,7 +128,7 @@ export class FieldHeightsComponent implements AfterViewInit, OnDestroy {
             }
           });
           this.ready.getValue() || this.ready.next(true);
-        }),
+        })
     );
   }
 

@@ -48,7 +48,7 @@ class TestComponent {
 async function validateAlertType(
   alertHarness: SkyAlertHarness,
   fixture: ComponentFixture<TestComponent>,
-  alertType: SkyIndicatorIconType,
+  alertType: SkyIndicatorIconType
 ): Promise<void> {
   fixture.componentInstance.alertType = alertType;
   fixture.detectChanges();
@@ -59,7 +59,7 @@ async function validateDescriptionType(
   alertHarness: SkyAlertHarness,
   fixture: ComponentFixture<TestComponent>,
   descriptionType: SkyIndicatorDescriptionType,
-  customDescription?: string,
+  customDescription?: string
 ): Promise<void> {
   fixture.componentInstance.descriptionType = descriptionType;
   fixture.componentInstance.customDescription = customDescription;
@@ -90,7 +90,7 @@ describe('Alert harness', () => {
       alertHarness = await loader.getHarness(
         SkyAlertHarness.with({
           dataSkyId: options.dataSkyId,
-        }),
+        })
       );
     } else {
       alertHarness = await loader.getHarness(SkyAlertHarness);
@@ -133,7 +133,7 @@ describe('Alert harness', () => {
     fixture.detectChanges();
 
     await expectAsync(alertHarness.close()).toBeRejectedWithError(
-      'The alert is not closeable.',
+      'The alert is not closeable.'
     );
   });
 
@@ -162,7 +162,7 @@ describe('Alert harness', () => {
       alertHarness,
       fixture,
       'custom',
-      'custom text',
+      'custom text'
     );
   });
 
@@ -195,14 +195,14 @@ describe('Alert harness', () => {
   it('should return the expected text', async () => {
     const { alertHarness } = await setupTest();
     await expectAsync(alertHarness.getText()).toBeResolvedTo(
-      'This is a sample alert.',
+      'This is a sample alert.'
     );
   });
 
   it('should get an alert by its data-sky-id property', async () => {
     const { alertHarness } = await setupTest({ dataSkyId: 'alert-2' });
     await expectAsync(alertHarness.getText()).toBeResolvedTo(
-      'This is another alert.',
+      'This is another alert.'
     );
   });
 });

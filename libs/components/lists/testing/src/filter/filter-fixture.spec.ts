@@ -75,11 +75,11 @@ describe('Filter fixture', () => {
     testComponent = fixture.componentInstance;
     filterSummaryFixture = new SkyFilterFixtureSummary(
       fixture,
-      DATA_SKY_ID_SUMMARY,
+      DATA_SKY_ID_SUMMARY
     );
     filterButtonFixture = new SkyFilterFixtureButton(
       fixture,
-      DATA_SKY_ID_BUTTON,
+      DATA_SKY_ID_BUTTON
     );
   });
 
@@ -119,7 +119,7 @@ describe('Filter fixture', () => {
       } catch (e) {
         expect(e).toBeInstanceOf(Error);
         expect((e as Error).message).toBe(
-          'Unable to click close for a filter index 5',
+          'Unable to click close for a filter index 5'
         );
       }
     });

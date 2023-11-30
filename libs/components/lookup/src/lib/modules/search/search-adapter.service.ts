@@ -30,7 +30,7 @@ export class SkySearchAdapterService {
     this.#renderer.setStyle(
       this.#getInputContainerEl(searchEl),
       'min-width',
-      minWidth.toString() + 'px',
+      minWidth.toString() + 'px'
     );
   }
 
@@ -38,7 +38,7 @@ export class SkySearchAdapterService {
     this.#renderer.setStyle(
       this.#getInputContainerEl(searchEl),
       'min-width',
-      '',
+      ''
     );
   }
 

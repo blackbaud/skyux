@@ -75,7 +75,7 @@ describe('List view grid fixture', () => {
       cell1Text: string,
       cell2Text: string,
       linkUrl: string,
-      linkText: string,
+      linkText: string
     ) => {
       const row = listViewGrid.getRow(index);
 
@@ -94,7 +94,7 @@ describe('List view grid fixture', () => {
     validateRow(1, '202', 'Banana', '/test/2', 'Banana');
 
     expect(() => listViewGrid.getRow(100)).toThrowError(
-      'No row exists at index 100.',
+      'No row exists at index 100.'
     );
   });
 
@@ -106,7 +106,7 @@ describe('List view grid fixture', () => {
     const validateHeader = (
       columnIndex: number,
       locked: boolean,
-      textContent: string,
+      textContent: string
     ) => {
       let header = listViewGrid.getHeader(columnIndex);
 
@@ -119,7 +119,7 @@ describe('List view grid fixture', () => {
     validateHeader(2, false, 'Link');
 
     expect(() => listViewGrid.getHeader(100)).toThrowError(
-      'No column exists at index 100.',
+      'No column exists at index 100.'
     );
   });
 

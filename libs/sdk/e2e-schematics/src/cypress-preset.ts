@@ -3,7 +3,7 @@ import { joinPathFragments, offsetFromRoot } from '@nx/devkit';
 
 export function skyE2ePreset(
   directory: string,
-  options: Partial<Cypress.PluginConfigOptions> = {},
+  options: Partial<Cypress.PluginConfigOptions> = {}
 ): Partial<Cypress.PluginConfigOptions> {
   const offset = offsetFromRoot(directory);
   return {
@@ -13,7 +13,7 @@ export function skyE2ePreset(
       'dist',
       'cypress',
       directory,
-      'downloads',
+      'downloads'
     ),
     video: false,
     defaultCommandTimeout: 60000,

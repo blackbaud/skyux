@@ -4,7 +4,7 @@ import sass from 'sass';
 
 const STYLES_ROOT = path.resolve(
   __dirname,
-  '../libs/components/ag-grid/src/lib/styles',
+  '../libs/components/ag-grid/src/lib/styles'
 );
 const DEST_ROOT = path.resolve(__dirname, '../dist/libs/components/ag-grid');
 

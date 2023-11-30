@@ -29,7 +29,7 @@ export function skyAuthHttpOptions(options?: {
   if (options.permissionScope) {
     options.params = options.params.set(
       SKY_AUTH_PARAM_PERMISSION_SCOPE,
-      options.permissionScope,
+      options.permissionScope
     );
   }
 

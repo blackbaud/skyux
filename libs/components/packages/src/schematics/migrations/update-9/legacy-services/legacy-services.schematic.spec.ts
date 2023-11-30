@@ -5,7 +5,7 @@ import { createTestApp } from '../../../testing/scaffold';
 describe('legacy-services.schematic', () => {
   const runner = new SchematicTestRunner(
     'schematics',
-    require.resolve('../../migration-collection.json'),
+    require.resolve('../../migration-collection.json')
   );
 
   async function setupTest(options: { textContent: string }) {
@@ -107,7 +107,7 @@ describe('', () => {
     });
   });
 });
-`,
+`
     );
   });
 
@@ -123,7 +123,7 @@ const svc = new SkyModalService();
     expect(updatedTree.readContent('./src/app/app.component.ts')).toEqual(
       `import {SkyModalService} from '@not-skyux/library';
 const svc = new SkyModalService();
-`,
+`
     );
   });
 });

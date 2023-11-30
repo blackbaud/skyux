@@ -28,7 +28,7 @@ export class ModalWaitModalComponent {
         this.isWaiting = false;
         this.#changeDetector.markForCheck();
       },
-      5000,
+      5000
     );
   }
 }

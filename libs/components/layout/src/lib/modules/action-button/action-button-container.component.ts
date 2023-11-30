@@ -44,7 +44,7 @@ export class SkyActionButtonContainerComponent
    */
   @Input()
   public set alignItems(
-    value: SkyActionButtonContainerAlignItemsType | undefined,
+    value: SkyActionButtonContainerAlignItemsType | undefined
   ) {
     this.#_alignItems = value ?? 'center';
   }
@@ -89,7 +89,7 @@ export class SkyActionButtonContainerComponent
     changeDetector: ChangeDetectorRef,
     coreAdapterService: SkyCoreAdapterService,
     hostElRef: ElementRef,
-    @Optional() themeSvc?: SkyThemeService,
+    @Optional() themeSvc?: SkyThemeService
   ) {
     this.#actionButtonAdapterService = actionButtonAdapterService;
     this.#changeDetector = changeDetector;
@@ -167,11 +167,11 @@ export class SkyActionButtonContainerComponent
   #updateResponsiveClass(): void {
     if (this.containerRef) {
       const parentWidth = this.#actionButtonAdapterService.getParentWidth(
-        this.#hostElRef,
+        this.#hostElRef
       );
       this.#actionButtonAdapterService.setResponsiveClass(
         this.containerRef,
-        parentWidth,
+        parentWidth
       );
     }
   }

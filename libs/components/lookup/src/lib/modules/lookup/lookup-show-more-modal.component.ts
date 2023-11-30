@@ -138,11 +138,11 @@ export class SkyLookupShowMoreModalComponent
           this.context.initialValue === item.value;
 
         const initialIsArray: boolean = Array.isArray(
-          this.context.initialValue,
+          this.context.initialValue
         );
         const initialValueContainsItem: boolean =
           this.context.initialValue.findIndex(
-            (initialItem: any) => initialItem === item.value,
+            (initialItem: any) => initialItem === item.value
           ) >= 0;
 
         if (isInitialValue || (initialIsArray && initialValueContainsItem)) {
@@ -150,7 +150,7 @@ export class SkyLookupShowMoreModalComponent
           const itemIndex = this.items.indexOf(item);
           if (
             selectedItems.findIndex(
-              (selectedItem) => selectedItem.index === itemIndex,
+              (selectedItem) => selectedItem.index === itemIndex
             ) < 0
           ) {
             selectedItems.push({ index: itemIndex, itemData: item.value });
@@ -218,7 +218,7 @@ export class SkyLookupShowMoreModalComponent
           }
         });
         const itemIndex = items.findIndex(
-          (item) => item.value === itemToSelect.value,
+          (item) => item.value === itemToSelect.value
         );
         this.selectedItems = [
           { index: itemIndex, itemData: items[itemIndex].value },
@@ -228,10 +228,10 @@ export class SkyLookupShowMoreModalComponent
       const selectedItems: { index: number; itemData: any }[] =
         this.selectedItems;
       const allItemsIndex = items.findIndex(
-        (item) => item.value === itemToSelect.value,
+        (item) => item.value === itemToSelect.value
       );
       const selectedItemsIndex = selectedItems.findIndex(
-        (selectedItem) => selectedItem.index === allItemsIndex,
+        (selectedItem) => selectedItem.index === allItemsIndex
       );
 
       if (newSelectState && selectedItemsIndex === -1) {
@@ -275,18 +275,18 @@ export class SkyLookupShowMoreModalComponent
         items.map((item) => {
           return item.value;
         }),
-        { context: 'modal' },
+        { context: 'modal' }
       );
 
       if (resultValues instanceof Array) {
         const result = items.filter(
-          (item) => resultValues.indexOf(item.value) >= 0,
+          (item) => resultValues.indexOf(item.value) >= 0
         );
         return Promise.resolve(result);
       } else {
         return resultValues.then((values) => {
           const result = items.filter(
-            (item) => values.indexOf(item.value) >= 0,
+            (item) => values.indexOf(item.value) >= 0
           );
           return Promise.resolve(result);
         });
@@ -311,7 +311,7 @@ export class SkyLookupShowMoreModalComponent
         /* istanbul ignore else */
         if (
           selectedItems.findIndex(
-            (selectedItem) => selectedItem.index === index,
+            (selectedItem) => selectedItem.index === index
           ) < 0
         ) {
           selectedItems.push({
@@ -335,7 +335,7 @@ export class SkyLookupShowMoreModalComponent
     items?.forEach((item: any, index: number) => {
       item.selected =
         selectedItems.findIndex(
-          (selectedItem) => selectedItem.index === index,
+          (selectedItem) => selectedItem.index === index
         ) !== -1;
     });
 

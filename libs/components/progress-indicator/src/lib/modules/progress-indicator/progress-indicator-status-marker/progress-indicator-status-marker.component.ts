@@ -54,7 +54,7 @@ export class SkyProgressIndicatorStatusMarkerComponent implements OnDestroy {
 
   constructor(
     changeDetector: ChangeDetectorRef,
-    @Optional() themeSvc?: SkyThemeService,
+    @Optional() themeSvc?: SkyThemeService
   ) {
     this.#changeDetector = changeDetector;
 

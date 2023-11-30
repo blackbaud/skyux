@@ -6,19 +6,19 @@ describe('popovers-storybook', () => {
       ['default', 'primary', 'link', 'disabled'].forEach((buttonStyle) => {
         it(`should render ${buttonStyle} style dropdown buttons`, () => {
           cy.visit(
-            `/iframe.html?globals=theme:${theme}&id=dropdowncomponent-dropdown--dropdown-${buttonStyle}-button`,
+            `/iframe.html?globals=theme:${theme}&id=dropdowncomponent-dropdown--dropdown-${buttonStyle}-button`
           );
           cy.get('app-dropdown')
             .should('exist')
             .should('be.visible')
             .screenshot(
-              `dropdowncomponent-dropdown--dropdown-${buttonStyle}-button-${theme}`,
+              `dropdowncomponent-dropdown--dropdown-${buttonStyle}-button-${theme}`
             )
             .percySnapshot(
               `dropdowncomponent-dropdown--dropdown-${buttonStyle}-button-${theme}`,
               {
                 widths: E2eVariations.DISPLAY_WIDTHS,
-              },
+              }
             );
         });
       });
@@ -27,7 +27,7 @@ describe('popovers-storybook', () => {
         describe(`${horizontalAlignment} aligned dropdown menu`, () => {
           beforeEach(() => {
             cy.visit(
-              `/iframe.html?globals=theme:${theme}&id=dropdowncomponent-dropdown--dropdown-${horizontalAlignment}-aligned`,
+              `/iframe.html?globals=theme:${theme}&id=dropdowncomponent-dropdown--dropdown-${horizontalAlignment}-aligned`
             );
           });
 
@@ -44,13 +44,13 @@ describe('popovers-storybook', () => {
                 .should('exist')
                 .should('be.visible')
                 .screenshot(
-                  `dropdowncomponent-dropdown--dropdown-${buttonType}-button-${horizontalAlignment}-algnment-${theme}`,
+                  `dropdowncomponent-dropdown--dropdown-${buttonType}-button-${horizontalAlignment}-algnment-${theme}`
                 )
                 .percySnapshot(
                   `dropdowncomponent-dropdown--dropdown-${buttonType}-button-${horizontalAlignment}-algnment-${theme}`,
                   {
                     widths: E2eVariations.DISPLAY_WIDTHS,
-                  },
+                  }
                 );
             });
           });

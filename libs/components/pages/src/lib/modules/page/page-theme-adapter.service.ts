@@ -24,8 +24,8 @@ export class SkyPageThemeAdapterService {
       this.#styleEl = this.#document.createElement('style');
       this.#styleEl.appendChild(
         this.#document.createTextNode(
-          'body:not(.sky-theme-modern) { background-color: #fff; }',
-        ),
+          'body:not(.sky-theme-modern) { background-color: #fff; }'
+        )
       );
 
       this.#document.head.appendChild(this.#styleEl);

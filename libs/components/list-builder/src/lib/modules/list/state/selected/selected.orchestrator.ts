@@ -30,18 +30,18 @@ export class ListSelectedOrchestrator extends ListStateOrchestrator<
 
   private setLoading(
     state: AsyncItem<ListSelectedModel>,
-    action: ListSelectedSetLoadingAction,
+    action: ListSelectedSetLoadingAction
   ): AsyncItem<ListSelectedModel> {
     return new AsyncItem<ListSelectedModel>(
       state.item,
       state.lastUpdate,
-      action.loading,
+      action.loading
     );
   }
 
   private load(
     state: AsyncItem<ListSelectedModel>,
-    action: ListSelectedLoadAction,
+    action: ListSelectedLoadAction
   ): AsyncItem<ListSelectedModel> {
     const newSelected = new ListSelectedModel();
     action.items.map((s) => newSelected.selectedIdMap.set(s, true));
@@ -49,13 +49,13 @@ export class ListSelectedOrchestrator extends ListStateOrchestrator<
     return new AsyncItem<ListSelectedModel>(
       Object.assign({}, state.item, newSelected),
       Date.now(),
-      false,
+      false
     );
   }
 
   private setItemSelected(
     state: AsyncItem<ListSelectedModel>,
-    action: ListSelectedSetItemSelectedAction,
+    action: ListSelectedSetItemSelectedAction
   ): AsyncItem<ListSelectedModel> {
     const newSelected = this.cloneListSelectedModel(state.item);
 
@@ -64,13 +64,13 @@ export class ListSelectedOrchestrator extends ListStateOrchestrator<
     return new AsyncItem<ListSelectedModel>(
       newSelected,
       state.lastUpdate,
-      state.loading,
+      state.loading
     );
   }
 
   private setItemsSelected(
     state: AsyncItem<ListSelectedModel>,
-    action: ListSelectedSetItemsSelectedAction,
+    action: ListSelectedSetItemsSelectedAction
   ): AsyncItem<ListSelectedModel> {
     const newSelectedIds = action.items || [];
     const newListSelectedModel = action.refresh
@@ -80,19 +80,19 @@ export class ListSelectedOrchestrator extends ListStateOrchestrator<
     if (newSelectedIds instanceof Observable) {
       newSelectedIds.pipe(take(1)).subscribe((selectedIds) => {
         selectedIds.map((s) =>
-          newListSelectedModel.selectedIdMap.set(s, action.selected),
+          newListSelectedModel.selectedIdMap.set(s, action.selected)
         );
       });
     } else {
       newSelectedIds.map((s) =>
-        newListSelectedModel.selectedIdMap.set(s, action.selected),
+        newListSelectedModel.selectedIdMap.set(s, action.selected)
       );
     }
 
     return new AsyncItem<ListSelectedModel>(
       newListSelectedModel,
       state.lastUpdate,
-      state.loading,
+      state.loading
     );
   }
 

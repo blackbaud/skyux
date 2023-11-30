@@ -60,17 +60,17 @@ class TestComponent implements AfterViewInit {
 async function validateSkipLinkText(
   skipLinksHarness: SkySkipLinksHarness,
   index: number,
-  text: string,
+  text: string
 ): Promise<void> {
   await expectAsync(skipLinksHarness.getSkipLinkText(index)).toBeResolvedTo(
-    text,
+    text
   );
 }
 
 async function clickAndValidateSkipLink(
   skipLinksHarness: SkySkipLinksHarness,
   index: number,
-  id: string,
+  id: string
 ): Promise<void> {
   await skipLinksHarness.clickSkipLink(index);
   expect(document.activeElement).toBe(document.querySelector(id));
@@ -94,7 +94,7 @@ describe('Skip Links harness', () => {
     const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
 
     const skipLinksHarness: SkySkipLinksHarness = await loader.getHarness(
-      SkySkipLinksHarness,
+      SkySkipLinksHarness
     );
 
     return { skipLinksHarness, fixture, loader };

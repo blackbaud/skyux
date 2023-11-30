@@ -22,7 +22,7 @@ describe('Filter inline', () => {
   it('should allow inline container and items', () => {
     expect(nativeElement.querySelector('.sky-filter-inline')).not.toBeNull();
     expect(
-      nativeElement.querySelectorAll('.sky-filter-inline-item').length,
+      nativeElement.querySelectorAll('.sky-filter-inline-item').length
     ).toBe(2);
   });
 

@@ -41,7 +41,7 @@ function nextId(): string {
 
 function getOffset(
   el: HTMLElement,
-  scrollableHost?: HTMLElement,
+  scrollableHost?: HTMLElement
 ): SkyViewkeeperOffset {
   const rect = el.getBoundingClientRect();
   const parent = scrollableHost ? scrollableHost : document.documentElement;
@@ -69,7 +69,7 @@ function setElPosition(
   width: number | string,
   marginTop: number | string,
   clipTop: number | string,
-  clipLeft: number | string,
+  clipLeft: number | string
 ): void {
   el.style.top = px(top);
   el.style.left = px(left);
@@ -168,7 +168,7 @@ export class SkyViewkeeper {
     if (this.#verticalOffsetEl) {
       this.#verticalOffsetEl.addEventListener(
         EVT_AFTER_VIEWKEEPER_SYNC,
-        this.#syncElPositionHandler,
+        this.#syncElPositionHandler
       );
     }
 
@@ -214,7 +214,7 @@ export class SkyViewkeeper {
       window.removeEventListener('resize', this.#syncElPositionHandler);
       window.removeEventListener(
         'orientationchange',
-        this.#syncElPositionHandler,
+        this.#syncElPositionHandler
       );
 
       if (this.#el) {
@@ -224,7 +224,7 @@ export class SkyViewkeeper {
       if (this.#verticalOffsetEl) {
         this.#verticalOffsetEl.removeEventListener(
           EVT_AFTER_VIEWKEEPER_SYNC,
-          this.#syncElPositionHandler,
+          this.#syncElPositionHandler
         );
       }
 
@@ -280,7 +280,7 @@ export class SkyViewkeeper {
   #shouldFixEl(
     el: HTMLElement,
     boundaryInfo: SkyViewkeeperBoundaryInfo,
-    verticalOffset: number,
+    verticalOffset: number
   ): boolean {
     let anchorTop: number;
 
@@ -299,7 +299,7 @@ export class SkyViewkeeper {
 
   #getFixedStyles(
     boundaryInfo: SkyViewkeeperBoundaryInfo,
-    verticalOffset: number,
+    verticalOffset: number
   ): SkyViewkeeperFixedStyles {
     // If the element needs to be fixed, this will calculate its position.  The position
     // will be 0 (fully visible) unless the user is scrolling the boundary out of view.
@@ -328,7 +328,7 @@ export class SkyViewkeeper {
 
   #needsUpdating(
     doFixEl: boolean,
-    fixedStyles: SkyViewkeeperFixedStyles,
+    fixedStyles: SkyViewkeeperFixedStyles
   ): boolean {
     if (
       (doFixEl &&
@@ -355,7 +355,7 @@ export class SkyViewkeeper {
   #fixEl(
     el: HTMLElement,
     boundaryInfo: SkyViewkeeperBoundaryInfo,
-    fixedStyles: SkyViewkeeperFixedStyles,
+    fixedStyles: SkyViewkeeperFixedStyles
   ): void {
     /* istanbul ignore else */
     /* sanity check */
@@ -393,13 +393,13 @@ export class SkyViewkeeper {
       width,
       this.#viewportMarginTop,
       fixedStyles.elClipTop,
-      fixedStyles.elClipLeft,
+      fixedStyles.elClipLeft
     );
   }
 
   #getBoundaryInfo(
     el: HTMLElement,
-    boundaryEl: HTMLElement,
+    boundaryEl: HTMLElement
   ): SkyViewkeeperBoundaryInfo {
     const spacerId = this.#getSpacerId();
 

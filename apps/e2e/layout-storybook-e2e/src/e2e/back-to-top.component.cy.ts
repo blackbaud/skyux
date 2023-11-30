@@ -5,7 +5,7 @@ describe('layout-storybook', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() => {
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=backtotopcomponent-backtotop--back-to-top`,
+          `/iframe.html?globals=theme:${theme}&id=backtotopcomponent-backtotop--back-to-top`
         );
         cy.viewport(1300, 200);
       });

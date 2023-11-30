@@ -17,7 +17,7 @@ export function findModulePaths(
   tree: Tree,
   path: string,
   predicate: (path: string) => boolean,
-  endsWith = '.module.ts',
+  endsWith = '.module.ts'
 ): string[] {
   const modulePaths: string[] = [];
   visitNotIgnoredFiles(tree, path, (filePath) => {
@@ -33,7 +33,7 @@ export function findModulePaths(
 export function findDeclaringModule(
   tree: Tree,
   path: string,
-  componentPath: string,
+  componentPath: string
 ): { filepath: string; module: DecoratedClass } | null {
   let result: { filepath: string; module: DecoratedClass } | null = null;
   const componentSource = readSourceFile(tree, componentPath);
@@ -46,10 +46,10 @@ export function findDeclaringModule(
         filepath = normalizePath(filepath);
         const filepathDirectory = filepath.substring(
           0,
-          filepath.lastIndexOf('/'),
+          filepath.lastIndexOf('/')
         );
         let relativePath = normalizePath(
-          relative(filepathDirectory, componentPath),
+          relative(filepathDirectory, componentPath)
         );
         if (!relativePath.startsWith('.')) {
           relativePath = `./${relativePath}`;
@@ -63,7 +63,7 @@ export function findDeclaringModule(
           const componentNamedImport = getNamedImport(
             componentFileImport,
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            componentClass.classDeclaration!.name!.text,
+            componentClass.classDeclaration!.name!.text
           );
           const module = findNgModuleClass(sourceFile);
           if (module) {
@@ -88,7 +88,7 @@ export function findDeclaringModule(
         } catch (e) {}
         return false;
       },
-      '.module.ts',
+      '.module.ts'
     );
   }
   return result;
@@ -96,7 +96,7 @@ export function findDeclaringModule(
 
 export function isRoutingModule(
   module: DecoratedClass,
-  sourceFile: ts.SourceFile,
+  sourceFile: ts.SourceFile
 ): boolean {
   // Is one of the imports a static call to a method on RouterModule?
   if (
@@ -111,12 +111,12 @@ export function isRoutingModule(
             ts.isPropertyAccessExpression(im.getChildren(sourceFile)[0])
           ) {
             const propertyAccessExpression = im.getChildren(
-              sourceFile,
+              sourceFile
             )[0] as ts.PropertyAccessExpression;
             if (
               ts.isIdentifier(
                 (propertyAccessExpression as ts.PropertyAccessExpression)
-                  .expression,
+                  .expression
               )
             ) {
               return (
@@ -126,7 +126,7 @@ export function isRoutingModule(
             }
           }
           return false;
-        },
+        }
       )
     ) {
       return true;
@@ -138,12 +138,12 @@ export function isRoutingModule(
 export function findClosestModule(
   modulePaths: string[],
   projectDirectory: string,
-  closestToDirectory: string,
+  closestToDirectory: string
 ): string | undefined {
   projectDirectory = normalizePath(projectDirectory);
   closestToDirectory = normalizePath(closestToDirectory);
   const modulePathsNormalized = modulePaths.map((modulePath) =>
-    normalizePath(modulePath),
+    normalizePath(modulePath)
   );
   modulePathsNormalized.sort((a, b) => {
     const aDir = dirname(a);

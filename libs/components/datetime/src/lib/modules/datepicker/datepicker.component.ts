@@ -133,7 +133,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
               this.#coreAdapter.getFocusableChildrenAndApplyFocus(
                 this.calendarRef,
                 '.sky-datepicker-calendar-inner',
-                false,
+                false
               );
 
               this.isVisible = true;
@@ -205,7 +205,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
     @Optional() themeSvc?: SkyThemeService,
     @Optional()
     @Inject(SKY_STACKING_CONTEXT)
-    stackingContext?: SkyStackingContext,
+    stackingContext?: SkyStackingContext
   ) {
     this.#affixService = affixService;
     this.#changeDetector = changeDetector;
@@ -401,7 +401,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
   #addKeydownListener(): void {
     this.#overlayKeydownListener = fromEvent<KeyboardEvent>(
       window.document,
-      'keydown',
+      'keydown'
     )
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((event) => {

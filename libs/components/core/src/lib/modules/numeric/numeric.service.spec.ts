@@ -103,7 +103,7 @@ describe('Numeric service', () => {
     options.digits = 2;
     options.truncate = false;
     expect(skyNumeric.formatNumber(value, options)).toBe(
-      '1,000,000,000,000.00',
+      '1,000,000,000,000.00'
     );
   });
 
@@ -300,7 +300,7 @@ describe('Numeric service', () => {
     options.iso = 'USD';
     options.format = 'currency';
     expect('-$15.50 ($15.50)').toContain(
-      skyNumeric.formatNumber(value, options),
+      skyNumeric.formatNumber(value, options)
     );
   });
 
@@ -376,7 +376,7 @@ describe('Numeric service', () => {
   it('should handle undefined digits', () => {
     expect(skyNumeric.formatNumber(100, { format: 'currency' })).toBe('$100');
     expect(skyNumeric.formatNumber(100.88, { format: 'currency' })).toBe(
-      '$101',
+      '$101'
     );
   });
 
@@ -389,10 +389,10 @@ describe('Numeric service', () => {
           style: SkyIntlNumberFormatStyle,
           digits?: string | null,
           currency: string | null = null,
-          currencyAsSymbol = false,
+          currencyAsSymbol = false
         ) => {
           return value as string | null;
-        },
+        }
       );
     });
 
@@ -403,7 +403,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toThrowError('SkyInvalidArgument: precision must be >= 0');
     });
 
@@ -416,7 +416,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(123 as any);
       expect(
         skyNumeric.formatNumber(0.75, {
@@ -424,7 +424,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(1 as any);
       expect(
         skyNumeric.formatNumber(1.005, {
@@ -432,7 +432,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(1 as any);
       expect(
         skyNumeric.formatNumber(1.3555, {
@@ -440,7 +440,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(1 as any);
       expect(
         skyNumeric.formatNumber(1.77777, {
@@ -448,7 +448,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(2 as any);
       expect(
         skyNumeric.formatNumber(9.1, {
@@ -456,7 +456,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(9 as any);
       expect(
         skyNumeric.formatNumber(-1.5383, {
@@ -464,7 +464,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(-2 as any);
       expect(
         skyNumeric.formatNumber(1.5e3, {
@@ -472,7 +472,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(1500 as any);
       expect(
         skyNumeric.formatNumber(-1.5e3, {
@@ -480,7 +480,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(-1500 as any);
     });
 
@@ -491,7 +491,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(123 as any);
       expect(
         skyNumeric.formatNumber(123.34, {
@@ -499,7 +499,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(123 as any);
       expect(
         skyNumeric.formatNumber(0.75, {
@@ -507,7 +507,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(0.8 as any);
       expect(
         skyNumeric.formatNumber(1.005, {
@@ -515,7 +515,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(1.0 as any);
       expect(
         skyNumeric.formatNumber(0.75, {
@@ -523,7 +523,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(0.75 as any);
       expect(
         skyNumeric.formatNumber(1.005, {
@@ -531,7 +531,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(1.01 as any);
       expect(
         skyNumeric.formatNumber(1.3555, {
@@ -539,7 +539,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(1.36 as any);
       expect(
         skyNumeric.formatNumber(1.001, {
@@ -547,7 +547,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(1.0 as any);
       expect(
         skyNumeric.formatNumber(1.7777, {
@@ -555,7 +555,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(1.78 as any);
       expect(
         skyNumeric.formatNumber(9.1, {
@@ -563,7 +563,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(9.1 as any);
       expect(
         skyNumeric.formatNumber(1234.5678, {
@@ -571,7 +571,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(1234.57 as any);
       expect(
         skyNumeric.formatNumber(1.5383, {
@@ -579,7 +579,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(1.5 as any);
       expect(
         skyNumeric.formatNumber(1.5383, {
@@ -587,7 +587,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(1.54 as any);
       expect(
         skyNumeric.formatNumber(1.5383, {
@@ -595,7 +595,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(1.538 as any);
       expect(
         skyNumeric.formatNumber(-1.5383, {
@@ -603,7 +603,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(-1.5 as any);
       expect(
         skyNumeric.formatNumber(-1.5383, {
@@ -611,7 +611,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(-1.54 as any);
       expect(
         skyNumeric.formatNumber(-1.5383, {
@@ -619,7 +619,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(-1.538 as any);
       expect(
         skyNumeric.formatNumber(-0.75, {
@@ -627,7 +627,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(-0.75 as any);
       expect(
         skyNumeric.formatNumber(-0.75, {
@@ -635,7 +635,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(-0.75 as any);
       expect(
         skyNumeric.formatNumber(1.5e3, {
@@ -643,7 +643,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(1500 as any);
       expect(
         skyNumeric.formatNumber(-1.5e3, {
@@ -651,7 +651,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(-1500 as any);
     });
 
@@ -662,7 +662,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(0.0 as any);
       expect(
         skyNumeric.formatNumber(-0.000000000000007, {
@@ -670,7 +670,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(0.0 as any);
       expect(
         skyNumeric.formatNumber(7e-15, {
@@ -678,7 +678,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(0.0 as any);
       expect(
         skyNumeric.formatNumber(-7e-15, {
@@ -686,7 +686,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(0.0 as any);
     });
 
@@ -697,7 +697,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(700000000000000000000.32 as any);
       expect(
         skyNumeric.formatNumber(700000000000000000000.324, {
@@ -705,7 +705,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(700000000000000000000.324 as any);
       expect(
         skyNumeric.formatNumber(3518437208882.663, {
@@ -713,7 +713,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(3518437208882.66 as any);
       expect(
         skyNumeric.formatNumber(2.5368e15, {
@@ -721,7 +721,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(2536800000000000 as any);
       expect(
         skyNumeric.formatNumber(2536800000000000.119, {
@@ -729,7 +729,7 @@ describe('Numeric service', () => {
           truncate: false,
           format: 'number',
           iso: undefined,
-        }),
+        })
       ).toBe(2536800000000000.12 as any);
     });
   });

@@ -9,7 +9,7 @@ describe('A11y analyzer', () => {
     function mockRun(
       context: axe.ElementContext,
       options: axe.RunOptions,
-      callback: axe.RunCallback,
+      callback: axe.RunCallback
     ): void {
       callback(new Error('some error'), {} as axe.AxeResults);
     }
@@ -25,7 +25,7 @@ describe('A11y analyzer', () => {
     function mockRun(
       context: axe.ElementContext,
       options: axe.RunOptions,
-      callback: axe.RunCallback,
+      callback: axe.RunCallback
     ): void {
       callback(new Error(), {
         violations: [
@@ -70,7 +70,7 @@ describe('A11y analyzer', () => {
     function mockRun(
       context: axe.ElementContext,
       options: axe.RunOptions,
-      callback: axe.RunCallback,
+      callback: axe.RunCallback
     ): void {
       callback(new Error(), {
         violations: [
@@ -113,14 +113,14 @@ describe('A11y analyzer', () => {
       })
       .catch((result) => {
         expect(result).toMatch(
-          /<div class="other-header" aria-description="test"><\/div>/,
+          /<div class="other-header" aria-description="test"><\/div>/
         );
       });
   }));
 
   it('should handle undefined elements', () => {
     expect(() => SkyA11yAnalyzer.run()).toThrowError(
-      'No element was specified for accessibility checking.',
+      'No element was specified for accessibility checking.'
     );
   });
 });

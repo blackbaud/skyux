@@ -122,11 +122,11 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
       (handler) =>
         this.gridApi?.addEventListener(Events.EVENT_FILTER_CHANGED, handler),
       (handler) =>
-        this.gridApi?.removeEventListener(Events.EVENT_FILTER_CHANGED, handler),
+        this.gridApi?.removeEventListener(Events.EVENT_FILTER_CHANGED, handler)
     )
       .pipe(
         first(),
-        map(() => undefined),
+        map(() => undefined)
       )
       .toPromise();
     this.gridApi?.setFilterModel({
@@ -144,11 +144,11 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
       (handler) =>
         this.gridApi?.addEventListener(Events.EVENT_FILTER_CHANGED, handler),
       (handler) =>
-        this.gridApi?.removeEventListener(Events.EVENT_FILTER_CHANGED, handler),
+        this.gridApi?.removeEventListener(Events.EVENT_FILTER_CHANGED, handler)
     )
       .pipe(
         first(),
-        map(() => undefined),
+        map(() => undefined)
       )
       .toPromise();
     this.gridApi?.destroyFilter('name');
@@ -174,11 +174,11 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
       (handler) =>
         this.gridApi?.addEventListener(Events.EVENT_SORT_CHANGED, handler),
       (handler) =>
-        this.gridApi?.removeEventListener(Events.EVENT_SORT_CHANGED, handler),
+        this.gridApi?.removeEventListener(Events.EVENT_SORT_CHANGED, handler)
     )
       .pipe(
         first(),
-        map(() => undefined),
+        map(() => undefined)
       )
       .toPromise();
     this.columnApi?.applyColumnState({

@@ -22,7 +22,7 @@ describe('lookup in modal', () => {
           .click()
           .end()
           .get(
-            '.sky-autocomplete-results-container .sky-autocomplete-action-more',
+            '.sky-autocomplete-results-container .sky-autocomplete-action-more'
           )
           .should('exist')
           .should('be.visible')

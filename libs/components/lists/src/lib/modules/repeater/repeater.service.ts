@@ -19,7 +19,7 @@ export class SkyRepeaterService implements OnDestroy {
   >(undefined);
 
   public activeItemIndexChange = new BehaviorSubject<number | undefined>(
-    undefined,
+    undefined
   );
 
   public enableActiveState = false;

@@ -11,7 +11,7 @@ describe('File size pipe', () => {
 
   function validateFormatted(
     value: number | undefined | null,
-    expected: string,
+    expected: string
   ) {
     const result = fileSizePipe.transform(value);
 
@@ -26,7 +26,7 @@ describe('File size pipe', () => {
     decimalPipe = new DecimalPipe('en');
     fileSizePipe = new SkyFileSizePipe(
       decimalPipe,
-      TestBed.get(SkyLibResourcesService),
+      TestBed.get(SkyLibResourcesService)
     );
   });
 

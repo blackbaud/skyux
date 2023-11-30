@@ -43,7 +43,7 @@ export class SkyMediaQueryService implements OnDestroy {
   }
 
   #currentSubject = new BehaviorSubject<SkyMediaBreakpoints>(
-    DEFAULT_BREAKPOINT,
+    DEFAULT_BREAKPOINT
   );
 
   #currentBreakpoint = DEFAULT_BREAKPOINT;

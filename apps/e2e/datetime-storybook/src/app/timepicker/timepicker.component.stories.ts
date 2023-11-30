@@ -14,7 +14,7 @@ export default {
   ],
 } as Meta<TimepickerComponent>;
 export const Timepicker12Hr: StoryFn<TimepickerComponent> = (
-  args: TimepickerComponent,
+  args: TimepickerComponent
 ) => ({
   props: args,
 });

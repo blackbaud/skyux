@@ -35,7 +35,7 @@ export class SkyScrollableHostService {
   constructor(
     mutationObserverSvc: SkyMutationObserverService,
     windowRef: SkyAppWindowRef,
-    @Optional() resizeObserverSvc?: SkyResizeObserverService,
+    @Optional() resizeObserverSvc?: SkyResizeObserverService
   ) {
     this.#mutationObserverSvc = mutationObserverSvc;
     this.#resizeObserverSvc = resizeObserverSvc;
@@ -58,7 +58,7 @@ export class SkyScrollableHostService {
    * @internal
    */
   public watchScrollableHost(
-    elementRef: ElementRef,
+    elementRef: ElementRef
   ): Observable<HTMLElement | Window> {
     const subscribers: Subscriber<HTMLElement | Window>[] = [];
 
@@ -75,7 +75,7 @@ export class SkyScrollableHostService {
       if (subscribers.length === 1) {
         parentMutationObserver = this.#mutationObserverSvc.create(() => {
           const newScrollableHost = this.#findScrollableHost(
-            elementRef.nativeElement,
+            elementRef.nativeElement
           );
 
           // Reset observer if scrollable host changes.
@@ -87,7 +87,7 @@ export class SkyScrollableHostService {
 
             this.#observeForScrollableHostChanges(
               scrollableHost,
-              parentMutationObserver,
+              parentMutationObserver
             );
 
             notifySubscribers(subscribers, scrollableHost);
@@ -96,7 +96,7 @@ export class SkyScrollableHostService {
 
         this.#observeForScrollableHostChanges(
           scrollableHost,
-          parentMutationObserver,
+          parentMutationObserver
         );
 
         documentHiddenElementMutationObserver =
@@ -108,7 +108,7 @@ export class SkyScrollableHostService {
 
               this.#observeForScrollableHostChanges(
                 scrollableHost,
-                parentMutationObserver,
+                parentMutationObserver
               );
 
               notifySubscribers(subscribers, scrollableHost);
@@ -116,7 +116,7 @@ export class SkyScrollableHostService {
           });
 
         this.#observeDocumentHiddenElementChanges(
-          documentHiddenElementMutationObserver,
+          documentHiddenElementMutationObserver
         );
       }
 
@@ -146,7 +146,7 @@ export class SkyScrollableHostService {
    * @returns An observable which emits when the elements scrollable host is scrolled or is changed
    */
   public watchScrollableHostScrollEvents(
-    elementRef: ElementRef,
+    elementRef: ElementRef
   ): Observable<void> {
     const subscribers: Subscriber<void>[] = [];
 
@@ -162,7 +162,7 @@ export class SkyScrollableHostService {
       // Setup mutation observers only once, for all subscribers.
       if (subscribers.length === 1) {
         scrollableHostSubscription = this.watchScrollableHost(
-          elementRef,
+          elementRef
         ).subscribe((newScrollableHost) => {
           newScrollableHostObservable.next();
           newScrollableHostObservable.complete();
@@ -205,7 +205,7 @@ export class SkyScrollableHostService {
   }
 
   public watchScrollableHostClipPathChanges(
-    elementRef: ElementRef,
+    elementRef: ElementRef
   ): Observable<string> {
     if (!this.#resizeObserverSvc) {
       return of('none');
@@ -234,9 +234,9 @@ export class SkyScrollableHostService {
             const right = Math.max(viewportSize.width - left - width, 0);
             const bottom = Math.max(viewportSize.height - top - height, 0);
             return `inset(${top}px ${right}px ${bottom}px ${left}px)`;
-          }),
+          })
         );
-      }),
+      })
     );
   }
 
@@ -285,7 +285,7 @@ export class SkyScrollableHostService {
 
   #observeForScrollableHostChanges(
     element: HTMLElement | Window | undefined,
-    mutationObserver: MutationObserver,
+    mutationObserver: MutationObserver
   ) {
     mutationObserver.disconnect();
 

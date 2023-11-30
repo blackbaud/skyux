@@ -225,7 +225,7 @@ export class SkyTextEditorMenubarComponent implements OnDestroy, OnInit {
         '" src="' +
         (field.previewImageUrl ||
           this.#adapterService.getMergeFieldDataURI(field.name)) +
-        '">',
+        '">'
     );
   }
 

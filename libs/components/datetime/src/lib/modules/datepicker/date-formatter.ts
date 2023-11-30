@@ -31,7 +31,7 @@ export class SkyDateFormatter {
     dateString: string,
     format?: string,
     /* istanbul ignore next */
-    strict = false,
+    strict = false
   ): Date {
     let momentValue = moment(dateString, format, strict);
 

@@ -132,7 +132,7 @@ export class SkyTileComponent implements OnDestroy {
   constructor(
     public elementRef: ElementRef,
     changeDetector: ChangeDetectorRef,
-    @Optional() dashboardService?: SkyTileDashboardService,
+    @Optional() dashboardService?: SkyTileDashboardService
   ) {
     this.#changeDetector = changeDetector;
     this.#dashboardService = dashboardService;
@@ -202,7 +202,7 @@ export class SkyTileComponent implements OnDestroy {
           this.title
             ? this.title.nativeElement.innerText
             : /* istanbul ignore next */
-              undefined,
+              undefined
         );
         this.#focusHandle();
       }

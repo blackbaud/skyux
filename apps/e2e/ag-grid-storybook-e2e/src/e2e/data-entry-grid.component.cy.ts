@@ -5,7 +5,7 @@ describe('ag-grid-storybook', () => {
     describe(`in ${theme} theme`, () => {
       it('should edit date and lookup fields', () => {
         cy.viewport(1300, 1200).visit(
-          `/iframe.html?globals=theme:${theme}&id=dataentrygridcomponent-dataentrygrid--data-entry-grid-date-and-lookup`,
+          `/iframe.html?globals=theme:${theme}&id=dataentrygridcomponent-dataentrygrid--data-entry-grid-date-and-lookup`
         );
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.get('#ready')
@@ -28,7 +28,7 @@ describe('ag-grid-storybook', () => {
           // Activate a date field.
           .get(
             /* spell-checker:disable-next-line */
-            '#editDateWithCalendar div[row-id="blylebe01"] > div[col-id="birthday"]',
+            '#editDateWithCalendar div[row-id="blylebe01"] > div[col-id="birthday"]'
           )
           .should('be.visible')
           .click()
@@ -36,7 +36,7 @@ describe('ag-grid-storybook', () => {
 
           // Open the calendar and verify 04/06/1951 is selected.
           .get(
-            '#editDateWithCalendar .ag-popup-editor button[aria-label="Select date"]',
+            '#editDateWithCalendar .ag-popup-editor button[aria-label="Select date"]'
           )
           .should('be.visible')
           .click()
@@ -75,13 +75,13 @@ describe('ag-grid-storybook', () => {
               onAfterScreenshot: ($el: JQuery) => {
                 $el.css('caret-color', 'initial');
               },
-            },
+            }
           );
       });
 
       it('should edit lookup field, showing results', () => {
         cy.viewport(1300, 1200).visit(
-          `/iframe.html?globals=theme:${theme}&id=dataentrygridcomponent-dataentrygrid--data-entry-grid-edit-lookup`,
+          `/iframe.html?globals=theme:${theme}&id=dataentrygridcomponent-dataentrygrid--data-entry-grid-edit-lookup`
         );
         // Briefly wait between arrowing down.
         // eslint-disable-next-line cypress/no-unnecessary-waiting
@@ -119,7 +119,7 @@ describe('ag-grid-storybook', () => {
           // Activate a lookup multi-select field and add a second value.
           .get(
             /* spell-checker:disable-next-line */
-            '#editLookupMultiple div[row-id="seaveto01"] > div[col-id="name"]',
+            '#editLookupMultiple div[row-id="seaveto01"] > div[col-id="name"]'
           )
           .should('be.visible')
           .click()
@@ -134,7 +134,7 @@ describe('ag-grid-storybook', () => {
           // Leave the lookup field to show it render multiple values.
           .get(
             /* spell-checker:disable-next-line */
-            '#editLookupMultiple div[row-id="seaveto01"] > div[col-id="birthday"]',
+            '#editLookupMultiple div[row-id="seaveto01"] > div[col-id="birthday"]'
           )
           .should('be.visible')
           .click()
@@ -143,7 +143,7 @@ describe('ag-grid-storybook', () => {
           // Activate another lookup multi-select field and enter values, leaving it active.
           .get(
             /* spell-checker:disable-next-line */
-            '#editLookupMultiple div[row-id="simmoal01"] > div[col-id="name"]',
+            '#editLookupMultiple div[row-id="simmoal01"] > div[col-id="name"]'
           )
           .should('be.visible')
           .click()
@@ -194,7 +194,7 @@ describe('ag-grid-storybook', () => {
               onAfterScreenshot: ($el: JQuery) => {
                 $el.css('caret-color', 'initial');
               },
-            },
+            }
           );
       });
     });

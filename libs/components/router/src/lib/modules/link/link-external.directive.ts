@@ -46,7 +46,7 @@ export class SkyAppLinkExternalDirective
     window: SkyAppWindowRef,
     @Optional() skyAppConfig?: SkyAppConfig,
     @Optional() paramsProvider?: SkyAppRuntimeConfigParamsProvider,
-    @Optional() hostConfig?: SkyAppConfigHost,
+    @Optional() hostConfig?: SkyAppConfigHost
   ) {
     super(
       router,
@@ -56,8 +56,8 @@ export class SkyAppLinkExternalDirective
       elementRef,
       new PathLocationStrategy(
         platformLocation,
-        hostConfig ? hostConfig.host.url : skyAppConfig?.skyux.host?.url,
-      ),
+        hostConfig ? hostConfig.host.url : skyAppConfig?.skyux.host?.url
+      )
     );
     this.#window = window;
     this.#skyAppConfig = skyAppConfig;
@@ -75,7 +75,7 @@ export class SkyAppLinkExternalDirective
 
   public override ngOnChanges(changes: SimpleChanges): void {
     this.queryParams = this.#mergeQueryParams(
-      changes['queryParams']?.currentValue,
+      changes['queryParams']?.currentValue
     );
     super.ngOnChanges(changes);
   }

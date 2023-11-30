@@ -15,7 +15,7 @@ const polyfillsBuilders = [
  */
 export function addPolyfillsConfig(
   projectName: string,
-  targetNames: string[],
+  targetNames: string[]
 ): Rule {
   return (_tree, context) =>
     updateWorkspace((workspace) => {
@@ -38,8 +38,8 @@ export function addPolyfillsConfig(
         if (!polyfillsBuilders.includes(target.builder)) {
           context.logger.warn(
             `Could not add polyfills to the '${projectName}' project's '${targetName}' target because it does not use an approved builder. (wanted one of ${polyfillsBuilders.join(
-              ' | ',
-            )})`,
+              ' | '
+            )})`
           );
           continue;
         }

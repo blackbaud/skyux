@@ -31,10 +31,8 @@ describe('FieldHeightsComponent', () => {
     expect(console.log).toHaveBeenCalledWith('Add button clicked');
     expect(
       fixture.debugElement.query(
-        By.css(
-          '[data-sky-id="character-counter-error"] > sky-status-indicator',
-        ),
-      ),
+        By.css('[data-sky-id="character-counter-error"] > sky-status-indicator')
+      )
     ).toBeNull();
     component.favoritesForm
       .get('favoriteWord')
@@ -43,10 +41,8 @@ describe('FieldHeightsComponent', () => {
     await fixture.whenStable();
     expect(
       fixture.debugElement.query(
-        By.css(
-          '[data-sky-id="character-counter-error"] > sky-status-indicator',
-        ),
-      ),
+        By.css('[data-sky-id="character-counter-error"] > sky-status-indicator')
+      )
     ).toBeTruthy();
   });
 

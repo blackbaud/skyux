@@ -44,7 +44,7 @@ export class DataManagerEditModalComponent {
     private agGridService: SkyAgGridService,
     public context: DataManagerEditModalContext,
     public instance: SkyModalInstance,
-    private changeDetector: ChangeDetectorRef,
+    private changeDetector: ChangeDetectorRef
   ) {
     this.columnDefs = [
       {
@@ -70,7 +70,7 @@ export class DataManagerEditModalComponent {
         type: SkyCellType.Date,
         editable: true,
         cellEditorParams: (
-          params: ICellEditorParams,
+          params: ICellEditorParams
         ): { skyComponentProperties: SkyAgGridDatepickerProperties } => {
           return { skyComponentProperties: { minDate: params.data.startDate } };
         },
@@ -81,13 +81,13 @@ export class DataManagerEditModalComponent {
         type: SkyCellType.Autocomplete,
         editable: true,
         cellEditorParams: (
-          params: ICellEditorParams,
+          params: ICellEditorParams
         ): { skyComponentProperties: SkyAgGridAutocompleteProperties } => {
           return {
             skyComponentProperties: {
               data: DEPARTMENTS,
               selectionChange: (
-                change: SkyAutocompleteSelectionChange,
+                change: SkyAutocompleteSelectionChange
               ): void => {
                 this.departmentSelectionChange(change, params.node);
               },
@@ -106,7 +106,7 @@ export class DataManagerEditModalComponent {
         type: SkyCellType.Autocomplete,
         editable: true,
         cellEditorParams: (
-          params: ICellEditorParams,
+          params: ICellEditorParams
         ): { skyComponentProperties: SkyAgGridAutocompleteProperties } => {
           const selectedDepartment: string =
             params.data &&
@@ -165,7 +165,7 @@ export class DataManagerEditModalComponent {
 
   private departmentSelectionChange(
     change: SkyAutocompleteSelectionChange,
-    node: IRowNode,
+    node: IRowNode
   ): void {
     if (change.selectedItem && change.selectedItem !== node.data.department) {
       this.clearJobTitle(node);

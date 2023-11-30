@@ -61,12 +61,12 @@ describe('Toaster component', () => {
     (
       _applicationRef: ApplicationRef,
       _toastService: SkyToastService,
-      _options: SkyToastContainerOptions,
+      _options: SkyToastContainerOptions
     ) => {
       applicationRef = _applicationRef;
       toastService = _toastService;
       options = _options;
-    },
+    }
   ));
 
   afterEach(fakeAsync(() => {
@@ -83,7 +83,7 @@ describe('Toaster component', () => {
 
   function openMessage(
     message = '',
-    config?: SkyToastConfig,
+    config?: SkyToastConfig
   ): SkyToastInstance {
     const instance = toastService.openMessage(message, config);
     fixture.detectChanges();
@@ -101,7 +101,7 @@ describe('Toaster component', () => {
     const instance = toastService.openComponent(
       SkyToastBodyTestComponent,
       {},
-      providers,
+      providers
     );
     fixture.detectChanges();
     tick();
@@ -111,7 +111,7 @@ describe('Toaster component', () => {
   function validateToastMessage(toastEl: Element, message: string): void {
     expect(toastEl.querySelector('.sky-toast-content')).toHaveText(
       message,
-      true,
+      true
     );
   }
 
@@ -180,11 +180,11 @@ describe('Toaster component', () => {
     let toasts = getToastElements();
     expect(toasts.length).toEqual(1);
     expect(
-      toasts.item(0).querySelector('.sky-toast-body-test-content'),
+      toasts.item(0).querySelector('.sky-toast-body-test-content')
     ).toHaveText(message, true);
 
     clickElement(
-      toasts.item(0).querySelector('.sky-toast-body-test-btn-close'),
+      toasts.item(0).querySelector('.sky-toast-body-test-btn-close')
     );
     fixture.detectChanges();
     tick();
@@ -196,7 +196,7 @@ describe('Toaster component', () => {
   it('should close all toasts', fakeAsync(() => {
     const closeAllSpy = spyOn(
       SkyToasterComponent.prototype,
-      'closeAll',
+      'closeAll'
     ).and.callThrough();
     openMessage();
     openMessage();
@@ -219,7 +219,7 @@ describe('Toaster component', () => {
   it('should close all toasts', fakeAsync(() => {
     const closeAllSpy = spyOn(
       SkyToasterComponent.prototype,
-      'closeAll',
+      'closeAll'
     ).and.callThrough();
     let toasts = getToastElements();
     expect(toasts.length).toEqual(0);
@@ -243,7 +243,7 @@ describe('Toaster component', () => {
     const toaster = document.querySelector('.sky-toaster');
     const toast = document.querySelector('.sky-toast');
     const checkbox = toast?.querySelector(
-      '.sky-toast-checkbox-test',
+      '.sky-toast-checkbox-test'
     ) as HTMLInputElement;
 
     expect(checkbox?.checked).toEqual(false);
@@ -282,7 +282,7 @@ describe('Toaster component', () => {
     function validateEvent(
       eventName: string,
       spy: jasmine.Spy,
-      expectedValue: boolean,
+      expectedValue: boolean
     ) {
       toaster && SkyAppTestUtility.fireDomEvent(toaster, eventName);
       expect(spy).toHaveBeenCalledWith(expectedValue);

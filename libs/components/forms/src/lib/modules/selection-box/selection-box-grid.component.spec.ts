@@ -24,7 +24,7 @@ describe('Selection box grid component', () => {
 
   function getSelectionBoxes(): NodeListOf<HTMLElement> {
     return fixture.nativeElement.querySelectorAll(
-      '.sky-selection-box-grid .sky-selection-box',
+      '.sky-selection-box-grid .sky-selection-box'
     );
   }
 
@@ -49,7 +49,7 @@ describe('Selection box grid component', () => {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.default,
-          SkyThemeMode.presets.light,
+          SkyThemeMode.presets.light
         ),
         previousSettings: undefined,
       }),
@@ -57,7 +57,7 @@ describe('Selection box grid component', () => {
 
     setResponsiveClassSpy = spyOn(
       SkySelectionBoxAdapterService.prototype,
-      'setResponsiveClass',
+      'setResponsiveClass'
     );
 
     fixture = TestBed.configureTestingModule({
@@ -75,10 +75,10 @@ describe('Selection box grid component', () => {
 
   it('should set alignItems to center by default', () => {
     expect(getSelectionBoxGrid()).not.toHaveCssClass(
-      'sky-selection-box-grid-align-left',
+      'sky-selection-box-grid-align-left'
     );
     expect(getSelectionBoxGrid()).toHaveCssClass(
-      'sky-selection-box-grid-align-center',
+      'sky-selection-box-grid-align-center'
     );
   });
 
@@ -87,10 +87,10 @@ describe('Selection box grid component', () => {
     fixture.detectChanges();
 
     expect(getSelectionBoxGrid()).not.toHaveCssClass(
-      'sky-selection-box-grid-align-left',
+      'sky-selection-box-grid-align-left'
     );
     expect(getSelectionBoxGrid()).toHaveCssClass(
-      'sky-selection-box-grid-align-center',
+      'sky-selection-box-grid-align-center'
     );
   });
 
@@ -99,10 +99,10 @@ describe('Selection box grid component', () => {
     fixture.detectChanges();
 
     expect(getSelectionBoxGrid()).not.toHaveCssClass(
-      'sky-selection-box-grid-align-center',
+      'sky-selection-box-grid-align-center'
     );
     expect(getSelectionBoxGrid()).toHaveCssClass(
-      'sky-selection-box-grid-align-left',
+      'sky-selection-box-grid-align-left'
     );
   });
 
@@ -116,7 +116,7 @@ describe('Selection box grid component', () => {
     expect(newHeight).toBeGreaterThanOrEqual(500);
     for (let i = 0; i < selectionBoxes.length; i++) {
       expect(selectionBoxes[i].getBoundingClientRect().height).toEqual(
-        newHeight,
+        newHeight
       );
     }
   });
@@ -124,7 +124,7 @@ describe('Selection box grid component', () => {
   it(`should update CSS responsive classes on window resize`, async () => {
     spyOn(
       SkySelectionBoxAdapterService.prototype,
-      'getParentWidth',
+      'getParentWidth'
     ).and.returnValue(300);
     setResponsiveClassSpy.calls.reset();
     expect(setResponsiveClassSpy).not.toHaveBeenCalled();
@@ -138,26 +138,26 @@ describe('Selection box grid component', () => {
   it('should set responsive CSS class to large', () => {
     spyOn(
       SkySelectionBoxAdapterService.prototype,
-      'getParentWidth',
+      'getParentWidth'
     ).and.callThrough();
     fixture.detectChanges();
 
     expect(setResponsiveClassSpy).toHaveBeenCalledWith(
       jasmine.any(ElementRef),
-      SkyMediaBreakpoints.lg,
+      SkyMediaBreakpoints.lg
     );
   });
 
   it('should set responsive CSS class to large when outer container is toggled', () => {
     spyOn(
       SkySelectionBoxAdapterService.prototype,
-      'getParentWidth',
+      'getParentWidth'
     ).and.callThrough();
     fixture.detectChanges();
 
     expect(setResponsiveClassSpy).toHaveBeenCalledWith(
       jasmine.any(ElementRef),
-      SkyMediaBreakpoints.lg,
+      SkyMediaBreakpoints.lg
     );
 
     setResponsiveClassSpy.calls.reset();
@@ -169,22 +169,22 @@ describe('Selection box grid component', () => {
 
     expect(setResponsiveClassSpy).toHaveBeenCalledWith(
       jasmine.any(ElementRef),
-      SkyMediaBreakpoints.lg,
+      SkyMediaBreakpoints.lg
     );
   });
 
   it(`should recalculate heights when child DOM elements change`, async () => {
     const resetHeightSpy = spyOn(
       SkyCoreAdapterService.prototype,
-      'resetHeight',
+      'resetHeight'
     );
     const syncMaxHeightSpy = spyOn(
       SkyCoreAdapterService.prototype,
-      'syncMaxHeight',
+      'syncMaxHeight'
     );
     spyOn(
       SkySelectionBoxAdapterService.prototype,
-      'getParentWidth',
+      'getParentWidth'
     ).and.returnValue(300);
     expect(resetHeightSpy).not.toHaveBeenCalled();
     expect(syncMaxHeightSpy).not.toHaveBeenCalled();

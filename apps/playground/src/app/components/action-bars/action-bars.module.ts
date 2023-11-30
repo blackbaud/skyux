@@ -6,21 +6,21 @@ const routes: Routes = [
     path: 'summary-action-bar',
     loadChildren: () =>
       import('./summary-action-bar/summary-action-bar.module').then(
-        (m) => m.SummaryActionBarModule,
+        (m) => m.SummaryActionBarModule
       ),
   },
   {
     path: 'modal-summary-action-bar',
     loadChildren: () =>
       import('./modal-summary-action-bar/modal-summary-action-bar.module').then(
-        (m) => m.ModalSummaryActionBarModule,
+        (m) => m.ModalSummaryActionBarModule
       ),
   },
   {
     path: 'tabs-summary-action-bar',
     loadChildren: () =>
       import('./tabs-summary-action-bar/tabs-summary-action-bar.module').then(
-        (m) => m.TabsSummaryActionBarModule,
+        (m) => m.TabsSummaryActionBarModule
       ),
   },
 ];

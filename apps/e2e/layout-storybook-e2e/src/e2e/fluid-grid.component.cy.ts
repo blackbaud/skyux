@@ -8,7 +8,7 @@ describe('layout-storybook - fluid-grid', () => {
           beforeEach(() => {
             cy.viewport(width, 960);
             cy.visit(
-              `/iframe.html?globals=theme:${theme}&id=fluidgridcomponent-fluidgrid--fluid-grid`,
+              `/iframe.html?globals=theme:${theme}&id=fluidgridcomponent-fluidgrid--fluid-grid`
             );
           });
 
@@ -17,13 +17,13 @@ describe('layout-storybook - fluid-grid', () => {
               .should('exist')
               .should('be.visible')
               .screenshot(
-                `fluidgridcomponent-fluidgrid--fluid-grid-${theme}-${width}`,
+                `fluidgridcomponent-fluidgrid--fluid-grid-${theme}-${width}`
               )
               .percySnapshot(
                 `fluidgridcomponent-fluidgrid--fluid-grid-${theme}-${width}`,
                 {
                   widths: [width],
-                },
+                }
               );
           });
         });

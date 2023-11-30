@@ -231,9 +231,9 @@ describe('Confirm harness', () => {
       });
 
       await expectAsync(
-        confirmHarness.getCustomButtons({ text: /invalidButtonName/ }),
+        confirmHarness.getCustomButtons({ text: /invalidButtonName/ })
       ).toBeRejectedWithError(
-        `Could not find buttons matching filter(s): {"text":"/invalidButtonName/"}.`,
+        `Could not find buttons matching filter(s): {"text":"/invalidButtonName/"}.`
       );
     });
 
@@ -241,9 +241,9 @@ describe('Confirm harness', () => {
       const { confirmHarness } = await setupTest();
 
       await expectAsync(
-        confirmHarness.getCustomButtons({}),
+        confirmHarness.getCustomButtons({})
       ).toBeRejectedWithError(
-        'Cannot get custom buttons for confirm of type OK.',
+        'Cannot get custom buttons for confirm of type OK.'
       );
     });
   });
@@ -263,7 +263,7 @@ describe('Confirm harness', () => {
       });
 
       await expectAsync(confirmHarness.clickOkButton()).toBeRejectedWithError(
-        'Cannot click OK button on a confirm of type custom.',
+        'Cannot click OK button on a confirm of type custom.'
       );
     });
 
@@ -285,9 +285,9 @@ describe('Confirm harness', () => {
       const { confirmHarness } = await setupTest();
 
       await expectAsync(
-        confirmHarness.clickCustomButton({}),
+        confirmHarness.clickCustomButton({})
       ).toBeRejectedWithError(
-        'Cannot get custom buttons for confirm of type OK.',
+        'Cannot get custom buttons for confirm of type OK.'
       );
     });
 
@@ -310,9 +310,9 @@ describe('Confirm harness', () => {
       });
 
       await expectAsync(
-        confirmHarness.clickCustomButton({ text: /c/ }),
+        confirmHarness.clickCustomButton({ text: /c/ })
       ).toBeRejectedWithError(
-        'More than one button matches the filter(s): {"text":"/c/"}.',
+        'More than one button matches the filter(s): {"text":"/c/"}.'
       );
     });
 

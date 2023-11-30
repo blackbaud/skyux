@@ -5,8 +5,8 @@ Cypress.on(
   'uncaught:exception',
   (err) =>
     !err.message.includes(
-      'ResizeObserver loop completed with undelivered notifications.',
-    ),
+      'ResizeObserver loop completed with undelivered notifications.'
+    )
 );
 
 describe(`ag-grid-storybook data manager`, () => {
@@ -21,7 +21,7 @@ describe(`ag-grid-storybook data manager`, () => {
         describe(`${label} layout`, () => {
           beforeEach(() => {
             cy.viewport(1300, 900).visit(
-              `/iframe.html?globals=theme:${theme}&id=datamanagercomponent-datamanager--data-manager-${domLayout}`,
+              `/iframe.html?globals=theme:${theme}&id=datamanagercomponent-datamanager--data-manager-${domLayout}`
             );
           });
 
@@ -49,7 +49,7 @@ describe(`ag-grid-storybook data manager`, () => {
                   clip: { x: 0, y: 0, width: 1280, height: 600 },
                   overwrite: true,
                   disableTimersAndAnimations: true,
-                },
+                }
               );
           });
         });
@@ -59,7 +59,7 @@ describe(`ag-grid-storybook data manager`, () => {
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.viewport(1300, 900)
           .visit(
-            `/iframe.html?globals=theme:${theme}&id=datamanagercomponent-datamanager--data-manager-normal`,
+            `/iframe.html?globals=theme:${theme}&id=datamanagercomponent-datamanager--data-manager-normal`
           )
           .get('#ready')
           .should('exist')
@@ -86,7 +86,7 @@ describe(`ag-grid-storybook data manager`, () => {
               clip: { x: 0, y: 0, width: 1280, height: 900 },
               overwrite: true,
               disableTimersAndAnimations: true,
-            },
+            }
           );
       });
     });

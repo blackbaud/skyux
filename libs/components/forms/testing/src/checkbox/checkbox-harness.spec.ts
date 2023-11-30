@@ -6,7 +6,7 @@ import { CheckboxHarnessTestComponent } from './fixtures/checkbox-harness-test.c
 import { CheckboxHarnessTestModule } from './fixtures/checkbox-harness-test.module';
 
 async function setupTest(
-  options: { dataSkyId?: string; hideEmailLabel?: boolean } = {},
+  options: { dataSkyId?: string; hideEmailLabel?: boolean } = {}
 ) {
   await TestBed.configureTestingModule({
     imports: [CheckboxHarnessTestModule],
@@ -23,7 +23,7 @@ async function setupTest(
     ? await loader.getHarness(
         SkyCheckboxHarness.with({
           dataSkyId: options.dataSkyId,
-        }),
+        })
       )
     : await loader.getHarness(SkyCheckboxHarness);
 
@@ -66,7 +66,7 @@ describe('Checkbox harness', () => {
     const phoneCheckboxHarness = await loader.getHarness(
       SkyCheckboxHarness.with({
         dataSkyId: 'my-phone-checkbox',
-      }),
+      })
     );
     await expectAsync(phoneCheckboxHarness.isRequired()).toBeResolvedTo(true);
   });
@@ -91,10 +91,10 @@ describe('Checkbox harness', () => {
     });
 
     await expectAsync(checkboxHarness.getAriaLabel()).toBeResolvedTo(
-      'Your email address',
+      'Your email address'
     );
     await expectAsync(checkboxHarness.getAriaLabelledby()).toBeResolvedTo(
-      'foo-email-id',
+      'foo-email-id'
     );
     await expectAsync(checkboxHarness.getLabelText()).toBeResolvedTo('Email');
   });
@@ -113,7 +113,7 @@ describe('Checkbox harness', () => {
     });
 
     await expectAsync(checkboxHarness.getName()).toBeResolvedTo(
-      jasmine.stringMatching(/sky-checkbox-sky-id-gen__[0-9]+__[0-9]+/),
+      jasmine.stringMatching(/sky-checkbox-sky-id-gen__[0-9]+__[0-9]+/)
     );
     await expectAsync(checkboxHarness.getValue()).toBeResolvedTo('on');
   });
@@ -128,7 +128,7 @@ describe('Checkbox harness', () => {
     await expectAsync(checkboxHarness.isChecked()).toBeResolvedTo(false);
 
     await expectAsync(checkboxHarness.check()).toBeRejectedWithError(
-      'Could not toggle the checkbox because it is disabled.',
+      'Could not toggle the checkbox because it is disabled.'
     );
   });
 });

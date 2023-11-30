@@ -13,7 +13,7 @@ export class SkyInfiniteScrollHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-infinite-scroll';
 
   #showMoreButton = this.locatorForOptional(
-    'button.sky-infinite-scroll-load-more-button',
+    'button.sky-infinite-scroll-load-more-button'
   );
 
   /**
@@ -48,11 +48,11 @@ export class SkyInfiniteScrollHarness extends SkyComponentHarness {
     } else {
       if (!(await this.isEnabled())) {
         throw new Error(
-          'Unable to click the "Load more" button because the infinite scroll is not enabled.',
+          'Unable to click the "Load more" button because the infinite scroll is not enabled.'
         );
       } else {
         throw new Error(
-          'Unable to click the "Load more" button because the infinite scroll is loading.',
+          'Unable to click the "Load more" button because the infinite scroll is loading.'
         );
       }
     }

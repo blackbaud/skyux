@@ -9,6 +9,6 @@ import { SkyAppLocaleInfo } from './locale-info';
 export abstract class SkyLibResourcesProvider {
   public abstract getString: (
     localeInfo: SkyAppLocaleInfo,
-    name: string,
+    name: string
   ) => string | undefined;
 }

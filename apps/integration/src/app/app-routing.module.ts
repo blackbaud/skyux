@@ -10,7 +10,7 @@ const routes: Routes = [
     path: 'integrations',
     loadChildren: () =>
       import('./integrations/integrations.module').then(
-        (m) => m.IntegrationsModule,
+        (m) => m.IntegrationsModule
       ),
   },
 ];

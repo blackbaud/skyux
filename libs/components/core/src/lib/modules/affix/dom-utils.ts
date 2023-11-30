@@ -10,7 +10,7 @@ import { AffixRect } from './affix-rect';
  */
 export function getElementOffset(
   element: HTMLElement,
-  bufferOffset?: SkyAffixOffset,
+  bufferOffset?: SkyAffixOffset
 ): Required<SkyAffixOffset> {
   const bufferOffsetBottom = bufferOffset?.bottom || 0;
   const bufferOffsetLeft = bufferOffset?.left || 0;
@@ -67,7 +67,7 @@ export function getOuterRect(element: HTMLElement): Required<AffixRect> {
  */
 export function getVisibleRectForElement(
   viewportRuler: ViewportRuler,
-  element: HTMLElement,
+  element: HTMLElement
 ): Required<AffixRect> {
   const elementRect = getOuterRect(element);
   const viewportRect = viewportRuler.getViewportRect();
@@ -122,7 +122,7 @@ export function isOffsetFullyVisibleWithinParent(
   viewportRuler: ViewportRuler,
   parent: HTMLElement,
   offset: Required<SkyAffixOffset>,
-  bufferOffset?: SkyAffixOffset,
+  bufferOffset?: SkyAffixOffset
 ): boolean {
   let parentOffset: Required<SkyAffixOffset>;
 
@@ -152,7 +152,7 @@ export function isOffsetPartiallyVisibleWithinParent(
   viewportRuler: ViewportRuler,
   parent: HTMLElement,
   offset: Required<SkyAffixOffset>,
-  bufferOffset?: SkyAffixOffset,
+  bufferOffset?: SkyAffixOffset
 ): boolean {
   const parentOffset = bufferOffset
     ? getElementOffset(parent, bufferOffset)

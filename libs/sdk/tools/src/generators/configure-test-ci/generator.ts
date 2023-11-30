@@ -3,7 +3,7 @@ import { Tree, getProjects, updateProjectConfiguration } from '@nx/devkit';
 
 export async function configureTestCiGenerator(
   tree: Tree,
-  options: { skipFormat: boolean },
+  options: { skipFormat: boolean }
 ) {
   const projects = getProjects(tree);
   projects.forEach((project, projectName) => {

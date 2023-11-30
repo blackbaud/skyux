@@ -57,7 +57,7 @@ export class SkyAgGridCellEditorNumberComponent
           break;
         case SkyAgGridCellEditorInitialAction.Replace:
           control.setValue(
-            parseFloat(this.#params?.charPress as string) || undefined,
+            parseFloat(this.#params?.charPress as string) || undefined
           );
           break;
         case SkyAgGridCellEditorInitialAction.Highlighted:

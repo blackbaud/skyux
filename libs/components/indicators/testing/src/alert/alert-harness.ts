@@ -26,7 +26,7 @@ export class SkyAlertHarness extends SkyComponentHarness {
    * `SkyAlertHarness` that meets certain criteria.
    */
   public static with(
-    filters: SkyAlertHarnessFilters,
+    filters: SkyAlertHarnessFilters
   ): HarnessPredicate<SkyAlertHarness> {
     return SkyAlertHarness.getDataSkyIdPredicate(filters);
   }

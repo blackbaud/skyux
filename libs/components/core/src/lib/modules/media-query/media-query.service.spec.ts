@@ -26,7 +26,7 @@ describe('Media query service', () => {
         }
 
         listenerCount++;
-      },
+      }
     );
   }
 
@@ -53,7 +53,7 @@ describe('Media query service', () => {
       // Safari doesn't put MediaQueryList on the global window object so we
       // have to pick it off here.
       mediaQueryListPrototype = Object.getPrototypeOf(
-        matchMedia(SkyMediaQueryService.sm),
+        matchMedia(SkyMediaQueryService.sm)
       );
 
       matchMediaSpy = spyOn(window as any, 'matchMedia').and.callFake(
@@ -77,7 +77,7 @@ describe('Media query service', () => {
               },
             };
           }
-        },
+        }
       );
 
       setUpListeners();
@@ -88,7 +88,7 @@ describe('Media query service', () => {
       (mediaQueryService: SkyMediaQueryService) => {
         // Simulate component destruction.
         mediaQueryService.ngOnDestroy();
-      },
+      }
     ));
 
     it('should handle initialization properly', inject(
@@ -103,7 +103,7 @@ describe('Media query service', () => {
         expect(result).toEqual(SkyMediaBreakpoints.xs);
 
         subscription.unsubscribe();
-      },
+      }
     ));
   });
 
@@ -112,7 +112,7 @@ describe('Media query service', () => {
       // Safari doesn't put MediaQueryList on the global window object so we
       // have to pick it off here.
       mediaQueryListPrototype = Object.getPrototypeOf(
-        matchMedia(SkyMediaQueryService.sm),
+        matchMedia(SkyMediaQueryService.sm)
       );
 
       matchMediaSpy = spyOn(window, 'matchMedia').and.callThrough();
@@ -138,7 +138,7 @@ describe('Media query service', () => {
         expect(result).toEqual(SkyMediaBreakpoints.sm);
 
         subscription.unsubscribe();
-      },
+      }
     ));
 
     it('should stop listening for media query breakpoints on destroy', inject(
@@ -146,7 +146,7 @@ describe('Media query service', () => {
       (mediaQueryService: SkyMediaQueryService) => {
         const removeListenerSpy = spyOn(
           mediaQueryListPrototype,
-          'removeListener',
+          'removeListener'
         );
 
         // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -156,7 +156,7 @@ describe('Media query service', () => {
 
         expect(removeListenerSpy.calls.count()).toBe(4);
         expect(subscription.closed).toBe(true);
-      },
+      }
     ));
 
     it('should fire the listener when the specified breakpoint is hit', inject(
@@ -183,7 +183,7 @@ describe('Media query service', () => {
         expect(result).toEqual(SkyMediaBreakpoints.lg);
 
         subscription.unsubscribe();
-      },
+      }
     ));
 
     it('should provide the ability to check the current breakpoints', inject(
@@ -192,7 +192,7 @@ describe('Media query service', () => {
         callBreakpoint(SkyMediaBreakpoints.sm);
 
         expect(mediaQueryService.current).toEqual(SkyMediaBreakpoints.sm);
-      },
+      }
     ));
   });
 });

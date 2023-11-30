@@ -44,7 +44,7 @@ export class SkySplitViewService implements OnDestroy {
 
   constructor(
     mediaQueryService: SkyMediaQueryService,
-    resources: SkyLibResourcesService,
+    resources: SkyLibResourcesService
   ) {
     // Set default back button text.
     resources
@@ -68,7 +68,7 @@ export class SkySplitViewService implements OnDestroy {
           this.drawerVisible.next(true);
         }
         this.isMobile = nowMobile;
-      },
+      }
     );
   }
 

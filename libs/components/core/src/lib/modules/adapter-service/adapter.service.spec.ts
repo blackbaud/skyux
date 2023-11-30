@@ -84,12 +84,12 @@ describe('Core adapter service', () => {
   describe('getFocusableChildrenAndApplyFocus', () => {
     it('should apply focus to the first element', () => {
       const firstFocusableElement = nativeElement.querySelector(
-        '#not-autofocus-input',
+        '#not-autofocus-input'
       );
 
       component.getFocusableChildrenAndApplyFocus(
         fixture,
-        '#focusable-children-container',
+        '#focusable-children-container'
       );
 
       expect(document.activeElement).toEqual(firstFocusableElement);
@@ -101,7 +101,7 @@ describe('Core adapter service', () => {
       component.getFocusableChildrenAndApplyFocus(
         fixture,
         '#paragraph-container',
-        true,
+        true
       );
 
       expect(document.activeElement).toEqual(container);
@@ -117,7 +117,7 @@ describe('Core adapter service', () => {
   describe('applyAutoFocus', () => {
     it('should apply focus to the first autofocus element and return true', () => {
       const nonAutoFocusInput = nativeElement.querySelector(
-        '#not-autofocus-input',
+        '#not-autofocus-input'
       );
       const autoFocusElement = nativeElement.querySelector('#autofocus-input');
 
@@ -135,7 +135,7 @@ describe('Core adapter service', () => {
 
     it('should not apply focus if no autofocus element is found and return false', () => {
       const nonAutoFocusInput = nativeElement.querySelector(
-        '#not-autofocus-input',
+        '#not-autofocus-input'
       );
       const autoFocusElement = nativeElement.querySelector('#autofocus-input');
 
@@ -237,7 +237,7 @@ describe('Core adapter service', () => {
       fixture.detectChanges();
       const children = document.querySelectorAll('#height-sync-container div');
       childrenArray = Array.prototype.slice.call(
-        children,
+        children
       ) as Array<HTMLElement>;
     });
 
@@ -288,9 +288,9 @@ describe('Core adapter service', () => {
       (_adapter: SkyCoreAdapterService) => {
         adapter = _adapter;
         container = document.getElementById(
-          'z-index-container',
+          'z-index-container'
         ) as HTMLDivElement;
-      },
+      }
     ));
 
     it('should check if event target is above element', () => {

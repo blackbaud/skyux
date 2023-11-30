@@ -79,7 +79,7 @@ export class SkyThemeService {
     previous: SkyThemeSettings | undefined,
     current: SkyThemeSettings,
     prop: 'theme' | 'mode' | 'spacing',
-    supportedProp?: 'supportedModes' | 'supportedSpacing',
+    supportedProp?: 'supportedModes' | 'supportedSpacing'
   ): void {
     const currentSetting = current[prop];
 

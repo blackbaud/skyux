@@ -37,7 +37,7 @@ export class ResizeObserverFlyoutComponent {
     };
     this.flyout = this.#flyoutService.open(
       ResizeObserverContentComponent,
-      flyoutConfig,
+      flyoutConfig
     );
 
     this.flyout.closed.subscribe(() => {
@@ -52,7 +52,7 @@ export class ResizeObserverFlyoutComponent {
     };
     this.flyout = this.#flyoutService.open(
       ResizeObserverContentComponent,
-      flyoutConfig,
+      flyoutConfig
     );
 
     this.flyout.closed.subscribe(() => {

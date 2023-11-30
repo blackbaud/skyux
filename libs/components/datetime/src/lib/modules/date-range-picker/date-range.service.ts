@@ -36,7 +36,7 @@ export class SkyDateRangeService {
    * @param config The calculator config.
    */
   public createCalculator(
-    config: SkyDateRangeCalculatorConfig,
+    config: SkyDateRangeCalculatorConfig
   ): SkyDateRangeCalculator {
     const newId = SkyDateRangeService.lastId++;
     const calculator = new SkyDateRangeCalculator(newId, config);
@@ -51,7 +51,7 @@ export class SkyDateRangeService {
    * @param ids The array of calculator IDs.
    */
   public getCalculators(
-    ids: SkyDateRangeCalculatorId[],
+    ids: SkyDateRangeCalculatorId[]
   ): Promise<SkyDateRangeCalculator[]> {
     const promises = ids.map((id) => {
       return this.getCalculatorById(id);
@@ -65,7 +65,7 @@ export class SkyDateRangeService {
    * @param id The calculator ID.
    */
   public getCalculatorById(
-    id: SkyDateRangeCalculatorId,
+    id: SkyDateRangeCalculatorId
   ): Promise<SkyDateRangeCalculator> {
     const calculatorId = parseInt(id as any, 10);
     const found = this.#calculators.find((calculator) => {
@@ -103,8 +103,8 @@ export class SkyDateRangeService {
             first(),
             map((value) => {
               config.shortDescription = value;
-            }),
-          ),
+            })
+          )
       );
 
       this.#calculatorConfigs[defaultConfig.calculatorId] = config;

@@ -12,22 +12,22 @@ import {
 
 import { relative } from 'path';
 
+import { getStorybookProject } from '../../utils';
 import {
   applyTransformers,
   applyTransformersToPath,
-  capitalizeWords,
-  findDeclaringModule,
   getInsertIdentifierToArrayTransformer,
   getInsertImportTransformer,
   getInsertStringPropertyTransformer,
   getRenameVariablesTransformer,
-  getStorybookProject,
   getStringLiteral,
   getStringLiteralsSetterTransformer,
   getTransformerToAddExportToNgModule,
   readSourceFile,
   writeSourceFile,
 } from '../../utils';
+import { findDeclaringModule } from '../../utils';
+import { capitalizeWords } from '../../utils';
 import { getGeneratorDefaults } from '../../utils/nx-generator-utils';
 
 import { StoriesGeneratorSchema } from './schema';
@@ -46,7 +46,7 @@ const matchCypressVisitId = /cy\.visit\('\/iframe.html\?id=([^'&]+)(?=['&])/;
 
 function normalizeOptions(
   tree: Tree,
-  options: StoriesGeneratorSchema,
+  options: StoriesGeneratorSchema
 ): NormalizedSchema {
   if (!options.project) {
     throw new Error('Project name not specified');
@@ -66,7 +66,7 @@ function normalizeOptions(
   const projectName = `${options.project}`;
   const projectRoot = projectConfig.root;
   const e2eProjectConfig = projects.get(
-    options.cypressProject || `${projectName}-e2e`,
+    options.cypressProject || `${projectName}-e2e`
   );
 
   let e2eSourceRoot: string | undefined;
@@ -102,7 +102,7 @@ export default async function (tree: Tree, options: StoriesGeneratorSchema) {
       tree,
       '@nx/angular',
       'stories',
-      normalizedOptions.projectName,
+      normalizedOptions.projectName
     ),
     name: normalizedOptions.projectName,
     cypressProject: normalizedOptions.cypressProject,
@@ -126,18 +126,18 @@ export default async function (tree: Tree, options: StoriesGeneratorSchema) {
     if (
       filepath.endsWith('.stories.ts') &&
       changes.findIndex(
-        (change) => change.path === filepath && change.type === 'CREATE',
+        (change) => change.path === filepath && change.type === 'CREATE'
       ) > -1
     ) {
       const source = readSourceFile(tree, filepath, (source) => {
         source = source
           .replace(
             "import type { Meta, StoryObj } from '@storybook/angular';",
-            `import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';`,
+            `import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';`
           )
           .replace(
             /title: '[^']+',/,
-            (match) => match + ` decorators: [moduleMetadata({imports: [],})],`,
+            (match) => match + ` decorators: [moduleMetadata({imports: [],})],`
           );
         return source;
       });
@@ -146,7 +146,7 @@ export default async function (tree: Tree, options: StoriesGeneratorSchema) {
         componentClass
           .replace(/Component$/, '')
           // Storybook's generated id inserts a space when a title includes a digit
-          .replace(/(?<=[a-z])(\d)/g, ' $1'),
+          .replace(/(?<=[a-z])(\d)/g, ' $1')
       );
 
       // Look for a directory to group this story in
@@ -182,12 +182,12 @@ export default async function (tree: Tree, options: StoriesGeneratorSchema) {
       const insertStringTransformer = getInsertStringPropertyTransformer(
         'title',
         'id',
-        storyId,
+        storyId
       );
       // Apply the transformers to the source file
       const [updated] = applyTransformers(
         [source],
-        [renameTransformer, setStringTransformer, insertStringTransformer],
+        [renameTransformer, setStringTransformer, insertStringTransformer]
       );
       writeSourceFile(tree, filepath, updated);
 
@@ -195,26 +195,26 @@ export default async function (tree: Tree, options: StoriesGeneratorSchema) {
       const module = findDeclaringModule(
         tree,
         normalizedOptions.projectSource,
-        componentFilePath,
+        componentFilePath
       );
       if (module && module.module.classDeclaration.name?.text) {
         let importPath = normalizePath(
           relative(
             filepath.substring(0, filepath.lastIndexOf('/')),
-            module.filepath.replace(/\.ts$/, ''),
-          ),
+            module.filepath.replace(/\.ts$/, '')
+          )
         );
         if (!importPath.startsWith('.')) {
           importPath = `./${importPath}`;
         }
         const moduleImportTransformer = getInsertImportTransformer(
           module.module.classDeclaration.name.text,
-          importPath,
+          importPath
         );
         const moduleMetadataImportsTransformer =
           getInsertIdentifierToArrayTransformer(
             'imports',
-            module.module.classDeclaration.name.text,
+            module.module.classDeclaration.name.text
           );
         applyTransformersToPath(tree, filepath, [
           moduleImportTransformer,
@@ -229,7 +229,7 @@ export default async function (tree: Tree, options: StoriesGeneratorSchema) {
 
       updatedIds.set(
         `${componentClass.toLowerCase()}--primary`,
-        `${storyId}--${strings.dasherize(newTitle)}`,
+        `${storyId}--${strings.dasherize(newTitle)}`
       );
     }
   });
@@ -237,7 +237,7 @@ export default async function (tree: Tree, options: StoriesGeneratorSchema) {
     visitNotIgnoredFiles(tree, normalizedOptions.e2eSourceRoot, (filepath) => {
       filepath = normalizePath(filepath);
       const changeIndex = changes.findIndex(
-        (change) => change.path === filepath && change.type === 'CREATE',
+        (change) => change.path === filepath && change.type === 'CREATE'
       );
       if (filepath.endsWith('.cy.ts') && changeIndex > -1) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -252,13 +252,13 @@ export default async function (tree: Tree, options: StoriesGeneratorSchema) {
               matchCypressVisitId,
               (m, id) =>
                 `cy.visit('/iframe.html?globals=theme:\${theme}&id=${updatedIds.get(
-                  id,
-                )}`,
+                  id
+                )}`
             )
             // Use backtick quotes for the url
             .replace(
               /cy\.visit\('([^']+)'\)/,
-              (m, url) => `cy.visit(\`${url}\`)`,
+              (m, url) => `cy.visit(\`${url}\`)`
             )
             // Assert visibility and create snapshots named with the id and theme
             .replace(
@@ -268,7 +268,7 @@ export default async function (tree: Tree, options: StoriesGeneratorSchema) {
       .screenshot(\`${updatedIds.get(id)}-\${theme}\`)
       .percySnapshot(\`${updatedIds.get(id)}-\${theme}\`, {
         widths: E2eVariations.DISPLAY_WIDTHS,
-      })`,
+      })`
             );
           // Loop over the themes
           const specLines = spec.split('\n');
@@ -282,7 +282,7 @@ export default async function (tree: Tree, options: StoriesGeneratorSchema) {
           newSpecLines.push(
             ...specLines.map((line) => `    ${line}`),
             '  });',
-            '});',
+            '});'
           );
           tree.write(filepath, newSpecLines.join(`\n`));
         }

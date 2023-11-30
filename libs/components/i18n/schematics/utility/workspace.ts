@@ -41,12 +41,12 @@ export async function getWorkspace(tree: Tree): Promise<{
 
 export async function getProject(
   workspace: workspaces.WorkspaceDefinition,
-  projectName: string,
+  projectName: string
 ): Promise<{ project: workspaces.ProjectDefinition; projectName: string }> {
   const project = workspace.projects.get(projectName);
   if (!project) {
     throw new SchematicsException(
-      `The "${projectName}" project is not defined in angular.json. Provide a valid project name.`,
+      `The "${projectName}" project is not defined in angular.json. Provide a valid project name.`
     );
   }
 

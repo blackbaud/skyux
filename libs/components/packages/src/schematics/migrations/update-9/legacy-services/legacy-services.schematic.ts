@@ -22,7 +22,7 @@ const packages = new Map<string, string[]>([
 function runLegacyServicesMigration(tree: Tree, filePath: string): void {
   const sourceFile = createSourceFile(
     filePath,
-    readRequiredFile(tree, filePath),
+    readRequiredFile(tree, filePath)
   );
 
   let update: UpdateRecorder | null = null;
@@ -30,7 +30,7 @@ function runLegacyServicesMigration(tree: Tree, filePath: string): void {
   const rewriter: RewriteFn = (
     startPos: number,
     origLength: number,
-    text: string,
+    text: string
   ) => {
     if (update === null) {
       // Lazily initialize update, because most files will not require migration.
@@ -59,7 +59,7 @@ function runLegacyServicesMigration(tree: Tree, filePath: string): void {
         rewriter(
           usage.node.getStart(sourceFile),
           usage.node.getWidth(sourceFile),
-          newName,
+          newName
         );
       }
     }
@@ -73,7 +73,7 @@ function runLegacyServicesMigration(tree: Tree, filePath: string): void {
     rewriter(
       item.getStart(sourceFile),
       item.getWidth(sourceFile),
-      getLegacyVersionOfName(item.getText(sourceFile)),
+      getLegacyVersionOfName(item.getText(sourceFile))
     );
   }
 

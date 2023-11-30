@@ -14,7 +14,7 @@ describe('Basic input box demo', () => {
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
     const harness = await loader.getHarness(
-      SkyInputBoxHarness.with({ dataSkyId: options.dataSkyId }),
+      SkyInputBoxHarness.with({ dataSkyId: options.dataSkyId })
     );
 
     fixture.detectChanges();
@@ -50,7 +50,7 @@ describe('Basic input box demo', () => {
 
       await expectAsync(characterCounter.getCharacterCount()).toBeResolvedTo(0);
       await expectAsync(
-        characterCounter.getCharacterCountLimit(),
+        characterCounter.getCharacterCountLimit()
       ).toBeResolvedTo(250);
     });
 
@@ -65,7 +65,7 @@ describe('Basic input box demo', () => {
       const helpPopoverContent = await helpPopover.getPopoverContent();
 
       await expectAsync(helpPopoverContent.getBodyText()).toBeResolvedTo(
-        `A brief description of the member's background, such as hometown, school, hobbies, etc.`,
+        `A brief description of the member's background, such as hometown, school, hobbies, etc.`
       );
     });
   });
@@ -77,7 +77,7 @@ describe('Basic input box demo', () => {
       });
 
       const selectEl = document.querySelector(
-        '.input-box-favorite-color-select',
+        '.input-box-favorite-color-select'
       ) as HTMLSelectElement;
 
       selectEl.value = 'bird';
@@ -92,7 +92,7 @@ describe('Basic input box demo', () => {
       await expectAsync(birdError.getDescriptionType()).toBeResolvedTo('error');
       await expectAsync(birdError.getIndicatorType()).toBeResolvedTo('danger');
       await expectAsync(birdError.getText()).toBeResolvedTo(
-        'Bird is not a color.',
+        'Bird is not a color.'
       );
     });
   });

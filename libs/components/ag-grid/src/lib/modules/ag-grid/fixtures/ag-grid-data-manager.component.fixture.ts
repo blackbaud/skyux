@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import {
+  SkyDataManagerConfig,
   SkyDataManagerService,
   SkyDataManagerState,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
 
 import { AgGridAngular } from 'ag-grid-angular';
-import { ColDef, GridOptions } from 'ag-grid-community';
+import { GridOptions } from 'ag-grid-community';
 
 import { SkyAgGridService } from '../ag-grid.service';
 import { SkyCellType } from '../types/cell-type';
@@ -22,7 +23,7 @@ export class SkyAgGridDataManagerFixtureComponent implements OnInit {
   @ViewChild(AgGridAngular)
   public agGrid: AgGridAngular | undefined;
 
-  public columnDefs: ColDef[] = [
+  public columnDefs = [
     {
       field: 'selected',
       headerName: '',
@@ -39,10 +40,18 @@ export class SkyAgGridDataManagerFixtureComponent implements OnInit {
       headerName: 'Goal',
       type: SkyCellType.Number,
     },
-    {
-      colId: 'noHeader',
-    },
   ];
+
+  public dataConfig: SkyDataManagerConfig = {
+    sortOptions: [
+      {
+        id: 'name',
+        descending: true,
+        propertyName: 'name',
+        label: 'Name',
+      },
+    ],
+  };
 
   public displayFirstGrid = true;
   public displaySecondGrid = false;
@@ -72,7 +81,7 @@ export class SkyAgGridDataManagerFixtureComponent implements OnInit {
 
   constructor(
     dataManagerService: SkyDataManagerService,
-    gridService: SkyAgGridService,
+    gridService: SkyAgGridService
   ) {
     this.#dataManagerService = dataManagerService;
     this.#gridService = gridService;
@@ -83,7 +92,7 @@ export class SkyAgGridDataManagerFixtureComponent implements OnInit {
       gridOptions: this.gridOptions,
     });
     this.#dataManagerService.initDataManager({
-      dataManagerConfig: {},
+      dataManagerConfig: this.dataConfig,
       defaultDataState: this.initialDataState,
       activeViewId: this.viewConfig.id,
       settingsKey: 'test',

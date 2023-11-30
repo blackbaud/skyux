@@ -20,7 +20,7 @@ export class SkyTextExpandModalComponent {
   constructor(
     @Inject(SKY_TEXT_EXPAND_MODAL_CONTEXT)
     public context: SkyTextExpandModalContext,
-    public instance: SkyModalInstance,
+    public instance: SkyModalInstance
   ) {}
 
   public close(): void {

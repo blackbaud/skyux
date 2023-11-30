@@ -9,7 +9,7 @@ export class SkyAppFormat {
       /\{(\d+)\}/g,
       function (match, capture): string {
         return args[parseInt(capture, 10)];
-      },
+      }
     );
   }
 }

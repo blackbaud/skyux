@@ -37,7 +37,7 @@ describe('List page tabs layout demo', async () => {
     const pageHeaderHarness = await pageHarness.getPageHeader();
 
     await expectAsync(pageHeaderHarness.getPageTitle()).toBeResolvedTo(
-      'Contacts',
+      'Contacts'
     );
   });
 });

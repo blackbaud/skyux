@@ -65,7 +65,7 @@ export class SkyAppViewportService {
     for (const [position, size] of Object.entries(reservedSpaces)) {
       documentElementStyle.setProperty(
         `--sky-viewport-${position}`,
-        size + 'px',
+        size + 'px'
       );
     }
   }

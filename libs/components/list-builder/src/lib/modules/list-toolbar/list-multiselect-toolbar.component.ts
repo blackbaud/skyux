@@ -39,7 +39,7 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
 
   constructor(
     private state: ListState,
-    private dispatcher: ListStateDispatcher,
+    private dispatcher: ListStateDispatcher
   ) {}
 
   public ngOnInit(): void {
@@ -47,7 +47,7 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
       .pipe(
         observableMap((t) => t.selected.item),
         takeUntil(this.ngUnsubscribe),
-        distinctUntilChanged(this.selectedMapEqual),
+        distinctUntilChanged(this.selectedMapEqual)
       )
       .subscribe((model: ListSelectedModel) => {
         this.selectedIdMap = model.selectedIdMap;
@@ -63,11 +63,11 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
       .pipe(
         observableMap((t) => t.filters),
         takeUntil(this.ngUnsubscribe),
-        distinctUntilChanged(this.showSelectedValuesEqual),
+        distinctUntilChanged(this.showSelectedValuesEqual)
       )
       .subscribe((filters: ListFilterModel[]) => {
         const showSelectedFilter = filters.find(
-          (filter) => filter.name === 'show-selected',
+          (filter) => filter.name === 'show-selected'
         );
         if (showSelectedFilter) {
           this.showOnlySelected = showSelectedFilter.value === 'true';
@@ -84,12 +84,12 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
     this.state
       .pipe(
         observableMap((state) => state.items.items),
-        take(1),
+        take(1)
       )
       .subscribe((items) => {
         this.dispatcher.setSelected(
           items.map((item) => item.id),
-          true,
+          true
         );
         if (this.showOnlySelected) {
           this.reapplyFilter(this.showOnlySelected);
@@ -101,12 +101,12 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
     this.state
       .pipe(
         observableMap((state) => state.items.items),
-        take(1),
+        take(1)
       )
       .subscribe((items) => {
         this.dispatcher.setSelected(
           items.map((item) => item.id),
-          false,
+          false
         );
         if (this.showOnlySelected) {
           this.reapplyFilter(this.showOnlySelected);
@@ -123,7 +123,7 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
     this.state
       .pipe(
         observableMap((state) => state.filters),
-        take(1),
+        take(1)
       )
       .subscribe((filters: ListFilterModel[]) => {
         filters = filters.filter((filter) => filter.name !== 'show-selected');
@@ -162,13 +162,13 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
 
   private showSelectedValuesEqual(
     prev: ListFilterModel[],
-    next: ListFilterModel[],
+    next: ListFilterModel[]
   ): boolean {
     const prevShowSelectedFilter = prev.find(
-      (filter) => filter.name === 'show-selected',
+      (filter) => filter.name === 'show-selected'
     );
     const nextShowSelectedFilter = next.find(
-      (filter) => filter.name === 'show-selected',
+      (filter) => filter.name === 'show-selected'
     );
 
     // Both undefined.
@@ -190,7 +190,7 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
 
   private selectedMapEqual(
     prev: ListSelectedModel,
-    next: ListSelectedModel,
+    next: ListSelectedModel
   ): boolean {
     if (prev.selectedIdMap.size !== next.selectedIdMap.size) {
       return false;

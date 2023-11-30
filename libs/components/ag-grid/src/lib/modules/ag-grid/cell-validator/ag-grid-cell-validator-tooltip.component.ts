@@ -38,7 +38,7 @@ export class SkyAgGridCellValidatorTooltipComponent {
         ) {
           this.hidePopover();
         }
-      },
+      }
     );
 
     /*istanbul ignore next*/
@@ -63,7 +63,7 @@ export class SkyAgGridCellValidatorTooltipComponent {
       Events.EVENT_CELL_EDITING_STARTED,
       () => {
         this.hidePopover();
-      },
+      }
     );
 
     if (
@@ -74,7 +74,7 @@ export class SkyAgGridCellValidatorTooltipComponent {
         this.cellRendererParams.skyComponentProperties.validatorMessage(
           this.cellRendererParams.value,
           this.cellRendererParams.data,
-          this.cellRendererParams.rowIndex,
+          this.cellRendererParams.rowIndex
         );
     } else {
       this.validatorMessage =

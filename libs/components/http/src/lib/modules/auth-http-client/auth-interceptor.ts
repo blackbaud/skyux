@@ -51,7 +51,7 @@ export class SkyAuthInterceptor implements HttpInterceptor {
     @Inject(SKY_AUTH_DEFAULT_PERMISSION_SCOPE)
     @Optional()
     defaultPermissionScope?: string,
-    @Optional() paramsProvider?: SkyAppRuntimeConfigParamsProvider,
+    @Optional() paramsProvider?: SkyAppRuntimeConfigParamsProvider
   ) {
     this.#tokenProvider = tokenProvider;
     this.#config = config;
@@ -61,7 +61,7 @@ export class SkyAuthInterceptor implements HttpInterceptor {
 
   public intercept(
     request: HttpRequest<any>,
-    next: HttpHandler,
+    next: HttpHandler
   ): Observable<HttpEvent<any>> {
     let auth = false;
     let permissionScope: string | undefined;
@@ -90,14 +90,14 @@ export class SkyAuthInterceptor implements HttpInterceptor {
       }
 
       return observableFrom(
-        this.#tokenProvider.getContextToken(tokenContextArgs),
+        this.#tokenProvider.getContextToken(tokenContextArgs)
       ).pipe(
         switchMap((token) => {
           const decodedToken = this.#tokenProvider.decodeToken(token);
           return observableFrom(
             BBAuthClientFactory.BBAuth.getUrl(request.url, {
               zone: decodedToken['1bb.zone'],
-            }),
+            })
           ).pipe(
             switchMap((url) => {
               const runtimeParams =
@@ -110,9 +110,9 @@ export class SkyAuthInterceptor implements HttpInterceptor {
                 url: runtimeParams?.getUrl(url),
               });
               return next.handle(authRequest);
-            }),
+            })
           );
-        }),
+        })
       );
     }
 

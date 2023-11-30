@@ -36,19 +36,19 @@ describe('Text expand repeater component', () => {
       await fixture.whenStable();
       fixture.detectChanges();
       const buttonElem = el.querySelector(
-        '.sky-text-expand-repeater-see-more',
+        '.sky-text-expand-repeater-see-more'
       ) as HTMLElement;
 
       expect(buttonElem.getAttribute('aria-expanded')).toBe('false');
       expect(buttonElem.getAttribute('aria-controls')).toBe(
-        cmp.textExpand.first.contentSectionId,
+        cmp.textExpand.first.contentSectionId
       );
 
       await clickTextExpandButton(buttonElem);
 
       expect(buttonElem.getAttribute('aria-expanded')).toBe('true');
       expect(buttonElem.getAttribute('aria-controls')).toBe(
-        cmp.textExpand.first.contentSectionId,
+        cmp.textExpand.first.contentSectionId
       );
     });
 
@@ -59,7 +59,7 @@ describe('Text expand repeater component', () => {
       fixture.detectChanges();
 
       const seeMoreButton: any = el.querySelector(
-        '.sky-text-expand-repeater-see-more',
+        '.sky-text-expand-repeater-see-more'
       );
       expect(seeMoreButton).toBeNull();
     });
@@ -70,7 +70,7 @@ describe('Text expand repeater component', () => {
 
       fixture.detectChanges();
       const seeMoreButton: any = el.querySelector(
-        '.sky-text-expand-repeater-see-more',
+        '.sky-text-expand-repeater-see-more'
       );
       expect(seeMoreButton).not.toBeNull();
       expect(seeMoreButton.innerText.trim()).toBe('See more');
@@ -82,10 +82,10 @@ describe('Text expand repeater component', () => {
 
       fixture.detectChanges();
       let seeMoreButton: any = el.querySelector(
-        '.sky-text-expand-repeater-see-more',
+        '.sky-text-expand-repeater-see-more'
       );
       let displayedItems: NodeListOf<Element> = el.querySelectorAll(
-        '.sky-text-expand-repeater-item',
+        '.sky-text-expand-repeater-item'
       );
       expect(displayedItems.length).toBe(3);
       expect(seeMoreButton).not.toBeNull();
@@ -108,10 +108,10 @@ describe('Text expand repeater component', () => {
 
       fixture.detectChanges();
       let seeMoreButton: any = el.querySelector(
-        '.sky-text-expand-repeater-see-more',
+        '.sky-text-expand-repeater-see-more'
       );
       let displayedItems: NodeListOf<Element> = el.querySelectorAll(
-        '.sky-text-expand-repeater-item',
+        '.sky-text-expand-repeater-item'
       );
       expect(displayedItems.length).toBe(3);
       expect(seeMoreButton).not.toBeNull();
@@ -145,10 +145,10 @@ describe('Text expand repeater component', () => {
 
       fixture.detectChanges();
       let seeMoreButton: any = el.querySelector(
-        '.sky-text-expand-repeater-see-more',
+        '.sky-text-expand-repeater-see-more'
       );
       let displayedItems: NodeListOf<Element> = el.querySelectorAll(
-        '.sky-text-expand-repeater-item',
+        '.sky-text-expand-repeater-item'
       );
       expect(displayedItems.length).toBe(3);
       expect(seeMoreButton).not.toBeNull();
@@ -171,10 +171,10 @@ describe('Text expand repeater component', () => {
       cmp.listStyle = 'unstyled';
       fixture.detectChanges();
       const seeMoreButton: any = el.querySelector(
-        '.sky-text-expand-repeater-see-more',
+        '.sky-text-expand-repeater-see-more'
       );
       expect(seeMoreButton).toHaveCssClass(
-        'sky-text-expand-repeater-see-more-list-style-none',
+        'sky-text-expand-repeater-see-more-list-style-none'
       );
     });
 
@@ -183,7 +183,7 @@ describe('Text expand repeater component', () => {
       cmp.numItems = 2;
       fixture.detectChanges();
       const contentSection: any = el.querySelector(
-        'ul.sky-text-expand-repeater-container',
+        'ul.sky-text-expand-repeater-container'
       );
       expect(contentSection).toExist();
     });
@@ -194,7 +194,7 @@ describe('Text expand repeater component', () => {
       cmp.listStyle = 'ordered';
       fixture.detectChanges();
       const contentSection: any = el.querySelector(
-        'ol.sky-text-expand-repeater-container',
+        'ol.sky-text-expand-repeater-container'
       );
       expect(contentSection).toExist();
     });
@@ -212,10 +212,10 @@ describe('Text expand repeater component', () => {
       await fixture.whenStable();
       fixture.detectChanges();
       const container: HTMLElement | null = document.querySelector(
-        '.sky-text-expand-repeater-container',
+        '.sky-text-expand-repeater-container'
       );
       let seeMoreButton: any = el.querySelector(
-        '.sky-text-expand-repeater-see-more',
+        '.sky-text-expand-repeater-see-more'
       );
       let shownItems: any = el.querySelectorAll(shownItemsSelector);
       let hiddenItems: any = el.querySelectorAll(hiddenItemsSelector);
@@ -252,7 +252,7 @@ describe('Text expand repeater component', () => {
       fixture.detectChanges();
 
       const seeMoreButton: any = el.querySelector(
-        '.sky-text-expand-repeater-see-more',
+        '.sky-text-expand-repeater-see-more'
       );
       const items: any = el.querySelectorAll('.sky-text-expand-repeater-item');
       expect(seeMoreButton).toBeNull();
@@ -288,10 +288,10 @@ describe('Text expand repeater component', () => {
       fixture.detectChanges();
 
       const repeaters: NodeListOf<Element> = el.querySelectorAll(
-        '.sky-text-expand-repeater',
+        '.sky-text-expand-repeater'
       );
       const templateEls: NodeListOf<Element> = el.querySelectorAll(
-        '.sky-test-custom-template',
+        '.sky-test-custom-template'
       );
 
       expect(repeaters.length).toBe(2);

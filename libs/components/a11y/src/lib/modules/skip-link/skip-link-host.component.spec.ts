@@ -22,7 +22,7 @@ describe('Skip link host component', () => {
   function validateSkipLink(
     link: SkySkipLink,
     skipLinkEl: DebugElement,
-    elToFocus: HTMLElement,
+    elToFocus: HTMLElement
   ): void {
     expect(skipLinkEl.nativeElement).toHaveText(`Skip to ${link.title}`);
 

@@ -7,7 +7,7 @@ import { SkyListViewChecklistItem } from './list-view-checklist-item';
 
 const MULTI_SELECT_EL_SELECTOR = By.css('.sky-checkbox-wrapper > input');
 const SINGLE_SELECT_EL_SELECTOR = By.css(
-  '.sky-list-view-checklist-single-button',
+  '.sky-list-view-checklist-single-button'
 );
 
 /**
@@ -21,7 +21,7 @@ export class SkyListViewChecklistFixture {
     this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
-      'sky-list-view-checklist',
+      'sky-list-view-checklist'
     );
   }
 
@@ -35,10 +35,10 @@ export class SkyListViewChecklistFixture {
 
     return {
       label: SkyAppTestUtility.getText(
-        selectWrapperEl.query(By.css('div.sky-emphasized')),
+        selectWrapperEl.query(By.css('div.sky-emphasized'))
       ),
       description: SkyAppTestUtility.getText(
-        selectWrapperEl.query(By.css('div:not(.sky-emphasized)')),
+        selectWrapperEl.query(By.css('div:not(.sky-emphasized)'))
       ),
       selected: this.isChecked(selectEl),
     };
@@ -74,7 +74,7 @@ export class SkyListViewChecklistFixture {
 
   private getItemEl(index: number): DebugElement {
     const itemEls = this.debugEl.queryAll(
-      By.css('sky-list-view-checklist-item'),
+      By.css('sky-list-view-checklist-item')
     );
 
     const itemEl = itemEls[index];

@@ -15,7 +15,7 @@ describe('Search harness', () => {
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
     const searchHarness = await loader.getHarness(
-      SkySearchHarness.with({ dataSkyId: options.dataSkyId }),
+      SkySearchHarness.with({ dataSkyId: options.dataSkyId })
     );
 
     return { searchHarness, fixture, loader };
@@ -42,7 +42,7 @@ describe('Search harness', () => {
 
     await expectAsync(searchHarness.getAriaLabel()).toBeResolvedTo(null);
     await expectAsync(searchHarness.getAriaLabelledby()).toBeResolvedTo(
-      'foo-search-id',
+      'foo-search-id'
     );
 
     fixture.componentInstance.ariaLabel = 'Search emails';
@@ -51,7 +51,7 @@ describe('Search harness', () => {
     fixture.detectChanges();
 
     await expectAsync(searchHarness.getAriaLabel()).toBeResolvedTo(
-      'Search emails',
+      'Search emails'
     );
     await expectAsync(searchHarness.getAriaLabelledby()).toBeResolvedTo(null);
   });
@@ -90,7 +90,7 @@ describe('Search harness', () => {
     fixture.componentInstance.placeholderText = 'My placeholder text.';
 
     await expectAsync(searchHarness?.getPlaceholderText()).toBeResolvedTo(
-      'My placeholder text.',
+      'My placeholder text.'
     );
   });
 });

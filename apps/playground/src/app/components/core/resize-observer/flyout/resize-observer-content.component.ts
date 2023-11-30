@@ -43,7 +43,7 @@ export class ResizeObserverContentComponent
 
   constructor(
     elementRef: ElementRef,
-    skyResizeObserverMediaQueryService: SkyResizeObserverMediaQueryService,
+    skyResizeObserverMediaQueryService: SkyResizeObserverMediaQueryService
   ) {
     this.#elementRef = elementRef;
     this.#skyResizeObserverMediaQueryService =

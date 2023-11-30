@@ -4,7 +4,7 @@ import { PrCommentGeneratorOptions, PrCommentGeneratorSchema } from './schema';
 
 function normalizeOptions(
   tree: Tree,
-  options: PrCommentGeneratorSchema,
+  options: PrCommentGeneratorSchema
 ): PrCommentGeneratorOptions {
   const pr = options.pr;
   const storybooks = options.storybooks
@@ -27,19 +27,19 @@ function normalizeOptions(
 
 export default async function prComment(
   tree: Tree,
-  options: PrCommentGeneratorSchema,
+  options: PrCommentGeneratorSchema
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
   generateFiles(
     tree,
     joinPathFragments(__dirname, 'files/comment'),
     'dist',
-    normalizedOptions,
+    normalizedOptions
   );
   generateFiles(
     tree,
     joinPathFragments(__dirname, 'files/readme'),
     'dist',
-    normalizedOptions,
+    normalizedOptions
   );
 }

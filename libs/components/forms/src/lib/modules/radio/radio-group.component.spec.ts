@@ -15,7 +15,7 @@ import { SkyRadioGroupFixtureComponent } from './fixtures/radio-group.component.
 
 //#region helpers
 function getRadios(
-  radioFixture: ComponentFixture<any>,
+  radioFixture: ComponentFixture<any>
 ): NodeListOf<HTMLInputElement> {
   return radioFixture.nativeElement.querySelectorAll('.sky-radio-input');
 }
@@ -25,7 +25,7 @@ function getRadioGroup(radioFixture: ComponentFixture<any>): HTMLElement {
 }
 
 function getRadioLabels(
-  fixture: ComponentFixture<any>,
+  fixture: ComponentFixture<any>
 ): NodeListOf<HTMLElement> {
   return fixture.nativeElement.querySelectorAll('.sky-radio-wrapper');
 }
@@ -133,7 +133,7 @@ describe('Radio group component (reactive)', function () {
     expect(componentInstance.radioForm?.touched).toEqual(false);
 
     const debugElement = fixture.debugElement.query(
-      By.css('input[type="radio"]'),
+      By.css('input[type="radio"]')
     );
     expect(debugElement.nativeElement).toExist();
     debugElement.triggerEventHandler('focus', {});
@@ -256,7 +256,7 @@ describe('Radio group component (reactive)', function () {
 
     for (const element of radioArray) {
       expect(element.getAttribute('name')).toEqual(
-        jasmine.stringMatching(/sky-radio-group-[0-9]+/),
+        jasmine.stringMatching(/sky-radio-group-[0-9]+/)
       );
     }
   }));
@@ -336,7 +336,7 @@ describe('Radio group component (reactive)', function () {
 
     const radioGroupDiv = getRadioGroup(fixture);
     expect(radioGroupDiv.getAttribute('aria-labelledby')).toBe(
-      'radio-group-label',
+      'radio-group-label'
     );
   }));
 
@@ -349,13 +349,13 @@ describe('Radio group component (reactive)', function () {
 
     const radioGroupDiv = getRadioGroup(fixture);
     expect(radioGroupDiv.getAttribute('aria-label')).toBe(
-      'radio-group-label-manual',
+      'radio-group-label-manual'
     );
   }));
 
   it('should support boolean values', fakeAsync(function () {
     const booleanFixture = TestBed.createComponent(
-      SkyRadioGroupBooleanTestComponent,
+      SkyRadioGroupBooleanTestComponent
     );
     const booleanComponent = booleanFixture.componentInstance;
 
@@ -366,7 +366,7 @@ describe('Radio group component (reactive)', function () {
     const radios = getRadios(booleanFixture);
 
     expect(booleanComponent.radioForm.get('booleanValue')?.value).toEqual(
-      false,
+      false
     );
     expect(radios.item(0).checked).toEqual(true);
     expect(radios.item(1).checked).toEqual(false);
@@ -380,7 +380,7 @@ describe('Radio group component (reactive)', function () {
     clickCheckbox(booleanFixture, 0);
 
     expect(booleanComponent.radioForm.get('booleanValue')?.value).toEqual(
-      false,
+      false
     );
     expect(radios.item(0).checked).toEqual(true);
     expect(radios.item(1).checked).toEqual(false);
@@ -569,7 +569,7 @@ describe('Radio group component (reactive)', function () {
       fixture.nativeElement.querySelector('.sky-radio-group');
 
     expect(radioGroupEl.getAttribute('aria-owns')).toEqual(
-      'sky-radio-MOCK_ID_1-input sky-radio-MOCK_ID_2-input sky-radio-MOCK_ID_3-input',
+      'sky-radio-MOCK_ID_1-input sky-radio-MOCK_ID_2-input sky-radio-MOCK_ID_3-input'
     );
   });
 
@@ -581,7 +581,7 @@ describe('Radio group component (reactive)', function () {
 
     const originalAriaOwns = radioGroupEl.getAttribute('aria-owns');
     expect(originalAriaOwns).toEqual(
-      'sky-radio-MOCK_ID_1-input sky-radio-MOCK_ID_2-input sky-radio-MOCK_ID_3-input',
+      'sky-radio-MOCK_ID_1-input sky-radio-MOCK_ID_2-input sky-radio-MOCK_ID_3-input'
     );
 
     // Change an existing ID to something else.
@@ -590,7 +590,7 @@ describe('Radio group component (reactive)', function () {
 
     const newAriaOwns = radioGroupEl.getAttribute('aria-owns');
     expect(newAriaOwns).toEqual(
-      'sky-radio-foobar-input sky-radio-MOCK_ID_2-input sky-radio-MOCK_ID_3-input',
+      'sky-radio-foobar-input sky-radio-MOCK_ID_2-input sky-radio-MOCK_ID_3-input'
     );
   });
 });

@@ -25,7 +25,7 @@ export class SkyTextEditorAdapterService {
   constructor(
     selectionService: SkyTextEditorSelectionService,
     textEditorService: SkyTextEditorService,
-    windowService: SkyAppWindowRef,
+    windowService: SkyAppWindowRef
   ) {
     this.#selectionService = selectionService;
     this.#textEditorService = textEditorService;
@@ -39,7 +39,7 @@ export class SkyTextEditorAdapterService {
     id: string,
     iframeElement: HTMLIFrameElement,
     styleState: SkyTextEditorStyleState,
-    placeholder?: string,
+    placeholder?: string
   ): void {
     this.#textEditorService.editor = this.#createObservers(iframeElement);
 
@@ -75,14 +75,14 @@ export class SkyTextEditorAdapterService {
 
   public disableEditor(
     focusableChildren: HTMLElement[],
-    textEditorNativeElement: HTMLElement,
+    textEditorNativeElement: HTMLElement
   ): void {
     this.#setEditorDisabled(focusableChildren, textEditorNativeElement, true);
   }
 
   public enableEditor(
     focusableChildren: HTMLElement[],
-    textEditorNativeElement: HTMLElement,
+    textEditorNativeElement: HTMLElement
   ): void {
     this.#setEditorDisabled(focusableChildren, textEditorNativeElement, false);
   }
@@ -100,7 +100,7 @@ export class SkyTextEditorAdapterService {
         documentEl.execCommand(
           editorCommand.command,
           false,
-          editorCommand.value,
+          editorCommand.value
         );
 
         this.focusEditor();
@@ -111,7 +111,7 @@ export class SkyTextEditorAdapterService {
 
   public getCurrentSelection(): Selection | null {
     return this.#selectionService.getCurrentSelection(
-      this.#getIframeDocumentEl(),
+      this.#getIframeDocumentEl()
     );
   }
 
@@ -196,7 +196,7 @@ export class SkyTextEditorAdapterService {
       const iframeDocumentEl = this.#getIframeDocumentEl();
       const currentSelection = this.#selectionService.getCurrentSelectionRange(
         iframeDocumentEl,
-        windowEl,
+        windowEl
       );
       const cursorIsNotActiveAndHasReset =
         currentSelection &&
@@ -257,7 +257,7 @@ export class SkyTextEditorAdapterService {
   public saveSelection(): Range | undefined {
     return this.#selectionService.getCurrentSelectionRange(
       this.#getIframeDocumentEl(),
-      this.#getContentWindowEl(),
+      this.#getContentWindowEl()
     );
   }
 
@@ -265,7 +265,7 @@ export class SkyTextEditorAdapterService {
     this.#selectionService.selectElement(
       this.#getIframeDocumentEl(),
       this.#getContentWindowEl(),
-      element,
+      element
     );
   }
 
@@ -278,7 +278,7 @@ export class SkyTextEditorAdapterService {
     const doc = this.#getIframeDocumentEl();
     this.execCommand({ command: 'fontSize', value: '1' });
     const fontElements: HTMLElement[] = Array.from(
-      doc.querySelectorAll('font[size="1"]'),
+      doc.querySelectorAll('font[size="1"]')
     );
     for (const element of fontElements) {
       element.removeAttribute('size');
@@ -301,7 +301,7 @@ export class SkyTextEditorAdapterService {
     if (documentEl) {
       documentEl.removeEventListener(
         'selectionchange',
-        setting.selectionListener,
+        setting.selectionListener
       );
       documentEl.removeEventListener('input', setting.selectionListener);
       documentEl.removeEventListener('mousedown', setting.clickListener);
@@ -341,19 +341,19 @@ export class SkyTextEditorAdapterService {
           return (
             (selectedRange.compareBoundaryPoints(
               Range.START_TO_START,
-              tempRange,
+              tempRange
             ) !== -1 &&
               selectedRange.compareBoundaryPoints(
                 Range.START_TO_END,
-                tempRange,
+                tempRange
               ) !== 1) ||
             (selectedRange.compareBoundaryPoints(
               Range.END_TO_START,
-              tempRange,
+              tempRange
             ) !== -1 &&
               selectedRange.compareBoundaryPoints(
                 Range.END_TO_END,
-                tempRange,
+                tempRange
               ) !== 1)
           );
         }
@@ -454,7 +454,7 @@ export class SkyTextEditorAdapterService {
 
   #getCurrentSelectionParentElement(): Element | null | undefined {
     return this.#selectionService.getCurrentSelectionParentElement(
-      this.#getIframeDocumentEl(),
+      this.#getIframeDocumentEl()
     );
   }
 
@@ -506,13 +506,13 @@ export class SkyTextEditorAdapterService {
     const documentEl = this.#getIframeDocumentEl();
     return this.#selectionService.isElementSelected(
       documentEl,
-      documentEl.body,
+      documentEl.body
     );
   }
 
   #cleanUpBlankStyleTags(doc: Document): void {
     const orphanElements: HTMLElement[] = Array.from(
-      doc.querySelectorAll('font,span,*[style=""]'),
+      doc.querySelectorAll('font,span,*[style=""]')
     );
     for (const element of orphanElements) {
       if (!element.getAttribute('style')) {
@@ -550,12 +550,12 @@ export class SkyTextEditorAdapterService {
   #setEditorDisabled(
     focusableChildren: HTMLElement[],
     textEditorNativeElement: HTMLElement,
-    disabled: boolean,
+    disabled: boolean
   ): void {
     textEditorNativeElement.style.pointerEvents = disabled ? 'none' : 'auto';
     textEditorNativeElement.setAttribute(
       'aria-disabled',
-      disabled ? 'true' : 'false',
+      disabled ? 'true' : 'false'
     );
     /* istanbul ignore else */
     if (focusableChildren.length > 0) {
@@ -565,7 +565,7 @@ export class SkyTextEditorAdapterService {
     }
     this.#getIframeDocumentEl().body.setAttribute(
       'contenteditable',
-      disabled ? 'false' : 'true',
+      disabled ? 'false' : 'true'
     );
   }
 }

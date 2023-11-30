@@ -49,19 +49,19 @@ export class DemoComponent {
 
   protected deleteItem(title: string): void {
     this.repeaterDemoItems = this.repeaterDemoItems.filter(
-      (demoItem: InlineRepeaterDemoItem) => demoItem.title !== title,
+      (demoItem: InlineRepeaterDemoItem) => demoItem.title !== title
     );
 
     this.repeaterDemoShownInlineDeletes =
       this.repeaterDemoShownInlineDeletes.filter(
-        (demoItem: string) => demoItem !== title,
+        (demoItem: string) => demoItem !== title
       );
   }
 
   protected cancelDeletion(title: string): void {
     this.repeaterDemoShownInlineDeletes =
       this.repeaterDemoShownInlineDeletes.filter(
-        (demoItem: string) => demoItem !== title,
+        (demoItem: string) => demoItem !== title
       );
   }
 

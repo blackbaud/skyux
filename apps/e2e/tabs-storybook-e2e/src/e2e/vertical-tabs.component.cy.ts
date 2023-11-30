@@ -5,21 +5,21 @@ describe('tabs-storybook - vertical tabs', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=verticaltabscomponent-verticaltabs--vertical-tabs`,
-        ),
+          `/iframe.html?globals=theme:${theme}&id=verticaltabscomponent-verticaltabs--vertical-tabs`
+        )
       );
       it('should render the vertical tabs on a large screen', () => {
         cy.get('app-vertical-tabs')
           .should('exist')
           .should('be.visible')
           .screenshot(
-            `verticaltabscomponent-verticaltabs--vertical-tabs-${theme}`,
+            `verticaltabscomponent-verticaltabs--vertical-tabs-${theme}`
           )
           .percySnapshot(
             `verticaltabscomponent-verticaltabs--vertical-tabs-${theme}`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
-            },
+            }
           );
       });
 
@@ -32,18 +32,18 @@ describe('tabs-storybook - vertical tabs', () => {
           .should('exist')
           .should('be.visible')
           .get(
-            '#vertical-tabs-without-groups .sky-vertical-tabset-show-tabs-btn',
+            '#vertical-tabs-without-groups .sky-vertical-tabset-show-tabs-btn'
           )
           .should('exist')
           .should('be.visible')
           .screenshot(
-            `verticaltabscomponent-verticaltabs--vertical-tabs-mobile-content-section-${theme}`,
+            `verticaltabscomponent-verticaltabs--vertical-tabs-mobile-content-section-${theme}`
           )
           .percySnapshot(
             `verticaltabscomponent-verticaltabs--vertical-tabs-mobile-content-section-${theme}`,
             {
               widths: E2eVariations.MOBILE_WIDTHS,
-            },
+            }
           );
       });
 
@@ -57,29 +57,29 @@ describe('tabs-storybook - vertical tabs', () => {
           .should('be.visible')
           .click()
           .get(
-            '#vertical-tabs-without-groups .sky-vertical-tabset-show-tabs-btn',
+            '#vertical-tabs-without-groups .sky-vertical-tabset-show-tabs-btn'
           )
           .should('exist')
           .should('be.visible')
           .click()
           .get(
-            '#vertical-tabs-with-groups .sky-vertical-tabset-group-container',
+            '#vertical-tabs-with-groups .sky-vertical-tabset-group-container'
           )
           .should('exist')
           .should('be.visible')
           .get(
-            '#vertical-tabs-without-groups .sky-vertical-tabset-group-container',
+            '#vertical-tabs-without-groups .sky-vertical-tabset-group-container'
           )
           .should('exist')
           .should('be.visible')
           .screenshot(
-            `verticaltabscomponent-verticaltabs--vertical-tabs-mobile-tablist-section-${theme}`,
+            `verticaltabscomponent-verticaltabs--vertical-tabs-mobile-tablist-section-${theme}`
           )
           .percySnapshot(
             `verticaltabscomponent-verticaltabs--vertical-tabs-mobile-tablist-section-${theme}`,
             {
               widths: E2eVariations.MOBILE_WIDTHS,
-            },
+            }
           );
       });
     });

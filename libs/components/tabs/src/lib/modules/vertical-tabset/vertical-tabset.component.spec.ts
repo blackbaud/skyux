@@ -22,30 +22,30 @@ import { SkyVerticalTabsetComponent } from './vertical-tabset.component';
 let mockQueryService: MockSkyMediaQueryService;
 
 function getVisibleTabContentPane(
-  fixture: ComponentFixture<any>,
+  fixture: ComponentFixture<any>
 ): HTMLElement[] {
   return fixture.nativeElement.querySelectorAll(
-    '.sky-vertical-tab-content-pane:not(.sky-vertical-tab-hidden)',
+    '.sky-vertical-tab-content-pane:not(.sky-vertical-tab-hidden)'
   );
 }
 
 function getTabContentPanes(fixture: ComponentFixture<any>): HTMLElement[] {
   return fixture.nativeElement.querySelectorAll(
-    '.sky-vertical-tab-content-pane',
+    '.sky-vertical-tab-content-pane'
   );
 }
 
 function getVisibleTabsetContent(
-  fixture: ComponentFixture<any>,
+  fixture: ComponentFixture<any>
 ): HTMLElement[] {
   return fixture.nativeElement.querySelectorAll(
-    '.sky-vertical-tabset-content:not(.sky-vertical-tabset-content-hidden)',
+    '.sky-vertical-tabset-content:not(.sky-vertical-tabset-content-hidden)'
   );
 }
 
 function getTabsContainer(fixture: ComponentFixture<any>): HTMLElement[] {
   return fixture.nativeElement.querySelectorAll(
-    '.sky-vertical-tabset-group-container:not(.sky-vertical-tabset-hidden)',
+    '.sky-vertical-tabset-group-container:not(.sky-vertical-tabset-hidden)'
   );
 }
 
@@ -70,10 +70,10 @@ function clickGroupButton(fixture: ComponentFixture<any>, index: number): void {
 function clickTab(
   fixture: ComponentFixture<any>,
   groupIndex: number,
-  tabIndex: number,
+  tabIndex: number
 ): void {
   const tab = getTabGroups(fixture)[groupIndex].querySelectorAll(
-    '.sky-vertical-tab',
+    '.sky-vertical-tab'
   )[tabIndex] as HTMLElement;
   tab.click();
   fixture.detectChanges();
@@ -81,10 +81,10 @@ function clickTab(
 
 function expectGroupTabsAreVisible(
   fixture: ComponentFixture<any>,
-  index: number,
+  index: number
 ): void {
   const groupContent = getTabGroups(fixture)[index].querySelector(
-    '.sky-vertical-tabset-group-content',
+    '.sky-vertical-tabset-group-content'
   ) as HTMLElement;
   expect(groupContent.style.visibility).toEqual('visible');
   expect(groupContent.style.height).not.toEqual('0px');
@@ -93,10 +93,10 @@ function expectGroupTabsAreVisible(
 
 function expectGroupTabsAreNotVisible(
   fixture: ComponentFixture<any>,
-  index: number,
+  index: number
 ): void {
   const groupContent = getTabGroups(fixture)[index].querySelector(
-    '.sky-vertical-tabset-group-content',
+    '.sky-vertical-tabset-group-content'
   ) as HTMLElement;
   expect(groupContent.style.visibility).toEqual('hidden');
   expect(['0', '0px']).toContain(groupContent.style.height);
@@ -104,10 +104,10 @@ function expectGroupTabsAreNotVisible(
 
 function expectOpenGroup(
   fixture: ComponentFixture<any>,
-  innerText: string,
+  innerText: string
 ): void {
   const openGroupEl = fixture.nativeElement.querySelectorAll(
-    '.sky-vertical-tabset-group-header-sub-open',
+    '.sky-vertical-tabset-group-header-sub-open'
   );
   expect(openGroupEl.length).toBe(1);
   expect(openGroupEl[0].textContent.trim()).toBe(innerText);
@@ -115,7 +115,7 @@ function expectOpenGroup(
 
 function expectVisibleTabContentPane(
   fixture: ComponentFixture<any>,
-  innerText: string,
+  innerText: string
 ): void {
   const visibleTabContent = getVisibleTabContentPane(fixture);
   expect(visibleTabContent.length).toBe(1);
@@ -257,7 +257,7 @@ describe('Vertical tabset component', () => {
     fixture.componentInstance.tabsetAriaRole = undefined;
     fixture.detectChanges();
     expect(tab?.getAttribute('id')).toEqual(
-      jasmine.stringMatching(/sky-vertical-tab-[0-9]/),
+      jasmine.stringMatching(/sky-vertical-tab-[0-9]/)
     );
     expect(tab?.getAttribute('role')).toBe('tab');
     expect(tabset?.getAttribute('role')).toBe('tablist');
@@ -309,7 +309,7 @@ describe('Vertical tabset component', () => {
 
     // check show tabs button is not visible
     const showTabsButton = el.querySelectorAll(
-      '.sky-vertical-tabset-show-tabs-btn',
+      '.sky-vertical-tabset-show-tabs-btn'
     );
     expect(showTabsButton.length).toBe(0);
   });
@@ -323,7 +323,7 @@ describe('Vertical tabset component', () => {
 
     // check show tabs button is visible
     const showTabsButton = el.querySelectorAll(
-      '.sky-vertical-tabset-show-tabs-btn',
+      '.sky-vertical-tabset-show-tabs-btn'
     );
     expect(showTabsButton.length).toBe(1);
     expect(showTabsButton[0].textContent.trim()).toBe('Tab list');
@@ -356,7 +356,7 @@ describe('Vertical tabset component', () => {
 
     // click show tabs
     const showTabsButton = el.querySelector(
-      '.sky-vertical-tabset-show-tabs-btn',
+      '.sky-vertical-tabset-show-tabs-btn'
     );
     showTabsButton.click();
 
@@ -380,7 +380,7 @@ describe('Vertical tabset component', () => {
 
     // click show tabs
     const showTabsButton = el.querySelector(
-      '.sky-vertical-tabset-show-tabs-btn',
+      '.sky-vertical-tabset-show-tabs-btn'
     );
     showTabsButton.click();
 
@@ -411,7 +411,7 @@ describe('Vertical tabset component', () => {
 
     // click show tabs
     const showTabsButton = el.querySelector(
-      '.sky-vertical-tabset-show-tabs-btn',
+      '.sky-vertical-tabset-show-tabs-btn'
     );
     showTabsButton.click();
 
@@ -445,7 +445,7 @@ describe('Vertical tabset component', () => {
 
     // check show tabs button is visible
     const showTabsButton = el.querySelector(
-      '.sky-vertical-tabset-show-tabs-btn',
+      '.sky-vertical-tabset-show-tabs-btn'
     );
     showTabsButton.click();
   });
@@ -473,7 +473,7 @@ describe('Vertical tabset component', () => {
 
     // check show tabs button is not visible
     const showTabsButton = el.querySelectorAll(
-      '.sky-vertical-tabset-show-tabs-btn',
+      '.sky-vertical-tabset-show-tabs-btn'
     );
     expect(showTabsButton.length).toBe(0);
   });
@@ -653,14 +653,14 @@ describe('Vertical tabset component', () => {
     spyOnProperty(Element.prototype, 'clientWidth', 'get').and.returnValue(640);
     const mediaQuerySpy = spyOn(
       SkyVerticalTabMediaQueryService.prototype,
-      'setBreakpointForWidth',
+      'setBreakpointForWidth'
     ).and.callThrough();
 
     const fixture = createTestComponent();
     fixture.detectChanges();
 
     const activeTab = fixture.componentInstance.verticalTabs?.find(
-      (tab) => !!tab.active,
+      (tab) => !!tab.active
     );
     fixture.detectChanges();
     await fixture.whenStable();
@@ -668,7 +668,7 @@ describe('Vertical tabset component', () => {
     const tabContentPane: HTMLElement = activeTab?.tabContent?.nativeElement;
     expect(mediaQuerySpy).toHaveBeenCalledWith(640);
     expect(
-      tabContentPane.classList.contains('sky-responsive-container-xs'),
+      tabContentPane.classList.contains('sky-responsive-container-xs')
     ).toBeTruthy();
   });
 
@@ -677,12 +677,12 @@ describe('Vertical tabset component', () => {
     const widthSpy = spyOnProperty(
       Element.prototype,
       'clientWidth',
-      'get',
+      'get'
     ).and.returnValue(1500);
     fixture.detectChanges();
 
     const activeTab = fixture.componentInstance.verticalTabs?.find(
-      (tab) => !!tab.active,
+      (tab) => !!tab.active
     );
     fixture.detectChanges();
     await fixture.whenStable();
@@ -690,12 +690,12 @@ describe('Vertical tabset component', () => {
     let tabContentPane: HTMLElement = activeTab?.tabContent?.nativeElement;
 
     expect(
-      tabContentPane.classList.contains('sky-responsive-container-lg'),
+      tabContentPane.classList.contains('sky-responsive-container-lg')
     ).toBeTruthy();
     widthSpy.and.returnValue(1100);
     const mediaQuerySpy = spyOn(
       SkyVerticalTabMediaQueryService.prototype,
-      'setBreakpointForWidth',
+      'setBreakpointForWidth'
     ).and.callThrough();
 
     SkyAppTestUtility.fireDomEvent(window, 'resize');
@@ -704,7 +704,7 @@ describe('Vertical tabset component', () => {
     tabContentPane = activeTab?.tabContent?.nativeElement;
     expect(mediaQuerySpy).toHaveBeenCalledWith(1100);
     expect(
-      tabContentPane.classList.contains('sky-responsive-container-md'),
+      tabContentPane.classList.contains('sky-responsive-container-md')
     ).toBeTruthy();
   });
 
@@ -715,7 +715,7 @@ describe('Vertical tabset component', () => {
     spyOnProperty(Element.prototype, 'clientWidth', 'get').and.returnValue(800);
     const mediaQuerySpy = spyOn(
       SkyVerticalTabMediaQueryService.prototype,
-      'setBreakpointForWidth',
+      'setBreakpointForWidth'
     ).and.callThrough();
 
     // open second group
@@ -727,12 +727,12 @@ describe('Vertical tabset component', () => {
     fixture.detectChanges();
 
     const activeTab = fixture.componentInstance.verticalTabs?.find(
-      (tab) => !!tab.active,
+      (tab) => !!tab.active
     );
     const tabContentPane: HTMLElement = activeTab?.tabContent?.nativeElement;
     expect(mediaQuerySpy).toHaveBeenCalledWith(800);
     expect(
-      tabContentPane.classList.contains('sky-responsive-container-sm'),
+      tabContentPane.classList.contains('sky-responsive-container-sm')
     ).toBeTruthy();
 
     flush();

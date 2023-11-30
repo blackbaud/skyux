@@ -4,7 +4,7 @@ import { SkyPopoverAlignment } from './types/popover-alignment';
 import { SkyPopoverPlacement } from './types/popover-placement';
 
 export function parseAffixPlacement(
-  placement: SkyPopoverPlacement,
+  placement: SkyPopoverPlacement
 ): SkyAffixPlacement {
   switch (placement) {
     case 'above':
@@ -22,7 +22,7 @@ export function parseAffixPlacement(
 }
 
 export function parseAffixHorizontalAlignment(
-  alignment: SkyPopoverAlignment,
+  alignment: SkyPopoverAlignment
 ): SkyAffixHorizontalAlignment {
   switch (alignment) {
     case 'center':

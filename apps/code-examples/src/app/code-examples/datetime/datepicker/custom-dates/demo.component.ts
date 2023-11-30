@@ -37,7 +37,7 @@ export class DemoComponent {
   }
 
   protected onCalendarDateRangeChange(
-    event: SkyDatepickerCalendarChange,
+    event: SkyDatepickerCalendarChange
   ): void {
     if (event) {
       // Bind observable to `customDates` argument and simulate delay for async process to finish.
@@ -51,7 +51,7 @@ export class DemoComponent {
    * This is for demonstration purposes only.
    */
   #getCustomDates(
-    event: SkyDatepickerCalendarChange,
+    event: SkyDatepickerCalendarChange
   ): Observable<SkyDatepickerCustomDate[]> {
     const getNextDate = function (startDate: Date, daysToAdd: number): Date {
       const newDate = new Date(startDate);

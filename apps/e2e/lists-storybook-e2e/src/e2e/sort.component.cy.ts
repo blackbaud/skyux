@@ -15,8 +15,8 @@ describe('lists-storybook - sort', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=sortcomponent-sort--sort`,
-        ),
+          `/iframe.html?globals=theme:${theme}&id=sortcomponent-sort--sort`
+        )
       );
       it('should render the component', () => {
         cy.get('app-sort')
@@ -42,13 +42,13 @@ describe('lists-storybook - sort', () => {
             .should('exist')
             .should('be.visible')
             .screenshot(
-              `sortcomponent-sort--open-sort-${textDescriptor}-text-${theme}`,
+              `sortcomponent-sort--open-sort-${textDescriptor}-text-${theme}`
             )
             .percySnapshot(
               `sortcomponent-sort--open-sort-${textDescriptor}-text-${theme}`,
               {
                 widths: E2eVariations.DISPLAY_WIDTHS,
-              },
+              }
             );
         });
       });

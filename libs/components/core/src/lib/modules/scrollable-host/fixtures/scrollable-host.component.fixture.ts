@@ -48,7 +48,7 @@ export class ScrollableHostFixtureComponent implements OnDestroy {
 
   public getScrollableHost(alternative?: ElementRef): HTMLElement | Window {
     return this.#scrollableHostService.getScrollableHost(
-      alternative || this.target,
+      alternative || this.target
     );
   }
 
@@ -57,7 +57,7 @@ export class ScrollableHostFixtureComponent implements OnDestroy {
   }
 
   public watchScrollableHost(
-    alternativeTarget?: ElementRef,
+    alternativeTarget?: ElementRef
   ): Observable<HTMLElement | Window> {
     return this.#scrollableHostService
       .watchScrollableHost(alternativeTarget || this.target)
@@ -65,7 +65,7 @@ export class ScrollableHostFixtureComponent implements OnDestroy {
   }
 
   public watchScrollableHostScrollEvents(
-    alternativeTarget?: ElementRef,
+    alternativeTarget?: ElementRef
   ): Observable<void> {
     return this.#scrollableHostService
       .watchScrollableHostScrollEvents(alternativeTarget || this.target)
@@ -73,7 +73,7 @@ export class ScrollableHostFixtureComponent implements OnDestroy {
   }
 
   public watchScrollableHostClipPathChanges(
-    alternativeTarget?: ElementRef,
+    alternativeTarget?: ElementRef
   ): Observable<string> {
     return this.#scrollableHostService
       .watchScrollableHostClipPathChanges(alternativeTarget || this.target)

@@ -22,7 +22,7 @@ type PackageJson = {
 
 function installPackages(
   packages: PackageDetails[],
-  targetPackageVersion?: string,
+  targetPackageVersion?: string
 ): Rule {
   return (tree, context) => {
     for (const details of packages) {
@@ -69,11 +69,11 @@ function uninstallPackages(packages?: Pick<PackageDetails, 'name'>[]): Rule {
 export function ensurePeersInstalled(
   targetPackageName: string,
   peers: PackageDetails[],
-  peersToRemove?: Pick<PackageDetails, 'name'>[],
+  peersToRemove?: Pick<PackageDetails, 'name'>[]
 ): Rule {
   return async (tree) => {
     const packageJson: PackageJson = JSON.parse(
-      readRequiredFile(tree, '/package.json'),
+      readRequiredFile(tree, '/package.json')
     );
     const targetPackageVersion =
       packageJson.dependencies?.[targetPackageName] ??

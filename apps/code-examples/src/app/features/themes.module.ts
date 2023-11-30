@@ -6,7 +6,7 @@ const routes: Routes = [
     path: 'box/basic',
     loadComponent: () =>
       import('../code-examples/theme/box/basic/demo.component').then(
-        (c) => c.DemoComponent,
+        (c) => c.DemoComponent
       ),
   },
   {

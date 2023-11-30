@@ -14,7 +14,7 @@ export default {
   ],
 } as Meta<InfiniteScrollComponent>;
 const InfiniteScroll: StoryFn<InfiniteScrollComponent> = (
-  args: InfiniteScrollComponent,
+  args: InfiniteScrollComponent
 ) => ({
   props: args,
 });

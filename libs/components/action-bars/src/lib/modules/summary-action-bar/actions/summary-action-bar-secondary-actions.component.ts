@@ -43,7 +43,7 @@ export class SkySummaryActionBarSecondaryActionsComponent
 
   constructor(
     changeDetector: ChangeDetectorRef,
-    mediaQueryService: SkyMediaQueryService,
+    mediaQueryService: SkyMediaQueryService
   ) {
     this.#changeDetector = changeDetector;
     this.#mediaQueryService = mediaQueryService;
@@ -54,13 +54,13 @@ export class SkySummaryActionBarSecondaryActionsComponent
       (args: SkyMediaBreakpoints) => {
         this.isMobile = args === SkyMediaBreakpoints.xs;
         this.#checkAndUpdateChildrenType();
-      },
+      }
     );
 
     this.#actionChanges = this.secondaryActionComponents?.changes.subscribe(
       () => {
         this.#checkAndUpdateChildrenType();
-      },
+      }
     );
     if (this.#mediaQueryService.current === SkyMediaBreakpoints.xs) {
       this.isMobile = true;
@@ -88,7 +88,7 @@ export class SkySummaryActionBarSecondaryActionsComponent
             this.dropdownMessageStream.next({
               type: SkyDropdownMessageType.Close,
             });
-          }),
+          })
         );
       });
     }

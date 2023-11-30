@@ -40,7 +40,7 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
     });
 
     currencyFixture = TestBed.createComponent(
-      SkyAgGridCellRendererCurrencyComponent,
+      SkyAgGridCellRendererCurrencyComponent
     );
     currencyNativeElement = currencyFixture.nativeElement;
     currencyComponent = currencyFixture.componentInstance;
@@ -50,7 +50,7 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
       },
       null,
       'col',
-      true,
+      true
     );
 
     const gridApi = new GridApi();
@@ -82,7 +82,7 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
     gridFixture.detectChanges();
 
     const element = gridNativeElement.querySelector(
-      `.${SkyCellClass.Currency}`,
+      `.${SkyCellClass.Currency}`
     );
     expect(element).toBeVisible();
   });
@@ -136,7 +136,7 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
   describe('refresh', () => {
     it('returns false', () => {
       expect(
-        currencyComponent.refresh(cellRendererParams as ICellRendererParams),
+        currencyComponent.refresh(cellRendererParams as ICellRendererParams)
       ).toBe(false);
     });
 

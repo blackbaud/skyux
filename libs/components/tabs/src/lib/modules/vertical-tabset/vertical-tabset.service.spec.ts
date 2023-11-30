@@ -24,7 +24,7 @@ describe('Vertical tabset service', () => {
     service.tabClicked.subscribe((clicked) => {
       if (service.activeIndex && service.activeIndex >= 0) {
         fail(
-          `tab should not have been clicked with index =${service.activeIndex}`,
+          `tab should not have been clicked with index =${service.activeIndex}`
         );
       }
     });
@@ -115,7 +115,7 @@ describe('Vertical tabset service', () => {
 
     // attempt to destroy tab not existing in service
     service.destroyTab(
-      jasmine.createSpyObj('SkyVerticalTabComponent', ['tabDeactivated']),
+      jasmine.createSpyObj('SkyVerticalTabComponent', ['tabDeactivated'])
     );
     expect(service.tabs.length).toBe(2);
 

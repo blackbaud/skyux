@@ -42,7 +42,7 @@ function getDay(i: number) {
 }
 
 export const EDITABLE_GRID_OPTIONS: EditableGridOption[] = Array.from(
-  Array(4).keys(),
+  Array(4).keys()
 ).map((i) => {
   return {
     id: i,
@@ -65,22 +65,22 @@ export const EDITABLE_GRID_LOOKUP_ASYNC = Array.from(Array(120).keys()).map(
     const cycleOffset = (clusterSize * i) % Math.ceil(26 - clusterSize);
     const offset = 65 + cycleOffset;
     const characters = Array.from(Array(clusterSize).keys()).map((j) =>
-      String.fromCharCode(offset + j),
+      String.fromCharCode(offset + j)
     );
     return {
       id: `async_${i + 1}`,
       name: `${characters.join('')}`,
     };
-  },
+  }
 );
 
 export const EDITABLE_GRID_DATA_FACTORY = function (
   startAt: number,
   numberOfRows: number,
-  skipIds: string[] = [],
+  skipIds: string[] = []
 ): EditableGridRow[] {
   const editableGridRows: EditableGridRow[] = Array.from(
-    Array(numberOfRows).keys(),
+    Array(numberOfRows).keys()
   ).map((n) => {
     const i = n + startAt;
     const lookupKey = i % Math.floor(EDITABLE_GRID_LOOKUP.length / 4);
@@ -121,5 +121,5 @@ export const EDITABLE_GRID_DATA_FACTORY = function (
 
 export const EDITABLE_GRID_DATA: EditableGridRow[] = EDITABLE_GRID_DATA_FACTORY(
   0,
-  10,
+  10
 );

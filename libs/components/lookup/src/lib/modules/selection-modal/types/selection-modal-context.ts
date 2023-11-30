@@ -34,7 +34,7 @@ export class SkySelectionModalContext {
     selectMode: SkyLookupSelectModeType,
     selectionDescriptor: string,
     showAddButton: boolean,
-    userConfig: SkyLookupShowMoreNativePickerConfig,
+    userConfig: SkyLookupShowMoreNativePickerConfig
   ) {
     this.descriptorProperty = descriptorProperty;
     this.idProperty = idProperty;

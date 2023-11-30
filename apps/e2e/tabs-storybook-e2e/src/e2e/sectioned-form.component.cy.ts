@@ -5,8 +5,8 @@ describe('sectioned form', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=sectionedformcomponent-sectionedform--sectioned-form`,
-        ),
+          `/iframe.html?globals=theme:${theme}&id=sectionedformcomponent-sectionedform--sectioned-form`
+        )
       );
 
       ['small', 'medium'].forEach((size) => {

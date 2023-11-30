@@ -66,7 +66,7 @@ describe('Action button adapter service', () => {
   it('should return true when element is a descendant', () => {
     const isDescendant = adapter.isDescendant(
       parentRef,
-      inputRef.nativeElement,
+      inputRef.nativeElement
     );
     expect(isDescendant).toBeTrue();
   });
@@ -74,7 +74,7 @@ describe('Action button adapter service', () => {
   it('should return false when element is not a descendant', () => {
     const isDescendant = adapter.isDescendant(
       parentRef,
-      outSideRef.nativeElement,
+      outSideRef.nativeElement
     );
     expect(isDescendant).toBeFalse();
   });
@@ -104,16 +104,16 @@ describe('Action button adapter service', () => {
     fixture.detectChanges();
 
     expect(inputRef.nativeElement).toHaveClass(
-      'sky-selection-box-container-xs',
+      'sky-selection-box-container-xs'
     );
     expect(inputRef.nativeElement).not.toHaveClass(
-      'sky-selection-box-container-sm',
+      'sky-selection-box-container-sm'
     );
     expect(inputRef.nativeElement).not.toHaveClass(
-      'sky-selection-box-container-md',
+      'sky-selection-box-container-md'
     );
     expect(inputRef.nativeElement).not.toHaveClass(
-      'sky-selection-box-container-lg',
+      'sky-selection-box-container-lg'
     );
   });
 
@@ -122,16 +122,16 @@ describe('Action button adapter service', () => {
     fixture.detectChanges();
 
     expect(inputRef.nativeElement).not.toHaveClass(
-      'sky-selection-box-container-xs',
+      'sky-selection-box-container-xs'
     );
     expect(inputRef.nativeElement).toHaveClass(
-      'sky-selection-box-container-sm',
+      'sky-selection-box-container-sm'
     );
     expect(inputRef.nativeElement).not.toHaveClass(
-      'sky-selection-box-container-md',
+      'sky-selection-box-container-md'
     );
     expect(inputRef.nativeElement).not.toHaveClass(
-      'sky-selection-box-container-lg',
+      'sky-selection-box-container-lg'
     );
   });
 
@@ -140,16 +140,16 @@ describe('Action button adapter service', () => {
     fixture.detectChanges();
 
     expect(inputRef.nativeElement).not.toHaveClass(
-      'sky-selection-box-container-xs',
+      'sky-selection-box-container-xs'
     );
     expect(inputRef.nativeElement).not.toHaveClass(
-      'sky-selection-box-container-sm',
+      'sky-selection-box-container-sm'
     );
     expect(inputRef.nativeElement).toHaveClass(
-      'sky-selection-box-container-md',
+      'sky-selection-box-container-md'
     );
     expect(inputRef.nativeElement).not.toHaveClass(
-      'sky-selection-box-container-lg',
+      'sky-selection-box-container-lg'
     );
   });
 
@@ -158,16 +158,16 @@ describe('Action button adapter service', () => {
     fixture.detectChanges();
 
     expect(inputRef.nativeElement).not.toHaveClass(
-      'sky-selection-box-container-xs',
+      'sky-selection-box-container-xs'
     );
     expect(inputRef.nativeElement).not.toHaveClass(
-      'sky-selection-box-container-sm',
+      'sky-selection-box-container-sm'
     );
     expect(inputRef.nativeElement).not.toHaveClass(
-      'sky-selection-box-container-md',
+      'sky-selection-box-container-md'
     );
     expect(inputRef.nativeElement).toHaveClass(
-      'sky-selection-box-container-lg',
+      'sky-selection-box-container-lg'
     );
   });
 });

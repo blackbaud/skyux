@@ -14,7 +14,7 @@ describe('Basic box', async () => {
     const boxHarness = await loader.getHarness(
       SkyBoxHarness.with({
         dataSkyId: 'box-demo',
-      }),
+      })
     );
 
     return { boxHarness, fixture };

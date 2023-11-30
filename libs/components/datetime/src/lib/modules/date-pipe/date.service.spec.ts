@@ -176,7 +176,7 @@ describe('Date service', () => {
     const value = service.format(
       '2017-01-11T09:25:14.014-0500',
       undefined,
-      'shortDate',
+      'shortDate'
     );
     const expectedValues = [
       '1/11/2017',
@@ -189,7 +189,7 @@ describe('Date service', () => {
     const value = service.format(
       '2017-01-20T19:00:00+0000',
       undefined,
-      'shortDate',
+      'shortDate'
     );
     const expectedValues = [
       '1/20/2017',
@@ -204,7 +204,7 @@ describe('Date service', () => {
     expect(spy).toHaveBeenCalledWith(
       jasmine.any(Date),
       jasmine.any(String),
-      'NOT_A_REAL_FORMAT',
+      'NOT_A_REAL_FORMAT'
     );
   });
 });

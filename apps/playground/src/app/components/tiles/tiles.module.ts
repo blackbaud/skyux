@@ -6,7 +6,7 @@ const routes: Routes = [
     path: 'tile-dashboard',
     loadChildren: () =>
       import('./tile-dashboard/tile-dashboard.module').then(
-        (m) => m.TileDashboardModule,
+        (m) => m.TileDashboardModule
       ),
   },
 ];

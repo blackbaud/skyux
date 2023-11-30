@@ -10,7 +10,7 @@ const routes: Routes = [
     path: 'resize-observer',
     loadChildren: () =>
       import('./resize-observer/resize-observer.module').then(
-        (m) => m.ResizeObserverModule,
+        (m) => m.ResizeObserverModule
       ),
   },
   {

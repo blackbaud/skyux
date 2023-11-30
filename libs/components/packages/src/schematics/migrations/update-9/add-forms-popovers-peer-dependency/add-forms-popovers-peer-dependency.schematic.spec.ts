@@ -7,7 +7,7 @@ import { createTestApp } from '../../../testing/scaffold';
 describe('Migrations > add forms/popover peer dependency', () => {
   const runner = new SchematicTestRunner(
     'migrations',
-    join(__dirname, '../../migration-collection.json'),
+    join(__dirname, '../../migration-collection.json')
   );
 
   async function setupTest() {
@@ -27,7 +27,7 @@ describe('Migrations > add forms/popover peer dependency', () => {
 
     tree.overwrite(
       '/package.json',
-      '{"dependencies": {"@skyux/forms": "9.0.0-alpha.1"}}',
+      '{"dependencies": {"@skyux/forms": "9.0.0-alpha.1"}}'
     );
 
     await runSchematic();
@@ -45,7 +45,7 @@ describe('Migrations > add forms/popover peer dependency', () => {
 
     tree.overwrite(
       '/package.json',
-      '{"devDependencies": {"@skyux/forms": "9.0.0-alpha.1"}}',
+      '{"devDependencies": {"@skyux/forms": "9.0.0-alpha.1"}}'
     );
 
     await runSchematic();

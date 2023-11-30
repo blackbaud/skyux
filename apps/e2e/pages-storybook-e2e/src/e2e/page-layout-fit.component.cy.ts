@@ -6,7 +6,7 @@ describe(`pages-storybook`, () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
-        cy.visit(`/iframe.html?globals=theme:${theme}&id=${ID}`),
+        cy.visit(`/iframe.html?globals=theme:${theme}&id=${ID}`)
       );
       it('should render the component', () => {
         cy.get('app-fit-page sky-page')

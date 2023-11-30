@@ -5,8 +5,8 @@ describe('indicators-storybook', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=helpinlinecomponent-helpinline--help-inline`,
-        ),
+          `/iframe.html?globals=theme:${theme}&id=helpinlinecomponent-helpinline--help-inline`
+        )
       );
       it('should render the component', () => {
         cy.get('app-help-inline')
@@ -17,7 +17,7 @@ describe('indicators-storybook', () => {
             `helpinlinecomponent-helpinline--help-inline-${theme}`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
-            },
+            }
           );
       });
     });

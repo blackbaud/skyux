@@ -27,7 +27,7 @@ export class SkyAppResourcesPipe implements PipeTransform, OnDestroy {
 
   constructor(
     changeDetector: ChangeDetectorRef,
-    resourcesSvc: SkyAppResourcesService,
+    resourcesSvc: SkyAppResourcesService
   ) {
     this.#changeDetector = changeDetector;
     this.#resourcesSvc = resourcesSvc;

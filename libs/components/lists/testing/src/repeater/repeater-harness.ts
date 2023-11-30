@@ -19,7 +19,7 @@ export class SkyRepeaterHarness extends SkyComponentHarness {
    * `SkyRepeaterHarness` that meets certain criteria.
    */
   public static with(
-    filters: SkyRepeaterHarnessFilters,
+    filters: SkyRepeaterHarnessFilters
   ): HarnessPredicate<SkyRepeaterHarness> {
     return SkyRepeaterHarness.getDataSkyIdPredicate(filters);
   }
@@ -28,7 +28,7 @@ export class SkyRepeaterHarness extends SkyComponentHarness {
    * Gets a list of child repeater items.
    */
   public async getRepeaterItems(
-    filters?: SkyRepeaterItemHarnessFilters,
+    filters?: SkyRepeaterItemHarnessFilters
   ): Promise<SkyRepeaterItemHarness[]> {
     return this.locatorForAll(SkyRepeaterItemHarness.with(filters || {}))();
   }

@@ -89,7 +89,7 @@ describe('storybook-composition', () => {
       ansiColor: false,
     });
     expect(spy).toHaveBeenCalledWith(
-      `Unable to load a project named "storybook"`,
+      `Unable to load a project named "storybook"`
     );
     await applicationGenerator(tree, { name: 'storybook' });
     await storybookConfigurationGenerator(tree, {
@@ -110,7 +110,7 @@ describe('storybook-composition', () => {
       ansiColor: false,
     });
     expect(spy).toHaveBeenCalledWith(
-      `Unable to parse projectsJson: ["test-app]`,
+      `Unable to parse projectsJson: ["test-app]`
     );
   });
 

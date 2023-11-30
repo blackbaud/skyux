@@ -22,31 +22,31 @@ export class ListSortOrchestrator extends ListStateOrchestrator<ListSortModel> {
 
   private setFieldSelectors(
     state: ListSortModel,
-    action: ListSortSetFieldSelectorsAction,
+    action: ListSortSetFieldSelectorsAction
   ): ListSortModel {
     return new ListSortModel(
-      Object.assign({}, state, { fieldSelectors: action.fieldSelectors }),
+      Object.assign({}, state, { fieldSelectors: action.fieldSelectors })
     );
   }
 
   private setAvailable(
     state: ListSortModel,
-    action: ListSortSetAvailableAction,
+    action: ListSortSetAvailableAction
   ): ListSortModel {
     const newAvailable = action.available.map(
-      (available) => new ListSortLabelModel(available),
+      (available) => new ListSortLabelModel(available)
     );
     return new ListSortModel(
-      Object.assign({}, state, { available: newAvailable }),
+      Object.assign({}, state, { available: newAvailable })
     );
   }
 
   private setGlobal(
     state: ListSortModel,
-    action: ListSortSetGlobalAction,
+    action: ListSortSetGlobalAction
   ): ListSortModel {
     const newGlobal = action.global.map(
-      (global) => new ListSortLabelModel(global),
+      (global) => new ListSortLabelModel(global)
     );
     return new ListSortModel(Object.assign({}, state, { global: newGlobal }));
   }

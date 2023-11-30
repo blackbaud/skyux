@@ -36,7 +36,7 @@ describe('Dropdown item test harness', () => {
       text?: string;
       dataSkyId?: string;
       ariaRole?: string;
-    } = {},
+    } = {}
   ): Promise<{
     dropdownItemHarness: SkyDropdownItemHarness;
     fixture: ComponentFixture<TestDropdownItemComponent>;
@@ -54,7 +54,7 @@ describe('Dropdown item test harness', () => {
 
     if (options) {
       dropdownItemHarness = await loader.getHarness(
-        SkyDropdownItemHarness.with(options),
+        SkyDropdownItemHarness.with(options)
       );
     } else {
       dropdownItemHarness = await loader.getHarness(SkyDropdownItemHarness);
@@ -71,7 +71,7 @@ describe('Dropdown item test harness', () => {
     fixture.detectChanges();
 
     await expectAsync(dropdownItemHarness.getAriaRole()).toBeResolvedTo(
-      'otherItem',
+      'otherItem'
     );
   });
 
@@ -83,7 +83,7 @@ describe('Dropdown item test harness', () => {
     fixture.detectChanges();
 
     await expectAsync(dropdownItemHarness.getText()).toBeResolvedTo(
-      'other-item-text',
+      'other-item-text'
     );
   });
 
@@ -95,7 +95,7 @@ describe('Dropdown item test harness', () => {
     fixture.detectChanges();
 
     await expectAsync(dropdownItemHarness.getText()).toBeResolvedTo(
-      'other-item-text',
+      'other-item-text'
     );
   });
 
@@ -105,7 +105,7 @@ describe('Dropdown item test harness', () => {
     fixture.detectChanges();
 
     await expectAsync(dropdownItemHarness.getAriaRole()).toBeResolvedTo(
-      'menuitem',
+      'menuitem'
     );
   });
 
@@ -116,7 +116,7 @@ describe('Dropdown item test harness', () => {
     fixture.detectChanges();
 
     await expectAsync(dropdownItemHarness.getAriaRole()).toBeResolvedTo(
-      'item-role',
+      'item-role'
     );
   });
 

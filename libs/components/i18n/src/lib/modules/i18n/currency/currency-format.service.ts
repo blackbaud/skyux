@@ -29,7 +29,7 @@ export class SkyI18nCurrencyFormatService {
    */
   public getCurrencyFormat(
     isoCurrencyCode: string = DEFAULT_CURRENCY_CODE,
-    locale: string = DEFAULT_LOCALE,
+    locale: string = DEFAULT_LOCALE
   ): SkyI18nCurrencyFormat {
     const formatter = new Intl.NumberFormat(locale, {
       style: 'currency',
@@ -63,7 +63,7 @@ export class SkyI18nCurrencyFormatService {
 
     type IntlFindFn = (
       intlType: Intl.NumberFormatPartTypes,
-      defaultValue: string,
+      defaultValue: string
     ) => string;
     const findOrDefault: IntlFindFn = (intlType, defaultValue) =>
       parts.find((p) => p.type === intlType)?.value ?? defaultValue;

@@ -11,7 +11,7 @@ import { readRequiredFile } from '../utility/tree';
 function addPackageJsonScript(): Rule {
   return (tree) => {
     const packageJson = JSON.parse(
-      readRequiredFile(tree, 'package.json').toString(),
+      readRequiredFile(tree, 'package.json').toString()
     );
 
     packageJson.scripts = packageJson.scripts || {};

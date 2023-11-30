@@ -18,7 +18,7 @@ export class SkyPopoverBodyHarness extends ComponentHarness {
    * Returns a child harness.
    */
   public async queryHarness<T extends ComponentHarness>(
-    harness: HarnessQuery<T>,
+    harness: HarnessQuery<T>
   ): Promise<T | null> {
     return this.locatorForOptional(harness)();
   }
@@ -27,7 +27,7 @@ export class SkyPopoverBodyHarness extends ComponentHarness {
    * Returns child harnesses.
    */
   public async queryHarnesses<T extends ComponentHarness>(
-    harness: HarnessQuery<T>,
+    harness: HarnessQuery<T>
   ): Promise<T[]> {
     return this.locatorForAll(harness)();
   }

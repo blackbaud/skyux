@@ -14,7 +14,7 @@ const routes: Route[] = [
     path: 'autocomplete',
     loadChildren: () =>
       import('./autocomplete/autocomplete.module').then(
-        (m) => m.AutocompleteModule,
+        (m) => m.AutocompleteModule
       ),
   },
   {
@@ -26,7 +26,7 @@ const routes: Route[] = [
     path: 'country-field',
     loadChildren: () =>
       import('./country-field/country-field.module').then(
-        (m) => m.CountryFieldModule,
+        (m) => m.CountryFieldModule
       ),
   },
 ];

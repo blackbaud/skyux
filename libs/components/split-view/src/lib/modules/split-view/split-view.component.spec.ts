@@ -46,7 +46,7 @@ function getListPanel(): HTMLElement {
 
 function listPanelHidden(): boolean {
   const listPanel = document.querySelector(
-    '.sky-split-view-drawer-flex-container',
+    '.sky-split-view-drawer-flex-container'
   ) as HTMLElement;
   return listPanel.hasAttribute('hidden');
 }
@@ -66,7 +66,7 @@ function getMaxWidth(): number {
 function dispatchMouseEvent(
   eventType: string,
   clientXArg: number,
-  fixture: ComponentFixture<unknown>,
+  fixture: ComponentFixture<unknown>
 ): void {
   const evt = document.createEvent('MouseEvents');
   evt.initMouseEvent(
@@ -84,7 +84,7 @@ function dispatchMouseEvent(
     false,
     false,
     0,
-    null,
+    null
   );
   document.dispatchEvent(evt);
   fixture.detectChanges();
@@ -141,13 +141,13 @@ function initiateResponsiveMode(fixture: ComponentFixture<unknown>): void {
 
 function getBackToListButton(): HTMLElement {
   return document.querySelector(
-    '.sky-split-view-workspace-header-content > button',
+    '.sky-split-view-workspace-header-content > button'
   ) as HTMLElement;
 }
 
 function getHeader(): HTMLElement {
   return document.querySelector(
-    '.sky-split-view-workspace-header-content',
+    '.sky-split-view-workspace-header-content'
   ) as HTMLElement;
 }
 
@@ -169,13 +169,13 @@ describe('Split view component', () => {
 
   function validateDockCssClass(
     dock: SkySplitViewDockType | undefined,
-    expectedDockCssClass: string,
+    expectedDockCssClass: string
   ): void {
     fixture.componentInstance.dock = dock;
     fixture.detectChanges();
 
     expect(document.querySelector('.sky-split-view')).toHaveCssClass(
-      expectedDockCssClass,
+      expectedDockCssClass
     );
   }
 
@@ -184,7 +184,7 @@ describe('Split view component', () => {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.default,
-          SkyThemeMode.presets.light,
+          SkyThemeMode.presets.light
         ),
         previousSettings: undefined,
       }),
@@ -237,7 +237,7 @@ describe('Split view component', () => {
       expect(list.getAttribute('aria-label')).toBe(expectedLabelForList);
       expect(list.getAttribute('role')).toBe('region');
       expect(workspace.getAttribute('aria-label')).toBe(
-        expectedLabelForWorkspace,
+        expectedLabelForWorkspace
       );
       expect(workspace.getAttribute('role')).toBe('region');
     }));
@@ -283,18 +283,18 @@ describe('Split view component', () => {
       tick();
       fixture.detectChanges();
       const splitViewElement = document.querySelector(
-        '.sky-split-view',
+        '.sky-split-view'
       ) as HTMLElement;
       expect(component.splitViewComponent.bindHeightToWindow).toBeTruthy();
       expect(rendererSpy).toHaveBeenCalledWith(
         splitViewElement,
         'min-height',
-        '300px',
+        '300px'
       );
       expect(rendererSpy).toHaveBeenCalledWith(
         splitViewElement,
         'max-height',
-        'calc(100vh - ' + splitViewElement.offsetTop + 'px - 0px)',
+        'calc(100vh - ' + splitViewElement.offsetTop + 'px - 0px)'
       );
     }));
 
@@ -303,24 +303,24 @@ describe('Split view component', () => {
       const rendererSpySetStyle = spyOn(renderer, 'setStyle').and.callThrough();
       const rendererSpyRemoveStyle = spyOn(
         renderer,
-        'removeStyle',
+        'removeStyle'
       ).and.callThrough();
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
       expect(component.splitViewComponent.bindHeightToWindow).toBeTruthy();
       let splitViewElement = document.querySelector(
-        '.sky-split-view',
+        '.sky-split-view'
       ) as HTMLElement;
       expect(rendererSpySetStyle).toHaveBeenCalledWith(
         splitViewElement,
         'min-height',
-        '300px',
+        '300px'
       );
       expect(rendererSpySetStyle).toHaveBeenCalledWith(
         splitViewElement,
         'max-height',
-        'calc(100vh - ' + splitViewElement.offsetTop + 'px - 0px)',
+        'calc(100vh - ' + splitViewElement.offsetTop + 'px - 0px)'
       );
       component.bindHeightToWindow = false;
       fixture.detectChanges();
@@ -328,15 +328,15 @@ describe('Split view component', () => {
       fixture.detectChanges();
       expect(component.splitViewComponent.bindHeightToWindow).toBeFalsy();
       splitViewElement = document.querySelector(
-        '.sky-split-view',
+        '.sky-split-view'
       ) as HTMLElement;
       expect(rendererSpyRemoveStyle).toHaveBeenCalledWith(
         splitViewElement,
-        'min-height',
+        'min-height'
       );
       expect(rendererSpyRemoveStyle).toHaveBeenCalledWith(
         splitViewElement,
-        'max-height',
+        'max-height'
       );
     }));
 
@@ -349,17 +349,17 @@ describe('Split view component', () => {
       fixture.detectChanges();
       expect(component.splitViewComponent.bindHeightToWindow).toBeTruthy();
       const splitViewElement = document.querySelector(
-        '.sky-split-view',
+        '.sky-split-view'
       ) as HTMLElement;
       expect(rendererSpy).toHaveBeenCalledWith(
         splitViewElement,
         'min-height',
-        '300px',
+        '300px'
       );
       expect(rendererSpy).toHaveBeenCalledWith(
         splitViewElement,
         'max-height',
-        'calc(100vh - 100px - 0px)',
+        'calc(100vh - 100px - 0px)'
       );
     }));
 
@@ -382,20 +382,20 @@ describe('Split view component', () => {
         fixture.detectChanges();
         expect(component.splitViewComponent.bindHeightToWindow).toBeTruthy();
         const splitViewElement = document.querySelector(
-          '.sky-split-view',
+          '.sky-split-view'
         ) as HTMLElement;
         const actionBar = document.querySelector(
-          '.sky-summary-action-bar',
+          '.sky-summary-action-bar'
         ) as HTMLElement;
         expect(rendererSpy).toHaveBeenCalledWith(
           splitViewElement,
           'min-height',
-          '300px',
+          '300px'
         );
         expect(rendererSpy).toHaveBeenCalledWith(
           splitViewElement,
           'max-height',
-          'calc(100vh - 100px - ' + actionBar.offsetHeight + 'px)',
+          'calc(100vh - 100px - ' + actionBar.offsetHeight + 'px)'
         );
       }, 10);
     }));
@@ -449,11 +449,11 @@ describe('Split view component', () => {
     it('should resize when handle is dragged', fakeAsync(() => {
       const moveSpy = spyOn(
         SkySplitViewDrawerComponent.prototype,
-        'onMouseMove',
+        'onMouseMove'
       ).and.callThrough();
       const mouseUpSpy = spyOn(
         SkySplitViewDrawerComponent.prototype,
-        'onHandleRelease',
+        'onHandleRelease'
       ).and.callThrough();
       const listPanelElement = getListPanel();
       const resizeHandle = getResizeHandle(fixture).nativeElement;
@@ -481,7 +481,7 @@ describe('Split view component', () => {
       const moveSpy = spyOn(drawerComponent, 'onMouseMove').and.callThrough();
       const mouseUpSpy = spyOn(
         drawerComponent,
-        'onHandleRelease',
+        'onHandleRelease'
       ).and.callThrough();
 
       // Window should fake a small size.
@@ -504,7 +504,7 @@ describe('Split view component', () => {
         false,
         false,
         0,
-        null,
+        null
       );
       drawerComponent.onResizeHandleMouseDown(mouseEvent);
       fixture.detectChanges();
@@ -521,7 +521,7 @@ describe('Split view component', () => {
       const moveSpy = spyOn(drawerComponent, 'onMouseMove').and.callThrough();
       const mouseUpSpy = spyOn(
         drawerComponent,
-        'onHandleRelease',
+        'onHandleRelease'
       ).and.callThrough();
       const listPanelElement = getListPanel();
       const resizeHandle = getResizeHandle(fixture).nativeElement;
@@ -589,14 +589,14 @@ describe('Split view component', () => {
 
       expect(listPanelElement.style.width).toBe('320px');
       expect(resizeInput.getAttribute('aria-controls')).toBe(
-        listPanelElement.id,
+        listPanelElement.id
       );
       expect(resizeInput.getAttribute('aria-valuenow')).toBe('320');
       expect(resizeInput.getAttribute('aria-valuemax')).toBe(
-        maxWidth.toString(),
+        maxWidth.toString()
       );
       expect(resizeInput.getAttribute('aria-valuemin')).toBe(
-        minWidth.toString(),
+        minWidth.toString()
       );
       expect(resizeInput.getAttribute('max')).toBe(maxWidth.toString());
       expect(resizeInput.getAttribute('min')).toBe(minWidth.toString());
@@ -631,7 +631,7 @@ describe('Split view component', () => {
 
       // Expect first element in workspace to have focus.
       const firstInputElement = document.querySelector(
-        '#sky-test-first-input',
+        '#sky-test-first-input'
       ) as HTMLElement;
       expect(getFocusedElement()).toEqual(firstInputElement);
     }));
@@ -654,7 +654,7 @@ describe('Split view component', () => {
 
       // Expect first element in workspace to have focus.
       const firstInputElement = document.querySelector(
-        '#sky-test-first-input',
+        '#sky-test-first-input'
       ) as HTMLElement;
       expect(getFocusedElement()).toEqual(firstInputElement);
     }));
@@ -734,17 +734,17 @@ describe('Split view component', () => {
         fixture.detectChanges();
         expect(component.splitViewComponent.bindHeightToWindow).toBeTruthy();
         let splitViewElement = document.querySelector(
-          '.sky-split-view',
+          '.sky-split-view'
         ) as HTMLElement;
         expect(rendererSpy).toHaveBeenCalledWith(
           splitViewElement,
           'min-height',
-          '300px',
+          '300px'
         );
         expect(rendererSpy).toHaveBeenCalledWith(
           splitViewElement,
           'max-height',
-          'calc(100vh - 0px - 0px)',
+          'calc(100vh - 0px - 0px)'
         );
         rendererSpy.calls.reset();
         component.showActionBar = true;
@@ -755,24 +755,24 @@ describe('Split view component', () => {
           setTimeout(() => {
             fixture.detectChanges();
             splitViewElement = document.querySelector(
-              '.sky-split-view',
+              '.sky-split-view'
             ) as HTMLElement;
             let actionBar = document.querySelector(
-              '.sky-summary-action-bar',
+              '.sky-summary-action-bar'
             ) as HTMLElement;
 
             expect(
-              component.splitViewComponent.bindHeightToWindow,
+              component.splitViewComponent.bindHeightToWindow
             ).toBeTruthy();
             expect(rendererSpy).toHaveBeenCalledWith(
               splitViewElement,
               'min-height',
-              '300px',
+              '300px'
             );
             expect(rendererSpy).toHaveBeenCalledWith(
               splitViewElement,
               'max-height',
-              'calc(100vh - 0px - ' + actionBar.offsetHeight + 'px)',
+              'calc(100vh - 0px - ' + actionBar.offsetHeight + 'px)'
             );
             rendererSpy.calls.reset();
 
@@ -783,23 +783,23 @@ describe('Split view component', () => {
             SkyAppTestUtility.fireDomEvent(window, 'resize');
             fixture.detectChanges();
             expect(
-              component.splitViewComponent.bindHeightToWindow,
+              component.splitViewComponent.bindHeightToWindow
             ).toBeTruthy();
             splitViewElement = document.querySelector(
-              '.sky-split-view',
+              '.sky-split-view'
             ) as HTMLElement;
             actionBar = document.querySelector(
-              '.sky-summary-action-bar',
+              '.sky-summary-action-bar'
             ) as HTMLElement;
             expect(rendererSpy).toHaveBeenCalledWith(
               splitViewElement,
               'min-height',
-              '300px',
+              '300px'
             );
             expect(rendererSpy).toHaveBeenCalledWith(
               splitViewElement,
               'max-height',
-              'calc(100vh - 100px - ' + actionBar.offsetHeight + 'px)',
+              'calc(100vh - 100px - ' + actionBar.offsetHeight + 'px)'
             );
           }, 10);
         });

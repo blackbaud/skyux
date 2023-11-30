@@ -23,7 +23,7 @@ const routes: Route[] = [
     path: 'infinite-scroll',
     loadChildren: () =>
       import('./infinite-scroll/infinite-scroll.module').then(
-        (m) => m.InfiniteScrollModule,
+        (m) => m.InfiniteScrollModule
       ),
   },
   {

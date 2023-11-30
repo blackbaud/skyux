@@ -63,7 +63,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
       api: {
         addEventListener: (
           event: string,
-          listener: (args: Record<string, unknown>) => void,
+          listener: (args: Record<string, unknown>) => void
         ) => {
           callback = listener;
           [event].pop();
@@ -183,7 +183,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         component.agInit({
           ...(cellEditorParams as ICellEditorParams),
           value: false,
-        }),
+        })
       ).toThrowError('Lookup value must be an array');
     });
 
@@ -249,10 +249,10 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         expect(lookup).toBeTruthy();
         SkyAppTestUtility.fireDomEvent(
           lookup.querySelector('.sky-lookup-input'),
-          'focus',
+          'focus'
         );
         const addButton = fixture.nativeElement.ownerDocument.querySelector(
-          '.sky-overlay.ag-custom-component-popup button.sky-autocomplete-action-add',
+          '.sky-overlay.ag-custom-component-popup button.sky-autocomplete-action-add'
         );
         expect(addButton).toBeTruthy();
         SkyAppTestUtility.fireDomEvent(addButton, 'click');
@@ -275,10 +275,10 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         expect(lookup).toBeTruthy();
         SkyAppTestUtility.fireDomEvent(
           lookup.querySelector('.sky-lookup-input'),
-          'focus',
+          'focus'
         );
         const addButton = fixture.nativeElement.ownerDocument.querySelector(
-          '.sky-overlay.ag-custom-component-popup button.sky-autocomplete-action-add',
+          '.sky-overlay.ag-custom-component-popup button.sky-autocomplete-action-add'
         );
         expect(addButton).toBeTruthy();
         SkyAppTestUtility.fireDomEvent(addButton, 'click');
@@ -302,7 +302,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
           stopEditingWhenCellsLoseFocus: true,
         };
         (elementRef.nativeElement.matches as jasmine.Spy).and.returnValue(
-          false,
+          false
         );
         component.agInit({
           ...(cellEditorParams as ICellEditorParams),
@@ -392,7 +392,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         fixture.detectChanges();
 
         const input = nativeElement.querySelector(
-          'textarea',
+          'textarea'
         ) as HTMLTextAreaElement;
         const selectSpy = spyOn(input, 'select');
 
@@ -409,7 +409,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         });
         fixture.detectChanges();
         const input = nativeElement.querySelector(
-          'textarea',
+          'textarea'
         ) as HTMLTextAreaElement;
         const selectSpy = spyOn(input, 'select');
 
@@ -426,7 +426,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         });
         fixture.detectChanges();
         const input = nativeElement.querySelector(
-          'textarea',
+          'textarea'
         ) as HTMLTextAreaElement;
         const selectSpy = spyOn(input, 'select');
 
@@ -443,7 +443,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         });
         fixture.detectChanges();
         const input = nativeElement.querySelector(
-          'textarea',
+          'textarea'
         ) as HTMLTextAreaElement;
         const selectSpy = spyOn(input, 'select');
 
@@ -460,7 +460,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         });
         fixture.detectChanges();
         const input = nativeElement.querySelector(
-          'textarea',
+          'textarea'
         ) as HTMLTextAreaElement;
         const selectSpy = spyOn(input, 'select').and.callThrough();
 
@@ -485,7 +485,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         fixture.detectChanges();
 
         const input = nativeElement.querySelector(
-          'textarea',
+          'textarea'
         ) as HTMLTextAreaElement;
         const selectSpy = spyOn(input, 'select');
 
@@ -502,7 +502,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         });
         fixture.detectChanges();
         const input = nativeElement.querySelector(
-          'textarea',
+          'textarea'
         ) as HTMLTextAreaElement;
         const selectSpy = spyOn(input, 'select');
 
@@ -519,7 +519,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         });
         fixture.detectChanges();
         const input = nativeElement.querySelector(
-          'textarea',
+          'textarea'
         ) as HTMLTextAreaElement;
         const selectSpy = spyOn(input, 'select');
 
@@ -536,7 +536,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         });
         fixture.detectChanges();
         const input = nativeElement.querySelector(
-          'textarea',
+          'textarea'
         ) as HTMLTextAreaElement;
         const selectSpy = spyOn(input, 'select');
 
@@ -553,7 +553,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         });
         fixture.detectChanges();
         const input = nativeElement.querySelector(
-          'textarea',
+          'textarea'
         ) as HTMLTextAreaElement;
         const selectSpy = spyOn(input, 'select').and.callThrough();
 

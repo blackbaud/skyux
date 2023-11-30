@@ -22,7 +22,7 @@ describe('Overlay harness', () => {
 
     const rootLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
     const overlayHarness = await rootLoader.getHarness(
-      SkyOverlayHarness.with({ selector: `#${overlay.id}` }),
+      SkyOverlayHarness.with({ selector: `#${overlay.id}` })
     );
 
     return { overlayHarness };
@@ -32,15 +32,15 @@ describe('Overlay harness', () => {
     const { overlayHarness } = await setupTest();
 
     const harnesses = await overlayHarness.queryHarnesses(
-      OverlayChildTestHarness,
+      OverlayChildTestHarness
     );
 
     await expectAsync((await harnesses[0].host()).text()).toBeResolvedTo(
-      'OVERLAY CHILD 1 CONTENT',
+      'OVERLAY CHILD 1 CONTENT'
     );
 
     await expectAsync((await harnesses[1].host()).text()).toBeResolvedTo(
-      'OVERLAY CHILD 2 CONTENT',
+      'OVERLAY CHILD 2 CONTENT'
     );
   });
 
@@ -48,7 +48,7 @@ describe('Overlay harness', () => {
     const { overlayHarness } = await setupTest();
 
     await expectAsync(
-      overlayHarness.queryHarnesses(NoneFoundTestHarness),
+      overlayHarness.queryHarnesses(NoneFoundTestHarness)
     ).toBeResolvedTo([]);
   });
 
@@ -56,11 +56,11 @@ describe('Overlay harness', () => {
     const { overlayHarness } = await setupTest();
 
     const harness = (await overlayHarness.queryHarness(
-      OverlayChildTestHarness,
+      OverlayChildTestHarness
     )) as OverlayChildTestHarness;
 
     await expectAsync((await harness.host()).text()).toBeResolvedTo(
-      'OVERLAY CHILD 1 CONTENT',
+      'OVERLAY CHILD 1 CONTENT'
     );
   });
 
@@ -68,7 +68,7 @@ describe('Overlay harness', () => {
     const { overlayHarness } = await setupTest();
 
     await expectAsync(
-      overlayHarness.queryHarness(NoneFoundTestHarness),
+      overlayHarness.queryHarness(NoneFoundTestHarness)
     ).toBeResolvedTo(null);
   });
 
@@ -84,7 +84,7 @@ describe('Overlay harness', () => {
     const { overlayHarness } = await setupTest();
 
     await expectAsync(
-      overlayHarness.querySelectorAll('.not-found-selector'),
+      overlayHarness.querySelectorAll('.not-found-selector')
     ).toBeResolvedTo([]);
   });
 
@@ -100,7 +100,7 @@ describe('Overlay harness', () => {
     const { overlayHarness } = await setupTest();
 
     await expectAsync(
-      overlayHarness.querySelector('.not-found-selector'),
+      overlayHarness.querySelector('.not-found-selector')
     ).toBeResolvedTo(null);
   });
 });

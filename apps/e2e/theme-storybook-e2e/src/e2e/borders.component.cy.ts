@@ -6,7 +6,7 @@ describe('theme-storybook', () => {
       beforeEach(() => {
         cy.viewport(E2eVariations.MOBILE_WIDTHS[0], 800);
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=borderscomponent-borders--borders`,
+          `/iframe.html?globals=theme:${theme}&id=borderscomponent-borders--borders`
         );
       });
       it('should render the component', () => {

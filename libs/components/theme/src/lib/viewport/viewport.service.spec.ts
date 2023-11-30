@@ -8,12 +8,12 @@ describe('Viewport service', () => {
 
   function validateViewportSpace(
     position: SkyAppViewportReservedPositionType,
-    size: number,
+    size: number
   ): void {
     expect(
       document.documentElement.style.getPropertyValue(
-        `--sky-viewport-${position}`,
-      ),
+        `--sky-viewport-${position}`
+      )
     ).toBe(`${size}px`);
   }
 

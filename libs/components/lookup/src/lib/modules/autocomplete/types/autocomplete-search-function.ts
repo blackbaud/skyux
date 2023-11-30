@@ -4,5 +4,5 @@ import { SkyAutocompleteSearchFunctionResponse } from './autocomplete-search-fun
 export type SkyAutocompleteSearchFunction = (
   searchText: string,
   data: any[],
-  args?: SkyAutocompleteSearchArgs,
+  args?: SkyAutocompleteSearchArgs
 ) => SkyAutocompleteSearchFunctionResponse;

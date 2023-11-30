@@ -7,7 +7,7 @@ import { SkyPageLinkInterface } from './types/page-link-interface';
 })
 export class SkyActionHubRelatedLinksSortPipe implements PipeTransform {
   public transform<T extends Array<SkyPageLinkInterface>>(
-    relatedLinks: T | 'loading' | undefined,
+    relatedLinks: T | 'loading' | undefined
   ): T | 'loading' | [] {
     if (relatedLinks === 'loading') {
       return 'loading';

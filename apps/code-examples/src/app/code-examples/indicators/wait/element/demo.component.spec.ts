@@ -12,7 +12,7 @@ describe('Basic wait', () => {
     const fixture = TestBed.createComponent(DemoComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
     const waitHarness = await loader.getHarness(
-      SkyWaitHarness.with({ dataSkyId: 'wait-demo' }),
+      SkyWaitHarness.with({ dataSkyId: 'wait-demo' })
     );
 
     return { waitHarness, fixture };

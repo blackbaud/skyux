@@ -60,7 +60,7 @@ describe('Trim directive', () => {
     const disconnectSpies = createSpy.calls
       .all()
       .map((createSpyCall) =>
-        spyOn(createSpyCall.returnValue, 'disconnect').and.callThrough(),
+        spyOn(createSpyCall.returnValue, 'disconnect').and.callThrough()
       );
 
     fixture.destroy();

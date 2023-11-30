@@ -41,12 +41,12 @@ export async function getWorkspace(tree: Tree): Promise<{
 
 export async function getProject(
   workspace: workspaces.WorkspaceDefinition,
-  projectName: string,
+  projectName: string
 ): Promise<{ project: workspaces.ProjectDefinition; projectName: string }> {
   const project = workspace.projects.get(projectName);
   if (!project) {
     throw new SchematicsException(
-      `The "${projectName}" project is not defined in angular.json. Provide a valid project name.`,
+      `The "${projectName}" project is not defined in angular.json. Provide a valid project name.`
     );
   }
 
@@ -57,7 +57,7 @@ export async function getProject(
  * Allows updates to the Angular project config (angular.json).
  */
 export function updateWorkspace(
-  updater: (workspace: workspaces.WorkspaceDefinition) => void | Promise<void>,
+  updater: (workspace: workspaces.WorkspaceDefinition) => void | Promise<void>
 ): Rule {
   return async (tree) => {
     const { host, workspace } = await getWorkspace(tree);
@@ -76,7 +76,7 @@ export function updateWorkspace(
  */
 export async function getRequiredProject(
   tree: Tree,
-  projectName: string | undefined,
+  projectName: string | undefined
 ): Promise<{ projectName: string; project: workspaces.ProjectDefinition }> {
   if (!projectName) {
     throw new Error('A project name is required.');
@@ -87,7 +87,7 @@ export async function getRequiredProject(
 
   if (!project) {
     throw new Error(
-      `The project '${projectName}' was not found in the workspace configuration.`,
+      `The project '${projectName}' was not found in the workspace configuration.`
     );
   }
 

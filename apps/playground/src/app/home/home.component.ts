@@ -77,7 +77,7 @@ export class HomeComponent implements AfterViewInit {
   constructor(
     router: Router,
     private changeDetector: ChangeDetectorRef,
-    private dataManagerService: SkyDataManagerService,
+    private dataManagerService: SkyDataManagerService
   ) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (
@@ -92,7 +92,7 @@ export class HomeComponent implements AfterViewInit {
               ...new Set(
                 this.componentData.map((data) => {
                   return data.library;
-                }),
+                })
               ),
             ]
               .sort()
@@ -110,10 +110,10 @@ export class HomeComponent implements AfterViewInit {
           this.dataManagerService.initDataView(this.viewConfig);
 
           this.displayedItems = this.sortItems(
-            this.filterItems(this.searchItems(this.componentData)),
+            this.filterItems(this.searchItems(this.componentData))
           );
           this.changeDetector.markForCheck();
-        },
+        }
       );
     });
   }
@@ -125,7 +125,7 @@ export class HomeComponent implements AfterViewInit {
         this.dataState = state;
         if (this.componentData) {
           this.displayedItems = this.sortItems(
-            this.filterItems(this.searchItems(this.componentData)),
+            this.filterItems(this.searchItems(this.componentData))
           );
           this.changeDetector.detectChanges();
         }
@@ -135,7 +135,7 @@ export class HomeComponent implements AfterViewInit {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private createComponentData(
     routes: ComponentRouteInfo[],
-    parentPath: string,
+    parentPath: string
   ): Promise<any> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const promises: Promise<any>[] = [];
@@ -152,10 +152,10 @@ export class HomeComponent implements AfterViewInit {
             if (Array.isArray(routes)) {
               return this.createComponentData(
                 routes,
-                parentPath + '/' + route.path,
+                parentPath + '/' + route.path
               );
             }
-          }),
+          })
         );
       } else if (route.data) {
         route.data.path = parentPath + '/' + route.path;

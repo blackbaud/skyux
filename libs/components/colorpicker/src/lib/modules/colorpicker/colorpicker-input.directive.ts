@@ -147,7 +147,7 @@ export class SkyColorpickerInputDirective
     renderer: Renderer2,
     svc: SkyColorpickerService,
     resourcesSvc: SkyLibResourcesService,
-    injector: Injector,
+    injector: Injector
   ) {
     this.#elementRef = elementRef;
     this.#renderer = renderer;
@@ -188,7 +188,7 @@ export class SkyColorpickerInputDirective
             // Write the new value to the reactive form control, which will update the template model
             this.writeValue(newColor);
           }
-        },
+        }
       );
 
     this.skyColorpickerInput.updatePickerValues(this.initialColor);
@@ -204,7 +204,7 @@ export class SkyColorpickerInputDirective
       this.#renderer.setAttribute(
         element,
         'aria-label',
-        this.#getString('skyux_colorpicker_input_default_label'),
+        this.#getString('skyux_colorpicker_input_default_label')
       );
     }
 
@@ -228,7 +228,7 @@ export class SkyColorpickerInputDirective
       this.outputFormat,
       this.presetColors,
       this.alphaChannel,
-      this.allowTransparency,
+      this.allowTransparency
     );
   }
 
@@ -319,7 +319,7 @@ export class SkyColorpickerInputDirective
   }
 
   #formatter(
-    color: string | SkyColorpickerOutput | undefined,
+    color: string | SkyColorpickerOutput | undefined
   ): SkyColorpickerOutput {
     if (color && typeof color !== 'string') {
       return color;
@@ -327,7 +327,7 @@ export class SkyColorpickerInputDirective
 
     const hsva = this.#svc.stringToHsva(
       color as string,
-      this.alphaChannel === 'hex8',
+      this.alphaChannel === 'hex8'
     );
 
     // TODO: This code assumed non-null pre-strict mode. Reevaluate in the future?

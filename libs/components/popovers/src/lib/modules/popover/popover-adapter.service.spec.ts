@@ -54,7 +54,7 @@ describe('SkyPopoverAdapterService', () => {
             popoverArrow: new ElementRef(popoverArrowElement),
           },
           'above',
-          themeName,
+          themeName
         );
 
         expect(offset).toEqual({
@@ -82,7 +82,7 @@ describe('SkyPopoverAdapterService', () => {
             popoverArrow: new ElementRef(popoverArrowElement),
           },
           'above',
-          themeName,
+          themeName
         );
 
         expect(offset).toEqual({
@@ -110,7 +110,7 @@ describe('SkyPopoverAdapterService', () => {
             popoverArrow: new ElementRef(popoverArrowElement),
           },
           'above',
-          themeName,
+          themeName
         );
 
         expect(offset).toEqual({
@@ -140,7 +140,7 @@ describe('SkyPopoverAdapterService', () => {
             popoverArrow: new ElementRef(popoverArrowElement),
           },
           'below',
-          themeName,
+          themeName
         );
 
         expect(offset).toEqual({
@@ -168,7 +168,7 @@ describe('SkyPopoverAdapterService', () => {
             popoverArrow: new ElementRef(popoverArrowElement),
           },
           'below',
-          themeName,
+          themeName
         );
 
         expect(offset).toEqual({
@@ -196,7 +196,7 @@ describe('SkyPopoverAdapterService', () => {
             popoverArrow: new ElementRef(popoverArrowElement),
           },
           'below',
-          themeName,
+          themeName
         );
 
         expect(offset).toEqual({
@@ -226,7 +226,7 @@ describe('SkyPopoverAdapterService', () => {
             popoverArrow: new ElementRef(popoverArrowElement),
           },
           'left',
-          themeName,
+          themeName
         );
 
         expect(offset).toEqual({
@@ -254,7 +254,7 @@ describe('SkyPopoverAdapterService', () => {
             popoverArrow: new ElementRef(popoverArrowElement),
           },
           'left',
-          themeName,
+          themeName
         );
 
         expect(offset).toEqual({
@@ -282,7 +282,7 @@ describe('SkyPopoverAdapterService', () => {
             popoverArrow: new ElementRef(popoverArrowElement),
           },
           'left',
-          themeName,
+          themeName
         );
 
         expect(offset).toEqual({
@@ -312,7 +312,7 @@ describe('SkyPopoverAdapterService', () => {
             popoverArrow: new ElementRef(popoverArrowElement),
           },
           'right',
-          themeName,
+          themeName
         );
 
         expect(offset).toEqual({
@@ -340,7 +340,7 @@ describe('SkyPopoverAdapterService', () => {
             popoverArrow: new ElementRef(popoverArrowElement),
           },
           'right',
-          themeName,
+          themeName
         );
 
         expect(offset).toEqual({
@@ -368,7 +368,7 @@ describe('SkyPopoverAdapterService', () => {
             popoverArrow: new ElementRef(popoverArrowElement),
           },
           'right',
-          themeName,
+          themeName
         );
 
         expect(offset).toEqual({

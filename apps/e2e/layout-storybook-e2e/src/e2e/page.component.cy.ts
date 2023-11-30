@@ -5,8 +5,8 @@ describe('layout-storybook', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=pagecomponent-page--page`,
-        ),
+          `/iframe.html?globals=theme:${theme}&id=pagecomponent-page--page`
+        )
       );
 
       it('should constrain the contents of the page with layout fit to the available viewport', () => {

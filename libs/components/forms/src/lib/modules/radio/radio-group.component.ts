@@ -172,7 +172,7 @@ export class SkyRadioGroupComponent
   constructor(
     changeDetector: ChangeDetectorRef,
     radioGroupIdSvc: SkyRadioGroupIdService,
-    @Self() @Optional() ngControl: NgControl,
+    @Self() @Optional() ngControl: NgControl
   ) {
     if (ngControl) {
       ngControl.valueAccessor = this;
@@ -284,7 +284,7 @@ export class SkyRadioGroupComponent
   #updateRadioButtonDisabled(): void {
     if (this.radios) {
       this.radios.forEach((radio) =>
-        radio.setGroupDisabledState(this.disabled),
+        radio.setGroupDisabledState(this.disabled)
       );
     }
   }

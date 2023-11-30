@@ -21,7 +21,7 @@ export class SkyAuthTokenProvider {
 
   constructor(
     @Optional() config?: SkyAppConfig,
-    @Optional() paramsProvider?: SkyAppRuntimeConfigParamsProvider,
+    @Optional() paramsProvider?: SkyAppRuntimeConfigParamsProvider
   ) {
     this.#config = config;
     this.#paramsProvider = paramsProvider;
@@ -64,7 +64,7 @@ export class SkyAuthTokenProvider {
    * @param args Provides additional context for retrieving the token.
    */
   public getDecodedContextToken(
-    args?: SkyAuthTokenContextArgs,
+    args?: SkyAuthTokenContextArgs
   ): Promise<SkyAuthToken> {
     const tokenArgs = this.#getContextArgs(args);
 

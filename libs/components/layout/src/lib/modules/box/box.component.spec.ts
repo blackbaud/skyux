@@ -59,7 +59,7 @@ describe('BoxComponent', () => {
     fixture.detectChanges();
 
     expect(getBoxEl(fixture).getAttribute('aria-labelledby')).toEqual(
-      'my-header',
+      'my-header'
     );
   });
 

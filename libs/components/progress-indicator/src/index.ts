@@ -12,7 +12,7 @@ export { SkyProgressIndicatorNavButtonType } from './lib/modules/progress-indica
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of public API.
 export { SkyProgressIndicatorItemComponent as λ1 } from './lib/modules/progress-indicator/progress-indicator-item/progress-indicator-item.component';
+export { SkyProgressIndicatorComponent as λ2 } from './lib/modules/progress-indicator/progress-indicator.component';
 export { SkyProgressIndicatorNavButtonComponent as λ3 } from './lib/modules/progress-indicator/progress-indicator-nav-button/progress-indicator-nav-button.component';
 export { SkyProgressIndicatorResetButtonComponent as λ4 } from './lib/modules/progress-indicator/progress-indicator-reset-button/progress-indicator-reset-button.component';
 export { SkyProgressIndicatorTitleComponent as λ5 } from './lib/modules/progress-indicator/progress-indicator-title/progress-indicator-title.component';
-export { SkyProgressIndicatorComponent as λ2 } from './lib/modules/progress-indicator/progress-indicator.component';

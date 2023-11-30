@@ -44,7 +44,7 @@ function getResources(tree: Tree, project: ProjectDefinition): string {
   localesDir.subfiles.forEach((file) => {
     const localeId = parseLocaleIdFromFileName(file);
     const contents = JSON.parse(
-      readRequiredFile(tree, `${localesPath}/${file}`),
+      readRequiredFile(tree, `${localesPath}/${file}`)
     );
 
     Object.keys(contents).forEach((key) => {
@@ -74,7 +74,7 @@ function addI18nPeerDependency(project: ProjectDefinition): Rule {
       packageJson.peerDependencies['@skyux/i18n'] = SkyuxVersions.I18n;
       tree.overwrite(
         packageJsonPath,
-        JSON.stringify(packageJson, undefined, 2),
+        JSON.stringify(packageJson, undefined, 2)
       );
     }
   };
@@ -83,7 +83,7 @@ function addI18nPeerDependency(project: ProjectDefinition): Rule {
 function ensureDefaultResourcesFileExists(project: ProjectDefinition): Rule {
   return (tree) => {
     const defaultResourcePath = normalize(
-      `${project.sourceRoot}/assets/locales/resources_en_US.json`,
+      `${project.sourceRoot}/assets/locales/resources_en_US.json`
     );
 
     if (tree.exists(defaultResourcePath)) {
@@ -100,8 +100,8 @@ function ensureDefaultResourcesFileExists(project: ProjectDefinition): Rule {
           },
         },
         undefined,
-        2,
-      ) + '\n',
+        2
+      ) + '\n'
     );
 
     return tree;
@@ -111,7 +111,7 @@ function ensureDefaultResourcesFileExists(project: ProjectDefinition): Rule {
 function generateTemplateFiles(
   project: ProjectDefinition,
   projectName: string,
-  options: Schema,
+  options: Schema
 ): Rule {
   return (tree) => {
     const modulePath = options.name || '';
@@ -148,13 +148,13 @@ export default function generateLibraryResourcesModule(options: Schema): Rule {
 
     const { project, projectName } = await getProject(
       workspace,
-      options.project,
+      options.project
     );
 
     // Abort if executed against an application.
     if (project.extensions['projectType'] === 'application') {
       context.logger.warn(
-        `The project "${projectName}" is not of type "library". Aborting.`,
+        `The project "${projectName}" is not of type "library". Aborting.`
       );
       return;
     }

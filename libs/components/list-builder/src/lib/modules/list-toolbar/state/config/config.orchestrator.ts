@@ -14,28 +14,28 @@ export class ListToolbarConfigOrchestrator extends ListToolbarStateOrchestrator<
 
     this.register(
       ListToolbarConfigSetSearchEnabledAction,
-      this.setSearchEnabled,
+      this.setSearchEnabled
     ).register(
       ListToolbarConfigSetSortSelectorEnabledAction,
-      this.setSortSelectorEnabled,
+      this.setSortSelectorEnabled
     );
   }
 
   private setSearchEnabled(
     state: ListToolbarConfigModel,
-    action: ListToolbarConfigSetSearchEnabledAction,
+    action: ListToolbarConfigSetSearchEnabledAction
   ): ListToolbarConfigModel {
     return new ListToolbarConfigModel(
-      Object.assign({}, state, { searchEnabled: action.enabled }),
+      Object.assign({}, state, { searchEnabled: action.enabled })
     );
   }
 
   private setSortSelectorEnabled(
     state: ListToolbarConfigModel,
-    action: ListToolbarConfigSetSortSelectorEnabledAction,
+    action: ListToolbarConfigSetSortSelectorEnabledAction
   ): ListToolbarConfigModel {
     return new ListToolbarConfigModel(
-      Object.assign({}, state, { sortSelectorEnabled: action.enabled }),
+      Object.assign({}, state, { sortSelectorEnabled: action.enabled })
     );
   }
 }

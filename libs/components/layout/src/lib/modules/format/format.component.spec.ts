@@ -9,7 +9,7 @@ import { SkyFormatModule } from './format.module';
 describe('Format component', () => {
   function validateFormattedText(
     fixture: ComponentFixture<FormatFixtureComponent>,
-    expectedText: string,
+    expectedText: string
   ): void {
     const formatTestEl = fixture.debugElement.query(By.css('.format-test'));
     const innerText = formatTestEl.nativeElement.innerText.replace(/\s+/g, ' ');

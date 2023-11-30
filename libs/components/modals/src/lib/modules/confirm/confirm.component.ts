@@ -50,7 +50,7 @@ export class SkyConfirmComponent {
     config: SkyConfirmConfig,
     modal: SkyModalInstance,
     resourcesService: SkyLibResourcesService,
-    idService: SkyIdService,
+    idService: SkyIdService
   ) {
     this.#config = config;
     this.#modal = modal;
@@ -139,7 +139,7 @@ export class SkyConfirmComponent {
   }
 
   #getCustomButtons(
-    buttonConfig: SkyConfirmButtonConfig[],
+    buttonConfig: SkyConfirmButtonConfig[]
   ): SkyConfirmButton[] {
     return buttonConfig.map(
       (config) =>
@@ -148,7 +148,7 @@ export class SkyConfirmComponent {
           action: config.action,
           styleType: config.styleType || 'default',
           autofocus: config.autofocus || false,
-        } as SkyConfirmButton),
+        } as SkyConfirmButton)
     );
   }
 }

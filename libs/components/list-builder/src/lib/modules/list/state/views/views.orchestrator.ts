@@ -15,25 +15,25 @@ export class ListViewsOrchestrator extends ListStateOrchestrator<ListViewsModel>
 
     this.register(ListViewsSetActiveAction, this.setActive).register(
       ListViewsLoadAction,
-      this.load,
+      this.load
     );
   }
 
   private setActive(
     state: ListViewsModel,
-    action: ListViewsSetActiveAction,
+    action: ListViewsSetActiveAction
   ): ListViewsModel {
     return new ListViewsModel(
-      Object.assign({}, state, { active: action.view }),
+      Object.assign({}, state, { active: action.view })
     );
   }
 
   private load(
     state: ListViewsModel,
-    action: ListViewsLoadAction,
+    action: ListViewsLoadAction
   ): ListViewsModel {
     return new ListViewsModel(
-      Object.assign({}, state, { views: action.views }),
+      Object.assign({}, state, { views: action.views })
     );
   }
 }

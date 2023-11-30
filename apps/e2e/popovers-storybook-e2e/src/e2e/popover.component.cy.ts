@@ -7,8 +7,8 @@ describe(`popovers-storybook`, () => {
         cy
           .viewport(1280, 1200)
           .visit(
-            `/iframe.html?globals=theme:${theme}&id=popovercomponent-popover--popover`,
-          ),
+            `/iframe.html?globals=theme:${theme}&id=popovercomponent-popover--popover`
+          )
       );
       it('should render the component', () => {
         cy.get('#popovers-ready').should('exist');
@@ -57,14 +57,14 @@ describe(`popovers-storybook`, () => {
         cy.get('.popover-message').should('have.length', 16);
         cy.get('.popover-message').should(
           'contain.text',
-          'The content of a popover can be text, HTML, or Angular components.',
+          'The content of a popover can be text, HTML, or Angular components.'
         );
 
         cy.window().percySnapshot(
           `popovercomponent-popover--popover-${theme}`,
           {
             widths: [1280],
-          },
+          }
         );
         cy.window().screenshot(`popovercomponent-popover--popover-${theme}`);
       });

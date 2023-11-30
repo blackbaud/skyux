@@ -21,7 +21,7 @@ describe('Viewkeeper', () => {
   function validateElStyle(
     elToValidate: HTMLElement,
     styleProperty: keyof CSSStyleDeclaration,
-    expectedValue: any,
+    expectedValue: any
   ) {
     expect(getComputedStyle(elToValidate)[styleProperty]).toBe(expectedValue);
   }
@@ -30,7 +30,7 @@ describe('Viewkeeper', () => {
     elToValidate: HTMLElement,
     pinned: boolean,
     pinnedTop?: number,
-    marginTop = 0,
+    marginTop = 0
   ) {
     if (pinned) {
       validateElStyle(elToValidate, 'position', 'fixed');
@@ -46,7 +46,7 @@ describe('Viewkeeper', () => {
     height: string,
     width: string,
     color: string,
-    text: string,
+    text: string
   ): HTMLElement {
     const content = document.createElement('div');
     content.style.height = height;
@@ -90,7 +90,7 @@ describe('Viewkeeper', () => {
           el,
           boundaryEl,
           viewportMarginTop: 5,
-        }),
+        })
       );
 
       scrollWindowTo(0, 20);
@@ -109,7 +109,7 @@ describe('Viewkeeper', () => {
           boundaryEl,
           setWidth: true,
           viewportMarginTop: 5,
-        }),
+        })
       );
 
       scrollWindowTo(0, 20);
@@ -117,7 +117,7 @@ describe('Viewkeeper', () => {
       validatePinned(el, true, 0, 5);
 
       expect(getComputedStyle(el).width).toBe(
-        getComputedStyle(boundaryEl).width,
+        getComputedStyle(boundaryEl).width
       );
     });
 
@@ -126,7 +126,7 @@ describe('Viewkeeper', () => {
         new SkyViewkeeper({
           el,
           boundaryEl,
-        }),
+        })
       );
 
       el.style.display = 'none';
@@ -147,7 +147,7 @@ describe('Viewkeeper', () => {
         new SkyViewkeeper({
           el: verticalOffsetEl,
           boundaryEl,
-        }),
+        })
       );
 
       vks.push(
@@ -155,7 +155,7 @@ describe('Viewkeeper', () => {
           el,
           boundaryEl,
           verticalOffsetEl,
-        }),
+        })
       );
 
       scrollWindowTo(0, 100);
@@ -182,7 +182,7 @@ describe('Viewkeeper', () => {
 
       const removeEventListenerSpy = spyOn(
         window,
-        'removeEventListener',
+        'removeEventListener'
       ).and.callThrough();
 
       vk.destroy();
@@ -203,13 +203,13 @@ describe('Viewkeeper', () => {
 
     it('should throw an error if `el` not provided', () => {
       expect(() => new SkyViewkeeper({})).toThrowError(
-        '[SkyViewkeeper] The option `el` is required.',
+        '[SkyViewkeeper] The option `el` is required.'
       );
     });
 
     it('should throw an error if `boundaryEl` not provided', () => {
       expect(() => new SkyViewkeeper({ el })).toThrowError(
-        '[SkyViewkeeper] The option `boundaryEl` is required.',
+        '[SkyViewkeeper] The option `boundaryEl` is required.'
       );
     });
   });
@@ -237,12 +237,12 @@ describe('Viewkeeper', () => {
       scrollableHostEl.appendChild(boundaryEl);
       boundaryEl.appendChild(el);
       scrollableHostEl.appendChild(
-        contentEl('800px', 'auto', '#b847ee', 'Scroll me'),
+        contentEl('800px', 'auto', '#b847ee', 'Scroll me')
       );
 
       document.body.insertBefore(
         contentEl(window.outerHeight + 800 + 'px', 'auto', 'white', ' '),
-        document.body.firstChild,
+        document.body.firstChild
       );
       document.body.insertBefore(scrollableHostEl, document.body.firstChild);
     });
@@ -266,7 +266,7 @@ describe('Viewkeeper', () => {
           scrollableHost: scrollableHostEl,
           viewportMarginTop: 5,
           setWidth: true,
-        }),
+        })
       );
 
       scrollScrollableHost(0, 20);
@@ -297,7 +297,7 @@ describe('Viewkeeper', () => {
           setWidth: true,
           scrollableHost: scrollableHostEl,
           viewportMarginTop: 5,
-        }),
+        })
       );
 
       scrollScrollableHost(0, 20);
@@ -305,7 +305,7 @@ describe('Viewkeeper', () => {
       validatePinned(el, true, 10, 0);
 
       expect(getComputedStyle(el).width).toBe(
-        getComputedStyle(boundaryEl).width,
+        getComputedStyle(boundaryEl).width
       );
     });
 
@@ -315,7 +315,7 @@ describe('Viewkeeper', () => {
           el,
           boundaryEl,
           scrollableHost: scrollableHostEl,
-        }),
+        })
       );
 
       el.style.display = 'none';
@@ -337,7 +337,7 @@ describe('Viewkeeper', () => {
           el: verticalOffsetEl,
           boundaryEl,
           scrollableHost: scrollableHostEl,
-        }),
+        })
       );
 
       vks.push(
@@ -346,7 +346,7 @@ describe('Viewkeeper', () => {
           boundaryEl,
           verticalOffsetEl,
           scrollableHost: scrollableHostEl,
-        }),
+        })
       );
 
       scrollScrollableHost(0, 100);
@@ -374,7 +374,7 @@ describe('Viewkeeper', () => {
 
       const removeEventListenerSpy = spyOn(
         window,
-        'removeEventListener',
+        'removeEventListener'
       ).and.callThrough();
 
       vk.destroy();
@@ -395,7 +395,7 @@ describe('Viewkeeper', () => {
 
     it('should clip the viewkeeper element when partially out of view', () => {
       scrollableHostEl.appendChild(
-        contentEl('800px', '600px', '#d3d3d3', 'Below'),
+        contentEl('800px', '600px', '#d3d3d3', 'Below')
       );
 
       vks.push(
@@ -404,7 +404,7 @@ describe('Viewkeeper', () => {
           boundaryEl,
           scrollableHost: scrollableHostEl,
           setWidth: true,
-        }),
+        })
       );
 
       scrollScrollableHost(0, 20);

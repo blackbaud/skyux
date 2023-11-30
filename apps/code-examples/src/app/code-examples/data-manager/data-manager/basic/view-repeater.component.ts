@@ -45,7 +45,6 @@ export class ViewRepeaterComponent implements OnInit, OnDestroy {
     name: 'Repeater View',
     icon: 'list',
     searchEnabled: true,
-    sortEnabled: true,
     filterButtonEnabled: true,
     multiselectToolbarEnabled: true,
     onClearAllClick: () => this.#clearAll(),

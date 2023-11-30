@@ -6,7 +6,7 @@ import { SkyIndicatorIconType } from './indicator-icon-type';
  */
 export class SkyIndicatorIconUtility {
   public static getIconsForType(
-    indicatorType: SkyIndicatorIconType,
+    indicatorType: SkyIndicatorIconType
   ): SkyIndicatorIcon {
     let icon: string;
     let baseIcon: string;

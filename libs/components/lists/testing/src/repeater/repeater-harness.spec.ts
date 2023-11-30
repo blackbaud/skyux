@@ -19,7 +19,7 @@ async function setupTest(options: { dataSkyId?: string } = {}) {
     ? await loader.getHarness(
         SkyRepeaterHarness.with({
           dataSkyId: options.dataSkyId,
-        }),
+        })
       )
     : await loader.getHarness(SkyRepeaterHarness);
 
@@ -86,13 +86,13 @@ describe('Repeater harness', () => {
     const item = items[0];
 
     await expectAsync(item.isSelected()).toBeRejectedWithError(
-      'Could not determine if repeater item is selected because it is not selectable.',
+      'Could not determine if repeater item is selected because it is not selectable.'
     );
     await expectAsync(item.select()).toBeRejectedWithError(
-      'Could not select the repeater item because it is not selectable.',
+      'Could not select the repeater item because it is not selectable.'
     );
     await expectAsync(item.deselect()).toBeRejectedWithError(
-      'Could not deselect the repeater item because it is not selectable.',
+      'Could not deselect the repeater item because it is not selectable.'
     );
   });
 
@@ -132,14 +132,14 @@ describe('Repeater harness', () => {
     await expectAsync(item.isCollapsible()).toBeResolvedTo(false);
 
     await expectAsync(item.isExpanded()).toBeRejectedWithError(
-      'Could not determine if repeater item is expanded because it is not collapsible.',
+      'Could not determine if repeater item is expanded because it is not collapsible.'
     );
 
     await expectAsync(item.expand()).toBeRejectedWithError(
-      'Could not expand the repeater item because it is not collapsible.',
+      'Could not expand the repeater item because it is not collapsible.'
     );
     await expectAsync(item.collapse()).toBeRejectedWithError(
-      'Could not collapse the repeater item because it is not collapsible.',
+      'Could not collapse the repeater item because it is not collapsible.'
     );
   });
 
@@ -153,7 +153,7 @@ describe('Repeater harness', () => {
 
     await expectAsync(item.isReorderable()).toBeResolvedTo(false);
     await expectAsync(item.sendToTop()).toBeRejectedWithError(
-      'Could not send to top because the repeater is not reorderable.',
+      'Could not send to top because the repeater is not reorderable.'
     );
 
     fixture.componentInstance.reorderable = true;
@@ -184,7 +184,7 @@ describe('Repeater harness', () => {
     });
 
     await expectAsync(items[0].getTitleText()).toBeResolvedTo(
-      'Call Robert Hernandez',
+      'Call Robert Hernandez'
     );
   });
 
@@ -198,7 +198,7 @@ describe('Repeater harness', () => {
     });
 
     await expectAsync(items[0].getContentText()).toBeResolvedTo(
-      'Robert recently gave a very generous gift. We should call him to thank him.',
+      'Robert recently gave a very generous gift. We should call him to thank him.'
     );
   });
 
@@ -210,16 +210,16 @@ describe('Repeater harness', () => {
     const items = await repeaterHarness.getRepeaterItems();
 
     const noteHarness = await items[0].queryHarness(
-      RepeaterHarnessTestItemHarness,
+      RepeaterHarnessTestItemHarness
     );
 
     expect(noteHarness).not.toBeNull();
     await expectAsync((await noteHarness!.host()).text()).toBeResolvedTo(
-      'Robert recently gave a very generous gift. We should call him to thank him.',
+      'Robert recently gave a very generous gift. We should call him to thank him.'
     );
 
     const noteHarnesses = await items[1].queryHarnesses(
-      RepeaterHarnessTestItemHarness,
+      RepeaterHarnessTestItemHarness
     );
     expect(noteHarnesses).not.toBeNull();
     expect(noteHarnesses.length).toBe(1);

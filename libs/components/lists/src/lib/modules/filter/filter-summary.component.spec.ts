@@ -23,18 +23,18 @@ describe('Filter summary', () => {
 
   it('should create a filter summary with label and child items', () => {
     expect(
-      nativeElement.querySelector('.sky-filter-summary-header'),
+      nativeElement.querySelector('.sky-filter-summary-header')
     ).toHaveText('Filter:');
     expect(
       nativeElement.querySelectorAll(
-        '.sky-filter-summary-items .sky-filter-summary-item',
-      ).length,
+        '.sky-filter-summary-items .sky-filter-summary-item'
+      ).length
     ).toBe(2);
   });
 
   it('should allow filter summary items to be dismissible', () => {
     const items = nativeElement.querySelectorAll(
-      '.sky-filter-summary-items .sky-filter-summary-item',
+      '.sky-filter-summary-items .sky-filter-summary-item'
     );
 
     expect(items.item(0).querySelector('.sky-token-btn-close')).toBeNull();
@@ -49,7 +49,7 @@ describe('Filter summary', () => {
 
   it('should emit an event on item click', () => {
     const items = nativeElement.querySelectorAll(
-      '.sky-filter-summary-items .sky-filter-summary-item',
+      '.sky-filter-summary-items .sky-filter-summary-item'
     );
 
     SkyAppTestUtility.fireDomEvent(items.item(0), 'click');
@@ -61,7 +61,7 @@ describe('Filter summary', () => {
 
   it('should emit an event on item keypress', () => {
     const items = nativeElement.querySelectorAll(
-      '.sky-filter-summary-items .sky-filter-summary-item',
+      '.sky-filter-summary-items .sky-filter-summary-item'
     );
 
     SkyAppTestUtility.fireDomEvent(items[0], 'keypress.space');
@@ -79,7 +79,7 @@ describe('Filter summary', () => {
 
   it('should emit an event on dismiss click', () => {
     const items = nativeElement.querySelectorAll(
-      '.sky-filter-summary-items .sky-filter-summary-item .sky-token-btn-close',
+      '.sky-filter-summary-items .sky-filter-summary-item .sky-token-btn-close'
     );
 
     SkyAppTestUtility.fireDomEvent(items.item(0), 'click');

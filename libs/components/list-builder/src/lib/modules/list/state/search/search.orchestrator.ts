@@ -23,36 +23,36 @@ export class ListSearchOrchestrator extends ListStateOrchestrator<ListSearchMode
 
   private setSearchText(
     state: ListSearchModel,
-    action: ListSearchSetSearchTextAction,
+    action: ListSearchSetSearchTextAction
   ): ListSearchModel {
     return new ListSearchModel(
       Object.assign({}, state, {
         searchText: action.searchText ? action.searchText : '',
-      }),
+      })
     );
   }
 
   private setFunctions(
     state: ListSearchModel,
-    action: ListSearchSetFunctionsAction,
+    action: ListSearchSetFunctionsAction
   ): ListSearchModel {
     return new ListSearchModel(
-      Object.assign({}, state, { functions: [...action.functions] }),
+      Object.assign({}, state, { functions: [...action.functions] })
     );
   }
 
   private setFieldSelectors(
     state: ListSearchModel,
-    action: ListSearchSetFieldSelectorsAction,
+    action: ListSearchSetFieldSelectorsAction
   ): ListSearchModel {
     return new ListSearchModel(
-      Object.assign({}, state, { fieldSelectors: [...action.fieldSelectors] }),
+      Object.assign({}, state, { fieldSelectors: [...action.fieldSelectors] })
     );
   }
 
   private setOptions(
     state: ListSearchModel,
-    action: ListSearchSetOptionsAction,
+    action: ListSearchSetOptionsAction
   ) {
     let result = state;
 

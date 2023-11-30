@@ -38,25 +38,25 @@ import { ListViewChecklistItemsLoadAction } from './state/items/load.action';
 //#region helpers
 function getSingleSelectButtons(): NodeListOf<Element> {
   return document.querySelectorAll(
-    '.sky-list-view-checklist-item .sky-list-view-checklist-single-button',
+    '.sky-list-view-checklist-item .sky-list-view-checklist-single-button'
   );
 }
 
 function getSelectAllButton(): HTMLElement {
   return document.querySelectorAll(
-    '.sky-list-multiselect-toolbar button',
+    '.sky-list-multiselect-toolbar button'
   )[0] as HTMLElement;
 }
 
 function getClearAllButton(): HTMLElement {
   return document.querySelectorAll(
-    '.sky-list-multiselect-toolbar button',
+    '.sky-list-multiselect-toolbar button'
   )[1] as HTMLElement;
 }
 
 function getOnlyShowSelectedCheckbox(): HTMLElement {
   return document.querySelector(
-    '.sky-list-multiselect-toolbar input',
+    '.sky-list-multiselect-toolbar input'
   ) as HTMLElement;
 }
 
@@ -97,7 +97,7 @@ function goToNextPage(fixture: ComponentFixture<any>): void {
 
 function getChecklistItems(): NodeListOf<Element> {
   return document.querySelectorAll(
-    '.sky-list-view-checklist-item sky-checkbox input',
+    '.sky-list-view-checklist-item sky-checkbox input'
   );
 }
 
@@ -239,7 +239,7 @@ describe('List View Checklist Component', () => {
       dispatcher.next(
         new ListViewsLoadAction([
           new ListViewModel(component.checklist.id, component.checklist.label),
-        ]),
+        ])
       );
       dispatcher.viewsSetActive(component.checklist.id);
       fixture.detectChanges();
@@ -252,52 +252,52 @@ describe('List View Checklist Component', () => {
 
     it('should show checklist with proper labels', () => {
       expect(
-        element.queryAll(By.css('sky-list-view-checklist-item')).length,
+        element.queryAll(By.css('sky-list-view-checklist-item')).length
       ).toBe(8);
       expect(
         element
           .query(
             By.css(
-              'sky-list-view-checklist-item sky-checkbox-label .sky-emphasized',
-            ),
+              'sky-list-view-checklist-item sky-checkbox-label .sky-emphasized'
+            )
           )
-          .nativeElement.textContent.trim(),
+          .nativeElement.textContent.trim()
       ).toBe('1');
       expect(
         element
           .queryAll(
-            By.css('sky-list-view-checklist-item sky-checkbox-label div'),
+            By.css('sky-list-view-checklist-item sky-checkbox-label div')
           )[1]
-          .nativeElement.textContent.trim(),
+          .nativeElement.textContent.trim()
       ).toBe('Apple');
     });
 
     it('should search based on input text', async(() => {
       let searchItems = items.filter((item) =>
-        component.checklist.searchFunction()(item.data, '12'),
+        component.checklist.searchFunction()(item.data, '12')
       );
       dispatcher.next(new ListItemsLoadAction(searchItems, true));
       fixture.detectChanges();
       expect(
-        element.queryAll(By.css('sky-list-view-checklist-item')).length,
+        element.queryAll(By.css('sky-list-view-checklist-item')).length
       ).toBe(1);
 
       searchItems = items.filter((item) =>
-        component.checklist.searchFunction()(item.data, 'banana'),
+        component.checklist.searchFunction()(item.data, 'banana')
       );
       dispatcher.next(new ListItemsLoadAction(searchItems, true));
       fixture.detectChanges();
       expect(
-        element.queryAll(By.css('sky-list-view-checklist-item')).length,
+        element.queryAll(By.css('sky-list-view-checklist-item')).length
       ).toBe(2);
 
       searchItems = items.filter((item) =>
-        component.checklist.searchFunction()(item.data, 'bb'),
+        component.checklist.searchFunction()(item.data, 'bb')
       );
       dispatcher.next(new ListItemsLoadAction(searchItems, true));
       fixture.detectChanges();
       expect(
-        element.queryAll(By.css('sky-list-view-checklist-item')).length,
+        element.queryAll(By.css('sky-list-view-checklist-item')).length
       ).toBe(0);
     }));
   });
@@ -341,7 +341,7 @@ describe('List View Checklist Component', () => {
       dispatcher.next(
         new ListViewsLoadAction([
           new ListViewModel(component.checklist.id, component.checklist.label),
-        ]),
+        ])
       );
       dispatcher.viewsSetActive(component.checklist.id);
       fixture.detectChanges();
@@ -354,12 +354,12 @@ describe('List View Checklist Component', () => {
 
     it('should display 1 empty item', () => {
       expect(
-        element.queryAll(By.css('sky-list-view-checklist-item')).length,
+        element.queryAll(By.css('sky-list-view-checklist-item')).length
       ).toBe(1);
       expect(
         element
           .query(By.css('sky-list-view-checklist-item sky-checkbox-label'))
-          .nativeElement.textContent.trim(),
+          .nativeElement.textContent.trim()
       ).toBe('');
     });
 
@@ -370,7 +370,7 @@ describe('List View Checklist Component', () => {
       dispatcher.next(new ListItemsLoadAction(searchItems, true));
       fixture.detectChanges();
       expect(
-        element.queryAll(By.css('sky-list-view-checklist-item')).length,
+        element.queryAll(By.css('sky-list-view-checklist-item')).length
       ).toBe(0);
     }));
   });
@@ -403,7 +403,7 @@ describe('List View Checklist Component', () => {
       });
 
       fixture = TestBed.createComponent(
-        ListViewChecklistPaginationTestComponent,
+        ListViewChecklistPaginationTestComponent
       );
       fixture.detectChanges();
 
@@ -507,7 +507,7 @@ describe('List View Checklist Component', () => {
 
     it('should set selections on click properly', fakeAsync(() => {
       let labelEl = nativeElement.querySelectorAll(
-        '.sky-list-view-checklist label.sky-checkbox-wrapper',
+        '.sky-list-view-checklist label.sky-checkbox-wrapper'
       )[0] as HTMLLabelElement;
 
       labelEl.click();
@@ -517,7 +517,7 @@ describe('List View Checklist Component', () => {
       expect(component.selectedItems.get('1')).toBe(true);
 
       labelEl = nativeElement.querySelectorAll(
-        '.sky-list-view-checklist label.sky-checkbox-wrapper',
+        '.sky-list-view-checklist label.sky-checkbox-wrapper'
       )[0] as HTMLLabelElement;
       labelEl.click();
       tick();
@@ -531,7 +531,7 @@ describe('List View Checklist Component', () => {
       toggleOnlyShowSelected(fixture);
 
       const visibleCheckboxesLength = document.querySelectorAll(
-        '.sky-list-view-checklist sky-checkbox input',
+        '.sky-list-view-checklist sky-checkbox input'
       ).length;
       expect(visibleCheckboxesLength).toEqual(itemsArray.length);
     }));
@@ -540,7 +540,7 @@ describe('List View Checklist Component', () => {
       tick();
       fixture.detectChanges();
       const checkboxes = document.querySelectorAll(
-        '.sky-list-view-checklist sky-checkbox input',
+        '.sky-list-view-checklist sky-checkbox input'
       );
       (checkboxes.item(0) as HTMLElement).click();
       tick();
@@ -549,10 +549,10 @@ describe('List View Checklist Component', () => {
       toggleOnlyShowSelected(fixture);
 
       const visibleCheckboxesLength = document.querySelectorAll(
-        '.sky-list-view-checklist sky-checkbox input',
+        '.sky-list-view-checklist sky-checkbox input'
       ).length;
       expect(visibleCheckboxesLength).toEqual(
-        fixture.componentInstance.selectedItems.size,
+        fixture.componentInstance.selectedItems.size
       );
     }));
 
@@ -560,7 +560,7 @@ describe('List View Checklist Component', () => {
       tick();
       fixture.detectChanges();
       let checkboxes = document.querySelectorAll(
-        '.sky-list-view-checklist sky-checkbox input',
+        '.sky-list-view-checklist sky-checkbox input'
       );
       (checkboxes.item(0) as HTMLElement).click();
       tick();
@@ -569,14 +569,14 @@ describe('List View Checklist Component', () => {
       toggleOnlyShowSelected(fixture);
 
       checkboxes = document.querySelectorAll(
-        '.sky-list-view-checklist sky-checkbox input',
+        '.sky-list-view-checklist sky-checkbox input'
       );
       (checkboxes.item(0) as HTMLElement).click();
       tick();
       fixture.detectChanges();
 
       const visibleCheckboxesLength = document.querySelectorAll(
-        '.sky-list-view-checklist sky-checkbox input',
+        '.sky-list-view-checklist sky-checkbox input'
       ).length;
       expect(checkboxes.length).toBeGreaterThan(visibleCheckboxesLength);
     }));
@@ -589,20 +589,20 @@ describe('List View Checklist Component', () => {
 
       // check number of checkboxes visible when showOnlySection is selected.
       const checkboxesLength = document.querySelectorAll(
-        '.sky-list-view-checklist sky-checkbox input',
+        '.sky-list-view-checklist sky-checkbox input'
       ).length;
 
       clickSelectAllButton(fixture);
 
       let updatedLength = document.querySelectorAll(
-        '.sky-list-view-checklist sky-checkbox input',
+        '.sky-list-view-checklist sky-checkbox input'
       ).length;
       expect(checkboxesLength).toEqual(updatedLength);
 
       clickClearAllButton(fixture);
 
       updatedLength = document.querySelectorAll(
-        '.sky-list-view-checklist sky-checkbox input',
+        '.sky-list-view-checklist sky-checkbox input'
       ).length;
       expect(updatedLength).toEqual(0);
     }));
@@ -618,12 +618,12 @@ describe('List View Checklist Component', () => {
 
       // visible checkboxes when 'only show selected items' is hidden.
       let updatedCheckboxesLength = document.querySelectorAll(
-        '.sky-list-view-checklist sky-checkbox input',
+        '.sky-list-view-checklist sky-checkbox input'
       ).length;
       expect(updatedCheckboxesLength).toEqual(0);
 
       updatedCheckboxesLength = document.querySelectorAll(
-        '.sky-list-view-checklist sky-list-view-checklist-item',
+        '.sky-list-view-checklist sky-list-view-checklist-item'
       ).length;
       expect(updatedCheckboxesLength).toBeGreaterThan(0);
     }));
@@ -641,7 +641,7 @@ describe('List View Checklist Component', () => {
         fixture.detectChanges();
 
         const updatedCheckboxesLength = document.querySelectorAll(
-          '.sky-list-view-checklist sky-checkbox input',
+          '.sky-list-view-checklist sky-checkbox input'
         ).length;
         expect(updatedCheckboxesLength).toEqual(0);
       });
@@ -674,7 +674,7 @@ describe('List View Checklist Component', () => {
       tick();
       fixture.detectChanges();
       const newItems = itemsArray.filter(
-        (item) => item.id === '6' || item.id === '7',
+        (item) => item.id === '6' || item.id === '7'
       );
       dispatcher.next(new ListItemsLoadAction(newItems, true));
       tick();
@@ -726,7 +726,7 @@ describe('List View Checklist Component', () => {
 
       // check number of checkboxes visible when showOnlySection is selected.
       const checkboxesLength = document.querySelectorAll(
-        '.sky-list-view-checklist sky-checkbox input',
+        '.sky-list-view-checklist sky-checkbox input'
       ).length;
 
       component.selectAll();
@@ -734,7 +734,7 @@ describe('List View Checklist Component', () => {
       fixture.detectChanges();
 
       let updatedLength = document.querySelectorAll(
-        '.sky-list-view-checklist sky-checkbox input',
+        '.sky-list-view-checklist sky-checkbox input'
       ).length;
       expect(checkboxesLength).toEqual(updatedLength);
 
@@ -743,7 +743,7 @@ describe('List View Checklist Component', () => {
       fixture.detectChanges();
 
       updatedLength = document.querySelectorAll(
-        '.sky-list-view-checklist sky-checkbox input',
+        '.sky-list-view-checklist sky-checkbox input'
       ).length;
       expect(updatedLength).toEqual(0);
     }));
@@ -761,7 +761,7 @@ describe('List View Checklist Component', () => {
       const checklistDispatcher = new ChecklistStateDispatcher();
       const checklistState = new ChecklistState(
         new ChecklistStateModel(),
-        checklistDispatcher,
+        checklistDispatcher
       );
       const items = [
         new ListViewChecklistItemModel('1', false),
@@ -771,7 +771,7 @@ describe('List View Checklist Component', () => {
       checklistDispatcher.next(new ListViewChecklistItemsLoadAction());
       checklistDispatcher.next(new ListViewChecklistItemsLoadAction(items));
       checklistDispatcher.next(
-        new ListViewChecklistItemsLoadAction(items, false, false),
+        new ListViewChecklistItemsLoadAction(items, false, false)
       );
       checklistState.subscribe((s) => {
         expect(s.items.count).toBe(2);

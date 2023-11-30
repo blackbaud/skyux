@@ -10,30 +10,30 @@ import { LabelTestComponent } from './fixtures/label.component.fixture';
 
 describe('Label component', () => {
   function getLabel(
-    fixture: ComponentFixture<LabelTestComponent>,
+    fixture: ComponentFixture<LabelTestComponent>
   ): HTMLElement {
     return fixture.nativeElement.querySelector(
-      '#label-with-label-type .sky-label',
+      '#label-with-label-type .sky-label'
     );
   }
 
   function getLabelWithoutLabelType(
-    fixture: ComponentFixture<LabelTestComponent>,
+    fixture: ComponentFixture<LabelTestComponent>
   ): HTMLElement {
     return fixture.nativeElement.querySelector(
-      '#label-without-label-type .sky-label',
+      '#label-without-label-type .sky-label'
     );
   }
 
   function validateDeprecatedCalled(
     fixture: ComponentFixture<LabelTestComponent>,
     deprecatedSpy: jasmine.Spy,
-    expected: boolean,
+    expected: boolean
   ): void {
     if (expected) {
       // Expect one call per label in the test component.
       const callCount = fixture.debugElement.queryAll(
-        By.css('sky-label'),
+        By.css('sky-label')
       ).length;
 
       expect(deprecatedSpy.calls.allArgs()).toEqual(
@@ -44,7 +44,7 @@ describe('Label component', () => {
             replacementRecommendation:
               'Always specify a `descriptionType` property.',
           },
-        ]),
+        ])
       );
     } else {
       expect(deprecatedSpy).not.toHaveBeenCalled();
@@ -91,7 +91,7 @@ describe('Label component', () => {
     function validateDescription(
       fixture: ComponentFixture<LabelTestComponent>,
       descriptionType: SkyIndicatorDescriptionType,
-      expectedDescription?: string,
+      expectedDescription?: string
     ): void {
       fixture.componentInstance.descriptionType = descriptionType;
 
@@ -125,7 +125,7 @@ describe('Label component', () => {
       validateDescription(
         fixture,
         'custom',
-        fixture.componentInstance.customDescription,
+        fixture.componentInstance.customDescription
       );
     });
   });
@@ -171,7 +171,7 @@ describe('Label component', () => {
 
     fixture.detectChanges();
     expect(getLabelWithoutLabelType(fixture).querySelector('i')).toHaveCssClass(
-      'fa-exclamation-circle',
+      'fa-exclamation-circle'
     );
   });
 

@@ -14,7 +14,7 @@ export default {
   ],
 } as Meta<AgGridStoriesComponent>;
 const Template: Story<AgGridStoriesComponent> = (
-  args: AgGridStoriesComponent,
+  args: AgGridStoriesComponent
 ) => ({
   props: args,
 });

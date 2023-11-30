@@ -25,13 +25,13 @@ describe('tree view', () => {
 
   function getSelectAllButton(): HTMLElement {
     return document.querySelector(
-      '.sky-angular-tree-select-all-btn',
+      '.sky-angular-tree-select-all-btn'
     ) as HTMLElement;
   }
 
   function getClearAllButton(): HTMLElement {
     return document.querySelector(
-      '.sky-angular-tree-clear-all-btn',
+      '.sky-angular-tree-clear-all-btn'
     ) as HTMLElement;
   }
 
@@ -45,19 +45,19 @@ describe('tree view', () => {
 
   function getExpandAllButton(): HTMLElement {
     return document.querySelector(
-      '.sky-angular-tree-expand-all-btn',
+      '.sky-angular-tree-expand-all-btn'
     ) as HTMLElement;
   }
 
   function getCollapseAllButton(): HTMLElement {
     return document.querySelector(
-      '.sky-angular-tree-collapse-all-btn',
+      '.sky-angular-tree-collapse-all-btn'
     ) as HTMLElement;
   }
 
   function getToggleChildrenButtons(): NodeListOf<HTMLElement> {
     return document.querySelectorAll(
-      '.sky-toggle-children',
+      '.sky-toggle-children'
     ) as NodeListOf<HTMLElement>;
   }
 
@@ -114,19 +114,19 @@ describe('tree view', () => {
 
     if (selected) {
       expect(nodeWrappers[nodeIndex - 1]).toHaveCssClass(
-        'sky-angular-tree-node-selected',
+        'sky-angular-tree-node-selected'
       );
       expect(
         !!component.selectedLeafNodeIds &&
-          component.selectedLeafNodeIds[nodeIndex],
+          component.selectedLeafNodeIds[nodeIndex]
       ).toEqual(true);
     } else {
       expect(nodeWrappers[nodeIndex - 1]).not.toHaveCssClass(
-        'sky-angular-tree-node-selected',
+        'sky-angular-tree-node-selected'
       );
       expect(
         !!component.selectedLeafNodeIds &&
-          !!component.selectedLeafNodeIds[nodeIndex],
+          !!component.selectedLeafNodeIds[nodeIndex]
       ).toEqual(false);
     }
   }
@@ -134,7 +134,7 @@ describe('tree view', () => {
   // nodeIndex should use 1-based indexes!
   function expectCheckboxToBeChecked(
     nodeIndex: number,
-    selected: boolean,
+    selected: boolean
   ): void {
     const checkboxInputs = getCheckboxInputs();
     expect(checkboxInputs[nodeIndex - 1].checked).toEqual(selected);
@@ -173,7 +173,7 @@ describe('tree view', () => {
   function keyDownOnElement(
     node: HTMLElement,
     eventName: string,
-    keyCode: number,
+    keyCode: number
   ): void {
     // Note: We have to use a customEventInit, because the angular-tree-component library goes off of keyCode,
     // which the keyboardEventInit doesn't support yet :( .
@@ -194,7 +194,7 @@ describe('tree view', () => {
     });
 
     fixture = TestBed.createComponent(
-      SkyTreeViewFixtureComponent,
+      SkyTreeViewFixtureComponent
     ) as ComponentFixture<SkyTreeViewFixtureComponent>;
     component = fixture.componentInstance as SkyTreeViewFixtureComponent;
   });
@@ -205,11 +205,11 @@ describe('tree view', () => {
       const toggleChildrenButtons = getToggleChildrenButtons();
       const unitedStates =
         toggleChildrenButtons[0].parentElement?.parentElement?.querySelector(
-          'tree-node-content',
+          'tree-node-content'
         );
       const indiana =
         toggleChildrenButtons[1].parentElement?.parentElement?.querySelector(
-          'tree-node-content',
+          'tree-node-content'
         );
 
       expect(toggleChildrenButtons.length).toEqual(2);
@@ -226,10 +226,10 @@ describe('tree view', () => {
       // Expect both parent nodes to start out expanded (United States & Indiana).
       expect(Object.keys(component.expandedNodeIds ?? {})).toEqual(['1', '3']);
       expect(
-        !!component.expandedNodeIds && component.expandedNodeIds[1],
+        !!component.expandedNodeIds && component.expandedNodeIds[1]
       ).toEqual(true);
       expect(
-        !!component.expandedNodeIds && component.expandedNodeIds[3],
+        !!component.expandedNodeIds && component.expandedNodeIds[3]
       ).toEqual(true);
 
       // Click United States toggle.
@@ -238,10 +238,10 @@ describe('tree view', () => {
       // Expect United States node to be collapsed.
       expect(Object.keys(component.expandedNodeIds ?? {})).toEqual(['1', '3']);
       expect(
-        !!component.expandedNodeIds && component.expandedNodeIds[1],
+        !!component.expandedNodeIds && component.expandedNodeIds[1]
       ).toEqual(false);
       expect(
-        !!component.expandedNodeIds && component.expandedNodeIds[3],
+        !!component.expandedNodeIds && component.expandedNodeIds[3]
       ).toEqual(true);
     });
 
@@ -250,13 +250,13 @@ describe('tree view', () => {
       const toggleChildrenButtons = getToggleChildrenButtons();
 
       expect(toggleChildrenButtons[0].querySelector('i')).toHaveCssClass(
-        'fa-chevron-down',
+        'fa-chevron-down'
       );
 
       toggleChildrenButtons[0].click();
 
       expect(toggleChildrenButtons[0].querySelector('i')).toHaveCssClass(
-        'fa-chevron-right',
+        'fa-chevron-right'
       );
     });
   });
@@ -335,7 +335,7 @@ describe('tree view', () => {
       clickSelectAll();
 
       const selectedNodeLength = Object.keys(
-        component.selectedLeafNodeIds ?? {},
+        component.selectedLeafNodeIds ?? {}
       ).length;
       expect(selectedNodeLength).toEqual(6);
 
@@ -374,11 +374,11 @@ describe('tree view', () => {
       fixture.detectChanges();
       const expandSpy = spyOn(
         component.treeComponent.treeModel,
-        'expandAll',
+        'expandAll'
       ).and.callThrough();
       const collapseSpy = spyOn(
         component.treeComponent.treeModel,
-        'collapseAll',
+        'collapseAll'
       ).and.callThrough();
 
       clickExpand();
@@ -935,7 +935,7 @@ describe('tree view', () => {
       fixture.detectChanges();
       tick(1000); // Allow angular-tree-node-component to set tabIndexes & render context dropdown.
       const dropdownButtons = document.querySelectorAll(
-        '.sky-dropdown-button',
+        '.sky-dropdown-button'
       ) as NodeListOf<HTMLButtonElement>;
 
       expect(dropdownButtons[0].tabIndex).toEqual(-1);
@@ -954,7 +954,7 @@ describe('tree view', () => {
       fixture.detectChanges();
       tick(1000); // Allow angular-tree-node-component to set tabIndexes & render context dropdown.
       const dropdownButtons = document.querySelectorAll(
-        '.sky-dropdown-button',
+        '.sky-dropdown-button'
       ) as NodeListOf<HTMLButtonElement>;
       const checkboxInputs = getCheckboxInputs();
       const nodes = getNodeContentWrappers();
@@ -994,7 +994,7 @@ describe('tree view', () => {
       fixture.detectChanges();
       tick(1000); // Allow angular-tree-node-component to set tabIndexes & render context dropdown.
       const dropdownButtons = document.querySelectorAll(
-        '.sky-dropdown-button',
+        '.sky-dropdown-button'
       ) as NodeListOf<HTMLButtonElement>;
       const checkboxInputs = getCheckboxInputs();
       const nodes = getNodeContentWrappers();
@@ -1036,10 +1036,10 @@ describe('tree view', () => {
       // Expect tree to start with both parent nodes expanded.
       expect(Object.keys(component.expandedNodeIds ?? {})).toEqual(['1', '3']);
       expect(component.expandedNodeIds && component.expandedNodeIds[1]).toEqual(
-        true,
+        true
       );
       expect(component.expandedNodeIds && component.expandedNodeIds[3]).toEqual(
-        true,
+        true
       );
 
       // Press left arrow key on first node.
@@ -1049,10 +1049,10 @@ describe('tree view', () => {
       // Expect first element to no longer be expanded.
       expect(Object.keys(component.expandedNodeIds ?? {})).toEqual(['1', '3']);
       expect(component.expandedNodeIds && component.expandedNodeIds[1]).toEqual(
-        false,
+        false
       );
       expect(component.expandedNodeIds && component.expandedNodeIds[3]).toEqual(
-        true,
+        true
       );
 
       // Press right arrow key on first node.
@@ -1061,10 +1061,10 @@ describe('tree view', () => {
       // Expect first element to no longer be expanded.
       expect(Object.keys(component.expandedNodeIds ?? {})).toEqual(['1', '3']);
       expect(component.expandedNodeIds && component.expandedNodeIds[1]).toEqual(
-        true,
+        true
       );
       expect(component.expandedNodeIds && component.expandedNodeIds[3]).toEqual(
-        true,
+        true
       );
 
       fixture.destroy();
@@ -1121,7 +1121,7 @@ describe('tree view', () => {
       fixture.detectChanges();
       tick(1000); // Allow angular-tree-node-component to set tabIndexes & render context dropdown.
       const dropdownButtons = document.querySelectorAll(
-        '.sky-dropdown-button',
+        '.sky-dropdown-button'
       ) as NodeListOf<HTMLButtonElement>;
       const nodes = getNodeContentWrappers();
 
@@ -1137,7 +1137,7 @@ describe('tree view', () => {
       tick();
       const dropdownMenu = document.querySelector('.sky-dropdown-menu');
       const dropdownItems = document.querySelectorAll(
-        '.sky-dropdown-item',
+        '.sky-dropdown-item'
       ) as NodeListOf<HTMLElement>;
 
       // Expect node NOT to be selected.
@@ -1161,7 +1161,7 @@ describe('tree view', () => {
       fixture.detectChanges();
       tick(1000); // Allow angular-tree-node-component to set tabIndexes & render context dropdown.
       const dropdownButtons = document.querySelectorAll(
-        '.sky-dropdown-button',
+        '.sky-dropdown-button'
       ) as NodeListOf<HTMLButtonElement>;
       const nodes = getNodeContentWrappers();
 
@@ -1178,7 +1178,7 @@ describe('tree view', () => {
 
       // Navigate down context menu with arrow keys.
       const dropdownItems = document.querySelectorAll(
-        '.sky-dropdown-item',
+        '.sky-dropdown-item'
       ) as NodeListOf<HTMLElement>;
       keyDownOnElement(dropdownItems[0], 'ArrowDown', 40);
 
@@ -1268,26 +1268,26 @@ describe('tree view', () => {
       fixture.detectChanges();
       tick(1000); // Allow angular-tree-node-component to set tabIndexes & render context dropdown.
       const dropdownButtons = document.querySelectorAll(
-        '.sky-dropdown-button',
+        '.sky-dropdown-button'
       ) as NodeListOf<HTMLButtonElement>;
 
       expect(dropdownButtons[0].getAttribute('aria-label')).toEqual(
-        'Context menu for United States',
+        'Context menu for United States'
       );
       expect(dropdownButtons[1].getAttribute('aria-label')).toEqual(
-        'Context menu for California',
+        'Context menu for California'
       );
       expect(dropdownButtons[2].getAttribute('aria-label')).toEqual(
-        'Context menu for Indiana',
+        'Context menu for Indiana'
       );
       expect(dropdownButtons[3].getAttribute('aria-label')).toEqual(
-        'Context menu for Adams',
+        'Context menu for Adams'
       );
       expect(dropdownButtons[4].getAttribute('aria-label')).toEqual(
-        'Context menu for Allen',
+        'Context menu for Allen'
       );
       expect(dropdownButtons[5].getAttribute('aria-label')).toEqual(
-        'Context menu for Mexico',
+        'Context menu for Mexico'
       );
 
       fixture.destroy();
@@ -1304,26 +1304,26 @@ describe('tree view', () => {
       tick(1000);
       fixture.detectChanges();
       const dropdownButtons = document.querySelectorAll(
-        '.sky-dropdown-button',
+        '.sky-dropdown-button'
       ) as NodeListOf<HTMLButtonElement>;
 
       expect(dropdownButtons[0].getAttribute('aria-label')).toEqual(
-        'Context menu for United States',
+        'Context menu for United States'
       );
       expect(dropdownButtons[1].getAttribute('aria-label')).toEqual(
-        'Context menu for California',
+        'Context menu for California'
       );
       expect(dropdownButtons[2].getAttribute('aria-label')).toEqual(
-        'Context menu for Indiana',
+        'Context menu for Indiana'
       );
       expect(dropdownButtons[3].getAttribute('aria-label')).toEqual(
-        'Context menu for Adams',
+        'Context menu for Adams'
       );
       expect(dropdownButtons[4].getAttribute('aria-label')).toEqual(
-        'Context menu for Allen',
+        'Context menu for Allen'
       );
       expect(dropdownButtons[5].getAttribute('aria-label')).toEqual(
-        'Context menu for CHANGED',
+        'Context menu for CHANGED'
       );
 
       fixture.destroy();
@@ -1336,26 +1336,26 @@ describe('tree view', () => {
       fixture.detectChanges();
       tick(1000); // Allow angular-tree-node-component to set tabIndexes & render context dropdown.
       const dropdownButtons = document.querySelectorAll(
-        '.sky-dropdown-button',
+        '.sky-dropdown-button'
       ) as NodeListOf<HTMLButtonElement>;
 
       expect(dropdownButtons[0].getAttribute('aria-label')).toEqual(
-        'Foo bar for United States',
+        'Foo bar for United States'
       );
       expect(dropdownButtons[1].getAttribute('aria-label')).toEqual(
-        'Foo bar for California',
+        'Foo bar for California'
       );
       expect(dropdownButtons[2].getAttribute('aria-label')).toEqual(
-        'Foo bar for Indiana',
+        'Foo bar for Indiana'
       );
       expect(dropdownButtons[3].getAttribute('aria-label')).toEqual(
-        'Foo bar for Adams',
+        'Foo bar for Adams'
       );
       expect(dropdownButtons[4].getAttribute('aria-label')).toEqual(
-        'Foo bar for Allen',
+        'Foo bar for Allen'
       );
       expect(dropdownButtons[5].getAttribute('aria-label')).toEqual(
-        'Foo bar for Mexico',
+        'Foo bar for Mexico'
       );
 
       fixture.destroy();

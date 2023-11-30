@@ -83,7 +83,7 @@ export class DataEntryGridComponent
     agGridService: SkyAgGridService,
     themeSvc: SkyThemeService,
     changeDetectorRef: ChangeDetectorRef,
-    fontLoadingService: FontLoadingService,
+    fontLoadingService: FontLoadingService
   ) {
     this.#agGridService = agGridService;
     this.#themeSvc = themeSvc;
@@ -103,11 +103,11 @@ export class DataEntryGridComponent
       };
     });
     this.dataSets?.forEach((dataSet) =>
-      this.#gridsReady.set(dataSet.id, new BehaviorSubject(false)),
+      this.#gridsReady.set(dataSet.id, new BehaviorSubject(false))
     );
     this.#gridsReady.set(
       'theme',
-      this.#themeSvc.settingsChange.pipe(map(() => true)),
+      this.#themeSvc.settingsChange.pipe(map(() => true))
     );
     this.#gridsReady.set('font', this.#fontLoadingService.ready());
     this.#ngUnsubscribe.add(
@@ -115,7 +115,7 @@ export class DataEntryGridComponent
         if (settings.currentSettings.theme.name === 'modern' && this.dataSets) {
           const editDateIndex =
             this.dataSets?.findIndex(
-              (ds) => ds.id === 'editDateWithCalendar',
+              (ds) => ds.id === 'editDateWithCalendar'
             ) ?? -1;
           if (editDateIndex > -1) {
             this.dataSets[editDateIndex].data = this.dataSets[
@@ -125,12 +125,12 @@ export class DataEntryGridComponent
         }
         this.skyTheme = settings.currentSettings;
         this.isActive$.next(true);
-      }),
+      })
     );
     this.dataSets?.forEach((dataSet) => {
       let columnDefs: ColDef[];
       const tripleCrownIndex = columnDefinitions.findIndex(
-        (col) => col.field === 'triplecrown',
+        (col) => col.field === 'triplecrown'
       );
       switch (dataSet.id) {
         case 'sideScroll':
@@ -193,7 +193,7 @@ export class DataEntryGridComponent
           suppressRowVirtualisation: true,
           onFirstDataRendered: () => {
             (this.#gridsReady.get(dataSet.id) as BehaviorSubject<boolean>).next(
-              true,
+              true
             );
           },
           rowData: (() => {
@@ -222,15 +222,15 @@ export class DataEntryGridComponent
       combineLatest(Array.from(this.#gridsReady.values()))
         .pipe(
           filter((gridsReady) => gridsReady.every((ready) => ready)),
-          delay(1000),
+          delay(1000)
         )
-        .subscribe(() => this.ready.next(true)),
+        .subscribe(() => this.ready.next(true))
     );
     if (!this.isActive$.value) {
       setTimeout(() => {
         this.skyTheme = new SkyThemeSettings(
           SkyTheme.presets.default,
-          SkyThemeMode.presets.light,
+          SkyThemeMode.presets.light
         );
         this.#changeDetectorRef.markForCheck();
       });

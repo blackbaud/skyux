@@ -3,7 +3,7 @@ import { ProjectConfiguration, Tree, getProjects } from '@nx/devkit';
 function filterProjects(
   tree: Tree,
   filter: (projectConfiguration: ProjectConfiguration) => boolean,
-  name?: string,
+  name?: string
 ): Map<string, ProjectConfiguration> {
   const projectConfigurations = getProjects(tree);
   const projects = new Map<string, ProjectConfiguration>();
@@ -12,7 +12,7 @@ function filterProjects(
       .split(',')
       .map((projectName) => projectName.trim())
       .filter(
-        (projectName) => projectName && projectConfigurations.has(projectName),
+        (projectName) => projectName && projectConfigurations.has(projectName)
       );
     projectNames.forEach((projectName) => {
       const projectConfiguration = projectConfigurations.get(projectName);
@@ -32,46 +32,46 @@ function filterProjects(
 
 function projectHasTargetWithExecutor(
   projectConfiguration: ProjectConfiguration,
-  executor: string,
+  executor: string
 ): boolean {
   return (
     !!projectConfiguration.targets &&
     Object.values(projectConfiguration.targets).some(
-      (target) => target.executor === executor,
+      (target) => target.executor === executor
     )
   );
 }
 
 export function getE2eProjects(
   tree: Tree,
-  name?: string,
+  name?: string
 ): Map<string, ProjectConfiguration> {
   return filterProjects(
     tree,
     (projectConfiguration) =>
       projectHasTargetWithExecutor(projectConfiguration, '@nx/cypress:cypress'),
-    name,
+    name
   );
 }
 
 export function getStorybookProjects(
   tree: Tree,
-  name?: string,
+  name?: string
 ): Map<string, ProjectConfiguration> {
   return filterProjects(
     tree,
     (projectConfiguration) =>
       projectHasTargetWithExecutor(
         projectConfiguration,
-        '@storybook/angular:build-storybook',
+        '@storybook/angular:build-storybook'
       ),
-    name,
+    name
   );
 }
 
 export function getStorybookProject(
   tree: Tree,
-  options: Partial<{ project: string }>,
+  options: Partial<{ project: string }>
 ) {
   if (!options.project) {
     throw new Error(`Project name not specified`);

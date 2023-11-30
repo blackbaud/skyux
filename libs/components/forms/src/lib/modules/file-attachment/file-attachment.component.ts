@@ -23,7 +23,8 @@ import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyThemeService } from '@skyux/theme';
 
 import { Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
 import { SkyFormsUtility } from '../shared/forms-utility';
 
@@ -214,7 +215,7 @@ export class SkyFileAttachmentComponent
     fileAttachmentService: SkyFileAttachmentService,
     fileItemService: SkyFileItemService,
     @Self() @Optional() ngControl?: NgControl,
-    @Optional() themeSvc?: SkyThemeService,
+    @Optional() themeSvc?: SkyThemeService
   ) {
     this.#changeDetector = changeDetector;
     this.#fileAttachmentService = fileAttachmentService;
@@ -275,7 +276,7 @@ export class SkyFileAttachmentComponent
           (newLabelComponents: QueryList<SkyFileAttachmentLabelComponent>) => {
             this.hasLabelComponent = newLabelComponents.length > 0;
             this.#changeDetector.markForCheck();
-          },
+          }
         );
     }
   }
@@ -290,7 +291,7 @@ export class SkyFileAttachmentComponent
 
   public fileChangeEvent(fileChangeEvent: Event): void {
     this.#handleFiles(
-      (fileChangeEvent.target as HTMLInputElement | undefined)?.files,
+      (fileChangeEvent.target as HTMLInputElement | undefined)?.files
     );
   }
 
@@ -318,7 +319,7 @@ export class SkyFileAttachmentComponent
             file.type &&
             this.#fileAttachmentService.fileTypeRejected(
               file.type,
-              this.acceptedTypes,
+              this.acceptedTypes
             )
           ) {
             this.rejectedOver = true;
@@ -380,7 +381,7 @@ export class SkyFileAttachmentComponent
     if (fileName) {
       this.#announceState(
         'skyux_file_attachment_file_upload_file_removed',
-        fileName,
+        fileName
       );
     }
 
@@ -459,12 +460,12 @@ export class SkyFileAttachmentComponent
           this.#announceState(
             'skyux_file_attachment_file_upload_file_replaced',
             previousFileName,
-            file.file.name,
+            file.file.name
           );
         } else {
           this.#announceState(
             'skyux_file_attachment_file_upload_file_added',
-            file.file.name,
+            file.file.name
           );
         }
       });
@@ -488,7 +489,7 @@ export class SkyFileAttachmentComponent
         this.minFileSize,
         this.maxFileSize,
         this.acceptedTypes,
-        this.validateFn,
+        this.validateFn
       );
 
       for (const file of processedFiles) {

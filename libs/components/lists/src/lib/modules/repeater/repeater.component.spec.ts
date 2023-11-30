@@ -9,7 +9,8 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyLogService, SkyScrollableHostService } from '@skyux/core';
+import { SkyLogService } from '@skyux/core';
+import { SkyScrollableHostService } from '@skyux/core';
 import { SkyInlineFormButtonLayout } from '@skyux/inline-form';
 
 import { DragulaService, Group } from 'ng2-dragula';
@@ -46,14 +47,14 @@ describe('Repeater item component', () => {
   }
 
   function getContextMenuButtons(
-    el: HTMLElement,
+    el: HTMLElement
   ): NodeListOf<HTMLButtonElement> {
     return el.querySelectorAll('.sky-dropdown-button');
   }
 
   function getReorderHandles(el: HTMLElement): NodeListOf<HTMLElement> {
     return el.querySelectorAll(
-      '.sky-repeater-item .sky-repeater-item-grab-handle',
+      '.sky-repeater-item .sky-repeater-item-grab-handle'
     );
   }
 
@@ -62,10 +63,10 @@ describe('Repeater item component', () => {
   }
 
   function getReorderTopButtons(
-    el: HTMLElement,
+    el: HTMLElement
   ): NodeListOf<HTMLButtonElement> {
     return el.querySelectorAll(
-      '.sky-repeater-item .sky-repeater-item-reorder-top',
+      '.sky-repeater-item .sky-repeater-item-reorder-top'
     );
   }
 
@@ -77,7 +78,7 @@ describe('Repeater item component', () => {
     fixture: ComponentFixture<any>,
     itemIndex: number,
     direction: 'up' | 'down',
-    activationKey = ' ',
+    activationKey = ' '
   ): void {
     let key: string | undefined;
     if (direction === 'up') {
@@ -106,7 +107,7 @@ describe('Repeater item component', () => {
 
   function validateDeprecatedCalled(
     deprecatedSpy: jasmine.Spy,
-    expected: boolean,
+    expected: boolean
   ): void {
     if (expected) {
       expect(deprecatedSpy).toHaveBeenCalledOnceWith(
@@ -114,7 +115,7 @@ describe('Repeater item component', () => {
         {
           deprecationMajorVersion: 8,
           replacementRecommendation: 'Always specify an `itemName` property.',
-        },
+        }
       );
     } else {
       expect(deprecatedSpy).not.toHaveBeenCalled();
@@ -123,7 +124,7 @@ describe('Repeater item component', () => {
 
   function validateRepeaterItemOrder(
     fixture: ComponentFixture<RepeaterTestComponent>,
-    firstItemTag: string,
+    firstItemTag: string
   ): void {
     const cmp = fixture.componentInstance;
     const repeaterSvc = fixture.debugElement
@@ -220,7 +221,7 @@ describe('Repeater item component', () => {
     const repeaterItemContent = el.querySelector('.sky-repeater-item-content');
 
     expect(getChevronButtons(el)[0].getAttribute('aria-controls')).toBe(
-      repeaterItemContent.getAttribute('id'),
+      repeaterItemContent.getAttribute('id')
     );
 
     flushDropdownTimer();
@@ -244,7 +245,7 @@ describe('Repeater item component', () => {
     expect(reorderHandles[0].getAttribute('aria-label')).toEqual('Reorder');
     expect(checkboxes[0].getAttribute('aria-label')).toEqual('Select row');
     expect(reorderTopButtons[0].getAttribute('aria-label')).toEqual(
-      'Move to top',
+      'Move to top'
     );
     expect(expandButtons[0].getAttribute('aria-label')).toEqual('Expand');
     expect(expandButtons[1].getAttribute('aria-label')).toEqual('Collapse');
@@ -303,17 +304,17 @@ describe('Repeater item component', () => {
     const expandButtons = getChevronButtons(el);
 
     expect(reorderHandles[0].getAttribute('aria-label')).toEqual(
-      'Reorder Item 1',
+      'Reorder Item 1'
     );
     expect(checkboxes[0].getAttribute('aria-label')).toEqual('Select Item 1');
     expect(reorderTopButtons[0].getAttribute('aria-label')).toEqual(
-      'Move Item 1 to top',
+      'Move Item 1 to top'
     );
     expect(expandButtons[0].getAttribute('aria-label')).toEqual(
-      'Expand Item 1',
+      'Expand Item 1'
     );
     expect(expandButtons[1].getAttribute('aria-label')).toEqual(
-      'Collapse Item 2',
+      'Collapse Item 2'
     );
   }));
 
@@ -331,10 +332,10 @@ describe('Repeater item component', () => {
     const contextMenus = getContextMenuButtons(el);
 
     expect(contextMenus[0].getAttribute('aria-label')).toEqual(
-      'Context menu for Item 1',
+      'Context menu for Item 1'
     );
     expect(contextMenus[1].getAttribute('aria-label')).toEqual(
-      'Context menu for Item 2',
+      'Context menu for Item 2'
     );
   });
 
@@ -353,10 +354,10 @@ describe('Repeater item component', () => {
     expect(contextMenus[0].getAttribute('aria-label')).toBeNull();
     expect(contextMenus[1].getAttribute('aria-label')).toBeNull();
     expect(contextMenus[0].getAttribute('aria-labelledby')).toMatch(
-      /(sky-id-gen__[0-9]{13}__[0-9]+\s*){2}/,
+      /(sky-id-gen__[0-9]{13}__[0-9]+\s*){2}/
     );
     expect(contextMenus[1].getAttribute('aria-labelledby')).toMatch(
-      /(sky-id-gen__[0-9]{13}__[0-9]+\s*){2}/,
+      /(sky-id-gen__[0-9]{13}__[0-9]+\s*){2}/
     );
   });
 
@@ -415,7 +416,7 @@ describe('Repeater item component', () => {
         expect(
           fixture.nativeElement
             .querySelector('sky-repeater')
-            .matches(':focus-within'),
+            .matches(':focus-within')
         ).toBeTruthy();
         fixture.componentInstance.disableFirstItem = true;
         fixture.detectChanges();
@@ -425,7 +426,7 @@ describe('Repeater item component', () => {
         expect(
           fixture.nativeElement
             .querySelector('sky-repeater')
-            .matches(':focus-within'),
+            .matches(':focus-within')
         ).toBeFalsy();
       });
   }));
@@ -488,7 +489,7 @@ describe('Repeater item component', () => {
           customEventInit: {
             touches: ['foo'],
           },
-        },
+        }
       );
       fixture.detectChanges();
       tick();
@@ -978,7 +979,7 @@ describe('Repeater item component', () => {
       tick();
 
       let selectedItemsEl = el.querySelectorAll(
-        '.sky-repeater-item-selected',
+        '.sky-repeater-item-selected'
       ) as NodeList;
       expect(selectedItemsEl.length).toBe(0);
 
@@ -1021,7 +1022,7 @@ describe('Repeater item component', () => {
       expect(
         repeaterEl
           .querySelector('sky-repeater-item:first-child > .sky-repeater-item')
-          .getAttribute('role'),
+          .getAttribute('role')
       ).toEqual('row');
     });
 
@@ -1067,7 +1068,7 @@ describe('Repeater item component', () => {
 
       const isSelectedChangeSpy = spyOn(
         cmp,
-        'onIsSelectedChange',
+        'onIsSelectedChange'
       ).and.callThrough();
 
       // Expect first item NOT to be selected.
@@ -1124,7 +1125,7 @@ describe('Repeater item component', () => {
       detectChangesAndTick(fixture);
 
       const activeRepeaterItem = el.querySelectorAll(
-        '.sky-repeater-item-active',
+        '.sky-repeater-item-active'
       );
       expect(activeRepeaterItem.length).toEqual(0);
 
@@ -1182,7 +1183,7 @@ describe('Repeater item component', () => {
       fixture.detectChanges();
 
       const activeRepeaterItem = el.querySelectorAll(
-        '.sky-repeater-item-active',
+        '.sky-repeater-item-active'
       );
       expect(activeRepeaterItem.length).toEqual(1);
       expect(items[0]).toHaveCssClass('sky-repeater-item-active');
@@ -1201,7 +1202,7 @@ describe('Repeater item component', () => {
       fixture.detectChanges();
 
       const activeRepeaterItem = el.querySelectorAll(
-        '.sky-repeater-item-active',
+        '.sky-repeater-item-active'
       );
       expect(activeRepeaterItem.length).toEqual(1);
       expect(items[0]).toHaveCssClass('sky-repeater-item-active');
@@ -1219,7 +1220,7 @@ describe('Repeater item component', () => {
       fixture.detectChanges();
 
       const activeRepeaterItem = el.querySelectorAll(
-        '.sky-repeater-item-active',
+        '.sky-repeater-item-active'
       );
       expect(activeRepeaterItem.length).toEqual(0);
 
@@ -1234,7 +1235,7 @@ describe('Repeater item component', () => {
       const emitterSpy = spyOnProperty(
         cmp,
         'activeIndex',
-        'set',
+        'set'
       ).and.callThrough();
 
       items[0].click();
@@ -1254,7 +1255,7 @@ describe('Repeater item component', () => {
       const emitterSpy = spyOnProperty(
         cmp,
         'activeIndex',
-        'set',
+        'set'
       ).and.callThrough();
 
       items[0].click();
@@ -1284,7 +1285,7 @@ describe('Repeater item component', () => {
       fixture.detectChanges();
 
       const activeRepeaterItem = el.querySelectorAll(
-        '.sky-repeater-item-active',
+        '.sky-repeater-item-active'
       );
       expect(activeRepeaterItem.length).toEqual(1);
       expect(items[0]).toHaveCssClass('sky-repeater-item-active');
@@ -1308,7 +1309,7 @@ describe('Repeater item component', () => {
       fixture.detectChanges();
 
       const activeRepeaterItem = el.querySelectorAll(
-        '.sky-repeater-item-active',
+        '.sky-repeater-item-active'
       );
       expect(activeRepeaterItem.length).toEqual(1);
       expect(items[0]).toHaveCssClass('sky-repeater-item-active');
@@ -1376,7 +1377,7 @@ describe('Repeater item component', () => {
 
     it('should not add inline-form to the DOM by default', () => {
       const inlineForm = el.querySelector(
-        '#repeater-item-without-inline-form sky-inline-form',
+        '#repeater-item-without-inline-form sky-inline-form'
       );
 
       expect(inlineForm).toBeNull();
@@ -1412,7 +1413,7 @@ describe('Repeater item component', () => {
       fixture.detectChanges();
 
       const buttons = el.querySelectorAll(
-        '.sky-inline-form-footer button',
+        '.sky-inline-form-footer button'
       ) as NodeListOf<HTMLElement>;
 
       expect(buttons[0].innerText.trim()).toEqual('Foo');
@@ -1427,7 +1428,7 @@ describe('Repeater item component', () => {
 
       expect(component.inlineFormCloseArgs).toBeUndefined();
       const button = el.querySelector(
-        '.sky-inline-form-footer .sky-btn-primary',
+        '.sky-inline-form-footer .sky-btn-primary'
       ) as HTMLElement;
       button.click();
 
@@ -1449,7 +1450,7 @@ describe('Repeater item component', () => {
 
   it('with reorderability should show a console warning not all item tags are defined', fakeAsync(() => {
     const fixture = TestBed.createComponent(
-      RepeaterWithMissingTagsFixtureComponent,
+      RepeaterWithMissingTagsFixtureComponent
     );
     const consoleSpy = spyOn(console, 'warn');
     detectChangesAndTick(fixture);
@@ -1466,7 +1467,7 @@ describe('Repeater item component', () => {
               el?: Element,
               container?: Element,
               handle?: Element,
-              sibling?: Element,
+              sibling?: Element
             ) => boolean)
           | undefined;
 
@@ -1490,7 +1491,7 @@ describe('Repeater item component', () => {
           (name, options) => {
             movesCallback = options.moves;
             return undefined as unknown as Group;
-          },
+          }
         );
 
         fixture = TestBed.createComponent(RepeaterTestComponent);
@@ -1513,7 +1514,7 @@ describe('Repeater item component', () => {
         expect(setOptionsSpy).toHaveBeenCalled();
 
         flushDropdownTimer();
-      }),
+      })
     ));
   });
 
@@ -1559,7 +1560,7 @@ describe('Repeater item component', () => {
 
     function validateRepeaterItemReorderability(
       fixture: ComponentFixture<RepeaterTestComponent>,
-      isReorderable: boolean,
+      isReorderable: boolean
     ): void {
       const cmp = fixture.componentInstance;
       const repeaterItems = cmp.repeater?.items?.toArray();
@@ -1634,7 +1635,7 @@ describe('Repeater item component', () => {
       let repeaterItem = el.querySelectorAll('sky-repeater-item')[1];
 
       expect(
-        repeaterItem.classList.contains('sky-repeater-item-dragging'),
+        repeaterItem.classList.contains('sky-repeater-item-dragging')
       ).toBeTruthy();
 
       fireDragEvent('dragend', 1);
@@ -1642,20 +1643,20 @@ describe('Repeater item component', () => {
       repeaterItem = el.querySelectorAll('sky-repeater-item')[1];
 
       expect(
-        repeaterItem.classList.contains('sky-repeater-item-dragging'),
+        repeaterItem.classList.contains('sky-repeater-item-dragging')
       ).toBeFalsy();
     });
 
     it('should auto-scroll while dragging', () => {
       const repeaterInjector = fixture.debugElement.query(
-        By.css('sky-repeater'),
+        By.css('sky-repeater')
       ).injector;
 
       const autoScrollSvc = repeaterInjector.get(SkyRepeaterAutoScrollService);
       const scrollableHostSvc = repeaterInjector.get(SkyScrollableHostService);
 
       const scrollableHostEl = scrollableHostSvc.getScrollableHost(
-        fixture.elementRef,
+        fixture.elementRef
       );
 
       const mockAutoScroller = jasmine.createSpyObj('autoScroller', [
@@ -1663,7 +1664,7 @@ describe('Repeater item component', () => {
       ]);
 
       const autoScrollSpy = spyOn(autoScrollSvc, 'autoScroll').and.returnValue(
-        mockAutoScroller,
+        mockAutoScroller
       );
 
       fireDragEvent('drag', 1);
@@ -1922,7 +1923,7 @@ describe('Repeater item component', () => {
       cmp.showItemWithNoContent = true;
       detectChangesAndTick(fixture);
       const items: Element[] = Array.from(
-        el.querySelectorAll('.sky-repeater-item'),
+        el.querySelectorAll('.sky-repeater-item')
       );
       expect(items.length).toEqual(4);
       const sequence = [
@@ -2001,7 +2002,7 @@ describe('Repeater item component', () => {
       detectChangesAndTick(fixture);
 
       expect(consoleSpy).toHaveBeenCalledWith(
-        'Please supply tag properties for each repeater item when reordering functionality is enabled.',
+        'Please supply tag properties for each repeater item when reordering functionality is enabled.'
       );
     }));
   });
@@ -2030,16 +2031,16 @@ describe('Repeater item component', () => {
       fixture.detectChanges();
       await fixture.whenStable();
       expect(el.querySelector('.sky-repeater').getAttribute('role')).toEqual(
-        'list',
+        'list'
       );
       expect(
-        el.querySelector('.sky-repeater-item').getAttribute('role'),
+        el.querySelector('.sky-repeater-item').getAttribute('role')
       ).toEqual('listitem');
       expect(
-        el.querySelector('.sky-repeater-item-title').getAttribute('role'),
+        el.querySelector('.sky-repeater-item-title').getAttribute('role')
       ).toBeFalsy();
       expect(
-        el.querySelector('.sky-repeater-item-content').getAttribute('role'),
+        el.querySelector('.sky-repeater-item-content').getAttribute('role')
       ).toBeFalsy();
     });
 
@@ -2051,16 +2052,16 @@ describe('Repeater item component', () => {
       fixture.detectChanges();
       await fixture.whenStable();
       expect(el.querySelector('.sky-repeater').getAttribute('role')).toEqual(
-        'grid',
+        'grid'
       );
       expect(
-        el.querySelector('.sky-repeater-item').getAttribute('role'),
+        el.querySelector('.sky-repeater-item').getAttribute('role')
       ).toEqual('row');
       expect(
-        el.querySelector('.sky-repeater-item-header').getAttribute('role'),
+        el.querySelector('.sky-repeater-item-header').getAttribute('role')
       ).toEqual('rowheader');
       expect(
-        el.querySelector('.sky-repeater-item-content').getAttribute('role'),
+        el.querySelector('.sky-repeater-item-content').getAttribute('role')
       ).toEqual('gridcell');
     });
   });
@@ -2086,7 +2087,7 @@ describe('Repeater item component', () => {
 
       setTimeout(() => {
         const activeRepeaterItem = el.querySelectorAll(
-          '.sky-repeater-item-active',
+          '.sky-repeater-item-active'
         );
         expect(activeRepeaterItem.length).toEqual(1);
       });
@@ -2109,10 +2110,10 @@ describe('Repeater item component', () => {
 
     it('should reorder top-level repeater items', fakeAsync(() => {
       const initialTopRepeaterItem = el.querySelector(
-        'sky-repeater-item[tag="top-item"]',
+        'sky-repeater-item[tag="top-item"]'
       );
       const initialBottomRepeaterItem = el.querySelector(
-        'sky-repeater-item[tag="bottom-item"]',
+        'sky-repeater-item[tag="bottom-item"]'
       );
 
       expect(initialTopRepeaterItem).toBeDefined();

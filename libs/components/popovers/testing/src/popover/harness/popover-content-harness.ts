@@ -29,7 +29,7 @@ export class SkyPopoverContentHarness extends ComponentHarness {
    * `SkyPopoverContentHarness` that meets certain criteria.
    */
   public static with(
-    filters: SkyPopoverContentHarnessFilters,
+    filters: SkyPopoverContentHarnessFilters
   ): HarnessPredicate<SkyPopoverContentHarness> {
     return new HarnessPredicate(SkyPopoverContentHarness, filters);
   }
@@ -38,7 +38,7 @@ export class SkyPopoverContentHarness extends ComponentHarness {
    * Returns a child harness.
    */
   public async queryHarness<T extends ComponentHarness>(
-    harness: HarnessQuery<T>,
+    harness: HarnessQuery<T>
   ): Promise<T | null> {
     return (await this.#getBody()).queryHarness(harness);
   }
@@ -47,7 +47,7 @@ export class SkyPopoverContentHarness extends ComponentHarness {
    * Returns child harnesses.
    */
   public async queryHarnesses<T extends ComponentHarness>(
-    harness: HarnessQuery<T>,
+    harness: HarnessQuery<T>
   ): Promise<T[]> {
     return (await this.#getBody()).queryHarnesses(harness);
   }

@@ -34,7 +34,7 @@ export class DemoComponent {
 
   constructor() {
     this.description = this.#formBuilder.control(
-      'Boys and Girls Club of South Carolina donation',
+      'Boys and Girls Club of South Carolina donation'
     );
 
     this.formGroup = this.#formBuilder.group({

@@ -61,7 +61,7 @@ export class SkyToastService implements OnDestroy {
    */
   public openMessage(
     message: string,
-    config?: SkyToastConfig,
+    config?: SkyToastConfig
   ): SkyToastInstance {
     const context = new SkyToastBodyContext();
     context.message = message;
@@ -86,7 +86,7 @@ export class SkyToastService implements OnDestroy {
   public openComponent(
     component: Type<unknown>,
     config?: SkyToastConfig,
-    providers: Provider[] = [],
+    providers: Provider[] = []
   ): SkyToastInstance {
     const instance = new SkyToastInstance();
 
@@ -138,7 +138,7 @@ export class SkyToastService implements OnDestroy {
       SkyToasterComponent,
       {
         environmentInjector: this.#environmentInjector,
-      },
+      }
     );
 
     return componentRef;

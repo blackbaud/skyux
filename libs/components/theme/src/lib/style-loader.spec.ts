@@ -6,7 +6,7 @@ import { SkyAppStyleLoader } from './style-loader';
 describe('Style loader', () => {
   it('should resolve a promise after loading fonts', (done) => {
     spyOn(FontFaceObserver.prototype, 'load').and.returnValue(
-      Promise.resolve(),
+      Promise.resolve()
     );
 
     const styleLoader = new SkyAppStyleLoader();
@@ -47,7 +47,7 @@ describe('Style loader', () => {
 
   it('should resolve if fonts already loaded', (done) => {
     const spy = spyOn(FontFaceObserver.prototype, 'load').and.returnValue(
-      Promise.resolve(),
+      Promise.resolve()
     );
 
     const styleLoader = new SkyAppStyleLoader();
@@ -61,7 +61,7 @@ describe('Style loader', () => {
 
   it('should resolve a promise after initial theme settings have been provided', (done) => {
     spyOn(FontFaceObserver.prototype, 'load').and.returnValue(
-      Promise.resolve(),
+      Promise.resolve()
     );
 
     const mockThemeSvc: any = {

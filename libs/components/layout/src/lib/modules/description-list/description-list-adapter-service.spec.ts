@@ -38,7 +38,7 @@ describe('Description list adapter service', () => {
       fixture.componentInstance.width = '300px';
       fixture.detectChanges();
       expect(adapter.getWidth(inputRef)).toEqual(300);
-    },
+    }
   ));
 
   it('should set responsive xs class when width is under 479px', inject(
@@ -51,12 +51,12 @@ describe('Description list adapter service', () => {
 
       expect(inputRef.nativeElement).toHaveClass('sky-responsive-container-xs');
       expect(inputRef.nativeElement).not.toHaveClass(
-        'sky-responsive-container-sm',
+        'sky-responsive-container-sm'
       );
       expect(inputRef.nativeElement).not.toHaveClass(
-        'sky-responsive-container-md',
+        'sky-responsive-container-md'
       );
-    },
+    }
   ));
 
   it('should set responsive sm class when width is between 480px and 768px', inject(
@@ -68,13 +68,13 @@ describe('Description list adapter service', () => {
       fixture.detectChanges();
 
       expect(inputRef.nativeElement).not.toHaveClass(
-        'sky-responsive-container-xs',
+        'sky-responsive-container-xs'
       );
       expect(inputRef.nativeElement).toHaveClass('sky-responsive-container-sm');
       expect(inputRef.nativeElement).not.toHaveClass(
-        'sky-responsive-container-md',
+        'sky-responsive-container-md'
       );
-    },
+    }
   ));
 
   it('should set responsive md class when width is 768px and above', inject(
@@ -86,12 +86,12 @@ describe('Description list adapter service', () => {
       fixture.detectChanges();
 
       expect(inputRef.nativeElement).not.toHaveClass(
-        'sky-responsive-container-xs',
+        'sky-responsive-container-xs'
       );
       expect(inputRef.nativeElement).not.toHaveClass(
-        'sky-responsive-container-sm',
+        'sky-responsive-container-sm'
       );
       expect(inputRef.nativeElement).toHaveClass('sky-responsive-container-md');
-    },
+    }
   ));
 });

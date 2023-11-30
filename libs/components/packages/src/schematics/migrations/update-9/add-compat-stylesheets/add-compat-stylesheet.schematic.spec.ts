@@ -9,7 +9,7 @@ describe('Migrations > Add compat stylesheets', () => {
 
   const runner = new SchematicTestRunner(
     'migrations',
-    join(__dirname, '../../migration-collection.json'),
+    join(__dirname, '../../migration-collection.json')
   );
 
   async function setupTest() {
@@ -27,7 +27,7 @@ describe('Migrations > Add compat stylesheets', () => {
   async function validateCompatStylesheet(
     packageJson: string,
     existingWorkspaceStylesheets: string[] | undefined,
-    existingCompatStylesheet?: string,
+    existingCompatStylesheet?: string
   ): Promise<void> {
     const projectTargets = ['build', 'test'];
 
@@ -61,7 +61,7 @@ describe('Migrations > Add compat stylesheets', () => {
 
     for (const target of projectTargets) {
       expect(
-        angularJson.projects['my-app'].architect[target].options.styles,
+        angularJson.projects['my-app'].architect[target].options.styles
       ).toEqual(expectedStyles);
     }
   }
@@ -87,7 +87,7 @@ describe('Migrations > Add compat stylesheets', () => {
           '@skyux/theme': '8.0.0',
         },
       }),
-      [],
+      []
     );
   });
 
@@ -99,7 +99,7 @@ describe('Migrations > Add compat stylesheets', () => {
           '@skyux/theme': '8.0.0',
         },
       }),
-      [],
+      []
     );
   });
 
@@ -112,7 +112,7 @@ describe('Migrations > Add compat stylesheets', () => {
         },
       }),
       [],
-      '/* */',
+      '/* */'
     );
   });
 
@@ -125,7 +125,7 @@ describe('Migrations > Add compat stylesheets', () => {
         },
       }),
       undefined, // <-- empty array
-      '/* */',
+      '/* */'
     );
   });
 
@@ -143,7 +143,7 @@ describe('Migrations > Add compat stylesheets', () => {
           '@skyux/forms': '8.0.0',
           '@skyux/theme': '8.0.0',
         },
-      }),
+      })
     );
 
     let angularJson = JSON.parse(tree.readContent('/angular.json'));
@@ -151,7 +151,7 @@ describe('Migrations > Add compat stylesheets', () => {
     const updatedTree = await runner.runSchematic(
       'add-compat-stylesheets',
       {},
-      tree,
+      tree
     );
 
     const libShowcaseCompatStylesheetPath =
@@ -160,21 +160,21 @@ describe('Migrations > Add compat stylesheets', () => {
     angularJson = JSON.parse(updatedTree.readContent('/angular.json'));
 
     expect(
-      angularJson.projects['my-lib'].architect.build.options.styles,
+      angularJson.projects['my-lib'].architect.build.options.styles
     ).toBeUndefined();
 
     expect(
-      angularJson.projects['my-lib'].architect.test.options.styles,
+      angularJson.projects['my-lib'].architect.test.options.styles
     ).toBeUndefined();
 
     expect(updatedTree.exists(libShowcaseCompatStylesheetPath)).toEqual(true);
 
     expect(
-      angularJson.projects['my-lib-showcase'].architect.build.options.styles,
+      angularJson.projects['my-lib-showcase'].architect.build.options.styles
     ).toContain(libShowcaseCompatStylesheetPath);
 
     expect(
-      angularJson.projects['my-lib-showcase'].architect.test.options.styles,
+      angularJson.projects['my-lib-showcase'].architect.test.options.styles
     ).toContain(libShowcaseCompatStylesheetPath);
   });
 });

@@ -60,7 +60,7 @@ describe('Status indicator harness', () => {
       harness = await loader.getHarness(
         SkyStatusIndicatorHarness.with({
           dataSkyId: options.dataSkyId,
-        }),
+        })
       );
     } else {
       harness = await loader.getHarness(SkyStatusIndicatorHarness);
@@ -73,13 +73,13 @@ describe('Status indicator harness', () => {
     const { component, harness, fixture } = await setupTest();
 
     async function validate(
-      indicatorType: SkyIndicatorIconType,
+      indicatorType: SkyIndicatorIconType
     ): Promise<void> {
       component.indicatorType = indicatorType;
       fixture.detectChanges();
 
       await expectAsync(harness.getIndicatorType()).toBeResolvedTo(
-        indicatorType,
+        indicatorType
       );
     }
 
@@ -94,14 +94,14 @@ describe('Status indicator harness', () => {
 
     async function validate(
       descriptionType: SkyIndicatorDescriptionType,
-      customDescription?: string,
+      customDescription?: string
     ): Promise<void> {
       component.descriptionType = descriptionType;
       component.customDescription = customDescription;
       fixture.detectChanges();
 
       await expectAsync(harness.getDescriptionType()).toBeResolvedTo(
-        descriptionType,
+        descriptionType
       );
     }
 
@@ -148,7 +148,7 @@ describe('Status indicator harness', () => {
     const { harness } = await setupTest();
 
     await expectAsync(harness.getText()).toBeResolvedTo(
-      'This is a sample status indicator.',
+      'This is a sample status indicator.'
     );
   });
 
@@ -158,7 +158,7 @@ describe('Status indicator harness', () => {
     });
 
     await expectAsync(harness.getText()).toBeResolvedTo(
-      'This is another status indicator.',
+      'This is another status indicator.'
     );
   });
 
@@ -168,7 +168,7 @@ describe('Status indicator harness', () => {
     });
 
     await expectAsync(harness.getText()).toBeRejectedWithError(
-      'Status indicator text was not found. Did you set the descriptionType input?',
+      'Status indicator text was not found. Did you set the descriptionType input?'
     );
   });
 });

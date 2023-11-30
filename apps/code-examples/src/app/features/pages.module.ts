@@ -6,7 +6,7 @@ const routes: Routes = [
     path: 'action-hub',
     loadComponent: () =>
       import('../code-examples/pages/action-hub/demo.component').then(
-        (c) => c.DemoComponent,
+        (c) => c.DemoComponent
       ),
   },
   {

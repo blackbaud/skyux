@@ -9,7 +9,7 @@ export class SkyDateRangePickerStartDateResourceKeyPipe
   implements PipeTransform
 {
   public transform(
-    calculatorType: SkyDateRangeCalculatorType | undefined,
+    calculatorType: SkyDateRangeCalculatorType | undefined
   ): string {
     if (calculatorType === SkyDateRangeCalculatorType.Range) {
       return 'skyux_date_range_picker_start_date_label';

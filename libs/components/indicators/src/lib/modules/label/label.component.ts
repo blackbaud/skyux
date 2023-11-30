@@ -107,7 +107,7 @@ export class SkyLabelComponent implements AfterViewChecked, OnDestroy, OnInit {
 
   #updateIcon(): void {
     const indicatorIcon = SkyIndicatorIconUtility.getIconsForType(
-      this.labelTypeOrDefault,
+      this.labelTypeOrDefault
     );
 
     this.icon = indicatorIcon.defaultThemeIcon;
@@ -129,7 +129,7 @@ export class SkyLabelComponent implements AfterViewChecked, OnDestroy, OnInit {
         default:
           this.#descriptionTypeResourceSubscription = this.#resources
             .getString(
-              'skyux_label_sr_' + this.descriptionType.replace(/-/g, '_'),
+              'skyux_label_sr_' + this.descriptionType.replace(/-/g, '_')
             )
             .subscribe((value) => {
               this.descriptionComputed = value;

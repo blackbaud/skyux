@@ -77,7 +77,7 @@ export class AgGridStoriesComponent
     changeDetectorRef: ChangeDetectorRef,
     dockService: SkyDockService,
     @Inject(DOCUMENT) doc: Document,
-    fontLoadingService: FontLoadingService,
+    fontLoadingService: FontLoadingService
   ) {
     this.#agGridService = agGridService;
     this.#themeSvc = themeSvc;
@@ -94,18 +94,18 @@ export class AgGridStoriesComponent
       referenceEl: this.#doc.querySelector('#back-to-top') as HTMLElement,
     });
     this.dataSets.forEach((dataSet) =>
-      this.#gridsReady.set(dataSet.id, new BehaviorSubject(false)),
+      this.#gridsReady.set(dataSet.id, new BehaviorSubject(false))
     );
     this.#gridsReady.set(
       'theme',
-      this.#themeSvc.settingsChange.pipe(map(() => true)),
+      this.#themeSvc.settingsChange.pipe(map(() => true))
     );
     this.#gridsReady.set('font', this.#fontLoadingService.ready());
     this.#ngUnsubscribe.add(
       this.#themeSvc.settingsChange.subscribe((settings) => {
         this.skyTheme = settings.currentSettings;
         this.isActive$.next(true);
-      }),
+      })
     );
     this.dataSets.forEach((dataSet) => {
       this.gridOptions[dataSet.id] = this.#agGridService.getGridOptions({
@@ -133,8 +133,7 @@ export class AgGridStoriesComponent
             ...columnDefinitions
               .slice(0, 10)
               .filter(
-                (col) =>
-                  col.field !== 'birthday' || dataSet.id !== 'validation',
+                (col) => col.field !== 'birthday' || dataSet.id !== 'validation'
               )
               .map((colDef) => {
                 const additionalType =
@@ -186,16 +185,16 @@ export class AgGridStoriesComponent
                     ]);
                   } else {
                     this.rowDeleteIds = this.rowDeleteIds.filter(
-                      (id) => id !== $event.node.id,
+                      (id) => id !== $event.node.id
                     );
                   }
-                },
+                }
               );
             }
           },
           onFirstDataRendered: () => {
             (this.#gridsReady.get(dataSet.id) as BehaviorSubject<boolean>).next(
-              true,
+              true
             );
           },
           rowData: dataSet.data,
@@ -209,14 +208,14 @@ export class AgGridStoriesComponent
       combineLatest(Array.from(this.#gridsReady.values()))
         .pipe(
           filter((gridsReady) => gridsReady.every((ready) => ready)),
-          delay(1000),
+          delay(1000)
         )
         .subscribe(() => {
           // Scroll down to show the back-to-top button.
           this.#doc
             .querySelector(
               /* spell-checker: disable-next-line */
-              '#back-to-top .sky-ag-grid-row-johnsra05 [col-id="name"]',
+              '#back-to-top .sky-ag-grid-row-johnsra05 [col-id="name"]'
             )
             ?.scrollIntoView();
 
@@ -225,7 +224,7 @@ export class AgGridStoriesComponent
             this.#doc
               .querySelector(
                 /* spell-checker: disable-next-line */
-                '#row-delete .sky-ag-grid-row-killeha01 [col-id="select"] label',
+                '#row-delete .sky-ag-grid-row-killeha01 [col-id="select"] label'
               )
               ?.dispatchEvent(new MouseEvent('click'));
 
@@ -234,7 +233,7 @@ export class AgGridStoriesComponent
               this.#doc
                 .querySelector(
                   /* spell-checker: disable-next-line */
-                  '#validation .sky-ag-grid-row-martipe02 [col-id="seasons_played"]',
+                  '#validation .sky-ag-grid-row-martipe02 [col-id="seasons_played"]'
                 )
                 ?.dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowUp' }));
 
@@ -242,7 +241,7 @@ export class AgGridStoriesComponent
               setTimeout(() => this.ready.next(true), 100);
             });
           });
-        }),
+        })
     );
     if (!this.skyTheme) {
       this.isActive$.next(false);

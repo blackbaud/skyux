@@ -37,7 +37,7 @@ export class SkyConfirmService {
             useValue: config,
           },
         ],
-      },
+      }
     );
 
     const confirmInstance = new SkyConfirmInstance();

@@ -12,13 +12,13 @@ import { SkyHarnessFilters } from './harness-filters';
 export abstract class SkyComponentHarness extends ComponentHarness {
   protected static getDataSkyIdPredicate<T extends SkyComponentHarness>(
     this: ComponentHarnessConstructor<T>,
-    filters: SkyHarnessFilters,
+    filters: SkyHarnessFilters
   ) {
     return new HarnessPredicate(this, filters).addOption(
       'dataSkyId',
       filters.dataSkyId,
       (harness, text) =>
-        HarnessPredicate.stringMatches(harness.#getSkyId(), text),
+        HarnessPredicate.stringMatches(harness.#getSkyId(), text)
     );
   }
 

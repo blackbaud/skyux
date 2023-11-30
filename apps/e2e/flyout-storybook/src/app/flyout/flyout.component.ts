@@ -46,7 +46,7 @@ export class FlyoutComponent implements AfterViewInit, OnDestroy {
     this.#subscriptions.add(
       this.#fontLoadingService.ready().subscribe(() => {
         this.ready.next(true);
-      }),
+      })
     );
 
     this.openFlyout();
@@ -94,7 +94,7 @@ export class FlyoutComponent implements AfterViewInit, OnDestroy {
         permalink: permalink,
         showIterator: this.showHeaderButtons,
         maxWidth: 5000,
-      },
+      }
     );
   }
 }

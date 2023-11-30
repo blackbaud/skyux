@@ -12,7 +12,7 @@ import { SummaryActionBarModalComponent } from './summary-action-bar-modal.compo
 export class SummaryActionBarComponent implements OnDestroy {
   @Input()
   public set type(
-    value: 'tab' | 'page' | 'split-view' | 'modal' | 'modal-full-page',
+    value: 'tab' | 'page' | 'split-view' | 'modal' | 'modal-full-page'
   ) {
     this.#_type = value;
 
@@ -21,7 +21,7 @@ export class SummaryActionBarComponent implements OnDestroy {
         SummaryActionBarModalComponent,
         {
           fullPage: value.endsWith('full-page'),
-        },
+        }
       );
     }
   }

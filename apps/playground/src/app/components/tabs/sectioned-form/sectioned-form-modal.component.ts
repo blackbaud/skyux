@@ -43,7 +43,7 @@ export class SectionedFormModalComponent {
 
   constructor(
     public modalInstance: SkyModalInstance,
-    changeDetector: ChangeDetectorRef,
+    changeDetector: ChangeDetectorRef
   ) {
     this.#changeDetector = changeDetector;
   }

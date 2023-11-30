@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import {
   SkyDataManagerService,
+  SkyDataManagerSortOption,
   SkyDataManagerState,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
@@ -55,7 +56,7 @@ export class SkyAgGridDataManagerAdapterDirective
 
   constructor(
     changeDetector: ChangeDetectorRef,
-    dataManagerSvc: SkyDataManagerService,
+    dataManagerSvc: SkyDataManagerService
   ) {
     this.#changeDetector = changeDetector;
     this.#dataManagerSvc = dataManagerSvc;
@@ -97,7 +98,7 @@ export class SkyAgGridDataManagerAdapterDirective
 
       if (agGridCount > 1) {
         console.warn(
-          'More than one ag-grid child component was found. Using the first ag-Grid.',
+          'More than one ag-grid child component was found. Using the first ag-Grid.'
         );
       }
     }
@@ -118,7 +119,7 @@ export class SkyAgGridDataManagerAdapterDirective
 
       if (skyAgGridWrapperCount > 1) {
         console.warn(
-          'More than one ag-grid child component was found. Using the first ag-Grid.',
+          'More than one ag-grid child component was found. Using the first ag-Grid.'
         );
       }
     }
@@ -167,7 +168,6 @@ export class SkyAgGridDataManagerAdapterDirective
             .subscribe((dataState: SkyDataManagerState) => {
               this.#currentDataState = dataState;
               this.#displayColumns(dataState);
-              this.#applySort(dataState);
             });
 
           if (agGrid.gridOptions?.context?.enableTopScroll) {
@@ -191,8 +191,8 @@ export class SkyAgGridDataManagerAdapterDirective
                 'uiColumnResized',
                 'uiColumnDragged',
                 'api',
-              ].includes(event.source),
-          ),
+              ].includes(event.source)
+          )
         )
         .subscribe((value: ColumnMovedEvent) => {
           this.#updateColumnsInCurrentDataState(value.columnApi);
@@ -221,7 +221,7 @@ export class SkyAgGridDataManagerAdapterDirective
             this.#currentDataState.selectedIds = selectedIds;
             this.#dataManagerSvc.updateDataState(
               this.#currentDataState,
-              this.#viewConfig.id,
+              this.#viewConfig.id
             );
 
             this.#changeDetector.markForCheck();
@@ -232,27 +232,37 @@ export class SkyAgGridDataManagerAdapterDirective
         const gridColumnStates: ColumnState[] =
           agGrid.columnApi.getColumnState();
 
-        const activeSortColumnState = gridColumnStates?.find(
-          (aGridColumnState) => aGridColumnState.sortIndex === 0,
-        );
+        let sortOption: SkyDataManagerSortOption | undefined;
 
-        if (
-          this.#viewConfig &&
-          this.#currentDataState &&
-          activeSortColumnState
-        ) {
-          const activeSortColumnDef = agGrid.api.getColumnDef(
-            activeSortColumnState.colId,
+        /* istanbul ignore else */
+        if (gridColumnStates.length) {
+          const activeSortColumnState = gridColumnStates.find(
+            (aGridColumnState) => aGridColumnState.sortIndex === 0
           );
-          this.#currentDataState.activeSortOption = {
-            descending: activeSortColumnState.sort === 'desc',
-            id: activeSortColumnState.colId,
-            propertyName: activeSortColumnDef?.field || '',
-            label: activeSortColumnDef?.headerName || '',
-          };
+
+          const dataManagerConfig =
+            this.#dataManagerSvc.getCurrentDataManagerConfig();
+
+          /* istanbul ignore else */
+          if (dataManagerConfig.sortOptions && activeSortColumnState) {
+            sortOption = dataManagerConfig.sortOptions.find(
+              (option: SkyDataManagerSortOption) => {
+                return (
+                  option.propertyName === activeSortColumnState.colId &&
+                  option.descending === (activeSortColumnState.sort === 'desc')
+                );
+              }
+            );
+          } else {
+            sortOption = undefined;
+          }
+        }
+
+        if (this.#viewConfig && this.#currentDataState) {
+          this.#currentDataState.activeSortOption = sortOption;
           this.#dataManagerSvc.updateDataState(
             this.#currentDataState,
-            this.#viewConfig.id,
+            this.#viewConfig.id
           );
         }
       });
@@ -264,7 +274,7 @@ export class SkyAgGridDataManagerAdapterDirective
       const columnOrder = this.#getColumnOrder(columnApi);
 
       const viewState = this.#currentDataState.getViewStateById(
-        this.#viewConfig.id,
+        this.#viewConfig.id
       );
 
       if (
@@ -277,9 +287,9 @@ export class SkyAgGridDataManagerAdapterDirective
         this.#dataManagerSvc.updateDataState(
           this.#currentDataState.addOrUpdateView(
             this.#viewConfig.id,
-            viewState,
+            viewState
           ),
-          this.#viewConfig.id,
+          this.#viewConfig.id
         );
       }
     }
@@ -319,23 +329,6 @@ export class SkyAgGridDataManagerAdapterDirective
         agGrid.columnApi.setColumnsVisible(displayedColumnIds, true);
         agGrid.columnApi.moveColumns(displayedColumnIds, 0);
       }
-    }
-  }
-
-  #applySort(dataState: SkyDataManagerState): void {
-    const agGrid = this.#currentAgGrid;
-    const activeSort = dataState.activeSortOption;
-
-    if (activeSort) {
-      agGrid?.columnApi.applyColumnState({
-        state: [
-          {
-            colId: activeSort.id,
-            sort: activeSort.descending ? 'desc' : 'asc',
-          },
-        ],
-        defaultState: { sort: null },
-      });
     }
   }
 

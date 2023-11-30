@@ -5,8 +5,8 @@ describe('layout-storybook', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=toolbarcomponent-toolbar--toolbar`,
-        ),
+          `/iframe.html?globals=theme:${theme}&id=toolbarcomponent-toolbar--toolbar`
+        )
       );
       it('should render the component', () => {
         cy.get('app-toolbar')

@@ -22,7 +22,7 @@ export class SkySearchHarness extends SkyComponentHarness {
    * `SkySearchHarness` that meets certain criteria.
    */
   public static with(
-    filters: SkySearchHarnessFilters,
+    filters: SkySearchHarnessFilters
   ): HarnessPredicate<SkySearchHarness> {
     return this.getDataSkyIdPredicate(filters);
   }

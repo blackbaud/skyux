@@ -50,13 +50,13 @@ describe('Action button adapter service', () => {
     fixture.detectChanges();
 
     expect(inputRef.nativeElement).toHaveClass(
-      'sky-action-button-container-sm',
+      'sky-action-button-container-sm'
     );
     expect(inputRef.nativeElement).not.toHaveClass(
-      'sky-action-button-container-md',
+      'sky-action-button-container-md'
     );
     expect(inputRef.nativeElement).not.toHaveClass(
-      'sky-action-button-container-lg',
+      'sky-action-button-container-lg'
     );
   });
 
@@ -65,13 +65,13 @@ describe('Action button adapter service', () => {
     fixture.detectChanges();
 
     expect(inputRef.nativeElement).not.toHaveClass(
-      'sky-action-button-container-sm',
+      'sky-action-button-container-sm'
     );
     expect(inputRef.nativeElement).toHaveClass(
-      'sky-action-button-container-md',
+      'sky-action-button-container-md'
     );
     expect(inputRef.nativeElement).not.toHaveClass(
-      'sky-action-button-container-lg',
+      'sky-action-button-container-lg'
     );
   });
 
@@ -80,13 +80,13 @@ describe('Action button adapter service', () => {
     fixture.detectChanges();
 
     expect(inputRef.nativeElement).not.toHaveClass(
-      'sky-action-button-container-sm',
+      'sky-action-button-container-sm'
     );
     expect(inputRef.nativeElement).not.toHaveClass(
-      'sky-action-button-container-md',
+      'sky-action-button-container-md'
     );
     expect(inputRef.nativeElement).toHaveClass(
-      'sky-action-button-container-lg',
+      'sky-action-button-container-lg'
     );
   });
 
@@ -104,13 +104,13 @@ describe('Action button adapter service', () => {
     fixture.detectChanges();
 
     expect(inputRef.nativeElement).toHaveClass(
-      'sky-action-button-container-sm',
+      'sky-action-button-container-sm'
     );
     expect(inputRef.nativeElement).not.toHaveClass(
-      'sky-action-button-container-md',
+      'sky-action-button-container-md'
     );
     expect(inputRef.nativeElement).not.toHaveClass(
-      'sky-action-button-container-lg',
+      'sky-action-button-container-lg'
     );
   });
 });

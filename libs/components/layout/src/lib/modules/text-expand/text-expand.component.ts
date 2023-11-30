@@ -36,14 +36,14 @@ let nextId = 0;
         style({
           maxHeight: '{{transitionHeight}}px',
         }),
-        { params: { transitionHeight: 0 } },
+        { params: { transitionHeight: 0 } }
       ),
       state(
         'false',
         style({
           maxHeight: '{{transitionHeight}}px',
         }),
-        { params: { transitionHeight: 0 } },
+        { params: { transitionHeight: 0 } }
       ),
       transition('true => false', animate('250ms ease')),
       transition('false => true', animate('250ms ease')),
@@ -200,7 +200,7 @@ export class SkyTextExpandComponent implements AfterContentInit {
   constructor(
     resources: SkyLibResourcesService,
     modalSvc: SkyModalService,
-    textExpandAdapter: SkyTextExpandAdapterService,
+    textExpandAdapter: SkyTextExpandAdapterService
   ) {
     this.#resources = resources;
     this.#modalSvc = modalSvc;

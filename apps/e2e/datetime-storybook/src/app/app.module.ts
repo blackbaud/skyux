@@ -14,7 +14,7 @@ const routes: Route[] = [
     path: 'date-range-picker',
     loadChildren: () =>
       import('./date-range-picker/date-range-picker.module').then(
-        (m) => m.DateRangePickerModule,
+        (m) => m.DateRangePickerModule
       ),
   },
   {

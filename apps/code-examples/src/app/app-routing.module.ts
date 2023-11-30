@@ -15,14 +15,14 @@ const routes: Routes = [
     path: 'angular-tree',
     loadChildren: () =>
       import('./features/angular-tree.modules').then(
-        (m) => m.AngularTreeFeatureModule,
+        (m) => m.AngularTreeFeatureModule
       ),
   },
   {
     path: 'autonumeric',
     loadChildren: () =>
       import('./features/autonumeric.module').then(
-        (m) => m.AutonumericFeatureModule,
+        (m) => m.AutonumericFeatureModule
       ),
   },
   {
@@ -34,7 +34,7 @@ const routes: Routes = [
     path: 'colorpicker',
     loadChildren: () =>
       import('./features/colorpicker.module').then(
-        (m) => m.ColorpickerFeatureModule,
+        (m) => m.ColorpickerFeatureModule
       ),
   },
   {
@@ -61,14 +61,14 @@ const routes: Routes = [
     path: 'indicators',
     loadChildren: () =>
       import('./features/indicators.module').then(
-        (m) => m.IndicatorsFeatureModule,
+        (m) => m.IndicatorsFeatureModule
       ),
   },
   {
     path: 'inline-form',
     loadChildren: () =>
       import('./features/inline-form.module').then(
-        (m) => m.InlineFormFeatureModule,
+        (m) => m.InlineFormFeatureModule
       ),
   },
   {
@@ -110,7 +110,7 @@ const routes: Routes = [
     path: 'progress-indicator',
     loadChildren: () =>
       import('./features/progress-indicator.module').then(
-        (m) => m.ProgressIndicatorFeatureModule,
+        (m) => m.ProgressIndicatorFeatureModule
       ),
   },
   {
@@ -157,7 +157,7 @@ const routes: Routes = [
     path: 'data-manager',
     loadChildren: () =>
       import('./features/data-manager.module').then(
-        (m) => m.DataManagerFeatureModule,
+        (m) => m.DataManagerFeatureModule
       ),
   },
   {
@@ -169,7 +169,7 @@ const routes: Routes = [
     path: 'text-editor',
     loadChildren: () =>
       import('./features/text-editor.module').then(
-        (m) => m.TextEditorFeatureModule,
+        (m) => m.TextEditorFeatureModule
       ),
   },
   {

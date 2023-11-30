@@ -146,7 +146,7 @@ export class SkyTextEditorToolbarComponent implements OnInit {
   public toggleFontStyle(
     currentState: boolean,
     newState: boolean,
-    command: string,
+    command: string
   ): void {
     if (currentState !== newState) {
       this.execCommand(command);
@@ -194,7 +194,7 @@ export class SkyTextEditorToolbarComponent implements OnInit {
               result.data.url +
               '" rel="noopener noreferrer" target="_blank">' +
               sText +
-              '</a>',
+              '</a>'
           );
         }
       }
@@ -224,7 +224,7 @@ export class SkyTextEditorToolbarComponent implements OnInit {
 
   public onColorpickerColorChanged(
     color: SkyColorpickerOutput,
-    isBackground = false,
+    isBackground = false
   ): void {
     this.execCommand(isBackground ? 'backColor' : 'foreColor', color.hex);
   }

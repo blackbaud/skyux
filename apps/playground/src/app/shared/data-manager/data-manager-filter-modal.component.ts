@@ -26,7 +26,7 @@ export class DataManagerFiltersModalComponent {
   constructor(
     public context: SkyDataManagerFilterModalContext,
     public instance: SkyModalInstance,
-    private changeDetector: ChangeDetectorRef,
+    private changeDetector: ChangeDetectorRef
   ) {
     if (this.context.filterData && this.context.filterData.filters) {
       const filters = this.context.filterData.filters;

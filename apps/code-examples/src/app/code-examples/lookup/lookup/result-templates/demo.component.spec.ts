@@ -17,7 +17,7 @@ describe('Lookup result templates demo', () => {
 
     const lookupHarness = await (
       await loader.getHarness(
-        SkyInputBoxHarness.with({ dataSkyId: 'favorite-names-field' }),
+        SkyInputBoxHarness.with({ dataSkyId: 'favorite-names-field' })
       )
     ).queryHarness(SkyLookupHarness);
 
@@ -49,7 +49,7 @@ describe('Lookup result templates demo', () => {
 
     await expectAsync(templateItemHarness?.getName()).toBeResolvedTo('Abed');
     await expectAsync(templateItemHarness?.getFormalName()).toBeResolvedTo(
-      'Mr. Nadir',
+      'Mr. Nadir'
     );
   });
 
@@ -67,7 +67,7 @@ describe('Lookup result templates demo', () => {
 
     await expectAsync(templateItemHarness?.getName()).toBeResolvedTo('Abed');
     await expectAsync(templateItemHarness?.getFormalName()).toBeResolvedTo(
-      'Mr. Nadir',
+      'Mr. Nadir'
     );
   });
 
@@ -81,7 +81,7 @@ describe('Lookup result templates demo', () => {
     await firstResultHarness?.select();
 
     expect(
-      fixture.componentInstance.favoritesForm.controls.favoriteNames.value,
+      fixture.componentInstance.favoritesForm.controls.favoriteNames.value
     ).toEqual([
       { name: 'Shirley', formal: 'Ms. Bennett' },
       { name: 'Abed', formal: 'Mr. Nadir' },
@@ -96,10 +96,10 @@ describe('Lookup result templates demo', () => {
     const picker = await lookupHarness?.getShowMorePicker();
 
     await expectAsync(picker?.getSearchAriaLabel()).toBeResolvedTo(
-      'Search names',
+      'Search names'
     );
     await expectAsync(picker?.getSaveButtonAriaLabel()).toBeResolvedTo(
-      'Select names',
+      'Select names'
     );
   });
 });

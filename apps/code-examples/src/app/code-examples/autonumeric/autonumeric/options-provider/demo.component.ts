@@ -9,8 +9,8 @@ import {
 import {
   SkyAutonumericModule,
   SkyAutonumericOptions,
-  SkyAutonumericOptionsProvider,
 } from '@skyux/autonumeric';
+import { SkyAutonumericOptionsProvider } from '@skyux/autonumeric';
 import { SkyInputBoxModule } from '@skyux/forms';
 
 import { DemoAutonumericOptionsProvider } from './options-provider';

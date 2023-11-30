@@ -5,8 +5,8 @@ describe('indicators-storybook', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=tokenscomponent-tokens--tokens`,
-        ),
+          `/iframe.html?globals=theme:${theme}&id=tokenscomponent-tokens--tokens`
+        )
       );
       it('should render the component', () => {
         cy.get('app-tokens')
@@ -14,7 +14,7 @@ describe('indicators-storybook', () => {
           .should('be.visible')
           // Capture the focus style of the first token.
           .get(
-            'sky-tokens:first-child sky-token:first-child .sky-token-btn-action',
+            'sky-tokens:first-child sky-token:first-child .sky-token-btn-action'
           )
           .click()
           .get('app-tokens')

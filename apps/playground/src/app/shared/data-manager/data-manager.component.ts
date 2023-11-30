@@ -74,7 +74,7 @@ export class DataManagerComponent implements OnInit {
   constructor(
     private changeDetector: ChangeDetectorRef,
     private dataManagerService: SkyDataManagerService,
-    private modalService: SkyModalService,
+    private modalService: SkyModalService
   ) {
     this.dataManagerService
       .getDataStateUpdates('dataEntryGridDataManager')
@@ -111,7 +111,7 @@ export class DataManagerComponent implements OnInit {
 
     const modalInstance = this.modalService.open(
       DataManagerEditModalComponent,
-      options,
+      options
     );
 
     modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {

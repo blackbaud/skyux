@@ -5,8 +5,8 @@ describe('inline delete', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=inlinedeletecomponent-inlinedelete--inline-delete`,
-        ),
+          `/iframe.html?globals=theme:${theme}&id=inlinedeletecomponent-inlinedelete--inline-delete`
+        )
       );
       it('should render the component', () => {
         cy.get('app-inline-delete')

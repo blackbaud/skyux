@@ -14,7 +14,7 @@ export class SkyPopoverFixture {
   public get alignment(): string | undefined {
     return this.#getClassSuffixByClassPrefix(
       this.#containerElement,
-      'sky-popover-alignment-',
+      'sky-popover-alignment-'
     );
   }
 
@@ -31,7 +31,7 @@ export class SkyPopoverFixture {
   public get placement(): string | undefined {
     return this.#getClassSuffixByClassPrefix(
       this.#containerElement,
-      'sky-popover-placement-',
+      'sky-popover-placement-'
     );
   }
 
@@ -105,7 +105,7 @@ export class SkyPopoverFixture {
    */
   #getClassSuffixByClassPrefix(
     element: HTMLElement | undefined,
-    prefix: string,
+    prefix: string
   ): string | undefined {
     const containerClasses = element?.className.split(' ');
     const prefixedClass = containerClasses?.find((x) => x.startsWith(prefix));

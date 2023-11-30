@@ -9,6 +9,6 @@ export interface EsLintConfig {
         project: string[];
         tsconfigRootDir: string;
       };
-    },
+    }
   ];
 }

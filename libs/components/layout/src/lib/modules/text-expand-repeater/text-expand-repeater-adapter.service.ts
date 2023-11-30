@@ -18,7 +18,7 @@ export class SkyTextExpandRepeaterAdapterService {
 
   public getItems(elRef: ElementRef): NodeListOf<HTMLElement> {
     return (elRef.nativeElement as HTMLElement).querySelectorAll(
-      '.sky-text-expand-repeater-item',
+      '.sky-text-expand-repeater-item'
     ) as NodeListOf<HTMLElement>;
   }
 

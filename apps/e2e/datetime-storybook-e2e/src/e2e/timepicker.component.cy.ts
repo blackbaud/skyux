@@ -7,8 +7,8 @@ describe('datetime-storybook', () => {
         describe(`in ${mode} mode`, () => {
           beforeEach(() =>
             cy.visit(
-              `/iframe.html?globals=theme:${theme}&id=timepickercomponent-timepicker--timepicker-${mode}`,
-            ),
+              `/iframe.html?globals=theme:${theme}&id=timepickercomponent-timepicker--timepicker-${mode}`
+            )
           );
           it('should render the component', () => {
             cy.get('.sky-input-group-timepicker-btn')
@@ -18,7 +18,7 @@ describe('datetime-storybook', () => {
               .click()
               .end()
               .get(
-                'sky-overlay .sky-timepicker-container .sky-timepicker-footer',
+                'sky-overlay .sky-timepicker-container .sky-timepicker-footer'
               )
               .should('exist')
               .should('be.visible')
@@ -34,11 +34,11 @@ describe('datetime-storybook', () => {
                   $body
                     .find('[aria-expanded="true"]')
                     .get(0)
-                    .getBoundingClientRect().bottom,
+                    .getBoundingClientRect().bottom
                 );
                 cy.wrap(buttonBottom).should('be.gt', 0);
                 const dialogTop = Math.round(
-                  $body.find('[role="dialog"]').position().top,
+                  $body.find('[role="dialog"]').position().top
                 );
                 cy.wrap(buttonBottom).should('equal', dialogTop);
                 return cy.wrap($body.get(0));
@@ -48,7 +48,7 @@ describe('datetime-storybook', () => {
                 {
                   overwrite: true,
                   disableTimersAndAnimations: true,
-                },
+                }
               );
           });
         });

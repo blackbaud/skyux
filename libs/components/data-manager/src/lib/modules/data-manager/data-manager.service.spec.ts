@@ -53,14 +53,14 @@ describe('SkyDataManagerService', () => {
       initTestComponent();
 
       expect(dataManagerService.updateActiveViewId).toHaveBeenCalledWith(
-        dataManagerComponent.activeViewId,
+        dataManagerComponent.activeViewId
       );
       expect(dataManagerService.updateDataManagerConfig).toHaveBeenCalledWith(
-        dataManagerComponent.dataManagerConfig,
+        dataManagerComponent.dataManagerConfig
       );
       expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
         dataManagerComponent.dataState,
-        'dataManagerServiceInit',
+        'dataManagerServiceInit'
       );
     });
 
@@ -93,7 +93,7 @@ describe('SkyDataManagerService', () => {
 
       it('should request a data state from the ui config service', async () => {
         spyOn(uiConfigService, 'getConfig').and.returnValue(
-          uiConfigServiceGetObservable,
+          uiConfigServiceGetObservable
         );
 
         initTestComponent(key);
@@ -102,13 +102,13 @@ describe('SkyDataManagerService', () => {
 
         expect(uiConfigService.getConfig).toHaveBeenCalledWith(
           key,
-          initialDataState.getStateOptions(),
+          initialDataState.getStateOptions()
         );
       });
 
       it('should update the data state via the data manager service when the ui config service returns a data state', async () => {
         spyOn(uiConfigService, 'getConfig').and.returnValue(
-          uiConfigServiceGetObservable,
+          uiConfigServiceGetObservable
         );
         spyOn(dataManagerService, 'updateDataState');
 
@@ -118,25 +118,25 @@ describe('SkyDataManagerService', () => {
         uiConfigServiceGetObservable.next(initialDataState.getStateOptions());
         expect(uiConfigService.getConfig).toHaveBeenCalledWith(
           key,
-          initialDataState.getStateOptions(),
+          initialDataState.getStateOptions()
         );
         expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
           initialDataState,
-          'dataManagerServiceInit',
+          'dataManagerServiceInit'
         );
       });
 
       it('should update the ui config service when the data state changes', async () => {
         const newDataState = new SkyDataManagerState({ searchText: 'test' });
         spyOn(uiConfigService, 'getConfig').and.returnValue(
-          uiConfigServiceGetObservable,
+          uiConfigServiceGetObservable
         );
 
         initTestComponent(key);
 
         await dataManagerFixture.whenStable();
         spyOn(uiConfigService, 'setConfig').and.returnValue(
-          uiConfigServiceSetObservable,
+          uiConfigServiceSetObservable
         );
         dataManagerService.updateDataState(newDataState, sourceId);
 
@@ -148,14 +148,14 @@ describe('SkyDataManagerService', () => {
         const newDataState = new SkyDataManagerState({ searchText: 'test' });
         const errorMessage = 'something went wrong';
         spyOn(uiConfigService, 'getConfig').and.returnValue(
-          uiConfigServiceGetObservable,
+          uiConfigServiceGetObservable
         );
 
         initTestComponent(key);
 
         await dataManagerFixture.whenStable();
         spyOn(uiConfigService, 'setConfig').and.returnValue(
-          uiConfigServiceSetObservable,
+          uiConfigServiceSetObservable
         );
         spyOn(console, 'warn');
         dataManagerService.updateDataState(newDataState, sourceId);
@@ -234,7 +234,7 @@ describe('SkyDataManagerService', () => {
         beforeEach(() => {
           dataStateObservable = dataManagerService.getDataStateUpdates(
             sourceId,
-            { properties: filterProperties },
+            { properties: filterProperties }
           );
           dataState = currentDataState;
 
@@ -273,7 +273,7 @@ describe('SkyDataManagerService', () => {
         });
         const comparator = (
           state1: SkyDataManagerState,
-          state2: SkyDataManagerState,
+          state2: SkyDataManagerState
         ): boolean => {
           return (
             state1.searchText?.toLowerCase() ===
@@ -285,7 +285,7 @@ describe('SkyDataManagerService', () => {
           dataManagerService.updateDataState(firstDataState, otherSourceId);
           dataStateObservable = dataManagerService.getDataStateUpdates(
             sourceId,
-            { comparator },
+            { comparator }
           );
           dataState = currentDataState;
 
@@ -337,7 +337,7 @@ describe('SkyDataManagerService', () => {
 
     it('getCurrentDataManagerConfig should return the current config of the data manager', () => {
       expect(dataManagerService.getCurrentDataManagerConfig()).toEqual(
-        dataManagerComponent.dataManagerConfig,
+        dataManagerComponent.dataManagerConfig
       );
     });
 
@@ -345,7 +345,7 @@ describe('SkyDataManagerService', () => {
       dataManagerService.updateDataManagerConfig(dataConfigUpdate);
 
       expect(dataManagerService.getCurrentDataManagerConfig()).toEqual(
-        dataConfigUpdate,
+        dataConfigUpdate
       );
     });
 
@@ -442,7 +442,7 @@ describe('SkyDataManagerService', () => {
 
       expect(dataManagerService.updateDataState).not.toHaveBeenCalled();
       expect(console.warn).toHaveBeenCalledWith(
-        `A data manager view with the id ${view.id} has already been initialized.`,
+        `A data manager view with the id ${view.id} has already been initialized.`
       );
     });
 
@@ -461,7 +461,7 @@ describe('SkyDataManagerService', () => {
             },
           ],
         }),
-        'test',
+        'test'
       );
 
       dataManagerFixture.detectChanges();
@@ -477,7 +477,7 @@ describe('SkyDataManagerService', () => {
           columnIds: [],
           displayedColumnIds: [],
           additionalData: undefined,
-        }),
+        })
       );
 
       dataManagerService.initDataView(newView);
@@ -490,7 +490,7 @@ describe('SkyDataManagerService', () => {
           columnIds: [],
           displayedColumnIds: [],
           additionalData: undefined,
-        }),
+        })
       );
     });
 
@@ -510,7 +510,7 @@ describe('SkyDataManagerService', () => {
             },
           ],
         }),
-        'test',
+        'test'
       );
 
       dataManagerFixture.detectChanges();
@@ -539,7 +539,7 @@ describe('SkyDataManagerService', () => {
           columnIds: ['1', '2'],
           displayedColumnIds: ['2'],
           additionalData: undefined,
-        }),
+        })
       );
 
       dataManagerService.initDataView(newView);
@@ -552,7 +552,7 @@ describe('SkyDataManagerService', () => {
           columnIds: ['1', '2'],
           displayedColumnIds: ['2'],
           additionalData: undefined,
-        }),
+        })
       );
     });
 
@@ -572,7 +572,7 @@ describe('SkyDataManagerService', () => {
             },
           ],
         }),
-        'test',
+        'test'
       );
 
       dataManagerFixture.detectChanges();
@@ -605,7 +605,7 @@ describe('SkyDataManagerService', () => {
           columnIds: ['1', '2'],
           displayedColumnIds: ['2'],
           additionalData: undefined,
-        }),
+        })
       );
 
       dataManagerService.initDataView(newView);
@@ -618,7 +618,7 @@ describe('SkyDataManagerService', () => {
           columnIds: ['1', '2', '3'],
           displayedColumnIds: ['2', '3'],
           additionalData: undefined,
-        }),
+        })
       );
     });
 
@@ -639,7 +639,7 @@ describe('SkyDataManagerService', () => {
             },
           ],
         }),
-        'test',
+        'test'
       );
 
       dataManagerFixture.detectChanges();
@@ -673,7 +673,7 @@ describe('SkyDataManagerService', () => {
           columnIds: ['1', '2'],
           displayedColumnIds: ['2'],
           additionalData: undefined,
-        }),
+        })
       );
 
       dataManagerService.initDataView(newView);
@@ -686,7 +686,7 @@ describe('SkyDataManagerService', () => {
           columnIds: ['1', '2', '3'],
           displayedColumnIds: ['2'],
           additionalData: undefined,
-        }),
+        })
       );
     });
 
@@ -707,7 +707,7 @@ describe('SkyDataManagerService', () => {
             },
           ],
         }),
-        'test',
+        'test'
       );
 
       dataManagerFixture.detectChanges();
@@ -741,7 +741,7 @@ describe('SkyDataManagerService', () => {
           columnIds: [],
           displayedColumnIds: ['2'],
           additionalData: undefined,
-        }),
+        })
       );
 
       dataManagerService.initDataView(newView);
@@ -754,7 +754,7 @@ describe('SkyDataManagerService', () => {
           columnIds: ['1', '2', '3'],
           displayedColumnIds: ['2'],
           additionalData: undefined,
-        }),
+        })
       );
     });
 
@@ -803,7 +803,7 @@ describe('SkyDataManagerService', () => {
           columnIds: ['1', '2', '3'],
           displayedColumnIds: ['1', '2'],
           additionalData: undefined,
-        }),
+        })
       );
     });
   });
@@ -818,7 +818,7 @@ describe('SkyDataManagerService', () => {
       const repeaterViewConfig = dataManagerComponent.repeaterView.viewConfig;
 
       expect(dataManagerService.getViewById(repeaterViewConfig.id)).toEqual(
-        repeaterViewConfig,
+        repeaterViewConfig
       );
     });
 
@@ -843,7 +843,7 @@ describe('SkyDataManagerService', () => {
         };
 
         let registeredConfig = dataManagerService.getViewById(
-          repeaterViewConfig.id,
+          repeaterViewConfig.id
         );
 
         expect(registeredConfig).toEqual(repeaterViewConfig);
@@ -851,7 +851,7 @@ describe('SkyDataManagerService', () => {
 
         dataManagerService.updateViewConfig(modifiedConfig);
         registeredConfig = dataManagerService.getViewById(
-          repeaterViewConfig.id,
+          repeaterViewConfig.id
         );
 
         expect(registeredConfig).not.toEqual(repeaterViewConfig);
@@ -868,7 +868,7 @@ describe('SkyDataManagerService', () => {
     let viewkeeperClasses: Record<string, string[]> | undefined;
 
     dataManagerService.viewkeeperClasses.subscribe(
-      (classes) => (viewkeeperClasses = classes),
+      (classes) => (viewkeeperClasses = classes)
     );
 
     dataManagerService.setViewkeeperClasses(viewId, [newClass]);

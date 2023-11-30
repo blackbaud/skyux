@@ -18,7 +18,7 @@ describe('Repeater add remove demo', () => {
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
     const repeaterHarness = await loader.getHarness(
-      SkyRepeaterHarness.with({ dataSkyId: 'repeater-demo' }),
+      SkyRepeaterHarness.with({ dataSkyId: 'repeater-demo' })
     );
 
     const repeaterItems = await repeaterHarness.getRepeaterItems();
@@ -86,14 +86,14 @@ describe('Repeater add remove demo', () => {
       }
 
       await expectAsync(repeaterItems?.[1].getTitleText()).toBeResolvedTo(
-        expectedContent[1].title,
+        expectedContent[1].title
       );
 
       await repeaterItems?.[1].sendToTop();
       repeaterItems = await repeaterHarness?.getRepeaterItems();
 
       await expectAsync(repeaterItems?.[1].getTitleText()).toBeResolvedTo(
-        expectedContent[0].title,
+        expectedContent[0].title
       );
     }
   });
@@ -112,11 +112,11 @@ describe('Repeater add remove demo', () => {
       }
 
       const addButton = fixture.nativeElement.querySelector(
-        '[data-sky-id="add-button"]',
+        '[data-sky-id="add-button"]'
       );
 
       const removeButton = fixture.nativeElement.querySelector(
-        '[data-sky-id="remove-button"]',
+        '[data-sky-id="remove-button"]'
       );
 
       addButton.click();

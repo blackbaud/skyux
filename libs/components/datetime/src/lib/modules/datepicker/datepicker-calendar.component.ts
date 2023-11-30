@@ -84,7 +84,7 @@ export class SkyDatepickerCalendarComponent {
   }
 
   public onCalendarDateRangeChange(
-    event: SkyDatepickerCalendarChange | undefined,
+    event: SkyDatepickerCalendarChange | undefined
   ): void {
     this.calendarDateRangeChange.next(event);
   }

@@ -1,7 +1,8 @@
 import { Rule } from '@angular-devkit/schematics';
 
 import { EsLintConfig } from '../types/eslint-config';
-import { readJsonFile, writeJsonFile } from '../utility/tree';
+import { readJsonFile } from '../utility/tree';
+import { writeJsonFile } from '../utility/tree';
 
 const ESLINT_CONFIG_NAME = '@skyux-sdk/eslint-config/recommended';
 const ESLINT_CONFIG_PATH = '.eslintrc.json';

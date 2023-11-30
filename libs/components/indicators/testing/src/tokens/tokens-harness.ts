@@ -35,7 +35,7 @@ export class SkyTokensHarness extends SkyComponentHarness {
    * Returns a list of tokens.
    */
   public async getTokens(
-    filters?: SkyTokenHarnessFilters,
+    filters?: SkyTokenHarnessFilters
   ): Promise<SkyTokenHarness[]> {
     return this.locatorForAll(SkyTokenHarness.with(filters || {}))();
   }

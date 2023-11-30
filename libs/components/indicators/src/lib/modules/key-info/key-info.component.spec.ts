@@ -44,10 +44,10 @@ describe('Key info component', () => {
     fixture.detectChanges();
 
     expect(
-      el.querySelectorAll('.sky-key-info-value sky-key-info-value').length,
+      el.querySelectorAll('.sky-key-info-value sky-key-info-value').length
     ).toBe(1);
     expect(
-      el.querySelectorAll('.sky-key-info-label sky-key-info-label').length,
+      el.querySelectorAll('.sky-key-info-label sky-key-info-label').length
     ).toBe(1);
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });

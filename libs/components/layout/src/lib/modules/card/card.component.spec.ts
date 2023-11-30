@@ -9,7 +9,7 @@ import { CardTestComponent } from './fixtures/card.component.fixture';
 function validateCardSelected(
   cmp: CardTestComponent,
   cardEl: any,
-  selected: boolean,
+  selected: boolean
 ) {
   const selectedEl = cardEl.querySelector('.sky-card.sky-card-selected');
 
@@ -42,10 +42,10 @@ describe('Card component', () => {
     fixture.detectChanges();
 
     expect(el.querySelector('.sky-card-title sky-card-title')).toHaveText(
-      'Title',
+      'Title'
     );
     expect(el.querySelector('.sky-card-content sky-card-content')).toHaveText(
-      'Content',
+      'Content'
     );
     expect(el.querySelector('.sky-card-actions button')).toHaveText('Button');
   });
@@ -56,7 +56,7 @@ describe('Card component', () => {
     fixture.detectChanges();
 
     expect(el.querySelector('section.sky-card')).toHaveCssClass(
-      'sky-card-small',
+      'sky-card-small'
     );
   });
 
@@ -64,7 +64,7 @@ describe('Card component', () => {
     fixture.detectChanges();
 
     const wrapperEl = el.querySelector(
-      '.sky-card.sky-card-selectable .sky-card-header .sky-card-check .sky-checkbox-wrapper',
+      '.sky-card.sky-card-selectable .sky-card-header .sky-card-check .sky-checkbox-wrapper'
     );
 
     expect(wrapperEl).not.toBeNull();
@@ -88,7 +88,7 @@ describe('Card component', () => {
     validateCardSelected(cmp, el, false);
 
     const labelEl = el.querySelector(
-      'label.sky-checkbox-wrapper',
+      'label.sky-checkbox-wrapper'
     ) as HTMLLabelElement;
 
     labelEl.click();
@@ -190,7 +190,7 @@ describe('Card component', () => {
     expect(el.querySelector('sky-inline-delete')).not.toBeNull();
     expect(cmp.card.inlineDeleteComponent?.length).toBe(1);
     expect(cmp.card.inlineDeleteComponent?.first.type).toBe(
-      SkyInlineDeleteType.Card,
+      SkyInlineDeleteType.Card
     );
   });
 
@@ -206,7 +206,7 @@ describe('Card component', () => {
     expect(el.querySelector('sky-inline-delete')).not.toBeNull();
     expect(cmp.card.inlineDeleteComponent?.length).toBe(1);
     expect(cmp.card.inlineDeleteComponent?.first.type).toBe(
-      SkyInlineDeleteType.Card,
+      SkyInlineDeleteType.Card
     );
   });
 });

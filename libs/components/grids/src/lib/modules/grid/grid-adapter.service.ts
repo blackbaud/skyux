@@ -27,7 +27,7 @@ export class SkyGridAdapterService {
   public initializeDragAndDrop(
     dragulaGroupName: string,
     dragulaService: DragulaService,
-    dropCallback: (newColumnIds: Array<string>) => void,
+    dropCallback: (newColumnIds: Array<string>) => void
   ) {
     dragulaService
       .drag(dragulaGroupName)
@@ -36,13 +36,13 @@ export class SkyGridAdapterService {
     dragulaService
       .dragend(dragulaGroupName)
       .subscribe((args) =>
-        args.el.classList.remove(GRID_HEADER_DRAGGING_CLASS),
+        args.el.classList.remove(GRID_HEADER_DRAGGING_CLASS)
       );
 
     dragulaService.drop(dragulaGroupName).subscribe((args) => {
       const columnIds: string[] = [];
       const nodes = args.target.querySelectorAll(
-        `th:not(${GRID_MULTISELECT_SELECTOR}):not(${GRID_ROW_DELETE_SELECTOR})`,
+        `th:not(${GRID_MULTISELECT_SELECTOR}):not(${GRID_ROW_DELETE_SELECTOR})`
       );
       for (let i = 0; i < nodes.length; i++) {
         const el = nodes[i];
@@ -71,7 +71,7 @@ export class SkyGridAdapterService {
         el: HTMLElement,
         target: HTMLElement,
         source: HTMLElement,
-        sibling: HTMLElement,
+        sibling: HTMLElement
       ) => {
         if (sibling === undefined || !sibling) {
           return true;
@@ -105,7 +105,7 @@ export class SkyGridAdapterService {
 
   private isLeftOfLocked(
     handle: HTMLElement,
-    columns: NodeListOf<HTMLElement>,
+    columns: NodeListOf<HTMLElement>
   ): boolean {
     let sourceColumn = handle;
     for (const column of Array.from(columns)) {

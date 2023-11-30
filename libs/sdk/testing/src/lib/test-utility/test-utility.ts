@@ -20,11 +20,11 @@ export class SkyAppTestUtility {
   public static fireDomEvent(
     element: EventTarget | null | undefined,
     eventName: string,
-    options?: SkyAppTestUtilityDomEventOptions,
+    options?: SkyAppTestUtilityDomEventOptions
   ): void {
     if (!element) {
       throw new Error(
-        `Event \`${eventName}\` could not be fired because the element is not defined.`,
+        `Event \`${eventName}\` could not be fired because the element is not defined.`
       );
     }
 
@@ -40,7 +40,7 @@ export class SkyAppTestUtility {
     const event = Object.assign(
       document.createEvent('CustomEvent'),
       settings.keyboardEventInit,
-      settings.customEventInit,
+      settings.customEventInit
     );
 
     event.initEvent(eventName, settings.bubbles, settings.cancelable);
@@ -122,21 +122,21 @@ export class SkyAppTestUtility {
   public static getDebugElementByTestId(
     fixture: ComponentFixture<any>,
     skyTestId: string,
-    componentSelector: string,
+    componentSelector: string
   ): DebugElement {
     const skyEl = fixture.debugElement.query(
-      By.css(`[data-sky-id="${skyTestId}"]`),
+      By.css(`[data-sky-id="${skyTestId}"]`)
     );
 
     if (!skyEl) {
       throw new Error(
-        `No element was found with a \`data-sky-id\` value of "${skyTestId}".`,
+        `No element was found with a \`data-sky-id\` value of "${skyTestId}".`
       );
     }
 
     if (skyEl.name !== componentSelector) {
       throw new Error(
-        `The element with the test ID "${skyTestId}" is not a component of type ${componentSelector}."`,
+        `The element with the test ID "${skyTestId}" is not a component of type ${componentSelector}."`
       );
     }
 

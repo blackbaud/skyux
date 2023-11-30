@@ -13,7 +13,7 @@ export function configureVSCode(): Rule {
 
     if (tree.getDir(vsCodePath).subfiles.length > 0) {
       context.logger.info(
-        `Found ${vsCodePath} folder. Configuring Visual Studio Code for Prettier extension...`,
+        `Found ${vsCodePath} folder. Configuring Visual Studio Code for Prettier extension...`
       );
 
       if (!tree.exists(extensionsPath)) {
@@ -28,7 +28,7 @@ export function configureVSCode(): Rule {
       const settings = readJsonFile<VSCodeSettings>(tree, settingsPath);
 
       context.logger.info(
-        'Adding Prettier extension to recommended extensions...',
+        'Adding Prettier extension to recommended extensions...'
       );
 
       extensions.recommendations = extensions.recommendations || [];
@@ -40,7 +40,7 @@ export function configureVSCode(): Rule {
       writeJsonFile(tree, extensionsPath, extensions);
 
       context.logger.info(
-        'Setting Prettier as default formatter for workspace...',
+        'Setting Prettier as default formatter for workspace...'
       );
 
       settings['editor.defaultFormatter'] = prettierExtensionName;

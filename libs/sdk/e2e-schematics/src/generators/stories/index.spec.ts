@@ -55,10 +55,7 @@ describe('stories generator', () => {
     const config = readProjectConfiguration(appTree, 'test');
     expect(config).toBeDefined();
     expect(
-      appTree.read(
-        'apps/test/src/app/nx-welcome.component.stories.ts',
-        'utf-8',
-      ),
+      appTree.read('apps/test/src/app/nx-welcome.component.stories.ts', 'utf-8')
     ).toMatchSnapshot();
   });
 
@@ -105,14 +102,14 @@ describe('stories generator', () => {
     expect(
       appTree.read(
         'apps/test/src/app/path/to/nested/nested.component.stories.ts',
-        'utf-8',
-      ),
+        'utf-8'
+      )
     ).toMatchSnapshot();
     expect(
       appTree.read(
         'apps/test-e2e/src/e2e/path/to/nested/nested.component.cy.ts',
-        'utf-8',
-      ),
+        'utf-8'
+      )
     ).toMatchSnapshot();
   });
 
@@ -125,7 +122,7 @@ describe('stories generator', () => {
     });
     const projectConfiguration = readProjectConfiguration(
       appTree,
-      'test-storybook',
+      'test-storybook'
     );
     delete projectConfiguration.sourceRoot;
     updateProjectConfiguration(appTree, 'test-storybook', {
@@ -144,14 +141,14 @@ describe('stories generator', () => {
     expect(
       appTree.read(
         'apps/test-storybook/src/app/nx-welcome.component.stories.ts',
-        'utf-8',
-      ),
+        'utf-8'
+      )
     ).toMatchSnapshot();
     expect(
       appTree.read(
         'apps/test-storybook-e2e/src/e2e/nx-welcome.component.cy.ts',
-        'utf-8',
-      ),
+        'utf-8'
+      )
     ).toMatchSnapshot();
   });
 
@@ -173,7 +170,7 @@ describe('stories generator', () => {
       fail();
     } catch (e) {
       expect((e as Error).message).toEqual(
-        'Unable to find project test-storybook',
+        'Unable to find project test-storybook'
       );
     }
   });
@@ -190,7 +187,7 @@ describe('stories generator', () => {
       fail();
     } catch (e) {
       expect((e as Error).message).toEqual(
-        'Storybook is not configured for test-storybook',
+        'Storybook is not configured for test-storybook'
       );
     }
   });

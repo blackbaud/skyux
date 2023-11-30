@@ -109,7 +109,7 @@ export class SkyLookupTemplateTestComponent implements OnInit {
   }
 
   public addButtonClicked(
-    addButtonClickArgs: SkyLookupAddClickEventArgs,
+    addButtonClickArgs: SkyLookupAddClickEventArgs
   ): void {
     const newItem = { name: 'New item' };
     const newItems = [newItem].concat(this.data || []);
@@ -155,7 +155,7 @@ export class SkyLookupTemplateTestComponent implements OnInit {
 
     let items = this.data
       ? this.data.filter(
-          (item) => item.name.toLowerCase().indexOf(searchText) >= 0,
+          (item) => item.name.toLowerCase().indexOf(searchText) >= 0
         )
       : [];
 
@@ -181,7 +181,7 @@ export class SkyLookupTemplateTestComponent implements OnInit {
   }
 
   public setShowMoreNativePickerConfig(
-    config: SkyLookupShowMoreNativePickerConfig,
+    config: SkyLookupShowMoreNativePickerConfig
   ): void {
     if (this.showMoreConfig) {
       this.showMoreConfig.nativePickerConfig = config;

@@ -11,7 +11,7 @@ describe('lists-storybook - infinite-scroll', () => {
       ].forEach((style) => {
         it(`should render the component (${style})`, () => {
           cy.visit(
-            `/iframe.html?globals=theme:${theme}&id=infinitescrollcomponent-infinitescroll--infinite-scroll-${style}`,
+            `/iframe.html?globals=theme:${theme}&id=infinitescrollcomponent-infinitescroll--infinite-scroll-${style}`
           );
 
           cy.get('#ready').should('exist').end();
@@ -19,13 +19,13 @@ describe('lists-storybook - infinite-scroll', () => {
             .should('exist')
             .should('be.visible')
             .screenshot(
-              `infinitescrollcomponent-infinitescroll--infinite-scroll-${style}-${theme}`,
+              `infinitescrollcomponent-infinitescroll--infinite-scroll-${style}-${theme}`
             )
             .percySnapshot(
               `infinitescrollcomponent-infinitescroll--infinite-scroll-${style}-${theme}`,
               {
                 widths: E2eVariations.DISPLAY_WIDTHS,
-              },
+              }
             );
         });
       });

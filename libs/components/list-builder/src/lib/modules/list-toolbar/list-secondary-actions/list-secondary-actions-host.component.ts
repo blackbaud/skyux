@@ -32,7 +32,7 @@ export class SkyListSecondaryActionsHostComponent implements OnInit, OnDestroy {
 
   constructor(
     private changeDetector: ChangeDetectorRef,
-    private actionService: SkyListSecondaryActionsService,
+    private actionService: SkyListSecondaryActionsService
   ) {}
 
   public ngOnInit() {

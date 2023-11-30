@@ -241,7 +241,7 @@ export class SkySelectFieldComponent
     private modalService: SkyModalService,
     private resourcesService: SkyLibResourcesService,
     private elementRef: ElementRef,
-    logger: SkyLogService,
+    logger: SkyLogService
   ) {
     logger.deprecated('SkySelectFieldComponent', {
       deprecationMajorVersion: 6,
@@ -274,7 +274,7 @@ export class SkySelectFieldComponent
     (this.pickerHeading
       ? observableOf(this.pickerHeading)
       : this.resourcesService.getString(
-          `skyux_select_field_${this.selectMode}_select_picker_heading`,
+          `skyux_select_field_${this.selectMode}_select_picker_heading`
         )
     )
       .pipe(take(1))
@@ -364,7 +364,7 @@ export class SkySelectFieldComponent
       this.resourcesService
         .getString(
           'skyux_select_field_multiple_select_summary',
-          this.value.length.toString(),
+          this.value.length.toString()
         )
         .pipe(take(1))
         .subscribe((label) => {
@@ -391,7 +391,7 @@ export class SkySelectFieldComponent
             useValue: pickerContext,
           },
         ],
-      },
+      }
     );
 
     const picker =

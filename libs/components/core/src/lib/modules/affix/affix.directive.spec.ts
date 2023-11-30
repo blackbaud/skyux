@@ -93,7 +93,7 @@ describe('Affix directive', () => {
   };
 
   function triggerParentScroll(
-    fixture: ComponentFixture<AffixFixtureComponent>,
+    fixture: ComponentFixture<AffixFixtureComponent>
   ): void {
     const el = fixture.componentInstance.overflowParentRef.nativeElement;
 
@@ -128,7 +128,7 @@ describe('Affix directive', () => {
       const placement: (SkyAffixPlacement | null | undefined)[] = [];
       const createAffixer = spyOn(
         affixService,
-        'createAffixer',
+        'createAffixer'
       ).and.callThrough();
       ngUnsubscribe = new Subject<void>();
       directive.affixOverflowScroll
@@ -151,7 +151,7 @@ describe('Affix directive', () => {
 
       const getAffixedOffset = (): SkyAffixOffset => {
         const styles = window.getComputedStyle(
-          fixture.componentInstance.affixedRef.nativeElement,
+          fixture.componentInstance.affixedRef.nativeElement
         );
         return {
           top: +styles.top.split('px')[0],
@@ -747,7 +747,7 @@ describe('Affix directive', () => {
 
       const spy = spyOn(
         componentInstance,
-        'onAffixPlacementChange',
+        'onAffixPlacementChange'
       ).and.callThrough();
 
       // Scroll to make base element visible.
@@ -809,7 +809,7 @@ describe('Affix directive', () => {
       let affixedOffset = getAffixedOffset();
 
       expect(affixedOffset.top).toEqual(
-        expectedOffsets.aboveCenter.top - offsetDifference,
+        expectedOffsets.aboveCenter.top - offsetDifference
       );
       expect(affixedOffset.left).toEqual(expectedOffsets.aboveCenter.left);
 
@@ -820,7 +820,7 @@ describe('Affix directive', () => {
 
       expect(affixedOffset.top).toEqual(expectedOffsets.rightMiddle.top);
       expect(affixedOffset.left).toEqual(
-        expectedOffsets.rightMiddle.left + offsetDifference,
+        expectedOffsets.rightMiddle.left + offsetDifference
       );
 
       componentInstance.placement = 'below';
@@ -829,7 +829,7 @@ describe('Affix directive', () => {
       affixedOffset = getAffixedOffset();
 
       expect(affixedOffset.top).toEqual(
-        expectedOffsets.belowCenter.top + offsetDifference,
+        expectedOffsets.belowCenter.top + offsetDifference
       );
       expect(affixedOffset.left).toEqual(expectedOffsets.belowCenter.left);
 
@@ -840,7 +840,7 @@ describe('Affix directive', () => {
 
       expect(affixedOffset.top).toEqual(expectedOffsets.leftMiddle.top);
       expect(affixedOffset.left).toEqual(
-        expectedOffsets.leftMiddle.left - offsetDifference,
+        expectedOffsets.leftMiddle.left - offsetDifference
       );
     });
 

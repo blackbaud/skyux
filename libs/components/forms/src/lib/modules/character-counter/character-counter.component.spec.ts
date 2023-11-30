@@ -16,7 +16,7 @@ describe('Character Counter component', () => {
     fixture: ComponentFixture<
       CharacterCountTestComponent | CharacterCountNoIndicatorTestComponent
     >,
-    value: string | null,
+    value: string | null
   ): void {
     fixture.componentInstance.firstName.setValue(value);
     fixture.detectChanges();
@@ -47,10 +47,10 @@ describe('Character Counter component', () => {
       characterCountComponent = component.inputDirective
         ?.skyCharacterCounterIndicator as SkyCharacterCounterIndicatorComponent;
       characterCountLabel = nativeElement.querySelector(
-        '.input-count-example-wrapper .sky-character-count-label',
+        '.input-count-example-wrapper .sky-character-count-label'
       ) as HTMLLabelElement;
       characterCountLabelLastName = nativeElement.querySelector(
-        '.input-count-example-wrapper-last-name .sky-character-count-label',
+        '.input-count-example-wrapper-last-name .sky-character-count-label'
       ) as HTMLLabelElement;
     });
 
@@ -82,12 +82,12 @@ describe('Character Counter component', () => {
     it('should show the error icon on the character count when appropriate', fakeAsync(() => {
       setInputValue(fixture, 'abcde');
       expect(
-        characterCountLabel.classList.contains('sky-error-label'),
+        characterCountLabel.classList.contains('sky-error-label')
       ).toBeFalsy();
 
       setInputValue(fixture, 'abcdef');
       expect(
-        characterCountLabel.classList.contains('sky-error-label'),
+        characterCountLabel.classList.contains('sky-error-label')
       ).toBeTruthy();
     }));
 
@@ -105,14 +105,14 @@ describe('Character Counter component', () => {
       fixture.detectChanges();
       expect(component.firstName.valid).toBeFalsy();
       expect(
-        characterCountLabel.classList.contains('sky-error-label'),
+        characterCountLabel.classList.contains('sky-error-label')
       ).toBeTruthy();
 
       component.setCharacterCountLimit(4);
       fixture.detectChanges();
       expect(component.firstName.valid).toBeTruthy();
       expect(
-        characterCountLabel.classList.contains('sky-error-label'),
+        characterCountLabel.classList.contains('sky-error-label')
       ).toBeFalsy();
     }));
 
@@ -120,7 +120,7 @@ describe('Character Counter component', () => {
       const spy = spyOnProperty(
         characterCountComponent,
         'characterCountLimit',
-        'set',
+        'set'
       ).and.callThrough();
 
       component.setCharacterCountLimit(15);
