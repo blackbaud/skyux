@@ -165,6 +165,8 @@ export class SkyAgGridDataManagerAdapterDirective
             .getDataStateUpdates(this.#viewConfig.id)
             .pipe(takeUntil(this.#ngUnsubscribe))
             .subscribe((dataState: SkyDataManagerState) => {
+              console.log('new state');
+              console.log(dataState);
               this.#currentDataState = dataState;
               this.#displayColumns(dataState);
               this.#applySort(dataState);

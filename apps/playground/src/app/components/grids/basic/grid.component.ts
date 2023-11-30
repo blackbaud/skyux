@@ -62,6 +62,11 @@ export default class GridComponent {
 
   public columnsForSimpleGrid = ['column1', 'column2', 'column3'];
 
+  public sortFieldForSimpleGrid: ListSortFieldSelectorModel = {
+    descending: true,
+    fieldSelector: 'column2',
+  };
+
   public gridController = new Subject<SkyGridMessage>();
 
   public gridRowDeleteController = new Subject<SkyGridMessage>();
