@@ -295,7 +295,7 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
       grid.selectionChanged
         .pipe(takeUntil(this.#ngUnsubscribe), takeUntil(this.#gridChanged))
         .subscribe((event: SelectionChangedEvent) => {
-          if (event.source === 'api') {
+          if (event.source === 'api' || event.source === 'rowClicked') {
             this.#emitSelectedRows(SkyGridSelectedRowsSource.CheckboxChange);
           }
         });
