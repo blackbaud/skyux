@@ -2,7 +2,7 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, firstValueFrom } from 'rxjs';
 
 import { SkyGridColumnComponent } from './grid-column.component';
 
@@ -65,5 +65,30 @@ describe('SkyGridColumnComponent', () => {
     await fixture.whenStable();
     expect(changeCount).toEqual(1);
     subscription.unsubscribe();
+  });
+
+  it('should emit changes', async () => {
+    const changes = firstValueFrom(component.changes);
+    component.ngOnChanges({
+      heading: {
+        firstChange: false,
+        isFirstChange: () => false,
+        previousValue: 'test',
+        currentValue: 'test2',
+      },
+      description: {
+        firstChange: false,
+        isFirstChange: () => false,
+        previousValue: 'test',
+        currentValue: 'test2',
+      },
+      inlineHelpPopover: {
+        firstChange: false,
+        isFirstChange: () => false,
+        previousValue: 'test',
+        currentValue: 'test2',
+      },
+    });
+    expect(await changes).toBeUndefined();
   });
 });

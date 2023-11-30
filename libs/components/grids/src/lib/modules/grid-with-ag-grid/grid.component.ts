@@ -362,13 +362,13 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
           // }
           if (value.onlyShowSelected) {
             const selected = this.agGrid.api.getSelectedRows();
-            this.agGrid.api.setRowData(selected);
+            this.agGrid?.api.setRowData(selected);
           }
         }),
     );
 
     if (this.columns) {
-      this.#updateGridView();
+      setTimeout(() => this.#updateGridView());
     } else {
       setTimeout(() => {
         this.#subscriptionForDataManager.add(
@@ -459,14 +459,6 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
   }
 
   #updateGridView(): void {
-    if (this.columns) {
-      this.gridOptions$.next(
-        this.#gridService.readGridOptionsFromColumns(
-          this.settings,
-          this.columns,
-        ),
-      );
-    }
     const existingView = this.#dataManagerService.getViewById(this.viewId);
     this.#dataManagerViewState = this.#getDataManagerColumnsViewState();
     const viewConfig = this.#getViewConfig();
@@ -516,50 +508,61 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
       );
     }
 
-    // Set the height of the AG Grid element.
-    if (!this.settings.visibleRows && this.height) {
-      this.#heightOfGrid.next(`${this.height}px`);
-    } else if (this.settings.visibleRows || this.totalRows > 0) {
-      this.#heightOfGrid.next(`calc(
+    if (this.columns) {
+      this.gridOptions$.next(
+        this.#gridService.readGridOptionsFromColumns(
+          this.settings,
+          this.columns,
+        ),
+      );
+    }
+
+    setTimeout(() => {
+      // Set the height of the AG Grid element.
+      if (!this.settings.visibleRows && this.height) {
+        this.#heightOfGrid.next(`${this.height}px`);
+      } else if (this.settings.visibleRows || this.totalRows > 0) {
+        this.#heightOfGrid.next(`calc(
             var(--ag-header-height)
             + var(--ag-row-height) * ${
               this.settings.visibleRows || this.settings.pageSize
             }
             + 2px
           )`);
-    } else if (this.data?.length) {
-      this.#heightOfGrid.next(`calc(
+      } else if (this.data?.length) {
+        this.#heightOfGrid.next(`calc(
             var(--ag-header-height)
             + var(--ag-row-height) * ${this.data?.length}
             + 2px
           )`);
-    } else {
-      this.#heightOfGrid.next(`400px`);
-    }
+      } else {
+        this.#heightOfGrid.next(`400px`);
+      }
 
-    // Track the heights of the paging and toolbar elements.
-    if (this.pagingElementRef.length > 0) {
-      this.#subscriptionForLayout.add(
-        this.#resizeObserverService
-          .observe(this.pagingElementRef.get(0) as ElementRef<HTMLElement>)
-          .subscribe((entry) => {
-            this.#heightOfPaging.next(`${entry.contentRect.height}px`);
-          }),
-      );
-    } else {
-      this.#heightOfPaging.next(`0`);
-    }
-    if (this.toolbarElementRef.length > 0) {
-      this.#subscriptionForLayout.add(
-        this.#resizeObserverService
-          .observe(this.toolbarElementRef.get(0) as ElementRef<HTMLElement>)
-          .subscribe((entry) => {
-            this.#heightOfToolbar.next(`${entry.contentRect.height}px`);
-          }),
-      );
-    } else {
-      this.#heightOfToolbar.next(`0`);
-    }
+      // Track the heights of the paging and toolbar elements.
+      if (this.pagingElementRef.length > 0) {
+        this.#subscriptionForLayout.add(
+          this.#resizeObserverService
+            .observe(this.pagingElementRef.get(0) as ElementRef<HTMLElement>)
+            .subscribe((entry) => {
+              this.#heightOfPaging.next(`${entry.contentRect.height}px`);
+            }),
+        );
+      } else {
+        this.#heightOfPaging.next(`0`);
+      }
+      if (this.toolbarElementRef.length > 0) {
+        this.#subscriptionForLayout.add(
+          this.#resizeObserverService
+            .observe(this.toolbarElementRef.get(0) as ElementRef<HTMLElement>)
+            .subscribe((entry) => {
+              this.#heightOfToolbar.next(`${entry.contentRect.height}px`);
+            }),
+        );
+      } else {
+        this.#heightOfToolbar.next(`0`);
+      }
+    });
   }
 
   #getAgGridColDefs(): ColDefWithField<TData>[] {
