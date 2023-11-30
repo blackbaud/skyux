@@ -22,22 +22,22 @@ describe('datepicker calendar', () => {
     header: string,
     selectedLabel: string,
     activeLabel: string,
-    firstSecondaryDate: string
+    firstSecondaryDate: string,
   ) {
     // Daypicker
     // verify month and year header
     expect(element.querySelector('.sky-datepicker-calendar-title')).toHaveText(
-      header
+      header,
     );
 
     // verify selected date
     if (selectedLabel !== '') {
       expect(
-        element.querySelector('td .sky-datepicker-btn-selected')
+        element.querySelector('td .sky-datepicker-btn-selected'),
       ).toHaveText(selectedLabel);
     } else {
       expect(
-        element.querySelector('td .sky-datepicker-btn-selected')
+        element.querySelector('td .sky-datepicker-btn-selected'),
       ).toBeNull();
     }
 
@@ -50,14 +50,14 @@ describe('datepicker calendar', () => {
       expect(secondaryEl).toHaveText(firstSecondaryDate);
 
       expect(secondaryEl?.querySelector('span')).toHaveCssClass(
-        'sky-datepicker-secondary'
+        'sky-datepicker-secondary',
       );
     }
   }
 
   function clickDatepickerTitle(element: HTMLElement) {
     const monthTrigger = element.querySelector(
-      '.sky-datepicker-calendar-title'
+      '.sky-datepicker-calendar-title',
     ) as HTMLButtonElement;
 
     monthTrigger.click();
@@ -67,7 +67,7 @@ describe('datepicker calendar', () => {
 
   function clickNextArrow(element: HTMLElement) {
     const nextArrowEl = element.querySelector(
-      '.sky-datepicker-btn-next'
+      '.sky-datepicker-btn-next',
     ) as HTMLButtonElement;
 
     nextArrowEl.click();
@@ -76,7 +76,7 @@ describe('datepicker calendar', () => {
 
   function clickPreviousArrow(element: HTMLElement) {
     const previousArrowEl = element.querySelector(
-      '.sky-datepicker-btn-previous'
+      '.sky-datepicker-btn-previous',
     ) as HTMLButtonElement;
 
     previousArrowEl.click();
@@ -98,7 +98,7 @@ describe('datepicker calendar', () => {
     header: string,
     selectedLabel: string,
     activeLabel: string,
-    firstSecondaryDate: string
+    firstSecondaryDate: string,
   ) {
     const dateButtonEl = element
       .querySelectorAll('tbody tr td .sky-btn-default')
@@ -113,7 +113,7 @@ describe('datepicker calendar', () => {
       header,
       selectedLabel,
       activeLabel,
-      firstSecondaryDate
+      firstSecondaryDate,
     );
   }
 
@@ -137,7 +137,7 @@ describe('datepicker calendar', () => {
 
     // verify day of week labels
     const dayLabels = nativeElement.querySelectorAll(
-      '.sky-datepicker-weekdays'
+      '.sky-datepicker-weekdays',
     );
     expect(dayLabels.item(0)).toHaveText('Su');
     expect(dayLabels.item(1)).toHaveText('Mo');
@@ -370,7 +370,7 @@ describe('datepicker calendar', () => {
     fixture.detectChanges();
 
     const dayLabels = nativeElement.querySelectorAll(
-      '.sky-datepicker-weekdays'
+      '.sky-datepicker-weekdays',
     );
     expect(dayLabels.item(6)).toHaveText('Su');
     expect(dayLabels.item(0)).toHaveText('Mo');
@@ -388,7 +388,7 @@ describe('datepicker calendar', () => {
     fixture.detectChanges();
 
     const dayLabels = nativeElement.querySelectorAll(
-      '.sky-datepicker-weekdays'
+      '.sky-datepicker-weekdays',
     );
     expect(dayLabels.item(4)).toHaveText('Su');
     expect(dayLabels.item(5)).toHaveText('Mo');
@@ -436,7 +436,7 @@ describe('datepicker calendar', () => {
   describe('keyboard behaviors', () => {
     function triggerKeydown(
       componentFixture: ComponentFixture<DatepickerCalendarTestComponent>,
-      eventObj: any
+      eventObj: any,
     ) {
       Object.assign(eventObj, {
         stopPropagation: function () {},

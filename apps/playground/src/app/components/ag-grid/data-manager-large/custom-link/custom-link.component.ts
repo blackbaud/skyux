@@ -34,7 +34,7 @@ export class CustomLinkComponent implements ICellRendererComp {
 
   constructor(
     private elementRef: ElementRef,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
   ) {}
 
   public getGui(): HTMLElement {

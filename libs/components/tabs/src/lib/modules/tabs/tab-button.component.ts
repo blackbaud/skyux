@@ -101,7 +101,7 @@ export class SkyTabButtonComponent implements AfterViewInit, OnDestroy {
     elementRef: ElementRef,
     adapterService: SkyTabButtonAdapterService,
     changeDetectorRef: ChangeDetectorRef,
-    tabsetService: SkyTabsetService
+    tabsetService: SkyTabsetService,
   ) {
     this.#adapterService = adapterService;
     this.#changeDetectorRef = changeDetectorRef;

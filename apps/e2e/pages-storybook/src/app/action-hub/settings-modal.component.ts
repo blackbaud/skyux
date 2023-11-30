@@ -13,7 +13,7 @@ export class SettingsModalComponent {
   constructor(
     fb: UntypedFormBuilder,
     public modal: SkyModalInstance,
-    @Inject('modalTitle') public title: string
+    @Inject('modalTitle') public title: string,
   ) {
     const controls: { [key: string]: unknown } = {};
     for (let i = 1; i <= 5; i++) {

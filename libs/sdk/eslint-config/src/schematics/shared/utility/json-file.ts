@@ -43,8 +43,8 @@ export class JsonFile {
         `Failed to parse "${
           this.path
         }" as JSON AST Object. ${printParseErrorCode(
-          error
-        )} at location: ${offset}.`
+          error,
+        )} at location: ${offset}.`,
       );
     }
 
@@ -80,7 +80,7 @@ export class JsonFile {
   public modify(
     jsonPath: JsonPath,
     value: JsonValue | undefined,
-    insertInOrder?: InsertionIndex | false
+    insertInOrder?: InsertionIndex | false,
   ): void {
     let getInsertionIndex: InsertionIndex | undefined;
     if (insertInOrder === undefined) {

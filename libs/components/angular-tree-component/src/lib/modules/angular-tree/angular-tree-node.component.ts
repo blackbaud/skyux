@@ -140,7 +140,7 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
   constructor(
     changeDetectorRef: ChangeDetectorRef,
     adapterService: SkyAngularTreeAdapterService,
-    @Optional() skyAngularTreeWrapper?: SkyAngularTreeWrapperComponent
+    @Optional() skyAngularTreeWrapper?: SkyAngularTreeWrapperComponent,
   ) {
     this.#changeDetectorRef = changeDetectorRef;
     this.#adapterService = adapterService;
@@ -150,7 +150,7 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
   public ngOnInit(): void {
     if (!this.#skyAngularTreeWrapper) {
       console.error(
-        `<sky-angular-tree-node-wrapper> must be wrapped inside a <sky-angular-tree-wrapper> component.`
+        `<sky-angular-tree-node-wrapper> must be wrapped inside a <sky-angular-tree-wrapper> component.`,
       );
     }
 
@@ -188,11 +188,11 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
     setTimeout(() => {
       if (this.nodeContentWrapperRef) {
         this.#focusableChildren = this.#adapterService.getFocusableChildren(
-          this.nodeContentWrapperRef.nativeElement
+          this.nodeContentWrapperRef.nativeElement,
         );
         this.#adapterService.setTabIndexOfFocusableEls(
           this.nodeContentWrapperRef.nativeElement,
-          -1
+          -1,
         );
       }
     }, 1000);

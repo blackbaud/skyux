@@ -106,7 +106,7 @@ describe('PhoneField fixture', () => {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.default,
-          SkyThemeMode.presets.light
+          SkyThemeMode.presets.light,
         ),
         previousSettings: undefined,
       }),
@@ -188,7 +188,7 @@ describe('PhoneField fixture', () => {
       expect(countryIos2).toBe(COUNTRY_AU.iso2);
     }
     expect(
-      fixture.componentInstance.selectedCountryChange
+      fixture.componentInstance.selectedCountryChange,
     ).toHaveBeenCalledWith(jasmine.objectContaining(COUNTRY_AU));
 
     // enter a valid phone number for the new country
@@ -213,7 +213,7 @@ describe('PhoneField fixture', () => {
 
       // ensure no country selection has taken place yet
       expect(
-        fixture.componentInstance.selectedCountryChange
+        fixture.componentInstance.selectedCountryChange,
       ).toHaveBeenCalledTimes(0);
 
       // verify the country search results match the country

@@ -33,7 +33,7 @@ export class SkyIconResolverService {
   public resolveIcon(
     icon: string,
     variant?: SkyIconVariantType,
-    themeSettings?: SkyThemeSettings
+    themeSettings?: SkyThemeSettings,
   ): SkyIconResolved {
     let iconType = 'fa';
     const variantIcon = variant && `${icon}-${variant}`;
@@ -49,13 +49,13 @@ export class SkyIconResolverService {
         (glyph) =>
           glyph.aliases?.includes(variantIcon as string) ||
           glyph.aliases?.includes(lineIcon) ||
-          glyph.aliases?.includes(icon)
+          glyph.aliases?.includes(icon),
       );
 
     // If still no icon is found, search through the icons that match the FA name.
     if (!glyph) {
       let glyphs = Array.from(this.#glyphMap.values()).filter((g) =>
-        g.faNames?.includes(icon)
+        g.faNames?.includes(icon),
       );
       if (glyphs.length) {
         if (glyphs.length > 1) {

@@ -132,7 +132,7 @@ export class SkyAlertComponent implements AfterViewChecked, OnInit, OnDestroy {
 
   #updateAlertIcon(): void {
     const indicatorIcon = SkyIndicatorIconUtility.getIconsForType(
-      this.alertTypeOrDefault
+      this.alertTypeOrDefault,
     );
 
     this.alertBaseIcon = indicatorIcon.modernThemeBaseIcon;
@@ -153,7 +153,7 @@ export class SkyAlertComponent implements AfterViewChecked, OnInit, OnDestroy {
         default:
           this.#descriptionTypeResourceSubscription = this.#resources
             .getString(
-              'skyux_alert_sr_' + this.descriptionType.replace(/-/g, '_')
+              'skyux_alert_sr_' + this.descriptionType.replace(/-/g, '_'),
             )
             .subscribe((value) => {
               this.descriptionComputed = value;

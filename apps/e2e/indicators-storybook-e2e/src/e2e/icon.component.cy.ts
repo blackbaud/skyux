@@ -5,8 +5,8 @@ describe('indicators-storybook', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=iconcomponent-icon--icon`
-        )
+          `/iframe.html?globals=theme:${theme}&id=iconcomponent-icon--icon`,
+        ),
       );
       it('should render the component', () => {
         cy.get('#ready')

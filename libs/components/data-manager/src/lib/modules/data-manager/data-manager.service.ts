@@ -82,7 +82,7 @@ export class SkyDataManagerService implements OnDestroy {
         .subscribe((config: SkyDataManagerStateOptions) => {
           this.updateDataState(
             new SkyDataManagerState(config),
-            this.#initSource
+            this.#initSource,
           );
         });
     } else {
@@ -102,7 +102,7 @@ export class SkyDataManagerService implements OnDestroy {
               (err) => {
                 console.warn('Could not save data manager settings.');
                 console.warn(err);
-              }
+              },
             );
         });
     }
@@ -117,7 +117,7 @@ export class SkyDataManagerService implements OnDestroy {
 
     if (this.getViewById(viewConfig.id)) {
       console.warn(
-        `A data manager view with the id ${viewConfig.id} has already been initialized.`
+        `A data manager view with the id ${viewConfig.id} has already been initialized.`,
       );
       return;
     }
@@ -159,7 +159,7 @@ export class SkyDataManagerService implements OnDestroy {
           }
           const newDataState = dataState.addOrUpdateView(
             viewConfig.id,
-            newViewState
+            newViewState,
           );
 
           this.updateDataState(newDataState, this.#initSource);
@@ -175,12 +175,12 @@ export class SkyDataManagerService implements OnDestroy {
           // `columnIds` to avoid breaking changes.
           if (currentViewState.columnIds.length > 0) {
             let newColumnIds = currentAvailableColumnIds?.filter(
-              (id) => currentViewState.columnIds.indexOf(id) < 0
+              (id) => currentViewState.columnIds.indexOf(id) < 0,
             );
             newColumnIds = newColumnIds?.filter((columnId) => {
               return viewConfig.columnOptions?.find(
                 (columnOption) =>
-                  columnOption.id === columnId && !columnOption.initialHide
+                  columnOption.id === columnId && !columnOption.initialHide,
               );
             });
 
@@ -195,7 +195,7 @@ export class SkyDataManagerService implements OnDestroy {
 
           const newDataState = dataState.addOrUpdateView(
             viewConfig.id,
-            currentViewState
+            currentViewState,
           );
 
           this.updateDataState(newDataState, this.#initSource);
@@ -213,7 +213,7 @@ export class SkyDataManagerService implements OnDestroy {
    */
   public getDataStateUpdates(
     sourceId: string,
-    updateFilter?: SkyDataManagerStateUpdateFilterArgs
+    updateFilter?: SkyDataManagerStateUpdateFilterArgs,
   ): Observable<SkyDataManagerState> {
     // filter out events from the provided source and emit just the dataState
     if (updateFilter) {
@@ -224,14 +224,14 @@ export class SkyDataManagerService implements OnDestroy {
           ? distinctUntilChanged(updateFilter.comparator)
           : distinctUntilChanged(
               this.#getDefaultStateComparator(
-                updateFilter.properties as (keyof SkyDataManagerStateOptions)[]
-              )
-            )
+                updateFilter.properties as (keyof SkyDataManagerStateOptions)[],
+              ),
+            ),
       );
     } else {
       return this.#dataStateChange.pipe(
         filter((stateChange) => sourceId !== stateChange.source),
-        map((stateChange) => stateChange.dataState)
+        map((stateChange) => stateChange.dataState),
       );
     }
   }
@@ -301,7 +301,7 @@ export class SkyDataManagerService implements OnDestroy {
   public getViewById(viewId: string): SkyDataViewConfig | undefined {
     const currentViews: SkyDataViewConfig[] = this.#views.value;
     const viewConfig: SkyDataViewConfig | undefined = currentViews.find(
-      (view) => view.id === viewId
+      (view) => view.id === viewId,
     );
 
     return viewConfig;
@@ -316,7 +316,7 @@ export class SkyDataManagerService implements OnDestroy {
   public updateViewConfig(view: SkyDataViewConfig): void {
     const currentViews: SkyDataViewConfig[] = this.#views.value;
     const existingViewIndex = currentViews.findIndex(
-      (currentView) => currentView.id === view.id
+      (currentView) => currentView.id === view.id,
     );
 
     if (existingViewIndex === -1) {
@@ -339,7 +339,7 @@ export class SkyDataManagerService implements OnDestroy {
 
   #filterDataStateProperties(
     state: SkyDataManagerState,
-    properties: (keyof SkyDataManagerStateOptions)[] | undefined
+    properties: (keyof SkyDataManagerStateOptions)[] | undefined,
   ): Record<string, unknown> {
     const stateProperties = state.getStateOptions();
     const filteredStateProperties: Record<string, unknown> = {};
@@ -356,19 +356,19 @@ export class SkyDataManagerService implements OnDestroy {
   }
 
   #getDefaultStateComparator(
-    properties: (keyof SkyDataManagerStateOptions)[] | undefined
+    properties: (keyof SkyDataManagerStateOptions)[] | undefined,
   ): (state1: SkyDataManagerState, state2: SkyDataManagerState) => boolean {
     return (
       state1: SkyDataManagerState,
-      state2: SkyDataManagerState
+      state2: SkyDataManagerState,
     ): boolean => {
       const filteredState1 = this.#filterDataStateProperties(
         state1,
-        properties
+        properties,
       );
       const filteredState2 = this.#filterDataStateProperties(
         state2,
-        properties
+        properties,
       );
       return JSON.stringify(filteredState1) === JSON.stringify(filteredState2);
     };

@@ -24,7 +24,7 @@ export class SkyVerticalTabsetAdapterService {
 
   public setResponsiveClass(
     element: ElementRef,
-    breakpoint: SkyMediaBreakpoints
+    breakpoint: SkyMediaBreakpoints,
   ): void {
     const nativeEl: HTMLElement = element.nativeElement;
 

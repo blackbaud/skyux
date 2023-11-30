@@ -38,7 +38,7 @@ describe('Description list component', () => {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.default,
-          SkyThemeMode.presets.light
+          SkyThemeMode.presets.light,
         ),
         previousSettings: undefined,
       }),
@@ -83,7 +83,7 @@ describe('Description list component', () => {
   }
 
   function getDescriptionEls(
-    listEl: Element | null
+    listEl: Element | null,
   ): NodeListOf<Element> | undefined {
     return listEl?.querySelectorAll('dd');
   }
@@ -94,10 +94,10 @@ describe('Description list component', () => {
 
     expect(dlEls?.[0]).toHaveCssClass('sky-description-list-vertical-mode');
     expect(dlEls?.[0]).not.toHaveCssClass(
-      'sky-description-list-horizontal-mode'
+      'sky-description-list-horizontal-mode',
     );
     expect(dlEls?.[0]).not.toHaveCssClass(
-      'sky-description-list-long-description-mode'
+      'sky-description-list-long-description-mode',
     );
   });
 
@@ -105,7 +105,7 @@ describe('Description list component', () => {
     fixture.componentInstance.mode = 'horizontal';
     const dlEls = getDlEls(fixture.nativeElement);
     const listItemContent = dlEls?.[0].querySelector(
-      '.sky-description-list-content'
+      '.sky-description-list-content',
     );
     expect(listItemContent?.clientWidth).not.toEqual(300);
 
@@ -121,7 +121,7 @@ describe('Description list component', () => {
 
     const dlEls = getDlEls(fixture.nativeElement);
     const listItemContent = dlEls?.[0].querySelector(
-      '.sky-description-list-content'
+      '.sky-description-list-content',
     );
     fixture.componentInstance.listItemWidth = '300px';
     fixture.detectChanges();
@@ -135,7 +135,7 @@ describe('Description list component', () => {
 
     const dlEls = getDlEls(fixture.nativeElement);
     const listItemContent = dlEls?.[0].querySelector(
-      '.sky-description-list-content'
+      '.sky-description-list-content',
     );
     fixture.componentInstance.listItemWidth = '300px';
     fixture.detectChanges();
@@ -204,7 +204,7 @@ describe('Description list component', () => {
   it('should use proper classes in modern theme', () => {
     const list1El = getListEl(fixture.nativeElement, 1);
     const spans = list1El?.querySelectorAll(
-      '[data-sky-id*="sky-description-list-default-value"]'
+      '[data-sky-id*="sky-description-list-default-value"]',
     );
 
     let hasSpans = false;
@@ -218,7 +218,7 @@ describe('Description list component', () => {
     mockThemeSvc.settingsChange.next({
       currentSettings: new SkyThemeSettings(
         SkyTheme.presets.modern,
-        SkyThemeMode.presets.light
+        SkyThemeMode.presets.light,
       ),
       previousSettings: mockThemeSvc.settingsChange.getValue().currentSettings,
     });
@@ -234,7 +234,7 @@ describe('Description list component', () => {
 
   it('should be accessible', async () => {
     const asyncFixture = TestBed.createComponent(
-      SkyDescriptionListTestComponent
+      SkyDescriptionListTestComponent,
     );
     asyncFixture.detectChanges();
     await asyncFixture.whenStable().then(async () => {

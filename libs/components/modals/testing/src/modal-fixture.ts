@@ -12,12 +12,12 @@ export class SkyModalFixture {
   constructor(fixture: ComponentFixture<unknown>, skyTestId: string) {
     this.#fixture = fixture;
     const modalElement = document.querySelector(
-      'sky-modal[data-sky-id="' + skyTestId + '"]'
+      'sky-modal[data-sky-id="' + skyTestId + '"]',
     ) as HTMLElement;
 
     if (!modalElement) {
       throw new Error(
-        `No element was found with a \`data-sky-id\` value of "${skyTestId}".`
+        `No element was found with a \`data-sky-id\` value of "${skyTestId}".`,
       );
     }
 
@@ -98,7 +98,7 @@ export class SkyModalFixture {
   public clickHeaderCloseButton(): void {
     this.#checkModalElement();
     const closeButton: HTMLElement | null = this.#modalElement.querySelector(
-      '.sky-modal .sky-modal-btn-close'
+      '.sky-modal .sky-modal-btn-close',
     );
 
     if (
@@ -118,7 +118,7 @@ export class SkyModalFixture {
   public clickHelpButton(): void {
     this.#checkModalElement();
     const helpButton: HTMLElement | null = this.#modalElement.querySelector(
-      '.sky-modal .sky-modal-header-buttons button[name="help-button"]'
+      '.sky-modal .sky-modal-header-buttons button[name="help-button"]',
     );
 
     if (helpButton && window.getComputedStyle(helpButton).display !== 'none') {

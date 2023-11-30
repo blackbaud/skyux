@@ -12,7 +12,7 @@ import { SkyRepeaterAutoScroller } from './repeater-auto-scroller';
 export class SkyRepeaterAutoScrollService {
   public autoScroll(
     elements: (HTMLElement | Window)[],
-    options: SkyRepeaterAutoScrollOptions
+    options: SkyRepeaterAutoScrollOptions,
   ): SkyRepeaterAutoScroller {
     return autoScroll(elements, options);
   }

@@ -47,21 +47,21 @@ function removeAgGridCssFiles(): Rule {
           targetDefinition?.['options']?.['styles'] &&
           Array.isArray(targetDefinition.options['styles']) &&
           targetDefinition.options['styles'].includes(
-            'node_modules/@skyux/theme/css/sky.css'
+            'node_modules/@skyux/theme/css/sky.css',
           )
         ) {
           targetDefinition['options']['styles'] = (
             targetDefinition.options['styles'] as string[]
           ).filter(
-            (cssFile) => !cssFile.startsWith('ag-grid-community/dist/styles/')
+            (cssFile) => !cssFile.startsWith('ag-grid-community/dist/styles/'),
           );
           if (
             !targetDefinition.options['styles'].includes(
-              'node_modules/@skyux/ag-grid/css/sky-ag-grid.css'
+              'node_modules/@skyux/ag-grid/css/sky-ag-grid.css',
             )
           ) {
             targetDefinition.options['styles'].push(
-              'node_modules/@skyux/ag-grid/css/sky-ag-grid.css'
+              'node_modules/@skyux/ag-grid/css/sky-ag-grid.css',
             );
           }
           project.targets.set(targetName, targetDefinition);
@@ -76,7 +76,7 @@ function removeAgGridCssFiles(): Rule {
 function switchToRenamedMethods(
   filePath: Path,
   content: string,
-  changes: Change[]
+  changes: Change[],
 ) {
   const renames = new Map<string, string>([
     ['selectThisNode', 'setSelected'],
@@ -95,7 +95,7 @@ function switchToRenamedMethods(
 function switchToRowNodeInterface(
   filePath: Path,
   content: string,
-  changes: Change[]
+  changes: Change[],
 ) {
   let pos = content.indexOf(': RowNode');
   if (pos > -1) {
@@ -104,18 +104,18 @@ function switchToRowNodeInterface(
       content,
       ts.ScriptTarget.Latest,
       true,
-      ts.ScriptKind.TS
+      ts.ScriptKind.TS,
     );
     if (!isImported(source, 'IRowNode', 'ag-grid-community')) {
       changes.push(
-        insertImport(source, content, 'IRowNode', 'ag-grid-community')
+        insertImport(source, content, 'IRowNode', 'ag-grid-community'),
       );
     }
     while (pos > -1) {
       // Not accessing a RowNode static property.
       if (content.charAt(pos + 9) !== '.') {
         changes.push(
-          new ReplaceChange(filePath, pos, ': RowNode', ': IRowNode')
+          new ReplaceChange(filePath, pos, ': RowNode', ': IRowNode'),
         );
       }
       pos = content.indexOf(': RowNode', pos + 1);

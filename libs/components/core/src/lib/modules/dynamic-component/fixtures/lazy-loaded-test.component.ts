@@ -16,7 +16,7 @@ export class LazyLoadedTestComponent {
 
   constructor(
     dynamicComponentSvc: SkyDynamicComponentService,
-    injector: EnvironmentInjector
+    injector: EnvironmentInjector,
   ) {
     this.#dynamicComponentSvc = dynamicComponentSvc;
     this.#injector = injector;

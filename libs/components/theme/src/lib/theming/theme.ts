@@ -13,13 +13,13 @@ export class SkyTheme {
       'default',
       'sky-theme-default',
       [SkyThemeMode.presets.light],
-      [SkyThemeSpacing.presets.standard]
+      [SkyThemeSpacing.presets.standard],
     ),
     modern: new SkyTheme(
       'modern',
       'sky-theme-modern',
       [SkyThemeMode.presets.light, SkyThemeMode.presets.dark],
-      [SkyThemeSpacing.presets.standard, SkyThemeSpacing.presets.compact]
+      [SkyThemeSpacing.presets.standard, SkyThemeSpacing.presets.compact],
     ),
   };
 
@@ -35,6 +35,6 @@ export class SkyTheme {
     public readonly name: string,
     public readonly hostClass: string,
     public readonly supportedModes: SkyThemeMode[],
-    public readonly supportedSpacing = [SkyThemeSpacing.presets.standard]
+    public readonly supportedSpacing = [SkyThemeSpacing.presets.standard],
   ) {}
 }

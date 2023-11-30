@@ -12,8 +12,10 @@ import {
   ViewChild,
 } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
-import { getValue } from '@skyux/list-builder-common';
-import { ListSortFieldSelectorModel } from '@skyux/list-builder-common';
+import {
+  ListSortFieldSelectorModel,
+  getValue,
+} from '@skyux/list-builder-common';
 import { SkySearchComponent } from '@skyux/lookup';
 
 import {
@@ -218,7 +220,7 @@ export class SkyListToolbarComponent
     private dispatcher: ListStateDispatcher,
     private toolbarState: ListToolbarState,
     public toolbarDispatcher: ListToolbarStateDispatcher,
-    logger: SkyLogService
+    logger: SkyLogService,
   ) {
     logger.deprecated('SkyListToolbarComponent', {
       deprecationMajorVersion: 6,
@@ -238,8 +240,8 @@ export class SkyListToolbarComponent
     getValue(this.searchEnabled, (searchEnabled: boolean) => {
       this.toolbarDispatcher.next(
         new ListToolbarConfigSetSearchEnabledAction(
-          searchEnabled === undefined ? true : searchEnabled
-        )
+          searchEnabled === undefined ? true : searchEnabled,
+        ),
       );
     });
 
@@ -250,8 +252,8 @@ export class SkyListToolbarComponent
     getValue(this.sortSelectorEnabled, (sortSelectorEnabled: any) => {
       this.toolbarDispatcher.next(
         new ListToolbarConfigSetSortSelectorEnabledAction(
-          sortSelectorEnabled === undefined ? true : sortSelectorEnabled
-        )
+          sortSelectorEnabled === undefined ? true : sortSelectorEnabled,
+        ),
       );
     });
 
@@ -280,13 +282,13 @@ export class SkyListToolbarComponent
     this.searchTextInput = this.state.pipe(
       takeUntil(this.ngUnsubscribe),
       observableMap((s) => s.search.searchText),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
 
     this.view = this.state.pipe(
       takeUntil(this.ngUnsubscribe),
       observableMap((s) => s.views.active),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
 
     this.watchTemplates();
@@ -294,7 +296,7 @@ export class SkyListToolbarComponent
     this.type = this.state.pipe(
       takeUntil(this.ngUnsubscribe),
       observableMap((state) => state.toolbar.type),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
 
     this.type.pipe(takeUntil(this.ngUnsubscribe)).subscribe((toolbarType) => {
@@ -315,7 +317,7 @@ export class SkyListToolbarComponent
       takeUntil(this.ngUnsubscribe),
       observableMap((s) => s.config),
       distinctUntilChanged(),
-      observableMap((c) => c.searchEnabled)
+      observableMap((c) => c.searchEnabled),
     );
 
     this.state
@@ -323,7 +325,7 @@ export class SkyListToolbarComponent
         observableMap((s) => s.toolbar),
         takeUntil(this.ngUnsubscribe),
         distinctUntilChanged(),
-        observableMap((c) => c.disabled)
+        observableMap((c) => c.disabled),
       )
       .subscribe((isDisabled) => (this.isToolbarDisabled = isDisabled));
 
@@ -331,14 +333,14 @@ export class SkyListToolbarComponent
       takeUntil(this.ngUnsubscribe),
       observableMap((s) => s.config),
       distinctUntilChanged(),
-      observableMap((c) => c.sortSelectorEnabled)
+      observableMap((c) => c.sortSelectorEnabled),
     );
 
     this.isMultiselectEnabled = this.state.pipe(
       takeUntil(this.ngUnsubscribe),
       observableMap((s) => s.toolbar),
       distinctUntilChanged(),
-      observableMap((t) => t.showMultiselectToolbar)
+      observableMap((t) => t.showMultiselectToolbar),
     );
 
     this.hasAppliedFilters = this.state.pipe(
@@ -355,7 +357,7 @@ export class SkyListToolbarComponent
           );
         });
         return activeFilters.length > 0;
-      })
+      }),
     );
 
     this.state.pipe(takeUntil(this.ngUnsubscribe)).subscribe((current: any) => {
@@ -403,7 +405,7 @@ export class SkyListToolbarComponent
           fieldType: sort.type,
           global: true,
           descending: sort.descending,
-        })
+        }),
     );
 
     this.dispatcher.sortSetGlobal(sortModels);
@@ -475,26 +477,26 @@ export class SkyListToolbarComponent
     return observableCombineLatest(
       this.state.pipe(
         observableMap((s) => s.sort.available),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       ),
       this.state.pipe(
         observableMap((s) => s.sort.global),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       ),
       this.state.pipe(
         observableMap((s) => s.sort.fieldSelectors),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       ),
       (
         available: Array<ListSortLabelModel>,
         global: Array<ListSortLabelModel>,
-        fieldSelectors: Array<ListSortFieldSelectorModel>
+        fieldSelectors: Array<ListSortFieldSelectorModel>,
       ) => {
         // Get sorts that are in the global that are not in the available
         const sorts = global.filter(
           (g) =>
             available.filter((a) => a.fieldSelector === g.fieldSelector)
-              .length === 0
+              .length === 0,
         );
 
         const resultSortSelectors = [...sorts, ...available].map(
@@ -514,11 +516,11 @@ export class SkyListToolbarComponent
               sort: sortLabels,
               selected: selected,
             };
-          }
+          },
         );
 
         return resultSortSelectors;
-      }
+      },
     ).pipe(takeUntil(this.ngUnsubscribe));
   }
 
@@ -526,7 +528,7 @@ export class SkyListToolbarComponent
     observableCombineLatest(
       this.state.pipe(
         observableMap((s) => s.toolbar),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       ),
       this.view.pipe(distinctUntilChanged()),
       (toolbar: ListToolbarModel, view: string) => {
@@ -542,7 +544,7 @@ export class SkyListToolbarComponent
         });
 
         return templates;
-      }
+      },
     )
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((value) => {

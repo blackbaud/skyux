@@ -4,7 +4,7 @@ import { SkyAgGridLookupProperties } from './types/lookup-properties';
  * @internal
  */
 export function applySkyLookupPropertiesDefaults(
-  skyLookupProperties: SkyAgGridLookupProperties | undefined
+  skyLookupProperties: SkyAgGridLookupProperties | undefined,
 ): SkyAgGridLookupProperties {
   /* istanbul ignore if */
   if (!skyLookupProperties) {

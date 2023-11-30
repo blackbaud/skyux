@@ -22,7 +22,7 @@ export class SkyTokenHarness extends ComponentHarness {
    * `SkyTokenHarness` that meets certain criteria.
    */
   public static with(
-    filters: SkyTokenHarnessFilters
+    filters: SkyTokenHarnessFilters,
   ): HarnessPredicate<SkyTokenHarness> {
     return new HarnessPredicate(this, filters).addOption(
       'text',
@@ -30,8 +30,8 @@ export class SkyTokenHarness extends ComponentHarness {
       async (harness, test) =>
         HarnessPredicate.stringMatches(
           await (await harness.host()).text(),
-          test
-        )
+          test,
+        ),
     );
   }
 
@@ -52,7 +52,7 @@ export class SkyTokenHarness extends ComponentHarness {
   public async dismiss(): Promise<void> {
     if (!(await this.isDismissible())) {
       throw new Error(
-        'Could not dismiss the token because it is not dismissible.'
+        'Could not dismiss the token because it is not dismissible.',
       );
     }
 

@@ -38,7 +38,7 @@ class TestComponent {
     meridie: 'PM',
     timezone: -4,
     iso8601: new Date(
-      'Tue Jul 14 2020 20:30:00 GMT-0400 (Eastern Daylight Time)'
+      'Tue Jul 14 2020 20:30:00 GMT-0400 (Eastern Daylight Time)',
     ),
     local: '8:30 PM',
     customFormat: 'h:mm A',
@@ -65,7 +65,7 @@ describe('Timepicker fixture', () => {
     await fixture.whenStable();
     expect(timepicker.isDisabled).toBe(false);
     expect(timepicker.value).toEqual(
-      fixture.componentInstance.selectedTime.local
+      fixture.componentInstance.selectedTime.local,
     );
   });
 
@@ -79,7 +79,7 @@ describe('Timepicker fixture', () => {
 
     await fixture.whenStable();
     expect(timepicker.value).toEqual(
-      fixture.componentInstance.selectedTime.local
+      fixture.componentInstance.selectedTime.local,
     );
 
     timepicker.value = newTime;

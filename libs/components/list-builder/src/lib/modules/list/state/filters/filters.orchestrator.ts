@@ -19,7 +19,7 @@ export class ListFiltersOrchestrator extends ListStateOrchestrator<
 
   private update(
     state: ListFilterModel[],
-    action: ListFiltersUpdateAction
+    action: ListFiltersUpdateAction,
   ): ListFilterModel[] {
     return [...action.filters];
   }

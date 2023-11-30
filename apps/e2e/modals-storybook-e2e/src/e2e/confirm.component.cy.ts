@@ -5,8 +5,8 @@ describe(`modals-storybook`, () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=confirmcomponent-confirm--confirm`
-        )
+          `/iframe.html?globals=theme:${theme}&id=confirmcomponent-confirm--confirm`,
+        ),
       );
       it('should render the OK component', () => {
         cy.get('app-confirm')

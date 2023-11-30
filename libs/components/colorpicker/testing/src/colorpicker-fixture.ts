@@ -16,7 +16,7 @@ export class SkyColorpickerFixture {
     this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
-      'sky-colorpicker'
+      'sky-colorpicker',
     );
   }
 
@@ -35,7 +35,7 @@ export class SkyColorpickerFixture {
     await this.#clickColorpickerButtonEl();
 
     const hexInput = document.querySelector(
-      'input[id^=sky-colorpicker-hex-]'
+      'input[id^=sky-colorpicker-hex-]',
     ) as HTMLInputElement;
 
     hexInput.value = hexValue;
@@ -57,21 +57,21 @@ export class SkyColorpickerFixture {
     red: number,
     green: number,
     blue: number,
-    alpha: number
+    alpha: number,
   ): Promise<void> {
     await this.#clickColorpickerButtonEl();
 
     const rInput = document.querySelector(
-      'input[id^=sky-colorpicker-red-]'
+      'input[id^=sky-colorpicker-red-]',
     ) as HTMLInputElement;
     const gInput = document.querySelector(
-      'input[id^=sky-colorpicker-green-]'
+      'input[id^=sky-colorpicker-green-]',
     ) as HTMLInputElement;
     const bInput = document.querySelector(
-      'input[id^=sky-colorpicker-blue-]'
+      'input[id^=sky-colorpicker-blue-]',
     ) as HTMLInputElement;
     const aInput = document.querySelector(
-      'input[id^=sky-colorpicker-alpha-]'
+      'input[id^=sky-colorpicker-alpha-]',
     ) as HTMLInputElement;
 
     rInput.value = red.toString();
@@ -97,7 +97,7 @@ export class SkyColorpickerFixture {
     await this.#clickColorpickerButtonEl();
 
     const presetColors = document.querySelectorAll(
-      '.sky-colorpicker-preset-color-area button'
+      '.sky-colorpicker-preset-color-area button',
     );
     const presetColor =
       presetColors && (presetColors[presetIndex] as HTMLButtonElement);
@@ -114,7 +114,7 @@ export class SkyColorpickerFixture {
 
   async #clickColorpickerButtonEl(): Promise<void> {
     const colorpickerButton = this.#debugEl.query(
-      By.css('sky-colorpicker button')
+      By.css('sky-colorpicker button'),
     ).nativeElement;
 
     colorpickerButton.click();
@@ -126,7 +126,7 @@ export class SkyColorpickerFixture {
 
   async #clickColorpickerApplyButtonEl(): Promise<void> {
     const applyButton = document.querySelector(
-      '.sky-btn-colorpicker-apply'
+      '.sky-btn-colorpicker-apply',
     ) as HTMLButtonElement;
 
     applyButton.click();

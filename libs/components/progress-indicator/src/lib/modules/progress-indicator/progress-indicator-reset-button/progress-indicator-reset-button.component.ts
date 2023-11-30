@@ -58,7 +58,7 @@ export class SkyProgressIndicatorResetButtonComponent implements OnDestroy {
     console.warn(
       '[Deprecation warning] The `<sky-progress-indicator-reset-button>` component is ' +
         'deprecated. Please use the `<sky-progress-indicator-nav-button>` component instead, with ' +
-        '`buttonType` set to "reset".'
+        '`buttonType` set to "reset".',
     );
   }
 

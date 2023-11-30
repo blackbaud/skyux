@@ -88,7 +88,7 @@ export class SkyAgGridDemoComponent implements OnInit {
   constructor(
     private agGridService: SkyAgGridService,
     private modalService: SkyModalService,
-    public themeSvc: SkyThemeService
+    public themeSvc: SkyThemeService,
   ) {}
 
   public ngOnInit(): void {
@@ -113,7 +113,7 @@ export class SkyAgGridDemoComponent implements OnInit {
 
     const modalInstance = this.modalService.open(
       SkyAgGridEditModalComponent,
-      options
+      options,
     );
 
     modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {

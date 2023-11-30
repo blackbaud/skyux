@@ -81,7 +81,7 @@ export class SkyModalInstance {
   public close(
     result?: any,
     reason?: string,
-    ignoreBeforeClose?: boolean
+    ignoreBeforeClose?: boolean,
   ): void {
     if (reason === undefined) {
       reason = 'close';
@@ -142,7 +142,7 @@ export class SkyModalInstance {
       this.#_beforeClose.next(
         new SkyModalBeforeCloseHandler(() => {
           this.#notifyClosed(args);
-        }, args)
+        }, args),
       );
     }
   }

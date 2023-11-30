@@ -12,13 +12,13 @@ describe('Rich text display', () => {
 
   function validate(
     richText: string | undefined,
-    expectedSanitizedText: string
+    expectedSanitizedText: string,
   ): void {
     fixture.componentInstance.richText = richText;
     fixture.detectChanges();
 
     const textEl = fixture.nativeElement.querySelector(
-      '.sky-rich-text-display-text'
+      '.sky-rich-text-display-text',
     );
     expect(textEl.textContent).toBe(expectedSanitizedText);
   }
@@ -40,7 +40,7 @@ describe('Rich text display', () => {
   it('Should display inline', () => {
     validate(
       '<font style="font-size: 16px" color="#a25353"><b><i><u>Super styled text</u></i></b></font>',
-      'Super styled text'
+      'Super styled text',
     );
   });
 
@@ -48,7 +48,7 @@ describe('Rich text display', () => {
     validate('<a id="hyperlink" href="javascript:alert(1)">foo</a>', 'foo');
 
     expect(
-      fixture.nativeElement.querySelector('#hyperlink').getAttribute('href')
+      fixture.nativeElement.querySelector('#hyperlink').getAttribute('href'),
     ).toBeNull();
   });
 

@@ -51,7 +51,7 @@ describe('ng-add.schematic', () => {
 
     for (const packageName of packageNames) {
       expect(packageJson.dependencies[packageName]).toEqual(
-        '^0.0.0-PLACEHOLDER'
+        '^0.0.0-PLACEHOLDER',
       );
     }
   });
@@ -63,7 +63,7 @@ describe('ng-add.schematic', () => {
     const angularJson = readJson(updatedTree, 'angular.json');
 
     expect(
-      angularJson.projects['my-lib-showcase'].architect.build.options.styles
+      angularJson.projects['my-lib-showcase'].architect.build.options.styles,
     ).toEqual([
       'node_modules/@skyux/theme/css/sky.css',
       'node_modules/@skyux/theme/css/themes/modern/styles.css',

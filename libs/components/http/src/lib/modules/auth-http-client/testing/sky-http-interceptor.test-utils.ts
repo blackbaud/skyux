@@ -15,7 +15,7 @@ export type Spy<T> = { [Method in keyof T]: jasmine.Spy };
 export function createRequest(
   isSkyAuth?: boolean,
   url?: string,
-  permissionScope?: string
+  permissionScope?: string,
 ) {
   let params: HttpParams | undefined;
 
@@ -45,7 +45,7 @@ export function createRequest(
 export function validateRequest(
   next: Spy<HttpHandler>,
   done: DoneFn,
-  cb: (authRequest: HttpRequest<any>) => void
+  cb: (authRequest: HttpRequest<any>) => void,
 ): void {
   next.handle.and.callFake((authRequest: HttpRequest<any>) => {
     cb(authRequest);
@@ -57,7 +57,7 @@ export function validateRequest(
 export function createAppConfig(
   envId?: string,
   leId?: string,
-  getUrlResult?: string
+  getUrlResult?: string,
 ) {
   return {
     runtime: {

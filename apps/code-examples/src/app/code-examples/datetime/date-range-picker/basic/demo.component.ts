@@ -57,7 +57,7 @@ export class DemoComponent implements OnInit, OnDestroy {
         console.log(
           'Date range status change:',
           status,
-          this.reactiveRange?.errors
+          this.reactiveRange?.errors,
         );
       });
 

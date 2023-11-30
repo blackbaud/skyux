@@ -194,7 +194,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
             this.#coreAdapter.getFocusableChildrenAndApplyFocus(
               this.timepickerRef,
               '.sky-timepicker-content',
-              false
+              false,
             );
           }
 
@@ -261,7 +261,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
     @Optional() themeSvc?: SkyThemeService,
     @Optional()
     @Inject(SKY_STACKING_CONTEXT)
-    stackingContext?: SkyStackingContext
+    stackingContext?: SkyStackingContext,
   ) {
     this.#affixService = affixService;
     this.#changeDetector = changeDetector;
@@ -477,7 +477,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
   #addKeydownListener(): void {
     this.#overlayKeydownListener = fromEvent<KeyboardEvent>(
       window.document,
-      'keydown'
+      'keydown',
     )
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((event) => {

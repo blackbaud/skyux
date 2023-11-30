@@ -20,7 +20,7 @@ export class SkyPopoverHarness extends SkyComponentHarness {
    * `SkyPopoverHarness` that meets certain criteria.
    */
   public static with(
-    filters: SkyPopoverHarnessFilters
+    filters: SkyPopoverHarnessFilters,
   ): HarnessPredicate<SkyPopoverHarness> {
     return SkyPopoverHarness.getDataSkyIdPredicate(filters);
   }
@@ -39,7 +39,7 @@ export class SkyPopoverHarness extends SkyComponentHarness {
     const content = await this.#getContent();
     if (!content) {
       throw new Error(
-        'Unable to retrieve the popover content because the popover is not open.'
+        'Unable to retrieve the popover content because the popover is not open.',
       );
     }
     return content;
@@ -56,7 +56,7 @@ export class SkyPopoverHarness extends SkyComponentHarness {
     const popoverId = await this.#getPopoverId();
 
     return this.#documentRootLocator.locatorForOptional(
-      SkyPopoverContentHarness.with({ selector: `#${popoverId}` })
+      SkyPopoverContentHarness.with({ selector: `#${popoverId}` }),
     )();
   }
 

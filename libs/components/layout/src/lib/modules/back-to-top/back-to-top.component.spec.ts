@@ -49,7 +49,7 @@ function isElementInView(element: HTMLElement | null): boolean {
 function scrollElement(
   element: HTMLElement,
   yDistance: number,
-  fixture: ComponentFixture<any>
+  fixture: ComponentFixture<any>,
 ): void {
   element.scrollTop = yDistance;
   SkyAppTestUtility.fireDomEvent(element, 'scroll');
@@ -169,7 +169,7 @@ describe('back to top component', () => {
       fixture.componentInstance.scrollableParent = true;
       fixture.detectChanges();
       parentElement = document.querySelector(
-        '#back-to-top-parent'
+        '#back-to-top-parent',
       ) as HTMLElement;
     });
 

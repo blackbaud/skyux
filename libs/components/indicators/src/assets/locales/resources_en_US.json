@@ -115,9 +115,17 @@
     "_description": "Screen reader text when the status indicator is a warning indicator",
     "message": "Warning:"
   },
+  "skyux_tokens_dismiss_button_default_label": {
+    "_description": "The default screen reader text for the token dismiss button title.",
+    "message": "Remove "
+  },
   "skyux_tokens_dismiss_button_title": {
-    "_description": "The default text for the token dismiss button title.",
+    "_description": "The default alt text for the token dismiss button title.",
     "message": "Remove item"
+  },
+  "skyux_tokens_token_dismissed": {
+    "_description": "Screen reader text when a token is dismissed.",
+    "message": "{0} removed"
   },
   "skyux_wait_aria_alt_text": {
     "_description": "The default alt text for a non-blocking section wait component.",

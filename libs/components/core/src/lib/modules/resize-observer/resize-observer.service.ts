@@ -63,7 +63,7 @@ const onError = (event: string | ErrorEvent): boolean | undefined => {
 export class SkyResizeObserverService implements OnDestroy {
   readonly #ngUnsubscribe = new Subject<void>();
   readonly #resizeObserver = new ResizeObserver((entries) =>
-    this.#resizeSubject.next(entries)
+    this.#resizeSubject.next(entries),
   );
   readonly #resizeSubject = new Subject<ResizeObserverEntry[]>();
   readonly #tracking = new Map<Element, Observable<ResizeObserverEntry>>();
@@ -105,13 +105,13 @@ export class SkyResizeObserverService implements OnDestroy {
         }).pipe(
           filter(Boolean),
           filter((entries) =>
-            entries.some((entry) => entry.target === element.nativeElement)
+            entries.some((entry) => entry.target === element.nativeElement),
           ),
           map(
             (entries) =>
               entries.find(
-                (entry) => entry.target === element.nativeElement
-              ) as ResizeObserverEntry
+                (entry) => entry.target === element.nativeElement,
+              ) as ResizeObserverEntry,
           ),
           // Ignore subpixel changes.
           distinctUntilChanged(
@@ -119,7 +119,7 @@ export class SkyResizeObserverService implements OnDestroy {
               Math.round(a.contentRect.width) ===
                 Math.round(b.contentRect.width) &&
               Math.round(a.contentRect.height) ===
-                Math.round(b.contentRect.height)
+                Math.round(b.contentRect.height),
           ),
           // Emit the last value for late subscribers. Track references so it
           // un-observes when all subscribers are gone.
@@ -129,13 +129,13 @@ export class SkyResizeObserverService implements OnDestroy {
             leading: false,
             trailing: true,
           }),
-          takeUntil(this.#ngUnsubscribe)
-        )
+          takeUntil(this.#ngUnsubscribe),
+        ),
       );
     }
 
     return this.#tracking.get(
-      element.nativeElement
+      element.nativeElement,
     ) as Observable<ResizeObserverEntry>;
   }
 
@@ -146,7 +146,7 @@ export class SkyResizeObserverService implements OnDestroy {
       // still observing an element. When an element is no longer observed, this
       // is not a concern.
       this.#zone.runOutsideAngular(() =>
-        this.#window.nativeWindow.addEventListener('error', errorHandler)
+        this.#window.nativeWindow.addEventListener('error', errorHandler),
       );
     }
     if (this.#window.nativeWindow.onerror !== onError) {

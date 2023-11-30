@@ -52,11 +52,11 @@ describe('configure-storybook', () => {
     expect(tree.exists(`apps/test-app/.storybook/preview.js`)).toBeFalsy();
     expect(tree.exists(`apps/test-app/.storybook/preview.ts`)).toBeTruthy();
     expect(tree.read(`apps/test-app/.storybook/preview.ts`, 'utf-8')).toContain(
-      `import { moduleMetadata } from '@storybook/angular';`
+      `import { moduleMetadata } from '@storybook/angular';`,
     );
     const e2eConfig = readProjectConfiguration(tree, `test-app-e2e`);
     expect(e2eConfig.targets?.['e2e'].options.devServerTarget).toEqual(
-      `test-app:storybook`
+      `test-app:storybook`,
     );
     let testAppConfig = readProjectConfiguration(tree, `test-app`);
     delete testAppConfig.targets?.['build'].options;
@@ -67,7 +67,7 @@ describe('configure-storybook', () => {
     await configureStorybook(tree, { name: 'test-app' });
     expect(
       readProjectConfiguration(tree, `test-app`).targets?.['build'].options
-        .styles.length
+        .styles.length,
     ).toBeGreaterThan(0);
     testAppConfig = readProjectConfiguration(tree, `test-app`);
     testAppConfig.targets = testAppConfig.targets || {};
@@ -79,11 +79,11 @@ describe('configure-storybook', () => {
     await configureStorybook(tree, { name: 'test-app' });
     expect(
       readProjectConfiguration(tree, `test-app`).targets?.['build'].options
-        .styles.length
+        .styles.length,
     ).toBeGreaterThan(0);
     expect(
       readProjectConfiguration(tree, `test-app-e2e`).targets?.['e2e'].options
-        .devServerTarget
+        .devServerTarget,
     ).toEqual('test-app:storybook');
   });
 
@@ -105,13 +105,13 @@ describe('configure-storybook', () => {
       (tsConfig: TsConfig) => {
         tsConfig.exclude = [];
         return tsConfig;
-      }
+      },
     );
     await configureStorybook(tree, { name: 'test-app' });
     expect(tree.exists(`apps/test-app/.storybook/tsconfig.json`)).toBeTruthy();
     expect(
       JSON.parse(tree.read(`apps/test-app/tsconfig.app.json`, 'utf-8') || '{}')
-        .exclude
+        .exclude,
     ).toEqual(['jest.config.ts']);
   });
 
@@ -134,7 +134,7 @@ describe('configure-storybook', () => {
         tsconfig.exclude =
           tsconfig.exclude?.filter((e) => e !== 'jest.config.ts') || [];
         return tsconfig;
-      }
+      },
     );
     await configureStorybook(tree, { name: 'test-app' });
     expect(tree.exists(`apps/test-app/.storybook/tsconfig.json`)).toBeTruthy();
@@ -142,8 +142,8 @@ describe('configure-storybook', () => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       JSON.parse(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        tree.read(`apps/test-app/.storybook/tsconfig.json`)!.toString()
-      ).include
+        tree.read(`apps/test-app/.storybook/tsconfig.json`)!.toString(),
+      ).include,
     ).toBeTruthy();
   });
 
@@ -163,7 +163,7 @@ describe('configure-storybook', () => {
     });
     await configureStorybook(tree, { name: 'test-app' });
     expect(warnSpy).toHaveBeenCalledWith(
-      `Project "test-app-e2e" does not exist`
+      `Project "test-app-e2e" does not exist`,
     );
   });
 
@@ -187,7 +187,7 @@ describe('configure-storybook', () => {
     });
     await configureStorybook(tree, { name: 'test-app' });
     expect(warnSpy).toHaveBeenCalledWith(
-      `Project "test-app-e2e" does not have an e2e target with @nx/cypress:cypress`
+      `Project "test-app-e2e" does not have an e2e target with @nx/cypress:cypress`,
     );
   });
 });

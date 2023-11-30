@@ -95,7 +95,7 @@ export class EditModalComponent {
         type: SkyCellType.Date,
         editable: true,
         cellEditorParams: (
-          params: ICellEditorParams
+          params: ICellEditorParams,
         ): { skyComponentProperties: SkyAgGridDatepickerProperties } => {
           return { skyComponentProperties: { minDate: params.data.startDate } };
         },
@@ -106,7 +106,7 @@ export class EditModalComponent {
         type: SkyCellType.Autocomplete,
         editable: true,
         cellEditorParams: (
-          params: ICellEditorParams
+          params: ICellEditorParams,
         ): { skyComponentProperties: SkyAgGridAutocompleteProperties } => {
           return {
             skyComponentProperties: {
@@ -129,7 +129,7 @@ export class EditModalComponent {
         type: SkyCellType.Autocomplete,
         editable: true,
         cellEditorParams: (
-          params: ICellEditorParams
+          params: ICellEditorParams,
         ): { skyComponentProperties: SkyAgGridAutocompleteProperties } => {
           const selectedDepartment: string =
             params.data &&
@@ -192,7 +192,7 @@ export class EditModalComponent {
 
   #departmentSelectionChange(
     change: SkyAutocompleteSelectionChange,
-    node: IRowNode
+    node: IRowNode,
   ): void {
     if (change.selectedItem && change.selectedItem !== node.data.department) {
       this.#clearJobTitle(node);

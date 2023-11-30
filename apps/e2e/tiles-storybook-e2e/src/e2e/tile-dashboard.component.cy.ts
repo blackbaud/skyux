@@ -5,8 +5,8 @@ describe('tiles-storybook', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=tiledashboardcomponent-tiledashboard--tile-dashboard`
-        )
+          `/iframe.html?globals=theme:${theme}&id=tiledashboardcomponent-tiledashboard--tile-dashboard`,
+        ),
       );
 
       it('should render the component', () => {

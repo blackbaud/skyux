@@ -200,7 +200,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     if (
       this.#flyoutMediaQueryService.isWidthWithinBreakpoint(
         event.target.innerWidth,
-        SkyMediaBreakpoints.xs
+        SkyMediaBreakpoints.xs,
       )
     ) {
       this.#updateBreakpointAndResponsiveClass(event.target.innerWidth);
@@ -219,7 +219,8 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
   public attach<T>(
     component: Type<T>,
-    config?: SkyFlyoutConfig
+    config?: SkyFlyoutConfig,
+    environmentInjector?: EnvironmentInjector,
   ): SkyFlyoutInstance<T> {
     this.#cleanTemplate();
 
@@ -244,7 +245,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
           },
         ],
       },
-      config
+      config,
     );
     if (config?.defaultWidth && !config?.maxWidth) {
       this.config.maxWidth = config?.defaultWidth;
@@ -268,8 +269,9 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
         ? this.config.primaryAction.label
         : this.#getString('skyux_flyout_primary_action_button');
 
+    environmentInjector ||= this.#environmentInjector;
     const componentRef = this.#dynamicComponentSvc.createComponent(component, {
-      environmentInjector: this.#environmentInjector,
+      environmentInjector: environmentInjector,
       providers: this.config.providers,
       viewContainerRef: this.target,
     });
@@ -380,7 +382,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
       .pipe(
         takeWhile(() => {
           return this.isDragging;
-        })
+        }),
       )
       .subscribe((moveEvent: any) => {
         this.onMouseMove(moveEvent);
@@ -390,7 +392,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
       .pipe(
         takeWhile(() => {
           return this.isDragging;
-        })
+        }),
       )
       .subscribe((mouseUpEvent: any) => {
         this.onHandleRelease(mouseUpEvent);
@@ -486,7 +488,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
             new SkyFlyoutBeforeCloseHandler(() => {
               this.isOpen = true;
               this.isOpening = false;
-            })
+            }),
           );
         }
         break;
@@ -549,7 +551,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
           (err) => {
             console.warn('Could not save flyout data.');
             console.warn(err);
-          }
+          },
         );
     }
   }
@@ -573,7 +575,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     if (
       this.#flyoutMediaQueryService.isWidthWithinBreakpoint(
         window.innerWidth,
-        SkyMediaBreakpoints.xs
+        SkyMediaBreakpoints.xs,
       )
     ) {
       this.#updateBreakpointAndResponsiveClass(window.innerWidth);
@@ -610,7 +612,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
             if (this.flyoutWidth < this.config.maxWidth) {
               this.flyoutWidth = Math.min(
                 this.flyoutWidth + this.widthStep,
-                this.config.maxWidth
+                this.config.maxWidth,
               );
             }
           }
@@ -622,7 +624,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
             if (this.flyoutWidth > this.config.minWidth) {
               this.flyoutWidth = Math.max(
                 this.flyoutWidth - this.widthStep,
-                this.config.minWidth
+                this.config.minWidth,
               );
             }
           }

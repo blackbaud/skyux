@@ -94,18 +94,18 @@ export class SkyTextEditorComponent
           {
             ignoreVisibility: true,
             ignoreTabIndex: true,
-          }
+          },
         );
 
         if (this.#_disabled) {
           this.#adapterService.disableEditor(
             focusableChildren,
-            this.iframeRef.nativeElement
+            this.iframeRef.nativeElement,
           );
         } else {
           this.#adapterService.enableEditor(
             focusableChildren,
-            this.iframeRef.nativeElement
+            this.iframeRef.nativeElement,
           );
         }
         this.#changeDetector.markForCheck();
@@ -224,7 +224,7 @@ export class SkyTextEditorComponent
    */
   @Input()
   public set toolbarActions(
-    value: SkyTextEditorToolbarActionType[] | undefined
+    value: SkyTextEditorToolbarActionType[] | undefined,
   ) {
     this.#_toolbarActions = value || TOOLBAR_ACTION_DEFAULTS;
   }
@@ -239,7 +239,7 @@ export class SkyTextEditorComponent
    */
   @Input()
   public set linkWindowOptions(
-    value: SkyTextEditorLinkWindowOptionsType[] | undefined
+    value: SkyTextEditorLinkWindowOptionsType[] | undefined,
   ) {
     this.#_linkWindowOptions = value ?? LINK_WINDOW_OPTIONS_DEFAULTS;
   }
@@ -414,7 +414,7 @@ export class SkyTextEditorComponent
       this.id,
       (this.iframeRef as ElementRef).nativeElement,
       this.initialStyleState,
-      this.placeholder
+      this.placeholder,
     );
 
     this.#editorService
@@ -488,7 +488,7 @@ export class SkyTextEditorComponent
   /* istanbul ignore next */
   #_onChange: (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    value: any
+    value: any,
   ) => void = () => {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
   };

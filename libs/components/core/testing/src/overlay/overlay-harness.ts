@@ -22,7 +22,7 @@ export class SkyOverlayHarness extends ComponentHarness {
    * `SkyOverlayHarness` that meets certain criteria.
    */
   public static with(
-    filters: SkyOverlayHarnessFilters
+    filters: SkyOverlayHarnessFilters,
   ): HarnessPredicate<SkyOverlayHarness> {
     return new HarnessPredicate(SkyOverlayHarness, filters);
   }
@@ -31,7 +31,7 @@ export class SkyOverlayHarness extends ComponentHarness {
    * Returns a child harness.
    */
   public async queryHarness<T extends ComponentHarness>(
-    harness: HarnessQuery<T>
+    harness: HarnessQuery<T>,
   ): Promise<T | null> {
     return this.locatorForOptional(harness)();
   }
@@ -40,7 +40,7 @@ export class SkyOverlayHarness extends ComponentHarness {
    * Returns child harnesses.
    */
   public async queryHarnesses<T extends ComponentHarness>(
-    harness: HarnessQuery<T>
+    harness: HarnessQuery<T>,
   ): Promise<T[]> {
     return this.locatorForAll(harness)();
   }

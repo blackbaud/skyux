@@ -18,7 +18,7 @@ export const mockResizeObserverEntry: ResizeObserverEntry = {
 
 const defaultCallback: ResizeObserverCallback = (
   entries: ResizeObserverEntry[],
-  observer: ResizeObserver
+  observer: ResizeObserver,
 ) => {};
 
 export const mockResizeObserverHandle = {
