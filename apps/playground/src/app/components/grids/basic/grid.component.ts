@@ -58,6 +58,8 @@ export default class GridComponent {
     { id: '7', column1: '21', column2: 'Grape', column3: 'gg', myId: '107' },
   ];
 
+  public columnsForSimpleGrid = ['column1', 'column2', 'column3'];
+
   public gridController = new Subject<SkyGridMessage>();
 
   public gridRowDeleteController = new Subject<SkyGridMessage>();
@@ -79,6 +81,16 @@ export default class GridComponent {
     setTimeout(() => {
       this.asyncPopover = this.popoverTemplate;
     }, 1000);
+  }
+
+  public toggleCol3(): void {
+    const col3Index = this.columnsForSimpleGrid.indexOf('column3');
+    if (col3Index === -1) {
+      this.columnsForSimpleGrid.push('column3');
+    } else {
+      this.columnsForSimpleGrid.splice(col3Index, 1);
+    }
+    this.columnsForSimpleGrid = [...this.columnsForSimpleGrid];
   }
 
   public sortChangedSimpleGrid(activeSort: ListSortFieldSelectorModel): void {

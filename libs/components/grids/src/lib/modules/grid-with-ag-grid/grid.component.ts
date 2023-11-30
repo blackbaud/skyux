@@ -274,15 +274,29 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
 
   @ViewChild(AgGridAngular)
   protected set agGrid(grid: AgGridAngular | undefined) {
+    if (this.#_agGrid) {
+      this.#gridChanged.next();
+    }
+
     this.#_agGrid = grid;
 
-    grid?.selectionChanged
-      ?.pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((event: SelectionChangedEvent) => {
-        if (event.source === 'api') {
-          this.#emitSelectedRows(SkyGridSelectedRowsSource.CheckboxChange);
-        }
-      });
+    if (grid) {
+      grid.selectionChanged
+        ?.pipe(takeUntil(this.#ngUnsubscribe), takeUntil(this.#gridChanged))
+        .subscribe((event: SelectionChangedEvent) => {
+          if (event.source === 'api') {
+            this.#emitSelectedRows(SkyGridSelectedRowsSource.CheckboxChange);
+          }
+        });
+
+      grid.columnVisible
+        ?.pipe(takeUntil(this.#ngUnsubscribe), takeUntil(this.#gridChanged))
+        .subscribe(() => {
+          this.selectedColumnIdsChange.emit(
+            grid.columnApi.getAllDisplayedColumns().map((col) => col.getId()),
+          );
+        });
+    }
   }
 
   protected get agGrid(): AgGridAngular | undefined {
@@ -337,6 +351,7 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
   #subscriptions = new Subscription();
   readonly #subscriptionForLayout = new Subscription();
   #ngUnsubscribe = new Subject<void>();
+  #gridChanged = new Subject<void>();
   #viewReady = false;
   #_agGrid: AgGridAngular | undefined;
   #_messageStream: Subject<SkyGridMessage> | undefined;
@@ -628,7 +643,6 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
         this.#emitSelectedRows(SkyGridSelectedRowsSource.ClearAll);
         break;
     }
-    this.#changeDetectorRef.markForCheck();
   }
 
   #emitSelectedRows(source: SkyGridSelectedRowsSource): void {

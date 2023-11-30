@@ -1,11 +1,14 @@
 <h1>Simple grid</h1>
-
+<button type="button" class="sky-btn sky-btn-primary" (click)="toggleCol3()">
+  Toggle column 3
+</button>
 <div id="screenshot-grid">
   <sky-grid
     fit="scroll"
     [data]="dataForSimpleGrid"
     [highlightText]="highlightText"
     [rowHighlightedId]="rowHighlightedId"
+    [selectedColumnIds]="columnsForSimpleGrid"
     (selectedColumnIdsChange)="onSelectedColumnIdsChange($event)"
     (columnWidthChange)="onColumnWidthChange($event)"
     (sortFieldChange)="sortChangedSimpleGrid($event)"
