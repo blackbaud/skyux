@@ -19,7 +19,7 @@ describe('Paging component', () => {
 
   function clickPageButton(
     fixture: ComponentFixture<unknown>,
-    button: string
+    button: string,
   ): void {
     fixture.debugElement
       .query(By.css(getPagingSelector(button)))
@@ -38,7 +38,7 @@ describe('Paging component', () => {
 
     if (firstChild?.nodeName === 'SKY-WAIT') {
       const waitMaskEl = (firstChild as HTMLElement).querySelector(
-        '.sky-wait-mask'
+        '.sky-wait-mask',
       );
 
       return {
@@ -85,7 +85,7 @@ describe('Paging component', () => {
     describe('with 8 items', () => {
       it('should show 3 pages', () => {
         expect(element.queryAll(By.css('.sky-list-paging-link')).length).toBe(
-          3
+          3,
         );
       });
 
@@ -103,7 +103,7 @@ describe('Paging component', () => {
         expect(
           element
             .query(By.css(getPagingSelector('1')))
-            .nativeElement.classList.contains('sky-paging-current')
+            .nativeElement.classList.contains('sky-paging-current'),
         ).toBe(true);
       });
 
@@ -114,7 +114,7 @@ describe('Paging component', () => {
         expect(
           element
             .query(By.css(getPagingSelector('1')))
-            .nativeElement.classList.contains('sky-paging-current')
+            .nativeElement.classList.contains('sky-paging-current'),
         ).toBe(true);
       });
 
@@ -125,7 +125,7 @@ describe('Paging component', () => {
         expect(
           element
             .query(By.css(getPagingSelector('1')))
-            .nativeElement.classList.contains('sky-paging-current')
+            .nativeElement.classList.contains('sky-paging-current'),
         ).toBe(true);
       });
 
@@ -156,7 +156,7 @@ describe('Paging component', () => {
           expect(
             element
               .query(By.css(getPagingSelector('3')))
-              .nativeElement.classList.contains('sky-paging-current')
+              .nativeElement.classList.contains('sky-paging-current'),
           ).toBe(true);
         });
 
@@ -208,7 +208,7 @@ describe('Paging component', () => {
             expect(
               element
                 .query(By.css(getPagingSelector('1')))
-                .nativeElement.classList.contains('sky-paging-current')
+                .nativeElement.classList.contains('sky-paging-current'),
             ).toBe(true);
           });
         });
@@ -219,7 +219,7 @@ describe('Paging component', () => {
         fixture.detectChanges();
 
         expect(element.queryAll(By.css('.sky-list-paging-link')).length).toBe(
-          3
+          3,
         );
       });
 
@@ -231,17 +231,17 @@ describe('Paging component', () => {
           expect(
             element
               .query(By.css(getPagingSelector('2')))
-              .nativeElement.classList.contains('sky-paging-current')
+              .nativeElement.classList.contains('sky-paging-current'),
           ).toBe(true);
 
           expect(
             element.query(By.css(getPagingSelector('previous'))).nativeElement
-              .disabled
+              .disabled,
           ).toBeFalsy();
 
           expect(
             element.query(By.css(getPagingSelector('next'))).nativeElement
-              .disabled
+              .disabled,
           ).toBeFalsy();
         });
 
@@ -273,7 +273,7 @@ describe('Paging component', () => {
           fixture.detectChanges();
 
           const navElement = element.query(
-            By.css('nav.sky-paging')
+            By.css('nav.sky-paging'),
           ).nativeElement;
 
           expect(navElement.getAttribute('aria-label')).toBe('My label');
@@ -281,7 +281,7 @@ describe('Paging component', () => {
 
         it('should have a nav role on the parent element with a default aria-label', () => {
           const navElement = element.query(
-            By.css('nav.sky-paging')
+            By.css('nav.sky-paging'),
           ).nativeElement;
 
           expect(navElement.getAttribute('aria-label')).toBe('Pagination');
@@ -289,13 +289,13 @@ describe('Paging component', () => {
 
         it('should have aria-label on each of the next and previous buttons', () => {
           const prevElement = element.query(
-            By.css(getPagingSelector('previous'))
+            By.css(getPagingSelector('previous')),
           ).nativeElement;
 
           expect(prevElement.getAttribute('aria-label')).toBe('Previous');
 
           const nextElement = element.query(
-            By.css(getPagingSelector('next'))
+            By.css(getPagingSelector('next')),
           ).nativeElement;
 
           expect(nextElement.getAttribute('aria-label')).toBe('Next');
@@ -451,7 +451,7 @@ describe('Paging component', () => {
 
     it('should set focus to the top of the paged contents and update the ARIA label when loading is complete', () => {
       const wrapperEl = (fixture.nativeElement as HTMLElement).querySelector(
-        '.sky-paging-content-wrapper'
+        '.sky-paging-content-wrapper',
       );
 
       expect(wrapperEl?.ariaLabel).toBe('Page 1 of 4');

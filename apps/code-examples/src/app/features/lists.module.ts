@@ -34,7 +34,7 @@ const routes: Routes = [
     path: 'paging/with-content',
     loadComponent: () =>
       import('../code-examples/lists/paging/with-content/demo.component').then(
-        (c) => c.DemoComponent
+        (c) => c.DemoComponent,
       ),
   },
   {

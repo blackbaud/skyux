@@ -8,7 +8,7 @@ export class DataManagerPagedItemsPipe implements PipeTransform {
   public transform(
     items: unknown[],
     pageSize: number,
-    currentPage: number
+    currentPage: number,
   ): unknown[] {
     const startIndex = (currentPage - 1) * pageSize;
 

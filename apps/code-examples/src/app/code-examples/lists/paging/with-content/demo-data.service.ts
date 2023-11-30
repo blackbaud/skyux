@@ -93,7 +93,7 @@ const people = [
 export class DemoDataService {
   public getPagedData(
     pageNumber: number,
-    itemCount: number
+    itemCount: number,
   ): Observable<DemoData> {
     const startIndex = (pageNumber - 1) * itemCount;
 
@@ -102,7 +102,7 @@ export class DemoDataService {
       totalCount: people.length,
     }).pipe(
       // Simulate network latency.
-      delay(1000)
+      delay(1000),
     );
   }
 }

@@ -34,8 +34,8 @@ export class DemoComponent {
     switchMap((args) =>
       this.#demoDataSvc
         .getPagedData(args.currentPage, this.pageSize)
-        .pipe(tap(() => args.loadingComplete()))
+        .pipe(tap(() => args.loadingComplete())),
     ),
-    shareReplay(1)
+    shareReplay(1),
   );
 }
