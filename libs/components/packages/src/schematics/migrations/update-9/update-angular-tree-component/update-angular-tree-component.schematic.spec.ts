@@ -7,7 +7,7 @@ import { createTestApp } from '../../../testing/scaffold';
 describe('Migrations > Update angular-tree-component dependency', () => {
   const runner = new SchematicTestRunner(
     'migrations',
-    join(__dirname, '../../migration-collection.json')
+    join(__dirname, '../../migration-collection.json'),
   );
 
   async function setupTest() {
@@ -27,7 +27,7 @@ describe('Migrations > Update angular-tree-component dependency', () => {
 
     tree.overwrite(
       '/package.json',
-      '{"dependencies": {"@skyux/angular-tree-component": "8.0.0", "@circlon/angular-tree-component": "11.0.4"}}'
+      '{"dependencies": {"@skyux/angular-tree-component": "8.0.0", "@circlon/angular-tree-component": "11.0.4"}}',
     );
 
     await runSchematic();
@@ -45,7 +45,7 @@ describe('Migrations > Update angular-tree-component dependency', () => {
 
     tree.overwrite(
       '/package.json',
-      '{"dependencies": {"@circlon/angular-tree-component": "11.0.4"}}'
+      '{"dependencies": {"@circlon/angular-tree-component": "11.0.4"}}',
     );
 
     await runSchematic();
@@ -80,11 +80,11 @@ describe('Migrations > Update angular-tree-component dependency', () => {
         BarService
       } from '@circlon/angular-tree-component';
       import * as angularTreeComponent from '@circlon/angular-tree-component';
-      `
+      `,
     );
     tree.create(
       '/src/app/app.component.css',
-      `@import 'node_modules/@circlon/angular-tree-component/css/angular-tree-component';`
+      `@import 'node_modules/@circlon/angular-tree-component/css/angular-tree-component';`,
     );
 
     await runSchematic();
@@ -99,7 +99,7 @@ describe('Migrations > Update angular-tree-component dependency', () => {
       import * as angularTreeComponent from '@blackbaud/angular-tree-component';
       `);
     expect(tree.readText('/src/app/app.component.css')).toEqual(
-      `@import 'node_modules/@blackbaud/angular-tree-component/css/angular-tree-component';`
+      `@import 'node_modules/@blackbaud/angular-tree-component/css/angular-tree-component';`,
     );
   });
 });

@@ -1,6 +1,5 @@
 import { strings } from '@angular-devkit/core';
 import { componentGenerator } from '@nx/angular/generators';
-import { normalizePath } from '@nx/devkit';
 import {
   ProjectConfiguration,
   Tree,
@@ -8,6 +7,7 @@ import {
   generateFiles,
   getProjects,
   joinPathFragments,
+  normalizePath,
 } from '@nx/devkit';
 
 import {
@@ -37,7 +37,7 @@ interface NormalizedSchema extends ComponentGeneratorSchema {
 
 function normalizeOptions(
   tree: Tree,
-  options: ComponentGeneratorSchema
+  options: ComponentGeneratorSchema,
 ): NormalizedSchema {
   if (!options.project) {
     throw new Error('Project name not specified');
@@ -54,7 +54,7 @@ function normalizeOptions(
 
   if (
     tree.exists(
-      joinPathFragments(projectDirectory, projectTypeBase, options.name)
+      joinPathFragments(projectDirectory, projectTypeBase, options.name),
     )
   ) {
     throw new Error(`${options.name} already exists for ${projectName}`);
@@ -79,7 +79,7 @@ function normalizeOptions(
     });
     if (moduleOptions.length === 0) {
       throw new Error(
-        `Could not find a router module to add the component to. Please specify a module using the --module option.`
+        `Could not find a router module to add the component to. Please specify a module using the --module option.`,
       );
     } else if (moduleOptions.length === 1) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -94,7 +94,7 @@ function normalizeOptions(
       module = findClosestModule(
         moduleOptions,
         projectDirectory,
-        componentDirectory
+        componentDirectory,
       );
     }
   }
@@ -137,11 +137,11 @@ export default async function (tree: Tree, options: ComponentGeneratorSchema) {
     })
     .filter((change) => !previouslyCreated.includes(change.path))
     .filter((change) =>
-      change.path.match(/\.component\.(ts|cy\.ts|spec\.ts|html|s?css)$/)
+      change.path.match(/\.component\.(ts|cy\.ts|spec\.ts|html|s?css)$/),
     )
     .map((change) => change.path);
   const componentFilePath = componentFilePaths.find((filepath) =>
-    filepath.endsWith('.component.ts')
+    filepath.endsWith('.component.ts'),
   );
 
   // istanbul ignore if
@@ -179,13 +179,13 @@ export default async function (tree: Tree, options: ComponentGeneratorSchema) {
       componentPath: dirname(componentFilePath),
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       prefix: (normalizedOptions.projectConfig as any)['prefix'],
-    }
+    },
   );
   if (!normalizedOptions.includeTests) {
     tree.delete(
       `${dirname(componentFilePath)}/${strings.dasherize(
-        baseName
-      )}.component.spec.ts`
+        baseName,
+      )}.component.spec.ts`,
     );
   }
 

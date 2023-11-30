@@ -106,7 +106,7 @@ export class SkyHrefDirective {
     @Optional() paramsProvider?: SkyAppRuntimeConfigParamsProvider,
     @Optional() hrefResolver?: SkyHrefResolverService,
     @Optional() applicationRef?: ApplicationRef,
-    @Optional() changeDetectorRef?: ChangeDetectorRef
+    @Optional() changeDetectorRef?: ChangeDetectorRef,
   ) {
     this.#router = router;
     this.#renderer = renderer;
@@ -130,7 +130,7 @@ export class SkyHrefDirective {
     ctrlKey: boolean,
     shiftKey: boolean,
     altKey: boolean,
-    metaKey: boolean
+    metaKey: boolean,
   ): boolean {
     if (!this.#route || !this.#route.userHasAccess) {
       return false;
@@ -159,7 +159,7 @@ export class SkyHrefDirective {
       this.#renderer.setAttribute(
         this.#element.nativeElement,
         'hidden',
-        'hidden'
+        'hidden',
       );
     } else {
       this.#renderer.removeAttribute(this.#element.nativeElement, 'hidden');
@@ -168,7 +168,7 @@ export class SkyHrefDirective {
       this.#renderer.setAttribute(
         this.#element.nativeElement,
         'href',
-        change.href
+        change.href,
       );
     } else {
       this.#renderer.removeAttribute(this.#element.nativeElement, 'href');
@@ -244,7 +244,7 @@ export class SkyHrefDirective {
       this.#skyAppConfig.skyux.host.url +
       this.#skyAppConfig.runtime.app.base.substr(
         0,
-        this.#skyAppConfig.runtime.app.base.length - 1
+        this.#skyAppConfig.runtime.app.base.length - 1,
       )
     ).toLowerCase();
 

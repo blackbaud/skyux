@@ -19,7 +19,7 @@ export const skySlideDissolve: AnimationTriggerMetadata = trigger(
           style({ height: 0, opacity: 0 }),
           animate('200ms ease-in', style({ height: '*', opacity: 0 })),
         ],
-        { optional: true }
+        { optional: true },
       ),
       query(
         '.sky-slide-dissolve-last:enter',
@@ -27,7 +27,7 @@ export const skySlideDissolve: AnimationTriggerMetadata = trigger(
           style({ opacity: 0 }),
           animate('200ms ease-in', style({ opacity: 1 })),
         ],
-        { optional: true }
+        { optional: true },
       ),
 
       // Collapse animations
@@ -36,7 +36,7 @@ export const skySlideDissolve: AnimationTriggerMetadata = trigger(
       query(
         '.sky-slide-dissolve-last:leave',
         [animate('0ms', style({ opacity: 0 }))],
-        { optional: true }
+        { optional: true },
       ),
 
       group([
@@ -46,14 +46,14 @@ export const skySlideDissolve: AnimationTriggerMetadata = trigger(
             style({ opacity: 0, height: 0 }),
             animate('100ms ease-in', style({ opacity: 1, height: '*' })),
           ],
-          { optional: true }
+          { optional: true },
         ),
         query(
           '.sky-slide-dissolve-last:leave',
           [animate('200ms ease-in', style({ height: 0 }))],
-          { optional: true }
+          { optional: true },
         ),
       ]),
     ]),
-  ]
+  ],
 );

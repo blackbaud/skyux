@@ -85,7 +85,7 @@ describe('some-or-all-projects', () => {
   it('should error when getStorybookProject is called without a project name', () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     expect(() => getStorybookProject(tree, {})).toThrowError(
-      'Project name not specified'
+      'Project name not specified',
     );
   });
 });

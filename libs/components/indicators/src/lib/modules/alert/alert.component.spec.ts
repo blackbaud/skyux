@@ -24,7 +24,7 @@ describe('Alert component', () => {
 
   function validateDeprecatedCalled(
     deprecatedSpy: jasmine.Spy,
-    expected: boolean
+    expected: boolean,
   ): void {
     if (expected) {
       expect(deprecatedSpy).toHaveBeenCalledOnceWith(
@@ -33,7 +33,7 @@ describe('Alert component', () => {
           deprecationMajorVersion: 8,
           replacementRecommendation:
             'Always specify a `descriptionType` property.',
-        }
+        },
       );
     } else {
       expect(deprecatedSpy).not.toHaveBeenCalled();
@@ -45,7 +45,7 @@ describe('Alert component', () => {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.default,
-          SkyThemeMode.presets.light
+          SkyThemeMode.presets.light,
         ),
         previousSettings: undefined,
       }),
@@ -178,7 +178,7 @@ describe('Alert component', () => {
     function validateDescription(
       fixture: ComponentFixture<AlertTestComponent>,
       descriptionType: SkyIndicatorDescriptionType,
-      expectedDescription?: string
+      expectedDescription?: string,
     ): void {
       fixture.componentInstance.descriptionType = descriptionType;
 
@@ -212,7 +212,7 @@ describe('Alert component', () => {
       validateDescription(
         fixture,
         'custom',
-        fixture.componentInstance.customDescription
+        fixture.componentInstance.customDescription,
       );
     });
 
@@ -306,17 +306,17 @@ describe('Alert component', () => {
     function validateStackedIcon(
       el: HTMLElement,
       expectedBaseIcon: string,
-      expectedTopIcon: string
+      expectedTopIcon: string,
     ): void {
       const iconEl = el.querySelector('.sky-alert-icon-theme-modern');
       const baseIconEl = iconEl?.querySelector('.fa-stack-2x');
       const topIconEl = iconEl?.querySelector('.fa-stack-1x');
 
       expect(baseIconEl?.classList.contains('sky-i-' + expectedBaseIcon)).toBe(
-        true
+        true,
       );
       expect(topIconEl?.classList.contains('sky-i-' + expectedTopIcon)).toBe(
-        true
+        true,
       );
     }
 
@@ -324,7 +324,7 @@ describe('Alert component', () => {
       mockThemeSvc.settingsChange.next({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.modern,
-          SkyThemeMode.presets.light
+          SkyThemeMode.presets.light,
         ),
         previousSettings:
           mockThemeSvc.settingsChange.getValue().currentSettings,

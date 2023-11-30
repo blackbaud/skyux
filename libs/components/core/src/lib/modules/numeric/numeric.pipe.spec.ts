@@ -32,7 +32,7 @@ describe('Numeric pipe', () => {
     pipe = new SkyNumericPipe(
       TestBed.inject(SkyAppLocaleProvider),
       numericService,
-      changeDetector
+      changeDetector,
     );
   });
 

@@ -12,7 +12,7 @@ module.exports = function (config) {
       ...baseConfig.coverageReporter,
       dir: join(
         __dirname,
-        '../../../coverage/libs/components/list-builder-view-grids'
+        '../../../coverage/libs/components/list-builder-view-grids',
       ),
     },
   });

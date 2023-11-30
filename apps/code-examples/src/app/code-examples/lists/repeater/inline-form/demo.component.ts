@@ -86,7 +86,7 @@ export class DemoComponent {
   protected onInlineFormClose(args: SkyInlineFormCloseArgs): void {
     if (args.reason === 'save') {
       const found = this.items.find(
-        (item) => item.id === this.activeInlineFormId
+        (item) => item.id === this.activeInlineFormId,
       );
       if (found) {
         found.note = this.formGroup.get('note')?.value;

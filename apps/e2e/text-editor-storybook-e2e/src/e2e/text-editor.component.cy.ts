@@ -7,21 +7,21 @@ describe('text-editor-storybook', () => {
         describe(`the ${mode} text editor component`, () => {
           beforeEach(() =>
             cy.visit(
-              `/iframe.html?globals=theme:${theme}&id=texteditorcomponent-texteditor--text-editor-${mode}`
-            )
+              `/iframe.html?globals=theme:${theme}&id=texteditorcomponent-texteditor--text-editor-${mode}`,
+            ),
           );
           it('should render', () => {
             cy.get('app-text-editor')
               .should('exist')
               .should('be.visible')
               .screenshot(
-                `texteditorcomponent-texteditor--text-editor-${mode}-${theme}`
+                `texteditorcomponent-texteditor--text-editor-${mode}-${theme}`,
               )
               .percySnapshot(
                 `texteditorcomponent-texteditor--text-editor-${mode}-${theme}`,
                 {
                   widths: E2eVariations.DISPLAY_WIDTHS,
-                }
+                },
               );
           });
         });
@@ -29,8 +29,8 @@ describe('text-editor-storybook', () => {
       describe('text editor component', () => {
         beforeEach(() =>
           cy.visit(
-            `/iframe.html?globals=theme:${theme}&id=texteditorcomponent-texteditor--text-editor-basic`
-          )
+            `/iframe.html?globals=theme:${theme}&id=texteditorcomponent-texteditor--text-editor-basic`,
+          ),
         );
         it('should display entered text', () => {
           cy.get('app-text-editor')
@@ -44,13 +44,13 @@ describe('text-editor-storybook', () => {
                 .type('This is what the text looks like');
             })
             .screenshot(
-              `texteditorcomponent-texteditor--text-editor-with-text-${theme}`
+              `texteditorcomponent-texteditor--text-editor-with-text-${theme}`,
             )
             .percySnapshot(
               `texteditorcomponent-texteditor--text-editor-with-text-${theme}`,
               {
                 widths: E2eVariations.DISPLAY_WIDTHS,
-              }
+              },
             );
         });
         it('should open all the menus', () => {
@@ -62,15 +62,15 @@ describe('text-editor-storybook', () => {
                 .get(`[aria-label="${button}"]`)
                 .click()
                 .screenshot(
-                  `texteditorcomponent-texteditor--text-editor-${button}-open-${theme}`
+                  `texteditorcomponent-texteditor--text-editor-${button}-open-${theme}`,
                 )
                 .percySnapshot(
                   `texteditorcomponent-texteditor--text-editor-${button}-open-${theme}`,
                   {
                     widths: E2eVariations.DISPLAY_WIDTHS,
-                  }
+                  },
                 );
-            }
+            },
           );
         });
         it('should open create link dialog', () => {
@@ -84,13 +84,13 @@ describe('text-editor-storybook', () => {
             .should('exist')
             .should('be.visible')
             .screenshot(
-              `texteditorcomponent-texteditor--text-editor-create-link-modal-web-page-tab-${theme}`
+              `texteditorcomponent-texteditor--text-editor-create-link-modal-web-page-tab-${theme}`,
             )
             .percySnapshot(
               `texteditorcomponent-texteditor--text-editor-create-link-modal-web-page-tab-${theme}`,
               {
                 widths: E2eVariations.DISPLAY_WIDTHS,
-              }
+              },
             );
           cy.get('.sky-modal')
             .should('exist')
@@ -99,13 +99,13 @@ describe('text-editor-storybook', () => {
             .eq(1)
             .click()
             .screenshot(
-              `texteditorcomponent-texteditor--text-editor-create-link-modal-email-address-tab-${theme}`
+              `texteditorcomponent-texteditor--text-editor-create-link-modal-email-address-tab-${theme}`,
             )
             .percySnapshot(
               `texteditorcomponent-texteditor--text-editor-create-link-modal-email-address-tab-${theme}`,
               {
                 widths: E2eVariations.DISPLAY_WIDTHS,
-              }
+              },
             );
         });
       });

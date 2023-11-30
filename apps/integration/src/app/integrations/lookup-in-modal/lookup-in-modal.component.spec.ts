@@ -31,8 +31,8 @@ describe('LookupInModalComponent', () => {
     await fixture.whenStable();
     expect(
       (fixture.nativeElement as HTMLElement).ownerDocument.body.getAttribute(
-        'style'
-      )
+        'style',
+      ),
     ).toContain('margin-top: 50px');
   });
 

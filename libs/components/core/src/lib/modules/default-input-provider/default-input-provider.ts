@@ -14,7 +14,7 @@ export class SkyDefaultInputProvider {
 
   public getValue<T>(
     componentName: string,
-    inputName: string
+    inputName: string,
   ): Observable<T> | undefined {
     const inputDefault = this.#getSubject(componentName, inputName);
     return inputDefault.asObservable() as Observable<T>;
@@ -22,7 +22,7 @@ export class SkyDefaultInputProvider {
 
   #getSubject(
     componentName: string,
-    inputName: string
+    inputName: string,
   ): ReplaySubject<unknown> {
     const componentSubjects = this.#props[componentName] || {};
     const inputSubject = componentSubjects[inputName];

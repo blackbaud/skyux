@@ -6,7 +6,7 @@ describe('lookup-storybook', () => {
       describe(`in country field with phone info`, () => {
         it(`should render the input dropdown`, () => {
           cy.visit(
-            `/iframe.html?globals=theme:${theme}&id=countryfieldcomponent-countryfield--phone-info-country-field`
+            `/iframe.html?globals=theme:${theme}&id=countryfieldcomponent-countryfield--phone-info-country-field`,
           )
             .get('#ready')
             .should('exist')
@@ -20,13 +20,13 @@ describe('lookup-storybook', () => {
 
           cy.get('app-country-field')
             .screenshot(
-              `countryfieldcomponent-countryfield--country-field-dropdown-with-phone-info-${theme}`
+              `countryfieldcomponent-countryfield--country-field-dropdown-with-phone-info-${theme}`,
             )
             .percySnapshot(
               `countryfieldcomponent-countryfield--country-field-dropdown-with-phone-info-${theme}`,
               {
                 widths: E2eVariations.DISPLAY_WIDTHS,
-              }
+              },
             );
         });
       });
@@ -41,11 +41,11 @@ describe('lookup-storybook', () => {
           beforeEach(() =>
             cy
               .visit(
-                `/iframe.html?globals=theme:${theme}&id=countryfieldcomponent-countryfield--${mode}-country-field`
+                `/iframe.html?globals=theme:${theme}&id=countryfieldcomponent-countryfield--${mode}-country-field`,
               )
               .get('#ready')
               .should('exist')
-              .end()
+              .end(),
           );
 
           it('should render the component', () => {
@@ -53,13 +53,13 @@ describe('lookup-storybook', () => {
               .should('exist')
               .should('be.visible')
               .screenshot(
-                `countryfieldcomponent-countryfield--${mode}-country-field-${theme}`
+                `countryfieldcomponent-countryfield--${mode}-country-field-${theme}`,
               )
               .percySnapshot(
                 `countryfieldcomponent-countryfield--${mode}-country-field-${theme}`,
                 {
                   widths: E2eVariations.DISPLAY_WIDTHS,
-                }
+                },
               );
           });
         });
@@ -67,11 +67,11 @@ describe('lookup-storybook', () => {
       beforeEach(() =>
         cy
           .visit(
-            `/iframe.html?globals=theme:${theme}&id=countryfieldcomponent-countryfield--empty-country-field`
+            `/iframe.html?globals=theme:${theme}&id=countryfieldcomponent-countryfield--empty-country-field`,
           )
           .get('#ready')
           .should('exist')
-          .end()
+          .end(),
       );
       it('should render input box with focus', () => {
         cy.get('app-country-field').should('exist').should('be.visible');
@@ -79,13 +79,13 @@ describe('lookup-storybook', () => {
 
         cy.get('app-country-field')
           .screenshot(
-            `countryfieldcomponent-countryfield--country-field-input-box-focus-${theme}`
+            `countryfieldcomponent-countryfield--country-field-input-box-focus-${theme}`,
           )
           .percySnapshot(
             `countryfieldcomponent-countryfield--country-field-input-box-focus-${theme}`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
-            }
+            },
           );
       });
       it('should render input dropdown', () => {
@@ -98,13 +98,13 @@ describe('lookup-storybook', () => {
 
         cy.get('app-country-field')
           .screenshot(
-            `countryfieldcomponent-countryfield--country-field-dropdown-${theme}`
+            `countryfieldcomponent-countryfield--country-field-dropdown-${theme}`,
           )
           .percySnapshot(
             `countryfieldcomponent-countryfield--country-field-dropdown-${theme}`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
-            }
+            },
           );
       });
       it('should render input dropdown when no results', () => {
@@ -117,13 +117,13 @@ describe('lookup-storybook', () => {
 
         cy.get('app-country-field')
           .screenshot(
-            `countryfieldcomponent-countryfield--country-field-dropdown-empty-${theme}`
+            `countryfieldcomponent-countryfield--country-field-dropdown-empty-${theme}`,
           )
           .percySnapshot(
             `countryfieldcomponent-countryfield--country-field-dropdown-empty-${theme}`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
-            }
+            },
           );
       });
       it('should render input box with error', () => {
@@ -133,13 +133,13 @@ describe('lookup-storybook', () => {
 
         cy.get('app-country-field')
           .screenshot(
-            `countryfieldcomponent-countryfield--country-field-input-box-error-${theme}`
+            `countryfieldcomponent-countryfield--country-field-input-box-error-${theme}`,
           )
           .percySnapshot(
             `countryfieldcomponent-countryfield--country-field-input-box-error-${theme}`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
-            }
+            },
           );
       });
     });

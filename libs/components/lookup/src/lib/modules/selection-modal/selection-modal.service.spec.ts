@@ -116,7 +116,7 @@ describe('Selection modal service', () => {
           }),
         ]),
         size: 'large',
-      })
+      }),
     );
   });
 
@@ -137,7 +137,7 @@ describe('Selection modal service', () => {
             }),
           }),
         ]),
-      })
+      }),
     );
   });
 
@@ -158,7 +158,7 @@ describe('Selection modal service', () => {
             }),
           }),
         ]),
-      })
+      }),
     );
   });
 
@@ -191,7 +191,7 @@ describe('Selection modal service', () => {
     });
 
     expect(
-      mockModalInstance.componentInstance.addItem
+      mockModalInstance.componentInstance.addItem,
     ).toHaveBeenCalledOnceWith({
       name: 'test name',
     });
@@ -222,14 +222,14 @@ describe('Selection modal service', () => {
           itemData: selectedItem,
         },
       ],
-      'save'
+      'save',
     );
 
     const result = await closePromise;
 
     expect(result.reason).toBe('save');
     expect(result.selectedItems).toEqual(
-      jasmine.arrayWithExactContents([selectedItem])
+      jasmine.arrayWithExactContents([selectedItem]),
     );
   });
 
@@ -265,7 +265,7 @@ describe('Selection modal service', () => {
     });
 
     expect(
-      mockModalInstance.componentInstance.addItem
+      mockModalInstance.componentInstance.addItem,
     ).toHaveBeenCalledOnceWith(newItem);
   });
 });

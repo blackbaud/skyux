@@ -19,13 +19,13 @@ import { SkyToggleSwitchComponent } from './toggle-switch.component';
 
 describe('Toggle switch component', () => {
   function getButtonElement(
-    fixture: ComponentFixture<unknown>
+    fixture: ComponentFixture<unknown>,
   ): HTMLButtonElement | null {
     return fixture.nativeElement.querySelector('.sky-toggle-switch-button');
   }
 
   function getLabelElement(
-    fixture: ComponentFixture<unknown>
+    fixture: ComponentFixture<unknown>,
   ): HTMLLabelElement {
     return fixture.nativeElement.querySelector('label.sky-toggle-switch-label');
   }
@@ -52,7 +52,7 @@ describe('Toggle switch component', () => {
       tick();
 
       toggleDebugElement = fixture.debugElement.query(
-        By.directive(SkyToggleSwitchComponent)
+        By.directive(SkyToggleSwitchComponent),
       );
       toggleNativeElement = toggleDebugElement.nativeElement;
       toggleInstance = toggleDebugElement.componentInstance;
@@ -64,7 +64,7 @@ describe('Toggle switch component', () => {
     it('should add and remove the checked state', () => {
       expect(toggleInstance.checked).toEqual(false);
       expect(
-        buttonElement?.classList.contains('sky-toggle-switch-checked')
+        buttonElement?.classList.contains('sky-toggle-switch-checked'),
       ).toEqual(false);
 
       testComponent.isChecked = true;
@@ -72,7 +72,7 @@ describe('Toggle switch component', () => {
 
       expect(toggleInstance.checked).toEqual(true);
       expect(
-        buttonElement?.classList.contains('sky-toggle-switch-checked')
+        buttonElement?.classList.contains('sky-toggle-switch-checked'),
       ).toEqual(true);
 
       testComponent.isChecked = false;
@@ -80,7 +80,7 @@ describe('Toggle switch component', () => {
 
       expect(toggleInstance.checked).toEqual(false);
       expect(
-        buttonElement?.classList.contains('sky-toggle-switch-checked')
+        buttonElement?.classList.contains('sky-toggle-switch-checked'),
       ).toEqual(false);
     });
 
@@ -157,14 +157,14 @@ describe('Toggle switch component', () => {
       testComponent.showInlineHelp = true;
       fixture.detectChanges();
       expect(
-        toggleNativeElement.querySelector('.sky-help-inline')
+        toggleNativeElement.querySelector('.sky-help-inline'),
       ).toBeTruthy();
     });
 
     it('should pass accessibility with label element and no `ariaLabel`', async () => {
       fixture.detectChanges();
       expect(buttonElement?.getAttribute('aria-labelledby')).toEqual(
-        getLabelElement(fixture).id
+        getLabelElement(fixture).id,
       );
       expect(buttonElement?.getAttribute('aria-label')).toBeNull();
       await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -177,7 +177,7 @@ describe('Toggle switch component', () => {
       fixture.detectChanges();
       expect(buttonElement?.getAttribute('aria-labelledby')).toBeNull();
       expect(buttonElement?.getAttribute('aria-label')).toEqual(
-        'My aria label'
+        'My aria label',
       );
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
@@ -190,7 +190,7 @@ describe('Toggle switch component', () => {
       fixture.detectChanges();
       expect(buttonElement?.getAttribute('aria-labelledby')).toBeNull();
       expect(buttonElement?.getAttribute('aria-label')).toEqual(
-        'My button label with more content'
+        'My button label with more content',
       );
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
@@ -202,7 +202,7 @@ describe('Toggle switch component', () => {
       fixture.detectChanges();
       expect(buttonElement?.getAttribute('aria-labelledby')).toBeNull();
       expect(buttonElement?.getAttribute('aria-label')).toEqual(
-        'My aria label'
+        'My aria label',
       );
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
@@ -214,7 +214,7 @@ describe('Toggle switch component', () => {
       fixture.detectChanges();
       expect(buttonElement?.getAttribute('aria-labelledby')).toBeNull();
       expect(buttonElement?.getAttribute('aria-label')).toEqual(
-        'My aria label'
+        'My aria label',
       );
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
@@ -228,13 +228,13 @@ describe('Toggle switch component', () => {
 
     beforeEach(() => {
       fixture = TestBed.createComponent(
-        SkyToggleSwitchChangeEventFixtureComponent
+        SkyToggleSwitchChangeEventFixtureComponent,
       );
 
       fixture.detectChanges();
 
       toggleDebugElement = fixture.debugElement.query(
-        By.directive(SkyToggleSwitchComponent)
+        By.directive(SkyToggleSwitchComponent),
       );
       toggleInstance = toggleDebugElement.componentInstance;
       testComponent = fixture.debugElement.componentInstance;
@@ -278,7 +278,7 @@ describe('Toggle switch component', () => {
       const buttonElement = getButtonElement(fixture);
 
       expect(buttonElement?.getAttribute('aria-label')).toEqual(
-        'Super effective'
+        'Super effective',
       );
     });
   });
@@ -326,7 +326,7 @@ describe('Toggle switch component', () => {
 
     beforeEach(fakeAsync(() => {
       fixture = TestBed.createComponent(
-        SkyToggleSwitchFormDirectivesFixtureComponent
+        SkyToggleSwitchFormDirectivesFixtureComponent,
       );
       testComponent = fixture.debugElement.componentInstance;
       testComponent.modelValue = true;
@@ -335,7 +335,7 @@ describe('Toggle switch component', () => {
       tick();
 
       toggleElement = fixture.debugElement.query(
-        By.directive(SkyToggleSwitchComponent)
+        By.directive(SkyToggleSwitchComponent),
       );
 
       buttonElement = getButtonElement(fixture);
@@ -378,14 +378,14 @@ describe('Toggle switch component', () => {
 
     beforeEach(fakeAsync(() => {
       fixture = TestBed.createComponent(
-        SkyToggleSwitchFormDirectivesFixtureComponent
+        SkyToggleSwitchFormDirectivesFixtureComponent,
       );
 
       fixture.detectChanges();
       tick();
 
       toggleElement = fixture.debugElement.query(
-        By.directive(SkyToggleSwitchComponent)
+        By.directive(SkyToggleSwitchComponent),
       );
 
       testComponent = fixture.debugElement.componentInstance;
@@ -425,7 +425,7 @@ describe('Toggle switch component', () => {
       fixture.detectChanges();
 
       expect(
-        buttonElement?.classList.contains('sky-toggle-switch-checked')
+        buttonElement?.classList.contains('sky-toggle-switch-checked'),
       ).toEqual(false);
       expect(testComponent.modelValue).toEqual(false);
 
@@ -438,7 +438,7 @@ describe('Toggle switch component', () => {
       fixture.detectChanges();
 
       expect(
-        buttonElement?.classList.contains('sky-toggle-switch-checked')
+        buttonElement?.classList.contains('sky-toggle-switch-checked'),
       ).toEqual(true);
     }));
   });
@@ -450,7 +450,7 @@ describe('Toggle switch component', () => {
 
     beforeEach(fakeAsync(() => {
       fixture = TestBed.createComponent(
-        SkyToggleSwitchReactiveFormFixtureComponent
+        SkyToggleSwitchReactiveFormFixtureComponent,
       );
 
       fixture.detectChanges();
@@ -493,7 +493,7 @@ describe('Toggle switch component', () => {
       fixture.detectChanges();
 
       expect(
-        buttonElement?.classList.contains('sky-toggle-switch-checked')
+        buttonElement?.classList.contains('sky-toggle-switch-checked'),
       ).toEqual(false);
       expect(formControl.value).toEqual(false);
 
@@ -506,7 +506,7 @@ describe('Toggle switch component', () => {
       fixture.detectChanges();
 
       expect(
-        buttonElement?.classList.contains('sky-toggle-switch-checked')
+        buttonElement?.classList.contains('sky-toggle-switch-checked'),
       ).toEqual(true);
     }));
 
@@ -527,7 +527,7 @@ describe('Toggle switch component', () => {
 
       expect(buttonElement?.disabled).toEqual(true);
       expect(
-        buttonElement?.classList.contains('sky-toggle-switch-checked')
+        buttonElement?.classList.contains('sky-toggle-switch-checked'),
       ).toEqual(false);
 
       formControl.enable();
@@ -538,7 +538,7 @@ describe('Toggle switch component', () => {
 
       expect(buttonElement?.disabled).toEqual(false);
       expect(
-        buttonElement?.classList.contains('sky-toggle-switch-checked')
+        buttonElement?.classList.contains('sky-toggle-switch-checked'),
       ).toEqual(false);
     }));
   });
@@ -563,7 +563,7 @@ describe('Toggle switch component', () => {
       fixture.detectChanges();
 
       expect(
-        buttonElement?.classList.contains('sky-toggle-switch-checked')
+        buttonElement?.classList.contains('sky-toggle-switch-checked'),
       ).toEqual(false);
       expect(testComponent.isChecked).toEqual(false);
 
@@ -577,7 +577,7 @@ describe('Toggle switch component', () => {
       fixture.detectChanges();
 
       expect(
-        buttonElement?.classList.contains('sky-toggle-switch-checked')
+        buttonElement?.classList.contains('sky-toggle-switch-checked'),
       ).toEqual(true);
     }));
 

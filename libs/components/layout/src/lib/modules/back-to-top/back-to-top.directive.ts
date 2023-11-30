@@ -41,7 +41,7 @@ export class SkyBackToTopDirective implements AfterViewInit, OnDestroy {
    */
   @Input()
   public set skyBackToTopMessageStream(
-    value: Subject<SkyBackToTopMessage> | undefined
+    value: Subject<SkyBackToTopMessage> | undefined,
   ) {
     if (this.#_skyBackToTopMessageStream) {
       this.#_skyBackToTopMessageStream.unsubscribe();
@@ -50,7 +50,7 @@ export class SkyBackToTopDirective implements AfterViewInit, OnDestroy {
     this.#_skyBackToTopMessageStream
       ?.pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((message: SkyBackToTopMessage) =>
-        this.#handleIncomingMessages(message)
+        this.#handleIncomingMessages(message),
       );
   }
 
@@ -67,7 +67,7 @@ export class SkyBackToTopDirective implements AfterViewInit, OnDestroy {
   constructor(
     dockService: SkyDockService,
     domAdapter: SkyBackToTopDomAdapterService,
-    elementRef: ElementRef
+    elementRef: ElementRef,
   ) {
     this.#dockService = dockService;
     this.#domAdapter = domAdapter;
@@ -76,7 +76,7 @@ export class SkyBackToTopDirective implements AfterViewInit, OnDestroy {
 
   public ngAfterViewInit(): void {
     this.#elementInView = this.#domAdapter.isElementScrolledInView(
-      this.#elementRef
+      this.#elementRef,
     );
 
     this.#handleBackToTopButton(this.#elementInView);

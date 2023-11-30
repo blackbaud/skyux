@@ -30,7 +30,7 @@ describe('SkyCellEditorTextComponent', () => {
     });
 
     textEditorFixture = TestBed.createComponent(
-      SkyAgGridCellEditorTextComponent
+      SkyAgGridCellEditorTextComponent,
     );
     textEditorNativeElement = textEditorFixture.nativeElement;
     textEditorComponent = textEditorFixture.componentInstance;
@@ -45,7 +45,7 @@ describe('SkyCellEditorTextComponent', () => {
     gridFixture.detectChanges();
 
     const textCellElement = gridNativeElement.querySelector(
-      `.${SkyCellClass.Text}`
+      `.${SkyCellClass.Text}`,
     );
     const textCellEditorSelector = `.ag-cell-inline-editing.${SkyCellClass.Text}`;
     let inputElement = gridNativeElement.querySelector(textCellEditorSelector);
@@ -73,7 +73,7 @@ describe('SkyCellEditorTextComponent', () => {
         },
         null,
         'col',
-        true
+        true,
       );
 
       cellEditorParams = {
@@ -107,7 +107,7 @@ describe('SkyCellEditorTextComponent', () => {
         });
 
         expect(
-          textEditorComponent.editorForm.get('text')?.value
+          textEditorComponent.editorForm.get('text')?.value,
         ).toBeUndefined();
       });
 
@@ -120,7 +120,7 @@ describe('SkyCellEditorTextComponent', () => {
         });
 
         expect(
-          textEditorComponent.editorForm.get('text')?.value
+          textEditorComponent.editorForm.get('text')?.value,
         ).toBeUndefined();
       });
 
@@ -133,7 +133,7 @@ describe('SkyCellEditorTextComponent', () => {
         });
 
         expect(textEditorComponent.editorForm.get('text')?.value).toBe(
-          'testing'
+          'testing',
         );
       });
 
@@ -146,7 +146,7 @@ describe('SkyCellEditorTextComponent', () => {
         });
 
         expect(textEditorComponent.editorForm.get('text')?.value).toBe(
-          'testing'
+          'testing',
         );
       });
 
@@ -248,7 +248,7 @@ describe('SkyCellEditorTextComponent', () => {
           },
           null,
           'col',
-          true
+          true,
         );
 
         cellEditorParams = {
@@ -267,7 +267,7 @@ describe('SkyCellEditorTextComponent', () => {
         textEditorFixture.detectChanges();
 
         const input = textEditorNativeElement.querySelector(
-          'input'
+          'input',
         ) as HTMLInputElement;
         spyOn(input, 'focus');
 
@@ -285,7 +285,7 @@ describe('SkyCellEditorTextComponent', () => {
           });
           textEditorFixture.detectChanges();
           const input = textEditorNativeElement.querySelector(
-            'input'
+            'input',
           ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
@@ -302,7 +302,7 @@ describe('SkyCellEditorTextComponent', () => {
           });
           textEditorFixture.detectChanges();
           const input = textEditorNativeElement.querySelector(
-            'input'
+            'input',
           ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
@@ -319,7 +319,7 @@ describe('SkyCellEditorTextComponent', () => {
           });
           textEditorFixture.detectChanges();
           const input = textEditorNativeElement.querySelector(
-            'input'
+            'input',
           ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
@@ -336,7 +336,7 @@ describe('SkyCellEditorTextComponent', () => {
           });
           textEditorFixture.detectChanges();
           const input = textEditorNativeElement.querySelector(
-            'input'
+            'input',
           ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
@@ -353,7 +353,7 @@ describe('SkyCellEditorTextComponent', () => {
           });
           textEditorFixture.detectChanges();
           const input = textEditorNativeElement.querySelector(
-            'input'
+            'input',
           ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
@@ -376,7 +376,7 @@ describe('SkyCellEditorTextComponent', () => {
           });
           textEditorFixture.detectChanges();
           const input = textEditorNativeElement.querySelector(
-            'input'
+            'input',
           ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
@@ -393,7 +393,7 @@ describe('SkyCellEditorTextComponent', () => {
           });
           textEditorFixture.detectChanges();
           const input = textEditorNativeElement.querySelector(
-            'input'
+            'input',
           ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
@@ -410,7 +410,7 @@ describe('SkyCellEditorTextComponent', () => {
           });
           textEditorFixture.detectChanges();
           const input = textEditorNativeElement.querySelector(
-            'input'
+            'input',
           ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
@@ -427,7 +427,7 @@ describe('SkyCellEditorTextComponent', () => {
           });
           textEditorFixture.detectChanges();
           const input = textEditorNativeElement.querySelector(
-            'input'
+            'input',
           ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 
@@ -444,7 +444,7 @@ describe('SkyCellEditorTextComponent', () => {
           });
           textEditorFixture.detectChanges();
           const input = textEditorNativeElement.querySelector(
-            'input'
+            'input',
           ) as HTMLInputElement;
           const selectSpy = spyOn(input, 'select');
 

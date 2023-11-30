@@ -77,7 +77,7 @@ export class DataViewGridComponent implements OnInit {
     name: 'Grid View',
     icon: 'table',
     searchEnabled: true,
-    sortEnabled: true,
+    searchHighlightEnabled: true,
     multiselectToolbarEnabled: true,
     columnPickerEnabled: true,
     filterButtonEnabled: true,
@@ -103,7 +103,6 @@ export class DataViewGridComponent implements OnInit {
   public columnApi: ColumnApi;
   public filteredItems: any[];
   public gridApi: GridApi;
-  public gridInitialized: boolean;
   public gridOptions: GridOptions;
   public isActive: boolean;
 
@@ -113,7 +112,7 @@ export class DataViewGridComponent implements OnInit {
   constructor(
     private agGridService: SkyAgGridService,
     private changeDetector: ChangeDetectorRef,
-    private dataManagerService: SkyDataManagerService
+    private dataManagerService: SkyDataManagerService,
   ) {}
 
   public ngOnInit(): void {
@@ -133,7 +132,6 @@ export class DataViewGridComponent implements OnInit {
       .subscribe((state) => {
         this.dataState = state;
         this.currentPage = state.additionalData?.currentPage ?? 1;
-        this.setInitialColumnOrder();
         this.updateData();
         this.changeDetector.detectChanges();
       });
@@ -144,7 +142,6 @@ export class DataViewGridComponent implements OnInit {
   }
 
   public updateData(): void {
-    this.sortItems();
     this.filteredItems = this.#filterItems(this.searchItems(this.items));
 
     if (this.dataState.onlyShowSelected) {
@@ -152,51 +149,11 @@ export class DataViewGridComponent implements OnInit {
     }
   }
 
-  public setInitialColumnOrder(): void {
-    const viewState = this.dataState.getViewStateById(this.viewId);
-    const visibleColumns = viewState.displayedColumnIds;
-
-    this.columnDefs.sort((col1, col2) => {
-      const col1Index = visibleColumns.findIndex(
-        (colId: string) => colId === col1.colId
-      );
-      const col2Index = visibleColumns.findIndex(
-        (colId: string) => colId === col2.colId
-      );
-
-      if (col1Index === -1) {
-        col1.hide = true;
-        return 0;
-      } else if (col2Index === -1) {
-        col2.hide = true;
-        return 0;
-      } else {
-        return col1Index - col2Index;
-      }
-    });
-
-    this.gridInitialized = true;
-  }
-
   public onGridReady(event: GridReadyEvent): void {
     this.columnApi = event.columnApi;
     this.gridApi = event.api;
     this.gridApi.sizeColumnsToFit();
     this.updateData();
-  }
-
-  public sortItems(): void {
-    const sortOption = this.dataState.activeSortOption;
-    if (this.columnApi && sortOption) {
-      const allColumns = this.columnApi.getColumns();
-      allColumns.forEach((column) => {
-        if (column.getColId() === sortOption.propertyName) {
-          column.setSort(sortOption.descending ? 'desc' : 'asc');
-        } else {
-          column.setSort(undefined);
-        }
-      });
-    }
   }
 
   public searchItems(items: any[]): any[] {

@@ -6,7 +6,7 @@
     (contentChange)="onContentChange($event)"
   >
     <sky-paging-content>
-      <sky-ag-grid-wrapper *ngIf="isActive && gridInitialized">
+      <sky-ag-grid-wrapper *ngIf="isActive">
         <ag-grid-angular
           [gridOptions]="gridOptions"
           [rowData]="

@@ -16,7 +16,7 @@ import { EditComplexCellsComponent } from './edit-complex-cells.component';
 export class EditComplexCellsInModalModalComponent {
   constructor(
     public modal: SkyModalInstance,
-    private modalService: SkyModalService
+    private modalService: SkyModalService,
   ) {}
 
   public openGridModal(): void {

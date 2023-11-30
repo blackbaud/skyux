@@ -32,7 +32,7 @@ describe('Sort fixture', () => {
    * which is only available while the menu is open.
    */
   async function menuLookup(
-    lookupAction: (x: SkySortFixture) => any
+    lookupAction: (x: SkySortFixture) => any,
   ): Promise<any> {
     // we want to leave the menu in its original state, so track if it needs to be closed again
     const shouldCloseMenu = !sortFixture.menu.isOpen;
@@ -66,7 +66,7 @@ describe('Sort fixture', () => {
     testComponent = fixture.componentInstance;
     sortFixture = new SkySortFixture(
       fixture,
-      SortFixtureTestComponent.dataSkyId
+      SortFixtureTestComponent.dataSkyId,
     );
 
     fixture.detectChanges();
@@ -99,7 +99,7 @@ describe('Sort fixture', () => {
       menuItems?.forEach((item: SkySortFixtureMenuItem) => {
         // there should be an associated sort option
         const option = testComponent.sortOptions.find(
-          (x) => x.label === item.text
+          (x) => x.label === item.text,
         );
         expect(option).toExist();
 
@@ -190,7 +190,7 @@ describe('Sort fixture', () => {
         expect(sortItemsSpy).toHaveBeenCalledWith(
           jasmine.objectContaining({
             label: newSelection.text,
-          })
+          }),
         );
       });
 
@@ -208,7 +208,7 @@ describe('Sort fixture', () => {
         expect(sortItemsSpy).toHaveBeenCalledWith(
           jasmine.objectContaining({
             label: existingSelection.text,
-          })
+          }),
         );
       });
 
@@ -249,7 +249,7 @@ describe('Sort fixture', () => {
         expect(sortItemsSpy).toHaveBeenCalledWith(
           jasmine.objectContaining({
             label: newSelection.text,
-          })
+          }),
         );
       });
     });

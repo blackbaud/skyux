@@ -22,14 +22,14 @@ export class FilterButtonTestComponent {
   public useDefaultTheme(): void {
     this.skyThemeSettings = new SkyThemeSettings(
       SkyTheme.presets.default,
-      SkyThemeMode.presets.light
+      SkyThemeMode.presets.light,
     );
   }
 
   public useModernTheme(): void {
     this.skyThemeSettings = new SkyThemeSettings(
       SkyTheme.presets.modern,
-      SkyThemeMode.presets.light
+      SkyThemeMode.presets.light,
     );
   }
 

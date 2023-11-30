@@ -24,7 +24,7 @@ export class SkyCharacterCounterIndicatorHarness extends SkyComponentHarness {
    * `SkyCharacterCounterIndicatorHarness` that meets certain criteria.
    */
   public static with(
-    filters: SkyCharacterCounterIndicatorHarnessFilters
+    filters: SkyCharacterCounterIndicatorHarnessFilters,
   ): HarnessPredicate<SkyCharacterCounterIndicatorHarness> {
     return SkyCharacterCounterIndicatorHarness.getDataSkyIdPredicate(filters);
   }
@@ -69,7 +69,7 @@ export class SkyCharacterCounterIndicatorHarness extends SkyComponentHarness {
     }
 
     throw new Error(
-      'The character counter indicator does not contain text in the expected format.'
+      'The character counter indicator does not contain text in the expected format.',
     );
   }
 }

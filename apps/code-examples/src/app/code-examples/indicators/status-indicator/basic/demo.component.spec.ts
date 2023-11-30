@@ -35,27 +35,27 @@ describe('Status indicator basic demo', () => {
       expectedIndicatorType: SkyIndicatorIconType,
       expectedDescriptionType: SkyIndicatorDescriptionType,
       expectedText: string,
-      expectedCustomDescription?: string
+      expectedCustomDescription?: string,
     ): Promise<void> {
       const harness = await loader.getHarness(
         SkyStatusIndicatorHarness.with({
           dataSkyId: `status-indicator-${dataSkyIdSuffix}`,
-        })
+        }),
       );
 
       await expectAsync(harness.getDescriptionType()).toBeResolvedTo(
-        expectedDescriptionType
+        expectedDescriptionType,
       );
 
       await expectAsync(harness.getIndicatorType()).toBeResolvedTo(
-        expectedIndicatorType
+        expectedIndicatorType,
       );
 
       await expectAsync(harness.getText()).toBeResolvedTo(expectedText);
 
       if (expectedCustomDescription !== undefined) {
         await expectAsync(harness.getCustomDescription()).toBeResolvedTo(
-          expectedCustomDescription
+          expectedCustomDescription,
         );
       }
     }
@@ -66,14 +66,14 @@ describe('Status indicator basic demo', () => {
       'important-info',
       'info',
       'important-info',
-      'Info status indicator'
+      'Info status indicator',
     );
 
     await validate(
       'completed',
       'success',
       'completed',
-      'Success status indicator'
+      'Success status indicator',
     );
 
     await validate('warning', 'warning', 'warning', 'Warning status indicator');
@@ -83,14 +83,14 @@ describe('Status indicator basic demo', () => {
       'warning',
       'custom',
       'Warning status indicator with custom screen reader description',
-      'Custom warning'
+      'Custom warning',
     );
 
     await validate(
       'error-with-help',
       'danger',
       'error',
-      'Danger status indicator with help'
+      'Danger status indicator with help',
     );
   });
 });

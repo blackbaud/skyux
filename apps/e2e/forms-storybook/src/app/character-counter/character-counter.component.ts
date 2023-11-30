@@ -23,7 +23,7 @@ export class CharacterCounterComponent implements AfterViewInit, OnDestroy {
     const buildVariation = (
       id: string,
       reactiveValue: string,
-      templateValue: string
+      templateValue: string,
     ) => {
       const formGroup = this.#formBuilder.group({
         firstName: [reactiveValue],
@@ -40,7 +40,7 @@ export class CharacterCounterComponent implements AfterViewInit, OnDestroy {
     this.variations.push(buildVariation('empty', '', ''));
     this.variations.push(buildVariation('valid', 'reactive', 'template'));
     this.variations.push(
-      buildVariation('invalid', 'reactive form', 'template form')
+      buildVariation('invalid', 'reactive form', 'template form'),
     );
   }
 

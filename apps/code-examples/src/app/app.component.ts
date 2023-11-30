@@ -20,7 +20,7 @@ export class AppComponent {
     renderer: Renderer2,
     public router: Router,
     themeSvc: SkyThemeService,
-    viewportSvc: SkyAppViewportService
+    viewportSvc: SkyAppViewportService,
   ) {
     viewportSvc.reserveSpace({
       id: 'controls',
@@ -30,7 +30,7 @@ export class AppComponent {
 
     const themeSettings = new SkyThemeSettings(
       SkyTheme.presets['modern'],
-      SkyThemeMode.presets.light
+      SkyThemeMode.presets.light,
     );
 
     themeSvc.init(document.body, renderer, themeSettings);

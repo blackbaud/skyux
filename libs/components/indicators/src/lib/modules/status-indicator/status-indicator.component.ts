@@ -90,7 +90,7 @@ export class SkyStatusIndicatorComponent implements OnInit {
 
   #updateIcon(): void {
     const indicatorIcon = SkyIndicatorIconUtility.getIconsForType(
-      this.indicatorTypeOrDefault
+      this.indicatorTypeOrDefault,
     );
 
     this.icon = indicatorIcon.defaultThemeIcon;
@@ -111,7 +111,7 @@ export class SkyStatusIndicatorComponent implements OnInit {
           this.#resourcesSvc
             .getString(
               'skyux_status_indicator_sr_' +
-                this.descriptionType.replace(/-/g, '_')
+                this.descriptionType.replace(/-/g, '_'),
             )
             .subscribe((value) => {
               this.descriptionComputed = value;

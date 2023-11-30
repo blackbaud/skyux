@@ -7,7 +7,7 @@ describe('Screen reader label directive', () => {
   function validateExists(
     el: HTMLElement,
     selector: string,
-    exists = true
+    exists = true,
   ): void {
     if (exists) {
       expect(el.querySelector(selector)).toExist();
@@ -22,7 +22,7 @@ describe('Screen reader label directive', () => {
       label1Exists?: boolean;
       label2Exists?: boolean;
       containerExists?: boolean;
-    }
+    },
   ): void {
     const label1Id = '#test-screen-reader-label-1';
     const label2Id = '#test-screen-reader-label-2';

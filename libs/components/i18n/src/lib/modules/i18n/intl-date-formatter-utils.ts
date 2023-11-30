@@ -19,7 +19,7 @@ const PATTERN_ALIASES: { [format: string]: DateFormatterFn } = {
       digitCondition('hour', 1),
       digitCondition('minute', 1),
       digitCondition('second', 1),
-    ])
+    ]),
   ),
   yMdjm: datePartGetterFactory(
     combine([
@@ -28,7 +28,7 @@ const PATTERN_ALIASES: { [format: string]: DateFormatterFn } = {
       digitCondition('day', 1),
       digitCondition('hour', 1),
       digitCondition('minute', 1),
-    ])
+    ]),
   ),
   yMMMMEEEEd: datePartGetterFactory(
     combine([
@@ -36,38 +36,38 @@ const PATTERN_ALIASES: { [format: string]: DateFormatterFn } = {
       nameCondition('month', 4),
       nameCondition('weekday', 4),
       digitCondition('day', 1),
-    ])
+    ]),
   ),
   yMMMMd: datePartGetterFactory(
     combine([
       digitCondition('year', 1),
       nameCondition('month', 4),
       digitCondition('day', 1),
-    ])
+    ]),
   ),
   yMMMd: datePartGetterFactory(
     combine([
       digitCondition('year', 1),
       nameCondition('month', 3),
       digitCondition('day', 1),
-    ])
+    ]),
   ),
   yMd: datePartGetterFactory(
     combine([
       digitCondition('year', 1),
       digitCondition('month', 1),
       digitCondition('day', 1),
-    ])
+    ]),
   ),
   jms: datePartGetterFactory(
     combine([
       digitCondition('hour', 1),
       digitCondition('second', 1),
       digitCondition('minute', 1),
-    ])
+    ]),
   ),
   jm: datePartGetterFactory(
-    combine([digitCondition('hour', 1), digitCondition('minute', 1)])
+    combine([digitCondition('hour', 1), digitCondition('minute', 1)]),
   ),
 };
 /* spell-checker:enable */
@@ -87,19 +87,19 @@ const DATE_FORMATS: { [format: string]: DateFormatterFn } = {
   d: datePartGetterFactory(digitCondition('day', 1)),
   HH: digitModifier(
     hourExtractor(
-      datePartGetterFactory(hour12Modify(digitCondition('hour', 2), false))
-    )
+      datePartGetterFactory(hour12Modify(digitCondition('hour', 2), false)),
+    ),
   ),
   H: hourExtractor(
-    datePartGetterFactory(hour12Modify(digitCondition('hour', 1), false))
+    datePartGetterFactory(hour12Modify(digitCondition('hour', 1), false)),
   ),
   hh: digitModifier(
     hourExtractor(
-      datePartGetterFactory(hour12Modify(digitCondition('hour', 2), true))
-    )
+      datePartGetterFactory(hour12Modify(digitCondition('hour', 2), true)),
+    ),
   ),
   h: hourExtractor(
-    datePartGetterFactory(hour12Modify(digitCondition('hour', 1), true))
+    datePartGetterFactory(hour12Modify(digitCondition('hour', 1), true)),
   ),
   jj: datePartGetterFactory(digitCondition('hour', 2)),
   j: datePartGetterFactory(digitCondition('hour', 1)),
@@ -116,7 +116,7 @@ const DATE_FORMATS: { [format: string]: DateFormatterFn } = {
   EE: datePartGetterFactory(nameCondition('weekday', 2)),
   E: datePartGetterFactory(nameCondition('weekday', 1)),
   a: hourClockExtractor(
-    datePartGetterFactory(hour12Modify(digitCondition('hour', 1), true))
+    datePartGetterFactory(hour12Modify(digitCondition('hour', 1), true)),
   ),
   Z: timeZoneGetter('short'),
   z: timeZoneGetter('long'),
@@ -153,7 +153,7 @@ function hourExtractor(inner: DateFormatterFn): DateFormatterFn {
 function intlDateFormat(
   date: Date,
   locale: string,
-  options: Intl.DateTimeFormatOptions
+  options: Intl.DateTimeFormatOptions,
 ): string {
   return new Intl.DateTimeFormat(locale, options)
     .format(date)
@@ -182,7 +182,7 @@ function timeZoneGetter(timezone: 'long' | 'short'): DateFormatterFn {
 
 function hour12Modify(
   options: Intl.DateTimeFormatOptions,
-  value: boolean
+  value: boolean,
 ): Intl.DateTimeFormatOptions {
   options.hour12 = value;
   return options;
@@ -208,13 +208,13 @@ function nameCondition(prop: string, len: number): Intl.DateTimeFormatOptions {
 }
 
 function combine(
-  options: Intl.DateTimeFormatOptions[]
+  options: Intl.DateTimeFormatOptions[],
 ): Intl.DateTimeFormatOptions {
   return options.reduce((merged, opt) => ({ ...merged, ...opt }), {});
 }
 
 function datePartGetterFactory(
-  ret: Intl.DateTimeFormatOptions
+  ret: Intl.DateTimeFormatOptions,
 ): DateFormatterFn {
   return (date: Date, locale: string): string =>
     intlDateFormat(date, locale, ret);
@@ -229,7 +229,7 @@ function partToTime(part: string): string {
 export function dateFormatter(
   format: string,
   date: Date,
-  locale: string
+  locale: string,
 ): string {
   const fn = PATTERN_ALIASES[format];
 

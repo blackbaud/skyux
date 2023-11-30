@@ -102,7 +102,7 @@ export class SkyLookupAutocompleteAdapter {
    */
   @Input()
   public set searchFilters(
-    value: SkyAutocompleteSearchFunctionFilter[] | undefined
+    value: SkyAutocompleteSearchFunctionFilter[] | undefined,
   ) {
     this.#_searchFilters = value;
 

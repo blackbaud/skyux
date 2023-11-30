@@ -3,5 +3,5 @@ import { ValidationErrors } from '@angular/forms';
 import { SkyDateRange } from './date-range';
 
 export type SkyDateRangeCalculatorValidateFunction = (
-  value?: SkyDateRange
+  value?: SkyDateRange,
 ) => ValidationErrors | null;

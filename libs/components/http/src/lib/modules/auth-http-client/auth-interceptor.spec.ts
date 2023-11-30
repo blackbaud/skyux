@@ -28,14 +28,14 @@ describe('Auth interceptor', () => {
     leId?: string,
     getUrlResult?: string,
     useParamsProvider?: boolean,
-    excludeAppConfig?: boolean
+    excludeAppConfig?: boolean,
   ) {
     let paramsProvider: any;
 
     let appConfig: { runtime: any; skyux: {} } | undefined = createAppConfig(
       envId,
       leId,
-      getUrlResult
+      getUrlResult,
     );
 
     if (useParamsProvider) {
@@ -52,7 +52,7 @@ describe('Auth interceptor', () => {
       mockTokenProvider as any,
       appConfig,
       undefined,
-      paramsProvider
+      paramsProvider,
     );
   }
 
@@ -61,7 +61,7 @@ describe('Auth interceptor', () => {
     leId: string | undefined,
     permissionScope: string | undefined,
     expectedUrl: string,
-    done: DoneFn
+    done: DoneFn,
   ): void {
     mockRuntimeConfigParameters.get.and.callFake((name: any) => {
       switch (name) {
@@ -96,19 +96,19 @@ describe('Auth interceptor', () => {
     }
 
     expect(mockTokenProvider.getContextToken).toHaveBeenCalledWith(
-      jasmine.objectContaining(expectedTokenArgs)
+      jasmine.objectContaining(expectedTokenArgs),
     );
   }
 
   function validateHardcodedZoneUrl(
     interceptor: SkyAuthInterceptor,
-    done: DoneFn
+    done: DoneFn,
   ): void {
     const request = createRequest(true, '1bb://eng-hub00-pusa01/version');
 
     validateRequest(next, done, (authRequest) => {
       expect(authRequest.url).toBe(
-        'https://eng-pusa01.app.blackbaud.net/hub00/version'
+        'https://eng-pusa01.app.blackbaud.net/hub00/version',
       );
     });
 
@@ -129,7 +129,7 @@ describe('Auth interceptor', () => {
 
     mockRuntimeConfigParameters = jasmine.createSpyObj(
       'RuntimeConfigParameters',
-      ['get', 'getUrl']
+      ['get', 'getUrl'],
     );
 
     config = {
@@ -188,7 +188,7 @@ describe('Auth interceptor', () => {
       undefined,
       undefined,
       `${EXAMPLE_URL}?envid=abc`,
-      done
+      done,
     );
   });
 
@@ -198,7 +198,7 @@ describe('Auth interceptor', () => {
       'abc',
       undefined,
       `${EXAMPLE_URL}?leid=abc`,
-      done
+      done,
     );
   });
 
@@ -213,7 +213,7 @@ describe('Auth interceptor', () => {
       undefined,
       undefined,
       undefined,
-      true
+      true,
     );
 
     validateHardcodedZoneUrl(interceptor, done);
@@ -225,7 +225,7 @@ describe('Auth interceptor', () => {
       undefined,
       undefined,
       false,
-      true
+      true,
     );
 
     const request = createRequest(true, '1bb://eng-hub00/version');
@@ -244,7 +244,7 @@ describe('Auth interceptor', () => {
 
     validateRequest(next, done, (authRequest) => {
       expect(authRequest.url).toBe(
-        'https://eng-pcan01.app.blackbaud.net/hub00/version'
+        'https://eng-pcan01.app.blackbaud.net/hub00/version',
       );
     });
 
@@ -277,7 +277,7 @@ describe('Auth interceptor', () => {
     interceptor.intercept(request, next).subscribe();
 
     expect(mockTokenProvider.getContextToken).toHaveBeenCalledWith(
-      jasmine.objectContaining(expectedTokenArgs)
+      jasmine.objectContaining(expectedTokenArgs),
     );
   });
 
@@ -295,7 +295,7 @@ describe('Auth interceptor', () => {
     const expectedTokenArgs: SkyAuthTokenContextArgs = {};
 
     expect(mockTokenProvider.getContextToken).toHaveBeenCalledWith(
-      jasmine.objectContaining(expectedTokenArgs)
+      jasmine.objectContaining(expectedTokenArgs),
     );
   });
 
@@ -324,7 +324,7 @@ describe('Auth interceptor', () => {
     interceptor.intercept(request, next).subscribe();
 
     expect(mockTokenProvider.getContextToken).toHaveBeenCalledWith(
-      jasmine.objectContaining(expectedTokenArgs)
+      jasmine.objectContaining(expectedTokenArgs),
     );
   });
 });

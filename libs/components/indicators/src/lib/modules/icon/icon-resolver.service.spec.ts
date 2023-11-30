@@ -105,7 +105,7 @@ describe('Icon resolver service', () => {
     beforeEach(() => {
       themeSettings = new SkyThemeSettings(
         SkyTheme.presets.default,
-        SkyThemeMode.presets.light
+        SkyThemeMode.presets.light,
       );
     });
 
@@ -149,7 +149,7 @@ describe('Icon resolver service', () => {
     beforeEach(() => {
       themeSettings = new SkyThemeSettings(
         SkyTheme.presets.modern,
-        SkyThemeMode.presets.light
+        SkyThemeMode.presets.light,
       );
     });
 

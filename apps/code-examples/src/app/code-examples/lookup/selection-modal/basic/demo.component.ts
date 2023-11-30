@@ -34,8 +34,8 @@ export class DemoComponent {
               hasMore: results.hasMore,
               items: results.people,
               totalCount: results.totalCount,
-            })
-          )
+            }),
+          ),
         ),
       selectMode: 'single',
     });

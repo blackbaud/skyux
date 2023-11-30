@@ -20,11 +20,11 @@ describe('pr-comment generator', () => {
     await generator(appTree, options);
     expect(appTree.isFile('dist/pr_comment.md')).toBeTruthy();
     expect(appTree.read('dist/pr_comment.md', 'utf-8')).toMatchSnapshot(
-      'dist/pr_comment.md'
+      'dist/pr_comment.md',
     );
     expect(appTree.isFile('dist/README.md')).toBeTruthy();
     expect(appTree.read('dist/README.md', 'utf-8')).toMatchSnapshot(
-      'dist/README.md'
+      'dist/README.md',
     );
   });
 
@@ -35,11 +35,11 @@ describe('pr-comment generator', () => {
     });
     expect(appTree.isFile('dist/pr_comment.md')).toBeTruthy();
     expect(appTree.read('dist/pr_comment.md', 'utf-8')).toMatchSnapshot(
-      'dist/pr_comment.md'
+      'dist/pr_comment.md',
     );
     expect(appTree.isFile('dist/README.md')).toBeTruthy();
     expect(appTree.read('dist/README.md', 'utf-8')).toMatchSnapshot(
-      'dist/README.md'
+      'dist/README.md',
     );
   });
 
@@ -51,11 +51,11 @@ describe('pr-comment generator', () => {
     });
     expect(appTree.isFile('dist/pr_comment.md')).toBeTruthy();
     expect(appTree.read('dist/pr_comment.md', 'utf-8')).toMatchSnapshot(
-      'dist/pr_comment.md'
+      'dist/pr_comment.md',
     );
     expect(appTree.isFile('dist/README.md')).toBeTruthy();
     expect(appTree.read('dist/README.md', 'utf-8')).toMatchSnapshot(
-      'dist/README.md'
+      'dist/README.md',
     );
   });
 
@@ -64,7 +64,7 @@ describe('pr-comment generator', () => {
       generator(appTree, {
         ...options,
         pr: '',
-      })
+      }),
     ).rejects.toThrowErrorMatchingSnapshot();
   });
 });

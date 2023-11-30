@@ -40,7 +40,7 @@ export class SelectionModalFixtureService {
     searchText = searchText.toUpperCase();
 
     const matchingPeople = people.filter((person) =>
-      person.name.toUpperCase().includes(searchText)
+      person.name.toUpperCase().includes(searchText),
     );
 
     return of({
