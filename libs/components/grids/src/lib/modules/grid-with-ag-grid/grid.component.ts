@@ -380,6 +380,7 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
       totalRows: this.totalRows,
       viewId: this.viewId,
       visibleRows: this.visibleRows,
+      multiselectRowId: this.multiselectRowId,
     };
   }
 
@@ -709,7 +710,7 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
 
   #emitSelectedRows(source: SkyGridSelectedRowsSource): void {
     const selectedRows: SkyGridSelectedRowsModelChange = {
-      selectedRowIds: this.agGrid?.api.getSelectedRows().map((row) => row.id),
+      selectedRowIds: this.agGrid?.api.getSelectedNodes().map((row) => row.id),
       source: source,
     };
     this.multiselectSelectionChange.emit(selectedRows);

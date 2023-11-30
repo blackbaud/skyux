@@ -17,6 +17,7 @@ export type SkyGridOptions = {
   totalRows?: number;
   viewId: string;
   visibleRows?: number | 'fit' | 'all';
+  multiselectRowId?: string;
 };
 
 export const SkyGridDefaultOptions: SkyGridOptions = {

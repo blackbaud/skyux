@@ -165,8 +165,6 @@ export class SkyAgGridDataManagerAdapterDirective
             .getDataStateUpdates(this.#viewConfig.id)
             .pipe(takeUntil(this.#ngUnsubscribe))
             .subscribe((dataState: SkyDataManagerState) => {
-              console.log('new state');
-              console.log(dataState);
               this.#currentDataState = dataState;
               this.#displayColumns(dataState);
               this.#applySort(dataState);
@@ -212,10 +210,10 @@ export class SkyAgGridDataManagerAdapterDirective
           if (this.#viewConfig && this.#currentDataState) {
             const row = event.node;
             const selectedIds = this.#currentDataState.selectedIds || [];
-            const rowIndex = selectedIds.indexOf(row.data.id);
+            const rowIndex = selectedIds.indexOf(row.id || row.data.id);
 
             if (row.isSelected() && rowIndex === -1) {
-              selectedIds.push(row.data.id);
+              selectedIds.push(row.id || row.data.id);
             } else if (!row.isSelected() && rowIndex !== -1) {
               selectedIds.splice(rowIndex, 1);
             }

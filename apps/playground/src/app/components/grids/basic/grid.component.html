@@ -9,6 +9,7 @@
     [highlightText]="highlightText"
     [rowHighlightedId]="rowHighlightedId"
     [selectedColumnIds]="columnsForSimpleGrid"
+    [sortField]="sortFieldForSimpleGrid"
     (selectedColumnIdsChange)="onSelectedColumnIdsChange($event)"
     (columnWidthChange)="onColumnWidthChange($event)"
     (sortFieldChange)="sortChangedSimpleGrid($event)"
@@ -65,7 +66,6 @@
     [messageStream]="gridController"
     [multiselectRowId]="'myId'"
     [selectedRowIds]="selectedRowIds"
-    [sortField]="sortFieldForSimpleGrid"
     (sortFieldChange)="sortChangedMultiselectGrid($event)"
     (multiselectSelectionChange)="onMultiselectSelectionChange($event)"
   >

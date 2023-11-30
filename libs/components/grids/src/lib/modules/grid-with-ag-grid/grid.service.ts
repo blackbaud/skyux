@@ -8,7 +8,7 @@ import {
 } from '@skyux/ag-grid';
 import { SkyLogService } from '@skyux/core';
 
-import { ColDef, GridOptions } from 'ag-grid-community';
+import { ColDef, GetRowIdParams, GridOptions } from 'ag-grid-community';
 import { Observable, map, merge, of, switchMap, takeUntil } from 'rxjs';
 
 import { SkyGridColumnComponent } from './grid-column.component';
@@ -46,6 +46,7 @@ export class SkyGridService {
     columns: Iterable<SkyGridColumnModel>,
   ): GridOptions<TData> {
     options = Object.assign({}, SkyGridDefaultOptions, options);
+
     const gridOptions: GridOptions<TData> = this.#agGridService.getGridOptions({
       gridOptions: {
         columnDefs: this.#getAgGridColDefs(options as SkyGridOptions, columns),
@@ -59,6 +60,14 @@ export class SkyGridService {
         suppressRowClickSelection: false,
       } as GridOptions,
     });
+
+    if (options.multiselectRowId) {
+      console.log(options.multiselectRowId);
+      gridOptions.getRowId = (params: GetRowIdParams): string => {
+        return params.data[options.multiselectRowId];
+      };
+    }
+
     gridOptions.components = {
       ...gridOptions.components,
       SkyGridInlineHelpComponent: SkyGridInlineHelpComponent,
