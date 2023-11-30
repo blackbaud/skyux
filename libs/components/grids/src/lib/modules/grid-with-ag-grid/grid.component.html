@@ -17,7 +17,12 @@
       skyAgGridDataManagerAdapter
       [viewId]="viewId"
     >
-      <sky-ag-grid-wrapper>
+      <sky-ag-grid-wrapper
+        skyAgGridRowDelete
+        (rowDeleteCancel)="rowDeleteCancel.emit($event)"
+        (rowDeleteConfirm)="rowDeleteConfirm.emit($event)"
+        [(rowDeleteIds)]="rowDeleteIds"
+      >
         <ag-grid-angular
           [gridOptions]="gridOptions || undefined"
           [rowData]="data"

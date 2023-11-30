@@ -362,6 +362,7 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
   protected readonly gridOptions$ = new BehaviorSubject<GridOptions | false>(
     false,
   );
+  protected rowDeleteIds: string[] = [];
   protected viewId = `SkyGrid${nextId++}`;
 
   protected get settings(): SkyGridOptions {
@@ -679,6 +680,18 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
       case SkyGridMessageType.ClearAll:
         this.agGrid?.api.deselectAll();
         this.#emitSelectedRows(SkyGridSelectedRowsSource.ClearAll);
+        break;
+
+      case SkyGridMessageType.PromptDeleteRow:
+        this.rowDeleteIds = [
+          ...new Set([...this.rowDeleteIds, message.data.promptDeleteRow.id]),
+        ];
+        break;
+
+      case SkyGridMessageType.AbortDeleteRow:
+        this.rowDeleteIds = this.rowDeleteIds.filter(
+          (id) => id !== message.data.abortDeleteRow.id,
+        );
         break;
     }
   }
