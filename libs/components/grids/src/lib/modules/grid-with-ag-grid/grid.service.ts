@@ -116,7 +116,7 @@ export class SkyGridService {
         resizable: column.locked ? false : undefined,
         sortable: column.isSortable && options.sortEnabled,
         suppressMovable: column.locked,
-        type: columnTypeMapping[column.type],
+        type: columnTypeMapping[column.template ? 'template' : column.type],
         width: column.width,
         minWidth: column.width,
       } as ColDefWithField<TData>;

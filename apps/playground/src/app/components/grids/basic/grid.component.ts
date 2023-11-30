@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import {
   SkyGridColumnComponent,
@@ -19,6 +20,7 @@ import { Subject } from 'rxjs';
   templateUrl: './grid.component.html',
   styleUrls: ['./grid.component.scss'],
   imports: [
+    CommonModule,
     SkyGridComponent,
     SkyGridColumnComponent,
     SkyPopoverModule,
