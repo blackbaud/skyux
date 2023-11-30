@@ -318,6 +318,22 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
             this.columnWidthChange.emit(columnWidthChanges);
           }
         });
+
+      grid.sortChanged
+        .pipe(takeUntil(this.#ngUnsubscribe), takeUntil(this.#gridChanged))
+        .subscribe(() => {
+          const colStates = grid.columnApi.getColumnState();
+
+          for (const col of colStates) {
+            if (col.sort) {
+              this.sortFieldChange.emit({
+                descending: col.sort === 'desc',
+                fieldSelector: grid.api.getColumnDef(col.colId).field,
+              });
+              return;
+            }
+          }
+        });
     }
   }
 
