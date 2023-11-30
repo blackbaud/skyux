@@ -4,6 +4,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ContentChildren,
+  EventEmitter,
   Input,
   OnChanges,
   OnDestroy,
@@ -16,6 +17,9 @@ import { Observable, Subject, Subscription } from 'rxjs';
 
 import { SkyGridColumnModel, SkyGridColumnType } from './grid-column.model';
 import { SkyGridColumnAlignment } from './types/grid-column-alignment';
+import { SkyGridColumnDescriptionModelChange } from './types/grid-column-description-model-change';
+import { SkyGridColumnHeadingModelChange } from './types/grid-column-heading-model-change';
+import { SkyGridColumnInlineHelpPopoverModelChange } from './types/grid-column-inline-help-popover-model-change';
 
 /**
  * Specifies the column information.
@@ -135,6 +139,19 @@ export class SkyGridColumnComponent
 
   public readonly changes: Observable<void>;
 
+  public descriptionChanges: EventEmitter<string> = new EventEmitter<string>();
+
+  public descriptionModelChanges =
+    new EventEmitter<SkyGridColumnDescriptionModelChange>();
+
+  public headingChanges: EventEmitter<string> = new EventEmitter<string>();
+
+  public headingModelChanges =
+    new EventEmitter<SkyGridColumnHeadingModelChange>();
+
+  public inlineHelpPopoverModelChanges =
+    new EventEmitter<SkyGridColumnInlineHelpPopoverModelChange>();
+
   @ContentChildren(TemplateRef)
   private templates: QueryList<TemplateRef<unknown>>;
 
@@ -160,7 +177,36 @@ export class SkyGridColumnComponent
     );
   }
 
-  public ngOnChanges(_changes: SimpleChanges): void {
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes['heading'] && changes['heading'].firstChange === false) {
+      this.headingChanges.emit(this.heading);
+      this.headingModelChanges.emit({
+        value: this.heading,
+        id: this.id,
+        field: this.field,
+      });
+    }
+    if (
+      changes['description'] &&
+      changes['description'].firstChange === false
+    ) {
+      this.descriptionChanges.emit(this.description);
+      this.descriptionModelChanges.emit({
+        value: this.description,
+        id: this.id,
+        field: this.field,
+      });
+    }
+    if (
+      changes['inlineHelpPopover'] &&
+      changes['inlineHelpPopover'].firstChange === false
+    ) {
+      this.inlineHelpPopoverModelChanges.emit({
+        value: this.inlineHelpPopover,
+        id: this.id,
+        field: this.field,
+      });
+    }
     this.#changes.next();
   }
 

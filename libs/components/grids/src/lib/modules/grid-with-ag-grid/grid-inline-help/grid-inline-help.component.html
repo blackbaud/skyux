@@ -5,11 +5,17 @@
     *ngIf="
       params['inlineHelpPopover'] ||
       params['inlineHelpTemplate'] ||
-      params.description
+      params.description ||
+      (params['inlineHelpPopoverModelChanges']
+        | async) as inlineHelpPopoverModelChanges
     "
     class="sky-control-help"
     ariaLabel="Information about {{ headerInfo.displayName }}"
-    [skyPopover]="params['inlineHelpPopover'] || helpPopover"
+    [skyPopover]="
+      params['inlineHelpPopover'] ||
+      inlineHelpPopoverModelChanges.value ||
+      helpPopover
+    "
   />
   <ng-template #defaultInlineHelp>{{ params.description }}</ng-template>
   <sky-popover #helpPopover>

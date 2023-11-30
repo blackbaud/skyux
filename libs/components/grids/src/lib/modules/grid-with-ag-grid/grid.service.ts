@@ -50,7 +50,7 @@ export class SkyGridService {
       gridOptions: {
         columnDefs: this.#getAgGridColDefs(options as SkyGridOptions, columns),
         context: {
-          enableTopScroll: options.enableTopScroll,
+          enableTopScroll: options.showTopScroll,
         },
         domLayout: options.visibleRows === 'all' ? 'autoHeight' : 'normal',
         pagination: (options.totalRows || 0) > options.pageSize,
@@ -97,12 +97,7 @@ export class SkyGridService {
     columns: Iterable<SkyGridColumnModel>,
   ): ColDefWithField<TData>[] {
     const columnDefs = Array.from(columns).map((column, index) => {
-      let cellRenderer: string | undefined = undefined;
-      if (column.type === 'template') {
-        cellRenderer = 'EasyGridCellComponent';
-      }
       return {
-        cellRenderer,
         cellRendererParams: {
           template: column.template,
         },
@@ -112,6 +107,7 @@ export class SkyGridService {
           description: column.description,
           inlineHelpComponent: SkyGridInlineHelpComponent,
           inlineHelpPopover: column.inlineHelpPopover,
+          inlineHelpPopoverModelChanges: column.inlineHelpPopoverModelChanges,
         },
         headerName: column.heading,
         headerClass: this.#getHeaderClass(column.alignment),
@@ -124,7 +120,7 @@ export class SkyGridService {
         minWidth: column.width,
       } as ColDefWithField<TData>;
     });
-    if (options.multiselectToolbarEnabled) {
+    if (options.enableMultiselect) {
       columnDefs.unshift({
         type: columnTypeMapping.selector,
         colId: 'selector',

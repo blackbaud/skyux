@@ -199,6 +199,12 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
   public totalRows = 0;
 
   /**
+   * Number of rows to display in the grid. Overrides the height property.
+   */
+  @Input()
+  public visibleRows: number | undefined;
+
+  /**
    * The width of the grid in pixels.
    */
   @Input()
@@ -281,10 +287,11 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
     return {
       ...SkyGridDefaultOptions,
       enableMultiselect: this.enableMultiselect,
-      multiselectToolbarEnabled: this.enableMultiselect,
+      hasToolbar: this.enableMultiselect,
       settingsKey: this.settingsKey,
       totalRows: this.totalRows,
       viewId: this.viewId,
+      visibleRows: this.visibleRows,
     };
   }
 
@@ -293,14 +300,14 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
   readonly #dataManagerService = inject(SkyDataManagerService);
   #dataManagerViewState: SkyDataViewStateOptions | undefined;
   readonly #gridService = inject(SkyGridService);
-  #heightOfGrid = new BehaviorSubject<string>('400px');
-  #heightOfPaging = new BehaviorSubject<string>('0');
-  #heightOfToolbar = new BehaviorSubject<string>('101px');
-  #resizeObserverService = inject(SkyResizeObserverService);
+  readonly #heightOfGrid = new BehaviorSubject<string>('400px');
+  readonly #heightOfPaging = new BehaviorSubject<string>('0');
+  readonly #heightOfToolbar = new BehaviorSubject<string>('101px');
+  readonly #resizeObserverService = inject(SkyResizeObserverService);
   readonly #router = inject(Router, { optional: true });
   readonly #subscriptionForDataManager = new Subscription();
   #subscriptions = new Subscription();
-  #subscriptionForLayout = new Subscription();
+  readonly #subscriptionForLayout = new Subscription();
   #viewReady = false;
 
   constructor() {
@@ -476,12 +483,14 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
     }
 
     // Set the height of the AG Grid element.
-    if (this.height) {
+    if (!this.settings.visibleRows && this.height) {
       this.#heightOfGrid.next(`${this.height}px`);
-    } else if (this.totalRows > 0) {
+    } else if (this.settings.visibleRows || this.totalRows > 0) {
       this.#heightOfGrid.next(`calc(
             var(--ag-header-height)
-            + var(--ag-row-height) * ${this.settings.pageSize}
+            + var(--ag-row-height) * ${
+              this.settings.visibleRows || this.settings.pageSize
+            }
             + 2px
           )`);
     } else if (this.data?.length) {
@@ -555,7 +564,7 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
       name: 'Grid View',
       searchEnabled: this.settings.searchEnabled,
       sortEnabled: false,
-      multiselectToolbarEnabled: this.settings.multiselectToolbarEnabled,
+      multiselectToolbarEnabled: this.settings.hasToolbar,
       columnPickerEnabled: this.settings.columnPickerEnabled,
       filterButtonEnabled: this.settings.filterButtonEnabled,
       showFilterButtonText: true,

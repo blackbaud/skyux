@@ -1,6 +1,9 @@
 import { TemplateRef } from '@angular/core';
 
+import { Observable } from 'rxjs';
+
 import { SkyGridColumnAlignment } from './types/grid-column-alignment';
+import { SkyGridColumnInlineHelpPopoverModelChange } from './types/grid-column-inline-help-popover-model-change';
 
 export type SkyGridColumnType =
   | 'autocomplete'
@@ -61,6 +64,11 @@ export interface SkyGridColumnModel {
    * The template to display inside an inline help popup for this column.
    */
   inlineHelpPopover?: TemplateRef<unknown> | any;
+
+  /**
+   * The observable that emits when the inline help popover model changes.
+   */
+  inlineHelpPopoverModelChanges?: Observable<SkyGridColumnInlineHelpPopoverModelChange>;
 
   /**
    * Whether the column sorts the grid when users click the column header.

@@ -1,32 +1,35 @@
 export type SkyGridOptions = {
   columnPickerEnabled: boolean;
   enableMultiselect: boolean;
-  enableTopScroll: boolean;
   filterButtonEnabled: boolean;
   listDescriptor?: string;
-  multiselectToolbarEnabled: boolean;
+  hasToolbar: boolean;
+  maxColWidth: number;
+  minColWidth: number;
   name: string;
   pageQueryParam?: string;
   pageSize: number;
   searchEnabled: boolean;
   selectedColumnIds?: string[];
   settingsKey?: string;
+  showTopScroll: boolean;
   sortEnabled: boolean;
   totalRows?: number;
   viewId: string;
-  visibleRows: number | 'fit' | 'all';
+  visibleRows?: number | 'fit' | 'all';
 };
 
 export const SkyGridDefaultOptions: SkyGridOptions = {
   columnPickerEnabled: false,
   enableMultiselect: false,
-  enableTopScroll: false,
+  showTopScroll: false,
   filterButtonEnabled: false,
-  multiselectToolbarEnabled: false,
+  hasToolbar: false,
+  maxColWidth: 9999,
+  minColWidth: 50,
   name: 'Grid',
   pageSize: 10,
   searchEnabled: true,
   sortEnabled: true,
   viewId: `SKY_GRID_VIEW_${Date.now()}`,
-  visibleRows: 'all',
 };
