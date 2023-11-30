@@ -32,7 +32,12 @@ import { ListSortFieldSelectorModel } from '@skyux/list-builder-common';
 import { SkyPagingModule } from '@skyux/lists';
 
 import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
-import { GridOptions, SelectionChangedEvent } from 'ag-grid-community';
+import {
+  Column,
+  ColumnResizedEvent,
+  GridOptions,
+  SelectionChangedEvent,
+} from 'ag-grid-community';
 import {
   BehaviorSubject,
   Observable,
@@ -282,7 +287,7 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
 
     if (grid) {
       grid.selectionChanged
-        ?.pipe(takeUntil(this.#ngUnsubscribe), takeUntil(this.#gridChanged))
+        .pipe(takeUntil(this.#ngUnsubscribe), takeUntil(this.#gridChanged))
         .subscribe((event: SelectionChangedEvent) => {
           if (event.source === 'api') {
             this.#emitSelectedRows(SkyGridSelectedRowsSource.CheckboxChange);
@@ -290,11 +295,28 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
         });
 
       grid.columnVisible
-        ?.pipe(takeUntil(this.#ngUnsubscribe), takeUntil(this.#gridChanged))
+        .pipe(takeUntil(this.#ngUnsubscribe), takeUntil(this.#gridChanged))
         .subscribe(() => {
           this.selectedColumnIdsChange.emit(
             grid.columnApi.getAllDisplayedColumns().map((col) => col.getId()),
           );
+        });
+
+      grid.columnResized
+        .pipe(takeUntil(this.#ngUnsubscribe), takeUntil(this.#gridChanged))
+        .subscribe((event: ColumnResizedEvent) => {
+          if (event.finished) {
+            const columnWidthChanges: SkyGridColumnWidthModelChange[] = [];
+
+            grid.columnApi.getAllGridColumns().forEach((col: Column) => {
+              columnWidthChanges.push({
+                id: col.getId(),
+                field: col.getColDef().field,
+                width: col.getActualWidth(),
+              });
+            });
+            this.columnWidthChange.emit(columnWidthChanges);
+          }
         });
     }
   }
