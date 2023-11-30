@@ -84,7 +84,7 @@ export class SkyGridColumnComponent
    * The template to display inside an inline help popup for this column.
    */
   @Input()
-  public inlineHelpPopover: TemplateRef<unknown> | undefined;
+  public inlineHelpPopover: TemplateRef<unknown> | any | undefined;
 
   /**
    * Whether the column sorts the grid when users click the column header.
@@ -146,10 +146,15 @@ export class SkyGridColumnComponent
   }
 
   public ngAfterViewInit(): void {
+    if (this.templates.first) {
+      this.template = this.templates.first;
+      this.#changes.next();
+    }
     this.#subscription.add(
       this.templates.changes.subscribe(() => {
         if (this.templates.first) {
           this.template = this.templates.first;
+          this.#changes.next();
         }
       }),
     );

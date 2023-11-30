@@ -1,5 +1,6 @@
 export type SkyGridOptions = {
   columnPickerEnabled: boolean;
+  enableMultiselect: boolean;
   enableTopScroll: boolean;
   filterButtonEnabled: boolean;
   listDescriptor?: string;
@@ -18,6 +19,7 @@ export type SkyGridOptions = {
 
 export const SkyGridDefaultOptions: SkyGridOptions = {
   columnPickerEnabled: false,
+  enableMultiselect: false,
   enableTopScroll: false,
   filterButtonEnabled: false,
   multiselectToolbarEnabled: false,

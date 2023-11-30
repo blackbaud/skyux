@@ -96,12 +96,11 @@ export class SkyGridService {
     options: SkyGridOptions,
     columns: Iterable<SkyGridColumnModel>,
   ): ColDefWithField<TData>[] {
-    return Array.from(columns).map((column, index) => {
+    const columnDefs = Array.from(columns).map((column, index) => {
       let cellRenderer: string | undefined = undefined;
       if (column.type === 'template') {
         cellRenderer = 'EasyGridCellComponent';
       }
-      const hasInlineHelp = !!(column.description || column.inlineHelpPopover);
       return {
         cellRenderer,
         cellRendererParams: {
@@ -111,9 +110,7 @@ export class SkyGridService {
         field: column.field || `column${`${index + 1}`.padStart(3, '0')}`,
         headerComponentParams: {
           description: column.description,
-          inlineHelpComponent: hasInlineHelp
-            ? SkyGridInlineHelpComponent
-            : undefined,
+          inlineHelpComponent: SkyGridInlineHelpComponent,
           inlineHelpPopover: column.inlineHelpPopover,
         },
         headerName: column.heading,
@@ -124,8 +121,17 @@ export class SkyGridService {
         suppressMovable: column.locked,
         type: columnTypeMapping[column.type],
         width: column.width,
+        minWidth: column.width,
       } as ColDefWithField<TData>;
     });
+    if (options.multiselectToolbarEnabled) {
+      columnDefs.unshift({
+        type: columnTypeMapping.selector,
+        colId: 'selector',
+        field: 'selector',
+      });
+    }
+    return columnDefs;
   }
 
   #getHeaderClass(alignment: SkyGridColumnAlignment): string[] {

@@ -60,7 +60,7 @@ export interface SkyGridColumnModel {
   /**
    * The template to display inside an inline help popup for this column.
    */
-  inlineHelpPopover?: any;
+  inlineHelpPopover?: TemplateRef<unknown> | any;
 
   /**
    * Whether the column sorts the grid when users click the column header.

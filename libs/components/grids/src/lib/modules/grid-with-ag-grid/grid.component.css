@@ -1,14 +1,17 @@
 :host {
   display: block;
-  width: 100%;
-  --eg-grid-height: 400px;
-  --eg-paging-height: 0;
-  --eg-toolbar-height: 101px;
-  --eg-easy-grid-visible-rows: 6;
+  min-height: 200px;
+  min-width: 200px;
 }
 
 :host.eg-visible-rows-fit {
   height: 100%;
+}
+
+.grid-container {
+  --sky-grid-height: 400px;
+  --sky-grid-paging-height: 0;
+  --sky-grid-toolbar-height: 101px;
 }
 
 sky-data-manager {
@@ -32,9 +35,9 @@ sky-data-manager-toolbar {
 }
 
 ag-grid-angular {
-  height: var(--eg-grid-height);
+  height: var(--sky-grid-height);
   min-height: 250px;
-  max-height: calc(100vh - var(--eg-toolbar-height) - var(--eg-paging-height));
+  max-height: calc(100vh - var(--sky-grid-toolbar-height) - var(--sky-grid-paging-height));
   overflow: hidden;
 }
 

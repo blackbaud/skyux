@@ -6,6 +6,7 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChildren,
+  ElementRef,
   EventEmitter,
   Input,
   OnChanges,
@@ -14,10 +15,12 @@ import {
   QueryList,
   SimpleChanges,
   ViewChild,
+  ViewChildren,
   inject,
 } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { SkyAgGridModule } from '@skyux/ag-grid';
+import { SkyResizeObserverService } from '@skyux/core';
 import {
   SkyDataManagerModule,
   SkyDataManagerService,
@@ -30,10 +33,9 @@ import { SkyPagingModule } from '@skyux/lists';
 
 import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
 import { GridOptions } from 'ag-grid-community';
-import { DragulaService } from 'ng2-dragula';
 import {
   BehaviorSubject,
-  ReplaySubject,
+  Observable,
   Subject,
   Subscription,
   filter,
@@ -71,14 +73,13 @@ let nextId = 0;
   providers: [SkyDataManagerService],
   templateUrl: './grid.component.html',
   styleUrls: ['./grid.component.css'],
-  viewProviders: [DragulaService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyGridComponent<TData extends Record<string, unknown>>
   implements AfterViewInit, OnChanges, OnDestroy
 {
   /**
-   * Columns and column properties for the grid.
+   * Columns and column properties for the grid. Provide either this input or use `sky-grid-column` child components.
    */
   @Input()
   public columns: SkyGridColumnModel[] | undefined;
@@ -120,7 +121,7 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
    * The height of the grid.
    */
   @Input()
-  public height: number;
+  public height: number | undefined;
 
   /**
    * Text to highlight within the grid.
@@ -142,6 +143,9 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
   @Input()
   public multiselectRowId: string;
 
+  /**
+   * When using paged data, what is the current page number.
+   */
   @Input({ transform: (value: unknown) => coerceNumberProperty(value) })
   public page = 1;
 
@@ -188,6 +192,9 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
   @Input()
   public sortField: ListSortFieldSelectorModel;
 
+  /**
+   * When using paged data, what is the total number of rows.
+   */
   @Input()
   public totalRows = 0;
 
@@ -195,7 +202,7 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
    * The width of the grid in pixels.
    */
   @Input()
-  public width: number;
+  public width: number | undefined;
 
   /**
    * Fires when the width of a column changes.
@@ -247,7 +254,23 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
   @ViewChild(AgGridAngular)
   protected agGrid: AgGridAngular | undefined;
 
-  protected readonly agGridStyle$ = new ReplaySubject<string>(1);
+  protected get hostWidth(): string | undefined {
+    if (this.width) {
+      return `${this.width}px`;
+    } else {
+      return '100%';
+    }
+  }
+
+  protected heightOfGrid: Observable<string>;
+  protected heightOfPaging: Observable<string>;
+  protected heightOfToolbar: Observable<string>;
+
+  @ViewChildren('paging', { read: ElementRef, emitDistinctChangesOnly: true })
+  protected pagingElementRef!: QueryList<ElementRef>;
+
+  @ViewChildren('toolbar', { read: ElementRef, emitDistinctChangesOnly: true })
+  protected toolbarElementRef!: QueryList<ElementRef>;
 
   protected readonly gridOptions$ = new BehaviorSubject<GridOptions | false>(
     false,
@@ -257,6 +280,7 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
   protected get settings(): SkyGridOptions {
     return {
       ...SkyGridDefaultOptions,
+      enableMultiselect: this.enableMultiselect,
       multiselectToolbarEnabled: this.enableMultiselect,
       settingsKey: this.settingsKey,
       totalRows: this.totalRows,
@@ -269,11 +293,21 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
   readonly #dataManagerService = inject(SkyDataManagerService);
   #dataManagerViewState: SkyDataViewStateOptions | undefined;
   readonly #gridService = inject(SkyGridService);
+  #heightOfGrid = new BehaviorSubject<string>('400px');
+  #heightOfPaging = new BehaviorSubject<string>('0');
+  #heightOfToolbar = new BehaviorSubject<string>('101px');
+  #resizeObserverService = inject(SkyResizeObserverService);
   readonly #router = inject(Router, { optional: true });
   readonly #subscriptionForDataManager = new Subscription();
   #subscriptions = new Subscription();
   #subscriptionForLayout = new Subscription();
   #viewReady = false;
+
+  constructor() {
+    this.heightOfGrid = this.#heightOfGrid.asObservable();
+    this.heightOfPaging = this.#heightOfPaging.asObservable();
+    this.heightOfToolbar = this.#heightOfToolbar.asObservable();
+  }
 
   public ngAfterViewInit(): void {
     this.#viewReady = true;
@@ -368,10 +402,13 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
 
   protected pageChange(page: number): void {
     if (this.settings.pageQueryParam) {
+      // When using a query parameter, send the change through the router.
       this.#router
         ?.navigate(['.'], {
           relativeTo: this.#activatedRoute,
-          queryParams: { page: coerceNumberProperty(page) },
+          queryParams: {
+            [this.settings.pageQueryParam]: coerceNumberProperty(page),
+          },
           queryParamsHandling: 'merge',
         })
         .then();
@@ -416,6 +453,8 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
 
     this.#subscriptions.unsubscribe();
     this.#subscriptions = new Subscription();
+
+    // Changes to the page number in the URL.
     if (this.settings.pageQueryParam && this.#activatedRoute && this.#router) {
       const pageQueryParam = this.settings.pageQueryParam;
 
@@ -434,6 +473,49 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
             this.#goToPage(`${page}`);
           }),
       );
+    }
+
+    // Set the height of the AG Grid element.
+    if (this.height) {
+      this.#heightOfGrid.next(`${this.height}px`);
+    } else if (this.totalRows > 0) {
+      this.#heightOfGrid.next(`calc(
+            var(--ag-header-height)
+            + var(--ag-row-height) * ${this.settings.pageSize}
+            + 2px
+          )`);
+    } else if (this.data?.length) {
+      this.#heightOfGrid.next(`calc(
+            var(--ag-header-height)
+            + var(--ag-row-height) * ${this.data?.length}
+            + 2px
+          )`);
+    } else {
+      this.#heightOfGrid.next(`400px`);
+    }
+
+    // Track the heights of the paging and toolbar elements.
+    if (this.pagingElementRef.length > 0) {
+      this.#subscriptionForLayout.add(
+        this.#resizeObserverService
+          .observe(this.pagingElementRef.get(0) as ElementRef<HTMLElement>)
+          .subscribe((entry) => {
+            this.#heightOfPaging.next(`${entry.contentRect.height}px`);
+          }),
+      );
+    } else {
+      this.#heightOfPaging.next(`0`);
+    }
+    if (this.toolbarElementRef.length > 0) {
+      this.#subscriptionForLayout.add(
+        this.#resizeObserverService
+          .observe(this.toolbarElementRef.get(0) as ElementRef<HTMLElement>)
+          .subscribe((entry) => {
+            this.#heightOfToolbar.next(`${entry.contentRect.height}px`);
+          }),
+      );
+    } else {
+      this.#heightOfToolbar.next(`0`);
     }
   }
 
