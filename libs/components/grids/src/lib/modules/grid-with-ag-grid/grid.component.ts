@@ -32,7 +32,7 @@ import { ListSortFieldSelectorModel } from '@skyux/list-builder-common';
 import { SkyPagingModule } from '@skyux/lists';
 
 import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
-import { GridOptions } from 'ag-grid-community';
+import { GridOptions, SelectionChangedEvent } from 'ag-grid-community';
 import {
   BehaviorSubject,
   Observable,
@@ -40,6 +40,7 @@ import {
   Subscription,
   filter,
   map,
+  takeUntil,
 } from 'rxjs';
 
 import { SkyGridColumnComponent } from './grid-column.component';
@@ -48,6 +49,7 @@ import { SkyGridInlineHelpComponent } from './grid-inline-help/grid-inline-help.
 import { ColDefWithField, SkyGridService } from './grid.service';
 import { SkyGridColumnWidthModelChange } from './types/grid-column-width-model-change';
 import { SkyGridMessage } from './types/grid-message';
+import { SkyGridMessageType } from './types/grid-message-type';
 import {
   SkyGridDefaultOptions,
   SkyGridOptions,
@@ -55,6 +57,7 @@ import {
 import { SkyGridRowDeleteCancelArgs } from './types/grid-row-delete-cancel-args';
 import { SkyGridRowDeleteConfirmArgs } from './types/grid-row-delete-confirm-args';
 import { SkyGridSelectedRowsModelChange } from './types/grid-selected-rows-model-change';
+import { SkyGridSelectedRowsSource } from './types/grid-selected-rows-source';
 
 let nextId = 0;
 
@@ -134,7 +137,16 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
    * The observable to send commands to the grid.
    */
   @Input()
-  public messageStream = new Subject<SkyGridMessage>();
+  public set messageStream(value: Subject<SkyGridMessage> | undefined) {
+    this.#_messageStream?.unsubscribe();
+    this.#_messageStream = value;
+
+    this.#_messageStream
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((message: SkyGridMessage) => {
+        this.#handleIncomingMessages(message);
+      });
+  }
 
   /**
    * The unique ID that matches a property on the `data` object.
@@ -170,7 +182,10 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
    * Rows with IDs that are not included are de-selected in the grid.
    */
   @Input()
-  public selectedRowIds: string[] | undefined;
+  public set selectedRowIds(value: string[] | undefined) {
+    this.agGrid?.api.deselectAll();
+    value?.forEach((id) => this.agGrid?.api.getRowNode(id).setSelected(true));
+  }
 
   /**
    * The unique key for the UI Config Service to retrieve stored settings from a database.
@@ -258,7 +273,21 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
   protected columnComponents: QueryList<SkyGridColumnComponent> | undefined;
 
   @ViewChild(AgGridAngular)
-  protected agGrid: AgGridAngular | undefined;
+  protected set agGrid(grid: AgGridAngular | undefined) {
+    this.#_agGrid = grid;
+
+    grid?.selectionChanged
+      ?.pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((event: SelectionChangedEvent) => {
+        if (event.source === 'api') {
+          this.#emitSelectedRows(SkyGridSelectedRowsSource.CheckboxChange);
+        }
+      });
+  }
+
+  protected get agGrid(): AgGridAngular | undefined {
+    return this.#_agGrid;
+  }
 
   protected get hostWidth(): string | undefined {
     if (this.width) {
@@ -287,7 +316,6 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
     return {
       ...SkyGridDefaultOptions,
       enableMultiselect: this.enableMultiselect,
-      hasToolbar: this.enableMultiselect,
       settingsKey: this.settingsKey,
       totalRows: this.totalRows,
       viewId: this.viewId,
@@ -308,7 +336,10 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
   readonly #subscriptionForDataManager = new Subscription();
   #subscriptions = new Subscription();
   readonly #subscriptionForLayout = new Subscription();
+  #ngUnsubscribe = new Subject<void>();
   #viewReady = false;
+  #_agGrid: AgGridAngular | undefined;
+  #_messageStream: Subject<SkyGridMessage> | undefined;
 
   constructor() {
     this.heightOfGrid = this.#heightOfGrid.asObservable();
@@ -323,18 +354,19 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
         .getDataStateUpdates(this.viewId)
         .subscribe((value) => {
           this.agGrid?.api.setQuickFilter(value.searchText || '');
-          if (value.selectedIds) {
-            this.agGrid.api.setServerSideSelectionState({
-              selectAll: false,
-              toggledNodes: value.selectedIds,
-            });
-          }
+          // if (value.selectedIds) {
+          //   this.agGrid.api.setServerSideSelectionState({
+          //     selectAll: false,
+          //     toggledNodes: value.selectedIds,
+          //   });
+          // }
           if (value.onlyShowSelected) {
             const selected = this.agGrid.api.getSelectedRows();
             this.agGrid.api.setRowData(selected);
           }
         }),
     );
+
     if (this.columns) {
       this.#updateGridView();
     } else {
@@ -405,6 +437,8 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
   public ngOnDestroy(): void {
     this.#subscriptionForDataManager.unsubscribe();
     this.#subscriptionForLayout.unsubscribe();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   protected pageChange(page: number): void {
@@ -577,5 +611,28 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
         };
       }),
     };
+  }
+
+  #handleIncomingMessages(message: SkyGridMessage): void {
+    switch (message.type) {
+      case SkyGridMessageType.SelectAll:
+        this.agGrid?.api.selectAll();
+        this.#emitSelectedRows(SkyGridSelectedRowsSource.SelectAll);
+        break;
+
+      case SkyGridMessageType.ClearAll:
+        this.agGrid?.api.deselectAll();
+        this.#emitSelectedRows(SkyGridSelectedRowsSource.ClearAll);
+        break;
+    }
+    this.#changeDetectorRef.markForCheck();
+  }
+
+  #emitSelectedRows(source: SkyGridSelectedRowsSource): void {
+    const selectedRows: SkyGridSelectedRowsModelChange = {
+      selectedRowIds: this.agGrid?.api.getSelectedRows().map((row) => row.id),
+      source: source,
+    };
+    this.multiselectSelectionChange.emit(selectedRows);
   }
 }

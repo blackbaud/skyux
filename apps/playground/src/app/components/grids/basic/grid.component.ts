@@ -113,7 +113,6 @@ export default class GridComponent {
     value: SkyGridSelectedRowsModelChange,
   ): void {
     this.selectedRowIdsDisplay = value.selectedRowIds;
-    console.log(value);
   }
 
   public selectAll(): void {
