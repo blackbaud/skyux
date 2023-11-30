@@ -60,7 +60,7 @@ export class SkyGridService {
         pagination: (options.totalRows || 0) > options.pageSize,
         suppressPaginationPanel: true,
         paginationPageSize: options.pageSize,
-        suppressRowClickSelection: false,
+        suppressRowClickSelection: !options.enableMultiselect,
       } as GridOptions,
     });
 
