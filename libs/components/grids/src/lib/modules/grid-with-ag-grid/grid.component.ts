@@ -24,6 +24,7 @@ import { SkyResizeObserverService } from '@skyux/core';
 import {
   SkyDataManagerModule,
   SkyDataManagerService,
+  SkyDataManagerSortOption,
   SkyDataManagerState,
   SkyDataViewConfig,
   SkyDataViewStateOptions,
@@ -216,7 +217,26 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
    * This property accepts `boolean` values. Default is `false`.
    */
   @Input()
-  public sortField: ListSortFieldSelectorModel;
+  public set sortField(value: ListSortFieldSelectorModel | undefined) {
+    let activeSort: SkyDataManagerSortOption;
+
+    if (value) {
+      activeSort = {
+        descending: value.descending,
+        id: value.fieldSelector,
+        propertyName: value.fieldSelector,
+        label: '',
+      };
+    }
+
+    this.#activeSort = activeSort;
+
+    const newDataState = new SkyDataManagerState({
+      ...this.#currentDataState,
+      activeSortOption: activeSort,
+    });
+    this.#dataManagerService.updateDataState(newDataState, this.viewId);
+  }
 
   /**
    * When using paged data, what is the total number of rows.
@@ -399,6 +419,8 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
   #ngUnsubscribe = new Subject<void>();
   #gridChanged = new Subject<void>();
   #viewReady = false;
+  #currentDataState: SkyDataManagerState | undefined;
+  #activeSort: SkyDataManagerSortOption | undefined;
   #_agGrid: AgGridAngular | undefined;
   #_messageStream: Subject<SkyGridMessage> | undefined;
 
@@ -413,18 +435,9 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
     this.#subscriptionForDataManager.add(
       this.#dataManagerService
         .getDataStateUpdates(this.viewId)
-        .subscribe((value) => {
-          this.agGrid?.api.setQuickFilter(value.searchText || '');
-          // if (value.selectedIds) {
-          //   this.agGrid.api.setServerSideSelectionState({
-          //     selectAll: false,
-          //     toggledNodes: value.selectedIds,
-          //   });
-          // }
-          if (value.onlyShowSelected) {
-            const selected = this.agGrid.api.getSelectedRows();
-            this.agGrid?.api.setRowData(selected);
-          }
+        .subscribe((state) => {
+          this.agGrid?.api.setQuickFilter(state.searchText || '');
+          this.#currentDataState = state;
         }),
     );
 
@@ -528,6 +541,7 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
       this.#dataManagerService.updateDataState(
         new SkyDataManagerState({
           views: [this.#dataManagerViewState],
+          activeSortOption: this.#activeSort,
         }),
         this.viewId,
       );
@@ -540,6 +554,7 @@ export class SkyGridComponent<TData extends Record<string, unknown>>
         },
         defaultDataState: new SkyDataManagerState({
           views: [this.#dataManagerViewState],
+          activeSortOption: this.#activeSort,
         }),
         settingsKey: this.settings.settingsKey,
       });
