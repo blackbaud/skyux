@@ -8,15 +8,20 @@ import {
   TemplateRef,
   inject,
 } from '@angular/core';
-import { SkyIdService, SkyViewkeeperModule } from '@skyux/core';
+import {
+  SkyIdService,
+  SkyLiveAnnouncerService,
+  SkyViewkeeperModule,
+} from '@skyux/core';
 import { SkyCheckboxModule } from '@skyux/forms';
+import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkyInfiniteScrollModule, SkyRepeaterModule } from '@skyux/lists';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 import { SkyThemeModule } from '@skyux/theme';
 
-import { Subject } from 'rxjs';
+import { Subject, take } from 'rxjs';
 
 import { SkySearchModule } from '../search/search.module';
 import { SkyLookupResourcesModule } from '../shared/sky-lookup-resources.module';
@@ -101,6 +106,8 @@ export class SkyLookupShowMoreModalComponent
   protected readonly context = inject(SkyLookupShowMoreNativePickerContext);
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #idSvc = inject(SkyIdService);
+  readonly #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
+  readonly #resourcesSvc = inject(SkyLibResourcesService);
 
   constructor() {
     this.id = this.#idSvc.generateId();
@@ -178,6 +185,12 @@ export class SkyLookupShowMoreModalComponent
         this.itemsHaveMore = true;
       }
       this.itemsLoading = false;
+
+      this.#announceSelectionState(
+        this.selectedItems.length,
+        this.displayedItems.length,
+      );
+
       this.#changeDetector.markForCheck();
     });
   }
@@ -352,6 +365,11 @@ export class SkyLookupShowMoreModalComponent
       }
       this.itemsLoading = false;
 
+      this.#announceSelectionState(
+        selectedItems.length,
+        this.displayedItems.length,
+      );
+
       this.#changeDetector.markForCheck();
     });
   }
@@ -371,5 +389,21 @@ export class SkyLookupShowMoreModalComponent
     this.addItems();
 
     this.#changeDetector.markForCheck();
+  }
+
+  #announceSelectionState(
+    selectedItemCount: number,
+    displayedItemCount: number,
+  ): void {
+    this.#resourcesSvc
+      .getString(
+        'skyux_lookup_show_more_displayed_items_updated',
+        selectedItemCount.toString(),
+        displayedItemCount.toString(),
+      )
+      .pipe(take(1))
+      .subscribe((resourcesString) => {
+        this.#liveAnnouncerSvc.announce(resourcesString);
+      });
   }
 }
