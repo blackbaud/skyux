@@ -645,6 +645,7 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
       id: this.viewId,
       name: 'Grid View',
       searchEnabled: this.settings.searchEnabled,
+      searchHighlightEnabled: this.settings.searchEnabled,
       sortEnabled: false,
       multiselectToolbarEnabled: this.settings.hasToolbar,
       columnPickerEnabled: this.settings.columnPickerEnabled,
