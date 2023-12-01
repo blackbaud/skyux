@@ -67,6 +67,13 @@ export const componentRoutes: Routes = [
       import('./layout/layout.module').then((m) => m.LayoutModule),
   },
   {
+    path: 'list-builder',
+    loadChildren: () =>
+      import('./list-builder/list-builder.module').then(
+        (m) => m.ListBuilderModule,
+      ),
+  },
+  {
     path: 'lists',
     loadChildren: () =>
       import('./lists/lists.module').then((m) => m.ListsFeatureModule),
