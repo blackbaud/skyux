@@ -4,10 +4,16 @@ import {
   SkyCellClass,
   SkyCellType,
   SkyHeaderClass,
+  SkyRowClass,
 } from '@skyux/ag-grid';
 import { ListItemModel } from '@skyux/list-builder-common';
 
-import { ColDef, GetRowIdParams, GridOptions } from 'ag-grid-community';
+import {
+  ColDef,
+  GetRowIdParams,
+  GridOptions,
+  RowClassParams,
+} from 'ag-grid-community';
 
 import {
   SkyGridColumnModelInterface,
@@ -60,6 +66,7 @@ export class SkyGridService {
         paginationPageSize: options.pageSize,
         suppressRowClickSelection: !options.enableMultiselect,
         rowData: this.#processData(rowData),
+        getRowClass: this.getRowClassFn(options),
       } as GridOptions,
     });
 
@@ -113,6 +120,13 @@ export class SkyGridService {
     }
     return columnDefs;
   }
+
+  public getRowClassFn = (
+    options: Partial<SkyGridOptions>,
+  ): ((params: RowClassParams) => string | string[]) => {
+    return (params: RowClassParams) =>
+      params.data.id === options.rowHighlightId ? SkyRowClass.Highlight : '';
+  };
 
   #getHeaderClass(alignment: SkyGridColumnAlignment): string[] {
     const classes: string[] = [];

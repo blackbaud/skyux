@@ -9,6 +9,7 @@ export type SkyGridOptions = {
   name: string;
   pageQueryParam?: string;
   pageSize: number;
+  rowHighlightId?: string;
   searchEnabled: boolean;
   selectedColumnIds?: string[];
   settingsKey?: string;

@@ -240,6 +240,10 @@ ag-grid-angular {
     text-overflow: clip;
   }
 
+  .sky-ag-grid-row-highlight {
+    box-shadow: 0 0 0 3px inset var(--sky-text-color-action-primary);
+  }
+
   .ag-header-cell.ag-right-aligned-header,
   .ag-header-cell.sky-ag-grid-header-right-aligned {
     .ag-header-cell-comp-wrapper {

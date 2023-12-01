@@ -24,6 +24,7 @@ export { SkyAgGridHeaderParams } from './lib/modules/ag-grid/types/header-params
 export { SkyAgGridLookupProperties } from './lib/modules/ag-grid/types/lookup-properties';
 export { SkyAgGridNumberProperties } from './lib/modules/ag-grid/types/number-properties';
 export { SkyGetGridOptionsArgs } from './lib/modules/ag-grid/types/sky-grid-options';
+export { SkyRowClass } from './lib/modules/ag-grid/types/row-class';
 export { SkyAgGridTextProperties } from './lib/modules/ag-grid/types/text-properties';
 export { SkyAgGridValidatorProperties } from './lib/modules/ag-grid/types/validator-properties';
 
