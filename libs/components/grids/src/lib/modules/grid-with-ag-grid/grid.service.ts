@@ -79,7 +79,7 @@ export class SkyGridService {
     options: SkyGridOptions,
     columns: Iterable<SkyGridColumnModelInterface>,
   ): ColDefWithField<TData>[] {
-    return Array.from(columns).map((column, index) => {
+    const columnDefs = Array.from(columns).map((column, index) => {
       return {
         cellRendererParams: {
           template: column.template,
@@ -104,6 +104,14 @@ export class SkyGridService {
         minWidth: column.width,
       } as ColDefWithField<TData>;
     });
+    if (options.enableMultiselect) {
+      columnDefs.unshift({
+        type: columnTypeMapping.selector,
+        field: '_selector',
+        lockVisible: true,
+      });
+    }
+    return columnDefs;
   }
 
   #getHeaderClass(alignment: SkyGridColumnAlignment): string[] {
