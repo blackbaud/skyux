@@ -1,17 +1,14 @@
-import { DestroyRef, Injectable, QueryList, inject } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Injectable, inject } from '@angular/core';
 import {
   SkyAgGridService,
   SkyCellClass,
   SkyCellType,
   SkyHeaderClass,
 } from '@skyux/ag-grid';
-import { SkyLogService } from '@skyux/core';
+import { ListItemModel } from '@skyux/list-builder-common';
 
 import { ColDef, GetRowIdParams, GridOptions } from 'ag-grid-community';
-import { Observable, map, merge, of, switchMap, takeUntil } from 'rxjs';
 
-import { SkyGridColumnComponent } from './grid-column.component';
 import {
   SkyGridColumnModelInterface,
   SkyGridColumnType,
@@ -40,19 +37,18 @@ export type ColDefWithField<TData> = ColDef<TData> & { field: string };
   providedIn: 'root',
 })
 export class SkyGridService {
-  #destroyRef = inject(DestroyRef);
   #agGridService = inject(SkyAgGridService);
-  #logService = inject(SkyLogService);
 
   public readGridOptionsFromColumns<TData>(
     options: Partial<SkyGridOptions>,
     columns: Iterable<SkyGridColumnModelInterface>,
+    rowData: TData[] | ListItemModel[] = [],
   ): GridOptions<TData> {
     options = Object.assign({}, SkyGridDefaultOptions, options);
 
     const gridOptions: GridOptions<TData> = this.#agGridService.getGridOptions({
       gridOptions: {
-        columnDefs: this.#getAgGridColDefs(options as SkyGridOptions, columns),
+        columnDefs: this.getAgGridColDefs(options as SkyGridOptions, columns),
         context: {
           enableTopScroll: options.showTopScroll,
         },
@@ -61,11 +57,11 @@ export class SkyGridService {
         suppressPaginationPanel: true,
         paginationPageSize: options.pageSize,
         suppressRowClickSelection: !options.enableMultiselect,
+        rowData: this.#processData(rowData),
       } as GridOptions,
     });
 
     if (options.multiselectRowId) {
-      console.log(options.multiselectRowId);
       gridOptions.getRowId = (params: GetRowIdParams): string => {
         return params.data[options.multiselectRowId];
       };
@@ -78,34 +74,7 @@ export class SkyGridService {
     return gridOptions;
   }
 
-  public readGridOptionsFromColumnComponents<TData>(
-    options: SkyGridOptions,
-    columnComponents: QueryList<SkyGridColumnComponent> | undefined,
-  ): Observable<GridOptions<TData>> {
-    if (!columnComponents) {
-      this.#logService.error(`Unable to read grid options from columns.`);
-      return of({});
-    }
-    options = Object.assign({}, SkyGridDefaultOptions, options);
-    return merge(
-      of(columnComponents),
-      merge(
-        columnComponents.changes,
-        columnComponents.changes.pipe(
-          switchMap(() =>
-            merge(...columnComponents.map((column) => column.changes)).pipe(
-              takeUntil(columnComponents.changes),
-            ),
-          ),
-        ),
-      ),
-    ).pipe(
-      takeUntilDestroyed(this.#destroyRef),
-      map(() => this.readGridOptionsFromColumns(options, columnComponents)),
-    );
-  }
-
-  #getAgGridColDefs<TData>(
+  public getAgGridColDefs<TData>(
     options: SkyGridOptions,
     columns: Iterable<SkyGridColumnModelInterface>,
   ): ColDefWithField<TData>[] {
@@ -122,9 +91,10 @@ export class SkyGridService {
           inlineHelpPopover: column.inlineHelpPopover,
           inlineHelpPopoverModelChanges: column.inlineHelpPopoverModelChanges,
         },
-        headerName: column.heading,
+        headerName: column.heading || ' ',
         headerClass: this.#getHeaderClass(column.alignment),
         hide: column.hidden,
+        lockVisible: column.locked,
         resizable: column.locked ? false : undefined,
         sortable: column.isSortable && options.sortEnabled,
         suppressMovable: column.locked,
@@ -138,6 +108,7 @@ export class SkyGridService {
         type: columnTypeMapping.selector,
         colId: 'selector',
         field: 'selector',
+        lockVisible: true,
       });
     }
     return columnDefs;
@@ -165,5 +136,13 @@ export class SkyGridService {
     }
 
     return classes;
+  }
+
+  #processData<TData>(rowData: TData[] | ListItemModel[]): TData[] {
+    if (rowData[0] && rowData[0] instanceof ListItemModel) {
+      return rowData.map((item) => item.data) as TData[];
+    } else {
+      return rowData as TData[];
+    }
   }
 }

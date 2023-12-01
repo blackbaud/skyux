@@ -6,7 +6,6 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChildren,
-  ElementRef,
   EventEmitter,
   Input,
   OnChanges,
@@ -15,7 +14,6 @@ import {
   QueryList,
   SimpleChanges,
   ViewChild,
-  ViewChildren,
   inject,
 } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
@@ -90,7 +88,7 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
    * Columns and column properties for the grid. Provide either this input or use `sky-grid-column` child components.
    */
   @Input()
-  public columns: SkyGridColumnModelInterface[] | undefined;
+  public columns: Iterable<SkyGridColumnModelInterface> | undefined;
 
   /**
    * The data for the grid. Each item requires an `id` and a property that maps
@@ -355,19 +353,13 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
     }
   }
 
-  protected heightOfGrid = new BehaviorSubject<string>('400px');
-
-  @ViewChildren('paging', { read: ElementRef, emitDistinctChangesOnly: true })
-  protected pagingElementRef!: QueryList<ElementRef>;
-
-  @ViewChildren('toolbar', { read: ElementRef, emitDistinctChangesOnly: true })
-  protected toolbarElementRef!: QueryList<ElementRef>;
+  protected readonly heightOfGrid = new BehaviorSubject<string>('400px');
 
   protected readonly gridOptions$ = new BehaviorSubject<GridOptions | false>(
     false,
   );
   protected rowDeleteIds: string[] = [];
-  protected viewId = `SkyGrid${nextId++}`;
+  protected readonly viewId = `SkyGrid${nextId++}`;
 
   protected get settings(): SkyGridOptions {
     return {
@@ -388,9 +380,7 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
   #dataManagerViewState: SkyDataViewStateOptions | undefined;
   readonly #gridService = inject(SkyGridService);
   readonly #router = inject(Router, { optional: true });
-  readonly #subscriptionForDataManager = new Subscription();
   #subscriptions = new Subscription();
-  readonly #subscriptionForLayout = new Subscription();
   #ngUnsubscribe = new Subject<void>();
   #gridChanged = new Subject<void>();
   #viewReady = false;
@@ -398,32 +388,34 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
   #_messageStream: Subject<SkyGridMessage> | undefined;
 
   public ngAfterViewInit(): void {
-    this.#viewReady = true;
-    this.#subscriptionForDataManager.add(
+    setTimeout(() => {
+      this.#viewReady = true;
       this.#dataManagerService
         .getDataStateUpdates(this.viewId)
+        .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((state) => {
           this.agGrid?.api.setQuickFilter(state.searchText || '');
-        }),
-    );
+        });
 
-    if (this.columns) {
-      setTimeout(() => this.#updateGridView());
-    } else {
-      setTimeout(() => {
-        this.#subscriptionForDataManager.add(
-          this.#gridService
-            .readGridOptionsFromColumnComponents(
-              this.settings,
-              this.columnComponents,
-            )
-            .subscribe((agGridOptions) => {
-              this.gridOptions$.next(agGridOptions);
-              this.#updateGridView();
-            }),
+      this.gridOptions$.next(
+        this.#gridService.readGridOptionsFromColumns(
+          this.settings,
+          this.columns || this.columnComponents,
+          this.data || [],
+        ),
+      );
+      this.#updateGridView();
+    });
+
+    this.columnComponents.changes
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe(() => {
+        const colDefs = this.#gridService.getAgGridColDefs(
+          this.settings,
+          this.columnComponents,
         );
+        this.agGrid?.api.setColumnDefs(colDefs);
       });
-    }
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -431,31 +423,33 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
       if (Object.keys(changes).length === 1 && changes['data']) {
         this.agGrid?.api.setRowData(this.data || []);
       } else if (
-        [
-          'enableMultiselect',
-          'settingsKey',
-          'viewId',
-          'columns',
-          'sortField',
-        ].some((key) => key in changes)
+        ['enableMultiselect', 'settingsKey', 'columns', 'sortField'].some(
+          (key) => key in changes,
+        )
       ) {
+        if (changes['columns']) {
+          this.#updateColumns();
+        }
         this.#updateGridView();
         this.agGrid?.api.setRowData(this.data || []);
       }
       if (['selectedColumnIds'].some((key) => key in changes)) {
         const select = this.selectedColumnIds;
         if (select.length > 0) {
-          this.agGrid.columnApi.applyColumnState({
-            state: select.map((colId) => ({
-              colId,
-              hide: false,
-            })),
+          const columns = this.#getAgGridColDefs();
+          this.agGrid?.columnApi.applyColumnState({
+            state: columns
+              .filter((col) => select.includes(col.colId) || col.lockVisible)
+              .map((col) => ({
+                colId: col.colId,
+                hide: false,
+              })),
             defaultState: {
               hide: true,
             },
           });
         } else {
-          this.agGrid.columnApi.applyColumnState({
+          this.agGrid?.columnApi.applyColumnState({
             defaultState: {
               hide: false,
             },
@@ -467,20 +461,15 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
       ) {
         const select = this.multiselectRowId || this.rowHighlightedId;
         if (select) {
-          this.agGrid.api.setServerSideSelectionState({
-            selectAll: false,
-            toggledNodes: [select],
-          });
+          this.agGrid?.api.getRowNode(select)?.setSelected(true, true);
         } else {
-          this.agGrid.api.deselectAll();
+          this.agGrid?.api.deselectAll();
         }
       }
     }
   }
 
   public ngOnDestroy(): void {
-    this.#subscriptionForDataManager.unsubscribe();
-    this.#subscriptionForLayout.unsubscribe();
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
   }
@@ -541,7 +530,6 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
   #updateGridView(): void {
     const existingView = this.#dataManagerService.getViewById(this.viewId);
     this.#dataManagerViewState = this.#getDataManagerColumnsViewState();
-    const viewConfig = this.#getViewConfig();
     const sort = this.sortField
       ? {
           descending: this.sortField.descending,
@@ -551,7 +539,6 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
         }
       : undefined;
     if (existingView) {
-      this.#dataManagerService.updateViewConfig(viewConfig);
       this.#dataManagerService.updateDataState(
         new SkyDataManagerState({
           views: [this.#dataManagerViewState],
@@ -560,6 +547,7 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
         this.viewId,
       );
     } else {
+      const viewConfig = this.#getViewConfig();
       this.#dataManagerService.initDataView(viewConfig);
       this.#dataManagerService.initDataManager({
         activeViewId: this.viewId,
@@ -595,15 +583,6 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
               this.#activatedRoute?.snapshot.paramMap.get(pageQueryParam);
             this.#goToPage(`${page}`);
           }),
-      );
-    }
-
-    if (this.columns) {
-      this.gridOptions$.next(
-        this.#gridService.readGridOptionsFromColumns(
-          this.settings,
-          this.columns,
-        ),
       );
     }
 
@@ -643,7 +622,7 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
     const columnDefs = this.#getAgGridColDefs();
     const columnIds = columnDefs.map((column) => column.field);
     const displayedColumnIds = columnDefs
-      .filter((column) => !column.hide)
+      .filter((column) => !column.hide || column.lockVisible)
       .map((column) => column.field);
     return {
       columnIds,
@@ -669,14 +648,16 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
       sortEnabled: false,
       multiselectToolbarEnabled: this.settings.hasToolbar,
       columnPickerEnabled: this.settings.columnPickerEnabled,
+      columnPickerSortStrategy: undefined,
       filterButtonEnabled: this.settings.filterButtonEnabled,
       showFilterButtonText: true,
       columnOptions: this.#getAgGridColDefs().map((col) => {
         return {
           id: col.field,
-          label: col.headerName || col.field,
-          alwaysDisplayed: col.suppressMovable || !col.headerName,
-          initialHide: col.hide,
+          label: col.headerName,
+          alwaysDisplayed:
+            col.suppressMovable || col.lockVisible || !col.headerName,
+          initialHide: col.hide && !col.lockVisible,
         };
       }),
     };
@@ -706,6 +687,14 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
         );
         break;
     }
+  }
+
+  #updateColumns(): void {
+    const colDefs = this.#gridService.getAgGridColDefs(
+      this.settings,
+      this.columns,
+    );
+    this.agGrid?.api.setColumnDefs(colDefs);
   }
 
   #emitSelectedRows(source: SkyGridSelectedRowsSource): void {
