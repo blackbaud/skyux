@@ -372,6 +372,7 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
       ...this.options,
       enableMultiselect: this.enableMultiselect,
       multiselectRowId: this.multiselectRowId,
+      rowHighlightId: this.rowHighlightedId,
       settingsKey: this.settingsKey,
       viewId: this.viewId,
     };
@@ -464,13 +465,10 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
         }
       }
       if ('rowHighlightedId' in changes) {
-        if (this.rowHighlightedId) {
-          this.agGrid?.api
-            .getRowNode(this.rowHighlightedId)
-            ?.setSelected(true, true);
-        } else {
-          this.agGrid?.api.deselectAll();
-        }
+        this.agGrid?.api.setGetRowClass(
+          this.#gridService.getRowClassFn(this.settings),
+        );
+        this.agGrid?.api.redrawRows();
       }
     }
   }
