@@ -168,7 +168,7 @@ export default class GridComponent {
   }
 
   public selectRow(): void {
-    this.selectedRowIds = ['2', '5', '7'];
+    this.selectedRowIds = ['101', '103', '105'];
   }
 
   public onSelectedColumnIdsChange(event: any[]): void {

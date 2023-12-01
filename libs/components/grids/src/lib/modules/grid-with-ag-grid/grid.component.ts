@@ -32,6 +32,7 @@ import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
 import {
   Column,
   ColumnResizedEvent,
+  Events,
   GridOptions,
   SelectionChangedEvent,
 } from 'ag-grid-community';
@@ -156,7 +157,7 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
    * By default, this property uses the `id` property.
    */
   @Input()
-  public multiselectRowId: string;
+  public multiselectRowId = 'id';
 
   /**
    * The options for the grid. Providing individual options as inputs will override these values.
@@ -193,7 +194,7 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
   @Input()
   public set selectedRowIds(value: string[] | undefined) {
     this.agGrid?.api.deselectAll();
-    value?.forEach((id) => this.agGrid?.api.getRowNode(id).setSelected(true));
+    value?.forEach((id) => this.agGrid?.api.getRowNode(id)?.setSelected(true));
   }
 
   /**
@@ -215,18 +216,6 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
    */
   @Input()
   public sortField: ListSortFieldSelectorModel;
-
-  /**
-   * When using paged data, what is the total number of rows.
-   */
-  @Input()
-  public totalRows = 0;
-
-  /**
-   * Number of rows to display in the grid. Overrides the height property.
-   */
-  @Input()
-  public visibleRows: number | undefined;
 
   /**
    * The width of the grid in pixels.
@@ -338,6 +327,21 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
             }
           }
         });
+
+      grid.api.addEventListener(Events.EVENT_FIRST_DATA_RENDERED, () => {
+        this.pageCount$.next(grid.api.paginationGetTotalPages());
+        if (this.page > 1) {
+          this.pageChange(this.page);
+        }
+      });
+
+      grid.api.addEventListener(Events.EVENT_ROW_DATA_UPDATED, () => {
+        this.pageCount$.next(grid.api.paginationGetTotalPages());
+      });
+
+      grid.api.addEventListener(Events.EVENT_FILTER_CHANGED, () => {
+        this.pageCount$.next(grid.api.paginationGetTotalPages());
+      });
     }
   }
 
@@ -359,6 +363,7 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
     false,
   );
   protected rowDeleteIds: string[] = [];
+  protected readonly pageCount$ = new BehaviorSubject<number>(0);
   protected readonly viewId = `SkyGrid${nextId++}`;
 
   protected get settings(): SkyGridOptions {
@@ -366,11 +371,9 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
       ...SkyGridDefaultOptions,
       ...this.options,
       enableMultiselect: this.enableMultiselect,
-      settingsKey: this.settingsKey,
-      totalRows: this.totalRows,
-      viewId: this.viewId,
-      visibleRows: this.visibleRows,
       multiselectRowId: this.multiselectRowId,
+      settingsKey: this.settingsKey,
+      viewId: this.viewId,
     };
   }
 
@@ -433,15 +436,19 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
         this.#updateGridView();
         this.agGrid?.api.setRowData(this.data || []);
       }
-      if (['selectedColumnIds'].some((key) => key in changes)) {
+      if ('selectedColumnIds' in changes) {
         const select = this.selectedColumnIds;
         if (select.length > 0) {
-          const columns = this.#getAgGridColDefs();
+          const columns = this.agGrid?.columnApi.getColumns();
           this.agGrid?.columnApi.applyColumnState({
             state: columns
-              .filter((col) => select.includes(col.colId) || col.lockVisible)
+              .filter(
+                (col) =>
+                  select.includes(col.getColId()) ||
+                  col.getColDef().lockVisible,
+              )
               .map((col) => ({
-                colId: col.colId,
+                colId: col.getColId(),
                 hide: false,
               })),
             defaultState: {
@@ -456,12 +463,11 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
           });
         }
       }
-      if (
-        ['multiselectRowId', 'rowHighlightedId'].some((key) => key in changes)
-      ) {
-        const select = this.multiselectRowId || this.rowHighlightedId;
-        if (select) {
-          this.agGrid?.api.getRowNode(select)?.setSelected(true, true);
+      if ('rowHighlightedId' in changes) {
+        if (this.rowHighlightedId) {
+          this.agGrid?.api
+            .getRowNode(this.rowHighlightedId)
+            ?.setSelected(true, true);
         } else {
           this.agGrid?.api.deselectAll();
         }
@@ -511,7 +517,15 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
   }
 
   protected pageChange(page: number): void {
-    if (this.settings.pageQueryParam) {
+    if (
+      this.settings.pageQueryParam &&
+      (!this.#activatedRoute.snapshot.queryParamMap.has(
+        this.settings.pageQueryParam,
+      ) ||
+        this.#activatedRoute.snapshot.queryParamMap.get(
+          this.settings.pageQueryParam,
+        ) !== `${page}`)
+    ) {
       // When using a query parameter, send the change through the router.
       this.#router
         ?.navigate(['.'], {
@@ -588,24 +602,21 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
 
     setTimeout(() => {
       // Set the height of the AG Grid element.
-      if (!this.settings.visibleRows && this.height) {
+      if (this.height) {
         this.heightOfGrid.next(`${this.height}px`);
-      } else if (this.settings.visibleRows || this.totalRows > 0) {
+      } else if (
+        this.settings.pageSize ||
+        Number.isInteger(this.settings.visibleRows)
+      ) {
         this.heightOfGrid.next(`calc(
             var(--ag-header-height)
             + var(--ag-row-height) * ${
-              this.settings.visibleRows || this.settings.pageSize
+              this.settings.pageSize || this.settings.visibleRows
             }
             + 2px
           )`);
-      } else if (this.data?.length) {
-        this.heightOfGrid.next(`calc(
-            var(--ag-header-height)
-            + var(--ag-row-height) * ${this.data?.length}
-            + 2px
-          )`);
       } else {
-        this.heightOfGrid.next(`400px`);
+        this.heightOfGrid.next(`auto`);
       }
     });
   }
@@ -633,7 +644,7 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
 
   #goToPage(page: string): void {
     const number = Number(page);
-    if (number > 0 && number !== this.page) {
+    if (number > 0) {
       this.page = number;
       this.agGrid?.api?.paginationGoToPage(this.page - 1);
       this.#changeDetectorRef.detectChanges();

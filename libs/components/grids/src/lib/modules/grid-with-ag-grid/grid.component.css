@@ -1,7 +1,5 @@
 :host {
   display: block;
-  min-height: 200px;
-  min-width: 200px;
 }
 
 :host.eg-visible-rows-fit {
@@ -19,7 +17,6 @@ sky-data-manager {
 sky-data-manager ::ng-deep .sky-data-manager {
   display: grid;
   grid-template-columns: 100%;
-  grid-template-rows: 1fr auto;
   width: 100%;
   height: 100%;
 }
@@ -29,7 +26,7 @@ sky-data-manager-toolbar {
 }
 
 ag-grid-angular {
-  min-height: 250px;
+  min-height: 50px;
   overflow: hidden;
 }
 

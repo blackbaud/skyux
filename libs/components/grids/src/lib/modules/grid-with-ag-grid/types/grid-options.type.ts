@@ -16,7 +16,7 @@ export type SkyGridOptions = {
   sortEnabled: boolean;
   totalRows?: number;
   viewId: string;
-  visibleRows?: number | 'fit' | 'all';
+  visibleRows: number | 'fit' | 'all';
   multiselectRowId?: string;
 };
 
@@ -29,8 +29,9 @@ export const SkyGridDefaultOptions: SkyGridOptions = {
   maxColWidth: 9999,
   minColWidth: 50,
   name: 'Grid',
-  pageSize: 10,
+  pageSize: 0,
   searchEnabled: true,
   sortEnabled: true,
   viewId: `SKY_GRID_VIEW_${Date.now()}`,
+  visibleRows: 'all',
 };

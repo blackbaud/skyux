@@ -22,18 +22,16 @@
           [style.height]="heightOfGrid | async"
         />
       </sky-ag-grid-wrapper>
+    </sky-data-view>
 
+    <ng-container *ngIf="pageCount$ | async as pageCount">
       <sky-paging
-        *ngIf="
-          totalRows > 0 &&
-          settings.pageSize > 0 &&
-          totalRows / settings.pageSize > 1
-        "
+        *ngIf="pageCount > 0"
         [currentPage]="page"
-        [itemCount]="totalRows"
+        [itemCount]="pageCount * settings.pageSize"
         [pageSize]="settings.pageSize"
         (currentPageChange)="pageChange($event)"
       />
-    </sky-data-view>
+    </ng-container>
   </sky-data-manager>
 </div>

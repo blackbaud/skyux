@@ -33,6 +33,8 @@ const columnTypeMapping: Record<SkyGridColumnType, SkyCellType[]> = {
 
 export type ColDefWithField<TData> = ColDef<TData> & { field: string };
 
+let uniqueId = -1;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -53,7 +55,7 @@ export class SkyGridService {
           enableTopScroll: options.showTopScroll,
         },
         domLayout: options.visibleRows === 'all' ? 'autoHeight' : 'normal',
-        pagination: (options.totalRows || 0) > options.pageSize,
+        pagination: options.pageSize > 0,
         suppressPaginationPanel: true,
         paginationPageSize: options.pageSize,
         suppressRowClickSelection: !options.enableMultiselect,
@@ -62,9 +64,8 @@ export class SkyGridService {
     });
 
     if (options.multiselectRowId) {
-      gridOptions.getRowId = (params: GetRowIdParams): string => {
-        return params.data[options.multiselectRowId];
-      };
+      gridOptions.getRowId = (params: GetRowIdParams): string =>
+        `${params.data[options.multiselectRowId] || uniqueId--}`;
     }
 
     gridOptions.components = {
@@ -78,7 +79,7 @@ export class SkyGridService {
     options: SkyGridOptions,
     columns: Iterable<SkyGridColumnModelInterface>,
   ): ColDefWithField<TData>[] {
-    const columnDefs = Array.from(columns).map((column, index) => {
+    return Array.from(columns).map((column, index) => {
       return {
         cellRendererParams: {
           template: column.template,
@@ -103,15 +104,6 @@ export class SkyGridService {
         minWidth: column.width,
       } as ColDefWithField<TData>;
     });
-    if (options.enableMultiselect) {
-      columnDefs.unshift({
-        type: columnTypeMapping.selector,
-        colId: 'selector',
-        field: 'selector',
-        lockVisible: true,
-      });
-    }
-    return columnDefs;
   }
 
   #getHeaderClass(alignment: SkyGridColumnAlignment): string[] {
